@@ -69,6 +69,18 @@ when a run proves it stale. Slugs match `projects.json`.
 - Code scanning is enabled and holds 100+ open alerts - cap per run applies.
 - Many parallel `autopilot/accepted-idea-delivery-to-the-main-branch-N` PRs: they often
   touch neighbouring files; after each merge re-check the next PR's mergeability.
+- Node quality stops at its first red step, and `i18n:check` runs early: on 2026-10-23 it hid
+  `api:check`, `Doc sync` and `test:perf` behind it. Run the whole chain on a clean worktree of
+  `origin/main` before naming what is red.
+- Fixture seeding is opt-in since 2026-10-22 (`seed-gate.ts`, `KP_SEED_DEMO=1`); an E2E job
+  that boots without it sees an empty board (`playwright.config.ts` line 27).
+- `Doc sync` on a push compares `HEAD~1..HEAD`, so a multi-commit push is checked on its last
+  commit only. Put the trailer or doc note on every commit that needs one.
+- `test:perf` / `test:docs` rewrite generated files, `next-env.d.ts` and `README.md` as CRLF
+  churn: `git checkout -f --` them before committing.
+- A perf-budget re-record (`node scripts/perf/check-budget.mjs --record`, precedent
+  `20c5afb21`) is an owner decision even when the growth is legitimate: report the overage
+  per route, do not raise ceilings.
 
 ## politicas
 
@@ -81,6 +93,21 @@ when a run proves it stale. Slugs match `projects.json`.
   `SENTINEL_STORE_RUN_ID` points at a `db:backup` store snapshot). The re-enable path is in
   the workflow's header comment.
 - `origin/HEAD` was unset on 2026-09-15.
+- Push from a worktree with a private temp dir: `TMP=<dir> TEMP=<dir> git push ...`.
+  `@electric-sql/pglite` 0.4.6 does not export `./package.json`, so every install shares
+  one template name in the OS temp dir, and pre-push failed 85 pglite tests on unmodified
+  `origin/master` (2026-10-22). With a private TMP, about 4,200 tests pass and no gate is
+  skipped. Never delete the shared template. Run `npm ci` in the worktree first (a junctioned
+  `node_modules` breaks the eslint hook). The pre-push "native-copy checker not installed -
+  SKIPPED" line is the gate's own skip: report it. The same run's summary still lists
+  copy-check as passed, so run the registry checker by hand for a verdict.
+- CI does not run copy-check, so `origin/master` can be red under the pre-push hook while CI
+  is green (2026-10-23: two em dashes from `ab72023` blocked every push until `0753bb6`). A
+  push-primary SKIP listing typecheck/test/copy-check usually has one real red: re-run in a
+  clean worktree with a private TMP before reporting any of them.
+- `intake/tacs-1022-term-depth` (401150a) waits for the owner (does a podvybor seat count
+  toward committee breadth; merging moves 51 committee components). Never harvest, merge
+  or delete it.
 
 ## personas
 
@@ -102,6 +129,11 @@ when a run proves it stale. Slugs match `projects.json`.
   "Run frontend tests" - the frontend test lane is effectively unmeasured on master.
 - CodeQL runs on pull_request and a Monday cron only: an alert fixed mid-week stays open
   until the next scheduled scan. `git log -S` the flagged pattern before "fixing" it.
+- **`commit-lint` is a required master job and lints the pushed range; the pre-push hook does
+  not.** On 2026-10-23 the mechanical `push-primary` of 71 commits turned master red because
+  three intake-lane subjects used `ai(applied):`, `apply(...)` and `intake(apply):`. Pushed
+  history cannot be rewritten, so the red clears only with the next push. Intake lanes must use
+  conventional types here, and a push-primary should lint the range first.
 
 ## tracklight
 
@@ -149,8 +181,16 @@ when a run proves it stale. Slugs match `projects.json`.
   2026-09-15). Reproduce with the CI-resolved versions in a venv before calling it a flake.
 - `perf-ledger` was parked to `perf-ledger.yml.example` on 2026-08-05; an old red
   perf-ledger run is a dead workflow, not a gate.
-- The native-copy `.githooks/pre-push` exists only in the primary's unpushed commits (as of
-  2026-09-15), so it does not fire on pushes from an `origin/main` worktree yet.
+- `.githooks/pre-push` (runs `npm run verify`) now fires on pushes from an `origin/main`
+  worktree (2026-10-23; the 09-15 note that it did not is stale). It cannot pass reliably on
+  this machine: `next-unit` and probes time out on a different set each run and `ffmpeg` is
+  missing. Ship through a PR with CI `gates` as the verdict.
+- A new package test file needs an entry in `tests/mutants-unit/registry.ts`, or `test:unit`
+  fails its budget-0 guard.
+- The `live` job (real browser) has been red since 2026-10-16 on unrelated causes:
+  date-relative fixtures, `tsx` and `ffmpeg` missing on the runner, no music vendor key, `/kit`
+  specimens missing, Board/Floor rendering nothing. python/gates/windows-sandbox are the green
+  jobs to protect.
 
 ## goat
 
@@ -176,9 +216,8 @@ when a run proves it stale. Slugs match `projects.json`.
 - **The September moonshot wave (N01-N36) LANDED on master 2026-10-18** as one squashed commit
   (#57, `94241ace`), minus N12 by owner decision (master's own repair plane won). Its original
   225-commit history still lives on `origin/autopilot/project-kpi-and-coverage-stewardship`
-  (#39) and `origin/chore/deny-licenses-publish-false`. Those branches are history, not
-  unlanded work. Operator 2026-10-20: historic branches go - close #39 with a comment naming
-  #57, archive both tips under `refs/hygiene-archive/<date>/origin/`, delete both. A merge
+  (#39) and `origin/chore/deny-licenses-publish-false` until the 2026-10-20 cleanup. DONE:
+  verified 2026-10-22 - #39 is no longer open and neither branch exists on origin. A merge
   commit cannot land that history: 38 of its subjects fail the repo's PR commit-lint gate.
 - **master's branch protection is narrower than `.github/branch-protection.json`.** On
   2026-10-18 the owner chose to rename the required checks only (to the wave's job names);
@@ -230,3 +269,13 @@ when a run proves it stale. Slugs match `projects.json`.
   run, all pass in isolation). Re-run named files in isolation before attributing them.
 - `gdd-compliance-evidence-age` expects `aging` and gets `stale` on origin/master - likely a
   wall-clock date bomb, pre-existing.
+
+## firetv
+
+- PR CI does not compile `tv-app` (no `assembleDebug` on pull_request): a green Gradle or
+  Compose Dependabot PR proves nothing about the app. Build `tv-app:assembleDebug` locally.
+- A fresh worktree needs `local.properties` (`sdk.dir`) copied in and
+  `tv-app/src/main/res/raw/fixture_clip.mp4` (gitignored, ffmpeg-generated in CI); without the
+  clip `compileDebugKotlin` fails with `Unresolved reference 'raw'`.
+- Compose BOM 2026.09+ (Compose 1.12) needs compileSdk 37; tv-app is on 36 (owner decision).
+- The primary is usually live and pushes itself; its ahead count goes stale within the run.

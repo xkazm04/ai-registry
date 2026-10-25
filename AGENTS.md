@@ -9,9 +9,12 @@ in [registry.yaml](registry.yaml).
 ## Find the right material
 
 - Use [docs/skill-selection.md](docs/skill-selection.md) to choose a development workflow.
-- Read `knowledge/<domain>/index.json` to locate subjects, then load only relevant
-  golden paths, techniques, and stack applications. Taxonomy determines location;
-  subject slugs determine identity.
+- Query first to locate knowledge: the `registry_query` MCP tool when present, else
+  `node scripts/registry-query.mjs "<the decision>"`. Then open only the golden path,
+  technique, or stack application a hit names, by its path. `knowledge/<domain>/index.json`
+  is a script-facing address book; never Read or slice it
+  ([docs/query-lane.md](docs/query-lane.md)). Taxonomy determines location; subject slugs
+  determine identity.
 - Read `recipes/index.json` to select a recipe; `recipe.json` is its source of truth.
 - Read `publications/index.json` to find an approved post; `publication.json` is its
   source of truth. Only approved posts land, and the gate checks mechanics, not quality

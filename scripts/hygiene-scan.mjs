@@ -52,7 +52,8 @@
  * Default `<out>` is `$(git rev-parse --git-common-dir)/hygiene/<YYYY-MM-DD>/` - the same
  * uncommittable location the run-board uses, because run state is not registry content.
  *
- * Exit codes: 0 scan (or apply) completed; 1 the instrument failed.
+ * Exit codes (scripts/lib/exit-codes.mjs): 0 scan (or apply) completed; 2 the instrument could
+ * not run (no fleet on this machine, no plan to apply or brief from, a crash).
  *
  * Zero dependencies. Needs `git` and an authenticated `gh` on PATH, and `claude` for the
  * harness-settings check (`--no-harness` skips it; a failed run is a PROBLEM, not clean).
@@ -62,7 +63,8 @@ import path from 'node:path';
 import { execFile } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 import { loadFleet } from './lib/projects.mjs';
-import { removeTree } from './lib/safe-remove.mjs';
+import { measureTree, removeTree } from './lib/safe-remove.mjs';
+import { EXIT } from './lib/exit-codes.mjs';
 
 const ROOT = path.resolve(fileURLToPath(new URL('.', import.meta.url)), '..');
 const argv = process.argv.slice(2);
@@ -80,16 +82,44 @@ const NOW = Date.now();
 const TODAY = new Date().toISOString().slice(0, 10);
 const NEVER_DELETE = /^(main|master|develop|development|trunk|gh-pages|release\/.*|production|staging)$/;
 
+const OPTIONS = { only: 'value', 'live-minutes': 'number', 'idle-hours': 'number', 'no-fetch': 'flag', 'no-harness': 'flag', json: 'flag', out: 'value', apply: 'flag', brief: 'value' };
+
+/**
+ * Strict argv, checked by main() before anything runs. The windows above gate every delete:
+ * Number('2h') is NaN, `lastActivityMin < NaN` is false, and a typo used to read the whole
+ * fleet as not live. An unknown option (`--dry-run`) used to be ignored by a run that acts.
+ * Returns the usage problem, or null.
+ */
+export function argvProblem(args) {
+  for (let i = 0; i < args.length; i++) {
+    const a = args[i];
+    const name = a.startsWith('--') ? a.slice(2) : null;
+    const kind = name && Object.hasOwn(OPTIONS, name) ? OPTIONS[name] : null;
+    if (!kind) return name ? `unknown option ${a}` : `unexpected argument ${a}`;
+    if (kind === 'flag') continue;
+    const v = args[i + 1];
+    if (v == null || v.startsWith('--')) return `${a} needs a value`;
+    i++;
+    if (kind === 'number' && (v.trim() === '' || !Number.isFinite(Number(v)) || Number(v) < 0)) return `${a} must be a non-negative number, got "${v}"`;
+  }
+  return null;
+}
+
 // ---------------------------------------------------------------------------- process
 
-function run(cmd, args, { cwd, timeout = 120_000 } = {}) {
+function run(cmd, args, { cwd, timeout = 120_000, env } = {}) {
   return new Promise((resolve) => {
-    execFile(cmd, args, { cwd, timeout, maxBuffer: 256 * 1024 * 1024, windowsHide: true }, (err, stdout, stderr) => {
+    execFile(cmd, args, { cwd, timeout, env, maxBuffer: 256 * 1024 * 1024, windowsHide: true }, (err, stdout, stderr) => {
       resolve({ ok: !err, stdout: String(stdout ?? ''), stderr: String(stderr ?? ''), err });
     });
   });
 }
-const git = (cwd, args, o) => run('git', ['-C', cwd, '--no-optional-locks', ...args], o);
+// A hook that exports GIT_DIR (or GIT_WORK_TREE, GIT_INDEX_FILE...) makes `git -C <dir>` answer
+// for a different repository, and --apply deletes branches on these answers. The same filter
+// as hygiene-disk's, taken at each call so a variable set later is still dropped.
+const REPO_SELECTING = /^GIT_(DIR|WORK_TREE|INDEX_FILE|COMMON_DIR|OBJECT_DIRECTORY|ALTERNATE_OBJECT_DIRECTORIES|NAMESPACE|CEILING_DIRECTORIES)$/;
+const gitEnv = () => Object.fromEntries(Object.entries(process.env).filter(([k]) => !REPO_SELECTING.test(k)));
+const git = (cwd, args, o) => run('git', ['-C', cwd, '--no-optional-locks', ...args], { ...o, env: gitEnv() });
 async function gitOut(cwd, args, o) {
   const r = await git(cwd, args, o);
   return r.ok ? r.stdout.trim() : null;
@@ -386,7 +416,12 @@ async function scanProject(slug, proj) {
   P.worktrees = await mapLimit(wts, 6, async (wt, i) => {
     const owner = ownerOf(wt.path, i === 0);
     const act = i === 0 ? primaryActivity : (wt.prunable ? { exists: false } : await probeCheckout(wt.path));
-    return { ...wt, owner, ...act, live: act.lastActivityMin != null && act.lastActivityMin < LIVE_MIN };
+    // A detached HEAD's commits are reachable from the worktree alone until a ref holds them;
+    // removing the worktree drops its HEAD and reflog with it. A failed lookup reads as "no ref".
+    const headOnRef = i > 0 && wt.detached && wt.head
+      ? !!(await gitOut(proj.path, ['for-each-ref', '--contains', wt.head, '--count=1', '--format=%(refname)', 'refs/heads', 'refs/remotes']))
+      : undefined;
+    return { ...wt, owner, ...act, headOnRef, live: act.lastActivityMin != null && act.lastActivityMin < LIVE_MIN };
   });
   const primary = P.worktrees[0] ?? { ...primaryActivity };
   P.primary = {
@@ -684,7 +719,9 @@ function planActions(P) {
     if (wt.prunable) { add('mechanical', 'prune-worktrees', wt.path, 'worktree directory is gone; its admin entry is stale'); continue; }
     if (wt.live) { add('hands-off', 'live-worktree', wt.path, `activity ${wt.lastActivityMin} min ago`, { owner: wt.owner, branch: wt.branch ?? null }); continue; }
     const branch = wt.branch ? P.localBranches.find((b) => b.name === wt.branch) : null;
-    const contentHome = wt.detached || (branch && CONTENT_ON_DEFAULT.has(branch.cls));
+    // Detached counts as landed only when a branch or remote ref contains HEAD (integration-door:
+    // verify the target holds the tip, then remove). Unknown is not landed.
+    const contentHome = wt.detached ? wt.headOnRef === true : !!(branch && CONTENT_ON_DEFAULT.has(branch.cls));
     const idle = wt.lastActivityMin != null && wt.lastActivityMin >= IDLE_H * 60;
     if (wt.owner === 'personas-app') continue; // summarized once below
     if (wt.dirty > 0) {
@@ -694,7 +731,10 @@ function planActions(P) {
     } else if (branch?.cls === 'open-pr') {
       // The PR action ships it; its worktree goes on a later morning once merged.
     } else if (!contentHome && idle && (wt.owner === 'claude-code' || wt.owner === 'temp' || wt.owner === 'other')) {
-      add('worker', 'triage-worktree-branch', wt.path, `clean, idle, branch ${branch?.cls ?? 'unknown'} carries ${branch?.ahead ?? '?'} commit(s) not on ${P.defaultBranch}${ridesText(branch)}`, { owner: wt.owner, branch: wt.branch ?? null, ridesUnpushed: branch?.ridesUnpushed ?? 0 });
+      const what = wt.detached
+        ? `detached HEAD ${String(wt.head ?? '?').slice(0, 8)} is on no branch or remote ref - its commits live only in this worktree`
+        : `branch ${branch?.cls ?? 'unknown'} carries ${branch?.ahead ?? '?'} commit(s) not on ${P.defaultBranch}${ridesText(branch)}`;
+      add('worker', 'triage-worktree-branch', wt.path, `clean, idle, ${what}`, { owner: wt.owner, branch: wt.branch ?? null, ridesUnpushed: branch?.ridesUnpushed ?? 0 });
     }
   }
   const app = P.worktrees.filter((w) => w.owner === 'personas-app');
@@ -722,6 +762,10 @@ function planActions(P) {
     // twin read "merged" and was only saved by the repo's pre-push hook.
     if (checkedOut.has(b.name)) continue;
     if (b.live) { add('hands-off', 'live-branch', `origin/${b.name}`, `last commit ${b.commitMin} min ago`); continue; }
+    // Content in the primary's UNPUSHED default is not on origin: deleting the remote copy
+    // before (or without) the push leaves this disk as its only holder. It reads `merged` on
+    // the first morning after the primary's commits reach origin.
+    if (b.cls === 'on-local-default') continue;
     if (CONTENT_ON_DEFAULT.has(b.cls)) add('mechanical', 'delete-remote-branch', b.name, `${b.cls}${b.pr ? ` (#${b.pr})` : ''}`, { sha: b.sha });
     else add('worker', 'triage-branch', `origin/${b.name}`, `${b.cls}${b.pr ? ` (#${b.pr})` : ''}, ${b.ahead} commit(s) not on ${P.defaultBranch}${ridesText(b)}`, { sha: b.sha, scope: 'remote', ridesUnpushed: b.ridesUnpushed ?? 0 });
   }
@@ -834,7 +878,21 @@ function renderMarkdown(fleet, projects) {
 
 async function applyAction(P, a) {
   const cwd = P.path;
-  const archive = async (name, sha) => git(cwd, ['update-ref', `refs/hygiene-archive/${TODAY}/${name}`, sha]);
+  // The archive is the recovery path (`git for-each-ref refs/hygiene-archive/`), so a delete
+  // happens only after it is written. Create-only: an archive holding another tip today (a
+  // branch deleted, recreated and deleted again) is never overwritten; this tip goes beside it.
+  const archive = async (name, sha) => {
+    const base = `refs/hygiene-archive/${TODAY}/${name}`;
+    for (let n = 1; n <= 9; n++) {
+      const ref = n === 1 ? base : `${base}-${n}`;
+      const cur = await gitOut(cwd, ['rev-parse', '--verify', '-q', ref]);
+      if (cur === sha) return ref;
+      if (cur) continue;
+      return (await git(cwd, ['update-ref', ref, sha, ''])).ok ? ref : null;
+    }
+    return null;
+  };
+  const unarchived = (name) => ({ skipped: `could not archive the tip to refs/hygiene-archive/${TODAY}/${name} - nothing deleted` });
   switch (a.kind) {
     case 'set-origin-head': {
       const r = await git(cwd, ['remote', 'set-head', 'origin', a.target]);
@@ -849,7 +907,7 @@ async function applyAction(P, a) {
       if (sha !== a.sha) return { skipped: `tip moved (${a.sha?.slice(0, 8)} -> ${sha?.slice(0, 8) ?? 'gone'})` };
       const ct = Number(await gitOut(cwd, ['log', '-1', '--format=%ct', sha]));
       if (minutesSince(ct * 1000) < LIVE_MIN) return { skipped: 'became live' };
-      await archive(a.target, sha);
+      if (!(await archive(a.target, sha))) return unarchived(a.target);
       const r = await git(cwd, ['branch', '-D', a.target]);
       return r.ok ? { done: true, archived: sha } : { skipped: r.stderr.trim() };
     }
@@ -861,7 +919,7 @@ async function applyAction(P, a) {
       if (wtNow.some((w) => w.branch === a.target)) return { skipped: 'a worktree now has this branch checked out' };
       const bases = await ghJson(['pr', 'list', '-R', P.repo, '--state', 'open', '--base', a.target, '--json', 'number']);
       if (bases.error || bases.data?.length) return { skipped: bases.error ?? `now the base of #${bases.data.map((x) => x.number).join(', #')}` };
-      await archive(`origin/${a.target}`, sha);
+      if (!(await archive(`origin/${a.target}`, sha))) return unarchived(`origin/${a.target}`);
       // Server-side delete, not `git push --delete`: a push from the primary checkout runs
       // its full pre-push hook (personas: typecheck + census + i18n + evals) for a ref
       // deletion no hook has an opinion on. The safety the hook once supplied by accident
@@ -885,12 +943,14 @@ async function applyAction(P, a) {
       // worktree whose node_modules holds per-package junctions into the primary's emptied the
       // primary's node_modules and 608 tracked files of its workspace packages (gravitone,
       // 2026-10-20). removeTree unlinks every link without entering it; prune drops the admin entry.
+      if (head && !(await archive(`worktree/${path.basename(a.target)}`, head))) return unarchived(`worktree/${path.basename(a.target)}`);
       const rm = removeTree(a.target);
       if (fs.existsSync(a.target)) return { skipped: `could not empty the worktree (${rm.errors} error(s): ${rm.firstErrors.join('; ')})` };
       await git(cwd, ['worktree', 'prune']);
       if (a.deleteBranch && a.branch) {
         const sha = await gitOut(cwd, ['rev-parse', '--verify', '-q', `refs/heads/${a.branch}`]);
-        if (sha) { await archive(a.branch, sha); await git(cwd, ['branch', '-D', a.branch]); }
+        if (sha && !(await archive(a.branch, sha))) return { done: true, archived: head, branchKept: `${a.branch}: could not archive its tip` };
+        if (sha) await git(cwd, ['branch', '-D', a.branch]);
       }
       return { done: true, archived: head };
     }
@@ -918,8 +978,11 @@ async function applyAction(P, a) {
     }
     case 'delete-debris': {
       // Irreversible, so every guard is re-checked now: inside the repo, still untracked and
-      // not ignored, idle, and nothing in it is a symlink or junction (rmSync would be
-      // asked to follow one - the node_modules junction wipe of 2026-09-2x).
+      // not ignored, idle, and nothing in it is a symlink or junction (a recursive delete would
+      // be asked to follow one - the node_modules junction wipe of 2026-09-2x). The probe is
+      // safe-remove's uncapped lstat walk, not scanDebris's newestMtime, which stops at depth 6
+      // and 5000 entries and so cannot see a link or a fresh write below that; the delete is
+      // removeTree, which unlinks every link without entering it, as remove-worktree does.
       const abs = path.resolve(cwd, a.target);
       const root = path.resolve(cwd) + path.sep;
       if (!abs.startsWith(root) || abs === path.resolve(cwd)) return { skipped: 'outside the repo' };
@@ -927,11 +990,18 @@ async function applyAction(P, a) {
       if (holdsCheckout(abs)) return { skipped: 'holds a .git - a checkout, not debris' };
       const tracked = await gitOut(cwd, ['ls-files', '--', a.target]);
       if (tracked) return { skipped: 'now tracked' };
-      const m = newestMtime(abs);
-      if (m.symlink) return { skipped: 'contains a symlink or junction' };
-      if (minutesSince(m.ms) < LIVE_MIN) return { skipped: `touched ${minutesSince(m.ms)} min ago` };
-      try { fs.rmSync(abs, { recursive: true, force: true }); } catch (e) { return { skipped: String(e.message).split('\n')[0] }; }
-      return fs.existsSync(abs) ? { skipped: 'still present after delete' } : { done: true, bytes: m.bytes };
+      const m = measureTree(abs);
+      if (m.missing) return { skipped: 'already gone' };
+      if (m.rootIsLink || m.links > 0) return { skipped: 'contains a symlink or junction' };
+      if (m.unreadable > 0) return { skipped: `${m.unreadable} entr${m.unreadable === 1 ? 'y' : 'ies'} unreadable - cannot prove it idle` };
+      // measureTree times files only; the root's own mtime keeps a just-created empty folder live.
+      let newest = m.newestMs;
+      try { newest = Math.max(newest, fs.lstatSync(abs).mtimeMs); } catch { /* raced away */ }
+      if (minutesSince(newest) < LIVE_MIN) return { skipped: `touched ${minutesSince(newest)} min ago` };
+      const rm = removeTree(abs);
+      return fs.existsSync(abs)
+        ? { skipped: `still present after delete (${rm.errors} error(s): ${rm.firstErrors.join('; ')})` }
+        : { done: true, bytes: m.bytes };
     }
     default:
       return { skipped: `not a mechanical kind: ${a.kind}` };
@@ -941,8 +1011,13 @@ async function applyAction(P, a) {
 // ---------------------------------------------------------------------------- main
 
 async function main() {
+  const bad = argvProblem(argv);
+  if (bad) {
+    console.error(`FATAL: ${bad}\nusage: hygiene-scan.mjs [--only a,b] [--live-minutes N] [--idle-hours N] [--no-fetch] [--no-harness] [--json] [--out <dir>] | --apply [--out <dir>] [--only a,b] | --brief <slug> [--out <dir>]`);
+    process.exit(EXIT.FATAL);
+  }
   const fleet = loadFleet(ROOT);
-  if (!fleet.machine) { console.error(`FATAL: ${fleet.problems.join('; ')}`); process.exit(1); }
+  if (!fleet.machine) { console.error(`FATAL: ${fleet.problems.join('; ')}`); process.exit(EXIT.FATAL); }
   const common = (await gitOut(ROOT, ['rev-parse', '--path-format=absolute', '--git-common-dir'])) ?? path.join(ROOT, '.git');
   const outDir = path.resolve(opt('out', path.join(common, 'hygiene', TODAY)));
   fs.mkdirSync(outDir, { recursive: true });
@@ -952,7 +1027,7 @@ async function main() {
     // the project's slice of plan.json, and its fleet-quirks sections.
     const plan = JSON.parse(fs.readFileSync(path.join(outDir, 'plan.json'), 'utf8'));
     const P = plan.projects.find((p) => p.slug === opt('brief'));
-    if (!P) { console.error(`FATAL: no project ${opt('brief')} in the plan`); process.exit(1); }
+    if (!P) { console.error(`FATAL: no project ${opt('brief')} in the plan`); process.exit(EXIT.FATAL); }
     const skillDir = path.join(ROOT, '.claude', 'skills', 'hygiene', 'references');
     const brief = fs.readFileSync(path.join(skillDir, 'worker-brief.md'), 'utf8').replace(/\r/g, '');
     const quirks = fs.readFileSync(path.join(skillDir, 'fleet-quirks.md'), 'utf8').replace(/\r/g, '');
@@ -978,7 +1053,7 @@ async function main() {
 
   if (flag('apply')) {
     const planPath = path.join(outDir, 'plan.json');
-    if (!fs.existsSync(planPath)) { console.error(`FATAL: no plan at ${planPath} - scan first`); process.exit(1); }
+    if (!fs.existsSync(planPath)) { console.error(`FATAL: no plan at ${planPath} - scan first`); process.exit(EXIT.FATAL); }
     const plan = JSON.parse(fs.readFileSync(planPath, 'utf8'));
     const ledger = path.join(outDir, 'applied.jsonl');
     const tally = { done: 0, skipped: 0 };
@@ -1026,9 +1101,9 @@ async function main() {
   else process.stdout.write(md + `\nplan: ${path.join(outDir, 'plan.json')}\n`);
 }
 
-export { planActions, RED_CONCLUSIONS };
+export { planActions, applyAction, RED_CONCLUSIONS };
 
 // Run only as a command; scripts/tests/hygiene-scan.test.mjs imports the planner.
 if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
-  main().catch((e) => { console.error(`FATAL: ${e.stack}`); process.exit(1); });
+  main().catch((e) => { console.error(`FATAL: ${e.stack}`); process.exit(EXIT.FATAL); });
 }

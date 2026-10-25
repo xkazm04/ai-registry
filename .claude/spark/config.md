@@ -16,7 +16,9 @@ always:
 when scripts/ changed:
 - `node --test "scripts/tests/*.mjs"`   (Node 22+ refuses a bare directory argument)
 when skills/ changed:
-- `node scripts/check-skills.mjs --since HEAD`
+- `node scripts/check-skills.mjs --since origin/main`   (branch commits + dirty + untracked; the range the push carries; flagless uses the branch upstream, else origin/main, else HEAD, and prints which)
+when recipes/ changed:
+- `node scripts/check-recipes.mjs --since origin/main`
 builder:
 - `node scripts/gate.mjs --lane <lane>` for the lane the package touches
 
@@ -32,10 +34,14 @@ none.
 - **Two machines (Fox, Wolf) develop this registry in parallel and both push to `origin/main`.** Fetch first; the local base has been hundreds of commits behind. Prefer the remote's version of any file the idea targets, and expect `gate --all` to be red on arrival from a landing that did not regenerate.
 - Generated files follow their source in the SAME commit chain, and `changedAt` in the bundle indexes comes from git history: rebuild indexes AFTER the merge commit, or they stamp today's date on everything.
 - A skill's own version is not visible to the running agent (the harness strips frontmatter); resolve it from the lane file or the installation receipt, never from the agent.
+- **Write every file - script, test, brief, edit helper - with the file tools, never a shell heredoc.** Backslashes are eaten (`\b`, `\\t`, regex escapes). Promoted 2026-10-25 after the third and fourth sightings (2026-10-05 x3; 2026-10-25: the Director's edit helper and two sweep round-agents' test literals).
+- **A generated file's field is a fleet contract, not an in-repo one.** Before dropping or renaming a field of index.json / catalog.json / rules, grep the consumers OUTSIDE this repo (personas reads `laws[].techniques` in src-tauri/src/commands/infrastructure/registry_galaxy.rs). An in-repo-only grep said "no consumer" on 2026-10-25.
+- **context-map.json has a guard test (scripts/tests/context-map.test.mjs): every new code file must be claimed in the SAME commit.** Regenerate the map from the index being committed, not from the tree, or the guard passes on an untracked file and goes red once it lands.
 
 ## Question taste
 
 - The operator extends scope through "Other" with concrete fields (2026-09-21: provider/model/effort added to the run log) - leave room for it in scope questions rather than over-specifying.
+- The operator may answer wave 1 with "do all of it, then run the follow-up skills, I delegate approval, run overnight" (2026-10-25). Make wave 1 decision-complete (scope, engine, proof bar, autonomy), because there may be no wave 2. Decide the rest as Director and record each decision as such.
 - Recommendations were accepted in every question of two waves on an internal-tooling spark; keep the recommended option first and the trade-off honest.
 
 ## Skill improvement log
@@ -50,3 +56,8 @@ none.
 - 2026-10-14 dicklesworthstone-research-series: builder briefs carried five premises taken from memory notes or a worker's study that were stale (an incident's cause, transcript retention, which project folders commit here). Check each premise against its record at brief time; first sighting for spark (intake's scorecard focus says the same).
 - 2026-10-14 dicklesworthstone-research-series: when an amendment claims a trade the registry itself is subject to, run the measurement before drafting the text - the K1 replay refuted a clause that had already been written and had to be rewritten.
 - 2026-10-14 dicklesworthstone-research-series: under a "measured A/B only" bar, a build that changes no verdict does not land; keep it on a local branch named in the next round's brief (with its retire condition) instead of discarding it.
+- 2026-10-25 registry-self-scan: heredoc escaping hit again (Director edit helper, two sweep round-agents). PROMOTED to `## Repo law`.
+- 2026-10-25 registry-self-scan: a builder answered "no consumer reads index.json laws[].techniques" from an in-repo grep; the Director's fleet grep found personas reading it. PROMOTED to `## Repo law` (fleet contract). First sighting for spark, promoted at once because the cost of the miss is a broken consumer.
+- 2026-10-25 registry-self-scan: tuning a router on the held-out bench was prevented by telling the core builder NOT to read the fixture and to tune on a leave-one-out dev set from the corpus itself (use_when line held out). Held-out result 61/82/52 vs the builder's dev set 25/60, 41/60 - the two disagreed on weights, and the held-out set decided. Reuse for any ranking work.
+- 2026-10-25 registry-self-scan: a population guard committed alongside the file it should claim passed pre-commit (file untracked) and went red post-commit. PROMOTED to `## Repo law` (context-map guard).
+- 2026-10-25 registry-self-scan: overnight capacity is about one /scan-sweep wave: 4 round-agents averaged ~6 h wall each on 16-28-file contexts. Plan multi-skill overnight runs as spark plus architect plus ONE sweep wave, and register the rest.

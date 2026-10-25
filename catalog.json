@@ -1,8 +1,8 @@
 {
   "schema": "ascent-registry-catalog",
   "schemaVersion": "1.0.0",
-  "_note": "GENERATED FILE — scripts/build-catalog.mjs reads every lane (skills, practices, memory, knowledge, usage) and rewrites this file; --check fails CI when it is stale. Per skill, `adopters` is carried forward untouched (the registry cannot see installations; an operator's scripts/fleet-audit.mjs --write-adopters maintains it) and `invokes30d` + `usageContributors` are DERIVED from the usage/ lane; `runs30d`, `outcomes30d`, `difficulty30d`, `tokensMedian30d` and `tokensBasis30d` are DERIVED from the usage/runs/ run log (30 days ending at the newest logged run; tokens are the measured median when at least half the runs are measured, else the agents' estimate, and tokensBasis30d says which). Hand-edits to anything else are overwritten on the next build. A second producer (e.g. Ascent's indexer) may rewrite the envelope from the same files; two producers computing one truth from one source is not a conflict.",
-  "generatedAt": "2026-08-18T00:00:00Z",
+  "_note": "GENERATED FILE — scripts/build-catalog.mjs reads every lane (skills, practices, memory, knowledge, usage) and rewrites this file; --check fails CI when it is stale. Per skill, `adopters` is carried forward untouched (the registry cannot see installations; an operator's scripts/fleet-audit.mjs --write-adopters maintains it) and `invokes30d` + `usageContributors` are DERIVED from the usage/ lane; `runs30d`, `outcomes30d`, `difficulty30d`, `tokensMedian30d` and `tokensBasis30d` are DERIVED from the usage/runs/ run log (30 days ending at the newest logged run; tokens are the measured median when at least half the runs are measured, else the agents' estimate, and tokensBasis30d says which). `generatedAt` is the newest instant in the committed data this catalog reads (a subject changedAt, a usage report generatedAt, a run row ts, a LESSONS heading date), ISO 8601 UTC: the date of the newest evidence in the registry, not the wall-clock time of the build, so --check stays a pure function of the tree. Hand-edits to anything else are overwritten on the next build. A second producer (e.g. Ascent's indexer) may rewrite the envelope from the same files; two producers computing one truth from one source is not a conflict.",
+  "generatedAt": "2026-10-25T00:00:00Z",
   "generatedBy": "scripts/build-catalog.mjs",
   "registry": {
     "fullName": "xkazm04/ai-registry",
@@ -14,16 +14,16 @@
   "skills": [
     {
       "name": "adopt-bp",
-      "version": "1.3.0",
+      "version": "1.4.0",
       "category": "workflow",
       "path": "skills/adopt-bp/SKILL.md",
-      "contentHash": "sha256-n1:74f23cda92f8b2f2",
+      "contentHash": "sha256-n1:9fec0c1357e895bf",
       "adopters": [],
       "invokes30d": 0,
       "reportedInvokes": 0,
-      "lessons": 5,
+      "lessons": 6,
       "lessonsPath": "skills/adopt-bp/LESSONS.md",
-      "lessonsHash": "sha256-n1:2d929038df3c5a9c",
+      "lessonsHash": "sha256-n1:08a740f710f49838",
       "usageContributors": [],
       "runs30d": 0,
       "outcomes30d": {},
@@ -148,10 +148,10 @@
     },
     {
       "name": "cloud-dispatch",
-      "version": "1.1.1",
+      "version": "1.1.2",
       "category": "workflow",
       "path": "skills/cloud-dispatch/SKILL.md",
-      "contentHash": "sha256-n1:1d8d50c76a11396f",
+      "contentHash": "sha256-n1:64247ee69e580d18",
       "adopters": [],
       "invokes30d": 0,
       "reportedInvokes": 0,
@@ -186,10 +186,10 @@
     },
     {
       "name": "consult",
-      "version": "1.6.2",
+      "version": "1.7.0",
       "category": "ai-native",
       "path": "skills/consult/SKILL.md",
-      "contentHash": "sha256-n1:98cdcb77f5b42b17",
+      "contentHash": "sha256-n1:db84de4df7cf82f3",
       "adopters": [
         "ascent@plugin:1.0.0",
         "kp@plugin:1.0.0",
@@ -212,16 +212,16 @@
     },
     {
       "name": "contest",
-      "version": "1.12.0",
+      "version": "1.13.1",
       "category": "workflow",
       "path": "skills/contest/SKILL.md",
-      "contentHash": "sha256-n1:a281ce1a7bfbdbc5",
+      "contentHash": "sha256-n1:331e3cef3e3e12ca",
       "adopters": [],
       "invokes30d": 0,
       "reportedInvokes": 0,
-      "lessons": 19,
+      "lessons": 20,
       "lessonsPath": "skills/contest/LESSONS.md",
-      "lessonsHash": "sha256-n1:eb279046893ac12b",
+      "lessonsHash": "sha256-n1:54042f398465a805",
       "usageContributors": [],
       "runs30d": 0,
       "outcomes30d": {},
@@ -231,10 +231,10 @@
     },
     {
       "name": "council",
-      "version": "0.5.1",
+      "version": "0.5.2",
       "category": "workflow",
       "path": "skills/council/SKILL.md",
-      "contentHash": "sha256-n1:19d974a05293ae8f",
+      "contentHash": "sha256-n1:b0d7876415711dbe",
       "adopters": [],
       "invokes30d": 0,
       "reportedInvokes": 0,
@@ -269,10 +269,10 @@
     },
     {
       "name": "demo-film",
-      "version": "0.1.5",
+      "version": "0.1.6",
       "category": "workflow",
       "path": "skills/demo-film/SKILL.md",
-      "contentHash": "sha256-n1:808f8ca857d10bdc",
+      "contentHash": "sha256-n1:0b86e9ddbd3cad62",
       "adopters": [],
       "invokes30d": 0,
       "reportedInvokes": 0,
@@ -307,10 +307,10 @@
     },
     {
       "name": "explorer",
-      "version": "2.6.1",
+      "version": "2.6.2",
       "category": "workflow",
       "path": "skills/explorer/SKILL.md",
-      "contentHash": "sha256-n1:7b7e5b447771fb87",
+      "contentHash": "sha256-n1:ffab1c94b4e39dc4",
       "adopters": [
         "personas-web@plugin:1.0.0",
         "personas@plugin:1.0.0"
@@ -399,10 +399,10 @@
     },
     {
       "name": "illustrate",
-      "version": "1.2.1",
+      "version": "1.2.2",
       "category": "workflow",
       "path": "skills/illustrate/SKILL.md",
-      "contentHash": "sha256-n1:e020231b3b979612",
+      "contentHash": "sha256-n1:2f624d2917f1e591",
       "adopters": [],
       "invokes30d": 0,
       "reportedInvokes": 0,
@@ -418,10 +418,10 @@
     },
     {
       "name": "kit",
-      "version": "0.3.1",
+      "version": "0.3.2",
       "category": "workflow",
       "path": "skills/kit/SKILL.md",
-      "contentHash": "sha256-n1:728955f8716a97e9",
+      "contentHash": "sha256-n1:15e4571de5cd0d50",
       "adopters": [],
       "invokes30d": 0,
       "reportedInvokes": 0,
@@ -458,10 +458,10 @@
     },
     {
       "name": "lens-scan",
-      "version": "1.10.1",
+      "version": "1.10.2",
       "category": "workflow",
       "path": "skills/lens-scan/SKILL.md",
-      "contentHash": "sha256-n1:0d42ecc4f270c8ce",
+      "contentHash": "sha256-n1:32d9d0b8eeb790bf",
       "adopters": [],
       "invokes30d": 0,
       "reportedInvokes": 0,
@@ -477,10 +477,10 @@
     },
     {
       "name": "leonardo",
-      "version": "1.5.3",
+      "version": "1.5.4",
       "category": "other",
       "path": "skills/leonardo/SKILL.md",
-      "contentHash": "sha256-n1:2baf35fa768cff6d",
+      "contentHash": "sha256-n1:3a22916927c739c7",
       "adopters": [
         "personas-web@plugin:1.0.0",
         "personas@plugin:1.0.0"
@@ -535,10 +535,10 @@
     },
     {
       "name": "motionize",
-      "version": "1.4.1",
+      "version": "1.4.2",
       "category": "other",
       "path": "skills/motionize/SKILL.md",
-      "contentHash": "sha256-n1:f9cc920559bf8d71",
+      "contentHash": "sha256-n1:0b2f07ad096d89fd",
       "adopters": [
         "kp@1.0",
         "personas@plugin:1.0.0"
@@ -580,10 +580,10 @@
     },
     {
       "name": "native-copy",
-      "version": "1.4.2",
+      "version": "1.4.3",
       "category": "workflow",
       "path": "skills/native-copy/SKILL.md",
-      "contentHash": "sha256-n1:dc9585ec50e50a2f",
+      "contentHash": "sha256-n1:eccee62240a2c272",
       "adopters": [],
       "invokes30d": 0,
       "reportedInvokes": 0,
@@ -741,10 +741,10 @@
     },
     {
       "name": "scan-sweep",
-      "version": "4.7.0",
+      "version": "4.7.1",
       "category": "workflow",
       "path": "skills/scan-sweep/SKILL.md",
-      "contentHash": "sha256-n1:1da208a8f4c420d3",
+      "contentHash": "sha256-n1:2a33f16ba6e33088",
       "adopters": [
         "ascent@plugin:1.0.0",
         "kp@plugin:1.0.0",
@@ -816,10 +816,10 @@
     },
     {
       "name": "straighten",
-      "version": "1.3.1",
+      "version": "1.3.2",
       "category": "ai-native",
       "path": "skills/straighten/SKILL.md",
-      "contentHash": "sha256-n1:5d4b9c72b0fb720c",
+      "contentHash": "sha256-n1:84e473ba9496980b",
       "adopters": [],
       "invokes30d": 0,
       "reportedInvokes": 0,
@@ -835,10 +835,10 @@
     },
     {
       "name": "takeover-app",
-      "version": "1.1.0",
+      "version": "1.1.1",
       "category": "workflow",
       "path": "skills/takeover-app/SKILL.md",
-      "contentHash": "sha256-n1:ef86f2926b52d263",
+      "contentHash": "sha256-n1:09b833b7cf495127",
       "adopters": [],
       "invokes30d": 0,
       "reportedInvokes": 0,
@@ -879,10 +879,10 @@
     },
     {
       "name": "tiger",
-      "version": "3.3.0",
+      "version": "3.3.1",
       "category": "workflow",
       "path": "skills/tiger/SKILL.md",
-      "contentHash": "sha256-n1:2b2228aebd904d0e",
+      "contentHash": "sha256-n1:dbab2e1db0cc8d80",
       "adopters": [
         "ascent@plugin:2.1.0",
         "kp@plugin:2.1.0",
@@ -1100,6 +1100,15 @@
     },
     {
       "kind": "semantic",
+      "slug": "meta-model-api-for-agents",
+      "path": "memory/semantic/meta-model-api-for-agents.md",
+      "contentHash": "sha256-n1:3c948c18ba57e656",
+      "confidence": 0.3,
+      "namespace": "engineering",
+      "source": "vendor-pages-2026-10-24-not-yet-probed"
+    },
+    {
+      "kind": "semantic",
       "slug": "model-choice-fable-vs-opus",
       "path": "memory/semantic/model-choice-fable-vs-opus.md",
       "contentHash": "sha256-n1:9a594ca377c2be58",
@@ -1129,8 +1138,8 @@
   "counts": {
     "skills": 43,
     "practices": 8,
-    "memory": 11,
-    "lessons": 360
+    "memory": 12,
+    "lessons": 362
   },
   "bundles": [
     {
@@ -1170,7 +1179,7 @@
       "techniques": 578,
       "applications": 337,
       "files": 1007,
-      "contentHash": "sha256-b2:3436a31049f40c9b"
+      "contentHash": "sha256-b2:64ad61861a178302"
     },
     {
       "name": "grant-funding",
@@ -1196,7 +1205,7 @@
       "techniques": 134,
       "applications": 100,
       "files": 258,
-      "contentHash": "sha256-b2:d847e37958e8aaa2"
+      "contentHash": "sha256-b2:3183efe979cb727c"
     },
     {
       "name": "localization",
@@ -1209,7 +1218,7 @@
       "techniques": 119,
       "applications": 75,
       "files": 215,
-      "contentHash": "sha256-b2:6fea74053381b673"
+      "contentHash": "sha256-b2:dc8c81676026520d"
     },
     {
       "name": "marketing",
@@ -1248,7 +1257,7 @@
       "techniques": 416,
       "applications": 318,
       "files": 805,
-      "contentHash": "sha256-b2:8096754041957d3c"
+      "contentHash": "sha256-b2:5965d8d2d17735bf"
     },
     {
       "name": "software-engineering",
@@ -1261,7 +1270,7 @@
       "techniques": 1886,
       "applications": 1403,
       "files": 3530,
-      "contentHash": "sha256-b2:2347cffd152494b9"
+      "contentHash": "sha256-b2:f90fea6697e88ca3"
     },
     {
       "name": "technical-writing",

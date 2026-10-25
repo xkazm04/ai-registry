@@ -13,7 +13,9 @@ and provider-backed tools may require their own dependencies and credentials.
 1. Branch. Edit the artifact - for a skill that means `skills/<name>/SKILL.md` or
    anything in its directory, and **bump `version`** (minor or major when behaviour
    changes, patch when it does not - but bump; `check-skills.mjs --since <ref>` rejects
-   a version that moves backwards).
+   a version that moves backwards). Run flagless, `check-skills.mjs` compares against your
+   branch's upstream (else `origin/main`, else HEAD) and prints the base it chose, so
+   uncommitted edits after the branch's first bump are not read as unbumped.
 2. For a skill change, append an entry to that skill's `LESSONS.md`:
    `## <version used> - <YYYY-MM-DD> - <project>` followed by `-` bullets. Record the
    version the run *used*, not the bump target. Appending a lesson alone needs no bump -
@@ -74,10 +76,13 @@ Additional CI checks have different scopes from the local lane chains:
 
 - `node scripts/check-skills.mjs --since <base>` - the version-bump rule, run on
   **pull requests only**, against the merge base. A push to `main` has no merge base,
-  and by then the decision it guards has been made. Locally, `--since origin/main`.
+  and by then the decision it guards has been made. Locally, `--since origin/main`, or
+  flagless: with no `--since` the base is the branch's upstream if it has one, else
+  `origin/main` if it exists, else HEAD (the chosen base is printed). Either form
+  covers the merge base against the working tree plus untracked files.
 - `node scripts/check-recipes.mjs --since <base>` - recipe version discipline on
-  pull requests. This compares committed history and rejects uncommitted recipe edits;
-  commit the scoped recipe change before running its history check locally.
+  pull requests. Flagless it takes the same default base as `check-skills`;
+  `--shape-only` alone stays shape-only and checks no versions.
 - `check-currency.mjs`, `librarian-scan.mjs` and `check-citations.mjs` **report** and
   never fail a build, so nothing waits on them.
 

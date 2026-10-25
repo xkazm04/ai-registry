@@ -6,8 +6,8 @@ technique: bidirectional-claim-matching
 stack: python
 status: forged
 verified_on: 2026-09-15
-verified_against: python@3.12
 source: vibrantlabsai/ragas
+counterpart: external
 ---
 
 # Python: ragas checks both directions, then mixes their counts

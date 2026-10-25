@@ -4,7 +4,7 @@
 // triage's undo, `reopen`, with its refusals and the v2 -> v3 migration.
 import { test, after } from 'node:test';
 import assert from 'node:assert/strict';
-import { mkdtempSync, writeFileSync, rmSync, mkdirSync } from 'node:fs';
+import { mkdtempSync, writeFileSync, rmSync, mkdirSync, existsSync, readFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join, dirname } from 'node:path';
 import { execFileSync, spawnSync } from 'node:child_process';
@@ -12,7 +12,7 @@ import { fileURLToPath } from 'node:url';
 import { DatabaseSync } from 'node:sqlite';
 import {
   openStore, runStart, runEnd, activity, measure, propose, proposals, proposalUpdate, shot, coverage, latest, parseArgs,
-  decide, triage, packCreate, packs, releaseCreate, releaseAdd, releaseUpdate, reworkAttempt,
+  decide, triage, packCreate, packs, releaseCreate, releaseAdd, releaseUpdate, reworkAttempt, SUBCOMMANDS, PROPOSAL_STATUS,
 } from '../scripts/store.mjs';
 import { legacyDdl } from './legacy-ddl.mjs';
 
@@ -113,6 +113,85 @@ test('cli: JSON on stdout, bulk --json, exit 2 on bad input', () => {
   const r = spawnSync(process.execPath, [SCRIPT, '--db', db, 'measure', '--run', run, '--feature', 'a', '--lens', 'development', '--metric', 'loc', '--value', 'n/a'], { encoding: 'utf8' });
   assert.equal(r.status, 2);
   assert.equal(r.stdout, '');
+});
+
+test('cli: an unknown subcommand or a --db with no path is refused before any store file exists', () => {
+  const db = tmpDb();
+  const r = spawnSync(process.execPath, [SCRIPT, '--db', db, 'propsals'], { encoding: 'utf8' });
+  assert.equal(r.status, 2);
+  assert.match(r.stderr, /unknown subcommand "propsals"/);
+  assert.equal(existsSync(db), false, 'a typo creates no store (and no directory) in the product repo');
+  assert.equal(existsSync(dirname(db)), false);
+  const cwd = mkdtempTracked(join(tmpdir(), 'lens-scan-nodb-'));
+  const r2 = spawnSync(process.execPath, [SCRIPT, 'latest', '--db'], { encoding: 'utf8', cwd });
+  assert.equal(r2.status, 2);
+  assert.match(r2.stderr, /--db needs a path/);
+  assert.equal(existsSync(join(cwd, '.ai')), false, 'a valueless --db never falls back to the default store in the cwd');
+  // SUBCOMMANDS is a hand list: it must be exactly the switch's cases, or a real subcommand is refused
+  const cases = [...readFileSync(SCRIPT, 'utf8').matchAll(/^\s+case '([a-z-]+)':/gm)].map((m) => m[1]);
+  assert.deepEqual([...SUBCOMMANDS].sort(), [...new Set(cases)].sort());
+});
+
+test('cli: a read in a repo with no store answers as an empty store and creates nothing', () => {
+  const db = tmpDb();
+  const run = (...args) => spawnSync(process.execPath, [SCRIPT, '--db', db, ...args], { encoding: 'utf8' });
+  for (const cmd of ['proposals', 'latest', 'packs', 'releases']) {
+    const r = run(cmd);
+    assert.equal(r.status, 0, `${cmd}: ${r.stderr}`);
+    assert.deepEqual(JSON.parse(r.stdout), [], `${cmd} reads "nothing yet" as []`);
+    assert.equal(existsSync(db), false, `${cmd} must not create the store`);
+    assert.equal(existsSync(dirname(db)), false, `${cmd} must not create the store directory`);
+  }
+  const rel = run('release', '--id', 'rel-1.0.0');
+  assert.equal(rel.status, 1);
+  assert.match(rel.stderr, /release rel-1\.0\.0 does not exist/);
+  const cmp = run('compare', '--ids', 'p-aaaaaa');
+  assert.equal(cmp.status, 0);
+  assert.deepEqual(JSON.parse(cmp.stdout), []);
+  const structure = join(dirname(db), 'app-structure.json');
+  mkdirSync(dirname(db), { recursive: true });
+  writeFileSync(structure, JSON.stringify({ features: [{ slug: 'a' }], lenses: [{ id: 'development', manifest: { fields: [{ key: 'loc', metric: true }] } }] }));
+  const gp = run('gaps', '--lens', 'development', '--structure', structure);
+  assert.equal(gp.status, 0, gp.stderr);
+  assert.equal(JSON.parse(gp.stdout).totals.unmeasured, 1, 'every cell reads unmeasured');
+  assert.equal(existsSync(db), false, 'gaps must not create the store either');
+  // a write still creates it, and a read then sees the file
+  assert.equal(run('init').status, 0);
+  assert.equal(existsSync(db), true);
+  assert.deepEqual(JSON.parse(run('proposals').stdout), []);
+});
+
+test('proposals and packs refuse a status or kind outside their sets, never an empty list that reads as "nothing waiting"', () => {
+  const db = openStore(tmpDb());
+  const { id: run } = runStart(db, { phase: 'propose', lenses: 'design' });
+  propose(db, { run, feature: 'a', lens: 'design', title: 't', kind: 'baseline-upgrade' });
+  assert.equal(proposals(db, { status: 'proposed' }).length, 1);
+  assert.throws(() => proposals(db, { status: 'aproved' }), (e) => e.code === 2 && /--status must be one of proposed, approved/.test(e.message));
+  assert.throws(() => proposals(db, { kind: 'upgrade' }), (e) => e.code === 2 && /--kind must be one of fix/.test(e.message));
+  assert.throws(() => packs(db, { status: 'opne' }), (e) => e.code === 2 && /--status must be one of open, triaged, closed/.test(e.message));
+  // PROPOSAL_STATUS is a hand list: it is exactly the proposals.status CHECK of the DDL
+  const ddl = readFileSync(fileURLToPath(new URL('../references/store.sql', import.meta.url)), 'utf8');
+  const check = /CREATE TABLE IF NOT EXISTS proposals[\s\S]*?status\s+TEXT NOT NULL CHECK \(status IN \(([^)]*)\)\)/.exec(ddl);
+  assert.ok(check, 'the proposals status CHECK is found');
+  assert.deepEqual([...PROPOSAL_STATUS].sort(), [...check[1].matchAll(/'([a-z-]+)'/g)].map((m) => m[1]).sort());
+  for (const s of PROPOSAL_STATUS) assert.doesNotThrow(() => proposals(db, { status: s }));
+  assert.equal(packs(db, { status: 'open' }).length, 0);
+  db.close();
+});
+
+test('cli: a flag whose value is missing is named, never a SQLite bind error; --untriaged stays a switch', () => {
+  const db = tmpDb();
+  const { id: run } = cli(db, 'run-start', '--phase', 'propose', '--lenses', 'design');
+  const { id } = cli(db, 'propose', '--run', run, '--feature', 'a', '--lens', 'design', '--title', 't', '--kind', 'baseline-upgrade');
+  const run2 = (...args) => spawnSync(process.execPath, [SCRIPT, '--db', db, ...args], { encoding: 'utf8' });
+  for (const args of [['decide', '--ids', id, '--decision', 'approve', '--by', 'operator:jane', '--note'], ['proposals', '--status'], ['activity', '--run', run, '--kind', 'note', '--text', 'x', '--feature']]) {
+    const r = run2(...args);
+    assert.equal(r.status, 2, args.join(' '));
+    assert.match(r.stderr, new RegExp(`--${args[args.length - 1].slice(2)} needs a value`));
+    assert.doesNotMatch(r.stderr, /cannot be bound/);
+  }
+  assert.equal(cli(db, 'proposals', '--status', 'proposed')[0].status, 'proposed', 'the decide above wrote nothing');
+  assert.equal(cli(db, 'proposals', '--untriaged').length, 1);
 });
 
 test('parseArgs keeps negative numbers as values', () => {

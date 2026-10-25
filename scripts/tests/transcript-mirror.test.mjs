@@ -364,3 +364,52 @@ test('retire removes chunk writes a killed run left half-done', async () => {
     assert.equal((await verify({ archive: t.archive })).failed, 0);
   } finally { t.cleanup(); }
 });
+
+test('a budget, age or chunk flag that is not a number, or a flag nobody declared, is a usage error - never a silently unlimited budget', () => {
+  const t = setup();
+  try {
+    t.put('proj-a/s.jsonl', crypto.randomBytes(64));
+    const cli = (...args) => spawnSync(process.execPath, [SCRIPT, ...args], { encoding: 'utf8' });
+    const base = ['capture', '--root', t.root, '--archive', t.archive];
+    for (const bad of [['--budget-gb', 'abc'], ['--budget-gb', '-1'], ['--chunk-kib', 'big'], ['--budget', '1']]) {
+      const r = cli(...base, ...bad);
+      assert.equal(r.status, 2, `${bad.join(' ')}: ${r.stdout}${r.stderr}`);
+    }
+    assert.equal(cli('notice', '--archive', t.archive, '--max-age-h', 'soon').status, 2);
+    assert.equal(fs.existsSync(t.archive), false, 'a refused flag captured nothing');
+    assert.equal(cli(...base, '--budget-gb', '1').status, 0, 'a real budget still runs');
+  } finally { t.cleanup(); }
+});
+
+test('capture reports the stored size the budget is checked against, the same figure status shows', async () => {
+  const t = setup();
+  try {
+    t.put('proj-a/s.jsonl', 'A'.repeat(20));
+    await capture(t.opts);
+    t.append('proj-a/s.jsonl', 'B'.repeat(20));
+    await capture(t.opts);
+    await retire({ archive: t.archive }); // retired.jsonl now holds a line
+    t.put('proj-a/n.jsonl', crypto.randomBytes(40));
+    const r = await capture(t.opts);
+    // notice() warns at 90% of the budget from this figure, so it must count what the budget counts.
+    assert.equal(r.storedBytesAfter, status({ archive: t.archive }).storedBytes);
+  } finally { t.cleanup(); }
+});
+
+test('retire deletes no chunk while captures.jsonl has a line it cannot read - that line may be the only record of the bytes', async () => {
+  const t = setup();
+  try {
+    t.put('proj-a/gone.jsonl', 'G'.repeat(40));
+    await capture(t.opts);
+    fs.rmSync(path.join(t.root, 'proj-a', 'gone.jsonl')); // the harness deleted its copy
+    const log = path.join(t.archive, 'captures.jsonl');
+    const line = fs.readFileSync(log, 'utf8').trim();
+    fs.writeFileSync(log, `${line.slice(0, -5)}\n`); // the record is damaged, the chunks are intact
+    const chunksBefore = status({ archive: t.archive }).chunks;
+    assert.ok(chunksBefore > 0);
+    const r = await retire({ archive: t.archive });
+    assert.equal(r.chunksUnreferenced, 0, 'nothing counted as unreferenced while the log is damaged');
+    assert.equal(r.unreadableCaptureLines, 1);
+    assert.equal(status({ archive: t.archive }).chunks, chunksBefore, 'every chunk is still on disk');
+  } finally { t.cleanup(); }
+});

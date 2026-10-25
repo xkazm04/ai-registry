@@ -39,6 +39,20 @@ test('parses quoted, unquoted and ranged anchors and skips URLs', () => {
   );
 });
 
+// A ratio or a version tag is not a file. The corpus carries 40 of these (`4.11:1`
+// contrast, `qwen3.8:27`), and each one parsed as an anchor to a file named `4.11`, so a
+// clean document checked with --root failed as missing-file.
+test('a number-dot-number before a colon is not an anchor; an extension with a letter still is', () => {
+  const a = parseAnchors('WCAG asks 4.5:1 and the tag qwen2.5:14 ran at 1.25:1, see clip.mp4:3 and src/gate.ts:3');
+  assert.deepEqual(a.map(({ file, start }) => `${file}:${start}`), ['clip.mp4:3', 'src/gate.ts:3']);
+  const root = tree();
+  const prose = path.join(root, 'prose.md');
+  fs.writeFileSync(prose, 'Body text needs a contrast of 4.5:1, per src/gate.ts:1 "LIMIT = 12".\n');
+  const r = spawnSync(process.execPath, [script, prose, '--root', root], { encoding: 'utf8' });
+  assert.equal(r.status, 0, r.stdout);
+  assert.match(r.stdout, /anchors=1 held=1/);
+});
+
 test('verdicts: held, unquoted, moved, absent, past-eof, missing-file', () => {
   const root = tree();
   const report = [
@@ -57,6 +71,21 @@ test('verdicts: held, unquoted, moved, absent, past-eof, missing-file', () => {
   assert.equal(r.anchors[1].foundAt, 2);
 });
 
+// A file that ends in a newline has no line after it. split() leaves an empty last element,
+// so line N+1 of an N-line file used to read as present ("unquoted": the file and line
+// exist) and past-eof reported one line more than the file has.
+test('the line after a trailing newline is past-eof, and the file length is its real line count', () => {
+  const root = tree();
+  fs.writeFileSync(path.join(root, 'two.md'), 'line one\nline two\n');
+  const r = checkReport('two.md:2 and two.md:3 and two.md:4', root);
+  assert.deepEqual(r.anchors.map((x) => x.verdict), ['unquoted', 'past-eof', 'past-eof']);
+  assert.equal(r.anchors[1].fileLines, 2);
+  fs.writeFileSync(path.join(root, 'crlf.md'), 'a\r\nb\r\n');
+  assert.equal(checkReport('crlf.md:3', root).anchors[0].verdict, 'past-eof');
+  // control: no trailing newline, the last line is still a line
+  assert.equal(checkReport('src/gate.ts:5 "tail"', root).anchors[0].verdict, 'held');
+});
+
 test('whitespace is normalized inside a quote', () => {
   const root = tree();
   const r = checkReport('src/gate.ts:2-3 "decide(x) {   return x"', root);
@@ -73,4 +102,35 @@ test('exit codes: 0 all held, 1 a failing anchor, 2 usage', () => {
   fs.writeFileSync(bad, 'src/gate.ts:1 "LIMIT = 13"');
   assert.equal(spawnSync(process.execPath, [script, bad, '--root', root]).status, 1);
   assert.equal(spawnSync(process.execPath, [script, bad]).status, 2);
+});
+
+// A strictness flag mistyped is a strictness flag dropped: `--strcit` used to run the
+// lenient mode and exit 0 over an unquoted anchor --strict exists to refuse.
+test('an unknown flag or a second report is a usage error (2), not the lenient mode', () => {
+  const root = tree();
+  const ok = path.join(root, 'ok.md');
+  fs.writeFileSync(ok, 'src/gate.ts:4\n');
+  const typo = spawnSync(process.execPath, [script, ok, '--root', root, '--strcit'], { encoding: 'utf8' });
+  assert.equal(typo.status, 2, typo.stdout);
+  assert.match(typo.stderr, /unknown argument "--strcit"/);
+  assert.equal(spawnSync(process.execPath, [script, ok, ok, '--root', root]).status, 2);
+  assert.equal(spawnSync(process.execPath, [script, ok, '--root']).status, 2);
+  // control: the declared flags still run
+  assert.equal(spawnSync(process.execPath, [script, ok, '--root', root, '--json', '--strict']).status, 1);
+});
+
+// Seeded canary (2026-10-25 gates scan): a report with no anchors read green under
+// --strict, the mode whose contract is that every claim carries a quoted anchor.
+test('--strict over a report with zero anchors is could-not-run (2); plain mode stays a note (0)', () => {
+  const root = tree();
+  const none = path.join(root, 'none.md');
+  fs.writeFileSync(none, 'No anchors in this report, just prose citing the gate.\n');
+  const strict = spawnSync(process.execPath, [script, none, '--root', root, '--strict'], { encoding: 'utf8' });
+  assert.equal(strict.status, 2);
+  assert.match(strict.stderr, /walked 0 anchors/);
+  assert.equal(spawnSync(process.execPath, [script, none, '--root', root]).status, 0);
+  // control: a strict report whose anchors are all quoted and held still passes
+  const held = path.join(root, 'held.md');
+  fs.writeFileSync(held, 'src/gate.ts:1 "LIMIT = 12"\n');
+  assert.equal(spawnSync(process.execPath, [script, held, '--root', root, '--strict']).status, 0);
 });

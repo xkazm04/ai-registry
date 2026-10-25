@@ -1,7 +1,7 @@
 # Recruiting - the subjects this registry carries
 
 `recruiting` - 67 subjects, 416 techniques, 318 applications.
-Slugs only; resolve one through `index.json` as the access rule beside this file describes.
+Slugs only; open one with `registry_subject` (or `node <registry>/scripts/registry-query.mjs --subject <slug>`), never by reading `index.json` - the access rule beside this file describes the loop.
 
 ### role-definition
 - hiring-need-as-structured-brief, inclusive-job-advertising, pre-publish-fillability-forecast, requirement-inflation-control, requisition-lifecycle-governance, role-intake-conversation

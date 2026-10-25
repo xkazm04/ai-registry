@@ -3,7 +3,7 @@ name: tiger
 description: "Hunt a codebase's most valuable feature area and evolve it with a cross-vendor council. Use when you want the product's strongest part made markedly more valuable - not swept for defects - and a person to choose what gets built. tiger ranks feature areas by value evidence (context-map groups and the use cases they serve, git heat, product docs, the bp product tree), writes a territory dossier for the chosen one, and convenes the strongest available CLI seats from different labs (Gemini via agy, GPT via codex, Grok, Claude Opus - any seat that fails its probe is skipped). Round 1 each seat proposes 3-6 anchored evolutionary moves (deepen, extend, connect, leap) blind to the others; round 2 each seat rates the anonymous pool and crossbreeds stronger fusions. The caller judges blind, verifies premises in the code, clusters cross-seat agreement, composes one coherent scope with a thesis, presents it as a multi-select approval, builds only what was chosen with a verify check per item, and keeps a per-seat ledger of what was kept, approved and landed. Invoke with /tiger [<area>] [--seats engine:model@effort,...] [--rounds 1|2], /tiger hunt, /tiger resume <run>, /tiger status."
 category: workflow
 memory: vault
-version: 3.3.0
+version: 3.3.1
 tags: value, feature-area, multi-model, council, brainstorm, evolution, scope, approval
 argument-hint: "[<area> | hunt | resume <run-id> | status] [--seats engine:model@effort,...] [--rounds 1|2] [--ceiling-min 40]"
 ---
@@ -40,7 +40,7 @@ creates `tiger/hunts/` at the first `init`.
 | `tiger/config.md` | optional overlay: `seats:` (spec list), `exclude:` (areas never hunted), `constraints:` (copied into every dossier), `ceiling_min:`, `rounds:` | the default roster below, no exclusions, ceiling 40, rounds 2 |
 | `tiger/hunts.md` | home note: one row per hunt - date, area, thesis, approved / landed counts, link | created at the first record step |
 | `tiger/hunts/<date>-<slug>/` | one run: `run.json`, `brief.md`, `pool.json`, `pool.md`, `verdict.md`, `verdict.json`, `scope.md`, `outcome.md`; `_logs/` (raw seat output and the rendered `prompt-r1.md` / `prompt-r2.md`, which hold absolute paths; gitignored). Nothing committed carries a machine path: the repo root is derived from the run directory | created by `init` |
-| `tiger/seats.jsonl` | the seat ledger, one row per seat per run (`ledger` appends) | created by the first `ledger` |
+| `tiger/seats.jsonl` | the seat ledger, one row per seat per run (`ledger` appends; a re-run replaces that run's rows) | created by the first `ledger` |
 | `tiger/backlog.md` | approved-not-landed items and kept-not-chosen items, rolled forward | created at the first record step |
 
 A **2.x vault** (`tiger/README.md`, `engine/`, `characters/`, `sessions/`, `backlog.md`,

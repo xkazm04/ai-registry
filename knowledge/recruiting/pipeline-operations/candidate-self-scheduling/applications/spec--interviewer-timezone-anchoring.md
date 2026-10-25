@@ -8,6 +8,7 @@ status: forged
 verified_on: 2026-09-28
 refresh_by: 2026-12-28
 source: IETF/RFC-5545+RFC-5546+RFC-9557+TC39/Temporal+IANA/tz-theory
+counterpart: external
 ---
 
 # The anchor zone as the standards and the products write it

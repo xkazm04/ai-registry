@@ -35,9 +35,9 @@ seen: <n>
 
 `wins` counts contests where the winning variant carried the pattern; `seen` counts contests
 where any judge named it. `contest.mjs init` reads this ledger and quotes the top entries in
-every participant's brief under "What has won before" - as the bar to surpass, with an explicit
-instruction not to copy. That loop is the point of the vault: each contest's winners raise the
-floor of the next.
+every participant's brief under "What has won before" - as ideas already solved, which a variant
+may stand on but may not resubmit as its own bet. That loop is the point of the vault: each
+contest's winners move the search to the next idea instead of anchoring it on the last one.
 
 A shortlist verdict (`verdict --shortlist`) writes the same note with no winner, the owner's review
 in place of the decision, and sightings only in the ledger. The refinement round is a contest of

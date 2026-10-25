@@ -17,7 +17,7 @@ import { fileURLToPath, pathToFileURL } from 'node:url';
 import { AudioManifest, FilmScript, MAX_TIER, Take, momentsFor } from './src/contract.ts';
 import { FOOTAGE_COMPONENTS, RECT_COMPONENTS, buildTimeline, momentWindow, roleOf } from './remotion/timeline.ts';
 import { isMain } from './lib/entry.mjs';
-import { localImports } from './lib/imports.mjs';
+import { localEntry, localImports } from './lib/imports.mjs';
 
 const here = path.dirname(fileURLToPath(import.meta.url));
 export const KIT_REMOTION = path.join(here, 'remotion');
@@ -68,14 +68,23 @@ export function lintSources(dirs, extraFiles = []) {
 }
 
 // ---- 2. collisions from source
-/** Names a film's local/ exports (best effort, from source text): `export function X`, `export const X`, keys of `components`. */
+/**
+ * The component names a film's local/ heroes make resolvable (best effort, from source text): the
+ * KEYS of a `components` map or an `export default { ... }` object - exactly what registry.ts reads
+ * (`mod.components ?? mod.default`). A bare `export function Hero` is not in that map, so the motion
+ * lane throws "unknown component" for it after the bundle is built; counting it here passed check
+ * for a film that could not render.
+ */
 export function localNames(localDir) {
   const names = new Set();
   for (const f of sourceFiles(localDir)) {
     const src = stripComments(readFileSync(f, 'utf8'));
-    for (const m of src.matchAll(/export\s+(?:function|const|class)\s+([A-Z][A-Za-z0-9_]*)/g)) names.add(m[1]);
-    const block = /components[^=]*=\s*\{([\s\S]*?)\}/.exec(src);
-    if (block) for (const m of block[1].matchAll(/([A-Z][A-Za-z0-9_]*)\s*[:,}]?/g)) names.add(m[1]);
+    for (const re of [/\bcomponents\b[^=;{]*=\s*\{([\s\S]*?)\}/g, /\bexport\s+default\s*\{([\s\S]*?)\}/g])
+      for (const block of src.matchAll(re))
+        for (const part of block[1].split(',')) {
+          const key = part.split(':')[0].trim().replace(/^['"]|['"]$/g, '');
+          if (/^[A-Z][A-Za-z0-9_]*$/.test(key)) names.add(key);
+        }
   }
   return names;
 }
@@ -102,6 +111,9 @@ export function collisions({ script, take, balance, timeline, localDir }) {
         else if (tb && !tb.rects[sel]) errors.push(`selector absent from take rects: ${b.id}/${m.id} -> "${sel}" (logged: ${Object.keys(tb.rects).join(', ') || 'none'})`);
       }
     }
+    // a beat has ONE cut in: buildTimeline keeps only the last transition moment as transitionIn
+    const cuts = ms.filter((m) => roleOf(m) === 'transition');
+    if (cuts.length > 1) errors.push(`two transitions into one beat: ${b.id}/${cuts.map((m) => m.id).join(', ')} (the timeline keeps only ${cuts[cuts.length - 1].id})`);
     // overlaps: two plates at once, or the same treatment twice at once
     for (let x = 0; x < windows.length; x++)
       for (let y = x + 1; y < windows.length; y++) {
@@ -172,8 +184,8 @@ export function runCheck(filmDir, balance) {
   const { script, manifest, take, localDir } = film;
   const timeline = buildTimeline({ script, manifest, take, balance });
   // shared code a hero imports from outside local/ renders too, so it is linted too
-  const localEntry = ['index.tsx', 'index.ts'].map((n) => path.join(localDir, n)).find((p) => existsSync(p));
-  const lint = lintSources([KIT_REMOTION, localDir], localEntry ? localImports(localEntry) : []).map((h) => `seek lint: ${h}`);
+  const entry = localEntry(localDir);
+  const lint = lintSources([KIT_REMOTION, localDir], entry ? localImports(entry) : []).map((h) => `seek lint: ${h}`);
   const errors = [
     ...lint,
     ...collisions({ script, take, balance, timeline, localDir }),

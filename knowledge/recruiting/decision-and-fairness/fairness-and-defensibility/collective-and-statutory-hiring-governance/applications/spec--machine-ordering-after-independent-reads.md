@@ -8,6 +8,7 @@ status: forged
 verified_on: 2026-09-28
 refresh_by: 2027-09-28
 source: Personnel-Psychology/Pulakos-et-al-1996-abstract+arXiv/2102.09692-abstract+EU/AI-Act-Art-14(4)(b)+EU/CJEU-C-634-21+US-FL/Florida-Bar-open-government-overview-2018
+counterpart: external
 ---
 
 # The evidence behind the sequence

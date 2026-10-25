@@ -22,14 +22,25 @@
 // And each skill's run-log fields (`runs30d`, `outcomes30d`, `difficulty30d`,
 // `tokensMedian30d`, `tokensBasis30d`) from `usage/runs/`, folded by the same function
 // scripts/runs-report.mjs uses (lib/runs-aggregate.mjs) - one fold, two readers.
+//
+// Could-not-run is exit 2, in BOTH modes. The 2026-10-25 gates probe emptied the skills
+// lane and this wrote `skills: []` and exited 0 - a catalog telling every consumer the lane
+// is gone, published by a green step; and an unparseable catalog.json died on an uncaught
+// throw, exit 1, which this repo reads as "violations found". An empty skills lane or an
+// empty knowledge lane is a broken precondition (lib/check-result.mjs requirePopulation),
+// and so is a catalog that does not parse: neither is a verdict about the content.
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { hashBundle, sameIgnoringNewlines } from './lib/bundle-hash.mjs';
 import { walkSubjects } from './lib/taxonomy.mjs';
-import { readLane, contentDigest } from './lib/skills-lane.mjs';
+import { readLane, contentDigest, lessonHeadings } from './lib/skills-lane.mjs';
 import {loadIdentities,resolveIdentity} from './lib/telemetry.mjs';
 import { loadLane as loadRunsLane, aggregateRuns, catalogFields } from './lib/runs-aggregate.mjs';
+import { EXIT, installCrashDoor } from './lib/exit-codes.mjs';
+import { requirePopulation } from './lib/check-result.mjs';
+
+installCrashDoor();
 
 const ROOT = path.resolve(fileURLToPath(new URL('.', import.meta.url)), '..');
 const KNOWLEDGE = path.join(ROOT, 'knowledge');
@@ -38,16 +49,41 @@ const PRACTICES = path.join(ROOT, 'practices');
 const MEMORY = path.join(ROOT, 'memory');
 const USAGE = path.join(ROOT, 'usage');
 const CATALOG = path.join(ROOT, 'catalog.json');
-const checkOnly = process.argv.includes('--check');
+// A closed flag set, read before any lane: anything but `--check` used to be WRITE mode.
+const USAGE_LINE = 'usage: node scripts/build-catalog.mjs [--check]';
+const ARGS = process.argv.slice(2);
+if (ARGS.includes('--help') || ARGS.includes('-h')) { console.log(USAGE_LINE); process.exit(EXIT.OK); }
+const strays = ARGS.filter((a) => a !== '--check');
+if (strays.length) { console.error(`build-catalog: unknown argument(s) ${strays.join(' ')} - nothing read or written\n${USAGE_LINE}`); process.exit(EXIT.FATAL); }
+const checkOnly = ARGS.includes('--check');
 
 if (!fs.existsSync(KNOWLEDGE)) {
   console.error(`FATAL: no knowledge/ lane at ${KNOWLEDGE} — refusing to write a catalog that claims zero bundles.`);
-  process.exit(2);
+  process.exit(EXIT.FATAL);
 }
 if (!fs.existsSync(CATALOG)) {
   console.error(`FATAL: ${CATALOG} does not exist. This script edits a catalog, it does not invent one.`);
-  process.exit(2);
+  process.exit(EXIT.FATAL);
 }
+
+/** Exit 2 with the floor's reason when a population came back below its floor. */
+const floor = (count, what) => {
+  const r = requirePopulation(count, what);
+  if (r.code === EXIT.OK) return;
+  console.error(`build-catalog FATAL: ${r.reason}. Refusing to ${checkOnly ? 'check' : 'write'} a catalog over it.`);
+  process.exit(r.code);
+};
+
+let catalog;
+try {
+  catalog = JSON.parse(fs.readFileSync(CATALOG, 'utf8'));
+} catch (err) {
+  console.error(`build-catalog FATAL: catalog.json does not parse (${err.message}). This script carries keys forward from it, so it cannot rebuild over it - restore it from git first.`);
+  process.exit(EXIT.FATAL);
+}
+
+const laneSkills = fs.existsSync(SKILLS) ? readLane(SKILLS).filter((s) => s.exists && s.fm && s.fm.name) : [];
+floor(laneSkills.length, 'skills in skills/');
 
 const readFm = (file) => {
   const m = fs.readFileSync(file, 'utf8').match(/^---\r?\n([\s\S]*?)\r?\n---/);
@@ -103,6 +139,8 @@ for (const e of fs.readdirSync(KNOWLEDGE, { withFileTypes: true }).sort((a, b) =
   });
 }
 
+floor(bundles.length, 'bundles in knowledge/');
+
 // -- cross-check against the bundle indexes ----------------------------------
 //
 // build-index.mjs and this script both count the same corpus, by different code. Two
@@ -116,6 +154,15 @@ for (const e of fs.readdirSync(KNOWLEDGE, { withFileTypes: true }).sort((a, b) =
 // FATAL rather than a warning. A catalog is the file consumers sync instead of walking
 // the tree; publishing numbers we know are contradicted is worse than publishing none.
 const mismatches = [];
+const indexChangedAt = []; // every subject's `changedAt`, for generatedAt below
+const collectChangedAt = (node) => {
+  if (Array.isArray(node)) { node.forEach(collectChangedAt); return; }
+  if (node === null || typeof node !== 'object') return;
+  for (const [k, v] of Object.entries(node)) {
+    if (k === 'changedAt' && typeof v === 'string') indexChangedAt.push(v);
+    else collectChangedAt(v);
+  }
+};
 for (const b of bundles) {
   const idxFile = path.join(KNOWLEDGE, b.name, 'index.json');
   if (!fs.existsSync(idxFile)) {
@@ -124,7 +171,9 @@ for (const b of bundles) {
   }
   let meta;
   try {
-    meta = JSON.parse(fs.readFileSync(idxFile, 'utf8')).meta ?? {};
+    const idxDoc = JSON.parse(fs.readFileSync(idxFile, 'utf8'));
+    meta = idxDoc.meta ?? {};
+    collectChangedAt(idxDoc.subjects ?? {});
   } catch (err) {
     mismatches.push(`${b.name}: index.json does not parse (${err.message})`);
     continue;
@@ -141,7 +190,7 @@ if (mismatches.length) {
   console.error('\nTwo counts of one corpus, computed by different code. One of them is wrong.');
   console.error('Regenerate the index first (node scripts/build-index.mjs); if they still');
   console.error('disagree, a walker is broken and neither number may be published.');
-  process.exit(2);
+  process.exit(EXIT.FATAL);
 }
 
 // -- usage aggregation -------------------------------------------------------
@@ -167,6 +216,13 @@ if (fs.existsSync(USAGE)) {
       doc = JSON.parse(fs.readFileSync(path.join(USAGE, f), 'utf8'));
     } catch {
       console.warn(`  note: usage/${f} is not valid JSON — skipped (run check-usage.mjs)`);
+      usageSkipped += 1;
+      continue;
+    }
+    // Valid JSON is not yet a report: `null` or `7` parse fine and then threw on
+    // `doc.contributor` (exit 1). Same skip, same predicate, as unparseable.
+    if (doc === null || typeof doc !== 'object' || Array.isArray(doc)) {
+      console.warn(`  note: usage/${f} is not a JSON object — skipped (run check-usage.mjs)`);
       usageSkipped += 1;
       continue;
     }
@@ -201,7 +257,6 @@ const runStats = runsNewest === -Infinity
   ? {}
   : aggregateRuns(runsLane.rows, runsLane.exact, { by: 'skill', resolveSkill: runsLane.resolveSkill, sinceMs: runsNewest - 30 * 86400000, untilMs: runsNewest });
 
-const catalog = JSON.parse(fs.readFileSync(CATALOG, 'utf8'));
 
 // -- the skills lane --------------------------------------------------------
 // The catalog's `skills` entries used to be a hand-seeded fixture waiting for an
@@ -215,7 +270,6 @@ const catalog = JSON.parse(fs.readFileSync(CATALOG, 'utf8'));
 // it; see scripts/fleet-audit.mjs) and `applicability` (a consumer's own dimension
 // mapping). A skill that left the lane leaves the catalog; nothing is invented.
 const prior = new Map((Array.isArray(catalog.skills) ? catalog.skills : []).map((s) => [s.name, s]));
-const laneSkills = readLane(SKILLS).filter((s) => s.exists && s.fm && s.fm.name);
 const skills = laneSkills.map((s) => {
   const row = usage.get(s.name);
   const old = prior.get(s.name) ?? {};
@@ -284,10 +338,31 @@ if (fs.existsSync(MEMORY)) {
 }
 const counts = { skills: skills.length, practices: practices.length, memory: memory.length, lessons: skills.reduce((n, s) => n + (s.lessons ?? 0), 0) };
 
+// -- generatedAt: derived from committed data, never from the clock or live git ---------
+// This used to be `catalog.generatedAt`, carried forward untouched, so it sat at
+// 2026-08-18T00:00:00Z while the catalog was rebuilt dozens of times, and the readers that
+// take it as "when was this built" (Ascent's indexer, personas) were told August. The clock
+// is not an option: `--check` must be a pure function of the tree, and a catalog stamped
+// with "now" is stale the instant it is written. Live `git log` is not either: CI clones
+// may be shallow and a depth-1 clone has one commit to date everything by. So the date is
+// the NEWEST instant found in data the catalog already reads and the tree already commits:
+// a subject's `changedAt` (knowledge/*/index.json), a usage report's `generatedAt`, a run
+// row's `ts`, a LESSONS.md heading's date. It moves exactly when a lane gains newer
+// evidence, and an unchanged tree rebuilds to the same value. If none parses, the committed
+// value is kept rather than invented.
+const lessonDates = laneSkills.flatMap((s) => (s.lessonsRaw ? lessonHeadings(s.lessonsRaw) : [])
+  .map((h) => /[-–—] (\d{4}-\d{2}-\d{2}) [-–—]/.exec(h)?.[1]).filter(Boolean));
+const stampMs = (v) => (typeof v === 'string' && /^\d{4}-\d{2}-\d{2}([T ]|$)/.test(v) ? Date.parse(/^\d{4}-\d{2}-\d{2}$/.test(v) ? `${v}T00:00:00Z` : v) : NaN);
+const newestMs = Math.max(-Infinity, ...[
+  ...indexChangedAt, ...lessonDates, ...usageReports.map((u) => u.generatedAt),
+  ...runsLane.rows.map((r) => r?.ts),
+].map(stampMs).filter(Number.isFinite));
+const generatedAt = newestMs === -Infinity ? catalog.generatedAt : new Date(newestMs).toISOString().replace(/\.\d{3}Z$/, 'Z');
+
 const next = {
   ...catalog,
-  _note: 'GENERATED FILE — scripts/build-catalog.mjs reads every lane (skills, practices, memory, knowledge, usage) and rewrites this file; --check fails CI when it is stale. Per skill, `adopters` is carried forward untouched (the registry cannot see installations; an operator\'s scripts/fleet-audit.mjs --write-adopters maintains it) and `invokes30d` + `usageContributors` are DERIVED from the usage/ lane; `runs30d`, `outcomes30d`, `difficulty30d`, `tokensMedian30d` and `tokensBasis30d` are DERIVED from the usage/runs/ run log (30 days ending at the newest logged run; tokens are the measured median when at least half the runs are measured, else the agents\' estimate, and tokensBasis30d says which). Hand-edits to anything else are overwritten on the next build. A second producer (e.g. Ascent\'s indexer) may rewrite the envelope from the same files; two producers computing one truth from one source is not a conflict.',
-  generatedAt: catalog.generatedAt,
+  _note: 'GENERATED FILE — scripts/build-catalog.mjs reads every lane (skills, practices, memory, knowledge, usage) and rewrites this file; --check fails CI when it is stale. Per skill, `adopters` is carried forward untouched (the registry cannot see installations; an operator\'s scripts/fleet-audit.mjs --write-adopters maintains it) and `invokes30d` + `usageContributors` are DERIVED from the usage/ lane; `runs30d`, `outcomes30d`, `difficulty30d`, `tokensMedian30d` and `tokensBasis30d` are DERIVED from the usage/runs/ run log (30 days ending at the newest logged run; tokens are the measured median when at least half the runs are measured, else the agents\' estimate, and tokensBasis30d says which). `generatedAt` is the newest instant in the committed data this catalog reads (a subject changedAt, a usage report generatedAt, a run row ts, a LESSONS heading date), ISO 8601 UTC: the date of the newest evidence in the registry, not the wall-clock time of the build, so --check stays a pure function of the tree. Hand-edits to anything else are overwritten on the next build. A second producer (e.g. Ascent\'s indexer) may rewrite the envelope from the same files; two producers computing one truth from one source is not a conflict.',
+  generatedAt,
   generatedBy: 'scripts/build-catalog.mjs',
   skills, practices, memory, counts, bundles,
   usageEvidence: {reports:usageReports,unresolved:unresolvedUsage,interpretation: 'invokes30d includes only reported 30-day windows ending at each report date; reportedInvokes includes all reported windows. Neither is a live rolling count. Unresolved names retain counts here.'},
@@ -305,8 +380,24 @@ if (checkOnly) {
     const cur = JSON.stringify(catalog.bundles ?? null);
     const nxt = JSON.stringify(bundles);
     if (cur !== nxt) console.error(`  bundles differ:\n    committed: ${cur}\n    computed:  ${nxt}`);
-    else console.error('  bundles match; the difference is elsewhere in the file (formatting or another key).');
-    process.exit(1);
+    // Name what differs instead of "elsewhere": the top-level keys, and per-entry fields for
+    // the keyed arrays a hand-edit most often lands in.
+    const same = (a, b) => JSON.stringify(a) === JSON.stringify(b);
+    const keys = [...new Set([...Object.keys(catalog), ...Object.keys(next)])].filter((k) => !same(catalog[k], next[k]));
+    if (keys.length) console.error(`  differing key(s): ${keys.join(', ')}`);
+    else console.error('  every key matches; the difference is formatting only (key order or whitespace).');
+    for (const [key, id] of [['skills', 'name'], ['practices', 'id'], ['memory', 'path']]) {
+      if (!keys.includes(key) || !Array.isArray(catalog[key])) continue;
+      const committed = new Map(catalog[key].map((e) => [e?.[id], e]));
+      for (const e of next[key]) {
+        const c = committed.get(e[id]);
+        if (!c) { console.error(`    ${key}[${e[id]}]: absent from the committed file`); continue; }
+        const fields = [...new Set([...Object.keys(c), ...Object.keys(e)])].filter((f) => !same(c[f], e[f]));
+        if (fields.length) console.error(`    ${key}[${e[id]}]: ${fields.join(', ')}`);
+      }
+      for (const c of catalog[key]) if (!next[key].some((e) => e[id] === c?.[id])) console.error(`    ${key}[${c?.[id]}]: committed but no longer in the lane`);
+    }
+    process.exit(EXIT.VIOLATIONS);
   }
   console.log(`catalog.json is fresh — ${bundles.length} bundle(s) indexed, usage from ${usageFiles} of ${usageFiles + usageSkipped} contributor file(s)${usageSkipped ? ` — ${usageSkipped} skipped as unparseable` : ''}`);
 } else {

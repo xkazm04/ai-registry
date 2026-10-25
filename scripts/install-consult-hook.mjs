@@ -210,6 +210,13 @@ for (const p of Object.values(fleet.projects)) {
   });
 }
 
+// A --project the fleet does not hold matched nothing, and zero rows read as "every consumer
+// already carries the hook" - a pass over a project that was never looked at.
+if (onlyProject && rows.length === 0) {
+  console.error(`install-consult-hook: no project "${onlyProject}" in projects.json for machine ${fleet.machine}; known: ${Object.keys(fleet.projects).sort().join(', ') || '(none)'}`);
+  process.exit(EXIT.FATAL);
+}
+
 console.log(`install-consult-hook — machine ${fleet.machine}, ${rows.length} project(s)\n`);
 console.log('  project          mechanism              state                action');
 for (const r of rows) {

@@ -1,7 +1,7 @@
 # Game production - the subjects this registry carries
 
-`game-production` - 86 subjects, 565 techniques, 330 applications.
-Slugs only; resolve one through `index.json` as the access rule beside this file describes.
+`game-production` - 88 subjects, 578 techniques, 337 applications.
+Slugs only; open one with `registry_subject` (or `node <registry>/scripts/registry-query.mjs --subject <slug>`), never by reading `index.json` - the access rule beside this file describes the loop.
 
 ### systems-canon
 - agent-behaviour-authoring, arpg-systems-canon, cross-runtime-rules-conformance, design-canon-as-executable-law, game-economy-tuning, racing-career-economy, realtime-combat-semantics
@@ -10,11 +10,11 @@ Slugs only; resolve one through `index.json` as the access rule beside this file
 - combat-pacing-and-dramatic-arc, difficulty-design-and-adaptation, encounter-balance-simulation, learning-curve-and-teaching-design, procedural-level-planning, terrain-synthesis-acceptance
 
 ### content-pipeline
-- acceptance-verdict-spine, branching-narrative-graph-validation, catalog-pipeline-authoring, content-acceptance-tiering, content-drift-and-revision, generative-artifact-gating, judgeable-spec-authoring, reference-parity-gating, wiring-contract-doctrine
+- acceptance-verdict-spine, branching-narrative-graph-validation, catalog-pipeline-authoring, concept-scene-parity, content-acceptance-tiering, content-drift-and-revision, generative-artifact-gating, judgeable-spec-authoring, reference-parity-gating, wiring-contract-doctrine
 
 ### asset-production
 - **geometry** - asset-class-poly-budgeting, generated-asset-world-scale, generated-mesh-acceptance, mesh-finishing-for-engine-readiness
-- **motion-and-audio** - adaptive-music-authoring, game-dialogue-voice-pipeline, motion-quality-gating, spatial-audio-scene-authoring
+- **motion-and-audio** - adaptive-music-authoring, game-dialogue-voice-pipeline, generated-video-motion-extraction, motion-quality-gating, spatial-audio-scene-authoring
 - **sourcing-economics** - image-to-3d-input-gating, regeneration-vs-repair-economics
 - **surface-and-imagery** - depth-ordered-layered-art, imported-material-conformance, shader-budget-authoring, sprite-and-atlas-production, tiling-texture-acceptance
 

@@ -15,11 +15,17 @@
 // undo by accident. This asserts the property directly instead of trusting that nobody
 // does: build the same tree twice — once with LF endings, once with CRLF — and require
 // one digest. No network, no deps, nothing written outside a temp directory.
+//
+// Exits 0 when stable, 1 when it is not, 2 when the fixture could not be built at all (no
+// writable temp dir, a library that fails to load). The libraries under test are imported
+// inside the try for that reason: a static import that throws exits through Node's own
+// door, which is 1, and would read as "NOT checkout-stable" for a comparison never made.
 import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
-import { hashBundle, stripCrLf } from './lib/bundle-hash.mjs';
-import { extractLawStatements } from './lib/laws.mjs';
+import { EXIT, installCrashDoor } from './lib/exit-codes.mjs';
+
+installCrashDoor();
 
 const FIXTURE = {
   'index.md': '---\nokf_version: "0.1"\n---\n\n# A bundle\n\nOne line, then another.\n',
@@ -39,7 +45,8 @@ const write = (root, eol) => {
   }
 };
 
-const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'rkb-hash-'));
+let tmp = null;
+let crashed = null;
 let failures = 0;
 const fail = (msg) => {
   console.error(`  ✗ ${msg}`);
@@ -47,6 +54,9 @@ const fail = (msg) => {
 };
 
 try {
+  const { hashBundle, stripCrLf } = await import('./lib/bundle-hash.mjs');
+  const { extractLawStatements } = await import('./lib/laws.mjs');
+  tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'rkb-hash-'));
   const lf = path.join(tmp, 'lf');
   const crlf = path.join(tmp, 'crlf');
   write(lf, '\n');
@@ -144,13 +154,20 @@ try {
   if (Object.keys(lawsLf).length !== 2) {
     fail(`the law fixture yielded ${Object.keys(lawsLf).length} statements, expected 2 — THE PARSER IS BROKEN`);
   }
+} catch (e) {
+  crashed = e;
 } finally {
-  fs.rmSync(tmp, { recursive: true, force: true });
+  if (tmp) fs.rmSync(tmp, { recursive: true, force: true });
 }
 
+if (crashed) {
+  console.error(`check-hash-stability could not run: ${crashed.message}`);
+  console.error('The LF and CRLF fixtures were never compared, so this is no verdict on the digest.');
+  process.exit(EXIT.FATAL);
+}
 if (failures) {
   console.error(`\nbundle digest is NOT checkout-stable — ${failures} failure(s).`);
-  process.exit(1);
+  process.exit(EXIT.VIOLATIONS);
 }
 console.log(
   'generated output is checkout-stable — digest identical across LF and CRLF trees and still ' +

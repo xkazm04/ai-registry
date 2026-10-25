@@ -3,7 +3,7 @@ name: librarian
 description: "Maintain the registry as a whole: sweep every bundle for structural and quality decay, rank what needs work by measured attention points, and dispatch scoped /deepen or /forge workers at it. Also evaluates the lane skills from their per-run log (`/librarian skills`). Keeps coverage memory in an Obsidian vault under librarian/ so each run knows what the last one touched, what is saturated, and what is owed. Run manually; a scheduler is a later wrapper. Use when nobody has looked at the registry in a while."
 category: ai-native
 memory: project
-version: 1.6.2
+version: 1.6.3
 tags: registry, maintenance, coverage, dispatch, quality, upstream
 ---
 
@@ -240,7 +240,8 @@ the measured sidecar `<device>.exact.jsonl` from transcripts. The contract is
    append `## <version-judged> - <YYYY-MM-DD> - librarian` with a `### Redesign proposal`
    sub-block citing the run ids. One comment is an anecdote - it goes in the note, not in
    LESSONS. Commit per skill as `skill(<name>): lessons from the run log`, run
-   `node scripts/check-skills.mjs --since HEAD` first.
+   `node scripts/check-skills.mjs --since origin/main` first: it covers the commits the
+   next push carries plus the uncommitted work, which is the range CI will judge.
 
 **The executing skill never reads this evidence.** Do not paste run-log findings into a
 skill's SKILL.md, a dispatch brief, or a project overlay: a trace produced while the

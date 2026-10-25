@@ -33,6 +33,18 @@ function machine(t,{hooksPath=null}={}){
 
 const run=(reg,args=[])=>spawnSync(process.execPath,[SCRIPT,...args],{cwd:reg,encoding:'utf8',env:{...process.env}});
 
+/**
+ * The installer resolves its fleet from its OWN location (loadFleet(ROOT)), so a fixture
+ * machine is only exercised by a copy of the installer that lives in the fixture registry.
+ */
+function fixtureInstaller(reg){
+ for(const rel of ['install-consult-hook.mjs','lib/projects.mjs','lib/exit-codes.mjs']){
+  const to=path.join(reg,'scripts',rel);fs.mkdirSync(path.dirname(to),{recursive:true});
+  fs.copyFileSync(fileURLToPath(new URL('../'+rel,import.meta.url)),to);
+ }
+ return (args=[])=>spawnSync(process.execPath,[path.join(reg,'scripts','install-consult-hook.mjs'),...args],{cwd:reg,encoding:'utf8'});
+}
+
 // The installer resolves the fleet from ITS OWN location, so point it at the fixture by
 // running it with the fixture registry copied in. Simplest honest route: invoke with cwd
 // at the fixture and rely on loadFleet(ROOT) — ROOT is the real registry, so instead we
@@ -75,6 +87,22 @@ test('the lefthook guidance is a script file, never a run line carrying $',t=>{
  assert.match(code,/script: "ai-registry-consult\.sh"/,'must point lefthook at a script file');
  assert.doesNotMatch(code,/sh -c/,'must not print an inline sh -c run line');
  assert.doesNotMatch(code,/run: /,'must not print a run: line at all');
+});
+
+test('a --project the fleet does not hold is an error, never "every consumer already carries the hook"',t=>{
+ const {reg}=machine(t,{hooksPath:'.githooks'});
+ const r=fixtureInstaller(reg)(['--project','__nonexistent__']);
+ assert.doesNotMatch(r.stdout,/already carries the hook/);
+ assert.equal(r.status,2,r.stdout+r.stderr);
+ assert.match(r.stderr,/no project "__nonexistent__"/);
+});
+
+test('check mode against a fixture machine reports the missing hook and writes nothing',t=>{
+ const {reg,proj}=machine(t,{hooksPath:'.githooks'});
+ const r=fixtureInstaller(reg)(['--project','app']);
+ assert.equal(r.status,1,r.stdout+r.stderr);
+ assert.match(r.stdout,/app\s+hooks-path\s+absent \(tracked\)\s+would install/);
+ assert.equal(fs.existsSync(path.join(proj,'.githooks','pre-commit')),false,'a check run must not create a hook');
 });
 
 test('check mode is the default and writes nothing',t=>{

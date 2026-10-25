@@ -392,7 +392,8 @@ def run(args):
     cfg = parse_harness(body)
     if not re.fullmatch(r'r-[0-9]{14}-[0-9a-f]{4}|[A-Za-z0-9._-]+', args.run):
         raise InputError('--run must be a run id')
-    wanted = [s for s in (args.features or '').split(',') if s.strip()]
+    # trimmed, as store.mjs and drive.mjs trim theirs: 'a, b' names b, not ' b' (which read as unmapped)
+    wanted = [s.strip() for s in (args.features or '').split(',') if s.strip()]
     unknown = [s for s in wanted if s not in cfg['features']]
     scoped = wanted or list(cfg['features'])
     out = {'run': args.run, 'shots': [], 'measurements': [], 'unscreenable': [],

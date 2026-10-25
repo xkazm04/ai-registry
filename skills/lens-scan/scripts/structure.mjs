@@ -40,7 +40,7 @@
 //     manifest decides). Every other facet and key is kept; the file is rewritten atomically, and not at
 //     all when nothing changed. --structure defaults to .ai/lens-scan/app-structure.json.
 //   node structure.mjs lens --id <id> [--structure <path>]
-//     How lens-scan measures a lens in the map: method `builtin` (development, security, design - a
+//     How lens-scan measures a lens in the map: method `builtin` (development, security, design, performance - a
 //     built-in keeps its own method even when its manifest has a scan block), `judgement` (the manifest's
 //     instructions) or `steps` (the manifest's ordered scan.steps), each with the numeric metric fields a
 //     reading may be written for and their `unit` (every measure write takes its unit from here); refused
@@ -355,7 +355,7 @@ export function stepsProblem(steps, keys) {
 /**
  * How lens-scan measures a lens entry: builtin, judgement (instructions) or steps (the ordered steps), each
  * with the numeric metric fields; `none` when nothing measures it, `invalid` (with `why`) when its steps
- * cannot run. Only development, security and design are builtin: business, operations and quality are
+ * cannot run. Only development, security, design and performance are builtin: business, operations and quality are
  * measured by their scan block like any project lens.
  */
 export function lensMethod(entry) {

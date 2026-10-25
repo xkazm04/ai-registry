@@ -4,9 +4,11 @@
  * --all runs the complete deterministic chain; --lane selects a declared subset.
  * --write validates source before regenerating derived views. Shared skill clauses
  * remain check-only because restamping needs an explicit version-bump decision.
- * PR history checks run separately with the PR base; external currency/liveness
+ * Version-history checks run separately, against the PR base or the push's prior head
+ * (registry.yml, every event); external currency/liveness
  * reports remain advisory. Legacy workflows retain their existing status names.
- * A child execution failure is distinct from a content violation.
+ * A child execution failure is distinct from a content violation. Each step has a
+ * ceiling (15 min, GATE_STEP_TIMEOUT_MS to override); a hung step is FATAL, "timed out".
  */
 
 import fs from 'node:fs';
@@ -72,6 +74,9 @@ const PROJECTS = step('check-projects.mjs');
 // three weeks and produced 13 stale maps and 193 uncollected leads at once.
 const COVERAGE_AGE = step('check-coverage-age.mjs');
 const REVIEW_COVERAGE = step('review-coverage.mjs');
+// The run-results lane (librarian/runs/*/result.json): every record validates, except the
+// grandfathered ones in librarian/runs/.grandfathered.json, which may only shrink.
+const RUN_RESULTS = step('check-run-results.mjs');
 
 // The catalog job's path filter covers knowledge/, skills/, practices/, memory/ and
 // usage/ - build-catalog hashes those five lanes - so those five rows end with it.
@@ -96,7 +101,7 @@ const LANES = {
   memory: [SIMPLE_LANES, ...PUBLIC, ...CATALOG_TAIL],
   // knowledge.yml `tooling` job: scripts/** and librarian/standard.md trigger it.
   scripts: [PROJECTS, EXIT_CONTRACT, WEIGHTS, TOOL_TESTS],
-  librarian: [WEIGHTS, REVIEW_COVERAGE, COVERAGE_AGE, ...PUBLIC],
+  librarian: [WEIGHTS, REVIEW_COVERAGE, RUN_RESULTS, COVERAGE_AGE, ...PUBLIC],
 };
 
 // --all is not the concatenation of the lane rows: the shared tail would run five
@@ -104,7 +109,7 @@ const LANES = {
 // first, then knowledge.yml's bundles, index, usage, signals and catalog.
 const ALL = [
   CHECK_SKILLS, CLAUSES, MARKETPLACE,
-  CHECK_BUNDLES, ...PUBLIC, INDEX, KNOWLEDGE_RULES, REVIEW_COVERAGE, COVERAGE_AGE,
+  CHECK_BUNDLES, ...PUBLIC, INDEX, KNOWLEDGE_RULES, REVIEW_COVERAGE, RUN_RESULTS, COVERAGE_AGE,
   CHECK_RECIPES, RECIPE_VIEWS, RECIPES_INDEX, CHECK_PUBLICATIONS, PUBLICATIONS_INDEX, SIMPLE_LANES,
   CHECK_USAGE, CHECK_RUNS, CHECK_SIGNALS,
   PROJECTS, EXIT_CONTRACT, WEIGHTS, TOOL_TESTS,
@@ -121,12 +126,32 @@ const lane = laneIdx === -1 ? null : argv[laneIdx + 1];
 const usage = () => {
   console.error('Usage: node scripts/gate.mjs --all [--write]');
   console.error(`       node scripts/gate.mjs --lane <${Object.keys(LANES).join('|')}> [--write]`);
+  console.error('       node scripts/gate.mjs --list      print the plan (every row and --all) as JSON, run nothing');
   console.error('');
   console.error('Runs the gate chain CI enforces, in CI order, stopping at the first red.');
-  console.error('registry.yml executes this same plan; PR version checks run separately.');
+  console.error('registry.yml executes this same plan; version checks (--since <base>) run separately, on every push and PR.');
+  console.error('Each step is stopped after 15 minutes (FATAL, "timed out"); set GATE_STEP_TIMEOUT_MS=<ms> to change that.');
 };
 
 if (argv.includes('--help') || argv.includes('-h')) { usage(); process.exit(EXIT.OK); }
+// Closed flag set: a typo'd `--wirte` used to be ignored, so the check row ran, printed
+// green, and the contributor believed they had regenerated.
+const FLAGS = new Set(['--all', '--write', '--lane', '--list']);
+const stray = argv.filter((a, i) => !FLAGS.has(a) && argv[i - 1] !== '--lane');
+if (stray.length) {
+  console.error(`FATAL: unknown argument(s) ${stray.map((a) => JSON.stringify(a)).join(', ')}.`);
+  usage();
+  process.exit(EXIT.FATAL);
+}
+// The plan as data, run nothing: each step as "<script> <check args>". ALL and LANES are two
+// hand-written lists, and scripts/tests/validation-plan.test.mjs derives the union from the
+// rows to hold them to each other - it needs to read them without running 26 gates.
+if (argv.includes('--list')) {
+  const id = (s) => [s.script, ...s.check].join(' ');
+  const lanes = Object.fromEntries(Object.entries(LANES).map(([name, row]) => [name, row.map(id)]));
+  console.log(JSON.stringify({ all: ALL.map(id), lanes }, null, 2));
+  process.exit(EXIT.OK);
+}
 if (all && lane) {
   console.error('FATAL: --all and --lane are exclusive. Pick the whole chain or one row.');
   process.exit(EXIT.FATAL);
@@ -152,6 +177,21 @@ if (missing.length) {
   process.exit(EXIT.FATAL);
 }
 
+// ---------------------------------------------------------------- per-step ceiling
+// A deadlocked child prints nothing and never exits, so without a ceiling it holds the CI
+// job until GitHub's 360-minute default. Expiry is FATAL (could not finish), never a
+// content verdict. The slowest step (run-tests.mjs) takes about a minute; 15 is generous.
+// GATE_STEP_TIMEOUT_MS overrides it, mainly so a test can use a short one. A malformed
+// value is refused rather than silently falling back to "no ceiling".
+const STEP_TIMEOUT_ENV = 'GATE_STEP_TIMEOUT_MS';
+const DEFAULT_STEP_TIMEOUT_MS = 15 * 60 * 1000;
+const rawTimeout = process.env[STEP_TIMEOUT_ENV];
+const STEP_TIMEOUT_MS = rawTimeout === undefined || rawTimeout === '' ? DEFAULT_STEP_TIMEOUT_MS : Number(rawTimeout);
+if (!Number.isInteger(STEP_TIMEOUT_MS) || STEP_TIMEOUT_MS <= 0) {
+  console.error(`FATAL: ${STEP_TIMEOUT_ENV}=${JSON.stringify(rawTimeout)} is not a positive integer number of milliseconds.`);
+  process.exit(EXIT.FATAL);
+}
+
 // ---------------------------------------------------------------- run
 const label = all ? 'all' : `lane ${lane}`;
 console.log(`gate: ${chain.length} step(s), ${label}, ${write ? 'WRITE' : 'check'} mode`);
@@ -165,7 +205,16 @@ for (const s of chain) {
   const r = spawnSync(process.execPath, [path.join(SCRIPTS, s.script), ...args], {
     cwd: ROOT,
     stdio: 'inherit',
+    timeout: STEP_TIMEOUT_MS,
+    killSignal: 'SIGKILL',
   });
+  // Checked before r.error: spawnSync reports its own timeout as error ETIMEDOUT, and the
+  // generic "could not launch" line below would call a hung step a launch failure.
+  if (r.error && r.error.code === 'ETIMEDOUT') {
+    console.error(`\ngate FATAL: scripts/${s.script} timed out after ${STEP_TIMEOUT_MS} ms and was stopped - it did not finish, so it reported nothing.`);
+    console.error(`Raise the ceiling with ${STEP_TIMEOUT_ENV}=<ms> if the step is legitimately slow.`);
+    process.exit(EXIT.FATAL);
+  }
   if (r.error) {
     console.error(`\ngate FATAL: could not launch scripts/${s.script} (${r.error.message}).`);
     process.exit(EXIT.FATAL);
@@ -191,5 +240,5 @@ for (const s of chain) {
 
 console.log(`gate OK - ${ranClean}/${chain.length} step(s) green (${label}).`);
 if (!all) console.log('This is one lane\'s row. `--all` runs the whole chain CI enforces.');
-console.log('NOT run here: check-skills.mjs / check-recipes.mjs --since <base> (pull requests only), and the');
-console.log('report-only jobs check-currency / librarian-scan / check-citations.');
+console.log('NOT run here: check-skills.mjs / check-recipes.mjs --since <base> (CI runs them on every push and PR), and the');
+console.log('report-only jobs check-currency / librarian-scan --top / check-citations / check-citation-dates / compression-scan.');

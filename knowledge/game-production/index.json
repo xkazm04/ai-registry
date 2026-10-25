@@ -5380,9 +5380,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/game-production/content-pipeline/judgeable-spec-authoring/judgeable-spec-authoring.md",
-   "digest": "sha256-b2:51d2d7f30dfc2a96",
-   "revision": 3,
-   "changedAt": "2026-10-10",
+   "digest": "sha256-b2:85e0c3851c4a6027",
+   "revision": 4,
+   "changedAt": "2026-10-25",
    "techniques": [
     {
      "slug": "enumeration-closure-as-arithmetic",

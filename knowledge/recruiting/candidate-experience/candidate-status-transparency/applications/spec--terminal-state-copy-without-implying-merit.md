@@ -8,6 +8,7 @@ status: forged
 verified_on: 2026-09-28
 refresh_by: 2027-03-28
 source: US/OMB-OPM-M-24-16+US-OPM/FAQ-2024+US-OPM/USAJOBS-help+SIOP/2012-applicant-reactions+SIOP/2020-white-paper
+counterpart: external
 ---
 
 # A cancelled posting is not a non-selection: the texts

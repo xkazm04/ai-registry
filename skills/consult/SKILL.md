@@ -4,7 +4,7 @@ description: "Consult the ai-registry's knowledge bundles before a product, arch
 category: ai-native
 memory: project
 listing: on
-version: 1.6.2
+version: 1.7.0
 tags: knowledge, rkb, consult, routing, signals
 argument-hint: "<topic or decision> [--bundle <name>] [--deep]"
 ---
@@ -61,12 +61,17 @@ was, because the skill let each run invent its destination.
    carries each subject's `file`, and bundles are nested.
 2. **Pick the bundles.** `--bundle` wins; else the manifest's `knowledge.domains`; else
    all bundles declared in the current catalog with a note.
-3. **Match.** Turn the task into 3-8 terms (nouns and the decision being made). With a
-   local checkout, ALWAYS route with the script - never by hand:
-   `node <registry>/scripts/research-map.mjs "<term>" ... --top 6`. It scores every
-   subject slug and every technique's `use_when` from `index.json` for zero context
-   tokens; `--deep` additionally opens each golden path for ITS `use_when`, which the
-   index does not carry - worth it for a broad decision, not for a named mechanism.
+3. **Match - query first.** Phrase the task as the decision being made, plus a few
+   nouns. With a local checkout, ALWAYS route through the registry's front door - never
+   by hand, and never by reading or slicing `index.json`: the `registry_query` MCP tool
+   when this session has it (`domain` = the picked bundle, `top` 6), else
+   `node <registry>/scripts/registry-query.mjs "<the decision>" --domain <bundle> --top 6`.
+   It ranks subjects, techniques and laws over slugs, `use_when` triggers AND document
+   bodies, under a token budget, and each hit carries its path, a one-line gist and its
+   triggers - enough to choose without opening. To compare one subject's techniques, use
+   `registry_subject` (or `--subject <slug>`). `--deep` means a broader net: `top` 12
+   and a larger `budget_tokens`, for a broad decision rather than a named mechanism. An
+   empty or off-target result is rephrased once before concluding the corpus lacks it.
    Remote-only: fetch the bundle's `index.json` and match by hand - knowing that the
    largest bundle's index is well over 100K tokens, so fetch ONE bundle, named by the
    manifest, and match against `use_when` before slugs. Keep the top 3-6 techniques

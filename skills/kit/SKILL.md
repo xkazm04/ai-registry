@@ -3,7 +3,7 @@ name: kit
 description: "Revitalize and unify the design of a web app: measure style divergence per module, gate a foundation (type scale, muting, colour roles) with the owner, stop new slips with ratchets and agent law, run a contest for a COMPOSITION KIT (the shared building blocks one level above buttons), port the finalists onto one real page so the owner chooses on the product, promote the winner at 0 measured deviations, then rebuild the app module by module in feature batches across sessions, with a coverage ledger as memory. A repo that already has a kit enters with /kit adopt: register its parts, record each skipped setup step with its reason, and run the first batch in the same session. Batches are gated per batch, or (the default for a new overlay) the Director decides, asks the owner only key decisions, and shows a periodic summary gate. Use when an app's modules each look like a different app, shared components are overlooked, or a design system exists on paper but not in the code. Invoke with /kit (resume), /kit init (setup track), /kit adopt (existing kit), /kit batch [next|<feature>], /kit grow, /kit gate <batch>|summary, /kit status, /kit reflect."
 category: workflow
 memory: vault
-version: 0.3.1
+version: 0.3.2
 tags: design-system, ui, typography, composition-kit, refactor, contest, batches, vault
 argument-hint: "[init | adopt | batch [next|<feature>] | grow | gate <batch>|summary | status | reflect]"
 ---

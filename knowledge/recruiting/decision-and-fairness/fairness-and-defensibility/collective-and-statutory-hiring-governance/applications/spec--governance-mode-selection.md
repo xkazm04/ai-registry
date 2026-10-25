@@ -8,6 +8,7 @@ status: forged
 verified_on: 2026-09-28
 refresh_by: 2027-03-28
 source: DE/BetrVG-s95+DE/BetrVG-s99+EU/AI-Act-Art-26(7)+EU/Reg-2026-1744
+counterpart: external
 ---
 
 # The consent overlay, as German works-council law and the AI Act have it

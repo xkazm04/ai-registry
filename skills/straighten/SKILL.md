@@ -3,7 +3,7 @@ name: straighten
 description: "Drain the fleet's version debt against the registry in one sitting. Run from the registry checkout when a bundle landing, a context-map rebuild, a rename or an uncommitted converge rebuild has left registry maps behind: classify every checked-out project's .ai/registry-map.json (modified but equal to a rebuild from HEAD: generator-dirty, committed; verdicts differ: somebody's work, never touched), rebuild through converge's builder, print one debt table across the fleet (stale verdicts ranked by contexts x revisionsBehind, plus orphaned and arrived contexts), then drain it in order with /conform --stale - one judge per project, or with --wave <n> n read-only judges whose run files merge-conform-runs folds into the map once - committing each map with a pathspec commit in its own project and refreshing the fleet-coverage report. Proposes only - no merges, no pushes. Use after `node scripts/build-index.mjs` moved subject digests, after /project-populate rebuilt a context map, after converge left maps modified, or whenever `build-registry-map.mjs --churn` reports orphans. Invoke with /straighten [--project <slug>] [--budget <n>] [--wave <n>] [--dry-run]."
 category: ai-native
 memory: project
-version: 1.3.1
+version: 1.3.2
 tags: registry-map, conformance, stale, orphans, fleet, version-debt
 argument-hint: "[--project <slug>] [--budget <n>] [--wave <n>] [--dry-run]"
 ---
@@ -217,7 +217,8 @@ projects, until `--budget` projects (default 3) have been drained:
 5. **Merge** - `merge-conform-runs.mjs --dry --only <files>`, then the real merge with the
    same list and `--wait-lock-ms 60000`.
 6. **Verify** - `map-state.mjs verify-merge` exits 0: every merged row carries the subject's
-   own digest and `evaluatedRevision`, `stale` cleared (conform 1.8.2). Exit 1 is a stop.
+   own digest and `evaluatedRevision`, `stale` cleared (conform 1.8.2). Exit 1 is a stop;
+   exit 2 with `missing` names a run file it was told to read and could not - also a stop.
 7. **Orphans** - this session alone, after the merge. Without an operator, leave.
 8. **Rebuild and count** - `build-registry-map.mjs --project <slug>` so the header `stats`
    match the merged rows; count `stale: true` rows yourself.

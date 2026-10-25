@@ -15,7 +15,14 @@
  * contributor file is the failure the per-contributor shape exists to prevent, which is
  * why this script refuses to overwrite a file whose `app` is not its own unless --force.
  *
- *   node scripts/usage-from-personas.mjs --contributor=<id> [--db=<path>] [--force]
+ *   node scripts/usage-from-personas.mjs [--contributor <id>] [--db <path>] [--root <registry>] [--force]
+ *
+ * The flag set is closed. This script WRITES `usage/<contributor>.json`, so a flag it does
+ * not know is refused rather than ignored: `--contributor other` (space form) read as
+ * unknown and dropped wrote the MACHINE's contributor file instead of `other`'s. Both
+ * `--k=v` and `--k v` are accepted; a valued flag with no value exits 2. `--root` names the
+ * registry whose `usage/` is written and whose skills/fleet decide what counts as a skill
+ * (tests point it at a fixture).
  *
  * Default db: %APPDATA%/com.personas.desktop/personas.db (Windows) or ~/.local/share/... -
  * pass --db when it lives elsewhere. Window: 30 days, matching the lane and the app.
@@ -25,19 +32,36 @@ import os from 'node:os';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { loadBridge } from './lib/projects.mjs';
+import { EXIT } from './lib/exit-codes.mjs';
 
-const ROOT = path.resolve(fileURLToPath(new URL('.', import.meta.url)), '..');
-const OUT_DIR = path.join(ROOT, 'usage');
 const WINDOW_DAYS = 30;
-const arg = (k) => process.argv.find((a) => a.startsWith(`--${k}=`))?.slice(k.length + 3);
-const force = process.argv.includes('--force');
+const USAGE = 'Usage: usage-from-personas.mjs [--contributor <id>] [--db <path>] [--root <registry>] [--force]';
+const refuse = (msg) => { console.error(`FATAL: ${msg}. ${USAGE}`); process.exit(EXIT.FATAL); };
+const flags = {};
+let force = false;
+{
+  const argv = process.argv.slice(2);
+  if (argv.includes('--help') || argv.includes('-h')) { console.log(USAGE); process.exit(EXIT.OK); }
+  for (let i = 0; i < argv.length; i++) {
+    if (argv[i] === '--force') { force = true; continue; }
+    const m = /^--([a-z-]+)(?:=(.*))?$/.exec(argv[i]);
+    if (!m || !['contributor', 'db', 'root'].includes(m[1])) refuse(`unknown argument ${JSON.stringify(argv[i])}`);
+    let v = m[2];
+    if (v === undefined) v = argv[++i];
+    if (v === undefined || v === '' || v.startsWith('--')) refuse(`--${m[1]} needs a value`);
+    flags[m[1]] = v;
+  }
+}
+const arg = (k) => flags[k];
+const ROOT = flags.root ? path.resolve(flags.root) : path.resolve(fileURLToPath(new URL('.', import.meta.url)), '..');
+const OUT_DIR = path.join(ROOT, 'usage');
 
 let bridgeContributor = null;
 try { bridgeContributor = loadBridge(ROOT).contributor ?? null; } catch { /* no machine file: --contributor required */ }
 const contributor = String(arg('contributor') ?? bridgeContributor ?? '').trim();
 if (!/^[a-z0-9][a-z0-9-]*$/.test(contributor)) {
-  console.error('FATAL: --contributor=<id> ([a-z0-9-], non-identifying) is required (or "contributor" in .machine.local.json).');
-  process.exit(2);
+  console.error('FATAL: --contributor <id> ([a-z0-9-], non-identifying) is required (or "contributor" in .machine.local.json).');
+  process.exit(EXIT.FATAL);
 }
 
 const defaultDb = process.platform === 'win32'
@@ -45,14 +69,14 @@ const defaultDb = process.platform === 'win32'
   : path.join(os.homedir(), '.local', 'share', 'com.personas.desktop', 'personas.db');
 const dbPath = arg('db') ?? defaultDb;
 if (!fs.existsSync(dbPath)) {
-  console.error(`FATAL: no Personas database at ${dbPath} - pass --db=<path>. Refusing to write a usage file from nothing.`);
-  process.exit(2);
+  console.error(`FATAL: no Personas database at ${dbPath} - pass --db <path>. Refusing to write a usage file from nothing.`);
+  process.exit(EXIT.FATAL);
 }
 
 let DatabaseSync;
 try { ({ DatabaseSync } = await import('node:sqlite')); } catch {
   console.error('FATAL: node:sqlite is not available in this Node (needs >= 22.5). Pair the registry in the app and use its writer instead.');
-  process.exit(2);
+  process.exit(EXIT.FATAL);
 }
 
 const db = new DatabaseSync(dbPath, { readOnly: true });
@@ -66,7 +90,7 @@ try {
   ).all(`-${WINDOW_DAYS} days`);
 } catch (e) {
   console.error(`FATAL: the query failed (${e.message}) - is this a Personas database with skill_usage_events?`);
-  process.exit(2);
+  process.exit(EXIT.FATAL);
 } finally { db.close(); }
 
 // The app counts every slash command the harness logged, built-ins included (`/clear`,
@@ -105,7 +129,7 @@ if (fs.existsSync(out) && !force) {
     const prev = JSON.parse(fs.readFileSync(out, 'utf8'));
     if (prev.app && prev.app !== 'personas') {
       console.error(`FATAL: ${path.relative(ROOT, out)} was written by "${prev.app}" - two writers on one contributor file. Pass --force to take it over deliberately.`);
-      process.exit(2);
+      process.exit(EXIT.FATAL);
     }
   } catch { /* unreadable previous file: overwrite is the honest move */ }
 }

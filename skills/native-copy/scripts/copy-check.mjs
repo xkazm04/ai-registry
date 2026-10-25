@@ -160,7 +160,7 @@ function readSources(root, contractPath, args) {
     try { const raw = JSON.parse(fs.readFileSync(contractPath, 'utf8')); if (Array.isArray(raw.sources) && raw.sources.length) return raw.sources.map((s) => ({ path: s.path ?? s.glob, kind: s.kind })); } catch { /* fall through */ }
   }
   const found = DISCOVER.filter(([p, kind]) => expandSources(root, [{ path: p, kind }]).files.length).map(([p, kind]) => ({ path: p, kind }));
-  if (!found.length) fail2('--init found no English catalog at the usual paths; pass --source <glob>=<kind> (kinds: json-catalog, ts-module, jsx, mdx, markdown)');
+  if (!found.length) fail2(`--init found no English catalog at the usual paths; pass --source <glob>=<kind> (kinds: ${KINDS.join(', ')})`);
   return found;
 }
 

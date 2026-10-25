@@ -181,7 +181,14 @@ if (cmd === 'aggregate') {
   const carriedMustAddress = fs.existsSync(maFile) ? readJson(maFile) : [];
 
   const trustState = flag('trust-state') ?? started.trust_state ?? 'uncalibrated';
-  const roundNo = Number(flag('round') ?? started.round_no ?? 1);
+  // Validated before anything is written: Number('abc') is NaN, aggregate() reads a NaN
+  // round as round 1 and so skips the ROUND_CAP check, and result.json used to be written
+  // with round_no null before validateResult noticed.
+  const givenRound = flag('round');
+  const roundNo = Number(givenRound ?? started.round_no ?? 1);
+  if (!Number.isInteger(roundNo) || roundNo < 1) {
+    die(`--round must be an integer >= 1, found ${JSON.stringify(givenRound ?? started.round_no)}`);
+  }
 
   // The DECLARED scenarios come from the product's exported state, never from a member:
   // --state <state.json> (rows filtered to this subject), else whatever phase 1 copied
@@ -218,7 +225,10 @@ if (cmd === 'aggregate') {
       .find((b) => b && !b.startsWith('#') && !b.startsWith('|') && !b.startsWith('---'));
     return (body ?? '').replace(/\s+/g, ' ').trim();
   };
-  const summary = String(flag('summary') ?? started.summary ?? reportFirstParagraph() ?? '').trim();
+  // A blank source is an absent one: phase 1 writes started.json's `summary` key before any
+  // synthesis exists, so "" is its usual value, and `??` used to stop there.
+  const given = (s) => (typeof s === 'string' && s.trim() ? s : null);
+  const summary = String(given(flag('summary')) ?? given(started.summary) ?? reportFirstParagraph()).trim();
   if (!summary) {
     die(`aggregate refuses an empty summary. Pass --summary "<the synthesis in a paragraph>", or put one in started.json, or write ${path.join(dir, 'report.md')} first.
   An empty summary is not a blank: the consuming door substitutes the SUBJECT's own description for it, so a person reads the thing describing itself labelled as what the council concluded.`);

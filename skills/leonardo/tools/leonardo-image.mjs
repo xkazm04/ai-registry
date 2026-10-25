@@ -4,15 +4,21 @@
  * Leonardo AI Image Tool — Generate images and remove backgrounds via Leonardo AI API
  *
  * Commands:
- *   generate  --prompt "..." --output path.png [--width 1024] [--height 768] [--style dynamic] [--contrast 3.5] [--transparent]
- *   remove-bg --id <imageId> --output path-nobg.png
- *   poll      --id <generationId>
+ *   generate      --prompt "..." --output path.png [--width 1024] [--height 768] [--style dynamic] [--contrast 3.5] [--no-cleanup]
+ *   generate-best --prompt "..." --output path.png [--candidates 4] [--rate-prompt "..."] (same size/style flags; rated by Gemini)
+ *   remove-bg     --id <imageId> --output path-nobg.png
+ *   poll          --id <generationId>
  *
- * Requires LEONARDO_API_KEY environment variable.
+ * Lucid Origin has no transparent output: for a transparent background run remove-bg on the
+ * generated image id (see SKILL.md, State Illustration).
+ *
+ * Requires LEONARDO_API_KEY environment variable. Every provider call has a deadline
+ * (default 10 min; LEONARDO_FETCH_TIMEOUT_MS overrides) - see fetch-deadline.mjs.
  */
 
 import { readFileSync, writeFileSync, mkdirSync } from 'fs';
 import { dirname, resolve } from 'path';
+import { withDeadline, FetchTimeoutError } from './fetch-deadline.mjs';
 
 const API_KEY = process.env.LEONARDO_API_KEY;
 const BASE_URL = 'https://cloud.leonardo.ai/api/rest/v1';
@@ -50,9 +56,21 @@ async function apiRequest(method, path, body) {
   const url = `${BASE_URL}${path}`;
   const opts = { method, headers: { 'accept': 'application/json', 'authorization': `Bearer ${API_KEY}` } };
   if (body) { opts.headers['content-type'] = 'application/json'; opts.body = JSON.stringify(body); }
-  const res = await fetch(url, opts);
-  if (!res.ok) { const t = await res.text(); fail({ error: `Leonardo API ${res.status}`, path, details: t.slice(0, 500) }); }
-  return res.json();
+  // A deadline on the request AND its body read (see fetch-deadline.mjs); no retry, as before.
+  return withDeadline(`Leonardo ${method} ${path}`, async (signal) => {
+    const res = await fetch(url, { ...opts, signal });
+    if (!res.ok) { const t = await res.text(); fail({ error: `Leonardo API ${res.status}`, path, details: t.slice(0, 500) }); }
+    return res.json();
+  });
+}
+
+// An image download under the same deadline; status and bytes come back together so a
+// stalled body read is covered, and callers keep their own not-ok handling.
+function download(url) {
+  return withDeadline(`image download ${url}`, async (signal) => {
+    const res = await fetch(url, { signal });
+    return { ok: res.ok, status: res.status, buf: res.ok ? Buffer.from(await res.arrayBuffer()) : null };
+  });
 }
 
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
@@ -94,9 +112,9 @@ async function generateImage(prompt, outputPath, opts = {}) {
   if (images.length === 0) fail({ error: 'No images', generationId });
 
   const image = images[0];
-  const imgRes = await fetch(image.url);
+  const imgRes = await download(image.url);
   if (!imgRes.ok) fail({ error: `Download failed: ${imgRes.status}` });
-  const imgBuffer = Buffer.from(await imgRes.arrayBuffer());
+  const imgBuffer = imgRes.buf;
 
   const absPath = resolve(outputPath);
   mkdirSync(dirname(absPath), { recursive: true });
@@ -115,7 +133,8 @@ async function geminiRate(imagePath, ratePrompt) {
   const GKEY = process.env.GEMINI_API_KEY;
   if (!GKEY) return { score: null, analysis: 'no GEMINI_API_KEY' };
   const buf = readFileSync(imagePath).toString('base64');
-  const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.5-flash:generateContent?key=${GKEY}`;
+  // key in the x-goog-api-key header, never the URL (as gemini-recognize.mjs)
+  const url = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-3.5-flash:generateContent';
   const body = {
     contents: [{ role: 'user', parts: [
       { inlineData: { mimeType: 'image/png', data: buf } },
@@ -123,9 +142,19 @@ async function geminiRate(imagePath, ratePrompt) {
     ]}],
     generationConfig: { temperature: 0.2, maxOutputTokens: 256 },
   };
-  const res = await fetch(url, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
-  if (!res.ok) return { score: null, analysis: `gemini ${res.status}` };
-  const data = await res.json();
+  // A rating is advisory: a status error already degrades to score:null, so a timeout does too.
+  let data;
+  try {
+    data = await withDeadline('Gemini rate', async (signal) => {
+      const res = await fetch(url, { method: 'POST', headers: { 'Content-Type': 'application/json', 'x-goog-api-key': GKEY }, body: JSON.stringify(body), signal });
+      return res.ok ? { ok: true, json: await res.json() } : { ok: false, status: res.status };
+    });
+  } catch (e) {
+    if (e instanceof FetchTimeoutError) return { score: null, analysis: 'gemini timeout' };
+    throw e;
+  }
+  if (!data.ok) return { score: null, analysis: `gemini ${data.status}` };
+  data = data.json;
   let text = '';
   for (const c of data.candidates || []) for (const p of c.content?.parts || []) if (p.text) text += p.text;
   text = text.replace(/^```(?:json)?\s*/i, '').replace(/```\s*$/, '').trim();
@@ -167,9 +196,9 @@ async function generateBest(prompt, outputPath, opts = {}) {
   const rated = [];
   for (let i = 0; i < images.length; i++) {
     const img = images[i];
-    const imgRes = await fetch(img.url);
+    const imgRes = await download(img.url);
     if (!imgRes.ok) continue;
-    const imgBuf = Buffer.from(await imgRes.arrayBuffer());
+    const imgBuf = imgRes.buf;
     const tmpPath = resolve(tmp, `leonardo-cand-${generationId}-${i}.png`);
     writeFileSync(tmpPath, imgBuf);
     const rating = await geminiRate(tmpPath, ratePrompt);
@@ -217,9 +246,9 @@ async function removeBackground(inputImageId, outputPath) {
     const data = await apiRequest('GET', `/variations/${jobId}`);
     const v = data.generated_image_variation_generic?.[0];
     if (v?.status === 'COMPLETE' && v?.url) {
-      const imgRes = await fetch(v.url);
+      const imgRes = await download(v.url);
       if (!imgRes.ok) fail({ error: `Download failed: ${imgRes.status}` });
-      const imgBuffer = Buffer.from(await imgRes.arrayBuffer());
+      const imgBuffer = imgRes.buf;
       const absPath = resolve(outputPath);
       mkdirSync(dirname(absPath), { recursive: true });
       writeFileSync(absPath, imgBuffer);
@@ -233,20 +262,23 @@ async function removeBackground(inputImageId, outputPath) {
   fail({ error: 'BG removal timed out', jobId });
 }
 
+// A deadline that fired is a clean JSON failure, not an uncaught-rejection stack.
+const run = (p) => p.catch((e) => { if (e instanceof FetchTimeoutError) fail({ error: e.message }); throw e; });
+
 const { command, args } = parseArgs(process.argv);
 switch (command) {
   case 'generate':
     if (!args.prompt || !args.output) { console.error('Usage: leonardo-image.mjs generate --prompt "..." --output path.png [--width 1024] [--height 768] [--style dynamic] [--contrast 3.5]'); process.exit(1); }
-    generateImage(args.prompt, args.output, args); break;
+    run(generateImage(args.prompt, args.output, args)); break;
   case 'generate-best':
     if (!args.prompt || !args.output) { console.error('Usage: leonardo-image.mjs generate-best --prompt "..." --output path.png [--candidates 4] [--rate-prompt "..."] [--width 1024] [--height 768] [--style dynamic] [--contrast 3.5]'); process.exit(1); }
-    generateBest(args.prompt, args.output, args); break;
+    run(generateBest(args.prompt, args.output, args)); break;
   case 'remove-bg':
     if (!args.id || !args.output) { console.error('Usage: leonardo-image.mjs remove-bg --id <imageId> --output path.png'); process.exit(1); }
-    removeBackground(args.id, args.output); break;
+    run(removeBackground(args.id, args.output)); break;
   case 'poll':
     if (!args.id) { console.error('Usage: leonardo-image.mjs poll --id <generationId>'); process.exit(1); }
-    pollGeneration(args.id).then((g) => console.log(JSON.stringify(g, null, 2))); break;
+    run(pollGeneration(args.id).then((g) => console.log(JSON.stringify(g, null, 2)))); break;
   default:
-    console.error(`Unknown command: ${command || '(none)'}\nCommands: generate, remove-bg, poll`); process.exit(1);
+    console.error(`Unknown command: ${command || '(none)'}\nCommands: generate, generate-best, remove-bg, poll`); process.exit(1);
 }

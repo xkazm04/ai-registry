@@ -89,6 +89,29 @@ test('batch lifecycle: open, gate, mixed close with verbatim words, kit parts', 
   assert.deepEqual(s.next, [{ module: 'c/sub_3', rank: 3 }]);
 });
 
+test('a module that left its batch by hand neither blocks the batch nor is decided by it', () => {
+  // mark's own comment: "Leaving a batch by hand (abandon, skip) is legal; the batch record keeps its
+  // module list." Gate and close used to walk that list, so one skipped module made the batch
+  // impossible to gate or close (skipped -> gated / approved / sent-back are all illegal).
+  let L = applyInit(null, INV, T0).ledger;
+  L = applyOpenBatch(L, { id: 'b1', modules: ['a/sub_1', 'b/sub_2', 'c/sub_3'] }, T0);
+  L = applyMark(L, { module: 'b/sub_2', status: 'skipped' }, T1);
+  L = applyMark(L, { module: 'c/sub_3', status: 'pending' }, T1);
+  L = applyOpenBatch(L, { id: 'b2', modules: ['c/sub_3'] }, T1);   // re-batched elsewhere
+  L = applyGate(L, { id: 'b1' }, T1);
+  assert.equal(L.modules['a/sub_1'].status, 'gated');
+  assert.equal(L.modules['b/sub_2'].status, 'skipped', 'a module that left is not gated');
+  assert.equal(L.modules['c/sub_3'].status, 'in-batch', 'b2 owns it now');
+  assert.throws(() => applyCloseBatch(L, { id: 'b1', verdict: 'mixed', text: 'x', approved: ['a/sub_1'], sentBack: ['b/sub_2'] }, T1), /not in batch b\/sub_2/, 'a mixed split covers the modules still in the batch');
+  L = applyCloseBatch(L, { id: 'b1', verdict: 'approved', text: 'the one that stayed is good' }, T1);
+  assert.equal(L.modules['a/sub_1'].status, 'approved');
+  assert.equal(L.modules['b/sub_2'].status, 'skipped');
+  assert.deepEqual([L.modules['c/sub_3'].status, L.modules['c/sub_3'].batch], ['in-batch', 'b2'], 'b1 does not decide a module b2 holds');
+  const b1 = L.batches.find((b) => b.id === 'b1');
+  assert.deepEqual(b1.modules, ['a/sub_1', 'b/sub_2', 'c/sub_3'], 'the batch record keeps its module list');
+  assert.deepEqual(b1.left, ['b/sub_2', 'c/sub_3'], 'and says which ones left before the verdict');
+});
+
 test('pure functions do not mutate their input', () => {
   const L = applyInit(null, INV, T0).ledger;
   const before = JSON.stringify(L);

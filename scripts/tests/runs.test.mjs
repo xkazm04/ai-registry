@@ -257,6 +257,22 @@ test('log-run defaults --version (receipt, then SKILL.md) and strips a scoped sk
   assert.equal(JSON.parse(r4.stdout.split('\n')[1]).version, '9.9.9');
 });
 
+test('log-run never glues its row onto a hand-written last line that lacks its newline', () => {
+  const cwd = checkout('torn');
+  const file = path.join(cwd, LOCAL_REL);
+  fs.mkdirSync(path.dirname(file), { recursive: true });
+  // The local contract lets an agent without this script write the line itself, and an
+  // editor or a Write tool does not always end it with a newline.
+  const byHand = { ts: '2026-09-21T10:11:12Z', skill: 'spark', outcome: 'shipped', difficulty: 2, result: 'by hand', comment: 'no script here', provider: 'claude', model: 'claude-opus-5' };
+  fs.writeFileSync(file, JSON.stringify(byHand));
+  const r = run(LOG_RUN, VALID_FLAGS, { cwd });
+  assert.equal(r.status, 0, r.stderr);
+  const lines = fs.readFileSync(file, 'utf8').split('\n').filter(Boolean);
+  assert.equal(lines.length, 2, 'two rows, not one glued line');
+  assert.deepEqual(JSON.parse(lines[0]), byHand, 'the hand-written row survives intact');
+  assert.equal(JSON.parse(lines[1]).result, 'did the thing');
+});
+
 test('log-run --dry-run writes nothing', () => {
   const cwd = checkout('dry');
   const r = run(LOG_RUN, [...VALID_FLAGS, '--dry-run'], { cwd });

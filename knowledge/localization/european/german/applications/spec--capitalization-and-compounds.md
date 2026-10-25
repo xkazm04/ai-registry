@@ -5,6 +5,7 @@ subject: german
 technique: capitalization-and-compounds
 stack: spec
 source: unicode/ucd@17.0.0
+counterpart: external
 status: forged
 verified_on: 2026-08-29
 ---

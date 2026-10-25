@@ -6,8 +6,8 @@ technique: target-matrix-runs
 stack: python
 status: forged
 verified_on: 2026-08-30
-verified_against: python@3.12
 source: EleutherAI/lm-evaluation-harness
+counterpart: external
 ---
 
 # Python: lm-evaluation-harness declares the case axis, and leaves the target axis to the operator

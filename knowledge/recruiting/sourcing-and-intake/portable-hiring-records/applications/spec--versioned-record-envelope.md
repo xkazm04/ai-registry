@@ -7,6 +7,7 @@ stack: spec
 status: forged
 verified_on: 2026-08-23
 source: W3C/vc-data-model@2.0
+counterpart: external
 ---
 
 # The envelope as an interchange standard writes it

@@ -39,12 +39,22 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { sameIgnoringNewlines } from './lib/bundle-hash.mjs';
-import { EXIT } from './lib/exit-codes.mjs';
+import { EXIT, installCrashDoor } from './lib/exit-codes.mjs';
+import { requirePopulation } from './lib/check-result.mjs';
+
+installCrashDoor();
 
 const ROOT = path.resolve(fileURLToPath(new URL('.', import.meta.url)), '..');
 const KNOWLEDGE = path.join(ROOT, 'knowledge');
 const OUT = path.join(ROOT, 'rules');
-const checkOnly = process.argv.includes('--check');
+// A closed flag set, read before the lane: anything but `--check` used to be WRITE mode,
+// which rewrites every card and deletes orphans.
+const USAGE = 'usage: node scripts/build-knowledge-rules.mjs [--check]';
+const ARGS = process.argv.slice(2);
+if (ARGS.includes('--help') || ARGS.includes('-h')) { console.log(USAGE); process.exit(EXIT.OK); }
+const strays = ARGS.filter((a) => a !== '--check');
+if (strays.length) { console.error(`build-knowledge-rules: unknown argument(s) ${strays.join(' ')} - nothing read or written\n${USAGE}`); process.exit(EXIT.FATAL); }
+const checkOnly = ARGS.includes('--check');
 
 if (!fs.existsSync(KNOWLEDGE)) {
   console.error(`FATAL: no knowledge/ lane at ${KNOWLEDGE}. Refusing to write rules that describe nothing.`);
@@ -72,20 +82,23 @@ beside this one listing its subjects.
 The upper two layers carry no repo paths, file extensions or product names, so they apply
 here unchanged. Applications name their stack in the filename.
 
-## Resolving a subject - never construct a path
+## Finding a subject - query first, never construct a path
 
 Bundles are **nested** under \`<category>/[<subcategory>/]<subject>/\` and the shape is
 owned by \`taxonomy.json\`, so a path built from a slug is a path that breaks the next time
-a subject moves. The address is the generated index:
+a subject moves. Ask the front door instead, phrased as the decision you face:
 
-\`\`\`
-<registry>/knowledge/<domain>/index.json  ->  subjects["<slug>"].file
-\`\`\`
+- the \`registry_query\` MCP tool, when this session has it;
+- otherwise \`node <registry>/scripts/registry-query.mjs "<the decision>"\`.
 
-That field is the golden path's real location; its techniques sit in \`techniques/\` beside
-it and its applications in \`applications/\`. The same index carries every technique's
-\`use_when\` triggers, which is what to grep when the right subject is not obvious from the
-slug lists.
+Each hit names a subject, technique or law with its path, a one-line gist and its
+\`use_when\` triggers, under a token budget. Then open ONLY the document a hit names, by
+that path (\`registry_read\`, or the same script with \`--read <path>\`). A golden path's
+techniques sit in \`techniques/\` beside it and its applications in \`applications/\`.
+
+\`<registry>/knowledge/<domain>/index.json\` is the address book scripts read:
+\`subjects["<slug>"].file\` is the golden path's real location. It runs to hundreds of
+thousands of tokens - resolve a field from it with a script; never Read, grep or slice it.
 
 ## When to open one, and what to do with it
 
@@ -144,6 +157,18 @@ const bundles = fs.readdirSync(KNOWLEDGE, { withFileTypes: true })
   .filter((e) => e.isDirectory() && fs.existsSync(path.join(KNOWLEDGE, e.name, 'index.json')))
   .map((e) => e.name).sort();
 
+// Zero bundles is a broken precondition, not a current rule set. Unguarded, `--check` on
+// an empty lane compared the access rule alone, called it current and exited 0, while
+// write mode deleted every per-bundle rule as an orphan.
+{
+  const floor = requirePopulation(bundles.length, 'bundles with an index.json under knowledge/');
+  if (floor.code !== EXIT.OK) {
+    console.error(`FATAL: build-knowledge-rules ${floor.reason}`);
+    console.error('  Run `node scripts/build-index.mjs` first; refusing to report rules for an empty lane.');
+    process.exit(EXIT.FATAL);
+  }
+}
+
 const files = new Map([['ai-registry-access.md', ACCESS]]);
 
 for (const b of bundles) {
@@ -158,10 +183,15 @@ for (const b of bundles) {
     console.error('  Run `node scripts/build-index.mjs` and fix the bundle before rebuilding rules.');
     process.exit(EXIT.FATAL);
   }
+  // Read exactly as build-catalog's readFm reads it - inside the frontmatter only, trailing
+  // ` # comment` and surrounding quotes stripped - so the card and the catalog cannot print
+  // two different titles for one bundle. It used to match the key anywhere in the file.
   const title = (() => {
     const im = path.join(KNOWLEDGE, b, 'index.md');
-    const m = fs.existsSync(im) ? fs.readFileSync(im, 'utf8').match(/^okf_bundle_title:\s*(.+)$/m) : null;
-    return m ? m[1].trim() : b;
+    const fm = fs.existsSync(im) ? fs.readFileSync(im, 'utf8').match(/^---\r?\n([\s\S]*?)\r?\n---/) : null;
+    const m = fm ? fm[1].match(/^okf_bundle_title:\s*(.+?)\r?$/m) : null;
+    const v = m ? m[1].replace(/\s+#.*$/, '').trim().replace(/^["']|["']$/g, '') : '';
+    return v || b;
   })();
   // Group subjects by category, preserving the index's own category order.
   const byCat = new Map((idx.meta.categories ?? []).map((c) => [c, new Map()]));
@@ -176,7 +206,10 @@ for (const b of bundles) {
     `# ${title} - the subjects this registry carries`,
     '',
     `\`${b}\` - ${idx.meta.subjects} subjects, ${idx.meta.techniques} techniques, ${idx.meta.applications} applications.`,
-    'Slugs only; resolve one through `index.json` as the access rule beside this file describes.',
+    // This card loads beside the access rule, so it must not contradict it: a slug is opened
+    // through the front door (`registry_subject` is built for "a rule's slug list"), and
+    // index.json is the address book scripts read, never a document an agent opens.
+    'Slugs only; open one with `registry_subject` (or `node <registry>/scripts/registry-query.mjs --subject <slug>`), never by reading `index.json` - the access rule beside this file describes the loop.',
     '',
   ];
   for (const [cat, subs] of byCat) {

@@ -110,13 +110,24 @@ export function pickNarrator(voices) {
   return best;
 }
 
-async function listVoices(apiKey) {
-  const res = await fetch(`${API}/voices`, { headers: { 'xi-api-key': apiKey } });
-  if (!res.ok) {
-    const body = await res.text().catch(() => '');
-    fail(3, `GET /v1/voices failed: ${res.status} ${res.statusText} ${body.slice(0, 300)}`);
+// A voice-list GET is small and quick; a minute with no answer is a stalled provider, not a
+// slow one (the long-running POSTs have their own, longer deadline in postAudio).
+const VOICES_TIMEOUT_MS = 60000;
+
+async function listVoices(apiKey, timeoutMs = VOICES_TIMEOUT_MS) {
+  const signal = AbortSignal.timeout(timeoutMs);
+  let json;
+  try {
+    const res = await fetch(`${API}/voices`, { headers: { 'xi-api-key': apiKey }, signal });
+    if (!res.ok) {
+      const body = await res.text().catch(() => '');
+      fail(3, `GET /v1/voices failed: ${res.status} ${res.statusText} ${body.slice(0, 300)}`);
+    }
+    json = await res.json();
+  } catch (err) {
+    if (signal.aborted) fail(3, `GET /v1/voices: no response within ${timeoutMs} ms`);
+    throw err;
   }
-  const json = await res.json();
   const voices = Array.isArray(json.voices) ? json.voices : [];
   if (voices.length === 0) fail(3, 'the account library returned no voices');
   return voices;
@@ -229,9 +240,14 @@ export async function main(argv = process.argv.slice(2)) {
   }
 
   if (args.dry) {
+    // Without a voice id nothing could be verified, which is not the same as stale: the clips
+    // were made under a voice this shell cannot see (ELEVENLABS_VOICE_ID unset here). Keep their
+    // records, timed by estimate, so the next run that has the voice finds them current instead
+    // of paying to synthesise every line again. Only records whose file still exists are kept.
+    const kept = voice ? {} : Object.fromEntries(Object.entries(prior.clips).filter(([, c]) => existsSync(path.join(filmDir, c.file))));
     const manifest = await writeManifest(
       filmDir,
-      { clips, music: prior.music, estimated: script.beats.filter((b) => !clips[b.id]).map((b) => b.id) },
+      { clips: { ...kept, ...clips }, music: prior.music, estimated: script.beats.filter((b) => !clips[b.id]).map((b) => b.id) },
       AudioManifest,
     );
     console.log(`dry run: ${todo.length} clip(s) to synthesise, ElevenLabs characters it WOULD spend: ${chars} (budget ${args.budget})`);

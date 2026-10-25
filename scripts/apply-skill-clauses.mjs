@@ -36,6 +36,13 @@
  * `## Skill Reflection` section (which is always the last section) or is appended;
  * `knowledge-sync` is inserted directly above the reflection block so reflection stays last.
  *
+ * Exactly once: every clause a skill carries appears as ONE open marker, ONE close marker
+ * and ONE `## Heading` line (fenced code excluded). The 2026-10-25 gates probe planted a
+ * second stamped block and an unmarked copy of the heading; both passed `--check`, because
+ * the comparison read only the first marked block, and a reader of the skill would follow
+ * whichever copy came second. A count other than one is a problem (exit 1) in both modes,
+ * and that skill is not rewritten - the script will not guess which copy is meant.
+ *
  * Fail-loud: an empty lane, a missing template, or a template whose first line is not a
  * `## ` heading is FATAL (exit 2), never a green no-op.
  */
@@ -43,15 +50,27 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { parseFrontmatter, parseSemver, SKILL_FILE } from './lib/skills-lane.mjs';
+import { EXIT, installCrashDoor } from './lib/exit-codes.mjs';
+
+installCrashDoor();
 
 const ROOT = path.resolve(fileURLToPath(new URL('.', import.meta.url)), '..');
 const LANE = path.join(ROOT, 'skills');
 const TEMPLATES = path.join(ROOT, 'docs', 'skill-clauses');
 const argv = process.argv.slice(2);
+// A closed flag set: anything unrecognised used to be WRITE mode (every stale skill restamped).
+const USAGE = 'usage: node scripts/apply-skill-clauses.mjs [--check] [--bump minor|patch]';
+if (argv.includes('--help') || argv.includes('-h')) { console.log(USAGE); process.exit(EXIT.OK); }
 const checkOnly = argv.includes('--check');
 const bumpIdx = argv.indexOf('--bump');
 const bump = bumpIdx === -1 ? null : argv[bumpIdx + 1];
-if (bump && !['minor', 'patch'].includes(bump)) { console.error(`FATAL: --bump takes minor|patch, got "${bump}"`); process.exit(2); }
+{
+  const strays = argv.filter((a, i) => a !== '--check' && a !== '--bump' && !(bumpIdx !== -1 && i === bumpIdx + 1));
+  if (strays.length) { console.error(`apply-skill-clauses: unknown argument(s) ${strays.join(' ')} - nothing read or written\n${USAGE}`); process.exit(EXIT.FATAL); }
+}
+// Keyed on the FLAG, not on its value: a bare `--bump` used to read as "no bump requested"
+// and stamped every skill with its version left where it was, exit 0.
+if (bumpIdx !== -1 && !['minor', 'patch'].includes(bump)) { console.error(`FATAL: --bump takes minor|patch, got ${bump === undefined ? 'no level' : `"${bump}"`}`); process.exit(EXIT.FATAL); }
 
 /**
  * Which clause goes where. `all: true` = every skill in the lane. `skills: [...]` = the
@@ -71,16 +90,16 @@ const CLAUSES = [
 const skills = fs.readdirSync(LANE, { withFileTypes: true })
   .filter((e) => e.isDirectory() && fs.existsSync(path.join(LANE, e.name, SKILL_FILE)))
   .map((e) => e.name).sort();
-if (skills.length === 0) { console.error('FATAL: the lane parsed to zero skills - the reader is broken.'); process.exit(2); }
+if (skills.length === 0) { console.error('FATAL: the lane parsed to zero skills - the reader is broken.'); process.exit(EXIT.FATAL); }
 
 const templates = {};
 for (const c of CLAUSES) {
   const file = path.join(TEMPLATES, `${c.id}.md`);
-  if (!fs.existsSync(file)) { console.error(`FATAL: template missing: ${path.relative(ROOT, file)}`); process.exit(2); }
+  if (!fs.existsSync(file)) { console.error(`FATAL: template missing: ${path.relative(ROOT, file)}`); process.exit(EXIT.FATAL); }
   const text = fs.readFileSync(file, 'utf8').replace(/\r\n/g, '\n').trimEnd();
-  if (!/^## \S/.test(text)) { console.error(`FATAL: ${c.id}.md must start with its "## Heading" line`); process.exit(2); }
+  if (!/^## \S/.test(text)) { console.error(`FATAL: ${c.id}.md must start with its "## Heading" line`); process.exit(EXIT.FATAL); }
   templates[c.id] = text;
-  for (const s of c.skills ?? []) if (!skills.includes(s)) { console.error(`FATAL: clause ${c.id} names unknown skill "${s}"`); process.exit(2); }
+  for (const s of c.skills ?? []) if (!skills.includes(s)) { console.error(`FATAL: clause ${c.id} names unknown skill "${s}"`); process.exit(EXIT.FATAL); }
 }
 
 const openMarker = (c) => `<!-- clause: ${c.id} v${c.version} - stamped by scripts/apply-skill-clauses.mjs from docs/skill-clauses/${c.id}.md; edit the template, then re-stamp -->`;
@@ -90,6 +109,26 @@ const blockRe = (c) => new RegExp(`<!-- clause: ${c.id} v\\d+ [^\\n]*-->\\n[\\s\
 const heading = (c) => templates[c.id].split('\n')[0];
 
 const wants = (c, name) => c.all || c.skills.includes(name);
+
+/** Lines outside fenced code: a heading quoted in an example is not a section. */
+const outsideFences = (text) => {
+  let fence = null;
+  return text.split('\n').filter((line) => {
+    const m = /^\s*(`{3,}|~{3,})/.exec(line);
+    if (m) {
+      if (!fence) fence = m[1][0];
+      else if (m[1][0] === fence) fence = null;
+      return false;
+    }
+    return !fence;
+  });
+};
+/** How many times a clause is present: open markers, close markers, heading lines. */
+const occurrences = (text, c) => ({
+  open: (text.match(new RegExp(`<!-- clause: ${c.id} v\\d+ `, 'g')) ?? []).length,
+  close: text.split(closeMarker(c)).length - 1,
+  heading: outsideFences(text).filter((line) => line === heading(c)).length,
+});
 
 const problems = [];
 let changed = 0;
@@ -104,7 +143,8 @@ for (const name of skills) {
     const block = render(c, name);
     const existing = text.match(blockRe(c));
     if (existing) {
-      if (existing[0] !== block) text = text.replace(existing[0], block);
+      // A function replacement: a string one would expand `$&`, `$'`, `$$` in template prose.
+      if (existing[0] !== block) text = text.replace(existing[0], () => block);
       continue;
     }
     if (c.id === 'skill-reflection') {
@@ -132,6 +172,18 @@ for (const name of skills) {
   // A skill that is NOT in a clause's set must not carry that clause (a stale opt-in).
   for (const c of CLAUSES) if (!wants(c, name) && blockRe(c).test(text)) problems.push(`${name}: carries clause ${c.id} but is not in its set`);
 
+  // Exactly once. Checked on the stamped text, so a legacy section the stamp just replaced
+  // counts as replaced, and a second copy anywhere still counts.
+  let duplicated = false;
+  for (const c of CLAUSES) {
+    if (!wants(c, name)) continue;
+    const n = occurrences(text, c);
+    if (n.open === 1 && n.close === 1 && n.heading === 1) continue;
+    duplicated = true;
+    problems.push(`${name}: clause ${c.id} must appear exactly once - found ${n.open} open marker(s), ${n.close} close marker(s), ${n.heading} "${heading(c)}" heading(s)`);
+  }
+  if (duplicated) continue;
+
   const next = text.replace(/\n/g, eol);
   if (next === original) continue;
   changed += 1;
@@ -155,5 +207,5 @@ console.log(`apply-skill-clauses: ${skills.length} skill(s), ${CLAUSES.length} c
 if (problems.length) {
   console.error(`\n${problems.length} problem(s):`);
   for (const p of problems) console.error(`  - ${p}`);
-  process.exit(1);
+  process.exit(EXIT.VIOLATIONS);
 }

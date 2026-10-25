@@ -40,6 +40,14 @@ export const SWEEP_LENS = {
   i18n: ['copy-auditor'],
 };
 
+// The current scan-sweep lenses that mark NO explorer lens as run, named so that a lens added to
+// scan-sweep's references/lenses.md is a decision here rather than a silent absence (a test reads
+// lenses.md and requires every non-challenge key in exactly one of SWEEP_LENS or this list).
+export const SWEEP_NO_ANALOGUE = [
+  'onboarding-designer', 'feature-scout', 'monetization-advisor', 'analytics-planner', 'growth-hacker',
+  'business-strategist', 'innovation-catalyst', 'risk-assessor', 'integration-planner', 'registry-conformance',
+];
+
 // lens-scan lens id -> explorer category.
 export const LENS_SCAN = { security: 'sec', design: 'ui', development: 'quality', accessibility: 'a11y', performance: 'perf' };
 

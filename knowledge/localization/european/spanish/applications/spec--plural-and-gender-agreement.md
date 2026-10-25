@@ -5,6 +5,7 @@ subject: spanish
 technique: plural-and-gender-agreement
 stack: spec
 source: unicode-org/cldr@release-48-2
+counterpart: external
 status: forged
 verified_on: 2026-08-29
 ---

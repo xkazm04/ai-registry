@@ -57,19 +57,40 @@ import { execFileSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 import { walkSubjects } from './lib/taxonomy.mjs';
 import { scanVolatile, volatileScore } from './lib/volatile-facts.mjs';
+import { WINDOW_DAYS, DEFAULT_WINDOW_DAYS, clockOf } from './lib/currency-clock.mjs';
 
 const ROOT = path.resolve(fileURLToPath(new URL('.', import.meta.url)), '..');
 const KNOWLEDGE = path.join(ROOT, 'knowledge');
 const SIGNALS = path.join(ROOT, 'signals');
 
+// A closed flag set. `--fail-on-expired` is the only thing that turns this report into a
+// failure, so a mistyped flag that ran the plain report and exited 0 was a scheduled run
+// that could never go red. Unknown arguments, value flags without a value, and the two
+// --volatile modifiers given without --volatile are refused before anything is read.
 const argv = process.argv.slice(2);
-const asJson = argv.includes('--json');
-const failOnExpired = argv.includes('--fail-on-expired');
-const volatileMode = argv.includes('--volatile');
-const argAfter = (flag) => {
-  const i = argv.indexOf(flag);
-  return i === -1 ? null : argv[i + 1] ?? null;
+const usage = (msg) => {
+  console.error(`check-currency FATAL: ${msg}.`);
+  console.error('Usage: check-currency.mjs [--json] [--horizon <days>] [--fail-on-expired] [--volatile [--subject <slug>] [--top <n>]]');
+  process.exit(2);
 };
+const SWITCHES = new Set(['--json', '--fail-on-expired', '--volatile']);
+const VALUED = new Set(['--horizon', '--subject', '--top']);
+const given = {};
+for (let i = 0; i < argv.length; i++) {
+  const a = argv[i];
+  if (SWITCHES.has(a)) { given[a] = true; continue; }
+  if (!VALUED.has(a)) usage(`unknown argument ${JSON.stringify(a)}`);
+  const v = argv[++i];
+  if (v === undefined || v.startsWith('--')) usage(`${a} needs a value`);
+  given[a] = v;
+}
+for (const f of ['--subject', '--top']) {
+  if (given[f] !== undefined && !given['--volatile']) usage(`${f} applies only with --volatile`);
+}
+const asJson = Boolean(given['--json']);
+const failOnExpired = Boolean(given['--fail-on-expired']);
+const volatileMode = Boolean(given['--volatile']);
+const argAfter = (flag) => given[flag] ?? null;
 const volatileSubject = argAfter('--subject');
 const volatileTop = (() => {
   const raw = argAfter('--top');
@@ -82,64 +103,24 @@ const volatileTop = (() => {
   return n;
 })();
 const horizonDays = (() => {
-  const i = argv.indexOf('--horizon');
-  if (i === -1) return 30;
-  const n = Number(argv[i + 1]);
+  const raw = argAfter('--horizon');
+  if (raw === null) return 30;
+  const n = Number(raw);
   if (!Number.isInteger(n) || n < 0) {
-    console.error(`check-currency FATAL: --horizon needs a non-negative integer, got ${JSON.stringify(argv[i + 1])}`);
+    console.error(`check-currency FATAL: --horizon needs a non-negative integer, got ${JSON.stringify(raw)}`);
     process.exit(2);
   }
   return n;
 })();
 
-/**
- * How long a citation against each stack stays plausible without a re-check.
- *
- * These are FLOORS, not measurements. The reasoning is how fast the surface underneath a
- * citation moves: a UI framework and its ecosystem churn fastest, a systems runtime is
- * slower and its breaking changes are louder, and the SQL surface a document is likely to
- * cite barely moves at all. `process` gets NO clock - a methodology does not expire on a
- * vendor's release schedule, and giving it one would generate noise that trains people to
- * ignore the report.
- *
- * Tune these here, in one place. A document that knows better carries its own `refresh_by`.
- */
-const WINDOW_DAYS = {
-  react: 183,
-  // A server-rendering web framework on an active security patch line. Half the react
-  // window, and the reason is not churn but exposure: a citation against this stack is
-  // routinely a claim about a default that a PATCH release can retire (supply-chain /
-  // update-automation-review, "When the dependency is the framework"). This clock
-  // protects the fleet, not the prose.
-  next: 90,
-  node: 183,
-  rust: 274,
-  sql: 365,
-  process: null,
-  // The external-reconcile lane's two non-runtime stacks (docs/reconcile-brief.md,
-  // "Instrument changes the extension needs"). A `spec` application is realized by a
-  // clause in a pinned specification edition and a `data` one by a pinned dataset
-  // snapshot; neither has a runtime to drift against, so both take `process`'s null
-  // clock. The pin is the currency statement, and it is in the document's prose.
-  //
-  // Null rather than absent, and the distinction is load-bearing: an ABSENT stack falls
-  // to DEFAULT_WINDOW_DAYS below, and - worse - reads as runtime-bearing everywhere this
-  // file tests `WINDOW_DAYS[stack] !== null`, because `undefined !== null`. A stack left
-  // undeclared here would report every one of its applications as drift-blind for want
-  // of a `verified_against` the lane forbids it to carry.
-  spec: null,
-  data: null,
-};
-const DEFAULT_WINDOW_DAYS = 183;
+// WINDOW_DAYS, DEFAULT_WINDOW_DAYS and the clock itself live in lib/currency-clock.mjs, shared
+// with librarian-scan so the two tools cannot disagree about what has expired.
 
-const DAY = 86400000;
 // UTC, deliberately. Contributors are in many timezones and a shared registry cannot have
 // a "today" that depends on who is looking. `verified_on` values backfilled from git carry
 // local dates, so the two can differ by a day at the boundary - which is exactly what the
 // bundle gate's one-day slack on `verified_on` absorbs.
 const today = new Date().toISOString().slice(0, 10);
-const addDays = (iso, days) => new Date(Date.parse(`${iso}T00:00:00Z`) + days * DAY).toISOString().slice(0, 10);
-const daysBetween = (a, b) => Math.round((Date.parse(`${b}T00:00:00Z`) - Date.parse(`${a}T00:00:00Z`)) / DAY);
 
 // ---------------------------------------------------------------- inputs
 if (!fs.existsSync(KNOWLEDGE)) {
@@ -184,19 +165,9 @@ for (const domain of domains) {
     for (const f of fs.readdirSync(aDir).filter((x) => x.endsWith('.md')).sort()) {
       const fm = frontmatter(path.join(aDir, f)) ?? {};
       const stack = fm.stack ?? 'unknown';
-      const window = stack in WINDOW_DAYS ? WINDOW_DAYS[stack] : DEFAULT_WINDOW_DAYS;
       const verifiedOn = fm.verified_on ?? null;
-
-      // Explicit override beats derivation; `process` has no derived clock at all.
-      let expiresOn = null;
-      let clockSource = 'none';
-      if (fm.refresh_by) {
-        expiresOn = fm.refresh_by;
-        clockSource = 'refresh_by';
-      } else if (verifiedOn && window !== null) {
-        expiresOn = addDays(verifiedOn, window);
-        clockSource = 'derived';
-      }
+      // Explicit refresh_by beats derivation; `process` has no derived clock at all.
+      const { expiresOn, clockSource, daysLeft } = clockOf(fm, today);
 
       apps.push({
         // Identity, by slug — never the path. This id is what the signals lane's
@@ -207,9 +178,13 @@ for (const domain of domains) {
         stack,
         verifiedOn,
         verifiedAgainst: fm.verified_against ?? null,
+        // `counterpart: external` documents a FOREIGN tree (the reconcile lane). Its stack
+        // is the counterpart's runtime, not a consumer's, so it carries no version witness
+        // by rule (docs/reconcile-brief.md) and must not count as drift we cannot compute.
+        external: fm.counterpart === 'external',
         expiresOn,
         clockSource,
-        daysLeft: expiresOn ? daysBetween(today, expiresOn) : null,
+        daysLeft,
       });
     }
   }
@@ -284,7 +259,8 @@ const versionWitness = apps.filter((a) => a.verifiedAgainst).length;
 // One folder, two rotted documents, one uncounted. So `drift.length` is a LOWER BOUND
 // over the witnessed slice, never a count over the corpus, and the report now says so
 // unconditionally instead of only in the all-zero case.
-const runtimeBearing = apps.filter((a) => WINDOW_DAYS[a.stack] !== null);
+const runtimeBearing = apps.filter((a) => WINDOW_DAYS[a.stack] !== null && !a.external);
+const externalCounterparts = apps.filter((a) => a.external).length;
 const driftUnknown = runtimeBearing.filter((a) => !a.verifiedAgainst);
 
 const perDomain = domains.map((d) => {
@@ -301,7 +277,7 @@ const perDomain = domains.map((d) => {
     // Runtime-bearing here, minus the witnessed ones: how much of this bundle's drift is
     // uncomputable. A bundle where this equals its runtime-bearing count has no drift
     // information at all, which is a different statement from having no drift.
-    driftUnknown: mine.filter((a) => WINDOW_DAYS[a.stack] !== null && !a.verifiedAgainst).length,
+    driftUnknown: mine.filter((a) => WINDOW_DAYS[a.stack] !== null && !a.external && !a.verifiedAgainst).length,
     oldestVerifiedOn: oldest,
     // "unknown", never "current" - a bundle nobody reports on has not been checked, and
     // saying otherwise is the exact dishonesty catalog.json avoids with invokes30d.
@@ -412,6 +388,7 @@ if (asJson) {
           versionWitness,
           runtimeBearing: runtimeBearing.length,
           driftUnknown: driftUnknown.length,
+          externalCounterparts,
           contributors: contributors.length,
         },
         domains: perDomain,

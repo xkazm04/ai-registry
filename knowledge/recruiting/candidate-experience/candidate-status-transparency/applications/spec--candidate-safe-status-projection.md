@@ -8,6 +8,7 @@ status: forged
 verified_on: 2026-09-28
 refresh_by: 2027-03-28
 source: W3C/TAG-capability-urls-2014+OWASP/query-string-exposure+UK-ICO/subject-access-guide+EU/GDPR-Art15
+counterpart: external
 ---
 
 # The status link as a capability URL, and what it is not

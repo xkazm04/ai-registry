@@ -7,6 +7,7 @@ stack: python
 status: forged
 verified_on: 2026-09-15
 source: vibrantlabsai/ragas
+counterpart: external
 ---
 
 # Python: ragas ships the omission leak as its default exemplar, and trusts the verifier's count

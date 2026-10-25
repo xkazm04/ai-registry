@@ -24,7 +24,7 @@ import { readFileSync, writeFileSync, mkdirSync, readdirSync } from "fs";
 import { dirname, resolve, join, basename } from "path";
 import { vectorize, ColorMode, Hierarchical, PathSimplifyMode } from "@neplex/vectorizer";
 import { optimize } from "svgo";
-import { svgToGlyphData } from "./emit-glyph.mjs";
+import { glyphOptions, svgToGlyphData } from "./emit-glyph.mjs";
 
 function parseArgs(argv) {
   const a = {};
@@ -73,14 +73,7 @@ async function main() {
     const key = basename(f).replace(/\.(png|jpg|jpeg|webp)$/i, "").replace(/-flat$/, "");
     const svg = await traceOne(readFileSync(join(dir, f)), args);
     // Reuse the same core → { viewBox, data }; strip the module wrapper, keep the array.
-    const { ts, elements } = svgToGlyphData(svg, {
-      name: "_TMP",
-      order: args.order,
-      whiteKeep: args["white-keep"] ? Number(args["white-keep"]) : undefined,
-      surfaceFill: surfaceFills[key] ?? null,
-      surfaceTolerance: args["surface-tolerance"] ? Number(args["surface-tolerance"]) : undefined,
-      slabMinArea: args["slab-min-area"] ? Number(args["slab-min-area"]) : null,
-    });
+    const { ts, elements } = svgToGlyphData(svg, glyphOptions(args, { name: "_TMP", surfaceFill: surfaceFills[key] ?? null }));
     // These two regexes ARE the contract with emit-glyph.mjs's writer, and they went
     // stale when it stopped emitting a bare array plus a separate `_VIEWBOX` const and
     // started emitting one `TracedGlyph` object: `.exec(ts)` returned null and this

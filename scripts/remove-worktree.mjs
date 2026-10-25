@@ -33,7 +33,9 @@ const listed = git(primary, 'worktree', 'list', '--porcelain').split(/\r?\n\r?\n
 const entry = listed.find((b) => { const m = b.match(/^worktree (.+)$/m); return m && path.resolve(m[1]) === wt; });
 if (!entry) refuse(`${wt} is not registered with ${primary}`);
 if (/^locked/m.test(entry)) refuse('worktree is locked');
-const dirty = git(wt, '--no-optional-locks', 'status', '--porcelain');
+// --untracked-files=all is explicit: under status.showUntrackedFiles=no a plain --porcelain
+// prints nothing for new files, the tree reads clean, and their only copy is deleted.
+const dirty = git(wt, '--no-optional-locks', 'status', '--porcelain', '--untracked-files=all');
 if (dirty) refuse(`worktree has uncommitted changes:\n${dirty}`);
 
 const r = removeTree(wt, { dryRun });

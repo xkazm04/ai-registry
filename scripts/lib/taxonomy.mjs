@@ -106,7 +106,15 @@ export function loadTaxonomy(bundleDir, bundleName) {
     );
   }
 
-  const orders = cats.map((c) => c.order);
+  // A missing order is its own defect, named as such. It used to fall into the duplicate
+  // test below: one category without `order` passed, two were "duplicate order values",
+  // which sends the reader to renumber a field that is not there.
+  for (const c of cats) {
+    if (!Number.isInteger(c.order)) {
+      errors.push(`${rel}: category ${JSON.stringify(c.id)} has no integer order — order is the display sequence, and every category declares one`);
+    }
+  }
+  const orders = cats.map((c) => c.order).filter(Number.isInteger);
   if (new Set(orders).size !== orders.length) {
     errors.push(`${rel}: duplicate order values — order is the display sequence and must be unique`);
   }

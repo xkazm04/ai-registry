@@ -1,12 +1,33 @@
 #!/usr/bin/env node
+/**
+ * render-recipes - write each recipe's RECIPE.md, the human view of its recipe.json.
+ *
+ * Why it exists: recipe.json is the source of truth and a person browsing the lane reads the
+ * rendered view, so the view must be DERIVED (lib/recipe-render.mjs) and checked for drift
+ * (`--check`, run by gate.mjs and by check-recipes), never edited by hand. Every input is
+ * parsed before anything is written, so malformed source cannot leave a partial render.
+ *
+ *   node scripts/render-recipes.mjs           # write stale views
+ *   node scripts/render-recipes.mjs --check   # report stale views, write nothing (exit 1)
+ *
+ * Any other argument is refused (exit 2) before anything is read: a typo'd `--check` used to
+ * fall through to the write mode, which repairs a stale view instead of failing on it.
+ */
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { renderRecipe } from './lib/recipe-render.mjs';
 import { sameIgnoringNewlines } from './lib/bundle-hash.mjs';
-import { EXIT } from './lib/exit-codes.mjs';
+import { EXIT, installCrashDoor } from './lib/exit-codes.mjs';
+
+installCrashDoor();
 
 const root = fileURLToPath(new URL('../', import.meta.url));
+const unknown = process.argv.slice(2).filter((a) => a !== '--check');
+if (unknown.length) {
+  console.error(`render-recipes FATAL: unknown argument ${JSON.stringify(unknown[0])} - the only flag is --check. Nothing was written.`);
+  process.exit(EXIT.FATAL);
+}
 const check = process.argv.includes('--check');
 const dirs = (dir) => fs.readdirSync(dir, {withFileTypes:true}).filter((e) => e.isDirectory() && !e.name.startsWith('.')).map((e) => e.name).sort();
 try {

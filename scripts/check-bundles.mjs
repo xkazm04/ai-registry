@@ -24,6 +24,9 @@ import { fileURLToPath } from 'node:url';
 // index builder MUST agree on where a subject lives — if they disagreed, the gate would
 // pass a tree the index describes incorrectly, in the one file consumers actually read.
 import { loadTaxonomy, walkSubjects, MAX_CHILD_DIRS } from './lib/taxonomy.mjs';
+import { installCrashDoor } from './lib/exit-codes.mjs';
+
+installCrashDoor();
 
 // Derived from this file's own location, never hardcoded — a gate that only runs on one
 // machine is not a gate.
@@ -54,29 +57,42 @@ if (bundles.length === 0) {
 // Minimal YAML-subset frontmatter parser: scalars, `- item` lists, inline [a, b], trailing
 // ` # comment` stripped. Anything fancier than that in a frontmatter block is a contract
 // violation anyway, and a real YAML parser would accept things this profile forbids.
+//
+// It is also STRICT about what it cannot read, and says so in `problems`. It used to skip
+// any line it did not recognise, keep the last of two duplicate keys, and read an unclosed
+// `[a, b` as a list: three ways for a document to say something the gate never saw (the
+// 2026-10-25 gates scan planted all three and the gate stayed green). A line the parser
+// skips is a line no check below has examined, so it is a finding, not whitespace.
 const parseFrontmatter = (raw) => {
   const m = raw.match(/^---\r?\n([\s\S]*?)\r?\n---\r?\n?/);
   if (!m) return null;
   const fm = {};
+  const problems = [];
   let currentKey = null;
   for (const line of m[1].split(/\r?\n/)) {
+    if (/^\s*(?:#.*)?$/.test(line)) continue; // blank or a whole-line comment
     const item = line.match(/^\s+-\s+(.*)$/);
     if (item && currentKey) {
       fm[currentKey].push(item[1].replace(/\s+#.*$/, '').trim());
       continue;
     }
     const kv = line.match(/^([A-Za-z_][A-Za-z0-9_-]*):\s*(.*)$/);
-    if (!kv) continue;
+    if (!kv) {
+      problems.push(`frontmatter line ${JSON.stringify(line.slice(0, 60))} is not a key, list item or comment — the parser cannot read it, so no check has examined it`);
+      continue;
+    }
     const [, key, valRaw] = kv;
+    if (Object.hasOwn(fm, key)) problems.push(`frontmatter declares duplicate key "${key}" — only one of the two values would be checked`);
     const val = valRaw.replace(/\s+#.*$/, '').trim();
     if (val === '') { fm[key] = []; currentKey = key; }
     else if (val === '[]') { fm[key] = []; currentKey = null; }
     else if (val.startsWith('[')) {
+      if (!val.endsWith(']')) problems.push(`frontmatter key "${key}" opens an unclosed [ list`);
       fm[key] = val.replace(/^\[|\]$/g, '').split(',').map((s) => s.trim()).filter(Boolean);
       currentKey = null;
     } else { fm[key] = val.replace(/^["']|["']$/g, ''); currentKey = null; }
   }
-  return { fm, body: raw.slice(m[0].length) };
+  return { fm, body: raw.slice(m[0].length), problems };
 };
 
 const LAYERS = new Set(['golden-path', 'technique', 'application']);
@@ -113,12 +129,38 @@ const DATE_RE = /^\d{4}-\d{2}-\d{2}$/;
 // something that read the cited tree, so it is emitted going forward rather than
 // backfilled. Its absence is reported by check-currency as "no version witness".
 const VERIFIED_AGAINST_RE = /^[a-z0-9][a-z0-9-]*@\d+(?:\.\d+){0,2}$/;
+// Stacks with no runtime, so no version for `verified_against` to witness: a methodology
+// (`process`), a pinned specification clause (`spec`) and a pinned dataset snapshot
+// (`data`, docs/reconcile-brief.md). The same three are the null clocks in
+// check-currency.mjs's WINDOW_DAYS; this gate refused the field on `process` only.
+const NO_RUNTIME_STACKS = new Set(['process', 'spec', 'data']);
+// `counterpart: external` marks an application that documents a foreign tree, specification
+// or record (docs/reconcile-brief.md) rather than a consumer's own runtime. `source:` cannot
+// carry that distinction, since consumer applications write it too, so the marker is its
+// own field. The rule it exists for: `verified_against` witnesses a consumer's runtime, so on
+// an external application check-currency would count a foreign tree's version as one (14 of
+// the 67 `source:` applications did, 2026-10-25). `external` is the only declared value.
+const COUNTERPART_VALUES = new Set(['external']);
 // One day of slack: contributors are in many timezones and a clock skew must not be a
 // build failure.
 const TOMORROW = new Date(Date.now() + 86400000).toISOString().slice(0, 10);
 
-// The evidence keys that must never appear in a published file (rkb-profile §5).
+// The evidence keys that must never appear in a published file (rkb-profile §5). "Any
+// published file" is literal: every frontmatter block under knowledge/ (index.md, _laws.md
+// and log.md, not only concept documents) and every key at any depth of every JSON file.
+// The gate once checked concept frontmatter only, and a key planted in index.md or
+// taxonomy.json published unremarked.
 const LEAK_KEYS = ['evidence', 'counter_evidence', 'deviations'];
+// The consumer overlay is `.evidence.local.md`. The same file without its dot is the
+// overlay about to be published.
+const OVERLAY_NAME_RE = /evidence\.local/i;
+// What is LOCAL is what .gitignore ignores, and nothing wider: `**/.*.local.md` and
+// `**/.*.local.json`. Every walk here used to skip any dot-prefixed name as "a local
+// overlay", but only those two shapes are ignored, so a tracked `.notes.md` or `.drafts/`
+// inside a subject was published and read by no check - no leaf rule, no leak rule, no
+// file health. The gate's idea of "not published" must be the ignore file's, or the gap
+// between the two is a door.
+const isLocalOverlay = (name) => /^\.[^/]*\.local\.(?:md|json)$/.test(name);
 
 // Purity denylists per domain. The upper two layers must survive transplant to an
 // unrelated codebase, and these patterns are the statically checkable floor of that —
@@ -403,12 +445,8 @@ for (const domain of bundles) {
     }
     if (fm.status && !STATUSES.has(fm.status)) fail(`${rel}: unknown status "${fm.status}"`);
 
-    // The leak gate: evidence keys never publish.
-    for (const k of LEAK_KEYS) {
-      if (k in fm) {
-        fail(`${rel}: published frontmatter declares "${k}" — evidence belongs in the consumer's gitignored overlay (rkb-profile §5)`);
-      }
-    }
+    // The leak gate and the parser's own problems are reported by the sweep over every
+    // frontmatter block in the lane (below), which covers this file too.
 
     if (expect === 'golden-path' || expect === 'technique') {
       for (const [re, what] of purity) {
@@ -429,6 +467,27 @@ for (const domain of bundles) {
     const here = `knowledge/${domain}/${found.get(slug)}`;
     const gpFile = path.join(sdir, `${slug}.md`);
     if (!fs.existsSync(gpFile)) { fail(`${here}/ has no ${slug}.md golden path`); continue; }
+
+    // A subject folder is a leaf (rkb-profile §2.1): its golden path, techniques/ and
+    // applications/, and nothing else; the two lanes hold markdown and no folders. The
+    // subject walk stops at a subject, and every check below reads only the names it
+    // expects, so anything else here was invisible: a stray note, a drafts/ folder or a
+    // techniques/old/ copy published unread. Only the gitignored overlay shapes
+    // (`.evidence.local.md`, see isLocalOverlay) are local; any other dot entry is
+    // published and is held to the same rule.
+    for (const e of fs.readdirSync(sdir, { withFileTypes: true })) {
+      if (e.isFile() && isLocalOverlay(e.name)) continue;
+      if (e.isFile() && e.name === `${slug}.md`) continue;
+      if (e.isDirectory() && (e.name === 'techniques' || e.name === 'applications')) {
+        for (const x of fs.readdirSync(path.join(sdir, e.name), { withFileTypes: true })) {
+          if (x.isFile() && isLocalOverlay(x.name)) continue;
+          if (x.isDirectory()) fail(`${here}/${e.name}/${x.name}/ is a folder inside ${e.name}/ — the lane holds documents only, so nothing reads it`);
+          else if (!x.name.endsWith('.md')) fail(`${here}/${e.name}/${x.name} is not markdown — ${e.name}/ holds .md documents only`);
+        }
+        continue;
+      }
+      fail(`${here}/${e.name}${e.isDirectory() ? '/' : ''} breaks the subject leaf rule — a subject holds only ${slug}.md, techniques/ and applications/ (rkb-profile §2.1)`);
+    }
     const gp = readNode(gpFile, 'golden-path');
     if (!gp) continue;
     if (gp.subject !== slug) fail(`${here}/${slug}.md: subject "${gp.subject}" ≠ folder "${slug}"`);
@@ -472,6 +531,12 @@ for (const domain of bundles) {
       if (fm.technique !== t) fail(`${here}/techniques/${t}.md: technique "${fm.technique}" ≠ filename "${t}"`);
       for (const law of Array.isArray(fm.laws) ? fm.laws : []) {
         if (!lawAnchors.has(law)) fail(`${here}/techniques/${t}.md: cites unknown law "${law}"`);
+      }
+      // `use_when` is what the query front door ranks a technique on (docs/query-lane.md),
+      // so a technique without it is reachable only by its title. Coverage was 3,825 of
+      // 3,825 when this became required; the rule keeps it there.
+      if (!Array.isArray(fm.use_when) || fm.use_when.length === 0) {
+        fail(`${here}/techniques/${t}.md: no \`use_when\` list — the query front door routes a technique by its triggers, so it is required and non-empty`);
       }
       if (fm.stage !== undefined && !STAGES.has(fm.stage)) {
         fail(`${here}/techniques/${t}.md: unknown stage "${fm.stage}" — one of ${[...STAGES].join(' | ')} (rkb-profile §3.2)`);
@@ -530,9 +595,16 @@ for (const domain of bundles) {
             if (vstack !== fm.stack) {
               fail(`${arel}: verified_against names stack "${vstack}" but this document's stack is "${fm.stack}"`);
             }
-            if (fm.stack === 'process') {
-              fail(`${arel}: a "process" application has no runtime version to be verified against — drop verified_against`);
+            if (NO_RUNTIME_STACKS.has(fm.stack)) {
+              fail(`${arel}: a "${fm.stack}" application has no runtime version to be verified against — drop verified_against`);
             }
+          }
+        }
+        if (fm.counterpart !== undefined) {
+          if (!COUNTERPART_VALUES.has(fm.counterpart)) {
+            fail(`${arel}: counterpart "${fm.counterpart}" is not a declared value — the only one is "external" (rkb-profile §3.1)`);
+          } else if (fm.verified_against !== undefined) {
+            fail(`${arel}: counterpart: external with verified_against "${fm.verified_against}" — that field witnesses a consumer's runtime, not a foreign tree; drop verified_against (docs/reconcile-brief.md)`);
           }
         }
       }
@@ -555,13 +627,29 @@ const walk = (d, out = []) => {
   for (const e of fs.readdirSync(d, { withFileTypes: true })) {
     const p = path.join(d, e.name);
     if (e.isDirectory()) walk(p, out);
-    else if (e.name.endsWith('.md') && !e.name.startsWith('.')) out.push(p);
+    else if (e.name.endsWith('.md') && !isLocalOverlay(e.name)) out.push(p);
   }
   return out;
 };
 
+let frontmatterBlocks = 0;
 for (const f of walk(KNOWLEDGE)) {
-  const src = stripCode(fs.readFileSync(f, 'utf8'));
+  const raw = fs.readFileSync(f, 'utf8');
+  // Every frontmatter block in the lane, not only the concept documents readNode saw:
+  // the leak rule and the parser's own problems apply to index.md, _laws.md and log.md
+  // as much as to a technique.
+  const parsedFm = parseFrontmatter(raw);
+  if (parsedFm) {
+    frontmatterBlocks++;
+    const frel = path.relative(ROOT, f).replace(/\\/g, '/');
+    for (const p of parsedFm.problems) fail(`${frel}: ${p}`);
+    for (const k of LEAK_KEYS) {
+      if (Object.hasOwn(parsedFm.fm, k)) {
+        fail(`${frel}: published frontmatter declares "${k}" — evidence belongs in the consumer's gitignored overlay (rkb-profile §5)`);
+      }
+    }
+  }
+  const src = stripCode(raw);
   for (const m of src.matchAll(/\[[^\]]*\]\(([^)\s]+)\)/g)) {
     let target = m[1];
     if (/^(https?:|mailto:|#)/.test(target)) continue;
@@ -598,7 +686,7 @@ for (const f of walk(KNOWLEDGE)) {
 // attributes file, which enforces them where it can actually be true.
 const walkAll = (d, out = []) => {
   for (const e of fs.readdirSync(d, { withFileTypes: true })) {
-    if (e.name.startsWith('.')) continue; // local overlays are not published
+    if (e.isFile() && isLocalOverlay(e.name)) continue; // gitignored, not published
     const p = path.join(d, e.name);
     if (e.isDirectory()) walkAll(p, out);
     else out.push(p);
@@ -613,6 +701,34 @@ for (const f of walkAll(KNOWLEDGE)) {
   filesScanned++;
   const rel = path.relative(ROOT, f).replace(/\\/g, '/');
   const bytes = fs.readFileSync(f);
+
+  if (OVERLAY_NAME_RE.test(path.basename(f))) {
+    fail(`${rel}: an evidence overlay without its leading dot — \`.evidence.local.md\` is gitignored, this name is published (rkb-profile §5)`);
+  }
+  if (f.endsWith('.json')) {
+    // Evidence keys at any depth of a published JSON file (taxonomy.json, index.json).
+    let doc;
+    try {
+      doc = JSON.parse(bytes.toString('utf8'));
+    } catch (e) {
+      fail(`${rel}: does not parse as JSON (${e.message}) — its keys cannot be checked for evidence`);
+    }
+    const leaks = [];
+    const visit = (v, at) => {
+      if (Array.isArray(v)) v.forEach((x, i) => visit(x, `${at}[${i}]`));
+      else if (v && typeof v === 'object') {
+        for (const [k, x] of Object.entries(v)) {
+          if (LEAK_KEYS.includes(k)) leaks.push(`${at}.${k}`);
+          visit(x, `${at}.${k}`);
+        }
+      }
+    };
+    visit(doc, '$');
+    for (const at of leaks.slice(0, 5)) {
+      fail(`${rel}: published JSON declares "${at.split('.').pop()}" at ${at} — evidence belongs in the consumer's gitignored overlay (rkb-profile §5)`);
+    }
+    if (leaks.length > 5) fail(`${rel}: ${leaks.length - 5} more evidence key(s) not listed`);
+  }
 
   const nul = bytes.indexOf(0);
   if (nul !== -1) {
@@ -664,7 +780,7 @@ for (const s of stats) {
     (s.categories ? ` · ${s.categories} categories` : ''),
   );
 }
-console.log(`${conceptFiles} concept documents · ${linksChecked} links checked · ${filesScanned} files scanned for health`);
+console.log(`${conceptFiles} concept documents · ${frontmatterBlocks} frontmatter blocks swept for leaks · ${linksChecked} links checked · ${filesScanned} files scanned for health`);
 console.log('NOT checked here: evidence resolution (consumer-side, by design — rkb-profile §5)');
 console.log('NOT checkable statically: the live transplant test — only it promotes status to transplant-tested');
 // The purity verdict states its own predicate. The key is a list of LITERAL names, and an

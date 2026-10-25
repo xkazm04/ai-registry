@@ -5,6 +5,7 @@ subject: korean
 technique: spacing-and-typography
 stack: spec
 source: unicode/uax14@17.0.0
+counterpart: external
 status: forged
 verified_on: 2026-08-29
 ---

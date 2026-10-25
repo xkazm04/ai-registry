@@ -15,8 +15,12 @@
  *   - research-ingest.mjs  3 = source too thin (permanent; retrying can never help)
  *   - upstream-check.mjs   3 = rows are due (not a failure at all; a positive finding)
  *
+ * Two more were found later, both permanent-until-something-changes outcomes:
+ * agent-cost-band.mjs (not enough data) and transcript-mirror.mjs (capture paused at its
+ * budget, reached through a computed exit value that the literal scan could not see).
+ *
  * A caller that retries on 3 loops forever on a thin source and treats due upstream rows
- * as an error. Those three are recorded in KNOWN_COLLISIONS below rather than silently
+ * as an error. Those are recorded in KNOWN_COLLISIONS below rather than silently
  * renumbered: changing a live code would break callers mid-flight, and the point of the
  * declaration is that the NEXT meaning cannot be added without a decision.
  *
@@ -66,10 +70,61 @@ export const KNOWN_COLLISIONS = Object.freeze([
     means: 'upstream rows are due (a positive finding, opt-in via --exit-code)',
     conflictsWith: 'CONTENDED, and with the premise that non-zero means trouble',
   },
+  {
+    script: 'agent-cost-band.mjs',
+    code: 3,
+    means: 'not enough data to estimate the band (permanent until more sessions exist - an immediate retry cannot help)',
+    conflictsWith: 'CONTENDED, which is transient and invites a retry',
+  },
+  {
+    script: 'transcript-mirror.mjs',
+    code: 3,
+    means: 'capture paused at the byte budget (reached through a computed exit value, not a literal)',
+    conflictsWith: 'CONTENDED: nothing is held by a sibling, so waiting does not help. Its LOCKED error is a different thing and exits 1; renumbering it onto 3 is a separate decision',
+  },
 ]);
 
 /** Name for a code, for error messages. Returns null for an undeclared value. */
 export function nameOf(code) {
   const hit = Object.entries(EXIT).find(([, v]) => v === code);
   return hit ? hit[0] : null;
+}
+
+/**
+ * Opt-in crash door: a script that dies on an UNCAUGHT throw or rejection leaves through
+ * Node's own exit code, 1 - which this vocabulary (and gate.mjs, which prints it as
+ * "VIOLATIONS") reads as "ran and found what it looks for". A TypeError in a checker is
+ * the opposite: the instrument could not finish, and AGENTS.md holds that an incomplete
+ * check is not a content verdict. Probe, 2026-10-25: a JSON.parse throw, a rejected
+ * await and `undefined.map`, each in a script that imported this file, all exited 1.
+ *
+ * Call it as the first statement of a script's own entry (or of its main(), when the
+ * file also exports functions a test imports - installing process handlers inside a
+ * test runner would hijack its failure reporting). It is deliberately NOT an import side
+ * effect: only the two events below are handled, so an explicit `process.exit(1)` and
+ * `process.exitCode = 1` are untouched, and no `exit` listener is registered.
+ *
+ * It cannot see a failure that happens while the script's own imports are still being
+ * evaluated (a missing sibling module, a syntax error in a lib): the call sits after the
+ * import statements by construction. Those still exit 1 through Node.
+ *
+ * Idempotent: a second call from the same process is a no-op.
+ */
+const CRASH_DOOR = Symbol.for('ai-registry.crashDoor');
+
+export function installCrashDoor(script = process.argv[1]) {
+  if (process[CRASH_DOOR]) return;
+  process[CRASH_DOOR] = true;
+  const name = String(script ?? 'script').split(/[\\/]/).pop();
+  const door = (reason) => {
+    const message = reason instanceof Error ? reason.message : String(reason);
+    const stack = reason instanceof Error && reason.stack ? reason.stack : '';
+    try {
+      process.stderr.write(`FATAL: ${name} crashed: ${message.split('\n')[0]}\n${stack ? `${stack}\n` : ''}`);
+    } finally {
+      process.exit(EXIT.FATAL);
+    }
+  };
+  process.on('uncaughtException', door);
+  process.on('unhandledRejection', door);
 }

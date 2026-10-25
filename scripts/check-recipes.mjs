@@ -21,9 +21,13 @@
  *
  * 2. **Version discipline** (`--since <ref>`): a recipe whose content changed
  *    since <ref> must carry a different version, and that version may never go
- *    backwards. Any file under the recipe directory except LESSONS.md counts as
- *    content - a lesson records a run against a version, it is not a change to
- *    the craft.
+ *    backwards. "Changed since <ref>" means the merge base of <ref> and HEAD
+ *    against the WORKING TREE, plus untracked files: committed, staged, unstaged
+ *    and new work in one population. Without `--since` (and without `--shape-only`)
+ *    <ref> is the branch's upstream, else origin/main, else HEAD, and the chosen base
+ *    is printed. Any file under the recipe directory except
+ *    LESSONS.md counts as content - a lesson records a run against a version,
+ *    it is not a change to the craft.
  *
  * NOT checked here, and deliberately: whether the craft is any good (that is the
  * CODEOWNERS review, and it is the point of `write_path: pull-request`), whether
@@ -48,13 +52,31 @@ import path from 'node:path';
 import { execFileSync, spawnSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 import { parseFrontmatter, parseSemver, cmpSemver, LESSON_HEAD_RE } from './lib/skills-lane.mjs';
-import { EXIT } from './lib/exit-codes.mjs';
+import { EXIT, installCrashDoor } from './lib/exit-codes.mjs';
 import { classifyCheckResult } from './lib/check-result.mjs';
 import { renderRecipe } from './lib/recipe-render.mjs';
 import { sameIgnoringNewlines } from './lib/bundle-hash.mjs';
 
+installCrashDoor();
+
 const ROOT = path.resolve(fileURLToPath(new URL('.', import.meta.url)), '..');
 const LANE = path.join(ROOT, 'recipes');
+
+// A closed flag set, checked before any read (same rule as check-skills): `--since=x` or a
+// typo'd `--snce` used to be ignored, so the run exited 0 on a population the caller did
+// not ask for - and `--shape-only` is the one flag that deliberately narrows the check.
+{
+  const usage = 'usage: node scripts/check-recipes.mjs [--shape-only] [--since <git-ref>] [--help]';
+  const argv = process.argv.slice(2);
+  if (argv.includes('--help') || argv.includes('-h')) { console.log(usage); process.exit(EXIT.OK); }
+  for (let i = 0; i < argv.length; i += 1) {
+    if (argv[i] === '--shape-only') continue;
+    if (argv[i] === '--since') {
+      if (!argv[i + 1] || argv[i + 1].startsWith('--')) { console.error(`FATAL: --since requires a git ref (e.g. --since origin/main).\n${usage}`); process.exit(EXIT.FATAL); }
+      i += 1;
+    } else { console.error(`FATAL: unknown argument ${JSON.stringify(argv[i])}; nothing was checked.\n${usage}`); process.exit(EXIT.FATAL); }
+  }
+}
 
 const RECIPE_JSON = 'recipe.json';
 const RECIPE_MD = 'RECIPE.md';
@@ -215,12 +237,19 @@ export const walkLane = (laneDir) => {
   }
 
   // A recipe.json anywhere other than the declared depth is the loud case: it
-  // exists, it looks like a recipe, and the index will never see it.
+  // exists, it looks like a recipe, and the index will never see it. A dot-entry is
+  // the same case one step quieter: this walker, render-recipes and the index
+  // builder all skip dot-names, so a recipe parked under `.drafts/` was invisible to
+  // every reader while this gate said OK (the X5 rule for publications/, practices/
+  // and memory/, 2026-10-25). Reported once, at the dot-entry, and not descended.
   const stray = [];
   const scan = (dir, rel, depth) => {
     for (const e of fs.readdirSync(dir, { withFileTypes: true })) {
-      if (e.name.startsWith('.')) continue;
       const r = rel ? `${rel}/${e.name}` : e.name;
+      if (e.name.startsWith('.')) {
+        stray.push(`recipes/${r}${e.isDirectory() ? '/' : ''}: a dot-entry is invisible to the index, the renderer and this walker - rename or remove it`);
+        continue;
+      }
       if (e.isDirectory()) { if (depth < 4) scan(path.join(dir, e.name), r, depth + 1); }
       else if (e.name === RECIPE_JSON && depth !== 3) stray.push(`recipes/${r}: a recipe.json at depth ${depth}, not recipes/<domain>/<topic>/<slug>/ - the index addresses exactly one depth, so this recipe would silently not exist`);
     }
@@ -524,41 +553,77 @@ if (parsed === 0) {
 }
 
 // ---------------------------------------------------------------- version discipline
+// An omitted `--since` used to mean "no population": the run printed "version discipline:
+// NOT run" and exited 0 on an unbumped recipe edit, while check-skills already checked the
+// working tree and index against HEAD by default. The flagless form now does the same.
+// `--shape-only` alone stays shape-only: gate.mjs runs it before regenerating, and a dirty
+// unbumped recipe in the shared tree must not turn `gate --all` red for every session;
+// `--shape-only --since <ref>` still checks versions, as it always did.
+//
+// The flagless base is the one check-skills uses, for the same reason: against plain HEAD,
+// every uncommitted edit after a recipe's first bumped commit on a branch read as unbumped
+// (the bump was already in HEAD). It is the branch's upstream if it has one, else
+// origin/main if it exists, else HEAD, merge-based and printed. CI passes `--since`.
 const sinceIdx = process.argv.indexOf('--since');
+const shapeOnly = process.argv.includes('--shape-only');
+const versionRun = sinceIdx !== -1 || !shapeOnly;
+const DEFAULT_BASES = [
+  { label: 'branch upstream', name: (git) => git(['rev-parse', '--abbrev-ref', '--symbolic-full-name', '@{upstream}']).trim() },
+  { label: 'origin/main', name: () => 'origin/main' },
+];
 let bumpChecked = 0;
-if (sinceIdx !== -1) {
-  const ref = process.argv[sinceIdx + 1];
-  if (!ref) { console.error('FATAL: --since requires a git ref (e.g. --since origin/main).'); process.exit(EXIT.FATAL); }
+let scopeLabel = null;
+if (versionRun) {
   const git = (args) => execFileSync('git', args, { cwd: ROOT, encoding: 'utf8', stdio: ['ignore', 'pipe', 'pipe'] });
+  let ref = sinceIdx === -1 ? 'HEAD' : process.argv[sinceIdx + 1];
+  let base = null;
+  let how = 'no upstream and no origin/main resolve';
+  if (sinceIdx === -1) {
+    // First default base that resolves AND shares history with HEAD; one that does not
+    // (a shallow clone's unrelated origin/main) is skipped, never fatal - only --since is a request.
+    for (const cand of DEFAULT_BASES) {
+      let name;
+      try { name = cand.name(git); } catch { continue; }
+      if (!name) continue;
+      try {
+        git(['rev-parse', '--verify', `${name}^{commit}`]);
+        base = git(['merge-base', name, 'HEAD']).trim();
+      } catch { continue; }
+      ref = name;
+      how = cand.label;
+      break;
+    }
+  }
+  if (!ref) { console.error('FATAL: --since requires a git ref (e.g. --since origin/main).'); process.exit(EXIT.FATAL); }
   try { git(['rev-parse', '--verify', `${ref}^{commit}`]); } catch (e) {
     console.error(`FATAL: --since ref "${ref}" does not resolve in this checkout (${String(e.message).trim()}).`);
     console.error('A shallow clone is the usual cause; CI needs fetch-depth: 0.');
     console.error('Refusing to report "no version problems" from a comparison that never ran.');
     process.exit(EXIT.FATAL);
   }
+  scopeLabel = sinceIdx !== -1 ? `changed against ${ref} (committed + working tree + untracked)`
+    : ref === 'HEAD' ? `uncommitted against HEAD (${how})`
+      : `changed against ${ref} (${how}; committed + working tree + untracked)`;
+  // `${ref}...HEAD` alone compares COMMITTED history, and the working tree is
+  // invisible to it. This used to refuse (exit 2) only the shape where nothing
+  // was committed and something was dirty; one committed change beside dirty
+  // work made the dirty work silently unexamined (probe 2026-10-25: an unbumped
+  // dirty recipe beside a committed one reported `recipes lane OK`). Diffing the
+  // merge base against the working tree, plus untracked files, is `ref...HEAD`
+  // PLUS the work about to be committed, so there is no unexamined remainder
+  // left to refuse.
+  // NUL-separated (-z): otherwise git C-quotes a path holding a non-ASCII byte, the
+  // quoted line never matches `^recipes/`, and that edit leaves the population.
+  const paths = (args) => git(args).split('\0').filter(Boolean);
   let changed;
   try {
-    changed = git(['diff', '--name-only', `${ref}...HEAD`, '--', 'recipes/']).split(/\r?\n/).map((x) => x.trim()).filter(Boolean);
+    base = base ?? git(['merge-base', ref, 'HEAD']).trim();
+    changed = paths(['diff', '--name-only', '-z', base, '--', 'recipes/']);
+    const untracked = paths(['ls-files', '-z', '--others', '--exclude-standard', '--', 'recipes/']);
+    changed = [...new Set([...changed, ...untracked])];
   } catch (e) {
     console.error(`FATAL: git diff against "${ref}" failed (${String(e.message).trim()}).`);
     process.exit(EXIT.FATAL);
-  }
-  // `${ref}...HEAD` compares COMMITTED history. The working tree is invisible to
-  // it. That is right in CI, where the branch is pushed, and wrong the way that
-  // matters locally: run over uncommitted work it finds nothing, reports zero
-  // changed recipes, and prints `recipes lane OK`, which reads as a version
-  // discipline pass over work it never looked at. The shallow-clone guard twenty
-  // lines above already refuses that shape; this is the same refusal.
-  {
-    const dirty = git(['status', '--porcelain', '--', 'recipes/'])
-      .split(/\r?\n/).map((x) => x.trim()).filter(Boolean);
-    if (dirty.length && !changed.length) {
-      console.error(`FATAL: --since ${ref} compares committed history, and ${dirty.length} file(s) under recipes/ are uncommitted.`);
-      console.error('The comparison found nothing because your changes are not in it, not because they carry versions.');
-      console.error('Refusing to report a version-discipline pass over work this run never examined.');
-      console.error('Commit first, or compare against the ref you branched from.');
-      process.exit(EXIT.FATAL);
-    }
   }
 
   // A LESSONS.md append records a run at the CURRENT version; it is not a change
@@ -576,13 +641,16 @@ if (sinceIdx !== -1) {
     const current = seen.get(slug);
     if (!current) continue; // deleted, or failed shape above and already reported.
     let oldRaw;
-    try { oldRaw = git(['show', `${ref}:recipes/${key}/${RECIPE_JSON}`]); } catch {
+    // Read at the merge base the diff ran against: a branch not yet rebased onto a moved
+    // upstream must not read as "backwards".
+    try { oldRaw = git(['show', `${base}:recipes/${key}/${RECIPE_JSON}`]); } catch {
       notes.push(`recipes/${key}: new in this change - no prior version to compare`);
       continue;
     }
     bumpChecked += 1;
     let oldV = null;
-    try { oldV = parseSemver(JSON.parse(oldRaw).version); } catch { /* handled below */ }
+    let oldVersion = null;
+    try { oldVersion = JSON.parse(oldRaw).version; oldV = parseSemver(oldVersion); } catch { /* handled below */ }
     const newV = parseSemver(current.version);
     if (!oldV || !newV) {
       if (!oldV) notes.push(`recipes/${key}: version at ${ref} is not readable semver - bump not comparable`);
@@ -591,7 +659,7 @@ if (sinceIdx !== -1) {
     if (cmpSemver(newV, oldV) === 0) {
       fail(`recipes/${key}: content changed (${files.join(', ')}) but version stayed ${current.version}. Versions are the comparison currency - an unchanged version tells every consumer it holds the current craft while it holds different knowledge. A non-behavioural fix takes a PATCH bump; the level is free.`);
     } else if (cmpSemver(newV, oldV) < 0) {
-      fail(`recipes/${key}: version went BACKWARDS -> ${current.version}. A consumer already at the higher version would resolve as ahead of the registry and never sync again.`);
+      fail(`recipes/${key}: version went BACKWARDS, ${oldVersion} -> ${current.version}. A consumer already at the higher version would resolve as ahead of the registry and never sync again.`);
     }
   }
 }
@@ -635,9 +703,9 @@ const fmt = (m) => [...m.entries()].sort().map(([k, n]) => `${k}:${n}`).join(' '
 
 console.log(`recipes lane: ${walked.recipes.length} recipe(s) - ${fmt(byStatus)}`);
 console.log(`domains: ${fmt(byDomain)} - ${lessonEntries} LESSONS entr(ies)`);
-if (sinceIdx !== -1) console.log(`version discipline: ${bumpChecked} changed recipe(s) compared against ${process.argv[sinceIdx + 1]}`);
-else console.log('version discipline: NOT run (pass --since <ref>; CI runs it on every pull request)');
-if (process.argv.includes('--shape-only')) console.log('index freshness: NOT run (--shape-only; regenerate and check the index next)');
+if (versionRun) console.log(`version discipline: ${bumpChecked} changed recipe(s), ${scopeLabel}`);
+else console.log('version discipline: NOT run (--shape-only alone; run flagless for the working tree against the branch base, or pass --since <ref>)');
+if (shapeOnly) console.log('index freshness: NOT run (--shape-only; regenerate and check the index next)');
 console.log('NOT checked here: whether the craft is any good; whether a lesson was appended;');
 console.log('  whether a connector_type exists in the consuming catalog (this registry cannot see it)');
 for (const n of notes) console.log(`  note: ${n}`);

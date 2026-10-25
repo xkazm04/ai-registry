@@ -22,10 +22,14 @@
  * Requires OPENAI_API_KEY. Model ids verified 2026-09-22 against OpenAI's model
  * pages: `gpt-image-2.5-sunburst`, `gpt-image-2.5-flare`, and the older
  * `gpt-image-2`.
+ *
+ * Every provider call has a deadline (default 10 min, sized for a slow high-quality
+ * render; LEONARDO_FETCH_TIMEOUT_MS overrides) - see fetch-deadline.mjs.
  */
 
 import { readFileSync, writeFileSync, mkdirSync } from "fs";
 import { dirname, resolve, basename } from "path";
+import { withDeadline, FetchTimeoutError } from "./fetch-deadline.mjs";
 
 const API_KEY = process.env.OPENAI_API_KEY;
 const BASE_URL = process.env.OPENAI_BASE_URL || "https://api.openai.com/v1";
@@ -102,16 +106,19 @@ async function generate(args) {
   if (args.background) body.background = args.background; // transparent|opaque|auto
 
   process.stderr.write(`[openai] ${model} generate ${body.size} quality=${body.quality}\n`);
-  const res = await fetch(`${BASE_URL}/images/generations`, {
-    method: "POST",
-    headers: { "content-type": "application/json", authorization: `Bearer ${API_KEY}` },
-    body: JSON.stringify(body),
+  const data = await withDeadline("OpenAI images/generations", async (signal) => {
+    const res = await fetch(`${BASE_URL}/images/generations`, {
+      method: "POST",
+      headers: { "content-type": "application/json", authorization: `Bearer ${API_KEY}` },
+      body: JSON.stringify(body),
+      signal,
+    });
+    if (!res.ok) {
+      const t = await res.text();
+      fail({ error: `OpenAI API ${res.status}`, details: t.slice(0, 800), model });
+    }
+    return res.json();
   });
-  if (!res.ok) {
-    const t = await res.text();
-    fail({ error: `OpenAI API ${res.status}`, details: t.slice(0, 800), model });
-  }
-  const data = await res.json();
   const items = data.data || [];
   if (items.length === 0) fail({ error: "No image returned", response: data });
 
@@ -147,29 +154,35 @@ async function edit(args) {
   }
 
   process.stderr.write(`[openai] ${model} edit (${images.length} input image(s))\n`);
-  const res = await fetch(`${BASE_URL}/images/edits`, {
-    method: "POST",
-    headers: { authorization: `Bearer ${API_KEY}` },
-    body: form,
+  const data = await withDeadline("OpenAI images/edits", async (signal) => {
+    const res = await fetch(`${BASE_URL}/images/edits`, {
+      method: "POST",
+      headers: { authorization: `Bearer ${API_KEY}` },
+      body: form,
+      signal,
+    });
+    if (!res.ok) {
+      const t = await res.text();
+      fail({ error: `OpenAI API ${res.status}`, details: t.slice(0, 800), model });
+    }
+    return res.json();
   });
-  if (!res.ok) {
-    const t = await res.text();
-    fail({ error: `OpenAI API ${res.status}`, details: t.slice(0, 800), model });
-  }
-  const data = await res.json();
   const b64 = data.data?.[0]?.b64_json;
   if (!b64) fail({ error: "No image returned", response: data });
   const { absPath, bytes } = writeImage(b64, args.output);
   console.log(JSON.stringify({ success: true, model, usage: data.usage, output: absPath, bytes }, null, 2));
 }
 
+// A deadline that fired is a clean JSON failure, not an uncaught-rejection stack.
+const run = (p) => p.catch((e) => { if (e instanceof FetchTimeoutError) fail({ error: e.message }); throw e; });
+
 const { command, args } = parseArgs(process.argv);
 switch (command) {
   case "generate":
-    generate(args);
+    run(generate(args));
     break;
   case "edit":
-    edit(args);
+    run(edit(args));
     break;
   default:
     console.error(`Unknown command: ${command || "(none)"}\nCommands: generate, edit`);

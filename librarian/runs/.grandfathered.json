@@ -1,0 +1,20 @@
+{
+  "_note": "Shrink-only allowlist for scripts/check-run-results.mjs. These 15 committed result.json records were written before the lane had a gate and fail validateRunResult (scripts/lib/run-result.mjs): dp-irdc-0929 lacks failure_signature, rc-ara-*/rc-pts-* carry an undeclared declined[].id, rc-pa-* exceed the 280-character notes bound. They are history and are not rewritten. Never add an id: a new invalid result is fixed at its source. Remove an id when its result is repaired or deleted; the gate exits 1 with 'delist <id>' until you do.",
+  "ids": [
+    "dp-irdc-0929",
+    "rc-ara-0925",
+    "rc-ara-0925b",
+    "rc-ara-0925c",
+    "rc-ara-0925d",
+    "rc-ara-0925e",
+    "rc-ara-0926",
+    "rc-ara-1014",
+    "rc-pa-0925c",
+    "rc-pa-0925d",
+    "rc-pa-0925e",
+    "rc-pa-0926",
+    "rc-pts-1022",
+    "rc-pts-1022b",
+    "rc-pts-1022c"
+  ]
+}

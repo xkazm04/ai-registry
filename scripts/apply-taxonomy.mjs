@@ -24,6 +24,17 @@
  * `../../other-subject/other-subject.md` and `./techniques/x.md` are all handled by the
  * same three lines, and a link that already resolves correctly stays correct.
  *
+ * ## Links from OUTSIDE the bundle
+ *
+ * Docs, librarian notes and sibling bundles link into subjects too, and a per-bundle file
+ * map cannot see them. The dry run therefore counts and lists every inbound link (markdown
+ * tracked or untracked by git, code fences and inline code skipped) that a move would
+ * break; `--apply` REWRITES them through the same resolve / map / re-express round trip
+ * rather than refusing, because the invariant is identical - an outside file never moves, so
+ * only its target does - and the post-condition then checks each rewritten link lands on a
+ * file that exists. Only `](...)` links are covered: bare paths in prose, reference-style
+ * definitions and non-markdown files (JSON ledgers) are not links this script can resolve.
+ *
  * ## Reversible on purpose
  *
  * `--to flat` undoes `--to nested`. A migration you cannot reverse is a migration people
@@ -40,6 +51,7 @@
 
 import fs from 'node:fs';
 import path from 'node:path';
+import { spawnSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 import { loadTaxonomy, walkSubjects, SLUG_RE } from './lib/taxonomy.mjs';
 
@@ -83,11 +95,64 @@ const allFiles = (dir, out = []) => {
   return out;
 };
 
+/** Every markdown file in the repo, absolute: what git tracks plus what it would add, else a walk. */
+const listMarkdown = () => {
+  const r = spawnSync('git', ['ls-files', '-co', '--exclude-standard', '-z', '--', '*.md'], {
+    cwd: ROOT,
+    encoding: 'utf8',
+    maxBuffer: 256 * 1024 * 1024,
+  });
+  if (r.status === 0 && r.stdout) {
+    return r.stdout.split('\0').filter(Boolean).map((p) => path.join(ROOT, p)).filter((p) => fs.existsSync(p));
+  }
+  // Not a git checkout (a fixture, a tarball): walk, skipping what is never source.
+  const out = [];
+  const walk = (dir) => {
+    for (const e of fs.readdirSync(dir, { withFileTypes: true })) {
+      if (e.name === '.git' || e.name === 'node_modules') continue;
+      const p = path.join(dir, e.name);
+      if (e.isDirectory()) walk(p);
+      else if (e.name.endsWith('.md')) out.push(p);
+    }
+  };
+  walk(ROOT);
+  return out;
+};
+
+// The repo's markdown is read once per run, not once per bundle: --all visits 11 bundles over
+// ~9k files, and the per-bundle read was the whole cost. An --apply changes the tree under
+// the cache, so it is dropped after every applied bundle.
+let mdCache = null;
+const markdownTexts = () => {
+  if (mdCache) return mdCache;
+  mdCache = new Map();
+  for (const abs of listMarkdown()) {
+    try {
+      mdCache.set(abs, fs.readFileSync(abs, 'utf8'));
+    } catch {
+      /* unreadable: not a link source */
+    }
+  }
+  return mdCache;
+};
+
+const LINK_RE = /(\]\()([^)\s]+)(\))/g;
+// A code fence or inline code span OR a link, in one pass: a link inside code is consumed as
+// code (groups undefined) and never edited. Mirrors what the post-condition strips.
+const CODE_OR_LINK_RE = /```[\s\S]*?```|`[^`\n]*`|(\]\()([^)\s]+)(\))/g;
+const INBOUND_LISTED = 20;
+
 let totalMoves = 0;
 let totalRewrites = 0;
+let totalInbound = 0;
 let failed = false;
 
 for (const bundle of bundles) {
+  // Two flags on purpose. `failed` is the run's exit; `bad` is THIS bundle's, and it is the
+  // only one the per-bundle steps may read. They were one flag, so a bundle whose taxonomy
+  // could not be used made every later bundle skip its own work - unreported in a dry run,
+  // unmoved under --apply - while the summary still counted it.
+  let bad = false;
   const base = path.join(KNOWLEDGE, bundle);
   if (!fs.existsSync(base)) {
     console.error(`apply-taxonomy FATAL: knowledge/${bundle} does not exist.`);
@@ -98,7 +163,7 @@ for (const bundle of bundles) {
   if (errors.length) {
     console.error(`\n${bundle}: taxonomy is not usable —`);
     for (const e of errors) console.error(`  ${e}`);
-    failed = true;
+    bad = failed = true;
     continue;
   }
 
@@ -106,7 +171,7 @@ for (const bundle of bundles) {
   if (duplicates.length) {
     console.error(`\n${bundle}: two folders claim one slug — resolve before moving anything:`);
     for (const d of duplicates) console.error(`  ${d.slug}: ${d.at.join(' and ')}`);
-    failed = true;
+    bad = failed = true;
     continue;
   }
 
@@ -122,16 +187,16 @@ for (const bundle of bundles) {
   if (collisions.length) {
     console.error(`\n${bundle}: these slugs name both a subject and a grouping folder: ${collisions.join(', ')}`);
     console.error('  Rename one side in taxonomy.json first. Refusing to move into a collision.');
-    failed = true;
+    bad = failed = true;
     continue;
   }
   for (const id of groupIds) {
     if (!SLUG_RE.test(id)) {
       console.error(`\n${bundle}: grouping id "${id}" is not a kebab-case slug`);
-      failed = true;
+      bad = failed = true;
     }
   }
-  if (failed) continue;
+  if (bad) continue;
 
   // ---- where each subject goes
   const moves = []; // { slug, fromRel, toRel }
@@ -139,7 +204,7 @@ for (const bundle of bundles) {
     const want = declared.get(slug);
     if (!want) {
       console.error(`\n${bundle}: subject "${slug}" is on disk but absent from taxonomy.json. Refusing.`);
-      failed = true;
+      bad = failed = true;
       continue;
     }
     // `want.dir` already reflects taxonomy.layout, which is the CURRENT state. Compute the
@@ -152,7 +217,7 @@ for (const bundle of bundles) {
           : `${want.category}/${slug}`;
     if (toRel !== at) moves.push({ slug, fromRel: at, toRel });
   }
-  if (failed) continue;
+  if (bad) continue;
 
   // ---- old -> new for EVERY file, which is what makes the link rewrite exact
   const fileMap = new Map(); // abs old -> abs new
@@ -178,7 +243,6 @@ for (const bundle of bundles) {
   }
 
   // ---- the link rewrite, computed before anything moves
-  const LINK_RE = /(\]\()([^)\s]+)(\))/g;
   const edits = []; // { absOld, absNew, next }
   let rewritten = 0;
   let unresolved = 0;
@@ -201,6 +265,14 @@ for (const bundle of bundles) {
         // bundle. Left exactly as written - a mover that "fixes" links it does not
         // understand is a mover that corrupts prose.
         unresolved++;
+        return whole;
+      }
+      // A link that still lands on the same file from its file's new home is left exactly as
+      // written: nothing it depends on moved relative to it. Re-expressing it anyway turned
+      // `techniques/x.md` into `./techniques/x.md`, and a re-run over the already-nested
+      // corpus planned 34 such rewrites across 0 moves.
+      if (path.resolve(path.dirname(absNew), linkPath) === targetNew) {
+        verified++;
         return whole;
       }
       let rel = posix(path.relative(path.dirname(absNew), targetNew));
@@ -237,6 +309,51 @@ for (const bundle of bundles) {
     if (changed) edits.push({ absOld, absNew, next });
   }
 
+  // ---- inbound links: markdown OUTSIDE the bundle that points INTO a file this run moves.
+  //
+  // The fileMap above is per bundle, so everything above this line is blind to a link
+  // written from docs/, librarian/ or a sibling bundle. Measured on the real corpus, a
+  // flat move would have left 45 of them dangling (1 cross-bundle, 11 from docs/, 33 from
+  // librarian/) and the post-condition below walked only the map, so it would have
+  // reported a clean move. Same rule as the in-bundle rewrite: resolve the link against
+  // its file's directory, map the target, re-express it relative to the SAME directory
+  // (an outside file never moves), and assert the round trip before anything is written.
+  // Code fences and inline code are skipped, so prose that QUOTES a path is not edited.
+  const inbound = []; // { rel, href }
+  const inboundEdits = []; // { abs, next, wrote: [{ href, targetNew }] }
+  if (moves.length > 0) {
+    const prefix = base + path.sep;
+    for (const [abs, src] of markdownTexts()) {
+      if (abs.startsWith(prefix)) continue;
+      // Cheap pre-filter: a relative link that lands inside the bundle names it textually.
+      if (!src.includes(bundle)) continue;
+      const wrote = [];
+      const next = src.replace(CODE_OR_LINK_RE, (whole, open, href, close) => {
+        if (open === undefined) return whole; // a code span or fence
+        if (/^(https?:|mailto:|#)/.test(href)) return whole;
+        const [linkPath, anchor] = href.split('#');
+        if (!linkPath) return whole;
+        const targetOld = path.resolve(path.dirname(abs), linkPath);
+        const targetNew = fileMap.get(targetOld);
+        if (!targetNew || targetNew === targetOld) return whole;
+        let rel = posix(path.relative(path.dirname(abs), targetNew));
+        if (!rel.startsWith('.')) rel = `./${rel}`;
+        if (path.resolve(path.dirname(abs), rel) !== targetNew) {
+          console.error(
+            `\napply-taxonomy FATAL: link arithmetic is wrong for ${posix(path.relative(ROOT, abs))}\n` +
+              `  link      ${href}\n  intended  ${posix(path.relative(ROOT, targetNew))}`,
+          );
+          process.exit(2);
+        }
+        const out = anchor === undefined ? rel : `${rel}#${anchor}`;
+        inbound.push({ rel: posix(path.relative(ROOT, abs)), href });
+        wrote.push({ href: out, targetNew });
+        return `${open}${out}${close}`;
+      });
+      if (wrote.length) inboundEdits.push({ abs, next, wrote });
+    }
+  }
+
   // ---- report
   console.log(`\n${bundle} → ${target}`);
   console.log(`  ${moves.length} subject folder(s) move, ${edits.length} file(s) get ${rewritten} link rewrite(s)`);
@@ -245,9 +362,20 @@ for (const bundle of bundles) {
   const show = moves.slice(0, apply ? 0 : 6);
   for (const m of show) console.log(`    ${m.fromRel}  ->  ${m.toRel}`);
   if (!apply && moves.length > show.length) console.log(`    … and ${moves.length - show.length} more`);
+  if (inbound.length) {
+    console.log(
+      `  ${inbound.length} inbound link(s) from ${inboundEdits.length} file(s) outside the bundle point into moved files; ` +
+        `${apply ? 'rewriting them' : '--apply rewrites them'}`,
+    );
+    if (!apply) {
+      for (const i of inbound.slice(0, INBOUND_LISTED)) console.log(`    ${i.rel}  ->  ${i.href}`);
+      if (inbound.length > INBOUND_LISTED) console.log(`    … and ${inbound.length - INBOUND_LISTED} more`);
+    }
+  }
 
   totalMoves += moves.length;
   totalRewrites += rewritten;
+  totalInbound += inbound.length;
 
   if (!apply) continue;
 
@@ -268,18 +396,19 @@ for (const bundle of bundles) {
     const to = path.join(base, m.toRel);
     if (!fs.existsSync(from)) {
       console.error(`  PRE-FLIGHT FAIL: ${m.fromRel} does not exist`);
-      failed = true;
+      bad = failed = true;
     }
     if (fs.existsSync(to)) {
       console.error(`  PRE-FLIGHT FAIL: ${m.toRel} already exists`);
-      failed = true;
+      bad = failed = true;
     }
   }
-  if (failed) {
+  if (bad) {
     console.error('  refusing to move anything — the tree is untouched');
     continue;
   }
 
+  mdCache = null; // the tree is about to change under the cache, whatever happens next
   for (const m of moves) {
     const from = path.join(base, m.fromRel);
     const to = path.join(base, m.toRel);
@@ -290,13 +419,16 @@ for (const bundle of bundles) {
       console.error(`  FAILED to move ${m.fromRel} -> ${m.toRel}: ${err.message}`);
       console.error('  the tree is now PARTIALLY MOVED and no links have been rewritten.');
       console.error(`  recover with: node scripts/apply-taxonomy.mjs ${bundle} --to flat --apply`);
-      failed = true;
+      bad = failed = true;
       break;
     }
   }
-  if (failed) continue;
+  if (bad) continue;
 
   for (const e of edits) fs.writeFileSync(e.absNew, e.next, 'utf8');
+  // Outside files never moved, so they are written where they are.
+  for (const e of inboundEdits) fs.writeFileSync(e.abs, e.next, 'utf8');
+  mdCache = null;
 
   // ---- post-condition: every relative link in the moved tree resolves.
   //
@@ -318,9 +450,19 @@ for (const bundle of bundles) {
       }
     }
   }
+  // The same question for the links written from OUTSIDE the bundle, which the walk above
+  // never visits: every link this run rewrote must land on a file that now exists.
+  for (const e of inboundEdits) {
+    for (const w of e.wrote) {
+      if (!fs.existsSync(w.targetNew)) {
+        console.error(`  BROKEN AFTER MOVE: ${posix(path.relative(ROOT, e.abs))} -> ${w.href}`);
+        broken++;
+      }
+    }
+  }
   if (broken) {
     console.error(`  ${broken} link(s) broken after the move. Reverse with --to flat --apply.`);
-    failed = true;
+    bad = failed = true;
   }
 
   // Prune grouping folders left empty by a --to flat pass.
@@ -341,7 +483,8 @@ for (const bundle of bundles) {
 }
 
 console.log(
-  `\n${apply ? 'applied' : 'dry run'}: ${totalMoves} move(s), ${totalRewrites} link rewrite(s) across ${bundles.length} bundle(s)`,
+  `\n${apply ? 'applied' : 'dry run'}: ${totalMoves} move(s), ${totalRewrites} link rewrite(s), ` +
+    `${totalInbound} inbound link rewrite(s) from outside the bundle across ${bundles.length} bundle(s)`,
 );
 if (!apply) console.log('pass --apply to write. Nothing has been touched.');
 else console.log('now run: check-bundles.mjs, then build-index.mjs, then build-catalog.mjs');

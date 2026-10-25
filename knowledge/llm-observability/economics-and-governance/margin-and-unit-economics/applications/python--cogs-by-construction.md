@@ -6,8 +6,8 @@ technique: cogs-by-construction
 stack: python
 status: forged
 verified_on: 2026-08-30
-verified_against: python@3.12
 source: BerriAI/litellm
+counterpart: external
 ---
 
 # COGS by construction in LiteLLM's proxy spend pipeline

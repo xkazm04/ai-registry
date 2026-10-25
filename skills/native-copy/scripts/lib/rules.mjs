@@ -885,10 +885,17 @@ export function lintRecords(records, contract) {
   if (exclaim) {
     const units = new Map();
     for (const rec of records) {
-      const m = [...rec.text.matchAll(EXCLAIM)];
+      // every ICU variant, as the per-rule loop above reads them: a mark that lives only in a `one {...}` branch is
+      // still a mark. Branches are alternatives, so the record counts once, judged by its most-marked variant.
+      let text = rec.text;
+      let m = [];
+      for (const v of rec.variants ?? [rec.text]) {
+        const vm = [...v.matchAll(EXCLAIM)];
+        if (vm.length > m.length) { text = v; m = vm; }
+      }
       if (!m.length) continue;
       const role = roleOf(rec, contract);
-      const emit = (message) => findings.push({ rule: exclaim.id, kind: exclaim.kind, severity: severityFor(exclaim, {}, contract), file: rec.file, line: rec.line, key: rec.key, raw: rec.raw, text: rec.text, span: rec.text.slice(m[0].index, m[0].index + m[0][0].length), anchor: anchorOf(rec.text, m[0].index, m[0][0].length), index: m[0].index, message, record: rec });
+      const emit = (message) => findings.push({ rule: exclaim.id, kind: exclaim.kind, severity: severityFor(exclaim, {}, contract), file: rec.file, line: rec.line, key: rec.key, raw: rec.raw, text, span: text.slice(m[0].index, m[0].index + m[0][0].length), anchor: anchorOf(text, m[0].index, m[0][0].length), index: m[0].index, message, record: rec });
       if (role.error) { emit('exclamation mark in an error-class string'); continue; }
       // A catalog cannot say which messages render on one page (sibling outcomes never co-render),
       // so catalogs get the per-message check only; the per-surface count applies to component and

@@ -181,3 +181,84 @@ test('a nested context map is read as v2; a judge sets choice facets and triage;
   fs.writeFileSync(reg, `${JSON.stringify(doc, null, 2)}\n`);
   fs.rmSync(root, { recursive: true, force: true });
 });
+
+test('a partial map is caught and supplemented; judgement lenses go through judge', { skip: !BP && 'no bp checkout' }, () => {
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), 'adopt-bp-partial-'));
+  const git = (...a) => execFileSync('git', ['-C', root, ...a], { encoding: 'utf8' });
+  git('init', '-q');
+  git('config', 'user.email', 't@t'); git('config', 'user.name', 't');
+  write(root, 'src/app/page.tsx', "import { List } from '../features/list/List';\nexport default function P() { return <List />; }\n");
+  write(root, 'src/features/list/List.tsx', 'export function List() { return <ul />; }\n');
+  write(root, 'src/features/list/Row.tsx', 'export function Row() { return <li />; }\n');
+  write(root, 'src/features/list/rows.ts', 'export const rows = [];\n');
+  write(root, 'runner/main.ts', 'export const main = () => 1;\n');
+  write(root, 'runner/lane.ts', 'export const lane = () => 2;\n');
+  // the map predates the runner and two list files: 3 of 6 source files mapped
+  write(root, 'context-map.json', JSON.stringify({ version: 2, project: { name: 'Partial' }, groups: [{ name: 'App', domain: 'feature' }],
+    contexts: [
+      { name: 'list', group: 'App', category: 'ui', file_paths: ['src/features/list/List.tsx'] },
+      { name: 'shell', group: 'App', category: 'ui', file_paths: ['src/app/page.tsx'] },
+    ] }));
+  git('add', '-A'); git('commit', '-qm', 'init');
+
+  let r = run(root, 'check');
+  assert.equal(r.status, 0, r.stderr);
+  assert.match(r.stdout, /context-map-coverage\s+2\/6 tracked source files mapped \(4 unmapped/);
+  r = run(root, 'supplement');
+  assert.equal(r.status, 0, r.stderr);
+  const sup = JSON.parse(fs.readFileSync(path.join(root, '.ai/lens-scan/work/context-supplement.json'), 'utf8'));
+  const by = Object.fromEntries(sup.contexts.map((c) => [c.name, c]));
+  assert.deepEqual(by['list-supplement'].file_paths, ['src/features/list/Row.tsx', 'src/features/list/rows.ts'], 'files beside a curated context join it');
+  assert.equal(by['list-supplement'].group, 'App');
+  assert.deepEqual(by.runner.file_paths, ['runner/lane.ts', 'runner/main.ts']);
+  assert.match(by.runner.description, /^UNNAMED/);
+  r = run(root, 'check');
+  assert.match(r.stdout, /context-map-coverage\s+6\/6/);
+  assert.match(r.stdout, /1 drafted contexts still UNNAMED: runner/);
+  // the model names it; seed then carries all four contexts
+  by.runner.description = 'The background runner.'; by.runner.group = 'App'; by.runner.category = 'lib';
+  fs.writeFileSync(path.join(root, '.ai/lens-scan/work/context-supplement.json'), JSON.stringify(sup));
+  r = run(root, 'seed', '--slug', 'partial', '--name', 'Partial');
+  assert.equal(r.status, 0, r.stderr);
+  write(root, '.ai/lens-scan/work/product-tree.json', JSON.stringify({
+    domains: [{ slug: 'app', name: 'App' }], capabilities: [{ slug: 'see', name: 'See', domain: 'app' }],
+    features: [
+      { slug: 'list', name: 'List', summary: 's', capability: 'see', contexts: ['list', 'list-supplement', 'shell'], stage: 'live', stage_evidence: 'src/app/page.tsx:2' },
+      { slug: 'runner', name: 'Runner', summary: 's', capability: 'see', contexts: ['runner'], stage: 'in-dev', stage_evidence: 'not mounted' },
+    ] }));
+  for (const c of ['tree', 'events', 'measure', 'batches']) { r = run(root, c); assert.equal(r.status, 0, `${c}: ${r.stderr}`); }
+  const batch = JSON.parse(fs.readFileSync(path.join(root, '.ai/lens-scan/work/batches/01.json'), 'utf8'));
+  assert.deepEqual(batch.lenses.map((l) => l.id).sort(), ['business', 'operations', 'quality']);
+  assert.ok(batch.lenses.find((l) => l.id === 'quality').fields.some((f) => f.key === 'flowTests' && f.unit === 'tests'));
+
+  // a judgement lens needs a reason to be inapplicable, and a proposal one of its own metrics
+  write(root, '.ai/lens-scan/work/judgement/01.json', JSON.stringify({ features: { runner: { operations: { applicable: false } } },
+    proposals: [{ feature: 'list', lens: 'quality', metric: 'findingsHigh', title: 'x', expected_delta: -1 }] }));
+  r = run(root, 'judge', '--model', 'test');
+  assert.notEqual(r.status, 0);
+  assert.match(r.stderr, /runner\.operations: applicable:false needs a reason/);
+  assert.match(r.stderr, /"findingsHigh" is not a judgement metric of quality/);
+
+  write(root, '.ai/lens-scan/work/judgement/01.json', JSON.stringify({
+    features: {
+      list: { quality: { flowTests: 0, untestedPaths: 1, brokenTests: 0, evidence: { untestedPaths: 'src/features/list/List.tsx:1 empty list' } },
+        business: { valuePathSteps: 1, hardcodedRules: 0, unhandledCases: 0, evidence: 'src/app/page.tsx:2 one screen' } },
+      runner: { operations: { applicable: false, reason: 'not mounted, no runtime yet' }, quality: { flowTests: 0, untestedPaths: 1, brokenTests: 0 } },
+    },
+    proposals: [{ feature: 'list', lens: 'quality', metric: 'untestedPaths', title: 'Test the empty list', body: 'src/features/list/List.tsx:1', expected_delta: -1, size: 'XS', risk: 1, tier: 3, risk_class: 'ux' }] }));
+  r = run(root, 'judge', '--model', 'test');
+  assert.equal(r.status, 0, r.stderr);
+  assert.match(r.stdout, /quality 2\/2/);
+  const m = JSON.parse(fs.readFileSync(path.join(root, '.ai/lens-scan/app-structure.json'), 'utf8'));
+  assert.equal(m.facets.list.quality.values.untestedPaths, 1);
+  assert.equal(m.facets.list.business.values.valuePathSteps, 1);
+  assert.deepEqual([m.facets.runner.operations.applicable, m.facets.runner.operations.reason], [false, 'not mounted, no runtime yet']);
+  const db = new (require('node:sqlite').DatabaseSync)(path.join(root, '.ai/lens-scan/scan.db'), { readOnly: true });
+  assert.equal(db.prepare("SELECT unit FROM measurements WHERE lens = 'quality' AND metric = 'flowTests' LIMIT 1").get().unit, 'tests');
+  assert.equal(db.prepare("SELECT evidence FROM measurements WHERE feature = 'list' AND metric = 'untestedPaths'").get().evidence, 'src/features/list/List.tsx:1 empty list');
+  assert.equal(db.prepare("SELECT COUNT(*) n FROM proposals WHERE lens = 'quality'").get().n, 1);
+  db.close();
+  r = run(root, 'validate');
+  assert.equal(r.status, 0, r.stdout + r.stderr);
+  fs.rmSync(root, { recursive: true, force: true });
+});

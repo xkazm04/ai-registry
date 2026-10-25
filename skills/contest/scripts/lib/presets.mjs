@@ -14,6 +14,33 @@ export const PRESETS = {
 };
 
 /**
+ * A seat ceiling in minutes from `opts[key]`, or `fallback` when the call does not name it.
+ * Throws on a bare flag or anything that is not a positive number: `Number('abc')` is NaN, and a
+ * NaN timer fires at once, so every seat of the round was killed the moment it started; a bare
+ * `--timeout-min` was `Number(true)`, a one-minute ceiling.
+ */
+export function minutesOpt(opts, key, fallback) {
+  const v = opts[key];
+  if (v === undefined) return fallback;
+  const n = Number(v);
+  if (v === true || typeof v !== 'string' || !v.trim() || !Number.isFinite(n) || n <= 0) {
+    throw new Error(`--${key} needs a positive number of minutes, got ${v === true ? 'no value' : JSON.stringify(v)}`);
+  }
+  return n;
+}
+
+/** A positive whole count from `opts[key]` (string from argv), or `fallback` when it is not given. */
+function countOpt(opts, key, fallback) {
+  const v = opts[key];
+  if (v === undefined) return fallback;
+  const n = Number(v);
+  if (v === true || typeof v !== 'string' || !Number.isInteger(n) || n < 1) {
+    throw new Error(`--${key} needs a whole number of at least 1, got ${v === true ? 'no value' : JSON.stringify(v)}`);
+  }
+  return n;
+}
+
+/**
  * Merge a preset under the explicit options: an option the call names always wins.
  * Returns the resolved init shape plus where each value came from, so init can say so.
  */
@@ -28,8 +55,8 @@ export function resolveInit(opts) {
     preset: name,
     participants: given('participants') ? String(opts.participants) : (preset.participants ?? UI_DEFAULT_PARTICIPANTS),
     participantsDefaulted: !given('participants'),
-    variants: Number(given('variants') ? opts.variants : (preset.variants ?? 3)),
-    timeout_min: Number(given('timeout-min') ? opts['timeout-min'] : (preset.timeout_min ?? 60)),
+    variants: countOpt(opts, 'variants', preset.variants ?? 3),
+    timeout_min: minutesOpt(opts, 'timeout-min', preset.timeout_min ?? 60),
     review,
     bar: preset.bar ?? null,
   };

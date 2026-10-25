@@ -39,6 +39,7 @@ import path from 'node:path';
 import crypto from 'node:crypto';
 import { fileURLToPath } from 'node:url';
 import { loadFleet } from './lib/projects.mjs';
+import { EXIT } from './lib/exit-codes.mjs';
 import { summarizeFile, cwdsIn, encode, SCHEMA, DISPOSITIONS } from './lib/process-sessions.mjs';
 
 const ROOT = path.resolve(fileURLToPath(new URL('.', import.meta.url)), '..');
@@ -49,12 +50,31 @@ const CACHE_VERSION = 1;
 const IN_FLIGHT_MS = 120_000;
 
 const argv = process.argv.slice(2);
-const val = (k) => { const i = argv.indexOf(k); return i >= 0 ? argv[i + 1] : undefined; };
+const usage = (msg) => {
+  console.error(`process-sessions: ${msg}. Usage: process-sessions.mjs [--json] [--since 30d|<date>] [--project <slug>] [--claude-projects <dir>] [--cache <file>] [--min-work 3]`);
+  process.exit(EXIT.FATAL);
+};
+// A filter the script cannot read must not run as "no filter": `--since last-week` used to
+// report every remembered session, and `--min-work three` (NaN) kept none.
+const VALUED = new Set(['--since', '--project', '--claude-projects', '--cache', '--min-work']);
+const opts = {};
+for (let i = 0; i < argv.length; i++) {
+  const a = argv[i];
+  if (a === '--json') continue;
+  if (!VALUED.has(a)) usage(`unknown argument ${JSON.stringify(a)}`);
+  const v = argv[++i];
+  if (v === undefined || v.startsWith('--')) usage(`${a} needs a value`);
+  opts[a] = v;
+}
+const val = (k) => opts[k];
 const claudeProjects = path.resolve(val('--claude-projects') ?? path.join(os.homedir(), '.claude', 'projects'));
 const cacheFile = path.resolve(val('--cache') ?? path.join(ROOT, '.process-sessions.local.json'));
 const since = val('--since');
 const onlyProject = val('--project');
 const minWork = Number(val('--min-work') ?? 3);
+if (!Number.isInteger(minWork) || minWork < 0) usage(`--min-work must be a non-negative integer, got ${JSON.stringify(val('--min-work'))}`);
+const sinceCut = since == null ? null : /^\d+d$/.test(since) ? Date.now() - Number(since.slice(0, -1)) * 864e5 : Date.parse(since);
+if (since != null && !Number.isFinite(sinceCut)) usage(`--since takes Nd or a date, got ${JSON.stringify(since)}`);
 
 const norm = (p) => path.resolve(p).toLowerCase();
 const readText = (p) => { try { return fs.readFileSync(p, 'utf8'); } catch { return null; } };
@@ -147,11 +167,23 @@ function placeOf(cwd) {
 }
 const resolves = (cwd) => projectOf(cwd) != null || placeOf(cwd)?.slug != null;
 
+// The cache is the ONLY copy of every session whose transcript has rolled off, so a cache that
+// exists and does not parse (a killed write, a full disk, a hand edit) is not a first run: the
+// read path degrades and says so, the write path refuses, and the damaged file stays for
+// recovery (agent-memory/durable-store-failure-posture). Absent, or another version: rebuild.
 let cache = { version: CACHE_VERSION, files: {} };
-try {
-  const raw = JSON.parse(fs.readFileSync(cacheFile, 'utf8'));
-  if (raw?.version === CACHE_VERSION && raw.files) cache = raw;
-} catch { /* first run, or a cache from another version: rebuild */ }
+let cacheWritable = true;
+let cacheText = null;
+try { cacheText = fs.readFileSync(cacheFile, 'utf8'); } catch { /* first run */ }
+if (cacheText !== null) {
+  try {
+    const raw = JSON.parse(cacheText);
+    if (raw?.version === CACHE_VERSION && raw.files) cache = raw;
+  } catch (e) {
+    cacheWritable = false;
+    console.error(`process-sessions: the device cache ${cacheFile} is unreadable (${e.message}); this run reports only the transcripts on disk now, and the cache is not written. Move the file aside to start a new history.`);
+  }
+}
 // An `outside-fleet` verdict is only as good as the fleet it was judged against.
 const fleetChanged = cache.fleet !== fleetKey;
 cache.fleet = fleetKey;
@@ -194,16 +226,16 @@ if (fs.existsSync(claudeProjects)) {
     }
   }
 }
-fs.writeFileSync(cacheFile, JSON.stringify(cache));
+if (cacheWritable) {
+  // Whole or not at all: a write killed half-way must not become the unreadable cache above.
+  const tmp = `${cacheFile}.${process.pid}.tmp`;
+  try { fs.writeFileSync(tmp, JSON.stringify(cache)); fs.renameSync(tmp, cacheFile); } catch (e) { fs.rmSync(tmp, { force: true }); throw e; }
+}
 
 const remembered = Object.values(cache.files).map((e) => e.session).filter(Boolean);
 let sessions = remembered;
 if (onlyProject) sessions = sessions.filter((s) => s.project === onlyProject);
-if (since) {
-  const m = String(since).match(/^(\d+)d$/);
-  const cut = m ? Date.now() - Number(m[1]) * 864e5 : Date.parse(since);
-  if (Number.isFinite(cut)) sessions = sessions.filter((s) => s.start >= cut);
-}
+if (sinceCut != null) sessions = sessions.filter((s) => s.start >= sinceCut);
 sessions.sort((a, b) => a.start - b.start);
 const out = encode(sessions, { minWorkSteps: minWork });
 // `cached` counts SESSIONS the device remembers (with work, any date, any project), including

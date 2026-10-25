@@ -11,11 +11,15 @@
  * standard forbids, a page that phones home, or a `[TODO]` that survived the edit.
  *
  * Mechanical rules, nothing else (quality is the human's, by design):
- *   shape          the fixed per-publication file set, and nothing outside it; every
+ *   shape          the fixed per-publication file set, and nothing outside it - no
+ *                  dot-entry at the lane root either (`publications/.wip-draft/` is a
+ *                  draft the index builder would skip, so it would land unseen); every
  *                  medium/story.html image is `figures/NN-<name>.png`, the render of a
  *                  listed `figures/NN-<name>.svg`. The lane is text-only: the PNG renders
  *                  are derived, regenerated from the SVGs, and never required here
- *   schema         publication.json is `publication/1`: closed keys, types, no null
+ *   schema         publication.json is `publication/1`: closed keys, types, no null, and
+ *                  no byte-order mark (this gate used to strip it while the index builder
+ *                  refused it - two readers of one file must agree on whether it parses)
  *   slug           the `slug` field equals its directory name, kebab-case
  *   citations      every `[n]` in post.md, post.html and medium/story.html - and every
  *                  claim - resolves to a source `n`; post.md cites at least once
@@ -51,7 +55,8 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { EXIT } from './lib/exit-codes.mjs';
+import { EXIT, installCrashDoor } from './lib/exit-codes.mjs';
+import { leaksIn, assertScanner, PRESETS } from './lib/leaks.mjs';
 
 const ROOT = path.resolve(fileURLToPath(new URL('.', import.meta.url)), '..');
 
@@ -252,8 +257,13 @@ export function networkRefs(html, { svg = false } = {}) {
   }
   for (const m of html.matchAll(new RegExp(`@import\\s+(?:url\\(\\s*)?["']?\\s*${NET}`, 'gi'))) add('a CSS @import', m);
   for (const m of html.matchAll(new RegExp(`url\\(\\s*["']?\\s*${NET}`, 'gi'))) add('a CSS url()', m);
+  // An HTML page may inline an SVG, and an inline <image>/<use>/<feImage> href fetches
+  // exactly as it does in a figure file; so does an <object data>. These ran on figures
+  // only until 2026-10-25, and post.html passed all of them.
+  for (const m of html.matchAll(new RegExp(`<(?:image|use|feImage)\\b[^>]*\\b(?:xlink:)?href\\s*=\\s*["']?\\s*${NET}`, 'gi'))) add('an external SVG reference', m);
+  for (const m of html.matchAll(new RegExp(`<object\\b[^>]*\\bdata\\s*=\\s*["']?\\s*${NET}`, 'gi'))) add('an embedded object from the network', m);
   if (svg) {
-    for (const m of html.matchAll(new RegExp(`<(?:image|use|feImage|script)\\b[^>]*\\b(?:xlink:)?href\\s*=\\s*["']\\s*${NET}`, 'gi'))) add('an external SVG reference', m);
+    for (const m of html.matchAll(new RegExp(`<script\\b[^>]*\\b(?:xlink:)?href\\s*=\\s*["']\\s*${NET}`, 'gi'))) add('an external SVG reference', m);
     for (const m of html.matchAll(/<script\b/gi)) add('a script in an SVG figure', m);
   }
   return hits;
@@ -286,24 +296,15 @@ export function storyImageProblems(story, listed) {
   return out;
 }
 
-// Same shape as check-public-paths.mjs (which cannot be imported without running it):
-// a user-profile path on Windows or POSIX, unless the user segment is a placeholder.
-const PROFILE = [
-  /(?<![A-Za-z])[A-Za-z]:[\\/]{1,2}Users[\\/]{1,2}([^\\/\s`'"<>|:*?]+)[\\/]/g,
-  /(?<![\w.~:-])\/(?:home|Users)\/([^/\s`'"<>|:*?]+)\//g,
-];
-const PATH_PLACEHOLDER = new Set(['me', 'you', 'x', 'y', 'user', 'username', 'name', 'example', 'public', 'default']);
+// The privacy rule is lib/leaks' PUBLISHED preset - the table check-public-paths applies to
+// this lane once it is committed. This gate runs on a draft BEFORE it is tracked, where
+// check-public-paths cannot see it, so the two must be one table: this file used to carry
+// its own two-pattern copy, and a probe on 2026-10-25 caught 2 of 6 planted paths with it
+// (a lowercase `c:\users\<n>\`, a WSL mount, a `~/code/...` layout and a profile path at the
+// end of a sentence all passed) where the shared table caught 6 of 6.
+const PRIVACY_FORMS = PRESETS.PUBLISHED;
 export function machinePathHits(text) {
-  const hits = [];
-  for (const re of PROFILE) {
-    re.lastIndex = 0;
-    for (const m of text.matchAll(re)) {
-      const who = m[1].replace(/^<|>$/g, '').toLowerCase();
-      if (m[1].startsWith('<') || PATH_PLACEHOLDER.has(who)) continue;
-      hits.push({ text: m[0], line: lineOf(text, m.index) });
-    }
-  }
-  return hits;
+  return leaksIn(text, PRIVACY_FORMS).map((h) => ({ text: h.match, line: lineOf(text, h.index) }));
 }
 
 export const isIsoDate = (s) => {
@@ -530,11 +531,14 @@ export function selfTest() {
   expect('network src', networkRefs('<img src="https://x.example/a.png">').length === 1);
   expect('network stylesheet', networkRefs('<link rel="stylesheet" href="https://x.example/a.css">').length === 1);
   expect('network skips anchors', networkRefs('<a href="https://x.example/">x</a>').length === 0);
+  expect('network inline svg image', networkRefs('<svg><image href="https://x.example/a.png"/></svg>').length === 1);
+  expect('network object data', networkRefs('<object data="https://x.example/a.svg"></object>').length === 1);
   const listedSvg = new Set(['figures/01-a-chart.svg']);
   expect('story image: a render of a listed figure', storyImageProblems('<img src="figures/01-a-chart.png">', listedSvg).length === 0);
   expect('story image: a render of an unlisted figure', storyImageProblems('<img src="figures/02-other.png">', listedSvg).length === 1);
   expect('story image: any other relative src', storyImageProblems('<img src="figures/01-a-chart.svg">', listedSvg).length === 1);
   expect('machine path', machinePathHits('saved under C:\\Users\\kazda\\notes\\x.md').length === 1);
+  try { assertScanner(PRIVACY_FORMS); } catch (e) { broken.push(`machine path forms (${e.message})`); }
   expect('source date', isSourceDate('2025-11') && isSourceDate('2026-10-05') && !isSourceDate('Oct 2025'));
   expect('web url', isWebUrl('https://arxiv.org/abs/2305.13707') && !isWebUrl('SOURCES.md'));
   // The critique cross-check: a clean planted record stays quiet, and the same record
@@ -571,6 +575,10 @@ function stringsIn(v, out = []) {
 
 const read = (file) => {
   try { return fs.readFileSync(file, 'utf8').replace(/^\uFEFF/, '').replace(/\r\n/g, '\n'); } catch { return null; }
+};
+
+const hasBom = (file) => {
+  try { return fs.readFileSync(file).subarray(0, 3).equals(Buffer.from([0xef, 0xbb, 0xbf])); } catch { return false; }
 };
 
 const listDir = (dir) => {
@@ -647,6 +655,9 @@ export function validatePublication(dir, name = path.basename(dir)) {
   // ---- schema
   const raw = read(path.join(dir, 'publication.json'));
   let pub = null;
+  if (raw !== null && hasBom(path.join(dir, 'publication.json'))) {
+    fail('schema', 'publication.json', 'starts with a byte-order mark - JSON.parse (and build-publications-index) rejects it; save as UTF-8 without BOM');
+  }
   if (raw !== null) {
     try { pub = JSON.parse(raw); } catch (e) { fail('schema', 'publication.json', `does not parse (${e.message})`); }
   }
@@ -877,7 +888,10 @@ export function validateLane(laneRoot) {
   const warnings = [];
   const slugs = [];
   for (const e of entries) {
-    if (e.name.startsWith('.')) continue;
+    if (e.name.startsWith('.')) {
+      findings.push({ rule: 'shape', file: e.name, message: 'a dot-entry in the lane is skipped by the index - a draft does not live here; rename or remove it' });
+      continue;
+    }
     if (!e.isDirectory()) {
       if (!LANE_ROOT_FILES.has(e.name)) findings.push({ rule: 'shape', file: e.name, message: 'a publication is a directory: publications/<slug>/' });
       continue;
@@ -891,14 +905,24 @@ export function validateLane(laneRoot) {
 }
 
 function main() {
+  installCrashDoor();
   const argv = process.argv.slice(2);
+  const usage = 'usage: node scripts/check-publications.mjs [--root <dir>] [<publication-dir> ...] [--help]';
+  if (argv.includes('--help') || argv.includes('-h')) { console.log(usage); process.exit(EXIT.OK); }
   const rootIdx = argv.indexOf('--root');
-  const laneRoot = rootIdx === -1 ? path.join(ROOT, 'publications') : path.resolve(argv[rootIdx + 1] ?? '');
-  const dirs = argv.filter((a, i) => !a.startsWith('--') && (rootIdx === -1 || i !== rootIdx + 1));
-  if (rootIdx !== -1 && !argv[rootIdx + 1]) {
+  if (rootIdx !== -1 && (!argv[rootIdx + 1] || argv[rootIdx + 1].startsWith('--'))) {
     console.error('check-publications FATAL: --root needs a directory.');
     process.exit(EXIT.FATAL);
   }
+  // A closed flag set: a flag-shaped argument other than --root used to be dropped from the
+  // directory list, so a typo ran the whole-lane check and exited as if it had been heard.
+  const unknown = argv.find((a, i) => a.startsWith('-') && a !== '--root' && !(rootIdx !== -1 && i === rootIdx + 1));
+  if (unknown !== undefined) {
+    console.error(`check-publications FATAL: unknown argument ${JSON.stringify(unknown)}; nothing was checked.\n${usage}`);
+    process.exit(EXIT.FATAL);
+  }
+  const laneRoot = rootIdx === -1 ? path.join(ROOT, 'publications') : path.resolve(argv[rootIdx + 1]);
+  const dirs = argv.filter((a, i) => a !== '--root' && (rootIdx === -1 || i !== rootIdx + 1));
 
   const broken = selfTest();
   if (broken.length) {

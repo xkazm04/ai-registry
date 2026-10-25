@@ -7,6 +7,7 @@ stack: python
 status: forged
 verified_on: 2026-09-15
 source: vibrantlabsai/ragas
+counterpart: external
 ---
 
 # Python: ragas reconstructs the question from the answer, and zeroes only unanimous evasion

@@ -3,7 +3,7 @@ name: hygiene
 description: "Start-of-day fleet sweep before any development: scan every project registered on this machine for open pull requests, merged or abandoned branches and worktrees, a red default branch, and open GitHub security alerts (code scanning, secret scanning, Dependabot), plus invalid Claude Code project settings via `claude doctor`, and the disk debris agent runs leave on the machine (landed scratch clones, build output, stale compiler caches, session and test-fixture temp). Cleans up what is mechanical itself, then dispatches one Sonnet worker per project to ship, repair, merge, delete or fix the rest onto main/master, and hands back only what needs a human. Use at the start of a day, when branches, PRs and alerts have piled up across the fleet, or when the disk is filling."
 category: ai-native
 memory: project
-version: 1.2.0
+version: 1.3.0
 tags: fleet, hygiene, pull-requests, branches, worktrees, security-alerts, ship, dispatch, sonnet-workers, start-of-day
 ---
 
@@ -35,6 +35,7 @@ because it did not know where to put its working files.
 /hygiene kp,ascent        # full run limited to these project slugs
 /hygiene status           # print today's plan.md and applied.jsonl, touch nothing
 /hygiene disk             # the disk lane alone: scan, apply mechanical, report (no GitHub, no workers)
+/hygiene disk deep        # disk lane + MangoDisk analyzer + gated reclaim of dev caches (references/disk-deep-pass.md)
 /hygiene reflect          # land what the last runs taught into this file and LESSONS.md
 ```
 
@@ -152,8 +153,8 @@ a harness upgrade) is NOT part of this sweep: its findings are a source to verif
 
 Then the disk lane: `node scripts/hygiene-disk.mjs` (minutes: it walks the scratch root and
 temp in full, because a liveness gate on a deletion has to see every file). Spot-check one
-`remove-scratch-checkout` row from git (`git -C <dir> rev-list HEAD --not --remotes`, `git -C <dir>
-status --porcelain`) before trusting the class.
+`remove-scratch-checkout` row from git (`git -C <dir> rev-list --all --not origin/HEAD`, `git -C <dir>
+status --porcelain`; empty output means every ref is on the default branch) before trusting the class.
 
 `/hygiene scan` ends here: print the table and the operator list.
 
@@ -185,9 +186,9 @@ is the instrument for that surface; it writes `disk.json`/`disk.md` beside `plan
 
 | area | mechanical | operator |
 |---|---|---|
-| scratch root (`<drive>/t`) | a checkout idle past `--idle-hours` whose HEAD is landed (worktree: on another ref of its repo; clone: every commit on its remotes, or each local commit's patch-id in its fleet home) and whose dirty paths are noise only (`next-env.d.ts`, `*.generated.ts`, untracked husky shims, a whitespace or line-ending diff); a build-output folder (`*target*`, `tgt*`, `cargo-target-*`) once idle | a checkout with WIP or unlanded commits; any `hyg-*` entry (the dead-worker rule); an unknown folder after `--temp-days` |
+| scratch root (`<drive>/t`) | a checkout idle past `--idle-hours` whose HEAD is landed (worktree: on another ref of its repo; clone: every commit on its remote's default branch, or each commit not there has its patch-id in its fleet home) and whose dirty paths are noise only (`next-env.d.ts`, `*.generated.ts`, untracked husky shims, a whitespace or line-ending diff); a build-output folder (`*target*`, `tgt*`, `cargo-target-*`) once idle | a checkout with WIP or unlanded commits; a clone whose work sits only on a non-default remote-tracking ref (`landed only on remote-tracking refs (unverified without network)`: the lane never fetches, so `origin/<branch>` may name a branch the server deleted when its PR closed unmerged, and the clone holds the only copy); any `hyg-*` entry (the dead-worker rule); an unknown folder after `--temp-days` |
 | build caches | cargo `incremental/` crate dirs in fleet checkouts untouched past `--idle-hours`; an out-of-tree build-output sibling of a checkout after `--temp-days` | the same sibling before `--temp-days` |
-| temp | a user-temp entry or a Claude session dir untouched `--temp-days` (7), or 48 h and 100 MB | `temp-leak`: a name family with hundreds of members - a suite that never removes its `mkdtemp` dirs; fix it in that repo |
+| temp | a user-temp entry or a Claude session dir untouched `--temp-days` (7), or 48 h and 100 MB, and never inside the `--idle-hours` floor; a checkout there (a `.git` at its top) gets the scratch checkout rules above instead of the age rule | `temp-leak`: a name family with hundreds of members - a suite that never removes its `mkdtemp` dirs; fix it in that repo |
 | models | - | a local model store over 1 GB (operator 2026-10-15: none wanted on this machine) |
 
 Everything inside `--idle-hours` is `hands-off` (`.git/index` is not activity: scanners refresh
@@ -200,6 +201,17 @@ floor 0, kept entries printed with the reason. curator's night does this per cla
 
 `/hygiene disk` is this lane alone: the Phase 0 claim, `hygiene-disk.mjs`, the spot-check,
 `--apply`, and the report's **Disk** section. No GitHub calls, no workers.
+
+`/hygiene disk deep` adds the **deep pass** for a nearly full drive, following
+`references/disk-deep-pass.md`. It starts with `tools/growth-walk.mjs`, which totals what
+was written since the last good sweep (cleaner rules miss most of it), then the MangoDisk CLI
+(`<tools>/mangodisk-cli`) measures every development pool read-only: whole cargo `target/`s, node and Unreal build
+output, package-manager caches, WSL and Docker disks. The director then reclaims what
+regenerates, each pool behind its own liveness gate and through `safe-remove` or the
+tool's own prune command. Never run MangoDisk's own `--apply`: its project rules delete a
+whole `target/` or `node_modules` with no liveness check. A whole `target/` in a fleet
+checkout, Personas-app worktrees and WSL/Docker compaction stay operator rows.
+2026-10-22: 54 GB free -> 546 GB (the growth walk found 465 GB of it).
 
 ## Phase 2 - Mechanical
 

@@ -6,8 +6,8 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
-import { execFileSync } from 'node:child_process';
-import { classifyCheckout, classifyPlain, classifyTemp, leakFamilies, checkoutFacts, scratchRootOf, BUILD_OUTPUT } from '../hygiene-disk.mjs';
+import { execFileSync, spawnSync } from 'node:child_process';
+import { classifyCheckout, classifyPlain, classifyTemp, leakFamilies, checkoutFacts, scratchRootOf, BUILD_OUTPUT, scan, reclassify, renderMarkdown } from '../hygiene-disk.mjs';
 
 // Fixture git never sees a hook's GIT_DIR (2026-09-19: fixtures wrote into real repositories).
 const ENV = { ...Object.fromEntries(Object.entries(process.env).filter(([k]) => !k.startsWith('GIT_'))), GIT_AUTHOR_NAME: 't', GIT_AUTHOR_EMAIL: 't@t.invalid', GIT_COMMITTER_NAME: 't', GIT_COMMITTER_EMAIL: 't@t.invalid' };
@@ -53,6 +53,13 @@ test('classifyTemp: 7 days, or 2 days and 100 MB', () => {
   assert.equal(classifyTemp({ ageH: 20, bytes: 5e9 }), null, 'a fresh big dir is somebody\'s live work');
 });
 
+test('classifyTemp honours --idle-hours: nothing written inside the floor is removable', () => {
+  // The header's hands-off rule binds every area; the temp lane hard-coded its own 48 h.
+  assert.equal(classifyTemp({ ageH: 50, bytes: 200e6 }, { tempDays: 7, idleH: 72 }), null);
+  assert.equal(classifyTemp({ ageH: 8 * 24, bytes: 10 }, { tempDays: 7, idleH: 200 }), null);
+  assert.equal(classifyTemp({ ageH: 80, bytes: 200e6 }, { tempDays: 7, idleH: 72 })?.kind, 'remove-temp');
+});
+
 test('leakFamilies folds ids and counters into one family per leaking suite', () => {
   // fs.mkdtemp(prefix) appends six random [A-Za-z0-9] directly to the prefix
   const AL = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
@@ -93,6 +100,102 @@ test('checkoutFacts: a clean clone is landed; an unpushed commit is not, until i
   } finally { r.cleanup(); }
 });
 
+test('checkoutFacts: a clone is landed only when EVERY local ref is, not just HEAD', () => {
+  // Deleting a clone deletes all of its refs: a side branch or a stash holding unpushed
+  // commits is lost even when HEAD sits on origin/main.
+  const r = repos();
+  try {
+    g(r.clone, 'checkout', '-q', '-b', 'side');
+    fs.writeFileSync(path.join(r.clone, 'side.txt'), 'side work\n');
+    g(r.clone, 'add', 'side.txt');
+    g(r.clone, 'commit', '-q', '-m', 'side work');
+    g(r.clone, 'checkout', '-q', 'main');
+    let f = checkoutFacts(r.clone, r.homes);
+    assert.equal(f.headLanded, false, `a side branch with an unpushed commit: ${f.why}`);
+    g(r.clone, 'branch', '-q', '-D', 'side');
+    assert.equal(checkoutFacts(r.clone, r.homes).headLanded, true, 'nothing left but what origin has');
+    fs.writeFileSync(path.join(r.clone, 'a.txt'), 'stashed\n');
+    g(r.clone, 'stash', '-q');
+    f = checkoutFacts(r.clone, r.homes);
+    assert.equal(f.headLanded, false, `a stash is local work: ${f.why}`);
+  } finally { r.cleanup(); }
+});
+
+// A bare origin, a seed clone that gave it `main`, and the scratch clone under test.
+function bareRepos() {
+  const base = fs.mkdtempSync(path.join(os.tmpdir(), 'hdisk-'));
+  const origin = path.join(base, 'origin.git');
+  execFileSync('git', ['init', '-q', '--bare', '-b', 'main', origin], { env: ENV, stdio: 'ignore' });
+  const seed = path.join(base, 'seed');
+  execFileSync('git', ['clone', '-q', origin, seed], { env: ENV, stdio: 'ignore' });
+  g(seed, 'checkout', '-q', '-b', 'main');
+  fs.writeFileSync(path.join(seed, 'a.txt'), 'one\n');
+  g(seed, 'add', 'a.txt');
+  g(seed, 'commit', '-q', '-m', 'one');
+  g(seed, 'push', '-q', 'origin', 'main');
+  const clone = path.join(base, 'cn2-origin');
+  execFileSync('git', ['clone', '-q', origin, clone], { env: ENV, stdio: 'ignore' });
+  const commit = (dir, file, text) => { fs.writeFileSync(path.join(dir, file), text); g(dir, 'add', file); g(dir, 'commit', '-q', '-m', `add ${file}`); };
+  return { base, origin, seed, clone, commit, cleanup: () => fs.rmSync(base, { recursive: true, force: true }) };
+}
+
+test('checkoutFacts: work on a remote-tracking ref alone is unverified without network, not landed', () => {
+  // The lane never fetches, so origin/feature in a clone can name a branch the server deleted
+  // (PR closed unmerged). rev-list --not --remotes read that as landed and the clone, holding
+  // the only copy, was a mechanical delete.
+  const r = bareRepos();
+  try {
+    g(r.clone, 'checkout', '-q', '-b', 'feature');
+    r.commit(r.clone, 'f.txt', 'feature work\n');
+    g(r.clone, 'push', '-q', 'origin', 'feature');
+    g(r.clone, 'checkout', '-q', 'main');
+    // the server drops the branch (PR closed unmerged); the clone's origin/feature stays
+    g(r.origin, 'update-ref', '-d', 'refs/heads/feature');
+    assert.ok(g(r.clone, 'rev-parse', '--verify', 'refs/remotes/origin/feature'), 'the stale remote-tracking ref is still there');
+    const f = checkoutFacts(r.clone, []);
+    assert.notEqual(f.headLanded, true, f.why);
+    assert.match(f.why, /landed only on remote-tracking refs \(unverified without network\)/);
+    assert.equal(classifyCheckout({ name: 'cn2-origin', ageH: 30, ...f }).class, 'operator', 'an operator row, not a mechanical delete');
+    // a side branch pushed and checked out is the same work and the same answer
+    g(r.clone, 'checkout', '-q', 'feature');
+    assert.notEqual(checkoutFacts(r.clone, []).headLanded, true);
+  } finally { r.cleanup(); }
+});
+
+test('checkoutFacts: remote-only work stays mechanical when it is provably elsewhere without network', () => {
+  const r = bareRepos();
+  try {
+    // control: the work merged into the origin's default branch and was fetched
+    g(r.clone, 'checkout', '-q', '-b', 'feature');
+    r.commit(r.clone, 'f.txt', 'feature work\n');
+    g(r.clone, 'push', '-q', 'origin', 'feature');
+    g(r.clone, 'checkout', '-q', 'main');
+    g(r.clone, 'merge', '-q', '--ff-only', 'feature');
+    g(r.clone, 'push', '-q', 'origin', 'main');
+    g(r.origin, 'update-ref', '-d', 'refs/heads/feature');
+    g(r.clone, 'branch', '-q', '-D', 'feature');
+    let f = checkoutFacts(r.clone, []);
+    assert.equal(f.headLanded, true, f.why);
+    assert.match(f.why, /origin\/main/);
+    assert.equal(classifyCheckout({ name: 'cn2-origin', ageH: 30, ...f }).kind, 'remove-scratch-checkout');
+    // the same change sitting in a fleet home on this machine under another sha is also proof
+    g(r.clone, 'checkout', '-q', '-b', 'second');
+    r.commit(r.clone, 's.txt', 'second work\n');
+    g(r.clone, 'push', '-q', 'origin', 'second');
+    g(r.clone, 'checkout', '-q', 'main');
+    g(r.origin, 'update-ref', '-d', 'refs/heads/second');
+    const fleetHome = path.join(r.base, 'fleet-home');
+    execFileSync('git', ['clone', '-q', r.origin, fleetHome], { env: ENV, stdio: 'ignore' });
+    r.commit(fleetHome, 's.txt', 'second work\n');
+    const homes = [{ slug: 'fleet', path: fleetHome, keys: [r.origin.toLowerCase().replace(/\\/g, '/').replace(/\.git$/, '')] }];
+    f = checkoutFacts(r.clone, []);
+    assert.notEqual(f.headLanded, true, 'no home: the deleted branch is unverified');
+    f = checkoutFacts(r.clone, homes);
+    assert.equal(f.headLanded, true, f.why);
+    assert.match(f.why, /by patch-id/);
+  } finally { r.cleanup(); }
+});
+
 test('checkoutFacts: install noise is not work; a real untracked or modified file is', () => {
   const r = repos();
   try {
@@ -101,7 +204,9 @@ test('checkoutFacts: install noise is not work; a real untracked or modified fil
     fs.writeFileSync(path.join(r.clone, '.husky', 'pre-commit'), 'tracked hook');
     g(r.clone, 'add', '.husky/pre-commit');
     g(r.clone, 'commit', '-q', '-m', 'hooks');
-    g(r.clone, 'push', '-q', 'origin', 'HEAD:hooks'); // on its remote, so still landed
+    g(r.clone, 'push', '-q', 'origin', 'HEAD:hooks');
+    g(r.home, 'merge', '-q', '--ff-only', 'hooks'); // merged on the server's default branch ...
+    g(r.clone, 'fetch', '-q', 'origin'); // ... and fetched, so still landed
     fs.writeFileSync(path.join(r.clone, 'next-env.d.ts'), 'generated');
     fs.writeFileSync(path.join(r.clone, '.husky', 'commit-msg'), 'shim');
     fs.writeFileSync(path.join(r.clone, 'grep.exe.stackdump'), 'crash'); // C:/t/dp-* 2026-10-21
@@ -114,6 +219,86 @@ test('checkoutFacts: install noise is not work; a real untracked or modified fil
     fs.writeFileSync(path.join(r.clone, 'notes.md'), 'mine');
     assert.deepEqual(checkoutFacts(r.clone, r.homes).dirtyOther, ['notes.md']);
   } finally { r.cleanup(); }
+});
+
+test('checkoutFacts: staged work is work - a staged new file or edit keeps the clone, a staged whitespace edit does not', () => {
+  // `git diff` alone compares the tree to the INDEX, so `git add`ed work read as clean and a
+  // landed clone holding it was a mechanical delete.
+  const r = repos();
+  try {
+    fs.writeFileSync(path.join(r.clone, 'staged.txt'), 'staged only\n');
+    g(r.clone, 'add', 'staged.txt');
+    assert.deepEqual(checkoutFacts(r.clone, r.homes).dirtyOther, ['staged.txt'], 'a staged new file');
+    g(r.clone, 'rm', '-q', '--cached', 'staged.txt');
+    fs.rmSync(path.join(r.clone, 'staged.txt'));
+    fs.writeFileSync(path.join(r.clone, 'a.txt'), 'two\n');
+    g(r.clone, 'add', 'a.txt');
+    assert.deepEqual(checkoutFacts(r.clone, r.homes).dirtyOther, ['a.txt'], 'a staged edit');
+    fs.writeFileSync(path.join(r.clone, 'a.txt'), 'one  \n');
+    g(r.clone, 'add', 'a.txt');
+    assert.deepEqual(checkoutFacts(r.clone, r.homes).dirtyOther, [], 'a staged whitespace-only edit is still noise');
+  } finally { r.cleanup(); }
+});
+
+test('scan: a checkout in the temp dir gets the checkout rules, not the temp age rule', () => {
+  // Workers and fixtures put worktrees and clones straight into the user temp dir
+  // (hygiene-scan's ownerOf calls them `temp`). Age alone made one with WIP a mechanical delete.
+  const r = repos();
+  try {
+    const tmp = path.join(r.base, 'tmp');
+    const home = path.join(r.base, 'userhome');
+    fs.mkdirSync(tmp); fs.mkdirSync(home);
+    const wip = path.join(tmp, 'wt-wip');
+    const landed = path.join(tmp, 'cn-landed');
+    for (const d of [wip, landed]) execFileSync('git', ['clone', '-q', r.home, d], { env: ENV, stdio: 'ignore' });
+    fs.writeFileSync(path.join(wip, 'notes.md'), 'only copy\n');
+    fs.mkdirSync(path.join(tmp, 'plain-old'));
+    fs.writeFileSync(path.join(tmp, 'plain-old', 'x.bin'), 'x');
+    const rows = scan({ fleet: { projects: {} }, idleH: 24, tempDays: 7, scratch: path.join(r.base, 'no-scratch'), tmp, home, now: Date.now() + 10 * 86400e3 });
+    const by = Object.fromEntries(rows.map((x) => [path.basename(x.path), x]));
+    assert.equal(by['wt-wip'].class, 'operator', JSON.stringify(by['wt-wip']));
+    assert.equal(by['wt-wip'].kind, 'scratch-wip');
+    assert.equal(by['cn-landed'].kind, 'remove-scratch-checkout', 'landed and clean: removable, with a HEAD to re-check at apply');
+    assert.ok(by['cn-landed'].head);
+    assert.equal(by['plain-old'].kind, 'remove-temp');
+  } finally { r.cleanup(); }
+});
+
+test('a typo in a window or an unknown option refuses the run before anything is deleted', () => {
+  // Number('24h') is NaN, every `age < NaN` is false, and the liveness floor was off; an
+  // unknown flag (`--dry-run`) was ignored and the run deleted.
+  const r = repos();
+  try {
+    const scratch = path.join(r.base, 'scratch');
+    fs.mkdirSync(scratch);
+    const fresh = path.join(scratch, 'cn9-home');
+    execFileSync('git', ['clone', '-q', r.home, fresh], { env: ENV, stdio: 'ignore' }); // landed, clean, written seconds ago
+    const SCRIPT = path.resolve(path.dirname(new URL(import.meta.url).pathname.replace(/^\/([A-Za-z]:)/, '$1')), '..', 'hygiene-disk.mjs');
+    for (const extra of [['--idle-hours', '24h'], ['--idle-hours', '-1'], ['--dry-run']]) {
+      const res = spawnSync(process.execPath, [SCRIPT, '--scratch', scratch, '--out', path.join(r.base, 'out'), ...extra, '--reap', fresh], { env: ENV, encoding: 'utf8' });
+      assert.equal(res.status, 2, `${extra.join(' ')}: ${res.stdout}${res.stderr}`);
+      assert.match(res.stderr, new RegExp(extra[0]));
+      assert.equal(fs.existsSync(fresh), true, `${extra.join(' ')} deleted the checkout`);
+    }
+    const ok = spawnSync(process.execPath, [SCRIPT, '--scratch', scratch, '--out', path.join(r.base, 'out'), '--idle-hours', '24', '--reap', fresh], { env: ENV, encoding: 'utf8' });
+    assert.equal(ok.status, 0, ok.stderr);
+    assert.match(JSON.parse(ok.stdout.trim()).skipped, /scratch-live/, 'a valid floor keeps a fresh checkout');
+  } finally { r.cleanup(); }
+});
+
+test('scan: a directory with no files is aged by its own times, never as infinitely old', () => {
+  // measureTree ages a tree by its FILES; an empty (or links-only) directory had none, read as
+  // "untouched Infinity h", and a dir created a second ago was a mechanical delete.
+  const base = fs.mkdtempSync(path.join(os.tmpdir(), 'hdisk-'));
+  try {
+    const tmp = path.join(base, 'tmp'), home = path.join(base, 'home'), scratch = path.join(base, 'scratch');
+    for (const d of [tmp, home, scratch, path.join(tmp, 'fresh-empty', 'sub'), path.join(scratch, 'cn5-target')]) fs.mkdirSync(d, { recursive: true });
+    const rows = scan({ fleet: { projects: {} }, idleH: 24, tempDays: 7, scratch, tmp, home });
+    assert.deepEqual(rows.map((r) => `${r.kind} ${path.basename(r.path)}`), [], JSON.stringify(rows));
+    const later = scan({ fleet: { projects: {} }, idleH: 24, tempDays: 7, scratch, tmp, home, now: Date.now() + 10 * 86400e3 });
+    assert.deepEqual(later.map((r) => `${r.kind} ${path.basename(r.path)}`).sort(), ['remove-build-output cn5-target', 'remove-temp fresh-empty']);
+    assert.ok(later.every((r) => Number.isFinite(r.ageH)), 'an age, not Infinity');
+  } finally { fs.rmSync(base, { recursive: true, force: true }); }
 });
 
 test('--reap deletes the landed clone and the build output it names, keeps unpushed work, refuses outside the scratch root', () => {
@@ -162,4 +347,45 @@ test('checkoutFacts: a worktree is landed only when its HEAD is on another ref o
     g(r.home, 'merge', '-q', '--ff-only', 'feature');
     assert.equal(checkoutFacts(wt, r.homes).headLanded, true, 'merged into main');
   } finally { r.cleanup(); }
+});
+
+test('--apply re-checks that a plain row is still not a checkout before deleting it', () => {
+  // The scan routes anything with a .git to the checkout rules; --apply's re-classification of
+  // build-output and temp rows checked only age, so a clone or worktree made at that path
+  // between scan and apply was deleted as build output.
+  const base = fs.mkdtempSync(path.join(os.tmpdir(), 'hdisk-'));
+  try {
+    const later = Date.now() + 10 * 86400e3;
+    const rows = [
+      { area: 'build', kind: 'remove-build-output', name: 'pumper-target' },
+      { area: 'scratch', kind: 'remove-build-output', name: 'cn5-target' },
+      { area: 'temp', kind: 'remove-temp', name: 'wt-xyz' },
+      { area: 'temp', kind: 'remove-session-temp', name: 'session-1' },
+    ];
+    for (const r of rows) {
+      const abs = path.join(base, r.name);
+      fs.mkdirSync(abs);
+      fs.writeFileSync(path.join(abs, 'f.bin'), 'x');
+      assert.equal(reclassify({ ...r, path: abs }, { fleet: { projects: {} }, idleH: 24, tempDays: 7, now: later }).ok, true, `${r.name} plain`);
+      g(abs, 'init', '-q');
+      const v = reclassify({ ...r, path: abs }, { fleet: { projects: {} }, idleH: 24, tempDays: 7, now: later });
+      assert.ok(!v.ok, `${r.name} became a checkout: ${JSON.stringify(v)}`);
+      assert.match(v.skip, /\.git/);
+    }
+  } finally { fs.rmSync(base, { recursive: true, force: true }); }
+});
+
+test('disk.md says how many operator rows it did not show', () => {
+  // The list stops at 40; the operator decides from this page, so a silent cut reads as "that is all".
+  const rows = Array.from({ length: 45 }, (_, i) => ({ area: 'scratch', path: `x${i}`, class: 'operator', kind: 'scratch-wip', reason: 'r', bytes: 1e9 - i }));
+  const md = renderMarkdown({ generatedAt: new Date().toISOString(), freeBytes: 0, scratch: 's', rows });
+  assert.equal(md.split('\n').filter((l) => l.startsWith('- `')).length, 40);
+  assert.match(md, /5 more operator rows in disk\.json/);
+  assert.doesNotMatch(renderMarkdown({ generatedAt: new Date().toISOString(), freeBytes: 0, scratch: 's', rows: rows.slice(0, 3) }), /more operator rows/);
+});
+
+test('the default scratch root is on the fleet\'s drive, not the home drive', { skip: process.platform !== 'win32' && 'drive letters are a win32 notion' }, () => {
+  // The call site read fleet.root, which loadFleet never returns, so the home drive always won.
+  assert.equal(scratchRootOf({ projects: { kp: { slug: 'kp', path: 'D:/dev/kp' } } }), path.join('D:/', 't'));
+  assert.equal(scratchRootOf({ projects: {} }), path.join(path.parse(os.homedir()).root, 't'), 'no checkouts: the home drive');
 });

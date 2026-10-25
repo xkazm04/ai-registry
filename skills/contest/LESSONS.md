@@ -612,3 +612,9 @@ skill's source note; the outcome is recorded there.
 - **Open, not fixed here:** the in-app decide path (`decide.rs`) still records only winner and
   shortlist, so the app can read a combine/close but not write one. Noted for the operator; it is a
   feature, not the desync.
+
+## 1.12.0 - 2026-10-23 - refactoring (Grinex Portal, releases-player + releases-player-r2, owner review)
+- Owner verdict on the method: "the directions of prototypes and creativity is marginal and not worth the contest and spending ... it was created with emphasis to achieve highest quality creative ideas how to resolve different problems". Round 1 (opus@high + sonnet@high, 3 variants each, $15.5) and round 2 (one opus@high seat, 6 variants, $17.8) both returned variations of one list-plus-player page.
+- Host causes: round 1 brief fixed the shape (v1 evolve the current page, v2 player, v3 free), staged the current design's stylesheets as "the visual voice", and demanded port-ready code in a first round; round 2 asked one seat for "the winner + the owner's notes + five evolutions" and listed direction axes (a menu). The owner's element-by-element notes were a /prototype job, not a contest.
+- Skill gaps: no "when not to run a contest" routing; the participant brief asked for different ideas but nothing checked it (no self-check, no host divergence check before the router); the patterns ledger was quoted as a floor, which anchors seats on the last winner.
+- Applied in 1.13.0: When not to run a contest (winner refinement -> /prototype), the creative-brief rule (no fixed shapes, no axis menus, no port-ready in a first round), the divergence contract in participant-brief.md (reframing sentence, own primary surface, what is dropped, skeleton self-check), the host divergence check after collect, and patterns quoted as "solved, do not resubmit". Field effectiveness not yet measured.

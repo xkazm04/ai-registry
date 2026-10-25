@@ -11,13 +11,17 @@
  *
  * Usage:
  *   node qwen-recognize.mjs --input path.png --prompt "Describe the shapes/colors" [--model qwen3.7-plus] [--json]
- * Env: QWEN_API_KEY (or DASHSCOPE_API_KEY).
+ * Env: QWEN_API_KEY (or DASHSCOPE_API_KEY). MOTIONIZE_FETCH_TIMEOUT_MS sets the
+ * per-call deadline in ms (default 300000): a provider that accepts the connection and
+ * never answers used to hang this tool forever. A timeout is not a quota error, so it
+ * ends the run (no fall-through to the next model) like any other non-quota failure.
  */
 import { readFileSync } from "fs";
 import { extname } from "path";
 
 const BASE = (process.env.QWEN_BASE_URL || "https://dashscope-intl.aliyuncs.com/compatible-mode/v1").replace(/\/+$/, "");
 const QUOTA = /quota|arrearage|exceed|insufficient|throttl|rate.?limit|too many requests|allocated|free.?tier/i;
+const TIMEOUT_MS = (() => { const n = Number(process.env.MOTIONIZE_FETCH_TIMEOUT_MS); return Number.isInteger(n) && n > 0 ? n : 300000; })();
 const MIME = { ".png": "image/png", ".jpg": "image/jpeg", ".jpeg": "image/jpeg", ".webp": "image/webp", ".gif": "image/gif" };
 
 function parseArgs(argv) {
@@ -51,13 +55,23 @@ async function main() {
 
   let lastErr = "";
   for (const model of models) {
-    const res = await fetch(`${BASE}/chat/completions`, {
-      method: "POST",
-      headers: { Authorization: `Bearer ${apiKey}`, "Content-Type": "application/json" },
-      body: JSON.stringify({ model, messages: [{ role: "user", content }], temperature: 0.2, max_tokens: 4096 }),
-    });
+    // One signal covers the request and the body read below.
+    const signal = AbortSignal.timeout(TIMEOUT_MS);
+    let res, json, body = "";
+    try {
+      res = await fetch(`${BASE}/chat/completions`, {
+        method: "POST",
+        headers: { Authorization: `Bearer ${apiKey}`, "Content-Type": "application/json" },
+        body: JSON.stringify({ model, messages: [{ role: "user", content }], temperature: 0.2, max_tokens: 4096 }),
+        signal,
+      });
+      if (res.ok) json = await res.json();
+      else body = await res.text().catch(() => "");
+    } catch (e) {
+      if (signal.aborted) fail({ error: `Qwen ${model}: no response within ${TIMEOUT_MS} ms` });
+      throw e;
+    }
     if (res.ok) {
-      const json = await res.json();
       const text = json.choices?.[0]?.message?.content;
       if (text) {
         if (args.json) console.log(JSON.stringify({ success: true, model, text }, null, 2));
@@ -67,7 +81,6 @@ async function main() {
       lastErr = `empty response from ${model}`;
       continue;
     }
-    const body = await res.text().catch(() => "");
     lastErr = `Qwen ${model} HTTP ${res.status}: ${body.slice(0, 200)}`;
     process.stderr.write(`[qwen] ${lastErr}\n`);
     if (!(res.status === 429 || QUOTA.test(body))) fail({ error: lastErr });

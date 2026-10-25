@@ -107,10 +107,13 @@ function measure(repo) {
   const cm = readJson(cmPath);
   if (!cm) return { error: 'no context-map.json' };
 
-  const r = spawnSync('git', ['ls-files'], { cwd: repo, encoding: 'utf8', maxBuffer: 128 * 1024 * 1024 });
+  // -z: without it git quotes any path with a non-ASCII byte ("caf\303\251.ts"), which
+  // matches neither SOURCE_EXT nor the context's claim - the file silently left the
+  // denominator and its claim was counted as a dead path.
+  const r = spawnSync('git', ['ls-files', '-z'], { cwd: repo, encoding: 'utf8', maxBuffer: 128 * 1024 * 1024 });
   if (r.status !== 0) return { error: 'git ls-files failed' };
 
-  const tracked = r.stdout.split('\n').map((s) => s.trim()).filter(Boolean);
+  const tracked = r.stdout.split('\0').filter(Boolean);
   const trackedSet = new Set(tracked);
   const matched = tracked.filter((f) => SOURCE_EXT.test(f) && !NOT_SOURCE.test(f) && !GENERATED.test(f));
   const source = matched.filter((f) => !TEST.test(f));
@@ -161,6 +164,12 @@ if (!fleet.machine) {
 }
 
 const only = valueOf('--project') ?? valueOf('--uncovered');
+// `--uncovered <unknown>` was always refused below; `--project <unknown>` printed an empty
+// table (or `[]`) and exited 0 until 2026-10-25 - a measurement of nothing reported as one.
+if (only && !fleet.projects[only]) {
+  console.error(`check-context-coverage: no project "${only}" resolves on this machine (projects.json + .machine.local.json).`);
+  process.exit(EXIT.FATAL);
+}
 const rows = [];
 for (const p of Object.values(fleet.projects)) {
   if (only && p.slug !== only) continue;

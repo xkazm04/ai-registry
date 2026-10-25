@@ -20,6 +20,10 @@
  *    not treat as free text is still caught. And it asserts the leak scanner BEFORE
  *    reporting: a must-not-match scan with a dead pattern and a clean lane print the same
  *    thing, so a scanner that no longer fires on its own control is FATAL (exit 2).
+ *    The raw-line scan is the FREE_TEXT preset of scripts/lib/leaks.mjs, the one table
+ *    every leak gate shares (URLs stay legal - a run's source link is evidence); it adds
+ *    the forms validateRun's own floor lacks: a WSL mount, a home-relative path (`~/`,
+ *    `$HOME/`, `%USERPROFILE%`), a profile path with no trailing separator.
  *
  * An absent or empty lane is OK - no run has been logged yet is a legitimate state.
  *
@@ -32,8 +36,13 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { EXIT } from './lib/exit-codes.mjs';
-import { assertLeakScanner, leaksIn, validateRun, validateExact, runsDir } from './lib/runs.mjs';
+import { EXIT, installCrashDoor } from './lib/exit-codes.mjs';
+import { assertLeakScanner, validateRun, validateExact, runsDir } from './lib/runs.mjs';
+import { leaksIn, assertScanner, PRESETS } from './lib/leaks.mjs';
+
+installCrashDoor();
+
+const LEAK_FORMS = PRESETS.FREE_TEXT;
 
 const ROOT = path.resolve(fileURLToPath(new URL('.', import.meta.url)), '..');
 const LANE_ROOT = process.env.REGISTRY_RUNS_ROOT ? path.resolve(process.env.REGISTRY_RUNS_ROOT) : ROOT;
@@ -41,7 +50,8 @@ const LANE = runsDir(LANE_ROOT);
 
 // ---------------------------------------------------------------- assert the instrument
 try {
-  assertLeakScanner();
+  assertLeakScanner(); // validateRun's field-level floor
+  assertScanner(LEAK_FORMS); // the raw-line scan below
 } catch (e) {
   console.error(`check-runs FATAL: ${e.message}. Refusing to report a clean lane.`);
   process.exit(EXIT.FATAL);
@@ -114,7 +124,7 @@ for (const { rel, device, file } of logs) {
     const problems = validateRun(row);
     for (const p of problems) fail(`${at}: ${p}`);
     if (!problems.some((p) => p.includes(' contains '))) {
-      for (const what of leaksIn(raw)) fail(`${at}: line contains ${what}`);
+      for (const hit of leaksIn(raw, LEAK_FORMS)) fail(`${at}: line contains ${hit.what} (${JSON.stringify(hit.match.slice(0, 60))})`);
     }
     if (row && row.device !== undefined && row.device !== device) fail(`${at}: device "${row.device}" does not match the filename stem "${device}"`);
     if (row && typeof row.id === 'string') {
@@ -133,7 +143,7 @@ for (const { rel, device, file } of exacts) {
     rows++;
     const at = `${rel}:${line}`;
     for (const p of validateExact(row)) fail(`${at}: ${p}`);
-    for (const what of leaksIn(raw)) fail(`${at}: line contains ${what}`);
+    for (const hit of leaksIn(raw, LEAK_FORMS)) fail(`${at}: line contains ${hit.what} (${JSON.stringify(hit.match.slice(0, 60))})`);
     if (row && typeof row.id === 'string' && row.id) {
       if (exactSeen.has(row.id)) fail(`${at}: duplicate id ${row.id} (first at ${exactSeen.get(row.id)})`);
       else exactSeen.set(row.id, at);

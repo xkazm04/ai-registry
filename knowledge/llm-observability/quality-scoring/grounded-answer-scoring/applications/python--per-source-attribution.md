@@ -6,8 +6,8 @@ technique: per-source-attribution
 stack: python
 status: forged
 verified_on: 2026-09-15
-verified_against: python@3.12
 source: vibrantlabsai/ragas
+counterpart: external
 ---
 
 # Python: ragas builds the claim-by-passage matrix and reports two of the three buckets

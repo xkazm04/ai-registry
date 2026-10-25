@@ -1,7 +1,7 @@
 # Software engineering - the subjects this registry carries
 
 `software-engineering` - 236 subjects, 1886 techniques, 1403 applications.
-Slugs only; resolve one through `index.json` as the access rule beside this file describes.
+Slugs only; open one with `registry_subject` (or `node <registry>/scripts/registry-query.mjs --subject <slug>`), never by reading `index.json` - the access rule beside this file describes the loop.
 
 ### ui-surfaces
 - **data-display** - canvas-graph, data-viz, diff-comparison, feed, file-browsing, search, table

@@ -85,10 +85,22 @@ export function pdfToText(raw) {
     for (const blk of t.match(/beginbfchar([\s\S]*?)endbfchar/g) || []) {
       for (const p of blk.matchAll(/<([0-9A-Fa-f]+)>\s*<([0-9A-Fa-f]+)>/g)) map.set(parseInt(p[1], 16), hexToStr(p[2]));
     }
+    // A bfrange destination has two forms (PDF 32000 9.10.3): one string whose LAST unit
+    // increments across the range - which may be several units long, a ligature like <00660066>,
+    // so parsing it as one integer truncates it to its final char - or an array holding one
+    // string per code. Reading only the first form, as one integer, dropped every array range
+    // and turned every multi-unit range into its last letter.
     for (const blk of t.match(/beginbfrange([\s\S]*?)endbfrange/g) || []) {
-      for (const p of blk.matchAll(/<([0-9A-Fa-f]+)>\s*<([0-9A-Fa-f]+)>\s*<([0-9A-Fa-f]+)>/g)) {
-        const lo = parseInt(p[1], 16), hi = parseInt(p[2], 16), dst = parseInt(p[3], 16);
-        for (let c = lo; c <= hi && c - lo < 65536; c++) map.set(c, String.fromCharCode(dst + (c - lo)));
+      for (const p of blk.matchAll(/<([0-9A-Fa-f]+)>\s*<([0-9A-Fa-f]+)>\s*(?:<([0-9A-Fa-f]+)>|\[([^\]]*)\])/g)) {
+        const lo = parseInt(p[1], 16), hi = parseInt(p[2], 16);
+        if (p[4] !== undefined) {
+          const dsts = [...p[4].matchAll(/<([0-9A-Fa-f]*)>/g)].map((d) => hexToStr(d[1]));
+          for (let c = lo; c <= hi && c - lo < dsts.length; c++) map.set(c, dsts[c - lo]);
+          continue;
+        }
+        const head = hexToStr(p[3].slice(0, -4));
+        const last = parseInt(p[3].slice(-4), 16);
+        for (let c = lo; c <= hi && c - lo < 65536; c++) map.set(c, head + String.fromCharCode(last + (c - lo)));
       }
     }
     return map;
@@ -110,13 +122,38 @@ export function pdfToText(raw) {
   };
 
   // ---- pages --------------------------------------------------------------
+  // A page's fonts live in its resource dictionary, and that dictionary reaches the page in
+  // one of three shapes: inline, as an indirect object (`/Resources 12 0 R`, what pdfTeX and
+  // many other producers write), or inherited from an ancestor /Pages node when the page
+  // declares none. The /Font entry inside it can itself be indirect. Reading only the inline
+  // shape left every other page with no fonts, so no /ToUnicode map was ever applied and a
+  // subset font's codes came out as control bytes - stripped below, i.e. the words vanished.
+  const resourcesOf = (pageText) => {
+    let t = pageText;
+    for (let depth = 0; depth < 32; depth++) {
+      const ref = t.match(/\/Resources\s+(\d+)\s+0\s+R/);
+      if (ref) return objText(+ref[1]);
+      const at = t.indexOf('/Resources');
+      if (at !== -1) return t.slice(at);
+      const parent = t.match(/\/Parent\s+(\d+)\s+0\s+R/);
+      if (!parent) return '';
+      t = objText(+parent[1]);
+    }
+    return '';
+  };
+  const fontDictOf = (res) => {
+    const ref = res.match(/\/Font\s+(\d+)\s+0\s+R/);
+    if (ref) return objText(+ref[1]);
+    const inline = res.match(/\/Font\s*<<([^>]*)>>/);
+    return inline ? inline[1] : '';
+  };
+
   const pages = [];
   for (const [num] of objs) {
     const t = objText(num);
     if (!/\/Type\s*\/Page(?![a-zA-Z])/.test(t)) continue;
     const fonts = new Map();
-    const fd = t.match(/\/Font\s*<<([^>]*)>>/);
-    if (fd) for (const f of fd[1].matchAll(/\/([A-Za-z0-9_]+)\s+(\d+)\s+0\s+R/g)) fonts.set(f[1], +f[2]);
+    for (const f of fontDictOf(resourcesOf(t)).matchAll(/\/([A-Za-z0-9_]+)\s+(\d+)\s+0\s+R/g)) fonts.set(f[1], +f[2]);
     const contents = [];
     const c1 = t.match(/\/Contents\s+(\d+)\s+0\s+R/);
     const c2 = t.match(/\/Contents\s*\[([^\]]*)\]/);
@@ -153,7 +190,14 @@ export function pdfToText(raw) {
     return codes;
   };
 
-  const TOK = /\/([A-Za-z0-9_]+)\s+[\d.]+\s+Tf|\((?:\\[\s\S]|[^\\()])*\)|<[0-9A-Fa-f\s]*>|-?[\d.]+|\bT[Dd*]\b|\bET\b/g;
+  // Every operator that ends a line has to be a token here, or the next line's first word is
+  // glued to this line's last one and the word count silently drops. `T*` cannot be written
+  // `\bT\*\b`: `*` is not a word character, so a trailing \b never matches before a space.
+  // The `'` and `"` operators move to the next line BEFORE showing their string, so they are
+  // captured as a suffix of the string token (groups 2-3) rather than as tokens of their own.
+  // `Tm` sets the text matrix outright: a new baseline (its last operand, f) is a new line,
+  // the same baseline is a new word.
+  const TOK = /\/([A-Za-z0-9_]+)\s+[\d.]+\s+Tf|\((?:\\[\s\S]|[^\\()])*\)(?:\s*(['"]))?|<[0-9A-Fa-f\s]*>(?:\s*(['"]))?|-?[\d.]+|\bT[Dd]\b|\bT\*|\bTm\b|\bET\b/g;
 
   const out = [];
   for (const page of pages) {
@@ -167,15 +211,26 @@ export function pdfToText(raw) {
     let info = null;
     let text = '';
     let tok;
+    let lastNum = null;
+    let lineY = null;
+    const breakLine = () => { if (text && !/\n$/.test(text)) text += '\n'; };
     TOK.lastIndex = 0;
     while ((tok = TOK.exec(content))) {
       const t = tok[0];
       if (tok[1] !== undefined) info = page.fonts.has(tok[1]) ? fontInfo(page.fonts.get(tok[1])) : null;
-      else if (t[0] === '(') text += mapCodes(litCodes(t.slice(1, -1), info), info);
-      else if (t[0] === '<') text += mapCodes(hexCodes(t.slice(1, -1), info), info);
+      else if (t[0] === '(' || t[0] === '<') {
+        if (tok[2] !== undefined || tok[3] !== undefined) breakLine();
+        const body = t.slice(1, t.lastIndexOf(t[0] === '(' ? ')' : '>'));
+        text += mapCodes(t[0] === '(' ? litCodes(body, info) : hexCodes(body, info), info);
+      }
       // a large negative kern is an inter-word gap the operator does not spell
-      else if (/^-?[\d.]+$/.test(t)) { if (parseFloat(t) < -120 && !/\s$/.test(text)) text += ' '; }
-      else if (!/\n$/.test(text)) text += '\n';
+      else if (/^-?[\d.]+$/.test(t)) { lastNum = parseFloat(t); if (lastNum < -120 && !/\s$/.test(text)) text += ' '; }
+      else if (t === 'Tm') {
+        if (lineY !== null && lastNum !== lineY) breakLine();
+        else if (text && !/\s$/.test(text)) text += ' ';
+        lineY = lastNum;
+      }
+      else breakLine();
     }
     out.push(text);
   }

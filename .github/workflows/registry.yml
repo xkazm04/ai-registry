@@ -16,6 +16,9 @@ jobs:
   integrity:
     name: complete registry contract
     runs-on: ubuntu-latest
+    # Backstop for gate.mjs's own per-step ceiling (15 min): a hang anywhere else in the
+    # job fails in 45 minutes, not at GitHub's 360-minute default.
+    timeout-minutes: 45
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
@@ -24,10 +27,25 @@ jobs:
         with:
           node-version: '20'
       - run: node scripts/gate.mjs --all
+      # Version discipline runs on EVERY event. It used to sit under
+      # `if: pull_request`, and work lands on main by push: a skipped step reads as
+      # a green job, so 26 skill and 82 recipe landings went out unbumped. On push
+      # the range is github.event.before...HEAD, the commits this push carried.
       - name: Version discipline
-        if: github.event_name == 'pull_request'
         env:
-          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          EVENT: "${{ github.event_name }}"
+          PR_BASE: "${{ github.event.pull_request.base.sha }}"
+          PUSH_BEFORE: "${{ github.event.before }}"
         run: |
+          case "$EVENT" in
+            pull_request) BASE_SHA="$PR_BASE" ;;
+            push) BASE_SHA="$PUSH_BEFORE" ;;
+            *) BASE_SHA="" ;;
+          esac
+          if [ -z "$BASE_SHA" ] || [ "$BASE_SHA" = "0000000000000000000000000000000000000000" ] || ! git merge-base --is-ancestor "$BASE_SHA" HEAD 2>/dev/null; then
+            echo "version discipline: base '${BASE_SHA:-none}' is empty, all zeros (new branch) or not an ancestor of HEAD (force push) on $EVENT; falling back to HEAD~1"
+            BASE_SHA="HEAD~1"
+          fi
+          echo "version discipline: comparing $BASE_SHA...HEAD (event: $EVENT)"
           node scripts/check-skills.mjs --since "$BASE_SHA"
           node scripts/check-recipes.mjs --since "$BASE_SHA"

@@ -41,9 +41,12 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { loadTaxonomy, walkSubjects, MAX_CHILD_DIRS } from './lib/taxonomy.mjs';
-import { EXIT } from './lib/exit-codes.mjs';
+import { EXIT, installCrashDoor } from './lib/exit-codes.mjs';
 import {loadIdentities,resolveIdentity,aggregateDemand} from './lib/telemetry.mjs';
 import { dryStreaks } from './lib/run-result.mjs';
+import { clockOf } from './lib/currency-clock.mjs';
+
+installCrashDoor();
 
 const ROOT = path.resolve(fileURLToPath(new URL('.', import.meta.url)), '..');
 const KNOWLEDGE = path.join(ROOT, 'knowledge');
@@ -56,6 +59,25 @@ const pick = (flag, dflt) => {
   const i = argv.indexOf(flag);
   return i === -1 ? dflt : argv[i + 1];
 };
+
+// The argument set is CLOSED. An unknown flag used to be ignored, so `--check-weight` (one
+// letter short) ran the whole scan and exited 0 - a drift check that cannot fail, which is
+// the shape this script's header exists to refuse. `--top abc` read as NaN and printed an
+// empty worklist; `--domain` with no value scanned every bundle.
+{
+  const BOOLEAN = new Set(['--json', '--weights', '--stamp-weights', '--check-weights']);
+  const VALUED = new Set(['--top', '--domain']);
+  const usage = 'usage: librarian-scan.mjs [--json] [--top <n>] [--domain <bundle>] | --weights | --stamp-weights | --check-weights';
+  const refuse = (why) => { console.error(`librarian-scan: ${why}\n  ${usage}`); process.exit(EXIT.FATAL); };
+  for (let i = 0; i < argv.length; i++) {
+    if (BOOLEAN.has(argv[i])) continue;
+    if (!VALUED.has(argv[i])) refuse(`unknown argument ${JSON.stringify(argv[i])}`);
+    const v = argv[i + 1];
+    if (v === undefined || v.startsWith('--')) refuse(`${argv[i]} needs a value`);
+    if (argv[i] === '--top' && !(Number.isInteger(Number(v)) && Number(v) > 0)) refuse(`--top needs a whole number > 0, got ${JSON.stringify(v)}`);
+    i++;
+  }
+}
 const topN = Number(pick('--top', 15));
 const onlyDomain = pick('--domain', null);
 
@@ -88,7 +110,13 @@ const frontmatter = (file) => {
     else if (v.startsWith('[') && v.endsWith(']')) {
       fm[key] = v.slice(1, -1).split(',').map((s) => s.trim()).filter(Boolean);
       key = null;
-    } else { fm[key] = v.replace(/\s+#.*$/, '').trim(); key = null; }
+    } else {
+      // Quotes are YAML, not value: check-currency strips them, and this reader did not, so a
+      // quoted `refresh_by: "2027-01-01"` compared '"' < '2' and scored as expired, and a
+      // quoted stack counted as a second stack.
+      fm[key] = v.replace(/\s+#.*$/, '').trim().replace(/^(["'])(.*)\1$/, '$2');
+      key = null;
+    }
   }
   return { fm, bodyBytes: Buffer.byteLength(txt.slice(m[0].length)) };
 };
@@ -262,6 +290,14 @@ const W = Object.fromEntries(WEIGHTS.map((w) => [w.key, w.points]));
 // The standard carries this table so the bar can be argued with in prose. It is a COPY,
 // and a copy that nothing compares is a copy that drifts. These three flags close that:
 // render it, write it, or prove the written one still matches.
+//
+// "The written one" is singular, and that is now checked rather than assumed: the
+// 2026-10-25 gates probe appended a second, drifted stamped block and --check-weights
+// passed, because it read only the first; and a CRLF checkout of standard.md read as
+// drift on every line, a verdict about the checkout dressed as one about the content.
+// The file is compared newline-insensitively, and a count of markers other than one
+// open and one close is drift (exit 1) under --check-weights and a refusal (exit 2) under
+// --stamp-weights, which will not guess which copy is meant.
 
 const STANDARD = path.join(VAULT, 'standard.md');
 const STAMP_OPEN = '<!-- weights: stamped by scripts/librarian-scan.mjs --weights; edit the script, then re-stamp -->';
@@ -271,6 +307,11 @@ const STAMP_CLOSE = '<!-- /weights -->';
 function renderWeights() {
   const rows = WEIGHTS.map((w) => `| ${w.clause} | ${w.why} | ${w.points}${w.per ? ` ${w.per}` : ''} |`);
   return ['| Clause | Why | Points |', '| --- | --- | --- |', ...rows].join('\n');
+}
+
+/** How many open and close markers the text carries. */
+function stampCounts(text) {
+  return { open: text.split(STAMP_OPEN).length - 1, close: text.split(STAMP_CLOSE).length - 1 };
 }
 
 /** The stamped block's body, or null when the markers are absent. */
@@ -293,7 +334,9 @@ if (argv.includes('--stamp-weights') || argv.includes('--check-weights')) {
     console.error(`librarian-scan FATAL: ${path.relative(ROOT, STANDARD)} does not exist. Nothing to ${checking ? 'check' : 'stamp'}.`);
     process.exit(EXIT.FATAL);
   }
-  const text = fs.readFileSync(STANDARD, 'utf8');
+  const original = fs.readFileSync(STANDARD, 'utf8');
+  const eol = original.includes('\r\n') ? '\r\n' : '\n';
+  const text = original.replace(/\r\n/g, '\n');
   const found = stampedTable(text);
   if (found === null) {
     // Not a mismatch — the instrument could not run. Reporting nothing is not finding
@@ -301,6 +344,13 @@ if (argv.includes('--stamp-weights') || argv.includes('--check-weights')) {
     console.error('librarian-scan FATAL: librarian/standard.md carries no stamped weights block.');
     console.error(`  expected the markers:\n    ${STAMP_OPEN}\n    ${STAMP_CLOSE}`);
     process.exit(EXIT.FATAL);
+  }
+  const counts = stampCounts(text);
+  if (counts.open !== 1 || counts.close !== 1) {
+    console.error(`librarian-scan: librarian/standard.md carries ${counts.open} open and ${counts.close} close weights marker(s); exactly one stamped block is allowed.`);
+    console.error('  A second copy is a second table a reader may follow. Delete the extra block, then run:');
+    console.error('    node scripts/librarian-scan.mjs --stamp-weights');
+    process.exit(checking ? EXIT.VIOLATIONS : EXIT.FATAL);
   }
   const want = renderWeights();
   if (checking) {
@@ -329,7 +379,7 @@ if (argv.includes('--stamp-weights') || argv.includes('--check-weights')) {
   }
   const a = text.indexOf(STAMP_OPEN);
   const b = text.indexOf(STAMP_CLOSE, a);
-  fs.writeFileSync(STANDARD, `${text.slice(0, a + STAMP_OPEN.length)}\n${want}\n${text.slice(b)}`, 'utf8');
+  fs.writeFileSync(STANDARD, `${text.slice(0, a + STAMP_OPEN.length)}\n${want}\n${text.slice(b)}`.replace(/\n/g, eol), 'utf8');
   console.log(`weights: stamped ${WEIGHTS.length} clauses into librarian/standard.md.`);
   process.exit(EXIT.OK);
 }
@@ -383,15 +433,19 @@ for (const domain of domains) {
       if (fm.stack) stacks.add(fm.stack);
       if (fm.verified_against) versionWitness++;
       if (fm.verified_on && (!oldest || fm.verified_on < oldest)) oldest = fm.verified_on;
-      // The clock policy lives in check-currency.mjs; this only needs expired-or-not, and
-      // an explicit refresh_by is the only clock knowable without duplicating that table.
-      if (fm.refresh_by) {
-        if (fm.refresh_by < today) expired++;
-        else if (daysSince(fm.refresh_by) > -30) atRisk++;
+      // The clock is lib/currency-clock.mjs's, the same one check-currency reports: an explicit
+      // refresh_by, else verified_on + the stack's window. This used to score refresh_by alone,
+      // so an application on the derived clock never expired here and the two tools disagreed
+      // (20 vs 19 at risk on 2026-10-25). The at-risk horizon is check-currency's default,
+      // INCLUSIVE (daysLeft 0..30); an earlier `daysSince > -30` read 0..29 and split them too.
+      const { daysLeft } = clockOf(fm, today);
+      if (daysLeft !== null) {
+        if (daysLeft < 0) expired++;
+        else if (daysLeft <= 30) atRisk++;
       }
     }
 
-    const key = `${domain}/${slug}`;
+    const key =`${domain}/${slug}`;
     const demand = demandOf[key] ?? null;
     const swept = sweptOf[key] ?? null;
 
