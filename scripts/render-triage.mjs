@@ -2,7 +2,7 @@
 /**
  * render-triage - the operator's blind view of a render proof, and the cleanup it gates.
  *
- *   node scripts/render-triage.mjs sheet  <dir> [--allow-indistinct]
+ *   node scripts/render-triage.mjs sheet  <dir> [--allow-indistinct] [--reseal]
  *   node scripts/render-triage.mjs reveal <dir> <pairId>=<label|tie|neither> ... [--force]
  *   node scripts/render-triage.mjs clean  <dir> [--also <path> ...] [--force]
  *
@@ -23,6 +23,11 @@
  *      labels per pair, writes the key to a separate file, and then asserts that the
  *      page it wrote contains neither an arm's file name nor an arm's prompt. A sheet
  *      that leaks the arm is refused, not warned about.
+ *      The key is the operator's only decoder: a second `sheet` reshuffles it, and an
+ *      operator who already read the first page then has their X/Y mapped through the wrong
+ *      key by `reveal` - the wrong arm recorded, at exit 0. So `sheet` over an existing
+ *      triage/key.json exits 2; replacing the key (and the page with it) takes --reseal.
+ *      Each sheet carries a random id in both the page and the key so a stale tab is spotted.
  *   2. REVEALED AFTER. `reveal` takes the operator's picks by label and only then maps
  *      them to arms, writing verdict.json - the durable artifact. Renders are cheap to
  *      remake; the judgement is not.
@@ -132,14 +137,19 @@ export function indistinct(pair) {
   return null;
 }
 
-export function sheet(dir, { allowIndistinct = false } = {}) {
+export function sheet(dir, { allowIndistinct = false, reseal = false } = {}) {
   const manifest = readJson(path.join(dir, 'manifest.json'), 'manifest');
   if (!manifest.run || !Array.isArray(manifest.pairs) || !manifest.pairs.length) fail('manifest needs run and pairs[]');
   const refused = manifest.pairs.map(indistinct).filter(Boolean);
   if (refused.length && !allowIndistinct) fail(refused.join('\n  '));
   const out = path.join(dir, 'triage');
+  // Checked before any write: a refused re-seal must leave the sealed page and key as they were.
+  if (!reseal && fs.existsSync(path.join(out, 'key.json'))) {
+    fail(`${path.join(out, 'key.json')} already seals a sheet the operator may have read; re-running sheet reshuffles the labels and reveal would record the wrong arm. Pass --reseal to replace the sheet and its key`);
+  }
   fs.mkdirSync(out, { recursive: true });
-  const key = { run: manifest.run, created: new Date().toISOString(), pairs: {} };
+  const sheetId = crypto.randomBytes(4).toString('hex');
+  const key = { run: manifest.run, sheet: sheetId, created: new Date().toISOString(), pairs: {} };
   const sections = [];
   for (const pair of manifest.pairs) {
     const arms = Object.keys(pair.arms);
@@ -183,7 +193,7 @@ export function sheet(dir, { allowIndistinct = false } = {}) {
 video,img{width:100%;border-radius:6px;background:#000}.brief,.q{color:#bbb;max-width:70ch}
 .disc{color:#8a8;font-size:13px;max-width:70ch}.disc.refused{color:#d99}</style>
 <h1>Render triage: ${esc(manifest.run)}</h1><p class="q">${esc(manifest.question || 'Which output is better?')}</p>
-<p class="q">Arms are shuffled per pair. Answer with the letter, "tie", or "neither".</p>
+<p class="q">Arms are shuffled per pair. Answer with the letter, "tie", or "neither". Sheet ${sheetId}.</p>
 ${sections.join('\n')}
 ${showcase.length ? `<h2>Context (not blind, not judged)</h2><div class="row">${showcase.join('')}</div>` : ''}`;
   const leaked = leaks(html, manifest);
@@ -281,15 +291,15 @@ export function clean(dir, also = [], force = false) {
 
 function main(argv) {
   const [cmd, dir, ...rest] = argv;
-  if (!cmd || !dir || !['sheet', 'reveal', 'clean'].includes(cmd)) fail('usage: sheet <dir> [--allow-indistinct] | reveal <dir> <pair>=<label> ... [--force] | clean <dir> [--also <path>] [--force]');
+  if (!cmd || !dir || !['sheet', 'reveal', 'clean'].includes(cmd)) fail('usage: sheet <dir> [--allow-indistinct] [--reseal] | reveal <dir> <pair>=<label> ... [--force] | clean <dir> [--also <path>] [--force]');
   if (!fs.existsSync(dir)) fail(`no such directory: ${dir}`);
   // Assert the leak detector before trusting it with a page.
   const planted = { pairs: [{ id: 'p', arms: { A: { file: 'r/p-armA.mp4', prompt: 'a prompt long enough to count' } } }] };
   if (leaks('<video src="p-armA.mp4">', planted).length !== 1) fail('leak detector failed its planted positive');
   if (cmd === 'sheet') {
-    const bad = rest.filter((a) => a !== '--allow-indistinct');
+    const bad = rest.filter((a) => a !== '--allow-indistinct' && a !== '--reseal');
     if (bad.length) fail(`unknown sheet argument ${bad[0]}`);
-    sheet(dir, { allowIndistinct: rest.includes('--allow-indistinct') });
+    sheet(dir, { allowIndistinct: rest.includes('--allow-indistinct'), reseal: rest.includes('--reseal') });
   }
   else if (cmd === 'reveal') reveal(dir, rest.filter((a) => a !== '--force'), { force: rest.includes('--force') });
   else {

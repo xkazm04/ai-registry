@@ -239,6 +239,8 @@ spends the GPU-hours of every downstream clip on a question it can no longer ans
 
 ```sh
 node scripts/render-triage.mjs sheet  <run-dir>                  # blind page + sealed key
+# a second `sheet` over an existing triage/key.json exits 2: the operator may already have read
+# the first page, and a reshuffled key would map their X/Y to the wrong arm. `--reseal` replaces both.
 # the operator opens <run-dir>/triage/index.html and answers per pair: X, Y, tie or neither
 node scripts/render-triage.mjs reveal <run-dir> shot1=Y shot2=tie  # verdict.json
 ```
