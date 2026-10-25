@@ -148,10 +148,10 @@
     },
     {
       "name": "cloud-dispatch",
-      "version": "1.1.1",
+      "version": "1.1.2",
       "category": "workflow",
       "path": "skills/cloud-dispatch/SKILL.md",
-      "contentHash": "sha256-n1:1d8d50c76a11396f",
+      "contentHash": "sha256-n1:64247ee69e580d18",
       "adopters": [],
       "invokes30d": 0,
       "reportedInvokes": 0,

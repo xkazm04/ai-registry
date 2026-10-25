@@ -149,7 +149,9 @@ export function syncGate(repo, git = realGit, { allowAhead = false } = {}) {
   if (!slug) return refuse(`origin is not a GitHub URL (${origin}); cloud sessions clone from GitHub only`, { origin });
 
   const fetch = out(['fetch', 'origin', '--quiet']);
-  if (fetch.code !== 0) return refuse(`git fetch origin failed: ${fetch.stderr.trim() || `exit ${fetch.code}`}`, { origin, slug });
+  // `transient`: the network or the remote failed, not the brief or the repo's state - an unattended
+  // caller keeps the item and tries again rather than refusing it for good.
+  if (fetch.code !== 0) return refuse(`git fetch origin failed: ${fetch.stderr.trim() || `exit ${fetch.code}`}`, { origin, slug, transient: true });
 
   let defaultBranch = null;
   const sym = out(['symbolic-ref', 'refs/remotes/origin/HEAD']);
@@ -296,7 +298,7 @@ export function dispatchBrief({ briefPath, repo, model, label, from, mode = 'exp
 
   const gate = syncGate(repoAbs, git, { allowAhead: Boolean(allowAhead) });
   Object.assign(plan, { unpushed: gate.unpushed ?? [], origin: gate.origin ?? null, slug: gate.slug ?? null, defaultBranch: gate.defaultBranch ?? null, ahead: gate.ahead ?? null, base_sha: gate.base_sha ?? null, dirty: gate.dirty ?? null, warnings: gate.warnings });
-  if (!gate.ok) return refuse(gate.reason);
+  if (!gate.ok) return gate.transient ? { ...refuse(gate.reason), transient: true } : refuse(gate.reason);
 
   const prompt = composePrompt(body, id, branch, theLabel);
   plan.prompt_chars = prompt.length;
@@ -436,6 +438,7 @@ export function runOverflow({ input, deps = {} } = {}) {
   const lock = path.join(queueDir(reg), 'overflow.lock');
   const shipped = [];
   const refused = [];
+  const deferred = [];
   let capped = 0;
   let error = null;
   let locked = false;
@@ -462,6 +465,9 @@ export function runOverflow({ input, deps = {} } = {}) {
         // an environment problem (no Windows console), not this item's fault: keep it queued, stop
         error = res.reason;
         break;
+      } else if (res.transient) {
+        // the fetch failed (network, remote): this item stays queued for the next rate-limit stop
+        deferred.push(item.id);
       } else {
         Object.assign(item, { state: 'refused', reason: res.reason, refused_at: now().toISOString() });
         writeItem(reg, item);
@@ -474,6 +480,7 @@ export function runOverflow({ input, deps = {} } = {}) {
     if (locked) { try { fs.unlinkSync(lock); } catch { /* ignore */ } }
   }
   const line = { ts: now().toISOString(), session_id: event.session_id ?? null, shipped, refused, capped };
+  if (deferred.length) line.deferred = deferred;
   if (error) line.error = error;
   try { appendJsonl(overflowLogPath(reg), line); } catch { /* a hook must not break the session */ }
   return { acted: true, ...line };

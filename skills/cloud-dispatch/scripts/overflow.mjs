@@ -9,7 +9,8 @@
  * a rate-limited local session is exactly when cloud capacity is free. It acts only on
  * `StopFailure` + `rate_limit`; ships `queued` items oldest first, at most AUTO_CAP_PER_DAY (6)
  * overflow dispatches per local calendar date so a looping hook cannot drain the credit; a
- * refused item (e.g. its repo is ahead of origin) is marked `refused` and costs nothing.
+ * refused item (e.g. its repo is ahead of origin) is marked `refused` and costs nothing; an item
+ * whose `git fetch origin` failed stays `queued` (`deferred` in the log line) for the next stop.
  * Every acting invocation appends one decision line to .ai/cloud-queue/overflow.log.jsonl.
  *
  * A hook must never break the session: this script catches everything and ALWAYS exits 0.

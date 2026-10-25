@@ -471,6 +471,25 @@ test('a refused item becomes refused with its reason and does not count against 
   assert.match(first.reason, /push first/);
 });
 
+test('a failed git fetch defers the item (still queued) instead of refusing it for good', () => {
+  // `refused` is terminal: nothing in queue.mjs moves an item back to `queued`. A fetch that fails
+  // because the network blinked at rate-limit time says nothing about the brief.
+  const { root, reg, repo } = setup();
+  const ids = queueN(root, reg, repo, 2);
+  let fetches = 0;
+  const git = (r, args) => (args.join(' ') === 'fetch origin --quiet' && (fetches += 1) === 1
+    ? { code: 128, stdout: '', stderr: 'fatal: unable to access github.com: Could not resolve host' }
+    : fakeGit()(r, args));
+  const out = runOverflow({ input: RATE, deps: deps(reg, { git }) });
+  assert.deepEqual(out.refused, [], 'a transient fetch failure is not a refusal');
+  assert.deepEqual(out.shipped, [ids[1]], 'the next item still ships');
+  assert.deepEqual(out.deferred, [ids[0]]);
+  assert.equal(readItem(reg, ids[0]).state, 'queued', 'the next rate-limit stop retries it');
+  // A refusal the brief or the repo owns is still terminal.
+  const sync = syncGate('repo', fakeGit({ origin: 'https://gitlab.com/a/b.git' }));
+  assert.equal(sync.transient, undefined);
+});
+
 test('overflow off Windows leaves items queued (environment, not the item, is at fault)', () => {
   const { root, reg, repo } = setup();
   queueN(root, reg, repo, 2);
