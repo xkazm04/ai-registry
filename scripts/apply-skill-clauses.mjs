@@ -56,9 +56,16 @@ const ROOT = path.resolve(fileURLToPath(new URL('.', import.meta.url)), '..');
 const LANE = path.join(ROOT, 'skills');
 const TEMPLATES = path.join(ROOT, 'docs', 'skill-clauses');
 const argv = process.argv.slice(2);
+// A closed flag set: anything unrecognised used to be WRITE mode (every stale skill restamped).
+const USAGE = 'usage: node scripts/apply-skill-clauses.mjs [--check] [--bump minor|patch]';
+if (argv.includes('--help') || argv.includes('-h')) { console.log(USAGE); process.exit(EXIT.OK); }
 const checkOnly = argv.includes('--check');
 const bumpIdx = argv.indexOf('--bump');
 const bump = bumpIdx === -1 ? null : argv[bumpIdx + 1];
+{
+  const strays = argv.filter((a, i) => a !== '--check' && a !== '--bump' && !(bumpIdx !== -1 && i === bumpIdx + 1));
+  if (strays.length) { console.error(`apply-skill-clauses: unknown argument(s) ${strays.join(' ')} - nothing read or written\n${USAGE}`); process.exit(EXIT.FATAL); }
+}
 // Keyed on the FLAG, not on its value: a bare `--bump` used to read as "no bump requested"
 // and stamped every skill with its version left where it was, exit 0.
 if (bumpIdx !== -1 && !['minor', 'patch'].includes(bump)) { console.error(`FATAL: --bump takes minor|patch, got ${bump === undefined ? 'no level' : `"${bump}"`}`); process.exit(EXIT.FATAL); }

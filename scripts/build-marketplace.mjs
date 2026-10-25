@@ -34,7 +34,13 @@ const ROOT = path.resolve(fileURLToPath(new URL('.', import.meta.url)), '..');
 const LANE = path.join(ROOT, 'skills');
 const OUT_DIR = path.join(ROOT, '.claude-plugin');
 const OUT = path.join(OUT_DIR, 'marketplace.json');
-const checkOnly = process.argv.includes('--check');
+// A closed flag set, read before the lane: anything but `--check` used to be WRITE mode.
+const USAGE = 'usage: node scripts/build-marketplace.mjs [--check]';
+const ARGS = process.argv.slice(2);
+if (ARGS.includes('--help') || ARGS.includes('-h')) { console.log(USAGE); process.exit(0); }
+const strays = ARGS.filter((a) => a !== '--check');
+if (strays.length) { console.error(`build-marketplace: unknown argument(s) ${strays.join(' ')} - nothing read or written\n${USAGE}`); process.exit(2); }
+const checkOnly = ARGS.includes('--check');
 
 if (!fs.existsSync(LANE)) {
   console.error(`FATAL: no skills/ lane at ${LANE} — refusing to write a marketplace that lists zero plugins.`);

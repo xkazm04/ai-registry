@@ -73,6 +73,20 @@ test('the card title is read like the catalog reads it: frontmatter only, unquot
   assert.equal(fallback.split('\n')[0], '# demo - the subjects this registry carries', 'a body line is not frontmatter');
 });
 
+// Only `--check` was read; a typo or `--help` was write mode, rewriting and deleting rules.
+test('an unknown argument is a usage error (2) and writes nothing; --help prints usage (0)', () => {
+  const { root, run } = fixture({ bundle: true });
+  for (const args of [['--chek'], ['--check', '--force']]) {
+    const r = run(...args);
+    assert.equal(r.status, 2, `${args}: ${r.stdout}`);
+    assert.match(r.stderr, /unknown argument/);
+  }
+  const h = run('--help');
+  assert.equal(h.status, 0, h.stderr);
+  assert.match(h.stdout, /usage: node scripts\/build-knowledge-rules\.mjs \[--check\]/);
+  assert.ok(!fs.existsSync(path.join(root, 'rules')), 'no rule was written');
+});
+
 test('zero bundles is could-not-run (2), in check and in write mode, and writes nothing', () => {
   const { root, run } = fixture({ bundle: false });
   fs.mkdirSync(path.join(root, 'rules'));

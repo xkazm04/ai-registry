@@ -46,6 +46,20 @@ test('--check names the plugin and the field that drifted, not only versions', (
 
 const LONG =`${'Mine an external source for craft that belongs in the recipes lane. '.repeat(7)}Tail words here.`;
 
+// Only `--check` was read; `--chek` or `--help` rewrote marketplace.json.
+test('an unknown argument is a usage error (2) and writes nothing; --help prints usage (0)', (t) => {
+  const { root, run } = fixture(t, { demo: 'A demo skill.' });
+  for (const args of [['--chek'], ['--check', 'x']]) {
+    const r = run(...args);
+    assert.equal(r.status, 2, `${args}: ${r.stdout}`);
+    assert.match(r.stderr, /unknown argument/);
+  }
+  const h = run('--help');
+  assert.equal(h.status, 0, h.stderr);
+  assert.match(h.stdout, /usage: node scripts\/build-marketplace\.mjs \[--check\]/);
+  assert.ok(!fs.existsSync(path.join(root, '.claude-plugin')), 'nothing written');
+});
+
 test('a short description is carried verbatim; the lane builds and checks fresh', (t) => {
   const { run, read } = fixture(t, { demo: 'A demo skill.' });
   assert.equal(run().status, 0);

@@ -45,7 +45,14 @@ import { requirePopulation } from './lib/check-result.mjs';
 const ROOT = path.resolve(fileURLToPath(new URL('.', import.meta.url)), '..');
 const KNOWLEDGE = path.join(ROOT, 'knowledge');
 const OUT = path.join(ROOT, 'rules');
-const checkOnly = process.argv.includes('--check');
+// A closed flag set, read before the lane: anything but `--check` used to be WRITE mode,
+// which rewrites every card and deletes orphans.
+const USAGE = 'usage: node scripts/build-knowledge-rules.mjs [--check]';
+const ARGS = process.argv.slice(2);
+if (ARGS.includes('--help') || ARGS.includes('-h')) { console.log(USAGE); process.exit(EXIT.OK); }
+const strays = ARGS.filter((a) => a !== '--check');
+if (strays.length) { console.error(`build-knowledge-rules: unknown argument(s) ${strays.join(' ')} - nothing read or written\n${USAGE}`); process.exit(EXIT.FATAL); }
+const checkOnly = ARGS.includes('--check');
 
 if (!fs.existsSync(KNOWLEDGE)) {
   console.error(`FATAL: no knowledge/ lane at ${KNOWLEDGE}. Refusing to write rules that describe nothing.`);

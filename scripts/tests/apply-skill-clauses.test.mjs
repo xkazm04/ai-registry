@@ -84,6 +84,24 @@ test('--bump with no level is a usage error (exit 2), not a silent stamp without
   assert.equal(fs.readFileSync(skillFile(dir, 'architect'), 'utf8'), before);
 });
 
+// `--chek` or `--help` used to be write mode: every stale skill restamped.
+test('an unknown argument is a usage error (2) and writes nothing; --help prints usage (0)', (t) => {
+  const dir = registry(t);
+  const file = skillFile(dir, 'architect');
+  edit(file, (s) => s.replace(/(<!-- clause: skill-reflection v)\d+/, '$10'));
+  const before = fs.readFileSync(file, 'utf8');
+  const script = path.join(dir, 'scripts/apply-skill-clauses.mjs');
+  for (const args of [['--chek'], ['--check', 'extra'], ['--bump', 'patch', '--dry']]) {
+    const r = spawnSync(process.execPath, [script, ...args], { encoding: 'utf8' });
+    assert.equal(r.status, 2, `${args}: ${r.stdout}`);
+    assert.match(r.stderr, /unknown argument/);
+  }
+  const h = spawnSync(process.execPath, [script, '--help'], { encoding: 'utf8' });
+  assert.equal(h.status, 0, h.stderr);
+  assert.match(h.stdout, /usage: node scripts\/apply-skill-clauses\.mjs/);
+  assert.equal(fs.readFileSync(file, 'utf8'), before, 'the stale stamp was not rewritten');
+});
+
 test('write mode refuses to rewrite a duplicated skill and exits 1', (t) => {
   const dir = registry(t);
   const file = skillFile(dir, 'architect');

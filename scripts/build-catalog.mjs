@@ -47,7 +47,13 @@ const PRACTICES = path.join(ROOT, 'practices');
 const MEMORY = path.join(ROOT, 'memory');
 const USAGE = path.join(ROOT, 'usage');
 const CATALOG = path.join(ROOT, 'catalog.json');
-const checkOnly = process.argv.includes('--check');
+// A closed flag set, read before any lane: anything but `--check` used to be WRITE mode.
+const USAGE_LINE = 'usage: node scripts/build-catalog.mjs [--check]';
+const ARGS = process.argv.slice(2);
+if (ARGS.includes('--help') || ARGS.includes('-h')) { console.log(USAGE_LINE); process.exit(EXIT.OK); }
+const strays = ARGS.filter((a) => a !== '--check');
+if (strays.length) { console.error(`build-catalog: unknown argument(s) ${strays.join(' ')} - nothing read or written\n${USAGE_LINE}`); process.exit(EXIT.FATAL); }
+const checkOnly = ARGS.includes('--check');
 
 if (!fs.existsSync(KNOWLEDGE)) {
   console.error(`FATAL: no knowledge/ lane at ${KNOWLEDGE} — refusing to write a catalog that claims zero bundles.`);

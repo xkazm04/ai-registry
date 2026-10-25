@@ -75,6 +75,21 @@ test('--check names the top-level key and the skill that drifted', (t) => {
   assert.match(r.stderr, /skills\[demo\]: category/);
 });
 
+// Only `--check` was read; `--chek` or `--help` rewrote catalog.json.
+test('an unknown argument is a usage error (2) and writes nothing; --help prints usage (0)', (t) => {
+  const dir = registry(t, { skill: true, bundle: true });
+  for (const args of [['--chek'], ['--check', 'now']]) {
+    const r = run(dir, ...args);
+    assert.equal(r.status, 2, `${args}: ${r.stdout}`);
+    assert.match(r.stderr, /unknown argument/);
+    assert.match(r.stderr, /usage: node scripts\/build-catalog\.mjs \[--check\]/);
+  }
+  const h = run(dir, '--help');
+  assert.equal(h.status, 0, h.stderr);
+  assert.match(h.stdout, /usage: node scripts\/build-catalog\.mjs \[--check\]/);
+  assert.equal(fs.readFileSync(path.join(dir, 'catalog.json'), 'utf8'), '{}\n', 'catalog.json untouched');
+});
+
 for (const mode of [[], ['--check']]) {
   const label = mode.length ? 'check' : 'write';
   test(`an empty skills lane exits 2 in ${label} mode and writes nothing`, (t) => {
