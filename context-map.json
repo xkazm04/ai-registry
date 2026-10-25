@@ -160,6 +160,7 @@
         "scripts/tests/consult-check.test.mjs",
         "scripts/tests/install-consult-hook.test.mjs",
         "scripts/tests/ledger-read.test.mjs",
+        "scripts/tests/mine-routing-queries.test.mjs",
         "scripts/tests/recipe-map.test.mjs",
         "scripts/tests/registry-mcp.test.mjs",
         "scripts/tests/registry-query.test.mjs",
