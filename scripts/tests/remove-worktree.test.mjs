@@ -67,6 +67,18 @@ test('an untracked file refuses', (t) => {
   assert.equal(fs.readFileSync(path.join(s.wt, 'new.txt'), 'utf8'), 'only copy\n');
 });
 
+test('an untracked file refuses even where status.showUntrackedFiles=no hides it', (t) => {
+  // A common speed setting on large repos. Before: `git status --porcelain` printed nothing,
+  // the worktree read clean, and the only copy of new.txt was deleted.
+  const s = sandbox(t);
+  s.git(s.repo, 'config', 'status.showUntrackedFiles', 'no');
+  fs.writeFileSync(path.join(s.wt, 'new.txt'), 'only copy\n');
+  const r = s.run(s.wt);
+  assert.equal(r.status, 1, r.out + r.err);
+  assert.match(r.err, /new\.txt/);
+  assert.equal(fs.readFileSync(path.join(s.wt, 'new.txt'), 'utf8'), 'only copy\n');
+});
+
 test('a locked worktree refuses', (t) => {
   const s = sandbox(t);
   s.git(s.repo, 'worktree', 'lock', s.wt);
