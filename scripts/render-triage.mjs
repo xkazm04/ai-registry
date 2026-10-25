@@ -117,6 +117,15 @@ export function indistinct(pair) {
   if (!d || !Number.isFinite(d.between) || !Number.isFinite(d.within)) {
     return `pair ${pair.id} has no discrimination record: render the same approach at a second seed and record {between, within} before triage`;
   }
+  // A distance is never negative; one that is was computed wrong, and 0 < 1.5 * -1 is false.
+  if (d.between < 0 || d.within < 0) {
+    return `pair ${pair.id}: discrimination carries a negative distance (between ${d.between}, within ${d.within}) - the metric is broken, not the pair`;
+  }
+  // Two arms at distance 0 are one output. With a 0 seed floor the ratio test reads 0 < 0
+  // as false and passed them; nothing can be judged between identical renders.
+  if (d.between === 0) {
+    return `pair ${pair.id}: the arms are identical (between 0) - the operator would be judging two runs of the same process; redesign the arms as different approaches`;
+  }
   if (d.between < DISCRIMINATION_RATIO * d.within) {
     return `pair ${pair.id}: arms differ by ${d.between} against a seed-noise floor of ${d.within} (need ${DISCRIMINATION_RATIO}x) - the operator would be judging two runs of the same process; redesign the arms as different approaches`;
   }

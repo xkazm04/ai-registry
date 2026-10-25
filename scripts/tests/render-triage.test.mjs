@@ -5,6 +5,7 @@ import os from 'node:os';
 import path from 'node:path';
 import {spawnSync} from 'node:child_process';
 import {fileURLToPath} from 'node:url';
+import {indistinct} from '../render-triage.mjs';
 const script=fileURLToPath(new URL('../render-triage.mjs',import.meta.url));
 const run=(...args)=>spawnSync(process.execPath,[script,...args],{encoding:'utf8'});
 function fixture(t){
@@ -46,6 +47,14 @@ test('a pair whose arms do not clear the seed-noise floor, or carry no floor, ne
  assert.equal(run('sheet',dir,'--allow-indistinct').status,0);
  delete m.pairs[0].discrimination;fs.writeFileSync(mf,JSON.stringify(m));
  r=run('sheet',dir);assert.equal(r.status,2);assert.match(r.stderr,/no discrimination record/);
+});
+test('identical arms (between 0) and negative distances never clear the floor',()=>{
+ const p=(between,within)=>({id:'p',discrimination:{between,within}});
+ assert.equal(indistinct(p(20,4)),null,'control: 5x clears');
+ assert.equal(indistinct(p(3,0)),null,'no seed noise and distinct arms clears');
+ assert.match(indistinct(p(0,0))??'',/identical|same process/);
+ assert.match(indistinct(p(-5,1))??'',/negative/);
+ assert.match(indistinct(p(5,-1))??'',/negative/);
 });
 test('the sheet carries the ratio, and a refused pair is labelled rather than hidden',t=>{
  const dir=fixture(t),mf=path.join(dir,'manifest.json'),m=JSON.parse(fs.readFileSync(mf,'utf8'));
