@@ -77,7 +77,15 @@ export function buildUnits(rows) {
     } else if (r.convergence && r.convergence.length) {
       kind = 'convergence';
       key = r.convergence[0];
-      members = queued.filter((x) => (x.convergence || []).includes(key) && !x.tension);
+      // Transitive: a row on two clusters joins them. Matching on the first key alone put
+      // such a row in both clusters' units, and one wave then dispatched it twice.
+      const keys = new Set(r.convergence);
+      let grew = true;
+      while (grew) {
+        grew = false;
+        members = queued.filter((x) => !x.tension && !seen.has(x.id) && (x.convergence || []).some((c) => keys.has(c)));
+        for (const m of members) for (const c of m.convergence) if (!keys.has(c)) { keys.add(c); grew = true; }
+      }
     }
     members.forEach((m) => seen.add(m.id));
     const notes = new Set(members.map((m) => m.note));

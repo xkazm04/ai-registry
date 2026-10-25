@@ -39,6 +39,21 @@ test('a cluster whose members share ONE note gets no convergence bonus', () => {
   assert.equal(buildUnits(rows).units[0].priority, 7);
 });
 
+test('REGRESSION: a row on two convergence clusters joins them into ONE unit, never two', () => {
+  // Before: the unit for c1 took x and y, the unit for c2 took y and z - y travelled in two
+  // units of one wave, so two workers would draft the same landing (rule 1). The ledger
+  // already carries such a row (1-001: c15,c31); today it is landed, the next one may not be.
+  for (const order of [['x', 'y', 'z'], ['y', 'z', 'x'], ['z', 'x', 'y']]) {
+    const byId = { x: row({ id: 'x', convergence: ['c1'] }), y: row({ id: 'y', convergence: ['c1', 'c2'] }), z: row({ id: 'z', convergence: ['c2'] }) };
+    const { units } = buildUnits(order.map((id) => byId[id]));
+    const ids = units.flatMap((u) => u.ids);
+    assert.equal(ids.length, new Set(ids).size, `order ${order}: no row in two units (${JSON.stringify(units.map((u) => u.ids))})`);
+    assert.equal(units.length, 1, `order ${order}: one unit`);
+    assert.deepEqual([...units[0].ids].sort(), ['x', 'y', 'z']);
+    assert.equal(units[0].kind, 'convergence');
+  }
+});
+
 test('a tension group is never split, even when members score far apart', () => {
   const rows = [row({ id: 'hi', score: 10, tension: 't1' }), row({ id: 'lo', score: 1, tension: 't1' })];
   const wave = pickWave(rows, { size: 1 });
