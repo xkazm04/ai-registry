@@ -124,13 +124,32 @@ function selfCheck() {
 
 function main(argv) {
   const args = argv.slice(2);
-  const json = args.includes('--json');
-  const strict = args.includes('--strict');
-  const rootIdx = args.indexOf('--root');
-  const report = args.find((a, i) => !a.startsWith('--') && i !== rootIdx + 1);
-  const root = rootIdx >= 0 ? args[rootIdx + 1] : null;
-  if (!report || !root) {
-    console.error('usage: check-anchors.mjs <report.md> --root <tree> [--json] [--strict]');
+  const USAGE = 'usage: check-anchors.mjs <report.md> --root <tree> [--json] [--strict]';
+  // A closed argument set: `--strcit` used to run the lenient mode and pass an unquoted
+  // anchor that --strict exists to refuse, and a second report was silently ignored.
+  let json = false;
+  let strict = false;
+  let root = null;
+  const reports = [];
+  for (let i = 0; i < args.length; i += 1) {
+    const a = args[i];
+    if (a === '--json') json = true;
+    else if (a === '--strict') strict = true;
+    else if (a === '--root') {
+      root = args[i + 1] ?? null;
+      i += 1;
+      if (root === null || root.startsWith('--')) {
+        console.error(`check-anchors: --root needs a value\n${USAGE}`);
+        return EXIT.FATAL;
+      }
+    } else if (a.startsWith('--')) {
+      console.error(`check-anchors: unknown argument ${JSON.stringify(a)}\n${USAGE}`);
+      return EXIT.FATAL;
+    } else reports.push(a);
+  }
+  const report = reports[0];
+  if (reports.length !== 1 || !root) {
+    console.error(reports.length > 1 ? `check-anchors: one report per run, got ${reports.length}\n${USAGE}` : USAGE);
     return EXIT.FATAL;
   }
   if (!fs.existsSync(report) || !fs.existsSync(root)) {

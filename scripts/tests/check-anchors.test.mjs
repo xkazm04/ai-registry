@@ -104,6 +104,21 @@ test('exit codes: 0 all held, 1 a failing anchor, 2 usage', () => {
   assert.equal(spawnSync(process.execPath, [script, bad]).status, 2);
 });
 
+// A strictness flag mistyped is a strictness flag dropped: `--strcit` used to run the
+// lenient mode and exit 0 over an unquoted anchor --strict exists to refuse.
+test('an unknown flag or a second report is a usage error (2), not the lenient mode', () => {
+  const root = tree();
+  const ok = path.join(root, 'ok.md');
+  fs.writeFileSync(ok, 'src/gate.ts:4\n');
+  const typo = spawnSync(process.execPath, [script, ok, '--root', root, '--strcit'], { encoding: 'utf8' });
+  assert.equal(typo.status, 2, typo.stdout);
+  assert.match(typo.stderr, /unknown argument "--strcit"/);
+  assert.equal(spawnSync(process.execPath, [script, ok, ok, '--root', root]).status, 2);
+  assert.equal(spawnSync(process.execPath, [script, ok, '--root']).status, 2);
+  // control: the declared flags still run
+  assert.equal(spawnSync(process.execPath, [script, ok, '--root', root, '--json', '--strict']).status, 1);
+});
+
 // Seeded canary (2026-10-25 gates scan): a report with no anchors read green under
 // --strict, the mode whose contract is that every claim carries a quoted anchor.
 test('--strict over a report with zero anchors is could-not-run (2); plain mode stays a note (0)', () => {

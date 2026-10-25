@@ -48,8 +48,21 @@ if (argv.includes('--help') || argv.includes('-h')) {
   console.log('usage: node check-coverage-age.mjs [--max-age <days>]');
   process.exit(EXIT.OK);
 }
-const i = argv.indexOf('--max-age');
-const MAX_AGE = i >= 0 && argv[i + 1] ? Number(argv[i + 1]) : 14;
+// A closed flag set. `--max-age` with no value used to fall back to 14 and an unknown flag
+// was ignored, so the limit a caller asked for was not the limit the verdict used.
+let maxAgeArg = null;
+for (let a = 0; a < argv.length; a++) {
+  if (argv[a] !== '--max-age') {
+    console.error(`check-coverage-age: unknown argument ${JSON.stringify(argv[a])}. Usage: node scripts/check-coverage-age.mjs [--max-age <days>]`);
+    process.exit(EXIT.FATAL);
+  }
+  maxAgeArg = argv[++a] ?? null;
+  if (maxAgeArg === null || maxAgeArg.startsWith('--')) {
+    console.error('check-coverage-age: --max-age needs a value (a positive number of days).');
+    process.exit(EXIT.FATAL);
+  }
+}
+const MAX_AGE = maxAgeArg === null ? 14 : Number(maxAgeArg);
 
 if (!Number.isFinite(MAX_AGE) || MAX_AGE <= 0) {
   console.error('check-coverage-age: --max-age must be a positive number of days.');

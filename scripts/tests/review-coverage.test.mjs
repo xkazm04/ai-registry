@@ -72,6 +72,13 @@ test('control: a readable superseded record above a current one passes',t=>{
  fs.writeFileSync(note,'<!-- architecture-review:v1 -->\n```json\n{"subject":"domain/topic","date":"2026-01-01"}\n```\n\n'+valid(dir));
  const r=run('--require-complete');assert.equal(r.status,0,r.stderr);
 });
+// `--require-complet` used to run the plain report and exit 0 over pending subjects - the
+// exact verdict the flag exists to refuse.
+test('an unknown argument is a usage error (2), not the plain report',t=>{
+ const {run}=fixture(t);
+ const r=run('--require-complet');assert.equal(r.status,2,r.stdout);assert.match(r.stderr,/unknown argument "--require-complet"/);
+ assert.equal(run('--require-complete').status,1,'control: the declared flag still refuses a pending subject');
+});
 test('zero subjects is could-not-run, not complete coverage',t=>{
  const {run}=fixture(t,{subjects:false});
  for(const args of [[],['--require-complete'],['--json']]){const r=run(...args);assert.equal(r.status,2,`args ${args}: ${r.stderr}`);assert.match(r.stderr,/walked 0 subjects/);}

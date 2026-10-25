@@ -26,6 +26,14 @@ function readRecords(raw,id,errors){
  if(fenced.length!==markers)errors.push(`${id}: ${markers-fenced.length} v1 marker(s) not followed by a \`\`\`json fence - the record cannot be read`);
  return fenced;
 }
+// A closed flag set: `--require-complet` used to run the plain report and exit 0 over the
+// pending subjects the flag exists to refuse.
+const KNOWN_FLAGS=new Set(['--json','--require-complete']);
+const unknownArg=process.argv.slice(2).find(a=>!KNOWN_FLAGS.has(a));
+if(unknownArg!==undefined){
+ console.error(`FATAL: review-coverage: unknown argument ${JSON.stringify(unknownArg)}. Usage: review-coverage.mjs [--json] [--require-complete]`);
+ process.exit(EXIT.FATAL);
+}
 try {
  const root=fileURLToPath(new URL('../',import.meta.url));
  const rows=[],errors=[],known=new Set();

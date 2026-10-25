@@ -62,14 +62,34 @@ const ROOT = path.resolve(fileURLToPath(new URL('.', import.meta.url)), '..');
 const KNOWLEDGE = path.join(ROOT, 'knowledge');
 const SIGNALS = path.join(ROOT, 'signals');
 
+// A closed flag set. `--fail-on-expired` is the only thing that turns this report into a
+// failure, so a mistyped flag that ran the plain report and exited 0 was a scheduled run
+// that could never go red. Unknown arguments, value flags without a value, and the two
+// --volatile modifiers given without --volatile are refused before anything is read.
 const argv = process.argv.slice(2);
-const asJson = argv.includes('--json');
-const failOnExpired = argv.includes('--fail-on-expired');
-const volatileMode = argv.includes('--volatile');
-const argAfter = (flag) => {
-  const i = argv.indexOf(flag);
-  return i === -1 ? null : argv[i + 1] ?? null;
+const usage = (msg) => {
+  console.error(`check-currency FATAL: ${msg}.`);
+  console.error('Usage: check-currency.mjs [--json] [--horizon <days>] [--fail-on-expired] [--volatile [--subject <slug>] [--top <n>]]');
+  process.exit(2);
 };
+const SWITCHES = new Set(['--json', '--fail-on-expired', '--volatile']);
+const VALUED = new Set(['--horizon', '--subject', '--top']);
+const given = {};
+for (let i = 0; i < argv.length; i++) {
+  const a = argv[i];
+  if (SWITCHES.has(a)) { given[a] = true; continue; }
+  if (!VALUED.has(a)) usage(`unknown argument ${JSON.stringify(a)}`);
+  const v = argv[++i];
+  if (v === undefined || v.startsWith('--')) usage(`${a} needs a value`);
+  given[a] = v;
+}
+for (const f of ['--subject', '--top']) {
+  if (given[f] !== undefined && !given['--volatile']) usage(`${f} applies only with --volatile`);
+}
+const asJson = Boolean(given['--json']);
+const failOnExpired = Boolean(given['--fail-on-expired']);
+const volatileMode = Boolean(given['--volatile']);
+const argAfter = (flag) => given[flag] ?? null;
 const volatileSubject = argAfter('--subject');
 const volatileTop = (() => {
   const raw = argAfter('--top');
@@ -82,11 +102,11 @@ const volatileTop = (() => {
   return n;
 })();
 const horizonDays = (() => {
-  const i = argv.indexOf('--horizon');
-  if (i === -1) return 30;
-  const n = Number(argv[i + 1]);
+  const raw = argAfter('--horizon');
+  if (raw === null) return 30;
+  const n = Number(raw);
   if (!Number.isInteger(n) || n < 0) {
-    console.error(`check-currency FATAL: --horizon needs a non-negative integer, got ${JSON.stringify(argv[i + 1])}`);
+    console.error(`check-currency FATAL: --horizon needs a non-negative integer, got ${JSON.stringify(raw)}`);
     process.exit(2);
   }
   return n;
