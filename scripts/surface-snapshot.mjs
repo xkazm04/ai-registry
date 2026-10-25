@@ -134,7 +134,15 @@ const entries = (snap) => {
 const read = (f) => {
   if (!f) die('--diff needs at least one snapshot path');
   if (!fs.existsSync(f)) die(`snapshot ${f} does not exist`);
-  try { return JSON.parse(fs.readFileSync(f, 'utf8')); } catch (e) { return die(`snapshot ${f} does not parse: ${e.message}`); }
+  let snap;
+  try { snap = JSON.parse(fs.readFileSync(f, 'utf8')); } catch (e) { return die(`snapshot ${f} does not parse: ${e.message}`); }
+  // Parsing is not reading. Any JSON used to flatten through `?? []` to an EMPTY surface,
+  // so `--diff {} {}` said "surface unchanged" (exit 0) and `{}` against the live tree
+  // called every address "added". What `capture()` writes is what is accepted.
+  if (snap === null || typeof snap !== 'object' || snap.schema !== 'rkb-surface/1' || !Array.isArray(snap.bundles)) {
+    return die(`${f} is not an rkb-surface/1 snapshot (write one with --out)`);
+  }
+  return snap;
 };
 
 // ------------------------------------------------------------------ run
