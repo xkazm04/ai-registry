@@ -46,10 +46,10 @@
  * happens. A long list of plausible neighbours is therefore not evidence that the
  * corpus lacks the concept; it is the shape the blind spot actually takes.
  *
- * Matching is over slugs and law statements, deliberately. Slugs in this corpus are
- * descriptive noun phrases, so token overlap is a decent recall signal at zero cost;
- * `--deep` additionally reads each concept document's `use_when` frontmatter, which
- * is the field written to be matched on but which the index does not carry.
+ * Matching is over slugs, law statements and technique `use_when` (the index carries it),
+ * deliberately. Slugs in this corpus are descriptive noun phrases, so token overlap is a
+ * decent recall signal at zero cost; `--deep` additionally reads each GOLDEN PATH's
+ * `use_when` frontmatter, which the index does not carry (see "deep pass" below).
  *
  * Usage:
  *   node scripts/research-map.mjs "local inference" "open weights"
@@ -509,8 +509,8 @@ console.log(
   'NOT answered here either: whether a subject this list OMITS owns the concept. Matching is over slugs, law'
 );
 console.log(
-  'statements' +
-    (deep ? ', use_when' : '') +
+  'statements, technique use_when' +
+    (deep ? ', golden-path use_when' : '') +
     (prose ? ' and document BODIES.' : ' and NOT document bodies.') +
     ' A full result set is not an absence proof - re-run with --prose'
 );

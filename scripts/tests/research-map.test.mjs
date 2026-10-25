@@ -38,6 +38,15 @@ test('--top must be a positive integer; a bad value is a usage error, not an emp
   assert.match(ok.stdout, /top 2\)/);
 });
 
+test('the closing caveat names what was matched: technique use_when by default, golden-path use_when under --deep', { skip: !HAS_CORPUS && 'knowledge/ absent' }, () => {
+  // The default pass scores technique use_when from the index (every technique carries it), and
+  // the caveat used to omit it - a reader of "slugs, law statements" under-trusts the result.
+  const plain = run('rate limiting').stdout.replace(/\s+/g, ' ');
+  assert.match(plain, /Matching is over slugs, law statements, technique use_when and NOT document bodies/);
+  const deep = run('rate limiting', '--deep').stdout.replace(/\s+/g, ' ');
+  assert.match(deep, /Matching is over slugs, law statements, technique use_when, golden-path use_when and NOT document bodies/);
+});
+
 test('a real empty still says so', { skip: !HAS_CORPUS && 'knowledge/ absent' }, () => {
   const r = run('zzqxv wwkpj');
   assert.equal(r.status, 0, r.stderr);
