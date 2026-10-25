@@ -189,6 +189,28 @@ test('control: spec and data applications without verified_against, and node wit
   assert.equal(r.status, 0, r.stderr);
 });
 
+// ---- (b4) taxonomy order. A category without `order` used to pass when it was the only
+// one, and two of them were reported as "duplicate order values" - a remedy (renumber)
+// for a cause (a missing field) that was not this one.
+const retax = (b, cats) => {
+  const f = path.join(b, 'taxonomy.json');
+  const tx = JSON.parse(fs.readFileSync(f, 'utf8'));
+  tx.categories = cats;
+  fs.writeFileSync(f, JSON.stringify(tx));
+};
+test('taxonomy: a category without an integer order fails, named as missing', () => expectRed(({ b }) => {
+  retax(b, [{ id: 'core', title: 'Core', subjects: ['topic'] }]);
+}, /category "core" has no integer order/));
+
+test('taxonomy: two categories without order are not reported as duplicates', () => {
+  const fx = fixture();
+  retax(fx.b, [{ id: 'core', title: 'Core', subjects: ['topic'] }, { id: 'more', title: 'More', subjects: [] }]);
+  const r = run(fx.root);
+  assert.equal(r.status, 1);
+  assert.match(r.stderr, /category "more" has no integer order/);
+  assert.doesNotMatch(r.stderr, /duplicate order values/);
+});
+
 // ---- (d) use_when on techniques
 test('use_when: a technique without one fails', () => expectRed(({ b }) => {
   fs.writeFileSync(path.join(b, 'topic', 'techniques', 'check.md'), TECHNIQUE([]));
