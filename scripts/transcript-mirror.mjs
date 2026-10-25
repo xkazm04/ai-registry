@@ -660,6 +660,13 @@ export function notice({ archive = defaultArchive(), maxAgeHours = 36, now = Dat
 
 // ---------- CLI ----------
 
+// A closed flag set, and the numeric ones must be numbers: `--budget-gb abc` used to become a
+// NaN budget that no store ever exceeds, and `--budget 5` was ignored - either way the one
+// limit the operator asked for was silently off.
+const BOOL_FLAGS = new Set(['dry-run', 'force', 'hook']);
+const VALUE_FLAGS = new Set(['root', 'archive', 'since', 'budget-gb', 'chunk-kib', 'source', 'capture', 'out', 'max-age-h']);
+const POSITIVE_FLAGS = new Set(['budget-gb', 'chunk-kib', 'max-age-h']);
+
 function parseArgs(argv) {
   const [cmd, ...rest] = argv;
   const o = { _: cmd };
@@ -667,12 +674,12 @@ function parseArgs(argv) {
     const a = rest[i];
     if (!a.startsWith('--')) throw new MirrorError(`unexpected argument ${a}`);
     const k = a.slice(2);
-    if (k === 'dry-run' || k === 'force' || k === 'hook') o[k] = true;
-    else {
-      const v = rest[++i];
-      if (v == null) throw new MirrorError(`--${k} needs a value`);
-      o[k] = v;
-    }
+    if (BOOL_FLAGS.has(k)) { o[k] = true; continue; }
+    if (!VALUE_FLAGS.has(k)) throw new MirrorError(`unknown flag --${k} (see the header for each command's flags)`);
+    const v = rest[++i];
+    if (v == null) throw new MirrorError(`--${k} needs a value`);
+    if (POSITIVE_FLAGS.has(k) && !(Number.isFinite(Number(v)) && Number(v) > 0)) throw new MirrorError(`--${k} must be a positive number, got ${JSON.stringify(v)}`);
+    o[k] = v;
   }
   return o;
 }

@@ -364,3 +364,19 @@ test('retire removes chunk writes a killed run left half-done', async () => {
     assert.equal((await verify({ archive: t.archive })).failed, 0);
   } finally { t.cleanup(); }
 });
+
+test('a budget, age or chunk flag that is not a number, or a flag nobody declared, is a usage error - never a silently unlimited budget', () => {
+  const t = setup();
+  try {
+    t.put('proj-a/s.jsonl', crypto.randomBytes(64));
+    const cli = (...args) => spawnSync(process.execPath, [SCRIPT, ...args], { encoding: 'utf8' });
+    const base = ['capture', '--root', t.root, '--archive', t.archive];
+    for (const bad of [['--budget-gb', 'abc'], ['--budget-gb', '-1'], ['--chunk-kib', 'big'], ['--budget', '1']]) {
+      const r = cli(...base, ...bad);
+      assert.equal(r.status, 2, `${bad.join(' ')}: ${r.stdout}${r.stderr}`);
+    }
+    assert.equal(cli('notice', '--archive', t.archive, '--max-age-h', 'soon').status, 2);
+    assert.equal(fs.existsSync(t.archive), false, 'a refused flag captured nothing');
+    assert.equal(cli(...base, '--budget-gb', '1').status, 0, 'a real budget still runs');
+  } finally { t.cleanup(); }
+});
