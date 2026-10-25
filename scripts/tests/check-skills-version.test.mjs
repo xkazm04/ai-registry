@@ -162,6 +162,25 @@ test('shape: an unindented list item fails; indented and inline lists pass', (t)
   assert.doesNotMatch(r.stderr, /skills\/beta/);
 });
 
+// ---- shape: the two named files, by exact case. A `lessons.md` is never read on a
+// case-sensitive disk (0 lessons, no heading check) and is read under the wrong name on a
+// case-insensitive one; `SKILL.MD` slipped the old check because it tested `.md` first.
+test('shape: a LESSONS.md or SKILL.md in the wrong case fails', async (t) => {
+  const f = fixture(t);
+  f.write('skills/alpha/lessons.md', '# Lessons\n\n## 1.0.0 - 2026-10-25 - fixture\n\n- a lesson\n');
+  f.commit('lowercase lessons');
+  const r = f.run();
+  assert.equal(r.status, 1, r.stdout);
+  assert.match(r.stderr, /skills\/alpha\/lessons\.md: the lessons file must be named exactly LESSONS\.md/);
+  const { subResourceFindings } = await import(new URL('../lib/skills-lane.mjs', import.meta.url));
+  const fake = (rel) => subResourceFindings({ rel: 'skills/x', files: [{ rel, dir: false, size: 1 }] }).fails;
+  assert.equal(fake('SKILL.MD').length, 1);
+  assert.equal(fake('Lessons.MD').length, 1);
+  assert.deepEqual(fake('SKILL.md'), []);
+  assert.deepEqual(fake('LESSONS.md'), []);
+  assert.deepEqual(fake('references/lessons.md'), [], 'only the top-level names are reserved');
+});
+
 // The CI half of the same gap: the version step sat under `if: pull_request` while
 // work lands on main by push, and a skipped step reads as a green job. Text-level on
 // purpose (no YAML parser here); comment lines are stripped before matching.
