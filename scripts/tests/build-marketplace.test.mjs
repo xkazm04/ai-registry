@@ -28,7 +28,23 @@ function fixture(t, skills) {
   return { root, run, read };
 }
 
-const LONG = `${'Mine an external source for craft that belongs in the recipes lane. '.repeat(7)}Tail words here.`;
+// --check named only VERSION drift. A description, category or tags edit made the file
+// STALE with not one line saying which plugin or field - the reader had to diff by hand.
+test('--check names the plugin and the field that drifted, not only versions', (t) => {
+  const { root, run } = fixture(t, { alpha: 'First.', beta: 'Second.' });
+  assert.equal(run().status, 0);
+  const file = path.join(root, '.claude-plugin', 'marketplace.json');
+  const doc = JSON.parse(fs.readFileSync(file, 'utf8'));
+  doc.plugins[1].description = 'Edited by hand.';
+  doc.plugins[1].category = 'elsewhere';
+  fs.writeFileSync(file, `${JSON.stringify(doc, null, 2)}\n`);
+  const r = run('--check');
+  assert.equal(r.status, 1);
+  assert.match(r.stderr, /beta: description, category differ/);
+  assert.doesNotMatch(r.stderr, /alpha:/);
+});
+
+const LONG =`${'Mine an external source for craft that belongs in the recipes lane. '.repeat(7)}Tail words here.`;
 
 test('a short description is carried verbatim; the lane builds and checks fresh', (t) => {
   const { run, read } = fixture(t, { demo: 'A demo skill.' });

@@ -98,9 +98,20 @@ if (checkOnly) {
     console.error(`${path.relative(ROOT, OUT)} is STALE — run \`node scripts/build-marketplace.mjs\` and commit the result.`);
     try {
       const cur = JSON.parse(current).plugins ?? [];
-      const curMap = new Map(cur.map((p) => [p.name, p.version]));
-      for (const p of plugins) if (curMap.get(p.name) !== p.version) console.error(`  ${p.name}: committed ${curMap.get(p.name) ?? '(absent)'} -> computed ${p.version}`);
+      const curMap = new Map(cur.map((p) => [p.name, p]));
+      // Every field, not only `version`: a description or category drift used to print the
+      // STALE line and nothing under it.
+      for (const p of plugins) {
+        const c = curMap.get(p.name);
+        if (!c) { console.error(`  ${p.name}: absent from the committed file -> computed ${p.version}`); continue; }
+        if (c.version !== p.version) console.error(`  ${p.name}: committed ${c.version} -> computed ${p.version}`);
+        const fields = [...new Set([...Object.keys(p), ...Object.keys(c)])]
+          .filter((k) => k !== 'version' && JSON.stringify(c[k]) !== JSON.stringify(p[k]));
+        if (fields.length) console.error(`  ${p.name}: ${fields.join(', ')} differ${fields.length === 1 ? 's' : ''}`);
+      }
       for (const p of cur) if (!plugins.find((q) => q.name === p.name)) console.error(`  ${p.name}: committed but no longer in the lane`);
+      const envelope = Object.keys({ ...JSON.parse(current), ...doc }).filter((k) => k !== 'plugins' && JSON.stringify(JSON.parse(current)[k]) !== JSON.stringify(doc[k]));
+      if (envelope.length) console.error(`  envelope: ${envelope.join(', ')} differ${envelope.length === 1 ? 's' : ''}`);
     } catch { /* unparseable committed file: the STALE verdict already says enough */ }
     process.exit(1);
   }
