@@ -14,7 +14,8 @@
  *     the same source is verified to hold every byte of it as a prefix: chunk-list
  *     prefix, a sha256 over the partial last chunk, and the whole-file sha256 recomputed
  *     over the newer capture's decompressed bytes. The newest capture of a source is never
- *     retired, even when the source file is gone (that is the point of the mirror).
+ *     retired, even when the source file is gone (that is the point of the mirror). While
+ *     captures.jsonl holds a line that does not parse, retire deletes no chunk at all.
  *   - When the byte budget is reached, new captures pause (exit 3). Nothing is evicted
  *     automatically; making room is an operator decision.
  *   - Source identity is the path relative to --root (forward slashes), never a native
@@ -217,7 +218,7 @@ function loadState(archive) {
   const latestAny = new Map(); // newest capture per source, live or not
   for (const c of captures) latestAny.set(c.src, c);
   const nextSeq = captures.length ? captures[captures.length - 1].seq + 1 : 1;
-  return { captures, live, retired, bySrc, latestAny, nextSeq, brokenLines: caps.broken + ret.broken };
+  return { captures, live, retired, bySrc, latestAny, nextSeq, brokenLines: caps.broken + ret.broken, brokenCaptureLines: caps.broken };
 }
 
 /** Map sha -> compressed size for every chunk file present. */
@@ -524,10 +525,14 @@ export async function retire({ archive = defaultArchive(), dryRun = false } = {}
     const liveAfter = state.live.filter((c) => !retiring.has(c.id));
     const referenced = new Set(liveAfter.flatMap((c) => c.chunks));
     const have = scanChunks(archive);
-    const drop = [...have.keys()].filter((h) => !referenced.has(h));
+    // "Unreferenced" is only provable against a log that read whole. A captures.jsonl line
+    // that does not parse may be the one record of a capture whose source is already gone, and
+    // its chunks would read as orphans; while any such line exists, no chunk is deleted. (A
+    // broken retired.jsonl line errs the safe way on its own: that capture just stays live.)
+    const drop = state.brokenCaptureLines ? [] : [...have.keys()].filter((h) => !referenced.has(h));
     const bytesFreed = drop.reduce((a, h) => a + have.get(h), 0);
     const tmps = tmpLeftovers(archive);
-    const r = { command: 'retire', dryRun, liveBefore: state.live.length, retire: plan.length, keptOlderNotPrefix: kept, chunksUnreferenced: drop.length, bytesFreed, liveAfter: liveAfter.length, tmpLeftovers: tmps.length };
+    const r = { command: 'retire', dryRun, liveBefore: state.live.length, retire: plan.length, keptOlderNotPrefix: kept, chunksUnreferenced: drop.length, bytesFreed, liveAfter: liveAfter.length, tmpLeftovers: tmps.length, unreadableCaptureLines: state.brokenCaptureLines };
     if (dryRun) return r;
     const at = new Date().toISOString();
     for (const p of plan) appendLine(P(archive).retired, { id: p.id, by: p.by, at });

@@ -395,3 +395,21 @@ test('capture reports the stored size the budget is checked against, the same fi
     assert.equal(r.storedBytesAfter, status({ archive: t.archive }).storedBytes);
   } finally { t.cleanup(); }
 });
+
+test('retire deletes no chunk while captures.jsonl has a line it cannot read - that line may be the only record of the bytes', async () => {
+  const t = setup();
+  try {
+    t.put('proj-a/gone.jsonl', 'G'.repeat(40));
+    await capture(t.opts);
+    fs.rmSync(path.join(t.root, 'proj-a', 'gone.jsonl')); // the harness deleted its copy
+    const log = path.join(t.archive, 'captures.jsonl');
+    const line = fs.readFileSync(log, 'utf8').trim();
+    fs.writeFileSync(log, `${line.slice(0, -5)}\n`); // the record is damaged, the chunks are intact
+    const chunksBefore = status({ archive: t.archive }).chunks;
+    assert.ok(chunksBefore > 0);
+    const r = await retire({ archive: t.archive });
+    assert.equal(r.chunksUnreferenced, 0, 'nothing counted as unreferenced while the log is damaged');
+    assert.equal(r.unreadableCaptureLines, 1);
+    assert.equal(status({ archive: t.archive }).chunks, chunksBefore, 'every chunk is still on disk');
+  } finally { t.cleanup(); }
+});
