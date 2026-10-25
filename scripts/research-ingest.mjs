@@ -55,16 +55,29 @@ const pick = (name, dflt) => {
 };
 
 // Flags that consume the next argument; everything else that is not `--…` is the source.
+// The set is CLOSED: an unknown flag used to be skipped and its value read as a source, so
+// `--min-word 500` (a typo) silently ran at the default floor, and `--outdir <dir> <url>`
+// tried to ingest <dir>. A second source was dropped without a word.
 const VALUED = new Set(['--out', '--min-words']);
+const BOOLEAN = new Set(['--json', '--meta-only']);
 const positional = [];
+const unknown = [];
 for (let i = 0; i < argv.length; i += 1) {
   if (argv[i].startsWith('--')) {
     if (VALUED.has(argv[i])) i += 1;
+    else if (!BOOLEAN.has(argv[i])) unknown.push(argv[i]);
     continue;
   }
   positional.push(argv[i]);
 }
 const source = positional[0];
+if (unknown.length || positional.length > 1) {
+  console.error(unknown.length
+    ? `research-ingest: unknown flag ${unknown.join(', ')}`
+    : `research-ingest: one source per run, got ${positional.length}: ${positional.map((p) => JSON.stringify(p)).join(' ')}`);
+  console.error('usage: node scripts/research-ingest.mjs <url|path|-> [--out <dir>] [--json] [--meta-only] [--min-words N]');
+  process.exit(2);
+}
 
 const asJson = flag('--json');
 const metaOnly = flag('--meta-only');

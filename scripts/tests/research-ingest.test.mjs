@@ -26,6 +26,25 @@ test('control: a thin file exits 3 (the source is thin, the instrument worked)',
   assert.match(r.stderr, /SOURCE TOO THIN: 3 words < --min-words 300/);
 });
 
+test('an unknown flag or a second source refuses (exit 2) and names it', (t) => {
+  const dir = workdir(t);
+  const thin = path.join(dir, 'thin.txt');
+  fs.writeFileSync(thin, 'three little words');
+  const out = path.join(dir, 'out');
+  // a typo of --min-words used to be dropped, and its value read as a second, ignored source
+  let r = run([thin, '--out', out, '--min-word', '1']);
+  assert.equal(r.status, 2, r.stderr);
+  assert.match(r.stderr, /--min-word\b/);
+  // a typo BEFORE the source made the typo's value the source
+  r = run(['--outdir', dir, thin]);
+  assert.equal(r.status, 2, r.stderr);
+  assert.match(r.stderr, /--outdir/);
+  r = run([thin, path.join(dir, 'other.txt'), '--out', out]);
+  assert.equal(r.status, 2, r.stderr);
+  assert.match(r.stderr, /one source/);
+  assert.ok(!fs.existsSync(out), 'a refused invocation writes nothing');
+});
+
 test('--min-words that is not a whole number refuses (exit 2) instead of silencing the thin check', (t) => {
   const dir = workdir(t);
   fs.writeFileSync(path.join(dir, 'thin.txt'), 'three little words');
