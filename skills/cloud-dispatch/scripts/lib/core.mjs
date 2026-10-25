@@ -400,6 +400,8 @@ export function queueAdd({ briefPath, repo, from, allowAhead = false, registryDi
 }
 
 export function queueDone({ id, registryDir: reg = registryDir(), now = () => new Date() } = {}) {
+  // The id becomes a file name: `../x` would read and rewrite <reg>/.ai/x.json as a "done" item.
+  if (!ID_RE.test(String(id ?? ''))) return { ok: false, reason: `${JSON.stringify(id)} is not a queue id (YYMMDD-xxxxxx, from queue.mjs --list)` };
   const item = readItem(reg, id);
   if (!item) return { ok: false, reason: `no queue item ${id}` };
   if (item.state === 'dispatched') return { ok: false, reason: `${id} was already dispatched as ${item.dispatch_id}; close its pull request instead` };

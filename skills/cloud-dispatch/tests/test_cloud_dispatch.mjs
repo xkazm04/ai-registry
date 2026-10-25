@@ -490,6 +490,17 @@ test('a failed git fetch defers the item (still queued) instead of refusing it f
   assert.equal(sync.transient, undefined);
 });
 
+test('queue --done refuses an id that is not a queue id, before it touches any file', () => {
+  const { reg } = setup();
+  const outside = path.join(reg, '.ai', 'victim.json');
+  fs.mkdirSync(path.dirname(outside), { recursive: true });
+  fs.writeFileSync(outside, JSON.stringify({ state: 'keep' }));
+  const r = queueDone({ id: '../victim', registryDir: reg });
+  assert.equal(r.ok, false);
+  assert.match(r.reason, /not a queue id/);
+  assert.deepEqual(JSON.parse(fs.readFileSync(outside, 'utf8')), { state: 'keep' }, 'a path-shaped id never reaches a file outside the queue');
+});
+
 test('overflow off Windows leaves items queued (environment, not the item, is at fault)', () => {
   const { root, reg, repo } = setup();
   queueN(root, reg, repo, 2);
