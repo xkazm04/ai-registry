@@ -21,9 +21,11 @@
  *
  * 2. **Version discipline** (`--since <ref>`): a recipe whose content changed
  *    since <ref> must carry a different version, and that version may never go
- *    backwards. Any file under the recipe directory except LESSONS.md counts as
- *    content - a lesson records a run against a version, it is not a change to
- *    the craft.
+ *    backwards. "Changed since <ref>" means the merge base of <ref> and HEAD
+ *    against the WORKING TREE, plus untracked files: committed, staged, unstaged
+ *    and new work in one population. Any file under the recipe directory except
+ *    LESSONS.md counts as content - a lesson records a run against a version,
+ *    it is not a change to the craft.
  *
  * NOT checked here, and deliberately: whether the craft is any good (that is the
  * CODEOWNERS review, and it is the point of `write_path: pull-request`), whether
@@ -536,29 +538,24 @@ if (sinceIdx !== -1) {
     console.error('Refusing to report "no version problems" from a comparison that never ran.');
     process.exit(EXIT.FATAL);
   }
+  // `${ref}...HEAD` alone compares COMMITTED history, and the working tree is
+  // invisible to it. This used to refuse (exit 2) only the shape where nothing
+  // was committed and something was dirty; one committed change beside dirty
+  // work made the dirty work silently unexamined (probe 2026-10-25: an unbumped
+  // dirty recipe beside a committed one reported `recipes lane OK`). Diffing the
+  // merge base against the working tree, plus untracked files, is `ref...HEAD`
+  // PLUS the work about to be committed, so there is no unexamined remainder
+  // left to refuse.
   let changed;
   try {
-    changed = git(['diff', '--name-only', `${ref}...HEAD`, '--', 'recipes/']).split(/\r?\n/).map((x) => x.trim()).filter(Boolean);
+    const base = git(['merge-base', ref, 'HEAD']).trim();
+    changed = git(['diff', '--name-only', base, '--', 'recipes/']).split(/\r?\n/).map((x) => x.trim()).filter(Boolean);
+    const untracked = git(['ls-files', '--others', '--exclude-standard', '--', 'recipes/'])
+      .split(/\r?\n/).map((x) => x.trim()).filter(Boolean);
+    changed = [...new Set([...changed, ...untracked])];
   } catch (e) {
     console.error(`FATAL: git diff against "${ref}" failed (${String(e.message).trim()}).`);
     process.exit(EXIT.FATAL);
-  }
-  // `${ref}...HEAD` compares COMMITTED history. The working tree is invisible to
-  // it. That is right in CI, where the branch is pushed, and wrong the way that
-  // matters locally: run over uncommitted work it finds nothing, reports zero
-  // changed recipes, and prints `recipes lane OK`, which reads as a version
-  // discipline pass over work it never looked at. The shallow-clone guard twenty
-  // lines above already refuses that shape; this is the same refusal.
-  {
-    const dirty = git(['status', '--porcelain', '--', 'recipes/'])
-      .split(/\r?\n/).map((x) => x.trim()).filter(Boolean);
-    if (dirty.length && !changed.length) {
-      console.error(`FATAL: --since ${ref} compares committed history, and ${dirty.length} file(s) under recipes/ are uncommitted.`);
-      console.error('The comparison found nothing because your changes are not in it, not because they carry versions.');
-      console.error('Refusing to report a version-discipline pass over work this run never examined.');
-      console.error('Commit first, or compare against the ref you branched from.');
-      process.exit(EXIT.FATAL);
-    }
   }
 
   // A LESSONS.md append records a run at the CURRENT version; it is not a change
@@ -635,7 +632,7 @@ const fmt = (m) => [...m.entries()].sort().map(([k, n]) => `${k}:${n}`).join(' '
 
 console.log(`recipes lane: ${walked.recipes.length} recipe(s) - ${fmt(byStatus)}`);
 console.log(`domains: ${fmt(byDomain)} - ${lessonEntries} LESSONS entr(ies)`);
-if (sinceIdx !== -1) console.log(`version discipline: ${bumpChecked} changed recipe(s) compared against ${process.argv[sinceIdx + 1]}`);
+if (sinceIdx !== -1) console.log(`version discipline: ${bumpChecked} changed recipe(s) compared against ${process.argv[sinceIdx + 1]} (committed + working tree + untracked)`);
 else console.log('version discipline: NOT run (pass --since <ref>; CI runs it on every pull request)');
 if (process.argv.includes('--shape-only')) console.log('index freshness: NOT run (--shape-only; regenerate and check the index next)');
 console.log('NOT checked here: whether the craft is any good; whether a lesson was appended;');

@@ -191,5 +191,5 @@ for (const s of chain) {
 
 console.log(`gate OK - ${ranClean}/${chain.length} step(s) green (${label}).`);
 if (!all) console.log('This is one lane\'s row. `--all` runs the whole chain CI enforces.');
-console.log('NOT run here: check-skills.mjs / check-recipes.mjs --since <base> (pull requests only), and the');
+console.log('NOT run here: check-skills.mjs / check-recipes.mjs --since <base> (CI runs them on every push and PR), and the');
 console.log('report-only jobs check-currency / librarian-scan / check-citations.');

@@ -19,7 +19,9 @@
  *
  * 2. **Version discipline** (`--since <ref>`): a skill whose content changed
  *    since <ref> must carry a different version, and that version may never go
- *    backwards. A checker cannot tell a typo from a behaviour change, so it asks
+ *    backwards. "Changed since <ref>" means the merge base of <ref> and HEAD
+ *    against the WORKING TREE, plus untracked files: committed, staged, unstaged
+ *    and new work in one population. A checker cannot tell a typo from a behaviour change, so it asks
  *    for the cheapest honest signal — a patch bump — rather than guessing. Any
  *    file under the skill directory except LESSONS.md counts as content: the
  *    references and scripts a skill ships are part of the method.
@@ -43,6 +45,7 @@ import {
   readLane, parseFrontmatter, parseSemver, cmpSemver, lessonHeadings,
   LESSON_HEAD_RE, subResourceFindings, SKILL_FILE,
 } from './lib/skills-lane.mjs';
+import { EXIT } from './lib/exit-codes.mjs';
 
 const ROOT = path.resolve(fileURLToPath(new URL('.', import.meta.url)), '..');
 const LANE = path.join(ROOT, 'skills');
@@ -107,7 +110,7 @@ const fail = (msg) => failures.push(msg);
 if (!fs.existsSync(LANE)) {
   console.error(`FATAL: no skills/ lane at ${LANE}`);
   console.error('This gate cannot run. Failing loudly rather than reporting a green tree.');
-  process.exit(2);
+  process.exit(EXIT.FATAL);
 }
 let skills;
 try {
@@ -115,12 +118,12 @@ try {
 } catch (e) {
   console.error(`FATAL: skills/ exists but cannot be read (${e.message}).`);
   console.error('Reporting nothing is not the same as finding nothing — refusing to exit 0.');
-  process.exit(2);
+  process.exit(EXIT.FATAL);
 }
 if (skills.length === 0) {
   console.error('FATAL: skills/ holds zero skills. THE READER IS BROKEN, or the lane is empty —');
   console.error('either way this gate has checked nothing and will not claim success.');
-  process.exit(2);
+  process.exit(EXIT.FATAL);
 }
 
 // ASCII where it bites: frontmatter (parsed by small hand-rolled parsers in every
@@ -270,7 +273,7 @@ for (const s of skills) {
 
 if (parsed === 0) {
   console.error('FATAL: zero SKILL.md files parsed across the whole lane. THE PARSER IS BROKEN.');
-  process.exit(2);
+  process.exit(EXIT.FATAL);
 }
 
 // ---------------------------------------------------------------- version discipline
@@ -296,20 +299,31 @@ let scopeLabel = null;
 
   if (sinceIdx !== -1) {
     ref = process.argv[sinceIdx + 1];
-    if (!ref) { console.error('FATAL: --since requires a git ref (e.g. --since origin/main).'); process.exit(2); }
+    if (!ref) { console.error('FATAL: --since requires a git ref (e.g. --since origin/main).'); process.exit(EXIT.FATAL); }
     try { git(['rev-parse', '--verify', `${ref}^{commit}`]); } catch (e) {
       console.error(`FATAL: --since ref "${ref}" does not resolve in this checkout (${String(e.message).trim()}).`);
       console.error('A shallow clone is the usual cause; CI needs fetch-depth: 0.');
       console.error('Refusing to report "no version problems" from a comparison that never ran.');
-      process.exit(2);
+      process.exit(EXIT.FATAL);
     }
+    // `${ref}...HEAD` alone compares COMMITTED history, so `--since HEAD` was an
+    // empty population by construction and `--since <ref>` skipped every dirty or
+    // untracked file the moment one committed change existed. Measured 2026-10-25:
+    // an unbumped dirty SKILL.md under `--since HEAD` reported `skills lane OK`,
+    // and two standing instructions said to run exactly that before committing.
+    // Diffing the merge base against the working tree is `ref...HEAD` PLUS the
+    // work about to be committed, in one population.
     try {
-      changed = git(['diff', '--name-only', `${ref}...HEAD`, '--', 'skills/']).split(/\r?\n/).map((x) => x.trim()).filter(Boolean);
+      const base = git(['merge-base', ref, 'HEAD']).trim();
+      changed = git(['diff', '--name-only', base, '--', 'skills/']).split(/\r?\n/).map((x) => x.trim()).filter(Boolean);
+      const untracked = git(['ls-files', '--others', '--exclude-standard', '--', 'skills/'])
+        .split(/\r?\n/).map((x) => x.trim()).filter(Boolean);
+      changed = [...new Set([...changed, ...untracked])];
     } catch (e) {
       console.error(`FATAL: git diff against "${ref}" failed (${String(e.message).trim()}).`);
-      process.exit(2);
+      process.exit(EXIT.FATAL);
     }
-    scopeLabel = `changed against ${ref}`;
+    scopeLabel = `changed against ${ref} (committed + working tree + untracked)`;
   } else {
     ref = 'HEAD';
     // Uncommitted work is the population a commit-authorizing run is about to
@@ -324,7 +338,7 @@ let scopeLabel = null;
     } catch (e) {
       console.error(`FATAL: could not read the working tree against HEAD (${String(e.message).trim()}).`);
       console.error('Refusing to report "no version problems" from a comparison that never ran.');
-      process.exit(2);
+      process.exit(EXIT.FATAL);
     }
     scopeLabel = 'uncommitted against HEAD';
   }
@@ -378,6 +392,6 @@ if (failures.length) {
   console.error(`\nskills lane FAILED - ${failures.length} problem(s):\n`);
   for (const f of failures) console.error(`  - ${f}`);
   console.error('');
-  process.exit(1);
+  process.exit(EXIT.VIOLATIONS);
 }
 console.log('skills lane OK');

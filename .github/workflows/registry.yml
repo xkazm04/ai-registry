@@ -24,10 +24,25 @@ jobs:
         with:
           node-version: '20'
       - run: node scripts/gate.mjs --all
+      # Version discipline runs on EVERY event. It used to sit under
+      # `if: pull_request`, and work lands on main by push: a skipped step reads as
+      # a green job, so 26 skill and 82 recipe landings went out unbumped. On push
+      # the range is github.event.before...HEAD, the commits this push carried.
       - name: Version discipline
-        if: github.event_name == 'pull_request'
         env:
-          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          EVENT: "${{ github.event_name }}"
+          PR_BASE: "${{ github.event.pull_request.base.sha }}"
+          PUSH_BEFORE: "${{ github.event.before }}"
         run: |
+          case "$EVENT" in
+            pull_request) BASE_SHA="$PR_BASE" ;;
+            push) BASE_SHA="$PUSH_BEFORE" ;;
+            *) BASE_SHA="" ;;
+          esac
+          if [ -z "$BASE_SHA" ] || [ "$BASE_SHA" = "0000000000000000000000000000000000000000" ] || ! git merge-base --is-ancestor "$BASE_SHA" HEAD 2>/dev/null; then
+            echo "version discipline: base '${BASE_SHA:-none}' is empty, all zeros (new branch) or not an ancestor of HEAD (force push) on $EVENT; falling back to HEAD~1"
+            BASE_SHA="HEAD~1"
+          fi
+          echo "version discipline: comparing $BASE_SHA...HEAD (event: $EVENT)"
           node scripts/check-skills.mjs --since "$BASE_SHA"
           node scripts/check-recipes.mjs --since "$BASE_SHA"

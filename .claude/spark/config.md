@@ -16,7 +16,9 @@ always:
 when scripts/ changed:
 - `node --test "scripts/tests/*.mjs"`   (Node 22+ refuses a bare directory argument)
 when skills/ changed:
-- `node scripts/check-skills.mjs --since HEAD`
+- `node scripts/check-skills.mjs --since origin/main`   (branch commits + dirty + untracked; the range the push carries)
+when recipes/ changed:
+- `node scripts/check-recipes.mjs --since origin/main`
 builder:
 - `node scripts/gate.mjs --lane <lane>` for the lane the package touches
 

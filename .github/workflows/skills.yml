@@ -8,8 +8,11 @@ name: skills
 # version is not a shape defect, and conflating the two makes people re-run the wrong
 # thing.
 #
-# `version` runs on pull requests only. It compares against the merge base, which a push
-# to main does not have — and by then the decision it guards has already been made.
+# `version` runs on push AND pull_request. It used to run on pull requests only, on the
+# reasoning that a push has no merge base; but work lands on main by push, so the
+# discipline never ran where it mattered (26 unbumped skill landings by 2026-10-25). A
+# push compares against github.event.before, the tip before the push; a new branch or a
+# force push falls back to HEAD~1 and says so in the log.
 #
 # ACTIONS ARE PINNED BY COMMIT, NOT BY TAG. `actions/checkout@v4` is a moving name: it is
 # an agreement to run whatever that publisher pushes to the tag next, resolved at build
@@ -54,7 +57,6 @@ jobs:
   version:
     name: version discipline
     runs-on: ubuntu-latest
-    if: github.event_name == 'pull_request'
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
@@ -66,6 +68,19 @@ jobs:
         with:
           node-version: '20'
       - name: Check every changed skill carries a version bump
-        run: node scripts/check-skills.mjs --since "$BASE_SHA"
         env:
-          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          EVENT: "${{ github.event_name }}"
+          PR_BASE: "${{ github.event.pull_request.base.sha }}"
+          PUSH_BEFORE: "${{ github.event.before }}"
+        run: |
+          case "$EVENT" in
+            pull_request) BASE_SHA="$PR_BASE" ;;
+            push) BASE_SHA="$PUSH_BEFORE" ;;
+            *) BASE_SHA="" ;;
+          esac
+          if [ -z "$BASE_SHA" ] || [ "$BASE_SHA" = "0000000000000000000000000000000000000000" ] || ! git merge-base --is-ancestor "$BASE_SHA" HEAD 2>/dev/null; then
+            echo "version discipline: base '${BASE_SHA:-none}' is empty, all zeros (new branch) or not an ancestor of HEAD (force push) on $EVENT; falling back to HEAD~1"
+            BASE_SHA="HEAD~1"
+          fi
+          echo "version discipline: comparing $BASE_SHA...HEAD (event: $EVENT)"
+          node scripts/check-skills.mjs --since "$BASE_SHA"
