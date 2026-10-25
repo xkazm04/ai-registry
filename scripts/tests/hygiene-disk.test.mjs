@@ -6,7 +6,7 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
-import { execFileSync } from 'node:child_process';
+import { execFileSync, spawnSync } from 'node:child_process';
 import { classifyCheckout, classifyPlain, classifyTemp, leakFamilies, checkoutFacts, scratchRootOf, BUILD_OUTPUT, scan } from '../hygiene-disk.mjs';
 
 // Fixture git never sees a hook's GIT_DIR (2026-09-19: fixtures wrote into real repositories).
@@ -184,6 +184,28 @@ test('scan: a checkout in the temp dir gets the checkout rules, not the temp age
     assert.equal(by['cn-landed'].kind, 'remove-scratch-checkout', 'landed and clean: removable, with a HEAD to re-check at apply');
     assert.ok(by['cn-landed'].head);
     assert.equal(by['plain-old'].kind, 'remove-temp');
+  } finally { r.cleanup(); }
+});
+
+test('a typo in a window or an unknown option refuses the run before anything is deleted', () => {
+  // Number('24h') is NaN, every `age < NaN` is false, and the liveness floor was off; an
+  // unknown flag (`--dry-run`) was ignored and the run deleted.
+  const r = repos();
+  try {
+    const scratch = path.join(r.base, 'scratch');
+    fs.mkdirSync(scratch);
+    const fresh = path.join(scratch, 'cn9-home');
+    execFileSync('git', ['clone', '-q', r.home, fresh], { env: ENV, stdio: 'ignore' }); // landed, clean, written seconds ago
+    const SCRIPT = path.resolve(path.dirname(new URL(import.meta.url).pathname.replace(/^\/([A-Za-z]:)/, '$1')), '..', 'hygiene-disk.mjs');
+    for (const extra of [['--idle-hours', '24h'], ['--idle-hours', '-1'], ['--dry-run']]) {
+      const res = spawnSync(process.execPath, [SCRIPT, '--scratch', scratch, '--out', path.join(r.base, 'out'), ...extra, '--reap', fresh], { env: ENV, encoding: 'utf8' });
+      assert.equal(res.status, 2, `${extra.join(' ')}: ${res.stdout}${res.stderr}`);
+      assert.match(res.stderr, new RegExp(extra[0]));
+      assert.equal(fs.existsSync(fresh), true, `${extra.join(' ')} deleted the checkout`);
+    }
+    const ok = spawnSync(process.execPath, [SCRIPT, '--scratch', scratch, '--out', path.join(r.base, 'out'), '--idle-hours', '24', '--reap', fresh], { env: ENV, encoding: 'utf8' });
+    assert.equal(ok.status, 0, ok.stderr);
+    assert.match(JSON.parse(ok.stdout.trim()).skipped, /scratch-live/, 'a valid floor keeps a fresh checkout');
   } finally { r.cleanup(); }
 });
 

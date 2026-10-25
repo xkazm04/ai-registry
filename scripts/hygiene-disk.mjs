@@ -355,26 +355,58 @@ function renderMarkdown(plan) {
 
 // ---------------------------------------------------------------------------- main
 
+const OPTIONS = { 'idle-hours': 'number', 'temp-days': 'number', scratch: 'value', out: 'value', json: 'flag', apply: 'flag', reap: 'list' };
+
+/**
+ * Strict argv. This tool deletes, so an option it does not know is refused rather than
+ * ignored (`--apply --dry-run` used to apply), and a window that is not a non-negative number
+ * is refused rather than read as NaN, which every `age < floor` comparison answers false:
+ * `--idle-hours 24h` used to switch the liveness floor off. Throws a usage message.
+ */
+export function parseArgs(argv) {
+  const o = { reap: null };
+  for (let i = 0; i < argv.length; i++) {
+    const a = argv[i];
+    const name = a.startsWith('--') ? a.slice(2) : null;
+    const kind = name && Object.hasOwn(OPTIONS, name) ? OPTIONS[name] : null;
+    if (!kind) throw new Error(name ? `unknown option ${a}` : `unexpected argument ${a}`);
+    if (kind === 'flag') { o[name] = true; continue; }
+    if (kind === 'list') { o.reap = []; while (i + 1 < argv.length && !argv[i + 1].startsWith('--')) o.reap.push(argv[++i]); continue; }
+    const v = argv[i + 1];
+    if (v == null || v.startsWith('--')) throw new Error(`${a} needs a value`);
+    i++;
+    if (kind === 'number') {
+      const n = Number(v);
+      if (v.trim() === '' || !Number.isFinite(n) || n < 0) throw new Error(`${a} must be a non-negative number, got "${v}"`);
+      o[name] = n;
+    } else o[name] = v;
+  }
+  return o;
+}
+
 function main() {
-  const argv = process.argv.slice(2);
-  const opt = (n, d) => { const i = argv.indexOf(`--${n}`); return i >= 0 && argv[i + 1] && !argv[i + 1].startsWith('--') ? argv[i + 1] : d; };
+  let args;
+  try { args = parseArgs(process.argv.slice(2)); } catch (e) {
+    console.error(`FATAL: ${e.message}\nusage: hygiene-disk.mjs [--idle-hours N] [--temp-days N] [--scratch <dir>] [--out <dir>] [--json] | --apply [--out <dir>] | --reap <dir>... [--idle-hours N]`);
+    process.exit(EXIT.FATAL);
+  }
+  const opt = (n, d) => args[n] ?? d;
   const fleet = loadFleet(ROOT);
   // --reap needs no fleet: without one, a clone holding local commits is simply not shown landed
-  if (!fleet.machine && !argv.includes('--reap')) { console.error(`FATAL: ${fleet.problems.join('; ')}`); process.exit(EXIT.FATAL); }
-  const idleH = Number(opt('idle-hours', 24));
-  const tempDays = Number(opt('temp-days', 7));
+  if (!fleet.machine && !args.reap) { console.error(`FATAL: ${fleet.problems.join('; ')}`); process.exit(EXIT.FATAL); }
+  const idleH = opt('idle-hours', 24);
+  const tempDays = opt('temp-days', 7);
   const common = git(ROOT, ['rev-parse', '--path-format=absolute', '--git-common-dir']) ?? path.join(ROOT, '.git');
   const outDir = path.resolve(opt('out', path.join(common, 'hygiene', new Date().toISOString().slice(0, 10))));
   fs.mkdirSync(outDir, { recursive: true });
   const planPath = path.join(outDir, 'disk.json');
 
-  if (argv.includes('--reap')) {
+  if (args.reap) {
     // A run's own end-of-task cleanup (curator's fin.sh): the named scratch-root entries, judged
     // by the same rules right now, idle floor 0 because the caller just finished in them.
     const scratch = path.resolve(opt('scratch', scratchRootOf(os.homedir())));
-    const reapIdle = Number(opt('idle-hours', 0));
-    const targets = [];
-    for (let i = argv.indexOf('--reap') + 1; i < argv.length && !argv[i].startsWith('--'); i++) targets.push(argv[i]);
+    const reapIdle = opt('idle-hours', 0);
+    const targets = args.reap;
     const ledger = path.join(outDir, 'disk-applied.jsonl');
     const homes = fleetHomes(fleet);
     for (const t of targets) {
@@ -403,7 +435,7 @@ function main() {
     return;
   }
 
-  if (argv.includes('--apply')) {
+  if (args.apply) {
     if (!fs.existsSync(planPath)) { console.error(`FATAL: no disk plan at ${planPath} - scan first`); process.exit(EXIT.FATAL); }
     const plan = JSON.parse(fs.readFileSync(planPath, 'utf8'));
     const ledger = path.join(outDir, 'disk-applied.jsonl');
@@ -436,7 +468,7 @@ function main() {
   fs.writeFileSync(planPath, JSON.stringify(plan, null, 2));
   const md = renderMarkdown(plan);
   fs.writeFileSync(path.join(outDir, 'disk.md'), md);
-  process.stdout.write(argv.includes('--json') ? JSON.stringify(plan, null, 2) : md + `\nplan: ${planPath}\n`);
+  process.stdout.write(args.json ? JSON.stringify(plan, null, 2) : md + `\nplan: ${planPath}\n`);
 }
 
 if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
