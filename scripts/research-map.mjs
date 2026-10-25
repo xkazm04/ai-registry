@@ -88,7 +88,13 @@ for (let i = 0; i < argv.length; i += 1) {
 const asJson = flag('--json');
 const deep = flag('--deep');
 const prose = flag('--prose');
-const topN = Number(pick('--top', 6));
+const topRaw = pick('--top', '6');
+// A bad --top used to reach slice(0, NaN) and print "never heard of this" for every term.
+if (!/^\d+$/.test(String(topRaw)) || Number(topRaw) < 1) {
+  console.error(`research-map: --top must be a positive integer, got ${JSON.stringify(topRaw ?? null)}`);
+  process.exit(2);
+}
+const topN = Number(topRaw);
 const onlyDomain = pick('--domain', null);
 const terms = [...positional, ...String(pick('--terms', '')).split(',')]
   .map((t) => t.trim())
@@ -413,7 +419,10 @@ const scoreTerm = (term) => {
   lawHits.sort((a, b) => b.score - a.score);
   homes.sort((a, b) => b.score - a.score);
 
-  return { term, hits: hits.slice(0, topN), laws: lawHits.slice(0, 3), homes: homes.slice(0, 3), total_hits: hits.length };
+  // A term with no matchable word (all stopwords, or under three letters: "CI", "UX") was
+  // only compared as a whole slug. An empty there is not evidence of absence.
+  const unsearched = tt.size === 0;
+  return { term, unsearched, hits: hits.slice(0, topN), laws: lawHits.slice(0, 3), homes: homes.slice(0, 3), total_hits: hits.length };
 };
 
 const results = terms.map(scoreTerm);
@@ -463,7 +472,10 @@ if (scanned.branch) {
 
 for (const r of results) {
   console.log(`\nterm: "${r.term}"`);
-  if (r.hits.length === 0) {
+  if (r.hits.length === 0 && r.unsearched) {
+    console.log('  PRIOR ART: not searched - the term has no matchable word (3+ letters, not a stopword), so only an exact slug could match.');
+    console.log('  Spell it out ("continuous integration", not "CI") or try node scripts/registry-query.mjs, which keeps two-letter words.');
+  } else if (r.hits.length === 0) {
     console.log('  PRIOR ART: none. The corpus has never heard of this - that is a finding, not a miss.');
   } else {
     console.log(`  PRIOR ART (${r.total_hits} subject(s) matched, top ${r.hits.length}):`);
