@@ -166,6 +166,21 @@ test('a branch contained in the unpushed local default branch is a mechanical de
   assert.equal(A.filter((a) => a.class === 'worker').length, 0);
 });
 
+test('a REMOTE branch whose content is only in the unpushed local default is not deleted from origin', () => {
+  // on-local-default means "in this machine's local master", not "on origin". --apply runs
+  // delete-remote-branch before push-primary, and a pre-push gate or a production-deploy hold
+  // can stop the push: the branch on origin was then the only copy anywhere but this disk.
+  const primary = { branch: 'main', onDefault: true, dirty: 0, live: false, ahead: 5, behind: 0, unpushed: ['abc x'] };
+  for (const over of [{}, { slug: 'ascent', defaultBranch: 'master', primary: { ...primary, branch: 'master' } }]) {
+    const A = planActions(project({ primary, remoteBranches: [branch('feat', { remote: true, cls: 'on-local-default', ahead: 3 })], ...over }));
+    assert.equal(A.filter((a) => a.kind === 'delete-remote-branch').length, 0, over.slug ?? 'demo');
+    assert.equal(A.filter((a) => a.target === 'origin/feat').length, 0, 'nothing to triage: it is merged once the primary pushes');
+  }
+  // The local twin still goes: its content stays on this disk in the local default.
+  const L = planActions(project({ primary, localBranches: [branch('feat', { cls: 'on-local-default', ahead: 3 })] }));
+  assert.deepEqual(kinds(L, 'mechanical').filter((k) => k.startsWith('delete-')), ['delete-local-branch feat']);
+});
+
 test('a branch riding on the unpushed local default commits says so and carries the count', () => {
   // 2026-09-19, pof: backlog/c26 read "82 not on master" with only 2 of its own.
   const A = planActions(project({ localBranches: [branch('backlog/c26', { cls: 'unpushed', ahead: 82, ridesUnpushed: 80 })] }));

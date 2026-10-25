@@ -732,6 +732,10 @@ function planActions(P) {
     // twin read "merged" and was only saved by the repo's pre-push hook.
     if (checkedOut.has(b.name)) continue;
     if (b.live) { add('hands-off', 'live-branch', `origin/${b.name}`, `last commit ${b.commitMin} min ago`); continue; }
+    // Content in the primary's UNPUSHED default is not on origin: deleting the remote copy
+    // before (or without) the push leaves this disk as its only holder. It reads `merged` on
+    // the first morning after the primary's commits reach origin.
+    if (b.cls === 'on-local-default') continue;
     if (CONTENT_ON_DEFAULT.has(b.cls)) add('mechanical', 'delete-remote-branch', b.name, `${b.cls}${b.pr ? ` (#${b.pr})` : ''}`, { sha: b.sha });
     else add('worker', 'triage-branch', `origin/${b.name}`, `${b.cls}${b.pr ? ` (#${b.pr})` : ''}, ${b.ahead} commit(s) not on ${P.defaultBranch}${ridesText(b)}`, { sha: b.sha, scope: 'remote', ridesUnpushed: b.ridesUnpushed ?? 0 });
   }
