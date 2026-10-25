@@ -20,10 +20,15 @@
  * Usage:
  *   node qwen-image.mjs generate --prompt "..." --output path.png \
  *     [--size 1024*1024] [--model qwen-image] [--negative "..."] [--seed 42] [--extend]
+ *
+ * Every provider call has a deadline (default 10 min; LEONARDO_FETCH_TIMEOUT_MS
+ * overrides) - see fetch-deadline.mjs. A stalled call fails the run with a timeout
+ * message; there is no retry, as before.
  */
 
 import { writeFileSync, mkdirSync } from "fs";
 import { dirname, resolve } from "path";
+import { withDeadline } from "./fetch-deadline.mjs";
 
 const API_KEY = process.env.QWEN_API_KEY;
 const BASE = (process.env.QWEN_IMAGE_BASE_URL || "https://dashscope-intl.aliyuncs.com").replace(/\/+$/, "");
@@ -60,28 +65,36 @@ async function generate(args) {
     },
   };
 
-  const res = await fetch(SUBMIT, {
-    method: "POST",
-    headers: { Authorization: `Bearer ${API_KEY}`, "Content-Type": "application/json", "X-DashScope-Async": "enable" },
-    body: JSON.stringify(body),
+  const { res, submitted } = await withDeadline("DashScope submit", async (signal) => {
+    const res = await fetch(SUBMIT, {
+      method: "POST",
+      headers: { Authorization: `Bearer ${API_KEY}`, "Content-Type": "application/json", "X-DashScope-Async": "enable" },
+      body: JSON.stringify(body),
+      signal,
+    });
+    return { res, submitted: await res.json().catch(() => ({})) };
   });
-  const submitted = await res.json().catch(() => ({}));
   const taskId = submitted?.output?.task_id;
   if (!res.ok || !taskId) die({ error: `DashScope submit HTTP ${res.status}`, body: submitted });
   process.stderr.write(`[${model}] task ${taskId}\n`);
 
   for (let i = 1; i <= MAX_POLLS; i++) {
     await sleep(POLL_INTERVAL_MS);
-    const p = await fetch(`${BASE}/api/v1/tasks/${taskId}`, { headers: { Authorization: `Bearer ${API_KEY}` } });
-    const j = await p.json().catch(() => ({}));
+    const j = await withDeadline("DashScope poll", async (signal) => {
+      const p = await fetch(`${BASE}/api/v1/tasks/${taskId}`, { headers: { Authorization: `Bearer ${API_KEY}` }, signal });
+      return p.json().catch(() => ({}));
+    });
     const status = j?.output?.task_status;
     process.stderr.write(`[${model}] poll ${i}/${MAX_POLLS} status=${status}\n`);
     if (status === "SUCCEEDED") {
       const url = j.output.results?.[0]?.url;
       if (!url) die({ error: "SUCCEEDED but no image url", body: j });
-      const img = await fetch(url);
+      const img = await withDeadline("DashScope image download", async (signal) => {
+        const r = await fetch(url, { signal });
+        return { ok: r.ok, status: r.status, buf: r.ok ? Buffer.from(await r.arrayBuffer()) : null };
+      });
       if (!img.ok) die({ error: `download HTTP ${img.status}` });
-      const buf = Buffer.from(await img.arrayBuffer());
+      const buf = img.buf;
       const abs = resolve(args.output);
       mkdirSync(dirname(abs), { recursive: true });
       writeFileSync(abs, buf);

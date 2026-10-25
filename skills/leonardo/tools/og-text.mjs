@@ -1,7 +1,7 @@
 /**
- * Pure text helpers for the social-card writer (og-image.mjs).
+ * Pure helpers for the social-card writer (og-image.mjs): wrap, escape, and the SVG builder.
  *
- * These two functions carry the only logic in that tool that is neither a raster
+ * These functions carry the only logic in that tool that is neither a raster
  * operation nor an argument parse: how a title becomes lines, and how a caller's
  * string becomes safe inside the SVG the card is composed from. They lived inline in
  * og-image.mjs, which resolves `sharp` at module scope and exits when required
@@ -56,3 +56,64 @@ export const svgEscape = (s) => String(s)
   .replace(/</g, '&lt;')
   .replace(/>/g, '&gt;')
   .replace(/"/g, '&quot;');
+
+/**
+ * Build the 1200x630-style card SVG from caller options - a pure function, so the
+ * markup can be checked without `sharp`.
+ *
+ * Why it lives here: the template used to be a literal inside og-image.mjs and
+ * interpolated `--bg/--ink/--accent/--font-display/--font-body` straight from argv.
+ * Only the text content went through `svgEscape`, so a CSS font stack such as
+ * `"Space Grotesk", sans-serif` closed `font-family="..."` early, the SVG was
+ * malformed, and sharp reported a composite failure instead of bad input. Every
+ * interpolated value is escaped here, attributes included; there is no unescaped
+ * path left to forget.
+ *
+ * Returns `{ svg, titleLines, taglineLines }` - the lines are what og-image.mjs
+ * reports back in its JSON.
+ */
+export function buildCardSvg(opts) {
+  const {
+    title, tagline = '', width = 1200, height = 630,
+    bg = '#0a0a12', ink = '#f0f0f5', accent = '#06b6d4',
+    fontDisplay = 'Fraunces, Georgia, serif',
+    fontBody = 'Inter, system-ui, sans-serif',
+    hasLogo = false,
+  } = opts;
+  const PAD = 80;
+  const LOGO_SIZE = 120;
+  const ACCENT_BAR_H = 6;
+  const TITLE_SIZE = 96;
+  const TITLE_LH = 104;
+  const TAGLINE_SIZE = 34;
+  const TAGLINE_LH = 44;
+
+  // Title wraps at ~22 chars per line for the chosen size.
+  const titleLines = wrapText(title, 22).slice(0, 2);
+  const taglineLines = tagline ? wrapText(tagline, 56).slice(0, 2) : [];
+  const titleStartY = hasLogo ? PAD + LOGO_SIZE + 70 : PAD + 60;
+  const taglineStartY = titleStartY + titleLines.length * TITLE_LH + 36;
+
+  const W = svgEscape(width), H = svgEscape(height);
+  const eBg = svgEscape(bg), eInk = svgEscape(ink), eAccent = svgEscape(accent);
+  const eDisplay = svgEscape(fontDisplay), eBody = svgEscape(fontBody);
+
+  const svg = `<?xml version="1.0"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}" viewBox="0 0 ${W} ${H}">
+  <defs>
+    <linearGradient id="vignette" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="${eBg}" stop-opacity="0"/>
+      <stop offset="1" stop-color="${eBg}" stop-opacity="0.35"/>
+    </linearGradient>
+  </defs>
+  <rect width="${W}" height="${H}" fill="${eBg}"/>
+  <rect width="${W}" height="${H}" fill="url(#vignette)"/>
+  <!-- Accent bar -->
+  <rect x="${PAD}" y="${height - PAD - ACCENT_BAR_H}" width="220" height="${ACCENT_BAR_H}" fill="${eAccent}"/>
+  <!-- Title -->
+  ${titleLines.map((l, i) => `<text x="${PAD}" y="${titleStartY + i * TITLE_LH}" font-family="${eDisplay}" font-size="${TITLE_SIZE}" font-weight="700" fill="${eInk}" letter-spacing="-2">${svgEscape(l)}</text>`).join('\n  ')}
+  <!-- Tagline -->
+  ${taglineLines.map((l, i) => `<text x="${PAD}" y="${taglineStartY + i * TAGLINE_LH}" font-family="${eBody}" font-size="${TAGLINE_SIZE}" font-weight="400" fill="${eInk}" opacity="0.75">${svgEscape(l)}</text>`).join('\n  ')}
+</svg>`;
+  return { svg, titleLines, taglineLines };
+}

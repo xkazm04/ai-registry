@@ -29,10 +29,15 @@
  * Usage:
  *   node leonardo-gpt-image.mjs generate --prompt "..." --output path.png \
  *     [--width 1024] [--height 1024] [--quality MEDIUM] [--quantity 1] [--enhance OFF]
+ *
+ * Every provider call has a deadline (default 10 min; LEONARDO_FETCH_TIMEOUT_MS
+ * overrides) - see fetch-deadline.mjs. A stalled image download is listed as a failed
+ * download and the cloud generation is kept.
  */
 
 import { writeFileSync, mkdirSync } from "fs";
 import { dirname, resolve } from "path";
+import { withDeadline, FetchTimeoutError } from "./fetch-deadline.mjs";
 
 const API_KEY = process.env.LEONARDO_API_KEY;
 const BASE = "https://cloud.leonardo.ai/api/rest";
@@ -104,11 +109,14 @@ function statusOf(obj) {
 async function api(method, path, body) {
   const opts = { method, headers: { accept: "application/json", authorization: `Bearer ${API_KEY}` } };
   if (body) { opts.headers["content-type"] = "application/json"; opts.body = JSON.stringify(body); }
-  const res = await fetch(`${BASE}${path}`, opts);
-  const text = await res.text();
-  let json = null;
-  try { json = JSON.parse(text); } catch { /* leave null */ }
-  return { ok: res.ok, status: res.status, text, json };
+  // Deadline covers the request and its body read (fetch-deadline.mjs); no retry, as before.
+  return withDeadline(`Leonardo ${method} ${path}`, async (signal) => {
+    const res = await fetch(`${BASE}${path}`, { ...opts, signal });
+    const text = await res.text();
+    let json = null;
+    try { json = JSON.parse(text); } catch { /* leave null */ }
+    return { ok: res.ok, status: res.status, text, json };
+  });
 }
 
 async function generate(args) {
@@ -172,9 +180,13 @@ async function generate(args) {
   const outputs = [];
   const failed = [];
   for (let i = 0; i < urls.length; i++) {
-    const imgRes = await fetch(urls[i]).catch((e) => ({ ok: false, status: String(e?.message || e) }));
+    // A stalled download is a failed download (listed, generation kept), same as a network error.
+    const imgRes = await withDeadline(`image download ${urls[i]}`, async (signal) => {
+      const r = await fetch(urls[i], { signal });
+      return { ok: r.ok, status: r.status, buf: r.ok ? Buffer.from(await r.arrayBuffer()) : null };
+    }).catch((e) => ({ ok: false, status: String(e?.message || e) }));
     if (!imgRes.ok) { failed.push({ url: urls[i], status: imgRes.status }); continue; }
-    const buf = Buffer.from(await imgRes.arrayBuffer());
+    const buf = imgRes.buf;
     const out = urls.length > 1 ? args.output.replace(/(\.\w+)?$/, `-${i + 1}$1`) : args.output;
     const abs = resolve(out);
     mkdirSync(dirname(abs), { recursive: true });
@@ -230,8 +242,11 @@ async function models(args) {
   console.log(JSON.stringify({ success: true, count: rows.length, models: rows }, null, 2));
 }
 
+// A deadline that fired is a clean JSON failure, not an uncaught-rejection stack.
+const run = (p) => p.catch((e) => { if (e instanceof FetchTimeoutError) fail({ error: e.message }); throw e; });
+
 const { command, args } = parseArgs(process.argv);
 const MODEL = args.model || process.env.LEONARDO_IMAGE_MODEL || DEFAULT_MODEL;
-if (command === "generate") generate(args);
-else if (command === "models") models(args);
+if (command === "generate") run(generate(args));
+else if (command === "models") run(models(args));
 else { console.error("Commands: generate | models [--filter <text>]"); process.exit(1); }

@@ -15,8 +15,11 @@
  *     --logo path/to/logo.png \
  *     --bg-illustration path/to/hero-bg.png   # optional, low-opacity wash
  *     --output path/out.png \
- *     [--font-display "Fraunces"]             # informational only; SVG falls
- *                                              # back to system fonts
+ *     [--font-display "Fraunces, Georgia, serif"]  # CSS font stack for the title
+ *     [--font-body "Inter, system-ui, sans-serif"] # CSS font stack for the tagline
+ *                                              # (rendered by sharp's SVG engine, so
+ *                                              # only installed system fonts resolve;
+ *                                              # quotes in a stack are escaped for you)
  *
  * Notes:
  *  - Width/height default to 1200x630 (the OG / Twitter standard).
@@ -30,7 +33,7 @@ import { mkdirSync, writeFileSync } from 'fs';
 import { createRequire } from 'module';
 // Pure and builtins-only, so they can be tested without resolving sharp - importing
 // THIS file to check a wrap or an escape would run the whole tool. See tests/.
-import { wrapText, svgEscape } from './og-text.mjs';
+import { buildCardSvg } from './og-text.mjs';
 
 function parseArgs(argv) {
   const args = {};
@@ -85,36 +88,12 @@ if (!sharp) {
 
 const PAD = 80;
 const LOGO_SIZE = 120;
-const ACCENT_BAR_H = 6;
 
-// Title wraps at ~22 chars per line for the chosen size.
-const titleLines = wrapText(title, 22).slice(0, 2);
-const taglineLines = tagline ? wrapText(tagline, 56).slice(0, 2) : [];
-
-const titleStartY = logoPath ? PAD + LOGO_SIZE + 70 : PAD + 60;
-const TITLE_SIZE = 96;
-const TITLE_LH = 104;
-const TAGLINE_SIZE = 34;
-const TAGLINE_LH = 44;
-const taglineStartY = titleStartY + titleLines.length * TITLE_LH + 36;
-
-const svg = `<?xml version="1.0"?>
-<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}" viewBox="0 0 ${W} ${H}">
-  <defs>
-    <linearGradient id="vignette" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0" stop-color="${bg}" stop-opacity="0"/>
-      <stop offset="1" stop-color="${bg}" stop-opacity="0.35"/>
-    </linearGradient>
-  </defs>
-  <rect width="${W}" height="${H}" fill="${bg}"/>
-  <rect width="${W}" height="${H}" fill="url(#vignette)"/>
-  <!-- Accent bar -->
-  <rect x="${PAD}" y="${H - PAD - ACCENT_BAR_H}" width="220" height="${ACCENT_BAR_H}" fill="${accent}"/>
-  <!-- Title -->
-  ${titleLines.map((l, i) => `<text x="${PAD}" y="${titleStartY + i * TITLE_LH}" font-family="${fontDisplay}" font-size="${TITLE_SIZE}" font-weight="700" fill="${ink}" letter-spacing="-2">${svgEscape(l)}</text>`).join('\n  ')}
-  <!-- Tagline -->
-  ${taglineLines.map((l, i) => `<text x="${PAD}" y="${taglineStartY + i * TAGLINE_LH}" font-family="${fontBody}" font-size="${TAGLINE_SIZE}" font-weight="400" fill="${ink}" opacity="0.75">${svgEscape(l)}</text>`).join('\n  ')}
-</svg>`;
+// The card markup is built (and every interpolated value escaped) in og-text.mjs.
+const { svg, titleLines, taglineLines } = buildCardSvg({
+  title, tagline, width: W, height: H, bg, ink, accent, fontDisplay, fontBody,
+  hasLogo: Boolean(logoPath),
+});
 
 let composer = sharp({
   create: { width: W, height: H, channels: 4, background: bg },
