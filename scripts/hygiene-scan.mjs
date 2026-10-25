@@ -107,14 +107,19 @@ export function argvProblem(args) {
 
 // ---------------------------------------------------------------------------- process
 
-function run(cmd, args, { cwd, timeout = 120_000 } = {}) {
+function run(cmd, args, { cwd, timeout = 120_000, env } = {}) {
   return new Promise((resolve) => {
-    execFile(cmd, args, { cwd, timeout, maxBuffer: 256 * 1024 * 1024, windowsHide: true }, (err, stdout, stderr) => {
+    execFile(cmd, args, { cwd, timeout, env, maxBuffer: 256 * 1024 * 1024, windowsHide: true }, (err, stdout, stderr) => {
       resolve({ ok: !err, stdout: String(stdout ?? ''), stderr: String(stderr ?? ''), err });
     });
   });
 }
-const git = (cwd, args, o) => run('git', ['-C', cwd, '--no-optional-locks', ...args], o);
+// A hook that exports GIT_DIR (or GIT_WORK_TREE, GIT_INDEX_FILE...) makes `git -C <dir>` answer
+// for a different repository, and --apply deletes branches on these answers. The same filter
+// as hygiene-disk's, taken at each call so a variable set later is still dropped.
+const REPO_SELECTING = /^GIT_(DIR|WORK_TREE|INDEX_FILE|COMMON_DIR|OBJECT_DIRECTORY|ALTERNATE_OBJECT_DIRECTORIES|NAMESPACE|CEILING_DIRECTORIES)$/;
+const gitEnv = () => Object.fromEntries(Object.entries(process.env).filter(([k]) => !REPO_SELECTING.test(k)));
+const git = (cwd, args, o) => run('git', ['-C', cwd, '--no-optional-locks', ...args], { ...o, env: gitEnv() });
 async function gitOut(cwd, args, o) {
   const r = await git(cwd, args, o);
   return r.ok ? r.stdout.trim() : null;
@@ -1070,7 +1075,7 @@ async function main() {
   else process.stdout.write(md + `\nplan: ${path.join(outDir, 'plan.json')}\n`);
 }
 
-export { planActions, RED_CONCLUSIONS };
+export { planActions, applyAction, RED_CONCLUSIONS };
 
 // Run only as a command; scripts/tests/hygiene-scan.test.mjs imports the planner.
 if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {

@@ -8,7 +8,7 @@ import os from 'node:os';
 import path from 'node:path';
 import { spawnSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
-import { planActions, denyBlocksPush, splitRed, pickDefaultCi } from '../hygiene-scan.mjs';
+import { planActions, denyBlocksPush, splitRed, pickDefaultCi, applyAction } from '../hygiene-scan.mjs';
 
 const HOUR = 60;
 
@@ -317,4 +317,37 @@ test('a typo in a window or an unknown option refuses the run before the fleet i
       assert.match(res.stderr, new RegExp(args.at(-1) === '--only' ? '--only needs a value' : args.find((a) => a.startsWith('--') && a !== '--apply')), args.join(' '));
     }
   } finally { fs.rmSync(out, { recursive: true, force: true }); }
+});
+
+// ---- --apply's mechanics on throwaway repositories (never the fleet's)
+const FIXTURE_ENV = { ...Object.fromEntries(Object.entries(process.env).filter(([k]) => !k.startsWith('GIT_'))), GIT_AUTHOR_NAME: 't', GIT_AUTHOR_EMAIL: 't@t.invalid', GIT_COMMITTER_NAME: 't', GIT_COMMITTER_EMAIL: 't@t.invalid', GIT_AUTHOR_DATE: '2020-01-01T00:00:00Z', GIT_COMMITTER_DATE: '2020-01-01T00:00:00Z' };
+const gx = (cwd, ...args) => spawnSync('git', ['-C', cwd, ...args], { env: FIXTURE_ENV, encoding: 'utf8' }).stdout.trim();
+function fixtureRepo(base, name) {
+  const d = path.join(base, name);
+  fs.mkdirSync(d);
+  gx(d, 'init', '-q', '-b', 'main');
+  fs.writeFileSync(path.join(d, 'a.txt'), 'one\n');
+  gx(d, 'add', 'a.txt');
+  gx(d, 'commit', '-q', '-m', 'one');
+  gx(d, 'branch', 'done');
+  return d;
+}
+
+test('--apply acts on the checkout it names even when the environment exports GIT_DIR', async () => {
+  // hygiene-disk strips the repository-selecting variables (2026-09-19: a hook's GIT_DIR made
+  // fixtures write into real repos); hygiene-scan, which deletes branches, passed them through.
+  const base = fs.mkdtempSync(path.join(os.tmpdir(), 'hscan-'));
+  const A = fixtureRepo(base, 'a');
+  const B = fixtureRepo(base, 'b'); // same content and dates: the same sha, so a wrong-repo answer passes the tip check
+  const sha = gx(A, 'rev-parse', 'refs/heads/done');
+  const saved = process.env.GIT_DIR;
+  process.env.GIT_DIR = path.join(B, '.git');
+  let res;
+  try { res = await applyAction({ slug: 'a', path: A, repo: 'o/a' }, { kind: 'delete-local-branch', target: 'done', sha }); }
+  finally { if (saved == null) delete process.env.GIT_DIR; else process.env.GIT_DIR = saved; }
+  try {
+    assert.equal(res.done, true, JSON.stringify(res));
+    assert.equal(gx(B, 'rev-parse', '--verify', '-q', 'refs/heads/done'), sha, 'the other repository was not touched');
+    assert.equal(gx(A, 'rev-parse', '--verify', '-q', 'refs/heads/done'), '', 'the named checkout lost the branch');
+  } finally { fs.rmSync(base, { recursive: true, force: true }); }
 });
