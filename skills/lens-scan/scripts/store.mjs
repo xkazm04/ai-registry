@@ -124,6 +124,8 @@ export const ACTIVITY = ['reading', 'measured', 'proposed', 'executing', 'commit
 export const COVERAGE = ['conformant', 'deviation', 'not-applicable', 'unknown'];
 export const PHASE = ['before', 'after'];
 export const PACK_STATUS = ['open', 'triaged', 'closed'];
+// every status a proposal can hold (the DDL's CHECK): a filter outside it is a typo, never an empty answer
+export const PROPOSAL_STATUS = ['proposed', 'approved', 'declined', 'executing', 'done', 'failed', 'accepted', 'rework', 'descoped', 'released'];
 export const RELEASE_STATUS = ['draft', 'building', 'pr-open', 'merged', 'tagged', 'failed'];
 // a person's triage of a built item: decision -> [target status, the statuses it may come from]. reopen's target
 // is each item's own triaged_from (null here).
@@ -507,11 +509,11 @@ export function proposals(db, { status, feature, kind, ids, pack, release, origi
   if (tier !== undefined && untriaged !== undefined) bad('--tier and --untriaged are two answers to one question; pass one');
   if (tier !== undefined) { where.push('tier = ?'); args.push(tierOf(need('tier', tier))); }
   if (untriaged !== undefined && untriaged !== false) where.push('tier IS NULL');
-  if (status !== undefined) { where.push('status = ?'); args.push(status); }
+  if (status !== undefined) { where.push('status = ?'); args.push(oneOf('status', status, PROPOSAL_STATUS)); }
   if (pack !== undefined) { where.push('pack_id = ?'); args.push(pack); }
   if (release !== undefined) { where.push('release_id = ?'); args.push(release); }
   if (feature !== undefined) { where.push('feature = ?'); args.push(feature); }
-  if (kind !== undefined) { where.push('kind = ?'); args.push(kind); }
+  if (kind !== undefined) { where.push('kind = ?'); args.push(oneOf('kind', kind, KINDS)); }
   let order;
   if (ids !== undefined) {
     order = [...new Set(listOf(ids === true ? '' : ids))];
@@ -691,7 +693,7 @@ export function packUpdate(db, { pack, status, from } = {}) {
 export function packs(db, { lens, status } = {}) {
   const where = [], args = [];
   if (lens !== undefined) { where.push('lens = ?'); args.push(lens); }
-  if (status !== undefined) { where.push('status = ?'); args.push(status); }
+  if (status !== undefined) { where.push('status = ?'); args.push(oneOf('status', status, PACK_STATUS)); }
   const rows = db.prepare(`SELECT * FROM packs${where.length ? ` WHERE ${where.join(' AND ')}` : ''} ORDER BY created_at, lens, n`).all(...args).map(clean);
   const count = db.prepare('SELECT status, COUNT(*) AS n FROM proposals WHERE pack_id = ? GROUP BY status');
   for (const k of rows) k.items = Object.fromEntries(count.all(k.id).map((r) => [r.status, r.n]));

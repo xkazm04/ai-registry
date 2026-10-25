@@ -12,7 +12,7 @@ import { fileURLToPath } from 'node:url';
 import { DatabaseSync } from 'node:sqlite';
 import {
   openStore, runStart, runEnd, activity, measure, propose, proposals, proposalUpdate, shot, coverage, latest, parseArgs,
-  decide, triage, packCreate, packs, releaseCreate, releaseAdd, releaseUpdate, reworkAttempt, SUBCOMMANDS,
+  decide, triage, packCreate, packs, releaseCreate, releaseAdd, releaseUpdate, reworkAttempt, SUBCOMMANDS, PROPOSAL_STATUS,
 } from '../scripts/store.mjs';
 import { legacyDdl } from './legacy-ddl.mjs';
 
@@ -130,6 +130,24 @@ test('cli: an unknown subcommand or a --db with no path is refused before any st
   // SUBCOMMANDS is a hand list: it must be exactly the switch's cases, or a real subcommand is refused
   const cases = [...readFileSync(SCRIPT, 'utf8').matchAll(/^\s+case '([a-z-]+)':/gm)].map((m) => m[1]);
   assert.deepEqual([...SUBCOMMANDS].sort(), [...new Set(cases)].sort());
+});
+
+test('proposals and packs refuse a status or kind outside their sets, never an empty list that reads as "nothing waiting"', () => {
+  const db = openStore(tmpDb());
+  const { id: run } = runStart(db, { phase: 'propose', lenses: 'design' });
+  propose(db, { run, feature: 'a', lens: 'design', title: 't', kind: 'baseline-upgrade' });
+  assert.equal(proposals(db, { status: 'proposed' }).length, 1);
+  assert.throws(() => proposals(db, { status: 'aproved' }), (e) => e.code === 2 && /--status must be one of proposed, approved/.test(e.message));
+  assert.throws(() => proposals(db, { kind: 'upgrade' }), (e) => e.code === 2 && /--kind must be one of fix/.test(e.message));
+  assert.throws(() => packs(db, { status: 'opne' }), (e) => e.code === 2 && /--status must be one of open, triaged, closed/.test(e.message));
+  // PROPOSAL_STATUS is a hand list: it is exactly the proposals.status CHECK of the DDL
+  const ddl = readFileSync(fileURLToPath(new URL('../references/store.sql', import.meta.url)), 'utf8');
+  const check = /CREATE TABLE IF NOT EXISTS proposals[\s\S]*?status\s+TEXT NOT NULL CHECK \(status IN \(([^)]*)\)\)/.exec(ddl);
+  assert.ok(check, 'the proposals status CHECK is found');
+  assert.deepEqual([...PROPOSAL_STATUS].sort(), [...check[1].matchAll(/'([a-z-]+)'/g)].map((m) => m[1]).sort());
+  for (const s of PROPOSAL_STATUS) assert.doesNotThrow(() => proposals(db, { status: s }));
+  assert.equal(packs(db, { status: 'open' }).length, 0);
+  db.close();
 });
 
 test('parseArgs keeps negative numbers as values', () => {
