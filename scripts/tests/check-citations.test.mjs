@@ -28,6 +28,17 @@ function stub() {
   return { dir, preload: pathToFileURL(file).href };
 }
 
+// `--conc -1` threw a RangeError after the controls and exited 1 - the VIOLATIONS code, for
+// a typo - and `--conc abc` / `--timeout 0` silently became the defaults.
+test('a non-positive or non-numeric --conc/--timeout is a usage error (2) before any probe', () => {
+  const { dir, preload } = stub();
+  for (const args of [['--conc', '-1'], ['--conc', 'abc'], ['--timeout', '0'], ['--conc'], ['--jsno']]) {
+    const r = spawnSync(process.execPath, ['--import', preload, script, ...args], { cwd: dir, encoding: 'utf8' });
+    assert.equal(r.status, 2, `${args.join(' ')}: ${r.stderr}`);
+    assert.match(r.stderr, /FATAL: (--|unknown)/, `${args.join(' ')}: ${r.stderr}`);
+  }
+});
+
 test('the population is the lane, whatever directory the checker is run from', () => {
   const { dir, preload } = stub();
   const r = spawnSync(process.execPath, ['--import', preload, script, '--json'], { cwd: dir, encoding: 'utf8' });

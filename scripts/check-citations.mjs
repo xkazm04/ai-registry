@@ -36,16 +36,24 @@ import { fileURLToPath } from 'node:url';
 // cwd-relative, so a run from anywhere else found no files and blamed git.
 const ROOT = path.resolve(fileURLToPath(new URL('.', import.meta.url)), '..');
 
-const argv = process.argv.slice(2);
-const JSON_OUT = argv.includes('--json');
-const num = (flag, dflt) => {
-  const i = argv.indexOf(flag);
-  return i === -1 ? dflt : Number(argv[i + 1]) || dflt;
-};
-const TIMEOUT = num('--timeout', 15000);
-const CONC = num('--conc', 12);
-
 const die = (msg) => { console.error(`FATAL: ${msg}`); process.exit(2); };
+
+// A closed flag set, read before anything runs. `--conc -1` used to throw a RangeError
+// after the controls and exit 1 (the VIOLATIONS code, for a typo), and a non-numeric or zero
+// value silently became the default.
+const argv = process.argv.slice(2);
+const opts = { '--timeout': 15000, '--conc': 12 };
+let JSON_OUT = false;
+for (let i = 0; i < argv.length; i++) {
+  const a = argv[i];
+  if (a === '--json') { JSON_OUT = true; continue; }
+  if (!(a in opts)) die(`unknown argument ${JSON.stringify(a)}. Usage: check-citations.mjs [--json] [--timeout ms] [--conc n]`);
+  const n = Number(argv[++i]);
+  if (!Number.isInteger(n) || n < 1) die(`${a} needs a positive integer, got ${JSON.stringify(argv[i] ?? null)}`);
+  opts[a] = n;
+}
+const TIMEOUT = opts['--timeout'];
+const CONC = opts['--conc'];
 
 // ---- population -------------------------------------------------------
 let files;
