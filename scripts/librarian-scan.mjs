@@ -44,6 +44,7 @@ import { loadTaxonomy, walkSubjects, MAX_CHILD_DIRS } from './lib/taxonomy.mjs';
 import { EXIT } from './lib/exit-codes.mjs';
 import {loadIdentities,resolveIdentity,aggregateDemand} from './lib/telemetry.mjs';
 import { dryStreaks } from './lib/run-result.mjs';
+import { clockOf } from './lib/currency-clock.mjs';
 
 const ROOT = path.resolve(fileURLToPath(new URL('.', import.meta.url)), '..');
 const KNOWLEDGE = path.join(ROOT, 'knowledge');
@@ -430,18 +431,19 @@ for (const domain of domains) {
       if (fm.stack) stacks.add(fm.stack);
       if (fm.verified_against) versionWitness++;
       if (fm.verified_on && (!oldest || fm.verified_on < oldest)) oldest = fm.verified_on;
-      // The clock policy lives in check-currency.mjs; this only needs expired-or-not, and
-      // an explicit refresh_by is the only clock knowable without duplicating that table.
-      // The window is check-currency's default horizon, INCLUSIVE (daysLeft 0..30). This read
-      // `daysSince > -30`, i.e. 0..29, so an application exactly 30 days out was at risk in
-      // the currency report and not here: 20 vs 18 on 2026-10-25, one of the two that boundary.
-      if (fm.refresh_by) {
-        if (fm.refresh_by < today) expired++;
-        else if (-daysSince(fm.refresh_by) <= 30) atRisk++;
+      // The clock is lib/currency-clock.mjs's, the same one check-currency reports: an explicit
+      // refresh_by, else verified_on + the stack's window. This used to score refresh_by alone,
+      // so an application on the derived clock never expired here and the two tools disagreed
+      // (20 vs 19 at risk on 2026-10-25). The at-risk horizon is check-currency's default,
+      // INCLUSIVE (daysLeft 0..30); an earlier `daysSince > -30` read 0..29 and split them too.
+      const { daysLeft } = clockOf(fm, today);
+      if (daysLeft !== null) {
+        if (daysLeft < 0) expired++;
+        else if (daysLeft <= 30) atRisk++;
       }
     }
 
-    const key = `${domain}/${slug}`;
+    const key =`${domain}/${slug}`;
     const demand = demandOf[key] ?? null;
     const swept = sweptOf[key] ?? null;
 

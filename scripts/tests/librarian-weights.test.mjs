@@ -66,7 +66,9 @@ test('the at-risk window is check-currency\'s: 0 through 30 days left inclusive,
 test('a quoted scalar reads as its value, as check-currency reads it', (t) => {
   const s = scan(bundle(registry(t), {
     'node--a.md': ['stack: "node"', `refresh_by: "${isoIn(400)}"`, "verified_on: '2026-01-01'"],
-    'node--b.md': ['stack: node', 'verified_on: 2026-02-01'],
+    // recent on purpose: with no refresh_by this one rides the derived clock, and a fixed
+    // 2026-02-01 would be expired by now and fail the assertion below for the wrong reason
+    'node--b.md': ['stack: node', `verified_on: ${isoIn(-5)}`],
   }));
   assert.equal(s.expired, 0, 'a quoted future clock is not expired');
   assert.deepEqual(s.stacks, ['node'], 'one stack, however it is spelled');
