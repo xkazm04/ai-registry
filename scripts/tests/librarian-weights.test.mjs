@@ -55,6 +55,14 @@ test('control: the fixture bundle scans (exit 0)', (t) => {
   assert.equal(scan(bundle(registry(t))).applications, 1);
 });
 
+test('the at-risk window is check-currency\'s: 0 through 30 days left inclusive, then expired', (t) => {
+  const at = (days) => scan(bundle(registry(t), { 'node--a.md': ['stack: node', `refresh_by: ${isoIn(days)}`] }));
+  for (const [days, expired, atRisk] of [[31, 0, 0], [30, 0, 1], [0, 0, 1], [-1, 1, 0]]) {
+    const s = at(days);
+    assert.deepEqual([s.expired, s.atRisk], [expired, atRisk], `refresh_by in ${days} day(s)`);
+  }
+});
+
 test('an unknown argument refuses (exit 2): a typo of --check-weights must not run the scan and pass', (t) => {
   const dir = bundle(registry(t));
   for (const args of [['--check-weight'], ['--jsn'], ['--top', 'abc'], ['--top'], ['--top', '0'], ['--domain']]) {

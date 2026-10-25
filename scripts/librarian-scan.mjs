@@ -426,9 +426,12 @@ for (const domain of domains) {
       if (fm.verified_on && (!oldest || fm.verified_on < oldest)) oldest = fm.verified_on;
       // The clock policy lives in check-currency.mjs; this only needs expired-or-not, and
       // an explicit refresh_by is the only clock knowable without duplicating that table.
+      // The window is check-currency's default horizon, INCLUSIVE (daysLeft 0..30). This read
+      // `daysSince > -30`, i.e. 0..29, so an application exactly 30 days out was at risk in
+      // the currency report and not here: 20 vs 18 on 2026-10-25, one of the two that boundary.
       if (fm.refresh_by) {
         if (fm.refresh_by < today) expired++;
-        else if (daysSince(fm.refresh_by) > -30) atRisk++;
+        else if (-daysSince(fm.refresh_by) <= 30) atRisk++;
       }
     }
 
