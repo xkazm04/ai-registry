@@ -113,6 +113,26 @@ test('a commit of only the conform ledger is skipped and records no miss',t=>{
  assert.equal(fs.readFileSync(path.join(root,'.ai','consults.jsonl'),'utf8'),'');
 });
 
+test('a git that cannot answer is a stated reason, never "nothing staged"',t=>{
+ // "Every input degrades to a stated reason, never to a silent pass." A non-repo, or a bad
+ // --since ref, used to read as an empty diff: "nothing staged", skipped:"no-paths", exit 0.
+ const root=project(t,{contexts:[ctx('tables',['app/table'],['table'])],ledger:''});
+ // The ceiling keeps git from finding a repository ABOVE the temp dir on a runner that has one.
+ const env={...process.env,GIT_CEILING_DIRECTORIES:path.dirname(root)};
+ const call=(extra)=>spawnSync(process.execPath,[SCRIPT,'--project',root,'--no-record',...extra],{encoding:'utf8',env});
+ const notRepo=call(['--json']);
+ assert.equal(notRepo.status,0,'never blocks a commit');
+ const j=JSON.parse(notRepo.stdout);
+ assert.equal(j.skipped,'git-failed');
+ assert.match(j.reason,/git diff/);
+ assert.doesNotMatch(call([]).stdout,/nothing staged/);
+ assert.match(call([]).stdout,/could not list the changed paths/);
+ spawnSync('git',['init','-q'],{cwd:root});
+ assert.equal(JSON.parse(call(['--since','no-such-ref','--json']).stdout).skipped,'git-failed');
+ assert.equal(call(['--since','no-such-ref','--exit-code']).status,2,'under --exit-code a check that could not run is FATAL, not a pass');
+ assert.equal(JSON.parse(call(['--json']).stdout).skipped,'no-paths','a real repo with nothing staged is still "no-paths"');
+});
+
 test('a conform-ledger path beside real code still checks the code',t=>{
  const root=project(t,{contexts:[ctx('tables',['app/table'],['table'])],ledger:''});
  const {out}=run(root,'.ai/registry-map.json,app/table/Grid.tsx',['--no-record']);

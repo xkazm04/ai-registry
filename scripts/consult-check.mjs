@@ -174,17 +174,25 @@ const registryRoot = (() => {
 // What changed?
 // ---------------------------------------------------------------------------
 
+/**
+ * The changed paths, or `{ error }` when git could not say. A failed `git diff` (not a
+ * repository, a bad --since ref, no git) is NOT an empty diff: reading it as one printed
+ * "nothing staged" and passed a check that never looked at anything.
+ */
 function changedPaths() {
   const explicit = valueOf('--paths');
-  if (explicit) return explicit.split(',').map((s) => s.trim()).filter(Boolean);
+  if (explicit) return { paths: explicit.split(',').map((s) => s.trim()).filter(Boolean) };
 
   const since = valueOf('--since');
   const args = since
     ? ['diff', '--name-only', '--diff-filter=ACMR', `${since}..HEAD`]
     : ['diff', '--cached', '--name-only', '--diff-filter=ACMR'];
   const r = spawnSync('git', args, { cwd: projectRoot, encoding: 'utf8' });
-  if (r.status !== 0) return [];
-  return r.stdout.split('\n').map((s) => s.trim()).filter(Boolean);
+  if (r.status !== 0) {
+    const why = String(r.stderr || r.error?.message || `exit ${r.status}`).trim().split('\n')[0];
+    return { error: `git ${args.join(' ')} failed: ${why}` };
+  }
+  return { paths: r.stdout.split('\n').map((s) => s.trim()).filter(Boolean) };
 }
 
 // The conform ledger is this registry's OWN output in the consumer: the map, its detail, the
@@ -196,7 +204,14 @@ function changedPaths() {
 // and 48 false misses (16 in each of the three repos with this hook) in the signal the
 // signals lane counts.
 const CONFORM_LEDGER = /^\.ai\/(registry-map\.json|conform-detail\.json|consults\.jsonl|conform-runs\/)/;
-const allPaths = changedPaths();
+const changed = changedPaths();
+if (changed.error) {
+  // Still never blocks a hook; under --exit-code (CI) a check that could not run is FATAL.
+  if (!quiet && !asJson) console.log(`consult-check: could not list the changed paths - ${changed.error}. Nothing was checked.`);
+  if (asJson) console.log(JSON.stringify({ skipped: 'git-failed', reason: changed.error }, null, 1));
+  process.exit(exitCode ? EXIT.FATAL : EXIT.OK);
+}
+const allPaths = changed.paths;
 const paths = allPaths.filter((p) => !CONFORM_LEDGER.test(p.replace(/\\/g, '/')));
 
 if (allPaths.length > 0 && paths.length === 0) {
