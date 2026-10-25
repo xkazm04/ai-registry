@@ -458,7 +458,6 @@ if (asJson) {
   if (missed.length === 0) {
     console.log(`consult-check: ${paths.length} path(s), ${ranked.length} governing subject(s), all read in the last ${WINDOW_MINUTES}m.`);
   } else {
-    const label = missed.map((s) => s.subject).join(', ');
     console.log('');
     console.log(`  consult-check: ${missed.length} subject(s) govern this change and were not read.`);
     for (const s of missed) {
@@ -467,8 +466,10 @@ if (asJson) {
     }
     if (routerNote) console.log(`    note: ${routerNote}`);
     console.log('');
-    console.log(`    read them:  node <registry>/scripts/research-map.mjs "${label}" --prose`);
-    console.log('    the golden path is subjects[<slug>].file in the bundle index; techniques sit beside it.');
+    // The front door (docs/query-lane.md): a subject's card names every technique with its
+    // path and gist, so the session opens one document. Never the bundle index.
+    console.log('    read them (each card lists the techniques; then --read the one that fits):');
+    for (const s of missed) console.log(`      node <registry>/scripts/registry-query.mjs --subject ${s.subject}${s.bundle ? ` --domain ${s.bundle}` : ''}`);
     console.log('    recorded as a miss. This never blocks a commit.');
     console.log('');
   }

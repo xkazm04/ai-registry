@@ -113,6 +113,18 @@ test('a commit of only the conform ledger is skipped and records no miss',t=>{
  assert.equal(fs.readFileSync(path.join(root,'.ai','consults.jsonl'),'utf8'),'');
 });
 
+test('the printed remedy is a front-door read per subject, never the bundle index',t=>{
+ // docs/query-lane.md: an agent never Reads, greps or slices index.json. The remedy used to say
+ // "the golden path is subjects[<slug>].file in the bundle index" and to pass every slug to
+ // research-map as ONE comma-joined term.
+ const root=project(t,{contexts:[ctx('tables',['app/table'],['table','audit-logging'])],ledger:''});
+ const r=spawnSync(process.execPath,[SCRIPT,'--project',root,'--paths','app/table/Grid.tsx','--no-record'],{encoding:'utf8'});
+ assert.equal(r.status,0);
+ for(const s of ['table','audit-logging'])assert.match(r.stdout,new RegExp(`scripts/registry-query\\.mjs --subject ${s}\\b`),s);
+ assert.doesNotMatch(r.stdout,/index/i,'no instruction may route through index.json');
+ assert.doesNotMatch(r.stdout,/research-map\.mjs "[^"]*,/,'no comma-joined single term');
+});
+
 test('a git that cannot answer is a stated reason, never "nothing staged"',t=>{
  // "Every input degrades to a stated reason, never to a silent pass." A non-repo, or a bad
  // --since ref, used to read as an empty diff: "nothing staged", skipped:"no-paths", exit 0.
