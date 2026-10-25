@@ -12,7 +12,8 @@
  *
  * What it flags is the PUBLISHED preset of scripts/lib/leaks.mjs, the one table every leak
  * gate shares: a user-profile path - Windows (`C:\Users\<name>`, any case, either slash,
- * with or without a trailing separator), WSL (`/mnt/c/Users/<name>`), POSIX
+ * with or without a trailing separator), WSL (`/mnt/c/Users/<name>`, and a distro home
+ * through its Windows share, `\\wsl.localhost\<distro>\home\<name>`), POSIX
  * (`/home/<name>`, `/Users/<name>`) - and a home-relative layout (`~/code/app/...`,
  * `$HOME/work/x`, `%USERPROFILE%\code\x`), in any tracked text file of a published lane.
  * What it lets through, on purpose (each decided in lib/leaks.mjs):
@@ -65,6 +66,7 @@ function selfTest() {
     ['export REPO=$HOME/work/repo', 1],
     ['cd %USERPROFILE%\\code\\app', 1],
     ['cd $env:USERPROFILE\\code\\app', 1],
+    ['Explorer copied \\\\wsl.localhost\\Ubuntu\\home\\jane\\code', 1],
     // what passes, on purpose
     ['the junction resolves to `C:\\Users\\node_modules` and still prints', 0],
     ['an example: C:\\Users\\<user>\\repo or /home/me/repo', 0],

@@ -84,6 +84,26 @@ test('PUBLISHED lets teaching text through (one control per exemption)', () => {
   ]) assert.deepEqual(leaksIn(text, PRESETS.PUBLISHED), [], text);
 });
 
+// The share Windows Explorer hands out for a WSL distro's files. It names a Linux user's
+// home exactly as /home/<n> does, but through a UNC prefix with either slash, so no other
+// form saw it - in any preset, although FREE_TEXT promises "no absolute path of any kind".
+test('a WSL UNC home path is flagged in every preset; a placeholder user still teaches', () => {
+  for (const text of [
+    String.raw`\\wsl.localhost\Ubuntu\home\jane\code`,
+    String.raw`\\wsl$\Ubuntu-22.04\home\jane`,
+    '//wsl.localhost/Ubuntu/home/jane/code',
+    String.raw`\\\\wsl.localhost\\Ubuntu\\home\\jane\\x`, // JSON-escaped
+  ]) {
+    for (const [name, preset] of Object.entries(PRESETS)) {
+      const hits = leaksIn(`see ${text} here`, preset);
+      assert.equal(hits.length, 1, `${name}: ${text} -> ${JSON.stringify(hits)}`);
+      assert.equal(hits[0].form, 'wsl-unc-home', `${name}: ${text}`);
+    }
+  }
+  assert.deepEqual(leaksIn(String.raw`\\wsl.localhost\Ubuntu\home\<user>\x`, PRESETS.PUBLISHED), []);
+  assert.deepEqual(leaksIn(String.raw`\\wsl$\Ubuntu\home\me`, PRESETS.PUBLISHED), []);
+});
+
 test('overlapping forms collapse to one finding; strict presets add the blunt forms', () => {
   assert.equal(leaksIn('C:\\Users\\jane\\x', PRESETS.COUNTS_ONLY).length, 1);
   assert.equal(leaksIn('C:\\Users\\jane\\x', PRESETS.COUNTS_ONLY)[0].form, 'windows-profile');

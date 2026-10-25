@@ -81,6 +81,16 @@ export const FORMS = Object.freeze([
     controls: ['/mnt/c/Users/jane/code', 'in /mnt/d/users/jane'],
   },
   {
+    id: 'wsl-unc-home',
+    what: 'a WSL home path through its Windows share',
+    // `\\wsl.localhost\<distro>\home\<n>` (or the older `\\wsl$\`), either slash, JSON-escaped
+    // or not: what Explorer copies for a file in a distro. posix-home cannot see it - the
+    // `/home` follows the distro name, not a separator boundary.
+    re: new RegExp(String.raw`(?:\\{2,4}|\/\/)wsl(?:\.localhost|\$)[\\/]{1,2}${SEG}[\\/]{1,2}home[\\/]{1,2}(${SEG})`, 'gi'),
+    segment: 1,
+    controls: [String.raw`\\wsl.localhost\Ubuntu\home\jane\code`, String.raw`\\wsl$\Debian\home\jane`, '//wsl.localhost/Ubuntu/home/jane'],
+  },
+  {
     id: 'posix-home',
     what: 'a POSIX home path',
     // not after `:` - `C:/Users/<n>` is windows-profile's; not after a word char - a
@@ -139,7 +149,7 @@ export const FORMS = Object.freeze([
 
 const BY_ID = new Map(FORMS.map((f) => [f.id, f]));
 
-const PROFILE_FORMS = ['windows-profile', 'wsl-profile', 'posix-home', 'home-layout'];
+const PROFILE_FORMS = ['windows-profile', 'wsl-profile', 'wsl-unc-home', 'posix-home', 'home-layout'];
 /** Form ids each lane applies. See the header for why each lane gets what it gets. */
 export const PRESETS = Object.freeze({
   PUBLISHED: Object.freeze([...PROFILE_FORMS]),
