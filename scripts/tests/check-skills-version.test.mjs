@@ -137,6 +137,31 @@ test('an unresolvable --since ref is could-not-run (exit 2)', (t) => {
   assert.match(r.stderr, /does not resolve/);
 });
 
+// ---- shape: frontmatter outside the lane's YAML subset. The shared parser drops or misreads
+// such a line without a word, so `description: >-` measured as the string ">" and passed
+// the 1,536-character routing cap at any length.
+const withFrontmatter = (name, lines) => ['---', `name: ${name}`, ...lines, 'category: other', 'memory: none', 'version: 1.0.0', '---', '', `# ${name}`, ''].join('\n');
+
+test('shape: a block-scalar description fails, even when the folded text is over the routing cap', (t) => {
+  const f = fixture(t);
+  f.write('skills/alpha/SKILL.md', withFrontmatter('alpha', ['description: >-', `  ${'word '.repeat(400).trim()}`]));
+  f.commit('alpha folded description');
+  const r = f.run();
+  assert.equal(r.status, 1, r.stdout);
+  assert.match(r.stderr, /skills\/alpha\/SKILL\.md:3: `description: >-` is a YAML block scalar/);
+});
+
+test('shape: an unindented list item fails; indented and inline lists pass', (t) => {
+  const f = fixture(t);
+  f.write('skills/alpha/SKILL.md', withFrontmatter('alpha', ['description: "Fixture skill alpha."', 'tags:', '- one', '- two']));
+  f.write('skills/beta/SKILL.md', withFrontmatter('beta', ['description: "Fixture skill beta."', 'tags:', '  - one', 'argument-hint: [a, b]']));
+  f.commit('list shapes');
+  const r = f.run();
+  assert.equal(r.status, 1, r.stdout);
+  assert.match(r.stderr, /skills\/alpha\/SKILL\.md:5: frontmatter line "- one" is outside the lane's YAML subset/);
+  assert.doesNotMatch(r.stderr, /skills\/beta/);
+});
+
 // The CI half of the same gap: the version step sat under `if: pull_request` while
 // work lands on main by push, and a skipped step reads as a green job. Text-level on
 // purpose (no YAML parser here); comment lines are stripped before matching.

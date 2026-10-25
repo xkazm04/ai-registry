@@ -162,6 +162,39 @@ const fencedBlocks = (body, bodyStartLine) => {
   return out;
 };
 
+// The lane's frontmatter is a YAML SUBSET (lib/skills-lane.mjs parseFrontmatter): scalars,
+// indented `- item` lists, inline [a, b]. A line outside it is not an error to that parser -
+// it is dropped, or read as something else - while the harness reads the full YAML. So
+// `description: >-` reaches every check below as the one-character string ">", and the
+// routing cap passes a description of any length; an unindented `- item` silently empties
+// its list. The parser cannot say what it skipped, so this does (unparseable-form-is-a-
+// finding). Measured 2026-10-25: 0 of 43 lane skills carry such a line.
+const BLOCK_SCALAR_RE = /^[|>][-+0-9]*$/;
+const frontmatterOutsideSubset = (raw) => {
+  const out = [];
+  let listKey = null;
+  let inBlock = false;
+  raw.split(/\r?\n/).forEach((line, i) => {
+    if (i === 0 || line === '---' || !line.trim() || /^\s*#/.test(line)) return;
+    const indented = /^\s/.test(line);
+    if (inBlock && indented) return; // the body of a block scalar already reported
+    inBlock = false;
+    if (indented && listKey && /^\s+-\s+\S/.test(line)) return;
+    const kv = line.match(/^([A-Za-z_][A-Za-z0-9_-]*):\s*(.*)$/);
+    if (!kv) {
+      out.push({ line: i + 1, message: `frontmatter line ${JSON.stringify(line.slice(0, 60))} is outside the lane's YAML subset (key: value, indented "- item" lists, inline [a, b]) - every consumer's parser drops it while the harness reads it` });
+      return;
+    }
+    const value = kv[2].replace(/\s+#.*$/, '').trim();
+    listKey = value === '' ? kv[1] : null;
+    if (BLOCK_SCALAR_RE.test(value)) {
+      inBlock = true;
+      out.push({ line: i + 1, message: `\`${kv[1]}: ${value}\` is a YAML block scalar - the lane's parser reads it as the string ${JSON.stringify(value)}, so every check on \`${kv[1]}\` (the routing cap included) measures the indicator; write it on one line, quoted` });
+    }
+  });
+  return out;
+};
+
 // ---------------------------------------------------------------- shape
 const seen = new Map(); // name -> { dir, version, category }
 let parsed = 0;
@@ -201,6 +234,8 @@ for (const s of skills) {
       break;
     }
   }
+
+  for (const p of frontmatterOutsideSubset(doc.raw)) fail(`${rel}/SKILL.md:${p.line}: ${p.message}`);
 
   for (const key of REQUIRED_KEYS) {
     if (fm[key] === undefined || String(fm[key]).trim() === '') fail(`${rel}/SKILL.md: frontmatter is missing required key \`${key}\``);
