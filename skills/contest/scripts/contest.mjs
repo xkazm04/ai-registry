@@ -33,9 +33,9 @@
 import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
-import { spawn } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 import { parseParticipants, engineCommand, parseEnvelope, classifyOutcome } from './lib/participants.mjs';
+import { resolveBin as findBin, runSeat } from './lib/seat.mjs';
 import { blindMap, unblind, scrubIdentity, materialPhrases, validateVerdict, aggregate, tallyPatterns, scoreboardMarkdown, feedbackSection } from './lib/judging.mjs';
 import { renderRouter, fileHref } from './lib/router.mjs';
 import { renderContestNote, upsertIndex, upsertPatterns, readPatterns, slugify } from './lib/vault.mjs';
@@ -44,7 +44,6 @@ import { familyState, shotsFor, renderedTextFor, extractById, pageText, duplicat
 
 const HERE = path.dirname(fileURLToPath(import.meta.url));
 const REFERENCES = path.join(HERE, '..', 'references');
-const WIN = process.platform === 'win32';
 
 // ---------------------------------------------------------------- args
 const argv = process.argv.slice(2);
@@ -94,67 +93,12 @@ const save = (dir, c) => writeJson(path.join(dir, 'contest.json'), c);
 const copyDir = (from, to) => { fs.mkdirSync(to, { recursive: true }); fs.cpSync(from, to, { recursive: true }); };
 
 // ---------------------------------------------------------------- engines
+// The resolver and the runner are shared with tiger (lib/seat.mjs); only what a missing CLI
+// means is contest's own: it stops the command.
 function resolveBin(engine) {
-  const env = process.env[`CONTEST_${engine.toUpperCase()}_BIN`];
-  if (env) return env.includes('|') ? env.split('|') : env;
-  const exts = WIN ? ['.exe', '.cmd', ''] : [''];
-  const dirs = (process.env.PATH ?? '').split(path.delimiter).filter(Boolean);
-  const home = os.homedir();
-  const fallbacks = {
-    claude: [path.join(home, '.local', 'bin', 'claude.exe'), path.join(home, '.local', 'bin', 'claude')],
-    grok: [path.join(home, '.grok', 'bin', 'grok.exe'), path.join(home, '.grok', 'bin', 'grok')],
-    codex: [],
-    agy: [path.join(process.env.LOCALAPPDATA ?? path.join(home, 'AppData', 'Local'), 'agy', 'bin', 'agy.exe'), path.join(home, '.local', 'bin', 'agy')],
-  };
-  const candidates = [];
-  for (const d of dirs) for (const e of exts) candidates.push(path.join(d, engine + e));
-  candidates.push(...fallbacks[engine]);
-  for (const c of candidates) {
-    if (!fs.existsSync(c)) continue;
-    // An npm shim cannot be spawned without a shell; run the package's entry script with this node.
-    if (/\.cmd$/i.test(c) || !path.extname(c)) {
-      const entry = {
-        codex: 'node_modules/@openai/codex/bin/codex.js',
-        claude: 'node_modules/@anthropic-ai/claude-code/cli.js',
-      }[engine];
-      // Current claude npm packages ship a native binary, not cli.js (lessons 1.2.0, 1.7.0).
-      const native = engine === 'claude' && path.join(path.dirname(c), 'node_modules/@anthropic-ai/claude-code/bin/claude.exe');
-      if (native && fs.existsSync(native)) return native;
-      const script = entry && path.join(path.dirname(c), entry);
-      if (script && fs.existsSync(script)) return [process.execPath, script];
-      if (WIN) continue;
-    }
-    return c;
-  }
-  die(`cannot find the ${engine} CLI on PATH; set CONTEST_${engine.toUpperCase()}_BIN`);
-  return null;
-}
-
-function runSeat({ argv: cmdArgv, stdin, env }, { cwd: dir, timeoutMs, logDir, label }) {
-  fs.mkdirSync(logDir, { recursive: true });
-  const t0 = Date.now();
-  return new Promise((resolve) => {
-    const p = spawn(cmdArgv[0], cmdArgv.slice(1), { cwd: dir, env: { ...process.env, ...env }, windowsHide: true });
-    const out = fs.createWriteStream(path.join(logDir, 'stdout.log'));
-    const err = fs.createWriteStream(path.join(logDir, 'stderr.log'));
-    const chunks = [];
-    p.stdout.on('data', (d) => { chunks.push(d); out.write(d); });
-    p.stderr.on('data', (d) => err.write(d));
-    let timedOut = false;
-    const timer = setTimeout(() => {
-      timedOut = true;
-      if (WIN) spawn('taskkill', ['/F', '/T', '/PID', String(p.pid)], { windowsHide: true });
-      else p.kill('SIGKILL');
-    }, timeoutMs);
-    p.on('error', (e) => { err.write(`spawn error: ${e.message}\n`); });
-    p.on('close', (code) => {
-      clearTimeout(timer);
-      out.end(); err.end();
-      resolve({ exit: code, timedOut, stdout: Buffer.concat(chunks).toString('utf8'), wall_s: Math.round((Date.now() - t0) / 10) / 100, label });
-    });
-    p.stdin.on('error', () => {});
-    p.stdin.end(stdin ?? '');
-  });
+  const bin = findBin(engine);
+  if (!bin) die(`cannot find the ${engine} CLI on PATH; set CONTEST_${engine.toUpperCase()}_BIN`);
+  return bin;
 }
 
 async function runSeats(seats, { timeoutMs, force, kind }) {

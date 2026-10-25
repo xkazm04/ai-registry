@@ -250,3 +250,16 @@ test('ledger keeps one row per seat per run: a re-run replaces that run\'s rows,
     fs.rmSync(root, { recursive: true, force: true });
   }
 });
+
+test('tiger.mjs keeps no resolver or runner of its own: both come from the contest skill\'s lib/seat.mjs', async () => {
+  // The two copies had drifted (directory on PATH, agy fallback, wall_s rounding). tiger already
+  // imports ../../contest/scripts/lib/participants.mjs, so this adds no new dependency edge.
+  const fs = await import('node:fs');
+  const path = await import('node:path');
+  const { fileURLToPath } = await import('node:url');
+  const src = fs.readFileSync(path.join(path.dirname(fileURLToPath(import.meta.url)), '..', 'scripts', 'tiger.mjs'), 'utf8');
+  assert.match(src, /import \{ resolveBin, runSeat \} from '\.\.\/\.\.\/contest\/scripts\/lib\/seat\.mjs'/);
+  assert.doesNotMatch(src, /function resolveBin\(/);
+  assert.doesNotMatch(src, /function runSeat\(/);
+  assert.doesNotMatch(src, /taskkill/);
+});
