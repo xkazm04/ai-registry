@@ -28,7 +28,13 @@
 // Usage: node scripts/check-citations.mjs [--json] [--timeout ms] [--conc n]
 
 import { readFileSync } from 'node:fs';
+import path from 'node:path';
 import { execSync } from 'node:child_process';
+import { fileURLToPath } from 'node:url';
+
+// The lane beside this script, never the caller's directory. The pathspec used to be
+// cwd-relative, so a run from anywhere else found no files and blamed git.
+const ROOT = path.resolve(fileURLToPath(new URL('.', import.meta.url)), '..');
 
 const argv = process.argv.slice(2);
 const JSON_OUT = argv.includes('--json');
@@ -44,7 +50,7 @@ const die = (msg) => { console.error(`FATAL: ${msg}`); process.exit(2); };
 // ---- population -------------------------------------------------------
 let files;
 try {
-  files = execSync('git grep -lE "https?://" -- knowledge/', { encoding: 'utf8' })
+  files = execSync('git grep -lE "https?://" -- knowledge/', { cwd: ROOT, encoding: 'utf8' })
     .trim().split('\n').filter(Boolean);
 } catch (e) {
   die('git grep failed; cannot enumerate the population.');
@@ -62,7 +68,7 @@ const FRAGMENT = /[<>{}$\\()*?|]/;
 
 const cites = new Map();
 for (const f of files) {
-  const txt = readFileSync(f, 'utf8').replace(FENCE, '').replace(INLINE, '');
+  const txt = readFileSync(path.join(ROOT, f), 'utf8').replace(FENCE, '').replace(INLINE, '');
   for (const m of txt.matchAll(URLRE)) {
     const u = m[0].replace(/[.,;:]+$/, '');
     if (!HOSTOK.test(u) || FRAGMENT.test(u)) continue;
