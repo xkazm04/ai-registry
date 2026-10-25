@@ -14,7 +14,7 @@ const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', '.
 const CODE = /\.(mjs|js|ts|tsx|py)$/;
 const IN_SCOPE = (f) => CODE.test(f) && (f.startsWith('scripts/') || /^skills\/[^/]+\/(scripts|tests|tools)\//.test(f));
 
-test('context-map claims every tracked code file exactly once, and only files that exist', () => {
+function claims() {
   const map = JSON.parse(fs.readFileSync(path.join(ROOT, 'context-map.json'), 'utf8'));
   const owner = new Map();
   for (const c of map.contexts) {
@@ -26,11 +26,23 @@ test('context-map claims every tracked code file exactly once, and only files th
     }
     for (const e of c.entry_points ?? []) assert.ok(c.file_paths.includes(e), `${c.name}: entry point ${e} is one of its files`);
   }
+  return owner;
+}
+
+test('context-map claims each file at most once, and only files that exist', () => {
+  claims();
+});
+
+// Two tests, so a checkout git cannot list (a tarball, git off PATH) reports this half as
+// SKIPPED. It used to `return` inside one test, which read as a pass for a check never made.
+test('context-map claims every tracked code file', (t) => {
+  const owner = claims();
   let tracked;
   try {
-    tracked = execFileSync('git', ['ls-files', 'scripts', 'skills'], { cwd: ROOT, encoding: 'utf8' }).split('\n').filter(Boolean);
-  } catch {
-    return; // not a git checkout (a tarball): the existence half above still ran
+    tracked = execFileSync('git', ['ls-files', 'scripts', 'skills'], { cwd: ROOT, encoding: 'utf8', stdio: ['ignore', 'pipe', 'pipe'] }).split('\n').filter(Boolean);
+  } catch (e) {
+    t.skip(`git could not list the tree (${String(e.stderr ?? e.message).trim().split('\n')[0]}): coverage not evaluated`);
+    return;
   }
   const unclaimed = tracked.filter(IN_SCOPE).filter((f) => !owner.has(f));
   assert.deepEqual(unclaimed, [], 'unclaimed code files - add each to the context it belongs to in context-map.json');
