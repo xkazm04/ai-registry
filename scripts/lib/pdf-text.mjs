@@ -153,7 +153,14 @@ export function pdfToText(raw) {
     return codes;
   };
 
-  const TOK = /\/([A-Za-z0-9_]+)\s+[\d.]+\s+Tf|\((?:\\[\s\S]|[^\\()])*\)|<[0-9A-Fa-f\s]*>|-?[\d.]+|\bT[Dd*]\b|\bET\b/g;
+  // Every operator that ends a line has to be a token here, or the next line's first word is
+  // glued to this line's last one and the word count silently drops. `T*` cannot be written
+  // `\bT\*\b`: `*` is not a word character, so a trailing \b never matches before a space.
+  // The `'` and `"` operators move to the next line BEFORE showing their string, so they are
+  // captured as a suffix of the string token (groups 2-3) rather than as tokens of their own.
+  // `Tm` sets the text matrix outright: a new baseline (its last operand, f) is a new line,
+  // the same baseline is a new word.
+  const TOK = /\/([A-Za-z0-9_]+)\s+[\d.]+\s+Tf|\((?:\\[\s\S]|[^\\()])*\)(?:\s*(['"]))?|<[0-9A-Fa-f\s]*>(?:\s*(['"]))?|-?[\d.]+|\bT[Dd]\b|\bT\*|\bTm\b|\bET\b/g;
 
   const out = [];
   for (const page of pages) {
@@ -167,15 +174,26 @@ export function pdfToText(raw) {
     let info = null;
     let text = '';
     let tok;
+    let lastNum = null;
+    let lineY = null;
+    const breakLine = () => { if (text && !/\n$/.test(text)) text += '\n'; };
     TOK.lastIndex = 0;
     while ((tok = TOK.exec(content))) {
       const t = tok[0];
       if (tok[1] !== undefined) info = page.fonts.has(tok[1]) ? fontInfo(page.fonts.get(tok[1])) : null;
-      else if (t[0] === '(') text += mapCodes(litCodes(t.slice(1, -1), info), info);
-      else if (t[0] === '<') text += mapCodes(hexCodes(t.slice(1, -1), info), info);
+      else if (t[0] === '(' || t[0] === '<') {
+        if (tok[2] !== undefined || tok[3] !== undefined) breakLine();
+        const body = t.slice(1, t.lastIndexOf(t[0] === '(' ? ')' : '>'));
+        text += mapCodes(t[0] === '(' ? litCodes(body, info) : hexCodes(body, info), info);
+      }
       // a large negative kern is an inter-word gap the operator does not spell
-      else if (/^-?[\d.]+$/.test(t)) { if (parseFloat(t) < -120 && !/\s$/.test(text)) text += ' '; }
-      else if (!/\n$/.test(text)) text += '\n';
+      else if (/^-?[\d.]+$/.test(t)) { lastNum = parseFloat(t); if (lastNum < -120 && !/\s$/.test(text)) text += ' '; }
+      else if (t === 'Tm') {
+        if (lineY !== null && lastNum !== lineY) breakLine();
+        else if (text && !/\s$/.test(text)) text += ' ';
+        lineY = lastNum;
+      }
+      else breakLine();
     }
     out.push(text);
   }
