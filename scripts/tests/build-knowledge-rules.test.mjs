@@ -56,6 +56,23 @@ test('the per-bundle card routes a slug through the front door, never through in
   assert.match(access, /never Read, grep or slice it/, 'the access rule this card defers to still forbids reading index.json');
 });
 
+// Two generators print a bundle's title: build-catalog (readFm: frontmatter only, trailing
+// comment and quotes stripped) and this one, which matched the key anywhere in index.md and
+// kept quotes and comments verbatim. Same field, one source, two answers.
+test('the card title is read like the catalog reads it: frontmatter only, unquoted, uncommented', () => {
+  const { root, run } = fixture({ bundle: true });
+  fs.writeFileSync(path.join(root, 'knowledge', 'demo', 'index.md'),
+    '---\nokf_version: 0.1\nokf_bundle_title: "Demo bundle" # shown on cards\n---\n\n# Demo\n');
+  assert.equal(run().status, 0);
+  const card = fs.readFileSync(path.join(root, 'rules', 'ai-registry-demo.md'), 'utf8');
+  assert.equal(card.split('\n')[0], '# Demo bundle - the subjects this registry carries');
+  fs.writeFileSync(path.join(root, 'knowledge', 'demo', 'index.md'),
+    '---\nokf_version: 0.1\n---\n\nExample in prose:\nokf_bundle_title: Not the title\n');
+  assert.equal(run().status, 0);
+  const fallback = fs.readFileSync(path.join(root, 'rules', 'ai-registry-demo.md'), 'utf8');
+  assert.equal(fallback.split('\n')[0], '# demo - the subjects this registry carries', 'a body line is not frontmatter');
+});
+
 test('zero bundles is could-not-run (2), in check and in write mode, and writes nothing', () => {
   const { root, run } = fixture({ bundle: false });
   fs.mkdirSync(path.join(root, 'rules'));

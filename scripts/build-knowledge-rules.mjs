@@ -174,10 +174,15 @@ for (const b of bundles) {
     console.error('  Run `node scripts/build-index.mjs` and fix the bundle before rebuilding rules.');
     process.exit(EXIT.FATAL);
   }
+  // Read exactly as build-catalog's readFm reads it - inside the frontmatter only, trailing
+  // ` # comment` and surrounding quotes stripped - so the card and the catalog cannot print
+  // two different titles for one bundle. It used to match the key anywhere in the file.
   const title = (() => {
     const im = path.join(KNOWLEDGE, b, 'index.md');
-    const m = fs.existsSync(im) ? fs.readFileSync(im, 'utf8').match(/^okf_bundle_title:\s*(.+)$/m) : null;
-    return m ? m[1].trim() : b;
+    const fm = fs.existsSync(im) ? fs.readFileSync(im, 'utf8').match(/^---\r?\n([\s\S]*?)\r?\n---/) : null;
+    const m = fm ? fm[1].match(/^okf_bundle_title:\s*(.+?)\r?$/m) : null;
+    const v = m ? m[1].replace(/\s+#.*$/, '').trim().replace(/^["']|["']$/g, '') : '';
+    return v || b;
   })();
   // Group subjects by category, preserving the index's own category order.
   const byCat = new Map((idx.meta.categories ?? []).map((c) => [c, new Map()]));
