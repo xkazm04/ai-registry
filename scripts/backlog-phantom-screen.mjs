@@ -40,13 +40,19 @@
 
 import { execFileSync } from 'node:child_process';
 import { readFileSync, existsSync } from 'node:fs';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 
+// Every path here - the ledger, the source notes, git's pathspecs - is the registry root's,
+// resolved from this file, never from the cwd. Run from a subdirectory, a cwd-relative
+// pathspec matched no technique and the self-check blamed the instrument for it.
+const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const JSON_OUT = process.argv.includes('--json');
-const LEDGER = 'librarian/harvest/backlog.jsonl';
+const LEDGER = path.join(ROOT, 'librarian/harvest/backlog.jsonl');
 
 const git = (...args) => {
   try {
-    return execFileSync('git', args, { encoding: 'utf8', maxBuffer: 64 * 1024 * 1024 });
+    return execFileSync('git', args, { cwd: ROOT, encoding: 'utf8', maxBuffer: 64 * 1024 * 1024 });
   } catch {
     return '';
   }
@@ -135,7 +141,7 @@ function noteLastTouched(note) {
 }
 
 function untriagedCount(note) {
-  const p = `librarian/sources/${note}.md`;
+  const p = path.join(ROOT, `librarian/sources/${note}.md`);
   if (!existsSync(p)) return null;
   for (const line of readFileSync(p, 'utf8').split('\n').slice(0, 30)) {
     if (line.startsWith('untriaged:')) {
