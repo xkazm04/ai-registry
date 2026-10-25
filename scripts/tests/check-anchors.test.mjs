@@ -71,6 +71,21 @@ test('verdicts: held, unquoted, moved, absent, past-eof, missing-file', () => {
   assert.equal(r.anchors[1].foundAt, 2);
 });
 
+// A file that ends in a newline has no line after it. split() leaves an empty last element,
+// so line N+1 of an N-line file used to read as present ("unquoted": the file and line
+// exist) and past-eof reported one line more than the file has.
+test('the line after a trailing newline is past-eof, and the file length is its real line count', () => {
+  const root = tree();
+  fs.writeFileSync(path.join(root, 'two.md'), 'line one\nline two\n');
+  const r = checkReport('two.md:2 and two.md:3 and two.md:4', root);
+  assert.deepEqual(r.anchors.map((x) => x.verdict), ['unquoted', 'past-eof', 'past-eof']);
+  assert.equal(r.anchors[1].fileLines, 2);
+  fs.writeFileSync(path.join(root, 'crlf.md'), 'a\r\nb\r\n');
+  assert.equal(checkReport('crlf.md:3', root).anchors[0].verdict, 'past-eof');
+  // control: no trailing newline, the last line is still a line
+  assert.equal(checkReport('src/gate.ts:5 "tail"', root).anchors[0].verdict, 'held');
+});
+
 test('whitespace is normalized inside a quote', () => {
   const root = tree();
   const r = checkReport('src/gate.ts:2-3 "decide(x) {   return x"', root);

@@ -82,6 +82,9 @@ export function checkAnchor(anchor, root) {
     return { ...anchor, verdict: 'outside-root' };
   }
   const lines = fs.readFileSync(canonical, 'utf8').split(/\r?\n/);
+  // A final newline ends the last line; it does not open another. Without this, line N+1
+  // of an N-line file read as present and past-eof over-reported the length by one.
+  if (lines.at(-1) === '') lines.pop();
   if (anchor.start > lines.length) return { ...anchor, verdict: 'past-eof', fileLines: lines.length };
   if (anchor.quote === null) return { ...anchor, verdict: 'unquoted' };
   const q = norm(anchor.quote);
