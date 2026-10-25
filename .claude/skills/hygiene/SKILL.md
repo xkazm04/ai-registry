@@ -205,7 +205,7 @@ floor 0, kept entries printed with the reason. curator's night does this per cla
 `/hygiene disk deep` adds the **deep pass** for a nearly full drive, following
 `references/disk-deep-pass.md`. It starts with `tools/growth-walk.mjs`, which totals what
 was written since the last good sweep (cleaner rules miss most of it), then the MangoDisk CLI
-(`C:/Users/kazda/tools/mangodisk-cli`) measures every development pool read-only: whole cargo `target/`s, node and Unreal build
+(`<tools>/mangodisk-cli`) measures every development pool read-only: whole cargo `target/`s, node and Unreal build
 output, package-manager caches, WSL and Docker disks. The director then reclaims what
 regenerates, each pool behind its own liveness gate and through `safe-remove` or the
 tool's own prune command. Never run MangoDisk's own `--apply`: its project rules delete a

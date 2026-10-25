@@ -46,19 +46,20 @@ task. No workers.
 
 Installed 2026-10-22 from release v1.2.0 (GPL-3.0, github.com/harry0703/MangoDisk). The
 binaries are signed by Apowersoft Ltd and the CLI crate has no network code.
+`<tools>` is the `tools` folder under the machine's root in `.machine.local.json`.
 
 | what | where |
 |---|---|
-| CLI | `C:/Users/kazda/tools/mangodisk-cli/mangodisk.exe` |
-| GUI (portable, for the operator) | `C:/Users/kazda/tools/mangodisk-gui/MangoDisk-1.2.0-windows-portable.exe` |
-| source, for reading rules | `C:/Users/kazda/tools/MangoDisk-src` (shallow, tag v1.2.0) |
+| CLI | `<tools>/mangodisk-cli/mangodisk.exe` |
+| GUI (portable, for the operator) | `<tools>/mangodisk-gui/MangoDisk-1.2.0-windows-portable.exe` |
+| source, for reading rules | `<tools>/MangoDisk-src` (shallow, tag v1.2.0) |
 
 Upgrade: `gh release download <tag> -R harry0703/MangoDisk -p '*windows-cli.exe'` into a
 fresh folder, compare `sha256sum` with the release asset digest, check
 `Get-AuthenticodeSignature`, then copy it over `mangodisk.exe`. Never use `irm | iex`.
 
 ```powershell
-& C:\Users\kazda\tools\mangodisk-cli\mangodisk.exe --format json --include-full-paths `
+& <tools>\mangodisk-cli\mangodisk.exe --format json --include-full-paths `
   --no-progress clean --deep-project-discovery > <scratch>\mango-scan.json
 ```
 
