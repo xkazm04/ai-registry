@@ -43,15 +43,41 @@ const ROOT = path.resolve(fileURLToPath(new URL('.', import.meta.url)), '..');
 const KNOWLEDGE = path.join(ROOT, 'knowledge');
 const RULES = path.join(ROOT, 'rules');
 
+// A closed flag set, checked before the corpus is walked. Unchecked, a typo'd --domain
+// filtered every bundle away and the run blamed its own classifier ("THE CLASSIFIER IS
+// BROKEN"), and a --top with no number became NaN and printed an empty worklist, exit 0.
+// `--self-test` is what knowledge.yml runs first ("self-asserted first"): the self-test
+// alone, exit 0 or 2. It used to be ignored, so that step ran the whole scan twice.
+const USAGE = 'usage: node scripts/compression-scan.mjs [--self-test] [--json] [--top <n>] [--domain <bundle>] [--show <path>]';
+const usageError = (msg) => { console.error(`compression-scan: ${msg}\n${USAGE}`); process.exit(2); };
 const argv = process.argv.slice(2);
-const asJson = argv.includes('--json');
-const pick = (flag, dflt) => {
-  const i = argv.indexOf(flag);
-  return i === -1 ? dflt : argv[i + 1];
-};
-const topN = Number(pick('--top', 20));
-const onlyDomain = pick('--domain', null);
-const showPath = pick('--show', null);
+const opts = { json: false, top: 20, domain: null, show: null, selfTest: false };
+for (let i = 0; i < argv.length; i++) {
+  const a = argv[i];
+  if (a === '--json') { opts.json = true; continue; }
+  if (a === '--self-test') { opts.selfTest = true; continue; }
+  if (a === '--top' || a === '--domain' || a === '--show') {
+    const v = argv[i + 1];
+    if (v === undefined || v.startsWith('--')) usageError(`${a} needs a value`);
+    i += 1;
+    if (a === '--top') {
+      if (!/^[1-9]\d*$/.test(v)) usageError(`--top takes a positive whole number, got "${v}"`);
+      opts.top = Number(v);
+    } else opts[a.slice(2)] = v;
+    continue;
+  }
+  usageError(`unknown argument "${a}"`);
+}
+if (opts.domain !== null) {
+  const known = fs.existsSync(KNOWLEDGE)
+    ? fs.readdirSync(KNOWLEDGE, { withFileTypes: true }).filter((e) => e.isDirectory()).map((e) => e.name).sort()
+    : [];
+  if (!known.includes(opts.domain)) usageError(`unknown --domain "${opts.domain}" (known: ${known.join(', ') || 'none'})`);
+}
+const asJson = opts.json;
+const topN = opts.top;
+const onlyDomain = opts.domain;
+const showPath = opts.show;
 
 /* ---------------------------------------------------------------- estimator */
 
@@ -158,6 +184,10 @@ if (selftestFailures.length) {
   console.error('compression-scan FATAL: the instrument failed its own self-test.');
   for (const f of selftestFailures) console.error(`  - ${f}`);
   process.exit(2);
+}
+if (opts.selfTest) {
+  console.log('compression-scan self-test passed - estimator monotone and in band, shingler finds exactly the planted span, overlap merge exact, fences and link targets excluded');
+  process.exit(0);
 }
 
 /* ---------------------------------------------------------------- collect */
