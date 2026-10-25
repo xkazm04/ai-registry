@@ -30,7 +30,8 @@
  *   ... --repo <dir>                                     # another checkout (tests use temp repos)
  *
  * Exits 0 when installed (or the requested change was made), 1 when --check finds it
- * missing or partial, 2 if it could not run.
+ * missing or partial or when --install could only do part of it (a tracked
+ * core.hooksPath: driver set, hooks not written), 2 if it could not run.
  */
 
 import fs from 'node:fs';
@@ -175,6 +176,13 @@ function main(argv) {
   if (!install && !uninstall) {
     console.log(missing ? `\n${missing} item(s) not installed - run with --install.` : '\ninstalled.');
     return missing ? EXIT.VIOLATIONS : EXIT.OK;
+  }
+  if (install && !hooksLocal) {
+    // The driver is set but no hook could be written, so a merge now keeps ours and leaves a
+    // pending record nothing reads. That is a partial install, and saying "installed" here
+    // is how generated views would go stale with nobody told.
+    console.log(`\nPARTIAL: the driver is configured but hooks NOT installed (${hooksDir} is tracked). Until the block above is in each hook there, merges of generated files keep ours and nothing regenerates.`);
+    return EXIT.VIOLATIONS;
   }
   console.log(uninstall ? '\nremoved what this script manages.' : '\ninstalled. Merges of generated files now keep ours and regenerate after.');
   return EXIT.OK;

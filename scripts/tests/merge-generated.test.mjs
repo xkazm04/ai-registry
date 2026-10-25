@@ -219,6 +219,22 @@ test('installer: check, idempotent install, chained foreign hook, shared by work
   assert.equal(inst('--check').status, 1);
 });
 
+test('installer: a tracked core.hooksPath is a partial install, never reported as installed', (t) => {
+  // Before: --install set the driver, wrote no hook (the dir is tracked), and still exited 0
+  // with "installed. Merges ... now ... regenerate after" - while every merge from then on
+  // kept ours and left its pending record for a hook that does not exist.
+  const s = diverged(t, { install: false });
+  s.ok('config', 'core.hooksPath', '.githooks');
+  const r = s.sh(process.execPath, [INSTALLER, '--install', '--repo', s.repo]);
+  assert.equal(r.status, 1, r.all);
+  assert.doesNotMatch(r.out, /now keep ours and regenerate after/);
+  assert.match(r.out, /hooks NOT installed/);
+  assert.equal(fs.existsSync(path.join(s.repo, '.githooks')), false, 'the tracked dir is not written');
+  // positive control: the same repo without the tracked hooksPath installs and exits 0
+  s.ok('config', '--unset', 'core.hooksPath');
+  assert.equal(s.sh(process.execPath, [INSTALLER, '--install', '--repo', s.repo]).status, 0);
+});
+
 test('.gitattributes names the driver for exactly the exported generated set', () => {
   const text = fs.readFileSync(path.join(REGISTRY, '.gitattributes'), 'utf8');
   const named = text.split('\n').map((l) => /^(\S+)\s+merge=registry-generated\s*$/.exec(l)).filter(Boolean).map((m) => m[1]);
