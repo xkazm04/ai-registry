@@ -86,3 +86,49 @@ test('control: a FORK in a present project exits 1', (t) => {
   const run = registry(t, { present: { here: FORK }, missing: ['gone'] });
   assert.equal(run().status, 1);
 });
+
+// A pointer AGENTS.md whose links go to `.claude/CLAUDE.md`. Shaped like the fleet's personas
+// (a table of "you are touching / read" rows, and the sentence "This file points; it does not
+// restate") with synthetic content. Until 2026-10-25 only a root CLAUDE.md link plus the word
+// "canonical" counted as a pointer, so this shape read as FORK and failed the whole gate.
+const DOT_CLAUDE_POINTER = {
+  '.claude/CLAUDE.md': '# repo law\n\nCommands, gates and conventions live here.\n',
+  'AGENTS.md': [
+    '# AGENTS.md',
+    '',
+    'Instruction sources for any agent harness. This file points; it',
+    'does not restate. Where a pointed-to file and this one disagree, the pointed-to file wins.',
+    '',
+    '| You are touching | Read |',
+    '|---|---|',
+    '| anything in this repo | `.claude/CLAUDE.md` (repo law) |',
+    '| user-facing strings | `.claude/rules/i18n.md` |',
+    '',
+  ].join('\n'),
+};
+// Same files, but the AGENTS.md restates commands and merely mentions the file: a genuine fork.
+const DOT_CLAUDE_FORK = {
+  '.claude/CLAUDE.md': '# repo law\n',
+  'AGENTS.md': '# commands\n\n- Test: npm test\n- Lint: npm run lint\n\nSee `.claude/CLAUDE.md` for more.\n',
+};
+
+test('a .claude/CLAUDE.md pointer that declares itself a pointer is not a FORK (exit 0)', (t) => {
+  const run = registry(t, { present: { here: DOT_CLAUDE_POINTER } });
+  const r = run();
+  assert.equal(r.status, 0, r.stdout + r.stderr);
+  assert.match(r.stdout, /here\s+pointer\s/);
+});
+
+test('a genuine fork beside .claude/CLAUDE.md stays FORK (exit 1)', (t) => {
+  const run = registry(t, { present: { here: DOT_CLAUDE_FORK } });
+  const r = run();
+  assert.equal(r.status, 1, r.stdout + r.stderr);
+  assert.match(r.stdout, /here\s+FORK\s/);
+});
+
+test('--self-test pins the pointer and fork shapes and reports its case count', (t) => {
+  const run = registry(t, { present: { here: NATIVE } });
+  const r = run('--self-test');
+  assert.equal(r.status, 0, r.stdout + r.stderr);
+  assert.match(r.stdout, /self-test: (\d+)\/\1 topologies classified/);
+});

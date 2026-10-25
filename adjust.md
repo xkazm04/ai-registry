@@ -204,7 +204,9 @@ Then push.
   ref as an operator row, not a delete. Nothing in the disk lane uses the network.
 - **Version check:** before pushing a skill or recipe change, run
   `node scripts/check-skills.mjs --since origin/main` (and `check-recipes`). That form also
-  checks uncommitted work; `--since HEAD` alone used to check nothing.
+  checks uncommitted work; `--since HEAD` alone used to check nothing. Flagless, both now
+  compare against the branch's upstream (else `origin/main`, else HEAD) and print the base,
+  so an uncommitted edit after the branch's first bump no longer reads as unbumped.
 - **Shell heredocs:** write files with the file tools, not heredocs. Backslashes in regexes
   and Windows paths get eaten (seen four times on 2026-10-25).
 

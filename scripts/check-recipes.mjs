@@ -23,7 +23,9 @@
  *    since <ref> must carry a different version, and that version may never go
  *    backwards. "Changed since <ref>" means the merge base of <ref> and HEAD
  *    against the WORKING TREE, plus untracked files: committed, staged, unstaged
- *    and new work in one population. Any file under the recipe directory except
+ *    and new work in one population. Without `--since` (and without `--shape-only`)
+ *    <ref> is the branch's upstream, else origin/main, else HEAD, and the chosen base
+ *    is printed. Any file under the recipe directory except
  *    LESSONS.md counts as content - a lesson records a run against a version,
  *    it is not a change to the craft.
  *
@@ -557,22 +559,51 @@ if (parsed === 0) {
 // `--shape-only` alone stays shape-only: gate.mjs runs it before regenerating, and a dirty
 // unbumped recipe in the shared tree must not turn `gate --all` red for every session;
 // `--shape-only --since <ref>` still checks versions, as it always did.
+//
+// The flagless base is the one check-skills uses, for the same reason: against plain HEAD,
+// every uncommitted edit after a recipe's first bumped commit on a branch read as unbumped
+// (the bump was already in HEAD). It is the branch's upstream if it has one, else
+// origin/main if it exists, else HEAD, merge-based and printed. CI passes `--since`.
 const sinceIdx = process.argv.indexOf('--since');
 const shapeOnly = process.argv.includes('--shape-only');
 const versionRun = sinceIdx !== -1 || !shapeOnly;
+const DEFAULT_BASES = [
+  { label: 'branch upstream', name: (git) => git(['rev-parse', '--abbrev-ref', '--symbolic-full-name', '@{upstream}']).trim() },
+  { label: 'origin/main', name: () => 'origin/main' },
+];
 let bumpChecked = 0;
 let scopeLabel = null;
 if (versionRun) {
-  const ref = sinceIdx === -1 ? 'HEAD' : process.argv[sinceIdx + 1];
-  if (!ref) { console.error('FATAL: --since requires a git ref (e.g. --since origin/main).'); process.exit(EXIT.FATAL); }
   const git = (args) => execFileSync('git', args, { cwd: ROOT, encoding: 'utf8', stdio: ['ignore', 'pipe', 'pipe'] });
+  let ref = sinceIdx === -1 ? 'HEAD' : process.argv[sinceIdx + 1];
+  let base = null;
+  let how = 'no upstream and no origin/main resolve';
+  if (sinceIdx === -1) {
+    // First default base that resolves AND shares history with HEAD; one that does not
+    // (a shallow clone's unrelated origin/main) is skipped, never fatal - only --since is a request.
+    for (const cand of DEFAULT_BASES) {
+      let name;
+      try { name = cand.name(git); } catch { continue; }
+      if (!name) continue;
+      try {
+        git(['rev-parse', '--verify', `${name}^{commit}`]);
+        base = git(['merge-base', name, 'HEAD']).trim();
+      } catch { continue; }
+      ref = name;
+      how = cand.label;
+      break;
+    }
+  }
+  if (!ref) { console.error('FATAL: --since requires a git ref (e.g. --since origin/main).'); process.exit(EXIT.FATAL); }
   try { git(['rev-parse', '--verify', `${ref}^{commit}`]); } catch (e) {
     console.error(`FATAL: --since ref "${ref}" does not resolve in this checkout (${String(e.message).trim()}).`);
     console.error('A shallow clone is the usual cause; CI needs fetch-depth: 0.');
     console.error('Refusing to report "no version problems" from a comparison that never ran.');
     process.exit(EXIT.FATAL);
   }
-  scopeLabel = sinceIdx === -1 ? 'uncommitted against HEAD' : `changed against ${ref} (committed + working tree + untracked)`;
+  scopeLabel = sinceIdx !== -1 ? `changed against ${ref} (committed + working tree + untracked)`
+    : ref === 'HEAD' ? `uncommitted against HEAD (${how})`
+      : `changed against ${ref} (${how}; committed + working tree + untracked)`;
   // `${ref}...HEAD` alone compares COMMITTED history, and the working tree is
   // invisible to it. This used to refuse (exit 2) only the shape where nothing
   // was committed and something was dirty; one committed change beside dirty
@@ -586,8 +617,7 @@ if (versionRun) {
   const paths = (args) => git(args).split('\0').filter(Boolean);
   let changed;
   try {
-    // Flagless: ref is HEAD, whose merge base with HEAD is HEAD, so one diff serves both forms.
-    const base = git(['merge-base', ref, 'HEAD']).trim();
+    base = base ?? git(['merge-base', ref, 'HEAD']).trim();
     changed = paths(['diff', '--name-only', '-z', base, '--', 'recipes/']);
     const untracked = paths(['ls-files', '-z', '--others', '--exclude-standard', '--', 'recipes/']);
     changed = [...new Set([...changed, ...untracked])];
@@ -611,7 +641,9 @@ if (versionRun) {
     const current = seen.get(slug);
     if (!current) continue; // deleted, or failed shape above and already reported.
     let oldRaw;
-    try { oldRaw = git(['show', `${ref}:recipes/${key}/${RECIPE_JSON}`]); } catch {
+    // Read at the merge base the diff ran against: a branch not yet rebased onto a moved
+    // upstream must not read as "backwards".
+    try { oldRaw = git(['show', `${base}:recipes/${key}/${RECIPE_JSON}`]); } catch {
       notes.push(`recipes/${key}: new in this change - no prior version to compare`);
       continue;
     }
@@ -672,7 +704,7 @@ const fmt = (m) => [...m.entries()].sort().map(([k, n]) => `${k}:${n}`).join(' '
 console.log(`recipes lane: ${walked.recipes.length} recipe(s) - ${fmt(byStatus)}`);
 console.log(`domains: ${fmt(byDomain)} - ${lessonEntries} LESSONS entr(ies)`);
 if (versionRun) console.log(`version discipline: ${bumpChecked} changed recipe(s), ${scopeLabel}`);
-else console.log('version discipline: NOT run (--shape-only alone; run flagless for the working tree against HEAD, or pass --since <ref>)');
+else console.log('version discipline: NOT run (--shape-only alone; run flagless for the working tree against the branch base, or pass --since <ref>)');
 if (shapeOnly) console.log('index freshness: NOT run (--shape-only; regenerate and check the index next)');
 console.log('NOT checked here: whether the craft is any good; whether a lesson was appended;');
 console.log('  whether a connector_type exists in the consuming catalog (this registry cannot see it)');

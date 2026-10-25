@@ -21,7 +21,9 @@
  *    since <ref> must carry a different version, and that version may never go
  *    backwards. "Changed since <ref>" means the merge base of <ref> and HEAD
  *    against the WORKING TREE, plus untracked files: committed, staged, unstaged
- *    and new work in one population. A checker cannot tell a typo from a behaviour change, so it asks
+ *    and new work in one population. Without `--since`, <ref> is the branch's
+ *    upstream, else origin/main, else HEAD, and the chosen base is printed (see the
+ *    version-discipline block below for why). A checker cannot tell a typo from a behaviour change, so it asks
  *    for the cheapest honest signal — a patch bump — rather than guessing. Any
  *    file under the skill directory except LESSONS.md counts as content: the
  *    references and scripts a skill ships are part of the method.
@@ -344,10 +346,20 @@ if (parsed === 0) {
 // no version bump reported `skills lane OK`.
 //
 // So an omitted `--since` no longer means "no population". It means the one a
-// local commit is about to create: the working tree and index against HEAD. The
-// flag still selects the branch-wide comparison CI needs; what changed is that
-// the flagless default checks something rather than nothing.
+// local commit is about to create. That was first "the working tree against HEAD",
+// and it had its own hole: after a skill's first bumped commit on a branch, every
+// later uncommitted edit to it read as "unbumped" (the bump was already in HEAD),
+// and two sweep rounds had to work around it. The flagless base is now the one a
+// push is judged against: the branch's upstream if it has one, else origin/main
+// if it exists, else HEAD (a fresh or shallow clone where neither resolves keeps
+// the old working-tree-against-HEAD population). Whatever is chosen is merge-based
+// and printed, so the population is never a silent function of local git config.
+// CI passes `--since` explicitly and never reaches this default.
 const sinceIdx = process.argv.indexOf('--since');
+const DEFAULT_BASES = [
+  { label: 'branch upstream', name: (git) => git(['rev-parse', '--abbrev-ref', '--symbolic-full-name', '@{upstream}']).trim() },
+  { label: 'origin/main', name: () => 'origin/main' },
+];
 let bumpChecked = 0;
 let scopeLabel = null;
 {
@@ -357,7 +369,7 @@ let scopeLabel = null;
   // `^skills/` below, and the edit drops out of the population: measured 2026-10-25,
   // an unbumped `references/café.md` reported `0 changed skill(s)`.
   const paths = (args) => git(args).split('\0').filter(Boolean);
-  let ref, changed;
+  let ref, changed, base;
 
   if (sinceIdx !== -1) {
     ref = process.argv[sinceIdx + 1];
@@ -376,7 +388,7 @@ let scopeLabel = null;
     // Diffing the merge base against the working tree is `ref...HEAD` PLUS the
     // work about to be committed, in one population.
     try {
-      const base = git(['merge-base', ref, 'HEAD']).trim();
+      base = git(['merge-base', ref, 'HEAD']).trim();
       changed = paths(['diff', '--name-only', '-z', base, '--', 'skills/']);
       const untracked = paths(['ls-files', '-z', '--others', '--exclude-standard', '--', 'skills/']);
       changed = [...new Set([...changed, ...untracked])];
@@ -386,21 +398,39 @@ let scopeLabel = null;
     }
     scopeLabel = `changed against ${ref} (committed + working tree + untracked)`;
   } else {
+    // Pick the first default base that resolves AND shares history with HEAD; a
+    // candidate that does not (a shallow clone whose origin/main is unrelated to
+    // the checked-out commit) is skipped, never fatal - only --since is a request.
     ref = 'HEAD';
-    // Uncommitted work is the population a commit-authorizing run is about to
-    // ship. An instrument failure here is fatal for the same reason an
-    // unresolvable ref is: reporting "no version problems" from a comparison
-    // that never ran is the failure this whole block exists to refuse.
+    let how = 'no upstream and no origin/main resolve';
+    for (const cand of DEFAULT_BASES) {
+      let name;
+      try { name = cand.name(git); } catch { continue; }
+      if (!name) continue;
+      try {
+        git(['rev-parse', '--verify', `${name}^{commit}`]);
+        base = git(['merge-base', name, 'HEAD']).trim();
+      } catch { continue; }
+      ref = name;
+      how = cand.label;
+      break;
+    }
+    // An instrument failure here is fatal for the same reason an unresolvable
+    // --since ref is: reporting "no version problems" from a comparison that
+    // never ran is the failure this whole block exists to refuse.
     try {
-      changed = paths(['diff', '--name-only', '-z', 'HEAD', '--', 'skills/']);
+      base = base ?? git(['rev-parse', 'HEAD']).trim();
+      changed = paths(['diff', '--name-only', '-z', base, '--', 'skills/']);
       const untracked = paths(['ls-files', '-z', '--others', '--exclude-standard', '--', 'skills/']);
       changed = [...new Set([...changed, ...untracked])];
     } catch (e) {
-      console.error(`FATAL: could not read the working tree against HEAD (${String(e.message).trim()}).`);
+      console.error(`FATAL: could not read the working tree against ${ref} (${String(e.message).trim()}).`);
       console.error('Refusing to report "no version problems" from a comparison that never ran.');
       process.exit(EXIT.FATAL);
     }
-    scopeLabel = 'uncommitted against HEAD';
+    scopeLabel = ref === 'HEAD'
+      ? `uncommitted against HEAD (${how})`
+      : `changed against ${ref} (${how}; committed + working tree + untracked)`;
   }
   // A LESSONS.md append records a run at the CURRENT version; it is not a change to
   // the method. Everything else under the skill directory is the method or the
@@ -416,7 +446,9 @@ let scopeLabel = null;
     const current = seen.get(name);
     if (!current) continue; // deleted, or failed shape above and already reported.
     let oldRaw;
-    try { oldRaw = git(['show', `${ref}:skills/${name}/${SKILL_FILE}`]); } catch {
+    // The version is read at the merge base, the commit the diff above ran against: a
+    // branch not yet rebased onto a moved upstream must not read as "backwards".
+    try { oldRaw = git(['show', `${base}:skills/${name}/${SKILL_FILE}`]); } catch {
       notes.push(`skills/${name}: new in this change — no prior version to compare`);
       continue;
     }
