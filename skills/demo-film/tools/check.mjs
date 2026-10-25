@@ -68,14 +68,23 @@ export function lintSources(dirs, extraFiles = []) {
 }
 
 // ---- 2. collisions from source
-/** Names a film's local/ exports (best effort, from source text): `export function X`, `export const X`, keys of `components`. */
+/**
+ * The component names a film's local/ heroes make resolvable (best effort, from source text): the
+ * KEYS of a `components` map or an `export default { ... }` object - exactly what registry.ts reads
+ * (`mod.components ?? mod.default`). A bare `export function Hero` is not in that map, so the motion
+ * lane throws "unknown component" for it after the bundle is built; counting it here passed check
+ * for a film that could not render.
+ */
 export function localNames(localDir) {
   const names = new Set();
   for (const f of sourceFiles(localDir)) {
     const src = stripComments(readFileSync(f, 'utf8'));
-    for (const m of src.matchAll(/export\s+(?:function|const|class)\s+([A-Z][A-Za-z0-9_]*)/g)) names.add(m[1]);
-    const block = /components[^=]*=\s*\{([\s\S]*?)\}/.exec(src);
-    if (block) for (const m of block[1].matchAll(/([A-Z][A-Za-z0-9_]*)\s*[:,}]?/g)) names.add(m[1]);
+    for (const re of [/\bcomponents\b[^=;{]*=\s*\{([\s\S]*?)\}/g, /\bexport\s+default\s*\{([\s\S]*?)\}/g])
+      for (const block of src.matchAll(re))
+        for (const part of block[1].split(',')) {
+          const key = part.split(':')[0].trim().replace(/^['"]|['"]$/g, '');
+          if (/^[A-Z][A-Za-z0-9_]*$/.test(key)) names.add(key);
+        }
   }
   return names;
 }

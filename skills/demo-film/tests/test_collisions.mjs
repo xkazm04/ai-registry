@@ -1,5 +1,8 @@
 // check.mjs rules: collisions from source, promise ledger, take errors. No render, no network.
 import assert from 'node:assert/strict';
+import { mkdtempSync, rmSync, writeFileSync } from 'node:fs';
+import os from 'node:os';
+import path from 'node:path';
 import { test } from 'node:test';
 import { FilmScript, Take } from '../tools/src/contract.ts';
 import { collisions, promiseLedger, takeErrors } from '../tools/check.mjs';
@@ -54,6 +57,25 @@ test('footage components on a pure motion beat, unknown components, a transition
   assert.ok(e.some((x) => x.startsWith('unknown component') && x.includes('Nope')));
   assert.ok(e.some((x) => x.startsWith('transition on the first beat')));
   assert.ok(e.some((x) => x.startsWith('film runs')));
+});
+
+test('a local hero is known only through the components map the registry reads', () => {
+  // registry.ts resolves `mod.components ?? mod.default`; a bare export is not in that map and the
+  // motion lane throws "unknown component" at render. check must say so before the bundle is built.
+  const dir = mkdtempSync(path.join(os.tmpdir(), 'df-local-'));
+  try {
+    const s = film([{ id: 'm', chapter: 'c', line: 'x', settleMs: 3000, moments: [{ id: 'h', tier: 1, kind: 'hero', component: 'Hero' }] }]);
+    writeFileSync(path.join(dir, 'index.tsx'), 'export function Hero() { return null; }\n');
+    assert.ok(collisions({ script: s, take, balance: 'led', localDir: dir }).some((e) => e.startsWith('unknown component') && e.includes('Hero')), 'a bare export is not resolvable');
+    writeFileSync(path.join(dir, 'index.tsx'), "function Hero() { return null; }\nfunction Impl() { return null; }\nexport const components: ComponentMap = { Hero, 'Quoted': Impl };\n");
+    assert.deepEqual(collisions({ script: s, take, balance: 'led', localDir: dir }), []);
+    const v = film([{ id: 'm', chapter: 'c', line: 'x', settleMs: 3000, moments: [{ id: 'h', tier: 1, kind: 'hero', component: 'Impl' }] }]);
+    assert.ok(collisions({ script: v, take, balance: 'led', localDir: dir }).some((e) => e.includes('"Impl"')), 'a map VALUE is not a name');
+    writeFileSync(path.join(dir, 'index.tsx'), 'const Hero = () => null;\nexport default { Hero };\n');
+    assert.deepEqual(collisions({ script: s, take, balance: 'led', localDir: dir }), [], 'the default-export map counts too');
+  } finally {
+    rmSync(dir, { recursive: true, force: true });
+  }
 });
 
 test('promise ledger: a claim needs footage in its beat or the next', () => {
