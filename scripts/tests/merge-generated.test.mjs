@@ -235,6 +235,23 @@ test('installer: a tracked core.hooksPath is a partial install, never reported a
   assert.equal(s.sh(process.execPath, [INSTALLER, '--install', '--repo', s.repo]).status, 0);
 });
 
+test('installer: --check credits blocks an operator added by hand to a tracked core.hooksPath', (t) => {
+  // Before: under a tracked hooksPath every hook counted as missing forever, and --check
+  // ended "run with --install" - a remedy that, by design, never writes there.
+  const s = diverged(t, { install: true });
+  s.ok('config', 'core.hooksPath', '.githooks');
+  const inst = (...a) => s.sh(process.execPath, [INSTALLER, ...a, '--repo', s.repo]);
+  const before = inst('--check');
+  assert.equal(before.status, 1, before.all);
+  assert.doesNotMatch(before.out, /run with --install/, 'never prescribe the remedy that cannot write here');
+  const printed = before.out.slice(before.out.indexOf('# BEGIN'), before.out.indexOf('# END ai-registry regen-generated') + '# END ai-registry regen-generated'.length);
+  fs.mkdirSync(path.join(s.repo, '.githooks'));
+  for (const h of ['post-merge', 'post-rewrite', 'post-commit']) fs.writeFileSync(path.join(s.repo, '.githooks', h), `#!/bin/sh\n${printed.replace('<hook>', h)}\n`);
+  const after = inst('--check');
+  assert.equal(after.status, 0, after.all);
+  assert.match(after.out, /installed\./);
+});
+
 test('installer: --repo without a directory is a usage error, never the current checkout', (t) => {
   // Before: path.resolve('') is the cwd, so a trailing `--repo` (a dropped variable) acted on
   // whatever checkout the shell stood in. cwd here is a throwaway repo, never this one.

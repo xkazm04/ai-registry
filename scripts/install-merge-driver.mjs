@@ -126,6 +126,7 @@ function main(argv) {
 
   const rows = [];
   let missing = 0;
+  let manual = 0; // hooks in a tracked core.hooksPath that only an operator can add
   const warnings = [];
 
   for (const [key, want] of Object.entries(CONFIG)) {
@@ -151,8 +152,10 @@ function main(argv) {
   for (const hook of HOOKS) {
     const file = path.join(hooksDir, hook);
     if (!hooksLocal) {
-      rows.push({ item: `hook ${hook}`, state: 'tracked hooksPath', action: 'manual' });
-      if (!uninstall) missing += 1;
+      // Never written here; but a block the operator added by hand is a real install.
+      const done = hookState(file, hook) === 'current';
+      rows.push({ item: `hook ${hook}`, state: done ? 'current (tracked)' : 'tracked hooksPath', action: done ? 'none' : 'manual' });
+      if (!uninstall && !done) { missing += 1; manual += 1; }
       continue;
     }
     const state = hookState(file, hook);
@@ -172,16 +175,19 @@ function main(argv) {
   console.log(`  hooks dir: ${hooksDir}${hooksLocal ? ' (shared by every worktree)' : ' (TRACKED via core.hooksPath - not written)'}\n`);
   for (const r of rows) console.log(`  ${r.item.padEnd(34)} ${r.state.padEnd(18)} ${r.action}`);
   for (const w of warnings) console.log(`\n  WARNING ${w}`);
-  if (!hooksLocal && !uninstall) {
+  if (manual) {
     console.log('\nAdd this block to each of post-merge, post-rewrite and post-commit in that directory (replace <hook>):\n');
     console.log(blockFor('<hook>'));
   }
 
   if (!install && !uninstall) {
-    console.log(missing ? `\n${missing} item(s) not installed - run with --install.` : '\ninstalled.');
+    // --install never writes a tracked hooksPath, so it is the remedy only for the rest.
+    const byInstall = missing - manual;
+    const todo = [byInstall && `${byInstall} item(s) not installed - run with --install`, manual && `${manual} hook(s) to add by hand in the tracked ${hooksDir} (block above)`].filter(Boolean);
+    console.log(missing ? `\n${todo.join('; ')}.` : '\ninstalled.');
     return missing ? EXIT.VIOLATIONS : EXIT.OK;
   }
-  if (install && !hooksLocal) {
+  if (install && manual) {
     // The driver is set but no hook could be written, so a merge now keeps ours and leaves a
     // pending record nothing reads. That is a partial install, and saying "installed" here
     // is how generated views would go stale with nobody told.
