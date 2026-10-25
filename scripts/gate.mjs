@@ -72,6 +72,9 @@ const PROJECTS = step('check-projects.mjs');
 // three weeks and produced 13 stale maps and 193 uncollected leads at once.
 const COVERAGE_AGE = step('check-coverage-age.mjs');
 const REVIEW_COVERAGE = step('review-coverage.mjs');
+// The run-results lane (librarian/runs/*/result.json): every record validates, except the
+// grandfathered ones in librarian/runs/.grandfathered.json, which may only shrink.
+const RUN_RESULTS = step('check-run-results.mjs');
 
 // The catalog job's path filter covers knowledge/, skills/, practices/, memory/ and
 // usage/ - build-catalog hashes those five lanes - so those five rows end with it.
@@ -96,7 +99,7 @@ const LANES = {
   memory: [SIMPLE_LANES, ...PUBLIC, ...CATALOG_TAIL],
   // knowledge.yml `tooling` job: scripts/** and librarian/standard.md trigger it.
   scripts: [PROJECTS, EXIT_CONTRACT, WEIGHTS, TOOL_TESTS],
-  librarian: [WEIGHTS, REVIEW_COVERAGE, COVERAGE_AGE, ...PUBLIC],
+  librarian: [WEIGHTS, REVIEW_COVERAGE, RUN_RESULTS, COVERAGE_AGE, ...PUBLIC],
 };
 
 // --all is not the concatenation of the lane rows: the shared tail would run five
@@ -104,7 +107,7 @@ const LANES = {
 // first, then knowledge.yml's bundles, index, usage, signals and catalog.
 const ALL = [
   CHECK_SKILLS, CLAUSES, MARKETPLACE,
-  CHECK_BUNDLES, ...PUBLIC, INDEX, KNOWLEDGE_RULES, REVIEW_COVERAGE, COVERAGE_AGE,
+  CHECK_BUNDLES, ...PUBLIC, INDEX, KNOWLEDGE_RULES, REVIEW_COVERAGE, RUN_RESULTS, COVERAGE_AGE,
   CHECK_RECIPES, RECIPE_VIEWS, RECIPES_INDEX, CHECK_PUBLICATIONS, PUBLICATIONS_INDEX, SIMPLE_LANES,
   CHECK_USAGE, CHECK_RUNS, CHECK_SIGNALS,
   PROJECTS, EXIT_CONTRACT, WEIGHTS, TOOL_TESTS,
