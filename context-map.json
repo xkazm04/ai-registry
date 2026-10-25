@@ -46,6 +46,7 @@
         "scripts/lib/exit-codes.mjs",
         "scripts/lib/leaks.mjs",
         "scripts/run-tests.mjs",
+        "scripts/tests/check-exit-contract.test.mjs",
         "scripts/tests/check-result.test.mjs",
         "scripts/tests/context-map.test.mjs",
         "scripts/tests/leaks.test.mjs",
