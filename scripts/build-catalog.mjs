@@ -200,6 +200,13 @@ if (fs.existsSync(USAGE)) {
       usageSkipped += 1;
       continue;
     }
+    // Valid JSON is not yet a report: `null` or `7` parse fine and then threw on
+    // `doc.contributor` (exit 1). Same skip, same predicate, as unparseable.
+    if (doc === null || typeof doc !== 'object' || Array.isArray(doc)) {
+      console.warn(`  note: usage/${f} is not a JSON object — skipped (run check-usage.mjs)`);
+      usageSkipped += 1;
+      continue;
+    }
     usageFiles += 1;
     usageReports.push({contributor:doc.contributor,generatedAt:doc.generatedAt,windowDays:doc.windowDays});
     for (const [reportedName, entry] of Object.entries(doc?.skills ?? {})) {

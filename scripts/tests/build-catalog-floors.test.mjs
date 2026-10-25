@@ -43,6 +43,23 @@ test('clean control: one skill and one bundle build (exit 0), then check fresh (
   assert.equal(c.status, 0, c.stdout + c.stderr);
 });
 
+// The usage fold promises that one bad contributor file is skipped and named, never thrown
+// on. A file that parses to a non-object (`null`, a number) used to reach `doc.contributor`
+// and die with an uncaught TypeError - exit 1, which this repo reads as "violations".
+test('a usage file that parses to a non-object is skipped and named, not a crash', (t) => {
+  const dir = registry(t, { skill: true, bundle: true });
+  fs.mkdirSync(path.join(dir, 'usage'));
+  fs.writeFileSync(path.join(dir, 'usage', 'a-null.json'), 'null\n');
+  fs.writeFileSync(path.join(dir, 'usage', 'b-number.json'), '7\n');
+  fs.writeFileSync(path.join(dir, 'usage', 'c-good.json'), JSON.stringify({ contributor: 'box', windowDays: 30, skills: { demo: { invokes: 4 } } }));
+  const w = run(dir);
+  assert.equal(w.status, 0, w.stdout + w.stderr);
+  assert.match(w.stdout + w.stderr, /usage\/a-null\.json[^\n]*skipped/);
+  assert.match(w.stdout, /usage from 1 of 3 contributor file\(s\) — 2 skipped/);
+  const demo = JSON.parse(fs.readFileSync(path.join(dir, 'catalog.json'), 'utf8')).skills.find((s) => s.name === 'demo');
+  assert.equal(demo.invokes30d, 4, 'the good contributor still counts');
+});
+
 for (const mode of [[], ['--check']]) {
   const label = mode.length ? 'check' : 'write';
   test(`an empty skills lane exits 2 in ${label} mode and writes nothing`, (t) => {
