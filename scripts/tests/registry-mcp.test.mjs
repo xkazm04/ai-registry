@@ -31,6 +31,13 @@ function session(argv, messages, { env = {}, timeout = 120_000 } = {}) {
   return { status: r.status, stderr: r.stderr, out, byId: new Map(out.map((m) => [m.id, m])) };
 }
 
+/** A temp dir removed when the test ends: every run-tests pass used to leave three behind. */
+function tempDir(t, prefix = 'registry-mcp-') {
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), prefix));
+  t.after(() => fs.rmSync(dir, { recursive: true, force: true }));
+  return dir;
+}
+
 test('real server: version negotiation, tools/list, errors, and nothing but JSON-RPC on stdout', () => {
   const s = session([SCRIPT, '--root', ROOT], [
     init(1, '2025-06-18'),
@@ -79,16 +86,16 @@ test('real server: version negotiation, tools/list, errors, and nothing but JSON
   assert.equal(s.out.length, 11);
 });
 
-test('real server refuses a root with no knowledge lane, on stderr, with FATAL', () => {
-  const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'registry-mcp-'));
+test('real server refuses a root with no knowledge lane, on stderr, with FATAL', (t) => {
+  const tmp = tempDir(t);
   const r = spawnSync(process.execPath, [SCRIPT, '--root', tmp], { input: '', encoding: 'utf8' });
   assert.equal(r.status, 2);
   assert.equal(r.stdout, '');
   assert.match(r.stderr, /no knowledge\/ lane/);
 });
 
-test('injected fake handlers round-trip text + structuredContent through a child process', () => {
-  const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'registry-mcp-'));
+test('injected fake handlers round-trip text + structuredContent through a child process', (t) => {
+  const tmp = tempDir(t);
   const fixture = path.join(tmp, 'fake-server.mjs');
   fs.writeFileSync(fixture, `
 import { createServer, serveStdio, guardStdout } from ${JSON.stringify(pathToFileURL(SCRIPT).href)};
@@ -134,8 +141,8 @@ test('argument validation and the ledger flag mapping', () => {
   assert.deepEqual(ledgerArgv({ command: 'prose', after_table: true, last_paragraphs: 1 }, 'l.md'), ['prose', 'l.md', '--last-paragraphs', '1', '--after-table']);
 });
 
-test('registry_ledger runs ledger-read in-process and refuses paths it must not serve', async () => {
-  const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'registry-mcp-'));
+test('registry_ledger runs ledger-read in-process and refuses paths it must not serve', async (t) => {
+  const tmp = tempDir(t);
   fs.mkdirSync(path.join(tmp, 'librarian'));
   fs.writeFileSync(path.join(tmp, 'librarian', 'applied.md'), '# L\n\n| Date | Verdict |\n| --- | --- |\n| 2026-10-01 | better |\n| 2026-10-02 | worse |\n');
   fs.writeFileSync(path.join(tmp, 'notes.local.md'), '| a |\n| --- |\n| b |\n');
