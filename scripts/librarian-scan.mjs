@@ -56,6 +56,25 @@ const pick = (flag, dflt) => {
   const i = argv.indexOf(flag);
   return i === -1 ? dflt : argv[i + 1];
 };
+
+// The argument set is CLOSED. An unknown flag used to be ignored, so `--check-weight` (one
+// letter short) ran the whole scan and exited 0 - a drift check that cannot fail, which is
+// the shape this script's header exists to refuse. `--top abc` read as NaN and printed an
+// empty worklist; `--domain` with no value scanned every bundle.
+{
+  const BOOLEAN = new Set(['--json', '--weights', '--stamp-weights', '--check-weights']);
+  const VALUED = new Set(['--top', '--domain']);
+  const usage = 'usage: librarian-scan.mjs [--json] [--top <n>] [--domain <bundle>] | --weights | --stamp-weights | --check-weights';
+  const refuse = (why) => { console.error(`librarian-scan: ${why}\n  ${usage}`); process.exit(EXIT.FATAL); };
+  for (let i = 0; i < argv.length; i++) {
+    if (BOOLEAN.has(argv[i])) continue;
+    if (!VALUED.has(argv[i])) refuse(`unknown argument ${JSON.stringify(argv[i])}`);
+    const v = argv[i + 1];
+    if (v === undefined || v.startsWith('--')) refuse(`${argv[i]} needs a value`);
+    if (argv[i] === '--top' && !(Number.isInteger(Number(v)) && Number(v) > 0)) refuse(`--top needs a whole number > 0, got ${JSON.stringify(v)}`);
+    i++;
+  }
+}
 const topN = Number(pick('--top', 15));
 const onlyDomain = pick('--domain', null);
 

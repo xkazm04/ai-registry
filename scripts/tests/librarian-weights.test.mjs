@@ -27,7 +27,43 @@ function registry(t, mutate = (s) => s) {
   fs.writeFileSync(path.join(dir, 'librarian/standard.md'), mutate(standard));
   return dir;
 }
-const run = (dir, flag) => spawnSync(process.execPath, [path.join(dir, 'scripts/librarian-scan.mjs'), flag], { encoding: 'utf8' });
+const run = (dir, ...flags) => spawnSync(process.execPath, [path.join(dir, 'scripts/librarian-scan.mjs'), ...flags], { encoding: 'utf8' });
+
+/**
+ * One bundle, one subject, so the SCAN half runs to completion (an empty knowledge/ exits 2
+ * before any scoring, which would let a broken case pass for the wrong reason).
+ * `apps` maps an application file name to its frontmatter lines.
+ */
+function bundle(dir, apps = { 'node--a.md': ['stack: node', 'verified_on: 2026-01-01'] }) {
+  const subj = path.join(dir, 'knowledge/demo/alpha');
+  fs.mkdirSync(path.join(subj, 'techniques'), { recursive: true });
+  fs.mkdirSync(path.join(subj, 'applications'), { recursive: true });
+  fs.writeFileSync(path.join(dir, 'knowledge/demo/index.json'), JSON.stringify({ subjects: { alpha: { file: 'knowledge/demo/alpha/alpha.md' } } }));
+  fs.writeFileSync(path.join(subj, 'alpha.md'), '---\nslug: alpha\nstatus: forged\n---\nbody\n');
+  for (const t of ['t1', 't2', 't3', 't4']) fs.writeFileSync(path.join(subj, 'techniques', `${t}.md`), `---\nuse_when: [a case]\n---\nbody\n`);
+  for (const [f, fm] of Object.entries(apps)) fs.writeFileSync(path.join(subj, 'applications', f), `---\n${fm.join('\n')}\n---\nbody\n`);
+  return dir;
+}
+const scan = (dir) => {
+  const r = run(dir, '--json');
+  assert.equal(r.status, 0, r.stderr);
+  return JSON.parse(r.stdout).subjects.find((s) => s.id === 'demo/alpha');
+};
+const isoIn = (days) => new Date(Date.now() + days * 86400000).toISOString().slice(0, 10);
+
+test('control: the fixture bundle scans (exit 0)', (t) => {
+  assert.equal(scan(bundle(registry(t))).applications, 1);
+});
+
+test('an unknown argument refuses (exit 2): a typo of --check-weights must not run the scan and pass', (t) => {
+  const dir = bundle(registry(t));
+  for (const args of [['--check-weight'], ['--jsn'], ['--top', 'abc'], ['--top'], ['--top', '0'], ['--domain']]) {
+    const r = run(dir, ...args);
+    assert.equal(r.status, 2, `${args.join(' ')}: exit ${r.status}\n${r.stdout.slice(0, 200)}`);
+    assert.match(r.stderr, /librarian-scan/);
+  }
+  assert.equal(run(dir, '--top', '3', '--domain', 'demo').status, 0);
+});
 const standardOf = (dir) => fs.readFileSync(path.join(dir, 'librarian/standard.md'), 'utf8');
 const stampedBlock = (s) => s.slice(s.indexOf(OPEN), s.indexOf(CLOSE) + CLOSE.length);
 const drifted = (s) => `${s}\n${stampedBlock(s).replace(/\| (\d+)/, (m, n) => `| ${Number(n) + 7}`)}\n`;
