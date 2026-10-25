@@ -12,7 +12,8 @@
  * Topologies (per project root):
  *   native   AGENTS.md, no CLAUDE.md of any kind          -> read directly
  *   import   a CLAUDE.md carries the line `@AGENTS.md`     -> read through the import
- *   pointer  CLAUDE.md canonical, AGENTS.md points at it   -> other tools reach the same file
+ *   pointer  CLAUDE.md (root or .claude/) canonical, AGENTS.md declares it points at it
+ *                                                          -> other tools reach the same file
  *   single   no AGENTS.md                                  -> nothing to bridge
  *   FORK     both present, neither import nor pointer     -> the second file never loads (FAIL)
  *
@@ -41,6 +42,10 @@ const TARGET_LINES = 200;
 const read = (f) => { try { return fs.readFileSync(f, 'utf8'); } catch { return null; } };
 const lines = (t) => (t == null ? 0 : t.split(/\r?\n/).length);
 
+// A markdown link or code span naming `.claude/CLAUDE.md`, and the file saying it only points.
+const POINTS_AT_DOT_CLAUDE = /\]\((?:\.\/)?\.claude\/CLAUDE\.md\)|`(?:\.\/)?\.claude\/CLAUDE\.md`/;
+const DECLARES_POINTER = /\bcanonical\b|\bthis\s+file\s+points\b|\bdoes\s+not\s+restate\b/i;
+
 export const classify = (root) => {
   const claude = [path.join(root, 'CLAUDE.md'), path.join(root, '.claude', 'CLAUDE.md'), path.join(root, 'CLAUDE.local.md')]
     .map((f) => ({ f, t: read(f) })).filter((x) => x.t != null);
@@ -50,9 +55,17 @@ export const classify = (root) => {
   if (claude.some((x) => /^@\.?\/?AGENTS\.md\s*$/m.test(x.t))) return 'import';
   // The reverse topology: AGENTS.md exists to send other tools to the canonical CLAUDE.md.
   if (/\]\((?:\.\/)?CLAUDE\.md\)|`CLAUDE\.md`/.test(agents) && /canonical/i.test(agents)) return 'pointer';
+  // The same topology with the canonical file at `.claude/CLAUDE.md`, declared in the pointer's
+  // own words ("This file points; it does not restate"). Personas' AGENTS.md is a table of such
+  // links and was reported FORK on 2026-10-25 because only a root CLAUDE.md link and the word
+  // "canonical" were accepted. Both halves stay required - a link alone is a reference from a
+  // second populated file, which is exactly what a FORK is - and the named file must exist.
+  if (POINTS_AT_DOT_CLAUDE.test(agents) && DECLARES_POINTER.test(agents)
+    && claude.some((x) => x.f === path.join(root, '.claude', 'CLAUDE.md'))) return 'pointer';
   return 'FORK';
 };
 
+let CASE_COUNT = 0;
 const selfTest = () => {
   const base = fs.mkdtempSync(path.join(os.tmpdir(), 'cag-'));
   const mk = (name, files) => {
@@ -64,10 +77,18 @@ const selfTest = () => {
     ['native', { 'AGENTS.md': '# a\n' }],
     ['import', { 'CLAUDE.md': '@AGENTS.md\n\nextra\n', 'AGENTS.md': '# a\n' }],
     ['pointer', { 'CLAUDE.md': '# canonical\n', 'AGENTS.md': 'The canonical guidance is [`CLAUDE.md`](CLAUDE.md).\n' }],
+    ['pointer', { '.claude/CLAUDE.md': '# rules\n', 'AGENTS.md': '# AGENTS.md\n\nThis file points; it\ndoes not restate.\n\n| anything | `.claude/CLAUDE.md` |\n' }],
     ['single', { 'CLAUDE.md': '# only\n' }],
     ['FORK', { 'CLAUDE.md': '# rules\n', 'AGENTS.md': '# commands\n- Test: x\n' }],
     ['FORK', { '.claude/CLAUDE.md': 'Read AGENTS.md for commands.\n', 'AGENTS.md': '# commands\n' }],
+    // A link to .claude/CLAUDE.md without the declaration is a second populated file, not a pointer.
+    ['FORK', { '.claude/CLAUDE.md': '# rules\n', 'AGENTS.md': '# commands\n- Test: x\nSee `.claude/CLAUDE.md` for more.\n' }],
+    // A declaration with no link to the file that exists is still a fork.
+    ['FORK', { '.claude/CLAUDE.md': '# rules\n', 'AGENTS.md': 'This file points; it does not restate.\n- Test: x\n' }],
+    // A link to a .claude/CLAUDE.md that does not exist delivers nothing.
+    ['FORK', { 'CLAUDE.md': '# rules\n', 'AGENTS.md': 'This file points; it does not restate. See `.claude/CLAUDE.md`.\n' }],
   ];
+  CASE_COUNT = cases.length;
   let bad = 0;
   cases.forEach(([want, files], i) => { const got = classify(mk(`c${i}`, files)); if (got !== want) { bad += 1; console.error(`self-test: case ${i} expected ${want}, got ${got}`); } });
   fs.rmSync(base, { recursive: true, force: true });
@@ -75,7 +96,7 @@ const selfTest = () => {
 };
 
 if (!selfTest()) { console.error('FATAL: the classifier failed its own cases - not reporting on the fleet.'); process.exit(2); }
-if (process.argv.includes('--self-test')) { console.log('self-test: 6/6 topologies classified'); process.exit(0); }
+if (process.argv.includes('--self-test')) { console.log(`self-test: ${CASE_COUNT}/${CASE_COUNT} topologies classified`); process.exit(0); }
 
 const idx = process.argv.indexOf('--project');
 const only = idx === -1 ? null : process.argv[idx + 1];
