@@ -76,3 +76,8 @@ fleet-*.proposals.json
 # cloud-dispatch: machine-local ledger, queue and prompt files
 /.ai/cloud-dispatch.local.jsonl
 /.ai/cloud-queue/
+
+# registry-query's routing projection: per-bundle entries + BM25 postings, rebuilt from
+# the markdown whenever a bundle's file stats move (scripts/lib/registry-query.mjs). A
+# cache is derived state, and a committed copy would churn with every knowledge commit.
+/.cache/
