@@ -46,6 +46,7 @@
         "scripts/lib/exit-codes.mjs",
         "scripts/run-tests.mjs",
         "scripts/tests/check-result.test.mjs",
+        "scripts/tests/context-map.test.mjs",
         "scripts/tests/validation-plan.test.mjs"
       ],
       "entry_points": [
