@@ -21,7 +21,12 @@
  *                (next-env.d.ts, *.generated.ts, untracked .husky hooks, a crash *.stackdump,
  *                a whitespace- or line-ending-only diff), and its HEAD is landed: a worktree's HEAD is on a
  *                ref of its main repository other than its own branch; a clone's commits are
- *                all on its remotes, or each local commit's patch-id is in its fleet home.
+ *                all on its remote's default branch (`origin/HEAD`), or each commit not there
+ *                has its patch-id in its fleet home. A commit only on some other remote-tracking
+ *                ref (a feature branch) is NOT shown landed: this lane never fetches, so that ref
+ *                may name a branch the server has since deleted (PR closed unmerged), and the
+ *                clone holds the only copy. Such a clone is `operator` ("landed only on
+ *                remote-tracking refs (unverified without network)").
  *                Anything else is `operator` with the reason. `hyg-*` entries belong to the
  *                hygiene dead-worker rule and are always `operator`.
  *                A plain directory named like build output (target, tgt, cargo-target-*) is
@@ -191,20 +196,48 @@ export function checkoutFacts(abs, homes) {
   const listed = git(abs, ['rev-list', '--all', '--not', '--remotes']);
   if (listed == null) { f.headLanded = false; f.why = 'clone; git could not list its local commits'; return f; }
   const local = listed.split('\n').filter(Boolean);
-  if (!local.length) { f.headLanded = true; f.why = 'clone; every local ref is on its remotes'; return f; }
+  // A remote-tracking ref is a memory of the last fetch, and this lane never fetches: a feature
+  // branch deleted on the server (PR closed unmerged) still sits in refs/remotes/origin/. Only
+  // the default branch's history is durable, so commits on remote-tracking refs but not on the
+  // default's remote-tracking ref are "remote-only": unverified, like the unpushed ones.
+  const up = defaultUpstream(abs);
+  const listedRemote = git(abs, ['rev-list', '--remotes', ...(up ? ['--not', up] : [])]);
+  if (listedRemote == null) { f.headLanded = false; f.why = 'clone; git could not list its remote-tracking commits'; return f; }
+  const remoteOnly = listedRemote.split('\n').filter(Boolean);
+  if (!local.length && !remoteOnly.length) { f.headLanded = true; f.why = `clone; every ref is on ${up ? up.replace(/^refs\/remotes\//, '') : 'its remotes'}`; return f; }
+  const remoteWhy = (n) => `landed only on remote-tracking refs (unverified without network): ${n} commits not on ${up ? up.replace(/^refs\/remotes\//, '') : 'a default branch'}`;
   const origin = urlKey(git(abs, ['remote', 'get-url', 'origin']));
   const home = homes.find((h) => h.keys.includes(origin));
-  if (!home) { f.headLanded = false; f.why = `clone; ${local.length} local commits and no fleet home to check them in`; return f; }
-  const oldest = git(abs, ['log', '-1', '--format=%cI', local.at(-1)]);
-  const since = oldest ? new Date(Date.parse(oldest) - 86400e3).toISOString().slice(0, 10) : '2000-01-01';
+  if (!home) {
+    f.headLanded = false;
+    f.why = local.length ? `clone; ${local.length} local commits and no fleet home to check them in` : remoteWhy(remoteOnly.length);
+    return f;
+  }
+  if (!local.length && remoteOnly.length > MAX_REMOTE_ONLY_PROBE) { f.headLanded = false; f.why = remoteWhy(remoteOnly.length); return f; }
+  const dates = [local.at(-1), remoteOnly.at(-1)].filter(Boolean).map((c) => Date.parse(git(abs, ['log', '-1', '--format=%cI', c]) || ''));
+  const oldest = Math.min(...dates);
+  const since = Number.isFinite(oldest) ? new Date(oldest - 86400e3).toISOString().slice(0, 10) : '2000-01-01';
   const ids = patchIdsOf(home.path, since);
-  const missing = local.filter((c) => {
+  const lacks = (c) => {
     const id = (git(abs, ['patch-id', '--stable'], git(abs, ['show', '--no-color', '--format=commit %H', c]) || '') || '').split(' ')[0];
     return !id || !ids.has(id);
-  });
-  f.headLanded = missing.length === 0;
-  f.why = f.headLanded ? `clone; ${local.length} local commits, all in ${home.slug} by patch-id` : `clone; ${missing.length} of ${local.length} local commits not in ${home.slug}`;
+  };
+  const missing = local.filter(lacks);
+  if (missing.length) { f.headLanded = false; f.why = `clone; ${missing.length} of ${local.length} local commits not in ${home.slug}`; return f; }
+  const missingRemote = remoteOnly.length > MAX_REMOTE_ONLY_PROBE ? remoteOnly : remoteOnly.filter(lacks);
+  if (missingRemote.length) { f.headLanded = false; f.why = remoteWhy(missingRemote.length); return f; }
+  f.headLanded = true;
+  f.why = `clone; ${local.length} local${remoteOnly.length ? ` and ${remoteOnly.length} remote-tracking-only` : ''} commits, all in ${home.slug} by patch-id`;
   return f;
+}
+
+/** Past this many remote-only commits the patch-id probe (two git processes each) is not worth it. */
+const MAX_REMOTE_ONLY_PROBE = 200;
+
+/** The clone's default branch as the last fetch knew it (`refs/remotes/origin/HEAD`, else main/master), or null. */
+function defaultUpstream(abs) {
+  const sym = git(abs, ['symbolic-ref', '-q', 'refs/remotes/origin/HEAD']);
+  return [sym, 'refs/remotes/origin/main', 'refs/remotes/origin/master'].filter(Boolean).find((r) => quiet(abs, ['rev-parse', '--verify', '-q', `${r}^{commit}`])) || null;
 }
 
 // ---------------------------------------------------------------------------- scan

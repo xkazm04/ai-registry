@@ -121,6 +121,81 @@ test('checkoutFacts: a clone is landed only when EVERY local ref is, not just HE
   } finally { r.cleanup(); }
 });
 
+// A bare origin, a seed clone that gave it `main`, and the scratch clone under test.
+function bareRepos() {
+  const base = fs.mkdtempSync(path.join(os.tmpdir(), 'hdisk-'));
+  const origin = path.join(base, 'origin.git');
+  execFileSync('git', ['init', '-q', '--bare', '-b', 'main', origin], { env: ENV, stdio: 'ignore' });
+  const seed = path.join(base, 'seed');
+  execFileSync('git', ['clone', '-q', origin, seed], { env: ENV, stdio: 'ignore' });
+  g(seed, 'checkout', '-q', '-b', 'main');
+  fs.writeFileSync(path.join(seed, 'a.txt'), 'one\n');
+  g(seed, 'add', 'a.txt');
+  g(seed, 'commit', '-q', '-m', 'one');
+  g(seed, 'push', '-q', 'origin', 'main');
+  const clone = path.join(base, 'cn2-origin');
+  execFileSync('git', ['clone', '-q', origin, clone], { env: ENV, stdio: 'ignore' });
+  const commit = (dir, file, text) => { fs.writeFileSync(path.join(dir, file), text); g(dir, 'add', file); g(dir, 'commit', '-q', '-m', `add ${file}`); };
+  return { base, origin, seed, clone, commit, cleanup: () => fs.rmSync(base, { recursive: true, force: true }) };
+}
+
+test('checkoutFacts: work on a remote-tracking ref alone is unverified without network, not landed', () => {
+  // The lane never fetches, so origin/feature in a clone can name a branch the server deleted
+  // (PR closed unmerged). rev-list --not --remotes read that as landed and the clone, holding
+  // the only copy, was a mechanical delete.
+  const r = bareRepos();
+  try {
+    g(r.clone, 'checkout', '-q', '-b', 'feature');
+    r.commit(r.clone, 'f.txt', 'feature work\n');
+    g(r.clone, 'push', '-q', 'origin', 'feature');
+    g(r.clone, 'checkout', '-q', 'main');
+    // the server drops the branch (PR closed unmerged); the clone's origin/feature stays
+    g(r.origin, 'update-ref', '-d', 'refs/heads/feature');
+    assert.ok(g(r.clone, 'rev-parse', '--verify', 'refs/remotes/origin/feature'), 'the stale remote-tracking ref is still there');
+    const f = checkoutFacts(r.clone, []);
+    assert.notEqual(f.headLanded, true, f.why);
+    assert.match(f.why, /landed only on remote-tracking refs \(unverified without network\)/);
+    assert.equal(classifyCheckout({ name: 'cn2-origin', ageH: 30, ...f }).class, 'operator', 'an operator row, not a mechanical delete');
+    // a side branch pushed and checked out is the same work and the same answer
+    g(r.clone, 'checkout', '-q', 'feature');
+    assert.notEqual(checkoutFacts(r.clone, []).headLanded, true);
+  } finally { r.cleanup(); }
+});
+
+test('checkoutFacts: remote-only work stays mechanical when it is provably elsewhere without network', () => {
+  const r = bareRepos();
+  try {
+    // control: the work merged into the origin's default branch and was fetched
+    g(r.clone, 'checkout', '-q', '-b', 'feature');
+    r.commit(r.clone, 'f.txt', 'feature work\n');
+    g(r.clone, 'push', '-q', 'origin', 'feature');
+    g(r.clone, 'checkout', '-q', 'main');
+    g(r.clone, 'merge', '-q', '--ff-only', 'feature');
+    g(r.clone, 'push', '-q', 'origin', 'main');
+    g(r.origin, 'update-ref', '-d', 'refs/heads/feature');
+    g(r.clone, 'branch', '-q', '-D', 'feature');
+    let f = checkoutFacts(r.clone, []);
+    assert.equal(f.headLanded, true, f.why);
+    assert.match(f.why, /origin\/main/);
+    assert.equal(classifyCheckout({ name: 'cn2-origin', ageH: 30, ...f }).kind, 'remove-scratch-checkout');
+    // the same change sitting in a fleet home on this machine under another sha is also proof
+    g(r.clone, 'checkout', '-q', '-b', 'second');
+    r.commit(r.clone, 's.txt', 'second work\n');
+    g(r.clone, 'push', '-q', 'origin', 'second');
+    g(r.clone, 'checkout', '-q', 'main');
+    g(r.origin, 'update-ref', '-d', 'refs/heads/second');
+    const fleetHome = path.join(r.base, 'fleet-home');
+    execFileSync('git', ['clone', '-q', r.origin, fleetHome], { env: ENV, stdio: 'ignore' });
+    r.commit(fleetHome, 's.txt', 'second work\n');
+    const homes = [{ slug: 'fleet', path: fleetHome, keys: [r.origin.toLowerCase().replace(/\\/g, '/').replace(/\.git$/, '')] }];
+    f = checkoutFacts(r.clone, []);
+    assert.notEqual(f.headLanded, true, 'no home: the deleted branch is unverified');
+    f = checkoutFacts(r.clone, homes);
+    assert.equal(f.headLanded, true, f.why);
+    assert.match(f.why, /by patch-id/);
+  } finally { r.cleanup(); }
+});
+
 test('checkoutFacts: install noise is not work; a real untracked or modified file is', () => {
   const r = repos();
   try {
@@ -129,7 +204,9 @@ test('checkoutFacts: install noise is not work; a real untracked or modified fil
     fs.writeFileSync(path.join(r.clone, '.husky', 'pre-commit'), 'tracked hook');
     g(r.clone, 'add', '.husky/pre-commit');
     g(r.clone, 'commit', '-q', '-m', 'hooks');
-    g(r.clone, 'push', '-q', 'origin', 'HEAD:hooks'); // on its remote, so still landed
+    g(r.clone, 'push', '-q', 'origin', 'HEAD:hooks');
+    g(r.home, 'merge', '-q', '--ff-only', 'hooks'); // merged on the server's default branch ...
+    g(r.clone, 'fetch', '-q', 'origin'); // ... and fetched, so still landed
     fs.writeFileSync(path.join(r.clone, 'next-env.d.ts'), 'generated');
     fs.writeFileSync(path.join(r.clone, '.husky', 'commit-msg'), 'shim');
     fs.writeFileSync(path.join(r.clone, 'grep.exe.stackdump'), 'crash'); // C:/t/dp-* 2026-10-21
