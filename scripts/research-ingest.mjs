@@ -161,16 +161,21 @@ const cleanVtt = (raw) => {
   let last = null;
   let curTs = null;
   const seen = new Set();
+  // WebVTT makes the hours optional (`01:02.500 -->`) and a cue identifier any line of text
+  // directly above the timing. YouTube writes neither, so the cleaner only knew HH:MM:SS and
+  // numeric ids; a file from anywhere else had its timings and cue names counted as words.
+  const TIMING = /^(?:(\d{2,}):)?(\d{2}):(\d{2})\.\d+\s*-->/;
 
-  for (const ln of lines) {
+  for (const [i, ln] of lines.entries()) {
     if (/^(WEBVTT|Kind:|Language:|NOTE\b|STYLE\b)/.test(ln)) continue;
-    const m = /^(\d{2}:\d{2}:\d{2})\.\d+\s*-->/.exec(ln);
+    const m = TIMING.exec(ln);
     if (m) {
-      curTs = m[1];
+      curTs = `${(m[1] ?? '00').padStart(2, '0')}:${m[2]}:${m[3]}`;
       continue;
     }
     if (!ln.trim()) continue;
     if (/^\d+$/.test(ln.trim())) continue; // standalone cue index
+    if (i + 1 < lines.length && TIMING.test(lines[i + 1])) continue; // a named cue identifier
     let txt = ln.replace(/<[^>]+>/g, '').trim();
     txt = decodeEntities(txt).replace(/\s+/g, ' ');
     if (!txt || txt === last) continue;
