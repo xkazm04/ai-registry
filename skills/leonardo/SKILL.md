@@ -6,7 +6,7 @@ description: Generate images with OpenAI GPT Image 2.5 (Sunburst for detail, Fla
 allowed-tools: Read, Write, Edit, Glob, Grep, Bash(node *), Bash(npx *)
 argument-hint: <description of visual asset to create>
 listing: on
-version: 1.5.3
+version: 1.5.4
 ---
 
 # Leonardo — AI Image Generation & Visual Assets

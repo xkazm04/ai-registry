@@ -477,10 +477,10 @@
     },
     {
       "name": "leonardo",
-      "version": "1.5.3",
+      "version": "1.5.4",
       "category": "other",
       "path": "skills/leonardo/SKILL.md",
-      "contentHash": "sha256-n1:2baf35fa768cff6d",
+      "contentHash": "sha256-n1:3a22916927c739c7",
       "adopters": [
         "personas-web@plugin:1.0.0",
         "personas@plugin:1.0.0"

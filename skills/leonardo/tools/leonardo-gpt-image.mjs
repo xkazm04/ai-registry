@@ -170,9 +170,10 @@ async function generate(args) {
   if (urls.length === 0) fail({ error: "No image URLs found", generationId: genId, hint: "inspect the logged submit/poll bodies above" });
 
   const outputs = [];
+  const failed = [];
   for (let i = 0; i < urls.length; i++) {
-    const imgRes = await fetch(urls[i]);
-    if (!imgRes.ok) continue;
+    const imgRes = await fetch(urls[i]).catch((e) => ({ ok: false, status: String(e?.message || e) }));
+    if (!imgRes.ok) { failed.push({ url: urls[i], status: imgRes.status }); continue; }
     const buf = Buffer.from(await imgRes.arrayBuffer());
     const out = urls.length > 1 ? args.output.replace(/(\.\w+)?$/, `-${i + 1}$1`) : args.output;
     const abs = resolve(out);
@@ -181,16 +182,26 @@ async function generate(args) {
     outputs.push({ output: abs, bytes: buf.length, url: urls[i] });
   }
 
+  // A download that failed leaves the paid image only in the cloud generation, so
+  // deleting it below would lose the image for good. None written is a failure;
+  // some written keeps the generation and names what to re-fetch.
+  if (outputs.length === 0) {
+    fail({ error: "every image download failed; the generation was kept so it can be fetched again", generationId: genId, failed });
+  }
+  if (failed.length) {
+    process.stderr.write(`[${MODEL}@leonardo] ${failed.length} download(s) failed; keeping generation ${genId} (no cleanup)\n`);
+  }
+
   // Cloud cleanup — delete the generation from Leonardo unless --no-cleanup.
   // These gens accumulate in the account otherwise (this tool previously
   // never cleaned up, unlike leonardo-image.mjs). Best-effort.
   let cleaned = false;
-  if (genId && !args["no-cleanup"]) {
+  if (genId && !args["no-cleanup"] && failed.length === 0) {
     const del = await api("DELETE", `/v1/generations/${genId}`);
     cleaned = del.ok;
     process.stderr.write(`[${MODEL}@leonardo] cloud cleanup ${del.ok ? "ok" : `failed(${del.status})`}\n`);
   }
-  console.log(JSON.stringify({ success: true, model: MODEL, generationId: genId, cleaned, outputs }, null, 2));
+  console.log(JSON.stringify({ success: true, model: MODEL, generationId: genId, cleaned, outputs, failed }, null, 2));
 }
 
 /**

@@ -1,0 +1,101 @@
+// Offline tests for the provider-calling tools: what they do when a response is not the
+// happy path. No network and no real key, ever: every tool runs in a child process whose
+// global fetch is replaced (node --import) by a stub that answers from a script and throws on
+// any URL it was not told about, so a test that drifts toward a real endpoint fails instead of
+// calling it. The stub appends every request it sees to a log the test reads back.
+//
+//   node --test skills/leonardo/tests/test_api-tools.mjs
+import { test, after } from 'node:test';
+import assert from 'node:assert/strict';
+import { spawnSync } from 'node:child_process';
+import { existsSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
+import os from 'node:os';
+import path from 'node:path';
+import { fileURLToPath, pathToFileURL } from 'node:url';
+
+const TOOLS = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', 'tools');
+const roots = [];
+after(() => { for (const r of roots) rmSync(r, { recursive: true, force: true }); });
+
+// The stub: routes are [method, url-substring, status, body]; first match wins.
+const STUB = `
+import { appendFileSync } from 'node:fs';
+const routes = JSON.parse(process.env.STUB_ROUTES);
+globalThis.fetch = async (url, opts = {}) => {
+  const u = String(url);
+  const method = (opts.method || 'GET').toUpperCase();
+  const headers = Object.fromEntries(new Headers(opts.headers || {}).entries());
+  appendFileSync(process.env.STUB_LOG, JSON.stringify({ method, url: u, headers }) + '\\n');
+  for (const [m, part, status, body] of routes) {
+    if (m === method && u.includes(part)) return new Response(typeof body === 'string' ? body : JSON.stringify(body), { status });
+  }
+  throw new Error('offline stub: no route for ' + method + ' ' + u);
+};
+`;
+
+function sandbox() {
+  const dir = mkdtempSync(path.join(os.tmpdir(), 'leonardo-test-'));
+  roots.push(dir);
+  writeFileSync(path.join(dir, 'stub.mjs'), STUB);
+  return dir;
+}
+
+function run(dir, tool, args, routes, env = {}) {
+  const log = path.join(dir, 'requests.jsonl');
+  writeFileSync(log, '');
+  const clean = {};
+  for (const [k, v] of Object.entries(process.env)) if (!/API_KEY|BASE_URL|IMAGE_MODEL/.test(k)) clean[k] = v;
+  const r = spawnSync(process.execPath, ['--import', pathToFileURL(path.join(dir, 'stub.mjs')).href, path.join(TOOLS, tool), ...args], {
+    encoding: 'utf8',
+    env: { ...clean, STUB_ROUTES: JSON.stringify(routes), STUB_LOG: log, ...env },
+  });
+  const requests = readFileSync(log, 'utf8').split('\n').filter(Boolean).map((l) => JSON.parse(l));
+  return { code: r.status, out: r.stdout, err: r.stderr, requests };
+}
+
+// ------------------------------------------------------------------ leonardo-gpt-image
+const SUBMIT = { generate: { generationId: 'gen-0000-1111', status: 'COMPLETE' }, images: ['https://cdn.leonardo.ai/u/a.png', 'https://cdn.leonardo.ai/u/b.png'] };
+
+test('gpt-image: every download failing is a failure, and the paid generation is NOT deleted', () => {
+  const dir = sandbox();
+  const out = path.join(dir, 'card.png');
+  const r = run(dir, 'leonardo-gpt-image.mjs', ['generate', '--prompt', 'p', '--output', out], [
+    ['POST', '/v2/generations', 200, SUBMIT],
+    ['GET', 'cdn.leonardo.ai', 503, 'busy'],
+    ['DELETE', '/v1/generations/', 200, {}],
+  ], { LEONARDO_API_KEY: 'k_test' });
+  assert.notEqual(r.code, 0, `zero images written must not exit 0: ${r.out}${r.err}`);
+  assert.doesNotMatch(r.out, /"success": true/);
+  assert.equal(r.requests.filter((q) => q.method === 'DELETE').length, 0, 'the generation stays in the cloud so the images can be fetched again');
+  assert.match(r.err, /gen-0000-1111/, 'the failure names the generation to recover');
+});
+
+test('gpt-image: a partial download keeps the generation and lists what failed', () => {
+  const dir = sandbox();
+  const out = path.join(dir, 'card.png');
+  const r = run(dir, 'leonardo-gpt-image.mjs', ['generate', '--prompt', 'p', '--output', out], [
+    ['POST', '/v2/generations', 200, SUBMIT],
+    ['GET', 'cdn.leonardo.ai/u/a.png', 200, 'PNGDATA'],
+    ['GET', 'cdn.leonardo.ai/u/b.png', 503, 'busy'],
+    ['DELETE', '/v1/generations/', 200, {}],
+  ], { LEONARDO_API_KEY: 'k_test' });
+  assert.equal(r.code, 0, r.err);
+  const res = JSON.parse(r.out);
+  assert.equal(res.outputs.length, 1);
+  assert.equal(existsSync(path.join(dir, 'card-1.png')), true);
+  assert.deepEqual(res.failed.map((f) => f.url), ['https://cdn.leonardo.ai/u/b.png']);
+  assert.equal(res.cleaned, false);
+  assert.equal(r.requests.filter((q) => q.method === 'DELETE').length, 0);
+});
+
+test('gpt-image: all downloads landing still cleans the cloud generation up', () => {
+  const dir = sandbox();
+  const r = run(dir, 'leonardo-gpt-image.mjs', ['generate', '--prompt', 'p', '--output', path.join(dir, 'c.png')], [
+    ['POST', '/v2/generations', 200, SUBMIT],
+    ['GET', 'cdn.leonardo.ai', 200, 'PNGDATA'],
+    ['DELETE', '/v1/generations/gen-0000-1111', 200, {}],
+  ], { LEONARDO_API_KEY: 'k_test' });
+  assert.equal(r.code, 0, r.err);
+  assert.equal(JSON.parse(r.out).cleaned, true);
+  assert.equal(r.requests.filter((q) => q.method === 'DELETE').length, 1);
+});
