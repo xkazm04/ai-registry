@@ -94,8 +94,10 @@ a long-lived session sees techniques landed after it started.
 
 `registry_ledger` calls `ledger-read.mjs`'s exported `runQuery` in-process: that function
 is the CLI minus file I/O and exit, so the tool keeps the CLI's exact cursor and refusal
-semantics without a node start per call. It serves repo-relative `.md` files only, and
-refuses `..`, absolute paths and `*.local.*` files. `registry_read` refuses paths outside
+semantics without a node start per call. It serves repo-relative, **git-tracked** `.md`
+files only - an untracked vault note (`.architect/`, `.spark/`, scratch) is private
+evidence and is refused - and refuses `..`, absolute paths, links out of the checkout and
+`*.local.*` files. `registry_read` refuses paths outside
 the published lanes and any `*.local.*` file.
 
 Errors: an unknown method is `-32601`; an unknown tool or arguments that fail the input
