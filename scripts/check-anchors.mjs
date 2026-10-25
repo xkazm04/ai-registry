@@ -45,8 +45,11 @@ import { fileURLToPath } from 'node:url';
 import { EXIT } from './lib/exit-codes.mjs';
 import { requirePopulation } from './lib/check-result.mjs';
 
+// The extension must carry a letter. An all-digit one is a ratio or a version tag in prose
+// (`4.5:1` contrast, `qwen2.5:14`), and the corpus held 40 of them, each read as an anchor
+// to a file named `4.5` and failed as missing-file on a document that cited nothing wrong.
 const ANCHOR_RE =
-  /`?((?:[A-Za-z0-9_.\-]+[\\/])*[A-Za-z0-9_.\-]+\.[A-Za-z0-9]{1,8}):(\d{1,7})(?:-(\d{1,7}))?`?(?:[ \t]+"([^"\n]{1,600})")?/g;
+  /`?((?:[A-Za-z0-9_.\-]+[\\/])*[A-Za-z0-9_.\-]+\.(?=[A-Za-z0-9]{0,7}[A-Za-z])[A-Za-z0-9]{1,8}):(\d{1,7})(?:-(\d{1,7}))?`?(?:[ \t]+"([^"\n]{1,600})")?/g;
 
 const norm = (s) => s.replace(/\s+/g, ' ').trim();
 

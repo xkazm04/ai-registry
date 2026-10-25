@@ -39,6 +39,20 @@ test('parses quoted, unquoted and ranged anchors and skips URLs', () => {
   );
 });
 
+// A ratio or a version tag is not a file. The corpus carries 40 of these (`4.11:1`
+// contrast, `qwen3.8:27`), and each one parsed as an anchor to a file named `4.11`, so a
+// clean document checked with --root failed as missing-file.
+test('a number-dot-number before a colon is not an anchor; an extension with a letter still is', () => {
+  const a = parseAnchors('WCAG asks 4.5:1 and the tag qwen2.5:14 ran at 1.25:1, see clip.mp4:3 and src/gate.ts:3');
+  assert.deepEqual(a.map(({ file, start }) => `${file}:${start}`), ['clip.mp4:3', 'src/gate.ts:3']);
+  const root = tree();
+  const prose = path.join(root, 'prose.md');
+  fs.writeFileSync(prose, 'Body text needs a contrast of 4.5:1, per src/gate.ts:1 "LIMIT = 12".\n');
+  const r = spawnSync(process.execPath, [script, prose, '--root', root], { encoding: 'utf8' });
+  assert.equal(r.status, 0, r.stdout);
+  assert.match(r.stdout, /anchors=1 held=1/);
+});
+
 test('verdicts: held, unquoted, moved, absent, past-eof, missing-file', () => {
   const root = tree();
   const report = [
