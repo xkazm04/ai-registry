@@ -188,7 +188,9 @@ triangulation of PoF's own warrior on the local stack.
 - The drifted seed's row residual spikes to 149 px (about 0.55 m) exactly in the strike frames.
 
 Verdict `better` (observability; the engine-side single-view solver was not run). Shown to the
-operator on a review page under the run id `intake-XnS0vrbDrrc-e4`.
+operator on a review page under the run id `intake-XnS0vrbDrrc-e4`. The operator approved it
+on 2026-10-25. Cleanup ran by run id after sign-off: the scratch directory,
+`ComfyUI/output/intake-XnS0vrbDrrc-e4/` and the staged first frame, 7,079,966 bytes in all.
 
 ## Leads (with return conditions)
 
