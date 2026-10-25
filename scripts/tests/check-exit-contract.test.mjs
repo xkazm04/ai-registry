@@ -62,6 +62,26 @@ test('a bare EXIT name, 0/1/2 computed, and unresolvable arguments are not findi
   assert.equal(opaque.opaque.length, 1);
 });
 
+// "N further exit argument(s) yield no integer and are not evaluated" is the gate's own
+// account of its blind spot, and 5 of its 12 were not blind: four ternaries whose every
+// branch is an EXIT name (declared by construction), and one doc comment quoting the call.
+// A blind-spot count that overstates itself by 40% is one nobody reads.
+test('a ternary of EXIT names is declared, not opaque; a comment is not an exit site', () => {
+  for (const arg of ['c ? EXIT.FATAL : EXIT.OK', 'a && b.length > 0 ? EXIT.VIOLATIONS : EXIT.OK', 'a ? EXIT.OK : b ? EXIT.FATAL : EXIT.VIOLATIONS']) {
+    const s = exitSites(`${EXIT_CALL}(${arg});`);
+    assert.equal(s.length, 0, arg);
+    assert.equal(s.opaque.length, 0, arg);
+  }
+  // Still opaque: a branch that is not an EXIT name, or a condition the rule cannot read.
+  assert.equal(exitSites(`${EXIT_CALL}(c ? EXIT.OK : code);`).opaque.length, 1);
+  assert.equal(exitSites(`${EXIT_CALL}(a?.b ? EXIT.OK : EXIT.FATAL);`).opaque.length, 1);
+  const prose = `/**\n * the mapping lived beside each \`${EXIT_CALL}(...)\` call site\n */\n// was ${EXIT_CALL}(97)\n`;
+  const p = exitSites(prose);
+  assert.equal(p.length + p.opaque.length, 0);
+  // Code after a comment on its own line is still read.
+  assert.deepEqual(exitSites(`// done\n${EXIT_CALL}(9);`).map((x) => x.code), [9]);
+});
+
 test('a literal declared code still passes as before', () => {
   assert.equal(verdicts(`${EXIT_CALL}(3);`, 'planted.mjs', [])[0].why, null);
   assert.match(verdicts(`${EXIT_CALL}(9);`, 'planted.mjs', [])[0].why, /does not name/);

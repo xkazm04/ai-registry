@@ -48,6 +48,11 @@ function exitCalls(text) {
   const re = /process\.exit\(/g;
   let m;
   while ((m = re.exec(text)) !== null) {
+    // Prose quoting the call - a `//` line or a `/** ... */` block line - is not a site.
+    // Only a line that BEGINS as a comment is skipped, so the miss this can cause is an
+    // exit written after `/* x */` on one line, which no script here does.
+    const lineStart = text.lastIndexOf('\n', m.index) + 1;
+    if (/^\s*(?:\/\/|\/\*|\*)/.test(text.slice(lineStart, m.index))) continue;
     let depth = 1;
     let i = re.lastIndex;
     while (i < text.length && depth > 0) {
@@ -63,6 +68,8 @@ function exitCalls(text) {
   }
   return out;
 }
+
+const EXIT_TERNARY = /^[^?:]+\?\s*EXIT\.[A-Z_]+\s*:\s*(?:[^?:]+\?\s*EXIT\.[A-Z_]+\s*:\s*)*EXIT\.[A-Z_]+$/;
 
 /** Integers a branch or fallback position can yield: `? 3`, `: 0`, `|| 2`, `?? 1`. */
 function branchLiterals(expr) {
@@ -89,6 +96,9 @@ export function exitSites(text) {
   for (const { arg, line } of exitCalls(text)) {
     if (/^-?\d+$/.test(arg)) { sites.push({ code: Number(arg), line, computed: false }); continue; }
     if (/^EXIT\.[A-Z_]+$/.test(arg)) continue;
+    // A ternary chain whose every branch is an EXIT name is declared by construction. The
+    // conditions may not contain `?` (optional chaining) - such an argument stays opaque.
+    if (EXIT_TERNARY.test(arg)) continue;
     let exprs = [arg];
     if (/^[A-Za-z_$][\w$]*$/.test(arg)) {
       const decl = new RegExp('\\b(?:const|let|var)\\s+' + arg.replace(/\$/g, '\\$') + '\\s*=([^;]*);', 'g');
