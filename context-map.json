@@ -329,8 +329,12 @@
       "name": "librarian-tools",
       "group": "evidence",
       "category": "operator",
-      "description": "Instruments behind /librarian and research: attention scoring, research ingest, triage rendering, lens metrics, PDF text.",
+      "description": "Instruments behind /librarian and research: attention scoring, research ingest, triage rendering and the intake render-proof tools it judges, lens metrics, PDF text.",
       "file_paths": [
+        ".claude/skills/intake/references/render-proof/pose_sheet.py",
+        ".claude/skills/intake/references/render-proof/rig_check.py",
+        ".claude/skills/intake/references/render-proof/sheet_distance.py",
+        ".claude/skills/intake/references/render-proof/voice-distance.mjs",
         "scripts/lib/pdf-text.mjs",
         "scripts/librarian-scan.mjs",
         "scripts/registry-lens.mjs",
@@ -427,6 +431,7 @@
       "category": "bundled",
       "description": "Code bundled inside product-facing lane skills (lens-scan, native-copy, illustrate), with their tests. Not run by gate.mjs.",
       "file_paths": [
+        "skills/illustrate/references/switcher-template.tsx",
         "skills/illustrate/scripts/capture-variants.mjs",
         "skills/illustrate/scripts/lib/capture-core.mjs",
         "skills/illustrate/tests/capture-core.test.mjs",

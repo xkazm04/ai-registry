@@ -1,8 +1,8 @@
 // context-map.json is the partition /scan-sweep, /architect and /perfect walk over the
 // registry's own code. A script that no context claims is a script no sweep ever reads,
 // and nothing would say so: the coverage table just stays green over a smaller tree. So
-// every tracked code file under scripts/ and a lane skill's scripts/tests/tools must be
-// claimed by exactly one context, and every claimed path must still exist.
+// every tracked code file must be claimed by exactly one context, and every claimed path
+// must still exist.
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
@@ -12,7 +12,11 @@ import { fileURLToPath } from 'node:url';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', '..');
 const CODE = /\.(mjs|js|ts|tsx|py)$/;
-const IN_SCOPE = (f) => CODE.test(f) && (f.startsWith('scripts/') || /^skills\/[^/]+\/(scripts|tests|tools)\//.test(f));
+// Every tracked code file, wherever it sits: a references/ folder can hold executable
+// proof tooling (intake's render-proof, illustrate's switcher template), and a scope that
+// names only scripts|tests|tools left 972 lines of it outside every sweep (operator
+// decision 2026-10-25).
+const IN_SCOPE = (f) => CODE.test(f);
 
 function claims() {
   const map = JSON.parse(fs.readFileSync(path.join(ROOT, 'context-map.json'), 'utf8'));
