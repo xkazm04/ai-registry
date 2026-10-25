@@ -63,7 +63,7 @@ import path from 'node:path';
 import { execFile } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 import { loadFleet } from './lib/projects.mjs';
-import { removeTree } from './lib/safe-remove.mjs';
+import { measureTree, removeTree } from './lib/safe-remove.mjs';
 import { EXIT } from './lib/exit-codes.mjs';
 
 const ROOT = path.resolve(fileURLToPath(new URL('.', import.meta.url)), '..');
@@ -978,8 +978,11 @@ async function applyAction(P, a) {
     }
     case 'delete-debris': {
       // Irreversible, so every guard is re-checked now: inside the repo, still untracked and
-      // not ignored, idle, and nothing in it is a symlink or junction (rmSync would be
-      // asked to follow one - the node_modules junction wipe of 2026-09-2x).
+      // not ignored, idle, and nothing in it is a symlink or junction (a recursive delete would
+      // be asked to follow one - the node_modules junction wipe of 2026-09-2x). The probe is
+      // safe-remove's uncapped lstat walk, not scanDebris's newestMtime, which stops at depth 6
+      // and 5000 entries and so cannot see a link or a fresh write below that; the delete is
+      // removeTree, which unlinks every link without entering it, as remove-worktree does.
       const abs = path.resolve(cwd, a.target);
       const root = path.resolve(cwd) + path.sep;
       if (!abs.startsWith(root) || abs === path.resolve(cwd)) return { skipped: 'outside the repo' };
@@ -987,11 +990,18 @@ async function applyAction(P, a) {
       if (holdsCheckout(abs)) return { skipped: 'holds a .git - a checkout, not debris' };
       const tracked = await gitOut(cwd, ['ls-files', '--', a.target]);
       if (tracked) return { skipped: 'now tracked' };
-      const m = newestMtime(abs);
-      if (m.symlink) return { skipped: 'contains a symlink or junction' };
-      if (minutesSince(m.ms) < LIVE_MIN) return { skipped: `touched ${minutesSince(m.ms)} min ago` };
-      try { fs.rmSync(abs, { recursive: true, force: true }); } catch (e) { return { skipped: String(e.message).split('\n')[0] }; }
-      return fs.existsSync(abs) ? { skipped: 'still present after delete' } : { done: true, bytes: m.bytes };
+      const m = measureTree(abs);
+      if (m.missing) return { skipped: 'already gone' };
+      if (m.rootIsLink || m.links > 0) return { skipped: 'contains a symlink or junction' };
+      if (m.unreadable > 0) return { skipped: `${m.unreadable} entr${m.unreadable === 1 ? 'y' : 'ies'} unreadable - cannot prove it idle` };
+      // measureTree times files only; the root's own mtime keeps a just-created empty folder live.
+      let newest = m.newestMs;
+      try { newest = Math.max(newest, fs.lstatSync(abs).mtimeMs); } catch { /* raced away */ }
+      if (minutesSince(newest) < LIVE_MIN) return { skipped: `touched ${minutesSince(newest)} min ago` };
+      const rm = removeTree(abs);
+      return fs.existsSync(abs)
+        ? { skipped: `still present after delete (${rm.errors} error(s): ${rm.firstErrors.join('; ')})` }
+        : { done: true, bytes: m.bytes };
     }
     default:
       return { skipped: `not a mechanical kind: ${a.kind}` };
