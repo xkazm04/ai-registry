@@ -380,3 +380,18 @@ test('a budget, age or chunk flag that is not a number, or a flag nobody declare
     assert.equal(cli(...base, '--budget-gb', '1').status, 0, 'a real budget still runs');
   } finally { t.cleanup(); }
 });
+
+test('capture reports the stored size the budget is checked against, the same figure status shows', async () => {
+  const t = setup();
+  try {
+    t.put('proj-a/s.jsonl', 'A'.repeat(20));
+    await capture(t.opts);
+    t.append('proj-a/s.jsonl', 'B'.repeat(20));
+    await capture(t.opts);
+    await retire({ archive: t.archive }); // retired.jsonl now holds a line
+    t.put('proj-a/n.jsonl', crypto.randomBytes(40));
+    const r = await capture(t.opts);
+    // notice() warns at 90% of the budget from this figure, so it must count what the budget counts.
+    assert.equal(r.storedBytesAfter, status({ archive: t.archive }).storedBytes);
+  } finally { t.cleanup(); }
+});

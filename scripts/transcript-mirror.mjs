@@ -440,7 +440,10 @@ export async function capture({ root = defaultRoot(), archive = defaultArchive()
       seq++;
       r.captured++;
     }
-    try { r.storedBytesAfter = [...have.values()].reduce((a, b) => a + b, 0) + fs.statSync(P(archive).captures).size; } catch { r.storedBytesAfter = stored; }
+    // The same accounting the budget check used above (chunks + captures + retired + meta),
+    // because notice() reads this figure to warn at 90% of that budget.
+    r.storedBytesAfter = [...have.values()].reduce((a, b) => a + b, 0);
+    for (const f of [P(archive).captures, P(archive).retired, P(archive).meta]) { try { r.storedBytesAfter += fs.statSync(f).size; } catch { /* none yet */ } }
     r.seconds = +((performance.now() - t0) / 1000).toFixed(2);
     return r;
   });
