@@ -99,6 +99,18 @@ test('a path that would publish a machine is refused wherever it appears', () =>
   assert.equal(unpublishablePath('librarian/runs/2026-09-23-1/result.json'), null, 'an ordinary repo-relative path passes');
 });
 
+test('the door refuses every home-anchored path or address the public gate behind it would flag', () => {
+  // check-public-paths scans librarian/ with the shared leak table; a result this door
+  // accepted used to turn that gate red after it was already written.
+  for (const value of ['~/code/app/src/x.ts', '$HOME/work/repo/a.md', '%USERPROFILE%/code/x', '~/.claude/projects/x.jsonl', 'notes/jane@example.com.md']) {
+    assert.ok(unpublishablePath(value, new Set()), `expected ${JSON.stringify(value)} to be refused`);
+    assert.ok(validateRunResult(valid({ files: [value] })).some((p) => p.startsWith('result.files[0]')));
+  }
+  for (const ok of ['scripts/x.mjs', 'docs/home/page.md', 'skills/home-assistant/SKILL.md', 'librarian/runs/a/result.json']) {
+    assert.equal(unpublishablePath(ok, new Set()), null, `${ok} is an ordinary repo-relative path`);
+  }
+});
+
 test('a decline is only real when written down', () => {
   assert.ok(validateRunResult(valid({ declined: [{ subject: 'x/y', reason: '  ' }] }))
     .some((p) => /result\.declined\[0\]\.reason/.test(p)), 'a blank reason is a defect');
