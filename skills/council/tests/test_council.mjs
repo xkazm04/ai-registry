@@ -945,6 +945,34 @@ test('CLI: a blank started.summary falls through to report.md, as the documented
   }
 });
 
+test('CLI: aggregate refuses a --round that is not an integer >= 1, before any result.json is written', () => {
+  // `Number('abc')` is NaN, and aggregate() reads a NaN round as round 1 - which skips the
+  // ROUND_CAP check - so result.json used to be written with round_no null and only then
+  // fail validateResult. The flag is validated first; a refusal leaves no half-written run.
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'council-round-'));
+  try {
+    const meta = liteMeta();
+    fs.writeFileSync(path.join(dir, 'started.json'), JSON.stringify({
+      run_id: 'r1', mode: 'lite', subject: meta.subject, rubric_version: 'feature-v1',
+      round_no: 1, supersedes_run_id: null, trust_state: 'uncalibrated', receipt: meta.receipt,
+    }));
+    for (const [name, verdict] of Object.entries(liteVerdicts())) {
+      fs.writeFileSync(path.join(dir, `verdict-${name}.json`), JSON.stringify({ dimension: name, unmeasured_reason: null, delta: null, ...verdict }));
+    }
+    for (const bad of ['abc', '0', '-1', '1.5', '', '2x']) {
+      const r = runCli(['aggregate', '--run-dir', dir, '--summary', 's', '--round', bad]);
+      assert.equal(r.status, 2, `--round ${JSON.stringify(bad)} must exit 2: ${r.stdout}`);
+      assert.match(r.stderr, /--round must be an integer >= 1/);
+      assert.ok(!fs.existsSync(path.join(dir, 'result.json')), `--round ${JSON.stringify(bad)} left a result.json behind`);
+    }
+    const ok = runCli(['aggregate', '--run-dir', dir, '--summary', 's', '--round', '2']);
+    assert.equal(ok.status, 0, ok.stderr);
+    assert.equal(JSON.parse(fs.readFileSync(path.join(dir, 'result.json'), 'utf8')).round_no, 2);
+  } finally {
+    fs.rmSync(dir, { recursive: true, force: true });
+  }
+});
+
 // ------------------------------------------------------------------- report
 
 /**

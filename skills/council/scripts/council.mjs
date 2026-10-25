@@ -181,7 +181,14 @@ if (cmd === 'aggregate') {
   const carriedMustAddress = fs.existsSync(maFile) ? readJson(maFile) : [];
 
   const trustState = flag('trust-state') ?? started.trust_state ?? 'uncalibrated';
-  const roundNo = Number(flag('round') ?? started.round_no ?? 1);
+  // Validated before anything is written: Number('abc') is NaN, aggregate() reads a NaN
+  // round as round 1 and so skips the ROUND_CAP check, and result.json used to be written
+  // with round_no null before validateResult noticed.
+  const givenRound = flag('round');
+  const roundNo = Number(givenRound ?? started.round_no ?? 1);
+  if (!Number.isInteger(roundNo) || roundNo < 1) {
+    die(`--round must be an integer >= 1, found ${JSON.stringify(givenRound ?? started.round_no)}`);
+  }
 
   // The DECLARED scenarios come from the product's exported state, never from a member:
   // --state <state.json> (rows filtered to this subject), else whatever phase 1 copied
