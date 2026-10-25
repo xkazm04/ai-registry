@@ -72,20 +72,23 @@ beside this one listing its subjects.
 The upper two layers carry no repo paths, file extensions or product names, so they apply
 here unchanged. Applications name their stack in the filename.
 
-## Resolving a subject - never construct a path
+## Finding a subject - query first, never construct a path
 
 Bundles are **nested** under \`<category>/[<subcategory>/]<subject>/\` and the shape is
 owned by \`taxonomy.json\`, so a path built from a slug is a path that breaks the next time
-a subject moves. The address is the generated index:
+a subject moves. Ask the front door instead, phrased as the decision you face:
 
-\`\`\`
-<registry>/knowledge/<domain>/index.json  ->  subjects["<slug>"].file
-\`\`\`
+- the \`registry_query\` MCP tool, when this session has it;
+- otherwise \`node <registry>/scripts/registry-query.mjs "<the decision>"\`.
 
-That field is the golden path's real location; its techniques sit in \`techniques/\` beside
-it and its applications in \`applications/\`. The same index carries every technique's
-\`use_when\` triggers, which is what to grep when the right subject is not obvious from the
-slug lists.
+Each hit names a subject, technique or law with its path, a one-line gist and its
+\`use_when\` triggers, under a token budget. Then open ONLY the document a hit names, by
+that path (\`registry_read\`, or the same script with \`--read <path>\`). A golden path's
+techniques sit in \`techniques/\` beside it and its applications in \`applications/\`.
+
+\`<registry>/knowledge/<domain>/index.json\` is the address book scripts read:
+\`subjects["<slug>"].file\` is the golden path's real location. It runs to hundreds of
+thousands of tokens - resolve a field from it with a script; never Read, grep or slice it.
 
 ## When to open one, and what to do with it
 

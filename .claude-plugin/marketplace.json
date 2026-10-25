@@ -120,7 +120,7 @@
       "name": "consult",
       "source": "./skills/consult",
       "description": "Consult the ai-registry's knowledge bundles before a product, architecture or domain decision: resolve the registry (local checkout or GitHub), pick the bundle(s) this repo consumes, match the task against subjects and techniques by their use_when triggers, read the golden path + the techniques that apply, apply them, and log the consult so the signals lane can count demand. Use before designing a",
-      "version": "1.6.2",
+      "version": "1.7.0",
       "category": "ai-native",
       "tags": [
         "knowledge",

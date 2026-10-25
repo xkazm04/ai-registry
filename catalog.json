@@ -186,10 +186,10 @@
     },
     {
       "name": "consult",
-      "version": "1.6.2",
+      "version": "1.7.0",
       "category": "ai-native",
       "path": "skills/consult/SKILL.md",
-      "contentHash": "sha256-n1:98cdcb77f5b42b17",
+      "contentHash": "sha256-n1:db84de4df7cf82f3",
       "adopters": [
         "ascent@plugin:1.0.0",
         "kp@plugin:1.0.0",

@@ -137,8 +137,13 @@ The gate fails any published file that declares them. Format spec:
 
 **Read a bundle without reading 965 files.** Each bundle carries a generated
 `index.json` - every subject with its category, status, techniques (and the laws they cite),
-and applications. That is the file an agent selecting knowledge to consult should read; the
-markdown is for humans and for the agent that decided to go deeper. It excludes evidence for
+and applications. It is a script-facing address book (the largest runs to ~400K tokens), so an
+agent does not read it: it **queries first** - the `registry_query` MCP tool
+(`scripts/registry-mcp.mjs`), else `node scripts/registry-query.mjs "<the decision>"` - and
+gets back ranked hits with each document's path, a one-line gist and its `use_when`
+triggers, then opens only the one document a hit names. Design, install and the routing
+bench: [`docs/query-lane.md`](docs/query-lane.md). The markdown is for humans and for the
+agent that decided to go deeper. The index excludes evidence for
 the reason above, and says so in its own `meta.excludes`. Regenerate with
 `node scripts/build-index.mjs` **before** `build-catalog.mjs`, whose hash covers it.
 
