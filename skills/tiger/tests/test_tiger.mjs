@@ -188,3 +188,39 @@ test('seatStats credits each scope item once, to the seat whose proposal led it'
   assert.equal(grok.led_landed, 1);
   assert.equal(seatStats(p, { kept: ids }, {})[0].led_landed, null, 'no items map -> not measured, never 0');
 });
+
+test('ledger keeps one row per seat per run: a re-run replaces that run\'s rows, never appends', async () => {
+  // SKILL.md's file table: tiger/seats.jsonl is "one row per seat per run". The method runs
+  // `ledger` once verdict.json has `landed`, and re-running it after a fix doubled every seat's numbers.
+  const fs = await import('node:fs');
+  const os = await import('node:os');
+  const path = await import('node:path');
+  const { spawnSync } = await import('node:child_process');
+  const { fileURLToPath } = await import('node:url');
+  const script = path.join(path.dirname(fileURLToPath(import.meta.url)), '..', 'scripts', 'tiger.mjs');
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), 'tiger-ledger-'));
+  try {
+    const dir = path.join(root, 'tiger', 'hunts', '2026-10-25-area');
+    fs.mkdirSync(dir, { recursive: true });
+    const p = pool2();
+    const ids = p.proposals.map((x) => x.id);
+    fs.writeFileSync(path.join(dir, 'run.json'), JSON.stringify({ id: '2026-10-25-area', area: ['src/area'], rounds: {} }));
+    fs.writeFileSync(path.join(dir, 'pool.json'), JSON.stringify(p));
+    const out = path.join(root, 'tiger', 'seats.jsonl');
+    const other = JSON.stringify({ run: '2026-09-01-older', seat: 'codex-x', kept: 9 });
+    fs.writeFileSync(out, `${other}\n`);
+    const ledger = () => spawnSync(process.execPath, [script, 'ledger', '--run', dir], { encoding: 'utf8' });
+    fs.writeFileSync(path.join(dir, 'verdict.json'), JSON.stringify({ kept: ids, approved: [ids[0]] }));
+    assert.equal(ledger().status, 0);
+    fs.writeFileSync(path.join(dir, 'verdict.json'), JSON.stringify({ kept: ids, approved: [ids[0]], landed: [ids[0]] }));
+    const second = ledger();
+    assert.equal(second.status, 0, second.stderr);
+    const rows = fs.readFileSync(out, 'utf8').split('\n').filter(Boolean).map((l) => JSON.parse(l));
+    const mine = rows.filter((r) => r.run === '2026-10-25-area');
+    assert.equal(mine.length, 2, `two seats, one row each - got ${mine.length}`);
+    assert.equal(mine.find((r) => r.seat === 'codex-x').landed, 1, 'the latest verdict wins');
+    assert.equal(rows.filter((r) => r.run === '2026-09-01-older').length, 1, 'other runs\' rows are kept');
+  } finally {
+    fs.rmSync(root, { recursive: true, force: true });
+  }
+});

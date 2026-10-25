@@ -323,13 +323,23 @@ function ledger() {
   const rows = seatStats(p, verdict, records);
   const out = path.join(run.root, 'tiger', 'seats.jsonl');
   const lines = rows.map((r) => JSON.stringify({ run: run.id, area: run.area, at: today(), ...r }));
-  fs.appendFileSync(out, `${lines.join('\n')}\n`);
+  // One row per seat per run (SKILL.md): a re-run - after verdict.json gains `landed`, or a fix -
+  // REPLACES this run's rows. Appending doubled every seat's numbers. Other runs' lines, and any
+  // line that does not parse, are kept as they are.
+  const prior = fs.existsSync(out) ? fs.readFileSync(out, 'utf8').split('\n').filter((l) => l.trim()) : [];
+  const ofThisRun = (l) => { try { return JSON.parse(l).run === run.id; } catch { return false; } };
+  const kept = prior.filter((l) => !ofThisRun(l));
+  const replaced = prior.length - kept.length;
+  fs.mkdirSync(path.dirname(out), { recursive: true });
+  const tmp = `${out}.${process.pid}.tmp`;
+  fs.writeFileSync(tmp, `${[...kept, ...lines].join('\n')}\n`);
+  fs.renameSync(tmp, out);
   // `kept / approved / landed` count pool ids, so a folded cluster member reads as landed; the
   // items-led column credits each scope item once, to its lead's seat (n/a without verdict.items).
   const led = (r) => (r.led_approved == null ? 'n/a' : `${r.led_approved} / ${r.led_landed ?? 'n/a'}`);
   console.log('| seat | outcome | proposals | anchors ok % | peer mean | kept | approved | landed | items led (appr / landed) | wall s | $ |\n|---|---|---|---|---|---|---|---|---|---|---|');
   for (const r of rows) console.log(`| ${r.spec} | ${r.outcome ?? '-'} | ${r.proposals} | ${r.anchors_ok ?? '-'} | ${r.peer_mean ?? '-'} | ${r.kept} | ${r.approved} | ${r.landed} | ${led(r)} | ${r.wall_s ?? '-'} | ${r.cost_usd != null ? r.cost_usd.toFixed(2) : 'n/a'} |`);
-  console.log(`appended ${rows.length} row(s) to ${posix(out)}`);
+  console.log(`${replaced ? `replaced ${replaced} earlier row(s) of ${run.id} with` : 'appended'} ${rows.length} row(s) in ${posix(out)}`);
 }
 
 // =================================================================================== clean

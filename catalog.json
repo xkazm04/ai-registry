@@ -879,10 +879,10 @@
     },
     {
       "name": "tiger",
-      "version": "3.3.0",
+      "version": "3.3.1",
       "category": "workflow",
       "path": "skills/tiger/SKILL.md",
-      "contentHash": "sha256-n1:2b2228aebd904d0e",
+      "contentHash": "sha256-n1:dbab2e1db0cc8d80",
       "adopters": [
         "ascent@plugin:2.1.0",
         "kp@plugin:2.1.0",
