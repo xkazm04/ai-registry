@@ -59,7 +59,9 @@ const argv = process.argv.slice(2);
 const checkOnly = argv.includes('--check');
 const bumpIdx = argv.indexOf('--bump');
 const bump = bumpIdx === -1 ? null : argv[bumpIdx + 1];
-if (bump && !['minor', 'patch'].includes(bump)) { console.error(`FATAL: --bump takes minor|patch, got "${bump}"`); process.exit(EXIT.FATAL); }
+// Keyed on the FLAG, not on its value: a bare `--bump` used to read as "no bump requested"
+// and stamped every skill with its version left where it was, exit 0.
+if (bumpIdx !== -1 && !['minor', 'patch'].includes(bump)) { console.error(`FATAL: --bump takes minor|patch, got ${bump === undefined ? 'no level' : `"${bump}"`}`); process.exit(EXIT.FATAL); }
 
 /**
  * Which clause goes where. `all: true` = every skill in the lane. `skills: [...]` = the

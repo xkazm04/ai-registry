@@ -75,6 +75,15 @@ test('a template carrying $-replacement sequences stamps literally and then chec
   assert.equal(r.status, 0, r.stderr);
 });
 
+test('--bump with no level is a usage error (exit 2), not a silent stamp without a bump', (t) => {
+  const dir = registry(t);
+  const before = fs.readFileSync(skillFile(dir, 'architect'), 'utf8');
+  const r = spawnSync(process.execPath, [path.join(dir, 'scripts/apply-skill-clauses.mjs'), '--bump'], { encoding: 'utf8' });
+  assert.equal(r.status, 2, r.stdout + r.stderr);
+  assert.match(r.stderr, /--bump takes minor\|patch/);
+  assert.equal(fs.readFileSync(skillFile(dir, 'architect'), 'utf8'), before);
+});
+
 test('write mode refuses to rewrite a duplicated skill and exits 1', (t) => {
   const dir = registry(t);
   const file = skillFile(dir, 'architect');
