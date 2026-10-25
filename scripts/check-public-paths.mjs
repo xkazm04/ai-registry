@@ -37,9 +37,11 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { execFileSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
-import { EXIT } from './lib/exit-codes.mjs';
+import { EXIT, installCrashDoor } from './lib/exit-codes.mjs';
 import { requirePopulation } from './lib/check-result.mjs';
 import { leaksIn, assertScanner, PRESETS } from './lib/leaks.mjs';
+
+installCrashDoor();
 
 const HERE = path.resolve(fileURLToPath(new URL('.', import.meta.url)), '..');
 // projects.json, usage/ and signals/ joined on 2026-10-25: they are published too, and

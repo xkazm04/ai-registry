@@ -18,7 +18,7 @@ function fixture(t, skills) {
   t.after(() => fs.rmSync(root, { recursive: true, force: true }));
   fs.mkdirSync(path.join(root, 'scripts', 'lib'), { recursive: true });
   fs.copyFileSync(path.join(SCRIPTS, 'build-marketplace.mjs'), path.join(root, 'scripts', 'build-marketplace.mjs'));
-  for (const f of ['skills-lane.mjs', 'bundle-hash.mjs']) fs.copyFileSync(path.join(SCRIPTS, 'lib', f), path.join(root, 'scripts', 'lib', f));
+  for (const f of ['skills-lane.mjs', 'bundle-hash.mjs', 'exit-codes.mjs']) fs.copyFileSync(path.join(SCRIPTS, 'lib', f), path.join(root, 'scripts', 'lib', f));
   for (const [name, description] of Object.entries(skills)) {
     fs.mkdirSync(path.join(root, 'skills', name), { recursive: true });
     fs.writeFileSync(path.join(root, 'skills', name, 'SKILL.md'), `---\nname: ${name}\nversion: 1.0.0\ndescription: ${JSON.stringify(description)}\n---\n\n# ${name}\n`);

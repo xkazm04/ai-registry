@@ -33,7 +33,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { EXIT, MEANINGS, KNOWN_COLLISIONS, nameOf } from './lib/exit-codes.mjs';
+import { EXIT, MEANINGS, KNOWN_COLLISIONS, nameOf, installCrashDoor } from './lib/exit-codes.mjs';
 
 const ROOT = path.resolve(fileURLToPath(new URL('.', import.meta.url)), '..');
 const SCRIPTS = path.join(ROOT, 'scripts');
@@ -195,6 +195,7 @@ function selfAssert() {
 }
 
 function main() {
+  installCrashDoor();
   if (!selfAssert()) return EXIT.FATAL;
 
   // -------------------------------------------------------------- read the tree

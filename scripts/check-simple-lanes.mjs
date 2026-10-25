@@ -31,7 +31,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { validateNote } from './lib/simple-lanes.mjs';
-import { EXIT } from './lib/exit-codes.mjs';
+import { EXIT, installCrashDoor } from './lib/exit-codes.mjs';
 import { requirePopulation } from './lib/check-result.mjs';
 
 /** Files under memory/ that are not notes and are allowed anyway. Relative to memory/. */
@@ -96,6 +96,7 @@ export function checkLanes(root) {
 }
 
 function main() {
+  installCrashDoor();
   const argv = process.argv.slice(2);
   const usage = 'usage: node scripts/check-simple-lanes.mjs [--root <dir>] [--help]';
   if (argv.includes('--help') || argv.includes('-h')) { console.log(usage); return; }

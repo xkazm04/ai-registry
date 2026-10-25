@@ -42,8 +42,10 @@ import path from 'node:path';
 import { createRequire } from 'node:module';
 import { fileURLToPath } from 'node:url';
 import { spawnSync } from 'node:child_process';
-import { EXIT } from './lib/exit-codes.mjs';
+import { EXIT, installCrashDoor } from './lib/exit-codes.mjs';
 import { classifyCheckResult, requirePopulation } from './lib/check-result.mjs';
+
+installCrashDoor();
 
 const DEFAULT_ROOT = path.resolve(fileURLToPath(new URL('.', import.meta.url)), '..');
 const TEST_FILE = /(^|\/)[^/]+\.test\.mjs$|(^|\/)tests\/test_[^/]+\.mjs$/;

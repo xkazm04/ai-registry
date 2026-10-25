@@ -23,7 +23,9 @@
 import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
-import { EXIT } from './lib/exit-codes.mjs';
+import { EXIT, installCrashDoor } from './lib/exit-codes.mjs';
+
+installCrashDoor();
 
 const FIXTURE = {
   'index.md': '---\nokf_version: "0.1"\n---\n\n# A bundle\n\nOne line, then another.\n',

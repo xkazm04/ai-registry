@@ -24,6 +24,9 @@ import { fileURLToPath } from 'node:url';
 // index builder MUST agree on where a subject lives — if they disagreed, the gate would
 // pass a tree the index describes incorrectly, in the one file consumers actually read.
 import { loadTaxonomy, walkSubjects, MAX_CHILD_DIRS } from './lib/taxonomy.mjs';
+import { installCrashDoor } from './lib/exit-codes.mjs';
+
+installCrashDoor();
 
 // Derived from this file's own location, never hardcoded — a gate that only runs on one
 // machine is not a gate.
