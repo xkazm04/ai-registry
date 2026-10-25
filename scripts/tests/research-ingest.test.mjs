@@ -25,8 +25,8 @@ async function loopback(t, routes) {
   return `http://127.0.0.1:${srv.address().port}`;
 }
 /** The script as a child that does not block this process's event loop (the server lives here). */
-const runAsync = (args) => new Promise((resolve) => {
-  const c = spawn(process.execPath, [SCRIPT, ...args]);
+const runAsync = (args, env = {}) => new Promise((resolve) => {
+  const c = spawn(process.execPath, [SCRIPT, ...args], { env: { ...process.env, ...env } });
   let stdout = '';
   let stderr = '';
   c.stdout.on('data', (d) => { stdout += d; });
@@ -137,4 +137,60 @@ test('--min-words that is not a whole number refuses (exit 2) instead of silenci
     assert.match(r.stderr, /--min-words/);
   }
   assert.equal(run([path.join(dir, 'thin.txt'), '--out', path.join(dir, 'out'), '--min-words', '2']).status, 0);
+});
+
+test('a client-rendered script shell is an instrument failure (exit 2), a short static essay stays thin (exit 3)', async (t) => {
+  // The shell is what a SPA serves: a state blob and bundle tags around an empty mount point.
+  const shell = `<html><head><title>App</title><script>window.__STATE__=${JSON.stringify('x'.repeat(6000))};</script></head><body><div id="root">Loading...</div><script src="/bundle.js"></script></body></html>`;
+  // ~300 bytes of real prose, no script: the SOURCE is thin, the fetch was fine.
+  const essay = `<html><head><title>Short essay</title></head><body><p>${'A short static essay that says its piece plainly and then stops, with nothing hidden behind a script. '.repeat(3)}</p></body></html>`;
+  // A normal article that also inlines a big script bundle: words clear the floor, so the share does not matter.
+  const heavy = `<html><head><title>Heavy</title><script>${'var a=1;'.repeat(2500)}</script></head><body><p>${'word '.repeat(400)}</p></body></html>`;
+  const base = await loopback(t, { '/shell': shell, '/essay': essay, '/normal': page('<title>Normal</title>'), '/heavy': heavy });
+  const dir = workdir(t);
+  const ingest = (p) => runAsync([`${base}${p}`, '--out', path.join(dir, 'out')]);
+
+  const s = await ingest('/shell');
+  assert.equal(s.status, 2, s.stderr);
+  assert.match(s.stderr, /page is a script shell \(rendered client-side\)/);
+  assert.match(s.stderr, /static rendering/);
+  assert.doesNotMatch(s.stderr, /SOURCE TOO THIN/);
+
+  const e = await ingest('/essay');
+  assert.equal(e.status, 3, e.stderr);
+  assert.match(e.stderr, /SOURCE TOO THIN/);
+
+  assert.equal((await ingest('/normal')).status, 0);
+  const h = await ingest('/heavy');
+  assert.equal(h.status, 0, h.stderr);
+});
+
+test('--meta-only on a YouTube URL: a missing title is an instrument failure (exit 2), a title is the control', async (t) => {
+  // The oEmbed endpoint is answered from loopback via the script's test-only base override;
+  // --meta-only never starts yt-dlp, so nothing here leaves the machine.
+  const answers = {
+    '/ok': [200, JSON.stringify({ title: 'A Real Title', author_name: 'Some Channel' })],
+    '/err': [500, 'boom'],
+    '/notitle': [200, JSON.stringify({ author_name: 'Some Channel' })],
+  };
+  const srv = http.createServer((req, res) => {
+    const [code, body] = answers[req.url.split('?')[0]] ?? [404, 'nope'];
+    res.writeHead(code, { 'content-type': 'application/json' });
+    res.end(body);
+  });
+  await new Promise((ok) => srv.listen(0, '127.0.0.1', ok));
+  t.after(() => { srv.closeAllConnections(); srv.close(); });
+  const base = `http://127.0.0.1:${srv.address().port}`;
+  const meta = (p) => runAsync(['https://www.youtube.com/watch?v=dQw4w9WgXcQ', '--meta-only'], { RESEARCH_OEMBED_BASE: `${base}${p}` });
+
+  const ok = await meta('/ok');
+  assert.equal(ok.status, 0, ok.stderr);
+  assert.equal(ok.stdout.trim(), 'youtube: A Real Title - Some Channel');
+
+  for (const p of ['/err', '/notitle']) {
+    const r = await meta(p);
+    assert.equal(r.status, 2, `${p}: ${r.stdout}${r.stderr}`);
+    assert.match(r.stderr, /oEmbed returned no title/);
+    assert.doesNotMatch(r.stdout, /untitled/);
+  }
 });
