@@ -17,15 +17,35 @@
  * a rename that happened here, and a hard failure would teach them to stop reporting,
  * which costs more than the stale slug does.
  *
+ * The leak forms are the COUNTS_ONLY preset of scripts/lib/leaks.mjs, the one table every
+ * leak gate shares (until 2026-10-25 a hand-synced copy lived here and in check-usage).
+ * And nothing but `<contributor>.json` lives in the lane: a stray file (`notes.txt`,
+ * `wolf.JSON`, a sub-folder) used to pass unread, which is exactly where a leak would
+ * sit; it is a violation.
+ *
  * Exits non-zero on any shape or privacy finding. An unreadable lane exits 2: reporting
  * nothing is not the same as finding nothing.
+ *
+ * Usage:  node scripts/check-signals.mjs [--root <registry root>]   (--root: tests)
  */
 
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { EXIT, installCrashDoor } from './lib/exit-codes.mjs';
+import { leaksIn, assertScanner, PRESETS } from './lib/leaks.mjs';
 
-const ROOT = path.resolve(fileURLToPath(new URL('.', import.meta.url)), '..');
+installCrashDoor();
+
+const argv = process.argv.slice(2);
+const rootAt = argv.indexOf('--root');
+if (rootAt !== -1 && !argv[rootAt + 1]) {
+  console.error('check-signals FATAL: --root needs a directory.');
+  process.exit(EXIT.FATAL);
+}
+const ROOT = rootAt !== -1
+  ? path.resolve(argv[rootAt + 1])
+  : path.resolve(fileURLToPath(new URL('.', import.meta.url)), '..');
 const LANE = path.join(ROOT, 'signals');
 const KNOWLEDGE = path.join(ROOT, 'knowledge');
 
@@ -53,34 +73,17 @@ const VERSION_RE = /^\d+(?:\.\d+){0,3}$/;
 // Same denylist as the usage lane, and deliberately just as blunt. A false positive costs
 // one renamed contributor id; a false negative puts a private tree's shape in a public
 // repository forever.
-const LEAKY = [
-  { re: /[A-Za-z]:[\\/]/, what: 'a Windows path' },
-  { re: /(^|[\s"'])\/(?:home|users|Users|var|etc|opt|tmp)\//, what: 'a POSIX path' },
-  { re: /\.\.[\\/]/, what: 'a relative path escape' },
-  { re: /https?:\/\//i, what: 'a URL' },
-  { re: /[\w.+-]+@[\w-]+\.[\w.]+/, what: 'an email address' },
-];
+const LEAK_FORMS = PRESETS.COUNTS_ONLY;
 
 // ---- assert the instrument BEFORE the result --------------------------
 // This scan is a must-not-match, so a clean sweep and a dead pattern set are the
-// same output, and the entry count below cannot separate them. One fixed positive
-// per pattern, in pattern order. Kept in step with check-usage.mjs by hand — if a
-// third lane needs it, hoist the table and these controls together, never apart.
-const LEAK_CONTROLS = [
-  'C:\\Users\\x\\y',
-  ' /home/x/y',
-  '../x',
-  'https://x.example',
-  'a@b.co',
-];
-for (const [i, { re, what }] of LEAKY.entries()) {
-  if (!re.test(LEAK_CONTROLS[i])) {
-    console.error(
-      `check-signals: the ${what} pattern did not match its control ` +
-        `(${JSON.stringify(LEAK_CONTROLS[i])}). THE SCANNER IS BROKEN — refusing to report a clean lane.`,
-    );
-    process.exit(2);
-  }
+// same output, and the entry count below cannot separate them. The table and its
+// controls were hoisted together into lib/leaks.mjs, never apart.
+try {
+  assertScanner(LEAK_FORMS);
+} catch (e) {
+  console.error(`check-signals: ${e.message}. THE SCANNER IS BROKEN — refusing to report a clean lane.`);
+  process.exit(EXIT.FATAL);
 }
 
 const failures = [];
@@ -91,16 +94,20 @@ if (!fs.existsSync(LANE)) {
   // A registry nobody reports to yet is a legitimate state, not an error.
   console.log('signals lane: absent — no installation has contributed currency signals yet.');
   console.log('Bundle currency therefore reads UNKNOWN, not current (docs/signals-lane.md).');
-  process.exit(0);
+  process.exit(EXIT.OK);
 }
 
 let files;
 try {
-  files = fs.readdirSync(LANE).filter((f) => f.endsWith('.json')).sort();
+  files = [];
+  for (const e of fs.readdirSync(LANE, { withFileTypes: true }).sort((a, b) => a.name.localeCompare(b.name))) {
+    if (e.isFile() && e.name.endsWith('.json')) files.push(e.name);
+    else fail(`signals/${e.name}: unexpected ${e.isDirectory() ? 'directory' : 'file'} - signals/ holds only <contributor>.json`);
+  }
 } catch (e) {
   console.error(`check-signals FATAL: signals/ exists but cannot be read (${e.message}).`);
   console.error('Reporting nothing is not the same as finding nothing — refusing to exit 0.');
-  process.exit(2);
+  process.exit(EXIT.FATAL);
 }
 
 // The corpus this lane's slugs are checked against. Built by SLUG, not by path, so it
@@ -142,14 +149,11 @@ for (const file of files) {
   const raw = fs.readFileSync(full, 'utf8');
   // Privacy first, over the RAW text: a leak in an unexpected key must be caught even
   // though unknown keys are rejected below.
-  for (const { re, what } of LEAKY) {
-    const hit = raw.match(re);
-    if (hit) {
-      fail(
-        `${rel}: contains ${what} (${JSON.stringify(hit[0].slice(0, 60))}). ` +
-          'A signals file carries counts and slugs — this repository is public.',
-      );
-    }
+  for (const hit of leaksIn(raw, LEAK_FORMS)) {
+    fail(
+      `${rel}: contains ${hit.what} (${JSON.stringify(hit.match.slice(0, 60))}). ` +
+        'A signals file carries counts and slugs — this repository is public.',
+    );
   }
 
   let doc;
@@ -326,6 +330,6 @@ if (failures.length) {
   console.error(`\n${failures.length} failure(s):`);
   for (const f of failures) console.error(`  - ${f}`);
   console.error('');
-  process.exit(1);
+  process.exit(EXIT.VIOLATIONS);
 }
 console.log('signals lane OK — counts and slugs only, one file per contributor.');

@@ -6,7 +6,7 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
-import { execFileSync } from 'node:child_process';
+import { execFileSync, spawnSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 import { summarize, summarizeFile, cwdsIn, encode, shellKind, toolKind, PHASE } from '../lib/process-sessions.mjs';
 
@@ -205,6 +205,53 @@ test('the script reads every folder and accounts for every transcript', () => {
     const rolled = run();
     assert.equal(rolled.source.scanned, 8);
     assert.ok(rolled.sessions.some((s) => s.id === '11111111'), 'a rolled-off transcript stays remembered');
+  } finally {
+    fs.rmSync(tmp, { recursive: true, force: true });
+  }
+});
+
+test('an unreadable device cache is reported and never overwritten - it is the only copy of rolled-off history', () => {
+  const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'ps-cache-'));
+  try {
+    const store = path.join(tmp, 'projects', 'C--x');
+    fs.mkdirSync(store, { recursive: true });
+    const cwd = path.join(ROOT, 'scripts');
+    const f = path.join(store, 'aaaaaaaa-one.jsonl');
+    fs.writeFileSync(f, [user(0, 'hi', { cwd }), rec(1, cwd), rec(2, cwd), rec(3, cwd)].join('\n'));
+    const old = new Date(Date.now() - 3600e3); fs.utimesSync(f, old, old);
+    const cache = path.join(tmp, 'cache.json');
+    // A torn write (a killed run, a full disk) leaves the cache half-written.
+    const torn = '{"version":1,"files":{"C--gone/bbbbbbbb.jsonl":{"size":10,"mtime":1,"disp":"read","session":{"id":"bbbbbbbb"';
+    fs.writeFileSync(cache, torn);
+    const r = spawnSync(process.execPath, [SCRIPT, '--json', '--min-work', '1', '--claude-projects', path.join(tmp, 'projects'), '--cache', cache], { encoding: 'utf8' });
+    assert.equal(r.status, 0, r.stderr);
+    assert.equal(JSON.parse(r.stdout).source.scanned, 1, 'the read path still reports what it can see');
+    assert.match(r.stderr, /cache .* is unreadable .* not written/);
+    assert.equal(fs.readFileSync(cache, 'utf8'), torn, 'the damaged cache is left for recovery, not replaced by this run');
+    // A healthy cache is replaced whole, through a temp file that does not stay behind.
+    fs.rmSync(cache);
+    const ok = spawnSync(process.execPath, [SCRIPT, '--json', '--min-work', '1', '--claude-projects', path.join(tmp, 'projects'), '--cache', cache], { encoding: 'utf8' });
+    assert.equal(ok.status, 0, ok.stderr);
+    assert.equal(JSON.parse(fs.readFileSync(cache, 'utf8')).version, 1);
+    assert.deepEqual(fs.readdirSync(tmp).filter((n) => n.includes('.tmp')), [], 'no temp file left beside the cache');
+  } finally {
+    fs.rmSync(tmp, { recursive: true, force: true });
+  }
+});
+
+test('a --since or --min-work the script cannot read is a usage error, not a silently unfiltered or empty report', () => {
+  const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'ps-flags-'));
+  try {
+    const store = path.join(tmp, 'projects');
+    fs.mkdirSync(store, { recursive: true });
+    const cache = path.join(tmp, 'cache.json');
+    const run = (...extra) => spawnSync(process.execPath, [SCRIPT, '--json', '--claude-projects', store, '--cache', cache, ...extra], { encoding: 'utf8' });
+    for (const bad of [['--since', 'last-week'], ['--since', '7days'], ['--min-work', 'three'], ['--min-work', '-1'], ['--project']]) {
+      const r = run(...bad);
+      assert.equal(r.status, 2, `${bad.join(' ')}: ${r.stdout.slice(0, 120)}${r.stderr}`);
+    }
+    assert.equal(fs.existsSync(cache), false, 'a refused flag writes no cache');
+    for (const good of [['--since', '30d'], ['--since', '2026-09-01'], ['--min-work', '0']]) assert.equal(run(...good).status, 0, good.join(' '));
   } finally {
     fs.rmSync(tmp, { recursive: true, force: true });
   }

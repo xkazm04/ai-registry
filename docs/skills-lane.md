@@ -24,9 +24,12 @@ earns its place):
   `agent-memory/procedure-promotion`, "Selection is the scaling failure". Two
   colliding skills are one skill with a parameter, or two whose descriptions
   must name their boundary.
-- **Deterministic script tests** — standing, as a convention plus a note. A lane
-  skill that ships `scripts/` or `tools/` carries `tests/test_*.mjs` beside them,
-  run with the runtime's own runner and nothing else:
+- **Deterministic script tests** — gated. A lane skill that ships `scripts/` or
+  `tools/` carries `tests/test_*.mjs` (or `*.test.mjs`) beside them, run with the
+  runtime's own runner and nothing else. `node scripts/run-tests.mjs` - step
+  `run-tests` of `gate.mjs --all` - runs every such file in the lane; one that needs
+  an optional runtime (a package, type stripping, `node:sqlite`) is declared there
+  and reported `could-not-run` each run, never silently dropped. One skill alone:
 
   ```sh
   node --test "skills/<name>/tests/*.mjs"

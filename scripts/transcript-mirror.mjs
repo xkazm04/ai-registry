@@ -14,7 +14,8 @@
  *     the same source is verified to hold every byte of it as a prefix: chunk-list
  *     prefix, a sha256 over the partial last chunk, and the whole-file sha256 recomputed
  *     over the newer capture's decompressed bytes. The newest capture of a source is never
- *     retired, even when the source file is gone (that is the point of the mirror).
+ *     retired, even when the source file is gone (that is the point of the mirror). While
+ *     captures.jsonl holds a line that does not parse, retire deletes no chunk at all.
  *   - When the byte budget is reached, new captures pause (exit 3). Nothing is evicted
  *     automatically; making room is an operator decision.
  *   - Source identity is the path relative to --root (forward slashes), never a native
@@ -217,7 +218,7 @@ function loadState(archive) {
   const latestAny = new Map(); // newest capture per source, live or not
   for (const c of captures) latestAny.set(c.src, c);
   const nextSeq = captures.length ? captures[captures.length - 1].seq + 1 : 1;
-  return { captures, live, retired, bySrc, latestAny, nextSeq, brokenLines: caps.broken + ret.broken };
+  return { captures, live, retired, bySrc, latestAny, nextSeq, brokenLines: caps.broken + ret.broken, brokenCaptureLines: caps.broken };
 }
 
 /** Map sha -> compressed size for every chunk file present. */
@@ -440,7 +441,10 @@ export async function capture({ root = defaultRoot(), archive = defaultArchive()
       seq++;
       r.captured++;
     }
-    try { r.storedBytesAfter = [...have.values()].reduce((a, b) => a + b, 0) + fs.statSync(P(archive).captures).size; } catch { r.storedBytesAfter = stored; }
+    // The same accounting the budget check used above (chunks + captures + retired + meta),
+    // because notice() reads this figure to warn at 90% of that budget.
+    r.storedBytesAfter = [...have.values()].reduce((a, b) => a + b, 0);
+    for (const f of [P(archive).captures, P(archive).retired, P(archive).meta]) { try { r.storedBytesAfter += fs.statSync(f).size; } catch { /* none yet */ } }
     r.seconds = +((performance.now() - t0) / 1000).toFixed(2);
     return r;
   });
@@ -521,10 +525,14 @@ export async function retire({ archive = defaultArchive(), dryRun = false } = {}
     const liveAfter = state.live.filter((c) => !retiring.has(c.id));
     const referenced = new Set(liveAfter.flatMap((c) => c.chunks));
     const have = scanChunks(archive);
-    const drop = [...have.keys()].filter((h) => !referenced.has(h));
+    // "Unreferenced" is only provable against a log that read whole. A captures.jsonl line
+    // that does not parse may be the one record of a capture whose source is already gone, and
+    // its chunks would read as orphans; while any such line exists, no chunk is deleted. (A
+    // broken retired.jsonl line errs the safe way on its own: that capture just stays live.)
+    const drop = state.brokenCaptureLines ? [] : [...have.keys()].filter((h) => !referenced.has(h));
     const bytesFreed = drop.reduce((a, h) => a + have.get(h), 0);
     const tmps = tmpLeftovers(archive);
-    const r = { command: 'retire', dryRun, liveBefore: state.live.length, retire: plan.length, keptOlderNotPrefix: kept, chunksUnreferenced: drop.length, bytesFreed, liveAfter: liveAfter.length, tmpLeftovers: tmps.length };
+    const r = { command: 'retire', dryRun, liveBefore: state.live.length, retire: plan.length, keptOlderNotPrefix: kept, chunksUnreferenced: drop.length, bytesFreed, liveAfter: liveAfter.length, tmpLeftovers: tmps.length, unreadableCaptureLines: state.brokenCaptureLines };
     if (dryRun) return r;
     const at = new Date().toISOString();
     for (const p of plan) appendLine(P(archive).retired, { id: p.id, by: p.by, at });
@@ -660,6 +668,13 @@ export function notice({ archive = defaultArchive(), maxAgeHours = 36, now = Dat
 
 // ---------- CLI ----------
 
+// A closed flag set, and the numeric ones must be numbers: `--budget-gb abc` used to become a
+// NaN budget that no store ever exceeds, and `--budget 5` was ignored - either way the one
+// limit the operator asked for was silently off.
+const BOOL_FLAGS = new Set(['dry-run', 'force', 'hook']);
+const VALUE_FLAGS = new Set(['root', 'archive', 'since', 'budget-gb', 'chunk-kib', 'source', 'capture', 'out', 'max-age-h']);
+const POSITIVE_FLAGS = new Set(['budget-gb', 'chunk-kib', 'max-age-h']);
+
 function parseArgs(argv) {
   const [cmd, ...rest] = argv;
   const o = { _: cmd };
@@ -667,12 +682,12 @@ function parseArgs(argv) {
     const a = rest[i];
     if (!a.startsWith('--')) throw new MirrorError(`unexpected argument ${a}`);
     const k = a.slice(2);
-    if (k === 'dry-run' || k === 'force' || k === 'hook') o[k] = true;
-    else {
-      const v = rest[++i];
-      if (v == null) throw new MirrorError(`--${k} needs a value`);
-      o[k] = v;
-    }
+    if (BOOL_FLAGS.has(k)) { o[k] = true; continue; }
+    if (!VALUE_FLAGS.has(k)) throw new MirrorError(`unknown flag --${k} (see the header for each command's flags)`);
+    const v = rest[++i];
+    if (v == null) throw new MirrorError(`--${k} needs a value`);
+    if (POSITIVE_FLAGS.has(k) && !(Number.isFinite(Number(v)) && Number(v) > 0)) throw new MirrorError(`--${k} must be a positive number, got ${JSON.stringify(v)}`);
+    o[k] = v;
   }
   return o;
 }

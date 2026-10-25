@@ -31,11 +31,14 @@
  * known answer (a cluster merged, a tension kept whole, a home deduplicated) before it
  * touches the ledger. A broken builder exits FATAL instead of printing a plausible wave.
  *
- * EXIT 0 ok · 1 usage or validation error · 2 self-check failed or ledger unreadable
+ * EXIT 0 ok · 2 could not run: usage or validation error, self-check failed, ledger unreadable
+ * (scripts/lib/exit-codes.mjs: 1 is "ran and found something", which no path here does, and a
+ * usage error that exited 1 read to a caller as a finding). 3 is not used.
  */
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { EXIT } from './lib/exit-codes.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const LEDGER = path.join(ROOT, 'librarian/harvest/backlog.jsonl');
@@ -77,7 +80,15 @@ export function buildUnits(rows) {
     } else if (r.convergence && r.convergence.length) {
       kind = 'convergence';
       key = r.convergence[0];
-      members = queued.filter((x) => (x.convergence || []).includes(key) && !x.tension);
+      // Transitive: a row on two clusters joins them. Matching on the first key alone put
+      // such a row in both clusters' units, and one wave then dispatched it twice.
+      const keys = new Set(r.convergence);
+      let grew = true;
+      while (grew) {
+        grew = false;
+        members = queued.filter((x) => !x.tension && !seen.has(x.id) && (x.convergence || []).some((c) => keys.has(c)));
+        for (const m of members) for (const c of m.convergence) if (!keys.has(c)) { keys.add(c); grew = true; }
+      }
     }
     members.forEach((m) => seen.add(m.id));
     const notes = new Set(members.map((m) => m.note));
@@ -95,19 +106,47 @@ export function buildUnits(rows) {
   return { units, byId };
 }
 
-const homeKey = (h) => (h || '').replace(/\s+/g, '').toLowerCase();
+/**
+ * The address components a ledger `home` names. The field is hand-written, and 39 of the 901
+ * queued rows carry something other than one bare address: an annotation
+ * (`a/b (embedding-lifecycle)`), several homes (`a/b; c/d`), or prose (`strong in
+ * recruiting, civic and media bundles`). The old key only lowercased and stripped whitespace,
+ * so `a/b (note)` never met `a/b`, and two units landing in one subject came back in one
+ * wave - the overlapping drafts rule 3 exists to prevent. A component is what is left after
+ * dropping every `(...)` and splitting on `;` and `,`; one that still holds whitespace is
+ * prose, not an address, and is dropped so it can block nothing. A leading `knowledge/` and a
+ * trailing `.md` are folded away, the way run-board's address fold does. Exported so
+ * backlog-phantom-screen asks the same question of the same field.
+ */
+export function foldHome(h) {
+  let s = String(h ?? '');
+  for (let prev = null; prev !== s;) { prev = s; s = s.replace(/\([^()]*\)/g, ' '); }
+  const out = [];
+  for (const part of s.split(/[;,]/)) {
+    const c = part.trim().replace(/\\/g, '/').toLowerCase().replace(/^knowledge\//, '').replace(/\.md$/, '').replace(/\/+$/, '');
+    if (c && !/\s/.test(c) && !out.includes(c)) out.push(c);
+  }
+  return out;
+}
 
-/** Take units in priority order, skipping any whose home subject is already in the wave. */
+/** Two folded components touch when equal or one contains the other on a path boundary - the
+ *  containment run-board's `touches` applies to claims. */
+function componentsTouch(x, y) {
+  return x === y || x.startsWith(y + '/') || y.startsWith(x + '/');
+}
+
+/** Take units in priority order, skipping any whose home components meet the wave's. */
 export function pickWave(rows, { size = 8, homePrefix = '' } = {}) {
   const { units } = buildUnits(rows);
   const wave = [];
-  const homes = new Set();
+  const homes = [];
   for (const u of units) {
     if (wave.length >= size) break;
     if (homePrefix && !u.home.startsWith(homePrefix)) continue;
-    const k = homeKey(u.home);
-    if (k && homes.has(k)) continue; // an unhomed item (NONE) never blocks another
-    if (k) homes.add(k);
+    const comps = foldHome(u.home);
+    // An unhomed or prose-only item (no components) never blocks another.
+    if (comps.some((c) => homes.some((h) => componentsTouch(c, h)))) continue;
+    homes.push(...comps);
     wave.push(u);
   }
   return wave;
@@ -130,14 +169,14 @@ function selfCheck() {
   const want = 't01:c+d c01:a+b g:g';
   if (got !== want) {
     console.error(`FATAL self-check: wave builder returned "${got}", expected "${want}"`);
-    process.exit(2);
+    process.exit(EXIT.FATAL);
   }
 }
 
 function load() {
-  if (!fs.existsSync(LEDGER)) { console.error(`FATAL: ${LEDGER} missing`); process.exit(2); }
+  if (!fs.existsSync(LEDGER)) { console.error(`FATAL: ${LEDGER} missing`); process.exit(EXIT.FATAL); }
   try { return parseLedger(fs.readFileSync(LEDGER, 'utf8')); }
-  catch (e) { console.error(`FATAL: ${e.message}`); process.exit(2); }
+  catch (e) { console.error(`FATAL: ${e.message}`); process.exit(EXIT.FATAL); }
 }
 
 function arg(argv, name, dflt) {
@@ -149,8 +188,12 @@ function main(argv) {
   selfCheck();
   const cmd = argv[0];
   if (cmd === 'next') {
+    // NaN or a non-positive size used to mean "no bound": `wave.length >= NaN` is never true,
+    // so `--size abc` printed the whole queue as one wave.
+    const sizeArg = argv.includes('--size') ? arg(argv, '--size') : '8';
+    if (!/^[1-9][0-9]*$/.test(sizeArg ?? '')) { console.error(`--size must be a positive integer, got "${sizeArg ?? ''}"`); return EXIT.FATAL; }
     const rows = load();
-    const wave = pickWave(rows, { size: Number(arg(argv, '--size', 8)), homePrefix: arg(argv, '--home-prefix', '') });
+    const wave = pickWave(rows, { size: Number(sizeArg), homePrefix: arg(argv, '--home-prefix', '') });
     const byId = new Map(rows.map((r) => [r.id, r]));
     const out = wave.map((u) => ({ ...u, items: u.ids.map((id) => {
       const r = byId.get(id);
@@ -165,13 +208,13 @@ function main(argv) {
     const mode = arg(argv, '--mode', undefined);
     const verdict = arg(argv, '--verdict', undefined);
     const commit = arg(argv, '--commit', undefined);
-    if (!ids.length || !STATUS.includes(status)) { console.error(`usage: mark <id,...> <${STATUS.join('|')}> ...`); return 1; }
-    if (mode && !MODE.includes(mode)) { console.error(`mode must be one of ${MODE.join('|')}`); return 1; }
-    if (verdict && !VERDICT.includes(verdict)) { console.error(`verdict must be one of ${VERDICT.join('|')}`); return 1; }
+    if (!ids.length || !STATUS.includes(status)) { console.error(`usage: mark <id,...> <${STATUS.join('|')}> ...`); return EXIT.FATAL; }
+    if (mode && !MODE.includes(mode)) { console.error(`mode must be one of ${MODE.join('|')}`); return EXIT.FATAL; }
+    if (verdict && !VERDICT.includes(verdict)) { console.error(`verdict must be one of ${VERDICT.join('|')}`); return EXIT.FATAL; }
     const rows = load();
     const byId = new Map(rows.map((r) => [r.id, r]));
     const missing = ids.filter((id) => !byId.has(id));
-    if (missing.length) { console.error(`unknown id(s): ${missing.join(', ')}`); return 1; }
+    if (missing.length) { console.error(`unknown id(s): ${missing.join(', ')}`); return EXIT.FATAL; }
     const today = new Date().toISOString().slice(0, 10);
     for (const id of ids) {
       const r = byId.get(id);
@@ -191,7 +234,7 @@ function main(argv) {
     return 0;
   }
   console.error('usage: backlog-wave.mjs next [--size N] [--home-prefix P] | mark <ids> <status> [...] | status');
-  return 1;
+  return EXIT.FATAL;
 }
 
 if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {

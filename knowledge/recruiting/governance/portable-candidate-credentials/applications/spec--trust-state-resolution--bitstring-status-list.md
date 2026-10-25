@@ -7,6 +7,7 @@ stack: spec
 status: forged
 verified_on: 2026-09-29
 source: W3C/vc-bitstring-status-list@1.0
+counterpart: external
 ---
 
 # Revocation a stranger can check without telling the issuer which credential

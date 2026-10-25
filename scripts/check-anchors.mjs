@@ -33,7 +33,8 @@
  *
  * EXIT  0 every quoted anchor held (unquoted anchors are reported, not failed)
  *       1 at least one anchor did not hold
- *       2 the instrument could not run (missing report or root, self-check failed)
+ *       2 the instrument could not run (missing report or root, self-check failed, or
+ *         --strict over a report with zero anchors)
  *
  * Usage: node scripts/check-anchors.mjs <report.md> --root <tree> [--json] [--strict]
  *   --strict  also fail on unquoted anchors (a report contract that requires quotes)
@@ -42,9 +43,13 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { EXIT } from './lib/exit-codes.mjs';
+import { requirePopulation } from './lib/check-result.mjs';
 
+// The extension must carry a letter. An all-digit one is a ratio or a version tag in prose
+// (`4.5:1` contrast, `qwen2.5:14`), and the corpus held 40 of them, each read as an anchor
+// to a file named `4.5` and failed as missing-file on a document that cited nothing wrong.
 const ANCHOR_RE =
-  /`?((?:[A-Za-z0-9_.\-]+[\\/])*[A-Za-z0-9_.\-]+\.[A-Za-z0-9]{1,8}):(\d{1,7})(?:-(\d{1,7}))?`?(?:[ \t]+"([^"\n]{1,600})")?/g;
+  /`?((?:[A-Za-z0-9_.\-]+[\\/])*[A-Za-z0-9_.\-]+\.(?=[A-Za-z0-9]{0,7}[A-Za-z])[A-Za-z0-9]{1,8}):(\d{1,7})(?:-(\d{1,7}))?`?(?:[ \t]+"([^"\n]{1,600})")?/g;
 
 const norm = (s) => s.replace(/\s+/g, ' ').trim();
 
@@ -77,6 +82,9 @@ export function checkAnchor(anchor, root) {
     return { ...anchor, verdict: 'outside-root' };
   }
   const lines = fs.readFileSync(canonical, 'utf8').split(/\r?\n/);
+  // A final newline ends the last line; it does not open another. Without this, line N+1
+  // of an N-line file read as present and past-eof over-reported the length by one.
+  if (lines.at(-1) === '') lines.pop();
   if (anchor.start > lines.length) return { ...anchor, verdict: 'past-eof', fileLines: lines.length };
   if (anchor.quote === null) return { ...anchor, verdict: 'unquoted' };
   const q = norm(anchor.quote);
@@ -116,13 +124,32 @@ function selfCheck() {
 
 function main(argv) {
   const args = argv.slice(2);
-  const json = args.includes('--json');
-  const strict = args.includes('--strict');
-  const rootIdx = args.indexOf('--root');
-  const report = args.find((a, i) => !a.startsWith('--') && i !== rootIdx + 1);
-  const root = rootIdx >= 0 ? args[rootIdx + 1] : null;
-  if (!report || !root) {
-    console.error('usage: check-anchors.mjs <report.md> --root <tree> [--json] [--strict]');
+  const USAGE = 'usage: check-anchors.mjs <report.md> --root <tree> [--json] [--strict]';
+  // A closed argument set: `--strcit` used to run the lenient mode and pass an unquoted
+  // anchor that --strict exists to refuse, and a second report was silently ignored.
+  let json = false;
+  let strict = false;
+  let root = null;
+  const reports = [];
+  for (let i = 0; i < args.length; i += 1) {
+    const a = args[i];
+    if (a === '--json') json = true;
+    else if (a === '--strict') strict = true;
+    else if (a === '--root') {
+      root = args[i + 1] ?? null;
+      i += 1;
+      if (root === null || root.startsWith('--')) {
+        console.error(`check-anchors: --root needs a value\n${USAGE}`);
+        return EXIT.FATAL;
+      }
+    } else if (a.startsWith('--')) {
+      console.error(`check-anchors: unknown argument ${JSON.stringify(a)}\n${USAGE}`);
+      return EXIT.FATAL;
+    } else reports.push(a);
+  }
+  const report = reports[0];
+  if (reports.length !== 1 || !root) {
+    console.error(reports.length > 1 ? `check-anchors: one report per run, got ${reports.length}\n${USAGE}` : USAGE);
     return EXIT.FATAL;
   }
   if (!fs.existsSync(report) || !fs.existsSync(root)) {
@@ -134,6 +161,16 @@ function main(argv) {
     return EXIT.FATAL;
   }
   const result = checkReport(fs.readFileSync(report, 'utf8'), root);
+  // Under --strict the report contract is "every claim carries a quoted anchor", and a
+  // report with none has not met it: zero anchors is could-not-run, not all-held. Without
+  // --strict it stays a printed note, because a plain run is also used to survey drafts.
+  if (strict) {
+    const floor = requirePopulation(result.total, 'anchors in the report');
+    if (floor.code !== EXIT.OK) {
+      console.error(`check-anchors: ${floor.reason} (--strict requires quoted anchors)`);
+      return floor.code;
+    }
+  }
   const failing = result.anchors.filter((a) => !['held', 'unquoted'].includes(a.verdict) || (strict && a.verdict === 'unquoted'));
   if (json) {
     console.log(JSON.stringify({ report, root, strict, ...result, failing: failing.length }, null, 2));

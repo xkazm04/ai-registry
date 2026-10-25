@@ -24,7 +24,6 @@ jobs:
 
   version:
     name: recipe version discipline
-    if: github.event_name == 'pull_request'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
@@ -33,6 +32,22 @@ jobs:
       - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
         with:
           node-version: '20'
-      - run: node scripts/check-recipes.mjs --since "$BASE_SHA"
+      # Runs on push AND pull_request: work lands on main by push, and a PR-only
+      # job let 82 unbumped recipe landings through (31d7d204 alone holds 81).
+      - name: Check every changed recipe carries a version bump
         env:
-          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          EVENT: "${{ github.event_name }}"
+          PR_BASE: "${{ github.event.pull_request.base.sha }}"
+          PUSH_BEFORE: "${{ github.event.before }}"
+        run: |
+          case "$EVENT" in
+            pull_request) BASE_SHA="$PR_BASE" ;;
+            push) BASE_SHA="$PUSH_BEFORE" ;;
+            *) BASE_SHA="" ;;
+          esac
+          if [ -z "$BASE_SHA" ] || [ "$BASE_SHA" = "0000000000000000000000000000000000000000" ] || ! git merge-base --is-ancestor "$BASE_SHA" HEAD 2>/dev/null; then
+            echo "version discipline: base '${BASE_SHA:-none}' is empty, all zeros (new branch) or not an ancestor of HEAD (force push) on $EVENT; falling back to HEAD~1"
+            BASE_SHA="HEAD~1"
+          fi
+          echo "version discipline: comparing $BASE_SHA...HEAD (event: $EVENT)"
+          node scripts/check-recipes.mjs --since "$BASE_SHA"

@@ -19,6 +19,10 @@ features with their biggest files, entry points and static values. Write one res
       "design":      { "undesignedStates": 2, "status": "implemented", "a11y": "partial", "specDrift": false,
                        "evidence": "No empty state in src/x/List.tsx:20; error is a raw alert() at src/x/Form.tsx:55." }
       // a feature with no UI: "design": { "applicable": false }
+      "quality":     { "flowTests": 3, "untestedPaths": 2, "brokenTests": 0,
+                       "evidence": { "flowTests": "src/x/List.test.tsx:12 adds and removes an item", "untestedPaths": "...", "brokenTests": "..." } },
+      "operations":  { "applicable": false, "reason": "build script, no runtime of its own" }
+      // every lens in the batch's lenses[]: its metric fields, evidence per key (or one string), or applicable:false WITH a reason
     }
   },
   "proposals": [
@@ -37,7 +41,11 @@ features with their biggest files, entry points and static values. Write one res
 - **Read the code.** Open at least the two largest files and the entry point of every feature. A
   value you could not ground in a file you read is omitted, not guessed (absent = unmeasured).
 - **Every lens, every feature.** For each feature in the batch, judge development and security, and
-  design when it has a UI (otherwise `"design": { "applicable": false }`). A lens you looked at and
+  design when it has a UI (otherwise `"design": { "applicable": false }`), and every lens in the batch's
+  `lenses[]` (business, operations, quality, project lenses): follow that lens's `instructions` and
+  only them, fill its listed metric fields, and mark it `applicable: false` with a one-line `reason`
+  when the instructions say the feature has nothing for it. Proposals may name these lenses too, with
+  one of their listed metrics (`flowTests` and `capacityUsers` are up-is-better: a positive delta). A lens you looked at and
   found clean gets explicit zeros (`"findingsCritical": 0` ...): zero is a measurement. Omit a key only
   when you did not look. `judge` prints per-lens coverage and warns on gaps.
 - **Standards and coverage (this is where `standardsPct` comes from).** Each feature in the batch

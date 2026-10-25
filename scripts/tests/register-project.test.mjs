@@ -108,6 +108,25 @@ test('a dirty registry checkout is refused before any write; --dry-run writes no
   });
 });
 
+test('a refusal after the first write undoes it, so the rerun is not wedged by its own edit', () => {
+  fixture(({ registry, root }) => {
+    // No context map: the map builder skips the project, so step 3 refuses AFTER
+    // projects.json and the manifest were written.
+    fs.rmSync(path.join(root, 'context-map.json'));
+    const before = fs.readFileSync(path.join(registry, 'projects.json'), 'utf8');
+    const first = run(registry, root);
+    assert.equal(first.status, EXIT.FATAL);
+    assert.match(first.stderr, /the registry map was not built/);
+    assert.equal(fs.readFileSync(path.join(registry, 'projects.json'), 'utf8'), before, 'projects.json restored');
+    assert.equal(git(registry, 'status', '--porcelain').trim(), '', 'the registry checkout is clean again');
+    assert.equal(fs.existsSync(path.join(root, '.ai')), false, 'the manifest this run created is removed');
+    // The second run meets the SAME cause, not "uncommitted changes" from the first.
+    const second = run(registry, root);
+    assert.equal(second.status, EXIT.FATAL);
+    assert.match(second.stderr, /the registry map was not built/);
+  });
+});
+
 test('a checkout outside the machine root is refused', () => {
   fixture(({ registry }) => {
     const outside = fs.mkdtempSync(path.join(os.tmpdir(), 'register-project-outside-'));

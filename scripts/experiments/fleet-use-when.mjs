@@ -56,7 +56,17 @@ const argv = process.argv.slice(2);
 const has = (f) => argv.includes(f);
 const pick = (f, d) => { const i = argv.indexOf(f); return i === -1 ? d : argv[i + 1]; };
 
-const MODE = has('--apply') ? 'apply' : has('--review') ? 'review' : 'propose';
+// Exactly one mode, spelled out. The old default was `propose`, which calls the model endpoint
+// for every technique: no flag, or a typo such as `--aply`, silently spent a whole pass of
+// model calls (and wrote a checkpoint) instead of applying anything. A dispatch that costs
+// money must be asked for by name; anything else is a usage error (FATAL, 2) before any
+// dispatch or file write.
+const MODES = ['--propose', '--review', '--apply'].filter(has);
+if (MODES.length !== 1) {
+  console.error(`fleet-use-when: pass exactly one of --propose, --review, --apply (got ${MODES.length ? MODES.join(' ') : 'none'})`);
+  process.exit(2);
+}
+const MODE = MODES[0].slice(2);
 const OUT = pick('--in', pick('--out', path.join(ROOT, 'fleet-use-when.proposals.json')));
 const ONLY_DOMAIN = pick('--domain', null);
 const LIMIT = Number(pick('--limit', 0)) || 0;

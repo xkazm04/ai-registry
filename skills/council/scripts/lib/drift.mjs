@@ -38,8 +38,10 @@ export function drift(prior, current) {
   if (prior.span_digest && prior.span_digest === current.span_digest) return 'none';
   const a = fileMap(prior);
   const b = fileMap(current);
-  // Without both file lists the digests are all there is, and they already differ.
-  if (!a.size || !b.size) return prior.span_digest === current.span_digest ? 'none' : 'changed';
+  // Without both file lists the digests are all there is: two that exist already differ (equal
+  // returned above). A missing digest is nothing to compare - `undefined === undefined` read as
+  // `none` once, and carried every verdict across two empty receipts.
+  if (!a.size || !b.size) return prior.span_digest && current.span_digest ? 'changed' : 'unknown';
   for (const [p, h] of a) {
     const now = b.get(p);
     if (now === undefined || now !== h) return 'changed';

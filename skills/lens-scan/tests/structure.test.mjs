@@ -205,6 +205,15 @@ test('a 1:1 re-map keeps a judged applicable:false; metric values still come fro
   assert.deepEqual(s.facets, { misc: { 'tmp.x': { applicable: false, reason: 'untouched', source: 'lens-scan' } } }, 'old metric values are rebuilt from the store (none here); a dropped feature is dropped');
 });
 
+test('the help names exactly the built-in methods the code has (performance included)', async () => {
+  const { BUILTIN_METHODS } = await import('../scripts/structure.mjs');
+  assert.equal(lensMethod({ id: 'performance', manifest: {} }).method, 'builtin');
+  const { help } = await main(['--help']);
+  const named = /method `builtin` \(([a-z, ]+?)(?: - |\))/.exec(help.replace(/\s+/g, ' '));
+  assert.ok(named, 'the lens subcommand help lists the built-ins');
+  assert.deepEqual(named[1].replace(/ and /g, ', ').split(/,\s*/).sort(), [...BUILTIN_METHODS].sort());
+});
+
 test('lens: builtin keeps its method, a scan block makes judgement with the numeric metric fields, none is refused', async () => {
   assert.deepEqual(lensMethod({ id: 'design', source: 'builtin', manifest: JUDGED('design', { method: 'judgement', instructions: 'x' }) }),
     { id: 'design', source: 'builtin', enabled: true, method: 'builtin', ignored: 'scan block: a built-in lens keeps its built-in method',

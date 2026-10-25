@@ -195,7 +195,16 @@ export function measureFeatures({ structure, map, root = '.', lenses = ['develop
     if (db && rows.length) {
       store.measure(db, run, rows);
       store.activity(db, { run, kind: 'measured', feature: f.slug, lens: lenses[0], text: rows.map((r) => `${r.metric} ${r.value}`).join(', ') });
-    } else if (db) store.activity(db, { run, kind: 'note', feature: f.slug, lens: lenses[0], text: 'footprint: no listed file exists; unmeasured' });
+    } else if (db) {
+      // say WHY nothing was written: a feature whose files exist but hold nothing this lens counts is not a feature
+      // whose files are missing - the first is the lens not applying, the second a stale context map
+      const present = entries.filter((e) => typeof e.text === 'string').length;
+      const reads = { development: 'development counts any existing file', security: 'security reads non-test files', design: 'design reads UI component files (.tsx .jsx .vue .svelte .html)' };
+      const text = present
+        ? `footprint: ${present} listed file(s) exist, none the ${lenses.join('/')} lens counts (${lenses.map((l) => reads[l]).join('; ')}); unmeasured`
+        : 'footprint: no listed file exists; unmeasured';
+      store.activity(db, { run, kind: 'note', feature: f.slug, lens: lenses[0], text });
+    }
     out.push({ feature: f.slug, ...metrics, ...(missing ? { missing_files: missing } : {}), ...(lenses.includes('design') && pat.noUi ? { no_ui: true } : {}) });
   }
   return out;

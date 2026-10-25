@@ -3,9 +3,9 @@ name: adopt-bp
 category: workflow
 memory: project
 tags: onboarding, blueprint, app-structure, lens-scan, product-tree, benchmark, providers
-description: "Onboard any codebase into the bp product blueprint. Checks which artifacts the repo already has (context map, app-structure v3 map, events, lens-scan store, registration) and produces only what is missing: a v3 map with domains, capabilities, features and evidence-based stages; an events log from git history; static metrics in the lens-scan store; LLM judgement facets, proposals and coverage; then validates with bp's own validator and registers the repo so bp's project switcher shows it. Deterministic work runs in scripts/adopt.mjs; the model only names the product tree and judges code, in batches that can fan out or be benchmarked across providers with scripts/bench.mjs. Invoke with /adopt-bp [<repo path>] [--check] [--slug s --name n]."
+description: "Onboard any codebase into the bp product blueprint. Checks which artifacts the repo already has (context map, app-structure v3 map, events, lens-scan store, registration) and produces only what is missing: a v3 map with domains, capabilities, features and evidence-based stages; an events log from git history; static metrics in the lens-scan store; LLM judgement facets for every lens a judge can measure (development, security, design and the manifest-judged business, operations, quality), proposals and coverage; then validates with bp's own validator and registers the repo so bp's project switcher shows it. Deterministic work runs in scripts/adopt.mjs; the model only names the product tree and judges code, in batches that can fan out or be benchmarked across providers with scripts/bench.mjs. Invoke with /adopt-bp [<repo path>] [--check] [--slug s --name n]."
 argument-hint: "[<repo path>] [--check] [--slug <slug>] [--name <name>] [--bp <bp checkout>]"
-version: 1.3.0
+version: 1.4.0
 ---
 
 # adopt-bp - a repo in, a blueprint out
@@ -57,6 +57,11 @@ tree may carry another session's work.
      context lists) go in `work/context-supplement.json` (`{"contexts": [...]}`, v2 shape); every
      command appends them. Never hand-edit a curated map to make adoption fit.
    - **Stale map** (over 10% of mapped files gone): say so and rebuild the code tree first.
+   - **Partial map** (`context-map-coverage` stale: over 10% of tracked source files no context lists - a
+     map kept from before whole folders landed): `adopt.mjs supplement` drafts `work/context-supplement.json`.
+     A file joins the curated context that owns most of its nearest folder (`<owner>-supplement`); the rest
+     become UNNAMED contexts per folder. Rename, describe and group those (and split one that holds two
+     modules) before seed; check warns while any is UNNAMED. Dead paths alone never show this.
 1. **Seed.** `adopt.mjs seed [--slug s --name n]`: skeleton v3 map (code tree from the context map,
    the six built-in lenses copied from bp) and `work/inventory.json` (per context: files, lines,
    tests, entry points, first/last commit).
@@ -69,20 +74,24 @@ tree may carry another session's work.
    design: rawLiterals, or `applicable: false` with no UI component file), plus the map-only
    development fields status, lastCommit and stalled.
 5. **Phase B - judgement (you).** `adopt.mjs batches [--size 8]` (each feature carries the
-   registry techniques that govern it, from the repo's `.ai/registry-map.json`), then follow
+   registry techniques that govern it, from the repo's `.ai/registry-map.json`; each batch carries
+   `lenses[]`, the instructions and metric fields of every lens its manifest measures by judgement -
+   business, operations, quality and any project lens), then follow
    `references/judgement.md` for every `work/batches/NN.json`, writing `work/judgement/NN.json`.
    Fan out to subagents when your harness has them. Then `adopt.mjs judge --model <your model id>`:
-   one lens-scan measure run per lens, `standardsPct` derived from that run's coverage rows
+   one lens-scan measure run per lens (the judgement lenses included), `standardsPct` derived from that run's coverage rows
    (lens-scan's rule; no standard, no number), one propose run that never re-proposes an open or
    declined item. A judgement also sets each lens's choice fields that the manifest declares (design
    `status`, `a11y`, `specDrift`; security `dataClass`, `review`; development `humanReviewed`) and
    each proposal's triage (`tier` 0-3, `risk_class`); a value outside the manifest's list is refused.
+   Performance has no judgement method (its metrics are probes and bundle stats): it stays unmeasured
+   until a `/lens-scan` run with the overlay's `## Probes`; say so in the hand-back rather than guess.
 6. **Validate.** `adopt.mjs validate`: bp's validator (schema, references, facet types, events) plus
    coverage, placement and staging checks. Do not finish on a failing validate.
 7. **Register.** `adopt.mjs register [--slug s --name n]` (skip with `--no-register` in a benchmark
    workspace). Then `adopt.mjs report` writes `ADOPT.md`.
 8. **Hand back** in five lines: the check before/after, counts (domains, capabilities, features by
-   stage), the three proposals that matter most, what you could not measure and why, and the URL
+   stage), the three proposals that matter most (by tier, never by `risk`, which is the change's risk), what you could not measure and why, and the URL
    `http://localhost:3000/?product=<slug>` (bp's dev server).
 
 ## Rules

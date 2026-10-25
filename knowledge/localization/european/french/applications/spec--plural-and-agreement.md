@@ -5,6 +5,7 @@ subject: french
 technique: plural-and-agreement
 stack: spec
 source: unicode-org/cldr@48.2
+counterpart: external
 status: forged
 verified_on: 2026-08-29
 ---

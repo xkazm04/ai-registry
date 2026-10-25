@@ -212,11 +212,27 @@ function printSummary(s, log = console.log) {
 
 const isMain = process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url);
 if (isMain) {
+  // A closed flag set. This script appends to the device log and REWRITES consumer projects'
+  // local files, so a flag it does not know is refused rather than ignored: a mistyped
+  // `--dry-run` that is ignored is a real drain, and a `--root` with no value that is
+  // ignored is a drain into this checkout's registry.
   const argv = process.argv.slice(2);
-  const val = (flag) => { const i = argv.indexOf(flag); return i === -1 ? undefined : argv[i + 1]; };
-  const opts = { dryRun: argv.includes('--dry-run') };
-  if (val('--root')) opts.registryRoot = path.resolve(val('--root'));
-  if (val('--claude-projects')) opts.claudeProjects = path.resolve(val('--claude-projects'));
+  const VALUED = { '--root': 'registryRoot', '--claude-projects': 'claudeProjects' };
+  const opts = { dryRun: false };
+  for (let i = 0; i < argv.length; i++) {
+    const a = argv[i];
+    if (a === '--dry-run') { opts.dryRun = true; continue; }
+    if (!(a in VALUED)) {
+      console.error(`FATAL: unknown argument ${JSON.stringify(a)}. Usage: runs-backfill.mjs [--dry-run] [--root <registry>] [--claude-projects <dir>]`);
+      process.exit(EXIT.FATAL);
+    }
+    const v = argv[++i];
+    if (v === undefined || v.startsWith('--')) {
+      console.error(`FATAL: ${a} needs a value.`);
+      process.exit(EXIT.FATAL);
+    }
+    opts[VALUED[a]] = path.resolve(v);
+  }
   try {
     printSummary(backfill(opts));
     process.exit(EXIT.OK);

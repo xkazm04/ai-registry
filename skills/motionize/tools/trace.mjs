@@ -17,7 +17,7 @@ import { readFileSync, writeFileSync, mkdirSync } from "fs";
 import { dirname, resolve } from "path";
 import { vectorize, ColorMode, Hierarchical, PathSimplifyMode } from "@neplex/vectorizer";
 import { optimize } from "svgo";
-import { svgToGlyphData } from "./emit-glyph.mjs";
+import { glyphOptions, svgToGlyphData } from "./emit-glyph.mjs";
 
 function parseArgs(argv) {
   const a = {};
@@ -72,13 +72,7 @@ async function main() {
 
   // One-pass component data: trace → animatable {d,fill,delay}[] TS module.
   if (args.emit && args.name) {
-    const { ts, elements, dropped } = svgToGlyphData(svg, {
-      name: args.name,
-      order: args.order,
-      whiteKeep: args["white-keep"] ? Number(args["white-keep"]) : undefined,
-      surfaceFill: args["surface-fill"] || null,
-      surfaceTolerance: args["surface-tolerance"] ? Number(args["surface-tolerance"]) : undefined,
-    });
+    const { ts, elements, dropped } = svgToGlyphData(svg, glyphOptions(args));
     const emitAbs = resolve(args.emit);
     mkdirSync(dirname(emitAbs), { recursive: true });
     writeFileSync(emitAbs, ts);

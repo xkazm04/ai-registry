@@ -80,6 +80,17 @@ changes its hash, so the edit is gated like new copy. A fixed defect leaves an o
 fingerprint; the run says how many, and rewriting the baseline tightens the ratchet.
 Fingerprints, not counts: fixing one defect while adding another in the same file is visible.
 
+Two identical defects in one file (the same em-dash `<p>` pasted twice) share a fingerprint, so
+the baseline stores **how many** of each were accepted: version 2 is
+`{ "version": 2, ..., "count": <total>, "fingerprints": { "<fingerprint>": <occurrences> } }`.
+A run consumes those counts, so a copy beyond the baselined number is a new error. A version 1
+baseline (`"fingerprints"` as a plain list, committed before counts existed) still loads with its
+old meaning, membership with no count, and the run prints one stderr line asking for a rewrite;
+`--baseline write` upgrades it. v1 is deliberately not read as "one each": that would turn a
+project that had baselined a repeated string red the day it updates the checker. An older
+checker cannot read a version 2 file (it expects a list), so rewrite baselines with the
+checker version the project's gate runs.
+
 `--baseline write` requires a full scan (never `--changed`). `--baseline ignore` checks as if
 no baseline existed.
 

@@ -36,7 +36,7 @@
  * ## Two honest outputs people usually skip
  *
  * - **Weakly-governed contexts** are reported, not hidden. A context whose best match scores
- *   under half its own project's median is one the declared domains barely cover: either
+ *   under 60% of its own project's median (`WEAK_FRACTION`) is one the declared domains barely cover: either
  *   infrastructure (fine) or a COVERAGE HOLE in the corpus (a forge lead). The measure is
  *   relative to the project because raw scores track how verbose its context scan was, not
  *   how well the corpus covers it. A map that silently drops them looks complete and is not.
@@ -143,6 +143,28 @@ const ROOT = path.resolve(fileURLToPath(new URL('.', import.meta.url)), '..');
 const KNOWLEDGE = path.join(ROOT, 'knowledge');
 const CATALOG = path.join(ROOT, 'catalog.json');
 const argAfter = (flag) => { const i = process.argv.indexOf(flag); return i === -1 ? null : process.argv[i + 1] ?? null; };
+// The default run WRITES every project's map, so an argument this script does not
+// understand stops it. Until 2026-10-25 `--dryrun` (for --dry-run) rewrote every map in
+// the fleet, `--project` with no slug read as "no filter" and did the same, and `--out`
+// with no file wrote into the project tree it exists to avoid. `--help` was the same
+// class, witnessed: one run "rebuilt all 12 fleet maps from origin/main"
+// (librarian/subjects/recruiting/role-intake-conversation.md).
+{
+  const USAGE = 'usage: node scripts/build-registry-map.mjs [--check] [--dry-run] [--churn] [--json] [--project <slug>] [--path <dir>] [--out <file>] [--top <n>]';
+  const VALUED = new Set(['--project', '--path', '--out', '--top']);
+  const FLAGS = new Set(['--check', '--dry-run', '--churn', '--json']);
+  const args = process.argv.slice(2);
+  if (args.includes('--help') || args.includes('-h')) { console.log(USAGE); process.exit(0); }
+  for (let i = 0; i < args.length; i += 1) {
+    if (FLAGS.has(args[i])) continue;
+    if (VALUED.has(args[i])) {
+      if (!args[i + 1] || args[i + 1].startsWith('--')) { console.error(`FATAL: ${args[i]} needs a value.\n${USAGE}`); process.exit(2); }
+      i += 1; continue;
+    }
+    console.error(`FATAL: unknown argument ${args[i]} - refusing to run, because the default run writes every project's map.\n${USAGE}`);
+    process.exit(2);
+  }
+}
 const checkOnly = process.argv.includes('--check');
 const dryRun = process.argv.includes('--dry-run');
 const churnOnly = process.argv.includes('--churn');
@@ -211,6 +233,14 @@ if (explicitPath) {
     process.exit(2);
   }
   bridge = fleet;
+  // A named project this machine does not resolve is a run that cannot happen. Without
+  // this, `--check --project <typo>` reported 0 projects, nothing stale, and exited 0 - a
+  // gate passing over a project it never read.
+  if (onlyProject && !fleet.projects[onlyProject]) {
+    console.error(`FATAL: no project "${onlyProject}" resolves on this machine (projects.json + .machine.local.json).`);
+    console.error('  Name one checkout directly instead: --path <dir> --project <slug>.');
+    process.exit(2);
+  }
 }
 // Where a project's map lives, and where the PREVIOUS one is read from. With `--out` the
 // previous map is the out file itself when it exists (repeated runs converge on it) and the
@@ -418,7 +448,7 @@ for (const [slug, p] of Object.entries(bridge.projects ?? {})) {
     continue;
   }
   const domains = p.domains ?? [];
-  if (!domains.length) { problems.push(`${slug}: the bridge declares no domains`); continue; }
+  if (!domains.length) { problems.push(`${slug}: .ai/manifest.yaml declares no knowledge.domains - nothing to match against`); continue; }
 
   const cm = readContexts(p.path);
   if (!cm) { problems.push(`${slug}: no context-map.json - nothing to join against`); continue; }
@@ -801,7 +831,7 @@ if (asJson) {
     console.log('  Orphans sit under `orphans[]` until adopted; `--churn` prints them. `/straighten` drains the fleet.');
   }
   console.log(`\n  ${totalPairs} pair(s) mapped, ${totalEval} judged, ${totalWeak} context(s) only WEAKLY governed.`);
-  console.log('  A weakly-governed context scores under half its own project median: the declared domains');
+  console.log(`  A weakly-governed context scores under ${Math.round(WEAK_FRACTION * 100)}% of its own project median: the declared domains`);
   console.log('  barely cover it. Infrastructure, or a coverage hole - and the aggregate is a forge lead.');
   console.log('  A pair\'s `state` is only ever written by a pass that read the code. This script writes `unknown`.');
   if (problems.length) { console.error(`\n${problems.length} problem(s):`); for (const p of problems) console.error(`  - ${p}`); }

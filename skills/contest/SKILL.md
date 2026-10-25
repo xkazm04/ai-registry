@@ -3,7 +3,7 @@ name: contest
 description: "Blind design contest between CLI agent seats (Claude Code, Codex CLI, Grok CLI, Antigravity agy). Each participant you name - engine:model@effort - builds three genuinely different prototype variants of one idea in its own workspace; a cross-family panel scores every variant blind on seven dimensions (wow, clarity at scale, wayfinding, interaction, craft, concept, utility); the host adds a visual pass in a browser; an optional reveal round lets every seat see the whole field, keep one of its own variants and master it with a comparison matrix; a router page links every blinded variant across the vault's contests; the owner declares the winner or sends a shortlist into a refinement round with their review; the winner and the design philosophies behind it land in an Obsidian vault, a promotion is held to a fidelity contract and a code-quality-and-performance contract (port-quality.md), whose pattern ledger becomes the bar in the next brief; a wrap step then keeps every variant as notes and screenshots and the winner's source. Built for UI prototypes with a wow factor, usable for any solution design. Invoke with /contest \"<idea>\" [--participants <specs>] for a full round (the UI roster sonnet-5.5@max + opus-5.5@xhigh when none are named), /contest --landing \"<idea>\" for a graphically dominant landing or representative page decided by the owner without a panel, or /contest init|run|collect|judge|reveal|router|verdict|refine|wrap|status <id> to drive one step."
 category: workflow
 memory: vault
-version: 1.12.0
+version: 1.13.1
 tags: contest, prototyping, ui, landing, multi-model, blind-judging, vault
 argument-hint: "\"<idea>\" [--landing] [--participants engine:model@effort,...] | init|run|collect|judge|reveal|router|verdict|refine|wrap|status <id>"
 ---
@@ -38,6 +38,21 @@ resumes by re-running the same command.
 - **Owner** - the person. The scoreboard is evidence; the winner is their call, and their review
   outranks the panel. On the first contest the owner filed the panel's unanimous first place under
   "not practical" and shortlisted three variants the panel had ranked fourth to sixth.
+
+## When not to run a contest
+
+A contest buys **range**: several minds answering an open problem in ways the owner had not
+thought of. It is the wrong tool, and an expensive one, when the answer's shape is already
+chosen:
+- **Evolving or fine-tuning a chosen winner** (the owner said what is wrong with it, element by
+  element) -> `/prototype` on those elements, in the product. Measured 2026-10-23 (Grinex Portal,
+  releases-player-r2): one seat asked for "the winner with the owner's notes + five evolutions"
+  returned six near-identical pages, about $18, and the owner called the creativity "marginal and
+  not worth the contest and spending".
+- **One fixed direction** the owner already named -> build it.
+- Run a contest when the problem is open: a new surface, a new metaphor, a design question with no
+  agreed shape. A refinement round (7b) is for a shortlist of *different* ideas, not for variations
+  of one.
 
 ## Invocation
 
@@ -120,6 +135,19 @@ with, in this order and in plain prose:
    must never break (readability, latency, a legal constraint).
 4. **Freedoms** - what the participant may choose (framework or none, artifact type, palette).
 5. **Hard constraints** - opens from disk, no build step, offline-capable, size cap, licence.
+
+**A creative brief does not pre-shape the answers.** Every constraint the host adds removes range,
+so in a first round add only the material, the honesty rules and the hard runtime limits. Do not:
+- fix the variants' shapes ("v1 = the current page evolved, v2 = ..."). Use the landing section's
+  successor slot only when the owner's complaint is legibility (see Landing contests), and then
+  for one variant at most;
+- list example axes or directions - a menu is built back verbatim (see Design contests);
+- demand port-ready code (tokens once, state tables, one keymap). That belongs to fusion and
+  refinement rounds after a verdict (7b), where the shape is already chosen.
+
+Measured 2026-10-23 (releases-player): a brief with a fixed v1/v2 shape, the current design's
+stylesheets staged as "the visual voice", and port-ready rules produced six variants of the same
+list-plus-player page across two seats.
 
 Stage the material under a directory the host owns (`--data <dir>`): the real data in a form a
 static page can load (`data/<name>.js` setting a global, plus the same as `.json`) and a
@@ -216,6 +244,12 @@ evidence and are kept and counted separately; a bare vendor word is always redac
 unblinded index for the host. Read the collect output before judging; a seat with zero variants
 is a rerun candidate, not an entry - and a seat that reports `completed` with zero variants is an
 infrastructure failure, so read its `stderr.log` before anything else.
+
+**Check the field's divergence before the owner sees it.** Open every variant's first screen side
+by side and name each one's layout skeleton (what fills the screen, what is largest, where detail
+opens). If more than half of the field shares one skeleton, say so in the report before the
+router link, name the variants that are one idea, and offer a reveal round (6b) or a rerun with a
+cleaner brief. Do not present a field of variations as a field of ideas.
 
 Collect also writes the **router**: `<arena>/<id>/router.html` for this contest, and
 `<vault>/<subdir>/router.html` over every contest registered in that vault (`router.json` beside
@@ -397,7 +431,8 @@ node <skill>/scripts/contest.mjs refine --id <slug> --shortlist A/2,C/1 --feedba
    by the person who wrote the review.
 
 **When the round's winner will be ported into a product** (a fusion or refinement round after an
-owner verdict), the brief also asks for code that is ready to port. That means:
+owner verdict - never a first round, see Frame the brief), the brief also asks for code that is
+ready to port. That means:
 - one component per visual thing;
 - tokens declared once, with no re-typed literals;
 - state machines as tables;

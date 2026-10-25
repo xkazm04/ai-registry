@@ -71,9 +71,16 @@ for (let i = 0; i < argv.length; i += 1) {
 const root = positional[0];
 const MIN_SESSIONS = Number(flag('min-sessions', 8));
 const MIN_TURNS = Number(flag('min-turns', 3));
-const EFFECTS = String(flag('effect', '1.21,1.36,1.63,2.7'))
-  .split(',').map(Number).filter((n) => n > 1);
+const EFFECTS = String(flag('effect', '1.21,1.36,1.63,2.7')).split(',').map(Number);
 const asJson = argv.includes('--json');
+
+// A threshold the script cannot read is a usage error. As NaN it used to reach the
+// estimability check and come back as exit 3 "the band is not estimable yet" - an answer
+// about the corpus for what was a typo - and an unreadable --effect printed an empty table.
+const badFlag = (msg) => { console.error(`agent-cost-band: ${msg}`); process.exit(2); };
+if (!Number.isInteger(MIN_SESSIONS) || MIN_SESSIONS < 1) badFlag(`--min-sessions must be a positive integer, got ${JSON.stringify(flag('min-sessions'))}`);
+if (!Number.isInteger(MIN_TURNS) || MIN_TURNS < 0) badFlag(`--min-turns must be a non-negative integer, got ${JSON.stringify(flag('min-turns'))}`);
+if (!EFFECTS.length || !EFFECTS.every((n) => Number.isFinite(n) && n > 1)) badFlag(`--effect must be ratios above 1 like 1.2,2.0, got ${JSON.stringify(flag('effect'))}`);
 
 if (!root) {
   console.error('agent-cost-band: need a transcript root directory');

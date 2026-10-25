@@ -4,7 +4,8 @@
 // a v1, v2 or v3 file in place (one transaction per step, on any open, read-only ones included) and refuses a file it
 // does not know. Every subcommand prints JSON on stdout; errors go to stderr with exit 2 (bad input) or 1 (refused by
 // a store rule) - a refusal that names an existing row also prints {"refused", "existing"} on stdout. NULL columns
-// are never printed.
+// are never printed. The read subcommands (proposals, latest, gaps, packs, releases, release, release-items, compare)
+// never create the store: with no file they answer as an empty one would.
 //
 //   node store.mjs [--db <path>] <subcommand> [flags]        (--db default .ai/lens-scan/scan.db)
 //   init
@@ -124,6 +125,8 @@ export const ACTIVITY = ['reading', 'measured', 'proposed', 'executing', 'commit
 export const COVERAGE = ['conformant', 'deviation', 'not-applicable', 'unknown'];
 export const PHASE = ['before', 'after'];
 export const PACK_STATUS = ['open', 'triaged', 'closed'];
+// every status a proposal can hold (the DDL's CHECK): a filter outside it is a typo, never an empty answer
+export const PROPOSAL_STATUS = ['proposed', 'approved', 'declined', 'executing', 'done', 'failed', 'accepted', 'rework', 'descoped', 'released'];
 export const RELEASE_STATUS = ['draft', 'building', 'pr-open', 'merged', 'tagged', 'failed'];
 // a person's triage of a built item: decision -> [target status, the statuses it may come from]. reopen's target
 // is each item's own triaged_from (null here).
@@ -182,7 +185,8 @@ export function openStore(dbPath = DEFAULT_DB, { readOnly = false } = {}) {
   if (readOnly) {
     if (!existsSync(dbPath)) return null;
     let db = new DatabaseSync(dbPath, { readOnly: true });
-    const v = db.prepare('PRAGMA user_version').get().user_version;
+    db.exec('PRAGMA busy_timeout = 5000'); // the write path waits too; a read that replaced a write open keeps the wait
+    const v =db.prepare('PRAGMA user_version').get().user_version;
     if (v > 0 && v < SCHEMA_VERSION) { db.close(); openStore(dbPath).close(); db = new DatabaseSync(dbPath, { readOnly: true }); }
     assertVersion(db, dbPath);
     return db;
@@ -507,11 +511,11 @@ export function proposals(db, { status, feature, kind, ids, pack, release, origi
   if (tier !== undefined && untriaged !== undefined) bad('--tier and --untriaged are two answers to one question; pass one');
   if (tier !== undefined) { where.push('tier = ?'); args.push(tierOf(need('tier', tier))); }
   if (untriaged !== undefined && untriaged !== false) where.push('tier IS NULL');
-  if (status !== undefined) { where.push('status = ?'); args.push(status); }
+  if (status !== undefined) { where.push('status = ?'); args.push(oneOf('status', status, PROPOSAL_STATUS)); }
   if (pack !== undefined) { where.push('pack_id = ?'); args.push(pack); }
   if (release !== undefined) { where.push('release_id = ?'); args.push(release); }
   if (feature !== undefined) { where.push('feature = ?'); args.push(feature); }
-  if (kind !== undefined) { where.push('kind = ?'); args.push(kind); }
+  if (kind !== undefined) { where.push('kind = ?'); args.push(oneOf('kind', kind, KINDS)); }
   let order;
   if (ids !== undefined) {
     order = [...new Set(listOf(ids === true ? '' : ids))];
@@ -691,7 +695,7 @@ export function packUpdate(db, { pack, status, from } = {}) {
 export function packs(db, { lens, status } = {}) {
   const where = [], args = [];
   if (lens !== undefined) { where.push('lens = ?'); args.push(lens); }
-  if (status !== undefined) { where.push('status = ?'); args.push(status); }
+  if (status !== undefined) { where.push('status = ?'); args.push(oneOf('status', status, PACK_STATUS)); }
   const rows = db.prepare(`SELECT * FROM packs${where.length ? ` WHERE ${where.join(' AND ')}` : ''} ORDER BY created_at, lens, n`).all(...args).map(clean);
   const count = db.prepare('SELECT status, COUNT(*) AS n FROM proposals WHERE pack_id = ? GROUP BY status');
   for (const k of rows) k.items = Object.fromEntries(count.all(k.id).map((r) => [r.status, r.n]));
@@ -995,11 +999,30 @@ export function parseArgs(argv) {
 
 const HELP = readFileSync(fileURLToPath(import.meta.url), 'utf8').split('\nimport ')[0].replace(/^#!.*\n/, '').replace(/^\/\/ ?/gm, '');
 
+/** The subcommands main() answers: checked before the store is opened, which creates the file and its directory. */
+export const SUBCOMMANDS = ['init', 'run-start', 'run-end', 'activity', 'measure', 'propose', 'proposals', 'proposal-update', 'rank', 'update-external',
+  'shot', 'coverage', 'latest', 'gaps', 'decide', 'triage', 'rework-attempt', 'pack-create', 'pack-update', 'packs', 'release-create', 'release-add',
+  'release-update', 'releases', 'release', 'release-items', 'compare'];
+
+/** The subcommands that only read: main opens the store read-only for them and never creates it. */
+export const READS = ['proposals', 'latest', 'gaps', 'packs', 'releases', 'release', 'release-items', 'compare'];
+
 export function main(argv) {
   const a = parseArgs(argv);
   const cmd = a._[0];
   if (!cmd || a.help) return { help: HELP };
-  const db = openStore(typeof a.db === 'string' ? a.db : DEFAULT_DB);
+  // a typo, or a --db whose path was lost, never opens (and so creates) a store: the default one sits in the cwd
+  if (!SUBCOMMANDS.includes(cmd)) bad(`unknown subcommand ${JSON.stringify(cmd)} - run with --help`);
+  if (a.db === true) bad('--db needs a path (the default is .ai/lens-scan/scan.db: omit --db to use it)');
+  // parseArgs reads a flag with no value as `true`; only --untriaged is a switch. Any other reached SQLite as a
+  // boolean ("Provided value cannot be bound to SQLite parameter 4") or was dropped as if it were absent.
+  const valueless = Object.keys(a).filter((k) => a[k] === true && k !== 'untriaged');
+  if (valueless.length) bad(valueless.map((k) => `--${k.replace(/[A-Z]/g, (c) => `-${c.toLowerCase()}`)} needs a value`).join('; '));
+  const dbPath = typeof a.db === 'string' ? a.db : DEFAULT_DB;
+  // a read never creates the store (SKILL.md: status mode changes nothing). With no file it answers as an empty store
+  // would - [] for the lists, "does not exist" for a named pack or release, every cell unmeasured for gaps - from a
+  // scratch in-memory one, so a caller parsing the JSON sees the same shapes and exit codes either way.
+  const db = READS.includes(cmd) ? (openStore(dbPath, { readOnly: true }) ?? openStore(':memory:')) : openStore(dbPath);
   try {
     switch (cmd) {
       case 'init': return { db: resolve(typeof a.db === 'string' ? a.db : DEFAULT_DB), user_version: SCHEMA_VERSION };

@@ -112,9 +112,13 @@ export const readSkill = (laneDir, name) => {
   const lessonsPath = path.join(dir, LESSONS_FILE);
   if (fs.existsSync(lessonsPath)) {
     out.lessonsPath = `skills/${name}/${LESSONS_FILE}`;
-    out.lessonsRaw = fs.readFileSync(lessonsPath, 'utf8');
-    out.lessons = lessonHeadings(out.lessonsRaw).length;
-    out.lessonsHash = contentDigest(out.lessonsRaw);
+    // Guarded like the SKILL.md read above: a LESSONS.md that is a directory or unreadable
+    // is this skill's defect (check-skills names it, exit 1), not a reason to lose the lane.
+    try {
+      out.lessonsRaw = fs.readFileSync(lessonsPath, 'utf8');
+      out.lessons = lessonHeadings(out.lessonsRaw).length;
+      out.lessonsHash = contentDigest(out.lessonsRaw);
+    } catch (e) { out.lessonsRaw = null; out.problems.push(`LESSONS.md unreadable (${e.message})`); }
   }
   out.files = walk(dir);
   return out;
@@ -144,8 +148,15 @@ export const subResourceFindings = (skill) => {
       if (FORBIDDEN_FILES.has(base) || FORBIDDEN_FILE_RE.test(base)) fails.push(`${skill.rel}/${f.rel} must not be published (installation-local file)`);
       if (f.rel === 'package.json') hasPackageJson = true;
       if (/^(package-lock\.json|npm-shrinkwrap\.json|bun\.lockb?|pnpm-lock\.yaml|yarn\.lock)$/.test(f.rel)) hasLock = true;
-      if (f.rel.endsWith('.md') && f.rel !== SKILL_FILE && f.rel !== LESSONS_FILE && f.rel === `${path.posix.basename(f.rel)}` && /^skill\.md$/i.test(f.rel)) {
+      // The two reserved names, by exact case, at the top level only. The old test checked
+      // `.endsWith('.md')` first, so `SKILL.MD` passed, and it never looked at the lessons
+      // file: a `lessons.md` is not read at all on a case-sensitive disk (0 lessons, no
+      // heading check) and is read under the wrong name on a case-insensitive one.
+      if (f.rel === top && /^skill\.md$/i.test(f.rel) && f.rel !== SKILL_FILE) {
         fails.push(`${skill.rel}/${f.rel}: the method file must be named exactly SKILL.md (case matters on the consumer's filesystem)`);
+      }
+      if (f.rel === top && /^lessons\.md$/i.test(f.rel) && f.rel !== LESSONS_FILE) {
+        fails.push(`${skill.rel}/${f.rel}: the lessons file must be named exactly LESSONS.md - in any other case it is unread on a case-sensitive disk and misnamed on the rest`);
       }
     }
   }

@@ -36,17 +36,33 @@
  * rendered surface needs its input digest, not a word count
  * (docs-sync/rendered-surface-coupling).
  *
+ * A sweep that measured nothing is not a clean sweep. The fleet is resolved from THIS
+ * registry's root (never the caller's cwd, which made the population depend on where the
+ * command was typed), and a fleet that resolves to no project - no machine bridge on this
+ * checkout, say - is could-not-run (exit 2, lib/check-result.mjs requirePopulation), not
+ * "0 landing document(s) swept, 0 with findings". The 2026-10-25 gates probe found exactly
+ * that green, and found `--json` exiting 0 over findings; both are fixed.
+ *
  * Usage:
  *   node scripts/check-readmes.mjs            # report, exit 1 on findings
- *   node scripts/check-readmes.mjs --json     # machine-readable
+ *   node scripts/check-readmes.mjs --json     # machine-readable, same exit codes
  *   node scripts/check-readmes.mjs --quiet    # findings only
+ *   node scripts/check-readmes.mjs --path <dir>  # one checkout instead of the fleet
+ *
+ * Exits 0 clean, 1 on findings, 2 when it could not run (broken instrument, a project
+ * the bridge names but this machine lacks, an empty population, a bad --path).
  *
  * Zero dependencies on purpose.
  */
 
 import fs from 'node:fs';
 import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 import { loadFleet } from './lib/projects.mjs';
+import { EXIT } from './lib/exit-codes.mjs';
+import { requirePopulation } from './lib/check-result.mjs';
+
+const ROOT = path.resolve(fileURLToPath(new URL('.', import.meta.url)), '..');
 
 // ------------------------------------------------------------- thresholds
 // EVERY NUMBER HERE IS READ FROM THE SUBJECT, NEVER INVENTED HERE. A threshold
@@ -119,13 +135,16 @@ const findBadges = (md, repoFiles) => {
 const countCallouts = (md) => (md.match(/^>\s*\[!(NOTE|TIP|IMPORTANT|WARNING|CAUTION)\]/gm) || []).length;
 
 const findRoutingTable = (md) => {
-  // A routing table is a table whose cells carry relative links to docs.
+  // A routing table is a table whose cells carry relative links to docs. Each DESTINATION
+  // counts once: the ratio below compares the front page with the pages it routes to, and a
+  // page linked from two rows used to be summed twice (and a `page.md#section` link not at
+  // all), so a front page could out-weigh its destinations without a finding.
   const rows = md.split('\n').filter((l) => /^\|/.test(l));
-  const targets = [];
+  const targets = new Set();
   for (const row of rows) {
-    for (const m of row.matchAll(/\]\((?!https?:)([^)]+\.md)\)/g)) targets.push(m[1]);
+    for (const m of row.matchAll(/\]\((?!https?:)([^)#\s]+\.md)(?:#[^)\s]*)?\)/g)) targets.add(m[1].replace(/^\.\//, ''));
   }
-  return targets;
+  return [...targets];
 };
 
 // visual-text-cadence, "The closed set of breaks": a break is a figure, a table,
@@ -226,12 +245,24 @@ function assertInstrument() {
     for (const p of problems) console.error(`  - ${p}`);
     console.error('\nFix the measurement functions or the fixture. A green report from a');
     console.error('broken counter is worse than no report.');
-    process.exit(2);
+    process.exit(EXIT.FATAL);
   }
 }
 
 // -------------------------------------------------------------- the sweep
 const args = process.argv.slice(2);
+// A closed flag set, checked before the instrument or the fleet is read: `--jsn` or
+// `--path=dir` used to be ignored, so the run swept the whole fleet and exited as if heard.
+{
+  const usage = 'usage: node scripts/check-readmes.mjs [--json] [--quiet] [--path <dir>] [--help]';
+  if (args.includes('--help') || args.includes('-h')) { console.log(usage); process.exit(EXIT.OK); }
+  for (let i = 0; i < args.length; i += 1) {
+    if (args[i] === '--json' || args[i] === '--quiet') continue;
+    if (args[i] === '--path') { i += 1; continue; } // its value is validated below, with its own message
+    console.error(`check-readmes FATAL: unknown argument ${JSON.stringify(args[i])}; nothing was checked.\n${usage}`);
+    process.exit(EXIT.FATAL);
+  }
+}
 const asJson = args.includes('--json');
 const quiet = args.includes('--quiet');
 
@@ -241,9 +272,22 @@ assertInstrument();
 // a reference repository can be compared against the fleet ON THE SAME COUNTER;
 // two numbers from two counters are not a comparison (count-carries-predicate).
 const pathIdx = args.indexOf('--path');
-const targets = pathIdx !== -1
-  ? { [path.basename(args[pathIdx + 1])]: { path: path.resolve(args[pathIdx + 1]), relPath: args[pathIdx + 1], exists: true } }
-  : loadFleet().projects;
+const pathArg = pathIdx === -1 ? null : args[pathIdx + 1];
+if (pathIdx !== -1 && (!pathArg || pathArg.startsWith('--'))) {
+  console.error('check-readmes FATAL: --path needs a directory.');
+  process.exit(EXIT.FATAL);
+}
+const fleet = pathArg ? null : loadFleet(ROOT);
+const targets = pathArg
+  ? { [path.basename(path.resolve(pathArg))]: { path: path.resolve(pathArg), relPath: pathArg, exists: fs.existsSync(pathArg) && fs.statSync(pathArg).isDirectory() } }
+  : fleet.projects;
+
+const population = requirePopulation(Object.keys(targets).length, 'projects in the fleet');
+if (population.code !== EXIT.OK) {
+  console.error(`check-readmes FATAL: ${population.reason}.`);
+  for (const p of fleet?.problems ?? []) console.error(`  - ${p}`);
+  process.exit(population.code);
+}
 
 const results = [];
 const fatal = [];
@@ -311,11 +355,12 @@ for (const [slug, project] of Object.entries(targets)) {
 if (fatal.length) {
   console.error('check-readmes: the fleet could not be swept honestly.\n');
   for (const f of fatal) console.error(`  - ${f}`);
-  process.exit(2);
+  process.exit(EXIT.FATAL);
 }
 
 if (asJson) {
   console.log(JSON.stringify({ thresholds: T, results }, null, 2));
+  if (results.some((r) => r.findings.length)) process.exit(EXIT.VIOLATIONS);
 } else {
   const withFindings = results.filter((r) => r.findings.length);
   if (!quiet) {
@@ -341,5 +386,5 @@ if (asJson) {
   console.log(`${results.length} landing document(s) swept, ${withFindings.length} with findings`);
   console.log('NOT checked here: whether the prose is true (docs-sync), whether a figure is stale');
   console.log('  (docs-sync/rendered-surface-coupling - a rendered surface needs its input digest)');
-  if (withFindings.length) process.exit(1);
+  if (withFindings.length) process.exit(EXIT.VIOLATIONS);
 }

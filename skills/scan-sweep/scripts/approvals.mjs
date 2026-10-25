@@ -18,8 +18,9 @@
 // app's 1-5 (ceil(v/2), the app's own exchange rate). A missing scale is
 // defaulted (effort from size, impact 3, risk 3) and the card says so.
 //
-// Exit codes: 0 every card landed (created / deduped / rated / near_duplicate),
-// 1 at least one card failed, 2 bad arguments, 3 Personas is not running,
+// Exit codes: 0 every line of the file landed as a card (created / deduped / rated /
+// near_duplicate), 1 at least one card failed or a line was not a card (bad JSON, no
+// title - reported by line number), 2 bad arguments, 3 Personas is not running,
 // 4 the repo is not a registered Personas project (pass --register).
 // The caller deletes a source file only on exit 0: a card that did not land is
 // still owed, and the file is its only record.
@@ -43,13 +44,24 @@ if (!file || !existsSync(file)) {
   process.exit(2);
 }
 
-const cards = readFileSync(file, 'utf8').split('\n').map((l) => l.trim()).filter(Boolean).map((l, i) => {
-  try { return JSON.parse(l); } catch { console.error(`line ${i + 1}: not JSON, skipped`); return null; }
-}).filter((c) => c && typeof c.title === 'string' && c.title.trim());
+// A line that is not a card is still a card owed: it is reported by its line number, written to
+// --out as `unreadable`, and keeps the exit at 1 - the caller deletes the file on 0, and the file
+// is that card's only record.
+const unreadable = [];
+const cards = [];
+readFileSync(file, 'utf8').split('\n').forEach((raw, i) => {
+  const l = raw.trim();
+  if (!l) return;
+  let c;
+  try { c = JSON.parse(l); } catch { unreadable.push({ line: i + 1, error: 'not JSON' }); return; }
+  if (!c || typeof c !== 'object' || typeof c.title !== 'string' || !c.title.trim()) { unreadable.push({ line: i + 1, error: 'no title' }); return; }
+  cards.push(c);
+});
+for (const u of unreadable) console.error(`line ${u.line}: ${u.error} - not filed, still owed`);
 
 const handshakePath = join(homedir(), '.personas', 'local-http.json');
 if (!existsSync(handshakePath)) {
-  console.error(`Personas is not running (${handshakePath} missing). Start the app and re-run; ${cards.length} cards are still owed.`);
+  console.error(`Personas is not running (${handshakePath} missing). Start the app and re-run; ${cards.length + unreadable.length} cards are still owed.`);
   process.exit(3);
 }
 const { port, token } = JSON.parse(readFileSync(handshakePath, 'utf8'));
@@ -70,7 +82,7 @@ const norm = (p) => p.replace(/\\/g, '/').replace(/\/+$/, '').toLowerCase();
 
 let projects;
 try { projects = await call('GET', '/projects'); } catch (e) {
-  console.error(`Personas did not answer (${e.message}). Is the app running? ${cards.length} cards are still owed.`);
+  console.error(`Personas did not answer (${e.message}). Is the app running? ${cards.length + unreadable.length} cards are still owed.`);
   process.exit(3);
 }
 let project = projects.find((p) => norm(p.root_path) === norm(repo));
@@ -150,6 +162,8 @@ for (const c of cards) {
     results.push({ title: body.title, outcome: 'error', error: e.message });
   }
 }
+
+for (const u of unreadable) results.push({ line: u.line, outcome: 'unreadable', error: u.error });
 
 const tally = {};
 for (const r of results) tally[r.outcome] = (tally[r.outcome] || 0) + 1;

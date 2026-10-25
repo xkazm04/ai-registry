@@ -50,3 +50,32 @@
 *.mp4  binary
 *.mp3  binary
 *.wav  binary
+
+# Generated views merge by regeneration, not by text.
+#
+# THE TAX. In the 30 days before 2026-10-25, catalog.json rode on 806 commits,
+# knowledge/software-engineering/index.json on 203 and the software-engineering rule
+# card on 127, across 231 merge commits and 135 "regenerate" commits. Each side of a
+# merge holds a view of ITS sources; no interleaving of the two is a view of the merged
+# sources, so a hand-resolved conflict here is work that is thrown away by the next
+# generator run - and an index built before the merge commit stamps today's date.
+#
+# THE RULE. These paths name the `registry-generated` driver (scripts/merge-generated.mjs):
+# keep our side, record the path, finish the merge; the post-merge / post-rewrite /
+# post-commit hooks then run scripts/regen-generated.mjs, which rebuilds from the merged
+# sources and commits ONLY these paths. The list below is the GENERATED_PATHS export of
+# regen-generated.mjs and a test fails when they differ. librarian/standard.md is
+# stamped by a generator but is mostly prose, so it is deliberately NOT here.
+#
+# ON A MACHINE WITHOUT THE DRIVER. The attribute is inert until a checkout runs
+# `node scripts/install-merge-driver.mjs --install` (git config is never cloned). An
+# unconfigured driver name falls back to git's built-in text merge - measured on git
+# 2.52: the same merge conflicts exactly as it did before this block existed. Nothing
+# breaks; nothing is gained. See docs/merge-driver.md.
+knowledge/*/index.json            merge=registry-generated
+rules/ai-registry-*.md            merge=registry-generated
+recipes/**/RECIPE.md              merge=registry-generated
+recipes/index.json                merge=registry-generated
+publications/index.json           merge=registry-generated
+catalog.json                      merge=registry-generated
+.claude-plugin/marketplace.json   merge=registry-generated

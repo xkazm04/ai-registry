@@ -13,9 +13,10 @@
 import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
-import { spawn, execFileSync } from 'node:child_process';
+import { execFileSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 import { parseParticipants, engineCommand, parseEnvelope, classifyOutcome } from '../../contest/scripts/lib/participants.mjs';
+import { resolveBin, runSeat } from '../../contest/scripts/lib/seat.mjs';
 import { huntAreas, huntGroups, parseTouches, parseSeatOutput, buildPool, poolMarkdown, checkAnchors, seatStats } from './lib/hunt.mjs';
 
 const HERE = path.dirname(fileURLToPath(import.meta.url));
@@ -26,6 +27,15 @@ const cmd = argv[0];
 const opt = (k, d) => { const i = argv.indexOf(`--${k}`); return i >= 0 && argv[i + 1] && !argv[i + 1].startsWith('--') ? argv[i + 1] : d; };
 const flag = (k) => argv.includes(`--${k}`);
 const die = (m) => { console.error(`tiger: ${m}`); process.exit(2); };
+// A number option, or `d` when it is absent. `Number('abc')` is NaN, and a NaN seat ceiling fires its
+// timer at once - every seat killed on start - so anything but a positive number is a usage error.
+const positive = (k, d) => {
+  const raw = opt(k);
+  if (raw === undefined) { if (flag(k)) die(`--${k} needs a positive number, got no value`); return Number(d); }
+  const n = Number(raw);
+  if (!Number.isFinite(n) || n <= 0) die(`--${k} needs a positive number, got ${JSON.stringify(raw)}`);
+  return n;
+};
 const readJson = (f) => JSON.parse(fs.readFileSync(f, 'utf8'));
 const writeJson = (f, v) => { fs.mkdirSync(path.dirname(f), { recursive: true }); fs.writeFileSync(f, `${JSON.stringify(v, null, 2)}\n`); };
 const posix = (p) => p.split(path.sep).join('/');
@@ -42,53 +52,10 @@ const saveRun = (dir, run) => { const { root, ...rest } = run; writeJson(path.jo
 // answer the probe is skipped and the round runs with whoever is left.
 export const DEFAULT_SEATS = 'agy:gemini-4-argon@high,codex:gpt-6.1-sol@xhigh,grok:grok-4.7@high,claude:claude-opus-5-5@xhigh';
 
-function resolveBin(engine) {
-  const env = process.env[`CONTEST_${engine.toUpperCase()}_BIN`];
-  if (env) return env.includes('|') ? env.split('|') : env;
-  const exts = WIN ? ['.exe', '.cmd', ''] : [''];
-  const home = os.homedir();
-  const fallbacks = { claude: [path.join(home, '.local', 'bin', 'claude.exe')], grok: [path.join(home, '.grok', 'bin', 'grok.exe')], codex: [], agy: [] };
-  const cands = [];
-  for (const d of (process.env.PATH ?? '').split(path.delimiter).filter(Boolean)) for (const e of exts) cands.push(path.join(d, engine + e));
-  cands.push(...fallbacks[engine]);
-  for (const c of cands) {
-    if (!fs.existsSync(c) || fs.statSync(c).isDirectory()) continue;
-    if (/\.cmd$/i.test(c) || !path.extname(c)) {
-      const native = engine === 'claude' && path.join(path.dirname(c), 'node_modules/@anthropic-ai/claude-code/bin/claude.exe');
-      if (native && fs.existsSync(native)) return native;
-      const entry = { codex: 'node_modules/@openai/codex/bin/codex.js', claude: 'node_modules/@anthropic-ai/claude-code/cli.js' }[engine];
-      const script = entry && path.join(path.dirname(c), entry);
-      if (script && fs.existsSync(script)) return [process.execPath, script];
-      if (WIN) continue;
-    }
-    return c;
-  }
-  return null;
-}
-
-function runSeat({ argv: a, stdin, env }, { cwd, timeoutMs, logDir }) {
-  fs.mkdirSync(logDir, { recursive: true });
-  const t0 = Date.now();
-  return new Promise((resolve) => {
-    const p = spawn(a[0], a.slice(1), { cwd, env: { ...process.env, ...env }, windowsHide: true });
-    const out = fs.createWriteStream(path.join(logDir, 'stdout.log'));
-    const err = fs.createWriteStream(path.join(logDir, 'stderr.log'));
-    const chunks = [];
-    p.stdout.on('data', (d) => { chunks.push(d); out.write(d); });
-    p.stderr.on('data', (d) => err.write(d));
-    let timedOut = false;
-    const timer = setTimeout(() => { timedOut = true; if (WIN) spawn('taskkill', ['/F', '/T', '/PID', String(p.pid)], { windowsHide: true }); else p.kill('SIGKILL'); }, timeoutMs);
-    p.on('error', (e) => err.write(`spawn error: ${e.message}\n`));
-    p.on('close', (code) => { clearTimeout(timer); out.end(); err.end(); resolve({ exit: code, timedOut, stdout: Buffer.concat(chunks).toString('utf8'), wall_s: Math.round((Date.now() - t0) / 1000) }); });
-    p.stdin.on('error', () => {});
-    p.stdin.end(stdin ?? '');
-  });
-}
-
 // =================================================================================== probe
 async function probe() {
   const seats = parseParticipants(opt('seats', DEFAULT_SEATS));
-  const timeoutMs = Number(opt('timeout-s', '150')) * 1000;
+  const timeoutMs = positive('timeout-s', 150) * 1000;
   const logRoot = path.join(os.tmpdir(), `tiger-probe-${process.pid}`);
   const rows = await Promise.all(seats.map(async (p) => {
     const bin = resolveBin(p.engine);
@@ -121,7 +88,7 @@ const VALUE_SOURCES = [
 
 function hunt() {
   const root = path.resolve(opt('root', '.'));
-  const days = Number(opt('days', '180'));
+  const days = positive('days', 180);
   const files = git(root, ['ls-files', '-z']).split('\0').filter(Boolean).map((p) => {
     let bytes = 0;
     try { bytes = fs.statSync(path.join(root, p)).size; } catch { /* deleted in the working tree */ }
@@ -129,7 +96,7 @@ function hunt() {
   });
   const log = git(root, ['log', `--since=${days}.days`, '--no-merges', '--name-only', '--format=@@%ct']);
   const touches = parseTouches(log);
-  const top = Number(opt('top', '12'));
+  const top = positive('top', 12);
   const areas = huntAreas(files, touches, { top });
   let groups = null;
   const cmap = path.join(root, 'context-map.json');
@@ -215,7 +182,7 @@ async function convene() {
   const brief = fs.readFileSync(path.join(dir, 'brief.md'), 'utf8');
   if (/\{\{|TODO\(tiger\)/.test(brief)) die('brief.md still carries template markers - the caller writes the dossier before any seat reads it');
   const seats = parseParticipants(opt('seats', run.seats ?? DEFAULT_SEATS));
-  const timeoutMs = Number(opt('ceiling-min', '40')) * 60_000;
+  const timeoutMs = positive('ceiling-min', 40) * 60_000;
   const ws = worktree(run);
   const only = opt('only');
   // The rendered prompt holds absolute paths (the brief, the seats' worktree), so it lives in
@@ -323,13 +290,23 @@ function ledger() {
   const rows = seatStats(p, verdict, records);
   const out = path.join(run.root, 'tiger', 'seats.jsonl');
   const lines = rows.map((r) => JSON.stringify({ run: run.id, area: run.area, at: today(), ...r }));
-  fs.appendFileSync(out, `${lines.join('\n')}\n`);
+  // One row per seat per run (SKILL.md): a re-run - after verdict.json gains `landed`, or a fix -
+  // REPLACES this run's rows. Appending doubled every seat's numbers. Other runs' lines, and any
+  // line that does not parse, are kept as they are.
+  const prior = fs.existsSync(out) ? fs.readFileSync(out, 'utf8').split('\n').filter((l) => l.trim()) : [];
+  const ofThisRun = (l) => { try { return JSON.parse(l).run === run.id; } catch { return false; } };
+  const kept = prior.filter((l) => !ofThisRun(l));
+  const replaced = prior.length - kept.length;
+  fs.mkdirSync(path.dirname(out), { recursive: true });
+  const tmp = `${out}.${process.pid}.tmp`;
+  fs.writeFileSync(tmp, `${[...kept, ...lines].join('\n')}\n`);
+  fs.renameSync(tmp, out);
   // `kept / approved / landed` count pool ids, so a folded cluster member reads as landed; the
   // items-led column credits each scope item once, to its lead's seat (n/a without verdict.items).
   const led = (r) => (r.led_approved == null ? 'n/a' : `${r.led_approved} / ${r.led_landed ?? 'n/a'}`);
   console.log('| seat | outcome | proposals | anchors ok % | peer mean | kept | approved | landed | items led (appr / landed) | wall s | $ |\n|---|---|---|---|---|---|---|---|---|---|---|');
   for (const r of rows) console.log(`| ${r.spec} | ${r.outcome ?? '-'} | ${r.proposals} | ${r.anchors_ok ?? '-'} | ${r.peer_mean ?? '-'} | ${r.kept} | ${r.approved} | ${r.landed} | ${led(r)} | ${r.wall_s ?? '-'} | ${r.cost_usd != null ? r.cost_usd.toFixed(2) : 'n/a'} |`);
-  console.log(`appended ${rows.length} row(s) to ${posix(out)}`);
+  console.log(`${replaced ? `replaced ${replaced} earlier row(s) of ${run.id} with` : 'appended'} ${rows.length} row(s) in ${posix(out)}`);
 }
 
 // =================================================================================== clean

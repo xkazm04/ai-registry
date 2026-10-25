@@ -9,7 +9,9 @@
  *
  * Output: <out>/<section>-<tab>-<width>-<motion>.png, report.json, contact.html.
  * Exit 0 = captured, 2 = instrument failure (no browser library, page unreachable,
- * section or tab not found), 3 = captured but at least one capture is BLANK, a
+ * section or tab not found; a failure mid-run still writes report.json with the rows
+ * captured so far plus `error` and `at` {tab,width,motion}, and no contact sheet), 3 = a
+ * finding to read in contact.html: NOTHING captured (the section is hidden at every width), or captured but at least one capture is BLANK, a
  * variant runs an infinite animation under reduced motion, or a variant's art is
  * TEXT-HEAVY (more words than a label layer, a sentence-length run, or text covering
  * too much of the picture; limits via --max-words --max-run --max-ratio), or the section
@@ -23,7 +25,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { createRequire } from 'node:module';
-import { parseArgs, blankScore, captureName, textVerdict, TEXT_LIMITS, balanceVerdict, emptyRatio, BALANCE_LIMITS } from './lib/capture-core.mjs';
+import { parseArgs, blankScore, captureName, buildTextProbe, textVerdict, TEXT_LIMITS, balanceVerdict, emptyRatio, BALANCE_LIMITS } from './lib/capture-core.mjs';
 
 const args = parseArgs(process.argv.slice(2));
 if (args.error) { console.error(args.error); process.exit(2); }
@@ -62,11 +64,16 @@ async function reach(page, sel) {
   if (await page.locator(sel).count()) return page.locator(sel).first();
   throw new Error(`section ${sel} not found`);
 }
+// Built once: the words are counted by capture-core's own countWords, shipped into the page.
+const textProbe = buildTextProbe();
 const rows = [];
 let failed = false;
+// Where the run is, so a mid-run error can say where it stopped.
+let at = null;
 try {
   for (const motion of ['no-preference', 'reduce']) {
     for (const width of args.widths) {
+      at = { tab: null, width, motion };
       const ctx = await browser.newContext({ reducedMotion: motion, viewport: { width, height: 900 } });
       const page = await ctx.newPage();
       await page.goto(args.url, { waitUntil: 'networkidle', timeout: 180000 });
@@ -80,6 +87,7 @@ try {
         continue;
       }
       for (const tab of args.tabs) {
+        at = { tab, width, motion };
         const btn = root.locator(`[data-illustrate-tab="${tab}"]`);
         if (!(await btn.count())) throw new Error(`tab [data-illustrate-tab="${tab}"] not found in ${args.section}`);
         if (args.hide.length) await page.addStyleTag({ content: args.hide.join(',') + '{visibility:hidden!important}' }).catch(() => {});
@@ -97,43 +105,7 @@ try {
         const smil = await root.locator('animate, animateTransform, animateMotion').count();
         // Text inside the illustration: variants mark their art root with data-illustrate-art,
         // so the section's own heading and copy are not counted against the picture.
-        const text = await root.evaluate((r) => {
-          // The visible art: a variant may keep a hidden twin (a phone layout, say).
-          const art = [...r.querySelectorAll('[data-illustrate-art]')]
-            .find((e) => { const b = e.getBoundingClientRect(); return b.width > 0 && b.height > 0; }) || null;
-          const scope = art || r;
-          const box = scope.getBoundingClientRect();
-          const area = Math.max(1, box.width * box.height);
-          let words = 0, longestRun = 0, textArea = 0, minLabelPx = null;
-          const walk = document.createTreeWalker(scope, NodeFilter.SHOW_TEXT);
-          while (walk.nextNode()) {
-            const n = walk.currentNode; const t = n.textContent.trim(); if (!t) continue;
-            const range = document.createRange(); range.selectNodeContents(n);
-            const rects = [...range.getClientRects()];
-            const a = rects.reduce((s, q) => s + q.width * q.height, 0);
-            if (a < 1) continue; // not rendered
-            const k = t.split(/\s+/).length; words += k; longestRun = Math.max(longestRun, k); textArea += a;
-            // Rendered font size, not the line box (which runs ~1.3x taller): the computed
-            // size, scaled by the SVG's user-space-to-screen transform for SVG text.
-            const el = n.parentElement;
-            let px = parseFloat(getComputedStyle(el).fontSize) || 0;
-            if (el instanceof SVGGraphicsElement) { const m = el.getScreenCTM(); if (m) px *= Math.hypot(m.a, m.b); }
-            if (px > 0) minLabelPx = minLabelPx === null ? px : Math.min(minLabelPx, px);
-          }
-          // Words in the whole section - heading, lede and art - minus the prototype's own
-          // tab strip: the floor-side check asks whether the section says enough.
-          let sectionWords = 0;
-          const all = document.createTreeWalker(r, NodeFilter.SHOW_TEXT);
-          while (all.nextNode()) {
-            const n = all.currentNode; const t = n.textContent.trim(); if (!t) continue;
-            if (n.parentElement?.closest('[role="tablist"], [data-illustrate-tab]')) continue;
-            const range = document.createRange(); range.selectNodeContents(n);
-            if (![...range.getClientRects()].some((q) => q.width * q.height >= 1)) continue;
-            sectionWords += t.split(/\s+/).length;
-          }
-          return { scoped: !!art, words, longestRun, textRatio: textArea / area,
-            minLabelPx: minLabelPx === null ? null : Math.round(minLabelPx), sectionWords };
-        });
+        const text = await root.evaluate(textProbe);
         // Emptiness is measured on the art alone, so a roomy section around a dense
         // picture is not penalised - only a picture that is mostly background.
         let empty = null;
@@ -157,7 +129,12 @@ try {
   }
 } catch (e) {
   console.error('capture-variants: ' + e.message);
-  await browser.close();
+  // The rows captured before the failure are evidence a rerun would have to redo: keep them,
+  // with the error and where it hit. No contact sheet - a partial run is not a finished one.
+  try {
+    fs.writeFileSync(path.join(args.out, 'report.json'), JSON.stringify({ url: args.url, section: args.section, rows, error: e.message, at }, null, 2));
+  } catch (w) { console.error('capture-variants: could not write the partial report: ' + w.message); }
+  await browser.close().catch(() => {});
   process.exit(2);
 }
 await browser.close();
@@ -175,4 +152,9 @@ figure{margin:0;background:#fff;padding:8px;border-radius:8px}img{width:100%;dis
 
 for (const r of rows) if (r.hidden) console.log(`${r.tab.padEnd(14)} ${String(r.width).padEnd(5)} ${r.motion.padEnd(14)} hidden-by-layout`); else console.log(`${r.tab.padEnd(14)} ${String(r.width).padEnd(5)} ${r.motion.padEnd(14)} ${r.blank ? 'BLANK ' : 'ok    '} infinite=${r.infinite} smil=${r.smil} words=${r.words}${r.artScoped ? '' : '(section)'} run=${r.longestRun} text=${Math.round(r.textRatio * 100)}% section=${r.sectionWords} empty=${r.empty === null ? '-' : Math.round(r.empty * 100) + '%'} label=${r.minLabelPx ?? '-'}px${r.textHeavy ? ' TEXT-HEAVY' : ''}${r.unbalanced ? ' ' + r.balanceReasons.map((x) => x.split(':')[0]).join(' ') : ''}`);
 console.log(`contact sheet: ${path.join(args.out, 'contact.html')}`);
-process.exit(failed ? 3 : 0);
+// Hidden at every width is not "captured": no image exists to have been judged, so a 0
+// would read as a pass. It is a finding about the section (the layout never shows it),
+// not an instrument failure - the section was found - so it shares the findings code 3.
+const nothingCaptured = !rows.some((r) => r.file);
+if (nothingCaptured) console.error('capture-variants: nothing captured: hidden at every width');
+process.exit(failed || nothingCaptured ? 3 : 0);

@@ -8,6 +8,7 @@ status: forged
 verified_on: 2026-09-28
 refresh_by: 2027-03-28
 source: US/OMB-OPM-M-24-16+US-OPM/FAQ-2024+US-OPM/USAJOBS-help+SIOP/2020-white-paper+TalentBoard/CandE-2023+UK-HMRC/Ipsos-MORI-Report-352+UK-ICAEW-2023+UK-fire-service-timetable
+counterpart: external
 ---
 
 # Dates in hiring notices, as the texts and the data have them

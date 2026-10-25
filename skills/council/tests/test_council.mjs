@@ -511,6 +511,12 @@ test('drift: none and grown carry a verdict forward, changed re-judges, absent i
   assert.equal(drift(r1, edited), 'changed');
   assert.equal(drift(r1, shrunk), 'changed', 'a file that left the span is a change, not a shrink');
   assert.equal(drift(null, r1), 'unknown', 'nothing to compare is never the same fact as nothing changed');
+  // Two receipts with neither a digest nor a file list (`{}`, or a result.json passed by mistake)
+  // have nothing to compare: undefined === undefined is not "nothing changed", and `none` carries.
+  assert.equal(drift({}, {}), 'unknown', 'two empty receipts are not the same subject');
+  assert.equal(drift({ files: [] }, { files: [] }), 'unknown');
+  assert.equal(drift({ span_digest: 'x' }, {}), 'unknown', 'a receipt with nothing in it cannot be compared');
+  assert.equal(drift({ span_digest: 'x' }, { span_digest: 'y' }), 'changed', 'digests alone still decide when both exist');
 });
 
 test('carryForward keeps the original score, marks it carried, and never carries under change', () => {
@@ -912,6 +918,58 @@ test('CLI: a lite run aggregates from started.json, validates, and an empty summ
       'a lite pass does not burn a full round');
   } finally {
     fs.rmSync(root, { recursive: true, force: true });
+  }
+});
+
+test('CLI: a blank started.summary falls through to report.md, as the documented chain says', () => {
+  // Phase 1 writes started.json with a `summary` key before any synthesis exists, so the value it
+  // most often holds is "". `??` stopped at that "" and refused the run with report.md written.
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'council-summary-'));
+  try {
+    const meta = liteMeta();
+    const started = { run_id: 'r1', mode: 'lite', subject: meta.subject, rubric_version: 'feature-v1', round_no: 1, supersedes_run_id: null, trust_state: 'uncalibrated', receipt: meta.receipt };
+    for (const [name, verdict] of Object.entries(liteVerdicts())) {
+      fs.writeFileSync(path.join(dir, `verdict-${name}.json`), JSON.stringify({ dimension: name, unmeasured_reason: null, delta: null, ...verdict }));
+    }
+    for (const blank of ['', '   ']) {
+      fs.writeFileSync(path.join(dir, 'started.json'), JSON.stringify({ ...started, summary: blank }));
+      fs.rmSync(path.join(dir, 'report.md'), { force: true });
+      assert.equal(runCli(['aggregate', '--run-dir', dir]).status, 2, 'still refused with no report.md');
+      fs.writeFileSync(path.join(dir, 'report.md'), '# Council\n\nValue and robustness hold; craft has one gap.\n\n## Members\n');
+      const agg = runCli(['aggregate', '--run-dir', dir]);
+      assert.equal(agg.status, 0, `blank started.summary ${JSON.stringify(blank)} must fall through to report.md: ${agg.stderr}`);
+      assert.equal(JSON.parse(fs.readFileSync(path.join(dir, 'result.json'), 'utf8')).summary, 'Value and robustness hold; craft has one gap.');
+    }
+  } finally {
+    fs.rmSync(dir, { recursive: true, force: true });
+  }
+});
+
+test('CLI: aggregate refuses a --round that is not an integer >= 1, before any result.json is written', () => {
+  // `Number('abc')` is NaN, and aggregate() reads a NaN round as round 1 - which skips the
+  // ROUND_CAP check - so result.json used to be written with round_no null and only then
+  // fail validateResult. The flag is validated first; a refusal leaves no half-written run.
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'council-round-'));
+  try {
+    const meta = liteMeta();
+    fs.writeFileSync(path.join(dir, 'started.json'), JSON.stringify({
+      run_id: 'r1', mode: 'lite', subject: meta.subject, rubric_version: 'feature-v1',
+      round_no: 1, supersedes_run_id: null, trust_state: 'uncalibrated', receipt: meta.receipt,
+    }));
+    for (const [name, verdict] of Object.entries(liteVerdicts())) {
+      fs.writeFileSync(path.join(dir, `verdict-${name}.json`), JSON.stringify({ dimension: name, unmeasured_reason: null, delta: null, ...verdict }));
+    }
+    for (const bad of ['abc', '0', '-1', '1.5', '', '2x']) {
+      const r = runCli(['aggregate', '--run-dir', dir, '--summary', 's', '--round', bad]);
+      assert.equal(r.status, 2, `--round ${JSON.stringify(bad)} must exit 2: ${r.stdout}`);
+      assert.match(r.stderr, /--round must be an integer >= 1/);
+      assert.ok(!fs.existsSync(path.join(dir, 'result.json')), `--round ${JSON.stringify(bad)} left a result.json behind`);
+    }
+    const ok = runCli(['aggregate', '--run-dir', dir, '--summary', 's', '--round', '2']);
+    assert.equal(ok.status, 0, ok.stderr);
+    assert.equal(JSON.parse(fs.readFileSync(path.join(dir, 'result.json'), 'utf8')).round_no, 2);
+  } finally {
+    fs.rmSync(dir, { recursive: true, force: true });
   }
 });
 

@@ -1,0 +1,3 @@
+{"lane":"C","context":"skill-code-media","status":"open","title":"d1047641 keeps a paid Leonardo generation when its download fails; corpus technique vendor-fact-ledger says delete even when the download throws","gate":"direction","decision":"keep the fix (and amend vendor-fact-ledger via the lead) or revert its keep-on-failure branch"}
+{"lane":"B","context":"skill-code-media","status":"in-flight","slug":"og-image-escape"}
+{"lane":"B","context":"skill-code-media","status":"in-flight","slug":"provider-deadlines"}

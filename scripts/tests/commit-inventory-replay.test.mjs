@@ -152,6 +152,58 @@ test('--out inside the repository is refused', () => {
   fs.rmSync(tmp, { recursive: true, force: true });
 });
 
+/** A temp repo with one commit and a transcript folder holding one session, for the CLI's refusals. */
+function cliFixture() {
+  const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'cir-'));
+  const repo = path.join(tmp, 'repo');
+  fs.mkdirSync(repo);
+  const g = (...a) => execFileSync('git', ['-C', repo, ...a], { encoding: 'utf8' });
+  g('init', '-q'); g('config', 'user.email', 't@example.invalid'); g('config', 'user.name', 't');
+  fs.writeFileSync(path.join(repo, 'a.md'), 'x\n'); g('add', 'a.md'); g('commit', '-qm', 'one');
+  const projects = path.join(tmp, 'projects');
+  const dir = path.join(projects, encodeProjectPath(repo));
+  fs.mkdirSync(dir, { recursive: true });
+  const session = call('c', '2026-01-01T00:00:10Z', 'git commit -qm "one"', '[main 1234567] one').map((l) => ({ ...l, cwd: repo }));
+  const writeSession = () => fs.writeFileSync(path.join(dir, 's1.jsonl'), session.map((l) => `${JSON.stringify(l)}\n`).join(''));
+  const runCli = (...args) => spawnSync(process.execPath, [SCRIPT, '--root', repo, '--claude-projects', projects, '--out', path.join(tmp, 'out'), ...args], { encoding: 'utf8' });
+  return { tmp, repo, dir, writeSession, runCli, done: () => fs.rmSync(tmp, { recursive: true, force: true }) };
+}
+
+test('a --since or --until that is not a date is refused, never read as an empty or a whole-history range', () => {
+  // Before: git read `--since=garbage` as "now" (0 commits, exit 0 = nothing flagged - a
+  // false clean) and `--since=2026-13-01` as no bound at all (every commit in history).
+  const f = cliFixture();
+  try {
+    f.writeSession();
+    for (const [flag, bad] of [['--since', 'garbage'], ['--since', '2026-13-01'], ['--since', '2026-02-31'], ['--until', 'yesterday-ish']]) {
+      const args = flag === '--since' ? ['--since', bad] : ['--since', '2026-01-01', '--until', bad];
+      const res = f.runCli(...args);
+      assert.equal(res.status, 2, `${flag} ${bad}: ${res.stdout}${res.stderr}`);
+      assert.match(res.stderr, new RegExp(`${flag} "${bad}" is not a date`));
+      assert.equal(fs.existsSync(path.join(f.tmp, 'out')), false, 'nothing was written');
+    }
+    // positive control: a real date and a full ISO instant still run
+    assert.equal(f.runCli('--since', '2026-01-01').status, 0);
+    assert.equal(f.runCli('--since', '2026-01-01T00:00:00Z', '--until', '2099-01-01').status, 0);
+  } finally { f.done(); }
+});
+
+test('a transcript folder holding no session is a named FATAL, not a RangeError stack', () => {
+  // Before: Math.min() over zero spans is Infinity, and `new Date(Infinity).toISOString()`
+  // threw "Invalid time value" out of the summary line - exit 2, but with a stack that
+  // names neither the folder nor the cause.
+  const f = cliFixture();
+  try {
+    const res = f.runCli('--since', '2026-01-01');
+    assert.equal(res.status, 2, res.stdout + res.stderr);
+    assert.match(res.stderr, /no session/);
+    assert.ok(res.stderr.includes(f.dir), 'the folder that was read is named');
+    assert.doesNotMatch(res.stderr, /Invalid time value|RangeError/);
+    f.writeSession();
+    assert.equal(f.runCli('--since', '2026-01-01').status, 0, 'positive control: one session runs');
+  } finally { f.done(); }
+});
+
 test('inline code that stages by blob or writes by composition is a claim', () => {
   const blob = rel(claimsOfCommand(`node -e "
 const pairs=[['librarian/applied.md','C:/t/x/rows.md']];

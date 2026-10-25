@@ -50,8 +50,10 @@
  *   node scripts/run-board.mjs gc
  *
  * Exit codes, which differ on purpose because they lead to opposite next moves:
- *   0  clear - nothing else holds what you asked about
- *   1  the instrument itself failed (bad arguments, unreadable board)
+ *   0  clear - nothing else holds what you asked about (and `--help`, which asked nothing)
+ *   2  FATAL - the instrument could not run: bad arguments, a misspelled flag, no command,
+ *      an unreadable board, a broken address fold. Never 1: 1 is reserved by
+ *      scripts/lib/exit-codes.mjs for "ran and found something", and a usage error found nothing.
  *   3  CONTENDED - a live sibling holds the source, the subject, the path, or the lock.
  *      Not an error. It is the answer, and the caller decides: wait, re-scope, or proceed
  *      knowing who else is in the file.
@@ -60,6 +62,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { execFileSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
+import { EXIT } from './lib/exit-codes.mjs';
 
 const ROOT = path.resolve(fileURLToPath(new URL('.', import.meta.url)), '..');
 
@@ -308,7 +311,7 @@ function assertAddressFold() {
   if (bad.length) {
     console.error('run-board: address fold is broken — the collision check cannot be trusted.');
     for (const b of bad) console.error(b);
-    process.exit(2);
+    process.exit(EXIT.FATAL);
   }
 }
 
@@ -341,7 +344,7 @@ function positionals() {
   return out;
 }
 
-function die(msg, code = 1) { console.error('FATAL: ' + msg); process.exit(code); }
+function die(msg, code = EXIT.FATAL) { console.error('FATAL: ' + msg); process.exit(code); }
 
 function gitBranch() {
   try {
@@ -393,6 +396,21 @@ export function withClaimGate(gate, fn, { staleS = CLAIM_GATE_STALE_S, waitS = C
   }
 }
 
+/** One overlap rule for both doors that add claims. `claim` refuses on these lines; `beat`
+ *  prints them. Before 2026-10-25 only `claim` looked, yet /intake Phase 4 and /harvest add
+ *  their subjects with `beat --subject`, so the documented claim path told a run nothing
+ *  when a live sibling already held the subject it was taking. */
+function overlapLines(mine, siblings) {
+  const out = [];
+  for (const s of siblings) {
+    const theirs = [...(s.claims && s.claims.subjects || []), ...(s.claims && s.claims.paths || []), ...(s.claims && s.claims.projects || [])];
+    for (const m of mine) {
+      for (const t of theirs) if (touches(m, t)) out.push('OVERLAP       ' + s.runId + ' holds ' + t + ' (yours: ' + m + ')');
+    }
+  }
+  return out;
+}
+
 function cmdClaim() {
   const skill = one('skill') || die('claim needs --skill (intake|harvest|deepen|forge|reconcile|...)');
   const source = one('source') || die('claim needs --source (the url, path or dispatch slug being mined)');
@@ -409,13 +427,7 @@ function cmdClaim() {
         conflicts.push('SAME SOURCE   ' + s.runId + ' is already mining ' + s.source + ' (phase ' + (s.phase || '?') + ', ' + s._staleMin + 'm since heartbeat)');
       }
     }
-    const mine = [...many('subject'), ...many('path'), ...many('project')];
-    for (const s of siblings) {
-      const theirs = [...(s.claims && s.claims.subjects || []), ...(s.claims && s.claims.paths || []), ...(s.claims && s.claims.projects || [])];
-      for (const m of mine) {
-        for (const t of theirs) if (touches(m, t)) conflicts.push('OVERLAP       ' + s.runId + ' holds ' + t + ' (yours: ' + m + ')');
-      }
-    }
+    conflicts.push(...overlapLines([...many('subject'), ...many('path'), ...many('project')], siblings));
 
     const existing = readJSON(runFile(runId));
     const rec = {
@@ -447,7 +459,7 @@ function cmdClaim() {
     console.error('CONTENDED - ' + conflicts.length + ' collision(s) with live siblings:');
     for (const c of conflicts) console.error('  ' + c);
     console.error('\nThe claim was NOT written. Re-scope, wait, or re-run with --force and say so in the note.');
-    process.exit(3);
+    process.exit(EXIT.CONTENDED);
   }
   for (const c of conflicts) console.log('warn: ' + c);
   console.log('claimed ' + runId);
@@ -459,7 +471,7 @@ function cmdClaim() {
 function cmdBeat() {
   const runId = one('run') || die('beat needs --run <id>');
   const rec = readJSON(runFile(runId));
-  if (!rec) die('no record for run ' + runId + ' - claim it first', 1);
+  if (!rec) die('no record for run ' + runId + ' - claim it first');
   rec.heartbeatAt = nowISO();
   rec.pid = process.pid;
   rec.branch = gitBranch();
@@ -472,6 +484,13 @@ function cmdBeat() {
   rec.claims.projects = [...new Set([...(rec.claims.projects || []), ...many('project')])];
   rec.domains = [...new Set([...(rec.domains || []), ...many('domain')])];
   writeJSON(runFile(runId), rec);
+  // Advisory, like the board: the beat is written and the exit code is unchanged, but a
+  // claim added here that a live sibling already holds is named, as `claim` would name it.
+  const added = [...many('subject'), ...many('path'), ...many('project')];
+  if (added.length) {
+    const siblings = loadRuns().filter((r) => r._live && r.runId !== runId);
+    for (const c of overlapLines(added, siblings)) console.error('warn: ' + c);
+  }
   console.log('beat ' + runId + ' phase=' + rec.phase + ' status=' + rec.status);
   return 0;
 }
@@ -582,6 +601,35 @@ export function breakIfUnchanged(file, seen, { gateStaleS = BREAK_GATE_STALE_S }
   }
 }
 
+/** Release a lock on the strength of what was READ, never on its name. `unlock` and `release`
+ *  used to read the lock's runId and then unlink by name: if the lock was broken and re-taken
+ *  between the two, the unlink deleted the NEW holder's lock - the check-then-act gap
+ *  breakIfUnchanged closed for breakers (see its docstring), left open on the owner's side.
+ *  The fingerprint is taken BEFORE the content is read, so a swap between the two can only make
+ *  the delete refuse ('changed'), never pair old content with a new file. `between` runs after
+ *  the read and before the delete; it exists so a test can inject the race deterministically.
+ *  Returns { state, holder } with state:
+ *    'released'  the lock was this run's (or forced) and is gone
+ *    'absent'    no lock, or one with no readable owner (left as it was; `lock` reclaims those)
+ *    'not-owner' held by another run and not forced - nothing removed
+ *    'changed'   the lock was released or replaced after it was read - no longer yours; nothing removed
+ *    'busy'      another breaker held the takeover gate for the whole retry window */
+export function releaseIfOwned(file, runId, { force = false, between = null, tries = 40 } = {}) {
+  const seen = lockFingerprint(file);
+  if (seen === null) return { state: 'absent' };
+  const held = readJSON(file);
+  if (!held) return { state: 'absent' };
+  if (held.runId !== runId && !force) return { state: 'not-owner', holder: held.runId };
+  if (between) between();
+  for (let i = 0; i < tries; i++) {
+    const r = breakIfUnchanged(file, seen);
+    if (r === 'broken') return { state: 'released', holder: held.runId };
+    if (r === 'changed') return { state: 'changed', holder: held.runId };
+    sleep(25);                                                 // 'busy': a breaker is inside for a few file operations
+  }
+  return { state: 'busy', holder: held.runId };
+}
+
 /** The reclaim judgement for a lock record as read off disk - the same one `lock` applies,
  *  so `gc` and `list` can never call breakable what `lock` would refuse to break. */
 function judgeLock(held) {
@@ -657,14 +705,24 @@ function cmdCheck() {
   if (!hits.length) { console.log('clear: no live sibling holds ' + targets.length + ' target(s).'); return 0; }
   console.error('CONTENDED - ' + hits.length + ' target(s) held by a live sibling:');
   for (const h of hits) console.error('  ' + h.t + '\n    held as ' + h.held + ' by ' + h.s.runId + ' (' + h.s.skill + ', phase ' + h.s.phase + ', ' + h.s._staleMin + 'm since heartbeat' + (h.s._liveBy === 'lock' ? '; live because it holds a lock taken ' + Math.round(h.s._lockAgeS) + 's ago' : '') + ')');
-  process.exit(3);
+  process.exit(EXIT.CONTENDED);
 }
 
 function cmdLock() {
   const name = positionals()[0] || die('lock needs a name, e.g. `lock commit --run <id>`');
   const runId = one('run') || die('lock needs --run <id>');
-  const ttl = Number(one('ttl')) || LOCK_TTL_S;
-  const waitS = flag('wait') ? (Number(one('wait')) || 600) : 0;
+  // A given value must be a positive number. Before 2026-10-25 `--ttl -5` was stored as the
+  // lock's ttl and made it breakable the instant it was taken (`ageS > ttl`), and a
+  // non-numeric --ttl/--wait silently became the default.
+  const seconds = (name, dflt) => {
+    const raw = one(name);
+    if (raw === null) return dflt;
+    const n = Number(raw);
+    if (!Number.isFinite(n) || n <= 0) die('--' + name + ' must be a positive number of seconds, got "' + raw + '"');
+    return n;
+  };
+  const ttl = seconds('ttl', LOCK_TTL_S);
+  const waitS = flag('wait') ? seconds('wait', 600) : 0;
   ensure();
   const file = lockFile(name);
   const deadline = Date.now() + waitS * 1000;
@@ -702,7 +760,7 @@ function cmdLock() {
     if (Date.now() >= deadline) {
       console.error("CONTENDED - lock '" + name + "' held by " + held.runId + ' (pid ' + held.pid + ', ' + Math.round(ageS) + 's old).');
       if (!waitS) console.error('  Retry with --wait <secs> to block, or do the unserialized part of your work first.');
-      process.exit(3);
+      process.exit(EXIT.CONTENDED);
     }
     sleep(breakable ? 50 : 3000);
   }
@@ -711,14 +769,17 @@ function cmdLock() {
 function cmdUnlock() {
   const name = positionals()[0] || die('unlock needs a name');
   const runId = one('run') || die('unlock needs --run <id>');
-  const file = lockFile(name);
-  const held = readJSON(file);
-  if (!held) { console.log("lock '" + name + "' was not held."); return 0; }
-  if (held.runId !== runId && !flag('force')) {
-    console.error("CONTENDED - lock '" + name + "' is held by " + held.runId + ', not ' + runId + '. Use --force only if you know that run is dead.');
-    process.exit(3);
+  const r = releaseIfOwned(lockFile(name), runId, { force: flag('force') });
+  if (r.state === 'absent') { console.log("lock '" + name + "' was not held."); return 0; }
+  if (r.state === 'not-owner') {
+    console.error("CONTENDED - lock '" + name + "' is held by " + r.holder + ', not ' + runId + '. Use --force only if you know that run is dead.');
+    process.exit(EXIT.CONTENDED);
   }
-  fs.unlinkSync(file);
+  if (r.state === 'changed') { console.log("lock '" + name + "' is no longer yours: it was released or taken over while this ran. Nothing was removed."); return 0; }
+  if (r.state === 'busy') {
+    console.error("CONTENDED - lock '" + name + "' is being taken over by another run right now; nothing was removed. Retry.");
+    process.exit(EXIT.CONTENDED);
+  }
   console.log("released lock '" + name + "'");
   return 0;
 }
@@ -727,7 +788,11 @@ function cmdRelease() {
   const runId = one('run') || die('release needs --run <id>');
   const file = runFile(runId);
   for (const l of readLocks()) {
-    if (l.runId === runId) { fs.unlinkSync(lockFile(l.name)); console.log("released dangling lock '" + l.name + "'"); }
+    if (l.runId !== runId) continue;
+    // Release against the fingerprint readLocks took with the read, so a lock re-taken since is left alone.
+    const r = breakIfUnchanged(lockFile(l.name), l._seen);
+    if (r === 'broken') console.log("released dangling lock '" + l.name + "'");
+    else console.log("lock '" + l.name + "' is no longer yours (" + (r === 'changed' ? 'released or taken over since it was read' : 'a takeover is in progress') + '); left alone.');
   }
   if (!fs.existsSync(file)) { console.log('no record for ' + runId + '; nothing to release.'); return 0; }
   fs.unlinkSync(file);
@@ -759,6 +824,29 @@ const TABLE = {
   check: cmdCheck, lock: cmdLock, unlock: cmdUnlock, release: cmdRelease, gc: cmdGc,
 };
 
+/** The flags each command reads. An unread flag used to be ignored, so `claim --subjet X`
+ *  was granted as a claim of nothing and every sibling's `check X` then printed `clear`. */
+const CLAIM_FLAGS = ['run', 'subject', 'path', 'project', 'domain', 'scratch', 'phase', 'status'];
+const FLAGS = {
+  claim: ['skill', 'source', 'force', ...CLAIM_FLAGS],
+  beat: CLAIM_FLAGS, update: CLAIM_FLAGS,
+  list: ['json', 'all'], status: ['json', 'all'],
+  check: ['run'],
+  lock: ['run', 'wait', 'ttl'],
+  unlock: ['run', 'force'],
+  release: ['run'],
+  gc: [],
+};
+
+function assertFlags(command) {
+  for (const a of argv.slice(1)) {
+    if (!a.startsWith('--')) continue;
+    if (!FLAGS[command].includes(a.slice(2))) {
+      die('unknown flag ' + a + ' for ' + command + ' (it reads: ' + (FLAGS[command].map((f) => '--' + f).join(' ') || 'no flags') + ')');
+    }
+  }
+}
+
 // Dispatch only when run as a command. Imported - by the test beside this file, or by
 // anything that wants `lockBreakable` - the module must define and return.
 const RUN_AS_CLI = process.argv[1]
@@ -768,8 +856,11 @@ if (RUN_AS_CLI) {
   if (!cmd || cmd === '--help' || cmd === '-h' || !TABLE[cmd]) {
     const header = fs.readFileSync(fileURLToPath(import.meta.url), 'utf8').split('*/')[0].replace(/^#!.*\n/, '');
     console.error(header);
-    process.exit(cmd && cmd !== '--help' && cmd !== '-h' ? 1 : 0);
+    // --help asked a question and got its answer (0); no command, or one that does not exist,
+    // is a call that could not run (FATAL) - it used to exit 0 for the former and 1 for the latter.
+    process.exit(cmd === '--help' || cmd === '-h' ? EXIT.OK : EXIT.FATAL);
   }
+  assertFlags(cmd);
   assertAddressFold();
   process.exit(TABLE[cmd]() || 0);
 }

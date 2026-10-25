@@ -8,6 +8,7 @@ status: forged
 verified_on: 2026-09-28
 refresh_by: 2027-09-28
 source: US-MN/Stat-13.43-subd-3+US-FL/Florida-Bar-open-government-overview-2018
+counterpart: external
 ---
 
 # When the packet becomes public: two US states, read verbatim

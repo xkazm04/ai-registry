@@ -29,12 +29,21 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { readLane, parseSemver } from './lib/skills-lane.mjs';
 import { sameIgnoringNewlines } from './lib/bundle-hash.mjs';
+import { installCrashDoor } from './lib/exit-codes.mjs';
+
+installCrashDoor();
 
 const ROOT = path.resolve(fileURLToPath(new URL('.', import.meta.url)), '..');
 const LANE = path.join(ROOT, 'skills');
 const OUT_DIR = path.join(ROOT, '.claude-plugin');
 const OUT = path.join(OUT_DIR, 'marketplace.json');
-const checkOnly = process.argv.includes('--check');
+// A closed flag set, read before the lane: anything but `--check` used to be WRITE mode.
+const USAGE = 'usage: node scripts/build-marketplace.mjs [--check]';
+const ARGS = process.argv.slice(2);
+if (ARGS.includes('--help') || ARGS.includes('-h')) { console.log(USAGE); process.exit(0); }
+const strays = ARGS.filter((a) => a !== '--check');
+if (strays.length) { console.error(`build-marketplace: unknown argument(s) ${strays.join(' ')} - nothing read or written\n${USAGE}`); process.exit(2); }
+const checkOnly = ARGS.includes('--check');
 
 if (!fs.existsSync(LANE)) {
   console.error(`FATAL: no skills/ lane at ${LANE} — refusing to write a marketplace that lists zero plugins.`);
@@ -47,6 +56,18 @@ if (skills.length === 0) {
   process.exit(2);
 }
 
+// The entry's description is display text in the consumer's harness. A bare .slice(0, 400)
+// cut 25 of 43 entries inside a word with no sign anything was cut; now the cut lands on
+// whitespace and says so with an ellipsis, still within the same 400 characters.
+const DESCRIPTION_MAX = 400;
+const shorten = (text) => {
+  const s = String(text ?? '');
+  if (s.length <= DESCRIPTION_MAX) return s;
+  const head = s.slice(0, DESCRIPTION_MAX); // the whitespace we cut at makes room for the ellipsis
+  const at = Math.max(head.lastIndexOf(' '), head.lastIndexOf('\n'), head.lastIndexOf('\t'));
+  return `${(at > 0 ? head.slice(0, at) : head.slice(0, DESCRIPTION_MAX - 1)).replace(/[\s,;:(-]+$/, '')}…`;
+};
+
 const plugins = [];
 const skipped = [];
 for (const s of skills) {
@@ -55,7 +76,7 @@ for (const s of skills) {
   const entry = {
     name: s.name,
     source: `./skills/${s.name}`,
-    description: String(s.fm.description ?? '').slice(0, 400),
+    description: shorten(s.fm.description),
     version: s.fm.version,
     category: s.fm.category ?? 'other',
   };
@@ -86,9 +107,20 @@ if (checkOnly) {
     console.error(`${path.relative(ROOT, OUT)} is STALE — run \`node scripts/build-marketplace.mjs\` and commit the result.`);
     try {
       const cur = JSON.parse(current).plugins ?? [];
-      const curMap = new Map(cur.map((p) => [p.name, p.version]));
-      for (const p of plugins) if (curMap.get(p.name) !== p.version) console.error(`  ${p.name}: committed ${curMap.get(p.name) ?? '(absent)'} -> computed ${p.version}`);
+      const curMap = new Map(cur.map((p) => [p.name, p]));
+      // Every field, not only `version`: a description or category drift used to print the
+      // STALE line and nothing under it.
+      for (const p of plugins) {
+        const c = curMap.get(p.name);
+        if (!c) { console.error(`  ${p.name}: absent from the committed file -> computed ${p.version}`); continue; }
+        if (c.version !== p.version) console.error(`  ${p.name}: committed ${c.version} -> computed ${p.version}`);
+        const fields = [...new Set([...Object.keys(p), ...Object.keys(c)])]
+          .filter((k) => k !== 'version' && JSON.stringify(c[k]) !== JSON.stringify(p[k]));
+        if (fields.length) console.error(`  ${p.name}: ${fields.join(', ')} differ${fields.length === 1 ? 's' : ''}`);
+      }
       for (const p of cur) if (!plugins.find((q) => q.name === p.name)) console.error(`  ${p.name}: committed but no longer in the lane`);
+      const envelope = Object.keys({ ...JSON.parse(current), ...doc }).filter((k) => k !== 'plugins' && JSON.stringify(JSON.parse(current)[k]) !== JSON.stringify(doc[k]));
+      if (envelope.length) console.error(`  envelope: ${envelope.join(', ')} differ${envelope.length === 1 ? 's' : ''}`);
     } catch { /* unparseable committed file: the STALE verdict already says enough */ }
     process.exit(1);
   }

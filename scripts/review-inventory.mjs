@@ -15,9 +15,20 @@ try {
   const skills = [];
   const rules = [];
   let bytes = 0;
+  // Tracked but absent from the working tree: a move in flight or another session's
+  // unstaged removal in a shared checkout. Counted and listed, never followed - lstat used
+  // to throw here and turn the whole inventory into FATAL.
+  const missing = [];
   for (const file of files) {
     // Git symlinks are installation pointers, not content to follow outside the tree.
-    const stat = fs.lstatSync(path.join(root, file));
+    let stat;
+    try {
+      stat = fs.lstatSync(path.join(root, file));
+    } catch (error) {
+      if (error.code !== 'ENOENT') throw error;
+      missing.push(file);
+      continue;
+    }
     if (!stat.isFile()) continue;
     const body = fs.readFileSync(path.join(root, file));
     bytes += body.length;
@@ -44,8 +55,9 @@ try {
   console.log(JSON.stringify({
     schema: 1,
     revision: execFileSync('git', ['rev-parse', 'HEAD'], { cwd: root, encoding: 'utf8' }).trim(),
-    scope: 'Tracked working-tree regular files; untracked files and symlinks excluded. Structural inventory only.',
+    scope: 'Tracked working-tree regular files; untracked files, symlinks and tracked entries missing from the working tree excluded. Structural inventory only.',
     trackedEntries: files.length, bytes,
+    missingFromWorkingTree: missing,
     groups: [...groups.values()].sort((a, b) => a.path.localeCompare(b.path, 'en')),
     skills, rules,
   }, null, 2));

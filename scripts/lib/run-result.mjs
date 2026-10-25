@@ -88,6 +88,7 @@ import os from 'node:os';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { EXIT, nameOf } from './exit-codes.mjs';
+import { leaksIn, PRESETS } from './leaks.mjs';
 
 export const SCHEMA = 'rkb-run-result/1';
 
@@ -166,6 +167,11 @@ export function unpublishablePath(value, tokens = machineTokens()) {
   if (typeof value !== 'string') return 'is not a string';
   if (!value.trim()) return 'is blank';
   for (const [re, why] of PATH_REFUSALS) if (re.test(value)) return why;
+  // The shared leak table (lib/leaks.mjs) is what check-public-paths applies to this lane
+  // after the fact; the door applies its FREE_TEXT forms before the write, so a home anchor
+  // (`~/`, `$HOME/`, `%USERPROFILE%`) or an address can never be accepted here and flagged there.
+  const leak = leaksIn(value, PRESETS.FREE_TEXT)[0];
+  if (leak) return `carries ${leak.what}`;
   for (const seg of value.split('/')) {
     if (tokens.has(seg.toLowerCase())) return `names this machine or its user (${JSON.stringify(seg)})`;
   }
@@ -387,17 +393,6 @@ export function writeRunResult(result, options = {}) {
 }
 
 /**
- * Read a run's result back, validated.
- *
- * Returns `null` when no result exists — which is a real answer and a different one from
- * a run that reported a failure. Throws when a file exists and is unreadable or invalid,
- * because a corrupt result read as an absent one would silently reset a halt counter.
- *
- * @param {string} runId
- * @param {{root?: string, path?: string}} [options]
- * @returns {object|null}
- */
-/**
  * The saturation brake, computed from what runs recorded: per subject id, the number of
  * TRAILING `idled` outcomes among its `landed`/`idled` rows in time order. A `landed` row
  * resets it; `declined`, `contended` and `dispatched` are not passes and do not move it.
@@ -423,6 +418,17 @@ export function dryStreaks(results) {
   return out;
 }
 
+/**
+ * Read a run's result back, validated.
+ *
+ * Returns `null` when no result exists — which is a real answer and a different one from
+ * a run that reported a failure. Throws when a file exists and is unreadable or invalid,
+ * because a corrupt result read as an absent one would silently reset a halt counter.
+ *
+ * @param {string} runId
+ * @param {{root?: string, path?: string}} [options]
+ * @returns {object|null}
+ */
 export function readRunResult(runId, options = {}) {
   if (!RUN_ID_RE.test(String(runId ?? ''))) throw new Error(`run-result: run id must match ${RUN_ID_RE} (got ${JSON.stringify(runId)})`);
   const { rel, abs } = resolveDestination(runId, options);
@@ -439,6 +445,15 @@ export function readRunResult(runId, options = {}) {
 const invokedDirectly = process.argv[1] && path.resolve(process.argv[1]) === path.resolve(fileURLToPath(import.meta.url));
 if (invokedDirectly) {
   const argv = process.argv.slice(2);
+  // A closed flag set: an unknown flag, or --root/--path with no value, exits 2. `--root` with
+  // no value used to be dropped, so a read or write went to this checkout's registry.
+  const refuse = (msg) => { console.error(`FATAL: ${msg}`); process.exit(EXIT.FATAL); };
+  for (let i = 0; i < argv.length; i++) {
+    if (!argv[i].startsWith('--')) continue;
+    if (argv[i] !== '--root' && argv[i] !== '--path') refuse(`unknown argument ${JSON.stringify(argv[i])}.`);
+    const v = argv[++i];
+    if (v === undefined || v.startsWith('--')) refuse(`${argv[i - 1]} needs a value.`);
+  }
   const flag = (name) => { const i = argv.indexOf(`--${name}`); return i === -1 ? undefined : argv[i + 1]; };
   const positionals = argv.filter((a, i) => !a.startsWith('--') && !(i > 0 && argv[i - 1].startsWith('--')));
   const [command, target] = positionals;

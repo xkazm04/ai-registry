@@ -153,8 +153,8 @@ a harness upgrade) is NOT part of this sweep: its findings are a source to verif
 
 Then the disk lane: `node scripts/hygiene-disk.mjs` (minutes: it walks the scratch root and
 temp in full, because a liveness gate on a deletion has to see every file). Spot-check one
-`remove-scratch-checkout` row from git (`git -C <dir> rev-list HEAD --not --remotes`, `git -C <dir>
-status --porcelain`) before trusting the class.
+`remove-scratch-checkout` row from git (`git -C <dir> rev-list --all --not origin/HEAD`, `git -C <dir>
+status --porcelain`; empty output means every ref is on the default branch) before trusting the class.
 
 `/hygiene scan` ends here: print the table and the operator list.
 
@@ -186,9 +186,9 @@ is the instrument for that surface; it writes `disk.json`/`disk.md` beside `plan
 
 | area | mechanical | operator |
 |---|---|---|
-| scratch root (`<drive>/t`) | a checkout idle past `--idle-hours` whose HEAD is landed (worktree: on another ref of its repo; clone: every commit on its remotes, or each local commit's patch-id in its fleet home) and whose dirty paths are noise only (`next-env.d.ts`, `*.generated.ts`, untracked husky shims, a whitespace or line-ending diff); a build-output folder (`*target*`, `tgt*`, `cargo-target-*`) once idle | a checkout with WIP or unlanded commits; any `hyg-*` entry (the dead-worker rule); an unknown folder after `--temp-days` |
+| scratch root (`<drive>/t`) | a checkout idle past `--idle-hours` whose HEAD is landed (worktree: on another ref of its repo; clone: every commit on its remote's default branch, or each commit not there has its patch-id in its fleet home) and whose dirty paths are noise only (`next-env.d.ts`, `*.generated.ts`, untracked husky shims, a whitespace or line-ending diff); a build-output folder (`*target*`, `tgt*`, `cargo-target-*`) once idle | a checkout with WIP or unlanded commits; a clone whose work sits only on a non-default remote-tracking ref (`landed only on remote-tracking refs (unverified without network)`: the lane never fetches, so `origin/<branch>` may name a branch the server deleted when its PR closed unmerged, and the clone holds the only copy); any `hyg-*` entry (the dead-worker rule); an unknown folder after `--temp-days` |
 | build caches | cargo `incremental/` crate dirs in fleet checkouts untouched past `--idle-hours`; an out-of-tree build-output sibling of a checkout after `--temp-days` | the same sibling before `--temp-days` |
-| temp | a user-temp entry or a Claude session dir untouched `--temp-days` (7), or 48 h and 100 MB | `temp-leak`: a name family with hundreds of members - a suite that never removes its `mkdtemp` dirs; fix it in that repo |
+| temp | a user-temp entry or a Claude session dir untouched `--temp-days` (7), or 48 h and 100 MB, and never inside the `--idle-hours` floor; a checkout there (a `.git` at its top) gets the scratch checkout rules above instead of the age rule | `temp-leak`: a name family with hundreds of members - a suite that never removes its `mkdtemp` dirs; fix it in that repo |
 | models | - | a local model store over 1 GB (operator 2026-10-15: none wanted on this machine) |
 
 Everything inside `--idle-hours` is `hands-off` (`.git/index` is not activity: scanners refresh

@@ -12,7 +12,8 @@
  * Topologies (per project root):
  *   native   AGENTS.md, no CLAUDE.md of any kind          -> read directly
  *   import   a CLAUDE.md carries the line `@AGENTS.md`     -> read through the import
- *   pointer  CLAUDE.md canonical, AGENTS.md points at it   -> other tools reach the same file
+ *   pointer  CLAUDE.md (root or .claude/) canonical, AGENTS.md declares it points at it
+ *                                                          -> other tools reach the same file
  *   single   no AGENTS.md                                  -> nothing to bridge
  *   FORK     both present, neither import nor pointer     -> the second file never loads (FAIL)
  *
@@ -21,18 +22,29 @@
  *
  *   node scripts/check-agent-guidance.mjs [--project <slug>] [--self-test]
  *
- * Exit 1 on any FORK, 2 when the instrument cannot run (no fleet, or the self-test fails).
+ * A project whose checkout is not on this machine is skipped and counted, never judged: the
+ * fleet is bigger than any one box. But a run that judged ZERO checkouts is could-not-run -
+ * until 2026-10-25 it printed "every project's guidance reaches a session" over none of them.
+ *
+ * Exit 1 on any FORK, 2 when the instrument cannot run (no fleet, no checkout on this machine,
+ * or the self-test fails).
  */
 import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { loadBridge } from './lib/projects.mjs';
+import { EXIT } from './lib/exit-codes.mjs';
+import { requirePopulation } from './lib/check-result.mjs';
 
 const ROOT = path.resolve(fileURLToPath(new URL('.', import.meta.url)), '..');
 const TARGET_LINES = 200;
 const read = (f) => { try { return fs.readFileSync(f, 'utf8'); } catch { return null; } };
 const lines = (t) => (t == null ? 0 : t.split(/\r?\n/).length);
+
+// A markdown link or code span naming `.claude/CLAUDE.md`, and the file saying it only points.
+const POINTS_AT_DOT_CLAUDE = /\]\((?:\.\/)?\.claude\/CLAUDE\.md\)|`(?:\.\/)?\.claude\/CLAUDE\.md`/;
+const DECLARES_POINTER = /\bcanonical\b|\bthis\s+file\s+points\b|\bdoes\s+not\s+restate\b/i;
 
 export const classify = (root) => {
   const claude = [path.join(root, 'CLAUDE.md'), path.join(root, '.claude', 'CLAUDE.md'), path.join(root, 'CLAUDE.local.md')]
@@ -43,9 +55,17 @@ export const classify = (root) => {
   if (claude.some((x) => /^@\.?\/?AGENTS\.md\s*$/m.test(x.t))) return 'import';
   // The reverse topology: AGENTS.md exists to send other tools to the canonical CLAUDE.md.
   if (/\]\((?:\.\/)?CLAUDE\.md\)|`CLAUDE\.md`/.test(agents) && /canonical/i.test(agents)) return 'pointer';
+  // The same topology with the canonical file at `.claude/CLAUDE.md`, declared in the pointer's
+  // own words ("This file points; it does not restate"). Personas' AGENTS.md is a table of such
+  // links and was reported FORK on 2026-10-25 because only a root CLAUDE.md link and the word
+  // "canonical" were accepted. Both halves stay required - a link alone is a reference from a
+  // second populated file, which is exactly what a FORK is - and the named file must exist.
+  if (POINTS_AT_DOT_CLAUDE.test(agents) && DECLARES_POINTER.test(agents)
+    && claude.some((x) => x.f === path.join(root, '.claude', 'CLAUDE.md'))) return 'pointer';
   return 'FORK';
 };
 
+let CASE_COUNT = 0;
 const selfTest = () => {
   const base = fs.mkdtempSync(path.join(os.tmpdir(), 'cag-'));
   const mk = (name, files) => {
@@ -57,10 +77,18 @@ const selfTest = () => {
     ['native', { 'AGENTS.md': '# a\n' }],
     ['import', { 'CLAUDE.md': '@AGENTS.md\n\nextra\n', 'AGENTS.md': '# a\n' }],
     ['pointer', { 'CLAUDE.md': '# canonical\n', 'AGENTS.md': 'The canonical guidance is [`CLAUDE.md`](CLAUDE.md).\n' }],
+    ['pointer', { '.claude/CLAUDE.md': '# rules\n', 'AGENTS.md': '# AGENTS.md\n\nThis file points; it\ndoes not restate.\n\n| anything | `.claude/CLAUDE.md` |\n' }],
     ['single', { 'CLAUDE.md': '# only\n' }],
     ['FORK', { 'CLAUDE.md': '# rules\n', 'AGENTS.md': '# commands\n- Test: x\n' }],
     ['FORK', { '.claude/CLAUDE.md': 'Read AGENTS.md for commands.\n', 'AGENTS.md': '# commands\n' }],
+    // A link to .claude/CLAUDE.md without the declaration is a second populated file, not a pointer.
+    ['FORK', { '.claude/CLAUDE.md': '# rules\n', 'AGENTS.md': '# commands\n- Test: x\nSee `.claude/CLAUDE.md` for more.\n' }],
+    // A declaration with no link to the file that exists is still a fork.
+    ['FORK', { '.claude/CLAUDE.md': '# rules\n', 'AGENTS.md': 'This file points; it does not restate.\n- Test: x\n' }],
+    // A link to a .claude/CLAUDE.md that does not exist delivers nothing.
+    ['FORK', { 'CLAUDE.md': '# rules\n', 'AGENTS.md': 'This file points; it does not restate. See `.claude/CLAUDE.md`.\n' }],
   ];
+  CASE_COUNT = cases.length;
   let bad = 0;
   cases.forEach(([want, files], i) => { const got = classify(mk(`c${i}`, files)); if (got !== want) { bad += 1; console.error(`self-test: case ${i} expected ${want}, got ${got}`); } });
   fs.rmSync(base, { recursive: true, force: true });
@@ -68,18 +96,33 @@ const selfTest = () => {
 };
 
 if (!selfTest()) { console.error('FATAL: the classifier failed its own cases - not reporting on the fleet.'); process.exit(2); }
-if (process.argv.includes('--self-test')) { console.log('self-test: 6/6 topologies classified'); process.exit(0); }
+if (process.argv.includes('--self-test')) { console.log(`self-test: ${CASE_COUNT}/${CASE_COUNT} topologies classified`); process.exit(0); }
 
 const idx = process.argv.indexOf('--project');
 const only = idx === -1 ? null : process.argv[idx + 1];
+if (idx !== -1 && (!only || only.startsWith('--'))) {
+  console.error('FATAL: --project needs a project slug (node scripts/check-agent-guidance.mjs --project <slug>).');
+  process.exit(EXIT.FATAL);
+}
 const fleet = loadBridge(ROOT)._fleet;
+const known = Object.keys(fleet.projects ?? {});
+if (only && known.length && !known.includes(only)) {
+  console.error(`FATAL: "${only}" is not a project in the fleet this machine resolves (${known.sort().join(', ')}).`);
+  process.exit(EXIT.FATAL);
+}
 const projects = Object.entries(fleet.projects ?? {}).filter(([s]) => !only || s === only);
-if (!projects.length) { console.error('FATAL: no fleet project resolved on this machine.'); process.exit(2); }
+if (!projects.length) {
+  console.error('FATAL: no fleet project resolved on this machine.');
+  for (const p of fleet.problems ?? []) console.error(`  - ${p}`);
+  process.exit(EXIT.FATAL);
+}
 
 let forks = 0;
+let checked = 0;
 console.log('  project             topology  CLAUDE.md  .claude/CLAUDE.md  AGENTS.md  rules(always)  listing on/name/hidden');
 for (const [slug, p] of projects) {
   if (!p?.path || !fs.existsSync(p.path)) { console.log(`  ${slug.padEnd(19)} (checkout not found)`); continue; }
+  checked += 1;
   const r = p.path;
   const topo = classify(r);
   if (topo === 'FORK') forks += 1;
@@ -95,5 +138,12 @@ for (const [slug, p] of projects) {
   console.log(`  ${slug.padEnd(19)} ${topo.padEnd(9)} ${String(flag(lines(read(path.join(r, 'CLAUDE.md'))))).padEnd(10)} ${String(flag(lines(read(path.join(r, '.claude', 'CLAUDE.md'))))).padEnd(18)} ${String(agentsLoaded ? flag(lines(read(path.join(r, 'AGENTS.md')))) : '-').padEnd(10)} ${String(ruleLines).padEnd(14)} ${tiers.filter((x) => x === 'on').length}/${tiers.filter((x) => x === 'name-only').length}/${tiers.filter((x) => x === 'user-invocable-only' || x === 'off').length}`);
 }
 console.log(`\n  ! = over the ~${TARGET_LINES}-line target for one always-loaded file (reported, not failed: trimming is a judgement, see line-earning and rewrite-behavior-pinning).`);
-if (forks) { console.error(`\n${forks} project(s) carry two populated guidance files with no bridge - the second never loads. Fold it into the canonical file (skills/agent-guidance-bootstrap).`); process.exit(1); }
-console.log('\nevery project\'s guidance reaches a session through one canonical file.');
+const floor = requirePopulation(checked, 'project checkouts on this machine');
+if (floor.code !== EXIT.OK) {
+  console.error(`\nFATAL: ${floor.reason}. Every project named here is "(checkout not found)", so no guidance was judged.`);
+  process.exit(floor.code);
+}
+const skipped = projects.length - checked;
+console.log(`\n  ${checked} of ${projects.length} project(s) checked${skipped ? `; ${skipped} not on this machine, not judged` : ''}.`);
+if (forks) { console.error(`\n${forks} project(s) carry two populated guidance files with no bridge - the second never loads. Fold it into the canonical file (skills/agent-guidance-bootstrap).`); process.exit(EXIT.VIOLATIONS); }
+console.log(`\nevery checked project's guidance reaches a session through one canonical file.`);

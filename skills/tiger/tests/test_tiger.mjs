@@ -188,3 +188,78 @@ test('seatStats credits each scope item once, to the seat whose proposal led it'
   assert.equal(grok.led_landed, 1);
   assert.equal(seatStats(p, { kept: ids }, {})[0].led_landed, null, 'no items map -> not measured, never 0');
 });
+
+test('convene refuses a --ceiling-min that is not a positive number before any seat or worktree', async () => {
+  // Number('abc') is NaN and a NaN timer fires at once: every seat of the round was killed on start.
+  const fs = await import('node:fs');
+  const os = await import('node:os');
+  const path = await import('node:path');
+  const { spawnSync } = await import('node:child_process');
+  const { fileURLToPath } = await import('node:url');
+  const script = path.join(path.dirname(fileURLToPath(import.meta.url)), '..', 'scripts', 'tiger.mjs');
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), 'tiger-ceiling-'));
+  try {
+    const dir = path.join(root, 'tiger', 'hunts', '2026-10-25-area');
+    fs.mkdirSync(dir, { recursive: true });
+    fs.writeFileSync(path.join(dir, 'run.json'), JSON.stringify({ id: '2026-10-25-area', area: ['src/area'], head: 'abc', rounds: {} }));
+    fs.writeFileSync(path.join(dir, 'brief.md'), '# The territory\n\nA written dossier.\n');
+    for (const bad of ['abc', '0', '-3']) {
+      const r = spawnSync(process.execPath, [script, 'convene', '--run', dir, '--ceiling-min', bad], { encoding: 'utf8', env: { ...process.env, TIGER_WORK: path.join(root, 'work') } });
+      assert.equal(r.status, 2, `--ceiling-min ${bad}: ${r.stdout}${r.stderr}`);
+      assert.match(r.stderr, /--ceiling-min needs a positive number/);
+    }
+    assert.ok(!fs.existsSync(path.join(root, 'work')), 'no worktree was made');
+    assert.ok(!fs.existsSync(path.join(dir, '_logs')), 'no seat prompt was written');
+  } finally {
+    fs.rmSync(root, { recursive: true, force: true });
+  }
+});
+
+test('ledger keeps one row per seat per run: a re-run replaces that run\'s rows, never appends', async () => {
+  // SKILL.md's file table: tiger/seats.jsonl is "one row per seat per run". The method runs
+  // `ledger` once verdict.json has `landed`, and re-running it after a fix doubled every seat's numbers.
+  const fs = await import('node:fs');
+  const os = await import('node:os');
+  const path = await import('node:path');
+  const { spawnSync } = await import('node:child_process');
+  const { fileURLToPath } = await import('node:url');
+  const script = path.join(path.dirname(fileURLToPath(import.meta.url)), '..', 'scripts', 'tiger.mjs');
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), 'tiger-ledger-'));
+  try {
+    const dir = path.join(root, 'tiger', 'hunts', '2026-10-25-area');
+    fs.mkdirSync(dir, { recursive: true });
+    const p = pool2();
+    const ids = p.proposals.map((x) => x.id);
+    fs.writeFileSync(path.join(dir, 'run.json'), JSON.stringify({ id: '2026-10-25-area', area: ['src/area'], rounds: {} }));
+    fs.writeFileSync(path.join(dir, 'pool.json'), JSON.stringify(p));
+    const out = path.join(root, 'tiger', 'seats.jsonl');
+    const other = JSON.stringify({ run: '2026-09-01-older', seat: 'codex-x', kept: 9 });
+    fs.writeFileSync(out, `${other}\n`);
+    const ledger = () => spawnSync(process.execPath, [script, 'ledger', '--run', dir], { encoding: 'utf8' });
+    fs.writeFileSync(path.join(dir, 'verdict.json'), JSON.stringify({ kept: ids, approved: [ids[0]] }));
+    assert.equal(ledger().status, 0);
+    fs.writeFileSync(path.join(dir, 'verdict.json'), JSON.stringify({ kept: ids, approved: [ids[0]], landed: [ids[0]] }));
+    const second = ledger();
+    assert.equal(second.status, 0, second.stderr);
+    const rows = fs.readFileSync(out, 'utf8').split('\n').filter(Boolean).map((l) => JSON.parse(l));
+    const mine = rows.filter((r) => r.run === '2026-10-25-area');
+    assert.equal(mine.length, 2, `two seats, one row each - got ${mine.length}`);
+    assert.equal(mine.find((r) => r.seat === 'codex-x').landed, 1, 'the latest verdict wins');
+    assert.equal(rows.filter((r) => r.run === '2026-09-01-older').length, 1, 'other runs\' rows are kept');
+  } finally {
+    fs.rmSync(root, { recursive: true, force: true });
+  }
+});
+
+test('tiger.mjs keeps no resolver or runner of its own: both come from the contest skill\'s lib/seat.mjs', async () => {
+  // The two copies had drifted (directory on PATH, agy fallback, wall_s rounding). tiger already
+  // imports ../../contest/scripts/lib/participants.mjs, so this adds no new dependency edge.
+  const fs = await import('node:fs');
+  const path = await import('node:path');
+  const { fileURLToPath } = await import('node:url');
+  const src = fs.readFileSync(path.join(path.dirname(fileURLToPath(import.meta.url)), '..', 'scripts', 'tiger.mjs'), 'utf8');
+  assert.match(src, /import \{ resolveBin, runSeat \} from '\.\.\/\.\.\/contest\/scripts\/lib\/seat\.mjs'/);
+  assert.doesNotMatch(src, /function resolveBin\(/);
+  assert.doesNotMatch(src, /function runSeat\(/);
+  assert.doesNotMatch(src, /taskkill/);
+});

@@ -32,6 +32,12 @@
 
 import fs from 'node:fs';
 import path from 'node:path';
+import { fileURLToPath } from 'node:url';
+
+// The default root is the lane beside this script. It used to be a cwd-relative
+// `knowledge`, so a run from anywhere but the repository root was could-not-run. An
+// explicit --path stays relative to the caller: the caller typed it.
+const DEFAULT_ROOT = path.join(path.resolve(fileURLToPath(new URL('.', import.meta.url)), '..'), 'knowledge');
 
 /**
  * Conventions whose identifier encodes its own issuance date.
@@ -235,7 +241,7 @@ function main() {
     process.exit(2);
   }
   const pathFlag = argv.indexOf('--path');
-  const root = pathFlag !== -1 && argv[pathFlag + 1] ? argv[pathFlag + 1] : 'knowledge';
+  const root = pathFlag !== -1 && argv[pathFlag + 1] ? argv[pathFlag + 1] : DEFAULT_ROOT;
 
   if (!fs.existsSync(root)) {
     console.error(`check-citation-dates: FATAL — root "${root}" does not exist. Cannot check.`);
@@ -267,7 +273,7 @@ function main() {
     process.exit(findings.length ? 1 : 0);
   }
 
-  console.log(`check-citation-dates — ${census.files} file(s) under "${root}"`);
+  console.log(`check-citation-dates — ${census.files} file(s) under "${root === DEFAULT_ROOT ? 'knowledge' : root}"`);
   console.log(`  ${census.identifiers} date-encoded identifier(s) · ${census.withClaim} carrying a nearby year · ${census.noClaim} bare`);
   if (census.identifiers === 0) {
     console.log('\n  No citations of a date-encoded convention were found. That is a fact about');

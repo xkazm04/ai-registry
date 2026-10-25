@@ -3,7 +3,12 @@
 // fleet (see .claude/skills/hygiene/LESSONS.md). The planner is pure: fixtures in, actions out.
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { planActions, denyBlocksPush, splitRed, pickDefaultCi } from '../hygiene-scan.mjs';
+import fs from 'node:fs';
+import os from 'node:os';
+import path from 'node:path';
+import { spawnSync } from 'node:child_process';
+import { fileURLToPath } from 'node:url';
+import { planActions, denyBlocksPush, splitRed, pickDefaultCi, applyAction } from '../hygiene-scan.mjs';
 
 const HOUR = 60;
 
@@ -63,6 +68,20 @@ test('a clean idle merged Claude Code worktree is removed with its branch', () =
   assert.equal(rm?.class, 'mechanical');
   assert.equal(rm.deleteBranch, true);
   assert.equal(A.filter((a) => a.kind === 'delete-local-branch').length, 0, 'the branch goes with its worktree, not separately');
+});
+
+test('a detached worktree is removed only when a ref of its repository holds its HEAD', () => {
+  // 2026-09-24: the ascent worker died with an unpushed local merge in the detached
+  // C:/t/hyg-ascent-pr23. Detached alone read as "content on default", so a clean copy of it
+  // was a mechanical remove, and the merge commit would have been reachable from nothing.
+  const wt = (over) => ({ path: 'C:/t/hyg-ascent-pr23', owner: 'temp', detached: true, head: 'c'.repeat(40), dirty: 0, live: false, lastActivityMin: 48 * HOUR, ...over });
+  const P = (w) => project({ worktrees: [project().worktrees[0], w] });
+  const unlanded = planActions(P(wt({ headOnRef: false })));
+  assert.equal(unlanded.filter((a) => a.kind === 'remove-worktree').length, 0);
+  assert.equal(unlanded.find((a) => a.kind === 'triage-worktree-branch')?.class, 'worker');
+  assert.match(unlanded.find((a) => a.kind === 'triage-worktree-branch').reason, /detached HEAD cccccccc is on no branch or remote ref/);
+  assert.equal(planActions(P(wt({}))).filter((a) => a.kind === 'remove-worktree').length, 0, 'unknown is not landed');
+  assert.equal(planActions(P(wt({ headOnRef: true }))).find((a) => a.kind === 'remove-worktree')?.class, 'mechanical');
 });
 
 test('a worktree younger than the idle floor is left alone', () => {
@@ -150,6 +169,21 @@ test('a branch contained in the unpushed local default branch is a mechanical de
   const A = planActions(project({ localBranches: [branch('direction/done-locally', { cls: 'on-local-default', ahead: 70 })] }));
   assert.deepEqual(kinds(A, 'mechanical'), ['delete-local-branch direction/done-locally']);
   assert.equal(A.filter((a) => a.class === 'worker').length, 0);
+});
+
+test('a REMOTE branch whose content is only in the unpushed local default is not deleted from origin', () => {
+  // on-local-default means "in this machine's local master", not "on origin". --apply runs
+  // delete-remote-branch before push-primary, and a pre-push gate or a production-deploy hold
+  // can stop the push: the branch on origin was then the only copy anywhere but this disk.
+  const primary = { branch: 'main', onDefault: true, dirty: 0, live: false, ahead: 5, behind: 0, unpushed: ['abc x'] };
+  for (const over of [{}, { slug: 'ascent', defaultBranch: 'master', primary: { ...primary, branch: 'master' } }]) {
+    const A = planActions(project({ primary, remoteBranches: [branch('feat', { remote: true, cls: 'on-local-default', ahead: 3 })], ...over }));
+    assert.equal(A.filter((a) => a.kind === 'delete-remote-branch').length, 0, over.slug ?? 'demo');
+    assert.equal(A.filter((a) => a.target === 'origin/feat').length, 0, 'nothing to triage: it is merged once the primary pushes');
+  }
+  // The local twin still goes: its content stays on this disk in the local default.
+  const L = planActions(project({ primary, localBranches: [branch('feat', { cls: 'on-local-default', ahead: 3 })] }));
+  assert.deepEqual(kinds(L, 'mechanical').filter((k) => k.startsWith('delete-')), ['delete-local-branch feat']);
 });
 
 test('a branch riding on the unpushed local default commits says so and carries the count', () => {
@@ -255,4 +289,180 @@ test('debris: junk is mechanical, scratch is the operator, live and tracked are 
   assert.deepEqual(kinds(A, 'mechanical'), ['delete-debris grep.exe.stackdump']);
   assert.deepEqual(kinds(A, 'hands-off'), ['live-debris skills/x/__pycache__/']);
   assert.deepEqual(kinds(A, 'operator'), ['debris-candidate .personas-web/', 'debris-candidate tmp/', 'tracked-junk stale.pyc']);
+});
+
+// ---- the CLI's own refusals (spawned; never reaches the fleet or GitHub)
+const SCAN = fileURLToPath(new URL('../hygiene-scan.mjs', import.meta.url));
+const cli = (...args) => spawnSync(process.execPath, [SCAN, ...args], { encoding: 'utf8', timeout: 60_000 });
+
+test('an instrument that could not run exits FATAL (2), not VIOLATIONS (1)', () => {
+  // scripts/lib/exit-codes.mjs: 1 means "ran and found something", 2 "could not run";
+  // hygiene-disk, the same skill's other instrument, already says 2.
+  const out = fs.mkdtempSync(path.join(os.tmpdir(), 'hscan-'));
+  try {
+    const res = cli('--brief', 'no-such-project', '--out', out); // no fleet here, or no plan.json there
+    assert.equal(res.status, 2, res.stderr);
+    assert.match(res.stderr, /FATAL/);
+  } finally { fs.rmSync(out, { recursive: true, force: true }); }
+});
+
+test('a typo in a window or an unknown option refuses the run before the fleet is touched', () => {
+  // Number('2h') is NaN and `lastActivityMin < NaN` is false: every branch, worktree and PR
+  // read as not live, and --apply's "became live" re-checks passed. `--dry-run` was ignored.
+  const out = fs.mkdtempSync(path.join(os.tmpdir(), 'hscan-'));
+  try {
+    for (const args of [['--live-minutes', '2h'], ['--idle-hours', 'x'], ['--live-minutes', '-5'], ['--apply', '--dry-run'], ['--only']]) {
+      const res = cli(...args, '--out', out, '--only', 'no-such-project');
+      assert.equal(res.status, 2, `${args.join(' ')}: ${res.stderr}`);
+      assert.match(res.stderr, new RegExp(args.at(-1) === '--only' ? '--only needs a value' : args.find((a) => a.startsWith('--') && a !== '--apply')), args.join(' '));
+    }
+  } finally { fs.rmSync(out, { recursive: true, force: true }); }
+});
+
+// ---- --apply's mechanics on throwaway repositories (never the fleet's)
+const FIXTURE_ENV = { ...Object.fromEntries(Object.entries(process.env).filter(([k]) => !k.startsWith('GIT_'))), GIT_AUTHOR_NAME: 't', GIT_AUTHOR_EMAIL: 't@t.invalid', GIT_COMMITTER_NAME: 't', GIT_COMMITTER_EMAIL: 't@t.invalid', GIT_AUTHOR_DATE: '2020-01-01T00:00:00Z', GIT_COMMITTER_DATE: '2020-01-01T00:00:00Z' };
+const gx = (cwd, ...args) => spawnSync('git', ['-C', cwd, ...args], { env: FIXTURE_ENV, encoding: 'utf8' }).stdout.trim();
+function fixtureRepo(base, name) {
+  const d = path.join(base, name);
+  fs.mkdirSync(d);
+  gx(d, 'init', '-q', '-b', 'main');
+  fs.writeFileSync(path.join(d, 'a.txt'), 'one\n');
+  gx(d, 'add', 'a.txt');
+  gx(d, 'commit', '-q', '-m', 'one');
+  gx(d, 'branch', 'done');
+  return d;
+}
+
+test('--apply acts on the checkout it names even when the environment exports GIT_DIR', async () => {
+  // hygiene-disk strips the repository-selecting variables (2026-09-19: a hook's GIT_DIR made
+  // fixtures write into real repos); hygiene-scan, which deletes branches, passed them through.
+  const base = fs.mkdtempSync(path.join(os.tmpdir(), 'hscan-'));
+  const A = fixtureRepo(base, 'a');
+  const B = fixtureRepo(base, 'b'); // same content and dates: the same sha, so a wrong-repo answer passes the tip check
+  const sha = gx(A, 'rev-parse', 'refs/heads/done');
+  const saved = process.env.GIT_DIR;
+  process.env.GIT_DIR = path.join(B, '.git');
+  let res;
+  try { res = await applyAction({ slug: 'a', path: A, repo: 'o/a' }, { kind: 'delete-local-branch', target: 'done', sha }); }
+  finally { if (saved == null) delete process.env.GIT_DIR; else process.env.GIT_DIR = saved; }
+  try {
+    assert.equal(res.done, true, JSON.stringify(res));
+    assert.equal(gx(B, 'rev-parse', '--verify', '-q', 'refs/heads/done'), sha, 'the other repository was not touched');
+    assert.equal(gx(A, 'rev-parse', '--verify', '-q', 'refs/heads/done'), '', 'the named checkout lost the branch');
+  } finally { fs.rmSync(base, { recursive: true, force: true }); }
+});
+
+test('--apply deletes only what it archived: a failed archive skips, an earlier archive is never overwritten, a removed worktree keeps its HEAD', async () => {
+  // The recovery path (SKILL Phase 2) is `git for-each-ref refs/hygiene-archive/`. The archive's
+  // result was ignored, update-ref overwrote a same-day archive of the same name, and
+  // remove-worktree reported `archived: <head>` without writing any ref.
+  const base = fs.mkdtempSync(path.join(os.tmpdir(), 'hscan-'));
+  const today = new Date().toISOString().slice(0, 10);
+  const AR = `refs/hygiene-archive/${today}`;
+  try {
+    const A = fixtureRepo(base, 'a');
+    const P = { slug: 'a', path: A, repo: 'o/a' };
+    const one = gx(A, 'rev-parse', 'HEAD');
+    // 1. a D/F conflict makes the archive impossible: the branch stays
+    gx(A, 'branch', 'x/y');
+    gx(A, 'update-ref', `${AR}/x`, one);
+    let res = await applyAction(P, { kind: 'delete-local-branch', target: 'x/y', sha: one });
+    assert.ok(!res.done, JSON.stringify(res));
+    assert.match(res.skipped, /could not archive/);
+    assert.equal(gx(A, 'rev-parse', '--verify', '-q', 'refs/heads/x/y'), one, 'unarchived branch kept');
+    // 2. an archive already holding another tip today is kept; this one goes beside it
+    fs.writeFileSync(path.join(A, 'b.txt'), 'two\n');
+    gx(A, 'add', 'b.txt');
+    gx(A, 'commit', '-q', '-m', 'two');
+    const two = gx(A, 'rev-parse', 'HEAD');
+    gx(A, 'update-ref', `${AR}/done`, two);
+    res = await applyAction(P, { kind: 'delete-local-branch', target: 'done', sha: one });
+    assert.equal(res.done, true, JSON.stringify(res));
+    assert.equal(gx(A, 'rev-parse', `${AR}/done`), two, 'the earlier archive survives');
+    assert.equal(gx(A, 'rev-parse', `${AR}/done-2`), one);
+    // 3. a removed worktree's HEAD is archived
+    const wt = path.join(base, 'wt-old');
+    gx(A, 'worktree', 'add', '-q', '--detach', wt, one);
+    const admin = path.join(A, '.git', 'worktrees', 'wt-old');
+    for (const f of ['HEAD', path.join('logs', 'HEAD')]) if (fs.existsSync(path.join(admin, f))) fs.utimesSync(path.join(admin, f), new Date('2020-01-02'), new Date('2020-01-02'));
+    res = await applyAction(P, { kind: 'remove-worktree', target: wt, sha: one, branch: null, deleteBranch: false });
+    assert.equal(res.done, true, JSON.stringify(res));
+    assert.equal(fs.existsSync(wt), false);
+    assert.equal(gx(A, 'rev-parse', '--verify', '-q', `${AR}/worktree/wt-old`), one, 'the HEAD the ledger says it archived');
+  } finally { fs.rmSync(base, { recursive: true, force: true }); }
+});
+
+// ---- delete-debris must see past the old depth-6 / 5000-entry probe (card G5)
+// Irreversible deletes were gated by a capped walk: a link or a fresh write deeper than 6
+// levels was invisible to "contains a symlink" and "touched N min ago". Fixtures only.
+const OLD = new Date('2020-01-02');
+// safe-remove's age probe counts creation time, which no fixture can backdate. So the module is
+// loaded a second time with its clock three days ahead (NOW is read once at import): everything
+// the fixture creates is then three days old, and only a file given an mtime of that later
+// "now" is live. Date.now is restored before any test runs.
+const LATER = Date.now() + 3 * 24 * 3600_000;
+const later = await (async () => {
+  const real = Date.now;
+  Date.now = () => LATER;
+  try { return await import('../hygiene-scan.mjs?clock=later'); } finally { Date.now = real; }
+})();
+const applyLater = later.applyAction;
+function deepDebris(A, depth, leaf) {
+  const parts = ['__pycache__', ...Array.from({ length: depth }, (_, i) => `d${i}`)];
+  const dirs = parts.map((_, i) => path.join(A, ...parts.slice(0, i + 1)));
+  fs.mkdirSync(dirs.at(-1), { recursive: true });
+  const old = path.join(dirs.at(-1), 'old.pyc');
+  fs.writeFileSync(old, 'x');
+  const made = leaf ? leaf(dirs.at(-1)) : null;
+  for (const f of [old, ...(made?.backdate ?? [])]) fs.utimesSync(f, OLD, OLD);
+  for (const d of dirs.reverse()) fs.utimesSync(d, OLD, OLD); // deepest first: a child write bumps its parent
+  return { root: path.join(A, '__pycache__'), made };
+}
+
+test('delete-debris refuses a tree with a fresh write nine levels down and deletes nothing', async () => {
+  const base = fs.mkdtempSync(path.join(os.tmpdir(), 'hscan-'));
+  try {
+    const A = fixtureRepo(base, 'a');
+    const { made } = deepDebris(A, 9, (leafDir) => {
+      const fresh = path.join(leafDir, 'fresh.pyc');
+      fs.writeFileSync(fresh, 'live');
+      fs.utimesSync(fresh, new Date(LATER), new Date(LATER));
+      return { fresh };
+    });
+    const res = await applyLater({ slug: 'a', path: A, repo: 'o/a' }, { kind: 'delete-debris', target: '__pycache__/' });
+    assert.ok(!res.done, JSON.stringify(res));
+    assert.match(res.skipped, /touched/);
+    assert.equal(fs.existsSync(made.fresh), true, 'the fresh file survived');
+  } finally { fs.rmSync(base, { recursive: true, force: true }); }
+});
+
+test('delete-debris refuses a tree holding a junction nine levels down and never enters it', async () => {
+  const base = fs.mkdtempSync(path.join(os.tmpdir(), 'hscan-'));
+  try {
+    const A = fixtureRepo(base, 'a');
+    const outside = path.join(base, 'outside');
+    fs.mkdirSync(outside);
+    fs.writeFileSync(path.join(outside, 'keep.txt'), 'precious');
+    const { made } = deepDebris(A, 9, (leafDir) => {
+      const link = path.join(leafDir, 'link');
+      fs.symlinkSync(outside, link, 'junction');
+      return { link };
+    });
+    const res = await applyLater({ slug: 'a', path: A, repo: 'o/a' }, { kind: 'delete-debris', target: '__pycache__/' });
+    assert.ok(!res.done, JSON.stringify(res));
+    assert.match(res.skipped, /symlink or junction/);
+    assert.equal(fs.existsSync(path.join(outside, 'keep.txt')), true, 'the link target survived');
+    assert.equal(fs.lstatSync(made.link).isSymbolicLink(), true, 'the link was left in place');
+  } finally { fs.rmSync(base, { recursive: true, force: true }); }
+});
+
+test('delete-debris still removes a fully idle deep tree, through removeTree', async () => {
+  const base = fs.mkdtempSync(path.join(os.tmpdir(), 'hscan-'));
+  try {
+    const A = fixtureRepo(base, 'a');
+    const { root } = deepDebris(A, 9);
+    const res = await applyLater({ slug: 'a', path: A, repo: 'o/a' }, { kind: 'delete-debris', target: '__pycache__/' });
+    assert.equal(res.done, true, JSON.stringify(res));
+    assert.equal(fs.existsSync(root), false);
+  } finally { fs.rmSync(base, { recursive: true, force: true }); }
 });

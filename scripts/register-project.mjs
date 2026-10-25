@@ -23,6 +23,13 @@
  * - The checkout sits outside the machine root. A relative path cannot express it, and an
  *   absolute one never goes in projects.json; that is what `.machine.local.json` overrides are for.
  *
+ * Two refusals can only be known AFTER a write: the registry map does not build (a project
+ * with no context-map.json yet), or the fleet gate fails over what was written. Those undo
+ * this run's own writes before exiting - projects.json goes back to its bytes, a manifest
+ * or map this run created is removed - so the rerun meets the same cause. Until 2026-10-25
+ * they left projects.json dirty, and the rerun was refused for "uncommitted changes" that
+ * were its own edit.
+ *
  * Idempotent: an already-registered slug says so and moves on; an existing manifest is never
  * rewritten; an existing map is not rebuilt. A second run writes nothing.
  *
@@ -152,16 +159,36 @@ export function register({ slug, root, domains, dryRun = false, registry = ROOT,
   const rel = posix(path.relative(base, root));
   if (!portableCheckout(rel) || path.isAbsolute(rel)) throw new Refusal(`${root} is outside this machine's root (${base}); declare it as an override in .machine.local.json instead`);
 
+  // Every write below registers its own undo. A refusal after the first write runs them in
+  // reverse, so a failed registration leaves the registry and the product as it found them.
+  const undo = [];
+  try {
+    return registerWrites({ slug, root, domains, dryRun, registry, log, say, machine, rel, undo });
+  } catch (e) {
+    for (const step of undo.reverse()) {
+      try { step(); } catch (u) { log(`  undo failed: ${u.message}`); }
+    }
+    throw e;
+  }
+}
+
+function registerWrites({ slug, root, domains, dryRun, registry, log, say, machine, rel, undo }) {
   // 1. projects.json
   const fleetFile = path.join(registry, 'projects.json');
-  const { text, changed } = addCheckout(fs.readFileSync(fleetFile, 'utf8'), { slug, machine, rel });
+  const original = fs.readFileSync(fleetFile, 'utf8');
+  const { text, changed } = addCheckout(original, { slug, machine, rel });
   if (!changed) say(`projects.json: ${slug} is already registered on ${machine} as ${rel}`);
   else {
     say(`projects.json: add projects.${slug}.checkouts.${machine} = "${rel}"`);
-    if (!dryRun) fs.writeFileSync(fleetFile, text);
+    if (!dryRun) {
+      fs.writeFileSync(fleetFile, text);
+      undo.push(() => fs.writeFileSync(fleetFile, original));
+    }
   }
 
   // 2. .ai/manifest.yaml - written into the PRODUCT, only when absent.
+  const aiDir = path.join(root, '.ai');
+  if (!dryRun && !fs.existsSync(aiDir)) undo.push(() => fs.rmSync(aiDir, { recursive: true, force: true }));
   const manifestFile = path.join(root, '.ai', 'manifest.yaml');
   if (fs.existsSync(manifestFile)) {
     const declared = domainsOf(root);
@@ -178,6 +205,7 @@ export function register({ slug, root, domains, dryRun = false, registry = ROOT,
     if (!dryRun) {
       fs.mkdirSync(path.dirname(manifestFile), { recursive: true });
       fs.writeFileSync(manifestFile, manifest);
+      undo.push(() => fs.rmSync(manifestFile, { force: true }));
     }
   }
 
@@ -188,6 +216,7 @@ export function register({ slug, root, domains, dryRun = false, registry = ROOT,
   else if (dryRun) say(`.ai/registry-map.json: would run node ${posix(path.relative(ROOT, build[0]))} ${build.slice(1).join(' ')}`);
   else {
     log(`.ai/registry-map.json: node ${posix(path.relative(ROOT, build[0]))} ${build.slice(1).join(' ')}`);
+    undo.push(() => fs.rmSync(mapFile, { force: true }));
     const r = spawnSync(process.execPath, build, { stdio: ['ignore', 'pipe', 'pipe'], encoding: 'utf8' });
     // The builder reports a skipped project as a problem and still exits 0; the file is the verdict.
     if (r.status !== 0 || !fs.existsSync(mapFile)) {

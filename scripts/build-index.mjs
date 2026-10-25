@@ -35,10 +35,20 @@ import { loadTaxonomy, walkSubjects } from './lib/taxonomy.mjs';
 import { sameIgnoringNewlines, hashBundle } from './lib/bundle-hash.mjs';
 import { extractLawStatements } from './lib/laws.mjs';
 import { deriveSubjectRevisions } from './lib/subject-revision.mjs';
+import { installCrashDoor } from './lib/exit-codes.mjs';
+
+installCrashDoor();
 
 const ROOT = path.resolve(fileURLToPath(new URL('.', import.meta.url)), '..');
 const LANE = path.join(ROOT, 'knowledge');
-const check = process.argv.includes('--check');
+// A closed flag set, read before the lane: anything but `--check` used to be WRITE mode,
+// so `--help` inside a parallel wave regenerated every index (intake LESSONS.md).
+const USAGE = 'usage: node scripts/build-index.mjs [--check]';
+const ARGS = process.argv.slice(2);
+if (ARGS.includes('--help') || ARGS.includes('-h')) { console.log(USAGE); process.exit(0); }
+const strays = ARGS.filter((a) => a !== '--check');
+if (strays.length) { console.error(`build-index: unknown argument(s) ${strays.join(' ')} - nothing read or written\n${USAGE}`); process.exit(2); }
+const check = ARGS.includes('--check');
 
 /** The previous index's `revision`/`changedAt` per subject directory, so the shallow /
  *  no-git fallback in subject-revision.mjs has something to carry forward. Read BEFORE

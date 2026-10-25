@@ -69,25 +69,31 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
  * POST JSON to an ElevenLabs endpoint and write the audio body to `file`.
  * One retry on a network error, 429 or 5xx (honouring retry-after). The key goes in the
  * header only and never into an error message.
+ * Every attempt has a deadline (`timeoutMs`, default 5 min - a long music cue takes minutes):
+ * a provider that accepts the connection and never answers is a failure, not a hang.
  */
-export async function postAudio({ url, apiKey, body, file, fetchImpl = fetch }) {
+export const POST_TIMEOUT_MS = 300000;
+export async function postAudio({ url, apiKey, body, file, fetchImpl = fetch, timeoutMs = POST_TIMEOUT_MS }) {
+  const timedOut = (err) => (err?.name === 'TimeoutError' ? new Error(`no response within ${timeoutMs} ms`) : err);
   for (let attempt = 0; attempt < 2; attempt += 1) {
     let res;
+    const signal = AbortSignal.timeout(timeoutMs);
     try {
       res = await fetchImpl(url, {
         method: 'POST',
         headers: { 'xi-api-key': apiKey, 'Content-Type': 'application/json', Accept: 'audio/mpeg' },
         body: JSON.stringify(body),
+        signal,
       });
     } catch (err) {
       if (attempt === 0) {
         await sleep(2000);
         continue;
       }
-      throw err;
+      throw timedOut(err);
     }
     if (res.ok) {
-      const buf = Buffer.from(await res.arrayBuffer());
+      const buf = Buffer.from(await res.arrayBuffer().catch((err) => { throw timedOut(err); }));
       if (buf.length === 0) throw new Error('the API returned an empty body');
       await mkdir(path.dirname(file), { recursive: true });
       await writeFile(file, buf);

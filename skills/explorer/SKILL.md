@@ -5,7 +5,7 @@ argument-hint: "[area] [--triage-all]"
 category: workflow
 memory: vault
 contexts: tracked
-version: 2.6.1
+version: 2.6.2
 ---
 # Explorer
 

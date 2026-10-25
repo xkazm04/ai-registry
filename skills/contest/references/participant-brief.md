@@ -14,6 +14,20 @@ Exactly **{{variants}} variants**, each a genuinely different answer to the idea
 metaphor, a different information architecture, a different bet on what the user needs first.
 Three skins of one idea will lose to one strong idea and two honest alternatives.
 
+**The divergence contract.** The contest exists to find the best idea, not the best polish of
+the first one. Each variant:
+- reframes the problem in one sentence of its own ("the release is a film", "the release is a
+  queue of decisions") that no sibling shares;
+- has its own primary surface: what fills the first screen differs between variants, not only
+  how it is styled or where a panel docks;
+- states what it deliberately drops that the obvious design would keep.
+
+Before you stop, put your variants' first screens side by side in your head and name each one's
+layout skeleton (what sits where, what is largest). If two share a skeleton, rebuild the weaker
+one around a different reframing - one bold idea that half works is worth more than a fourth
+tidy variation. NOTES.md starts with the reframing sentence under `## Philosophy` and lists what
+was dropped under `## Known limits`.
+
 ```
 {{layout}}
 ```

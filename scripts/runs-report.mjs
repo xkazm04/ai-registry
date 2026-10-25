@@ -15,6 +15,11 @@
  *
  * Usage:  node scripts/runs-report.mjs [--since <N>d] [--skill <name>] [--device <d>] [--json] [--root <registry>]
  *   --since defaults to 30d, counted back from now.
+ *
+ * The flag set is closed: an unknown flag, or a valued flag with no value, exits 2. A
+ * `--root` with no value used to fall back to THIS checkout's registry (a report about the
+ * wrong lane that looked right), and `--skill --json` took "--json" as the skill name and
+ * reported an empty lane.
  */
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -68,7 +73,20 @@ function printText(rep, log = console.log) {
 const isMain = process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url);
 if (isMain) {
   const argv = process.argv.slice(2);
-  const val = (flag) => { const i = argv.indexOf(flag); return i === -1 ? undefined : argv[i + 1]; };
+  const USAGE = 'Usage: runs-report.mjs [--since <N>d] [--skill <name>] [--device <d>] [--json] [--root <registry>]';
+  const VALUED = new Set(['--since', '--skill', '--device', '--root']);
+  const given = {};
+  let json = false;
+  if (argv.includes('--help') || argv.includes('-h')) { console.log(USAGE); process.exit(EXIT.OK); }
+  for (let i = 0; i < argv.length; i++) {
+    const a = argv[i];
+    if (a === '--json') { json = true; continue; }
+    if (!VALUED.has(a)) { console.error(`FATAL: unknown argument ${JSON.stringify(a)}. ${USAGE}`); process.exit(EXIT.FATAL); }
+    const v = argv[++i];
+    if (v === undefined || v.startsWith('--')) { console.error(`FATAL: ${a} needs a value. ${USAGE}`); process.exit(EXIT.FATAL); }
+    given[a] = v;
+  }
+  const val = (flag) => given[flag];
   const sinceRaw = val('--since') ?? '30d';
   const m = /^(\d+)d?$/.exec(sinceRaw);
   if (!m) {
@@ -81,7 +99,7 @@ if (isMain) {
     skill: val('--skill') ?? null,
     device: val('--device') ?? null,
   });
-  if (argv.includes('--json')) console.log(JSON.stringify(rep, null, 2));
+  if (json) console.log(JSON.stringify(rep, null, 2));
   else printText(rep);
   process.exit(EXIT.OK);
 }

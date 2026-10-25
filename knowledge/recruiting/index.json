@@ -572,9 +572,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/recruiting/assessment/assessment-instrument-validation/assessment-instrument-validation.md",
-   "digest": "sha256-b2:cf6f4e9c392bffb1",
-   "revision": 5,
-   "changedAt": "2026-10-14",
+   "digest": "sha256-b2:d2f46d3df08e4b06",
+   "revision": 6,
+   "changedAt": "2026-10-25",
    "techniques": [
     {
      "slug": "adversarial-persona-red-teaming",
@@ -1437,9 +1437,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/recruiting/candidate-experience/candidate-communication-integrity/candidate-communication-integrity.md",
-   "digest": "sha256-b2:c969375a5572288d",
-   "revision": 6,
-   "changedAt": "2026-10-14",
+   "digest": "sha256-b2:bc7f247331d1e433",
+   "revision": 7,
+   "changedAt": "2026-10-25",
    "techniques": [
     {
      "slug": "bounce-receipt-supersedes-a-green-send",
@@ -1855,9 +1855,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/recruiting/sourcing-and-intake/candidate-outreach-and-halt-rules/candidate-outreach-and-halt-rules.md",
-   "digest": "sha256-b2:bf053db49cbe254e",
-   "revision": 4,
-   "changedAt": "2026-10-14",
+   "digest": "sha256-b2:ec5e8e9a06856430",
+   "revision": 5,
+   "changedAt": "2026-10-25",
    "techniques": [
     {
      "slug": "an-automatic-reply-is-not-an-answer",
@@ -2033,9 +2033,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/recruiting/pipeline-operations/candidate-self-scheduling/candidate-self-scheduling.md",
-   "digest": "sha256-b2:5f91a309371dfe89",
-   "revision": 2,
-   "changedAt": "2026-09-28",
+   "digest": "sha256-b2:c98d961dc620761e",
+   "revision": 3,
+   "changedAt": "2026-10-25",
    "techniques": [
     {
      "slug": "adjustments-asked-at-the-booking-step",
@@ -2196,9 +2196,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/recruiting/candidate-experience/candidate-status-transparency/candidate-status-transparency.md",
-   "digest": "sha256-b2:8b56bba66e157ca3",
-   "revision": 3,
-   "changedAt": "2026-09-28",
+   "digest": "sha256-b2:436aa789c377bd9c",
+   "revision": 4,
+   "changedAt": "2026-10-25",
    "techniques": [
     {
      "slug": "candidate-legible-timeline",
@@ -2372,9 +2372,9 @@
    "subcategory": "fairness-and-defensibility",
    "status": "forged",
    "file": "knowledge/recruiting/decision-and-fairness/fairness-and-defensibility/collective-and-statutory-hiring-governance/collective-and-statutory-hiring-governance.md",
-   "digest": "sha256-b2:e1455cfce10b4def",
-   "revision": 2,
-   "changedAt": "2026-09-28",
+   "digest": "sha256-b2:a8611b249f54c3dd",
+   "revision": 3,
+   "changedAt": "2026-10-25",
    "techniques": [
     {
      "slug": "advisory-machine-that-never-seals",
@@ -5944,9 +5944,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/recruiting/pipeline-operations/pipeline-stage-modelling/pipeline-stage-modelling.md",
-   "digest": "sha256-b2:99756265cc6fc4e7",
-   "revision": 5,
-   "changedAt": "2026-09-29",
+   "digest": "sha256-b2:83fe44f86efb3eca",
+   "revision": 6,
+   "changedAt": "2026-10-25",
    "techniques": [
     {
      "slug": "entry-and-terminal-role-requirements",
@@ -6081,9 +6081,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/recruiting/governance/portable-candidate-credentials/portable-candidate-credentials.md",
-   "digest": "sha256-b2:69bedfad1db06dbf",
-   "revision": 7,
-   "changedAt": "2026-09-30",
+   "digest": "sha256-b2:5e16ab2b4c9830c0",
+   "revision": 8,
+   "changedAt": "2026-10-25",
    "techniques": [
     {
      "slug": "freshness-is-separate-from-integrity",
@@ -6228,9 +6228,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/recruiting/sourcing-and-intake/portable-hiring-records/portable-hiring-records.md",
-   "digest": "sha256-b2:15cfa2c72d85e3e8",
-   "revision": 2,
-   "changedAt": "2026-08-24",
+   "digest": "sha256-b2:e5e04d0b1e1176a2",
+   "revision": 3,
+   "changedAt": "2026-10-25",
    "techniques": [
     {
      "slug": "external-identifier-as-the-sync-identity",
@@ -7330,9 +7330,9 @@
    "subcategory": "fairness-and-defensibility",
    "status": "forged",
    "file": "knowledge/recruiting/decision-and-fairness/fairness-and-defensibility/regulated-credential-gating/regulated-credential-gating.md",
-   "digest": "sha256-b2:d1cb9f42198e2123",
-   "revision": 3,
-   "changedAt": "2026-08-24",
+   "digest": "sha256-b2:c50d247cc160e408",
+   "revision": 4,
+   "changedAt": "2026-10-25",
    "techniques": [
     {
      "slug": "credential-cue-catalog-per-role-family",
@@ -8248,9 +8248,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/recruiting/candidate-evidence/skill-adjacency-and-normalization/skill-adjacency-and-normalization.md",
-   "digest": "sha256-b2:4afcb15fd36942fa",
-   "revision": 3,
-   "changedAt": "2026-08-24",
+   "digest": "sha256-b2:f868ad4bd3033e7d",
+   "revision": 4,
+   "changedAt": "2026-10-25",
    "techniques": [
     {
      "slug": "bilingual-surface-parity-and-coverage-floors",

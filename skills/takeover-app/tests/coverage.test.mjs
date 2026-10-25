@@ -25,6 +25,16 @@ test('per-root and total coverage over source files, directory entries expand, d
   assert.deepEqual(out.uncovered.map((u) => u.dir).sort(), ['.', 'api', 'src/app', 'src/lib']);
 });
 
+test('a nested map (groups[].contexts[], ungrouped[]) claims what the flat one does', () => {
+  // adopt-bp phase 0 reads this shape as v2 (Vibeman writes it), and scan-sweep and explorer
+  // flatten it; read as flat it claimed nothing, and GATE 1 showed 0% for a fully mapped repo.
+  const [payments, invoices, ghost] = map.contexts;
+  const nested = { groups: [{ name: 'money', contexts: [payments, invoices] }], ungrouped: [ghost] };
+  assert.deepEqual(coverage(tracked, nested, { uncovered: true }), coverage(tracked, map, { uncovered: true }));
+  const mixed = { contexts: [payments], groups: [{ name: 'g', contexts: [invoices] }] };
+  assert.equal(coverage(tracked, mixed).totals.claimed, 3);
+});
+
 test('an empty map claims nothing and still reports', () => {
   const out = coverage(tracked, {});
   assert.equal(out.totals.claimed, 0);

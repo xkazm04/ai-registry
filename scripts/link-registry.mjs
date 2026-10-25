@@ -39,7 +39,7 @@
  * skill that shadows a lane name is a finding for `fleet-audit.mjs`, not something to
  * silently delete here.
  *
- *   node scripts/link-registry.mjs [--check] [--project <slug>]
+ *   node scripts/link-registry.mjs [--check] [--listing-only] [--project <slug>]
  *
  * `--check` verifies and reports without writing - the form for a pre-commit hook or a
  * session-start sanity pass. Exit 1 when something is wrong, 2 when the instrument cannot
@@ -54,18 +54,34 @@ import { loadBridge } from './lib/projects.mjs';
 const ROOT = path.resolve(fileURLToPath(new URL('.', import.meta.url)), '..');
 const LANE = path.join(ROOT, 'skills');
 const RULES = path.join(ROOT, 'rules');
+const USAGE = 'usage: node scripts/link-registry.mjs [--check] [--listing-only] [--project <slug>]';
 if (process.argv.includes('--help') || process.argv.includes('-h')) {
-  // Without this guard an unknown flag fell through to a fleet-wide write run (2026-09-14:
-  // `--help` relinked every project and rewrote a rules copy and a .gitignore it was not asked to).
-  console.log('usage: node scripts/link-registry.mjs [--check] [--listing-only] [--project <slug>]');
+  console.log(USAGE);
   process.exit(0);
 }
-const checkOnly = process.argv.includes('--check');
+// The default run WRITES into every project, so anything this script does not understand
+// stops it. The --help guard above was the first half of this (2026-09-14: `--help`
+// relinked every project and rewrote a rules copy and a .gitignore it was not asked to);
+// a typo such as `--chek`, or a `--project` with its slug missing, fell through the same
+// way until 2026-10-25 - the second relinking the whole fleet, because no slug read as
+// "no filter".
+const argv = process.argv.slice(2);
+let onlyProject = null;
+for (let i = 0; i < argv.length; i += 1) {
+  const a = argv[i];
+  if (a === '--check' || a === '--listing-only') continue;
+  if (a === '--project') {
+    const slug = argv[i + 1];
+    if (!slug || slug.startsWith('-')) { console.error(`FATAL: --project needs a slug.\n${USAGE}`); process.exit(2); }
+    onlyProject = slug; i += 1; continue;
+  }
+  console.error(`FATAL: unknown argument ${a} - refusing to run, because the default run writes into every project.\n${USAGE}`);
+  process.exit(2);
+}
+const checkOnly = argv.includes('--check');
 // --listing-only runs the listing-tier pass alone: it writes nothing but the gitignored
 // .claude/settings.local.json, so it can land beside unrelated link or .gitignore drift.
-const listingOnly = process.argv.includes('--listing-only');
-const projIdx = process.argv.indexOf('--project');
-const onlyProject = projIdx === -1 ? null : process.argv[projIdx + 1];
+const listingOnly = argv.includes('--listing-only');
 const GITIGNORE_BEGIN = '# BEGIN ai-registry linked skills (managed by ai-registry/scripts/link-registry.mjs)';
 const GITIGNORE_END = '# END ai-registry linked skills';
 
@@ -74,6 +90,13 @@ if (!fleet.machine && !Object.keys(fleet.projects).length) {
   console.error('FATAL: this machine has no resolvable fleet.');
   for (const p of fleet.problems) console.error(`  - ${p}`);
   console.error('  Expected a committed projects.json plus a local .machine.local.json (see librarian/projects.md).');
+  process.exit(2);
+}
+// A named project this machine does not resolve is a run that cannot happen, not an empty
+// one: without this, `--check --project <typo>` printed "every declared skill is linked"
+// and exited 0 over a project it never looked at.
+if (onlyProject && !fleet.projects[onlyProject]) {
+  console.error(`FATAL: no project "${onlyProject}" resolves on this machine (projects.json + .machine.local.json).`);
   process.exit(2);
 }
 if (!fs.existsSync(LANE)) {
@@ -351,7 +374,7 @@ if (problems.length) {
   for (const p of problems) console.error(`  - ${p}`);
 }
 if (checkOnly) {
-  if (problems.length) { console.error('\nlink-skills --check FAILED'); process.exit(1); }
+  if (problems.length) { console.error('\nlink-registry --check FAILED'); process.exit(1); }
   console.log('\nevery declared skill is linked to the lane; nothing stale.');
 } else {
   console.log(`\n${changed} link(s) changed. An edit to a linked skill edits the registry file itself - there is nothing to sync.`);

@@ -71,6 +71,38 @@ test('a full-canvas WHITE path is recolored to var(--background), not dropped', 
   assert.equal(data[1].fill, '#0D1F51', 'dark line-work is not surface: navy has a bright blue channel');
 });
 
+test('a path is read whatever its attribute order or fill syntax; what cannot be read is COUNTED', () => {
+  // The matcher used to require exactly <path fill="#hex" d="..."/>: a path with d first, a named
+  // fill (svgo's shortname turns #000080 into navy) or extra attributes vanished from the output,
+  // and `dropped` (paths matched minus paths emitted) was 0 by construction, so nothing said so.
+  const svg = '<svg viewBox="0 0 1024 1024">'
+    + `<path d="${SMALL}" fill="#123456"/>`
+    + `<path fill="navy" fill-rule="evenodd" d="${CORNER}"/>`
+    + `<path d="${CORNER}"/>`
+    + `<path fill="#abcdef" d="${SMALL}" transform="translate(4,4)"/>`
+    + '<path fill="#abcdef"/>'
+    + '</svg>';
+  const out = svgToGlyphData(svg, { name: 'G' });
+  const data = JSON.parse(/data: (\[.*\]) \};/s.exec(out.ts)[1]);
+  assert.deepEqual(data.map((p) => p.fill), ['#123456', 'navy', '#000000'], 'd-first, named and default (black) fills are read, in paint order');
+  assert.equal(out.elements, 3);
+  assert.equal(out.dropped, 2, 'a transform it does not apply and a path with no d are counted, not silently lost');
+});
+
+test('a 3-digit hex surface is a surface: #fff and #000 are demoted like #FFFFFF and #000000', () => {
+  // svgo's preset-default (convertColors, shorthex) rewrites #FFFFFF to #fff and #000000 to #000,
+  // so the optimised trace hands this function exactly the short form for the two surface colours.
+  const out = svgToGlyphData(svgOf([
+    { fill: '#fff', d: FULL },
+    { fill: '#000', d: FULL },
+    { fill: '#f4b', d: CORNER },
+  ]), { name: 'G', surfaceFill: '#FF44BB>#7C3AED', slabMinArea: 0.0001 });
+  const data = JSON.parse(/data: (\[.*\]) \};/s.exec(out.ts)[1]);
+  assert.equal(data[0].fill, 'var(--background)', '#fff is white');
+  assert.equal(data[1].fill, 'var(--background)', '#000 is black');
+  assert.equal(data[2].fill, '#7C3AED', 'a short slab colour matches its long form by distance');
+});
+
 test('a full-canvas SATURATED path keeps its fill — demote by colour, never by geometry', () => {
   // The regression this guards: VTracer sometimes lays the darkest quantized layer
   // down first as an exact canvas rect and paints the page over it. Demoting on
@@ -138,6 +170,27 @@ test('the emitted module is a single TracedGlyph object, not a bare array plus a
   assert.match(out.ts, /^export const NETWORK_GLYPH: TracedGlyph = \{ viewBox: "0 0 1024 1024", data: \[.*\] \};$/m);
   assert.doesNotMatch(out.ts, /_VIEWBOX/, 'the separate viewBox const is the shape consumers could not feed to the component');
   assert.match(out.ts, /AUTO-GENERATED/, 'a generated module must say so');
+});
+
+test('the three CLIs build the core options from ONE mapping, so a flag cannot reach one and not another', async () => {
+  // emit-glyph, trace --emit and trace-set each spelled out { whiteKeep, surfaceFill, ... } from
+  // argv; trace.mjs's copy omitted --slab-min-area, so `trace --emit --slab-min-area 0.25` silently
+  // used --white-keep instead. One exported mapping, and every caller must go through it.
+  const core = await import('../tools/emit-glyph.mjs');
+  assert.equal(typeof core.glyphOptions, 'function', 'emit-glyph.mjs exports glyphOptions(args)');
+  assert.deepEqual(
+    core.glyphOptions({ name: 'N', order: 'angular', 'white-keep': '0.02', 'surface-fill': '#F4B214>#7C3AED', 'surface-tolerance': '30', 'slab-min-area': '0.25' }),
+    { name: 'N', order: 'angular', whiteKeep: 0.02, surfaceFill: '#F4B214>#7C3AED', surfaceTolerance: 30, slabMinArea: 0.25 },
+  );
+  assert.deepEqual(core.glyphOptions({}, { name: '_TMP', surfaceFill: '#123456' }), {
+    name: '_TMP', order: undefined, whiteKeep: undefined, surfaceFill: '#123456', surfaceTolerance: undefined, slabMinArea: null,
+  }, 'overrides win (trace-set passes its per-key fill)');
+  const strip = (s) => s.replace(/\/\*[\s\S]*?\*\//g, '').replace(/(^|[^:"'`\\])\/\/.*$/gm, '$1');
+  for (const f of ['trace.mjs', 'trace-set.mjs']) {
+    const src = strip(readFileSync(fileURLToPath(new URL(f, TOOLS)), 'utf8'));
+    assert.match(src, /svgToGlyphData\(svg,\s*glyphOptions\(args/, `${f} builds its options with glyphOptions`);
+    assert.doesNotMatch(src, /whiteKeep\s*:/, `${f} must not hand-map the flags again`);
+  }
 });
 
 test('trace-set.mjs can still scrape this writer — the two emitters agree', () => {

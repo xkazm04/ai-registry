@@ -8,6 +8,7 @@ status: forged
 verified_on: 2026-10-14
 refresh_by: 2026-12-31
 source: US-FCC/47-CFR-64.1200
+counterpart: external
 ---
 
 # A reply that revokes, on a text channel (47 CFR 64.1200(a)(10)-(12), as amended)

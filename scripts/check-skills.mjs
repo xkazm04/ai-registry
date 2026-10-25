@@ -19,7 +19,11 @@
  *
  * 2. **Version discipline** (`--since <ref>`): a skill whose content changed
  *    since <ref> must carry a different version, and that version may never go
- *    backwards. A checker cannot tell a typo from a behaviour change, so it asks
+ *    backwards. "Changed since <ref>" means the merge base of <ref> and HEAD
+ *    against the WORKING TREE, plus untracked files: committed, staged, unstaged
+ *    and new work in one population. Without `--since`, <ref> is the branch's
+ *    upstream, else origin/main, else HEAD, and the chosen base is printed (see the
+ *    version-discipline block below for why). A checker cannot tell a typo from a behaviour change, so it asks
  *    for the cheapest honest signal — a patch bump — rather than guessing. Any
  *    file under the skill directory except LESSONS.md counts as content: the
  *    references and scripts a skill ships are part of the method.
@@ -43,9 +47,28 @@ import {
   readLane, parseFrontmatter, parseSemver, cmpSemver, lessonHeadings,
   LESSON_HEAD_RE, subResourceFindings, SKILL_FILE,
 } from './lib/skills-lane.mjs';
+import { EXIT, installCrashDoor } from './lib/exit-codes.mjs';
+
+installCrashDoor();
 
 const ROOT = path.resolve(fileURLToPath(new URL('.', import.meta.url)), '..');
 const LANE = path.join(ROOT, 'skills');
+
+// A closed flag set, checked before any read. This gate used to read only `--since` and
+// ignore everything else, so `--since=origin/main` or `--snce origin/main` ran the flagless
+// population (working tree against HEAD) and exited 0 - a different check than the one the
+// caller named. An argument this CLI does not know is the caller's mistake, not a no-op.
+{
+  const usage = 'usage: node scripts/check-skills.mjs [--since <git-ref>] [--help]';
+  const argv = process.argv.slice(2);
+  if (argv.includes('--help') || argv.includes('-h')) { console.log(usage); process.exit(EXIT.OK); }
+  for (let i = 0; i < argv.length; i += 1) {
+    if (argv[i] === '--since') {
+      if (!argv[i + 1] || argv[i + 1].startsWith('--')) { console.error(`FATAL: --since requires a git ref (e.g. --since origin/main).\n${usage}`); process.exit(EXIT.FATAL); }
+      i += 1;
+    } else { console.error(`FATAL: unknown argument ${JSON.stringify(argv[i])}; nothing was checked.\n${usage}`); process.exit(EXIT.FATAL); }
+  }
+}
 
 // The closed set from registry.yaml / .ascent/registry.yaml `policies.categories`.
 // An unlisted value is normalized to `other` at index time, which means a typo
@@ -107,7 +130,7 @@ const fail = (msg) => failures.push(msg);
 if (!fs.existsSync(LANE)) {
   console.error(`FATAL: no skills/ lane at ${LANE}`);
   console.error('This gate cannot run. Failing loudly rather than reporting a green tree.');
-  process.exit(2);
+  process.exit(EXIT.FATAL);
 }
 let skills;
 try {
@@ -115,12 +138,12 @@ try {
 } catch (e) {
   console.error(`FATAL: skills/ exists but cannot be read (${e.message}).`);
   console.error('Reporting nothing is not the same as finding nothing — refusing to exit 0.');
-  process.exit(2);
+  process.exit(EXIT.FATAL);
 }
 if (skills.length === 0) {
   console.error('FATAL: skills/ holds zero skills. THE READER IS BROKEN, or the lane is empty —');
   console.error('either way this gate has checked nothing and will not claim success.');
-  process.exit(2);
+  process.exit(EXIT.FATAL);
 }
 
 // ASCII where it bites: frontmatter (parsed by small hand-rolled parsers in every
@@ -156,6 +179,39 @@ const fencedBlocks = (body, bodyStartLine) => {
       else { out.push({ text: lines.slice(open + 1, i).join('\n'), line: bodyStartLine + open + 1 }); open = null; }
     }
   }
+  return out;
+};
+
+// The lane's frontmatter is a YAML SUBSET (lib/skills-lane.mjs parseFrontmatter): scalars,
+// indented `- item` lists, inline [a, b]. A line outside it is not an error to that parser -
+// it is dropped, or read as something else - while the harness reads the full YAML. So
+// `description: >-` reaches every check below as the one-character string ">", and the
+// routing cap passes a description of any length; an unindented `- item` silently empties
+// its list. The parser cannot say what it skipped, so this does (unparseable-form-is-a-
+// finding). Measured 2026-10-25: 0 of 43 lane skills carry such a line.
+const BLOCK_SCALAR_RE = /^[|>][-+0-9]*$/;
+const frontmatterOutsideSubset = (raw) => {
+  const out = [];
+  let listKey = null;
+  let inBlock = false;
+  raw.split(/\r?\n/).forEach((line, i) => {
+    if (i === 0 || line === '---' || !line.trim() || /^\s*#/.test(line)) return;
+    const indented = /^\s/.test(line);
+    if (inBlock && indented) return; // the body of a block scalar already reported
+    inBlock = false;
+    if (indented && listKey && /^\s+-\s+\S/.test(line)) return;
+    const kv = line.match(/^([A-Za-z_][A-Za-z0-9_-]*):\s*(.*)$/);
+    if (!kv) {
+      out.push({ line: i + 1, message: `frontmatter line ${JSON.stringify(line.slice(0, 60))} is outside the lane's YAML subset (key: value, indented "- item" lists, inline [a, b]) - every consumer's parser drops it while the harness reads it` });
+      return;
+    }
+    const value = kv[2].replace(/\s+#.*$/, '').trim();
+    listKey = value === '' ? kv[1] : null;
+    if (BLOCK_SCALAR_RE.test(value)) {
+      inBlock = true;
+      out.push({ line: i + 1, message: `\`${kv[1]}: ${value}\` is a YAML block scalar - the lane's parser reads it as the string ${JSON.stringify(value)}, so every check on \`${kv[1]}\` (the routing cap included) measures the indicator; write it on one line, quoted` });
+    }
+  });
   return out;
 };
 
@@ -198,6 +254,8 @@ for (const s of skills) {
       break;
     }
   }
+
+  for (const p of frontmatterOutsideSubset(doc.raw)) fail(`${rel}/SKILL.md:${p.line}: ${p.message}`);
 
   for (const key of REQUIRED_KEYS) {
     if (fm[key] === undefined || String(fm[key]).trim() === '') fail(`${rel}/SKILL.md: frontmatter is missing required key \`${key}\``);
@@ -257,6 +315,10 @@ for (const s of skills) {
 
   // LESSONS.md is optional. When present, its headings are the join key between a
   // lesson and the version it was learned against — an unparseable heading loses it.
+  if (s.lessonsPath !== null && s.lessonsRaw === null) {
+    const why = s.problems.find((p) => p.startsWith('LESSONS.md')) || 'LESSONS.md unreadable';
+    fail(`${rel}/LESSONS.md: cannot be read - it exists but is not a readable file (${why})`);
+  }
   if (s.lessonsRaw !== null) {
     lessonFiles += 1;
     const heads = lessonHeadings(s.lessonsRaw);
@@ -270,7 +332,7 @@ for (const s of skills) {
 
 if (parsed === 0) {
   console.error('FATAL: zero SKILL.md files parsed across the whole lane. THE PARSER IS BROKEN.');
-  process.exit(2);
+  process.exit(EXIT.FATAL);
 }
 
 // ---------------------------------------------------------------- version discipline
@@ -284,49 +346,91 @@ if (parsed === 0) {
 // no version bump reported `skills lane OK`.
 //
 // So an omitted `--since` no longer means "no population". It means the one a
-// local commit is about to create: the working tree and index against HEAD. The
-// flag still selects the branch-wide comparison CI needs; what changed is that
-// the flagless default checks something rather than nothing.
+// local commit is about to create. That was first "the working tree against HEAD",
+// and it had its own hole: after a skill's first bumped commit on a branch, every
+// later uncommitted edit to it read as "unbumped" (the bump was already in HEAD),
+// and two sweep rounds had to work around it. The flagless base is now the one a
+// push is judged against: the branch's upstream if it has one, else origin/main
+// if it exists, else HEAD (a fresh or shallow clone where neither resolves keeps
+// the old working-tree-against-HEAD population). Whatever is chosen is merge-based
+// and printed, so the population is never a silent function of local git config.
+// CI passes `--since` explicitly and never reaches this default.
 const sinceIdx = process.argv.indexOf('--since');
+const DEFAULT_BASES = [
+  { label: 'branch upstream', name: (git) => git(['rev-parse', '--abbrev-ref', '--symbolic-full-name', '@{upstream}']).trim() },
+  { label: 'origin/main', name: () => 'origin/main' },
+];
 let bumpChecked = 0;
 let scopeLabel = null;
 {
   const git = (args) => execFileSync('git', args, { cwd: ROOT, encoding: 'utf8', stdio: ['ignore', 'pipe', 'pipe'] });
-  let ref, changed;
+  // Path lists are read NUL-separated. Without -z git C-quotes any path holding a
+  // non-ASCII byte (`"skills/x/caf\303\251.md"`), the quoted line never matches
+  // `^skills/` below, and the edit drops out of the population: measured 2026-10-25,
+  // an unbumped `references/café.md` reported `0 changed skill(s)`.
+  const paths = (args) => git(args).split('\0').filter(Boolean);
+  let ref, changed, base;
 
   if (sinceIdx !== -1) {
     ref = process.argv[sinceIdx + 1];
-    if (!ref) { console.error('FATAL: --since requires a git ref (e.g. --since origin/main).'); process.exit(2); }
+    if (!ref) { console.error('FATAL: --since requires a git ref (e.g. --since origin/main).'); process.exit(EXIT.FATAL); }
     try { git(['rev-parse', '--verify', `${ref}^{commit}`]); } catch (e) {
       console.error(`FATAL: --since ref "${ref}" does not resolve in this checkout (${String(e.message).trim()}).`);
       console.error('A shallow clone is the usual cause; CI needs fetch-depth: 0.');
       console.error('Refusing to report "no version problems" from a comparison that never ran.');
-      process.exit(2);
+      process.exit(EXIT.FATAL);
     }
+    // `${ref}...HEAD` alone compares COMMITTED history, so `--since HEAD` was an
+    // empty population by construction and `--since <ref>` skipped every dirty or
+    // untracked file the moment one committed change existed. Measured 2026-10-25:
+    // an unbumped dirty SKILL.md under `--since HEAD` reported `skills lane OK`,
+    // and two standing instructions said to run exactly that before committing.
+    // Diffing the merge base against the working tree is `ref...HEAD` PLUS the
+    // work about to be committed, in one population.
     try {
-      changed = git(['diff', '--name-only', `${ref}...HEAD`, '--', 'skills/']).split(/\r?\n/).map((x) => x.trim()).filter(Boolean);
-    } catch (e) {
-      console.error(`FATAL: git diff against "${ref}" failed (${String(e.message).trim()}).`);
-      process.exit(2);
-    }
-    scopeLabel = `changed against ${ref}`;
-  } else {
-    ref = 'HEAD';
-    // Uncommitted work is the population a commit-authorizing run is about to
-    // ship. An instrument failure here is fatal for the same reason an
-    // unresolvable ref is: reporting "no version problems" from a comparison
-    // that never ran is the failure this whole block exists to refuse.
-    try {
-      changed = git(['diff', '--name-only', 'HEAD', '--', 'skills/']).split(/\r?\n/).map((x) => x.trim()).filter(Boolean);
-      const untracked = git(['ls-files', '--others', '--exclude-standard', '--', 'skills/'])
-        .split(/\r?\n/).map((x) => x.trim()).filter(Boolean);
+      base = git(['merge-base', ref, 'HEAD']).trim();
+      changed = paths(['diff', '--name-only', '-z', base, '--', 'skills/']);
+      const untracked = paths(['ls-files', '-z', '--others', '--exclude-standard', '--', 'skills/']);
       changed = [...new Set([...changed, ...untracked])];
     } catch (e) {
-      console.error(`FATAL: could not read the working tree against HEAD (${String(e.message).trim()}).`);
-      console.error('Refusing to report "no version problems" from a comparison that never ran.');
-      process.exit(2);
+      console.error(`FATAL: git diff against "${ref}" failed (${String(e.message).trim()}).`);
+      process.exit(EXIT.FATAL);
     }
-    scopeLabel = 'uncommitted against HEAD';
+    scopeLabel = `changed against ${ref} (committed + working tree + untracked)`;
+  } else {
+    // Pick the first default base that resolves AND shares history with HEAD; a
+    // candidate that does not (a shallow clone whose origin/main is unrelated to
+    // the checked-out commit) is skipped, never fatal - only --since is a request.
+    ref = 'HEAD';
+    let how = 'no upstream and no origin/main resolve';
+    for (const cand of DEFAULT_BASES) {
+      let name;
+      try { name = cand.name(git); } catch { continue; }
+      if (!name) continue;
+      try {
+        git(['rev-parse', '--verify', `${name}^{commit}`]);
+        base = git(['merge-base', name, 'HEAD']).trim();
+      } catch { continue; }
+      ref = name;
+      how = cand.label;
+      break;
+    }
+    // An instrument failure here is fatal for the same reason an unresolvable
+    // --since ref is: reporting "no version problems" from a comparison that
+    // never ran is the failure this whole block exists to refuse.
+    try {
+      base = base ?? git(['rev-parse', 'HEAD']).trim();
+      changed = paths(['diff', '--name-only', '-z', base, '--', 'skills/']);
+      const untracked = paths(['ls-files', '-z', '--others', '--exclude-standard', '--', 'skills/']);
+      changed = [...new Set([...changed, ...untracked])];
+    } catch (e) {
+      console.error(`FATAL: could not read the working tree against ${ref} (${String(e.message).trim()}).`);
+      console.error('Refusing to report "no version problems" from a comparison that never ran.');
+      process.exit(EXIT.FATAL);
+    }
+    scopeLabel = ref === 'HEAD'
+      ? `uncommitted against HEAD (${how})`
+      : `changed against ${ref} (${how}; committed + working tree + untracked)`;
   }
   // A LESSONS.md append records a run at the CURRENT version; it is not a change to
   // the method. Everything else under the skill directory is the method or the
@@ -342,7 +446,9 @@ let scopeLabel = null;
     const current = seen.get(name);
     if (!current) continue; // deleted, or failed shape above and already reported.
     let oldRaw;
-    try { oldRaw = git(['show', `${ref}:skills/${name}/${SKILL_FILE}`]); } catch {
+    // The version is read at the merge base, the commit the diff above ran against: a
+    // branch not yet rebased onto a moved upstream must not read as "backwards".
+    try { oldRaw = git(['show', `${base}:skills/${name}/${SKILL_FILE}`]); } catch {
       notes.push(`skills/${name}: new in this change — no prior version to compare`);
       continue;
     }
@@ -378,6 +484,6 @@ if (failures.length) {
   console.error(`\nskills lane FAILED - ${failures.length} problem(s):\n`);
   for (const f of failures) console.error(`  - ${f}`);
   console.error('');
-  process.exit(1);
+  process.exit(EXIT.VIOLATIONS);
 }
 console.log('skills lane OK');

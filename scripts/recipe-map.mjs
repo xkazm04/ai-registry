@@ -68,7 +68,11 @@ export const scoreOne = (termTokens, fields) => {
   return { score: Math.round(score * 100) / 100, where: [...where] };
 };
 
-/** The verdict a caller acts on. Deliberately three states, not two. */
+/**
+ * The verdict a caller acts on. Deliberately three states, not two - plus `unsearched` for
+ * a term with no matchable word ("UX", all stopwords), which compared against nothing and
+ * so is not evidence that the corpus lacks the work.
+ */
 export const verdictFor = (best) => (best >= 6 ? 'strong' : best >= 2.5 ? 'related' : 'none');
 
 // -------------------------------------------------------------------- fixture
@@ -158,7 +162,7 @@ const results = terms.map((term) => {
     .filter((h) => h.score > 0)
     .sort((a, b) => b.score - a.score)
     .slice(0, 5);
-  return { term, tokens: tt, verdict: verdictFor(hits[0]?.score ?? 0), hits };
+  return { term, tokens: tt, verdict: tt.length ? verdictFor(hits[0]?.score ?? 0) : 'unsearched', hits };
 });
 
 if (asJson) {
@@ -176,9 +180,10 @@ if (asJson) {
 
 console.log(`recipe-map: ${terms.length} term(s) against ${corpus.length} recipe(s)${domainFilter ? ` in ${domainFilter}` : ''}\n`);
 for (const x of results) {
-  const label = { strong: 'STRONG prior art', related: 'related', none: 'NONE' }[x.verdict];
+  const label = { strong: 'STRONG prior art', related: 'related', none: 'NONE', unsearched: 'NOT SEARCHED' }[x.verdict];
   console.log(`"${x.term}"  ->  ${label}`);
-  if (!x.hits.length) console.log('    nothing scored above zero. Either the corpus lacks this work, or your term uses the source\'s vocabulary rather than the corpus\'s.');
+  if (x.verdict === 'unsearched') console.log('    the term has no matchable word (3+ letters, not a stopword), so nothing was compared. Spell it out ("user experience", not "UX").');
+  else if (!x.hits.length) console.log('    nothing scored above zero. Either the corpus lacks this work, or your term uses the source\'s vocabulary rather than the corpus\'s.');
   for (const h of x.hits) {
     console.log(`    ${h.score.toFixed(1).padStart(5)}  ${h.r.slug}`);
     console.log(`           ${h.r.path}  [${h.r.trigger}${h.r.connector_types.length ? ', ' + h.r.connector_types.join('/') : ''}]  matched in ${h.where.join(', ')}`);

@@ -46,10 +46,10 @@
  * happens. A long list of plausible neighbours is therefore not evidence that the
  * corpus lacks the concept; it is the shape the blind spot actually takes.
  *
- * Matching is over slugs and law statements, deliberately. Slugs in this corpus are
- * descriptive noun phrases, so token overlap is a decent recall signal at zero cost;
- * `--deep` additionally reads each concept document's `use_when` frontmatter, which
- * is the field written to be matched on but which the index does not carry.
+ * Matching is over slugs, law statements and technique `use_when` (the index carries it),
+ * deliberately. Slugs in this corpus are descriptive noun phrases, so token overlap is a
+ * decent recall signal at zero cost; `--deep` additionally reads each GOLDEN PATH's
+ * `use_when` frontmatter, which the index does not carry (see "deep pass" below).
  *
  * Usage:
  *   node scripts/research-map.mjs "local inference" "open weights"
@@ -88,7 +88,13 @@ for (let i = 0; i < argv.length; i += 1) {
 const asJson = flag('--json');
 const deep = flag('--deep');
 const prose = flag('--prose');
-const topN = Number(pick('--top', 6));
+const topRaw = pick('--top', '6');
+// A bad --top used to reach slice(0, NaN) and print "never heard of this" for every term.
+if (!/^\d+$/.test(String(topRaw)) || Number(topRaw) < 1) {
+  console.error(`research-map: --top must be a positive integer, got ${JSON.stringify(topRaw ?? null)}`);
+  process.exit(2);
+}
+const topN = Number(topRaw);
 const onlyDomain = pick('--domain', null);
 const terms = [...positional, ...String(pick('--terms', '')).split(',')]
   .map((t) => t.trim())
@@ -105,11 +111,14 @@ if (!fs.existsSync(KNOWLEDGE)) {
   process.exit(2);
 }
 
+// --domain takes one bundle or a comma list. The list matters to callers that declare several
+// (consult-check): filtering AFTER the --top cut would let undeclared bundles fill every slot.
+const wantDomains = onlyDomain ? new Set(String(onlyDomain).split(',').map((d) => d.trim()).filter(Boolean)) : null;
 const domains = fs
   .readdirSync(KNOWLEDGE, { withFileTypes: true })
   .filter((e) => e.isDirectory())
   .map((e) => e.name)
-  .filter((d) => !onlyDomain || d === onlyDomain)
+  .filter((d) => !wantDomains || wantDomains.has(d))
   .sort();
 
 if (domains.length === 0) {
@@ -413,7 +422,10 @@ const scoreTerm = (term) => {
   lawHits.sort((a, b) => b.score - a.score);
   homes.sort((a, b) => b.score - a.score);
 
-  return { term, hits: hits.slice(0, topN), laws: lawHits.slice(0, 3), homes: homes.slice(0, 3), total_hits: hits.length };
+  // A term with no matchable word (all stopwords, or under three letters: "CI", "UX") was
+  // only compared as a whole slug. An empty there is not evidence of absence.
+  const unsearched = tt.size === 0;
+  return { term, unsearched, hits: hits.slice(0, topN), laws: lawHits.slice(0, 3), homes: homes.slice(0, 3), total_hits: hits.length };
 };
 
 const results = terms.map(scoreTerm);
@@ -463,7 +475,10 @@ if (scanned.branch) {
 
 for (const r of results) {
   console.log(`\nterm: "${r.term}"`);
-  if (r.hits.length === 0) {
+  if (r.hits.length === 0 && r.unsearched) {
+    console.log('  PRIOR ART: not searched - the term has no matchable word (3+ letters, not a stopword), so only an exact slug could match.');
+    console.log('  Spell it out ("continuous integration", not "CI") or try node scripts/registry-query.mjs, which keeps two-letter words.');
+  } else if (r.hits.length === 0) {
     console.log('  PRIOR ART: none. The corpus has never heard of this - that is a finding, not a miss.');
   } else {
     console.log(`  PRIOR ART (${r.total_hits} subject(s) matched, top ${r.hits.length}):`);
@@ -497,8 +512,8 @@ console.log(
   'NOT answered here either: whether a subject this list OMITS owns the concept. Matching is over slugs, law'
 );
 console.log(
-  'statements' +
-    (deep ? ', use_when' : '') +
+  'statements, technique use_when' +
+    (deep ? ', golden-path use_when' : '') +
     (prose ? ' and document BODIES.' : ' and NOT document bodies.') +
     ' A full result set is not an absence proof - re-run with --prose'
 );

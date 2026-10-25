@@ -25,7 +25,8 @@
  * thin" lead to opposite next moves and a single failure code merges them:
  *
  *   0  a usable transcript was written
- *   2  FATAL — the instrument failed (no yt-dlp, no captions, fetch error, zero words)
+ *   2  FATAL — the instrument failed (no yt-dlp, no captions, fetch error, zero words,
+ *      a client-rendered script-shell page, --meta-only on a YouTube URL with no title)
  *   3  the instrument worked and the SOURCE is too thin to mine (< --min-words)
  *
  * Output goes to a scratch directory outside the repository by default: transcripts
@@ -36,6 +37,10 @@
  *   node scripts/research-ingest.mjs <url|path|-> [--out <dir>] [--json]
  *   node scripts/research-ingest.mjs <url> --min-words 500
  *   node scripts/research-ingest.mjs <url> --meta-only     # title/author, no transcript
+ *   node scripts/research-ingest.mjs <url> --timeout 30    # HTTP deadline in seconds (default 120)
+ *
+ * Test-only environment: RESEARCH_OEMBED_BASE overrides the YouTube oEmbed endpoint
+ * (default https://www.youtube.com/oembed) so tests can answer it from a loopback server.
  *
  * Zero dependencies, like every gate here. yt-dlp is an external binary and its
  * absence is reported as an instrument failure, never as an empty source.
@@ -55,26 +60,59 @@ const pick = (name, dflt) => {
 };
 
 // Flags that consume the next argument; everything else that is not `--…` is the source.
-const VALUED = new Set(['--out', '--min-words']);
+// The set is CLOSED: an unknown flag used to be skipped and its value read as a source, so
+// `--min-word 500` (a typo) silently ran at the default floor, and `--outdir <dir> <url>`
+// tried to ingest <dir>. A second source was dropped without a word.
+const VALUED = new Set(['--out', '--min-words', '--timeout']);
+const BOOLEAN = new Set(['--json', '--meta-only']);
 const positional = [];
+const unknown = [];
 for (let i = 0; i < argv.length; i += 1) {
   if (argv[i].startsWith('--')) {
     if (VALUED.has(argv[i])) i += 1;
+    else if (!BOOLEAN.has(argv[i])) unknown.push(argv[i]);
     continue;
   }
   positional.push(argv[i]);
 }
 const source = positional[0];
+if (unknown.length || positional.length > 1) {
+  console.error(unknown.length
+    ? `research-ingest: unknown flag ${unknown.join(', ')}`
+    : `research-ingest: one source per run, got ${positional.length}: ${positional.map((p) => JSON.stringify(p)).join(' ')}`);
+  console.error('usage: node scripts/research-ingest.mjs <url|path|-> [--out <dir>] [--json] [--meta-only] [--min-words N] [--timeout S]');
+  process.exit(2);
+}
 
 const asJson = flag('--json');
 const metaOnly = flag('--meta-only');
 const minWords = Number(pick('--min-words', 300));
 const outDir = pick('--out', path.join(os.tmpdir(), 'ai-registry-research'));
+// A deadline on every HTTP read (headers AND body). fetch has none of its own, so a server
+// that accepts the connection and never answers held a miner forever with nothing on
+// stderr - a stall no caller can tell from a slow, honest source.
+const timeoutS = Number(pick('--timeout', 120));
 
+const USAGE = 'usage: node scripts/research-ingest.mjs <url|path|-> [--out <dir>] [--json] [--meta-only] [--min-words N] [--timeout S]';
 if (!source) {
-  console.error('usage: node scripts/research-ingest.mjs <url|path|-> [--out <dir>] [--json] [--meta-only] [--min-words N]');
+  console.error(USAGE);
   process.exit(2);
 }
+// The thin-source floor is the whole of exit 3. Number('abc') is NaN, `words < NaN` is
+// false, and a mistyped value used to switch the check off and report a thin source as a
+// usable one (exit 0) - so a value that is not a whole number is a usage error.
+if (!Number.isInteger(minWords) || minWords < 0) {
+  console.error(`research-ingest: --min-words needs a whole number >= 0, got ${JSON.stringify(pick('--min-words') ?? null)}`);
+  console.error(USAGE);
+  process.exit(2);
+}
+if (!Number.isFinite(timeoutS) || timeoutS <= 0) {
+  console.error(`research-ingest: --timeout needs a number of seconds > 0, got ${JSON.stringify(pick('--timeout') ?? null)}`);
+  console.error(USAGE);
+  process.exit(2);
+}
+const deadline = () => AbortSignal.timeout(Math.round(timeoutS * 1000));
+const timedOut = (e) => e?.name === 'TimeoutError' || e?.cause?.name === 'TimeoutError';
 
 const fatal = (msg, hint) => {
   console.error(`research-ingest FATAL: ${msg}`);
@@ -95,9 +133,18 @@ const classify = (s) => {
   return { kind: 'unknown' };
 };
 
+// TEST-ONLY seam: RESEARCH_OEMBED_BASE points the oEmbed lookup at a loopback server so the
+// metadata path can be exercised without touching the network. Never set it in a real run.
+const OEMBED_BASE = process.env.RESEARCH_OEMBED_BASE || 'https://www.youtube.com/oembed';
+
 const src = classify(source);
 if (src.kind === 'unknown') {
   fatal(`cannot classify source ${JSON.stringify(source)}`, 'Expected a http(s) URL, an existing file path, or "-" for stdin.');
+}
+// existsSync is true for a directory too, and readFileSync on one threw EISDIR: a stack
+// trace and exit 1, which this repo reads as "ran and found violations".
+if (src.kind === 'file' && !fs.statSync(src.file).isFile()) {
+  fatal(`source ${JSON.stringify(source)} is not a regular file`, 'Pass a .txt/.md/.vtt/.pdf file, a http(s) URL, or "-" for stdin.');
 }
 
 // ---------------------------------------------------------------- helpers
@@ -134,16 +181,21 @@ const cleanVtt = (raw) => {
   let last = null;
   let curTs = null;
   const seen = new Set();
+  // WebVTT makes the hours optional (`01:02.500 -->`) and a cue identifier any line of text
+  // directly above the timing. YouTube writes neither, so the cleaner only knew HH:MM:SS and
+  // numeric ids; a file from anywhere else had its timings and cue names counted as words.
+  const TIMING = /^(?:(\d{2,}):)?(\d{2}):(\d{2})\.\d+\s*-->/;
 
-  for (const ln of lines) {
+  for (const [i, ln] of lines.entries()) {
     if (/^(WEBVTT|Kind:|Language:|NOTE\b|STYLE\b)/.test(ln)) continue;
-    const m = /^(\d{2}:\d{2}:\d{2})\.\d+\s*-->/.exec(ln);
+    const m = TIMING.exec(ln);
     if (m) {
-      curTs = m[1];
+      curTs = `${(m[1] ?? '00').padStart(2, '0')}:${m[2]}:${m[3]}`;
       continue;
     }
     if (!ln.trim()) continue;
     if (/^\d+$/.test(ln.trim())) continue; // standalone cue index
+    if (i + 1 < lines.length && TIMING.test(lines[i + 1])) continue; // a named cue identifier
     let txt = ln.replace(/<[^>]+>/g, '').trim();
     txt = decodeEntities(txt).replace(/\s+/g, ' ');
     if (!txt || txt === last) continue;
@@ -252,11 +304,44 @@ const htmlToText = (html) => {
     .trim();
 };
 
+/**
+ * og:title, read attribute by attribute. The old single regex required `property` before
+ * `content` and stopped the value at EITHER quote, so `content="Don't panic"` became "Don"
+ * - and that title is also the slug the transcript is filed under.
+ */
+const ATTR = /([A-Za-z_:][\w:.-]*)\s*=\s*(?:"([^"]*)"|'([^']*)'|([^\s"'>]+))/g;
+const ogTitleOf = (html) => {
+  for (const tag of html.match(/<meta\b[^>]*>/gi) ?? []) {
+    const attrs = {};
+    for (const a of tag.matchAll(ATTR)) attrs[a[1].toLowerCase()] = a[2] ?? a[3] ?? a[4];
+    if ((attrs.property ?? attrs.name ?? '').toLowerCase() === 'og:title' && attrs.content?.trim()) return attrs.content;
+  }
+  return null;
+};
+
 const titleOfHtml = (html) => {
-  const og = /<meta[^>]+property=["']og:title["'][^>]+content=["']([^"']+)["']/i.exec(html);
-  if (og) return decodeEntities(og[1]);
+  const og = ogTitleOf(html);
+  if (og) return decodeEntities(og).trim();
   const t = /<title[^>]*>([\s\S]*?)<\/title>/i.exec(html);
   return t ? decodeEntities(t[1]).trim() : null;
+};
+
+/**
+ * The fraction of an HTML document's bytes that sit inside <script> elements (tags
+ * included). A client-rendered page ships its content as script and an empty mount point,
+ * so the fetch "worked" and there was nothing to read - a failure of the FETCH (a static
+ * rendering exists elsewhere), not a verdict on the source. SCRIPT_SHELL_SHARE is the
+ * line: above it AND under --min-words the page is a shell. Measured on the shape the
+ * harvest lesson recorded (a script bundle plus a "Loading..." mount point) the share is
+ * ~0.95; a genuine short essay carries none. The share gates nothing alone - a long
+ * article that also inlines a big script bundle has words, so it never reaches this check.
+ */
+const SCRIPT_SHELL_SHARE = 0.6;
+const scriptShare = (html) => {
+  if (!html.length) return 0;
+  let bytes = 0;
+  for (const m of html.matchAll(/<script\b[\s\S]*?<\/script\s*>/gi)) bytes += m[0].length;
+  return Number((bytes / html.length).toFixed(3));
 };
 
 const run = (cmd, args, timeoutMs) =>
@@ -278,14 +363,19 @@ if (src.kind === 'youtube') {
   // keeps working when extraction is throttled, which is exactly when you still want
   // to be able to name what you failed to read.
   try {
-    const res = await fetch(`https://www.youtube.com/oembed?url=${encodeURIComponent(meta.url)}&format=json`);
+    const res = await fetch(`${OEMBED_BASE}?url=${encodeURIComponent(meta.url)}&format=json`, { signal: deadline() });
     if (res.ok) {
       const j = await res.json();
       meta.title = j.title;
       meta.author = j.author_name;
     }
   } catch {
-    /* non-fatal: a missing title never blocks a transcript */
+    /* non-fatal for a transcript run: a missing title never blocks a transcript */
+  }
+  // Under --meta-only the title IS the deliverable, so the swallow above stops being right:
+  // it printed "youtube: (untitled)" and exited 0 on a failed lookup.
+  if (metaOnly && !meta.title) {
+    fatal('oEmbed returned no title', `The metadata lookup failed or the video is private/removed: ${meta.url}`);
   }
 
   if (!metaOnly) {
@@ -380,20 +470,23 @@ if (src.kind === 'youtube') {
 } else if (src.kind === 'web') {
   meta.url = src.url;
   let res;
+  let bytes;
   try {
     res = await fetch(src.url, {
       redirect: 'follow',
       headers: { 'user-agent': 'ai-registry-research/1 (+https://github.com/xkazm04/ai-registry)' },
+      signal: deadline(),
     });
+    if (!res.ok) fatal(`fetch returned HTTP ${res.status} for ${src.url}`, 'A paywall or a bot wall reads as an instrument failure, not a thin source.');
+    // A PDF must be sniffed by BYTES, not by URL suffix or Content-Type: a hubfs
+    // or CDN link often ends in neither. res.text() would decode the container as
+    // UTF-8, htmlToText would find no tags and pass it through, and the word count
+    // would report five figures of compressed stream as a mined document.
+    bytes = Buffer.from(await res.arrayBuffer());
   } catch (e) {
+    if (timedOut(e)) fatal(`fetch timed out after ${timeoutS}s for ${src.url}`, 'The server accepted the request and did not finish answering. Retry, raise --timeout, or route around this source.');
     fatal(`fetch failed for ${src.url}`, e.message);
   }
-  if (!res.ok) fatal(`fetch returned HTTP ${res.status} for ${src.url}`, 'A paywall or a bot wall reads as an instrument failure, not a thin source.');
-  // A PDF must be sniffed by BYTES, not by URL suffix or Content-Type: a hubfs
-  // or CDN link often ends in neither. res.text() would decode the container as
-  // UTF-8, htmlToText would find no tags and pass it through, and the word count
-  // would report five figures of compressed stream as a mined document.
-  const bytes = Buffer.from(await res.arrayBuffer());
   if (isPdf(bytes)) {
     meta.container = 'pdf';
     const r = pdfToText(bytes);
@@ -410,6 +503,7 @@ if (src.kind === 'youtube') {
     meta.title = titleOfHtml(body);
     id = slugify(meta.title || new URL(src.url).hostname);
     text = htmlToText(body);
+    meta.script_share = scriptShare(body);
   }
 } else if (src.kind === 'file') {
   meta.file = src.file;
@@ -441,6 +535,15 @@ if (metaOnly) {
 
 const words = wordsOf(text);
 meta.words = words;
+
+// Before the zero-word check, so a shell that left a word or none gets the better message.
+// Exit 2, not 3: the next move is to find a static rendering, not to give up on the source.
+if (meta.script_share > SCRIPT_SHELL_SHARE && words < minWords) {
+  fatal(
+    `page is a script shell (rendered client-side): ${(meta.script_share * 100).toFixed(0)}% of its bytes are <script>, ${words} words of prose`,
+    'The fetch got nothing readable, which says nothing about the source. Find a static rendering (the publisher\'s feed, a cached or archived copy, a mirror) and ingest that.',
+  );
+}
 
 if (words === 0) {
   fatal('the ingest produced ZERO words', 'THE READER IS BROKEN or the source carries no text - either way nothing was mined.');

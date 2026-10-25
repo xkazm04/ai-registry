@@ -1,7 +1,7 @@
 ---
 product: "ai-registry"
 stack: "Zero-dependency Node ESM (.mjs) scripts + Markdown/JSON content lanes. No package.json, no lockfile, no test runner - `git clone` and a recent Node is the whole toolchain."
-vault: ["C:/Users/kazda/kiro/ai-registry/.explorer"]
+vault: []                  # default <repo>/.explorer (gitignored); machine roots never ship
 vault_subdir: Explorer
 context_map: ""
 coverage_context_source: ""

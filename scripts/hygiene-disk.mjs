@@ -21,7 +21,12 @@
  *                (next-env.d.ts, *.generated.ts, untracked .husky hooks, a crash *.stackdump,
  *                a whitespace- or line-ending-only diff), and its HEAD is landed: a worktree's HEAD is on a
  *                ref of its main repository other than its own branch; a clone's commits are
- *                all on its remotes, or each local commit's patch-id is in its fleet home.
+ *                all on its remote's default branch (`origin/HEAD`), or each commit not there
+ *                has its patch-id in its fleet home. A commit only on some other remote-tracking
+ *                ref (a feature branch) is NOT shown landed: this lane never fetches, so that ref
+ *                may name a branch the server has since deleted (PR closed unmerged), and the
+ *                clone holds the only copy. Such a clone is `operator` ("landed only on
+ *                remote-tracking refs (unverified without network)").
  *                Anything else is `operator` with the reason. `hyg-*` entries belong to the
  *                hygiene dead-worker rule and are always `operator`.
  *                A plain directory named like build output (target, tgt, cargo-target-*) is
@@ -33,7 +38,8 @@
  *                mechanical after --temp-days, operator before.
  *   temp         the user temp dir's top-level entries and Claude Code's per-session temp
  *                (`<tmp>/claude/<project>/<session>`): mechanical (remove-temp) when untouched
- *                --temp-days, or 48 h and at least 100 MB. Name families with hundreds of
+ *                --temp-days, or 48 h and at least 100 MB; past that age a checkout there (`.git`
+ *                at its top) is judged by the scratch checkout rules. Name families with hundreds of
  *                members become one `operator` row (temp-leak): a test suite that never
  *                removes its mkdtemp dirs, to be fixed where it is written.
  *   models       local model stores (Ollama, Hugging Face, LM Studio, torch, whisper caches)
@@ -103,7 +109,8 @@ export function classifyPlain(f, { idleH = 24, tempDays = 7 } = {}) {
 }
 
 /** One temp entry (user temp top level, or a Claude session dir). */
-export function classifyTemp(f, { tempDays = 7 } = {}) {
+export function classifyTemp(f, { tempDays = 7, idleH = 24 } = {}) {
+  if (f.ageH < idleH) return null; // the hands-off floor binds temp like every other area
   if (f.ageH >= tempDays * 24 || (f.ageH >= 48 && f.bytes >= 100e6)) return { class: 'mechanical', kind: 'remove-temp', reason: `untouched ${Math.round(f.ageH)} h` };
   return null;
 }
@@ -170,7 +177,8 @@ export function checkoutFacts(abs, homes) {
   const modified = lines.filter((l) => !l.startsWith('??')).map((l) => l.slice(3));
   f.dirtyOther.push(...untracked.filter((p) => !isNoise(p)));
   const realMods = modified.filter((p) => !isNoise(p));
-  if (realMods.length && !quiet(abs, ['diff', '--quiet', '--ignore-all-space', '--ignore-cr-at-eol'])) f.dirtyOther.push(...realMods);
+  // Against HEAD, not the index: a plain `git diff` skips staged changes, so `git add`ed work read as noise.
+  if (realMods.length && !quiet(abs, ['diff', 'HEAD', '--quiet', '--ignore-all-space', '--ignore-cr-at-eol'])) f.dirtyOther.push(...realMods);
   const dotGit = path.join(abs, '.git');
   if (fs.statSync(dotGit).isFile()) {
     const gd = (fs.readFileSync(dotGit, 'utf8').match(/gitdir:\s*(.+)/) || [])[1]?.trim();
@@ -183,38 +191,89 @@ export function checkoutFacts(abs, homes) {
     f.why = f.headLanded ? `worktree; HEAD on ${refs[0]}` : 'worktree; HEAD on no other ref of its repository';
     return f;
   }
-  const local = (git(abs, ['rev-list', 'HEAD', '--not', '--remotes']) || '').split('\n').filter(Boolean);
-  if (!local.length) { f.headLanded = true; f.why = 'clone; every commit is on its remotes'; return f; }
+  // Every ref, not HEAD alone: deleting a clone deletes its side branches, tags and stash too.
+  // A listing that failed is not an empty one.
+  const listed = git(abs, ['rev-list', '--all', '--not', '--remotes']);
+  if (listed == null) { f.headLanded = false; f.why = 'clone; git could not list its local commits'; return f; }
+  const local = listed.split('\n').filter(Boolean);
+  // A remote-tracking ref is a memory of the last fetch, and this lane never fetches: a feature
+  // branch deleted on the server (PR closed unmerged) still sits in refs/remotes/origin/. Only
+  // the default branch's history is durable, so commits on remote-tracking refs but not on the
+  // default's remote-tracking ref are "remote-only": unverified, like the unpushed ones.
+  const up = defaultUpstream(abs);
+  const listedRemote = git(abs, ['rev-list', '--remotes', ...(up ? ['--not', up] : [])]);
+  if (listedRemote == null) { f.headLanded = false; f.why = 'clone; git could not list its remote-tracking commits'; return f; }
+  const remoteOnly = listedRemote.split('\n').filter(Boolean);
+  if (!local.length && !remoteOnly.length) { f.headLanded = true; f.why = `clone; every ref is on ${up ? up.replace(/^refs\/remotes\//, '') : 'its remotes'}`; return f; }
+  const remoteWhy = (n) => `landed only on remote-tracking refs (unverified without network): ${n} commits not on ${up ? up.replace(/^refs\/remotes\//, '') : 'a default branch'}`;
   const origin = urlKey(git(abs, ['remote', 'get-url', 'origin']));
   const home = homes.find((h) => h.keys.includes(origin));
-  if (!home) { f.headLanded = false; f.why = `clone; ${local.length} local commits and no fleet home to check them in`; return f; }
-  const oldest = git(abs, ['log', '-1', '--format=%cI', local.at(-1)]);
-  const since = oldest ? new Date(Date.parse(oldest) - 86400e3).toISOString().slice(0, 10) : '2000-01-01';
+  if (!home) {
+    f.headLanded = false;
+    f.why = local.length ? `clone; ${local.length} local commits and no fleet home to check them in` : remoteWhy(remoteOnly.length);
+    return f;
+  }
+  if (!local.length && remoteOnly.length > MAX_REMOTE_ONLY_PROBE) { f.headLanded = false; f.why = remoteWhy(remoteOnly.length); return f; }
+  const dates = [local.at(-1), remoteOnly.at(-1)].filter(Boolean).map((c) => Date.parse(git(abs, ['log', '-1', '--format=%cI', c]) || ''));
+  const oldest = Math.min(...dates);
+  const since = Number.isFinite(oldest) ? new Date(oldest - 86400e3).toISOString().slice(0, 10) : '2000-01-01';
   const ids = patchIdsOf(home.path, since);
-  const missing = local.filter((c) => {
+  const lacks = (c) => {
     const id = (git(abs, ['patch-id', '--stable'], git(abs, ['show', '--no-color', '--format=commit %H', c]) || '') || '').split(' ')[0];
     return !id || !ids.has(id);
-  });
-  f.headLanded = missing.length === 0;
-  f.why = f.headLanded ? `clone; ${local.length} local commits, all in ${home.slug} by patch-id` : `clone; ${missing.length} of ${local.length} local commits not in ${home.slug}`;
+  };
+  const missing = local.filter(lacks);
+  if (missing.length) { f.headLanded = false; f.why = `clone; ${missing.length} of ${local.length} local commits not in ${home.slug}`; return f; }
+  const missingRemote = remoteOnly.length > MAX_REMOTE_ONLY_PROBE ? remoteOnly : remoteOnly.filter(lacks);
+  if (missingRemote.length) { f.headLanded = false; f.why = remoteWhy(missingRemote.length); return f; }
+  f.headLanded = true;
+  f.why = `clone; ${local.length} local${remoteOnly.length ? ` and ${remoteOnly.length} remote-tracking-only` : ''} commits, all in ${home.slug} by patch-id`;
   return f;
+}
+
+/** Past this many remote-only commits the patch-id probe (two git processes each) is not worth it. */
+const MAX_REMOTE_ONLY_PROBE = 200;
+
+/** The clone's default branch as the last fetch knew it (`refs/remotes/origin/HEAD`, else main/master), or null. */
+function defaultUpstream(abs) {
+  const sym = git(abs, ['symbolic-ref', '-q', 'refs/remotes/origin/HEAD']);
+  return [sym, 'refs/remotes/origin/main', 'refs/remotes/origin/master'].filter(Boolean).find((r) => quiet(abs, ['rev-parse', '--verify', '-q', `${r}^{commit}`])) || null;
 }
 
 // ---------------------------------------------------------------------------- scan
 
 const ageOf = (m, now) => (m.newestMs ? (now - m.newestMs) / H : Infinity);
 
+/**
+ * measureTree ages a tree by its files only, so an empty or links-only directory came back
+ * with no time at all and ageOf read it as infinitely old: a directory made a second ago was
+ * a mechanical delete. The root's own mtime and birthtime count too (an entry created or
+ * removed in it moves them).
+ */
+function measure(abs) {
+  const m = measureTree(abs);
+  if (m.missing || m.rootIsLink) return m;
+  try { const s = fs.lstatSync(abs); m.newestMs = Math.max(m.newestMs, s.mtimeMs, s.birthtimeMs || 0); } catch { /* gone: stays unageable */ }
+  return m;
+}
+
 function entryMeasure(abs, isFile) {
-  if (!isFile) return measureTree(abs);
+  if (!isFile) return measure(abs);
   const s = fs.lstatSync(abs);
   return { bytes: s.size, newestMs: Math.max(s.mtimeMs, s.birthtimeMs || 0), files: 1 };
 }
 
-export function scratchRootOf(fleetRoot) {
-  return path.join(path.parse(path.resolve(fleetRoot || os.homedir())).root, 't');
+/**
+ * `t` at the root of the drive holding the fleet. loadFleet does not return the machine root,
+ * so a fleet is located by its checkouts (they sit under that root); no checkouts, the home drive.
+ */
+export function scratchRootOf(fleetOrRoot) {
+  const at = typeof fleetOrRoot === 'string' ? fleetOrRoot : Object.values(fleetOrRoot?.projects ?? {}).find((p) => p?.path)?.path;
+  return path.join(path.parse(path.resolve(at || os.homedir())).root, 't');
 }
 
-function scan({ fleet, idleH, tempDays, scratch, now = Date.now() }) {
+/** The whole plan. `tmp` and `home` default to this machine's; tests pass fixtures. Never writes. */
+export function scan({ fleet, idleH, tempDays, scratch, now = Date.now(), tmp = os.tmpdir(), home = os.homedir() }) {
   const rows = [];
   const homes = fleetHomes(fleet);
   const add = (area, abs, m, c, extra = {}) => rows.push({ area, path: abs, bytes: m.bytes, ageH: Number.isFinite(ageOf(m, now)) ? +ageOf(m, now).toFixed(1) : null, ...c, ...extra });
@@ -224,7 +283,7 @@ function scan({ fleet, idleH, tempDays, scratch, now = Date.now() }) {
     for (const e of fs.readdirSync(scratch, { withFileTypes: true })) {
       if (!e.isDirectory() || e.isSymbolicLink()) continue;
       const abs = path.join(scratch, e.name);
-      const m = measureTree(abs);
+      const m = measure(abs);
       const ageH = ageOf(m, now);
       if (fs.existsSync(path.join(abs, '.git'))) {
         if (ageH < idleH) { add('scratch', abs, m, classifyCheckout({ name: e.name, ageH, dirtyOther: [], headLanded: null }, { idleH })); continue; }
@@ -251,7 +310,7 @@ function scan({ fleet, idleH, tempDays, scratch, now = Date.now() }) {
         for (const c of fs.readdirSync(inc, { withFileTypes: true })) {
           if (!c.isDirectory()) continue;
           const abs = path.join(inc, c.name);
-          const m = measureTree(abs);
+          const m = measure(abs);
           if (ageOf(m, now) >= idleH) add('build', abs, m, { class: 'mechanical', kind: 'prune-incremental', reason: `incremental cache untouched ${Math.round(ageOf(m, now))} h` });
         }
       }
@@ -261,7 +320,7 @@ function scan({ fleet, idleH, tempDays, scratch, now = Date.now() }) {
     for (const e of fs.readdirSync(parent, { withFileTypes: true })) {
       const abs = path.join(parent, e.name);
       if (!e.isDirectory() || e.isSymbolicLink() || projectPaths.has(abs.toLowerCase()) || !BUILD_OUTPUT.test(e.name) || fs.existsSync(path.join(abs, '.git'))) continue;
-      const m = measureTree(abs);
+      const m = measure(abs);
       const ageH = ageOf(m, now);
       if (ageH < idleH) continue;
       add('build', abs, m, ageH >= tempDays * 24
@@ -270,17 +329,23 @@ function scan({ fleet, idleH, tempDays, scratch, now = Date.now() }) {
     }
   }
 
-  // temp
-  const tmp = os.tmpdir();
+  // temp. A checkout parked in temp (a worker's worktree, a clone) is judged by the checkout
+  // rules once it is past the temp age: its age says nothing about whether its work is elsewhere.
+  const addTemp = (abs, isDir, name, kind) => {
+    let m; try { m = entryMeasure(abs, !isDir); } catch { return; }
+    const c = classifyTemp({ ageH: ageOf(m, now), bytes: m.bytes }, { tempDays, idleH });
+    if (!c) return;
+    if (isDir && fs.existsSync(path.join(abs, '.git'))) {
+      const f = checkoutFacts(abs, homes);
+      add('temp', abs, m, classifyCheckout({ name, ageH: ageOf(m, now), ...f }, { idleH }), { head: f.head, mainRepo: f.mainRepo });
+    } else add('temp', abs, m, { ...c, kind }, { isFile: !isDir });
+  };
   const claudeTmp = path.join(tmp, 'claude');
   const names = [];
   for (const e of fs.readdirSync(tmp, { withFileTypes: true })) {
     if (e.name.toLowerCase() === 'claude' || e.isSymbolicLink()) continue;
     names.push(e.name);
-    const abs = path.join(tmp, e.name);
-    let m; try { m = entryMeasure(abs, !e.isDirectory()); } catch { continue; }
-    const c = classifyTemp({ ageH: ageOf(m, now), bytes: m.bytes }, { tempDays });
-    if (c) add('temp', abs, m, c, { isFile: !e.isDirectory() });
+    addTemp(path.join(tmp, e.name), e.isDirectory(), e.name, 'remove-temp');
   }
   if (fs.existsSync(claudeTmp)) {
     for (const proj of fs.readdirSync(claudeTmp, { withFileTypes: true })) {
@@ -289,20 +354,16 @@ function scan({ fleet, idleH, tempDays, scratch, now = Date.now() }) {
       let sessions; try { sessions = fs.readdirSync(path.join(claudeTmp, proj.name), { withFileTypes: true }); } catch { continue; }
       for (const s of sessions) {
         if (s.isSymbolicLink()) continue;
-        const abs = path.join(claudeTmp, proj.name, s.name);
-        let m; try { m = entryMeasure(abs, !s.isDirectory()); } catch { continue; }
-        const c = classifyTemp({ ageH: ageOf(m, now), bytes: m.bytes }, { tempDays });
-        if (c) add('temp', abs, m, { ...c, kind: 'remove-session-temp' }, { isFile: !s.isDirectory() });
+        addTemp(path.join(claudeTmp, proj.name, s.name), s.isDirectory(), s.name, 'remove-session-temp');
       }
     }
   }
   for (const [family, n] of leakFamilies(names)) rows.push({ area: 'temp', path: path.join(tmp, family), class: 'operator', kind: 'temp-leak', reason: `${n} entries named like this: a process (usually a test suite) never removes its temp dirs`, bytes: null, ageH: null, count: n });
 
   // model stores
-  const home = os.homedir();
   for (const d of [path.join(home, '.ollama', 'models'), path.join(home, '.cache', 'huggingface'), path.join(home, '.cache', 'lm-studio'), path.join(home, '.lmstudio', 'models'), path.join(home, '.cache', 'torch'), path.join(home, '.cache', 'whisper')]) {
     if (!fs.existsSync(d)) continue;
-    const m = measureTree(d);
+    const m = measure(d);
     if (m.bytes >= 1e9) add('models', d, m, { class: 'operator', kind: 'model-store', reason: 'local model store (operator 2026-10-15: none wanted on this machine)' });
   }
   return rows;
@@ -310,10 +371,13 @@ function scan({ fleet, idleH, tempDays, scratch, now = Date.now() }) {
 
 // ---------------------------------------------------------------------------- apply
 
-function reclassify(row, { fleet, idleH, tempDays, now = Date.now() }) {
+export function reclassify(row, { fleet, idleH, tempDays, now = Date.now() }) {
   if (!fs.existsSync(row.path)) return { skip: 'gone' };
-  const m = row.isFile ? entryMeasure(row.path, true) : measureTree(row.path);
+  const m = row.isFile ? entryMeasure(row.path, true) : measure(row.path);
   if (m.rootIsLink) return { skip: 'became a link' };
+  // The scan sent anything holding a .git to the checkout rules; a plain row that holds one
+  // now is a checkout made since, and only a re-scan may judge it.
+  if (!row.isFile && row.kind !== 'remove-scratch-checkout' && fs.existsSync(path.join(row.path, '.git'))) return { skip: 'now holds a .git - a checkout since the scan; re-scan' };
   const ageH = ageOf(m, now);
   let c;
   if (row.kind === 'remove-scratch-checkout') {
@@ -324,7 +388,7 @@ function reclassify(row, { fleet, idleH, tempDays, now = Date.now() }) {
   } else if (row.kind === 'remove-build-output' && row.area === 'scratch') c = classifyPlain({ name: path.basename(row.path), ageH }, { idleH, tempDays });
   else if (row.kind === 'remove-build-output') c = ageH >= tempDays * 24 ? { kind: 'remove-build-output' } : null;
   else if (row.kind === 'prune-incremental') c = ageH >= idleH ? { kind: 'prune-incremental' } : null;
-  else if (row.kind === 'remove-temp' || row.kind === 'remove-session-temp') c = classifyTemp({ ageH, bytes: m.bytes }, { tempDays }) ? { kind: row.kind } : null;
+  else if (row.kind === 'remove-temp' || row.kind === 'remove-session-temp') c = classifyTemp({ ageH, bytes: m.bytes }, { tempDays, idleH }) ? { kind: row.kind } : null;
   if (!c || (c.kind !== row.kind)) return { skip: `no longer ${row.kind}${c ? ` (now ${c.kind})` : ''}` };
   return { ok: true, bytes: m.bytes };
 }
@@ -332,39 +396,73 @@ function reclassify(row, { fleet, idleH, tempDays, now = Date.now() }) {
 // ---------------------------------------------------------------------------- report
 
 const GB = (b) => (b == null ? '-' : (b / 1e9).toFixed(1));
-function renderMarkdown(plan) {
+export function renderMarkdown(plan) {
   const lines = [`# Disk lane - ${plan.generatedAt.slice(0, 16)}`, '', `Free: ${GB(plan.freeBytes)} GB. Scratch root: \`${plan.scratch}\`.`, '', '| area | class | kind | rows | GB |', '|---|---|---|---|---|'];
   const g = new Map();
   for (const r of plan.rows) { const k = `${r.area}|${r.class}|${r.kind}`; const x = g.get(k) || { n: 0, b: 0 }; x.n++; x.b += r.bytes || 0; g.set(k, x); }
   for (const [k, x] of [...g.entries()].sort((a, b) => b[1].b - a[1].b)) { const [a, c, kind] = k.split('|'); lines.push(`| ${a} | ${c} | ${kind} | ${x.n} | ${GB(x.b)} |`); }
   const mech = plan.rows.filter((r) => r.class === 'mechanical').reduce((a, r) => a + (r.bytes || 0), 0);
   lines.push('', `Mechanical total: ${GB(mech)} GB.`, '', '## Operator rows', '');
-  for (const r of plan.rows.filter((x) => x.class === 'operator').sort((a, b) => (b.bytes || 0) - (a.bytes || 0)).slice(0, 40)) lines.push(`- \`${r.path}\` ${GB(r.bytes)} GB - ${r.kind}: ${r.reason}`);
+  const ops = plan.rows.filter((x) => x.class === 'operator').sort((a, b) => (b.bytes || 0) - (a.bytes || 0));
+  for (const r of ops.slice(0, 40)) lines.push(`- \`${r.path}\` ${GB(r.bytes)} GB - ${r.kind}: ${r.reason}`);
+  if (ops.length > 40) lines.push(`- ... ${ops.length - 40} more operator rows in disk.json`);
   return lines.join('\n') + '\n';
 }
 
 // ---------------------------------------------------------------------------- main
 
+const OPTIONS = { 'idle-hours': 'number', 'temp-days': 'number', scratch: 'value', out: 'value', json: 'flag', apply: 'flag', reap: 'list' };
+
+/**
+ * Strict argv. This tool deletes, so an option it does not know is refused rather than
+ * ignored (`--apply --dry-run` used to apply), and a window that is not a non-negative number
+ * is refused rather than read as NaN, which every `age < floor` comparison answers false:
+ * `--idle-hours 24h` used to switch the liveness floor off. Throws a usage message.
+ */
+export function parseArgs(argv) {
+  const o = { reap: null };
+  for (let i = 0; i < argv.length; i++) {
+    const a = argv[i];
+    const name = a.startsWith('--') ? a.slice(2) : null;
+    const kind = name && Object.hasOwn(OPTIONS, name) ? OPTIONS[name] : null;
+    if (!kind) throw new Error(name ? `unknown option ${a}` : `unexpected argument ${a}`);
+    if (kind === 'flag') { o[name] = true; continue; }
+    if (kind === 'list') { o.reap = []; while (i + 1 < argv.length && !argv[i + 1].startsWith('--')) o.reap.push(argv[++i]); continue; }
+    const v = argv[i + 1];
+    if (v == null || v.startsWith('--')) throw new Error(`${a} needs a value`);
+    i++;
+    if (kind === 'number') {
+      const n = Number(v);
+      if (v.trim() === '' || !Number.isFinite(n) || n < 0) throw new Error(`${a} must be a non-negative number, got "${v}"`);
+      o[name] = n;
+    } else o[name] = v;
+  }
+  return o;
+}
+
 function main() {
-  const argv = process.argv.slice(2);
-  const opt = (n, d) => { const i = argv.indexOf(`--${n}`); return i >= 0 && argv[i + 1] && !argv[i + 1].startsWith('--') ? argv[i + 1] : d; };
+  let args;
+  try { args = parseArgs(process.argv.slice(2)); } catch (e) {
+    console.error(`FATAL: ${e.message}\nusage: hygiene-disk.mjs [--idle-hours N] [--temp-days N] [--scratch <dir>] [--out <dir>] [--json] | --apply [--out <dir>] | --reap <dir>... [--idle-hours N]`);
+    process.exit(EXIT.FATAL);
+  }
+  const opt = (n, d) => args[n] ?? d;
   const fleet = loadFleet(ROOT);
   // --reap needs no fleet: without one, a clone holding local commits is simply not shown landed
-  if (!fleet.machine && !argv.includes('--reap')) { console.error(`FATAL: ${fleet.problems.join('; ')}`); process.exit(EXIT.FATAL); }
-  const idleH = Number(opt('idle-hours', 24));
-  const tempDays = Number(opt('temp-days', 7));
+  if (!fleet.machine && !args.reap) { console.error(`FATAL: ${fleet.problems.join('; ')}`); process.exit(EXIT.FATAL); }
+  const idleH = opt('idle-hours', 24);
+  const tempDays = opt('temp-days', 7);
   const common = git(ROOT, ['rev-parse', '--path-format=absolute', '--git-common-dir']) ?? path.join(ROOT, '.git');
   const outDir = path.resolve(opt('out', path.join(common, 'hygiene', new Date().toISOString().slice(0, 10))));
   fs.mkdirSync(outDir, { recursive: true });
   const planPath = path.join(outDir, 'disk.json');
 
-  if (argv.includes('--reap')) {
+  if (args.reap) {
     // A run's own end-of-task cleanup (curator's fin.sh): the named scratch-root entries, judged
     // by the same rules right now, idle floor 0 because the caller just finished in them.
-    const scratch = path.resolve(opt('scratch', scratchRootOf(os.homedir())));
-    const reapIdle = Number(opt('idle-hours', 0));
-    const targets = [];
-    for (let i = argv.indexOf('--reap') + 1; i < argv.length && !argv[i].startsWith('--'); i++) targets.push(argv[i]);
+    const scratch = path.resolve(opt('scratch', scratchRootOf(fleet)));
+    const reapIdle = opt('idle-hours', 0);
+    const targets = args.reap;
     const ledger = path.join(outDir, 'disk-applied.jsonl');
     const homes = fleetHomes(fleet);
     for (const t of targets) {
@@ -373,7 +471,7 @@ function main() {
       if (path.dirname(abs).toLowerCase() !== scratch.toLowerCase()) res = { done: false, skipped: `not a top-level entry of the scratch root ${scratch}` };
       else if (!fs.existsSync(abs)) res = { done: false, skipped: 'gone' };
       else {
-        const m = measureTree(abs);
+        const m = measure(abs);
         const ageH = ageOf(m, Date.now());
         let c, f = {};
         if (m.rootIsLink) c = { class: 'operator', reason: 'is a link' };
@@ -393,7 +491,7 @@ function main() {
     return;
   }
 
-  if (argv.includes('--apply')) {
+  if (args.apply) {
     if (!fs.existsSync(planPath)) { console.error(`FATAL: no disk plan at ${planPath} - scan first`); process.exit(EXIT.FATAL); }
     const plan = JSON.parse(fs.readFileSync(planPath, 'utf8'));
     const ledger = path.join(outDir, 'disk-applied.jsonl');
@@ -418,7 +516,7 @@ function main() {
     return;
   }
 
-  const scratch = path.resolve(opt('scratch', scratchRootOf(fleet.root ?? os.homedir())));
+  const scratch = path.resolve(opt('scratch', scratchRootOf(fleet)));
   const rows = scan({ fleet, idleH, tempDays, scratch });
   let freeBytes = null;
   try { const s = fs.statfsSync(scratch && fs.existsSync(scratch) ? scratch : os.homedir()); freeBytes = s.bavail * s.bsize; } catch { /* unknown */ }
@@ -426,7 +524,7 @@ function main() {
   fs.writeFileSync(planPath, JSON.stringify(plan, null, 2));
   const md = renderMarkdown(plan);
   fs.writeFileSync(path.join(outDir, 'disk.md'), md);
-  process.stdout.write(argv.includes('--json') ? JSON.stringify(plan, null, 2) : md + `\nplan: ${planPath}\n`);
+  process.stdout.write(args.json ? JSON.stringify(plan, null, 2) : md + `\nplan: ${planPath}\n`);
 }
 
 if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {

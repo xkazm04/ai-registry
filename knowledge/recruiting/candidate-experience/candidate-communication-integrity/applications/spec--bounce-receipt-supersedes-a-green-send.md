@@ -7,6 +7,7 @@ stack: spec
 status: forged
 verified_on: 2026-09-26
 source: IETF/RFC-3461+RFC-3463+RFC-3464+RFC-5321
+counterpart: external
 ---
 
 # Supersession as the delivery-report standards shape it

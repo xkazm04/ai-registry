@@ -310,6 +310,52 @@ test('presets: --landing brings the UI seats, owner review and the landing bar; 
   assert.match(reviewLines('panel').rubric_intro, /1 to 10/);
 });
 
+test('a seat ceiling or variant count that is not a positive number is refused, never run as NaN', async () => {
+  const presets = await import('../scripts/lib/presets.mjs');
+  const { resolveInit } = presets;
+  // NaN as a timer fires at once (every seat killed on start); a bare flag was Number(true) = 1 minute.
+  for (const bad of ['abc', '0', '-5', '', true]) {
+    assert.throws(() => resolveInit({ 'timeout-min': bad }), /--timeout-min needs a positive number/, `timeout-min ${JSON.stringify(bad)}`);
+  }
+  for (const bad of ['x', '0', '2.5', true]) {
+    assert.throws(() => resolveInit({ variants: bad }), /--variants needs a whole number/, `variants ${JSON.stringify(bad)}`);
+  }
+  assert.equal(resolveInit({ 'timeout-min': '7.5', variants: '2' }).timeout_min, 7.5);
+  assert.equal(typeof presets.minutesOpt, 'function', 'run/judge/refine/reveal/plan share one ceiling parser');
+  assert.equal(presets.minutesOpt({}, 'timeout-min', 30), 30);
+  assert.equal(presets.minutesOpt({ 'timeout-min': '45' }, 'timeout-min', 30), 45);
+  assert.throws(() => presets.minutesOpt({ 'timeout-min': true }, 'timeout-min', 30), /no value/);
+
+  // End to end: `run` refuses before any seat starts. The seat binaries are stubbed to a no-op node
+  // process, so the old behaviour (seats launched with a NaN ceiling) is observable and costs nothing.
+  const { spawnSync } = await import('node:child_process');
+  const fs = await import('node:fs');
+  const os = await import('node:os');
+  const path = await import('node:path');
+  const { fileURLToPath } = await import('node:url');
+  const script = path.join(path.dirname(fileURLToPath(import.meta.url)), '..', 'scripts', 'contest.mjs');
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), 'contest-ceiling-'));
+  const stub = `${process.execPath}|-e|process.exit(0)`;
+  const env = { ...process.env, CONTEST_CLAUDE_BIN: stub, CONTEST_CODEX_BIN: stub };
+  const run = (...a) => spawnSync(process.execPath, [script, ...a, '--vault', path.join(root, 'vault')], { cwd: root, encoding: 'utf8', env });
+  try {
+    fs.writeFileSync(path.join(root, 'BRIEF.md'), 'A small idea.\n');
+    assert.equal(run('init', '--id', 'c1', '--title', 'T', '--brief', 'BRIEF.md', '--participants', 'claude:opus@high,codex:gpt-x@high', '--variants', '1').status, 0);
+    const arena = path.join(root, '.contest', 'arena', 'c1');
+    for (const ceiling of ['abc', null]) {
+      const r = ceiling === null ? run('run', '--id', 'c1', '--timeout-min') : run('run', '--id', 'c1', '--timeout-min', ceiling);
+      assert.equal(r.status, 2, `run --timeout-min ${ceiling ?? '(bare)'} must refuse: ${r.stdout}${r.stderr}`);
+      assert.match(r.stderr, /--timeout-min needs a positive number/);
+      assert.ok(!fs.existsSync(path.join(arena, 'runs')), 'no seat was started');
+    }
+    const bad = run('init', '--id', 'c2', '--title', 'T', '--brief', 'BRIEF.md', '--variants', 'three');
+    assert.equal(bad.status, 2);
+    assert.ok(!fs.existsSync(path.join(root, '.contest', 'arena', 'c2', 'contest.json')), 'a refused init writes no contest');
+  } finally {
+    fs.rmSync(root, { recursive: true, force: true });
+  }
+});
+
 test('wrap: a family is decided only when its last round is, and the winner keeps its source', async () => {
   const { familyState, shotsFor, isRebuildable, extractById, upsertSection } = await import('../scripts/lib/wrap.mjs');
   const root = { id: 'x', shortlist: [{ label: 'A/1' }] };
@@ -446,4 +492,111 @@ test('wrap archives notes and screenshots, keeps the winner, removes the rest, a
     fs.rmSync(root, { recursive: true, force: true });
     fs.rmSync(outside, { recursive: true, force: true });
   }
+});
+
+test('the router is blind: a variant named after its family in <title> or NOTES.md shows redacted', async () => {
+  const { spawnSync } = await import('node:child_process');
+  const fs = await import('node:fs');
+  const os = await import('node:os');
+  const path = await import('node:path');
+  const { fileURLToPath } = await import('node:url');
+  const script = path.join(path.dirname(fileURLToPath(import.meta.url)), '..', 'scripts', 'contest.mjs');
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), 'contest-leak-'));
+  const cli = (...a) => {
+    const r = spawnSync(process.execPath, [script, ...a, '--vault', path.join(root, 'vault')], { cwd: root, encoding: 'utf8' });
+    assert.equal(r.status, 0, `${a[0]} failed: ${r.stderr}`);
+    return r.stdout;
+  };
+  try {
+    fs.writeFileSync(path.join(root, 'BRIEF.md'), 'A small idea.\n');
+    cli('init', '--id', 'leak', '--title', 'Leak test', '--brief', 'BRIEF.md', '--participants', 'claude:opus@high,codex:gpt-x@high', '--variants', '1');
+    for (const s of JSON.parse(cli('plan', '--id', 'leak')).seats) {
+      const v = path.join(s.cwd, 'variant-1');
+      fs.mkdirSync(v, { recursive: true });
+      // One seat signs its concept, the other its page title: both reach the router's card text.
+      fs.writeFileSync(path.join(v, 'index.html'), s.engine === 'codex' ? '<title>The GPT-6 take</title>' : '<title>Plain</title>');
+      if (s.engine === 'claude') fs.writeFileSync(path.join(v, 'NOTES.md'), '# Claude Opus brutalist\n');
+      fs.mkdirSync(s.log_dir, { recursive: true });
+      fs.writeFileSync(path.join(s.log_dir, 'record.json'), JSON.stringify({ id: s.id, spec: s.spec, outcome: 'completed', wall_s: 60 }));
+    }
+    cli('collect', '--id', 'leak');
+    const arena = path.join(root, '.contest', 'arena', 'leak');
+    for (const page of [path.join(arena, 'router.html'), path.join(root, 'vault', 'Contest', 'router.html')]) {
+      const cards = [...fs.readFileSync(page, 'utf8').matchAll(/<span>([^<]*)<\/span>/g)].map((m) => m[1]);
+      assert.equal(cards.length, 2, `two variant cards in ${page}`);
+      for (const text of cards) assert.doesNotMatch(text, /claude|opus|gpt|codex/i, `the blinded router names a family: "${text}"`);
+      assert.ok(cards.some((t) => /\[redacted\] brutalist/.test(t)), 'the concept survives with the signature redacted');
+    }
+  } finally {
+    fs.rmSync(root, { recursive: true, force: true });
+  }
+});
+
+// ------------------------------------------------------------------ seat.mjs (shared with tiger)
+
+test('resolveBin skips a directory named after the engine and takes the real stub behind it', async () => {
+  // contest and tiger each carried a resolver; only tiger skipped a PATH entry that is a directory.
+  // Platform is injected as linux so the extension-less stub is a valid candidate on any host.
+  const fs = await import('node:fs');
+  const os = await import('node:os');
+  const path = await import('node:path');
+  const { resolveBin } = await import('../scripts/lib/seat.mjs');
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), 'seat-path-'));
+  try {
+    const first = path.join(root, 'first');
+    const second = path.join(root, 'second');
+    fs.mkdirSync(path.join(first, 'codex'), { recursive: true });   // a directory called codex, first on PATH
+    fs.mkdirSync(second, { recursive: true });
+    const stub = path.join(second, 'codex');
+    fs.writeFileSync(stub, '#!/bin/sh\nexit 0\n');
+    const env = { PATH: [first, second].join(path.delimiter) };
+    const opts = { env, platform: 'linux', home: path.join(root, 'home') };
+    assert.equal(resolveBin('codex', opts), stub);
+    // A PATH holding only the directory finds nothing: null, not the directory.
+    assert.equal(resolveBin('codex', { ...opts, env: { PATH: first } }), null);
+    // The per-engine override wins, and `a|b` splits into [binary, ...args].
+    assert.equal(resolveBin('codex', { ...opts, env: { ...env, CONTEST_CODEX_BIN: '/x/codex' } }), '/x/codex');
+    assert.deepEqual(resolveBin('codex', { ...opts, env: { ...env, CONTEST_CODEX_BIN: 'node|/x/codex.js' } }), ['node', '/x/codex.js']);
+    // agy has a per-user fallback under the injected home; tiger's copy had none.
+    const agy = path.join(root, 'home', '.local', 'bin', 'agy');
+    fs.mkdirSync(path.dirname(agy), { recursive: true });
+    fs.writeFileSync(agy, '#!/bin/sh\n');
+    assert.equal(resolveBin('agy', { ...opts, env: { PATH: first } }), agy);
+  } finally {
+    fs.rmSync(root, { recursive: true, force: true });
+  }
+});
+
+test('runSeat runs the argv it is given, logs both streams, and reports wall_s to hundredths', async () => {
+  // The argv is a local node one-liner: no model, no network.
+  const fs = await import('node:fs');
+  const os = await import('node:os');
+  const path = await import('node:path');
+  const { runSeat } = await import('../scripts/lib/seat.mjs');
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), 'seat-run-'));
+  try {
+    const logDir = path.join(root, 'logs');
+    const r = await runSeat(
+      { argv: [process.execPath, '-e', 'process.stdout.write(process.env.SEAT_X + ":" + require("fs").readFileSync(0, "utf8"))'], stdin: 'in', env: { SEAT_X: 'hi' } },
+      { cwd: root, timeoutMs: 20000, logDir, label: 'stub' },
+    );
+    assert.equal(r.stdout, 'hi:in');
+    assert.deepEqual([r.exit, r.timedOut, r.label], [0, false, 'stub']);
+    assert.equal(r.wall_s, Math.round(r.wall_s * 100) / 100);
+    assert.equal(fs.readFileSync(path.join(logDir, 'stdout.log'), 'utf8'), 'hi:in');
+    assert.ok(fs.existsSync(path.join(logDir, 'stderr.log')));
+  } finally {
+    fs.rmSync(root, { recursive: true, force: true });
+  }
+});
+
+test('contest.mjs keeps no resolver or runner of its own: both come from lib/seat.mjs', async () => {
+  const fs = await import('node:fs');
+  const path = await import('node:path');
+  const { fileURLToPath } = await import('node:url');
+  const src = fs.readFileSync(path.join(path.dirname(fileURLToPath(import.meta.url)), '..', 'scripts', 'contest.mjs'), 'utf8');
+  assert.match(src, /from '\.\/lib\/seat\.mjs'/);
+  assert.doesNotMatch(src, /function runSeat\(/);
+  assert.doesNotMatch(src, /taskkill/);
+  assert.doesNotMatch(src, /node_modules\/@openai\/codex/);
 });

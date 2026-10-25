@@ -21,7 +21,7 @@ import { fileURLToPath } from 'node:url';
 import { promisify } from 'node:util';
 import { KIT_REMOTION, runCheck } from './check.mjs';
 import { isMain } from './lib/entry.mjs';
-import { localImports } from './lib/imports.mjs';
+import { localEntry, localImports } from './lib/imports.mjs';
 
 const execFileP = promisify(execFile);
 const here = path.dirname(fileURLToPath(import.meta.url));
@@ -117,9 +117,15 @@ export function serveDir(root) {
     const size = statSync(file).size;
     const headers = { 'Access-Control-Allow-Origin': '*', 'Accept-Ranges': 'bytes', 'Content-Type': TYPES[path.extname(file).toLowerCase()] ?? 'application/octet-stream' };
     const m = /bytes=(\d*)-(\d*)/.exec(rq.headers.range ?? '');
-    if (m) {
-      const start = m[1] ? Number(m[1]) : 0;
-      const end = m[2] ? Math.min(Number(m[2]), size - 1) : size - 1;
+    if (m && (m[1] || m[2])) {
+      // `bytes=-N` is the LAST N bytes; a start past the end (or after `end`) is unsatisfiable: 416,
+      // never a createReadStream ERR_OUT_OF_RANGE thrown in the handler (it killed the render)
+      const start = m[1] ? Number(m[1]) : Math.max(0, size - Number(m[2]));
+      const end = m[1] && m[2] ? Math.min(Number(m[2]), size - 1) : size - 1;
+      if (start >= size || start > end) {
+        rs.writeHead(416, { 'Access-Control-Allow-Origin': '*', 'Content-Range': `bytes */${size}` }).end();
+        return;
+      }
       rs.writeHead(206, { ...headers, 'Content-Range': `bytes ${start}-${end}/${size}`, 'Content-Length': end - start + 1 });
       if (rq.method === 'HEAD') return rs.end();
       createReadStream(file, { start, end }).pipe(rs);
@@ -251,13 +257,13 @@ async function main() {
 
   const outFile = path.resolve(o.out ?? path.join(film.dir, 'out', `${slug(film.script.title)}-${o.balance}.mp4`));
   mkdirSync(path.dirname(outFile), { recursive: true });
-  const localEntry = ['index.tsx', 'index.ts', 'index.jsx', 'index.js'].map((f) => path.join(film.localDir, f)).find((f) => existsSync(f));
+  const entry = localEntry(film.localDir);
   const fx = timeline.fx.length ? { whoosh: await ensureWhoosh(film.dir) } : undefined;
   const { server, url } = await serveDir(film.dir);
   try {
     const { ensureBrowser, renderMedia, renderStill, selectComposition } = req('@remotion/renderer');
     await ensureBrowser();
-    const serveUrl = await getBundle(localEntry, log);
+    const serveUrl = await getBundle(entry, log);
     const inputProps = { script: inlineOutsideMedia(film.script, film.dir), manifest: film.manifest, ...(film.take ? { take: film.take } : {}), balance: o.balance, baseDir: url, ...(fx ? { fx } : {}) };
     const composition = await selectComposition({ serveUrl, id: 'Film', inputProps, logLevel: 'warn' });
     if (composition.durationInFrames !== timeline.totalFrames) throw new Error(`composition ${composition.durationInFrames} frames != timeline ${timeline.totalFrames}`);

@@ -27,8 +27,9 @@ fates are legitimate: **confirmed** (the hint held, possibly with sub-claims sha
 the fraction - the honest fraction is a lead, not a document).
 
 **The pin is in prose; the citation is re-checked.** An external application carries
-`verified_on` (the day the citations were resolved) and NO `verified_against` (that
-field witnesses a consumer's runtime, not a foreign tree). The counterpart's name,
+`verified_on` (the day the citations were resolved), the marker `counterpart: external`
+(rkb-profile §3.1), and NO `verified_against` (that field witnesses a consumer's runtime,
+not a foreign tree; check-bundles refuses the pair). The counterpart's name,
 version and commit are stated in the body. Every cited line is re-opened before the
 document ships: the lane measured about one wrong citation per ten on first draft, and
 a fabricated line number is worse than a missing one.
@@ -114,7 +115,7 @@ Three, all small, none retroactive.
    "pipeline" and be wrong. The gate already lets a bundle declare extra stacks in
    its `index.md` `stacks:`; each bundle declares the ones it uses when its first such
    application lands, not before. `verified_against` is omitted, as for every external
-   application.
+   application (which carries `counterpart: external`).
 2. **`source:` on lane applications.** Optional frontmatter, the canonical counterpart
    name (`owner/repo`, or `publisher/document@edition`, or `publisher/dataset@date`).
    The lane writes it on every application it produces from now on, including

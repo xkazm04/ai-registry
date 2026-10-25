@@ -3,7 +3,7 @@
   "_note": "Portable fleet declaration, and the only committed half. Absolute roots and checkout overrides belong in the gitignored .machine.local.json; the contributor id is derived from its machine name. These two files are the whole config - resolve them through scripts/lib/projects.mjs, never by reading either one directly.",
   "machines": {
     "Fox": {
-      "note": "secondary dev box - root not declared yet; its .machine.local.json still supplies one"
+      "note": "secondary dev box - its root lives in its gitignored .machine.local.json, never here"
     },
     "Wolf": {
       "note": "primary dev box"
@@ -124,6 +124,11 @@
     "overlord": {
       "checkouts": {
         "Wolf": "kiro/overlord"
+      }
+    },
+    "bp": {
+      "checkouts": {
+        "Lynx": "kiro/bp"
       }
     }
   }

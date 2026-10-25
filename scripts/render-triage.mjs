@@ -2,8 +2,8 @@
 /**
  * render-triage - the operator's blind view of a render proof, and the cleanup it gates.
  *
- *   node scripts/render-triage.mjs sheet  <dir> [--allow-indistinct]
- *   node scripts/render-triage.mjs reveal <dir> <pairId>=<label|tie|neither> ...
+ *   node scripts/render-triage.mjs sheet  <dir> [--allow-indistinct] [--reseal]
+ *   node scripts/render-triage.mjs reveal <dir> <pairId>=<label|tie|neither> ... [--force]
  *   node scripts/render-triage.mjs clean  <dir> [--also <path> ...] [--force]
  *
  * /intake's render proof (references/render-proof.md) renders the same brief through
@@ -23,6 +23,11 @@
  *      labels per pair, writes the key to a separate file, and then asserts that the
  *      page it wrote contains neither an arm's file name nor an arm's prompt. A sheet
  *      that leaks the arm is refused, not warned about.
+ *      The key is the operator's only decoder: a second `sheet` reshuffles it, and an
+ *      operator who already read the first page then has their X/Y mapped through the wrong
+ *      key by `reveal` - the wrong arm recorded, at exit 0. So `sheet` over an existing
+ *      triage/key.json exits 2; replacing the key (and the page with it) takes --reseal.
+ *      Each sheet carries a random id in both the page and the key so a stale tab is spotted.
  *   2. REVEALED AFTER. `reveal` takes the operator's picks by label and only then maps
  *      them to arms, writing verdict.json - the durable artifact. Renders are cheap to
  *      remake; the judgement is not.
@@ -117,20 +122,34 @@ export function indistinct(pair) {
   if (!d || !Number.isFinite(d.between) || !Number.isFinite(d.within)) {
     return `pair ${pair.id} has no discrimination record: render the same approach at a second seed and record {between, within} before triage`;
   }
+  // A distance is never negative; one that is was computed wrong, and 0 < 1.5 * -1 is false.
+  if (d.between < 0 || d.within < 0) {
+    return `pair ${pair.id}: discrimination carries a negative distance (between ${d.between}, within ${d.within}) - the metric is broken, not the pair`;
+  }
+  // Two arms at distance 0 are one output. With a 0 seed floor the ratio test reads 0 < 0
+  // as false and passed them; nothing can be judged between identical renders.
+  if (d.between === 0) {
+    return `pair ${pair.id}: the arms are identical (between 0) - the operator would be judging two runs of the same process; redesign the arms as different approaches`;
+  }
   if (d.between < DISCRIMINATION_RATIO * d.within) {
     return `pair ${pair.id}: arms differ by ${d.between} against a seed-noise floor of ${d.within} (need ${DISCRIMINATION_RATIO}x) - the operator would be judging two runs of the same process; redesign the arms as different approaches`;
   }
   return null;
 }
 
-export function sheet(dir, { allowIndistinct = false } = {}) {
+export function sheet(dir, { allowIndistinct = false, reseal = false } = {}) {
   const manifest = readJson(path.join(dir, 'manifest.json'), 'manifest');
   if (!manifest.run || !Array.isArray(manifest.pairs) || !manifest.pairs.length) fail('manifest needs run and pairs[]');
   const refused = manifest.pairs.map(indistinct).filter(Boolean);
   if (refused.length && !allowIndistinct) fail(refused.join('\n  '));
   const out = path.join(dir, 'triage');
+  // Checked before any write: a refused re-seal must leave the sealed page and key as they were.
+  if (!reseal && fs.existsSync(path.join(out, 'key.json'))) {
+    fail(`${path.join(out, 'key.json')} already seals a sheet the operator may have read; re-running sheet reshuffles the labels and reveal would record the wrong arm. Pass --reseal to replace the sheet and its key`);
+  }
   fs.mkdirSync(out, { recursive: true });
-  const key = { run: manifest.run, created: new Date().toISOString(), pairs: {} };
+  const sheetId = crypto.randomBytes(4).toString('hex');
+  const key = { run: manifest.run, sheet: sheetId, created: new Date().toISOString(), pairs: {} };
   const sections = [];
   for (const pair of manifest.pairs) {
     const arms = Object.keys(pair.arms);
@@ -174,7 +193,7 @@ export function sheet(dir, { allowIndistinct = false } = {}) {
 video,img{width:100%;border-radius:6px;background:#000}.brief,.q{color:#bbb;max-width:70ch}
 .disc{color:#8a8;font-size:13px;max-width:70ch}.disc.refused{color:#d99}</style>
 <h1>Render triage: ${esc(manifest.run)}</h1><p class="q">${esc(manifest.question || 'Which output is better?')}</p>
-<p class="q">Arms are shuffled per pair. Answer with the letter, "tie", or "neither".</p>
+<p class="q">Arms are shuffled per pair. Answer with the letter, "tie", or "neither". Sheet ${sheetId}.</p>
 ${sections.join('\n')}
 ${showcase.length ? `<h2>Context (not blind, not judged)</h2><div class="row">${showcase.join('')}</div>` : ''}`;
   const leaked = leaks(html, manifest);
@@ -185,14 +204,26 @@ ${showcase.length ? `<h2>Context (not blind, not judged)</h2><div class="row">${
   return key;
 }
 
-export function reveal(dir, picks) {
+export function reveal(dir, picks, { force = false } = {}) {
   const manifest = readJson(path.join(dir, 'manifest.json'), 'manifest');
   const key = readJson(path.join(dir, 'triage', 'key.json'), 'key (run sheet first)');
-  const chosen = Object.fromEntries(picks.map((p) => {
+  // verdict.json is the one artifact here that cannot be remade (see the header): a second
+  // reveal - a retyped pick, a replayed command - used to replace the operator's recorded
+  // judgement without a word. Replacing it is a decision, so it takes --force.
+  if (!force && fs.existsSync(path.join(dir, 'verdict.json'))) {
+    fail(`verdict.json already records this run's judgement (${path.join(dir, 'verdict.json')}); pass --force to replace it`);
+  }
+  // Every pick must name a pair on the sheet, once. A misspelt id used to vanish here (the
+  // loop below reads only the manifest's ids), and a repeated id silently kept its last value.
+  const known = new Set(manifest.pairs.map((p) => p.id));
+  const chosen = {};
+  for (const p of picks) {
     const m = /^([^=]+)=(.+)$/.exec(p);
     if (!m) fail(`pick must be <pairId>=<label|tie|neither>, got ${p}`);
-    return [m[1], m[2]];
-  }));
+    if (!known.has(m[1])) fail(`pick ${p} names no pair in the manifest (pairs: ${[...known].join(', ')})`);
+    if (m[1] in chosen) fail(`pair ${m[1]} is picked twice (${chosen[m[1]]} and ${m[2]}); give one pick per pair`);
+    chosen[m[1]] = m[2];
+  }
   const verdict = { run: manifest.run, variable: manifest.variable || null, decided_on: new Date().toISOString().slice(0, 10), grader: 'operator', pairs: {} };
   for (const pair of manifest.pairs) {
     const pick = chosen[pair.id];
@@ -212,9 +243,24 @@ function sizeOf(p) {
   return fs.readdirSync(p).reduce((n, e) => n + sizeOf(path.join(p, e)), 0);
 }
 
+/**
+ * The run id as a whole token: bounded by the name's edges or by a non-alphanumeric, so
+ * `intake-test1` claims `intake-test1_ref.png` and `renders-intake-test1` but not
+ * `intake-test10_ref.png` or `intake-test1b.png` - those are another run's media, and a
+ * bare `includes`/`startsWith` deleted them. Escaped, because ids are data, not patterns.
+ */
+const runToken = (run) => {
+  const id = run.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  return { anywhere: new RegExp(`(?:^|[^A-Za-z0-9])${id}(?:$|[^A-Za-z0-9])`), leading: new RegExp(`^${id}(?:$|[^A-Za-z0-9])`) };
+};
+
 export function clean(dir, also = [], force = false) {
   const manifest = readJson(path.join(dir, 'manifest.json'), 'manifest');
   const run = manifest.run;
+  // An empty or missing id is a prefix of every name: with --also it would delete everything
+  // the target holds. sheet already refuses such a manifest; cleanup must refuse it too.
+  if (typeof run !== 'string' || !/[A-Za-z0-9]/.test(run)) fail(`manifest has no usable run id (${JSON.stringify(run ?? null)}): cleanup scopes by it and refuses to run without one`);
+  const token = runToken(run);
   if (!force && !fs.existsSync(path.join(dir, 'verdict.json'))) fail('no verdict.json: triage before cleanup (reveal first, or --force)');
   const doomed = [];
   const walk = (d) => {
@@ -227,9 +273,9 @@ export function clean(dir, also = [], force = false) {
   walk(dir);
   for (const target of also) {
     if (!fs.existsSync(target)) continue;
-    if (path.basename(target).includes(run)) { doomed.push(target); continue; }
+    if (token.anywhere.test(path.basename(target))) { doomed.push(target); continue; }
     if (!fs.statSync(target).isDirectory()) fail(`--also ${target} does not carry the run id ${run}`);
-    const hits = fs.readdirSync(target).filter((n) => n.startsWith(run)).map((n) => path.join(target, n));
+    const hits = fs.readdirSync(target).filter((n) => token.leading.test(n)).map((n) => path.join(target, n));
     if (!hits.length) console.log(`clean: nothing in ${target} starts with ${run}`);
     doomed.push(...hits);
   }
@@ -245,17 +291,17 @@ export function clean(dir, also = [], force = false) {
 
 function main(argv) {
   const [cmd, dir, ...rest] = argv;
-  if (!cmd || !dir || !['sheet', 'reveal', 'clean'].includes(cmd)) fail('usage: sheet <dir> | reveal <dir> <pair>=<label> ... | clean <dir> [--also <path>] [--force]');
+  if (!cmd || !dir || !['sheet', 'reveal', 'clean'].includes(cmd)) fail('usage: sheet <dir> [--allow-indistinct] [--reseal] | reveal <dir> <pair>=<label> ... [--force] | clean <dir> [--also <path>] [--force]');
   if (!fs.existsSync(dir)) fail(`no such directory: ${dir}`);
   // Assert the leak detector before trusting it with a page.
   const planted = { pairs: [{ id: 'p', arms: { A: { file: 'r/p-armA.mp4', prompt: 'a prompt long enough to count' } } }] };
   if (leaks('<video src="p-armA.mp4">', planted).length !== 1) fail('leak detector failed its planted positive');
   if (cmd === 'sheet') {
-    const bad = rest.filter((a) => a !== '--allow-indistinct');
+    const bad = rest.filter((a) => a !== '--allow-indistinct' && a !== '--reseal');
     if (bad.length) fail(`unknown sheet argument ${bad[0]}`);
-    sheet(dir, { allowIndistinct: rest.includes('--allow-indistinct') });
+    sheet(dir, { allowIndistinct: rest.includes('--allow-indistinct'), reseal: rest.includes('--reseal') });
   }
-  else if (cmd === 'reveal') reveal(dir, rest);
+  else if (cmd === 'reveal') reveal(dir, rest.filter((a) => a !== '--force'), { force: rest.includes('--force') });
   else {
     const also = [];
     let force = false;

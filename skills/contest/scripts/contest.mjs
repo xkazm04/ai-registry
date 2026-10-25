@@ -33,18 +33,17 @@
 import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
-import { spawn } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 import { parseParticipants, engineCommand, parseEnvelope, classifyOutcome } from './lib/participants.mjs';
+import { resolveBin as findBin, runSeat } from './lib/seat.mjs';
 import { blindMap, unblind, scrubIdentity, materialPhrases, validateVerdict, aggregate, tallyPatterns, scoreboardMarkdown, feedbackSection } from './lib/judging.mjs';
 import { renderRouter, fileHref } from './lib/router.mjs';
 import { renderContestNote, upsertIndex, upsertPatterns, readPatterns, slugify } from './lib/vault.mjs';
-import { resolveInit, reviewLines, deliverableLines } from './lib/presets.mjs';
+import { resolveInit, reviewLines, deliverableLines, minutesOpt } from './lib/presets.mjs';
 import { familyState, shotsFor, renderedTextFor, extractById, pageText, duplicateShots, upsertSection, human, treeBytes, removeTree, findRebuildable, listFiles, label } from './lib/wrap.mjs';
 
 const HERE = path.dirname(fileURLToPath(import.meta.url));
 const REFERENCES = path.join(HERE, '..', 'references');
-const WIN = process.platform === 'win32';
 
 // ---------------------------------------------------------------- args
 const argv = process.argv.slice(2);
@@ -59,6 +58,13 @@ for (let i = 1; i < argv.length; i += 1) {
   if (key === 'pattern') opts._pattern.push(val); else opts[key] = val;
 }
 const need = (k) => { if (opts[k] === undefined || opts[k] === true) die(`--${k} is required`); return opts[k]; };
+/** The seat ceiling in minutes: --timeout-min, else `fallback` (the contest's own, or the judges' 30). */
+const minutes = (fallback) => {
+  let n;
+  try { n = minutesOpt(opts, 'timeout-min', fallback); } catch (e) { die(e.message); }
+  if (!(Number.isFinite(n) && n > 0)) die(`the contest records no usable timeout_min (${JSON.stringify(n)}); pass --timeout-min <minutes>`);
+  return n;
+};
 function die(msg, code = 2) { console.error(`contest: ${msg}`); process.exit(code); }
 const read = (f) => fs.readFileSync(f, 'utf8');
 const readIf = (f) => (fs.existsSync(f) ? read(f) : null);
@@ -87,67 +93,12 @@ const save = (dir, c) => writeJson(path.join(dir, 'contest.json'), c);
 const copyDir = (from, to) => { fs.mkdirSync(to, { recursive: true }); fs.cpSync(from, to, { recursive: true }); };
 
 // ---------------------------------------------------------------- engines
+// The resolver and the runner are shared with tiger (lib/seat.mjs); only what a missing CLI
+// means is contest's own: it stops the command.
 function resolveBin(engine) {
-  const env = process.env[`CONTEST_${engine.toUpperCase()}_BIN`];
-  if (env) return env.includes('|') ? env.split('|') : env;
-  const exts = WIN ? ['.exe', '.cmd', ''] : [''];
-  const dirs = (process.env.PATH ?? '').split(path.delimiter).filter(Boolean);
-  const home = os.homedir();
-  const fallbacks = {
-    claude: [path.join(home, '.local', 'bin', 'claude.exe'), path.join(home, '.local', 'bin', 'claude')],
-    grok: [path.join(home, '.grok', 'bin', 'grok.exe'), path.join(home, '.grok', 'bin', 'grok')],
-    codex: [],
-    agy: [path.join(process.env.LOCALAPPDATA ?? path.join(home, 'AppData', 'Local'), 'agy', 'bin', 'agy.exe'), path.join(home, '.local', 'bin', 'agy')],
-  };
-  const candidates = [];
-  for (const d of dirs) for (const e of exts) candidates.push(path.join(d, engine + e));
-  candidates.push(...fallbacks[engine]);
-  for (const c of candidates) {
-    if (!fs.existsSync(c)) continue;
-    // An npm shim cannot be spawned without a shell; run the package's entry script with this node.
-    if (/\.cmd$/i.test(c) || !path.extname(c)) {
-      const entry = {
-        codex: 'node_modules/@openai/codex/bin/codex.js',
-        claude: 'node_modules/@anthropic-ai/claude-code/cli.js',
-      }[engine];
-      // Current claude npm packages ship a native binary, not cli.js (lessons 1.2.0, 1.7.0).
-      const native = engine === 'claude' && path.join(path.dirname(c), 'node_modules/@anthropic-ai/claude-code/bin/claude.exe');
-      if (native && fs.existsSync(native)) return native;
-      const script = entry && path.join(path.dirname(c), entry);
-      if (script && fs.existsSync(script)) return [process.execPath, script];
-      if (WIN) continue;
-    }
-    return c;
-  }
-  die(`cannot find the ${engine} CLI on PATH; set CONTEST_${engine.toUpperCase()}_BIN`);
-  return null;
-}
-
-function runSeat({ argv: cmdArgv, stdin, env }, { cwd: dir, timeoutMs, logDir, label }) {
-  fs.mkdirSync(logDir, { recursive: true });
-  const t0 = Date.now();
-  return new Promise((resolve) => {
-    const p = spawn(cmdArgv[0], cmdArgv.slice(1), { cwd: dir, env: { ...process.env, ...env }, windowsHide: true });
-    const out = fs.createWriteStream(path.join(logDir, 'stdout.log'));
-    const err = fs.createWriteStream(path.join(logDir, 'stderr.log'));
-    const chunks = [];
-    p.stdout.on('data', (d) => { chunks.push(d); out.write(d); });
-    p.stderr.on('data', (d) => err.write(d));
-    let timedOut = false;
-    const timer = setTimeout(() => {
-      timedOut = true;
-      if (WIN) spawn('taskkill', ['/F', '/T', '/PID', String(p.pid)], { windowsHide: true });
-      else p.kill('SIGKILL');
-    }, timeoutMs);
-    p.on('error', (e) => { err.write(`spawn error: ${e.message}\n`); });
-    p.on('close', (code) => {
-      clearTimeout(timer);
-      out.end(); err.end();
-      resolve({ exit: code, timedOut, stdout: Buffer.concat(chunks).toString('utf8'), wall_s: Math.round((Date.now() - t0) / 10) / 100, label });
-    });
-    p.stdin.on('error', () => {});
-    p.stdin.end(stdin ?? '');
-  });
+  const bin = findBin(engine);
+  if (!bin) die(`cannot find the ${engine} CLI on PATH; set CONTEST_${engine.toUpperCase()}_BIN`);
+  return bin;
 }
 
 async function runSeats(seats, { timeoutMs, force, kind }) {
@@ -213,7 +164,7 @@ function init() {
   const ledger = readPatterns(readIf(path.join(vault, c.vault_subdir, 'Patterns.md')));
   const top = ledger.filter((p) => p.wins > 0 || p.seen > 1).slice(0, 8);
   const patternsSection = top.length
-    ? ['## What has won before', '', 'Judges of earlier contests named these philosophies in winning work. They are the floor, not a recipe: a variant that merely re-implements one of them will lose to one that finds the next.', '', ...top.map((p) => `- **${p.slug}** (won ${p.wins}, seen ${p.seen}): ${p.statement}`)].join('\n')
+    ? ['## What has won before', '', 'These ideas already won earlier contests. They are solved: do not resubmit them as a variant\'s idea. Use one only as a given beneath an idea of your own; a variant whose central bet is one of these is scored as no new idea.', '', ...top.map((p) => `- **${p.slug}** (won ${p.wins}, seen ${p.seen}): ${p.statement}`)].join('\n')
     : '';
   const template = read(path.join(REFERENCES, 'participant-brief.md'));
   const lines = reviewLines(shape.review);
@@ -249,7 +200,7 @@ async function run() {
   const { c, dir } = load();
   const seats = participantSeats(c, dir);
   if (!seats.length) die('no participants selected');
-  const records = await runSeats(seats, { timeoutMs: Number(opts['timeout-min'] ?? c.timeout_min) * 60000, force: !!opts.force, kind: 'participant' });
+  const records = await runSeats(seats, { timeoutMs: minutes(c.timeout_min) * 60000, force: !!opts.force, kind: 'participant' });
   const bad = records.filter((r) => r.outcome !== 'completed');
   if (bad.length) console.log(`\n${bad.length} seat(s) did not complete: ${bad.map((r) => `${r.id} (${r.outcome})`).join(', ')} - rerun with --only <id> [--force]; collect will score what exists`);
 }
@@ -309,9 +260,12 @@ function collect() {
             fs.writeFileSync(target, text);
           } else fs.copyFileSync(src, target);
         }
-        v.title = (read(index).match(/<title>([^<]*)<\/title>/i)?.[1] ?? '').trim();
+        // The title and concept are read from the seat's own files, then scrubbed like the blinded
+        // copies: the router that shows them promises the owner "no model or vendor names".
+        const blindText = (s) => scrubIdentity(s, extraWords, protect).text.trim();
+        v.title = blindText(read(index).match(/<title>([^<]*)<\/title>/i)?.[1] ?? '');
         const notes = readIf(path.join(vdir, 'NOTES.md'));
-        v.concept = (notes?.match(/^#\s+(.+)$/m)?.[1] ?? v.title).trim();
+        v.concept = notes?.match(/^#\s+(.+)$/m) ? blindText(notes.match(/^#\s+(.+)$/m)[1]) : v.title;
       }
       entry.variants.push(v);
     }
@@ -453,7 +407,7 @@ async function judge() {
   const { c, dir } = load();
   const judges = parseParticipants(need('judges'));
   const seats = prepareJudges(c, dir, judges);
-  const records = await runSeats(seats, { timeoutMs: Number(opts['timeout-min'] ?? 30) * 60000, force: !!opts.force, kind: 'judge' });
+  const records = await runSeats(seats, { timeoutMs: minutes(30) * 60000, force: !!opts.force, kind: 'judge' });
   const badRecords = records.filter((r) => r.outcome !== 'completed');
   if (badRecords.length) console.log(`${badRecords.length} judge(s) did not complete: ${badRecords.map((r) => `${r.id} (${r.outcome})`).join(', ')}`);
   aggregateVerdicts();
@@ -694,7 +648,7 @@ function refine() {
   const hasData = fs.existsSync(path.join(childDir, 'data'));
   const template = read(path.join(REFERENCES, 'refine-brief.md'));
   const brief = read(path.join(dir, 'BRIEF.md')).trim();
-  const timeout = Number(opts['timeout-min'] ?? c.timeout_min);
+  const timeout = minutes(c.timeout_min);
   const names = c.participants.flatMap((x) => [x.id, x.model]);
   const participants = [];
   const expected = {};
@@ -765,7 +719,7 @@ function reveal() {
   if (hasData) copyDir(path.join(dir, 'data'), path.join(childDir, 'data'));
   const template = read(path.join(REFERENCES, 'reveal-brief.md'));
   const brief = read(path.join(dir, 'BRIEF.md')).trim();
-  const timeout = Number(opts['timeout-min'] ?? c.timeout_min);
+  const timeout = minutes(c.timeout_min);
   const concept = (v) => v.concept || v.title || 'untitled';
   const participants = [];
   const lineage = {};
@@ -1089,10 +1043,10 @@ function plan() {
   let timeoutMin;
   if (kind === 'participants') {
     seats = participantSeats(c, dir);
-    timeoutMin = Number(opts['timeout-min'] ?? c.timeout_min);
+    timeoutMin = minutes(c.timeout_min);
   } else if (kind === 'judges') {
     seats = prepareJudges(c, dir, parseParticipants(need('judges')));
-    timeoutMin = Number(opts['timeout-min'] ?? 30);
+    timeoutMin = minutes(30);
   } else die(`--kind must be participants or judges, not "${kind}"`);
   const out = {
     contest: c.id, dir, kind, timeout_min: timeoutMin,

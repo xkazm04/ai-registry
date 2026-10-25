@@ -6,7 +6,9 @@
  * hand-classifying paths.
  *
  * Handles the trace gotchas automatically:
- *  - drops the full-canvas background path,
+ *  - recolors (never drops) the surface-coloured background and large near-white or
+ *    near-black regions to `var(--background)`; `dropped` counts only <path>s it could
+ *    not read (no `d`, or a `transform` it does not apply),
  *  - recolors interior near-white "negative space" paths to `var(--background)`
  *    (so links/holes read as thin lines, not solid),
  *  - assigns each path a `delay` (0..1) from its distance to the canvas centre —
@@ -28,7 +30,15 @@ function parseArgs(argv) {
   }
   return a;
 }
-const rgb = (hex) => { const m = /^#([0-9a-f]{6})$/i.exec(hex); if (!m) return null; const n = parseInt(m[1], 16); return [(n >> 16) & 255, (n >> 8) & 255, n & 255]; };
+// #rgb as well as #rrggbb: svgo's convertColors (shorthex) turns #FFFFFF / #000000 into #fff / #000,
+// so the two surface colours reach this function in the short form.
+const rgb = (hex) => {
+  const m = /^#([0-9a-f]{3}|[0-9a-f]{6})$/i.exec(hex);
+  if (!m) return null;
+  const h = m[1].length === 3 ? m[1].replace(/./g, (c) => c + c) : m[1];
+  const n = parseInt(h, 16);
+  return [(n >> 16) & 255, (n >> 8) & 255, n & 255];
+};
 // "Light" = high luminance (catches white AND light lavender/panel highlights)
 // without touching saturated neon accents (amber/cyan/violet sit well below 0.82).
 const nearWhite = (hex) => { const c = rgb(hex); return c ? (0.299 * c[0] + 0.587 * c[1] + 0.114 * c[2]) / 255 > 0.82 : false; };
@@ -73,7 +83,17 @@ export function svgToGlyphData(svg, { name, order = "radial", whiteKeep = 0.1, s
   const [slabFrom, slabTo] = String(surfaceFill ?? "").split(">");
   const slabArea = slabMinArea ?? whiteKeep;
 
-  const paths = [...svg.matchAll(/<path\s+fill="(#[0-9A-Fa-f]+)"\s+d="([^"]+)"\s*\/>/g)].map((m) => ({ fill: m[1], d: m[2] }));
+  // Attributes in any order, any fill syntax (svgo's convertColors may name a colour: #000080 ->
+  // navy), absent fill = SVG's default black. A path this writer cannot place - no `d`, or a
+  // `transform` it does not apply (raw VTracer output, --no-optimize) - is COUNTED in `dropped`
+  // rather than vanishing: the old exact-shape matcher lost such paths and reported dropped: 0.
+  const paths = [];
+  let unread = 0;
+  for (const m of svg.matchAll(/<path\b([^>]*?)\/?>/g)) {
+    const attrs = Object.fromEntries([...m[1].matchAll(/([\w:-]+)\s*=\s*"([^"]*)"/g)].map((a) => [a[1], a[2]]));
+    if (!attrs.d || attrs.transform) { unread += 1; continue; }
+    paths.push({ fill: attrs.fill ?? "#000000", d: attrs.d });
+  }
 
   // Paint order (z-order) is PRESERVED — VTracer stacks fills over outlines, so
   // reordering hides colored fills behind navy. `delay` drives timing only.
@@ -119,21 +139,31 @@ import type { TracedGlyph } from '@/features/shared/components/display/Motionize
 
 export const ${name}: TracedGlyph = { viewBox: "0 0 ${W} ${H}", data: ${JSON.stringify(out, null, 0)} };
 `;
-  return { ts, elements: out.length, dropped: paths.length - out.length };
+  return { ts, elements: out.length, dropped: unread };
 }
 
-function main() {
-  const args = parseArgs(process.argv);
-  if (!args.input || !args.output || !args.name) { console.error("Usage: --input svg --output data.ts --name NAME"); process.exit(1); }
-  const svg = readFileSync(args.input, "utf8");
-  const { ts, elements, dropped } = svgToGlyphData(svg, {
+/**
+ * argv flags -> svgToGlyphData options: the ONE mapping emit-glyph, trace --emit and trace-set use,
+ * so a flag documented for one reaches all three (trace.mjs's hand copy once dropped --slab-min-area).
+ * `overrides` win - trace-set passes its per-key surface fill and the scratch name.
+ */
+export function glyphOptions(args, overrides = {}) {
+  return {
     name: args.name,
     order: args.order,
     whiteKeep: args["white-keep"] ? Number(args["white-keep"]) : undefined,
     surfaceFill: args["surface-fill"] || null,
     surfaceTolerance: args["surface-tolerance"] ? Number(args["surface-tolerance"]) : undefined,
     slabMinArea: args["slab-min-area"] ? Number(args["slab-min-area"]) : null,
-  });
+    ...overrides,
+  };
+}
+
+function main() {
+  const args = parseArgs(process.argv);
+  if (!args.input || !args.output || !args.name) { console.error("Usage: --input svg --output data.ts --name NAME"); process.exit(1); }
+  const svg = readFileSync(args.input, "utf8");
+  const { ts, elements, dropped } = svgToGlyphData(svg, glyphOptions(args));
   const abs = resolve(args.output);
   mkdirSync(dirname(abs), { recursive: true });
   writeFileSync(abs, ts);

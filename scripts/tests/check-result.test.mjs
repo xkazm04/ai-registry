@@ -4,7 +4,7 @@ import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
 import { spawnSync } from 'node:child_process';
-import { classifyCheckResult } from '../lib/check-result.mjs';
+import { classifyCheckResult, requirePopulation } from '../lib/check-result.mjs';
 import { EXIT } from '../lib/exit-codes.mjs';
 
 test('a blocked subprocess is an execution failure, not a stale artifact', () => {
@@ -17,6 +17,13 @@ test('a killed or incomplete checker cannot establish freshness', () => {
   for (const result of [{ signal: 'SIGTERM', status: null }, { status: null }, { status: 2 }, { status: 97 }]) {
     assert.equal(classifyCheckResult(result).code, EXIT.FATAL);
   }
+});
+
+test('an empty or missing population is could-not-run, never a clean result', () => {
+  assert.equal(requirePopulation(3, 'files').code, EXIT.OK);
+  for (const n of [0, NaN, undefined, null]) assert.equal(requirePopulation(n, 'files').code, EXIT.FATAL);
+  assert.equal(requirePopulation(4, 'bundles', { min: 5 }).code, EXIT.FATAL);
+  assert.match(requirePopulation(0, 'subjects').reason, /0 subjects/);
 });
 
 test('a completed checker distinguishes valid content from violations', () => {

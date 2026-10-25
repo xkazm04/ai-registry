@@ -2,6 +2,7 @@ import assert from 'node:assert/strict';
 import test from 'node:test';
 import fs from 'node:fs';
 import os from 'node:os';
+import { fileURLToPath } from 'node:url';
 import path from 'node:path';
 import { EXIT } from '../lib/exit-codes.mjs';
 import { SCHEMA, validateRunResult, writeRunResult, readRunResult, unpublishablePath, dryStreaks } from '../lib/run-result.mjs';
@@ -97,6 +98,18 @@ test('a path that would publish a machine is refused wherever it appears', () =>
     assert.match(String(unpublishablePath(`librarian/${user}/notes.md`)), /names this machine/);
   }
   assert.equal(unpublishablePath('librarian/runs/2026-09-23-1/result.json'), null, 'an ordinary repo-relative path passes');
+});
+
+test('the door refuses every home-anchored path or address the public gate behind it would flag', () => {
+  // check-public-paths scans librarian/ with the shared leak table; a result this door
+  // accepted used to turn that gate red after it was already written.
+  for (const value of ['~/code/app/src/x.ts', '$HOME/work/repo/a.md', '%USERPROFILE%/code/x', '~/.claude/projects/x.jsonl', 'notes/jane@example.com.md']) {
+    assert.ok(unpublishablePath(value, new Set()), `expected ${JSON.stringify(value)} to be refused`);
+    assert.ok(validateRunResult(valid({ files: [value] })).some((p) => p.startsWith('result.files[0]')));
+  }
+  for (const ok of ['scripts/x.mjs', 'docs/home/page.md', 'skills/home-assistant/SKILL.md', 'librarian/runs/a/result.json']) {
+    assert.equal(unpublishablePath(ok, new Set()), null, `${ok} is an ordinary repo-relative path`);
+  }
 });
 
 test('a decline is only real when written down', () => {
@@ -256,4 +269,20 @@ test('dryStreaks counts trailing idled passes, resets on a landing, and leaves t
   assert.deepEqual(dryStreaks([]), {}, 'no results at all: every subject unknown');
   // negative control: a landing as the LAST pass must read 0, not the idled count before it
   assert.equal(dryStreaks([run('a', [row('x/y', 'idled', '1'), row('x/y', 'idled', '2'), row('x/y', 'landed', '3')])])['x/y'], 0);
+});
+
+test('the run-result CLI refuses an unknown flag and a valueless --root/--path instead of reading the wrong registry', async () => {
+  const { spawnSync } = await import('node:child_process');
+  const script = fileURLToPath(new URL('../lib/run-result.mjs', import.meta.url));
+  const run = (...a) => spawnSync(process.execPath, [script, ...a], { encoding: 'utf8' });
+  const typo = run('read', 'some-run', '--rot', '/nowhere');
+  assert.equal(typo.status, EXIT.FATAL, typo.stdout + typo.stderr);
+  assert.match(typo.stderr, /unknown argument "--rot"/);
+  // A trailing --root used to be dropped, so the read went to this checkout's registry.
+  const bare = run('read', 'some-run', '--root');
+  assert.equal(bare.status, EXIT.FATAL, bare.stdout + bare.stderr);
+  assert.match(bare.stderr, /--root needs a value/);
+  const bareNext = run('read', '--path', '--root', '/x');
+  assert.equal(bareNext.status, EXIT.FATAL);
+  assert.match(bareNext.stderr, /--path needs a value/);
 });

@@ -1,3 +1,28 @@
+/**
+ * telemetry - identity and demand folding for the contributor lanes (`usage/`, `signals/`).
+ *
+ * Contributors report counts against the names they saw: a skill slug, `bundle/subject`,
+ * `bundle/subject/stack--technique`. The registry renames things, so a report can name an
+ * identity that no longer exists. This module is the one place that decides what such a
+ * name means, and it decides only from `identity-aliases.json` (an explicit, reasoned
+ * migration map), never from similarity - see docs/telemetry-identity.md.
+ *
+ *   - loadIdentities: the current skills/subjects/applications plus the alias map, and it
+ *     THROWS on an alias whose source still exists, whose target does not, or that has no
+ *     reason - a silently wrong fold is worse than a failed report.
+ *   - resolveIdentity: current name -> itself, aliased name -> its target, else null
+ *     (unresolved, which callers retain and report rather than drop).
+ *   - aggregateDemand: folds signals documents into per-subject demand. Consults are EVENTS
+ *     and sum; deviations and gone citations are STATES and take the maximum across
+ *     contributors (the sum is reported beside it as an upper bound), so the same state
+ *     reported twice - by two contributors, or under an alias and its current name - cannot
+ *     raise priority. Identical bundle blocks are flagged as possible duplicates.
+ *   - reportAge: a report's freshness against an explicit as-of date; it never rewrites the
+ *     reported date.
+ *
+ * Consumers: scripts/telemetry-report.mjs, lib/runs-aggregate.mjs (skill aliases),
+ * build-catalog and librarian-scan. Builtins only.
+ */
 import fs from 'node:fs';
 import path from 'node:path';
 

@@ -1,23 +1,30 @@
 // Pure half of capture-variants: argument parsing, file naming, blank detection.
 
+// The overridable limits: flag -> [group, key, ceiling]. A share is 0..1; a count or a pixel size is >= 0. A value
+// outside that is refused: NaN compares false both ways, so `--max-words forty` used to switch TEXT-HEAVY off.
+const LIMIT_FLAGS = {
+  '--max-words': ['limits', 'maxWords', Infinity], '--max-run': ['limits', 'maxRun', Infinity], '--max-ratio': ['limits', 'maxRatio', 1],
+  '--max-empty': ['balance', 'maxEmpty', 1], '--min-label': ['balance', 'minLabelDesktop', Infinity], '--min-section-words': ['balance', 'minSectionWords', Infinity],
+};
+
 export function parseArgs(argv) {
   const out = { widths: [1280, 390], settle: 1800, tabs: [], limits: {}, balance: {}, hide: [] };
   for (let i = 0; i < argv.length; i++) {
     const k = argv[i];
     const v = argv[i + 1];
-    if (k === '--url') { out.url = v; i++; }
+    if (LIMIT_FLAGS[k]) {
+      const [group, key, max] = LIMIT_FLAGS[k];
+      const n = typeof v === 'string' && v.trim() !== '' ? Number(v) : NaN;
+      if (!(n >= 0 && n <= max)) return { error: `invalid ${k} ${JSON.stringify(v ?? null)}: a number ${max === 1 ? 'from 0 to 1 (a share, not a percent)' : '>= 0'}` };
+      out[group][key] = n; i++;
+    }
+    else if (k === '--url') { out.url = v; i++; }
     else if (k === '--section') { out.section = v; i++; }
     else if (k === '--tabs') { out.tabs = String(v || '').split(',').map((s) => s.trim()).filter(Boolean); i++; }
     else if (k === '--out') { out.out = v; i++; }
     else if (k === '--widths') { out.widths = String(v || '').split(',').map(Number).filter((n) => n > 0); i++; }
     else if (k === '--settle') { out.settle = Number(v); i++; }
     else if (k === '--hide') { out.hide = String(v || '').split(',').map((x) => x.trim()).filter(Boolean); i++; }
-    else if (k === '--max-words') { out.limits.maxWords = Number(v); i++; }
-    else if (k === '--max-run') { out.limits.maxRun = Number(v); i++; }
-    else if (k === '--max-ratio') { out.limits.maxRatio = Number(v); i++; }
-    else if (k === '--max-empty') { out.balance.maxEmpty = Number(v); i++; }
-    else if (k === '--min-label') { out.balance.minLabelDesktop = Number(v); i++; }
-    else if (k === '--min-section-words') { out.balance.minSectionWords = Number(v); i++; }
     else return { error: `unknown argument: ${k}` };
   }
   if (!out.url) return { error: 'missing --url' };
@@ -129,8 +136,65 @@ export function emptyRatio(rgba, w, h, cell = 8, threshold = 10) {
 }
 
 /** Words and longest run in one text node's content. Unit-tested: a regex slip here
- * silently miscounts every capture. */
+ * silently miscounts every capture. The in-page probe below counts with THIS function
+ * (its source is shipped into the page), so the tested path is the counted path. */
 export function countWords(text) {
   const t = String(text).trim();
   return t ? t.split(/\s+/).length : 0;
+}
+
+/**
+ * The in-page text measurement: words, longest run, text area and smallest label inside
+ * the art (or the whole section when no art root is marked), plus the section's own word
+ * count minus the prototype's tab strip. It runs in the browser, so it takes everything
+ * it needs as parameters and reaches only for DOM globals: `countWords` arrives as an
+ * argument rather than a closure because a function sent into a page travels as source.
+ */
+export function textProbe(r, countWords) {
+  // The visible art: a variant may keep a hidden twin (a phone layout, say).
+  const art = [...r.querySelectorAll('[data-illustrate-art]')]
+    .find((e) => { const b = e.getBoundingClientRect(); return b.width > 0 && b.height > 0; }) || null;
+  const scope = art || r;
+  const box = scope.getBoundingClientRect();
+  const area = Math.max(1, box.width * box.height);
+  let words = 0, longestRun = 0, textArea = 0, minLabelPx = null;
+  const walk = document.createTreeWalker(scope, NodeFilter.SHOW_TEXT);
+  while (walk.nextNode()) {
+    const n = walk.currentNode; const t = n.textContent.trim(); if (!t) continue;
+    const range = document.createRange(); range.selectNodeContents(n);
+    const rects = [...range.getClientRects()];
+    const a = rects.reduce((s, q) => s + q.width * q.height, 0);
+    if (a < 1) continue; // not rendered
+    const k = countWords(t); words += k; longestRun = Math.max(longestRun, k); textArea += a;
+    // Rendered font size, not the line box (which runs ~1.3x taller): the computed
+    // size, scaled by the SVG's user-space-to-screen transform for SVG text.
+    const el = n.parentElement;
+    let px = parseFloat(getComputedStyle(el).fontSize) || 0;
+    if (el instanceof SVGGraphicsElement) { const m = el.getScreenCTM(); if (m) px *= Math.hypot(m.a, m.b); }
+    if (px > 0) minLabelPx = minLabelPx === null ? px : Math.min(minLabelPx, px);
+  }
+  // Words in the whole section - heading, lede and art - minus the prototype's own
+  // tab strip: the floor-side check asks whether the section says enough.
+  let sectionWords = 0;
+  const all = document.createTreeWalker(r, NodeFilter.SHOW_TEXT);
+  while (all.nextNode()) {
+    const n = all.currentNode; const t = n.textContent.trim(); if (!t) continue;
+    if (n.parentElement?.closest('[role="tablist"], [data-illustrate-tab]')) continue;
+    const range = document.createRange(); range.selectNodeContents(n);
+    if (![...range.getClientRects()].some((q) => q.width * q.height >= 1)) continue;
+    sectionWords += countWords(t);
+  }
+  return { scoped: !!art, words, longestRun, textRatio: textArea / area,
+    minLabelPx: minLabelPx === null ? null : Math.round(minLabelPx), sectionWords };
+}
+
+/**
+ * `textProbe` with `countWords` bound in, as a real function whose source is
+ * self-contained. A page function travels as its source text, so a closure would arrive
+ * with `countWords` undefined; this composes the two sources on the Node side, where a
+ * page's content security policy cannot refuse the construction, and hands back a
+ * function the browser library accepts like any other.
+ */
+export function buildTextProbe() {
+  return new Function(`return (r) => (${textProbe})(r, ${countWords});`)();
 }

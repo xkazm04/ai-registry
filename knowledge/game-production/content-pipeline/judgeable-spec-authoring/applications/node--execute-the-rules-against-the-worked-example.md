@@ -8,6 +8,7 @@ status: forged
 verified_on: 2026-09-01
 refresh_by: 2027-03-01
 source: "cucumber/cucumber-js"
+counterpart: external
 ---
 
 # Node: a runner whose whole job is executing the rules against the worked example

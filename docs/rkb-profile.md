@@ -94,9 +94,12 @@ stack: react                 # applications only: react | rust | sql | node | pr
 status: forged               # draft | forged | reconciled | transplant-tested
 laws: [identity-survives-reuse]   # techniques: anchors that must exist in _laws.md
 shared_with: []              # techniques: other subjects that reference this one
-use_when: [...]              # optional OKF field: when a consuming agent should read this
+use_when: [...]              # OKF field: when a consuming agent should read this. REQUIRED and
+                             # non-empty on techniques (check-bundles): the query front door
+                             # ranks on it (docs/query-lane.md). Optional elsewhere.
 verified_on: 2026-08-18      # applications ONLY, REQUIRED: see §3.1
 verified_against: react@18   # applications, optional: the stack version behind the citations
+counterpart: external        # applications, optional: documents a foreign tree/spec/record, not a consumer's
 refresh_by: 2026-11-20       # applications, optional: overrides the derived clock
 ---
 ```
@@ -111,7 +114,8 @@ carrying no age at all.
 | field | required | meaning |
 |---|---|---|
 | `verified_on` | **yes** | `YYYY-MM-DD`. The date this document's citations were last resolved against a real tree. A **fact**, not a plan: a future date is a gate failure. |
-| `verified_against` | no | `<stack>@<version>` — the stack version those citations were checked at (`react@18`, `rust@1.79`). Meaningless for `process`, and rejected there. |
+| `verified_against` | no | `<stack>@<version>` — the stack version those citations were checked at (`react@18`, `rust@1.79`). Meaningless for the stacks with no runtime (`process`, `spec`, `data`), and rejected there. |
+| `counterpart` | no | `external`, the only value. Marks an application that documents a foreign counterpart (a repository, specification or public record the lane read, [docs/reconcile-brief.md](reconcile-brief.md)) rather than a consumer's own tree. `source:` cannot tell the two apart, because consumer applications may carry it too. An `external` application must not carry `verified_against`: that field witnesses a consumer's runtime, and a foreign tree's version would be counted as one (check-bundles refuses the pair). |
 | `refresh_by` | no | `YYYY-MM-DD`. An author's override of the derived clock, for a subject they know moves faster or slower than its stack. Must be after `verified_on`. |
 
 **The expiry is derived, not written.** `verified_on` plus a per-stack window in
@@ -123,7 +127,8 @@ expire on a vendor's release schedule.
 
 **`verified_against` is written going forward, never backfilled.** Only something that has
 actually read the cited tree can state it truthfully, so the corpus carries it where a
-forge or deepen pass has since supplied it and nowhere else. Its absence is reported as
+forge or deepen pass has since supplied it and nowhere else. It is never written on an
+application marked `counterpart: external`. Its absence is reported as
 *no version witness* — a fact about the instrument, not about the document.
 
 Whether a citation still lands is answered from the other side, by the installation that

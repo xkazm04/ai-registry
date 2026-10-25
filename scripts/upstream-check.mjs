@@ -61,7 +61,7 @@
  *   node scripts/upstream-check.mjs --json          # what the skill reads
  *   node scripts/upstream-check.mjs --offline       # eligibility only, no API calls
  *   node scripts/upstream-check.mjs --due           # only rows that are due
- *   node scripts/upstream-check.mjs --exit-code     # exit 3 when anything is due
+ *   node scripts/upstream-check.mjs --exit-code     # exit 3 when anything is due; else 2 when a probe errored
  *   node scripts/upstream-check.mjs --self-test     # assert the instrument, then exit
  *   node scripts/upstream-check.mjs --ledger        # rewrite librarian/upstream.md
  *   node scripts/upstream-check.mjs --repo o/r      # one repository
@@ -778,7 +778,18 @@ async function main() {
     humanTable(rows);
   }
 
-  if (OPT.exitCode && rows.some((r) => r.due)) process.exit(3);
+  if (OPT.exitCode) {
+    if (rows.some((r) => r.due)) process.exit(3);
+    // A probe error is "never a quiet not due" (the header), and --exit-code is the form a
+    // scheduler reads as an integer and nothing else. So a run in which any probe could not
+    // answer - gh absent, unauthenticated, rate-limited - cannot exit 0, which would claim
+    // "nothing due" for rows nobody looked at. Until 2026-10-25 it did.
+    const errs = rows.filter((r) => r.state === 'error');
+    if (errs.length) {
+      console.error(`upstream-check: ${errs.length} row(s) could not be probed, so "nothing due" is not established (exit 2). First: ${errs[0].repo}: ${errs[0].error}`);
+      process.exit(2);
+    }
+  }
 }
 
 main().catch((err) => { console.error(err); process.exit(2); });

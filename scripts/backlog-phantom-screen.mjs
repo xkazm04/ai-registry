@@ -40,13 +40,20 @@
 
 import { execFileSync } from 'node:child_process';
 import { readFileSync, existsSync } from 'node:fs';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
+import { foldHome } from './backlog-wave.mjs';
 
+// Every path here - the ledger, the source notes, git's pathspecs - is the registry root's,
+// resolved from this file, never from the cwd. Run from a subdirectory, a cwd-relative
+// pathspec matched no technique and the self-check blamed the instrument for it.
+const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const JSON_OUT = process.argv.includes('--json');
-const LEDGER = 'librarian/harvest/backlog.jsonl';
+const LEDGER = path.join(ROOT, 'librarian/harvest/backlog.jsonl');
 
 const git = (...args) => {
   try {
-    return execFileSync('git', args, { encoding: 'utf8', maxBuffer: 64 * 1024 * 1024 });
+    return execFileSync('git', args, { cwd: ROOT, encoding: 'utf8', maxBuffer: 64 * 1024 * 1024 });
   } catch {
     return '';
   }
@@ -121,8 +128,11 @@ function subjectsTouched(hits) {
 /** Does this row's home sit inside one of them? The ledger's home field is a bundle
  *  address like `software-engineering/a/b/subject`; the path is `knowledge/<that>`. */
 function homeInside(home, subjectDirs) {
-  if (!home) return false;
-  for (const d of subjectDirs) if (d === 'knowledge/' + home || d.endsWith('/' + home)) return true;
+  // The raw string used to be compared whole, so an annotated or multi-home value (`a/b (note)`,
+  // `a/b; c/d`) was never inside the subject it names. Any component counts.
+  for (const c of foldHome(home)) {
+    for (const d of subjectDirs) if (d === 'knowledge/' + c || d.endsWith('/' + c)) return true;
+  }
   return false;
 }
 
@@ -135,7 +145,7 @@ function noteLastTouched(note) {
 }
 
 function untriagedCount(note) {
-  const p = `librarian/sources/${note}.md`;
+  const p = path.join(ROOT, `librarian/sources/${note}.md`);
   if (!existsSync(p)) return null;
   for (const line of readFileSync(p, 'utf8').split('\n').slice(0, 30)) {
     if (line.startsWith('untriaged:')) {

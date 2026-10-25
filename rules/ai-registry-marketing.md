@@ -1,7 +1,7 @@
 # Marketing - the subjects this registry carries
 
 `marketing` - 30 subjects, 184 techniques, 136 applications.
-Slugs only; resolve one through `index.json` as the access rule beside this file describes.
+Slugs only; open one with `registry_subject` (or `node <registry>/scripts/registry-query.mjs --subject <slug>`), never by reading `index.json` - the access rule beside this file describes the loop.
 
 ### search-and-content
 - answer-engine-visibility, keyword-metric-reliability, local-page-doorway-prevention, on-page-and-metadata-craft, search-intent-classification, site-architecture-and-topic-clusters

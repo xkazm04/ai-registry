@@ -29,24 +29,46 @@
 //   node scripts/measure-large-reads.mjs --project kp    # one project dir match
 //   node scripts/measure-large-reads.mjs --min 350 --cap 2000 --top 20 --json
 //
-// Exit 2 = instrument failure (no transcript root); exit 0 otherwise.
+// Exit 2 = instrument failure (no transcript root, an unknown flag, a flag with no value, a
+// non-numeric --min/--cap/--top); exit 0 otherwise. The flag set is closed: `--min abc` used
+// to become NaN, and `lines.length <= NaN` is false, so EVERY whole read counted as large -
+// a plausible-looking, wholly wrong figure from a mistyped flag.
 
 import fs from 'node:fs';
 import path from 'node:path';
 import os from 'node:os';
+import { EXIT } from './lib/exit-codes.mjs';
 
 const args = process.argv.slice(2);
-const opt = (name, def) => { const i = args.indexOf(name); return i >= 0 && args[i + 1] ? args[i + 1] : def; };
-const MIN = Number(opt('--min', 350));      // lines above which a whole read is "large"
-const CAP = Number(opt('--cap', 2000));     // the Read tool's own default line cap — bytes past it never entered context
-const TOP = Number(opt('--top', 15));
+const USAGE = 'Usage: measure-large-reads.mjs [--min N] [--cap N] [--top N] [--project <substr>] [--root <dir>] [--json]';
+const refuse = (msg) => { console.error(`measure-large-reads: ${msg}. ${USAGE}`); process.exit(EXIT.FATAL); };
+const given = {};
+let JSON_OUT = false;
+if (args.includes('--help') || args.includes('-h')) { console.log(USAGE); process.exit(EXIT.OK); }
+for (let i = 0; i < args.length; i++) {
+  const a = args[i];
+  if (a === '--json') { JSON_OUT = true; continue; }
+  if (!['--min', '--cap', '--top', '--project', '--root'].includes(a)) refuse(`unknown argument ${JSON.stringify(a)}`);
+  const v = args[++i];
+  if (v === undefined || v === '' || v.startsWith('--')) refuse(`${a} needs a value`);
+  given[a] = v;
+}
+const opt = (name, def) => given[name] ?? def;
+const count = (name, def, floor) => {
+  const raw = opt(name, def);
+  const n = Number(raw);
+  if (!/^\d+$/.test(String(raw)) || n < floor) refuse(`${name} must be an integer >= ${floor}, got ${JSON.stringify(raw)}`);
+  return n;
+};
+const MIN = count('--min', 350, 0);      // lines above which a whole read is "large"
+const CAP = count('--cap', 2000, 1);     // the Read tool's own default line cap — bytes past it never entered context
+const TOP = count('--top', 15, 1);
 const PROJECT = opt('--project', null);
-const JSON_OUT = args.includes('--json');
 const ROOT = opt('--root', path.join(os.homedir(), '.claude', 'projects'));
 
 if (!fs.existsSync(ROOT)) {
   console.error(`measure-large-reads: transcript root not found: ${ROOT}`);
-  process.exit(2);
+  process.exit(EXIT.FATAL);
 }
 
 const BINARY = /\.(png|jpe?g|gif|webp|pdf|ico|svg|mp4|wav|mp3|zip|gz)$/i;
@@ -112,7 +134,7 @@ const predicate = {
 const topFiles = Object.entries(files).sort((a, b) => b[1].reads * b[1].tokens - a[1].reads * a[1].tokens).slice(0, TOP)
   .map(([fp, v]) => ({ file: fp, lines: v.lines, class: v.cls, reads: v.reads }));
 
-if (JSON_OUT) { console.log(JSON.stringify({ predicate, totals, byClass, byProject, topFiles }, null, 1)); process.exit(0); }
+if (JSON_OUT) { console.log(JSON.stringify({ predicate, totals, byClass, byProject, topFiles }, null, 1)); process.exit(EXIT.OK); }
 
 console.log(`measure-large-reads — ${predicate.span}  root=${ROOT}${PROJECT ? `  project~${PROJECT}` : ''}`);
 console.log(`  predicate: whole Read (no offset/limit) of a text file > ${MIN} lines; tokens = chars/4 over first ${CAP} lines; sizes measured today`);

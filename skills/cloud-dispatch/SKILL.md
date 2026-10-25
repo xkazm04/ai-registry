@@ -3,7 +3,7 @@ name: cloud-dispatch
 description: "Spend the Claude Code cloud-session credit as a parallel engine beside local agents. Ships a self-contained brief to a `claude --cloud` session that clones the GitHub origin, works on branch claude/cloud-<id> and returns one pull request with a RESULT.md for local review. Two ways in: explicit dispatch (a plan by default, --go to launch) and overflow - fan-out skills queue cloud_ok briefs before dispatching local workers, and a StopFailure hook ships the still-queued ones when the seat hits its rate limit (capped 6 a day). Ships three ai-registry workload briefs: upstream delta re-scan, lead corroboration, deepen research. Not for a repo ahead of origin or work that needs local GPU, vault, sibling checkouts or fleet application. Invoke with /cloud-dispatch <brief.md> --repo <path> [--go], /cloud-dispatch status, or /cloud-dispatch queue --add|--done|--list."
 category: workflow
 memory: none
-version: 1.1.1
+version: 1.1.2
 tags: cloud, dispatch, overflow, parallel, credits
 argument-hint: "<brief.md> --repo <path> [--go] | status | queue ..."
 ---
@@ -144,7 +144,9 @@ node <registry>/skills/cloud-dispatch/scripts/overflow.mjs      # StopFailure ho
    `error: "rate_limit"`; `overflow.mjs` ships the still-`queued` items FIFO through the same
    dispatch path, at most **6 per local calendar day per machine** (counted from the
    ledger's overflow rows). A refused item (its repo went ahead of origin) is marked
-   `refused` with the reason and does not count against the cap. Every other hook event, or
+   `refused` with the reason and does not count against the cap. An item whose
+   `git fetch origin` failed (network, remote) stays `queued` and is listed as `deferred` in
+   the decision line: the next stop retries it. Every other hook event, or
    any other error, does nothing. The hook always exits 0.
 4. **After the limit resets**, `queue.mjs --list` before resuming. An item marked
    `dispatched` belongs to the cloud now: discard its local worker's partial output and wait

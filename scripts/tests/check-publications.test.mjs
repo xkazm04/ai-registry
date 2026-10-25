@@ -259,6 +259,25 @@ test('self-contained: a CSS @import fails', (t) => {
 test('self-contained: a script in the Medium story fails', (t) => {
   failsOnly(t, 'self-contained', (d) => edit(d, 'medium/story.html', (s) => s.replace('</body>', '<script>1</script></body>')));
 });
+// post.html may inline an SVG, and an inline <image>/<use>/<feImage> href or an <object data>
+// fetches exactly like an <img src> does. The SVG-only detectors used to run on figures/
+// alone, so all five shapes below passed in post.html (probe 2026-10-25: 0 of 5 caught).
+test('self-contained: an inline SVG or embedded object that fetches fails in post.html', (t) => {
+  for (const plant of [
+    '<svg><image href="https://t.example.org/p.png"/></svg>',
+    '<svg><use href="https://t.example.org/s.svg#a"/></svg>',
+    '<svg><image xlink:href="//t.example.org/p.png"/></svg>',
+    '<svg><filter><feImage href="https://t.example.org/f.png"/></filter></svg>',
+    '<object data="https://t.example.org/x.svg"></object>',
+  ]) {
+    const r = failsOnly(t, 'self-contained', (d) => edit(d, 'post.html', (s) => s.replace('</article>', `${plant}</article>`)));
+    assert.equal(r.findings.length, 1, `${plant}: ${JSON.stringify(r.findings)}`);
+  }
+});
+test('self-contained: an inline SVG with a local reference and an inline script stay clean', (t) => {
+  const r = run(t, (d) => edit(d, 'post.html', (s) => s.replace('</article>', '<svg><defs><path id="p" d="M0 0"/></defs><use href="#p"/></svg><object data="figures/01-example-chart.svg"></object></article>')));
+  assert.deepEqual(r.findings, []);
+});
 test('self-contained: navigation links are allowed', (t) => {
   const r = run(t, (d) => edit(d, 'post.html', (s) => s.replace('</article>', '<p>More at <a href="https://example.org/more">the site</a>.</p></article>')));
   assert.deepEqual(r.findings, []);
@@ -278,6 +297,21 @@ test('placeholders: a placeholder in publication.json fails', (t) => {
 // ---- privacy
 test('privacy: a machine home path fails', (t) => {
   failsOnly(t, 'privacy', (d) => edit(d, 'SOURCES.md', (s) => `${s}\nRun from C:\\Users\\somebodyreal\\scratch\\m1.py\n`));
+});
+
+// The privacy rule used its own two-pattern table while check-public-paths (which sees the
+// lane only once it is committed) moved to lib/leaks. A draft is checked here BEFORE it is
+// tracked, so the forms the shared table learned had to reach this gate too.
+test('privacy: the lib/leaks profile forms fire here too - lowercase drive, WSL mount, home layout', (t) => {
+  for (const leak of ['c:\\users\\somebodyreal\\scratch\\m1.py', '/mnt/c/Users/somebodyreal/scratch', '~/code/scratch/m1.py']) {
+    const r = failsOnly(t, 'privacy', (d) => edit(d, 'SOURCES.md', (s) => `${s}\nRun from ${leak} first.\n`));
+    assert.equal(r.findings.length, 1, `${leak}: ${JSON.stringify(r.findings)}`);
+  }
+});
+
+test('privacy: a placeholder user and a tool dot-dir stay quiet', (t) => {
+  const r = run(t, (d) => edit(d, 'SOURCES.md', (s) => `${s}\nSee C:\\Users\\<user>\\x and ~/.claude/projects/x.\n`));
+  assert.deepEqual(rulesOf(r), [], JSON.stringify(r.findings));
 });
 
 // ---- critique: the optional block and its optional critique/ directory. Every case
@@ -409,6 +443,15 @@ test('CLI: the index builder writes, then --check is fresh, then stale after an 
   assert.equal(node(['scripts/build-publications-index.mjs', '--root', lane, '--check']).status, 1);
 });
 
+test('CLI: the index builder refuses an unknown argument before writing anything', (t) => {
+  const lane = scratch(t);
+  fs.cpSync(FIXTURE, path.join(lane, 'fixture-post'), { recursive: true });
+  for (const bad of ['--chek', '--check=1']) {
+    assert.equal(node(['scripts/build-publications-index.mjs', '--root', lane, bad]).status, 2, bad);
+    assert.equal(fs.existsSync(path.join(lane, 'index.json')), false, `${bad} must not write the index`);
+  }
+});
+
 test('CLI: the index carries the critique selector - completed reviewers, rounds, decision', (t) => {
   const lane = scratch(t);
   fs.cpSync(CRITIQUE_FIXTURE, path.join(lane, 'fixture-critique'), { recursive: true });
@@ -424,4 +467,41 @@ test('gate.mjs declares a publications lane, and --all runs both steps', () => {
   assert.match(all, /CHECK_PUBLICATIONS, PUBLICATIONS_INDEX/);
   const help = node(['scripts/gate.mjs', '--help']);
   assert.match(help.stderr, /publications/);
+});
+
+// ---- the 2026-10-25 gates-scan plants. Both used to exit 0: a draft hidden in a
+// dot-directory (skipped by the gate and the index alike, so it landed unseen), and a
+// BOM-prefixed publication.json (stripped by this gate, refused with exit 2 by the index
+// builder - two readers, two verdicts). The gate now reports both as content (exit 1).
+test('shape: a draft in a dot-directory at the lane root fails (CLI exit 1)', (t) => {
+  const lane = scratch(t);
+  fs.cpSync(FIXTURE, path.join(lane, 'fixture-post'), { recursive: true });
+  assert.equal(node(['scripts/check-publications.mjs', '--root', lane]).status, 0, 'control');
+  fs.cpSync(FIXTURE, path.join(lane, '.wip-draft'), { recursive: true });
+  editJson(path.join(lane, '.wip-draft'), (o) => { o.status = 'draft'; });
+  const r = node(['scripts/check-publications.mjs', '--root', lane]);
+  assert.equal(r.status, 1, r.stderr);
+  assert.match(r.stderr, /\.wip-draft: a dot-entry/);
+});
+test('schema: a BOM-prefixed publication.json fails in the gate (exit 1), the builder still refuses it (exit 2)', (t) => {
+  const r = failsOnly(t, 'schema', (d) => edit(d, 'publication.json', (s) => `﻿${s}`));
+  assert.match(r.findings[0].message, /byte-order mark/);
+  const lane = scratch(t);
+  fs.cpSync(FIXTURE, path.join(lane, 'fixture-post'), { recursive: true });
+  edit(path.join(lane, 'fixture-post'), 'publication.json', (s) => `﻿${s}`);
+  assert.equal(node(['scripts/check-publications.mjs', '--root', lane]).status, 1);
+  assert.equal(node(['scripts/build-publications-index.mjs', '--root', lane]).status, 2);
+});
+
+test('CLI: check-publications refuses an unknown argument before reading anything and answers --help with 0', () => {
+  const ok = ['scripts/check-publications.mjs', '--root', 'scripts/fixtures/publications'];
+  assert.equal(node(ok).status, 0, 'plain run keeps its current exit');
+  for (const bad of [['--bogus'], ['--since=x'], ['--rot', 'scripts/fixtures/publications'], ['--root'], ['--root', '--bogus'], ['-x']]) {
+    const r = node(['scripts/check-publications.mjs', ...bad]);
+    assert.equal(r.status, 2, `${bad.join(' ')} -> ${r.status}: ${r.stdout}${r.stderr}`);
+  }
+  assert.equal(node([...ok, '--bogus']).status, 2);
+  const h = node(['scripts/check-publications.mjs', '--help']);
+  assert.equal(h.status, 0, h.stderr);
+  assert.match(h.stdout, /usage: node scripts\/check-publications\.mjs/);
 });

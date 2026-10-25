@@ -29,9 +29,9 @@
    "subcategory": "feedback-and-style",
    "status": "forged",
    "file": "knowledge/software-engineering/ui-surfaces/feedback-and-style/accessibility/accessibility.md",
-   "digest": "sha256-b2:5e30485ee0c7c123",
-   "revision": 7,
-   "changedAt": "2026-09-20",
+   "digest": "sha256-b2:d839f62eac6007da",
+   "revision": 8,
+   "changedAt": "2026-10-25",
    "techniques": [
     {
      "slug": "a11y-verification",
@@ -1974,9 +1974,9 @@
    "subcategory": "prompt-and-context",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/prompt-and-context/agent-memory/agent-memory.md",
-   "digest": "sha256-b2:4f054116d66a9495",
-   "revision": 51,
-   "changedAt": "2026-10-15",
+   "digest": "sha256-b2:6c06fb6d8d6c900f",
+   "revision": 52,
+   "changedAt": "2026-10-25",
    "techniques": [
     {
      "slug": "addresses-before-compression",
@@ -3501,9 +3501,9 @@
    "subcategory": "shell-and-navigation",
    "status": "forged",
    "file": "knowledge/software-engineering/ui-surfaces/shell-and-navigation/app-shell/app-shell.md",
-   "digest": "sha256-b2:62a9a7fc993ea8b5",
-   "revision": 6,
-   "changedAt": "2026-09-23",
+   "digest": "sha256-b2:924d251b08eaf74b",
+   "revision": 7,
+   "changedAt": "2026-10-25",
    "techniques": [
     {
      "slug": "badge-and-attention",
@@ -26166,9 +26166,9 @@
    "subcategory": "service-operations",
    "status": "forged",
    "file": "knowledge/software-engineering/operations/service-operations/plan-entitlements/plan-entitlements.md",
-   "digest": "sha256-b2:58f21c0561a86e45",
-   "revision": 7,
-   "changedAt": "2026-09-18",
+   "digest": "sha256-b2:66961f93b3ce02ba",
+   "revision": 8,
+   "changedAt": "2026-10-25",
    "techniques": [
     {
      "slug": "capability-gate-predicates",
@@ -40590,9 +40590,9 @@
    "subcategory": "model-workflow-contracts",
    "status": "forged",
    "file": "knowledge/software-engineering/backend-platform/model-workflow-contracts/workflow-property-contracts/workflow-property-contracts.md",
-   "digest": "sha256-b2:c9f25f65f6b94068",
-   "revision": 2,
-   "changedAt": "2026-10-22",
+   "digest": "sha256-b2:38637ef07d82fb29",
+   "revision": 3,
+   "changedAt": "2026-10-25",
    "techniques": [
     {
      "slug": "attribute-protocol-over-accessors",
@@ -40689,15 +40689,13 @@
      "stack": "python",
      "technique": "mid-iteration-event-seams",
      "file": "knowledge/software-engineering/backend-platform/model-workflow-contracts/workflow-property-contracts/applications/python--mid-iteration-event-seams.md",
-     "verified_on": "2026-09-03",
-     "verified_against": "python@3.10"
+     "verified_on": "2026-09-03"
     },
     {
      "stack": "python",
      "technique": "wiring-location-checks",
      "file": "knowledge/software-engineering/backend-platform/model-workflow-contracts/workflow-property-contracts/applications/python--wiring-location-checks.md",
-     "verified_on": "2026-09-03",
-     "verified_against": "python@3.10"
+     "verified_on": "2026-09-03"
     }
    ]
   }
