@@ -43,6 +43,20 @@ test('control: --check over a resolvable project that has a problem is not a pas
   });
 });
 
+test('the messages name the mechanisms that exist: manifest domains, and the weak floor the code applies', () => {
+  fixture(({ run }) => {
+    const r = run('--check', '--project', 'app');
+    // Domains come from the project's own manifest; the bridge's `domains` field was removed
+    // (scripts/lib/projects.mjs, "Where domains come from"). Naming it sends a reader to edit
+    // a file that is no longer read.
+    assert.match(r.stderr, /app: \.ai\/manifest\.yaml declares no knowledge\.domains/);
+    assert.doesNotMatch(r.stderr, /bridge/);
+    // WEAK_FRACTION is 0.6, so "under half" understated the floor by ten points.
+    assert.match(r.stdout, /scores under 60% of its own project median/);
+    assert.doesNotMatch(r.stdout, /under half/);
+  });
+});
+
 test('--check / --churn --project <slug this machine does not resolve> cannot pass', () => {
   fixture(({ run }) => {
     for (const mode of ['--check', '--churn']) {

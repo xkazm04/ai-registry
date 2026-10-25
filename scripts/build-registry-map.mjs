@@ -36,7 +36,7 @@
  * ## Two honest outputs people usually skip
  *
  * - **Weakly-governed contexts** are reported, not hidden. A context whose best match scores
- *   under half its own project's median is one the declared domains barely cover: either
+ *   under 60% of its own project's median (`WEAK_FRACTION`) is one the declared domains barely cover: either
  *   infrastructure (fine) or a COVERAGE HOLE in the corpus (a forge lead). The measure is
  *   relative to the project because raw scores track how verbose its context scan was, not
  *   how well the corpus covers it. A map that silently drops them looks complete and is not.
@@ -448,7 +448,7 @@ for (const [slug, p] of Object.entries(bridge.projects ?? {})) {
     continue;
   }
   const domains = p.domains ?? [];
-  if (!domains.length) { problems.push(`${slug}: the bridge declares no domains`); continue; }
+  if (!domains.length) { problems.push(`${slug}: .ai/manifest.yaml declares no knowledge.domains - nothing to match against`); continue; }
 
   const cm = readContexts(p.path);
   if (!cm) { problems.push(`${slug}: no context-map.json - nothing to join against`); continue; }
@@ -831,7 +831,7 @@ if (asJson) {
     console.log('  Orphans sit under `orphans[]` until adopted; `--churn` prints them. `/straighten` drains the fleet.');
   }
   console.log(`\n  ${totalPairs} pair(s) mapped, ${totalEval} judged, ${totalWeak} context(s) only WEAKLY governed.`);
-  console.log('  A weakly-governed context scores under half its own project median: the declared domains');
+  console.log(`  A weakly-governed context scores under ${Math.round(WEAK_FRACTION * 100)}% of its own project median: the declared domains`);
   console.log('  barely cover it. Infrastructure, or a coverage hole - and the aggregate is a forge lead.');
   console.log('  A pair\'s `state` is only ever written by a pass that read the code. This script writes `unknown`.');
   if (problems.length) { console.error(`\n${problems.length} problem(s):`); for (const p of problems) console.error(`  - ${p}`); }
