@@ -926,6 +926,18 @@ function parseArgs(argv) {
     else throw new Error(`unknown argument ${a}`);
   }
   if (!o.since && !o.shas.length) throw new Error('give --since <date> or --sha <sha>');
+  // The range has two readers, git and the transcript mtime filter (Date.parse), and they
+  // disagree on a bad value: git reads `garbage` as "now" (0 commits, exit 0 - a false
+  // clean) and `2026-13-01` as no bound at all, while Date.parse gives NaN. Accept only
+  // what both read the same way: a real calendar day, or an instant Date.parse accepts.
+  for (const [flag, val] of [['--since', o.since], ['--until', o.until]]) {
+    if (val === null) continue;
+    const ms = Date.parse(val);
+    const day = /^\d{4}-\d{2}-\d{2}$/.test(val);
+    if (Number.isNaN(ms) || (day && new Date(ms).toISOString().slice(0, 10) !== val)) {
+      throw new Error(`${flag} "${val}" is not a date - give YYYY-MM-DD or an ISO instant`);
+    }
+  }
   if (!o.out) throw new Error('give --out <dir outside the repository> (rows carry session ids)');
   return o;
 }
