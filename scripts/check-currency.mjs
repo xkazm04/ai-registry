@@ -178,6 +178,10 @@ for (const domain of domains) {
         stack,
         verifiedOn,
         verifiedAgainst: fm.verified_against ?? null,
+        // `counterpart: external` documents a FOREIGN tree (the reconcile lane). Its stack
+        // is the counterpart's runtime, not a consumer's, so it carries no version witness
+        // by rule (docs/reconcile-brief.md) and must not count as drift we cannot compute.
+        external: fm.counterpart === 'external',
         expiresOn,
         clockSource,
         daysLeft,
@@ -255,7 +259,8 @@ const versionWitness = apps.filter((a) => a.verifiedAgainst).length;
 // One folder, two rotted documents, one uncounted. So `drift.length` is a LOWER BOUND
 // over the witnessed slice, never a count over the corpus, and the report now says so
 // unconditionally instead of only in the all-zero case.
-const runtimeBearing = apps.filter((a) => WINDOW_DAYS[a.stack] !== null);
+const runtimeBearing = apps.filter((a) => WINDOW_DAYS[a.stack] !== null && !a.external);
+const externalCounterparts = apps.filter((a) => a.external).length;
 const driftUnknown = runtimeBearing.filter((a) => !a.verifiedAgainst);
 
 const perDomain = domains.map((d) => {
@@ -272,7 +277,7 @@ const perDomain = domains.map((d) => {
     // Runtime-bearing here, minus the witnessed ones: how much of this bundle's drift is
     // uncomputable. A bundle where this equals its runtime-bearing count has no drift
     // information at all, which is a different statement from having no drift.
-    driftUnknown: mine.filter((a) => WINDOW_DAYS[a.stack] !== null && !a.verifiedAgainst).length,
+    driftUnknown: mine.filter((a) => WINDOW_DAYS[a.stack] !== null && !a.external && !a.verifiedAgainst).length,
     oldestVerifiedOn: oldest,
     // "unknown", never "current" - a bundle nobody reports on has not been checked, and
     // saying otherwise is the exact dishonesty catalog.json avoids with invokes30d.
@@ -383,6 +388,7 @@ if (asJson) {
           versionWitness,
           runtimeBearing: runtimeBearing.length,
           driftUnknown: driftUnknown.length,
+          externalCounterparts,
           contributors: contributors.length,
         },
         domains: perDomain,

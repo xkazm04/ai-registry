@@ -5,6 +5,7 @@
 // lane, read-only.
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
+import fs from 'node:fs';
 import path from 'node:path';
 import { spawnSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
@@ -31,6 +32,29 @@ test('--subject and --top without --volatile are refused, not silently ignored',
     assert.equal(r.status, 2, `${args.join(' ')}: ${r.stdout.slice(0, 200)}`);
     assert.match(r.stderr, /only with --volatile/);
   }
+});
+
+test('counterpart: external applications are read and kept out of runtime drift', () => {
+  const r = run('--json');
+  assert.equal(r.status, 0, r.stderr);
+  const { totals } = JSON.parse(r.stdout);
+  // Independent census of the marker: every application file that declares it.
+  const knowledge = path.resolve(path.dirname(script), '..', 'knowledge');
+  let marked = 0;
+  const walk = (d) => {
+    for (const e of fs.readdirSync(d, { withFileTypes: true })) {
+      const p = path.join(d, e.name);
+      if (e.isDirectory()) walk(p);
+      else if (e.name.endsWith('.md') && path.basename(d) === 'applications') {
+        const fm = fs.readFileSync(p, 'utf8').split(/\r?\n---/)[0];
+        if (/^counterpart:\s*external\s*$/m.test(fm)) marked += 1;
+      }
+    }
+  };
+  walk(knowledge);
+  assert.ok(marked > 0, 'the corpus carries the marker');
+  assert.equal(totals.externalCounterparts, marked);
+  assert.ok(totals.driftUnknown <= totals.runtimeBearing);
 });
 
 test('control: the declared flags still produce the report', () => {
