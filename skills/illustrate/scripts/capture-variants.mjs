@@ -10,7 +10,8 @@
  * Output: <out>/<section>-<tab>-<width>-<motion>.png, report.json, contact.html.
  * Exit 0 = captured, 2 = instrument failure (no browser library, page unreachable,
  * section or tab not found; a failure mid-run still writes report.json with the rows
- * captured so far plus `error` and `at` {tab,width,motion}, and no contact sheet), 3 = captured but at least one capture is BLANK, a
+ * captured so far plus `error` and `at` {tab,width,motion}, and no contact sheet), 3 = a
+ * finding to read in contact.html: NOTHING captured (the section is hidden at every width), or captured but at least one capture is BLANK, a
  * variant runs an infinite animation under reduced motion, or a variant's art is
  * TEXT-HEAVY (more words than a label layer, a sentence-length run, or text covering
  * too much of the picture; limits via --max-words --max-run --max-ratio), or the section
@@ -151,4 +152,9 @@ figure{margin:0;background:#fff;padding:8px;border-radius:8px}img{width:100%;dis
 
 for (const r of rows) if (r.hidden) console.log(`${r.tab.padEnd(14)} ${String(r.width).padEnd(5)} ${r.motion.padEnd(14)} hidden-by-layout`); else console.log(`${r.tab.padEnd(14)} ${String(r.width).padEnd(5)} ${r.motion.padEnd(14)} ${r.blank ? 'BLANK ' : 'ok    '} infinite=${r.infinite} smil=${r.smil} words=${r.words}${r.artScoped ? '' : '(section)'} run=${r.longestRun} text=${Math.round(r.textRatio * 100)}% section=${r.sectionWords} empty=${r.empty === null ? '-' : Math.round(r.empty * 100) + '%'} label=${r.minLabelPx ?? '-'}px${r.textHeavy ? ' TEXT-HEAVY' : ''}${r.unbalanced ? ' ' + r.balanceReasons.map((x) => x.split(':')[0]).join(' ') : ''}`);
 console.log(`contact sheet: ${path.join(args.out, 'contact.html')}`);
-process.exit(failed ? 3 : 0);
+// Hidden at every width is not "captured": no image exists to have been judged, so a 0
+// would read as a pass. It is a finding about the section (the layout never shows it),
+// not an instrument failure - the section was found - so it shares the findings code 3.
+const nothingCaptured = !rows.some((r) => r.file);
+if (nothingCaptured) console.error('capture-variants: nothing captured: hidden at every width');
+process.exit(failed || nothingCaptured ? 3 : 0);

@@ -30,6 +30,7 @@ const texts = JSON.parse(env.FAKE_PW_TEXT);
 const throwAt = Number(env.FAKE_PW_THROW_ON_SHOT || 0);
 const hidden = env.FAKE_PW_HIDDEN === '1';
 let shots = 0;
+let curWidth = 0;
 
 // Just enough DOM for the in-page text probe to run for real.
 function runInDom(src, root) {
@@ -67,7 +68,7 @@ function evaluate(fn) {
 
 const root = {
   scrollIntoViewIfNeeded: async () => {},
-  isVisible: async () => !hidden,
+  isVisible: async () => !hidden && !(env.FAKE_PW_HIDDEN_BELOW && curWidth < Number(env.FAKE_PW_HIDDEN_BELOW)),
   evaluate: async (fn) => evaluate(fn),
   screenshot: async (opts) => {
     shots++;
@@ -90,7 +91,7 @@ const page = {
   addStyleTag: async () => {},
 };
 const context = { newPage: async () => page, close: async () => {} };
-const browser = { newContext: async () => context, close: async () => {} };
+const browser = { newContext: async (o) => { if (o && o.viewport) curWidth = o.viewport.width; return context; }, close: async () => {} };
 module.exports = { chromium: { launch: async () => browser } };
 `;
 
@@ -183,6 +184,24 @@ test('a clean run carries no error field in report.json', () => {
   const r = runCapture();
   assert.equal('error' in r.report, false);
   assert.equal('at' in r.report, false);
+});
+
+test('a section hidden at every width is not "captured": exit 3, named, with the report and sheet still written', () => {
+  const r = runCapture({ env: { FAKE_PW_HIDDEN: '1' } });
+  assert.equal(r.status, 3, r.stderr + r.stdout);
+  assert.match(r.stderr, /nothing captured: hidden at every width/);
+  assert.equal(r.report.rows.length, 8);
+  assert.ok(r.report.rows.every((row) => row.hidden && row.file === null));
+  assert.ok(r.contact.includes('hidden at this width'));
+  assert.equal(r.files.filter((f) => f.endsWith('.png')).length, 0);
+});
+
+test('a section hidden at only one width is a fact about the layout: the other width is captured, exit 0', () => {
+  const r = runCapture({ env: { FAKE_PW_HIDDEN_BELOW: '800' } });
+  assert.equal(r.status, 0, r.stderr + r.stdout);
+  assert.equal(r.report.rows.filter((row) => row.file).length, 4);
+  assert.equal(r.report.rows.filter((row) => row.hidden).length, 4);
+  assert.doesNotMatch(r.stderr, /nothing captured/);
 });
 
 test('the product file holds no whitespace-split word counter of its own', () => {
