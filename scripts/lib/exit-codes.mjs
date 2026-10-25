@@ -15,8 +15,12 @@
  *   - research-ingest.mjs  3 = source too thin (permanent; retrying can never help)
  *   - upstream-check.mjs   3 = rows are due (not a failure at all; a positive finding)
  *
+ * Two more were found later, both permanent-until-something-changes outcomes:
+ * agent-cost-band.mjs (not enough data) and transcript-mirror.mjs (capture paused at its
+ * budget, reached through a computed exit value that the literal scan could not see).
+ *
  * A caller that retries on 3 loops forever on a thin source and treats due upstream rows
- * as an error. Those three are recorded in KNOWN_COLLISIONS below rather than silently
+ * as an error. Those are recorded in KNOWN_COLLISIONS below rather than silently
  * renumbered: changing a live code would break callers mid-flight, and the point of the
  * declaration is that the NEXT meaning cannot be added without a decision.
  *
@@ -65,6 +69,18 @@ export const KNOWN_COLLISIONS = Object.freeze([
     code: 3,
     means: 'upstream rows are due (a positive finding, opt-in via --exit-code)',
     conflictsWith: 'CONTENDED, and with the premise that non-zero means trouble',
+  },
+  {
+    script: 'agent-cost-band.mjs',
+    code: 3,
+    means: 'not enough data to estimate the band (permanent until more sessions exist - an immediate retry cannot help)',
+    conflictsWith: 'CONTENDED, which is transient and invites a retry',
+  },
+  {
+    script: 'transcript-mirror.mjs',
+    code: 3,
+    means: 'capture paused at the byte budget (reached through a computed exit value, not a literal)',
+    conflictsWith: 'CONTENDED: nothing is held by a sibling, so waiting does not help. Its LOCKED error is a different thing and exits 1; renumbering it onto 3 is a separate decision',
   },
 ]);
 
