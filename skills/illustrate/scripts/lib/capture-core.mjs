@@ -1,23 +1,30 @@
 // Pure half of capture-variants: argument parsing, file naming, blank detection.
 
+// The overridable limits: flag -> [group, key, ceiling]. A share is 0..1; a count or a pixel size is >= 0. A value
+// outside that is refused: NaN compares false both ways, so `--max-words forty` used to switch TEXT-HEAVY off.
+const LIMIT_FLAGS = {
+  '--max-words': ['limits', 'maxWords', Infinity], '--max-run': ['limits', 'maxRun', Infinity], '--max-ratio': ['limits', 'maxRatio', 1],
+  '--max-empty': ['balance', 'maxEmpty', 1], '--min-label': ['balance', 'minLabelDesktop', Infinity], '--min-section-words': ['balance', 'minSectionWords', Infinity],
+};
+
 export function parseArgs(argv) {
   const out = { widths: [1280, 390], settle: 1800, tabs: [], limits: {}, balance: {}, hide: [] };
   for (let i = 0; i < argv.length; i++) {
     const k = argv[i];
     const v = argv[i + 1];
-    if (k === '--url') { out.url = v; i++; }
+    if (LIMIT_FLAGS[k]) {
+      const [group, key, max] = LIMIT_FLAGS[k];
+      const n = typeof v === 'string' && v.trim() !== '' ? Number(v) : NaN;
+      if (!(n >= 0 && n <= max)) return { error: `invalid ${k} ${JSON.stringify(v ?? null)}: a number ${max === 1 ? 'from 0 to 1 (a share, not a percent)' : '>= 0'}` };
+      out[group][key] = n; i++;
+    }
+    else if (k === '--url') { out.url = v; i++; }
     else if (k === '--section') { out.section = v; i++; }
     else if (k === '--tabs') { out.tabs = String(v || '').split(',').map((s) => s.trim()).filter(Boolean); i++; }
     else if (k === '--out') { out.out = v; i++; }
     else if (k === '--widths') { out.widths = String(v || '').split(',').map(Number).filter((n) => n > 0); i++; }
     else if (k === '--settle') { out.settle = Number(v); i++; }
     else if (k === '--hide') { out.hide = String(v || '').split(',').map((x) => x.trim()).filter(Boolean); i++; }
-    else if (k === '--max-words') { out.limits.maxWords = Number(v); i++; }
-    else if (k === '--max-run') { out.limits.maxRun = Number(v); i++; }
-    else if (k === '--max-ratio') { out.limits.maxRatio = Number(v); i++; }
-    else if (k === '--max-empty') { out.balance.maxEmpty = Number(v); i++; }
-    else if (k === '--min-label') { out.balance.minLabelDesktop = Number(v); i++; }
-    else if (k === '--min-section-words') { out.balance.minSectionWords = Number(v); i++; }
     else return { error: `unknown argument: ${k}` };
   }
   if (!out.url) return { error: 'missing --url' };

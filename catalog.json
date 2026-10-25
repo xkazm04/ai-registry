@@ -399,10 +399,10 @@
     },
     {
       "name": "illustrate",
-      "version": "1.2.1",
+      "version": "1.2.2",
       "category": "workflow",
       "path": "skills/illustrate/SKILL.md",
-      "contentHash": "sha256-n1:e020231b3b979612",
+      "contentHash": "sha256-n1:2f624d2917f1e591",
       "adopters": [],
       "invokes30d": 0,
       "reportedInvokes": 0,

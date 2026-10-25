@@ -93,6 +93,18 @@ test('text limits are overridable from the command line', () => {
   assert.deepEqual(a.limits, { maxWords: 50, maxRun: 8 });
 });
 
+test('a limit that is not a number is refused, never a NaN that switches its check off', () => {
+  const base = ['--url', 'x', '--section', 's', '--tabs', 'current,a', '--out', 'o'];
+  // NaN compares false both ways: `words > NaN` never fires, so TEXT-HEAVY (or SPARSE) silently stopped existing
+  for (const [flag, v] of [['--max-words', 'forty'], ['--max-run', ''], ['--max-ratio', '10%'], ['--max-empty', 'x'], ['--min-label', '-1'], ['--min-section-words', 'NaN']]) {
+    assert.match(parseArgs([...base, flag, v]).error ?? '', new RegExp(`invalid ${flag}`), `${flag} ${JSON.stringify(v)}`);
+  }
+  assert.match(parseArgs([...base, '--max-words']).error ?? '', /invalid --max-words/, 'a flag with no value');
+  assert.match(parseArgs([...base, '--max-ratio', '1.5']).error ?? '', /invalid --max-ratio/, 'a share is 0..1');
+  assert.match(parseArgs([...base, '--max-empty', '45']).error ?? '', /invalid --max-empty/, 'a share is 0..1, not a percent');
+  assert.deepEqual(parseArgs([...base, '--max-ratio', '0.2', '--max-empty', '0', '--max-words', '0']).limits, { maxRatio: 0.2, maxWords: 0 });
+});
+
 test('words split on whitespace, not on a letter', () => {
   assert.equal(countWords('Constraint'), 1);
   assert.equal(countWords('  Your  device  '), 2);
