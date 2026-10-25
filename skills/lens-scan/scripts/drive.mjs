@@ -45,7 +45,7 @@
 // finds it) and a log at .ai/lens-scan/work/drive/<id>.log. stdout: one JSON summary. stderr: progress lines.
 // release, triage and compare take no --lens; a propagate run's timeout defaults to 90 min. A run's session that ends while its run still says running (a timeout - --timeout-min, default 90 for a measure,
 // 30 per item and at least 90 for an execute - or a crash) has the run closed `aborted`.
-// Exit 0 every run done, 1 a run failed or was refused, 2 bad input.
+// Exit 0 every run done, 1 a run failed or was refused, 2 bad input (an unknown flag among them: refused, never ignored).
 import { spawn } from 'node:child_process';
 import { createWriteStream, existsSync, mkdirSync, readFileSync, realpathSync, statSync } from 'node:fs';
 import { delimiter, extname, join, resolve } from 'node:path';
@@ -59,6 +59,11 @@ const SAFE_REF = /^[A-Za-z0-9._][A-Za-z0-9._/-]*$/;
 const REL_ID = /^rel-\d+\.\d+\.\d+(?:-[0-9A-Za-z.-]+)?$/;
 const SAFE_STANDARD = /^[A-Za-z0-9._:/-]+$/;
 const VERBS = ['status', 'cover', 'execute', 'propagate', 'release', 'triage', 'compare'];
+// Every flag the header documents, as parseArgs names them. Anything else is refused before a session starts: an
+// unknown flag was silently ignored, so `--dry-run` for `--dry` ran real `claude -p` sessions.
+const FLAGS = ['root', 'lens', 'features', 'stale', 'retry', 'chunk', 'maxRuns', 'noPropose', 'ids', 'approveProposed', 'by', 'batch',
+  'base', 'standard', 'id', 'finish', 'decision', 'note', 'pack', 'model', 'timeoutMin', 'dry'];
+const kebab = (k) => k.replace(/[A-Z]/g, (c) => `-${c.toLowerCase()}`);
 const bad = (m) => { throw new StoreError(m, 2); };
 const say = (m) => process.stderr.write(`drive: ${m}\n`);
 
@@ -151,7 +156,7 @@ const chunks = (list, n) => { const out = []; for (let i = 0; i < list.length; i
 const intFlag = (a, k, dflt, max = Infinity) => {
   if (a[k] === undefined) return dflt;
   const n = Number(a[k]);
-  if (!Number.isInteger(n) || n < 1 || n > max) bad(`--${k.replace(/[A-Z]/g, (c) => `-${c.toLowerCase()}`)} is an integer 1-${max === Infinity ? 'n' : max}`);
+  if (!Number.isInteger(n) || n < 1 || n > max) bad(`--${kebab(k)} is an integer 1-${max === Infinity ? 'n' : max}`);
   return n;
 };
 
@@ -160,6 +165,8 @@ export async function drive(argv, env = process.env) {
   const a = parseArgs(argv);
   const verb = a._[0];
   if (!VERBS.includes(verb)) bad(`usage: drive.mjs ${VERBS.join('|')} ... [--root <repo>] (see the header)`);
+  const unknown = Object.keys(a).filter((k) => k !== '_' && !FLAGS.includes(k));
+  if (unknown.length) bad(`unknown flag ${unknown.map((k) => `--${kebab(k)}`).join(', ')} - drive.mjs takes ${FLAGS.map((k) => `--${kebab(k)}`).join(' ')} (see the header)`);
   const root = resolve(typeof a.root === 'string' ? a.root : '.');
   const dbPath = join(root, '.ai', 'lens-scan', 'scan.db');
   const structure = join(root, '.ai', 'lens-scan', 'app-structure.json');

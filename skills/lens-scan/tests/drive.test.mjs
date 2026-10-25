@@ -325,3 +325,29 @@ test('drive: cover --features measures exactly the named features; propagate run
     ro.close();
   } finally { process.stderr.write = quiet; }
 });
+
+test('drive: an unknown flag is refused before any session starts (a --dry-run typo is not a real run)', async () => {
+  const { root, dbPath, db } = repo();
+  const { id: run } = runStart(db, { phase: 'propose', lenses: LENS });
+  const p1 = propose(db, { run, feature: 'a', lens: LENS, title: 't1', kind: 'fix', metric: 'conf', expectedDelta: 10 }).id;
+  runEnd(db, { run, status: 'done' });
+  decide(db, { ids: p1, decision: 'approve', by: 'operator:jane' });
+  db.close();
+  const fake = join(root, 'fake-claude.mjs');
+  writeFileSync(fake, FAKE);
+  const env = { ...process.env, LENS_SCAN_CLAUDE_BIN: fake };
+  const quiet = process.stderr.write;
+  process.stderr.write = () => true;
+  try {
+    await assert.rejects(drive(['execute', '--lens', LENS, '--root', root, '--dry-run'], env), (e) => e.code === 2 && /unknown flag --dry-run/.test(e.message));
+    await assert.rejects(drive(['cover', '--lens', LENS, '--root', root, '--feature', 'a'], env), (e) => e.code === 2 && /unknown flag --feature\b/.test(e.message));
+    await assert.rejects(drive(['status', '--lens', LENS, '--root', root, '--timeout', '5'], env), /unknown flag --timeout\b/);
+    const ro = openStore(dbPath, { readOnly: true });
+    assert.equal(ro.prepare('SELECT COUNT(*) AS n FROM runs').get().n, 1, 'no session ran: only the fixture run exists');
+    assert.equal(proposals(ro, { ids: p1 })[0].status, 'approved', 'the approved item was not built');
+    ro.close();
+    // every documented flag is still accepted
+    const ok = await drive(['execute', '--lens', LENS, '--root', root, '--dry', '--ids', p1, '--batch', '2', '--timeout-min', '30', '--model', 'm1'], env);
+    assert.deepEqual(ok.plan, [`/lens-scan execute --proposals ${p1}`]);
+  } finally { process.stderr.write = quiet; }
+});
