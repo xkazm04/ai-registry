@@ -164,8 +164,10 @@ if (runnable.code !== EXIT.OK) {
   for (const n of notices) console.error(n);
   fail(runnable.reason);
 }
+// Repo-relative, against cwd = root: Windows caps a command line at 32,767 characters, and
+// absolute paths spent ~100 of them per file (10,207 for 102 files in a worktree checkout).
 const result = classifyCheckResult(
-  spawnSync(process.execPath, ['--test', ...run.map((f) => path.join(opts.root, f))], {
+  spawnSync(process.execPath, ['--test', ...run], {
     cwd: opts.root,
     stdio: 'inherit',
   }),
