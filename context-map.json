@@ -196,6 +196,7 @@
         "scripts/link-registry.mjs",
         "scripts/merge-conform-runs.mjs",
         "scripts/register-project.mjs",
+        "scripts/tests/build-fleet-map-args.test.mjs",
         "scripts/tests/build-registry-map.test.mjs",
         "scripts/tests/check-context-coverage.test.mjs",
         "scripts/tests/converge.test.mjs",

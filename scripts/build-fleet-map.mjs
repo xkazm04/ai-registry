@@ -59,9 +59,17 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { loadFleet } from './lib/projects.mjs';
 import { FLEET_MAP_NOTE, fleetMapMdIntro } from './lib/fleet-map-copy.mjs';
+import { EXIT } from './lib/exit-codes.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const args = process.argv.slice(2);
+// The default invocation WRITES the published fleet map, so every argument it does not
+// know is refused before any work: `--help` used to fall through and regenerate the map
+// from whatever fleet this machine resolves (a partial one on a secondary box).
+const USAGE = 'Usage: build-fleet-map.mjs [--check] [--json]';
+if (args.includes('--help') || args.includes('-h')) { console.log(USAGE); process.exit(EXIT.OK); }
+const unknown = args.filter((a) => a !== '--check' && a !== '--json');
+if (unknown.length) { console.error(`FATAL: unknown argument ${JSON.stringify(unknown[0])}. ${USAGE}`); process.exit(EXIT.FATAL); }
 const CHECK = args.includes('--check');
 const TO_STDOUT = args.includes('--json');
 const OUT_JSON = path.join(ROOT, 'librarian', 'fleet-map.json');
