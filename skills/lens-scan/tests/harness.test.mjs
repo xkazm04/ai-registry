@@ -45,6 +45,10 @@ features:
   assert.deepEqual(out.unscreenable, [{ feature: 'tray', why: 'native window only' }]);
   assert.deepEqual(out.unmapped, ['ghost']);
   assert.deepEqual([out.shots, out.measurements], [[], []], '--dry captures nothing');
+  // a comma list typed with spaces names the same features (store.mjs and drive.mjs trim theirs)
+  const spaced = JSON.parse(harness(root, '--features', 'invoices, tray , ghost').stdout);
+  assert.deepEqual(spaced.unscreenable, [{ feature: 'tray', why: 'native window only' }]);
+  assert.deepEqual(spaced.unmapped, ['ghost'], 'a mapped feature is never reported unmapped for its leading space');
 });
 
 test('harness --dry: a storage seed template, theme values, dismiss and full_page parse', { skip: !PY && 'no python on PATH' }, () => {
