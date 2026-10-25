@@ -86,3 +86,25 @@ test('clean refuses before a verdict, then removes media and run-named paths onl
  const stray=path.join(dir,'unrelated.txt');fs.writeFileSync(stray,'x');
  assert.equal(run('clean',dir,'--also',stray).status,2);
 });
+test('clean matches the run id as a whole token: another run whose id merely starts with it survives',t=>{
+ const dir=fixture(t);run('sheet',dir);run('reveal',dir,'shot1=tie');
+ const comfy=fs.mkdtempSync(path.join(fs.realpathSync(os.tmpdir()),'render-triage-test-comfy-'));
+ t.after(()=>fs.rmSync(comfy,{recursive:true,force:true}));
+ // run is intake-test1: intake-test10 and intake-test1b are other runs, not this one
+ for(const f of ['intake-test1_ref.png','intake-test1-depth.exr','intake-test10_ref.png','intake-test1b.png'])fs.writeFileSync(path.join(comfy,f),'x');
+ const other=path.join(comfy,'renders-intake-test10');fs.mkdirSync(other);fs.writeFileSync(path.join(other,'keep.png'),'x');
+ const mine=path.join(comfy,'renders-intake-test1');fs.mkdirSync(mine);fs.writeFileSync(path.join(mine,'gone.png'),'x');
+ const r=run('clean',dir,'--also',comfy,'--also',other,'--also',mine);assert.equal(r.status,0,r.stderr);
+ assert.deepEqual(fs.readdirSync(comfy).sort(),['intake-test10_ref.png','intake-test1b.png','renders-intake-test10']);
+ assert.ok(fs.existsSync(path.join(other,'keep.png')));
+});
+test('clean refuses a manifest whose run id is empty: an empty prefix matches every file',t=>{
+ const dir=fixture(t),mf=path.join(dir,'manifest.json'),m=JSON.parse(fs.readFileSync(mf,'utf8'));
+ m.run='';fs.writeFileSync(mf,JSON.stringify(m));
+ const comfy=fs.mkdtempSync(path.join(fs.realpathSync(os.tmpdir()),'render-triage-test-comfy-'));
+ t.after(()=>fs.rmSync(comfy,{recursive:true,force:true}));
+ fs.writeFileSync(path.join(comfy,'someone-else.png'),'x');
+ const r=run('clean',dir,'--also',comfy,'--force');
+ assert.equal(r.status,2);assert.match(r.stderr,/run id/);
+ assert.ok(fs.existsSync(path.join(comfy,'someone-else.png')));
+});

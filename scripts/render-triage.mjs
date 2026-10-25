@@ -212,9 +212,24 @@ function sizeOf(p) {
   return fs.readdirSync(p).reduce((n, e) => n + sizeOf(path.join(p, e)), 0);
 }
 
+/**
+ * The run id as a whole token: bounded by the name's edges or by a non-alphanumeric, so
+ * `intake-test1` claims `intake-test1_ref.png` and `renders-intake-test1` but not
+ * `intake-test10_ref.png` or `intake-test1b.png` - those are another run's media, and a
+ * bare `includes`/`startsWith` deleted them. Escaped, because ids are data, not patterns.
+ */
+const runToken = (run) => {
+  const id = run.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  return { anywhere: new RegExp(`(?:^|[^A-Za-z0-9])${id}(?:$|[^A-Za-z0-9])`), leading: new RegExp(`^${id}(?:$|[^A-Za-z0-9])`) };
+};
+
 export function clean(dir, also = [], force = false) {
   const manifest = readJson(path.join(dir, 'manifest.json'), 'manifest');
   const run = manifest.run;
+  // An empty or missing id is a prefix of every name: with --also it would delete everything
+  // the target holds. sheet already refuses such a manifest; cleanup must refuse it too.
+  if (typeof run !== 'string' || !/[A-Za-z0-9]/.test(run)) fail(`manifest has no usable run id (${JSON.stringify(run ?? null)}): cleanup scopes by it and refuses to run without one`);
+  const token = runToken(run);
   if (!force && !fs.existsSync(path.join(dir, 'verdict.json'))) fail('no verdict.json: triage before cleanup (reveal first, or --force)');
   const doomed = [];
   const walk = (d) => {
@@ -227,9 +242,9 @@ export function clean(dir, also = [], force = false) {
   walk(dir);
   for (const target of also) {
     if (!fs.existsSync(target)) continue;
-    if (path.basename(target).includes(run)) { doomed.push(target); continue; }
+    if (token.anywhere.test(path.basename(target))) { doomed.push(target); continue; }
     if (!fs.statSync(target).isDirectory()) fail(`--also ${target} does not carry the run id ${run}`);
-    const hits = fs.readdirSync(target).filter((n) => n.startsWith(run)).map((n) => path.join(target, n));
+    const hits = fs.readdirSync(target).filter((n) => token.leading.test(n)).map((n) => path.join(target, n));
     if (!hits.length) console.log(`clean: nothing in ${target} starts with ${run}`);
     doomed.push(...hits);
   }
