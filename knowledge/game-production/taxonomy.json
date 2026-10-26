@@ -174,7 +174,8 @@
             "drawn-gesture-command-recognition",
             "hand-tracked-timing-windows",
             "tracked-input-record-and-replay",
-            "standalone-headset-frame-budgets"
+            "standalone-headset-frame-budgets",
+            "seated-in-world-reading"
           ]
         }
       ]
