@@ -1627,7 +1627,7 @@
    "status": "forged",
    "file": "knowledge/game-production/content-pipeline/concept-scene-parity/concept-scene-parity.md",
    "digest": "sha256-b2:b7a3b714b237caa7",
-   "revision": 2,
+   "revision": 3,
    "changedAt": "2026-10-26",
    "techniques": [
     {
