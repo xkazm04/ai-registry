@@ -1,7 +1,7 @@
 ---
 subject: concept-scene-parity
 domain: game-production
-last_touched: 2026-10-25
+last_touched: 2026-10-26
 touched_by: intake
 dry_streak: 0
 ---
@@ -23,3 +23,19 @@ New subject: 5 techniques, 3 applications against bp (1 `process`, 2 `python`). 
   heights.
 - Every verdict so far comes from one operator on one project, and the render proof was unblinded. A second project's
   scorecard is the corroboration this subject most needs.
+
+## 2026-10-26 - intake bp-vr-fid-sprint
+
+[[../../sources/2026-10-26-bp-vr-fidelity-sprint]] added two techniques and three applications:
+- `blind-panel-with-a-control-frame`: a blind panel re-based a ten-round trail from 38 to 34. Its control frame showed
+  the briefing offset of about 4.
+- `isolate-the-light-before-the-surface`: four isolations recorded in bp's look steps.
+- A process application for `cap-attribution-before-the-next-round` records the plateau: which elements stall at 2, and
+  the cap each one hit.
+
+The golden path's "Who scores" now says the judge is part of the instrument. The prior note's open lead (legibility floor)
+landed in a new subject, `seated-in-world-reading`, because it is a product rule. Two prior applications were re-resolved
+at bp `6bc4f02`.
+
+Open: the plateau as a Feasibility paragraph is untriaged (GAIN 1). A second project's blind panel is still the
+corroboration owed.

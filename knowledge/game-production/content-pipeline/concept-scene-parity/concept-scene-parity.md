@@ -10,6 +10,8 @@ techniques:
   - score-only-what-the-device-shows
   - grade-only-the-excess
   - cap-attribution-before-the-next-round
+  - blind-panel-with-a-control-frame
+  - isolate-the-light-before-the-surface
 ---
 
 # Concept scene parity
@@ -102,6 +104,14 @@ glossy surface that panel. The probes are re-captured whenever the lighting is r
 glossy surfaces are re-read after every bake. See
 [judge-in-the-destination-light](./techniques/judge-in-the-destination-light.md).
 
+The same reasoning runs the other way when a region of the scene reads wrong. A pixel is a sum
+of the surface, each light, the bounce, the fog each light scatters, any veil in front and the
+bloom of whatever is bright nearby. The surface that sits there is often not the term that put
+the pixel there. Measure the region, switch its contributors off one at a time, and retune the
+material last. Darkness and haze follow the same rule: subtract and add them by source, never with
+one global dimmer. See
+[isolate-the-light-before-the-surface](./techniques/isolate-the-light-before-the-surface.md).
+
 ## The grade is the last lever, and the narrowest
 
 A colour grade fitted from the scene to the concept is tempting because it moves the whole
@@ -141,6 +151,15 @@ learned something about their own optimism worth knowing. A machine pre-score is
 verdict the judge gave in words rather than by blind choice is recorded as unblinded,
 because the words were heard by someone who knew which arm was which, and the mapping from
 words to arms is that person's reading, not the judge's.
+
+The judge is part of the instrument as well. A panel told the goal, shown the history, or
+handed the newest frame last scores the project's story as well as the frame. In one series a
+blind panel with no project context scored the starting frame and the current one about 4 points
+of 45 below the briefed panels, on the old frame and the new ones alike. The progress held. The
+nearness to the bar did not. So a total that decides go or no-go comes from a blind panel that
+also scores the starting frame as a control, and totals from different panels are compared only
+through a control they both scored. See
+[blind-panel-with-a-control-frame](./techniques/blind-panel-with-a-control-frame.md).
 
 ## Feasibility: when to stop and write the limit down
 
@@ -185,3 +204,7 @@ threshold and a willingness to write *no*; a separate procedure would restate al
   feasibility question is answered on a fiction.
 - **Letting the builder's reading stand as the verdict.** The judge's salience is the one
   input the builders cannot supply.
+- **Briefing the judge.** A panel that knows the goal and the history scores closer to the
+  goal. Read its trail for direction, and take the level from a blind panel with a control.
+- **Retuning the surface that looks guilty.** The region's light usually came from a light, a
+  veil or the fog in front of it.
