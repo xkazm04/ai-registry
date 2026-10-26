@@ -1,6 +1,6 @@
 # Game production - the subjects this registry carries
 
-`game-production` - 88 subjects, 578 techniques, 337 applications.
+`game-production` - 89 subjects, 584 techniques, 344 applications.
 Slugs only; open one with `registry_subject` (or `node <registry>/scripts/registry-query.mjs --subject <slug>`), never by reading `index.json` - the access rule beside this file describes the loop.
 
 ### systems-canon
@@ -32,7 +32,7 @@ Slugs only; open one with `registry_subject` (or `node <registry>/scripts/regist
 
 ### couch-and-tv-play
 - **couch-and-tv** - controller-latency-instrumentation, fire-tv-device-realities, lan-pairing-and-session-continuity, on-device-verification-harness, phone-controller-input-protocol, two-thumb-touch-layout-design
-- **immersive-interaction** - drawn-gesture-command-recognition, hand-tracked-timing-windows, standalone-headset-frame-budgets, tracked-input-record-and-replay
+- **immersive-interaction** - drawn-gesture-command-recognition, hand-tracked-timing-windows, seated-in-world-reading, standalone-headset-frame-budgets, tracked-input-record-and-replay
 
 ### narrative-and-dialogue
 - **cast-and-relationships** - ally-bond-and-found-family-systems, antagonist-fair-grievance-craft, rival-to-ally-turn
