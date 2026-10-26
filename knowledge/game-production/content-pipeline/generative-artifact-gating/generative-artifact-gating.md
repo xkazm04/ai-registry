@@ -14,6 +14,7 @@ techniques:
   - cite-evidence-not-descriptions
   - reserve-before-dispatch-stop-latch
   - generator-failure-deterministic-gates
+  - declare-the-producer-per-asset-class
 ---
 
 # Generative artifact gating
@@ -145,6 +146,11 @@ licence is its evidence, and the gate reads that record first
 Which producers are terminal for a class is a **declaration**, made once per asset class and
 reviewed like any other, never inferred from the artifact in front of the gate. Inference is
 what the origin field exists to prevent, and it does not become safe here.
+Making the declaration has its own procedure. It asks whether the class is derived from data,
+whether its look depends on an exact profile, and whether it must keep separate slots. It asks
+whether it reads by fine silhouette at the distance it is actually seen from. Where those
+questions leave the answer open, it runs a paired trial at that distance
+([declare-the-producer-per-asset-class](./techniques/declare-the-producer-per-asset-class.md)).
 
 ## Grade the candidate, not the fact of a choice
 

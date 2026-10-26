@@ -1,8 +1,8 @@
 ---
 subject: generative-artifact-gating
 domain: game-production
-last_touched: 2026-09-10
-touched_by: architecture-review
+last_touched: 2026-10-26
+touched_by: intake
 dry_streak: 0
 ---
 
@@ -140,3 +140,13 @@ not refreshed runtime witnesses and do not override the qualifications below.
   }
 }
 ```
+
+## 2026-10-26 - intake bp-vr-fid-sprint
+
+[[../../sources/2026-10-26-bp-vr-fidelity-sprint]] added `declare-the-producer-per-asset-class`, the procedure for the
+per-class declaration the golden path names in "Deterministic is not a synonym for unfinished". It carries a process
+application against bp: a paired trial of a commercial image-to-3D service (18 calls, 695 credits, 2026-10-25).
+- Verdict: not-better as a replacement.
+- Declaration written: generate small props read close up; script frame, rooms and paper.
+
+Open: the generated-furniture-at-scripted-heights arm is untested.
