@@ -1,0 +1,107 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "bp-vr-fid-sprint",
+  "skill": "intake",
+  "skill_version": "2.18.0",
+  "mode": "source",
+  "domain": "game-production",
+  "started_at": "2026-10-26T07:30:00Z",
+  "ended_at": "2026-10-26T10:30:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 4,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "game-production/seated-in-world-reading",
+      "at": "2026-10-26",
+      "engine": "intake",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    },
+    {
+      "id": "game-production/concept-scene-parity",
+      "at": "2026-10-26",
+      "engine": "intake",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    },
+    {
+      "id": "game-production/generative-artifact-gating",
+      "at": "2026-10-26",
+      "engine": "intake",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    },
+    {
+      "id": "game-production/standalone-headset-frame-budgets",
+      "at": "2026-10-26",
+      "engine": "intake",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "concept-scene-parity",
+      "technique": "blind-panel-with-a-control-frame",
+      "verdict": "better",
+      "mode": "experiment"
+    },
+    {
+      "subject": "concept-scene-parity",
+      "technique": "isolate-the-light-before-the-surface",
+      "verdict": "better",
+      "mode": "code"
+    },
+    {
+      "subject": "generative-artifact-gating",
+      "technique": "declare-the-producer-per-asset-class",
+      "verdict": "not-better",
+      "mode": "experiment"
+    },
+    {
+      "subject": "seated-in-world-reading",
+      "technique": "angular-legibility-floor",
+      "verdict": "better",
+      "mode": "code"
+    },
+    {
+      "subject": "seated-in-world-reading",
+      "technique": "panel-placement-in-the-view-band",
+      "verdict": "not-better",
+      "mode": "code"
+    },
+    {
+      "subject": "seated-in-world-reading",
+      "technique": "fade-the-content-not-the-view",
+      "verdict": "unmeasurable",
+      "mode": "code"
+    }
+  ],
+  "files": [
+    "knowledge/game-production/couch-and-tv-play/immersive-interaction/seated-in-world-reading/seated-in-world-reading.md",
+    "knowledge/game-production/taxonomy.json",
+    "knowledge/game-production/content-pipeline/concept-scene-parity/concept-scene-parity.md",
+    "knowledge/game-production/content-pipeline/concept-scene-parity/techniques/blind-panel-with-a-control-frame.md",
+    "knowledge/game-production/content-pipeline/concept-scene-parity/techniques/isolate-the-light-before-the-surface.md",
+    "knowledge/game-production/content-pipeline/generative-artifact-gating/generative-artifact-gating.md",
+    "knowledge/game-production/content-pipeline/generative-artifact-gating/techniques/declare-the-producer-per-asset-class.md",
+    "knowledge/game-production/couch-and-tv-play/immersive-interaction/standalone-headset-frame-budgets/applications/python--forward-path-feature-allowance.md",
+    "librarian/sources/2026-10-26-bp-vr-fidelity-sprint.md",
+    "librarian/specs/2026-10-26-seated-in-world-reading.md"
+  ],
+  "commits": [],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "bp sprint record: new subject seated-in-world-reading; concept-scene-parity +2 (blind panel 38->34, control 14->10); producer-per-class from an 18-call trial; forward-path currency. bp read-only."
+}

@@ -10,7 +10,7 @@ accepted: 4
 declined: 0
 leads: 9
 already_covered: 2
-untriaged: 2
+untriaged: 1
 dispatched: 1
 applied: 6
 shipped: 6
@@ -143,9 +143,15 @@ Every landing was applied to bp in `code` mode by the builders before it was wri
 1. **Legibility floor from the scoring pose.** Return when the bp typography round (FC3, running at this note's writing)
    reports cap heights in arc-minutes per text class at the scoring pose. Then add it as a technique to
    concept-scene-parity, or file a catch if `design-tokens` or `accessibility` already owns an angular floor.
+   **Resolved 2026-10-26** ([[2026-10-26-bp-vr-fidelity-sprint]]): the round reported its floor, so it landed as
+   `angular-legibility-floor` in the new subject `seated-in-world-reading`. That is a product rule, not only a scoring
+   rule, so it does not belong in concept-scene-parity.
 2. **Script few-primitive assets instead of generating.** Two workers converged on it, and one build measured 8k tris
    and 4 open edges scripted, against 26 open edges over 3 seeds generated. Return after reading
    `regeneration-vs-repair-economics` in full: it may be that subject's missing branch.
+   **Resolved 2026-10-26** ([[2026-10-26-bp-vr-fidelity-sprint]]): that subject starts after the first spend. The home
+   was the declaration that generative-artifact-gating names but gave no procedure for. Landed as
+   `declare-the-producer-per-asset-class`, with a paired trial against a commercial service.
 3. **Export-path licence audit.** Return with a primary reading of a dependency licence that restricts shipped output.
 4. **A VM's default memory cap on unified-memory hosts** (29.3 GiB against 45.4 GiB native, a first-party PR). Return
    when a managed project runs ML in a VM on such a host.
@@ -168,8 +174,9 @@ Every landing was applied to bp in `code` mode by the builders before it was wri
 
 ## Untriaged (nobody verified them; carry their anchors)
 
-- Score-only-what-the-device-shows' sibling: OpenXR compositor layers are sharpest in a headset but absent from flat
-  captures (r4 section 5).
+- ~~Score-only-what-the-device-shows' sibling: OpenXR compositor layers are sharpest in a headset but absent from flat
+  captures (r4 section 5).~~ Landed 2026-10-26 in the seated-in-world-reading golden path ("The sharpest path is not the
+  scored path"); r6 converged on it independently.
 - Keep the tone curve's shoulder and grade with a LUT. Absorbed into `grade-only-the-excess` by the worker; recorded here
   so a later run does not re-propose it as new.
 
