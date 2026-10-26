@@ -5,7 +5,7 @@ subject: concept-scene-parity
 technique: grade-only-the-excess
 stack: python
 status: forged
-verified_on: 2026-10-25
+verified_on: 2026-10-26
 applied: code
 ab_verdict: unmeasurable
 ---
@@ -15,7 +15,7 @@ ab_verdict: unmeasurable
 bp's VR light table (`apps/vr`, Unreal Engine 5.8, forward VR path) grades its frame with a
 256 x 16 colour-grading LUT fitted by a pure-Python script from a neutral engine capture to
 the concept image. The script keeps three models side by side, and its docstring records
-why two of them were rejected. Read at bp commit `d8b1fea` on 2026-10-25.
+why two of them were rejected. Read at bp commit `d8b1fea` on 2026-10-25; citations re-resolved at `6bc4f02` on 2026-10-26 (line numbers moved, quotes unchanged).
 
 ## The tone curve was switched off, then put back
 
@@ -45,7 +45,7 @@ docs/concepts/vr-light-table/lookdev/grade/fid-grade-regions.json:2 "paper open,
 and one fitted number for the deviation, in
 docs/concepts/vr-light-table/lookdev/grade/fid-grade-fit.json:1 "0.3823862544636659"
 applied at strength 0.8. The engine step names the model it imports:
-apps/vr/tools/mcp-steps/py/fid_look.py:161 "fit_grade_lut.py --model excess from a neutral capture"
+apps/vr/tools/mcp-steps/py/fid_look.py:163 "fit_grade_lut.py --model excess from a neutral capture"
 
 The fit file also shows the technique's last decision rule in action. After grading, the
 city region is still well bluer than the concept's, and the dark room region is still far

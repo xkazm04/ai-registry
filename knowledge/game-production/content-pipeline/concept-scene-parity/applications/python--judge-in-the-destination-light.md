@@ -5,7 +5,7 @@ subject: concept-scene-parity
 technique: judge-in-the-destination-light
 stack: python
 status: forged
-verified_on: 2026-10-25
+verified_on: 2026-10-26
 applied: code
 ab_verdict: better
 ---
@@ -15,7 +15,7 @@ ab_verdict: better
 bp's VR light table (`apps/vr`, Unreal Engine 5.8, forward VR path) is dressed with studio
 props finished offline in Blender. Two Python scripts carry this technique: a Blender
 review rig that renders each finished prop under the studio's light, and an editor step that
-gives the Unreal scene a reflection environment. Read at bp commit `d8b1fea` on 2026-10-25.
+gives the Unreal scene a reflection environment. Read at bp commit `d8b1fea` on 2026-10-25; citations re-resolved at `6bc4f02` on 2026-10-26 (line numbers moved, quotes unchanged).
 
 ## The rig states its reason
 
@@ -40,8 +40,8 @@ method 0 still uses placed captures; there were none) and fixed it with placed c
 apps/vr/tools/mcp-steps/py/fid_look.py:11 "them every glossy surface reflected only the black sky capture"
 The boundary case is recorded where the number is set: the light build re-captured the
 probes, and the glowing sheet was mirrored onto every glossy surface.
-apps/vr/tools/mcp-steps/py/fid_look.py:37 "mirrored it white (after the light build recaptured them, Lynx 2026-10-24)"
-apps/vr/tools/mcp-steps/py/fid_look.py:38 "CAPTURE_BRIGHTNESS = 0.25"
+apps/vr/tools/mcp-steps/py/fid_look.py:39 "mirrored it white (after the light build recaptured them, Lynx 2026-10-24)"
+apps/vr/tools/mcp-steps/py/fid_look.py:40 "CAPTURE_BRIGHTNESS = 0.25"
 
 ## The verdict
 
@@ -64,8 +64,8 @@ adjust" and carries no brightness number.
 - **The rig was tuned once and has drifted from the scene.** It says so itself:
   scripts/art/studio-kit/render_context.bpy:204 "tuned once against captures/l34-wp5-target.jpg"
   The light round that followed changed the scene's fill to a warm white
-  (apps/vr/tools/mcp-steps/py/fid_look.py:33 "FILL_CD = 22.0"), dropped the sky light to
-  0.04 (apps/vr/tools/mcp-steps/py/fid_look.py:108 "SKY = 0.04") and added reflection
+  (apps/vr/tools/mcp-steps/py/fid_look.py:35 "FILL_CD = 22.0"), dropped the sky light to
+  0.04 (apps/vr/tools/mcp-steps/py/fid_look.py:110 "SKY = 0.04") and added reflection
   captures; the rig still has a cool fill, a 0.15 world and no probe
   (scripts/art/studio-kit/render_context.bpy:97 "default_value = 0.15"). Its verdicts
   match the scene as it was before the sprint's light round. **Upward lesson, taken into
