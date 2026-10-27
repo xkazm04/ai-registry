@@ -6,11 +6,14 @@ status: forged
 use_when: [a hosted build fails while the delivery system is green, choosing where the production build runs, deciding whether pushes to the default branch may deploy directly, an environment setting exists only in a provider dashboard, production shipped from a commit the gate never passed]
 techniques:
   - platform-build-parity
+  - build-context-filter-parity
   - environment-promotion
   - direct-push-delivery
   - deployment-config-as-code
   - deploy-gate-coupling
   - cache-immutability-licensing
+  - public-build-inert-by-mode
+  - replace-before-retire
 ---
 
 # Deployment contract
@@ -61,6 +64,16 @@ comparison passes and the links are broken on one host anyway, so the resolution
 part of the contract and are asserted by requesting the shape that fails, not the landing
 page.
 
+Parity starts before the builder runs, at the upload. A remote build receives the files its
+upload filter admits, and a repository that builds remotely usually has two filters over the
+same tree — the container build's context filter and the upload tool's own — written in
+dialects that disagree on whether a bare name is anchored. A list copied from one to the other
+changes meaning: a root-only `docs` becomes every nested folder of that name, and a module the
+application imports never reaches the builder. The upload gets its own filter, every root-only
+entry anchored, the two filters named in each other, and the admitted file sets compared rather
+than the pattern files; the dialects and the comparison are
+[build-context-filter-parity](./techniques/build-context-filter-parity.md).
+
 ## What the host says about the artifact is also the contract
 
 The deployed bytes are only half of what a host publishes; the other half is what it tells
@@ -77,6 +90,21 @@ classification procedure, the entry document that must always revalidate, and ho
 licence rather than assert it are
 [cache-immutability-licensing](./techniques/cache-immutability-licensing.md).
 
+## A public build is inert by construction, not by configuration
+
+Some deployments are public demonstrations of an application that can write in its full form —
+a read-only replay for reviewers, a sandbox with no login. The live application with its
+dangerous paths switched off by a setting is one missing setting away from being the live
+application on a public address. The contract instead makes the public build inert by mode:
+exactly one explicit value enables live operation and every other value, unset included, is
+inert, per [unknown-is-not-a-value](../../../_laws.md#unknown-is-not-a-value); the image holds no
+credential, no write client and no writable volume, so that a framework flaw that executes code
+below the mode switch finds nothing to take; and the pipeline proves it on the shipped image by
+inspecting its environment and booting it to serve real routes. Inertness bounds the damage of
+such a flaw and does not prevent it, so the public build's path also carries a dependency audit
+at a high threshold. The mode, the image, the proof and the audit are
+[public-build-inert-by-mode](./techniques/public-build-inert-by-mode.md).
+
 ## Environments form a ladder, and production is a promotion
 
 A platform that builds every push gives each change a disposable environment for free —
@@ -92,6 +120,14 @@ The same shape answers rollback: the previous production build still exists, so 
 is re-pointing, not reverting-and-rebuilding while an outage runs. Environment naming, what a
 preview must prove before promotion, and the rollback that never waits on a build are
 [environment-promotion](./techniques/environment-promotion.md).
+
+Where a service's name is part of its address, renaming or moving it is not an edit of the
+existing environment but the creation of a new one, and the old one keeps serving. The order is
+fixed: deploy the replacement from the verified build, prove every route on the new address,
+repoint every reference, confirm the old address is unreferenced, then delete it — and when the
+reason for the move is a vulnerability, the old revision is deleted and struck from the rollback
+set rather than kept as a fallback. The sequence and the vulnerable-revision additions are
+[replace-before-retire](./techniques/replace-before-retire.md).
 
 ## Direct push is a legitimate topology — with preconditions, not vibes
 
@@ -152,7 +188,9 @@ make machines run, and where a publishing credential lives and for how long, is
 [secret-materialization-discipline@ci-execution-trust](../ci-execution-trust/techniques/secret-materialization-discipline.md)
 whenever a deploy token appears. Serializing two deploys that would otherwise overlap is
 [shared-resource-serialization@runner-fleet](../runner-fleet/techniques/shared-resource-serialization.md).
-The artifact's own staging and its opt-in publish door belong to
+How dependency vulnerabilities are audited, triaged and patched in general is
+[supply-chain](../../../security/code-provenance/supply-chain/supply-chain.md); this subject keeps
+only what a finding means for an endpoint already serving the vulnerable build. The artifact's own staging and its opt-in publish door belong to
 [release-pipeline](../../build-and-release/release-pipeline/release-pipeline.md); watching a
 deployment you do not own, and per-environment deployment history, are
 [cicd-monitoring](../../../integration/external-systems/cicd-monitoring/cicd-monitoring.md). Running the gate's
@@ -167,9 +205,18 @@ environments are, and how a push becomes production without anyone watching it h
 - [platform-build-parity](./techniques/platform-build-parity.md) — the host's builder fed the
   same command, runtime and flags from one declared source, and two hosts' request-resolution
   rules tested rather than assumed.
+- [build-context-filter-parity](./techniques/build-context-filter-parity.md) — a dedicated,
+  anchored upload filter for a remote build, named beside its twin, with the admitted file sets
+  compared.
 - [cache-immutability-licensing](./techniques/cache-immutability-licensing.md) — immutability
   licensed by content-addressed naming, a short derived expiry everywhere else, and the entry
   document that always revalidates.
+- [public-build-inert-by-mode](./techniques/public-build-inert-by-mode.md) — one explicit value
+  enables live operation, the public image holds nothing worth taking, and the pipeline proves
+  both on the shipped image.
+- [replace-before-retire](./techniques/replace-before-retire.md) — a renamed or moved service is
+  a new endpoint: prove it, repoint, confirm, then delete the old one; a vulnerable revision is
+  deleted, not kept.
 - [environment-promotion](./techniques/environment-promotion.md) — a preview per change,
   production as promotion of an existing build, rollback as re-pointing.
 - [direct-push-delivery](./techniques/direct-push-delivery.md) — single-owner direct push with

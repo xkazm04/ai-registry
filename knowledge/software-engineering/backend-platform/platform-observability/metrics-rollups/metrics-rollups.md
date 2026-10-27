@@ -10,6 +10,8 @@ techniques:
   - stored-rollups
   - aggregate-honesty
   - cardinality-and-cost
+  - count-and-list-from-one-tally
+  - capped-list-uncapped-total
 ---
 
 # Time-series aggregation & rollups
@@ -105,6 +107,18 @@ eventually will, visibly, in one screenshot. Serving the numbers that will be
 read together from **one read over one snapshot** is the
 [bundle-endpoints](./techniques/bundle-endpoints.md) technique.
 
+One snapshot is necessary and not sufficient. A count and the drill-down that
+lists what it counted can read the same snapshot and still disagree, because
+they were written as two selections and one of them learned an exclusion the
+other did not. When a figure will be questioned, the count and its list are
+two folds of **one selection**, computed once — the
+[count-and-list-from-one-tally](./techniques/count-and-list-from-one-tally.md)
+technique. And because that list must be bounded, it keeps the newest N while
+a total computed before the cap travels with it, so a size limit is never read
+as the size of the record — the
+[capped-list-uncapped-total](./techniques/capped-list-uncapped-total.md)
+technique.
+
 ## The rollup is a stored derivation, and it names its recomputation
 
 When the log grows past what on-the-fly folding can serve interactively, the
@@ -181,4 +195,10 @@ their honesty obligations are the
   marked, empty distinguished from uncovered, provenance surviving merges.
 - [cardinality-and-cost](./techniques/cardinality-and-cost.md) — output-size
   budgets: top-N with disclosed truncation, per-key limits, pre-aggregation,
-  grain coarsening.
+    grain coarsening.
+- [count-and-list-from-one-tally](./techniques/count-and-list-from-one-tally.md)
+  — a count and the list of what it counted, with exclusions and unread
+  facts, rendered from one selection so they cannot disagree.
+- [capped-list-uncapped-total](./techniques/capped-list-uncapped-total.md) —
+  a bounded item list keeps the newest N and carries the uncapped total of
+  the same selection, one per capped list.

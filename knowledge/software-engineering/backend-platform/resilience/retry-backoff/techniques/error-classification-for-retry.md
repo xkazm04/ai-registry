@@ -6,8 +6,9 @@ technique: error-classification-for-retry
 status: forged
 laws:
   - one-authority-per-vocabulary
+  - unknown-is-not-a-value
 shared_with: []
-use_when: [deciding whether a failure is safe to retry, same outage retried by one path and dropped by another, classifying a timed-out write that may have landed]
+use_when: [deciding whether a failure is safe to retry, same outage retried by one path and dropped by another, classifying a timed-out write that may have landed, a non-idempotent write failed with a server error or no answer]
 ---
 
 # Error classification for retry
@@ -77,3 +78,55 @@ minor version and the retry policy silently changes.
   alive and telling you exactly when to come back (see circuit-breakers).
 - **Reclassification mid-ladder wins.** If attempt three returns evidence of
   permanence, stop immediately. The ladder is a schedule, not a commitment.
+
+## A write is retried on proof of non-landing, never on its class alone
+
+The decision rule above — an ambiguous write needs an idempotency story
+before it needs a ladder — has a concrete form for writes that carry no
+idempotency key and land on a server that offers no deduplication. The
+class of the failure is necessary and no longer sufficient; the operation
+contributes the second half of the decision.
+
+1. **Mark reads, default to write.** The call site declares that a call
+   changes nothing; everything unmarked is treated as a write. The default
+   is the dangerous class on purpose: a read someone forgot to mark costs
+   one retry it could have had, while a write misfiled as a read is
+   repeated blindly.
+2. **Name what each failure proves about landing.** An explicit rejection
+   that the server issues before acting — a validation refusal, an
+   authorization failure, a rate-limit response — proves the effect never
+   happened. A server error and a missing answer (a reset connection, a
+   timeout after the request was sent) prove nothing: the server may have
+   applied the write and lost the reply.
+3. **Retry an ambiguous write only on a caller-supplied proof.** The caller
+   that knows the write's intended effect supplies a read that answers one
+   question — *did it not land?* — and only an answer of exactly *not
+   landed* permits another attempt. A proof read that throws, times out or
+   returns anything else is *not proven*, and not proven means no retry.
+   The read is specific to the write: a file update is proven unlanded when
+   the file's last revision is still the one the update was computed from;
+   a create, when the target is still absent; a write onto a branch that
+   did not exist before the attempt, when the branch is still absent.
+4. **Make the retried write conditional anyway.** The proof read and the
+   retry are two requests, and the first attempt can land between them.
+   The retried write therefore carries the same precondition the proof
+   checked — the expected parent revision, create-only-if-absent — so a
+   late landing makes the retry fail as a conflict instead of applying
+   twice. A write that cannot carry a precondition has no proof to offer
+   and is never retried automatically.
+5. **Throw the unproven ambiguous write as *landed: unknown*.** The error
+   that leaves the boundary carries a typed field saying the outcome is
+   unknown, and its message tells the reader to read the remote state
+   before making the write again. Reporting it as an ordinary failure
+   invites the operator — or the next automation — to redo it, which is
+   the duplicate the whole rule exists to prevent.
+6. **In a multi-step write, each step proves itself.** A sequence such as
+   *commit, then open a review request* retries the step that has a proof
+   read and never the step that does not; one step's proof does not cover
+   the next.
+
+Where the remote does accept an idempotency key, prefer it: the server
+deduplicates, the proof read becomes unnecessary, and the caller retries
+with the *same* key — a new key before the first attempt's outcome is known
+is the duplicate wearing a fresh identity. The proof-read discipline is for
+the far more common remote that offers no such key.
