@@ -121,3 +121,15 @@ Format: `## <version used> - <YYYY-MM-DD> - <project>` followed by `- ` bullets.
 - Scale: 1 scout, 9 workers all at once (under the cap of 10), about 13 minutes per worker,
   every worker gate-clean on its first report, 311/311 anchors held at director
   verification.
+
+## 1.4.0 - 2026-10-28 - bp companion voice + an AI-guide voice (one subject, harvest into media-generation)
+
+- **A single subject harvested from the director's own working session needs no pool.** The
+  knowledge came from two casting rounds the director had just run, so scouting and forging
+  were one person's work: neighbours read first (four, two of them owning a listening board
+  and a stored-voice lifecycle that the new subject had to defer to), draft, then reconcile.
+  About an hour, gate-clean first run, 10/10 anchors.
+- **Half the evidence had no tree.** One round lived in a repo, the other in scratch scripts.
+  The process application kept the repo round anchored and stated the other as dated
+  observations, labelled as such, rather than inventing a path. A harvest brief rule worth
+  stating: unanchored evidence is allowed in a process application if it says it is unanchored.
