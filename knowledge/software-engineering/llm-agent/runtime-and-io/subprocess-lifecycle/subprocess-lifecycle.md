@@ -12,6 +12,7 @@ techniques:
   - liveness-and-heartbeats
   - host-resource-protection
   - decode-child-output-per-line
+  - agent-editable-children-get-no-secrets
 ---
 
 # Subprocess & CLI session lifecycle
@@ -73,6 +74,17 @@ and the structural rule above them: **one spawn door**. Every launch in the
 host passes through a single constructor that applies the hardening
 uniformly, because a spawn site added next quarter inherits exactly the
 discipline of the door it goes through — and nothing else.
+
+When the host also runs an editing agent, the environment contract gains a
+question the door must ask of every child: who wrote the code it is about to
+execute? Setup steps, gates, the version-control tool with its hooks, and the
+agent's own shell commands all run workspace code the agent can rewrite, so
+whatever they inherit the agent holds. They get no secret at all. The agent
+process gets only its own model credentials, and a credential the operator
+passes through by name reaches those children and never the agent.
+[agent-editable-children-get-no-secrets](./techniques/agent-editable-children-get-no-secrets.md)
+owns the two tiers, the pass-through, and what an environment scrub leaves
+open.
 
 The same door has an exit. The bytes a child writes become text in one place
 or in every capture site's own default, and a pinned environment settles that
@@ -248,3 +260,7 @@ Two rules fall out of the table:
 - [decode-child-output-per-line](./techniques/decode-child-output-per-line.md)
   — one decode for captured output, the line as the unit, the legacy page
   looked up from the host's position and verified with a known word.
+- [agent-editable-children-get-no-secrets](./techniques/agent-editable-children-get-no-secrets.md)
+  — two environment tiers: the agent holds only its own credentials, every
+  child that runs code the agent can edit holds none, and a named pass-through
+  reaches those children and never the agent.

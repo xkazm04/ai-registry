@@ -10,6 +10,9 @@ techniques:
   - overlay-precedence
   - tour-lifecycle
   - narration-and-pacing
+  - tour-path-curriculum
+  - product-performed-effects
+  - spotlight-continuity
 ---
 
 # Guided tours & spotlight onboarding
@@ -53,6 +56,26 @@ working control. The moment a tour needs the product to behave differently
 data — it has stopped narrating the product and started performing a demo,
 and demos rot on contact with reality.
 
+Read that rule by its cause, not its symptom: what it forbids is the product
+behaving differently *because a tour is running*. Synthetic data the product
+serves anyway — a declared demonstration plane the person chose to enter,
+disclosed in the product's own chrome — is a product state, not a tour mode,
+and a tour may be bound to it when its situations need fixed entities to stay
+true (this change, this class, this incident). The binding is honest when the
+tour plays only while that plane is active and closes when it is not, the
+plane's disclosure stays on screen throughout, and the captions say what was
+planted ("a seeded fault"). Its cost should be accepted knowingly: such a tour
+cannot teach a person on their own data, so it is offered as a visit to the
+demonstration, never laid over a real tenant's screens. The plane's own
+obligations belong to [demo-data-plane](../../../client-architecture/demo-data-plane/demo-data-plane.md).
+
+The same cause decides how a tour shows motion. When a concept *is* a motion —
+a verdict assembling, a class losing its autonomy — the tour presses the
+product's own controls and lets the product perform it, rather than animating a
+copy; and on the steps that matter most it stops performing and holds while the
+person does the real thing. That is
+[product-performed-effects](./techniques/product-performed-effects.md).
+
 ## The anchor is a contract, not a lucky selector
 
 A tour step points at an element. That pointer is the load-bearing joint of
@@ -87,6 +110,18 @@ degraded path is also instrumented, because each degradation is a signal that
 either the tour or the anchor contract has drifted. The policies live in
 [missing-anchor-degradation](./techniques/missing-anchor-degradation.md).
 
+## The path is a curriculum
+
+A whole-product tour decides what a newcomer learns and in what order, and the
+order that teaches is the one in which a person meets the product — set it up,
+watch it run, govern it, improve it — not the order the code or the column
+headers are in. Where the navigation is grouped, the chapters *are* its groups,
+read from the same authority the sidebar renders, so the tour also teaches
+where things live; and the unit of a step is one concept shown in a situation,
+with numbers appearing only as part of that situation. A test holds the path
+to the navigation: chapters in group order, every screen visited inside its own
+chapter. See [tour-path-curriculum](./techniques/tour-path-curriculum.md).
+
 ## Advancement follows reality
 
 The weakest tours are slide decks projected onto the interface: next, next,
@@ -103,6 +138,10 @@ navigate mid-tour must choreograph the route change instead of racing it, and
 any step waiting on a user action needs an exit for the user who does not act.
 The full contract is
 [action-driven-advancement](./techniques/action-driven-advancement.md).
+Across a route change the spotlight itself must not blink: it holds its last
+box briefly while the next screen streams in, and a live flag keeps every
+effect on the step's own element rather than on the held geometry —
+[spotlight-continuity](./techniques/spotlight-continuity.md).
 
 ## The tour respects the app
 
@@ -182,3 +221,12 @@ users abandon is a tour telling its authors something.
 - [narration-and-pacing](./techniques/narration-and-pacing.md) — narration as a
   non-blocking accessory, reader-paced steps, skippability of sound and
   motion.
+- [tour-path-curriculum](./techniques/tour-path-curriculum.md) — the path in
+  the order a person meets the product, chapters that are the navigation's
+  groups, one concept per situation, the test against the nav authority.
+- [product-performed-effects](./techniques/product-performed-effects.md) — the
+  tour presses the product's own controls in declared order, holds where the
+  person acts for real, and draws only a layer's few marks.
+- [spotlight-continuity](./techniques/spotlight-continuity.md) — holding the
+  last box across a screen change, the live flag, measuring on tick, resize
+  and arrival without re-rendering what did not move.

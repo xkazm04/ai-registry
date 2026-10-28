@@ -14,6 +14,7 @@ techniques:
   - decision-records
   - two-clock-records
   - record-axis-predicate
+  - absent-not-null-in-hashed-records
 ---
 
 # Audit logging
@@ -102,6 +103,15 @@ per-record proof catches modification but not deletion; a chain across
 records catches both but forks under concurrent writers), plus the
 self-verifying export, is the
 [tamper-evidence](./techniques/tamper-evidence.md) technique.
+
+A digested ledger also loses the ordinary way of evolving a schema. The old
+records were hashed without the field being added, so a reader that hands
+them back with that field set to null has changed their bytes, and every
+chain written before the field stops verifying. A new optional field is
+therefore absent, never null, at every layer from writer to index; and a
+reader that meets a key it does not know refuses the record as newer than
+itself rather than calling it tampered. That is
+[absent-not-null-in-hashed-records](./techniques/absent-not-null-in-hashed-records.md).
 
 ## One door per ledger, and the writers are enumerable
 
@@ -299,4 +309,9 @@ The techniques converge on what one record minimally carries:
   module, null meaning now so one statement serves replay and the present,
   write paths keeping the current-row guard, a rewritten row's clock derived
   from the ledger that rewrote it, and a database-backed test in both
-  directions.
+    directions.
+- [absent-not-null-in-hashed-records](./techniques/absent-not-null-in-hashed-records.md)
+  — evolving a hashed record's schema: a new optional field absent rather
+  than null at every layer, an unknown key refused as newer than the reader
+  rather than reported as tampering, and one parser shared by writer,
+  importer and verifier.

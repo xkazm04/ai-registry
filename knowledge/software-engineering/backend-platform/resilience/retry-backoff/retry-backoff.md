@@ -87,6 +87,18 @@ breaker**: a permanent rejection of one malformed request says nothing about
 whether the dependency is alive, and letting it trip the breaker punishes every
 other caller for one bad payload.
 
+A third rule binds the table to the operation as well as the failure. For a
+read, *transient* is enough to retry. For a write that is not idempotent,
+it is not: a server error or a missing answer says the response was lost,
+not that the effect was, and the retry is safe only when a read the caller
+supplies proves the write did not land — and the retried write carries a
+precondition, so a late landing of the first attempt is refused rather than
+doubled. With no such proof the ambiguous write stops and is surfaced as
+*landed: unknown*, never as a plain failure
+([unknown-is-not-a-value](../../../_laws.md#unknown-is-not-a-value)). The
+proof, the precondition and the unknown-landing record are part of
+error-classification-for-retry.
+
 ## Stopping is a first-class outcome
 
 Retry machinery is judged by how it stops. There are exactly five legitimate

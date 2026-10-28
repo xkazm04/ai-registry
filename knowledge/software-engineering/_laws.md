@@ -1,6 +1,6 @@
 # Cross-cutting laws
 
-Fifteen convergences, nine measured ≥3 independent times during the 2026 composition
+Sixteen convergences, nine measured ≥3 independent times during the 2026 composition
 campaign and reclassified by `knowledge-hierarchy-plan.md` (`docs/concepts/knowledge-hierarchy-plan.md`)
 §2 from Golden-Path candidates to **laws that Techniques cite**; the tenth through
 twelfth each earned their place from four sightings in the external-reconcile lane
@@ -11,7 +11,10 @@ from another — librarian source notes 2026-08-25); the fourteenth and fifteent
 from the 2026-09-02 forge wave over a secrets-management server's design record,
 where five and three subject-workers respectively, dispatched to disjoint
 territories, each proposed the same rule with its own sites (handoff
-`librarian/handoffs/2026-09-02-openbao.md`). They are not subjects —
+`librarian/handoffs/2026-09-02-openbao.md`); the sixteenth from the 2026-10-27 harvest of
+an agentic DevSecOps control plane, where two scouts working disjoint territories (its
+proof engine and write plane; its server and data layer) each proposed the same rule
+with their own twelve sites between them. They are not subjects —
 no folder, no techniques of their own. Cite them from a Technique's `laws:` frontmatter
 by anchor id. The doctrine's transferable sections migrate here in the closing pass;
 until then each law carries its one-paragraph statement.
@@ -155,3 +158,18 @@ written — a formula in a comment beside a constant that no longer tracks its i
 the failure in its most convincing disguise. Cousin of count-carries-predicate: that
 law binds a number to what it counts; this one binds a bound to what it is derived
 from.
+
+## <a id="claimant-does-not-adjudicate"></a> claimant-does-not-adjudicate
+
+A party's statement about its own work never decides the verdict on that work, and the
+party being judged supplies no input the verdict reads. The figure an agent claims for its
+speed-up is displayed and never reaches the judge, which re-derives the result from raw
+samples; a merge request that edits its own pipeline configuration chose the jobs that made
+its evidence and so earns no proof; pipeline variables are refused because they outrank the
+evidence job's own; the action class to demote is read from the gate's own record, not from a
+trailer the agent can edit; a verdict is read from trusted accounts' notes, never from a
+description any contributor can rewrite; a probe result handed back by a client counts only
+when the server sealed it. The naive reading — "the claim is just metadata, the check is what
+matters" — fails where the claim leaks into the check's inputs: a tolerance, a scope, a job
+list, a class name. Sibling of verdict-survives-boundary: that law keeps a verdict intact as it
+crosses a boundary; this one keeps the judged party from shaping it before it is made.

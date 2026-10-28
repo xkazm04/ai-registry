@@ -12,6 +12,7 @@ techniques:
   - assumptions-are-build-errors
   - verifier-footprint-stays-contained
   - census-counts-unmarked-members
+  - verdict-pins-its-checker
 ---
 
 # Trust base
@@ -105,7 +106,7 @@ should become a fact the build refuses to proceed without. Removing is
 (shrink the claim to the irreducible field before justifying it),
 [assumptions-are-build-errors](./techniques/assumptions-are-build-errors.md), and
 [verifier-footprint-stays-contained](./techniques/verifier-footprint-stays-contained.md),
-which holds the perimeter of the tooling itself down. Three of the seven
+which holds the perimeter of the tooling itself down. Three of the eight
 techniques are removals, and they come first in any audit because a deleted
 member costs nothing to keep correct.
 
@@ -171,6 +172,19 @@ thirty. [census-counts-unmarked-members](./techniques/census-counts-unmarked-mem
 adds them to the count with the revision's own migration lint, or the checker's
 type-aware lint, and names the members that lint does not visit.
 
+## The checker is a member too
+
+Every member above sits inside the checker's input. One sits outside it and is counted least
+often: the checker itself. A verdict is true modulo the checker that produced it, and a stored
+verdict that does not say which checker that was cannot be re-examined when the checker is found
+wrong, nor refused by a gate that trusts one build and not another. The discipline is that every
+verdict carries a content hash of the code that actually ran — the checker's import closure,
+wherever in the repository it reaches, and nothing that merely sits beside it — and that the
+pinner refuses an import it cannot follow, because a skipped edge is a pin that silently shrinks.
+The gate that acts on verdicts compares the pin, and the record keeps it with each verdict. The
+closure, the refusals and the comparison are
+[verdict-pins-its-checker](./techniques/verdict-pins-its-checker.md).
+
 ## What the golden path does not claim
 
 It does not say a trust base is bad. A kernel of reviewed, tested, documented
@@ -212,3 +226,7 @@ what it asserts, and give it a witness the checker is not.
   the first thread, or replace the global) comes before documentation; where the
   unchecked type is a value, the type-aware lint counts its flow and annotated
   callbacks are counted beside it.
+- [verdict-pins-its-checker](./techniques/verdict-pins-its-checker.md)
+  — a verdict carries a hash of its checker's import closure; an alias, an
+  unresolvable path or a computed dynamic import is a refusal to pin, never a
+  smaller pin; the acting gate compares it.

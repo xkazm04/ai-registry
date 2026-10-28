@@ -10,6 +10,9 @@ techniques:
   - timestamp-display
   - untrusted-label-rendering
   - vocabulary-evolution-checklist
+  - claim-rests-on-its-source
+  - reserved-attention-hue
+  - epistemic-marks
   - token-label-separation@i18n
 ---
 
@@ -96,6 +99,34 @@ you cannot vouch for; rendering it green and rendering its raw spelling
 are the same lie told two ways. All of this is
 [status-color-mapping](./techniques/status-color-mapping.md).
 
+Two colour decisions sit above the table because they are about the whole
+vocabulary's shape, not one member's entry. One loud hue is **reserved** for
+"waits for a person" and nothing else in the product — not warning, not stale,
+not a near shade of either — and a row leaves it the moment the person has
+staged, sent or decided:
+[reserved-attention-hue](./techniques/reserved-attention-hue.md). And the
+question *how do we know* — seeded, simulated, unknown, stale — is answered by
+its own small family of dashed and hatched marks, separate from the status
+tones, so an unknown never reads as neutral and a planted fault never reads as
+a real one: [epistemic-marks](./techniques/epistemic-marks.md).
+
+## A member says only what its source can know
+
+The vocabulary's words are claims in the product's voice, so each member is
+named by **what it rests on**. When a chip's truth depends on a second source
+the product may not have read, the vocabulary carries a member for each outcome
+of that read — confirmed, *not asked yet*, overtaken — and every member's
+tooltip states its basis. Where the status is a verdict over evidence, the word
+on screen is derived from the evidence, and a stored verdict word is only
+compared with it, never displayed in its place, because the party that wrote
+the record does not decide what the screen says
+([claimant-does-not-adjudicate](../../../_laws.md#claimant-does-not-adjudicate)).
+That is [claim-rests-on-its-source](./techniques/claim-rests-on-its-source.md).
+The seam with [entity-lifecycle](../../../operations/governance-and-records/entity-lifecycle/entity-lifecycle.md)
+is the same as for every member: which state may follow which is the
+lifecycle's; which word a reader may be shown, given what was read, is this
+subject's.
+
 ## Numbers have one renderer
 
 A number a person reads is not the number — it is a rendering in a
@@ -169,6 +200,15 @@ retiring a member — is itself the technique:
   never becomes vocabulary.
 - [vocabulary-evolution-checklist](./techniques/vocabulary-evolution-checklist.md) —
   adding, renaming, and retiring members as four-layer transactions.
+- [claim-rests-on-its-source](./techniques/claim-rests-on-its-source.md) —
+  members named by their basis, "not asked yet" as a member, the basis in the
+  tooltip, verdicts derived and stored words only compared.
+- [reserved-attention-hue](./techniques/reserved-attention-hue.md) — one loud
+  colour for "waits for a person", reserved as a band of hue, leaving a row
+  once it is staged, sent or decided.
+- [epistemic-marks](./techniques/epistemic-marks.md) — seeded, simulated,
+  unknown and stale as their own dashed and hatched family, attached to the
+  value, separate from status tones.
 - [token-label-separation](../../../client-architecture/i18n/techniques/token-label-separation.md)
   *(shared, owned by [i18n](../../../client-architecture/i18n/i18n.md))* — tokens are identity,
   labels are presentation; the mapping layer between them; the

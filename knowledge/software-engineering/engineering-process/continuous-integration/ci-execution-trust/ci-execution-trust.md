@@ -10,6 +10,9 @@ techniques:
   - injected-code-scope-ladder
   - untrusted-contribution-lanes
   - measure-apply-split
+  - per-call-write-token-handout
+  - self-edited-ci-forfeits-evidence
+  - evidence-pipeline-provenance
   - secret-materialization-discipline
 ---
 
@@ -147,6 +150,48 @@ application to the measured revision, and telling a missing artifact apart
 from a failed measurement are
 [measure-apply-split](./techniques/measure-apply-split.md).
 
+When the change can edit the pipeline the two jobs belong to, the split
+is not yet a boundary: the change can add a step to the applying job, or a
+job beside it, and read whatever token that pipeline holds. The split then
+has to cross a project. One separate writer project holds every write
+token and makes every write, runs only its own reviewed definition, and
+reads targets as data; no target pipeline carries a write token at all.
+Inside the writer the same reasoning applies one level down — each child
+call is handed only the token it writes with, and a call whose named token
+is missing refuses rather than falling back to another. The writer
+project, its hardening, and the per-call handout are
+[per-call-write-token-handout](./techniques/per-call-write-token-handout.md).
+
+## A result is evidence only if the change did not choose it
+
+Everything above keeps a change from reaching a credential. A different
+question arises the moment a pipeline result is allowed to merge or prove a
+change without a person reading it: could the change have shaped the
+result? Per [claimant-does-not-adjudicate](../../../_laws.md#claimant-does-not-adjudicate),
+the party being judged supplies no input the verdict reads, and a pipeline
+offers two such inputs that review does not see.
+
+The first is the definition. A change that edits the pipeline's
+configuration — the root definition, the platform-adjacent directory, or
+any file the definition includes locally, followed transitively as the
+head has them — chose which jobs made its evidence. It earns no proof
+mark, no automatic approval and no automatic merge; it waits for a person,
+with the reason. The walk fails closed: a file that does not parse, an
+include that cannot be read or resolved, a wildcard, a variable in a path
+all count as touching. The surface, the fail-closed cases and what the
+forfeit does not certify are
+[self-edited-ci-forfeits-evidence](./techniques/self-edited-ci-forfeits-evidence.md).
+
+The second is the run itself. Anyone who can push a branch can usually
+start another run of the same revision by hand, by API, by trigger or by
+schedule, and most of those doors accept run-level variables, which outrank
+the definition's own. Only the run the change's ordinary event produced,
+at exactly the head being judged, finished, with no run-level variables,
+counts — and the gate reads the newest such run rather than searching for
+a green one. The four predicates, and why the platform restriction and
+the reader's refusal are both needed, are
+[evidence-pipeline-provenance](./techniques/evidence-pipeline-provenance.md).
+
 ## A secret exists for as short a time, in as few places, as the work allows
 
 The last technique is the one that pays at every scale including the smallest, because the
@@ -173,9 +218,26 @@ been in a repository variable for two years.
    before that.
 3. **The measure/apply split.** Bought the first time a check wants to write something back —
    one extra job, and far cheaper to build that way than to unpick later.
-4. **The injected-code ladder.** An audit and a preference, not a system to build.
-5. **The boundary map.** An afternoon with a diagram; the prerequisite for the next item.
-6. **Job-instruction signing.** Real infrastructure, real key management, real ongoing cost.
+4. **The writer project and its per-call handout.** Bought the day an automated author or an
+   outside contributor can push a definition into a pipeline that would hold a write token.
+5. **The self-edit forfeit and the run predicates.** Bought the day a pipeline result may merge
+   or prove a change without a person; both are a reader's checks, not infrastructure.
+6. **The injected-code ladder.** An audit and a preference, not a system to build.
+7. **The boundary map.** An afternoon with a diagram; the prerequisite for the next item.
+8. **Job-instruction signing.** Real infrastructure, real key management, real ongoing cost.
+
+## What this subject does not own
+
+The standing that decides which agent actions may merge without a person — the ladder of
+autonomy, how it is earned on a record and lost to a tripwire — is
+[earned-autonomy-tiers](../earned-autonomy-tiers/earned-autonomy-tiers.md). This subject owns
+the execution path that produces the evidence such a standing reads: who holds the write tokens,
+which runs count, and when a change has shaped its own result. The two meet at one rule, stated
+here and consumed there: a change that edited its own pipeline, or a run started with variables,
+contributes no evidence, whatever standing its author holds. The rule a reader uses to pick: if
+the question is whether a pipeline's output can be believed or what it can reach, it is here;
+if it is how much an author's accumulated, believed results should let it do unattended, it is
+there.
 
 ## The techniques
 
@@ -191,5 +253,13 @@ been in a repository variable for two years.
   producer and the write-scoped applier, the inert artifact between them,
   the allowlist on what may be committed, and binding the application to
   the revision that was measured.
+- [per-call-write-token-handout](./techniques/per-call-write-token-handout.md) — one writer
+  project holds every write token, no target pipeline carries one, and each child call is
+  handed only the token it writes with.
+- [self-edited-ci-forfeits-evidence](./techniques/self-edited-ci-forfeits-evidence.md) — a
+  change that edits its pipeline's configuration, followed through its local includes, earns no
+  proof and no automatic merge; the walk fails closed.
+- [evidence-pipeline-provenance](./techniques/evidence-pipeline-provenance.md) — only the
+  change's own finished run at the exact head, with no run-level variables, counts as evidence.
 - [secret-materialization-discipline](./techniques/secret-materialization-discipline.md) — late
   fetch, narrow scope, nothing durable, expiry at issue, detection at the boundary.

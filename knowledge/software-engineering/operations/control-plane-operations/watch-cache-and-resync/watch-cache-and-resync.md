@@ -9,6 +9,10 @@ techniques:
   - completeness-barrier-with-a-warm-queue
   - one-stream-fanned-out
   - initial-read-strategy-behind-a-gate
+  - read-phase-before-write-transaction
+  - per-source-freshness-rows
+  - finality-keyed-memo
+  - per-cycle-read-budget
 ---
 
 # Watch caches and resynchronisation
@@ -247,6 +251,45 @@ the slice most likely to desync, which is the opposite of what anyone expects.
 See
 [initial-read-strategy-behind-a-gate](./techniques/initial-read-strategy-behind-a-gate.md).
 
+## When the source has no stream: the polled replica
+
+Many hosted platforms a product integrates with publish no change stream at
+all — only list and detail reads, a rate limit, and perhaps a modification
+stamp on each item. The discriminator above says such a source cannot feed a
+stream-maintained replica, and it cannot. It does not forbid the degenerate
+replica that remains: one in which **every cycle is the full re-read**. A
+polled replica needs no cursor, no desync state and no warm queue, because it
+never trusts a delta; it pays instead in staleness bounded by the interval and
+in read volume proportional to the slice, and four techniques govern those two
+costs. The cycle reads everything a unit of consistency needs and only then
+writes it in one transaction, so a failed read writes nothing and the unit
+keeps its last good rows — the polled form of the atomic swap
+([read-phase-before-write-transaction](./techniques/read-phase-before-write-transaction.md)).
+Each source carries its own freshness row, the last good time and the last
+error, and a source that leaves the watched scope is marked stale, never
+deleted ([per-source-freshness-rows](./techniques/per-source-freshness-rows.md)).
+Detail reads are memoised by the condition under which they cannot change —
+a diff by its commit hash forever, a run's status only once it is final
+([finality-keyed-memo](./techniques/finality-keyed-memo.md)) — and what the
+memo cannot absorb is capped per unit per cycle, the rest left unknown with
+an issue for the next cycle
+([per-cycle-read-budget](./techniques/per-cycle-read-budget.md)).
+
+Two neighbours hold the edges of this ground.
+[CI/CD monitoring](../../../integration/external-systems/cicd-monitoring/cicd-monitoring.md)
+owns *whether the next poll should happen at all* — liveness-scoped polling
+stops detail reads of a finished run and suspends a loop nobody is watching —
+and this subject owns *what the replica keeps* from the polls that do run;
+when the question is the cadence or the stop condition, read there, and when
+it is what a failed or deferred read leaves in the store, read here.
+[Sync, replication & conflict resolution](../../../backend-platform/data-layer/sync-replication/sync-replication.md)
+owns the incremental pull with a durable cursor
+([change-tracking-and-cursors](../../../backend-platform/data-layer/sync-replication/techniques/change-tracking-and-cursors.md)),
+which is the right design as soon as the source offers a trustworthy
+modification order and the copy must outlive the process; the polled replica
+here re-derives its slice each cycle and treats its store as a disposable
+read model, even when that store happens to persist across restarts.
+
 ## What the replica owes the operator
 
 A replica is infrastructure, and its health claims are observability claims.
@@ -286,3 +329,15 @@ under pressure.
 - [initial-read-strategy-behind-a-gate](./techniques/initial-read-strategy-behind-a-gate.md)
   — two initial-read protocols kept side by side, the capability gate, the
   consistency knob, and progress markers on a quiet stream.
+- [read-phase-before-write-transaction](./techniques/read-phase-before-write-transaction.md)
+  — reads first, one transaction of writes per unit, and a failed read that
+  writes nothing.
+- [per-source-freshness-rows](./techniques/per-source-freshness-rows.md) —
+  last good time and last error per source, age at read time, and stale,
+  never deleted.
+- [finality-keyed-memo](./techniques/finality-keyed-memo.md) — memoising by
+  content address or by final state, unknown as non-final, and a reaper per
+  key kind.
+- [per-cycle-read-budget](./techniques/per-cycle-read-budget.md) — a derived
+  cap on detail reads per unit per cycle, deferred reads as unknown, and
+  rotation so re-reads cannot starve new items.
