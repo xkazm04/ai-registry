@@ -11,6 +11,9 @@ techniques:
   - startup-sweeps
   - job-progress-and-cancellation
   - timeout-is-a-status-not-a-consumption
+  - first-tick-gates-readiness
+  - failed-start-kept-and-retried-at-cadence
+  - problem-set-change-logging
 ---
 
 # Background jobs & supervised loops
@@ -154,12 +157,36 @@ in the record from live runs — is this subject's
 this phase doesn't avoid the missed work; it converts it into a slow drip of
 anomalies with no common explanation.
 
+Startup has a second question when a loop *creates* the state that readers
+use — a poller filling the only index the pages read. Then the first tick is
+part of the start: it runs before the runtime is published as ready, and its
+throw fails the start rather than being captured and survived, because a
+runtime that started on a configuration it could not complete one cycle with
+serves an empty store as if it were the real one. Every later tick falls
+under ordinary isolation and leaves the last good state readable
+([first-tick-gates-readiness](./techniques/first-tick-gates-readiness.md)).
+The failed start is then a record, not an exit: its cause and time are kept
+until a start succeeds, the handlers name it in every refusal, and the start
+is retried no oftener than the loop's own cadence
+([failed-start-kept-and-retried-at-cadence](./techniques/failed-start-kept-and-retried-at-cadence.md)).
+The neighbouring replica discipline, [completeness-barrier-with-a-warm-queue](../../../operations/control-plane-operations/watch-cache-and-resync/techniques/completeness-barrier-with-a-warm-queue.md),
+is the same one-shot gate seen from the replica's side; the rule for picking
+is that the replica subject owns the barrier a stream-fed cache publishes to
+its dependents, and this subject owns the start contract of the runtime that
+hosts the loop — what the process does when tick one cannot complete.
+
 **Steady state.** Loops tick on their cadences; the health surface stays
 current; jobs come and go under their own contract. The steady state's design
 questions are cadence (how often to wake, and whether "how often" should
 depend on whether anything is happening —
 [adaptive-cadence](./techniques/adaptive-cadence.md)) and isolation (what one
-bad tick is allowed to cost — [tick-isolation](./techniques/tick-isolation.md)).
+bad tick is allowed to cost — [tick-isolation](./techniques/tick-isolation.md)). What
+the steady state *says* is a design question too: a tick that survives its
+problems reports them every time in its snapshot, but the log hears only
+when the set of problems changes — one line naming what is new and what
+cleared — so a standing fault is named when it starts and when it ends, not
+three thousand times a day
+([problem-set-change-logging](./techniques/problem-set-change-logging.md)).
 
 **Shutdown.** Graceful shutdown is a designed path, not an interruption. The
 sequence is fixed: stop admitting new ticks, signal cancellation to everything
@@ -217,3 +244,12 @@ These hold across every technique, and reviews should check them directly:
   — a bounded wait that gives up leaves the operation pending and collectable:
   literal poll and forever, a last readiness check at the deadline, one shared
   budget across operations, and a stated barrier scope.
+- [first-tick-gates-readiness](./techniques/first-tick-gates-readiness.md)
+  — the first tick inside the start, a synchronous readiness read, three
+  named not-ready states, and later failures that leave the last good state.
+- [failed-start-kept-and-retried-at-cadence](./techniques/failed-start-kept-and-retried-at-cadence.md)
+  — the start-state machine, the kept failure, a retry no faster than the
+  loop's cadence, and settling in-flight starts between tests.
+- [problem-set-change-logging](./techniques/problem-set-change-logging.md)
+  — logging the change in a tick's problem set, with stable problem
+  identities and a standing count.

@@ -13,6 +13,7 @@ techniques:
   - payoff-removal
   - session-capability-conjunction
   - inspection-coverage-is-a-verdict
+  - trusted-author-verdict-channel
 ---
 
 # Input sanitization & prompt safety
@@ -163,6 +164,18 @@ before they are written, and uniformly: sanitize every field of the payload,
 including the ones whose character set is already constrained by the system
 they came from, because a rule with an exception list is a rule maintained
 against a moving inventory of which fields are "safe".
+
+The sink turns back on itself when a model's output is a **verdict another
+program reads back** from a shared surface: a reviewer agent's note in a
+thread the reviewed change's author, other people and other agents also write
+in. The verdict is then one more span on a surface full of attacker text, and
+content cannot tell it apart. Authorship can. The consumer reads verdicts only
+from the accounts the platform says the reviewer posts as, never from a field
+anyone can edit. It binds each verdict to the revision it judged, and it
+refuses a note that carries two. The reviewer's run ends in one token from a
+closed set, so control flow never reads free text. That is the
+[trusted-author-verdict-channel](./techniques/trusted-author-verdict-channel.md)
+technique, and its law is that the claimant does not adjudicate.
 
 ## Remove the payoff, not only the authority
 
@@ -328,3 +341,9 @@ technique.
   forwarded, the sender chooses how often the blind spot is hit, and the residue resolves by
   class — refuse, confine or escalate where the verdict gates, recorded not-inspected where
   it cannot.
+- [trusted-author-verdict-channel](./techniques/trusted-author-verdict-channel.md) —
+  a model's verdict read back from a shared surface: authenticated by the
+  platform's author field, never an editable description, bound to the
+  revision it judged, one block per note or none, a closed-token final answer,
+  and quotes a model-free check verifies against the predicate the prompt
+  states.

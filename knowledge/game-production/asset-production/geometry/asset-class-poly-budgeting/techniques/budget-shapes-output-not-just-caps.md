@@ -88,3 +88,30 @@ commission the same subject at several budgets.
 - **When the process is deterministic authoring by a human or a script.** A modeller
   handed a generous budget does not invent a second head. The shaping effect is a
   property of generative processes that optimise toward a stated size.
+
+## The inverse signal: an unspent budget on scripted geometry
+
+For deterministic authoring the budget stops being an instruction, but it does not stop
+carrying information. Read in reverse, it says something specific. A generator spends what
+it is given. A script spends only what its author wrote, and the passes an author forgets
+are the ones that cost triangles: edge bevels, smooth curvature on lathed parts, the
+secondary parts that make an object read as manufactured (boards proud of a page block, a
+rolled lip, a foot ring). So **a scripted prop that comes in far under its budget is more
+likely missing its finishing pass than being efficiently made**.
+
+Measured on a scripted studio kit judged against a concept image: six props shipped at 4 to
+15 percent of their per-asset budgets, with no bevel anywhere in the scripts and flat
+shading on every lathe. Under the destination's own lighting they read as blocks from an
+older generation of games, while passing every structural gate. Rebuilt with an
+angle-limited bevel, weighted normals, smooth lathes and secondary parts, the same kit
+landed at 30 to 79 percent of the same budgets. The reviewing owner judged the rebuilt prop
+the better one. The budgets did not change; only how much of them the script spent.
+
+- **When a scripted asset lands under about a fifth of its budget**, check for a finishing
+  pass before calling it efficient: count bevelled convex edges, check smooth shading on
+  curved parts, and look at it under the scene's real light.
+- **Spend the surplus on the silhouette first.** Edge bevels and curvature change every
+  highlight the object catches. Interior detail the camera never resolves changes
+  nothing.
+- **The ceiling still binds.** This reads the budget as a floor-shaped signal for one
+  authoring mode. It is never permission to fill the budget for its own sake.

@@ -11,6 +11,7 @@ techniques:
   - stage-declared-grading
   - unmeasured-is-not-pass
   - face-rig-shell-readiness
+  - posed-see-through-render
 ---
 
 # Generated mesh acceptance
@@ -112,6 +113,12 @@ probe means "no welded interior found", never "nothing is hidden". Occlusion bet
 shells requires visibility testing — casting rays or rendering — and any gate that
 concludes "no hidden geometry" from an adjacency operator is asserting something it did
 not measure.
+
+The mirror image is the same shell structure seen from outside: separate sheets that touch at
+rest part when the rig bends them, and a viewer looks into the inside of the plate behind.
+That too is only measurable by rendering, at rest and across the poses the actions reach,
+against a closed copy of the same mesh so that deformation folds are not counted as holes.
+See [posed-see-through-render](./techniques/posed-see-through-render.md).
 
 ## Every verdict declares which stage it graded
 

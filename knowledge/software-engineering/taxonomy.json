@@ -33,7 +33,8 @@
             "undo-history",
             "wizard-flows",
             "schema-driven-ui",
-            "batch-undo-commit-window"
+            "batch-undo-commit-window",
+            "keyboard-shortcuts"
           ]
         },
         {
@@ -45,7 +46,8 @@
             "session-resume",
             "guided-tours",
             "chat-transcript",
-            "media-playback"
+            "media-playback",
+            "kept-alive-screen-host"
           ]
         },
         {
@@ -153,7 +155,9 @@
             "cost-metering",
             "tracing",
             "time-travel-replay",
-            "model-call-outcome-integrity"
+            "model-call-outcome-integrity",
+            "proof-carrying-agent-actions",
+            "probe-confirmed-model-proposals"
           ]
         },
         {
@@ -409,7 +413,8 @@
           "subjects": [
             "connector-catalog",
             "cicd-monitoring",
-            "templates-scaffolding"
+            "templates-scaffolding",
+            "digest-bound-operator-writes"
           ]
         },
         {
@@ -477,7 +482,8 @@
             "ci-execution-trust",
             "runner-fleet",
             "machine-paced-delivery",
-            "deployment-contract"
+            "deployment-contract",
+            "earned-autonomy-tiers"
           ]
         }
       ]
@@ -496,7 +502,8 @@
             "metric-forecasting",
             "people-analytics-ethics",
             "peer-benchmarking",
-            "modelled-performance-estimates"
+            "modelled-performance-estimates",
+            "claimed-improvement-remeasurement"
           ]
         },
         {

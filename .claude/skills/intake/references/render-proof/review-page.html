@@ -1,0 +1,87 @@
+<!doctype html>
+<!--
+  intake review page (SKILL.md Phase 6b, v2.18). Copy to <scratch>/<run-id>/report/index.html,
+  copy every shown output into report/m/, and fill one <section> per worked example.
+  Static, local, relative paths, no network. Never committed; deleted with the run's scratch.
+  Every number on the page must already be in the source note.
+  Verdict chips: pass = better / rule holds, fail = not-better, warn = evidence / escalated / unmeasurable.
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Intake Render Review</title>
+<style>
+  :root { --bg:#f6f5f2; --card:#fff; --ink:#1d1d1b; --mute:#6b6a66; --line:#e2e0da; --pass:#1f7a3f; --fail:#b3261e; --warn:#9a6700; }
+  @media (prefers-color-scheme: dark) { :root { --bg:#161615; --card:#21211f; --ink:#ecebe7; --mute:#a3a29d; --line:#363532; --pass:#5cc584; --fail:#f2857c; --warn:#e0b450; } }
+  * { box-sizing:border-box; }
+  body { margin:0; background:var(--bg); color:var(--ink); font:15px/1.55 system-ui, -apple-system, "Segoe UI", sans-serif; }
+  main { max-width:1100px; margin:0 auto; padding:24px 16px 64px; }
+  h1 { font-size:24px; margin:0 0 4px; }
+  h2 { font-size:19px; margin:40px 0 8px; padding-top:16px; border-top:1px solid var(--line); }
+  h3 { font-size:15px; margin:20px 0 6px; }
+  p, li { max-width:75ch; }
+  .meta { color:var(--mute); font-size:13px; }
+  .card { background:var(--card); border:1px solid var(--line); border-radius:10px; padding:14px 16px; margin:12px 0; }
+  .plan { display:grid; grid-template-columns:110px 1fr; gap:4px 12px; font-size:14px; }
+  .plan b { color:var(--mute); font-weight:600; }
+  .verdict { display:inline-block; font-weight:700; font-size:12px; letter-spacing:.04em; text-transform:uppercase; padding:2px 8px; border-radius:99px; border:1px solid currentColor; }
+  .pass { color:var(--pass); } .fail { color:var(--fail); } .warn { color:var(--warn); }
+  .grid { display:grid; gap:10px; grid-template-columns:repeat(auto-fill, minmax(180px, 1fr)); }
+  .grid.wide { grid-template-columns:repeat(auto-fill, minmax(320px, 1fr)); }
+  figure { margin:0; background:var(--card); border:1px solid var(--line); border-radius:8px; overflow:hidden; }
+  figure img, figure video { display:block; width:100%; height:auto; background:#c9c7c1; }
+  figcaption { padding:6px 10px; font-size:13px; color:var(--mute); }
+  figcaption strong { color:var(--ink); }
+  table { border-collapse:collapse; width:100%; font-size:13.5px; margin:8px 0; }
+  th, td { text-align:left; padding:6px 8px; border-bottom:1px solid var(--line); }
+  th { color:var(--mute); font-weight:600; }
+  .scroll { overflow-x:auto; }
+  code { font-size:13px; }
+  .check { margin:6px 0; padding-left:0; list-style:none; }
+  .check li::before { content:"☐  "; color:var(--mute); }
+</style>
+</head>
+<body>
+<main>
+<h1>Intake render review: “SOURCE TITLE”</h1>
+<p class="meta">Run <code>RUN-ID</code> · DATE · MACHINE (local stack used) · registry commits · project commits · pushed or not</p>
+
+<div class="card">
+  <p><strong>Why this page exists.</strong> One sentence on what the run tried to learn from the source, and that everything shown is deleted by run id once you sign off.</p>
+  <ul class="check">
+    <li>Example 1: what to check, in one line</li>
+  </ul>
+</div>
+
+<section>
+<h2>1 · EXAMPLE NAME <span class="verdict pass">better · landed</span></h2>
+<div class="card plan">
+  <b>Source claim</b><span>What the source said.</span>
+  <b>Plan</b><span>What was rendered, on which local model, with which one variable.</span>
+  <b>Target</b><span>Expected result, with the Phase 7.5 target where one was declared.</span>
+  <b>Floor</b><span>The control that must hold, and whether it did.</span>
+  <b>Got</b><span>What actually came out, in one or two sentences.</span>
+</div>
+<h3>Controls</h3>
+<div class="grid">
+  <figure><img src="m/CONTROL.png" alt=""><figcaption><strong>control</strong> measured number</figcaption></figure>
+</div>
+<h3>Treatment</h3>
+<div class="grid wide">
+  <figure><video src="m/CLIP.mp4" controls loop muted playsinline></video><figcaption><strong>seed N</strong> measured number</figcaption></figure>
+</div>
+<div class="card scroll"><table>
+  <tr><th>Arm</th><th>Seed</th><th>Metric</th><th>Reading</th></tr>
+  <tr><td>A</td><td>-</td><td>-</td><td>-</td></tr>
+</table></div>
+</section>
+
+<h2>Decisions for you</h2>
+<ul>
+  <li><strong>Escalation / pick:</strong> the question, and where its evidence is above.</li>
+  <li><strong>Cleanup:</strong> on sign-off, delete <code>&lt;scratch&gt;/RUN-ID/</code>, <code>ComfyUI/output/RUN-ID/</code> and the staged inputs.</li>
+</ul>
+</main>
+</body>
+</html>

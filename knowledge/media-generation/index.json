@@ -5,7 +5,7 @@
   "source": "knowledge/media-generation/ (frontmatter only)",
   "subjects": 37,
   "techniques": 255,
-  "applications": 162,
+  "applications": 163,
   "laws": 9,
   "categories": [
    "narrative-craft",
@@ -130,9 +130,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/media-generation/visual-generation/animatable-character-design/animatable-character-design.md",
-   "digest": "sha256-b2:349109881c8614f6",
-   "revision": 3,
-   "changedAt": "2026-10-21",
+   "digest": "sha256-b2:bddd0807e2d2d9c4",
+   "revision": 4,
+   "changedAt": "2026-10-25",
    "techniques": [
     {
      "slug": "animatability-trial",
@@ -192,6 +192,12 @@
      "technique": "animatability-trial",
      "file": "knowledge/media-generation/visual-generation/animatable-character-design/applications/process--animatability-trial.md",
      "verified_on": "2026-10-18"
+    },
+    {
+     "stack": "process",
+     "technique": "default-attractor-rejection",
+     "file": "knowledge/media-generation/visual-generation/animatable-character-design/applications/process--default-attractor-rejection.md",
+     "verified_on": "2026-10-25"
     },
     {
      "stack": "process",

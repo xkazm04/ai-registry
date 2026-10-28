@@ -3,13 +3,14 @@ layer: golden-path
 type: golden-path
 subject: readiness-passports
 status: forged
-use_when: [comparing many projects at a glance, deciding what may be delegated in a given project, publishing an externally derived readiness fingerprint, recording an owner's accepted trade-offs so re-assessment stops re-litigating them]
+use_when: [comparing many projects at a glance, deciding what may be delegated in a given project, publishing an externally derived readiness fingerprint, recording an owner's accepted trade-offs so re-assessment stops re-litigating them, auditing readiness before a release or submission deadline]
 techniques:
   - two-axis-readiness
   - named-vs-capability-metadata
   - declined-by-choice
   - blocker-rollups
   - fingerprint-provenance
+  - audit-the-live-system-not-the-plan
 ---
 
 # Readiness passports
@@ -233,6 +234,20 @@ reader's interpretation and never becomes a term in either axis. The moment
 criticality raises a rung, the fingerprint is self-declared again through a
 side door.
 
+## Before a crossing, the team is the subject
+
+The external-issuer rule binds hardest when the project is your own and the
+crossing is close. A release review, a certification, a competition
+submission: the team's plan, decisions file and public write-up are its
+statements about its own work, and in the last stretch they drift from the
+system fastest. A readiness verdict assembled from them is a self-issued
+passport. So before the crossing, every published requirement — re-read from
+its authoritative source, not the team's summary — is checked against the
+live system: counts from the system of record, deployed addresses that
+answer, each public claim matched to an artifact that shows it ran; and what
+remains is ranked by the gate it fails, disqualifying gates first. That is
+[audit-the-live-system-not-the-plan](./techniques/audit-the-live-system-not-the-plan.md).
+
 ## Failure modes worth naming
 
 - **The self-issued passport.** The project computes and publishes its own
@@ -288,4 +303,8 @@ side door.
   grouping keys, count discipline, ordering by unlock value, and honest coverage.
 - [fingerprint-provenance](./techniques/fingerprint-provenance.md) — the stamp:
   immutable subject binding, instrument versions, staleness, and migrate-on-read
-  of stored fingerprints.
+    of stored fingerprints.
+- [audit-the-live-system-not-the-plan](./techniques/audit-the-live-system-not-the-plan.md)
+  — before a release or submission, each published requirement checked
+  against the running system rather than the plan or the docs, remaining work
+  ranked by the gate it fails, and every public claim matched to what ran.

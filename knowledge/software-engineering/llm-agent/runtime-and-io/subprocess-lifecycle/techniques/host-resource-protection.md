@@ -57,6 +57,18 @@ so a misconfigured tiny ceiling cannot drive the inner budget to zero. One
 subtraction at the spawn door buys every timeout a diagnosis instead of a
 corpse.
 
+**The ceiling is the door's default, not the caller's option.** A spawn
+that names no timeout still gets one, and the default is the generous
+ceiling, not infinity. The tools that look too fast to need one are where
+this matters most. A version-control command finishes in milliseconds until it
+runs a hook from the working tree, and a hook is code anyone who can edit the
+tree can make hang. Once a child executes workspace code, its duration is set
+by whoever wrote that code, not by the tool's reputation. The same holds one
+level out: a client the host calls over the network gets its own per-call
+ceiling below the job's, so one hung connection fails as a named timeout
+instead of holding the whole job until an outer platform limit kills it with
+no diagnosis.
+
 ## Admission consults the machine
 
 Slot caps bound *how many* children run; they say nothing about whether

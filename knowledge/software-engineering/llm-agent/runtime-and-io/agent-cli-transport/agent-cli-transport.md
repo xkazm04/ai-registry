@@ -13,6 +13,7 @@ techniques:
   - child-observed-posture
   - host-routed-approval-round-trip
   - thread-custody-across-resume
+  - derived-bash-allowlist
   - spawn-contract@subprocess-lifecycle
   - termination-and-reaping@subprocess-lifecycle
 ---
@@ -91,6 +92,14 @@ path guarantees that one eventually inherits the other's defaults. Stance
 *enforcement* — what backs each mode's promise — is owned by
 [permission-stance-enforcement](./techniques/permission-stance-enforcement.md).
 
+The edit seam has one grant that cannot be written by hand per repository:
+the shell commands an unattended session may run to check its own work. Those
+grants are derived from the project's configured setup and gate commands,
+never a bare launcher on its own word, and carried in a per-call settings file
+rather than the argument vector.
+[derived-bash-allowlist](./techniques/derived-bash-allowlist.md) owns the
+derivation and states what a prefix grant does not close.
+
 **Capability answers are dated data, never baked constants.** Which output
 formats a tool supports, whether it can constrain output to a schema,
 whether its read-only mode is policy or an operating-system sandbox, which
@@ -122,7 +131,12 @@ answer rather than like a deadline. "Does this tool impose its own run
 ceiling, and what is its default?" is therefore a
 [dated-capability-matrix](./techniques/dated-capability-matrix.md) row, and
 where a tool has one the adapter sets it explicitly to a value it chose,
-rather than inheriting a default it never saw.
+rather than inheriting a default it never saw. The same holds for an
+iteration cap the adapter means to set. A hosted agent runtime can refuse a
+loop-bound field its own documentation lists, and then the step's wall clock is
+the only bound left. Where the platform validates the definition on
+registration, that validation is the dated observation, and the documentation
+is not.
 
 The run ceiling is not the only clock inside the child. A client in this
 class can also cap each model request, and can abandon any streaming
@@ -215,6 +229,10 @@ honesty.
   on gone or poisoned, and rebuild the retry from the host's own copy of
   the plan and last turn, because a fresh thread re-derives the work but
   not the host's plan.
+- [derived-bash-allowlist](./techniques/derived-bash-allowlist.md) — the
+  edit seam's shell grants derived from the configured setup and gate
+  commands: control-operator splits, plain-word prefixes, no bare launcher,
+  deny beats allow, rules carried in a per-call file.
 - Borrowed:
   [spawn-contract](../subprocess-lifecycle/techniques/spawn-contract.md) and
   [termination-and-reaping](../subprocess-lifecycle/techniques/termination-and-reaping.md)

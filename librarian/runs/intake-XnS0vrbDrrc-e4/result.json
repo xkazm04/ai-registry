@@ -1,0 +1,55 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "intake-XnS0vrbDrrc-e4",
+  "skill": "intake",
+  "skill_version": "2.18.0",
+  "mode": "source",
+  "domain": "game-production",
+  "started_at": "2026-10-25T09:00:00Z",
+  "ended_at": "2026-10-25T13:00:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 1,
+    "landed": 1,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "game-production/generated-video-motion-extraction",
+      "at": "2026-10-25",
+      "engine": "intake",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "generated-video-motion-extraction",
+      "technique": "motion-source-route-by-action-class",
+      "verdict": "better",
+      "mode": "experiment"
+    }
+  ],
+  "files": [
+    "knowledge/game-production/asset-production/motion-and-audio/generated-video-motion-extraction/generated-video-motion-extraction.md",
+    "knowledge/game-production/asset-production/motion-and-audio/generated-video-motion-extraction/techniques/contact-window-travels-with-the-clip.md",
+    "knowledge/game-production/asset-production/motion-and-audio/generated-video-motion-extraction/techniques/effect-free-motion-source.md",
+    "knowledge/game-production/asset-production/motion-and-audio/generated-video-motion-extraction/techniques/motion-source-route-by-action-class.md",
+    "knowledge/game-production/asset-production/motion-and-audio/generated-video-motion-extraction/techniques/own-rig-synthetic-keypoint-training.md",
+    "knowledge/game-production/asset-production/motion-and-audio/generated-video-motion-extraction/techniques/panel-sync-gate.md",
+    "knowledge/game-production/asset-production/motion-and-audio/generated-video-motion-extraction/techniques/twist-from-extra-points-and-joint-limits.md",
+    "knowledge/game-production/asset-production/motion-and-audio/generated-video-motion-extraction/techniques/two-view-reference-composition.md",
+    "knowledge/game-production/asset-production/motion-and-audio/generated-video-motion-extraction/applications/process--motion-source-route-by-action-class.md",
+    "knowledge/game-production/taxonomy.json",
+    "librarian/specs/2026-10-25-generated-video-motion-extraction.md",
+    "librarian/sources/2026-10-24-dark-souls-boss-ai.md"
+  ],
+  "commits": [],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "E4 escalation approved and forged: new subject, 7 techniques, 1 application with an experiment A/B (two-view triangulation of the pof warrior observes ~1.0 m camera-axis depth a single view cannot). One forge worker. Not shipped to pof: no two-view route there."
+}

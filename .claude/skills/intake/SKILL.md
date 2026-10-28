@@ -3,7 +3,7 @@ name: intake
 description: "Mine an external source - a YouTube video, a news roundup, an article, pasted notes, a repository - for what it should change in THIS registry, and in the connected projects that consume it. Ingests the source, reads its design decisions as well as its claims, maps both against existing bundles for prior art, triages with the operator, and lands what survives corroboration - amendments for boundary cases, techniques and subjects for mechanisms, forge handoffs for systems whose architecture the corpus lacks. News sources mostly yield currency signals and leads; that is a successful run. Use when someone shares a link and asks what it means for us."
 category: ai-native
 memory: project
-version: 2.17.1
+version: 2.18.0
 tags: research, sources, memory-lane, admission-gate, render-proof, triage, currency, cross-repo, leads, apply, ab-test, parallel, reference-index, design-read, forge-handoff, directions, fleet-map, peer-study, opus-workers, decision-gate
 ---
 
@@ -1148,6 +1148,35 @@ Six rules hold without exception:
   the envelope if one is known). `held` rows never enter a `/harvest backlog` wave; the media
   host claims `queue: media` rows and the operator's blind verdict lands or rejects them. A
   render-bound candidate never becomes a technique carried by a `simulation` row either way.
+  **Scope widened (v2.18; operator rule, 2026-10-24):** the local example is owed by every
+  media-generation or game-development technique the run touches, not only the one that
+  lands. Leads, untriaged rows and escalations get one too, because a lead whose output nobody
+  has seen is a claim the run only recognised. The 2026-10-24 run's two examples on rows it
+  did not land (a two-view clip and a fire-effects pair) each produced a finding the source
+  never stated.
+- **Every media or game run ends in ONE review page (v2.18; operator rule, 2026-10-25).**
+  Frame sheets and clips scattered across the scratch directory, the ComfyUI output and a
+  chat message make the operator reassemble the run before they can judge it. Before asking
+  for any verdict or cleanup, write `<scratch>/<run-id>/report/index.html` from
+  [`references/render-proof/review-page.html`](references/render-proof/review-page.html),
+  and copy every output it shows into `report/m/` (stills, sheets, clips, model previews).
+  It is a static local page with relative paths and no network, opened in the operator's
+  browser. One section per example, each in the same order:
+  - a **plan block**: the source's claim, what was rendered and how, the expected result
+    (target and floor where Phase 7.5 declared them), and what was actually got;
+  - a **verdict chip** (`better` / `not-better` / `unmeasurable`, `evidence`, `escalated`)
+    that matches the source note word for word;
+  - the **outputs themselves**, with controls before treatments and both seeds whenever the
+    seeds disagree, each captioned with its measured number;
+  - the numbers table from the source note.
+
+  The page closes with the decisions owed (escalations, picks) and the cleanup it unlocks. It
+  is the presentation of record for a `render` verdict and for the operator's look at an
+  `experiment`; `render-triage.mjs sheet` still owns blind A/B picks, and its page is linked
+  from the review page, not replaced by it. The page lives inside the run's scratch directory,
+  so the by-run-id cleanup deletes it with everything else, and it is never committed: it
+  shows a managed project's assets. Nothing in it is new evidence. Each number on it must
+  already be in the source note.
 - **A discrimination floor comes from a cell where the measured channel is pinned BY DESIGN
   (v2.17).** The floor is meant to say what a second render of the same approach costs when
   nothing changed. If the arm you draw it from is the one where nothing conditions the thing
@@ -1168,7 +1197,8 @@ Six rules hold without exception:
   authorize a delete: the frames are what the operator would need in order to disagree with
   the ratio, and a run that deletes them has closed the only appeal. Keep the sheet and the
   clips until the operator has looked or has said not to; then clean by run id, and put the
-  byte count in the source note.
+  byte count in the source note. "Looked" means at the review page (above): until it exists,
+  the operator has not been shown the run.
 
 ### Phase 7 - Land what survived
 
@@ -1691,7 +1721,9 @@ node scripts/run-board.mjs unlock ledger --run <id>
 The source note and the subject notes are yours alone (`<date>-<slug>.md`,
 `<domain>/<subject>.md`), so they need no lock - except a subject note a sibling also
 touched this session, which is an append like any other. Delete this run's scratch
-directory **by its run id**, never by sweeping the scratch root.
+directory **by its run id**, never by sweeping the scratch root. For a media or game run,
+delete it only after the operator has signed off the review page (Phase 6b), and delete
+`<ComfyUI>/output/<run-id>/` and the run's staged inputs in the same step.
 
 - **Source note** `librarian/sources/<YYYY-MM-DD>-<slug>.md`: frontmatter (`source`,
   `kind`, `url`, `title`, `author`, `words`, `extracted`, `accepted`, `declined`,

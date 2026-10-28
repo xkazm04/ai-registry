@@ -10,6 +10,7 @@ techniques:
   - badge-and-attention
   - shell-hosted-services
   - lazy-section-loading
+  - screen-contributed-second-level
   - fixed-chrome-offset-budget@long-form-reading-surface
 ---
 
@@ -106,6 +107,21 @@ posture of the primary nav, what survives collapse (icons and badges do,
 labels do not), and the rule that posture is the *user's* setting —
 persisted, restored, never silently reset by a release or a route. See
 [nav-hierarchy](./techniques/nav-hierarchy.md).
+
+Whether a second level exists is nav-hierarchy's question; *who supplies it*
+is a separate one, and in a dense product the answer is often the screen
+itself — its filters, saved lists and sub-sections, given the whole column
+while it is in front. The shell then owns only a slot. The screen renders its
+sections into it and registers while shown, so a screen kept alive but hidden
+lets go on its own; the level drawn is derived from the person's choice and
+whether anything is registered, never set by an effect; the off-track pane is
+inert; and focus follows the person between levels. The same technique carries
+the rule for the level-one menu at that density: groups ordered by the journey,
+alphabetical inside, one declaration read by the sidebar, the palette and any
+tour. The rule for picking: if the question is whether a section deserves
+depth, it is [nav-hierarchy](./techniques/nav-hierarchy.md); if the question is
+how a screen's own content reaches and leaves the shell's column, it is
+[screen-contributed-second-level](./techniques/screen-contributed-second-level.md).
 
 ## The nav is a policy surface
 
@@ -207,3 +223,7 @@ its accessibility failures are multiplied by every screen:
 - [lazy-section-loading](./techniques/lazy-section-loading.md) — per-section
   code splitting, the placeholder contract, prefetch on intent, warm
   remounts, and chunk-failure honesty.
+- [screen-contributed-second-level](./techniques/screen-contributed-second-level.md) —
+  screens portal their own sections into a shell slot and register while shown;
+  the derived level, the inert off-track pane, focus on back and enter, and the
+  journey-ordered menu read from one authority.

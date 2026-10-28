@@ -62,7 +62,34 @@ not allow it, the desk result for that feature is unmeasured for the headset.
   is the allowance. A list nobody checks against the configuration is a second authority, and
   the code drifts from it within one phase.
 
+## When a feature renders nothing on the forward path, find its gate before striking it, because "unsupported" and "switched off" look identical on screen
+
+A feature that silently contributes nothing reads as a platform limit, and the allowance
+then strikes it and replaces it with something weaker. That reading is often wrong. On
+one forward path, area lights lit nothing. The team swapped them for spot lights and
+wrote the swap into the plan as a platform fact. Reading the shader source later showed
+a single project-level flag that skipped area lights in the forward lighting loop. Its
+name referred to translucent surfaces, but it governed every forward-lit surface. With
+the flag set and one shader rebuild, the area key came back. The same reading showed
+two more rows where the engine's own documentation disagreed with its code: one
+screen-space occlusion pass does run from the depth prepass, and contact shadows are
+absent.
+
+- **Before an allowance row says "not available", it names the gate it checked**: the
+  setting, the shader branch or the documentation line. "It rendered nothing" is a
+  symptom, not a row.
+- **A swap decided is not a swap placed.** Turning off a screen-space reflection method
+  in favour of probes is only half the swap until a probe exists in the level. With no
+  probe placed, every glossy surface reflects the empty sky and reads as flat plastic,
+  and no warning says so. The allowance row for reflections should name the probes the
+  level must contain, not only the method that is off.
+- **Re-read glossy surfaces after every light build**, because the build re-captures the
+  probes. A probe beside a large emissive surface (a light box, a screen) mirrors it onto
+  every nearby glossy surface. Lower that probe's brightness or move it, and judge the
+  result in the destination's own light.
+
 ## When not to use it
 
 For a tethered headset driven by a desktop GPU, a deferred path may be right, and this
-allowance does not apply. It binds wherever the headset renders on its own GPU.
+allowance does not apply. It binds wherever the headset renders on its own GPU. The
+gate-before-striking section above applies to any forward path, tethered or not.

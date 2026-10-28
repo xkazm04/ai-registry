@@ -1,7 +1,7 @@
 ---
 domain: game-production
 subject: standalone-headset-frame-budgets
-last_touched: 2026-10-22
+last_touched: 2026-10-26
 touched_by: intake
 dry_streak: 0
 depth: L1
@@ -131,3 +131,13 @@ decides a verdict inherited it. No document asks a device to report that multivi
 the cap text carries its terms.
 
 Still not applied: `thermal-headroom-reserve`.
+
+## 2026-10-26 - intake bp-vr-fid-sprint (currency)
+
+`python--forward-path-feature-allowance` was re-resolved at bp `6bc4f02`:
+- eight forward-path rows added (local fog volumes, fog scattering by light type, skin profile, anisotropy, field AO,
+  capsule shadows, specular-only lights, planar reflections);
+- one anchor re-pointed.
+
+Untriaged: the "silent fallback renders something" boundary for `forward-path-feature-allowance`
+([[../../sources/2026-10-26-bp-vr-fidelity-sprint]] row 6).

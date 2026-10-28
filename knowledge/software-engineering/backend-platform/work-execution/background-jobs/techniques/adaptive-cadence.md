@@ -123,3 +123,15 @@ and above by the responsiveness the watching human or dependent system needs;
 the idle rate is bounded above by the acceptable worst-case discovery latency.
 Write both bounds down next to the constant. A cadence chosen by copying the
 neighboring loop's number propagates a decision nobody remembers making.
+
+A configured interval also has two platform bounds that belong in the same
+place as the design bounds. The **floor** is the dependency's rate limit
+divided by the requests one tick makes, so an operator who sets a tiny value
+gets the floor rather than a throttled loop. The **ceiling** is the longest
+delay the host's timer primitive can represent: on runtimes whose timers hold
+a signed 32-bit millisecond count, a delay past about 24.8 days does not wait
+longer — it overflows and fires almost at once, turning *poll rarely* into
+*poll back to back*. Clamp the parsed interval to both bounds where it is
+read, and clamp again where the timer is armed, because the second clamp is
+the one that survives a caller who computed a delay without going through
+the first.

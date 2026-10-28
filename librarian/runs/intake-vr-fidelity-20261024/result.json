@@ -1,0 +1,108 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "intake-vr-fidelity-20261024",
+  "skill": "intake",
+  "skill_version": "2.17.0",
+  "mode": "source",
+  "domain": "game-production",
+  "started_at": "2026-10-24T20:30:00Z",
+  "ended_at": "2026-10-25T06:00:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 1,
+    "landed": 4,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "game-production/concept-scene-parity",
+      "at": "2026-10-25",
+      "engine": "intake",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    },
+    {
+      "id": "game-production/asset-class-poly-budgeting",
+      "at": "2026-10-25",
+      "engine": "intake",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    },
+    {
+      "id": "game-production/standalone-headset-frame-budgets",
+      "at": "2026-10-25",
+      "engine": "intake",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    },
+    {
+      "id": "media-generation/animatable-character-design",
+      "at": "2026-10-25",
+      "engine": "intake",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "concept-scene-parity",
+      "technique": "element-scorecard-from-the-concept-camera",
+      "verdict": "better",
+      "mode": "simulation"
+    },
+    {
+      "subject": "concept-scene-parity",
+      "technique": "judge-in-the-destination-light",
+      "verdict": "better",
+      "mode": "code"
+    },
+    {
+      "subject": "concept-scene-parity",
+      "technique": "grade-only-the-excess",
+      "verdict": "unmeasurable",
+      "mode": "code"
+    },
+    {
+      "subject": "asset-class-poly-budgeting",
+      "technique": "budget-shapes-output-not-just-caps",
+      "verdict": "better",
+      "mode": "code"
+    },
+    {
+      "subject": "animatable-character-design",
+      "technique": "default-attractor-rejection",
+      "verdict": "better",
+      "mode": "render"
+    },
+    {
+      "subject": "standalone-headset-frame-budgets",
+      "technique": "forward-path-feature-allowance",
+      "verdict": "better",
+      "mode": "code"
+    }
+  ],
+  "files": [
+    "knowledge/game-production/content-pipeline/concept-scene-parity/concept-scene-parity.md",
+    "knowledge/game-production/taxonomy.json",
+    "knowledge/game-production/asset-production/geometry/asset-class-poly-budgeting/techniques/budget-shapes-output-not-just-caps.md",
+    "knowledge/game-production/asset-production/geometry/asset-class-poly-budgeting/applications/python--budget-shapes-output-not-just-caps.md",
+    "knowledge/game-production/couch-and-tv-play/immersive-interaction/standalone-headset-frame-budgets/techniques/forward-path-feature-allowance.md",
+    "knowledge/game-production/couch-and-tv-play/immersive-interaction/standalone-headset-frame-budgets/applications/python--forward-path-feature-allowance.md",
+    "knowledge/media-generation/visual-generation/animatable-character-design/techniques/default-attractor-rejection.md",
+    "knowledge/media-generation/visual-generation/animatable-character-design/applications/process--default-attractor-rejection.md",
+    "librarian/sources/2026-10-25-vr-concept-fidelity.md",
+    "librarian/specs/2026-10-25-concept-scene-parity.md",
+    "librarian/subjects/game-production/concept-scene-parity.md"
+  ],
+  "commits": [],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "Operator dispatch answered by building on bp: 19 -> 28 (builders), 25-30 (operator); 40/45 not reached. New subject concept-scene-parity (5 techniques, 3 apps) plus 3 amendments with bp applications. Render sheet unblinded."
+}

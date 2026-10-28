@@ -3,7 +3,7 @@ layer: golden-path
 type: golden-path
 subject: browser-credential-boundary
 status: forged
-use_when: [wiring a browser client directly to a hosted data store, deciding whether a key may ship in the bundle, hardening a data store whose grants are already public, adding a privileged upstream a browser must not reach directly, a destination address arrives inside data your server will fetch]
+use_when: [wiring a browser client directly to a hosted data store, deciding whether a key may ship in the bundle, hardening a data store whose grants are already public, adding a privileged upstream a browser must not reach directly, a destination address arrives inside data your server will fetch, a local web app acts with the person's own login, the browser carries back a result the server produced]
 techniques:
   - public-vs-server-env-split
   - broker-proxy-attaches-secret
@@ -13,6 +13,8 @@ techniques:
   - omit-the-column-not-the-value
   - default-deny-plus-defaulted-owner
   - allowlisted-operator-stream
+  - loopback-addressed-request-gate
+  - server-sealed-client-roundtrip
 ---
 
 # The browser credential boundary
@@ -190,6 +192,28 @@ either re-litigates it or "fixes" it into an outage. Write the non-action down
 next to the actions, with its reason. This costs one comment and closes a
 recurring argument permanently.
 
+## When the server is the person: ambient credentials and the courier
+
+Two shapes sit beside the two regimes and borrow from both. The first is the
+application that runs on the person's own machine and acts with their ambient
+login — a command-line client already signed in, a key in the home directory.
+The browser holds nothing, yet every request that reaches the port spends the
+person's authority, and any page the person opens can address that port, some
+of them under a name rebound to the loopback address. The enforcement point is
+then the pairing of a loopback-only bind with a gate that refuses any request
+whose Host, forwarded host or Origin names something other than loopback, or
+that was forwarded for an address that is not this machine — neither half
+holds without the other. That is
+[loopback-addressed-request-gate](./techniques/loopback-addressed-request-gate.md).
+
+The second is the browser as courier: the server produces a result, hands it
+to the page, and a later request brings it back as the basis for an action.
+Whatever arrives in a request body was written by its sender, so a result the
+server must trust on return carries a keyed seal under a key only the server
+holds, bound to what the result is about, and the server keeps only what still
+seals ([claimant-does-not-adjudicate](../../../_laws.md#claimant-does-not-adjudicate)).
+That is [server-sealed-client-roundtrip](./techniques/server-sealed-client-roundtrip.md).
+
 ## Where this subject ends and its neighbours begin
 
 The **credential vault** ([credential-vault](../../identity-and-access/credential-vault/credential-vault.md))
@@ -224,6 +248,19 @@ to different boundaries: theirs is a stream between two systems you operate,
 ours is a grant against an anonymous caller you never meet. When the recipient
 is a replica, read them; when the recipient is anyone with a browser, read
 this.
+
+**Agent browser control** ([agent-browser-control](../../../llm-agent/runtime-and-io/agent-browser-control/agent-browser-control.md))
+and **device pairing** ([device-pairing](../../identity-and-access/device-pairing/device-pairing.md))
+both own loopback listeners too, and the seam is who the caller is meant to be.
+A browser daemon that a remote agent must reach gets a second, smaller socket
+and a scoped token, and a pairing server admits peers by address class before a
+ceremony mints them a credential — both decide *which remote parties may become
+trusted*. The loopback-addressed gate here decides the opposite case: no remote
+party may ever be trusted, the only legitimate caller is a page the person
+opened on this machine, and the credential spent is their ambient login rather
+than one the service minted. Pick by asking whether the design intends anyone
+off the machine to reach the surface. If it does, read those subjects; if the
+correct number of remote callers is zero, it is here.
 
 ## What is not this subject
 
@@ -269,4 +306,12 @@ this.
   the debug surface over a process that holds other parties' credentials: a
   short list of keys that survive into the stream, every header value replaced,
   and an operator credential whose absence stops the process rather than
-  warning it.
+    warning it.
+- [loopback-addressed-request-gate](./techniques/loopback-addressed-request-gate.md)
+  — a local app acting with the person's own login answers only a request
+  whose Host, forwarded host and Origin name loopback and which no proxy
+  forwarded for another address, on a server that listens on loopback only.
+- [server-sealed-client-roundtrip](./techniques/server-sealed-client-roundtrip.md)
+  — a result the browser carries back is sealed under a per-process key and
+  bound to its subject; a restart voids the seals, and a client cannot hand in
+  a pass no check produced.

@@ -1,6 +1,6 @@
 # Media generation - the subjects this registry carries
 
-`media-generation` - 37 subjects, 255 techniques, 162 applications.
+`media-generation` - 37 subjects, 255 techniques, 163 applications.
 Slugs only; open one with `registry_subject` (or `node <registry>/scripts/registry-query.mjs --subject <slug>`), never by reading `index.json` - the access rule beside this file describes the loop.
 
 ### narrative-craft

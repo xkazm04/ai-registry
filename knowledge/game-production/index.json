@@ -3,10 +3,10 @@
   "generated_by": "scripts/build-index.mjs",
   "bundle": "game-production",
   "source": "knowledge/game-production/ (frontmatter only)",
-  "subjects": 86,
-  "techniques": 565,
-  "applications": 330,
-  "laws": 14,
+  "subjects": 89,
+  "techniques": 584,
+  "applications": 344,
+  "laws": 16,
   "categories": [
    "systems-canon",
    "balance-validation",
@@ -20,7 +20,7 @@
    "narrative-and-dialogue"
   ],
   "layout": "nested",
-  "use_when_coverage": "565/565",
+  "use_when_coverage": "584/584",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -1105,9 +1105,9 @@
    "subcategory": "geometry",
    "status": "forged",
    "file": "knowledge/game-production/asset-production/geometry/asset-class-poly-budgeting/asset-class-poly-budgeting.md",
-   "digest": "sha256-b2:83d174ba84bd1c83",
-   "revision": 2,
-   "changedAt": "2026-09-10",
+   "digest": "sha256-b2:fc75444ee7981874",
+   "revision": 3,
+   "changedAt": "2026-10-25",
    "techniques": [
     {
      "slug": "budget-shapes-output-not-just-caps",
@@ -1209,6 +1209,13 @@
      "technique": "class-ceiling-vs-requested-budget",
      "file": "knowledge/game-production/asset-production/geometry/asset-class-poly-budgeting/applications/process--class-ceiling-vs-requested-budget.md",
      "verified_on": "2026-08-20"
+    },
+    {
+     "stack": "python",
+     "technique": "budget-shapes-output-not-just-caps",
+     "file": "knowledge/game-production/asset-production/geometry/asset-class-poly-budgeting/applications/python--budget-shapes-output-not-just-caps.md",
+     "verified_on": "2026-10-25",
+     "verified_against": "python@3.13"
     }
    ]
   },
@@ -1611,6 +1618,165 @@
      "technique": "plain-language-fight-report",
      "file": "knowledge/game-production/balance-validation/combat-pacing-and-dramatic-arc/applications/process--plain-language-fight-report.md",
      "verified_on": "2026-08-20"
+    }
+   ]
+  },
+  "concept-scene-parity": {
+   "category": "content-pipeline",
+   "subcategory": null,
+   "status": "forged",
+   "file": "knowledge/game-production/content-pipeline/concept-scene-parity/concept-scene-parity.md",
+   "digest": "sha256-b2:b7a3b714b237caa7",
+   "revision": 3,
+   "changedAt": "2026-10-26",
+   "techniques": [
+    {
+     "slug": "blind-panel-with-a-control-frame",
+     "status": "forged",
+     "laws": [
+      "no-gate-self-certifies",
+      "a-number-carries-its-unit-and-basis",
+      "a-judge-of-the-generators-family-is-not-independent"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "the scene's score has been rising round after round and someone asks whether it is real",
+      "a score near the go or no-go bar decides the project",
+      "judges are briefed on the project before they score",
+      "comparing totals given by different panels or on different days",
+      "builders' readings and the judge's keep disagreeing"
+     ]
+    },
+    {
+     "slug": "cap-attribution-before-the-next-round",
+     "status": "forged",
+     "laws": [
+      "no-gate-self-certifies",
+      "unmeasured-is-not-a-pass"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "planning the next look round after a scorecard",
+      "a round of work moved the scene and not the score",
+      "the team keeps improving the stage it is best at",
+      "the judge's priorities differ from the builders' ranking"
+     ]
+    },
+    {
+     "slug": "element-scorecard-from-the-concept-camera",
+     "status": "forged",
+     "laws": [
+      "unmeasured-is-not-a-pass",
+      "a-number-carries-its-unit-and-basis",
+      "no-gate-self-certifies"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "turning \"it looks dated\" into a list of named gaps",
+      "scoring a real-time scene against a concept image",
+      "estimating whether a concept's look is reachable before building",
+      "several estimates of the reachable score disagree"
+     ]
+    },
+    {
+     "slug": "grade-only-the-excess",
+     "status": "forged",
+     "laws": [
+      "one-authority-per-quantity",
+      "a-number-carries-its-unit-and-basis"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "fitting a colour grade or lookup table from a scene capture to a concept image",
+      "a fitted grade fixed the matched regions and shifted skin",
+      "accents or neutrals",
+      "an authored colour comes out wrong after tone mapping"
+     ]
+    },
+    {
+     "slug": "isolate-the-light-before-the-surface",
+     "status": "forged",
+     "laws": [
+      "unmeasured-is-not-a-pass",
+      "one-authority-per-quantity"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a region reads too bright",
+      "too grey or the wrong colour against the concept",
+      "a material has been retuned twice and the region still reads wrong",
+      "making a scene darker made it read empty",
+      "adding haze greyed the walls"
+     ]
+    },
+    {
+     "slug": "judge-in-the-destination-light",
+     "status": "forged",
+     "laws": [
+      "a-verdict-is-bound-to-its-content",
+      "one-authority-per-quantity"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "reviewing a finished prop or texture before it is placed",
+      "assets pass review and still read as a generation old in the scene",
+      "glossy surfaces read as black or as one bright panel",
+      "the scene's lighting was just rebuilt"
+     ]
+    },
+    {
+     "slug": "score-only-what-the-device-shows",
+     "status": "forged",
+     "laws": [
+      "a-number-carries-its-unit-and-basis",
+      "no-gate-self-certifies"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "setting up the capture a look scorecard is read from",
+      "a capture looks better than the device ever will",
+      "a framing or field of view seems to have changed between rounds",
+      "the concept shows an effect the target device cannot render"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "process",
+     "technique": "blind-panel-with-a-control-frame",
+     "file": "knowledge/game-production/content-pipeline/concept-scene-parity/applications/process--blind-panel-with-a-control-frame.md",
+     "verified_on": "2026-10-26"
+    },
+    {
+     "stack": "process",
+     "technique": "cap-attribution-before-the-next-round",
+     "file": "knowledge/game-production/content-pipeline/concept-scene-parity/applications/process--cap-attribution-before-the-next-round.md",
+     "verified_on": "2026-10-26"
+    },
+    {
+     "stack": "process",
+     "technique": "element-scorecard-from-the-concept-camera",
+     "file": "knowledge/game-production/content-pipeline/concept-scene-parity/applications/process--element-scorecard-from-the-concept-camera.md",
+     "verified_on": "2026-10-25"
+    },
+    {
+     "stack": "python",
+     "technique": "grade-only-the-excess",
+     "file": "knowledge/game-production/content-pipeline/concept-scene-parity/applications/python--grade-only-the-excess.md",
+     "verified_on": "2026-10-26"
+    },
+    {
+     "stack": "python",
+     "technique": "isolate-the-light-before-the-surface",
+     "file": "knowledge/game-production/content-pipeline/concept-scene-parity/applications/python--isolate-the-light-before-the-surface.md",
+     "verified_on": "2026-10-26",
+     "verified_against": "python@3.11"
+    },
+    {
+     "stack": "python",
+     "technique": "judge-in-the-destination-light",
+     "file": "knowledge/game-production/content-pipeline/concept-scene-parity/applications/python--judge-in-the-destination-light.md",
+     "verified_on": "2026-10-26"
     }
    ]
   },
@@ -4346,9 +4512,9 @@
    "subcategory": "geometry",
    "status": "forged",
    "file": "knowledge/game-production/asset-production/geometry/generated-mesh-acceptance/generated-mesh-acceptance.md",
-   "digest": "sha256-b2:2f6134a34d83a7ab",
-   "revision": 1,
-   "changedAt": "2026-09-02",
+   "digest": "sha256-b2:9c6867753eefa10b",
+   "revision": 2,
+   "changedAt": "2026-10-24",
    "techniques": [
     {
      "slug": "defect-code-taxonomy-not-prose",
@@ -4390,6 +4556,21 @@
       "a gate rejects legitimately multi-part assets",
       "distinguishing debris from body parts",
       "one count is conflating two populations"
+     ]
+    },
+    {
+     "slug": "posed-see-through-render",
+     "status": "forged",
+     "laws": [
+      "unmeasured-is-not-a-pass",
+      "structural-proof-is-never-sufficient"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "deciding whether a rigged generated character can be looked at from every angle without showing its inside",
+      "a generated mesh assembled from many loose shells is about to be animated",
+      "a structural card says the mesh is fine and the engine shows holes",
+      "choosing between a backing body and a regeneration"
      ]
     },
     {
@@ -4450,6 +4631,123 @@
      "technique": "stage-declared-grading",
      "file": "knowledge/game-production/asset-production/geometry/generated-mesh-acceptance/applications/process--stage-declared-grading.md",
      "verified_on": "2026-08-20"
+    },
+    {
+     "stack": "python",
+     "technique": "posed-see-through-render",
+     "file": "knowledge/game-production/asset-production/geometry/generated-mesh-acceptance/applications/python--posed-see-through-render.md",
+     "verified_on": "2026-10-24",
+     "verified_against": "python@3.13"
+    }
+   ]
+  },
+  "generated-video-motion-extraction": {
+   "category": "asset-production",
+   "subcategory": "motion-and-audio",
+   "status": "forged",
+   "file": "knowledge/game-production/asset-production/motion-and-audio/generated-video-motion-extraction/generated-video-motion-extraction.md",
+   "digest": "sha256-b2:a2d9623d4ec399bd",
+   "revision": 1,
+   "changedAt": "2026-10-25",
+   "techniques": [
+    {
+     "slug": "contact-window-travels-with-the-clip",
+     "status": "forged",
+     "laws": [
+      "a-number-carries-its-unit-and-basis",
+      "a-verdict-is-bound-to-its-content"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "an attack's animation came from extracted motion and needs its active frames",
+      "an authored hit event and the visible strike disagree",
+      "handing extracted motion to the team that wires combat"
+     ]
+    },
+    {
+     "slug": "effect-free-motion-source",
+     "status": "forged",
+     "laws": [
+      "a-prohibition-in-a-generative-prompt-plants-what-it-forbids"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "writing the prompt for a clip that will be used as a motion source",
+      "a generated attack looks spectacular and its extracted motion is noisy",
+      "deciding whether impact effects belong in the clip or in the engine"
+     ]
+    },
+    {
+     "slug": "motion-source-route-by-action-class",
+     "status": "forged",
+     "laws": [
+      "structural-proof-is-never-sufficient",
+      "unmeasured-is-not-a-pass"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "deciding how an action's animation will be sourced before generating anything",
+      "a video-derived clip looks right from the front and wrong from the side",
+      "a project has one motion route and is about to use it for every action"
+     ]
+    },
+    {
+     "slug": "own-rig-synthetic-keypoint-training",
+     "status": "forged",
+     "laws": [
+      "a-judge-of-the-generators-family-is-not-independent",
+      "unmeasured-is-not-a-pass"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "extracting motion for a character that is not human-proportioned",
+      "a generic keypoint detector places joints on a creature where a human's would be",
+      "the extraction needs points a generic detector does not know such as a weapon tip"
+     ]
+    },
+    {
+     "slug": "panel-sync-gate",
+     "status": "forged",
+     "laws": [
+      "an-instrument-proves-it-had-input",
+      "unmeasured-is-not-a-pass"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a two-panel generated clip is about to be triangulated",
+      "reading timing from a multi-view generated clip",
+      "deciding whether to shift a clip's panels into agreement or re-generate it"
+     ]
+    },
+    {
+     "slug": "twist-from-extra-points-and-joint-limits",
+     "status": "forged",
+     "laws": [],
+     "shared_with": [],
+     "use_when": [
+      "turning triangulated joint positions into bone rotations",
+      "an extracted clip shows wrung forearms or thighs on the skinned mesh",
+      "a solver's bone roll flips between frames"
+     ]
+    },
+    {
+     "slug": "two-view-reference-composition",
+     "status": "forged",
+     "laws": [],
+     "shared_with": [],
+     "use_when": [
+      "setting up a generated clip that will be triangulated",
+      "choosing camera placement for a two-view motion source",
+      "deciding what the first frame of a motion-source clip shows"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "process",
+     "technique": "motion-source-route-by-action-class",
+     "file": "knowledge/game-production/asset-production/motion-and-audio/generated-video-motion-extraction/applications/process--motion-source-route-by-action-class.md",
+     "verified_on": "2026-10-25"
     }
    ]
   },
@@ -4458,9 +4756,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/game-production/content-pipeline/generative-artifact-gating/generative-artifact-gating.md",
-   "digest": "sha256-b2:e538545a02318806",
-   "revision": 7,
-   "changedAt": "2026-10-07",
+   "digest": "sha256-b2:b031449ec8fc69c2",
+   "revision": 8,
+   "changedAt": "2026-10-26",
    "techniques": [
     {
      "slug": "acquired-is-not-generated",
@@ -4505,6 +4803,24 @@
       "writing the corrective message a rejected step hands back",
       "a fix prompt is inventing target values",
       "feeding a rejection back into a generator"
+     ]
+    },
+    {
+     "slug": "declare-the-producer-per-asset-class",
+     "status": "forged",
+     "laws": [
+      "unmeasured-is-not-a-pass",
+      "grade-against-what-ships-not-on-a-curve",
+      "one-authority-per-quantity"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "deciding whether an asset class should be generated",
+      "built by script or acquired",
+      "a generator is offered as a replacement for scripted props",
+      "a generated asset came back fused",
+      "mis-sized or without a slot the engine needs",
+      "deciding where a paid image-to-3D trial is worth running"
      ]
     },
     {
@@ -4612,6 +4928,12 @@
      "file": "knowledge/game-production/content-pipeline/generative-artifact-gating/applications/node--placeholder-is-not-an-asset.md",
      "verified_on": "2026-09-01",
      "verified_against": "node@24"
+    },
+    {
+     "stack": "process",
+     "technique": "declare-the-producer-per-asset-class",
+     "file": "knowledge/game-production/content-pipeline/generative-artifact-gating/applications/process--declare-the-producer-per-asset-class.md",
+     "verified_on": "2026-10-26"
     },
     {
      "stack": "process",
@@ -9048,6 +9370,83 @@
     }
    ]
   },
+  "seated-in-world-reading": {
+   "category": "couch-and-tv-play",
+   "subcategory": "immersive-interaction",
+   "status": "draft",
+   "file": "knowledge/game-production/couch-and-tv-play/immersive-interaction/seated-in-world-reading/seated-in-world-reading.md",
+   "digest": "sha256-b2:c7f18a3222f4f56c",
+   "revision": 1,
+   "changedAt": "2026-10-26",
+   "techniques": [
+    {
+     "slug": "angular-legibility-floor",
+     "status": "draft",
+     "laws": [
+      "a-number-carries-its-unit-and-basis",
+      "unmeasured-is-not-a-pass",
+      "one-authority-per-quantity"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "choosing the smallest text or line a head-worn scene may draw",
+      "a label reads at the near edge of a surface and not at the far edge",
+      "a judge calls labels oversized against a concept",
+      "deciding whether to shrink",
+      "cut or drop text that does not fit"
+     ]
+    },
+    {
+     "slug": "fade-the-content-not-the-view",
+     "status": "draft",
+     "laws": [
+      "one-authority-per-quantity"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a seated user must move between contexts",
+      "levels or rooms of a model",
+      "designing a transition in a stationary head-worn experience",
+      "someone proposes teleporting or flying the user to the next thing"
+     ]
+    },
+    {
+     "slug": "panel-placement-in-the-view-band",
+     "status": "draft",
+     "laws": [
+      "unmeasured-is-not-a-pass",
+      "a-number-carries-its-unit-and-basis"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "placing world-space screens or cards around a seated user",
+      "a panel reads as off to the side or cropped rather than in front",
+      "a queue of panels must show which one is current",
+      "a body-anchored panel keeps reading as small and tilted"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "cpp",
+     "technique": "angular-legibility-floor",
+     "file": "knowledge/game-production/couch-and-tv-play/immersive-interaction/seated-in-world-reading/applications/cpp--angular-legibility-floor.md",
+     "verified_on": "2026-10-26"
+    },
+    {
+     "stack": "cpp",
+     "technique": "fade-the-content-not-the-view",
+     "file": "knowledge/game-production/couch-and-tv-play/immersive-interaction/seated-in-world-reading/applications/cpp--fade-the-content-not-the-view.md",
+     "verified_on": "2026-10-26"
+    },
+    {
+     "stack": "cpp",
+     "technique": "panel-placement-in-the-view-band",
+     "file": "knowledge/game-production/couch-and-tv-play/immersive-interaction/seated-in-world-reading/applications/cpp--panel-placement-in-the-view-band.md",
+     "verified_on": "2026-10-26"
+    }
+   ]
+  },
   "shader-budget-authoring": {
    "category": "asset-production",
    "subcategory": "surface-and-imagery",
@@ -9821,9 +10220,9 @@
    "subcategory": "immersive-interaction",
    "status": "draft",
    "file": "knowledge/game-production/couch-and-tv-play/immersive-interaction/standalone-headset-frame-budgets/standalone-headset-frame-budgets.md",
-   "digest": "sha256-b2:8787cb1df62c7cec",
-   "revision": 6,
-   "changedAt": "2026-10-22",
+   "digest": "sha256-b2:1622a8b76d8483fd",
+   "revision": 8,
+   "changedAt": "2026-10-26",
    "techniques": [
     {
      "slug": "forward-path-feature-allowance",
@@ -9941,6 +10340,13 @@
      "file": "knowledge/game-production/couch-and-tv-play/immersive-interaction/standalone-headset-frame-budgets/applications/cpp--thermal-headroom-reserve.md",
      "verified_on": "2026-10-22",
      "verified_against": "cpp@20"
+    },
+    {
+     "stack": "python",
+     "technique": "forward-path-feature-allowance",
+     "file": "knowledge/game-production/couch-and-tv-play/immersive-interaction/standalone-headset-frame-budgets/applications/python--forward-path-feature-allowance.md",
+     "verified_on": "2026-10-26",
+     "verified_against": "python@3.11"
     }
    ]
   },
@@ -11432,6 +11838,7 @@
     "design-doc-compliance-scoring/severity-weighted-scale-free-damping",
     "game-dialogue-voice-pipeline/localized-voice-timing-budget",
     "generated-mesh-acceptance/stage-declared-grading",
+    "generative-artifact-gating/declare-the-producer-per-asset-class",
     "generative-provider-auditing/arena-benchmark-protocol",
     "image-to-3d-input-gating/canonical-pose-rule",
     "judgeable-spec-authoring/execute-the-rules-against-the-worked-example",
@@ -11490,6 +11897,9 @@
     "combat-pacing-and-dramatic-arc/lead-car-wreck-before-lap-one-rate",
     "combat-pacing-and-dramatic-arc/plain-language-fight-report",
     "combat-pacing-and-dramatic-arc/proxy-driver-limit-declaration",
+    "concept-scene-parity/cap-attribution-before-the-next-round",
+    "concept-scene-parity/element-scorecard-from-the-concept-camera",
+    "concept-scene-parity/isolate-the-light-before-the-surface",
     "condition-tagged-line-tables/most-specific-match-wins",
     "content-acceptance-tiering/deferred-as-honest-progress",
     "content-acceptance-tiering/derived-vs-toggled-acceptance",
@@ -11561,10 +11971,15 @@
     "generated-asset-world-scale/nominal-extent-only-where-honest",
     "generated-mesh-acceptance/face-rig-shell-readiness",
     "generated-mesh-acceptance/floater-vs-part-face-share-rule",
+    "generated-mesh-acceptance/posed-see-through-render",
     "generated-mesh-acceptance/structural-scorecard",
     "generated-mesh-acceptance/unmeasured-is-not-pass",
+    "generated-video-motion-extraction/motion-source-route-by-action-class",
+    "generated-video-motion-extraction/own-rig-synthetic-keypoint-training",
+    "generated-video-motion-extraction/panel-sync-gate",
     "generative-artifact-gating/acquired-is-not-generated",
     "generative-artifact-gating/auto-picked-vs-human-chosen-provenance",
+    "generative-artifact-gating/declare-the-producer-per-asset-class",
     "generative-artifact-gating/grade-the-selected-candidate",
     "generative-artifact-gating/placeholder-is-not-an-asset",
     "generative-provider-auditing/capability-is-not-registry-membership",
@@ -11653,6 +12068,8 @@
     "runtime-observation-evidence/deterministic-headless-timestep",
     "runtime-observation-evidence/tiers-of-truth",
     "runtime-observation-evidence/unverifiable-is-not-fail",
+    "seated-in-world-reading/angular-legibility-floor",
+    "seated-in-world-reading/panel-placement-in-the-view-band",
     "shader-budget-authoring/forbidden-feature-combinations",
     "shader-budget-authoring/sampler-hard-and-soft-caps",
     "ship-pipeline-gating/editor-only-api-audit-for-shipping",
@@ -11738,6 +12155,9 @@
     "catalog-pipeline-authoring/view-produce-accept-triad",
     "combat-pacing-and-dramatic-arc/division-wide-damage-multiplier",
     "combat-pacing-and-dramatic-arc/intensity-and-threat-tension-curve",
+    "concept-scene-parity/grade-only-the-excess",
+    "concept-scene-parity/isolate-the-light-before-the-surface",
+    "concept-scene-parity/judge-in-the-destination-light",
     "condition-tagged-line-tables/react-to-what-the-player-caused",
     "condition-tagged-line-tables/signals-stand-in-for-lines",
     "content-drift-and-revision/content-hash-vs-status-drift",
@@ -11776,6 +12196,7 @@
     "generated-asset-world-scale/unit-convention-at-the-engine-edge",
     "generated-mesh-acceptance/defect-code-taxonomy-not-prose",
     "generative-artifact-gating/cite-evidence-not-descriptions",
+    "generative-artifact-gating/declare-the-producer-per-asset-class",
     "generative-artifact-gating/generation-history-as-artifact",
     "generative-provider-auditing/capability-is-not-registry-membership",
     "generative-provider-auditing/never-the-account-default",
@@ -11843,6 +12264,8 @@
     "render-submission-economy/spread-periodic-render-thread-bursts",
     "rigid-body-simulation-stability/bound-actuation-by-the-lightest-coupled-body",
     "runtime-observation-evidence/observation-spine-contract",
+    "seated-in-world-reading/angular-legibility-floor",
+    "seated-in-world-reading/fade-the-content-not-the-view",
     "shader-budget-authoring/channel-packing",
     "shader-budget-authoring/hardware-tier-lighting-presets",
     "shader-budget-authoring/surface-to-shading-model-map",
@@ -11916,6 +12339,10 @@
     "combat-pacing-and-dramatic-arc/lead-car-wreck-before-lap-one-rate",
     "combat-pacing-and-dramatic-arc/plain-language-fight-report",
     "combat-pacing-and-dramatic-arc/proxy-driver-limit-declaration",
+    "concept-scene-parity/blind-panel-with-a-control-frame",
+    "concept-scene-parity/element-scorecard-from-the-concept-camera",
+    "concept-scene-parity/grade-only-the-excess",
+    "concept-scene-parity/score-only-what-the-device-shows",
     "condition-tagged-line-tables/repeat-avoidance-by-recency-and-cooldown",
     "content-acceptance-tiering/never-fail-silently-reason-strings",
     "content-drift-and-revision/bounded-revision-history",
@@ -11975,6 +12402,7 @@
     "generated-mesh-acceptance/stage-declared-grading",
     "generated-mesh-acceptance/structural-scorecard",
     "generated-mesh-acceptance/unmeasured-is-not-pass",
+    "generated-video-motion-extraction/contact-window-travels-with-the-clip",
     "generative-artifact-gating/generator-failure-deterministic-gates",
     "generative-artifact-gating/reserve-before-dispatch-stop-latch",
     "generative-provider-auditing/record-negative-benchmarks-in-place",
@@ -12068,6 +12496,8 @@
     "runtime-observation-evidence/behavioural-discriminators-over-symbolic-pass",
     "runtime-observation-evidence/bounded-evidence-with-provenance",
     "runtime-observation-evidence/deterministic-headless-timestep",
+    "seated-in-world-reading/angular-legibility-floor",
+    "seated-in-world-reading/panel-placement-in-the-view-band",
     "shader-budget-authoring/channel-packing",
     "shader-budget-authoring/feature-cost-with-a-cheaper-swap",
     "shader-budget-authoring/sampler-hard-and-soft-caps",
@@ -12127,6 +12557,10 @@
     "catalog-pipeline-authoring/producer-facts-are-observed-not-declared",
     "catalog-pipeline-authoring/seed-entities-and-walker-coverage",
     "combat-pacing-and-dramatic-arc/proxy-driver-limit-declaration",
+    "concept-scene-parity/blind-panel-with-a-control-frame",
+    "concept-scene-parity/cap-attribution-before-the-next-round",
+    "concept-scene-parity/element-scorecard-from-the-concept-camera",
+    "concept-scene-parity/score-only-what-the-device-shows",
     "content-acceptance-tiering/derived-vs-toggled-acceptance",
     "crash-forensics-attribution/root-cause-to-fix-prompt",
     "cross-runtime-rules-conformance/golden-trace-conformance-vectors",
@@ -12234,7 +12668,9 @@
     "gameplay-runtime-patterns/event-dispatch-versus-direct-call",
     "gameplay-runtime-patterns/pattern-selection-by-force-present",
     "generated-asset-world-scale/reference-skeleton-size-check",
+    "generated-mesh-acceptance/posed-see-through-render",
     "generated-mesh-acceptance/structural-scorecard",
+    "generated-video-motion-extraction/motion-source-route-by-action-class",
     "generative-artifact-gating/acquired-is-not-generated",
     "generative-artifact-gating/gate-before-every-credit-spend",
     "generative-artifact-gating/generator-failure-deterministic-gates",
@@ -12395,6 +12831,7 @@
     "engine-integration-safety/crash-truncated-batch-resume",
     "fire-tv-device-realities/dhcp-scan-for-device",
     "fire-tv-device-realities/wake-before-launch",
+    "generated-video-motion-extraction/panel-sync-gate",
     "hand-tracked-timing-windows/confidence-gated-detection",
     "hand-tracked-timing-windows/tracking-loss-as-a-game-state",
     "image-to-3d-input-gating/scene-partition-is-the-gated-unit",
@@ -12438,6 +12875,7 @@
     "acceptance-verdict-spine/explain-why-this-verdict",
     "branching-narrative-graph-validation/graph-revision-diffing",
     "catalog-pipeline-authoring/direction-as-first-class-produce-input",
+    "concept-scene-parity/judge-in-the-destination-light",
     "content-drift-and-revision/content-hash-vs-status-drift",
     "content-drift-and-revision/produce-direction-stamping",
     "crash-forensics-attribution/crash-signature-over-id-equality",
@@ -12449,6 +12887,7 @@
     "game-dialogue-voice-pipeline/line-id-catalog-and-revision-diff",
     "game-dialogue-voice-pipeline/re-cast-gate",
     "generated-mesh-acceptance/stage-declared-grading",
+    "generated-video-motion-extraction/contact-window-travels-with-the-clip",
     "generative-artifact-gating/cite-evidence-not-descriptions",
     "generative-artifact-gating/generation-history-as-artifact",
     "generative-artifact-gating/grade-the-selected-candidate",
@@ -12670,6 +13109,13 @@
     "wiring-contract-doctrine/contract-injection-into-prompts"
    ]
   },
+  "a-judge-of-the-generators-family-is-not-independent": {
+   "statement": "A grader built from the same family, training or habits as the thing it grades shares its blind spots and prefers its output, so two such graders count as one and one counts as little. Independence is a property of the evidence's origin, not of the number of passes: a second judge from the same family, the generator grading its own revision, and a reference set the producer wrote for itself all teach the producer its own average. The remedy is a judge of a different family, a person at the final step, or a deterministic check, and a verdict records which of these produced it so that a reader can tell how much weight it carries. A same-family pass remains useful as a filter and is never reported as confirmation.",
+   "techniques": [
+    "concept-scene-parity/blind-panel-with-a-control-frame",
+    "generated-video-motion-extraction/own-rig-synthetic-keypoint-training"
+   ]
+  },
   "every-effect-on-the-rules-is-visible": {
    "statement": "Anything that changes what the player can do, what an opponent can do, or what an outcome costs is shown, whether it helps or hurts. A handicap, a boost, a stake that drains, a rubber band, a hidden bias in who is targeted: if it alters the rules it is either disclosed where the player can see it or it is presentation only and demonstrably cannot reach the simulation. There is no third category. An invisible help is the same fault as an invisible penalty, because the player's model of the game is wrong either way and every later decision inherits the error. A presentation layer that merely looks as though it affects play is held to the same standard from the other side: it must never seem to.",
    "techniques": [
@@ -12677,6 +13123,12 @@
     "hand-tracked-timing-windows/tracking-loss-as-a-game-state",
     "phone-controller-input-protocol/answer-the-open-ask-by-id",
     "render-submission-economy/cull-before-submission"
+   ]
+  },
+  "a-prohibition-in-a-generative-prompt-plants-what-it-forbids": {
+   "statement": "Naming a thing a generator must not do places that thing in its context, and the output drifts toward it. A banned phrase listed in the brief returns, a forbidden trait is exhibited with a disclaimer, and an off-voice example included \"to avoid\" becomes a template. So the brief carries what is wanted, stated positively and flat, and the prohibitions live in the checker, which reads them from the same source as the rest of the standard and runs after generation. The prohibition is measured by its hit rate on real output, not assumed to work, and a person may override a hit with the reason written down.",
+   "techniques": [
+    "generated-video-motion-extraction/effect-free-motion-source"
    ]
   }
  }

@@ -11,6 +11,9 @@ techniques:
   - seeded-determinism
   - network-faithful-mocks
   - fake-surface-honesty-contract
+  - replay-clock-pinning
+  - cross-plane-parity-test
+  - mixed-plane-coexistence
 ---
 
 # The demo data plane
@@ -237,6 +240,24 @@ Seed placement, the inputs that must never enter the stream, and the difference
 between deterministic and static are
 [seeded-determinism](./techniques/seeded-determinism.md).
 
+A recorded demonstration needs the other answer to time. When the demo is a
+moment captured with absolute instants and replayed through the product's real
+ingestion against a fake upstream, entry-relative time breaks the recorded
+figures, and the pipeline computes its own ages anyway. There the clock itself
+is an input of the plane: injected everywhere an instant becomes an age, with
+one face for ingestion and one for reading, both pinned to the recorded moment —
+[replay-clock-pinning](./techniques/replay-clock-pinning.md).
+
+## The demo's promise is tested against the live path
+
+A demo plane promises that it shows what the product would show on real data.
+The interface and its conformance suite do not test that promise, because screens
+consume loaders, and loaders derive. The test that does runs the live plane's
+real ingestion over a fake upstream built from the demo world, calls every
+screen loader under both planes, compares the props as the page would serialise
+them, and lists every intended difference once, asserted and explained —
+[cross-plane-parity-test](./techniques/cross-plane-parity-test.md).
+
 ## A fake plane that never fails teaches a false product
 
 The fake plane returns instantly, always succeeds, and hands back the same
@@ -289,6 +310,16 @@ nothing — not a zero, not a placeholder, not a plausible small integer. The fu
 contract, the reasoning behind each clause, and how to hold it by assertion
 rather than by review are
 [fake-surface-honesty-contract](./techniques/fake-surface-honesty-contract.md).
+
+The contract is written for one plane per session, and products outgrow that:
+demo rows stay beside a person's first real ones, a live screen still draws
+parts of the catalogue, seeded items share a store with the tenant's own. Then
+the clauses are kept row by row — a chip on each demo row, a data label that
+names the mix, a strip that says it plainly; demo rows that never collect or
+re-measure; the seeded-id predicate owned by the data source so every count
+agrees; the live source declaring which parts are still illustrative; and a
+saved list holding only what the person saved —
+[mixed-plane-coexistence](./techniques/mixed-plane-coexistence.md).
 
 ## Failure modes of the naive reading
 
@@ -347,3 +378,13 @@ rather than by review are
 - [fake-surface-honesty-contract](./techniques/fake-surface-honesty-contract.md)
   — the closed set of disclosure obligations, and the rule that no fabricated
   count may appear on a surface that provokes an action.
+- [replay-clock-pinning](./techniques/replay-clock-pinning.md) — an injected
+  two-faced clock (poll, read) pinned to a recorded moment, so a replay through
+  the live pipeline shows the recorded ages and countdowns.
+- [cross-plane-parity-test](./techniques/cross-plane-parity-test.md) — every
+  loader's serialised props equal under both planes over a fake upstream built
+  from the demo world, with intended differences listed once.
+- [mixed-plane-coexistence](./techniques/mixed-plane-coexistence.md) — demo and
+  real on one screen: per-row chips, a mixed data label, inert demo rows, the
+  source-owned seeded predicate, declared illustrative parts, own-only saved
+  lists.

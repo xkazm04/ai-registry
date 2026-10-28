@@ -3,7 +3,7 @@ layer: golden-path
 type: golden-path
 subject: remote-capability-probing
 status: forged
-use_when: [reading from a remote store nobody on your team administers, deciding whether a peer supports partial reads before the first real read, a fallback quietly downloaded a whole object instead of a fragment, adding an operator switch that turns a probe off, choosing how to buffer reads whose backing stores sit at very different distances]
+use_when: [reading from a remote store nobody on your team administers, deciding whether a peer supports partial reads before the first real read, a fallback quietly downloaded a whole object instead of a fragment, adding an operator switch that turns a probe off, choosing how to buffer reads whose backing stores sit at very different distances, reporting which features a hosted platform account actually has, a design rests on platform behaviour only partly seen running]
 techniques:
   - advertised-support-is-not-evidence
   - the-probe-that-is-also-the-first-read
@@ -11,6 +11,9 @@ techniques:
   - degraded-rung-refusal-ceiling
   - buffer-by-access-latency-class
   - instrument-by-cause-not-by-hit-rate
+  - verdict-basis-tagging
+  - single-blocker-short-circuit
+  - verified-behaviour-ledger
 ---
 
 # Remote capability probing
@@ -225,6 +228,40 @@ byte count stops tracking the bytes the caller asked for and starts tracking the
 size of the objects:
 [instrument-by-cause-not-by-hit-rate](./techniques/instrument-by-cause-not-by-hit-rate.md).
 
+## Feature probes against a hosted platform
+
+The same question takes a second shape when the peer is a platform rather
+than a store: not *can it serve a fragment* but *which of its features does
+this account, on this server release, actually have*. The answer decides
+which parts of a product can be switched on, and it is made of evidence of
+unequal strength — some features have a read endpoint that can be asked,
+some can only be inferred from the subscription tier the documentation
+names, some are gated by the server's release, and some cannot be
+established from where the prober stands. Three techniques carry the
+subject's rule — a verdict rests on an observation, and says which — into
+that setting.
+
+Each row of such a report is a status *and* a basis *and* a reason, and a
+forbidden or not-found counts as *the feature is not here* only when the
+container above the route answered in the same run: a wrong identifier
+answers the same refusal on every route and says nothing about the tier
+([verdict-basis-tagging](./techniques/verdict-basis-tagging.md)). Before
+any row is asked, a short chain of preconditions on the prober's own side —
+the client starts, the host answers, the credential is accepted, the scope
+is readable — is checked once, and the first one that fails is named as
+**the** blocker, with its fix and its own exit status, while every row it
+blocks is reported unknown without a request being spent
+([single-blocker-short-circuit](./techniques/single-blocker-short-circuit.md)).
+The boundary with optional-dependency degradation holds through this: the
+blocker's fix is on the prober's side, so it borrows that subject's habit of
+naming the refusal and its remedy, but it lives here because its only job is
+to keep the capability rows from reporting a setup problem as a fact about
+the peer. And the design that depends on platform behaviour keeps a ledger
+of every claim about it, tagged *sourced*, *unverified* or *verified on a
+live run*, with each tag replaced as runs settle it — the documentation is
+the platform's claim about itself, and only a run adjudicates it
+([verified-behaviour-ledger](./techniques/verified-behaviour-ledger.md)).
+
 ## What this subject refuses
 
 - **A capability accepted on a declaration.** The layer that announces support
@@ -247,6 +284,12 @@ size of the objects:
   near tier and a fiction for the far one.
 - **A hit rate as the instrument for a probe ladder.** It averages speculative
   waste and cold demand into a number that recommends nothing.
+- **A refusal read as a missing feature when the container did not
+  answer.** A wrong identifier is forbidden everywhere; that is not a tier.
+- **Ten rows failing for one client-side reason.** Name the blocker once,
+  and spend no request behind it.
+- **A design document whose claims about a platform all read as facts.**
+  Sourced, unverified and verified are different claims.
 - **A per-peer verdict with no invalidation.** A stored derivation names how it
   is recomputed, and a capability verdict that survives a settings change is a
   configuration nobody can apply.
@@ -273,3 +316,12 @@ size of the objects:
 - [instrument-by-cause-not-by-hit-rate](./techniques/instrument-by-cause-not-by-hit-rate.md)
   — partitioning byte counters by cause, the resolution trade that keeps the
   histogram bounded, and the readings that are instructions rather than trivia.
+- [verdict-basis-tagging](./techniques/verdict-basis-tagging.md) — the
+  status, basis and reason triple, which refusals are verdicts, and the
+  container-answered rule.
+- [single-blocker-short-circuit](./techniques/single-blocker-short-circuit.md)
+  — the preflight order of causes, the blocked row that spends no request,
+  and the blocker's own exit status.
+- [verified-behaviour-ledger](./techniques/verified-behaviour-ledger.md) —
+  tagging platform claims by who made them, and replacing each as a live
+  run settles it.

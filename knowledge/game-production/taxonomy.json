@@ -44,7 +44,8 @@
         "generative-artifact-gating",
         "judgeable-spec-authoring",
         "reference-parity-gating",
-        "wiring-contract-doctrine"
+        "wiring-contract-doctrine",
+        "concept-scene-parity"
       ]
     },
     {
@@ -80,7 +81,8 @@
             "adaptive-music-authoring",
             "motion-quality-gating",
             "spatial-audio-scene-authoring",
-            "game-dialogue-voice-pipeline"
+            "game-dialogue-voice-pipeline",
+            "generated-video-motion-extraction"
           ]
         },
         {
@@ -172,7 +174,8 @@
             "drawn-gesture-command-recognition",
             "hand-tracked-timing-windows",
             "tracked-input-record-and-replay",
-            "standalone-headset-frame-budgets"
+            "standalone-headset-frame-budgets",
+            "seated-in-world-reading"
           ]
         }
       ]
