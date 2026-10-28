@@ -1708,3 +1708,6 @@ builder brief, and the peer-session section.
   that would have passed on the old tree.
 - **A heredoc ate a regex backslash twice** (a wave planner, a tally). §7.6 already says to
   author patterns with the file tool; both times the file tool fixed it at once.
+
+## 4.7.1 - 2026-10-28 - personas
+- The hand-off and the context map both assumed a RUNNING app: `approvals.mjs` exited 3 when the app was down, and a stale `context-map.json` could only be fixed by an in-app LLM scan. Applied in 4.8.0: `scripts/personas-door.mjs` (registry-owned, zero-dep) reads the app DB read-only, spools cards durably when the app is down and replays them through the same HTTP door (dedup/rating stay the app's), and refreshes the map deterministically from git. Rescan outcomes go to a ledger that raises the bar for contexts whose rescans never changed anything. Not yet field-measured: the declare-door replay (`contexts sync`) is untested against a live app.

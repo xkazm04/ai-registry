@@ -3,7 +3,7 @@ name: perfect
 description: "Session-after-session product perfection loop. The strongest available model at xhigh reasoning (currently Sonnet 5.5) directs - it walks the repo's context map context-by-context, proposes up to 5 challenged, high-value directions per context (features, design elevations, significant optimizations), gates them with the user until the pool is full, then orchestrates Sonnet-class builder subagents on ONE shared branch - grouped so their write sets cannot collide - while making every review/merge decision itself. All state lives in a linked Obsidian vault (or <repo>/.perfect/) so any future session resumes the loop exactly where the last one stopped; per-repo specifics (vault path, gates, Class B/C files, repo law, taste) come from .claude/perfect/config.md. Invoke with /perfect [init|propose|build|status|smoke|reflect|unattended] [context-name]."
 category: workflow
 memory: vault
-version: 2.8.1
+version: 2.9.0
 tags: loop, director, builders, shared-branch, vault, product-quality
 argument-hint: "[init|propose|build|status|smoke|reflect|unattended] [context]"
 contexts: tracked
@@ -131,6 +131,7 @@ Every invocation starts the same way; the vault decides which phase runs.
    ```
    If `generated_at` is far behind `git log -1 --format=%cd`, say so in the resumption sentence and treat the queue as provisional — a context that has since been split or renamed will score wrong. **Shape is not provenance:** a registered-name dump, a rendered context doc and the app's own DB can all disagree with the map (one repo measured a 208 / 49 / 773 three-way split with a 2-name intersection). Use the map for the QUEUE and the overlay's `## Context sources` name set for anything an external ledger anchors to (§ App context coverage).
 4. Repo rituals: `git status` — repos host **parallel sessions**; note foreign WIP files and never sweep them into your commits. If the overlay names an `active_runs_ledger`, read it, surface overlaps, append this session's entry. Scan auto-memory and the overlay's `## Vetoes` for signals that veto directions (shipped programs, "honest ceiling" verdicts, retired subsystems — don't re-suggest what a prior campaign settled).
+   **Stale map without the app:** run `node <registry>/scripts/personas-door.mjs contexts refresh` (deterministic, git-only) and re-judge only the contexts it flags via `contexts plan` / `contexts apply`; the rescan ledger it keeps tunes when a rescan is worth an LLM call. `<registry>` = manifest `registry.local`, else `$AI_REGISTRY_DIR`, else `../ai-registry`.
 5. **Coverage check**: if `.personas/` exists, note which contexts have gone stale in the ledger (no fresh node in 30d — § App context coverage). Stale-and-high-opportunity outranks stale-and-low; a context with fresh coverage is a weaker cursor candidate than one the loop has never anchored. This is a queue *tiebreaker*, never an override of the user's steer.
 6. Announce the resumption point in one sentence, then go where the state machine points: pool < target → **Propose**; pool ≥ target (or user said `build`, or `round_shape: round` and a gated slate awaits) → **Build**.
 

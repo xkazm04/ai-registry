@@ -22,11 +22,15 @@
 // near_duplicate), 1 at least one card failed or a line was not a card (bad JSON, no
 // title - reported by line number), 2 bad arguments, 3 Personas is not running,
 // 4 the repo is not a registered Personas project (pass --register).
+// With the registry's scripts/personas-door.mjs reachable, "Personas is not running" no longer exits 3: the cards are
+// spooled (exit 0, durable) and replayed through the same door the next time the app is up. --no-spool restores exit 3.
 // The caller deletes a source file only on exit 0: a card that did not land is
 // still owed, and the file is its only record.
 import { readFileSync, writeFileSync, existsSync } from 'node:fs';
 import { homedir } from 'node:os';
-import { join, resolve, basename } from 'node:path';
+import { join, resolve, basename, dirname } from 'node:path';
+import { fileURLToPath } from 'node:url';
+import { spawnSync } from 'node:child_process';
 
 const argv = process.argv.slice(2);
 const has = (f) => argv.includes(f);
@@ -60,6 +64,18 @@ readFileSync(file, 'utf8').split('\n').forEach((raw, i) => {
 for (const u of unreadable) console.error(`line ${u.line}: ${u.error} - not filed, still owed`);
 
 const handshakePath = join(homedir(), '.personas', 'local-http.json');
+// App down: hand the cards to the registry's shared door tool, which spools them durably and replays them
+// when the app is next up (exit 0 = durable). Without that tool this script keeps its old contract (exit 3).
+if (!existsSync(handshakePath) && !has('--no-spool') && !dryRun) {
+  const here = dirname(fileURLToPath(import.meta.url));
+  const cands = [process.env.AI_REGISTRY_DIR && join(process.env.AI_REGISTRY_DIR, 'scripts'), join(here, '..', '..', '..', 'scripts'), join(repo, '..', 'ai-registry', 'scripts')]
+    .filter(Boolean).map((d) => join(d, 'personas-door.mjs'));
+  const tool = cands.find((c) => existsSync(c));
+  if (tool) {
+    const r = spawnSync(process.execPath, [tool, 'ideas', 'file', '--file', file, '--repo', repo, '--origin', 'scan_sweep', ...(register ? ['--register'] : []), ...(outPath ? ['--out', outPath] : [])], { stdio: 'inherit' });
+    process.exit(r.status ?? 1);
+  }
+}
 if (!existsSync(handshakePath)) {
   console.error(`Personas is not running (${handshakePath} missing). Start the app and re-run; ${cards.length + unreadable.length} cards are still owed.`);
   process.exit(3);

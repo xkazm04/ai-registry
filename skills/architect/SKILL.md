@@ -5,7 +5,7 @@ argument-hint: "[scan|area|gates|resume|status] [theme or area]"
 category: workflow
 memory: vault
 contexts: tracked
-version: 1.10.1
+version: 1.11.0
 model: sonnet
 ---
 # Architect
@@ -117,6 +117,7 @@ If the user's first message is ambiguous about mode (e.g. just `/architect`), pr
 
 - **Codebase reference files** — whatever the overlay's `## Context sources` names, in its order. With no overlay, resolve in this order and use what exists:
   - `context-map.json` (repo root, or the overlay's `context_map`) — machine-readable file→context map; the authority for area scope and target file lists, and the tiebreak when a prose doc and reality disagree.
+    If its `provenance.git_commit` is behind `HEAD`, refresh it without the app: `node <registry>/scripts/personas-door.mjs contexts refresh` (deterministic, git-only), then re-judge only the contexts it flags (`contexts plan` / `contexts apply`). `<registry>` = manifest `registry.local`, else `$AI_REGISTRY_DIR`, else `../ai-registry`.
   - `CLAUDE.md` (then `AGENTS.md`, then `.claude/CLAUDE.md`) — project rules, including any parallel-session/isolation primitives the repo declares.
   - Any architecture digest, area taxonomy or design-system doc the overlay maps in — these are what make scan mode deep rather than generic.
   - A source that is missing is **noted in the opening line, never fatal.** With no context source at all, derive a provisional taxonomy from the repo's top-level source directories and say the scan is running provisional.

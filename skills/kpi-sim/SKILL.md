@@ -4,7 +4,7 @@ contexts: tracked
 category: testing
 memory: project
 description: KPI Simulation - measure a project's KPIs locally, simulate user behavior with UAT-style Characters, and predict real-world targets from web benchmarks, writing a result.json the Personas app ingests into its KPI module (env-tagged simulated series + proposal-gated adjustments). Engine doctrine mirrors src/features/teams/sub_kpis/kpiSimPrompt.ts - the app dispatches the same contract into managed repos as a Fleet Dev-runner session, so most target repos never need this skill installed. Invoke with `/kpi-sim run [--l2] [--kpi <id>] [--project-root <path>]` or `/kpi-sim predict`.
-version: 1.3.1
+version: 1.4.0
 argument-hint: "run [--l2] [--kpi <id>] [--project-root <path>] | predict"
 ---
 
@@ -101,7 +101,7 @@ This skill declares `contexts: tracked` — the Personas app measures per-contex
 {"type":"node","kind":"progress","title":"<=200 chars: what you did in this context","body":"optional detail","context":"<exact context name from .claude/codebase-context.md>","skill":"kpi-sim"}
 ```
 
-**Which name — this is the part that silently fails.** The ingest anchors a node
+**Which name — this is the part that silently fails.** With the app closed, the names it knows are one read away: `node <registry>/scripts/personas-door.mjs sql "select name from dev_contexts where project_id=(select id from dev_projects where root_path like '%<repo>')"` (read-only; `<registry>` = manifest `registry.local`, else `$AI_REGISTRY_DIR`, else `../ai-registry`). The ingest anchors a node
 by matching `context` against the names the app actually knows, case-insensitively.
 A name it does not recognize is NOT an error: the node is stored with a null
 context and simply never counts toward coverage. Use the **product-level context
