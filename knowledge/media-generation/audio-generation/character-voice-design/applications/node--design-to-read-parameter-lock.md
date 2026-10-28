@@ -56,3 +56,12 @@ the page and a check script all import it.
 - **Consequence:** if the account changes or the stored voice is lost, the voice can be matched by ear, not rebuilt.
 - **Fix:** add a `design` block beside `VOICE`: the description, the design text, seed 7, guidance 6 and the designer
   model, plus a reference clip for each audition line.
+
+**Fixed on 2026-10-28 in bp `b493fcf`.**
+- `VOICE_DESIGN` now records the description, design text, guidance, seed and the kept preview. It sits outside the
+  cache key, so no cached line changed.
+- The four casting lines are committed as reference clips, read with exactly the locked render key.
+- A rebuild tool checks the voice id, clones the voice from the clips or redesigns it from the record, then auditions
+  the result against the clips.
+
+The anchors above stay pinned to `672bc7a`, where the deviation was observed.

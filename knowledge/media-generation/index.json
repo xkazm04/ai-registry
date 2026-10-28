@@ -531,8 +531,8 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/media-generation/audio-generation/character-voice-design/character-voice-design.md",
-   "digest": "sha256-b2:c85376dd1e32e59d",
-   "revision": 1,
+   "digest": "sha256-b2:2e68940ae64367b7",
+   "revision": 2,
    "changedAt": "2026-10-28",
    "techniques": [
     {
