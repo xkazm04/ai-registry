@@ -46,16 +46,25 @@ still illustration, an icon or an effect flipbook can be left for later.
    toolkit, not only for its beauty. Flat painted cards, a strong uniform post pass over simple
    geometry, a look built from static illustrations, and a stylised cel look with authored shadow
    colours all tend to suit a generator-led team.
-2. **Build only the sliced elements, in each look, with the real toolkit.** Use the same
+2. **Fix each look's target at the game's own camera.** Paint three or four in-game mock-ups per candidate
+   look at the real camera and play distance, and let the owner pick one. Write it down as a short style file
+   with one approved anchor asset per asset class. Every slice element is then made and judged against that
+   anchor, not against the concept.
+3. **Route each sliced element to its producer before building it.** That means a free kit, a scripted model
+   or a generator, decided by a paired trial
+   ([declare-the-producer-per-asset-class](../../generative-artifact-gating/techniques/declare-the-producer-per-asset-class.md)).
+   A generator chosen by default for an element it is weak at is the commonest way a slice fails for the
+   wrong reason.
+4. **Build only the sliced elements, in each look, with the real toolkit.** Use the same
    generators, engine and budget the production would use, with no hand-painting the production
    will not have.
-3. **Judge them in motion, in context, at play distance, by the owner.** Use the destination light
+5. **Judge them in motion, in context, at play distance, by the owner.** Use the destination light
    and the device, and a short capture of the element animating. A still of a hand proves nothing
    about a hand that moves.
-4. **Choose the look whose slice reached its bar.** If no look's slice reached it, the team lacks
+6. **Choose the look whose slice reached its bar.** If no look's slice reached it, the team lacks
    the capability, not the polish. Either acquire it (a hired artist for that element, a different
    technique) or choose a look that does not need it.
-5. **Write the slice result into the decision record.** For each sliced element, record the level
+7. **Write the slice result into the decision record.** For each sliced element, record the level
    reached, the stage that capped it, and the toolkit change that would lift it.
 
 ## What skipping it cost

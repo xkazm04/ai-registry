@@ -52,7 +52,12 @@ against that person, and its total is reported in that person's units.
    pairwise choices for steering.
 5. **Do not steer on one panel's preference.** A change of direction, especially one that reverses
    the last round's, needs either the owner's blind choice or two independent panels that agree.
-6. **Put motion in front of the person.** Anything that only exists in motion or in a headset
+6. **Keep the critic out of the builder's context.** A model grading the round it just built, or briefed by
+   the builder, is lenient in the builder's favour. A critic called fresh, with only the frames, the anchor and
+   the criteria, catches defects the same model misses inside a crowded build session. Run each round as
+   several candidates and let the isolated critic pick between them pairwise. Then the owner's anchor
+   calibrates the critic, not a single candidate.
+7. **Put motion in front of the person.** Anything that only exists in motion or in a headset
    (animation, stereo depth, sliding, scale) is judged by the owner in the device or from a video,
    not inferred from a panel's reading of stills.
 
