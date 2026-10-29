@@ -366,6 +366,7 @@
         "skills/adopt-bp/scripts/bench.mjs",
         "skills/adopt-bp/tests/adopt.test.mjs",
         "skills/cloud-dispatch/scripts/dispatch.mjs",
+        "skills/cloud-dispatch/scripts/keyworker.mjs",
         "skills/cloud-dispatch/scripts/launch.mjs",
         "skills/cloud-dispatch/scripts/lib/core.mjs",
         "skills/cloud-dispatch/scripts/overflow.mjs",
