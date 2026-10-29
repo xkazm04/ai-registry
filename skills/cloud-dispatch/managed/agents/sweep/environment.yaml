@@ -1,0 +1,40 @@
+# Night sweep environment: the CreateEnvironment body, `ant apply` format.
+# Shapes: claude-api shared/managed-agents-environments.md "Networking" and
+# shared/managed-agents-api-reference.md "CreateEnvironment Request Body".
+#
+# limited networking: deny by default. allow_mcp_servers opens the agent's MCP host
+# (api.githubcopilot.com) without listing it; allow_package_managers opens the package
+# registries. The GitHub repository resource and the memory store need no host here.
+# Web tools are off on the agent, so allowed_hosts serves the sandbox only.
+#
+# `packages` is NOT set: the bundled reference documents that the field exists
+# (`config.packages`, requires allow_package_managers) but not its inner shape. Toolchain
+# and system packages are installed by the agent from the kickoff's setup steps instead
+# (deployment template, <REPO_SETUP>).
+name: night-sweep-env
+description: Cloud sandbox for the night sweep; limited egress to the toolchain registries only.
+config:
+  type: cloud
+  networking:
+    type: limited
+    allow_package_managers: true
+    allow_mcp_servers: true
+    allowed_hosts:
+      # example: paypal (Rust 1.97 via rustup + crates, pnpm 11 via npm). Replace per repository
+      # with the exact hosts its setup and gates reach; no wildcards.
+      - static.rust-lang.org
+      - crates.io
+      - index.crates.io
+      - static.crates.io
+      - registry.npmjs.org
+      # example: paypal - GitHub archive hosts. paypal's Cargo.lock has no git sources, so these
+      # are candidates to drop once the smoke run shows nothing needs them.
+      - github.com
+      - codeload.github.com
+      - objects.githubusercontent.com
+      # example: paypal - apt mirrors for the Tauri system libraries, only if the smoke run shows
+      # apt blocked (unconfirmed whether allow_package_managers covers apt, and which distro the
+      # sandbox runs). Uncomment the ones `cat /etc/os-release` calls for.
+      # - archive.ubuntu.com
+      # - security.ubuntu.com
+      # - deb.debian.org

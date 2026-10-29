@@ -4,8 +4,8 @@
   "bundle": "game-production",
   "source": "knowledge/game-production/ (frontmatter only)",
   "subjects": 89,
-  "techniques": 584,
-  "applications": 344,
+  "techniques": 589,
+  "applications": 351,
   "laws": 16,
   "categories": [
    "systems-canon",
@@ -20,7 +20,7 @@
    "narrative-and-dialogue"
   ],
   "layout": "nested",
-  "use_when_coverage": "584/584",
+  "use_when_coverage": "589/589",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -1626,9 +1626,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/game-production/content-pipeline/concept-scene-parity/concept-scene-parity.md",
-   "digest": "sha256-b2:b7a3b714b237caa7",
-   "revision": 3,
-   "changedAt": "2026-10-26",
+   "digest": "sha256-b2:89508a335bb70197",
+   "revision": 6,
+   "changedAt": "2026-10-29",
    "techniques": [
     {
      "slug": "blind-panel-with-a-control-frame",
@@ -1679,6 +1679,22 @@
      ]
     },
     {
+     "slug": "frame-the-judged-shot-from-a-play-trace",
+     "status": "forged",
+     "laws": [
+      "unmeasured-is-not-a-pass",
+      "grade-against-what-ships-not-on-a-curve"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a look is judged from one hand-placed shot",
+      "the shot copies the concept's framing rather than play",
+      "a character's distance or motion in the judged frame was chosen by the builders",
+      "a technique that fails up close is being scored at a distance",
+      "deciding whether a flat or impostor character will hold up"
+     ]
+    },
+    {
      "slug": "grade-only-the-excess",
      "status": "forged",
      "laws": [
@@ -1725,6 +1741,41 @@
      ]
     },
     {
+     "slug": "owner-anchor-for-a-model-panel",
+     "status": "forged",
+     "laws": [
+      "no-gate-self-certifies",
+      "a-number-carries-its-unit-and-basis",
+      "a-judge-of-the-generators-family-is-not-independent"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "deciding whether a separate critic is worth its cost",
+      "a critic is handed the builder's report or summary",
+      "a panel of vision models scores the look rounds and the person the look is for has not scored any of them",
+      "the panel's total is near the go or no-go bar",
+      "two panels disagree about which of two versions is better",
+      "a round is about to be steered by one panel's stated preference",
+      "the scene moves or is seen in a headset and the panel only sees stills"
+     ]
+    },
+    {
+     "slug": "refine-or-pivot-with-every-round-kept",
+     "status": "forged",
+     "laws": [
+      "no-gate-self-certifies",
+      "a-verdict-is-bound-to-its-content"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a look or an asset is improved by repeated build-and-review rounds",
+      "every round's verdict is either pass or try again",
+      "the latest round is assumed to be the best one",
+      "a round reversed what the previous round improved",
+      "scores rose for a few rounds and then flattened"
+     ]
+    },
+    {
      "slug": "score-only-what-the-device-shows",
      "status": "forged",
      "laws": [
@@ -1737,6 +1788,23 @@
       "a capture looks better than the device ever will",
       "a framing or field of view seems to have changed between rounds",
       "the concept shows an effect the target device cannot render"
+     ]
+    },
+    {
+     "slug": "toolkit-fit-slice-before-the-look-is-chosen",
+     "status": "forged",
+     "laws": [
+      "unmeasured-is-not-a-pass",
+      "grade-against-what-ships-not-on-a-curve",
+      "structural-proof-is-never-sufficient"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "choosing between concept images for a game's look",
+      "a team without a dedicated artist will produce the look with generators and agents",
+      "the concept was chosen because it looked good and nobody has built its hardest element",
+      "look rounds keep improving the backdrop while the character and the hands stay where they were",
+      "deciding whether to retarget a look that has plateaued"
      ]
     }
    ],
@@ -1760,6 +1828,30 @@
      "verified_on": "2026-10-25"
     },
     {
+     "stack": "process",
+     "technique": "frame-the-judged-shot-from-a-play-trace",
+     "file": "knowledge/game-production/content-pipeline/concept-scene-parity/applications/process--frame-the-judged-shot-from-a-play-trace.md",
+     "verified_on": "2026-10-29"
+    },
+    {
+     "stack": "process",
+     "technique": "owner-anchor-for-a-model-panel",
+     "file": "knowledge/game-production/content-pipeline/concept-scene-parity/applications/process--owner-anchor-for-a-model-panel.md",
+     "verified_on": "2026-10-29"
+    },
+    {
+     "stack": "process",
+     "technique": "refine-or-pivot-with-every-round-kept",
+     "file": "knowledge/game-production/content-pipeline/concept-scene-parity/applications/process--refine-or-pivot-with-every-round-kept.md",
+     "verified_on": "2026-10-29"
+    },
+    {
+     "stack": "process",
+     "technique": "toolkit-fit-slice-before-the-look-is-chosen",
+     "file": "knowledge/game-production/content-pipeline/concept-scene-parity/applications/process--toolkit-fit-slice-before-the-look-is-chosen.md",
+     "verified_on": "2026-10-29"
+    },
+    {
      "stack": "python",
      "technique": "grade-only-the-excess",
      "file": "knowledge/game-production/content-pipeline/concept-scene-parity/applications/python--grade-only-the-excess.md",
@@ -1777,6 +1869,18 @@
      "technique": "judge-in-the-destination-light",
      "file": "knowledge/game-production/content-pipeline/concept-scene-parity/applications/python--judge-in-the-destination-light.md",
      "verified_on": "2026-10-26"
+    },
+    {
+     "stack": "python",
+     "technique": "owner-anchor-for-a-model-panel",
+     "file": "knowledge/game-production/content-pipeline/concept-scene-parity/applications/python--owner-anchor-for-a-model-panel.md",
+     "verified_on": "2026-10-29"
+    },
+    {
+     "stack": "python",
+     "technique": "refine-or-pivot-with-every-round-kept",
+     "file": "knowledge/game-production/content-pipeline/concept-scene-parity/applications/python--refine-or-pivot-with-every-round-kept.md",
+     "verified_on": "2026-10-29"
     }
    ]
   },
@@ -10098,9 +10202,9 @@
    "subcategory": "surface-and-imagery",
    "status": "forged",
    "file": "knowledge/game-production/asset-production/surface-and-imagery/sprite-and-atlas-production/sprite-and-atlas-production.md",
-   "digest": "sha256-b2:7e555dae277291eb",
-   "revision": 1,
-   "changedAt": "2026-09-02",
+   "digest": "sha256-b2:ec73167420ee1e8f",
+   "revision": 2,
+   "changedAt": "2026-10-29",
    "techniques": [
     {
      "slug": "atlas-packing-and-bleed-margins",
@@ -10197,6 +10301,24 @@
       "declaring per-frame durations and loop points",
       "a held object detaches from the hand during a swing"
      ]
+    },
+    {
+     "slug": "state-roster-costing-for-generated-characters",
+     "status": "forged",
+     "laws": [
+      "a-number-carries-its-unit-and-basis",
+      "a-budget-shapes-the-output",
+      "unmeasured-is-not-a-pass"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "choosing a generated route for animated characters (painted sprites",
+      "video-generated frames",
+      "prerendered cards)",
+      "one character's clips look good and the team wants to commit the route",
+      "estimating the generation time and texture memory for a cast",
+      "a game has more than one animated character type"
+     ]
     }
    ],
    "applications": [
@@ -10212,6 +10334,12 @@
      "technique": "pixel-grid-and-resolution-contract",
      "file": "knowledge/game-production/asset-production/surface-and-imagery/sprite-and-atlas-production/applications/process--pixel-grid-and-resolution-contract.md",
      "verified_on": "2026-09-02"
+    },
+    {
+     "stack": "process",
+     "technique": "state-roster-costing-for-generated-characters",
+     "file": "knowledge/game-production/asset-production/surface-and-imagery/sprite-and-atlas-production/applications/process--state-roster-costing-for-generated-characters.md",
+     "verified_on": "2026-10-29"
     }
    ]
   },
@@ -11834,6 +11962,8 @@
     "asset-class-poly-budgeting/budget-shapes-output-not-just-caps",
     "asset-class-poly-budgeting/class-ceiling-vs-requested-budget",
     "branching-narrative-graph-validation/false-choice-and-convergence-audit",
+    "concept-scene-parity/frame-the-judged-shot-from-a-play-trace",
+    "concept-scene-parity/toolkit-fit-slice-before-the-look-is-chosen",
     "design-canon-as-executable-law/archetype-aware-envelopes",
     "design-doc-compliance-scoring/severity-weighted-scale-free-damping",
     "game-dialogue-voice-pipeline/localized-voice-timing-budget",
@@ -11899,7 +12029,9 @@
     "combat-pacing-and-dramatic-arc/proxy-driver-limit-declaration",
     "concept-scene-parity/cap-attribution-before-the-next-round",
     "concept-scene-parity/element-scorecard-from-the-concept-camera",
+    "concept-scene-parity/frame-the-judged-shot-from-a-play-trace",
     "concept-scene-parity/isolate-the-light-before-the-surface",
+    "concept-scene-parity/toolkit-fit-slice-before-the-look-is-chosen",
     "condition-tagged-line-tables/most-specific-match-wins",
     "content-acceptance-tiering/deferred-as-honest-progress",
     "content-acceptance-tiering/derived-vs-toggled-acceptance",
@@ -12088,6 +12220,7 @@
     "sprite-and-atlas-production/lossy-compression-acceptance-for-flat-art",
     "sprite-and-atlas-production/palette-discipline-across-frames",
     "sprite-and-atlas-production/sprite-sequence-timing-and-pivot-stability",
+    "sprite-and-atlas-production/state-roster-costing-for-generated-characters",
     "standalone-headset-frame-budgets/forward-path-feature-allowance",
     "standalone-headset-frame-budgets/overdraw-and-transparency-ceiling",
     "standalone-headset-frame-budgets/thermal-headroom-reserve",
@@ -12342,6 +12475,7 @@
     "concept-scene-parity/blind-panel-with-a-control-frame",
     "concept-scene-parity/element-scorecard-from-the-concept-camera",
     "concept-scene-parity/grade-only-the-excess",
+    "concept-scene-parity/owner-anchor-for-a-model-panel",
     "concept-scene-parity/score-only-what-the-device-shows",
     "condition-tagged-line-tables/repeat-avoidance-by-recency-and-cooldown",
     "content-acceptance-tiering/never-fail-silently-reason-strings",
@@ -12514,6 +12648,7 @@
     "sprite-and-atlas-production/atlas-packing-and-bleed-margins",
     "sprite-and-atlas-production/pixel-grid-and-resolution-contract",
     "sprite-and-atlas-production/sprite-sequence-timing-and-pivot-stability",
+    "sprite-and-atlas-production/state-roster-costing-for-generated-characters",
     "standalone-headset-frame-budgets/per-content-class-frame-budget",
     "standalone-headset-frame-budgets/stereo-draw-call-budget",
     "steering-feel-profile-shaping/asymmetric-steer-slew-rise-return",
@@ -12560,6 +12695,8 @@
     "concept-scene-parity/blind-panel-with-a-control-frame",
     "concept-scene-parity/cap-attribution-before-the-next-round",
     "concept-scene-parity/element-scorecard-from-the-concept-camera",
+    "concept-scene-parity/owner-anchor-for-a-model-panel",
+    "concept-scene-parity/refine-or-pivot-with-every-round-kept",
     "concept-scene-parity/score-only-what-the-device-shows",
     "content-acceptance-tiering/derived-vs-toggled-acceptance",
     "crash-forensics-attribution/root-cause-to-fix-prompt",
@@ -12635,6 +12772,7 @@
     "branching-narrative-graph-validation/false-choice-and-convergence-audit",
     "branching-narrative-graph-validation/reachability-and-orphan-detection",
     "catalog-pipeline-authoring/seed-entities-and-walker-coverage",
+    "concept-scene-parity/toolkit-fit-slice-before-the-look-is-chosen",
     "content-acceptance-tiering/config-complete-vs-runtime-verified",
     "content-acceptance-tiering/deferred-as-honest-progress",
     "content-acceptance-tiering/tier-ladder-design",
@@ -12876,6 +13014,7 @@
     "branching-narrative-graph-validation/graph-revision-diffing",
     "catalog-pipeline-authoring/direction-as-first-class-produce-input",
     "concept-scene-parity/judge-in-the-destination-light",
+    "concept-scene-parity/refine-or-pivot-with-every-round-kept",
     "content-drift-and-revision/content-hash-vs-status-drift",
     "content-drift-and-revision/produce-direction-stamping",
     "crash-forensics-attribution/crash-signature-over-id-equality",
@@ -13097,6 +13236,7 @@
     "speech-synthesis-script-writing/length-and-breath-budget",
     "sprite-and-atlas-production/atlas-packing-and-bleed-margins",
     "sprite-and-atlas-production/pixel-grid-and-resolution-contract",
+    "sprite-and-atlas-production/state-roster-costing-for-generated-characters",
     "standalone-headset-frame-budgets/forward-path-feature-allowance",
     "standalone-headset-frame-budgets/overdraw-and-transparency-ceiling",
     "standalone-headset-frame-budgets/per-content-class-frame-budget",
@@ -13113,6 +13253,7 @@
    "statement": "A grader built from the same family, training or habits as the thing it grades shares its blind spots and prefers its output, so two such graders count as one and one counts as little. Independence is a property of the evidence's origin, not of the number of passes: a second judge from the same family, the generator grading its own revision, and a reference set the producer wrote for itself all teach the producer its own average. The remedy is a judge of a different family, a person at the final step, or a deterministic check, and a verdict records which of these produced it so that a reader can tell how much weight it carries. A same-family pass remains useful as a filter and is never reported as confirmation.",
    "techniques": [
     "concept-scene-parity/blind-panel-with-a-control-frame",
+    "concept-scene-parity/owner-anchor-for-a-model-panel",
     "generated-video-motion-extraction/own-rig-synthetic-keypoint-training"
    ]
   },

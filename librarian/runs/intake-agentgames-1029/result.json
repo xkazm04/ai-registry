@@ -1,0 +1,56 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "intake-agentgames-1029",
+  "skill": "intake",
+  "skill_version": "2.18.0",
+  "mode": "source",
+  "domain": "game-production",
+  "started_at": "2026-10-29T15:00:00Z",
+  "ended_at": "2026-10-29T18:00:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 2,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "game-production/concept-scene-parity",
+      "at": "2026-10-29",
+      "engine": "intake",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "concept-scene-parity",
+      "technique": "refine-or-pivot-with-every-round-kept",
+      "verdict": "better",
+      "mode": "simulation"
+    },
+    {
+      "subject": "concept-scene-parity",
+      "technique": "owner-anchor-for-a-model-panel",
+      "verdict": "better",
+      "mode": "simulation"
+    }
+  ],
+  "files": [
+    "knowledge/game-production/content-pipeline/concept-scene-parity/techniques/refine-or-pivot-with-every-round-kept.md",
+    "knowledge/game-production/content-pipeline/concept-scene-parity/techniques/owner-anchor-for-a-model-panel.md",
+    "knowledge/game-production/content-pipeline/concept-scene-parity/concept-scene-parity.md",
+    "knowledge/game-production/content-pipeline/concept-scene-parity/applications/process--refine-or-pivot-with-every-round-kept.md",
+    "knowledge/game-production/content-pipeline/concept-scene-parity/applications/python--refine-or-pivot-with-every-round-kept.md",
+    "knowledge/game-production/content-pipeline/concept-scene-parity/applications/python--owner-anchor-for-a-model-panel.md",
+    "librarian/sources/2026-10-29-agent-built-pc-games-batch.md"
+  ],
+  "commits": [],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "batch of 8; 2 landed (technique + amendment), 12 covered, 13 untriaged (3 render-bound owe a local example), 4 leads; apply = 2 simulations on mage-arena-vr"
+}

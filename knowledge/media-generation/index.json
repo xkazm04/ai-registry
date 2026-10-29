@@ -3,9 +3,9 @@
   "generated_by": "scripts/build-index.mjs",
   "bundle": "media-generation",
   "source": "knowledge/media-generation/ (frontmatter only)",
-  "subjects": 37,
-  "techniques": 260,
-  "applications": 163,
+  "subjects": 38,
+  "techniques": 266,
+  "applications": 165,
   "laws": 9,
   "categories": [
    "narrative-craft",
@@ -16,7 +16,7 @@
    "streaming"
   ],
   "layout": "nested",
-  "use_when_coverage": "260/260",
+  "use_when_coverage": "266/266",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -523,6 +523,115 @@
      "technique": "reference-shows-only-invariants",
      "file": "knowledge/media-generation/visual-generation/character-identity-continuity/applications/process--reference-shows-only-invariants.md",
      "verified_on": "2026-08-27"
+    }
+   ]
+  },
+  "character-voice-design": {
+   "category": "audio-generation",
+   "subcategory": null,
+   "status": "forged",
+   "file": "knowledge/media-generation/audio-generation/character-voice-design/character-voice-design.md",
+   "digest": "sha256-b2:2e68940ae64367b7",
+   "revision": 2,
+   "changedAt": "2026-10-28",
+   "techniques": [
+    {
+     "slug": "audition-line-set",
+     "status": "forged",
+     "laws": [
+      "unmeasured-is-not-pass"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "writing the lines designed voice candidates will read for a casting decision",
+      "every candidate sounds acceptable and the choice feels arbitrary",
+      "a chosen voice failed on a kind of line nobody auditioned"
+     ]
+    },
+    {
+     "slug": "casting-slate-spread",
+     "status": "forged",
+     "laws": [
+      "cost-per-usable-output",
+      "style-is-restated-not-remembered"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "planning how many designed voice candidates to generate and how they should differ",
+      "running a second casting round around a shortlist",
+      "a casting round produced candidates that all sound alike"
+     ]
+    },
+    {
+     "slug": "character-vocal-brief",
+     "status": "forged",
+     "laws": [
+      "typed-input-owns-its-channel"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "starting a voice for a character from a character sheet or a reference character",
+      "deciding which traits the voice itself must carry",
+      "a designed voice sounds unstable or wrong on lines outside one mood"
+     ]
+    },
+    {
+     "slug": "design-to-read-parameter-lock",
+     "status": "forged",
+     "laws": [
+      "unmeasured-is-not-pass",
+      "edit-do-not-regenerate"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "saving a designed voice preview as a voice a production will use",
+      "choosing the stability or consistency setting a designed voice is read with",
+      "a voice sounds different in production than it did in its design preview"
+     ]
+    },
+    {
+     "slug": "finishing-effect-layer",
+     "status": "forged",
+     "laws": [
+      "typed-input-owns-its-channel",
+      "unmeasured-is-not-pass"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a character must sound like a machine",
+      "a hologram",
+      "a robot or a voice over a radio",
+      "a designed voice came back muddily robotic",
+      "deciding whether to apply a voice effect at playback or bake it into files"
+     ]
+    },
+    {
+     "slug": "voice-description-composition",
+     "status": "forged",
+     "laws": [
+      "refusal-is-a-state",
+      "style-is-restated-not-remembered"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "writing the prompt a text-to-voice designer turns into a voice",
+      "a designer refuses a description or returns voices that ignore it",
+      "rewriting a description for a second casting round"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "node",
+     "technique": "design-to-read-parameter-lock",
+     "file": "knowledge/media-generation/audio-generation/character-voice-design/applications/node--design-to-read-parameter-lock.md",
+     "verified_on": "2026-10-28"
+    },
+    {
+     "stack": "process",
+     "technique": "casting-slate-spread",
+     "file": "knowledge/media-generation/audio-generation/character-voice-design/applications/process--casting-slate-spread.md",
+     "verified_on": "2026-10-28"
     }
    ]
   },
@@ -5221,6 +5330,9 @@
     "character-identity-continuity/identity-ruler-calibration",
     "character-identity-continuity/reference-admitted-late",
     "character-identity-continuity/reference-shows-only-invariants",
+    "character-voice-design/audition-line-set",
+    "character-voice-design/design-to-read-parameter-lock",
+    "character-voice-design/finishing-effect-layer",
     "cinematic-language/lens-effect-language",
     "cinematic-language/performance-direction",
     "content-research-grounding/evidence-grading-ladder",
@@ -5330,6 +5442,7 @@
    "techniques": [
     "ad-concept-development/llm-seat-assignment",
     "animatable-character-design/default-attractor-rejection",
+    "character-voice-design/casting-slate-spread",
     "data-video-virality/series-repeatability",
     "generated-music-acceptance/brief-conformance-listen",
     "generated-music-acceptance/generated-audio-defect-taxonomy",
@@ -5376,6 +5489,7 @@
     "animatable-character-design/animatability-trial",
     "audience-steering-economies/rank-gated-proposals-with-climb-path",
     "character-identity-continuity/identity-ruler-calibration",
+    "character-voice-design/voice-description-composition",
     "frame-direction/per-beat-rejection",
     "generated-speech-acceptance/published-number-comparability",
     "generative-provider-routing/capability-to-vendor-plan",
@@ -5403,6 +5517,7 @@
    "statement": "Once a creator has reviewed work, feedback is answered with the smallest set of edits — never a regeneration. A regenerated artifact voids every review, gate, and verification computed against the version it silently replaced, even when it is \"better\". Touch what the notes are about; leave everything else byte-identical.",
    "techniques": [
     "animatable-character-design/functional-animation-slots",
+    "character-voice-design/design-to-read-parameter-lock",
     "creator-voice-and-tone/spoken-delivery-direction",
     "frame-direction/boundary-transition-class",
     "frame-direction/motif-establish-vary-payoff",
@@ -5549,6 +5664,8 @@
    "statement": "Visual consistency across many generation calls comes from restating the full style contract on every call. Reference images alone measurably drift within a single batch; there is no short form, and no call may opt out of the style half of its prompt.",
    "techniques": [
     "character-identity-continuity/reference-admitted-late",
+    "character-voice-design/casting-slate-spread",
+    "character-voice-design/voice-description-composition",
     "cinematic-language/genre-visual-contracts",
     "cinematic-language/lighting-as-dramatic-instrument",
     "data-video-art-direction/leader-adaptive-theme",
@@ -5585,6 +5702,8 @@
    "statement": "When a generator takes a dimension of the output as a typed input — a camera path, a music track as the beat grid, a per-character emotion dial — the prose stops describing that dimension and directs within it. Two authorities over one channel do not average: the exact input and the suggestive sentence resolve into a compromise that matches neither, and the symptom reads as under-direction, inviting more prose and making it worse. The craft the prose carried does not evaporate; it moves upstream, to whoever authors the typed input. The discriminating question is always the same: does anything other than the prose set this channel?",
    "techniques": [
     "character-identity-continuity/reference-shows-only-invariants",
+    "character-voice-design/character-vocal-brief",
+    "character-voice-design/finishing-effect-layer",
     "cinematic-language/movement-motivation",
     "cinematic-language/performance-direction",
     "generated-output-grading/input-channel-parity",

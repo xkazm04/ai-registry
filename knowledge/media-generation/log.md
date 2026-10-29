@@ -380,3 +380,33 @@ added: **concept-landing-proposals**.
 A process application records the four winners, their costs and the
 ledger. The golden path gained one principle and a triage step.
 
+
+## 2026-10-28 - new subject: `character-voice-design` joins `audio-generation`
+
+The audio category could grade a speech clip and produce a script of many
+voices, but nothing said how a voice that does not exist yet gets
+**designed** from a character. Two casting rounds with a text-to-voice
+designer taught it: a robot companion's voice (ten archetypes, a shortlist,
+a consistency test) and an AI-guide character's voice (a vocal brief, a
+ten-candidate slate spread along named axes, five audition lines, a board
+with an effect toggle; the owner picked a register-led variant in one round).
+
+Six techniques: **character-vocal-brief** (every trait goes to one carrier:
+timbre, delivery or treatment); **voice-description-composition** (who,
+instrument, manner, recording; every adjective audible; no names of people
+or characters; restate in full each round); **audition-line-set** (three to
+six original 5-10 s lines, one register each, identical across the slate);
+**casting-slate-spread** (a canonical candidate, axis variants and
+register-led variants, constants held, rounds narrowing to a decision);
+**design-to-read-parameter-lock** (decide on reads under shipping
+parameters, choose stability by a consistency test, lock the render key and
+keep the design record); **finishing-effect-layer** (the machine quality is
+a parameterised chain owned outside the description, auditioned as a toggle
+and shipped as auditioned).
+
+Two applications: a node render-key lock that keeps no design record (a
+recorded deviation), and a process account of both casting rounds.
+Neighbours named in the boundary paragraph: spoken-delivery-direction
+(casting among existing voices), generated speech acceptance (the board),
+multi-speaker speech production (the stored-voice lifecycle), and the
+voice-I/O subject in software engineering.

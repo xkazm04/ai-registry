@@ -1,0 +1,73 @@
+# Night sweep schedule: the CreateDeployment body, `ant apply` format. The filename leads with
+# its kind (`deployment.`), so `ant apply` recognizes it; instances copy it as
+# deployment-nightly.yaml. Shapes: claude-api shared/managed-agents-scheduled-deployments.md
+# ("Create a deployment", "Deployment budgets"), shared/managed-agents-outcomes.md
+# ("The user.define_outcome event"), shared/managed-agents-environments.md ("GitHub
+# Repositories"), shared/managed-agents-memory.md ("Attach to a session"),
+# shared/managed-agents-onboarding-from-url.md section 4 (path references, vault_ids as IDs).
+#
+# Placeholders, filled in the gitignored instance copy only (README.md):
+#   <REPO_SLUG>        short repository name, e.g. paypal
+#   <REPO_URL>         https://github.com/<owner>/<repo>
+#   <GITHUB_PAT>       fine-grained PAT, this repository only. NEVER committed: substituted at apply
+#                      time from the operator's prompt. Re-applying a file that still says
+#                      <GITHUB_PAT> would send the placeholder as the token.
+#   <VAULT_ID>         vlt_... from claude-lock.json after applying vault.yaml (IDs, not paths)
+#   <MEMORY_STORE_ID>  memstore_... from claude-lock.json after applying memory_store-ledger.yaml
+#   <REPO_SETUP>       toolchain setup and gates for this repository (example below)
+name: night-sweep-<REPO_SLUG>
+agent: ./agent.md
+environment_id: ./environment.yaml
+vault_ids: ["<VAULT_ID>"]
+# Hard cap per fired session, copied onto each session: "1500" cents = $15.00 list price.
+budget: {type: limit, max_list_cost: {amount: "1500", currency: USD}}
+resources:
+  - type: github_repository
+    url: "<REPO_URL>"
+    authorization_token: "<GITHUB_PAT>"
+    # no checkout: the repository's default branch
+  - type: memory_store
+    memory_store_id: "<MEMORY_STORE_ID>"
+    # read_write: the agent must append its ledger line. Holds only the ledger.
+    access: read_write
+    instructions: Coverage ledger for this repository. Read coverage.jsonl before picking a context; append one line at the end of the run.
+# 01:00 Prague: outside Europe/Prague's 02:00-03:00 DST transitions, so never skipped or doubled.
+schedule: {type: cron, expression: "0 1 * * *", timezone: Europe/Prague}
+# <REPO_SETUP>, example: paypal (replace the placeholder line in the description, keeping its
+# six-space indent; comment lines inside a block scalar would be sent as text):
+#   Rust: install the toolchain pinned in rust-toolchain.toml (1.97, rustfmt, clippy) with
+#   rustup-init from static.rust-lang.org if cargo is missing. Client: Node 24 and pnpm 11
+#   (corepack or npm), then `pnpm --dir apps/desktop/client install --frozen-lockfile` and
+#   `pnpm --dir apps/desktop/client build` BEFORE any cargo command (the Tauri shell embeds the
+#   client dist). Linux libraries for the Tauri crate, via apt-get: libwebkit2gtk-4.1-dev
+#   build-essential pkg-config libssl-dev librsvg2-dev. Gates: client - pnpm typecheck,
+#   pnpm test, pnpm build in apps/desktop/client; Rust - cargo fmt --all --check,
+#   cargo clippy --workspace --all-targets -- -D warnings (or -p <crate>),
+#   cargo test --workspace (or -p <crate>). Tests never touch the network.
+initial_events:
+  - type: user.define_outcome
+    description: |
+      Run tonight's sweep of the repository mounted under /workspace, following your system
+      prompt: pick the least-swept context from the coverage ledger, judge it through the bug,
+      UI-correctness and performance lenses, and prove at most one fix.
+
+      I authorize you, for this session only, to create the branch
+      claude/night-<YYYYMMDD>-<context-name>, commit to it, push it, and open exactly one pull
+      request from it against the default branch. I do not authorize pushing the default
+      branch, force-pushing, merging, or editing outside the chosen context and its one test file.
+
+      Repository setup and gates:
+      <REPO_SETUP>
+    rubric:
+      type: text
+      content: |
+        Starter rubric - tune after the first runs. Grade from /mnt/session/outputs/RESULT.md and the session's tool output.
+
+        1. Exactly one pull request was opened from a claude/night-<YYYYMMDD>-<context> branch, OR none was opened and RESULT.md gives the outcome no-finding or blocked with concrete reasons (what was examined, why nothing qualified or what failed).
+        2. For a pull request: a test that the change adds or extends failed on the base code and passes on the branch, and both outputs are quoted in RESULT.md (test name plus the failing and the passing lines).
+        3. For a pull request: the gates for each touched package (formatter check, linter with warnings as errors, tests; for a client change its typecheck, test and build) ran on the branch and passed, and each command's output tail is quoted. A pre-existing red gate is shown red on the default branch as well.
+        4. Every changed file is in the chosen context's file_paths from context-map.json, except at most one test file that exercises them.
+        5. The pull request body and RESULT.md both carry the sections What, Evidence, Gates run, Not verified, Handoff, and Other findings (not built).
+        6. coverage.jsonl in the memory store gained exactly one new line naming the context, the date, the lenses and the outcome (pr, no-finding or blocked), and it holds no secret or file content.
+        7. Nothing was pushed to the default branch, nothing was force-pushed, and no pull request was merged, closed or edited.
+    max_iterations: 2

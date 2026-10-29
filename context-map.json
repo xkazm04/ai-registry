@@ -209,9 +209,14 @@
         "scripts/lib/fleet.mjs",
         "scripts/lib/installation.mjs",
         "scripts/lib/map-churn.mjs",
+        "scripts/lib/personas-door/contexts.mjs",
+        "scripts/lib/personas-door/door.mjs",
+        "scripts/lib/personas-door/ideas.mjs",
         "scripts/lib/projects.mjs",
         "scripts/link-registry.mjs",
         "scripts/merge-conform-runs.mjs",
+        "scripts/personas-door.mjs",
+        "scripts/personas-door.test.mjs",
         "scripts/register-project.mjs",
         "scripts/tests/build-fleet-map-args.test.mjs",
         "scripts/tests/build-registry-map.test.mjs",
@@ -232,7 +237,8 @@
       ],
       "entry_points": [
         "scripts/link-registry.mjs",
-        "scripts/build-registry-map.mjs"
+        "scripts/build-registry-map.mjs",
+        "scripts/personas-door.mjs"
       ]
     },
     {
@@ -360,6 +366,7 @@
         "skills/adopt-bp/scripts/bench.mjs",
         "skills/adopt-bp/tests/adopt.test.mjs",
         "skills/cloud-dispatch/scripts/dispatch.mjs",
+        "skills/cloud-dispatch/scripts/keyworker.mjs",
         "skills/cloud-dispatch/scripts/launch.mjs",
         "skills/cloud-dispatch/scripts/lib/core.mjs",
         "skills/cloud-dispatch/scripts/overflow.mjs",

@@ -1,6 +1,6 @@
 # Media generation - the subjects this registry carries
 
-`media-generation` - 37 subjects, 260 techniques, 163 applications.
+`media-generation` - 38 subjects, 266 techniques, 165 applications.
 Slugs only; open one with `registry_subject` (or `node <registry>/scripts/registry-query.mjs --subject <slug>`), never by reading `index.json` - the access rule beside this file describes the loop.
 
 ### narrative-craft
@@ -13,7 +13,7 @@ Slugs only; open one with `registry_subject` (or `node <registry>/scripts/regist
 - animatable-character-design, character-identity-continuity, cinematic-language, data-video-art-direction, frame-direction, generated-output-grading, generative-provider-routing, image-prompt-composition, visual-style-locking
 
 ### audio-generation
-- generated-music-acceptance, generated-speech-acceptance, multi-speaker-speech-production, music-prompt-composition, sound-effect-generation
+- character-voice-design, generated-music-acceptance, generated-speech-acceptance, multi-speaker-speech-production, music-prompt-composition, sound-effect-generation
 
 ### production-ops
 - live-system-demo-film, music-video-production, platform-format-adaptation, production-pipeline-phasing, review-iteration-loops, video-assembly
