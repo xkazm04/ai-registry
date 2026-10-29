@@ -1,21 +1,21 @@
 # Software engineering - the subjects this registry carries
 
-`software-engineering` - 236 subjects, 1886 techniques, 1403 applications.
+`software-engineering` - 243 subjects, 1957 techniques, 1446 applications.
 Slugs only; open one with `registry_subject` (or `node <registry>/scripts/registry-query.mjs --subject <slug>`), never by reading `index.json` - the access rule beside this file describes the loop.
 
 ### ui-surfaces
 - **data-display** - canvas-graph, data-viz, diff-comparison, feed, file-browsing, search, table
 - **feedback-and-style** - accessibility, adaptive-fidelity-tiers, async-ui-states, design-tokens, motion, status-vocabulary, toasts-notifications
-- **input-and-editing** - batch-undo-commit-window, draft-editing, drag-drop, form, schema-driven-ui, ui-controls, undo-history, wizard-flows
+- **input-and-editing** - batch-undo-commit-window, draft-editing, drag-drop, form, keyboard-shortcuts, schema-driven-ui, ui-controls, undo-history, wizard-flows
 - **published-surfaces** - authoring-block-vocabulary, docs-content-model, lazy-section-addressability, long-form-reading-surface, narrative-scroll-surface, public-claim-provenance
-- **shell-and-navigation** - app-shell, chat-transcript, guided-tours, media-playback, modal-stack, session-resume
+- **shell-and-navigation** - app-shell, chat-transcript, guided-tours, kept-alive-screen-host, media-playback, modal-stack, session-resume
 
 ### client-architecture
 - client-fetch-cache, client-state, demo-data-plane, hash-pinned-translation-pipeline, i18n, ipc-contract, native-shell-integration, page-load-pipeline, realtime-events, render-mount-pipeline
 
 ### llm-agent
 - **companion** - companion-identity, companion-runtime, conversation-orchestration, talking-avatar
-- **evaluation-and-cost** - cost-metering, eval-harness, judgment-guardbands, model-call-outcome-integrity, time-travel-replay, tracing
+- **evaluation-and-cost** - cost-metering, eval-harness, judgment-guardbands, model-call-outcome-integrity, probe-confirmed-model-proposals, proof-carrying-agent-actions, time-travel-replay, tracing
 - **orchestration** - agent-chaining, durable-agent-operations, fleet-orchestration, hitl-approval, model-routing, plan-review, proactive-nudges, remediation-handoff, session-continuation, tenant-scoped-agent-runtime
 - **prompt-and-context** - agent-instruction-files, agent-memory, context-hierarchy, llm-extracted-entity-graph, prompt-assembly, prompt-safety, retrieval, structured-output, tool-result-economy
 - **runtime-and-io** - agent-addressable-ui, agent-browser-control, agent-cli-transport, agent-runtime-assembly, mcp-tools, sidecar-provisioning, streaming-output, subprocess-lifecycle, terminal-multiplexing, voice-io
@@ -46,17 +46,17 @@ Slugs only; open one with `registry_subject` (or `node <registry>/scripts/regist
 ### integration
 - **acquisition-and-ingest** - contested-acquisition, document-text-extraction, import-normalization, native-document-format, web-scraping
 - **embedded-surfaces** - embedded-preview, markdown-vault, sql-console
-- **external-systems** - cicd-monitoring, connector-catalog, templates-scaffolding
+- **external-systems** - cicd-monitoring, connector-catalog, digest-bound-operator-writes, templates-scaffolding
 
 ### engineering-process
 - **build-and-release** - build-economics, codegen, packaging, release-pipeline, test-harness, test-input-generation, vendored-patch-stack
 - **codebase-stewardship** - codebase-scanning, concurrent-vcs, dead-code, dependency-declaration, docs-sync, live-defect-debugging, machine-authored-documentation, module-design, repository-landing-document
-- **continuous-integration** - ci-execution-trust, deployment-contract, machine-paced-delivery, pipeline-authoring, runner-fleet
+- **continuous-integration** - ci-execution-trust, deployment-contract, earned-autonomy-tiers, machine-paced-delivery, pipeline-authoring, runner-fleet
 - **standards-and-gates** - invariant-placement, knowledge-registry, metric-gates, multi-project, quality-gates, repo-manifest-standard, trust-base
 
 ### engineering-assessment
 - **maturity-and-conformance** - conformance-checking, maturity-ladders, public-verdict-badge, readiness-passports
-- **measurement-method** - analytics-time-windows, measurement-honesty, metric-forecasting, modelled-performance-estimates, peer-benchmarking, people-analytics-ethics
+- **measurement-method** - analytics-time-windows, claimed-improvement-remeasurement, measurement-honesty, metric-forecasting, modelled-performance-estimates, peer-benchmarking, people-analytics-ethics
 - **reporting-and-remediation** - adoption-measurement, delivery-analytics, executive-reporting, remediation-roadmaps
 
 ### secret-custody-and-issuance

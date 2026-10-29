@@ -4,7 +4,7 @@
   "bundle": "media-generation",
   "source": "knowledge/media-generation/ (frontmatter only)",
   "subjects": 37,
-  "techniques": 255,
+  "techniques": 260,
   "applications": 163,
   "laws": 9,
   "categories": [
@@ -16,7 +16,7 @@
    "streaming"
   ],
   "layout": "nested",
-  "use_when_coverage": "255/255",
+  "use_when_coverage": "260/260",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -2891,9 +2891,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/media-generation/production-ops/live-system-demo-film/live-system-demo-film.md",
-   "digest": "sha256-b2:ef4fc3b78116e73b",
-   "revision": 2,
-   "changedAt": "2026-09-28",
+   "digest": "sha256-b2:e3bb8c209c3765f1",
+   "revision": 3,
+   "changedAt": "2026-10-29",
    "techniques": [
     {
      "slug": "audio-first-beat-pacing",
@@ -2908,6 +2908,79 @@
       "deciding how long a beat's picture should hold",
       "a demo film runs longer or shorter than its voice track",
       "choosing between an estimated and a measured clip length"
+     ]
+    },
+    {
+     "slug": "figures-lifted-with-declared-fallback",
+     "status": "forged",
+     "laws": [
+      "output-never-outruns-evidence",
+      "unmeasured-is-not-pass"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a film states figures that come from earlier test or benchmark runs",
+      "a run record that backed a figure is no longer on the machine",
+      "deciding what a graphic may assert when only the documentation holds the number"
+     ]
+    },
+    {
+     "slug": "music-bed-sized-to-the-finished-cut",
+     "status": "forged",
+     "laws": [
+      "cost-per-usable-output",
+      "output-never-outruns-evidence"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "adding a background music bed to a narrated demo film",
+      "choosing between several generated music candidates",
+      "deciding how loud a bed sits under a voice",
+      "a script change moved the length of the film"
+     ]
+    },
+    {
+     "slug": "narrator-chosen-by-audition",
+     "status": "forged",
+     "laws": [
+      "cost-per-usable-output",
+      "output-never-outruns-evidence"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "choosing the synthetic voice for a demo film",
+      "a first narration came out flat or monotone",
+      "rewriting a script that sounds like a brochure read aloud",
+      "deciding how much to spend before the voice is approved"
+     ]
+    },
+    {
+     "slug": "native-window-grab-with-measured-clock",
+     "status": "forged",
+     "laws": [
+      "unmeasured-is-not-pass",
+      "output-never-outruns-evidence"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "recording a desktop application that cannot be recorded from inside a page",
+      "driving a native shell through its debugging channel while the screen is grabbed",
+      "the picture and the driver run on two clocks that drift apart"
+     ]
+    },
+    {
+     "slug": "prototype-the-cut-from-stills-and-a-dry-walk",
+     "status": "forged",
+     "laws": [
+      "cost-per-usable-output",
+      "output-never-outruns-evidence"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "choosing how much motion graphics a demo film layers over its footage",
+      "writing narration before anyone has watched the product do the flow",
+      "an operator must approve a direction before an expensive take",
+      "a film script was written from memory of the product"
      ]
     },
     {
@@ -5200,6 +5273,8 @@
     "live-safety-rails/detector-biased-to-false-positive",
     "live-safety-rails/no-crowd-action",
     "live-system-demo-film/audio-first-beat-pacing",
+    "live-system-demo-film/figures-lifted-with-declared-fallback",
+    "live-system-demo-film/native-window-grab-with-measured-clock",
     "live-system-demo-film/recording-that-asserts-its-claims",
     "live-system-demo-film/script-as-single-source",
     "multi-speaker-speech-production/chunk-boundary-continuity",
@@ -5270,6 +5345,9 @@
     "image-prompt-composition/prompt-budget-limits",
     "image-prompt-composition/prompt-dialect-matching",
     "live-response-latency-budgeting/latency-class-per-role",
+    "live-system-demo-film/music-bed-sized-to-the-finished-cut",
+    "live-system-demo-film/narrator-chosen-by-audition",
+    "live-system-demo-film/prototype-the-cut-from-stills-and-a-dry-walk",
     "live-system-demo-film/retake-without-an-edit-session",
     "multi-speaker-speech-production/line-addressed-re-render",
     "multi-speaker-speech-production/voice-asset-model-generation-binding",
@@ -5400,6 +5478,11 @@
     "generated-speech-acceptance/three-axes-beside-intelligibility",
     "generative-provider-routing/extraction-model-bake-off",
     "live-safety-rails/real-people-boundary",
+    "live-system-demo-film/figures-lifted-with-declared-fallback",
+    "live-system-demo-film/music-bed-sized-to-the-finished-cut",
+    "live-system-demo-film/narrator-chosen-by-audition",
+    "live-system-demo-film/native-window-grab-with-measured-clock",
+    "live-system-demo-film/prototype-the-cut-from-stills-and-a-dry-walk",
     "live-system-demo-film/recorder-owned-overlay",
     "live-system-demo-film/recording-that-asserts-its-claims",
     "live-system-demo-film/script-as-single-source",
