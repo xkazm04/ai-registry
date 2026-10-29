@@ -21,10 +21,15 @@ import {
   parseFrontmatter, newId, branchFor, parseGithubOrigin, LANDING_CONTRACT, composePrompt, promptWithinLimit,
   syncGate, dispatchBrief, runState, statusRows, queueAdd, queueDone, listItems, runOverflow,
   readLedger, appendJsonl, UNPUSHED_HEADING, ledgerPath, overflowLogPath, readItem, localDate,
+  launchCommand, keyLaunchCommand, keyChildEnv, KEY_CHILD_STRIP, keyWorkerArgv, parseClaudeResult, keyStatus, keyBranchFor,
+  lanesPath, initLanes, initialLanesConfig, laneConfig, laneState, lanesReport, recordSpend, statusFileFor,
+  keyItemFileFor, rowEngine,
 } from '../scripts/lib/core.mjs';
+import { runKeyWorker } from '../scripts/keyworker.mjs';
 
 const HERE = path.dirname(fileURLToPath(import.meta.url));
 const OVERFLOW = path.join(HERE, '..', 'scripts', 'overflow.mjs');
+const DISPATCH = path.join(HERE, '..', 'scripts', 'dispatch.mjs');
 const NOW = new Date(2026, 9, 6, 14, 30, 0); // 2026-10-06 14:30 local
 
 const ROOTS = [];
@@ -218,7 +223,8 @@ test('--go starts the launcher once through cmd /c start (a real console), and a
   const rows = readLedger(reg);
   assert.equal(rows.length, 1);
   assert.deepEqual(Object.keys(rows[0]), LEDGER_KEYS);
-  assert.deepEqual(LEDGER_KEYS, ['ts', 'id', 'repo', 'origin', 'base_sha', 'label', 'from', 'model', 'mode', 'brief_sha256', 'prompt_chars', 'allow_ahead']);
+  assert.deepEqual(LEDGER_KEYS, ['ts', 'id', 'repo', 'origin', 'base_sha', 'label', 'from', 'model', 'mode', 'brief_sha256', 'prompt_chars', 'allow_ahead', 'engine']);
+  assert.equal(rows[0].engine, 'cloud');
   assert.equal(rows[0].mode, 'explicit');
   assert.equal(rows[0].label, 'Labelled');
   assert.equal(rows[0].from, 'spark');
@@ -518,4 +524,439 @@ test('overflow.mjs exits 0 on malformed, empty and non-matching stdin', () => {
     assert.equal(r.status, 0, `stdin ${JSON.stringify(input)} -> ${r.status} ${r.stderr}`);
   }
   assert.equal(fs.existsSync(path.join(reg, '.ai')), false);
+});
+
+// ---------------------------------------------------------------- key lane (1.2.0)
+// The promises worth pinning: a key plan spawns nothing and shows the lane; every lane refusal
+// fires before anything spawns; the worker child gets the lane's key as ANTHROPIC_API_KEY and no
+// other Anthropic credential; --lanes sums real spend per lane; and no output ever carries a key.
+
+const SECRET = 'sk-ant-test-NOT-A-REAL-KEY-0001';
+const LANE = { keyEnv: 'ANTHROPIC_KEY_LANE_REGISTRY', budgetUsd: 100, expires: '2026-11-12', perRunUsd: 15, maxConcurrent: 3, model: 'claude-opus-5-5', effort: 'high' };
+function writeLanes(reg, lanes) {
+  fs.mkdirSync(path.join(reg, '.ai'), { recursive: true });
+  fs.writeFileSync(lanesPath(reg), JSON.stringify({ lanes }));
+}
+const keyDeps = (reg, extra = {}) => deps(reg, { env: { ANTHROPIC_KEY_LANE_REGISTRY: SECRET }, workerPath: 'keyworker.mjs', worktreeRoot: path.join(reg, 'wt'), ...extra });
+const keyDispatch = (root, repo, d, extra = {}) => dispatchBrief({ briefPath: writeBrief(root, 'k.md', { meta: { label: 'Review one subject', from: 'librarian' } }), repo, engine: 'key', lane: 'registry', deps: d, ...extra });
+const noSecret = (x) => assert.equal(JSON.stringify(x).includes(SECRET), false, 'a key value leaked into an output');
+
+test('--lanes-init writes registry, cloud and overlord with zero budget and empty expiry, and refuses a second time', () => {
+  const { reg } = setup();
+  const r = initLanes({ registryDir: reg });
+  assert.equal(r.ok, true);
+  const cfg = JSON.parse(fs.readFileSync(lanesPath(reg), 'utf8'));
+  assert.deepEqual(cfg, initialLanesConfig());
+  assert.deepEqual(Object.keys(cfg.lanes), ['registry', 'cloud', 'overlord']);
+  assert.deepEqual(cfg.lanes.overlord, { keyEnv: 'ANTHROPIC_KEY_LANE_OVERLORD', budgetUsd: 0, expires: '', perRunUsd: 15, maxConcurrent: 3, model: 'claude-opus-5-5', effort: 'high' });
+  fs.writeFileSync(lanesPath(reg), '{"lanes":{"registry":{"budgetUsd":500}}}');
+  const again = initLanes({ registryDir: reg });
+  assert.equal(again.ok, false);
+  assert.match(again.reason, /already exists/);
+  assert.equal(JSON.parse(fs.readFileSync(lanesPath(reg), 'utf8')).lanes.registry.budgetUsd, 500, 'an operator budget is never overwritten');
+});
+
+test('a missing lane file or a missing lane refuses "lane <x> not configured"; keyEnv must be an ANTHROPIC_KEY_LANE_* name', () => {
+  const { root, reg, repo } = setup();
+  const d = keyDeps(reg);
+  const none = keyDispatch(root, repo, d);
+  assert.equal(none.ok, false);
+  assert.equal(none.exit, EXIT_REFUSED);
+  assert.equal(none.reason, 'lane registry not configured in .ai/credit-lanes.local.json');
+  writeLanes(reg, { overlord: LANE });
+  assert.equal(keyDispatch(root, repo, d).reason, 'lane registry not configured in .ai/credit-lanes.local.json');
+  writeLanes(reg, { registry: { ...LANE, keyEnv: 'ANTHROPIC_API_KEY' } });
+  assert.match(laneConfig(reg, 'registry').reason, /ANTHROPIC_KEY_LANE_\*/);
+  assert.equal(keyDispatch(root, repo, d).ok, false);
+  assert.equal(d.spawn.calls.length, 0);
+  assert.equal(dispatchBrief({ briefPath: writeBrief(root, 'k.md'), repo, engine: 'key', deps: d }).exit, EXIT_USAGE, '--engine key without --lane is usage');
+});
+
+test('acceptance a: a key plan spawns nothing, writes nothing, and shows lane, remaining and keyEnv set|unset', () => {
+  const { root, reg, repo } = setup();
+  writeLanes(reg, { registry: LANE });
+  const before = fs.readdirSync(path.join(reg, '.ai'));
+  const d = keyDeps(reg);
+  const res = keyDispatch(root, repo, d);
+  assert.equal(res.ok, true);
+  assert.equal(res.branch, keyBranchFor(res.id));
+  assert.equal(res.branch, `claude/key-${res.id}`);
+  assert.equal(res.plan.engine, 'key');
+  assert.equal(res.plan.model, 'claude-opus-5-5');
+  assert.equal(res.plan.effort, 'high');
+  assert.equal(res.plan.lane.lane, 'registry');
+  assert.equal(res.plan.lane.remaining, 100);
+  assert.equal(res.plan.lane.keyEnv, 'set');
+  assert.deepEqual(res.plan.lane.refusals, []);
+  assert.match(res.plan.prompt, /key\(\d{6}-[0-9a-f]{6}\): Review one subject/);
+  assert.equal(d.spawn.calls.length, 0);
+  assert.deepEqual(fs.readdirSync(path.join(reg, '.ai')), before, 'a plan writes no prompt, item or ledger row');
+  noSecret(res);
+  const unset = keyDispatch(root, repo, keyDeps(reg, { env: {} }));
+  assert.equal(unset.plan.lane.keyEnv, 'unset');
+  // --model and --effort override the lane for one run
+  const over = keyDispatch(root, repo, keyDeps(reg), { model: 'sonnet', effort: 'low' });
+  assert.equal(over.plan.model, 'sonnet');
+  assert.equal(over.plan.effort, 'low');
+});
+
+test('acceptance a (CLI): the printed key plan names lane, remaining and keyEnv, exits 1 on a refusal and never prints the key', () => {
+  const { root, reg, repo } = setup();
+  writeLanes(reg, { registry: LANE });
+  const brief = writeBrief(root, 'k.md');
+  const env = { ...process.env, AI_REGISTRY_DIR: reg, GIT_CEILING_DIRECTORIES: root };
+  delete env.NODE_TEST_CONTEXT;
+  delete env.ANTHROPIC_KEY_LANE_REGISTRY;
+  const cli = (extraEnv) => spawnSync(process.execPath, [DISPATCH, '--brief', brief, '--repo', repo, '--engine', 'key', '--lane', 'registry'], { encoding: 'utf8', env: { ...env, ...extraEnv }, timeout: 30_000 });
+  const unset = cli({});
+  assert.equal(unset.status, EXIT_REFUSED, unset.stderr);
+  assert.match(unset.stdout, /lane {6}registry {2}keyEnv: unset \(ANTHROPIC_KEY_LANE_REGISTRY\)/);
+  assert.match(unset.stdout, /remaining \$100\.00/);
+  assert.match(unset.stderr, /ANTHROPIC_KEY_LANE_REGISTRY is unset or empty/);
+  // with the key set the lane passes; the temp repo is not a git repo, so the sync gate still refuses
+  const set = cli({ ANTHROPIC_KEY_LANE_REGISTRY: SECRET });
+  assert.equal(set.status, EXIT_REFUSED);
+  assert.match(set.stdout, /keyEnv: set/);
+  assert.match(set.stderr, /not a git repository/);
+  for (const r of [unset, set]) assert.equal(`${r.stdout}${r.stderr}`.includes(SECRET), false);
+  assert.deepEqual(fs.readdirSync(path.join(reg, '.ai')), ['credit-lanes.local.json'], 'nothing spawned, nothing written');
+  // --lanes prints the lane and keyEnv: set, never the value
+  const lanes = spawnSync(process.execPath, [DISPATCH, '--lanes'], { encoding: 'utf8', env: { ...env, ANTHROPIC_KEY_LANE_REGISTRY: SECRET }, timeout: 30_000 });
+  assert.equal(lanes.status, EXIT_OK, lanes.stderr);
+  assert.match(lanes.stdout, /registry .*remaining \$100\.00 .*keyEnv: set/);
+  assert.equal(lanes.stdout.includes(SECRET), false);
+});
+
+test('acceptance b: keyEnv unset or empty refuses with exit 1 and spawns nothing', () => {
+  const { root, reg, repo } = setup();
+  writeLanes(reg, { registry: LANE });
+  for (const env of [{}, { ANTHROPIC_KEY_LANE_REGISTRY: '' }]) {
+    const d = keyDeps(reg, { env });
+    for (const go of [false, true]) {
+      const res = keyDispatch(root, repo, d, { go });
+      assert.equal(res.ok, false);
+      assert.equal(res.exit, EXIT_REFUSED);
+      assert.match(res.reason, /ANTHROPIC_KEY_LANE_REGISTRY is unset or empty/);
+    }
+    assert.equal(d.spawn.calls.length, 0);
+  }
+  assert.equal(readLedger(reg).length, 0);
+});
+
+test('acceptance b: an expired lane refuses; the expiry day itself and an empty expires do not', () => {
+  const { root, reg, repo } = setup();
+  writeLanes(reg, { registry: { ...LANE, expires: '2026-10-05' } }); // NOW is 2026-10-06 local
+  const d = keyDispatch(root, repo, keyDeps(reg), { go: true });
+  assert.equal(d.ok, false);
+  assert.equal(d.exit, EXIT_REFUSED);
+  assert.match(d.reason, /lane registry expired on 2026-10-05/);
+  for (const expires of ['2026-10-06', '']) {
+    writeLanes(reg, { registry: { ...LANE, expires } });
+    assert.equal(keyDispatch(root, repo, keyDeps(reg)).ok, true, `expires ${JSON.stringify(expires)}`);
+  }
+  writeLanes(reg, { registry: { ...LANE, expires: '12/11/2026' } });
+  assert.match(keyDispatch(root, repo, keyDeps(reg)).reason, /expires must be "" or YYYY-MM-DD/);
+});
+
+test('acceptance b: remaining < perRunUsd refuses (budget 0 refuses every run until the operator sets one)', () => {
+  const { root, reg, repo } = setup();
+  writeLanes(reg, { registry: { ...LANE, budgetUsd: 0 } });
+  const zero = keyDispatch(root, repo, keyDeps(reg), { go: true });
+  assert.equal(zero.ok, false);
+  assert.equal(zero.exit, EXIT_REFUSED);
+  assert.match(zero.reason, /\$0 available .* perRunUsd \$15/);
+  writeLanes(reg, { registry: { ...LANE, budgetUsd: 40 } });
+  appendJsonl(ledgerPath(reg), { engine: 'manual', lane: 'registry', cost_usd: 26, label: 'earlier', ts: NOW.toISOString() });
+  const low = keyDispatch(root, repo, keyDeps(reg), { go: true });
+  assert.equal(low.ok, false);
+  assert.equal(low.plan.lane.remaining, 14);
+  assert.match(low.reason, /\$14 available/);
+  writeLanes(reg, { registry: { ...LANE, budgetUsd: 41 } });
+  assert.equal(keyDispatch(root, repo, keyDeps(reg)).ok, true, 'remaining 15 == perRunUsd 15 passes');
+});
+
+test('acceptance b: running >= maxConcurrent refuses; a key row with a status file is no longer running', () => {
+  const { root, reg, repo } = setup();
+  writeLanes(reg, { registry: { ...LANE, budgetUsd: 1000, maxConcurrent: 2 } });
+  for (const id of ['261006-000001', '261006-000002']) appendJsonl(ledgerPath(reg), { ts: NOW.toISOString(), id, engine: 'key', lane: 'registry' });
+  const d = keyDeps(reg);
+  const full = keyDispatch(root, repo, d, { go: true });
+  assert.equal(full.ok, false);
+  assert.equal(full.exit, EXIT_REFUSED);
+  assert.match(full.reason, /2 running worker\(s\); maxConcurrent is 2/);
+  assert.equal(d.spawn.calls.length, 0);
+  fs.mkdirSync(path.dirname(statusFileFor(reg, 'x')), { recursive: true });
+  fs.writeFileSync(statusFileFor(reg, '261006-000001'), JSON.stringify({ exit: 0, cost_usd: 9, ended: NOW.toISOString() }));
+  const ok = keyDispatch(root, repo, keyDeps(reg));
+  assert.equal(ok.ok, true);
+  assert.equal(ok.plan.lane.running, 1);
+  assert.equal(ok.plan.lane.spent, 9);
+});
+
+test('a running worker holds perRunUsd of the budget, so concurrent runs cannot overspend it', () => {
+  const st = laneState({ name: 'registry', lane: { ...LANE, budgetUsd: 40 }, rows: [{ id: 'a', engine: 'key', lane: 'registry' }], env: { ANTHROPIC_KEY_LANE_REGISTRY: SECRET }, today: '2026-10-06' });
+  assert.equal(st.remaining, 40);
+  assert.equal(st.reserved, 15);
+  assert.equal(st.available, 25);
+  assert.deepEqual(st.refusals, []);
+  const tight = laneState({ name: 'registry', lane: { ...LANE, budgetUsd: 29 }, rows: [{ id: 'a', engine: 'key', lane: 'registry' }], env: { ANTHROPIC_KEY_LANE_REGISTRY: SECRET }, today: '2026-10-06' });
+  assert.equal(tight.remaining, 29, 'remaining alone would pass');
+  assert.match(tight.refusals.join(' '), /\$14 available .* minus \$15 held for 1 running/);
+});
+
+test('a key row with no status file past the cutoff is lost: no slot held, charged its full perRunUsd', () => {
+  const now = Date.parse('2026-10-29T20:00:00Z');
+  const rows = [
+    { id: 'old', engine: 'key', lane: 'registry', ts: '2026-10-29T12:00:00Z' },
+    { id: 'new', engine: 'key', lane: 'registry', ts: '2026-10-29T19:00:00Z' },
+  ];
+  const st = laneState({ name: 'registry', lane: { ...LANE, budgetUsd: 100, maxConcurrent: 1 }, rows, env: { ANTHROPIC_KEY_LANE_REGISTRY: SECRET }, today: '2026-10-29', now });
+  assert.equal(st.lost, 1);
+  assert.equal(st.running, 1);
+  assert.equal(st.spent, 15);
+  assert.equal(runState({ status: null, branchExists: false, pr: null, engine: 'key', lost: true }), 'lost');
+  assert.equal(runState({ status: null, branchExists: false, pr: null, engine: 'key' }), 'running');
+});
+
+test('keyChildEnv drops every name in KEY_CHILD_STRIP, the OAuth token and provider switches included', () => {
+  const parent = { PATH: '/bin', ANTHROPIC_KEY_LANE_REGISTRY: SECRET };
+  for (const k of KEY_CHILD_STRIP) parent[k] = 'x';
+  const env = keyChildEnv(parent, 'ANTHROPIC_KEY_LANE_REGISTRY');
+  for (const k of KEY_CHILD_STRIP.filter((n) => n !== 'ANTHROPIC_API_KEY')) assert.equal(k in env, false, k);
+  for (const k of ['CLAUDE_CODE_OAUTH_TOKEN', 'CLAUDE_CODE_USE_BEDROCK', 'CLAUDE_CODE_USE_VERTEX', 'CLAUDE_CODE_USE_FOUNDRY']) assert.ok(KEY_CHILD_STRIP.includes(k), k);
+  assert.equal(env.ANTHROPIC_API_KEY, SECRET);
+});
+
+test('acceptance c: keyChildEnv carries the lane key as ANTHROPIC_API_KEY and no lane var, AUTH_TOKEN, BASE_URL or NODE_TEST_CONTEXT', () => {
+  const parent = {
+    PATH: '/bin', HOME: '/h', ANTHROPIC_KEY_LANE_REGISTRY: SECRET, ANTHROPIC_KEY_LANE_OVERLORD: 'sk-other', ANTHROPIC_KEY_LANE_CLOUD: 'sk-cloud',
+    ANTHROPIC_AUTH_TOKEN: 'tok', ANTHROPIC_BASE_URL: 'https://proxy', NODE_TEST_CONTEXT: 'child-v8', ANTHROPIC_API_KEY: 'sk-stale',
+    Anthropic_Base_Url: 'https://mixed-case',
+  };
+  const env = keyChildEnv(parent, 'ANTHROPIC_KEY_LANE_REGISTRY');
+  assert.equal(env.ANTHROPIC_API_KEY, SECRET);
+  assert.deepEqual(Object.keys(env).filter((k) => k.toUpperCase().startsWith('ANTHROPIC_KEY_LANE_')), []);
+  for (const k of ['ANTHROPIC_AUTH_TOKEN', 'ANTHROPIC_BASE_URL', 'NODE_TEST_CONTEXT', 'Anthropic_Base_Url']) assert.equal(k in env, false, k);
+  assert.equal(env.PATH, '/bin');
+  assert.equal(env.HOME, '/h');
+  assert.equal(parent.ANTHROPIC_KEY_LANE_REGISTRY, SECRET, 'the parent env is not mutated');
+  assert.equal(parent.NODE_TEST_CONTEXT, 'child-v8');
+});
+
+test('acceptance d: keyWorkerArgv is exactly the headless argv, and the cloud launchCommand is unchanged', () => {
+  assert.deepEqual(keyWorkerArgv(LANE), ['-p', '--model', 'claude-opus-5-5', '--effort', 'high', '--max-budget-usd', '15', '--output-format', 'json', '--permission-mode', 'bypassPermissions']);
+  assert.equal(keyWorkerArgv(LANE).some((a) => /LANDING|prompt/i.test(a)), false, 'the prompt goes on stdin, never in argv');
+  // the 1.1.x cloud launcher, byte for byte
+  assert.deepEqual(launchCommand({ id: '261006-abcdef', execPath: 'node', launchPath: 'launch.mjs', promptFile: 'p.txt', statusFile: 's.json', model: 'opus', cwd: 'repo' }), {
+    command: 'cmd.exe',
+    args: ['/d', '/c', 'start', '"cloud-261006-abcdef"', 'node', 'launch.mjs', 'p.txt', 's.json', 'opus'],
+    options: { cwd: 'repo', detached: true, stdio: 'ignore', windowsHide: true },
+  });
+  assert.deepEqual(keyLaunchCommand({ id: '261006-abcdef', execPath: 'node', workerPath: 'keyworker.mjs', itemFile: 'i.json', cwd: 'repo' }), {
+    command: 'cmd.exe',
+    args: ['/d', '/c', 'start', '"key-261006-abcdef"', 'node', 'keyworker.mjs', 'i.json'],
+    options: { cwd: 'repo', detached: true, stdio: 'ignore', windowsHide: true },
+  });
+  // the default engine is still cloud: same branch, same contract, same launcher
+  const { root, reg, repo } = setup();
+  const res = dispatchBrief({ briefPath: writeBrief(root, 'b.md'), repo, go: false, deps: deps(reg) });
+  assert.equal(res.plan.engine, 'cloud');
+  assert.equal(res.branch, branchFor(res.id));
+  assert.ok(res.plan.prompt.endsWith(`${LANDING_CONTRACT(res.id, res.branch, 'Fix the widget')}\n`));
+  assert.deepEqual(res.plan.launch.args.slice(4, 6), ['node', 'launch.mjs']);
+});
+
+test('key --go opens keyworker in a new console with an item naming the key variable, never its value, and one compact ledger row', () => {
+  const { root, reg, repo } = setup();
+  writeLanes(reg, { registry: LANE });
+  const d = keyDeps(reg);
+  const res = keyDispatch(root, repo, d, { go: true });
+  assert.equal(res.ok, true, res.reason);
+  assert.equal(d.spawn.calls.length, 1);
+  const call = d.spawn.calls[0];
+  assert.equal(call.cmd, 'cmd.exe');
+  assert.deepEqual(call.args.slice(0, 3), ['/d', '/c', 'start']);
+  assert.equal(call.args[3], `"key-${res.id}"`);
+  assert.deepEqual(call.args.slice(4), ['node', 'keyworker.mjs', keyItemFileFor(reg, res.id)]);
+  assert.equal(call.unrefed, true);
+  const item = JSON.parse(fs.readFileSync(res.itemFile, 'utf8'));
+  assert.equal(item.keyEnv, 'ANTHROPIC_KEY_LANE_REGISTRY');
+  assert.equal(item.branch, `claude/key-${res.id}`);
+  assert.equal(item.worktree, path.join(reg, 'wt', `cd-${res.id}`));
+  assert.equal(item.defaultBranch, 'main');
+  assert.equal(item.perRunUsd, 15);
+  noSecret(item);
+  assert.match(fs.readFileSync(res.promptFile, 'utf8'), /git push -u origin claude\/key-/);
+  assert.equal(listItems(reg).length, 0, 'a key item is not an overflow queue item');
+  const rows = readLedger(reg);
+  assert.equal(rows.length, 1);
+  assert.equal(rows[0].engine, 'key');
+  assert.equal(rows[0].lane, 'registry');
+  assert.equal(rows[0].from, 'librarian');
+  assert.equal(Object.values(rows[0]).includes(null), false, 'absent values are omitted, never null');
+  assert.equal('cost_usd' in rows[0], false, 'cost is unknown at launch');
+  noSecret(rows);
+});
+
+test('acceptance e: --lanes sums cost_usd over key and manual rows per lane; rows without engine read as cloud', () => {
+  const { reg } = setup();
+  writeLanes(reg, { registry: { ...LANE, budgetUsd: 200 }, overlord: { ...LANE, keyEnv: 'ANTHROPIC_KEY_LANE_OVERLORD', budgetUsd: 50, expires: '2026-10-01' } });
+  const old = { ts: NOW.toISOString(), id: '261001-aaaaaa', mode: 'explicit', lane: 'registry', cost_usd: 999 }; // pre-1.2.0: a cloud row
+  assert.equal(rowEngine(old), 'cloud');
+  appendJsonl(ledgerPath(reg), old);
+  appendJsonl(ledgerPath(reg), { ts: NOW.toISOString(), id: '261006-000001', engine: 'key', lane: 'registry' });
+  appendJsonl(ledgerPath(reg), { ts: NOW.toISOString(), id: '261006-000002', engine: 'key', lane: 'registry' }); // still running
+  appendJsonl(ledgerPath(reg), { ts: NOW.toISOString(), id: '261006-000003', engine: 'cloud', lane: 'registry', cost_usd: 500 });
+  fs.mkdirSync(path.dirname(statusFileFor(reg, 'x')), { recursive: true });
+  fs.writeFileSync(statusFileFor(reg, '261006-000001'), JSON.stringify(keyStatus({ exit: 0, cost_usd: 12.5, session_id: 's', ended: NOW.toISOString() })));
+  assert.equal(recordSpend({ lane: 'registry', cost: '7.25', label: 'hand run', registryDir: reg, now: () => NOW }).ok, true);
+  assert.equal(recordSpend({ lane: 'overlord', cost: 30, label: 'overlord session', registryDir: reg, now: () => NOW }).ok, true);
+  const rep = lanesReport({ registryDir: reg, env: { ANTHROPIC_KEY_LANE_REGISTRY: SECRET }, now: () => NOW });
+  assert.equal(rep.ok, true);
+  const byName = Object.fromEntries(rep.lanes.map((l) => [l.lane, l]));
+  assert.equal(byName.registry.spent, 19.75, 'the key row status cost plus the manual row; cloud rows never count');
+  assert.equal(byName.registry.remaining, 180.25);
+  assert.equal(byName.registry.running, 1);
+  assert.equal(byName.registry.keyEnv, 'set');
+  assert.equal(byName.overlord.spent, 30);
+  assert.equal(byName.overlord.remaining, 20);
+  assert.equal(byName.overlord.keyEnv, 'unset');
+  assert.equal(byName.overlord.expired, true);
+  assert.equal(byName.overlord.running, 0);
+  noSecret(rep);
+});
+
+test('--record appends {engine:"manual", lane, cost_usd, label, ts} and refuses an unconfigured lane or a bad cost', () => {
+  const { reg } = setup();
+  writeLanes(reg, { overlord: { ...LANE, keyEnv: 'ANTHROPIC_KEY_LANE_OVERLORD' } });
+  const r = recordSpend({ lane: 'overlord', cost: '3.5', label: 'overlord sim', registryDir: reg, now: () => NOW });
+  assert.equal(r.ok, true);
+  const rows = readLedger(reg);
+  assert.deepEqual(rows, [{ engine: 'manual', lane: 'overlord', cost_usd: 3.5, label: 'overlord sim', ts: NOW.toISOString() }]);
+  assert.equal(recordSpend({ lane: 'cloud', cost: 1, label: 'x', registryDir: reg }).reason, 'lane cloud not configured in .ai/credit-lanes.local.json');
+  for (const cost of ['abc', '-1', '', 'NaN']) assert.equal(recordSpend({ lane: 'overlord', cost, label: 'x', registryDir: reg }).ok, false, cost);
+  assert.equal(recordSpend({ lane: 'overlord', cost: 1, label: ' ', registryDir: reg }).ok, false);
+  assert.equal(readLedger(reg).length, 1);
+});
+
+test('--status joins a key row on claude/key-<id>, shows engine, lane and cost, and skips manual rows', () => {
+  const { reg, repo } = setup();
+  const origin = 'https://github.com/acme/widgets.git';
+  appendJsonl(ledgerPath(reg), { ts: '2026-10-05T10:00:00.000Z', id: '261005-aaaaaa', repo, origin, mode: 'explicit' });
+  appendJsonl(ledgerPath(reg), { ts: '2026-10-06T10:00:00.000Z', id: '261006-bbbbbb', engine: 'key', lane: 'registry', repo, origin, mode: 'explicit' });
+  appendJsonl(ledgerPath(reg), { engine: 'manual', lane: 'registry', cost_usd: 2, label: 'm', ts: '2026-10-06T11:00:00.000Z' });
+  fs.mkdirSync(path.dirname(statusFileFor(reg, 'x')), { recursive: true });
+  fs.writeFileSync(statusFileFor(reg, '261006-bbbbbb'), JSON.stringify({ exit: 0, cost_usd: 8.1, ended: 'x' }));
+  const lsRemote = [];
+  const prHeads = [];
+  const rows = statusRows({
+    registryDir: reg,
+    git: (r, args) => { lsRemote.push(args.at(-1)); return { code: 0, stdout: args.at(-1).includes('key-') ? 'abc\tref\n' : '', stderr: '' }; },
+    gh: (args) => { prHeads.push(args[args.indexOf('--head') + 1]); return { code: 0, stdout: args.includes('claude/key-261006-bbbbbb') ? '[{"number":4,"state":"OPEN","url":"u"}]' : '[]' }; },
+    hasGh: () => true,
+  });
+  assert.deepEqual(rows.map((r) => r.id), ['261006-bbbbbb', '261005-aaaaaa']);
+  assert.deepEqual(prHeads, ['claude/key-261006-bbbbbb', 'claude/cloud-261005-aaaaaa']);
+  assert.ok(lsRemote.includes('refs/heads/claude/key-261006-bbbbbb'));
+  assert.equal(rows[0].engine, 'key');
+  assert.equal(rows[0].branch, 'claude/key-261006-bbbbbb');
+  assert.equal(rows[0].state, 'pr#4 open');
+  assert.equal(rows[0].cost_usd, 8.1);
+  assert.equal(rows[1].engine, 'cloud');
+  assert.equal(runState({ status: null, branchExists: false, pr: null, engine: 'key' }), 'running');
+  assert.equal(runState({ status: { exit: 0 }, branchExists: null, pr: null, engine: 'key' }), 'ended');
+  assert.equal(runState({ status: { exit: 1 }, branchExists: false, pr: null, engine: 'key' }), 'failed(1)');
+});
+
+test('the key landing contract names claude/key-<id>, key(<id>): <label>, gh, and fences the worker in its worktree', () => {
+  const c = LANDING_CONTRACT('261006-abcdef', 'claude/key-261006-abcdef', 'Fix it', 'key');
+  assert.match(c, /key\(261006-abcdef\): Fix it/);
+  assert.match(c, /git push -u origin claude\/key-261006-abcdef/);
+  assert.match(c, /gh pr create/);
+  assert.match(c, /\.cloud-runs\/261006-abcdef\/RESULT\.md/);
+  assert.match(c, /Never write outside this worktree/);
+  assert.match(c, /never force-push/);
+  assert.doesNotMatch(LANDING_CONTRACT('i', 'b', 'l'), /worktree/, 'the cloud contract is untouched');
+});
+
+test('parseClaudeResult reads total_cost_usd, session_id and is_error; keyStatus omits unknown keys', () => {
+  assert.deepEqual(parseClaudeResult('{"type":"result","total_cost_usd":3.21,"session_id":"abc","is_error":false,"result":"done"}'), { cost_usd: 3.21, session_id: 'abc', is_error: false });
+  assert.deepEqual(parseClaudeResult('noise\n{"total_cost_usd":1,"session_id":"z","is_error":true}\n'), { cost_usd: 1, session_id: 'z', is_error: true });
+  assert.deepEqual(parseClaudeResult(''), {});
+  assert.deepEqual(parseClaudeResult('not json'), {});
+  assert.deepEqual(keyStatus({ exit: 0, error: undefined, cost_usd: undefined, session_id: 's', ended: 'e' }), { exit: 0, session_id: 's', ended: 'e' });
+  assert.deepEqual(Object.keys(keyStatus({ exit: 1, error: 'x', cost_usd: 2, session_id: 's', ended: 'e' })), ['exit', 'error', 'cost_usd', 'session_id', 'ended']);
+});
+
+// ---------------------------------------------------------------- keyworker
+
+function workerFixture({ env = { ANTHROPIC_KEY_LANE_REGISTRY: SECRET, ANTHROPIC_AUTH_TOKEN: 'tok', NODE_TEST_CONTEXT: 'x' }, machine = true, claude = { status: 0, stdout: '{"total_cost_usd":4.2,"session_id":"sess-1","is_error":false}' }, removeOk = true } = {}) {
+  const { root, reg, repo } = setup();
+  if (machine) fs.writeFileSync(path.join(repo, '.machine.local.json'), '{"fleetRoot":"x"}');
+  const id = '261006-abcdef';
+  const wt = path.join(root, 'wt', `cd-${id}`);
+  fs.mkdirSync(path.join(reg, '.ai', 'cloud-queue'), { recursive: true });
+  const promptFile = path.join(reg, '.ai', 'cloud-queue', `${id}.prompt.txt`);
+  fs.writeFileSync(promptFile, 'THE PROMPT');
+  const item = { id, engine: 'key', lane: 'registry', keyEnv: 'ANTHROPIC_KEY_LANE_REGISTRY', repo, defaultBranch: 'main', branch: `claude/key-${id}`, worktree: wt, model: 'claude-opus-5-5', effort: 'high', perRunUsd: 15, label: 'l', promptFile, statusFile: statusFileFor(reg, id), registryDir: reg };
+  const itemFile = keyItemFileFor(reg, id);
+  fs.writeFileSync(itemFile, JSON.stringify(item));
+  const gitCalls = [];
+  const git = (r, args) => {
+    gitCalls.push(args.join(' '));
+    if (args[0] === 'rev-parse') return { code: 0, stdout: `${repo}\n`, stderr: '' };
+    if (args[0] === 'worktree') fs.mkdirSync(wt, { recursive: true });
+    return { code: 0, stdout: '', stderr: '' };
+  };
+  const spawns = [];
+  let machineSeen = null;
+  const spawnSyncFake = (cmd, args, opts) => { spawns.push({ cmd, args, opts }); machineSeen = fs.existsSync(path.join(wt, '.machine.local.json')); return { status: claude.status, stdout: claude.stdout, signal: null }; };
+  const removed = [];
+  const removeWorktree = (w, r) => { removed.push([w, r]); return removeOk ? { ok: true } : { ok: false, reason: 'worktree has uncommitted changes' }; };
+  return { reg, repo, wt, item, itemFile, gitCalls, spawns, removed, git, spawnSyncFake, removeWorktree, env, machineSeen: () => machineSeen };
+}
+
+test('keyworker: worktree from origin with no tracking, claude -p without a shell on stdin with the key env, status written, worktree removed', () => {
+  const f = workerFixture();
+  const logs = [];
+  const out = runKeyWorker(f.itemFile, { git: f.git, spawnSync: f.spawnSyncFake, env: f.env, now: () => NOW, removeWorktree: f.removeWorktree, log: (m) => logs.push(m) });
+  assert.deepEqual(f.gitCalls, ['rev-parse --show-toplevel', 'fetch origin --quiet', `worktree add --no-track -b claude/key-261006-abcdef ${f.wt} origin/main`]);
+  assert.equal(f.spawns.length, 1);
+  const s = f.spawns[0];
+  assert.equal(s.cmd, 'claude');
+  assert.deepEqual(s.args, keyWorkerArgv(f.item));
+  assert.equal(s.opts.cwd, f.wt);
+  assert.equal(s.opts.input, 'THE PROMPT');
+  assert.equal(s.opts.shell, undefined, 'no shell: nothing in the prompt is interpreted');
+  assert.equal(s.opts.env.ANTHROPIC_API_KEY, SECRET);
+  for (const k of ['ANTHROPIC_KEY_LANE_REGISTRY', 'ANTHROPIC_AUTH_TOKEN', 'NODE_TEST_CONTEXT']) assert.equal(k in s.opts.env, false, k);
+  assert.equal(f.machineSeen(), true, '.machine.local.json is copied in before the worker starts');
+  assert.equal(fs.existsSync(path.join(f.wt, '.machine.local.json')), false, 'and deleted before cleanup, or the tree reads dirty');
+  const status = JSON.parse(fs.readFileSync(f.item.statusFile, 'utf8'));
+  assert.deepEqual(status, { exit: 0, cost_usd: 4.2, session_id: 'sess-1', ended: NOW.toISOString() });
+  assert.deepEqual(out.status, status);
+  assert.deepEqual(f.removed, [[f.wt, f.reg]]);
+  noSecret(logs);
+});
+
+test('keyworker: an unset key writes an error status and never creates a worktree or spawns', () => {
+  const f = workerFixture({ env: {} });
+  const out = runKeyWorker(f.itemFile, { git: f.git, spawnSync: f.spawnSyncFake, env: f.env, now: () => NOW, removeWorktree: f.removeWorktree, log: () => {} });
+  assert.match(out.status.error, /ANTHROPIC_KEY_LANE_REGISTRY is unset or empty/);
+  assert.equal(out.status.exit, undefined, 'exit null is omitted, never written as null');
+  assert.deepEqual(f.gitCalls, []);
+  assert.equal(f.spawns.length, 0);
+  assert.deepEqual(f.removed, []);
+  assert.equal(runState({ status: out.status, branchExists: false, pr: null, engine: 'key' }), `failed(${out.status.error})`);
+});
+
+test('keyworker: a failed claude run records the error and its cost; a refused cleanup keeps the worktree and says why', () => {
+  const f = workerFixture({ machine: false, claude: { status: 1, stdout: '{"total_cost_usd":15.01,"session_id":"s2","is_error":true}' }, removeOk: false });
+  const out = runKeyWorker(f.itemFile, { git: f.git, spawnSync: f.spawnSyncFake, env: f.env, now: () => NOW, removeWorktree: f.removeWorktree, log: () => {} });
+  assert.equal(out.status.exit, 1);
+  assert.equal(out.status.error, 'claude exited 1');
+  assert.equal(out.status.cost_usd, 15.01);
+  assert.equal(out.status.cleanup_error, 'worktree has uncommitted changes');
+  assert.equal(out.cleanup.ok, false);
+  assert.deepEqual(JSON.parse(fs.readFileSync(f.item.statusFile, 'utf8')), out.status);
 });

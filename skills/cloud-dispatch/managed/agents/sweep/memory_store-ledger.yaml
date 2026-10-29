@@ -1,0 +1,10 @@
+# Night sweep coverage ledger store: the CreateMemoryStore body (name, description), `ant apply`
+# format. The filename leads with its kind, so `ant apply` recognizes it.
+# Shapes: claude-api shared/managed-agents-memory.md "Create a store",
+# shared/managed-agents-onboarding-from-url.md section 4. One store per repository instance.
+# `ant apply` creates it empty: seed coverage.jsonl from data/ (README.md step 2).
+name: night-sweep-ledger-<REPO_SLUG>
+description: >-
+  The night sweep's coverage ledger for one repository. coverage.jsonl holds one JSON object per
+  swept night (context, date, lenses, outcome pr|no-finding|blocked, pr, note). Read it to pick
+  the least-swept context; append exactly one line per session. Holds no secrets and no code.
