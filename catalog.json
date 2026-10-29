@@ -148,10 +148,10 @@
     },
     {
       "name": "cloud-dispatch",
-      "version": "1.1.2",
+      "version": "1.2.0",
       "category": "workflow",
       "path": "skills/cloud-dispatch/SKILL.md",
-      "contentHash": "sha256-n1:64247ee69e580d18",
+      "contentHash": "sha256-n1:10310f8654d67170",
       "adopters": [],
       "invokes30d": 0,
       "reportedInvokes": 0,
@@ -1177,10 +1177,10 @@
       "profile": "rkb/0.1",
       "purity": "game",
       "subjects": 89,
-      "techniques": 584,
-      "applications": 344,
-      "files": 1021,
-      "contentHash": "sha256-b2:e719b479e4961c22"
+      "techniques": 589,
+      "applications": 351,
+      "files": 1033,
+      "contentHash": "sha256-b2:eff723f80acffb6c"
     },
     {
       "name": "grant-funding",
@@ -1241,11 +1241,11 @@
       "okfVersion": "0.1",
       "profile": "rkb/0.1",
       "purity": "media",
-      "subjects": 37,
-      "techniques": 260,
-      "applications": 163,
-      "files": 465,
-      "contentHash": "sha256-b2:976beab269685cb6"
+      "subjects": 38,
+      "techniques": 266,
+      "applications": 165,
+      "files": 474,
+      "contentHash": "sha256-b2:d175dcd4f48152df"
     },
     {
       "name": "recruiting",
