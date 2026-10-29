@@ -9,7 +9,7 @@
 
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { parseParticipant, parseParticipants, engineCommand, parseClaude, parseGrok, parseCodex, parseAgy, classifyOutcome } from '../scripts/lib/participants.mjs';
+import { parseParticipant, parseParticipants, engineCommand, parseClaude, parseGrok, parseCodex, parseAgy, parseMuse, classifyOutcome } from '../scripts/lib/participants.mjs';
 import { blindMap, scrubIdentity, materialPhrases, validateVerdict, aggregate, tallyPatterns, scoreboardMarkdown } from '../scripts/lib/judging.mjs';
 import { upsertPatterns, readPatterns, upsertIndex, renderContestNote } from '../scripts/lib/vault.mjs';
 
@@ -47,6 +47,29 @@ test('agy: prompt as argument, stdin closed, effort clamped, status is the verdi
   const bad = parseAgy('{"status":"ERROR","error":"RESOURCE_EXHAUSTED 429 quota"}');
   assert.equal(classifyOutcome(bad, { exit: 0, timedOut: false }), 'seat-limit');
   assert.match(parseAgy('').errors[0], /no JSON envelope/);
+  // A seat ceiling past agy's own 3h print timeout moves it, or the CLI ends the seat first.
+  const long = engineCommand(parseParticipant('agy:gemini-4-argon@high'), 'agy', 'x', { timeoutMin: 300 });
+  assert.equal(long.argv[long.argv.indexOf('--print-timeout') + 1], '6h');
+  assert.equal(a.argv[a.argv.indexOf('--print-timeout') + 1], '3h');
+});
+
+test('muse: exec headless, self-approving, the terminal event is the verdict', () => {
+  const m = engineCommand(parseParticipant('muse:muse-wonder-1.0@high'), ['powershell.exe', '-File', 'l.ps1'], 'READ ME', { workspace: 'W' });
+  assert.deepEqual(m.argv.slice(0, 4), ['powershell.exe', '-File', 'l.ps1', 'exec']);
+  assert.equal(m.argv.at(-1), 'READ ME');
+  assert.ok(m.argv.includes('--yolo') && m.argv.includes('--no-foreign-personal-context') && m.stdin === '');
+  assert.equal(m.argv[m.argv.indexOf('--workspace') + 1], 'W');
+  assert.equal(m.argv[m.argv.indexOf('--reasoning-effort') + 1], 'high');
+  const lines = [
+    '{"payload_type":"task.lifecycle.completed","payload":{}}',
+    '{"payload_type":"run.usage","payload":{"models":[{"model":"muse-wonder-1.0","output_tokens":120}],"calls":2}}',
+    '{"payload_type":"run.terminal.completed","payload":{"terminal":"completed","text":"done","reason":null}}',
+  ].join('\n');
+  const ok = parseMuse(lines);
+  assert.deepEqual([ok.final, ok.errors, ok.turns, ok.usage.output_tokens], ['done', [], 2, 120]);
+  const failed = parseMuse('{"payload_type":"run.terminal.failed","payload":{"terminal":"failed","reason":"weekly allowance exhausted"}}');
+  assert.equal(classifyOutcome(failed, { exit: 1, timedOut: false }), 'errored');
+  assert.match(parseMuse('').errors[0], /no run.terminal/);
 });
 
 test('envelopes: a refusal or a bad stop reason is an error, not a result', () => {
