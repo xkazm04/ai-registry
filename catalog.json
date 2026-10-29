@@ -381,9 +381,9 @@
       "adopters": [],
       "invokes30d": 0,
       "reportedInvokes": 0,
-      "lessons": 1,
+      "lessons": 2,
       "lessonsPath": "skills/hackathon/LESSONS.md",
-      "lessonsHash": "sha256-n1:f55960c7ca8eb667",
+      "lessonsHash": "sha256-n1:98945c17e5d4fe2c",
       "usageContributors": [],
       "runs30d": 0,
       "outcomes30d": {},
@@ -819,9 +819,9 @@
       ],
       "invokes30d": 6,
       "reportedInvokes": 6,
-      "lessons": 34,
+      "lessons": 35,
       "lessonsPath": "skills/spark/LESSONS.md",
-      "lessonsHash": "sha256-n1:9ca53279981d5e48",
+      "lessonsHash": "sha256-n1:eebf7c04ce74fee4",
       "usageContributors": [
         "wolf"
       ],
@@ -1140,7 +1140,7 @@
     "skills": 44,
     "practices": 8,
     "memory": 10,
-    "lessons": 367
+    "lessons": 369
   },
   "bundles": [
     {
