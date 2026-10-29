@@ -5,7 +5,7 @@
   "source": "knowledge/game-production/ (frontmatter only)",
   "subjects": 89,
   "techniques": 589,
-  "applications": 348,
+  "applications": 351,
   "laws": 16,
   "categories": [
    "systems-canon",
@@ -1626,7 +1626,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/game-production/content-pipeline/concept-scene-parity/concept-scene-parity.md",
-   "digest": "sha256-b2:137088dda44c512d",
+   "digest": "sha256-b2:89508a335bb70197",
    "revision": 6,
    "changedAt": "2026-10-29",
    "techniques": [
@@ -1841,6 +1841,12 @@
     },
     {
      "stack": "process",
+     "technique": "refine-or-pivot-with-every-round-kept",
+     "file": "knowledge/game-production/content-pipeline/concept-scene-parity/applications/process--refine-or-pivot-with-every-round-kept.md",
+     "verified_on": "2026-10-29"
+    },
+    {
+     "stack": "process",
      "technique": "toolkit-fit-slice-before-the-look-is-chosen",
      "file": "knowledge/game-production/content-pipeline/concept-scene-parity/applications/process--toolkit-fit-slice-before-the-look-is-chosen.md",
      "verified_on": "2026-10-29"
@@ -1863,6 +1869,18 @@
      "technique": "judge-in-the-destination-light",
      "file": "knowledge/game-production/content-pipeline/concept-scene-parity/applications/python--judge-in-the-destination-light.md",
      "verified_on": "2026-10-26"
+    },
+    {
+     "stack": "python",
+     "technique": "owner-anchor-for-a-model-panel",
+     "file": "knowledge/game-production/content-pipeline/concept-scene-parity/applications/python--owner-anchor-for-a-model-panel.md",
+     "verified_on": "2026-10-29"
+    },
+    {
+     "stack": "python",
+     "technique": "refine-or-pivot-with-every-round-kept",
+     "file": "knowledge/game-production/content-pipeline/concept-scene-parity/applications/python--refine-or-pivot-with-every-round-kept.md",
+     "verified_on": "2026-10-29"
     }
    ]
   },
