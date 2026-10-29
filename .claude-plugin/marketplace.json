@@ -238,7 +238,7 @@
       "name": "hackathon",
       "source": "./skills/hackathon",
       "description": "Time-boxed, owner-judged hackathon between CLI agent seats (Claude Code, Codex, Grok, Antigravity agy, Muse) on a BROAD track in a real repository. Use when the owner knows the area but not the feature - 'make audio usable for non-musicians' rather than 'build this panel' - and wants several minds to find the projects and race to build them against a wall clock. The host frames the track with the…",
-      "version": "1.1.0",
+      "version": "1.2.0",
       "category": "workflow",
       "tags": [
         "hackathon",
