@@ -403,6 +403,7 @@
         "skills/hackathon/scripts/hackathon.mjs",
         "skills/hackathon/scripts/lib/clock.mjs",
         "skills/hackathon/scripts/lib/config.mjs",
+        "skills/hackathon/scripts/lib/funding.mjs",
         "skills/hackathon/scripts/lib/git.mjs",
         "skills/hackathon/scripts/lib/ideas.mjs",
         "skills/hackathon/scripts/lib/ledger.mjs",

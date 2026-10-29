@@ -23,6 +23,8 @@ import { validatePacks, packMarkdown, shortlistLabels, entryIdeaLabel, PACK_LICE
 import { ramCheck, reaperNote, effectiveSpec } from '../scripts/lib/preflight.mjs';
 import { acquireLock, withFileLock } from '../scripts/lib/lock.mjs';
 import { parseFusion, fusionBase, verdictLabel, wrapPlan } from '../scripts/lib/verdict.mjs';
+import { nextAt, deadlineFor, fundingRecord, keySpend, billingFor, fundingOutcome, shouldSwitch, switchReason, CHILD_STRIP, DEFAULT_KEY_ENV, MAX_NIGHT_MS } from '../scripts/lib/funding.mjs';
+import { runSeat } from '../../contest/scripts/lib/seat.mjs';
 
 const HERE = path.dirname(fileURLToPath(import.meta.url));
 const REFS = path.join(HERE, '..', 'references');
@@ -550,4 +552,121 @@ test('pick advice: more picks than seats are steered to packs', () => {
   assert.equal(pickAdvice(5, 6).refuse, false);
   assert.match(pickAdvice(5, 6).message, /consider packs/);
   assert.equal(pickAdvice(1, 2).refuse, false);
+});
+
+// ---------------------------------------------------------------- funding (credit night)
+
+const KEY = 'sk-ant-test-0000';
+const keyNight = (over = {}) => ({ ...fundingRecord({ source: 'key', until: '08:00' }), ...over });
+
+test('funding record: --cloud defaults, and the refusals that keep a key off the global env', () => {
+  const f = fundingRecord({ source: 'key', until: '08:00' });
+  assert.deepEqual(f, { source: 'key', key_env: DEFAULT_KEY_ENV, credit_usd: null, until: '08:00', fallback: 'subscription', switched: null });
+  assert.equal(fundingRecord().source, 'plan');
+  assert.equal(fundingRecord().key_env, null);
+  assert.throws(() => fundingRecord({ source: 'key', keyEnv: 'ANTHROPIC_API_KEY' }), /must not be ANTHROPIC_API_KEY/);
+  assert.throws(() => fundingRecord({ source: 'key', keyEnv: 'sk-ant-pasted-key' }), /env var NAME/);
+  assert.throws(() => fundingRecord({ source: 'cloud' }), /plan or key/);
+  assert.throws(() => fundingRecord({ source: 'key', creditUsd: '0' }), /positive/);
+  assert.throws(() => fundingRecord({ source: 'key', until: '8am' }), /HH:MM/);
+  assert.equal(fundingRecord({ source: 'key', creditUsd: '120' }).credit_usd, 120);
+});
+
+test('night clock: --until is the next local HH:MM; a deadline over 16 h away means the night passed', () => {
+  const evening = new Date(2026, 9, 29, 22, 15).getTime();
+  assert.equal(nextAt('08:00', evening), new Date(2026, 9, 30, 8, 0).getTime());
+  const earlyMorning = new Date(2026, 9, 30, 1, 30).getTime();
+  assert.equal(nextAt('08:00', earlyMorning), new Date(2026, 9, 30, 8, 0).getTime(), 'after midnight it is the same morning');
+  assert.equal(deadlineFor({ until: '08:00', hours: 5, now: evening }), new Date(2026, 9, 30, 8, 0).getTime());
+  assert.equal(deadlineFor({ until: null, hours: 5, now: evening }), evening + 5 * HOUR);
+  const lateMorning = new Date(2026, 9, 30, 9, 0).getTime();
+  assert.throws(() => deadlineFor({ until: '08:00', hours: 5, now: lateMorning }), /the night has passed/);
+  assert.ok(nextAt('08:00', lateMorning) - lateMorning > MAX_NIGHT_MS);
+});
+
+test('billing: the key reaches a claude child only, with the competing credentials stripped', () => {
+  assert.deepEqual(billingFor({ funding: fundingRecord(), engine: 'claude', keyValue: KEY }), { billing: 'plan', env: {}, maxBudgetUsd: null, reason: null });
+  const key = billingFor({ funding: keyNight(), engine: 'claude', keyValue: KEY });
+  assert.equal(key.billing, 'key');
+  assert.equal(key.env.ANTHROPIC_API_KEY, KEY);
+  for (const k of CHILD_STRIP.filter((x) => x !== 'ANTHROPIC_API_KEY')) assert.ok(k in key.env && key.env[k] === undefined, `${k} stripped`);
+  assert.ok(DEFAULT_KEY_ENV in key.env && key.env[DEFAULT_KEY_ENV] === undefined, 'the lane var never reaches the child');
+  assert.equal(key.maxBudgetUsd, null, 'no cap: until the key is spent');
+  const codex = billingFor({ funding: keyNight(), engine: 'codex', keyValue: KEY });
+  assert.equal(codex.billing, 'seat');
+  assert.equal(codex.env.ANTHROPIC_API_KEY, undefined);
+  assert.equal('ANTHROPIC_API_KEY' in codex.env, false, 'a non-claude seat env is left alone apart from the lane var');
+});
+
+test('billing: subscription after a switch, without a key, or once the cap is spent; the cap splits by concurrency', () => {
+  const switched = billingFor({ funding: keyNight({ switched: { at: '2026-10-30T02:10:00+01:00', reason: 'the key is out of credit (e1 session 2)' } }), engine: 'claude', keyValue: KEY });
+  assert.equal(switched.billing, 'subscription');
+  assert.ok('ANTHROPIC_API_KEY' in switched.env && switched.env.ANTHROPIC_API_KEY === undefined);
+  assert.match(switched.reason, /out of credit/);
+  assert.equal(billingFor({ funding: keyNight(), engine: 'claude', keyValue: '  ' }).billing, 'subscription');
+  assert.match(billingFor({ funding: keyNight(), engine: 'claude', keyValue: null }).reason, /is not set/);
+  const capped = keyNight({ credit_usd: 100 });
+  assert.equal(billingFor({ funding: capped, engine: 'claude', keyValue: KEY, spentUsd: 40, concurrent: 4 }).maxBudgetUsd, 15);
+  assert.equal(billingFor({ funding: capped, engine: 'claude', keyValue: KEY, spentUsd: 100 }).billing, 'subscription');
+  assert.match(billingFor({ funding: capped, engine: 'claude', keyValue: KEY, spentUsd: 101.5 }).reason, /cap \$100 is spent/);
+  // A small cap is still a cap, not "already spent" (the first smoke ran a $0.01 night on the subscription).
+  const tiny = billingFor({ funding: keyNight({ credit_usd: 0.01 }), engine: 'claude', keyValue: KEY, spentUsd: 0 });
+  assert.equal(tiny.billing, 'key');
+  assert.equal(tiny.maxBudgetUsd, 0.01);
+});
+
+test('funding outcome: key failures are their own outcomes; only a second rate limit in a row switches', () => {
+  const k = (errors, outcome = 'errored') => fundingOutcome({ billing: 'key', outcome, errors });
+  assert.equal(k(['error_during_execution: Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.']), 'credit-exhausted');
+  assert.equal(k(['error_max_budget_usd: ']), 'budget-reached');
+  assert.equal(k(['error_during_execution: 401 {"type":"error","error":{"type":"authentication_error","message":"invalid x-api-key"}}']), 'key-rejected');
+  assert.equal(k(['error_during_execution: API Error: 429 rate limit'], 'seat-limit'), 'key-limited');
+  assert.equal(k(['error_during_execution: tests failed']), 'errored');
+  assert.equal(k([], 'completed'), 'completed');
+  assert.equal(fundingOutcome({ billing: 'subscription', outcome: 'errored', errors: ['credit balance is too low'] }), 'errored', 'a subscription session is never read as a key failure');
+  assert.equal(fundingOutcome({ billing: 'subscription', outcome: 'seat-limit', errors: ['usage limit'] }), 'seat-limit');
+  assert.equal(shouldSwitch('credit-exhausted'), true);
+  assert.equal(shouldSwitch('budget-reached'), true);
+  assert.equal(shouldSwitch('key-rejected'), true);
+  assert.equal(shouldSwitch('key-limited', 'completed'), false);
+  assert.equal(shouldSwitch('key-limited', 'key-limited'), true);
+  assert.equal(shouldSwitch('errored'), false);
+  assert.match(switchReason('credit-exhausted', { seat: 'e2', n: 3 }), /out of credit \(e2 session 3\)/);
+});
+
+test('funding spend counts key-billed ideation and sessions only', () => {
+  const s = {
+    ideation: { a: { billing: 'key', cost_usd: 1.25 }, b: { billing: 'key', cost_usd: null }, c: { billing: 'subscription', cost_usd: 9 } },
+    entries: { e1: { sessions: [{ billing: 'key', cost_usd: 10 }, { billing: 'subscription', cost_usd: 30 }] }, e2: { sessions: [{ cost_usd: 99 }] } },
+  };
+  assert.equal(keySpend(s), 11.25);
+  assert.equal(keySpend({}), 0);
+});
+
+test('planSession: a key outcome resumes to the same deadline and does not spend the seat\'s sessions', () => {
+  const started = Date.parse('2026-10-29T22:30:00Z');
+  const deadline = started + 9 * HOUR;
+  const now = started + 3 * HOUR;
+  for (const outcome of ['credit-exhausted', 'budget-reached', 'key-rejected', 'key-limited']) {
+    const sessions = [{ outcome: 'completed', wall_s: 3600 }, { outcome }];
+    const { plan } = planSessionWhy({ started, deadline, now, sessions, maxSessions: 2, lastOutcome: outcome });
+    assert.deepEqual(plan, { end: deadline, kind: 'resume' }, outcome);
+    assert.equal(countedSessions(sessions), 1, `${outcome} is not the seat's session`);
+    const sprint = planSessionWhy({ mode: 'sprints', started, deadline, now, sessions, lastOutcome: outcome });
+    assert.equal(sprint.plan.kind, 'resume', `${outcome} in sprints mode`);
+  }
+});
+
+test('runSeat + billing: the child sees the key on the key and no API credential on the subscription', async () => {
+  const logDir = fs.mkdtempSync(path.join(os.tmpdir(), 'hk-fund-'));
+  const probe = { argv: [process.execPath, '-e', 'process.stdout.write(JSON.stringify({ key: process.env.ANTHROPIC_API_KEY ?? null, token: process.env.ANTHROPIC_AUTH_TOKEN ?? null, lane: process.env.ANTHROPIC_KEY_LANE_HACKATHON ?? null }))'], stdin: '' };
+  const parentEnv = { ...process.env, ANTHROPIC_API_KEY: 'sk-ant-leaked-global', ANTHROPIC_AUTH_TOKEN: 'tok', ANTHROPIC_KEY_LANE_HACKATHON: KEY };
+  try {
+    const onKey = billingFor({ funding: keyNight(), engine: 'claude', keyValue: KEY });
+    const a = await runSeat({ ...probe, env: onKey.env }, { cwd: logDir, timeoutMs: 20000, logDir: path.join(logDir, 'a'), parentEnv });
+    assert.deepEqual(JSON.parse(a.stdout), { key: KEY, token: null, lane: null });
+    const onSub = billingFor({ funding: keyNight({ switched: { at: 'x', reason: 'y' } }), engine: 'claude', keyValue: KEY });
+    const b = await runSeat({ ...probe, env: onSub.env }, { cwd: logDir, timeoutMs: 20000, logDir: path.join(logDir, 'b'), parentEnv });
+    assert.deepEqual(JSON.parse(b.stdout), { key: null, token: null, lane: null });
+  } finally { fs.rmSync(logDir, { recursive: true, force: true }); }
 });
