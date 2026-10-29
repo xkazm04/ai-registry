@@ -11,8 +11,12 @@ the deployment); one instance per repository fills them. Each file's header name
 ## Prerequisites, in order
 
 1. The `ant` CLI (1.34.0 or later for vaults): `go install github.com/anthropics/anthropic-cli/v2/cmd/ant@latest`.
+   The commands below were run with ant 2.4.0. Without a terminal (an agent's shell), `ant apply`
+   refuses to ask for confirmation: pass `--yes` after reading the dry run.
 2. A fine-grained GitHub PAT on the target repository only: Contents read and write, Pull requests
-   read and write, Metadata read. Mint one for this agent; do not reuse a token.
+   read and write, Metadata read. Mint one for this agent; do not reuse a token. (The first
+   instance, paypal, reuses the operator's classic PAT by owner choice; then the agent's GitHub
+   tool allowlist is the only scope limit.)
 3. The lane's key in `ANTHROPIC_KEY_LANE_CLOUD`, mapped to `ANTHROPIC_API_KEY` only for `ant`.
    PowerShell environment variables are process-wide, so the wrapper restores the old value:
 
@@ -35,22 +39,34 @@ Run every command below from `.ai/cloud-dispatch/managed/<repo>/`; `claude-lock.
 ```powershell
 $d = 'agents/sweep'
 ant-cloud apply --dry-run -v "$d/agent.md" "$d/environment.yaml" "$d/vault.yaml" "$d/memory_store-ledger.yaml"
-ant-cloud apply "$d/agent.md" "$d/environment.yaml" "$d/vault.yaml" "$d/memory_store-ledger.yaml"
+ant-cloud apply --yes "$d/agent.md" "$d/environment.yaml" "$d/vault.yaml" "$d/memory_store-ledger.yaml"
 $lock = Get-Content claude-lock.json -Raw | ConvertFrom-Json
 $STORE = $lock.resources."./$d/memory_store-ledger.yaml".id; $VAULT = $lock.resources."./$d/vault.yaml".id
-"content: `"@./$d/data/coverage.jsonl`"" | ant-cloud beta:memory-stores:memories create --memory-store-id $STORE --path /coverage.jsonl
-ant-cloud beta:memory-stores:memories list --memory-store-id $STORE --view full   # must show the schema line, not a path
 ```
+
+Seed the ledger from Git Bash, not PowerShell 5.1, which strips the inner double quotes of a
+native argument. In ant 2.4.0 `memories create` ignores a piped body (`Required flag "content"
+not set`) and `--content @path` stores the literal string `@path`, so pass the file's text:
+
+```sh
+ant beta:memory-stores:memories create --memory-store-id "$STORE" --path /coverage.jsonl --content "$(cat agents/sweep/data/coverage.jsonl)"
+ant beta:memory-stores:memories list --memory-store-id "$STORE" --view full   # must show the schema line, not a path
+```
+
+A wrong seed is fixed in place with `memories update --memory-store-id "$STORE" --memory-id <mem_...> --content "..."`.
 
 ## 3. Credential (the operator, in a terminal of their own)
 
 ```powershell
 $s = Read-Host -AsSecureString 'GitHub PAT'
 $t = [Runtime.InteropServices.Marshal]::PtrToStringBSTR([Runtime.InteropServices.Marshal]::SecureStringToBSTR($s))
-@{ display_name = 'GitHub MCP'; auth = @{ type = 'static_bearer'; mcp_server_url = 'https://api.githubcopilot.com/mcp/'; token = $t } } |
-  ConvertTo-Json -Depth 3 | ant-cloud beta:vaults:credentials create --vault-id $VAULT
+ant-cloud beta:vaults:credentials create --vault-id $VAULT --display-name 'GitHub MCP' --auth.type static_bearer --auth.mcp-server-url 'https://api.githubcopilot.com/mcp/' --auth.token $t > $null
 ant-cloud beta:vaults:credentials list --vault-id $VAULT   # one row, no secret shown
 ```
+
+The flag form is the one verified with ant 2.4.0 (the piped-JSON form is untested; `memories
+create` ignores a piped body). The server stores the URL without its trailing slash; the
+agent's `.../mcp/` still matched it, and the smoke run's `create_pull_request` authenticated.
 
 Keep `$t` for step 4, then `Remove-Variable s, t`.
 
@@ -61,8 +77,8 @@ in `deployment-nightly.yaml`. The PAT stays only in this gitignored file; never 
 never re-apply a copy that still says `<GITHUB_PAT>` (the placeholder would become the token).
 
 ```powershell
-ant-cloud apply --dry-run -v "$d/deployment-nightly.yaml"
-ant-cloud apply "$d/deployment-nightly.yaml"; if ($LASTEXITCODE -eq 0) { $DEP = (Get-Content claude-lock.json -Raw | ConvertFrom-Json).resources."./$d/deployment-nightly.yaml".id; ant-cloud beta:deployments pause --deployment-id $DEP }
+ant-cloud apply --dry-run "$d/deployment-nightly.yaml"        # no -v: verbose prints authorization_token
+ant-cloud apply --yes "$d/deployment-nightly.yaml"; if ($LASTEXITCODE -eq 0) { $DEP = (Get-Content claude-lock.json -Raw | ConvertFrom-Json).resources."./$d/deployment-nightly.yaml".id; ant-cloud beta:deployments pause --deployment-id $DEP }
 ```
 
 A deployment is live from creation; pausing in the same command keeps 01:00 from firing first.
@@ -74,9 +90,17 @@ ant-cloud beta:deployments run --deployment-id $DEP          # works while pause
 $SID = ant-cloud beta:deployment-runs list --deployment-id $DEP --max-items 1 --transform session_id -r
 ant-cloud beta:sessions connect $SID                          # watch; Ctrl+C detaches
 ant-cloud beta:files list --scope-id $SID --beta managed-agents-2026-04-01   # RESULT.md
+ant-cloud beta:sessions retrieve --session-id $SID --transform 'outcome_evaluations.#.result' -r   # ["satisfied"]
+ant-cloud beta:sessions retrieve --session-id $SID --transform usage.list_cost.amount -r           # cents
 ```
 
-Pass: toolchain up, gates ran, one PR or a reasoned no-finding, one new ledger line. Blocked host? Fix `environment.yaml`, re-apply.
+Pass: toolchain up, gates ran, one PR or a reasoned no-finding, one new ledger line, and the
+grader's verdict `satisfied`. Blocked host? Fix `environment.yaml`, re-apply. The session goes
+`idle` when done (not `terminated`); poll `status` for it.
+
+Measured on paypal (2026-10-29, Opus 5.5 high): the default `allowed_hosts` plus
+`allow_package_managers` covered rustup, crates, npm/pnpm and apt; the run took about 20 active
+minutes and $2.20 of the $15 cap, and opened one PR the grader marked `satisfied` at iteration 0.
 
 ## 6. Schedule
 
