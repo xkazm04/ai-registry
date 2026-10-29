@@ -1,11 +1,11 @@
 ---
 name: hackathon
-description: "Time-boxed, owner-judged hackathon between CLI agent seats (Claude Code, Codex, Grok, Antigravity agy, Muse) on a BROAD track in a real repository. Use when the owner knows the area but not the feature - 'make audio usable for non-musicians' rather than 'build this panel' - and wants several minds to find the projects and race to build them against a wall clock. The host frames the track with the owner and scouts a dossier; a pre-round of seats (default opus-5.5@high + sonnet-5.5@high, any engine:model@effort) each proposes 10 grounded projects; the owner shortlists 2-4 on a blind board; each shortlisted project is built by one seat in its own git worktree of the real repo under a custom clock (default 5 h): a running baseline first, then mastery of design and execution, then features if time is left. Default is one long session per entry; --sprints runs host-paced sprints with snapshots. The owner judges from a demo pack and is always the final word - one winner, or a fusion of entries handed to /spark; a vault keeps the board, the verdict and a per-seat ledger. Sibling of /contest, which builds three variants of one specific idea, scope-bound, judged blind. Invoke with /hackathon \"<area>\" [--hours 5] [--sprints] [--ideators specs] or /hackathon preflight|init|ideate|board|shortlist|prepare|run|status|collect|verdict|wrap <id>."
+description: "Time-boxed, owner-judged hackathon between CLI agent seats (Claude Code, Codex, Grok, Antigravity agy, Muse) on a BROAD track in a real repository. Use when the owner knows the area but not the feature - 'make audio usable for non-musicians' rather than 'build this panel' - and wants several minds to find the projects and race to build them against a wall clock. The host frames the track with the owner and scouts a dossier; a pre-round of seats (default opus-5.5@high + sonnet-5.5@high, any engine:model@effort) each proposes 10 grounded projects; the owner shortlists 2-4 on a blind board; each shortlisted project is built by one seat in its own git worktree of the real repo under a custom clock (default 5 h): a running baseline first, then mastery of design and execution, then features if time is left. Default is one long session per entry; --sprints runs host-paced sprints with snapshots. The owner judges from a demo pack and is always the final word - one winner, or a fusion of entries handed to /spark; a vault keeps the board, the verdict and a per-seat ledger. Sibling of /contest, which builds three variants of one specific idea, scope-bound, judged blind. /hackathon --cloud runs it overnight to 08:00 on a credit API key, handing over to the owner's subscription when the key is spent. Invoke with /hackathon \"<area>\" [--hours 5] [--sprints] [--ideators specs] or /hackathon preflight|init|ideate|board|shortlist|prepare|run|status|collect|verdict|wrap <id>."
 category: workflow
 memory: vault
-version: 1.1.0
+version: 1.2.0
 tags: hackathon, multi-model, time-boxed, ideation, prototyping, worktree, owner-judged, vault
-argument-hint: "\"<area>\" [--hours 5] [--sprints] [--ideators engine:model@effort,...] | preflight|init|ideate|board|shortlist|prepare|run|status|collect|verdict|wrap <id>"
+argument-hint: "\"<area>\" [--cloud] [--hours 5] [--sprints] [--ideators engine:model@effort,...] | preflight|init|ideate|board|shortlist|prepare|run|status|collect|verdict|wrap <id>"
 ---
 
 # Hackathon - a broad track, a wall clock, an owner who judges
@@ -59,6 +59,7 @@ direction is fixed: build it.
 
 ```
 /hackathon "<area in the owner's words>" [--hours 5] [--sprints] [--ideators <specs>]
+/hackathon --cloud ["<project and aim>"] [--credit-usd N] [--until 08:00]
 /hackathon preflight|init|ideate|board|shortlist|prepare|run|status|collect|verdict|wrap <id>
 ```
 
@@ -67,6 +68,20 @@ at the end (verdict). Under the hood every step is
 `node ${CLAUDE_SKILL_DIR}/scripts/hackathon.mjs <step> --id <slug> [options]`, run from
 the consuming repo's root. The arena is `.hackathon/arena/<id>/` there. Keep `.hackathon/`
 git-ignored.
+
+## Credit night (`--cloud`)
+
+The owner starts a credit night by hand when time-limited API credits are in surplus. It is the
+same hackathon run overnight and funded by a key. The evening sync replaces step 1's questions:
+project and aim, walls, the night's cap, seats. The Opus 5.5 and Sonnet 5.5 pre-round runs on the
+key, and the owner picks 2-4. Then `run`, launched detached, races the builders until 08:00. The key
+lives in **`ANTHROPIC_KEY_LANE_HACKATHON`** and reaches only the claude seats' children. When it is
+spent, capped (`--credit-usd`) or refused, the night switches to the owner's subscription once, and
+every entry resumes to the same deadline. A key failure never stops an entry. Every session records
+its `billing`, and `status` prints the spend. The evening sync, the launch, the machine-awake check,
+the morning record in the registry's lane ledger, and the measured handover are in
+[references/credit-night.md](references/credit-night.md). "Cloud" names the money: the builders run
+on this machine, which must stay awake until the deadline.
 
 ## 0. Overlay, vault, inherited state
 

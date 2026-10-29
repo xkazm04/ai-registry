@@ -11,6 +11,7 @@
  *
  *   node hackathon.mjs preflight [--id <slug>] [--entries N] [--seats <specs>] [--ram-per-entry-gb G]
  *   node hackathon.mjs init      --id <slug> --title "<t>" --track <TRACK.md> [--dossier <file>] [--repo <path>]
+ *                                [--cloud | --fund plan|key] [--key-env <ENV>] [--credit-usd N] [--until HH:MM]
  *                                [--ideators <specs>] [--ideas N] [--hours H] [--sprints] [--sprint-min M]
  *                                [--baseline-frac F] [--build-effort E] [--base <ref>] [--base-port P]
  *                                [--setup "<cmd>"]... [--gate "<cmd>"]... [--worktrees-root <dir>]
@@ -53,6 +54,7 @@ import { withFileLock } from './lib/lock.mjs';
 import { ramCheck, reaperNote, effectiveSpec, RAM_PER_ENTRY_GB } from './lib/preflight.mjs';
 import { parseFusion, fusionBase, verdictLabel, wrapPlan } from './lib/verdict.mjs';
 import { git, gitOrThrow, ensureExcluded, isRegistered, dirtyFiles, removeWorktree, treeSize } from './lib/git.mjs';
+import { DEFAULT_KEY_ENV, DEFAULT_UNTIL, deadlineFor, fundingRecord, keySpend, billingFor, fundingOutcome, shouldSwitch, switchReason } from './lib/funding.mjs';
 
 const HERE = path.dirname(fileURLToPath(import.meta.url));
 const REFERENCES = path.join(HERE, '..', 'references');
@@ -76,6 +78,7 @@ const USAGE = `usage: node hackathon.mjs <step> --id <slug> [options]
 steps:
   preflight [--id] [--entries N] [--seats <specs>] [--ram-per-entry-gb G]
   init      --id --title --track <file> [--dossier <file>] [--repo <path>] [--ideators <specs>] [--ideas N]
+            [--cloud | --fund plan|key] [--key-env <ENV>] [--credit-usd N] [--until HH:MM]
             [--hours H] [--sprints] [--sprint-min M] [--baseline-frac F] [--build-effort E] [--base <ref>]
             [--base-port P] [--setup "<cmd>"]... [--gate "<cmd>"]... [--worktrees-root <dir>]
             [--ideate-timeout-min M] [--max-sessions N] [--vault <dir>] [--vault-subdir S] [--force]
@@ -114,6 +117,23 @@ function writeAtomic(file, text) {
   }
 }
 const writeJson = (f, v) => writeAtomic(f, `${JSON.stringify(v, null, 2)}\n`);
+
+/**
+ * The credit key's value, never printed. A key set with `setx` reaches only processes started
+ * after it, so a host or a detached run launched from an older shell would not see it. On
+ * Windows, fall back to the user-level value in HKCU\Environment.
+ */
+function readKey(name) {
+  if (!name) return null;
+  if (process.env[name]?.trim()) return process.env[name].trim();
+  if (process.platform !== 'win32') return null;
+  const r = spawnSync('reg', ['query', 'HKCU\\Environment', '/v', name], { encoding: 'utf8', windowsHide: true });
+  const m = r.status === 0 && r.stdout.match(new RegExp(`^\\s*${name}\\s+REG_(?:EXPAND_)?SZ\\s+(.+?)\\s*$`, 'm'));
+  return m ? m[1] : null;
+}
+
+/** "3.2" - the clock length an entry really has, for briefs and logs. */
+const clockHours = (from, to) => String(Math.round(((to - from) / 3600000) * 10) / 10);
 
 // ---------------------------------------------------------------- overlay, arena, state
 const OVERLAY_FILE = path.join(cwd, '.claude', 'hackathon', 'config.md');
@@ -198,13 +218,40 @@ function init() {
   const behind = git(repo, ['rev-list', '--count', `${base.out}..${baseRef}@{u}`]);
   if (behind.ok && Number(behind.out) > 0) notes.push(`the base is ${behind.out} commit(s) behind ${baseRef}@{u} (local remote-tracking ref; nothing was fetched)`);
 
+  // Funding. --cloud is a credit night: the lane key pays (ideators and claude builders), the clock
+  // runs to --until (default 08:00), and a spent key hands over to the subscription.
+  const cloud = opts.cloud === true;
+  const val = (k) => (opts[k] !== undefined && opts[k] !== true ? String(opts[k]) : null);
+  let funding;
+  try {
+    funding = fundingRecord({
+      source: cloud ? 'key' : (val('fund') ?? 'plan'),
+      keyEnv: val('key-env') ?? DEFAULT_KEY_ENV,
+      creditUsd: val('credit-usd'),
+      until: val('until') ?? (cloud && val('hours') === null ? DEFAULT_UNTIL : null),
+    });
+  } catch (e) { die(e.message); }
+  let hours = c.hours;
+  if (funding.until) {
+    let end;
+    try { end = deadlineFor({ until: funding.until, hours, now: Date.now() }); } catch (e) { die(e.message); }
+    // An estimate for the ideators' brief; the real clock is fixed when the first session starts.
+    hours = Math.max(1, Math.round(((end - Date.now()) / 3600000) * 2) / 2);
+    notes.push(`clock runs to ${funding.until}; about ${hours} h from now - the deadline is fixed when run starts`);
+  }
+  if (funding.source === 'key') {
+    if (!readKey(funding.key_env)) die(`${funding.key_env} is not set - put the credit key there in your own terminal (setx ${funding.key_env} "<key>"), never in ANTHROPIC_API_KEY`);
+    const nonClaude = c.ideators.filter((x) => !String(x).startsWith('claude:'));
+    if (nonClaude.length) notes.push(`the key pays claude seats only; ${nonClaude.join(', ')} bill their own vendor`);
+  }
+
   c.ideators = c.ideators.map(effectiveSpec); // agy runs xhigh as high: record what runs
   const seats = c.ideators.map((spec) => parseParticipant(spec));
   const letters = blindMap(seats.map((p) => p.id), id);
   const letterOf = Object.fromEntries(Object.entries(letters).map(([l, sid]) => [sid, l]));
   const s = {
     id, title, created: isoLocal(Date.now()), repo: posix(repo), base_ref: baseRef, base: base.out,
-    mode: c.mode, hours: c.hours, ideas_per_seat: c.ideas_per_seat, ideators: c.ideators, build_effort: c.build_effort,
+    mode: c.mode, hours, funding, ideas_per_seat: c.ideas_per_seat, ideators: c.ideators, build_effort: c.build_effort,
     base_port: c.base_port, baseline_frac: c.baseline_frac, sprint_min: c.sprint_min, max_sessions: c.max_sessions,
     ideate_timeout_min: c.ideate_timeout_min, worktrees_root: c.worktrees_root, arena: posix(path.dirname(dir)),
     vault: posix(c.vault), vault_subdir: c.vault_subdir,
@@ -217,7 +264,8 @@ function init() {
   console.log(`hackathon "${id}" at ${dir}`);
   console.log(`  repo ${s.repo} @ ${baseRef} = ${s.base.slice(0, 12)}`);
   const show = (k, v) => console.log(`  ${k.padEnd(20)} ${Array.isArray(v) ? (v.length ? v.join(' ; ') : '(none)') : v}  [${sources[k] ?? 'default'}]`);
-  show('ideators', c.ideators); show('ideas', c.ideas_per_seat); show('hours', c.hours); show('mode', c.mode);
+  show('ideators', c.ideators); show('ideas', c.ideas_per_seat); show('hours', funding.until ? `${hours} (to ${funding.until})` : hours); show('mode', c.mode);
+  console.log(`  ${'funding'.padEnd(20)} ${funding.source === 'key' ? `credit key ${funding.key_env} (set)${funding.credit_usd ? `, cap $${funding.credit_usd}` : ', no cap - until the key is spent'}, then the subscription` : 'plan (each seat\'s own subscription)'}`);
   show('build_effort', c.build_effort); show('base_port', c.base_port); show('baseline_frac', c.baseline_frac);
   show('sprint_min', c.sprint_min); show('max_sessions', c.max_sessions); show('ideate_timeout_min', c.ideate_timeout_min);
   show('worktrees_root', c.worktrees_root); show('vault', `${s.vault}/${c.vault_subdir}`); show('arena', s.arena);
@@ -225,6 +273,45 @@ function init() {
   console.log(`  taste ${c.taste ? 'from overlay' : '(none)'}, repo law ${c.repo_law ? 'from overlay' : '(none)'}, overlay ${fs.existsSync(OVERLAY_FILE) ? OVERLAY_FILE : 'not found'}`);
   for (const n of notes) console.log(`  warning: ${n}`);
 }
+
+// ---------------------------------------------------------------- funding
+/**
+ * Fund the next session of seat `p`: { b, command }. The billing decides the child env (the key,
+ * or every API credential stripped) and, under a credit cap, the session's --max-budget-usd.
+ * The key rides only in the env, never in argv, so command.json never records it. `ceilingUsd`
+ * bounds one session on the key even without a night cap (ideation: a pre-round must not eat the
+ * night).
+ */
+const IDEATE_CEILING_USD = 15;
+function funded(s, p, command, concurrent, ceilingUsd = null) {
+  const f = s.funding;
+  const b = billingFor({ funding: f, engine: p.engine, keyValue: f?.source === 'key' ? readKey(f.key_env) : null, spentUsd: keySpend(s), concurrent });
+  if (b.billing === 'key' && ceilingUsd !== null) b.maxBudgetUsd = b.maxBudgetUsd === null ? ceilingUsd : Math.min(b.maxBudgetUsd, ceilingUsd);
+  const argv = b.maxBudgetUsd !== null && p.engine === 'claude' ? [...command.argv, '--max-budget-usd', String(b.maxBudgetUsd)] : command.argv;
+  return { b, command: { ...command, argv, env: { ...command.env, ...b.env } } };
+}
+
+/**
+ * After a session: the outcome as the funding sees it. A spent, capped or refused key, or a second
+ * rate limit in a row, switches the whole night to the subscription, once.
+ */
+function settle(dir, { billing, outcome, errors, seat, n = null, previous = null }) {
+  const refined = fundingOutcome({ billing, outcome, errors });
+  if (shouldSwitch(refined, previous)) {
+    const reason = switchReason(refined, { seat, n });
+    let first = false;
+    update(dir, (x) => { if (x.funding && !x.funding.switched) { x.funding.switched = { at: isoLocal(Date.now()), reason }; first = true; } });
+    if (first) log(`funding: the night switches to the subscription - ${reason}`);
+  }
+  return refined;
+}
+
+const fundingLine = (s) => {
+  const f = s.funding;
+  if (!f || f.source !== 'key') return 'funding: plan (each seat\'s own subscription)';
+  const spent = keySpend(s);
+  return `funding: credit key ${f.key_env} - $${spent.toFixed(2)} spent${f.credit_usd ? ` of the $${f.credit_usd} cap` : ''}${f.switched ? `; switched to the subscription ${f.switched.at.slice(11, 16)} - ${f.switched.reason}` : '; the key pays claude seats'}`;
+};
 
 // ---------------------------------------------------------------- ideate
 const IDEATE_PROMPT = 'Read .hackathon/IDEATOR.md in this directory and follow it.';
@@ -239,7 +326,7 @@ function ideatorBrief(s, dir) {
 }
 
 /** Validate a harvested document and write the seat's arena files. Returns the ideation record. */
-function harvest(dir, s, p, doc, { recovered = false, outcome, run = null, extraErrors = [] }) {
+function harvest(dir, s, p, doc, { recovered = false, outcome, run = null, extraErrors = [], billing = null, cost_usd = null }) {
   const logDir = path.join(dir, 'ideation', p.id);
   fs.mkdirSync(logDir, { recursive: true });
   const v = validateIdeasDoc(doc, s.ideas_per_seat);
@@ -248,6 +335,7 @@ function harvest(dir, s, p, doc, { recovered = false, outcome, run = null, extra
   const record = {
     id: p.id, spec: p.spec, outcome, wall_s: run?.wall_s ?? null, exit: run?.exit ?? null, timed_out: run?.timedOut ?? null,
     errors, count: v.valid.length, invalid: v.invalid, warnings: v.warnings, recovered_from_final: recovered, finished: isoLocal(Date.now()),
+    billing, cost_usd,
   };
   writeJson(path.join(logDir, 'record.json'), record);
   return record;
@@ -285,8 +373,8 @@ async function ideate() {
     const wt = posix(path.join(s.worktrees_root, `idea-${k}`));
     const bin = resolveBin(p.engine);
     if (dry) {
-      const command = engineCommand(p, bin ?? `<${p.engine} CLI not found>`, IDEATE_PROMPT, { workspace: wt, timeoutMin });
-      console.log(`ideate ${p.id} [${s.ideation[p.id].letter}] (dry run): worktree ${wt} at ${s.base.slice(0, 12)}, ceiling ${timeoutMin} min\n  argv: ${JSON.stringify(command.argv)}\n  stdin: ${JSON.stringify(command.stdin)}`);
+      const { b, command } = funded(s, p, engineCommand(p, bin ?? `<${p.engine} CLI not found>`, IDEATE_PROMPT, { workspace: wt, timeoutMin }), seats.length, IDEATE_CEILING_USD);
+      console.log(`ideate ${p.id} [${s.ideation[p.id].letter}] (dry run): worktree ${wt} at ${s.base.slice(0, 12)}, ceiling ${timeoutMin} min, billed to ${b.billing}${b.reason ? ` (${b.reason})` : ''}\n  argv: ${JSON.stringify(command.argv)}\n  stdin: ${JSON.stringify(command.stdin)}`);
       return null;
     }
     if (!bin) {
@@ -312,12 +400,12 @@ async function ideate() {
     update(dir, (x) => { x.ideation[p.id].worktree = wt; x.ideation[p.id].outcome = 'running'; });
 
     const logDir = path.join(dir, 'ideation', p.id);
-    const command = engineCommand(p, bin, IDEATE_PROMPT, { workspace: wt, timeoutMin });
-    writeJson(path.join(logDir, 'command.json'), { argv: command.argv, cwd: wt, started: isoLocal(Date.now()) });
-    log(`ideate ${p.id}: starting in ${wt} (ceiling ${timeoutMin} min)`);
+    const { b, command } = funded(readJson(stateFile(dir)), p, engineCommand(p, bin, IDEATE_PROMPT, { workspace: wt, timeoutMin }), seats.length, IDEATE_CEILING_USD);
+    writeJson(path.join(logDir, 'command.json'), { argv: command.argv, cwd: wt, started: isoLocal(Date.now()), billing: b.billing });
+    log(`ideate ${p.id}: starting in ${wt} (ceiling ${timeoutMin} min, billed to ${b.billing}${b.reason ? ` - ${b.reason}` : ''})`);
     const r = await runSeat(command, { cwd: wt, timeoutMs: timeoutMin * 60000, logDir, label: p.id });
     const parsed = parseEnvelope(p.engine, r.stdout);
-    const outcome = classifyOutcome(parsed, r);
+    const outcome = settle(dir, { billing: b.billing, outcome: classifyOutcome(parsed, r), errors: parsed.errors, seat: p.id });
     fs.writeFileSync(path.join(logDir, 'final.md'), parsed.final ?? '');
     let doc = null;
     let recovered = false;
@@ -327,7 +415,7 @@ async function ideate() {
       const fromFinal = recoverFromFinal(parsed.final);
       if (fromFinal) { doc = fromFinal; recovered = true; }
     }
-    const record = harvest(dir, s, p, doc, { outcome, run: r, recovered, extraErrors: parsed.errors });
+    const record = harvest(dir, s, p, doc, { outcome, run: r, recovered, extraErrors: parsed.errors, billing: b.billing, cost_usd: parsed.cost_usd });
     if (!opts['keep-worktrees']) {
       // An ideation worktree is a throwaway read-only checkout; a seat that edited it despite the
       // brief left nothing anyone needs, so it goes even when dirty - and the paths are recorded.
@@ -346,14 +434,16 @@ async function ideate() {
   update(dir, (x) => {
     for (const r of records) {
       const wtGone = !fs.existsSync(posix(path.join(x.worktrees_root, `idea-${x.ideators.indexOf(r.spec) + 1}`)));
-      Object.assign(x.ideation[r.id], { outcome: r.outcome, wall_s: r.wall_s, count: r.count, errors: r.errors, worktree: wtGone ? null : x.ideation[r.id].worktree });
+      Object.assign(x.ideation[r.id], { outcome: r.outcome, wall_s: r.wall_s, count: r.count, errors: r.errors, billing: r.billing ?? null, cost_usd: r.cost_usd ?? null, worktree: wtGone ? null : x.ideation[r.id].worktree });
     }
   });
   for (const r of records) {
     for (const inv of r.invalid) console.log(`  ${r.id}: invalid idea ${inv.index}${inv.title ? ` "${inv.title}"` : ''}: ${inv.problems.join('; ')}`);
     for (const w of r.warnings) console.log(`  ${r.id}: warning: ${w}`);
   }
-  const total = Object.values(readJson(stateFile(dir)).ideation).reduce((a, x) => a + (x.count ?? 0), 0);
+  const after = readJson(stateFile(dir));
+  const total = Object.values(after.ideation).reduce((a, x) => a + (x.count ?? 0), 0);
+  if (after.funding?.source === 'key') console.log(fundingLine(after));
   console.log(`ideas harvested so far: ${total}. Next: board --id ${s.id}`);
 }
 
@@ -620,7 +710,7 @@ function builderBrief(s, dir, e, eid, { now, end, started, deadline, kind, n, la
     idea: e.ideas ? demoteHeadings(packFile(s, dir, e).trim(), 2)
       : orig ? ideaMarkdown(orig, { heading: '###' }).trim() : (ideaMd ?? `### ${e.title}`).trim(),
     owner_note: s.owner_note ? `**The owner's note on the shortlist:** ${s.owner_note.trim()}` : '',
-    hours: String(s.hours), started: stamp(started), deadline: stamp(deadline),
+    hours: clockHours(started, deadline), started: stamp(started), deadline: stamp(deadline),
     baseline_by: stamp(Math.min(deadline, started + s.baseline_frac * (deadline - started))),
     session_line: sessionLine({ kind, n, now, end, deadline, lastOutcome }), port: String(e.port), branch: e.branch,
     gates: s.gates.length ? s.gates.map((g) => `- \`${g}\``).join('\n') : 'None declared - keep the app building and its tests green.',
@@ -660,7 +750,10 @@ function copyDeliverables(wt, edir) {
 
 const pidAlive = (pid) => { try { process.kill(pid, 0); return true; } catch (e) { return e.code === 'EPERM'; } };
 
-async function runEntry(dir, eid, mode) {
+/** An entry's deadline: the one it started with, else the clock from now (`--until` or hours). */
+const entryDeadline = (s, e, now) => (e.deadline ? Date.parse(e.deadline) : deadlineFor({ until: s.funding?.until ?? null, hours: s.hours, now }));
+
+async function runEntry(dir, eid, mode, concurrent = 1) {
   const edir = path.join(dir, 'entries', eid);
   fs.mkdirSync(edir, { recursive: true });
   const lock = path.join(edir, 'run.lock');
@@ -696,7 +789,12 @@ async function runEntry(dir, eid, mode) {
       }
       const now = Date.now();
       const started = e.started ? Date.parse(e.started) : now;
-      const deadline = e.deadline ? Date.parse(e.deadline) : now + s.hours * 3600000;
+      let deadline;
+      try { deadline = entryDeadline(s, e, now); } catch (err) {
+        update(dir, (x) => { x.entries[eid].status = 'stopped'; x.entries[eid].stop_reason = err.message; });
+        log(`${eid}: stopped - ${err.message}`);
+        return;
+      }
       const quick = e.sessions.slice(-2);
       let { plan, reason } = planSessionWhy({
         mode, started, deadline, now, baselineFrac: s.baseline_frac, sprintMin: s.sprint_min,
@@ -720,19 +818,19 @@ async function runEntry(dir, eid, mode) {
       fs.writeFileSync(path.join(wt, '.hackathon', 'BUILDER.md'), brief);
       const prompt = sessionPrompt(n, now, plan.end, deadline);
       const timeoutMs = plan.end - now;
-      const command = engineCommand(p, bin, prompt, { workspace: wt, timeoutMin: timeoutMs / 60000 });
+      const { b, command } = funded(s, p, engineCommand(p, bin, prompt, { workspace: wt, timeoutMin: timeoutMs / 60000 }), concurrent);
       const logDir = path.join(edir, 'sessions', String(n));
       fs.mkdirSync(logDir, { recursive: true });
-      writeJson(path.join(logDir, 'command.json'), { argv: command.argv, cwd: wt, prompt, started: isoLocal(now), ends: isoLocal(plan.end) });
+      writeJson(path.join(logDir, 'command.json'), { argv: command.argv, cwd: wt, prompt, started: isoLocal(now), ends: isoLocal(plan.end), billing: b.billing });
       update(dir, (x) => {
         const xe = x.entries[eid];
         xe.started ??= isoLocal(started); xe.deadline ??= isoLocal(deadline); xe.status = 'running';
-        xe.sessions.push({ n, kind: plan.kind, started: isoLocal(now), ends: isoLocal(plan.end), outcome: null, exit: null, wall_s: null, timed_out: null, sha_after: null });
+        xe.sessions.push({ n, kind: plan.kind, started: isoLocal(now), ends: isoLocal(plan.end), billing: b.billing, outcome: null, exit: null, wall_s: null, timed_out: null, sha_after: null });
       });
-      log(`${eid}: session ${n} (${plan.kind}) starts, ends ${hhmm(plan.end)}, deadline ${hhmm(deadline)} - ${p.spec}`);
+      log(`${eid}: session ${n} (${plan.kind}) starts, ends ${hhmm(plan.end)}, deadline ${hhmm(deadline)} - ${p.spec}, billed to ${b.billing}${b.maxBudgetUsd !== null ? ` (cap $${b.maxBudgetUsd})` : ''}${b.reason ? ` - ${b.reason}` : ''}`);
       const r = await runSeat(command, { cwd: wt, timeoutMs, logDir, label: `${eid}-${n}` });
       const parsed = parseEnvelope(p.engine, r.stdout);
-      const outcome = classifyOutcome(parsed, r);
+      const outcome = settle(dir, { billing: b.billing, outcome: classifyOutcome(parsed, r), errors: parsed.errors, seat: eid, n, previous: last?.outcome ?? null });
       fs.writeFileSync(path.join(logDir, 'final.md'), parsed.final ?? '');
       const snap = snapshot(wt, eid, n, e.branch);
       copyDeliverables(wt, edir);
@@ -742,6 +840,11 @@ async function runEntry(dir, eid, mode) {
         });
       });
       log(`${eid}: session ${n} ${outcome} after ${humanDuration(r.wall_s * 1000)}${snap.committed ? `, snapshot ${snap.sha_after}` : `, head ${snap.sha_after}`}${snap.snapshot_hook_failed ? ' (hook failed; committed with --no-verify)' : ''}${snap.snapshot_error ? ` - SNAPSHOT FAILED: ${snap.snapshot_error}` : ''}${snap.branch_drift ? ` - WARNING: worktree is on ${snap.branch_drift}, not ${e.branch}` : ''}${parsed.errors.length ? ` - ${parsed.errors[0]}` : ''}`);
+      // A first key rate limit resumes on the key after a pause (a second one switches the night).
+      if (outcome === 'key-limited' && !readJson(stateFile(dir)).funding?.switched) {
+        log(`${eid}: the key is rate-limited - resuming on it in 2 min`);
+        await new Promise((res) => setTimeout(res, 120000));
+      }
     }
   } finally {
     try { if (Number(readIf(lock)) === process.pid) fs.rmSync(lock, { force: true }); } catch { /* best effort */ }
@@ -782,7 +885,8 @@ async function run() {
       const p = parseParticipant(e.spec);
       const now = Date.now();
       const started = e.started ? Date.parse(e.started) : now;
-      const deadline = e.deadline ? Date.parse(e.deadline) : now + s.hours * 3600000;
+      let deadline;
+      try { deadline = entryDeadline(s, e, now); } catch (err) { console.log(`${eid} (dry run): no session - ${err.message}`); continue; }
       const last = e.sessions.at(-1);
       const { plan, reason } = planSessionWhy({ mode, started, deadline, now, baselineFrac: s.baseline_frac, sprintMin: s.sprint_min, sessions: e.sessions, maxSessions: s.max_sessions, lastOutcome: last ? (last.outcome ?? 'interrupted') : null, resumeLimit: opts.reopen === true || opts['resume-limited'] === true, declaredDone: opts.reopen === true ? null : fs.existsSync(path.join(e.worktree, '.hackathon', 'DONE')) || null });
       if (!plan) { console.log(`${eid} (dry run): no session - ${reason}`); continue; }
@@ -792,8 +896,8 @@ async function run() {
       fs.mkdirSync(path.dirname(briefFile), { recursive: true });
       fs.writeFileSync(briefFile, brief);
       const bin = resolveBin(p.engine) ?? `<${p.engine} CLI not found>`;
-      const command = engineCommand(p, bin, sessionPrompt(n, now, plan.end, deadline), { workspace: e.worktree, timeoutMin: (plan.end - now) / 60000 });
-      console.log(`${eid} (dry run, ${mode}): session ${n} ${plan.kind}, ${hhmm(now)} -> ${hhmm(plan.end)} (${humanDuration(plan.end - now)}), deadline ${hhmm(deadline)}, seat ${p.spec}, cwd ${e.worktree}`);
+      const { b, command } = funded(s, p, engineCommand(p, bin, sessionPrompt(n, now, plan.end, deadline), { workspace: e.worktree, timeoutMin: (plan.end - now) / 60000 }), ids.length);
+      console.log(`${eid} (dry run, ${mode}): session ${n} ${plan.kind}, ${hhmm(now)} -> ${hhmm(plan.end)} (${humanDuration(plan.end - now)}), deadline ${hhmm(deadline)}, seat ${p.spec}, cwd ${e.worktree}, billed to ${b.billing}${b.maxBudgetUsd !== null ? ` (cap $${b.maxBudgetUsd})` : ''}${b.reason ? ` - ${b.reason}` : ''}`);
       console.log(`  argv: ${JSON.stringify(command.argv)}`);
       console.log(`  stdin: ${JSON.stringify(command.stdin)}`);
       console.log(`  brief rendered (${brief.length} chars, no placeholders left): ${briefFile}`);
@@ -801,8 +905,14 @@ async function run() {
     return;
   }
   if (opts.sprints === true && s.mode !== 'sprints') update(dir, (x) => { x.mode = 'sprints'; });
-  log(`run ${s.id}: ${ids.join(', ')} in ${mode} mode, ${s.hours} h each`);
-  await Promise.all(ids.map((eid) => runEntry(dir, eid, mode)));
+  log(`run ${s.id}: ${ids.join(', ')} in ${mode} mode, ${s.funding?.until ? `clock to ${s.funding.until}` : `${s.hours} h each`}`);
+  if (s.funding?.source === 'key') {
+    log(fundingLine(s));
+    if (!s.funding.switched && !readKey(s.funding.key_env)) log(`warning: ${s.funding.key_env} is not visible to this process - claude seats start on the subscription`);
+  }
+  await Promise.all(ids.map((eid) => runEntry(dir, eid, mode, ids.length)));
+  const end = readJson(stateFile(dir));
+  if (end.funding?.source === 'key') log(fundingLine(end));
   log(`run ${s.id}: all entries stopped. Next: collect --id ${s.id}`);
 }
 
@@ -821,7 +931,8 @@ function statusAll() {
 function status() {
   if (!opts.id || opts.id === true) { statusAll(); return; }
   const { s, dir } = load();
-  console.log(`${s.id} - ${s.title} (${s.mode}, ${s.hours} h, base ${s.base.slice(0, 12)})`);
+  console.log(`${s.id} - ${s.title} (${s.mode}, ${s.funding?.until ? `clock to ${s.funding.until}` : `${s.hours} h`}, base ${s.base.slice(0, 12)})`);
+  if (s.funding?.source === 'key') console.log(`  ${fundingLine(s)}`);
   if (!Object.keys(s.entries).length) {
     for (const [id, x] of Object.entries(s.ideation)) console.log(`  ideator ${x.letter} ${id}: ${x.outcome ?? 'not run'}, ${x.count ?? 0} idea(s)${x.wall_s != null ? `, ${Math.round(x.wall_s)} s` : ''}${x.errors?.length ? ` - ${x.errors[0]}` : ''}`);
     console.log(`  board: ${fs.existsSync(path.join(dir, 'board.html')) ? path.join(dir, 'board.html') : 'not built'}`);

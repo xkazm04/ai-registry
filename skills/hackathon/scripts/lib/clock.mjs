@@ -19,10 +19,15 @@
 // Sessions the HOST ended (interrupted: the host process died) and seat-limit sessions do not count
 // toward maxSessions: in 1.0.0's first run a host death spent one of a short-session seat's six.
 
+import { KEY_OUTCOMES } from './funding.mjs';
+
 export const MIN_SESSION_MS = 10 * 60 * 1000;
-const RESUME_AFTER = new Set(['errored', 'timed-out', 'interrupted', 'unavailable']);
-const SPRINT_RESUME_AFTER = new Set(['errored', 'interrupted', 'unavailable']);
-const NOT_THE_SEATS = new Set(['interrupted', 'seat-limit']);
+// A key outcome (credit night: the key ran dry, hit the night's cap, was refused or rate-limited)
+// ended the session for the funding's sake, not the seat's. It resumes - on the subscription once
+// the night has switched - and does not count toward maxSessions.
+const RESUME_AFTER = new Set(['errored', 'timed-out', 'interrupted', 'unavailable', ...KEY_OUTCOMES]);
+const SPRINT_RESUME_AFTER = new Set(['errored', 'interrupted', 'unavailable', ...KEY_OUTCOMES]);
+const NOT_THE_SEATS = new Set(['interrupted', 'seat-limit', ...KEY_OUTCOMES]);
 const QUICK_DONE_S = 5 * 60;
 
 /** Sessions that count toward max_sessions: an array of { outcome } drops host-ended ones; a number counts as is. */
