@@ -115,12 +115,6 @@
         "Wolf": "kiro/paypal"
       }
     },
-    "athena-portable": {
-      "checkouts": {
-        "Fox": "dolla/athena-portable",
-        "Wolf": "kiro/athena-portable"
-      }
-    },
     "overlord": {
       "checkouts": {
         "Wolf": "kiro/overlord"

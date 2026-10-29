@@ -43,7 +43,7 @@
       "name": "architect",
       "source": "./skills/architect",
       "description": "Heavy structural codebase scan - surfaces weak patterns to upgrade and strong patterns to codify, and proves whether the repo's own gates (lint rules, hooks, CI checks, type rules, test guards, ratchets) still fire, producing ADR-style decisions with a durable cross-session backlog. The highest-risk / highest-payoff scan in the suite; walks the context map area by area. Modes: scan (one theme…",
-      "version": "1.10.1",
+      "version": "1.11.0",
       "category": "workflow"
     },
     {
@@ -133,8 +133,8 @@
     {
       "name": "contest",
       "source": "./skills/contest",
-      "description": "Blind design contest between CLI agent seats (Claude Code, Codex CLI, Grok CLI, Antigravity agy). Each participant you name - engine:model@effort - builds three genuinely different prototype variants of one idea in its own workspace; a cross-family panel scores every variant blind on seven dimensions (wow, clarity at scale, wayfinding, interaction, craft, concept, utility); the host adds a visual…",
-      "version": "1.13.1",
+      "description": "Blind design contest between CLI agent seats (Claude Code, Codex CLI, Grok CLI, Antigravity agy, Muse). Each participant you name - engine:model@effort - builds three genuinely different prototype variants of one idea in its own workspace; a cross-family panel scores every variant blind on seven dimensions (wow, clarity at scale, wayfinding, interaction, craft, concept, utility); the host adds a…",
+      "version": "1.14.0",
       "category": "workflow",
       "tags": [
         "contest",
@@ -235,6 +235,23 @@
       "category": "workflow"
     },
     {
+      "name": "hackathon",
+      "source": "./skills/hackathon",
+      "description": "Time-boxed, owner-judged hackathon between CLI agent seats (Claude Code, Codex, Grok, Antigravity agy, Muse) on a BROAD track in a real repository. Use when the owner knows the area but not the feature - 'make audio usable for non-musicians' rather than 'build this panel' - and wants several minds to find the projects and race to build them against a wall clock. The host frames the track with the…",
+      "version": "1.1.0",
+      "category": "workflow",
+      "tags": [
+        "hackathon",
+        "multi-model",
+        "time-boxed",
+        "ideation",
+        "prototyping",
+        "worktree",
+        "owner-judged",
+        "vault"
+      ]
+    },
+    {
       "name": "i18n-translate",
       "source": "./skills/i18n-translate",
       "description": "Copywriting-grade, context-aware localization for any managed app - a transcreation loop (draft -> typed MQM estimate -> gated refine) with an engineering guardrail. Portable across i18n stacks via a per-repo contract artifact; keeps a glossary, per-locale style guides, and gold exemplar pairs in the target repo so run N+1 stays consistent with run N. Invoke with /i18n-translate <mode> [locale]…",
@@ -278,7 +295,7 @@
       "name": "kpi-sim",
       "source": "./skills/kpi-sim",
       "description": "KPI Simulation - measure a project's KPIs locally, simulate user behavior with UAT-style Characters, and predict real-world targets from web benchmarks, writing a result.json the Personas app ingests into its KPI module (env-tagged simulated series + proposal-gated adjustments). Engine doctrine mirrors src/features/teams/sub_kpis/kpiSimPrompt.ts - the app dispatches the same contract into managed…",
-      "version": "1.3.1",
+      "version": "1.4.0",
       "category": "testing"
     },
     {
@@ -391,7 +408,7 @@
       "name": "perfect",
       "source": "./skills/perfect",
       "description": "Session-after-session product perfection loop. The strongest available model at xhigh reasoning (currently Sonnet 5.5) directs - it walks the repo's context map context-by-context, proposes up to 5 challenged, high-value directions per context (features, design elevations, significant optimizations), gates them with the user until the pool is full, then orchestrates Sonnet-class builder subagents…",
-      "version": "2.8.1",
+      "version": "2.9.0",
       "category": "workflow",
       "tags": [
         "loop",
@@ -427,7 +444,7 @@
       "name": "scan-sweep",
       "source": "./skills/scan-sweep",
       "description": "Long-running quality sweep that walks a repository context by context, reads each area's code once, judges it through every scan lens, and lands what it can PROVE itself with atomic commits. With no arguments it runs the STABILIZE loop - bug hunting, UI perfection, performance - picking the least-covered context each round and keeping a per-context lens-coverage ledger so a codebase gets swept…",
-      "version": "4.7.1",
+      "version": "4.8.0",
       "category": "workflow",
       "tags": [
         "sweep",

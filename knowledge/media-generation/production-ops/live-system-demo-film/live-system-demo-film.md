@@ -12,6 +12,11 @@ techniques:
   - seeded-stage-with-a-declared-boundary
   - recorder-owned-overlay
   - retake-without-an-edit-session
+  - native-window-grab-with-measured-clock
+  - figures-lifted-with-declared-fallback
+  - prototype-the-cut-from-stills-and-a-dry-walk
+  - narrator-chosen-by-audition
+  - music-bed-sized-to-the-finished-cut
 ---
 
 # The live-system demo film
@@ -224,5 +229,11 @@ whether a note should be answered with an edit.
 - [retake-without-an-edit-session](./techniques/retake-without-an-edit-session.md)
   — idempotent synthesis, per-beat re-narration, a spend guard, a dry mode, and
   assembly from logged offsets.
+- [narrator-chosen-by-audition](./techniques/narrator-chosen-by-audition.md) — five
+  voices on one passage of the real lines at loosened delivery, and a script
+  rewritten to be spoken.
+- [music-bed-sized-to-the-finished-cut](./techniques/music-bed-sized-to-the-finished-cut.md)
+  — a quiet bed auditioned under the voice, generated last to the measured length,
+  and set low.
 
 Cross-cutting invariants these techniques cite live in [`_laws.md`](../../_laws.md).

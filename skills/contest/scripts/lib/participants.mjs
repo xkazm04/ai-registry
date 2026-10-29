@@ -7,7 +7,7 @@
 // personal rules, plugins or memory).
 
 export const EFFORTS = new Set(['low', 'medium', 'high', 'xhigh', 'max']);
-export const ENGINES = new Set(['claude', 'codex', 'grok', 'agy']);
+export const ENGINES = new Set(['claude', 'codex', 'grok', 'agy', 'muse']);
 
 /**
  * `engine:model@effort[#label]` -> { engine, model, effort, label, id }.
@@ -43,8 +43,21 @@ export function parseParticipants(list) {
  * `bin` is the resolved executable; codex may resolve to [node, codex.js] so the
  * first element(s) are passed through untouched.
  */
-export function engineCommand(p, bin, prompt, { workspace = '.' } = {}) {
+export function engineCommand(p, bin, prompt, { workspace = '.', timeoutMin = null } = {}) {
   const head = Array.isArray(bin) ? bin : [bin];
+  if (p.engine === 'muse') {
+    // Muse Code (Meta). `exec` is the headless lane; approval and the OS sandbox are on by
+    // default, so --yolo is what makes a seat self-approving. --no-foreign-personal-context keeps
+    // the operator's own rules and skills out, as --setting-sources does for claude. Efforts map
+    // one to one (muse also takes none/minimal/ultra, which a spec cannot name). Probed 2026-10-28
+    // on 1.4.14 with muse-wonder-1.0.
+    return {
+      argv: [...head, 'exec', '--json', '--model', p.model, '--reasoning-effort', p.effort,
+        '--yolo', '--no-foreign-personal-context', '--no-session-log', '--workspace', workspace, prompt],
+      stdin: '',
+      env: {},
+    };
+  }
   if (p.engine === 'agy') {
     // Antigravity CLI, the successor of the Gemini CLI. Its model slugs carry the effort
     // (`gemini-3.8-flash-medium`, see `agy models`), so a spec naming `gemini-3.8-flash@medium`
@@ -53,9 +66,12 @@ export function engineCommand(p, bin, prompt, { workspace = '.' } = {}) {
     // -p argument and stdin is closed empty.
     const tier = p.effort === 'xhigh' || p.effort === 'max' ? 'high' : p.effort;
     const model = /-(low|medium|high)$/.test(p.model) ? p.model : `${p.model}-${tier}`;
+    // agy ends a print run at its own timeout; a seat ceiling longer than 3h (a hackathon) must
+    // move it, or the CLI stops the seat before the host's clock does.
+    const printTimeout = timeoutMin && timeoutMin > 180 ? `${Math.ceil(timeoutMin / 60) + 1}h` : '3h';
     return {
       argv: [...head, '-p', prompt, '--model', model, '--output-format', 'json',
-        '--dangerously-skip-permissions', '--print-timeout', '3h'],
+        '--dangerously-skip-permissions', '--print-timeout', printTimeout],
       stdin: '',
       env: {},
     };
@@ -135,6 +151,32 @@ export function parseAgy(stdout) {
   };
 }
 
+// muse prints JSONL events. The run's verdict is the `run.terminal.completed` event (terminal:
+// completed|failed|cancelled, text = the final answer); token usage rides `run.usage`.
+export function parseMuse(stdout) {
+  let final = '';
+  let usage = {};
+  let turns = 0;
+  let terminal = null;
+  const errors = [];
+  for (const line of stdout.split(/\r?\n/)) {
+    let v;
+    try { v = JSON.parse(line); } catch { continue; }
+    const t = v.payload_type ?? '';
+    const pl = v.payload ?? {};
+    if (t.startsWith('run.terminal')) {
+      terminal = pl.terminal ?? t.split('.').pop();
+      final = String(pl.text ?? final);
+      if (terminal !== 'completed') errors.push(`${terminal}: ${String(pl.reason ?? pl.text ?? '').slice(0, 300)}`);
+    } else if (t === 'run.usage') {
+      usage = pl.models?.[0] ?? usage;
+      turns = pl.calls ?? turns;
+    }
+  }
+  if (terminal === null) errors.push('no run.terminal event on stdout');
+  return { final, errors, usage, turns, cost_usd: null, duration_ms: null, model_usage: {} };
+}
+
 export function parseCodex(stdout) {
   let final = '';
   let usage = {};
@@ -162,6 +204,7 @@ export function parseEnvelope(engine, stdout) {
   if (engine === 'codex') return parseCodex(stdout);
   if (engine === 'grok') return parseGrok(stdout);
   if (engine === 'agy') return parseAgy(stdout);
+  if (engine === 'muse') return parseMuse(stdout);
   return parseClaude(stdout);
 }
 

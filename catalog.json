@@ -945,6 +945,25 @@
       "difficulty30d": null,
       "tokensMedian30d": null,
       "tokensBasis30d": null
+    },
+    {
+      "name": "hackathon",
+      "version": "1.1.0",
+      "category": "workflow",
+      "path": "skills/hackathon/SKILL.md",
+      "contentHash": "sha256-n1:b3fc8016fc6db1b5",
+      "adopters": [],
+      "invokes30d": 0,
+      "reportedInvokes": 0,
+      "lessons": 1,
+      "lessonsPath": "skills/hackathon/LESSONS.md",
+      "lessonsHash": "sha256-n1:f55960c7ca8eb667",
+      "usageContributors": [],
+      "runs30d": 0,
+      "outcomes30d": {},
+      "difficulty30d": null,
+      "tokensMedian30d": null,
+      "tokensBasis30d": null
     }
   ],
   "practices": [

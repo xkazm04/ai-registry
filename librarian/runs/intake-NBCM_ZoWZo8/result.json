@@ -1,0 +1,30 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "intake-NBCM_ZoWZo8",
+  "skill": "intake",
+  "skill_version": "2.17.1",
+  "mode": "source",
+  "domain": "software-engineering",
+  "started_at": "2026-10-28T00:00:00Z",
+  "ended_at": "2026-10-28T00:00:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 0,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [],
+  "verdicts": [],
+  "files": [
+    "librarian/sources/2026-10-28-hill-climb-long-running-agents.md",
+    "librarian/sources/index.md",
+    ".claude/skills/intake/SCORECARD.md"
+  ],
+  "commits": [],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "First-party video on multi-day agent loops: 14 extracted, 9 covered, 3 untriaged, 2 leads, 0 landed. The one real gap (judge-as-reward pulls spend to the channel it sees) scored G-R=1; fleet hunt found a seam, no convergence."
+}

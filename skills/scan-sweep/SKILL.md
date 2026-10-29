@@ -5,7 +5,7 @@ argument-hint: "[--stabilize|--develop|--optimize|--challenge] [--cohort N] [--r
 category: workflow
 contexts: tracked
 memory: project
-version: 4.7.1
+version: 4.8.0
 tags: sweep, quality, stabilization, backlog, coverage, registry, atomic-commits
 ---
 # Context Sweep
@@ -238,6 +238,14 @@ Rules that keep the notice honest:
   order with NO snapshot at all; else the smallest `lens_keys` union (fewest
   lenses ever applied); tie → oldest latest snapshot. `scripts/coverage.mjs
   --next` computes exactly this and is the cheapest way to ask.
+  **Independent of the running app.** If the map's `provenance.git_commit` is behind `HEAD`, refresh it first with
+  `node <registry>/scripts/personas-door.mjs contexts refresh` (deterministic, git-only: follows renames, drops gone files, attaches
+  new files by directory, no LLM). It flags the contexts whose churn crossed their calibrated threshold; re-judge ONLY those
+  (`contexts plan` -> read -> `contexts apply --file patch.json --tokens-est <n>`), which feeds the rescan-yield ledger that
+  decides next time whether a rescan was worth it. `contexts sync` hands the map to the app when it is up (spooled when not).
+  `<registry>` = `.ai/manifest.yaml` `registry.local`, else `$AI_REGISTRY_DIR`, else `../ai-registry`. Without a Personas DB the
+  commands degrade to the map file alone; nothing here may block the run.
+
 - State the choice and why in the round header ("never swept" / "lens coverage
   4/22, oldest 2026-08-11"). Coverage rotation must be auditable.
 - **Size the context before you size the package.** Count its files and lines

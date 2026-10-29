@@ -36,6 +36,7 @@ export function resolveBin(engine, { env = process.env, platform = process.platf
     grok: [path.join(home, '.grok', 'bin', 'grok.exe'), path.join(home, '.grok', 'bin', 'grok')],
     codex: [],
     agy: [path.join(env.LOCALAPPDATA ?? path.join(home, 'AppData', 'Local'), 'agy', 'bin', 'agy.exe'), path.join(home, '.local', 'bin', 'agy')],
+    muse: [path.join(env.LOCALAPPDATA ?? path.join(home, 'AppData', 'Local'), 'Programs', 'muse', 'muse.cmd'), path.join(home, '.local', 'bin', 'muse')],
   };
   const candidates = [];
   for (const d of dirs) for (const e of exts) candidates.push(path.join(d, engine + e));
@@ -52,6 +53,13 @@ export function resolveBin(engine, { env = process.env, platform = process.platf
       // Current claude npm packages ship a native binary, not cli.js (contest lessons 1.2.0, 1.7.0).
       const native = engine === 'claude' && path.join(path.dirname(c), 'node_modules/@anthropic-ai/claude-code/bin/claude.exe');
       if (native && fs.existsSync(native)) return native;
+      // muse.cmd is a shim over a PowerShell launcher that owns sign-in and self-update; run the
+      // launcher directly rather than the versioned binary beside it, which it replaces.
+      const launcher = engine === 'muse' && path.join(path.dirname(c), '.muse-launcher.ps1');
+      if (win && launcher && fs.existsSync(launcher)) {
+        return [path.join(env.SystemRoot ?? 'C:\\Windows', 'System32', 'WindowsPowerShell', 'v1.0', 'powershell.exe'),
+          '-NoProfile', '-ExecutionPolicy', 'Bypass', '-File', launcher];
+      }
       const script = entry && path.join(path.dirname(c), entry);
       if (script && fs.existsSync(script)) return [execPath, script];
       if (win) continue;
