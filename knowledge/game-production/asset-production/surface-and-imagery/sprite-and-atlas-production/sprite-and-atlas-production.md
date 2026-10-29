@@ -11,6 +11,7 @@ techniques:
   - sprite-sequence-timing-and-pivot-stability
   - lossy-compression-acceptance-for-flat-art
   - autotile-rule-set-completeness
+  - state-roster-costing-for-generated-characters
 ---
 
 # Sprite and atlas production
@@ -180,6 +181,17 @@ a completeness check over an empty rule-set passes brilliantly and meaninglessly
 ([an-instrument-proves-it-had-input](../../../_laws.md#an-instrument-proves-it-had-input)).
 State the size of the enumeration beside the result, and a set claiming full coverage of
 zero cases fails loudly.
+
+## A character route is costed by its roster, not its best clip
+
+Generated animated characters (painted cards, video-generated frames, prerendered sprites) are judged on
+the best clip of the best character and committed on that. The route's real cost is every state the rules
+can put each character in, times every character type, times the facings the camera sees, times the
+retries the generator needs, paid in texture memory at the cell size play distance requires. One generated
+opponent that looked finished covered 4 of about 18 states, at about an hour per clip with retries and
+tens of megabytes of pages for one character, with the rest of the cast still to do. Cost the roster before
+choosing the route. See
+[state-roster-costing-for-generated-characters](./techniques/state-roster-costing-for-generated-characters.md).
 
 ## Where this subject stops
 

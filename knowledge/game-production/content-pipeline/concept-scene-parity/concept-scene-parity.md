@@ -12,6 +12,9 @@ techniques:
   - cap-attribution-before-the-next-round
   - blind-panel-with-a-control-frame
   - isolate-the-light-before-the-surface
+  - owner-anchor-for-a-model-panel
+  - frame-the-judged-shot-from-a-play-trace
+  - toolkit-fit-slice-before-the-look-is-chosen
 ---
 
 # Concept scene parity
@@ -161,6 +164,21 @@ also scores the starting frame as a control, and totals from different panels ar
 through a control they both scored. See
 [blind-panel-with-a-control-frame](./techniques/blind-panel-with-a-control-frame.md).
 
+A blind panel of models is still a panel of models. It is lenient in a consistent direction, it does not
+repeat its own readings closely, it can reverse the last panel's preference between two treatments, and it
+cannot see motion or stereo depth in the stills it is shown. In one series the owner read the final round
+about 4 to 5 points of 36 below every model panel. So the person the scene is for scores a blind sample at
+the first round and at every decision point, the panel's offset in that person's units is carried beside
+every total, a reversal of direction needs the owner or two agreeing panels, and anything that exists only
+in motion or in the device is the owner's to judge. See
+[owner-anchor-for-a-model-panel](./techniques/owner-anchor-for-a-model-panel.md).
+
+The frame is part of the instrument in the same way. A shot that copies the concept's framing puts
+characters at the distance and in the stillness the concept chose, which flatters every technique that
+fails up close or in motion. Before judging, a play trace records where play actually puts the eye, the
+characters and the effects, and the judged set includes shots at those distances and a capture in motion.
+See [frame-the-judged-shot-from-a-play-trace](./techniques/frame-the-judged-shot-from-a-play-trace.md).
+
 ## Feasibility: when to stop and write the limit down
 
 The loop often exists to answer a go or no-go question: is this look reachable on this
@@ -179,6 +197,19 @@ character that reads as the concept's* is a result, and a decision can be made o
 flattering capture is not a result, and neither is an estimate that the next round will
 close the gap: estimates are good for ranking levers and bad at predicting totals, for
 reasons the scorecard technique states.
+
+The stop rule only works if it is read where the results are read. A loop that consults it while
+planning a round, and then reads the next round's total, will keep funding a flat element for as long as
+the total moves somewhere else. So each round's report lists every element's movement over the last two
+rounds beside its cap, and an element that has not moved is either moved to a different stage (a new
+technique, a new tool, a person with the craft) or written down as a limit in that same report.
+
+The cheapest feasibility answer comes before the loop starts. A concept is usually chosen for its
+beauty, and whether the team's own toolkit can produce its hardest elements is a separate question.
+Building the two or three elements that are both most salient and most at risk (the player's hands, a
+recurring animated character, line quality on moving geometry, a mixed-media frame) in each candidate
+look, and judging them in motion, answers in a day what polish rounds answer in weeks. See
+[toolkit-fit-slice-before-the-look-is-chosen](./techniques/toolkit-fit-slice-before-the-look-is-chosen.md).
 
 Stopping is a golden-path decision rather than a technique of its own on purpose. It reads
 the scorecard, the cheat column and the cap attribution and adds nothing to them except a
@@ -208,3 +239,10 @@ threshold and a willingness to write *no*; a separate procedure would restate al
   goal. Read its trail for direction, and take the level from a blind panel with a control.
 - **Retuning the surface that looks guilty.** The region's light usually came from a light, a
   veil or the fog in front of it.
+- **Polishing in the order the team moves fastest.** The backdrop and the effects improve every round,
+  and the most salient, riskiest element (often the player's own hands) gets its first dedicated pass
+  when the schedule is nearly gone.
+- **Taking a model panel's total as the owner's.** Blind and controlled is not calibrated; a panel near
+  the bar can be well short of it in the owner's units.
+- **Judging at the concept's framing only.** The distance and stillness the concept chose are rarely the
+  ones play produces.
