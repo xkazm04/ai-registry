@@ -75,6 +75,8 @@ fleet-*.proposals.json
 
 # cloud-dispatch: machine-local ledger, queue and prompt files
 /.ai/cloud-dispatch.local.jsonl
+/.ai/credit-lanes.local.json
+/.ai/cloud-dispatch/managed/
 /.ai/cloud-queue/
 
 # registry-query's routing projection: per-bundle entries + BM25 postings, rebuilt from

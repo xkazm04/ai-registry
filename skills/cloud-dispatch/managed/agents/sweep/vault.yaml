@@ -1,0 +1,10 @@
+# Night sweep vault: the container only. `ant apply` manages vaults as containers and never
+# reads, writes or diffs a credential; besides `type`, only display_name and metadata are
+# accepted (`name:` is an error). Shape: claude-api shared/anthropic-cli.md ("Vaults are managed
+# as containers only") and shared/managed-agents-onboarding-from-url.md section 4.
+#
+# The GitHub MCP credential (static_bearer, mcp_server_url https://api.githubcopilot.com/mcp/,
+# token = the fine-grained PAT) is added once by the operator with
+# `ant beta:vaults:credentials create` - see README.md "3. Credential". It never lives in a file.
+type: vault
+display_name: night-sweep-<REPO_SLUG>

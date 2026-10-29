@@ -1,11 +1,11 @@
 ---
 name: cloud-dispatch
-description: "Spend the Claude Code cloud-session credit as a parallel engine beside local agents. Ships a self-contained brief to a `claude --cloud` session that clones the GitHub origin, works on branch claude/cloud-<id> and returns one pull request with a RESULT.md for local review. Two ways in: explicit dispatch (a plan by default, --go to launch) and overflow - fan-out skills queue cloud_ok briefs before dispatching local workers, and a StopFailure hook ships the still-queued ones when the seat hits its rate limit (capped 6 a day). Ships three ai-registry workload briefs: upstream delta re-scan, lead corroboration, deepen research. Not for a repo ahead of origin or work that needs local GPU, vault, sibling checkouts or fleet application. Invoke with /cloud-dispatch <brief.md> --repo <path> [--go], /cloud-dispatch status, or /cloud-dispatch queue --add|--done|--list."
+description: "Spend the Claude Code cloud-session credit as a parallel engine beside local agents. Ships a self-contained brief to a `claude --cloud` session that clones the GitHub origin, works on branch claude/cloud-<id> and returns one pull request with a RESULT.md for local review. Two ways in: explicit dispatch (a plan by default, --go to launch) and overflow - fan-out skills queue cloud_ok briefs before dispatching local workers, and a StopFailure hook ships the still-queued ones when the seat hits its rate limit (capped 6 a day). A second engine, --engine key, spends a lane's time-limited API key on local headless claude -p workers under the same landing contract, with per-lane budget, expiry and concurrency refusals (--lanes). Ships four ai-registry workload briefs: upstream delta re-scan, lead corroboration, deepen research, subject review. Not for a repo ahead of origin or work that needs local GPU, vault, sibling checkouts or fleet application. Invoke with /cloud-dispatch <brief.md> --repo <path> [--engine key --lane <l>] [--go], /cloud-dispatch status, /cloud-dispatch lanes, or /cloud-dispatch queue --add|--done|--list."
 category: workflow
 memory: none
-version: 1.1.2
+version: 1.2.0
 tags: cloud, dispatch, overflow, parallel, credits
-argument-hint: "<brief.md> --repo <path> [--go] | status | queue ..."
+argument-hint: "<brief.md> --repo <path> [--engine key --lane <l>] [--go] | status | lanes | queue ..."
 ---
 
 # Cloud dispatch - a second engine that does not share the seat
@@ -17,7 +17,8 @@ argument-hint: "<brief.md> --repo <path> [--go] | status | queue ..."
 > pool: **a brief goes out, a branch and a pull request come back, and adopting it is a local,
 > human-reviewed act.** Nothing a cloud session writes reaches the default branch on its own.
 
-Everything runs through three Node scripts (builtins only) under `scripts/`, plus a hook entry;
+Everything runs through three Node scripts (builtins only) under `scripts/`, plus a hook entry
+and the key lane's worker (section 9);
 `node --test skills/cloud-dispatch/tests/*.mjs` pins them (Node 24 refuses a bare directory).
 `<registry>` below is the ai-registry checkout the skill lives in; write it as the real path on
 your machine and never commit that path.
@@ -37,7 +38,7 @@ The operator holds a **$250 cloud-session credit** (Max plan promotion, Help Cen
 | Routines (scheduled cloud agents) and Projects | the Max plan's limits, not the credit |
 | Remote Control | the Max plan's limits - the session runs on the local machine |
 | Local CLI or desktop sessions | the Max plan's limits |
-| An API key | API billing |
+| An API key | API billing - the key lane, section 9 |
 | Agent tool `isolation: "remote"` | ran on the LOCAL machine when tested - do not use it for this |
 
 Two facts shape the scripts. `claude --cloud` refuses without an interactive terminal, so the
@@ -210,6 +211,10 @@ delete the slot hints, and dispatch or queue the copy.
   fifteen such runs; the upstream lane's 6-a-month cap cannot spend it alone, so give the
   remainder to lead-corroboration and deepen-research briefs. Re-measure when a brief type
   or model changes, and record it in LESSONS.md.
+- **The key lane's measured cost is unknown until its first run.** `--max-budget-usd` caps one
+  worker at the lane's `perRunUsd`, and the worker records `total_cost_usd` in its status
+  file, so `--lanes` shows real spend. Re-measure on the first run and record it in
+  LESSONS.md, per brief type, before raising `maxConcurrent` or `perRunUsd`.
 - **The credit expires 2026-11-04 23:59 PT.** After that, cloud sessions draw the plan like
   any other session, so overflow no longer adds capacity. From 2026-11-05 say so, remove or
   disable the hook, and recommend neither overflow nor explicit dispatch unless the operator
@@ -226,6 +231,152 @@ Each is written to the cloud session and targets ai-registry:
   corroborated or refuted with verbatim evidence; lands only what the rules allow.
 - [`briefs/deepen-research.md`](briefs/deepen-research.md) - one deepen batch-mode worker,
   run in the cloud and returned as a PR for the Director's diff review.
+- [`briefs/subject-review.md`](briefs/subject-review.md) - one pending or stale subject
+  re-judged under `docs/semantic-review.md`; writes only its note in `librarian/subjects/`
+  and reports `review-coverage.mjs`.
+
+The briefs address a cloud session; under the key engine its landing contract tells the
+worker to read "cloud session" and `claude/cloud-<id>` as its worktree and `claude/key-<id>`.
+
+## 9. Key lane: spend an API key on local workers
+
+The operator holds Anthropic API keys whose credits expire. The key engine spends one on a
+**local headless `claude -p` worker** that drains a backlog with the briefs above and the
+same landing contract - own branch `claude/key-<id>`, RESULT.md, one pull request titled
+`key(<id>): <label>`, never merge - but on this machine, beside the Max plan, billed to the key.
+
+```
+node <registry>/skills/cloud-dispatch/scripts/dispatch.mjs --lanes-init
+node <registry>/skills/cloud-dispatch/scripts/dispatch.mjs --lanes [--json]
+node <registry>/skills/cloud-dispatch/scripts/dispatch.mjs --record --lane <lane> --cost <usd> --label <s>
+node <registry>/skills/cloud-dispatch/scripts/dispatch.mjs --brief <file> --repo <path> --engine key --lane <lane> [--model <m>] [--effort <e>] [--label <s>] [--from <skill>] [--allow-ahead] [--go]
+```
+
+**Lanes** live in `<registry>/.ai/credit-lanes.local.json` (gitignored), one entry per lane:
+
+```json
+{"lanes":{"registry":{"keyEnv":"ANTHROPIC_KEY_LANE_REGISTRY","budgetUsd":0,"expires":"2026-11-12",
+  "perRunUsd":15,"maxConcurrent":3,"model":"claude-opus-5-5","effort":"high"}}}
+```
+
+- `--lanes-init` writes lanes `registry`, `cloud` and `overlord` with `budgetUsd` 0 and
+  `expires` "" and refuses when the file exists. Fill in both before a run: budget 0 refuses
+  every run. A lane absent from the file, or no file, refuses with "lane <x> not configured in
+  .ai/credit-lanes.local.json". A malformed field is refused, never defaulted.
+- `--lanes` prints per lane: spent, budgetUsd, remaining, expires, running and
+  `keyEnv: set|unset`. Spent sums `cost_usd` over the lane's key rows (from each worker's
+  status file) and manual rows; ledger rows without `engine` are pre-1.2.0 cloud launches
+  and never count. No output, log, item or ledger row carries a key value.
+- `--record` appends `{engine:"manual", lane, cost_usd, label, ts}` for spend this script
+  did not launch - an overlord session or a cloud-lane run billed to a key.
+
+**The plan and its refusals.** Without `--go` it spawns nothing and prints the lane, keyEnv
+set/unset, budget, spent, remaining, running and every refusal. The sync gate of section 3
+applies unchanged, because the worker branches from origin. Each refusal exits 1:
+
+- the lane's `keyEnv` variable is unset or empty;
+- `expires` is set and earlier than the local date (the expiry day itself still runs);
+- remaining is below `perRunUsd` - and each running worker holds `perRunUsd` of the
+  remaining budget, so concurrent runs cannot overspend it;
+- running workers (key rows with no status file yet) reach `maxConcurrent`.
+
+**The worker.** `--go` writes the prompt and a `<id>.key.json` item (it names the key's
+variable, not its value) to `.ai/cloud-queue/`, opens `keyworker.mjs` in a new console window
+the way section 3 opens the launcher, so it outlives the agent session, and appends a ledger
+row with `engine: "key"` and `lane`. The worker fetches origin, adds the worktree
+`C:/t/cd-<id>` on `claude/key-<id>` from `origin/<default>` without upstream tracking (a bare
+`git push` cannot reach the default branch), copies `.machine.local.json` in when the repo
+has one, and runs `claude -p --model <m> --effort <e> --max-budget-usd <perRunUsd>
+--output-format json --permission-mode bypassPermissions` without a shell, the prompt on
+stdin. It writes `{exit, error, cost_usd, session_id, ended}` to the status file, then removes
+the worktree through `scripts/remove-worktree.mjs` (never `git worktree remove` on Windows).
+The branch stays. A dirty worktree is kept and its status file says why (`cleanup_error`).
+On a failure the window stays open 60 seconds. `--status` lists key rows with `engine key`,
+the lane and the cost, joined on `claude/key-<id>`: `running`, `ended`, `failed(...)`,
+`branch`, `pr#<n> <state>`.
+
+- **A killed window never writes its status file.** For six hours its row counts as running
+  and holds budget and a concurrency slot; after that it reads `lost`, frees the slot and is
+  charged its full perRunUsd (the most it could have spent). Once you know the window is gone,
+  writing the status file by hand ends it sooner:
+  `{"exit":null,"error":"worker window closed","ended":"<ISO>"}`.
+- **`bypassPermissions` on this machine is not a cloud sandbox.** The contract fences the
+  worker inside its worktree, but that is an instruction the worker reads, not a wall.
+  Dispatch only `cloud_ok: true` briefs a cloud session could run blind.
+
+**Why the key lives in `ANTHROPIC_KEY_LANE_<LANE>` and never in `ANTHROPIC_API_KEY`.** The fleet
+strips `ANTHROPIC_API_KEY` almost everywhere to stay on the subscription. An exported key
+silently moves the registry's contest seats (`seat.mjs` passes the parent env), and the
+pumper and pof judge scripts, onto API billing. The lane variable is read by nothing else;
+the worker's child env drops every `ANTHROPIC_KEY_LANE_*` and every name in `KEY_CHILD_STRIP`
+(the other Anthropic credentials, `CLAUDE_CODE_OAUTH_TOKEN`, the `CLAUDE_CODE_USE_*` provider
+switches, `NODE_TEST_CONTEXT`) and sets `ANTHROPIC_API_KEY` to the lane's key for that one
+process - one list, so a new credential name is added once. On the first run, confirm in the Console that the spend landed on the
+key and not on the plan.
+
+**Credits are per organization, not per key.** One key per lane separates attribution - the
+Console's usage by key, and this ledger - not balances: every key in an organization draws
+the same credit grant. A lane's `budgetUsd` is the operator's share of one pool, and the lane
+budgets together must not exceed it.
+
+**Review is the bottleneck, not spend.** Every worker returns a pull request the Director
+must diff-review (section 4). `maxConcurrent` bounds the PR flow; raise it only when reviews
+keep up.
+
+## 10. Managed Agents lane: a nightly sweep that opens one PR
+
+A second cloud engine beside `claude --cloud`: a Claude Managed Agents **scheduled deployment**
+that spends an API key's time-limited credit instead of the plan. Each night it fires one
+session against one repository, sweeps one context in scan-sweep STABILIZE style (bug, UI
+correctness, performance), proves at most one fix with a test that fails on the base and passes
+on the branch, and opens at most one pull request. It never pushes the default branch and never
+merges; adoption stays the local, human-reviewed act of section 4.
+
+**Templates.** [`managed/`](managed/README.md) holds repo-agnostic `ant apply` files under
+`managed/agents/sweep/`: `agent.md` (Opus 5.5 at effort high, the night method as system prompt),
+`environment.yaml` (cloud, `limited` egress), `vault.yaml` (container only),
+`memory_store-ledger.yaml` (the coverage ledger, seeded from `data/coverage.jsonl`) and
+`deployment.template.yaml` (cron `0 1 * * *` Europe/Prague, a $15 budget per session, the
+repository and ledger resources, and a `user.define_outcome` with a seven-criterion rubric). The
+repository is a parameter; the first instance is `xkazm04/paypal`.
+
+**Instancing.** Copy `managed/agents/sweep/` to the gitignored
+`.ai/cloud-dispatch/managed/<repo>/agents/sweep/`, fill the placeholders (`<REPO_SLUG>`,
+`<REPO_URL>`, `<REPO_SETUP>`, then `<VAULT_ID>` and `<MEMORY_STORE_ID>` from `claude-lock.json`,
+and `<GITHUB_PAT>` last, typed by the operator), and apply in the order the README gives:
+agent, environment, vault and store; seed the ledger; the operator adds the GitHub MCP
+credential; the deployment, applied and paused in one command. A deployment is live from
+creation, so it is never applied without the pause beside it.
+
+**Keys.** The lane's key lives in `ANTHROPIC_KEY_LANE_CLOUD` and reaches `ANTHROPIC_API_KEY` only
+inside the README's `ant-cloud` wrapper. The GitHub PAT is fine-grained, on the one repository,
+with Contents and Pull requests read and write and Metadata read. It reaches Anthropic twice: as
+the repository resource's `authorization_token` (the git proxy injects it; the sandbox never
+sees it) and as a `static_bearer` vault credential for `https://api.githubcopilot.com/mcp/`. No
+Claude API key ever enters the sandbox, the vault, a memory or a file under version control.
+
+**What the agent may touch.** Built-in tools default off; `bash`, `write`, `edit` run on `auto`,
+`read`, `glob`, `grep` on `always_allow`, web tools off. The GitHub MCP is an allowlist:
+`list_pull_requests`, `pull_request_read` and `create_pull_request`, all on `auto` - the last
+departs from the security guide's `always_ask` for MCP writes because no client answers a paused
+call at 01:00 and a PR is undone by closing it. Merge and edit tools stay disabled.
+
+**Before the schedule.** One manual run of the paused deployment (`ant beta:deployments run`)
+is the smoke test: toolchain installed, gates run, one PR or a reasoned no-finding, one new
+ledger line, `RESULT.md` in the session outputs. Check `upcoming_runs_at`, then unpause - the
+operator's call. The tool names, the PAT-as-bearer for GitHub's MCP and the sandbox's toolchain
+are unverified until that run; fix the template from what it shows.
+
+**Each morning.** Read the newest deployment run; review the PR's diff, not its summary; record
+the session's `usage.list_cost` (cents) in the spend ledger:
+`node skills/cloud-dispatch/scripts/dispatch.mjs --record --lane cloud --cost <usd> --label night-<repo>-<yyyymmdd>`.
+A failed run carries an `error.type`; a session at `budget_reached` stays idle until the cap
+is changed on purpose. Pause is reversible; archive ends the schedule for good.
+
+**When not to use it.** A repository whose writers you do not trust (its `.claude/skills`,
+AGENTS.md and CLAUDE.md load as instructions); work that needs local state, a GPU or sibling
+checkouts; a repo whose gates cannot run on Linux. After the API credit is spent, pause the
+deployment rather than let it bill.
 
 ---
 

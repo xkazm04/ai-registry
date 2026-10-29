@@ -11,6 +11,11 @@
  * Why it exists at all: a cloud-session credit is spent only by `claude --cloud` sessions,
  * and a cloud session clones the repo's GitHub origin - it never sees unpushed local commits.
  * The sync gate below is the one guard that keeps a cloud run from working on a stale base.
+ *
+ * Since 1.2.0 a second engine, `key`, spends a time-limited API key on local headless
+ * `claude -p` workers (keyworker.mjs). They branch from origin too, so the same sync gate
+ * applies; the key lane adds per-lane budget, expiry and concurrency refusals, and a child env
+ * that carries the lane's key and nothing else (see "key lane" below).
  */
 import fs from 'node:fs';
 import path from 'node:path';
@@ -33,6 +38,8 @@ export const ID_RE = /^\d{6}-[0-9a-f]{6}$/;
 const HERE = path.dirname(fs.realpathSync(fileURLToPath(import.meta.url)));
 export const SCRIPTS_DIR = path.resolve(HERE, '..');
 export const LAUNCH_PATH = path.join(SCRIPTS_DIR, 'launch.mjs');
+export const KEYWORKER_PATH = path.join(SCRIPTS_DIR, 'keyworker.mjs');
+export const ENGINES = ['cloud', 'key'];
 
 /** The registry checkout that holds the machine-local ledger and queue. lib/ is four levels below it. */
 export function registryDir() {
@@ -44,6 +51,9 @@ export const overflowLogPath = (reg) => path.join(queueDir(reg), 'overflow.log.j
 export const promptFileFor = (reg, id) => path.join(queueDir(reg), `${id}.prompt.txt`);
 export const statusFileFor = (reg, id) => path.join(queueDir(reg), `${id}.status.json`);
 export const itemFileFor = (reg, id) => path.join(queueDir(reg), `${id}.json`);
+// `<id>.key.json` never matches listItems' `<id>.json` pattern, so a key worker's item is not a queue item.
+export const keyItemFileFor = (reg, id) => path.join(queueDir(reg), `${id}.key.json`);
+export const lanesPath = (reg) => path.join(reg, '.ai', 'credit-lanes.local.json');
 
 // ---------------------------------------------------------------- pure helpers
 const pad2 = (n) => String(n).padStart(2, '0');
@@ -59,6 +69,10 @@ export function newId(now = new Date(), rand = () => crypto.randomBytes(3).toStr
   return `${yymmdd}-${String(rand()).toLowerCase()}`;
 }
 export const branchFor = (id) => `claude/cloud-${id}`;
+export const keyBranchFor = (id) => `claude/key-${id}`;
+/** Ledger rows written before 1.2.0 carry no engine; every one of them was a cloud launch. */
+export const rowEngine = (row) => row?.engine ?? 'cloud';
+export const branchForRow = (row) => (rowEngine(row) === 'key' ? keyBranchFor(row.id) : branchFor(row.id));
 
 /**
  * Tiny frontmatter reader: a leading `---` block of `key: value` lines. Values `true`/`false`
@@ -90,8 +104,28 @@ export function parseGithubOrigin(url) {
   return m ? `${m[1]}/${m[2]}` : null;
 }
 
-/** The fixed block appended to every cloud prompt. Exported so the docs can quote it. */
-export function LANDING_CONTRACT(id, branch, label = '<one-line summary of the task>') {
+/**
+ * The fixed block appended to every prompt. Exported so the docs can quote it. The cloud text is
+ * unchanged since 1.0.0; the key engine's worker runs in a local worktree that keyworker.mjs has
+ * already put on its branch, and it bills a real API key with full permissions on this machine,
+ * so its contract also fences it inside that worktree.
+ */
+export function LANDING_CONTRACT(id, branch, label = '<one-line summary of the task>', engine = 'cloud') {
+  if (engine === 'key') {
+    return [
+      '---',
+      `LANDING CONTRACT (cloud-dispatch key-lane run ${id}) - binding; it overrides anything above that conflicts.`,
+      `You are working in a local git worktree of this repository, already on branch \`${branch}\`, created from`,
+      'the GitHub origin\'s default branch. Treat it as a fresh clone: nothing else on this machine is yours.',
+      `Where the brief above calls you a cloud session or names a \`claude/cloud-<id>\` branch, read it as this worktree and \`${branch}\`.`,
+      `1. Do all work on \`${branch}\`. Never write outside this worktree, and never read or change any other checkout on this machine.`,
+      '2. Never push to the default branch, never force-push, never merge anything.',
+      `3. Write \`.cloud-runs/${id}/RESULT.md\` - what was done, files changed, open questions, and a`,
+      '   "Handoff" section listing anything left for a local session - and commit it on the branch.',
+      `4. Push with \`git push -u origin ${branch}\` and open ONE pull request with \`gh pr create\`, titled \`key(${id}): ${label}\`.`,
+      '5. If the task cannot be done, still commit and push RESULT.md explaining why (steps 1-4 still apply).',
+    ].join('\n');
+  }
   return [
     '---',
     `LANDING CONTRACT (cloud-dispatch run ${id}) - binding; it overrides anything above that conflicts.`,
@@ -105,8 +139,8 @@ export function LANDING_CONTRACT(id, branch, label = '<one-line summary of the t
   ].join('\n');
 }
 
-export function composePrompt(body, id, branch, label) {
-  return `${String(body ?? '').trim()}\n\n${LANDING_CONTRACT(id, branch, label)}\n`;
+export function composePrompt(body, id, branch, label, engine = 'cloud') {
+  return `${String(body ?? '').trim()}\n\n${LANDING_CONTRACT(id, branch, label, engine)}\n`;
 }
 export const promptWithinLimit = (prompt) => prompt.length <= MAX_PROMPT_CHARS;
 
@@ -217,11 +251,17 @@ export function appendJsonl(file, row) {
 }
 export const readLedger = (reg) => readJsonl(ledgerPath(reg));
 
-export const LEDGER_KEYS = ['ts', 'id', 'repo', 'origin', 'base_sha', 'label', 'from', 'model', 'mode', 'brief_sha256', 'prompt_chars', 'allow_ahead'];
-/** A ledger row with every key present; absent values are null. */
+export const LEDGER_KEYS = ['ts', 'id', 'repo', 'origin', 'base_sha', 'label', 'from', 'model', 'mode', 'brief_sha256', 'prompt_chars', 'allow_ahead', 'engine'];
+/** A cloud ledger row with every key present; absent values are null (the 1.0.0 shape, plus engine). */
 export function ledgerRow(fields) {
   const row = {};
   for (const k of LEDGER_KEYS) row[k] = fields[k] ?? null;
+  return row;
+}
+/** Key and manual rows (1.2.0) follow the absent-value convention: an unknown key is omitted, never null. */
+export function compactRow(fields) {
+  const row = {};
+  for (const [k, v] of Object.entries(fields)) if (v !== undefined && v !== null) row[k] = v;
   return row;
 }
 
@@ -246,6 +286,235 @@ export function listItems(reg) {
   return items.sort((a, b) => String(a.queued_at).localeCompare(String(b.queued_at)) || String(a.id).localeCompare(String(b.id)));
 }
 
+// ---------------------------------------------------------------- key lane
+/**
+ * The key engine spends an Anthropic API key on LOCAL headless `claude -p` workers. The fleet
+ * strips ANTHROPIC_API_KEY almost everywhere to stay on the subscription: an exported key
+ * silently moves the registry's contest seats (seat.mjs passes the parent env), and the pumper
+ * and pof judge scripts, onto API billing. So a lane's key lives in its own
+ * ANTHROPIC_KEY_LANE_<LANE> variable that nothing else reads, and keyChildEnv hands it to the
+ * worker child alone, as ANTHROPIC_API_KEY. No function here ever returns or prints a key value.
+ */
+export const KEY_ENV_PREFIX = 'ANTHROPIC_KEY_LANE_';
+export const EFFORTS = ['low', 'medium', 'high', 'xhigh', 'max'];
+export const INIT_LANES = ['registry', 'cloud', 'overlord'];
+export const LANE_DEFAULTS = { budgetUsd: 0, expires: '', perRunUsd: 15, maxConcurrent: 3, model: 'claude-opus-5-5', effort: 'high' };
+/** Short on purpose: Windows path length bites deep repos (C:/t/<run> is the fleet's convention). */
+export const KEY_WORKTREE_ROOT = 'C:/t';
+export const keyWorktreeFor = (id, root = KEY_WORKTREE_ROOT) => path.join(root, `cd-${id}`);
+const LANE_FILE_NAME = '.ai/credit-lanes.local.json';
+const notConfigured = (name) => `lane ${name} not configured in ${LANE_FILE_NAME}`;
+
+/** The file --lanes-init writes: three lanes, zero budget, no expiry until the operator fills them in. */
+export function initialLanesConfig() {
+  const lanes = {};
+  for (const name of INIT_LANES) {
+    const { budgetUsd, expires, perRunUsd, maxConcurrent, model, effort } = LANE_DEFAULTS;
+    lanes[name] = { keyEnv: `${KEY_ENV_PREFIX}${name.toUpperCase()}`, budgetUsd, expires, perRunUsd, maxConcurrent, model, effort };
+  }
+  return { lanes };
+}
+
+/** --lanes-init: refuses when the file exists, so an operator's budgets are never overwritten. */
+export function initLanes({ registryDir: reg = registryDir() } = {}) {
+  const file = lanesPath(reg);
+  if (fs.existsSync(file)) return { ok: false, reason: `${LANE_FILE_NAME} already exists; edit it by hand`, file };
+  ensureDir(path.dirname(file));
+  fs.writeFileSync(file, `${JSON.stringify(initialLanesConfig(), null, 2)}\n`, { flag: 'wx' });
+  return { ok: true, file };
+}
+
+/** { ok, lanes } or { ok:false, reason }. A missing file is ok with no lanes - every lane then reads "not configured". */
+export function readLanes(reg) {
+  const file = lanesPath(reg);
+  if (!fs.existsSync(file)) return { ok: true, lanes: {}, missing: true };
+  try {
+    const parsed = JSON.parse(fs.readFileSync(file, 'utf8'));
+    const lanes = parsed && typeof parsed.lanes === 'object' && parsed.lanes ? parsed.lanes : null;
+    if (!lanes) return { ok: false, reason: `${LANE_FILE_NAME} has no "lanes" object` };
+    return { ok: true, lanes };
+  } catch (e) {
+    return { ok: false, reason: `${LANE_FILE_NAME} is not valid JSON: ${e.message}` };
+  }
+}
+
+/** One lane's config, validated. A malformed lane is refused, never defaulted: these fields bound real spend. */
+export function laneConfig(reg, name) {
+  const r = readLanes(reg);
+  if (!r.ok) return r;
+  const lane = Object.prototype.hasOwnProperty.call(r.lanes, String(name)) ? r.lanes[name] : null;
+  if (!lane || typeof lane !== 'object') return { ok: false, reason: notConfigured(name) };
+  const bad = (what) => ({ ok: false, reason: `lane ${name} in ${LANE_FILE_NAME}: ${what}` });
+  if (typeof lane.keyEnv !== 'string' || !lane.keyEnv.startsWith(KEY_ENV_PREFIX) || lane.keyEnv.length === KEY_ENV_PREFIX.length) {
+    return bad(`keyEnv must name an ${KEY_ENV_PREFIX}* variable (never ANTHROPIC_API_KEY)`);
+  }
+  if (typeof lane.budgetUsd !== 'number' || !Number.isFinite(lane.budgetUsd) || lane.budgetUsd < 0) return bad('budgetUsd must be a number >= 0');
+  if (typeof lane.perRunUsd !== 'number' || !Number.isFinite(lane.perRunUsd) || lane.perRunUsd <= 0) return bad('perRunUsd must be a number > 0');
+  if (!Number.isInteger(lane.maxConcurrent) || lane.maxConcurrent < 1) return bad('maxConcurrent must be an integer >= 1');
+  if (typeof lane.model !== 'string' || !lane.model.trim()) return bad('model must be a non-empty string');
+  if (!EFFORTS.includes(lane.effort)) return bad(`effort must be one of ${EFFORTS.join(', ')}`);
+  const expires = lane.expires ?? '';
+  if (typeof expires !== 'string' || (expires !== '' && !/^\d{4}-\d{2}-\d{2}$/.test(expires))) return bad('expires must be "" or YYYY-MM-DD');
+  return { ok: true, lane: { ...lane, expires } };
+}
+
+const finiteCost = (v) => (typeof v === 'number' && Number.isFinite(v) ? v : undefined);
+const round4 = (n) => Math.round(n * 10000) / 10000;
+
+/** A row's cost: its own cost_usd (manual rows), else the cost its worker wrote into the status file. */
+export function rowCost(row, status) {
+  return finiteCost(row?.cost_usd) ?? finiteCost(status?.cost_usd);
+}
+
+/**
+ * One lane's spend and its refusals. Pure: the ledger rows and a statusOf(id) reader are passed in.
+ * spent sums cost_usd over the lane's key and manual rows. remaining = budgetUsd - spent. running
+ * counts key rows with no status file yet (the worker writes one when it ends). Each running worker
+ * may still spend up to perRunUsd, so `available` = remaining - running * perRunUsd is what a new
+ * run may count on; the budget refusal reads `available`, which equals remaining when nothing runs.
+ * A key row with no status file older than KEY_LOST_AFTER_MS is `lost` (its window was killed, so it
+ * will never write one): it stops holding a concurrency slot and is charged its full perRunUsd, the
+ * most it could have spent, rather than holding the lane hostage forever.
+ */
+export const KEY_LOST_AFTER_MS = 6 * 60 * 60 * 1000;
+export const isLostKeyRow = (row, status, now) =>
+  !status && Number.isFinite(Date.parse(row?.ts)) && now - Date.parse(row.ts) > KEY_LOST_AFTER_MS;
+
+export function laneState({ name, lane, rows, statusOf = () => null, env = process.env, today, now = Date.now() }) {
+  const mine = rows.filter((r) => r && r.lane === name && (rowEngine(r) === 'key' || rowEngine(r) === 'manual'));
+  let spent = 0;
+  let running = 0;
+  let lost = 0;
+  for (const r of mine) {
+    const status = rowEngine(r) === 'key' ? statusOf(r.id) : null;
+    if (rowEngine(r) === 'key' && isLostKeyRow(r, status, now)) { lost += 1; spent += lane.perRunUsd; continue; }
+    spent += rowCost(r, status) ?? 0;
+    if (rowEngine(r) === 'key' && !status) running += 1;
+  }
+  spent = round4(spent);
+  const remaining = round4(lane.budgetUsd - spent);
+  const reserved = round4(running * lane.perRunUsd);
+  const available = round4(remaining - reserved);
+  const keyEnvSet = typeof env[lane.keyEnv] === 'string' && env[lane.keyEnv].length > 0;
+  const expired = Boolean(lane.expires) && Boolean(today) && lane.expires < today;
+  const refusals = [];
+  if (!keyEnvSet) refusals.push(`${lane.keyEnv} is unset or empty; the key lane spends only a key held in its own variable`);
+  if (expired) refusals.push(`lane ${name} expired on ${lane.expires} (today is ${today})`);
+  if (available < lane.perRunUsd) {
+    const held = running ? ` minus $${reserved} held for ${running} running worker(s)` : '';
+    refusals.push(`lane ${name} has $${available} available (budget $${lane.budgetUsd} - spent $${spent}${held}); one run may spend up to perRunUsd $${lane.perRunUsd}`);
+  }
+  if (running >= lane.maxConcurrent) refusals.push(`lane ${name} has ${running} running worker(s); maxConcurrent is ${lane.maxConcurrent}`);
+  return {
+    lane: name, keyEnv: keyEnvSet ? 'set' : 'unset', keyEnvName: lane.keyEnv, budgetUsd: lane.budgetUsd, spent, remaining,
+    running, lost, reserved, available, perRunUsd: lane.perRunUsd, maxConcurrent: lane.maxConcurrent, expires: lane.expires, expired,
+    model: lane.model, effort: lane.effort, refusals,
+  };
+}
+
+function readStatus(reg, id) {
+  try {
+    const f = statusFileFor(reg, id);
+    return fs.existsSync(f) ? JSON.parse(fs.readFileSync(f, 'utf8')) : null;
+  } catch {
+    return { exit: null, error: 'unreadable status file' };
+  }
+}
+
+/** --lanes: every configured lane's state. Never carries a key value - only `keyEnv: set|unset`. */
+export function lanesReport({ registryDir: reg = registryDir(), env = process.env, now = () => new Date() } = {}) {
+  const r = readLanes(reg);
+  if (!r.ok) return r;
+  const rows = readLedger(reg);
+  const at = now();
+  const today = localDate(at);
+  const lanes = [];
+  const invalid = [];
+  for (const name of Object.keys(r.lanes)) {
+    const c = laneConfig(reg, name);
+    if (!c.ok) { invalid.push({ lane: name, reason: c.reason }); continue; }
+    lanes.push(laneState({ name, lane: c.lane, rows, statusOf: (id) => readStatus(reg, id), env, today, now: at.getTime() }));
+  }
+  return { ok: true, missing: Boolean(r.missing), lanes, invalid };
+}
+
+/** --record: a manual spend row for a lane this script did not launch (overlord, cloud). */
+export function recordSpend({ lane, cost, label, registryDir: reg = registryDir(), now = () => new Date() } = {}) {
+  const c = laneConfig(reg, lane);
+  if (!c.ok) return c;
+  const cost_usd = typeof cost === 'number' ? cost : Number(String(cost ?? '').trim() || NaN);
+  if (!Number.isFinite(cost_usd) || cost_usd < 0) return { ok: false, reason: `--cost must be a number >= 0 (got ${JSON.stringify(cost)})` };
+  if (typeof label !== 'string' || !label.trim()) return { ok: false, reason: '--label <s> is required: it says what the spend was' };
+  const row = compactRow({ engine: 'manual', lane, cost_usd, label: label.trim(), ts: now().toISOString() });
+  appendJsonl(ledgerPath(reg), row);
+  return { ok: true, row };
+}
+
+/**
+ * The worker child's environment: a copy of `env` minus ANTHROPIC_AUTH_TOKEN, ANTHROPIC_BASE_URL,
+ * every ANTHROPIC_KEY_LANE_* variable and NODE_TEST_CONTEXT (an inherited one makes a nested
+ * `node --test` exit 0 on red), plus ANTHROPIC_API_KEY = env[keyEnv]. Names compare upper-cased,
+ * because Windows environment names are case-insensitive. Pure; the caller never logs the result.
+ */
+/**
+ * The one list of names the worker child never inherits: every other credential or provider switch
+ * that could decide which account pays (an OAuth token outranks nothing it should not, a
+ * CLAUDE_CODE_USE_* switch reroutes the call to a cloud provider's bill), plus NODE_TEST_CONTEXT.
+ * Every ANTHROPIC_KEY_LANE_* name is dropped too. One constant, so a new name is added once.
+ */
+export const KEY_CHILD_STRIP = ['ANTHROPIC_API_KEY', 'ANTHROPIC_AUTH_TOKEN', 'ANTHROPIC_BASE_URL', 'CLAUDE_CODE_OAUTH_TOKEN',
+  'CLAUDE_CODE_USE_BEDROCK', 'CLAUDE_CODE_USE_VERTEX', 'CLAUDE_CODE_USE_FOUNDRY', 'NODE_TEST_CONTEXT'];
+
+export function keyChildEnv(env, keyEnv) {
+  const value = env[keyEnv];
+  const out = {};
+  for (const [k, v] of Object.entries(env)) {
+    const K = k.toUpperCase();
+    if (KEY_CHILD_STRIP.includes(K) || K.startsWith(KEY_ENV_PREFIX)) continue;
+    out[k] = v;
+  }
+  out.ANTHROPIC_API_KEY = value;
+  return out;
+}
+
+/** The worker's `claude` argv. The prompt goes on stdin, never in argv. --max-budget-usd caps one run at perRunUsd. */
+export function keyWorkerArgv(lane) {
+  return ['-p', '--model', String(lane.model), '--effort', String(lane.effort), '--max-budget-usd', String(lane.perRunUsd),
+    '--output-format', 'json', '--permission-mode', 'bypassPermissions'];
+}
+
+/** total_cost_usd, session_id and is_error from `claude -p --output-format json` stdout; unknown keys are absent. */
+export function parseClaudeResult(stdout) {
+  const text = String(stdout ?? '').trim();
+  let obj = null;
+  try { obj = JSON.parse(text); } catch {
+    for (const line of text.split(/\r?\n/).reverse()) {
+      try { const o = JSON.parse(line); if (o && typeof o === 'object') { obj = o; break; } } catch { /* next line */ }
+    }
+  }
+  if (Array.isArray(obj)) obj = obj.findLast((o) => o && o.type === 'result') ?? obj.at(-1) ?? null;
+  if (!obj || typeof obj !== 'object') return {};
+  const out = {};
+  if (finiteCost(obj.total_cost_usd) !== undefined) out.cost_usd = obj.total_cost_usd;
+  if (typeof obj.session_id === 'string' && obj.session_id) out.session_id = obj.session_id;
+  if (typeof obj.is_error === 'boolean') out.is_error = obj.is_error;
+  return out;
+}
+
+/** The key worker's status file: {exit, error, cost_usd, session_id, ended}, unknown keys omitted. */
+export function keyStatus({ exit, error, cost_usd, session_id, ended, cleanup_error }) {
+  return compactRow({ exit, error, cost_usd, session_id, ended, cleanup_error });
+}
+
+/** How the key worker is started: the same `cmd /d /c start` console as launch.mjs, so it outlives the agent session. */
+export function keyLaunchCommand({ id, execPath, workerPath, itemFile, cwd }) {
+  return {
+    command: 'cmd.exe',
+    args: ['/d', '/c', 'start', `"key-${id}"`, execPath, workerPath, itemFile],
+    options: { cwd, detached: true, stdio: 'ignore', windowsHide: true },
+  };
+}
+
 // ---------------------------------------------------------------- dispatch
 /**
  * How the launcher is started. `claude --cloud` needs a real console on stdin/stdout.
@@ -268,16 +537,21 @@ export function launchCommand({ id, execPath, launchPath, promptFile, statusFile
  * Plan (go=false) or launch (go=true) one brief. Returns
  * { ok, id, branch, refused?, reason?, exit?, plan }. Never throws for a refusal; it throws only
  * when the brief file cannot be read.
- * deps: { git, spawn, now, registryDir, platform, rand, launchPath, execPath }
+ * engine 'cloud' (the default) is the 1.0.0 path. engine 'key' needs a configured lane, runs the
+ * same sync gate (its worker branches from origin), adds the lane's refusals (key unset, lane
+ * expired, budget, concurrency) and on --go opens keyworker.mjs instead of launch.mjs.
+ * deps: { git, spawn, now, registryDir, platform, rand, launchPath, workerPath, execPath, env, worktreeRoot }
  */
-export function dispatchBrief({ briefPath, repo, model, label, from, mode = 'explicit', go = false, allowAhead = false, deps = {} }) {
+export function dispatchBrief({ briefPath, repo, model, effort, label, from, mode = 'explicit', go = false, allowAhead = false, engine = 'cloud', lane: laneName, deps = {} }) {
   const git = deps.git ?? realGit;
   const spawn = deps.spawn ?? nodeSpawn;
   const now = deps.now ?? (() => new Date());
   const reg = deps.registryDir ?? registryDir();
   const platform = deps.platform ?? process.platform;
   const launchPath = deps.launchPath ?? LAUNCH_PATH;
+  const workerPath = deps.workerPath ?? KEYWORKER_PATH;
   const execPath = deps.execPath ?? process.execPath;
+  const env = deps.env ?? process.env;
 
   const briefAbs = path.resolve(briefPath);
   const raw = fs.readFileSync(briefAbs, 'utf8');
@@ -286,46 +560,80 @@ export function dispatchBrief({ briefPath, repo, model, label, from, mode = 'exp
   const repoAbs = repo ? path.resolve(repo) : (meta.repo ? path.resolve(path.dirname(briefAbs), String(meta.repo)) : null);
   const at = now();
   const id = newId(at, deps.rand);
-  const branch = branchFor(id);
+  const isKey = engine === 'key';
+  const branch = isKey ? keyBranchFor(id) : branchFor(id);
   const theLabel = String(label ?? meta.label ?? firstHeading(body) ?? path.basename(briefAbs).replace(/\.[^.]+$/, ''));
   const theFrom = from ?? meta.from ?? null;
   const theModel = model ?? DEFAULT_MODEL;
-  const plan = { id, branch, repo: repoAbs, label: theLabel, from: theFrom, model: theModel, mode, brief: briefAbs, cloud_ok: meta.cloud_ok, allow_ahead: Boolean(allowAhead) };
+  const plan = { id, branch, engine, repo: repoAbs, label: theLabel, from: theFrom, model: theModel, mode, brief: briefAbs, cloud_ok: meta.cloud_ok, allow_ahead: Boolean(allowAhead) };
   const refuse = (reason, exit = EXIT_REFUSED) => ({ ok: false, refused: true, reason, exit, id, branch, plan });
+
+  if (!ENGINES.includes(engine)) return refuse(`unknown engine ${JSON.stringify(engine)}; use ${ENGINES.join(' or ')}`, EXIT_USAGE);
+  let laneCfg = null;
+  if (isKey) {
+    if (!laneName) return refuse('--engine key needs --lane <lane>', EXIT_USAGE);
+    const c = laneConfig(reg, laneName);
+    if (!c.ok) return refuse(c.reason);
+    laneCfg = { ...c.lane, model: model ?? c.lane.model, effort: effort ?? c.lane.effort };
+    if (!EFFORTS.includes(laneCfg.effort)) return refuse(`--effort must be one of ${EFFORTS.join(', ')}`, EXIT_USAGE);
+    plan.model = laneCfg.model;
+    plan.effort = laneCfg.effort;
+    plan.lane = laneState({ name: laneName, lane: laneCfg, rows: readLedger(reg), statusOf: (rid) => readStatus(reg, rid), env, today: localDate(at), now: at.getTime() });
+    plan.worktree = keyWorktreeFor(id, deps.worktreeRoot);
+  }
 
   if (!repoAbs) return refuse('no repo: pass --repo or set `repo:` in the brief frontmatter', EXIT_USAGE);
   if (!body.trim()) return refuse('the brief body is empty');
 
   const gate = syncGate(repoAbs, git, { allowAhead: Boolean(allowAhead) });
   Object.assign(plan, { unpushed: gate.unpushed ?? [], origin: gate.origin ?? null, slug: gate.slug ?? null, defaultBranch: gate.defaultBranch ?? null, ahead: gate.ahead ?? null, base_sha: gate.base_sha ?? null, dirty: gate.dirty ?? null, warnings: gate.warnings });
+  // the lane's refusals come first and all of them are named, so one plan shows every reason
+  if (isKey && plan.lane.refusals.length) return refuse([...plan.lane.refusals, ...(gate.ok ? [] : [gate.reason])].join('; '));
   if (!gate.ok) return gate.transient ? { ...refuse(gate.reason), transient: true } : refuse(gate.reason);
 
-  const prompt = composePrompt(body, id, branch, theLabel);
+  const prompt = composePrompt(body, id, branch, theLabel, engine);
   plan.prompt_chars = prompt.length;
   plan.prompt = prompt;
   if (!promptWithinLimit(prompt)) return refuse(`the composed prompt is ${prompt.length} characters; the limit is ${MAX_PROMPT_CHARS}`);
 
   const promptFile = promptFileFor(reg, id);
   const statusFile = statusFileFor(reg, id);
-  plan.launch = launchCommand({ id, execPath, launchPath, promptFile, statusFile, model: theModel, cwd: repoAbs });
+  const itemFile = keyItemFileFor(reg, id);
+  plan.launch = isKey
+    ? keyLaunchCommand({ id, execPath, workerPath, itemFile, cwd: repoAbs })
+    : launchCommand({ id, execPath, launchPath, promptFile, statusFile, model: theModel, cwd: repoAbs });
   if (!go) return { ok: true, id, branch, plan };
 
   if (platform !== 'win32') {
-    return refuse('cloud-dispatch launches need a Windows console; run claude --cloud yourself', EXIT_USAGE);
+    return refuse(isKey ? 'key-lane launches need a Windows console; run keyworker.mjs yourself' : 'cloud-dispatch launches need a Windows console; run claude --cloud yourself', EXIT_USAGE);
   }
   ensureDir(queueDir(reg));
   fs.writeFileSync(promptFile, prompt);
+  if (isKey) {
+    // the item names the key's VARIABLE, never its value; the worker reads the value from its own env
+    fs.writeFileSync(itemFile, `${JSON.stringify({
+      id, engine: 'key', lane: laneName, keyEnv: laneCfg.keyEnv, repo: repoAbs, defaultBranch: gate.defaultBranch, branch,
+      worktree: plan.worktree, model: laneCfg.model, effort: laneCfg.effort, perRunUsd: laneCfg.perRunUsd, label: theLabel,
+      promptFile, statusFile, registryDir: reg,
+    }, null, 2)}\n`);
+  }
   const child = spawn(plan.launch.command, plan.launch.args, plan.launch.options);
   // an async spawn error must not become an uncaught exception (the overflow hook must never throw)
   if (child && typeof child.on === 'function') child.on('error', (e) => { try { fs.writeFileSync(statusFile, JSON.stringify({ exit: null, error: `spawn: ${e.message}`, ended: new Date().toISOString() })); } catch { /* ignore */ } });
   if (child && typeof child.unref === 'function') child.unref();
 
-  appendJsonl(ledgerPath(reg), ledgerRow({
-    ts: at.toISOString(), id, repo: repoAbs, origin: gate.origin, base_sha: gate.base_sha, label: theLabel,
-    from: theFrom, model: theModel, mode, brief_sha256: sha256(raw), prompt_chars: prompt.length,
-    allow_ahead: Boolean(allowAhead),
-  }));
-  return { ok: true, id, branch, plan, promptFile, statusFile };
+  appendJsonl(ledgerPath(reg), isKey
+    ? compactRow({
+      ts: at.toISOString(), id, engine: 'key', lane: laneName, repo: repoAbs, origin: gate.origin, base_sha: gate.base_sha,
+      label: theLabel, from: theFrom, model: laneCfg.model, effort: laneCfg.effort, per_run_usd: laneCfg.perRunUsd, mode,
+      brief_sha256: sha256(raw), prompt_chars: prompt.length, allow_ahead: Boolean(allowAhead),
+    })
+    : ledgerRow({
+      ts: at.toISOString(), id, repo: repoAbs, origin: gate.origin, base_sha: gate.base_sha, label: theLabel,
+      from: theFrom, model: theModel, mode, brief_sha256: sha256(raw), prompt_chars: prompt.length,
+      allow_ahead: Boolean(allowAhead), engine: 'cloud',
+    }));
+  return { ok: true, id, branch, plan, promptFile, statusFile, ...(isKey ? { itemFile } : {}) };
 }
 
 // ---------------------------------------------------------------- status
@@ -335,10 +643,13 @@ export function dispatchBrief({ briefPath, repo, model, label, from, mode = 'exp
  * local proof; with no remote answer the state is `unknown`.
  *   status: parsed status file or null; branchExists: true|false|null(unknown); pr: {number,state,url}|null
  */
-export function runState({ status, branchExists, pr }) {
+export function runState({ status, branchExists, pr, engine = 'cloud', lost = false }) {
   if (pr) return `pr#${pr.number} ${String(pr.state).toLowerCase()}`;
   if (branchExists === true) return 'branch';
   if (status && status.exit !== 0) return `failed(${status.exit ?? status.error ?? 'null'})`;
+  // a key worker is local: no status file means its window is still working, and a status file
+  // means it ended - pushed nothing if the branch is absent. Neither needs the remote to say so.
+  if (engine === 'key') return status ? 'ended' : lost ? 'lost' : 'running';
   if (branchExists === null) return 'unknown';
   if (!status) return 'launching';
   return 'running';
@@ -355,12 +666,13 @@ export function realGh(args) {
 
 /** Ledger rows newest first, each joined with its remote state. Never throws on remote failure. */
 export function statusRows({ registryDir: reg = registryDir(), git = realGit, gh = realGh, hasGh = hasGhOnPath } = {}) {
-  const rows = readLedger(reg).slice().reverse();
+  // manual spend rows record money, not runs: --lanes reads them, --status has nothing to join
+  const rows = readLedger(reg).filter((r) => rowEngine(r) !== 'manual').reverse();
   const ghOk = rows.length > 0 && (() => { try { return hasGh(); } catch { return false; } })();
   return rows.map((row) => {
-    const branch = branchFor(row.id);
-    let status = null;
-    try { const f = statusFileFor(reg, row.id); if (fs.existsSync(f)) status = JSON.parse(fs.readFileSync(f, 'utf8')); } catch { status = { exit: null, error: 'unreadable status file' }; }
+    const engine = rowEngine(row);
+    const branch = branchForRow(row);
+    const status = readStatus(reg, row.id);
     let branchExists = null;
     try {
       if (row.repo && fs.existsSync(row.repo)) {
@@ -376,7 +688,10 @@ export function statusRows({ registryDir: reg = registryDir(), git = realGit, gh
         if (r.code === 0) { const list = JSON.parse(r.stdout || '[]'); pr = list[0] ?? null; }
       } catch { pr = null; }
     }
-    return { ...row, branch, launcher: status, branch_exists: branchExists, pr, state: runState({ status, branchExists, pr }) };
+    const out = { ...row, engine, branch, launcher: status, branch_exists: branchExists, pr, state: runState({ status, branchExists, pr, engine, lost: engine === 'key' && isLostKeyRow(row, status, Date.now()) }) };
+    const cost = engine === 'key' ? rowCost(row, status) : undefined;
+    if (cost !== undefined) out.cost_usd = cost;
+    return out;
   });
 }
 
