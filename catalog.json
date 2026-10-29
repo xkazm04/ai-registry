@@ -374,10 +374,10 @@
     },
     {
       "name": "hackathon",
-      "version": "1.1.0",
+      "version": "1.2.0",
       "category": "workflow",
       "path": "skills/hackathon/SKILL.md",
-      "contentHash": "sha256-n1:b3fc8016fc6db1b5",
+      "contentHash": "sha256-n1:cf85b6feb500de05",
       "adopters": [],
       "invokes30d": 0,
       "reportedInvokes": 0,
