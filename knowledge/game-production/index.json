@@ -4,7 +4,7 @@
   "bundle": "game-production",
   "source": "knowledge/game-production/ (frontmatter only)",
   "subjects": 89,
-  "techniques": 588,
+  "techniques": 589,
   "applications": 348,
   "laws": 16,
   "categories": [
@@ -20,7 +20,7 @@
    "narrative-and-dialogue"
   ],
   "layout": "nested",
-  "use_when_coverage": "588/588",
+  "use_when_coverage": "589/589",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -1626,8 +1626,8 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/game-production/content-pipeline/concept-scene-parity/concept-scene-parity.md",
-   "digest": "sha256-b2:9bb914e758ebd142",
-   "revision": 5,
+   "digest": "sha256-b2:137088dda44c512d",
+   "revision": 6,
    "changedAt": "2026-10-29",
    "techniques": [
     {
@@ -1750,11 +1750,29 @@
      ],
      "shared_with": [],
      "use_when": [
+      "deciding whether a separate critic is worth its cost",
+      "a critic is handed the builder's report or summary",
       "a panel of vision models scores the look rounds and the person the look is for has not scored any of them",
       "the panel's total is near the go or no-go bar",
       "two panels disagree about which of two versions is better",
       "a round is about to be steered by one panel's stated preference",
       "the scene moves or is seen in a headset and the panel only sees stills"
+     ]
+    },
+    {
+     "slug": "refine-or-pivot-with-every-round-kept",
+     "status": "forged",
+     "laws": [
+      "no-gate-self-certifies",
+      "a-verdict-is-bound-to-its-content"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a look or an asset is improved by repeated build-and-review rounds",
+      "every round's verdict is either pass or try again",
+      "the latest round is assumed to be the best one",
+      "a round reversed what the previous round improved",
+      "scores rose for a few rounds and then flattened"
      ]
     },
     {
@@ -12660,6 +12678,7 @@
     "concept-scene-parity/cap-attribution-before-the-next-round",
     "concept-scene-parity/element-scorecard-from-the-concept-camera",
     "concept-scene-parity/owner-anchor-for-a-model-panel",
+    "concept-scene-parity/refine-or-pivot-with-every-round-kept",
     "concept-scene-parity/score-only-what-the-device-shows",
     "content-acceptance-tiering/derived-vs-toggled-acceptance",
     "crash-forensics-attribution/root-cause-to-fix-prompt",
@@ -12977,6 +12996,7 @@
     "branching-narrative-graph-validation/graph-revision-diffing",
     "catalog-pipeline-authoring/direction-as-first-class-produce-input",
     "concept-scene-parity/judge-in-the-destination-light",
+    "concept-scene-parity/refine-or-pivot-with-every-round-kept",
     "content-drift-and-revision/content-hash-vs-status-drift",
     "content-drift-and-revision/produce-direction-stamping",
     "crash-forensics-attribution/crash-signature-over-id-equality",

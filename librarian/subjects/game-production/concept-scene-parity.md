@@ -39,3 +39,11 @@ at bp `6bc4f02`.
 
 Open: the plateau as a Feasibility paragraph is untriaged (GAIN 1). A second project's blind panel is still the
 corroboration owed.
+
+## 2026-10-29 - intake-agentgames-1029 (batch: agent-built PC games)
+
+Landed technique `refine-or-pivot-with-every-round-kept` (golden path paragraph beside the stop rule) and an
+amendment to `owner-anchor-for-a-model-panel` (quarantine the critic; tune it on owner divergences; measure its
+seat). Applications: process (mage-arena-vr, simulation) and python (blender-unity-game-studio @ d36f7c6,
+source tree, both techniques). Open: three render-bound untriaged rows from the same batch (rubric weighting,
+matte colour, capture repaint as lighting target) owe a local render example.

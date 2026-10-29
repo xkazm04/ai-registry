@@ -15,6 +15,7 @@ techniques:
   - owner-anchor-for-a-model-panel
   - frame-the-judged-shot-from-a-play-trace
   - toolkit-fit-slice-before-the-look-is-chosen
+  - refine-or-pivot-with-every-round-kept
 ---
 
 # Concept scene parity
@@ -203,6 +204,14 @@ planning a round, and then reads the next round's total, will keep funding a fla
 the total moves somewhere else. So each round's report lists every element's movement over the last two
 rounds beside its cap, and an element that has not moved is either moved to a different stage (a new
 technique, a new tool, a person with the craft) or written down as a limit in that same report.
+
+A round's verdict has to say which kind of change comes next. "Not yet" is two verdicts: refine, when the
+approach can reach the element and the findings name what to fix, and pivot, when the approach has reached
+its cap and the next round must change the route, the tool, the technique or the brief. A review that can
+only say "again" asks a capped approach for more polish round after round. Every round is kept, the current
+best is named after each review, and the next round branches from it: scores rise and then flatten along a
+path that is not monotone, and a middle round is regularly the best. See
+[refine-or-pivot-with-every-round-kept](./techniques/refine-or-pivot-with-every-round-kept.md).
 
 The cheapest feasibility answer comes before the loop starts. A concept is usually chosen for its
 beauty, and whether the team's own toolkit can produce its hardest elements is a separate question.

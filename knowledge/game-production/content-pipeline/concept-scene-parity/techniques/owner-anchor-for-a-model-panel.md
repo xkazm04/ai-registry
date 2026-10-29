@@ -6,7 +6,7 @@ technique: owner-anchor-for-a-model-panel
 status: forged
 laws: [no-gate-self-certifies, a-number-carries-its-unit-and-basis, a-judge-of-the-generators-family-is-not-independent]
 shared_with: []
-use_when: [a panel of vision models scores the look rounds and the person the look is for has not scored any of them, the panel's total is near the go or no-go bar, two panels disagree about which of two versions is better, a round is about to be steered by one panel's stated preference, the scene moves or is seen in a headset and the panel only sees stills]
+use_when: [deciding whether a separate critic is worth its cost, a critic is handed the builder's report or summary, a panel of vision models scores the look rounds and the person the look is for has not scored any of them, the panel's total is near the go or no-go bar, two panels disagree about which of two versions is better, a round is about to be steered by one panel's stated preference, the scene moves or is seen in a headset and the panel only sees stills]
 ---
 
 # An owner anchor for a model panel
@@ -60,6 +60,31 @@ against that person, and its total is reported in that person's units.
 7. **Put motion in front of the person.** Anything that only exists in motion or in a headset
    (animation, stereo depth, sliding, scale) is judged by the owner in the device or from a video,
    not inferred from a panel's reading of stills.
+
+## Quarantine the critic, and make it earn its seat
+
+A separate critic is only independent if nothing the builder said reaches it.
+
+- **Give it paths, never summaries.** One art pipeline passes its critic only the asset's brief, the
+  reference crops, the latest fixed-view render sheets and the style sections the brief names, and states
+  "never the building agent's report or self-assessment". The critic has no write tools.
+- **Test it with a planted claim.** That pipeline's own test cases include one where the prompt wrongly
+  says the builder judged the asset a match. The critic must treat it as no evidence. A critic that moves
+  when handed a builder's opinion is a second builder.
+- **Tune it on its divergences from the owner.** Out of the box a model critic finds a real defect and
+  then talks itself into approving the work. The tuning loop that fixes this reads the critic's reasoning
+  on the cases where the owner disagreed, then changes the critic's instruction to close that gap. It runs
+  for several rounds until the critic grades the way the owner does. That loop is this technique's anchor,
+  applied to the critic's prompt rather than to its total.
+
+A critic also has to earn its cost. A separate evaluator gives real lift where the work sits past what the
+builder does reliably on its own, and becomes overhead inside that boundary. One game pipeline dropped its
+separate verifier because "the external pass added no signal" over the builder reviewing its own captured
+clip. For that pipeline's tasks, that was the right call. A look judged on taste is the other case: in the
+series below, the owner's reading sat 4 to 5 points under every panel, which is the gap a critic exists to
+close. So measure the seat. Count the critic's disagreements with the builder that the owner upheld. A
+critic with none is overhead. A critic whose upheld disagreements are frequent is the instrument the loop
+was missing.
 
 ## What the anchor showed
 
