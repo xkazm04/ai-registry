@@ -89,7 +89,7 @@ The worker does these **in order**, and stops at the first that fails:
 
 ```json
 {"slug":"...","verdict":"better|not-better|unmeasurable|fp|demoted","metric":"<what was measured>","unit":"<ms|count|cases|...>",
- "before":"...","after":"...","method":"gate|probe|experiment","seeded_red":true,"gates":{"typecheck":0,"lint":0,"test":0},
+ "before":"...","after":"...","method":"gate|probe|experiment","seeded_red":true,"control_value":"<the instrument reading on the seeded control>","gates":{"typecheck":0,"lint":0,"test":0},
  "base_sha":"<arm A commit>","sha":"...","branch":"sweep/<slug>","size_actual":"S|M|L","files":[...],"note":"<=200 chars"}
 ```
 
@@ -151,12 +151,13 @@ the item's finding/hand-off line (scan-finding/1, SKILL.md §4.12), in the same 
 
 ```json
 "proof":{"metric":"<worker metric>","method":"gate|probe|experiment","unit":"<worker unit>","before":"<re-measured A>",
-         "after":"<B>","verdict":"better|not-better|inconclusive","control":"red|absent","base_sha":"<arm A>","head_sha":"<worker sha>"}
+         "after":"<B>","verdict":"better|not-better|inconclusive","control":"red|absent","control_value":"<seeded reading>","base_sha":"<arm A>","head_sha":"<worker sha>"}
 ```
 
 - `verdict`: the worker's `better` and `not-better` verbatim; `unmeasurable` is
   `inconclusive`. `fp` and `demoted` built nothing and write **no** proof.
-- `control`: `red` only when `seeded_red` is true - the instrument was shown to go red
+- `control`: `red` only when `seeded_red` is true AND the worker reported `control_value` (the reading the
+  seeded control produced; the contract refuses a red control without it) - the instrument was shown to go red
   on A. Anything else is `absent`, and a `better` with `control: absent` is not a
   landable verdict (the L2 rule in `## Finding contract`); the director does not merge it.
 - A key the worker did not report is left out, never filled with a guess.

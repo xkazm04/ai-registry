@@ -66,6 +66,10 @@ export function toFiling(c, { projectId = '<unregistered>', contexts = new Map()
     if (present(fields[k]) && !allowed.includes(fields[k])) return { error: `${k} must be ${allowed.join('|')} (got ${JSON.stringify(fields[k])})` };
   }
   if (fields.mvp_rule === 'override' && !present(get('mvp_why'))) return { error: 'mvp_rule override needs mvp_why' };
+  // A carry is approved and owed to this context's next round (SKILL.md section 9): it is never presented for a
+  // decision, and the door refuses it (400). Refusing here keeps it owed in the hand-off file instead of erroring
+  // per item at the door.
+  if (get('disposition') === 'carry') return { error: 'disposition carry is owed to the next round, never handed to Approvals' };
 
   let effort = get('effort');
   if (!present(effort) && size) { effort = sizeToEffort(size); notes.push(`effort from size ${size}`); }
@@ -132,7 +136,10 @@ export function proofFromAb(r, { base_sha: baseSha } = {}) {
   if (!verdict) return undefined;
   const proof = {
     metric: r.metric, method: r.method, unit: r.unit, before: r.before, after: r.after, verdict,
-    control: r.seeded_red === true ? 'red' : 'absent', base_sha: r.base_sha ?? baseSha, head_sha: r.sha,
+    // A red control carries the reading the seeded control produced; without it the claim is unverifiable and the
+    // contract (and the Personas door) refuse it, so it is honestly `absent`.
+    control: r.seeded_red === true && present(r.control_value) ? 'red' : 'absent',
+    control_value: r.seeded_red === true ? r.control_value : undefined, base_sha: r.base_sha ?? baseSha, head_sha: r.sha,
   };
   for (const k of Object.keys(proof)) if (!present(proof[k])) delete proof[k];
   return proof;

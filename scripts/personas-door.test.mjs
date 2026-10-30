@@ -6,7 +6,7 @@ import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
 import { refresh, plan, apply, thresholdFor, stats, readLedger } from './lib/personas-door/contexts.mjs';
-import { toFiling, parseCards } from './lib/personas-door/ideas.mjs';
+import { toFiling, filingFor, parseCards } from './lib/personas-door/ideas.mjs';
 import { assertSelect } from './lib/personas-door/door.mjs';
 
 const CLI = fileURLToPath(new URL('./personas-door.mjs', import.meta.url));
@@ -93,6 +93,15 @@ test('card -> filing converts the 1-10 scales and defaults what is missing', () 
   assert.equal(f.effort, 5); assert.equal(f.impact, 1); assert.equal(f.risk, 3); assert.match(f.reasoning, /scales defaulted: risk/);
   assert.match(f.description, /Lane B/); assert.equal(toFiling({ title: 'x', context: 'CTX' }, 'p', new Map([['ctx', 'cid']])).context_id, 'cid');
   assert.equal(parseCards('{"title":"a"}\n{}\n').unreadable.length, 1);
+});
+
+test('spool replay files a scan_sweep card on its native 1-10 scale through the skill mapping; other origins stay 1-5', () => {
+  const card = { title: 'T', lens: 'error-handler', effort: 4, impact: 8, risk: 3, confidence: 'medium' };
+  const sweep = filingFor(card, 'p1', new Map(), 'scan_sweep');
+  assert.equal(sweep.body.impact, 8, 'never halved: the door normalizes a scan_sweep row once');
+  assert.equal(sweep.body.score, 40.5, 'scan-score/1 computed by the skill mapping');
+  assert.match(filingFor({ title: 'C', disposition: 'carry' }, 'p1', new Map(), 'scan_sweep').error, /carry/);
+  assert.equal(filingFor(card, 'p1', new Map(), 'lens_scan').body.impact, 4, 'other origins file 1-5');
 });
 
 test('sql guard admits one SELECT and nothing else', () => {

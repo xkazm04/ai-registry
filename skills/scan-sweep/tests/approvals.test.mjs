@@ -205,10 +205,22 @@ test('a present but out-of-scale or out-of-enum field is a card still owed (exit
   } finally { f.server.close(); }
 });
 
+test('a carry is owed to the next round: never posted to the door, still owed (exit 1)', async () => {
+  const f = await fixture([JSON.stringify({ title: 'Owed', disposition: 'carry' }), JSON.stringify({ title: 'Ok', disposition: 'backlog' })]);
+  try {
+    const r = await run(['--file', f.file, '--repo', f.repo], f.home);
+    assert.equal(r.status, 1, r.stdout);
+    assert.deepEqual(f.filed.map((b) => b.title), ['Ok']);
+    assert.match(r.stderr, /line 1: disposition carry is owed to the next round/);
+  } finally { f.server.close(); }
+});
+
 test('proofFromAb: a Lane B return becomes the contract proof; fp/demoted built nothing', () => {
   const r = { verdict: 'unmeasurable', metric: 'p95', unit: 'ms', before: '410', after: '400', method: 'probe', seeded_red: false, sha: 'h1' };
   assert.deepEqual(proofFromAb(r, { base_sha: 'b0' }), { metric: 'p95', method: 'probe', unit: 'ms', before: '410', after: '400', verdict: 'inconclusive', control: 'absent', base_sha: 'b0', head_sha: 'h1' });
-  assert.equal(proofFromAb({ ...r, verdict: 'better', seeded_red: true }).control, 'red');
+  assert.equal(proofFromAb({ ...r, verdict: 'better', seeded_red: true }).control, 'absent', 'a red control without its reading is unverifiable');
+  const red = proofFromAb({ ...r, verdict: 'better', seeded_red: true, control_value: '0 cases' });
+  assert.deepEqual([red.control, red.control_value], ['red', '0 cases']);
   assert.ok(!('base_sha' in proofFromAb({ ...r, verdict: 'better' })), 'an unknown sha is omitted, not guessed');
   assert.equal(proofFromAb({ ...r, verdict: 'fp' }), undefined);
   assert.equal(proofFromAb({ ...r, verdict: 'demoted' }), undefined);
