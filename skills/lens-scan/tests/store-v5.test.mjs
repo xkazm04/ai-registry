@@ -470,7 +470,8 @@ function built(db, run, n, extra = {}) {
   proposalUpdate(db, { id, status: 'done', commitSha: 'h1', afterValue: 2 });
   return id;
 }
-const goodProof = (extra = {}) => ({ metric: 'dupSites', method: 'static', unit: 'sites', before: 6, after: 2, verdict: 'better', control: 'red', control_value: 6, base_sha: 'b0', head_sha: 'h1', ...extra });
+const goodProof = (extra = {}) => ({ metric: 'dupSites', method: 'static', unit: 'sites', before: 6, after: 2, verdict: 'better', control: 'red', control_value: 6, base_sha: 'b0', head_sha: 'h1',
+  gates: { 'npm test': 0 }, ...extra });
 
 test('proof: tied to the recorded readings; a red control only where one exists, and it must read worse', () => {
   const { path, db, run } = store();
@@ -569,6 +570,168 @@ test('run-start --lenses all: every enabled lens with a scan method, recorded in
   assert.throws(() => runStart(db, { phase: 'measure', lenses: 'all', knownLenses: { lenses: [], skipped: [{ id: 'x', why: 'none' }] }, env: {} }), /no enabled lens/);
   db.close();
   assert.equal(run$(join(mkdtempTracked(join(tmpdir(), 'lens-scan-v5-nostruct-')), 'scan.db'), 'run-start', '--phase', 'measure', '--lenses', 'all').status, 2);
+});
+
+// ------------------------------------------------------------------------------------------------ bp's first self-scan (2026-10-30)
+// Shapes copied from bp's store after its first --lens all cover/propose/execute (runs r-..1737, r-..7d95, r-..9286).
+
+test('H-L1 proof: its method is the method its readings were recorded with; a static item reaches L2 on a red control, absent waits', () => {
+  const { db, run } = store();
+  // a judged before/after (bp: every proof was judgement, control absent) cannot claim a static instrument to earn red
+  const judged = built(db, run, 1);
+  db.prepare("UPDATE measurements SET method = 'judgement' WHERE proposal_id = ?").run(judged);
+  assert.throws(() => proof(db, { id: judged, proof: goodProof() }), /recorded with method judgement/);
+  assert.equal(proof(db, { id: judged, proof: goodProof({ method: 'judgement', control: 'absent', control_value: undefined }) }).proof.method, 'judgement');
+  // before and after read by different methods are no comparison
+  const mixed = built(db, run, 2);
+  db.prepare("UPDATE measurements SET method = 'judgement' WHERE proposal_id = ? AND phase = 'after'").run(mixed);
+  assert.throws(() => proof(db, { id: mixed, proof: goodProof() }), /before was read by static and its after by judgement/);
+  // a static reading with control absent is answered with the control it still owes
+  const owed = built(db, run, 3);
+  const o = proof(db, { id: owed, proof: goodProof({ control: 'absent', control_value: undefined }) });
+  assert.match(o.control_owed, /static reading: re-seed the defect/);
+  assert.equal(proof(db, { id: judged, proof: goodProof({ method: 'judgement', control: 'absent', control_value: undefined }) }).control_owed, undefined, 'judgement owes none');
+  // reachable: the static item with its red control is machine-accepted; the one with control absent waits
+  const red = built(db, run, 4);
+  proof(db, { id: red, proof: goodProof() });
+  const r = triage(db, { ids: [red, owed], machine: true });
+  assert.deepEqual(r.triaged.map((x) => x.id), [red]);
+  assert.deepEqual(r.skipped.map((s) => [s.id, s.reason]), [[owed, 'proof better, control absent: a person triages']]);
+  db.close();
+});
+
+test('H-L2 proof: the gates the item ran and whether its after is stacked are recorded; the machine accepts only gated, isolated proofs', () => {
+  const { db, run } = store();
+  const id = built(db, run, 1);
+  assert.throws(() => proof(db, { id, proof: goodProof({ gates: { 'npm test': 'green' } }) }), /gates is \{"<command>": <exit code>\}/);
+  assert.throws(() => proof(db, { id, proof: goodProof({ gates: [] }) }), /gates is \{"<command>": <exit code>\}/);
+  assert.throws(() => proof(db, { id, proof: goodProof({ stacked: 'yes' }) }), /stacked is true or false/);
+  const ungated = built(db, run, 2);
+  proof(db, { id: ungated, proof: goodProof({ gates: undefined }) });
+  const none = built(db, run, 3);
+  proof(db, { id: none, proof: goodProof({ gates: {} }) });
+  const red = built(db, run, 4);
+  proof(db, { id: red, proof: goodProof({ gates: { 'npm run typecheck': 0, 'npm run check': 1 } }) });
+  const stacked = built(db, run, 5);
+  proof(db, { id: stacked, proof: goodProof({ stacked: true }) });
+  proof(db, { id, proof: goodProof({ stacked: false }) });
+  assert.deepEqual(proposals(db, { ids: stacked })[0].proof.stacked, true, 'stored as given');
+  const r = triage(db, { ids: [id, ungated, none, red, stacked], machine: true });
+  assert.deepEqual(r.triaged.map((x) => x.id), [id]);
+  assert.deepEqual(r.skipped.map((s) => [s.id, s.reason]), [
+    [ungated, 'no gates recorded on the proof: a person triages'],
+    [none, 'no gates recorded on the proof: a person triages'],
+    [red, 'gate npm run check exited 1: a person triages'],
+    [stacked, 'after stacked on earlier items of the pack: a person triages'],
+  ]);
+  db.close();
+});
+
+test('H-L3 decide --machine: a reserve item and one above the auto size (default M) wait for a person', () => {
+  const { db, run } = store();
+  const tech = (n, extra) => propose(db, predicted(run, n, { category: 'technical', lens: 'development', riskClass: 'debt', ...extra })).id;
+  const ranked = tech(1);
+  const reserve = tech(2, { band: 'reserve', size: 'S' });
+  const large = tech(3, { size: 'L' });
+  const xl = tech(4, { size: 'XL' });
+  const r = decide(db, { ids: [ranked, reserve, large, xl], machine: true });
+  assert.deepEqual(r.decided.map((d) => d.id), [ranked]);
+  assert.deepEqual(r.skipped.map((s) => [s.id, s.reason]), [
+    [reserve, 'band reserve: a person decides'],
+    [large, 'size L above the auto size M: a person decides'],
+    [xl, 'size XL above the auto size M: a person decides'],
+  ]);
+  // the overlay's auto_max_size may raise it
+  assert.deepEqual(decide(db, { ids: [large, xl], machine: true, maxSize: 'L' }).decided.map((d) => d.id), [large]);
+  assert.throws(() => decide(db, { ids: xl, machine: true, maxSize: 'XXL' }), /--max-size is one of XS, S, M, L, XL/);
+  db.close();
+});
+
+test('H-L4 trust: a person\'s triage of a machine-decided item is a human verdict - accept agrees, rework or descope disagrees (bp: 7 accepts, n was 0)', () => {
+  const { db, run } = store({ lenses: 'quality,security,business,development,operations' });
+  // bp's execute r-..9286: each item machine-approved (L1), built, then triaged by a person
+  const shape = [['quality', 'S', 'accept'], ['security', 'XS', 'accept'], ['business', 'XS', 'accept'], ['development', 'S', 'accept'],
+    ['business', 'XS', 'accept'], ['operations', 'S', 'accept'], ['development', 'L', 'accept'], ['quality', 'XS', 'rework']];
+  const ids = shape.map(([lens, size], i) => {
+    const id = propose(db, predicted(run, i, { category: 'technical', lens, size, riskClass: undefined, metric: 'dupSites' })).id;
+    assert.equal(decide(db, { ids: id, machine: true, maxSize: 'L' }).decided.length, 1);
+    proposalUpdate(db, { id, status: 'executing' });
+    proposalUpdate(db, { id, status: 'done', commitSha: `h${i}` });
+    return id;
+  });
+  shape.forEach(([, , d], i) => triage(db, { ids: ids[i], decision: d, by: 'human:kazdan', note: d === 'rework' ? 'fix the instrument first' : 'calibration' }));
+  const t = Object.fromEntries(trust(db).slices.map((s) => [s.slice, [s.n, s.agreement]]));
+  assert.deepEqual(t['technical|business|-|XS'], [2, 1]);
+  assert.deepEqual(t['technical|development|-|L'], [1, 1]);
+  assert.deepEqual(t['technical|quality|-|S'], [1, 1]);
+  assert.deepEqual(t['technical|quality|-|XS'], [1, 0], 'a rework of a machine-decided build disagrees');
+  assert.equal(Object.values(t).reduce((n, [k]) => n + k, 0), 8, 'every human triage counts once');
+  // the release run's own conflict rework (skill:*) is no person's verdict; nor is a machine's own triage
+  const auto = propose(db, predicted(run, 9, { category: 'technical', lens: 'security', size: 'XS', riskClass: undefined, metric: 'dupSites' })).id;
+  decide(db, { ids: auto, machine: true });
+  proposalUpdate(db, { id: auto, status: 'executing' });
+  proposalUpdate(db, { id: auto, status: 'done', commitSha: 'h9' });
+  triage(db, { ids: auto, decision: 'rework', by: 'skill:lens-scan', note: 'conflict on release/1.0.0' });
+  assert.deepEqual(trust(db, { slice: 'technical|security|-|XS' }).slices[0].n, 1);
+  // a descope of a machine-decided built item is a disagreement too
+  const des = propose(db, predicted(run, 10, { category: 'technical', lens: 'operations', size: 'S', riskClass: undefined, metric: 'dupSites' })).id;
+  decide(db, { ids: des, machine: true });
+  proposalUpdate(db, { id: des, status: 'executing' });
+  proposalUpdate(db, { id: des, status: 'done', commitSha: 'h10' });
+  triage(db, { ids: des, decision: 'descope', by: 'human:kazdan' });
+  assert.deepEqual(trust(db, { slice: 'technical|operations|-|S' }).slices[0].n, 2);
+  assert.deepEqual(trust(db, { slice: 'technical|operations|-|S' }).slices[0].agreement, 0.5);
+  db.close();
+});
+
+test('H-L5 allocate: with no cap named, the cap scales with the run\'s lenses - max(10, 2 x lenses)', () => {
+  const lenses = ['business', 'design', 'development', 'operations', 'performance', 'quality', 'security'];
+  const { db, run } = store({ lenses: lenses.join(',') });
+  // bp's propose r-..7d95: 11 findings over 7 lenses came back 10 ranked + 1 reserve
+  for (let i = 0; i < 16; i += 1) propose(db, fix(run, `f ${i}`, { feature: `f${i}`, lens: lenses[i % 6], impact: 5, confidence: 'medium', size: 'S' }));
+  const r = allocate(db, { run });
+  assert.equal(r.cap, 14);
+  assert.deepEqual([r.ranked, r.reserve], [14, 2]);
+  assert.equal(allocate(db, { run, cap: 10 }).ranked, 10, 'the overlay\'s propose_cap, when named, stands');
+  db.close();
+  const one = store({ lenses: 'development' });
+  propose(one.db, fix(one.run, 'x', { impact: 5, size: 'S' }));
+  assert.equal(allocate(one.db, { run: one.run }).cap, 10, 'never under the default');
+  one.db.close();
+});
+
+test('H-L6 proof: a secondary reading credits an instrument repair the primary metric cannot (p-c9c46b: brokenTests 1 -> 1, checks 0 -> 28)', () => {
+  const { db, run } = store();
+  const id = built(db, run, 1, { metric: 'brokenTests' });
+  db.prepare("UPDATE measurements SET value = 1 WHERE proposal_id = ?").run(id);
+  db.prepare("UPDATE proposals SET status = 'failed' WHERE id = ?").run(id); // did not move its metric: the commit stays, failed
+  const primary = { metric: 'brokenTests', method: 'static', unit: 'tests', before: 1, after: 1, verdict: 'not-better', control: 'absent', base_sha: 'b0', head_sha: 'h1', gates: { 'npm run check': 0 } };
+  const sec = { metric: 'checksRun', unit: 'checks', before: 0, after: 28, better: 'up' };
+  assert.throws(() => proof(db, { id, proof: { ...primary, secondary: [sec] } }), /record the secondary readings first/, 'a secondary number is a recorded reading too');
+  measure(db, run, [{ feature: 'f1', lens: 'development', metric: 'checksRun', value: 0, method: 'static', proposal: id, phase: 'before', commit_sha: 'b0' },
+    { feature: 'f1', lens: 'development', metric: 'checksRun', value: 28, method: 'static', proposal: id, phase: 'after', commit_sha: 'h1' }]);
+  assert.throws(() => proof(db, { id, proof: { ...primary, secondary: [{ ...sec, after: 27 }] } }), /secondary checksRun after 27 is not the item's recorded after reading \(28\)/);
+  assert.throws(() => proof(db, { id, proof: { ...primary, secondary: [{ ...sec, better: 'more' }] } }), /secondary\.better is up or down/);
+  assert.throws(() => proof(db, { id, proof: { ...primary, secondary: [{ ...sec, metric: 'brokenTests' }] } }), /secondary names a metric other than the proof's/);
+  const out = proof(db, { id, proof: { ...primary, secondary: [sec] } });
+  assert.deepEqual(out.proof.secondary, [{ ...sec, verdict: 'better' }], 'the store states the secondary verdict; the primary verdict stands');
+  assert.equal(out.proof.verdict, 'not-better');
+  // triage: the machine never accepts on a secondary reading; a person accepting the failed item names it in the note
+  assert.deepEqual(triage(db, { ids: id, machine: true }).skipped, [{ id, status: 'failed' }]);
+  assert.equal(triage(db, { ids: id, decision: 'accept', by: jane }).skipped[0].reason, 'note-required');
+  assert.deepEqual(triage(db, { ids: id, decision: 'accept', by: jane, note: 'instrument repaired: checksRun 0 -> 28' }).triaged, [id]);
+  db.close();
+});
+
+test('H-L7 lessons: a run\'s project lessons live in the store (activity note `lesson:`), never appended to the overlay by the run', () => {
+  const { path, db, run } = store();
+  activity(db, { run, kind: 'note', text: 'lesson: 2026-10-30 a pack worktree cannot serve the web app; use lens-serve' });
+  activity(db, { run, kind: 'note', text: 'p-1: proposed, not approved' });
+  runEnd(db, { run, status: 'done' });
+  db.close();
+  const l = cli(path, 'lessons');
+  assert.deepEqual(l.lessons.map((x) => [x.run, x.text]), [[run, '2026-10-30 a pack worktree cannot serve the web app; use lens-serve']]);
+  assert.deepEqual(cli(path, 'lessons', '--run', 'r-none').lessons, []);
 });
 
 test('StoreError codes: bad input exits 2, a store rule 1', () => {

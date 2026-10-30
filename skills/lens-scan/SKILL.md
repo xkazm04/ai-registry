@@ -4,7 +4,7 @@ description: "Measure a product feature by feature through one lens or all of th
 argument-hint: "[measure|propose|execute|propagate|status|onboard] [--lens development|security|design|performance|<lens id with a scan block>|all] [--scope <group|context|feature[,feature...]>] [--proposals <id,id>] [--base <ref>] | release --id rel-<version> [--finish] | onboard \"<description>\" [--id com.x.y] [--temporary] [--draft-only] [--first-scan]"
 category: workflow
 memory: project
-version: 1.11.0
+version: 1.12.0
 tags: measure, metrics, lens, backlog, approval, house-standards, propagation, sqlite
 ---
 # Lens scan
@@ -371,8 +371,10 @@ across the run's lenses: (1) each lens with a finding gets one ranked slot, its 
 its top score, unless you filed one with `--mvp true --mvp-rule override --mvp-why "<why
 the top score is not it>"`; (2) the rest of the cap goes by score across lenses; (3)
 everything else is `band: reserve` - stored, scored, shown below the ranked list, never
-discarded. The cap is the overlay's `propose_cap` (default 10). Status is `proposed`.
-Close the run.
+discarded. The cap is the overlay's `propose_cap`; when the overlay names none, call
+`allocate` **without `--cap`**: the store then takes `max(10, 2 x the run's lenses)`, so an
+all-lens run of 7 lenses gets 14 ranked slots, not 10 (bp's first `--lens all` propose filed 11
+findings as 10 ranked + 1 reserve across 7 lenses). Status is `proposed`. Close the run.
 
 **The propose report** is `allocate`'s answer (or `run-report --run <id>` later), printed
 per lens as one table:
@@ -418,7 +420,11 @@ each slice's level from its own history** (slice = `<category>|<lens>|<risk_clas
   (`--start technical=1,product=0`) can only lower them.
 - **Earn:** up one level when the predicted verdicts agree with the human verdicts on >= 90 %
   of the slice's last 20 human-decided items (min 20) since its last transition. A
-  `defer`, and a reversed machine decision, count as disagreements.
+  `defer`, and a reversed machine decision, count as disagreements. **A person's triage of a
+  machine-decided build is a human verdict too**, dated by the triage: `accept` agrees with
+  the predicted `accept`, `rework` or `descope` disagrees (a `skill:*` conflict rework and the
+  machine's own triage are no one's verdict). bp's first `--auto` run had 7 such accepts and
+  every technical slice still read `n = 0`.
 - **Lose:** down one level on a person's reversal of a machine decision - a veto, a decision
   over a vetoed item, a descope of a machine approval, a rework / descope / reopen of a
   machine accept - and on a landed item's proof re-measured `not-better`.
@@ -433,10 +439,13 @@ each slice's level from its own history** (slice = `<category>|<lens>|<risk_clas
 | Level | What the machine may do here | Door |
 |---|---|---|
 | L1 | record the predicted verdict as the decision, `decided_by machine:lens-scan`, 24 h veto window (`veto_until`) | `store.mjs decide --machine --ids ...` (refused per item below L1, for `defer` and unpredicted items) |
-| L2 | build a machine-approved technical item into a pack, and accept it ONLY when its `proof` is `better` with a `red` control | `drive.mjs execute --auto`, then `store.mjs triage --machine --ids ...` |
+| L2 | build a machine-approved technical item into a pack, and accept it ONLY when its `proof` is `better` with a `red` control, its `gates` all exited 0, and its after is not `stacked` | `drive.mjs execute --auto`, then `store.mjs triage --machine --ids ...` |
 
 A machine-approved item outside an L2 technical slice is never built by a headless execute:
-it waits for a person. A built item whose proof is not `better` + `red` waits for a person's
+it waits for a person. **Nor is a `band: reserve` item, or one sized above the overlay's
+`auto_max_size` (default `M`)**: `decide --machine` does not decide them and `drive.mjs` does
+not build one a machine approved earlier (bp's first `--auto` built `p-af6b17`, a reserve L).
+A built item whose proof is not `better` + `red` + gated + isolated waits for a person's
 triage like any other.
 
 **The veto (bp's write, and the store's).** Inside `veto_until` a person may take back a
@@ -534,8 +543,15 @@ recorded `failed` with the reason.
 1. `proposal-update --id <p> --status executing --pack <k>` (a cut-off item is already
    `executing`: skip it); `activity --kind executing`.
 2. Build the change in the pack worktree, on top of the items before it, judged against
-   the item's `standard` as it reads today (the house rule wins where one exists). Run the
-   overlay's gates there.
+   the item's `standard` as it reads today (the house rule wins where one exists). **Run the
+   overlay's `## Gates` there, every command verbatim and in its stated conditions** (a gate
+   "required whenever the pack touches X" runs when it does), and keep each exit code: they go
+   into the proof as `gates: {"<command>": <exit>}`. Read `## Gates` from the overlay at run
+   start; only when it has none, the `.ai/manifest.yaml` capabilities' commands are the gates.
+   With neither, record `activity --kind error --text "no gates declared"` once, write
+   `gates: {}` in every proof and say `build gate not run` in the run's note: such items never
+   reach L2's machine accept. bp's first execute ran no build gate ("no ## Gates here") and
+   still committed seven items.
 3. **Did not build, or broke a gate**: not committed. Discard its changes in the pack
    worktree (`git restore --staged --worktree -- <its files>`, delete the files it created),
    so the next item stacks on a green head. `proposal-update --id <p> --status failed` with
@@ -551,11 +567,17 @@ recorded `failed` with the reason.
    Co-Authored-By: <the model, as the repo's attribution rule says>
    ```
    `<type>` is `fix`, `feat` or `refactor` as the change is, `<ctx>` the feature's context.
-5. **After, at the item's commit**: the same method as before, recorded
-   `--proposal <p> --phase after --commit-sha <sha>` (shots and probes as above). **An
-   item's after includes the earlier items of the same pack** (stacked): say so in the
-   report, and in the run's closing note (`run-end --note "pack k-x: afters are stacked on
-   earlier items"`).
+5. **After, isolated per item**: the same method as before, read on the base with **only
+   this item's commit** applied - a scratch worktree `git worktree add --detach <scratch> <base
+   sha>`, then `git -C <scratch> cherry-pick --no-commit <sha>` - recorded `--proposal <p>
+   --phase after --commit-sha <sha>` (shots and probes as above). Remove the scratch worktree
+   after (junction rule above). For the first item of a pack the pack commit is that state
+   already; read it there. When the item's commit does not apply on the base alone (it builds
+   on an earlier item), read the after at its pack commit and write **`stacked: true`** in its
+   proof; say so in the report and in the run's note. An isolated after writes `stacked:
+   false`. A stacked after mixes the earlier items' effect into this item's delta, so the
+   machine never accepts one. (bp's first execute stacked every after on earlier items of its
+   pack and said so only in the run's note.)
 6. Record it: moved its metric in the expected direction -> `proposal-update --id <p>
    --status done --after-value <n> --commit-sha <sha> --result-sha <sha> --pack <k>`, with a
    `committed` activity. Did not move it -> the same with `--status failed`: **the commit
@@ -566,21 +588,42 @@ recorded `failed` with the reason.
    you checked and how.
 7. **The proof** (scan-finding/1), for every item with a metric, `done` or `failed`:
    `store.mjs proof --id <p> --json <file>` with `{metric, method, unit, before, after, verdict,
-   control, base_sha, head_sha}` - `before`/`after` are the readings recorded in steps above
-   (the store refuses any other number), `verdict` `better` (moved in the metric's better
-   direction), `not-better`, or `inconclusive` (a probe inside its noise, a judgement that
-   cannot tell). **The red control** proves the instrument can read the defect, so the after
-   is the change's doing and not a constant:
-   - `static` (a footprint or steps script) and `harness`: in a scratch worktree at the item's
-     commit, re-seed the defect - reverse-apply the item's own diff (`git diff <base>..<sha> --
-     <its files> | git apply -R`), or point the instrument at a known-bad fixture the metric
-     defines - and run the **same** instrument there. It must read on the before side of the
-     after: `control: red`, `control_value: <that reading>`. Remove the scratch worktree
-     after (junction rule above). If it reads the after, the control is not red: write
-     `control: absent` and say why in the commit body.
+   control, base_sha, head_sha}` plus lens-scan's `gates` (step 2) and `stacked` (step 5) -
+   `before`/`after` are the readings recorded in steps above (the store refuses any other
+   number, and a `method` other than the one both readings were recorded with), `verdict`
+   `better` (moved in the metric's better direction), `not-better`, or `inconclusive` (a probe
+   inside its noise, a judgement that cannot tell).
+   **The method is the instrument that produced the number.** A before and after read by
+   running a command - a test file, a check or drive script, the steps script, `footprint.mjs`
+   - are recorded `method: static` with the command verbatim as evidence, even under a lens
+   whose field declares `judgement`: that command is the instrument, and it has a control. Only
+   a reader's count stays `judgement`. (bp's first execute recorded all eight items
+   `judgement`, `p-c9c46b` included, whose `brokenTests` came from running `drive.py`: no item
+   could reach L2.)
+   **The red control** proves the instrument can read the defect, so the after is the change's
+   doing and not a constant. For `static` and `harness` it is **a step, not an option** - the
+   store answers a proof written `control: absent` on those methods with `control_owed`:
+   - in a scratch worktree at the item's commit (`git worktree add --detach <scratch> <sha>`),
+     re-seed the defect - reverse-apply the item's own diff (`git -C <scratch> diff <base>..<sha>
+     -- <its files> | git -C <scratch> apply -R`), or point the instrument at a known-bad fixture
+     the metric defines - and run the **same** command there. It must read on the before side
+     of the after: `control: red`, `control_value: <that reading>`, and an `activity --kind
+     note --text "control p-<id>: <command> -> <reading>"`. Remove the scratch worktree after
+     (junction rule above). Only if it reads the after is the control not red: write `control:
+     absent` and say why in the commit body.
    - `probe` and `judgement`: no control exists (a probe's samples have no re-seeded twin we
      trust; a reader's count is not an instrument). Write `control: absent`. Such items never
      reach L2's machine accept - they cap at L1 and wait for a person's triage.
+   **A secondary reading** credits what the metric's grain cannot: an item that repaired its
+   own instrument (`p-c9c46b`: `brokenTests 1 -> 1` while the checks that run went `0 -> 28`)
+   reads `not-better` on its metric. Record the second count as readings of its own (`measure
+   --metric checksRun --proposal <p> --phase before|after`, same instrument) and name it in the
+   proof: `secondary: [{metric, unit, before, after, better: up|down}]`. The store checks each
+   against its recorded rows and states its `verdict`; the proof's own `verdict` and the item's
+   status stand (`failed` when the metric did not move). **Triage use:** `triage --machine` never
+   accepts on a secondary reading; a person may accept the failed item, and the accept's note
+   names the secondary reading it rests on (`instrument repaired: checksRun 0 -> 28`). The
+   report prints `secondary: <metric> <before> -> <after> (<verdict>)` beside the proof.
    Re-measuring an accepted or released item later and writing its proof `not-better`
    demotes its slice (the store does it).
 
@@ -657,7 +700,8 @@ title | score | tokens when known | skipped lenses), each item's score or "unsco
 its predicted verdict with the precedent it quoted.
 An execute also names its pack (id, branch, base ref and sha) and, per item, `done` or
 `failed`, its commit (or "no commit"), `before -> after unit` and whether the after is
-stacked on earlier items, its proof (`verdict`, `control`); it never says an item "landed" or "merged": nothing of a pack
+stacked on earlier items, its proof (`verdict`, `control`, a secondary reading when there is
+one), and the gates it ran with their exit codes (or `build gate not run`); it never says an item "landed" or "merged": nothing of a pack
 reaches main until a release. A release reports as [release.md](references/release.md#reporting) says.
 Never report a metric you did not store.
 
@@ -670,7 +714,7 @@ from the store, starts one `claude -p` per run, and prints one JSON summary:
 ```
 node ${CLAUDE_SKILL_DIR}/scripts/drive.mjs status  --lens <id|all> --root <product repo>
 node ${CLAUDE_SKILL_DIR}/scripts/drive.mjs cover   --lens <id|all> --root <repo> [--features a,b | --retry] [--stale] [--dry]
-node ${CLAUDE_SKILL_DIR}/scripts/drive.mjs execute --lens <id|all> --root <repo> [--approve-proposed --by operator:<name> | --auto [--start technical=n,product=m]] [--ids a,b] [--base <ref>] [--dry]
+node ${CLAUDE_SKILL_DIR}/scripts/drive.mjs execute --lens <id|all> --root <repo> [--approve-proposed --by operator:<name> | --auto [--start technical=n,product=m] [--max-size XS..XL]] [--ids a,b] [--base <ref>] [--dry]
 node ${CLAUDE_SKILL_DIR}/scripts/drive.mjs propagate --lens <id> --root <repo> [--ids <upgrade,...> | --standard house:<subject>/<line>] [--dry]
 node ${CLAUDE_SKILL_DIR}/scripts/drive.mjs triage  --ids a,b --decision accept|rework|descope|reopen --by operator:<name> [--note t] --root <repo>
 node ${CLAUDE_SKILL_DIR}/scripts/drive.mjs compare --pack k-des-3 | --ids a,b --root <repo>
@@ -697,9 +741,11 @@ node ${CLAUDE_SKILL_DIR}/scripts/drive.mjs release --id rel-<version> [--finish]
   person in the loop and the store as the only judge: `decide --machine` on the predicted
   `proposed` items (L1, per slice level), the runs build the person-approved and the
   L2-machine-approved items, then `triage --machine` accepts the built ones whose proof is
-  `better` with a `red` control. The summary lists `machine_decided`, `machine_skipped`,
-  `machine_triaged` and `waits_for_triage`. `--start` passes the overlay's `trust_start`.
-  It never creates or ships a release.
+  `better` with a `red` control, green `gates` and an after that is not `stacked`. A `band:
+  reserve` item, or one sized above `--max-size`, is neither machine-decided nor built from a
+  machine approval. The summary lists `machine_decided`, `machine_skipped`,
+  `machine_triaged` and `waits_for_triage`. `--start` passes the overlay's `trust_start`,
+  `--max-size` its `auto_max_size` (default `M`). It never creates or ships a release.
 - `--lens all` (status, cover, execute): every enabled lens of the map with a scan method.
   status and cover merge the gaps (`<lens>.<metric>` per feature), cover's runs are
   `/lens-scan measure --lens all --scope ...` (one read per feature) and one
@@ -770,17 +816,28 @@ sections for the command maps.
 | `project_slug` / `project_name` | from the context map | The structure's project. |
 | `house` | `.ai/house` | The house layer root. |
 | `default_lens` | `development` | The lens when `--lens` is absent (`all` for every enabled lens). |
-| `propose_cap` | `10` | A propose run's ranked slots across all its lenses (`allocate --cap`); every lens's MVP is ranked even past it, the rest of the verified findings are `band: reserve`. |
+| `propose_cap` | `max(10, 2 x the run's lenses)` | A propose run's ranked slots across all its lenses (`allocate --cap`; no key: `allocate` without `--cap`); every lens's MVP is ranked even past it, the rest of the verified findings are `band: reserve`. |
 | `trust_start` | `technical=2,product=0` | The autonomy start levels; may only lower them (`--start` on `trust`, `decide --machine`, `triage --machine`, `drive.mjs execute --auto`). |
+| `auto_max_size` | `M` | The largest size the machine decides and builds on its own (`--max-size` on `decide --machine` and `drive.mjs execute --auto`); a bigger item, and every `band: reserve` one, waits for a person. |
 | `default_scope` | none (ask once; headless: every feature) | The judgement/harness scope when `--scope` is absent. |
 | `bundle_stats` | none (`bundleKb` unmeasured) | A per-feature bundle stats file, when one exists. |
 | `## Gates` | `.ai/manifest.yaml` capabilities | The verification commands phase 5 runs, verbatim. |
 | `## Harness` | none (harness metrics unmeasured) | The generic form [below](#harness): how to start and reach the front end, and a route or click steps per feature. |
 | `## Probes` | none (the performance lens's probe metrics unmeasured) | One entry per feature and metric, `<feature> <metric>: <command>`, for `startupMs`, `interactionP95Ms`, `frameP95Ms`, `blockingMs`, `jankFrames`, `idleWakeups`, `memoryMb`; the command prints one JSON line per metric (20+ samples for a distribution, 3+ passes for a per-pass total) and the skill computes the value ([metrics.md](references/metrics.md#probes)). `bundleKb` is static (`bundle_stats`). |
-| `## Skill improvement log` | none | One dated line per reflection (see below). |
+| `## Skill improvement log` | none | Dated lines a person (or a session that edits no pack) promotes from the store's `lessons`; **a run never appends here itself** (below). |
 
 A feature absent from `## Harness` or `## Probes` is not measured by that method;
 the overlay is the whole mapping, never a hint.
+
+**Where a run's project lessons go.** The Skill Reflection's project learning is written into
+the **store**, not the overlay file: `store.mjs activity --run <run> --kind note --text
+"lesson: <YYYY-MM-DD> <the observation>"`, and the run's closing note says `lessons: <n>`
+(`store.mjs lessons [--run <id>]` lists them). This is the overlay destination this section
+names for the reflection. The overlay is a tracked file in the MAIN checkout, and an execute's
+pack - or a branch the person has open - may be editing that very file: bp's first execute runs
+appended uncommitted lines to `.claude/lens-scan/config.md` in its main checkout, colliding with
+branch work on the same file. Promoting a lesson into `## Skill improvement log` is a commit a person
+makes, or a session that builds no pack makes on its own branch.
 
 ### Harness
 

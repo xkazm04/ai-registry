@@ -137,8 +137,12 @@ An executed item's before/after readings become its `proof` (`store.mjs proof`, 
 head_sha}` plus `control_value` for a red control. The rules this catalog adds:
 
 - **Same method, same instrument.** `before` at the base sha and `after` at the item's
-  commit are read by the method this table names for the metric; the store refuses a proof
-  whose numbers are not the item's recorded `before`/`after` rows.
+  commit are read by one instrument; the store refuses a proof whose numbers are not the
+  item's recorded `before`/`after` rows, whose two rows were recorded with different methods,
+  or whose `method` is not theirs. The method is the instrument that produced the number: a
+  count read by running a command (a test file, a check or drive script, the steps script) is
+  `static` with the command as its evidence, even for a metric this table or a lens manifest
+  calls `judgement` - only a reader's count is `judgement`.
 - **`verdict`** follows the metric's Better column: `better` moved that way (any amount for
   a count; outside the probe's spread for a probe), `not-better` did not, `inconclusive`
   when the method cannot tell (a p95 inside its own noise, a judgement re-read that
@@ -154,7 +158,18 @@ head_sha}` plus `control_value` for a red control. The rules this catalog adds:
 | `judgement` | none: a reader's count is not an instrument | always `absent` |
 
   A `control: absent` item can be accepted only by a person: the store's L2 machine accept
-  takes `better` + `red` alone, so probe and judgement items cap at L1.
+  takes `better` + `red` alone, so probe and judgement items cap at L1. A `static` or
+  `harness` proof written `absent` is answered with `control_owed`: that control exists and
+  was not run.
+- **lens-scan's own proof keys** (outside scan-finding/1; a consumer that does not know them
+  ignores them): `gates` `{"<command>": <exit code>}` - the overlay's gates the item ran;
+  `stacked` - `true` when the after was read with earlier items of the pack applied, `false`
+  when isolated; `secondary` `[{metric, unit?, before, after, better: up|down}]` - another
+  recorded reading of the item, for a change the metric's grain cannot credit (an instrument
+  repaired: `checksRun 0 -> 28` while `brokenTests` stays `1 -> 1`). The store states each
+  secondary's `verdict`; it never changes the proof's. The L2 machine accept also needs `gates`
+  non-empty and all `0`, and `stacked` not `true`; it never reads `secondary`. A person's accept
+  of a `failed` item names the secondary reading in its note.
 - **Re-measure.** A later reading of an accepted or released item that is `not-better` is
   written as a new proof; the store demotes the item's autonomy slice.
 

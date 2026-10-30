@@ -123,7 +123,8 @@ if (m[4]) for (let p of proposals(db, { ids: m[4] })) {
   if (process.env.FAKE_PROOF) { // the item's before/after at base and commit, and its proof with a re-seeded control
     measure(db, id, [{ feature: p.feature, lens: p.lens, metric: p.metric, value: 10, method: 'static', proposal: p.id, phase: 'before', commit_sha: 'b0' },
       { feature: p.feature, lens: p.lens, metric: p.metric, value: 5, method: 'static', proposal: p.id, phase: 'after', commit_sha: 'abc1234' }]);
-    proof(db, { id: p.id, proof: { metric: p.metric, method: 'static', before: 10, after: 5, verdict: 'better', control: 'red', control_value: 10, base_sha: 'b0', head_sha: 'abc1234' } });
+    proof(db, { id: p.id, proof: { metric: p.metric, method: 'static', before: 10, after: 5, verdict: 'better', control: 'red', control_value: 10, base_sha: 'b0', head_sha: 'abc1234',
+      gates: { 'npm run check': 0 }, stacked: false } });
   }
 }
 runEnd(db, { run: id, status: 'done' });
@@ -454,5 +455,40 @@ test('drive execute --auto: the store decides (L1) and accepts (L2) by its trust
     assert.equal(proposals(ro, { ids: human })[0].status, 'done');
     assert.equal(ro.prepare('SELECT COUNT(*) AS n FROM releases').get().n, 0, 'nothing released');
     ro.close();
+  } finally { process.stderr.write = quiet; }
+});
+
+test('H-L3 drive execute --auto: a reserve item and one above the auto size are neither machine-decided nor machine-built (bp built reserve L p-af6b17)', async () => {
+  const { root, dbPath, db } = repoAll();
+  const { id: pr } = runStart(db, { phase: 'propose', lenses: 'development', model: 'test-model' });
+  const item = (feature, extra) => propose(db, { run: pr, feature, lens: 'development', title: `t ${feature}`, kind: 'fix', metric: 'loc', expectedDelta: -5, size: 'S',
+    predictedVerdict: 'accept', predictedWhy: 'no precedent yet', category: 'technical', riskClass: 'debt', ...extra }).id;
+  const ranked = item('a');
+  const reserveL = item('b', { size: 'L' });
+  // bp's shape: the reserve L was already machine-approved (decided_by machine:lens-scan) by an earlier --auto, then
+  // allocated to reserve
+  assert.equal(decide(db, { ids: reserveL, machine: true, maxSize: 'XL' }).decided.length, 1);
+  db.prepare("UPDATE proposals SET band = 'reserve' WHERE id = ?").run(reserveL);
+  const reserveOpen = item('c', { band: 'reserve' });
+  const large = item('d', { size: 'L' });
+  runEnd(db, { run: pr, status: 'done' });
+  db.close();
+  const fake = join(root, 'fake-claude.mjs');
+  writeFileSync(fake, FAKE);
+  const env = { ...process.env, LENS_SCAN_CLAUDE_BIN: fake, FAKE_PROOF: '1' };
+  const quiet = process.stderr.write;
+  process.stderr.write = () => true;
+  try {
+    const dry = await drive(['execute', '--lens', 'development', '--root', root, '--auto', '--max-size', 'L', '--dry'], env);
+    assert.ok(dry.ok);
+    await assert.rejects(drive(['execute', '--lens', 'development', '--root', root, '--max-size', 'L'], env), /--max-size .*belongs to execute --auto/);
+    await assert.rejects(drive(['execute', '--lens', 'development', '--root', root, '--auto', '--max-size', 'XXL'], env), /--max-size is one of/);
+    const ex = await drive(['execute', '--lens', 'development', '--root', root, '--auto'], env);
+    assert.ok(ex.ok, JSON.stringify(ex.jobs));
+    assert.deepEqual(ex.machine_decided.map((x) => x.id), [ranked]);
+    assert.deepEqual(ex.machine_skipped.map((s) => [s.id, s.reason]).sort(), [[reserveOpen, 'band reserve: a person decides'], [large, 'size L above the auto size M: a person decides']].sort());
+    assert.deepEqual(ex.plan, [`/lens-scan execute --proposals ${ranked}`], 'only the ranked, in-size machine approval is built');
+    assert.match(ex.skipped.find((s) => s.id === reserveL).reason, /band reserve.*waits for a person/);
+    assert.deepEqual(ex.machine_triaged.map((x) => x.id), [ranked]);
   } finally { process.stderr.write = quiet; }
 });

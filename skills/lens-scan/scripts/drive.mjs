@@ -6,7 +6,7 @@
 //
 //   node drive.mjs status  --lens <id>|all [--root <product repo>]
 //   node drive.mjs cover   --lens <id>|all [--root r] [--features a,b | --stale] [--retry] [--chunk n] [--max-runs n] [--no-propose]
-//   node drive.mjs execute --lens <id>|all [--root r] [--ids a,b] [--approve-proposed --by <kind:name> | --auto [--start technical=n,product=m]]
+//   node drive.mjs execute --lens <id>|all [--root r] [--ids a,b] [--approve-proposed --by <kind:name> | --auto [--start technical=n,product=m] [--max-size XS..XL]]
 //                          [--batch n] [--base <ref>]
 //   node drive.mjs propagate --lens <id> [--root r] [--ids <upgrade,...> | --standard house:<subject>/<line>]
 //   node drive.mjs release --id rel-<version> [--root r] [--finish]
@@ -31,11 +31,14 @@
 //            a specific release base into the prompt. With --ids, a named `rework` item is in the plan too: the run
 //            rebuilds it as a new attempt (store.mjs rework-attempt).
 //            A machine-approved item (decided_by machine:lens-scan, an L1 decision) is built only in a technical slice
-//            the store puts at L2; elsewhere it is skipped and waits for a person. --auto (the autonomy ladder,
+//            the store puts at L2, and never when it is band reserve or sized above --max-size (bp's first --auto built
+//            a reserve L); elsewhere it is skipped and waits for a person. --auto (the autonomy ladder,
 //            SKILL.md Autonomy) first records the predicted verdict of each `proposed` item whose slice is >= L1
-//            (store.mjs decide --machine; `machine_decided`, `machine_skipped`), and after the runs offers every built
-//            item to store.mjs triage --machine, which accepts only a better proof with a red control
-//            (`machine_triaged`; the rest `waits_for_triage`). --start is the overlay's trust_start (it only lowers).
+//            (store.mjs decide --machine, which skips reserve and oversize items; `machine_decided`, `machine_skipped`),
+//            and after the runs offers every built item to store.mjs triage --machine, which accepts only a better
+//            proof with a red control, green gates and an after of its own (`machine_triaged`; the rest
+//            `waits_for_triage`). --start is the overlay's trust_start (it only lowers); --max-size XS..XL its
+//            auto_max_size (default M).
 //            Nothing here releases: a release stays a person's.
 //   --lens all (status, cover, execute): every enabled lens of the app-structure with a scan method (store.mjs
 //            structureLenses). status and cover merge the lenses' gaps (per feature, `<lens>.<metric>`), cover runs
@@ -66,7 +69,7 @@ import { randomBytes } from 'node:crypto';
 import { fileURLToPath } from 'node:url';
 import {
   openStore, gaps, decide, proposals, parseArgs, runEnd, triage, compare, releaseGet, releaseUpdate, structureLens, structureLenses, trust, sliceOf,
-  MACHINE, StoreError,
+  MACHINE, StoreError, SIZES, AUTO_MAX_SIZE,
 } from './store.mjs';
 
 const MAX_BATCH = 50;
@@ -78,7 +81,7 @@ const VERBS = ['status', 'cover', 'execute', 'propagate', 'release', 'triage', '
 // Every flag the header documents, as parseArgs names them. Anything else is refused before a session starts: an
 // unknown flag was silently ignored, so `--dry-run` for `--dry` ran real `claude -p` sessions.
 const FLAGS = ['root', 'lens', 'features', 'stale', 'retry', 'chunk', 'maxRuns', 'noPropose', 'ids', 'approveProposed', 'by', 'batch',
-  'base', 'standard', 'id', 'finish', 'decision', 'note', 'pack', 'model', 'timeoutMin', 'dry', 'auto', 'start'];
+  'base', 'standard', 'id', 'finish', 'decision', 'note', 'pack', 'model', 'timeoutMin', 'dry', 'auto', 'start', 'maxSize'];
 /** `--lens all`: every enabled lens with a scan method, each feature read once per run (SKILL.md 2. Measure). */
 const ALL = 'all';
 const kebab = (k) => k.replace(/[A-Z]/g, (c) => `-${c.toLowerCase()}`);
@@ -210,6 +213,8 @@ export async function drive(argv, env = process.env) {
   if (a.standard !== undefined && verb !== 'propagate') bad('--standard belongs to propagate');
   if (a.auto !== undefined && verb !== 'execute') bad('--auto belongs to execute');
   if (a.start !== undefined && a.auto === undefined) bad('--start (the overlay\'s trust_start) belongs to execute --auto');
+  if (a.maxSize !== undefined && a.auto === undefined) bad('--max-size (the overlay\'s auto_max_size) belongs to execute --auto');
+  const maxSize = a.maxSize === undefined ? AUTO_MAX_SIZE : (SIZES.includes(a.maxSize) ? a.maxSize : bad(`--max-size is one of ${SIZES.join(', ')} (the overlay's auto_max_size)`));
   if (a.auto !== undefined && a.approveProposed !== undefined) bad('--auto lets the store decide by its trust levels; --approve-proposed is a person\'s blanket decision - pass one');
   if (verb === 'propagate') {
     if (lens === ALL) bad('propagate runs one landed upgrade at a time; name its lens (--lens all is for status, cover and execute)');
@@ -285,7 +290,7 @@ export async function drive(argv, env = process.env) {
       const start = typeof a.start === 'string' ? a.start : undefined;
       const open = items.filter((p) => p.status === 'proposed' && p.predicted_verdict).map((p) => p.id);
       if (open.length && !dry) {
-        const r = write((db) => decide(db, { ids: open, machine: true, start }));
+        const r = write((db) => decide(db, { ids: open, machine: true, start, maxSize }));
         summary.machine_decided = r.decided;
         if (r.skipped.length) summary.machine_skipped = r.skipped;
       }
@@ -297,7 +302,11 @@ export async function drive(argv, env = process.env) {
       const start = typeof a.start === 'string' ? a.start : undefined;
       levels = new Map(write((db) => trust(db, { start })).slices.map((s) => [s.slice, s.level]));
     }
-    const waits = (p) => levels !== undefined && p.status === 'approved' && p.decided_by === MACHINE && !(p.category === 'technical' && (levels.get(sliceOf(p)) ?? 0) >= 2);
+    // (H-L3) and never a reserve item or one above the auto size, even one a machine approved before this rule
+    const oversize = (p) => p.size && SIZES.indexOf(p.size) > SIZES.indexOf(maxSize);
+    const machineOnly = (p) => p.status === 'approved' && p.decided_by === MACHINE;
+    const parked = (p) => machineOnly(p) && (p.band === 'reserve' || oversize(p));
+    const waits = (p) => parked(p) || (levels !== undefined && machineOnly(p) && !(p.category === 'technical' && (levels.get(sliceOf(p)) ?? 0) >= 2));
     // an item left `executing` by a run that is no longer running was cut off; the next execute reconciles it
     const held = read((db) => new Set(db.prepare("SELECT scope FROM runs WHERE phase = 'execute' AND status = 'running'").all()
       .flatMap((r) => { try { return JSON.parse(r.scope ?? '{}').proposals ?? ['*']; } catch { return ['*']; } })));
@@ -306,7 +315,9 @@ export async function drive(argv, env = process.env) {
     // a `rework` item is rebuilt only by an execute that names it (--ids): the run makes its new attempt
     const named = a.ids !== undefined;
     const go = items.filter((p) => (p.status === 'approved' && !waits(p)) || cutOff.includes(p.id) || (named && p.status === 'rework') || (dry && summary.approved?.includes(p.id))).map((p) => p.id).filter((id) => SAFE_ID.test(id));
-    summary.skipped = items.filter((p) => !go.includes(p.id)).map((p) => (waits(p)
+    summary.skipped = items.filter((p) => !go.includes(p.id)).map((p) => (parked(p)
+      ? { id: p.id, status: p.status, reason: `machine-approved ${p.band === 'reserve' ? 'band reserve' : `size ${p.size} above the auto size ${maxSize}`}: it waits for a person` }
+      : waits(p)
       ? { id: p.id, status: p.status, reason: `machine-approved in slice ${sliceOf(p)} (L${levels.get(sliceOf(p)) ?? 0}${p.category === 'technical' ? '' : `, ${p.category ?? 'no category'}`}): building it is L2; it waits for a person` }
       : { id: p.id, status: p.status }));
     const batches = chunks(go, intFlag(a, 'batch', MAX_BATCH, MAX_BATCH));
