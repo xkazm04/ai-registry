@@ -28,3 +28,12 @@ Run shape: four ideators (`claude-opus-5-5@high`, `claude-sonnet-5-5@high`, `agy
   - The verdict was a fusion, not a winner. 1.0.0 forced `--winner e1 --runner-up e2`, and its wrap would have removed e2's worktree, which the follow-up still had to read. 1.1.0 adds `verdict --fuse "e1=base,e2=absorb,e3=defer,e4=drop" [--followup ...]`, and wrap keeps the `base` and `absorb` trees.
   - A second `run` process beside the main one could lose state writes. `hackathon.json` now has a lock.
   - agy runs `xhigh` as `high`, but the ledger recorded `@xhigh`. Specs are now recorded as they run.
+
+## 1.2.0 - 2026-10-30 - paypal
+- First credit night (`--cloud`, killer-1030). The owner started it at 08:52, so `--until 08:00` would have meant a 23 h clock and the instrument refuses that. `--cloud --hours 8` kept the key funding with a daytime clock, which was the right escape. The evening sync should ask about the clock first whenever it runs after midnight.
+- The pre-round on the key cost $1.44 for 20 valid ideas (Opus 5.5 high $1.01 in 257 s, Sonnet 5.5 high $0.43 in 187 s). The $15 ideation ceiling is about ten times what was needed.
+- The 1.2.0 cap design had a flaw, caught on the dry run before launch:
+  - The cap is split into per-session shares ($50.71 each for 5 entries). The first entry to spend its share would end `budget-reached` and switch every entry to the subscription, with about $200 of the cap unspent.
+  - Fixed in 1.2.1: `budget-reached` switches only when what is left of the cap is under $1. Otherwise the entry resumes on the key with a fresh share.
+- The shortlist's "ideas in more than one pack" line split labels on commas. Three of the five pack titles had one, so it listed single-pack ideas as shared. Fixed in 1.2.1 with a per-entry count (`sharedIdeas`).
+- The owner fused across clusters (A5 + B5: rules from a sentence, plus the past/future timeline) and parked a whole cluster as a future hackathon. Packs carried both without extra tooling.
