@@ -8,6 +8,7 @@
 //   node coverage.mjs --next      # ONLY the next context the loop should take
 //   node coverage.mjs --json      # machine-readable, for a caller that ranks itself
 //   node coverage.mjs --map <p>   # context map at a non-default path
+//   node coverage.mjs --lenses <p> # lens reference at a non-default path (default ../references/lenses.md)
 //
 // --next implements the picker rule in SKILL.md section 1, verbatim and in one place:
 // never-swept first (in map order), else smallest lens union, else oldest last sweep.
@@ -34,20 +35,28 @@ const hist = existsSync(histPath)
   ? readFileSync(histPath, 'utf8').split('\n').filter(Boolean).map((l) => { try { return JSON.parse(l); } catch { return null; } }).filter(Boolean)
   : [];
 
-// Total lens count is read from the reference, not hardcoded: a lens added to
-// lenses.md must not silently make every "22/22" row a lie.
+// Total lens count is DERIVED from the reference's `## <id> ` headings, with no
+// fallback number: the old fallback was 22 while the file held 28, so a failed
+// read printed "22/22" over a context 6 lenses short. An unreadable or empty
+// reference is an error, not a guess. (`--lenses <path>` reads another copy.)
 // `Group: challenge` lenses run only under --challenge and are NOT part of the
 // denominator (SKILL.md "Challenge mode"): a challenge run must never make a
 // context read as swept.
-let TOTAL_LENSES = 22;
 const CHALLENGE_LENSES = new Set();
+const lensRef = opt('--lenses', null) ?? new URL('../references/lenses.md', import.meta.url);
+let sections = [];
 try {
-  const ref = new URL('../references/lenses.md', import.meta.url);
-  const sections = readFileSync(ref, 'utf8').split(/^(?=## [a-z-]+ )/m).filter((s) => s.startsWith('## '));
-  for (const s of sections) if (/^Group: challenge\s*$/m.test(s)) CHALLENGE_LENSES.add(s.slice(3).split(' ')[0]);
-  const n = sections.length - CHALLENGE_LENSES.size;
-  if (n > 0) TOTAL_LENSES = n;
-} catch { /* keep the fallback */ }
+  sections = readFileSync(lensRef, 'utf8').split(/^(?=## [a-z-]+ )/m).filter((s) => s.startsWith('## '));
+} catch (e) {
+  console.error(`cannot read the lens reference (${e.message}) - the coverage denominator is unknown`);
+  process.exit(2);
+}
+for (const s of sections) if (/^Group: challenge\s*$/m.test(s)) CHALLENGE_LENSES.add(s.slice(3).split(' ')[0]);
+const TOTAL_LENSES = sections.length - CHALLENGE_LENSES.size;
+if (TOTAL_LENSES < 1) {
+  console.error(`the lens reference holds no stabilize lens (${sections.length} sections) - the coverage denominator is unknown`);
+  process.exit(2);
+}
 
 // Challenge snapshots are tallied apart: they feed the --challenge cohort picker
 // and nothing else.

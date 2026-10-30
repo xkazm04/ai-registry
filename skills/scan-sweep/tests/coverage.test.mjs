@@ -105,3 +105,19 @@ test('challenge snapshots and lenses never count as stabilize coverage', () => {
   assert.ok(challenge >= 2, 'the two challenge lenses are declared');
   assert.equal(run(dir, '--next').totalLenses, all - challenge, 'denominator excludes the Group: challenge lenses');
 });
+
+test('the lens count is derived from the reference headings, never a hardcoded number', () => {
+  const dir = fixture([]);
+  const shipped = readFileSync(new URL('../references/lenses.md', import.meta.url), 'utf8');
+  const headings = (shipped.match(/^## [a-z-]+ /gm) ?? []).length;
+  assert.ok(headings >= 30, `the shipped reference has ${headings} lens sections`);
+  assert.notEqual(run(dir, '--next').totalLenses, 22, 'non-vacuity: the old fallback number is not what the shipped file yields');
+  // A reference with three sections, one of them challenge: the denominator follows the file.
+  const ref = join(dir, 'lenses.md');
+  writeFileSync(ref, ['# x', '', '## alpha — A', '', 'Group: technical', '', '## beta — B', '', 'Group: user', '', '## gamma — G', '', 'Group: challenge', ''].join('\n'));
+  assert.equal(run(dir, '--next', '--lenses', ref).totalLenses, 2);
+  // An unreadable reference fails loudly instead of printing a guessed denominator.
+  let status = 0;
+  try { execFileSync(process.execPath, [SCRIPT, '--next', '--json', '--lenses', join(dir, 'missing.md')], { cwd: dir, encoding: 'utf8', stdio: 'pipe' }); } catch (e) { status = e.status; }
+  assert.equal(status, 2);
+});

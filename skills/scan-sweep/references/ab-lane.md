@@ -88,10 +88,13 @@ The worker does these **in order**, and stops at the first that fails:
 8. **Return** one JSON object, nothing else:
 
 ```json
-{"slug":"...","verdict":"better|not-better|unmeasurable|fp|demoted","before":"...","after":"...",
- "method":"gate|probe|experiment","seeded_red":true,"gates":{"typecheck":0,"lint":0,"test":0},
- "sha":"...","branch":"sweep/<slug>","size_actual":"S|M|L","files":[...],"note":"<=200 chars"}
+{"slug":"...","verdict":"better|not-better|unmeasurable|fp|demoted","metric":"<what was measured>","unit":"<ms|count|cases|...>",
+ "before":"...","after":"...","method":"gate|probe|experiment","seeded_red":true,"gates":{"typecheck":0,"lint":0,"test":0},
+ "base_sha":"<arm A commit>","sha":"...","branch":"sweep/<slug>","size_actual":"S|M|L","files":[...],"note":"<=200 chars"}
 ```
+
+`metric`, `unit` and `base_sha` exist so the director can write the contract's
+`proof` without re-asking (§ "The ledger").
 
 `unmeasurable` after a real attempt must name the instrument it could not build and
 why; it is the only verdict that goes on to Lane C.
@@ -142,6 +145,27 @@ One line per B item, appended by the director to `.claude/scan-history/ab.jsonl`
 
 This is what the next round's picker reads to avoid re-dispatching a `not-better`, and
 what the snapshot's `ab=` field is summed from.
+
+**Beside it, every verdict that built something writes the contract's `proof`** onto
+the item's finding/hand-off line (scan-finding/1, SKILL.md §4.12), in the same step:
+
+```json
+"proof":{"metric":"<worker metric>","method":"gate|probe|experiment","unit":"<worker unit>","before":"<re-measured A>",
+         "after":"<B>","verdict":"better|not-better|inconclusive","control":"red|absent","base_sha":"<arm A>","head_sha":"<worker sha>"}
+```
+
+- `verdict`: the worker's `better` and `not-better` verbatim; `unmeasurable` is
+  `inconclusive`. `fp` and `demoted` built nothing and write **no** proof.
+- `control`: `red` only when `seeded_red` is true - the instrument was shown to go red
+  on A. Anything else is `absent`, and a `better` with `control: absent` is not a
+  landable verdict (the L2 rule in `## Finding contract`); the director does not merge it.
+- A key the worker did not report is left out, never filled with a guess.
+- The mapping is `proofFromAb(workerReturn, { base_sha })` in `scripts/filing.mjs`, one
+  function, so the ledger row and the proof cannot disagree.
+
+The ledger keeps the run's history; the proof is what reaches Personas - a handed-off
+card (an `unmeasurable` escalated to C, a `better` whose branch was kept for a red or
+unrunnable gate) carries it, and Personas' verify state reads it instead of a blank.
 
 ## The worker prompt (template)
 

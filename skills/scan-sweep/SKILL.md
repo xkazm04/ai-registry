@@ -247,7 +247,8 @@ Rules that keep the notice honest:
   commands degrade to the map file alone; nothing here may block the run.
 
 - State the choice and why in the round header ("never swept" / "lens coverage
-  4/22, oldest 2026-08-11"). Coverage rotation must be auditable.
+  4/28, oldest 2026-08-11" - the denominator is `coverage.mjs`'s, derived from
+  `references/lenses.md`). Coverage rotation must be auditable.
 - **Size the context before you size the package.** Count its files and lines
   first. Under roughly **10 files or 200 LOC**, a full package is recording, not
   scanning: either **sweep it together with its siblings** in the same group as
@@ -259,10 +260,35 @@ Rules that keep the notice honest:
 
 ## 2. Load shared awareness - BEFORE reading code
 
+- **Decision memory** - what the human decided, WITH the reason. When the
+  Personas door is reachable, `node ${CLAUDE_SKILL_DIR}/scripts/door.mjs decisions
+  --repo <root> --context <context> --limit 50` returns the context's recorded
+  decisions newest first (`verdict`, `reason`, `decidedBy`, `decidedAt`, `lens`);
+  add `--lens <id>` to narrow while judging one lens. This is what every
+  finding's `predicted_verdict` leans on (§4.12): titles alone are not memory. On
+  `reachable: false` (exit 3: app down, or an app that predates the endpoint) or
+  exit 4 (repo not registered), fall back to the digest below and say so in the
+  round header: `memory: digest only (<reason>)`.
 - **Backlog memory** (overlay key `backlogDigest`, default
   `.personas/backlog-digest.json`) - pending / accepted / rejected titles.
   **Never re-propose anything on those lists, including rephrasings of rejected
-  titles.** A rejected title is a durable human "no".
+  titles.** A rejected title is a durable human "no". The decisions read above
+  joins this list; a rejected decision's `reason` says what kind of rephrasing it
+  also rules out.
+- **Trust** - `node ${CLAUDE_SKILL_DIR}/scripts/door.mjs trust --repo <root> >
+  <run dir>/trust.json` returns the project's per-slice autonomy levels and their
+  transition events. Keep the file even when it says `reachable: false`; §5's
+  ladder routing reads it through `rank.mjs --trust`. Print the slices whose level
+  changed since the last round in the header (`trust: technical|error-handler|-|S
+  L2 -> L3 (agreement 0.95, n 20)`), or `trust: door unreachable - category start
+  levels, autoDecide asked at most at L1`.
+- **Reserve from the last round on this context** -
+  `.claude/scan-sweep/reserve/<context>.jsonl`, the previous round's
+  `band: reserve` findings as `rank.mjs` wrote them (§4.4). They are
+  re-verified first (a premise that no longer holds is dropped and said so) and
+  compete for this round's slots beside its new findings; the file is replaced
+  by this round's reserve. A re-filed reserve item is a dedup hit in Approvals,
+  not a new card.
 - **Hard gates** (`.claude/conventions.json` when present) - a finding that
   violates a declared gate is a defect you are about to introduce, not a finding.
 - **Sweep history** (`.claude/scan-history/scan-sweep.jsonl`) - prior snapshots,
@@ -306,11 +332,14 @@ Rules that keep the notice honest:
 2. Run any cheap deterministic check that applies (type-checker, linter, existing
    script) and reconcile. Deterministic findings belong to those tools - do not
    restate them as findings.
-3. Walk the lens package **sequentially**, and give each tier room to report:
-   **deep tier ≤3** findings, **matched tier ≤2**, **remaining tier ≤1**, each
-   grounded in `file:line`. Zero from one lens is a valid result - say "nothing
-   real" and move on. Zero from a whole TIER is a claim about the codebase, and
-   §4.9 is where you test it.
+3. Walk the lens package **sequentially**. **No lens and no tier has a cap on
+   what it may report**: write down every verified finding, each grounded in
+   `file:line`, and let §4.4's slot allocation decide what is ranked. (The old
+   per-tier caps - deep ≤3, matched ≤2, rest ≤1 - let a 13-lens deep tier emit
+   39 into a 16-item budget, so the tail lenses found things the round had no
+   room to write.) Zero from one lens is a valid result - say "nothing real" and
+   move on. Zero from a whole TIER is a claim about the codebase, and §4.9 is
+   where you test it.
 
    **`file:line` means `<path>:<line>`, the path relative to the REPOSITORY
    root, exactly as `git ls-files` prints it.** A basename is not an anchor and
@@ -329,30 +358,51 @@ Rules that keep the notice honest:
    disciplined; it has been incurious, and it has left the operator a backlog
    that under-describes their own repository.
 
-   **Budget: 16 findings per context per round.** `--depth N` overrides; `--one`
-   raises it to 24, because a named context is a deliberate deep dive.
-   **Lifetime cap per context: 40.** Subtract what prior snapshots already
-   reported, and never re-emit a finding already reported or present in the
-   backlog digest.
+   **Ranked slots: N = 16 per context per round** (`--one`: 24, because a named
+   context is a deliberate deep dive; `--depth N` or the overlay's `depth`
+   overrides). **Lifetime cap per context: 40 RANKED findings** - subtract the
+   `ranked` counts of prior snapshots; reserve findings do not count against it.
+   N for this round is the smaller of the two. Never re-emit a finding already
+   reported or present in the backlog digest.
 
-   It was 12 while the stabilize deep tier was 8 lenses. The tier is 13 now, and
-   this clause's own rule - the budget must absorb the package you ran - applies
-   to the package this skill ships by default, not only to one an operator
-   narrows by hand.
+   **Slot allocation - the contract's, in this order** (`## Finding contract`,
+   "Coverage"): (1) every lens with ≥ 1 verified finding gets ONE ranked slot,
+   its **MVP** - the lens's top `score`, unless the reader overrides it with
+   `mvp_rule: override` and a `mvp_why`; (2) the remaining N minus MVPs slots go
+   by `score` across lenses, unscored findings after every scored one; (3) every
+   other verified finding is **`band: reserve`**. An MVP is never reserved: with
+   more productive lenses than slots the ranked band exceeds N and the report
+   says by how many. Run it, never do it by hand:
 
-   **THE BUDGET MUST BE ABLE TO ABSORB THE PACKAGE YOU RAN.** A 22-lens package
-   against a 5-item budget is exhausted by lens three, and the other nineteen
-   have nowhere to put anything - they become coverage RECORDING, the ledger
-   reads 22/22, and the round reports a clean tail it never had room to hear.
-   If you narrow the budget, narrow the package with it (`--lenses`), or the
-   coverage number is a lie you told yourself. Measured 2026-08-27: a 5-item
-   budget over a full package yielded **0.098 findings per lens-pass** against
-   the same repository's **1.63** under a 6-lens package a fortnight earlier -
-   17× less, from 3.6× more lenses.
+   ```
+   node ${CLAUDE_SKILL_DIR}/scripts/rank.mjs --file <run dir>/findings.jsonl --cap <N> \
+     --trust <run dir>/trust.json [--start technical=<n>,product=<n>] [--frozen <p1,p2>] [--strict] \
+     --out <run dir>/ranked.jsonl [--tokens <lens=n,...>] [--skipped <lens,...>]
+   ```
+
+   It computes every `score` with `scripts/score.mjs`, sets `band`, `mvp`,
+   `mvp_rule`, annotates the ladder fields §5 routes by, and prints the per-lens
+   table §8 reports. **Reserve is filed, not dropped**: it is handed off with
+   the rest (§9.1, `band: reserve`), written to
+   `.claude/scan-sweep/reserve/<context>.jsonl`, and seeds the next round of this
+   context (§2). Reserve findings are not built this round - they are owed to
+   the next one.
+
+   **THE ALLOCATION MUST BE ABLE TO HEAR THE PACKAGE YOU RAN.** Under the old
+   tier caps a 22-lens package against a 5-item budget was exhausted by lens
+   three, and the other nineteen had nowhere to put anything - they became
+   coverage RECORDING, the ledger read 22/22, and the round reported a clean
+   tail it never had room to hear. Measured 2026-08-27: a 5-item budget over a
+   full package yielded **0.098 findings per lens-pass** against the same
+   repository's **1.63** under a 6-lens package a fortnight earlier - 17× less,
+   from 3.6× more lenses. The MVP slot is the fix: a lens that found something
+   is always heard, and the reserve band keeps what the cap would have thrown.
 5. **Score both sides of every candidate.** *Reward* = user-visible or
    developer-measurable gain (impact 1-10). *Risk* = chance of breaking working
-   code, plus churn - lines rewritten per unit of gain (1-10). These two numbers
-   drive every routing decision in §5, so guessing them is guessing the routing.
+   code, plus churn - lines rewritten per unit of gain (1-10): the risk of MAKING
+   the change, never the severity of the defect. These two numbers drive every
+   routing decision in §5, so guessing them is guessing the routing; §4.12 is
+   how they, and every other contract field, are assigned.
    Two hard rules learned from calibration:
    - **"Unused/dead" claims require proof.** A finding that says dead/unused MUST
      cite its zero-consumer grep in the evidence. Verified dead-code removal is
@@ -489,6 +539,25 @@ Rules that keep the notice honest:
     and reads as the lower-quality item it is. Do not invent extra sections;
     put anything else under Description.
 
+12. **Assign the scan-finding/1 fields while judging - every verified finding,
+    built or not.** The finding line (§9) carries the contract's fields
+    (`## Finding contract`) beside the §4.10 body; an unknown value is OMITTED,
+    never `0` and never `""`. Write each finding to `<run dir>/findings.jsonl`
+    as you judge it; §4.4 ranks that file.
+
+    | Field | How the reader assigns it |
+    | --- | --- |
+    | `lens` | the lens that found it - always its own field, never folded into `skill` or a source. |
+    | `category` | the lens's `Category` line in `references/lenses.md`; override on a finding that is the other kind (a ux-reviewer crash is `technical`). `filing.mjs` falls back to the lens line, never to a blind `technical`. |
+    | `impact`, `impact_why` | §4.5's reward 1-10, and the one-line reason for the number (≤ 200 chars). |
+    | `confidence` | the contract's evidence rule, applied to THIS tree: `high` = the quoted evidence re-read now AND reproduced or measured (a `gate` / `probe` / `experiment` figure); `medium` = the quoted evidence re-read now, nothing reproduced (`simulation`); `low` = inference - a line you did not re-read, a pattern you did not trace. |
+    | `effort` | 1-10 build effort. When you only know the size, leave `effort` out and keep `size`: `score.mjs`'s `sizeToEffort` maps XS 1, S 2, M 4, L 7, XL 10. |
+    | `risk` | §4.5's 1-10 risk of making the change; a low / medium / high blast radius is 2 / 5 / 8. |
+    | `score`, `score_parts` | **never written by the reader.** `rank.mjs` (and `approvals.mjs` for a card that lacks one) compute them with `scripts/score.mjs`; a score typed in prose is overwritten. A finding without `impact` or effort/size is unscored and ranks last. |
+    | `band`, `mvp`, `mvp_rule` | set by `rank.mjs` (§4.4). The reader only ever writes `mvp_rule: "override"` + `mvp_why` (≤ 200 chars) to name a lens's MVP that is not its top score - the root cause behind a higher-scored symptom, say. |
+    | `predicted_verdict`, `predicted_why`, `predicted_by` | the reader's own verdict on the item - `accept` / `reject` / `defer` - recorded BEFORE any human sees it. `predicted_why` (≤ 300 chars) **quotes the closest precedent's reason** from §2's decisions read when one exists (`like i9, rejected: "already guarded upstream"`), and says `no precedent` when none does. `predicted_by` = `scan-sweep@<version>:<model id>`. Every handed-off finding carries all three. |
+    | `proof` | only when a change was BUILT for it (a Lane B return, a Lane A attempt that was handed off): `{metric, method, unit, before, after, verdict: better\|not-better\|inconclusive, control: red\|absent, base_sha, head_sha}` - §5 Lane B and `references/ab-lane.md` say how it is filled. |
+
 ## 5. Routing - three lanes, evidence decides, four escalations stay human
 
 Every finding leaves §4 with a size, an Evaluation (Before / After / Method /
@@ -576,7 +645,9 @@ An item is Lane A when **all** of:
 - every file it touches is inside this round's declared paths (or the round is a
   coordinator wave, where that veto does not bind);
 - a gate exists that can see it, or one can be built at S — and if one is built,
-  it is built **first**, seeded red, then the fix lands green (§4.11, §7.6).
+  it is built **first**, seeded red, then the fix lands green (§4.11, §7.6);
+- its slice is at **level ≥ 2** on the autonomy ladder (`lane_a_ok` from
+  `rank.mjs`, below) - and it is in the **ranked** band.
 
 Lane A is executed in-session, one atomic commit per item, highest-reward first,
 under §7. A Lane A item the round cannot build (budget, time, a tree that will not
@@ -607,6 +678,59 @@ director reviews each return against the diff, merges `better` `--no-ff`, delete
 `fp` and `demoted` against the mechanism, and never pushes. The whole contract —
 worker steps, director rules, ledger shape, prompt template — is
 `references/ab-lane.md`; this section only says who goes there.
+
+**Every Lane B verdict writes the contract's `proof`** onto the item's card, beside
+its `ab.jsonl` row: `metric`, `method`, `unit`, `before` / `after` as re-measured,
+`verdict` (`better`, `not-better`, or `inconclusive` for an `unmeasurable`),
+`control: red` when the seeded control went red and `absent` otherwise, `base_sha`
+(arm A) and `head_sha` (the worker's commit). `filing.mjs`'s `proofFromAb` maps a
+worker return to it; an `fp` or `demoted` built nothing and carries no proof.
+Whatever of that item is handed off (§9.1) - an `unmeasurable` escalated to C, a
+`better` whose branch was kept for a red or unrunnable gate - carries the proof, so
+Personas' verify state shows what was measured instead of a blank.
+
+### The autonomy ladder - how far the machine may go on this item
+
+The lanes say what kind of evidence an item has; the ladder says how much of the
+decision the machine may take on it. Levels belong to **slices**
+(`<category>|<lens>|<risk_class>|<size>`, an absent part `-`; scan-sweep has no
+`risk_class`, so its slices read `technical|error-handler|-|S`) and live in
+Personas, which computes them from its own decision history - see
+`## Finding contract`, "Autonomy ladder". This skill never claims a level; it
+reads one (§2 `door.mjs trust`) and `rank.mjs --trust` writes per item `slice`,
+`level`, `lane_a_ok` and `auto_decide`:
+
+| Slice level | What this skill does with the item |
+| --- | --- |
+| **≥ 2** | Lane A is open to it (`lane_a_ok`), when every Lane A condition above also holds. Otherwise it routes as below. |
+| **≥ 1** | handed off with `auto_decide: true` - the door re-checks the level itself and, at L1 or above, records `predicted_verdict` as the decision (`decided_by: machine:scan-sweep`) with a 24 h veto window. |
+| **0** | plain hand-off; the human decides. |
+
+- **Start levels** are the contract's: `technical` L2, `product` L0. The overlay's
+  `autonomy.start.technical` / `autonomy.start.product` may only LOWER them, and
+  because the door does not read the overlay, a lowered start is also a local
+  ceiling on the door's levels for that category.
+- **`autonomy.frozen`** - a list of slice patterns (`*` per part, e.g.
+  `product|*|*|*`, `technical|security-auditor|*|*`) the operator pins at L0 for
+  this skill: no in-session build, no `auto_decide`.
+- **Door unreachable** (`trust.json` says `reachable: false`): every slice is at
+  its category start level; Lane A follows that start, and `auto_decide` is only
+  ASKED (L1 at most) - the door decides it when the card lands. Say so in the
+  header.
+- **The false-positive counter stays, as a local demotion on top.** While §5's
+  strict rule is on (three `fp` in the last five rounds), every slice's
+  effective level is one lower for this skill - an L2 slice loses Lane A, an L1
+  slice loses `auto_decide` - AND Lane A still requires `Method: gate`. The door
+  is not told: it keeps its own levels from its own history, and the two meet
+  only in the minimum. The counter is repo-wide and fast; the ladder is
+  per-slice and earned; either can stop the machine, neither can start it.
+  (`coverage.mjs --next --json` prints `strict`; pass `--strict` to `rank.mjs`.)
+- `secret` / `authz` / `money` never route above L1, and nothing that leaves the
+  system (a publish, a message) is ever handed off with `auto_decide`. **Neither
+  is a Lane C escalation** (`direction`, `architecture`, `irreversible`,
+  `policy-loosen`, an operator-only act): those four are the human's by this
+  skill's own law, so their cards go with `auto_decide: false` whatever the
+  slice level says.
 
 **What Lane B is for, stated once.** Unit tests say a change did not break what was
 already pinned. Lane B says the change made the figure better than it was, on the
@@ -646,7 +770,8 @@ positive is a Lane A item that failed its gate at build, **or a Lane B item whos
 `Before` did not reproduce on the base tree**. **Three `fp` across the last five
 rounds and Lane A requires `Method: gate` — a probe no longer suffices — and Lane B
 requires the instrument commit to land before the fix, until three consecutive
-rounds at `fp=0`.** Two `not-better` verdicts on one finding from two different
+rounds at `fp=0`** - and for as long, every slice reads one level lower for this
+skill (the ladder, above). Two `not-better` verdicts on one finding from two different
 workers is a measurement: the finding is rejected with both, never dispatched a
 third time.
 
@@ -690,7 +815,8 @@ many as were built, and nothing in the per-round reports added them up. So:
 (Approvals → Backlog, the `dev_ideas` table, reached by §9.1's hand-off or the memory
 outbox) is where a HUMAN decides. During a run it
 holds Lane C and nothing else (at session end §9.1 adds the undrained Lane B,
-tagged as drainable): the escalations, the operator-only acts, and what
+tagged as drainable, and the round's `band: reserve`, tagged as such): the
+escalations, the operator-only acts, and what
 Lane B could not measure. A Lane A item is built. A Lane B item is built or thrown.
 A backlog full of approved-but-unbuilt items is a sweep that stopped one step early
 — measured 2026-08-28, 149 of 240 wave findings were auto-approvable, and measured
@@ -935,12 +1061,29 @@ Header first:
   not run a gate. **A degraded sweep reported as complete is worse than no
   sweep.**
 - `registry: <domain>/<subject>` — or `none` / `declared, unmapped`.
+- `memory: decisions <n> (context|project)` or `memory: digest only (<reason>)`,
+  and the `trust:` line (§2).
+
+Then **the per-lens table** `rank.mjs` printed (§4.4), one row per lens that
+produced a finding, MVP score descending:
+
+```
+| lens | ranked | reserve | MVP | MVP score | tokens |
+```
+
+`tokens` only when the harness shows a per-lens figure - otherwise the column is
+omitted, never estimated - and an unscored MVP reads `unscored`, never 0. Under
+it: `<r> ranked (cap <N>[, +<k> MVPs over it]), <s> reserve`, and the
+**skipped-lens list** - every lens of the package that could not run, with its
+reason. A skipped lens is never reported as zero findings, and a lens with no
+surface (§4.9) is listed apart from both.
 
 Then what SHIPPED, one line each (`fixed  <title> - <sha> - <re-measured
 After>`), then what was REJECTED (`rejected  <title> - <Before> vs <After>`),
 then the carried and backlogged findings — each in the standard form of §4.10
 (Summary / Description / Flow / Expected impact / Evaluation, evidence
-separate), plus **Scores** (size + effort / impact / risk) and, for every
+separate), plus **Scores** (size + effort / impact / risk, the computed `score`,
+`confidence`, the `predicted_verdict` with its precedent) and, for every
 backlogged card, **the escalation or the failed rung** that put it there.
 
 Close each round with: X built (of which carries), Y rejected, Z backlogged
@@ -975,12 +1118,17 @@ After line names the instrument the worker could not build.
 Each BACKLOGGED finding (Lane C only):
 
 ```json
-{"type":"finding","skill":"scan-sweep","lens":"<lens-key>","context":"<context>","title":"<title>","body":"## Summary\n...\n\n## Description\n...\n\n## Flow\n- ...\n\n## Expected impact\n...\n\n## Evaluation\nClaim: performance - ...\nBefore: ...\nAfter: ...\nMethod: probe - ...\nResult: better\nGate: none","evidence":"<code block or file:line list - the proof, not the prose>","size":"S|M|L","effort":3,"impact":7,"risk":2,"result":"better|not-better|unmeasurable","method":"gate|probe|experiment|simulation","gate":"none|contract|policy-tighten|policy-loosen|irreversible|architecture|direction","disposition":"backlog|carry"}
+{"type":"finding","skill":"scan-sweep","lens":"<lens-key>","context":"<context>","title":"<title>","body":"## Summary\n...\n\n## Description\n...\n\n## Flow\n- ...\n\n## Expected impact\n...\n\n## Evaluation\nClaim: performance - ...\nBefore: ...\nAfter: ...\nMethod: probe - ...\nResult: better\nGate: none","evidence":"<code block or file:line list - the proof, not the prose>","size":"S|M|L","effort":3,"impact":7,"impact_why":"<<=200 chars>","risk":2,"confidence":"low|medium|high","category":"technical|product","score":51.7,"score_parts":{"impact":7,"confidence_w":0.95,"effort_div":1.222,"risk_factor":0.95,"formula":"scan-score/1"},"band":"ranked|reserve","mvp":true,"mvp_rule":"top-score|override","mvp_why":"<only with override>","predicted_verdict":"accept|reject|defer","predicted_why":"<<=300 chars, the precedent quoted>","predicted_by":"scan-sweep@<version>:<model>","proof":{"metric":"...","method":"gate","unit":"...","before":"...","after":"...","verdict":"better|not-better|inconclusive","control":"red|absent","base_sha":"...","head_sha":"..."},"result":"better|not-better|unmeasurable","method":"gate|probe|experiment|simulation","gate":"none|contract|policy-tighten|policy-loosen|irreversible|architecture|direction","lane":"B|C","disposition":"backlog|carry","sweep_run_id":"<run id>","auto_decide":false}
 ```
 
 `body` is the §4.10 form verbatim — the five `## ` sections, newline-escaped in
 the JSON; `result`, `method` and `gate` repeat the Evaluation's verdict as
-fields so a consumer can route without parsing prose. A `backlog` finding is,
+fields so a consumer can route without parsing prose. The scan-finding/1 fields
+are §4.12's, as `rank.mjs` left them (`score`, `score_parts`, `band`, `mvp*`,
+and the ladder's `auto_decide`, are the script's, never typed); a key whose
+value is unknown is left out (`proof` only on a built item, `mvp_why` only on an
+override). The same keys, snake_case, are what the outbox and the hand-off both
+carry. A `backlog` finding is,
 by construction, one whose result or gate said "human" — say which, on the
 card. A `carry` finding is approved and owed to the next round on this
 context, and a consumer must not present it for a decision. A `not-better`
@@ -1004,10 +1152,10 @@ surface are not emitted as coverage. Plus one for the round:
 ```
 
 Keep the outbox lean — ingest caps at 200 lines / 512 KB and 30 finding lines per
-pass. At 12 findings per context that is between two and three rounds, so the
+pass. At 16 ranked findings per context, plus reserve, that is under two rounds, so the
 loop WILL meet this cap: check whether the file was drained between rounds (the
 app deletes it on ingest), keep going if it was, and if it was not, emit the
-round's findings highest-reward first, stop at the cap, and say in the report
+round's findings ranked band first and by `score` within it, stop at the cap, and say in the report
 which findings did not fit and that they are unrecorded. A finding silently
 dropped for want of a line is worse than one never found, because the ledger
 will claim the context was swept.
@@ -1041,8 +1189,9 @@ session reports done.
 **What is handed off.** Everything still open when the run stops: Lane C cards,
 Lane B items the run did not drain (tagged A/B-drainable, so the operator can
 bounce them to `--ab-only` instead of judging them), carries the run did not
-reach (as Lane B), and Lane B `unmeasurable`. Built items and `not-better`
-rejections never are. A Lane B item stays out of Approvals while the run can
+reach (as Lane B), Lane B `unmeasurable`, and every **`band: reserve`** finding
+(§4.4 - found, verified, scored, over the cap: filed, never dropped). Built items
+and `not-better` rejections never are. A Lane B item stays out of Approvals while the run can
 still drain it - the hand-off is for what the session leaves behind, not a
 shortcut past §5.
 
@@ -1052,15 +1201,24 @@ shortcut past §5.
    `"source":"<register id>"`, to `.claude/scan-sweep/handoff-<run id>.jsonl`.
    Cards from another shape (a challenge follow-up list, a moonshot README
    table, a `lanes.jsonl` row) are converted to it first; keep `title`, put the
-   rest in `body`, and leave a scale out rather than invent it - the script
-   defaults it and says so on the card.
+   rest in `body`, and leave a scale out rather than invent it - an absent scale
+   stays absent on the wire (the item files unscored), and only a missing
+   `effort` with a known `size` is derived (`sizeToEffort`). Every card carries
+   §4.12's fields as the round's `ranked.jsonl` holds them, including
+   `predicted_verdict` / `predicted_why` / `predicted_by` and the ladder's
+   `auto_decide`.
 2. `node ${CLAUDE_SKILL_DIR}/scripts/approvals.mjs --file <that file> --repo
-   <repo root> --out <file>.results.jsonl` (`--dry-run` first when the operator
-   is present and the batch is over 50; `--register` when the repo is not yet a
-   Personas project and the operator agreed to register it). It files each card
-   over the app's local HTTP door (`POST /dev-tools/ideas`, `origin: scan_sweep`,
-   lens-keyed so a card the outbox already filed is a dedup hit), with no 30-item
-   cap, and returns per card `created | deduped | rated | near_duplicate`.
+   <repo root> --run-id <run id> --out <file>.results.jsonl` (`--dry-run` first
+   when the operator is present and the batch is over 50; `--register` when the
+   repo is not yet a Personas project and the operator agreed to register it). It
+   files each card over the app's local HTTP door (`POST /dev-tools/ideas`,
+   `origin: scan_sweep`, lens-keyed so a card the outbox already filed is a dedup
+   hit), with no 30-item cap: every contract field top-level, impact / effort /
+   risk on their native 1-10 (the door normalizes them once), the `score`
+   computed by `score.mjs` when the card lacks one, `sweepRunId`, `proof`, and
+   `autoDecide`. It returns per card `created | deduped | rated |
+   near_duplicate`, plus `autoDecided` / `level` when the door answered them; a
+   card with a present-but-invalid field is `invalid` (not filed, exit 1).
    A dedup hit on a `rejected` row is a human "no" that already exists - it is
    reported, never re-filed with `force`.
 3. **Exit 0** (every card landed): delete the hand-off file and every source
@@ -1075,7 +1233,8 @@ shortcut past §5.
    retries it next run. **Exit 1**: delete only the sources whose cards all
    landed; the rest stay with their row open and the failures named.
 4. The closing report leads with the hand-off line: `Approvals: <n> filed
-   (<c> created, <d> deduped, <r> already rejected) - <k> owed`.
+   (<c> created, <d> deduped, <r> already rejected, <m> machine-decided at
+   L<level> - 24 h veto) - <k> owed`.
 
 The outbox (§9 above) keeps the progress, coverage and escalation lines; when
 Personas is running, findings go through the hand-off instead of competing for
@@ -1096,9 +1255,12 @@ inflates it permanently. `lens_no_surface` holds the rest and earns no credit.
 routing tally (`accepted/rejected/escalated`), `fp` the auto-accepted items
 demoted at build, `carried` the approved items left for the next round, `lanes` the routing
 tally and `ab` the wave's verdicts - the numbers §5's self-correction reads.
+`ranked` / `reserve` are §4.4's bands (the 40-lifetime cap sums `ranked` only),
+`lens_skipped` the lenses that could not run, and `run_id` the `sweepRunId` the
+round's cards were filed under.
 
 ```json
-{"at":"<ISO-8601>","scope":"<context>","mode":"resolve|ideas","strategy":"stabilize|develop|optimize","lens_keys":["<key>"],"lens_no_surface":["<key>"],"lenses":<n>,"findings":<n>,"fixed":<n>,"auto":"<a>/<r>/<e>","lanes":"A:<n>/B:<n>/C:<n>","ab":"<better>/<not-better>/<unmeasurable>/<fp>/<demoted>","fp":<n>,"carried":<n>,"escalations":<n>,"leads":<n>,"degraded":<bool>,"note":"<<=80 chars>"}
+{"at":"<ISO-8601>","scope":"<context>","mode":"resolve|ideas","strategy":"stabilize|develop|optimize","run_id":"<run id>","lens_keys":["<key>"],"lens_no_surface":["<key>"],"lens_skipped":["<key>"],"lenses":<n>,"findings":<n>,"ranked":<n>,"reserve":<n>,"fixed":<n>,"auto":"<a>/<r>/<e>","lanes":"A:<n>/B:<n>/C:<n>","ab":"<better>/<not-better>/<unmeasurable>/<fp>/<demoted>","fp":<n>,"carried":<n>,"escalations":<n>,"leads":<n>,"degraded":<bool>,"note":"<<=80 chars>"}
 ```
 
 **The row is committed, not left dirty.** Where `.claude/scan-history/` is
@@ -1123,7 +1285,10 @@ consuming repo. The skill runs on the defaults without it.
 | `openBacklogs` | `.claude/scan-history/open-backlogs.jsonl` | Register of findings files earlier passes left unworked; read first (§0), written by §9. |
 | `handoff` | `on` | §9.1: file the session's open items into Personas Approvals. `off` for a repo with no Personas on the machine; the register then carries them. |
 | `gates` | from `.claude/conventions.json` / manifest capabilities | Verification commands per surface. |
-| `depth` | 5 (loop), 10 (`--one`) | Findings per context per round. |
+| `depth` | 16 (loop), 24 (`--one`) | Ranked slots N per context per round (§4.4); the 40-per-context lifetime cap counts ranked findings only. Reserve is uncapped and is handed off. |
+| `autonomy.start.technical` | `2` | Ladder start level for `technical` slices (§5). May only lower the contract's L2; a lowered start is also a local ceiling on the door's levels. |
+| `autonomy.start.product` | `0` | Ladder start level for `product` slices. May only lower the contract's L0 (so it is effectively fixed). |
+| `autonomy.frozen` | none | Slice patterns (`<category>\|<lens>\|<risk_class>\|<size>`, `*` per part) pinned at L0 for this skill: no in-session build, no `auto_decide`. Passed to `rank.mjs --frozen`. |
 | `neverSweep` | none | Contexts the loop skips (generated, vendored). |
 | `challenge.cohort` | 6 | Contexts per `--challenge` run. |
 | `challenge.waveSize` | 4 | Concurrent builders per wave. |

@@ -2,11 +2,16 @@
 
 One section per lens. `Match` is the same keyword rule the Personas app uses
 to bundle lenses for a context — apply it to the context's attributes when no
-explicit `--lenses` list was passed.
+explicit `--lenses` list was passed. `Category` is the lens's default
+scan-finding/1 `category` (technical = the codebase's own quality, product = what
+users get); the reader overrides it on a finding that is the other kind - a
+ux-reviewer finding that is a crash on a flow is `technical`. `scripts/filing.mjs`
+reads it for a card that carries no category, so it is never guessed.
 
 ## code-optimizer — Code Optimizer ⚡
 
 Group: technical
+Category: technical
 Match: `/performance|render|bundle|query|slow|cache|optim/i` (against the context's name, description, keywords, tech stack, API surface, and file paths)
 
 Identifies performance bottlenecks and optimization opportunities
@@ -19,6 +24,7 @@ Anchor examples:
 ## security-auditor — Security Auditor 🔒
 
 Group: technical
+Category: technical
 Match: `/auth|login|token|secret|password|credential|session|encrypt|permission/i` (against the context's name, description, keywords, tech stack, API surface, and file paths)
 
 Identifies security vulnerabilities and best practice violations
@@ -31,6 +37,7 @@ Anchor examples:
 ## architecture-analyst — Architecture Analyst 🏗️
 
 Group: technical
+Category: technical
 Match: `/architect|module|component|layer|service|pattern|coupling|abstract/i` (against the context's name, description, keywords, tech stack, API surface, and file paths)
 
 Evaluates system architecture and suggests structural improvements
@@ -43,6 +50,7 @@ Anchor examples:
 ## test-strategist — Test Strategist 🧪
 
 Group: technical
+Category: technical
 Match: `/test|spec|coverage|mock|assert|e2e|integration|unit/i` (against the context's name, description, keywords, tech stack, API surface, and file paths)
 
 Identifies gaps in test coverage and suggests testing strategies
@@ -55,6 +63,7 @@ Anchor examples:
 ## dependency-auditor — Dependency Auditor 📦
 
 Group: technical
+Category: technical
 Match: `/package|dependency|import|library|version|npm|cargo/i` (against the context's name, description, keywords, tech stack, API surface, and file paths)
 
 Analyzes dependencies for updates, vulnerabilities, and bloat
@@ -67,6 +76,7 @@ Anchor examples:
 ## ux-reviewer — UX Reviewer 🎨
 
 Group: user
+Category: product
 Match: `/ui|ux|component|page|view|form|modal|button|layout|style/i` (against the context's name, description, keywords, tech stack, API surface, and file paths)
 
 Reviews user experience patterns and suggests improvements
@@ -79,6 +89,7 @@ Anchor examples:
 ## accessibility-checker — Accessibility Checker ♿
 
 Group: user
+Category: technical
 Match: `/a11y|accessibility|aria|wcag|screen.?reader|keyboard|contrast/i` (against the context's name, description, keywords, tech stack, API surface, and file paths)
 
 Identifies accessibility issues and WCAG compliance gaps
@@ -91,6 +102,7 @@ Anchor examples:
 ## mobile-specialist — Mobile Specialist 📱
 
 Group: user
+Category: technical
 Match: `/mobile|responsive|viewport|touch|swipe|tablet/i` (against the context's name, description, keywords, tech stack, API surface, and file paths)
 
 Evaluates mobile experience and responsive design
@@ -103,6 +115,7 @@ Anchor examples:
 ## error-handler — Error Handler 🚨
 
 Group: user
+Category: technical
 Match: `/error|exception|catch|boundary|fallback|retry|toast|alert/i` (against the context's name, description, keywords, tech stack, API surface, and file paths)
 
 Reviews error handling, recovery flows, and user messaging
@@ -115,6 +128,7 @@ Anchor examples:
 ## onboarding-designer — Onboarding Designer 🎯
 
 Group: user
+Category: product
 Match: `/onboard|wizard|setup|welcome|tutorial|getting.?started/i` (against the context's name, description, keywords, tech stack, API surface, and file paths)
 
 Evaluates first-time user experience and onboarding flows
@@ -127,6 +141,7 @@ Anchor examples:
 ## feature-scout — Feature Scout 🔭
 
 Group: business
+Category: product
 Match: `/feature|roadmap|missing|todo|placeholder|future/i` (against the context's name, description, keywords, tech stack, API surface, and file paths)
 
 Identifies missing features and enhancement opportunities
@@ -139,6 +154,7 @@ Anchor examples:
 ## monetization-advisor — Monetization Advisor 💰
 
 Group: business
+Category: product
 Match: `/billing|payment|subscription|plan|pricing|tier|premium/i` (against the context's name, description, keywords, tech stack, API surface, and file paths)
 
 Suggests revenue optimization and pricing strategies
@@ -151,6 +167,7 @@ Anchor examples:
 ## analytics-planner — Analytics Planner 📊
 
 Group: business
+Category: product
 Match: `/analytics|tracking|event|metric|telemetry|log/i` (against the context's name, description, keywords, tech stack, API surface, and file paths)
 
 Plans analytics instrumentation and data collection
@@ -163,6 +180,7 @@ Anchor examples:
 ## documentation-auditor — Documentation Auditor 📝
 
 Group: business
+Category: technical
 Match: `/doc|readme|comment|api.?doc|jsdoc|guide/i` (against the context's name, description, keywords, tech stack, API surface, and file paths)
 
 Reviews documentation completeness and quality
@@ -175,6 +193,7 @@ Anchor examples:
 ## growth-hacker — Growth Hacker 🚀
 
 Group: business
+Category: product
 Match: `/share|referral|invite|social|viral|notification/i` (against the context's name, description, keywords, tech stack, API surface, and file paths)
 
 Identifies growth opportunities and viral mechanics
@@ -187,6 +206,7 @@ Anchor examples:
 ## tech-debt-tracker — Tech Debt Tracker 🏦
 
 Group: mastermind
+Category: technical
 Match: `/debt|legacy|workaround|hack|deprecated|fixme|todo/i` (against the context's name, description, keywords, tech stack, API surface, and file paths)
 
 Catalogs technical debt and prioritizes repayment
@@ -199,6 +219,7 @@ Anchor examples:
 ## innovation-catalyst — Innovation Catalyst 💡
 
 Group: mastermind
+Category: product
 Match: `/ai|ml|machine.?learn|llm|agent|automat|innovat/i` (against the context's name, description, keywords, tech stack, API surface, and file paths)
 
 Suggests innovative approaches and paradigm shifts
@@ -211,6 +232,7 @@ Anchor examples:
 ## risk-assessor — Risk Assessor ⚠️
 
 Group: mastermind
+Category: technical
 Match: `/risk|single.?point|scale|failover|backup|disaster|recovery/i` (against the context's name, description, keywords, tech stack, API surface, and file paths)
 
 Identifies project risks and mitigation strategies
@@ -223,6 +245,7 @@ Anchor examples:
 ## integration-planner — Integration Planner 🔗
 
 Group: mastermind
+Category: product
 Match: `/api|webhook|integration|sync|external|third.?party|oauth/i` (against the context's name, description, keywords, tech stack, API surface, and file paths)
 
 Plans system integrations and API design
@@ -235,6 +258,7 @@ Anchor examples:
 ## devops-optimizer — DevOps Optimizer 🔧
 
 Group: mastermind
+Category: technical
 Match: `/ci|cd|deploy|docker|pipeline|build|monitor|infra/i` (against the context's name, description, keywords, tech stack, API surface, and file paths)
 
 Optimizes build, deploy, and operations workflows
@@ -247,6 +271,7 @@ Anchor examples:
 ## bounty-hunter — Bounty Hunter 🏴‍☠️
 
 Group: technical
+Category: technical
 Match: `/exploit|vulnerab|race.?condition|edge.?case|logic.?flaw|inconsisten|data.?leak|bounty/i` (against the context's name, description, keywords, tech stack, API surface, and file paths)
 
 Scans for exploitable bugs, logic flaws, and edge cases that qualify for bug bounty programs — pricing anomalies, data inconsistencies, rule violations, race conditions, and UI/logic mismatches
@@ -261,6 +286,7 @@ Anchor examples:
 ## business-strategist — Business Strategist 💼
 
 Group: business
+Category: product
 Match: `/business.?value|monetiz|conversion|retention|competitor|workflow.?friction|revenue|value.?prop/i` (against the context's name, description, keywords, tech stack, API surface, and file paths)
 
 Finds pure business-value opportunities: monetization, conversion, user retention, missing features competitors have, pricing/packaging surfaces, and workflow friction that costs users money or time. Thinks like a product manager, not an engineer — proposes WHAT to build for value, not refactors.
@@ -274,6 +300,7 @@ Anchor examples:
 ## visual-craft — Visual Craft 🖌️
 
 Group: user
+Category: product
 Match: `/ui|design|layout|component|style|token|theme|typography|spacing|css|tailwind|chrome|panel|card/i` (against the context's name, description, keywords, tech stack, API surface, and file paths)
 
 Judges how a surface LOOKS against the design system it belongs to — the half `ux-reviewer` does not own. Hierarchy that does not rank (two things at one weight when one is the point), spacing off the scale, an ad-hoc color/border/radius where a semantic token exists, sibling surfaces whose chrome disagrees, a control whose size or prominence misstates its consequence. The test is not "is this pretty" but "does this obey the system the rest of the product obeys, and does its emphasis match its importance" — both of which are checkable against the repo's own tokens and its neighbouring surfaces
@@ -286,6 +313,7 @@ Anchor examples:
 ## state-coverage — State Coverage 🕳️
 
 Group: user
+Category: technical
 Match: `/state|empty|loading|skeleton|fallback|offline|first.?run|quota|limit|degraded|error|retry/i` (against the context's name, description, keywords, tech stack, API surface, and file paths)
 
 Enumerates every state a surface can actually enter — empty, first-run, loading, partial, error, unauthorized, over-quota, degraded-dependency, stale — and finds the ones nobody designed. The characteristic failure is not a crash: it is a screen that renders as though nothing is wrong. For each data source ask the three questions separately: what shows when it returns ZERO rows, when it FAILS, and when it NEVER RETURNS — and treat any two of those rendering identically as the finding
@@ -298,6 +326,7 @@ Anchor examples:
 ## copy-auditor — Copy Auditor ✍️
 
 Group: user
+Category: product
 Match: `/copy|label|message|text|wording|microcopy|tooltip|placeholder|error|notice|empty/i` (against the context's name, description, keywords, tech stack, API surface, and file paths)
 
 Reads the words the product says to a person, as code that ships to a human. Three defects in descending cost: copy asserting a behaviour the code no longer has — a stale capability claim is worse than silence, because a reader trusts it and acts on it; a message that MISDIRECTS, naming a cause that is not this one or prescribing a remedy that cannot help (a transient write failure reported as "not found" tells the user to stop when they should retry); and terminology that drifts between two surfaces for one concept. Treat a wrong sentence with the seriousness of a wrong branch
@@ -310,6 +339,7 @@ Anchor examples:
 ## observability-auditor — Observability Auditor 🔭
 
 Group: technical
+Category: technical
 Match: `/log|audit|trace|metric|telemetry|monitor|debug|catch|swallow|silent|record/i` (against the context's name, description, keywords, tech stack, API surface, and file paths)
 
 Asks the operator's question: when this goes wrong unattended, what will exist afterwards to say so? Hunts swallowed errors (an empty catch on a path whose failure changes an outcome), privileged or irreversible acts with no audit row, a failure path that returns BEFORE the record its success path writes — so the outcome most needing evidence is the one that leaves none — and counters that only reconcile when everything worked. Distinct from `analytics-planner`, which measures the product: this asks whether a FAILURE leaves a trace
@@ -322,6 +352,7 @@ Anchor examples:
 ## parity-auditor — Parity Auditor ⚖️
 
 Group: technical
+Category: technical
 Match: `/valid|gate|guard|sync|mirror|client|server|dual|sibling|normal|both|pair/i` (against the context's name, description, keywords, tech stack, API surface, and file paths)
 
 Hunts ONE rule with TWO implementations where only one was fixed — the class that survives every other lens, because each site reads correct in isolation and only the pair is wrong. Client validation against server; a gate against the debit it guards; a normalizer applied on every read and not on the write; two verbs of one route enforcing different contracts; a doc's stated rule against the code. The method is inverted from the other lenses: do not grep for a defect shape, grep for the SHARED SYMBOL and diff its call sites. On a codebase already swept a few times this is the highest-yield lens in the package, and the signal to stop a given grep is the SECOND clean result, not the fifth
@@ -334,6 +365,7 @@ Anchor examples:
 ## registry-conformance — Registry Conformance 📚
 
 Group: technical
+Category: technical
 Match: `/registry|golden.?path|technique|convention|standard|doctrine|ai-registry/i` (against the context's name, description, keywords, tech stack, API surface, and file paths)
 
 Compares the code against the organization's AI-registry knowledge (golden paths, techniques, applications) that governs this context and turns each named deviation into a backlog item carrying the technique it violates and the prescribed fix. Only meaningful when the repo declares a registry; otherwise reports nothing
@@ -346,6 +378,7 @@ Anchor examples:
 ## architecture-challenger — Architecture Challenger 🧗
 
 Group: challenge
+Category: technical
 Match: none — runs only under `--challenge` (slot A), never in another strategy's package, and does not count toward the coverage denominator
 
 Names the ONE structural move that would stop this context being the reason something else is hard, and argues it from the tree. Not a smell list and not "reduce coupling": a specific seam with its cost counted — the rule implemented twice that should be one module, the synchronous path that should be a job, the hand-maintained list that should be derived from its ground truth, the state machine hiding in booleans, the store call leaking through three layers. The card is M or L, carries a declared write set and 3-8 behaviour cases a builder writes as failing tests first. A move whose benefit cannot be written as cases is not a card yet
@@ -358,6 +391,7 @@ Anchor examples:
 ## ux-elevation — UX Elevation 🪜
 
 Group: challenge
+Category: product
 Match: none — runs only under `--challenge` (slot B), never in another strategy's package, and does not count toward the coverage denominator
 
 The experience LEAP, not a polish: the flow that takes five steps and should take one, the decision a user makes blind although the app already holds the data, the surface that reports a state it should let you act on, the missing mode (compare, bulk, undo, preview, resume). Judged from the user's job, then grounded in the code that would carry it — the data is already there, or the card says where it comes from. The acceptance cases are the logic under the surface (the state it enters, the action it enables, the call it makes) plus one journey where the repo can drive a browser. Both themes, all locales and the repo's design system bind the build exactly as they bind any other UI change
