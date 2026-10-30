@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 // lens-scan store - the only writer of <repo>/.ai/lens-scan/scan.db, so the agent never writes SQL.
-// The DDL is ../references/store.sql (user_version 4); this script applies it to a fresh file, migrates
+// The DDL is ../references/store.sql (user_version 5); this script applies it to a fresh file, migrates
 // a v1, v2 or v3 file in place (one transaction per step, on any open, read-only ones included) and refuses a file it
 // does not know. Every subcommand prints JSON on stdout; errors go to stderr with exit 2 (bad input) or 1 (refused by
 // a store rule) - a refusal that names an existing row also prints {"refused", "existing"} on stdout. NULL columns
@@ -111,7 +111,7 @@ import { fileURLToPath } from 'node:url';
 const HERE = dirname(fileURLToPath(import.meta.url));
 export const DDL_PATH = resolve(HERE, '../references/store.sql');
 export const DEFAULT_DB = '.ai/lens-scan/scan.db';
-const SCHEMA_VERSION = 4;
+const SCHEMA_VERSION = 5;
 
 export const PHASES = ['measure', 'propose', 'execute', 'propagate'];
 export const RUN_END = ['done', 'failed', 'aborted'];
@@ -210,6 +210,7 @@ export function openStore(dbPath = DEFAULT_DB, { readOnly = false } = {}) {
   if (db.prepare('PRAGMA user_version').get().user_version === 1) migrateV1(db);
   if (db.prepare('PRAGMA user_version').get().user_version === 2) migrateV2(db);
   if (db.prepare('PRAGMA user_version').get().user_version === 3) migrateV3(db);
+  if (db.prepare('PRAGMA user_version').get().user_version === 4) migrateV4(db);
   assertVersion(db, dbPath);
   return db;
 }
@@ -279,6 +280,48 @@ function migrateV3(db) {
     }
     db.exec('COMMIT');
   } catch (e) { db.exec('ROLLBACK'); throw e; } finally { if (fk) db.exec('PRAGMA foreign_keys = ON'); }
+}
+/**
+ * v4 -> v5 in place (scan-finding/1): proposals gains the contract columns, all additive, so ALTER is enough; they
+ * land last, in the DDL's order, so a migrated and a fresh file have one shape. trust_events and the score index are
+ * CREATE IF NOT EXISTS. One IMMEDIATE transaction that re-reads the version: a second opener finds v5 and does
+ * nothing. Old rows take NULL (unscored, unpredicted) and the defaults band 'ranked', mvp 0.
+ */
+const V5_COLUMNS = [
+  ['impact', 'INTEGER CHECK (impact BETWEEN 1 AND 10)'],
+  ['impact_why', 'TEXT'],
+  ['confidence', "TEXT CHECK (confidence IN ('low', 'medium', 'high'))"],
+  ['effort', 'INTEGER CHECK (effort BETWEEN 1 AND 10)'],
+  ['score', 'REAL'],
+  ['score_parts', 'TEXT'],
+  ['band', "TEXT NOT NULL DEFAULT 'ranked' CHECK (band IN ('ranked', 'reserve'))"],
+  ['mvp', 'INTEGER NOT NULL DEFAULT 0 CHECK (mvp IN (0, 1))'],
+  ['mvp_rule', "TEXT CHECK (mvp_rule IN ('top-score', 'override'))"],
+  ['mvp_why', 'TEXT'],
+  ['category', "TEXT CHECK (category IN ('technical', 'product'))"],
+  ['predicted_verdict', "TEXT CHECK (predicted_verdict IN ('accept', 'reject', 'defer'))"],
+  ['predicted_why', 'TEXT'],
+  ['predicted_by', 'TEXT'],
+  ['predicted_at', 'TEXT'],
+  ['veto_until', 'TEXT'],
+  ['proof', 'TEXT'],
+];
+function migrateV4(db) {
+  db.exec('BEGIN IMMEDIATE');
+  try {
+    if (db.prepare('PRAGMA user_version').get().user_version === 4) {
+      const have = new Set(db.prepare('PRAGMA table_info(proposals)').all().map((c) => c.name));
+      for (const [name, decl] of V5_COLUMNS) if (!have.has(name)) db.exec(`ALTER TABLE proposals ADD COLUMN ${name} ${decl}`);
+      db.exec(`CREATE INDEX IF NOT EXISTS proposals_score ON proposals (lens, band, score);
+        CREATE TABLE IF NOT EXISTS trust_events (
+          id INTEGER PRIMARY KEY AUTOINCREMENT, at TEXT NOT NULL, slice TEXT NOT NULL,
+          from_level INTEGER NOT NULL CHECK (from_level BETWEEN 0 AND 3), to_level INTEGER NOT NULL CHECK (to_level BETWEEN 0 AND 3),
+          reason TEXT NOT NULL, agreement REAL, n INTEGER, item_id TEXT REFERENCES proposals(id));
+        CREATE INDEX IF NOT EXISTS trust_events_slice ON trust_events (slice, id);
+        PRAGMA user_version = 5;`);
+    }
+    db.exec('COMMIT');
+  } catch (e) { db.exec('ROLLBACK'); throw e; }
 }
 function sleepSync(ms) { Atomics.wait(new Int32Array(new SharedArrayBuffer(4)), 0, 0, ms); }
 function assertVersion(db, dbPath) {
