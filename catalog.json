@@ -477,16 +477,16 @@
     },
     {
       "name": "lens-scan",
-      "version": "1.11.0",
+      "version": "1.12.0",
       "category": "workflow",
       "path": "skills/lens-scan/SKILL.md",
-      "contentHash": "sha256-n1:0f61406edf285a39",
+      "contentHash": "sha256-n1:89e11fa5fc8b67e1",
       "adopters": [],
       "invokes30d": 0,
       "reportedInvokes": 0,
-      "lessons": 19,
+      "lessons": 20,
       "lessonsPath": "skills/lens-scan/LESSONS.md",
-      "lessonsHash": "sha256-n1:5f2a06c5bee1ffcc",
+      "lessonsHash": "sha256-n1:c60245993f6bd3c8",
       "usageContributors": [],
       "runs30d": 0,
       "outcomes30d": {},
@@ -760,10 +760,10 @@
     },
     {
       "name": "scan-sweep",
-      "version": "4.9.0",
+      "version": "4.10.0",
       "category": "workflow",
       "path": "skills/scan-sweep/SKILL.md",
-      "contentHash": "sha256-n1:f9f0f44c3c9eae2a",
+      "contentHash": "sha256-n1:76f3ec316f2c4e40",
       "adopters": [
         "ascent@plugin:1.0.0",
         "kp@plugin:1.0.0",
@@ -772,9 +772,9 @@
       ],
       "invokes30d": 15,
       "reportedInvokes": 15,
-      "lessons": 66,
+      "lessons": 67,
       "lessonsPath": "skills/scan-sweep/LESSONS.md",
-      "lessonsHash": "sha256-n1:70f74615192ddd9a",
+      "lessonsHash": "sha256-n1:69be10fd34e50077",
       "usageContributors": [
         "wolf"
       ],
@@ -1140,7 +1140,7 @@
     "skills": 44,
     "practices": 8,
     "memory": 10,
-    "lessons": 369
+    "lessons": 371
   },
   "bundles": [
     {
