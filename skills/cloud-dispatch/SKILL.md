@@ -3,7 +3,7 @@ name: cloud-dispatch
 description: "Spend the Claude Code cloud-session credit as a parallel engine beside local agents. Ships a self-contained brief to a `claude --cloud` session that clones the GitHub origin, works on branch claude/cloud-<id> and returns one pull request with a RESULT.md for local review. Two ways in: explicit dispatch (a plan by default, --go to launch) and overflow - fan-out skills queue cloud_ok briefs before dispatching local workers, and a StopFailure hook ships the still-queued ones when the seat hits its rate limit (capped 6 a day). A second engine, --engine key, spends a lane's time-limited API key on local headless claude -p workers under the same landing contract, with per-lane budget, expiry and concurrency refusals (--lanes). Ships four ai-registry workload briefs: upstream delta re-scan, lead corroboration, deepen research, subject review. Not for a repo ahead of origin or work that needs local GPU, vault, sibling checkouts or fleet application. Invoke with /cloud-dispatch <brief.md> --repo <path> [--engine key --lane <l>] [--go], /cloud-dispatch status, /cloud-dispatch lanes, or /cloud-dispatch queue --add|--done|--list."
 category: workflow
 memory: none
-version: 1.2.0
+version: 1.2.1
 tags: cloud, dispatch, overflow, parallel, credits
 argument-hint: "<brief.md> --repo <path> [--engine key --lane <l>] [--go] | status | lanes | queue ..."
 ---
