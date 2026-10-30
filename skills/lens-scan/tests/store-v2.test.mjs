@@ -13,6 +13,7 @@ import {
   openStore, runStart, measure, propose, proposals, proposalUpdate, shot, latest, decide,
   triage, reworkAttempt, packCreate, packUpdate, packs, releaseCreate, releaseAdd, releaseUpdate, releases, releaseGet, releaseItems, compare,
 } from '../scripts/store.mjs';
+import { V1_DDL } from './legacy-ddl.mjs';
 
 // Every temp dir this file makes is removed when its tests are done: on 2026-10-15 these
 // suites had left hundreds in the OS temp dir (hygiene disk lane, temp-leak rows).
@@ -24,96 +25,7 @@ const SCRIPT = fileURLToPath(new URL('../scripts/store.mjs', import.meta.url));
 const tmpDb = () => join(mkdtempTracked(join(tmpdir(), 'lens-scan-v2-')), 'nested', 'scan.db');
 const cli = (db, ...args) => JSON.parse(execFileSync(process.execPath, [SCRIPT, '--db', db, ...args], { encoding: 'utf8', stdio: ['ignore', 'pipe', 'ignore'] }));
 
-// The v1 DDL as it shipped (comments stripped), kept here so the migration is tested against the real v1 shape.
-const V1_DDL = `
-PRAGMA journal_mode = WAL;
-PRAGMA user_version = 1;
-
-CREATE TABLE IF NOT EXISTS runs (
-  id            TEXT PRIMARY KEY,
-  started_at    TEXT NOT NULL,
-  updated_at    TEXT NOT NULL,
-  ended_at      TEXT,
-  phase         TEXT NOT NULL CHECK (phase IN ('measure', 'propose', 'execute', 'propagate')),
-  status        TEXT NOT NULL CHECK (status IN ('running', 'done', 'failed', 'aborted')),
-  lenses        TEXT NOT NULL,
-  scope         TEXT,
-  skill_version TEXT,
-  model         TEXT,
-  note          TEXT
-);
-
-CREATE TABLE IF NOT EXISTS measurements (
-  id          INTEGER PRIMARY KEY,
-  run_id      TEXT NOT NULL REFERENCES runs(id),
-  feature     TEXT NOT NULL,
-  lens        TEXT NOT NULL,
-  metric      TEXT NOT NULL,
-  value       REAL NOT NULL,
-  unit        TEXT,
-  method      TEXT CHECK (method IN ('static', 'probe', 'harness', 'judgement')),
-  evidence    TEXT,
-  measured_at TEXT NOT NULL
-);
-CREATE INDEX IF NOT EXISTS measurements_key ON measurements (feature, lens, metric, measured_at);
-
-CREATE TABLE IF NOT EXISTS proposals (
-  id             TEXT PRIMARY KEY,
-  run_id         TEXT NOT NULL REFERENCES runs(id),
-  feature        TEXT NOT NULL,
-  lens           TEXT NOT NULL,
-  metric         TEXT,
-  title          TEXT NOT NULL,
-  body           TEXT,
-  standard       TEXT NOT NULL DEFAULT 'none',
-  expected_delta REAL,
-  size           TEXT CHECK (size IN ('XS', 'S', 'M', 'L', 'XL')),
-  risk           INTEGER CHECK (risk BETWEEN 1 AND 10),
-  kind           TEXT NOT NULL CHECK (kind IN ('fix', 'baseline-upgrade', 'propagation')),
-  parent_id      TEXT REFERENCES proposals(id),
-  status         TEXT NOT NULL CHECK (status IN ('proposed', 'approved', 'declined', 'executing', 'done', 'failed')),
-  decided_by     TEXT,
-  decided_at     TEXT,
-  decision_note  TEXT,
-  after_value    REAL,
-  result_sha     TEXT,
-  created_at     TEXT NOT NULL,
-  updated_at     TEXT NOT NULL
-);
-CREATE INDEX IF NOT EXISTS proposals_updated ON proposals (updated_at);
-
-CREATE TABLE IF NOT EXISTS activity (
-  id      INTEGER PRIMARY KEY,
-  run_id  TEXT NOT NULL REFERENCES runs(id),
-  at      TEXT NOT NULL,
-  feature TEXT,
-  lens    TEXT,
-  kind    TEXT NOT NULL CHECK (kind IN ('reading', 'measured', 'proposed', 'executing', 'committed', 'note', 'error')),
-  text    TEXT NOT NULL
-);
-
-CREATE TABLE IF NOT EXISTS shots (
-  id             INTEGER PRIMARY KEY,
-  run_id         TEXT NOT NULL REFERENCES runs(id),
-  feature        TEXT NOT NULL,
-  path           TEXT NOT NULL,
-  size           TEXT,
-  theme          TEXT,
-  harness_module TEXT,
-  captured_at    TEXT NOT NULL,
-  report         TEXT
-);
-
-CREATE TABLE IF NOT EXISTS coverage (
-  feature   TEXT NOT NULL,
-  standard  TEXT NOT NULL,
-  state     TEXT NOT NULL CHECK (state IN ('conformant', 'deviation', 'not-applicable', 'unknown')),
-  evidence  TEXT,
-  judged_at TEXT NOT NULL,
-  run_id    TEXT REFERENCES runs(id),
-  PRIMARY KEY (feature, standard)
-);
-`;
+// The v1 DDL as it shipped lives in legacy-ddl.mjs (V1_DDL): the migration is tested against the real v1 shape.
 
 /** A store with one running execute run and `n` approved proposals of lens design. */
 function seed(n = 3) {
@@ -154,11 +66,11 @@ test('migration: a v1 file becomes v2 in place, rows kept, new statuses and colu
 
   // a read-only open migrates first, so a reader never meets v1
   const ro = openStore(path, { readOnly: true });
-  assert.equal(ro.prepare('PRAGMA user_version').get().user_version, 4, 'v1 goes straight to the current version');
+  assert.equal(ro.prepare('PRAGMA user_version').get().user_version, 5, 'v1 goes straight to the current version');
   ro.close();
 
   const db = openStore(path);
-  assert.equal(db.prepare('PRAGMA user_version').get().user_version, 4);
+  assert.equal(db.prepare('PRAGMA user_version').get().user_version, 5);
   const rows = proposals(db);
   assert.deepEqual(rows.map((p) => [p.id, p.status]), [['p-aaaaaa', 'done'], ['p-bbbbbb', 'proposed']]);
   assert.equal(rows[0].decided_by, 'blueprint');
@@ -170,11 +82,11 @@ test('migration: a v1 file becomes v2 in place, rows kept, new statuses and colu
   const cols = (t) => db.prepare(`PRAGMA table_info(${t})`).all().map((c) => c.name);
   assert.ok(['proposal_id', 'phase', 'commit_sha'].every((c) => cols('measurements').includes(c)));
   assert.ok(['proposal_id', 'phase'].every((c) => cols('shots').includes(c)));
-  assert.equal(cols('proposals').length, 36, 'proposals carries the 21 v1 + 7 v2 + 1 v3 + 7 v4 columns');
+  assert.equal(cols('proposals').length, 53, 'proposals carries the 21 v1 + 7 v2 + 1 v3 + 7 v4 + 17 v5 columns');
   const tables = db.prepare("SELECT name FROM sqlite_master WHERE type = 'table' ORDER BY name").all().map((r) => r.name);
-  assert.deepEqual(tables, ['activity', 'coverage', 'measurements', 'packs', 'proposals', 'releases', 'runs', 'shots'], 'no proposals_v1 left behind');
+  assert.deepEqual(tables.filter((t) => t !== 'sqlite_sequence'), ['activity', 'coverage', 'measurements', 'packs', 'proposals', 'releases', 'runs', 'shots', 'trust_events'], 'no proposals_v1 left behind');
   const idx = db.prepare("SELECT name FROM sqlite_master WHERE type = 'index' AND tbl_name = 'proposals' AND name NOT LIKE 'sqlite_%' ORDER BY name").all().map((r) => r.name);
-  assert.deepEqual(idx, ['proposals_external_ref', 'proposals_pack', 'proposals_release', 'proposals_tier', 'proposals_updated']);
+  assert.deepEqual(idx, ['proposals_external_ref', 'proposals_pack', 'proposals_release', 'proposals_score', 'proposals_tier', 'proposals_updated']);
   assert.deepEqual(triage(db, { ids: 'p-aaaaaa', decision: 'accept', by: 'operator:jane' }).triaged, ['p-aaaaaa'], 'the widened CHECK takes accepted');
   assert.ok(db.prepare('PRAGMA foreign_keys').get().foreign_keys, 'foreign keys are back on');
   db.close();
@@ -183,7 +95,7 @@ test('migration: a v1 file becomes v2 in place, rows kept, new statuses and colu
   assert.equal(proposals(again).length, 2, 'a v2 file opened again is untouched');
   assert.equal(status(again, 'p-aaaaaa'), 'accepted');
   again.close();
-  assert.equal(cli(path, 'init').user_version, 4);
+  assert.equal(cli(path, 'init').user_version, 5);
 });
 
 test('a fresh v2 file and a migrated v1 file have the same schema', () => {

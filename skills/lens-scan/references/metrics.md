@@ -130,6 +130,39 @@ unmeasured, no row. A house line (`house:<subject>/<line-id>`) and a registry te
 (`<subject>/<technique>`) count the same; when a house line overrides a technique,
 only the house line is judged.
 
+## Proof and control (scan-finding/1)
+
+An executed item's before/after readings become its `proof` (`store.mjs proof`, SKILL.md
+5. Execute step 7): `{metric, method, unit, before, after, verdict, control, base_sha,
+head_sha}` plus `control_value` for a red control. The rules this catalog adds:
+
+- **Same method, same instrument.** `before` at the base sha and `after` at the item's
+  commit are read by the method this table names for the metric; the store refuses a proof
+  whose numbers are not the item's recorded `before`/`after` rows.
+- **`verdict`** follows the metric's Better column: `better` moved that way (any amount for
+  a count; outside the probe's spread for a probe), `not-better` did not, `inconclusive`
+  when the method cannot tell (a p95 inside its own noise, a judgement re-read that
+  disagrees with itself).
+- **The red control** answers "would this instrument have noticed the defect?". It exists
+  per method:
+
+| Method | Red control | Without it |
+| --- | --- | --- |
+| `static` | the same script, in a scratch worktree at the item's commit with the item's diff reverse-applied (the defect re-seeded) or on a known-bad fixture; it must read on the before side of the after | `control: absent` |
+| `harness` | the same harness entry against the re-seeded worktree (or a fixture page with the defect); same rule | `control: absent` |
+| `probe` | none: a probe's samples have no trustworthy re-seeded twin, and noise can fake one | always `absent` |
+| `judgement` | none: a reader's count is not an instrument | always `absent` |
+
+  A `control: absent` item can be accepted only by a person: the store's L2 machine accept
+  takes `better` + `red` alone, so probe and judgement items cap at L1.
+- **Re-measure.** A later reading of an accepted or released item that is `not-better` is
+  written as a new proof; the store demotes the item's autonomy slice.
+
+**Confidence from a measurement.** A finding whose harm is a stored measurement of a
+metric here (counted by its rule, in this tree) meets the contract's `confidence: high`
+evidence bar; a judged count re-read but not reproduced is `medium`; a pattern seen but not
+counted is `low` (triage.md, Impact and tier).
+
 ## Targets
 
 A target belongs to the lens manifest (`metric.target`, `metric.warn_at`) or to the

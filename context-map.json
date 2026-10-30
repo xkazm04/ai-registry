@@ -472,6 +472,7 @@
         "skills/lens-scan/tests/steps.test.mjs",
         "skills/lens-scan/tests/store-v2.test.mjs",
         "skills/lens-scan/tests/store-v4.test.mjs",
+        "skills/lens-scan/tests/store-v5.test.mjs",
         "skills/lens-scan/tests/store.test.mjs",
         "skills/lens-scan/tests/structure.test.mjs",
         "skills/native-copy/scripts/copy-check.mjs",

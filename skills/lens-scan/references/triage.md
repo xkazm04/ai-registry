@@ -6,7 +6,8 @@ problem is before anything is built. Any agent that ranks an item (the propose p
 importer, a triage pass through `store.mjs rank`) uses this rubric, so two agents put the
 same item in the same tier.
 
-Two fields, both on `proposals` (store v4):
+Two fields, both on `proposals` (store v4; v5's `impact`, `confidence` and `score` sit
+beside them - [Impact and tier](#impact-and-tier)):
 
 - `tier` - how soon the problem must be gone: `0` stop-ship, `1` before production,
   `2` soon after, `3` backlog. NULL means untriaged; an untriaged item sorts after tier 3.
@@ -95,8 +96,42 @@ Inside one tier, order by:
    tenant before one tenant, the payment path before the admin report);
 3. **effort** - the smaller `size` first, so a cheap fix of equal reach lands sooner.
 
-`store.mjs proposals` orders by tier (untriaged last) then age; the blast radius and the
-effort are the ranker's judgement, written in the body's Expected impact.
+`store.mjs proposals` orders by tier (untriaged last), then ranked before reserve, then
+the stored `score` (unscored last), then age. Inside a tier the score carries the blast
+radius (as `impact`) and the effort (as `effort`), so the tie-break above is what the
+numbers say; the body's Expected impact still says it in words.
+
+## Impact and tier
+
+Store v5 adds the scan-finding/1 fields ([SKILL.md ## Finding contract](../SKILL.md#finding-contract)).
+They answer different questions, and neither is derived from the other:
+
+| Field | Question | Scale | Who orders by it |
+|---|---|---|---|
+| `tier` | how soon must it be gone (stop-ship .. backlog) | 0-3, class of urgency | `proposals` first, always |
+| `risk_class` | what kind of harm | 9 words | the ladder's ceilings (secret/authz/money cap at L1) |
+| `impact` | how bad if left / how much value if done | 1-10 | `score`, inside a tier |
+| `risk` | how likely the change breaks something | 1-10 | `score`'s risk factor |
+
+- **`impact` 9-10**: data loss, a breach, money moved wrongly, an outage on a main path -
+  the harms of tier 0. **7-8**: a broken flow for many users, a tier-1 gap on a real path.
+  **4-6**: a degraded experience or a cost that compounds (most tier-2). **1-3**: polish,
+  naming, debt (tier 3). A tier-0 item with impact 3 is a contradiction: one of the two is
+  wrong; fix it before proposing.
+- **`impact_why`**: one line naming who or what is hurt and how much (`every tenant's
+  invoices readable by any user`), never a restated title.
+- **`confidence`** is about the evidence, not the item: `high` only when the quoted
+  `file:line` was re-read in the current tree **and** the harm was reproduced or measured
+  (a stored measurement of the metric counts); `medium` when the evidence was re-read but
+  not reproduced; `low` for an inference (a pattern seen elsewhere, a likely path).
+  A tier-0 item at `low` confidence is tier 1 until shown (the evidence rule above).
+- **`effort`**: from the `size` (XS=1 S=2 M=4 L=7 XL=10) unless you know better; the store
+  defaults it. **`score`** is the store's, never yours: `propose` refuses one.
+- **`category`**: `technical` (the code's own quality - every tier example above is one) or
+  `product` (what users get: features, UX direction, copy, pricing). It decides the
+  autonomy start level, so an honest `product` keeps the machine out of a person's call.
+- An imported `work-item` carries no score unless the importer knows impact and effort; an
+  unscored item sorts after every scored one in its tier and shows "unscored", never 0.
 
 ## Writing it
 

@@ -1,15 +1,17 @@
 #!/usr/bin/env node
 // lens-scan store - the only writer of <repo>/.ai/lens-scan/scan.db, so the agent never writes SQL.
 // The DDL is ../references/store.sql (user_version 5); this script applies it to a fresh file, migrates
-// a v1, v2 or v3 file in place (one transaction per step, on any open, read-only ones included) and refuses a file it
-// does not know. Every subcommand prints JSON on stdout; errors go to stderr with exit 2 (bad input) or 1 (refused by
+// a v1, v2, v3 or v4 file in place (one transaction per step, on any open, read-only ones included) and refuses a file
+// it does not know. Every subcommand prints JSON on stdout; errors go to stderr with exit 2 (bad input) or 1 (refused by
 // a store rule) - a refusal that names an existing row also prints {"refused", "existing"} on stdout. NULL columns
-// are never printed. The read subcommands (proposals, latest, gaps, packs, releases, release, release-items, compare)
-// never create the store: with no file they answer as an empty one would.
+// are never printed. The read subcommands (proposals, latest, gaps, packs, releases, release, release-items, compare,
+// precedent, run-report, mvp) never create the store: with no file they answer as an empty one would; so does trust.
 //
 //   node store.mjs [--db <path>] <subcommand> [flags]        (--db default .ai/lens-scan/scan.db)
 //   init
-//   run-start --phase measure|propose|execute|propagate --lenses a,b [--scope <json> | --features a,b,c]
+//   run-start --phase measure|propose|execute|propagate --lenses a,b|all [--scope <json> | --features a,b,c]
+//             (v5) --lenses all: every enabled lens of the structure lens-scan can measure; the run records the full
+//             list, and the answer adds {lenses, skipped?: [{id, why}]}
 //             [--structure <app-structure.json>] [--model m] [--note t]
 //             --features is the scope {"features":[...]}; a scope naming features (either way) is checked
 //             against the structure (default: app-structure.json beside the db) and an unknown slug is
@@ -30,9 +32,19 @@
 //             --external-ref. A duplicate --external-ref is refused (exit 1) with {"refused", "existing": <id>} on
 //             stdout, so an importer updates the existing item instead. `risk` is the risk of the CHANGE; how bad
 //             the PROBLEM is goes in --tier (0 stop-ship .. 3 backlog) and --risk-class (references/triage.md).
-//   proposals [--status s] [--feature f] [--kind k] [--pack k] [--release rel] [--origin o] [--tier n | --untriaged]
-//             [--ids a,b]
-//             ordered by tier (untriaged last), then created_at, id (--ids: those ids only, in that order)
+//           (v5, scan-finding/1) [--impact 1-10] [--impact-why t] [--confidence low|medium|high] [--effort 1-10]
+//           [--category technical|product] [--band ranked|reserve] [--mvp true --mvp-rule top-score|override --mvp-why t]
+//           [--predicted-verdict accept|reject|defer --predicted-why t [--predicted-by <skill>@<version>:<model>]
+//           [--predicted-at <iso>]]
+//             effort defaults from --size (XS=1 S=2 M=4 L=7 XL=10); the store computes score and score_parts
+//             (scan-score/1) and refuses a --score or --score-parts. A prediction's --predicted-by defaults to
+//             lens-scan@<version>:<the run's model>, and its --predicted-why must name by id one of the decided items
+//             `precedent` returns for the feature and lens when there are any. One --mvp per lens per run.
+//             -> {id, score?}
+//   proposals [--status s] [--feature f] [--lens l] [--run r] [--band b] [--kind k] [--pack k] [--release rel]
+//             [--origin o] [--tier n | --untriaged] [--ids a,b]
+//             ordered by tier (untriaged last), ranked before reserve, score (unscored last, high first), then
+//             created_at, id (--ids: those ids only, in that order). score_parts and proof print as objects.
 //   rank --id <id> --tier 0-3 --risk-class secret|authz|money|data|llm|perf|reliability|ux|debt [--by <kind:name>] [--note t]
 //             (v4) an item's severity, at any status: sets tier, risk_class, ranked_by, ranked_at (--note goes to
 //             triage_note). -> {id, tier, risk_class}
@@ -55,7 +67,40 @@
 //   decide --ids a,b --decision approve|decline --by <kind:name> [--note t]
 //             a caller's decision on `proposed` items, recorded as decided_by <kind:name> (`operator:jane`,
 //             `agent:personas`): the door a headless caller uses where no review UI runs. The skill itself
-//             never calls it; drive.mjs calls it only on its caller's --approve-proposed.
+//             never calls it; drive.mjs calls it only on its caller's --approve-proposed. A `--by machine:*` is refused:
+//             only the --machine doors below write a machine decision.
+//
+// scan-finding/1 (v5): ranking, memory and the autonomy ladder - the gate lives here, never in the prompt.
+//   allocate --run <id> [--cap n] [--tokens <json {lens: n}>]
+//             the contract's slot allocation over the run's findings: each lens's MVP (an override stands, else its
+//             top score) ranked, the rest of the cap by score across lenses, everything else band reserve (filed,
+//             not discarded). -> the run report
+//   run-report --run <id> [--tokens <json>]   per lens: ranked, reserve, mvp {id, title, score?}, tokens?; skipped
+//             lenses (an `error` activity `lens skipped: <why>` with --lens) as skipped, never zero findings. Reads only.
+//   mvp [--run <id>] [--lens <id>]            -> {mvps: [{lens, proposal_id, title, score?, mvp_rule, mvp_why?}]}: each
+//             lens's MVP in that run, else in its latest run that named one. Reads only.
+//   precedent --feature f --lens l [--standard s] [--title t] [--limit n]
+//             the decided items propose quotes before it predicts: {feature, lens, basis, rows: [{id, title, feature,
+//             lens, verdict, status, at, by?, note?, triage_note?, triaged_by?, standard?, predicted_verdict?, match}],
+//             approved, declined, advice: {say: withdraw|ask|proceed, why}} - bp's brief.ts shape. Reads only.
+//   trust [--slice <category|lens|risk_class|size>] [--start technical=n,product=m]
+//             -> {slices: [{slice, level, ceiling, start, agreement?, n, changedAt?, reason?}], events: [{slice, from, to,
+//             reason, agreement?, n?, itemId?, at}]}. Levels come from the store's history: start technical L2,
+//             product L0 (--start, the overlay's trust_start, can only lower); up one at >= 90 % agreement over the
+//             last 20 human-decided items; down one on a person's reversal of a machine decision (bp's veto included)
+//             or a landed proof re-measured not-better; ceiling L1 for secret|authz|money and product, L2 otherwise
+//             (a release stays human). Every transition is appended to trust_events. Writes those, never a store.
+//   decide --machine --ids a,b [--start ...]  L1: each `proposed` item's predicted verdict becomes its decision,
+//             decided_by machine:lens-scan, veto_until now + 24 h - refused per item below L1, unpredicted, defer,
+//             or vetoed before. -> {decision: machine, by, decided: [{id, status, level, veto_until}], skipped}
+//   veto --id <id> --by <kind:name> --reason t
+//             a person takes back a machine decision inside its veto window: status proposed, decision_note
+//             `veto: <reason>` (the write bp makes too); the slice is demoted
+//   proof --id <id> --json <file>             a built item's proof {metric, method, unit?, before, after, verdict,
+//             control, base_sha, head_sha, control_value?}, checked against its recorded before/after readings; a red
+//             control only for static|harness, with the re-seeded reading on the before side of the after
+//   triage --machine --ids a,b [--start ...]  L2: a `done` technical item in an L2 slice whose proof is better with a
+//             red control is accepted by machine:lens-scan (veto 24 h); anything else waits for a person
 //
 // The release train (v2): execute builds approved items into a pack, a person triages them, a release ships.
 //   pack-create --lens <id> --short <DES> --base-ref <r> --base-sha <s> [--run r]
@@ -107,11 +152,14 @@ import { readFileSync, mkdirSync, existsSync, realpathSync } from 'node:fs';
 import { dirname, isAbsolute, join, normalize, resolve } from 'node:path';
 import { randomBytes } from 'node:crypto';
 import { fileURLToPath } from 'node:url';
+// scan-score/1 lives with scan-sweep, the contract's first producer; imported, never copied (SKILL.md ## Finding contract)
+import { scanScore, sizeToEffort } from '../../scan-sweep/scripts/score.mjs';
+import { lensMethod } from './structure.mjs';
 
 const HERE = dirname(fileURLToPath(import.meta.url));
 export const DDL_PATH = resolve(HERE, '../references/store.sql');
 export const DEFAULT_DB = '.ai/lens-scan/scan.db';
-const SCHEMA_VERSION = 5;
+export const SCHEMA_VERSION = 5;
 
 export const PHASES = ['measure', 'propose', 'execute', 'propagate'];
 export const RUN_END = ['done', 'failed', 'aborted'];
@@ -141,6 +189,30 @@ const PACK_MOVE = { triaged: ['open'], open: ['triaged'], closed: ['open', 'tria
 const RELEASE_MOVE = { building: ['draft', 'failed'], 'pr-open': ['building'], merged: ['pr-open'], tagged: ['merged'], failed: ['draft', 'building', 'pr-open', 'merged'] };
 // statuses only a person's triage or a release writes; proposal-update never does
 const NOT_SKILL = ['accepted', 'rework', 'descoped', 'released'];
+// v5, scan-finding/1 (SKILL.md ## Finding contract): the vocabularies the contract fixes
+export const CATEGORIES = ['technical', 'product'];
+export const CONFIDENCES = ['low', 'medium', 'high'];
+export const VERDICTS = ['accept', 'reject', 'defer'];
+export const BANDS = ['ranked', 'reserve'];
+export const MVP_RULES = ['top-score', 'override'];
+export const PROOF_VERDICTS = ['better', 'not-better', 'inconclusive'];
+export const CONTROLS = ['red', 'absent'];
+/** Who a machine decision is recorded as. Only `decide --machine` and `triage --machine` write it. */
+export const MACHINE = 'machine:lens-scan';
+export const VETO_MS = 24 * 60 * 60 * 1000;
+/** A run's ranked slots when the caller names no cap (overlay key `propose_cap`). */
+export const DEFAULT_CAP = 10;
+// The autonomy ladder (the contract's numbers): start by category, a window of the last 20 human-decided items,
+// promote at >= 90 % agreement, ceilings. lens-scan's own ceiling is L2: a release (a PR to main) stays a person's.
+// product slices stop at L1 here, because execute --auto builds technical items only.
+export const TRUST_START = { technical: 2, product: 0 };
+export const TRUST_WINDOW = 20;
+export const TRUST_PROMOTE = 0.9;
+export const TRUST_CEILING = 2;
+const CEILING_ONE = ['secret', 'authz', 'money'];
+// A measurement method a red control exists for: the instrument can be run where the defect is re-seeded (or on a
+// known-bad fixture) and must read worse. probe (noise) and judgement (a reader) have none, so they cap at L1.
+export const CONTROLLABLE = ['static', 'harness'];
 // The skill may move an approved item through execution; it may never decide one.
 const SKILL_STATUS = { executing: ['approved'], done: ['executing', 'approved'], failed: ['executing', 'approved'] };
 // A metric key is a lens field key (lens-manifest/1 fieldKey: camelCase).
@@ -216,7 +288,7 @@ export function openStore(dbPath = DEFAULT_DB, { readOnly = false } = {}) {
 }
 
 /**
- * v1 -> v4 (the current version) in place, in one IMMEDIATE transaction that re-reads the version (a second opener finds v3 and does
+ * v1 -> the current version in place, in one IMMEDIATE transaction that re-reads the version (a second opener finds it and does
  * nothing). SQLite cannot widen a CHECK, so proposals is renamed aside, the current DDL creates the new proposals
  * (and packs, releases, the new indexes) and every row is copied; measurements and shots gain their columns
  * by ALTER first, so the DDL's CREATE IF NOT EXISTS finds them already in their v2 shape. Old rows get NULL.
@@ -235,7 +307,7 @@ function migrateV1(db) {
         ALTER TABLE measurements ADD COLUMN commit_sha TEXT;
         ALTER TABLE shots ADD COLUMN proposal_id TEXT;
         ALTER TABLE shots ADD COLUMN phase TEXT CHECK (phase IN ('before', 'after'));`);
-      db.exec(readFileSync(DDL_PATH, 'utf8')); // sets the current user_version (4): proposals is born with the v3 and v4 columns
+      db.exec(readFileSync(DDL_PATH, 'utf8')); // sets the current user_version: proposals is born with the v3, v4 and v5 columns
       // copied as they are: a v1 row's references are its own business, the migration neither checks nor fixes them
       db.exec(`INSERT INTO proposals (${cols}) SELECT ${cols} FROM proposals_v1; DROP TABLE proposals_v1;`);
     }
@@ -275,7 +347,7 @@ function migrateV3(db) {
       // the indexes move with a renamed table; drop them so the DDL creates them on the new one
       db.exec(`DROP INDEX IF EXISTS proposals_updated; DROP INDEX IF EXISTS proposals_pack; DROP INDEX IF EXISTS proposals_release;
         ALTER TABLE proposals RENAME TO proposals_v3;`);
-      db.exec(readFileSync(DDL_PATH, 'utf8')); // sets user_version 4
+      db.exec(readFileSync(DDL_PATH, 'utf8')); // sets the current user_version (straight to v5: the v5 columns are born NULL)
       db.exec(`INSERT INTO proposals (${cols}) SELECT ${cols} FROM proposals_v3; DROP TABLE proposals_v3;`);
     }
     db.exec('COMMIT');
@@ -361,15 +433,47 @@ export function structureFeatures(path) {
 }
 
 /**
+ * (v5) The lens set of `--lens all`: every ENABLED lens of an app-structure file that lens-scan measures (a built-in
+ * method, or a manifest scan block of judgement or steps), in lenses[] order, and the enabled ones it cannot run with
+ * why (no scan method, an invalid steps scan). A switched-off lens is neither: the person turned it off. null when
+ * there is no file.
+ */
+export function structureLenses(path) {
+  if (!path || !existsSync(path)) return null;
+  let s;
+  try { s = JSON.parse(readFileSync(path, 'utf8')); } catch (e) { bad(`${path} is not readable JSON (${e.message})`); }
+  const lenses = [], skipped = [];
+  for (const entry of s.lenses ?? []) {
+    if (typeof entry?.id !== 'string' || entry.enabled === false) continue;
+    const m = lensMethod(entry);
+    if (m.method === 'none') skipped.push({ id: entry.id, why: 'no scan method (not a built-in, no scan block)' });
+    else if (m.method === 'invalid') skipped.push({ id: entry.id, why: m.why });
+    else lenses.push(entry.id);
+  }
+  return { lenses, skipped };
+}
+
+/**
  * Opens a run. `features` (array or comma list) is the scope {features: [...]}. A scope that names
  * features is checked against `knownFeatures` (a Set of slugs, or a function that reads one - called only
  * when a scope names features) before anything is written; without one the run is refused.
  * `env.BP_JOB_ID` prefixes the note with `bp-job:<id>`.
+ * `lenses: 'all'` (v5) is every enabled lens of the app-structure that lens-scan can measure (`knownLenses`, a
+ * function returning {lenses, skipped} like structureLenses): the run records the full list, and the answer names
+ * the lenses it expanded to and the ones it skipped (no scan method, or an invalid one) with why.
  */
-export function runStart(db, { phase, lenses, scope, features, knownFeatures, model, note, env = process.env } = {}) {
+export function runStart(db, { phase, lenses, scope, features, knownFeatures, knownLenses, model, note, env = process.env } = {}) {
   oneOf('phase', phase, PHASES);
-  const list = (Array.isArray(lenses) ? lenses : String(need('lenses', lenses)).split(',')).map((s) => s.trim()).filter(Boolean);
+  let list = (Array.isArray(lenses) ? lenses : String(need('lenses', lenses)).split(',')).map((s) => s.trim()).filter(Boolean);
   if (!list.length) bad('--lenses names at least one lens');
+  let expanded;
+  if (list.includes('all')) {
+    if (list.length > 1) bad("--lenses all is the whole set; name no other lens beside it");
+    expanded = typeof knownLenses === 'function' ? knownLenses() : knownLenses;
+    if (!expanded) bad('--lenses all reads the app-structure, and there is none (pass --structure <path>)');
+    if (!expanded.lenses.length) bad(`--lenses all: no enabled lens has a scan method (${expanded.skipped.map((s) => `${s.id}: ${s.why}`).join('; ') || 'lenses[] is empty'})`);
+    list = expanded.lenses;
+  }
   let sc;
   if (scope !== undefined && features !== undefined) bad('--scope and --features are one scope; pass one of them');
   if (features !== undefined) {
@@ -391,7 +495,7 @@ export function runStart(db, { phase, lenses, scope, features, knownFeatures, mo
   const id = runId();
   db.prepare(`INSERT INTO runs (id, started_at, updated_at, phase, status, lenses, scope, skill_version, model, note)
     VALUES (?, ?, ?, ?, 'running', ?, ?, ?, ?, ?)`).run(id, at, at, phase, JSON.stringify(list), sc === undefined ? null : JSON.stringify(sc), skillVersion() ?? null, model ?? null, text ?? null);
-  return { id };
+  return expanded ? { id, lenses: list, ...(expanded.skipped.length ? { skipped: expanded.skipped } : {}) } : { id };
 }
 
 export function runEnd(db, { run, status, note } = {}) {
@@ -493,24 +597,103 @@ export function propose(db, o = {}) {
   } else if (kind === 'propagation') bad('a propagation names its baseline-upgrade (--parent)');
   const body = o.body ?? (o.bodyFile !== undefined ? readFileSync(o.bodyFile, 'utf8') : undefined);
   const feature = need('feature', o.feature), lens = need('lens', o.lens), title = need('title', o.title);
+  const f = findingFields(db, o, { run, feature, lens, size: o.size, risk, standard: std });
   // the duplicate check and the insert are one IMMEDIATE transaction: two importers never both insert one external_ref
   return tx(db, () => {
     if (ref !== undefined) {
       const dup = db.prepare('SELECT id FROM proposals WHERE external_ref = ?').get(ref);
       if (dup) throw new StoreError(`external ref ${ref} is already proposal ${dup.id}; update it instead`, 1, { refused: `duplicate external_ref ${ref}`, existing: dup.id });
     }
+    // exactly one MVP per lens per run (scan-finding/1): a second one is refused, the first stays
+    if (f.mvp) {
+      const other = db.prepare('SELECT id FROM proposals WHERE run_id = ? AND lens = ? AND mvp = 1').get(run, lens);
+      if (other) refuse(`run ${run} already has lens ${lens}'s MVP, ${other.id}; one MVP per lens per run (allocate re-picks it)`);
+    }
     const at = now();
     let id;
     for (let i = 0; i < 8 && (!id || db.prepare('SELECT 1 FROM proposals WHERE id = ?').get(id)); i += 1) id = proposalId();
     db.prepare(`INSERT INTO proposals (id, run_id, feature, lens, metric, title, body, standard, expected_delta, size, risk, kind, parent_id, status, created_at, updated_at,
-        origin, external_ref, external_url, tier, risk_class)
-      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'proposed', ?, ?, ?, ?, ?, ?, ?)`).run(
+        origin, external_ref, external_url, tier, risk_class,
+        impact, impact_why, confidence, effort, score, score_parts, band, mvp, mvp_rule, mvp_why, category, predicted_verdict, predicted_why, predicted_by, predicted_at)
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'proposed', ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`).run(
       id, run, feature, lens, o.metric ?? null, title, body ?? null, std,
       delta ?? null, o.size ?? null, risk ?? null, kind, o.parent ?? null, at, at,
-      origin, ref ?? null, url ?? null, tier ?? null, o.riskClass ?? null);
+      origin, ref ?? null, url ?? null, tier ?? null, o.riskClass ?? null,
+      f.impact ?? null, f.impact_why ?? null, f.confidence ?? null, f.effort ?? null, f.score ?? null, f.score_parts ? JSON.stringify(f.score_parts) : null,
+      f.band, f.mvp, f.mvp_rule ?? null, f.mvp_why ?? null, f.category ?? null,
+      f.predicted_verdict ?? null, f.predicted_why ?? null, f.predicted_by ?? null, f.predicted_verdict ? (f.predicted_at ?? at) : null);
     touchRun(db, run, at);
-    return { id };
+    return f.score === undefined ? { id } : { id, score: f.score };
   });
+}
+
+/** An integer 1-10 on the contract's scale, or undefined when absent. */
+const scale10 = (name, v) => {
+  const n = num(name, v);
+  if (n !== undefined && (!Number.isInteger(n) || n < 1 || n > 10)) bad(`--${name} is an integer 1-10 (scan-finding/1)`);
+  return n;
+};
+/** A contract text: absent stays absent, never ""; over its cap is bad input, not a silent cut. */
+const text = (name, v, max) => {
+  if (v === undefined) return undefined;
+  const s = need(name, v);
+  if (s.length > max) bad(`--${name} is at most ${max} characters (scan-finding/1; got ${s.length})`);
+  return s;
+};
+const boolOf = (name, v) => {
+  if (v === undefined) return undefined;
+  if (v === true || v === 'true' || v === 1 || v === '1') return true;
+  if (v === false || v === 'false' || v === 0 || v === '0') return false;
+  return bad(`--${name} is true or false (got ${JSON.stringify(v)})`);
+};
+const ISO_RE = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d+)?Z$/;
+const PREDICTED_BY_RE = /^[a-z][a-z0-9-]*@[^\s:]+:\S+$/;
+
+/**
+ * (v5) The scan-finding/1 fields of a proposal, checked, with the score computed here (scan-score/1, the scan-sweep
+ * helper) - a caller-supplied score or score_parts is refused, so every stored score has one formula. effort defaults
+ * from the size (XS=1 S=2 M=4 L=7 XL=10). A prediction names who made it (`<skill>@<version>:<model>`, by default
+ * lens-scan@<this version>:<the run's model>) and, when the feature and lens have decided items, quotes one of them
+ * by id in predicted_why (the store's precedent answer): memory feeds the verdict, and the store checks it did.
+ */
+function findingFields(db, o, { run, feature, lens, size, risk, standard: std }) {
+  if (o.score !== undefined || o.scoreParts !== undefined) bad('score and score_parts are computed by the store (scan-score/1 from impact, confidence, effort and risk); never pass one');
+  const out = {};
+  out.impact = scale10('impact', o.impact);
+  out.impact_why = text('impact-why', o.impactWhy, 200);
+  if (o.confidence !== undefined) out.confidence = oneOf('confidence', o.confidence, CONFIDENCES);
+  out.effort = o.effort !== undefined ? scale10('effort', o.effort) : sizeToEffort(size);
+  if (o.category !== undefined) out.category = oneOf('category', o.category, CATEGORIES);
+  out.band = o.band === undefined ? 'ranked' : oneOf('band', o.band, BANDS);
+  out.mvp = boolOf('mvp', o.mvp) ? 1 : 0;
+  if (o.mvpRule !== undefined) out.mvp_rule = oneOf('mvp-rule', o.mvpRule, MVP_RULES);
+  out.mvp_why = text('mvp-why', o.mvpWhy, 200);
+  if (!out.mvp && (out.mvp_rule !== undefined || out.mvp_why !== undefined)) bad('--mvp-rule and --mvp-why belong to the MVP (--mvp true)');
+  if (out.mvp) out.mvp_rule ??= 'top-score';
+  if (out.mvp_rule === 'override' && out.mvp_why === undefined) bad('an override MVP says why (--mvp-why): the top score was not it');
+  if (out.mvp && out.band === 'reserve') bad('the MVP holds a ranked slot; it is never reserve');
+  if (o.predictedVerdict !== undefined) {
+    out.predicted_verdict = oneOf('predicted-verdict', o.predictedVerdict, VERDICTS);
+    out.predicted_why = text('predicted-why', o.predictedWhy, 300);
+    if (out.predicted_why === undefined) bad('a prediction says why (--predicted-why), quoting the closest precedent when one exists');
+    if (o.predictedBy !== undefined) out.predicted_by = need('predicted-by', o.predictedBy);
+    else {
+      const r = db.prepare('SELECT skill_version, model FROM runs WHERE id = ?').get(run);
+      if (!r.model) bad('--predicted-by is <skill>@<version>:<model>, and the run names no model to default it from (run-start --model)');
+      out.predicted_by = `lens-scan@${r.skill_version ?? skillVersion() ?? 'unknown'}:${r.model}`;
+    }
+    if (!PREDICTED_BY_RE.test(out.predicted_by)) bad(`--predicted-by is <skill>@<version>:<model> (got ${JSON.stringify(out.predicted_by)})`);
+    if (o.predictedAt !== undefined && !ISO_RE.test(need('predicted-at', o.predictedAt))) bad('--predicted-at is an ISO 8601 UTC time');
+    out.predicted_at = o.predictedAt;
+    const prec = precedent(db, { feature, lens, standard: std, limit: 50 });
+    if (prec.rows.length && !prec.rows.some((r) => out.predicted_why.includes(r.id))) {
+      bad(`--predicted-why names the precedent it leaned on: ${feature}/${lens} has decided items (${prec.rows.slice(0, 5).map((r) => r.id).join(', ')}); quote the closest by id (store.mjs precedent)`);
+    }
+  } else if (o.predictedWhy !== undefined || o.predictedBy !== undefined || o.predictedAt !== undefined) bad('--predicted-why, --predicted-by and --predicted-at belong to a --predicted-verdict');
+  let s;
+  try { s = scanScore({ impact: out.impact, confidence: out.confidence, effort: out.effort, risk }); } catch (e) { bad(e.message); }
+  if (s) { out.score = s.score; out.score_parts = s.score_parts; }
+  return out;
 }
 
 /**
@@ -545,11 +728,24 @@ export function updateExternal(db, { id, title, body, bodyFile, externalUrl } = 
   return getProposal(db, pid);
 }
 
-/** Proposals by status, feature, kind, origin, tier (or `untriaged`: no tier), ordered by tier with untriaged last,
- *  then created_at, id; `ids` (array or comma list) keeps those ids only, in the order given - an id that is not in
- *  the result does not exist. */
-export function proposals(db, { status, feature, kind, ids, pack, release, origin, tier, untriaged } = {}) {
+/** A proposals row as JSON: NULLs omitted, the v5 JSON columns (score_parts, proof) parsed. */
+export const proposalRow = (r) => {
+  const p = clean(r);
+  if (!p) return p;
+  for (const k of ['score_parts', 'proof']) if (typeof p[k] === 'string') { try { p[k] = JSON.parse(p[k]); } catch { /* kept as text */ } }
+  return p;
+};
+/** The listing order (v5): tier (untriaged last), ranked before reserve, scored before unscored, score high first, then age. */
+export const PROPOSAL_ORDER = "tier IS NULL, tier, band = 'reserve', score IS NULL, score DESC, created_at, id";
+
+/** Proposals by status, feature, lens, kind, origin, run, band, tier (or `untriaged`: no tier), in PROPOSAL_ORDER;
+ *  `ids` (array or comma list) keeps those ids only, in the order given - an id that is not in the result does not
+ *  exist. */
+export function proposals(db, { status, feature, lens, run, band, kind, ids, pack, release, origin, tier, untriaged } = {}) {
   const where = [], args = [];
+  if (lens !== undefined) { where.push('lens = ?'); args.push(need('lens', lens)); }
+  if (run !== undefined) { where.push('run_id = ?'); args.push(need('run', run)); }
+  if (band !== undefined) { where.push('band = ?'); args.push(oneOf('band', band, BANDS)); }
   if (origin !== undefined) { where.push('origin = ?'); args.push(oneOf('origin', origin, ORIGINS)); }
   if (tier !== undefined && untriaged !== undefined) bad('--tier and --untriaged are two answers to one question; pass one');
   if (tier !== undefined) { where.push('tier = ?'); args.push(tierOf(need('tier', tier))); }
@@ -566,8 +762,8 @@ export function proposals(db, { status, feature, kind, ids, pack, release, origi
     where.push(`id IN (${order.map(() => '?').join(', ')})`);
     args.push(...order);
   }
-  const sql = `SELECT * FROM proposals${where.length ? ` WHERE ${where.join(' AND ')}` : ''} ORDER BY tier IS NULL, tier, created_at, id`;
-  const rows = db.prepare(sql).all(...args).map(clean);
+  const sql = `SELECT * FROM proposals${where.length ? ` WHERE ${where.join(' AND ')}` : ''} ORDER BY ${PROPOSAL_ORDER}`;
+  const rows = db.prepare(sql).all(...args).map(proposalRow);
   return order ? rows.sort((a, b) => order.indexOf(a.id) - order.indexOf(b.id)) : rows;
 }
 
@@ -603,7 +799,7 @@ export function proposalUpdate(db, { id, status, afterValue, resultSha, commitSh
   if (r.changes === 0) refuse(`proposal ${id} moved on while this update ran (it was ${p.status}); someone else holds it`);
   return getProposal(db, p.id);
 }
-const getProposal = (db, id) => clean(db.prepare('SELECT * FROM proposals WHERE id = ?').get(id));
+const getProposal = (db, id) => proposalRow(db.prepare('SELECT * FROM proposals WHERE id = ?').get(id));
 
 export function shot(db, { run, feature, path, size, theme, module, report, reportFile, proposal, phase } = {}) {
   const id = liveRun(db, run);
@@ -655,22 +851,393 @@ const DECIDER_RE = /^[a-z][a-z-]*:[A-Za-z0-9._@-]+$/;
  * A caller's decision on `proposed` items, each a compare-and-set: an item no longer `proposed` is reported,
  * never touched. Returns { decision, by, decided: [ids], skipped: [{ id, status }] } ('not-found' for a missing id).
  */
-export function decide(db, { ids, decision, by, note } = {}) {
+export function decide(db, { ids, decision, by, note, machine, start } = {}) {
+  if (machine !== undefined && machine !== false) {
+    if (decision !== undefined || by !== undefined || note !== undefined) bad('decide --machine records each item\'s predicted verdict as machine:lens-scan; it takes no --decision, --by or --note');
+    return decideMachine(db, { ids, start });
+  }
   const list = [...new Set(listOf(need('ids', ids)))];
   oneOf('decision', decision, ['approve', 'decline']);
-  const who = need('by', by);
-  if (!DECIDER_RE.test(who)) bad(`--by names who decides as <kind>:<name>, e.g. operator:jane or agent:personas (got ${JSON.stringify(who)})`);
+  const who = human(by);
   const to = decision === 'approve' ? 'approved' : 'declined';
-  const at = now();
-  const upd = db.prepare(`UPDATE proposals SET status = ?, decided_by = ?, decided_at = ?, decision_note = ?, updated_at = ?
-    WHERE id = ? AND status = 'proposed'`);
-  const decided = [], skipped = [];
-  for (const id of list) {
-    if (upd.run(to, who, at, note ?? null, at, id).changes) { decided.push(id); continue; }
-    const p = db.prepare('SELECT status FROM proposals WHERE id = ?').get(id);
-    skipped.push({ id, status: p ? p.status : 'not-found' });
+  return tx(db, () => {
+    const at = now();
+    const upd = db.prepare(`UPDATE proposals SET status = ?, decided_by = ?, decided_at = ?, decision_note = ?, updated_at = ?
+      WHERE id = ? AND status = 'proposed'`);
+    const read = db.prepare('SELECT * FROM proposals WHERE id = ?');
+    const decided = [], skipped = [];
+    for (const id of list) {
+      const p = read.get(id);
+      // a person deciding an item a machine had decided (vetoed back to proposed) reverses that machine decision
+      if (p?.status === 'proposed' && isMachine(p.decided_by)) recordReversal(db, p, at);
+      if (upd.run(to, who, at, note ?? null, at, id).changes) { decided.push(id); continue; }
+      skipped.push({ id, status: p ? p.status : 'not-found' });
+    }
+    return { decision: to, by: who, decided, skipped };
+  });
+}
+
+// ------------------------------------------------------------------------------------- scan-finding/1 (v5)
+const isMachine = (who) => typeof who === 'string' && who.startsWith('machine:');
+/** A person's (or a person's caller's) <kind>:<name>. `machine:*` is written only by the --machine doors. */
+const human = (v) => {
+  const who = by(v);
+  if (isMachine(who)) bad(`--by ${who}: a machine decision is recorded only by decide --machine / triage --machine, never claimed by a caller`);
+  return who;
+};
+
+/** The slice an item belongs to: `<category>|<lens>|<risk_class>|<size>`, an absent part written `-`. */
+export const sliceOf = (p) => [p.category, p.lens, p.risk_class, p.size].map((x) => (x === null || x === undefined || x === '' ? '-' : x)).join('|');
+const SLICE_RE = /^(technical|product|-)\|[^|]+\|(secret|authz|money|data|llm|perf|reliability|ux|debt|-)\|(XS|S|M|L|XL|-)$/;
+const sliceParts = (s) => { const [category, lens, riskClass, size] = s.split('|'); return { category, lens, riskClass, size }; };
+/** The ceiling of a slice in lens-scan: L2 (release stays human), L1 for secret|authz|money and for product. */
+export const sliceCeiling = (s) => { const { category, riskClass } = sliceParts(s); return CEILING_ONE.includes(riskClass) || category !== 'technical' ? 1 : TRUST_CEILING; };
+/** The start level of a slice with no event: its category's (an unknown category starts at L0), lowered by the overlay, capped by the ceiling. */
+export const sliceStart = (s, lower = {}) => {
+  const { category } = sliceParts(s);
+  const base = TRUST_START[category] ?? 0;
+  return Math.min(base, Number.isInteger(lower[category]) ? lower[category] : base, sliceCeiling(s));
+};
+/** `--start technical=1,product=0` (the overlay's trust_start): it can only LOWER a start level, never raise one. */
+export function startOf(v) {
+  if (v === undefined || v === null) return {};
+  if (typeof v === 'object') return v;
+  const out = {};
+  for (const part of listOf(v)) {
+    const m = /^(technical|product)=([0-3])$/.exec(part);
+    if (!m) bad(`--start is technical=<0-3>,product=<0-3> (the overlay's trust_start; got ${JSON.stringify(part)})`);
+    out[m[1]] = Number(m[2]);
   }
-  return { decision: to, by: who, decided, skipped };
+  return out;
+}
+const humanVerdict = (p) => (p.status === 'declined' ? 'reject' : 'accept');
+const lastEvent = (db, slice) => db.prepare('SELECT * FROM trust_events WHERE slice = ? ORDER BY id DESC LIMIT 1').get(slice);
+const levelNow = (db, slice, lower) => lastEvent(db, slice)?.to_level ?? sliceStart(slice, lower);
+function appendEvent(db, { slice, from, to, reason, agreement, n, item, at }) {
+  db.prepare('INSERT INTO trust_events (at, slice, from_level, to_level, reason, agreement, n, item_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?)')
+    .run(at, slice, from, to, reason, agreement ?? null, n ?? null, item ?? null);
+}
+/** A person reversed a machine decision on `p`: its slice drops one level (never below 0) and its window resets. Once per item. */
+function recordReversal(db, p, at, lower = {}) {
+  if (db.prepare("SELECT 1 FROM trust_events WHERE item_id = ? AND reason LIKE 'demote: reversal%'").get(p.id)) return false;
+  const slice = sliceOf(p), from = levelNow(db, slice, lower);
+  appendEvent(db, { slice, from, to: Math.max(0, from - 1), reason: `demote: reversal ${p.id}`, item: p.id, at });
+  return true;
+}
+
+/**
+ * The human-decided items of a slice since its window last reset (its latest event), newest first, at most 20: items
+ * with a prediction whose decision a person (not machine:*) made. A reversed machine decision is a disagreement
+ * whatever the person decided after it, and so is a `defer` (the person decided; the machine would not have).
+ */
+function sliceWindow(db, slice, since) {
+  const rows = db.prepare(`SELECT p.*, EXISTS (SELECT 1 FROM trust_events e WHERE e.item_id = p.id AND e.reason LIKE 'demote: reversal%') AS reversed
+    FROM proposals p WHERE predicted_verdict IS NOT NULL AND decided_by IS NOT NULL AND decided_by NOT LIKE 'machine:%' AND status <> 'proposed'
+    ${since ? 'AND decided_at > ?' : ''} ORDER BY decided_at DESC, id DESC`).all(...(since ? [since] : [])).filter((p) => sliceOf(p) === slice);
+  const window = rows.slice(0, TRUST_WINDOW);
+  const agree = window.filter((p) => !p.reversed && p.predicted_verdict === humanVerdict(p)).length;
+  return { n: window.length, agreement: window.length ? Math.round((agree / window.length) * 1000) / 1000 : undefined };
+}
+
+/**
+ * Brings every slice's level up to date from the store's own history, appending each transition to trust_events,
+ * in the caller's transaction: (1) reversals a person made outside this script - bp's veto (status back to
+ * `proposed`, decision_note `veto: <reason>`) or a decision over a vetoed item - each demote once; (2) a slice whose
+ * window holds >= 20 human-decided items agreeing >= 90 % moves up one, to its ceiling. Returns the slices it knows:
+ * those with a prediction or an event, plus `also`.
+ */
+function refreshTrust(db, { lower = {}, also = [] } = {}) {
+  const at = now();
+  // a veto is read from its note (whatever bp did with decided_by), or from a machine decision back at proposed
+  const missed = db.prepare(`SELECT * FROM proposals WHERE decision_note LIKE 'veto:%'
+    OR (status = 'proposed' AND decided_by LIKE 'machine:%' AND veto_until IS NOT NULL) ORDER BY updated_at, id`).all();
+  for (const p of missed) recordReversal(db, p, at, lower); // stamped when seen: events stay in time order
+  const slices = new Set(also);
+  for (const p of db.prepare('SELECT category, lens, risk_class, size FROM proposals WHERE predicted_verdict IS NOT NULL').all()) slices.add(sliceOf(p));
+  for (const e of db.prepare('SELECT DISTINCT slice FROM trust_events').all()) slices.add(e.slice);
+  for (const slice of slices) {
+    const last = lastEvent(db, slice);
+    const level = last?.to_level ?? sliceStart(slice, lower);
+    const w = sliceWindow(db, slice, last?.at);
+    if (w.n >= TRUST_WINDOW && w.agreement >= TRUST_PROMOTE && level < sliceCeiling(slice)) {
+      appendEvent(db, { slice, from: level, to: level + 1, reason: 'promote: agreement', agreement: w.agreement, n: w.n, at });
+    }
+  }
+  return [...slices].sort();
+}
+
+/** One slice as the trust verb (and Seam A4) prints it: absent values omitted. */
+function sliceView(db, slice, lower) {
+  const last = lastEvent(db, slice);
+  const w = sliceWindow(db, slice, last?.at);
+  return clean({ slice, level: last?.to_level ?? sliceStart(slice, lower), ceiling: sliceCeiling(slice), start: sliceStart(slice, lower),
+    agreement: w.agreement, n: w.n, changedAt: last?.at, reason: last?.reason });
+}
+const eventView = (e) => clean({ slice: e.slice, from: e.from_level, to: e.to_level, reason: e.reason, agreement: e.agreement, n: e.n, itemId: e.item_id, at: e.at });
+
+/**
+ * `trust [--slice <key>] [--start technical=n,product=m]` -> {slices, events}: every slice with history (a prediction
+ * or an event), each level computed from the store's own decisions; `--slice` answers for that slice alone, history
+ * or not (its start level by category). Appends the transitions it finds, so it writes - but never creates a store.
+ */
+export function trust(db, { slice, start } = {}) {
+  const lower = startOf(start);
+  if (slice !== undefined && !SLICE_RE.test(need('slice', slice))) bad(`--slice is <technical|product|->|<lens>|<risk_class|->|<size|-> (got ${JSON.stringify(slice)})`);
+  return tx(db, () => {
+    const all = refreshTrust(db, { lower, also: slice ? [slice] : [] });
+    const keys = slice ? [slice] : all;
+    const events = db.prepare(`SELECT * FROM trust_events${slice ? ' WHERE slice = ?' : ''} ORDER BY id`).all(...(slice ? [slice] : [])).map(eventView);
+    return { slices: keys.map((k) => sliceView(db, k, lower)), events };
+  });
+}
+
+/**
+ * L1: records each `proposed` item's predicted verdict as its decision - decided_by machine:lens-scan, a 24 h veto
+ * window in veto_until, the prediction's why as the note - when, and only when, the store's level for the item's
+ * slice is >= 1. Refused per item (skipped with the reason) at L0, for an unpredicted item and for a `defer`.
+ */
+export function decideMachine(db, { ids, start } = {}) {
+  const list = [...new Set(listOf(need('ids', ids)))];
+  const lower = startOf(start);
+  return tx(db, () => {
+    refreshTrust(db, { lower });
+    const at = now(), until = new Date(Date.parse(at) + VETO_MS).toISOString();
+    const decided = [], skipped = [];
+    const upd = db.prepare(`UPDATE proposals SET status = ?, decided_by = ?, decided_at = ?, decision_note = ?, veto_until = ?, updated_at = ?
+      WHERE id = ? AND status = 'proposed'`);
+    for (const id of list) {
+      const p = db.prepare('SELECT * FROM proposals WHERE id = ?').get(id);
+      if (!p) { skipped.push({ id, status: 'not-found' }); continue; }
+      if (p.status !== 'proposed') { skipped.push({ id, status: p.status }); continue; }
+      if (!p.predicted_verdict) { skipped.push({ id, status: p.status, reason: 'unpredicted' }); continue; }
+      if (p.predicted_verdict === 'defer') { skipped.push({ id, status: p.status, reason: 'defer: waits for a person' }); continue; }
+      // a vetoed item went back to a person; the machine never decides it again
+      if (p.veto_until || /^veto:/.test(p.decision_note ?? '')) { skipped.push({ id, status: p.status, reason: 'vetoed: a person decides' }); continue; }
+      const slice = sliceOf(p), level = levelNow(db, slice, lower);
+      if (level < 1) { skipped.push({ id, status: p.status, reason: `refused: slice ${slice} is L${level}` }); continue; }
+      const to = p.predicted_verdict === 'accept' ? 'approved' : 'declined';
+      if (!upd.run(to, MACHINE, at, `machine L${level} (${slice}): ${p.predicted_why}`.slice(0, 500), until, at, id).changes) { skipped.push({ id, status: p.status }); continue; }
+      decided.push({ id, status: to, level, veto_until: until });
+    }
+    return { decision: 'machine', by: MACHINE, decided, skipped };
+  });
+}
+
+/**
+ * A person's veto of a machine decision inside its veto window (the write bp makes too, Seam B2): status back to
+ * `proposed`, decision_note `veto: <reason>`, triaged_from kept; the slice is demoted (a reversal). After the window
+ * the decision is reversed through triage (descope) instead, which demotes the same way.
+ */
+export function veto(db, { id, by: who, reason } = {}) {
+  const pid = need('id', id);
+  const person = human(who);
+  const why = need('reason', reason);
+  return tx(db, () => {
+    const p = db.prepare('SELECT * FROM proposals WHERE id = ?').get(pid);
+    if (!p) refuse(`proposal ${pid} does not exist`);
+    if (!isMachine(p.decided_by) || !p.veto_until) refuse(`proposal ${pid} was not decided by a machine (decided_by ${p.decided_by ?? 'nobody'}); nothing to veto`);
+    if (!['approved', 'declined'].includes(p.status)) refuse(`proposal ${pid} is ${p.status}; a veto takes back a decision before its build (triage a built item)`);
+    const at = now();
+    if (at > p.veto_until) refuse(`proposal ${pid}'s veto window closed at ${p.veto_until}; descope it with triage`);
+    db.prepare(`UPDATE proposals SET status = 'proposed', decision_note = ?, updated_at = ? WHERE id = ? AND status = ?`).run(`veto: ${why}`.slice(0, 500), at, pid, p.status);
+    recordReversal(db, p, at);
+    return { id: pid, status: 'proposed', by: person, vetoed: p.status };
+  });
+}
+
+/**
+ * The proof of a built item (scan-finding/1): {metric, method, unit?, before, after, verdict, control, base_sha,
+ * head_sha, control_value?}. Checked against the store: before and after are the item's own recorded readings of the
+ * metric (its latest `before` and `after` rows, when it has them); `better` moved the number; a `red` control needs a
+ * method a control exists for (static, harness) and `control_value` - the instrument's reading where the defect was
+ * re-seeded - lying on the before side of the after. Re-measuring a landed item (accepted, released) `not-better`
+ * after it was `better` demotes its slice.
+ */
+export function proof(db, { id, json, proof: given } = {}) {
+  const pid = need('id', id);
+  let pr = given;
+  if (pr === undefined) {
+    try { pr = JSON.parse(readFileSync(need('json', json), 'utf8')); } catch (e) { if (e instanceof StoreError) throw e; bad(`--json is not readable JSON (${e.message})`); }
+  }
+  if (!pr || typeof pr !== 'object' || Array.isArray(pr)) bad('a proof is one object');
+  const allowed = ['metric', 'method', 'unit', 'before', 'after', 'verdict', 'control', 'base_sha', 'head_sha', 'control_value'];
+  const extra = Object.keys(pr).filter((k) => !allowed.includes(k));
+  if (extra.length) bad(`proof keys are ${allowed.join(', ')} (got ${extra.join(', ')})`);
+  if (!METRIC_RE.test(need('proof.metric', pr.metric))) bad('proof.metric is a lens field key');
+  oneOf('proof.method', pr.method, METHODS);
+  for (const k of ['before', 'after']) if (typeof pr[k] !== 'number' || !Number.isFinite(pr[k])) bad(`proof.${k} is a finite number: a proof compares two readings`);
+  oneOf('proof.verdict', pr.verdict, PROOF_VERDICTS);
+  oneOf('proof.control', pr.control, CONTROLS);
+  need('proof.base_sha', pr.base_sha); need('proof.head_sha', pr.head_sha);
+  if (pr.unit !== undefined) need('proof.unit', pr.unit);
+  if (pr.verdict === 'better' && pr.before === pr.after) bad('proof.verdict better with before = after: the number did not move');
+  if (pr.control === 'red') {
+    if (!CONTROLLABLE.includes(pr.method)) bad(`a ${pr.method} reading has no red control (only ${CONTROLLABLE.join(', ')} do); write control absent - such an item caps at L1`);
+    if (typeof pr.control_value !== 'number' || !Number.isFinite(pr.control_value)) bad('a red control names control_value: the instrument\'s reading with the defect re-seeded');
+    if ((pr.control_value - pr.after) * (pr.before - pr.after) <= 0) bad(`the control did not read red: control_value ${pr.control_value} is not on the before side (${pr.before}) of the after (${pr.after})`);
+  } else if (pr.control_value !== undefined) bad('control_value belongs to a red control');
+  return tx(db, () => {
+    const p = db.prepare('SELECT * FROM proposals WHERE id = ?').get(pid);
+    if (!p) refuse(`proposal ${pid} does not exist`);
+    if (!['executing', 'done', 'failed', 'accepted', 'rework', 'released'].includes(p.status)) refuse(`proposal ${pid} is ${p.status}; a proof belongs to a built item`);
+    const reading = db.prepare('SELECT value FROM measurements WHERE proposal_id = ? AND phase = ? AND metric = ? ORDER BY measured_at DESC, id DESC LIMIT 1');
+    for (const ph of ['before', 'after']) {
+      const r = reading.get(pid, ph, pr.metric);
+      if (r && r.value !== pr[ph]) bad(`proof.${ph} ${pr[ph]} is not the item's recorded ${ph} reading of ${pr.metric} (${r.value})`);
+    }
+    const at = now();
+    const prev = p.proof ? JSON.parse(p.proof) : undefined;
+    db.prepare('UPDATE proposals SET proof = ?, updated_at = ? WHERE id = ?').run(JSON.stringify(pr), at, pid);
+    let demoted;
+    if (prev?.verdict === 'better' && pr.verdict === 'not-better' && ['accepted', 'released'].includes(p.status)) {
+      const slice = sliceOf(p), from = levelNow(db, slice);
+      appendEvent(db, { slice, from, to: Math.max(0, from - 1), reason: `demote: not-better ${pid}`, item: pid, at });
+      demoted = slice;
+    }
+    return { id: pid, proof: pr, ...(demoted ? { demoted } : {}) };
+  });
+}
+
+/**
+ * L2: a built (`done`) technical item in a slice at L2 whose proof is `better` with a `red` control is triaged
+ * `accepted` by machine:lens-scan (veto window 24 h). Anything else waits for a person, skipped with why.
+ */
+export function triageMachine(db, { ids, start } = {}) {
+  const list = [...new Set(listOf(need('ids', ids)))];
+  const lower = startOf(start);
+  return tx(db, () => {
+    refreshTrust(db, { lower });
+    const at = now(), until = new Date(Date.parse(at) + VETO_MS).toISOString();
+    const triaged = [], skipped = [], touched = [];
+    for (const id of list) {
+      const p = db.prepare('SELECT * FROM proposals WHERE id = ?').get(id);
+      if (!p) { skipped.push({ id, status: 'not-found' }); continue; }
+      if (p.status !== 'done') { skipped.push({ id, status: p.status }); continue; }
+      if (p.category !== 'technical') { skipped.push({ id, status: p.status, reason: `category ${p.category ?? 'unset'}: a person triages` }); continue; }
+      const slice = sliceOf(p), level = levelNow(db, slice, lower);
+      if (level < 2) { skipped.push({ id, status: p.status, reason: `refused: slice ${slice} is L${level}` }); continue; }
+      const pr = p.proof ? JSON.parse(p.proof) : undefined;
+      if (!pr) { skipped.push({ id, status: p.status, reason: 'no proof' }); continue; }
+      if (pr.verdict !== 'better' || pr.control !== 'red') { skipped.push({ id, status: p.status, reason: `proof ${pr.verdict}, control ${pr.control}: a person triages` }); continue; }
+      const note = `machine L${level} (${slice}): ${pr.metric} ${pr.before} -> ${pr.after}${pr.unit ? ` ${pr.unit}` : ''}, red control ${pr.control_value}`;
+      const r = db.prepare(`UPDATE proposals SET status = 'accepted', triaged_by = ?, triaged_at = ?, triage_note = ?, triaged_from = 'done', veto_until = ?, updated_at = ?
+        WHERE id = ? AND status = 'done'`).run(MACHINE, at, note.slice(0, 500), until, at, id);
+      if (!r.changes) { skipped.push({ id, status: p.status }); continue; }
+      triaged.push({ id, level, veto_until: until });
+      if (p.pack_id) touched.push(p.pack_id);
+    }
+    return { decision: 'accepted', by: MACHINE, triaged, skipped, packs_triaged: settlePacks(db, touched, at) };
+  });
+}
+
+/**
+ * Decided items of one feature and lens (and, with `standard`, the same standard on any feature of the lens): the
+ * memory propose reads before it predicts. The UI-side twin is bp's precedent engine (packages/core/src/scan/brief.ts):
+ * the rows, counts and advice keep its shape (decision-brief-1: match 'same idea' | 'same standard' | 'same lens';
+ * advice withdraw | ask | proceed) without its word matching - `title` matches only an identical title here.
+ */
+export function precedent(db, { feature, lens, standard: std, title, limit } = {}) {
+  const f = need('feature', feature), l = need('lens', lens);
+  const n = limit === undefined ? 5 : num('limit', limit);
+  if (!Number.isInteger(n) || n < 1 || n > 50) bad('--limit is an integer 1-50');
+  const s = std !== undefined && std !== 'none' ? standard(std) : undefined;
+  const norm = (t) => String(t ?? '').toLowerCase().replace(/[^a-z0-9]+/g, ' ').trim();
+  const wanted = title !== undefined ? norm(title) : undefined;
+  const rows = db.prepare(`SELECT * FROM proposals WHERE status <> 'proposed' AND lens = ? AND (feature = ?${s ? ' OR standard = ?' : ''})`).all(l, f, ...(s ? [s] : []));
+  const MATCH = ['same idea', 'same standard', 'same lens'];
+  const out = rows.map((x) => {
+    const match = wanted && x.feature === f && norm(x.title) === wanted ? 'same idea' : s && x.standard === s ? 'same standard' : 'same lens';
+    const note = (x.status === 'declined' ? x.decision_note : x.decision_note ?? x.triage_note)?.trim();
+    return clean({ id: x.id, title: x.title, feature: x.feature, lens: x.lens, verdict: x.status === 'declined' ? 'declined' : 'approved', status: x.status,
+      at: x.decided_at ?? x.updated_at, by: x.decided_by, note: note || undefined, triage_note: x.triage_note && x.triage_note !== note ? x.triage_note : undefined,
+      triaged_by: x.triaged_by, standard: x.standard && x.standard !== 'none' ? x.standard : undefined, predicted_verdict: x.predicted_verdict, match });
+  }).sort((a, b) => MATCH.indexOf(a.match) - MATCH.indexOf(b.match) || (b.at > a.at ? 1 : b.at < a.at ? -1 : 0));
+  const approved = out.filter((r) => r.verdict === 'approved').length, declined = out.length - approved;
+  const d = out.find((r) => r.verdict === 'declined' && r.match !== 'same lens');
+  const said = (x) => `${x.at.slice(0, 10)}${x.by ? ` by ${x.by}` : ''}${x.note ? `: "${x.note}"` : ' (no note)'}`;
+  const advice = d?.match === 'same idea' ? { say: 'withdraw', why: `This idea was declined ${said(d)} (${d.id})` }
+    : d ? { say: 'ask', why: `An idea under the same standard was declined on ${d.feature} ${said(d)} (${d.id})` }
+      : declined >= 3 && declined > approved ? { say: 'ask', why: `${declined} of ${out.length} decisions on ${f}/${l} were declines` }
+        : { say: 'proceed', why: out.length ? `${approved} of ${out.length} decisions on ${f}/${l} were approvals` : 'no precedent yet' };
+  return { feature: f, lens: l, ...(s ? { standard: s } : {}), basis: s ? 'the same feature and lens, or the same standard on the lens' : 'the same feature and lens',
+    rows: out.slice(0, n), approved, declined, advice };
+}
+
+/**
+ * The contract's slot allocation over a run's proposals (scan-finding/1 Coverage): (1) each lens with a finding gets
+ * one ranked slot, its MVP - an `override` MVP the caller set stands, else the lens's top score; (2) the remaining
+ * slots of `cap` go by score across lenses (scored before unscored, then tier, then age); (3) the rest is `band:
+ * reserve` - filed, never discarded. Imported work-items are not findings and take no slot. Returns the run report.
+ */
+export function allocate(db, { run, cap, tokens } = {}) {
+  const r = liveRun(db, run);
+  const n = cap === undefined ? DEFAULT_CAP : num('cap', cap);
+  if (!Number.isInteger(n) || n < 1) bad('--cap is an integer >= 1 (the overlay\'s propose_cap)');
+  return tx(db, () => {
+    const items = db.prepare(`SELECT * FROM proposals WHERE run_id = ? AND kind <> 'work-item'
+      ORDER BY score IS NULL, score DESC, tier IS NULL, tier, created_at, id`).all(r);
+    const mvp = new Map();
+    for (const p of items) if (p.mvp && p.mvp_rule === 'override') mvp.set(p.lens, p);
+    for (const p of items) if (!mvp.has(p.lens)) mvp.set(p.lens, p);
+    const mvps = new Set([...mvp.values()].map((p) => p.id));
+    let free = Math.max(0, n - mvps.size);
+    const at = now();
+    const upd = db.prepare('UPDATE proposals SET band = ?, mvp = ?, mvp_rule = ?, mvp_why = ?, updated_at = ? WHERE id = ?');
+    for (const p of items) {
+      const isMvp = mvps.has(p.id);
+      let band = 'ranked';
+      if (!isMvp) { if (free > 0) free -= 1; else band = 'reserve'; }
+      const rule = isMvp ? (p.mvp_rule === 'override' ? 'override' : 'top-score') : null;
+      upd.run(band, isMvp ? 1 : 0, rule, rule === 'override' ? p.mvp_why : null, at, p.id);
+    }
+    touchRun(db, r, at);
+    return runReport(db, { run: r, cap: n, tokens });
+  });
+}
+
+/**
+ * Per lens of a run: ranked and reserve counts, the MVP's title and score, tokens when the caller passes them
+ * (`{"<lens>": n}`; omitted otherwise), and the lenses that could not run (an `error` activity whose text starts
+ * `lens skipped:`), reported skipped - never as zero findings.
+ */
+export function runReport(db, { run, cap, tokens } = {}) {
+  const r = getRun(db, need('run', run));
+  if (!r) refuse(`run ${run} does not exist`);
+  let tk = tokens;
+  if (typeof tk === 'string') { try { tk = JSON.parse(tk); } catch { bad('--tokens is JSON {"<lens>": <tokens>}'); } }
+  if (tk !== undefined && (typeof tk !== 'object' || Array.isArray(tk) || Object.values(tk).some((v) => !Number.isInteger(v) || v < 0))) bad('--tokens is JSON {"<lens>": <tokens>}');
+  const skipped = db.prepare("SELECT lens, text FROM activity WHERE run_id = ? AND kind = 'error' AND lens IS NOT NULL AND text LIKE 'lens skipped:%' ORDER BY id").all(r.id)
+    .map((a) => ({ lens: a.lens, why: a.text.replace(/^lens skipped:\s*/, '') }));
+  const skippedSet = new Set(skipped.map((s) => s.lens));
+  const items = db.prepare("SELECT * FROM proposals WHERE run_id = ? AND kind <> 'work-item'").all(r.id);
+  const lenses = [...new Set([...(r.lenses ?? []), ...items.map((p) => p.lens)])].filter((l) => !skippedSet.has(l) || items.some((p) => p.lens === l));
+  const rows = lenses.map((l) => {
+    const mine = items.filter((p) => p.lens === l);
+    const m = mine.find((p) => p.mvp);
+    return clean({ lens: l, ranked: mine.filter((p) => p.band === 'ranked').length, reserve: mine.filter((p) => p.band === 'reserve').length,
+      mvp: m ? clean({ id: m.id, title: m.title, score: m.score, mvp_rule: m.mvp_rule }) : undefined, tokens: tk?.[l] });
+  });
+  return clean({ run: r.id, cap, lenses: rows, skipped: skipped.length ? skipped : undefined,
+    ranked: items.filter((p) => p.band === 'ranked').length, reserve: items.filter((p) => p.band === 'reserve').length });
+}
+
+/**
+ * `mvp [--run <id>] [--lens <id>]` (Seam B2): each lens's MVP - of the run given, else of the lens's latest run that
+ * named one - as {lens, proposal_id, title, score?, mvp_rule, mvp_why?}.
+ */
+export function mvps(db, { run, lens } = {}) {
+  const where = ['mvp = 1'], args = [];
+  if (run !== undefined) { where.push('run_id = ?'); args.push(need('run', run)); }
+  if (lens !== undefined) { where.push('lens = ?'); args.push(need('lens', lens)); }
+  const rows = db.prepare(`SELECT p.* FROM proposals p JOIN runs r ON r.id = p.run_id WHERE ${where.map((w) => `p.${w}`).join(' AND ')}
+    ORDER BY p.lens, r.started_at DESC, p.created_at DESC`).all(...args);
+  const seen = new Set(), out = [];
+  for (const p of rows) {
+    if (seen.has(p.lens)) continue;
+    seen.add(p.lens);
+    out.push(clean({ lens: p.lens, proposal_id: p.id, title: p.title, score: p.score, mvp_rule: p.mvp_rule, mvp_why: p.mvp_why }));
+  }
+  return { mvps: out };
 }
 
 // ------------------------------------------------------------------------------------- the release train (v2)
@@ -749,10 +1316,14 @@ export function packs(db, { lens, status } = {}) {
  * A person's triage of built items (see the header), each a compare-and-set on the status it read. Refused
  * moves land in `skipped` with the item's status, and a `reason` where the status alone does not say why.
  */
-export function triage(db, { ids, decision, by: who, note } = {}) {
+export function triage(db, { ids, decision, by: who, note, machine, start } = {}) {
+  if (machine !== undefined && machine !== false) {
+    if (decision !== undefined || who !== undefined || note !== undefined) bad('triage --machine accepts a built item on its proof alone; it takes no --decision, --by or --note');
+    return triageMachine(db, { ids, start });
+  }
   const list = [...new Set(listOf(need('ids', ids)))];
   oneOf('decision', decision, Object.keys(TRIAGE));
-  const person = by(who);
+  const person = human(who);
   if (note !== undefined && typeof note !== 'string') bad('--note needs a text');
   const text = typeof note === 'string' && note.trim() ? note : undefined;
   const reopen = decision === 'reopen';
@@ -760,7 +1331,7 @@ export function triage(db, { ids, decision, by: who, note } = {}) {
   return tx(db, () => {
     const at = now();
     const triaged = [], skipped = [], touched = [], reopened = [];
-    const read = db.prepare(`SELECT p.status, p.pack_id, p.release_id, p.triaged_from, r.status AS rel, k.status AS pack FROM proposals p
+    const read = db.prepare(`SELECT p.*, r.status AS rel, k.status AS pack FROM proposals p
       LEFT JOIN releases r ON r.id = p.release_id LEFT JOIN packs k ON k.id = p.pack_id WHERE p.id = ?`);
     const upd = db.prepare(`UPDATE proposals SET status = ?, triaged_by = ?, triaged_at = ?, triage_note = ?, triaged_from = ?, updated_at = ?,
       release_id = CASE WHEN ? THEN NULL ELSE release_id END WHERE id = ? AND status = ?`);
@@ -786,6 +1357,10 @@ export function triage(db, { ids, decision, by: who, note } = {}) {
         skipped.push({ id, status: read.get(id).status });
         continue;
       }
+      // (v5) a person undoing a machine call reverses it, and its slice drops a level: a machine-accepted item
+      // reworked, descoped or reopened, or a machine-approved item descoped before its build. The release run's own
+      // conflict rework (skill:*) is no person's call.
+      if (!person.startsWith('skill:') && decision !== 'accept' && (isMachine(p.triaged_by) || (p.status === 'approved' && isMachine(p.decided_by)))) recordReversal(db, p, at);
       triaged.push(id);
       if (p.pack_id && reopen && (target === 'done' || target === 'failed')) reopened.push(p.pack_id);
       else if (p.pack_id) touched.push(p.pack_id);
@@ -814,9 +1389,11 @@ export function reworkAttempt(db, { id, run } = {}) {
     for (let i = 0; i < 8 && (!nid || db.prepare('SELECT 1 FROM proposals WHERE id = ?').get(nid)); i += 1) nid = proposalId();
     // the rebuild keeps the item's origin, link and severity; never its external_ref, the original's idempotency key
     db.prepare(`INSERT INTO proposals (id, run_id, feature, lens, metric, title, body, standard, expected_delta, size, risk, kind, parent_id,
-        status, decided_by, decided_at, decision_note, created_at, updated_at, attempt_of, origin, external_url, tier, risk_class, ranked_by, ranked_at)
+        status, decided_by, decided_at, decision_note, created_at, updated_at, attempt_of, origin, external_url, tier, risk_class, ranked_by, ranked_at,
+        impact, impact_why, confidence, effort, score, score_parts, category)
       SELECT ?, ?, feature, lens, metric, title, body, standard, expected_delta, size, risk, kind, parent_id,
-        'approved', decided_by, decided_at, decision_note, ?, ?, id, origin, external_url, tier, risk_class, ranked_by, ranked_at FROM proposals WHERE id = ?`).run(nid, r, at, at, pid);
+        'approved', decided_by, decided_at, decision_note, ?, ?, id, origin, external_url, tier, risk_class, ranked_by, ranked_at,
+        impact, impact_why, confidence, effort, score, score_parts, category FROM proposals WHERE id = ?`).run(nid, r, at, at, pid);
     touchRun(db, r, at);
     return { id: nid, attempt_of: pid };
   });
@@ -825,7 +1402,7 @@ export function reworkAttempt(db, { id, run } = {}) {
 export function releaseCreate(db, { version, by: who, baseSha } = {}) {
   const v = need('version', version);
   if (!VERSION_RE.test(v)) bad(`--version is semver without the v, e.g. 1.4.1 (got ${JSON.stringify(v)})`);
-  const person = by(who);
+  const person = human(who); // a release (a PR to main) stays a person's: no machine creates one
   if (baseSha !== undefined) need('base-sha', baseSha);
   const id = `rel-${v}`;
   return tx(db, () => {
@@ -1045,10 +1622,14 @@ const HELP = readFileSync(fileURLToPath(import.meta.url), 'utf8').split('\nimpor
 /** The subcommands main() answers: checked before the store is opened, which creates the file and its directory. */
 export const SUBCOMMANDS = ['init', 'run-start', 'run-end', 'activity', 'measure', 'propose', 'proposals', 'proposal-update', 'rank', 'update-external',
   'shot', 'coverage', 'latest', 'gaps', 'decide', 'triage', 'rework-attempt', 'pack-create', 'pack-update', 'packs', 'release-create', 'release-add',
-  'release-update', 'releases', 'release', 'release-items', 'compare'];
+  'release-update', 'releases', 'release', 'release-items', 'compare', 'precedent', 'allocate', 'run-report', 'mvp', 'trust', 'veto', 'proof'];
 
 /** The subcommands that only read: main opens the store read-only for them and never creates it. */
-export const READS = ['proposals', 'latest', 'gaps', 'packs', 'releases', 'release', 'release-items', 'compare'];
+export const READS = ['proposals', 'latest', 'gaps', 'packs', 'releases', 'release', 'release-items', 'compare', 'precedent', 'run-report', 'mvp'];
+/** (v5) trust appends the transitions it finds, so it opens for writing - but, like a read, never creates a store. */
+const NEVER_CREATE = ['trust'];
+// the flags that are switches (a bare --x is true); every other flag needs a value
+const SWITCHES = ['untriaged', 'machine'];
 
 export function main(argv) {
   const a = parseArgs(argv);
@@ -1057,22 +1638,25 @@ export function main(argv) {
   // a typo, or a --db whose path was lost, never opens (and so creates) a store: the default one sits in the cwd
   if (!SUBCOMMANDS.includes(cmd)) bad(`unknown subcommand ${JSON.stringify(cmd)} - run with --help`);
   if (a.db === true) bad('--db needs a path (the default is .ai/lens-scan/scan.db: omit --db to use it)');
-  // parseArgs reads a flag with no value as `true`; only --untriaged is a switch. Any other reached SQLite as a
+  // parseArgs reads a flag with no value as `true`; only SWITCHES are switches. Any other reached SQLite as a
   // boolean ("Provided value cannot be bound to SQLite parameter 4") or was dropped as if it were absent.
-  const valueless = Object.keys(a).filter((k) => a[k] === true && k !== 'untriaged');
+  const valueless = Object.keys(a).filter((k) => a[k] === true && !SWITCHES.includes(k));
   if (valueless.length) bad(valueless.map((k) => `--${k.replace(/[A-Z]/g, (c) => `-${c.toLowerCase()}`)} needs a value`).join('; '));
   const dbPath = typeof a.db === 'string' ? a.db : DEFAULT_DB;
   // a read never creates the store (SKILL.md: status mode changes nothing). With no file it answers as an empty store
   // would - [] for the lists, "does not exist" for a named pack or release, every cell unmeasured for gaps - from a
   // scratch in-memory one, so a caller parsing the JSON sees the same shapes and exit codes either way.
-  const db = READS.includes(cmd) ? (openStore(dbPath, { readOnly: true }) ?? openStore(':memory:')) : openStore(dbPath);
+  const db = READS.includes(cmd) ? (openStore(dbPath, { readOnly: true }) ?? openStore(':memory:'))
+    : NEVER_CREATE.includes(cmd) && !existsSync(dbPath) ? openStore(':memory:') : openStore(dbPath);
   try {
     switch (cmd) {
       case 'init': return { db: resolve(typeof a.db === 'string' ? a.db : DEFAULT_DB), user_version: SCHEMA_VERSION };
       case 'run-start': {
         const dbPath = typeof a.db === 'string' ? a.db : DEFAULT_DB;
-        const knownFeatures = () => structureFeatures(typeof a.structure === 'string' ? a.structure : join(dirname(dbPath), 'app-structure.json'));
-        return runStart(db, { phase: a.phase, lenses: a.lenses, scope: a.scope, features: a.features, knownFeatures, model: a.model, note: a.note });
+        const st = typeof a.structure === 'string' ? a.structure : join(dirname(dbPath), 'app-structure.json');
+        const knownFeatures = () => structureFeatures(st);
+        const knownLenses = () => structureLenses(st);
+        return runStart(db, { phase: a.phase, lenses: a.lenses, scope: a.scope, features: a.features, knownFeatures, knownLenses, model: a.model, note: a.note });
       }
       case 'run-end': return runEnd(db, { run: a.run, status: a.status, note: a.note });
       case 'activity': return activity(db, a);
@@ -1117,6 +1701,13 @@ export function main(argv) {
       case 'release': return releaseGet(db, a);
       case 'release-items': return releaseItems(db, a);
       case 'compare': return compare(db, a);
+      case 'precedent': return precedent(db, { feature: a.feature, lens: a.lens, standard: a.standard, title: a.title, limit: a.limit });
+      case 'allocate': return allocate(db, { run: a.run, cap: a.cap, tokens: a.tokens });
+      case 'run-report': return runReport(db, { run: a.run, tokens: a.tokens });
+      case 'mvp': return mvps(db, { run: a.run, lens: a.lens });
+      case 'trust': return trust(db, { slice: a.slice, start: a.start });
+      case 'veto': return veto(db, { id: a.id, by: a.by, reason: a.reason });
+      case 'proof': return proof(db, { id: a.id, json: a.json });
       default: bad(`unknown subcommand ${JSON.stringify(cmd)} - run with --help`);
     }
   } finally { db.close(); }

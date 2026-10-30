@@ -1,7 +1,7 @@
 ---
 name: lens-scan
-description: "Measure a product feature by feature through one lens - development, security, design, or any lens whose manifest declares a scan block (judgement, or composed script / conform / judgement steps) - and record hard numbers over time in a local store inside the repo, then propose backlog items that each name the metric they move and the expected delta against a registry or house standard, and execute only the items a person approved in the review UI - into a pack branch a person triages item by item, never into main - then cut a release of the accepted items as one pull request. Use when a team needs the current state of a product measured with care (company setting, history, human approval) rather than a solo backlog mass-resolved: before a hardening milestone, to baseline a lens, to turn a better pattern into a house standard and propagate it to every similar site. Sibling of scan-sweep, which lands what it can prove on its own; lens-scan never decides, it measures, proposes and executes what was approved. Modes: measure, propose, execute, release, propagate, status, onboard (draft a new lens with a free icon and add it to the map)."
-argument-hint: "[measure|propose|execute|propagate|status|onboard] [--lens development|security|design|performance|<lens id with a scan block>] [--scope <group|context|feature[,feature...]>] [--proposals <id,id>] [--base <ref>] | release --id rel-<version> [--finish] | onboard \"<description>\" [--id com.x.y] [--temporary] [--draft-only] [--first-scan]"
+description: "Measure a product feature by feature through one lens or all of them in one read - development, security, design, or any lens whose manifest declares a scan block (judgement, or composed script / conform / judgement steps) - and record hard numbers over time in a local store inside the repo, then propose backlog items scored by the shared scan-finding/1 contract that each name the metric they move and the expected delta against a registry or house standard, and execute only the items a person approved in the review UI (or the store's trust ladder lets the machine decide) - into a pack branch triaged item by item, never into main - then cut a release of the accepted items as one pull request a person ships. Use when a team needs the current state of a product measured with care (company setting, history, human approval) rather than a solo backlog mass-resolved: before a hardening milestone, to baseline a lens, to turn a better pattern into a house standard and propagate it to every similar site. Sibling of scan-sweep, which lands what it can prove on its own; lens-scan decides nothing the store's own decision history has not earned, measures, proposes and executes what was approved. Modes: measure, propose, execute, release, propagate, status, onboard (draft a new lens with a free icon and add it to the map)."
+argument-hint: "[measure|propose|execute|propagate|status|onboard] [--lens development|security|design|performance|<lens id with a scan block>|all] [--scope <group|context|feature[,feature...]>] [--proposals <id,id>] [--base <ref>] | release --id rel-<version> [--finish] | onboard \"<description>\" [--id com.x.y] [--temporary] [--draft-only] [--first-scan]"
 category: workflow
 memory: project
 version: 1.11.0
@@ -9,8 +9,8 @@ tags: measure, metrics, lens, backlog, approval, house-standards, propagation, s
 ---
 # Lens scan
 
-Measure the current state of a product through **one lens at a time** and keep the
-numbers. Every run leaves typed measurements in a store the product repo owns, so the
+Measure the current state of a product through **one lens, or every enabled lens in one
+read** (`--lens all`), and keep the numbers. Every run leaves typed measurements in a store the product repo owns, so the
 second scan is a comparison and the tenth is a trend. Proposals come out of the
 numbers, each naming the metric it moves and by how much, and nothing is built until a
 person has approved it in the review UI - any app-structure v3.1 viewer that reads the
@@ -33,8 +33,9 @@ path it was invoked through (a junctioned skill's `..` is the link's parent).
 
 The difference is the contract. `scan-sweep` mass-resolves a solo backlog and lands
 what it proves. `lens-scan` works where several people own the product: it chases
-numbers carefully, proposes **fewer, measurable** items, and treats a human decision as
-the only gate into execution.
+numbers carefully, ranks a **few measurable** items (and files the rest as reserve), and
+treats a human decision as the gate into execution - except where the store's own decision
+history has earned the machine a level ([the trust ladder](#autonomy-the-trust-ladder)).
 
 ## Invocation
 
@@ -42,7 +43,9 @@ the only gate into execution.
 /lens-scan                                   # = measure, the overlay's default lens and scope
 /lens-scan measure --lens design --scope <capability>
 /lens-scan measure --lens tmp.drop-moment --scope invoice-ocr,receipts   # a project lens with a scan block
+/lens-scan measure --lens all --scope invoice-ocr   # every enabled lens, each feature read once
 /lens-scan propose --lens development        # backlog items from the latest measurements
+/lens-scan propose --lens all                # every lens's items, slots allocated across lenses
 /lens-scan execute                           # approved items into one pack branch per lens, never into main
 /lens-scan execute --proposals p-1a2b3c,p-4d5e6f   # only these items (approved, or rework: rebuilt as a new attempt)
 /lens-scan execute --proposals p-1a2b3c --base release/1.4.1   # cut the pack from a given release base
@@ -65,7 +68,7 @@ overlay's `default_scope` (headless: every feature).
 ## The store
 
 One SQLite file per product: `.ai/lens-scan/scan.db` (gitignored; the DDL is
-[store.sql](references/store.sql), `user_version 4`; a v1, v2 or v3 file is migrated in place on open). **The agent never writes SQL.**
+[store.sql](references/store.sql), `user_version 5`; a v1, v2, v3 or v4 file is migrated in place on open). **The agent never writes SQL.**
 `node ${CLAUDE_SKILL_DIR}/scripts/store.mjs` is the only writer; every subcommand
 prints JSON (`--help` lists them). The rules it enforces are the method's rules:
 
@@ -76,7 +79,9 @@ prints JSON (`--help` lists them). The rules it enforces are the method's rules:
 - Writes go only into a `running` run, and every write bumps the run's `updated_at`,
   which is how the review UI follows a scan live.
 - `approved` and `declined` are human decisions: the review UI writes them, or a
-  headless caller through `store.mjs decide --by <kind:name>` (see Headless).
+  headless caller through `store.mjs decide --by <kind:name>` (see Headless) - or the
+  store itself through `decide --machine`, only where a slice's level allows it
+  ([Autonomy](#autonomy-the-trust-ladder)); `--by machine:*` from a caller is refused.
   `proposal-update` refuses them. The skill moves an approved item to `executing`,
   `done` or `failed`, and nothing else; every move is a compare-and-set on the status
   it read, so two executors (the blueprint and a headless caller) never build one item.
@@ -102,7 +107,18 @@ prints JSON (`--help` lists them). The rules it enforces are the method's rules:
   `rank --id <id> --tier <0-3> --risk-class <c> [--by <kind:name>] [--note t]` at any
   status ([triage.md](references/triage.md) is the rubric). `risk` (1-10) stays the
   risk of the *change*, never the severity. `proposals` sorts by tier (untriaged last),
-  then age, and filters by `--origin`, `--tier <n>` or `--untriaged`.
+  then ranked before reserve, then `score` (unscored last), then age, and filters by
+  `--origin`, `--tier <n>`, `--untriaged`, `--lens`, `--run` or `--band`.
+- **The finding contract (v5, [## Finding contract](#finding-contract)).** Every scan item
+  carries `impact`, `impact_why`, `confidence`, `effort` (from `size` when only that is
+  known), `category`, the prediction (`predicted_verdict`, `predicted_why`, `predicted_by`,
+  `predicted_at`) and, after allocation, `band` and `mvp`. **The store computes `score` and
+  `score_parts`** (scan-score/1, `../scan-sweep/scripts/score.mjs`) and refuses one passed
+  in; an item without impact or effort stays unscored, never 0. `tier`/`risk_class` remain
+  the severity *class* the triage rubric orders by; `impact` is the number the score ranks
+  by ([triage.md](references/triage.md#impact-and-tier)). The autonomy ladder lives in the
+  store too ([Autonomy](#autonomy-the-trust-ladder)): `trust_events` is its append-only
+  ledger, and a machine decision is `decided_by` / `triaged_by` `machine:lens-scan`.
 
 `activity` rows are the scan's live feed. Write one at every step a person watching
 would want to see: `reading` when you open a feature, `measured`, `proposed`,
@@ -208,6 +224,20 @@ measured by its manifest's scan block, on the manifest's own fields
 **Units** come from the manifest field (`structure.mjs lens` prints them), never free text
 ([where](references/lens-manifest-scan.md#units)).
 
+### All lenses, one read (`--lens all`)
+
+Reading is the expensive part ([lenses-map.md](references/lenses-map.md#how-a-judgement-becomes-a-number)),
+so `--lens all` reads each feature **once** and judges it through every lens:
+`run-start --phase measure --lenses all ...` expands to every **enabled** lens of the map that
+lens-scan can measure (a built-in method, or a manifest scan block); the run records that full
+list, and the answer names the lenses it `skipped` (no scan method, an invalid steps scan) with
+why. For each skipped lens write `activity --kind error --lens <id> --text "lens skipped: <why>"`
+- a lens that could not run is reported skipped, never as zero findings. Then per feature:
+`reading` once, the static pass for every lens (`footprint.mjs --lens all`), the harness and
+probes once for the lenses that use them, and one judgement pass over the files already read,
+lens by lens (each lens's own instructions or mapped scan-sweep sections, its own rows). A
+steps lens runs its steps for the feature in the same run. Close the run once.
+
 **A feature with no overlay mapping for a method is simply not measured by that
 method.** Never guess a harness module or a timed path from a file name; record a
 `note` activity and move on. Close with `run-end --status done` (or `failed` with a
@@ -270,11 +300,18 @@ appends it atomically, and `--first-scan` measures every feature.
 ## 3. Propose
 
 ```
-node ${CLAUDE_SKILL_DIR}/scripts/store.mjs run-start --phase propose --lenses <lens>
+node ${CLAUDE_SKILL_DIR}/scripts/store.mjs run-start --phase propose --lenses <lens|all> --model <id>
+node ${CLAUDE_SKILL_DIR}/scripts/store.mjs precedent --feature <f> --lens <lens> [--standard <tag>] [--title "<title>"]
 node ${CLAUDE_SKILL_DIR}/scripts/store.mjs propose --run <id> --feature <f> --lens <lens> --kind fix \
   --metric <key> --expected-delta <signed number> --standard <tag> --size S --risk 3 \
+  --impact 7 --impact-why "<one line>" --confidence medium --category technical \
+  --predicted-verdict accept --predicted-why "<the closest precedent, by id, and why>" \
   --title "<imperative, one line>" --body-file <tmp.md>
+node ${CLAUDE_SKILL_DIR}/scripts/store.mjs allocate --run <id> --cap <overlay propose_cap>
 ```
+
+`--lens all` proposes for every lens the run lists, from the same read, and the cap is one
+cap for the run.
 
 Every item names:
 
@@ -292,6 +329,26 @@ Every item names:
   Expected impact / Evaluation**. The Evaluation's Before is the stored measurement;
   its After is the expected value and the rung that predicts it
   ([evidence ladder](../scan-sweep/references/evidence.md)).
+- **The contract fields** ([## Finding contract](#finding-contract)): `--impact` (1-10, the
+  harm if left or the value if done) with `--impact-why`; `--confidence` by the evidence rule
+  (`high` = the quoted `file:line` re-read in this tree AND reproduced or measured - a stored
+  measurement counts; `medium` = re-read; `low` = inference); `--effort` only when it is not
+  the size's (XS=1 S=2 M=4 L=7 XL=10); `--category` (`technical` for the code's own quality,
+  `product` for what users get). Never pass a score: the store computes it. An unknown
+  value is left out, never guessed and never 0 ([triage.md](references/triage.md#impact-and-tier)).
+- **The prediction, from memory.** Before each item, `store.mjs precedent --feature <f>
+  --lens <lens>` (with `--standard` and `--title` when you have them): the feature and
+  lens's decided items with the person's note, newest first, and bp's advice shape
+  (`withdraw` | `ask` | `proceed`). Then `--predicted-verdict accept|reject|defer` with
+  `--predicted-why` that **quotes the closest precedent by id** ("p-1a2b3c declined: 'not
+  this quarter' - same file, same pattern"), or says `no precedent yet` when the answer has
+  no rows. The store refuses a prediction that names none of the returned ids, and stamps
+  `predicted_by` as `lens-scan@<version>:<the run's model>` (pass `--model` at run-start).
+  `withdraw` means do not propose it (a decline of this same idea stands); `ask` means
+  propose it only with the new evidence named in the body. This is recorded before any
+  person sees the item; it never decides it (that is the [trust ladder](#autonomy-the-trust-ladder)'s).
+  bp's precedent engine (`packages/core/src/scan/brief.ts`) is the UI-side twin of this
+  verb: it shows the person the same memory on the card.
 
 **`target: registry`.** An item built in the ai-registry checkout - "register the project",
 "land lead X" - starts its body with the line `target: registry` (the store has no target
@@ -305,10 +362,30 @@ names (read them from the map's evidence), and it is sized for all of them. A fi
 shortfall moves no count until the pair flips: propose it under a metric with that grain, or
 fold it into the pair's item.
 
-Prefer three items that each move a number to ten that each describe a smell. Before
-proposing, read `proposals` for the feature: never re-propose an open or declined
-item; a declined one is re-proposed only with new evidence, and the body says what is
-new. Status is `proposed`. Close the run.
+**Every verified finding is filed; the cap decides its band, not its existence.** Each
+item still moves a number (a smell that moves none is no lens-scan item). Before proposing,
+read `proposals` for the feature: never re-propose an open or declined item; a declined one
+is re-proposed only with new evidence, and the body says what is new. After the last
+propose, `allocate --run <id> --cap <propose_cap>` applies the contract's slot allocation
+across the run's lenses: (1) each lens with a finding gets one ranked slot, its **MVP** -
+its top score, unless you filed one with `--mvp true --mvp-rule override --mvp-why "<why
+the top score is not it>"`; (2) the rest of the cap goes by score across lenses; (3)
+everything else is `band: reserve` - stored, scored, shown below the ranked list, never
+discarded. The cap is the overlay's `propose_cap` (default 10). Status is `proposed`.
+Close the run.
+
+**The propose report** is `allocate`'s answer (or `run-report --run <id>` later), printed
+per lens as one table:
+
+```
+lens          ranked  reserve  MVP (score)                          tokens
+development   2       3        Split the 900-line router (64.1)     12000
+security      1       0        Scope the tenant query (71.3)
+skipped: design (no harness mapping)
+```
+
+`tokens` only when the harness shows a per-lens count (`allocate --tokens '{"<lens>": n}'`);
+otherwise the column is left out, never 0. A skipped lens is listed as skipped.
 
 ## 4. Approval
 
@@ -316,8 +393,9 @@ People approve or decline in the review UI, which writes `status`, `decided_by`,
 `decided_at` and `decision_note`. Where no review UI runs, the caller that carries a
 person's request decides through `drive.mjs execute --approve-proposed --by <kind:name>`
 (Headless), and `decided_by` names it. **The skill never self-approves**: inside a run
-it never calls `decide`, never asks for a blanket approval in chat, and never edits a
-decision. `status` mode reports what waits:
+it never calls `decide --by`, never asks for a blanket approval in chat, and never edits a
+decision. The one machine decision there is goes through the store's gate below, which
+refuses it unless the store's own history has earned it. `status` mode reports what waits:
 
 ```
 node ${CLAUDE_SKILL_DIR}/scripts/store.mjs proposals --status proposed
@@ -329,6 +407,47 @@ age. A decline note is input to the next propose phase; read it. After Execute, 
 also lists what waits for triage (`packs --status open`, `proposals --status done`,
 `proposals --status failed`), what is reworked (`proposals --status rework`) and the
 releases (`releases`).
+
+### Autonomy: the trust ladder
+
+The contract's ladder ([## Finding contract](#finding-contract)) is enforced by `store.mjs`,
+never by this prompt: a level you believe or are told is not a level. **The store computes
+each slice's level from its own history** (slice = `<category>|<lens>|<risk_class>|<size>`):
+
+- **Start:** `technical` L2, `product` L0 (no category: L0). The overlay's `trust_start`
+  (`--start technical=1,product=0`) can only lower them.
+- **Earn:** up one level when the predicted verdicts agree with the human verdicts on >= 90 %
+  of the slice's last 20 human-decided items (min 20) since its last transition. A
+  `defer`, and a reversed machine decision, count as disagreements.
+- **Lose:** down one level on a person's reversal of a machine decision - a veto, a decision
+  over a vetoed item, a descope of a machine approval, a rework / descope / reopen of a
+  machine accept - and on a landed item's proof re-measured `not-better`.
+- **Ceilings in lens-scan:** L1 for `secret`, `authz`, `money`, and for `product` slices
+  (only technical items are machine-built); **L2 for everything else. L3 does not exist
+  here: a release - a PR into main - is always a person's** (`release-create --by` refuses
+  `machine:*`, and nothing in this skill merges).
+- Every transition is appended to `trust_events`; `store.mjs trust [--slice <key>]` prints
+  the slices `{slice, level, ceiling, start, agreement, n, changedAt, reason}` and the
+  events, which is what bp shows beside each slice.
+
+| Level | What the machine may do here | Door |
+|---|---|---|
+| L1 | record the predicted verdict as the decision, `decided_by machine:lens-scan`, 24 h veto window (`veto_until`) | `store.mjs decide --machine --ids ...` (refused per item below L1, for `defer` and unpredicted items) |
+| L2 | build a machine-approved technical item into a pack, and accept it ONLY when its `proof` is `better` with a `red` control | `drive.mjs execute --auto`, then `store.mjs triage --machine --ids ...` |
+
+A machine-approved item outside an L2 technical slice is never built by a headless execute:
+it waits for a person. A built item whose proof is not `better` + `red` waits for a person's
+triage like any other.
+
+**The veto (bp's write, and the store's).** Inside `veto_until` a person may take back a
+machine decision: the item goes back to `status = 'proposed'`, `triaged_from` kept,
+`decision_note = 'veto: <reason>'`. bp writes exactly that on its own (its one write besides
+the decision compare-and-set, Seam B2); the store reads a veto from that note, so whatever
+bp leaves in `decided_by`, the reversal is seen. A headless caller uses `store.mjs veto --id
+<p> --by <kind:name> --reason <t>`, which writes the same row and demotes at once. The store counts it as a reversal on its next read (`trust`,
+`decide --machine`, `triage --machine`) and demotes the slice; the machine never decides a
+vetoed item again. After the window, a person reverses through `triage --decision descope`,
+which demotes the same way.
 
 ## 5. Execute
 
@@ -406,7 +525,7 @@ recorded `failed` with the reason.
   method in [metrics.md](references/metrics.md#probes) (the skill computes p95 from 20+
   samples; the same entry at the base and the commit).
 
-**Each item**, in run order (highest expected value per size first):
+**Each item**, in run order (the `proposals` order: tier, then the stored score high first; unscored last):
 
 0. **Re-check the item against Propose as it reads today** (a cut-off item too, after its
    landed work is reconciled). An item that cannot meet those rules (a delta at the wrong
@@ -445,6 +564,25 @@ recorded `failed` with the reason.
    acceptance criteria (in its body) are met and the product's gates are green at its commit,
    `failed` otherwise, with no `--after-value`; name in the `committed` activity which criteria
    you checked and how.
+7. **The proof** (scan-finding/1), for every item with a metric, `done` or `failed`:
+   `store.mjs proof --id <p> --json <file>` with `{metric, method, unit, before, after, verdict,
+   control, base_sha, head_sha}` - `before`/`after` are the readings recorded in steps above
+   (the store refuses any other number), `verdict` `better` (moved in the metric's better
+   direction), `not-better`, or `inconclusive` (a probe inside its noise, a judgement that
+   cannot tell). **The red control** proves the instrument can read the defect, so the after
+   is the change's doing and not a constant:
+   - `static` (a footprint or steps script) and `harness`: in a scratch worktree at the item's
+     commit, re-seed the defect - reverse-apply the item's own diff (`git diff <base>..<sha> --
+     <its files> | git apply -R`), or point the instrument at a known-bad fixture the metric
+     defines - and run the **same** instrument there. It must read on the before side of the
+     after: `control: red`, `control_value: <that reading>`. Remove the scratch worktree
+     after (junction rule above). If it reads the after, the control is not red: write
+     `control: absent` and say why in the commit body.
+   - `probe` and `judgement`: no control exists (a probe's samples have no re-seeded twin we
+     trust; a reader's count is not an instrument). Write `control: absent`. Such items never
+     reach L2's machine accept - they cap at L1 and wait for a person's triage.
+   Re-measuring an accepted or released item later and writing its proof `not-better`
+   demotes its slice (the store does it).
 
 **Cut-off reconciliation**, before building anything: the item's pack is its `pack_id`
 (`packs`); look for its commit by trailer, `git log pack/<short>-<n> --grep "Lens-Item:
@@ -514,9 +652,12 @@ tree.** A caller suggests the version as [release.md](references/release.md#vers
 End every phase with: the run id, lenses, scope, features measured per method, the
 metrics written, items proposed or executed with their deltas, what was skipped and
 why (no mapping, unmeasurable, house rule missing), and the header lines from phase 0.
+A propose also prints the per-lens table of [3. Propose](#3-propose) (ranked | reserve | MVP
+title | score | tokens when known | skipped lenses), each item's score or "unscored", and
+its predicted verdict with the precedent it quoted.
 An execute also names its pack (id, branch, base ref and sha) and, per item, `done` or
 `failed`, its commit (or "no commit"), `before -> after unit` and whether the after is
-stacked on earlier items; it never says an item "landed" or "merged": nothing of a pack
+stacked on earlier items, its proof (`verdict`, `control`); it never says an item "landed" or "merged": nothing of a pack
 reaches main until a release. A release reports as [release.md](references/release.md#reporting) says.
 Never report a metric you did not store.
 
@@ -527,9 +668,9 @@ whole interface, and `scripts/drive.mjs` is the caller's door. It decides what n
 from the store, starts one `claude -p` per run, and prints one JSON summary:
 
 ```
-node ${CLAUDE_SKILL_DIR}/scripts/drive.mjs status  --lens <id> --root <product repo>
-node ${CLAUDE_SKILL_DIR}/scripts/drive.mjs cover   --lens <id> --root <repo> [--features a,b | --retry] [--stale] [--dry]
-node ${CLAUDE_SKILL_DIR}/scripts/drive.mjs execute --lens <id> --root <repo> [--approve-proposed --by operator:<name>] [--ids a,b] [--base <ref>] [--dry]
+node ${CLAUDE_SKILL_DIR}/scripts/drive.mjs status  --lens <id|all> --root <product repo>
+node ${CLAUDE_SKILL_DIR}/scripts/drive.mjs cover   --lens <id|all> --root <repo> [--features a,b | --retry] [--stale] [--dry]
+node ${CLAUDE_SKILL_DIR}/scripts/drive.mjs execute --lens <id|all> --root <repo> [--approve-proposed --by operator:<name> | --auto [--start technical=n,product=m]] [--ids a,b] [--base <ref>] [--dry]
 node ${CLAUDE_SKILL_DIR}/scripts/drive.mjs propagate --lens <id> --root <repo> [--ids <upgrade,...> | --standard house:<subject>/<line>] [--dry]
 node ${CLAUDE_SKILL_DIR}/scripts/drive.mjs triage  --ids a,b --decision accept|rework|descope|reopen --by operator:<name> [--note t] --root <repo>
 node ${CLAUDE_SKILL_DIR}/scripts/drive.mjs compare --pack k-des-3 | --ids a,b --root <repo>
@@ -550,7 +691,19 @@ node ${CLAUDE_SKILL_DIR}/scripts/drive.mjs release --id rel-<version> [--finish]
   A caller passes it only when the person it acts for asked for the backlog to be built.
   Each run builds a pack, never main. `--base <ref>` reaches the prompt as `--base <ref>`
   (a release base the caller chose); with `--ids`, a named `rework` item is rebuilt as a
-  new attempt.
+  new attempt. A machine-approved item is built only in an L2 technical slice; elsewhere it
+  is skipped with why and waits for a person.
+- `execute --auto` is the [trust ladder](#autonomy-the-trust-ladder) end to end, with no
+  person in the loop and the store as the only judge: `decide --machine` on the predicted
+  `proposed` items (L1, per slice level), the runs build the person-approved and the
+  L2-machine-approved items, then `triage --machine` accepts the built ones whose proof is
+  `better` with a `red` control. The summary lists `machine_decided`, `machine_skipped`,
+  `machine_triaged` and `waits_for_triage`. `--start` passes the overlay's `trust_start`.
+  It never creates or ships a release.
+- `--lens all` (status, cover, execute): every enabled lens of the map with a scan method.
+  status and cover merge the gaps (`<lens>.<metric>` per feature), cover's runs are
+  `/lens-scan measure --lens all --scope ...` (one read per feature) and one
+  `/lens-scan propose --lens all`; the summary names `lenses` and `skipped_lenses`.
 - `propagate` starts one `claude -p` per landed (`done`) `baseline-upgrade` of the lens,
   `/lens-scan propagate --lens <id> --proposals <upgrade>` (6. Propagate). Its children
   arrive `proposed` and wait for a person like any item; the summary lists them. `--ids`
@@ -579,7 +732,8 @@ prompt as the only input (an argument or stdin), `BP_JOB_ID` in the environment,
 nobody watching the terminal. Its prompts:
 
 ```
-/lens-scan measure --lens <id> [--scope <feature-slug,feature-slug,...>]
+/lens-scan measure --lens <id|all> [--scope <feature-slug,feature-slug,...>]
+/lens-scan propose --lens <id|all>
 /lens-scan execute --proposals <id,id,...> [--base <ref>]
 /lens-scan release --id rel-<version> [--finish]
 /lens-scan onboard "<description>" --draft-only     # the lens chat, with --resume per turn
@@ -615,7 +769,9 @@ sections for the command maps.
 | `structure_out` | `.ai/lens-scan/app-structure.json` | Where phase 1 writes. |
 | `project_slug` / `project_name` | from the context map | The structure's project. |
 | `house` | `.ai/house` | The house layer root. |
-| `default_lens` | `development` | The lens when `--lens` is absent. |
+| `default_lens` | `development` | The lens when `--lens` is absent (`all` for every enabled lens). |
+| `propose_cap` | `10` | A propose run's ranked slots across all its lenses (`allocate --cap`); every lens's MVP is ranked even past it, the rest of the verified findings are `band: reserve`. |
+| `trust_start` | `technical=2,product=0` | The autonomy start levels; may only lower them (`--start` on `trust`, `decide --machine`, `triage --machine`, `drive.mjs execute --auto`). |
 | `default_scope` | none (ask once; headless: every feature) | The judgement/harness scope when `--scope` is absent. |
 | `bundle_stats` | none (`bundleKb` unmeasured) | A per-feature bundle stats file, when one exists. |
 | `## Gates` | `.ai/manifest.yaml` capabilities | The verification commands phase 5 runs, verbatim. |
