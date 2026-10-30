@@ -41,8 +41,10 @@ conflict to the director). The director groups by the seam lines in each card's
 Evidence before dispatching, and a group is executed in order on one branch with one
 commit per item.
 
-The worker is an **Sonnet-class subagent** (operator rule, 2026-09-06) with the full
-finding card as its spec, in an isolated worktree:
+The worker is a **Sonnet-class subagent** (operator rule, 2026-09-06; the one model
+statement for Lane B - SKILL.md §5 says the same, and only the overlay's
+`ab.workerModel` may pin another) with the full finding card as its spec, in an
+isolated worktree:
 
 ```
 git worktree add C:/t/w-<repo>-<slug> -b sweep/<slug>
@@ -50,7 +52,17 @@ git worktree add C:/t/w-<repo>-<slug> -b sweep/<slug>
 
 Short path, per the long-path rule. The worktree shares the git common dir, so hooks,
 `.claude/`, and the registry link follow it; `node_modules` does not — junction it
-(`mklink /J`) rather than reinstalling.
+rather than reinstalling. **Use the shell-neutral form** - `node` takes the paths as
+plain arguments, so it runs the same in PowerShell, cmd and Git Bash:
+
+```
+node -e "require('fs').symlinkSync(require('path').resolve(process.argv[1]), process.argv[2], 'junction')" <base>/node_modules <worktree>/node_modules
+```
+
+`mklink /J` / `rmdir` written for cmd do NOT work as typed in Git Bash: MSYS rewrites
+`/J` into a path (it needs `MSYS_NO_PATHCONV=1`), and a `\\$w` inside the quoting
+swallows the variable (personas 2026-10-30: the first `rmdir` attempts failed, safely
+only because the worktree removal was chained behind them).
 
 **And then never run `npm ci` or `npm install` inside the worktree.** The junction is a
 door into the base checkout's `node_modules`, and `npm ci` DELETES that directory before
@@ -104,6 +116,14 @@ why; it is the only verdict that goes on to Lane C.
 The session that ran the sweep is the director. It never builds a B itself; it
 dispatches, reads, and merges.
 
+- **Preflight the gates before dispatch.** Run every gate the wave's items will need
+  once on the base tree, exit asserted (SKILL.md §7.9). A gate that cannot run on this
+  host - a missing toolchain, a cross-target compiler - makes every item that needs it
+  unmeasurable before a worker is spent on it: do not dispatch those; hand them off as
+  Lane B with `note: "gate unrunnable on host: <gate> - <reason>"`, naming the operator
+  act that would unblock it. (personas 2026-10-30: `npm run test:rust` exited 101 -
+  cc-rs found no `clang` for `aarch64-pc-windows-msvc` - and both Rust items came back
+  unmeasurable after the workers ran.)
 - **Dispatch** every group in one message so the workers run concurrently. Cap at
   `--workers N` (default 4). Groups beyond the cap wait for a free slot.
 - **Review each return against the diff**, not the report: the gate ran (exit codes
@@ -115,8 +135,10 @@ dispatches, reads, and merges.
   and empties the base checkout's `node_modules` (measured 2026-09-06: the last
   worktree removed still held its junction, and the director's own gate run then
   found 0 packages and read three red gates that were nothing but a missing
-  compiler). `cmd /c rmdir <worktree>\node_modules` removes the link only; then
-  `git worktree remove`. Emit a progress node.
+  compiler). `node -e "require('fs').unlinkSync(process.argv[1])" <worktree>/node_modules`
+  removes the link only, in any shell (verified 2026-10-30 from Git Bash and
+  PowerShell: target intact); chain `git worktree remove` behind it with `&&`, so a
+  failed unlink stops the removal. Emit a progress node.
 - **A red gate the branch did not cause is main's red, not the worker's.** Before
   refusing a merge for it, run the same gate on the active branch WITHOUT the
   worker's commits; if it fails identically there, merge on the worker's own gates,

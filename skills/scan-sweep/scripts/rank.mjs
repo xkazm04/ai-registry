@@ -22,10 +22,8 @@
 // Exit 0 ok; 1 a line is unreadable, lacks `lens`, or carries an out-of-scale value (nothing written);
 // 2 bad arguments.
 import { readFileSync, writeFileSync, existsSync } from 'node:fs';
-import { resolve } from 'node:path';
-import { fileURLToPath } from 'node:url';
 import { scanScore, sizeToEffort } from './score.mjs';
-import { levelFor } from './door.mjs';
+import { levelFor, isEntry } from './door.mjs';
 
 const present = (v) => v !== undefined && v !== null && v !== '';
 // Scored first by score desc; unscored after every scored finding (the contract); stable otherwise.
@@ -124,4 +122,5 @@ function main(argv) {
   return 0;
 }
 
-if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.url)) process.exitCode = main(process.argv.slice(2));
+// Real-path entry check: through the skill link a plain compare never fired (see door.mjs isEntry).
+if (isEntry(process.argv[1], import.meta.url)) process.exitCode = main(process.argv.slice(2));

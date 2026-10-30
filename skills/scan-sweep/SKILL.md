@@ -1,11 +1,11 @@
 ---
 name: scan-sweep
-description: "Long-running quality sweep that walks a repository context by context, reads each area's code once, judges it through every scan lens, and lands what it can PROVE itself with atomic commits. With no arguments it runs the STABILIZE loop - bug hunting, UI perfection, performance - picking the least-covered context each round and keeping a per-context lens-coverage ledger so a codebase gets swept evenly instead of repeatedly in the same corner. Every finding climbs an evidence ladder (gate > probe > experiment > simulation) before it is routed: a measured `better` with no escalation builds in-session, S or M, under any strategy; `not-better` is rejected with its figures; what a probe could not measure - a walked simulation, a named-but-unbuilt instrument, an out-of-scope seam, an M or L too large to land unread - goes to Lane B, an A/B wave of Opus workers in worktrees that build both arms, measure with the same instrument, seed the control red, and let the director merge `better` and throw `not-better`; only a direction, an XL, an irreversible change, a loosened policy, or an operator-only act still waits for a human. Use for a standing quality loop, a hardening milestone, or a backlog. Pass --develop for new capability, --optimize for deep hardening, --challenge for a proving ground (two critic-graded hard candidates per context), --ideas-only to change no code, --coverage for the pick list, --backlogs for what earlier passes left open, --handoff to file them into Personas Approvals (each run ends there)."
+description: "Long-running quality sweep that walks a repository context by context, reads each area's code once, judges it through every scan lens, and lands what it can PROVE itself with atomic commits. With no arguments it runs the STABILIZE loop - bug hunting, UI perfection, performance - picking the least-covered context each round and keeping a per-context lens-coverage ledger so a codebase gets swept evenly instead of repeatedly in the same corner. Every finding climbs an evidence ladder (gate > probe > experiment > simulation) before it is routed: a measured `better` with no escalation builds in-session, S or M, under any strategy; `not-better` is rejected with its figures; what a probe could not measure - a walked simulation, a named-but-unbuilt instrument, an out-of-scope seam, an M or L too large to land unread - goes to Lane B, an A/B wave of Sonnet workers in worktrees that build both arms, measure with the same instrument, seed the control red, and let the director merge `better` and throw `not-better`; only a direction, an XL, an irreversible change, a loosened policy, or an operator-only act still waits for a human. Use for a standing quality loop, a hardening milestone, or a backlog. Pass --develop for new capability, --optimize for deep hardening, --challenge for a proving ground (two critic-graded hard candidates per context), --ideas-only to change no code, --coverage for the pick list, --backlogs for what earlier passes left open, --handoff to file them into Personas Approvals (each run ends there)."
 argument-hint: "[--stabilize|--develop|--optimize|--challenge] [--cohort N] [--riders N] [--until-covered] [--go] [--one <context>] [--depth N] [--ideas-only] [--lenses k1,k2] [--coverage] [--backlogs] [--ab] [--ab-only] [--workers N] [--handoff]"
 category: workflow
 contexts: tracked
 memory: project
-version: 4.9.0
+version: 4.10.0
 tags: sweep, quality, stabilization, backlog, coverage, registry, atomic-commits
 ---
 # Context Sweep
@@ -44,6 +44,15 @@ loses nothing but the round in flight.
 **Announce each round's boundary out loud**: `── Round <n>: <context> (lens
 coverage <a>/<total>, last swept <age>) ──`. A loop whose rounds are not visible
 reads as one runaway session.
+
+**Headless runs (`claude -p`) set `CLAUDE_CODE_PRINT_BG_WAIT_CEILING_MS=0`.** Print
+mode stops every background subagent 10 minutes after the session's last turn, so
+a director that dispatched round-agents and ended its turn loses them mid-round
+(personas 2026-10-30: four round-agents killed, no findings recorded). `0` waits
+indefinitely. The ceiling is the backstop, not the rule: a headless director
+**never ends a turn while a subagent it dispatched is still running** - it
+dispatches in the foreground or waits for every completion before its final
+message (§7, Director-run fan-out).
 
 **Existing backlog is spoken first (§0), including `--coverage`.** A run that
 starts a new scan while a previous wave still has unbuilt auto items has
@@ -274,7 +283,12 @@ Rules that keep the notice honest:
   **Never re-propose anything on those lists, including rephrasings of rejected
   titles.** A rejected title is a durable human "no". The decisions read above
   joins this list; a rejected decision's `reason` says what kind of rephrasing it
-  also rules out.
+  also rules out. **When the digest is absent too** (door unreachable AND no file at
+  the digest path), the never-re-propose list is what is local: the open-backlog
+  register's findings files (§0), this context's reserve file, and the sweep
+  history. Say `memory: none (door <reason>; no digest at <path>)` in the header,
+  write every `predicted_why` as `no precedent (door unreachable, digest absent)`,
+  and do not block - the ladder already runs at start levels (§5).
 - **Trust** - `node ${CLAUDE_SKILL_DIR}/scripts/door.mjs trust --repo <root> >
   <run dir>/trust.json` returns the project's per-slice autonomy levels and their
   transition events. Keep the file even when it says `reachable: false`; §5's
@@ -388,6 +402,15 @@ Rules that keep the notice honest:
    context (§2). Reserve findings are not built this round - they are owed to
    the next one.
 
+   **Nothing is built before `rank.mjs` has run.** Judging finishes, `findings.jsonl`
+   is ranked, and only then does §7 start - on the lines of `ranked.jsonl` that say
+   `band: ranked` (and `lane_a_ok: true` for Lane A). A fix built while still
+   judging cannot know its band. Measured 2026-10-30 (personas): one round-agent
+   built three items before ranking, all three landed in the reserve band, and
+   the director had to revert them (§9.1 files them as `disposition: reverted`).
+   A round-agent's reply names its `ranked.jsonl`; a commit for an item that file
+   does not rank is reverted at integration.
+
    **THE ALLOCATION MUST BE ABLE TO HEAR THE PACKAGE YOU RAN.** Under the old
    tier caps a 22-lens package against a 5-item budget was exhausted by lens
    three, and the other nineteen had nowhere to put anything - they became
@@ -455,6 +478,15 @@ Rules that keep the notice honest:
    it is an absence. Measured 2026-09-16: ~31 judge verdicts read a 28-lens
    "all clean" list as rubber-stamped, which is the padding §4.9 already
    forbids in prose and the ledger was still accepting as a key.
+
+   **Record what each lens checked as data, when the lens finishes** - one line
+   per lens to `<run dir>/coverage.jsonl`:
+   `{"lens":"<key>","context":"<context>","findings":<n>,"checked":["<file, grep or hypothesis>", ...]}`,
+   or `{"lens":"<key>","context":"<context>","no_surface":"<reason>"}`. §9's
+   coverage nodes and §10's `lens_keys` / `lens_no_surface` are rendered from this
+   file, not recalled from prose at the end: a lens with an empty `checked` list
+   earns no credit. (personas 2026-10-30: the coverage bodies fell back to finding
+   titles or a generic line because nothing structured existed to render from.)
 
 10. **EVERY finding is written in the standard form - no exceptions, no prose
     dumps.** The operator decides from the deck at a glance and a cheaper model
@@ -543,7 +575,9 @@ Rules that keep the notice honest:
     built or not.** The finding line (§9) carries the contract's fields
     (`## Finding contract`) beside the §4.10 body; an unknown value is OMITTED,
     never `0` and never `""`. Write each finding to `<run dir>/findings.jsonl`
-    as you judge it; §4.4 ranks that file.
+    as you judge it - appended the moment it is verified, never batched for the
+    end or held for the final reply; §4.4 ranks that file. A round killed
+    mid-package then leaves every judgement it made on disk.
 
     | Field | How the reader assigns it |
     | --- | --- |
@@ -566,7 +600,7 @@ Result / Gate) and two scores. §5 turns that into exactly one of three lanes:
 | Lane | Who decides | What it holds |
 | --- | --- | --- |
 | **A - build now** | the measurement already taken | `better` at `gate` or `probe`, no escalation, XS/S, or M with risk ≤ 3, inside this round's paths. Built in-session, one commit each, seeded control on every instrument. |
-| **B - A/B, then build or throw** | the same instrument on both arms, in isolation | everything claimable that A could not measure or should not land unread: `simulation`-only, `unmeasurable`-with-a-named-instrument, M with risk ≥ 4, L, out-of-scope seams, in-tree contracts without a verifier, carries that still lack their instrument. Dispatched to Opus workers in worktrees, in parallel; the director merges `better`, rejects `not-better` with figures, escalates the rest. `references/ab-lane.md` is the contract. |
+| **B - A/B, then build or throw** | the same instrument on both arms, in isolation | everything claimable that A could not measure or should not land unread: `simulation`-only, `unmeasurable`-with-a-named-instrument, M with risk ≥ 4, L, out-of-scope seams, in-tree contracts without a verifier, carries that still lack their instrument. Dispatched to Sonnet workers (overlay `ab.workerModel` may pin another) in worktrees, in parallel; the director merges `better`, rejects `not-better` with figures, escalates the rest. `references/ab-lane.md` is the contract. |
 | **C - human** | the operator, from the deck | the four escalations — `direction`, `architecture`, `irreversible`, `policy-loosen` — plus XL, contracts with consumers outside the tree, and anything Lane B returned `unmeasurable` after a real attempt. |
 
 `not-better` is not a lane. It is a rejection, with both figures, and it leaves the
@@ -668,7 +702,7 @@ An item is Lane B when it is neither C nor A and its Result is `better` or
 | in-tree `contract` without a verifier | letters (a)–(d) are the worker's checklist |
 | `carry` lacking its instrument for the second time | approved twice and unbuilt twice is a wave item, not a third carry |
 
-Lane B is dispatched after the round's Lane A commits have landed, one Sonnet worker
+Lane B is dispatched after the round's Lane A commits have landed, one Sonnet worker (or the overlay's `ab.workerModel`)
 per write-set group, in isolated worktrees, in parallel, capped by `--workers`. The
 worker re-measures A, builds the instrument if the card names one, builds B within
 the stated size, takes the same figure on B, runs every gate with its status
@@ -725,6 +759,14 @@ reads one (§2 `door.mjs trust`) and `rank.mjs --trust` writes per item `slice`,
   only in the minimum. The counter is repo-wide and fast; the ladder is
   per-slice and earned; either can stop the machine, neither can start it.
   (`coverage.mjs --next --json` prints `strict`; pass `--strict` to `rank.mjs`.)
+- **Lane B is an L2 act too.** A Lane B merge is the machine landing code on its
+  own measurement - the contract's L2 auto-build - so a Lane B item is dispatched
+  only when its slice reads `lane_a_ok: true` (the field is the level check alone;
+  Lane A's size and path conditions do not apply to B). Below L2 - every `product`
+  slice at its L0 start - it goes to the §9.1 hand-off as A/B-drainable, with
+  `auto_decide` per its level. **A human accept in Approvals is the decision the
+  ladder asks for**: `--ab-only` over cards the operator accepted dispatches them
+  at any level.
 - `secret` / `authz` / `money` never route above L1, and nothing that leaves the
   system (a publish, a message) is ever handed off with `auto_decide`. **Neither
   is a Lane C escalation** (`direction`, `architecture`, `irreversible`,
@@ -994,7 +1036,10 @@ first, then this round's, highest-reward first - one finding at a time:
    tsconfig, the selected tests) before you trust it. A gate that can reach the
    network or spend money must refuse that from inside the test tree (a
    conftest or setup hook), not only through an ini file that a different
-   working directory skips.
+   working directory skips. **And again before Lane B dispatch, for the gates
+   the wave's items need** (`references/ab-lane.md`, "Preflight the gates"): a
+   gate this host cannot run makes its items unmeasurable before a worker is
+   spent on them - hand them off naming the gate, do not dispatch them.
 
 **Parallel-session rules** — several sweeps may share this repo, one context each:
 
@@ -1027,7 +1072,25 @@ no cross-agent contamination):
   snapshot row, consult line and lead lines in the final reply, and the
   director appends them. Each agent writes its own findings file, one per
   context or merged round (`<findingsDir>/<slug>.jsonl`), so no two agents share a
-  findings file.
+  findings file - **appending each finding the moment it is verified** (§4.12)
+  and each lens's `coverage.jsonl` line as the lens finishes (§4.9). The final
+  reply is a summary of those files, never their only copy: a killed agent's
+  judgement must survive on disk (personas 2026-10-30: four agents killed, none
+  had written a findings file, every round owed its whole package again).
+- **The director never ends its turn with a round-agent still running.** Wait
+  for every completion (or dispatch in the foreground) before the final
+  message; under `claude -p` the harness stops live subagents after the last
+  turn (Invocation, `CLAUDE_CODE_PRINT_BG_WAIT_CEILING_MS=0`).
+- **A ratchet that fails on a DROP is an improvement, not a red gate.** Some
+  repos' census or count gates fail when a count goes DOWN until the baseline
+  is lowered (personas `census:check` / `scripts/census/rules.json`). For a
+  round-agent that failure is a pass: it does not edit the baseline, it reports
+  `ratchet: <file> <key> <old> -> <new>` in its reply, and the director lowers
+  the baseline once, after the combined run (below). Where a commit hook runs
+  that gate and would block the commit, the brief names the one exception: the
+  agent lowers exactly that key to exactly the count its own change produced,
+  in the same commit, and names it in the reply - never raises one. A ratchet
+  that fails on a RISE is a breach and the agent's to fix.
 - **A wave is ≤ 4 contexts that share no write paths.** Hold a context whose
   paths another session has reserved, and run it in a later wave once that
   session releases them. Pair the small contexts (§1) inside the wave. Each
@@ -1061,8 +1124,8 @@ Header first:
   not run a gate. **A degraded sweep reported as complete is worse than no
   sweep.**
 - `registry: <domain>/<subject>` — or `none` / `declared, unmapped`.
-- `memory: decisions <n> (context|project)` or `memory: digest only (<reason>)`,
-  and the `trust:` line (§2).
+- `memory: decisions <n> (context|project)`, `memory: digest only (<reason>)`
+  or `memory: none (<reason>)`, and the `trust:` line (§2).
 
 Then **the per-lens table** `rank.mjs` printed (§4.4), one row per lens that
 produced a finding, MVP score descending:
@@ -1118,7 +1181,7 @@ After line names the instrument the worker could not build.
 Each BACKLOGGED finding (Lane C only):
 
 ```json
-{"type":"finding","skill":"scan-sweep","lens":"<lens-key>","context":"<context>","title":"<title>","body":"## Summary\n...\n\n## Description\n...\n\n## Flow\n- ...\n\n## Expected impact\n...\n\n## Evaluation\nClaim: performance - ...\nBefore: ...\nAfter: ...\nMethod: probe - ...\nResult: better\nGate: none","evidence":"<code block or file:line list - the proof, not the prose>","size":"S|M|L","effort":3,"impact":7,"impact_why":"<<=200 chars>","risk":2,"confidence":"low|medium|high","category":"technical|product","score":51.7,"score_parts":{"impact":7,"confidence_w":0.95,"effort_div":1.222,"risk_factor":0.95,"formula":"scan-score/1"},"band":"ranked|reserve","mvp":true,"mvp_rule":"top-score|override","mvp_why":"<only with override>","predicted_verdict":"accept|reject|defer","predicted_why":"<<=300 chars, the precedent quoted>","predicted_by":"scan-sweep@<version>:<model>","proof":{"metric":"...","method":"gate","unit":"...","before":"...","after":"...","verdict":"better|not-better|inconclusive","control":"red|absent","base_sha":"...","head_sha":"..."},"result":"better|not-better|unmeasurable","method":"gate|probe|experiment|simulation","gate":"none|contract|policy-tighten|policy-loosen|irreversible|architecture|direction","lane":"B|C","disposition":"backlog|carry","sweep_run_id":"<run id>","auto_decide":false}
+{"type":"finding","skill":"scan-sweep","lens":"<lens-key>","context":"<context>","title":"<title>","body":"## Summary\n...\n\n## Description\n...\n\n## Flow\n- ...\n\n## Expected impact\n...\n\n## Evaluation\nClaim: performance - ...\nBefore: ...\nAfter: ...\nMethod: probe - ...\nResult: better\nGate: none","evidence":"<code block or file:line list - the proof, not the prose>","size":"S|M|L","effort":3,"impact":7,"impact_why":"<<=200 chars>","risk":2,"confidence":"low|medium|high","category":"technical|product","score":51.7,"score_parts":{"impact":7,"confidence_w":0.95,"effort_div":1.222,"risk_factor":0.95,"formula":"scan-score/1"},"band":"ranked|reserve","mvp":true,"mvp_rule":"top-score|override","mvp_why":"<only with override>","predicted_verdict":"accept|reject|defer","predicted_why":"<<=300 chars, the precedent quoted>","predicted_by":"scan-sweep@<version>:<model>","proof":{"metric":"...","method":"gate","unit":"...","before":"...","after":"...","verdict":"better|not-better|inconclusive","control":"red|absent","base_sha":"...","head_sha":"..."},"result":"better|not-better|unmeasurable","method":"gate|probe|experiment|simulation","gate":"none|contract|policy-tighten|policy-loosen|irreversible|architecture|direction","lane":"B|C","disposition":"backlog|carry|reverted","sweep_run_id":"<run id>","auto_decide":false}
 ```
 
 `body` is the §4.10 form verbatim — the five `## ` sections, newline-escaped in
@@ -1143,7 +1206,9 @@ finding (impact >= 8) or 3 real findings in this context:
 ```
 
 Coverage — one node per lens **actually pointed at a named artefact** (§4.9); a
-clean lens counts only when its `body` says what it checked. Lenses with no
+clean lens counts only when its `body` says what it checked. The body is
+rendered from that lens's `coverage.jsonl` line (`<findings> findings; checked:
+<checked joined by "; ">`), never written from memory. Lenses with no
 surface are not emitted as coverage. Plus one for the round:
 
 ```json
@@ -1194,6 +1259,16 @@ reach (as Lane B), Lane B `unmeasurable`, and every **`band: reserve`** finding
 and `not-better` rejections never are. A Lane B item stays out of Approvals while the run can
 still drain it - the hand-off is for what the session leaves behind, not a
 shortcut past §5.
+
+**Built, then reverted** (a change was built and measured, then taken out - a
+reserve item built before ranking, §4.4, or a merge the director backed out) is
+not a built item: nothing of it is in the tree. It is handed off with
+`disposition: "reverted"` AND its `proof` (the contract's "a change was built";
+`head_sha` = the reverted commit, which stays reachable in the branch history),
+`result` as measured, and the revert sha plus the reason in the body's
+Description, so the next round can cherry-pick instead of rebuilding.
+`filing.mjs` refuses `reverted` without a proof - without one it is an
+ordinary card claiming a build.
 
 **How.**
 
@@ -1272,6 +1347,18 @@ director-run fan-out (§7), the director commits the wave's rows together right
 after the wave's combined gate, so no row sits uncommitted while the next wave
 runs.
 
+**Where the ledger is ignored, it lives in the MAIN checkout.** Check first:
+`git check-ignore -q .claude/scan-history/scan-sweep.jsonl` (exit 0 = ignored -
+a repo that ignores `.claude/*` does). Then "committed" cannot hold, and a
+worktree's copy dies with the worktree (personas 2026-10-30). So: append every
+row to the main checkout's file - the parent of
+`git rev-parse --path-format=absolute --git-common-dir` - never to a worktree's,
+run the picker against it (`coverage.mjs --history <main>/.claude/scan-history/scan-sweep.jsonl`),
+and say `ledger: untracked (ignored), main checkout` in the round report. The
+same holds for every `.claude/scan-history/*.jsonl` and the open-backlog
+register. Do not un-ignore the directory from inside a sweep; that is the
+repo owner's call.
+
 ## Project overlay
 
 Everything project-specific lives in `.claude/scan-sweep/config.md` in the
@@ -1295,6 +1382,7 @@ consuming repo. The skill runs on the defaults without it.
 | `challenge.sharedSurfaces` | none | Files every builder may append to under the shared-surface lock (locale catalogs, generated references, ratchet ceilings). |
 | `challenge.integrationGate` | the overlay's full gate list | What runs on the combined tree after each wave. |
 | `challenge.worktrees` | `false` | Whether builders may take worktrees (only when the repo's gates run in one). |
+| `ab.workerModel` | `sonnet` | The Lane B worker model (§5, `references/ab-lane.md`). The one place a project may pin another; SKILL.md and ab-lane.md state the default only. |
 
 ## Coverage table
 

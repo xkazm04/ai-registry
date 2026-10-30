@@ -238,3 +238,77 @@ test('door down: the spool fallback is unchanged - the raw cards are queued dura
   assert.deepEqual(spool.map((e) => e.card), cards, 'the spool keeps the card exactly as written');
   assert.ok(spool.every((e) => e.state === 'queued' && e.origin === 'scan_sweep'));
 });
+
+test('an out-of-scale scale is refused even when the card is unscorable (no effort, no size)', async () => {
+  const f = await fixture([JSON.stringify({ title: 'Lone', impact: 12 }), JSON.stringify({ title: 'Risky', risk: 0 }), JSON.stringify({ title: 'Ok', impact: 4 })]);
+  try {
+    const r = await run(['--file', f.file, '--repo', f.repo], f.home);
+    assert.equal(r.status, 1, r.stdout);
+    assert.deepEqual(f.filed.map((b) => b.title), ['Ok']);
+    assert.match(r.stderr, /line 1: impact must be an integer 1-10/);
+    assert.match(r.stderr, /line 2: risk must be an integer 1-10/);
+  } finally { f.server.close(); }
+});
+
+test('built-then-reverted: disposition reverted travels with its proof; without a proof it is refused', async () => {
+  // personas 2026-10-30: three reserve items were built before ranking, then reverted. The contract's `proof`
+  // covers "a change was built"; `disposition: reverted` (a routing word the door stores as-is) says nothing landed.
+  const reverted = { title: 'Built early', lens: 'error-handler', disposition: 'reverted', band: 'reserve', result: 'better', proof: PROOF };
+  const f = await fixture([JSON.stringify(reverted), JSON.stringify({ title: 'No proof', disposition: 'reverted' })]);
+  try {
+    const r = await run(['--file', f.file, '--repo', f.repo], f.home);
+    assert.equal(r.status, 1, r.stdout);
+    assert.deepEqual(f.filed.map((b) => [b.title, b.disposition, b.proof?.verdict]), [['Built early', 'reverted', PROOF.verdict]]);
+    assert.match(r.stderr, /line 2: disposition reverted needs the proof of what was built/);
+  } finally { f.server.close(); }
+});
+
+/** A port nothing listens on: bind one, then close it. */
+async function deadPort() {
+  const s = http.createServer();
+  await new Promise((r) => s.listen(0, '127.0.0.1', r));
+  const { port } = s.address();
+  await new Promise((r) => s.close(r));
+  return port;
+}
+
+test('stale handshake (file present, app dead -> connection refused) spools like a missing one, exit 0', async () => {
+  // personas 2026-10-30: the handshake outlived the app, approvals exited 3 and called the cards owed
+  // although the spool tool was right there.
+  const home = scratch('approvals-home-');
+  const repo = scratch('approvals-repo-');
+  mkdirSync(join(home, '.personas'), { recursive: true });
+  writeFileSync(join(home, '.personas', 'local-http.json'), JSON.stringify({ port: await deadPort(), token: 't' }));
+  const file = join(repo, 'handoff.jsonl');
+  writeFileSync(file, `${JSON.stringify({ title: 'One', lane: 'C' })}\n`);
+  const r = await run(['--file', file, '--repo', repo], home);
+  assert.equal(r.status, 0, r.stdout + r.stderr);
+  const spool = readFileSync(join(home, '.personas', 'spool', 'ideas.jsonl'), 'utf8').trim().split('\n').map((l) => JSON.parse(l));
+  assert.deepEqual(spool.map((e) => e.card.title), ['One']);
+});
+
+test('stale handshake with --no-spool keeps the old contract: exit 3, cards owed', async () => {
+  const home = scratch('approvals-home-');
+  const repo = scratch('approvals-repo-');
+  mkdirSync(join(home, '.personas'), { recursive: true });
+  writeFileSync(join(home, '.personas', 'local-http.json'), JSON.stringify({ port: await deadPort(), token: 't' }));
+  const file = join(repo, 'handoff.jsonl');
+  writeFileSync(file, `${JSON.stringify({ title: 'One' })}\n`);
+  const r = await run(['--file', file, '--repo', repo, '--no-spool'], home);
+  assert.equal(r.status, 3, r.stdout + r.stderr);
+  assert.match(r.stderr, /still owed/);
+});
+
+test('the spool path validates through filing.mjs: an out-of-scale card is not queued, exit 1', async () => {
+  const home = scratch('approvals-home-');
+  const repo = scratch('approvals-repo-');
+  const file = join(repo, 'handoff.jsonl');
+  writeFileSync(file, `${[{ title: 'Good', impact: 5 }, { title: 'Bad', impact: 12, effort: 2 }].map((c) => JSON.stringify(c)).join('\n')}\n`);
+  const out = join(repo, 'out.jsonl');
+  const r = await run(['--file', file, '--repo', repo, '--out', out], home);
+  assert.equal(r.status, 1, r.stdout + r.stderr);
+  const spool = readFileSync(join(home, '.personas', 'spool', 'ideas.jsonl'), 'utf8').trim().split('\n').map((l) => JSON.parse(l));
+  assert.deepEqual(spool.map((e) => e.card.title), ['Good'], 'only the valid card is durable');
+  const rows = readFileSync(out, 'utf8').trim().split('\n').map((l) => JSON.parse(l));
+  assert.deepEqual(rows.map((x) => [x.title, x.outcome]), [['Good', 'queued'], ['Bad', 'invalid']]);
+});

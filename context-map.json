@@ -434,6 +434,7 @@
         "skills/scan-sweep/tests/approvals.test.mjs",
         "skills/scan-sweep/tests/coverage.test.mjs",
         "skills/scan-sweep/tests/door.test.mjs",
+        "skills/scan-sweep/tests/entry-link.test.mjs",
         "skills/scan-sweep/tests/rank.test.mjs",
         "skills/scan-sweep/tests/score.test.mjs",
         "skills/straighten/scripts/map-compare.mjs",

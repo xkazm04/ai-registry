@@ -121,3 +121,14 @@ test('the lens count is derived from the reference headings, never a hardcoded n
   try { execFileSync(process.execPath, [SCRIPT, '--next', '--json', '--lenses', join(dir, 'missing.md')], { cwd: dir, encoding: 'utf8', stdio: 'pipe' }); } catch (e) { status = e.status; }
   assert.equal(status, 2);
 });
+
+test('--history reads a ledger outside the cwd (the main checkout\'s, when the worktree\'s copy is ignored)', () => {
+  // personas 2026-10-30: .claude/scan-history/ was gitignored and lived in a worktree, so the ledger died
+  // with it. SKILL.md section 10 now keeps it in the main checkout; the picker must be able to read it there.
+  const dir = fixture([]);
+  const main = scratch();
+  const ledger = join(main, 'scan-sweep.jsonl');
+  writeFileSync(ledger, `${JSON.stringify({ at: '2026-10-30T00:00:00Z', scope: 'tiny', strategy: 'stabilize', lens_keys: ['error-handler'] })}\n`);
+  assert.equal(run(dir).rows.find((r) => r.name === 'tiny').sweeps, 0, 'non-vacuity: the cwd ledger is empty');
+  assert.equal(run(dir, '--history', ledger).rows.find((r) => r.name === 'tiny').sweeps, 1);
+});

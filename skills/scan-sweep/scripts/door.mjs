@@ -16,7 +16,7 @@
 //
 // levelFor() is the ladder lookup SKILL.md section 5 routes by; the door stays the authority (it
 // re-checks every autoDecide itself), so a wrong local answer can only cost autonomy, never grant it.
-import { readFileSync, existsSync } from 'node:fs';
+import { readFileSync, existsSync, realpathSync } from 'node:fs';
 import { homedir } from 'node:os';
 import { join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -181,7 +181,18 @@ async function main(argv) {
   }
 }
 
-if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
+/**
+ * Is this module the process entry? Compares REAL paths: SKILL.md runs every script through the skill
+ * link (.claude/skills/scan-sweep is a junction/symlink), so argv[1] is the link path while Node resolves
+ * import.meta.url to the real one. A plain path compare made the CLI a silent exit-0 no-op through the
+ * link (personas, 2026-10-30: trust.json came out empty). Same pattern as lens-scan's drive.mjs.
+ */
+export function isEntry(argv1, url) {
+  if (!argv1) return false;
+  try { return realpathSync(resolve(argv1)) === realpathSync(fileURLToPath(url)); } catch { return resolve(argv1) === fileURLToPath(url); }
+}
+
+if (isEntry(process.argv[1], import.meta.url)) {
   // exitCode, not exit(): exiting while fetch's sockets close trips a libuv assertion on Windows.
   process.exitCode = await main(process.argv.slice(2));
 }

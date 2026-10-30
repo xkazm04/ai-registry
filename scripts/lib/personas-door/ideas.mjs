@@ -96,7 +96,11 @@ export async function file(cards, repo, opts = {}) {
     if (!spool) return { mode: 'door', ...r, tally: tally(r.results) };
   }
   if (!spool) return { mode: 'none', results: cards.map((c) => ({ title: c.title, outcome: 'app-down' })), tally: { 'app-down': cards.length } };
+  // Validate BEFORE spooling, through the same mapping delivery uses: a card the door would refuse must not
+  // become "durable" (exit 0, source file deleted) and then fail silently at replay. Found 2026-10-30.
   const results = cards.map((c) => {
+    const f = filingFor(c, '<unregistered>', new Map(), opts.origin);
+    if (f.error) return { title: c.title, outcome: 'invalid', error: f.error };
     const id = mintId();
     appendSpool('ideas', { id, state: 'queued', repo: path.resolve(repo), register: !!opts.register, origin: opts.origin || 'scan_sweep', queuedAt: new Date().toISOString(), card: c });
     return { title: c.title, outcome: 'queued', id };

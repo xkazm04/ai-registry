@@ -70,11 +70,20 @@ export function toFiling(c, { projectId = '<unregistered>', contexts = new Map()
   // decision, and the door refuses it (400). Refusing here keeps it owed in the hand-off file instead of erroring
   // per item at the door.
   if (get('disposition') === 'carry') return { error: 'disposition carry is owed to the next round, never handed to Approvals' };
+  // Built, measured, then reverted (nothing landed - e.g. a reserve item built before rank.mjs allocated): the
+  // contract's `proof` covers "a change was built", and `disposition: reverted` says the change is not in the tree.
+  // Without the proof it is an ordinary backlog card wearing a claim, so it is refused (SKILL.md section 9.1).
+  if (get('disposition') === 'reverted' && !present(get('proof'))) return { error: 'disposition reverted needs the proof of what was built (proof.head_sha = the reverted commit)' };
 
   let effort = get('effort');
   if (!present(effort) && size) { effort = sizeToEffort(size); notes.push(`effort from size ${size}`); }
   const impact = get('impact');
   const risk = get('risk');
+  // Each present scale is checked on its own: scanScore only checks them when the card is scorable, so a lone
+  // `impact: 12` without effort used to travel unvalidated (found 2026-10-30 writing the spool test).
+  for (const [k, v] of Object.entries({ impact, effort, risk })) {
+    if (present(v) && (!Number.isInteger(v) || v < 1 || v > 10)) return { error: `${k} must be an integer 1-10 (got ${JSON.stringify(v)})` };
+  }
   let scored;
   try { scored = scanScore({ impact, confidence: fields.confidence, effort, risk }); } catch (e) { return { error: e.message }; }
   const given = get('score');

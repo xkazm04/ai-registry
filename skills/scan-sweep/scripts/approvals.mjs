@@ -70,9 +70,20 @@ readFileSync(file, 'utf8').split('\n').forEach((raw, i) => {
 });
 for (const u of unreadable) console.error(`line ${u.line}: ${u.error} - not filed, still owed`);
 
-// App down: hand the cards to the registry's shared door tool, which spools them durably and replays them
-// when the app is next up (exit 0 = durable). Without that tool this script keeps its old contract (exit 3).
-if (!existsSync(handshakePath()) && !has('--no-spool') && !dryRun) {
+// Reachability first: a handshake file that outlived the app (connection refused) is as down as a missing
+// one. Before 2026-10-30 only a MISSING file reached the spool, so a stale one exited 3 with the spool tool
+// right there (personas, 4.9.0).
+const call = connect(readHandshake());
+let project;
+let down = call ? null : `${handshakePath()} missing or unreadable`;
+if (call) {
+  try { project = await findProject(call, repo); } catch (e) { down = `Personas did not answer (${e.message})`; }
+}
+
+// App down: hand the cards to the registry's shared door tool, which validates each through filing.mjs,
+// spools the valid ones durably and replays them when the app is next up (exit 0 = durable; an invalid card
+// is exit 1, still owed). Without that tool this script keeps its old contract (exit 3).
+if (down && !has('--no-spool') && !dryRun) {
   const here = dirname(fileURLToPath(import.meta.url));
   const cands = [process.env.AI_REGISTRY_DIR && join(process.env.AI_REGISTRY_DIR, 'scripts'), join(here, '..', '..', '..', 'scripts'), join(repo, '..', 'ai-registry', 'scripts')]
     .filter(Boolean).map((d) => join(d, 'personas-door.mjs'));
@@ -82,15 +93,8 @@ if (!existsSync(handshakePath()) && !has('--no-spool') && !dryRun) {
     process.exit(r.status ?? 1);
   }
 }
-const call = connect(readHandshake());
-if (!call) {
-  console.error(`Personas is not running (${handshakePath()} missing or unreadable). Start the app and re-run; ${cards.length + unreadable.length} cards are still owed.`);
-  process.exit(3);
-}
-
-let project;
-try { project = await findProject(call, repo); } catch (e) {
-  console.error(`Personas did not answer (${e.message}). Is the app running? ${cards.length + unreadable.length} cards are still owed.`);
+if (down) {
+  console.error(`Personas is not running (${down}). Start the app and re-run; ${cards.length + unreadable.length} cards are still owed.`);
   process.exit(3);
 }
 if (!project) {

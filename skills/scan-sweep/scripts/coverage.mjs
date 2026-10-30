@@ -9,6 +9,7 @@
 //   node coverage.mjs --json      # machine-readable, for a caller that ranks itself
 //   node coverage.mjs --map <p>   # context map at a non-default path
 //   node coverage.mjs --lenses <p> # lens reference at a non-default path (default ../references/lenses.md)
+//   node coverage.mjs --history <p> # snapshot ledger at a non-default path (default .claude/scan-history/scan-sweep.jsonl)
 //
 // --next implements the picker rule in SKILL.md section 1, verbatim and in one place:
 // never-swept first (in map order), else smallest lens union, else oldest last sweep.
@@ -30,7 +31,9 @@ if (!existsSync(mapPath)) {
   process.exit(2);
 }
 const map = JSON.parse(readFileSync(mapPath, 'utf8'));
-const histPath = '.claude/scan-history/scan-sweep.jsonl';
+// --history: the ledger may live outside the cwd - SKILL.md section 10 keeps it in the MAIN checkout when
+// .claude/scan-history/ is gitignored, so a worktree's copy does not die with the worktree.
+const histPath = opt('--history', '.claude/scan-history/scan-sweep.jsonl');
 const hist = existsSync(histPath)
   ? readFileSync(histPath, 'utf8').split('\n').filter(Boolean).map((l) => { try { return JSON.parse(l); } catch { return null; } }).filter(Boolean)
   : [];
