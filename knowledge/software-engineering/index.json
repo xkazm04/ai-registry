@@ -5,7 +5,7 @@
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 243,
   "techniques": 1957,
-  "applications": 1449,
+  "applications": 1450,
   "laws": 16,
   "categories": [
    "ui-surfaces",
@@ -20187,9 +20187,9 @@
    "subcategory": "published-surfaces",
    "status": "forged",
    "file": "knowledge/software-engineering/ui-surfaces/published-surfaces/lazy-section-addressability/lazy-section-addressability.md",
-   "digest": "sha256-b2:bc574aa9e5f8c74c",
-   "revision": 3,
-   "changedAt": "2026-10-22",
+   "digest": "sha256-b2:d8bb8cfa97d2f2fd",
+   "revision": 4,
+   "changedAt": "2026-10-31",
    "techniques": [
     {
      "slug": "always-present-anchor-wrappers",
@@ -20260,6 +20260,13 @@
     }
    ],
    "applications": [
+    {
+     "stack": "next",
+     "technique": "ssr-gating-decision-tree",
+     "file": "knowledge/software-engineering/ui-surfaces/published-surfaces/lazy-section-addressability/applications/next--ssr-gating-decision-tree.md",
+     "verified_on": "2026-10-31",
+     "verified_against": "next@16.3"
+    },
     {
      "stack": "react",
      "technique": "always-present-anchor-wrappers",
