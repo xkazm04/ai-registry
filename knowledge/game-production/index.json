@@ -5,7 +5,7 @@
   "source": "knowledge/game-production/ (frontmatter only)",
   "subjects": 89,
   "techniques": 589,
-  "applications": 351,
+  "applications": 352,
   "laws": 16,
   "categories": [
    "systems-canon",
@@ -4750,9 +4750,9 @@
    "subcategory": "motion-and-audio",
    "status": "forged",
    "file": "knowledge/game-production/asset-production/motion-and-audio/generated-video-motion-extraction/generated-video-motion-extraction.md",
-   "digest": "sha256-b2:a2d9623d4ec399bd",
-   "revision": 1,
-   "changedAt": "2026-10-25",
+   "digest": "sha256-b2:67faf4ed36b6c698",
+   "revision": 2,
+   "changedAt": "2026-10-31",
    "techniques": [
     {
      "slug": "contact-window-travels-with-the-clip",
@@ -4847,6 +4847,13 @@
     }
    ],
    "applications": [
+    {
+     "stack": "cpp",
+     "technique": "contact-window-travels-with-the-clip",
+     "file": "knowledge/game-production/asset-production/motion-and-audio/generated-video-motion-extraction/applications/cpp--contact-window-travels-with-the-clip.md",
+     "verified_on": "2026-10-31",
+     "verified_against": "cpp@20"
+    },
     {
      "stack": "process",
      "technique": "motion-source-route-by-action-class",

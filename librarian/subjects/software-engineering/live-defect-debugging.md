@@ -1,7 +1,7 @@
 ---
 domain: software-engineering
 subject: live-defect-debugging
-last_touched: 2026-10-09
+last_touched: 2026-10-31
 touched_by: intake
 dry_streak: 0
 ---
@@ -25,6 +25,17 @@ sits in `codebase-stewardship` beside `dead-code` (stray probes are a debris cla
 
 Banked beside it: a slow-frame attribution technique for `page-load-pipeline` (untriaged,
 primary already read), a one-line-handshake helper amendment, and a relay lead.
+
+### 2026-10-31 - `/intake apply reproduction-ladder`, first rust application
+
+Dispatched for "single stack (node)". Phase 7.5 alone against personas, a public
+desktop app. The seam was chosen to falsify: the project's reported-defect flow
+resolves on a compile gate, while its proactive lens fixes already record red-before
+reproductions. Three Rust fixes were replayed. Helper mutation was red 3/3. Reverting
+each fix's call-site hunk was red 1/3. Verdict `better` (simulation, structural-only).
+Amendment landed in the technique: reintroduce the defect where it lived, not in the
+helper the fix created. The project's ledger row was pushed. The skill step and the two
+call-site moves were filed as the project's next change, not shipped.
 
 ## Declines
 

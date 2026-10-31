@@ -1,0 +1,49 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "intake-apply-ssr-gating-1031",
+  "skill": "intake",
+  "skill_version": "2.18.0",
+  "mode": "apply",
+  "domain": "software-engineering",
+  "started_at": "2026-10-31T12:55:00Z",
+  "ended_at": "2026-10-31T13:55:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 1,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "software-engineering/lazy-section-addressability",
+      "at": "2026-10-31",
+      "engine": "intake",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "lazy-section-addressability",
+      "technique": "ssr-gating-decision-tree",
+      "verdict": "better",
+      "mode": "code"
+    }
+  ],
+  "files": [
+    "knowledge/software-engineering/ui-surfaces/published-surfaces/lazy-section-addressability/applications/next--ssr-gating-decision-tree.md",
+    "knowledge/software-engineering/ui-surfaces/published-surfaces/lazy-section-addressability/techniques/ssr-gating-decision-tree.md",
+    "knowledge/software-engineering/index.json",
+    "catalog.json",
+    "librarian/applied.md",
+    ".claude/skills/intake/SCORECARD.md"
+  ],
+  "commits": [],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "First application; first next-stack application of the subject. Consumer commit pushed. Amendment: a streaming renderer splits server-rendered into in-the-bytes and visible-without-script; a route-level loading boundary hid three whole pages."
+}
