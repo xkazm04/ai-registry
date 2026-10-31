@@ -26,7 +26,9 @@ locking, that leaves the corpus half-regenerated: some entities on the new speci
 some on the old, no record of where the line stopped, and every downstream consumer
 reading a mixture. Under a batch lease, the same failure leaves the corpus untouched
 except for a stated prefix, because the batch is the unit that was admitted and the unit
-that is reported on.
+that is reported on. The lease does not make the batch atomic: until it finishes, readers
+see the new prefix beside the old remainder. Where that mixture must never be visible,
+stage the outputs and publish them in one transaction.
 
 The second reason is that the interleaving failure is silent. Two jobs sharing a
 non-reentrant tool rarely crash; they produce outputs that are each individually
@@ -60,7 +62,9 @@ refusal to start is a result, and a better one than a half-finished sweep —
    an in-flight batch's rows.
 5. **Hold for the batch, with a heartbeat and an expiry.** A lease without expiry becomes
    a permanent outage the first time a holder dies; a lease without a heartbeat expires
-   under a slow but healthy run. Both are needed.
+   under a slow but healthy run. Both are needed. And expiry admits a stale holder: one
+   paused past its expiry can resume and write after a new holder acquired the lease. Give
+   each acquisition an increasing fencing number and have the write path reject a lower one.
 6. **Make the lease readable.** Expose held scopes and their acquisition times through a
    status query, so other sessions see "busy" rather than discovering the lease as a
    surprise refusal after they have committed to a run. An invisible lease is correct and

@@ -134,8 +134,8 @@ over all 344 registered steps:
 | authored `StepSpec.engine` (any source) | 129 | 189 |
 
 Both numbers the technique asks for are there. **Decided cells:** the heuristic wins
-6 of 344, because 338 carry an audit fact that `resolveEngine`
-(`src/lib/status/statusModel.ts`) ranks above it. **Agreement where something
+6 of 344, because the other 338 carry a stronger fact — 335 an audit fact, 3 an
+authored engine — that `resolveEngine` (`src/lib/status/statusModel.ts`) ranks above it. **Agreement where something
 stronger exists:** 11 right, 30 wrong — 27%, against a stated 95% bar for an
 inferred label to be trustworthy; 21 of the misses are `Test Gate` steps guessed
 `UE Runtime`, 3 are gallery steps guessed `Tripo` against an audited `Leonardo`.

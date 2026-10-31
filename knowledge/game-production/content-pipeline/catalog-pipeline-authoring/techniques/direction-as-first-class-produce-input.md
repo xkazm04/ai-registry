@@ -86,7 +86,9 @@ must never be empty. Build it as a ladder, most specific first:
 
 The derived rung must always be non-empty, because the first rung is usually absent.
 A corrective button that dispatches an empty steer is a production run with no
-instruction at all — strictly worse than not offering the button.
+instruction at all — strictly worse than not offering the button. The same holds where the
+producer provably cannot read the instruction: there the run re-writes identical data, and
+the button is withheld (see producer-facts-are-observed-not-declared).
 
 The constraint on the derived rung is that it **invents no target value the checker did
 not state.** It may name the criterion, the status and the reason; it may say "move the

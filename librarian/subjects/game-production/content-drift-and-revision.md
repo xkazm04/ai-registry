@@ -93,3 +93,181 @@ they are not new runtime witnesses.
   }
 }
 ```
+
+## Architecture review - 2026-10-31
+
+Re-review against `b005a97cb`. No document in this subject has changed since the
+2026-09-10 record; it reads stale because the digest scheme changed. **Retraction:** that
+record gave `techniques/batch-lease-on-a-non-reentrant-resource.md` a `clarify` with the
+reason "Rewrote resource versus record locking, admission versus atomic publication,
+fencing...". That rewrite is not in the text. Commit `7792d1b1a` (2026-09-10) restored the
+document from before the compression pass, and the current text has no fencing and still
+claims a failed batch leaves "the corpus untouched except for a stated prefix". The
+rewrite is still owed; it is recorded below as `clarify`, not as done. New findings: the
+golden path says "two dozen" revisions while the technique and its application say
+twenty; produce-direction-stamping says store absence for an empty steer, which conflicts
+with the sibling subject's rule that an empty steer is a stamped value; and
+typed-operator-inheritance states three things more broadly than its source does.
+
+<!-- architecture-review:v1 -->
+```json
+{
+  "subject": "game-production/content-drift-and-revision",
+  "date": "2026-10-31",
+  "baseline": "b005a97cb",
+  "digest": "sha256-b2:23e162dc11978fce",
+  "disposition": "clarify",
+  "coverage": "All 11 current documents read in full; cross-checked against catalog-pipeline-authoring's direction technique. Primary sources opened for fencing, SQLite transactions and the inheritance source. Not evaluated: the consumer tree, its tests, any transaction boundary in it.",
+  "counterexamples": [
+    "A holder paused past its lease expiry can resume and write after a new holder acquired the lease; nothing in the procedure rejects the stale write.",
+    "A lease guarantees one writer, not atomic publication: readers see the finished prefix mixed with the old remainder until the batch ends.",
+    "A stamp with an empty direction, a stamp absent because the record predates stamping, and a dropped steer are three states; 'store absence' collapses the first two.",
+    "Exactly the retention cap of revisions can mean no pruning has ever occurred (retained from 2026-09-10)."
+  ],
+  "sources": [
+    {
+      "url": "https://martin.kleppmann.com/2016/02/08/how-to-do-distributed-locking.html",
+      "result": "If 'the GC pause lasts longer than the lease expiry period' the client may 'go ahead and make some unsafe change'; a fencing token is 'a number that increases' each acquisition and storage rejects the lower token. Supports adding fencing to the lease procedure."
+    },
+    {
+      "url": "https://www.sqlite.org/lang_transaction.html",
+      "result": "'While its read transaction is active, X will continue to see an historic snapshot of the database prior to the changes implemented by Y.' Supports publishing staged results in one transaction when a mixture must not be visible; the page does not use the word atomic."
+    },
+    {
+      "url": "https://raw.githubusercontent.com/CleverRaven/Cataclysm-DDA/master/doc/JSON/JSON_INHERITANCE.md",
+      "result": "Confirms relative/proportional/extend/delete and abstract types 'discarded after JSON loading completes'; 'Not all types are supported, and not all are supported in the same way'; chained inheritance 'is especially likely to become unwieldy', with no stated depth limit; extend-by-default with 'override': true is stated for monstergroup only. Does not support 'one or two levels deep', 'standing tax', or merge-by-default as a general rule."
+    }
+  ],
+  "documents": {
+    "content-drift-and-revision.md": {
+      "disposition": "clarify",
+      "reason": "'Two dozen revisions' disagrees with the technique and application (twenty); correct. Still owed: 'lock per job maximises a half-completed sweep' and batch-lease-as-atomicity wording."
+    },
+    "techniques/add-only-hydration.md": {
+      "disposition": "reverify",
+      "reason": "Still owed: same-identity conflicts and dirty local edits during reconcile; wall-clock 'strictly newer' is not causal order."
+    },
+    "techniques/batch-lease-on-a-non-reentrant-resource.md": {
+      "disposition": "clarify",
+      "reason": "The 2026-09-10 rewrite was reverted (see prose). Add fencing to the hold rule (Kleppmann) and state that a lease is not atomic publication (SQLite snapshot semantics). Still owed: process scope and safe recovery."
+    },
+    "techniques/bounded-revision-history.md": {
+      "disposition": "reverify",
+      "reason": "Still owed: the archive, replace and prune need one transaction, and reaching the cap does not prove pruning happened."
+    },
+    "techniques/content-hash-vs-status-drift.md": {
+      "disposition": "reverify",
+      "reason": "Still owed: digests are not collision-proof identity, and dependency bytes outside the record can drift unseen."
+    },
+    "techniques/orphaned-artifact-visibility.md": {
+      "disposition": "reverify",
+      "reason": "Still owed: a complete scoped inventory before declaring an orphan; re-keying must handle collisions and verdict invalidation."
+    },
+    "techniques/produce-direction-stamping.md": {
+      "disposition": "clarify",
+      "reason": "'Store absence, not an empty string' conflicts with catalog-pipeline-authoring's rule that an empty steer is a stamped value distinct from a record that predates the stamp; align to the three states. Still owed: excluding direction from content identity assumes evaluation does not depend on intent."
+    },
+    "techniques/typed-operator-inheritance.md": {
+      "disposition": "clarify",
+      "reason": "Source opened: scope merge-by-default to the one type the source states it for, replace 'one or two levels deep' and 'standing tax' with what the source says. Still owed: cycles, missing parents, numeric bounds."
+    },
+    "applications/node--batch-lease-on-a-non-reentrant-resource.md": {
+      "disposition": "reverify",
+      "reason": "Historical consumer witness not rerun; its no-expiry deviation is disclosed. Dates preserved."
+    },
+    "applications/node--content-hash-vs-status-drift.md": {
+      "disposition": "reverify",
+      "reason": "Historical consumer witness not rerun; the FNV-1a choice is disclosed as non-cryptographic."
+    },
+    "applications/sql--bounded-revision-history.md": {
+      "disposition": "reverify",
+      "reason": "Historical consumer witness not rerun. Undisclosed deviation: revision rows carry status, tier and reason, which the technique counts as bookkeeping not to snapshot; and prune runs 'on the same call path', not stated to be in one transaction."
+    }
+  }
+}
+```
+
+## Architecture review - 2026-10-31 (clarify applied)
+
+Applied the four clarify items the record above named, each from a source opened this run
+or an inconsistency checked across documents. The golden path's per-job-locking line and
+the batch-lease technique's process-scope and recovery items stay owed, as do the
+reverify items, so the subject stays `reverify`.
+
+<!-- architecture-review:v1 -->
+```json
+{
+  "subject": "game-production/content-drift-and-revision",
+  "date": "2026-10-31",
+  "baseline": "b005a97cb",
+  "digest": "sha256-b2:c2fc9bd41453da92",
+  "disposition": "reverify",
+  "coverage": "All 11 current documents read in full; cross-checked against catalog-pipeline-authoring's direction technique. Primary sources opened for fencing, SQLite transactions and the inheritance source. Not evaluated: the consumer tree, its tests, any transaction boundary in it. Second record: the applied clarify items were re-read after editing; every other document is byte-unchanged and keeps its disposition.",
+  "counterexamples": [
+    "A holder paused past its lease expiry can resume and write after a new holder acquired the lease; nothing in the procedure rejects the stale write.",
+    "A lease guarantees one writer, not atomic publication: readers see the finished prefix mixed with the old remainder until the batch ends.",
+    "A stamp with an empty direction, a stamp absent because the record predates stamping, and a dropped steer are three states; 'store absence' collapses the first two.",
+    "Exactly the retention cap of revisions can mean no pruning has ever occurred (retained from 2026-09-10)."
+  ],
+  "sources": [
+    {
+      "url": "https://martin.kleppmann.com/2016/02/08/how-to-do-distributed-locking.html",
+      "result": "If 'the GC pause lasts longer than the lease expiry period' the client may 'go ahead and make some unsafe change'; a fencing token is 'a number that increases' each acquisition and storage rejects the lower token. Supports adding fencing to the lease procedure."
+    },
+    {
+      "url": "https://www.sqlite.org/lang_transaction.html",
+      "result": "'While its read transaction is active, X will continue to see an historic snapshot of the database prior to the changes implemented by Y.' Supports publishing staged results in one transaction when a mixture must not be visible; the page does not use the word atomic."
+    },
+    {
+      "url": "https://raw.githubusercontent.com/CleverRaven/Cataclysm-DDA/master/doc/JSON/JSON_INHERITANCE.md",
+      "result": "Confirms relative/proportional/extend/delete and abstract types 'discarded after JSON loading completes'; 'Not all types are supported, and not all are supported in the same way'; chained inheritance 'is especially likely to become unwieldy', with no stated depth limit; extend-by-default with 'override': true is stated for monstergroup only. Does not support 'one or two levels deep', 'standing tax', or merge-by-default as a general rule."
+    }
+  ],
+  "documents": {
+    "content-drift-and-revision.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: \"Two dozen revisions\" now reads \"About twenty revisions\", matching the technique and the application. Still owed: the lock-per-job line and batch-as-atomicity wording."
+    },
+    "techniques/add-only-hydration.md": {
+      "disposition": "reverify",
+      "reason": "Still owed: same-identity conflicts and dirty local edits during reconcile; wall-clock 'strictly newer' is not causal order."
+    },
+    "techniques/batch-lease-on-a-non-reentrant-resource.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: added that the lease is not atomic publication (stage and publish in one transaction where a mixture must not be visible) and that expiry admits a stale holder, so acquisitions carry an increasing fencing number the write path checks. Still owed: process scope and safe recovery."
+    },
+    "techniques/bounded-revision-history.md": {
+      "disposition": "reverify",
+      "reason": "Still owed: the archive, replace and prune need one transaction, and reaching the cap does not prove pruning happened."
+    },
+    "techniques/content-hash-vs-status-drift.md": {
+      "disposition": "reverify",
+      "reason": "Still owed: digests are not collision-proof identity, and dependency bytes outside the record can drift unseen."
+    },
+    "techniques/orphaned-artifact-visibility.md": {
+      "disposition": "reverify",
+      "reason": "Still owed: a complete scoped inventory before declaring an orphan; re-keying must handle collisions and verdict invalidation."
+    },
+    "techniques/produce-direction-stamping.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: the empty-direction rule now stamps an empty direction and keeps a missing stamp for pre-stamp records, matching the three states in catalog-pipeline-authoring. Still owed: direction excluded from content identity assumes evaluation ignores intent."
+    },
+    "techniques/typed-operator-inheritance.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: \"one or two levels deep\" now quotes the source warning that chained inheritance \"is especially likely to become unwieldy\"; merge-by-default is scoped to what the source does for at least one set-valued type; \"standing tax\" replaced with the source text \"not all are supported in the same way\". Still owed: cycles, missing parents, numeric bounds, the cosmetic string-variant rule."
+    },
+    "applications/node--batch-lease-on-a-non-reentrant-resource.md": {
+      "disposition": "reverify",
+      "reason": "Historical consumer witness not rerun; its no-expiry deviation is disclosed. Dates preserved."
+    },
+    "applications/node--content-hash-vs-status-drift.md": {
+      "disposition": "reverify",
+      "reason": "Historical consumer witness not rerun; the FNV-1a choice is disclosed as non-cryptographic."
+    },
+    "applications/sql--bounded-revision-history.md": {
+      "disposition": "reverify",
+      "reason": "Historical consumer witness not rerun. Undisclosed deviation: revision rows carry status, tier and reason, which the technique counts as bookkeeping not to snapshot; and prune runs 'on the same call path', not stated to be in one transaction."
+    }
+  }
+}
+```
