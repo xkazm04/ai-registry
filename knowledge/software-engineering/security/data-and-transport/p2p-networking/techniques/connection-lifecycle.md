@@ -90,6 +90,15 @@ a failure writing the second rolls back the first, or observers watch
 the two disagree about whether the peer is connected, each plausibly
 authoritative.
 
+Check first that the noun exists. Over a connectionless transport — a
+WireGuard-style tunnel, whose protocol describes itself as
+"connection-less" — there is no session object to own, no
+simultaneous-dial race to break, and nothing to tear down per peer. The
+discipline does not vanish; it moves. Bounded attempts, supervision and
+honest demotion then apply to the *path claim* (direct, relayed, none)
+and the peer record, which is where
+[peer-state-honesty](./peer-state-honesty.md) puts the pressure.
+
 ## Life is supervised, because silence is ambiguous
 
 An established session over a quiet period is indistinguishable from a

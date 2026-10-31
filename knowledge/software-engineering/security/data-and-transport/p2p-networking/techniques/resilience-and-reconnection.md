@@ -74,8 +74,7 @@ a knob must reach its behavior).
 ## Partial connectivity is a topology, not an error
 
 Asymmetric visibility is ordinary: A hears B's announcements but B's
-never reach A (multicast filtering is direction-blind in neither
-direction); A can dial B but not vice versa (one host firewall). The
+never reach A (multicast filtering need not be symmetric); A can dial B but not vice versa (one host firewall). The
 design consequences:
 
 - **Either side may initiate.** Any flow that requires *both* sides to

@@ -4,7 +4,7 @@ type: application
 subject: p2p-networking
 technique: peer-state-honesty
 stack: go
-verified_on: 2026-08-22
+verified_on: 2026-10-31
 ---
 
 # Peer-state honesty in Tailscale's magicsock and status pipeline (Go)
@@ -34,7 +34,10 @@ returns the direct address alone only while `now` is not after
 `de.trustBestAddrUntil`; once the trust window lapses it returns the UDP address
 *and* `de.derpAddr` — "send to both, I no longer know" — and status renders that
 as relayed, not direct. A lapsed proof demotes the claim with no demotion code
-anywhere. The window is `trustUDPAddrDuration = 6500ms`
+anywhere. The one exception is a WireGuard-only endpoint (`:584-589`): it has no
+DERP address to fall back to, so it picks a UDP address by measured latency, or
+at random before any latency is known (`addrForWireGuardSendLocked`, `:604-650`),
+and status keeps rendering a direct claim after the window lapses. The window is `trustUDPAddrDuration = 6500ms`
 (`wgengine/magicsock/magicsock.go:4036`) against `heartbeatInterval = 3s`
 (`:4032`): a direct claim survives roughly two missed heartbeats and no more, the
 technique's "specific evidence, with a specific freshness" reduced to two
@@ -83,9 +86,11 @@ calls `isRunningOrStarting` (`cmd/tailscale/cli/status.go:262-279`) first, which
 enumerates five verdicts — stopped, logged out (with the login URL), not yet
 approved by the tailnet admin, an unexpected state named verbatim, or
 running/starting — and anything but that last case prints the reason and exits 1
-(`:145-155`). Health messages are additionally printed when the state is
-`Starting` or `NoState` (`:149-152`), on the stated reasoning that a weird state
-deserves its context — the rule lands before the loop that would otherwise
+(`:145-155`). Inside that branch, health messages are printed first when the
+state is `NoState` (`:149-152`), on the stated reasoning that a weird state
+deserves its context. The condition also names `Starting`, but
+`isRunningOrStarting` accepts `Starting`, so that clause never fires there. The
+rule lands before the loop that would otherwise
 render nothing.
 
 ## 5. Deviation: a tri-state online collapses to a boolean
