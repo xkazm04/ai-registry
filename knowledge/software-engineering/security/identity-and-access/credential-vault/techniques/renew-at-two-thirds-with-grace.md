@@ -77,8 +77,9 @@ The loop's exit test is stated twice, deliberately: it stops renewing when
 the remaining lease is already within the grace, **or** when the remaining
 lease minus the next sleep would be within the grace. The second clause is
 the one people omit. A lease of four seconds with a grace of three passes the
-first test — one second of margin — and sleeps two and two-thirds seconds,
-straight through the window, waking with a dead secret. The look-ahead makes
+first test — one second of margin — and sleeps three and two-thirds seconds
+(two thirds of four, plus a third of three), straight through the window,
+waking with a dead secret. The look-ahead makes
 the grace a floor the loop never sleeps below.
 
 Stopping is **not an error and not a renewal**. The loop exits into

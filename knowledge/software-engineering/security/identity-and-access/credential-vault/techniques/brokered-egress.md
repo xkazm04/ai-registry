@@ -49,7 +49,13 @@ merely buggy caller saying "call attacker-controlled-host with credential X"
 must fail *at the door*, not succeed and exfiltrate the proof in an outbound
 header. The binding is data on the credential record, not a judgment the
 broker improvises per call; redirect handling deserves explicit attention (a
-redirect to another host must not carry the credential along).
+redirect to another host must not carry the credential along). Where any part
+of the destination is not fixed at admission — a URL that arrived inside a
+dependency's response is attacker-controlled input — the door validates the
+address the client actually connects to, not only the name it was handed,
+and re-validates every redirect hop by following redirects itself; a name
+allow-list alone does not stop DNS rebinding, and a first-hop check is
+defeated by a legitimate host answering with a redirect to a private address.
 
 ## Scope intersection
 

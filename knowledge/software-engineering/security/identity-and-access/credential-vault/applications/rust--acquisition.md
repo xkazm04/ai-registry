@@ -120,7 +120,8 @@ The floor rung carries the craft the technique asks for: a numbered
 deep-link step into the provider console built from the catalog row's own
 `setup_url` (`ConnectorCredentialModal.tsx:142-161`), versioned setup
 instructions beside it (`:179-189`), a masked field with a reveal toggle gated
-on the field's `sensitive` flag (`FieldCaptureHelpers.tsx:127-139`), and
+on the field's `password` input type, not on its `sensitive` flag
+(`FieldCaptureHelpers.tsx:127-139`, `FieldCaptureRow.tsx:58`), and
 validate-on-submit wired to the same probe machinery
 (`ConnectorCredentialModal.tsx:197`). It also
 adds one move the technique does not name: a clipboard TTL

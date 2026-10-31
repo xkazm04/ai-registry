@@ -26,9 +26,9 @@ lease as proof, watcher as refresh loop.
 as a *fraction of the proof's own lifetime* rather than a constant: `jitterMax = 0.1 ×
 min(leaseDuration, increment)`, grace uniform in `[jitterMax, 2×jitterMax)` — 10–20%
 of the lease, which the comment at `:425-426` states as "allow 80-90% of that to
-elapse". It is recomputed on every renewal while the lease is still extending
-(`:399-401`), so a lease whose server-side max TTL begins truncating renewals tracks
-that shrinking reality. Jitter is deliberate and documented: the RNG is `math/rand`,
+elapse". It is recomputed on every renewal only while the lease is still extending
+(`:399-401`); once a server-side max TTL begins truncating renewals the grace freezes
+at its last value rather than shrinking with the lease, so the exit still has a budget. Jitter is deliberate and documented: the RNG is `math/rand`,
 not `crypto/rand`, with a comment (`:155-161`) naming the reason — it only staggers
 renewals across a fleet. Sleep between renewals is `2/3 × remaining + 1/3 × grace`
 (`:405`), carrying that jitter into the wait, and the exit test is doubled: the
