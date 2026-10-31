@@ -4,7 +4,7 @@ type: application
 subject: candidate-status-transparency
 technique: terminal-moment-experience-measurement
 stack: node
-verified_on: 2026-09-28
+verified_on: 2026-10-31
 verified_against: node@24
 ---
 
@@ -12,9 +12,9 @@ verified_against: node@24
 
 Four files: the pure scoring rules (`app/_lib/candidate-nps.ts`), the store
 (`app/_lib/candidate-nps-store.ts`), the schema (`app/_lib/db/core.ts`, the
-`candidate_nps` table at `:1971-1984` in the committed tree), and the
+`candidate_nps` table at `:2111-2124` in the committed tree), and the
 token-gated capture route (`app/api/status/[token]/nps/route.ts`), with the
-card at `app/status/[token]/StatusNpsCard.tsx`. Re-read at kp `6f3fca44d`.
+card at `app/status/[token]/StatusNpsCard.tsx`. Re-read at kp `6edf5d7e6`.
 
 ## Why it exists, in the repo's own words
 
@@ -44,7 +44,7 @@ bytes actually read (`:55-57`, `:71-72`).
 
 ## One response per application, in the schema
 
-The table comment (`core.ts:1973-1976`) makes `entry_id` the PRIMARY KEY: "one
+The table comment (`core.ts:2113-2116`) makes `entry_id` the PRIMARY KEY: "one
 response per application, so a link-holder cannot ballot-stuff their own
 outcome. A resubmit REPLACEs (people change their mind before they hit send
 twice); the original created_at is not preserved because a rewritten answer is
@@ -95,7 +95,7 @@ client state.
   that hires a lot reads a flattered average. The pattern is already in the
   tree: the newer `interview_letters` table stores
   `outcome TEXT NOT NULL CHECK(outcome IN ('not_selected','hired'))`
-  (`core.ts:1548`). It was not carried over to NPS.
+  (`core.ts:1609`). It was not carried over to NPS.
 - **Response rate is not tracked** (still open). The metric pack carries
   `responses` and the floor, and no count of terminal outcomes reached, so the
   collapse signal is unavailable.

@@ -5,7 +5,7 @@ subject: candidate-status-transparency
 technique: candidate-safe-status-projection
 stack: node
 status: forged
-verified_on: 2026-09-28
+verified_on: 2026-10-31
 verified_against: node@24
 applied: simulation
 ab_verdict: better
@@ -18,7 +18,7 @@ the public route that is the only thing allowed to emit it
 (`app/api/status/[token]/route.ts`). Since 2026-08-30 three sub-projections have
 joined it, each a closed type built by construction:
 `app/_lib/candidate-next-action.ts`, `app/_lib/interview-letter-types.ts` and a
-boolean for the interview recording. Re-read at kp `6f3fca44d`.
+boolean for the interview recording. Re-read at kp `6edf5d7e6`.
 
 ## The projection is a closed enum, not a filtered record
 
@@ -46,7 +46,7 @@ newcomers each arrive with their refusals written at the call site:
   file name, a size, an attempt count or a date" (`:61-64`).
 - `letter` is "the contract's CandidateLetterView and NOTHING else … No draft,
   no reviewer, no ids, no delivery detail" (`:66-70`). The type is four keys
-  (`interview-letter-types.ts:64-72`).
+  (`interview-letter-types.ts:65-73`).
 - `nextAction` is "THREE keys: kind, sentAt, expiresAt … Never the capability
   itself" (`:72-76`).
 
@@ -69,8 +69,8 @@ its key", written before the registry stated it and citing the registry's
 that carried the offer token would let whoever holds it accept or decline the
 offer. The link itself stays where it was issued, the inbox". `kind` is one of
 `answer_offer | book_interview | take_interview` (`:19`), the object is built
-"key by key, so no field of an input row can ride through" (`:79-80`), and it
-is null unless the entry is live and not anonymised (`:82`).
+"key by key, so no field of an input row can ride through" (`:68-69`), and it
+is null unless the entry is live and not anonymised (`:71`).
 
 ## Stage ROLE, and the incident that forced it
 
@@ -92,7 +92,7 @@ The route always resolves the role (`route.ts:53`).
 `withdrawn`, with the reasoning at `:74-76` that a closed role "is no longer
 open to them, which is honest without implying a merit rejection."
 
-The enum is right. The copy is not. `StatusClient.tsx:254-265` renders one
+The enum is right. The copy is not. `StatusClient.tsx:267-278` renders one
 `notSelectedTitle`/`notSelectedBody` pair for every cause, and the body reads
 "The team has decided to move forward with other candidates for this role." For
 a closed role that is an evaluation nobody made, and for a re-match it is
@@ -121,7 +121,7 @@ applied.
   `/api/`, beside every other tokenized surface.
 - **Analytics: closed for the send, open for the load.** The analytics script
   is mounted in the root layout, so it loads on the status page too
-  (`app/layout.tsx:213`). But `/status/` is in `TOKENIZED_PATH_PREFIXES`
+  (`app/layout.tsx:219`). But `/status/` is in `TOKENIZED_PATH_PREFIXES`
   (`app/_lib/analytics/track.ts:44-55`), which feeds both the script's exclusion
   list and the custom-event guard, so no pageview carrying the address is sent
   from there. The reason is written down: the automatic pageview posts

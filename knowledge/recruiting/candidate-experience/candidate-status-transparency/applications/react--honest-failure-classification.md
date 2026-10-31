@@ -4,7 +4,7 @@ type: application
 subject: candidate-status-transparency
 technique: honest-failure-classification
 stack: react
-verified_on: 2026-09-28
+verified_on: 2026-10-31
 verified_against: react@19
 ---
 
@@ -13,7 +13,7 @@ verified_against: react@19
 `classifyStatusError` (`app/_lib/application-status.ts:119-123`, doc at
 `:108-118`) plus its consumer `app/status/[token]/StatusClient.tsx` implement
 the technique's classification and both of its "where the failure lands"
-rules. Re-read at kp `6f3fca44d`.
+rules. Re-read at kp `6edf5d7e6`.
 
 ## The classifier
 
@@ -44,27 +44,27 @@ share the code and the status, and the throttle runs before the lookup, so a
 
 ## Distinct copy, and a Retry only where retrying can work
 
-`StatusClient.tsx:214-231`: the alert renders `t("linkInvalid")` or
+`StatusClient.tsx:227-244`: the alert renders `t("linkInvalid")` or
 `t("loadFailed")`, and the Retry button is gated on `error === "retryable"`.
 A dead link gets no retry affordance at all.
 
 A 200 response whose body still carries an `error` field is treated as
-`retryable` (`:102-107`) — "anomalous", so resolve toward the candidate rather
+`retryable` (`:104-109`) — "anomalous", so resolve toward the candidate rather
 than toward "your link is dead."
 
 ## A refresh failure never wipes a good render
 
-`:214-216` guards the error branch with `error && !view`: "Only take over the
+`:227-229` guards the error branch with `error && !view`: "Only take over the
 page on the INITIAL load failure — a transient poll error after a good render
 must never wipe an already-shown status." The page polls every 45s and
-revalidates on focus and visibility (`:141-160`), and stops once
-`isTerminalCandidateStatus(view.status)` (`:145-147`).
+revalidates on focus and visibility (`:143-162`), and stops once
+`isTerminalCandidateStatus(view.status)` (`:147-149`).
 
 ## Optional sections fail by omission
 
-The decision-history fetch (`:125-139`) swallows its error with
-`/* best-effort — the section is simply omitted */` (`:134`), and the header
-notes "the status itself must never depend on it" (`:82-86`).
+The decision-history fetch (`:127-141`) swallows its error with
+`/* best-effort — the section is simply omitted */` (`:136`), and the header
+notes "the status itself must never depend on it" (`:84-88`).
 `StatusNpsCard.tsx:40-42` is blunter: the card "simply does not render — a
 feedback prompt is never worth an error banner." That comment is where this
 repo taught the standard its alarm-is-a-budget rule.
@@ -72,8 +72,8 @@ repo taught the standard its alarm-is-a-budget rule.
 ## Gaps
 
 - **The loading state is unbounded** (still open). The skeleton
-  (`:232-246`) has `aria-busy` and a screen-reader label, but `load()`
-  (`:93-116`) calls `fetch` with no abort signal and no timer moves the page
+  (`:245-259`) has `aria-busy` and a screen-reader label, but `load()`
+  (`:95-118`) calls `fetch` with no abort signal and no timer moves the page
   into the retryable state. A request that never resolves leaves the skeleton
   pulsing indefinitely.
 - **The transient copy blames the candidate.** `loadFailed` reads "We couldn't

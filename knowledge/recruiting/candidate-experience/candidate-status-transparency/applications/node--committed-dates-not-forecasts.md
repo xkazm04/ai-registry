@@ -5,7 +5,7 @@ subject: candidate-status-transparency
 technique: committed-dates-not-forecasts
 stack: node
 status: forged
-verified_on: 2026-09-28
+verified_on: 2026-10-31
 verified_against: node@24
 applied: simulation
 ab_verdict: better
@@ -13,7 +13,7 @@ ab_verdict: better
 
 # The owned dates a hiring tool already holds, and the one it cannot yet publish (Node)
 
-kp at `6f3fca44d` holds three kinds of date about a live application. It shows
+kp at `6edf5d7e6` holds three kinds of date about a live application. It shows
 the candidate one of them.
 
 ## What the tree owns

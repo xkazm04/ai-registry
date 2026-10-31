@@ -5,7 +5,7 @@ subject: hypothesis-not-verdict-soft-signals
 technique: a-confirmation-probe-per-signal
 stack: process
 status: forged
-verified_on: 2026-09-29
+verified_on: 2026-10-31
 ---
 
 # `probe_kind`: the CV hypothesis becomes a targeted probe inside the work sample
@@ -13,7 +13,8 @@ verified_on: 2026-09-29
 The interesting half of this pipeline's soft-signal design is not that every signal
 carries a suggested question — it is that some signals carry a *machine-followable*
 route into a work sample, which is what closes the loop the standard describes as
-hypothesis → targeted test. Re-read on 2026-09-29 against kp `d9c8b17f`.
+hypothesis → targeted test. Re-read on 2026-09-29 against kp `d9c8b17f`; anchors re-checked on
+2026-10-31 at kp `6edf5d7e6`.
 
 ## The field, and the two-condition rule
 
@@ -61,8 +62,8 @@ layoff, an illness or a family move.
 
 ## The consumer, and what the brief becomes
 
-`pipeline/jobfit/devcase/design.py:237-248` takes `focus_probes` as "CV-hypotheses
-to confirm". On the deterministic path (`:420-423`) each brief becomes an extra
+`pipeline/jobfit/devcase/design.py:247-258` takes `focus_probes` as "CV-hypotheses
+to confirm". On the deterministic path (`:430-433`) each brief becomes an extra
 cover probe appended to the designed case, with the kind clamped:
 
 ```python
@@ -72,9 +73,9 @@ for i, b in enumerate(focus_probes or []):  # targeted probes from the CV soft-s
         kind = "verification_trap"
 ```
 
-The unknown-kind clamp against `PROBE_KINDS` (`:90`) is a small piece of the
+The unknown-kind clamp against `PROBE_KINDS` (`:91`) is a small piece of the
 standard's trust discipline: a brief cannot invent a probe kind the sample design
-does not know how to build. The model path (`:354-357`) now receives the same
+does not know how to build. The model path (`:364-367`) now receives the same
 briefs as prompt context.
 
 ## Pinned as a contract, end to end
@@ -90,8 +91,8 @@ mentions that capability, and the case is unchanged when no focus is supplied
 
 ## Deviation: the bridge has a door and still no caller
 
-`pipeline/jobfit/pipeline.py:519-529` builds the panel — under a soft wrapper, so
-a failure degrades rather than blocks — and stores it on the result (`:550`). Since
+`pipeline/jobfit/pipeline.py:590-600` builds the panel — under a soft wrapper, so
+a failure degrades rather than blocks — and stores it on the result (`:621`). Since
 the first reading, the work-sample CLI grew a `--focus-probes-json` input
 (`pipeline/jobfit/devcase/devcase_cli.py:285-287`, `:558-567`). Nothing passes it: a
 search of the app and scripts finds no caller, and no production path invokes

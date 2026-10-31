@@ -5,7 +5,7 @@ subject: candidate-status-transparency
 technique: candidate-legible-timeline
 stack: react
 status: forged
-verified_on: 2026-09-28
+verified_on: 2026-10-31
 verified_against: react@19
 applied: simulation
 ab_verdict: better
@@ -16,7 +16,7 @@ ab_verdict: better
 The public status page `app/status/[token]/StatusClient.tsx` renders the
 timeline from the projection in `app/_lib/application-status.ts`. The
 pending-action card is `app/status/[token]/StatusNextActionCard.tsx`, which
-landed on 2026-09-23. Read at kp `6f3fca44d`.
+landed on 2026-09-23. Read at kp `6edf5d7e6`.
 
 ## What matches the technique
 
@@ -26,18 +26,18 @@ landed on 2026-09-23. Read at kp `6f3fca44d`.
   (`:56-69`). A board with more stages than the spine collapses, as rule 1
   and the collapse decision rule ask.
 - **Three step states and a marked current step.** Each step is reached, current
-  or not yet reached (`StatusClient.tsx:268-295`), and only the current step
-  carries `aria-current="step"` (`:276`, added 2026-09-06), so the position is
+  or not yet reached (`StatusClient.tsx:281-308`), and only the current step
+  carries `aria-current="step"` (`:289`, added 2026-09-06), so the position is
   announced by a screen reader and not only drawn in colour. The current step
-  alone carries a sentence of explanation (`:290`).
+  alone carries a sentence of explanation (`:303`).
 - **No half-lit trail.** The comment at `application-status.ts:17-18` states
   the choice: "terminal off-path states (not_selected / withdrawn) render on
   their own, not as a trail step". Both render a terminal card in place of the
-  trail (`StatusClient.tsx:254-265`), consistently, and `hired` lights the
+  trail (`StatusClient.tsx:267-278`), consistently, and `hired` lights the
   whole spine. That is the technique's "replace the trail with a terminal
   card" resolution, applied to every off-path terminal.
 - **A stated last-updated moment, derived on read.** "Updated {date}" comes
-  from the entry's last stage change (`:302-307`, fed by `route.ts:56`).
+  from the entry's last stage change (`:315-320`, fed by `route.ts:56`).
 - **No forecast date anywhere.** The only dates on the page are recorded
   events and deadlines the organisation has already set: an action's
   "Sent to you on" and "Open until" (`StatusNextActionCard.tsx:75-78`), and
@@ -82,11 +82,11 @@ told nothing would wait for an email" (`:93-97`).
   something is waiting, and where it was sent.
 - **One channel promise escapes the relay check.** The decision history's
   closing line, "You can request a human review of any decision at any time.
-  Just reply to any message from the hiring team." (`StatusClient.tsx:375`),
+  Just reply to any message from the hiring team." (`StatusClient.tsx:397`),
   renders whether or not a relay is configured, on a page that gates every
   other email promise.
 - **The pending action sits below the spine, not at its step.** The card
-  renders after the trail (`:299`). With a single pending action the
+  renders after the trail (`:312`). With a single pending action the
   difference is small; the rule matters when the spine gains a step with its
   own expectation.
 - **The reassurance register at the end.** `hired` reads "You're hired.
@@ -130,7 +130,7 @@ candidate's action under A, for example because the action re-authenticates.
 Both of the paths above are authorised by their token alone in kp: the offer
 answer (`app/api/offer/[token]/route.ts:44-62`) and the booking, where the
 route's own comment reads "Token route: no session, so the invite is the
-authority" (`app/api/schedule/[token]/route.ts:390`). **Return for code:**
+authority" (`app/api/schedule/[token]/route.ts:398`). **Return for code:**
 add the homework kind to the pending actions, and make the `under_review`
 sentence say "we" unless the entry sits in a human-held stage, when the tree is
 quiet.

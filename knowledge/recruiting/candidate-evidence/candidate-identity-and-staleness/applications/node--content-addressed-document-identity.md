@@ -5,7 +5,7 @@ subject: candidate-identity-and-staleness
 technique: content-addressed-document-identity
 stack: node
 status: forged
-verified_on: 2026-09-28
+verified_on: 2026-10-31
 verified_against: node@24
 applied: code
 ab_verdict: better
@@ -16,8 +16,9 @@ ab_verdict: better
 The app hashes the submitted CV bytes and uses that digest as the candidate
 artifact's identity everywhere downstream: cache key, dedupe, cross-role
 footprint and collision detection. The label the recruiter sees is carried
-separately and never compared. Re-verified at the tree's HEAD `c39dc91a6` on
-2026-09-28. Every citation below is read at that commit.
+separately and never compared. Re-verified at the tree's HEAD `6edf5d7e6` on
+2026-10-31. Every citation below is read at that commit, except where a sentence
+names an earlier one.
 
 ## Where the digest is computed
 
@@ -29,40 +30,40 @@ key on it, and `app/_lib/cv-variant.test.ts:5` records why: the upload paths
 file in twice under two names.
 
 The analyze route hashes at intake, before anything else touches the file.
-`collectCvFiles` (`app/api/analyze/route.ts:225`) builds `{ file, label, cvHash }`
-per uploaded variant (`:245`), and `:100–108` carries the triple through to the
+`collectCvFiles` (`app/api/analyze/route.ts:224`) builds `{ file, label, cvHash }`
+per uploaded variant (`:244`), and `:99–107` carries the triple through to the
 run. The digest is persisted onto the saved analysis in `persistAnalysis`
-(`app/_lib/analyze-run.ts:572`, the `saveAnalysis` call at `:579–584`), whose
+(`app/_lib/analyze-run.ts:616`, the `saveAnalysis` call at `:623–628`), whose
 comment states the purpose exactly: *content-addressed identity — persisted so
 re-runs of the same CV collapse*. `analyze-run.ts:26` names it as "SHA-256 of
 the CV bytes". A multi-CV run matches each result back to its hash by label with
-`cvHashForLabel` (`:195`). That is safe only because `collectCvFiles` makes
-labels unique within one run (`route.ts:238–242`).
+`cvHashForLabel` (`:220`). That is safe only because `collectCvFiles` makes
+labels unique within one run (`route.ts:237–241`).
 
 ## The cache key composes the digest with everything else that changes meaning
 
 `app/_lib/cache-key.ts` is the whole technique in one file, and it is worth
 reading as a worked example of the "digest alone identifies the document, not
-the judgment" rule. `computeCacheKey` (`:66`) folds, in fixed order:
+the judgment" rule. `computeCacheKey` (`:76`) folds, in fixed order:
 
-- `PROMPT_VERSION` (`:32`, currently `v7-2026-09-23-trust-findings`), the
+- `PROMPT_VERSION` (`:36`, currently `v8-2026-10-07-checked-strengths`), the
   instrument version. It is bumped when the prompt, schema, deterministic
   pre-pass or taxonomy changes, so old hashes miss automatically. The v7 note
   (`:28–31`) is the instrument-drift rule in its sharpest form: a cached pre-v7
   payload would be read by a legacy parser that "files a blind-screening
   redaction miss as a clean pass - so a cache hit must not outlive the fix";
-- `grounding` (`:89`) and `lang` (`:90`). The v5 note records the incident
+- `grounding` (`:99`) and `lang` (`:100`). The v5 note records the incident
   shape: the same CV analyzes to a localized narrative per locale, so an `en`
   result must not be served for a `cs` request;
 - the JD text and file bytes, the company text and file bytes, the CV bytes
-  (`:91–95`);
-- `blind` (declared `:44–48`, appended `:98`), folded in **only when true** so the
+  (`:101–105`);
+- `blind` (declared `:48–52`, appended `:108`), folded in **only when true** so the
   pre-existing cache stays valid. A blind run scores a redacted CV and "its
   result must NOT be served for a normal run (or vice-versa)". This is the
   fairness point: the mode is part of the identity of the answer;
-- `jobStructureJson` (`:101–104`). A run scored against authored requirement
+- `jobStructureJson` (`:111–114`). A run scored against authored requirement
   grading must not be served for a prose-only run of the same JD text;
-- `archetypeRegistryDigest` (declared `:55–63`, appended `:106–109`), added
+- `archetypeRegistryDigest` (declared `:59–67`, appended `:116–119`), added
   after the 2026-08-30 reading. It is a content digest of the live archetype
   registry, which the archetype manager rewrites at run time and which supplies
   routing, a needs-review threshold and checklist weights. "A key without it
@@ -72,8 +73,8 @@ the judgment" rule. `computeCacheKey` (`:66`) folds, in fixed order:
   could see it.
 
 **The field framing is the sharpest lesson here.** The `field()` helper
-(`:76–87`) writes an 8-byte big-endian length (`writeBigUInt64BE`, `:84`) before
-every value. The comment at `:68–75` explains the defect it fixed
+(`:86–97`) writes an 8-byte big-endian length (`writeBigUInt64BE`, `:94`) before
+every value. The comment at `:78–85` explains the defect it fixed
 (`idea-c2c4b498`). The previous key concatenated fields with literal markers
 like `|jdt=` and no length, so content containing one of those markers could
 shift bytes across a field boundary and make two genuinely different inputs hash
@@ -81,6 +82,14 @@ identically — "serving one candidate's analysis for another's". The v4 bump
 (`:19`) exists to force every old hash to miss and recompute under the
 unambiguous framing. The optional fields keep that property because each one
 is appended behind its own length-framed marker (`"jobstruct"`, `"archreg"`).
+
+Re-checked 2026-10-31 at kp@`6edf5d7e6`: the key has grown since this reading.
+`PROMPT_VERSION` moved to v8 (`:33–36`, "a cache hit must not outlive the fix"
+for checked strengths), and a seventh optional axis, `llmRoute` (declared
+`:68–73`, appended behind `"llmroute"` at `:120–123`), now folds in the model
+route serving the analysis, because "a key without it served the previous
+model's analysis for the whole TTL after a switch". Same runtime-configuration
+case as the registry digest, same framing. The verdict stands.
 
 ## The digest is what the footprint joins on
 
@@ -114,9 +123,9 @@ principle one rung down the ladder. The old `applyDedupeKey` is gone.
 the email when one was given, else of the provided name, and `""` for an
 anonymous, address-less applicant, who is never deduped. It is stored hashed in
 `pipeline_entries.applicant_key` rather than in clear, and erasure NULLs it
-(`app/_lib/db/pipeline.ts:2589`). `normalizeContact` carries the reasoning
+(`app/_lib/db/pipeline.ts:2816`). `normalizeContact` carries the reasoning
 (`app/_lib/apply-intake.ts:88–92`): two real people can share a name; an
-address is theirs. `findApplicationByApplicant` (`pipeline.ts:1838`) never
+address is theirs. `findApplicationByApplicant` (`pipeline.ts:1918`) never
 matches a row holding a different address.
 
 The filing core grades what a match may do by *proof*
@@ -129,7 +138,7 @@ proven-versus-unproven address rule, implemented before it was written down.
 ## Deviations
 
 - **An unproven match still answers "duplicate" for a stranger.** With proof
-  `none`, `repeat` (`application-filing.ts:219–222`) returns
+  `none`, `repeat` (`application-filing.ts:235–238`) returns
   `{ kind: "duplicate", merged: false }`. The second submission is not filed.
   When no email is given the match is on the typed name, so a second applicant
   with the same name for the same job is turned away as the first. The same
@@ -151,11 +160,15 @@ proven-versus-unproven address rule, implemented before it was written down.
   statement. `app/_lib/db/anonymize-cv-identity.test.ts` fails 3/3 on the
   parent and passes 3/3 with the fix. The full unit suite shows no new failing
   file against a baseline run, and `tsc --noEmit` is clean. Still open: the
-  analyses to scrub are chosen by `LOWER(TRIM(candidate_label))` (`:2633`), a
+  analyses to scrub are chosen by `LOWER(TRIM(candidate_label))` (`pipeline.ts:2860` at HEAD), a
   label join the comment itself calls a stopgap until a per-candidate foreign
-  key exists.
+  key exists. Re-checked 2026-10-31 at kp@`6edf5d7e6`: `0c9a742d3` is now an
+  ancestor of HEAD; the analyses scrub NULLs `cv_hash` (`pipeline.ts:2864–2868`)
+  and `anonymizeProfile` clears `source_cv_hash` (`profiles.ts:397`). The
+  `pipeline.ts`/`profiles.ts` anchors above that name `c39dc91a6` describe the
+  pre-fix tree and are left as read there.
 - **The footprint does not know a run was blind.** Blind mode is a cache-key
-  axis and a run parameter (`analyze-run.ts:269`, `:347`), but the `analyses`
+  axis and a run parameter (`analyze-run.ts:294`, `:381`), but the `analyses`
   table has no blind column, and the report page never mentions it. So a saved
   report from a blind run shows the same "also analyzed" links as any other,
   and those links lead to non-blind analyses of the same CV. That is the
@@ -164,11 +177,11 @@ proven-versus-unproven address rule, implemented before it was written down.
   says a blind surface must not carry. Persist the mode on the saved analysis
   and suppress or reduce the footprint for blind rows.
 - **The response cache outlives erasure.** The prompt cache is keyed on the
-  CV bytes, shared across tenants by design (`app/_lib/tenancy.ts:387`), and not
+  CV bytes, shared across tenants by design (`app/_lib/tenancy.ts:415`), and not
   touched by erasure. Its analysis TTL defaults to 24 hours
   (`app/_lib/cache.ts:9`), which is the de facto erasure window for that copy.
   The window is not stated anywhere a data subject or operator would see it.
 - **The inbound apply path never hashes.** `extractUploadedText`
-  (`app/_lib/cv-intake.ts:27`) reads the CV for text and stores no digest. So the
+  (`app/_lib/cv-intake.ts:28`) reads the CV for text and stores no digest. So the
   one path where a claimed identity (a typed name and address) sits outside the
   document has no artifact identity to compare.

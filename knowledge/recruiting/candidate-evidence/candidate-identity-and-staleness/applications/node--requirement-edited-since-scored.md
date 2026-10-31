@@ -5,7 +5,7 @@ subject: candidate-identity-and-staleness
 technique: requirement-edited-since-scored
 stack: node
 status: forged
-verified_on: 2026-09-28
+verified_on: 2026-10-31
 verified_against: node@24
 ---
 
@@ -14,7 +14,7 @@ verified_against: node@24
 The app implements the "score computed before the requisition's last edit is
 stale" rule once, as a pure function, and every surface that shows a score
 imports it, except one, recorded below. Re-verified at the tree's HEAD
-`c39dc91a6` on 2026-09-28.
+`6edf5d7e6` on 2026-10-31.
 
 ## The rule
 
@@ -38,7 +38,7 @@ export function isScoreStale(
 
 Since the 2026-08-30 reading it compares **parsed instants** rather than
 strings, because "stored timestamps may use different UTC offsets or
-fractional-second precision" (`:59–60`). An unparseable timestamp returns
+fractional-second precision" (`:60–61`). An unparseable timestamp returns
 false. The comment (`:54–64`) still states the contract in the technique's own
 terms: "the ONE staleness rule shared by every decision surface … a score
 computed strictly BEFORE the JD's last content edit reflects the earlier text".
@@ -54,7 +54,7 @@ Three details are load-bearing and all three match the standard:
 - **Purity is the anti-drift mechanism.** "Pure so the client cards and the
   server wave path can't drift."
 
-An optional third timestamp, `scorecardAt` (`:57–58`, `:77–80`), applies the
+An optional third timestamp, `scorecardAt` (`:58–60`, `:77–80`), applies the
 same strictly-before rule to later interview evidence: a CV score predating a
 scorecard is stale even when the JD has not moved. At this HEAD it is exercised
 by `app/features/hiring/decisions/decisionsScoreStaleness.test.ts:45` and passed
@@ -62,8 +62,8 @@ by no production caller.
 
 ## Where it is consumed
 
-- The decisions queue: `app/features/hiring/decisions/useDecisionsQueue.ts:363`.
-- The bulk screen wave: `app/_lib/screen-wave.ts:170–178` resolves the JD's last
+- The decisions queue: `app/features/hiring/decisions/useDecisionsQueue.ts:364`.
+- The bulk screen wave: `app/_lib/screen-wave.ts:171–179` resolves the JD's last
   edit once and attaches `{ stale: true, staleSince }` per cohort member to the
   preview. The wave is the surface that produces an adverse outcome, and it
   routes through a human approval gate that sees both dates. That is the
@@ -89,9 +89,9 @@ as prose in one language.
 Three, and the standard stays in each case.
 
 **Any save counts, including a save that changes nothing.** `updateJd`
-(`app/_lib/db/jobs.ts:388–415`) snapshots the pre-edit version into
+(`app/_lib/db/jobs.ts:392–419`) snapshots the pre-edit version into
 `jd_revisions` on every call, stamped now, with no check that the title or body
-changed. `jdLastEditedAt` (`:472`) reads `MAX(created_at)` over those rows. So a
+changed. `jdLastEditedAt` (`:476`) reads `MAX(created_at)` over those rows. So a
 title-only change, a formatting fix, or a save of identical text marks every
 analysis for that JD stale. The standard asks for the last *material* edit, to
 the decision-bearing requirement content. At minimum, skip the revision when

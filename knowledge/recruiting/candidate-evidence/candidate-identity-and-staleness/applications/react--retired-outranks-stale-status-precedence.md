@@ -5,7 +5,7 @@ subject: candidate-identity-and-staleness
 technique: retired-outranks-stale-status-precedence
 stack: react
 status: forged
-verified_on: 2026-09-28
+verified_on: 2026-10-31
 verified_against: react@19
 ---
 
@@ -14,7 +14,7 @@ verified_against: react@19
 The skill-profile roster renders a candidate profile's standing as a single
 badge derived from a single pure function, and it pairs that badge with the
 rebuild affordance the state implies. Re-verified at the tree's HEAD
-`c39dc91a6` on 2026-09-28. Since the 2026-08-30 reading, the precedence has held
+`6edf5d7e6` on 2026-10-31. Since the 2026-08-30 reading, the precedence has held
 verbatim and the rebuild path behind it has been rebuilt.
 
 ## The precedence function
@@ -123,7 +123,7 @@ divergence flag. The tree now implements the technique's preferred rule,
 
 **Unknown divergence is read as "unedited" on the single-profile path.**
 Divergence is `updated_at > lineage_stamped_at` (profiles DDL,
-`app/_lib/db/core.ts:559–566`), and the schema says so outright: "NULL on legacy
+`app/_lib/db/core.ts:567–574`), and the schema says so outright: "NULL on legacy
 rows ⇒ divergence unprovable ⇒ no warning." `openRebuild` then takes the
 `!div?.diverged` branch and hydrates straight from the newer analysis
 (`useProfileTabDeepLinks.ts:117–120`), with no merge. The batch refresh treats
