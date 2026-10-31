@@ -5,7 +5,7 @@ subject: bounded-enumeration
 technique: declare-the-inconsistency
 stack: rust
 status: forged
-verified_on: 2026-09-26
+verified_on: 2026-10-31
 verified_against: rust@1
 applied: experiment
 ab_verdict: better
@@ -62,6 +62,15 @@ that wrote its own client against the same two sentences in the docs, and
 reconciled against the export (tombstone what the walk did not return),
 would delete a live record that had only been updated. That is the quiet,
 one-sided failure the technique names.
+
+Re-checked 2026-10-31 at pumper@5046a0a: the SDK's later runs no longer read
+`/changes?since=`. The snapshot now checkpoints `<highest updated_at>|0` as a
+feed position. Rowid 0 is chosen so the next run re-reads that stamp's whole
+chunk. Later runs drain the feed forward (`order=asc`) from that cursor and
+checkpoint each page (`clients/typescript/src/sync.ts`, `snapshot` and
+`incremental`). The feed still starts at the highest `updated_at` the walk
+saw, so the jumped record still arrives on the next run. The convergence
+argument above holds. Only the read that carries it has changed.
 
 The seam change is one bullet in `docs/features/datasets.md` § Querying &
 export, beside the parameter list:

@@ -5,7 +5,7 @@ subject: bounded-enumeration
 technique: after-plus-limit-not-cursor
 stack: rust
 status: forged
-verified_on: 2026-09-26
+verified_on: 2026-10-31
 verified_against: rust@1
 applied: simulation
 ab_verdict: better
@@ -91,3 +91,22 @@ key.
 
 Verdict: better. The condition removes fourteen false positives, and it
 keeps the one failure the tree actually shipped.
+
+Re-checked 2026-10-31 at pumper@5046a0a: the mechanism holds as described.
+`keyset_cursor` (`crates/server/src/routes/error.rs:334-343`) still builds
+from `items.last()`, and only on a full page. `parse_cursor` (`:270-278`)
+still reads blank and unsplittable alike as `None`. `parse_cursor_arg`
+(`:299-306`) is still the strict 400, reached only through
+`parse_cursor_i64_arg` for `/changes` and `/history`
+(`crates/server/src/routes/datasets.rs:26-34`). `history_page`
+(`crates/core/src/datasets.rs:1173-1208`) orders `created_at DESC, revision
+DESC` against the matching predicate. The skew test is at
+`crates/core/tests/datasets.rs:1315`. The site counts have grown since the
+simulation. Seventeen `keyset_cursor` calls plus the two store-built feed
+cursors make nineteen emitting sites, not fourteen. Every one encodes a
+timestamp plus a unique tiebreak (`created_at|id`, `updated_at|key`,
+`updated_at|host`, `created_at|rowid`, `created_at|revision`). The lenient
+`parse_cursor` call sites number seventeen, not nine, and all serve list
+routes. The strict parse is still confined to the change feed and history.
+The verdict stands. The sites the conditioned rule clears grew from fourteen
+to nineteen, and none of the new ones is flagged.

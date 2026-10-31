@@ -43,12 +43,12 @@ the same uncatchable class the engine uses for every runtime ceiling.
 ## The fleet project: the masking, already met once
 
 The project has no fuzz targets. What it has is the masking the technique
-describes, encountered and named in its own source: `crates/server/src/triggers.rs:302-306`
-records that "a configured predicate whose module was never built takes the
-same fail-open path as a predicate that passed, so a gate nobody deployed is
+describes, encountered and named in its own source: `crates/server/src/triggers.rs:492-496`
+records that "a configured predicate whose module was never built into
+`data/plugins/` takes the same fail-open path as a predicate that passed, so a gate nobody deployed is
 indistinguishable from a gate that said yes" - a failure in the first stage
 that was invisible from the end of the pipeline until a dedicated report
-(`missing_hook_plugins`, `:309-319`) surfaced it at error level. That is the
+(`missing_hook_plugins`, `:483-512`) surfaced it at error level. That is the
 technique's first decision rule, paid for once: the shallow stage's failures
 must be drained and named, or the deep stage's verdicts are not evidence.
 
@@ -59,17 +59,17 @@ Three cases from the only harness that drives the real plugin host
 harness, as today) and B (a predicate target and a transform target, triaged in
 pipeline order, the plugin stage under its fuel budget):
 
-1. `every_sandbox_failure_mode_fails_open_not_closed` (`:340`). Under A a
+1. `every_sandbox_failure_mode_fails_open_not_closed` (`:346`). Under A a
    predicate trap fires the hop open and the transform stage runs on an input
    the predicate never judged; a transform defect on that input is masked by
    the predicate's failure. Under B the predicate target drains its crash set
    first and the transform target is fed only inputs the predicate accepted, so
    the transform defect is reachable.
-2. `non_json_transform_output_is_recorded_as_malformed` (`:604`). Under A the
+2. `non_json_transform_output_is_recorded_as_malformed` (`:616`). Under A the
    malformed-output path is reached only through a full hop. Under B it is the
    transform target's own oracle - output must parse as JSON - and every
    generated envelope exercises it.
-3. `a_missing_plugin_is_recorded_once_not_once_per_event` (`:673`). The tree's
+3. `a_missing_plugin_is_recorded_once_not_once_per_event` (`:685`). The tree's
    own fix for stage masking, which B generalises: the unrunnable stage is
    reported, never passed open silently.
 

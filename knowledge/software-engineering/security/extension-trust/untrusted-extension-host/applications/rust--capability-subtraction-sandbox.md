@@ -49,13 +49,13 @@ call a fresh store with a fuel budget - "a deterministic instruction ceiling - a
 runaway plugin traps instead of hanging the host" (`:2-4`) - and a hard
 linear-memory cap. The counted list is wider than memory alone: the store
 limiter caps memories, tables, table elements and instances as well, because
-"a module can otherwise exhaust host RAM at instantiation via huge tables,
-sidestepping the memory cap entirely" (`:567-577`). A trap during the call
-(`:848-853`) and a refusal at instantiation (`:590-596`) are both classed as the
+"a module can otherwise exhaust host RAM at instantiation via huge
+tables/instances, sidestepping `memory_size` entirely" (`:777-787`). A trap
+during the call (`:1088-1095`) and a refusal at instantiation (`:799-809`) are both classed as the
 sandbox stopping the guest, distinct from a host error, and the *direction* of
 that stop is the host's to choose per hook class: a trapped trigger predicate
 fails open unless the trigger asked for `skip`
-(`crates/server/src/triggers.rs:190-195`), which is the neighbouring
+(`crates/server/src/triggers.rs:380-385`), which is the neighbouring
 per-callback rule and not this technique's concern.
 
 The structural fact is the third rule of the amendment, instantiated: **the
@@ -64,19 +64,38 @@ authority"), so there is no host-provided call inside which wall time or
 host-side allocation could escape the count. The uncounted list is empty by
 construction, and the counted list is already published - the plugin listing
 reports `fuel_budget` and `memory_bytes_cap` beside each plugin's last and
-peak consumption (`:100-112`), on the stated reasoning that "18 million fuel
+peak consumption (`:100-143`), on the stated reasoning that "18 million fuel
 answers nothing on its own". Nobody wrote the two-list rule into this tree; it
 fell out of a linker with no imports and a telemetry endpoint that refused to
 print a number without its budget.
+
+Re-checked 2026-10-31 at pumper@5046a0a: **the premise of this section no
+longer holds.** The "Plugins have no imports" line is gone. Capability-scoped
+host imports (N10) now build each plugin's linker from its own `describe()`
+manifest (`crates/engine-wasm/src/lib.rs:1-15`, `crates/engine-wasm/src/caps.rs`).
+The linker can hold three imports: `pumper_http_request`, `pumper_kv_get` and
+`pumper_kv_put`. A plugin that declares nothing still gets an empty linker. A
+plugin that imports what it did not declare fails to link at load. The tree
+met the case this document predicts below, and answered it by counting. The
+`caps.rs` docstring says "Fuel does not bound these: a host call burns the
+HOST's time". So host calls are capped per invocation
+(`MAX_CAPABILITY_CALLS = 32`), payloads at 4 MiB, and each plugin HTTP call
+has its own timeout and goes through the shared governed `HttpClient`
+(`crates/server/src/plugin_caps.rs`). `GET /plugins` now publishes the
+capabilities each plugin was granted. Its telemetry still reports only fuel
+and memory against their budgets, with no capability-call usage beside the
+32-call ceiling. The uncounted list is no longer empty by construction, and
+the `unmeasurable` verdict below was conditioned on zero imports. It needs
+re-running against this tree rather than being read as current.
 
 ## The simulation
 
 Three cases from the e2e suite that drives the real host
 (`crates/server/src/e2e/trigger_plugins.rs`), walked under A (publish one word,
 "sandboxed") and B (publish counted and uncounted lists): a fuel burn that traps
-while the hop still fires (`:520`); a fuel burn under `on_error: skip` that stops
-the hop without faking a veto (`:558`); a module refused at instantiation for its
-declared memory (`:590-596` in the host). Every case ends the same way under both
+while the hop still fires (`:532`); a fuel burn under `on_error: skip` that stops
+the hop without faking a veto (`:570`); a module refused at instantiation for its
+declared memory (`:799-809` in the host). Every case ends the same way under both
 arms, because B's second list is empty here and B's first list is already
 printed. The verdict is therefore `unmeasurable` in this tree, and the instrument
 that would make it measurable is named: **the count of imports in the linker,
@@ -84,6 +103,9 @@ currently zero.** The first host import - a fetch, a log line - makes the
 uncounted list non-empty, and at that moment the telemetry must grow a second
 list or the word "sandboxed" becomes the over-claim the amendment exists to
 prevent.
+
+Re-checked 2026-10-31 at pumper@5046a0a: the instrument named above now reads
+three, not zero (see the dated note in the previous section).
 
 ## What neither realisation can do
 

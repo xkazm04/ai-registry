@@ -4,7 +4,7 @@ type: application
 subject: mcp-tools
 technique: caller-differentiated-capability
 stack: rust
-verified_on: 2026-09-04
+verified_on: 2026-10-31
 verified_against: rust@1.96.1
 applied: simulation
 ab_verdict: not-better

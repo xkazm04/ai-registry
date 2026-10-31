@@ -4,7 +4,7 @@ type: application
 subject: web-scraping
 technique: soak-mode-and-verdict-replay
 stack: rust
-verified_on: 2026-08-24
+verified_on: 2026-10-31
 verified_against: rust@1.96
 ---
 
@@ -13,28 +13,38 @@ verified_against: rust@1.96
 `pumper` is a local-first scraping service — one axum binary, a SQLite job
 queue, ~35 workspace crates, one per scraping use case. Its `resilience`
 subsystem judges every scrape run for silent extraction rot, and the rollout
-discipline around it is the harvestable part. Citations are against the repo
-root at `ef21429`, toolchain pinned `1.96.1` (`rust-toolchain.toml`).
+discipline around it is the harvestable part. Citations were written against the repo
+root at `ef21429` and re-anchored at `5046a0a` (2026-10-31), toolchain pinned
+`1.96.1` (`rust-toolchain.toml`).
 
 ## The split, and the two accessors
 
 `[resilience]` carries two switches and the docstring on the config type
-(`crates/core/src/config.rs:379-396`) states why they are separate: `enabled =
+(`crates/core/src/config.rs:583-595`) states why they are separate: `enabled =
 false` is "a complete no-op", while `enforce = false` — "the shipping default"
 — "computes and stores every verdict while gating nothing: no trust stamps, no
 suppressed pushes, no downgraded syncs. That is the soak mode."
 
 The technique's two-accessor shape is exactly what the store exposes.
-`Resilience::state` (`crates/core/src/resilience/store.rs:705-718`) answers what
-a source's state actually is; `Resilience::enforced_state` (`:723-729`) is "the
+`Resilience::state` (`crates/core/src/resilience/store.rs:826-855`) answers what
+a source's state actually is; `Resilience::enforced_state` (`:857-870`) is "the
 state that governs enforcement: always `Healthy` while `enforce` is off, so soak
 mode cannot gate anything even by accident", short-circuiting on `enforcing()`
-(`:691-693`) before it ever reads the row. `observe` (`:736-…`) is downstream of
+(`:770-772`) before it ever reads the row. `observe` (`:872-…`) is downstream of
 neither flag but `enabled`: it sketches the run, computes drift, checks
 invariants, evaluates, and writes the verdict regardless of `enforce`. Its
 docstring also pins the ordering the technique's "evidence first" rule implies —
 "call this **before** writing the batch… computing it afterwards would stamp
 trust and infer removals from a verdict that did not exist yet."
+
+Re-checked 2026-10-31 at pumper@5046a0a: the gate is now per source.
+`enforced_state` short-circuits on `armed(app, dataset)` rather than
+`enforcing()`, and its docstring reads "always `Healthy` for a source that is
+not armed, so an unarmed source cannot be gated even by accident". A source is
+armed by the fleet-wide `enforce` or by an `enforce_sources` list, with
+`enabled = false` kept as the absolute off (`store.rs:761-806`). The
+two-accessor shape and the soak-mode guarantee hold. What changed is how
+narrowly a soak can be ended.
 
 ## Soak's exit is named where the flag is defined
 
@@ -42,12 +52,12 @@ The same config docstring carries the exit criterion rather than leaving it to
 folklore: enforcement "is meant to be turned on only after `source_runs` shows
 the false-positive rate is acceptable on real data. On an unattended box a false
 quarantine that silently stops a working pipeline is worse than a detection a
-week late" (`config.rs:385-388`). That is the sentence the technique demands at
+week late" (`config.rs:588-592`). That is the sentence the technique demands at
 the point the flag is declared.
 
 ## The rollout gate is a replay, and it says so as doctrine
 
-`crates/core/src/resilience/preview.rs:1-30` is the module docstring, and it is
+`crates/core/src/resilience/preview.rs:1-29` is the module docstring, and it is
 the technique stated rather than merely implemented. The evidence "is already on
 disk", because "soak mode is a no-op strictly **downstream**"; therefore "a
 preview is a *replay of stored rows*, not a re-run of the detector". The
@@ -57,47 +67,48 @@ and would be worthless as a rollout gate." Path-dependence gets its own line —
 "`state_after` IS the would-be state. The ladder is not gated on `enforce`; only
 its consequences are."
 
-`replay` (`preview.rs:265-331`) is documented as pure — "nothing here re-judges
+`replay` (`preview.rs:394-461`) is documented as pure — "nothing here re-judges
 anything; every verdict, score and state is read off the row it was written to"
-— and `preview_fleet` (`:348-397`) is "**read-only**: `list_sources` + one `runs`
+— and `preview_fleet` (`:472-541`) is "**read-only**: `list_sources` + one `runs`
 read per source, and nothing else". The stored `reasons` array travels verbatim
-into the output (`PreviewTransition::reasons`, `:88-91`: "every test that ran,
+into the output (`PreviewTransition::reasons`, `:179-182`: "every test that ran,
 its value and its threshold. Passed through verbatim; nothing is recomputed"),
 which is what makes the row sufficient to reconstruct the decision. Even the
 decode of a stored verdict string refuses to round up: `verdict_of`
-(`:333-345`) maps an unrecognised value to `Inconclusive` because "'we cannot
+(`:463-470`, now delegating to `RunVerdict::parse`, whose fallback arm is the
+same `Inconclusive`) maps an unrecognised value to `Inconclusive` because "'we cannot
 tell what this run said' must never be rounded up to 'it was fine'".
 
 Read-only is asserted, not intended:
-`crates/core/tests/enforcement_preview.rs:278-302`
+`crates/core/tests/enforcement_preview.rs:283-321`
 (`a_preview_leaves_the_store_byte_identical`) dumps every health table *and* the
 database file bytes on both sides of a preview and compares them.
 
 The HTTP surface repeats the contract where a caller reads it
-(`crates/server/src/routes/health.rs:239-256`): "Read-only replay of the stored
+(`crates/server/src/routes/health.rs:305-322`): "Read-only replay of the stored
 verdicts — it changes nothing, gates nothing, and re-judges nothing," followed
 by a **Fidelity, not re-simulation** paragraph. The route's own `?runs=` clamp
-(`preview_runs`, `:292-308`) is deliberately re-stated at the boundary rather
+(`preview_runs`, `:370-382`) is deliberately re-stated at the boundary rather
 than inherited from the core function, "the promise being made *where it is
 documented*".
 
 ## Attribution honesty
 
-`TransitionCause` (`preview.rs:60-73`) has two variants, and the second is the
+`TransitionCause` (`preview.rs:152-166`) has two variants, and the second is the
 technique's rule verbatim: `Outside` marks a state change with no judged run
 explaining it — an operator override via `POST /sources/{id}/state`, or the
 deciding run having been pruned — because "crediting an unjudged run with a move
 it did not make is exactly the kind of tidy lie a rollout gate must not tell".
-`SourcePreview` also carries `unjudged_runs` (`:204-207`) — "counted here rather
-than silently folded into the clean ones" — and `live_state` (`:219-224`),
+`SourcePreview` also carries `unjudged_runs` (`:300-303`) — "counted here rather
+than silently folded into the clean ones" — and `live_state` (`:316-320`),
 surfaced "so the preview never quietly disagrees with `GET /sources`". The fleet
 answer is names, not a percentage: `ready` plus `not_ready: Vec<NotReady>`, each
-naming the source, its gates, and the transition that put it there (`:232-266`,
-`preview_fleet` populating it at `:366-380`).
+naming the source, its gates, and the transition that put it there (`:355-392`,
+`preview_fleet` populating it at `:503-515`).
 
 ## The ladder
 
-`next_state` (`crates/core/src/resilience/detect.rs:826-899`) is the ladder,
+`next_state` (`crates/core/src/resilience/detect.rs:844-926`) is the ladder,
 `healthy → suspect → degraded → quarantined → probation → healthy`. Every rule
 the technique states is present and argued in a comment beside it: the first
 rung is inert ("`suspect` deliberately changes nothing downstream, so it is cheap
@@ -108,16 +119,22 @@ healthy"; quarantine releases to `probation`, "which still stamps every write
 silent"; and a trip during probation "goes straight back to quarantine — no
 intermediate rungs, because this source has already proven it can break".
 
-`Recovery` (`:786-812`) carries the streak and the required length, and its doc
+`Recovery` (`:797-822`) carries the streak and the required length, and its doc
 states the judged-runs-only rule — runs nobody judged "are not in this count: a
 source must not be able to heal on evidence that was never looked at".
-`consecutive_clean` (`:815-823`) uses `take_while`, so "three clean runs with a
+`consecutive_clean` (`:825-834`) uses `take_while`, so "three clean runs with a
 break in the middle are not a recovery". Terminal quarantine is named as the
 bug it replaced: "The old rule was 'terminal without an operator', which on an
 unattended box means a source that broke at 03:00 and healed at 04:00 stays
 quarantined… That is the single biggest reason `enforce = true` is not
-adoptable" (`:869-878`). The transition table is pinned by tests at `:1625-1700`,
+adoptable" (`:883-892`). The transition table is pinned by tests at `:1825-1910`,
 including `quarantine_releases_on_evidence_not_on_one_quiet_run`.
+
+Re-checked 2026-10-31 at pumper@5046a0a: the ladder has gained two arms
+outside the five-rung cycle. `Retired` is absorbing. `Unknown`, the state a
+failed health read reports, is never written. If it reaches the ladder, the
+first judged run resolves it to `Suspect` or `Healthy` rather than freezing
+the source. The rules above are unchanged.
 
 ## Cohort adequacy and `unmonitored`
 
@@ -125,31 +142,31 @@ including `quarantine_releases_on_evidence_not_on_one_quiet_run`.
 `Full`, `Shrunken` ("below the floor, but this source has cleared it before —
 today's run shrank"), and `Chronic` ("structurally too small to be judged
 statistically — it is **unmonitored**, and `GET /sources` says so instead of
-showing it as healthy"). `cohort_adequacy` (`:157-171`) reads one fleet-wide
+showing it as healthy"). `cohort_adequacy` (`:157-172`) reads one fleet-wide
 `min_cohort_docs` against the source's own baseline peak, and its doc states the
 non-lowering rule: "a thin source does not become easier to trip by being
 chronically thin, it becomes honestly labelled as unmonitored."
 
-The baseline-poisoning consequence is closed at `detect.rs:337-359`: an
+The baseline-poisoning consequence is closed at `detect.rs:349-371`: an
 inadequate cohort returns `RunVerdict::BelowCohort`, which "neither moves the
 state nor enters the baseline", with the regression it fixed written down —
 "recording it as `ok` (what this did before) let a chronically thin source
 assemble a baseline out of runs nobody had judged." The rollout gate carries it
-through: `SourcePreview::monitored` (`:225-227`) and `FleetPreview::unmonitored`
-(`:256-259`), whose doc makes the technique's point exactly — such sources "gate
+through: `SourcePreview::monitored` (`:321-323`) and `FleetPreview::unmonitored`
+(`:381-384`), whose doc makes the technique's point exactly — such sources "gate
 nothing, so they do not block readiness — but a preview of a source nobody could
 judge is weak evidence, so they are named rather than counted silently."
 
 ## Consequence enumeration — the shape is right, the check is not
 
-`CONSEQUENCES` (`preview.rs:44-59`) is the declared inventory, each entry naming
+`CONSEQUENCES` (`preview.rs:43-67`) is the declared inventory, each entry naming
 its live call site (`core::app::AppContext::write_target`,
 `…::sync_many_with_provenance`, `server::worker::suppress_unhealthy`,
 `server::worker::dataset_search_docs`), and the docstring states the contract:
 "if a fifth consumer ever gates on `enforced_state`, it belongs here too, and
 `every_enforcement_consequence_is_previewed` fails until it is."
 
-**Deviation.** That test (`preview.rs:532-552`) asserts `CONSEQUENCES` equals a
+**Deviation.** That test (`preview.rs:532-552` at `ef21429`) asserts `CONSEQUENCES` equals a
 hand-copied `EXPECTED` literal sitting twelve lines below it, plus that every
 name is reachable from some state. It fires when somebody edits the list — not
 when a new consumer appears, which is the failure mode the docstring claims it
@@ -159,13 +176,28 @@ call sites in the apps layer (`crates/apps/extractor/src/lib.rs:691`,
 `crates/apps/plugin/src/lib.rs:1533`,
 `crates/apps/trades-common/src/lib.rs:1725`) which read the state to mirror the
 routing rather than to add a consequence — but nothing mechanical distinguishes
-those from a fifth consequence, and nothing would notice one. The technique's
+those from a fifth consequence, and nothing would notice one. list. The technique's
 requirement is a check over the consumers; this is a check over a copy of the
 list.
 
+Re-checked 2026-10-31 at pumper@5046a0a: **this deviation is resolved.**
+`every_enforced_state_consumer_is_named_in_the_preview_inventory`
+(`crates/core/tests/enforcement_preview.rs:508-544`) walks every `.rs` file in
+the workspace and finds each `enforced_state` call site. It fails on a site
+that the `ENFORCED_STATE_CONSUMERS` inventory does not name, and on a count
+that drops below the declared number. A sibling test
+(`:546-573`) holds the inventory's consequence labels equal to `CONSEQUENCES`
+in both directions. The in-module test (`preview.rs:709-…`) no longer compares
+against a copied literal. Its docstring names that check as the anti-pattern
+it replaced. The `CONSEQUENCES` docstring now says "enforced by scanning, not
+by trust". The apps-layer readers named above still exist
+(`crates/apps/extractor/src/lib.rs:889`, `grants-common/src/lib.rs:329`,
+`plugin/src/lib.rs:1540`, and `trades-common/src/lib.rs:1900` and `:2717`). Each
+one is now a declared row in the inventory rather than an unnoticed one.
+
 ## Deviation: unknown renders as `Healthy`
 
-`Resilience::state` (`store.rs:698-718`) fails open — a store read error logs a
+`Resilience::state` (`store.rs:826-855`) fails open — a store read error logs a
 `tracing::warn!` and returns `SourceState::Healthy`. The reasoning is written
 down and is good ("this sits on the write path of every app… the cost of failing
 open is one unsuppressed run; the cost of failing closed is the whole fleet
@@ -176,12 +208,21 @@ vocabulary for "could not be read" — precisely the distinction the technique's
 *infrastructural* one. A `Unknown` variant that gates nothing and reports itself
 would preserve the trade and close the honesty gap.
 
+Re-checked 2026-10-31 at pumper@5046a0a: **this deviation is resolved, the way
+this section proposed.** A failed read now returns `SourceState::Unknown`,
+with the warning "reported as `unknown` (gates nothing, exactly as before)"
+(`store.rs:841-855`). The docstring states the change: "What changed is *what
+the failure is called*, not what it does… `Unknown` gates nothing, stamps
+nothing and diverts nothing, so it is the identical fail-open, reported
+honestly." `SourceState::trust` maps `Unknown` to no stamp
+(`crates/core/src/resilience/mod.rs:161`).
+
 ## The house convention around it
 
 Every gating or destructive subsystem in this service ships a read-only preview
 sibling, registered together in `crates/server/src/routes/mod.rs`:
-`extract_preview` (`:177`), `datasets_doctor` (`:213`), `retention_preview`
-(`:216`), `enforcement_preview` (`:264`), `datahub_governance_preview` (`:270`).
+`extract_preview` (`:233`), `datasets_doctor` (`:271`), `retention_preview`
+(`:274`), `enforcement_preview` (`:344`), `datahub_governance_preview` (`:350`).
 The technique asks for one preview; the repo generalised it into a rule for the
 whole surface, which is the transplantable part beyond this subsystem.
 
@@ -202,3 +243,6 @@ layer rather than reviewing for. Deviations: the consequence-enumeration check
 compares the list to a copy of itself instead of to the call graph, so the one
 failure mode a rollout gate cannot have is unguarded; and a failed health read
 renders as `Healthy`, an infrastructural unknown wearing a definite value.
+Re-checked 2026-10-31 at pumper@5046a0a: both deviations are now closed in the
+tree, by a call-site scan and by an `Unknown` state (see the dated notes
+above).

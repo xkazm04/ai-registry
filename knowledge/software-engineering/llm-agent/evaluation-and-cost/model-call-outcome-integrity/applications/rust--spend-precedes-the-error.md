@@ -5,7 +5,7 @@ subject: model-call-outcome-integrity
 technique: spend-precedes-the-error
 stack: rust
 status: forged
-verified_on: 2026-09-05
+verified_on: 2026-10-31
 verified_against: rust@1.96.1
 ---
 
@@ -30,11 +30,11 @@ pub struct ClaudeSpend {
 }
 ```
 
-`crates/core/src/error.rs:10-16`. The doc comment states the distinction the technique's
+`crates/core/src/error.rs:102-109`. The doc comment states the distinction the technique's
 sibling law insists on: an unknown spend and a zero spend are different facts, and the
 type refuses to collapse them.
 
-`ledger_event()` (`error.rs:49-55`) then decides what the ledger receives, by matching on
+`ledger_event()` (`error.rs:169-193`) then decides what the ledger receives, by matching on
 both halves at once:
 
 | observed | ledger row |
@@ -48,29 +48,43 @@ The four arms are the technique's rule made total. The third is the one worth na
 spawn failure means nothing ran, so writing a row would be the mirror lie — a metered
 event for a call that never happened.
 
+Re-checked 2026-10-31 at pumper@5046a0a: the four arms and their `detail` strings hold.
+The row has gained a third column, though. `ledger_event()` now returns
+`(cost_usd, SpendCertainty, detail)`. A reported cost is `Billed`, and an unreported one
+takes `ClaudeFailure::unreported_certainty()`, which separates `Unmetered` ("the model
+answered and you were billed") from `Unknown` ("a child existed and we cannot say whether
+it was billed at all"). Its docstring says the distinction "used to exist only as a
+*prefix of `detail`*" (migration 0045). The old catch-all arm is gone: the match now
+lists every class by name, so a new class is a compile error.
+
 ## What the tree proves that the technique only asserts
 
 Two tests in the same file pin behaviour the technique states as a rule and cannot
 enforce:
 
-- `error.rs:619-622` asserts the ledger row carries **both** the real money and the
+- `error.rs:1181-1188` asserts the ledger row carries **both** the real money and the
   failure class — `Some((0.42, "failed_spend (is_error)"))` — so a failed call is
   attributable, not merely counted.
-- `error.rs:623-626` asserts the cost does **not** appear in the error's `Display` output:
+- `error.rs:1189-1192` asserts the cost does **not** appear in the error's `Display` output:
   *"the cost travels in a field, not smuggled into the message"*. That is a sharper rule
   than the technique writes down. A price interpolated into an error string is unusable by
   a ledger and unparseable by anything downstream; putting it in a field is what makes
   step 1 of the technique (extract usage from a response about to be rejected) mechanical
   rather than aspirational.
-- `error.rs:641-643` pins the mirror risk explicitly, in its own words: *"a row for a call
+- `error.rs:1213-1221` pins the mirror risk explicitly, in its own words: *"a row for a call
   that never ran is a different lie"*.
+
+  Re-checked 2026-10-31 at pumper@5046a0a: the first assertion is now
+  `Some((0.42, SpendCertainty::Billed, "failed_spend (is_error)"))`, with the message
+  "the ledger row must carry the real money, its certainty AND the failure class". The
+  other two hold verbatim.
 
 ## The structural half
 
 The rule is enforced upstream of any caller's discipline. The raw engine handle is a
-`pub(crate)` field on the engine set (`crates/core/src/engine.rs:1446-1457`), so an
+`pub(crate)` field on the engine set (`crates/core/src/engine.rs:1483-1499`), so an
 application crate cannot name it; every call reaches the model through one context method
-that meters before it returns (`crates/core/src/app.rs:585`). Bypassing the metering
+that meters before it returns (`crates/core/src/app.rs:591`). Bypassing the metering
 wrapper is a compile error rather than something review has to catch — which is what makes
 "spend precedes the error" hold for call sites written by people who never read this
 document.
@@ -78,14 +92,20 @@ document.
 ## Where it stops short
 
 Token counts are absent. The engine reads `total_cost_usd`, `num_turns`, `duration_ms` and
-`session_id` from the CLI envelope (`crates/engine-claude/src/lib.rs:498-504`) and no
+`session_id` from the CLI envelope (`crates/engine-claude/src/lib.rs:561-567`) and no
 input/output token fields, so the cost is trusted from the vendor rather than priced from
 usage. The technique permits that and requires it be said; the tree says it in the type's
 doc comment rather than in the emitted row, so a reader of the ledger alone cannot tell a
 vendor-reported figure from a computed one.
 
+Re-checked 2026-10-31 at pumper@5046a0a: there are still no token fields. The row now
+carries `spend_certainty`, so a ledger reader can tell `billed` from `unmetered` and
+`unknown`. It still has no field that says a figure was vendor-reported rather than
+computed. That is moot today, because the tree computes no prices.
+
 Budget here is denominated in **dollars**, not tokens (`max_budget_usd`, clamped to the
-job's remaining headroom, `crates/engine-claude/src/lib.rs:70-73`). That is a different
+job's remaining headroom; resolved at `crates/engine-claude/src/lib.rs:75-78`, clamped
+by `clamp_to_headroom` at `crates/core/src/app.rs:306-311`). That is a different
 answer to the ceiling problem than a completion cap, and a better-behaved one for the
 failure this technique guards: a dollar ceiling cannot silently truncate an answer, it can
 only decline to start one.
