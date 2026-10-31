@@ -128,7 +128,11 @@ opposite settings, one question between them.
   merge every family it serves into one. A hosting-platform substring is a
   family signal only where that platform serves that family exclusively;
   otherwise family resolution falls through to the model identity carried
-  beside the provider string.
+  beside the provider string. Where the sender supplies the declared
+  identity pair, this rule has nothing left to decide: the family attribute
+  names the family and the host is provenance, so a multi-family host can
+  never be mistaken for one. The rule stays for senders that carry only a
+  single free-text provider value.
 - **When pricing genuinely differs by host** (a marketplace surcharge on the
   same models), family matching for identity still holds — the price book,
   not the matcher, is where a host-specific price row belongs.

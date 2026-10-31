@@ -71,11 +71,18 @@ by the tool's exit-code table.
   run under a `--gate`-style flag must. The flag is the declaration "I am
   a pipeline step", and only that declaration activates the contract.
 - **When a status is unrecognized** (a legacy value, a newer writer than
-  reader), decide the default *deliberately* and document it. Mapping
-  unknowns to non-blocking keeps old pipelines alive across upgrades but
-  means a misspelled status silently unguards the gate — acceptable only
-  because statuses come from the same codebase; if statuses ever cross a
-  trust boundary, unknown must mean unverified.
+  reader), map it to unverified. An unrecognized status is by definition
+  one the reader cannot vouch for, which is exactly what unverified means;
+  mapping it to exit 0 means a misspelled status, or a status added by a
+  writer newer than its reader, silently unguards the gate — and "the
+  statuses come from the same codebase" does not prevent that, because the
+  writer and the reader of a recorded run are routinely different versions
+  of it. The cost is that an upgrade adding a status can turn an old
+  pipeline's step from green to unverified until the reader learns the new
+  value; that is the loud direction, and the channel's own unverified
+  policy decides whether it blocks. A tool that keeps the non-blocking
+  default anyway must document it as a deliberate exception to this
+  contract, not leave it as an unstated fallback.
 - **When a channel wants unverified to block** (a production promotion
   path), implement that in the pipeline's branch on the unverified code
   — never by remapping the tool's codes, which would fork the contract

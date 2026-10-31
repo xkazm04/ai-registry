@@ -434,3 +434,94 @@ Still owed from 2026-09-10, unchanged at current bytes:
   }
 }
 ```
+
+## 2026-10-31 - clarify-apply
+
+Applied the four clarify items owed by the 2026-10-31 re-review. Overall disposition moves to reverify: nothing is owed in prose, and four applications still rest on trees or runs this pass did not re-open.
+
+<!-- architecture-review:v1 -->
+```json
+{
+  "subject": "llm-observability/quality-regression-gating",
+  "date": "2026-10-31",
+  "baseline": "19cb20182",
+  "digest": "sha256-b2:e7bdcf6b440837bf",
+  "disposition": "reverify",
+  "coverage": "Clarify-apply pass on the 2026-10-31 record: all 13 documents keyed. The four clarify items (golden path, family-wise-correction, unverified-vs-regressed-exit-states, the UltraRAG application) were applied after re-reading each target at current bytes, and the golden path's pairing failure mode was compared against paired-per-case-testing's refusal list. The other nine documents were not edited and keep their prior dispositions. Not evaluated: the LightTrack anchors, the promptfoo harness, the UltraRAG measurements (not re-run, pinned lines not re-fetched this run), and any verified_on refresh.",
+  "counterexamples": [
+    "Two targets each error on a different case of a difficulty-ordered suite. The golden path says refuse loudly; the technique says pair the intersection and disclose the retained count. A reader following the golden path discards a valid test that the technique requires.",
+    "UltraRAG: two runs identical on the 20 queries both answered, with one silent on 30 more. Zero-filled union gives a mean difference of 0.280 at p = 0.0000; the intersection gives 0.000 at p = 1.0. The report carries no filled-query count.",
+    "Eighteen metric-by-cutoff tests over one run pair are not eighteen independent chances: recall@5 and recall@10 share most of their hits, so the spurious-significance rate sits below 1 - 0.95^18.",
+    "Six targets tested against one shared baseline and case set: 26% spurious red is an upper bound under independence, not the rate.",
+    "An unrecognized run status maps to exit 0 by documented decision, so a writer newer than its reader silently unguards the gate."
+  ],
+  "sources": [
+    {
+      "url": "https://en.wikipedia.org/wiki/Paired_difference_test",
+      "result": "Fetched 2026-10-31 (raw wikitext). Quoted: 'the variance of D is lower if there is positive correlation within each pair'; 'This condition is met whenever rho, the within-pairs correlation, is positive.' Supports naming within-case correlation as the condition behind the golden path's power claim. A secondary reference restating a textbook identity (Bienaymé), not a primary paper."
+    },
+    {
+      "path": "knowledge/llm-observability/quality-scoring/quality-regression-gating/techniques/paired-per-case-testing.md",
+      "result": "Its refusal list (disjoint, duplicate ids, fewer than two shared, either side empty) and disclosed-subset rule are what the golden path's silent-pair-mismatch failure mode now restates."
+    },
+    {
+      "path": "docs/rkb-profile.md",
+      "result": "'An external application must not carry verified_against ... (check-bundles refuses the pair).' Applied to the UltraRAG application."
+    }
+  ],
+  "documents": {
+    "quality-regression-gating.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: (1) the silent-pair-mismatch failure mode no longer says 'refuse to pair, loudly, when the cases do not line up'; it names silence and positional zipping as the defect, refuses only the four named unpairable cases, and otherwise pairs the intersection with retained and dropped counts disclosed. (2) The 'several times more statistical power' claim now names positive within-case correlation as its condition and says the gain shrinks with it."
+    },
+    "techniques/paired-per-case-testing.md": {
+      "disposition": "keep",
+      "reason": "The equal-length-is-not-identity section, the four named refusals versus the disclosed subset, the selection-effect and bounded-preview caveats, and coupling the zero-spread rule to identity-verified pairing are all correct. The power claim stays hedged as 'typically'. Retracts the 2026-09-10 reason that praised the flat refuse-to-pair rule."
+    },
+    "techniques/family-wise-correction.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: 1 - 0.95^6 = 26% now stated as the independence figure and an upper bound, because verdicts sharing a baseline and case set are positively correlated; the correction is still owed since it bounds the family under any dependence."
+    },
+    "techniques/fixed-alpha-discipline.md": {
+      "disposition": "keep",
+      "reason": "Unchanged. The constant-versus-default argument and the routing of flexibility elsewhere hold."
+    },
+    "techniques/tested-superiority-claims.md": {
+      "disposition": "keep",
+      "reason": "Unchanged. The argmax-is-a-sample-fact framing and the two permitted sentences hold."
+    },
+    "techniques/unverified-vs-regressed-exit-states.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: an unrecognized status now maps to unverified, with the newer-writer-than-reader case given as why same-codebase provenance does not protect the exit-0 default, the upgrade cost stated, and a tool keeping the non-blocking default required to document it as a deliberate exception."
+    },
+    "techniques/partial-run-never-green.md": {
+      "disposition": "keep",
+      "reason": "Unchanged. The doctrine and the recorded-plan exemption hold."
+    },
+    "techniques/baseline-carries-its-conditions.md": {
+      "disposition": "keep",
+      "reason": "Unchanged. Still the deepest document in the subject."
+    },
+    "applications/node--unverified-vs-regressed-exit-states.md": {
+      "disposition": "reverify",
+      "reason": "Only the correct counterpart: external marking changed. The NaN green-hole reasoning stands as arithmetic. The executed vitest table and promptfoo 0.122.0 anchors were not re-verified."
+    },
+    "applications/rust--baseline-carries-its-conditions.md": {
+      "disposition": "reverify",
+      "reason": "Unchanged. The eight-case paired arms and the canonicalization table were not re-run. The 'disarms nothing' framing holds only if an unverified refusal counts as detection."
+    },
+    "applications/rust--paired-per-case-testing.md": {
+      "disposition": "reverify",
+      "reason": "Rewritten around the identity fix, and the narrative is coherent: positional helper confined to an aligned-by-construction caller, the CaseScore type, the named refusals, paired_cases and paired_cases_dropped serialized, and the fixture-not-field caveat on the ladder test. Everything is anchored into the LightTrack tree, which this run did not open, and the normal-approximation regime at eval-suite n is still unstated."
+    },
+    "applications/rust--partial-run-never-green.md": {
+      "disposition": "reverify",
+      "reason": "Unchanged. The BENCHMARK_FRAMEWORK.md:462-480 anchor still conflicts with the sibling's :427-445 under one verified_on, and '$0' still conflicts with the null-never-zero vocabulary."
+    },
+    "applications/python--paired-per-case-testing--ultrarag.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: frontmatter verified_against: python@3.11 replaced by counterpart: external per docs/rkb-profile.md (the body's 'Python witness' wording adjusted to match); 'eighteen independent chances to be significant' -> 'eighteen tests at an uncorrected 0.05', noting they share one run pair and overlapping cutoffs, so the family rate is below the independence figure yet above 0.05. Pinned lines not re-fetched this run; verified_on unchanged."
+    }
+  }
+}
+```

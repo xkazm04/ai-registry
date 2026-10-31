@@ -57,9 +57,12 @@ the verdict or to disclose the noise it could not strip. The order of
 operations matters and is fixed:
 
 1. **Pair per case** — the same cases in both runs, tested on their per-case
-   *differences*, which removes between-case variance entirely. This is
-   typically several times more statistical power at the same sample size —
-   often the difference between "cannot tell" and a usable gate
+   *differences*, which removes between-case variance entirely. Where a
+   case's scores in the two runs are positively correlated — the usual
+   state of an eval suite, whose cases keep their difficulty from run to
+   run — this is typically several times more statistical power at the same
+   sample size, often the difference between "cannot tell" and a usable
+   gate; the gain shrinks as that within-case correlation does
    (paired-per-case-testing).
 2. **Correct across the family** — a run that tests six targets at an
    uncorrected 95% level shows at least one spurious red on roughly a
@@ -139,9 +142,13 @@ contains which test decided, at what corrected threshold, with what caveats
   the tool has become a rationalization engine (fixed-alpha-discipline).
 - **The silent pair mismatch.** The case set changed between runs and the
   paired test quietly dropped the unmatched cases — or worse, zipped
-  misaligned score vectors. A paired test over mismatched cases is worse
-  than no paired test: it reports high confidence about a comparison that
-  never happened. Refuse to pair, loudly, when the cases do not line up.
+  misaligned score vectors by position. A paired test over mismatched cases
+  is worse than no paired test: it reports high confidence about a
+  comparison that never happened. The defect is the silence and the
+  position, not the overlap: pair by case id, refuse loudly and by name only
+  what cannot be paired (disjoint sets, duplicate ids, fewer than two shared
+  cases, an empty side), and otherwise pair the intersection with its
+  retained and dropped counts disclosed beside the verdict.
 - **The green partial.** The run hit a cost ceiling, an operator cancelled
   it, a pre-flight refused it — and the pipeline read "no regression
   detected" as "passed". Detection you did not perform is not detection

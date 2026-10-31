@@ -51,9 +51,18 @@ consequences are:
 The failure mode is live on observability platforms' own bug trackers:
 store an inclusive input total, then price the cached sub-count at the
 cache-read rate *beside* the full total priced at the input rate — the
-cached tokens are billed twice. Correct pricing subtracts:
-`(input_total − cached_read) × base_rate + cached_read × cache_rate`, with
-cache-write counters priced at their premium on top. The dual hazard for
+cached tokens are billed twice. Correct pricing subtracts **every** priced
+sub-class from the inclusive total before charging the base rate:
+`(input_total − cached_read − cache_creation) × base_rate + cached_read ×
+read_rate + cache_creation × write_rate(tier)`. Subtracting only the cache
+reads and then adding the write premium on top bills each cache-creation
+token twice — once at the base rate inside the residual, once at the write
+rate — because for Anthropic the inclusive total was built by adding the
+creation counter in. Both rates come from the price book per model, not per
+provider: Anthropic prices cache writes at 1.25× base (5-minute TTL) or 2×
+(1-hour TTL), and cache reads at the standard 0.1× on most models but at
+0.05× or 0.025× on some current ones, so a provider-wide read multiplier
+over-bills exactly the cache-heavy traffic on those models. The dual hazard for
 exclusive reporters is the silent under-count: copying Anthropic's
 `input_tokens` into the inclusive slot deletes the cache traffic — usually
 the majority of a cache-engineered workload's input volume — from every
