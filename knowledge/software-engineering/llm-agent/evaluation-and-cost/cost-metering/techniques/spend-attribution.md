@@ -42,7 +42,12 @@ The product will eventually want spend grouped by:
 The discipline is not that every product needs every axis; it is that the
 set is **decided deliberately, before rows accumulate**, because the
 millionth row costs the same to tag as the first and the first million
-untagged rows are unattributable forever. When a new axis becomes needed,
+untagged rows are unattributable forever. The exception is a ledger that
+keeps the raw call record verbatim: a property present in that record can be
+projected into a new axis at query time and applied to history, so the
+write-time obligation moves from "enumerate the axes" to "emit every property
+you might ever group by, and never truncate the record". A property that was
+never emitted is still lost. When a new axis becomes needed,
 its start date is declared and history before it reports as "before
 attribution began" — an honest cohort, not a backfilled guess.
 

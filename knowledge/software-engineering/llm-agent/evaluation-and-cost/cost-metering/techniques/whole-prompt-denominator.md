@@ -78,7 +78,8 @@ smell, not a safeguard** — it is the place a wrong denominator is hidden.
    a value to be saturated.
 4. **Write is its own unit class.** The whole-prompt count puts written tokens in
    the input, so a price book with no write rate bills them at the input rate.
-   Providers price a write above a plain input token; the residual is an
+   A provider that bills a write prices it above a plain input token (1.25× to
+   2× on one published sheet); the residual is an
    under-bill, small and one-directional, and it belongs in the price book as a
    rate ([unit-classes-are-open](./unit-classes-are-open.md),
    [price-tables](./price-tables.md)) and in the doc as a stated limitation until
@@ -104,5 +105,7 @@ invisible.
   decisions; they inherit a correct fraction from here.
 - A provider that reports no cache fields at all has an unknown cached count, not
   a zero one; keep it null ([unknown-is-not-a-value](../../../../_laws.md#unknown-is-not-a-value)).
-- Reasoning tokens are a different subset problem: providers count them inside
-  output, where they are billed, so they are reported and never added.
+- Reasoning tokens are a different subset problem, and the providers split on it.
+  Some count them inside output, where they are billed, so they are reported and
+  never added. Others report them beside output and bill them at the output
+  rate, so that extractor adds them to output. The extractor states which.

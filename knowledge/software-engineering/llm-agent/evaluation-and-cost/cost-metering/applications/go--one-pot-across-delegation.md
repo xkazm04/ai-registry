@@ -5,7 +5,7 @@ subject: cost-metering
 technique: one-pot-across-delegation
 stack: go
 status: forged
-verified_on: 2026-10-14
+verified_on: 2026-10-31
 verified_against: go@1.27
 ---
 

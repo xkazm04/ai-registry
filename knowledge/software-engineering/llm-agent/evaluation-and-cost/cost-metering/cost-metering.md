@@ -97,7 +97,7 @@ record must be distinguishable.
 
 Converting units to currency requires a price table: per-model, per-provider,
 per-direction rates (input units and output units are almost always priced
-differently, often by an order of magnitude). Three properties are
+differently, often by close to an order of magnitude). Three properties are
 non-negotiable, and all three are violated constantly in the wild:
 
 - **It is data, not scattered constants.** One authoritative table, consulted
@@ -180,7 +180,11 @@ row is written or never.** A ledger row that recorded only "a call happened,
 it cost this much" cannot be joined to the run that made it after the fact —
 the context existed only in the call stack, and the call stack is gone. So
 the row carries every axis anyone will ever group by, written from live
-context at call time. What the axes are, how unattributable spend is handled
+context at call time. The one exception is a ledger that keeps the raw call
+record verbatim: a property present in that record can be projected into a
+new axis at query time, so the obligation moves from enumerating the axes to
+emitting every property and never truncating the record. A property that was
+never emitted is still lost. What the axes are, how unattributable spend is handled
 (a counted bucket, never a dropped row), and what rollup honesty requires
 are the [spend-attribution](./techniques/spend-attribution.md) technique.
 
@@ -307,6 +311,10 @@ surfaces show and which anomalies they must make visible is the
 - [spend-observability](./techniques/spend-observability.md) — per-class and
   per-axis surfaces; anomaly visibility; estimate-drift and
   table-staleness as monitored numbers.
+- [whole-prompt-denominator](./techniques/whole-prompt-denominator.md) — one
+  usage shape for every provider: input is the whole prompt and cached tokens
+  are a subset of it, converted once at the extractor, with no clamp on a
+  ratio that cannot exceed one.
 - [unit-classes-are-open](./techniques/unit-classes-are-open.md) — the unit
   axis as an open vocabulary; nest a class or count it as residual; unmodeled
   units make a cost a floor; efficiency scored in currency on two arms.

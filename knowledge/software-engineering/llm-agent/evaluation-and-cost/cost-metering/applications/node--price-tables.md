@@ -24,7 +24,7 @@ record, and the disagreement is the useful part.
 
 The vendor shipped the successor at its predecessor's introductory rate, with
 a published expiry and a 2x step on a named date. Three tables in this fleet
-had to decide what to store, and they did not agree:
+had to decide what to store, and two of them argue opposite answers:
 
 - The first books **the introductory rate**, and its comment says why: the
   figure feeds an on-screen spend estimate that is "what an org is actually

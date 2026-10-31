@@ -32,7 +32,7 @@ the fallback authority — and the row says which of the two priced it.
 A usable rate entry is more granular than "this model costs X":
 
 - **Direction split.** Input units and output units are priced separately,
-  routinely differing by 3–5×. A single blended rate is wrong on every call
+  routinely differing by 4–8× on current published price sheets. A single blended rate is wrong on every call
   and wrong differently per workload: a summarization call (huge input, tiny
   output) and a generation call (tiny input, huge output) at the same
   blended rate mis-cost in opposite directions, so the errors do not even
