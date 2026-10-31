@@ -43,11 +43,14 @@ different complaint from "it only changed the colours" and points at a different
 fix.
 
 The effect is measured, not inferred. A controlled study of machine-generated
-design solutions — four thousand of them across five design topics, spanning
-eight parameter combinations and eight distinct prompt-engineering techniques —
+design solutions — four thousand text design concepts from one language model,
+across five design topics, spanning eight sampling-parameter settings and eight
+distinct prompt-engineering techniques, each varied with the other held fixed —
 found human-produced solutions more diverse than the generated ones on **every
-topic tested**, with no prompting variant closing the gap. Sixteen ways of
-asking for difference were not sixteen sources of difference. Treat that as the
+topic tested**, with no setting or prompting variant closing the gap. Sixteen
+configurations, eight of them ways of asking for difference, were not sixteen
+sources of difference. The study measured text concepts rather than rendered
+media, so it bounds the mechanism rather than measuring a slate. Treat that as the
 governing fact of this technique: **you cannot phrase your way out of a narrow
 distribution; you have to put something into the request from outside it.**
 
@@ -113,10 +116,11 @@ words travel.
 
 Candidates evaluated one after another are evaluated against memory; candidates
 shown side by side are evaluated against each other, and the second is both
-easier and more informative. This is the oldest reliable result about exploring
-alternatives — parallel exploration produces more divergent work and better
-final outcomes than the same effort spent iterating serially on one line — and
-the slate is simply that result applied to a generative loop.
+easier and more informative. This is the best-known experimental result about exploring
+alternatives — in a 2010 study of thirty-three designers making web ads,
+parallel exploration produced more divergent work and better-performing final
+designs than the same effort spent iterating serially on one line — and the
+slate is simply that result applied to a generative loop.
 
 Two rules make the surface honest:
 
@@ -131,8 +135,12 @@ Two rules make the surface honest:
   quiet failure of the whole method.
 
 Keep the set small. Past a handful, additional candidates stop adding
-information and start degrading the choice — the reviewer decides worse and
-trusts the decision less, and the surface has bought paralysis with tokens.
+information and can start degrading the choice — the reviewer defers, regrets
+or trusts the decision less, and the surface has bought paralysis with tokens.
+The effect is conditional rather than universal: averaged across studies it
+is close to zero, and it appears when options are complex and the chooser's
+preferences are uncertain, which describes exactly the reviewer a slate is
+built for.
 
 ## The slate terminates, and what follows is the ratchet
 

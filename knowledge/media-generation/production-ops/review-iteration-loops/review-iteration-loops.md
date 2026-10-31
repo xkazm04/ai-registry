@@ -66,9 +66,11 @@ cutting a rough animatic from early takes, a fifth or so of the way into
 generation, and generating against the cut rather than against the shot list.
 The dated numbers, with their sources and how thin each is, sit in the
 application. Volume is necessary and not sufficient. A widely reported 2025
-holiday campaign generated tens of thousands of clips and was still received
-as generic, because a selector with no concept to select against keeps the
-median. The divergence phase needs both an anchor and a reason to choose.
+holiday campaign generated tens of thousands of clips and was still panned by
+much of the press as generic, even as an audience ad-testing panel rated it
+at the top of its scale. Volume bought polish; on its own it did not buy a
+direction anyone could name. The divergence phase needs both an anchor and a
+reason to choose.
 
 The phase is bounded, and its boundary is what connects it to the rest of this
 subject. Divergence is free precisely while nothing has accrued against a
@@ -271,3 +273,7 @@ reconciled against the evidence from the reading end.
   what survives a decision: the verdict and one frame per approval in the
   shared channel, a destructive one-way cull of everything else, a discharge
   marker per row, and reconciliation read from the receiving end.
+- [critique-carries-its-fix](./techniques/critique-carries-its-fix.md) —
+  findings the pipeline raises about its own work: precision and recall as a
+  retrieval pair, and no blocking severity without a fix when the next stage
+  acts rather than decides.

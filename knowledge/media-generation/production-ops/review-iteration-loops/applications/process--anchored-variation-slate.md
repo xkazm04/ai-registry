@@ -25,7 +25,7 @@ the divergence phase.
 
 | Maker / work | Anchor | Source (grade) |
 | --- | --- | --- |
-| Kalshi NBA Finals spot, June 2025 | the look and tone of a forthcoming open-world crime game, plus the "Florida man" news genre, for about ten invented characters | maker's own thread, mirrored at threadreaderapp.com/thread/1932893260399456513 (maker-primary) |
+| Kalshi NBA Finals spot, June 2025 | the look and tone of a forthcoming open-world crime game, which the client loved, set in the maker's own Florida, for a script of about ten invented characters | maker's own thread, mirrored at threadreaderapp.com/thread/1932893260399456513 (maker-primary) |
 | Gossip Goblin series, 2025-26 | a designed world bible, with locations described as "Hong Kong meets Bangkok meets a Kowloon night market", and stills organised by location and altitude | pjace.beehiiv.com, interview of 2026-05-13 (interview) |
 | *Kitsune* / *Electric Pink*, 2025 | 90s TV animation as the target look, and a recurring fox motif from the maker's own life | siddhisnewsletter.substack.com, 2025-06-30 (interview) |
 | A Runway Gen:48 award entry | Impressionist painting, chosen because the maker's daughter loves it, plus a custom style model trained on it | runway.com/customers/48-hours-to-generate-a-film (vendor case study, undated) |
@@ -40,7 +40,7 @@ the model's distribution, which is the technique's mechanism.
 | About 300-400 generations for 15 usable clips (one maker, 2-3 days) | Kalshi thread and a 2025-06-23 interview syndicated by AOL (maker-primary / interview). The interview gives "20-30 runs to fine-tune" a shot |
 | 41 of 164 clips kept (25%); 17 final shots stitched from multiple generations | invideo.io FAQ, 2026-07 (vendor) |
 | About 300:1 generated-to-used footage on a 2024 balloon-head short | fxguide via secondary coverage only (single source, unverified) |
-| About 70,000 clips for a 2025 holiday spot, received as "AI slop" anyway | WSJ figure via secondary outlets (news, secondary) |
+| About 70,000 clips for a 2025 holiday spot, received as "AI slop" by much of the press anyway, while an audience ad-testing panel (System1) rated it 5.9 stars, the top of its scale | WSJ figure via secondary outlets (news, secondary); score from System1's own write-up (vendor) |
 
 ## Cut early
 
