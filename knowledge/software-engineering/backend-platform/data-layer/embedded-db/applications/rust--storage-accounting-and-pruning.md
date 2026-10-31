@@ -4,7 +4,8 @@ type: application
 subject: embedded-db
 technique: storage-accounting-and-pruning
 stack: rust
-verified_on: 2026-08-18
+verified_on: 2026-10-31
+verified_against: rust@1.96
 ---
 
 # Storage accounting and pruning in the system commands
@@ -17,19 +18,19 @@ present only in miniature.
 ## The ceremony, implemented
 
 - **Dry-run by default:** `let dry_run = dry_run.unwrap_or(true);`
-  (`storage.rs:107`) — invoking `prune_storage` with no arguments deletes
+  (`storage.rs:380`) — invoking `prune_storage` with no arguments deletes
   nothing and returns the preview counts. Deletion requires the explicit
   `dry_run = false`.
-- **Age floor:** `MIN_PRUNE_AGE_HOURS = 24` (`:22`), enforced with
-  `.max(MIN_PRUNE_AGE_HOURS)` (`:108`) so a caller asking for a *smaller*
+- **Age floor:** `MIN_PRUNE_AGE_HOURS = 24` (`:31`), enforced with
+  `.max(MIN_PRUNE_AGE_HOURS)` (`:383`) so a caller asking for a *smaller*
   window is silently clamped up to the floor — the floor is a floor, not a
   default.
-- **Terminal-state allowlist:** `TERMINAL_STATES` (`:26`) with the
+- **Terminal-state allowlist:** `TERMINAL_STATES` (`:35`) with the
   technique's exact rationale in the comment: *"Deliberately an allow-list
   (never `NOT IN ('running', …)`) so an unknown/active state is never
   deleted."* The fail-safe direction for new vocabulary entries, stated at
   the constant.
-- The predicate also requires `completed_at IS NOT NULL` (`:113`) — a row
+- The predicate also requires `completed_at IS NOT NULL` (`:330`) — a row
   claiming a terminal status without a completion timestamp is excluded,
   belt-and-suspenders against a state/timestamp mismatch.
 
@@ -59,9 +60,32 @@ which is how destructive-operation rails should propagate.
    file never shrinks, so the user-visible promise ("prune frees space")
    is not yet closed end to end. The reclamation step's natural home
    already exists: the quiet-window maintenance loop in
-   `src-tauri/db/src/lib.rs:226-260`.
+   `src-tauri/db/src/lib.rs:288-350`.
 
 Net: the destructive half — where a bug is unrecoverable — has every rail
 the technique demands; the observational half — where a gap merely delays
 insight — is thin. That is the right order to build them in, and the
 remaining work is measurement, not ceremony.
+
+Re-checked 2026-10-31 at personas@22260d77c9: the module has grown from 133 to
+548 lines (tests included) and three of the four gaps above have moved; the
+line anchors in that list name constructs that no longer exist.
+
+- **Gaps 2 and 3 are closed.** `prune_executions` (`storage.rs:324-367`) runs
+  the per-table counts, the `DELETE` and the counts again inside one
+  `BEGIN IMMEDIATE` transaction, tallies casualties per table by row-count
+  diff (which sees the FK cascade and the FTS trigger), and decides only the
+  final verb: `ROLLBACK` for a dry run, `COMMIT` for the act. Preview and
+  receipt now come from the same enforcement path, so the count-then-delete
+  race and the unverified referential closure are both gone.
+- **Gap 4 is half closed.** `reclaim_storage` (`:247-281`) gives free pages
+  back through the same dry-run-by-default contract over `db::reclaim`, and a
+  committed prune merges the FTS index (`:347-354`). Reclamation is an
+  explicit operator act, not a step of the quiet-window loop, and there is
+  still no prune ledger.
+- **Gap 1 is narrowed, not closed.** `StorageReport` (`:41-65`) now carries
+  free pages, the WAL, `backups/` and `logs/` beside the file size. It is
+  still not per-table, and `personas_data.db` is still outside it.
+
+The verdict's order still holds, but its second half is now too harsh: the
+observational half has the count-carries-predicate rail it lacked.

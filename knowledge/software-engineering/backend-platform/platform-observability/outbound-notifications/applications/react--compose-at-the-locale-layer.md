@@ -4,7 +4,8 @@ type: application
 subject: outbound-notifications
 technique: compose-at-the-locale-layer
 stack: react
-verified_on: 2026-08-18
+verified_on: 2026-10-31
+verified_against: react@19
 ---
 
 # Compose at the locale layer — one good door with one caller, five doors total (Personas)
@@ -23,11 +24,11 @@ technique).
 
 | Mechanism | Implementation |
 |---|---|
-| Compose from the live catalog at send time | `notifyProcessComplete(opts, t)` (`notifyProcessComplete.ts:36-52`): title = `getProcessLabel(processType, t)` + `t.process_labels.complete_suffix / failed_suffix`; the caller passes the live `t`, and `PROCESS_LABEL_KEYS` binds each of 14 process types to a catalog key |
-| Durable record outside the fallible attempt | the OS send is inside `try` (`:54-63`) with `silentCatch`; `addProcessNotification` into the notification-center store runs **after and outside** it (`:66-74`), so a denied/missing/crashed OS layer still leaves the entry under the title-bar bell |
-| Lazy permission at send | `isPermissionGranted()` → `requestPermission()` only when needed, only at delivery (`:55-59`) — never on mount |
+| Compose from the live catalog at send time | `notifyProcessComplete(opts, t)` (`notifyProcessComplete.ts:37-52`): title = `getProcessLabel(processType, t)` + `t.process_labels.complete_suffix / failed_suffix`; the caller passes the live `t`, and `PROCESS_LABEL_KEYS` binds each of 14 process types to a catalog key |
+| Durable record outside the fallible attempt | the OS send is inside `try` (`:55-64`) with `silentCatch`; `addProcessNotification` into the notification-center store runs **after and outside** it (`:66-75`), so a denied/missing/crashed OS layer still leaves the entry under the title-bar bell |
+| Lazy permission at send | `isPermissionGranted()` → `requestPermission()` only when needed, only at delivery (`:56-60`) — never on mount |
 | Deep link carried as data | `redirectSection` / `redirectTab` on the record — the message points somewhere, not "click to…" prose |
-| The locale-less door | `crate::notifications::send(app, title, body)` (`notifications.rs:1543-1547`) — takes already-composed strings; the module has zero occurrences of `locale` / `i18n` / `translat` |
+| The locale-less door | `crate::notifications::send(app, title, body)` (`notifications.rs:1701-1705`) — takes already-composed strings; the module has zero occurrences of `locale` / `i18n` / `translat` |
 
 ## Judgment calls worth copying
 
@@ -64,13 +65,21 @@ technique).
   surface. Neither exists; the persisted-locale path is the cheaper
   retrofit for the 31.
 - **The outbound webhook default summary is English by construction.**
-  `providers::default_summary` (`webhook_notifier.rs:302-316`) formats
+  `providers::default_summary` (`webhook_notifier.rs:300-315`) formats
   `[Personas] <event_type> — <source>/<id>`. Defensible as a
   machine-readable one-liner (event types are identifiers, not prose),
   but the test-notification body ("Personas test notification",
-  `:752`, `:757-760`) is prose, and no subscription carries a
+  `:753`, `:758-761`) is prose, and no subscription carries a
   target-language field — the fixed-language-space decision the
   technique asks for is not recorded anywhere; it is implied.
 - **Retrofit order applies.** Door count (5) is the leading metric;
   translating strings before collapsing doors would hardcode the catalog
   into five places.
+
+Re-checked 2026-10-31 at personas@22260d77c9: every mechanism and gap above
+holds; `notifications.rs` still has zero occurrences of `locale` / `i18n` /
+`translat`. Two counts read from the code have moved: `PROCESS_LABEL_KEYS`
+now binds 15 process types (`team-assignment-unmatched` was added), and the
+single caller uses three of them (completed, failed, unmatched). The door
+still has one caller. The 52-of-57 site census is a 2026-08 measurement and
+was not re-taken.

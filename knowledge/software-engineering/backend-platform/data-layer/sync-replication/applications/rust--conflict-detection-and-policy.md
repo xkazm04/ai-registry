@@ -4,7 +4,8 @@ type: application
 subject: sync-replication
 technique: conflict-detection-and-policy
 stack: rust
-verified_on: 2026-08-18
+verified_on: 2026-10-31
+verified_against: rust@1.96
 ---
 
 # Conflict detection and policy — two lanes, two scopes, one algorithm
@@ -23,7 +24,7 @@ technique's scope rule:
 
 ## Detection: three-way compare on content hashes
 
-`three_way_compare` (`conflict.rs:36-81`) is the technique's detection
+`three_way_compare` (`conflict.rs:44-89`) is the technique's detection
 half almost line for line. The base is a stored content hash (not a
 timestamp, not the row's own `updated_at`); the comparison is two
 independent booleans — `app_hash != base_hash`, `vault_hash != base_hash`
@@ -34,15 +35,15 @@ independent booleans — `app_hash != base_hash`, `vault_hash != base_hash`
 down.** The both-changed-but-identical cell returns
 `ThreeWayResult::ConvergedConflict { app_hash, vault_hash, base_hash }`
 rather than collapsing into `NoChange`, and the doc comment
-(`conflict.rs:16-30`) makes the technique's audit argument: the user
+(`conflict.rs:16-25`) makes the technique's audit argument: the user
 did edit both sides, a real conflict was avoided by chance, and the
-trail must say so. A unit test (`conflict.rs:116-134`) pins the
+trail must say so. A unit test (`conflict.rs:123-142`) pins the
 distinction so it cannot regress into the quiet lie.
 
 ## Policy lane 1: park, preserve, present
 
 The divergent cell constructs a `SyncConflict` carrying **both full
-bodies and all three hashes** (`conflict.rs:67-78`) — preservation and
+bodies and all three hashes** (`conflict.rs:75-86`) — preservation and
 presentability in one struct: nothing is discarded before the human
 rules, and the frontend renders a line-level diff
 (`src/features/plugins/obsidian-brain/sub_sync/ConflictDiffView.tsx`)
@@ -53,11 +54,11 @@ the snapshot the human actually saw.
 
 ## Policy lane 2: LWW as a total function, scoped to one user
 
-`merge_entity` (`merge.rs:107-134`) runs the same four-outcome detection
+`merge_entity` (`merge.rs:105-132`) runs the same four-outcome detection
 generically over any `SyncSnapshot` (personas, memories, triggers), with
 `base_hash: Option<&str>` making first contact a legal input. Its
 divergent arm is the technique's "LWW is only a policy when it is a
-deterministic total function": `last_writer_wins` (`merge.rs:140-157`)
+deterministic total function": `last_writer_wins` (`merge.rs:138-155`)
 orders by `modified_at`, breaks ties by lexicographic `device_id`, and
 is total even over unparseable timestamps — so **both devices compute
 the same winner from the same inputs without coordination**. The module
@@ -74,7 +75,7 @@ Supporting details that track the technique:
 - deletes conflict too: `WorkspaceEntity::Tombstone` carries its own
   `deleted_at` ordering key, so a delete concurrent with an edit goes
   through the same LWW rather than being resolved by arrival order —
-  `merge.rs:307-319`'s test pins "local edit newer than remote delete
+  `merge.rs:307-320`'s test pins "local edit newer than remote delete
   wins" (resurrection-by-policy, chosen deliberately, not by race).
 
 ## The counter-example: the third lane has no policy at all
@@ -88,3 +89,12 @@ a race, not a policy" in shipped form. The repo thus contains the
 correct detection machinery (twice) and a live lane that uses neither;
 the full audit is the legacy corpus document
 `docs/concepts/golden-paths/sync-reconciliation-and-conflicts.md`.
+
+Re-checked 2026-10-31 at personas@22260d77c9: both detection lanes hold as
+described. The third lane's `SYNC_TABLES` now declares 17 entries rather than
+11 (fleet queue, notes and chat streams were added), the client still sends
+`Prefer: resolution=merge-duplicates` (`cloud/sync/client.rs:77`), and no
+sync path reads the remote copy back before writing, so the counter-example
+stands. The fleet queue and notes streams reconcile by deleting what the
+pass did not just write, which is a full-set replace from one device, not a
+conflict policy.

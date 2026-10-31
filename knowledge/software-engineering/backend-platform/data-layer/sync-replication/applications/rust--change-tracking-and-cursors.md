@@ -4,7 +4,8 @@ type: application
 subject: sync-replication
 technique: change-tracking-and-cursors
 stack: rust
-verified_on: 2026-08-18
+verified_on: 2026-10-31
+verified_against: rust@1.96
 ---
 
 # Change tracking and cursors — the cloud sync writer's loop
@@ -17,7 +18,7 @@ persisted as `app_settings` rows under `CLOUD_SYNC_CURSOR_PREFIX`).
 
 ## Tick + lossy wake + persistent dirty mark — all three layers, literally
 
-`spawn_sync_loop` (`mod.rs:447-482`) is the technique's three-layer
+`spawn_sync_loop` (`mod.rs:997-1038`) is the technique's three-layer
 cadence in one `tokio::select!`:
 
 - the **periodic tick** is a 45s `tokio::time::interval` — the floor;
@@ -25,36 +26,36 @@ cadence in one `tokio::select!`:
   `notify_dirty()` from the CDC drain on local mutations, debounced 2s to
   coalesce bursts;
 - the **persistent dirty mark** is `SYNC_DIRTY: AtomicBool`
-  (`mod.rs:38-44`), and its comment is the technique's argument verbatim:
+  (`mod.rs:44-50`), and its comment is the technique's argument verbatim:
   `Notify` alone is lossy — its single permit can be consumed by the
   `notified()` future that `select!` drops when the tick wins the same
   poll, and a mutation landing mid-pass (after its table was already
   read) has nothing durable to force a follow-up.
 
 The ordering discipline is exactly right in both directions:
-`notify_dirty()` (`mod.rs:147-152`) sets the flag *before* waking, so a
+`notify_dirty()` (`mod.rs:301-306`) sets the flag *before* waking, so a
 lost permit still leaves the flag observable; the loop clears the flag
-*before* the pass (`mod.rs:468`) and re-wakes itself after the pass if
-it was re-set (`mod.rs:477-479`), so a mutation that lands mid-pass gets
+*before* the pass (`mod.rs:1022`) and re-wakes itself after the pass if
+it was re-set (`mod.rs:1033-1035`), so a mutation that lands mid-pass gets
 a prompt follow-up instead of being silently folded into a pass that
 already missed it.
 
 ## Per-stream cursors, bounded first backfill
 
-`SYNC_TABLES` (`mod.rs:57-69`) is the stream declaration: 11 tables,
-each with its own cursor key — a unit test (`mod.rs:524-527`) asserts
+`SYNC_TABLES` (`mod.rs:64-130`) is the stream declaration: 11 tables,
+each with its own cursor key — a unit test (`mod.rs:1109-1122`) asserts
 key uniqueness so two streams can never share a cursor. First-run policy
 is per stream too: `cursor::get_cursor(pool, name, full_backfill)`
 (`cursor.rs:33-45`) starts config-sized tables at the epoch (sync
 everything) and append-heavy log tables 90 days back (bound the first
 push) — the technique's "bounded backfill" as a declared per-stream
-flag rather than a hardcoded behavior. `peek_cursor` (`cursor.rs:56-59`)
+flag rather than a hardcoded behavior. `peek_cursor` (`cursor.rs:56-62`)
 returns the raw value with no default substituted, so the status surface
 can render "never synced" distinctly from a real position.
 
 ## Advance from observed data — fixed on one path, still broken on its sibling
 
-`sync_table_inner` (`mod.rs:271-283`) is the observed-max rule with its
+`sync_table_inner` (`mod.rs:466-479`) is the observed-max rule with its
 rationale in a nine-line comment: the cursor advances to the MAX
 watermark value present in the rows just pushed (`observed_max
 .unwrap_or(cursor_prev_fallback)`), because the previous version —
@@ -76,7 +77,7 @@ the busiest one" warning made concrete.
 
 Six of the 11 synced tables have no last-modified column, so their
 streams watermark on `created_at` with a 24-hour resync window
-(`resync: true` in `SYNC_TABLES`; the floor computed at `mod.rs:255-259`)
+(`resync: true` in `SYNC_TABLES`; the floor computed at `mod.rs:451-455`)
 — the technique's "a window is a stopgap with a measured margin, not a
 design". The margin was measured (worst observed in-place mutation lag:
 11h against the 24h window); any mutation later than the window is
@@ -88,10 +89,29 @@ schema change, tracked in the legacy corpus document for this area
 ## What settlement means here
 
 `client.upsert(...)` is awaited before `cursor::set_cursor` runs
-(`mod.rs:271-282`), so the cursor advances only past rows the remote
+(`mod.rs:467-478`), so the cursor advances only past rows the remote
 store durably accepted — advance-after-settle. The upsert is idempotent
 by row id on the receiving side, which is what makes the crash-between-
 settle-and-advance replay harmless, and per-table failures are captured
-into the pass report (`sync_table`, `mod.rs:198-236`) rather than
+into the pass report (`sync_table`, `mod.rs:384-426`) rather than
 propagated, so one stream's failure pins only its own cursor — fault
 isolation as the technique and the golden path both require.
+
+Re-checked 2026-10-31 at personas@22260d77c9:
+
+- **The counter-example is fixed, which reverses that section's finding.**
+  `b1eac931c3` rewrote `process_tombstones` (`mod.rs:868-911`): the cursor is
+  now a horizon `now - TOMBSTONE_SETTLE` (30 s, `:849-856`), the fetch reads
+  only `(cursor, horizon]`, the cursor is written only after every delete in
+  the batch succeeded, and the `set_cursor` failure is propagated into the
+  pass report instead of dropped by `let _ =`. The horizon is still
+  clock-derived, so this is a settle-margin answer rather than the
+  observed-max rule, but neither deviation the section names survives as
+  written; its own doc comment (`:863-867`) records the old defect.
+- **`SYNC_TABLES` now declares 17 entries**, not 11. The six added after the
+  original eleven (fleet queue, notes, Athena and persona chat sessions and
+  messages) are full-set replaces or keep their own keyset cursors, so their
+  flags are mostly inert; the uniqueness test now pins `len() == 17`.
+- Of the original eleven, **five** (not six) carry `resync: true` at this
+  commit: executions, events, messages, metrics, healing issues. The 11 h /
+  24 h margin is a past measurement and is left as recorded.

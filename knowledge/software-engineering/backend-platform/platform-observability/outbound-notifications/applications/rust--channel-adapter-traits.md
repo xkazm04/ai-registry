@@ -4,7 +4,8 @@ type: application
 subject: outbound-notifications
 technique: channel-adapter-traits
 stack: rust
-verified_on: 2026-08-18
+verified_on: 2026-10-31
+verified_against: rust@1.96
 ---
 
 # Channel adapter traits — `EventProcessor` and the two outbound stacks (Personas)
@@ -19,15 +20,15 @@ its own switch statements.
 
 | Mechanism | Implementation |
 |---|---|
-| The trait | `EventProcessor` (`webhook_notifier.rs:124-136`): `process(pool, sub, event, event_ctx) -> DispatchOutcome` + `kind()`. The doc comment names the model it mirrors (OpenHands' `EventCallbackProcessor`) and states the bookkeeping obligation in caps: implementations MUST call `record_delivery` on both paths |
-| Structured outcome, not exception | `DispatchOutcome { ok, status_code, response_excerpt, error }` (`:408-414`); the response excerpt is bounded to 256 chars at `dispatch_to_url` (`:438`) |
-| The selection seam | `processor_for_subscription(_sub) -> Box<dyn EventProcessor>` (`:142-144`) — one arm today (`WebhookProcessor`), with the future arms named in its comment ("chat titler, audit logger, third-party push … keyed off a future `processor_kind` column") |
+| The trait | `EventProcessor` (`webhook_notifier.rs:117-133`): `process(pool, sub, event, event_ctx) -> DispatchOutcome` + `kind()`. The doc comment names the model it mirrors (OpenHands' `EventCallbackProcessor`) and states the bookkeeping obligation in caps: implementations MUST call `record_delivery` on both paths |
+| Structured outcome, not exception | `DispatchOutcome { ok, status_code, response_excerpt, error }` (`:406-412`); the response excerpt is bounded to 256 chars at `dispatch_to_url` (`:436`) |
+| The selection seam | `processor_for_subscription(_sub) -> Box<dyn EventProcessor>` (`:139-141`) — one arm today (`WebhookProcessor`), with the future arms named in its comment ("chat titler, audit logger, third-party push … keyed off a future `processor_kind` column") |
 | Closed channel vocabulary, typed | `NotificationProvider { Slack, Discord, Teams, Generic }` with `as_str` / `FromStr` / `Display` (`:69-108`) |
 | Lenient read | `FromStr` is `Infallible`; unknown strings → `Generic` (`:88-102`), with the reason in the comment: rows written before the enum existed, or future typos, still dispatch |
-| Strict write | `validate_provider` in `src-tauri/db/src/repos/resources/notification_subscriptions.rs:71-79` rejects anything outside `slack | discord | teams | generic` at create and update |
-| Endpoint resolution, ordered | `resolve_webhook_url` (`webhook_notifier.rs:352-380`): inline URL wins → credential lookup → four tolerated field aliases in declared order (`webhook_url`, `url`, `incoming_webhook_url`, `endpoint`) → `Validation` error naming what was missing |
-| One transport door | `dispatch_to_url` (`:416-463`) uses the shared `personas_core::http_clients::SSRF_SAFE_HTTP` client, an 8 s `DELIVERY_TIMEOUT`, and identifying `User-Agent` / `X-Personas-Provider` headers |
-| Body shape per class | `providers::build_body` (`:285-299`) — text field / content field / MessageCard envelope / summary + full event for generic |
+| Strict write | `validate_provider` in `src-tauri/db/src/repos/resources/notification_subscriptions.rs:70-78` rejects anything outside `slack | discord | teams | generic` at create and update |
+| Endpoint resolution, ordered | `resolve_webhook_url` (`webhook_notifier.rs:350-378`): inline URL wins → credential lookup → four tolerated field aliases in declared order (`webhook_url`, `url`, `incoming_webhook_url`, `endpoint`) → `Validation` error naming what was missing |
+| One transport door | `dispatch_to_url` (`:414-461`) uses the shared `personas_core::http_clients::SSRF_SAFE_HTTP` client, an 8 s `DELIVERY_TIMEOUT`, and identifying `User-Agent` / `X-Personas-Provider` headers |
+| Body shape per class | `providers::build_body` (`:279-298`) — text field / content field / MessageCard envelope / summary + full event for generic |
 
 ## Judgment calls worth copying
 
@@ -47,8 +48,8 @@ its own switch statements.
 
 - **Two outbound stacks serve the same five channel classes.**
   `notifications.rs` delivers per-persona `ChannelSpecV2` channels through
-  `deliver_v2_channels` (`:435-515`) and a legacy loop
-  (`deliver_to_channels`, `:528-593`) — *both* switch on channel-type
+  `deliver_v2_channels` (`:433-531`) and a legacy loop
+  (`deliver_to_channels`, `:544-623`) — *both* switch on channel-type
   strings and call `deliver_slack` / `deliver_telegram` / `deliver_email` /
   `deliver_discord` / `deliver_teams`, each of which owns its own body
   shape, its own client usage, and its own error string. `webhook_notifier`
@@ -66,8 +67,17 @@ its own switch statements.
 - **The seam's future is a column that does not exist.** The comment names
   `processor_kind`; the schema has `provider` only. Fine as a placeholder;
   worth stating so nobody assumes the second arm is one match-arm away.
-- **`notifications.rs` unknown-type arms return `Ok(())`** (`:493-496`,
-  `:559-562`) — a channel of unrecognized type is a debug log and a
+- **`notifications.rs` unknown-type arms return `Ok(())`** (`:500-503`,
+  `:583-586`) — a channel of unrecognized type is a debug log and a
   *successful* delivery in the metrics. The technique wants the lenient
   read to land on the generic class *and deliver*, or fail visibly; a
   logged success that sent nothing is the empty-success lie.
+
+Re-checked 2026-10-31 at personas@22260d77c9: the trait no longer declares
+`kind()`; `4bf1845d70` removed it, and `EventProcessor` is now `process` alone.
+Nothing in the findings depends on it, since selection already went through
+`processor_for_subscription` and not through the trait. Every other mechanism
+and gap holds as written: one arm, no `processor_kind` column,
+`ChannelSpecV2Type` still has seven members
+(`src-tauri/core/src/models/persona.rs:364-372`), and both unknown-type arms
+still return `Ok(())` after a `debug!`.

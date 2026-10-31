@@ -4,13 +4,14 @@ type: application
 subject: embedded-db
 technique: quiet-window-maintenance
 stack: rust
-verified_on: 2026-08-18
+verified_on: 2026-10-31
+verified_against: rust@1.96
 ---
 
 # Quiet-window maintenance in the Rust data layer
 
 The repo implements the technique's two-condition gate in one small task,
-`spawn_idle_maintenance_task` (`src-tauri/db/src/lib.rs:226-260`), and its
+`spawn_idle_maintenance_task` (`src-tauri/db/src/lib.rs:288-350`), and its
 activity gauge is a real front-door instrument rather than a proxy — the
 core of the technique done right, with three of its refinements absent.
 
@@ -30,7 +31,7 @@ without inverting the dependency graph.
 ## The two-condition gate
 
 ```rust
-// db/src/lib.rs:229-257 (abridged)
+// db/src/lib.rs:290-348 (abridged)
 loop {
     if personas_core::ipc_gauge::ipc_in_flight() == 0 {
         for (name, pool) in [("personas.db", &primary_pool),
@@ -45,7 +46,7 @@ loop {
 ```
 
 Interval (300s) bounds cost, gauge bounds interference — the technique's
-standard form. Two details deserve note: the initial 30s sleep (`:228`)
+standard form. Two details deserve note: the initial 30s sleep (`:290`)
 keeps maintenance out of the boot window, and the loop covers **both**
 stores, which is the golden path's second-database inventory obligation
 honored for maintenance specifically — the user-facing store gets the same
@@ -59,7 +60,7 @@ Deviations, reported not registered:
    continuous IPC traffic never checkpoints, and nothing measures journal
    size to force the technique's "past a hard bound tied to a measurable
    harm, run regardless" rung. The deferral arm is only a `tracing::debug!`
-   (`:252-256`) — below the level anyone reads in production — so a month
+   (`:343-346`) — below the level anyone reads in production — so a month
    of consecutive deferrals is indistinguishable from a healthy store
    (the technique's failure-not-empty-success point, unhandled).
 2. **The aggressive checkpoint form, unconditionally.** `TRUNCATE` is the
@@ -69,15 +70,26 @@ Deviations, reported not registered:
    at current store sizes, but the escalation ladder and the chunked form
    are the same missing structure seen from two sides.
 3. **Passes are not recorded.** Success is a `debug!`, failure a `warn!`
-   (`:240-248`); nothing lands in the perf ring (`db/src/perf.rs`), so the
+   (`:331-338`); nothing lands in the perf ring (`db/src/perf.rs`), so the
    flight-recorder questions — "is maintenance actually running?", "was
    that stall at 14:03 a checkpoint?" — are answerable only if someone
    had tracing at debug level at the time.
 
 One boundary observation confirming the technique's last section: the
 correctness-critical maintenance — the pre-migration snapshot
-(`db/src/backup.rs:48`, called from `init_db_with_journal` at
-`lib.rs:296`) — correctly does *not* wait for a quiet window; it runs at
+(`db/src/backup.rs:82`, called from `init_db_with_journal` at
+`lib.rs:387`) — correctly does *not* wait for a quiet window; it runs at
 its mandated moment, before the pool opens the file. The window is for
 polite work; recovery-class work ignores it, exactly as the technique
 prescribes.
+
+Re-checked 2026-10-31 at personas@22260d77c9: the loop has grown two arms the
+abridged snippet above omits. Every 12th pass (`INTEGRITY_CHECK_EVERY_N_PASSES`,
+`lib.rs:286`) it runs the `damage::check_at_open` quick-check inside the quiet
+window and quarantines a store that fails it (`:306-312`), and a quarantined
+store is skipped with a `warn!` instead of checkpointed (`:320-326`). That puts
+a recovery-class probe *inside* the polite window, which is consistent with the
+boundary above (the probe is detection, not repair). The three deviations
+stand as written: no escalation ladder, the deferral arm is still `debug!`,
+healthy stores still get an unconditional `TRUNCATE` in one `execute_batch`,
+and no pass is recorded in `db/src/perf.rs`.

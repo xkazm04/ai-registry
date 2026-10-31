@@ -29,10 +29,10 @@ terms, well built:
 
 - the table and its index —
   `src-tauri/db/src/migrations/incremental/e06_teams_and_sync.rs:239`;
-- the reader — `src-tauri/src/cloud/sync/rows.rs:907`,
+- the reader — `src-tauri/src/cloud/sync/rows.rs:1083`,
   `SELECT persona_id FROM persona_tombstones …`;
 - the cascade propagator with its own cursor and fault isolation —
-  `src-tauri/src/cloud/sync/mod.rs:388-442`, which deletes every
+  `src-tauri/src/cloud/sync/mod.rs:829-911`, which deletes every
   persona-scoped table in the cloud, then the persona row, and refuses to
   advance its cursor unless every delete in the batch succeeded, because
   deletes are idempotent and a retry is free.
@@ -65,7 +65,7 @@ a policy decision replayed across every delete site on eleven streams.
 
 So the A/B was run as a harness over the tree instead
 (`tombstone-audit.py`): resolve the eleven synced streams
-(`SYNC_TABLES`, `mod.rs:58`) to their local tables through the `fetch_*`
+(`SYNC_TABLES`, `mod.rs:64`) to their local tables through the `fetch_*`
 helpers in `rows.rs`, find every `DELETE FROM` against those tables in
 `src-tauri/{src,db,engine}` outside tests and migrations, and ask of each
 whether its enclosing function writes a tombstone.
@@ -95,7 +95,7 @@ it is that A transfers nothing, and the count is zero.
 ## The structural fact
 
 The harness found exactly one tombstone producer in the entire Rust tree, and
-it is not for this feature. `src-tauri/src/companion/brain/semantic.rs:475`
+it is not for this feature. `src-tauri/src/companion/brain/semantic.rs:500`
 writes `companion_fact_tombstone` — inside the same transaction as the five
 deletes it accompanies, with the identity read *before* the rows go away, an
 upsert so a re-forget is idempotent, and the value excerpt kept deliberately
@@ -134,7 +134,7 @@ the delete path rather than distinguished by a function name.
 - It is a static count, not a behavioural one. The harness proves no code path
   writes the row the reader reads; it does not prove a resurrection was ever
   observed by a user, and it cannot — this tree's second-device topology
-  (`cursor.rs:110` mints a per-device id, `mod.rs:315` heartbeats it) is
+  (`cursor.rs:116` mints a per-device id, `mod.rs:494-496` heartbeats it) is
   provided for but nothing here exercised it.
 - Policy B was never executed. Nothing was compiled, no test ran, and the
   "19/19" column is what the rule *entails*, not what a gate observed. It is a
@@ -148,3 +148,21 @@ the delete path rather than distinguished by a function name.
   name its reaper before the table is large; this tree's tombstone table has
   no reaping rule at all, which is invisible while the producer count is zero
   and becomes urgent on the day it is not.
+
+Re-checked 2026-10-31 at personas@22260d77c9 — **this reverses the headline
+for the persona stream.** `49763ffc99` (2026-09-18) added the producer the
+audit asked for: `src-tauri/db/src/repos/core/persona_tombstones.rs` holds a
+single writer, `record_in`, and `personas::delete`
+(`src-tauri/db/src/repos/core/personas.rs:2236` ff.) calls it inside the same
+transaction as the hard delete (`:2278`), so the snippet quoted under "The
+seam" no longer describes the tree, and "the table between them is real,
+indexed, and empty" is no longer true. Since the propagator cascades every
+persona-scoped table, a persona delete now reaches the replica. A second
+producer of the same shape now exists for chat sessions
+(`chat_session_tombstones`, `repos/communication/chat.rs:170-176`). The
+harness was not re-run, so the 27 / 19 / 0-of-19 counts stay as the record of
+`bf2a1e249`; whether the row-level intent deletes on the other streams
+(memories, executions, reports, …) still lack a producer was not re-measured.
+`persona_tombstones` still has no reaper: no `DELETE FROM persona_tombstones`
+outside tests. `verified_on` is left unchanged because the A/B harness this
+document cites (`tombstone-audit.py`) could not be found to re-read.
