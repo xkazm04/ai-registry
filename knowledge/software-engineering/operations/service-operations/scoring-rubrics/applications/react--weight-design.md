@@ -4,7 +4,7 @@ type: application
 subject: scoring-rubrics
 technique: weight-design
 stack: react
-verified_on: 2026-08-18
+verified_on: 2026-10-31
 ---
 
 # Weight design — three rubric vectors, and the one that asserts its sum
@@ -45,7 +45,7 @@ conversation the fixed budget forces. The pinning tests
 project scores 100 under every archetype, an empty one is below target on
 every weighted dimension, and the solo bar is provably no harder than org.
 
-## The leaderboard: a stated sum, held by convention
+## The leaderboard: a stated sum, held by convention (re-read 2026-10-31)
 
 `src/features/overview/sub_leaderboard/libs/leaderboardScoring.ts`:
 
@@ -55,11 +55,16 @@ const WEIGHTS = {
 } as const;
 ```
 
-The file header states the policy in prose (30/20/20/20/10) and the type
-comment says `weight: number; // 0-1 (sums to 1)` — but nothing asserts it.
-This is the "wish with a paper trail" the technique warns about: the sum
-holds today because nobody has added a sixth dimension yet, and the day
-someone does is exactly the day the comment stops being true.
+The file header states the policy in prose (30/20/20/20/10) — but nothing
+asserts the sum. This is the "wish with a paper trail" the technique warns
+about: the sum holds today because nobody has added a sixth dimension yet,
+and the day someone does is exactly the day the prose stops being true.
+
+Since 2026-08-18 the file has gained the absence half of the subject: an
+unmeasured dimension is `null`, the composite renormalizes over the measured
+weights, and below `COVERAGE_FLOOR = 0.5` of the total weight a persona is
+listed but not ranked. The earlier `// 0-1 (sums to 1)` type comment is gone.
+The sum assertion is still missing, so the vector half remains open.
 
 ## The assertion the others should copy
 

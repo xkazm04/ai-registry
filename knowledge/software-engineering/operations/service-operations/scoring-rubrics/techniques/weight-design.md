@@ -11,8 +11,11 @@ use_when: [deciding how much one dimension outweighs another, stored scores stop
 
 # Weight design
 
-A weight is not arithmetic — it is a **policy statement**: "this dimension
-matters twice as much as that one, toward this decision." Policy statements
+A weight is not arithmetic — it is a **policy statement**: "toward this
+decision, one normalized unit of this dimension is worth two of that one."
+In an additive composite that is literally what a weight is, a trade-off
+rate between dimensions, not an importance coefficient; reading it as
+importance is the common misreading. Policy statements
 need what all policy needs: an owner, a rationale, and a change history. The
 weight vector is therefore a first-class, checked-in artifact — a named
 structure a reviewer can read in one screen — never a scatter of magic
@@ -81,6 +84,14 @@ saved argument time. If a small perturbation reshuffles the top of the
 ranking, the score is a knife-edge instrument and its consumers should see
 bands ("strong / adequate / weak"), not a false-precision two-decimal number.
 Banding thresholds are part of the vector artifact and version with it.
+
+The perturbation also tests a narrower claim: that the declared weight is the
+influence the dimension actually has. It often is not. A dimension whose
+normalized values spread across the whole scale drives the ranking far more
+than one with the same weight whose values cluster, and correlated
+dimensions share their influence. Where the ranking matters, measure each
+dimension's effect on the composite, not only its weight, and treat a large
+gap between the two as a finding about the vector.
 
 ## Per-cohort targets are weights in disguise
 

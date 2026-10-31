@@ -77,7 +77,13 @@ When a dimension is absent, the honest arithmetic excludes it and
 **renormalizes the remaining weights over the measured subset**: the score
 becomes "quality over what we can see", not "quality with the invisible
 parts presumed failing, fine, or average" — the three disguises above are
-all rejected by the same mechanical move.
+all rejected by the same mechanical move. Be exact about what that move is:
+renormalizing is arithmetically the same as filling each missing dimension
+with the entity's *own* weighted mean of what was measured. That is still an
+imputation, a milder cousin of the third disguise, which presumes the unseen
+parts resemble the seen ones. It is the defensible one because it borrows
+from no other entity and pulls nobody toward a midpoint, but it is safe only
+with the two rules that follow: the disclosure, and the floor.
 
 Renormalization is only honest with its disclosure twin: **coverage travels
 with the score**. "82, on 7 of 10 dimensions" and "82, fully measured" are

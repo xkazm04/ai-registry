@@ -28,7 +28,8 @@ surface wants them (re-derivation is a twin implementation; see
 rubric-stability). The explanation object carries, per dimension: the raw
 measured value in its native unit; the normalized value; the weight; the
 contribution (normalized × weight — the only column whose sum *is* the
-composite); the target, where the rubric has one; and the measured/missing
+composite, which under partial coverage means the weight renormalized over
+the measured dimensions, so the parts still sum); the target, where the rubric has one; and the measured/missing
 status. Plus, at the top level: coverage, the rubric version, and the
 ranked gaps. Everything a reader needs to recompute the number by hand sits
 in one object — a composite that travels carries the predicate that made

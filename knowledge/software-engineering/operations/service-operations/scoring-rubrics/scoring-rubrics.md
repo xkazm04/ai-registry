@@ -62,8 +62,11 @@ to be honest or to smuggle in a lie:
    any weight is applied. This is the hardest honest step, and it gets its
    own discipline: [normalization](./techniques/normalization.md).
 3. **How much each signal matters** — the weight vector. Weights are policy,
-   not arithmetic: each one is a claim that dimension A matters twice what
-   dimension B does, and claims need owners, rationales, and version history.
+   not arithmetic: in an additive composite each one is a trade-off rate — how
+   much of dimension B a unit of dimension A is worth giving up for — and its
+   real influence on the ranking also depends on how widely each normalized
+   dimension spreads, so a declared weight is a claim to check, not a fact.
+   Claims need owners, rationales, and version history.
    The vector is an explicit, owned artifact —
    [weight-design](./techniques/weight-design.md).
 4. **What the number means to the reader** — banding, breakdown, and the
