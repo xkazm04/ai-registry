@@ -5,7 +5,7 @@ subject: content-research-grounding
 technique: tension-finding-taxonomy
 stack: process
 status: forged
-verified_on: 2026-08-19
+verified_on: 2026-10-31
 ---
 
 # Process: the ten-phase research prompt (Gravitone pipeline)
@@ -13,7 +13,8 @@ verified_on: 2026-08-19
 The Gravitone video pipeline realizes tension-finding — and the whole
 research-before-writing split — as a single prompt document,
 `pipeline/RESEARCH-PROMPT.md`, whose deliverable is a `notebook.json`
-conforming to `pipeline/NOTEBOOK-SCHEMA.md`. The brief states the split in
+conforming to `pipeline/NOTEBOOK-SCHEMA.md` (anchors re-read at commit
+`fd09c06`, 2026-10-31). The brief states the split in
 its opening lines (`RESEARCH-PROMPT.md:13-18`): *"You are not writing prose
 and you are not choosing an engine… The failure you exist to prevent: a model
 handed a topic writes a wiki timeline… That happens when research and writing
@@ -21,11 +22,11 @@ are the same step. They are not."*
 
 ## The phase order
 
-Ten phases (`RESEARCH-PROMPT.md:20-157`) sequence the techniques of this
+Ten phases (`RESEARCH-PROMPT.md:20-158`) sequence the techniques of this
 subject: Phase 0 declares the prior; Phase 1 builds the factual spine
 breadth-first, deriving the subject's own 5-7 domains into `domains[]` with
 the baseline and counter-case rows mandatory in every derived table
-(`:29-43`); Phase 2 is the tension hunt; Phases 3-4 build mechanisms and
+(`:28-42`); Phase 2 is the tension hunt; Phases 3-4 build mechanisms and
 reversals; Phase 5 converts scales; Phase 6 steel-mans; Phase 7 records
 unknowns; Phases 8-9 assess engine fit, currency, and gaps.
 
@@ -55,7 +56,7 @@ Three of the prompt's rules confirm the technique's decision rules exactly:
 
 ## The quality bar as the gate
 
-The 17-item checklist (`RESEARCH-PROMPT.md:161-191`) makes the taxonomy's
+The 18-item checklist (`RESEARCH-PROMPT.md:161-193`) makes the taxonomy's
 outputs auditable: tension written and honestly graded; effect shown outside
 normal variation *or* the tension explicitly about the reaction; every
 compared pair of quantities recomputed for magnitude, window, and basis —
@@ -65,7 +66,7 @@ arithmetic."*
 
 ## The upward lesson the repo teaches
 
-The prompt's closing cost note (`:193-197`) is the strongest confirmation of
+The prompt's closing cost note (`:195-199`) is the strongest confirmation of
 the technique's premise: run 1 used six web searches and rendered three
 scripts from one notebook; the bottleneck was Phase 2 — tension-finding —
 "which is judgment, not retrieval. Do not optimise this prompt by adding

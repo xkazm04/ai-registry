@@ -36,14 +36,20 @@ near-equivalent continuations. Detecting it means finding that bias in the
 text you hold. The signal therefore **dilutes with every subsequent
 operation**: a paraphrase, a human edit pass, a translation, a heavy trim.
 A short passage may never have carried enough tokens to hold a detectable
-signal at all. Producers say so themselves — a detected mark is described as a
-signal that content was processed by a given system rather than as a
-conclusion, and the absence of one is described as carrying no implication
-about whether the content was machine-generated.
+signal at all. Producers say so themselves — one producer's text-mark
+documentation warns that detector confidence "can be greatly reduced" by a
+thorough rewrite or a translation, and its detector's help page scopes a
+negative to its own models: the content "could have been created by other AI
+systems", and some results cannot be called at all ("Likely too small an
+edit").
 
 Metadata provenance fails differently and just as asymmetrically: a signed
 manifest travelling with a file is strong evidence when present, and trivially
-removed. Stripping it is one operation and leaves no trace.
+removed. Stripping it is one operation and leaves no trace in the file. The
+provenance standard's answer is a soft binding, a watermark or fingerprint from
+which a manifest repository can recover "the metadata containing the C2PA
+Manifest" after it "has been stripped". That makes a recovered manifest a
+positive. It does not make a missing manifest a negative.
 
 And the two mechanisms often coexist on one producer's output — a statistical
 mark on text, signed metadata on images — with different survival properties,

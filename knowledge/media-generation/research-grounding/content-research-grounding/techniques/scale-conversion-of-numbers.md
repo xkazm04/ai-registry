@@ -19,7 +19,7 @@ sources are, not in the writing pass where a slip becomes narration.
 
 ## The three preferred forms
 
-1. **Rates over totals.** "About fifteen hundred of profit per second" beats
+1. **Rates over totals.** "About fourteen hundred of profit per second" beats
    "forty-five billion a year" — same fact, but the second is a statistic and
    the first is an experience. Divide big annual figures down to human time
    units.

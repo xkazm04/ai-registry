@@ -138,8 +138,10 @@ obey one asymmetry, and it is structural rather than a maturity problem:
 **a positive detection is evidence, a negative detection is not.** A
 statistical text mark dilutes with every paraphrase, edit and trim, and may
 never have been detectable in a short passage; signed metadata is strong when
-present and removed in one operation. Producers say as much themselves — a
-detected mark is a signal, and its absence carries no implication either way.
+present and removed in one operation, recoverable only where a watermark or
+fingerprint was registered to bind it back. Producers scope the negative the
+same way: at most, a negative says *their* models did not make the content,
+which "could have been created by other AI systems".
 
 So detection composes with the [evidence grading
 ladder](./techniques/evidence-grading-ladder.md) in one direction only: a
