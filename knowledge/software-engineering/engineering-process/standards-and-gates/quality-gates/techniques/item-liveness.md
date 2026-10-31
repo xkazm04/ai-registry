@@ -41,7 +41,8 @@ specifies that if the owner becomes unavailable another participant *may
 volunteer*; and it states no rule whatsoever for items that stall. In its
 own record of abandoned work, **7 of 46 terminated items name owner
 departure as the sole cause** — the largest single named cause in the
-taxonomy, ahead of every technical objection. Three of those seven were
+taxonomy, ahead of every technical objection. (The denominator is a reading:
+on 2026-10-31 the record held 43 entries, and the 7 were unchanged.) Three of those seven were
 closed on the same day with an identical reason, which is the signature of
 an unscheduled manual sweep: not a policy firing, but somebody eventually
 noticing, once, in ten years.

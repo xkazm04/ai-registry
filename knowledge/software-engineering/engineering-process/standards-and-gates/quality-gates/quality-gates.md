@@ -601,6 +601,14 @@ is asked to refuse something.
 - [severity-by-construction](./techniques/severity-by-construction.md) —
   tracing what a severity level can actually fail; advisory feedback vs
   enforcement; escalation paths for new rules.
+- [vacuous-by-evaluation](./techniques/vacuous-by-evaluation.md) — the
+  blocking, correctly wired rule that an evaluation layer satisfies before it
+  runs, per-rule seeded counterexamples, and reporting how many rules were
+  shown able to refuse.
+- [prose-rule-drift](./techniques/prose-rule-drift.md) — the rule written
+  down and never mechanised: the forbidden action that simply succeeds,
+  enforcing at the action, the checker nothing invokes, the per-edit cap that
+  reads as compliance, and the reviewer holding the rulebook.
 - [blocking-by-input-determinism](./techniques/blocking-by-input-determinism.md)
   — grading blocking status by whether the input moves with the tree,
   debt-shaped vs input-shaped advisory, splitting a bundled invocation, and
@@ -616,6 +624,10 @@ is asked to refuse something.
 - [hook-hygiene](./techniques/hook-hygiene.md) — never mutate the worktree,
   staged-content scoping, non-interactive discipline, bypass policy, and
   installation as a liveness problem.
+- [branch-provenance-gate](./techniques/branch-provenance-gate.md) — the
+  proposal carrying another proposal's commits, the two ancestry questions
+  asked at the push, the escape hatches that keep it installed, and why it is
+  advisory and earns its place only with many contributors.
 - [oracle-frozen-during-repair](./techniques/oracle-frozen-during-repair.md)
   — what counts as the oracle, red-first ordering as proof of defect, the
   mechanical freeze and its weaker fallbacks, verdict from the toolchain,
@@ -640,6 +652,10 @@ is asked to refuse something.
   evidence the gated party authors: the inert branch a second check cannot
   recover, fencing the act upstream of the record, shape over enumeration,
   and the override channel the subject cannot write mid-run.
+- [renameable-detector-keys](./techniques/renameable-detector-keys.md) —
+  the detector key an author can change without changing the property, the
+  mechanical test for it, and saying so in the verdict when no invariant key
+  exists.
 - [policy-projection](./techniques/policy-projection.md) — one enumeration
   rendered into every surface, display caps that are not data caps, and
   the effective policy travelling with the verdict.
@@ -651,6 +667,10 @@ is asked to refuse something.
   static call-site ↔ tag ↔ registry bijection, negative-space confinement of
   the underlying capability, extending both to any second per-operation
   table, and the two limits that bound what the result may claim.
+- [unparseable-form-is-a-finding](./techniques/unparseable-form-is-a-finding.md)
+  — refusing the access forms a source matcher cannot follow in a tree you
+  own, the finite escape set against the unbounded target set, and why it
+  closes accidental evasion and not deliberate.
 - [advancement-evidence-fields](./techniques/advancement-evidence-fields.md)
   — the field minted at the stage its obligation binds, the closed
   vocabulary its non-satisfied side needs, advancing an item with the hole

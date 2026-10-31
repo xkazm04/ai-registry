@@ -1110,3 +1110,561 @@ Second application of `prose-rule-drift` (`rust--prose-rule-drift--panic-lint`):
 of 19 roots with the one unguarded root and a prose-only indexing rule; the layering checker already
 visits every crate and does not assert the attribute. Fleet census 0 of 17 / 44 / 6 roots; personas holds the
 rule as a measured ratchet. Verdict unmeasurable.
+
+## Architecture review - 2026-10-31
+
+First architecture review of this subject. All 58 documents were read. The subject is sound in substance, and both platforms' documentation confirms the skip semantics that enforcement-binding treats as load-bearing. Five items are owed. The golden path's technique index omits five techniques. One technique carries two competing "third" sections. One technique's public-record denominator has drifted. One application misdescribes a project. Two applications carry figures their own text does not support.
+
+<!-- architecture-review:v1 -->
+```json
+{
+  "subject": "software-engineering/quality-gates",
+  "date": "2026-10-31",
+  "baseline": "21a2bc974",
+  "digest": "sha256-b2:0d8378dd13155e59",
+  "disposition": "clarify",
+  "coverage": "All 58 owned documents read: the golden path, 27 techniques and 30 applications. Arithmetic in the techniques and applications was recomputed where it is printed. Primary sources were checked for the two most load-bearing unstable claims (the platform-dependent skip semantics behind enforcement-binding, and the editor-rung evidence) and for the public pipeline record behind item-liveness. Consumer trees and pinned public trees cited by applications were not re-opened, and no application's verified_on was moved. Trigger: pending, never architecture-reviewed. Intended benefit: a gate's green means a named input could have made it refuse, and the bar a team believes in is the one its machinery holds. Failure if ignored: decorative, dead, vacuous or unbound gates read as enforcement and standards decay behind green reports. Boundary: refusal machinery and its liveness. Metric baselines and ratchets belong to metric-gates, honest measurement to measurement-honesty, and conformance scoring to conformance-checking.",
+  "counterexamples": [
+    "A job skipped by its own condition satisfies a required check on one hosted platform. On the other, a skipped pipeline blocks a must-succeed rule unless a maintainer selects the option that treats it as successful, so the skip direction cannot be inferred from the pipeline's shape.",
+    "Dead code arrives in whole features, so a directory at 100% unreachable is as consistent with an abandoned feature as with a missing root. The excess-distribution signal alone cannot tell the two apart.",
+    "An unbacked artifact rule on the most frequently edited file class held at zero violations across 785 and later 588 files, so 'violated since written' is a prior for rare, peripheral, action-shaped rules, not for every unbacked rule.",
+    "A proposal filter whose output lands in a default-denied state can run at a precision that would bankrupt an author-facing gate, because no author is able to dismiss its findings.",
+    "A skip-authorizing predicate (is the cache still valid) may route could-not-run to pass, because a false green there only skips redundant work."
+  ],
+  "sources": [
+    {
+      "url": "https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/collaborating-on-repositories-with-code-quality-features/troubleshooting-required-status-checks",
+      "result": "Read 2026-10-31. A job skipped by a conditional: 'The job reports \"Success\"'. A workflow skipped by path or branch filtering: 'Associated checks stay in a \"Pending\" state and block merging'. Supports enforcement-binding's fail-open/fail-closed asymmetry on that platform."
+    },
+    {
+      "url": "https://docs.gitlab.com/user/project/merge_requests/auto_merge/",
+      "result": "Read 2026-10-31. 'When you set Pipelines must succeed for a project, skipped pipelines prevent merge requests from merging', and 'Skipped pipelines are considered successful' is a separate checkbox under 'Allow merge after skipped pipelines'. Supports the opposite-default claim."
+    },
+    {
+      "url": "https://6826.csail.mit.edu/2020/papers/google-analysis-cacm.pdf",
+      "result": "Sadowski et al., 'Lessons from Building Static Analysis Tools at Google', CACM 2018, mirror copy read 2026-10-31. 'requiring a particular IDE with analyses enabled is a non-starter' because developers 'use a wide variety of editors'. The diagnostic was enabled 'as a compiler error (not a warning, which the Clang team found Google developers ignored)'. Supports the editor-rung paragraphs in the golden path and gate-laddering. A direct earlier-is-fixed-more fix-rate figure was not located in the passages read."
+    },
+    {
+      "url": "https://raw.githubusercontent.com/tc39/proposals/main/inactive-proposals.md",
+      "result": "Read 2026-10-31. 43 rows, not the 46 item-liveness states. Owner departure recomputes to 7 (three identical same-day 'no interested champions in February 2024', three 'champion is no longer participating', one 'chose not to pursue'), and 11 rows are 'Subsumed'. The 6 bare-'withdrawn' count was not reproduced on the current table."
+    },
+    {
+      "source": "Internal arithmetic and cross-document consistency",
+      "result": "Recomputed: 8/20 two-fifths; 16/29 = 55%; 230/982 = 23.4%; the bucket rates and ratios in the excess application; 27 conditional jobs; 1/63 and 35/63; 3,273/3,959 = 82.7%; 163/68 = 2.4x; 2,919/300 = 9.7x; 0.595/0.90 against 0.6611; 18+15+14+1+1+1 = 50. Found the five unindexed techniques, the duplicated 'third' section, the 27-across-four versus 27-in-two contradiction, and the unsupported 'a quarter' title."
+    }
+  ],
+  "documents": {
+    "quality-gates.md": {
+      "disposition": "clarify",
+      "reason": "The closing technique index lists 22 of the 27 techniques in the frontmatter: vacuous-by-evaluation, prose-rule-drift, renameable-detector-keys, branch-provenance-gate and unparseable-form-is-a-finding are missing, and the last two are linked from nowhere in the body. Add the five index entries. The editor-rung claim holds against the primary paper: an IDE-only integration is 'a non-starter' and compiler errors were used because warnings were ignored."
+    },
+    "techniques/gate-laddering.md": {
+      "disposition": "keep",
+      "reason": "Rungs, binding rung, irreversible-defect inversion, runtime rung and cross-configuration analysis are internally consistent. The editor paragraph matches the static-analysis paper read this run (heterogeneous editors; compiler error rather than warning)."
+    },
+    "techniques/severity-by-construction.md": {
+      "disposition": "keep",
+      "reason": "Exit-code and display channels are kept apart, and the quiet-flag fault injection is stated with its corrected mechanism. 'see ratchet-design' is plain text where siblings link it; harmless."
+    },
+    "techniques/vacuous-by-evaluation.md": {
+      "disposition": "keep",
+      "reason": "Derivation layer satisfying its own rule is a distinct fourth failure; per-rule counterexample probes and the reporting rule are sound."
+    },
+    "techniques/blocking-by-input-determinism.md": {
+      "disposition": "clarify",
+      "reason": "Two sections each introduce instrument variance as 'a third' variance/class ('A third variance' and 'A third class: deterministic subject, nondeterministic apparatus') with different remedies (pin/assert/aggregate versus restate as a source assertion). They should be merged or cross-referenced so the axis has one third class. The 33-file / 965-line / 5-case measurements agree with the python application."
+    },
+    "techniques/gate-liveness.md": {
+      "disposition": "keep",
+      "reason": "Instrument assertion, the skip-authorizing exception, derived-scope premise, oracle scope, canary inversions and inventory-versus-provider audit are consistent with each other and with the four gate-liveness applications."
+    },
+    "techniques/hook-hygiene.md": {
+      "disposition": "keep",
+      "reason": "Observe-not-mutate, staged-content scoping, one hook system and the agent bypass deny are sound and consistent with the process applications."
+    },
+    "techniques/false-positive-economics.md": {
+      "disposition": "keep",
+      "reason": "The author-who-can-dismiss precondition, prevalence-relative precision and suppressor recall are sound. The 0.30 vs 0.19 and 76% false-alarm figures carry no source in the text; they are not load-bearing for the rules and were not re-sourced this run."
+    },
+    "techniques/unmeasurable-criteria.md": {
+      "disposition": "keep",
+      "reason": "SKIP / FAIL-CLOSED / REFUSE, surface-level skip and the in-path split agree with the node and claude-code applications."
+    },
+    "techniques/policy-projection.md": {
+      "disposition": "keep",
+      "reason": "One enumeration, inexpressible-condition rule and display-versus-data cap hold; 8 of 20 = two-fifths recomputes."
+    },
+    "techniques/chokepoint-tag-registry.md": {
+      "disposition": "keep",
+      "reason": "Three-way bijection, negative-space completion and the two limits are stated; it now points to unparseable-form-is-a-finding for the owned-tree step."
+    },
+    "techniques/enforcement-binding.md": {
+      "disposition": "keep",
+      "reason": "The platform-dependent skip direction is confirmed by both platforms' current documentation: a job skipped by a conditional reports Success while a path/branch-filtered workflow leaves checks Pending; on the other platform skipped pipelines prevent merging under 'Pipelines must succeed' unless a second option is selected."
+    },
+    "techniques/prose-rule-drift.md": {
+      "disposition": "keep",
+      "reason": "Action-shaped rules, enforcing at the action, the uninvoked checker, artifact-versus-edit quantifier and the rulebook-reader tier are distinct and consistent with three applications."
+    },
+    "techniques/oracle-frozen-during-repair.md": {
+      "disposition": "keep",
+      "reason": "Oracle set, red-first ordering, mechanical freeze and the separate test-change task are sound."
+    },
+    "techniques/fabrication-economics.md": {
+      "disposition": "keep",
+      "reason": "Presence-only verification as the fabrication cell and the declared-inability token are sound; the react application's counts agree."
+    },
+    "techniques/advancement-evidence-fields.md": {
+      "disposition": "keep",
+      "reason": "Stage-minted fields and the four-state vocabulary hold; 16 of 29 = 55% recomputes."
+    },
+    "techniques/item-liveness.md": {
+      "disposition": "clarify",
+      "reason": "The public pipeline's inactive record was re-read: owner departure is still 7 entries (three same-day 'no interested champions' plus three 'no longer participating' plus one 'chose not to pursue') and superseded is still 11, but the table now holds 43 rows, not 46. Date the denominator as a reading rather than a standing fact."
+    },
+    "techniques/waiver-names-its-finding.md": {
+      "disposition": "keep",
+      "reason": "Waiver grammar and reach, malformed-is-ineffective-and-reported, and the unwaivable/exact-name classes are sound."
+    },
+    "techniques/excess-indicts-the-instrument.md": {
+      "disposition": "keep",
+      "reason": "The distribution test is kept as a sampler with the referrer second stage the node application's refutation required; 230/982 = 23.4% recomputes."
+    },
+    "techniques/self-reported-gate-inputs.md": {
+      "disposition": "keep",
+      "reason": "Inert branch, fencing the act upstream of the record and the override channel are sound and match two applications."
+    },
+    "techniques/renameable-detector-keys.md": {
+      "disposition": "keep",
+      "reason": "Renameable key as distinct from false negatives, the mechanical test and disclosure in the verdict when no invariant key exists are sound."
+    },
+    "techniques/instrument-answers-only-its-own-question.md": {
+      "disposition": "keep",
+      "reason": "The instrument partition and verification by the owning instrument are supported by the typescript-eslint FAQ cited in its application."
+    },
+    "techniques/match-the-resolved-artifact.md": {
+      "disposition": "keep",
+      "reason": "Resolved configuration, comment stripping, needle positive controls and the NUL-byte case are consistent with the four seams in its application."
+    },
+    "techniques/shared-substrate-check-partition.md": {
+      "disposition": "keep",
+      "reason": "The bounded inverted question, named negative scope and not-reasons list are demonstrated by its application."
+    },
+    "techniques/branch-provenance-gate.md": {
+      "disposition": "keep",
+      "reason": "Ancestry questions at the push, escape hatches and the single-owner scope limit are sound; only the golden-path linkage was missing (see quality-gates.md)."
+    },
+    "techniques/refusal-names-a-reachable-remedy.md": {
+      "disposition": "keep",
+      "reason": "Remedy as an unverified claim about the reader's environment and resolving it at message build time are sound; the census figures agree with the golden path."
+    },
+    "techniques/decidable-in-a-window.md": {
+      "disposition": "keep",
+      "reason": "Window-decidable versus call-graph rules; 3,273/3,959 = 82.7%, 163/68 = 2.4x and 2,919/300 = 9.7x recompute."
+    },
+    "techniques/unparseable-form-is-a-finding.md": {
+      "disposition": "keep",
+      "reason": "Finite escape set versus unbounded target set, the ownership precondition and the not-containment limit are sound; only the golden-path linkage was missing."
+    },
+    "applications/claude-code--unmeasurable-criteria.md": {
+      "disposition": "keep",
+      "reason": "Three-code in-path checker, four inputs and its bound are internally consistent; consumer tree not re-run."
+    },
+    "applications/cpp--enforcement-binding.md": {
+      "disposition": "keep",
+      "reason": "Pinned public tree read; the 'skipped job satisfies a required check' statement matches current platform documentation. Not re-opened at the pinned commit."
+    },
+    "applications/dotnet--gate-liveness.md": {
+      "disposition": "keep",
+      "reason": "Template-expansion removal of the gate step is consistent; 2026-09-14 to 2026-10-06 is about three weeks. Pinned tree not re-opened."
+    },
+    "applications/next--gate-liveness.md": {
+      "disposition": "reverify",
+      "reason": "The title says the oracle 'cannot see a quarter of its own suite', and no figure in the body supports a quarter (313 in-oracle modules, 0 end-to-end, 8 spawned scripts). Needs the source count or a reworded title; consumer tree not re-opened."
+    },
+    "applications/next--prose-rule-drift.md": {
+      "disposition": "keep",
+      "reason": "59 commits, 26 since the crossing, 6 seeding flags and the 48-line prune are mutually consistent."
+    },
+    "applications/node--advancement-evidence-fields.md": {
+      "disposition": "keep",
+      "reason": "11/15 and 15/15 arms, the honest 0-blank negative and the typed-model none conflation are consistent."
+    },
+    "applications/node--blocking-by-input-determinism.md": {
+      "disposition": "keep",
+      "reason": "Three cases sorted twice, structural-only, honestly bounded; the node 20 end-of-life in April 2026 is correct."
+    },
+    "applications/node--chokepoint-tag-registry.md": {
+      "disposition": "keep",
+      "reason": "Bijection, negative space, BYOM table and fingerprint gate are consistent with the technique, including the missing walk floor it reports."
+    },
+    "applications/node--enforcement-binding.md": {
+      "disposition": "keep",
+      "reason": "7+4+7+5+2+1+1 = 27 jobs recomputes; the not-better verdict and its condition are written into the technique."
+    },
+    "applications/node--excess-indicts-the-instrument.md": {
+      "disposition": "keep",
+      "reason": "Bucket rates and ratios recompute (52/259 = 20%, 0.9x; 18/19 = 95%, 4.0x; 230/20 = 11.5x); the refutation is reflected in the technique."
+    },
+    "applications/node--gate-liveness.md": {
+      "disposition": "keep",
+      "reason": "Three exit outcomes, population floor, announced skip and pipe swallowing are consistent; this repository's own checker exemplar."
+    },
+    "applications/node--instrument-answers-only-its-own-question.md": {
+      "disposition": "keep",
+      "reason": "The preset's no-undef off and the FAQ guidance it cites support the partition claim."
+    },
+    "applications/node--match-the-resolved-artifact.md": {
+      "disposition": "clarify",
+      "reason": "Describes kp as 'a career-planning application'; kp's own guidance describes it as a self-hostable AI recruiting studio. Correct the description. The four seams are otherwise consistent."
+    },
+    "applications/node--policy-projection.md": {
+      "disposition": "keep",
+      "reason": "One enumeration, exposed-only parameters, display cap 8 against 20 and per-archetype defaults are consistent with the technique."
+    },
+    "applications/node--prose-rule-drift.md": {
+      "disposition": "reverify",
+      "reason": "The first read says 27 violations 'across four of the repositories it governs' and that 'three of the four affected repositories are working normally', but also that 'the two repositories carrying 27 of the 27' are the most recently changed ones. Both cannot hold. The re-read (50 across six: 18+15+14+1+1+1) recomputes. Needs the original checker output to settle the first read's distribution."
+    },
+    "applications/node--renameable-detector-keys.md": {
+      "disposition": "keep",
+      "reason": "Paired arms 1 versus 0 violations; the change is a disclosure, not detection, and it says so."
+    },
+    "applications/node--self-reported-gate-inputs.md": {
+      "disposition": "keep",
+      "reason": "Unclaimed-writer arms and the second-guard argument are consistent; it is a predicate, not a shipped change."
+    },
+    "applications/node--unmeasurable-criteria.md": {
+      "disposition": "keep",
+      "reason": "SKIP, fail-closed comparison and REFUSE in one evaluator, with the rollup deviation stated."
+    },
+    "applications/process--gate-laddering.md": {
+      "disposition": "keep",
+      "reason": "Rung budgets, 0 of 260 binding-rung successes, the replayed fire set and the placement matrix are consistent with the technique."
+    },
+    "applications/process--gate-liveness.md": {
+      "disposition": "keep",
+      "reason": "Administrative decommissioning; 65 commits under a gate that could not run; it states which of the three causes were observed."
+    },
+    "applications/process--item-liveness.md": {
+      "disposition": "keep",
+      "reason": "Flat queue without a per-item trail; 2026-08-28 plus 90 days is about 2026-11-26, so the return condition is not yet due."
+    },
+    "applications/process--shared-substrate-check-partition.md": {
+      "disposition": "keep",
+      "reason": "Quoted briefs illustrate negative scope, the bounded question and the not-reasons list; it calls the partition advisory."
+    },
+    "applications/python--blocking-by-input-determinism.md": {
+      "disposition": "keep",
+      "reason": "Stdlib-only blocking job; 33 files / ~965 lines and the 2026-09-06 import-blocked run match the technique. It records its own stale docstring."
+    },
+    "applications/python--branch-provenance-gate.md": {
+      "disposition": "keep",
+      "reason": "Both ancestry questions, self-exclusion and namespace scoping are present; uninstalled-by-default and fleet-scope absence are reported."
+    },
+    "applications/react--fabrication-economics.md": {
+      "disposition": "keep",
+      "reason": "1/63 = 1.6% and 35/63 = 55.6% recompute; the 35 is called an upper bound."
+    },
+    "applications/react--policy-projection.md": {
+      "disposition": "keep",
+      "reason": "Four independent display-cap instances with a 50-versus-124 population-sensitive test; the limits section is honest."
+    },
+    "applications/rust--false-positive-economics.md": {
+      "disposition": "keep",
+      "reason": "12 grep hits, all non-production, 0 self-enabling paths; the unmeasurable verdict names its instrument."
+    },
+    "applications/rust--gate-liveness.md": {
+      "disposition": "keep",
+      "reason": "One skip predicate routed by an environment variable; limits (version, grep-zero summary) stated."
+    },
+    "applications/rust--prose-rule-drift--panic-lint.md": {
+      "disposition": "keep",
+      "reason": "18 of 19 roots, prose-only indexing rule, fleet 0/17, 0/44, 0/6; the unmeasurable verdict names its instrument."
+    },
+    "applications/rust--self-reported-gate-inputs.md": {
+      "disposition": "keep",
+      "reason": "Recompute-and-refuse ingest door; 0.595/0.90 = 0.66111 against 0.6611 differs by more than 1e-6, as stated."
+    }
+  }
+}
+```
+
+### Applied - 2026-10-31
+
+Phase B applied three clarifies: the golden-path technique index, the dated item-liveness denominator, and the kp description. Three items stay owed. The duplicated "third" section in blocking-by-input-determinism is a structural merge. The two reverify applications need consumer-tree evidence that this run did not open.
+
+<!-- architecture-review:v1 -->
+```json
+{
+  "subject": "software-engineering/quality-gates",
+  "date": "2026-10-31",
+  "baseline": "21a2bc974",
+  "digest": "sha256-b2:d5f8a264c5f1b9ff",
+  "disposition": "clarify",
+  "coverage": "Second record, same session, against the digest after Phase B. All 58 owned documents read: the golden path, 27 techniques and 30 applications. Arithmetic in the techniques and applications was recomputed where it is printed. Primary sources were checked for the two most load-bearing unstable claims (the platform-dependent skip semantics behind enforcement-binding, and the editor-rung evidence) and for the public pipeline record behind item-liveness. Consumer trees and pinned public trees cited by applications were not re-opened, and no application's verified_on was moved. Trigger: pending, never architecture-reviewed. Intended benefit: a gate's green means a named input could have made it refuse, and the bar a team believes in is the one its machinery holds. Failure if ignored: decorative, dead, vacuous or unbound gates read as enforcement and standards decay behind green reports. Boundary: refusal machinery and its liveness. Metric baselines and ratchets belong to metric-gates, honest measurement to measurement-honesty, and conformance scoring to conformance-checking.",
+  "counterexamples": [
+    "A job skipped by its own condition satisfies a required check on one hosted platform. On the other, a skipped pipeline blocks a must-succeed rule unless a maintainer selects the option that treats it as successful, so the skip direction cannot be inferred from the pipeline's shape.",
+    "Dead code arrives in whole features, so a directory at 100% unreachable is as consistent with an abandoned feature as with a missing root. The excess-distribution signal alone cannot tell the two apart.",
+    "An unbacked artifact rule on the most frequently edited file class held at zero violations across 785 and later 588 files, so 'violated since written' is a prior for rare, peripheral, action-shaped rules, not for every unbacked rule.",
+    "A proposal filter whose output lands in a default-denied state can run at a precision that would bankrupt an author-facing gate, because no author is able to dismiss its findings.",
+    "A skip-authorizing predicate (is the cache still valid) may route could-not-run to pass, because a false green there only skips redundant work."
+  ],
+  "sources": [
+    {
+      "url": "https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/collaborating-on-repositories-with-code-quality-features/troubleshooting-required-status-checks",
+      "result": "Read 2026-10-31. A job skipped by a conditional: 'The job reports \"Success\"'. A workflow skipped by path or branch filtering: 'Associated checks stay in a \"Pending\" state and block merging'. Supports enforcement-binding's fail-open/fail-closed asymmetry on that platform."
+    },
+    {
+      "url": "https://docs.gitlab.com/user/project/merge_requests/auto_merge/",
+      "result": "Read 2026-10-31. 'When you set Pipelines must succeed for a project, skipped pipelines prevent merge requests from merging', and 'Skipped pipelines are considered successful' is a separate checkbox under 'Allow merge after skipped pipelines'. Supports the opposite-default claim."
+    },
+    {
+      "url": "https://6826.csail.mit.edu/2020/papers/google-analysis-cacm.pdf",
+      "result": "Sadowski et al., 'Lessons from Building Static Analysis Tools at Google', CACM 2018, mirror copy read 2026-10-31. 'requiring a particular IDE with analyses enabled is a non-starter' because developers 'use a wide variety of editors'. The diagnostic was enabled 'as a compiler error (not a warning, which the Clang team found Google developers ignored)'. Supports the editor-rung paragraphs in the golden path and gate-laddering. A direct earlier-is-fixed-more fix-rate figure was not located in the passages read."
+    },
+    {
+      "url": "https://raw.githubusercontent.com/tc39/proposals/main/inactive-proposals.md",
+      "result": "Read 2026-10-31. 43 rows, not the 46 item-liveness states. Owner departure recomputes to 7 (three identical same-day 'no interested champions in February 2024', three 'champion is no longer participating', one 'chose not to pursue'), and 11 rows are 'Subsumed'. The 6 bare-'withdrawn' count was not reproduced on the current table."
+    },
+    {
+      "source": "Internal arithmetic and cross-document consistency",
+      "result": "Recomputed: 8/20 two-fifths; 16/29 = 55%; 230/982 = 23.4%; the bucket rates and ratios in the excess application; 27 conditional jobs; 1/63 and 35/63; 3,273/3,959 = 82.7%; 163/68 = 2.4x; 2,919/300 = 9.7x; 0.595/0.90 against 0.6611; 18+15+14+1+1+1 = 50. Found the five unindexed techniques, the duplicated 'third' section, the 27-across-four versus 27-in-two contradiction, and the unsupported 'a quarter' title."
+    }
+  ],
+  "documents": {
+    "quality-gates.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: added the five missing technique-index entries (vacuous-by-evaluation, prose-rule-drift, renameable-detector-keys, unparseable-form-is-a-finding, branch-provenance-gate), so all 27 frontmatter techniques are linked and the last two are reachable from the golden path. The editor-rung claim holds against the primary paper."
+    },
+    "techniques/gate-laddering.md": {
+      "disposition": "keep",
+      "reason": "Rungs, binding rung, irreversible-defect inversion, runtime rung and cross-configuration analysis are internally consistent. The editor paragraph matches the static-analysis paper read this run (heterogeneous editors; compiler error rather than warning)."
+    },
+    "techniques/severity-by-construction.md": {
+      "disposition": "keep",
+      "reason": "Exit-code and display channels are kept apart, and the quiet-flag fault injection is stated with its corrected mechanism. 'see ratchet-design' is plain text where siblings link it; harmless."
+    },
+    "techniques/vacuous-by-evaluation.md": {
+      "disposition": "keep",
+      "reason": "Derivation layer satisfying its own rule is a distinct fourth failure; per-rule counterexample probes and the reporting rule are sound."
+    },
+    "techniques/blocking-by-input-determinism.md": {
+      "disposition": "clarify",
+      "reason": "Two sections each introduce instrument variance as 'a third' variance/class ('A third variance' and 'A third class: deterministic subject, nondeterministic apparatus') with different remedies (pin/assert/aggregate versus restate as a source assertion). They should be merged or cross-referenced so the axis has one third class. The 33-file / 965-line / 5-case measurements agree with the python application."
+    },
+    "techniques/gate-liveness.md": {
+      "disposition": "keep",
+      "reason": "Instrument assertion, the skip-authorizing exception, derived-scope premise, oracle scope, canary inversions and inventory-versus-provider audit are consistent with each other and with the four gate-liveness applications."
+    },
+    "techniques/hook-hygiene.md": {
+      "disposition": "keep",
+      "reason": "Observe-not-mutate, staged-content scoping, one hook system and the agent bypass deny are sound and consistent with the process applications."
+    },
+    "techniques/false-positive-economics.md": {
+      "disposition": "keep",
+      "reason": "The author-who-can-dismiss precondition, prevalence-relative precision and suppressor recall are sound. The 0.30 vs 0.19 and 76% false-alarm figures carry no source in the text; they are not load-bearing for the rules and were not re-sourced this run."
+    },
+    "techniques/unmeasurable-criteria.md": {
+      "disposition": "keep",
+      "reason": "SKIP / FAIL-CLOSED / REFUSE, surface-level skip and the in-path split agree with the node and claude-code applications."
+    },
+    "techniques/policy-projection.md": {
+      "disposition": "keep",
+      "reason": "One enumeration, inexpressible-condition rule and display-versus-data cap hold; 8 of 20 = two-fifths recomputes."
+    },
+    "techniques/chokepoint-tag-registry.md": {
+      "disposition": "keep",
+      "reason": "Three-way bijection, negative-space completion and the two limits are stated; it now points to unparseable-form-is-a-finding for the owned-tree step."
+    },
+    "techniques/enforcement-binding.md": {
+      "disposition": "keep",
+      "reason": "The platform-dependent skip direction is confirmed by both platforms' current documentation: a job skipped by a conditional reports Success while a path/branch-filtered workflow leaves checks Pending; on the other platform skipped pipelines prevent merging under 'Pipelines must succeed' unless a second option is selected."
+    },
+    "techniques/prose-rule-drift.md": {
+      "disposition": "keep",
+      "reason": "Action-shaped rules, enforcing at the action, the uninvoked checker, artifact-versus-edit quantifier and the rulebook-reader tier are distinct and consistent with three applications."
+    },
+    "techniques/oracle-frozen-during-repair.md": {
+      "disposition": "keep",
+      "reason": "Oracle set, red-first ordering, mechanical freeze and the separate test-change task are sound."
+    },
+    "techniques/fabrication-economics.md": {
+      "disposition": "keep",
+      "reason": "Presence-only verification as the fabrication cell and the declared-inability token are sound; the react application's counts agree."
+    },
+    "techniques/advancement-evidence-fields.md": {
+      "disposition": "keep",
+      "reason": "Stage-minted fields and the four-state vocabulary hold; 16 of 29 = 55% recomputes."
+    },
+    "techniques/item-liveness.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: dated the 7-of-46 denominator as a reading and recorded that the public record held 43 entries on 2026-10-31 with the 7 owner-departure entries unchanged."
+    },
+    "techniques/waiver-names-its-finding.md": {
+      "disposition": "keep",
+      "reason": "Waiver grammar and reach, malformed-is-ineffective-and-reported, and the unwaivable/exact-name classes are sound."
+    },
+    "techniques/excess-indicts-the-instrument.md": {
+      "disposition": "keep",
+      "reason": "The distribution test is kept as a sampler with the referrer second stage the node application's refutation required; 230/982 = 23.4% recomputes."
+    },
+    "techniques/self-reported-gate-inputs.md": {
+      "disposition": "keep",
+      "reason": "Inert branch, fencing the act upstream of the record and the override channel are sound and match two applications."
+    },
+    "techniques/renameable-detector-keys.md": {
+      "disposition": "keep",
+      "reason": "Renameable key as distinct from false negatives, the mechanical test and disclosure in the verdict when no invariant key exists are sound."
+    },
+    "techniques/instrument-answers-only-its-own-question.md": {
+      "disposition": "keep",
+      "reason": "The instrument partition and verification by the owning instrument are supported by the typescript-eslint FAQ cited in its application."
+    },
+    "techniques/match-the-resolved-artifact.md": {
+      "disposition": "keep",
+      "reason": "Resolved configuration, comment stripping, needle positive controls and the NUL-byte case are consistent with the four seams in its application."
+    },
+    "techniques/shared-substrate-check-partition.md": {
+      "disposition": "keep",
+      "reason": "The bounded inverted question, named negative scope and not-reasons list are demonstrated by its application."
+    },
+    "techniques/branch-provenance-gate.md": {
+      "disposition": "keep",
+      "reason": "Ancestry questions at the push, escape hatches and the single-owner scope limit are sound; only the golden-path linkage was missing (see quality-gates.md)."
+    },
+    "techniques/refusal-names-a-reachable-remedy.md": {
+      "disposition": "keep",
+      "reason": "Remedy as an unverified claim about the reader's environment and resolving it at message build time are sound; the census figures agree with the golden path."
+    },
+    "techniques/decidable-in-a-window.md": {
+      "disposition": "keep",
+      "reason": "Window-decidable versus call-graph rules; 3,273/3,959 = 82.7%, 163/68 = 2.4x and 2,919/300 = 9.7x recompute."
+    },
+    "techniques/unparseable-form-is-a-finding.md": {
+      "disposition": "keep",
+      "reason": "Finite escape set versus unbounded target set, the ownership precondition and the not-containment limit are sound; only the golden-path linkage was missing."
+    },
+    "applications/claude-code--unmeasurable-criteria.md": {
+      "disposition": "keep",
+      "reason": "Three-code in-path checker, four inputs and its bound are internally consistent; consumer tree not re-run."
+    },
+    "applications/cpp--enforcement-binding.md": {
+      "disposition": "keep",
+      "reason": "Pinned public tree read; the 'skipped job satisfies a required check' statement matches current platform documentation. Not re-opened at the pinned commit."
+    },
+    "applications/dotnet--gate-liveness.md": {
+      "disposition": "keep",
+      "reason": "Template-expansion removal of the gate step is consistent; 2026-09-14 to 2026-10-06 is about three weeks. Pinned tree not re-opened."
+    },
+    "applications/next--gate-liveness.md": {
+      "disposition": "reverify",
+      "reason": "The title says the oracle 'cannot see a quarter of its own suite', and no figure in the body supports a quarter (313 in-oracle modules, 0 end-to-end, 8 spawned scripts). Needs the source count or a reworded title; consumer tree not re-opened."
+    },
+    "applications/next--prose-rule-drift.md": {
+      "disposition": "keep",
+      "reason": "59 commits, 26 since the crossing, 6 seeding flags and the 48-line prune are mutually consistent."
+    },
+    "applications/node--advancement-evidence-fields.md": {
+      "disposition": "keep",
+      "reason": "11/15 and 15/15 arms, the honest 0-blank negative and the typed-model none conflation are consistent."
+    },
+    "applications/node--blocking-by-input-determinism.md": {
+      "disposition": "keep",
+      "reason": "Three cases sorted twice, structural-only, honestly bounded; the node 20 end-of-life in April 2026 is correct."
+    },
+    "applications/node--chokepoint-tag-registry.md": {
+      "disposition": "keep",
+      "reason": "Bijection, negative space, BYOM table and fingerprint gate are consistent with the technique, including the missing walk floor it reports."
+    },
+    "applications/node--enforcement-binding.md": {
+      "disposition": "keep",
+      "reason": "7+4+7+5+2+1+1 = 27 jobs recomputes; the not-better verdict and its condition are written into the technique."
+    },
+    "applications/node--excess-indicts-the-instrument.md": {
+      "disposition": "keep",
+      "reason": "Bucket rates and ratios recompute (52/259 = 20%, 0.9x; 18/19 = 95%, 4.0x; 230/20 = 11.5x); the refutation is reflected in the technique."
+    },
+    "applications/node--gate-liveness.md": {
+      "disposition": "keep",
+      "reason": "Three exit outcomes, population floor, announced skip and pipe swallowing are consistent; this repository's own checker exemplar."
+    },
+    "applications/node--instrument-answers-only-its-own-question.md": {
+      "disposition": "keep",
+      "reason": "The preset's no-undef off and the FAQ guidance it cites support the partition claim."
+    },
+    "applications/node--match-the-resolved-artifact.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: 'career-planning application (kp)' became 'recruiting application (kp)', matching kp's own guidance. verified_on left as it was; the cited trees were not re-opened."
+    },
+    "applications/node--policy-projection.md": {
+      "disposition": "keep",
+      "reason": "One enumeration, exposed-only parameters, display cap 8 against 20 and per-archetype defaults are consistent with the technique."
+    },
+    "applications/node--prose-rule-drift.md": {
+      "disposition": "reverify",
+      "reason": "The first read says 27 violations 'across four of the repositories it governs' and that 'three of the four affected repositories are working normally', but also that 'the two repositories carrying 27 of the 27' are the most recently changed ones. Both cannot hold. The re-read (50 across six: 18+15+14+1+1+1) recomputes. Needs the original checker output to settle the first read's distribution."
+    },
+    "applications/node--renameable-detector-keys.md": {
+      "disposition": "keep",
+      "reason": "Paired arms 1 versus 0 violations; the change is a disclosure, not detection, and it says so."
+    },
+    "applications/node--self-reported-gate-inputs.md": {
+      "disposition": "keep",
+      "reason": "Unclaimed-writer arms and the second-guard argument are consistent; it is a predicate, not a shipped change."
+    },
+    "applications/node--unmeasurable-criteria.md": {
+      "disposition": "keep",
+      "reason": "SKIP, fail-closed comparison and REFUSE in one evaluator, with the rollup deviation stated."
+    },
+    "applications/process--gate-laddering.md": {
+      "disposition": "keep",
+      "reason": "Rung budgets, 0 of 260 binding-rung successes, the replayed fire set and the placement matrix are consistent with the technique."
+    },
+    "applications/process--gate-liveness.md": {
+      "disposition": "keep",
+      "reason": "Administrative decommissioning; 65 commits under a gate that could not run; it states which of the three causes were observed."
+    },
+    "applications/process--item-liveness.md": {
+      "disposition": "keep",
+      "reason": "Flat queue without a per-item trail; 2026-08-28 plus 90 days is about 2026-11-26, so the return condition is not yet due."
+    },
+    "applications/process--shared-substrate-check-partition.md": {
+      "disposition": "keep",
+      "reason": "Quoted briefs illustrate negative scope, the bounded question and the not-reasons list; it calls the partition advisory."
+    },
+    "applications/python--blocking-by-input-determinism.md": {
+      "disposition": "keep",
+      "reason": "Stdlib-only blocking job; 33 files / ~965 lines and the 2026-09-06 import-blocked run match the technique. It records its own stale docstring."
+    },
+    "applications/python--branch-provenance-gate.md": {
+      "disposition": "keep",
+      "reason": "Both ancestry questions, self-exclusion and namespace scoping are present; uninstalled-by-default and fleet-scope absence are reported."
+    },
+    "applications/react--fabrication-economics.md": {
+      "disposition": "keep",
+      "reason": "1/63 = 1.6% and 35/63 = 55.6% recompute; the 35 is called an upper bound."
+    },
+    "applications/react--policy-projection.md": {
+      "disposition": "keep",
+      "reason": "Four independent display-cap instances with a 50-versus-124 population-sensitive test; the limits section is honest."
+    },
+    "applications/rust--false-positive-economics.md": {
+      "disposition": "keep",
+      "reason": "12 grep hits, all non-production, 0 self-enabling paths; the unmeasurable verdict names its instrument."
+    },
+    "applications/rust--gate-liveness.md": {
+      "disposition": "keep",
+      "reason": "One skip predicate routed by an environment variable; limits (version, grep-zero summary) stated."
+    },
+    "applications/rust--prose-rule-drift--panic-lint.md": {
+      "disposition": "keep",
+      "reason": "18 of 19 roots, prose-only indexing rule, fleet 0/17, 0/44, 0/6; the unmeasurable verdict names its instrument."
+    },
+    "applications/rust--self-reported-gate-inputs.md": {
+      "disposition": "keep",
+      "reason": "Recompute-and-refuse ingest door; 0.595/0.90 = 0.66111 against 0.6611 differs by more than 1e-6, as stated."
+    }
+  }
+}
+```

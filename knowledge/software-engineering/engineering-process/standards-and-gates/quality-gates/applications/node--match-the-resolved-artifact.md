@@ -10,7 +10,7 @@ verified_on: 2026-09-20
 # Four text-matching gates and what each of them was really reading (Node)
 
 Read on 2026-09-20 across four Node and TypeScript trees that share this
-registry as their standard: a career-planning application (`kp`), a media
+registry as their standard: a recruiting application (`kp`), a media
 pipeline (`gravitone-gcloud`), a governance service (`ascent`), and a desktop
 agent console (`personas`). Every citation below was opened in the tree on
 that date. Each seam is the same technique at a different resolution step —
