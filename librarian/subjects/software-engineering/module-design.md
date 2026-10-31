@@ -699,3 +699,190 @@ Apply pass, same day. The clarify items that could be confirmed from a primary o
   }
 }
 ```
+
+## Architecture review - 2026-10-31 (after re-verification)
+
+This record follows re-verification of applications: one document changed since the previous record (rust--module-depth, re-anchored at personas@22260d77); the other 28 are byte-unchanged and keep their dispositions.
+
+<!-- architecture-review:v1 -->
+```json
+{
+  "subject": "software-engineering/module-design",
+  "date": "2026-10-31",
+  "baseline": "21e53f34c",
+  "digest": "sha256-b2:aad1dbd5181eeef3",
+  "disposition": "clarify",
+  "coverage": "All 29 documents decided. One document changed since baseline cbccaaef3's record (commit af8069d58) and was re-read in full; its personas.rs anchors were spot-checked at personas@22260d77 (4,556 lines; ProfileMode :349, FULL_COLUMNS :373, get_all :479, get_all_by_lifecycle :502, LEAN_LIST_COLUMNS :549, lean mapper doc :557, get_all_lean :646, get_all_by_lifecycle_lean :659, get_summaries :1583; triggers.rs:1722 calls get_all). The other 28 are byte-unchanged and carry their prior dispositions and reasons. Overall stays clarify: the change-class figure still needs the video.",
+  "counterexamples": [
+    "A boundary that hides internals well can also hide the module's existence, and the duplicate it causes scores best on change scatter. The golden path names this as the one failure no instrument here detects.",
+    "A shim that touches the host can be obliged to keep a branch: in one framework a cookie read opts a route out of prerendering, so a branchless shim changes behaviour. Hence 'no verdict branch', not 'no branches'.",
+    "A one-per-arm structural replay recovers direction about 84% of the time when the true cost ratio is above 3x, and at chance near 1.5x. 'Always derive a thousand replays' is too strong, and so is 'one replay is enough'.",
+    "A payload built for a crossing (a request assembled per call) has no accumulator to lose, so the state-carrier field audit has nothing to find there.",
+    "An agent-trajectory erosion figure is a property of one benchmark version: the same paper moved from 80%/55% to 77%/53% between revisions."
+  ],
+  "sources": [
+    {
+      "source": "personas@22260d77 (src-tauri/db/src/repos/core/personas.rs, src-tauri/src/commands/tools/triggers.rs)",
+      "result": "Every re-anchored line checked matches the construct the application names; the module is 4,556 lines as stated."
+    },
+    {
+      "url": "https://arxiv.org/html/2603.24755",
+      "result": "v2 (2026-05-07): 'Erosion rises in 77% of agent trajectories against 53% of human repositories'; 'Per checkpoint, agent verbosity grows 6.6x and erosion grows 5.0x faster than that in human code.' Refutes the golden path's 'about twice as fast' and dates its 'four in five / a little over half' to v1."
+    },
+    {
+      "url": "https://arxiv.org/html/2603.24755v1",
+      "result": "v1: '55% of human repos show rising erosion versus 79% of agent trajectories' (abstract says 80%). Source of the figures the golden path carried."
+    },
+    {
+      "url": "https://arxiv.org/html/2607.22807v1",
+      "result": "Supports 2,000 trajectories, 100 tasks, 'at comparable success rates', ICC 0.73-0.97, and the 34%/22% figures. Quote: 'Across all models, OCaml traces consume significantly more tokens than Python traces (1.28-1.69x vs. Python, p<0.001)'; 'The penalty for using Rust or Java is model-dependent, but not significant for Gemma.' Corrects the technique's blanket 1.16x-1.69x / p<0.001 sentence."
+    },
+    {
+      "url": "https://github.com/johnousterhout/aposd-vs-clean-code",
+      "result": "Supports module-depth's account of the dialogue (September 2024 to February 2025): Martin, 'It is certainly possible to over-decompose code', and 'if I must err, I'd rather err on the side of decomposition.'"
+    },
+    {
+      "url": "https://github.com/yologdev/yoagent/tree/2428f68d",
+      "result": "Every quoted anchor matches: src/rt.rs:1 and :23, clippy-wasm32/clippy.toml:8 (eight entries), ci.yml:89-90 with a 15-minute cap, CLAUDE.md:181, Cargo.toml:24 rust-version 1.86."
+    },
+    {
+      "url": "https://github.com/sagiegurari/cargo-make/tree/95dcc545db8cf08af6fbec524e200e7c80b06027",
+      "result": "The FlowState struct (types.rs:339-344) and the README hazard list (618-620) match. The parallel arm is runner.rs:236-251: the comment is on 238, the sequential arm on 250, the join on 254-258. The application cited 238-247, 240, 249 and 253-257."
+    },
+    {
+      "url": "https://github.com/golang/go/tree/603439a1c6f2d3/src",
+      "result": "TestFS at testfs.go:39 and the MapFS contract at mapfs.go:26-32 match. The quoted 'may be used to test implementations of an FS for correctness' is at io/fs/fs.go:38-39, not 20-23."
+    },
+    {
+      "source": "quinn d5d5b978c2b8, kube-rs 7a4641d4, onecli ff7a192 (raw files)",
+      "result": "Spot anchors match: quinn-proto lib.rs:3-5 and the runtime now() doc; kube-runtime lib.rs:7-9 and watcher.rs:150 trait ApiMode; onecli runner index.ts:16 and backend/types.ts:99. Not exhaustive."
+    },
+    {
+      "source": "Private consumer trees (personas commits 58cf9557f and fe48e30e6, the credential module, the Next console, the session-transcript corpus)",
+      "result": "Not reachable from this environment and not re-executed. Original verification dates unchanged."
+    }
+  ],
+  "documents": {
+    "module-design.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: agent-erosion paragraph now carries the paper's v2 figures (77% against 53%, verbosity and erosion growing several times faster per checkpoint), dated, with v1's 80% against 55% noted; added the missing state-carrier-decides-the-lane entry to the techniques list; mirror paragraph now says the shim takes no verdict branch."
+    },
+    "techniques/module-depth.md": {
+      "disposition": "keep",
+      "reason": "Interface-as-denominator, Hyrum refinement, placed-not-maximised, variation-is-data and closed-set sections cohere. The account of the dialogue was checked against the primary."
+    },
+    "techniques/seams-and-adapters.md": {
+      "disposition": "reverify",
+      "reason": "The doctrine sections are sound and Feathers' seam/enabling-point vocabulary is used correctly. The divergence-ledger section rests on a physics runtime's contract docs (11 defects / 16 fragile / 36 notes, the friction and limit defaults) that were never re-read. The harvest recorded that whether both producers share one parser is unverified. 'One threshold default sat a thousand times off its documented fallback beyond the unit factor' is ambiguous as written; needs the source contract to restate it."
+    },
+    "techniques/borrowed-surface.md": {
+      "disposition": "keep",
+      "reason": "The two forms, the orthogonal-vs-distinction rule, reader-vs-mutator ranking and the 'who can change this interface' question are internally consistent. The second-source claim names its corroboration class without overclaiming."
+    },
+    "techniques/io-free-core.md": {
+      "disposition": "keep",
+      "reason": "The four properties, driver-as-adapter, verb-count rule and stated costs are sound. The quinn realization's anchors were spot-checked."
+    },
+    "techniques/concurrency-at-the-edge.md": {
+      "disposition": "keep",
+      "reason": "The removal test, offload-size decay signature and heavy-computation inversion are coherent. 'Hundreds of milliseconds' is offered as an order of magnitude, not a threshold."
+    },
+    "techniques/locality-and-leverage.md": {
+      "disposition": "keep",
+      "reason": "Scatter with predicate and exclusions, the trade rule, discovery cost and lapsed-exemption test cohere. One formatting nit: a sentence in the co-location paragraph is run onto the previous line without a break (cosmetic, not changed)."
+    },
+    "techniques/structural-improvement-loop.md": {
+      "disposition": "keep",
+      "reason": "Four stages, the scanning boundary, the done-not-computed memory rule, spec-with-gate-rule, the substitution test and the reaper are consistent with the golden path."
+    },
+    "techniques/structure-is-not-delegable.md": {
+      "disposition": "keep",
+      "reason": "Claim, falsification test and scope against capability-driven migration are stated precisely, and the claim names its recomputation."
+    },
+    "techniques/scoreable-designs-are-built-not-argued.md": {
+      "disposition": "keep",
+      "reason": "Harness-is-the-deliverable and the pre-commitment check are sound. The n=1 cache-key ratio is dated and scoped as an existence proof. The long-lag list narrowing points to change-class correctly."
+    },
+    "techniques/change-class-is-the-workload.md": {
+      "disposition": "clarify",
+      "reason": "applied 2026-10-31: the controlled-study sentence now says the least-represented language cost 1.28x-1.69x at p < 0.001 under every model, with the other two model-dependent and not significant for one open-weight model; band corrected 5.92x -> 5.91x. Still owed: reconcile the first-party account's 'cost 1.21x and 2.7x' with its per-release ratios 1.11-1.36x and 1.51-1.77x, which needs the video itself."
+    },
+    "techniques/declarative-or-sequential.md": {
+      "disposition": "keep",
+      "reason": "The boundary, three conditions, state-machine case and adjacent-step detector are coherent. The 'measured judgment' rewrite is unsourced in the text but scoped as one rewrite."
+    },
+    "techniques/marked-unverifiable-region.md": {
+      "disposition": "keep",
+      "reason": "Four properties, interface-count growth signal, distinction from suppressions and the abstinence inversion are sound."
+    },
+    "techniques/mirror-type-at-the-edge.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: closing sentence 'the shim that remains has none' -> 'takes no verdict branch', matching its step 4."
+    },
+    "techniques/state-carrier-decides-the-lane.md": {
+      "disposition": "keep",
+      "reason": "Per-field classification, the spawn-site tell, the repair order and the crossing-payload precondition (added from a not-better apply) cohere. The cargo-make anchors were re-checked."
+    },
+    "techniques/emitted-code-names-from-a-root.md": {
+      "disposition": "keep",
+      "reason": "Root resolution, bind-only-what-was-asked, the composition obligation and the foreign-package probe are consistent with the rust application's arms (6/9, 2/9, 0/6; 240 errors under the literal rule)."
+    },
+    "techniques/host-primitive-facade.md": {
+      "disposition": "keep",
+      "reason": "Facade, scoped reasoned denylist and real-host timed run all match the yoagent tree, re-read this run."
+    },
+    "applications/process--change-class-is-the-workload.md": {
+      "disposition": "reverify",
+      "reason": "Internally consistent with the source note (5.91x, 118 sessions, 84%/98%, 1.5x at chance). The session-transcript corpus is private and was not re-run."
+    },
+    "applications/rust--io-free-core.md": {
+      "disposition": "keep",
+      "reason": "Spot anchors at the pinned quinn commit match (lib.rs:3-5, runtime now() doc). The realization's limits are stated."
+    },
+    "applications/go--seams-and-adapters.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: fstest pointer anchor io/fs/fs.go:20-23 -> 38-39, confirmed at the pinned commit. verified_on unchanged, since only spot anchors were re-read."
+    },
+    "applications/rust--host-primitive-facade--yoagent.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: verified_on moved to 2026-10-31 after every quoted anchor was re-read at 2428f68d."
+    },
+    "applications/rust--seams-and-adapters.md": {
+      "disposition": "keep",
+      "reason": "Spot anchors at the pinned kube-rs commit match (lib.rs:7-9, watcher.rs:150). Test-count table not recounted. Deviations stated."
+    },
+    "applications/process--structural-improvement-loop.md": {
+      "disposition": "reverify",
+      "reason": "Every quoted sentence still exists in the librarian skill and both docs exist. Its SKILL.md line anchors have drifted (e.g. 'Never count anything yourself' 37 -> 39, 'Never carry forward' 57 -> 71, 'Dry is a result' 141 -> 286, 'Scheduling (not yet built)' 146 -> 291). The stage-table ranges need re-deriving against the current skill by someone who checks what each range covers."
+    },
+    "applications/rust--state-carrier-decides-the-lane.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: runner.rs anchors corrected at the pinned commit (parallel arm 236-251, comment 238, sequential arm 250, join 254-258). verified_on unchanged, since ci.yml and the plugin SDK paths were not re-read."
+    },
+    "applications/rust--locality-and-leverage.md": {
+      "disposition": "reverify",
+      "reason": "Census, refinement and two-arm correction are internally consistent, and the limits are explicit. Commit fe48e30e6 is not reachable here; nothing re-run."
+    },
+    "applications/next--mirror-type-at-the-edge.md": {
+      "disposition": "reverify",
+      "reason": "Its 1 -> 4 measurement and its correction of the technique stand on a private tree that was not reopened. It quotes the technique's pre-amendment wording deliberately, as history."
+    },
+    "applications/rust--emitted-code-names-from-a-root.md": {
+      "disposition": "reverify",
+      "reason": "The arms table and controls are coherent with the technique. The tree is private and the probes were not re-run."
+    },
+    "applications/rust--borrowed-surface.md": {
+      "disposition": "reverify",
+      "reason": "The experiment ran on a reduction and its limits are stated honestly. The tree quote was not reopened, and the change remains uncommitted for want of a working build."
+    },
+    "applications/node--seams-and-adapters.md": {
+      "disposition": "keep",
+      "reason": "Anchors index.ts:16 and backend/types.ts:99 match at ff7a192. Retained without a status field, which the bundle gate does not require."
+    },
+    "applications/rust--module-depth.md": {
+      "disposition": "keep",
+      "reason": "re-verified 2026-10-31 against personas@22260d77: a dated paragraph records the re-check, all anchors re-pointed and spot-checked (the four lattice functions, both column constants, the keep-in-sync comment, get_summaries, ProfileMode, triggers.rs:1722). The deviation stands. The opening's '~2,000-line' is the 2026-08-29 reading, and the dated paragraph states the current 4,556."
+    }
+  }
+}
+```

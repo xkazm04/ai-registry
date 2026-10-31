@@ -619,3 +619,144 @@ wording. Both need authoring, not correction.
   }
 }
 ```
+
+## Architecture review - 2026-10-31 (after re-verification)
+
+This record follows re-verification of applications: one document changed since the previous record (node--source-doc-mapping, verified_on 2026-08-21 -> 2026-10-31); the other 25 are byte-unchanged and keep their dispositions.
+
+<!-- architecture-review:v1 -->
+```json
+{
+  "subject": "software-engineering/docs-sync",
+  "date": "2026-10-31",
+  "baseline": "21e53f34c",
+  "digest": "sha256-b2:1591e8093d4e5809",
+  "disposition": "clarify",
+  "coverage": "All 26 documents decided. One document changed since baseline 0f30830bc's record (commit 2a8351e4d, a verified_on move only) and was re-read in full; its citations were re-opened at personas@22260d77 (map: 44 entries, 28 without flows, 21 without a marketing module, 0 without a doc, 39 onboardingFlows keys; hook 239 lines with the three target types at 8-22; check-doc-map-paths.mjs present; hook registered in no settings file). The other 25 are byte-unchanged and carry their prior dispositions and reasons. Overall stays clarify: the golden path's owed wall and wall-15 wording are unchanged.",
+  "counterexamples": [
+    "A hook that landed on 2026-05-16 and was replayed on 2026-08-17 cannot have been dead for fifteen months; the date arithmetic in the source record gives three.",
+    "A marker whose note says the per-change hook 'now prevents this kind of drift' stays untouched for three months whether the hook works or not; untouched is evidence of nothing when the hook never fired.",
+    "A changelog removal entry with an upstream issue link can be about a third platform; citing it as the record of two other retirements makes the translation story look better documented than it is."
+  ],
+  "sources": [
+    {
+      "source": "personas@22260d77 (scripts/docs/feature-doc-map.json, scripts/docs/check-doc-sync.mjs, .claude/settings.json)",
+      "result": "The application's 2026-10-31 correction figures reproduce: 44 entries, 28/21/0, 39 flow keys, 239-line hook, no settings registration."
+    },
+    {
+      "source": "Exemplar project's measurement record (composed 2026-08-17) and its tree on 2026-10-31",
+      "result": "As in the earlier 2026-10-31 record: hook landed 2026-05-16, never fired, unregistered; marker fields as cited; map at 44 entries."
+    },
+    {
+      "url": "https://github.com/Panniantong/Agent-Reach/tree/da5044d26fc6adddb6554d5679c94ac22e76e428",
+      "result": "As in the earlier 2026-10-31 record: ten tests, eleven-document environment pin, two API keys, Instagram as the only changelog removal."
+    }
+  ],
+  "documents": {
+    "docs-sync.md": {
+      "disposition": "clarify",
+      "reason": "applied 2026-10-31: 'fifteen months' became three at both sites; rendered-surface-coupling added to the technique list; wall 2 now says 'not from a conversation transcript ... (a last resort, validated against captured real events)'; wall 10 opens 'The walls above govern'. Still owed: the heading counts fifteen walls over sixteen techniques, with no wall for named-duplication-points; wall 15's 'exactly one thing' omits the omitted-capability half the technique states."
+    },
+    "techniques/source-doc-mapping.md": {
+      "disposition": "keep",
+      "reason": "1,421 of 4,304 (33.0%), 229 and 131 reproduce from the primary record. The 37-entry figures are the exemplar's dated state; the map has since grown, which the application now records."
+    },
+    "techniques/same-change-enforcement.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: 'fifteen months' became three at all three sites (heading, lesson 1, closing). Other figures reproduce from the primary record."
+    },
+    "techniques/coupled-surface-inventory.md": {
+      "disposition": "keep",
+      "reason": "Report-not-gate for cross-repo surfaces and the reconcile-against-ground-truth rule are sound and consistent with cross-repo-drift-detection's direction argument."
+    },
+    "techniques/dated-corrections.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: the retraction paragraph now says a missing claim is 'never read as withdrawn — the strict form refuses it as a validation error, and the cheaper form below retains it', removing the contradiction with the three-way rule."
+    },
+    "techniques/doc-rot-detection.md": {
+      "disposition": "keep",
+      "reason": "Verdict ladder with broken above stale is coherent. The replay-harness protocol is stated as method, and the note already records that it was not run here."
+    },
+    "techniques/catch-up-markers.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: 'fifteen months' became three at all three sites."
+    },
+    "techniques/cross-repo-drift-detection.md": {
+      "disposition": "keep",
+      "reason": "Direction argument, commit-date bound, never-auto-advance, coarse-plus-rank and pair-keyed caching are sound and consistent with the application's measurements."
+    },
+    "techniques/source-as-data-without-the-app.md": {
+      "disposition": "keep",
+      "reason": "Scrape versus refused-resolution sandbox and the partial-parse trap are well bounded; the third option is correctly conditioned on regenerating rather than trusting a committed copy."
+    },
+    "techniques/checked-vs-skipped-denominators.md": {
+      "disposition": "keep",
+      "reason": "Three states, reason classes, fraction headline, exit code following the denominator and the profile clause are consistent with each other and the laws they cite."
+    },
+    "techniques/earned-verification-state.md": {
+      "disposition": "keep",
+      "reason": "The write rule closes the seam the golden path names. Proposition binding has no realization here, which the note states and the text prices honestly."
+    },
+    "techniques/repair-rides-the-open-page.md": {
+      "disposition": "keep",
+      "reason": "Exhaustive detection with opportunistic resolution, walk-before-no-op, and the cold tail routed to the marker are coherent with dated-corrections' sparse protocol."
+    },
+    "techniques/rendered-surface-coupling.md": {
+      "disposition": "keep",
+      "reason": "Input-digest resolution and both failure directions are sound. The input-set composition is argued, not measured, as the note records."
+    },
+    "techniques/negative-claims-are-pinned.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: the worked example now pins 'a single credential boundary (which environment variables the direct commands read)' across the eleven documents the pinned test lists by kind."
+    },
+    "techniques/prose-as-an-execution-surface.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: 'any of five translated landing pages' became 'any of four localized landing pages'."
+    },
+    "techniques/translations-drift-against-the-product.md": {
+      "disposition": "keep",
+      "reason": "Two-anchor argument and per-page asymmetry are confirmed by the pinned test file (all four pages for routing, two for the retired names)."
+    },
+    "techniques/named-duplication-points.md": {
+      "disposition": "keep",
+      "reason": "Arithmetic is consistent: 8 runs x 12 sites = 96; 47 + 45 = 92; each arm 4 x 12 = 48; six literal sites (five caps + one table). The source tree was not reopened."
+    },
+    "applications/node--source-doc-mapping.md": {
+      "disposition": "clarify",
+      "reason": "re-verified 2026-10-31 against personas@22260d77: the dated correction's figures hold, and verified_on moved to 2026-10-31. That move leaves the document internally inconsistent: the heading 'Every measurement the technique cites still holds' over the 2026-08-21 table (37 entries, 20/13) and the closing section's present-tense 'There are 37 entries' now sit under a verification date at which the map has 44. Either date those passages as the 2026-08-21 state or restore verified_on, which the previous record kept on purpose."
+    },
+    "applications/process--catch-up-markers.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: 'not only alive' removed and a dated correction added (replay 2026-08-17 found 0 of 2,367 edits seen since 2026-05-16; hook unregistered), withdrawing the closes-the-loop framing; marker fields re-read and verified_on moved to 2026-10-31."
+    },
+    "applications/node--dated-corrections.md": {
+      "disposition": "reverify",
+      "reason": "The collector has changed: WINDOW_DAYS now sits at line 54, the window at 85, the write at 223, and citations are discussed at 216. The 2026-09-22 drop date has passed and the drop was not re-measured."
+    },
+    "applications/node--cross-repo-drift-detection.md": {
+      "disposition": "reverify",
+      "reason": "The guide-site repository it reads is not present in this checkout set. Nothing was re-run. Its claims are internally consistent: 116 to 23 keys, 107 of 116 is 92.2%."
+    },
+    "applications/python--prose-as-an-execution-surface.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: nine tests became ten, three API keys became two, line ranges 153-176 and 177-198; every citation re-opened at da5044d2 and verified_on moved to 2026-10-31."
+    },
+    "applications/python--negative-claims-are-pinned.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: 'nine tests' became ten (three sites); the eleven-document list now includes the install guide and the platform reference; ranges 74-124, 116-124, 199-208; verified_on moved to 2026-10-31."
+    },
+    "applications/python--translations-drift-against-the-product.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: the changelog paragraph now says the changelog records neither retirement, cites the actual removal entry (48-51, a third platform) and carries a dated correction of the :59-62 citation; 'never did' became 'at this commit'; verified_on moved to 2026-10-31."
+    },
+    "applications/node--negative-claims-are-pinned.md": {
+      "disposition": "reverify",
+      "reason": "The pin record matches the text: four required phrases, one document, a reviewed date and four forbidden phrases. The A/B arms and the eight tests were not re-run."
+    },
+    "applications/node--prose-as-an-execution-surface.md": {
+      "disposition": "reverify",
+      "reason": "The desktop remediation lines hold. The one cited landing-page install line (pumper README:112) has moved and is no longer an install line. The fleet-wide credential sweep was not re-run."
+    }
+  }
+}
+```
