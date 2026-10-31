@@ -5,7 +5,7 @@ subject: multi-jurisdiction-hiring-compliance
 technique: tenant-scoped-legal-framing
 stack: node
 status: forged
-verified_on: 2026-09-29
+verified_on: 2026-10-31
 verified_against: node@24
 applied: code
 ab_verdict: better
@@ -26,6 +26,14 @@ for the default workspace: a team that had set its jurisdiction to `us` still sa
 compliance card, and shipped that same wrong law to its candidates." The route's
 fix is the technique's rule: resolve the workspace from the session first, then
 read its regime — `getActiveRegimeId(await currentWorkspace())` (`route.ts:55`).
+
+Re-checked 2026-10-31 at kp@6edf5d7: the handler no longer resolves the
+workspace itself. It is now `export const GET = withWorkspace(async (ws: string)
+=> …)` (`route.ts:26`) and line 55 reads `normalizeRegimeId(getActiveRegimeId(ws))`
+— the repo-wide route-chain convention hands the workspace in rather than letting
+the handler call `currentWorkspace()`. The rule this section names (session
+first, then that workspace's regime) holds in a stronger form: a route under the
+wrapper cannot forget the first step.
 
 ## The refusal to widen trust, now stated as a decision about the route's job
 
@@ -104,7 +112,7 @@ fails (a locked or unreachable decision-config store), it degrades to
 wrong law for this workspace" (`:40-44`) — but the destination is still a
 jurisdiction rather than the neutral row. The gated route has the same shape:
 `normalizeRegimeId` sends a stale or hand-edited row to the EU default
-(`route.ts:52-54`). Both are the catalog application's coercion-target
+(`route.ts:52-55`). Both are the catalog application's coercion-target
 deviation seen from the lookup side, and both are fixed by the same one-line
 change.
 

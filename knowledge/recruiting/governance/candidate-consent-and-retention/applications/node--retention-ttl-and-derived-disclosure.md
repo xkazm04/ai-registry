@@ -5,7 +5,8 @@ subject: candidate-consent-and-retention
 technique: retention-ttl-and-derived-disclosure
 stack: node
 status: forged
-verified_on: 2026-08-20
+verified_on: 2026-10-31
+verified_against: node@24
 ---
 
 # Deriving the disclosed retention ceiling from the enforced TTL (Node/Next.js)
@@ -56,7 +57,7 @@ export function consentRetentionMonths(ttl: number = consentTtlDays()): number {
 - **`Math.ceil`, never `round`.** 365 days → 12 months, 180 → 6, 400 → 14. The
   comment states the rule as a direction rather than a formula: "the disclosed
   ceiling must never be shorter than the enforced window (under-disclosure is
-  the worse direction)". A `round` would be more accurate on average and wrong
+  the GDPR-worse direction)". A `round` would be more accurate on average and wrong
   in the only direction that matters.
 - **Reads the env at call time**, unlike the frozen constant, so tests and the
   `/api/compliance` surface always reflect the live knob rather than whatever
@@ -64,19 +65,26 @@ export function consentRetentionMonths(ttl: number = consentTtlDays()): number {
 
 ## The pre-expiry state is a real state
 
-`CONSENT_EXPIRING_DAYS = 30` (`:33`) and the `"expiring"` branch of
-`consentStatus` (`:52-63`) give the notice window its own status value, feeding
+`CONSENT_EXPIRING_DAYS = 30` (`:34`) and the `"expiring"` branch of
+`consentStatus` (`:65-80`) give the notice window its own status value, feeding
 the pre-expiry reminder and the drawer's amber chip. `ConsentStatus` is
 `none | active | expiring | expired | anonymized` — five states, with
 `anonymized` terminal and checked first, and `none` (no `givenAt` at all)
 distinct from `expired`. That distinction is what lets a recruiter-sourced
 entry, held on a different basis, stay contactable while a lapsed one does not.
 
-Note the legacy accommodation at `:57`: a consent granted with no expiry reads
+Note the legacy accommodation at `:68`: a consent granted with no expiry reads
 as `active`, and an unparseable expiry timestamp also reads `active` — a
 deviation from the standard, which would resolve an unreadable expiry toward
 withholding. The gate is correct for every row the current writer produces; the
 weak spot is the legacy row.
+
+Re-checked 2026-10-31 at kp@6edf5d7: **the unparseable half of this deviation is
+resolved.** `consentStatus` now separates the two cases (`:70-76`): an absent expiry
+still reads `active`, but an unparseable one returns `"expired"` — "Fail closed — the
+PII gate withholds and outreach is suppressed until the value is repaired." Only the
+open-ended legacy grant remains `active`, which the comment defends as a row that
+never had a retention window.
 
 ## Contents disclosed from the record, not the schema
 
@@ -101,18 +109,24 @@ and notes" and "assessment scores". A fabricated claim about a named person, on
 the one surface whose entire job is to be trustworthy.
 
 The caller wires the signals from the entry itself —
-`app/api/data/[token]/route.ts:23-27` derives `hasInterview` from
+`app/api/data/[token]/route.ts:43-46` derives `hasInterview` from
 `interviewStatusByEntries([entry.id])`, `hasScore` from `entry.matchScore`,
 `hasContact` from `entry.contact` — so the list cannot outrun the record. Order
 is fixed so the rendered list never reshuffles between visits, which matters
 for a page a candidate may screenshot.
 
+Re-checked 2026-10-31 at kp@6edf5d7: the function above now carries a sixth line,
+`if (s.hasFeedbackLetter) out.push("feedbackLetter")` (`app/_lib/data-held.ts:24-32`),
+and the route wires it from `interviewLetterByEntry` on the entry's own team
+(`app/api/data/[token]/route.ts:43-51`, where `hasInterview` is now also read on the
+entry's workspace). Same presence-signal shape, one more category it cannot outrun.
+
 ## What the same route deliberately does not disclose
 
-`app/api/data/[token]/route.ts:9-13` documents the projection as
+`app/api/data/[token]/route.ts:27-31` documents the projection as
 candidate-safe: role, company, applied date, consent expiry, anonymised flag,
 held-data list — and "never the internal entry id, name, score, archetype or
 reasoning". The token itself is an opaque capability
 (`pipeline_entries.erasure_token`, minted by `ensureErasureToken`, declared at
-`app/_lib/db/core.ts:920-925` as "Opaque CSPRNG like lead_token — NEVER the raw
+`app/_lib/db/core.ts:1945-1949` as "Opaque CSPRNG like lead_token — NEVER the raw
 entry id"), so the URL a candidate holds leaks nothing about the record.

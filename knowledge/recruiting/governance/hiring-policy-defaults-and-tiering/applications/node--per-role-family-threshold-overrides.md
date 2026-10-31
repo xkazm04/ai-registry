@@ -5,7 +5,7 @@ subject: hiring-policy-defaults-and-tiering
 technique: per-role-family-threshold-overrides
 stack: node
 status: forged
-verified_on: 2026-09-26
+verified_on: 2026-10-31
 verified_against: node@24
 applied: simulation
 ab_verdict: better
@@ -80,6 +80,10 @@ rule now requires.
   same ... dual-tier store DecisionRulesModal writes through". It writes the team tier.
   The rules screen writes the organisation tier, which the new team row shadows. See the
   react application of the baseline technique.
+  Re-checked 2026-10-31 at kp@6edf5d7: **resolved.** A rules-screen save with no `scope`
+  now writes the tier the workspace's read resolved to (`"shown"`,
+  `app/api/decisions/config/route.ts:59-67`), so after an apply it edits the team row the
+  apply wrote. The header's "trivially reversible the same way" is now true.
 - **No demographic check on the family's outcome.** The platform collects no demographic
   data, so step 7's protected-characteristic watch has nothing to read. A family bar
   cannot be tuned to a demographic outcome here. It also cannot be shown not to produce

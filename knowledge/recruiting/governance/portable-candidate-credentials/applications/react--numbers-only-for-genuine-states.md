@@ -5,7 +5,7 @@ subject: portable-candidate-credentials
 technique: numbers-only-for-genuine-states
 stack: react
 status: forged
-verified_on: 2026-09-29
+verified_on: 2026-10-31
 verified_against: react@19
 ---
 
@@ -41,6 +41,14 @@ the page, beside a `text-sm` chip; the reader was never going to win that fight.
 layout has not been re-measured for visual weight, so that comparison is a claim about the
 old page only.
 
+Re-checked 2026-10-31 at kp@6edf5d7: the block quoted above is no longer in the tree
+verbatim. The regression survives in two shorter forms: the docblock of
+`skillProfileShowsScoreCard` (`app/_lib/skill-profile.ts:149–157`, "Before this the card
+gated on `substantive` alone, so a tampered-but-substantive profile showed its full
+untrusted score card directly under a red badge") and the header of its tests
+(`app/_lib/skill-profile.test.ts:131–135`, "the old gate rendered those untrusted
+numbers as the visual focus under a red 'do not trust' badge"). Same incident, same rule.
+
 ## The fix
 
 `skillProfileShowsScoreCard` in `app/_lib/skill-profile.ts:158` is the whole gate, carried to
@@ -60,8 +68,8 @@ body carries no branching logic of its own. That is the standard's "gate at the 
 layer, not the template" made concrete by the module boundary: the page cannot compute its
 own opinion about whether to show a number.
 
-`stale` is deliberately on the *permitted* side. `page.tsx:38–43` and the stale caption at
-lines 79–85 keep the numbers visible while replacing the green shield with a muted amber
+`stale` is deliberately on the *permitted* side. `page.tsx:60–65` and the stale caption
+(`SkillKitView.tsx:73–76`) keep the numbers visible while replacing the green shield with a muted amber
 "issued a while ago" verdict naming the reason (`staleAge` or `staleMethodology`). This
 matches the standard exactly: age is context, not disqualification, and hiding a real
 result from its owner destroys the artifact's only value to them.
@@ -89,6 +97,11 @@ The fix gives the meter `role="meter"` with `aria-valuenow/min/max` and a labell
 description, and draws a baseline tick when the score is zero (`pct > 0 ? <i style=… /> : <i aria-hidden />`,
 line 41; the component's own catalog line says a 0 "reads low, never missing"). A surface that suppresses numbers in untrusted states but cannot distinguish a real
 zero from an absent measurement in trusted ones has only moved the ambiguity.
+
+Re-checked 2026-10-31 at kp@6edf5d7: the quoted "purely presentational div" comment is
+gone from the tree; the lesson now lives only in `ScoreList`'s `@catalog` line
+(`ScoreList.tsx:19`) and in the markup itself, which still carries `role="meter"`
+(`:34–38`) and the zero-score baseline tick (`:41`).
 
 ## Deviations from the standard
 

@@ -5,7 +5,7 @@ subject: multi-jurisdiction-hiring-compliance
 technique: gap-register-with-owner-and-effort
 stack: process
 status: forged
-verified_on: 2026-09-29
+verified_on: 2026-10-31
 applied: code
 ab_verdict: better
 ---
@@ -38,7 +38,7 @@ marketing label" (`:22`).
 
 ## Classification and the refused derogation
 
-`trust-posture.ts` `CLASSIFICATION` (`:34-56`) puts the hardest facts at the
+`trust-posture.ts` `CLASSIFICATION` (`:34-55`) puts the hardest facts at the
 top, which is the technique's rule about not burying the risk tier:
 
 - `annex`: "Annex III, point 4 (employment, workers management, access to
@@ -67,6 +67,10 @@ whose values are `Provider`, `Deployer` or `Both` — G6 (log retention) is
 `Both`, G9 (candidate explanation of an individual decision) is `Both`, the rest
 are `Provider`. This is the technique's two-part owner: the regulatory role that
 owes the duty, preserved per row rather than averaged into a single status.
+
+Re-checked 2026-10-31 at kp@6edf5d7: G23 (Art. 4 AI literacy material) is now a
+third `Both` row; every other row is still `Provider`. The two-part owner holds
+and has one more row exercising it.
 
 ## Effort bands
 
@@ -97,6 +101,17 @@ decisions.ts` + `/status/[token]` now render a redacted per-decision explanation
 (kind, attribution, reason, decisive facts for auto-rejects). Full sealed
 dossier remains operator-only by design, not by gap." Which half is done, and
 why the other half is not a gap.
+
+Re-checked 2026-10-31 at kp@6edf5d7: more closed rows are now kept struck —
+`~~G13~~`, `~~G15~~` and `~~G16~~` join `~~G3~~` and `~~G11~~`; G12 reads
+**Closed** with its evidence but is not struck through. G3's evidence now also
+names `pipeline/jobfit/tests/test_neutrality_registry.py`, extending the set to
+every candidate-typed deterministic function. G9's parenthesis has widened from
+"decisive facts for auto-rejects" to decisive `facts` on `auto_rejected`,
+`ai_scorecard` and `auto_advanced`, with coverage counted by `factsCoverage()`
+("3 of 5 AI-verdict kinds"); the operator-only sentence is unchanged. The
+partial-close shape this section praises is intact and now carries a measured
+coverage figure.
 
 ## The disclaimer, single-sourced
 

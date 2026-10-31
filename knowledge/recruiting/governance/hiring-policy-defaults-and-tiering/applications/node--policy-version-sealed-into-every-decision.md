@@ -5,7 +5,7 @@ subject: hiring-policy-defaults-and-tiering
 technique: policy-version-sealed-into-every-decision
 stack: node
 status: forged
-verified_on: 2026-09-26
+verified_on: 2026-10-31
 verified_against: node@24
 applied: simulation
 ab_verdict: better
@@ -20,14 +20,14 @@ the record half changed since the first read on 2026-08-20.
 
 ## The canonical form
 
-`screen-wave.ts:223-224`:
+`screen-wave.ts:224-225`:
 
 ```ts
 const holdoutPct = effectiveHoldoutPercent(cfg);
 const basePolicyVersion = `screen-wave/bottom${cfg.rejectBottomPercent}/maxMatch${cfg.maxMatchToReject}${familyFloorSuffix(cfg)}${holdoutPct ? `/holdout${holdoutPct}` : ""}`;
 ```
 
-Two dimensions were added after the original two. `familyFloorSuffix` (`:109`) sorts the
+Two dimensions were added after the original two. `familyFloorSuffix` (`:110`) sorts the
 family keys before joining them, so the serialisation is order-independent. It returns the
 empty string when the map is absent or empty, which is "byte-identical to the
 pre-family-floors token".
@@ -35,7 +35,7 @@ pre-family-floors token".
 The holdout is the instructive one, because it is **not** omitted when absent. An absent
 `holdoutPercent` resolves through `effectiveHoldoutPercent` to the shipped default of 5.
 That value is non-zero, so it rides the version. The segment is omitted only at a
-*resolved* zero, as the comment at `:219-222` says: "Omitted when 0, so a
+*resolved* zero, as the comment at `:220-223` says: "Omitted when 0, so a
 holdout-disabled wave signs a byte-identical token to the pre-holdout build."
 
 So when the holdout shipped, every workspace that had never heard of it got a new
@@ -47,34 +47,34 @@ technique as first written said "omit absent values", which is a different rule.
 Applied below.
 
 The second property, that a change to a live dimension must invalidate, is stated at
-`:215-218`: family floors ride the version "so that changing a family floor (even one that
+`:216-219`: family floors ride the version "so that changing a family floor (even one that
 leaves the reject SET unchanged) forces a fresh preview+approval, never a stale
 rubber-stamp." A version that fingerprinted only the *outcome set* would miss exactly the
 case where the rule moved and the population happened not to.
 
 ## Signed alongside the cohort, verified at redemption
 
-`:268` appends the reviewer's exclusions (`/spared<n>`, absent when none), and `:274` binds
+`:268` appends the reviewer's exclusions (`/spared<n>`, absent when none), and `:275` binds
 the result to the reviewed set:
 
 ```ts
 const approvalToken = screenWaveApprovalToken(jobId, policyVersion, [...wouldReject]);
 ```
 
-`:276-290` refuses a commit with no approval, a token that no longer matches the live
-computation, or an expired one. The comment at `:120-123` states the contract: approval is
+`:276-292` refuses a commit with no approval, a token that no longer matches the live
+computation, or an expired one. The comment at `:121-124` states the contract: approval is
 "REQUIRED to commit". The token carries job, policy version and cohort together. That is
 the three-way binding the standard asks for: neither a changed rulebook nor a changed
 population can be redeemed against a review that saw something else.
 
 ## Sealed into the record
 
-`app/_lib/decision-record-store.ts:31` makes `policyVersion` a required field of every
+`app/_lib/decision-record-store.ts:32` makes `policyVersion` a required field of every
 record, beside the server-derived `actor`, the `candidateRef` and the snapshotted `inputs`.
 
 **The record now carries the exact string the approval signed.** On 2026-08-20 the reject
 seal rebuilt a shorter per-candidate string, `bottom<pct>/maxMatch<effective floor>`. The
-tree has since reversed that, and the comment at the reject seal (`:536-549`) says why:
+tree has since reversed that, and the comment at the reject seal (`:539-550`) says why:
 the shorter string "dropped both suffixes and substituted a per-candidate number for the
 global one. So an auto_rejected record could not be joined back to the approval that
 authorized it, nor to the holdout seals of the very same wave". The per-candidate
@@ -82,7 +82,7 @@ effective floor moved to the sealed `inputs.threshold`. In the tree's words,
 "policyVersion identifies the POLICY, inputs identify the run". The first reading of this
 application praised the per-candidate string. That praise is withdrawn.
 
-The spared calibration cases are sealed too (`:378-386`): kind `holdout`, reason code
+The spared calibration cases are sealed too (`:379-387`): kind `holdout`, reason code
 `holdout`, the same `policyVersion`, and `inputs` carrying score, threshold, rank, holdout
 percentage and approver. A failed holdout seal is now counted in `sealFailures`. The
 candidate is still spared, and the row says the calibration measurement did not stand.
@@ -102,7 +102,7 @@ candidate is still spared, and the row says the calibration measurement did not 
   A version from last quarter cannot be dereferenced beyond what the label spells out.
 - **Resolved on 2026-09-26: the seal is no longer best-effort for a rejection.**
   `sealDecisionSafe` still never throws, but the reject path now checks its result before
-  anything irreversible happens (`:525-571`): "Now the record is the PRECONDITION: no seal,
+  anything irreversible happens (`:526-572`): "Now the record is the PRECONDITION: no seal,
   no rejection." A candidate whose record cannot be written is kept with reason code
   `sealFailed` and counted. The residue runs the other way: if the candidate's stage changes
   between the seal and the status flip, the chain holds a rejection that was not applied.

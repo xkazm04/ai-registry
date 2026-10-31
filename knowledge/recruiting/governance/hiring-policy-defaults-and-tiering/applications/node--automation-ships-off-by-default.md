@@ -5,7 +5,7 @@ subject: hiring-policy-defaults-and-tiering
 technique: automation-ships-off-by-default
 stack: node
 status: forged
-verified_on: 2026-09-26
+verified_on: 2026-10-31
 verified_against: node@24
 applied: simulation
 ab_verdict: better
@@ -37,9 +37,9 @@ numbers beside it are inert until someone flips the boolean, which is the shape 
 standard asks for: an organisation must actively turn on the ability to reject people
 unattended.
 
-The enforcement is not only the default. `screen-wave.ts:58` opens the keep-reason ladder
+The enforcement is not only the default. `screen-wave.ts:59` opens the keep-reason ladder
 with `if (!cfg.autoRejectEnabled) return { reasonCode: "autoRejectOff" }`, and the
-corresponding human-readable branch at `:85` returns `"auto-reject off"`. So with the
+corresponding human-readable branch at `:86` returns `"auto-reject off"`. So with the
 switch off, every candidate in the wave is recorded as kept *for that reason* — the
 disabled state is a stated fact in the audit trail rather than an absence of events.
 
@@ -103,6 +103,14 @@ defense-in-depth posture the fairness-gate subject applies to the reject path.
   screen changes the organisation row and leaves the workspace running with auto-reject on
   (see the react application of the baseline technique, which walks it). The shipped
   default is safe. The path back to it is not.
+  Re-checked 2026-10-31 at kp@6edf5d7: **this deviation is resolved.** The config route
+  (`app/api/decisions/config/route.ts:59-67`) now defaults a save with no `scope` to
+  `"shown"` — "the override if this team has one, else the baseline" — and
+  `setDecisionConfig` resolves that tier under the write lock
+  (`decision-config-store.ts`, `shownTier`). The rules screen sends no scope "so this
+  screen edits the rules the workspace actually runs even after a calibration apply wrote
+  a team row" (`DecisionsRulesModal.tsx:77-78`). Turning the switch off after an apply now
+  turns it off for the workspace. The other deviations stand.
 - **The enabled set is not reportable.** There is no query that answers "which teams
   currently permit unattended adverse action" — it would require reading every team's
   screening row and resolving each one.
@@ -113,7 +121,7 @@ defense-in-depth posture the fairness-gate subject applies to the reject path.
   floors the operator set, and the ledger is what tells anyone that happened.
 - The standard's stronger reading is nonetheless met in practice further down the stack:
   even with the switch on, `screen-wave.ts` refuses to commit without an approval token
-  echoed from a preview (`:276-290`), so the toggle enables a *proposal*, not an execution.
+  echoed from a preview (`:276-292`), so the toggle enables a *proposal*, not an execution.
 
 ## Applied
 
@@ -144,3 +152,11 @@ first. B separates them and finds two actionable gaps. Every decline is already 
 an entry-less `ko_declined` event names the role and the gate. **Falsifier:** a knockout
 in this tree that reads a score, a parsed CV or an inferred attribute. Under B that is the
 table's last row and would have to ship off. None was found in the apply routes.
+
+Re-checked 2026-10-31 at kp@6edf5d7: the route gap B found is closed in the tree. The
+conversational apply route's decline now returns `failedKoNames` (the must-have by name,
+`koMustHaveNames` in `app/_lib/apply.ts`) and, when an address is in hand, emails the
+decision with a reply-to-a-person review route (`app/api/apply/[id]/route.ts:259-283`);
+the screen copy reads "A person did not make this decision, and you can ask one to review
+it." The job-relatedness gap on `ko_lang` was not re-measured here. The simulation result
+above is unchanged history; the verdict for B stands and the tree has since acted on it.

@@ -5,7 +5,8 @@ subject: candidate-consent-and-retention
 technique: read-time-gate-not-just-the-sweep
 stack: node
 status: forged
-verified_on: 2026-09-20
+verified_on: 2026-10-31
+verified_against: node@24
 ---
 
 # The read-time consent gate, with the sweep demoted (Node/Next.js)
@@ -76,7 +77,7 @@ consent) from the irreversible one (there is no longer a person there).
 
 ## The sweep, and what it is still for
 
-`anonymizeExpiredConsents` (`app/_lib/db/pipeline.ts:2518-2537`) selects
+`anonymizeExpiredConsents` (`app/_lib/db/pipeline.ts:2933-2952`) selects
 entries with `consent_expires_at <= now AND anonymized_at IS NULL` and calls
 the scoped `anonymizeEntry` per row. Three details match the technique:
 
@@ -105,7 +106,7 @@ read-time-gate-not-just-the-sweep)". The standard is cited in the source that
 implements it.
 
 `recordingRetentionDue` (`:139-141`) is that one predicate, and
-`app/api/interview/recording/[sessionId]/route.ts:36` is the door: the retention
+`app/api/interview/recording/[sessionId]/route.ts:35` is the door: the retention
 check sits between the row lookup and any file access, and it answers the same
 404 as an unknown id, so the refusal discloses nothing about which candidates
 were recorded. The header says what the door is asserting — audio is served on
@@ -119,7 +120,7 @@ event the promise hangs off — a hiring decision — may never happen.
 resolves it as the **earlier** of decision + 30 days and call + 180 days, so an
 abandoned entry is bounded by the artifact's own age rather than waiting
 indefinitely for an event nobody will supply. `entryDecisionAt`
-(`interview-recording.ts:125-133`) is candid about which stored timestamp
+(`interview-recording.ts:125-134`) is candid about which stored timestamp
 actually marks the decision in this schema, and about its one weakness — an edit
 to a closed entry moves it, which can only *delay* a deletion, which is exactly
 what the absolute backstop exists to bound.
@@ -167,11 +168,11 @@ rather than an environment check.
 
 ## The audit trail behind the states
 
-`consent_events` (`app/_lib/db/core.ts:1715-1722`) is the append-only history:
+`consent_events` (`app/_lib/db/core.ts:2102-2108`) is the append-only history:
 `entry_id`, `kind`, `detail`, `created_at`, later widened with `workspace_id`.
 `kind` is the closed transition set `granted | renewed | expiring_notified |
 expired | anonymized | erasure_requested | erased`
-(`app/_lib/db/pipeline.ts:1993-2000`), and `logConsentEvent` takes the open
+(`app/_lib/db/pipeline.ts:2225-2232`), and `logConsentEvent` takes the open
 transaction handle explicitly "so a transition + its audit row commit
 atomically".
 
