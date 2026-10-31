@@ -4,7 +4,8 @@ type: application
 subject: metric-gates
 technique: ratchet-design
 stack: node
-verified_on: 2026-09-23
+verified_on: 2026-10-31
+verified_against: node@22
 ---
 
 # Retiring a subtree beside six sibling sessions: the delta, not the census
@@ -43,3 +44,12 @@ The footprint measurement was done by hand for this change. The census's own
 recording mode is unchanged, so the next session that reaches for `--update`
 in a shared tree records the tree, not its change — the discipline lives in the
 commit message, not in the instrument.
+
+Re-checked 2026-10-31 at personas@22260d77: `updateBaselines`
+(`scripts/census/run-census.mjs:275-302`) still writes every measured value
+in either direction. Its one refusal while structural assertions fail and
+its closing reviewer line are unchanged. The only addition is a skip for
+rules that carry no baseline. The flags are still `--check`, `--update`,
+`--json`, `--verbose`, `--rule`, `--rules` and `--root`, so there is still
+no way to scope a recording to a change's footprint. The three cited commits
+resolve as described. The registry now holds 214 rules.

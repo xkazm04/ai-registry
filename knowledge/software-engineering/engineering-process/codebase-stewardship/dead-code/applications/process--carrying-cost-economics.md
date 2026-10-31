@@ -4,7 +4,7 @@ type: application
 subject: dead-code
 technique: carrying-cost-economics
 stack: process
-verified_on: 2026-08-18
+verified_on: 2026-10-31
 ---
 
 # Priced corpses — the three carrying costs this repo has actually measured
@@ -94,3 +94,23 @@ Grep noise, review drag, and onboarding cost for the 354 unreachable non-test
 modules are real and unmeasured. Nobody here has invented a number for them, and
 the technique says not to: the honest entry is "qualitative, ranked below the
 measured items, revisit when someone times a search."
+
+## Re-checked 2026-10-31 at personas@22260d77
+
+The two build-tax sources hold as quoted (`docs/development/build-memory.md`
+and the `unused-commands.mjs` header), and the `sub_canvas` deletion
+`78e9bff68` is as described. Three things moved. **The catalog multiplier
+no longer compounds:** the translation gates (`i18n-no-gaps`, running
+`check:i18n:strict`) were taken off pre-commit on 2026-10-25 because the app
+now ships English only (`lefthook.yml:65-69`), so new keys are no longer
+translated. The 14 locale files are still in `src/i18n/locales/`, and
+`en.json` is now 29,147 lines. **The `@xyflow/react` retention case has gone
+further:** no file under `src/` imports it any more, yet it is still a
+dependency in `package.json` and still named in a `vite.config.ts` vendor
+chunk. The corpse this section predicted is now complete, a dependency with
+zero importers. **One false affordance is gone:** `ChartEmptyState` now
+renders in two `src/features/agents/sub_brain` tiles. `useRovingTabIndex`
+still has no adopters, and in the peer-networking config `max_retries` is
+still read by nothing, but `auto_connect` now has a reader
+(`src-tauri/engine/src/p2p/mod.rs:726`). The measured prices above are left
+as recorded.

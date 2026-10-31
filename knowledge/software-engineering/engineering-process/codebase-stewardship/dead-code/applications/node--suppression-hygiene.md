@@ -4,7 +4,8 @@ type: application
 subject: dead-code
 technique: suppression-hygiene
 stack: node
-verified_on: 2026-08-18
+verified_on: 2026-10-31
+verified_against: node@22
 ---
 
 # The census exclude list — suppression hygiene enforced by the engine, and the rosters that lack it
@@ -19,7 +20,7 @@ The census registry (`scripts/census/rules.json`, 201 rules; 70 carry `exclude`
 lists, 147 exclude entries in total) is validated and executed by one engine, and
 the engine enforces the hygiene rather than recommending it:
 
-- **Reasons are mandatory, with substance.** `engine.mjs:389-395` — every
+- **Reasons are mandatory, with substance.** `engine.mjs:658-665` — every
   `exclude[i]` must have a `path` and a `reason` of at least 12 trimmed
   characters, with the failure message stating the doctrine: "an unexplained
   exemption is how an allowlist becomes a place violations go to hide." A sample
@@ -27,7 +28,7 @@ the engine enforces the hygiene rather than recommending it:
   "the deduped Web Storage wrapper itself — this is the primitive the golden path
   routes callers TO"`. That is a reason written for the person deciding whether to
   remove it.
-- **A stale suppression fails the run.** `engine.mjs:276-286` — after the walk,
+- **A stale suppression fails the run.** `engine.mjs:545-556` — after the walk,
   every exclude with `hits === 0` becomes a structural problem coded
   `stale-exclude`: "exclude matched no file. The exemption is stale — the file
   moved or was deleted. Remove the entry or fix the path. (reason on record: …)".
@@ -35,7 +36,7 @@ the engine enforces the hygiene rather than recommending it:
   This is the load-bearing clause and it fires in practice: the `sub_canvas`
   deletion (`78e9bff68`) had to touch `rules.json` for exactly this reason —
   deleted files left excludes matching nothing.
-- **Zero-match rules are refused too.** `engine.mjs:267-272` — the same
+- **Zero-match rules are refused too.** `engine.mjs:536-541` — the same
   instrument refuses a *rule* that matches nothing ("a rule pinned at 0 is a gate
   that can never fail"), and its error text names and blocks the escape hatch of
   baselining it at zero. A dead rule and a dead exclude are treated as the same
@@ -80,3 +81,16 @@ forbids inline comments — the class it hides and the instrument that owns it:
 | `src/lib/harness/**` | separate entry root | test-automation server | yes (different entry) |
 
 The one **no** is the finding. Written down, it stops being rediscovered.
+
+Re-checked 2026-10-31 at personas@22260d77: the engine's three clauses hold
+verbatim (re-anchored above), and the `sub_canvas` deletion `78e9bff68` does
+touch `scripts/census/rules.json`. The registry now holds 214 rules, 86 with
+`exclude` lists and 229 exclude entries. The one **no** in the table above
+has since been answered: `npm run check:bindings`
+(`scripts/check-binding-orphans.mjs`, in `npm run check`) is the inventory
+gate for orphaned bindings, so `src/lib/bindings/**` now delegates to an
+instrument that exists. The knip entries still carry no reasons, so the
+delegation is still something a reader has to reconstruct; the finding about
+the missing note stands, the "no coverage at all" claim does not. The
+`--ignore-prefix` and `--keep-prefix` flags are unchanged, and no exclude
+entry has gained an expiry.

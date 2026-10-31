@@ -5,7 +5,7 @@ subject: metric-gates
 technique: deterministic-proxy-gate
 stack: node
 status: forged
-verified_on: 2026-09-04
+verified_on: 2026-10-31
 verified_against: node@22
 applied: simulation
 ab_verdict: better
@@ -14,7 +14,7 @@ ab_verdict: better
 # A byte-count ratchet whose baseline sat still through a major toolchain bump, and crossed machines without moving
 
 The version witness is the tree's own pin: personas' `.nvmrc` says `22`, and
-`.github/workflows/ci.yml:108-110` installs from it (`node-version-file: .nvmrc`).
+`.github/workflows/ci.yml:660-662` installs from it (`node-version-file: .nvmrc`).
 Read at commit `e6ed57e55`; the tree was not modified. The build tool is pinned
 by lockfile (`vite` 8.0.16 at head).
 
@@ -30,7 +30,7 @@ under both readings.
 ## Seam
 
 `scripts/check-bundle-budget.mjs` with `scripts/lib/bundle-budget.mjs`: a
-blocking CI step ("Check bundle size budget", `ci.yml:171-182`, deliberately
+blocking CI step ("Check bundle size budget", `ci.yml:671-678`, deliberately
 *not* `if: always()`) that reads every `.js` in `dist/assets/` after `npm run
 build`, normalises the Vite content-hash out of each name, and fails when the
 total or any chunk grows past `max(1%, 10 KB)` over the committed
@@ -126,3 +126,20 @@ counter. The instrument is already in place; it is the pass on `923d36ef1`
 repeated on every future re-baseline commit. Return condition: the first such
 pair that disagrees, or a re-baseline that lands in the same commit as a
 `vite` major bump — the case B says must be recorded as two moves.
+
+## Re-checked 2026-10-31 at personas@22260d77
+
+The seam has changed, and the change answers the defect recorded above.
+Since 2026-10-25 the gate keys a chunk by the module it loads, read from the
+build's own chunk graph (`scripts/lib/bundle-budget.mjs:87-100`,
+`chunkKeyFromGraph`). A facade chunk is now named by its repo path, and only
+shared chunks with no facade still fall back to `#2`, `#3` in size order. So
+the rank-position pairing behind the 2026-09-04 failure on `c5cf0d5ca` is
+gone for every chunk that has a facade. The baseline is now `schema: 2`
+(timestamp 2026-10-25, 963 chunks, `totalKB` 15078, plus a new `startupKB`
+of 1459). It still records **no toolchain version and no machine identity**,
+so arm B's stamp is still unbuilt. The lockfile now pins `vite` 8.3.4. The
+step is still blocking, with no `if: always()`, and the tolerance is still
+`max(1%, 10 KB)`. All eight cited commits resolve with the dates given. The
+five-revision table, the cross-machine measurement and the verdict are
+history and are left as they were.

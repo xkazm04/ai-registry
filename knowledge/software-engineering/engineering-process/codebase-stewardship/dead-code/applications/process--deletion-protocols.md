@@ -4,7 +4,7 @@ type: application
 subject: dead-code
 technique: deletion-protocols
 stack: process
-verified_on: 2026-08-18
+verified_on: 2026-10-31
 ---
 
 # Two deletions that followed the protocol — and left the record to prove it
@@ -59,7 +59,7 @@ tree — the record made that substitution a lookup instead of an archaeology.
 
 ## The inert gate: `check_template_integrity` (2026-08-09)
 
-The stricter half of the protocol. `src-tauri/src/commands/design/template_adopt.rs:34-72`
+The stricter half of the protocol. `src-tauri/src/commands/design/template_adopt.rs:20-57`
 is the tombstone, and it reads in the technique's order:
 
 1. **Inertness proven structurally.** The checksum manifest is keyed by relative
@@ -87,6 +87,18 @@ is the tombstone, and it reads in the technique's order:
 The companion doc (`docs/features/templates/06-integrity-and-security.md`) carries
 the two-row table of what actually gates. A future reader who wants the check back
 has to refute the autopsy first.
+
+Re-checked 2026-10-31 at personas@22260d77: the commit message of
+`78e9bff68` reads as quoted, `src/features/teams/sub_canvas/` is gone, the
+two retained Rust files are still present, and `create_connection` is still
+reached from the auto-team hook, now at
+`src/features/teams/sub_teamWorkspace/useAutoTeam.ts:178` through
+`createTeamConnection`. The tombstone is unchanged and re-anchored above, and
+the companion doc's two-row table is at
+`docs/features/templates/06-integrity-and-security.md:159-162`. One record
+has aged: `@xyflow/react` now has **zero** importers under `src/` and is
+still declared in `package.json`. The "dependency stays" note was accurate
+when it was written and now marks a dependency nothing uses.
 
 ## Where the protocol is not yet followed
 

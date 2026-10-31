@@ -5,7 +5,7 @@ subject: docs-sync
 technique: source-doc-mapping
 stack: node
 status: forged
-verified_on: 2026-08-21
+verified_on: 2026-10-31
 verified_against: node@20
 ---
 

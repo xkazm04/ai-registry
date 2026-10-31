@@ -4,8 +4,8 @@ type: application
 subject: metric-gates
 technique: operation-assertion-gates
 stack: node
-verified_on: 2026-08-31
-verified_against: node@24.12.0
+verified_on: 2026-10-31
+verified_against: node@22
 applied: experiment
 ab_verdict: not-better
 proof: ab-paired
@@ -55,7 +55,7 @@ read it, which is better evidence for the rule than an adopting tree would have
 been.
 
 One partial: `check-command-contract` reaches its non-zero exit through a bare
-`throw` that prints a stack trace (`scripts/check-command-contract.mjs:59`). The
+`throw` that prints a stack trace (`scripts/check-command-contract.mjs:62`). The
 message is correct and the exit code is safe, but it is safe by the runtime's
 default rather than by an exit path the script chose. Fail-safe by accident is
 one refactor away from fail-open.
@@ -82,6 +82,38 @@ are uncontrolled, and a rule that fires on far more sites will accumulate more
 suppressions whatever its precision. What it does establish is that the gate
 family with no precision measurement is the one whose suppressions concentrate,
 and that nothing in this tree measures the precision of any of the twenty-one.
+
+## Re-checked 2026-10-31 at personas@22260d77
+
+**The lint-rule half of this reading was wrong when it was written.**
+`src/test/eslint-rules/customRules.test.ts` has existed since 2026-05-01. At
+the last commit to it before 2026-08-31 (`1fe2036f4`) it already tested 12 of
+the custom rules, `no-hardcoded-jsx-text` among them. The "zero of
+twenty-one" count came from looking for tests next to `eslint-rules/` and
+under `scripts/`, and they live under `src/test/`. At HEAD there are 22 rules
+(plus a shared helper, `_classname-strings.cjs`), and three files under
+`src/test/eslint-rules/` cover 16 of them. The six with no test are
+`enforce-reduced-motion-fallback`, `no-module-scope-en-value`,
+`no-unprefixed-wide-min-width`, `no-unstable-store-selector`,
+`no-whole-store-subscription` and `role-button-requires-keydown`. The rule
+that carried the most suppressions was therefore a tested rule, so the
+untested-rules-attract-suppressions reading above does not hold. Fixture
+tests are still not precision measurements, and the point that nothing
+measures any rule's precision stands. Suppressions have also moved: about 45
+`eslint-disable` lines in `src/` name a custom rule. `enforce-base-modal`
+now leads with 16, and `no-hardcoded-jsx-text` is down to 7.
+
+The empty-scope refusals hold. `check-csp-hosts` now states the rule as a
+positive control plus two zero guards: "walked ZERO files under src/ — the
+walker is broken" and "parsed ZERO connect-src hosts … the parser is
+broken" (`scripts/check-csp-hosts.mjs:184-189`). Its header now says that
+zero real fetch sites is a legitimate result once the control passes. The
+quoted "found ZERO frontend fetch hosts" line is gone. `check-themes` still
+prints `FATAL: could not find :root block` (`scripts/check-themes.mjs:793`).
+The command-contract refusal is still a bare `throw` (line 62 above). There
+are now 19 `scripts/check-*.mjs` checkers and six `scripts/__tests__/check-*`
+test files. The paired run and its `not-better` verdict are left as
+recorded.
 
 ## What this application cannot claim
 

@@ -4,7 +4,8 @@ type: application
 subject: codebase-scanning
 technique: rule-precision-discipline
 stack: node
-verified_on: 2026-08-18
+verified_on: 2026-10-31
+verified_against: node@22
 ---
 
 # The census engine — precision discipline as a declarative registry
@@ -27,15 +28,15 @@ From the field guide at the top of `scripts/census/rules.json`:
 - **The instrument is asserted before the result** — `floor` is the
   minimum file count the walk must *see*; below it "the result is
   untrustworthy and the run fails with 'matcher broken, not codebase
-  clean'" (`engine.mjs:253-258`). A moved directory cannot masquerade as a
+  clean'" (`engine.mjs:522-531`). A moved directory cannot masquerade as a
   cleanup.
 - **Exemptions cannot rot** — every `exclude` entry requires a `reason`
   (≥ 12 characters, enforced), and "an exclude that matches no file fails
-  the run (stale exemption)" (`engine.mjs:282`).
+  the run (stale exemption)" (`engine.mjs:551`).
 
 ## Zero-match refusal, verbatim
 
-`engine.mjs:267-272` refuses a rule that "matched zero files anywhere. A
+`engine.mjs:536-541` refuses a rule that "matched zero files anywhere. A
 census rule that finds nothing is a broken matcher … baselining it at zero
 — a rule pinned at 0 is a gate that can never fail." This is the
 technique's zero-match clause implemented as a hard failure, including the
@@ -44,8 +45,8 @@ in the same error message.
 
 ## Positive controls, with the anti-neutralization rule
 
-The engine recognizes positive-control rules by id (`engine.mjs:377`) and
-*forbids* them a baseline (`engine.mjs:384`): "a positive control must NOT
+The engine recognizes positive-control rules by id (`engine.mjs:646`) and
+*forbids* them a baseline (`engine.mjs:653`): "a positive control must NOT
 carry a baseline — it exists to fail." The comment above notes this
 requirement broke three tools in this runner when controls were first
 mandated — the controls did their job against the census's own
@@ -70,6 +71,20 @@ around this engine rather than inside it:
   history includes line-end token and CRLF-drift bugs caught only by a
   second implementation — the registry's `signal.description` field exists
   so every count carries its predicate.
+
+Re-checked 2026-10-31 at personas@22260d77: the engine's clauses hold
+verbatim, re-anchored above (the file is now 676 lines). The registry has
+grown to 214 rules. The `hand-painted-modal-backdrop` baseline now reads 8
+files / 9 matches, down from the 19 / 20 population it was validated on;
+the 20/20 precision measurement and the `enforce-base-modal` 0/8 and 0/19
+figures are still recorded in `docs/concepts/golden-paths/modal-stacking.md`,
+not in `.claude/CLAUDE.md`. The library-consumption research memo was
+deleted in a later cleanup pass, so the two 0%-precision gates no longer
+have a source in the tree. `.claude/CLAUDE.md:213` still records the three
+implementations (48 / 31 / 29), but the orphan count was re-measured on
+2026-08-22 at 35, not 29. The CRLF drift bug and its regression fixture
+are documented at `engine.mjs:140-146`. Still no rule carries a
+`precision` field, so the gap below stands.
 
 ## Where the application stops short of the technique
 

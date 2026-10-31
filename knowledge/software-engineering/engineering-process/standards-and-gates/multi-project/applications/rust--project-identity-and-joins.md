@@ -5,7 +5,7 @@ subject: multi-project
 technique: project-identity-and-joins
 stack: rust
 status: forged
-verified_on: 2026-08-29
+verified_on: 2026-10-31
 verified_against: rust@1.96
 applied: simulation
 ab_verdict: better
@@ -13,7 +13,7 @@ ab_verdict: better
 
 # Project identity and joins — one repository, two registries
 
-*Verified against the project tree at `bf2a1e249`.*
+*Verified against the project tree at `bf2a1e249`; re-checked 2026-10-31 at `22260d77`, every anchor below current at that commit.*
 
 The strongest evidence for this technique in a real tree was not a design
 document. It was a codebase that contains **both** answers at once: one
@@ -24,7 +24,7 @@ with a path string as the only bridge between their id namespaces.
 ## The seam
 
 The tracking engine resolves which project a pushed signal belongs to at
-`src-tauri/src/engine/project_tracking/push.rs:190`:
+`src-tauri/src/engine/project_tracking/push.rs:208`:
 
 ```sql
 SELECT id FROM companion_known_project
@@ -32,11 +32,11 @@ SELECT id FROM companion_known_project
 ```
 
 Everything the subsystem keeps hangs off the id that query returns. The
-schema at `src-tauri/db/src/lib.rs:1334-1391` shows how much: the watch
+schema at `src-tauri/db/src/lib.rs:1559-1614` shows how much: the watch
 subscription, `engine_cli_event` and `engine_project_pulse` all carry
 `project_id` with a foreign key to `companion_known_project(id)` and
 `ON DELETE CASCADE`. And that registry's admission door is `path TEXT NOT
-NULL UNIQUE` (`:1295`), upserted on path at
+NULL UNIQUE` (`:1520`), upserted on path at
 `src-tauri/src/companion/projects.rs:123-135`. The portfolio the user
 actually manages lives in a different table, in a different database, with
 its own minted ids. Nothing joins the two namespaces except a canonicalized
@@ -50,12 +50,12 @@ precisely what the other registry already implements.
 
 **1. The move, already recorded.** Commit `3fbacba70` exists because this
 failure happened. Its module doc at `src-tauri/db/src/project_identity.rs:
-3-8` states the incident in the past tense: `dev_projects.root_path` "was
+3-6` states the incident in the past tense: `dev_projects.root_path` "was
 the only identity a project had: move or rename the folder and every
 context, KPI, idea, task and milestone hanging off the row silently
 detached, and registering the new path minted a second, empty project." The
 cure is a minted marker in `.personas/project.json` and an explicit
-`IdentityResolution::Relocated` that re-points the binding (`:50-59`).
+`IdentityResolution::Relocated` that re-points the binding (`:51-60`).
 Walking the same move under policy A on the tracking side: the upsert at
 `projects.rs:126` finds no row for the new path, mints a new id, and
 `INSERT OR IGNORE` creates a fresh subscription with `enabled = 0` — while
@@ -68,7 +68,7 @@ that table finds an insert, a `last_scan_at` update, and nothing else.
 **2. The drift, already fixed — at one consumer.** Commit `a51da6532`
 re-pointed the assistant's dev-tools prompt block from
 `companion_known_project` to the real `dev_projects` rows. The reason is
-written at `src-tauri/src/companion/prompt/capabilities.rs:16-20`: the
+written at `src-tauri/src/companion/prompt/capabilities.rs:16-19`: the
 path-keyed registry "had drifted to worktree/duplicate registrations
 unrelated to the Dev Tools projects the user actually manages — so she'd
 'analyze' a registry that bore no relation to reality." This is the
@@ -81,7 +81,7 @@ pass over `companion_known_project`. None exists.
 
 **3. The second machine, admitted by an unrelated contract.** The data
 portability limits declare `companion_known_project` non-portable at
-`src-tauri/src/commands/core/data_portability/limits.rs:106-109`, in a list
+`src-tauri/src/commands/core/data_portability/limits.rs:105-108`, in a list
 whose category is "MACHINE-LOCAL", with the reason "holds absolute paths".
 That exclusion was written to keep an export bundle honest; nobody wrote it
 to say anything about identity. But it is a complete statement of the

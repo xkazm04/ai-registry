@@ -4,7 +4,7 @@ type: application
 subject: dead-code
 technique: instrument-per-orphan-class
 stack: node
-verified_on: 2026-09-17
+verified_on: 2026-10-31
 verified_against: node@22
 applied: experiment
 ab_verdict: not-better
@@ -35,7 +35,7 @@ corpses were found by accident.
 
 ## The instrument that preserves corpses: `scripts/check-unused-bindings.sh`
 
-The only dead-code check wired into CI (`.github/workflows/ci.yml:186`) is a
+The only dead-code check wired into CI (`.github/workflows/ci.yml:632`) is a
 reference counter over `src/lib/bindings/` (1,034 files): a binding survives if
 `grep -rw` finds its name anywhere in `src/` outside `bindings/`, or if another
 binding imports it. It is the technique's refcount blindness in its purest form,
@@ -124,13 +124,13 @@ layer, 218 rows at HEAD), does any caller outside the TypeScript universe invoke
 by name?
 
 **Arm A, the naive join**: grep each of the 218 names as a string literal across the
-Rust tree. One hit — `cliCaptureRun`, named at `src-tauri/src/test_automation.rs:962`
+Rust tree. One hit — `cliCaptureRun`, named at `src-tauri/src/test_automation.rs:1001`
 `"cliCaptureRun",` as a bridge dispatch. Read as a verdict, that is a live export
 the instrument called dead. **Arm B, the real join**: the Rust side dispatches into
-`window.__TEST__.__exec__(id, method, params)` (`src-tauri/src/test_automation.rs:213`
+`window.__TEST__.__exec__(id, method, params)` (`src-tauri/src/test_automation.rs:252`
 `let js = format!(r#"window.__TEST__.__exec__("{id}", "{method}", {params_json});"#,);`),
 and the method table lives in `src/test/automation/bridge.ts`, which installs its
-*own* method at `src/test/automation/bridge.ts:1691` `async cliCaptureRun(serviceType: string) {`
+*own* method at `src/test/automation/bridge.ts:1842` `async cliCaptureRun(serviceType: string) {`
 that calls the Tauri command directly. The API export of the same name is a duplicate
 implementation with zero callers — the instrument was right, and the by-name grep
 was a coincidence of naming across the wire. Target: names the instrument wrongly
@@ -166,3 +166,27 @@ export count not at all, because the harness files are themselves unreachable.
 One dead island confirmed by hand for the walker's benefit: `ChatThread.tsx` is
 imported by nothing and imports `ChatMessageContent.tsx`, which is imported by
 nothing else — the refcount-defeating shape, visible to the walker as one cluster.
+
+## Re-checked 2026-10-31 at personas@22260d77
+
+The roster changed underneath this document, mostly in its favour. The
+orphaned-generated-artifacts row is no longer unassigned: `npm run
+check:bindings` (`scripts/check-binding-orphans.mjs`, in `npm run check`)
+is the inventory gate the roster called unbuilt, with a two-sided allowlist
+at `scripts/binding-orphan-allowlist.txt`. `VaultStatus` is no longer an
+orphan: `src-tauri/src/commands/credentials/crud.rs:464` now declares
+`pub struct VaultStatus` with `#[ts(export)]`, so the corpse the refcount
+guard protected has a producer. The refcount guard itself still runs in
+CI, but since 2026-10-25 `scripts/check-unused-bindings.sh` only execs
+`scripts/check-unused-bindings.mjs`, one pass of about a second, so the
+"minutes per CI run" cost above is gone. `src/lib/bindings/` now holds
+1,288 files. The `sub_connectors` island is no longer an island:
+`src/features/agents/sub_design/components/DesignSubtabPanels.tsx`
+imports it, and that panel is lazily loaded by `DesignHub.tsx`.
+`ChartEmptyState` now renders in two `sub_brain` tiles, `useRovingTabIndex`
+still has no adopters, and `NetworkConfig.auto_connect` now has a reader
+(`src-tauri/engine/src/p2p/mod.rs:726`); `max_retries` is still read by
+nothing. The `ChatThread.tsx` island, the knip ignore list (still with no
+reasons), and the header quotes of the walker, the command joiner and the
+catalog-key scanner all hold as written. The 2026-08-18 measurements and
+the 2026-09-17 A/B result are left as they were.
