@@ -5,8 +5,8 @@ subject: agent-memory
 technique: observation-clock
 stack: rust
 status: forged
-verified_on: 2026-09-17
-verified_against: rust@1.80
+verified_on: 2026-10-31
+verified_against: rust@1
 applied: simulation
 ab_verdict: unmeasurable
 proof: structural-only
@@ -22,17 +22,17 @@ memory-year harness that measures that pass, because the harness is why the verd
 
 ## The seam
 
-`src-tauri/src/companion/brain/consolidation.rs:1166 "fn build_consolidation_prompt("`
+`src-tauri/src/companion/brain/consolidation.rs:1197 "fn build_consolidation_prompt("`
 builds the whole prompt by hand. It gets one half of the technique right. Each episode
 reaches the model under a header carrying its own instant
-(`src-tauri/src/companion/brain/consolidation.rs:1253 "created = ep.created_at,"`),
+(`src-tauri/src/companion/brain/consolidation.rs:1284 "created = ep.created_at,"`),
 so the observation clock is present, per episode, which is the input the vendor library
 above cannot supply.
 
 It misses the other half. The prompt never states *now*, and never asks for relative
 references to be resolved against the episode's instant. Its own rules use the word it
 never defines:
-`src-tauri/src/companion/brain/consolidation.rs:1191 "is an episode, not a fact"` closes
+`src-tauri/src/companion/brain/consolidation.rs:1222 "is an episode, not a fact"` closes
 a sentence that begins "User asked X today". The model has every instant it needs and no
 instruction to use them, so the technique's second consequence applies: a pass that shows
 instants and does not require grounding leaves the choice to the model.
@@ -46,7 +46,7 @@ The obvious measurement is the memory-year ladder, and it cannot see this decisi
   that a relative phrase supplied. Every arm on the ladder scores the same on this axis,
   whichever clock it grounds against.
 - The year run consolidates at 23:00 of each simulated day
-  (`evals/memory-year/memory_year/run.py:104 "backend.consolidate(Clock(day_seen, 23 * 60))"`),
+  (`evals/memory-year/memory_year/run.py:157 "backend.consolidate(Clock(day_seen, 23 * 60))"`),
   so a phrase is distilled within hours of being said. Grounding against the writer's
   clock lands on the right date by accident.
 - Until this run, the harness's clock-purity check masked every date before comparing
@@ -78,3 +78,10 @@ Return condition: extend the memory-year scenario so events carry relative refer
 an absolute ground-truth date, add a probe class that asks for that date, and allow a
 consolidation lag of several days (or a backfill). Then run the current prompt against one
 that states now and requires grounding, as a paired arm.
+
+Re-checked 2026-10-31 at personas@61029d7ae0: the three quoted prompt lines and the
+harness line are unchanged; line numbers were updated. The prompt still states no now
+and asks for no grounding. The runner already takes a `consolidate_every` parameter
+(`run.py:104`, default 1, passed by no caller), so the lag half of the return condition
+needs a run setting rather than new code; the relative-date probe class does not exist
+yet, so the verdict stands.

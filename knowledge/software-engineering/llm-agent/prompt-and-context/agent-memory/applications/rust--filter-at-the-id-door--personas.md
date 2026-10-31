@@ -5,8 +5,8 @@ subject: agent-memory
 technique: filter-at-the-id-door
 stack: rust
 status: forged
-verified_on: 2026-09-29
-verified_against: rust@1.96
+verified_on: 2026-10-31
+verified_against: rust@1
 applied: simulation
 ab_verdict: unmeasurable
 ---
@@ -22,10 +22,10 @@ of retirement.
 
 ## The predicate lives at the join, and the comment says why
 
-`src-tauri/src/companion/brain/retrieval.rs:734 "SELECT id, kind FROM companion_node WHERE id IN ({placeholders}) AND importance > 0"`
+`src-tauri/src/companion/brain/retrieval.rs:740 "SELECT id, kind FROM companion_node WHERE id IN ({placeholders}) AND importance > 0"`
 
 The code above it is the technique's argument in one paragraph
-(`src-tauri/src/companion/brain/retrieval.rs:723 "`AND importance > 0` is the retirement predicate re-imposed on the vector"`):
+(`src-tauri/src/companion/brain/retrieval.rs:729 "`AND importance > 0` is the retirement predicate re-imposed on the vector"`):
 without the predicate the union "re-admits exactly what supersedence, the decay floor and
 cap enforcement demoted ... by the one lane that never asked." It also states the
 placement rule: dropping the row at this join rather than in each lane's query is
@@ -41,7 +41,7 @@ so a model that names a retired or unknown id changes nothing.
 ## The residual gap
 
 The doctrine loader beside it takes ids from the same union and applies no retirement
-predicate (`src-tauri/src/companion/brain/retrieval.rs:836 "WHERE kind = 'doctrine' AND id IN ({placeholders})"`).
+predicate (`src-tauri/src/companion/brain/retrieval.rs:842 "WHERE kind = 'doctrine' AND id IN ({placeholders})"`).
 That is harmless for exactly as long as doctrine rows are never demoted, which was not
 checked here; the loader is also the one door in this file whose comment does not say why
 it has no predicate. The technique's test, handing the loader a retired id directly, would
@@ -62,3 +62,8 @@ loader gains a retired-row case, or a doctrine demotion path is found.
 Whether the tree's retrieval measures a stale-served rate anywhere. It has the guard and
 the reasoning, and not, so far as this read found, the counter that would show the guard
 being exercised.
+
+Re-checked 2026-10-31 at personas@61029d7ae0: the three quoted lines are unchanged
+and their line numbers were updated. The doctrine loader still applies no retirement
+predicate and its comment still gives no reason, and no doctrine demotion path was
+found, so the return condition stays open.

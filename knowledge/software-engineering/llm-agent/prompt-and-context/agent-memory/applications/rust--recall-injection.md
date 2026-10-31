@@ -4,8 +4,8 @@ type: application
 subject: agent-memory
 technique: recall-injection
 stack: rust
-verified_on: 2026-08-30
-verified_against: rust@1.97
+verified_on: 2026-10-31
+verified_against: rust@1
 ---
 
 # Recall injection in the companion brain and persona engine (Rust)
@@ -25,9 +25,9 @@ tiers (module header, `:1-24`):
   same top-N facts on every single turn" — recall that did not depend on the
   question at all.
 - **Always-include** — top facts, procedurals, active goals, open backlog by
-  importance, "query-independent" by design (`:11`, `:131`), recorded last in
-  the assembly "so they never displace" a query-matched hit (`:424`), each
-  with its own small cap (`ALWAYS_INCLUDE_TOP_FACTS = 6`, `:80`) — the
+  importance, "query-independent" by design (`:11`, `:142`), recorded last in
+  the assembly "so they never displace" a query-matched hit (`:448`), each
+  with its own small cap (`ALWAYS_INCLUDE_TOP_FACTS = 6`, `:91`) — the
   jealously-guarded constitutional tier.
 - **Recency** — a tail with a floor: `RECENCY_FLOOR = 6` (`:70`), because
   "losing the immediately-preceding turn to a well-matched older one would be
@@ -36,25 +36,25 @@ tiers (module header, `:1-24`):
 The budget discipline is the doc's own headline (`:15-17`): the episode window
 is "a budget, not a per-lane quota" — all lanes converge on
 `RECALL_EPISODE_TARGET = 20` (`:65`), with the recency tail sized from what the
-other lanes actually returned (`:499-501`, `:592-594`). The old hard-coded
+other lanes actually returned (`:535-537`, `:636-638`). The old hard-coded
 split delivered *fewer* memories in the richer build when the vector lane came
 up empty — per-tier arithmetic drifting from the total is exactly what a
 single declared budget prevents.
 
 ## Labeled, not smuggled
 
-`format_facts` (`src-tauri/src/companion/prompt/memory.rs:31-75`) renders each
+`format_facts` (`src-tauri/src/companion/prompt/memory.rs:87-131`) renders each
 recalled fact as `**key** (importance N, conf NN%) — value [from sources]`
-(`:64-71`) under a header that names the epistemic status: "facts you've
+(`:120-127`) under a header that names the epistemic status: "facts you've
 distilled — every entry is cited". Procedurals carry the same annotation
-(`format_procedurals`, `:110`). The consumer sees grade and grounds, not bare
+(`format_procedurals`, `:166`). The consumer sees grade and grounds, not bare
 world-state. (Age/last-confirmed is still not rendered — re-checked
 2026-08-30, and still the one element of the standard's label this surface
 omits.)
 
 **A placeholder in a citation slot is worse than an omission**, and this
 codebase paid for the lesson between verifications. `format_facts` now skips a
-zero-source fact and logs loudly rather than rendering it (`:47-59`); the
+zero-source fact and logs loudly rather than rendering it (`:102-115`); the
 comment records what it replaced — "the old fallback rendered the literal
 string `no-sources` as if it were a real citation, teaching the model that
 uncited memory is a legitimate shape". The write path already refuses such a
@@ -67,11 +67,11 @@ what is in it.
 
 ## Value-ranked packing under a character budget
 
-`memory_recall.rs` is the packer half: `decay_score` (`:144-170`) computes
+`memory_recall.rs` is the packer half: `decay_score` (`:142-172`) computes
 `importance × 0.5^(age/half_life(category)) × access_boost × dispute_penalty`
 — with the two modifier terms spelled out in the header,
 `access_boost = 1 + 0.25·ln(1 + access_count)` and
-`dispute_penalty = 1 − 0.35·tanh(open_claims / 2)` (`:148-150`) — and
+`dispute_penalty = 1 − 0.35·tanh(open_claims / 2)` (`:148-152`) — and
 `pack_by_budget` (`:204`) greedy-packs whole entries by that score into a
 character budget, replacing a blind "importance DESC then truncate" that could
 drop a fresh high-importance memory "because an old, often-accessed one padded
@@ -101,15 +101,27 @@ Recall feeds decay from both directions, as the standard's closing loop
 requires: `access_boost` in `decay_score` makes used memories decay slower,
 and the companion's lifecycle sweep is *triggered from the recall path* —
 `maybe_run_lifecycle_sweep`
-(`src-tauri/src/companion/brain/consolidation.rs:546-575`), throttled to
+(`src-tauri/src/companion/brain/consolidation.rs:798-906`), throttled to
 `LIFECYCLE_SWEEP_MIN_INTERVAL_SECS`, best-effort, hooked there precisely
 because it is "the path that actually runs". It now claims its slot with a
 `compare_exchange` before doing the work "so two concurrent turns can't both
-run the sweep" (`:557-564`) — the recall-triggered janitor inheriting the
+run the sweep" (`:841-848`) — the recall-triggered janitor inheriting the
 recall path's concurrency, and paying for it once. Its two actions stay
 demotions, not deletes: decay decrements importance with a floor of 1 and
 "never makes a fact retrieval-ineligible"; prune demotes to 0 only above the
 per-scope cap and "keeps the markdown and the SQL row for provenance"
 (`:539-545`). Forgetting on the persona side likewise archives rather than
-deletes (`run_decay_forgetting`, `memory_recall.rs:447-475`) — reversible
+deletes (`run_decay_forgetting`, `memory_recall.rs:447-472`) — reversible
 demotion, with vector cleanup trailing as incremental GC.
+
+Re-checked 2026-10-31 at personas@61029d7ae0: moved line numbers above were updated.
+Two things changed. The sweep now has three actions, not two: an age-out step demotes
+importance-1 facts unrecalled past a horizon to 0, so a fact can now leave retrieval
+through the recall-triggered janitor without being above the cap. All three remain
+demotions. The two quotes attributed to `:539-545` ("never makes a fact
+retrieval-ineligible", "keeps the markdown and the SQL row for provenance") are no
+longer in the tree; the sweep's doc (`:816-822`) now says decay "cannot cross the gate
+by itself" and that pruning demotes to 0 only above the per-scope cap. Separately,
+`format_procedurals` still renders the literal `no-sources` for a procedural with no
+sources (`prompt/memory.rs:184-188`), so the placeholder lesson above has been applied
+to facts only. Age is still not rendered, and `access_boost` is still uncapped.

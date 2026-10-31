@@ -4,8 +4,8 @@ type: application
 subject: agent-memory
 technique: rejected-revision-leaves-its-evidence
 stack: rust
-verified_on: 2026-09-04
-verified_against: rust@1.80
+verified_on: 2026-10-31
+verified_against: rust@1
 applied: task
 ab_verdict: better
 proof: ab-paired
@@ -14,9 +14,9 @@ proof: ab-paired
 # A prompt-evolution loop that kept the count and lost the candidates (Rust)
 
 The witness for the version above is the tree's own declared floor —
-`rust-version = "1.80.0"` in `src-tauri/Cargo.toml:115` — not the toolchain that
+`rust-version = "1.80.0"` in `src-tauri/Cargo.toml:222` — not the toolchain that
 happened to be installed when this was written. Storage is `rusqlite` 0.38 with
-the bundled SQLite, declared at `:237`.
+the bundled SQLite, declared at `:53`.
 
 The tree runs a real instance of the loop this technique is about: a desktop
 agent host that breeds variants of a persona's system prompt, scores them, and
@@ -26,9 +26,9 @@ split, and it comes out on the technique's side — but the more useful half is
 
 ## The record a completed cycle leaves
 
-`evolution_cycles` (`src-tauri/db/src/migrations/schema.rs:1573-1587`) is
+`evolution_cycles` (`src-tauri/db/src/migrations/schema.rs:1525-1539`) is
 written by `complete_cycle`
-(`src-tauri/db/src/repos/lab/evolution.rs:294-349`), and it is careful work:
+(`src-tauri/db/src/repos/lab/evolution.rs:293-349`), and it is careful work:
 both `UPDATE`s land in one transaction, with a comment explaining that a crash
 between them would leave a cycle marked completed while the policy counters
 never increment. The columns are `variants_tested INTEGER`, `winner_fitness`,
@@ -54,7 +54,7 @@ technique's `count-carries-predicate` clause biting on a real column:
 
 This is the part no reading of the standard would predict, and it is better
 evidence than the gap itself. The project has a *second*, newer revision surface
-— `LabAbExperiment`, `src-tauri/core/src/models/lab.rs:271-290` — and that one
+— `LabAbExperiment`, `src-tauri/core/src/models/lab.rs:270-290` — and that one
 carries `variant_prompt`, `variant_source`, and a `provenance_json` snapshot,
 under a doc comment saying every row "carries its provenance ... so the
 experiment is auditable back to the observation that motivated it." Its status
@@ -117,6 +117,15 @@ scored candidates to it, which is the only step that touches behaviour.
 sits inside a `const &str` in a worktree, so no Rust was compiled. That is why
 step 1 stayed on a branch rather than merging: a table nothing writes to is half
 a feature, and the honest place for it is behind the two steps that fill it.
+
+Re-checked 2026-10-31 at personas@61029d7ae0: step 1 did not stay on a branch. The
+child table, `evolution_cycle_variants`, is in the master schema
+(`schema.rs:1560-1573`, from `337f07ff45`), with the `outcome` CHECK, the
+`UNIQUE(cycle_id, variant_index)`, the cascade and no `reason` column, as described.
+Nothing in the tree writes to it yet: `complete_cycle` records no variants and the
+breeder hands none over, so steps 2 and 3 are still unstarted and a completed cycle
+still leaves 0 recoverable candidates in practice. The paired DDL result above
+stands; the shipping state is "merged, unwritten" rather than "on a branch".
 
 ## What this realization cannot show
 

@@ -4,8 +4,8 @@ type: application
 subject: agent-memory
 technique: decay-and-forgetting
 stack: rust
-verified_on: 2026-09-04
-verified_against: rust@1.97
+verified_on: 2026-10-31
+verified_against: rust@1
 applied: experiment
 ab_verdict: better
 proof: structural-only
@@ -24,15 +24,15 @@ Before this change the store had exactly the two exits the technique names,
 and no more:
 
 - **Time-decay.** `decay_unused_facts`
-  (`src-tauri/src/companion/brain/consolidation.rs:469`) decrements
-  `importance` by `DECAY_DECREMENT` (`:49`) with a floor of 1, for facts whose
-  `last_seen_at` is older than `DECAY_THRESHOLD_DAYS = 30` (`:48`), guarded on
+  (`src-tauri/src/companion/brain/consolidation.rs:613`) decrements
+  `importance` by `DECAY_DECREMENT` (`:51`) with a floor of 1, for facts whose
+  `last_seen_at` is older than `DECAY_THRESHOLD_DAYS = 30` (`:50`), guarded on
   `last_decayed_at` so a re-run inside the window is a no-op.
-- **Size caps.** `prune_low_value_facts` (`:716`) demotes to importance 0 —
+- **Size caps.** `prune_low_value_facts` (`:1018`) demotes to importance 0 —
   retrieval-ineligible, row and markdown retained — for rows above
-  `MAX_FACTS_PER_SCOPE = 500` (`:62`), per scope, exactly as the technique's
+  `MAX_FACTS_PER_SCOPE = 500` (`:115`), per scope, exactly as the technique's
   "caps are per category" section requires. The criteria live in one place
-  (`low_value_prune_candidates`, `:664`) because the sleep cycle *reports* the
+  (`low_value_prune_candidates`, `:966`) because the sleep cycle *reports* the
   same list it enforces, so "what we said we'd forget" cannot drift from "what
   we forgot".
 
@@ -63,21 +63,29 @@ is better evidence for the amendment than the vendor schema that occasioned it.
 
 ## What the realization added
 
-`retire_expired_facts` (`:550`) is the third exit, and it is deliberately the
+`retire_expired_facts` (`:773`) is the third exit, and it is deliberately the
 dumbest of the three: no score, no threshold, no conjunction, because the item
-already answered. It runs **first** in `maybe_run_lifecycle_sweep` (`:598`),
+already answered. It runs **first** in `maybe_run_lifecycle_sweep` (`:835`),
 ahead of decay, so a self-dated fact cannot spend another window's recency.
 
-- **Storage.** `companion_fact.expires_at` (`src-tauri/db/src/lib.rs:898`),
-  `YYYY-MM-DD`, additive via the defensive ALTER block (`:654`) plus a partial
-  index (`:670`). Pre-existing rows backfill to NULL, which is not a filler
+Re-checked 2026-10-31 at personas@61029d7ae0: the sweep now runs a further step
+between expiry and decay, `age_out_dormant_facts` (`consolidation.rs:718`), which
+demotes importance-1 facts unseen past a horizon (four times longer for `user`
+scope) through the shared `semantic::demote_superseded`. Its doc calls it "the half
+of forgetting that was missing": decay stops at 1, and this step crosses to 0. Expiry
+still runs first, so the ordering claim above holds. The "exactly two exits" count
+below describes the tree before this change and is left as measured.
+
+- **Storage.** `companion_fact.expires_at` (`src-tauri/db/src/lib.rs:1131`),
+  `YYYY-MM-DD`, additive via the defensive ALTER block (`:848`) plus a partial
+  index (`:875`). Pre-existing rows backfill to NULL, which is not a filler
   value — it is correct for every one of them, since none ever declared a
   boundary.
 - **Extraction at capture, not at recall.** The compress prompt gains rule 2b
-  (`sleep_cycle/prompts.rs:74`) separating *durable* from *forever*, and is
-  told the current date (`:62`) — a relative boundary the model has to guess at
+  (`sleep_cycle/prompts.rs:73`) separating *durable* from *forever*, and is
+  told the current date (`:61`) — a relative boundary the model has to guess at
   is a boundary it will guess wrong.
-- **Refusal over coercion.** `parse_expiry` (`sleep_cycle/apply.rs:326`)
+- **Refusal over coercion.** `parse_expiry` (`sleep_cycle/apply.rs:433`)
   accepts an exact `YYYY-MM-DD` and nothing else; a bare month, a prose date
   and a full timestamp are all refused rather than rounded. This is
   [unknown-is-not-a-value](../../../../_laws.md#unknown-is-not-a-value) with
@@ -101,7 +109,7 @@ expiry must do the opposite.** "On leave until October" closing is precisely
 the moment a fresh fact under that key becomes learnable again. A store with a
 single forget operation cannot express both, and collapsing them makes every
 expiry permanent. The expiry lane here is written to stay clear of any
-re-derivation block for that reason (`consolidation.rs:538` states the rule for
+re-derivation block for that reason (`consolidation.rs:761` states the rule for
 whoever adds the operator-issued lane).
 
 ## Confirmed, not added: decay must run on a path that actually runs
@@ -112,7 +120,7 @@ both halves existed and neither had ever executed, reachable only from manual
 commands and the tail of a consolidation run that had not happened in 77 days.
 Every fact carried `last_decayed_at = NULL` and 70-day-old statistics were
 being recited as current. The sweep is therefore invoked from the **recall**
-path, throttled to once per `LIFECYCLE_SWEEP_MIN_INTERVAL_SECS = 6h` (`:573`)
+path, throttled to once per `LIFECYCLE_SWEEP_MIN_INTERVAL_SECS = 6h` (`:796`)
 with the slot claimed by compare-exchange before the work. Forgetting that only
 happens when a human presses a button is not forgetting.
 
@@ -155,14 +163,14 @@ and no per-item deadline. The technique's "a review window is not an expiry"
 amendment was simulated against that store.
 
 **What the tree has.** Candidates for the reviewer's "won't-use" pass come
-from `get_archivable_candidates` (`src-tauri/db/src/repos/core/memories.rs:1392`):
+from `get_archivable_candidates` (`src-tauri/db/src/repos/core/memories.rs:1391`):
 `active` and `working` tiers, never `core` or `archive`, ordered
 most-archivable first — low importance, low access, oldest — and bounded
 by a limit. The reviewer's verdicts are `delete | keep | update_importance`
 for curation and `synthesize | archive` for the reflection pass
-(`memory_review_proposal.rs:32-34`). The lifecycle pass (`memories.rs:1991`)
+(`memory_review_proposal.rs:33-34`). The lifecycle pass (`memories.rs:1987`)
 promotes and archives by tier with a fixed thirty-day cutoff, and the
-injection ranking (`memories.rs:1864-1870`) is the decay-aware score in
+injection ranking (`memories.rs:1861-1866`) is the decay-aware score in
 which importance strictly dominates a capped, hyperbolically fading access
 term. The `core` tier is user-pinned and never decays — the protected
 category, built. A separate claims table records `helpful | wrong |
@@ -214,20 +222,22 @@ review cycles under both selectors, compared on keep-rate.
 
 The distinction section above was written against a tree that had the expiry
 exit and no operator-issued forget, and it left a note at
-`consolidation.rs:538` for whoever added one. Both stores now have it, and
+`consolidation.rs:761` for whoever added one. Both stores now have it, and
 they converged on the same shape without sharing code.
 
 **Companion brain.** `src-tauri/src/companion/brain/semantic.rs` deletes a
 fact and writes a row into `companion_fact_tombstone (scope, fact_key,
-value_excerpt)` inside the same transaction (`:450-482`); the doc comment
+value_excerpt)` inside the same transaction (`:464-537`); the doc comment
 states the reason in the technique's words — the deletion removes the fact
 but not the episodes, so the next cycle re-derives what was just deleted "and
 the correction looks ignored." Consolidation consults the bar before it
-re-derives (`:427-437`), and `sleep_cycle::apply` refuses first. A deliberate
+re-derives (`is_forgotten`, `:445-461`), and `sleep_cycle::apply` refuses first (`apply.rs:261`). A deliberate
 explicit write under the key clears the bar as part of its own transaction
-(`:184-188`), and there is no separate un-forget entry point, "deliberately
-so: an unused one would be a second door" (`:422-423`). The test module
-(`:621-790`) pins the contract: a deleted fact leaves a tombstone on its key;
+(`:189-197`), and there is no separate un-forget entry point, "deliberately
+so: an unused one would be a primitive built ahead of its callers" (`:441-442`;
+re-checked 2026-10-31, this quote previously read "a second door", which the tree
+never said, at `bf95ffb4b` or since). The test module
+(`:638-806`) pins the contract: a deleted fact leaves a tombstone on its key;
 a tombstone is scoped; an explicit write lifts it; forgetting twice refreshes
 one row rather than duplicating; and the recorded value excerpt "is never
 matched against — forgetting a key forgets the subject, and matching on the
@@ -240,7 +250,7 @@ best-effort side effect that never fails the delete (`:1427-1444`);
 `create_consolidated` (`:549`) counts a barred key as `skipped_tombstoned`
 (`:600-612`) instead of writing, and the outcome vocabulary is
 `created | updated | skipped_tombstoned | rejected`, so the skip is a counted
-state rather than an absence. Two tests (`:3711`, `:3833`) assert that a
+state rather than an absence. Two tests (`:3725`, `:3847`) assert that a
 tombstoned key is skipped and counted and that a user delete tombstones the
 key.
 
@@ -273,7 +283,7 @@ Also read on this pass: `decay_score` treats an unparseable timestamp as age
 zero (`:155-156`, `:165`), and `should_forget` (`:428-434`) returns `false`
 for a row it cannot date. Together that is the pair the value-model technique
 now corrects: a malformed instant ranks first and is exempt from the sweep.
-The tree tolerates two timestamp formats (`parse_ts`, `:131-140`) precisely
+The tree tolerates two timestamp formats (`parse_ts`, `:130-141`) precisely
 because the table holds both, which is the condition under which a stricter
 parser would pin a whole writer's rows to the top.
 
@@ -285,6 +295,13 @@ citation above resolves; no code was changed and no gate was run. The
 `expected_valid_days` column, the `extend` action and the source clocks through
 `synthesize` filed on 2026-09-02 are not in `HEAD`; that return condition is
 still open.
+
+Re-checked 2026-10-31 at personas@61029d7ae0 (toolchain pinned to `1.96.1` in
+`rust-toolchain.toml`): every citation resolves, with moved line numbers updated in
+place, one misquote corrected (the un-forget comment) and one new sweep step noted
+(`age_out_dormant_facts`). `expected_valid_days` and `extend` are still absent, so the
+2026-09-02 return condition remains open. `ACTIVE_CAP = 60` and its column sort are
+unchanged, so the measured cap result below stands.
 
 ## The cap against the value model, measured on the live store (2026-09-04)
 

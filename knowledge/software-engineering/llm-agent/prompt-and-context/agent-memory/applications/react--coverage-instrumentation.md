@@ -5,7 +5,7 @@ subject: agent-memory
 technique: coverage-instrumentation
 stack: react
 status: forged
-verified_on: 2026-09-23
+verified_on: 2026-10-31
 verified_against: react@19
 ---
 
@@ -16,12 +16,13 @@ platform (a React front end over a Rust core). Each persona's memory is a stream
 episodes, and each episode may be filed under a charter (a standing responsibility the
 agent owns). The tile answers the question this technique exists for: which charters
 does the brain hold nothing about? `verified_against` is the `react ^19.2.6` range in
-`package.json`. Read at `39272628`.
+`package.json`. Read at `39272628`; every anchor below was re-checked at
+`61029d7ae0` on 2026-10-31 and moved lines were updated to that commit.
 
 ## The denominator is the roster, joined in the client
 
 The backend's coverage read is one grouped count
-(`src-tauri/db/src/repos/core/episodes.rs:209`): episodes per charter id, with no
+(`src-tauri/db/src/repos/core/episodes.rs:257`): episodes per charter id, with no
 charter mapped to an `unassigned` key. A grouped count cannot name a charter that has
 no rows, so the backend alone could never show an absence. The front end fetches the live
 charter roster beside it and takes the difference in `splitCoverage`
@@ -33,9 +34,9 @@ Three of the technique's honest-zero cases show up as separate outputs:
 - **An uncovered charter is listed first, not dropped.** The tile renders
   `uncovered` ahead of `covered`
   (`src/features/agents/sub_brain/CoverageTile.tsx:41`), with a warning accent on
-  every row that has nothing (`:117`).
+  every row that has nothing (`:119`).
 - **A roster that failed to load is not "all covered".** `chartersFailed` selects a
-  roster-unavailable sentence (`:83`, `:96`), and an empty roster gets a different one
+  roster-unavailable sentence (`:83`, `:97`), and an empty roster gets a different one
   (`:86`). Failure, an empty population and full coverage are three different messages.
 - **Rows that belong to no live charter are kept apart.** Cells whose charter is gone
   become `orphans`, and unfiled episodes become `unassigned`. Neither one counts as
@@ -48,8 +49,8 @@ The join is where the law
 happens: an optional lookup meets a numeric field. `counts.get(c.id)` misses for every
 uncovered charter, and the code keeps the miss as `count: null` instead of `?? 0`
 (`brainMath.ts:183`). The field's type is `number | null` and its doc comment
-(`:140`) states the contract: null means the read said nothing about this charter. The
-test pins it (`__tests__/brainMath.test.ts:103-109`): `expect(...count).toBeNull()`,
+(`:145`) states the contract: null means the read said nothing about this charter. The
+test pins it (`__tests__/brainMath.test.ts:104-110`): `expect(...count).toBeNull()`,
 with the comment that a 0 "would be a claim the coverage read never made, and nothing
 downstream could undo it". The rule behind it is the one the measurement-honesty subject
 states for collectors. The value has to be typed at the join, because the first

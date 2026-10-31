@@ -5,8 +5,8 @@ subject: agent-memory
 technique: probe-without-write-back
 stack: rust
 status: forged
-verified_on: 2026-08-31
-verified_against: rust@1.80
+verified_on: 2026-10-31
+verified_against: rust@1
 applied: experiment
 ab_verdict: better
 proof: ab-paired
@@ -75,6 +75,18 @@ The finding is that the defect is one wiring commit away and sits in the path
 the module documents as its eventual replacement for the correct one. Catching a
 staged defect is the audit working, not a smaller result than catching a live
 one; reporting it as live would be the larger error.
+
+Re-checked 2026-10-31 at personas@61029d7ae0: the first sentence of this section is
+wrong, and was wrong when written. `install_projection` has a production caller, the
+persona runner (`src-tauri/src/engine/runner/mod.rs:1752`, already present at
+`459c90d1fc` as `:1195`, the commit that corrected the contract on 2026-08-31). The
+contract's own KNOWN GAP note (`core/src/models/memory.rs:165-175`) repeats the same
+error. What keeps the gap latent is the environment gate alone: nothing in the tree
+sets `PERSONAS_CLAUDE_MD_PROJECTION`, and the health check lists it as an unarmed gate.
+So nothing is miscounted today, but the defect is one environment flag away, not one
+wiring commit away. The finding and the verdict stand; the distance to live is shorter
+than stated. The three increment callers (`engine::runner` twice, `dev_tools` once) and
+the four read sites are unchanged, and the projection still does not increment.
 
 ## The deferral that must not be flagged
 
