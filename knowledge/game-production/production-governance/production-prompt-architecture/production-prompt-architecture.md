@@ -55,7 +55,10 @@ sections is **required** and the rest are conditional: an assembler that cannot 
 project context or a task statement must fail loudly at assembly time rather than emit a
 prompt with a hole in it, while a section with nothing concrete to say is omitted rather
 than filled with generic boilerplate — boilerplate teaches the producer to skim sections,
-which costs more than the section was worth. Second, the standing craft bar and the
+which costs more than the section was worth. The exception is a section whose absence
+would itself be read as information: omit only when the producer's default reading of
+the missing section is correct, and render the empty case explicitly when it is not, as
+the project-state section below does. Second, the standing craft bar and the
 per-task definition of done are not the same section and do not sit in the same place. The
 standing bar — the dimensions a judge will score on — belongs immediately after the context,
 where it frames the role the producer is playing. The per-task criteria belong at the end,
@@ -81,7 +84,9 @@ still deserves a verdict.
 The output is coverage, not a binary — *this many canonical sections populated, all required
 present* — because a pass/fail check on a skeleton with legitimate exceptions gets disabled
 the first time it blocks something real, while a coverage number survives. Pair it with the
-rule that every required section has a corresponding **required field in the output**: a
+rule that every section asking the producer to declare something checkable has a
+corresponding **required field in the output** — the wiring section is the worked case,
+and neither required section (context, task) asks for such a declaration: a
 producer told to state its wiring in a structured field can be checked downstream for having
 done so, which is what makes adherence observable after generation and not only before it.
 

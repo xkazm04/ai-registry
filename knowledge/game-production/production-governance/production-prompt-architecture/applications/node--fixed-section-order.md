@@ -84,3 +84,11 @@ seven sections, and there is no count of how many dispatched prompts bypass the 
 golden path's standard is that a bypass rate is measured; the repo makes bypass *visible*
 per-prompt in a UI, which is a weaker guarantee. The standard stays: a coverage number that
 nobody aggregates decays the same way the skeleton did.
+
+A second deviation is visible in the excerpts above: the builder assembles nine sections
+(the header's six, the quality pack, and the two interstitials), while
+`auditPromptString()` detects seven and `summarizeAudit()` reports "of 7". Two canonical
+sections sit outside the coverage denominator and nothing names them, so a prompt can
+read complete against the audit while missing them. Which two are excluded is not shown
+in the cited lines. The standard is that the audit's denominator is the canonical set,
+or that every excluded section is named.

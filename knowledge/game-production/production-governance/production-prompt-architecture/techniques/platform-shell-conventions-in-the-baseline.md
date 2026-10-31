@@ -44,7 +44,7 @@ the only exit was an operating-system chord. The rules the producer was shown de
 exactly which conventions existed.
 
 That is the argument for putting them in the baseline rather than in a reviewer's memory:
-the baseline is the only part of the prompt every task carries
+the baseline is the one part of the prompt no task can drop or replace
 ([`acceptance criteria appended, not replaced`](./acceptance-criteria-appended-not-replaced.md)),
 and a convention that rides on the baseline cannot be dropped by a task that never thought
 about it.
@@ -56,7 +56,7 @@ The list is not universal. Who owns each convention differs by platform:
 | Convention | Head-worn or console target | Desktop window |
 | --- | --- | --- |
 | Quit | the platform's system menu owns it; an in-program quit is optional | the program owns it, or nobody does |
-| Pause on focus loss | required: the device comes off, the system menu opens | required: the window loses focus |
+| Pause on focus loss | required for single-player: the device comes off, the system menu opens; a multiplayer session keeps running for the other players | required: the window loses focus |
 | Nothing lost on close | required: the platform may close the program at any time | required |
 | Resume without punishing the pause | required | required |
 | Recentre or reset view | required where the view is tracked | a key binding |

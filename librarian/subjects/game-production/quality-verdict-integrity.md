@@ -1,7 +1,7 @@
 ---
 domain: game-production
 subject: quality-verdict-integrity
-last_touched: 2026-09-10
+last_touched: 2026-10-31
 touched_by: architecture-review
 dry_streak: 0
 ---
@@ -217,6 +217,167 @@ numbers the corpus reasons from was not reproduced.
     "applications/process--calibration-against-confirmed-labels-only.md": {
       "disposition": "reverify",
       "reason": "Carries the 21-cell A/B numbers the corpus reasons from, verified_on 2026-08-20, unreproduced. The self-reported deviation (three provisional targets against a stated floor of ~20) is honest and stays; the arithmetic finding above lands in the technique, not here."
+    }
+  }
+}
+```
+
+## Architecture review - 2026-10-31
+
+Re-review at `85a365702`. The only change since the 44c89965 record replaced a machine
+path with a repo-relative name in `applications/node--content-hash-binding.md`. The three
+clarify items that record asked for are still owed. All ten documents were re-read.
+
+This partly retracts the 2026-09-10 self-preference finding. That record said the
+evidence supports only a model-level effect, not a family-level one. Spiliopoulou et al.
+(arXiv 2508.06709) report that some models, "such as GPT-4o and Claude 3.5 Sonnet,
+systematically assign higher scores to their own outputs", and that "These models also
+display family-bias", "systematically assigning higher ratings to outputs produced by
+other models of the same family". So family-level preference is measured, but for some
+models, not as a general rule. The technique's flat "graders measurably prefer output
+from their own family" still over-generalises; the clarify stands with a narrower
+wording.
+
+<!-- architecture-review:v1 -->
+```json
+{
+  "subject": "game-production/quality-verdict-integrity",
+  "date": "2026-10-31",
+  "baseline": "85a365702",
+  "digest": "sha256-b2:bea58008d7738651",
+  "disposition": "clarify",
+  "coverage": "All 10 current documents read; diff against 44c89965 is one path-privacy line in one application. Arithmetic re-derived (16.9/3.1 = 5.5; 3.1/sqrt(21) = 0.68; 314/816 = 38.5%; 240/816 = 29.4%). Two primary sources opened on the self-preference claim. Not evaluated: the PoF checkout, the judge harness, the 21-cell A/B, any calibration run.",
+  "counterexamples": [
+    "16.9/0.4 = 42x only if the noise floor is the control's mean drift; against the dispersion the paragraph itself calls the noise floor it is about 5.5 standard deviations (retained).",
+    "0.85 raw and 0.85 chance-corrected agreement are different bars, and the technique does not say which it means (retained).",
+    "Per-class rubric versioning, which the technique recommends, makes 'newest version present for that artifact' undefined across two class-scoped version lines (retained).",
+    "A fingerprint recorded under a NEWER scheme than the one in force (rollback, mixed deploy) is equally incomparable, but the classification names only a superseded scheme (retained).",
+    "Family-level grader bias is measured for some models (GPT-4o, Claude 3.5 Sonnet in one study) and not established for all; a flat 'graders prefer their own family' over-generalises in the other direction from the 2026-09-10 reading."
+  ],
+  "sources": [
+    {
+      "url": "https://proceedings.neurips.cc/paper_files/paper/2024/hash/7f1f0218e45f5414c79c0679633e47bc-Abstract-Conference.html",
+      "result": "Abstract re-read. Defines self-preference as an evaluator scoring 'its own outputs higher than others''; studies self-recognition. No family-level claim."
+    },
+    {
+      "url": "https://arxiv.org/abs/2508.06709v1",
+      "result": "Abstract read. Some models 'such as GPT-4o and Claude 3.5 Sonnet, systematically assign higher scores to their own outputs' and 'also display family-bias'. Partly retracts the 2026-09-10 reading that only model-level bias is supported. Full paper not read."
+    }
+  ],
+  "documents": {
+    "quality-verdict-integrity.md": {
+      "disposition": "keep",
+      "reason": "Figures check out and it does not repeat the 40x ratio; the 2026-09-10 keep holds."
+    },
+    "techniques/content-hash-binding.md": {
+      "disposition": "keep",
+      "reason": "Unchanged; the 2026-09-10 keep holds."
+    },
+    "techniques/stale-superseded-unknown-classification.md": {
+      "disposition": "clarify",
+      "reason": "Still owed: unknown's second cause should be a fingerprint under any scheme other than the one in force, covering a newer scheme met after rollback or in a mixed deploy, in the table, step 2 and the reason sentence."
+    },
+    "techniques/condemn-vs-elevate-asymmetry.md": {
+      "disposition": "keep",
+      "reason": "Unchanged; the 2026-09-10 keep holds."
+    },
+    "techniques/rubric-version-supersession.md": {
+      "disposition": "clarify",
+      "reason": "Still owed: replace 'forty times the noise floor' (16.9/0.4) with about 5.5 standard deviations, and state the comparison it intends (standard error of the mean, under one point at about twenty cells); scope selection to one rubric identity so per-class versioning stays coherent."
+    },
+    "techniques/sibling-context-projection.md": {
+      "disposition": "keep",
+      "reason": "Unchanged; the 2026-09-10 keep holds."
+    },
+    "techniques/calibration-against-confirmed-labels-only.md": {
+      "disposition": "clarify",
+      "reason": "Still owed: give 0.85 its basis (raw band agreement) and say a chance-corrected statistic needs its own threshold. Narrowed: the self-preference sentence should say graders prefer their own output and some measurably prefer their family's, not that all prefer their family's."
+    },
+    "applications/node--content-hash-binding.md": {
+      "disposition": "reverify",
+      "reason": "Only the privacy path fix changed. PoF citations not re-run; verified_on stays."
+    },
+    "applications/node--condemn-vs-elevate-asymmetry.md": {
+      "disposition": "reverify",
+      "reason": "Unchanged; the counted-unknown deviation stays as recorded."
+    },
+    "applications/process--calibration-against-confirmed-labels-only.md": {
+      "disposition": "reverify",
+      "reason": "Unchanged; the A/B numbers are unreproduced. Its sentence that the control's +0.4 'establishes the noise floor at +0.4 with sd 3.1' is quoted history and correct about what licenses the conclusions."
+    }
+  }
+}
+```
+
+## Architecture review - 2026-10-31 (clarify applied)
+
+The three clarify items above are applied. The arithmetic was recomputed and the
+self-preference wording rests on the two abstracts read this run.
+
+<!-- architecture-review:v1 -->
+```json
+{
+  "subject": "game-production/quality-verdict-integrity",
+  "date": "2026-10-31",
+  "baseline": "85a365702",
+  "digest": "sha256-b2:38456ec924ceba6d",
+  "disposition": "reverify",
+  "coverage": "All 10 current documents decided. Three technique edits applied and re-read; other documents byte-unchanged. No PoF checkout, harness or calibration run reopened; no verification date refreshed.",
+  "counterexamples": [
+    "Family-level grader bias is measured for some models and not established for all.",
+    "A newer-scheme fingerprint after a rollback is incomparable and now classifies unknown, not stale.",
+    "Two class-scoped rubric versions are separate selection lines and are never compared."
+  ],
+  "sources": [
+    {
+      "url": "https://arxiv.org/abs/2508.06709v1",
+      "result": "Read 2026-10-31; basis for the narrowed family-bias sentence."
+    },
+    {
+      "source": "Arithmetic in techniques/rubric-version-supersession.md",
+      "result": "16.9 / 3.1 = 5.45; 3.1 / sqrt(21) = 0.68, so the 4.3 blind-sibling effect clears the standard error and the 16.9 contamination is about 5.5 control standard deviations."
+    }
+  ],
+  "documents": {
+    "quality-verdict-integrity.md": {
+      "disposition": "keep",
+      "reason": "Unchanged."
+    },
+    "techniques/content-hash-binding.md": {
+      "disposition": "keep",
+      "reason": "Unchanged."
+    },
+    "techniques/stale-superseded-unknown-classification.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: unknown's second cause is now a fingerprint under 'a scheme other than the one in force' in the table, step 2 (naming the rollback and mixed-deploy case) and the reason sentence."
+    },
+    "techniques/condemn-vs-elevate-asymmetry.md": {
+      "disposition": "keep",
+      "reason": "Unchanged."
+    },
+    "techniques/rubric-version-supersession.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: the noise floor is the dispersion and +0.4 the control's bias; the four-point claim now rests on the standard error of the mean; '40x' became 'about five and a half standard deviations'; selection is scoped to one rubric identity, and the per-class advice says each class standard is its own identity."
+    },
+    "techniques/sibling-context-projection.md": {
+      "disposition": "keep",
+      "reason": "Unchanged."
+    },
+    "techniques/calibration-against-confirmed-labels-only.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: 0.85 is stated as raw agreement, with a note that a chance-corrected statistic reads lower and needs its own threshold; the self-preference sentence now says graders prefer their own output and some have been measured preferring their family's."
+    },
+    "applications/node--content-hash-binding.md": {
+      "disposition": "reverify",
+      "reason": "Unchanged; PoF citations not re-run."
+    },
+    "applications/node--condemn-vs-elevate-asymmetry.md": {
+      "disposition": "reverify",
+      "reason": "Unchanged."
+    },
+    "applications/process--calibration-against-confirmed-labels-only.md": {
+      "disposition": "reverify",
+      "reason": "Unchanged; A/B unreproduced."
     }
   }
 }

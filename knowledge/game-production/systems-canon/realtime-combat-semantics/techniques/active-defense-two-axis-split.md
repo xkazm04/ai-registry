@@ -54,7 +54,7 @@ the collapse this technique forbids.
 
 1. **Write the window before the number.** Define the trigger window in seconds relative to
    the incoming hit's contact moment, including how much of it sits before contact and how
-   much after. A window under roughly a fifth of a second is a coin flip; a window over
+   much after. A window under the roughly quarter-second perception floor is a coin flip; a window over
    about half a second stops feeling like timing at all.
 2. **Grade the trigger, do not merely pass it.** At minimum two grades — a normal success
    and a tight-window success — so that skill has somewhere above competence to go. Grades

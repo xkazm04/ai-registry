@@ -1,7 +1,7 @@
 ---
 domain: game-production
 subject: production-prompt-architecture
-last_touched: 2026-09-10
+last_touched: 2026-10-31
 touched_by: architecture-review
 dry_streak: 0
 ---
@@ -230,3 +230,170 @@ whole program, which the wiring section (one artifact's reachability) does not r
 Boundary: the proposed `focus-loss-pause-and-resume` (immersive-interaction N3) owns the
 behaviour; this technique owns naming it to the producer and the per-platform ownership
 split. No architecture review of the new files yet; the next review owes them a disposition.
+
+## Architecture review - 2026-10-31
+
+Re-review at `85a365702`. Since the 44c89965 record the subject gained one technique
+(`platform-shell-conventions-in-the-baseline`), its garden-vr application and one
+golden-path paragraph. The other nine documents are byte-unchanged, so the four clarify
+items that record asked for are still owed. All eleven documents read in full.
+
+The new technique holds up as an assembly argument. One sentence in it contradicts the
+section table: "the baseline is the only part of the prompt every task carries". The
+environment context and the task are required in every prompt, so the true claim is
+narrower: the baseline is the one part a task cannot drop or replace. Its platform table
+says pause-on-focus-loss is "required" on a headset target. Meta's VRC.Quest.Functional.2
+confirms this for single-player apps only: "Single player apps must pause when the
+Horizon OS requests the app to pause", and "This check is not required for multiplayer
+apps". The garden-vr application cites a private tree that was not reopened. Its own
+verdict is `unmeasurable`, and it correctly calls itself a cross-sectional observation.
+
+<!-- architecture-review:v1 -->
+```json
+{
+  "subject": "game-production/production-prompt-architecture",
+  "date": "2026-10-31",
+  "baseline": "85a365702",
+  "digest": "sha256-b2:feb2460a10b6cf60",
+  "disposition": "clarify",
+  "coverage": "All 11 current documents read in full. The 9 carried from the 44c89965 record were diffed against it and are byte-unchanged; the 2 added since were read in full and cross-read against the section table, the acceptance-criteria technique and the golden path. One primary source opened (Meta VRC.Quest.Functional.2). Not evaluated: the PoF checkout, the garden-vr tree, any assembled prompt, audit run or build.",
+  "counterexamples": [
+    "The canonical set is nine sections and the raw-string auditor reports coverage over seven, with the two exclusions unnamed (retained from 2026-09-10).",
+    "'Every required section has a required output field' names context and task, neither of which has one, while the wiring section that does is optional (retained).",
+    "An omitted wiring section reads to a producer as 'no wiring needed' when it may only mean 'no hints were authored' - the ambiguity the state section's explicit-empty rule exists to prevent (retained).",
+    "A multiplayer headset app keeps running when the system menu opens, and Meta's check exempts it, so 'pause on focus loss: required' is false for it as stated.",
+    "The environment context and the task are in every prompt, so the baseline is not 'the only part every task carries'; what is unique to it is that no task can drop it."
+  ],
+  "sources": [
+    {
+      "url": "https://developers.meta.com/horizon/resources/vrc-quest-functional-2/",
+      "result": "Read. 'Single player apps must pause when the Horizon OS requests the app to pause'; required for immersive apps, recommended for panel apps; 'not required for multiplayer apps'. Test: open the Universal Menu, enter passthrough; expected 'All interactable elements of the app should pause.' Supports the headset pause row for single-player only."
+    },
+    {
+      "path": "subject documents",
+      "result": "Internal cross-read: section counts (six asserted, nine tabled, nine assembled, seven audited), the reciprocal-field rule, the omit-empty versus render-empty conflict, and the new technique's 'only part every task carries' against the two required sections."
+    }
+  ],
+  "documents": {
+    "production-prompt-architecture.md": {
+      "disposition": "clarify",
+      "reason": "Still owed from 2026-09-10: restate the reciprocal-output-field rule over sections that ask for a checkable declaration (wiring is the case; context and task are not), and reconcile omit-empty with the explicit-empty state section through a stated discriminator. The new shell paragraph is consistent with its technique."
+    },
+    "techniques/fixed-section-order.md": {
+      "disposition": "clarify",
+      "reason": "Still owed: the audit denominator must be the canonical set or name its exclusions; the omit-empty rule needs the absence-is-information exception. Its boilerplate example (a wiring section with no known wiring) is the case that exception covers."
+    },
+    "techniques/wiring-requirements-section.md": {
+      "disposition": "clarify",
+      "reason": "Still owed: omitting the section when no hints exist leaves an attaching artifact's absence readable as 'no wiring needed'. Omit only for artifacts with no runtime attachment; otherwise render the unknown case as undeclared fields, which matches the technique's own '(undeclared - name it)' rule."
+    },
+    "techniques/platform-shell-conventions-in-the-baseline.md": {
+      "disposition": "clarify",
+      "reason": "Sound obligation and stand-in argument. Two fixes: 'the only part of the prompt every task carries' contradicts the two required sections; the headset pause row needs the single-player scope the Meta VRC states. The rest of the table was not checked against console certification lists."
+    },
+    "techniques/scanned-project-state-do-not-recreate.md": {
+      "disposition": "keep",
+      "reason": "Unchanged; the 2026-09-10 keep holds."
+    },
+    "techniques/acceptance-criteria-appended-not-replaced.md": {
+      "disposition": "keep",
+      "reason": "Unchanged; the 2026-09-10 keep holds. The new shell technique leans on its baseline correctly."
+    },
+    "techniques/version-keyed-engine-facts.md": {
+      "disposition": "keep",
+      "reason": "Unchanged; the unknown-versus-undeterminable pair is distinguished in step 3."
+    },
+    "techniques/domain-scoped-knowledge-injection.md": {
+      "disposition": "keep",
+      "reason": "Unchanged; the 2026-09-10 keep holds."
+    },
+    "applications/node--fixed-section-order.md": {
+      "disposition": "clarify",
+      "reason": "The nine-assembled versus seven-audited mismatch is visible in its own excerpts and should be recorded as a second deviation without naming the two sections, which the cited lines do not show. Citations into PoF were not re-run; verified_on stays."
+    },
+    "applications/process--acceptance-criteria-appended-not-replaced.md": {
+      "disposition": "reverify",
+      "reason": "Unchanged; the PoF checkout was not reopened."
+    },
+    "applications/process--platform-shell-conventions-in-the-baseline--garden-vr.md": {
+      "disposition": "reverify",
+      "reason": "Cross-sectional, ab_verdict unmeasurable, and honest about it. The private tree and its anchors at 14946ee and 9a89355 were not reopened, and the named instrument (the first Unity-licensed build audited for a quit path) has not run."
+    }
+  }
+}
+```
+
+## Architecture review - 2026-10-31 (clarify applied)
+
+All six clarify items from the record above are applied. Each was an internal
+inconsistency checked against the subject's own text, or the Meta VRC read this run.
+The applications' verified_on dates are unchanged.
+
+<!-- architecture-review:v1 -->
+```json
+{
+  "subject": "game-production/production-prompt-architecture",
+  "date": "2026-10-31",
+  "baseline": "85a365702",
+  "digest": "sha256-b2:65388d564505e324",
+  "disposition": "reverify",
+  "coverage": "All 11 current documents decided. The six clarify edits were applied and the edited passages re-read; other documents are byte-unchanged and keep their dispositions. No private tree, PoF checkout or build was reopened.",
+  "counterexamples": [
+    "The canonical set is nine sections and the raw-string auditor reports coverage over seven, with the two exclusions unnamed (now recorded as a deviation and stated against the standard).",
+    "A multiplayer headset app keeps running when the system menu opens, and Meta's check exempts it.",
+    "An attaching artifact with no authored wiring hints still needs the wiring section; omitting it would read as 'no wiring needed'."
+  ],
+  "sources": [
+    {
+      "url": "https://developers.meta.com/horizon/resources/vrc-quest-functional-2/",
+      "result": "Read 2026-10-31. 'Single player apps must pause when the Horizon OS requests the app to pause'; 'not required for multiplayer apps'. Basis for the scoped pause row."
+    }
+  ],
+  "documents": {
+    "production-prompt-architecture.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: the reciprocal-output-field rule now covers sections that ask for a checkable declaration, with wiring named and the required sections excluded; the omit-empty refinement gains the discriminator (omit only when the default reading of absence is correct) and points to the state section."
+    },
+    "techniques/fixed-section-order.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: added the absence-is-information exception to the omit rule, re-aimed its boilerplate example at an artifact that attaches to nothing, and stated that the audit's denominator is the whole canonical set with undetectable sections named as unaudited."
+    },
+    "techniques/wiring-requirements-section.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: omit only for artifact classes with no runtime attachment; an attaching artifact with no known wiring gets one line saying the wiring is unknown and all four fields are undeclared."
+    },
+    "techniques/platform-shell-conventions-in-the-baseline.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: 'the only part of the prompt every task carries' became 'the one part of the prompt no task can drop or replace'; the headset pause row is scoped to single-player, with multiplayer sessions continuing, per the Meta VRC. Console rows were not source-checked."
+    },
+    "techniques/scanned-project-state-do-not-recreate.md": {
+      "disposition": "keep",
+      "reason": "Unchanged; the 2026-09-10 keep holds."
+    },
+    "techniques/acceptance-criteria-appended-not-replaced.md": {
+      "disposition": "keep",
+      "reason": "Unchanged; the 2026-09-10 keep holds."
+    },
+    "techniques/version-keyed-engine-facts.md": {
+      "disposition": "keep",
+      "reason": "Unchanged."
+    },
+    "techniques/domain-scoped-knowledge-injection.md": {
+      "disposition": "keep",
+      "reason": "Unchanged."
+    },
+    "applications/node--fixed-section-order.md": {
+      "disposition": "reverify",
+      "reason": "applied 2026-10-31: added the second deviation (nine assembled against seven audited, exclusions unnamed, standard held). The PoF citations themselves were not re-run, so the application stays reverify and verified_on is unchanged."
+    },
+    "applications/process--acceptance-criteria-appended-not-replaced.md": {
+      "disposition": "reverify",
+      "reason": "Unchanged; the PoF checkout was not reopened."
+    },
+    "applications/process--platform-shell-conventions-in-the-baseline--garden-vr.md": {
+      "disposition": "reverify",
+      "reason": "Unchanged; the private tree was not reopened and the named instrument has not run."
+    }
+  }
+}
+```

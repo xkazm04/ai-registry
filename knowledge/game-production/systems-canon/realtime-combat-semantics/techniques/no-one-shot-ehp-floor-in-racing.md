@@ -65,8 +65,9 @@ which is why the procedure ends in an accumulation check.
 - **When two weapons can plausibly land inside one response time, treat their sum as the
   hit.** The response time is a stated allowance, and everything inside it is one event.
 - **When hits-to-kill is exactly two on the weakest car,** the weapon is legal and
-  fragile: any later buff makes it a one-shot. Record the margin and re-check on every
-  change to damage or armor.
+  fragile: it is one integer step from a one-shot, and a buff (or an armor cut) that
+  lifts the reduced hit to the weakest car's full health makes it one. Record the margin
+  and re-check on every change to damage or armor.
 - **When a one-shot is wanted for a mode,** a boss or a sudden-death round, exempt the
   named weapon in that mode explicitly. Do not lower the floor for the whole roster to
   make the exception pass.
