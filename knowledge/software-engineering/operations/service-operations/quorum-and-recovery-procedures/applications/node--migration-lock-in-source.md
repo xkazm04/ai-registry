@@ -5,7 +5,7 @@ subject: quorum-and-recovery-procedures
 technique: migration-lock-in-source
 stack: node
 status: forged
-verified_on: 2026-09-26
+verified_on: 2026-10-31
 verified_against: node@24
 applied: code
 ab_verdict: better

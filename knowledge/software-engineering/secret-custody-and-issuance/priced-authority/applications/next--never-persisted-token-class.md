@@ -5,7 +5,7 @@ subject: priced-authority
 technique: never-persisted-token-class
 status: forged
 stack: next
-verified_on: 2026-09-26
+verified_on: 2026-10-31
 verified_against: next@16
 applied: code
 ab_verdict: better
@@ -117,3 +117,20 @@ branch also keys a device by `iat`. It accepts the collision (two logins in
 the same millisecond share it) as over-revocation, but a renewal mints a new
 `iat`, so a revocation must be recorded against the cookie the holder has
 now. Recorded, not changed: the branch has an owner and has not landed.
+
+Re-checked 2026-10-31 at kp@6edf5d7: the targeted store described above as an
+unmerged branch has landed, as `app/_lib/auth/session-revocation.ts`. It keeps
+the shape recorded here (principals `user:<sub>`, `op:<workspace>`,
+`ws:<workspace>`; an exact `iat` or an all-before cutoff) and the same
+fail-open posture, now argued in its own comment on the grounds that a remote
+attacker cannot induce the store error and a fail-closed store would turn a
+broken database into a deployment-wide 401. It is consulted at the proxy, in
+`isOperator` and `isHomeOrgReader`, in `currentSession`, by the issuer on a
+renewal and by the workspace switch. Two statements above are therefore
+superseded: `session.ts` no longer lists the store as deferred (the new module
+calls itself "the piece session.ts used to call deferred"), and the password
+operator's session is no longer revocable only through the epoch, since an
+`op:<workspace>` cutoff now signs out its devices without touching anyone
+else's. The verdict on the handler-gate fix stands: `accountStillLive` is still
+in `require-operator.ts`. The fail-open trade named in the last paragraph now
+applies to shipped code rather than to a branch.

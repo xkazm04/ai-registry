@@ -5,7 +5,7 @@ subject: seal-and-key-hierarchy
 technique: append-only-keyring-rotation
 stack: node
 status: forged
-verified_on: 2026-09-26
+verified_on: 2026-10-31
 verified_against: node@24
 applied: simulation
 ab_verdict: better
@@ -32,8 +32,8 @@ envelope can change its own rules later. There is no term. The keyring is
 two slots, the current key and one `*_PREVIOUS` key read from the
 environment (`llm-secret.ts:53-57`; `ats-secret.ts:39-43`). A read is
 **trial decryption**: open under the current key, and on a tag failure try
-the previous one (`decryptProviderSecretDetailed`, `llm-secret.ts:89-109`;
-`ats-secret.ts:85-106`). Encryption always uses the current key, so nothing
+the previous one (`decryptProviderSecretDetailed`, `llm-secret.ts:90-110`;
+`ats-secret.ts:85-105`). Encryption always uses the current key, so nothing
 new is written under the old one. That is the append half of the technique,
 held to a list of length two.
 
@@ -42,8 +42,8 @@ held to a list of length two.
 `scripts/secrets-rotate.mjs` is the retire step. It walks every declared
 secret column (`SECRET_COLUMNS`, `:53-64`), rewrites each row that opens
 under the previous key, leaves any row it cannot open exactly as stored,
-and counts it as `unreadable` (`rotateColumn`, `:78-120`). It then tells the
-operator they may unset the previous key (`:189`). Since `2d8931781`, each
+and counts it as `unreadable` (`rotateColumn` and `rotateRows`, `:78-119`). It then tells the
+operator they may unset the previous key (`:222`). Since `2d8931781`, each
 column's read and rewrite share one IMMEDIATE transaction. This is the
 technique's "rewrite the objects still under it, measure that the count
 under it is zero, and only then remove the key", at a scale where the
@@ -64,7 +64,7 @@ data. It compared them against a minimal keyed envelope,
 | --- | --- | --- |
 | rotate A to B, sweep, retire A (5 rows) | 5 of 5 readable: the sweep is sound | rows under A: 5 before, 0 after, counted by string match without a key |
 | rotate A to B to C before any sweep (previous = B) | the row under A fails with `Unsupported state or unable to authenticate data`, **byte-identical** to a row under C with one flipped tag bit | `no key in keyring for kid efbff718`, distinct from the tampered row's tag failure |
-| rotate the decoupled `KP_ATS_SECRET_KEY` X to Y | the sweep skips every ATS column when that key is set (`:122-131`) and refuses to run without `KP_SECRET_PREVIOUS`; 3 of 3 rows stay under X, and only trial decryption with both keys can find them | 3 rows under X, found by string match |
+| rotate the decoupled `KP_ATS_SECRET_KEY` X to Y | the sweep skips every ATS column when that key is set (`:122-132`) and refuses to run without `KP_SECRET_PREVIOUS`; 3 of 3 rows stay under X, and only trial decryption with both keys can find them | 3 rows under X, found by string match |
 
 Case two is the technique's "a wrong-key decrypt is a lookup failure with a
 name rather than an authentication failure indistinguishable from

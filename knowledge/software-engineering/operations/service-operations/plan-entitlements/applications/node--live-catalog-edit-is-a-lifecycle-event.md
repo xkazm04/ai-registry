@@ -4,7 +4,7 @@ type: application
 subject: plan-entitlements
 technique: live-catalog-edit-is-a-lifecycle-event
 stack: node
-verified_on: 2026-09-18
+verified_on: 2026-10-31
 verified_against: node@24
 applied: code
 ab_verdict: better
@@ -88,3 +88,12 @@ the commit when existing subscribers get the change.
   hosted subscriber count on 2026-08-16 is not in the repository. The
   instrument that would settle it is the hosted database's
   `billing_state` rows as of that date.
+
+Re-checked 2026-10-31 at kp@6edf5d7: the catalog, the `legacy: true` comment,
+the current caps and the four tests of `plans-narrowing.test.ts` are as
+described. One limitation above no longer holds. The allowance ledger now keys
+on the subscription's anchor through `allowancePeriod` in `plans.ts`, called
+from `entitlements.ts`, rather than on the calendar month. `period-anchor.test.ts`
+now pins that fix rather than documenting the open defect. So the period
+boundary a baseline update should name can now be expressed in the ledger. That
+the commit states it is still unchecked, so the detector's verdict is unchanged.

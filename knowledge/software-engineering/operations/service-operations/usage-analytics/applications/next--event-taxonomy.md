@@ -7,7 +7,7 @@ stack: next
 status: forged
 applied: code
 ab_verdict: better
-verified_on: 2026-09-26
+verified_on: 2026-10-31
 verified_against: next@16
 ---
 
