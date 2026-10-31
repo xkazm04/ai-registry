@@ -42,6 +42,10 @@ afterward). This structure is the attribution:
   rather than automatically selecting the strongest attribution.
 - **When rank is missing, keep it unknown** unless the publisher guarantees
   that list order carries rank; storage order alone is not attribution evidence.
+- **A withdrawn signature is not a current sponsorship.** Some registers record
+  withdrawal in a separate signature-event table (one national schema marks
+  "added signature" and "withdrew signature" there). Read it before counting,
+  and keep the withdrawn row as history rather than deleting it.
 
 ### When the rank restarts, and when the list lacks the proposer
 

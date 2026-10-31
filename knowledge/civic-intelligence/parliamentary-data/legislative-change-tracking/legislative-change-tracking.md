@@ -61,9 +61,10 @@ what it does *not* structurally record:
   a linked history step. Which step's date you pick is an editorial decision,
   and the register's row order is not a defensible one.
 - **Authorship fields are unreliable.** The print's own "author" column may be
-  empty for exactly the bills you care about; real authorship lives in the
-  signature table, with an order that distinguishes the responsible first
-  signatory from members who joined later. Attribution from the wrong field
+  empty for exactly the bills you care about; member attribution (political
+  responsibility, not drafting) usually lives in the signature table, with an
+  order and a flag that distinguish the responsible first signatory from
+  members who joined later. Attribution from the wrong field
   silently drops or misassigns credit.
 
 None of these are defects to patch upstream. They are the permanent shape of
@@ -107,13 +108,14 @@ report the status undated. Undated-but-true beats dated-but-invented, every
 time.
 
 **Roles have rank.** Sponsorship is not a set; it is an ordered signature list
-in which position one carries responsibility and later signatures carry
-association, with a further flag for members who joined after submission.
+in which position one on the submission-time list carries responsibility and
+later signatures carry association, with a further flag for members who joined
+after submission (whose numbering can restart at one).
 Rapporteur (the member assigned to analyze and report on the bill) is a
 different role again, arising in several procedural places — plenary
 designation, committee assignment, follow-up documents — with different
-evidentiary weight: the committee-level rapporteur is the strongest "did the
-analytical work" signal. Flattening these into "involved with the bill"
+evidentiary weight and scope; an appointment, at any level, does not by itself
+show the analytical work was done. Flattening these into "involved with the bill"
 destroys the only attribution structure the record actually supports.
 
 ## Fate, and the dignity of refusing a date

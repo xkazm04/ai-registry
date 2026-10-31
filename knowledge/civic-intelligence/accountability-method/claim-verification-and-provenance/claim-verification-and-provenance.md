@@ -134,9 +134,10 @@ Structured fact-check markup — the standard vocabulary crawlers and search
 surfaces ingest — asserts to machines that a claim was **reviewed**. Machines
 do not read hedges: a rating slot filled with "awaiting human review" is
 consumed as a review. So emission is gated at the emitter, not at call
-sites: markup goes out **only** for claims that passed the human gate, with a
-numeric rating on a declared scale matching what the page visibly shows, and
-the permanent claim address as the reviewed item's identity. For internal pending, rejected or ungated pipeline records, omit fact-check
+sites: markup goes out **only** for claims whose human review is a completed
+editorial fact-check, with a rating whose name matches what the page visibly
+shows (and a numeric value on a declared scale where one is used), and the
+permanent claim address as the reviewed item's identity. For internal pending, rejected or ungated pipeline records, omit fact-check
 markup. A completed editorial review that finds a claim false can legitimately
 carry a negative rating; approval of the claim is not the emission criterion. This mirrors the published norms of the fact-checking
 field itself: the verdict shown to humans and the rating shown to machines

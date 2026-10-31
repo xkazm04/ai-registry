@@ -32,8 +32,9 @@ minimally:
   the entity. The tie is a fact about the register (still not a conflict —
   per [lead-not-finding](../../../_laws.md#lead-not-finding) nothing in this
   technique upgrades a lead to a finding; it only grades leads).
-- **Unconfirmed** — the check has not run, or ran and found nothing.
-  Finding nothing is meaningful but not damning: registers lag, roles
+- **Unconfirmed** — the check has not run, or ran and found nothing; the
+  check record (step 4 below) keeps those two apart, and both sit in this
+  state. Finding nothing is meaningful but not damning: registers lag, roles
   predate digitization, and identity matching fails. The tie stays a
   hypothesis.
 - **Conflicting** — the register contradicts the claimed role. The tie is a

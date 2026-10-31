@@ -139,7 +139,7 @@ surface's job is throughput of verdicts, not drama. Conflating these three
 orderings is a common and costly design error
 ([triage-signal-scoring](./techniques/triage-signal-scoring.md)).
 
-## Whole population or nothing
+## Whole population, or a disclosed selection
 
 A population-wide screen covers every official in its declared jurisdiction.
 A sampled or targeted investigation must instead disclose that selection. A screen run only against the officials
