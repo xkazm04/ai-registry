@@ -47,8 +47,12 @@ the left margin does. The practical cross-platform safe area is meaningfully
 smaller than the canvas, and smaller again where a platform's ad-placement margins
 apply, which are the only occlusion figures any platform publishes at all. Platform ceilings for "a short" have meanwhile drifted upward by
 an order of magnitude — from around a minute to several minutes, and to tens of
-minutes on some platforms — while the work that actually succeeds in the format
-still clusters in the tens of seconds. The ceiling is a policy fact; the band is a
+minutes on some platforms — while engagement rate still peaks in the tens of
+seconds. "Succeeds" needs its metric named: in one large vendor sample of 2026
+short-form posts, engagement rate peaked under thirty seconds while median views
+rose several-fold past a minute, exactly where one platform's revenue line sits, so
+a band measured on views and one measured on engagement are two different bands.
+The ceiling is a policy fact; the band is a
 craft fact; only the band belongs in a template — and the widening gap between
 them makes conflating the two more expensive every year, because both drift, on
 different clocks, for different reasons: record each with its own date.
@@ -148,9 +152,12 @@ the vertical-short platforms. TikTok and Reels play with sound by default, and
 the only figure a platform has published points the other way: 88% of TikTok
 users *say* sound is essential, which is an attitude survey, not a measured
 share. The **surface** sets the silent share. A clip that also runs where
-autoplay is muted — a Facebook or LinkedIn feed, a YouTube home feed — starts
-silent there. On the sound-on platforms a muted minority remains, and no
-platform publishes its size.
+autoplay is muted — a LinkedIn feed, a YouTube home feed, an embedded player —
+starts silent there. The feed the famous figure measured is no longer one of
+them: Facebook began starting feed video with sound, unless the phone is
+silenced, within a year of that number, and leaves muting to a viewer toggle. On
+the sound-on surfaces a muted minority remains, and no platform publishes its
+size.
 
 What survives is narrower and still binding. Audio is the delivery layer where
 the surface plays it, and the text layer is insurance built as seriously as the
