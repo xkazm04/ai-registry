@@ -4,7 +4,7 @@ type: application
 subject: connector-catalog
 technique: schema-driven-forms
 stack: react
-verified_on: 2026-09-23
+verified_on: 2026-10-31
 verified_against: react@19
 applied: experiment
 ab_verdict: better
@@ -12,7 +12,8 @@ ab_verdict: better
 
 # Schema-driven credential forms in the vault catalog
 
-*Citations re-resolved against the project tree at `f05c1759f` (react 19.2.6 from the lockfile).*
+*Citations re-resolved against the project tree at `f05c1759f` (react 19.2.6 from the lockfile),
+and again on 2026-10-31 at personas@22260d77.*
 
 The repo runs the technique on two lanes with one field vocabulary. **Shipped
 connectors** declare their credential shape in per-connector JSON
@@ -50,10 +51,16 @@ For operator-defined connectors, save creates a catalog row *and* the first
 credential as one act (`createConnectorDefinition` at `:135-146`, then
 `createCredential` at `:153-158`). The failure seam is closed: if the
 credential save throws after the row was minted, the catch deletes the
-just-created connector (`:167-177`), and because the rollback is itself
+just-created connector (`:176-185`), and because the rollback is itself
 fallible, its failure goes to a breadcrumb rather than vanishing — the
 comment names the stake: "an orphaned connector after a save failure isn't
 invisible."
+
+Re-checked 2026-10-31 at personas@22260d77: the reaper is now also bounded on
+the other side. Once `createCredential` returns, `createdConnectorId` is cleared
+(`:163`), so a failed post-save refresh can no longer delete the definition of a
+credential that was saved. The seam is narrower than described above, not
+reopened.
 
 ## The gate, and the measured vacuous green
 
@@ -90,13 +97,13 @@ effect, or the service is not reachable over HTTP.
 The tree handles the absence in the shape the technique now describes, at
 two layers:
 
-- **The save gate follows the recipe.** `ConnectorCredentialModal.tsx:98`
-  reads `connectorDefinition?.healthcheck_config != null`, and `:211-212`
+- **The save gate follows the recipe.** `ConnectorCredentialModal.tsx:104`
+  reads `connectorDefinition?.healthcheck_config != null`, and `:227-228`
   gates Save only when that is true. It used to default the gate *on* when no
   catalog row existed (commit `904c1692b`, 2026-09-17, whose message names the
   unsatisfiable gate: Save "stayed disabled behind a 'Test connection' the
   catalog never declared a way to run"). The modal's only production caller
-  passes `connectorDefinition={undefined}` (`TemplateModals.tsx:119-129`), so
+  passes `connectorDefinition={undefined}` (`TemplateModals.tsx:102-112`), so
   the old default locked every suggested connector.
 - **Absence is a typed state, not a green.** `engine/healthcheck.rs:20-43`
   splits the probe outcome into `Verified` / `Unverifiable` / `Failed` /

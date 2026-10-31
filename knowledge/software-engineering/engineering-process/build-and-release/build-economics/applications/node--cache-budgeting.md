@@ -4,10 +4,16 @@ type: application
 subject: build-economics
 technique: cache-budgeting
 stack: node
-verified_on: 2026-08-18
+verified_on: 2026-10-31
+verified_against: node@22
 ---
 
 # The target-dir budget: 324 GB of unmanaged cache brought under an enforced ceiling
+
+*Re-checked 2026-10-31 at personas@22260d77: `cache-budget.mjs` was rewritten
+as v2 on 2026-09-18. The two sections below on the budget and the hard ceiling
+describe v1, and their `:line` anchors point into v1. What changed is at the
+end.*
 
 `scripts/cache-budget.mjs` is the repo's cache-budgeting implementation, and
 its header is the whole economic argument in miniature: Cargo never
@@ -74,3 +80,33 @@ Every layer of this cache names its rebuild path: worktree targets
 documented last resort is the bounded full `cargo clean`. Aggressive pruning
 is safe here precisely because the worst case of any eviction is one cold
 build — known, bounded, and cheaper than the disk it buys back.
+
+## Re-checked 2026-10-31 at personas@22260d77: v2 retired the two-regime split
+
+The tree's own header (`cache-budget.mjs:13-29`) now names v1's design as the
+defect. The 80 GB budget was enforced by nothing, and the 150 GB self-heal left
+a dead band between 80 and 150 where the guard warned and deleted nothing. On
+2026-09-18 `target/debug` stood at 110% of budget and not one byte had ever
+been evicted automatically. v2 is the technique's "a warning is not a budget"
+clause taken one step further than this document records:
+
+- **Enforced at the budget, no dead band.** `CACHE_BUDGET_GB` now defaults to
+  60 GiB across every discovered target dir (`:109-112`). The predev/prebuild
+  guard enforces it, and so does a daily scheduled task. `CACHE_HARD_CEILING_GB`
+  (150, `:117`) survives only as an alarm and gates nothing (`:55-58`). So the
+  hard ceiling this document presents as the fix is, by the tree's own
+  account, the half-measure the fix replaced.
+- **A different eviction order** (`:60-78`). Superseded workspace-crate
+  hash-sets in `deps/` go first, then `incremental/` session dirs by age,
+  then `cargo sweep --time 7`, then orphaned `build/` out-dirs. Whole worktree
+  target dirs moved from first to last, and only under a manual `--enforce`.
+  Third-party dependency artifacts are still the last automatic class.
+- **The idle check got a lock probe.** A 1-byte read of `<profile>/.cargo-lock`
+  comes first, then the 90 s incremental-mtime test. Process enumeration is
+  still refused for the same reason (`:80-93`).
+- **A worktree's copy only advises** (`guardMayEnforce`, `:935-947`). A
+  worktree running unreviewed v2 code evicted 9.77 GB from the shared main
+  target before review.
+
+The toolchain-drift half (`check-build-cache.mjs`, now run as the codegen
+runner's `host-check` task, and `ensure-ort-cache.mjs`) holds as described.

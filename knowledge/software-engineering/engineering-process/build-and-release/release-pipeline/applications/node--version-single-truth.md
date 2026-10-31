@@ -4,7 +4,8 @@ type: application
 subject: release-pipeline
 technique: version-single-truth
 stack: node
-verified_on: 2026-08-18
+verified_on: 2026-10-31
+verified_against: node@22
 ---
 
 # Version single truth — Node bump tool + CI release workflow
@@ -47,7 +48,7 @@ fail loudly rather than drift silently.
   lockfile can't silently drift."
 
 `release.yml` adds the ordering-side guard: a **tag-collision check**
-(`release.yml:119-134`) that fails in seconds — before the 45-minute build
+(`release.yml:132-147`) that fails in seconds — before the 45-minute build
 matrix — when version files lag the tag history, with a message naming the
 remedy.
 
@@ -59,10 +60,12 @@ remedy.
 2. **Unreachable replicas.** The workspace has five `version = "…"`
    literals under `src-tauri/` (root plus `core/`, `db/`, `engine/`,
    `macros/`); the bumper writes only the root. `macros` has already
-   diverged to `0.1.0`. The technique's strong form — inheritance — is
+   diverged to `0.1.0`. (Re-checked 2026-10-31 at personas@22260d77: `core`, `db`
+   and `engine` read `1.1.0` like the root, `macros` still `0.1.0`; still no
+   `[workspace.package]` inheritance.) The technique's strong form — inheritance — is
    available here (`[workspace.package] version` + `version.workspace =
    true`) and would delete the four unreachable spellings outright.
-3. **A second hand-maintained file list.** `release.yml:151` `git add`s the
+3. **A second hand-maintained file list.** `release.yml:164` `git add`s the
    four files by name — a list the bumper already owns. The tool should
    emit the set it wrote and the workflow should stage exactly that.
 

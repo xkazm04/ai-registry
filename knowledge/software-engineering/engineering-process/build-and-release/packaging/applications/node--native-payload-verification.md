@@ -4,7 +4,8 @@ type: application
 subject: packaging
 technique: native-payload-verification
 stack: node
-verified_on: 2026-08-18
+verified_on: 2026-10-31
+verified_against: node@22
 ---
 
 # The ONNX Runtime payload: linking-aware verification and the mislabeled tarball
@@ -35,7 +36,7 @@ conservative-fallback rule is there too: when the PE cannot be parsed,
 passing (`:153-164`) — "don't guess … so a real dynamic build can't slip
 through unverified."
 
-One gate, two vantage points: `release.yml:331` runs it with
+One gate, two vantage points: `release.yml:433` runs it with
 `--target <triple>` over the build directory as the release gate, and
 `scripts/test-installer.ps1:92-118` runs the *same script* with
 `--dir $installDir` over the freshly installed tree — the manifest rule

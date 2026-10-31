@@ -4,7 +4,7 @@ type: application
 subject: packaging
 technique: installed-tree-acceptance
 stack: process
-verified_on: 2026-08-18
+verified_on: 2026-10-31
 ---
 
 # The installer acceptance ladder across three operating systems
@@ -57,25 +57,25 @@ the actual published release (`:71`), not a rebuild.
 
 ## Degraded rungs with a written promotion bar
 
-The macOS job (`test-build-macos`, `:144-253`) is the degraded-rung
+The macOS job (`test-build-macos`, `:188-332`) is the degraded-rung
 pattern verbatim. The header comment explains that headless launch of a
 GUI-subsystem binary on a hosted runner cannot be promised, so the job
 "always asserts build-succeeds + DMG-mounts + binary-exists + codesign
 reports an adhoc/unsigned identity" unconditionally (the structural
-checks step, `:203-228`) and only *attempts* the `--health-check` launch
-as bonus signal (`:230-249`). The promotion bar is written into the file:
+checks step, `:282-307`) and only *attempts* the `--health-check` launch
+as bonus signal (`:309-328`). The promotion bar is written into the file:
 `continue-on-error: true` "for the soak period … Flip to false once this
-job has been green … for 5 consecutive scheduled runs" (`:139-143`). The
+job has been green … for 5 consecutive scheduled runs" (`:183-187`). The
 signature floor assertion is explicit: ad-hoc expected, a real identity
 fine, but "a total absence of any signature would be the regression this
-check exists to catch" (`:218-228`).
+check exists to catch" (`:294-307`).
 
-The Linux job (`test-build-linux`, `:261-355`) installs the actual
+The Linux job (`test-build-linux`, `:340-468`) installs the actual
 package via the system package manager, resolves the installed binary
-through the package database (`dpkg -L`, `:324`), and runs the same
+through the package database (`dpkg -L`, `:437`), and runs the same
 `--health-check` + `health-check: passed` assertion under a virtual
 display server — both for the system package and for the self-mounting
-portable format (`:339-355`).
+portable format (`:452-468`).
 
 ## Where it falls short of the standard
 

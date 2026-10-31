@@ -5,7 +5,7 @@ subject: connector-catalog
 technique: catalog-lifecycle
 stack: react
 status: forged
-verified_on: 2026-09-23
+verified_on: 2026-10-31
 verified_against: react@19
 applied: experiment
 ab_verdict: better
@@ -13,7 +13,8 @@ ab_verdict: better
 
 # A catalog with no lifecycle vocabulary, and a door that filters the only list
 
-*Verified against the project tree at `f05c1759f` (react 19.2.6 from the lockfile).*
+*Verified against the project tree at `f05c1759f` (react 19.2.6 from the lockfile);
+re-checked 2026-10-31 at personas@22260d77.*
 
 The technique puts the deprecation stage in the offering lists: an entry is
 hidden from discovery and pickers, but lookups by identity still return it.
@@ -35,7 +36,7 @@ vocabulary to test, and the row does not have one.
 ## Retirement happened, as a bare delete
 
 The catalog has retired entries once. Migration
-`src-tauri/db/src/migrations/incremental/c01_plugin_tables.rs:690-697` deletes
+`src-tauri/db/src/migrations/incremental/c01_plugin_tables.rs:684-692` deletes
 two shipped rows by name, with the comment "any user credentials referencing
 them via the canonical tables remain intact". That is the outcome the
 technique's third stage warns about. Credentials survive and the type they
@@ -48,12 +49,12 @@ technique names.
 ## The one gate that exists is applied at the door, to both reads
 
 The enumeration door is `fetchConnectorDefinitions`
-(`src/stores/slices/vault/credentialSlice.ts:405-427`). It applies one
+(`src/stores/slices/vault/credentialSlice.ts:445-467`). It applies one
 predicate, plugin dependency: a row declaring `requires_plugin:
-"obsidian-brain"` is dropped while that plugin is not ready (`:409-421`). The
-filtered list becomes the store field `connectorDefinitions` (`:423`). That
+"obsidian-brain"` is dropped while that plugin is not ready (`:449-461`). The
+filtered list becomes the store field `connectorDefinitions` (`:463`). That
 same field is read by the gallery and also by 16 lookups by identity across
-15 files (`connectorDefinitions.find(...)`, e.g. `SidebarLevel2.tsx:96`,
+15 files (`connectorDefinitions.find(...)`, e.g. `SidebarLevel2.tsx:101`,
 `useHealthyConnectors.ts:39`, `connectorRunnability.ts:156`). When a user
 disconnects the plugin, the gate that should only stop new adoption also
 removes the row from lookups that name it. (Corrected by the 2026-09-23 apply
@@ -70,6 +71,15 @@ reference to it is a comment. The predicate landed in the door in the same
 commit (`4b543fc5b5`, 2026-04-15), so the unfiltered list the selector's doc
 assumes has not existed since the day the selector was written.
 
+Re-checked 2026-10-31 at personas@22260d77: `useVisibleConnectorDefinitions.ts`
+is gone, and nothing in `src/` or `docs/` names it any more. The never-called
+offer read was deleted rather than adopted, so the tree no longer holds even the
+unused design of the split; the plugin predicate still sits in the door
+(`credentialSlice.ts:457-462`) and still filters the one list both reads use.
+The finding stands, and the remedy measured below now has no selector to start
+from. The identity lookups now count 17 `connectorDefinitions.find(` sites in
+15 files.
+
 ## What this realization cannot show
 
 - **No deprecation has ever run here**, so the tree cannot show the
@@ -77,7 +87,7 @@ assumes has not existed since the day the selector was written.
   shows only the two cheap outcomes: an entry is either present and offered,
   or deleted and dangling.
 - **The resolvers' degraded paths were not traced.** Each of the 16 lookups
-  handles a miss in its own way (`useAutomationSetup.ts:134` returns `null`,
+  handles a miss in its own way (`useAutomationSetup.ts:154` returns `null`,
   for example). Whether a missing row produces a broken surface or only a
   plainer one has not been measured.
 - **Categories are the same shape of problem on another axis, and are out of
@@ -85,7 +95,7 @@ assumes has not existed since the day the selector was written.
   though 85 of the 135 row files declare more than one category, because the
   multi-valued list is "declared in builtin JSON, not stored on backend"
   (`types.ts:253-254`). The union accessor that reads the list
-  (`builtinConnectors.ts:231-243`) looks it up from the bundled JSON by name,
+  (`builtinConnectors.ts:56-68`) looks it up from the bundled JSON by name,
   so a consumer holding stored rows cannot use it.
 
 ## Applied 2026-09-23 - the door's two reads, read-only experiment

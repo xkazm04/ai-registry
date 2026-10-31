@@ -5,7 +5,7 @@ subject: cicd-monitoring
 technique: remote-action-consent
 stack: rust
 status: forged
-verified_on: 2026-09-26
+verified_on: 2026-10-31
 verified_against: rust@1
 applied: simulation
 ab_verdict: better
@@ -15,8 +15,8 @@ ab_verdict: better
 
 The write half of Personas' GitLab surface lives in the Rust backend: deploying a persona
 into a GitLab project, rolling one back from history, and removing it. The React side
-holds the confirmation step (`DeploymentHistoryTab.tsx:29,50-55` arms a two-click
-rollback confirm and disables it while in flight, `:265,278`). The Rust side decides what
+holds the confirmation step (`DeploymentHistoryTab.tsx:31,52-57` arms a two-click
+rollback confirm and disables it while in flight, `:266,279`). The Rust side decides what
 the confirmed click actually does. Read at `900b8f0b4`, toolchain `1.96.1`.
 
 ## Where each mechanism lives

@@ -4,7 +4,7 @@ type: application
 subject: templates-scaffolding
 technique: integrity-and-provenance
 stack: react
-verified_on: 2026-09-23
+verified_on: 2026-10-31
 verified_against: react@19
 applied: experiment
 ab_verdict: better
@@ -15,14 +15,15 @@ ab_verdict: better
 *Re-checked against the project tree at `f05c1759f` (react 19.2.6
 installed). First written 2026-08-18. Since then the backend autopsy block
 and the batch verifier moved within `template_adopt.rs`, and a third
-integrity site (the trust badge) got a real comparison on 2026-09-17.*
+integrity site (the trust badge) got a real comparison on 2026-09-17. Re-checked 2026-10-31 at personas@22260d77: every construct below
+still holds; only line anchors moved.*
 
 This repo carries the technique three times over in one feature: a working
 integrity gate at the catalog door (`templateCatalog.ts`); a badge that
 until recently claimed integrity from origin alone (`templateVerification.ts`);
 and, in the backend, the full autopsy of a deleted gate that ran for
 months while verifying nothing
-(`src-tauri/src/commands/design/template_adopt.rs:20-56`).
+(`src-tauri/src/commands/design/template_adopt.rs:20-58`).
 
 ## The manifest: one generator, two consumers, representation pinned
 
@@ -67,12 +68,12 @@ The 2026-08-29 deviation: `shared/TrustBadge.tsx` drew ShieldCheck
 "Verified" from `verifyTemplate`, where `integrityValid` was set from
 origin alone. The content hash was computed and compared to nothing. The
 fix makes the seeder fingerprint what it writes
-(`src/lib/personas/templates/seedTemplates.ts:80-83`, via
+(`src/lib/personas/templates/seedTemplates.ts:98-101`, via
 `registerBuiltinContentHash`), and `resolveIntegrityValid`
 (`src/lib/templates/templateVerification.ts:201-210`) compares the stored
 `design_result` against that digest. A mismatch, or a fingerprinted
 built-in with no payload, is now `untrusted` with `requireApproval`. The
-fix ships a tamper test: `src/lib/templates/__tests__/templateIntegrity.test.ts:33-42`
+fix ships a tamper test: `src/lib/templates/__tests__/templateIntegrity.test.ts:34-44`
 mutates the payload and requires `untrusted`. It is the first test in this
 feature that demands red.
 
@@ -81,7 +82,7 @@ It also keeps two folds, both written down deliberately:
 - **Transient absence reads as Verified.** When no digest has been
   recorded yet (the gallery painted before seeding, a language switch
   mid-flight), `resolveIntegrityValid` returns `true` (`:208`), and
-  `templateIntegrity.test.ts:54-60` pins "does not accuse a built-in the
+  `templateIntegrity.test.ts:55-62` pins "does not accuse a built-in the
   seeder has not fingerprinted yet" as `verified`. The digest registry is
   process memory (`templateVerification.ts:70`). So the window is every
   start-up until the seeder runs. That is exactly the case the technique's
@@ -103,7 +104,7 @@ store is writable by other parties.
 
 ## The gate that wasn't: `check_template_integrity`, deleted 2026-08-09
 
-The comment block at `template_adopt.rs:20-56` preserves the autopsy of
+The comment block at `template_adopt.rs:20-58` preserves the autopsy of
 the per-adoption gate that used to be documented as "the authoritative
 security gate":
 
@@ -115,14 +116,14 @@ security gate":
 - The release build only warned on "unknown". An earlier revision
   hard-rejected, which bricked two first-party adoption paths on shipped
   binaries while passing in dev, where that branch compiled out
-  (`:36-39`).
+  (`:35-38`).
 - The reasoning sits at the deletion site: "A control that looks like
   security and is inert is worse than none" (`:40-42`).
   `docs/features/templates/06-integrity-and-security.md:157` ("Where
   enforcement actually lives") names the precondition for ever re-adding a
   per-adoption check: a payload-keyed manifest from the same generator.
 
-`verify_template_integrity_batch` (`template_adopt.rs:2229`) survives as
+`verify_template_integrity_batch` (`template_adopt.rs:2239`) survives as
 layer 2, over the same (path, whole-file) pairs. Its caller only reports.
 The comment calls it "a detector, not a gate" (`:49-52`). The corpus audit
 (`docs/concepts/golden-paths/catalog-browse-and-apply.md:243-254`,
