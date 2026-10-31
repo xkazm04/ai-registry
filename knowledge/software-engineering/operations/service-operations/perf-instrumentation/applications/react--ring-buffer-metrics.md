@@ -4,12 +4,13 @@ type: application
 subject: perf-instrumentation
 technique: ring-buffer-metrics
 stack: react
-verified_on: 2026-08-18
+verified_on: 2026-10-31
+verified_against: react@19
 ---
 
 # Ring-buffer metrics — the IPC call ring
 
-`src/lib/ipcMetrics.ts` (~160 lines) is the technique nearly clause for
+`src/lib/ipcMetrics.ts` (~170 lines) is the technique nearly clause for
 clause, in the **shared-ring-grouped-at-read** shape: one 500-record ring
 for every IPC call the app makes, per-command statistics derived by
 partitioning the window when a panel asks.
@@ -37,8 +38,8 @@ The file documents the eviction-honesty rule in its own comment:
 
 ```ts
 // Cumulative counters for LIFETIME rates. The ring only holds the last
-// RING_SIZE calls, so deriving a global timeout/error rate from it is wrong
-// once more than RING_SIZE calls have happened ...
+// RING_SIZE calls, so deriving a global timeout/error rate from it is wrong once
+// more than RING_SIZE calls have happened ...
 let totalTimeouts = 0;
 let totalErrors = 0;
 ```
@@ -64,10 +65,10 @@ Because the ring is global, a chatty command can evict a quiet command's
 samples — the per-key-window starvation the technique names as this
 shape's cost. The mitigation is disclosure:
 `IpcPerformancePanel.tsx` (`src/features/overview/sub_observability/components/`)
-renders `count` as its own sortable column beside p50/p95/p99, and
 subscribes via `useSyncExternalStore` keyed on `getIpcTotalCount()`, so
 derivation runs only when the window actually changed and only while
-someone is looking.
+someone is looking. Its per-command table, the sibling `IpcTables.tsx`,
+renders `count` as its own sortable column beside p50/p95/p99.
 
 ## Cross-layer confirmation
 

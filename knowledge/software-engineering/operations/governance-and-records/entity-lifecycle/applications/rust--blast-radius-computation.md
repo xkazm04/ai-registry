@@ -4,7 +4,7 @@ type: application
 subject: entity-lifecycle
 technique: blast-radius-computation
 stack: rust
-verified_on: 2026-08-30
+verified_on: 2026-10-31
 verified_against: rust@1.80
 ---
 
@@ -16,17 +16,17 @@ destructive command, and a receipt.
 
 ## The enumeration and its door
 
-`src-tauri/db/src/repos/core/personas.rs:1962` `blast_radius` walks the
+`src-tauri/db/src/repos/core/personas.rs:2430` `blast_radius` walks the
 dependent categories — active automations, triggers (bucketed by type),
 event subscriptions, running/queued executions, learned memories — and
 returns `Vec<(category, description)>`. The command wrapper
-`persona_blast_radius` (`src-tauri/src/commands/core/personas.rs:634`)
-maps it to the exported `BlastRadiusItem` struct (`:627-632`), so the
+`persona_blast_radius` (`src-tauri/src/commands/core/personas.rs:635`)
+maps it to the exported `BlastRadiusItem` struct (`:625-631`), so the
 confirm dialog renders the server's enumeration, not a client guess.
 The same pattern is replicated per central entity —
 `credential_blast_radius` and `automation_blast_radius` have their own
 repo enumerations (`repos/resources/credentials.rs:476`,
-`repos/resources/automations.rs:336`) — and the vault's revoke surface
+`repos/resources/automations.rs:315`) — and the vault's revoke surface
 adds the what-if half: `simulateRevocation` and `analyzeBlastRadius` in
 `src/features/vault/sub_dependencies/credentialGraph.ts` read the same
 `BLAST_RADIUS_THRESHOLDS` object (`:74-77`), with a comment naming the
@@ -37,18 +37,28 @@ The proportionality rule is live too:
 fetches the cascade preview first and, when it comes back empty,
 applies immediately with no dialog at all.
 
+Re-checked 2026-10-31 at personas@22260d77: `blast_radius` now enumerates
+more than the five categories above. It also reports emitted events,
+credential links, chain-trigger dependents and team memberships
+(`personas.rs:2430-2594`). `useCapabilityToggle.ts` is no longer in the tree.
+The cascade-preview door it called survives as `getUseCaseCascade`
+(`src/api/agents/useCases.ts:23`, "The UI uses this to render a confirmation
+dialog"), but no file outside that module calls it. The
+proportionality example above therefore can no longer be read from the code.
+The other constructs in this section hold.
+
 ## The act: two-phase drain, then the receipt
 
-`delete_persona` (`commands/core/personas.rs:671`) is the ceremony the
+`delete_persona` (`commands/core/personas.rs:672`) is the ceremony the
 technique asks for on a high-radius entity: `mark_deleting` blocks new
-work (`:677`), the pure guard `deletion_forbidden_reason` (`:653-662`)
+work (`:678`), the pure guard `deletion_forbidden_reason` (`:654-663`)
 protects system-origin personas and is deliberately side-effect-free so
 the most safety-critical check is unit-testable, running executions are
-cancelled and the engine drained under a 15 s deadline (`:793-805`), survivors are force-cancelled before the cascade fires so
-active tasks cannot write into rows being deleted (`:814-826`), the
-declared cascade runs (`:827`), and the orphaned icon file on disk is
-reclaimed best-effort (`:829-836`). The return is a receipt, not a
-boolean: `DeletePersonaResult` (`:610-621`) reports
+cancelled and the engine drained under a 15 s deadline (`:806-822`), survivors are force-cancelled before the cascade fires so
+active tasks cannot write into rows being deleted (`:824-838`), the
+declared cascade runs (`:841`), and the orphaned icon file on disk is
+reclaimed best-effort (`:843-851`). The return is a receipt, not a
+boolean: `DeletePersonaResult` (`:611-622`) reports
 `executions_cancelled`, `executions_force_cancelled`,
 `timeout_reached`, and `cancel_failures` — the accounting the preview's
 consent gets compared against.
@@ -56,7 +66,7 @@ consent gets compared against.
 ## Where the technique's warnings have already come true
 
 - **A failed probe rendered as "safe to delete."** The comment at
-  `repos/core/personas.rs:1983-1987` records the incident: the triggers
+  `repos/core/personas.rs:2449-2454` records the incident: the triggers
   probe selected a `name` column that never existed, the whole query
   errored at runtime, and "the delete dialog silently showed an empty
   blast radius." Exactly the failure-not-empty-success clause — and the
@@ -66,14 +76,24 @@ consent gets compared against.
   five probes now propagate their errors and the delete panel renders a
   broken-preview state instead of an empty radius; `count_credential_links`
   elsewhere in the same file still swallows its error and remains open.
+  *Re-checked 2026-10-31 at personas@22260d77:* still open, and nearer the
+  preview than "elsewhere" suggests. `blast_radius` itself now calls
+  `count_credential_links` (`personas.rs:2541`), whose `.ok()` /
+  `.unwrap_or(0)` chain (`:2204-2219`) still turns a failed read into a
+  reassuring zero inside the preview.
 - **A probe narrower than its delete.** The automations count filters
-  `deployment_status = 'active'` (`:1970`) and the executions count
-  `status IN ('running','queued')` (`:2034`) while the cascade takes
+  `deployment_status = 'active'` (`:2438`) and the executions count
+  `status IN ('running','queued')` (`:2498`) while the cascade takes
   every row — the preview omits the history behind each category.
 - **Privilege parity violated.** The legacy ground-truth sweep
   (`docs/concepts/golden-paths/delete-semantics.md`) documents
   `credential_blast_radius` shipping unguarded while `delete_credential`
   is `#[requires(privileged)]` — the preview cheaper than the act.
+  *Re-checked 2026-10-31 at personas@22260d77: resolved.*
+  `credential_blast_radius` now carries `#[requires(privileged)]`
+  (`src-tauri/src/commands/credentials/crud.rs:269-270`), the same guard as
+  `delete_credential` (`:285-286`), with a comment naming the
+  reconnaissance argument.
 - **The measured radius nobody previewed.** The 2026-08-17 operator
   purge (the consumer's deviation register, lines 15-40) sent one
   authorized bulk delete through the declared `ON DELETE CASCADE`
@@ -86,14 +106,14 @@ consent gets compared against.
 Register #31 — the class where a predicate-sharing count still
 understated the real removal 3.29× because it could not see the cascade —
 is resolved structurally, not numerically. `prune_executions`
-(`src-tauri/src/commands/infrastructure/system/storage.rs:167`) is **one
+(`src-tauri/src/commands/infrastructure/system/storage.rs:324`) is **one
 body for both preview and act**: the real DELETE runs inside a
 `BEGIN IMMEDIATE` transaction (write lock at BEGIN, so the tally cannot
-lie under a concurrent writer, `:175`), per-table casualties are counted
+lie under a concurrent writer, `:332-336`), per-table casualties are counted
 by row-count diff — which sees the FK cascade and the FTS triggers, not
 just the target table — and the mode decides only the final verb:
-ROLLBACK for a dry-run, COMMIT for the act (`:166`, `:186`). Dry-run is
-the default (`:215`), and the test at `:279`
+ROLLBACK for a dry-run, COMMIT for the act (`:323`, `:343-346`). Dry-run is
+the default (`:380`), and the test at `:506`
 (`dry_run_sees_the_cascade_and_deletes_nothing`) pins exactly the
 property the register entry demanded: "The dry-run IS the enforcement
 path: it must see the cascade." Divergence between shown and taken is

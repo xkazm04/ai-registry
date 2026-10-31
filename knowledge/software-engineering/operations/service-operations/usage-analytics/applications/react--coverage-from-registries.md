@@ -4,7 +4,8 @@ type: application
 subject: usage-analytics
 technique: coverage-from-registries
 stack: react
-verified_on: 2026-08-18
+verified_on: 2026-10-31
+verified_against: react@19
 ---
 
 # Coverage from registries — React/Zustand nav stores
@@ -61,7 +62,7 @@ extra a compile error. This is "drift detected" hardened to "drift impossible"
 
 ## The axis the guard does not reach (measured deviation)
 
-`TAB_DIMENSIONS` (`navCatalog.ts:109`) — the list of *which* tab dimensions
+`TAB_DIMENSIONS` (`navCatalog.ts:113`) — the list of *which* tab dimensions
 exist — is a hand-written array literal with no exhaustiveness obligation,
 because "the set of tab-shaped fields on the nav stores" is not a type
 anything can be exhaustive over. The legacy composition over this layer
@@ -83,6 +84,16 @@ diffing against `TAB_DIMENSIONS`, exit non-zero on any unregistered dimension,
 with a floor assertion so an empty inventory is FATAL, not green) — since the
 projection genuinely cannot be computed from a type. The legacy composition
 specifies it in its §9.4; it is not yet built.
+
+Re-checked 2026-10-31 at personas@22260d77: `TAB_DIMENSIONS` still lists
+14 dimensions and none of the six named above. `artistTab` and
+`pendingLifecycleSubTab` no longer appear anywhere under `src/`;
+`companionPluginTab`, `kpisTab`, `obsidianBrainTab` and `twinTab` remain
+unregistered in `src/stores/slices/system/`. The 20-against-14 and 104/122
+figures are the 2026-08 measurement and were not re-run. No inventory
+script diffs `*Tab` fields against the catalog yet (the only script that
+reads `TAB_DIMENSIONS`, `scripts/perf/lib/cold-load-core.mjs`, uses it to
+enumerate routes for a perf walk). The deviation stands.
 
 ## Shared plumbing, one emit site per event class
 

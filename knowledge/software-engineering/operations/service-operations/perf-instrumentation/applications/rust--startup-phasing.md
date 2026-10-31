@@ -4,19 +4,21 @@ type: application
 subject: perf-instrumentation
 technique: startup-phasing
 stack: rust
-verified_on: 2026-08-18
+verified_on: 2026-10-31
+verified_against: rust@1.80
 ---
 
 # Startup phasing — the boot pipeline report
 
-`src-tauri/src/startup_timing.rs` plus the `setup()` closure in
-`src-tauri/src/lib.rs` implement the technique across the full pipeline,
+`src-tauri/src/startup_timing.rs` plus the boot sequence in
+`src-tauri/src/boot/` (`boot::setup`, wired at `src-tauri/src/lib.rs:230`;
+it is the former inline `setup()` closure, moved out whole) implement the technique across the full pipeline,
 including its defining move: the finish line in the other process.
 
 ## Owned phases, marks from inside
 
-`StartupTimer::checkpoint(name)` is called ~35 times inline through
-`lib.rs`'s setup — `"db_init"`, `"credential_migrations"`,
+`StartupTimer::checkpoint(name)` is called 34 times inline through the
+`boot/` phase functions — `"db_init"`, `"credential_migrations"`,
 `"stale_execution_recovery"`, `"local_http"`, `"alert_evaluator"`, … —
 each mark emitted immediately after the code that owns the phase, not by
 an observer timing from outside. Each `StartupPhase` records both
@@ -27,7 +29,7 @@ the shared origin:
 static PROCESS_START: OnceLock<Instant> = OnceLock::new();
 ```
 
-set once at the top of `run()` — one time origin for every backend mark.
+set once at the top of `run()` (`mark_process_start`, `lib.rs:129`) — one time origin for every backend mark.
 `finalize()` freezes the report into a `OnceLock` and `format_boot_log`
 writes the phase table into the boot log, one aligned line per phase
 with both duration and at-time.

@@ -4,7 +4,8 @@ type: application
 subject: triage-queues
 technique: source-normalization
 stack: react
-verified_on: 2026-08-18
+verified_on: 2026-10-31
+verified_against: react@19
 ---
 
 # Source normalization — the React implementations in this repo
@@ -20,6 +21,12 @@ heterogeneous "a human must decide" sources — persona manual reviews, build
 question groups, backlog ideas, workspace practices, policy proposals,
 evolution promotions, and goals awaiting acceptance — into one
 `TriageItem[]`.
+
+Re-checked 2026-10-31 at personas@22260d77: the deck now fuses six item
+kinds, not seven — `TriageKind` (`triageTypes.ts:28-34`) is review, idea,
+question, policy, evolution, goal. Workspace practices no longer have an
+adapter of their own; they reach the deck as practice-materialised ideas
+(`triageAdapters.ts:486`). Every construct cited below holds.
 
 - **The item contract** is `TriageItem` (`triageTypes.ts`), and the adapters
   live in `triageAdapters.ts`, whose header states the technique's hard part
@@ -43,8 +50,8 @@ evolution promotions, and goals awaiting acceptance — into one
   contributes a printable `remaining` number.
 - **Fan-in tolerates latency skew**: each source has its own effect and its
   own generation counter (`ideaFetch.gen`, `proposalGen`, `goalGen`)
-  precisely so *"one unavailable source must not take the other's queue out
-  of the deck with it"* — no `Promise.all` over unrelated subsystems.
+  precisely so that one source *"being unavailable must not take the other's
+  queue out of the deck with it"* — no `Promise.all` over unrelated subsystems.
 
 ## The companion inbox (four sources)
 
@@ -57,6 +64,11 @@ pending approvals, unread messages (partitioned into message vs output by
 delegated elsewhere. Persona identity resolution happens once
 (`resolvePersonaFromIndex`) and is injected into every adapter call, keeping
 the adapters pure.
+
+Re-checked 2026-10-31 at personas@22260d77: this surface is gone.
+`src/features/plugins/companion/inbox/` no longer exists, and no file under
+`src/` defines `useUnifiedInbox`, `UnifiedInboxItem`, `isMessageOutput` or
+`resolvePersonaFromIndex`. The four-source example is history.
 
 ## The incidents inbox (nine source tables)
 
@@ -72,10 +84,23 @@ item be judged in place.
 ## Where the technique's roster warning bites
 
 The golden path's registry lesson is measured in this repo:
-`pending_counts` (`src-tauri/db/src/repos/dev_tools.rs`) hand-enumerates six
+`pending_counts` (then `src-tauri/db/src/repos/dev_tools.rs`) hand-enumerates six
 human-decision queues while thirteen exist; the 2026-08-17 replay in
 `docs/concepts/golden-paths/findings-triage-queue.md` §0 found 314 of 370
 waiting items (84.9%) in queues the badge cannot see — including
 `persona_healing_issues` (179 items, oldest 82 days) and `audit_incidents`
 (99 items) — and that the only queues ever drained to zero are the ones on
 the roster. Visibility and drain are the same variable, counted.
+
+Re-checked 2026-10-31 at personas@22260d77: `pending_counts` moved to
+`src-tauri/db/src/repos/dev/portfolio.rs:287`, and its roster widened.
+The SQL half (`sql_pending_counts`, `:301`) now counts goal acceptance,
+manual reviews, ideas, policy proposals, promotion proposals and the open
+`audit_incidents`. It adds unread reports and council-decidable subjects,
+and the command layer folds in companion approvals. Together they make
+`decision_total` (`sum_decisions`). Practices left the roster.
+`persona_healing_issues`, the largest invisible queue in the replay, is
+still not counted. So the roster warning still applies, but two of the
+named invisible queues (`audit_incidents`, companion approvals) are now
+visible. The 314/370 figures are the 2026-08-17 measurement and were not
+re-run.

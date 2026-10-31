@@ -5,7 +5,7 @@ subject: perf-instrumentation
 technique: in-flight-visibility
 stack: react
 status: forged
-verified_on: 2026-09-30
+verified_on: 2026-10-31
 verified_against: react@19
 applied: unapplied
 ab_verdict: unapplied
@@ -13,7 +13,7 @@ ab_verdict: unapplied
 
 # In-flight visibility: the IPC ring records settled calls only
 
-Read at personas `1d4b497d2` (`src/lib/ipcMetrics.ts`, `src/lib/tauriInvoke.ts`), not run.
+Read at personas `1d4b497d2` (`src/lib/ipcMetrics.ts`, `src/lib/tauriInvoke.ts`), not run; re-read 2026-10-31 at `22260d77`, unchanged in substance.
 
 The IPC ring described in [react--ring-buffer-metrics](./react--ring-buffer-metrics.md)
 is written from the `Promise.race` settlement branches, so an unsettled call

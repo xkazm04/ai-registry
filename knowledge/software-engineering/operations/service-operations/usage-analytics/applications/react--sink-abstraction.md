@@ -5,7 +5,7 @@ subject: usage-analytics
 technique: sink-abstraction
 stack: react
 status: forged
-verified_on: 2026-08-29
+verified_on: 2026-10-31
 verified_against: react@19
 applied: code
 ab_verdict: better
@@ -24,7 +24,7 @@ measuring instrument and then as the fix.
 
 ## The seam
 
-The seam itself is well drawn. `src/lib/analytics/sink.ts:70-118` is one
+The seam itself is well drawn. `src/lib/analytics/sink.ts:70-129` is one
 contract (`feature` / `interaction` / `session` / `conversion`), a real null
 sink for opt-out, one composition point, and a live consent switch:
 
@@ -86,7 +86,7 @@ consent switch.
 Enumerating the callers of the contract's optional half is the check that pays
 here. The sink interface declares four methods. `feature`, `session` and
 `conversion` are reached only through `getAnalyticsSink()` — the layer's own
-code drives them (`index.ts:38`, `:43`, `:49`, `activation.ts:127`). Under A,
+code drives them (`index.ts:38`, `:43`, `:58`, `activation.ts:140`). Under A,
 `interaction` had **three** call sites in the whole product
 (`PersonaCoreModal.tsx:67`, `ModelABCompare.tsx:86` and `:149`,
 `ModelSelector.tsx:195` — one team's deliberate choice, with a comment at
@@ -103,12 +103,24 @@ understood — and it was still the minority path, which is exactly the
 technique's argument that a convention asking callers not to use the dangerous
 export is not a mechanism.
 
+Re-checked 2026-10-31 at personas@22260d77: B is what the tree holds. The
+re-export quoted above as A (`index.ts:162`) is gone; `index.ts:188-195`
+defines the local `trackInteraction`/`trackFeature` over `getAnalyticsSink()`,
+with a comment naming the removed export as the unswitchable door. The four
+product files the compiler named still import `trackInteraction` from
+`@/lib/analytics`, now through the switch. The three under-A `interaction`
+call-site files (`PersonaCoreModal.tsx`, `ModelABCompare.tsx`,
+`ModelSelector.tsx`) are no longer in the tree; the persona core's direct
+sink call now lives in `src/features/agents/sub_glyph/personaCore/coreAnalytics.ts:18`,
+with the same consent-switch comment. The under-A counts are the measurement
+and stand as history. The verdict holds.
+
 ## What this realization cannot do or prove
 
 - It proves the *natural* bypass is closed, not that the layer has one door.
   Five files still import `trackInteraction` from `@/lib/sentry`
-  (`useOnboardingState.ts:15`, `MemoryConflictReview.tsx:16`,
-  `ChatTab.tsx:13`, `workflowParser.ts:25`, `workflowPipeline.ts:15`), and the
+  (`useOnboardingState.ts:16`, `MemoryConflictReview.tsx:17`,
+  `ChatTab.tsx:14`, `workflowParser.ts:25`, `workflowPipeline.ts:16`), and the
   compiler cannot name them,
   because that module legitimately owns the symbol. Closing that requires
   withholding the export at its source, which is a larger change than this

@@ -4,7 +4,8 @@ type: application
 subject: usage-analytics
 technique: batching-and-quota
 stack: react
-verified_on: 2026-08-18
+verified_on: 2026-10-31
+verified_against: react@19
 ---
 
 # Batching and quota — per-session counters in the webview
@@ -39,18 +40,24 @@ goal: one flush "to keep transport quota predictable".
 ## The flush
 
 ```ts
-// index.ts:47
+// index.ts:47 (as read 2026-08-18; now index.ts:54, latched)
 function flushSessionSummary(): void {
   if (Object.keys(sessionCounts).length === 0) return;
   getAnalyticsSink().session(buildSessionSummary(sessionCounts));
 }
-// index.ts:149
+// index.ts:149 (as read 2026-08-18)
 window.addEventListener('beforeunload', flushSessionSummary);
 ```
 
 One summary per session, built by the pure `buildSessionSummary` diff and
 handed to the pluggable sink. The unsubscribe returned by `initAnalytics`
 removes the listener (`index.ts:154`) — creation naming its reaper.
+
+> Re-checked 2026-10-31 at personas@22260d77: `flushSessionSummary` is now
+> `index.ts:54` and is latched (`summaryFlushed`, `:52`) so it emits at most
+> one summary; `initAnalytics` registers BOTH `pagehide` and `beforeunload`
+> (`index.ts:165-166`), and the unsubscribe removes both (`:171-172`). The
+> accumulator (`:31`) and `tabCountKey` (`summary.ts:21`) are unchanged.
 
 ## Where it deviates from the technique (measured)
 
@@ -62,6 +69,13 @@ removes the listener (`index.ts:154`) — creation naming its reaper.
   nowhere (legacy composition, docs/concepts/golden-paths/usage-analytics.md
   §7 D3). The technique's rule — the unload listener is the last chance, not
   the mechanism — is inverted here: the listener is the only drain.
+  *Re-checked 2026-10-31 at personas@22260d77: resolved in part.* The flush
+  now rides on `pagehide` and `beforeunload` together, latched to one summary
+  (`index.ts:157-166`, whose comment names the under-counted desktop
+  sessions), and `throttledStorage.ts` now has four call sites. The listener
+  pair is still the only drain, so the checkpoint and loss-accounting
+  deviations below stand unchanged — no checkpoint, recovered-session flush
+  or started/flushed counter exists in `src/lib/analytics/`.
 - **No checkpoint, so abrupt death loses the session silently.** There is no
   periodic persistence of `sessionCounts` and no recovered-session flush on
   next launch. A crashed session's summary is indistinguishable from a
