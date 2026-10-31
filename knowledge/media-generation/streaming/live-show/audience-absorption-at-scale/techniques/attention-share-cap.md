@@ -58,7 +58,7 @@ The overcorrection is as damaging as the original capture and arrives without an
 tuning against rank. Invested viewers chat more per head — the highest ranks may speak
 every turn while newcomers speak every other — so a cap that treats every viewer
 identically binds them hardest. Each one receives about the same number of answers as
-anyone else from several times the messages, and per message the most invested class is
+anyone else from twice the messages, and per message the most invested class is
 answered markedly less often than the newest. A rank-blind short-window cap produced
 exactly that shape in a pilot, with the top rank answered on well under a third of its
 messages against nearly half for the lowest. Regulars notice within a stream: the climb

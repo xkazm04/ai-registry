@@ -60,7 +60,9 @@ while individual messages remain legible on screen; aggregate begins when a mess
 typically leaves the visible chat before the host could have answered it. The chat itself
 confirms the last boundary: it is where the room turns to crowdspeak, with messages
 shrinking to a few words, copies and emote chains dominating, and distinct vocabulary per
-stretch of chat falling to around half that of a conversational room. One large study of
+stretch of chat falling to around half that of a conversational room (Ford et al., CHI EA
+2017: 85 against 169 unique lexical items per fifty messages, comparing chats of over 10,000
+viewers with chats of under 2,000, so it confirms the turn without locating it). One large study of
 public livestream chat logs measured where that turn happens (Nematzadeh et al., 2019,
 arXiv 1610.06497). Messages per chatter rise with total chat volume up to about forty
 messages per five minutes, roughly one every seven or eight seconds, and fall above it,

@@ -42,7 +42,9 @@ rank, no history and no momentum in the ranking.
    acknowledged. A second message competes on ordinary terms.
 5. **Suppress during raids.** When a raid lands, every arrival is first contact; the group
    greeting serves them all, and individual first-contact boosts resume only for raiders
-   who speak beyond the ritual once the surge settles.
+   who speak beyond the ritual once the surge settles. Suspend every newness bonus for raid
+   arrivals, not only this one; a picker that also favours never-answered viewers rewards
+   the same raiders a second way ([raid-group-greeting](./raid-group-greeting.md)).
 
 ## The second exemption: the question that was missed
 

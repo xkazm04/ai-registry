@@ -29,7 +29,8 @@ dropped without a word.
 
 1. **Detect the raid from the platform's raid event when there is one**, and from a
    surge of distinct first-time chatters when there is not. The event carries the raiding
-   host and party size; the surge only carries size.
+   host and party size; the surge only carries size, and while the room is still filling it
+   also fires with no raid at all (see the boundary section below).
 2. **Greet once.** Name the raiding host, acknowledge the size of the party in terms the
    room can verify, and give the newcomers one line of premise — who the host is and what
    the show is doing right now. The greeting is a short, scripted-shape beat with the host's

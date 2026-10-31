@@ -70,7 +70,8 @@ chatters, the same as a much smaller room with an unusually chatty crowd, and it
 same picking mode. The chat itself shows where the regimes change: small chats are
 conversational, with viewers addressing one another in full sentences, while large chats
 turn into crowdspeak — short repeated lines, copied blocks and emote chants, with roughly
-half the distinct vocabulary per fifty messages. Measure distinct chatters over a sliding
+half the distinct vocabulary per fifty messages (measured between chats of under 2,000 and
+over 10,000 viewers, so it marks the far end, not where a thirty-chatter room turns). Measure distinct chatters over a sliding
 window of a few minutes, and switch modes with hysteresis — a higher threshold to enter a
 regime than to leave it — so a room hovering at a boundary does not flip between answering
 everyone and choosing on alternate messages, which reads to the room as moodiness. The tiers and the switch are
@@ -94,7 +95,7 @@ bounded fraction of the host's answers. Rank may buy priority in the queue; it m
 the queue. That is [attention-share-cap](./techniques/attention-share-cap.md), and its
 symmetrical failure is worth naming because it arrives by accident. Invested viewers talk
 more, so a cap that treats every viewer identically binds them hardest: each high-rank
-viewer gets the same answers as anyone else from several times the messages, and the
+viewer gets the same answers as anyone else from more messages, and the
 room's most committed members end up answered on a markedly smaller share of what they
 say. Judged per message, the room has inverted, and the regulars learn that climbing is
 pointless. The cap aims for parity with bounded headroom, measured as answers per message
