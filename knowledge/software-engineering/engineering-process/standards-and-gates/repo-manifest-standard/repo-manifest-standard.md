@@ -132,6 +132,15 @@ opinion about — including the fields a second tool owned.
 [must-ignore-unknown](./techniques/must-ignore-unknown.md) covers both halves, and
 the narrow set of things a reader is allowed to be strict about.
 
+The promise is scoped to what this subject is named for: a document that many
+independently written programs read. A document with exactly one reader, such as
+a tool's own configuration, wants the opposite default, because there an ignored
+key is a silent typo. That reader rejects what it does not recognize, and reads a
+declared version floor in a pass of its own before the schema, so that a
+forward-written document reports *your tool is old* and not a pile of key errors.
+[version-gate-precedes-schema-gate](./techniques/version-gate-precedes-schema-gate.md)
+carries that case and the one question that discriminates the two.
+
 
 ## The room you keep is the room nobody can use
 
@@ -205,8 +214,8 @@ needs a description of the repository.
 The manifest should be **synthesized from what the repository actually contains**
 and should record that it was — which tool version, from which inputs, at which
 revision. That record is what makes the manifest *checkable*: regenerate into a
-buffer, compare against what is committed, and the difference is drift with a
-name. A manifest that cannot be regenerated cannot be verified; it can only be
+buffer, compare against what is committed (leaving out the record's own date and
+revision, which every run rewrites), and the difference is drift with a name. A manifest that cannot be regenerated cannot be verified; it can only be
 believed. [generated-from-provenance](./techniques/generated-from-provenance.md)
 covers the synthesis, the drift check, and the reserved space for the fields a
 human genuinely must own.

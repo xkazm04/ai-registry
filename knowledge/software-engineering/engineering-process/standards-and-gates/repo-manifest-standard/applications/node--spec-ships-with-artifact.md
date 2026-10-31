@@ -45,10 +45,12 @@ the boolean `true` rather than the string. The fix's own commentary
 
 This is the canonical interop case for the format, known widely as the *Norway
 problem* — `NO` for Norway coerced to `false` — and it is not a parser bug: YAML
-1.1 specifies `n|N|no|No|NO|off|…` as false, and although YAML 1.2 (2009) removed
-implicit boolean typing, the most-deployed libraries still implement 1.1. So the
-disagreement is permanent and predictable: a subset reader passes the token
-through as text, a full parser coerces it.
+1.1 specifies `n|N|no|No|NO|off|…` as false. YAML 1.2 (2009) narrowed implicit
+booleans to `true`/`false` and their case variants, and libraries split: PyYAML
+still resolves the 1.1 set, while js-yaml has not coerced `yes`/`no`/`on`/`off`
+since its 1.0. So the disagreement depends on which library reads the file, and
+it does not go away: `true`, `null` and `~` are typed under 1.2 too. A subset
+reader passes the token through as text; a full parser may coerce it.
 
 The repair is one exported `yamlScalar` (`manifest.ts:214-221`) testing the
 character class *and* the ambiguity set *and* a number shape, shared with the

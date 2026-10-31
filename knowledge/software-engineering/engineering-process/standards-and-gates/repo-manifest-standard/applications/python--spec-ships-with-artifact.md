@@ -13,9 +13,11 @@ verified_against: python@3.10
 
 A deep-learning toolkit distributes trained models as a **bundle**: a directory with a fixed layout — a license, a `configs/` folder holding a metadata file, a `models/` folder holding the weights and optional compiled forms, a `docs/` folder — that may be zipped, or embedded whole inside a compiled model container as extra files. The metadata file is the contract, and the tree's specification page states what it must carry. Three of its choices are the technique in this subject, applied to a carried artifact rather than a repository.
 
-## The schema travels inside the file
+## The file names its own schema
 
-The metadata file carries a `schema` key whose value is the address of the JSON schema it claims to satisfy, and the toolkit's `verify_metadata` command validates the file against exactly that schema. A consumer that has never seen this toolkit can fetch the schema the file names and validate it with a generic validator; a consumer offline can validate against a vendored copy the file identifies by version. The specification is not "somewhere in the docs"; the artifact points at it, per artifact, so two bundles built under two schema versions each say which one they mean.
+The metadata file carries a `schema` key whose value is the address of the JSON schema it claims to satisfy, and the toolkit's `verify_metadata` command validates the file against exactly that schema. A consumer that has never seen this toolkit can fetch the schema the file names and validate it with a generic validator. The specification is not "somewhere in the docs"; the artifact points at it, per artifact, so two bundles built under two schema versions each say which one they mean.
+
+The pointer is half the technique, not all of it. The specification calls the value "the download link of a JSON schema", and the example is a release-asset URL. So the schema's identity is a location, and an offline consumer can validate only if it has already vendored that exact file. That is the location-as-identity the golden path warns against.
 
 ## Version pins are floors, and the contract says so
 

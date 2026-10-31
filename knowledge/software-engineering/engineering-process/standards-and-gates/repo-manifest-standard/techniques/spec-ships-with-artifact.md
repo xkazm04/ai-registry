@@ -80,8 +80,11 @@ is green forever for the same reason a synthesis-against-synthesis drift check
 is. So the suite must contain **at least one independent, full implementation of
 the underlying format**, reading the real emitted artifact. The defect class this
 catches is small and famous: a bare token that the subset reader passes through
-as a string while a conforming parser coerces it into another type entirely — a
-legal name that a foreign reader silently turns into a boolean.
+as a string while a full-format parser coerces it into another type entirely — a
+legal name that a foreign reader silently turns into a boolean. Which tokens
+coerce depends on the parser: `true` and `null` under any version of the format,
+`no` and `on` only under the older rules that some widely used libraries still
+apply.
 
 ## Decision rules
 

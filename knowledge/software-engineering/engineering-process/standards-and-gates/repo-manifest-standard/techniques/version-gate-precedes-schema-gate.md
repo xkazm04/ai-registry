@@ -115,8 +115,11 @@ for it. Where an arbitrary tool must be able to read the artifact, a version
 floor that refuses is a compatibility break dressed as a courtesy: the reader
 could have done something useful with the fields it recognized, and instead did
 nothing. There the answer is
-[must-ignore-unknown](./must-ignore-unknown.md), and the version field is
-advisory — a thing a reader may report, not a thing it may refuse on.
+[must-ignore-unknown](./must-ignore-unknown.md), and a declared reader-version
+floor is advisory — a thing a reader may report, not a thing it may refuse on.
+The contract's own major version is a different field: a reader still refuses a
+major above the one it understands
+([semver-additive-evolution](./semver-additive-evolution.md)).
 
 The discriminator is a single question, and it is about the artifact rather than
 the format:
@@ -124,7 +127,7 @@ the format:
 > **How many independently written programs read this document?**
 
 One — reject unknown keys and gate on the declared floor first. More than one —
-ignore unknown keys and do not refuse on the version. A team that cannot answer
+ignore unknown keys and do not refuse on a reader-version floor. A team that cannot answer
 the question has an artifact that will be read by two programs within a year,
 and should assume more than one.
 

@@ -48,7 +48,9 @@ from a belief into a verifiable claim:
 
 1. Re-run the synthesizer against the working tree, into memory.
 2. Compare with what is committed, field by field, ignoring keys the generator
-   does not own (see the carry-forward rule in must-ignore-unknown).
+   does not own (see the carry-forward rule in must-ignore-unknown) and the
+   provenance record's own date and revision, which a fresh run rewrites by
+   construction.
 3. A difference is **drift**: the repository changed and the description did not.
    Report it as a named finding with the differing paths, not as "manifest is
    out of date."

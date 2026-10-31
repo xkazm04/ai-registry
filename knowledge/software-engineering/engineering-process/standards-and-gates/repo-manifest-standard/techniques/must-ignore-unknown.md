@@ -147,3 +147,8 @@ enumeration — a lockfile, a signed inventory, an attestation whose value comes
 from listing everything. There, an unrecognized entry is a real finding, and
 tolerance defeats the artifact. Must-ignore belongs to *extensible descriptions*,
 not to *closed accountings*.
+
+Do not apply it either to a document with exactly one reader, such as a tool's own
+configuration. There, an ignored key is a typo rendered as an empty value, so the
+reader should reject unknown keys and gate on a declared version floor first:
+[version-gate-precedes-schema-gate](./version-gate-precedes-schema-gate.md).

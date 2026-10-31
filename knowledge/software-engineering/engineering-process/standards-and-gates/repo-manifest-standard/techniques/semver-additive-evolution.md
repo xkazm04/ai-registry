@@ -66,8 +66,6 @@ These are where the discipline is actually tested.
   were told the set was exhaustive, they were licensed to switch on it
   exhaustively. Sets are open by declaration, not by hope — say which they are
   when you define them.
-
-
 - **A member added to a shape an existing reader already receives.** The four
   cases above turn on what the *specification* declared. This one turns on how
   the reader was *built*: a reader whose surface is derived from the whole
@@ -78,6 +76,7 @@ These are where the discipline is actually tested.
   existing shape, which every existing consumer already reads - opposite blast
   radii under one word, which is why the argument about it never converges
   ([release-level-by-reader-reach](../../../build-and-release/release-pipeline/techniques/release-level-by-reader-reach.md)).
+
 ## The identity field beside the version
 
 A version alone does not tell a reader *what* it is holding. Pair it with a
