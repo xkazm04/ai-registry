@@ -157,7 +157,7 @@ money: the missing pair is absent, not zero, and an absent addend refuses the su
 ## What the narrative may claim
 
 The paragraph under the tiles is where reports go wrong in ways no tile can catch.
-Three disciplines hold it honest, and each defers to another subject for its footing:
+Four disciplines hold it honest, and each defers to another subject for its footing:
 
 - **A trend word needs a move that cleared its band.** Whether the month's delta is
   real is `period-comparison-significance`'s verdict; the report's own rule is

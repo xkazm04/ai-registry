@@ -61,9 +61,11 @@ have to switch tense mid-paragraph.
    - whether an automated diagnosis or recommendation may run at all - illustrative
      data is never diagnosed as if it were the client's, and a recommendation issued
      against it is never scored later as an account win;
-   - whether the shared report page may be indexed by a search engine. A page of
-     illustrative numbers under a real business's name is a proof claim to whoever
-     lands on it; it carries a no-index directive until it is live.
+   - whether a public surface built from the same rows - a microsite, a case page -
+     may be indexed by a search engine. A page of illustrative numbers under a real
+     business's name is a proof claim to whoever lands on it; it carries a no-index
+     directive until it is live. The private shared report page is never indexed,
+     live or not (plain-language-gloss-and-white-label).
 5. **Test the linked-never-synced case explicitly.** It is the state a workspace
    spends its first day in and the one most implementations never render.
 
@@ -72,9 +74,11 @@ have to switch tense mid-paragraph.
 - When a source is linked and the first sync has failed, render "connected, awaiting
   data" and keep the illustrative label on the tiles, because a failed sync has
   produced no rows and the reader must not be told otherwise.
-- When a source was live and the last successful sync is older than the report
-  period's end, the tile is *synced, not for this period* - the report says the data
-  stops on the date it stops, and the freshness caveat travels into the narrative.
+- When a source was live and the rows that arrived end before the report period
+  does, the tile is *synced, not for this period* - the report says the data stops
+  on the date it stops, and the freshness caveat travels into the narrative. The test
+  is the rows' coverage, not the sync's timestamp: a sync that ran after the period
+  ended can still deliver rows that stop short of it.
 - When a mixed page must ship - one platform synced, another not - render per-tile
   labels and set the page badge to the weaker state; never promote the page to live on
   a majority of tiles.

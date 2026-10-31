@@ -102,7 +102,13 @@ refused on the currency rule before the pair rule is even reached.
 - When a platform reports a metric in a currency other than the account's billing
   currency - a conversion value in the shop's currency on a euro-billed account -
   the two are not divided into a ratio until both sides are in one currency by a
-  labelled conversion; until then the ratio is absent.
+  labelled conversion; until then the ratio is absent. Know which case the platform
+  produces: the dominant search platform reports conversion values in the billing
+  currency, converting a value that carried a currency code at an average daily
+  rate, and does no conversion at all for a value sent without one - so an untagged
+  crown value on a euro account arrives read as euros. The first case is a platform
+  conversion the report labels as such; the second is the mixed ratio this rule
+  refuses, and the fix is to send the code.
 
 ## Convention, stated as such
 

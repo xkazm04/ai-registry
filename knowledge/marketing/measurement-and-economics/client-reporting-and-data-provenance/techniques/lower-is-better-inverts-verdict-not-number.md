@@ -73,8 +73,10 @@ own name and its own signed change.
 
 - When a lower-is-better metric rises, show the positive delta in the "worse" colour;
   never negate it to make the colour logic simpler.
-- When the prior value is zero and the metric is a cost ratio over conversions -
-  spend with no return - the honest render is not a delta at all but the state
+- When a cost-over-return metric's denominator is zero in a period that had spend -
+  conversions or revenue at zero, spend with no return - the ratio is undefined, not
+  zero, and a divide guarded to return 0 would draw it as a large improvement. The
+  honest render is not a delta at all but the state
   itself: "spent, no return", distinct from "paused" (no spend), because a
   campaign that spent and returned nothing is the worst state on the page and a
   dash hides it among the idle ones.

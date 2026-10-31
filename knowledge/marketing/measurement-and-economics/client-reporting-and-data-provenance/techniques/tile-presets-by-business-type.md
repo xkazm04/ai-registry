@@ -118,7 +118,10 @@ hides what the operator needs to diagnose.
 Do not use the preset to decide *whether* a number is real. The preset chooses which
 metrics to show and what direction is good; provenance, freshness and the verdict on
 a delta are decided by their own techniques and subjects, and a preset that starts
-encoding "show this tile only when live" has absorbed a concern it will get wrong.
+encoding "show this tile only when live" as a judgement of whether the number can be
+trusted has absorbed a concern it will get wrong. The live-branch rule above is
+narrower: it drops a tile the illustrative dataset has no row for, which is the
+not-measured rule, not a trust verdict.
 
 Do not infer the business type from the tiles that have data. That reasoning runs
 backwards: a lead-gen client whose ad account happens to carry a revenue column from
