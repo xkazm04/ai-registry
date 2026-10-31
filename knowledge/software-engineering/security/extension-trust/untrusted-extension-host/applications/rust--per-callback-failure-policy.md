@@ -5,7 +5,7 @@ subject: untrusted-extension-host
 technique: per-callback-failure-policy
 stack: rust
 status: forged
-verified_on: 2026-09-03
+verified_on: 2026-10-31
 verified_against: rust@1.80
 applied: simulation
 ab_verdict: better
@@ -17,7 +17,7 @@ proof: structural-only
 The desktop agent runtime's extension surface is split in two by return
 type: observers report and return nothing, interceptors change one declared
 mutation point and return a typed decision. The version witness is
-`src-tauri/Cargo.toml:115` (`rust-version = "1.80.0"`). The surface is
+`src-tauri/Cargo.toml:222` (`rust-version = "1.80.0"`). The surface is
 in-tree and compiled; nothing here is a dynamic plugin.
 
 The technique's rule is per-registration failure policy. Its amendment,

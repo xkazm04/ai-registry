@@ -4,7 +4,8 @@ type: application
 subject: pipeline-dag
 technique: node-execution-model
 stack: rust
-verified_on: 2026-08-18
+verified_on: 2026-10-31
+verified_against: rust@1.96
 ---
 
 # Node execution model — Rust pipeline executor
@@ -22,43 +23,43 @@ creation + topological order), executing a team's authored node graph.
   `cycle_member_ids` named (`teams.rs:260-295`). The sort's order *is* the
   execution order handed to `run_pipeline` — proof and plan are the same
   artifact, exactly as the technique prescribes.
-- **Readiness from data.** `build_predecessor_map` (`pipeline_executor.rs:115-127`)
+- **Readiness from data.** `build_predecessor_map` (`pipeline_executor.rs:116-128`)
   derives predecessors purely from stored connections;
   `resolve_node_input` and `all_predecessors_skipped` read only
   `node_outputs`/`skipped` state. Fan-in merges every present predecessor
   output into a structured `{ "inputs": { member_id: output } }` payload
-  (`pipeline_executor.rs:1111-1136`) instead of silently picking one branch —
+  (`pipeline_executor.rs:1167-1205`) instead of silently picking one branch —
   a defect the file's own comment records as previously shipped.
 - **Persist, then broadcast, honestly.** `StatusEmitter::emit`
-  (`pipeline_executor.rs:64-108`) writes `node_statuses` to the run row and
+  (`pipeline_executor.rs:65-108`) writes `node_statuses` to the run row and
   then emits `PIPELINE_STATUS`; a failed DB write is warn-logged as a named
   UI/store divergence rather than swallowed.
 - **Skip is not failure.** Conditional-edge misses write `status: "skipped"`
   with `skip_reason: "condition_not_met"`; transitive skips write
-  `"upstream_skipped"` (`pipeline_executor.rs:849-886`) — the skip carries
+  `"upstream_skipped"` (`pipeline_executor.rs:908-946`) — the skip carries
   its predicate.
 - **Per-class deadlines, execution-time-counted.** Persona (model) nodes
   budget 600s of *running* time and 3600s total wall-clock — queued time
   waiting for an admission slot explicitly does not burn the node's deadline
-  (`pipeline_executor.rs:456-465`), the exact rule the technique's last
+  (`pipeline_executor.rs:470-478`), the exact rule the technique's last
   decision rule states. Command nodes carry their own 300s ceiling. Timed-out
-  executions are cancelled, not orphaned (`pipeline_executor.rs:539-546`).
+  executions are cancelled, not orphaned (`pipeline_executor.rs:557-564`).
 - **Budget enforced at dispatch.** `run_budget::ledger().should_halt` is
-  checked before each node launch (`pipeline_executor.rs:819-826`).
+  checked before each node launch (`pipeline_executor.rs:878-885`).
 
 ## Where it deviates from the standard (kept, reported)
 
 - **No resume — restart recovery is fail-and-sweep.** Run state (`statuses`,
   `node_outputs`, `skipped`) lives in the spawned task's memory; the DB gets
   status snapshots but the loop cannot be reconstructed from them. Startup
-  runs `recover_interrupted_pipeline_runs` (`lib.rs:838-849`), which marks
+  runs `recover_interrupted_pipeline_runs` (`boot/recovery.rs:93-100`), which marks
   `running`/`awaiting_approval` runs **failed** — including runs parked on a
   human gate, since the approval flag is an in-memory `AtomicBool` in
-  `ActiveProcessRegistry` (`pipeline_executor.rs:716-749`). Registered at
+  `ActiveProcessRegistry` (`pipeline_executor.rs:775-808`). Registered at
   `#w2-hitl-approval`; this file is its restart-recovery evidence.
 - **Fail-fast overloads "skipped".** After a failure or cancel, remaining
   `idle` nodes are relabeled `skipped`/`cancelled` wholesale
-  (`pipeline_executor.rs:1048-1065`) — blocked-by-upstream-failure is
+  (`pipeline_executor.rs:1112-1129`) — blocked-by-upstream-failure is
   distinguishable from branch-not-taken only by the *absence* of a
   `skip_reason` field, where the standard wants a distinct `blocked` status.
 - **No single status authority.** `"idle"`, `"running"`, `"completed"`,

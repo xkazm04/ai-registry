@@ -4,12 +4,13 @@ type: application
 subject: admission-queue
 technique: load-aware-admission
 stack: rust
-verified_on: 2026-08-18
+verified_on: 2026-10-31
+verified_against: rust@1.96
 ---
 
 # Load-aware admission in the Personas resource governor
 
-`src-tauri/src/engine/resource_governor.rs` is a 74-line implementation of
+`src-tauri/src/engine/resource_governor.rs` is a 73-line implementation of
 the technique's whole core — per-signal asymmetric thresholds, hysteresis,
 first-sample honesty, defer-never-disturb — with the rationale written
 into the module doc rather than left as folklore. It is worth reading as a
@@ -22,9 +23,9 @@ The module doc states the prime directive verbatim: "Running executions
 are NEVER interrupted — only NEW admissions defer to the per-persona
 queues, draining as load recovers" (`:10-11`). The gate is a single
 boolean on the tracker (`set_resource_throttled`,
-`src-tauri/engine/src/queue.rs:196-198`), consulted at *both* promotion
-doors — fresh admission (`admit`, `:267`) and queue drain (`drain_next`
-`:346`, `drain_next_global` `:397`) — so pressure holds new work in the
+`src-tauri/engine/src/queue.rs:312-314`), consulted at *both* promotion
+doors — fresh admission (`admit`, `:455`) and queue drain (`drain_next`
+`:604`, `drain_next_global` `:675`) — so pressure holds new work in the
 queues without touching anything in flight. The queue absorbs the
 deferral exactly as the technique describes; if pressure persists, the
 per-persona depth bound eventually refuses with `QueueFull`.
@@ -40,11 +41,20 @@ This is the technique's "thresholds are per-signal, chosen from what each
 signal implies" — implemented as named constants with the why beside
 them, not one global pressure percent.
 
+Re-checked 2026-10-31 at personas@22260d77c9: the memory pair is now **90%**
+pause / **88%** resume (`:31-33`), raised in `0050e97c7e` (2026-09-26) as
+"operator-directed tuning" for a dev box sitting at ~87% used RAM, whose
+message says to "revert to 85/70 for a normal machine". The constants still
+carry the per-signal rationale, but the module doc (`:13-16`) still argues from
+the 70% mark, and a machine-specific tuning now lives in shared source with its
+revert instruction only in a commit message.
+
 ## Hysteresis, in both directions
 
 The loop (`:50-56`) pauses when **either** signal exceeds its pause
 watermark, and resumes only when **both** fall below their *resume*
-watermarks — a 15-point gap on both signals, plus the conservative
+watermarks — a 15-point gap on both signals (2 points on memory since the
+90/88 retune noted above), plus the conservative
 both-must-clear rule on reopen. The 3-second sampling cadence (`:35`) is
 deliberately cheap ("no process enumeration"), and the reading is shared
 by all admission decisions in the window via the tracker flag — the probe
@@ -65,7 +75,7 @@ never runs per-request.
   file skips.
 - **Gap 2 — transitions are visible, duration is not.** Every gate flip
   logs both readings and the direction (`:57-71`), and the tracker exposes
-  `resource_throttled()` for UI (`queue.rs:202-204`) — but that accessor
+  `resource_throttled()` for UI (`queue.rs:318-320`) — but that accessor
   is marked dead code, and nothing alarms on time-in-state. A gate closed
   for a day (the capacity problem wearing a safety feature's uniform) and
   a gate closed for a minute look identical to every consumer that isn't
@@ -78,6 +88,6 @@ gate: the module doc says it "mirrors the tracker's existing
 `quota_cooldown` admission gate, but driven by system load instead of the
 AI provider's rate limit" (`:6-8`). Both gates report into the same
 admission verdict (`AdmitResult`), and the admit path logs *which* gate
-held (`queue.rs:273-281`) — the one-gate-one-vocabulary composition the
+held (`queue.rs:461-468`) — the one-gate-one-vocabulary composition the
 subject's vocabulary technique prescribes, with the governor as one voice
 in it rather than a second door.

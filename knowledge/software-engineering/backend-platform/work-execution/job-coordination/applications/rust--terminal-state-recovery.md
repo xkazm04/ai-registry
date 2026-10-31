@@ -5,7 +5,7 @@ subject: job-coordination
 technique: terminal-state-recovery
 stack: rust
 verified_against: rust@1.96
-verified_on: 2026-08-28
+verified_on: 2026-10-31
 ---
 
 # Terminal-state recovery in the Rust boot sequence
@@ -16,7 +16,7 @@ per-class verdict form, the park form, the corroborated age-expiry form,
 and the blanket wholesale fail the technique exists to displace. The boot
 passes are dispatched from one phase function,
 `boot::recovery::recover_interrupted_work`, called at
-`src-tauri/src/boot/mod.rs:72`; re-admission of persisted `queued` rows is
+`src-tauri/src/boot/mod.rs:99`; re-admission of persisted `queued` rows is
 spawned separately from `src-tauri/src/boot/workers.rs`.
 
 ## The strong form: verdicts per class
@@ -41,10 +41,25 @@ The doc comment (`execution.rs:496-499`) preserves the history: this function
 gap" — i.e. the repo measurably migrated from the wholesale form to the
 per-class form and wrote down why.
 
+Re-checked 2026-10-31 at personas@22260d77c9: the `running` verdict above is
+gone. `recover_stale_executions` is now `classify_stale_executions`
+(`execution.rs:578`, landed `ef6f8382a0` on 2026-09-03), and a `running` row
+is no longer failed: `exec_repo_restart::classify_running_rows` sorts it into
+*resume-pending* (back to `queued`, carrying its resume pointer),
+*unproven* (`incomplete`, awaiting a person — "Not a failure") or
+*suspended* (three consecutive restarts). Its doc comment (`:544-577`) records
+the reversal in the same spirit as the history cited above: "This used to
+declare a failure it never observed". `requeue_persisted_executions` is now
+`:636` and still re-admits each `queued` row through `start_execution`, fails a
+row whose persona is gone with its own reason, and leaves a refused row
+`queued`. This does not reverse the finding — it is the per-class form taken
+one step further, since `running` itself now gets a classified verdict instead
+of a blanket fail.
+
 ## The park form: paused survives boot
 
 `n8n_sessions::recover_interrupted_sessions`
-(`src-tauri/db/src/repos/resources/n8n_sessions.rs:167-209`) fails sessions
+(`src-tauri/db/src/repos/resources/n8n_sessions.rs:171-220`) fails sessions
 in the live classes (`transforming`, `analyzing`, `interrupted`) with an
 *actionable* reason ("App closed during transform -- click Retry to
 resume") — but explicitly **preserves `awaiting_answers`**: "they have
@@ -71,10 +86,22 @@ the bulk sweep legal for every row, and a new terminal state would have to
 be added to every scattered `phase NOT IN (…)` literal — the recorded
 vocabulary-reuse compromise, with the one-authority bill it measures.
 
+Re-checked 2026-10-31 at personas@22260d77c9: **the corroboration is gone,
+which reverses this section's verdict.** `expire_stale_non_terminal` is now
+`build_sessions.rs:329` (`STALE_SESSION_MIN_AGE_HOURS` `:279`), and its doc
+comment (`:281-328`, "Why this no longer excludes draft personas") records that
+the `COALESCE(lifecycle,'active') != 'draft'` predicate was dropped (removed in
+`752f0823f5`, 2026-09-02): every from-scratch build runs on a `draft` persona,
+so the exclusion skipped exactly the population the sweep exists for, and a
+crashed draft build stayed non-terminal forever. "The floor is the whole
+protection" — the sweep is now a plain 24h age expiry, with no independent
+signal that the work is orphaned. The `cancelled`-reuse compromise and its
+reasoning are unchanged.
+
 ## The bad form, still live
 
 `teams::recover_interrupted_pipeline_runs`
-(`src-tauri/db/src/repos/resources/teams.rs:724-738`) is the blanket
+(`src-tauri/db/src/repos/resources/teams.rs:886-901`) is the blanket
 wholesale fail: one `UPDATE … SET status='failed' … WHERE status IN
 ('running','awaiting_approval')`. It stamps a single generic reason across
 both classes and — the technique's precise objection — **destroys
@@ -82,7 +109,7 @@ both classes and — the technique's precise objection — **destroys
 was not running and needed no repair. Registered as deviation
 `#w8-pipeline-dag` in the consumer's deviation register.
 
-Its own doc comment (`:714-723`) documents the deadlock that motivates
+Its own doc comment (`:876-885`) documents the deadlock that motivates
 reachability: before this sweep existed, an orphaned `running` row meant
 `execute_team` refused new runs, `delete_team` refused deletion, and
 `cancel_pipeline` only flipped an in-memory registry flag "whose key is
@@ -106,9 +133,9 @@ establishes *who* leads and explicitly defers the gating: "the gating is wired
 in a later phase".
 
 That deferral was scoped to the background loops, and the boot order shows why
-it should not have been. The recovery phase runs at `boot/mod.rs:72`; the
-leadership object is not constructed until `:173`, and `try_acquire()` is not
-called until `boot/workers.rs:66`. **Every instance blanket-sweeps roughly a
+it should not have been. The recovery phase runs at `boot/mod.rs:99`; the
+leadership object is not constructed until `:207`, and `try_acquire()` is not
+called until `boot/workers.rs:78`. **Every instance blanket-sweeps roughly a
 hundred lines before it can learn it is a follower** — and the passes are
 keyed on state alone (`WHERE status IN ('running', …)`), so a follower marks
 the leader's live executions, transform sessions, pipeline runs, lab runs and
@@ -142,6 +169,13 @@ backward-compatibility default the leadership module already states for its own
 gate. The residual window is the lock protocol's own: for up to the staleness
 threshold after an unclean exit, a dead instance's lease still reads fresh, so
 a fast restart skips the pass and reconciles on the next boot.
+
+Re-checked 2026-10-31 at personas@22260d77c9: the fix holds —
+`recover_interrupted_work` (`boot/recovery.rs:36`) returns early at `:42` when
+`another_instance_leads` (`engine/leadership.rs:241`) sees a live lease. The
+comment above it no longer opens on the bare premise; it now quotes "their
+processes died" only to say it "holds only while this is the sole process on
+the DB", and notes that the four sibling sweeps still mark their rows failed.
 
 ## Citations re-resolved 2026-08-28
 

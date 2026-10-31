@@ -4,7 +4,8 @@ type: application
 subject: signed-artifacts
 technique: signature-lifecycle
 stack: react
-verified_on: 2026-08-18
+verified_on: 2026-10-31
+verified_against: react@19
 ---
 
 # The Drive signing ledger: normalization, re-export, and deletion honesty
@@ -24,7 +25,7 @@ from the root, prefix-match against `"{root}/"`. Its doc comment carries
 the technique's escape clause verbatim in miniature: it "returns null when
 the path isn't under the given root (e.g. a sidecar imported from
 elsewhere)" — a record that does not reduce to the current root is "not one
-of ours here", skipped in `signedPaths` (`:195-199`) rather than crashed on
+of ours here", skipped in `signedPaths` (`:207-212`) rather than crashed on
 or misreported. The write side mirrors the same convention: `signDriveFile`
 and `verifyDriveFile` rebuild the absolute path with the root's own
 separator (`:114-115`, `:169-170`), so records land in one canonical
@@ -33,7 +34,7 @@ spelling per platform.
 Two calibration notes against the technique. The normalizer is a
 module-local function consumed through the memoized `signedPaths` set —
 one authority in practice because every badge consumer reads the set
-rather than re-deriving the mapping (the comment at `:189-191` names that
+rather than re-deriving the mapping (the comment at `:200-203` names that
 as the point). And matching is path-only: a file renamed inside the drive
 loses its badge even though its bytes still verify against the record's
 `file_hash` — the digest-fallback the technique prescribes is unbuilt.
@@ -44,21 +45,21 @@ loses its badge even though its bytes still verify against the record's
 history query until `refreshSignatures()` is called", `:47-50`);
 `DriveSignaturesPanel.tsx` renders it. Re-export is a pure projection of
 the ledger row: `export_signature_sidecar`
-(`src-tauri/src/commands/signing/mod.rs:264-292`) rebuilds the full
+(`src-tauri/src/commands/signing/mod.rs:263-290`) rebuilds the full
 `SignatureSidecar` — digest, signature, signer block, timestamp — from the
 stored record, so a lost sidecar is one click from regenerated.
 
 ## Deletion is local memory, not revocation
 
-`removeSignature` (`useSigning.ts:176-182`) calls
-`delete_document_signature` (`signing/mod.rs:255-262`), which deletes the
+`removeSignature` (`useSigning.ts:188-194`) calls
+`delete_document_signature` (`signing/mod.rs:254-260`), which deletes the
 ledger row and nothing else. Exported `.sig.json` sidecars keep verifying
 everywhere they already are — the mathematics never consulted this ledger.
 The technique's demand that UI copy say so plainly is currently unmet: the
 panel offers deletion without distinguishing "forget this record" from any
 implied recall. Real revocation lives on the verifier side, and the
 machinery exists — `TrustLevel::is_revoked()` is checked by both trust-
-store doors (`src/engine/bundle.rs:578`, `engine/src/enclave.rs:246-251`)
+store doors (`src/engine/bundle.rs:613`, `engine/src/enclave.rs:245-249`)
 — but the document-verify door consults no trust store at all
 (deferred-fix entry 76), so for sidecar-verified documents there is nowhere
 a revocation *could* take effect yet. The verdict-is-live rule is upheld
@@ -68,7 +69,7 @@ against the current `trusted_peers` row; no verdict is cached.
 ## Re-signing
 
 There is no re-sign flow; signing the same file twice inserts two ledger
-rows (fresh `uuid` per record, `signing/mod.rs:96` — minted identity,
+rows (fresh `uuid` per record, `signing/mod.rs:90` — minted identity,
 correctly). History is therefore preserved by accident of insert-only
 storage rather than by design: nothing links the records of successive
 versions of one file, and the panel presents them as unrelated rows. The

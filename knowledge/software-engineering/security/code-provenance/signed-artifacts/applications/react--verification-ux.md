@@ -4,7 +4,8 @@ type: application
 subject: signed-artifacts
 technique: verification-ux
 stack: react
-verified_on: 2026-08-18
+verified_on: 2026-10-31
+verified_against: react@19
 ---
 
 # Two dialogs, opposite grades — the consent exemplar and the two-state collapse
@@ -22,22 +23,22 @@ implements the consent rules almost clause for clause:
   `preview.signer_trusted ? 'tamper' : 'unknown'`, and the import button
   stays disabled unless `dangerConfirmed` equals that exact kind — the
   in-code comment says it outright: "A 'tamper' ack does not unlock
-  'unknown signer' or vice versa" (`:401-427`).
+  'unknown signer' or vice versa" (`:418-447`).
 - **Re-arming.** An effect drops any prior consent whenever the danger
   context shifts: `setDangerConfirmed(null)` keyed on
   `preview?.bundle_hash`, `preview?.signer_trusted`,
-  `preview?.signature_valid` (`:86-92`), with the comment naming the attack
+  `preview?.signature_valid` (`:87-93`), with the comment naming the attack
   it kills — "a preview re-fetch that flips `signer_trusted` could carry an
   old 'tamper' consent into a freshly-rendered 'unknown signer' warning".
 - **Visually the exception.** The proceed path renders as the destructive
   red `import_anyway` button with a shield-off icon, disabled until
-  acknowledged (`:415-425`), while the verified path gets the primary
+  acknowledged (`:435-443`), while the verified path gets the primary
   `import_btn`.
 
 The three-state vocabulary is possible here because the verdict type
 carries two booleans — `signature_valid` and `signer_trusted` come from
 `verify_against_trusted_key` through `BundleImportPreview`
-(`src-tauri/src/engine/bundle.rs:379-380`) — so verified / tampered /
+(`src-tauri/src/engine/bundle.rs:388-389`) — so verified / tampered /
 unknown-signer are all expressible.
 
 ## Counter-example: `DriveVerifyDialog`'s two-color verdict
@@ -48,7 +49,7 @@ emerald card + check for true, rose card + X for false. Both collapses are
 live:
 
 - **Unverifiable → verified.** `VerifyDocumentResult`
-  (`src-tauri/core/src/models/signing.rs:41-51`) has *no trust field* — the
+  (`src-tauri/core/src/models/signing.rs:43-51`) has *no trust field* — the
   backend never asks the trust store (deferred-fix entry 76) — so a forged
   sidecar from an unknown signer renders the green state, and the card
   prints `result.signer_display_name` (`:213-216`), a string from the
@@ -71,7 +72,7 @@ compliant.
 ## Badges, and honest loading absence
 
 `useSigning.signedPaths`
-(`src/features/plugins/drive/signing/useSigning.ts:192-201`) powers the
+(`src/features/plugins/drive/signing/useSigning.ts:200-213`) powers the
 Finder's signed-file badges as a `Set` of normalized drive-relative paths.
 The absence semantics the technique demands are documented at the
 definition: the set is "Empty until both the signatures list and the root
@@ -79,3 +80,15 @@ have loaded; consumers should treat 'not present' as 'unknown'" — absence
 of a badge is loading-ambiguous by contract, not rendered as "unsigned".
 Unsigned files themselves carry no warning styling anywhere in the Finder —
 calm absence, alarm budget preserved for the tampered state.
+
+Re-checked 2026-10-31 at personas@22260d77c9: **the loading-ambiguity contract
+now has a consumer that breaks it.** The Finder Inspector (added `ff3477d738`,
+2026-09-17) passes `signed={signedPaths.has(primary.path)}`
+(`src/features/plugins/drive/finder/inspector/Inspector.tsx:73`) to
+`SignatureSection`, which renders `f.insp_signed : f.insp_unsigned` — "Not
+signed" — whenever the path is absent
+(`src/features/plugins/drive/finder/inspector/SignatureSection.tsx:27-33`). So
+while the ledger or root is still loading, a signed file's inspector says "Not
+signed". The definition's comment still says "treat 'not present' as
+'unknown'"; one consumer does not. The calm-absence half holds: the badge uses
+the `neutral` variant, not a warning style.

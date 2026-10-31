@@ -4,7 +4,8 @@ type: application
 subject: signed-artifacts
 technique: import-verification-flow
 stack: rust
-verified_on: 2026-08-18
+verified_on: 2026-10-31
+verified_against: rust@1.96
 ---
 
 # Preview→commit pinning on three ingress channels — and the gate that lives in the view
@@ -14,67 +15,93 @@ persona-share bundle, and it implements act three of the technique with
 unusual completeness across **three ingress channels** converging on one
 core (`bundle::preview_bundle` / `bundle::apply_import`):
 
-- **File** (`apply_bundle_import`, `:61-124`): commits from cached preview
+- **File** (`apply_bundle_import`, `:61-106`): commits from cached preview
   bytes when `options.preview_id` resolves (`take_cached_preview_bytes`,
-  `:70-77`); on cache miss it re-reads *and* the hash pin is **mandatory** —
+  `:70-76`); on cache miss it re-reads *and* the hash pin is **mandatory** —
   a preview_id without `expected_bundle_hash` is refused outright
   (`:89-95`), and the re-hashed bytes must equal the previewed hash
   (`:96-110`, "file may have been swapped after preview").
-- **Clipboard** (`apply_bundle_from_clipboard`, `:203-275`): the identical
+- **Clipboard** (`apply_bundle_from_clipboard`, `:225-275`): the identical
   guard pair, with the comment noting it "mirrors `apply_bundle_import`'s
   file-path guard" (`:236-246`).
-- **Share link** (`import_from_share_link`, `:390-432`): the deep link
+- **Share link** (`import_from_share_link`, `:410-468`): the deep link
   carries the producer's hash; fetched bytes are re-hashed before any DB
-  write (`verify_share_link_hash`, `:352-388`). The hashless policy is
-  decided explicitly, per channel, in a doc comment (`:342-351`): a
+  write (`verify_share_link_hash`, `:371-408`). The hashless policy is
+  decided explicitly, per channel, in a doc comment (`:351-370`): a
   `personas://share` link without `hash=` is **refused** ("our generator
   always emits one, so its absence is anomalous"), while a raw pasted HTTP
   URL warns and proceeds. All four cases are pinned by unit tests
-  (`share_link_hash_tests`, `:453-493`) — the technique's "decide it,
+  (`share_link_hash_tests`, `:497-593`) — the technique's "decide it,
   write it beside the code, test it" clause, verbatim.
+
+Re-checked 2026-10-31 at personas@22260d77c9: the per-door guard pairs cited
+above (`:89-95`, `:96-110`, and the clipboard copy with its "mirrors
+`apply_bundle_import`'s file-path guard" comment) no longer exist as copies.
+They were lifted into one helper, `enforce_preview_pin` (`:107-140`, "TOCTOU
+pin shared by all three import doors"), which every door now calls — the share
+link included, after its own `verify_share_link_hash`. The rule also tightened:
+the hash is required whenever a `preview_id` is present, not only on a cache
+miss. The share link also commits cached preview bytes now instead of always
+re-fetching. Same pinning, one authority instead of three spellings.
 
 Parse defense sits in the core: `read_zip_entry` caps decompressed size on
 the declared size *and* on the actual read
-(`src-tauri/engine/src/enclave.rs:294-321`; same shape in
-`src/engine/bundle.rs:626`), and the full-portability importer hard-rejects
+(`src-tauri/engine/src/enclave.rs:292-320`; same shape in
+`src/engine/bundle.rs:665`), and the full-portability importer hard-rejects
 unknown format versions before reading a row
-(`commands/core/data_portability.rs:2236-2241` — the legacy convergence
+(`commands/core/data_portability/flow.rs:99-122`, `check_bundle_generation`,
+after the file was split into a module — the legacy convergence
 sweep found this repo is the only one of six that refuses an absent
 version).
 
 ## The deviation: verdict computed in the backend, enforced by a button
 
 `bundle::apply_import` computes the signature verdict
-(`src/engine/bundle.rs:405-407`, `verify_against_trusted_key`) — and then
+(`src/engine/bundle.rs:413-415`, `verify_against_trusted_key`) — and then
 uses it only as a provenance field on the rows it writes:
-`signature_verified: sig_valid` (`:497`). The refusal lives in
-`src/features/settings/sub_network/components/BundleImportDialog.tsx:401-427`:
+`signature_verified: sig_valid` (`:510`). The refusal lives in
+`src/features/settings/sub_network/components/BundleImportDialog.tsx:418-447`:
 `preview.signature_valid` gates which button renders, and the
 proceed-anyway path demands kind-matched consent. The component is good —
 but it is the *entire* enforcement; the command layer spends 40 lines on
-TOCTOU (`network/bundle.rs:67-110`) and zero on the signature verdict, so a
+TOCTOU (`network/bundle.rs:66-140`) and zero on the signature verdict, so a
 direct invoker imports an unknown-signer or tampered bundle with no consent
 step. The same file family already wrote the rule this breaks:
 "the frontend is not the boundary — anything that can invoke can skip it"
-(`data_portability.rs:1898-1899`, guarding a *weaker* claim). This is the
+(`data_portability/sealing.rs:24-25`, guarding a *weaker* claim). This is the
 technique's marker-written-never-read shape with the verdict as the marker,
 identified in the legacy analysis
 (`docs/concepts/golden-paths/portable-export-bundle.md` §0.1). Recording
 `signature_verified` on rows is right; it must be *in addition to* a
 backend gate (or a backend-enforced consent token), not its residue.
 
+Re-checked 2026-10-31 at personas@22260d77c9: **this deviation is resolved;
+the verdict above no longer describes the tree.** `2b233b80fe` (2026-10-11,
+"bundle import refuses an unverified signature without a kind-matched
+acknowledgement") added `require_risk_acknowledgement`
+(`src/engine/bundle.rs:569-594`), and `apply_import` calls it directly after
+`verify_against_trusted_key` (`:416-420`), before any row is written. An
+unverified bundle is refused unless `BundleImportOptions.acknowledged_risk`
+(`:176`) names the specific danger — `"tamper"` for a trusted signer whose
+signature fails, `"unknown"` for an untrusted signer — mirroring the dialog's
+kind-matched consent; the dialog now sends `acknowledged_risk:
+dangerConfirmed`. A direct invoker can still pass the right string, so this is
+a backend-enforced consent field rather than an unforgeable token, but the
+refusal now lives in the command path, and `signature_verified` is recorded in
+addition to the gate, as this section asked.
+
 ## What commit writes
 
 Quarantine defaults are implemented and tested: imported personas land
 disabled — the test `imported_persona_lands_disabled`
-(`src/engine/bundle.rs:957`) pins it, and the comment at `:739` states the
+(`src/engine/bundle.rs:996`) pins it, and the comment at `:778` states the
 reason ("signature verification only proves *who* built the bundle", not
 that it is safe to run). Preview surfaces reach: `extract_network_scope`
-(`:829`) mines the bundle for the domains its contents would touch, feeding
+(`:868`) mines the bundle for the domains its contents would touch, feeding
 the preview's provenance-plus-reach display.
 
 The counter-case for identity minting sits in the *other* importer:
-`import_bundle` in `data_portability.rs` names credential shells
+`import_bundle` in `data_portability/import.rs` names credential shells
 `"{} (imported)"` and dedupes on that mutated name — the legacy measurement
 found 11 of 25 live credential rows carrying `(imported) (imported)`
 (portable-export-bundle §0.5), the round-trip-duplication failure the
