@@ -61,8 +61,10 @@ The fleet converged on one pattern per repository, varying only in the command l
 
 ## What the rollout deliberately did not do
 
-It did not add the browser/e2e suites to the local gate — at 30 minutes they fail the
-technique's timebox, and they stay remote-only with the watch as the loop-closer. It did not
+It did not add the browser/e2e suites to the local gate — at 30 minutes they were judged too
+slow for a push-time hook, and they stay remote-only with the watch as the loop-closer. The
+technique sets no timebox and calls a remotely blocking check that the local gate skips a hole,
+so this is a recorded deviation with a compensation, not an application of the rule. It did not
 make the hook fire on non-default branches; those push freely under CI, preserving the
 branch-by-exception lane for preview-first and irreversible changes. And it did not bypass the
 red gates to install the machinery "cleanly": each repository's standing failures were fixed

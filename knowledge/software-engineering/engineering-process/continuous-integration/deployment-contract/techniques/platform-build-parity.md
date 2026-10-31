@@ -84,6 +84,11 @@ it proves nothing about resolution, because the landing page resolves under ever
 either host implements. One request per divergent rule, run against the actual serving
 configuration, is the whole check.
 
+The comparison is across the whole host set, not between the two hosts someone happened to
+be thinking about. Enumerate every surface that resolves a request against the artifact first
+— a local preview server included, since it is the one a contributor checks a new link
+against — because parity written pairwise passes while a third surface disagrees with both.
+
 Where only one host ever serves the artifact, none of this applies and writing resolution
 rules to match an imaginary peer is waste.
 
@@ -143,6 +148,8 @@ takes over — and that build-environment cleanliness becomes your responsibilit
 - A lockfile maintained on one operating system gets its cross-platform entries verified by
   the remote builder, and remote-only install failures are fixed in the lockfile, not by
   loosening install strictness.
+- Before comparing resolution rules, list every surface that serves the artifact, local
+  preview servers included; parity is across that set, not between a pair.
 - Two hosts serving one artifact get their request-resolution rules compared explicitly —
   extensionless paths, directory requests, trailing slashes, not-found, case — and the
   second host's configuration states which behaviour it is reproducing and why.

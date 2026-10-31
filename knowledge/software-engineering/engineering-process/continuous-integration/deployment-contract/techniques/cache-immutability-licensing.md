@@ -36,11 +36,15 @@ Where the same address serves new bytes after a rebuild — a toolchain that
 emits fixed asset filenames, a hand-placed script, anything copied to a stable
 path — the claim is a lie with an unusually long tail:
 
-- A client that cached the response **will not ask again**. Immutability is
-  specifically the instruction to skip revalidation, so there is no request to
-  answer differently, no header to change, and no purge that reaches it. Server-
-  side and edge caches can be cleared; the browser cache of a user who visited
-  last month cannot.
+- A client that cached the response **will not ask again** while it is fresh.
+  The long lifetime is what pins it; the directive, which RFC 8246 scopes to that
+  freshness lifetime, removes the one routine request that would have escaped —
+  the revalidation on reload — leaving only a user's force reload. So there is no
+  request for that asset to answer differently and no header on it to change.
+  Server-side and edge caches can be cleared; the browser cache of a user who
+  visited last month cannot be reached through the asset. The one partial channel
+  is a cache-clearing response header on a document the client still revalidates,
+  which reaches only clients that come back, on browsers that honour it.
 - The stale asset does not fail loudly. It runs — against a page, an interface
   or a data shape from a different deploy. The failure surfaces as a version
   skew nobody can reproduce, on machines the team cannot enumerate.

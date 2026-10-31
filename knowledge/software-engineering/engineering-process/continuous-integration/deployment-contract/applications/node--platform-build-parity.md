@@ -41,7 +41,12 @@ setting — a fourth authority — left at the platform default, which Vercel mo
 schedule. Vercel reads `engines.node` to *select* a major version, so the honest single
 authority for a Vercel project is a tight `engines` range (e.g. `"node": "24.x"`), with
 `.nvmrc` and CI derived from it and the dashboard left untouched. A range as loose as
-`>=22.5` delegates the production runtime choice to the platform.
+`>=22.5` delegates the production runtime choice to the platform: Vercel's own table maps
+`>=22.0.0` to the latest 26.x. The single authority stops at the major, though. Vercel offers
+only major versions and rolls minor and patch releases itself — its docs add that the exact
+minor "can differ between the build and the function runtime" — so the CI's exact `24.14.0`
+pin, held for the `Intl` goldens, cannot be mirrored there. It stays a deliberate second
+authority, recorded as such: the technique's monitored-dependency posture, not parity.
 
 ## The install: flags travel, lockfiles betray cross-platform
 

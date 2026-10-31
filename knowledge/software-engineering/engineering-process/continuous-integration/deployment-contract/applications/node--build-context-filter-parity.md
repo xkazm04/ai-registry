@@ -5,7 +5,7 @@ subject: deployment-contract
 technique: build-context-filter-parity
 stack: node
 status: forged
-verified_on: 2026-10-27
+verified_on: 2026-10-31
 verified_against: node@24
 ---
 

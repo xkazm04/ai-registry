@@ -28,7 +28,11 @@ vercel rollback                # shorthand: re-point at the previous Production 
 ```
 
 `promote` is the technique's promotion and its rollback in one command: the argument is any
-existing deployment, including the last known-good one. One audited runbook already encodes
+existing deployment, including the last known-good one. A rollback also turns off automatic
+assignment of production domains, so the fix-forward push to the production branch builds but
+does not serve until a deployment is promoted again — `promote` is what re-enables it, per
+Vercel's rollback documentation. (On the Hobby plan, rollback reaches only the previous
+production deployment.) One audited runbook already encodes
 the doctrine — its rollback section says *"promote the previous deployment, do not revert and
 rebuild"* — and pairs it with the schema caveat: migrations are forward-only there, so the
 runbook explicitly scopes rollback to code, and a bad migration is a fix-forward.

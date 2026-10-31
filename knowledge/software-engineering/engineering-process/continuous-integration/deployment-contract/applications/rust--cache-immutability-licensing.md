@@ -5,7 +5,7 @@ subject: deployment-contract
 technique: cache-immutability-licensing
 stack: rust
 status: forged
-verified_on: 2026-09-03
+verified_on: 2026-10-31
 verified_against: rust@1
 ---
 
