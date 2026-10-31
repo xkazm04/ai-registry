@@ -175,3 +175,137 @@ subject would call the honest state rather than a failure.
   }
 }
 ```
+
+## Architecture review - 2026-10-31
+
+Re-review against `b005a97cb`. The golden path and all six techniques are byte-unchanged
+since the 2026-09-10 post-revert record (checked by diff against `44c89965`), and its
+`keep` reasoning still holds. Since then the subject gained three cpp applications from a
+headset game, each a five-field record with graded provenance and a "Not proven" list.
+The store vendor's manifest page that `cpp--incident-entry-shape` quotes was re-opened:
+the immersive range is still 32-34, but the page was updated 2026-10-15 and now gives
+32-37 for 2D apps where the application says 36. The 42-entry count the 2026-09-10 record
+flagged in `node--domain-scoped-injection-with-a-safe-superset` is still owed; it needs
+the consumer re-read, not done here.
+
+<!-- architecture-review:v1 -->
+```json
+{
+  "subject": "game-production/engine-pitfall-corpus",
+  "date": "2026-10-31",
+  "baseline": "b005a97cb",
+  "digest": "sha256-b2:6648b55a6f14ca63",
+  "disposition": "clarify",
+  "coverage": "All 12 current documents decided. The three cpp applications were read in full; the nine carried documents were checked by diff against 44c89965 (only a path redaction in process--incident-entry-shape). Two store-vendor pages re-opened. Not evaluated: any engine install, either game tree, the vendor plugin investigation, the sibling project's build log, the pof corpus. No verification date was refreshed.",
+  "counterexamples": [
+    "A versioned store page can move under a dated record: the 2D targetSdkVersion range went from 32-36 to 32-37 between the application's read (page dated 2026-09-30) and 2026-10-15, while the immersive range the entry depends on did not move.",
+    "An editor-only API compiles, passes tests and appears in reflection in the editor target, and does not exist in the game target; introspection in one mode says nothing about the other (cpp--introspect-before-you-call).",
+    "An entry whose platform has not moved but whose pipeline capability has is stale in a way an upgrade-triggered audit never selects (retained from 2026-09-10)."
+  ],
+  "sources": [
+    {
+      "url": "https://developers.meta.com/horizon/resources/publish-mobile-manifest/",
+      "result": "Read 2026-10-31, page last updated 2026-10-15: targetSdkVersion '32-34 for immersive, 32-37 for 2D'; 'Apps whose manifests do not conform will fail the Virtual Reality Checks (VRC)'; non-conforming builds 'may potentially still be uploaded to the Developer Dashboard'; 'apps created since March 1, 2026, must set their targetSdkVersion to 34.' Confirms the immersive claim and the upload-versus-review split; refutes the 2D cap of 36 as current."
+    },
+    {
+      "url": "https://developers.meta.com/horizon/blog/meta-quest-apps-android-14-march-1/",
+      "result": "Read 2026-10-31 (published 2025-11-24, updated 2026-02-06). Both quotes in cpp--incident-entry-shape re-found verbatim: 'targetSdkVersion must be API level 34, though minSdkVersion will not be impacted and can still use API level 32' and the upload-enforcement sentence for apps created after March 1, 2026."
+    }
+  ],
+  "documents": {
+    "engine-pitfall-corpus.md": {"disposition": "keep", "reason": "Byte-unchanged since the 2026-09-10 keep; routing-before-writing and its falsifiable success criterion still hold."},
+    "techniques/binary-content-wall.md": {"disposition": "keep", "reason": "Byte-unchanged since the 2026-09-10 keep."},
+    "techniques/domain-scoped-injection-with-a-safe-superset.md": {"disposition": "keep", "reason": "Byte-unchanged since the 2026-09-10 keep."},
+    "techniques/incident-entry-shape.md": {"disposition": "keep", "reason": "Byte-unchanged; the two new cpp records fit its five fields without strain, which is evidence the shape transfers across stacks."},
+    "techniques/introspect-before-you-call.md": {"disposition": "keep", "reason": "Byte-unchanged; the new cpp application extends 'mode is the hidden variable' to build targets, a loud-failure case the technique admits."},
+    "techniques/known-asset-paths-over-invented-ones.md": {"disposition": "keep", "reason": "Byte-unchanged since the 2026-09-10 keep."},
+    "techniques/provenance-on-every-entry.md": {"disposition": "keep", "reason": "Byte-unchanged. Still silent on team-side (pipeline) staleness, as noted 2026-09-10; below the bar for a rewrite."},
+    "applications/node--domain-scoped-injection-with-a-safe-superset.md": {"disposition": "reverify", "reason": "Still owed: the 42-entry count reads as current in the title and closing measurement; the 2026-09-10 re-read found 55 and moved line anchors. Needs the consumer re-read, not done here."},
+    "applications/process--incident-entry-shape.md": {"disposition": "reverify", "reason": "Only change is the machine-path redaction. Properly tensed; corpus growth not re-read."},
+    "applications/cpp--incident-entry-shape.md": {"disposition": "clarify", "reason": "Store quotes re-found verbatim; immersive 32-34 holds. The blast-radius sentence 'lets panel (2D) apps target up to 36' is now stale: the page's 2026-10-15 update gives 32-37. Add the dated correction; engine and tree citations not reopened."},
+    "applications/cpp--provenance-on-every-entry.md": {"disposition": "reverify", "reason": "Internally consistent (probe outranks report only for two of four plugins, BuildId match restamps only the BuildId claim). Engine files, plugin binaries and the vendor investigation not reopened."},
+    "applications/cpp--introspect-before-you-call.md": {"disposition": "reverify", "reason": "Careful grading, including that the guarded module has never met a non-editor compiler. Engine headers and the sibling build log not reopened."}
+  }
+}
+```
+
+## Architecture review - 2026-10-31 (clarify applied)
+
+Applied the one clarify item, against `f7a53ecb6`, from the store page opened this run. The node application's stale 42-entry count stays owed until the consumer is re-read. Overall disposition is now `reverify`.
+
+<!-- architecture-review:v1 -->
+```json
+{
+  "subject": "game-production/engine-pitfall-corpus",
+  "date": "2026-10-31",
+  "baseline": "f7a53ecb6",
+  "digest": "sha256-b2:4c34c624057ecd27",
+  "disposition": "reverify",
+  "coverage": "Second 2026-10-31 record. The clarify items applied are listed per document; each edited section was re-read after the edit. All other documents are byte-unchanged from the first 2026-10-31 record and keep its dispositions. All 12 current documents decided. The three cpp applications were read in full; the nine carried documents were checked by diff against 44c89965 (only a path redaction in process--incident-entry-shape). Two store-vendor pages re-opened. Not evaluated: any engine install, either game tree, the vendor plugin investigation, the sibling project's build log, the pof corpus. No verification date was refreshed.",
+  "counterexamples": [
+    "A versioned store page can move under a dated record: the 2D targetSdkVersion range went from 32-36 to 32-37 between the application's read (page dated 2026-09-30) and 2026-10-15, while the immersive range the entry depends on did not move.",
+    "An editor-only API compiles, passes tests and appears in reflection in the editor target, and does not exist in the game target; introspection in one mode says nothing about the other (cpp--introspect-before-you-call).",
+    "An entry whose platform has not moved but whose pipeline capability has is stale in a way an upgrade-triggered audit never selects (retained from 2026-09-10)."
+  ],
+  "sources": [
+    {
+      "url": "https://developers.meta.com/horizon/resources/publish-mobile-manifest/",
+      "result": "Read 2026-10-31, page last updated 2026-10-15: targetSdkVersion '32-34 for immersive, 32-37 for 2D'; 'Apps whose manifests do not conform will fail the Virtual Reality Checks (VRC)'; non-conforming builds 'may potentially still be uploaded to the Developer Dashboard'; 'apps created since March 1, 2026, must set their targetSdkVersion to 34.' Confirms the immersive claim and the upload-versus-review split; refutes the 2D cap of 36 as current."
+    },
+    {
+      "url": "https://developers.meta.com/horizon/blog/meta-quest-apps-android-14-march-1/",
+      "result": "Read 2026-10-31 (published 2025-11-24, updated 2026-02-06). Both quotes in cpp--incident-entry-shape re-found verbatim: 'targetSdkVersion must be API level 34, though minSdkVersion will not be impacted and can still use API level 32' and the upload-enforcement sentence for apps created after March 1, 2026."
+    }
+  ],
+  "documents": {
+    "engine-pitfall-corpus.md": {
+      "disposition": "keep",
+      "reason": "Byte-unchanged since the 2026-09-10 keep; routing-before-writing and its falsifiable success criterion still hold."
+    },
+    "techniques/binary-content-wall.md": {
+      "disposition": "keep",
+      "reason": "Byte-unchanged since the 2026-09-10 keep."
+    },
+    "techniques/domain-scoped-injection-with-a-safe-superset.md": {
+      "disposition": "keep",
+      "reason": "Byte-unchanged since the 2026-09-10 keep."
+    },
+    "techniques/incident-entry-shape.md": {
+      "disposition": "keep",
+      "reason": "Byte-unchanged; the two new cpp records fit its five fields without strain, which is evidence the shape transfers across stacks."
+    },
+    "techniques/introspect-before-you-call.md": {
+      "disposition": "keep",
+      "reason": "Byte-unchanged; the new cpp application extends 'mode is the hidden variable' to build targets, a loud-failure case the technique admits."
+    },
+    "techniques/known-asset-paths-over-invented-ones.md": {
+      "disposition": "keep",
+      "reason": "Byte-unchanged since the 2026-09-10 keep."
+    },
+    "techniques/provenance-on-every-entry.md": {
+      "disposition": "keep",
+      "reason": "Byte-unchanged. Still silent on team-side (pipeline) staleness, as noted 2026-09-10; below the bar for a rewrite."
+    },
+    "applications/node--domain-scoped-injection-with-a-safe-superset.md": {
+      "disposition": "reverify",
+      "reason": "Still owed: the 42-entry count reads as current in the title and closing measurement; the 2026-09-10 re-read found 55 and moved line anchors. Needs the consumer re-read, not done here."
+    },
+    "applications/process--incident-entry-shape.md": {
+      "disposition": "reverify",
+      "reason": "Only change is the machine-path redaction. Properly tensed; corpus growth not re-read."
+    },
+    "applications/cpp--incident-entry-shape.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: the blast-radius sentence now notes the 2D range is 32-37 since the store page's 2026-10-15 update and that the immersive range did not move. Engine and tree citations not reopened; verified_on unchanged."
+    },
+    "applications/cpp--provenance-on-every-entry.md": {
+      "disposition": "reverify",
+      "reason": "Internally consistent (probe outranks report only for two of four plugins, BuildId match restamps only the BuildId claim). Engine files, plugin binaries and the vendor investigation not reopened."
+    },
+    "applications/cpp--introspect-before-you-call.md": {
+      "disposition": "reverify",
+      "reason": "Careful grading, including that the guarded module has never met a non-editor compiler. Engine headers and the sibling build log not reopened."
+    }
+  }
+}
+```

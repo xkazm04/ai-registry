@@ -78,7 +78,8 @@ It also replaced the fallback with an instruction,
 `docs/XR-TOOLCHAIN.md:126 "(the engine default since 5.8.2) and do not leave it blank: 34 is the target Meta requires for new apps and the cap for immersive apps"`.
 The check reads what the built package declares, not what the ini asks for, and the package is what the store reads.
 
-**The blast radius.** The same page lets panel (2D) apps target up to 36, so the entry covers immersive builds only.
+**The blast radius.** The same page lets panel (2D) apps target up to 36 (32-37 since the page's 2026-10-15 update; the immersive
+range did not move), so the entry covers immersive builds only.
 `minSdkVersion` is not affected. A dashboard app created before 2026-03-01 is not refused at upload below 34, but 36
 is still outside its range. Desktop and editor targets build no Android manifest. The source leaves open whether
 this project's app falls under the post-March rule,

@@ -59,8 +59,10 @@ Two disciplines keep the partition honest:
   does not deliver.
 - **Re-rolling is a purchase.** Recorded across four independent rolls of one prompt: zero
   out of a hundred on every roll, with debris and part counts in the same bands every time.
-  Those defects are determined by the stage, not by the draw, and re-rolling them buys
-  nothing but the bill. Only the bad-draw classes belong in the re-roll list.
+  On that evidence — one prompt, one provider — those defects are determined by the stage,
+  not by the draw, and re-rolling them buys nothing but the bill. Only the bad-draw classes
+  belong in the re-roll list; widen the observation across prompts before treating it as
+  general.
 
 ## Procedure
 

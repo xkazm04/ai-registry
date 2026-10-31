@@ -188,8 +188,10 @@ an invented value. See
 
 Some questions are not "is this mesh healthy" but "can this mesh do a specific job later".
 The clearest case: a head can only be given expressions if the eyes, lashes, brows and
-interior mouth exist as separable shells. Welded into one shell, no rigging tool can drive
-them, and that is knowable from geometry alone before any rigging attempt spends time.
+interior mouth exist as separable shells. Welded into one shell, a rig that drives those
+regions as separate geometry has nothing to drive, and that is knowable from geometry alone
+before any rigging attempt spends time. (Sculpted shape keys can still deform a welded head;
+the readiness is for the rig that needs the parts.)
 
 Keep this out of the health score. A prop with one shell is perfect; a head with one shell
 is merely unsuitable for a different job. Fold the second into the first and you have

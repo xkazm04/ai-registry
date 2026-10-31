@@ -84,8 +84,9 @@ no alternative. Where you must parse, parse strictly.
 - If the exit status and the markers disagree, the markers win. That is the entire premise.
 - If the log is empty, the outcome is *no observation*, not a failure — usually the launch
   itself never happened.
-- If a fatal-error marker is present, that outranks a pass marker in the same log: a run
-  that passed and then crashed did not cleanly pass.
+- If a fatal-error marker is present, that outranks a pass marker in the same log for the
+  run's overall verdict: a run that passed and then crashed did not cleanly pass. Per item,
+  a result that completed before the cut still stands (see crash-truncated-batch-resume).
 - If zero markers matched but the callee enumerated its work, defer. If zero matched and it
   enumerated nothing, the run is unusable — report *unknown*.
 - If attribution is ambiguous, defer. A false verdict is unbounded in cost downstream

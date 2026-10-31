@@ -51,8 +51,11 @@ consumers start disagreeing about which defect drove a verdict.
 5. **Grade density as a warn.** High face count needs decimation for engine use; it is not
    a defect. Resist every request to make this a fail.
 6. **Grade the two request-relative properties** — delivered faces against the budget that
-   was *asked for*, delivered longest extent against the world size that was *asked for* —
-   and only when those requests exist.
+   was *asked for*, delivered longest extent against the world size that was *asked for*.
+   The budget grade exists only when a budget was requested. World scale is graded always:
+   with no requested size the grade reads "normalised, target size unknown", because a
+   generator's unit box would otherwise pass a hero at a fraction of its size (see
+   unmeasured-is-not-pass).
 7. **Derive verdict and score.** A workable default: `100 − 50·fails − 15·warns`, clamped
    to `[0, 100]`. The constants are not physics; what matters is that a single fail cannot
    be out-voted by clean lines elsewhere.
@@ -67,8 +70,9 @@ consumers start disagreeing about which defect drove a verdict.
   one histogram and must never be one line.
 - **When a threshold varies by asset class, take it as a parameter with a documented
   default set.** A part budget of 8 and a speck tolerance of 4 are sane starting points for
-  characters; a prop wants different ones. Hardcode nothing that a class would want to
-  move.
+  simple characters; a prop wants different ones. A fully assembled character — the golden
+  path names at least ten parts — fails a budget of 8 with no defect present, so derive its
+  part budget from its own part list. Hardcode nothing that a class would want to move.
 - **When a request-relative grade has no request, omit it.** A card that shows a satisfied
   budget for a mesh nobody gave a budget to is asserting compliance with a rule that does
   not exist. Silence about a budget must never read as compliance with one.
