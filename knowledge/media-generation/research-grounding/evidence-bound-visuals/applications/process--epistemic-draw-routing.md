@@ -5,7 +5,7 @@ subject: evidence-bound-visuals
 technique: epistemic-draw-routing
 stack: process
 status: forged
-verified_on: 2026-08-19
+verified_on: 2026-10-31
 ---
 
 # Epistemic draw routing in the Gravitone direction pipeline (process)
@@ -19,7 +19,7 @@ it law.
 
 ## The split, declared to the model
 
-`pipeline/FRAMES-SCENE-PROMPT.md:33-46` gives the direction model the
+`pipeline/FRAMES-SCENE-PROMPT.md:32-45` gives the direction model the
 layer table verbatim — plate drawn by the image model ("Shape, colour,
 atmosphere. **Never text.** Never a checkable number."), elements and texts
 drawn by "our vector code", motion authored but rendered by "nobody, yet".
@@ -30,7 +30,7 @@ Then the routing rule in the exact form the technique states:
 > *shape* of the quantity, and our figure layer states the number, bound to
 > the notebook row that sourced it. (`FRAMES-SCENE-PROMPT.md:43-45`)
 
-The plate-subject rules that follow (`:47-60`) are the prompt-side
+The plate-subject rules that follow (`:47-84`) are the prompt-side
 corollaries: rule 1 "No text, no letters, no numbers, no logos"; rule 2
 directs shapes-doing-things over named objects — the prompt records the
 measurement behind it: asking for the script's "reservation book" leaked
@@ -52,7 +52,7 @@ Finding 3 of the compiler's header:
 it, callers cannot opt out of the style half (finding 1, `stylePrompt.ts:6-9`,
 which also realizes the restate-in-full law: reference images alone were
 measured drifting within a single clip). The same architecture note appears
-a third time at `app/_phases/frames/frames.ts:11-15`, so the contract is
+a third time at `lib/frames/frames.ts:9-13`, so the contract is
 stated at the type layer, the prompt layer, and the compile layer.
 
 ## Why the split is law: the laundering record

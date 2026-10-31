@@ -4,8 +4,8 @@ type: application
 subject: subprocess-lifecycle
 technique: liveness-and-heartbeats
 stack: node
-verified_on: 2026-09-02
-verified_against: node@24.14.0
+verified_on: 2026-10-31
+verified_against: node@24
 applied: experiment
 ab_verdict: better
 proof: ab-paired

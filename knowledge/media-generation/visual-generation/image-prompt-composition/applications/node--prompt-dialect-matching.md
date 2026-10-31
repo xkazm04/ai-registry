@@ -5,7 +5,7 @@ subject: image-prompt-composition
 technique: prompt-dialect-matching
 stack: node
 status: forged
-verified_on: 2026-08-29
+verified_on: 2026-10-31
 verified_against: node@24
 applied: experiment
 ab_verdict: unmeasurable
@@ -13,7 +13,7 @@ ab_verdict: unmeasurable
 
 # Node: one compiler, two dialects, and a trial that ran across the boundary
 
-*Verified against the consuming tree at commit `78fe0aa`, 2026-08-29.*
+*Verified against the consuming tree at commit `fd09c06c`, 2026-10-31 (first at `78fe0aa`, 2026-08-29).*
 
 The technique's second procedure step asks for **one style contract, two
 renderings** — a structured record the compiler serializes per dialect. In
@@ -30,12 +30,12 @@ tokens and silently drop the rest, so the half that must survive
 truncation goes first." That is a caption-class constraint, correctly
 applied — to a caption-class model.
 
-`lib/imaging/providers/leonardo.ts:141` ships `req.prompt` verbatim to
+`lib/imaging/providers/leonardo.ts:157` ships `req.prompt` verbatim to
 one, with a `negative_prompt` field beside it.
-`lib/imaging/providers/google.ts:158` hands the same string to an
+`lib/imaging/providers/google.ts:178` hands the same string to an
 instruction-following multimodal model, differing only in that its
 `buildPrompt` folds the exclusions into prose because that class exposes
-no negative channel. `lib/imaging/router.ts:73` re-routes between them
+no negative channel. `lib/imaging/router.ts:93` re-routes between them
 when the preferred vendor refuses.
 
 So the boundary the technique warns about is crossed on the fallback path,
@@ -85,7 +85,7 @@ having.
 re-run dialect-matched. The repo already owns a 6-style × 5-beat grid
 scored on *usable* — on-brief AND free of text — and the 60-cell run of it
 is what demoted the caption-class provider from default to fallback
-(`lib/imaging/router.ts:60-72`: 7/30 usable against 26/30). That trial
+(`lib/imaging/router.ts:74-86`: 7/30 usable against 26/30). That trial
 compared one dialect's prompt across both classes. The same instrument
 with the confound removed — 60 cells per policy, each provider fed its own
 dialect — answers this and re-examines that demotion at the same time.
@@ -107,7 +107,20 @@ dialect — answers this and re-examines that demotion at the same time.
   represented by a single sample.
 - **It says nothing about the reference-attachment half.** The edit path
   attaches a subject image and up to thirteen style references with no
-  role declaration (`lib/imaging/providers/google.ts:188-192`), while the
-  generate path's labelling clause sits at `:344-349` and is not applied
+  role declaration (`lib/imaging/providers/google.ts:221-226`), while the
+  generate path's labelling clause sits at `:441-446` and is not applied
   there. That is a different technique's territory and a real gap this
   harness does not touch.
+
+  *Re-checked 2026-10-31 at gravitone-gcloud@fd09c06c:* the edit-path half
+  of that bullet no longer holds. `buildEditPrompt`
+  (`lib/imaging/providers/google.ts:424-437`, called from `edit()` at
+  `:223`) now prepends a labelled role map — image 1 the SUBJECT PLATE,
+  the rest STYLE REFERENCES, each with negative scope — landed as
+  `f8e7c93` the same afternoon as the `78fe0aa` this page was first
+  verified at, and not an ancestor of it. The reference-attachment gap
+  named here is closed; the dialect finding above is untouched by it.
+  Separately, the dev `generate` chain at `router.ts:93` now leads with a
+  third entry, `agy` (a CLI-spawned generator, `providers/agy.ts`) ahead
+  of Google and Leonardo; the Google-preferred, Leonardo-fallback boundary
+  this page is about is still the re-route behind it.

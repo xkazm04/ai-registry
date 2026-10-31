@@ -8,7 +8,7 @@ status: forged
 applied: simulation
 ab_verdict: better
 proof: structural-only
-verified_on: 2026-09-26
+verified_on: 2026-10-31
 ---
 
 # A short-clip format template with provenance and a declared gap — a video-studio pipeline
@@ -59,10 +59,10 @@ ASSUMED) and **no params file at all**, with the reason written down
 absent from it or an impression", and writing the file "would launder those
 impressions into machine-readable authority" — quoting the library's own law
 that "an estimate laundered into the library is worse than a gap, because the
-gap is fixable and the estimate is invisible." The file ends: "It gets
+gap is fixable and the estimate is invisible." The section ends: "It gets
 written when a second source supplies real numbers."
 
-Line 47 shows the softer half of the same rule: the big-blocks guidance may
+Lines 46–47 show the softer half of the same rule: the big-blocks guidance may
 "steer a composition but must not become a validator" until someone measures
 how big is big.
 

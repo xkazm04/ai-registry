@@ -5,8 +5,8 @@ subject: model-call-outcome-integrity
 technique: elimination-reasons-are-a-closed-vocabulary
 stack: next
 status: forged
-verified_on: 2026-09-05
-verified_against: next@16.3.3
+verified_on: 2026-10-31
+verified_against: next@16
 ---
 
 # Next — one descent trail, three destinations
@@ -17,7 +17,7 @@ module header before any code runs.
 
 ## The vocabulary
 
-`RerouteStep` (`lib/text/types.ts:124-140`) is a provider plus a `why` drawn from a closed
+`RerouteStep` (`lib/text/types.ts:322-345`) is a provider plus a `why` drawn from a closed
 union. The members separate exactly the conditions the technique warns get collapsed:
 
 | member | what it distinguishes |
@@ -37,6 +37,13 @@ reading the trail is never sent to provision a key that was never meant to exist
 The second split worth naming is `not-installed` against `not-logged-in`. Both mean "the
 local transport is unusable" and they have entirely different fixes.
 
+*Re-checked 2026-10-31 at gravitone-gcloud@fd09c06c:* the union has grown since this table
+was read, from ten members to fourteen. The additions are `invalid-request` (refused before
+dispatch, e.g. a prompt past the adapter's cap, so nothing was sent or billed), `timeout`,
+`bad-response` and `cancelled` (the caller cancelled mid-serve; the walk stops). The table
+above is the subset that existed then. The growth is the technique working as claimed: four
+new causes, each reaching all three destinations through the same array.
+
 ## The three destinations, asserted in prose and in code
 
 The module header states the contract before the reader reaches an implementation
@@ -46,10 +53,10 @@ The module header states the contract before the reader reaches an implementatio
 > thrown at the end, as `provenance.reroutedFrom` when a later engine served, and as one
 > line on the server log either way.
 
-And the declaration repeats it where the array is created (`router.ts:190-195`), calling it
+And the declaration repeats it where the array is created (`router.ts:322-325`), calling it
 *"the same record twice over"*. The trail is spread into the successful outcome at
-`router.ts:305` (`...(trail.length ? { reroutedFrom: [...trail] } : {})`), and rendered
-into the log line at `log.ts:162-164` as `provider:why` pairs — under the key `tried` or
+`router.ts:460` (`...(trail.length ? { reroutedFrom: [...trail] } : {})`), and rendered
+into the log line at `log.ts:175-178` as `provider:why` pairs — under the key `tried` or
 `rerouted` depending on whether the call ultimately succeeded.
 
 That last detail is a sharpening the technique does not state. The *same* data is labelled
@@ -70,13 +77,23 @@ union member is the only edit.
 
 The trail is honest about the descent and silent about the ceiling. This tree configures
 no completion budget anywhere in its reasoning path — only wall-clock timeouts
-(`router.ts:110-132`) — so the sibling technique's void outcome has no member here: a
+(`router.ts:197-262`) — so the sibling technique's void outcome has no member here: a
 truncated answer would arrive as content and be validated as content. The vocabulary
 covers *why an engine was not used*; it does not yet cover *why an engine that was used
 did not finish*.
 
 The provenance also reaches the persisted artifact, not just the response — the staged
 version carries `{ provider, model, rung, transport, schemaEnforcement, reroutedFrom }`
-(`app/api/recalibrate/route.ts:451-465`). That is a fourth destination the technique does
-not require and probably should: an artifact that outlives the request carrying the reason
-its engine was substituted is the only form of this record that survives log rotation.
+(`lib/turns/kinds/recalibrate.ts:71-86`, `engineOf`). That is a fourth destination the
+technique does not require and probably should: an artifact that outlives the request carrying
+the reason its engine was substituted is the only form of this record that survives log
+rotation.
+
+*Re-checked 2026-10-31 at gravitone-gcloud@fd09c06c:* `app/api/recalibrate/route.ts` is gone
+(v1 cutover, `ed151a11`). The receipt block moved first into the `recalibrate` turn kind
+(`12dfdaad`, 2026-10-06), whose result, `{ plan, manifest, engine }`, now settles on the turn
+ledger's record. So the fourth destination holds, and is more durable than before. The
+"stops short" finding also holds. There is still no completion budget in `lib/text/` (no
+`max_tokens` or equivalent), and the new `timeout` member is the wall-clock ceiling above,
+not a token ceiling. A truncated structured answer would now surface as `bad-response` when
+it fails to parse, which names a symptom, not a void.

@@ -5,7 +5,7 @@ subject: image-prompt-composition
 technique: reference-role-map
 stack: react
 status: forged
-verified_on: 2026-09-21
+verified_on: 2026-10-31
 verified_against: react@19
 applied: simulation
 ab_verdict: unmeasurable
@@ -13,7 +13,7 @@ ab_verdict: unmeasurable
 
 # React: a reference is a bag of bytes, and the split is a binary
 
-*Verified against the consuming tree at commit `773f4d8`, 2026-09-21.*
+*Verified against the consuming tree at commit `fd09c06c`, 2026-10-31 (previously `773f4d8`, 2026-09-21).*
 
 The technique gained an amendment this run: where two references merge in one
 frame, the beats must author the **interaction** between them, because the
@@ -42,11 +42,11 @@ prose — true of `generate`, and true of what this file first said about the
 whole tree, but no longer true of the tree as a whole.
 
 **The `edit` path now declares two roles — in the prompt, not the type.**
-`buildEditPrompt` (`lib/imaging/providers/google.ts:378-391`) prepends a
+`buildEditPrompt` (`lib/imaging/providers/google.ts:424-437`) prepends a
 labelled map ahead of the instruction: image 1 is the SUBJECT PLATE, the
 remaining N attached images are STYLE REFERENCES, and both carry negative
 scope — the plate must not lend its style, the references must not lend
-their content. `edit()` calls it at `google.ts:207`. The commit is
+their content. `edit()` calls it at `google.ts:223`. The commit is
 `f8e7c93`, *"an edit's attachments say which is the plate and which is the
 look,"* dated 2026-08-29 — two days before this file's own first
 `verified_on` of 2026-08-31. The "nothing declares one" claim was already
@@ -82,11 +82,20 @@ atmosphere.
    integrated needs generation spend and a grader pass, and the outcome is
    the technique's actual claim. Hence the verdict.
 
+   *Re-checked 2026-10-31 at gravitone-gcloud@fd09c06c:* the route file is
+   gone — `app/api/imaging/edit/route.ts` was deleted in the v1 cutover
+   (`ed151a11`, 2026-10-18). It was only an auth guard over `editHandler`,
+   which survives at `lib/imaging/handlers.ts:54`, but no route mounts it
+   now; its one caller is the integration rehearsal
+   `pipeline/integration-imaging.mts`. `EditRequest` (`lib/imaging/types.ts:90-95`)
+   and the role map above are unchanged, so the case stands as the place a
+   merge would land — it just has no HTTP door in this tree today.
+
    One position note, so a future reader does not manufacture a deviation
    that is not there: `buildEditPrompt` *prepends* its map; `buildPrompt`,
-   the `generate` path (`:393-403`), *appends* its single-role note. That
+   the `generate` path (`:439-449`), *appends* its single-role note. That
    split is not an inconsistency — the code's own comment says why
-   (`google.ts:366-368`): on `generate` the prompt already IS the subject
+   (`google.ts:411-414`): on `generate` the prompt already IS the subject
    description, so the reference note only qualifies it; on `edit` the
    instruction is an operation on assets the model has not been introduced
    to yet, so the roles have to arrive first. "The map leads" (the commit's
@@ -118,6 +127,13 @@ not runnable in a research run.
 verdict grader at `app/api/foundry/runs/[id]/verdicts/route.ts`, run over
 composite calls. What is missing is not the grader; it is composite calls to
 grade.
+
+*Re-checked 2026-10-31 at gravitone-gcloud@fd09c06c:* that route was deleted
+in the v1 cutover (`ed151a11`, 2026-10-18) along with its three sibling
+verdict routes. The verdict writer itself survives as one kernel,
+`lib/foundry/verdictLog.ts` (keyed patches on a revision, an append-only log),
+used by the foundry stores and the Board's sources; the instrument still
+exists, behind a different door. The verdict is unaffected.
 
 ## What the tree could not have been built to prove
 

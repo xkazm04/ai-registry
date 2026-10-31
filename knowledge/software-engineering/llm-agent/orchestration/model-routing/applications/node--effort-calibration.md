@@ -7,8 +7,8 @@ stack: node
 applied: task
 ab_verdict: unmeasurable
 proof: structural-only
-verified_on: 2026-09-02
-verified_against: node@20
+verified_on: 2026-10-31
+verified_against: node@24
 ---
 
 # A routing table that refused the newest model, and had already measured why
@@ -18,14 +18,16 @@ through one vendor behind a per-turn model map. Paths relative to the repo
 root; citations resolved 2026-09-02 at commit `bda26bd`. The repo declares no
 `engines` field and no CI node version; `@types/node ^20` in `package.json` is
 the only node witness in a manifest, so that is the pin — a weaker witness than
-usual and stated as such.
+usual and stated as such. *Re-checked 2026-10-31 at `fd09c06c`:* the same witness
+now reads `@types/node ^24.19.2`, still with no `engines` field, so the pin moved
+to node@24 on the same weak footing.
 
 This tree was opened to apply a version bump to it. It declined, in writing,
 before the run arrived, and the refusal is the application.
 
 ## 1. The table is a dated measurement, and it says so
 
-`lib/text/providers/google.ts:64-91` is a per-turn model map whose header is a
+`lib/text/providers/google.ts:95-142` is a per-turn model map whose header is a
 measurement record rather than a configuration comment: "MEASURED AGAINST THE
 LIVE ROSTER on 2026-08-27 with this repo's key, not chosen from memory",
 followed by the roster size, the count that supported the required call shape,
@@ -46,7 +48,7 @@ this table and re-running the pass, **not by assuming it settled**."
 
 ## 2. The structural fact: the tree had already measured the term the release note describes
 
-`lib/text/providers/google.ts:170-188` meters the field most estimates omit,
+`lib/text/providers/google.ts:265-280` meters the field most estimates omit,
 under a heading that is the whole argument — "THINKING TOKENS, AND THEY ARE
 BILLED AS OUTPUT" — with the 2026-08-27 numbers:
 
@@ -97,3 +99,11 @@ ask again. A vendor shipping three releases of this tier in six weeks moves
 faster than an unscheduled manual pass, so the measurement's honesty about its
 own date is doing all the work that a trigger would otherwise do. The refusal
 recorded here is only as good as the next person reading the header.
+
+*Re-checked 2026-10-31 at gravitone-gcloud@fd09c06c:* the refusal still stands. The
+default ids are still `gemini-3.6-flash` and `gemini-3.1-pro-preview`
+(`google.ts:49-50`), the 3.8 row in `lib/text/pricing.ts` is still "NOT promoted",
+and the owed pass has not been recorded. One partial clock now exists: the 3.8 row
+carries `validUntil: "2026-12-31"`, and `pricing.ts:179-182` turns a quote past that
+day into "re-check it". That clock watches the rate. It does not re-measure the
+roster, so the cadence gap described above is still open.
