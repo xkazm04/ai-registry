@@ -5,7 +5,7 @@ subject: requisition-lifecycle-governance
 technique: best-effort-ingest-with-an-explicit-retry
 stack: node
 status: forged
-verified_on: 2026-09-29
+verified_on: 2026-10-31
 verified_against: node@24
 ---
 
@@ -15,12 +15,14 @@ Every line citation below was re-resolved on 2026-09-29 against kp at `006bf7a0a
 The design survived; two of the three shortfalls recorded on 2026-08-20 are
 closed, one of them by a different mechanism than the one the standard describes,
 and the honest-null sort this page used to document has left the tree. Those
-changes are the substance of this revision.
+changes are the substance of this revision. Line citations were re-resolved
+again on 2026-10-31 against kp at `6edf5d7e6`; `ingestStructuredJob` moved from
+`app/api/jds/save/ingest-job.ts` to `app/_lib/jd-ingest.ts` unchanged.
 
 Two stores hold one role here: the `jds` table holds the description the recruiter
 wrote, and the `jobs` table holds the structured, matchable record the pipeline
 ranks candidates against. `POST /api/jds/save` writes both, and its header comment
-states the contract in the standard's exact terms (`route.ts:26-32`):
+states the contract in the standard's exact terms (`route.ts:28-32`):
 
 > saving the JD draft is authoritative (it succeeds or the whole request
 > 4xx/5xx-es), but the structured-Job ingest below is best-effort.
@@ -28,37 +30,37 @@ states the contract in the standard's exact terms (`route.ts:26-32`):
 ## The split, in code
 
 ```ts
-// route.ts:89-99
+// route.ts:91-103
 let jobIngested = false;
 try {
   jobIngested = await ingestStructuredJob({ slug, title: fields.title, ... }, ws);
 } catch (ingestError) {
-  console.error(`[api:jds/save] JD ${slug} saved but job ingest failed`, ingestError);
+  console.error("[api:jds/save] JD %s saved but job ingest failed", slug, ingestError);
 }
 ```
 
-`saveJd` (`:85`) commits first and independently; the derived step runs after it
-and is allowed to throw. `jobIngested` is returned to the caller (`:101`), which is
+`saveJd` (`:86`) commits first and independently; the derived step runs after it
+and is allowed to throw. `jobIngested` is returned to the caller (`:105`), which is
 the technique's second rule for that response: the failure is a **state on the
 response**, not only a log line. The catch block used to discard the error
-entirely; it now logs it with the slug (`:98`), so the third shortfall recorded on
+entirely; it now logs it with the slug (`:102`), so the third shortfall recorded on
 2026-08-20 — *a systematic ingest outage is invisible until roles start failing to
 publish one at a time* — is closed. The AI builder's background path
-(`app/_lib/jd-build-run.ts:432-445`) has the same shape and the same log.
+(`app/_lib/jd-build-run.ts:457-472`) has the same shape and the same log.
 
 ## The transition that depends on it refuses
 
 Going live is `POST /api/jobs/[id]/publish`, which resolves the job with
 `getJob(id, ws)` and answers 404 when the row does not exist
-(`publish/route.ts:82-83`), the dead end the save route's comment names. The
+(`publish/route.ts:91-92`), the dead end the save route's comment names. The
 avoided-dead-end handling the standard asks for exists, but it no longer hangs off
 the response flag.
 
 ## Where the retry lives now
 
 The `jobIngested` flag has no consumer in the product. Nothing under `app/` reads it
-except the simulation walk that drives the route (`useSimulationWalk.ts:287`), and
-`docs/features/jobs/README.md:313-316` still says the builder "reads `jobIngested`"
+except the simulation walk that drives the route (`useSimulationWalk.ts:308`), and
+`docs/features/jobs/README.md:315-319` still says the builder "reads `jobIngested`"
 and disables Publish with an inline Retry; that sentence describes a UI the tree no
 longer has. The builder's save moved into a background build, and the recovery moved
 with it to a different place and a different signal:
@@ -77,11 +79,11 @@ with it to a different place and a different signal:
   tooltip and in an assertive live region (`JdsLedgerRowIngest.tsx:21-26`, `:40`) instead
   of a colour change and one fixed sentence.
 - **The retry cannot create.** The route resolves the JD first and refuses an
-  unknown slug (`ingest-job/route.ts:35-36`, coded `JD_NOT_FOUND`), and it
-  short-circuits when the job already exists (`:39-41`), so a second click parses
+  unknown slug (`ingest-job/route.ts:36-37`, coded `JD_NOT_FOUND`), and it
+  short-circuits when the job already exists (`:40-42`), so a second click parses
   nothing and spends nothing. The job's identity is the JD's (`jd-<slug>`,
   `jdJobId`), so the only row it can ever write is the one belonging to a draft that
-  already exists. The comment at `:49-60` records the incident that made the write
+  already exists. The comment at `:50-61` records the incident that made the write
   explicit: the route once parsed the JD body, answered `{ ok: true, already: false }`
   and wrote nothing, so the JD stayed `unlinked`, "Source into Pipeline" 404ed, and
   every re-click re-spent the parse.
@@ -92,15 +94,15 @@ with it to a different place and a different signal:
   path that could drift from the real one.
 
 The `/api/jds/save` retry-by-slug branch is still there and still safe — an unknown
-slug is a 404 and not an implicit create (`route.ts:71-86`, the comment at `:71-74`
+slug is a 404 and not an implicit create (`route.ts:73-87`, the comment at `:73-76`
 states the invariant: *"Reject an unknown retry slug so a retry can't mint a
 `jd-<slug>` Job with no backing draft."*) — but no product surface posts to it.
 
 Note also what the ingested record lands as: `ingestStructuredJob` calls
-`insertJob(..., "draft", workspaceId)` (`ingest-job.ts:52`), and so does the retry
-route (`ingest-job/route.ts:61`) — the derived record enters the lifecycle at draft,
+`insertJob(..., "draft", workspaceId)` (`jd-ingest.ts:52`), and so does the retry
+route (`ingest-job/route.ts:64`) — the derived record enters the lifecycle at draft,
 so a successful ingest is not itself a go-live. The matchable band is deliberately
-fixed to the analysis's salary and clamped rather than dropped (`ingest-job.ts:36-48`,
+fixed to the analysis's salary and clamped rather than dropped (`jd-ingest.ts:36-48`,
 `withGroundedBand`), so a hand-typed number in the markdown cannot masquerade as
 grounded research; the same helper is applied on the edit-time re-sync.
 
@@ -135,6 +137,6 @@ that is not there.
   removed, before the next reader takes the sentence as a description of the product.
 - **A re-sync can outrun the index.** An edit to the description re-parses it in the
   edit route (`PATCH /api/jds/[slug]`) and answers `jobResynced` on that response only
-  (`[slug]/route.ts:133`); the JD row carries no durable marker saying the job was
+  (`[slug]/route.ts:144`); the JD row carries no durable marker saying the job was
   last indexed from an older body, so a stale index over an edited description is
   not detectable from the record.

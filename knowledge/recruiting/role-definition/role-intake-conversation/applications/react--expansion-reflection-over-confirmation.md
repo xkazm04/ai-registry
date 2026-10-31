@@ -5,7 +5,7 @@ subject: role-intake-conversation
 technique: expansion-reflection-over-confirmation
 stack: react
 status: forged
-verified_on: 2026-09-26
+verified_on: 2026-10-31
 verified_against: react@19
 applied: simulation
 ab_verdict: better
@@ -20,7 +20,8 @@ typed composer, decision cards, and a "talk instead" voice call. Three of this
 technique's rules are decided here and nowhere else: whether a pause is left
 to the requestor, whether a disposable contrast is actually disposable, and
 whose words a picked option becomes. Read at one pinned commit of the
-consumer on 2026-09-26.
+consumer on 2026-09-26; line anchors re-resolved on 2026-10-31 at kp
+`6edf5d7e6`. The simulation below is history and was not re-run.
 
 ## What the studio gets right: the disposal clause is structural
 
@@ -30,9 +31,9 @@ say that the options may be refused. The studio makes the refusal part of the
 widget, whatever the model wrote:
 
 - the propose eyebrow reads "A few options (none of them is fine)"
-  (`messages/en.json:5309`);
+  (`messages/en.json:5525`);
 - the card set carries its own decline — "None of these. I'll say it in my
-  own words" (`:5311`) — as a button on the set
+  own words" (`:5527`) — as a button on the set
   (`app/_components/studio/StudioChoiceCards.tsx:133`), which returns focus
   to typing. The rationale sits in the header (`:24-26`): "The escape is IN
   THE CARD SET, not only in the composer … A choice you cannot decline is a
@@ -48,7 +49,7 @@ it.
 ## Deviation 1: the voice call hands the requestor's pause to a 500 ms detector
 
 The call runs the provider in relay mode — it transcribes, the product's own
-engine answers (`app/api/intake/[id]/voice-connect/route.ts:94`). Relay mode
+engine answers (`app/api/intake/[id]/voice-connect/route.ts:93`). Relay mode
 configures end-of-turn detection as a bare silence detector:
 `input.turn_detection = { type: "server_vad", create_response: false,
 interrupt_response: true }` (`app/_lib/voice/openai.ts:212`), with no silence
@@ -116,7 +117,7 @@ The integration is described with care in `intake-choices.ts:42-45`:
 words in the transcript … and the value lands as `stated`, because they did
 say it." They clicked it; the model wrote it. The offer is not lost
 everywhere: the message route stores the offered set on the interviewer's
-turn (`app/api/intake/[id]/message/route.ts:175`), so a pick can be
+turn (`app/api/intake/[id]/message/route.ts:174`), so a pick can be
 reconstructed by matching the next requestor line against the labels. It is
 lost where it matters. The brief row lands as `stated`, and the export's
 transcript has no field for the offer, so a seniority or a dealbreaker chosen

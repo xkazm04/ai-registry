@@ -5,7 +5,7 @@ subject: requisition-lifecycle-governance
 technique: closing-withdraws-candidates-in-flight
 stack: node
 status: forged
-verified_on: 2026-09-29
+verified_on: 2026-10-31
 verified_against: node@24
 ---
 
@@ -15,7 +15,8 @@ Every line citation below was re-resolved on 2026-09-29 against kp at `006bf7a0a
 The first version of this page (2026-08-20) cited a tree that has since moved: the
 close route gained a per-team lifecycle overlay on 2026-09-23 (`ca1cc565e`), the
 cascade's two write predicates were tightened, and a fill hook now calls the same
-cascade. The account of the design is unchanged; the numbers are not.
+cascade. The account of the design is unchanged; the numbers are not. Line
+citations re-resolved again on 2026-10-31 against kp at `6edf5d7e6`.
 
 This role lifecycle was originally a one-way ratchet — `NULL`/`draft` →
 `published`, full stop. The route's header comment states what that cost:
@@ -26,9 +27,9 @@ stop counting the role, the cascade exists to stop stranding its people.
 
 ## The cascade
 
-`POST /api/jobs/[id]/close` (`close/route.ts:13-57`) is deliberately an
+`POST /api/jobs/[id]/close` (`close/route.ts:13-56`) is deliberately an
 *"idempotent mirror of /publish"* (`:12`). It reads the current status as the
-caller's team sees it (`:33`), and only on a real transition (`:40`) flips the
+caller's team sees it (`:32`), and only on a real transition (`:39`) flips the
 status and then withdraws:
 
 ```ts
@@ -37,27 +38,38 @@ try { withdrawn = closeEntriesByJobId(id, ws); }
 catch (e) { withdrawalFailed = true; console.error(...); }
 ```
 
-`closeEntriesByJobId` (`app/_lib/db/pipeline.ts:880-937`) is the cascade itself, and
+`closeEntriesByJobId` (`app/_lib/db/pipeline.ts:883-953`) is the cascade itself, and
 it is a single `db.transaction`. It selects every entry for the job that is
-`status = 'active'` and not at the terminal stage (`:890-895`) — the standard's
+`status = 'active'` and not at the terminal stage (`:893-898`) — the standard's
 "still in flight, not merely non-final": the hired candidate out of this very
 requisition is left active on purpose. The terminal stage is resolved by its
-**role** on the workspace's own board (`:888`), never the literal word `Hired`,
+**role** on the workspace's own board (`:891`), never the literal word `Hired`,
 because on a board whose terminal column carries another id a name comparison
 spares nobody and the close withdraws the very candidate the role was filled with.
 Each row is updated to `status='role_closed'` and given an event (`kind:
-"role_closed"`, detail `roleClosedWithdrawn`, `:922-931`), with `fromStage ===
+"role_closed"`, detail `roleClosedWithdrawn`, `:938-947`), with `fromStage ===
 toStage` because the close touches the outcome and never the stage.
 
 Since the first version the `UPDATE` re-asserts **both** predicates the `SELECT`
-filtered on, `status='active' AND stage != <terminal>` (`:915-920`). The comment at
-`:898-914` gives the reason, and it is a small lesson worth keeping: the transaction
+filtered on, `status='active' AND stage != <terminal>` (`:931-936`). The comment at
+`:901-930` gives the reason, and it is a small lesson worth keeping: the transaction
 is deferred, so the write lock arrives at the first write, and anything the select
 read can move under the loop. The status half stops a human merit reject landing
 mid-window from being overwritten. The stage half is the worse one: *a hire is a
 stage move, not a status move*, so a recruiter dropping someone onto the terminal
 column between the select and this row's write satisfied `status='active'` and got
 withdrawn from the role they were hired into.
+
+Re-checked 2026-10-31 at kp@6edf5d7e6: the deferred transaction described above
+is gone. Since `708456dad` (2026-10-06) both `closeEntriesByJobId` and
+`reopenEntriesByJobId` run as `tx.immediate()` (`:952`, `:1012`), so the write lock
+is taken at BEGIN and nothing on the main handle moves between the select and the
+write. The comment (`:909-917`) records why: a DEFERRED read-then-write does not
+fall back to a no-op when another connection commits in between, SQLite refuses
+the lock upgrade with `SQLITE_BUSY_SNAPSHOT`, and the whole close rolled back as
+`withdrawalFailed`. The re-asserted predicates stay, now as the second layer. This
+tightens the cascade and does not touch the shortfalls below, which are about the
+route, not the store function.
 
 ## The distinct terminal kind, and what it buys
 
@@ -69,8 +81,8 @@ timing, NOT a merit reject, so reject-rate stays honest and they resurface as
 rediscovery silver medalists*.
 
 The reversibility payoff is spelled out where the inverse lives.
-`reopenEntriesByJobId` (`:961-992`) restores `role_closed → active` with a
-`role_reopened` event per entry, in one transaction, and its comment (`:952-960`)
+`reopenEntriesByJobId` (`:982-1013`) restores `role_closed → active` with a
+`role_reopened` event per entry, in one transaction, and its comment (`:968-974`)
 is the clearest statement of the invariant anywhere in the repo:
 
 > `role_closed` is a DISTINCT terminal status written ONLY by
@@ -82,24 +94,24 @@ is the clearest statement of the invariant anywhere in the repo:
 
 The close never touches `stage`, so restoring `status` alone returns each
 candidate to their exact pre-close stage, and the `AND status='role_closed'` guard
-on the `UPDATE` (`:974`) makes a lost race a no-op. The incident behind it is at
-`:944-951`: reopen used to be *"publish again and let sourcing incidentally
+on the `UPDATE` (`:995`) makes a lost race a no-op. The incident behind it is at
+`:960-966`: reopen used to be *"publish again and let sourcing incidentally
 un-terminal whatever the matcher re-selects"*, which stranded the rest with a lying
 timeline and no audit event.
 
 The distinct kind now pays a fourth time, in a place nobody designed it for. The
-feedback-letter policy (`app/_lib/interview-letter-policy.ts:136-137`) refuses a
+feedback-letter policy (`app/_lib/interview-letter-policy.ts:136-138`) refuses a
 letter to a `role_closed` entry with the reason `not_decided_about_candidate`, and
 its header explains why (`:21-23`): the status page reads `role_closed` as "not
 selected", *"but nobody decided about THIS candidate"*, so there is no interview
 judgement to report. A generic rejection could not have been told apart from a
-human decision here. `decision-attribution.ts:160` records `role_closed` as
+human decision here. `decision-attribution.ts:166` records `role_closed` as
 `auto: false`, so it is not presented as an automated adverse decision.
 
 ## Reopen is one route, and it restores at any age
 
 The reopen is reached through the publish route: when the transition is
-`closed → published` (`classifyPublish().wasClosed`), `publish/route.ts:171-173`
+`closed → published` (`classifyPublish().wasClosed`), `publish/route.ts:216-218`
 calls `reopenEntriesByJobId` before sourcing runs, so the pipeline is made whole
 even if sourcing errors. That is the standard's "deterministic and up front".
 
@@ -116,7 +128,7 @@ close to zero.
 
 ## The scoping incident
 
-`close/route.ts:15-20` records the silent-stranding failure the standard warns
+`close/route.ts:15-19` records the silent-stranding failure the standard warns
 about, in its exact form: the status write is a bare by-id `UPDATE` while the
 withdrawal is workspace-scoped, and before `currentWorkspace()` was threaded
 through, `closeEntriesByJobId` *"fell to `DEFAULT_WORKSPACE_ID` and withdrew NONE
@@ -124,19 +136,19 @@ of a non-default team's in-flight candidates — the close 'succeeded' with
 `withdrawn:0` while the funnel kept chasing a retired role."* Two scopes on one
 operation, disagreeing, reporting success.
 
-The ownership gate at `:24-29` closes the other half — without it *"workspace B
+The ownership gate at `:23-28` closes the other half — without it *"workspace B
 could dark workspace A's live role"* — and returns 404 rather than 403 so the
 endpoint does not confirm another tenant's ids exist. The 2026-09-23 change
 extended the same discipline to the shared corpus: a seeded role is one row every
 team sees, its status now lives in a per-team overlay, and the close is the caller's
-team's (`:30-32`), so one team retiring a role no longer retires it for the rest.
+team's (`:29-31`), so one team retiring a role no longer retires it for the rest.
 
 ## Reporting it honestly
 
-`withdrawalFailed` (`:35-39`) exists because *"'nobody was in flight' and
+`withdrawalFailed` (`:34-38`) exists because *"'nobody was in flight' and
 'withdrawing them broke' were the same `ok:true`/`withdrawn:0` response and the UI
 rendered neither."* The three outcomes render distinctly in
-`JobsPostingModalFooter.tsx:81-93`: an amber warning when the role is closed but its
+`JobsPostingModalFooter.tsx:84-96`: an amber warning when the role is closed but its
 people are not, `withdrewCount` when the cascade moved someone, and a plain
 `closedNow` confirmation for the honest zero.
 
@@ -149,8 +161,8 @@ closed requisition reads as not selected without implying anything about merit.
 
 ## Where the repo falls short of the standard
 
-- **The close is not atomic with its cascade.** `setJobStatus` commits (`:41`), then
-  the withdrawal runs in a `try/catch` (`:46-51`); a throw between them leaves the
+- **The close is not atomic with its cascade.** `setJobStatus` commits (`:40`), then
+  the withdrawal runs in a `try/catch` (`:45-50`); a throw between them leaves the
   requisition closed and its people in flight. The repo mitigates by surfacing
   `withdrawalFailed` rather than logging it, which is the right mitigation, but the
   standard's rule stands: the status change and the termination belong in one
@@ -162,9 +174,9 @@ closed requisition reads as not selected without implying anything about merit.
   above close to zero: there is no queued message to cancel and no "sent" moment to
   hold the line at.
 - **The pre-close count is not shown on the jobs close.** The confirm dialog
-  (`JobsPostingModal.tsx:160`, copy `closeConfirm`) says candidates "will be
+  (`JobsPostingModal.tsx:193`, copy `closeConfirm`) says candidates "will be
   withdrawn" without saying how many; the recruiter learns the number afterwards
-  (`jobsPostingModalLogic.ts:83`). The neighbouring assignment lifecycle already
+  (`jobsPostingModalLogic.ts:85`). The neighbouring assignment lifecycle already
   computes one before its confirm (`DevLifecycleRow.tsx:83`, `closeWarning(inFlight,
   ...)`), so the one-query guard exists in the codebase and has not been carried
   over.

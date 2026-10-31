@@ -5,7 +5,7 @@ subject: requisition-lifecycle-governance
 technique: fill-is-a-count-and-close-is-the-act-it-triggers
 stack: node
 status: forged
-verified_on: 2026-09-29
+verified_on: 2026-10-31
 verified_against: node@24
 ---
 
@@ -13,7 +13,9 @@ verified_against: node@24
 
 Citations resolved on 2026-09-29 against kp at `006bf7a0a`. This page holds the
 one place the technique was already built when the registry first read the tree, and
-the A/B that makes the claim measured rather than admired.
+the A/B that makes the claim measured rather than admired. Line citations
+re-resolved on 2026-10-31 against kp at `6edf5d7e6`; the A/B is as measured at
+`006bf7a0a`.
 
 ## What kp does
 
@@ -21,15 +23,15 @@ Opening a role states how many people it has to hire: `POST /api/jobs/[id]/publi
 takes an optional `targetHires` (`publish/route.ts:47-66`), refuses a non-integer or
 anything outside 1 to 50 with the coded `JOB_TARGET_HIRES_INVALID` rather than
 truncating it, and writes it **inside the go-live transaction** beside the status
-flip (`:146-150`) so that *"a role can never be live under a target the auto-close
+flip (`:154-159`) so that *"a role can never be live under a target the auto-close
 hook has not seen yet."* The ceiling has its reason in the comment (`:68-70`): it is
 *"the point past which 'a role' is really a hiring campaign"*, and a mistyped 300
 would keep a requisition open indefinitely while the desk reported honest, useless
 progress. An unstated target folds to one in a single function, `roleTargetHires`
-(`app/_lib/db/jobs.ts:699-701`), whose comment states the rule the technique
+(`app/_lib/db/jobs.ts:703-705`), whose comment states the rule the technique
 generalises: *"'unstated' and 'stated as 1' the same fact."*
 
-**Filled is derived, closed is stored.** `docs/features/jobs/README.md:1798-1830` names
+**Filled is derived, closed is stored.** `docs/features/jobs/README.md:1888-1920` names
 the four values the Roles desk shows, `draft`, `open` (with `hired / target`),
 `filled` and `closed`, computed from two facts by `roleStatusOf`
 (`app/features/library/jobs/jobsRoleStatus.ts:50-55`): a role is `filled` when its
@@ -38,37 +40,37 @@ hired count reaches its target *whether or not it has been retired yet*, and
 technique does: the hook runs after the hire commits, so a role sits at three of
 three and still `published` for a moment, and a stored flag would contradict the
 count beside it. The same derivation runs in SQL for the server-side filter
-(`ROLE_STATUS_SQL`, `db/jobs.ts:607`), so the desk and the query cannot disagree.
+(`ROLE_STATUS_SQL`, `db/jobs.ts:611`), so the desk and the query cannot disagree.
 
-**The hook.** `runRoleFillHook` (`stage-hooks-role-fill.ts:81-137`) is scheduled after
+**The hook.** `runRoleFillHook` (`stage-hooks-role-fill.ts:82-140`) is scheduled after
 the stage write has committed (`stage-hooks.ts:148`, through `afterResponse`), for
 the reasons in its header (`:1-33`): the hire *is* the stage move, and reconciling
 the rest of the pipeline from inside the move's transaction would make its atomicity
 a fiction the moment anything awaited. It re-reads the entry and compares the stage
-it was told about with the stage it finds (`:89`), because a second move may have
+it was told about with the stage it finds (`:92`), because a second move may have
 landed in the gap. It asks the workspace's own axis whether the arrival stage has the
-terminal *role* (`:98`), never whether a column is called `Hired`, and reads the hired
-count from the same rollup the desk shows (`listJobPipelineStats`, `pipeline.ts:1103-1131`,
-the terminal-role test at `:1128`): *"A second, private counter here is exactly how a
+terminal *role* (`:101`), never whether a column is called `Hired`, and reads the hired
+count from the same rollup the desk shows (`listJobPipelineStats`, `pipeline.ts:1124-1153`,
+the terminal-role test at `:1149`): *"A second, private counter here is exactly how a
 '2 / 3' role ends up closed."* If `hired < target` it returns `open` and does nothing
-(`:109`).
+(`:112`).
 
-**The swap.** `closeRoleIfOpen` (`db/jobs.ts:803` onward) is a single atomic statement
+**The swap.** `closeRoleIfOpen` (`db/jobs.ts:807` onward) is a single atomic statement
 that re-asserts *"still open"* in its own `WHERE` and reports whether **this call**
-changed a row. Only that call goes on to `closeEntriesByJobId` (`:112-120`). Its
+changed a row. Only that call goes on to `closeEntriesByJobId` (`:115-123`). Its
 comment counts what the loser would otherwise do: *"two withdrawal sweeps and two
 role-filled announcements for one role."* The withdrawal is the same store function a
 manual close calls, so the candidate timelines *"cannot tell the two closes apart,
 which is correct."* A failure of the sweep after the close commits returns
-`withdrawn: null` and logs (`:121-127`), which is the close route's `withdrawalFailed`
+`withdrawn: null` and logs (`:124-130`), which is the close route's `withdrawalFailed`
 split by another name; a failure of the whole check leaves the role open for a human
-(`:128-136`).
+(`:131-139`).
 
 **Per team.** A seeded corpus role is one row every team sees. On 2026-09-23
 (`ca1cc565e`) its status, target and languages moved into a per-team overlay
 (`job_workspace_state`), because before it *"one team's first hire auto-closed the role
 for every team."* The hook reads and closes the caller's team's copy
-(`stage-hooks-role-fill.ts:105-108`, `:32-33`), so one team filling its seats leaves
+(`stage-hooks-role-fill.ts:108-111`, `:32-33`), so one team filling its seats leaves
 every other team's role open.
 
 ## The A/B
@@ -99,11 +101,15 @@ code and that nothing else in the suite would have noticed either being removed.
 ## Where the repo falls short of the standard
 
 - **The hired count reads the stage, not the status.** `listJobPipelineStats` counts
-  every row at a terminal-role stage (`pipeline.ts:1128`), while the hook checks the
-  status of only the *triggering* entry (`stage-hooks-role-fill.ts:88`). An entry that
+  every row at a terminal-role stage (`pipeline.ts:1149`), while the hook checks the
+  status of only the *triggering* entry (`stage-hooks-role-fill.ts:89`). An entry that
   sits in the terminal column with a terminal status of its own (a rejected or declined
   row) would still count toward the target. Whether the product can produce that state
   was not traced; the test in this pass pins the triggering-entry case only.
+  Re-checked 2026-10-31 at kp@6edf5d7e6: since `9eeba1f70` the rollup counts only
+  human rows toward `hired` (an AI agent on the terminal column is never a hire)
+  and the hook skips an agent entry (`:91`); the test file gained two agent cases.
+  The count still reads the stage and not the status, so this shortfall stands.
 - **A hire that falls through does not reopen anything.** The count drops below the
   target and the role stays closed, which is what the technique says (it is a reopen
   decision, a new span), but nothing surfaces it: a `closed` role short of its target

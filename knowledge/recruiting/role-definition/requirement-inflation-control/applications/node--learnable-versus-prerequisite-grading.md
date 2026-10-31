@@ -5,7 +5,7 @@ subject: requirement-inflation-control
 technique: learnable-versus-prerequisite-grading
 stack: node
 status: forged
-verified_on: 2026-09-29
+verified_on: 2026-10-31
 verified_against: node@24
 ---
 
@@ -118,7 +118,7 @@ first written the lint takes `Math.max` of the prose count and a structured
 `mustHaveCount` passed by callers that hold the graded list, so a generated
 body with no marker words but a long graded list still warns; both counts run,
 and one finding reports the higher. It sits beside the
-inclusive-language patterns at `:14` — a neighbouring subject's control on the
+inclusive-language patterns at `:58` — a neighbouring subject's control on the
 same artifact, correctly kept as a separate finding kind.
 
 ## Deviations from the standard
@@ -144,8 +144,9 @@ same artifact, correctly kept as a separate finding kind.
   since a must that is learnable "still ranks as a must without excluding
   anyone". That is the cell reading of the rule (the technique now states it),
   and it holds only while every consumer that gates does so on the cell. Not
-  every consumer does: the publish route derives the sourcing must list from
-  `kind` alone (`publish/route.ts:186`), and whether that list hard-filters
+  every consumer does: the publish route's go-live run derives the sourcing must list
+  from `kind` alone (`app/_lib/golive-run.ts:90`, moved out of
+  `publish/route.ts` on 2026-10-05), and whether that list hard-filters
   was not traced here. Observed, not changed.
 - **The two thresholds are not related to each other.** The conversational
   soft cap lives in the intake persona at `intake.py:86` ("when must-haves

@@ -5,14 +5,15 @@ subject: requisition-lifecycle-governance
 technique: ingest-as-draft-never-as-live
 stack: react
 status: forged
-verified_on: 2026-09-29
+verified_on: 2026-10-31
 verified_against: react@19
 ---
 
 # Pasting a third-party advertisement: `JobsIngestAdPanel` + `POST /api/jobs/ingest`
 
 Every line citation below was re-resolved on 2026-09-29 against kp at `006bf7a0a`;
-the first version (2026-08-20) cited lines that have moved. A recruiter pastes an
+the first version (2026-08-20) cited lines that have moved. Re-resolved again on
+2026-10-31 against kp at `6edf5d7e6`. A recruiter pastes an
 advertisement — one, or a whole requisition list — and a language model parses it
 into a structured, matchable role. The panel
 (`app/features/library/jobs/JobsIngestAdPanel.tsx` and its extracted logic
@@ -21,13 +22,13 @@ the server half, and the landing state is decided there.
 
 ## The landing state, and the incident that fixed it
 
-`route.ts:57-66` carries the rule and the bug it was written for:
+`route.ts:58-74` carries the rule and the bug it was written for:
 
 ```ts
 // Ingest as a DRAFT (insertJob defaults to "published"). A pasted ad must enter the same
 // draft → publish → source-into-pipeline lifecycle that JD-builder roles get; born
 // "published" it skipped publish, so the role was live but never sourced candidates.
-const { id, created } = insertJob(job, jobContentHash(adText), "draft", ws, {
+const { id, created } = insertJob({ ...job, company }, jobContentHash(adText), "draft", ws, {
   derivedId: !explicitJobId,
 });
 ```
@@ -37,8 +38,8 @@ direction — `insertJob` defaults its `status` parameter to `"published"`
 (`job-ingest.ts:67`), so the safe state has to be passed explicitly at every call
 site; the standard's version of that lesson is that the landing state must not be
 a parameter anyone can forget. It is still a parameter: the JD-library door
-(`app/api/jds/[slug]/ingest-job/route.ts:61`) and the authored-JD ingest
-(`app/api/jds/save/ingest-job.ts:52`) each pass `"draft"` by hand. Second, the
+(`app/api/jds/[slug]/ingest-job/route.ts:64`) and the authored-JD ingest
+(`app/_lib/jd-ingest.ts:52`) each pass `"draft"` by hand. Second, the
 observed symptom was *"live but never sourced candidates"*: a role that has
 skipped the go-live transition is not merely unapproved, it is broken, because
 every downstream effect that transition triggers never fired.
@@ -52,12 +53,12 @@ workspace_id)`), so two teams pasting the same ad do not collapse into one role.
 ## An ingest that names its target is an edit
 
 The route accepts an explicit `jobId`, which means *re-parse this ad into that
-existing job*. The comment at `route.ts:28-36` says what that is: *"a content
+existing job*. The comment at `route.ts:29-37` says what that is: *"a content
 overwrite of a named row — insertJob's ON CONFLICT UPDATE rewrites its title,
 company, salary band and payload"*, and unguarded, team B could post team A's job
 id and *"A's catalog and A's apply link silently start serving B's ad"* because the
 row keeps its workspace and its `published` status. The guard is the same ownership
-gate the close and publish routes carry (`canWriteJobLifecycle`, `:37-40`, 404 not
+gate the close and publish routes carry (`canWriteJobLifecycle`, `:38-41`, 404 not
 403), and it sits after the cheap refusals and before the parse. This is the
 standard's "draft, always" seen from the other side: the rule governs the creation
 of a role, and an ingest into a live one is a write to something candidates are
@@ -66,7 +67,7 @@ is overwritten, which is the gap the headcount technique's snapshot rule would
 name; here the snapshot is the role's level, location and band, all three of which
 the parse rewrites.
 
-The route is also rate-limited per IP (`:42-51`, 20 per ten minutes) after the
+The route is also rate-limited per IP (`:43-52`, 20 per ten minutes) after the
 cheap refusals, because each accepted call spawns a model child; the comment notes
 that in open mode the operator gate is a no-op for the whole API, so the route has
 to limit itself.
@@ -79,7 +80,7 @@ source of truth for the client panel guard, this splitter, and the ingest route'
 server guard, which must agree or a chunk one keeps gets rejected by the other."*
 All three read it — the client at `jobsIngestAdPanelLogic.ts:102` and `:151` and the
 button guard at `JobsIngestAdPanel.tsx:104`, the splitter's filter at
-`split-ads.ts:32`, the route at `route.ts:23`, which refuses with the coded
+`split-ads.ts:32`, the route at `route.ts:25-26`, which refuses with the coded
 `JOB_AD_TOO_SHORT`.
 
 Note the boundary the standard draws: this is the *parseability* floor. The
@@ -118,7 +119,7 @@ chunk through the *same* hardened single-ingest call, sequentially, and builds a
 per-row result table (`added` / `exists` / `failed`), so one bad advertisement in
 twenty does not take the other nineteen with it. A cancel mid-run is treated as a
 real terminal outcome, not a failure: the rows that did land are kept, the note says
-how far it got (`:133-135`), and the paste is preserved on failure so the operator
+how far it got (`:191-193`), and the paste is preserved on failure so the operator
 never loses their input.
 
 ## The extraction prompt already says the right things

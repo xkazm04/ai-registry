@@ -5,7 +5,7 @@ subject: requirement-inflation-control
 technique: ninety-day-outcome-as-the-despec-filter
 stack: process
 status: forged
-verified_on: 2026-09-29
+verified_on: 2026-10-31
 ---
 
 # The de-spec filter inside a prompted intake persona
@@ -75,6 +75,14 @@ actually said/confirmed; agent proposals stay `inferred` until confirmed", and
 it". So a demotion that happened in the session is attributable to the turn it
 happened in, and a demotion the agent merely proposed is not laundered into a
 requestor decision.
+
+Re-checked 2026-10-31 at kp@6edf5d7e6: the quoted read-back sentence is rule 11
+of the research document (`role-intake-research.md:114-117`), not of the persona.
+The persona's own rule 11 (`intake.py:92`) is "keep every turn short", and its
+provenance discipline sits in the extraction rules instead (`intake.py:138-140`:
+"'stated' ONLY for values the requestor actually said or explicitly confirmed").
+The persona read the same way on 2026-09-29, so this is a misattribution, not a
+change; the rule is in force either way and the finding stands.
 
 ## The evidence the doctrine rests on
 

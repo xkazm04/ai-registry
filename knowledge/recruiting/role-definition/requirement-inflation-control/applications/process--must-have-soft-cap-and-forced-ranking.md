@@ -5,7 +5,7 @@ subject: requirement-inflation-control
 technique: must-have-soft-cap-and-forced-ranking
 stack: process
 status: forged
-verified_on: 2026-09-29
+verified_on: 2026-10-31
 applied: code
 ab_verdict: better
 ---
@@ -25,9 +25,9 @@ what found the one that behaved as a truncation.
   over the higher of an obligation-word count and a structured `mustHaveCount`. The
   tooling form, set above the coach's number as the technique prescribes. It reports
   a count and stops; there is no ranking remedy on this surface.
-- **Role-design prompt** (`pipeline/jobfit/devcase/design.py:175`): "short and
+- **Role-design prompt** (`pipeline/jobfit/devcase/design.py:179`): "short and
   decisive (≤8)", instructed in prose and not enforced on the model's output.
-- **Role-design keyless fallback** (`design.py:210`): a slice. This is the one that
+- **Role-design keyless fallback** (`design.py:214`): a slice. This is the one that
   trimmed.
 
 ## The trimming slice, and the A/B
@@ -36,7 +36,7 @@ Before 2026-09-29 the fallback returned `musts[:6]` for any brief with a stated
 grading. `musts` is the requestor's confirmed `must_have` rows, weight-ordered,
 followed by the real-stack fill, so a brief with more than six stated rows lost the
 lowest-weighted confirmed ones without a word. The same function's model path is told,
-at `:164`, that every stated must "must appear in mustHaves"; so one brief produced two
+at `:167`, that every stated must "must appear in mustHaves"; so one brief produced two
 different specs depending on whether a provider was configured.
 
 One need with eight stated `must_have` rows (weights 0.95 down to 0.60), run through

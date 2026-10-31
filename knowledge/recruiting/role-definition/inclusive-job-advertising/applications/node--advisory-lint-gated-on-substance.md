@@ -5,7 +5,7 @@ subject: inclusive-job-advertising
 technique: advisory-lint-gated-on-substance
 stack: node
 status: forged
-verified_on: 2026-09-29
+verified_on: 2026-10-31
 verified_against: node@24
 ---
 
@@ -14,7 +14,7 @@ verified_against: node@24
 Two files split the technique cleanly: `app/_lib/jd-lint.ts` is the pure engine
 and the finding vocabulary; `app/features/library/jds/jdsLibrary.ts` is the
 wiring — the threshold, the shared fact predicate, and the advisory posture.
-Read at kp `9f2ff09d6`.
+Read at kp `9f2ff09d6`; anchors re-resolved on 2026-10-31 at `6edf5d7e6`.
 
 ## The substance gate
 
@@ -91,7 +91,7 @@ only at the first.
 **Suppressed renders as silence, never as "not yet checked".** The ledger
 read-view is the one surface that renders zero findings as a positive verdict,
 and it now holds that all-clear behind the threshold
-(`JdsLedgerDetailModal.tsx:225-241`). Its comment records the incident: a
+(`JdsLedgerDetailModal.tsx:228-244`). Its comment records the incident: a
 short hand-saved body *"claimed 'pay, place, no boilerplate' about text
 carrying neither."* That closed the false pass. Below the threshold every
 surface still shows nothing, and the two editors hide the panel at zero

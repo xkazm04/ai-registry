@@ -5,7 +5,7 @@ subject: inclusive-job-advertising
 technique: multilingual-inflection-tolerant-linting
 stack: node
 status: forged
-verified_on: 2026-09-29
+verified_on: 2026-10-31
 verified_against: node@24
 applied: code
 ab_verdict: better
@@ -18,7 +18,7 @@ network, no model. Its header states the architecture and the reason in one
 breath (`:8-11`) — *"Deliberately rules-only (no LLM): the check must be
 instant, deterministic, and free — it runs on every edit. The phrase lists are
 the highest-frequency offenders in EN + CS + DE + FR job ads, with
-inflection-tolerant stems."* Read at kp `9f2ff09d6`.
+inflection-tolerant stems."* Read at kp `9f2ff09d6`; anchors re-resolved on 2026-10-31 at `6edf5d7e6`.
 
 ## Four lists, not one translated list
 
@@ -129,6 +129,6 @@ way, because its offenders carry no stemmed diacritics.
 - **`MUST_HAVE_RE` counts marker words.** `MANY_MUST_HAVES = 8` (`:82`) sits
   above the roughly-five ceiling. `lintJd` now takes the structured count as
   well, whichever is higher (`:193-196`). Only the ledger read-view passes it
-  (`JdsLedgerDetailModal.tsx:240`); the two editors do not
+  (`JdsLedgerDetailModal.tsx:243`); the two editors do not
   (`JdsModalEditor.tsx:119`, `app/jds/[slug]/JdActions.tsx:85`), so ten bare
   bullets typed there still count zero.
