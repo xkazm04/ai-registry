@@ -127,8 +127,8 @@ The deviation was closed on 2026-09-14 by an apply pass, as a paired run:
 | house dash findings | 0 | **4** | 0 |
 | new syntax, placeholder or list-length findings in array strings | — | 0 | 0 |
 
-(The catalogs had grown from 8,491 to 8,553 string leaves between the first
-measurement and the fix; the 14 arrays and 62 array strings were unchanged.)
+(8,553 is the 8,491 string leaves of the first measurement plus the 62 strings
+inside the 14 arrays, now read as units; the catalogs themselves had not changed.)
 
 What changed: the array-aware walk moved into `scripts/i18n/catalog-check.mjs`,
 addressing array strings as `landing.voice.transcript[0]` and adding a

@@ -152,8 +152,8 @@ model asked a checklist of binary questions — one per rule identifier in scope
 that surface — agrees with human judgment measurably more often (exact agreement
 rose from 46.4% to 52.2% in Cook et al. 2024; Lee et al. 2024 report the same
 direction), though a 2025 study across six checklist generators and eight model
-sizes found the gain reliable in pairwise comparison and inconsistent in direct
-scoring (Furuhashi et al. 2025), so the checklist's value is measured on the gold
+sizes found selective checklist use tended to help in pairwise comparison and was
+less consistent in direct scoring (Furuhashi et al. 2025), so the checklist's value is measured on the gold
 set, not assumed. So the reviewer's output schema *is* the law
 [every finding cites an anchor](../../_laws.md#every-finding-cites-an-anchor): a
 rule identifier that exists, a span quoted verbatim, a minimal replacement;
@@ -204,7 +204,7 @@ A gate an agent writer can route around is advice again. A writer changes a
 catalog through its file tools, a shell, a generator, or a merge of a parallel
 session's work, and each path skips a different check. Instruction files scoped to
 paths load when the writer's file tools touch a matching file — read, write or edit,
-in one harness's current documentation — and not when a shell, a script or a
+or a single-file shell read, in one harness's current documentation — and not when a shell, a script or a
 generator writes one, so they miss exactly the pages a script produces. A pre-write
 deny on file tools gives fast feedback, but a shell write bypasses it, and a hook
 that fails or times out allows the write unless it is configured to fail closed —

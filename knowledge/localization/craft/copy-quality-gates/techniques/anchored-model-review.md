@@ -33,8 +33,8 @@ does the most damage unobserved.
    yes/no questions raised agreement with human judgment over direct scoring
    (46.4% to 52.2% exact agreement in Cook et al. 2024; the same direction in
    Lee et al. 2024). The gain is not universal: across six checklist generators
-   and eight model sizes it held in pairwise comparison and was inconsistent in
-   direct scoring (Furuhashi et al. 2025), so measure the checklist against the
+   and eight model sizes, selective checklist use tended to help in pairwise
+   comparison and was less consistent in direct scoring (Furuhashi et al. 2025), so measure the checklist against the
    gold set before trusting it on a surface.
 2. **Give the reviewer the rendered unit, its surface class, its neighbours on
    the page, and the contract excerpt** — register line, exemplars, termbase rows
@@ -93,8 +93,8 @@ cannot be made unique inside the unit is dropped with the other unanchored findi
   text the repair did not touch; it is expected to be above zero, because a fresh
   reader finds what the first panel missed. Merged into one "nothing new" target the
   check fails for the wrong reason: in one real review a re-reviewer raised eight
-  findings on ten repaired units, none on repaired text and no flip-backs, but four on
-  untouched wording — a stable repair and an incomplete first panel, which one number
+  findings on ten repaired units, none on repaired text and no flip-backs: all eight sat
+  on untouched wording, four repeating the first panel and four new — a stable repair and an incomplete first panel, which one number
   would have read as a failed repair. A reviewer that always finds something *on its
   own repairs* is measuring its instructions, not the copy.
 - **Recall on seeded defects**, per rule, so a rule the reviewer never fires on
