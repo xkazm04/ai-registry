@@ -5,14 +5,14 @@ subject: skill-adjacency-and-normalization
 technique: sibling-adjacency-below-the-match-threshold
 stack: process
 status: forged
-verified_on: 2026-08-20
+verified_on: 2026-10-31
 ---
 
 # The sub-threshold sibling constant in a Python jobfit scorer
 
 ## The two numbers, and the invariant between them
 
-`pipeline/jobfit/taxonomy.py:517-528` holds the hierarchy credit constants:
+`pipeline/jobfit/taxonomy.py:764-774` holds the hierarchy credit constants:
 
 ```python
 _SPECIALIZATION_MATCH = 0.9   # candidate knows a specialization of the requirement
@@ -26,10 +26,10 @@ foundation is shown, and it is "set below `matching._MATCH_THRESHOLD` (0.5) BY
 DESIGN: a bare sibling never counts as a 'matched' skill — it only nudges the
 skills sub-score as partial, adjacent evidence a recruiter must still verify."
 Only a **direct** shared parent qualifies (`term_match_score`,
-`taxonomy.py:785`, tests `_PARENTS` disjointness); deeper cousins sharing only a
+`taxonomy.py:1106`, tests `_PARENTS` disjointness); deeper cousins sharing only a
 grandparent stay at `0.0`, exactly the decay-to-zero the technique demands.
 
-`_MATCH_THRESHOLD = 0.5` lives at `pipeline/jobfit/matching.py:63-71`, and its
+`_MATCH_THRESHOLD = 0.5` lives at `pipeline/jobfit/matching.py:66-74`, and its
 comment carries the other half of the standard in the repo's own words: "a
 'matched' skill at 0.5 is NOT proven hands-on possession; `matched_skill_strength`
 carries the per-skill score so the UI can distinguish a partial hit from an exact
@@ -38,7 +38,7 @@ experience."
 
 ## The three disjoint buckets
 
-`score_skills` (`matching.py:405-450`) is where the technique's "addressed /
+`score_skills` (`matching.py:737-806`) is where the technique's "addressed /
 claimed-but-unproven / never-claimed" partition is realized, and the ordering of
 its branches is load-bearing:
 
@@ -52,6 +52,12 @@ gap and, via `_confidence`'s 'Misses N must-haves', widen the band for the
 fairness-protected early-career cohort)." The sub-score is untouched by the
 bucketing — `acc += best * weight` happens before the branch — so surfacing the
 middle bucket changed no total.
+
+Re-checked 2026-10-31 at kp@6edf5d7e6: the partition and its ordering hold, but the
+proof-weights scorer is now the default (`9ec98ac06`, `b6bd61a4e`), so inside
+`score_skills` a bare `self_declared` hit is multiplied by a discount before `best` is
+compared to the threshold (`matching.py:754-772`). A self-declared sibling therefore
+lands lower in the unproven bucket than `0.4`; the buckets themselves did not move.
 
 ## The ladder pinned as a contract
 
@@ -72,10 +78,10 @@ technique asks for. It asserts the *relations*, not only the literals:
 
 ## The seam with provenance
 
-`UnprovenReason` (`matching.py:357-365`) is the shared vocabulary at the seam:
+`UnprovenReason` (`matching.py:613-621`) is the shared vocabulary at the seam:
 `adjacency` (a related skill, capped below 1.0 even at full provenance),
 `provenance` (the exact skill, discounted by its evidence source), `both`.
-`_classify_unproven` (`matching.py:368`) re-derives the base score through the
+`_classify_unproven` (`matching.py:624`) re-derives the base score through the
 same resolve-then-hierarchy path `skill_match_score` used, so the reason can
 never disagree with the number that produced it. The full matrix — {exact,
 specialization, generalization, sibling} × {strong, weak} — is pinned in

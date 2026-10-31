@@ -5,7 +5,7 @@ subject: cv-authenticity-screening
 technique: a-screen-is-not-a-verdict
 stack: process
 status: forged
-verified_on: 2026-09-26
+verified_on: 2026-10-31
 ---
 
 # The authenticity screen as a trust-ledger contributor (Python pipeline)
@@ -37,9 +37,9 @@ SCREEN, not a verdict — the CV is never dropped" (`:104-112`). Both halves of 
 asymmetry are present: the screen is permitted to be sensitive precisely because
 it is forbidden to act.
 
-`pipeline/jobfit/pipeline.py:415-423` is where the non-action is realized:
+`pipeline/jobfit/pipeline.py:478-486` is where the non-action is realized:
 `authenticity_checks(...)` is `+=`-ed onto `sanity_checks` between the score
-sanity checks and the credential gate (`:429`), under a comment that ends
+sanity checks and the credential gate (`:487`), under a comment that ends
 "never an auto-reject". No branch in the pipeline reads its result. The
 analysis is assembled and returned regardless — `test_pipeline.py:150-151`
 asserts exactly this on an injected maxed payload ("never dropped — a full
@@ -107,7 +107,7 @@ distinction independently.
 - **Authorship framed as risk.** The module header describes its job as flagging
   "fabrication / AI-generation risk" and calls buzzword density "the signature of
   templated / AI-generated padding" (`:3-11`, `:25-26`), the specificity check
-  "a hallmark of generated prose" (`:87-88`), and `pipeline.py:415-416` repeats
+  "a hallmark of generated prose" (`:87-88`), and `pipeline.py:478-479` repeats
   it as "fabrication / AI-padding signals". The standard holds that machine
   drafting is not a finding. The flag sentences say nothing about authorship,
   but on 2026-08-20 this file claimed the framing stayed internal. It does not:

@@ -4,7 +4,7 @@ type: application
 subject: early-career-potential-assessment
 technique: readiness-rubric-replacing-years
 stack: process
-verified_on: 2026-09-26
+verified_on: 2026-10-31
 applied: simulation
 ab_verdict: better
 ---
@@ -31,25 +31,32 @@ Note the direction of the weight change: the replaced dimension is weighted *up*
 up as arithmetic — the readiness slot is not a consolation dimension.
 
 `transform.py:27` reads membership through `registry.early_career_archetypes()` rather
-than an inline archetype list (used at `:207`), and `transform.py:229` runs
+than an inline archetype list (used at `:224`), and `transform.py:246` runs
 `compute_potential(profile) if is_early else (None, [])` — `None`, not `0.0`. The
-unmeasured state is a type, all the way through: `matching.py:1152` falls back to the
+unmeasured state is a type, all the way through: `matching.py:1356` falls back to the
 tenure-based `score_career` only when `potential_score is None`.
 
 ## The four dimensions
 
-`compute_potential` (`transform.py:36-103`) returns `(score, signals)` — a number and
+`compute_potential` (`transform.py:46-120`) returns `(score, signals)` — a number and
 human-readable reasons, never a bare float:
 
-- **depth** (`:40-49`) — `len(project_like)/3` over `project` and `thesis` evidence, with
+- **depth** (`:57-63`) — `len(project_like)/3` over `project` and `thesis` evidence, with
   `+0.15` per item carrying an actual link. Verifiability is a bonus on top of
   existence, which is the artifact primacy rule expressed as a coefficient.
-- **velocity** (`:51-57`) — distinct skills across claims and evidence, over 8. This is
+- **velocity** (`:65-74`) — distinct skills across claims and evidence, over 8. This is
   the pipeline's deviation from the standard: it measures *breadth*, not accumulation
   per unit of available time, so a candidate with a broad shallow surface reads as fast
   and a late starter with two deep areas does not. The standard's time-available
   denominator stays; nothing here has to change for it to be adopted.
-- **foundation** (`:59-64`) — education level (`phd` 1.0, `master` 0.85, `bachelor` 0.7,
+  Re-checked 2026-10-31 at kp@6edf5d7e6: velocity now counts only claims with some
+  provenance plus skills named in evidence; bare `self_declared` claims add at most
+  `BARE_CLAIM_VELOCITY_CAP = 1` between them (`transform.py:36-43`, `:68-71`, commit
+  `abeff477e`), so a stuffed skill list no longer buys readiness. It is still breadth,
+  not accumulation per unit of time, so the deviation above stands. The uncapped
+  arithmetic survives only as `bare_claim_potential_score` for the legacy scorer and a
+  reasons line (`transform.py:247-251`, `matching.py:1357-1372`).
+- **foundation** (`:76-81`) — education level (`phd` 1.0, `master` 0.85, `bachelor` 0.7,
   `university` 0.5, now owned by `education.py:41` `FOUNDATION_WEIGHTS`) plus 0.1
   when the study detail matches the target role family's degree terms, sourced from
   `taxonomy.FAMILY_DEGREE_TERMS` across all 16 families rather than the original three
@@ -59,31 +66,31 @@ human-readable reasons, never a bare float:
   The decision stands; the reason overstates. For new graduates grades are moderate
   predictors, and "bias vector" is adverse impact rather than predictive bias; the
   standard now states the omission as a trade of validity for comparability.
-- **initiative** (`:66-80`) — additive over internship (0.4), extracurricular (0.3),
+- **initiative** (`:83-97`) — additive over internship (0.4), extracurricular (0.3),
   open-source (0.3), certification (0.2), clamped to 1.0.
 
 The weighted sum is `0.35·depth + 0.25·velocity + 0.25·foundation + 0.15·initiative`
-(`:102`) — depth leading, initiative trailing, exactly the ordering the standard argues
+(`:119`) — depth leading, initiative trailing, exactly the ordering the standard argues
 for, and declared on one readable line rather than distributed through the function.
 
 ## Switcher branch inside the same rubric
 
-`transform.py:82-100` treats a career changer as an early-career profile with extra
+`transform.py:99-117` treats a career changer as an early-career profile with extra
 inputs rather than as a separate model: prior professional roles add 0.4 to initiative
-and floor depth at 0.6 from three years (`>= 3`, `:88`), and an **adjacent** prior field
-with job evidence behind it floors foundation at 0.5 (`:96`). The comment states the asymmetry the standard recommends — a far
+and floor depth at 0.6 from three years (`>= 3`, `:105`), and an **adjacent** prior field
+with job evidence behind it floors foundation at 0.5 (`:114`). The comment states the asymmetry the standard recommends — a far
 field "changes no number — the meta-skill credit already prices it — but the signal
 keeps the narrative honest."
 
 ## Structured argument, not measurement
 
 The pipeline treats the score as the standard requires. It is clamped at the Pydantic
-boundary and again at scoring (`matching.py:161-177`, `:1157`, which now also maps a NaN to 0) so a malformed readiness
+boundary and again at scoring (`matching.py:166-182`, `:1378`, which now also maps a NaN to 0) so a malformed readiness
 value cannot corrupt the 0-100 dial. It never gates alone — the early-career KO is
-entry-eligibility (`matching.py:419-423`), a clean exclusion with a reason
+entry-eligibility (`matching.py:427-431`), a clean exclusion with a reason
 (`KoReason(key="early_career", detail="role not open to early-career")`), not a low
 score. And thinness is expressed as band width, not as a lower number:
-`matching.py:1091-1100` widens the confidence band with named, coded drivers,
+`matching.py:1286-1295` widens the confidence band with named, coded drivers,
 "Early-career: thinner, less-verifiable track record" (`earlyCareerThin`, +6) versus the
 narrower "Early-career, but some skills were directly observed (live case/interview)"
 (`earlyCareerObserved`, +2); the codes let the UI localize the reason.
@@ -116,19 +123,19 @@ realization simply does not evidence them.
 
 Two, both against the techniques as they now stand; neither is fixed here.
 
-- **An unstated degree is an imputed zero.** `transform.py:60` reads
+- **An unstated degree is an imputed zero.** `transform.py:77` reads
   `foundation = EDU_FOUNDATION.get(profile.education_level, 0.0)`, and `unknown` is the
-  profile's default level (`profile.py:112`) with no entry in the table. A graduate whose
+  profile's default level (`profile.py:113`) with no entry in the table. A graduate whose
   CV omits the degree line loses the whole 0.25 foundation slot, while the recruiter note
-  at `matching.py:1290` says "Education level unknown — not penalized (absence of
+  at `matching.py:1519` says "Education level unknown — not penalized (absence of
   evidence, not a fail)". Run against three of the repo's own eval CVs
   (`pipeline/jobfit/eval/fixtures/`), the two bachelor graduates fall from 0.510 to 0.310
   when the line is missing. Reweighting the survivors would not be the repair: the
   career changer's score *rises* from 0.840 (a modest degree stated) to 0.920 (omitted).
   The lowest measured rung as a default (0.435 and 0.815) does neither. The narration
   and the arithmetic disagree today, whichever rule is chosen.
-- **The switcher branch is gated on the archetype id.** `transform.py:83`
+- **The switcher branch is gated on the archetype id.** `transform.py:100`
   (`if profile.archetype == "career_switcher":`) gates the +0.4 initiative, the depth
-  floor and the adjacency floor, and `:224` threads `domain_distance` under the same test.
+  floor and the adjacency floor, and `:241` threads `domain_distance` under the same test.
   The meta-skill credit beside it is gated on the scoring model precisely so that a
   switcher misread as a student keeps it. Here a misread switcher loses the floors.

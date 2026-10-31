@@ -4,7 +4,7 @@ type: application
 subject: early-career-potential-assessment
 technique: transferable-meta-skill-credit
 stack: process
-verified_on: 2026-09-26
+verified_on: 2026-10-31
 ---
 
 # Prior-role meta-skills in a bilingual Python mapper
@@ -54,7 +54,7 @@ reasoning can cite where it came from" — the basis travels with the credit.
 
 ## Credited at professional, gated on the scoring model
 
-`transform.py:209-221` calls `consider(skill, "professional")` for each mapped skill —
+`transform.py:226-238` calls `consider(skill, "professional")` for each mapped skill —
 the same tier a direct professional demonstration earns, not a weaker "transferable"
 tier. The gate is the upward lesson worth copying:
 
@@ -87,14 +87,14 @@ bands, and its docstring is the technique's own argument:
 - **far** — no prior role at all, or a field sharing no surface signals.
 
 Every band returns a prose reason alongside the grade, and the consumer renders the
-band: `transform.py:224` threads it to the reasoning layer as `domain_distance`, and the
-score effect (`transform.py:91-100`) is upward-only — adjacent floors the foundation
+band: `transform.py:241` threads it to the reasoning layer as `domain_distance`, and the
+score effect (`transform.py:108-117`) is upward-only — adjacent floors the foundation
 dimension at 0.5 and shortens the narrated ramp, far adds a signal line and changes no
 number, because "the meta-skill credit already prices it". No decimals reach a reader:
 the recruiter sees "adjacent field, shorter bridge", "moderate distance" or "far field,
 longer ramp" (`messages/en.json`, `potential.bridgeValues`). Both the grading and its
-threading sit under `profile.archetype == "career_switcher"` (`transform.py:83`,
-`:224`), not under the scoring model the credit itself is gated on, so a switcher
+threading sit under `profile.archetype == "career_switcher"` (`transform.py:100`,
+`:241`), not under the scoring model the credit itself is gated on, so a switcher
 misread as a student gets the credit without the grade.
 
 ## Deviations worth naming

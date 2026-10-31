@@ -5,7 +5,7 @@ subject: cv-authenticity-screening
 technique: hidden-text-and-smuggling-detection
 stack: process
 status: forged
-verified_on: 2026-09-26
+verified_on: 2026-10-31
 applied: code
 ab_verdict: better
 ---
@@ -97,7 +97,7 @@ Tests, both directions, every character written as an escape:
   on real application documents, that is the commonest attack: hidden keyword
   and skill lists aimed at the matcher. The instruction screen catches the rare
   case and passes the common one. The extraction-quality comparison
-  (`pipeline.py:582-601`) compares two extractors' text by spacing and length,
+  (`pipeline.py:653-672`) compares two extractors' text by spacing and length,
   not the page against its text. An experiment on 2026-09-26 (five constructed
   PDFs, n=5) put the gap in numbers. The screen as it stands caught 1 of 3
   styling-hidden cases, the imperative only, and passed a white keyword list

@@ -5,14 +5,14 @@ subject: skill-adjacency-and-normalization
 technique: whole-token-matching-over-substring
 stack: process
 status: forged
-verified_on: 2026-08-20
+verified_on: 2026-10-31
 ---
 
 # Word-grid-pinned compact matching in a Python jobfit pipeline
 
 The matching pipeline (`pipeline/jobfit/`) resolves skill surfaces against a
 hand-maintained taxonomy (`data/taxonomy.json`, ~176 terms). Surface presence in
-free text is decided by `_text_contains` (`pipeline/jobfit/taxonomy.py:352`),
+free text is decided by `_text_contains` (`pipeline/jobfit/taxonomy.py:532`),
 which drives `detected_skills`, role-family classification and salary-signal
 voting — all in the deterministic core that runs whether or not the LLM leg is
 available.
@@ -40,7 +40,7 @@ about.
 
 ## The fix, mechanically
 
-`_compact_word_grid` (`taxonomy.py:255`) precomputes, for a normalized text, the
+`_compact_word_grid` (`taxonomy.py:395`) precomputes, for a normalized text, the
 word-run boundaries expressed in *compact* coordinates: a `starts` map from each
 word's compact start offset to its compact end offset, plus an `ends` set. Since
 `_compact` strips exactly the `\W+` runs, the surviving `\w+` runs concatenate to
@@ -48,7 +48,7 @@ the compacted string, so the mapping is exact rather than approximate. It is
 `lru_cache`d at 128 entries because the same job text is scanned against the full
 surface pool.
 
-`_compact_fallback_hit` (`taxonomy.py:272`) then walks every occurrence of the
+`_compact_fallback_hit` (`taxonomy.py:434`) then walks every occurrence of the
 compact surface and accepts only a span that **starts at a word start and ends at
 a word end** — both endpoints, per the technique:
 
@@ -68,23 +68,31 @@ it on the surface being a single plain token (`_compact(normalized) == normalize
 `"ve sparku"` / `"v pythonu"` resolve to Spark and Python. A separator-bearing
 surface gets none of it: `.net` ending inside `networking` is always an accident.
 
-The length guard sits ahead of both (`taxonomy.py:365-370`): a compact form under
+Re-checked 2026-10-31 at kp@6edf5d7e6: the relaxation is now bounded. The
+`allow_inflection` branch also requires `_is_inflection_tail(compact_text[end:word_end])`
+(`taxonomy.py:426-431`, `:469-472`; commit `0ecfc943a`), so the match may finish inside
+its word only by a short inflection tail: `pythonu` still resolves, `production` no
+longer credits `product`. The snippet above is the earlier shape. The change tightens
+the technique's single relaxation; it does not reverse the verdict. The taxonomy has
+also grown from the ~176 terms cited above to 682 in `data/taxonomy.json`.
+
+The length guard sits ahead of both (`taxonomy.py:545-556`): a compact form under
 three characters never reaches the fallback at all, because `"c#"` and `"c++"`
 both compact to `c`, which used to vote `software_engineering` on every CV.
 Short skills still match exactly through `contains_whole_token`
-(`taxonomy.py:334`), which anchors with non-word lookarounds `(?<!\w)…(?!\w)` so
+(`taxonomy.py:503`), which anchors with non-word lookarounds `(?<!\w)…(?!\w)` so
 `R`, `Go`, `C++`, `.NET` match standalone and never inside a word.
 
 ## The standing collision gate
 
 `pipeline/jobfit/taxonomy_check.py` implements the scan the technique calls for.
-`scan_corpus_collisions` (`:353`) runs every surface's compact form against a
-seed corpus of realistic job text; `collision_is_live` (`:304`) asks whether the
-collision still fires under the *current* matcher, and `gate_collisions` (`:333`)
-fails CI only on live collisions not on `BENIGN_COMPACT_SURFACES` (`:301`) —
+`scan_corpus_collisions` (`:357`) runs every surface's compact form against a
+seed corpus of realistic job text; `collision_is_live` (`:308`) asks whether the
+collision still fires under the *current* matcher, and `gate_collisions` (`:337`)
+fails CI only on live collisions not on `BENIGN_COMPACT_SURFACES` (`:305`) —
 which holds exactly three reviewed entries: `node.js`, `ci/cd`, `cross-selling`.
 Exit status is non-zero for a live un-allowlisted collision, so the gate covers
-the data door as well as the code door. `test_tech_bilingual_parity.py:104`
+the data door as well as the code door. `test_tech_bilingual_parity.py:210`
 exercises precisely that: every Czech alias added in the bilingual pass is run
 through `scan_corpus_collisions` and must come back empty.
 

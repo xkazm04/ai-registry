@@ -5,7 +5,7 @@ subject: skill-adjacency-and-normalization
 technique: bilingual-surface-parity-and-coverage-floors
 stack: process
 status: forged
-verified_on: 2026-08-20
+verified_on: 2026-10-31
 ---
 
 # Per-family parity and floor ratchets over a hand-maintained taxonomy
@@ -20,14 +20,14 @@ hires developers with Czech-language JDs, yet the tech families were the LEAST
 bilingual: `software_engineering` 57%, `data_ai` 38% by raw >=2-surface count."
 Concept and abbreviation terms (`ai`, `nlp`, `analytics`, `řízení projektu`)
 carried a single surface, so a Czech requirement fell through `resolve_term`
-(`pipeline/jobfit/taxonomy.py:751`) to raw string equality and missed its own
+(`pipeline/jobfit/taxonomy.py:1055`) to raw string equality and missed its own
 term. `test_string_equality_baseline_would_have_missed` pins the mechanism: the
 normalized Czech and English surfaces are different strings, so pre-repair
 `skill_match_score` returned `0.0` — a false miss for a candidate who named the
 requirement in their own language.
 
 The same inversion appeared on the hierarchy side.
-`PARENT_COVERAGE_FLOORS` (`pipeline/jobfit/taxonomy_check.py:124-138`): "The
+`PARENT_COVERAGE_FLOORS` (`pipeline/jobfit/taxonomy_check.py:128-142`): "The
 three tech families used to sit at 24% / 18% / 7% while every non-tech family ran
 42-85%, so the payoff had inverted: a backend engineer listing Fastify against an
 Express JD scored a flat zero where an equivalent nurse or accountant earned
@@ -35,7 +35,7 @@ honest partial credit."
 
 ## Parity as a per-term property
 
-`FamilyCoverage` (`taxonomy_check.py:513`) computes, per role family,
+`FamilyCoverage` (`taxonomy_check.py:627`) computes, per role family,
 `skill_terms`, `total_terms`, `with_parents`, `bilingual` (terms with ≥2
 normalized surface forms) and `bilingual_exempt`. `pct_parity` is
 `(bilingual + bilingual_exempt) / total_terms`.
@@ -44,7 +44,7 @@ The exemption is the technique's proper-noun escape hatch, and the repo builds
 both guards the standard requires. The flag is explicit per term, never inferred
 — its own comment says so: "no number can be gamed by silently exempting a term
 that DOES have a Czech surface." And `lint_taxonomy`
-(`taxonomy_check.py:410`, the `bilingual_exempt` block) makes the flag truthful:
+(`taxonomy_check.py:524`, the `bilingual_exempt` block) makes the flag truthful:
 a term flagged exempt while carrying two or more surface forms is an **error**,
 not a warning, while a genuine single-surface term merely warns. The test suite
 asserts it live on shipped data
@@ -57,8 +57,8 @@ The three tech families now reach ~100% parity
 
 ## The floors, gated twice
 
-`SKILL_COVERAGE_FLOORS` (`taxonomy_check.py:104`) and `PARENT_COVERAGE_FLOORS`
-(`:138`) are the two dimensions the technique asks to pin — vocabulary existence
+`SKILL_COVERAGE_FLOORS` (`taxonomy_check.py:108`) and `PARENT_COVERAGE_FLOORS`
+(`:142`) are the two dimensions the technique asks to pin — vocabulary existence
 and edge density — for all 16 families. The convention comment states the
 dual-gate rule exactly:
 
@@ -81,7 +81,7 @@ was 2 / 7%).
 ## No-drift on the first language
 
 `EnglishResolutionUnchangedTest`
-(`test_tech_bilingual_parity.py:76`) is the technique's no-drift assertion: a
+(`test_tech_bilingual_parity.py:72`) is the technique's no-drift assertion: a
 representative slice of existing English surfaces must resolve to exactly the
 same term ids after the Czech aliases land, plus a hierarchy-score slice
 (`swiftui`/`swift` 0.9, reverse 0.55, `react`/`python` 0.0). And
@@ -95,9 +95,9 @@ vocabulary — 16 slugs spanning healthcare, life sciences, skilled trades,
 logistics, frontline service, legal, education, creative and more — mirroring the
 Python side. `DEFAULT_ROLE_FAMILY = "general_professional"` at `:52`, with the
 comment "Never assume software", is the neutral default the golden path requires;
-`taxonomy.py:128` holds its Python counterpart `DEFAULT_FAMILY`, sourced from the
+`taxonomy.py:131` holds its Python counterpart `DEFAULT_FAMILY`, sourced from the
 benchmarks file rather than hardcoded, and `classify_role_family`
-(`taxonomy.py:670`) seeds `best = DEFAULT_FAMILY`.
+(`taxonomy.py:926`) seeds `best = DEFAULT_FAMILY`.
 
 ## Verdicts
 
