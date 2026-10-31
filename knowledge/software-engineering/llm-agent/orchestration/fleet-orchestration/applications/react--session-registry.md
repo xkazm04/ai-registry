@@ -5,7 +5,7 @@ subject: fleet-orchestration
 technique: session-registry
 stack: react
 status: forged
-verified_on: 2026-08-29
+verified_on: 2026-10-31
 verified_against: react@19
 applied: code
 ab_verdict: better
@@ -101,3 +101,20 @@ technique's larger claim, that writers report observations and one function maps
 `(state, observation)` to the next state — is a Rust concern in this tree and
 untouched here; a UI that renders all eight states faithfully is still rendering
 whatever the backend's dozen sibling mutators agreed on.
+
+## Re-checked 2026-10-31
+
+Re-checked 2026-10-31 at personas@61029d7ae0. Every citation above resolves as
+written at `bf2a1e249`, and `react ^19` is unchanged in `package.json`. At HEAD
+arm B is the tree: `GROUP_ORDER` moved out of `FleetGridPage.tsx` into
+`src/features/plugins/fleet/sub_grid/fleetGridGroups.ts:27-38`, declared
+`as const satisfies ReadonlyArray<FleetGroupMeta>`, with the exhaustiveness door
+at `:46-48` and the coverage test at `sub_grid/__tests__/fleetGridGroupOrder.test.ts`.
+
+The vocabulary has since grown from eight variants to ten: `queued` (admitted,
+holding no slot) and `expired` (retired without running) were added to
+`FleetSessionState`, and both arrived with a row in `GROUP_ORDER`, in
+`FLEET_STATE_META` (`fleetStateMeta.ts:33-56`) and as a named branch in
+`laneOfState` (`:67-79`). That is the door doing its job on a real addition
+rather than in the A/B, and the verdict stands. The limits section stands too:
+the door still covers this one consumer only.

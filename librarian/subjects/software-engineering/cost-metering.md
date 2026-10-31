@@ -503,3 +503,151 @@ question stays owed. Private application trees were not reopened and keep
   }
 }
 ```
+
+## Architecture review - 2026-10-31 (re-verification)
+
+Follows a re-verification pass over the three applications the previous record left `reverify` for want of the gravitone-gcloud and personas trees; both trees were reopened and every citation resolved, so the three move to `keep` with dated re-check notes. The other documents carry their prior dispositions.
+
+<!-- architecture-review:v1 -->
+```json
+{
+  "subject": "software-engineering/cost-metering",
+  "date": "2026-10-31",
+  "baseline": "6e9ae5cbb",
+  "digest": "sha256-b2:d16c117d0c89a853",
+  "disposition": "reverify",
+  "coverage": "Re-verification pass only. node--budget-enforcement checked against gravitone-gcloud at the pinned d74adc8 (git show) and at HEAD 3c66e32e; rust--budget-enforcement and rust--usage-ledgers checked against personas HEAD 61029d7ae0 (no pinned commit). Source read, nothing compiled, tested or executed, no live database queried. The other 26 documents were not re-read and carry the previous record's dispositions.",
+  "counterexamples": [
+    "A per-request gate placed outside the reroute walk stops being once-per-request when a billed failure spends the hold: gravitone now re-reserves before each paid vendor after a billed failure.",
+    "A gate that propagates a read error refuses on a DB failure while a sibling gate on the same sum reads the error as $0; the personas attention admission and scheduler gates now disagree in exactly that way."
+  ],
+  "sources": [
+    {
+      "source": "gravitone-gcloud at d74adc8 and 3c66e32e: lib/imaging/{budget,router,pricing,errors,api}.ts, lib/spend/select.ts, tests/golden-path/imaging-budget.probe.spec.ts, package.json, .github/workflows/gates.yml",
+      "result": "All pinned citations resolve. At HEAD: reserve/settle/release over lib/spend/meter.ts (router.ts:312-313, :328, :409, :466); billed failure re-reserves (router.ts:374-397); refusals counted (meter.ts:346, budget.ts:177-180); per-machine file store by default (select.ts); CI pins node-version 24."
+    },
+    {
+      "source": "personas at 61029d7ae0: src-tauri/src/engine/background/{scheduler,event_bus,tests}.rs, commands/execution/executions.rs, engine/subscription/attention.rs, engine/execution.rs, companion/turn_ledger.rs, db/src/repos/{llm_spend,run_budget,execution/executions}.rs, engine/src/{parser,prompt/cli_args}.rs",
+      "result": "background.rs split into a module; all constructs and quotes present at new anchors. Holes unchanged (scheduler unwrap_or(0.0) :889, event bus ungated, one field two units, cost_usd f64, total_input_tokens parser). New fail-closed admission gate at attention.rs:1591-1630."
+    }
+  ],
+  "documents": {
+    "cost-metering.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: added the whole-prompt-denominator entry to 'The techniques'; 'often by an order of magnitude' now reads 'often by close to an order of magnitude'; the attribution paragraph now states the raw-record exception (a property present in a verbatim-kept record can become an axis at query time, so the obligation moves to emitting every property and never truncating)."
+    },
+    "techniques/price-tables.md": {
+      "disposition": "clarify",
+      "reason": "applied 2026-10-31: '3-5x' now reads 'by 4-8x on current published price sheets'. Still owed: reconcile 'exactly one defensible answer' (declared default) with the null-plus-floor discipline unit-classes-are-open prefers; needs a second sighting or an operator decision."
+    },
+    "techniques/preflight-estimation.md": {
+      "disposition": "keep",
+      "reason": "Call-class scoping, the declared output assumption and the calibration loop are sound and consistent with price-tables and usage-ledgers."
+    },
+    "techniques/usage-ledgers.md": {
+      "disposition": "keep",
+      "reason": "Failure rows, unknown-at-every-hop, one period owner with the window returned, and the two deletion rules are internally consistent and match the rust application."
+    },
+    "techniques/budget-enforcement.md": {
+      "disposition": "keep",
+      "reason": "The product-action chokepoint, twin entry points, guard ordering and refund enumeration are sound. The interactive override is narrowed by time-ceilings-count-working-time for operator-declared ceilings; that technique states the narrowing explicitly, so no edit here."
+    },
+    "techniques/engagement-paced-cadence.md": {
+      "disposition": "keep",
+      "reason": "Reactivity/spontaneity split, dwell-and-cap schedule, wake classification and failed-wake recording are coherent; single-source intake, stated as such."
+    },
+    "techniques/reversible-debit-and-settle.md": {
+      "disposition": "keep",
+      "reason": "Handle, arm/settle ordering, kept-floor arithmetic and the closed-attempt walk are coherent and match the node application clause for clause."
+    },
+    "techniques/spend-attribution.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: added the raw-record exception after 'unattributable forever' (a ledger that keeps the raw record verbatim can project a property present in it into an axis at query time; the obligation becomes emitting every property and never truncating; a property never emitted is still lost)."
+    },
+    "techniques/spend-observability.md": {
+      "disposition": "keep",
+      "reason": "Reading order, anomaly list and self-instrumentation are coherent with the sibling techniques."
+    },
+    "techniques/unit-classes-are-open.md": {
+      "disposition": "keep",
+      "reason": "Nest-or-residual and floor propagation are sound. 'close to an order of magnitude' fits the 4x-8x direction split. The tool-use prompt counter one vendor's usage metadata lists separately is a further instance of an open class."
+    },
+    "techniques/whole-prompt-denominator.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: the reasoning boundary now says some providers count reasoning inside output (reported, never added) while others report it beside output and bill it at the output rate, so that extractor adds it to output; rule 4 now reads 'A provider that bills a write prices it above a plain input token (1.25x to 2x on one published sheet)'."
+    },
+    "techniques/one-pot-across-delegation.md": {
+      "disposition": "keep",
+      "reason": "The root-only tracker, walk-up charge, named shared pots and stated non-durability are coherent; the go application confirms each against the source."
+    },
+    "techniques/time-ceilings-count-working-time.md": {
+      "disposition": "keep",
+      "reason": "Working-time accumulator, boundary check with stated overshoot, terminal stop for an operator-declared ceiling and saturating counters, all confirmed in the source documentation re-read this run."
+    },
+    "techniques/housekeeping-calls-obey-the-ceiling.md": {
+      "disposition": "keep",
+      "reason": "Check-before/charge-after, skip as a named outcome and the nested stop signal as control are coherent and confirmed against the source re-read this run."
+    },
+    "applications/next--budget-enforcement.md": {
+      "disposition": "reverify",
+      "reason": "Internally consistent product-action chokepoint account; the private tree at aff9991a was not reopened."
+    },
+    "applications/go--one-pot-across-delegation.md": {
+      "disposition": "keep",
+      "reason": "Every quoted anchor re-read at f412343dc305 this run (loop.go:272,277; session_compaction.go:365; budget.go:35,345; budget docs :74,:97-100; go.mod go 1.27); verified_on moved to 2026-10-31."
+    },
+    "applications/go--time-ceilings-count-working-time.md": {
+      "disposition": "keep",
+      "reason": "Every quoted anchor re-read at f412343dc305 (loop.go:817,981; budget.go:102,216; docs :103,:121,:189); verified_on moved to 2026-10-31."
+    },
+    "applications/go--housekeeping-calls-obey-the-ceiling.md": {
+      "disposition": "keep",
+      "reason": "Every quoted anchor re-read at f412343dc305 (native_compaction.go:107-109,128; session_compaction.go:128,375; docs :84); verified_on moved to 2026-10-31."
+    },
+    "applications/node--whole-prompt-denominator.md": {
+      "disposition": "reverify",
+      "reason": "Arithmetic recomputed: 50/50 stay = 0.75 + 0.075 = 0.825 vs 0.30 (2.75x); break-even 15 - 13.5f = 3 gives f = 0.889; table rows consistent. The tree at ae87280a was not reopened."
+    },
+    "applications/node--whole-prompt-denominator--ascent.md": {
+      "disposition": "reverify",
+      "reason": "Arithmetic recomputed: input 3e-6, cached 0.3e-6, output 1.5e-5, write premium 1500 x 0.75e-6 = 0.001125; 48.0% / 89.7% / equal-to-rounding all hold. Private tree not reopened."
+    },
+    "applications/rust--whole-prompt-denominator.md": {
+      "disposition": "reverify",
+      "reason": "Arithmetic recomputed (0.0052644 / 0.0098364 = -46.5%); the remainder convention matches the vendor prompt-caching docs (total = read + creation + input). Private tree not reopened."
+    },
+    "applications/rust--unit-classes-are-open.md": {
+      "disposition": "reverify",
+      "reason": "Internally consistent (2,000 of 157,000 = 98.7% under-report; 88-66 = 22-point spread); vendor release figures and the private tree not reopened."
+    },
+    "applications/rust--budget-enforcement.md": {
+      "disposition": "keep",
+      "reason": "Re-verified 2026-10-31 against personas HEAD: anchors re-pointed after background.rs became a module and cli_args moved to the engine crate; every hole still holds. Dated note adds the attention admission gate (fail-closed, mandate cap folded in) the enumeration omitted. verified_on moved to 2026-10-31."
+    },
+    "applications/node--price-tables.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: 'they did not agree' now reads 'two of them argue opposite answers' so the sentence matches the two bullets shown. Promotional figures match the vendor price page re-read this run. Private trees not reopened; verified_on unchanged."
+    },
+    "applications/node--budget-enforcement.md": {
+      "disposition": "keep",
+      "reason": "Re-verified 2026-10-31: every citation resolves at d74adc8 and the measured results stand; a dated note records the HEAD shape (reserve/settle over a shared kernel, per-vendor re-reservation after a billed failure, refusals now counted, per-machine file store), resolving the uncounted-refusals deviation and partly the per-process one. verified_on moved to 2026-10-31, verified_against node@24 (CI pin)."
+    },
+    "applications/rust--usage-ledgers.md": {
+      "disposition": "keep",
+      "reason": "Re-verified 2026-10-31 against personas HEAD: every construct and quote present, anchors updated in place; counter-examples unchanged. Dated note records result_seen on ExecutionMetrics. verified_on moved to 2026-10-31."
+    },
+    "applications/node--reversible-debit-and-settle.md": {
+      "disposition": "reverify",
+      "reason": "kept = floor(7 x 2 / 3) = 4, refund 3, sums to 7 as stated; private tree not reopened."
+    },
+    "applications/node--engagement-paced-cadence.md": {
+      "disposition": "reverify",
+      "reason": "Simulation-strength verdict stated as such; private tree not reopened."
+    },
+    "applications/go--spend-attribution.md": {
+      "disposition": "keep",
+      "reason": "Re-read at 7e57a39 this run: meter_query.go JSON_VALUE group-by and EventFrom clamp, serializer five-field check, parse.go empty-string default, query_params ambiguity refusals, dedupe key namespace-source-id, sink dedupe defaults false/24h. Sink, customer and adapter anchors not all reopened, so verified_on stays."
+    }
+  }
+}
+```

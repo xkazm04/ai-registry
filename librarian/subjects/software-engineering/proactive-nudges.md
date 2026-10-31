@@ -298,3 +298,78 @@ property tests were not rerun. Nothing in the earlier records is retracted.
   }
 }
 ```
+
+## Architecture review - 2026-10-31 (re-verification)
+
+Follows a re-verification pass over rust--attention-budgets, whose verified_on had been held at 2026-08-18 pending a check against the personas tree; the tree was reopened, every citation resolved, and the date moved with a dated note. The other documents carry their prior dispositions.
+
+<!-- architecture-review:v1 -->
+```json
+{
+  "subject": "software-engineering/proactive-nudges",
+  "date": "2026-10-31",
+  "baseline": "6e9ae5cbb",
+  "digest": "sha256-b2:1a4512a319cf8ce7",
+  "disposition": "reverify",
+  "coverage": "Re-verification pass only. rust--attention-budgets checked against personas HEAD 61029d7ae0 (budget.rs, mod.rs); source read, the suite not rerun, no live database queried. The other 11 documents were not re-read and carry the previous record's dispositions.",
+  "counterexamples": [
+    "A per-kind table read off a cap function silently omits a kind the match arm carries; message_digest (cap 4) was missing from the application's list."
+  ],
+  "sources": [
+    {
+      "source": "personas at 61029d7ae0: src-tauri/src/companion/proactive/budget.rs, src-tauri/src/companion/proactive/mod.rs",
+      "result": "Every anchor resolves unchanged (GLOBAL_DAILY_CAP :23, kind_cap :31-48 incl. message_digest 4 at :43, try_consume :228-265, today :268-284, effective_kind_cap :117-136, modulations_summary :154-199, release_pending skip/break :436-455, claim_delivered :579-589)."
+    }
+  ],
+  "documents": {
+    "proactive-nudges.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: superseding bullet now replaces a same-story update and merges a delta payload; added a consent paragraph separating requested reminders from speculative nudges; the defer rule now drops with a record on staleness, opt-out or a retention bound instead of 'never deletes'; the efficacy section separates unobserved from ignored and clicks from completion, and the kill switch is 'effective immediately', cancels pending contact and is re-enabled only by the user (replacing 'honored absolutely')."
+    },
+    "techniques/attention-budgets.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: the release rule is now three outcomes (confirmed-not-sent releases, unknown holds and reconciles, sent spends); the consented lane states it can be blocked by the global ceiling and requires reserved capacity or a surfaced broken promise; the day-boundary zone and accounting scope are declared policies."
+    },
+    "techniques/notice-delivery-decoupling.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: mark-first named as a loss path, with idempotency-keyed delivery or mark-pending/confirm preferred; expiry stated as not revalidation; opt-out cancels pending contact; partitioned enforcement allowed in place of one queue, per-kind side channels still forbidden."
+    },
+    "techniques/quiet-windows.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: host clock separated from the recipient's zone; membership separated from next-wakeup mapping with fold and gap rules; default window, unknown-zone fallback and the existence of any bypass made explicit product policies."
+    },
+    "techniques/nudge-identity-dedup.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: identity scoped as (tenant, recipient, kind, subject-ref); requested recurring reminders carry a stable occurrence key; 'keeps its identity forever' replaced by a declared retention bound with a named reaper."
+    },
+    "techniques/efficacy-feedback.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: outcome list now has ignored = exposed and untouched plus an unobserved state that never moves caps; acted records engagement, not completion; the blockquote now permits bounded raises on explicit positive acts only; explicit zero allowance permitted as declared configuration; kill switch effective immediately, cancels queued notices, reverted only by the user."
+    },
+    "techniques/trigger-evaluators.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: snapshot collection bounded and authorized per recipient and tenant; transient events separated from periodic conditions and given a durable record or cursor; the deadline qualified as bounding the wait (cancellation or isolation needed to bound work); purity stated as a contract and determinism conditioned on the clock being in the snapshot."
+    },
+    "applications/rust--attention-budgets.md": {
+      "disposition": "keep",
+      "reason": "Re-verified 2026-10-31 against personas HEAD: every anchor and quote resolves; the per-kind list gained the omitted message_digest cap of 4; dated note supersedes the 2026-09-09 'runtime unverified' line for the cited source. verified_on moved to 2026-10-31."
+    },
+    "applications/rust--quiet-windows.md": {
+      "disposition": "reverify",
+      "reason": "Local::now() at quiet.rs:65 is confirmed in source, and the 2026-09-09 host-clock caveat stands. The property tests and the release_pending hold were not rerun."
+    },
+    "applications/rust--efficacy-feedback.md": {
+      "disposition": "keep",
+      "reason": "The adjustment signature, the shared ignored predicate and the clamp are confirmed in source. The missing exposure stamp is stated as the limit, with bounded damage."
+    },
+    "applications/rust--notice-delivery-decoupling.md": {
+      "disposition": "keep",
+      "reason": "Mechanism anchors hold at f8e62cb9, except claim_delivered: that moved :579 -> :585 after the dated witness. The unrecorded-deferral finding and the 'unmeasurable' verdict are stated honestly, with a return condition."
+    },
+    "applications/rust--nudge-identity-dedup.md": {
+      "disposition": "keep",
+      "reason": "The hour-bucket refs, the dedupe query and the presentation-tier id dedupe are confirmed in source; the toolchain witness matches. The replay table supports the technique amendment. Live row counts are dated observations that this review did not re-query."
+    }
+  }
+}
+```

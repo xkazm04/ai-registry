@@ -4,7 +4,7 @@ type: application
 subject: proactive-nudges
 technique: attention-budgets
 stack: rust
-verified_on: 2026-08-18
+verified_on: 2026-10-31
 ---
 
 # Attention budgets — Athena's daily nudge budget (Personas)
@@ -18,7 +18,7 @@ the release pass in `src-tauri/src/companion/proactive/mod.rs`.
 | Mechanism | Implementation |
 |---|---|
 | Global daily cap | `GLOBAL_DAILY_CAP = 12` (`budget.rs:23`), counted in `companion_proactive_budget(date, count)` |
-| Per-kind caps | `kind_cap()` (`budget.rs:31-48`): incidents 6, message-attention 8, execution reviews 4, goal kinds share 2, fallback 3 — counted in `companion_attention_budget(date, trigger_kind, count)` |
+| Per-kind caps | `kind_cap()` (`budget.rs:31-48`): incidents 6, message-attention 8, execution reviews 4, message digests 4, goal kinds share 2, fallback 3 — counted in `companion_attention_budget(date, trigger_kind, count)` |
 | Atomic claim of both | `DailyBudget::try_consume` (`budget.rs:228-265`): one transaction, two conditional `UPDATE ... WHERE count < cap` statements; a per-kind refusal **rolls back** the already-applied global increment, so no phantom spend and no concurrent burst past either cap |
 | Claim at delivery, not notice | `evaluate_with_extra_candidates` doc: "The daily budget is **not** consulted here. Noticing is free; only `release_pending` spends attention" (`mod.rs:120-123`) |
 | Capped kind skips, never halts | `release_pending` (`mod.rs:390`, the skip and break at `:441-455`): per-kind refusal `continue`s to the next row; only the global ceiling `break`s. The doc comment records the prior bug — the old loop `break`-ed on any refusal, letting one capped kind starve every kind behind it — and `per_kind_cap_does_not_starve_other_kinds` pins the fix |
@@ -65,3 +65,16 @@ Evaluation consumes resources even when it spends no attention allowance.
 Uncounted direct callers need classification against the stated budget scope;
 explicitly separate response accounts are valid. Historical verified_on is retained,
 and the current runtime remains unverified in this review.
+
+## Re-checked 2026-10-31
+
+Re-checked 2026-10-31 at personas@61029d7ae0, reading the tree rather than
+rerunning it. Every anchor in the table and the judgment calls still resolves to
+the line cited, and every quote still reads as cited. One correction: `kind_cap`
+gives `message_digest` its own cap of 4 (`budget.rs:43`), which the table
+omitted; it is added above. The lost-claim path still keeps the spent unit rather than refunding it
+("the budget unit is already spent; it self-corrects at the UTC date rollover",
+`mod.rs:456-458`), which is the no-blind-refund side of the 2026-09-09 note. The
+modulation surface still folds ignored into `dismissed` (`budget.rs:146-149`).
+The 2026-09-09 note's "current runtime remains unverified" is superseded for the
+cited source; the suite was not rerun.

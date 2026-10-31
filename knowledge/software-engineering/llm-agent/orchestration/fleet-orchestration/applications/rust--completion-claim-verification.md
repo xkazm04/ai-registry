@@ -4,8 +4,8 @@ type: application
 subject: fleet-orchestration
 technique: completion-claim-verification
 stack: rust
-verified_on: 2026-09-02
-verified_against: rust@1.97
+verified_on: 2026-10-31
+verified_against: rust@1.96
 applied: simulation
 ab_verdict: better
 proof: structural-only
@@ -20,7 +20,7 @@ claim about where fleets rot, seen in one tree.
 
 ## What the tree has: a declared result, never a paraphrase
 
-The dispatch brief (`src-tauri/engine/src/unattended.rs:46-66`) is a
+The dispatch brief (`src-tauri/engine/src/unattended.rs:48-84`) is a
 result contract in the result-harvest sense. A worker is told to work on
 a dedicated `autopilot/<slug>` branch, never to push or merge, and to end
 its final turn with exactly one of two machine-readable lines:
@@ -29,17 +29,17 @@ who can decide it>`. Blocked is a result, not a wait (rule 6) — failure as
 first-class output.
 
 The bridge honours the contract mechanically.
-`src-tauri/src/commands/companion/fleet_bridge.rs:859` (`handle_mechanical_cue`)
+`src-tauri/src/commands/companion/fleet_bridge.rs:862` (`handle_mechanical_cue`)
 scans the bottom content rows of a parked screen for the newest marker,
 requires a real separator so prose *about* the protocol and template echoes
 do not match, and on `FLEET:DONE` calls `mark_finished(session_id, &summary)`
-(`:889`), writing `Task complete: <summary>` as the durable state reason.
-The run harvest (`src-tauri/src/commands/fleet/run.rs:169`,
+(`:892`), writing `Task complete: <summary>` as the durable state reason.
+The run harvest (`src-tauri/src/commands/fleet/run.rs:213`,
 `summary_from_reason`) reads back only that prefix and returns `None` for
 anything else — its own comment: "we only report what a session actually
 declared, never a paraphrase of its last state." A session auto-finished
 on an unanswered question gets a different prefix on purpose
-(`unattended.rs:185-194`), so the harvest cannot mistake it for a claim.
+(`unattended.rs:486-493`), so the harvest cannot mistake it for a claim.
 
 That is result-harvest's "report only what was declared" rule, built
 correctly, with the test coverage to keep it.
@@ -49,9 +49,9 @@ correctly, with the test coverage to keep it.
 Nothing between the cue and *Finished* reads an artifact. A search of the
 bridge and the run harvest for any read of the branch, the diff, or the
 worktree finds one comment about a decision hash that "can't verify"
-(`fleet_bridge.rs:1272`) and nothing about the work. The cue was
+(`fleet_bridge.rs:1290`) and nothing about the work. The cue was
 introduced because an earlier round spent **27 assessment turns on pure
-completion confirmations** (`fleet_bridge.rs:777-779`), and the fix
+completion confirmations** (`fleet_bridge.rs:779-780`), and the fix
 removed the assessment from the completion path entirely — the claim now
 parks the session at zero cost, and at zero scrutiny.
 
@@ -72,7 +72,7 @@ the accepted task requires one, and do not promote it to behavioral acceptance.
   whose leaf fails is parked with a verdict of *unverified*, its summary
   still recorded as declared, and the run report says which.
 
-1. **The 27-confirmation round** (`fleet_bridge.rs:777`). Under A the cue
+1. **The 27-confirmation round** (`fleet_bridge.rs:779`). Under A the cue
    costs nothing and trusts everything. Under B the cue costs one
    version-control call per session, still no model turn — the saving the
    cue was introduced for is intact — and a session that declared done on
@@ -81,9 +81,9 @@ the accepted task requires one, and do not promote it to behavioral acceptance.
    finished-unverified, and the morning reviewer opens the second set
    first.
 2. **Probe 2: `FLEET:NEXT` fell through to a full assessment turn**
-   (`fleet_bridge.rs:786-789`). Unchanged under B: a continuation cue is
+   (`fleet_bridge.rs:791-793`). Unchanged under B: a continuation cue is
    not a completion claim, and the technique gates only completion.
-3. **A session that ended on a question** (`unattended.rs:185`). Unchanged
+3. **A session that ended on a question** (`unattended.rs:486`). Unchanged
    under B: the tree already refuses to paraphrase, and the technique adds
    verification to declarations, not declarations to silence.
 
@@ -112,3 +112,25 @@ cheapest: one artifact leaf the brief already demands. That is also the
 honest reading of the technique's cost curve — the leaf is worth more than
 the ledger in a fleet whose workers write to a version-control system,
 because the system is the receipt.
+
+## Re-checked 2026-10-31
+
+Re-checked 2026-10-31 at personas@61029d7ae0. Anchors above are updated in
+place; every construct and quote still reads as cited. The version witness is now
+the repository's own `rust-toolchain.toml` (`channel = "1.96.1"`, pinned since
+2026-09-18); the earlier `1.97` was not readable from the tree.
+
+The structural fact still holds: between the `FLEET:DONE` cue and *Finished* the
+bridge still reads no artifact, and `summary_from_reason` (`run.rs:210-227`)
+still reports the declared prefix only. The proposed leaf has not landed, so the
+verdict and its return condition stand.
+
+One change around it: the brief gained a rule 7 (no mess outside the checkout),
+and worktree dispatches now replace rule 2 by scope rung
+(`unattended.rs:163-222`). At rung 2 a worker may push its branch and open a pull
+request; at rung 3 (`RUNG_MAY_MERGE`) it merges its own branch into the local
+default branch once "the project's own tests and gates pass". "Never push or
+merge" above is therefore true of the base overnight guardrails only. The merge
+rung makes the missing parent-side check matter more, not less: the worker that
+merges is also the worker that reports the gates green, so a completion claim
+can now land on the default branch with nothing but the claim behind it.

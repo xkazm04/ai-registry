@@ -4,8 +4,8 @@ type: application
 subject: cost-metering
 technique: budget-enforcement
 stack: node
-verified_on: 2026-08-24
-verified_against: node@20
+verified_on: 2026-10-31
+verified_against: node@24
 ---
 
 # A spend ceiling inside an imaging chokepoint
@@ -159,3 +159,49 @@ Upward lesson taken into the technique's neighbours: the gate is placed
 *outside* the reroute walk deliberately, so a request's refusal does not
 depend on how many vendors failed before it — a placement rule that only
 surfaces once a chokepoint has a candidate chain behind it.
+
+## Re-checked 2026-10-31
+
+Re-checked 2026-10-31 at gravitone-gcloud@3c66e32e. Every citation above
+resolves as written at `d74adc8`; the measured results stand for that commit.
+At HEAD the shape has moved, and two of the deviations named above are
+resolved:
+
+- **The node witness is stronger.** `.github/workflows/gates.yml` now pins
+  `node-version: 24` (`:252` and three siblings) and `package.json` carries
+  `@types/node ^24.19.2`, so the pin is CI's rather than a types range.
+- **The check became a reservation.** `run()` now takes
+  `hold = await reserve(estimatePendingUsd(pendingImages))` before `await walk()`
+  (`lib/imaging/router.ts:312-313`) and releases it in `finally` (`:328`);
+  success and billed failure `settle` the hold (`:409`, `:466`) instead of
+  calling `recordSpend` directly. The mechanics moved into a shared kernel,
+  `lib/spend/meter.ts`, behind the unchanged `budget.ts` names, and the refusal
+  sentence is preserved verbatim (`budget.ts:236-249`).
+- **Once-per-request is now qualified.** A billed failure spends the hold, and
+  the next vendor in the chain reserves its own estimate just before it is
+  called (`router.ts:374-397`); skips (`no-key`, constraint drop-outs) still
+  do not re-gate. So the upward lesson holds for the free eliminations and is
+  deliberately reversed for billed ones: a second paid vendor call is gated on
+  its own, because the first one's money is already booked.
+- **Refusals are counted — that deviation is resolved.** The kernel counts a
+  refusal before throwing (`lib/spend/meter.ts:346`), and `budgetStats()`
+  exposes `refusals` and `refusedUsd` (`budget.ts:177-180`), with window
+  evictions logged rather than silent. Probes pin both
+  (`imaging-budget.probe.spec.ts:140`, `:171`).
+- **The ledger is no longer per-process by default — partly resolved.**
+  `spendStoreFor` (`lib/spend/select.ts`) puts the imaging class on a per-machine
+  file store unless `SPEND_STORE=memory` (the test lane) or a managed marker is
+  set, where it falls back to memory and says why. A restart no longer resets the
+  ceiling on a single machine; a scaled-out managed deployment still has no
+  shared window. `budget.ts:21-23` and `:29-31` still say "in-memory", now stale
+  beside `select.ts`.
+- **Failed calls are booked**, tagged `outcome: "failed"`, and `recognize`
+  (per-token, unpriced) books nothing rather than the image rate
+  (`router.ts:279-300`). The pre-call gate still errs high and an unpriceable
+  call still estimates `0` (`budget.ts:373-377`).
+
+The two dynamic probes survive unchanged in meaning
+(`imaging-budget.probe.spec.ts:222-251`), as do `statusFor`'s 402
+(`lib/imaging/errors.ts:252-268`, read at `lib/imaging/api.ts:192`), the
+`estimatePerImage` ceiling (`pricing.ts:367-374`) and the no-invented-price rule
+(`pricing.ts:10`).

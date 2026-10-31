@@ -5,7 +5,7 @@ subject: fleet-orchestration
 technique: parallel-dispatch
 stack: node
 status: forged
-verified_on: 2026-09-17
+verified_on: 2026-10-31
 verified_against: node@24
 applied: code
 ab_verdict: better
@@ -107,3 +107,24 @@ the counter is reporting its own limit. And a work list re-derived *unchanged*
 must starve: three passes at a budget of 4 reach four groups and never the
 twelfth. That test fails if deferral is ever made safe by construction, which
 it is not.
+
+## Re-checked 2026-10-31
+
+Re-checked 2026-10-31 at kp@936588503. Every citation above resolves as written
+at `73672577`, and the engines pin is unchanged at HEAD. The measured change did
+not land under the sha named above: `05a9cb7f` is not reachable in the tree, and
+the same change is on the main line as `bb5b74f14` ("bound the scoring sweep's
+total, not just its concurrency", 2026-09-17), with `scoringSpawnBudget()` at
+`app/_lib/automation-pass.ts:259-262` (ceiling x `SCORING_ROUNDS_PER_PASS = 8`,
+`:244`), `summary.scoringDeferred` at `:585-586`, and its suite in
+`app/_lib/automation-scoring-budget.test.ts`. The measured A/B results stand.
+
+At HEAD the semaphore has moved (`app/_lib/python-runner.ts:294-307` for the
+reasoning, `:334-455` for the door) and gained **admission lanes**: an
+`interactive` lane that admits first and refuses after the 20 s wait, and a
+`background` lane, set by the task runner and the clock tick, capped at
+ceiling-1 slots and refused after a 10-minute wait (`:341-360`, `canAdmit`
+`:386-389`). Both lanes still count against the one ceiling and still release
+on settle (the concurrency suite's `:69-73` assertion is unchanged), so the
+stock-cap argument holds: a sequential sweep in either lane holds at most one
+slot, and the per-pass total is still the only bound on what one pass spends.
