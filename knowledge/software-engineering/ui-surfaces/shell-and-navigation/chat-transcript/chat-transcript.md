@@ -194,7 +194,9 @@ passes through.
 - The transcript is a **log**: announced politely and coarsely. New settled
   turns and terminal outcomes are announced; per-token announcement is a
   firehose. Live-region semantics attach to the turn level, not the token
-  level.
+  level: a streaming turn can be held busy until it settles, so it is
+  announced once, whole. History loaded at the top is not an arrival and is
+  not announced — a log grows only at its end.
 - Every interactive row (approval, retry, copy, expand) is reachable in
   document order — the transcript's order — and does not move or vanish while
   focused; a card resolving under focus keeps focus on its resolved form.
@@ -226,3 +228,9 @@ passes through.
   intents, visible identified queue rows, follow-ups that combine into one
   turn, drafts that survive everything, a restart included — a queued prompt
   comes back as draft text, never as a queued send.
+- [immutable-model-cached-layout](./techniques/immutable-model-cached-layout.md)
+  — rows frozen at the transcript's door, a per-view layout cache keyed by
+  every input it reads, invalidation by version, change by replacement.
+- [virtual-filtered-channel](./techniques/virtual-filtered-channel.md) — a
+  filtered or merged view built as a channel that filters at ingest into its
+  own bounded buffer, so the surface renders only channels.

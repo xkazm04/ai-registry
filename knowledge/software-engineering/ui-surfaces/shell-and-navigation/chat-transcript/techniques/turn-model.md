@@ -68,7 +68,8 @@ one of those is a symptom of two elements pretending to be one turn.
 
 Settlement itself is a *narrowing*, not a replacement: the streamed content
 freezes as the settled content (subject to the settled record being the
-authority — see the live/settled split in the parent standard), the phase
+authority — see the live state and settled record in
+[streaming-output](../../../../llm-agent/runtime-and-io/streaming-output/streaming-output.md)), the phase
 flips, the metadata strip appears, and the progress narration collapses. The
 user perceives continuity because there is continuity.
 

@@ -29,8 +29,8 @@ authority for the transcript:
   forbids.
 - **The way back** — `AthenaChatJumpToLatest.tsx` renders the pill off
   `!atBottom`, fading rather than popping "so a brief scroll wobble near the
-  bottom doesn't flash it". (No unseen-count on the pill — a deviation noted
-  in the parent standard's report.)
+  bottom doesn't flash it". (No unseen-count on the pill — see the deviations
+  below.)
 
 ## The ready gate: `athenaChatSession.ts` and commit `d17b43d00`
 
@@ -79,3 +79,6 @@ is already hiding".
   restoration clause is the standard this surface has not adopted.
 - **No unseen count** on the jump pill — attention is requested, but without
   the "how much" the technique asks for.
+- **The layout wait is a fixed timing proxy.** Two animation frames stand in
+  for the technique's observation of layout stability; a row that sizes
+  itself after them is outside what the gate sees.

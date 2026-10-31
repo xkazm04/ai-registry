@@ -32,7 +32,7 @@ waits until the rendered layout of the opening window is stable — sizes
 measured, late-sizing rows accounted for — and only then positions, in one
 jump. Gating on proxies (fetch completed, first frame painted, a fixed delay)
 passes exactly when the proxy diverges from real layout, which is the case
-the gate exists for. Two subtleties:
+the gate exists for. Four subtleties:
 
 - **The gate stamps itself done only after it has acted on a real target.**
   The subtle failure is not the missing gate but the self-satisfied one: the
