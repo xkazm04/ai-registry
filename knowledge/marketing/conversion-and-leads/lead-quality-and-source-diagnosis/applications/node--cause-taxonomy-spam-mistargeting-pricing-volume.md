@@ -88,6 +88,6 @@ expressed relative to the business's deal value, blended rates or peer median, w
 source and a confidence band, and labelled as convention until calibrated. The tree
 labels the currency dependence in a comment the user never sees; the diagnosis copy
 presents the verdict with no such label. Also unmet: `MIN_LEADS_FOR_SIGNAL` gates
-leads only, so a source with forty leads and nine qualified can be diagnosed
-"mis-targeting" on a win rate over nine - the per-stage floor of
+leads only, so a source with forty leads and fifteen qualified can be diagnosed
+"mis-targeting" on a win rate over fifteen - the per-stage floor of
 `minimum-sample-before-verdict` is absent here.

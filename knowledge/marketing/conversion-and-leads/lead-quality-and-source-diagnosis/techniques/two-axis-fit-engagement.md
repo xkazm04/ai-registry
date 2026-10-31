@@ -85,9 +85,12 @@ half-life - is a convention. They are chosen to be readable, so a rep can say wh
 lead graded B, which a learned weight cannot offer. The standard is that they are
 revisited when the business has enough closed deals to see which components
 predicted a win, and that every surface that explains a grade calls them what they
-are. Practitioner convention also says a business below roughly a thousand closed
-outcomes should stay on rule-based scoring, because a learned model on fewer is
-fitting noise it cannot explain.
+are. The vendor floors for learned lead scoring point the same way: the documented
+threshold has been on the order of a thousand leads with roughly a hundred and
+twenty converted inside a half-year window, below which the vendor scores from a
+pooled model built on other customers' data rather than the business's own. A
+business below that should stay on rule-based scoring, because a learned model on
+fewer is fitting noise it cannot explain.
 
 ## When NOT to use
 
