@@ -1226,3 +1226,329 @@ Applied five of the first record's clarify items. Each change rests on a primary
   }
 }
 ```
+
+## Architecture review - 2026-10-31 (re-verification)
+
+This record follows a re-verification of the seven applications whose project trees are checked out here. rust--layered-composition's clarify item is applied. rust--compression-hardens-deferred-decisions keeps `better` on weaker evidence than it claimed. Six verification dates moved.
+
+<!-- architecture-review:v1 -->
+```json
+{
+  "subject": "software-engineering/prompt-assembly",
+  "date": "2026-10-31",
+  "baseline": "6e9ae5cbb",
+  "digest": "sha256-b2:692eedef190ea8d3",
+  "disposition": "clarify",
+  "coverage": "Third record of the day. It follows a re-verification pass over the seven applications whose project trees are checked out here: one against kp at 936588503, six against personas at 61029d7ae0. Each was checked at its pinned date and at HEAD, edited in place for moved anchors, and given a dated note where a construct changed or a claim was wrong. Six had verified_on moved. live-attachment-delta-resharing did not, because its ledger is machine-local. Every other document is byte-unchanged and carries its second-record disposition. Clarify still owed: techniques context-budgeting, task-envelope and amortized-compaction-cadence, and the yoagent compaction-target application.",
+  "counterexamples": [
+    "A prefix cache that reads at 0.025x makes a cached standing layer about four times cheaper to keep than the tenth-of-base rule of thumb implies, so a break-even computed at 0.1x overstates the case for compressing it.",
+    "A provider that bills its current generation flat across a million tokens can band a cheaper model of the same generation above 100K; a step read from one model is wrong for its sibling.",
+    "A compactor that keeps the first and last N lines and adds a marker emits 2N+1 lines, so even a correctly charged marker needs the cap defined as total lines, or the second pass still changes bytes.",
+    "A block placed third of eight can rebuild at most five blocks below it; a claim that it invalidates six stable blocks cannot be literal."
+  ],
+  "sources": [
+    {
+      "url": "https://arxiv.org/abs/2311.10054",
+      "result": "Supports task-envelope: '162 roles', '4 popular families of LLMs and 2,410 factual questions', adding personas 'does not improve model performance', automatic best-persona selection 'often performing no better than random selection'."
+    },
+    {
+      "url": "https://developers.openai.com/api/docs/guides/prompt-caching",
+      "result": "Supports cache-affinity-key: 'Cached states live on individual machines, where traffic above 15 requests per minute can lead to overflow routing'; separate keys for cached-token accounting and to 'prevent cache-hit probing across customers'; 'On GPT-5.6 and later, OpenAI handles cache routing automatically; the key is not needed'."
+    },
+    {
+      "url": "https://developers.openai.com/api/docs/pricing",
+      "result": "Supports the 272K step: 'Long context: >272K input tokens', with listed long-context input at twice standard (e.g. 5.00 to 10.00 per 1M) for several models."
+    },
+    {
+      "url": "https://platform.claude.com/docs/en/docs/build-with-claude/prompt-caching",
+      "result": "Writes 1.25x (5 min) and 2x (1 h); reads 'standard 0.1x', 0.05x on two models and 0.025x on two. 'The lifetime is measured from the start of the request that writes or reads the cache entry, not from the end of its response.' Supports the clock rule. Refutes compaction-horizon-breakeven's count of one model at a twentieth."
+    },
+    {
+      "url": "https://platform.claude.com/docs/en/about-claude/pricing",
+      "result": "'Claude 4.6 and later models (except Claude Haiku 5.5) ... include the full 1M token context window at standard pricing'; Haiku 5.5 'is priced by prompt length' above 100,000 tokens. Supports the flat-book claim and the per-model step rule."
+    },
+    {
+      "source": "Web search for the 2026-09 first-party coding-agent account (decoration removal ~5%, conservative compressor)",
+      "result": "Not located. Claims quoting it stay as written, already labelled n=1; not refreshed."
+    },
+    {
+      "source": "kp tree at 936588503 and at e44f69b9a (2026-09-05)",
+      "result": "Supports node--history-compaction: intake-transcript.ts:14-43, intake-run.ts:47-56, voice-turn route :12 (4,000 chars), voice-complete :15/:64, pipeline/jobfit/intake.py MAX_TRANSCRIPT_TURNS = 48."
+    },
+    {
+      "source": "personas tree at 61029d7ae0 and at the pinned dates (24c9ecb058, f3738dfbea, a3452abf8f, f921b4a0b9)",
+      "result": "Anchors re-pointed after the prompt.rs and prompt/mod.rs splits. Found: research-lab plugin removed 2026-09-15; clarify-bench RESULT.md second arm present since 2026-07-10; warm-session stable/dynamic split and chat-family core since 2026-09-17; Rule 26 review/memory change 2026-10-20; bench report removed 2026-09-05."
+    }
+  ],
+  "documents": {
+    "prompt-assembly.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: added the two missing bullets to The techniques (pinned-prompt-clock after fingerprinting-and-cache-keys; compression-hardens-deferred-decisions after consumer-coupled-decoration); all 32 frontmatter techniques are now linked."
+    },
+    "techniques/layered-composition.md": {
+      "disposition": "keep",
+      "reason": "Owned sections, one door per family and the sealed-door clause stand. The proxy section's two poles agree with its own numbers (17.5k read over ~890k written is about 0.02)."
+    },
+    "techniques/variable-interpolation.md": {
+      "disposition": "keep",
+      "reason": "Declared, classified variables and the three honest missing-input outcomes are sound and stable."
+    },
+    "techniques/house-vocabulary-layer.md": {
+      "disposition": "keep",
+      "reason": "Argument is internal and stable; floor classification is consistent with context-reachability."
+    },
+    "techniques/context-reachability.md": {
+      "disposition": "keep",
+      "reason": "Classification, freshness corollary and A/B-against-absence check stand. Open lead (feeders do not yet declare their class) belongs to the feeder subjects."
+    },
+    "techniques/context-budgeting.md": {
+      "disposition": "clarify",
+      "reason": "applied 2026-10-31 in part: the cache-read sentence now says the read price is set per model and is less than a tenth on some. Still owed: the two-thousand-uncached-inclusions scale anchor names no source; cite it or drop it."
+    },
+    "techniques/response-reservation-sizing.md": {
+      "disposition": "keep",
+      "reason": "Purchase-not-limit framing, derive-and-escalate and the zero-cost precondition stand; the precondition was confirmed by its own application."
+    },
+    "techniques/history-compaction.md": {
+      "disposition": "keep",
+      "reason": "Pairing, resume and size invariants, both compaction paths and the once-per-turn guard hold. The 0.65/0.85 pair and the provider-anchored count match the neovim application."
+    },
+    "techniques/tiered-history-projection.md": {
+      "disposition": "keep",
+      "reason": "Coverage arithmetic (R + F log_F N; lifetime N/(F-1) calls) is correct, and the two adoption gates are stated."
+    },
+    "techniques/capability-documentation.md": {
+      "disposition": "keep",
+      "reason": "Registry-derived rendering, doctrine sync and active-set fingerprinting stand."
+    },
+    "techniques/contributed-document-admission.md": {
+      "disposition": "keep",
+      "reason": "Index-not-body, declaration-is-not-grant, nothing executed, location identity and visible invalid entries are a coherent contract."
+    },
+    "techniques/fingerprinting-and-cache-keys.md": {
+      "disposition": "keep",
+      "reason": "Determinism, digest boundary, gate-sees-target and the send-site ledger stand."
+    },
+    "techniques/cache-breakpoint-allocation.md": {
+      "disposition": "keep",
+      "reason": "Cadence-boundary allocation and the variability-within-lifetime rule hold; the hit-rate predicate caveat is consistent with compaction-is-a-fixed-point."
+    },
+    "techniques/continuation-prompts.md": {
+      "disposition": "keep",
+      "reason": "Two regimes, carry-decided/re-derive-observable and staleness checks stand."
+    },
+    "techniques/task-envelope.md": {
+      "disposition": "clarify",
+      "reason": "Persona study verified this run (162 roles, 2,410 factual questions, 4 model families, no gain, best-persona selection near random). Owed: the '2026 trajectory corpora' figures (about a quarter of failed runs fabricate success, ~23%, ~3%) name no source; cite them or mark them unsourced."
+    },
+    "techniques/amortized-compaction-cadence.md": {
+      "disposition": "clarify",
+      "reason": "Schedules, the reclaim-size gate and the operator-turn exemption stand. Owed, from the 2026-09-23 banked lead: pass counters must split by outcome. The python application shows a single total over absorbed, failed and skipped passes making a skipping session look healthy. Not applied here because it adds a rule rather than correcting one."
+    },
+    "techniques/compaction-horizon-breakeven.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: read-price count corrected to most at a tenth, two at a twentieth, two at a fortieth (dated 2026-10-31); the 272K step now stated as primary-sourced (input doubles above 272K) and the first provider’s 100K-banded model added as evidence that steps move per model."
+    },
+    "techniques/speculative-compaction-splice.md": {
+      "disposition": "keep",
+      "reason": "Internally sound; derived margin and the losing-speculation fallback are stated. Still has no application (single-stack debt from the note)."
+    },
+    "techniques/deferred-interface-invalidation.md": {
+      "disposition": "keep",
+      "reason": "Defer-by-default with the compaction exemption and immediate revocation is coherent and checkable."
+    },
+    "techniques/endpoint-sealed-continuation-metadata.md": {
+      "disposition": "keep",
+      "reason": "Segment-level replay, strict endpoint equality and demotion-not-deletion stand, corroborated by the node application."
+    },
+    "techniques/elision-to-a-refetch-pointer.md": {
+      "disposition": "keep",
+      "reason": "Material classes, decorator siting and the recomputability caveat stand. The 2026-09 first-party account it quotes was not re-located this run; it is labelled n=1 and dated, so nothing hangs on it beyond illustration."
+    },
+    "techniques/compression-hardens-deferred-decisions.md": {
+      "disposition": "keep",
+      "reason": "Hedge-as-deferral and test-before-shrink stand; the field instance is told without a source but carries no number the rules depend on."
+    },
+    "techniques/recovery-path-as-loss-signal.md": {
+      "disposition": "keep",
+      "reason": "Recovery family, measurement boundary and the two-sided reading stand; the rust application reproduces the mechanism."
+    },
+    "techniques/consumer-coupled-decoration.md": {
+      "disposition": "keep",
+      "reason": "Audit, silent expiry and purity ordering stand. The ~5%/~3% account was not re-located this run; it is already scoped as n=1, one harness."
+    },
+    "techniques/context-ownership-regimes.md": {
+      "disposition": "keep",
+      "reason": "Three-regime table, exclusive ownership and per-request resolution stand; matches the neovim tree."
+    },
+    "techniques/live-attachment-delta-resharing.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: above six stable blocks now reads above four of the six stable blocks, matching the rust application’s third-of-eight order."
+    },
+    "techniques/foreign-harness-history-folding.md": {
+      "disposition": "keep",
+      "reason": "Paired table is consistent (10/10 vs 0/10 arms); the reviewer case is scoped by the falsifying seam."
+    },
+    "techniques/fold-only-acknowledged-evidence.md": {
+      "disposition": "keep",
+      "reason": "Capture/acknowledge split, protected set and typed unfit error stand, witnessed by the python application tests."
+    },
+    "techniques/summary-evidence-gate.md": {
+      "disposition": "keep",
+      "reason": "Local fail-closed parse, model-free checks and their stated limits stand; quote-only form matches the node application."
+    },
+    "techniques/pinned-prompt-clock.md": {
+      "disposition": "keep",
+      "reason": "Freeze, tail notice, refresh-at-checkpoint and probe purity stand, with a reference realization."
+    },
+    "techniques/compaction-target-is-an-aim.md": {
+      "disposition": "keep",
+      "reason": "Figures (91%/41% to 0%/2%, +7%; 13.3 to 26.4; four of five) match the reproduced sweep."
+    },
+    "techniques/compaction-is-a-fixed-point.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: leak 1 now defines the truncation as an N-line cap split between head and tail, so the N+1 arithmetic holds."
+    },
+    "techniques/cache-affinity-key-from-the-unrewritable-layer.md": {
+      "disposition": "keep",
+      "reason": "Verified against the provider guide this run: about 15 requests per minute per key, cached state on individual machines, accounting/probing reasons, and automatic routing on its newest models."
+    },
+    "applications/claude-code--compaction-horizon-breakeven.md": {
+      "disposition": "reverify",
+      "reason": "Arithmetic is consistent. The 0.05x read price and the start-of-request lifetime match the provider's pages this run. The private replay and the plugin were not re-run."
+    },
+    "applications/claude-code--elision-to-a-refetch-pointer.md": {
+      "disposition": "reverify",
+      "reason": "Internally consistent (175/208 = 84%; 870k/1,187k = 73%). The one-machine transcript replay was not re-run."
+    },
+    "applications/neovim--context-ownership-regimes.md": {
+      "disposition": "reverify",
+      "reason": "Anchors at f73f40e9 not reopened; the doc-vs-code contradiction is recorded with the code winning."
+    },
+    "applications/neovim--history-compaction.md": {
+      "disposition": "reverify",
+      "reason": "Anchors not reopened; the summary-of-summary and no-reactive-path deviations are stated."
+    },
+    "applications/neovim--live-attachment-delta-resharing.md": {
+      "disposition": "reverify",
+      "reason": "Anchors not reopened."
+    },
+    "applications/node--compaction-horizon-breakeven.md": {
+      "disposition": "reverify",
+      "reason": "SoL-Pi anchors at 2b791687 and the 166-session replay not re-run."
+    },
+    "applications/node--elision-to-a-refetch-pointer.md": {
+      "disposition": "reverify",
+      "reason": "Anchors not reopened; the blog figures are quoted as the source reports them."
+    },
+    "applications/node--endpoint-sealed-continuation-metadata.md": {
+      "disposition": "reverify",
+      "reason": "Clone at f4fce64a not reopened."
+    },
+    "applications/node--foreign-harness-history-folding--tencentdb.md": {
+      "disposition": "reverify",
+      "reason": "Traced path at 37b16296 not reopened; already unmeasurable."
+    },
+    "applications/node--foreign-harness-history-folding.md": {
+      "disposition": "reverify",
+      "reason": "Cline tree at 6e8bea1c not reopened."
+    },
+    "applications/node--history-compaction--pilotdeck.md": {
+      "disposition": "reverify",
+      "reason": "Executed findings at ae87280a not re-run."
+    },
+    "applications/node--history-compaction.md": {
+      "disposition": "keep",
+      "reason": "Re-verified 2026-10-31 at kp@936588503 and at the 2026-09-05 tree: cap 48 equal to the engine window, 4,000-char utterance bound, turn-less periodic extraction, Node 24 pin. Three anchors tightened; a dated note adds that attachment bodies reach only the extraction sweep. Verdict not-better holds; verified_on moved."
+    },
+    "applications/node--pinned-prompt-clock.md": {
+      "disposition": "reverify",
+      "reason": "Anchors at ae87280a not reopened; test was read, never executed."
+    },
+    "applications/node--summary-evidence-gate--pilotdeck.md": {
+      "disposition": "reverify",
+      "reason": "Executed findings not re-run."
+    },
+    "applications/node--summary-evidence-gate.md": {
+      "disposition": "reverify",
+      "reason": "Anchors not reopened."
+    },
+    "applications/node--tiered-history-projection.md": {
+      "disposition": "reverify",
+      "reason": "Private tree at 0e1f0b30 not reopened."
+    },
+    "applications/python--amortized-compaction-cadence.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: the two section citations of the old docs/micro-compaction.md path now cite the first-party doc named in the header. Tree not reopened; refresh_by 2026-11-05 still open."
+    },
+    "applications/python--fold-only-acknowledged-evidence.md": {
+      "disposition": "reverify",
+      "reason": "QwenPaw anchors at cbf1a403 not reopened."
+    },
+    "applications/python--summary-evidence-gate.md": {
+      "disposition": "reverify",
+      "reason": "QwenPaw anchors not reopened."
+    },
+    "applications/rust--cache-affinity-key-from-the-unrewritable-layer--yoagent.md": {
+      "disposition": "reverify",
+      "reason": "The provider-guidance claims were re-verified this run. The crate anchors at 2428f68d were not reopened."
+    },
+    "applications/rust--compaction-is-a-fixed-point--yoagent.md": {
+      "disposition": "reverify",
+      "reason": "Replay numbers are the tree's own and were never re-run."
+    },
+    "applications/rust--compaction-target-is-an-aim--yoagent.md": {
+      "disposition": "clarify",
+      "reason": "The table reports '43 marker-only per run', while the technique and the note quote the same figure as '43 marker-only compactions per 100 requests'. One unit is wrong. Owed: fix it from the sweep's output. Not applied, because the sweep was not re-run."
+    },
+    "applications/rust--compression-hardens-deferred-decisions.md": {
+      "disposition": "keep",
+      "reason": "Re-verified 2026-10-31 at personas@61029d7ae0. Bench quotes, BASELINE figures and Rules 16/25/26 hold; Cargo anchor re-pointed. Dated note records RESULT.md (present at the pinned tree) as a measured but confounded second arm, 0.48 to 0.85, behind a non-default flag, and the 2026-10-20 Rule 26 change that adds review/memory asks. The \"only A measured\" sentence now points at the note. Verdict better kept as weaker evidence; verified_on moved."
+    },
+    "applications/rust--consumer-coupled-decoration.md": {
+      "disposition": "reverify",
+      "reason": "Byte tables come from a reimplementation; the tree was not reopened."
+    },
+    "applications/rust--context-budgeting.md": {
+      "disposition": "keep",
+      "reason": "Re-verified 2026-10-31 at personas@61029d7ae0: every anchor re-pointed after the 2026-08-22 prompt.rs split, and constants and quotes are unchanged. Dated note: the research-lab frontend instance was removed 2026-09-15; recall synthesis is ml-gated; the runner appends persist. verified_on moved and verified_against rust@1.96 added."
+    },
+    "applications/rust--context-ownership-regimes.md": {
+      "disposition": "reverify",
+      "reason": "Private tree not reopened."
+    },
+    "applications/rust--elision-to-a-refetch-pointer.md": {
+      "disposition": "reverify",
+      "reason": "All table arithmetic was recomputed and is consistent (52.6%, 1.0/5.2/9.4% overshoot, 4.7x). Tree not reopened."
+    },
+    "applications/rust--foreign-harness-history-folding.md": {
+      "disposition": "reverify",
+      "reason": "Private tree at cf54b904b and the local model runs not reopened."
+    },
+    "applications/rust--layered-composition.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: the assembler was re-read at personas@61029d7ae0 and at the 2026-08-18 tree. The section list was literal, so the gradient sentence was corrected and a dated note records the per-call Correction Required and Triggering Event blocks ahead of identity as a deviation. It also records the Manifest and Responsibilities layers. Anchors re-pointed; verified_on moved."
+    },
+    "applications/rust--live-attachment-delta-resharing.md": {
+      "disposition": "reverify",
+      "reason": "Tree re-verified 2026-10-31 at personas@61029d7ae0: anchors re-pointed, and the dated note records the 2026-09-17 warm-session stable/dynamic split and the chat-family core. Together they supersede the filed reorder for MAIN user turns. The ledger replay is machine-local and was not re-read, so verified_on was not moved."
+    },
+    "applications/rust--pinned-prompt-clock--personas.md": {
+      "disposition": "keep",
+      "reason": "Re-verified 2026-10-31 at personas@61029d7ae0: the three quoted lines are unchanged, and anchors re-pointed. No template uses now, iso8601 or today outside tests and docs. Verdict unmeasurable holds; verified_on moved."
+    },
+    "applications/rust--recovery-path-as-loss-signal.md": {
+      "disposition": "reverify",
+      "reason": "Break-even table recomputed (1,208 B per recovery; 135 of 200; 138.0%). Tree not reopened."
+    },
+    "applications/rust--response-reservation-sizing.md": {
+      "disposition": "reverify",
+      "reason": "Arithmetic checks (16,000/4,096 = 3.91; 72 vs 18 cases at 220 tokens). Tree at 07fa255c not reopened."
+    },
+    "applications/rust--task-envelope.md": {
+      "disposition": "keep",
+      "reason": "Re-verified 2026-10-31 at personas@61029d7ae0: all four prompts, identity lines and both added check lines (with assertions) are present; anchors re-pointed. The bench report path left the tree on 2026-09-05, as the dated note says. Effect still unmeasured, as stated; verified_on moved."
+    }
+  }
+}
+```

@@ -18,12 +18,12 @@ turn from named blocks (constitution, identity, an observability digest,
 recalled memory, plugins, voice, mode and static addenda) and hands it to a
 stateful coding-agent process that holds the conversation. Observed toolchain
 `rustc 1.96.1`; the crate's floor is `rust-version = "1.80.0"`
-(`src-tauri/Cargo.toml:115`).
+(`src-tauri/Cargo.toml:222`).
 
 The seam is the composer's block table
-(`src-tauri/src/companion/prompt/compose.rs:154-176`) and the instrument the
+(`src-tauri/src/companion/prompt/compose.rs:224-248`) and the instrument the
 project had already built beside it: a per-block FNV-1a content hash recorded
-on every turn (`prompt/budget.rs:116-131`, `turn_ledger.rs:138`,
+on every turn (`prompt/budget.rs:134-149`, `turn_ledger.rs:146`,
 `prompt_block_hashes_json`), added because the ledger's cache-creation count
 had climbed 239,852 to 305,401 tokens turn over turn while block *sizes*
 held, which sizes alone could not explain.
@@ -60,7 +60,7 @@ digest (rewritten on 92% of turns) and recall (52%).
 ## The structural fact
 
 The observability block sits **third of eight** in the composed order
-(`compose.rs:156`), above plugins, voice, mode and static addenda, which
+(`compose.rs:227`), above plugins, voice, mode and static addenda, which
 are stable on 92 to 100% of turns. A block that changes on nine turns in ten,
 placed above 1.6 million characters of stable material, rebuilds the prefix
 from its own position down on every call. The ledger's cache series says the
@@ -94,3 +94,24 @@ the saving the policy buys here is cache reads instead of cache creation, not
 absent bytes. And the replay counts characters, not tokens: the ledger's
 token columns are per turn, not per block, so the 14.2% is a byte share and
 the token share is inferred.
+
+Re-checked 2026-10-31 at personas@61029d7ae0: the anchors above moved and
+were re-pointed. The hash instrument, its comment and the
+`prompt_block_hashes_json` column are unchanged, and `observability` still
+composes above plugins, voice and the addenda. The ledger replay was not
+re-run, because the companion database is machine-local, so the measured
+tables and the verdict stand as recorded. What changed is the delivery, for
+one turn class. Since 2026-09-17, interactive MAIN-tier user turns run in a
+warm per-conversation process (`companion/session/warm.rs`, called from
+`session/turn.rs:464`). Its system prompt is written once and holds only the
+stable prefix: the static core plus the identity block (`warm.rs:124-134`).
+Every block after identity, the stable addenda included, travels at the top
+of each user message instead. That is the stable/volatile split by position
+that this section filed, cut at the identity boundary rather than by moving
+`observability` and `recall` down the block table. So the filed reorder was
+not shipped as written, and for warm turns it no longer matters. Turns
+outside that scope (autonomous, proactive, aside, micro, build) still spawn
+per turn with the order measured above. The same date also gave MAIN a
+smaller chat-family core in place of the ~147 KB constitution, which was
+two-thirds of arm A's bytes (`prompt/chat_family.rs`, certified
+2026-09-17). Neither change has been measured against this replay.

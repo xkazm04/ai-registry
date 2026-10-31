@@ -4,7 +4,7 @@ type: application
 subject: prompt-assembly
 technique: history-compaction
 stack: node
-verified_on: 2026-09-05
+verified_on: 2026-10-31
 verified_against: node@24
 applied: simulation
 ab_verdict: not-better
@@ -31,11 +31,11 @@ lower trigger for an elision lane ahead of the lossy step, and a count
 anchored on the provider's last reported input.
 
 1. **The cap is the whole ladder.** `capTranscript`
-   (`app/_lib/intake-transcript.ts:14-40`) keeps the newest 48 turns and, when
+   (`app/_lib/intake-transcript.ts:14-43`) keeps the newest 48 turns and, when
    anything was dropped, one leading system turn carrying the running count
    of dropped turns, absorbed idempotently on the next cap. The 48 is derived
    from the engine's own render window and pinned equal to it so the brief's
-   turn citations stay aligned (`intake-run.ts:45-58`). Under B the elision
+   turn citations stay aligned (`intake-run.ts:47-56`). Under B the elision
    lane would look for re-fetchable bulk to point at and find none: the
    transcript is utterances, which have no source to re-fetch, and the fast
    thread carries no tool results. The lane fires on nothing; the cap with its
@@ -44,7 +44,7 @@ anchored on the provider's last reported input.
    whose content is re-fetchable (an attachment quoted into the transcript).
 2. **The rolling summary lives off the fast path.** The brief is extracted by
    a periodic thread that runs *without* turns (`voice-complete` route,
-   `:15`, `:65`), not by the turn that speaks, so the lossy step is already
+   `:15`, `:64`), not by the turn that speaks, so the lossy step is already
    amortized and never stalls a spoken reply. Under B the lower trigger would
    place elision ahead of a step that does not run on this path at all.
 3. **The count is in turns, not tokens.** The window is `MAX_STORED_TURNS`
@@ -78,3 +78,14 @@ It cannot tell the model how many turns a compaction marker stands for in
 the model's own reading: the marker is a wire token resolved into the
 reader's language by the panel, and the engine that renders the prompt is
 the one that interprets it for the model; whether it does was not read here.
+
+Re-checked 2026-10-31 at kp@936588503. Three anchors were tightened to the
+lines they name, and they read the same at the 2026-09-05 tree: the cap is
+still 48 and still equal to the engine's `MAX_TRANSCRIPT_TURNS`, the
+per-utterance bound is still 4,000 characters, the periodic extraction still
+runs without turns, and the Node 24 engines range and CI pin are unchanged.
+One fact sharpens case 1's falsifier. Attachments exist on this seam, but
+the fast thread sees only their titles, and their bodies reach the model
+only in the extraction sweep (`voice-complete` route `:74-75`). So the
+transcript the cap governs still holds nothing re-fetchable, and the verdict
+holds.

@@ -4,7 +4,7 @@ type: application
 subject: prompt-assembly
 technique: task-envelope
 stack: rust
-verified_on: 2026-08-25
+verified_on: 2026-10-31
 verified_against: rust@1.96
 ---
 
@@ -19,7 +19,7 @@ the technique, with one gap the tree had not noticed and this run closed.
 
 ## Locate, done, check — as the tree already had them
 
-`src-tauri/src/companion/dev_mode.rs` `build_task_prompt` (`:983`) opens with
+`src-tauri/src/companion/dev_mode.rs` `build_task_prompt` (`:991`) opens with
 one sentence of identity and spends the rest on the envelope:
 
 - **Locate** is a whole section — `## Where (from the project context map —
@@ -46,7 +46,7 @@ checks/tests before finishing") but no check against the objective — a
 gate proves the tree compiles, not that the objective was met.
 
 `src-tauri/src/companion/session/build_turn.rs` `build_system_prompt`
-(`:72`) is the interesting counter-case: its web-build doctrine carries an
+(`:97`) is the interesting counter-case: its web-build doctrine carries an
 explicit **"Self-critique before done"** section that *does* use role
 words — "as a senior engineer AND a demanding design lead" — but the
 sentence that follows is a concrete checklist (click every nav item,
@@ -63,7 +63,7 @@ competence priming. `dev_mode`: "dispatched by Athena … at the user's
 approval" — the worker's authority and its reviewer. `planner`: "an
 unattended night-shift worker … supervised by Athena" — autonomy level
 and escalation path, followed by the MCP tools that path uses.
-`athena_reaction.rs` `build_review_resolution_prompt` (`:971`): "the
+`athena_reaction.rs` `build_review_resolution_prompt` (`:1043`): "the
 autonomous orchestrator … running unattended; the human is away … the
 resolution authority of last resort" — every clause changes what the
 model is *allowed* to decide. These pass the technique's test (removing
@@ -107,3 +107,15 @@ dispatches is unmeasured until the dev-op ledger (`companion_dev_op`,
 `user_verdict`) is read across enough runs with and without it. The tree
 proves the *shape* the technique asks for; it does not yet prove the
 effect.
+
+Re-checked 2026-10-31 at personas@61029d7ae0: every prompt, identity line
+and quoted clause above is still in the tree, and the four function anchors
+were re-pointed. `worker_prompt` is still at `planner.rs:170`. Both check
+lines added by this run are live, with their test assertions
+(`dev_mode.rs:1033`, `:1211`; `planner.rs:194`, `:334`). One citation moved
+out of the tree. `docs/plans/athena-model-bench-report.md` was dropped in a
+2026-09-05 repository cleanup; its 1,026-turn figure is readable at earlier
+commits, and the bench itself lives on as `scripts/test/athena-model-bench.mjs`.
+The dev-op ledger named as the instrument still has its `user_verdict`
+column (`src-tauri/db/src/lib.rs:1179-1188`). It was not read, so the effect
+is still unmeasured.

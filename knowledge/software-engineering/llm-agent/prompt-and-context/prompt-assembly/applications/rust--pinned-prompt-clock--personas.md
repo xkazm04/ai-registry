@@ -5,7 +5,7 @@ subject: prompt-assembly
 technique: pinned-prompt-clock
 stack: rust
 status: forged
-verified_on: 2026-09-29
+verified_on: 2026-10-31
 verified_against: rust@1.96
 applied: simulation
 ab_verdict: unmeasurable
@@ -20,7 +20,7 @@ is the technique's answer, built for a different reason.
 ## The trap, unarmed
 
 The interpolation step defines its "magic" variables from one clock read per assembly
-(`src-tauri/engine/src/prompt/variables.rs:23 "trusted_vars.insert("now".into(), now.to_rfc3339());"`),
+(`src-tauri/engine/src/prompt/variables.rs:35 "trusted_vars.insert("now".into(), now.to_rfc3339());"`),
 alongside a date-only `today` and an `iso8601` alias. The `now` value carries fractional
 seconds whenever the clock does, so a persona template that used `{{now}}` in its system
 text would change its prefix on every request, permanently, not at midnight. A search
@@ -32,10 +32,10 @@ nothing is standing on it.**
 
 The run-budget section, which tells the model when the run will be killed and at what
 fraction to stop starting new work, is built from a clock read and formatted to the
-second (`src-tauri/engine/src/prompt/assemble.rs:1172 "let fmt = |t: chrono::DateTime<chrono::Utc>| t.format("%H:%M:%S").to_string();"`),
+second (`src-tauri/engine/src/prompt/assemble.rs:1249 "let fmt = |t: chrono::DateTime<chrono::Utc>| t.format("%H:%M:%S").to_string();"`),
 which is the most cache-hostile content a prompt can carry. The runner appends it *after*
 assembly, at spawn time
-(`src-tauri/src/engine/runner/mod.rs:1690 "prompt::append_spawn_time_section("`), so it
+(`src-tauri/src/engine/runner/mod.rs:1726 "prompt::append_spawn_time_section("`), so it
 sits beyond everything that might be cached and the assembled prefix is untouched. That
 is the technique's placement rule — volatile content at the tail — met by a different
 route: the section is per-run because it is a deadline, not because anyone was protecting
@@ -56,3 +56,10 @@ so there is nothing to measure. Return condition: a persona template adopts `now
 `iso8601`, at which point the technique's test (fingerprint of the system layer equal
 across a crossing) is the acceptance check. Until then the cheap safeguard is a test that
 fails when a template references the sub-second variables in system text.
+
+Re-checked 2026-10-31 at personas@61029d7ae0: the three quoted lines are
+unchanged and the anchors were re-pointed. The interpolation now returns a
+text that carries no `{{` untouched, before any clock is read. A search of
+the tracked tree outside tests and docs still finds no template using
+`{{now}}`, `{{iso8601}}` or `{{today}}`, so the seam is still unarmed and the
+verdict holds. The safeguard test proposed above does not exist yet.
