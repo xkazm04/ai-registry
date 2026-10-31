@@ -1,10 +1,38 @@
 ---
 subject: vendored-patch-stack
 domain: software-engineering
-last_touched: 2026-10-05
+last_touched: 2026-10-31
 ---
 
 # vendored-patch-stack
+
+## 2026-10-31 - apply one-reset-authority (run intake-apply-ora-1031)
+
+Dispatched by the attention scan for "single stack (node)". First applied row for
+`one-reset-authority` and the subject's first python application,
+`python--one-reset-authority--garden-vr` (`experiment`, `better`, ab-paired).
+
+**Seam.** garden-vr's local image-to-3D toolchain keeps two upstreams outside the
+repo as depth-1 git checkouts at pinned commits, with one upstream bug carried as
+a patch applied by hand - an uncommitted edit in the live tree. The upstream
+ignores its own weights directory, so the most expensive layer sits ignored inside
+the vendored checkout. No reset command existed; the README only built the tree.
+
+**Chosen to falsify** the "When not to use it" clause: the tracked trees
+re-materialize in seconds, so a caught result would have collapsed the graded
+ladder. Not caught - cheapness has to be judged over everything the directory
+holds, ignored files included, and version control's clean deletes exactly the
+expensive layer. Fixture A/B: 0/3 -> 3/3 paths caught or restored with weights
+kept; floor held. garden-vr 89f7767, pushed.
+
+**Lead - the detector when the patch rides uncommitted.** A clean patched tree
+and a patched tree carrying a hand fix in the same file give byte-identical
+`git status`, so "re-materialization is the test" has a cheap form here: compare
+the worktree with pin + patches through a throwaway index, no rebuild. The
+tree's second identity, which the technique names as the hazard, supplies the
+instrument. Scored GAIN 1 RISK 0 (a boundary, one sighting); not written.
+Return condition: a second tree that carries its patch set as uncommitted edits,
+or a stack whose re-materialization is too slow for the pipeline schedule.
 
 ## 2026-10-05 - apply collapse-patch-axes-that-share-hunks (run intake-1005-cpax)
 
