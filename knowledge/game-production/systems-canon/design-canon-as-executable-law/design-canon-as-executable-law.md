@@ -62,7 +62,9 @@ can be scoped, cited, parsed and diffed. The entry shape is worth stating exactl
 
 Three properties do the real work. The **body holds the numbers** — not a machine-readable
 field duplicated beside the prose, because a duplicated number is the drift problem in
-miniature, relocated inside one file. **Every rule is scoped**: an unscoped canon collapses
+miniature, relocated inside one file. (A structured value that *generates* the sentence a
+human reads is still one authored copy; what fails is two copies edited separately.)
+**Every rule is scoped**: an unscoped canon collapses
 under its own weight around sixty rules, when everything applies to everything, authors
 stop reading, and checkers subscribe to the whole corpus and produce noise. And **a rule
 states its own sanctioned exceptions in its own body** — the mature form of an economy rule
@@ -133,8 +135,11 @@ Not every rule reduces to a band on a single value. Some state a *shape*: a prog
 that "grows roughly geometrically", a detail ladder that descends, a payout monotonic in
 difficulty. Grade those as shapes. A geometric curve has a near-constant consecutive ratio,
 so the check is the dispersion of that ratio — a coefficient of variation under roughly
-0.15 reads as geometric, where a polynomial curve sails past it with ratios that start high
-and decay. Parsing the stated growth base out of the rule and comparing one sampled point
+0.15 reads as geometric, where a polynomial curve sampled from its first level fails it with
+ratios that start high and decay. Sample from the first level: away from its origin a
+polynomial's ratios flatten too — `100·level^1.8` over levels 5 to 50 has a coefficient of
+variation near 0.07 — so also check that the ratio does not trend, because a polynomial's
+ratios fall steadily toward one and a geometric curve's do not. Parsing the stated growth base out of the rule and comparing one sampled point
 against it would pass the wrong curve at the level you sampled.
 
 ## What a finding must carry

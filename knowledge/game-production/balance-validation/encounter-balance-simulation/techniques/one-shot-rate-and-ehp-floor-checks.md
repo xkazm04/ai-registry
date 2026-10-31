@@ -31,7 +31,8 @@ character. It is not. Where mitigation is soft-capped against the size of the in
 hit — the standard shape, where the fraction removed falls as the hit grows — effective
 health is a function of two arguments: the defensive stat and **the hit it is being
 computed against**. The same armour value can multiply survivability by two against a
-small hit and by a fifth of that against a large one.
+small hit and by barely more than one against a large one: removing half a hit doubles
+effective health, removing a tenth multiplies it by about 1.1.
 
 So the measurement is always a triple, and all three travel together:
 

@@ -137,8 +137,10 @@ that fixes one complaint creates the other.
 - **Where performance cannot be graded honestly.** If the available signals cannot
   distinguish a struggling player from a cautious one, the scale is noise and the
   controller amplifies it. Ship the settings without the adaptation.
-- **On a scale with fewer than three settings.** Overlap needs neighbours to be meaningful,
-  and with two settings the overlap either swallows the distinction or does nothing.
+- **With two settings and an overlap chosen by feel.** Two settings have one boundary, so
+  too much overlap swallows the distinction and too little does nothing. Size it by step 3
+  of the procedure (a strong player on the easier setting reaches the harder one's
+  starting position) rather than by eye.
 - **As a way to avoid choosing band boundaries.** The margin is a design decision with a
   number attached; a band defined as "some drift" is an unspecified system wearing the
   vocabulary of a specified one.

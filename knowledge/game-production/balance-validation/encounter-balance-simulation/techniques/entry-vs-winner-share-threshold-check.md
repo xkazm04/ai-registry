@@ -26,11 +26,11 @@ claim here is a human-felt balance verdict.
 ## The arithmetic
 
 An entry rate is the share of a class's *entries* that end a given way: placed, won, survived. It
-is bounded by how the roster fills the field. If each class appears as a fixed share of the
-entries, a rate counted over those entries cannot exceed the share of the field the class
-occupies, because the class is simply not present in the rest. With three copies of each of
-several classes, and the rate normalised against the whole population, the cap on a per-class
-rate in the reported example was one third. A dominance threshold of fifty-five percent on that
+is bounded by how the roster fills the field. Each race has one winner, so if a class fields a
+fixed number of entries in every race, the share of its entries that win cannot exceed one over
+that number, even when the class wins every race; for a top-k placing the cap is k over that
+number, at most one. With three copies of each of several classes the cap on a per-class win
+rate in the reported example was one third, whatever the number of classes. A dominance threshold of fifty-five percent on that
 rate cannot be reached by any class under any tuning, so a forty-thousand-run sweep reported "no
 dominance" with the force of a coin that has two tails.
 

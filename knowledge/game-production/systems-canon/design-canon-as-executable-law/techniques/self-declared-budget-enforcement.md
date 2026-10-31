@@ -72,8 +72,10 @@ declared value, and the percentage they differ by.
    value. A named series with an implied direction. A total and its parts.
 2. **For each pair, write the check that reads both sides from the artifact.** Parameterize
    by field path so one implementation serves every pair.
-3. **Guard the declaration before grading the value.** A non-positive cap, an inverted
+3. **Guard the declaration before grading the value.** A negative cap, an inverted
    band, a series with a missing member — each is its own finding with its own message.
+   A cap of zero is legitimate where the quantity can be zero (a value of zero equals it
+   and passes); report utilization there as undefined rather than dividing by the cap.
 4. **Return not-measured when either side is absent.** A missing cap is not a pass and is
    not a failure of the measurement.
 5. **Put utilization in the pass message.** Percentage of budget consumed, or position

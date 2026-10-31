@@ -213,7 +213,8 @@ is a different value from "fine".
 A reproducible harness can still be uninformative, and the review that catches it is aimed at
 the instrument rather than the game. Three questions, asked before any rate is read. Can the
 dominance threshold fire at all: a limit of fifty-five percent on a per-entry rate is
-unreachable when each class fills a third of the field, so the check passes by construction, and
+unreachable when each class fields three entries a race and only one can win, so it caps at a
+third and the check passes by construction, and
 the gate must be stated over a metric such as winner share whose range contains the limit, with
 its maximum computed and a planted defect shown to trip it
 (entry-vs-winner-share-threshold-check). Does the schedule cross its factors: a class and a
