@@ -4,7 +4,7 @@ type: application
 subject: retrieval
 technique: relationship-proximity-lane
 stack: rust
-verified_on: 2026-08-27
+verified_on: 2026-10-31
 verified_against: rust@1.80.0
 ---
 

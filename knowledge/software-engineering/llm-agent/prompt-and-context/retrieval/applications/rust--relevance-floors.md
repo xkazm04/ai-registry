@@ -5,7 +5,7 @@ subject: retrieval
 technique: relevance-floors
 stack: rust
 status: forged
-verified_on: 2026-09-15
+verified_on: 2026-10-31
 verified_against: rust@1.80
 applied: experiment
 ab_verdict: better
@@ -72,3 +72,15 @@ embedder returns length-one vectors, which the store trusts and does not check. 
 unrelated mislabel sits beside it: `search_similar` is documented as "Cosine search" over
 the L2 table (`embeddings.rs:347`). It is harmless while the floor comment is right, and it
 is the kind of sentence that makes the next reader apply the wrong formula.
+
+## Re-checked 2026-10-31
+
+Every citation above still holds at `cf54b904b`, and the tutorial's at `4593569`
+(`embedding_search.py:15-23`, the 0.85 floor at `:111`, the index constructors at
+`faiss_indexing_processor.py:22-54`); sqlite-vec 0.1.6 still returns `sqrt` on every
+path under `distance_l2_sqr_float` (`sqlite-vec.c:361-404`). At personas@61029d7ae0 the
+floor and its doc are unchanged (`core/src/retrieval/mod.rs:40-50`), the lockfile still
+pins `rusqlite 0.38.0` and `sqlite-vec 0.1.6`, and the "Cosine search" mislabel is still
+there (`embeddings.rs:345`). The order-only test now sits at `embeddings.rs:429-476`.
+The known-pair pin has not landed: no test in the tree asserts an absolute distance, so
+the finding stands as written.

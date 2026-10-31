@@ -4,7 +4,7 @@ type: application
 subject: retrieval
 technique: hybrid-lane-fusion
 stack: rust
-verified_on: 2026-09-20
+verified_on: 2026-10-31
 verified_against: rust@1.80.0
 applied: code
 ab_verdict: better
@@ -29,20 +29,20 @@ being learned the hard way. Three lanes feed each turn's recall:
   episodes and the same top-N facts on every single turn, with `doctrine`
   hard-coded empty" (`retrieval.rs:6-9`).
 - **Vector (KNN)** — `ml`-gated, *layered on top of* the keyword lane, not
-  replacing it. The union discipline is explicit at `retrieval.rs:360-364`:
+  replacing it. The union discipline is explicit at `retrieval.rs:359-363`:
   "Running both and unioning means the ml build is a strict superset of the
   non-ml build rather than an alternative to it" — the golden path's
   lane-addition rule, stated as a code comment. `union_keyword_ids`
-  (`retrieval.rs:408-424`) appends keyword hits into the vector selection in
+  (`retrieval.rs:602-621`) appends keyword hits into the vector selection in
   rank order, deduped, capped, honoring exclusion sets.
-- **Always-include tiers** (`retrieval.rs:77-89`) — top facts, active goals,
+- **Always-include tiers** (`retrieval.rs:87-99`) — top facts, active goals,
   top procedurals, open backlog. "Query-independent by design"; every cap is
   small and each constant carries a sentence of why.
 
 **Budget, not quota** — the header section at `retrieval.rs:15-24` is titled
 exactly that. Both paths target `RECALL_EPISODE_TARGET = 20` total episodes
 (`:65`); the recency tail is sized from what the other lanes *actually
-returned* (`with_recency_tail`, `:433-454`; the non-ml arm at `:357-359`),
+returned* (`with_recency_tail`, `:623-651`; the non-ml arm at `:535-537`),
 after a real incident: the ml path once hard-coded a 5-turn tail assuming the
 vector lane would add ~12, the vector lane contributed zero on an unembedded
 corpus, and the "richer" build delivered *fewer* memories than the plain one.
@@ -53,39 +53,39 @@ preceding turn to a well-matched older one would be the worse failure.
 **Overfetch-then-split** — `VECTOR_OVERFETCH = 80` (`:55-60`): one KNN pull,
 split by kind in app code via `rank_into_lanes` (`core/src/retrieval/mod.rs:146-165`),
 "generous so kind-imbalanced corpora don't starve one tier". Doctrine gets a
-dedicated kind-scoped scan (`retrieval.rs:198-210`) precisely because the
+dedicated kind-scoped scan (`retrieval.rs:335-353`) precisely because the
 shared top-K starved it — a small, structurally distinct corpus losing every
 seat to an episode-heavy one.
 
 **Blind predicates re-imposed** — the vector lane filters on kind only, so
 `load_episodes_by_ids` re-imposes the session filter in SQL
-(`retrieval.rs:259-267`, `WHERE ... session_id = ?` at `:516-519`); the
+(`retrieval.rs:415-421`, `WHERE ... session_id = ?` at `:773-774`); the
 comment names the leak it prevents: an episode from a *different*
 conversation riding a similarity hit into this session's working memory.
 
-**Fusion telemetry** — the `recall_distance` debug log (`retrieval.rs:247-256`)
+**Fusion telemetry** — the `recall_distance` debug log (`retrieval.rs:403-413`)
 emits per-lane counts, `dropped_far`, and the nearest distance: lane
 provenance carrying its predicate.
 
 ## The KB search path (`src-tauri/src/commands/credentials/vector_kb.rs`)
 
-`kb_search` (`vector_kb.rs:916-1136`) fuses differently — **reciprocal rank
-fusion** (`rrf_rerank`, `:889-912`, the standard constant 60.0 with its
+`kb_search` (`vector_kb.rs:907-1127`) fuses differently — **reciprocal rank
+fusion** (`rrf_rerank`, `:880-903`, the standard constant 60.0 with its
 rationale inline) — because here the lanes are vector-canonical with BM25 as
 a nudger, not co-equal. The ordering of stages is the transferable craft:
 
-1. Overfetch ×3 from the vector index (`RERANK_OVERFETCH`, `:860-862`,
-   clamped at `:979-981`).
-2. **Floor before fusion** (`:984-995`): the shared
+1. Overfetch ×3 from the vector index (`RERANK_OVERFETCH`, `:851-853`,
+   clamped at `:970-972`).
+2. **Floor before fusion** (`:975-987`): the shared
    `filter_by_distance_floor` runs on the vector pool *before* RRF "so BM25
    can't resurrect a semantically-unrelated chunk", and before truncation
    "so the caller learns how much noise was cut" — `floor_filtered` is
-   returned in the response (`:998-1001`, `:1132-1135`).
+   returned in the response (`:988-992`, `:1123-1126`).
 3. BM25 ranks within the candidate pool only; every failure on the FTS side
    degrades to vector-only ordering with a warning, never a blocked search
-   (`:1004-1061`).
-4. **Filter-then-cut** (`:1063-1073` and `select_search_results`,
-   `:1149-1212`): when a source filter selects a subset, the `top_k` cut
+   (`:995-1052`).
+4. **Filter-then-cut** (`:1054-1064` and `select_search_results`,
+   `:1140-1203`): when a source filter selects a subset, the `top_k` cut
    happens *after* filtering, otherwise the caller gets "however many of the
    global top_k happen to live under that path" — usually a handful, often
    zero.
@@ -93,9 +93,10 @@ a nudger, not co-equal. The ordering of stages is the transferable craft:
 ## Where it stops short of the standard (kept as standard; noted)
 
 - **The sanitization door has three forks.** The unified
-  `build_fts5_match_query` (`core/src/retrieval/mod.rs:247-270`, with
-  stopwords, min-length, term cap, dedupe) coexists with the KB's own
-  `build_fts5_query` (`vector_kb.rs:872-879` — whitespace split only, no
+  `build_fts5_match_query` (`core/src/retrieval/mod.rs:337-345`, its
+  stopwords, min-length, term cap and dedupe now in `fts5_query_terms` at
+  `:355-388`) coexists with the KB's own
+  `build_fts5_query` (`vector_kb.rs:863-870` — whitespace split only, no
   stopword/length/count bounds) and a third in the execution search repo.
   The core module's own doc admits it: "Two private forks of this shape
   already existed... consolidating them is a separate, behavior-visible
@@ -126,12 +127,12 @@ WHERE id = ?2"`), the decay floor and cap enforcement all set the same column.
 The keyword lane gates on it in SQL - `keyword.rs:285`, `"AND
 companion_node.importance > 0"` - and the tree says in four places that this
 settles the matter: `consolidation.rs:110` ("retrieval naturally filters
-importance > 0"), `consolidation.rs:726` ("importance 0 is retrieval-ineligible
-while the SQL"), and a test case at `consolidation.rs:1472` named `"aged out
+importance > 0"), `consolidation.rs:757` ("importance 0 is retrieval-ineligible
+while the SQL"), and a test case at `consolidation.rs:1532` named `"aged out
 means retrieval-ineligible"`.
 
 The vector lane never applied it. The embedding table carries no such column
-and the vector scan joins nothing (`embeddings.rs:369`, `"WHERE embedding MATCH
+and the vector scan joins nothing (`embeddings.rs:367`, `"WHERE embedding MATCH
 ?1 ORDER BY distance LIMIT ?2"`), so the kind lookup that turns hits into lanes
 resolved a kind for every row including the retired ones, and the lane ranker
 ranked them. Union the two lanes and the superset includes the store's own
@@ -178,3 +179,21 @@ superseded value labelled with its successor - would need the retired row to
 reach the reader carrying its status, which this shape deliberately forbids. The
 trade belongs to the memory subject rather than to this one, and this tree has
 chosen exclusion.
+
+## Re-checked 2026-10-31
+
+Re-checked 2026-10-31 at personas@61029d7ae0. Every construct above still
+exists; the line anchors are updated to HEAD (the KB path moved nine lines up;
+the companion recall grew a provenance record and moved further). The fix is in
+place: the retirement predicate sits in `lookup_kinds` (`retrieval.rs:740`),
+pinned by `lookup_kinds_drops_retired_nodes_and_keeps_live_ones` (`:954`). The
+workspace manifest still declares `rust-version = "1.80.0"`. The paired replay
+was not re-run.
+
+All three deviations still hold. The three FTS5 sanitization forks are still
+present (the KB's, the core door, and `build_fts5_query` in the execution
+repo). The recall now carries a per-item lane label (`RecallTrace`,
+`retrieval.rs:162-233`), but it records the first lane that reached an item and
+drops the rest (`record_vector` and `record` both use `or_insert`, `:185-195`),
+so two lanes agreeing still leaves no trace. Neither fusion strategy has a
+labeled-set eval.

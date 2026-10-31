@@ -650,3 +650,165 @@ the operator's live corpus is needed to say which (or what 590 counts).
   }
 }
 ```
+
+## Architecture review - 2026-10-31 (re-verification)
+
+Follows re-verification of the four personas applications: three keep, embedding-lifecycle moves to clarify.
+
+<!-- architecture-review:v1 -->
+```json
+{
+  "subject": "software-engineering/retrieval",
+  "date": "2026-10-31",
+  "baseline": "c46c573d3",
+  "digest": "sha256-b2:e14bfacace2b0f83",
+  "disposition": "clarify",
+  "coverage": "Re-verification of the four personas applications the previous record left reverify, against their pinned or dated states and against HEAD. Three now keep and embedding-lifecycle moves to clarify because its body contradicts its new dated note. The ranking-budgets clarify is still owed; the other documents are byte-unchanged and carry their prior dispositions.",
+  "counterexamples": [
+    "A rescorer that can read the blind class (a graph-aware reranker) needs no promote-only bound; the bound is a property of the scorer's blindness, not of the stage.",
+    "On a tiny corpus where every statement on the topic fits in the cut, the period vote buys nothing and the browsable-index check wins.",
+    "A symmetric embedder makes the role rule inert; and gemini-embedding-2 carries the role in prompt text rather than a task_type field, so 'name the role at the call site' survives but its spelling changes.",
+    "A fallback lane whose scores really are calibrated (a second BM25 index) does not manufacture relevance; the relevance-floors rule targets proxy scores, not every substitute."
+  ],
+  "sources": [
+    {
+      "source": "personas at b72f6914bd, c07ffc7f0e, cf54b904b, 18df2ee0bf and HEAD 61029d7ae0 (git show)",
+      "result": "Every tree citation in the four applications resolved; anchor moves and the two changed constructs (non-ml stubs and reembed tests deleted; guard counter and lane provenance added) recorded as dated notes."
+    },
+    {
+      "url": "https://github.com/Shubhamsaboo/awesome-llm-apps/tree/4593569",
+      "result": "embedding_search.py:15-23 squares the distance again, threshold 0.85 at :111; faiss_indexing_processor.py:22-54 builds IndexFlatL2 / IVF / HNSW indexes. Matches rust--relevance-floors."
+    },
+    {
+      "url": "https://github.com/asg017/sqlite-vec/blob/v0.1.6/sqlite-vec.c",
+      "result": "distance_l2_sqr_float (:392-404) dispatches to l2_sqr_float / _neon / _avx, each returning sqrt. Unchanged."
+    }
+  ],
+  "documents": {
+    "retrieval.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: the query-time arrow chain now carries 'optional second-pass rescoring of the fused pool' between fusion and the budget cut, linked to its technique."
+    },
+    "techniques/retrieval-triggering.md": {
+      "disposition": "keep",
+      "reason": "Four triggers, one authority with reason codes, three-valued skip/empty/unavailable, asymmetric threshold and late retrieval recorded as retrieval. No unstable external claim."
+    },
+    "techniques/chunking-and-indexing.md": {
+      "disposition": "keep",
+      "reason": "Structure-first boundaries, content-addressed identity, index writes and deletions as coupled derivations, zero-yield reporting. Doctrine, no unstable claim."
+    },
+    "techniques/embedding-lifecycle.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: 'a availability-versus-completeness' -> 'an availability-versus-completeness'. Role section unchanged; supported by the Gemini embeddings page."
+    },
+    "techniques/hybrid-lane-fusion.md": {
+      "disposition": "keep",
+      "reason": "Rank fusion vs normalization vs tiered concatenation, deterministic tiebreak, convergence only across independent lanes, request-side vs item-side blind predicates re-imposed at one point. Internally consistent with the proximity and centrality techniques."
+    },
+    "techniques/named-period-vote.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: 'the filter loses two that the vote keeps' -> 'one or two' (103 vs 104 at cut 5, two at 10 and 40)."
+    },
+    "techniques/relationship-proximity-lane.md": {
+      "disposition": "keep",
+      "reason": "Reader enumeration before pricing a store, fan-out cap, set-vs-path reach, dependent-lane fusion as tier or attribution, per-relation policy, scope re-imposed after traversal. Consistent with hybrid-lane-fusion."
+    },
+    "techniques/structural-centrality-lane.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: the proximity lane's agreement is now 'recorded in the item's lane provenance, counted neither as additional score nor as convergence, which is evidence only across independent lanes'."
+    },
+    "techniques/second-pass-rescoring.md": {
+      "disposition": "keep",
+      "reason": "Promote-only min(fused, rescored) admission, permutation not re-injection, bounded pin with its cost, shortlist window, no-op by identity, trimmer exemptions including threshold computation, strict vs lenient recall. Figures (21/39 -> 3/39, 449/470 -> 379/470) match the bun application."
+    },
+    "techniques/ranking-budgets.md": {
+      "disposition": "clarify",
+      "reason": "The non-additive section cites 'a 590-item corpus' for the 17.9% / 0.14% framing measurement, while the application it came from (same commit db015b56c) reports 1,105 episode nodes. Arithmetic checks (83/463 = 17.9%, 83/57,292 = 0.14%, ratio 128x) but the corpus size disagrees and I could not establish which is right or what 590 counts."
+    },
+    "techniques/relevance-floors.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: 'Every hit' -> 'Every hit for a query of two or more characters' lands at or above 0.76."
+    },
+    "techniques/padded-slots-are-misses.md": {
+      "disposition": "keep",
+      "reason": "Faiss FAQ: 'If there are not enough elements to fill the result list, the missing results are set to -1.' The positional-lookup failure, the drop-at-the-boundary rule and the fixture shape follow."
+    },
+    "techniques/retrieval-evaluation.md": {
+      "disposition": "keep",
+      "reason": "Strata incl. should-be-empty, whole-record judgments, metrics bound to their predicate, tuning and corpus leak checks, production-path rule, regression and ablation gates. No unstable claim."
+    },
+    "applications/bun--second-pass-rescoring.md": {
+      "disposition": "reverify",
+      "reason": "Internally consistent with the technique; gbrain at 2efaaf8f was not reopened this run."
+    },
+    "applications/go--relevance-floors.md": {
+      "disposition": "reverify",
+      "reason": "Weaviate docs confirm certainty is cosine-only and normalized to 0..1, consistent with dist = (1-certainty)*2; the adcffc5 line anchors were not reopened. Note it carries no status field."
+    },
+    "applications/next--embedding-lifecycle.md": {
+      "disposition": "reverify",
+      "reason": "Gemini task types confirmed. The three trees' anchors were not reopened; whether they call gemini-embedding-001 (task_type) or a model that takes the instruction in the prompt text affects the 'accepts a per-call task type' sentence."
+    },
+    "applications/node--relevance-floors.md": {
+      "disposition": "reverify",
+      "reason": "The 0.76 arithmetic and the 0.75 sigmoid threshold (raw about 5.49: 5*ln 3 = 5.49) check out; memory-lancedb-pro at 1a683cf5 and the personas arm were not reopened."
+    },
+    "applications/python--named-period-vote.md": {
+      "disposition": "reverify",
+      "reason": "Figures agree with the technique's tables; the private harness at 4933593909 was not re-run."
+    },
+    "applications/python--padded-slots-are-misses--ultrarag.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: every citation re-checked at a763d344 (faiss_backend.py:212/214, pyproject.toml:10, backend factory, padding tests); verified_on moved 2026-09-30 -> 2026-10-31."
+    },
+    "applications/python--query-decomposition-before-the-lanes.md": {
+      "disposition": "reverify",
+      "reason": "Analysis consistent with the technique; LightRAG at c1248646 not reopened."
+    },
+    "applications/rust--embedding-lifecycle.md": {
+      "disposition": "clarify",
+      "reason": "Re-verified 2026-10-31 at personas@61029d7ae0: every anchor held at the 2026-08-18 state (b72f6914bd); moved anchors updated, verified_on moved, verified_against rust@1 from the manifest's rust-version. The body now contradicts its own dated note: the non-ml stubs and the three reembed_candidates tests were deleted 2026-08-21 (4bf1845d70) and the rule is ml-only, and two of its three 'stops short' bullets are resolved (RecallTrace lane labels; health.rs reports model_guard_excluded). Fold the note into the body."
+    },
+    "applications/rust--hybrid-lane-fusion.md": {
+      "disposition": "keep",
+      "reason": "Re-verified 2026-10-31 at personas@61029d7ae0: every construct present, anchors re-pointed (KB path -9 lines; recall moved), the retirement fix at lookup_kinds :740 with its test, rust-version 1.80.0 unchanged; all three deviations still hold. verified_on moved; the paired replay was not re-run."
+    },
+    "applications/rust--named-period-vote.md": {
+      "disposition": "reverify",
+      "reason": "Cross-references to the technique tables check (24/24, 21, 1 of 105); icm at 5f402434 not reopened; its own verdict is unmeasurable."
+    },
+    "applications/rust--ranking-budgets--cass.md": {
+      "disposition": "reverify",
+      "reason": "cass at 7fc01958d367 not reopened."
+    },
+    "applications/rust--ranking-budgets--icm.md": {
+      "disposition": "reverify",
+      "reason": "icm at 5f402434 not reopened."
+    },
+    "applications/rust--ranking-budgets.md": {
+      "disposition": "reverify",
+      "reason": "Arithmetic checks (39,212/1,560 = 25.1x; 17.9% and 0.14%). Its 1,105-episode corpus disagrees with the technique's '590-item corpus' (see ranking-budgets). Live operator corpus not reachable."
+    },
+    "applications/rust--relationship-proximity-lane.md": {
+      "disposition": "keep",
+      "reason": "Re-verified 2026-10-31 at the 2026-08-27 state (c07ffc7f0e) and personas@61029d7ae0: graph.rs still the eight-line stub, companion_edge schema and reverse index unchanged with no reader or writer beyond the portability list, memory_edges readers still exporter/importer/render only, memory_recall.rs mentions no edge, no recursive traversal (the one WITH RECURSIVE is a query-builder test). No anchors to move; verified_on moved."
+    },
+    "applications/rust--relevance-floors.md": {
+      "disposition": "keep",
+      "reason": "Re-verified 2026-10-31: every citation holds at cf54b904b, the tutorial at 4593569 (embedding_search.py:15-23, 0.85 at :111, faiss_indexing_processor.py:22-54) and sqlite-vec v0.1.6; at HEAD only the test and 'Cosine search' anchors moved (noted, not rewritten) and the known-pair pin has still not landed. verified_on moved."
+    },
+    "applications/rust--retrieval-evaluation--cass.md": {
+      "disposition": "reverify",
+      "reason": "cass at 7fc01958d367 not reopened."
+    },
+    "applications/rust--structural-centrality-lane.md": {
+      "disposition": "reverify",
+      "reason": "478/510 = 93.7% checks; the live corpus measurement is not reproducible here."
+    },
+    "techniques/query-decomposition-before-the-lanes.md": {
+      "disposition": "keep",
+      "reason": "Tiers as a closed vocabulary, tier-to-lane policy over a caller flag, empty tier vs absent decomposition, cache keyed on query and decomposer only, undecomposed baseline as a named mode. Consistent with the LightRAG application's findings; no unstable claim."
+    }
+  }
+}
+```
