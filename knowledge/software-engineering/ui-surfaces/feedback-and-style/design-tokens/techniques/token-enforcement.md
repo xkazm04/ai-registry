@@ -147,9 +147,10 @@ For a human author this exit is expensive: it means editing a shared
 definition, and review usually catches it. For a machine author asked to
 make a failing check pass, it is often the cheapest route, and one
 design-system linter's own evaluation shows what happens. Across three
-models on off-system styling tasks, every run reached zero findings, no run
-used a suppression, and the most common repair was a new brand token plus a
-new component variant. The enforced project ended every drift sequence
+models on off-system styling tasks, every run but two reached zero findings
+(both misses were linter bugs, fixed the same day), no run used a
+suppression, and the usual repair was a new component variant, in the worked
+example a declared brand token plus a `brand` variant. The enforced project ended every drift sequence
 with more variants than it started with, and the unenforced one ended with a
 vocabulary that never grew. The same evaluation's red-team list records
 "minting a new theme token" as a bypass the rules do not catch, by design.
@@ -201,8 +202,9 @@ Two honesty clauses, both instances of
 The second link in that chain is the one nobody checks, because every other
 link is visible in a file somebody wrote on purpose. Where a checker composes
 its configuration as **ordered blocks that each claim a set of files**, a
-later block naming the same rule generally *replaces* that rule's arguments
-rather than merging with them. So a law expressed as arguments to a shared,
+later block naming the same rule with arguments of its own generally
+*replaces* that rule's arguments rather than merging with them (a block that
+restates only the severity usually keeps them). So a law expressed as arguments to a shared,
 general-purpose rule — a selector list, a pattern set, a banned-value table —
 is switched off for every file a later block claims for some unrelated
 purpose: a layering rule, an import ban, a per-directory override. Nothing

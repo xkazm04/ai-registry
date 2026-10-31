@@ -73,7 +73,7 @@ token earns a name when **all three** hold:
    by theme, density, or future redesign. A value that is physically fixed
    (a hairline is one device pixel everywhere, forever) gains little from
    role indirection.
-3. **A owner-answerable definition** — someone can state, in one sentence,
+3. **An owner-answerable definition** — someone can state, in one sentence,
    when a component should use this role instead of its neighbors. If the
    distinction between `foreground-muted` and `foreground-subtle` cannot be
    stated, one of them is noise, and consumers will choose by dice roll.
