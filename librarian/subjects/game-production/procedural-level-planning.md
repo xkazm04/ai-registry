@@ -1,7 +1,7 @@
 ---
 domain: game-production
 subject: procedural-level-planning
-last_touched: 2026-09-10
+last_touched: 2026-10-31
 touched_by: architecture-review
 dry_streak: 0
 ---
@@ -213,6 +213,204 @@ technique says so itself, which is why I keep it rather than marking it unresolv
     "applications/node--gate-and-key-solvability-proof.md": {"disposition": "reverify", "reason": "Superseded by its consumer. Witnessed at 9aa31407 as a tree with gates declared and never resolved; at HEAD the full closure, key levels, residual-gate reporting and an undeclared-prose-gate list exist in pacing-linter.ts. The document remains a correct account of the past and should be re-reconciled rather than kept as current evidence."},
     "applications/node--pacing-linter-rules.md": {"disposition": "reverify", "reason": "Line citations have drifted by roughly two hundred lines and the result type now carries a ReachabilityLedger the document does not mention. Its stated shortfall stands — no token 'unevaluated' appears anywhere in the file — so the standard is unchanged and only the witness needs refreshing."},
     "applications/process--safe-room-and-boss-placement.md": {"disposition": "keep", "reason": "Re-read against pof HEAD and every load-bearing claim survives: the placement numbers are still in the brief, the seed line still degrades to FMath::Rand() while the best-practice block forbids it, and hashSeed still falls back to a shown constant. Only line numbers moved."}
+  }
+}
+```
+
+## Architecture review - 2026-10-31
+
+All 14 documents read at current bytes against `85a365702`. Since the second 2026-09-10
+record, one technique and four applications have changed. `declare-what-each-engine-ignores`
+gained "Agreement is bought by shipping the layout, not the seed" on 2026-09-20. That section
+applies the clarify the re-review owed: regenerating pairs never agree, and a replay engine
+agrees by construction. The 2026-09-23 privacy pass made the four applications'
+source paths repo-relative. The pof tree is not reachable from this run, so application
+witnesses were not refreshed.
+
+**Owed and still present.** `zone-progression-linting` still says comparing midpoints or
+floors "understate the gap for wide bands". With floor <= ceiling, `nextFloor - thisFloor`
+exceeds `nextFloor - thisCeiling` by this zone's band width. The midpoint difference exceeds
+it by half the sum of the two widths. Both alternatives overstate the gap and raise false
+walls. `seed-determinism-contract` still offers only "append rather than interleave" for
+draw-order coupling. NumPy's parallel-generation guide documents the structural answer the
+re-review named: derive each stream "by combining the ID and the root seed integer in a list".
+A per-pass stream keyed on a stable pass identifier means inserting a pass shifts no other
+pass's draws. The source names a product, so it is cited here and not in the technique.
+
+<!-- architecture-review:v1 -->
+```json
+{
+  "subject": "game-production/procedural-level-planning",
+  "date": "2026-10-31",
+  "baseline": "85a365702",
+  "digest": "sha256-b2:94d17312c8f8a3c9",
+  "disposition": "clarify",
+  "coverage": "All 14 documents read at current bytes. declare-what-each-engine-ignores re-read in full for its 2026-09-20 replay section; the four applications re-read for the 2026-09-23 path change. NumPy's parallel random generation guide opened 2026-10-31. Not evaluated: the pof tree (not reachable here), any generator run, seed replay, playtest or threshold measurement. No verification date refreshed.",
+  "counterexamples": [
+    "Zones 10-20 then 18-28: floor-minus-ceiling gives -2 (overlap, no wall); floor-minus-floor gives 8; midpoint difference gives 8. Both alternatives report a wall a player leaving at level 20 never meets.",
+    "A generator that seeds each pass from (run seed, pass identifier) can insert a decoration pass ahead of the corridor router without shifting a single corridor draw, so append-don't-interleave is a fallback, not the only remedy.",
+    "A replay engine reads zero request fields and agrees with its exporter by construction; the technique now states this boundary (applied 2026-09-20), so it no longer falsifies the regenerating-pair rule.",
+    "A key provably reachable at the end of an unmarked branch, in a room the sightline check flagged as indistinguishable, is solvable but cannot be found; the subject says findability is a separate rung (retained from 2026-09-10)."
+  ],
+  "sources": [
+    {
+      "url": "https://numpy.org/doc/stable/reference/random/parallel.html",
+      "result": "Read 2026-10-31. 'If these IDs are created deterministically and uniquely, then one can derive reproducible parallel PRNG streams by combining the ID and the root seed integer in a list', and SeedSequence 'hashes its inputs, both the seed and the spawn-tree-path'. Supports per-pass substreams derived from the run seed and a pass identifier as a structural remedy for draw-order coupling."
+    },
+    {
+      "source": "Arithmetic in techniques/zone-progression-linting.md",
+      "result": "With F <= C per band: (nF - tF) - (nF - tC) = tC - tF >= 0; ((nF+nC)/2 - (tF+tC)/2) - (nF - tC) = ((nC-nF) + (tC-tF))/2 >= 0. Both alternatives overstate; the document says understate."
+    }
+  ],
+  "documents": {
+    "procedural-level-planning.md": {
+      "disposition": "keep",
+      "reason": "Byte-unchanged since the 2026-09-10 keep; each section hands off to a technique that carries its rule."
+    },
+    "techniques/algorithm-parameter-support-matrix.md": {
+      "disposition": "keep",
+      "reason": "Byte-unchanged since the 2026-09-10 keep (three states, achieved beside requested, differential check)."
+    },
+    "techniques/critical-path-to-optional-branch-ratio.md": {
+      "disposition": "keep",
+      "reason": "Byte-unchanged since the 2026-09-10 keep (stated denominator, gated-graph basis, marked objective)."
+    },
+    "techniques/declare-what-each-engine-ignores.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-09-20 (by a drain run): the regenerating-pair rule is scoped, and a replay engine agrees by construction with the parity rung named in the same sentence. This closes the 2026-09-10 clarify. 'An earlier statement of this technique held...' is mild revision narration, not a defect."
+    },
+    "techniques/gate-and-key-solvability-proof.md": {
+      "disposition": "keep",
+      "reason": "Byte-unchanged since the 2026-09-10 keep."
+    },
+    "techniques/landmark-and-sightline-legibility.md": {
+      "disposition": "keep",
+      "reason": "Byte-unchanged since the 2026-09-10 keep; the perceptual rung is stated as unmeasurable by a checker."
+    },
+    "techniques/pacing-linter-rules.md": {
+      "disposition": "keep",
+      "reason": "Byte-unchanged since the 2026-09-10 keep."
+    },
+    "techniques/safe-room-and-boss-placement.md": {
+      "disposition": "keep",
+      "reason": "Byte-unchanged since the 2026-09-10 keep."
+    },
+    "techniques/seed-determinism-contract.md": {
+      "disposition": "clarify",
+      "reason": "Draw-order coupling is remedied only by 'new passes append rather than interleave where that is achievable'. Add the structural remedy: derive each pass's stream from the run seed and a stable pass identifier, so inserting a pass shifts no other pass's draws (NumPy's parallel-generation guide documents this derivation). Owed since 2026-09-10."
+    },
+    "techniques/zone-progression-linting.md": {
+      "disposition": "clarify",
+      "reason": "'Comparing midpoints or comparing floors both understate the gap for wide bands, and the understatement is invisible' is inverted: both overstate it (by this band's width, or by half the two widths) and raise false walls. Owed since 2026-09-10."
+    },
+    "applications/node--declare-what-each-engine-ignores.md": {
+      "disposition": "reverify",
+      "reason": "Still says three engines and 'five of seven' / 'all seven' fields, against the four engines and eight fields the 2026-09-10 source read found. The pof tree is not reachable here; only its source path changed (2026-09-23)."
+    },
+    "applications/node--gate-and-key-solvability-proof.md": {
+      "disposition": "reverify",
+      "reason": "Superseded by its consumer per the 2026-09-10 source read (closure, key levels, undeclared-gate list now exist). Only the path changed since; re-reconciliation still owed."
+    },
+    "applications/node--pacing-linter-rules.md": {
+      "disposition": "reverify",
+      "reason": "Line citations drifted per the 2026-09-10 source read; the stated shortfall (no unevaluated state) held then. Only the path changed since."
+    },
+    "applications/process--safe-room-and-boss-placement.md": {
+      "disposition": "keep",
+      "reason": "Only its source path changed (2026-09-23); the 2026-09-10 source read confirmed every load-bearing claim."
+    }
+  }
+}
+```
+
+## Architecture review - 2026-10-31 (clarify applied)
+
+Applied both items owed since 2026-09-10: the zone-band arithmetic and the per-pass
+substream remedy. No clarify item is left on this subject. The overall disposition is now
+reverify, carried by three applications whose witness is an unreachable pof tree.
+
+<!-- architecture-review:v1 -->
+```json
+{
+  "subject": "game-production/procedural-level-planning",
+  "date": "2026-10-31",
+  "baseline": "85a365702",
+  "digest": "sha256-b2:567ba5d5e9b64e7a",
+  "disposition": "reverify",
+  "coverage": "Second 2026-10-31 record, after applying both clarify items owed since 2026-09-10 (zone arithmetic, per-pass substreams). Edited sections re-read; the other documents are byte-unchanged and keep the first record's decisions. Three applications remain reverify against an unreachable pof tree. No verification date refreshed.",
+  "counterexamples": [
+    "Zones 10-20 then 18-28: floor-minus-ceiling gives -2 (overlap, no wall); floor-minus-floor gives 8; midpoint difference gives 8. Both alternatives report a wall a player leaving at level 20 never meets.",
+    "A generator that seeds each pass from (run seed, pass identifier) can insert a decoration pass ahead of the corridor router without shifting a single corridor draw, so append-don't-interleave is a fallback, not the only remedy.",
+    "A replay engine reads zero request fields and agrees with its exporter by construction; the technique now states this boundary (applied 2026-09-20), so it no longer falsifies the regenerating-pair rule.",
+    "A key provably reachable at the end of an unmarked branch, in a room the sightline check flagged as indistinguishable, is solvable but cannot be found; the subject says findability is a separate rung (retained from 2026-09-10)."
+  ],
+  "sources": [
+    {
+      "url": "https://numpy.org/doc/stable/reference/random/parallel.html",
+      "result": "Read 2026-10-31. 'If these IDs are created deterministically and uniquely, then one can derive reproducible parallel PRNG streams by combining the ID and the root seed integer in a list', and SeedSequence 'hashes its inputs, both the seed and the spawn-tree-path'. Supports per-pass substreams derived from the run seed and a pass identifier as a structural remedy for draw-order coupling."
+    },
+    {
+      "source": "Arithmetic in techniques/zone-progression-linting.md",
+      "result": "With F <= C per band: (nF - tF) - (nF - tC) = tC - tF >= 0; ((nF+nC)/2 - (tF+tC)/2) - (nF - tC) = ((nC-nF) + (tC-tF))/2 >= 0. Both alternatives overstate; the document says understate."
+    }
+  ],
+  "documents": {
+    "procedural-level-planning.md": {
+      "disposition": "keep",
+      "reason": "Byte-unchanged since the 2026-09-10 keep; each section hands off to a technique that carries its rule."
+    },
+    "techniques/algorithm-parameter-support-matrix.md": {
+      "disposition": "keep",
+      "reason": "Byte-unchanged since the 2026-09-10 keep (three states, achieved beside requested, differential check)."
+    },
+    "techniques/critical-path-to-optional-branch-ratio.md": {
+      "disposition": "keep",
+      "reason": "Byte-unchanged since the 2026-09-10 keep (stated denominator, gated-graph basis, marked objective)."
+    },
+    "techniques/declare-what-each-engine-ignores.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-09-20 (by a drain run): the regenerating-pair rule is scoped, and a replay engine agrees by construction with the parity rung named in the same sentence. This closes the 2026-09-10 clarify. 'An earlier statement of this technique held...' is mild revision narration, not a defect."
+    },
+    "techniques/gate-and-key-solvability-proof.md": {
+      "disposition": "keep",
+      "reason": "Byte-unchanged since the 2026-09-10 keep."
+    },
+    "techniques/landmark-and-sightline-legibility.md": {
+      "disposition": "keep",
+      "reason": "Byte-unchanged since the 2026-09-10 keep; the perceptual rung is stated as unmeasurable by a checker."
+    },
+    "techniques/pacing-linter-rules.md": {
+      "disposition": "keep",
+      "reason": "Byte-unchanged since the 2026-09-10 keep."
+    },
+    "techniques/safe-room-and-boss-placement.md": {
+      "disposition": "keep",
+      "reason": "Byte-unchanged since the 2026-09-10 keep."
+    },
+    "techniques/seed-determinism-contract.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: added the structural remedy beside append-don't-interleave: derive each pass's stream from the run seed and a stable pass identifier, so an inserted pass shifts no other pass's draws, with order still binding within a pass (NumPy parallel-generation guide, cited in the note only)."
+    },
+    "techniques/zone-progression-linting.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: floors and midpoints now 'overstate' the gap (by this band's width, or by half the two widths) and report walls a player leaving at the ceiling never meets."
+    },
+    "applications/node--declare-what-each-engine-ignores.md": {
+      "disposition": "reverify",
+      "reason": "Still says three engines and 'five of seven' / 'all seven' fields, against the four engines and eight fields the 2026-09-10 source read found. The pof tree is not reachable here; only its source path changed (2026-09-23)."
+    },
+    "applications/node--gate-and-key-solvability-proof.md": {
+      "disposition": "reverify",
+      "reason": "Superseded by its consumer per the 2026-09-10 source read (closure, key levels, undeclared-gate list now exist). Only the path changed since; re-reconciliation still owed."
+    },
+    "applications/node--pacing-linter-rules.md": {
+      "disposition": "reverify",
+      "reason": "Line citations drifted per the 2026-09-10 source read; the stated shortfall (no unevaluated state) held then. Only the path changed since."
+    },
+    "applications/process--safe-room-and-boss-placement.md": {
+      "disposition": "keep",
+      "reason": "Only its source path changed (2026-09-23); the 2026-09-10 source read confirmed every load-bearing claim."
+    }
   }
 }
 ```

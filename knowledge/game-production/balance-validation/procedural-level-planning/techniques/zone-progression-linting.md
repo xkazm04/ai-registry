@@ -52,8 +52,9 @@ to their build, and go elsewhere — or stop.
 **Measure the jump between band edges, and say which edges.** A zone tuned for a band is not
 a point, and the gap that matters is *the next zone's floor minus this zone's ceiling* — the
 state of a player who has just finished here against the requirement of arriving there.
-Comparing midpoints or comparing floors both understate the gap for wide bands, and the
-understatement is invisible. State the basis in the rule, not only the number.
+Comparing floors overstates the gap by this zone's band width, and comparing midpoints by
+half the two widths together, so on wide bands both report walls a player leaving at this
+zone's ceiling never meets. State the basis in the rule, not only the number.
 
 This is the room-scale difficulty-cliff signature at a different scale, and the shared
 threshold is not a coincidence: three increments is roughly where a step stops feeling like

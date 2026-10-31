@@ -39,11 +39,14 @@ produce a worse asset, it produces a meaningless one.
 
 **Reduction invalidates coordinates.** Texture coordinates describe a surface. Rebuilding
 the surface leaves the coordinates describing geometry that no longer exists. Any unwrap
-performed before reduction is discarded work at best and silently wrong at worst.
+performed before reduction is discarded work at best and silently wrong at worst. A
+reduction that dissolves or collapses edges instead of rebuilding can be told to keep a
+layout's edges, but the layout it keeps was cut for the dense mesh, and the reduction does
+not re-measure its stretch.
 
 **Unwrapping is the gate on baking.** A bake writes into texture space. With no texture
-space there is nothing to write into, so a bake requested on an unwrapped mesh is not a
-degraded bake, it is not a bake. Pipelines that treat unwrap as optional and bake as
+space there is nothing to write into, so a bake requested on a mesh with no texture
+coordinates is not a degraded bake, it is not a bake. Pipelines that treat unwrap as optional and bake as
 independent produce empty maps that pass a file-exists check.
 
 **Baking is the only step that recovers what reduction removed.** Reduction throws away

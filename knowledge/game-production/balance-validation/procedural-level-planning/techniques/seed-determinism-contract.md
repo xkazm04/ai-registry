@@ -50,7 +50,10 @@ convention documented in a wiki is not an enforcement mechanism.
 
 Two secondary disciplines protect the stream once it exists. **Draw order is part of the
 contract** — inserting a new draw ahead of an existing one shifts everything downstream, so
-new passes append rather than interleave where that is achievable. And **consume a draw
+new passes append rather than interleave where that is achievable. The structural answer
+removes the coupling between passes instead of managing it: derive each pass's stream from
+the run seed and a stable pass identifier, so a pass inserted anywhere shifts no other
+pass's draws. Within a pass, order stays part of the contract. And **consume a draw
 only when the outcome depends on it**; a draw taken for a branch that was never in play
 costs nothing in the result and silently shifts every draw after it.
 

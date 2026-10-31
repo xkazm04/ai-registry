@@ -62,8 +62,10 @@ and it does not change the face count.
 - **Authored normals absent and the mesh imported faceted → angle rule applied.** This is
   the input class the rule genuinely serves: interchange formats that carry no normal data
   and arrive flat-shaded.
-- **A threshold of zero means "no shading pass"**, not "smooth everything". Give the
-  disabled state its own value rather than overloading a boundary value.
+- **A threshold of zero is a real setting, not "no shading pass"** and not "smooth
+  everything": every edge between faces that are not coplanar exceeds it, so the mesh
+  stays fully faceted. Give the disabled state its own value rather than overloading a
+  boundary value.
 - **The threshold is per asset class, stated with its unit.** Degrees, measured between
   adjacent face normals. A number handed between a planner and an executor without that
   basis is not a specification.

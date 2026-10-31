@@ -1,7 +1,7 @@
 ---
 subject: mesh-finishing-for-engine-readiness
 domain: game-production
-last_touched: 2026-09-10
+last_touched: 2026-10-31
 touched_by: architecture-review
 dry_streak: 0
 ---
@@ -356,3 +356,229 @@ pof `65974e1e`, not pushed.
 
 **Boundary stated, not linked:** import-side acceptance (`generated-asset-world-scale`,
 `generated-mesh-acceptance`) checks what arrived. This technique proves what was sent.
+
+## Architecture review - 2026-10-31
+
+All 15 current documents read at current bytes against `85a365702`. The second 2026-09-10
+record decided 12. `conform-target-is-not-a-remap-row` (technique and application, landed
+2026-09-20) and `export-proven-by-read-back` (technique and application, landed 2026-10-05)
+are decided here for the first time. The golden path gained two sections in those runs. The
+Blender manual's Decimate modifier page was opened for the reduction claim.
+
+**Still owed from earlier records, confirmed at current bytes.** The golden path still says
+"a bake requested on an unwrapped mesh is not a bake", which inverts the section it sits in
+(2026-09-10 re-review, re-noted by the 2026-09-20 intake). `node--high-to-low-bake-coverage`
+still says "`bakeSize` defaults to 1024". `node--unwrap-only-the-low-poly` still reports 484
+lines and the old line numbers. The pof tree is not reachable from this run, so the two
+application items stay owed rather than applied. The golden path's opening ("unwrapped lump",
+"no texture coordinates") is still dated against the 2026-09-18 intake's 7-of-7 provider
+meshes with a UV layer. That intake routed it to a scoped `/deepen`, and it stays owed here.
+
+**New this run.** The manual shows that reduction does not always discard coordinates. The
+Planar decimate mode lists a `UVs` delimit that "does not dissolve edges that are part of a
+UV map". So "reduction invalidates coordinates" holds for reductions that rebuild the surface,
+not for every reduction. The finding still stands that an unwrap made for the dense mesh
+serves the reduced one badly (the 2026-09-18 intake measured reduction multiplying the
+badly-stretched share 4-10x).
+
+Two techniques contradict themselves. `crease-angle-and-custom-normals` makes zero mean "no
+shading pass", then forbids overloading a boundary value. At a threshold of zero every
+non-coplanar edge exceeds it and stays hard, so zero is a real setting. `unwrap-only-the-low-poly`
+step 4 bans a bake into coordinates "not created this run", while its own decision rules
+and `pack-existing-vs-smart-unwrap` keep an authored layout.
+
+<!-- architecture-review:v1 -->
+```json
+{
+  "subject": "game-production/mesh-finishing-for-engine-readiness",
+  "date": "2026-10-31",
+  "baseline": "85a365702",
+  "digest": "sha256-b2:17c31fab45fb59f0",
+  "disposition": "clarify",
+  "coverage": "All 15 current documents read at current bytes, including the conform-target and export-proven-by-read-back techniques and applications that postdate the last record. Blender manual, Decimate modifier page, opened 2026-10-31. Not evaluated: the pof tree (not reachable here), any Blender or UE run, any bake, any probe re-execution. No verification date refreshed.",
+  "counterexamples": [
+    "Blender's Planar decimate with the UVs delimit keeps every edge that is part of a UV map, so a reduction can carry an existing layout through. The golden path's 'reduction invalidates coordinates' holds for remesh and retopology, which rebuild the surface.",
+    "A crease threshold of zero is not 'no pass': every edge between non-coplanar faces exceeds it, so the result is fully faceted. Reading zero as disabled overloads a real setting, which the same technique forbids one sentence later.",
+    "A re-pack of authored islands rearranges coordinates this run did not create. A literal reading of unwrap-only-the-low-poly step 4 would refuse to bake into them, against pack-existing-vs-smart-unwrap's rule.",
+    "Taken literally, 'a bake requested on an unwrapped mesh is not a bake' forbids the order the same section prescribes (retained from 2026-09-10).",
+    "An FBX re-import counts meshes but cannot compare names when the originals are still in the document, so a foreign mesh in an FBX passes export-proven-by-read-back's application; the application states this."
+  ],
+  "sources": [
+    {
+      "url": "https://docs.blender.org/manual/en/latest/modeling/modifiers/generate/decimate.html",
+      "result": "Read 2026-10-31 (page last updated 2026-10-30). Collapse 'Merges vertices together progressively, taking the shape of the mesh into account'; Planar's Delimit list includes 'UVs: Does not dissolve edges that are part of a UV map' and 'Seam: Does not dissolve edges marked as UV Seams'. Refutes reduction-always-destroys-coordinates as a universal; supports scoping it to surface-rebuilding reductions."
+    },
+    {
+      "source": "Internal reading of crease-angle-and-custom-normals.md, unwrap-only-the-low-poly.md, pack-existing-vs-smart-unwrap.md and the golden path",
+      "result": "Two self-contradictions (zero threshold; 'coordinates not created this run'), plus the one-word inversion owed since 2026-09-10."
+    }
+  ],
+  "documents": {
+    "mesh-finishing-for-engine-readiness.md": {
+      "disposition": "clarify",
+      "reason": "(1) 'a bake requested on an unwrapped mesh' should read 'a mesh with no texture coordinates' (owed since 2026-09-10). (2) 'Reduction invalidates coordinates' needs scoping to reductions that rebuild the surface; Blender's Planar decimate can keep UV-map edges. (3) The opening 'unwrapped lump ... no texture coordinates' is dated against provider meshes that arrive with a generator atlas; routed to /deepen by the 2026-09-18 intake, not settled here."
+    },
+    "techniques/unwrap-only-the-low-poly.md": {
+      "disposition": "clarify",
+      "reason": "Step 4's 'never run a bake into a mesh whose coordinates were not created this run' contradicts the same file's rule that an authored layout is kept, and pack-existing-vs-smart-unwrap's re-pack. Say 'created or deliberately kept'. The ceiling, refusal and ceiling-versus-budget rules hold."
+    },
+    "techniques/crease-angle-and-custom-normals.md": {
+      "disposition": "clarify",
+      "reason": "'A threshold of zero means \"no shading pass\"' contradicts the next clause ('give the disabled state its own value rather than overloading a boundary value'). Zero is a real setting (every non-coplanar edge stays hard). The authority rule and the measured no-op hold."
+    },
+    "techniques/high-to-low-bake-coverage.md": {
+      "disposition": "keep",
+      "reason": "Byte-unchanged since the 2026-09-10 keep. The derivable/authored split is argued from the bake mechanism, and the texel-density step is the one the consumer implemented."
+    },
+    "techniques/pack-existing-vs-smart-unwrap.md": {
+      "disposition": "keep",
+      "reason": "Byte-unchanged since the 2026-09-10 keep. The generator-atlas boundary from the 2026-09-18 intake is still owed a render pair that separates the arms, not an edit."
+    },
+    "techniques/rig-preset-and-bone-remap-binding.md": {
+      "disposition": "keep",
+      "reason": "Byte-unchanged since the 2026-09-10 keep. Its 'when not to use' now has a technique to point to (conform-target-is-not-a-remap-row)."
+    },
+    "techniques/conform-target-is-not-a-remap-row.md": {
+      "disposition": "keep",
+      "reason": "First decision. The empty-field ambiguity is stated as two irreconcilable meanings with the discriminator moved into an enumerated field. The conform path owes a different verification (joint-orientation inheritance), not none. The inherited-layout and surface-fitting costs are scoped as consequences of the template."
+    },
+    "techniques/headless-dcc-capability-limits.md": {
+      "disposition": "keep",
+      "reason": "Byte-unchanged since the 2026-09-10 keep."
+    },
+    "techniques/texture-pass-must-consume-the-bake.md": {
+      "disposition": "keep",
+      "reason": "Byte-unchanged since the 2026-09-10 keep; the per-version expiry rule is stated."
+    },
+    "techniques/export-proven-by-read-back.md": {
+      "disposition": "keep",
+      "reason": "First decision. Status versus content is argued from three measured cases, including one that did not fail, so the check is written against intended content and not a bug list. The single-source container report is labelled as unreproduced."
+    },
+    "applications/node--high-to-low-bake-coverage.md": {
+      "disposition": "clarify",
+      "reason": "'bakeSize defaults to 1024' is stale against the sibling application and the 2026-09-10 source read (an explicit size, then texel density from extent, then 1024 as a fallback). Not applied: the pof source is not reachable from this run."
+    },
+    "applications/node--unwrap-only-the-low-poly.md": {
+      "disposition": "clarify",
+      "reason": "The 484-line count and the line citations are stale per the 2026-09-10 source read (635 lines; ceiling at :22). Not applied: the pof source is not reachable from this run."
+    },
+    "applications/node--texture-pass-must-consume-the-bake.md": {
+      "disposition": "keep",
+      "reason": "Byte-unchanged since the 2026-09-10 keep: an honest not-better row with its return condition stated."
+    },
+    "applications/node--conform-target-is-not-a-remap-row.md": {
+      "disposition": "reverify",
+      "reason": "First decision. The 584/0/10 table, the three blind readers and the null-versus-empty branch are internally consistent. The pof tree and its suite were not reopened."
+    },
+    "applications/node--export-proven-by-read-back.md": {
+      "disposition": "reverify",
+      "reason": "First decision. The five-row paired table, the third isolating arm and the stated limits (FBX counts without names, no clip or bounds check) are consistent with the technique. The Blender 4.2.1 runs were not repeated."
+    },
+    "applications/process--headless-dcc-capability-limits.md": {
+      "disposition": "reverify",
+      "reason": "Unchanged. UE 5.8.0 probe results are live-probe evidence that a read cannot refresh."
+    }
+  }
+}
+```
+
+## Architecture review - 2026-10-31 (clarify applied)
+
+Applied the golden path's one-word inversion and its reduction scope (Blender manual), plus
+two self-contradictions in techniques (zero crease threshold; coordinates 'created this
+run'). The two pof-dependent application items and the dated opening stay owed.
+
+<!-- architecture-review:v1 -->
+```json
+{
+  "subject": "game-production/mesh-finishing-for-engine-readiness",
+  "date": "2026-10-31",
+  "baseline": "85a365702",
+  "digest": "sha256-b2:ab26cf3bad7d86c4",
+  "disposition": "clarify",
+  "coverage": "Second 2026-10-31 record, after applying the clarify items confirmed by the Blender manual or by internal contradiction. Edited sections re-read; the other documents are byte-unchanged and keep the first record's decisions. The pof-dependent application items stay owed. No verification date refreshed.",
+  "counterexamples": [
+    "Blender's Planar decimate with the UVs delimit keeps every edge that is part of a UV map, so a reduction can carry an existing layout through. The golden path's 'reduction invalidates coordinates' holds for remesh and retopology, which rebuild the surface.",
+    "A crease threshold of zero is not 'no pass': every edge between non-coplanar faces exceeds it, so the result is fully faceted. Reading zero as disabled overloads a real setting, which the same technique forbids one sentence later.",
+    "A re-pack of authored islands rearranges coordinates this run did not create. A literal reading of unwrap-only-the-low-poly step 4 would refuse to bake into them, against pack-existing-vs-smart-unwrap's rule.",
+    "Taken literally, 'a bake requested on an unwrapped mesh is not a bake' forbids the order the same section prescribes (retained from 2026-09-10).",
+    "An FBX re-import counts meshes but cannot compare names when the originals are still in the document, so a foreign mesh in an FBX passes export-proven-by-read-back's application; the application states this."
+  ],
+  "sources": [
+    {
+      "url": "https://docs.blender.org/manual/en/latest/modeling/modifiers/generate/decimate.html",
+      "result": "Read 2026-10-31 (page last updated 2026-10-30). Collapse 'Merges vertices together progressively, taking the shape of the mesh into account'; Planar's Delimit list includes 'UVs: Does not dissolve edges that are part of a UV map' and 'Seam: Does not dissolve edges marked as UV Seams'. Refutes reduction-always-destroys-coordinates as a universal; supports scoping it to surface-rebuilding reductions."
+    },
+    {
+      "source": "Internal reading of crease-angle-and-custom-normals.md, unwrap-only-the-low-poly.md, pack-existing-vs-smart-unwrap.md and the golden path",
+      "result": "Two self-contradictions (zero threshold; 'coordinates not created this run'), plus the one-word inversion owed since 2026-09-10."
+    }
+  ],
+  "documents": {
+    "mesh-finishing-for-engine-readiness.md": {
+      "disposition": "clarify",
+      "reason": "applied 2026-10-31: 'a bake requested on an unwrapped mesh' now reads 'a mesh with no texture coordinates'; 'reduction invalidates coordinates' gains that a dissolving or collapsing reduction can keep a layout's edges, but the layout was cut for the dense mesh and its stretch is not re-measured. Still owed: the dated opening ('unwrapped lump'), routed to /deepen by the 2026-09-18 intake."
+    },
+    "techniques/unwrap-only-the-low-poly.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: step 4 now forbids baking into coordinates this run 'neither created nor deliberately kept', with a re-pack of an authored layout counted as keeping it."
+    },
+    "techniques/crease-angle-and-custom-normals.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: zero is stated as a real setting (every non-coplanar edge stays hard), not 'no shading pass', so the rule against overloading a boundary value no longer contradicts it."
+    },
+    "techniques/high-to-low-bake-coverage.md": {
+      "disposition": "keep",
+      "reason": "Byte-unchanged since the 2026-09-10 keep. The derivable/authored split is argued from the bake mechanism, and the texel-density step is the one the consumer implemented."
+    },
+    "techniques/pack-existing-vs-smart-unwrap.md": {
+      "disposition": "keep",
+      "reason": "Byte-unchanged since the 2026-09-10 keep. The generator-atlas boundary from the 2026-09-18 intake is still owed a render pair that separates the arms, not an edit."
+    },
+    "techniques/rig-preset-and-bone-remap-binding.md": {
+      "disposition": "keep",
+      "reason": "Byte-unchanged since the 2026-09-10 keep. Its 'when not to use' now has a technique to point to (conform-target-is-not-a-remap-row)."
+    },
+    "techniques/conform-target-is-not-a-remap-row.md": {
+      "disposition": "keep",
+      "reason": "First decision. The empty-field ambiguity is stated as two irreconcilable meanings with the discriminator moved into an enumerated field. The conform path owes a different verification (joint-orientation inheritance), not none. The inherited-layout and surface-fitting costs are scoped as consequences of the template."
+    },
+    "techniques/headless-dcc-capability-limits.md": {
+      "disposition": "keep",
+      "reason": "Byte-unchanged since the 2026-09-10 keep."
+    },
+    "techniques/texture-pass-must-consume-the-bake.md": {
+      "disposition": "keep",
+      "reason": "Byte-unchanged since the 2026-09-10 keep; the per-version expiry rule is stated."
+    },
+    "techniques/export-proven-by-read-back.md": {
+      "disposition": "keep",
+      "reason": "First decision. Status versus content is argued from three measured cases, including one that did not fail, so the check is written against intended content and not a bug list. The single-source container report is labelled as unreproduced."
+    },
+    "applications/node--high-to-low-bake-coverage.md": {
+      "disposition": "clarify",
+      "reason": "'bakeSize defaults to 1024' is stale against the sibling application and the 2026-09-10 source read (an explicit size, then texel density from extent, then 1024 as a fallback). Not applied: the pof source is not reachable from this run."
+    },
+    "applications/node--unwrap-only-the-low-poly.md": {
+      "disposition": "clarify",
+      "reason": "The 484-line count and the line citations are stale per the 2026-09-10 source read (635 lines; ceiling at :22). Not applied: the pof source is not reachable from this run."
+    },
+    "applications/node--texture-pass-must-consume-the-bake.md": {
+      "disposition": "keep",
+      "reason": "Byte-unchanged since the 2026-09-10 keep: an honest not-better row with its return condition stated."
+    },
+    "applications/node--conform-target-is-not-a-remap-row.md": {
+      "disposition": "reverify",
+      "reason": "First decision. The 584/0/10 table, the three blind readers and the null-versus-empty branch are internally consistent. The pof tree and its suite were not reopened."
+    },
+    "applications/node--export-proven-by-read-back.md": {
+      "disposition": "reverify",
+      "reason": "First decision. The five-row paired table, the third isolating arm and the stated limits (FBX counts without names, no clip or bounds check) are consistent with the technique. The Blender 4.2.1 runs were not repeated."
+    },
+    "applications/process--headless-dcc-capability-limits.md": {
+      "disposition": "reverify",
+      "reason": "Unchanged. UE 5.8.0 probe results are live-probe evidence that a read cannot refresh."
+    }
+  }
+}
+```

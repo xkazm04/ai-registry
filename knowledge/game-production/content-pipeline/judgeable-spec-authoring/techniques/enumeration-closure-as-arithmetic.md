@@ -72,6 +72,9 @@ siblings' sentences true at once.
   by owner** — never a bare list of the subset it uses.
 - **When a count appears in prose, derive it from the structure it counts.** A typed
   count is a stale count waiting for the next edit.
+- **When the sum adds up, still compare the names.** A duplicated name can stand in for an
+  omitted one, so thirteen names under a total of thirteen do not prove thirteen distinct
+  fields.
 - **When an enumeration and a usage disagree, do not assume the enumeration is right.**
   Check which siblings depend on each reading first; the usage is often the truth and
   the list is the error.

@@ -46,8 +46,9 @@ appends `PENDING` and nothing else, and `src/configuration/default_configuration
 ships `strict: true`. The negotiable verdict is the one the author *declared* unfinished
 — the golden path's "split the claim by evidentiary status" enforced by a runner.
 `--dry-run` suppresses all of them (`src/runtime/helpers.ts:63-65` returns `false` before
-the status is consulted): structural proof that every step binds with zero rules executed
-— [L9](../../../_laws.md#structural-proof-is-never-sufficient) in one flag.
+the status is consulted): a green exit with zero rules executed, even over steps that
+bound to no rule or to two (the table below) —
+[L9](../../../_laws.md#structural-proof-is-never-sufficient) in one flag.
 
 **The tree self-specifies in its own format.** `features/*.feature` are specs its own
 runner executes against `features/step_definitions/*.ts`; the ambiguity verdict has a
@@ -78,9 +79,10 @@ The ambiguous verdict body, verbatim:
              • ^a (.*) step$ # features\step_definitions\steps.js:4
 ```
 
-**A dead rule keeps a stale example forever.** `src/runtime/helpers.ts:9-40` defines
+**An unreferenced rule keeps a stale example forever.** `src/runtime/helpers.ts:9-40` defines
 `getAmbiguousStepException`, whose text is `Multiple step definitions match:` — a
-different sentence from the one the runner actually prints. It is dead:
+different sentence from the one the runner actually prints. Nothing in the tree calls it
+(the package's `./lib/*` export still lets an outside consumer reach it):
 
 ```
 $ grep -rn "getAmbiguousStepException" . --include=*.ts --include=*.js \
@@ -98,7 +100,7 @@ exactly where a stale statement survives.
 
 ## What sharpened, and one limit
 
-**Sharpened.** The technique's step 4 ("decide which is right — usually the example")
+**Sharpened.** The technique's step 4 as forged ("decide which is right — usually the example")
 assumes the only failure is disagreement. Classifying *why* the example did not bind
 turns one judgement call into four routed repairs: ask first whether the example bound to
 one rule, to none, or to two.

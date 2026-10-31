@@ -61,7 +61,8 @@ caught statements of the form *"once a year keeps this rank"* (a year of idlenes
 two ranks lower) and *"a contract every 300 days holds the rank"* (500 gained against
 3000 lost — a net loss every cycle).
 
-**The sustaining interval is grant ÷ rate**, computed, not asserted. If the spec states a
+**For a constant drain, the sustaining interval is grant ÷ rate**, computed, not asserted.
+Where the rate depends on the state, as in the worked case above, the loop computes it. If the spec states a
 maintenance cadence, the loop must confirm the state is actually maintained at that
 cadence.
 
@@ -84,7 +85,8 @@ findings in three separate artifacts.
 - **When an identity involves a clamp and a multiply, state which side the clamp is on**
   — and state whether the result is an integer, because the identity is false under
   rounding otherwise.
-- **When a maintenance cadence is claimed, compute grant ÷ rate and confirm it.**
+- **When a maintenance cadence is claimed, compute it (grant ÷ rate for a constant drain,
+  the loop otherwise) and confirm it.**
 - **When the simulation disagrees with the design, check the consumer before rewriting
   the producer.** In one case the downstream catalog already described the behaviour the
   simulation produced.
