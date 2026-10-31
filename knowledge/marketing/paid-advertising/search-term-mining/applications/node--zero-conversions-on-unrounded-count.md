@@ -97,3 +97,9 @@ coerced value "would make an unclassifiable row eligible to be added as a keywor
 The test at `test-unit/ads-search-terms.test.mjs:102-109` walks `UNSPECIFIED`,
 `UNKNOWN`, `SOMETHING_NEW` and `undefined`. This is the promote technique's third
 eligibility condition, held at the same mapper boundary as the invariant.
+
+Review note, 2026-10-31: the mapper half holds, but the gate half did not. The
+2026-10-22 promote application found that `matchType !== "EXACT"` lets `OTHER` through,
+so a row with an unclassified match type and two or more conversions was promoted (A 1
+of 1, B 0 of 1 after an allowlist gate). "Unknown match type loses" was true of the
+mapper at this commit, not of the promote decision.

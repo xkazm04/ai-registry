@@ -118,8 +118,8 @@ that could match it, and because one campaign-level criterion is one thing to re
 rather than one per ad group. Phrase because an exact negative blocks one literal
 string and lets every longer query containing it straight back in, which reads to the
 operator as "the tool did nothing"; and because a broad negative, on the dominant
-platform, blocks any query containing the words in any order, which overreaches into
-queries the operator never saw.
+platform, blocks any query containing all of its words in any order, which overreaches
+into queries the operator never saw.
 
 The documented behaviour that governs the rest is that **negatives do not expand to
 close variants**: a positive keyword matches its plurals and misspellings; a negative

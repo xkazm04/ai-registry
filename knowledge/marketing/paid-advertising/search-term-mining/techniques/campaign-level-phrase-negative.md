@@ -90,10 +90,11 @@ next mining pass is expected to surface the ones it did not.
   converting query in the same campaign that contains the term as a phrase veto it,
   because campaign scope and phrase match block more than the row that justified it,
   and the verdict must not depend on which row the loop meets first.
-- When the mining source was a campaign-type that does not expose per-query
-  negatives (an automated shopping or asset-based campaign whose exclusions live at
-  account level), route the negative to the account-level mechanism the platform
-  offers and say that its scope is wider than the finding.
+- When the mining source is an automated campaign type, use the narrowest negative
+  mechanism the platform offers for that type, and say so when its scope is wider than
+  the finding. On the dominant platform the asset-based campaign type gained
+  campaign-level negatives for its search and shopping inventory in 2025, so account
+  level is the fallback only where no campaign-level mechanism exists.
 
 ## When NOT to use
 
