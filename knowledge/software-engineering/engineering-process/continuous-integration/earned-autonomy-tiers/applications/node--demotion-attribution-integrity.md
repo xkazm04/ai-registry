@@ -5,7 +5,7 @@ subject: earned-autonomy-tiers
 technique: demotion-attribution-integrity
 stack: node
 status: forged
-verified_on: 2026-10-27
+verified_on: 2026-10-31
 ---
 
 # A tripwire that reads the gate's ledger and refuses a rival's revert

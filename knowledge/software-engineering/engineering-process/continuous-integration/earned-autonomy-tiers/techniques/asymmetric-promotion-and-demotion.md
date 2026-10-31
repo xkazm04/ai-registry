@@ -50,7 +50,7 @@ decided to remove themselves from the path.
 ## Demotion: a tripwire, immediately, by a fixed amount
 
 A tripwire is a rule over an observable event that lowers standing the moment the event is seen.
-Its design has four rules.
+Its design has six rules.
 
 **It is model-free.** The trigger is a fact a deterministic check can read: the change was
 reverted on the target branch, the finding the change closed reopened on rescan, a guardrail

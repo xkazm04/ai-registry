@@ -5,7 +5,7 @@ subject: earned-autonomy-tiers
 technique: effective-tier-is-the-lowest-bound
 stack: node
 status: forged
-verified_on: 2026-10-27
+verified_on: 2026-10-31
 ---
 
 # One standing function for the gate, the shadow and the screen
@@ -50,6 +50,11 @@ rung as a standing that enrolment grants.
 `engine/decide/standing.ts:4 "It fails closed: several holders with none named for the role is a refusal, never a guess."`
 Lookups use own keys only, because the agent and class ids arrive from the merge request:
 `engine/decide/standing.ts:19 "never reaches Object.prototype"`.
+Before it refuses, the source picks the one holder whose name contains the class's role
+(`engine/decide/standing.ts:22 "or the unique holder whose name includes the role."`). That choice
+rests on a naming convention in policy files the agents cannot edit, not on a value the action
+carries, and CI always names the agent. It is still a selection the technique's "never the most
+likely holder" does not cover, so it is recorded here.
 
 ## The same function behind the shadow and the trial
 

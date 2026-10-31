@@ -177,7 +177,7 @@ moves across many actions is here.
 
 - [effective-tier-is-the-lowest-bound](./techniques/effective-tier-is-the-lowest-bound.md) — the
   rung an action runs at is the minimum of record, class ceiling and lease, computed at the gate,
-  unknown as the bottom.
+  unknown below the ladder.
 - [asymmetric-promotion-and-demotion](./techniques/asymmetric-promotion-and-demotion.md) — up
   one rung by a person's reviewed policy change, down automatically by a model-free tripwire.
 - [shadow-next-rung](./techniques/shadow-next-rung.md) — record what the gate would have decided
