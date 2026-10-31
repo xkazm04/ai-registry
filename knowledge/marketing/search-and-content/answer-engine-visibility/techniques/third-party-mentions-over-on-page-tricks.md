@@ -23,8 +23,8 @@ unit of effort goes to being mentioned, not to another markup pass.
 ## The evidence, sorted by class
 
 **Correlation, large sample, replicated.** A 75,000-brand vendor study found
-off-site brand mentions correlate with AI visibility at about 0.66 against
-about 0.22 for backlinks; per-engine breakdowns find the engine most distant
+off-site brand mentions correlate with AI Overview brand visibility at about
+0.66 against about 0.22 for backlinks; per-engine breakdowns find the engine most distant
 from classic search weights classic authority signals least. Multi-engine
 citation samples put the bulk of citations on earned media rather than owned
 pages, and put a large forum's threads at the top of the cited-domain list
@@ -34,10 +34,13 @@ citations.
 
 **Controlled test, null.** A 2026 vendor test of 1,885 pages that added
 structured markup against roughly 4,000 matched controls found no meaningful
-citation change on any of three engines - a small decline on one, noise on the
-others. The often-quoted "cited pages carry markup 2.3 times more often" is a
-correlation across millions of URLs that tracks site quality, and the same
-vendor published both numbers. Markup stays for rich-result eligibility and
+citation gain on any of three engines - a small, statistically significant
+decline on one, noise on the others. Every page in it was already cited in AI
+answers, so it says nothing about a page not yet cited. The often-quoted "cited
+pages carry markup 2.3 times more often" is a correlation across millions of
+URLs that tracks site quality, and the vendor that ran the controlled test
+reports a correlation of the same shape from its own data - cited pages almost
+three times as likely to carry markup across about six million URLs. Markup stays for rich-result eligibility and
 entity resolution; it is not sold as an AI lever.
 
 **Measured absence.** The manifest file: a 137,000-site crawl found 97% of the

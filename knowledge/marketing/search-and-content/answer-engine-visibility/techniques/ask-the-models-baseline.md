@@ -50,8 +50,9 @@ never as a percentage or a score.
   both, because the overlap finding means one surface is one surface and a
   client who is told "visible in AI" will discover the other engine themselves.
 - When two runs differ by one citation, report the observation and not a
-  trend, because three tries on five questions is fifteen observations and the
-  ratio of sums from fifteen observations carries no confidence claim; a
+  trend, because three tries on five questions is fifteen observations per
+  engine and the ratio of sums from fifteen observations carries no
+  confidence claim; a
   trend is spoken of after the record spans several cycles.
 - When a vendor offers an "AI share of voice" number, ask for the question set,
   the engines, the run count and the date, and if any is missing the number is
@@ -74,7 +75,8 @@ percentage is computed over it.
 
 ## Why the record is ordinal
 
-Fifteen observations a month is a small sample by any standard, and the
+Fifteen observations a month per engine - forty-five across three - is a
+small sample by any standard, and the
 temptation to render "cited on 4 of 15 = 27% AI visibility" is the thin-sample
 error the measurement subjects forbid. The honest rendering is the rows: "cited
 on the pricing question on two engines; not cited on the emergency question on

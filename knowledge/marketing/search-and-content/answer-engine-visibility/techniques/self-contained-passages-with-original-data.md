@@ -20,7 +20,7 @@ original data, which is substance - and the second is where the leverage is.
 
 ## Why substance outranks structure
 
-The only controlled experiment in the field, the 2023 academic paper that
+The founding controlled experiment of the field, the 2023 academic paper that
 named it, tested content interventions against a generative engine: adding
 statistics, quotations and cited sources raised visibility in responses by up
 to about 40%; keyword stuffing did nothing or hurt. Every large-sample vendor
@@ -95,8 +95,9 @@ The 130-170-word passage and the "three or more numbers means a table" rule are
 practitioner conventions built on documented retrieval mechanics; the exact
 chunk sizes are the engines' to change. The percentage lifts for tables,
 statistics, sourcing and quotes are vendor correlations on samples the reader
-did not choose; the controlled +40% is from one 2023 experiment on one engine
-and is quoted as such. The listicle share is a vendor count. The
+did not choose; the controlled +40% is from one 2023 experiment on the authors' own engine,
+with smaller best gains (22% to 37%) when re-run on a deployed engine, and is
+quoted as such. The listicle share is a vendor count. The
 "median cited page is over a year old" finding is a vendor measurement and its
 lesson - substance beats recency stunts - is robust because it agrees with the
 dominant engine's documentation that a date-only change does nothing.

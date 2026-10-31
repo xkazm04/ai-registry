@@ -37,8 +37,9 @@ satisfies the searcher. It appears rarely on queries where the searcher intends
 to hire, buy, book or visit, because a summary does not help someone who needs
 a plumber at their door. A 2025 vendor study tracking 3,119 terms and 25.1
 million impressions measured organic click-through on answer-box queries falling
-from 1.76% to 0.61%; the same vendor's 2026 update showed the figure rebounding
-to around 2.4% within two months of a layout change. Aggregated vendor data puts
+from 1.76% to 0.61%; the same vendor's larger 2026 update, on a different
+sample, measured the figure climbing from 1.3% to 2.4% between December 2025 and
+February 2026, without claiming a cause. Aggregated vendor data puts
 the answer-box trigger rate at roughly a third of informational queries against
 single digits for commercial and transactional ones. Every one of those numbers
 is a vendor measurement over a sample the reader did not choose and it moves
@@ -82,15 +83,15 @@ strength.
 engine optimization" ran arms against a generative engine and found that adding
 statistics, quotations and cited sources raised visibility in responses by up to
 about 40%, while keyword-stuffing arms did nothing or hurt. A 2026 controlled
-test of 1,885 pages that added structured markup against roughly 4,000 matched
-controls found no meaningful citation change on any engine - a small decline on
-one, noise on the others. These two are the only interventions on the list that
+test of 1,885 already-cited pages that added structured markup against roughly
+4,000 matched controls found no meaningful citation gain on any engine - a small,
+statistically significant decline on one, noise on the others. These two are the only interventions on the list that
 were measured against a control, and they point the same way: substance
 extractable from the body moves citation; markup does not.
 
 **Correlations across large samples.** A 75,000-brand vendor study found
-off-site brand mentions correlate with AI visibility at about 0.66 against 0.22
-for backlinks. Multi-engine citation studies find listicle-shaped pages taking
+off-site brand mentions correlate with AI Overview visibility at about 0.66
+against 0.22 for backlinks. Multi-engine citation studies find listicle-shaped pages taking
 the majority of citations, structured tables and explicit statistics associated
 with a quarter more citations, and a large share of citations extracted from the
 first third of a document. Each is a correlation on a sample the vendor chose;

@@ -17,8 +17,8 @@ leaves alone the queries where a searcher intends to hire, buy, book or visit.
 Vendor tracking over the last two years puts the answer-box trigger rate at
 roughly a third of informational queries against single digits for commercial
 and transactional ones; the click-through loss on boxed queries has been
-measured at over half by one 3,119-term study and has since moved with every
-layout change. The technique fixes the ordering, never the percentage.
+measured at over half by one 3,119-term study and has since moved in both
+directions. The technique fixes the ordering, never the percentage.
 
 ## Procedure
 
@@ -74,7 +74,7 @@ The trigger-rate gap between informational and transactional queries is the
 robust finding; it has been replicated by several trackers on different
 samples and matches the mechanics (a summary cannot do the job of a hire). The
 click-through magnitudes are vendor measurements over samples the reader did
-not choose and they moved by a factor of two within months. The "cited brand
+not choose and they moved by nearly a factor of two within months. The "cited brand
 outclicks uncited" lift is a vendor correlation over an unstated sample. None
 of these becomes a constant in a prompt, a template or a spreadsheet; they are
 quoted, dated and sourced where they appear.
