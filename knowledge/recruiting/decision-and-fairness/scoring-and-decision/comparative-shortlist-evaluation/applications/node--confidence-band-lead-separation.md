@@ -4,7 +4,7 @@ type: application
 subject: comparative-shortlist-evaluation
 technique: confidence-band-lead-separation
 stack: node
-verified_on: 2026-09-27
+verified_on: 2026-10-31
 verified_against: node@24
 applied: code
 ab_verdict: better
@@ -18,12 +18,13 @@ carries the verdict into the crown, the deterministic summary and the sealed
 decision record. A second, independent separation test sits in the matrix
 grid's slate proposal. Until 2026-09-27 it measured against the wrong edge.
 
-Re-verified 2026-09-27 against the tree's main at `29430f170`. Every line number
-below is from that read; most moved since the 2026-08-20 write.
+Re-verified 2026-09-27 against the tree's main at `29430f170`, and again
+2026-10-31 at kp@`6edf5d7`. Every line number below is from the 2026-10-31 read;
+the matcher's anchors moved, the TypeScript ones held.
 
 ## The band, and why it is honest before it is used
 
-`_confidence` (`pipeline/jobfit/matching.py:1074`) starts from a base spread of 4
+`_confidence` (`pipeline/jobfit/matching.py:1269`) starts from a base spread of 4
 and widens it per thinness source. Each widening pushes a recruiter-readable
 driver alongside a locale-independent code:
 
@@ -37,12 +38,18 @@ driver alongside a locale-independent code:
 | no languages listed | +4 | `noLanguages` |
 | misses more than 2 must-haves | +5 | `missesMusts` (with the count) |
 
-The `eduDegreeUnstated` row landed on 2026-09-23 (`:1107-1113`), with the rule
+The `eduDegreeUnstated` row landed on 2026-09-23 (`:1302-1308`), with the rule
 that a named school without a degree title is uncertain, not a knockout. The
 docstring states the standard's rule: each source "both widens the band and
-records a recruiter-readable driver" (`:1077-1082`). The early-career pair is the
+records a recruiter-readable driver" (`:1274-1276`). The early-career pair is the
 offset case in code, where a directly observed skill takes the widening from +6
-to +2 (`:1092-1100`). The band clamps to the scale (`:1122-1123`).
+to +2 (`:1287-1295`). The band clamps to the scale (`:1317-1318`).
+
+Re-checked 2026-10-31 at kp@`6edf5d7`: the `eduDegreeUnstated` widening fires only
+when `education_gate` reads the role's floor as `uncertain` (`:1302-1303`), so a role
+that accepts any degree does not widen for an unstated one. The shallow clone does
+not show whether that condition was there at the 2026-09-27 read; the rule and the
+verdict are unchanged.
 
 The increments add linearly, the worst-case combination the technique names,
 and the run path compares bands by strict non-overlap. Both choices are
@@ -113,6 +120,6 @@ answer for all three.
 ## Where it is wired
 
 `group-eval-run.ts:761-763` computes the verdict and caveat once; `:983`
-publishes `leadSeparation` on the payload. The cohort gate runs first (`:517`,
+publishes `leadSeparation` on the payload. The cohort gate runs first (`:516`,
 `:568-572`): below `GROUP_EVAL_MIN_COHORT` there is no lead to separate, and the
 run reports `insufficient_sample`.

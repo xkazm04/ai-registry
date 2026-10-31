@@ -15,7 +15,8 @@ cell twice: `runner.py` checks structural contracts deterministically, and
 `judge.py` attaches semantic quality from an independent judge. The anchored
 scale lives in `_JUDGE_SYSTEM` at `pipeline/jobfit/llm/bench/judge.py:75`, under the incident comment at `judge.py:68`.
 Line numbers here were re-resolved on 2026-09-29 against kp `origin/main` at
-`b2c19295b`; the rubric text itself is unchanged since the first reading.
+`b2c19295b`, and re-checked 2026-10-31 at kp@`6edf5d7`; the rubric text itself is
+unchanged since the first reading.
 
 ## The incident, recorded in the file
 
@@ -100,8 +101,11 @@ technique's rule is one band per distinct action and no padding to ten; here the
 band is anchored and the digit inside it is not, so a 9 and a 10 are the same
 recruiter decision with no sentence separating them. The baked medians are then
 reported at one decimal, and the routing code treats a 0.15 composite gap as
-meaningful (`NOISE_BAND`, `app/_lib/llm-quality.ts:173`) - a distance well inside
-the single "ship as-is" band. That is safe in the direction it is used (a tie
+meaningful (`NOISE_BAND`, `app/_lib/llm-quality.ts:176`) - a distance well inside
+the single "ship as-is" band. Re-checked 2026-10-31 at kp@`6edf5d7`: `NOISE_BAND`
+is `{ atJudges: 4, narrow: 0.15, wide: 0.3 }`, so 0.15 applies only when both
+aggregates rest on at least four judged scenarios per op and 0.3 otherwise; the
+finding stands, since both widths sit inside one band. That is safe in the direction it is used (a tie
 within the band goes to the cheaper model) but it means the resolution shown is
 finer than the resolution defined. The judge also returns a free-text `verdict`
 sentence rather than naming the band's action back (`judge.py:143-144`), so the

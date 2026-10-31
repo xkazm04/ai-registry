@@ -5,15 +5,15 @@ subject: recruiter-anchored-model-evaluation
 technique: unverifiable-is-not-fabricated
 stack: process
 status: forged
-verified_on: 2026-09-29
+verified_on: 2026-10-31
 applied: simulation
 ab_verdict: not-better
 ---
 
 # The grounding rule in the bench judge prompt
 
-Line numbers re-resolved on 2026-09-29 against kp `origin/main` at `b2c19295b`; the
-prompt wording quoted below is unchanged.
+Line numbers re-resolved on 2026-09-29 against kp `origin/main` at `b2c19295b`, and
+re-checked 2026-10-31 at kp@`6edf5d7`; the prompt wording quoted below is unchanged.
 
 Correctness in the bench rubric is scored against a real evidence excerpt, not
 against the judge's world knowledge. `scenarios.py` stamps the model's actual
@@ -39,7 +39,7 @@ the task-forbidden invention kinds (invented pay, benefits or testimonials in
 
 ## Truncation must match the generator's
 
-`_EVIDENCE_MAX = 4000` (judge.py:106) is not an arbitrary cap. Its comment
+`_EVIDENCE_MAX = 4000` (judge.py:105) is not an arbitrary cap. Its comment
 states the constraint:
 
 > Matches `scenarios._JI_MAX`: an excerpt narrower than the model's real input
@@ -51,7 +51,8 @@ the generator produces a grounding score that is wrong in an undetectable
 direction — exactly the discard-the-run rule in the companion technique on
 evidence-grounded correctness.
 
-The same module docstring records why the excerpt exists at all: without it the
+The same module records why the excerpt exists at all, in the comment inside
+`_judge_prompt` (judge.py:112-114): without it the
 judge was "told 'you cannot verify correctness'" and levelled every output —
 the compression failure arriving by a second route.
 

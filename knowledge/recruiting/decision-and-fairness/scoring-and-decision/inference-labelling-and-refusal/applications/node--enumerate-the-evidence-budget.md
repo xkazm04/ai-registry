@@ -5,7 +5,8 @@ subject: inference-labelling-and-refusal
 technique: enumerate-the-evidence-budget
 stack: node
 status: forged
-verified_on: 2026-09-29
+verified_on: 2026-10-31
+verified_against: node@24
 ---
 
 # The evidence budget as code (public-profile review, TypeScript server)
@@ -52,7 +53,7 @@ Two details are exactly the standard's procedure:
 
 ## The prompt is the other half of the same budget
 
-`app/_lib/github/code-review.ts:237-240` places the same scope in front of the
+`app/_lib/github/code-review.ts:246-249` places the same scope in front of the
 model, in the second person, immediately before the output contract:
 
 > "You are NOT reading the source code. You only receive lightweight public
@@ -63,7 +64,7 @@ model, in the second person, immediately before the output contract:
 > NOT evidenced by the signals explicitly — never imply full coverage."
 
 The serialized evidence is re-labelled at the point of insertion too —
-"Repository signals (metadata and text only — no file bodies)" (`:251`) — so the
+"Repository signals (metadata and text only — no file bodies)" (`:260`) — so the
 budget statement sits adjacent to the data it describes, not only in a preamble.
 This is the standard's "put the scope statement in both places", realized: the
 same bound constrains what the model may conclude and what the reader is told.
@@ -106,7 +107,7 @@ job-description skill: `corroborated`, `notReached` (neutral: never unverified,
 never missing), `couldNotDetermine` ("an unreadable source is never a negative")
 and `unclaimed`, plus a `reviewDisagrees` flag where the model's label and the
 ledger conflict. On a partial run `skills.ts:69-84` moves gaps into
-`undeterminedSkills` instead of reporting them as missing, and `code-review.ts:175-191`
+`undeterminedSkills` instead of reporting them as missing, and `code-review.ts:184-200`
 returns a `throttled` error, not a review, when there is no signal and coverage was
 lost. Its comment names the failure: a confident assessment would be fabricated.
 This is the absence technique's three states realized as a type.
@@ -120,12 +121,20 @@ candidate-authored text is fenced as untrusted. The per-README cut is not.
 
 ## Deviation
 
-The empty-signal path (`code-review.ts:195-205`) returns a summary — "Reviewed
+The empty-signal path (`code-review.ts:201-214`) returns a summary — "Reviewed
 repositories expose no public README, commit, or file signals to assess" — that
 correctly says *nothing was assessable* rather than *nothing was found*. But the
 budget's per-item truncation is not itself reported: a README cut at 3500
-characters (`client.ts:241`, a bare `slice`) is indistinguishable in the output from
+characters (`client.ts:243`, a bare `slice`) is indistinguishable in the output from
 one that fit, although the block-level cut above is announced. The standard's
 "make truncation visible" rule stands; the repo enumerates the cap without
 reporting when the cap bit.
+
+Re-checked 2026-10-31 at kp@`6edf5d7`: this deviation is resolved. `client.ts:254`
+now records per repo whether the README or the file list was cut
+(`cut: { readme, files }`), and `describeCapsHit` (`github-evidence.ts:76-85`) turns
+those into `basis.readmeCut` / `basis.filesCut` findings carrying the count of repos
+and the cap, appended to the run's basis at `code-review.ts:167-175`. A cut README is
+no longer indistinguishable from one that fit; the per-item cut is still a bare
+`slice`, but it is now reported.
 </content>

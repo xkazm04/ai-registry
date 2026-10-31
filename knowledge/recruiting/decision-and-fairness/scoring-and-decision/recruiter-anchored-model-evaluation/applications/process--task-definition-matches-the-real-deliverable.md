@@ -5,7 +5,7 @@ subject: recruiter-anchored-model-evaluation
 technique: task-definition-matches-the-real-deliverable
 stack: process
 status: forged
-verified_on: 2026-09-29
+verified_on: 2026-10-31
 ---
 
 # Per-use-case task definitions in the bench judge
@@ -15,7 +15,8 @@ The bench judge does not score against a generic "recruiting output". `_USE_CASE
 written in recruiter language, and `_judge_prompt` opens every prompt with the one
 for the record being scored (judge.py:110); an unlisted use case falls back to its
 own key, which is the single place the definition can silently disappear. Lines
-resolved on 2026-09-29 against kp `origin/main` at `b2c19295b`.
+resolved on 2026-09-29 against kp `origin/main` at `b2c19295b`, and re-checked
+2026-10-31 at kp@`6edf5d7`.
 
 ## Three definitions that carry the technique's edges
 
@@ -49,7 +50,7 @@ boundary in one clause.
 ## The definition and the evidence excerpt travel together
 
 `scenarios.py` stamps the model's real input into `meta["judgeInput"]`, and its
-comment at scenarios.py:158-167 records the failure of an excerpt that covered fewer
+comment at scenarios.py:160-167 records the failure of an excerpt that covered fewer
 fact categories than the production prompt: the judge scored a model 2/10 for
 "fabricating" a role that was verbatim in the candidate's highlights, and marked the
 campaign copy for "inventing" an employer that sat in the description excerpt. The
@@ -65,7 +66,7 @@ that a violation cannot be paid for with good prose. In `contracts.py` neither r
 above is one. `campaign_pack` (contracts.py:217) requires one or more variants,
 each with a non-empty hook, copy and script - not the eight the definition asks for,
 and nothing that looks for an invented pay figure or benefit. `jd_ingest`
-(contracts.py:138) passes when any of `requirements`, `responsibilities`,
+(contracts.py:140) passes when any of `requirements`, `responsibilities`,
 `mustHaves` or `skills` is a non-empty list, so a payload that puts every duty under
 `responsibilities` and leaves `requirements` empty clears the structural contract
 that the judge definition calls out of scope. Both rules are therefore priced on a

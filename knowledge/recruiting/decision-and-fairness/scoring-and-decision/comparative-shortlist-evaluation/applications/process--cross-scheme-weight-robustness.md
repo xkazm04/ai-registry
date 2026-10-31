@@ -4,7 +4,7 @@ type: application
 subject: comparative-shortlist-evaluation
 technique: cross-scheme-weight-robustness
 stack: process
-verified_on: 2026-09-27
+verified_on: 2026-10-31
 applied: experiment
 ab_verdict: better
 ---
@@ -17,35 +17,36 @@ halves are needed: a correct check with a boolean flag would still lie, and so
 would a correct status the panel does not read. The second was live until
 2026-09-27.
 
-Re-verified 2026-09-27 against the tree's main at `29430f170`.
+Re-verified 2026-09-27 against the tree's main at `29430f170`; anchors re-checked
+2026-10-31 at kp@`6edf5d7` (the matcher's moved, the TypeScript ones held).
 
 ## Bounded dynamic weights
 
 Per-candidate weights let demonstrated, role-relevant evidence count for more for
 the candidate who has it. Three constants keep that fair
-(`pipeline/jobfit/matching.py:980-982`): `_WEIGHT_MAX_DELTA = 0.15`,
-`_WEIGHT_FLOOR = 0.10`, `_WEIGHT_CEIL = 0.60`. `weight_bounds` (`:985`) composes
+(`pipeline/jobfit/matching.py:1175-1177`): `_WEIGHT_MAX_DELTA = 0.15`,
+`_WEIGHT_FLOOR = 0.10`, `_WEIGHT_CEIL = 0.60`. `weight_bounds` (`:1180`) composes
 them into per-slot bounds around the archetype baseline, "so one strong signal
-can neither erase a dimension nor let it dominate" (`:975-976`).
+can neither erase a dimension nor let it dominate" (`:1170-1171`).
 
-`resolve_weights` (`:998`) is the standard's projection rule as code. Its
+`resolve_weights` (`:1193`) is the standard's projection rule as code. Its
 docstring names the failure the obvious repair causes: "a plain clamp-then-divide
-can renormalize a slot back past its ceiling" (`:999-1005`). The implementation
-(`:1010-1026`) is a bounded simplex projection: at most 8 passes, with the
+can renormalize a slot back past its ceiling" (`:1194-1200`). The implementation
+(`:1205-1221`) is a bounded simplex projection: at most 8 passes, with the
 residual distributed in proportion to the headroom left.
 
-`propose_weights` (`:1029`) supplies the deterministic proposal and returns the
+`propose_weights` (`:1224`) supplies the deterministic proposal and returns the
 vector *plus its reasons*. Since 2026-08-11 its `else` branch always writes one:
 "Baseline <archetype> weights kept — no high-trust must-have evidence to shift on"
-(`:1056-1063`). An empty list had read as "no rationale". The fix was right for
+(`:1251-1258`). An empty list had read as "no rationale". The fix was right for
 the audit and wrong for every consumer that read "has a note" as "was adjusted".
 
 ## Score everyone under everyone's yardstick
 
-`fairness_matrix` (`:1238`) scores every candidate under every candidate's scheme
-and ranks by the mean (`:1239-1247`). The diagonal is kept (`own`, `:1261`). The
-scheme-independent dimension scores are computed once per candidate (`:1256`), so
-the n² part is multiply-adds. Every input runs through `resolve_weights` (`:1248`).
+`fairness_matrix` (`:1467`) scores every candidate under every candidate's scheme
+and ranks by the mean (`:1468-1476`). The diagonal is kept (`own`, `:1490`). The
+scheme-independent dimension scores are computed once per candidate (`:1485`), so
+the n² part is multiply-adds. Every input runs through `resolve_weights` (`:1477`).
 Since 2026-09 the matrix also returns `order` as indices, and `fairness_check`
 maps it to `rankingIds`. The robust order is keyed on identity, and a namesake
 cannot erase an eligible hire.
@@ -93,7 +94,7 @@ matrix into one of five values (`:46`). The comment block above the type
 
 `isFairnessAligned` (`:65`) is the unreadable-check guard, and it is stricter now.
 It also checks that `own`, `ranking` and `koFailed` line up and that `rankingIds`
-identify the same people (`:52-58`). A misaligned matrix is treated exactly like
+identify the same people (`:71-96`). A misaligned matrix is treated exactly like
 a missing one (`:110`).
 
 ## The gate order

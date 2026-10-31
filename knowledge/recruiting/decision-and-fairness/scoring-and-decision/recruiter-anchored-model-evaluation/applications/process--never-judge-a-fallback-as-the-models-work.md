@@ -12,7 +12,8 @@ ab_verdict: not-better
 
 # Fallback exclusion in the bench harness
 
-Line numbers re-resolved on 2026-09-29 against kp `origin/main` at `b2c19295b`.
+Line numbers re-resolved on 2026-09-29 against kp `origin/main` at `b2c19295b`, and
+re-checked 2026-10-31 at kp@`6edf5d7`.
 
 Every bench record carries a `source` field stamped where the output was
 produced — `"llm"` for a real generation, otherwise the deterministic fallback
@@ -90,7 +91,7 @@ recoverable and the row does not enter quality at all.
 
 ## Truncation as the fallback's most common cause
 
-`USE_CASE_MAX_TOKENS` (`pipeline/jobfit/llm/capabilities.py:153`) exists because
+`USE_CASE_MAX_TOKENS` (`pipeline/jobfit/llm/capabilities.py:185`) exists because
 of this chain, documented above the table: a structurally large deliverable
 truncates at the base 2048-token cap, "the JSON then fails the coercion boundary
 and the identical deterministic fallback ships instead. The 2026-08-05 bench hit
@@ -101,7 +102,7 @@ model "truncated at exactly the ceiling and shipped the deterministic template
 
 ## Misconfiguration must raise, never degrade
 
-`pipeline/jobfit/llm/capabilities.py:27-35` carries the capability incident. The
+`pipeline/jobfit/llm/capabilities.py:27-36` carries the capability incident. The
 `file_input` capability is deliberately withheld from provider rows whose
 adapters are text-only, because advertising it once:
 
@@ -179,8 +180,8 @@ p50 within about 4%), and `costPerTaskUsd` carries none of it.
 
 ### Where the mark is set, and where it is not
 
-`_generate` (`pipeline/jobfit/automation.py:490`) reports `deterministic` when the
-coerced result equals the template (`if result == deterministic()`, line 538), so a
+`_generate` (`pipeline/jobfit/automation.py:507`) reports `deterministic` when the
+coerced result equals the template (`if result == deterministic()`, line 555), so a
 coercion that discards the whole payload no longer ships as the model's (commit
 `dcba70388`, after one model's interview-prep cell had been graded on the template).
 That is a comparison inside the production path at the moment of coercion, not a text

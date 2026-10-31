@@ -4,7 +4,7 @@ type: application
 subject: comparative-shortlist-evaluation
 technique: counterbalanced-candidate-order
 stack: process
-verified_on: 2026-09-27
+verified_on: 2026-10-31
 applied: experiment
 ab_verdict: unmeasurable
 ---
@@ -17,7 +17,8 @@ context (`app/_lib/group-eval-run.ts:297-326`). It is the one place in the engin
 where real candidate names reach a model side by side. The file says so itself,
 and states its protected-attribute rule where the ranking is made (`:62-72`).
 
-Read 2026-09-27 against the tree's main at `29430f170`.
+Read 2026-09-27 against the tree's main at `29430f170`; anchors re-checked
+2026-10-31 at kp@`6edf5d7`.
 
 ## What is already right
 
@@ -27,7 +28,7 @@ Read 2026-09-27 against the tree's main at `29430f170`.
 - **Candidate text is fenced as untrusted data** (`fenced_untrusted`, in the user
   prompt at `:115-120`).
 - **Ungrounded points are dropped.** A generated point that cites a number or a
-  name the facts do not carry is removed, not rephrased (`:331-372`).
+  name the facts do not carry is removed, not rephrased (`:331-376`).
 - **A withheld salary arrives as `null`**, per the neighbouring application.
 
 ## Where it stands against the technique

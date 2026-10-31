@@ -4,7 +4,7 @@ type: application
 subject: comparative-shortlist-evaluation
 technique: robustness-status-taxonomy
 stack: node
-verified_on: 2026-09-27
+verified_on: 2026-10-31
 verified_against: node@24
 applied: code
 ab_verdict: better
