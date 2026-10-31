@@ -16,26 +16,26 @@ vocabulary it is validated against.
 
 ## The registry — one authority, four derived consumers
 
-`NAV_SECTIONS` (`registry.ts:74-95`) is the technique's registry, verbatim:
+`NAV_SECTIONS` (`registry.ts:74-101`) is the technique's registry, verbatim:
 one entry per `SidebarSection` with `label`, `labelKey`, `icon`, `gates`
 (`minTier` / `devOnly`), and — the upward lesson the corpus fed back —
 `reachability: 'sidebar' | 'nested' | 'overlay-only' | 'hidden'`, so the rail,
 the content router, the command palette, and the analytics catalog each derive
 their own subset (`SIDEBAR_SECTIONS`, `NESTED_SECTIONS`, `OVERLAY_SECTIONS`,
-`registry.ts:122-140`) instead of keeping private lists. The file's own header
+`registry.ts:128-146`) instead of keeping private lists. The file's own header
 names the four catalogs that used to drift apart before it existed. Two gates
 keep it honest: a compile-time exhaustiveness assertion
-(`registry.ts:105-108`, `_AssertAllRegistered` collapses to `never` if a union
+(`registry.ts:111-113`, `_AssertAllRegistered` collapses to `never` if a union
 member lacks an entry) and a completeness test (`registry.test.ts`) failing
 the build if any consumer omits or invents a section.
 
 Derivations, as the technique prescribes:
 
-- **Active state**: `railSection(id)` (`registry.ts:134-136`) returns
+- **Active state**: `railSection(id)` (`registry.ts:140-142`) returns
   `entry.parent ?? id` — the nested `design-reviews` section highlights its
   `credentials` parent by *containment*, not by a second flag. The sidebar's
-  L2 panel title resolves through the same call (`Sidebar.tsx:215-216`).
-- **Gating**: `passesGates(gates, ctx)` (`registry.ts:154-158`) is the one
+  L2 panel title resolves through the same call (`Sidebar.tsx:164-166`).
+- **Gating**: `passesGates(gates, ctx)` (`registry.ts:160-164`) is the one
   place tier + dev gating is decided; sidebar, router, palette
   (`commandPaletteUtils.ts`), and the back/forward engine all consult it.
 - **History**: `src/lib/navigation/history.ts` is a pure two-stack
@@ -43,7 +43,7 @@ Derivations, as the technique prescribes:
   side-effect-free and exhaustively unit-tested; it prunes destinations that
   `passesGates` now rejects, so Back never lands on a forbidden place.
 - **Restore validation**: the store's rehydrate hook migrates the retired
-  persisted id `'goals'` to `'teams'` (`systemStore.ts:138-141`) — a
+  persisted id `'goals'` to `'teams'` (`systemStore.ts:213-216`) — a
   persisted location treated as untrusted input, exactly the technique's
   restore rule.
 
@@ -68,3 +68,23 @@ Derivations, as the technique prescribes:
   deep-link handler serves five prefixes (auth, share, import, referral,
   pairing) and none carries a section or tab — external addressability
   stops at the app's front door.
+
+## Re-checked 2026-10-31 at personas@61029d7ae0
+
+The registry, its exhaustiveness assertion, `railSection`, `passesGates`, the
+history engine's gate pruning (`history.ts:196`), the palette filter
+(`commandPaletteUtils.ts:26`) and the `'goals'` rehydrate migration all exist.
+Their anchors are updated in place. The registry now holds 12 sections, not
+11: `companions` was added as a TEAM-tier rail section. One shortfall is
+partly reversed:
+
+- **The OS URL scheme can now name two entity destinations.** Since
+  2026-10-07 the deep-link handler routes `personas://persona/<id>` and
+  `personas://execution/<id>` (`src-tauri/src/boot/deep_link.rs:22-58`,
+  `:118-141`). They pass through a validating parser that drops extra
+  segments, malformed ids and query strings, and they emit a navigation event.
+  No prefix carries a section or tab yet, so external addressability now
+  reaches two entity kinds but still no section or tab.
+
+The 11-of-~156 coverage figure and the deep-link sweep's three invalid-id
+writers come from the legacy sweeps and were not re-run.

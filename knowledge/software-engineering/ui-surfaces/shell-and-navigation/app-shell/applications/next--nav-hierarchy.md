@@ -5,7 +5,7 @@ subject: app-shell
 technique: nav-hierarchy
 stack: next
 status: forged
-verified_on: 2026-08-30
+verified_on: 2026-10-31
 verified_against: next@16
 ---
 
@@ -60,8 +60,8 @@ pattern, `:111-114`), and the rail button carries `aria-pressed` rather than
 `aria-current` (`NavSectionRail.tsx:147`) — because a previewed section is
 pressed, not current. Only the panel row for the actual destination carries
 `aria-current="page"` (`NavPanelItem.tsx:79,85`), which matches ARIA 1.2's
-"authors SHOULD set the `aria-current` attribute on only one element within a
-set of related elements".
+"Authors SHOULD only mark one element in a set of elements as current with
+aria-current."
 
 The transferable shape: a two-level nav that lets the user *read the map*
 without leaving where they are has two values, not one, and the second must
@@ -125,3 +125,40 @@ hears two current locations.
   ends at delivering the user to a sub-destination and is silent on what carries
   the rest — the standard is not, and here the palette is the second way rather
   than an extra.
+
+## Re-checked 2026-10-31 at kp@936588503
+
+Every tree citation above was re-resolved at `40363b7` with `git show` and
+holds there, so the anchors stay pinned to that commit. The WCAG 2.2 text of
+SC 1.4.10, 1.4.13, 2.4.5, 3.2.3 and 4.1.2 was re-read in the 12 December 2024
+Recommendation and matches. The ARIA 1.2 sentence was not verbatim. The
+Recommendation reads "Authors SHOULD only mark one element in a set of
+elements as current with aria-current", so the quote is corrected in place.
+Its meaning is unchanged.
+
+At this commit: `NAV_GROUPS` is `tabs.ts:198` and `sectionOf` `:318`. The
+level-one and level-two markup is `NavSectionRail.tsx:206-278`, with the `<h2>`
+and labelled `<nav>` at `:224-231` and the preview reset at `:118-141`. The
+13px label is `:201`, the row `aria-current` is `NavPanelItem.tsx:137,143`,
+the drawer breakpoint is `Workspace.tsx:87-100` and the close effect is
+`:202-209`. `NavRailPreferences.tsx`, `navDrawerA11y.ts` and
+`navDrawerClose.ts` are unchanged since `40363b7`. There are still five groups,
+now 26 entries (two flag-gated) at 3-8 per group, not ~21 at 2-7. Three things
+changed:
+
+- **The rail button is now a tab, not a toggle.** `aria-pressed` became
+  `role="tab"` with `aria-selected`, inside a vertical `role="tablist"`
+  (`NavSectionRail.tsx:191-192`, `:212`). The finding stands in a stronger
+  form. A previewed section is still never `aria-current`, and ARIA 1.2 itself
+  separates the two: "in a tablist, aria-selected is used on a tab to indicate
+  the currently-displayed tabpanel", and "current and selected can have
+  different meanings and can both be used within the same set of elements".
+  The file has no `aria-controls`, no `tabpanel` role and no arrow-key handler,
+  so the tab role is declared without the rest of the tab pattern.
+- **The preview now persists for the session.** The last section shown is
+  written to `sessionStorage` and restored on mount (`:123-137`). So the
+  "nothing to persist" remark holds for collapse posture but not for preview
+  state.
+- **Panel groups can carry actions before their places.** One example is "New
+  intake" in the Library group (`tabs.ts:237`, rendered at
+  `NavSectionRail.tsx:233-241`). It is a door at level two, not a third level.

@@ -168,3 +168,41 @@ as first specified 3, with 5 on the wrong tab; with the helper carrying entry st
 the inbox cleanup writing the adopted tab 7; with the 6 framework replaces moved onto the
 helper 8. The history stack is a model whose two router rules are read from the installed
 source; no e2e run.
+
+## Re-checked 2026-10-31 at kp@936588503
+
+The re-resolution commit `1401bb25` is not in this checkout's history, so
+nothing could be read at that pin. Every tree citation was re-resolved at this
+commit instead. `useUrlInboxState.ts` (last changed 2026-09-03) and
+`shallow-nav.ts` (2026-08-07) predate the pin, and every anchor in both holds
+as written. Moved anchors in `tabs.ts`: `WORKSPACE_TAB_IDS` `:10`, the derived
+type `:76`, `isWorkspaceTabId` `:324-328`, `NAV_GROUPS` `:198`,
+`LEGACY_TAB_ALIASES` `:330-356`, `resolveTabParam` `:357-363`, `DEFAULT_TAB`
+`:141`, `clearedTabScopedParams` `:518-520`. In `Workspace.tsx` the gated
+parse is `:106-128` and the scoped-param clear is `:162-163`. In
+`WorkspaceNav.tsx` the `active` prop is `:31`.
+
+What changed:
+
+- **A capability-locked arrival is now adopted, not refused.** The parse still
+  rejects a feature-gated destination, so that link stays inert. A link to a
+  destination this seat may not open (for example a checkout return to
+  billing) now lands on that destination's locked-door panel
+  (`Workspace.tsx:115-118`). "A forbidden address is answered by doing nothing"
+  now covers the flag gate only.
+- **The alias table gained `match` → `matrix`.** It is a rename, so it is
+  mapped. The removed `onboarding` module is still deliberately left out, and
+  the rule is unchanged.
+- **The router quote was read from the published `next@16.3.0` package**,
+  because the tree now installs and locks 16.4.2. The cited lines hold there:
+  `copyNextJsInternalHistoryState` `:84-96`, the `pushState` patch `:252-263`,
+  and the `popstate` traversal `:284-298`. In 16.4.2 the copy function is
+  unchanged at `:128-140` and is applied at `:292` and `:308`. Traversal moved
+  into `handlePopState` (`:61-71`), which also replays a traversal missed
+  before hydration. The read-only experiment ran on 16.3.0 and was not re-run
+  on 16.4.2. Its history-writer counts were not re-taken either.
+
+The deviation still stands at this commit. `selectTab` writes nothing to
+history (`Workspace.tsx:147-168`), and the shell's navigate helper still
+passes `null` state (`shallow-nav.ts:74-76`), so Back still leaves the
+workspace.

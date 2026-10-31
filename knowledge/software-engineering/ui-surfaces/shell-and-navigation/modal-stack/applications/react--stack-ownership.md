@@ -19,7 +19,7 @@ alone answers ordering.
 ## The registry
 
 `src/lib/ui/ModalStackContext.tsx` — `ModalStackProvider`, mounted once at
-`App.tsx:310`:
+`App.tsx:379`:
 
 - `register()` mints a monotonically increasing id and appends
   (`ModalStackContext.tsx:36-43`); `unregister(id)` removes by identity
@@ -36,7 +36,7 @@ alone answers ordering.
 call site touches the context directly. Top-of-stack input ownership is four
 lines at `:198-203`: `if (!isTopmost) return false;` *before* `onClose()`,
 returning `true` to stop the app keyboard ladder (`AppKeyboardProvider.tsx`,
-BaseModal registered at priority 80). A non-topmost modal declines the key
+BaseModal registered at priority 80, `:227`). A non-topmost modal declines the key
 rather than consuming it — the technique's "top owns input", exactly.
 
 ## Typed entries, locally
@@ -83,4 +83,30 @@ surface-blur-modal`, buried layers `bg-black/30` (`BaseModal.tsx:179-181`).
   the unregistered 13.4%.
 - **Navigation is not a registered reaper.** No central stack-clear on route
   change; the one modal that must outlive its opener is hoisted by hand
-  (`ResourcePickerHost`, `App.tsx:398-402`) rather than owned by the stack.
+  (`ResourcePickerHost`, `App.tsx:487-491`) rather than owned by the stack.
+
+## Re-checked 2026-10-31 at personas@61029d7ae0
+
+Every `ModalStackContext.tsx` anchor above holds as written, and so do the
+`BaseModal.tsx` ones (`:8-10`, `:157`, `:179-181`, `:198-203`, `:283`) and
+`useModalStack.ts:37-49`. The two `App.tsx` anchors had moved and are updated
+in place. Two statements in the body do not hold, and the measured counts
+were not re-run the way they were taken:
+
+- **`ConfirmDialog` is not 50 lines.** It is 100 lines now and was 95 at the
+  tree of 2026-08-18, so the figure was wrong when written. The point it made
+  still holds: the file has no overlay code of its own and renders
+  `BaseModal portal` (`ConfirmDialog.tsx:63-70`).
+- **The shadow population has shrunk.** Census rule
+  `hand-painted-modal-backdrop` now counts 9 matches in 8 files (baseline 9/8),
+  down from 20 in 19. The rule was also widened on 2026-10-11 with a second
+  branch, so the drop is migration, not a narrower matcher. The 129/128
+  render-site count and the 62/67 portal split come from the legacy sweep's own
+  tag scanner, which was not re-run. A plain text grep for `<BaseModal` in
+  non-test files gives 142 lines across 141 files. That is a different method
+  and does not replace the sweep's figure, so the 86.6% adoption ratio is left
+  as measured.
+
+The shortfalls about identity-less entries, the ungated backdrop click, the
+provider fallback and the missing navigation reaper are unchanged at this
+commit.

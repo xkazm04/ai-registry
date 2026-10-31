@@ -225,3 +225,82 @@ applications were not edited and keep `reverify`, now the overall disposition.
   }
 }
 ```
+
+## Architecture review - 2026-10-31 (re-verification)
+
+This record follows re-verification of the two react applications against the consumer tree. One now needs its body folded, and the other moved its `verified_on`.
+
+<!-- architecture-review:v1 -->
+```json
+{
+  "subject": "software-engineering/modal-stack",
+  "date": "2026-10-31",
+  "baseline": "1212e28aa",
+  "digest": "sha256-b2:ac6c7c4289fb7c1d",
+  "disposition": "clarify",
+  "coverage": "All 10 documents decided. The two react applications that the record above left at reverify were re-verified against the consumer tree at HEAD (61029d7ae0) and, for line history, at its last commit on or before 2026-08-18 (24c9ecb05), read with git show; each now carries a dated re-check note. One census rule was run read-only (hand-painted-modal-backdrop). The other eight documents are byte-unchanged and carry their dispositions. Not evaluated: the legacy sweep's tag scanner (129/128 sites, 62/67 portal split), any runtime.",
+  "counterexamples": [
+    "A web dialog opened with showModal() renders in the browser's top layer, so no authored layer value on page content outranks it; 'no number escapes the scope' is true of numbers, not of the platform's top layer.",
+    "A native modal dialog makes the rest of its document inert without application code, but leaves a parent page interactive when it lives in an embedded frame.",
+    "Floating UI's autoUpdate tracks an anchor scrolled out of view unless the consumer adds the hide middleware: tracking without a dismiss policy is the reachable unpicked third state.",
+    "A registry whose entries carry only a numeric id still gates Escape correctly while a backdrop click ungated on topmost can close a buried modal when paint order and stack order diverge.",
+    "An anchored confirm popover cannot use a modal backdrop (it would hide the control being confirmed), so the safe-focus rule has to be encoded in the popover itself rather than inherited from the modal host."
+  ],
+  "sources": [
+    {
+      "source": "Consumer tree at 61029d7ae0 (2026-10-31), read-only",
+      "result": "ModalStackContext.tsx unchanged in substance: entry { id } :12-14, register :36-43, unregister :45-51, isTopmost :59-62, subscribe :64-69, useModalStackPosition :93-122. BaseModal.tsx: z bases :8-10, isTopmost ?? true :157, backdrop classes :179-181, first-focusable :187-196, Escape gate :198-203 at priority 80 (:227), ungated onClick={onClose} :283. ModalStackProvider mounts at App.tsx:379, ResourcePickerHost at :487-491. ConfirmDialog.tsx is 100 lines, catch + toastCatch at :45-48. ConfirmDestructiveModal.tsx is 264 lines with a busy guard (:176-199) and an awaiting hook (:234-264). useUnsavedGuard keeps the modal open on a failed save (:145-161). ConfirmPopover.tsx (added 2026-09-24) focuses Cancel for tone danger (:99-106)."
+    },
+    {
+      "source": "Consumer tree at 24c9ecb05 (last commit on or before 2026-08-18), via git show",
+      "result": "ConfirmDialog was 95 lines with try/finally and no catch; danger classes :84-88; busy and cancel :37-55. ConfirmDestructiveModal's hook called onConfirm without awaiting and closed at once (:204-207); cited :19-22, :23-27, :84-93, :106-124, :121, :138, :189-217 all resolve there. useUnsavedGuard closed the modal on a failed save (:124-133). App.tsx had the provider at :310 and ResourcePickerHost's comment and mount at :400-404."
+    },
+    {
+      "source": "npm run census -- --rule hand-painted-modal-backdrop (consumer tree, read-only report)",
+      "result": "OK: 9 matches in 8 files against baseline 9/8, 3811 file-visits. The rule gained a second branch on 2026-10-11, so the drop from 20/19 is migration, not a narrower matcher."
+    }
+  ],
+  "documents": {
+    "modal-stack.md": {
+      "disposition": "keep",
+      "reason": "The two-axis model, when-to-use-a-modal criteria, one owned stack, dismissal by investment, stack-aware containment and the layer policy are consistent with the techniques and with the APG dialog pattern. Byte-unchanged since the record above."
+    },
+    "techniques/stack-ownership.md": {
+      "disposition": "keep",
+      "reason": "One door, identity-addressed entries, top-owns-input, render-as-fold, the registry variant with its stated cost, cascade-or-refuse for non-top closes, and the navigation and owner-death reapers are coherent and match the react application re-verified this run. Byte-unchanged."
+    },
+    "techniques/dismissal-semantics.md": {
+      "disposition": "keep",
+      "reason": "Escape addresses the top only; territory includes anchor and stacked children; judge on press; cancel/dismiss/complete distinct; the dirty-only guard as a stack citizen. Byte-unchanged; disposition carried."
+    },
+    "techniques/focus-and-scroll-containment.md": {
+      "disposition": "keep",
+      "reason": "The showModal() inert paragraph applied in the record above stands. Byte-unchanged; disposition carried."
+    },
+    "techniques/anchored-positioning.md": {
+      "disposition": "keep",
+      "reason": "Confirmed by the Floating UI application. Byte-unchanged; disposition carried."
+    },
+    "techniques/layering-and-precedence.md": {
+      "disposition": "keep",
+      "reason": "The top-layer paragraph applied in the record above stands. Byte-unchanged; disposition carried."
+    },
+    "techniques/destructive-confirmation.md": {
+      "disposition": "keep",
+      "reason": "Confirm vs undo, object and consequence named, verb labels, safe default focus, light dismissal means keep, honest failure in place. The consumer's new ConfirmPopover (danger tone focuses Cancel on purpose) is a direct instance of the safe-default rule. Byte-unchanged; disposition carried."
+    },
+    "applications/node--anchored-positioning.md": {
+      "disposition": "keep",
+      "reason": "Not part of this re-verification; the pinned computePosition.ts citations held in the record above and verified_on stays 2026-08-23. Byte-unchanged; disposition carried."
+    },
+    "applications/react--stack-ownership.md": {
+      "disposition": "clarify",
+      "reason": "Re-verified at personas@61029d7ae0. Every ModalStackContext, BaseModal and useModalStack anchor holds; the two App.tsx anchors were updated in place (379, 487-491). But the body now contradicts its own dated note: it still says ConfirmDialog is 50 lines (100 now, 95 on 2026-08-18) and still describes a 20/19 shadow population that the census rule now counts at 9/8. Fold the note into those two paragraphs. The legacy sweep's 129/128 and 62/67 counts were not re-run, so verified_on stays 2026-08-18."
+    },
+    "applications/react--destructive-confirmation.md": {
+      "disposition": "keep",
+      "reason": "Re-verified at personas@61029d7ae0 and against the 2026-08-18 tree; every citation resolved and the moved anchors were updated in place, so verified_on moves to 2026-10-31. The dated note records three behaviour changes that strengthen the body rather than contradict it (ConfirmDialog toasts a rejected action since 2026-10-21, not 2026-10-29 as the record above said; ConfirmDestructiveModal gained a busy guard and awaits; a failed unsaved-work save keeps the modal open) and a new ConfirmPopover that encodes safe focus by contract, outside this application's two primitives."
+    }
+  }
+}
+```

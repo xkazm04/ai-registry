@@ -412,3 +412,119 @@ inconsistencies checked against sibling documents. The mobile Back bullet in
   }
 }
 ```
+
+## Architecture review - 2026-10-31 (re-verification)
+
+This record follows re-verification of the five applications the record above left at `reverify`. Two react applications now need their bodies folded, and two next applications moved their `verified_on`.
+
+<!-- architecture-review:v1 -->
+```json
+{
+  "subject": "software-engineering/app-shell",
+  "date": "2026-10-31",
+  "baseline": "1212e28aa",
+  "digest": "sha256-b2:9db566452b019291",
+  "disposition": "clarify",
+  "coverage": "All 17 documents decided. Five applications that the record above left at reverify were re-verified. The three next ones were read at their pin 40363b7 with git show and at the kp checkout's HEAD 936588503; the navigation-model pin 1401bb25 is absent from that history. The two react ones were read at the personas HEAD 61029d7ae0. Each now carries a dated re-check note. Primary sources re-read: WCAG 2.2 and WAI-ARIA 1.2 Recommendations, and the published next@16.3.0 app-router.js. The other twelve documents are byte-unchanged and carry their dispositions, including the navigation-model technique's owed mobile Back source and the shell-hosted-services application's reverify. Not evaluated: any runtime, the navigation-model experiment on 16.4.2, the personas legacy sweeps.",
+  "counterexamples": [
+    "A shell where the frame is replaced per document (multi-page app) has no surviving mount point; the hosting rules do not transfer and session machinery must live in a worker or shared store.",
+    "A keep-alive primitive that keeps effects running never unregisters a hidden screen's sections by itself, so the sidebar shows a screen nobody is looking at.",
+    "Next.js's route announcer falls back to the first h1 and then the pathname when document.title is absent, so an unchanged title is not the same as nothing to say on a router navigation.",
+    "On Android with the Navigation component's multiple back stacks, Back from a non-start tab goes to the start destination before leaving, which is a move between top-level destinations.",
+    "A nav-only product at three levels of real structure is non-conforming at WCAG 2.2 AA (SC 2.4.5) even when the depth budget is obeyed, unless a search, site map or palette exists.",
+    "A rail whose sections are announced as tabs (role=tab, aria-selected) but whose panel carries no tabpanel role, aria-controls or arrow-key model gives assistive technology the tab vocabulary without the tab pattern, even though it never marks a previewed section as current."
+  ],
+  "sources": [
+    {
+      "url": "https://www.w3.org/TR/2023/REC-wai-aria-1.2-20230606/",
+      "result": "Read 2026-10-31, aria-current state: 'Authors SHOULD only mark one element in a set of elements as current with aria-current.' 'Authors SHOULD NOT use the aria-current attribute as a substitute for aria-selected in widgets where aria-selected has the same meaning. For example, in a tablist, aria-selected is used on a tab to indicate the currently-displayed tabpanel.' The note adds that current and selected 'can have different meanings and can both be used within the same set of elements'. The next nav-hierarchy application's quote was not verbatim and was corrected."
+    },
+    {
+      "url": "https://www.w3.org/TR/2024/REC-WCAG22-20241212/",
+      "result": "Read 2026-10-31. SC 3.2.3 '... occur in the same relative order each time they are repeated, unless a change is initiated by the user.' SC 4.1.2 'the name and role can be programmatically determined'. SC 1.4.10 '320 CSS pixels'. SC 1.4.13 Dismissible / Hoverable / Persistent. All quotes in the nav-hierarchy application match."
+    },
+    {
+      "source": "next@16.3.0 published package, dist/client/components/app-router.js (npm pack, read only)",
+      "result": "copyNextJsInternalHistoryState :84-96, pushState patch applying it :252-263, onPopState dispatchTraverseAction with the stored tree :284-298, as the navigation-model application cites. In the installed 16.4.2 the copy function is unchanged at :128-140 (applied :292, :308) and traversal is handlePopState :61-71 with missed-traversal replay."
+    },
+    {
+      "source": "kp checkout: 40363b7 via git show, and HEAD 936588503, read-only",
+      "result": "Badge, nav-hierarchy and navigation-model citations hold at 40363b7. At HEAD: five badgeKeys and one badgeParams over 26 entries; useAttention backs off (attentionPoll.ts) and reads on visibilitychange; NavSectionRail announces all badges in a live region, renders the rail as role=tablist/tab with aria-selected, and persists the previewed section in sessionStorage; capability-locked ?tab= arrivals are adopted to a locked-door panel; 1401bb25 is not in the history."
+    },
+    {
+      "source": "personas checkout at 61029d7ae0, read-only",
+      "result": "RouteChunkSkeleton gained variant body (2026-10-20); navPrefetch.ts with SECTION_CHUNKS and rail intent prefetch (2026-09-24); FIRST_PAINT_PARTIAL_SECTIONS (2026-10-25); registry with 12 sections; deep_link.rs routes persona and execution ids (2026-10-07)."
+    }
+  ],
+  "documents": {
+    "app-shell.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: the route-announcer sentence names the heading and path fallbacks; the skip link reads as the chosen mechanism for a required bypass outcome; moving focus is labelled craft rather than conformance. Byte-unchanged since the record above; disposition carried."
+    },
+    "techniques/navigation-model.md": {
+      "disposition": "clarify",
+      "reason": "applied 2026-10-31: prohibition 6 now separates a renamed id (maps forward) from a removed id (falls through, never to a neighbour). Still owed: the mobile Back bullet ('some platforms' guidance says outright that Back does not move between top-level destinations') needs a quotable platform source; Android's multiple-back-stacks guide returns to the start destination first. Byte-unchanged since the record above; disposition carried."
+    },
+    "techniques/nav-hierarchy.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: added the second-route obligation past two levels (SC 2.4.5 AA), the 320 CSS px reflow obligation on the width floor (SC 1.4.10 AA), and one name string across postures (SC 2.5.3 A). The destinations-not-panes proposal remains an unplaced lead. Byte-unchanged since the record above; disposition carried."
+    },
+    "techniques/entitlement-gating.md": {
+      "disposition": "keep",
+      "reason": "Single authority, hidden/locked/enabled by knowledge, mid-session revocation and the trust boundary are coherent. The conform proposal (a re-implemented predicate is a second authority) is already covered by the hand-copied-constant sentence. Still no application. Byte-unchanged since the record above; disposition carried."
+    },
+    "techniques/badge-and-attention.md": {
+      "disposition": "keep",
+      "reason": "Predicate, derivation, clearing by kind, routing and the disclosure gate are consistent with the next application that sourced prohibition 7. Byte-unchanged since the record above; disposition carried."
+    },
+    "techniques/shell-hosted-services.md": {
+      "disposition": "keep",
+      "reason": "Admission test, above-the-swap-point rule, declared order, reapers per ending class and visible worker death are coherent. Byte-unchanged since the record above; disposition carried."
+    },
+    "techniques/lazy-section-loading.md": {
+      "disposition": "keep",
+      "reason": "Placeholder contract (shape or nothing), delay, prefetch, restore versus bounded keep-alive and the per-primitive lifecycle bullet match the Activity reference and the Next guide read this run. Byte-unchanged since the record above; disposition carried."
+    },
+    "techniques/screen-contributed-second-level.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: self-unregistration on hide is now conditioned on an effect-suspending keep-alive; a primitive that keeps effects running must unregister on hide explicitly. Byte-unchanged since the record above; disposition carried."
+    },
+    "applications/spec--nav-hierarchy.md": {
+      "disposition": "keep",
+      "reason": "WCAG 2.2 quotes re-confirmed this run. Its recommendations to nav-hierarchy and the golden path are what this record carries as clarify items. ARIA 1.2 quotes not re-opened; verified_on left. Byte-unchanged since the record above; disposition carried."
+    },
+    "applications/next--navigation-model.md": {
+      "disposition": "keep",
+      "reason": "Re-verified at HEAD 936588503: the re-resolution pin 1401bb25 is not in this checkout's history, so it could not be read. Every tree citation resolves at HEAD (moved tabs.ts and Workspace.tsx anchors listed in the dated note; useUrlInboxState.ts and shallow-nav.ts predate the pin and hold verbatim). The installed-router citations were checked in the published next@16.3.0 package and hold; the tree now installs 16.4.2, where traversal moved into handlePopState. The note narrows 'a forbidden address does nothing' to the flag gate (capability-locked arrivals now land on a locked-door panel). The pinned body does not contradict it. The deviation stands. The experiment's history-writer counts were not re-taken, so verified_on stays 2026-09-23."
+    },
+    "applications/next--lazy-section-loading.md": {
+      "disposition": "keep",
+      "reason": "Public citations re-confirmed (the Next guide's three-route sentence, React Activity). Private-tree anchors were re-resolved 2026-09-23 and not reopened; its correction of the key's purpose is the reference the shell-hosted-services application contradicts. Byte-unchanged since the record above; disposition carried."
+    },
+    "applications/next--badge-and-attention.md": {
+      "disposition": "keep",
+      "reason": "Re-verified: every citation re-resolved at the pin 40363b7 with git show and held; Next 16.3.0 confirmed in that tree's package.json. The body is explicitly pinned there, so its anchors stay and a dated note gives the HEAD (936588503) anchors. Two changes are recorded, not contradictions of a pinned body: the poll now backs off and reads on return to the tab (four recomputation triggers, not three), and a polite live region announces every badge across sections, which answers the 'invisible badge' shortfall for the non-visual channel only. verified_on moves to 2026-10-31; verified_against next@16 holds (16.4.2)."
+    },
+    "applications/next--nav-hierarchy.md": {
+      "disposition": "keep",
+      "reason": "Re-verified: every tree citation held at the pin 40363b7 and resolves at HEAD 936588503 (HEAD anchors in the dated note). WCAG 2.2 SC 1.4.10, 1.4.13, 2.4.5, 3.2.3 and 4.1.2 re-read and match. The ARIA 1.2 quote was not verbatim and was corrected in place to the Recommendation's 'Authors SHOULD only mark one element in a set of elements as current with aria-current'. At HEAD the rail button is role=tab with aria-selected (no aria-controls, tabpanel or arrow keys), which keeps the finding (preview is never aria-current) and is recorded in the note. verified_on moves to 2026-10-31."
+    },
+    "applications/next--shell-hosted-services.md": {
+      "disposition": "reverify",
+      "reason": "applied 2026-10-31: the per-destination key is now said to replay the entrance only, with crash containment from the boundary's own reset key. Remaining anchors drifted (2026-09-23 lead) and were not reopened. Byte-unchanged since the record above; disposition carried."
+    },
+    "applications/react--lazy-section-loading.md": {
+      "disposition": "clarify",
+      "reason": "Re-verified at personas@61029d7ae0; anchors updated in place (RouteChunkSkeleton 52-56, DevToolsPage 40-48, App.tsx 289-295, routeSections 24-77). The body now contradicts its own dated note: its last shortfall says hover intent warms language chunks only, but navPrefetch.ts (2026-09-24) has the rail prefetch section code on pointer-enter and focus from the same map the router uses, so that bullet is resolved and should be removed or recast. 'Never fake the incoming body' should name the default variant, since a body variant now paints row ghosts. The warm-return claim was not re-measured, so verified_on stays 2026-08-18."
+    },
+    "applications/react--navigation-model.md": {
+      "disposition": "clarify",
+      "reason": "Re-verified at personas@61029d7ae0; registry, assertion, railSection, passesGates, history pruning, palette filter and the goals migration resolve, anchors updated in place. The registry now holds 12 sections (companions added). The body's 'the OS-level URL scheme cannot name a destination' is contradicted by its dated note: since 2026-10-07 personas://persona/<id> and personas://execution/<id> route through a validating parser. Recast that shortfall as 'no prefix names a section or tab'. The 11-of-~156 and three-invalid-writer figures come from legacy sweeps not re-run, so verified_on stays 2026-08-18."
+    },
+    "applications/react--screen-contributed-second-level.md": {
+      "disposition": "keep",
+      "reason": "Read 2026-10-27 against a pinned public commit; consistent with the technique and with React's Activity semantics confirmed this run. Not re-cloned. Byte-unchanged since the record above; disposition carried."
+    }
+  }
+}
+```

@@ -5,7 +5,7 @@ subject: app-shell
 technique: badge-and-attention
 stack: next
 status: forged
-verified_on: 2026-08-30
+verified_on: 2026-10-31
 verified_against: next@16
 ---
 
@@ -113,3 +113,36 @@ neither of which depends on the other having landed.
   healthy day sees near-zero signals. Five of twenty-one entries can light up
   and nothing in the tree checks how often they all do at once; the budget rule
   is unenforced here.
+
+## Re-checked 2026-10-31 at kp@936588503
+
+Every citation above was re-resolved at `40363b7` with `git show` and holds as
+written there. Next is 16.3.0 in that tree's `package.json` and 16.4.2 at this
+commit. The anchors stay pinned to `40363b7`. At this commit the same
+constructs sit at: `AttentionKey` `tabs.ts:108`, `badgeKey` `:131`,
+`badgeParams` `:137`, the badged entries `:204-207` and `:220`;
+`WorkspaceNav.tsx` gate and leak note `:32-46`, the counts `:49-61`;
+`NavSectionRail.tsx` labels `:106-107`, `sliceHrefFor` `:111-112`, the rail
+button `:175-203`; `NavPanelItem.tsx` `showAttention` `:35-43,66-67`, the
+inline pill `:80-87`, the sibling slice target `:156-177`. Five entries still
+declare a `badgeKey` and one declares `badgeParams`, now out of 26 entries (two
+of them flag-gated) rather than ~21. The Jobs row is labelled "Roles". Two
+things changed:
+
+- **The poll now backs off, and a return to the tab triggers a read.** The flat
+  60-second interval became a schedule that doubles after each failed read,
+  from 60 s up to a 10-minute ceiling, and resets on success. A 200 that
+  carries `error` counts as a failure (`useAttention.ts:34-54`,
+  `attentionPoll.ts`). A `visibilitychange` back to the tab reads at once and
+  clears the failure count (`useAttention.ts:75-80`). A 401 is handed to the
+  session-lapse store. So the recomputation is now named four ways, not three,
+  and "failure degrades to the last known counts" still holds.
+- **Screen readers now hear every badge across all sections.** A polite live
+  region announces each badged entry in every group, not only the previewed
+  one (`NavSectionRail.tsx:144-149`, `:208`). The shortfall "no parent
+  aggregation, so a badged item can be invisible" stays for sight: the
+  level-one rail button still shows no roll-up. The non-visual channel is no
+  longer limited to one section.
+
+The single coral grade (now `text-coral-ink`), the snapshot-only deep-link
+hosts and the unmeasured steady state are unchanged.
