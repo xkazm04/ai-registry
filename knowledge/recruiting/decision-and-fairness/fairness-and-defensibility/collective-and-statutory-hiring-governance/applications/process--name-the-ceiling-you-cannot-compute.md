@@ -4,7 +4,7 @@ type: application
 subject: collective-and-statutory-hiring-governance
 technique: name-the-ceiling-you-cannot-compute
 stack: process
-verified_on: 2026-09-28
+verified_on: 2026-10-31
 applied: simulation
 ab_verdict: better
 ---
@@ -67,7 +67,7 @@ catalog … this banner is compliance guidance and must not be the one English p
 in a Czech workspace's modal." The ceiling sentence is only useful if it is read, and a
 compliance sentence in a language the reader does not use is decoration. The Czech
 catalog carries the full clause including the ceiling — *"aplikace tyto údaje nemá a
-nedokáže je vypočítat"* (`messages/cs.json:4496`) — so nothing is lost in translation
+nedokáže je vypočítat"* (`messages/cs.json:4548`) — so nothing is lost in translation
 precisely where loss would matter.
 
 Note the deliberate asymmetry with the *sealed* artifact, which stays canonical English
@@ -92,13 +92,13 @@ asks for the ceiling to travel with the artifact, not only with the screen.
 
 The list's own footer is the second place it appears, and it is shorter than the
 banner: "Ordinal ranking only. Apply statutory preferences (e.g. veterans') before
-certifying. Nothing here is auto-sealed." (`GroupEvalModal.tsx:160`, `en.json:4401`).
+certifying. Nothing here is auto-sealed." (`GroupEvalModal.tsx:161`, `en.json:4453`).
 *What* and *when* survive; *why the system cannot* does not. On the modal the banner
-above (`GroupEvalModal.tsx:137`) supplies the missing clause, so the screen is whole.
+above (`GroupEvalModal.tsx:138`) supplies the missing clause, so the screen is whole.
 The sealed summary line is the same two-of-three sentence, and it travels alone.
 
 **Deviation, still open.** The sentence does not travel further than the modal and the
-record. The raw payload is served by `app/api/decisions/group-eval/route.ts:30`, where
+record. The raw payload is served by `app/api/decisions/group-eval/route.ts:29`, where
 `eligibilityList` arrives beside an English `governanceNote` field that a consumer may
 or may not render, and outside the modal none of the modules that read `topPick` renders the
 note. No CSV, export or dossier consumer exists yet, so the gap is latent rather than

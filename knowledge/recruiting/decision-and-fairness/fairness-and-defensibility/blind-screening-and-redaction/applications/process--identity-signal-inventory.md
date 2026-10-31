@@ -4,7 +4,7 @@ type: application
 subject: blind-screening-and-redaction
 technique: identity-signal-inventory
 stack: process
-verified_on: 2026-09-26
+verified_on: 2026-10-31
 ---
 
 # The redaction pre-pass as a written inventory (Python pipeline)
@@ -25,11 +25,11 @@ manifest exists because the mask is imperfect, not despite it.
 
 ## The categories, as contracts
 
-`redact_pii` (`:269`) returns a `RedactResult` carrying `text`, `categories`,
+`redact_pii` (`:297`) returns a `RedactResult` carrying `text`, `categories`,
 `detected_name` and `name_detected`. `categories` is appended to only when a
-pattern actually fired (`categories.append("name")` at `:300`, the subn loop and
-`gendered_hits` at `:317`). The list is therefore a per-document manifest, not a
-static policy echo, and the recruiter note in `pipeline/jobfit/pipeline.py:188-199`
+pattern actually fired (`categories.append("name")` at `:328`, the subn loop and
+`gendered_hits` at `:345-352`). The list is therefore a per-document manifest, not a
+static policy echo, and the recruiter note in `pipeline/jobfit/pipeline.py:194-206`
 renders it verbatim.
 
 `pipeline/jobfit/tests/test_redact.py` pins both halves. Removal:
@@ -43,7 +43,7 @@ manifest legible later.
 
 ## The explicit fail-open flag, and the door it did not cover
 
-`name_detected` (`:261-266`) is documented as deliberately redundant: "surfaced
+`name_detected` (`:289-294`) is documented as deliberately redundant: "surfaced
 as its own flag so the fail-open case can't be missed."
 `test_name_detected_flag_tracks_the_name_category` pins both directions, using a
 single-token name that slips past the 2-4-token heuristic.
@@ -70,11 +70,11 @@ identity-twin application.
 - **Tier 3 is absent.** Institution names, neighbourhood, nationality, marital
   status and graduation years are not masked at all, and there is no per-role
   masking policy. `blind` is one boolean on `analyze_cv`
-  (`pipeline/jobfit/pipeline.py:133`) with no per-requisition owner or setting.
+  (`pipeline/jobfit/pipeline.py:139`) with no per-requisition owner or setting.
 - **No removed-share metric.** The manifest carries category names but no counts
   and no retained-substance ratio, so over-masking has no detector. The internal
   `gendered_hits` counter is used only as a boolean.
 - **Language coverage is uneven.** The header stop-list spans English, Czech,
   German and French. The pronoun, honorific and age patterns are English and
-  Czech only (`:36-61`), so a German or French document gets its header skipped
+  Czech only (`:56-89`), so a German or French document gets its header skipped
   correctly and its gendered terms left in place, without escalation.

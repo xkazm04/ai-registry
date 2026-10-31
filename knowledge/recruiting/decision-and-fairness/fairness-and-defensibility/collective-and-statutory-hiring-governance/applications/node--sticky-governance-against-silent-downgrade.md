@@ -4,7 +4,7 @@ type: application
 subject: collective-and-statutory-hiring-governance
 technique: sticky-governance-against-silent-downgrade
 stack: node
-verified_on: 2026-09-28
+verified_on: 2026-10-31
 verified_against: node@24
 ---
 
@@ -58,7 +58,7 @@ one the repo articulates better than most design documents:
 > client state that resets to "recommendation" on every fresh mount / different user
 > / rerun. Trusting it alone lets a committee/eligibility role silently downgrade to
 > "recommendation" and auto-seal an AI lead — the exact guarantee this module exists
-> to hold. (`:34-41`)
+> to hold. (`:31-36`)
 
 That is the unpersisted-client-state vector in full, found in production rather than
 in review.

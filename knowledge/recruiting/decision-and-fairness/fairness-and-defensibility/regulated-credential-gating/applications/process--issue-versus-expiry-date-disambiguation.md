@@ -4,7 +4,7 @@ type: application
 subject: regulated-credential-gating
 technique: issue-versus-expiry-date-disambiguation
 stack: process
-verified_on: 2026-08-20
+verified_on: 2026-10-31
 ---
 
 # Two dates on one line, fixed twice by an incident
@@ -16,17 +16,17 @@ a legal verdict.
 
 ## The schema admits the ambiguity out loud
 
-`Credential.expiry` (`pipeline/jobfit/models.py:22`) is a bare string commented
+`Credential.expiry` (`pipeline/jobfit/models.py:23`) is a bare string commented
 `# expiry / issue date if stated`. The field does not know which date it holds. The
 module docstring turns that into the scoping argument: "the schema's `expiry` field may
 hold an ISSUE date rather than an expiry, so flagging every past date would be noise —
 bounding it to genuine hard-gate licences keeps the false-positive cost to a recruiter's
-glance" (`credentials.py:16-19`). Scoping as blast-radius control, exactly as the
+glance" (`credentials.py:25-28`). Scoping as blast-radius control, exactly as the
 standard states it.
 
 ## Fix one: the later year is the expiry
 
-`_parse_past` (`credentials.py:68-88`) extracts *all* years with
+`_parse_past` (`credentials.py:77-100`) extracts *all* years with
 `_YEAR_RE.findall` and takes `max(years)`. The comment records the bug it replaces:
 
 > Two years in one string (e.g. "Issued 2020, expires 2028") → the LATER one is the
@@ -36,20 +36,20 @@ standard states it.
 That is the standard's issue-read-as-expiry inversion, observed in production: the
 pre-fix code took the first year it saw, which on the overwhelmingly common
 "issued …, expires …" ordering is always the issue date. Pinned by
-`test_two_year_expiry_uses_later_year_not_issue` (`tests/test_credentials.py:45-53`),
+`test_two_year_expiry_uses_later_year_not_issue` (`pipeline/jobfit/tests/test_credentials.py:44-52`),
 with `test_two_year_expiry_both_past_is_flagged` guarding that the fix did not disarm
 the check when both years are genuinely past.
 
 ## Fix two: a month must be adjacent to its year
 
 When the maximum year equals the current year, the verdict turns on a month.
-`_month_for_year` (`credentials.py:57-67`) accepts a one-to-twelve value **only** when
+`_month_for_year` (`credentials.py:62-74`) accepts a one-to-twelve value **only** when
 it sits directly beside that year — `YYYY-MM` / `YYYY/MM` or `MM-YYYY` / `MM/YYYY` —
 and is documented as "Deliberately NOT 'any 1-12 number in the string': a stray day or
 an id (e.g. `'cert #3'`) must not be read as a month."
 
 `test_same_year_stray_number_is_not_read_as_month`
-(`tests/test_credentials.py:61-67`) records the original failure: an expiry of
+(`pipeline/jobfit/tests/test_credentials.py:60-66`) records the original failure: an expiry of
 `"2026 renewal, cert #3"` matched the certificate number `3`, compared it against
 today's month `6`, and flagged a current licence as lapsed.
 `test_same_year_earlier_month_still_flagged` holds the other side.
@@ -58,8 +58,8 @@ today's month `6`, and flagged a current licence as lapsed.
 
 Three paths return "not past" rather than guessing, which is the standard's
 resolve-toward-the-candidate rule realized as control flow: an empty string
-(`credentials.py:72`), a string with no recognisable year (`:75-76`), and a same-year
-string with no month adjacent to that year (`:87-88`, "no adjacent month → conservative
+(`credentials.py:81-82`), a string with no recognisable year (`:84-85`), and a same-year
+string with no month adjacent to that year (`:97-100`, "no adjacent month → conservative
 don't-flag, honoring the module's 'false positives to a glance' promise"). The year
 regex itself is bounded to a plausible window rather than matching any four digits, so
 a postcode or an identifier does not become a year.

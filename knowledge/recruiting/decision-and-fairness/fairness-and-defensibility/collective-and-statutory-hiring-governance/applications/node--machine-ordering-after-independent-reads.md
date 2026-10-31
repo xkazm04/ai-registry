@@ -5,7 +5,7 @@ subject: collective-and-statutory-hiring-governance
 technique: machine-ordering-after-independent-reads
 stack: node
 status: forged
-verified_on: 2026-09-28
+verified_on: 2026-10-31
 verified_against: node@24
 applied: simulation
 ab_verdict: better
@@ -54,7 +54,7 @@ separation, robustness, prompt versions and the lead's clipped reasoning.
 
 **3. The follow signal.** kp writes a `group_eval` pipeline event at seal time
 in both branches, and joins an `advanced` or `auto_advanced` event of the same
-entry back to it (`app/_lib/decision-attribution.ts:338-367`). The comment
+entry back to it (`app/_lib/decision-attribution.ts:344-366`). The comment
 names the advisory case explicitly: the event gives provenance "a visible log
 row when the lead is never advanced (an advisory/committee run) or is advanced
 hours later by someone else".

@@ -5,7 +5,7 @@ subject: bulk-adverse-action-governance
 technique: contest-door-at-the-point-of-decision
 stack: node
 status: forged
-verified_on: 2026-09-29
+verified_on: 2026-10-31
 verified_against: node@24
 applied: task
 ab_verdict: unmeasurable
@@ -25,13 +25,13 @@ can be read off both halves at once, because the queue exists and the door does 
 reconsideration only when its newest decision is the machine's own, and a human
 rejection, including one issued after a reinstatement, is deliberately kept out:
 
-- `app/_lib/db/pipeline.ts:1333 "A human reject"`
-- `app/_lib/db/pipeline.ts:1251 "Reconsider"`
+- `app/_lib/db/pipeline.ts:1389 "A human reject"`
+- `app/_lib/db/pipeline.ts:1307 "Reconsider"`
 
 **The promise, on the candidate's status page.** The page for a decided application
 carries a sentence, translated into every shipped locale:
 
-- `messages/en.json:2249 "You can request a human review of any decision at any time. Just reply to any message from the hiring team."`
+- `messages/en.json:2142 "You can request a human review of any decision at any time. Just reply to any message from the hiring team."`
 
 **No path from that sentence to the queue.** The tree's own comment on inbound mail is
 explicit that it has exactly one receiver, an HTTP endpoint for lead intake, and no

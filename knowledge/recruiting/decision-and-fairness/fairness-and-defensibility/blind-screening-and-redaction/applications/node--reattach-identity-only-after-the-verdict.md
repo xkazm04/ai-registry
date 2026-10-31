@@ -4,7 +4,7 @@ type: application
 subject: blind-screening-and-redaction
 technique: reattach-identity-only-after-the-verdict
 stack: node
-verified_on: 2026-09-26
+verified_on: 2026-10-31
 verified_against: node@24
 ---
 
@@ -12,16 +12,16 @@ verified_against: node@24
 
 ## The ordering, in one function
 
-`pipeline/jobfit/pipeline.py`'s `analyze_cv` (from `:125`) puts blind mode in
+`pipeline/jobfit/pipeline.py`'s `analyze_cv` (from `:131`) puts blind mode in
 the only place it can work:
 
 1. The deterministic extraction pre-pass runs first.
 2. `redact_pii(pypdf_text)` runs immediately after it and *before* any model
-   call (`:178-181`).
+   call (`:184-187`).
 3. The redacted text is what is handed to the assessor
-   (`blind_text=redaction.text`, `:251`).
+   (`blind_text=redaction.text`, `:257`).
 4. Only once the profile is built from the returned payload is the name
-   restored (`:274-278`):
+   restored (`:280-284`):
 
 > Re-attach the real name (idea-b8d711c4): the blind LLM pass returned a
 > null/redacted name by instruction, so restore the deterministically detected
@@ -30,38 +30,38 @@ the only place it can work:
 `profile.name = redaction.detected_name` is the standard's rule realized
 exactly: the identity that comes back is the one the redactor *held*, not one
 the assessor produced. The prompt clause requiring a null name
-(`pipeline/jobfit/gemini.py:731`) is enforceable precisely because that field is
+(`pipeline/jobfit/gemini.py:736`) is enforceable precisely because that field is
 never read as a source.
 
 ## Blind is part of the result's identity
 
 `app/_lib/cache-key.ts` treats the blind flag as part of what a result *is*, not
 as a runtime option. `CacheKeyInput.blind` carries the reasoning inline
-(`:44-48`):
+(`:48-51`):
 
 > a blind run scores a redacted CV, so its result must NOT be served for a normal
 > run (or vice-versa).
 
-`computeCacheKey` (`:66`) length-frames every field before hashing. That framing
+`computeCacheKey` (`:76`) length-frames every field before hashing. That framing
 fixed an earlier delimiter-only key, where content could shift across a field
-boundary. The key appends the blind marker **only when true** (`:96-98`), so
+boundary. The key appends the blind marker **only when true** (`:106-108`), so
 pre-existing non-blind entries keep their keys while every blind run gets a
 distinct one. The same file shows the pattern generalized:
 
-- `PROMPT_VERSION` (`:32`, now `v7-2026-09-23-trust-findings`) does the same
+- `PROMPT_VERSION` (`:36`, now `v8-2026-10-07-checked-strengths`) does the same
   job for prompt and schema changes. Its v5 note says an English result must
   not be served for a Czech request.
 - Its v7 note is a blind-screening fact in its own right. A pre-v7 payload
   would be read by a legacy regex "which files a blind-screening redaction miss
   as a clean pass", so the key was bumped to keep the old verdicts from
   outliving the fix.
-- `archetypeRegistryDigest` (`:55-63`, appended at `:106-108`) folds a *live
+- `archetypeRegistryDigest` (`:59-66`, appended at `:116-119`) folds a *live
   policy's* content digest into the key, because "a key without it served an
   analysis scored under the pre-edit registry".
 
 ## The enrichment channel is closed at the door
 
-`app/api/analyze/route.ts:143-162` shows that blind mode reaches past the
+`app/api/analyze/route.ts:145-162` shows that blind mode reaches past the
 document. The CV run can carry a GitHub deep-dive that fetches and renders a
 named person's public profile. In a blind run the handle is dropped before the
 task is created:
@@ -91,3 +91,9 @@ mask, not behind it, and here it is closed where the request enters.
   the defective mask stayed eligible to be served, carrying its false note. The
   same holds for `4433df0c5` (2026-09-26). Two verdicts labelled blind can have
   been produced under materially different masks.
+
+Re-checked 2026-10-31 at kp@6edf5d7e6: the key is unchanged in kind (it now
+also folds in a model-route fingerprint, `llmRoute`, but still nothing for the
+redactor). Commit `049e6ffdc` (2026-10-14) changed the mask again, so that tenure
+ranges and grouped quantities stop being masked as `[PHONE]`, and touched only
+`pipeline/jobfit/redact.py` and its tests, so the gap above stands.

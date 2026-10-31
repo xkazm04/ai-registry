@@ -4,7 +4,7 @@ type: application
 subject: collective-and-statutory-hiring-governance
 technique: advisory-machine-that-never-seals
 stack: node
-verified_on: 2026-09-28
+verified_on: 2026-10-31
 verified_against: node@24
 applied: code
 ab_verdict: better
@@ -17,6 +17,9 @@ The advisory guarantee is enforced at exactly one place — the seal site in
 `sealsLead(governanceMode)`. Re-read at `8f3c89560` (2026-09-28): the seal site moved
 about 214 lines down as the run grew consent exclusion, stage deadlines and a
 compare-and-swap persist, and every quote below is still verbatim.
+Re-checked 2026-10-31 at kp@6edf5d7e6: every `group-eval-run.ts` anchor holds
+unchanged; the decision-log kind enum moved to `app/_lib/analytics-decision-types.ts`
+(`546c5faa4`), and the open items listed at the end are all still open.
 
 ## The branch
 
@@ -34,14 +37,14 @@ Two properties are worth copying verbatim:
 
 - **The kinds are genuinely distinct, all the way out.** `group_eval_lead` and
   `group_eval_advisory` are separate members of the decision-log kind enum
-  (`app/features/insights/analytics/analyticsDecisionLogTypes.ts:234-235`), separate
-  members of the candidate-visible allowlist (`app/_lib/status-decisions.ts:94-95`),
+  (`app/_lib/analytics-decision-types.ts:234-235`), separate
+  members of the candidate-visible allowlist (`app/_lib/status-decisions.ts:101-102`),
   and separate `reasonCode`s (`"lead"` vs `"advisory"`). This is the standard's rule
   that advisory and decisive are different *kinds*, not one kind with softer copy —
-  and it is what lets `app/_lib/decision-attribution.ts:346` treat both as group-eval
+  and it is what lets `app/_lib/decision-attribution.ts:352` treat both as group-eval
   provenance while everything downstream can still tell which one happened.
   The candidate's status page then maps both kinds onto one neutral label
-  (`app/status/[token]/StatusClient.tsx:199-200`, "Application compared within the
+  (`app/status/[token]/StatusClient.tsx:201-202`, "Application compared within the
   candidate group for this role"). That is the right collapse in the right place: the
   record keeps the distinction, and a candidate in a committee process is never told
   they were the machine's lead.
@@ -52,7 +55,7 @@ Two properties are worth copying verbatim:
 
 A third branch is implicit and correct: when there is no knockout-passing lead, neither
 record is written — `const lead = comparable && top && top.koPassed !== false ? top :
-null` (`:685`, comment `:680-684`) — and `group-eval-cohort-run.test.ts:41-42` pins that
+null` (`:685`, comment `:680-684`) — and `group-eval-cohort-run.test.ts:42-43` pins that
 a single-candidate field seals *neither* kind.
 
 ## What rides in the sealed advisory record
@@ -127,12 +130,12 @@ At the first reading this was a latent payload defect. At `8f3c89560` it renders
 modal passes `hasLead={evaluation.topPick != null}` to the comparison table
 (`GroupEvalModal.tsx:171`), which draws a crown pill labelled "Lead" on column one
 (`GroupEvalComparisonTable.tsx:41-50`); the compact view heads the same object
-"Recommended lead" (`GroupEvalLegacyView.tsx:20-26`, `en.json:4471`); the per-candidate
+"Recommended lead" (`GroupEvalLegacyView.tsx:20-26`, `en.json:4523`); the per-candidate
 tabs attach "Unique strengths" to it. None of the three files reads the governance
 mode. In committee mode the recruiter therefore sees the banner "the AI comparison is
 ADVISORY input … it does not pick or seal a hire" directly above a crowned column —
 advisory in the copy, decisive in the artifact, which is the failure mode the golden
-path names. The API route returns the raw payload (`app/api/decisions/group-eval/route.ts:30`),
+path names. The API route returns the raw payload (`app/api/decisions/group-eval/route.ts:29`),
 so any integration reads `topPick` the same way.
 
 The seal is correct and the artifact is not. Committee mode should publish the ordering
