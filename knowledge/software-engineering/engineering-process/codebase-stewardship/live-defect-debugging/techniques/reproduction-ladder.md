@@ -71,6 +71,27 @@ Unsafe is not the same as hard. A hard reproduction against a disposable copy is
 rung two. A cheap one against production is not. When the only faithful environment is
 the unsafe one, say so and ask, because the decision to touch it belongs to its owner.
 
+## Reintroduce the defect where it lived
+
+"Confirm it fails for the reason the report describes" has a cheap imitation, and a
+careful debugger walks into it after the fix rather than before. The fix extracts the
+decision into a small helper so it can be tested, writes a test against the helper,
+then proves the test by mutating the helper back to the wrong answer and watching it
+go red. That proves the helper. It does not prove the reproduction, because the
+defect usually did not live in a helper that did not exist yet. It lived at the call
+site: in the order of two statements, in a branch that ran unconditionally, in an
+error arm that did nothing. The fix's call-site hunk is then the one line nobody
+guards. Delete it and the defect is back, and the test stays green.
+
+The check that separates the two is mechanical. Reintroduce the defect **at the site
+the report's defect lived**, which is the call-site half of the fix's own diff
+reverted, and run the reproduction. If it stays green, the reproduction is of the
+helper. Then either move the whole decision into the tested unit, so that only wiring
+with no choice in it remains at the call site, or drive the call site itself. A
+reproduction that only feeds the helper is enough when the helper *is* the mechanism
+(a decoder fed split input) and the call site only hands it bytes. It is not enough
+when the call site still decides when the helper runs.
+
 ## When the ladder fails entirely
 
 If no rung produces the defect, the honest state is "not reproduced", and it is

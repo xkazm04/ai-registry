@@ -5,7 +5,7 @@
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 243,
   "techniques": 1957,
-  "applications": 1450,
+  "applications": 1451,
   "laws": 16,
   "categories": [
    "ui-surfaces",
@@ -20302,9 +20302,9 @@
    "subcategory": "codebase-stewardship",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-process/codebase-stewardship/live-defect-debugging/live-defect-debugging.md",
-   "digest": "sha256-b2:b32697ee1622a7fc",
-   "revision": 2,
-   "changedAt": "2026-10-22",
+   "digest": "sha256-b2:be8784e3eb8aeb69",
+   "revision": 3,
+   "changedAt": "2026-10-31",
    "techniques": [
     {
      "slug": "evidence-gated-fix",
@@ -20425,6 +20425,13 @@
      "file": "knowledge/software-engineering/engineering-process/codebase-stewardship/live-defect-debugging/applications/node--run-scoped-evidence.md",
      "verified_on": "2026-10-09",
      "verified_against": "node@22"
+    },
+    {
+     "stack": "rust",
+     "technique": "reproduction-ladder",
+     "file": "knowledge/software-engineering/engineering-process/codebase-stewardship/live-defect-debugging/applications/rust--reproduction-ladder.md",
+     "verified_on": "2026-10-31",
+     "verified_against": "rust@1.96.1"
     }
    ]
   },
