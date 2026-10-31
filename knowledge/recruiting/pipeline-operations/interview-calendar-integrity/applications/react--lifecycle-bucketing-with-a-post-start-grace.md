@@ -5,7 +5,7 @@ subject: interview-calendar-integrity
 technique: lifecycle-bucketing-with-a-post-start-grace
 stack: react
 status: forged
-verified_on: 2026-09-29
+verified_on: 2026-10-31
 verified_against: react@19
 ---
 

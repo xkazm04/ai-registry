@@ -5,7 +5,7 @@ subject: selection-score-calibration
 technique: deterministic-holdout-clean-arm
 stack: node
 status: forged
-verified_on: 2026-09-29
+verified_on: 2026-10-31
 verified_against: node@24
 applied: simulation
 ab_verdict: better
@@ -20,7 +20,7 @@ that have since moved by 10 to 230 lines, and one of its structural claims has c
 The clean arm is four small pieces: a pure membership function
 (`app/_lib/screen-wave-holdout.ts`), a config resolver
 (`app/_lib/decision-config-schema.ts:69-80`), the wave that applies it and seals the
-result (`app/_lib/screen-wave.ts:223-274`, `:365-392`), and a derived-set query over the
+result (`app/_lib/screen-wave.ts:224-275`, `:363-395`), and a derived-set query over the
 sealed records (`app/_lib/decision-record-store.ts:631`).
 
 ## Membership: a pure function of (job, entry)
@@ -71,19 +71,19 @@ then stays circular)."
 
 ## Application point: before the token is signed, after the shields
 
-`screen-wave.ts:257-258` computes `heldOut` from `selectHoldout` and deletes those ids from
-`wouldReject` *before* `screenWaveApprovalToken` is built (`:274`), so the token covers the
+`screen-wave.ts:258-259` computes `heldOut` from `selectHoldout` and deletes those ids from
+`wouldReject` *before* `screenWaveApprovalToken` is built (`:275`), so the token covers the
 set the recruiter sees and a commit re-derives byte-identically. The rate rides the
-`policyVersion` string (`:224`) while membership does not, and the string is unchanged when
+`policyVersion` string (`:225`) while membership does not, and the string is unchanged when
 the rate is 0 so a holdout-disabled wave signs a byte-identical token to the pre-holdout
 build. That is the standard's separation of rate-in-the-seal from membership-unkeyed.
 
 Two other ways of being spared now sit on either side of the draw, and neither is the arm:
 
-- **The reinstatement shield runs first** (`:246-256`): a candidate whose auto-rejection a
+- **The reinstatement shield runs first** (`:247-257`): a candidate whose auto-rejection a
   recruiter reversed is removed from `wouldReject` before the draw and carries the
   `reinstated` keep-reason, not `holdout`. `screen-wave-guards.test.ts:62` pins it.
-- **Reviewer exclusions run last** (`:259-266`), "so only a person who would really be
+- **Reviewer exclusions run last** (`:260-267`), "so only a person who would really be
   rejected can be spared", and ride the policy version as `/spared<n>`.
 
 Because the arm is read from `holdout` records (next section), neither path can enter it. The
@@ -95,7 +95,7 @@ candidates a human had already chosen to keep.
 
 The 2026-08-20 note described the arm as derived from the sealed records minus later
 rejections, which is still true. What changed is what happens when the record cannot be
-written. `screen-wave.ts:365-392` seals a `screen_wave_holdout` decision for every drawn
+written. `screen-wave.ts:363-395` seals a `screen_wave_holdout` decision for every drawn
 candidate and now *checks* the seal: "MEMBERSHIP IS THE SEAL … no seal, no arm." A failed
 write used to be swallowed into a `console.warn`, dropping the candidate from the arm while
 the recruiter's row still read "kept as a calibration holdout". Now a failed holdout seal
@@ -135,7 +135,7 @@ curve's — the only difference is which entries are eligible".
   2,000 sparings per workspace (`HELD_OUT_SCAN_LIMIT`, `:629`; `:653` clamps a caller's limit
   to 10,000), a deliberate bound with the reason given in the function ("an arm is a
   measurement of recent selection quality"). All three callers found call it without a role
-  (`calibration/route.ts:78`, `calibration/band/route.ts:54`, `calibration-recommendation.ts:44`),
+  (`calibration/route.ts:77`, `calibration/band/route.ts:53`, `calibration-recommendation.ts:44`),
   so the per-role option exists and is unused, and the cap is not among the things the
   calibration surface prints beside the curve. At 5% the cap is reached after 40,000 would-be
   rejections.

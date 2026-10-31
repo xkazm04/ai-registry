@@ -4,7 +4,7 @@ type: application
 subject: combining-signals-into-a-hire-decision
 technique: promote-floor-calibrated-against-real-outcomes
 stack: node
-verified_on: 2026-09-27
+verified_on: 2026-10-31
 verified_against: node@24
 ---
 
@@ -85,7 +85,7 @@ branch returns `{ kind: "insufficient", params: { min: MIN_RESOLVED } }`
 promote API route, the lifecycle orchestrator and the interview entry — pass
 `activePromoteFloor()`, because "the old hardcoded `score >= 70` here diverged
 from the calibration-adjustable floor the orchestrator actually promoted on"
-(`app/_lib/devcase-run.ts:1046-1051`).
+(`app/_lib/devcase-run.ts:1082-1087`).
 
 ## Deviations from the standard
 
@@ -94,7 +94,7 @@ from the calibration-adjustable floor the orchestrator actually promoted on"
   (`app/features/tools/devcases/useDevSubmissionRow.ts:150`). The automatic
   feed records `entry.matchScore` instead (`dev-outcomes.ts:448-451`, and
   `:387-388` for a rated hire), and since 2026-08-28 a promoted entry is written
-  with `matchScore: null` (`devcase-run.ts:1171`), later filled by a *profile
+  with `matchScore: null` (`devcase-run.ts:1217`), later filled by a *profile
   match* score if at all. The comment at `:417-421` still says the entry
   carries "its transferScore as matchScore". An update keeps
   `input.predictedScore ?? existing.predicted_score` (`:255`), so a later match
@@ -120,7 +120,7 @@ from the calibration-adjustable floor the orchestrator actually promoted on"
   performance rating; "worked out" is effectively "was hired".
 - **No structured record of the floor a decision used.** The floor appears as
   text in the automation trail (`transfer score X vs calibrated floor Y`,
-  `devcase-promote-verdict.ts:130`), and as structured facts only on the
+  `devcase-promote-verdict.ts:157`), and as structured facts only on the
   orchestrator's audit path. The card, the decision seal and the outcome row
   carry none. Floor changes are audited with a timestamp, so the history can be
   rebuilt, but not read off the decision. (The previous version of this

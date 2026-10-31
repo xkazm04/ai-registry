@@ -5,7 +5,7 @@ subject: selection-score-calibration
 technique: base-rate-skill-score
 stack: node
 status: forged
-verified_on: 2026-09-29
+verified_on: 2026-10-31
 verified_against: node@24
 applied: simulation
 ab_verdict: not-better
@@ -24,7 +24,7 @@ does at the sample size the surface is allowed to render at.
 reference error `baseRate * (1 - baseRate)` and `skill = 1 - brier / baseBrier`. Every clause of
 the technique is present: the reference is the cohort's own base rate; a degenerate cohort
 (reference error 0) returns `skill: null` and is routed to `"unknown"`, not "weak"; a negative
-skill is not clamped. The comment above it (`:34-42`) records the incident: 0.25 is a coin's
+skill is not clamped. The comment above it (`:38-41`) records the incident: 0.25 is a coin's
 Brier, "a cohort that advances 86% of the time is nothing like a coin", and the seeded pipeline
 arm scored −0.332, worse than a constant guess, under a headline that had claimed a comfortable
 margin over guessing.
@@ -72,7 +72,7 @@ just above it.
   while the interval straddles the cut) is half met: n is printed, no interval is, and
   `verdictFor` takes none. `GOOD_SKILL` is one number.
 - **The headline says "calibrated" on the strength of a skill score.** `verdictGood`
-  (`messages/en.json:7983`) reads "The screening score is well calibrated." for `skill >= 0.2`.
+  (`messages/en.json:8119`) reads "The screening score is well calibrated." for `skill >= 0.2`.
   A Brier skill score mixes ordering and scaling, which is the reason the technique warns
   against using it as the only headline. Worked case, population values from 400,000 draws:
   scores uniform on 0 to 1 and an outcome probability of the score *squared* (a score of 0.8

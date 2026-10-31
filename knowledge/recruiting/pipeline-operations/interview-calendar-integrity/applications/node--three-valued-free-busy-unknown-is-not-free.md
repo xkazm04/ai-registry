@@ -5,7 +5,7 @@ subject: interview-calendar-integrity
 technique: three-valued-free-busy-unknown-is-not-free
 stack: node
 status: forged
-verified_on: 2026-09-29
+verified_on: 2026-10-31
 verified_against: node@24
 ---
 
@@ -25,7 +25,7 @@ integration is built around the third value.
 The contract lives at the edge: **`fetchBusy` returns `null` for "we do not
 know" and `[]` for "checked, nothing in the way"**. The README states plainly
 why they are never conflated — *"treating an outage as an empty calendar would
-confidently offer busy times"* (`docs/features/scheduling/README.md:50`). The two
+confidently offer busy times"* (`docs/features/scheduling/README.md:211`). The two
 values are structurally different types, so no caller can accidentally treat one
 as the other; `[]` flows into `filterFreeSlots` and removes nothing, while `null`
 short-circuits to the unfiltered list.

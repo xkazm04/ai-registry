@@ -4,7 +4,7 @@ type: application
 subject: combining-signals-into-a-hire-decision
 technique: weight-signals-by-validity-not-by-precision
 stack: process
-verified_on: 2026-09-27
+verified_on: 2026-10-31
 applied: experiment
 ab_verdict: better
 ---
@@ -32,14 +32,14 @@ deliberately low** — "analyze 0.5 grounded / 0.3 ungrounded, reflect 0.3, tool
 
 ## MIN, where the dependency is real
 
-`_propagated_confidence` (`pipeline/jobfit/devcase/evaluate.py:301-315`) takes the
+`_propagated_confidence` (`pipeline/jobfit/devcase/evaluate.py:421-435`) takes the
 MIN of the upstream confidences. The comment at `models.py:83-87` gives the
 reason: "An evaluation is built ENTIRELY from the reflection + tooling signals,
 so it can be no more trustworthy than its weakest input". Inputs without a
 numeric confidence are skipped, and **with none present the result is 0.0** —
 "unknown evidence strength is treated as untrustworthy, never silently high."
 Since 2026-09-23 the MIN is multiplied by the share of the rubric actually
-scored (`evaluate.py:530`).
+scored (`evaluate.py:669`).
 
 This is the case the standard's conditioned rule keeps: the two inputs are not
 independent observations of one dimension but the materials the evaluation is
@@ -52,25 +52,25 @@ the dependency is unknown, MIN over all of them is the rule.
 than a take-home submission, so the bar is HIGHER than the take-home's
 "promising" threshold: every case construct must average "Above bar" (4/5)
 before the interview mints observed credit." `observed_from_interview`
-(`:235-282`) requires a narrow-confidence scorecard, real quoted evidence on
+(`:235-291`) requires a narrow-confidence scorecard, real quoted evidence on
 every case construct ("a backfilled 'Not assessed' kills it" — the
 placeholder-as-absence rule), and a mean at or above the bar. Its own evidence
-confidence is capped at `min(0.9, mean/5)` (`:279`).
+confidence is capped at `min(0.9, mean/5)` (`:289`).
 
 ## Missing is excluded now — which is renormalizing
 
 The four-way inconsistency this application used to quote is gone. Since
-2026-09-23 (`evaluate.py:35-41`) "A dimension ABSENT from a dimensionScores dict
+2026-09-23 (`evaluate.py:36-42`) "A dimension ABSENT from a dimensionScores dict
 … is EXCLUDED from every number: models.rubric_composite leaves it out of the
 case score (renormalising over the weight actually scored, naming it in
 missingDimensions and scaling the propagated confidence by that share)".
-`rubric_composite` (`models.py:193-244`) returns `overall`, `scoredWeight` and
-`missing`, and `MISSING_DIMENSION_SCORE = 50` (`evaluate.py:42`) survives only as
+`rubric_composite` (`models.py:200-251`) returns `overall`, `scoredWeight` and
+`missing`, and `MISSING_DIMENSION_SCORE = 50` (`evaluate.py:43`) survives only as
 a display seed. That fixed both deviations this application recorded on
 2026-08-20: the neutral midpoint and the absent coverage figure.
 
 It is also exactly the rule the standard now conditions. The falsy-coalesce fix
-stands unchanged (`_num`, `evaluate.py:291-298`).
+stands unchanged (`_num`, `evaluate.py:411-418`).
 
 ## Experiment (2026-09-27): a missing heavy dimension
 
@@ -97,7 +97,7 @@ kp cannot yet tell the difference, because nothing records *why* a dimension is
 missing.
 
 Reach: on a fresh evaluation the path rarely fires. `coerce` fills any dimension
-the model omitted from the deterministic scorer's value (`evaluate.py:505`), so
+the model omitted from the deterministic scorer's value (`evaluate.py:644`), so
 `scoredWeight` is 1.0, and exclusion only applies to stored or external
 bundles.
 
@@ -107,11 +107,11 @@ bundles.
   experiment above).
 - **An omitted dimension is imputed from another instrument without a label.**
   `coerce` substitutes the deterministic scorer's value for a dimension the
-  model left out (`evaluate.py:505`). It does not add the dimension to
+  model left out (`evaluate.py:644`). It does not add the dimension to
   `missingDimensions`, and it does not lower confidence. The standard calls
   this an imputation with a provenance.
 - **Case weights, no cross-instrument composite.** `RUBRIC_DIMENSIONS`
-  (`models.py:176`) and a case's own weights (`:216-221`) weight dimensions
+  (`models.py:183`) and a case's own weights (`:222-227`) weight dimensions
   inside the work-sample instrument, and that is correct at that layer. The
   résumé match score, the scorecard and the transfer score meet only as
   separate gates, never as a declared composite with a recorded scheme

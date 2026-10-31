@@ -4,7 +4,7 @@ type: application
 subject: combining-signals-into-a-hire-decision
 technique: outcome-feedback-loop-per-team
 stack: node
-verified_on: 2026-09-27
+verified_on: 2026-10-31
 verified_against: node@24
 applied: simulation
 ab_verdict: unmeasurable
@@ -43,7 +43,7 @@ route says so in as many words (`app/api/devcase/outcomes/route.ts:19-22`): the
 corpus "(and so the promote-floor recommendation derived from it) is per-team,
 not deployment-wide. The promote FLOOR itself stays global (dev_control is a
 declared deployment-level table)". Moving it requires organization-level
-authority (`:58-63`, `org:manage`).
+authority (`:57-65`, `org:manage`).
 
 So a recommendation computed from team A's hires, applied by an organization
 administrator, becomes team B's floor too. The per-team evidence fix closed the
@@ -56,12 +56,19 @@ deliberate. It does not make the number team B's.
 
 A human accept or reject seals the machine's recommendation beside the human
 act: `aiVerdict(current)` feeds `aiRecommendation` and `aiConfidence` into the
-decision record (`app/_lib/pipeline-entry-action.ts:55-64`, `:463-479`,
-`:506-526`). The raw material for scoring overrides exists. But nothing in `app`,
+decision record (`app/_lib/pipeline-entry-action.ts:52-69`, `:522-535`,
+`:577-611`). The raw material for scoring overrides exists. But nothing in `app`,
 `pipeline` or `scripts` reads the field back; the only other hit is a UI label
 key. The join to outcomes is possible and unbuilt: the outcome row's `ref` is
 the submission id, which the pipeline entry carries as `dev_submission_id`, and
 the entry id is the decision record's `candidate_ref`.
+
+Re-checked 2026-10-31 at kp@6edf5d7: one reader now exists.
+`autoAdvanceFacts` (`app/_lib/status-decisions.ts:231`) reads the sealed
+`aiRecommendation` / `aiConfidence` back to show a candidate the verdict an
+`auto_advanced` record rode on (the Art. 86 explanation). That is disclosure,
+not override scoring: nothing yet joins the sealed pair to outcomes, so the
+deviation below stands.
 
 ## Simulation (2026-09-27)
 
