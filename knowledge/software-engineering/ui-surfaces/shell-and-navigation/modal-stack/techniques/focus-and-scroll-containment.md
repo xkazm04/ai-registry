@@ -105,6 +105,11 @@ through undimmed, strands assistive users in a surface that does not behave as
 the declaration says. Non-modal entries (the popover case above) make no such
 claim.
 
+On the web, a dialog opened with `showModal()` gets this inert marking from the
+platform: everything else in its document becomes inert, as if the `inert`
+attribute were set. The marking stops at the document boundary, so a modal
+inside an embedded frame leaves the surrounding page interactive.
+
 ## Containment is stack-aware
 
 Exactly **one** overlay traps at a time: the topmost *modal* entry.

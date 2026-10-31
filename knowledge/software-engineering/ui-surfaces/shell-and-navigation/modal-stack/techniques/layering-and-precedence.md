@@ -98,6 +98,15 @@ a **layer root** near the top of the surface tree (the anchored-positioning
 technique's escape): at the root, bands compete in one shared scope, and the
 scale's promise actually binds.
 
+The web platform adds one escape the numbers cannot reach: the browser's
+**top layer**. A dialog opened with `showModal()`, a shown popover and a
+fullscreen element render there, above every stacking scope in the document
+whatever its layer value. That makes the top layer a structural root for the
+families that use it, not a band in the scale — and it means a page-level
+surface with an authored number, however large, still renders beneath them.
+A product that mixes top-layer overlays with number-ranked ones has two
+ordering systems and must say which families live in which.
+
 Two disciplines follow:
 
 - Overlay layer roots are ordered at the root by band, so band precedence is
