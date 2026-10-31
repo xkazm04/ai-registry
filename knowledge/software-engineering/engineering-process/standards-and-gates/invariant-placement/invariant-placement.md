@@ -170,11 +170,13 @@ available, and an encoding that claims otherwise asserts an expired fact with
 the authority of a checked one** — which is strictly worse than no encoding,
 because the check it replaced would still have been running.
 
-**Obligations to act.** A structural encoding is good at *at most once* and
-incapable of *at least once*. It can make a second use impossible; it cannot
-make a first use happen, because discarding a value is always legal. Every
-"must happen" requirement keeps a runtime check; only the "must not happen
-twice" half rises.
+**Obligations to act.** A structural encoding is good at *at most once* and,
+in the type systems most code is written in, incapable of *at least once*. It
+can make a second use impossible; it cannot make a first use happen, because
+discarding a value is legal there. Only a linear type system, whose checker
+refuses a value that is silently discarded, holds the first use, and few
+production languages have one. Outside one, every "must happen" requirement
+keeps a runtime check; only the "must not happen twice" half rises.
 
 **Terms that belong to an occurrence rather than to a type.** The two classes
 above are both about the *fact* a value carries. This third is about the value's
@@ -281,6 +283,15 @@ whether an encoding survives its second year and its third maintainer.
   — a property computed from the parts versus one declared by the author, the
   two failure modes annotation cannot avoid, and the override as the place the
   guarantee is spent.
+- [shape-with-a-not-applicable-member](./techniques/shape-with-a-not-applicable-member.md)
+  — a closed set that gains a *none of these* member, the dead arm
+  exhaustiveness then compels, and the producer audit that finds it.
+- [repairing-check-erases-its-evidence](./techniques/repairing-check-erases-its-evidence.md)
+  — the call-site check that clamps instead of refusing, and what a test must
+  assert when the repaired value looks like a correct one.
+- [indistinguishable-members-do-not-rise](./techniques/indistinguishable-members-do-not-rise.md)
+  — a rule separating two members of one type sits at the call site however
+  structural it looks, the compensating pair, and the one-directional brand.
 - [paired-sites-localize-the-fault](./techniques/paired-sites-localize-the-fault.md)
   - one invariant asserted where a value is written and again where it is read,
   why only the read-side half is derived from the code, and the pre-operation

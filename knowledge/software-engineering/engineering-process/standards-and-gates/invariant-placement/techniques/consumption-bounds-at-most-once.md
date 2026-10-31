@@ -23,8 +23,11 @@ longer exists. The rule is enforced by construction at every call site that
 will ever exist, with no counter, no flag, and no state to keep consistent. For
 the *never twice* half of the obligation, this is as strong as placement gets.
 
-**The half nobody says out loud.** Nothing structural forces the holder to use
-the value at all. Discarding it is always legal. So:
+**The half nobody says out loud.** Outside a linear type system, nothing
+structural forces the holder to use the value at all. Discarding it is legal.
+(A linear type system is the exception: its checker refuses a value that is
+discarded unused, so it holds the lower bound too. Few production languages
+have one, and the rest of this technique is about the ones that do not.) So:
 
 > The encoding bounds consumption at **at most once**. It says nothing about
 > **at least once**.

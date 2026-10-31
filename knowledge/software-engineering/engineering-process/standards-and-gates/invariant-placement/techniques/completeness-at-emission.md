@@ -76,7 +76,7 @@ the fallback is visible to the party that has to live with it.
 
 ## When not to use it
 
-**At roughly three or more required parts.** The declaration cost of a staged
+**Beyond roughly three required parts.** The declaration cost of a staged
 construction is the inversion condition, and it is combinatorial in a way
 nobody counts. Each required part settable in any order needs its own
 transition declaration, and each such declaration restates every other tracked

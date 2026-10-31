@@ -67,7 +67,7 @@ their range while every test reports normal behaviour.
 
 ## The verdict
 
-`better`, and specifically: the technique's second remedy - *assert the strict
+`better`, and specifically: the technique's third remedy - *assert the strict
 contract, not the repaired range* - is a one-character edit here (`..=` to `..`)
 that closes arm B while leaving arm A green. That is the cheapest of the four
 remedies and the weakest, and it is sufficient at this seam only because the clamp

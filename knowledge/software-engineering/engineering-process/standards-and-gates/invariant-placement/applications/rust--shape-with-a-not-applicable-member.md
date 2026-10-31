@@ -5,7 +5,7 @@ subject: invariant-placement
 technique: shape-with-a-not-applicable-member
 stack: rust
 status: forged
-verified_on: 2026-09-04
+verified_on: 2026-10-31
 verified_against: rust@2021
 ---
 
@@ -13,7 +13,7 @@ verified_against: rust@2021
 
 Verified against `sagiegurari/cargo-make` at commit
 `95dcc545db8cf08af6fbec524e200e7c80b06027`, package version 0.37.24; toolchain
-witness `Cargo.toml:9`, `edition = "2021"`, CI matrix at
+witness `Cargo.toml:7`, `edition = "2021"`, CI matrix at
 `.github/workflows/ci.yml:18`. Every line below was re-opened on the date above.
 
 cargo-make chooses a script engine per task — a native OS script, an embedded
@@ -24,7 +24,7 @@ against it and reports a live dead arm.
 
 ## The set, with the member
 
-`src/lib/scriptengine/mod.rs:27-45`:
+`src/lib/scriptengine/mod.rs:27-44`:
 
 ```rust
 #[derive(Debug, Clone, PartialEq)]
@@ -71,17 +71,17 @@ function and its two callers, both inside the same file.
 ## The producer audit, and the finding
 
 The only public producer of `EngineType` is `get_engine_type` at
-`scriptengine/mod.rs:106-157`. Walking every path through it:
+`scriptengine/mod.rs:107-158`. Walking every path through it:
 
 - `script_runner = Some(runner)` — calls `get_internal_runner`; on `Unsupported`
-  it returns `Generic` (line 122) when a `script_extension` is present and `OS`
-  (line 126) when it is not. Otherwise the real engine.
+  it returns `Generic` (line 123) when a `script_extension` is present and `OS`
+  (line 127) when it is not. Otherwise the real engine.
 - `script_runner = None`, shebang present with **no** arguments — calls
   `get_internal_runner`; on `Unsupported` it returns `Shebang` (line 147).
   Otherwise the real engine.
 - `script_runner = None`, shebang present **with** arguments — `Shebang`
   (line 151), because an internal engine cannot accept interpreter arguments.
-- `script_runner = None`, no shebang — `OS` (line 155).
+- `script_runner = None`, no shebang — `OS` (line 154).
 
 **No path returns `Unsupported`.** Every branch that receives it from
 `get_internal_runner` maps it onto a real fallback in the next statement. The
@@ -89,8 +89,8 @@ member is unconstructible as an output of the only function callers use.
 
 ## The compiler-mandated arm, and what was written in it
 
-`invoke` at `scriptengine/mod.rs:263-312` dispatches on the resolved engine, and
-its match must be exhaustive. The last arm, `scriptengine/mod.rs:310`:
+`invoke_script` at `scriptengine/mod.rs:250-312`, which `invoke` calls,
+dispatches on the resolved engine, and its match must be exhaustive. The last arm, `scriptengine/mod.rs:310`:
 
 ```rust
         EngineType::Unsupported => Ok(false),
@@ -114,10 +114,11 @@ handling in `io.rs:135`, where an unrecognised value at least reaches
 ## The repair, in this tree
 
 `get_internal_runner` returns `Option<EngineType>` and loses the seventh member.
-Its two call sites, at lines 119 and 144, already contain the fallback policy —
+Its two call sites, at lines 116 and 141, already have the fallback policy in the
+match beneath them (lines 119 and 144) —
 `Generic`/`OS` and `Shebang` respectively — and become `match ... { Some(e) => e,
 None => ... }` or `unwrap_or_else`. `EngineType` then holds six reachable
-members, `invoke`'s match loses its last arm, and its exhaustiveness check goes
+members, `invoke_script`'s match loses its last arm, and its exhaustiveness check goes
 back to being a proof that every engine the resolver can produce has a runner.
 The edit touches three sites in one file and deletes the silent-success path.
 

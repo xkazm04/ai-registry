@@ -206,7 +206,9 @@ as rules, because everyone assumed the compiler was holding them.
 - Before writing a checker rule, ask whether the term is a property of a
   type. If it is, the rule is the expensive instrument doing a shape's job.
 - A term about identity, capture time, consumption, read set or lifetime has
-  no type. Stop looking for one.
+  no type in an ordinary checker. Stop looking for one there. The exceptions
+  are languages that type the term itself: a linear type system holds
+  consumption, and a borrow checker holds how long a reference stays valid.
 - A term requiring an annotation to be tighter than the checker demands has
   no type either, and its violation disables the checker at the contract's
   own site.

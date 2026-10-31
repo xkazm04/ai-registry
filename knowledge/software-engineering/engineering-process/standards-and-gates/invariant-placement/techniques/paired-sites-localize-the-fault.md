@@ -93,7 +93,12 @@ run checks. Removing it is where the technique's real price sits, and it is a
 price of the call-site altitude that nothing else in this subject charges.
 
 **A checking construct the shipping build strips still requires its operands to
-compile.** Stripping is about *execution*, not about compilation. So a
+compile**, where the strip is a run-time switch rather than a textual removal.
+A debug-only assertion whose expansion is "always type checked" is the first
+kind: only its execution is gated. An assertion that a preprocessor flag
+defines away is the second kind, compiled out of the program entirely, and the
+failure below cannot happen there. For the first kind, stripping is about *execution*, not about
+compilation. So a
 build-gated snapshot leaves the check reading a name that no longer exists, and
 the module stops compiling — in the optimized profile only. The profile that
 runs the checks is the one profile where the binding is present, so **the lane

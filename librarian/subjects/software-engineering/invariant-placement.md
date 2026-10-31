@@ -227,3 +227,121 @@ one consumer at a time.
 ### 2026-09-17 - `/harvest backlog` wave 6, one technique + one application
 
 `paired-sites-localize-the-fault`, landed from a six-rule bundle whose headline rule was refused. The rule as usually stated - assert an invariant before the write and again after the read - is right about the shape and wrong about the payoff. **The pair buys localization, not detection.** A single external round-trip test caught the same defect; what it could not do was say which side produced it. So the reason to pay for two sites is attribution, and a landing that claimed a detection gain would have been claiming something the measurement did not show. The half that is genuinely load-bearing: **the two sites do not have the same standing.** The read-side assertion is derived from what the consumer actually does; the write-side one is usually copied from a sentence in a comment. Measured, the write-side assertion written from the prose refused a legal input, because the consumer splits at the first separator and only the leading component was ever constrained. Derive the precondition from the code that consumes it, or the pair refuses things the system accepts. And a rule the unit did not ask for, found by measurement: **'keep assertions on in production' is two questions.** Whether a check runs is a severity decision this corpus already settles by who supplies the value. Whether a check is PRESENT is not a decision - a stripped check still compiles its operands, so a pre-operation snapshot can make the shipping profile the only build that refuses the module, and a debug-only blocking lane is structurally unable to see it. Neither fleet Rust project compiles the shipping profile on a blocking rung. On the density floor this bundle proposed: refused, and the reasoning is worth more than the refusal. A difference-in-differences came back significant in the harmful direction and was **not reported as a refutation**, because its own positive control could not detect a halving. What settled it instead was countable: the reference campaign was repaired by two same-day fix commits, and it shipped a helper whose documented purpose was to keep an assertion a no-op so it would compile in every profile - `proxy-metric-counts-its-own-satisfiers`, realized in the code rather than predicted.
+
+## Architecture review - 2026-10-31
+
+First architecture review, against `10247cc6c`. All 19 documents were read in full.
+The subject's spine holds. Two claims overreach in the same direction: the golden
+path, `consumption-bounds-at-most-once` and `occurrence-is-not-a-type` say that
+discarding a value is always legal and that consumption and lifetime have no type.
+Both are true of the checkers this corpus measured. Neither is true of a linear type
+system: the Austral spec says "a value of a linear type must be used once and only
+once ... It cannot be used zero times", and its compiler refuses a value that is
+"silently discarded". Nor is it true of a borrow checker, which rejects a reference
+that outlives its data at compile time. `paired-sites-localize-the-fault` says a
+stripped check "still requires its operands to compile". That holds for Rust, whose
+`debug_assert!` expansion "is always type checked". It does not hold for C, where
+`NDEBUG` "shall stop assertions from being compiled into the program". Re-opening the
+cargo-make application at its pinned commit showed its line anchors had drifted: the
+`Ok(false)` arm is in `invoke_script`, not `invoke`, and the edition is on
+`Cargo.toml:7`. Its claims stand.
+
+<!-- architecture-review:v1 -->
+```json
+{
+  "subject": "software-engineering/invariant-placement",
+  "date": "2026-10-31",
+  "baseline": "10247cc6c",
+  "digest": "sha256-b2:c6563834f502429c",
+  "disposition": "clarify",
+  "coverage": "All 19 documents read in full. Primary sources were opened for the linear-type, lifetime and stripped-assertion claims. Pinned public sources were re-opened for the cargo-make, modernweb-dev, ascent, goat and lighttrack anchors. No measurement was re-run.",
+  "counterexamples": [
+    "In a linear type system (Austral) a value discarded unused is a compile error, so the structure does hold at-least-once.",
+    "A borrow checker holds how long a reference stays valid; a dangling reference is rejected at compile time.",
+    "C's assert under NDEBUG is compiled out entirely, so a build-gated snapshot beside it does not break the optimized build.",
+    "A rule over two members of one type compiles in either order, so it never reached the shape altitude however structural it looks."
+  ],
+  "sources": [
+    {"url": "https://austral-lang.org/spec/spec.html", "result": "Use-Once Rule: 'must be used once and only once ... It cannot be used zero times'; the compiler refuses a silently discarded linear value. Refutes 'discarding is always legal' as a universal."},
+    {"url": "https://doc.rust-lang.org/book/ch10-03-lifetime-syntax.html", "result": "'every reference in Rust has a lifetime'; the borrow checker rejects a reference that outlives its data at compile time. Lifetime-as-validity is typeable there."},
+    {"url": "https://doc.rust-lang.org/std/macro.debug_assert.html", "result": "'The result of expanding debug_assert! is always type checked.' Supports the paired-sites mechanism for Rust."},
+    {"url": "https://pubs.opengroup.org/onlinepubs/9799919799/functions/assert.html", "result": "NDEBUG 'shall stop assertions from being compiled into the program'. Bounds the paired-sites claim."},
+    {"url": "https://github.com/sagiegurari/cargo-make/blob/95dcc545db8cf08af6fbec524e200e7c80b06027/src/lib/scriptengine/mod.rs", "result": "Every claim holds. Anchors drifted: enum 27-44, get_engine_type 107-158, Generic 123, OS 127/154, call sites 116/141, the Ok(false) arm at 310 inside invoke_script (250); edition at Cargo.toml:7; runner.rs:455 runs the command when invoke returns false."},
+    {"url": "https://github.com/modernweb-dev/web/blob/f72d33e18959ceec2f7cb5bf1216233e39829c2e/packages/dev-server-core/src/plugins/transformModuleImportsPlugin.ts", "result": "The transposed contract and implementation anchors (14-19, 104, 209, 229, 254) hold verbatim."},
+    {"url": "https://github.com/xkazm04/ascent/tree/d37c8288", "result": "All quoted anchors (ids.ts 37/40, gate.ts 38/39/75/79, org-rollup.ts 154, threads route 34, athena-threads.ts 130, ids.typecheck.ts 26-27) hold."},
+    {"url": "https://github.com/xkazm04/goat/tree/84db23c", "result": "The anchors hold at 84db23c, but eslint-rules/no-unstable-store-selector.cjs is absent on main, and the Director placeholder about substituting the landed sha is still in the text."},
+    {"url": "https://github.com/xkazm04/lighttrack", "result": "On main, the B3 precondition message, the should_panic test and the doc comment it narrows are present, and rust-toolchain.toml pins 1.96.1. The arms were not re-run."}
+  ],
+  "documents": {
+    "invariant-placement.md": {"disposition": "clarify", "reason": "'Obligations to act' says discarding is always legal; scope it to non-linear type systems (Austral). The closing technique list omits three techniques the frontmatter and body carry: shape-with-a-not-applicable-member, repairing-check-erases-its-evidence and indistinguishable-members-do-not-rise."},
+    "techniques/placement-precedes-gate.md": {"disposition": "keep", "reason": "Ordered procedure, value-versus-arrangement discriminator and the publish deadline on exploration are sound and consistent with the golden path."},
+    "techniques/constraint-deletion-is-silent.md": {"disposition": "keep", "reason": "The negative-artifact obligation, the diagnostic-text trap and the guard-as-coverage-statement amendment are coherent; the third-fallback branch covers toolchains with no stable identifier."},
+    "techniques/initialization-proof-tokens.md": {"disposition": "keep", "reason": "Lapse condition, per-capability proofs and the boundary with guarded-singleton-accessor are clear."},
+    "techniques/completeness-at-emission.md": {"disposition": "clarify", "reason": "The heading 'At roughly three or more required parts' contradicts the rule 'two or three required parts, stage the construction'. Owed: the declaration cost as the text describes it (one declaration per part, each restating the others) grows quadratically where the language has type parameters, so 'combinatorial' needs a source or a qualifier."},
+    "techniques/consumption-bounds-at-most-once.md": {"disposition": "clarify", "reason": "'Discarding it is always legal' is refuted by linear type systems (Austral Use-Once Rule). Scope it to the affine and unrestricted systems the technique addresses."},
+    "techniques/build-time-evaluation-of-cross-value-invariants.md": {"disposition": "keep", "reason": "Class, three denials and the evaluation-versus-conditional reconciliation with gate-laddering are precise."},
+    "techniques/derived-properties-cannot-be-forged.md": {"disposition": "keep", "reason": "Declared-versus-derived failure modes, the zero-width denying part and override governance are sound; the law candidate stays a lead."},
+    "techniques/shape-with-a-not-applicable-member.md": {"disposition": "keep", "reason": "Producer audit and the optional-wrapper repair hold; the cargo-make application re-confirms the mechanism."},
+    "techniques/repairing-check-erases-its-evidence.md": {"disposition": "keep", "reason": "Repair-versus-refusal is correctly a posture of the call-site altitude; the remedy ordering and the cap discriminator are consistent."},
+    "techniques/indistinguishable-members-do-not-rise.md": {"disposition": "keep", "reason": "The diagnostic, both failure shapes, the compensating pair and the one-directional brand repair are supported by both applications, and their anchors were re-opened."},
+    "techniques/occurrence-is-not-a-type.md": {"disposition": "clarify", "reason": "The decision rule 'consumption ... or lifetime has no type' is refuted for linear types and borrow checkers; scope it to ordinary checkers. Arithmetic re-checked (9/33=27%, 19+5+9=33, 18/49=37%, 262/280=94%). Owed: repository B's 49 opportunities do not equal its 35 correct plus 18 violating sites (53); the denominator needs explaining from the measurement record."},
+    "techniques/paired-sites-localize-the-fault.md": {"disposition": "clarify", "reason": "'A checking construct the shipping build strips still requires its operands to compile' holds for Rust debug_assert! and fails for C assert under NDEBUG (POSIX); state the boundary."},
+    "applications/rust--paired-sites-localize-the-fault.md": {"disposition": "reverify", "reason": "The landed precondition, test and toolchain pin are present on lighttrack main. The four arms and the release-profile failure were not re-run, and line numbers moved after the rebase."},
+    "applications/rust--repairing-check-erases-its-evidence.md": {"disposition": "clarify", "reason": "It calls 'assert the strict contract' the technique's second remedy, but the technique lists it third of four. Arithmetic re-checked: 31 bits over 2^31 is below 1; one bit narrower gives 50% at the bound and 25% below 0.5."},
+    "applications/rust--shape-with-a-not-applicable-member.md": {"disposition": "clarify", "reason": "Re-opened at the pinned commit. The claims hold; the line anchors drifted (enum 27-44, producer 107-158, fallbacks 123/127/154, call sites 116/141, the arm in invoke_script 250-312, edition at Cargo.toml:7)."},
+    "applications/node--indistinguishable-members-do-not-rise.md": {"disposition": "keep", "reason": "Re-opened the transposed contract anchors at the pinned commit; they hold verbatim. The TS2367 inversion table was not re-run but follows from the quoted declarations."},
+    "applications/next--indistinguishable-members-do-not-rise.md": {"disposition": "keep", "reason": "All quoted anchors hold at d37c8288. A/B counts were not re-run; the provenance-not-validity limit is stated."},
+    "applications/next--occurrence-is-not-a-type.md": {"disposition": "reverify", "reason": "The anchors hold at 84db23c, but the rule file is absent on main and the text still carries a Director placeholder asking for the landed sha. Whether, and as what sha, the change landed needs the owner's history."}
+  }
+}
+```
+
+Applied the same day, within the clarify items that a primary source opened this run
+or an internal check supported. Still owed: completeness-at-emission's growth wording
+and occurrence-is-not-a-type's 49-versus-53 denominator, because no source settles
+either.
+
+<!-- architecture-review:v1 -->
+```json
+{
+  "subject": "software-engineering/invariant-placement",
+  "date": "2026-10-31",
+  "baseline": "10247cc6c",
+  "digest": "sha256-b2:266c7c67169ee2dc",
+  "disposition": "clarify",
+  "coverage": "Re-record after applying clarify edits to 7 documents; all 19 carry a decision. The two owed items remain.",
+  "counterexamples": [
+    "In a linear type system (Austral) a value discarded unused is a compile error, so the structure does hold at-least-once.",
+    "C's assert under NDEBUG is compiled out entirely, so a build-gated snapshot beside it does not break the optimized build.",
+    "A rule over two members of one type compiles in either order, so it never reached the shape altitude however structural it looks."
+  ],
+  "sources": [
+    {"url": "https://austral-lang.org/spec/spec.html", "result": "Basis for the linear-type scope added to the golden path, consumption-bounds and occurrence."},
+    {"url": "https://doc.rust-lang.org/book/ch10-03-lifetime-syntax.html", "result": "Basis for the borrow-checker exception in occurrence's decision rule."},
+    {"url": "https://doc.rust-lang.org/std/macro.debug_assert.html", "result": "Quoted in paired-sites ('is always type checked')."},
+    {"url": "https://pubs.opengroup.org/onlinepubs/9799919799/functions/assert.html", "result": "Basis for the C NDEBUG boundary in paired-sites."},
+    {"url": "https://github.com/sagiegurari/cargo-make/blob/95dcc545db8cf08af6fbec524e200e7c80b06027/src/lib/scriptengine/mod.rs", "result": "Every anchor in the cargo-make application re-opened and corrected; verified_on moved to 2026-10-31."}
+  ],
+  "documents": {
+    "invariant-placement.md": {"disposition": "keep", "reason": "applied 2026-10-31: scoped 'Obligations to act' to non-linear type systems; added the three missing techniques to the closing list."},
+    "techniques/placement-precedes-gate.md": {"disposition": "keep", "reason": "Unchanged; as in the first record."},
+    "techniques/constraint-deletion-is-silent.md": {"disposition": "keep", "reason": "Unchanged; as in the first record."},
+    "techniques/initialization-proof-tokens.md": {"disposition": "keep", "reason": "Unchanged; as in the first record."},
+    "techniques/completeness-at-emission.md": {"disposition": "clarify", "reason": "applied 2026-10-31: heading now 'Beyond roughly three required parts', matching the rule. Still owed: quadratic-versus-combinatorial declaration growth needs a source or a qualifier."},
+    "techniques/consumption-bounds-at-most-once.md": {"disposition": "keep", "reason": "applied 2026-10-31: 'discarding is legal' scoped to non-linear type systems, naming the linear exception."},
+    "techniques/build-time-evaluation-of-cross-value-invariants.md": {"disposition": "keep", "reason": "Unchanged; as in the first record."},
+    "techniques/derived-properties-cannot-be-forged.md": {"disposition": "keep", "reason": "Unchanged; as in the first record."},
+    "techniques/shape-with-a-not-applicable-member.md": {"disposition": "keep", "reason": "Unchanged; as in the first record."},
+    "techniques/repairing-check-erases-its-evidence.md": {"disposition": "keep", "reason": "Unchanged; as in the first record."},
+    "techniques/indistinguishable-members-do-not-rise.md": {"disposition": "keep", "reason": "Unchanged; as in the first record."},
+    "techniques/occurrence-is-not-a-type.md": {"disposition": "clarify", "reason": "applied 2026-10-31: the decision rule now names linear types and borrow checkers as exceptions. Still owed: explain repository B's 49 opportunities against 35+18 sites."},
+    "techniques/paired-sites-localize-the-fault.md": {"disposition": "keep", "reason": "applied 2026-10-31: the stripped-operand claim is scoped to run-time-switched checks (a debug assertion whose expansion is always type checked), and an assertion a preprocessor flag defines away is named as the case where it does not apply, without product names because the technique layer must stay stack-neutral."},
+    "applications/rust--paired-sites-localize-the-fault.md": {"disposition": "reverify", "reason": "Unchanged; the arms were not re-run."},
+    "applications/rust--repairing-check-erases-its-evidence.md": {"disposition": "keep", "reason": "applied 2026-10-31: 'second remedy' changed to 'third remedy' to match the technique's ordering."},
+    "applications/rust--shape-with-a-not-applicable-member.md": {"disposition": "keep", "reason": "applied 2026-10-31: line anchors corrected against the pinned commit; the arm attributed to invoke_script; verified_on 2026-10-31."},
+    "applications/node--indistinguishable-members-do-not-rise.md": {"disposition": "keep", "reason": "Unchanged; as in the first record."},
+    "applications/next--indistinguishable-members-do-not-rise.md": {"disposition": "keep", "reason": "Unchanged; as in the first record."},
+    "applications/next--occurrence-is-not-a-type.md": {"disposition": "reverify", "reason": "Unchanged; the landed sha and the Director placeholder are still unresolved."}
+  }
+}
+```
