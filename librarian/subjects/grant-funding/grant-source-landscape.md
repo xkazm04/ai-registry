@@ -239,3 +239,167 @@ node tree, so the stack count is unmoved; the run applied the one unapplied tech
   correctly and its first rung never fired on live data because of a field-name mismatch.
   Candidate amendment for a later run, not written here: onboarding asserts the identifier
   rung against one captured real payload.
+
+## Architecture re-review - 2026-10-31
+
+Stale since the 2026-10-14 and 2026-10-22 application runs. Five applications landed
+(dedup-records, market-readiness, open-call, relevance-precision, stable-dedup), and three
+techniques gained one decision rule each. Read all fifteen documents. None of the five
+clarify items owed since 2026-09-10 is applied at these bytes. The golden path still says
+"six techniques". The supranational-registry claim still appears in the golden path and in
+open-call-vs-awarded-history. It also appears in `market-readiness-tiering` (twice: "no
+unified registry"), which the 2026-09-10 record missed. Close date is still a composite-key
+field. The 23:59 stamp is still unconditional.
+
+Re-checked this run. The EU Portal page says the Central Validation Service "carries out
+the validation for all EU services using the Portal". It checks that an organisation "is
+legally recognised (has legal personality)" and checks its special legal statuses, such
+as non-profit or public body. The page does not say the register can be queried in bulk.
+The NOAA guidance page cited on 2026-09-10 did not resolve from this session. One federal
+notice was opened instead (a 2026 Bureau of Justice Assistance solicitation). It lists a
+"Grants.gov Deadline: October 6, 2026, 11:59 pm Eastern" and an "Application JustGrants
+Deadline: October 9, 2026, 8:59 pm Eastern". So the operative date and time for the full
+application can come from the notice and differ from the clearinghouse default. That
+supports the precedence rule.
+
+Arithmetic in the relevance application checked: 630+133+21+20+5+5+5+2 = 821; 154 kept;
+667/821 = 81%; 654+13 = 667. The technique's "roughly three quarters" stands as a hedge
+with a witness.
+
+<!-- architecture-review:v1 -->
+```json
+{
+  "subject": "grant-funding/grant-source-landscape",
+  "date": "2026-10-31",
+  "baseline": "c283f0c50",
+  "digest": "sha256-b2:77f47d13fe985d09",
+  "disposition": "clarify",
+  "coverage": "All 15 documents read in full; owed items re-checked against current bytes; EU validation scope re-read at the primary source; one federal notice's stated deadlines read; relevance application arithmetic recomputed. Not evaluated: the private grant repository, so application citations and measurements are dated records; NOAA guidance page unreachable this session; no verified_on or maturity change.",
+  "counterexamples": [
+    "A multi-cutoff call from a source with no publisher id: the next-upcoming close date is recomputed as cutoff one passes, the composite key built from it changes, and the call re-inserts as a duplicate.",
+    "A federal opportunity whose notice names its own operative date and time: a blanket 23:59 stamp states a window the notice does not grant.",
+    "An EU beneficiary validated once by the Central Validation Service: a cross-programme legal-entity validation exists at the supranational level, so 'no unified registry' overstates the gap, which is the absence of a public register a product can query for an arbitrary applicant.",
+    "A curated floor whose maintained dates have all expired: zero rows is the honest output, not the empty-jurisdiction failure."
+  ],
+  "sources": [
+    {"url": "https://webgate.ec.europa.eu/funding-tenders-opportunities/spaces/OM/pages/1867804/Registration+and+validation+of+your+organisation", "result": "Re-read 2026-10-31: CVS 'carries out the validation for all EU services using the Portal', checks legal personality and special legal statuses; validation is needed only for certain participant types; the page does not say the register is publicly queryable in bulk."},
+    {"url": "https://www.bja.ojp.gov/funding/opportunities/o-bja-2026-172640", "result": "A federal notice listing 'Grants.gov Deadline: October 6, 2026, 11:59 pm Eastern' and 'Application JustGrants Deadline: October 9, 2026, 8:59 pm Eastern': the notice, not the clearinghouse default, states the operative instant."},
+    {"url": "https://www.corporateservices.noaa.gov/grantsonline/Documents/FFO_Help_Pages/FFO_Help_Submission_Dates_and_Times.htm", "result": "Not reachable from this session (host did not resolve); the 2026-09-10 reading of it (agency-designated earlier closing times) is carried forward, not re-confirmed."}
+  ],
+  "documents": {
+    "grant-source-landscape.md": {"disposition": "clarify", "reason": "Still owed: 'one of the six techniques' against seven listed; and 'supranational funding bodies have no unified registry', contradicted by the EU Central Validation Service, re-read this run."},
+    "techniques/close-date-normalization.md": {"disposition": "clarify", "reason": "Still owed: the source's end-of-day default is stamped onto every row with no precedence for a time or date the notice itself states. Add that a notice-stated instant overrides the source default, and that the default is a recorded assumption."},
+    "techniques/curated-floor-vs-live-feed.md": {"disposition": "keep", "reason": "Unchanged; consistent and bounded."},
+    "techniques/dedup-records-who-carried-it.md": {"disposition": "keep", "reason": "Gained the key-the-map-on-what-rows-carry rule, which is directly witnessed by its application's latent double count."},
+    "techniques/market-readiness-tiering.md": {"disposition": "clarify", "reason": "Gained the built-pillars-only claim rule (witnessed). It also repeats the supranational 'no unified registry' claim twice, which the 2026-09-10 record missed. Narrow it like the golden path."},
+    "techniques/open-call-vs-awarded-history.md": {"disposition": "clarify", "reason": "Still owed: the table's 'absent at the supranational level' and the decision rule degrading the gate to per-member-state verification. A cross-programme validation exists; what is absent is a public register a third party can query."},
+    "techniques/relevance-precision-filtering.md": {"disposition": "keep", "reason": "Gained the upsert-only retirement rule, witnessed; the three-quarters hedge now has an 81% witness."},
+    "techniques/stable-dedup-key-selection.md": {"disposition": "clarify", "reason": "Still owed: close date sits in the composite-key example while identity is defined as run-invariant fields and the sibling technique recomputes close date per ingest. Remove it and name the rule."},
+    "applications/node--close-date-normalization.md": {"disposition": "clarify", "reason": "Still owed: its instructive-gap section should record that the unconditional 23:59 ET stamp ignores a notice-stated closing instant. Code citations are not re-checked."},
+    "applications/node--curated-floor-vs-live-feed.md": {"disposition": "keep", "reason": "Dated record; unchanged."},
+    "applications/node--dedup-records-who-carried-it.md": {"disposition": "keep", "reason": "Falsification seam, paired proof, honest about the latent rather than live defect and the missing production caller."},
+    "applications/node--market-readiness-tiering.md": {"disposition": "keep", "reason": "Paired proof on the coverage claim; states that the market map itself was not re-fetched."},
+    "applications/node--open-call-vs-awarded-history.md": {"disposition": "keep", "reason": "Refuse-before-network seam with opt-in rolling calls; consistent with the technique's forecast boundary."},
+    "applications/node--relevance-precision-filtering.md": {"disposition": "keep", "reason": "Arithmetic checked and consistent; seam could have refuted the gate and records that the close-date screen did most of the work."},
+    "applications/node--stable-dedup-key-selection.md": {"disposition": "keep", "reason": "Live-payload replay found the first rung never fired; 821 calls to 768 ids is consistent with the relevance replay. States its unmigrated-id limit."}
+  }
+}
+```
+
+### 2026-10-31 - after applying
+
+Applied all six clarify items. Application dates are unchanged because no code citation was re-checked. The record below is against the edited bytes.
+
+<!-- architecture-review:v1 -->
+```json
+{
+  "subject": "grant-funding/grant-source-landscape",
+  "date": "2026-10-31",
+  "baseline": "c283f0c50",
+  "digest": "sha256-b2:8b074fa86a859efc",
+  "disposition": "keep",
+  "coverage": "All 15 documents read in full; owed items re-checked against current bytes; EU validation scope re-read at the primary source; one federal notice's stated deadlines read; relevance application arithmetic recomputed. Not evaluated: the private grant repository, so application citations and measurements are dated records; NOAA guidance page unreachable this session; no verified_on or maturity change. Phase B applied six clarifies, grounded in the EU Portal page and the federal notice read this run plus the internal key/recompute contradiction.",
+  "counterexamples": [
+    "A multi-cutoff call from a source with no publisher id: the next-upcoming close date is recomputed as cutoff one passes, the composite key built from it changes, and the call re-inserts as a duplicate.",
+    "A federal opportunity whose notice names its own operative date and time: a blanket 23:59 stamp states a window the notice does not grant.",
+    "An EU beneficiary validated once by the Central Validation Service: a cross-programme legal-entity validation exists at the supranational level, so 'no unified registry' overstates the gap, which is the absence of a public register a product can query for an arbitrary applicant.",
+    "A curated floor whose maintained dates have all expired: zero rows is the honest output, not the empty-jurisdiction failure."
+  ],
+  "sources": [
+    {
+      "url": "https://webgate.ec.europa.eu/funding-tenders-opportunities/spaces/OM/pages/1867804/Registration+and+validation+of+your+organisation",
+      "result": "Re-read 2026-10-31: CVS 'carries out the validation for all EU services using the Portal', checks legal personality and special legal statuses; validation is needed only for certain participant types; the page does not say the register is publicly queryable in bulk."
+    },
+    {
+      "url": "https://www.bja.ojp.gov/funding/opportunities/o-bja-2026-172640",
+      "result": "A federal notice listing 'Grants.gov Deadline: October 6, 2026, 11:59 pm Eastern' and 'Application JustGrants Deadline: October 9, 2026, 8:59 pm Eastern': the notice, not the clearinghouse default, states the operative instant."
+    },
+    {
+      "url": "https://www.corporateservices.noaa.gov/grantsonline/Documents/FFO_Help_Pages/FFO_Help_Submission_Dates_and_Times.htm",
+      "result": "Not reachable from this session (host did not resolve); the 2026-09-10 reading of it (agency-designated earlier closing times) is carried forward, not re-confirmed."
+    }
+  ],
+  "documents": {
+    "grant-source-landscape.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: 'six' -> 'seven' techniques; supranational registry sentence narrowed to validation of registered participants with no public register a product can query (also the 'no unified applicant registry' line in the per-market section)."
+    },
+    "techniques/close-date-normalization.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: the end-of-day stamp is a recorded source default, overridden by a time or later operative deadline the record or its notice states; same in the decision rule."
+    },
+    "techniques/curated-floor-vs-live-feed.md": {
+      "disposition": "keep",
+      "reason": "Unchanged; consistent and bounded."
+    },
+    "techniques/dedup-records-who-carried-it.md": {
+      "disposition": "keep",
+      "reason": "Gained the key-the-map-on-what-rows-carry rule, which is directly witnessed by its application's latent double count."
+    },
+    "techniques/market-readiness-tiering.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: both 'no unified registry' phrasings narrowed to no registry a product can query."
+    },
+    "techniques/open-call-vs-awarded-history.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: availability cell and the supranational decision rule narrowed to the absence of a third-party-queryable register."
+    },
+    "techniques/relevance-precision-filtering.md": {
+      "disposition": "keep",
+      "reason": "Gained the upsert-only retirement rule, witnessed; the three-quarters hedge now has an 81% witness."
+    },
+    "techniques/stable-dedup-key-selection.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: close date removed from the composite-key example, with the rule that a field the normalization layer recomputes is never identity, linked to close-date-normalization."
+    },
+    "applications/node--close-date-normalization.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: instructive-gap section records the unconditional 23:59 ET stamp as a second gap; code citations and verified_on unchanged."
+    },
+    "applications/node--curated-floor-vs-live-feed.md": {
+      "disposition": "keep",
+      "reason": "Dated record; unchanged."
+    },
+    "applications/node--dedup-records-who-carried-it.md": {
+      "disposition": "keep",
+      "reason": "Falsification seam, paired proof, honest about the latent rather than live defect and the missing production caller."
+    },
+    "applications/node--market-readiness-tiering.md": {
+      "disposition": "keep",
+      "reason": "Paired proof on the coverage claim; states that the market map itself was not re-fetched."
+    },
+    "applications/node--open-call-vs-awarded-history.md": {
+      "disposition": "keep",
+      "reason": "Refuse-before-network seam with opt-in rolling calls; consistent with the technique's forecast boundary."
+    },
+    "applications/node--relevance-precision-filtering.md": {
+      "disposition": "keep",
+      "reason": "Arithmetic checked and consistent; seam could have refuted the gate and records that the close-date screen did most of the work."
+    },
+    "applications/node--stable-dedup-key-selection.md": {
+      "disposition": "keep",
+      "reason": "Live-payload replay found the first rung never fired; 821 calls to 768 ids is consistent with the relevance replay. States its unmigrated-id limit."
+    }
+  }
+}
+```

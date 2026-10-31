@@ -37,11 +37,15 @@ plus `supported` on the profile itself (types.ts:60-82).
 
 ## Reference profile vs contrast profiles
 
-`us.ts:10-72` is the founding-market profile: the grants.gov applicant-code
-table (`US_APPLICANT_CODE_LABELS`, codes "00"–"99"), eleven entity types
-each carrying the codes it may apply under (a school district gets
-`["05","25","99"]`, a municipality `["00","01","02","04","25","99"]` —
-us.ts:42-54), the EIN identifier with pattern `^\d{2}-?\d{7}$`, a
+`us.ts:10-72` is the founding-market profile: the federal clearinghouse's
+numeric opportunity-eligibility table (`US_APPLICANT_CODE_LABELS`, codes
+"00"–"99"; the funder-side audience enumeration the clearinghouse publishes
+on each opportunity, not the lettered applicant types an applicant files
+under), eleven entity types each carrying the codes it may apply under (a
+school district gets `["05","25","99"]`, a municipality
+`["00","01","02","04","25","99"]` — us.ts:42-54; in the publisher's table
+"00" and "01" are state and county governments, so this set lets a
+municipality match calls restricted to those), the EIN identifier with pattern `^\d{2}-?\d{7}$`, a
 four-source verification stack (charity publication, master file, federal
 award registration, sanctions list), and doc keys
 `["990","501c3","budget","audit","board"]`. Its header records the

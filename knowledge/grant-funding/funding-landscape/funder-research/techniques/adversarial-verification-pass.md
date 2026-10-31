@@ -93,5 +93,8 @@ research-grade, generatively discovered candidates, and applying it uniformly
 burns budget where the risk isn't. Do not let a confirmed verdict promote a
 row on its own authority: verification is one input to the human gate, not a
 bypass of it. And never share context between discoverer and verifier — a
-verifier that can see the discovery conversation inherits its assumptions,
-and independence is the property the whole technique rests on.
+verifier that can see the discovery conversation inherits its assumptions.
+Separate contexts remove that anchoring and nothing more: two passes of the
+same instrument share its priors, so a fabrication that is a confident prior
+rather than a local slip can survive both. What the technique actually rests
+on is fetch, don't recall, and the fail-closed default.

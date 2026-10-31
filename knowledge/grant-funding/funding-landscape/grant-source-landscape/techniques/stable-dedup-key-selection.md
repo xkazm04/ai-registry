@@ -28,8 +28,11 @@ enforced at the ingest boundary.
    row's provenance in one field.
 2. **A composite of identity fields, when no identifier exists.** Hash
    *only* the fields that constitute the opportunity's identity — title,
-   issuing body, close date, program code — into a bounded, deterministic
-   key.
+   issuing body, program code — into a bounded, deterministic key. Never a
+   field the normalization layer recomputes: a multi-cutoff call's operative
+   close date advances on each ingest
+   ([close-date-normalization](./close-date-normalization.md)), and a key
+   built on it re-inserts the call the moment its first cutoff passes.
 3. **Never a random fallback, and never the whole payload.** These are the
    two failure modes, and they fail in the same direction by different
    routes.

@@ -191,3 +191,127 @@ about the world — and none is cited below beyond the corpus itself.
   }
 }
 ```
+
+## Architecture re-review - 2026-10-31
+
+Stale because one application landed since the last record:
+`applications/process--adversarial-verification-pass.md` (2026-10-14, `code` / `better`).
+Read all ten documents. The three clarify items the 2026-09-10 record owed are still owed
+at these bytes: none of the three techniques changed. The new application adds a fourth.
+It found the real/open split collapsed at the gate, because a real-but-not-open candidate
+was staged with a small confidence bonus. `provenance-and-confidence-per-row` prescribes
+exactly that bonus ("confirmed-real-but-not-open worth a fraction of that") for a row that
+`adversarial-verification-pass` says never reaches the actionable queue. The two techniques
+disagree, and the application is the field witness of what the disagreement costs.
+
+`schema-validation-at-boundary` is more than a cross-subject seam. It lists deadline among
+the "Nullable enrichment fields" and then mints the key "from identity fields only -
+jurisdiction, funder, title, and the stated deadline - never from ... enrichment fields".
+That is a contradiction inside one document.
+
+No external source bears on these findings. They concern pipeline design, and each is
+checked against the documents' own text. The private repository behind the applications
+is not in this checkout, so their citations were read and not re-executed.
+
+<!-- architecture-review:v1 -->
+```json
+{
+  "subject": "grant-funding/funder-research",
+  "date": "2026-10-31",
+  "baseline": "c283f0c50",
+  "digest": "sha256-b2:f6444a0625aab599",
+  "disposition": "clarify",
+  "coverage": "All 10 documents read in full; the new application cross-read against the adversarial and provenance techniques; the three clarify items owed since 2026-09-10 re-checked against current bytes and found unapplied. Not evaluated: the private grant repository (application citations and measurements read as dated records); no agent run; no verified_on or maturity change.",
+  "counterexamples": [
+    "A dense jurisdiction-sector cell whose real supply exceeds the cap on every run: reading the hit cap as padding and lowering it suppresses genuine coverage.",
+    "A confident-prior fabrication: two context-isolated passes of the same model share the prior, so only the fetch requirement refutes it.",
+    "An amended call whose deadline moved: a deadline-bearing staging key re-stages it as new and spends a verification pass.",
+    "A real-but-not-open candidate scored a fraction of the confirmed bonus and staged: one approval promotes a closed programme as applyable, which the 2026-10-14 application measured."
+  ],
+  "sources": [
+    {"path": "knowledge/grant-funding/funding-landscape/funder-research", "result": "All documents read; findings are internal contradictions between techniques, or between a technique and its own text, plus the new application's A/B as field witness. No web source was needed."}
+  ],
+  "documents": {
+    "funder-research.md": {"disposition": "keep", "reason": "Trust-pipeline framing, cheap-to-expensive ordering and record-every-drop remain argued and consistent. Its stage-4 'independent adversarial pass' wording is about mechanism and is carried correctly by the technique once demoted."},
+    "techniques/adversarial-verification-pass.md": {"disposition": "clarify", "reason": "Still owed from 2026-09-10: 'independence is the property the whole technique rests on' overclaims. The technique says itself that memory is the substrate the fabrication came from, so separate contexts remove anchoring, not shared priors; the load is carried by fetch-don't-recall and fail-closed."},
+    "techniques/coverage-gap-driven-planning.md": {"disposition": "keep", "reason": "Unchanged; counts-need-their-own-guard and the human-investigated anomaly flag stand."},
+    "techniques/discovery-with-omit-if-unsure.md": {"disposition": "clarify", "reason": "Still owed: the cap-hit rule states an ambiguous signal as unambiguous. Name the discriminator, which is downstream refusal and rejection rates on the capped runs."},
+    "techniques/human-review-before-promotion.md": {"disposition": "keep", "reason": "Unchanged; approved-versus-promoted and the confirmed-write condition stand."},
+    "techniques/provenance-and-confidence-per-row.md": {"disposition": "clarify", "reason": "New: awards confirmed-real-but-not-open a fraction of the verification bonus inside the staging score, while adversarial-verification-pass routes that verdict to funder intelligence and never to the actionable queue. The 2026-10-14 application shows this exact bonus as how the split collapsed at the gate. The score must not give that verdict credit in the staging queue."},
+    "techniques/schema-validation-at-boundary.md": {"disposition": "clarify", "reason": "Still owed, and sharper: the document lists deadline as a nullable enrichment field and then puts 'the stated deadline' in a key it says is built from identity fields only. Amended calls re-stage, and null-deadline rows from one funder collide. Drop deadline from the key."},
+    "applications/node--coverage-gap-driven-planning.md": {"disposition": "keep", "reason": "Dated record; unchanged."},
+    "applications/process--adversarial-verification-pass.md": {"disposition": "keep", "reason": "New. A falsification-shaped seam with target, floor and a test that fails on A; it states its own gap (nothing reads the dropped rows back into a funder-intelligence view). Read, not re-executed."},
+    "applications/process--discovery-with-omit-if-unsure.md": {"disposition": "keep", "reason": "Unchanged. 'Drops refuted candidates before staging' is accurate about the !real path; the later application records the not-open half."}
+  }
+}
+```
+
+### 2026-10-31 - after applying
+
+Applied all four clarify items as minimal edits in each document's voice. No application text or date changed. The record below is against the edited bytes.
+
+<!-- architecture-review:v1 -->
+```json
+{
+  "subject": "grant-funding/funder-research",
+  "date": "2026-10-31",
+  "baseline": "c283f0c50",
+  "digest": "sha256-b2:0db17a0855c89da0",
+  "disposition": "keep",
+  "coverage": "All 10 documents read in full; the new application cross-read against the adversarial and provenance techniques; the three clarify items owed since 2026-09-10 re-checked against current bytes and found unapplied. Not evaluated: the private grant repository (application citations and measurements read as dated records); no agent run; no verified_on or maturity change. Phase B applied four technique clarifies from the internal contradictions named above.",
+  "counterexamples": [
+    "A dense jurisdiction-sector cell whose real supply exceeds the cap on every run: reading the hit cap as padding and lowering it suppresses genuine coverage.",
+    "A confident-prior fabrication: two context-isolated passes of the same model share the prior, so only the fetch requirement refutes it.",
+    "An amended call whose deadline moved: a deadline-bearing staging key re-stages it as new and spends a verification pass.",
+    "A real-but-not-open candidate scored a fraction of the confirmed bonus and staged: one approval promotes a closed programme as applyable, which the 2026-10-14 application measured."
+  ],
+  "sources": [
+    {
+      "path": "knowledge/grant-funding/funding-landscape/funder-research",
+      "result": "All documents read; findings are internal contradictions between techniques, or between a technique and its own text, plus the new application's A/B as field witness. No web source was needed."
+    }
+  ],
+  "documents": {
+    "funder-research.md": {
+      "disposition": "keep",
+      "reason": "Trust-pipeline framing, cheap-to-expensive ordering and record-every-drop remain argued and consistent. Its stage-4 'independent adversarial pass' wording is about mechanism and is carried correctly by the technique once demoted."
+    },
+    "techniques/adversarial-verification-pass.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: closing paragraph demotes 'independence is the property the whole technique rests on' to the removal of anchoring, and names fetch-don't-recall and fail-closed as what the technique rests on."
+    },
+    "techniques/coverage-gap-driven-planning.md": {
+      "disposition": "keep",
+      "reason": "Unchanged; counts-need-their-own-guard and the human-investigated anomaly flag stand."
+    },
+    "techniques/discovery-with-omit-if-unsure.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: cap-hit decision rule now reads refusal and rejection rates on capped runs as the discriminator between padding and supply."
+    },
+    "techniques/human-review-before-promotion.md": {
+      "disposition": "keep",
+      "reason": "Unchanged; approved-versus-promoted and the confirmed-write condition stand."
+    },
+    "techniques/provenance-and-confidence-per-row.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: confirmed-real-but-not-open no longer earns a partial staging bonus; it routes to funder intelligence, linked to the adversarial technique."
+    },
+    "techniques/schema-validation-at-boundary.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: staging key is jurisdiction, funder and title; deadline excluded, with the nullable-enrichment and amended-call reasons."
+    },
+    "applications/node--coverage-gap-driven-planning.md": {
+      "disposition": "keep",
+      "reason": "Dated record; unchanged."
+    },
+    "applications/process--adversarial-verification-pass.md": {
+      "disposition": "keep",
+      "reason": "New. A falsification-shaped seam with target, floor and a test that fails on A; it states its own gap (nothing reads the dropped rows back into a funder-intelligence view). Read, not re-executed."
+    },
+    "applications/process--discovery-with-omit-if-unsure.md": {
+      "disposition": "keep",
+      "reason": "Unchanged. 'Drops refuted candidates before staging' is accurate about the !real path; the later application records the not-open half."
+    }
+  }
+}
+```

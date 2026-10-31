@@ -71,9 +71,12 @@ downstream.
 
 ## Decision rules
 
-- When the agent returns exactly the cap on every run, lower the cap or raise
-  the confidence language — hitting the cap consistently is a padding signal,
-  not a richness signal.
+- When the agent returns exactly the cap on every run, check what
+  verification and review did with those runs before acting. A high refusal
+  or rejection rate on capped runs is padding: lower the cap or raise the
+  confidence language. A low one in a dense cell is supply, and lowering the
+  cap there cuts real coverage. Hitting the cap alone is a question, not a
+  verdict.
 - When a field would strengthen a row but the agent is unsure, null wins. A
   null deadline routes the row to research; a guessed deadline routes an
   applicant to a closed door.

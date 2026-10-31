@@ -72,9 +72,11 @@ breaking. Silent drops make all of that invisible.
 ## The boundary is also where identity is minted
 
 The deduplication key is computed at the boundary, from identity fields only
-— jurisdiction, funder, title, and the stated deadline — never from the whole
-payload, whose enrichment fields legitimately vary between discoveries of the
-same program. A second, looser key handles cross-source identity: folding
+— jurisdiction, funder and title — never from the whole payload, whose
+enrichment fields legitimately vary between discoveries of the same program.
+The deadline stays out for the same reason: it is a nullable enrichment field
+above, and an amended call moves it, so a deadline-bearing key re-stages the
+amended call as new and collapses one funder's null-deadline rows together. A second, looser key handles cross-source identity: folding
 case, punctuation and diacritics so the same program discovered fresh and
 already loaded from a feed collapse together, in every script and market.
 Both keys exist because they answer different questions — "is this row

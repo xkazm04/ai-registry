@@ -83,4 +83,7 @@ convention leaks across sources. The one instructive gap: curated floor
 files (`stateGrantsCurated.ts`, `curatedFoundations.ts`) carry date-only
 static strings without the explicit time/zone stamp, relying on maintained
 refresh instead — acceptable for hand-verified entries, but the technique's
-full form would stamp their end-of-day convention too.
+full form would stamp their end-of-day convention too. A second gap: the
+federal stamp is unconditional, so where an opportunity's notice states its
+own closing time or a later operative deadline in another system, the row
+still carries 23:59 ET on the clearinghouse date.
