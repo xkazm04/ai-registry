@@ -13,7 +13,7 @@ use_when: [scoping a catch-up pass after long unenforced drift, telling covered-
 
 Every per-change enforcement system needs a recovery lane. Dismissals
 accumulate, hooks die (this subject's own counter-example was dead for
-fifteen months), whole surfaces get imported from before the discipline
+three months), whole surfaces get imported from before the discipline
 existed — and the repair for accumulated drift is a **batch pass**: read the
 current source truth, rewrite the affected documentation wholesale. The
 difference between a bounded repair and an open-ended rewrite-everything
@@ -57,7 +57,7 @@ not be needed again"* — written on the very day the never-fired hook landed
 (see [same-change-enforcement](./same-change-enforcement.md)). A hope,
 recorded as a fact, in exactly the artifact the next repair pass reads to
 decide how suspicious to be. The next operator, trusting it, would scope
-narrow; the truth (zero enforcement, fifteen months of unimpeded drift)
+narrow; the truth (zero enforcement, three months of unimpeded drift)
 demanded scoping wide. The rule: a marker states **what this pass did and
 against what** — claims about the future belong to the enforcement's own
 liveness evidence, which is measured, not predicted. When the mechanisms
@@ -90,7 +90,7 @@ The marker is the cheapest artifact in this subject — a few dozen lines,
 updated once per pass — and it converts the batch pass from a campaign
 someone must *decide* to run into a mechanical question: *how big is
 anchor..now, and how long is the skip list?* When that range is small, the
-pass is cheap and runs; when the marker shows fifteen months and a dead
+pass is cheap and runs; when the marker shows three months and a dead
 hook, the size of the repair is at least *known* before it is scheduled.
 Unbounded repair debt is not the drift itself; it is not knowing how much
 drift there is — and the marker is what keeps that number computable.

@@ -66,6 +66,17 @@ that the mapping is **data, extended in the same change that adds the area**: a
 declared artifact can be validated by a second program, and an undeclared
 convention cannot be validated by anything.
 
+## Corrected 2026-10-31: the hook never fired at all
+
+The guard's header says the hook "has never once fired for live-roadmap".
+That is true and too narrow. The project's own replay, dated 2026-08-17, found
+the hook's transcript walk saw 0 of 2,367 edits in 100 real sessions, for
+every entry, because it stops at the first tool result
+([same-change-enforcement](../techniques/same-change-enforcement.md)). At
+2026-10-31 the hook is registered in no settings file, and the map has grown
+to 44 entries (28 with no flows, 21 with no marketing module, none without a
+`doc`). The table above is the 2026-08-21 measurement and is left as it was.
+
 ## Where the realization is thinner than the standard
 
 The map couples **source globs to documents**, and nothing couples the map's

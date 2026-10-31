@@ -20,7 +20,7 @@ turn, same commit, same review) must either update the coupled surfaces or
 explicitly dismiss the obligation. This technique is the design of that
 collection point — and the autopsy of the one that never collected anything.
 
-## The autopsy: fifteen months of enforcement that never fired
+## The autopsy: three months of enforcement that never fired
 
 The subject's central counter-example, measured by execution rather than by
 reading. A per-turn reminder hook walked the agent-session transcript
@@ -50,7 +50,7 @@ Four lessons, each independently transplantable:
    ([gate-sees-target](../../../../_laws.md#gate-sees-target)). The enforcement's
    input was a conversation transcript — a proxy for the change — and the
    proxy diverged from the target on 100% of real inputs. Every recorded
-   dismissal in fifteen months was a dismissal of a message never sent; the
+   dismissal in three months was a dismissal of a message never sent; the
    per-session enforcement the project's instructions described was held up
    by nothing. The identical walk, byte for byte, sat in a second hook in
    the same directory — a dead gate copied is two dead gates.
@@ -179,4 +179,4 @@ touch no doc — and watch the nag arrive **through the real invocation path**,
 not the checker run by hand. "Has never fired" and "cannot fire" are
 indistinguishable from outside; the seeded failure is the only cheap
 experiment that separates them, and the measured system would have failed it
-on day one, fifteen months before the replay finally asked.
+on day one, three months before the replay finally asked.

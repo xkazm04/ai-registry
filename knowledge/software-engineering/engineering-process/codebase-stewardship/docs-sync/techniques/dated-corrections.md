@@ -77,8 +77,9 @@ sentence to the set, and it is
 one site where the disappearance is unobservable by construction.
 
 So retraction is stated. A submission carries its withdrawals explicitly, each
-with a reason, and a claim that is simply missing is a **validation error the
-runtime refuses** — not a signal it acts on. The cost is one field and one
+with a reason, and a claim that is simply missing is **never read as
+withdrawn** — the strict form refuses it as a validation error, and the cheaper
+form below retains it. The cost is one field and one
 check; what it buys is that every disappearance had an author.
 
 ### Omission is ambiguous; bind it to the safe reading

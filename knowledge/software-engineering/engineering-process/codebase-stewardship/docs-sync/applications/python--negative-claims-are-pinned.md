@@ -5,11 +5,11 @@ subject: docs-sync
 technique: negative-claims-are-pinned
 stack: python
 status: forged
-verified_on: 2026-09-04
+verified_on: 2026-10-31
 verified_against: python@3.12
 ---
 
-# Nine tests over prose, because the guarantee was that a module does not exist
+# Ten tests over prose, because the guarantee was that a module does not exist
 
 Read against a public CLI at commit `da5044d2` that gives an agent read access
 to thirteen platforms without paying any platform's API fees — which it
@@ -20,7 +20,7 @@ version witness is the project's CI job pin (`.github/workflows/pytest.yml:41`,
 The premise makes the documentation load-bearing. A tool that handles a user's
 live session cookies for six platforms has guarantees that are **only**
 expressible as sentences, and the team's response was a 235-line test file of
-nine tests that asserts prose: `tests/test_auth_guidance_policy.py`, docstring
+ten tests that asserts prose: `tests/test_auth_guidance_policy.py`, docstring
 *"Documentation must preserve the project's explicit auth boundaries."*
 
 ## Three pinned promises, none with a source area
@@ -29,7 +29,7 @@ nine tests that asserts prose: `tests/test_auth_guidance_policy.py`, docstring
 two substrings in three documents: that an imported session is for one
 downstream consumer only, and that it is **never injected** into the browser or
 the browser-driving client. `test_twitter_operational_docs_explain_the_environment_boundary`
-(`:74-122`) pins that the diagnostic command **does not execute** the
+(`:74-124`) pins that the diagnostic command **does not execute** the
 platform's own status call, and that the tool **does not modify** the caller's
 shell.
 
@@ -40,19 +40,20 @@ from the tree rather than from theory.
 
 **The scope is visibly the finding.** The credential-boundary pair is required
 in three documents; the environment-variable boundary in **eleven** — four
-localized landing pages, the setup guide, the troubleshooting page, the export
-guide, the agent-facing instruction file and its translation. Somebody sat down
+localized landing pages, the install guide, the setup guide, the troubleshooting
+page, the export guide, the agent-facing instruction file and its translation,
+and one platform reference. Somebody sat down
 and enumerated where a reader is about to act, and the list is the only record
 of that judgment.
 
 ## Two moves the technique did not predict
 
-**A status glyph is a pinnable verdict.** `:114-122` asserts that no document
+**A status glyph is a pinnable verdict.** `:116-124` asserts that no document
 in the corpus contains the checkmark-prefixed strings presenting the platform's
 read capability as verified — in three languages. The claim being suppressed is
 *typographic*: the checkmark is the assertion, and the sentence around it is
 incidental. This generalizes past the instance, and the companion test
-`test_skill_explains_unverified_backend_state` (`:199-209`) shows why the
+`test_skill_explains_unverified_backend_state` (`:199-208`) shows why the
 project cared — it requires both agent-facing instruction files to state that a
 null backend value is a safety state rather than a routing instruction. A glyph
 and a null were both being read as verdicts they had not earned.
@@ -90,7 +91,7 @@ placement is not.
 
 ## The structural fact
 
-Nine tests over prose, in a project with no documentation site, no generated
+Ten tests over prose, in a project with no documentation site, no generated
 reference, and no documentation tooling of any other kind. Nobody builds that
 for tidiness, and nothing in the project's stack suggested it. It is what a
 team is forced to build when the safety property is that **a capability was

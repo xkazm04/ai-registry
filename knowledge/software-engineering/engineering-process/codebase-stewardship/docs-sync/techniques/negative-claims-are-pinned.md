@@ -87,9 +87,11 @@ Three properties decide whether the pin is worth its maintenance.
 **The scope is the finding.** *Which* documents must carry the sentence is a
 real decision, and it is where these go wrong: pinned in one file, the promise
 is absent from the ten pages a reader actually lands on. One worked example
-pins a single credential-boundary statement across eleven documents at once —
-each localized landing page, the setup guide, the troubleshooting page, the
-agent-facing instruction file and its translation — on the principle that a
+pins a single credential boundary (which environment variables the direct
+commands read) across eleven documents at once — each localized landing page,
+the install, setup, export and troubleshooting guides, the agent-facing
+instruction file and its translation, and a platform reference — on the
+principle that a
 boundary is load-bearing only where the reader is about to act. Write the scope
 down as a list, and the list becomes the record of who needs the promise.
 

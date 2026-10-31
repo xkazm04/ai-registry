@@ -5,7 +5,7 @@ subject: docs-sync
 technique: translations-drift-against-the-product
 stack: python
 status: forged
-verified_on: 2026-09-04
+verified_on: 2026-10-31
 verified_against: python@3.12
 ---
 
@@ -47,18 +47,22 @@ instance of both failure modes at once.
 A detector that pins each translated unit to the content hash of the source
 revision it was derived from asks *is this still derived from what it claims to
 be derived from*. Against these four pages it returns clean twice over, for two
-independent reasons. The primary page does not list the retired platforms and
-never did, so nothing derived from it went stale — **staleness relative to a
+independent reasons. The primary page does not list the retired platforms at
+this commit, so nothing derived from it went stale — **staleness relative to a
 source that never carried the claim is zero**. And the Japanese and Korean
 pages have no source unit to pin at all, so they are outside the measured
 population entirely; a completeness board would count the units it knows about
 and show green.
 
-The retirement itself is recorded (`CHANGELOG.md:59-62`), with the upstream
-issue link explaining that the platform's anti-scraping measures broke every
-available open-source tool. The code moved. The primary page moved. Two
-translations did not, and only a check anchored to the shipped channel set
-could see it.
+The changelog does not record either retirement. Its one removal entry
+(`CHANGELOG.md:48-51`) is a third platform, with the upstream issue link
+explaining that the platform's anti-scraping measures broke every available
+open-source tool. (Corrected 2026-10-31: this paragraph cited `:59-62` as the
+record of these two retirements; at the pinned commit those lines describe
+two other channels, and neither forbidden name appears anywhere in the
+changelog.) So nothing a translator would read says the two names are gone,
+and only a check anchored to the shipped channel set could see a page still
+advertising them.
 
 ## What the realization cannot do
 

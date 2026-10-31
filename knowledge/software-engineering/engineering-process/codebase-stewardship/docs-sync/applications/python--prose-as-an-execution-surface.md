@@ -5,7 +5,7 @@ subject: docs-sync
 technique: prose-as-an-execution-surface
 stack: python
 status: forged
-verified_on: 2026-09-04
+verified_on: 2026-10-31
 verified_against: python@3.12
 ---
 
@@ -15,14 +15,14 @@ Read against a public CLI at commit `da5044d2` — an agent-facing tool that
 reads thirteen platforms using the operator's own logged-in sessions. Version
 witness: the CI job pin at `.github/workflows/pytest.yml:41`.
 
-Two of the nine tests in `tests/test_auth_guidance_policy.py` are not accuracy
+Two of the ten tests in `tests/test_auth_guidance_policy.py` are not accuracy
 checks at all. They are security checks whose only enforcement surface is
 prose, and they exist because this project's documentation is executed rather
 than read.
 
 ## The unowned index name
 
-`test_public_guidance_never_installs_the_unrelated_pypi_package` (`:153-174`),
+`test_public_guidance_never_installs_the_unrelated_pypi_package` (`:153-176`),
 docstring: *"The PyPI name is owned by another project; GitHub URLs are
 required."*
 
@@ -57,9 +57,9 @@ notice. The technique's population rule — *text a reader will act on*, not
 
 ## Credentials never reach the process table
 
-`test_public_guidance_never_puts_secrets_in_process_arguments` (`:177-196`)
+`test_public_guidance_never_puts_secrets_in_process_arguments` (`:177-198`)
 forbids eight prefixes across every document: each credential-taking subcommand
-followed by a quotation mark. Session cookies for two platforms, three API
+followed by a quotation mark. Session cookies for two platforms, two API
 keys, a token, a proxy URL.
 
 The tool's own interface already does the right thing — the export guide

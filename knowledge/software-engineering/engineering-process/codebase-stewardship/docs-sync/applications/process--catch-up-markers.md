@@ -5,7 +5,7 @@ subject: docs-sync
 technique: catch-up-markers
 stack: process
 status: forged
-verified_on: 2026-08-21
+verified_on: 2026-10-31
 ---
 
 # A marker that records its own obsolescence
@@ -61,10 +61,19 @@ it.
 The anchor is dated 2026-05-16 and the note says bulk rewrites should not be
 needed again — a claim with a testable consequence: if the per-change hook is
 working, the marker should be *stale and that should be fine*. Three months on
-it is indeed untouched, and the per-change mechanism it points at is not only
-alive but has since grown a guard of its own for the failure mode where a
-mapping entry silently stops matching
-([source-doc-mapping](./node--source-doc-mapping.md)).
+it is indeed untouched, and the per-change mechanism it points at has since
+grown a guard of its own for the failure mode where a mapping entry silently
+stops matching ([source-doc-mapping](./node--source-doc-mapping.md)).
+
+*Corrected 2026-10-31:* this paragraph said the hook was "not only alive". It
+was not. The project's own replay, dated 2026-08-17, found the hook's
+transcript walk had seen 0 of 2,367 edits since it landed on 2026-05-16, and
+the hook is registered in no settings file at 2026-10-31. So the note's
+sentence is a hope recorded as a fact, as
+[catch-up-markers](../techniques/catch-up-markers.md) says, and the marker
+being untouched is evidence of nothing. The framing above, that the marker
+"closes the loop" by pointing at the enforcement that replaced it, does not
+survive the correction either: it points at a mechanism that never ran.
 
 The deviation is in the ledger's reach rather than its shape. `missingCoverage`
 named three surfaces in May; nothing in the repository re-checks whether they

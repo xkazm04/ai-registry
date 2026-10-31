@@ -41,7 +41,7 @@ shell has recorded the line.
 index name and a source repository are different namespaces with different
 owners, and a project whose index name is held by a stranger has a
 documentation-shaped supply-chain vector. The obvious install line — the one
-written from muscle memory, in any of five translated landing pages, by a
+written from muscle memory, in any of four localized landing pages, by a
 contributor who never checked — installs somebody else's code on a reader's
 machine, and every property of the surrounding document says it is safe. One
 worked example writes every install instruction as an explicit archive URL and

@@ -52,7 +52,7 @@ per-change reminder hook — designed, wired, documented, complete with a
 dismissal protocol its instruction file described as "the explicit trade-off"
 — was measured by replaying one hundred real agent-session transcripts:
 **477 turns edited files, 2,367 individual file edits, and the hook's input
-walk saw zero of them — 0.00%, across fifteen months of operation.** Its
+walk saw zero of them — 0.00%, across its three months of operation.** Its
 backward walk stopped at the first event shaped like a user message, and a
 tool result is recorded in exactly that shape (93.0% of all such events), so
 in any turn that used a tool the walk terminated before reaching a single
@@ -123,9 +123,10 @@ change was user-visible is the one who just made it — so the enforcement
 point is the change itself, not a weekly cron that arrives after context has
 evaporated. But per-change enforcement is only worth its noise if the
 enforcement can *see* the change: read it from the version-control record,
-which knows renames, deletions, and both sides of a move — never from a
+which knows renames, deletions, and both sides of a move — not from a
 conversation transcript, which knows only destinations, and only if a fragile
-turn-boundary heuristic holds. Satisfy on the *named* target, not a directory
+turn-boundary heuristic holds (a last resort, validated against captured real
+events). Satisfy on the *named* target, not a directory
 prefix (measured here: 54.3% of prefix-shaped satisfactions were the wrong
 document). Give the advisory nag its dismissal sentence — "internal-only, no
 doc update needed" is a legitimate verdict — but record dismissals somewhere
@@ -259,7 +260,7 @@ look identical, which is how belief in enforcement outlives the enforcement.
 
 ### 10. The document's own freshness claim is earned, or it blinds the detector
 
-Eight walls govern what an *instrument* may claim. The document also makes a
+The walls above govern what an *instrument* may claim. The document also makes a
 claim — its review date, its checked-against version — and wall 7's detector
 consumes exactly that field to decide which window of the other repository's
 history to ask about. A date advanced by a run that verified nothing therefore
@@ -406,7 +407,7 @@ economics do not tolerate is the fourth posture this subject's counter-example
 manufactured by accident: the *belief* in per-change enforcement with no
 live mechanism behind it — all of the nag design's reputation cost was paid
 in documentation, and none of its drift prevention was ever delivered, for
-fifteen months, invisibly.
+three months, invisibly.
 
 ## What this subject deliberately excludes
 
@@ -462,6 +463,10 @@ fifteen months, invisibly.
 - [repair-rides-the-open-page](./techniques/repair-rides-the-open-page.md) —
   the third collector; exhaustive detection with opportunistic resolution; the
   walk before the no-op; the cold tail that only the batch lane reaches.
+- [rendered-surface-coupling](./techniques/rendered-surface-coupling.md) —
+  figures as derived artifacts nobody can read; digest the inputs, never the
+  output bytes; the input set too narrow or too wide; the checklist item that
+  observes nothing.
 - [negative-claims-are-pinned](./techniques/negative-claims-are-pinned.md) —
   the claim whose truth-maker is that no code exists; the permanent
   unverifiable and why its resolution inverts; wording pinned across a named
