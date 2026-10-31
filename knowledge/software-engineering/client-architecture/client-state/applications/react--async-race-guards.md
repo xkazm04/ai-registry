@@ -145,3 +145,17 @@ and `finally` paths is equivalent to a token compare. It differs from the
 technique's centralized mint/compare utility — each hook wires its own
 controller — which is the residual gap: the fourth such hook must
 rediscover the pattern rather than import it.
+
+## Re-checked 2026-10-31
+
+Re-checked 2026-10-31 at personas@61029d7ae0, Tree A only. At `bf2a1e249`
+every Tree A citation holds as written: the latest-wins module and its
+doc-comment races, the `RunDiffView.tsx:54-77` call site, the unguarded
+`loadScans` write, the empty grep, the throttles, `retryFailed` at
+`:254-266` and `invalidateScans` at `:169-182`. Policy B is no longer a
+proposal: it landed as `c9d4ec29c` (2026-08-29), one `createLatestWins()`
+per family plus the guarded test in `sceneStore.test.ts`. At HEAD the
+`RunDiffView.tsx` site is `:54-78`, and `latestWins.ts` now also exports a
+keyed variant, which is the keyed token map the first limit asks for. The
+verdict stands. The suite counts (22 files, 214 tests) were not re-run.
+Tree B (`af251109`) is not in this checkout and was not reopened.

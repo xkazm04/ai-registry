@@ -112,3 +112,41 @@ than refcounted; the census ratchet holds the line at 13. None of the
 slots uses the bundler's per-module carry-over object, which the technique
 now names as the disciplined home for a generation token — the repo
 reached for `globalThis` in every case.
+
+## Re-checked 2026-10-31
+
+Re-checked 2026-10-31 at personas@61029d7ae0 (`vite ^8.3.4`, `react`
+unchanged). At `ee124810f` the cited anchors hold. One rung changed and one
+measured line no longer reads the way it did.
+
+- **Rung 1 changed shape.** `relativeTimeTicker.ts` is now a single
+  `setTimeout` armed for the earliest due subscriber (`reschedule`,
+  `:151-166`; `subscribe`/`unsubscribe`, `:195-204`), and it still stops
+  when the subscriber set drains. So the refcount verdict holds for the
+  timer. But the same module now installs
+  `document.addEventListener('visibilitychange', …)` at module scope
+  (`:190-193`). There is no latch and no removal, so every HMR
+  re-evaluation adds one listener. The stale copy's handler only acts on
+  its own drained subscriber set, so this is a leak, not a misfire. The
+  rung-1 exemplar now carries a small instance of the counter-example's
+  smell. `relativeAgo.ts:15-30` is unchanged.
+- **Moved anchors at HEAD.** `executionSink` const `:478`, generation
+  checks `:394` and `:453`. `executionSlice.ts` reset/bind `:233-234`.
+  `eventBridge.ts` `declare global` `:161-166` and `??=` `:172-177`.
+  `companion.ts` comment `:54-64`. `fleetTerminalManager.ts` registry slot
+  `:307-309` and the re-entrancy line `:560`. `dedupedStorage.ts` hatch
+  `:20-23`. `ErrorBoundary.tsx` reload `:110`. The four Tier-1 latches are
+  all still latched.
+- **Census.** `scripts/census/context-scorecard.json` was removed
+  (`ab6fd941f`). The rule itself lives in `scripts/census/rules.json`.
+  Its baseline was 14 files at `ee124810f`, not the 13 written above, and
+  it is 12 at HEAD.
+- **Reset hatches.** Of the seven named slot owners, three now export a
+  hatch (`fleetSlice.ts` joined). `tourSlice.test.ts:35-37` still resets
+  globals by hand. The count of 19 hatch modules could not be reproduced:
+  a plain "exported `reset…ForTests`" predicate reads 21 at `ee124810f`
+  and 65 at HEAD. So the direction stands, "the hatches grew where the
+  slots did not", but the 19 is left as first measured. `location.reload()`
+  is still at 7 non-test sites.
+
+verified_on is not moved, because the hatch count was not resolved.

@@ -4,7 +4,7 @@ type: application
 subject: client-state
 technique: status-fsms
 stack: react
-verified_on: 2026-09-05
+verified_on: 2026-10-31
 verified_against: react@19
 ---
 
@@ -122,3 +122,36 @@ cannot cancel a full reload (`:167`, `:217-222`); and every completion —
 success and failure alike — checking its token before writing
 (`:187`, `:191`, `:201`, `:205`). The subject's react--async-race-guards
 application is the fuller reading of that change.
+
+## Re-checked 2026-10-31
+
+Re-checked 2026-10-31 at personas@61029d7ae0 (`react ^19.2.6`,
+`zustand ^5.0.13`). At `ee124810f` every citation resolves:
+`processActivitySlice` anchors, `FamilyStatus` `:36`, `failStatus`
+`:78-79`, `retryFailed` `:317-329`, `invalidateScans` `:210-232` with its
+quoted comment, the token checks, and the async-ui-states path. One reading
+above does not hold, and it is reversed here.
+
+**The stale transition was unreachable at the pin.** Every loader set its
+family to `loading` before the await. Its `catch` then called
+`failStatus(s.<family>Status)`, which therefore always read `loading` and
+returned `failed`. So at `ee124810f` no family could reach `stale`. The
+sentence "a failed *reload* of a family with data goes `stale`" describes
+what `failStatus` was written for, not what the store did. A reader of
+this tree would have learned the wrong lesson: the shared transition
+function existed, but its input was the in-flight status, not the
+evidence of held data. That is the technique's failure-lands-by-data-presence
+clause in its negative form. The fix is `db4a19c2d` (2026-10-19). An
+`everLoaded` set records which families have answered once, and
+`failedReload(family)` (`:90-92`) asks it, so 6 of 6 failure paths can now
+reach `stale`.
+
+The evidence gap named above is still open at HEAD. `failedReload` returns
+a bare status, and each `catch` still hands the error to `silentCatch`
+(`:239`, `:267`, and siblings). HEAD anchors: `failStatus` `:82-83`,
+guards `:173-180`, in-flight registry `:187`, keyed slot `:213`,
+`invalidateScans` `:273-296`, `retryFailed` `:391-403`.
+`processActivitySlice` moved by 12 to 17 lines because `processStarted`
+gained a `personaId` argument (`processKey` `:174`, `findUniqueProcessKey`
+`:218`, `reapStaleRunning` `:416`, `shouldSurviveClearNonActive` `:445`).
+Its disciplines are unchanged.

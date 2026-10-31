@@ -4,7 +4,7 @@ type: application
 subject: settings
 technique: read-batching
 stack: react
-verified_on: 2026-08-18
+verified_on: 2026-10-31
 ---
 
 # Read batching — the microtask coalescer over Tauri IPC
@@ -91,3 +91,25 @@ cache-per-surface rather than cache-in-the-accessor.
   writes landing through other doors (backend-internal `set` callers) do
   not broadcast. Mounted readers converge on next mount — an accepted,
   stated staleness bound, but one to re-state consciously when porting.
+
+## Re-checked 2026-10-31
+
+Re-checked 2026-10-31 at personas@61029d7ae0. The excerpt above still
+matches the entry point in substance (`useSettings.ts:44-45`, `:99-112`).
+`useAppSetting` still calls `getAppSettingCoalesced` (`:90`). The IPC-cost
+comment, `GET_BATCH_MAX_KEYS = 256` (`settings.rs:186`) with the
+dedupe-and-`None` contract, and the key-only `SETTINGS_CHANGED_EVENT`
+payload all hold. So does `historyCache`, which is set under the active
+filter and seeded from the unfiltered read.
+
+One construct changed. `flushBatch` no longer issues a single
+`getAppSettingsBulk(keys)`. Since `4d2c3555b` (2026-08-28) it splits the
+tick's keys into chunks of `BULK_READ_MAX_KEYS = 256`, the server's own
+cap, and issues one invoke per chunk (`:58-90`). A rejected chunk rejects
+only that chunk's waiters. Two things follow. "Rejects *every* pending
+caller" now holds per chunk, not per tick. And the scaling contract is
+distinct ticks times ⌈keys/256⌉. The reason is recorded in the comment:
+the coalescer aggregates across every reader in a tick, so an unchunked
+busy tick would exceed the server cap and fail every panel at once. This
+is a boundary worth carrying when transplanting. A coalescer whose batch
+is unbounded by any call site must split to the server's limit.

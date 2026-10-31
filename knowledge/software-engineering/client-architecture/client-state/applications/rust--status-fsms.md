@@ -5,7 +5,7 @@ subject: client-state
 technique: status-fsms
 stack: rust
 status: forged
-verified_on: 2026-09-05
+verified_on: 2026-10-31
 verified_against: rust@1.96
 ---
 
@@ -136,3 +136,23 @@ records as `failed` plus evidence.
 Extend `JobStatus` to the four states writers use, make `set_status` take
 it instead of `&str`, and let the compiler find the 52 sites. The doc
 comment's promise becomes true at that moment and not before.
+
+## Re-checked 2026-10-31
+
+Re-checked 2026-10-31 at personas@61029d7ae0. `background_job.rs` is
+byte-identical to `ee124810f` (1,406 lines), so every line anchor above
+still holds. That includes `JobStatus` with two variants, the
+`or_default()` upsert, and the `"idle"` synthesis. The frontend
+vocabularies at `reviews.ts:44` and `n8nTransform.ts:196` are unchanged.
+At the pin, the counts reproduce: 25 manager statics, and 13/9/11/19
+literal sites against 2 enum sites, using a single-line
+`set_status(_quiet)(… "<state>"` match.
+
+What moved is around the file. At HEAD there are 21 manager statics. The
+same single-line match reads 9 `"completed"`, 7 `"cancelled"`, 6
+`"failed"` and 18 `"running"`, which is 40 literal sites, still against 2
+enum sites. The `commands/artist/` module that held `ffmpeg.rs:604` and
+`mod.rs:509` is gone. Fewer writers, same shape: the verdict and the next
+change stand. The toolchain is now pinned by `rust-toolchain.toml` at
+`1.96.1` (since 2026-09-18), and CI installs that pin rather than floating
+`stable`. `rust-version = "1.80.0"` is still the floor.

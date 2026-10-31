@@ -4,7 +4,7 @@ type: application
 subject: settings
 technique: key-registry
 stack: rust
-verified_on: 2026-08-18
+verified_on: 2026-10-31
 ---
 
 # Key registry — the `app_settings` allowlist in Rust
@@ -98,3 +98,27 @@ observability; nothing hard-fails.
 - The constants/allowlist pair here is hand-maintained; nothing generates
   one from the other. The deliberation scar shows the cost. A set-equality
   test (or code generation) is the missing hardening this repo would accept.
+
+## Re-checked 2026-10-31
+
+Re-checked 2026-10-31 at personas@61029d7ae0. The module is now 3,380
+lines; it was 1,569 at the original reading, so "~1,570" was right then.
+Several items are still present: the `EVENT_RETENTION_DAYS` pair
+(`:110-112`), the MUST-reference doc line, `ALLOWED_KEYS` (`:1486`) with
+the `AUTONOMOUS_DELIBERATION` scar (`:1621-1623`), and `ALLOWED_PREFIXES`
+(`:1656`) with its strip-the-prefix contract. Also present are
+`validate_key` (`:1681`), `audit_category` (`:2352`), the excluded cursor
+families, and the escaped `LIKE` in `get_by_prefix`. Unknown-key reads
+still warn and answer.
+
+Two things changed at the write door. First, `set` no longer validates
+inline. It calls `refuse_operator_only(key)` and then `write_validated`,
+which runs `validate_key` / `validate_value` and the deprecation warn.
+`delete` refuses operator-only keys the same way (`99cbdfa3c`,
+2026-09-25). This is a second gate at the same innermost layer, and its
+operator-only keys have their own writer. That strengthens the "gate at
+the innermost shared write layer" point. Second, `deprecated_replacement`
+(`:2158`) now quarantines more than the two triage keys: a debounce key,
+a lint-model key and an onboarding key whose readers were removed. The
+constants/allowlist pair is still hand-maintained, with no set-equality
+test, so the closing hardening note stands.
