@@ -46,9 +46,10 @@ The comment at `Workspace.tsx:166-168` is the sharpest thing in this file. The
 companion dock is mounted as a **sibling** of the frame's content div, inside
 every provider and *outside the keyed tab panel* — "so a conversation survives
 tab switches." The panel it sits beside is deliberately re-keyed per
-destination, so that a destination's render crash is contained to the panel and
-so the entrance animation replays on each switch (`:207-213`,
-`WorkspaceTabChunks.tsx`). That key is a teardown instruction. Anything hosted
+destination so the entrance animation replays on each switch (`:207-213`,
+`WorkspaceTabChunks.tsx`); crash containment comes from the error boundary's
+own reset key, not from that key (corrected 2026-10-31, after the lazy-section
+application's reading of the same tree). That key is a teardown instruction. Anything hosted
 inside it is not a shell resident at all, however permanent the surrounding
 frame is — it is a page-lifetime component that will reset on every navigation,
 silently, with no error and no symptom except an assistant that forgets the

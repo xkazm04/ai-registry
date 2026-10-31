@@ -129,11 +129,12 @@ selection — and the allow-list lives beside the catalog, not at the call site.
   `node_modules/next/dist/client/components/app-router.js:84-96`, applied at
   `:252-263`). Its `popstate` handler then traverses to the entry's URL with
   the stored tree (`:284-298`). So an entry carrying `{ tab }` at an unchanged
-  URL is expressible without touching the address bar. Two things are
-  untested: whether that same-URL traversal costs a server round-trip, and
-  whether the inbox's cleanup `replace`, which passes `null` state
-  (`useUrlInboxState.ts:87`, `shallow-nav.ts:74-76`), wipes a destination
-  recorded on an arrival entry.
+  URL is expressible without touching the address bar. Two questions were
+  open at this re-read, and the experiment below answers both: the same-URL
+  traversal costs no server round-trip, and the inbox's cleanup `replace`,
+  which passes `null` state (`useUrlInboxState.ts:87`,
+  `shallow-nav.ts:74-76`), does erase a destination recorded on an arrival
+  entry.
 - **The current location has no address.** Because the inbox is emptied on
   receipt, the URL after arrival names nothing: a user cannot copy the bar to
   share where they are, only follow a link someone else constructed. The

@@ -61,6 +61,12 @@ sub-destination; if a third level of shell nav seems necessary, the actual
 problem is usually a section trying to be a product — split it, or push the
 depth into the page.
 
+Capping the shell at two levels creates a debt the nav cannot pay: whatever
+lives deeper still needs a second way to be found. WCAG 2.2 SC 2.4.5 Multiple
+Ways (AA) requires more than one way to locate a page, except a step in a
+process, so past two levels of real structure a search, a site map or a
+command surface is a requirement rather than a convenience.
+
 ## Collapse: the label level
 
 A persistent nav has two natural postures — expanded (icon + label) and
@@ -82,7 +88,10 @@ users, tasks, and window sizes price that trade differently.
   mechanism satisfies none of those and never fires for a keyboard user at
   all — so setting it delivers a name to the accessibility layer and no reveal
   to the person looking at the rail. Those are two separate obligations and an
-  icon-only entry owes both.
+  icon-only entry owes both. Draw the collapsed reveal and the expanded label
+  from one string: SC 2.5.3 Label in Name (A) has nothing to bind while the
+  entry is icon-only and binds the moment a visible label appears, so two
+  sources conform in one posture and fail in the other.
 - **What collapse must not do: reorder or drop.** The collapsed rail is the
   same map at lower resolution — same entries, same order, same gating. If
   an entry is only reachable in one posture, the two postures are two navs.
@@ -103,7 +112,10 @@ The expand/collapse posture belongs to the user, not to the session:
   product stops guessing. Automatic responsive collapse below a width floor
   is legitimate as a floor — the window physically cannot hold labels — but
   it is a constraint, not a preference overwrite: restore the user's choice
-  when space returns.
+  when space returns. At the narrow end the floor is not optional: SC 1.4.10
+  Reflow (AA) requires content to work without two-dimensional scrolling at
+  a width equivalent to 320 CSS pixels, so a frame that cannot reflow there
+  owes the collapse.
 - **Posture reacts to the location, not to the handlers that move it.** Some
   posture changes are consequences of navigating: an off-canvas nav closes when
   the user arrives somewhere, a preview panel snaps back to the section that

@@ -181,4 +181,7 @@ link path — they should in fact *be* the same path.
 5. A redirect never pushes history, and no shell keeps a history the host's
    back gesture does not consult.
 6. Removing a section from the vocabulary always includes a fallback for
-   addresses and persisted locations that still name it.
+   addresses and persisted locations that still name it. A renamed id maps
+   forward to its new self; a removed id falls through to the fallback, and
+   is never pointed at a neighbour, because opening an unrelated destination
+   reads as a bug where "the feature is gone" is what actually happened.

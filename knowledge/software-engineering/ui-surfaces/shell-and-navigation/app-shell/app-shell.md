@@ -189,17 +189,22 @@ its accessibility failures are multiplied by every screen:
 - **A skip link exists.** The nav renders before the content in every
   traversal order; keyboard users get a first-tab affordance that jumps past
   it. A shell without one charges a per-page toll of a dozen tab presses.
+  What the standard requires is the outcome, a way to bypass the repeated
+  block; the skip link is the mechanism chosen here because it works
+  everywhere, with landmarks as the other accepted route.
 - **The current location is stated, not just painted.** The active nav entry
   carries the current-page semantic, not only a highlight color.
 - **Navigation moves focus.** Activating a nav entry moves focus (or an
   announcement) into the new content; a silent viewport swap strands
   non-visual users in a nav that claims nothing happened. Do not count on the
   framework for it: built-in route announcers fire on the router's own
-  navigations and speak the document title, so a destination switched in
-  shell state triggers nothing, and a shell whose title never changes gives
-  them nothing to say. Derive the title from the location in either
-  architecture, and where the switch is not a route change, announce it
-  yourself.
+  navigations and speak the document title (one falls back to the first
+  heading, then the path), so a destination switched in shell state triggers
+  nothing, and a shell whose title never changes gives them nothing useful to
+  say. Derive the title from the location in either architecture, and where
+  the switch is not a route change, announce it yourself. Moving focus is
+  craft rather than conformance: the standards require that the change be
+  perceivable and leave the focus decision to the author.
 - **Collapsed does not mean inaccessible.** An icon-only nav still exposes
   full names to assistive technology and keyboard users, and badges still
   carry their meaning as text, not only as a colored dot.

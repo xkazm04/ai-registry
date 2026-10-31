@@ -35,9 +35,11 @@ runs while the screen is shown and returns its own unregistration — the
 creation names its reaper
 ([_laws: creation-names-reaper_](../../../../_laws.md#creation-names-reaper)).
 That choice matters in a shell that keeps visited screens alive but hidden to
-make returns warm ([lazy-section-loading](./lazy-section-loading.md)): a hidden
-screen keeps its tree but has its effects cleaned up, so it unregisters by
-itself and its portal is hidden with it. A registration made in render, or a
+make returns warm ([lazy-section-loading](./lazy-section-loading.md)): where
+the keep-alive suspends effects while hidden, a hidden screen keeps its tree
+but has its effects cleaned up, so it unregisters by itself and its portal is
+hidden with it. Where the keep-alive keeps effects running, nothing cleans up
+on hide, and the screen has to unregister on hide explicitly. A registration made in render, or a
 flag set by the screen and cleared by the shell on navigation, is exactly the
 state that survives when it should not: the sidebar keeps showing the sections
 of a screen nobody is looking at.
