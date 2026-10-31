@@ -4,7 +4,8 @@ type: application
 subject: ui-controls
 technique: adoption-enforcement
 stack: react
-verified_on: 2026-08-18
+verified_on: 2026-10-31
+verified_against: react@19
 ---
 
 # React application — adoption enforcement
@@ -30,12 +31,12 @@ on the temptation signature and each shipping its own baseline:
 Every rule's `description` states what it is a PROXY FOR and, for the ones
 that were validated, the precision/recall against hand-checked ground
 truth. `npm run census:check` (in the `npm run check` chain,
-`package.json:54`) fails on regression above baseline — the **ratchet**:
+`package.json:56`) fails on regression above baseline — the **ratchet**:
 the count may only shrink.
 
 ## The rule that detected nothing — measured
 
-`custom/enforce-base-modal` (`eslint.config.js:95`, level `warn`) was
+`custom/enforce-base-modal` (`eslint.config.js:97`, level `warn`) was
 believed to gate hand-painted modals. Driven over its whole anchor
 (2026-08-17): **precision 0/8** (every hit an anchored popover or inline
 notice — converting them would regress) and **recall 0/19** (the 19
@@ -53,11 +54,11 @@ replacement, and it is the one whose count is believed.
   pre-commit hook runs `--quiet --max-warnings 99999`, and `--quiet`
   suppresses warnings before they can be counted (`.claude/CLAUDE.md`
   § Pre-existing Issues, corrected 2026-08-14). Every control-library lint
-  rule — the shared-tree import boundary (`eslint.config.js:165-200`),
+  rule — the shared-tree import boundary (`eslint.config.js:171-210`),
   `enforce-base-modal`, `no-hardcoded-jsx-text` — is at this tier. They
   correlate with adoption; none of them has ever failed a build.
 - **Error-level rules that must hold**: `custom/no-silent-catch` at
-  `"error"` (`eslint.config.js:104`) — 0 findings across 4,829 files; the
+  `"error"` (`eslint.config.js:106`) — 0 findings across 4,829 files; the
   condition is extinct because the gate worked. `no-restricted-imports`
   forcing `invokeWithTimeout` over raw `invoke` is the same tier.
 - **The census baselines** are the ratchet tier: not per-file lint, but a
@@ -98,3 +99,32 @@ Each figure names its detector and date; the CLAUDE.md corrections of
 2026-08-14 (the "~10,086 warnings" line, wrong by ~9×, cited by five
 golden paths as the reason to ship gates at `error`) are the local proof of
 why an adoption number without its predicate is a liability.
+
+## Re-checked 2026-10-31 at personas@22260d77
+
+- **Every baseline in the table has ratcheted down.** Current
+  `scripts/census/rules.json` baselines (files / matches): `native-title-tooltip`
+  360 / 661, `hand-painted-modal-backdrop` 8 / 9, `hand-rolled-spinner`
+  112 / 155, `null-spinner-busy-state` 24 / 35, `unverified-clipboard-write`
+  14 / 24, `tabstrip-with-no-declared-panel` 21 / 24. A census run at HEAD
+  measures the first two at exactly their baselines. Each rule's
+  `signal.description` still names what it is a PROXY FOR. The
+  precision/recall figures in the table are the adoption-time validation, kept
+  as measured. The ratchet worked as this document describes.
+- **The modal ratio moved**: 140 `<BaseModal` render sites against the
+  `hand-painted-modal-backdrop` count of 9, on the same predicate, about
+  94%. The 86.6% figure above is the 2026-08-17 reading.
+- **The don't-hand-roll table no longer lives in `.claude/CLAUDE.md`.** It is
+  now § "Do not hand-roll" in `.claude/rules/ui.md`, a path-scoped rule loaded
+  when a session touches `src/**/*.tsx` or `src/**/*.css`, not at session
+  start. The review-time tier still exists. Its trigger is now "editing UI"
+  rather than "every session". The i18n fix-as-you-touch clause is in
+  `.claude/rules/i18n.md:191`.
+- **Field ratio**: the shared `FormField` is now rendered by 19 non-test
+  files, and the research-lab same-name shadow is gone with its plugin
+  directory. The shadow-wrapper count was not re-measured, so the 4 : 19
+  inversion is a dated reading, not a current one.
+- `enforce-base-modal` still keys on `role="dialog"` plus a `BaseModal`
+  import, and its `RuleTester` fixtures (`src/test/eslint-rules/customRules.test.ts:46`)
+  still contain no `fixed inset-0`. `useRovingTabIndex` still has no consumer,
+  and the one raw `writeText` is still `fleetTerminalManager.ts:878`.

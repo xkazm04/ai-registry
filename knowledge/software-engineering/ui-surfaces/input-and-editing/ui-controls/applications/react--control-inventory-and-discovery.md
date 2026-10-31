@@ -4,7 +4,8 @@ type: application
 subject: ui-controls
 technique: control-inventory-and-discovery
 stack: react
-verified_on: 2026-08-18
+verified_on: 2026-10-31
+verified_against: react@19
 ---
 
 # React application — control inventory & discovery
@@ -39,7 +40,7 @@ the previous entry described it as a spinner, and confused adopters shipped
 Commit `ec7eedc4f` (2026-07-22, "de-enforce the shared-component catalog —
 reference, not gate") dropped `check:catalog` (staleness) and
 `check:catalog-boundary` from the aggregate `npm run check`, downgraded the
-shared-tree import-boundary rule in `eslint.config.js:165-200` from `error`
+shared-tree import-boundary rule in `eslint.config.js:171-210` from `error`
 to `warn`, and reframed the CLAUDE.md section from MANDATORY to
 recommended. The rationale in the commit body is the technique's soft-gate
 trade stated plainly: the catalog stays "the single place to check before
@@ -64,7 +65,7 @@ the curation that pruned 206 → 115 (now 128) is
 
 ## Placement rules, as enforced here
 
-`eslint.config.js:165-200` — `shared/components/**` may not import from
+`eslint.config.js:171-210` — `shared/components/**` may not import from
 `@/stores`, `@/api`, `@/lib/bindings`, `@/features/<feature>`, or Tauri
 runtime APIs; each message names the relocation ("domain → feature,
 app-shell → `shared/chrome/`"). App chrome lives in
@@ -82,10 +83,34 @@ but at least visible" allowance.
   has no consumer anywhere in `src/` (grep 2026-08-18: the only file that
   mentions it is itself). Registered at `#w10-accessibility` ("a standard
   without adoption"). Note the tab strips implement their own roving
-  (`PanelTabBar.tsx:51-69`) rather than calling it — the hook's
+  (`PanelTabBar.tsx:51-70`) rather than calling it — the hook's
   index-keyed signature pushes the identity rule onto consumers, so the
   primitive that exists is the one nobody wants.
 - **The `native-title-tooltip` census rule** baselines at 566 files / 1,099
   matches while `<Tooltip>` has 131 adopter files — the routing table's
   `title=` row is the least-followed row in it, and even `CopyButton.tsx:76`
   ships a `title=` fallback.
+
+## Re-checked 2026-10-31 at personas@22260d77
+
+- **The catalog now lists 173 reusable components** (header of
+  `CATALOG.md`), up from 128. The generator's resolution order
+  (`gen-shared-catalog.mjs:12-15,93-95`), the curated `LoadingSpinner` entry
+  (`:57`), the blank-row nudge and the `gen:catalog` wiring are unchanged.
+  Commits `ec7eedc4f` and `ddeb19cc0` were read from the project's remote,
+  because the local clone is shallow, and say what is cited.
+- **The don't-hand-roll table moved** from `.claude/CLAUDE.md` to
+  § "Do not hand-roll" in `.claude/rules/ui.md`. That rule loads when a
+  session touches `src/**/*.tsx|css`, not before every edit. Its rows were
+  regrouped (busy state, surface loading, styled button, modal/confirm,
+  tooltip/time/numbers/clipboard, switch/select/field, tab strip/empty, row
+  entrance, the composition kit). The temptation-keyed shape is the same.
+- **`CopyButton.tsx` no longer sets a native `title=`.** The comment at
+  `:76-78` records that removal. The routing-failure example above no longer
+  holds. The `native-title-tooltip` baseline is now 360 files / 661 matches
+  (measured equal at HEAD), and `display/Tooltip` is imported by about 330 non-test
+  files. The ratio has inverted since the 566 : 131 reading.
+- **Form primitives**: the shared `FormField` is now rendered by 19 non-test
+  files, and the research-lab same-name shadow is gone. The shadow and
+  orphan-label counts were not re-measured.
+- `useRovingTabIndex.ts` still has no consumer in `src/`.

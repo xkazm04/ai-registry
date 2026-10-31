@@ -4,7 +4,8 @@ type: application
 subject: undo-history
 technique: checkpoint-restore
 stack: rust
-verified_on: 2026-08-18
+verified_on: 2026-10-31
+verified_against: rust@1
 ---
 
 # Turn snapshots for web-build projects — non-destructive restore over a repo
@@ -68,3 +69,35 @@ comment at `:7-9` sells it as "a safe go-back".
   on the day one was needed. Same product, both retention policies; the
   boot-rotating one is what the technique's thinning-and-pinning rule
   exists to prevent.
+
+## Re-checked 2026-10-31 at personas@22260d77
+
+The module was rewritten, and **both deviations above are now closed**:
+
+- **Snapshots no longer commit to the owner's branch.** `commit_snapshot`
+  (`versions.rs:33-48`) writes to a private ref, `SNAPSHOT_REF =
+  "refs/athena/snapshots"` (`:20`), through the engine's
+  `git_checkpoint::snapshot_worktree`. The branch, index and hooks are
+  untouched; the module header (`:5-10`) records why: Studio also opens repos
+  it did not create. The message is still `"athena: …"`, truncated to 72
+  chars (`:43-44`).
+- **Capture failure is no longer silent.** `commit_snapshot` returns
+  `Result<Option<String>, AppError>`. `Ok(None)` means not a repo or nothing
+  changed, and a snapshot failure is an `Err` (`:45-47`). The first
+  deviation is resolved.
+- **Restore captures first and refuses if it cannot.** `restore`
+  (`:102-122`) validates the id (`:104-106`) and then runs
+  `commit_snapshot(project_dir, "before restore").await?` (`:107`), the exact
+  line this document proposed, before `git restore --overlay --source <sha>
+  --worktree -- .`. `--overlay` never deletes files added after the snapshot.
+  The second deviation is resolved.
+- `list_versions` (`:52-91`) still caps at 40, newest-first. It reads the
+  private ref, or `HEAD` for a project snapshotted before the ref existed.
+- **`StudioVersions.tsx` now confirms before restoring.** It renders a
+  `ConfirmDialog` and keeps it open on failure (`:49-60`). Its header comment
+  (`:11-18`) says the confirm guards a mis-click and must not claim
+  permanence, because the backend's pre-restore snapshot makes the restore
+  undoable. The "no confirmation dialog" observation above no longer holds.
+- `backup.rs` still rotates per boot (`MAX_BACKUPS = 3`, `:47`). Since then,
+  `MIN_BACKUPS = 2` is always kept and a byte cap applies (`:21-30,:44-47`),
+  so the boot-rotating counter-example stands.

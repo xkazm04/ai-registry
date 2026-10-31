@@ -4,7 +4,8 @@ type: application
 subject: form
 technique: validation-timing
 stack: react
-verified_on: 2026-08-18
+verified_on: 2026-10-31
+verified_against: react@19
 ---
 
 # validateOn + the two validation hooks — timing policy in this repo
@@ -16,7 +17,7 @@ the submit backstop done by hand.
 ## The visibility gate: `validateOn` / `forceValidation`
 
 `FormField.tsx` gates error *visibility*, not error *computation*
-(`ValidateOn`, `:34-46`; the gate itself, `:158-161`):
+(`ValidateOn`, `:36-48`; the gate itself, `:158-163`):
 
 ```ts
 const errorVisible =
@@ -26,7 +27,7 @@ const errorVisible =
 
 - Default is `'blur'` — no negative feedback on a pristine field. The
   `hasInteracted` bit is set only when focus leaves the *whole* field wrapper
-  (`:231-237` checks `relatedTarget` containment, so tabbing from the input
+  (`:238-243` checks `relatedTarget` containment, so tabbing from the input
   to its adornment button does not count as blur) — a real implementation of
   "the settling point is leaving the field", including the composite-control
   subtlety.
@@ -74,7 +75,7 @@ builds the `FieldAvailability` with caller-owned translated messages.
 `src/features/vault/sub_credentials/components/forms/CredentialEditForm.tsx`
 implements the composite policy without `FormField`'s gate: a `touched` map,
 blur validates and marks touched (`:114-125`), change revalidates **only if
-already touched** (`:101-111`), and submit runs `validateAll` over the full
+already touched** (`:96-112`), and submit runs `validateAll` over the full
 set while force-touching every field (`validate()`, `:127-132`) before
 `onSave`/`onHealthcheck`/`onOAuthConsent` may proceed (`:134-136`). That is
 the technique's table, hand-rolled correctly — and also a private copy of it
@@ -86,12 +87,12 @@ messages at `:58,:64,:67`).
 
 - **`validateOn` and `forceValidation` have zero call sites outside the
   primitive's own folder.** The wild corpus is bimodal — every-keystroke red
-  (`PersonaSettingsTab.tsx:107` recomputes `aria-invalid` per render) or
+  (`PersonaSettingsTab.tsx:109` recomputes `aria-invalid` per render) or
   nothing-until-the-backend-toast (`CreateTriggerForm.tsx:138`,
   `WebhookSubscriptionsPanel.tsx:179`) — the two failure modes the policy
   exists to prevent, at 100% market share.
 - **Submit gates diverge from the error predicate** in ~70
-  `disabled={!x.trim()}` sites; `CloudConnectionForm.tsx:119` gates Connect
+  `disabled={!x.trim()}` sites; `CloudConnectionForm.tsx:121` gates Connect
   while ignoring the very `urlValidation.error` its field displays.
 - `CreateTeamForm.tsx:189` submits regardless of `status === 'taken'` —
   defensible as "advisory tier stays advisory," except no backend uniqueness
@@ -99,3 +100,35 @@ messages at `:58,:64,:67`).
   center" half is missing; filed against the backend, not this form).
 
 Full census: `docs/concepts/golden-paths/form-field-and-validation.md`.
+
+## Re-checked 2026-10-31 at personas@22260d77
+
+- **`useFieldValidation` no longer uses a sequence stamp.** `seqRef` is gone.
+  Each `onChange` now aborts the previous `AbortController` and mints a new
+  one (`:42-60`), and a result is dropped when `signal.aborted` (`:76,:85`).
+  This is the same supersession shape as `useAsyncFieldValidation`, retired
+  on every keystroke rather than when the next debounce fires. `'validating'`
+  is still entered immediately (`:69`). The "pin the result to the value
+  asked about" reading still holds, in its stronger form.
+- **`CreateTeamForm.tsx` no longer exists**, and nothing outside the forms
+  folder now passes `availability=` or calls `useAsyncFieldValidation`. The
+  reference consumer is gone, and so is the `:189` submits-while-taken
+  deviation. The hook and its fail-open behaviour are unchanged
+  (`:80-89,:109,:112-119,:128-134,:151-160` all hold).
+- **`validateOn` / `forceValidation` now have call sites** outside the
+  primitive's folder: `AddSiteModal.tsx:85` and `EditServerModal.tsx:114,131`
+  (`forceValidation={touched}`), and `SitePolicyFields.tsx:68`,
+  `EditServerModal.tsx:115,131` and `SetupTextField.tsx:86`
+  (`validateOn="change"`). The "zero call sites" deviation no longer holds.
+  The submit backstop now has adopters.
+- **The two "nothing until the backend toast" examples moved.**
+  `CreateTriggerForm.tsx` now marks the cron input `aria-invalid` (`:107`),
+  shows a `role="alert"` message (`:110-112`) and gates Create on
+  `cronInvalid` (`:147`). The webhook form now lives in
+  `WebhookDraftForm.tsx`: Save is gated on a presence-only `valid` predicate
+  (`:25-28`, `disabled` at `:103`) and the form shows no field error. That is
+  still the silent-disable variant.
+- `EditFormFields.tsx:54` still exports a `useFieldValidation` that shadows the
+  shared hook's name, but its messages now come from the catalog
+  (`t.vault.credential_forms.name_required`, `t.vault.auto_cred_extra.invalid_url`).
+  The hardcoded-English half of that remark no longer holds.

@@ -5,7 +5,7 @@ subject: draft-editing
 technique: field-defaults-and-bounds
 stack: react
 status: forged
-verified_on: 2026-08-29
+verified_on: 2026-10-31
 verified_against: react@19
 applied: code
 ab_verdict: better
@@ -13,7 +13,8 @@ ab_verdict: better
 
 # React: the hint said 1--10, the control said 50, and neither had anything to be wrong about
 
-*Verified against the project tree at `bf2a1e249`.*
+*Verified against the project tree at `bf2a1e249`; citations re-resolved at
+`22260d77` on 2026-10-31.*
 
 The most useful thing about this seam is that it sits eight lines away from the
 same technique done exactly right, in the same JSX, by the same hand. The two
@@ -30,7 +31,7 @@ persona's two execution limits in one flex row.
 `FieldHint`'s range is a template literal over them, the `NumberStepper`'s
 `min`/`max` are the same values, and `DEFAULT_PERSONA_TIMEOUT_MS` carries the
 technique's documented-incident discipline verbatim
-(`PersonaDraft.ts:5-16`): "The previous default of 1_000_000 ms (~16.6 min) was
+(`PersonaDraft.ts:6-17`): "The previous default of 1_000_000 ms (~16.6 min) was
 effectively 'no timeout' and was a top source of unexpected cloud bills."
 
 **The maxConcurrent field, three lines up**, had:
@@ -43,7 +44,7 @@ effectively 'no timeout' and was a top source of unexpected cloud bills."
 Two authorities for one field's envelope, disagreeing by a factor of five, with
 no definition either could be checked against. And the sentence shown to the
 user was the wrong one: the engine validator
-(`src-tauri/core/src/validation/persona.rs:9-10`,
+(`src-tauri/core/src/validation/persona.rs:10-11`,
 `MAX_CONCURRENT_MIN = 1`, `MAX_CONCURRENT_MAX = 50`) rejects anything outside
 1..50 on create and update, so the control was right by coincidence and the
 hint was a plain falsehood a user could act on.
@@ -74,7 +75,7 @@ definition rather than from a string.
 
 The timeout field is not better-engineered because someone was more careful with
 it. It is better-engineered because it *cost money once*, and the incident
-comment at `PersonaDraft.ts:5-16` is the artifact of that. `maxConcurrent` has
+comment at `PersonaDraft.ts:6-17` is the artifact of that. `maxConcurrent` has
 never produced an invoice, so it never earned a definition, and the drift
 appeared in the only field on the screen that had nowhere to record what it was
 for.

@@ -4,7 +4,8 @@ type: application
 subject: drag-drop
 technique: drop-affordances
 stack: react
-verified_on: 2026-08-18
+verified_on: 2026-10-31
+verified_against: react@19
 ---
 
 # Drop affordances in React — the shared affordance kit
@@ -51,19 +52,19 @@ marching border (march disabled under reduced motion via `globals.css`),
 centered label chip. Render it inside a `position: relative` drop region,
 driven by an `active` flag the drag-over handlers own.
 
-For lane-grade highlighting, `KanbanBoard.tsx:173` shows the lighter
+For lane-grade highlighting, `KanbanBoard.tsx:232` shows the lighter
 treatment: the drop-target column gets `ring-2` + a 1.005 scale, cleared on
-`dragLeave` with a `relatedTarget` containment check (`:103-106`) so
+`dragLeave` with a `relatedTarget` containment check (`:112-115`) so
 child-element churn doesn't flicker the highlight — and cleared again in
 `onDrop` *and* `onDragEnd`, because a successful cross-column drop unmounts
-the source card before its native `dragend` fires (`:111-114`, the comment
+the source card before its native `dragend` fires (`:149-153`, the comment
 is the bug report). Container-level "a drag is in flight" chrome exists as
-`.drop-zone-illuminated` + `body[data-drag-active]` (`globals.css:1495-1512`)
+`.drop-zone-illuminated` + `body[data-drag-active]` (`globals.css:1629-1650`)
 — do not invent a parallel body class.
 
 ## The origin trace and the in-hand treatment
 
-`KanbanBoard.tsx:156` applies `opacity-40 cursor-grabbing` to the dragged
+`KanbanBoard.tsx:212-213` applies `opacity-40 cursor-grabbing` to the dragged
 card — the dimmed-origin trace the technique asks for — keyed by *id*
 (`draggingId === id`), not index, so the treatment survives list churn
 mid-drag.
@@ -76,3 +77,16 @@ unlit — *not a target* and *refuses this payload* render identically,
 which the technique calls out as hiding the rule from the user). Building
 either belongs in `shared/components/`, tagged `@catalog`, not in a
 feature folder.
+
+## Re-checked 2026-10-31 at personas@22260d77
+
+- **`SchemaFieldBuilder.tsx` no longer exists** anywhere in `src/`, so the
+  cautionary consumer (one indicator per row with a unique `layoutId`, and a
+  drag lift keyed by index) is gone with it. `DropIndicator`'s contract
+  (default `layoutId = 'drop-indicator'`, reduced-motion snap) is unchanged.
+- `KanbanBoard.tsx` now lives at `src/features/shared/components/kanban/`.
+  The dimmed-origin trace is still keyed by id, and now also covers a keyboard
+  grab (`draggingId === id || keyboard.grabbedId === id`, `:212`), from a
+  `useKanbanKeyboardMove` keyboard path (`:122-143`).
+- `DragHandle.tsx` still renders `role="button"` (`:45`) with no `tabIndex`,
+  so the known deviation stands.

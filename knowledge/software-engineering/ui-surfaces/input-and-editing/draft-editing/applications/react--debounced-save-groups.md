@@ -4,7 +4,8 @@ type: application
 subject: draft-editing
 technique: debounced-save-groups
 stack: react
-verified_on: 2026-08-18
+verified_on: 2026-10-31
+verified_against: react@19
 ---
 
 # Debounced save groups — React persona editor
@@ -18,17 +19,17 @@ that `saveAll`/`cancelAll` flush through).
 
 ## The unit: key groups doing double duty
 
-`PersonaDraft.ts:49-66` declares the two key groups and — the detail worth
+`PersonaDraft.ts:84-104` declares the two key groups and — the detail worth
 copying — a compile-time exhaustiveness check: a field added to
 `PersonaDraft` but to neither group is a type error, so no field can be
 silently invisible to dirty detection and save scheduling. The same
 arrays drive `draftChanged` (dirtiness), `pickKeys` (baseline advance),
-and the debounce deps (`useEditorSave.ts:209,219`) — one region map, four
+and the debounce deps (`useEditorSave.ts:233,245`) — one region map, four
 consumers, no drift.
 
 ## The in-flight lock and the sent-payload comparison
 
-`useDebouncedSaveGroup.ts` is the whole race-handling story in 40 lines:
+`useDebouncedSaveGroup.ts` is the whole race-handling story in 63 lines:
 
 - **One in-flight save per group** — a second `save()` awaits
   `inFlightRef.current` instead of overlapping (`:37-45`).
@@ -51,20 +52,20 @@ census, `docs/concepts/golden-paths/debounced-autosave.md` §8 gap 4).
 
 ## Flush triggers and failure surfacing
 
-- Entity switch: `usePersonaSwitchGuard.ts:23-46` — `cancelAllDebouncedSaves()`
+- Entity switch: `usePersonaSwitchGuard.ts:32-62` — `cancelAllDebouncedSaves()`
   then `await saveAllTabs()`, the only entity-switch flush in the app.
-- `saveAll` (`EditorDocument.tsx:140-185`) saves dirty tabs sequentially,
+- `saveAll` (`EditorDocument.tsx:140-184`) saves dirty tabs sequentially,
   stops on first failure, and throws `TabSaveError` carrying both
   `failedTabs` and `savedTabs` so the toast reports the exact partial
-  state (`usePersonaSwitchGuard.ts:31-38`). A dirty tab with **no
+  state (`usePersonaSwitchGuard.ts:40-53`). A dirty tab with **no
   registered save callback throws instead of being marked clean** —
-  the comment at `EditorDocument.tsx:153-160` records that the previous
+  the comment at `EditorDocument.tsx:153-159` records that the previous
   behaviour "fabricat[ed] an 'all saved' outcome — the user's toast was a
   lie".
 - Per-group failure state: `useTabSection` exposes `lastError`; a failed
   save keeps the group dirty (the baseline never advanced) and surfaces
   through `saveError` in the editor header.
-- Autosave preconditions as `enabled` guards: `useEditorSave.ts:210,220`
+- Autosave preconditions as `enabled` guards: `useEditorSave.ts:236,246`
   disables the timer during a pending persona switch and while the model
   profile is corrupt (`suppressModelSave`) — and `performSettingsSave`
   refuses to autosave an empty name (`:162-164`), leaving the tab dirty
@@ -80,3 +81,24 @@ census, `docs/concepts/golden-paths/debounced-autosave.md` §8 gap 4).
   (legacy census: zero surviving pending writes across six repos).
 - Retry is not automatic: a failed group save waits for the next
   keystroke or an explicit flush; there is no backoff schedule.
+
+## Re-checked 2026-10-31 at personas@22260d77
+
+- **The empty-name refusal moved and got louder.** The autosave path now
+  never fires on a blank name, because the Settings `enabled` gate includes
+  `draft.name.trim() !== ''` (`useEditorSave.ts:236`). An explicit save
+  *rejects* instead of returning (`performSettingsSave`, `:181`). A resolved
+  save was being read by `saveAll` as "persisted", so the tab was marked
+  clean. The tab still stays dirty. The difference is that Save & Switch now
+  reports the failure. The Model group has the same guard on the
+  explicit-save path: `performModelSave` throws while the profile is corrupt
+  (`:202-204`).
+- **`throttledStorage.ts` is no longer importer-less.** Three production
+  modules use it (`useAdoptionAnswerSnapshot.ts`, `spendAlerts.ts`,
+  `useRailWidth.ts`), and `notepadStore.ts` has its own `pagehide` /
+  `beforeunload` drain (`:858-864`). So neither "the one drain in the tree"
+  nor "zero importers" holds now. The persona editor still uses neither, and
+  `useUnsavedGuard`'s `beforeunload` (`:75-84`) still prompts rather than
+  saves, so the window-close gap for this surface stands.
+- `useDebouncedSaveGroup.ts` is unchanged: `:34`, `:37-45`, `:44` and `:47`
+  hold.

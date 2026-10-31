@@ -5,7 +5,7 @@ subject: ui-controls
 technique: call-site-ownership
 stack: react
 status: forged
-verified_on: 2026-09-24
+verified_on: 2026-10-31
 verified_against: react@19
 applied: experiment
 ab_verdict: better
@@ -111,3 +111,23 @@ baseline, and it belongs in the tree's own census format (baseline 34, fail
 on increase) or as a custom rule that reads `VARIANT_CLASSES` and
 `SIZE_CLASSES` for its remedy list. Filed in the project's
 `.ai/applied.jsonl` as its next change.
+
+## Re-checked 2026-10-31 at personas@22260d77
+
+The A/B counts above are the 2026-09-24 measurement and are kept as measured.
+What can be read from the code now:
+
+- **`accentColor` is gone from `Button`.** The closed set is now six variants
+  (`primary`, `secondary`, `ghost`, `danger`, `accent`, `link`; `Button.tsx:16-22`),
+  seven sizes (`:24`, `SIZE_CLASSES` `:56-67`), and a `tone` enum of eight
+  *meanings* in place of thirteen hues: four statuses and four roles
+  (`ButtonTone`, `:78-80`; `TONE_CLASSES` `:85-94`). The accent variant now
+  holds no text colour of its own. `className` is still the one named door.
+  The observation that sixteen raw-colour sites used "a hue the
+  `accentColor` enum already carries" therefore describes the old set. Against
+  the new one, a raw hue at a call site has no hue-named variant to route to,
+  only a meaning. The ownership verdict is not affected.
+- The ESLint token rules are as described: text, shadow and radius at
+  `warn`, spacing `off` (`eslint.config.js:98-102`). The `package.json`
+  witnesses (`react ^19.2.6`, `tailwindcss ^4.3.0`) hold. The filed next
+  change is in `.ai/applied.jsonl` (line 128).
