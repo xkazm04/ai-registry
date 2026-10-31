@@ -5,7 +5,7 @@ subject: claimed-improvement-remeasurement
 technique: change-point-by-ancestry
 stack: node
 status: forged
-verified_on: 2026-10-27
+verified_on: 2026-10-31
 ---
 
 # Change point, queued batch and held watermark (afterlife)

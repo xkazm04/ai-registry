@@ -5,7 +5,7 @@ subject: claimed-improvement-remeasurement
 technique: three-way-verdict-over-raw-samples
 stack: node
 status: forged
-verified_on: 2026-10-27
+verified_on: 2026-10-31
 ---
 
 # The re-measure judge and the claim it never reads (afterlife)

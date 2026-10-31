@@ -78,9 +78,10 @@ A judge that can say only yes or no will say one of them about a comparison it h
 to decide. The honest output has three values: **credited** (head is better than base by more
 than the noise allows), **not earned** (the samples are sufficient and the improvement is not
 there — no change, or a regression), and **inconclusive** (the judge cannot tell, and says
-why). Inconclusive is not a polite no. It is returned when either side is below its sample
-floor, when the base is zero or unmeasurable so a relative gain has no denominator, and when
-the spread of the samples is wide enough to swallow the claimed effect; it carries the reason
+why). Inconclusive is not a polite no. It is returned when base and head ran on different
+runner classes, when either side is below its sample floor, when the base is zero or
+unmeasurable so a relative gain has no denominator, and when the spread of the samples is
+wide enough to swallow any gain the tolerance would credit; it carries the reason
 so the claimant knows whether to wait for more runs or to fix the instrument.
 
 The arithmetic is deliberately plain. Medians, not means, because a CI timing distribution
@@ -118,7 +119,7 @@ week, and two is below any sample floor worth having. The judge therefore asks f
 rather than waiting for them: it queues a small, capped batch of measurement runs on the
 change, as the person who asked, and records the batch's run identifiers as it queues them.
 The head is then exactly those runs, compared only once every one of them has finished,
-against as many runs of the same target that preceded the batch. The batch record is the mark
+against the same number of runs of the same target that preceded the batch. The batch record is the mark
 that separates triggered runs from organic ones: a judge that mixes the two without knowing
 which is which cannot tell whether a difference came from the change or from the trigger's
 different cache state. [queued-runs-as-head-sample](./techniques/queued-runs-as-head-sample.md)
@@ -159,8 +160,8 @@ advances only to the last run before the first unfinished one:
 
 - The claimed figure is stored and shown; no verdict parameter reads it.
 - The judge reads raw per-run samples it collected itself, for both base and head.
-- Three verdicts, with inconclusive carrying its reason: below floor, base unmeasurable,
-  noise wider than the effect.
+- Three verdicts, with inconclusive carrying its reason: not comparable, below floor, base
+  unmeasurable, spread beyond a multiple of the tolerance.
 - Medians compared, spread read from the same samples, the tolerance from reviewed policy and
   clamped to its ceiling; floors and bands are the measurement-honesty subject's.
 - Base and head are sets defined by commit ancestry; a change point is located the same way,

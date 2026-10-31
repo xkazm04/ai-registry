@@ -89,9 +89,9 @@ precede both, because a spread over two samples is not a measurement of noise.
 ## Why not a significance test
 
 A rank test over the two samples is a defensible upgrade, and published regression detectors
-use one. It does not replace the steps above: it still needs floors (an exact rank test over
-three samples a side cannot reach conventional significance at all), it still needs the
-zero-base exit, and a significant difference smaller than the tolerance is real and worthless.
+use one. It does not replace the steps above: it still needs floors (a two-sided exact rank
+test over three samples a side cannot get below p = 0.10), it still needs the zero-base exit,
+and a significant difference smaller than the tolerance is real and worthless.
 When one is added, add it as a further gate inside step 7, never as a replacement for the clamp.
 
 ## The output record
