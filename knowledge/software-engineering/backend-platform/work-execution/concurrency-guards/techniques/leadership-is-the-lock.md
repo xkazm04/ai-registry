@@ -21,9 +21,12 @@ holder rule). Change the fact and the token becomes redundant. **Where the
 shared store is a replicated log that refuses to accept a write from any node
 but its current leader, and the lock is "be the leader", the refusal is the
 fence.** A node that was leader, paused, and resumed after a new election
-cannot write a single stale entry — not because it checked a token, but
-because the log's own admission rule rejects a proposal from a non-leader
-before it is appended. The guard is inside the thing being written (law:
+cannot get a single stale entry applied — not because it checked a token, but
+because the log refuses it. A node that knows it is not leader is refused
+before anything is appended. A leader deposed without noticing may still
+append locally, but the entry cannot commit without a quorum of the new term,
+and its caller is told leadership was lost with no guarantee either way about
+the write. The guard is inside the thing being written (law:
 gate-sees-target), which is the strongest place a guard can be.
 
 The naive reading is to keep the fencing machinery anyway "for safety". It

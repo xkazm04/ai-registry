@@ -63,9 +63,12 @@ outright (`:386-387`): "`fs::rename` is atomic on POSIX and on Windows
 worth keeping; the atomicity claim is the wrong half. `MoveFileEx` documents
 only that `MOVEFILE_REPLACE_EXISTING` replaces contents subject to ACL
 conditions, promising nothing about atomicity or an open destination, and in
-practice returns `ERROR_ACCESS_DENIED` while a reader's handle is live because
-`std::fs::rename` does not pass `FILE_RENAME_POSIX_SEMANTICS`
-(rust-lang/rust#123985).
+practice returns `ERROR_ACCESS_DENIED` while a reader's handle is live. Since
+Rust 1.85, `std::fs::rename` first tries `FileRenameInfoEx` with POSIX
+semantics (rust-lang/rust#131072, which closed #123985), so it now succeeds
+against a reader that opened the destination with delete-sharing. A reader that
+did not, such as a scanner, still refuses it, and the old behaviour returns
+wherever the filesystem lacks `FileRenameInfoEx`. The retry stays owed.
 
 Three sites are worse than un-retried. `src-tauri/src/local_http/mod.rs:203-238`
 publishes the port/token file that a terminal session is documented to read,

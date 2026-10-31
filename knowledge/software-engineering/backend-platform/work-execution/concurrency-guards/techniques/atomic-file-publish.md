@@ -55,7 +55,8 @@ the better trade and is never the intended one.
 
 The same platform offers related calls with different open-handle behaviour,
 and newer editions expose replace semantics that tolerate open readers the way
-other platforms always have. Neither fact makes the retry optional: the
+other platforms always have — but only readers that opened the file with
+delete-sharing. Neither fact makes the retry optional: the
 tolerant path is not what every runtime's standard rename reaches for, its
 availability is version-dependent, and the interfering handle is often not a
 reader you control at all.

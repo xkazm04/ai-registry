@@ -43,7 +43,8 @@ third of the TTL, so a missed renewal is not fatal), the deadline consumes the
 remaining budget, and a renewal that has not succeeded by then is declared
 failed and the holder stops. Two thirds is not magic; it is where the two
 demands meet — enough time for a slow but live store to answer, and a hard
-stop before the lease can be taken.
+stop no later than the moment the lease can be taken. "No later than" is not
+yet a margin, which is what the next check is for.
 
 The check to make on any concrete set of numbers is whether they sum to the
 TTL exactly or leave room. Cadence of a third plus a deadline of two thirds is
@@ -110,8 +111,9 @@ stated once in job-coordination's lease-renewal technique, in its section
 - Give every renewal a deadline, and place it so that cadence plus deadline
   plus notification lands strictly inside the TTL; a sum equal to the TTL has
   no margin, whatever the comment says.
-- Give up a renewal at about two thirds of the TTL and close the loss channel
-  on giving up; the holder must stop writing before the lock is acquirable.
+- Give up a renewal at about two thirds of the TTL, shortened where the
+  cadence would otherwise leave no margin, and close the loss channel on
+  giving up; the holder must stop writing before the lock is acquirable.
 - Set and evaluate validity in the store's clock, in the statement that
   writes; send the TTL as an interval and keep node clocks out of the
   comparison.

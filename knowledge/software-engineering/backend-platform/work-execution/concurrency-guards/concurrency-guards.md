@@ -92,8 +92,8 @@ From that stance, the spine of the subject:
    throughput rule, and obeying it by splitting a transactional section
    introduces a check-to-use race (see critical-section-across-a-suspension).
 3. **The second caller's experience is a designed outcome.** Refuse loudly,
-   join the in-flight result, queue behind it, or coalesce into it — all four
-   are legitimate, but the choice is per-operation policy, and a refusal must
+   join the in-flight result, queue behind it, coalesce into it, or merge its
+   distinct payload into one execution — all five are legitimate, but the choice is per-operation policy, and a refusal must
    be distinguishable from a failure of the operation itself (law:
    failure-not-empty-success). Joining carries a precondition the other
    policies do not: it hands every caller a reference to one completion

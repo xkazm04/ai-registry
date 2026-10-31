@@ -210,3 +210,349 @@ archive commits run under a different guard and meet a second process only at th
 own index lock. Catches this run: critical-section-across-a-suspension (sync outside the
 fence, rename inside), preparation-is-the-staleness-window (a pooled snapshot pre-check).
 Backlog row dle-002-lock-fence (a broken lock's holder learns it before the guarded write).
+
+## Architecture review - 2026-10-31
+
+First architecture review of the subject: all 29 documents decided. Six
+clarify items. Three rest on primary sources opened this run (hashicorp/raft's
+Apply contract; Rust's std::fs::rename docs and rust-lang/rust#131072, for two
+documents). Two are internal: the golden path names four second-caller policies
+where the technique has five, and the renewal technique calls a no-margin shape
+a stop "before" the lease can be taken (OpenBao's source confirms 5 s + 10 s =
+15 s). The sixth, on idempotency-by-design's zero-rows verdict, is reasoning
+only. Private
+application trees were not reopened; no verification date was refreshed.
+
+<!-- architecture-review:v1 -->
+```json
+{
+  "subject": "software-engineering/concurrency-guards",
+  "date": "2026-10-31",
+  "baseline": "602b39448",
+  "digest": "sha256-b2:ccc991958e998a93",
+  "disposition": "clarify",
+  "coverage": "First architecture review. All 29 documents (golden path, 15 techniques, 13 applications) read in full. Five primary sources opened and one local source checked. Not evaluated: private consumer trees, external clones other than OpenBao postgresql.go and golang/sync singleflight, any runtime. No verification date refreshed.",
+  "counterexamples": [
+    "A version-checked conditional write that affects zero rows because another writer advanced the version is a conflict, not an already-done success.",
+    "A Raft leader deposed by a partition it has not noticed can append an entry locally; only the new term's quorum keeps it from committing, and its caller cannot tell whether the write landed.",
+    "A one-third renewal cadence with a two-thirds deadline gives up at the instant the lease becomes stealable (OpenBao: 5 s + 10 s = 15 s).",
+    "Since Rust 1.85, std::fs::rename over a destination held open with delete-sharing succeeds on Windows 10 1607+; a scanner that opened it without delete-sharing still refuses it.",
+    "A lock board whose loops re-read every cursor per tick gains nothing from a regain-generation check (retained from the 2026-09-01 not-better application)."
+  ],
+  "sources": [
+    {
+      "url": "https://github.com/openbao/openbao/blob/6b5f82e1/internal/physical/postgresql/postgresql.go",
+      "result": "Read at the pinned commit. Constants 'PostgreSQLLockTTLSeconds = 15', 'PostgreSQLLockRenewInterval = 5 * time.Second', 'PostgreSQLLockRetryInterval = time.Second'; writeItem uses 'context.WithTimeout(context.Background(), PostgreSQLLockTTLSeconds*2/3*time.Second)' under the comment 'ensure we block at most 2/3rds of the total lock period ... We give ourselves a little grace period'; validateFence returns nil with no fence or an unfenced-write mark, else asks IsActivelyHeld; 'Leave one for lock renewal. txnMaxParInt = maxParInt - 1'. Confirms the go application's quoted facts (line numbers not rechecked) and that 5 s + 10 s = 15 s leaves no margin."
+    },
+    {
+      "url": "https://github.com/hashicorp/raft/blob/main/api.go",
+      "result": "Read. Apply 'must be run on the leader or it will fail'; 'If the node discovers it is no longer the leader while applying the command, it will return ErrLeadershipLost. There is no way to guarantee whether the write succeeded or failed in this case.' ErrLeadershipLost: 'a leader fails to commit a log entry because it's been deposed in the process.' So a node that knows it is a follower is refused, but a deposed leader that has not noticed can append locally; what fences it is the quorum commit, and its caller gets an unknown outcome. Refines leadership-is-the-lock's 'rejects a proposal from a non-leader before it is appended'."
+    },
+    {
+      "url": "https://doc.rust-lang.org/std/fs/fn.rename.html",
+      "result": "Read. 'MoveFileExW with a fallback to SetFileInformationByHandle on Windows'; 'On Windows 10 version 1607 and above, the behavior is the same as Unix if the filesystem supports FileRenameInfoEx.'"
+    },
+    {
+      "url": "https://github.com/rust-lang/rust/pull/131072",
+      "result": "Read. 'Win: Use POSIX rename semantics for std::fs::rename if available', merged 2024-12-22, milestone 1.85.0, resolves #123985: tries FileRenameInfoEx with FILE_RENAME_FLAG_POSIX_SEMANTICS, which succeeds when the target is open with FILE_SHARE_DELETE, falling back to FileRenameInfo. Refutes rust--atomic-file-publish's claim (toolchain 1.97.1) that std::fs::rename does not pass POSIX semantics; the retry advice survives because a handle opened without delete-sharing still refuses."
+    },
+    {
+      "url": "https://github.com/golang/sync/blob/master/singleflight/singleflight.go",
+      "result": "Read at master, not at the application's pin 3ffd83c. The eviction is 'if g.m[key] == c { delete(g.m, key) }'; Forget deletes by key; a panic with channel waiters runs 'go panic(e)' then 'select {}'. Confirms go--release-guarantees sections 2 and 3 in substance."
+    },
+    {
+      "source": "This registry's scripts/run-board.mjs at 6bfb3f6c and at HEAD",
+      "result": "At 6bfb3f6c the node--cross-process-exclusion anchors hold exactly (createLock :492, breakIfUnchanged :521, rec._breakable :567). At HEAD the same quotes sit at :556, :585, :660. HEAD :525-527 carries node--cache-value-not-handle's arm B (ownerGone || pastTtlAndQuiet)."
+    }
+  ],
+  "documents": {
+    "concurrency-guards.md": {
+      "disposition": "clarify",
+      "reason": "Spine item 3 says 'Refuse loudly, join ..., queue ..., or coalesce ... all four are legitimate', but single-flight-primitives lists five policies since the 2026-08-27 merge amendment. Add merge."
+    },
+    "techniques/guard-key-design.md": {
+      "disposition": "keep",
+      "reason": "Axes, two failure directions and closed key vocabularies are sound. The banked lead (an entity axis that cannot be determined, e.g. a shell command) stays a lead pending a second source."
+    },
+    "techniques/single-flight-primitives.md": {
+      "disposition": "keep",
+      "reason": "Five policies are enumerated and named consistently in the decision rules; the serial self-closing merge window and the durable-resource join rules are internally consistent."
+    },
+    "techniques/cache-value-not-handle.md": {
+      "disposition": "keep",
+      "reason": "Reclaim deadline derived above the owner timeout, presence flag, and generation-bump-plus-release are consistent with each other and with single-flight-primitives' boundary."
+    },
+    "techniques/release-guarantees.md": {
+      "disposition": "keep",
+      "reason": "Five-path enemy list plus the capability-mismatch sixth path; references to the list's third and fifth entries are correct. Corroborated by golang/sync's conditional eviction."
+    },
+    "techniques/critical-section-across-a-suspension.md": {
+      "disposition": "keep",
+      "reason": "The split-introduces-check-to-use-race rule and its inversion are stated with a clear test; cross-links resolve."
+    },
+    "techniques/cross-process-exclusion.md": {
+      "disposition": "keep",
+      "reason": "Substrate options, fail direction, engineered duplicate cost and the regain-generation section are consistent; the not-better application is honestly reflected as a condition."
+    },
+    "techniques/attempt-attribution.md": {
+      "disposition": "keep",
+      "reason": "Mint-at-start, verify-adjacent-to-write and discard-as-counted-outcome are sound and consistent with the fencing techniques."
+    },
+    "techniques/idempotency-by-design.md": {
+      "disposition": "clarify",
+      "reason": "The conditional-writes tool lists set-if-version-matches and then says zero rows is read as 'already done'. For a version check, zero rows can equally mean another writer changed the row, which is a conflict, not the already-done success; preparation-is-the-staleness-window treats the same count as 'the race loses loudly'. State that zero rows reads as already-done only where the condition encodes this operation's own completion (status flip, create-if-absent with a natural key). Not applied: needs the author's wording, and no primary source was opened for it."
+    },
+    "techniques/atomic-file-publish.md": {
+      "disposition": "clarify",
+      "reason": "'newer editions expose replace semantics that tolerate open readers the way other platforms always have' overstates: the POSIX-semantics rename succeeds only against handles opened with delete-sharing (rust-lang/rust#131072). Qualify it; the retry rule is unaffected."
+    },
+    "techniques/leadership-is-the-lock.md": {
+      "disposition": "clarify",
+      "reason": "'the log's own admission rule rejects a proposal from a non-leader before it is appended' holds for a node that knows it is not leader. hashicorp/raft documents that a leader deposed mid-apply returns ErrLeadershipLost with no guarantee whether the write succeeded: the fence is the quorum commit, not local admission. Say so; the no-token conclusion stands."
+    },
+    "techniques/fence-inside-write-transaction.md": {
+      "disposition": "keep",
+      "reason": "Commit-time and direct-write fencing, the atomicity caveat and the marked allowlist all match the OpenBao source read this run."
+    },
+    "techniques/renewal-deadline-two-thirds-ttl.md": {
+      "disposition": "clarify",
+      "reason": "Internal inconsistency: the arithmetic paragraph says two thirds is 'a hard stop before the lease can be taken', and the next paragraph shows that a one-third cadence plus a two-thirds deadline equals the TTL with no margin (confirmed in OpenBao: 5 s + 10 s = 15 s). The decision rule 'give up at about two thirds' sits beside 'strictly inside the TTL' without reconciling them."
+    },
+    "techniques/race-catalog-with-two-histories.md": {
+      "disposition": "keep",
+      "reason": "Exactly-two rule, test-consumed catalog and write-order assertion are coherent; the boundary question against guards is clear."
+    },
+    "techniques/preparation-is-the-staleness-window.md": {
+      "disposition": "keep",
+      "reason": "Placement rule, three shapes by step nature, refuse-only re-read and the bounded lock-set stabilisation loop are sound. The zero-rows tension is recorded against idempotency-by-design."
+    },
+    "techniques/shared-claims-by-announce-and-verify.md": {
+      "disposition": "keep",
+      "reason": "Announce-then-verify argument is correct given the stated read and list consistency precondition; upgrade, reclaim and error-classification rules match the application."
+    },
+    "applications/go--fence-inside-write-transaction.md": {
+      "disposition": "keep",
+      "reason": "Constants, the two-thirds timeout and its comment, validateFence's shape and the reserved connection were re-read at 6b5f82e1 this run. Line numbers were not rechecked, so verified_on is unchanged."
+    },
+    "applications/go--leadership-is-the-lock.md": {
+      "disposition": "reverify",
+      "reason": "Plausible and consistent with hashicorp/raft's API, but the raft.go and physical.go anchors at 6b5f82e1 were not reopened."
+    },
+    "applications/go--release-guarantees.md": {
+      "disposition": "keep",
+      "reason": "Conditional eviction, Forget and the go panic plus select {} branch confirmed at golang/sync master; errgroup and semaphore anchors at 3ffd83c not reopened. Pin stays in prose."
+    },
+    "applications/node--cache-value-not-handle.md": {
+      "disposition": "keep",
+      "reason": "Arm B's predicate is present in this registry's run-board (HEAD :525-527); the 3/5 versus 5/5 table is arithmetically consistent. Its fit is closer to reclaim-on-owner-state than to the value-cache mechanism; a later pass may re-home it."
+    },
+    "applications/node--cross-process-exclusion.md": {
+      "disposition": "keep",
+      "reason": "All three anchors verified at fix commit 6bfb3f6c; at HEAD they have drifted to :556, :585, :660 with quotes intact. Measurement not re-run."
+    },
+    "applications/node--preparation-is-the-staleness-window.md": {
+      "disposition": "reverify",
+      "reason": "Private consumer tree and its probes not reopened; internal arithmetic (1/3 to 3/3, 68 pass both arms) consistent."
+    },
+    "applications/node--race-catalog-with-two-histories.md": {
+      "disposition": "reverify",
+      "reason": "Quotes from earendil-works/pi at 92d8e2d1 not reopened this run."
+    },
+    "applications/rust--atomic-file-publish.md": {
+      "disposition": "clarify",
+      "reason": "States that std::fs::rename 'does not pass FILE_RENAME_POSIX_SEMANTICS (rust-lang/rust#123985)' at toolchain 1.97.1. rust-lang/rust#131072 (Rust 1.85) added that path and closed #123985. Correct the sentence; private anchors otherwise need reverify."
+    },
+    "applications/rust--cross-process-exclusion.md": {
+      "disposition": "reverify",
+      "reason": "Private tree at the 2026-09-01 reading not reopened; the not-better verdict and its falsifier are stated."
+    },
+    "applications/rust--cross-process-exclusion--agent-mail.md": {
+      "disposition": "reverify",
+      "reason": "Clone at 3821104c not reopened; quoted anchors carry their own checkable text."
+    },
+    "applications/rust--cross-process-exclusion--symbol-lock-store.md": {
+      "disposition": "reverify",
+      "reason": "rtk-ai/grit at 0f3c9d04 not reopened."
+    },
+    "applications/rust--shared-claims-by-announce-and-verify.md": {
+      "disposition": "reverify",
+      "reason": "rtk-ai/grit at 0f3c9d04 not reopened; the embedded-backend replay is not re-run."
+    },
+    "applications/rust--single-flight-primitives.md": {
+      "disposition": "reverify",
+      "reason": "Private tree, dated 2026-08-18, not reopened."
+    }
+  }
+}
+```
+
+## Architecture review - 2026-10-31 (clarify applied)
+
+Applied five of the six clarify items the record above names, each minimal
+and in the document's own voice. The idempotency-by-design zero-rows item stays
+owed because it needs the author's wording and no source was opened for it. The
+rust application's private anchors were not reopened, so its verified_on is
+unchanged. Overall disposition stays clarify.
+
+<!-- architecture-review:v1 -->
+```json
+{
+  "subject": "software-engineering/concurrency-guards",
+  "date": "2026-10-31",
+  "baseline": "c5d3faf84",
+  "digest": "sha256-b2:fc07b54dee264b44",
+  "disposition": "clarify",
+  "coverage": "All 29 documents decided. Five of the six clarify items from the first 2026-10-31 record were applied and re-read (golden path, atomic-file-publish, leadership-is-the-lock, renewal-deadline-two-thirds-ttl, rust--atomic-file-publish). The idempotency-by-design item stays owed. Every other document is byte-unchanged and keeps its decision. No private tree reopened, no verification date refreshed.",
+  "counterexamples": [
+    "A version-checked conditional write that affects zero rows because another writer advanced the version is a conflict, not an already-done success.",
+    "A Raft leader deposed by a partition it has not noticed can append an entry locally; only the new term's quorum keeps it from committing, and its caller cannot tell whether the write landed.",
+    "A one-third renewal cadence with a two-thirds deadline gives up at the instant the lease becomes stealable (OpenBao: 5 s + 10 s = 15 s).",
+    "Since Rust 1.85, std::fs::rename over a destination held open with delete-sharing succeeds on Windows 10 1607+; a scanner that opened it without delete-sharing still refuses it.",
+    "A lock board whose loops re-read every cursor per tick gains nothing from a regain-generation check (retained from the 2026-09-01 not-better application)."
+  ],
+  "sources": [
+    {
+      "url": "https://github.com/openbao/openbao/blob/6b5f82e1/internal/physical/postgresql/postgresql.go",
+      "result": "Read at the pinned commit. Constants 'PostgreSQLLockTTLSeconds = 15', 'PostgreSQLLockRenewInterval = 5 * time.Second', 'PostgreSQLLockRetryInterval = time.Second'; writeItem uses 'context.WithTimeout(context.Background(), PostgreSQLLockTTLSeconds*2/3*time.Second)' under the comment 'ensure we block at most 2/3rds of the total lock period ... We give ourselves a little grace period'; validateFence returns nil with no fence or an unfenced-write mark, else asks IsActivelyHeld; 'Leave one for lock renewal. txnMaxParInt = maxParInt - 1'. Confirms the go application's quoted facts (line numbers not rechecked) and that 5 s + 10 s = 15 s leaves no margin."
+    },
+    {
+      "url": "https://github.com/hashicorp/raft/blob/main/api.go",
+      "result": "Read. Apply 'must be run on the leader or it will fail'; 'If the node discovers it is no longer the leader while applying the command, it will return ErrLeadershipLost. There is no way to guarantee whether the write succeeded or failed in this case.' ErrLeadershipLost: 'a leader fails to commit a log entry because it's been deposed in the process.' So a node that knows it is a follower is refused, but a deposed leader that has not noticed can append locally; what fences it is the quorum commit, and its caller gets an unknown outcome. Refines leadership-is-the-lock's 'rejects a proposal from a non-leader before it is appended'."
+    },
+    {
+      "url": "https://doc.rust-lang.org/std/fs/fn.rename.html",
+      "result": "Read. 'MoveFileExW with a fallback to SetFileInformationByHandle on Windows'; 'On Windows 10 version 1607 and above, the behavior is the same as Unix if the filesystem supports FileRenameInfoEx.'"
+    },
+    {
+      "url": "https://github.com/rust-lang/rust/pull/131072",
+      "result": "Read. 'Win: Use POSIX rename semantics for std::fs::rename if available', merged 2024-12-22, milestone 1.85.0, resolves #123985: tries FileRenameInfoEx with FILE_RENAME_FLAG_POSIX_SEMANTICS, which succeeds when the target is open with FILE_SHARE_DELETE, falling back to FileRenameInfo. Refutes rust--atomic-file-publish's claim (toolchain 1.97.1) that std::fs::rename does not pass POSIX semantics; the retry advice survives because a handle opened without delete-sharing still refuses."
+    },
+    {
+      "url": "https://github.com/golang/sync/blob/master/singleflight/singleflight.go",
+      "result": "Read at master, not at the application's pin 3ffd83c. The eviction is 'if g.m[key] == c { delete(g.m, key) }'; Forget deletes by key; a panic with channel waiters runs 'go panic(e)' then 'select {}'. Confirms go--release-guarantees sections 2 and 3 in substance."
+    },
+    {
+      "source": "This registry's scripts/run-board.mjs at 6bfb3f6c and at HEAD",
+      "result": "At 6bfb3f6c the node--cross-process-exclusion anchors hold exactly (createLock :492, breakIfUnchanged :521, rec._breakable :567). At HEAD the same quotes sit at :556, :585, :660. HEAD :525-527 carries node--cache-value-not-handle's arm B (ownerGone || pastTtlAndQuiet)."
+    }
+  ],
+  "documents": {
+    "concurrency-guards.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: spine item 3 now names merge as the fifth second-caller policy ('all five are legitimate'), matching single-flight-primitives."
+    },
+    "techniques/guard-key-design.md": {
+      "disposition": "keep",
+      "reason": "Axes, two failure directions and closed key vocabularies are sound. The banked lead (an entity axis that cannot be determined, e.g. a shell command) stays a lead pending a second source."
+    },
+    "techniques/single-flight-primitives.md": {
+      "disposition": "keep",
+      "reason": "Five policies are enumerated and named consistently in the decision rules; the serial self-closing merge window and the durable-resource join rules are internally consistent."
+    },
+    "techniques/cache-value-not-handle.md": {
+      "disposition": "keep",
+      "reason": "Reclaim deadline derived above the owner timeout, presence flag, and generation-bump-plus-release are consistent with each other and with single-flight-primitives' boundary."
+    },
+    "techniques/release-guarantees.md": {
+      "disposition": "keep",
+      "reason": "Five-path enemy list plus the capability-mismatch sixth path; references to the list's third and fifth entries are correct. Corroborated by golang/sync's conditional eviction."
+    },
+    "techniques/critical-section-across-a-suspension.md": {
+      "disposition": "keep",
+      "reason": "The split-introduces-check-to-use-race rule and its inversion are stated with a clear test; cross-links resolve."
+    },
+    "techniques/cross-process-exclusion.md": {
+      "disposition": "keep",
+      "reason": "Substrate options, fail direction, engineered duplicate cost and the regain-generation section are consistent; the not-better application is honestly reflected as a condition."
+    },
+    "techniques/attempt-attribution.md": {
+      "disposition": "keep",
+      "reason": "Mint-at-start, verify-adjacent-to-write and discard-as-counted-outcome are sound and consistent with the fencing techniques."
+    },
+    "techniques/idempotency-by-design.md": {
+      "disposition": "clarify",
+      "reason": "The conditional-writes tool lists set-if-version-matches and then says zero rows is read as 'already done'. For a version check, zero rows can equally mean another writer changed the row, which is a conflict, not the already-done success; preparation-is-the-staleness-window treats the same count as 'the race loses loudly'. State that zero rows reads as already-done only where the condition encodes this operation's own completion (status flip, create-if-absent with a natural key). Not applied: needs the author's wording, and no primary source was opened for it."
+    },
+    "techniques/atomic-file-publish.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: 'replace semantics that tolerate open readers the way other platforms always have' now says such readers must have opened the file with delete-sharing, per rust-lang/rust#131072."
+    },
+    "techniques/leadership-is-the-lock.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: the opening now separates a node that knows it is a follower (refused before append) from a deposed leader that has not noticed (may append locally, cannot commit without the new term's quorum, its caller told leadership was lost with the outcome unknown), per hashicorp/raft's Apply contract."
+    },
+    "techniques/fence-inside-write-transaction.md": {
+      "disposition": "keep",
+      "reason": "Commit-time and direct-write fencing, the atomicity caveat and the marked allowlist all match the OpenBao source read this run."
+    },
+    "techniques/renewal-deadline-two-thirds-ttl.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: 'a hard stop before the lease can be taken' now reads 'no later than the moment', with a pointer to the margin check; the decision rule now says to shorten the two-thirds deadline when the cadence would leave no margin."
+    },
+    "techniques/race-catalog-with-two-histories.md": {
+      "disposition": "keep",
+      "reason": "Exactly-two rule, test-consumed catalog and write-order assertion are coherent; the boundary question against guards is clear."
+    },
+    "techniques/preparation-is-the-staleness-window.md": {
+      "disposition": "keep",
+      "reason": "Placement rule, three shapes by step nature, refuse-only re-read and the bounded lock-set stabilisation loop are sound. The zero-rows tension is recorded against idempotency-by-design."
+    },
+    "techniques/shared-claims-by-announce-and-verify.md": {
+      "disposition": "keep",
+      "reason": "Announce-then-verify argument is correct given the stated read and list consistency precondition; upgrade, reclaim and error-classification rules match the application."
+    },
+    "applications/go--fence-inside-write-transaction.md": {
+      "disposition": "keep",
+      "reason": "Constants, the two-thirds timeout and its comment, validateFence's shape and the reserved connection were re-read at 6b5f82e1 this run. Line numbers were not rechecked, so verified_on is unchanged."
+    },
+    "applications/go--leadership-is-the-lock.md": {
+      "disposition": "reverify",
+      "reason": "Plausible and consistent with hashicorp/raft's API, but the raft.go and physical.go anchors at 6b5f82e1 were not reopened."
+    },
+    "applications/go--release-guarantees.md": {
+      "disposition": "keep",
+      "reason": "Conditional eviction, Forget and the go panic plus select {} branch confirmed at golang/sync master; errgroup and semaphore anchors at 3ffd83c not reopened. Pin stays in prose."
+    },
+    "applications/node--cache-value-not-handle.md": {
+      "disposition": "keep",
+      "reason": "Arm B's predicate is present in this registry's run-board (HEAD :525-527); the 3/5 versus 5/5 table is arithmetically consistent. Its fit is closer to reclaim-on-owner-state than to the value-cache mechanism; a later pass may re-home it."
+    },
+    "applications/node--cross-process-exclusion.md": {
+      "disposition": "keep",
+      "reason": "All three anchors verified at fix commit 6bfb3f6c; at HEAD they have drifted to :556, :585, :660 with quotes intact. Measurement not re-run."
+    },
+    "applications/node--preparation-is-the-staleness-window.md": {
+      "disposition": "reverify",
+      "reason": "Private consumer tree and its probes not reopened; internal arithmetic (1/3 to 3/3, 68 pass both arms) consistent."
+    },
+    "applications/node--race-catalog-with-two-histories.md": {
+      "disposition": "reverify",
+      "reason": "Quotes from earendil-works/pi at 92d8e2d1 not reopened this run."
+    },
+    "applications/rust--atomic-file-publish.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: the std::fs::rename sentence now says that since Rust 1.85 it tries FileRenameInfoEx with POSIX semantics (rust-lang/rust#131072, closing #123985), so only a reader without delete-sharing refuses it; the retry advice stands. The private tree's anchors at b6dcf28aa were not reopened and verified_on is unchanged."
+    },
+    "applications/rust--cross-process-exclusion.md": {
+      "disposition": "reverify",
+      "reason": "Private tree at the 2026-09-01 reading not reopened; the not-better verdict and its falsifier are stated."
+    },
+    "applications/rust--cross-process-exclusion--agent-mail.md": {
+      "disposition": "reverify",
+      "reason": "Clone at 3821104c not reopened; quoted anchors carry their own checkable text."
+    },
+    "applications/rust--cross-process-exclusion--symbol-lock-store.md": {
+      "disposition": "reverify",
+      "reason": "rtk-ai/grit at 0f3c9d04 not reopened."
+    },
+    "applications/rust--shared-claims-by-announce-and-verify.md": {
+      "disposition": "reverify",
+      "reason": "rtk-ai/grit at 0f3c9d04 not reopened; the embedded-backend replay is not re-run."
+    },
+    "applications/rust--single-flight-primitives.md": {
+      "disposition": "reverify",
+      "reason": "Private tree, dated 2026-08-18, not reopened."
+    }
+  }
+}
+```
