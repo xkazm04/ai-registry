@@ -4,13 +4,14 @@ type: application
 subject: voice-io
 technique: stt-pipeline
 stack: react
-verified_on: 2026-08-18
+verified_on: 2026-10-31
+verified_against: react@19
 ---
 
 # The local dictation pipeline — where the repo meets the technique, and where it doesn't
 
 The on-device capture→transcription pipeline is
-`src/features/plugins/companion/useLocalDictation.ts`: mic capture via
+`src/features/companions/athena/useLocalDictation.ts`: mic capture via
 `getUserMedia`, raw PCM recording through an `AudioContext` pinned (where the
 platform honors it) to 16 kHz mono, client-side WAV encoding, and one
 `companion_stt_transcribe` IPC round-trip to the whisper sidecar
@@ -94,3 +95,15 @@ below.
    owns install status via a real artifact probe). The technique wants the
    affordance to know absent-vs-ready before the user holds the button;
    here the first hold is the probe.
+
+Re-checked 2026-10-31 at personas@22260d77c9: the pipeline moved with the
+companions refactor (`src/features/plugins/companion/` →
+`src/features/companions/athena/`); every line anchor above still lands on the
+same construct. One finding has moved: **deviation 1 is no longer "anywhere"**.
+`sub_create/shared/MicLevelMeter.tsx` is a capture-side level meter (its own
+`getUserMedia` + `AnalyserNode`, "the user's only debug tool when the mic is
+denied or silent"), rendered while an STT take records on the create-flow cards
+(`StageCardStt.tsx`, `TableCardListen.tsx`). It is still absent from the
+hold-to-talk surfaces (orb, footer mic), and it meters a second stream rather
+than the one `useLocalDictation` records, so deviations 1 and 4 still hold for
+command input. Deviations 2, 3 and 5 hold as written.

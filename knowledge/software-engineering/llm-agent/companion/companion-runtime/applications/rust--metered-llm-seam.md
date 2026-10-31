@@ -5,7 +5,8 @@ subject: companion-runtime
 technique: metered-llm-seam
 stack: rust
 status: forged
-verified_on: 2026-08-23
+verified_on: 2026-10-31
+verified_against: rust@1.96
 ---
 
 # One metered door for every companion leg (Personas / Athena)
@@ -42,10 +43,10 @@ The fix is structural rather than advisory (`oneshot.rs:18-22`):
 > future leg cannot be added without a pool, which is the structural version of
 > the rule rather than a comment asking for it.
 
-`call_claude_text` (`oneshot.rs:122`) takes the pool as its first parameter and
-`leg: &str` at `:126` — both required, so a new leg cannot compile without
+`call_claude_text` (`oneshot.rs:304`) takes the pool as its first parameter and
+`leg: &str` at `:308` — both required, so a new leg cannot compile without
 declaring what it is and where it is accounted. The leg vocabulary is a module of
-constants rather than free strings (`oneshot.rs:81` onward: `CONSOLIDATION`,
+constants rather than free strings (`oneshot.rs:132` onward: `CONSOLIDATION`,
 `REFLECTION`, `RECALL_SYNTHESIS`, `BRIEFING`, `NIGHT_PLANNER`,
 `NIGHT_UNATTENDED`, `TOURS`, `CYCLE_COMPRESS`, `CYCLE_RECONCILE`), documented as
 "one token per leg, used for BOTH the ledger label and the error-message tag — so
@@ -63,17 +64,17 @@ two different ways".
 > stdout line to. Two parsers or two row shapes would drift, and both feed one
 > `companion_get_health` number.
 
-The parser is `CliUsage::from_result_event` (`turn_ledger.rs:76-98`) with the
-line-oriented convenience wrapper `from_line` (`:100-105`); the writers are
-`record_cli_leg` (`:212`) and `record_failed_leg` (`:248`). The leg classes are
-separated at the origin level on purpose — `ORIGIN_HEADLESS` (`:41`) and
-`ORIGIN_MAINTENANCE` (`:53`) — with the reason given at `:46-52`: folding
+The parser is `CliUsage::from_result_event` (`turn_ledger.rs:83-104`) with the
+line-oriented convenience wrapper `from_line` (`:108-112`); the writers are
+`record_cli_leg` (`:233`) and `record_failed_leg` (`:269`). The leg classes are
+separated at the origin level on purpose — `ORIGIN_HEADLESS` (`:42`) and
+`ORIGIN_MAINTENANCE` (`:54`) — with the reason given at `:48-53`: folding
 maintenance into headless "would have hidden the cycle's cost inside a bucket
 already dominated by 1,600 triage legs".
 
 ## Confirmed: unknown is carried, not zeroed
 
-Every field of `CliUsage` is `Option` (`turn_ledger.rs:61-70`), and the header
+Every field of `CliUsage` is `Option` (`turn_ledger.rs:62-76`), and the header
 states the disposition directly: "A missing or unparseable `result` event records
 a row with NULL usage fields (the turn still happened)" (`turn_ledger.rs:15-17`).
 Failed turns are rows too (`:19-26`), with the reason this was not optional: "Without
@@ -105,3 +106,13 @@ defensible under the cost subject's own rules; what makes it a deviation here is
 that the split is by *subsystem* rather than by spend class, so answering "what
 did this product spend on models" requires knowing which table a leg happened to
 be routed to.
+
+Re-checked 2026-10-31 at personas@22260d77c9: the structure holds as described —
+pool and `leg` still required on `call_claude_text`, one shared parser and row
+shape in `turn_ledger`, failed turns still rows, and an insert failure still
+only a `tracing::warn!` (`turn_ledger.rs:330`) with no counter beside it, so the
+dropped-write deviation stands. Two small drifts in what the lists say: the
+`leg` module now also carries `APP_MASTER_DECISION` (the App Master's wake
+decision), a tenth token the list above omits; and `CliUsage` carries
+`is_error: bool` (not an `Option`) plus a new `first_text_ms: Option<i64>`
+measured on the app's side of the pipe — every *usage* field is still `Option`.

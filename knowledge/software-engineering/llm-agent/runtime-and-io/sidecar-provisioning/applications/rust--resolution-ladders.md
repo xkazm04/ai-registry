@@ -4,7 +4,8 @@ type: application
 subject: sidecar-provisioning
 technique: resolution-ladders
 stack: rust
-verified_on: 2026-08-18
+verified_on: 2026-10-31
+verified_against: rust@1.96
 ---
 
 # Resolution ladders across the Personas sidecars
@@ -33,14 +34,14 @@ in one string. The model files ride the app-wide `PERSONAS_HOME` override
 
 ## The two-rung ladder: Bun (`src-tauri/src/webbuild/bun.rs`)
 
-`resolve_bun` (`:20-33`) runs override (`PERSONAS_BUN_BIN`) → system path.
+`resolve_bun` (`:20-32`) runs override (`PERSONAS_BUN_BIN`) → system path.
 The managed rung is legitimately absent — the app never provisions Bun —
 and the not-found error again names both remedies (install it, or set the
 override, `:28-31`).
 
 Deviation, and the file's test enshrines it: **an override pointing at a
 missing file silently falls through** to the path lookup (`:21-26`;
-`resolve_bun_honors_missing_override_gracefully`, `:111-123`). The
+`resolve_bun_honors_missing_override_gracefully`, `:189-205`). The
 standard says fail loudly at the override rung — an operator who set
 `PERSONAS_BUN_BIN` and silently got a different binary is debugging a
 ghost. Kokoro has the same silent fall-through shape at `:82-87`.
@@ -49,8 +50,8 @@ ghost. Kokoro has the same silent fall-through shape at `:82-87`.
 
 For a sidecar reached over HTTP rather than spawned per call, the ladder
 degenerates to override-or-default: `PERSONAS_POCKET_TTS_URL` else
-`http://127.0.0.1:8080` (`:198`). The interesting resolution here is
-*backend routing* (module doc `:34-40`): synthesis goes to the packaged
+`http://127.0.0.1:8080` (`base_url`, `:199-205`). The interesting resolution here is
+*backend routing* (module doc `:32-38`): synthesis goes to the packaged
 one-shot sidecar when it is installed and the voice exists locally,
 otherwise falls back to the HTTP service — a ladder over backends rather
 than paths.
@@ -83,3 +84,14 @@ imitation, FFmpeg escaped it entirely, and the silent-fall-through defect
 had to be (not) fixed four separate times. The technique's "one resolver
 function, parameterized by descriptor" exists here only as a convention
 waiting to be extracted.
+
+Re-checked 2026-10-31 at personas@22260d77c9: the Kokoro, Bun and Pocket TTS
+ladders hold as described (the Bun and Kokoro silent override fall-through
+included). **The FFmpeg section no longer has a subject in the tree:**
+`src-tauri/src/commands/artist/ffmpeg.rs` — `discover_ffmpeg_path`,
+`FFMPEG_PATH_CACHE` and `artist_check_ffmpeg` with it — was deleted when the
+Artist plugin was removed (commit `0697f13438`, 2026-09-15), and no other
+FFmpeg resolver exists. The repo now resolves three external executables, all
+on the `PERSONAS_<DEP>_*` override convention; the bespoke counter-example and
+the verdict-caching witness are history, not current code. The upshot's
+"one resolver function, parameterized by descriptor" is still unextracted.

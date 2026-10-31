@@ -4,15 +4,16 @@ type: application
 subject: sidecar-provisioning
 technique: atomic-downloads
 stack: rust
-verified_on: 2026-08-18
+verified_on: 2026-10-31
+verified_against: rust@1.96
 ---
 
 # Atomic downloads in the companion STT model manager
 
 `src-tauri/src/companion/stt/downloader.rs` is the technique's cleanest
 witness in this repo: one file that streams a curated speech-model binary
-(up to ~466 MB, `:30`) into the managed directory and implements stage,
-guard, throttle, verify, and scoped cleanup in under 300 lines. Its sibling
+(up to ~466 MB, `:29`) into the managed directory and implements stage,
+guard, throttle, verify, and scoped cleanup in about 300 lines. Its sibling
 plumbing (`src-tauri/src/companion/tts/sherpa_engine.rs`, shared by
 `kokoro_installer.rs` and `pocket_installer.rs`) applies the same shape to
 multi-file archive installs.
@@ -20,23 +21,23 @@ multi-file archive installs.
 ## Stage, verify, rename
 
 - **Partial staging:** bytes stream into `ggml-<id>.bin.partial`
-  (`stream_to_file`, `:163-166`), never the final name. Consumers check
+  (`stream_to_file`, `:179-182`), never the final name. Consumers check
   presence via `is_model_downloaded` (`:77-79`), which only ever sees the
   published name.
 - **Transport success is not completeness — asserted:** the comment at
-  `:201-205` is the standard's lesson verbatim from production: "A stream
+  `:217-221` is the standard's lesson verbatim from production: "A stream
   that ends early is not an error at the HTTP layer, so without this the
   truncated file is promoted to the final name and `is_model_downloaded`
   reports true forever — every transcription then fails with an opaque
   'whisper exited with …'". The fix compares `downloaded` against the
-  advertised `content_length` and fails loudly (`:206-212`) — run *before*
+  advertised `content_length` and fails loudly (`:222-228`) — run *before*
   publication.
 - **Atomic publication:** `tokio::fs::rename(&partial_path, final_path)`
-  (`:214-216`) is the single instant a consumer can observe the artifact.
+  (`:230-232`) is the single instant a consumer can observe the artifact.
 
 Deviation, reported not hidden: there is **no digest rung** — verification
 stops at advertised-length equality (and, on the archive side, sentinel-file
-checks after extraction, `sherpa_engine.rs:124,:191-198`). The catalog carries
+checks after extraction, `sherpa_engine.rs:125,:191-200`). The catalog carries
 no digests, so a corrupted-but-complete or substituted payload would
 publish. The standard keeps the digest rung.
 
@@ -54,20 +55,20 @@ installer side uses the same primitive for whole-install exclusion
 
 Throttling happens at the source with **both** floors the technique names:
 a time floor (`PROGRESS_EVENT_INTERVAL`, 250 ms, `:33`) and a byte-delta
-floor (1 MiB, `:34`), whichever trips first (`:180-193`). Terminal events —
+floor (1 MiB, `:34`), whichever trips first (`:196-209`). Terminal events —
 `Completed` / `Failed` with the error string — are emitted unthrottled and
-unconditionally (`:135`, `:139`). Progress carries identity
+unconditionally (`:155`, `:144`). Progress carries identity
 (`DownloadProgress.model_id`, `:50-56`), so two models downloading
 concurrently render as two bars.
 
 ## The reaper, scoped by name
 
-`cleanup_partial` (`:222-231`) removes exactly one artifact's partial on
-failure, and the comment at `:130-134` records the earned scoping lesson:
+`cleanup_partial` (`:238-247`) removes exactly one artifact's partial on
+failure, and the comment at `:140-142` records the earned scoping lesson:
 "sweeping every `*.partial` in the shared dir destroyed the other
 download's in-flight file" — the guard is keyed per model precisely so two
 models can stream concurrently, and cleanup must respect the same grain. A
-locked, undeletable partial is logged rather than swallowed (`:227-230`),
+locked, undeletable partial is logged rather than swallowed (`:243-245`),
 because it "poisons the next attempt silently". Restart, not resume, is the
 stated recovery policy: the partial is removed on failure and the next
 attempt begins clean.
@@ -82,4 +83,4 @@ hard-coded base URL (`HF_BASE`, `:25-27`) "so the manager can't be
 redirected at another repo". Managed-directory residency honors the
 app-wide home override (`PERSONAS_HOME`, `:60-69`), and all of it is
 unit-tested including override handling and idempotent deletion
-(`:258-282`).
+(`:270-305`).

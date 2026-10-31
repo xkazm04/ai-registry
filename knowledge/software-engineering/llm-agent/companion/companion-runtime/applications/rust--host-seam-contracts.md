@@ -5,7 +5,7 @@ subject: companion-runtime
 technique: host-seam-contracts
 stack: rust
 status: forged
-verified_on: 2026-09-23
+verified_on: 2026-10-31
 verified_against: rust@1.96
 applied: experiment
 ab_verdict: not-better
@@ -21,7 +21,7 @@ different from the one the technique first asked.
 Citations re-resolved on 2026-09-23 against the tree at `1b8161096`. Rust
 witness is the observed `rustc 1.96.1`, matching the tree's
 `rust-toolchain.toml` pin; the manifest floor is `rust-version = "1.80.0"`
-(`src-tauri/Cargo.toml:218`).
+(`src-tauri/Cargo.toml:222`).
 
 ## Confirmed: the sleep cycle has a real seam, with a double
 
@@ -37,8 +37,8 @@ pub trait CycleLlm: Send + Sync {
 
 The production implementation is `MeteredLegs` (`run.rs:79-88`), which forwards
 to the metered one-shot path; the test implementation is `Canned`
-(`sleep_cycle/tests.rs:47`, `impl CycleLlm` at `:68`), and both `run` helpers in
-the test module take `llm: &dyn CycleLlm` (`tests.rs:81`, `:85`). The whole cycle —
+(`sleep_cycle/tests.rs:46`, `impl CycleLlm` at `:67`), and both `run` helpers in
+the test module take `llm: &dyn CycleLlm` (`tests.rs:80`, `:84`). The whole cycle —
 admission, both legs, the apply path, the report — runs with no model, no network
 and no interface.
 
@@ -50,10 +50,10 @@ and no interface.
 The cycle tests and the dispatcher tests do not use a hand-written store. They
 open the production SQLite schema in throwaway instances: `init_test_db()`
 copies a once-migrated template to a unique temp file per test
-(`src-tauri/db/src/lib.rs:2390-2400`), explaining why not `:memory:` — "r2d2 hands
+(`src-tauri/db/src/lib.rs:2463-2474`), explaining why not `:memory:` — "r2d2 hands
 out multiple connections and each in-memory connection would get its own empty
 database" — and the dispatcher's `test_pool()` uses a shared-cache memory URI
-for the same reason (`src-tauri/src/companion/dispatcher/tests.rs:36-45`). The
+for the same reason (`src-tauri/src/companion/dispatcher/tests.rs:39-48`). The
 store is an embedded engine that can open a disposable instance, so the technique's
 acceptance test is satisfied for storage without a Store trait; this is the case
 the technique's store condition was written from.
@@ -63,8 +63,8 @@ names as "read from process environment": `disk::brain_root()` honours a
 `PERSONAS_HOME` override (`src-tauri/src/companion/disk.rs:28-31`), and because
 that is one process-global, the cycle tests need a lock shared across the brain
 module to stop other tests' redirects from pointing the cycle's disk reads
-elsewhere mid-test (`sleep_cycle/tests.rs:31-42`, and the `SQL_SERVED_BODY`
-note at `:95-107`, where a lost read made admission "correctly-but-wrongly"
+elsewhere mid-test (`sleep_cycle/tests.rs:30-42`, and the `SQL_SERVED_BODY`
+note at `:93-106`, where a lost read made admission "correctly-but-wrongly"
 skip). The database, injected as a pool, caused none of this; the path, read
 from the environment, caused all of it.
 
@@ -74,7 +74,7 @@ The companion is `src-tauri/src/companion/`, a module of the desktop crate, not 
 crate of its own — while the workspace already has separate `core`, `db` and
 `engine` crates (`src-tauri/Cargo.toml:14`). Measured 2026-09-23 by grep over the
 module: of 152 `.rs` files, 100 reference `crate::db` (the `personas_db` crate,
-re-exported by the desktop crate as `crate::db`, `src-tauri/src/lib.rs:24`), 41
+re-exported by the desktop crate as `crate::db`, `src-tauri/src/lib.rs:38`), 41
 reference `crate::commands`, `crate::engine`, `crate::AppState` or `crate::state`,
 and 29 reference `tauri`. The raw `crate::db::repos::…` calls from companion jobs
 and proactive passes are the visible part of this. No build rule can see the line
@@ -85,10 +85,10 @@ technique says it is.
 
 ## Deviation: the turn path is bound to the desktop framework
 
-`send_turn` (`src-tauri/src/companion/session/turn.rs:63`) takes `app: &AppHandle`,
+`send_turn` (`src-tauri/src/companion/session/turn.rs:69`) takes `app: &AppHandle`,
 and the module imports `tauri::{AppHandle, Emitter}` (`turn.rs:9`) because
 streaming is done by emitting framework events from inside the turn (e.g.
-`:401`, `:767`). There is no turn sink; the sink *is* the desktop event bus, so
+`:411`, `:786`). There is no turn sink; the sink *is* the desktop event bus, so
 the turn cannot run in a test without the framework. The Playwright specs that
 drive the Stop button against a running app (`tests/playwright/companion-stop-button.spec.ts:1-20`)
 are not this lane and say so themselves — "The actual stream-cancellation
@@ -100,11 +100,11 @@ test lane existing for one piece (`session/interrupts.rs`) and not for the turn.
 `src-tauri/src/companion/remote_jobs.rs` runs an instruction arriving from
 another paired device "as a REAL Athena turn, with her own ops, her own approval
 rows and her own autopilot rules" (`:6-9`), by calling `session::send_turn`
-(`:250-257`) rather than re-implementing it, and states why a remote-only policy
+(`:327-336`) rather than re-implementing it, and states why a remote-only policy
 was refused: "a second answer to the same question — and the one that silently
-rots" (`:30-32`). That is the technique's second consumer done right — and it runs
+rots" (`:37-39`). That is the technique's second consumer done right — and it runs
 inside the same host process, taking the same `AppHandle` and `AppState`
-(`:250-253`), so it proves the turn is reachable from a second mouth and nothing
+(`:320-323`), so it proves the turn is reachable from a second mouth and nothing
 about whether the runtime could live in another host.
 
 ## Deviation: the other second consumer re-implements the companion, by written contract
@@ -133,7 +133,7 @@ every change; the one that copies the write path inherits none.
 
 The daemon bridge faced the same problem — a second process could not see
 in-memory ambient signals — and solved it by sharing, not copying:
-`docs/features/companion/athena-daemon-bridge.md:58` — "The same
+`docs/features/companions/athena/athena-daemon-bridge.md:58` — "The same
 `format_signals_for_prompt` is used by `AmbientContextFusion::format_for_prompt`
 (windowed path) and the daemon. Byte-identical rendering for byte-identical
 input." Letting each process capture its own signals was rejected in writing
@@ -179,3 +179,16 @@ extracted crate may depend on (the earlier estimate of 41 counted those as host)
 build cannot see. So a crate boundary would enforce about a quarter of the direction
 rule here, and the import count stays the only instrument until the companion leaves the
 host crate - the workspace's own manifest keeps it there as "what's left".
+
+Re-checked 2026-10-31 at personas@22260d77c9: every construct above still
+stands — `CycleLlm` and `MeteredLegs` at `run.rs:74-88`, the template-copy test
+database and the shared-cache dispatcher pool, the `PERSONAS_HOME`-keyed
+`brain_root()` (`disk.rs:28-31`), `send_turn` still taking `&AppHandle` and
+emitting from inside the turn, `remote_jobs.rs` still calling it, and
+`brain.py` still 232 lines carrying the same parity contract. Anchors were
+re-numbered and the daemon-bridge doc followed the companions docs move. The
+2026-09-23 grep over the module, re-run the same way, now reads 162 `.rs`
+files, 111 referencing `crate::db`, 48 referencing `crate::commands` /
+`crate::engine` / `AppState` / `crate::state`, and 32 referencing `tauri`: the
+module grew, the proportions did not move, and the companion is still a module
+of the desktop crate (`Cargo.toml:13`, "what's left").

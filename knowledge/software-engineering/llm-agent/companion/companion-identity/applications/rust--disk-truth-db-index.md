@@ -5,7 +5,7 @@ subject: companion-identity
 technique: disk-truth-db-index
 stack: rust
 status: forged
-verified_on: 2026-09-23
+verified_on: 2026-10-31
 verified_against: rust@1.96
 applied: experiment
 ab_verdict: better
@@ -22,14 +22,14 @@ honouring a `PERSONAS_HOME` override for tests.
 
 Re-read 2026-09-23 at personas `1b8161096`; toolchain pinned in
 `rust-toolchain.toml` (channel `1.96.1`), manifest floor `rust-version = "1.80.0"`
-(`src-tauri/Cargo.toml:218`).
+(`src-tauri/Cargo.toml:222`).
 
 The inversion is stated where the writes happen. The terminal channel's writer
 comments its own line `# disk first — source of truth`
 (`.claude/skills/athena/brain.py:189`), and cycle reports keep "markdown on disk
 under `cycles/<date>-<id>.md` as the source of truth, a `body_excerpt` in the node
 index, and a **`companion_fts` mirror row**"
-(`docs/features/companion/README.md:486`).
+(`docs/features/companions/athena/README.md:546`).
 
 ## The index is a contract on the write door
 
@@ -37,47 +37,47 @@ The same paragraph continues: the FTS mirror "is a contract rather than an
 optimization: `brain::keyword` reads `companion_fts` with BM25 and it is the only
 retrieval lane that compiles on the shipped non-`ml` build, so a node kind that
 skips it is stored, looks fine, and never comes back from a search"
-(`README.md:486`). Tags carry the same requirement — mirrored into
+(`README.md:546`). Tags carry the same requirement — mirrored into
 `companion_fts.tags` as `tag:<name>` tokens, because "a tag that lived only in a
-column would classify nothing findable on the non-`ml` build" (`README.md:550`).
+column would classify nothing findable on the non-`ml` build" (`README.md:610`).
 
 ## The rebuild exists for vectors, and was needed for exactly the predicted reason
 
-**Memory → Rebuild search index** (`README.md:558-562`) re-embeds every memory with
+**Memory → Rebuild search index** (`README.md:618-622`) re-embeds every memory with
 no vector or a vector written under a different embedding model. It is idempotent
 — "a second pass finds nothing left to do" — and reports one of three outcomes,
 including "this build ships without an embedding model and so cannot rebuild",
-which keeps *could not run* distinct from *nothing to do* (`README.md:560`).
+which keeps *could not run* distinct from *nothing to do* (`README.md:620`).
 
 Its justification is the technique's argument, arrived at the hard way: "Semantic
 recall only ever indexed a memory **at the moment it was written**, so anything
 that arrived any other way had text and no vector, permanently: a portability
 import, a brain directory restored from a backup, a write made while the embedder
-was down" (`README.md:562`).
+was down" (`README.md:622`).
 
 ## A lifecycle field that lived only in the index, and its repair
 
 Backlog items (the companion's self-promises and capability gaps) are written as
 markdown under `backlog/<kind>/<id>.md` plus a `companion_node` row and a
-`companion_backlog_item` row (`write_item`, `companion/brain/backlog.rs:111-158`).
+`companion_backlog_item` row (`write_item`, `companion/brain/backlog.rs:113-160`).
 Until 2026-09-03 `resolve_item` updated only the index; the module header now
 records why that was wrong — "An audit record that contradicts the truth is not an
 audit record" — and the two consequences: the re-embedder re-derived a resolved
 promise's vector from its unresolved text, and "any future index rebuild reading
-these files … would have restored all of them" (`backlog.rs:15-31`). Resolution is
+these files … would have restored all of them" (`backlog.rs:17-33`). Resolution is
 now written to both, with one definition of what a status implies
-(`importance_for_status`, `backlog.rs:59-64`; `resolve_item`, `:160-230`;
-`importance_from_markdown`, `:415`). There is still no rebuild-from-disk pass; the
+(`importance_for_status`, `backlog.rs:61-66`; `resolve_item`, `:162-232`;
+`importance_from_markdown`, `:400`). There is still no rebuild-from-disk pass; the
 tests assert the property a rebuild would depend on rather than "pretending a
-rebuild exists" (`backlog.rs:440-445`).
+rebuild exists" (`backlog.rs:425-430`).
 
 Two residues, both read against the sharpened rule:
 
 - **Write order is index first.** `resolve_item` claims the row
-  (`UPDATE … WHERE status = 'pending'`, `backlog.rs:172-182`), then rewrites the
+  (`UPDATE … WHERE status = 'pending'`, `backlog.rs:175-184`), then rewrites the
   markdown, then re-stamps the node, on the stated reasoning that "a disk failure
   leaves the index authoritative and the item already out of retrieval — the safe
-  direction" (`backlog.rs:160-168`). That is safe for retrieval today and the unsafe
+  direction" (`backlog.rs:164-168`). That is safe for retrieval today and the unsafe
   direction for the rebuild the header anticipates: a crash between the two writes
   leaves a file that still says `pending`, which a rebuild would reopen.
 - **`reminded_count` lives only in the index** (`bump_reminded`,
@@ -89,13 +89,13 @@ Two residues, both read against the sharpened rule:
 
 ## Seed-if-absent, and the version-gated law upgrade
 
-`ensure_initialized` (`disk.rs:41-114`) is idempotent first-run init;
-`identity.md` is seeded through `write_if_absent` (`disk.rs:109-112, 116-123`) and
+`ensure_initialized` (`disk.rs:41-115`) is idempotent first-run init;
+`identity.md` is seeded through `write_if_absent` (`disk.rs:109-112, 117-124`) and
 never overwritten by init. The constitution is seeded when missing and **replaced**
 on every `CONSTITUTION_VERSION` bump, with a best-effort timestamped backup
 (`disk.rs:87-107`). An earlier version of this application quoted the feature
 README as saying an upgraded install keeps its old file; the README has since
-corrected that (`README.md:825-827`), and the upgrade path, its churn and its
+corrected that (`README.md:885-887`), and the upgrade path, its churn and its
 amendment route are recorded in
 [rust--constitution-self-model-split](./rust--constitution-self-model-split.md).
 
@@ -104,7 +104,7 @@ amendment route are recorded in
 Export carries two tiers — **core self** (`identity.md`, a whitelist of portable
 preferences, the conversation roster) and **learned memory** (facts, procedurals,
 goals, backlog, rituals, decisions, each as its markdown body plus its sidecar
-row) (`README.md:570-572`).
+row) (`README.md:630-632`).
 
 - **Paths are de-anchored.** `relative_brain_path`
   (`src-tauri/src/commands/core/data_portability/export_athena.rs:7-34`) normalises
@@ -124,26 +124,26 @@ row) (`README.md:570-572`).
 - **The exclusion list is gated by name.** Conversation history, doctrine,
   `constitution.md`, reflections, identity backups and machine-local tables do not
   travel, and "A test asserts every one of those exclusions **by name** … A future
-  section cannot quietly widen the payload" (`README.md:576-583`).
+  section cannot quietly widen the payload" (`README.md:636-643`).
 - **Import is explicit about collision.** It "merges additively with dedup; it does
   not replace", deduplicating by content, and counts matches as skipped
-  (`README.md:587`). `identity.md` is the one genuine replacement, backed up first
-  through the same timestamped path the diff op uses (`README.md:589`).
+  (`README.md:647`). `identity.md` is the one genuine replacement, backed up first
+  through the same timestamped path the diff op uses (`README.md:649`).
 - **The bundle carries text and never vectors**, so everything imported starts
   unsearchable; a background re-embed fires on import and the manual rebuild is the
-  fallback (`README.md:593`).
+  fallback (`README.md:653`).
 
 ## Where it falls short of the standard
 
 **The person's own law does not travel.** `constitution.md` is excluded "for the
 same reason" as doctrine — compiled from what ships in the binary
-(`README.md:579-580`). Sound for the baseline, wrong for amendments; and on the
+(`README.md:639-640`). Sound for the baseline, wrong for amendments; and on the
 target, the next version bump would set them aside anyway.
 
 **Rebuild is a vector repair, not a reconciliation.** Nothing walks the folder and
-reconciles the node index against the files (`backlog.rs:440-445` records the
+reconciles the node index against the files (`backlog.rs:425-430` records the
 search), so a document with no row — the mirror of the "stored but unfindable"
-defect at `README.md:486` — has no detector, and the rebuild the backlog repair was
+defect at `README.md:546` — has no detector, and the rebuild the backlog repair was
 written for does not yet exist.
 
 ## Applied 2026-09-23 - write order under injected faults, modelled over the extracted order
@@ -164,3 +164,15 @@ rebuild names what it resets" is unmeasurable. Not hunted: 5 documents against 3
 rows, the 2 without rows being test-fixture promises that a rebuild from disk would
 import. `better`. Return: when a rebuild from disk lands, check it names what it resets
 and what it adds.
+
+Re-checked 2026-10-31 at personas@22260d77c9: the folder-as-truth layout, the
+seed-if-absent init with the version-gated constitution upgrade, the backlog's
+claim-first write order and the portability tiers all stand; anchors were
+re-numbered and the feature README followed the companions docs move to
+`docs/features/companions/athena/README.md`. One citation is gone: `bump_reminded`
+no longer exists in `backlog.rs`, so the only `reminded_count` writer left is the
+proactive engine's (`companion/proactive/mod.rs:615-632`) — the dead writer the
+2026-09-23 experiment found has been removed. The counter is still index-only, and
+there is still no rebuild-from-disk pass (the test-module note at
+`backlog.rs:425-430` still records the search), so neither residue nor the
+verdict moves.

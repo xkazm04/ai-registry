@@ -5,7 +5,7 @@ subject: conversation-orchestration
 technique: narration-promote-on-finish
 stack: react
 status: forged
-verified_on: 2026-09-29
+verified_on: 2026-10-31
 verified_against: react@19
 ---
 
@@ -87,14 +87,14 @@ the technique's "released without being written" defect, and it is real — but 
 is narrower than the registry map's first reading of it ("a failed or interrupted
 turn keeps no trail"). The Rust side salvages more than that suggests: a user
 **Stop** is completed as `_[interrupted by user]_` and returned as `Ok`
-(`src-tauri/src/companion/session/cli.rs:340-349`), a mid-stream pipe break
-(`cli.rs:357-372`) and a non-zero exit with partial text (`cli.rs:394-407`) are
-returned as `Ok` too, and each persists an assistant episode that `turn.rs:1073-1082`
+(`src-tauri/src/companion/session/cli.rs:340-350`), a mid-stream pipe break
+(`cli.rs:357-373`) and a non-zero exit with partial text (`cli.rs:394-407`) are
+returned as `Ok` too, and each persists an assistant episode that `turn.rs:1074-1082`
 announces with `Finished { payload: assistant_ep_id }`. Those turns take the first
 branch and are promoted. What is lost is the **hard failure** — no partial text at
 all: a dispatch error, the 25-minute timeout, a failed retry
-(`turn.rs:497-515`), a non-zero exit with no text (`cli.rs:409-411`), an empty reply
-(`cli.rs:420`) — each ends in `emit_error` and the reset. The trail of a turn that
+(`turn.rs:497-515`), a non-zero exit with no text (`cli.rs:408-411`), an empty reply
+(`cli.rs:419-420`) — each ends in `emit_error` and the reset. The trail of a turn that
 never produced a reply is exactly the one the technique says is worth most.
 
 Two further limits on what the promotion covers. The stream handler gates narration
@@ -167,3 +167,12 @@ sidecar, and the second is a decision, not an accident.
 The beats half is unaffected: beats persist as their own conversational aside
 messages (see the progress-beat application), so a user does read those, and that
 is why the trail filters to tool entries only.
+
+Re-checked 2026-10-31 at personas@22260d77c9: every frontend anchor above still
+lands on the same construct (the stream handler lives at
+`src/features/companions/athena/chat/athenaChatStream.ts`); three Rust anchors in
+`session/cli.rs` shifted by a line and were updated. `NarrationLiveLog` and
+`NarrationTrail` are still referenced only at their definitions and in the
+`turnSidecars.ts:15` comment, the error branch still only resets, and no test
+references `attachNarrationToEpisode` or `resetStreamingNarration`, so the
+findings stand as written.

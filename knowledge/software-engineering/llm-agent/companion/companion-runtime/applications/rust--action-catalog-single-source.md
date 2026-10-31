@@ -5,7 +5,7 @@ subject: companion-runtime
 technique: action-catalog-single-source
 stack: rust
 status: forged
-verified_on: 2026-09-23
+verified_on: 2026-10-31
 verified_against: rust@1.96
 applied: experiment
 ab_verdict: better
@@ -28,44 +28,44 @@ technique asks:
 Citations re-resolved on 2026-09-23 against the tree at `1b8161096`. The
 toolchain witness is the observed `rustc 1.96.1`, which is also what the tree's
 `rust-toolchain.toml` pins (a pin added 2026-09-18); the manifest floor is
-`rust-version = "1.80.0"` (`src-tauri/Cargo.toml:218`).
+`rust-version = "1.80.0"` (`src-tauri/Cargo.toml:222`).
 
 ## Confirmed: one door, and it closes
 
-`ALLOWED_ACTIONS` (`catalog.rs:11`) is checked at `dispatch.rs:2190` before any
+`ALLOWED_ACTIONS` (`catalog.rs:11`) is checked at `dispatch.rs:2324` before any
 `propose_action` envelope proceeds, and an unknown action is rejected with a
-warning rather than passed through. `ALLOWED_ROUTES` (`catalog.rs:414`) gets the
+warning rather than passed through. `ALLOWED_ROUTES` (`catalog.rs:436`) gets the
 same treatment at `dispatch.rs:1446`. The catalog also carries `READ_OPS`
-(`catalog.rs:244`), `ALLOWED_LAB_MODES` (`:397`), `GUIDED_TOPICS` (`:437`) and the
-caps (`READ_OP_QUERY_MAX` `:327`, `COMPOSE_MIN_STEPS`/`COMPOSE_MAX_STEPS`
-`:455-456`), so the read/mutate split and the bounds are declared in one file.
+(`catalog.rs:259`), `ALLOWED_LAB_MODES` (`:419`), `GUIDED_TOPICS` (`:463`) and the
+caps (`READ_OP_QUERY_MAX` `:349`, `COMPOSE_MIN_STEPS`/`COMPOSE_MAX_STEPS`
+`:481-482`), so the read/mutate split and the bounds are declared in one file.
 That is the one-validation-door half of the technique, and it holds.
 
 ## Moved since 2026-08-23: the teaching text is now generated
 
 The first version of this application recorded that nothing was generated from
 these tables and the teaching text was a separately authored constitution. That
-is no longer true for the chat-class prompt. `OP_SECTIONS` (`catalog.rs:581`) is
+is no longer true for the chat-class prompt. `OP_SECTIONS` (`catalog.rs:618`) is
 a table of rows — name, gate, one-line intent, exact params shape — and
-`render_op_reference()` (`:775`) renders the prompt's op reference from it, with
+`render_op_reference()` (`:829`) renders the prompt's op reference from it, with
 a header that says so. The pins arrived in two steps and are worth reading as a
 sequence:
 
 - 2026-09-03 (`c68db0d5ac`): `every_catalog_op_is_taught_by_the_constitution`
-  (`catalog.rs:860`) asserts every `ALLOWED_ACTIONS` and `READ_OPS` entry is named
+  (`catalog.rs:914`) asserts every `ALLOWED_ACTIONS` and `READ_OPS` entry is named
   in the hand-written constitution. Its doc comment records the measurement that
   motivated it: eight ops were wired end to end and never taught.
 - 2026-09-17 (`322b14e5a5`): the generated reference, and
-  `every_catalog_op_has_a_reference_row_and_vice_versa` (`:916`) — both directions,
+  `every_catalog_op_has_a_reference_row_and_vice_versa` (`:970`) — both directions,
   plus a duplicate-row check — and `every_catalog_op_is_taught_by_the_chat_family`
-  (`:1029`).
+  (`:1108`).
 
 Both matcher-based tests carry a positive and a negative control
-(`the_documentation_matcher_finds_a_known_documented_op`, `:896`; and inline in
-`:1029`) — the text-matching form of the technique's non-emptiness line.
+(`the_documentation_matcher_finds_a_known_documented_op`, `:950`; and inline in
+`:1108`) — the text-matching form of the technique's non-emptiness line.
 
 What remains a copy: `OP_SECTIONS` restates the names that `ALLOWED_ACTIONS`,
-`READ_OPS` and the test-only `AUTO_FIRE_ACTIONS` (`:513`) already carry, so this is
+`READ_OPS` and the test-only `AUTO_FIRE_ACTIONS` (`:548`) already carry, so this is
 "checked against" rather than "derived from". The check runs both ways, so it
 satisfies the technique; the single table with a gate column is the next step,
 and the gate-agreement test (`reference_gates_agree_with_the_allow_lists`)
@@ -74,10 +74,10 @@ already derives the gate from table membership, which is that column's content.
 ## Deviation: the executor is a string match with a wildcard, and has more producers than the model
 
 `execute_approval_action`
-(`src-tauri/src/commands/companion/approvals/approval_lifecycle.rs:141`) is
+(`src-tauri/src/commands/companion/approvals/approval_lifecycle.rs:216`) is
 documented as "the single executor table for both consent paths", and it is a
 `match action { "run_persona" => …, … }` over a `&str` whose last arm is
-`other => Err(AppError::Internal(… "unknown action" …))` (`:286`). A kind added to
+`other => Err(AppError::Internal(… "unknown action" …))` (`:374`). A kind added to
 `ALLOWED_ACTIONS` without an arm compiles and fails only when somebody approves it.
 
 Measured 2026-09-23 by reading both lists out of source (comments stripped): 56
@@ -108,7 +108,7 @@ whose comment names the retired test — again as a hand list.
 ## Deviation: six copies of one widget vocabulary
 
 The composed-surface family is the worst instance, and the product's own feature
-doc counts it (`docs/features/companion/cockpit.md:26`):
+doc counts it (`docs/features/companions/athena/cockpit.md:26`):
 
 > widget kind strings are currently duplicated across five places with no shared
 > source of truth (registry, dispatcher allow-list, briefing sanitizer,
@@ -119,10 +119,10 @@ There is a sixth. `EXPLAIN_KINDS` is a **function-local** constant declared
 inside the `explain_in_cockpit` arm of the dispatcher (`dispatch.rs:996-1006`,
 nine kinds), invisible to every other consumer and to the count above. The
 frontend copy is `cockpitWidgetRegistry`, a `Record<string, …>`
-(`src/features/home/sub_cockpit/widgetRegistry.ts:52`) — keyed by `string`, so
+(`src/features/home/sub_cockpit/widgetRegistry.ts:96`) — keyed by `string`, so
 the frontend compiler cannot demand an entry per kind — read by both the cockpit
-panel (`CockpitPanel.tsx:466`) and the chat transcript
-(`src/features/plugins/companion/InlineChatCard.tsx:103`).
+panel (`sub_cockpit/panel/CockpitGrid.tsx:37`) and the chat transcript
+(`src/features/companions/athena/InlineChatCard.tsx:103`).
 
 ## Deviation: validation asymmetry between two paths of one feature
 
@@ -185,3 +185,17 @@ use it, and the dispatcher rejects it as unknown. The list guard deleted in the 
 sweep had recorded that kind as dead in a comment; the comment went with the list.
 Refinement banked: the producer column wants a *retired* value, so an arm kept for
 draining rows reads differently from an arm nobody can reach.
+
+Re-checked 2026-10-31 at personas@22260d77c9: every construct above still
+stands; the anchors were re-numbered and three paths followed refactors (the
+cockpit doc to `docs/features/companions/athena/`, `InlineChatCard` to
+`src/features/companions/athena/`, and the cockpit panel's registry read into
+`panel/CockpitGrid.tsx`). Re-reading both lists out of source the same way
+gives 60 `ALLOWED_ACTIONS` entries and 65 executor arms: every allowed action
+still has an arm, and the same five arms (`kp_hire_request`,
+`compose_dashboard`, `use_connector`, `post_team_message`,
+`night_shift_execute_plan`) still have no allow-list entry — the wildcard arm and
+the missing per-producer assertion stand. `cockpitWidgetRegistry` has gained a
+third reader (`src/features/companions/curator/council/table/EvidenceWell.tsx:77`),
+still through `Record<string, …>`. `reset_dashboard` is still
+`#[allow(dead_code)]`, and `compose_cockpit` still checks only emptiness.
