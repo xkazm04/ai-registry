@@ -1,0 +1,50 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "intake-apply-decollate-1031",
+  "skill": "intake",
+  "skill_version": "2.18.0",
+  "mode": "apply",
+  "domain": "software-engineering",
+  "started_at": "2026-10-31T13:55:00Z",
+  "ended_at": "2026-10-31T14:40:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 1,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "software-engineering/reversible-transform-pipelines",
+      "at": "2026-10-31",
+      "engine": "intake",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "reversible-transform-pipelines",
+      "technique": "decollate-before-invert",
+      "verdict": "better",
+      "mode": "code"
+    }
+  ],
+  "files": [
+    "knowledge/software-engineering/backend-platform/data-pipeline-semantics/reversible-transform-pipelines/applications/node--decollate-before-invert.md",
+    "knowledge/software-engineering/index.json",
+    "catalog.json",
+    "rules/ai-registry-software-engineering.md",
+    "librarian/subjects/software-engineering/reversible-transform-pipelines.md",
+    "librarian/applied.md",
+    ".claude/skills/intake/SCORECARD.md"
+  ],
+  "commits": [],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "Phase 7.5 alone, second stack (node). Code A/B on a group-generate-then-split mesh lane: parts sized correctly from one known size 1/4 -> 4/4, unit-box warning kept 0/4 -> 4/4, prop identity 2/4 -> 4/4; floor held. pof e8fb13de pushed from an origin worktree."
+}
