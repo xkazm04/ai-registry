@@ -168,10 +168,13 @@ those, and stop treating visual stacking as event routing. Layering and
 precedence for stacked surfaces is its own subject; see
 [layering-and-precedence](../../../shell-and-navigation/modal-stack/techniques/layering-and-precedence.md).
 
-**Preventing default scroll requires an active listener.** Platforms treat
-wheel listeners as passive by default so pages scroll smoothly; a canvas that
-wants the wheel for zoom must register a non-passive listener and cancel the
-default, or the page scrolls *and* the canvas zooms. Decide the wheel policy
+**Preventing default scroll requires an active listener.** Browsers treat
+wheel listeners on the window, the document and its root and body elements as
+passive by default so pages scroll smoothly, and a framework that delegates
+events from a root may register its own wheel listener passive too, so a
+handler written through it cannot cancel the scroll. A canvas that wants the
+wheel for zoom must register its own non-passive listener on the canvas
+element and cancel the default, or the page scrolls *and* the canvas zooms. Decide the wheel policy
 explicitly — zoom on bare wheel (diagramming convention) or scroll on wheel
 with a modifier for zoom (document convention) — and apply it consistently;
 mixed policies across surfaces in one product retrain the user's hands
