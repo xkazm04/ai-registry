@@ -58,7 +58,8 @@ maps describes a place that exists on neither.
 - **When an observation's rank exceeds the deepest position the engine shows (about
   twenty on the dominant engine), treat it as a typo, not a rank.**
 - **When the only observation is a single point, do not call it the area's rank.**
-  Proximity is the largest single input to the pack and the one the business cannot
+  Proximity is among the largest inputs to the pack (second only to the primary
+  category in the 2026 practitioner survey) and the one the business cannot
   change; a reading half a kilometre away is a different reading.
 
 ## Share of voice is an illustration

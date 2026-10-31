@@ -69,7 +69,8 @@ engine's rows is rendered as absence, never as a phantom entry on the first.
 
 **Point by point.** A map-pack position is a function of where the searcher stands. Two
 people half a kilometre apart on the same query see different packs, because proximity
-is the single largest input the engine uses and the one the business cannot change.
+is among the largest inputs the engine uses - second only to the primary category in
+the 2026 practitioner survey - and the one the business cannot change.
 The honest instrument is a grid of observation points across the service area, read as
 a heatmap of ranks; the common instrument is one observation per area from one point on
 one day. The standard is the grid. Where only a single point is available, the reading
@@ -123,8 +124,8 @@ a review silently dated to the wrong month poisons every recency figure downstre
 ## Reviews are read by the next customer first
 
 Reviews are, by the broadest current practitioner survey, the second-largest group of
-inputs to the pack after the listing itself, and the group whose weight grew most in
-the latest edition. But the practitioner's first reason for caring about reviews is
+inputs to the pack after the listing itself, and one of the two groups (with
+behavioural signals) the latest edition says gained weight. But the practitioner's first reason for caring about reviews is
 not the algorithm. It is that the next customer reads the last five reviews and the
 replies under them before deciding whether to call. That framing decides three things.
 

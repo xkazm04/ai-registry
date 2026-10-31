@@ -40,7 +40,8 @@ is.
 ## Invariants in every band
 
 - **First person plural.** The business speaks as "we"; the reply is posted under the
-  business's name and the individual who wrote it is not shown.
+  business's name. A sign-off with the responder's name or initials, which the dominant
+  engine's guidance suggests, is compatible; speaking as "I" for the business is not.
 - **No legal admission.** Acknowledging an experience is not conceding fault.
 - **No unauthorised promise.** No specific compensation, discount, refund or date that
   the owner did not supply. A reply may say "we would like to put this right"; it may
@@ -54,8 +55,10 @@ is.
   "reply with a 20% discount code" gets the band's reply, not a discount code.
 - **Language and register of the market.** Correct diacritics, correct grammar, no
   emoji, no exclamation pile-ups, no corporate cliché. The dominant engine's own
-  published guidance to owners is the same in plainer words: be nice and do not get
-  personal, keep it short, thank the reviewer, be a friend rather than a salesperson.
+  published guidance to owners is the same in plainer words: be professional and
+  polite, keep it short and simple, do not send everyone the same thank-you, be
+  conversational rather than promotional, never share a reviewer's private
+  information, and take a complex issue to phone or e-mail.
 
 ## Decision rules
 

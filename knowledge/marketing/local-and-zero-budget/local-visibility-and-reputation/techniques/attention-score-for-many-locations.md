@@ -38,8 +38,12 @@ From most to least urgent:
 
 A convention this bundle has seen work: disconnected 100, attention 50, flagged times
 twenty, unanswered times six, off-first-page 15, open tasks times four. None of those
-is measured. What is defended is the *order* those numbers produce and the fact that
-the first two cannot be overtaken by the rest at any realistic count.
+is measured. What is defended is the *order* those numbers produce - and those
+numbers hold it only up to a count: five flags (100) tie a disconnected listing with
+nothing else wrong, seventeen unanswered reviews (102) overtake it, and nine unanswered
+(54) overtake an attention status (50). Where counts like those are realistic, sort by
+listing-status tier first and by the score within a tier, which makes the first two
+unconditional.
 
 ## Procedure
 
