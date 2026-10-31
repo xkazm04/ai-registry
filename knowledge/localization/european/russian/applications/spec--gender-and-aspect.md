@@ -22,14 +22,14 @@ Unicode CLDR **48.2**, tag `release-48-2` — newest non-prerelease; `main` carr
 and disagrees on live data. Fetched **2026-08-29** from `raw.githubusercontent.com/
 unicode-org/cldr/release-48-2/`: `common/rbnf/ru.xml` (sha256 `e42ce05a22cc3b9c…`,
 192 742 B), `common/supplemental/grammaticalFeatures.xml` (`5dbab16f4b42a46c…`) and
-`common/main/ru.xml` (`a90f5d3e76d18e00…`). Artifacts: `C:/tmp/rec/w-russian2/`.
+`common/main/ru.xml` (`a90f5d3e76d18e00…`). Artifacts in scratch.
 
 **No conformance test ships for this.** `common/testData/` holds seven directories, **none
 for RBNF**, and the rulesets carry no `@integer`/`@decimal` samples. Executable rule text,
 **no publisher fixture**: everything marked *executed* is a reimplementation and could be
 wrong. Finding 3 is file fact; Finding 2's map is a differential, so engine bugs cancel.
 
-`C:/tmp/rec/w-russian2/rbnf.py` (CPython 3.12, no library) implements the descriptors
+`rbnf.py` (CPython 3.12, no library) implements the descriptors
 (`-x`, `x.x`, integer bases) and substitutions (`>>`, `<<`, `=%r=`, `<%r<`, `>%r>`,
 `=#,##0=`, `[…]` omission, `$(cardinal,…)$`) of UTS #35 Part 3 §Rule-Based Number
 Formatting; integers only. **Validation:** the rule table parsed from the file's CDATA
@@ -109,6 +109,10 @@ while sibling `%digits-ordinal-neuter` (L2934) uses **U+0435 CYRILLIC SMALL LETT
 numeric ordinal is `5-e`, a homoglyph of `5-е` — a Latin island in Cyrillic that breaks
 search, collation and spell-check. Both defects are unchanged on `main` on 2026-08-29 and
 present in `release-46` and `release-36`: not 48 regressions, both worth an upstream ticket.
+Re-read 2026-10-31 at `release-49` (CLDR 49, released 2026-10-22) and `main`: both
+are still there — `20: двадцать[ >>];` / `30: тридцать[ >>];` in the masculine
+prepositional, and `=#,##0=-e` with U+0065 in `%digits-ordinal-plural` and
+`…-plural-accusative`.
 
 ## Finding 4 — aspect: not conformance-testable, and that is the finding
 

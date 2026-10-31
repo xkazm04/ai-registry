@@ -96,12 +96,13 @@ plural-and-gender-agreement.
 ## Plurals: two categories, and a third that ambushes big numbers
 
 Spanish cardinals split CLDR-style into **one** (n = 1) and **other** — crucially,
-**zero takes other**: *0 archivos*, never *0 archivo*. Since CLDR 42 Spanish also
+**zero takes other**: *0 archivos*, never *0 archivo*. Since CLDR 40 Spanish also
 has a **many** category for large compact numbers (millions and beyond), reflecting
 that Spanish says *1 millón **de** usuarios* — the number becomes a noun taking
 *de*, and a plural pipeline that hardcodes two categories renders it wrong. Ordinals
-have a single category, and get abbreviated with gendered superscripts (*1.º*,
-*1.ª*), never English *1st*. See plural-and-gender-agreement.
+are abbreviated with gendered superscripts (*1.º*, *1.ª*), never English *1st*;
+since CLDR 49 they also carry a `one` category, which is the apocopated masculine
+set (*1.er*, *3.er*, *21.er*). See plural-and-gender-agreement.
 
 ## What makes a Spanish string smell translated
 

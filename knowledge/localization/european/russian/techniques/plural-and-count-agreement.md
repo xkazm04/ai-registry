@@ -30,13 +30,13 @@ by the number's last digits, not its magnitude:
 | one | last digit 1, and last **two** digits not 11 | nominative singular | 1 файл, 21 файл, 101 файл — but **111 файлов**, because 111 ends in 11 |
 | few | last digit 2–4, and last two digits not 12–14 | genitive singular | 2 файла, 23 файла — but **112 файлов** |
 | many | everything else: 0, 5–20, 25–30… | genitive plural | 5 файлов, 11 файлов, 100 файлов |
+| other | fractions | genitive singular | 1,5 файла |
 
 Read the exclusions as **last two digits**, not as the literal numbers 11–14. The
 loose phrasing "not 11" is where hand-rolled selectors go wrong: an implementation
 that keeps the last-digit test and drops the teen test disagrees with the standard
 on 400 of the first 10,001 integers, beginning at 11, 12, 13, 14 and then again at
 111, 112, 113, 114.
-| other | fractions | genitive singular | 1,5 файла |
 
 The mechanism behind the table: a Russian numeral *governs the case* of its noun
 rather than agreeing with it. Two-to-four take the genitive singular (a remnant of
