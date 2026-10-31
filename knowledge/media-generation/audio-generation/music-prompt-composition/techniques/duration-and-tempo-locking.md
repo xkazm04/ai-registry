@@ -63,8 +63,8 @@ narrator, and the request spends style budget on a mix problem.
 ## Decision rules
 
 - When a cue must hit a picture event, lock tempo and entry and float the
-  tail, because both edges locked makes the cue unproducible at exact
-  duration.
+  tail, because both edges locked plus a fixed tempo over-determines the
+  cue unless the bar math happens to fit both.
 - When the picture retimes, re-derive duration and tempo from the
   structural marks before re-briefing, because regenerating against stale
   times spends the money twice — the spotting craft's rule, inherited

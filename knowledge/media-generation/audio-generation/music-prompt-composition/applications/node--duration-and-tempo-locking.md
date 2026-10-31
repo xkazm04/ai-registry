@@ -40,8 +40,9 @@ not produce.
 One 10.000s cue, briefed as a plan, rendered in 3.0s wall clock:
 
 - **Delivered duration: 10.032s** — a 32ms overshoot on a 10s brief. The
-  duration promise holds to well under a frame at any picture rate; the
-  cue can be laid against the timeline without a trim.
+  duration promise holds to under a frame at 24–30 fps (about two frames
+  at 60); at the common picture rates the cue can be laid against the
+  timeline without a trim.
 - **Delivered format deviated**: 192 kbps arrived where 128 kbps was
   requested. Harmless here, but it is the acceptance doctrine's point made
   by the vendor unprompted — the delivered file's properties are measured

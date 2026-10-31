@@ -35,7 +35,7 @@ where the parts come from.
 
 ## The opening section is the anchor, and it is load-bearing
 
-In every sectioned generation scheme, the opening section does double duty:
+In sectioned generation schemes, the opening section does double duty:
 it is the first thing heard, and it is the frame everything after is
 generated in — its style directives set the genre, tempo world, and tonal
 palette that later sections inherit and vary. Write it with double care, and

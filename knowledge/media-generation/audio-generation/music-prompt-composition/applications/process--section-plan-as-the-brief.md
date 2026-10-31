@@ -65,13 +65,13 @@ hard out on the door." As a plan:
 
 ```json
 {
-  "positive_global_styles": ["dark orchestral", "modern trailer production", "instrumental"],
-  "negative_global_styles": ["vocals", "fade-out ending", "four-on-the-floor"],
-  "sections": [
+  "chunks": [
     { "text": "[Build] {low strings enter, rising figure, taiko joins}",
       "duration_ms": 26000,
-      "positive_styles": ["slow build", "low brass", "taiko"],
-      "negative_styles": ["full percussion", "melodic lead"],
+      "positive_styles": ["dark orchestral", "modern trailer production", "instrumental",
+                          "slow build", "low brass", "taiko"],
+      "negative_styles": ["vocals", "fade-out ending", "four-on-the-floor",
+                          "full percussion", "melodic lead"],
       "context_adherence": "high" },
     { "text": "[Release] {full hit on downbeat one, then sparse afterglow}",
       "duration_ms": 12000,
@@ -82,7 +82,13 @@ hard out on the door." As a plan:
 }
 ```
 
+The v2 plan has no global style field: the piece's identity rides in the
+first chunk's styles, which is exactly the anchor rule above (the
+`positive_global_styles` + `sections` shape is the older v1 schema, whose
+sections take `section_name` and `lines` instead of `text`).
+
 Tempo note: the hit is wanted 26s in; at 110 BPM a bar is ~2.18s, so 26s
-is not whole bars — 120 BPM (2.0s bars, 13 bars) or 92 BPM (~2.6s, 10
-bars) both land it. The plan's duration carries the decision; the tempo
+is not whole bars — 120 BPM (2.0s bars, 13 bars) lands it exactly, and
+~92.3 BPM (2.6s bars, 10 bars) does too; rounded to 92 BPM the hit falls
+~90ms late. The plan's duration carries the decision; the tempo
 word goes in the build section's styles.
