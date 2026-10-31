@@ -63,7 +63,10 @@ field. Absent is absent.
    exists, because a donor at its floor that claims first and then skips burns the best
    recipient for the donor behind it, which then gets the second best or none.
 4. **Convert** to a daily delta at apply time by dividing the period amount by the
-   period days, in the account's smallest unit, rounded once.
+   period days, in the account's smallest unit, rounded once. Where the daily budget
+   is an average - the largest search platform documents spending up to twice it on a
+   day and billing up to 30.4 times it in a month - the delta times the days is the expected period movement,
+   not an exact one.
 5. **Plan** the donor's new budget as the maximum of the floor and the old budget
    minus the delta; the moved amount is the old budget minus the new; the
    recipient's new budget is its old plus exactly that moved amount. If the moved

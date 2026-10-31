@@ -78,8 +78,9 @@ projection. Three deliberate conservatisms:
   projection is identical to the uncalibrated one. Three measured sets is the
   fewest that produce a median rather than an average of one accident.
 
-The multiplier tempers the recipient half only. The donor half is arithmetic -
-the money demonstrably leaves and so does what it bought - whereas "the recipient
+The multiplier tempers the recipient half only. The donor half is arithmetic in
+spend - the money demonstrably leaves - and its value loss, read at average
+efficiency, errs conservative rather than optimistic, whereas "the recipient
 keeps converting at its current rate on the extra spend" is the claim the history
 has evidence about. Spend movement itself is never scaled on either side.
 

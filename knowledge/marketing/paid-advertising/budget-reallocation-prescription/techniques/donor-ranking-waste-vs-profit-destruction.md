@@ -53,8 +53,8 @@ drops one. The donor filter is the same under both metrics.
    corrupt margin falls back to revenue waste rather than producing a ranking that
    is nonsense. Reject, do not coerce.
 3. **Sort** descending. A zero-return campaign scores its full cost under either
-   metric, so it lands first by construction; see the pause technique for what
-   happens to it.
+   metric, which out-ranks a partial donor of equal spend but not a larger one; see
+   the pause technique for why pauses are considered before shifts instead.
 4. **Price each move** with the same inputs. Value gain on a shift is the amount
    times the difference of the two ends' ratios; profit gain, when a margin is
    present, is the gross profit on that value gain - one blended margin over both

@@ -55,9 +55,10 @@ is worst. That is the whole reason to thread a margin through: it re-orders the
 donors and re-prices the gain, and it never invents or drops a move on its own.
 
 **Second, a campaign returning nothing is not a donor; it is a pause.** There is
-nothing to re-point. Its waste is its entire spend under any ranking, so it
-out-ranks every partial donor by construction, consumes no recipient, and carries a
-projected gain of zero - the gain is the saved spend, which the amount already
+nothing to re-point. Its waste is its entire spend under any ranking, which
+out-ranks a partial donor of equal spend but not a larger one, so pauses are
+considered before shifts explicitly rather than left to the sort. It consumes no
+recipient and carries a projected gain of zero - the gain is the saved spend, which the amount already
 says. Pauses come before shifts in the list because they are the only move whose
 projection is arithmetic rather than a claim about the future.
 
@@ -65,12 +66,14 @@ projection is arithmetic rather than a claim about the future.
 a recipient is assumed to convert at the recipient's current efficiency. That is
 honest for a modest share of a donor's spend and optimistic for a large one, because
 the recipient's marginal return will not hold as its budget balloons - the
-equimarginal reasoning that governs the neighbour's curve solver says the *average*
-return a campaign shows today is an upper bound on what its *next* unit will earn.
+equimarginal reasoning that governs the neighbour's curve solver says that, under
+diminishing returns, the *average* return a campaign shows today is an upper bound
+on what its *next* unit will earn.
 So the projection carries a confidence label that degrades past a stated share, the
 share is labelled as convention, and once the business has a history of applied
 moves, the median of realized-over-projected tempers the recipient half of every
-future projection - never the donor half, whose loss is arithmetic.
+future projection - never the donor half, whose spend change is arithmetic and
+whose value loss, read at average efficiency, errs conservative.
 
 **Fourth, nothing touches spend without a gate.** Simulate, check against blast-
 radius guardrails, require an explicit human approval (with a breach requiring an
@@ -116,13 +119,16 @@ extra money at all, and the projection is a number about spend that never happen
 Whether a recipient is budget-capped is a pacing read owned by the neighbour; the
 prescription must ask for it.
 
-*It ignores the learning period.* Automated bidding re-learns after a large budget
-or target change, and platform practitioners widely hold that a change beyond
-roughly a fifth of a budget in one step risks a reset lasting one to two weeks with
-worse efficiency during it. That figure is practitioner convention, not documented
-platform behaviour, and a prescription labels it as such - but it is why a
-single-step shift of forty or fifty percent of a donor is the kind of move that
-should degrade its own confidence label rather than read as routine.
+*It ignores the learning period.* Automated bidding re-learns after some changes,
+and the platforms differ. The largest search platform documents that adjusting a
+daily budget does not trigger its automated-bidding learning status, that the
+status never lasts more than seven days, and that performance converges over one to
+two conversion cycles after a target change. On the largest social platform,
+practitioners widely hold that a budget change beyond roughly a fifth in one step
+re-enters the learning phase; that platform documents no such threshold, so the figure is practitioner convention and a prescription labels
+it as such. Either way, a single-step shift of forty or fifty percent of a donor
+is the kind of move that should degrade its own confidence label rather than read
+as routine.
 
 *It ignores seasonality and lag.* A shift applied on a Monday and measured over the
 following week compares one weekday-balanced window against another and gets a
@@ -166,8 +172,8 @@ and a marketer who reports it says so in the same sentence.
 
 "Pause campaign A: 14 200 CZK over the period, no conversions. Move 3 600 CZK from
 campaign B (ratio 2.1, target 5.6) to campaign C (ratio 8.4, budget-capped);
-projected +22 700 CZK conversion value at high confidence, tempered by a 0.8
-calibration from five measured sets. Guardrails: within the per-move cap, three
+projected +16 600 CZK conversion value at high confidence (22 700 before a 0.8
+calibration from five measured sets tempers the recipient half). Guardrails: within the per-move cap, three
 moves or fewer, same network. Approve to apply; both budgets and A's status are
 snapshotted for an exact revert." Every number in it is either the account's own
 data, a stated convention, or a labelled projection - and a reader knows which.

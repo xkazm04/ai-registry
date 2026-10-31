@@ -37,17 +37,24 @@ a fabricated lift on the approval screen would be worse than putting none.
 
 A recipient's current ratio is an average over the spend it already has. The next
 unit of spend competes in the same auctions at a worse position or a broader
-match, so the marginal return is at or below the average - the equimarginal
-reasoning behind the economics neighbour's response-curve solver, where the
-average ratio is the ceiling of the marginal one. A linear projection therefore
-over-states the recipient's gain by an amount that grows with the moved share, and
-under-states nothing on the donor side, where the loss is arithmetic.
+match, so under diminishing returns the marginal return is at or below the average -
+the equimarginal reasoning behind the economics neighbour's response-curve solver,
+where on a concave curve the average ratio is the ceiling of the marginal one. A
+linear projection therefore over-states the recipient's gain by an amount that
+grows with the moved share. On the donor side the spend change is arithmetic, and
+by the same concavity the units cut are the donor's marginal ones, so reading the
+lost value at average efficiency over-states the loss: the donor half errs
+conservative. A recipient still on the convex foot of an S-shaped curve is the
+exception, where the linear read under-states its gain.
 
-The practitioner reading of platform behaviour adds a second reason: automated
-bidding re-learns after a large budget change, and the widely repeated rule that a
-step beyond roughly a fifth of a budget risks a one-to-two-week learning period
-with degraded efficiency is convention, not documented behaviour. Both reasons
-point the same way. Small moves, linear read; large moves, degraded label.
+Platform learning behaviour can add a second reason, and it differs by platform.
+The largest search platform documents that a daily budget change does not trigger
+its automated-bidding learning status; target changes converge over one to two
+conversion cycles. The widely repeated rule that a budget step beyond roughly a
+fifth re-enters learning is social-platform practitioner convention, not documented
+behaviour. Where either applies, it
+points the same way as the first. Small moves, linear read; large moves, degraded
+label.
 
 ## The confidence cap
 
