@@ -97,11 +97,11 @@ varies with the list length. The rules:
   several and the query must still compose). Either way the decision
   lives in the helper, so no call site can forget it.
 - **Chunk under the engine's parameter ceiling.** Every engine caps bound
-  parameters per statement, and the caps differ by almost two orders of
+  parameters per statement, and the caps differ by more than an order of
   magnitude — around two thousand on one widely used server, sixty-five
-  thousand on another, and under a thousand on one embedded engine until
-  a 2020 release raised it — with client drivers sometimes capping below
-  the engine they speak to. A batch endpoint that works in tests and dies
+  thousand on another — and by almost two against the under-a-thousand
+  default one embedded engine kept until a 2020 release raised it, with
+  client drivers sometimes capping below the engine they speak to. A batch endpoint that works in tests and dies
   at four thousand ids in production hit whichever of those it was never
   measured against. The helper chunks transparently under a floor chosen
   for the *lowest* engine the layer may run on, merges result maps across

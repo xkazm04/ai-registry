@@ -112,13 +112,14 @@ is something a reader will otherwise assume:
 ## The read side is half the technique
 
 A token nothing sorts by is ceremony with a lock on it. Readers that need
-order sort by the token explicitly, with a deterministic tie-break; a store
+order sort by the token explicitly, with a deterministic tie-break, which
+makes the sort stable without making the tied pair ordered; a store
 that "usually" returns rows in insertion order is the trap this technique
 exists to escape. Where the backend can index the token, it does, because a
 sort the store cannot serve is a sort done in memory over the whole stream.
 
-Two consumer rules that catch most misuse: the sequence is a **total order,
-not a dense counter** — an allocated token whose write failed leaves a gap,
+Two consumer rules that catch most misuse: within one allocator the sequence
+is **an order, not a dense counter** — an allocated token whose write failed leaves a gap,
 gaps are normal, and anything computing a record count from the maximum
 token is wrong. And a **reused token is corruption** where a gap is not:
 detecting duplicates is worth a cheap assertion in the repair path, since a

@@ -143,5 +143,5 @@ load, and is the source of most of the pattern's bad reputation; take that
 rung per bounded area of the product, never for the whole of it, and
 prefer a stored read model in the same store first. And do not let the
 projection surface become the escape hatch from the aggregate surface: a
-projection that is loaded, edited, and written is the defect in §3 wearing
-the technique's name.
+projection that is loaded, edited, and written is the defect in "The
+projection is not the record" wearing the technique's name.

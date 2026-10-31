@@ -166,7 +166,7 @@ gate on the flag all reach it reflectively with a default —
 instance at `utils_pipeline.py:822`. The declaration read is the right one, but
 the access is not typed: a misspelling at any site reads `False` forever and
 that backend degrades silently, with the conservative default masking the
-error. A closed vocabulary spelled as a literal a dozen times has no
+error. A closed vocabulary spelled as a literal eight times has no
 authoritative definition — the flag should be read as the attribute it is.
 
 **Two registry entries name modules that are not there.** `STORAGES` maps
