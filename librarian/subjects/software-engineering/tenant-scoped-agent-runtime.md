@@ -146,3 +146,93 @@ provider's key to the other.
 - Open: the worker's isolation mode is undeclared (any bearer is admitted), so a keyless
   persona with no base address still spends the operator's key on the default host.
   Return: when the worker gains real caller auth or a second caller.
+
+## Architecture review - 2026-10-31
+
+Re-review after the 2026-09-23 currency refresh of `python--task-local-tenant-scope` and
+the 2026-10-10 apply that landed `node--fail-direction-follows-deployment-mode`, with a
+destination-binding section in its technique and one clause in the golden path. All
+eight documents were read. Of the 2026-09-09 clarifications, only the application's
+Python 3.14 correction landed. The technique still asserts what that correction refutes:
+task-local-tenant-scope says "a standard pool that propagates in a recent release". The
+pinned CPython 3.14.0 pool does not capture a fresh context per submission. The hermes
+daemon-pool docstring still makes the 3.14 claim at the refreshed commit. Every other
+2026-09-09 technique item is unaddressed and carried forward. Nothing is retracted.
+
+The new destination-binding section is sound. A miss falls through only toward the host
+the process credential was issued for, with binding by parsed host and no cross-name
+substitution. It closes a leak the overlay rule had no words for. Its personas
+application anchors hold at the current tree: the fix commit cited is not in the local
+clone's history, but the cited lines read identically at `f8e62cb9`.
+
+<!-- architecture-review:v1 -->
+```json
+{
+  "subject": "software-engineering/tenant-scoped-agent-runtime",
+  "date": "2026-10-31",
+  "baseline": "c052abb9",
+  "digest": "sha256-b2:e25b75ee0d820e2b",
+  "disposition": "clarify",
+  "coverage": "All 8 owned documents read: golden path, 6 techniques, 2 applications. Primary checks: the hermes daemon_pool.py at the refreshed commit 9d799e05, and the personas cloud-worker server.mjs at f8e62cb9 (read, not run). CPython 3.14 pool and contextvars sources relied on from the 2026-09-09 reads. No runtime, gateway or worker executed.",
+  "counterexamples": [
+    "On CPython 3.14 a ThreadPoolExecutor worker reused across submissions does not take each caller's context, so 'a standard pool that propagates in a recent release' is false and the explicit copy is never a no-op to rely on.",
+    "A scope that names an endpoint and no key sent the worker's own key to a caller-chosen host in 13 of 48 cases with one tenant, so isolation-off is not 'nothing to leak from'.",
+    "An untrusted event stamp outranks a trusted connector owner under specificity-first resolution.",
+    "Two tenant scopes can resolve to the same storage address; distinct handles keyed by address then share data.",
+    "Evicting module names while another tenant is importing races, and existing references keep the old module alive.",
+    "A subsystem that falls back to single-tenant behaviour with a warning is still running outside the isolation claim."
+  ],
+  "sources": [
+    {
+      "url": "https://raw.githubusercontent.com/NousResearch/hermes-agent/9d799e0531c24c7f6015f45ca27e05022c3db81a/tools/daemon_pool.py",
+      "result": "submit docstring 'Submit a callable, propagating the caller's contextvars.' and states stdlib does so only from 3.14; body captures ctx = copy_context() and runs the callable via ctx.run. Confirms the application's 'claim still in source' sentence; the technique repeats the unsupported claim."
+    },
+    {
+      "url": "https://github.com/python/cpython/blob/v3.14.0/Lib/concurrent/futures/thread.py",
+      "result": "Carried from 2026-09-09, not re-fetched: work items carry callable and arguments, not a captured Context. Refutes the technique's version-dependent propagation sentence."
+    },
+    {
+      "source": "personas source at f8e62cb9: cloud-worker/server.mjs",
+      "result": "Lines 151 (DASHSCOPE_HOST parsed-host regex), 177 and 186 (apiKey: mp.auth_token || workerKeyFor(baseUrl)) and 376 (accept any non-empty Bearer) match the application's quotes. The cited fix commit 8bfc211f64 is not in the local clone's history, so the A/B arms were not re-derived."
+    }
+  ],
+  "documents": {
+    "tenant-scoped-agent-runtime.md": {
+      "disposition": "clarify",
+      "reason": "Still owed. Drop the 'about the fourth one' process-count threshold. State that scope transport is neither authentication nor a sandbox. Replace 'process-level work runs under the default tenant's scope' with an explicit host-authority class. Replace universal eviction on tenant switch with loader-specific lifecycle. The new destination clause is fine."
+    },
+    "techniques/task-local-tenant-scope.md": {
+      "disposition": "clarify",
+      "reason": "Remove 'a standard pool that propagates in a recent release' and 'on a runtime which already propagates the extra copy is a harmless no-op'. A generic pool never captures per submission, and the explicit copy is the mechanism, not a version patch. Still owed: copied bindings share mutable values; explicit parameters and immutable scope are valid alternatives."
+    },
+    "techniques/fail-direction-follows-deployment-mode.md": {
+      "disposition": "clarify",
+      "reason": "The destination-binding section is sound and measured. Still owed from 2026-09-09: classify host authority explicitly, reject unsafe defaults, and present the background-fails/foreground-works fingerprint as a clue, not a unique cause. The undeclared isolation mode the application reports is the live instance."
+    },
+    "techniques/tenant-keyed-cache-evicts-loaded-code.md": {
+      "disposition": "clarify",
+      "reason": "Still owed. Global sys.modules eviction during concurrent tenant use is not isolation: require loader-specific lifecycle or per-tenant namespaces or instances, and bounded keyed caches with a reaper."
+    },
+    "techniques/resolve-handles-at-call-time.md": {
+      "disposition": "clarify",
+      "reason": "Still owed. 'Two tenants never share a handle ... the whole isolation claim' needs the address resolver itself to be tenant-distinct. Capture the handle for a transaction's duration. Correctly scoped shared pools are valid."
+    },
+    "techniques/stamp-ownership-before-the-router.md": {
+      "disposition": "clarify",
+      "reason": "Still owed. Trust precedes specificity: an event's own stamp outranks the configured owner only from a trusted router, and forged or conflicting stamps are rejected. Use collision-free keys. Separate the legacy default from unresolved identity."
+    },
+    "techniques/written-inventory-of-what-stays-global.md": {
+      "disposition": "clarify",
+      "reason": "Still owed. The 'documented fallback ... with a warning' row must not legitimize a subsystem that acts across tenants; such a subsystem is fatal or fail-closed. The inventory also covers infrastructure that separate processes still share."
+    },
+    "applications/python--task-local-tenant-scope.md": {
+      "disposition": "keep",
+      "reason": "Refreshed 2026-09-23 within refresh_by 2026-11-05. It carries the corrected 3.14 reading, and the refreshed commit's daemon_pool still matches its quote. Multiplex-on-by-default framing as refreshed."
+    },
+    "applications/node--fail-direction-follows-deployment-mode.md": {
+      "disposition": "keep",
+      "reason": "Quoted anchors read identically in the current personas tree. The 48-case A/B and the canary arm are dated observations, with the open undeclared-mode limit stated. The fix commit was not available locally to re-derive the arms."
+    }
+  }
+}
+```

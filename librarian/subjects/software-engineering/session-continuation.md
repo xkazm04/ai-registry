@@ -226,3 +226,141 @@ timeout-wrapped commands, a third of the project's real inputs, and the guard co
 not report it because it never started. The general rule is untriaged at GAIN 1 in
 the source note; a second sighting on another hook or harness promotes it into the
 technique as a boundary case of "unlisted syntax passes".
+
+## Architecture review - 2026-10-31
+
+Re-review after the 2026-09-15 QwenPaw landing, which added two techniques and two
+applications, then the 2026-10-06 stuck-loop amendment and the 2026-10-08 claude-code
+application. All 17 documents were read. The 2026-09-09 technique clarifications are
+mostly unapplied. Only the three applications gained source-check sections. Every
+technique-level change named in that record is carried forward. Nothing is retracted.
+
+The new techniques make one of the carried items sharper. continuation-as-state still
+lists exactly two yield states: a clean terminal exit and an explicit rejection. The
+golden path repeats that list. But boundary-applied-stop and gate-state-lifetimes
+introduce stops on time, token, round and iteration limits, and the subject now endorses
+them. Under the enumerated set those stops are not legitimate yields. The 2026-09-09
+"resource-limit and required-input yields" item is therefore an internal contradiction
+now, not only a refinement.
+
+Second gap: the golden path says consumption meters "outlive a suspended and resumed
+invocation". gate-state-lifetimes never says so. Its meter rule covers phase resets and
+terminal-path charging only, although the 2026-09-15 note records the motivating
+athena-everywhere defect (a parked job resumed with its whole budget).
+
+Primary checks (read only, not executed):
+- The QwenPaw runner at the pinned commit confirms the deferral rule, including the
+  reason-required condition, and that no not-executed tool result exists.
+- The QwenPaw channel base confirms that staged turn usage is committed only on the
+  success branch and discarded on error, cancellation and exception.
+- Claude Code's hooks reference confirms that the `if` filter is best-effort and that the
+  hook runs when a command cannot be parsed.
+
+<!-- architecture-review:v1 -->
+```json
+{
+  "subject": "software-engineering/session-continuation",
+  "date": "2026-10-31",
+  "baseline": "c052abb9",
+  "digest": "sha256-b2:b0eabf78abd856a4",
+  "disposition": "clarify",
+  "coverage": "All 17 owned documents read: golden path, 10 techniques, 6 applications. Primary source read for the two QwenPaw applications (runner.py and channels/base.py at the pinned commit) and the claude-code application (current hooks reference). Not re-checked: oh-my-claudecode sources (relied on the 2026-09-09 pinned reads), the athena-everywhere commits, and any runtime. No harness, hook or test was executed.",
+  "counterexamples": [
+    "A turn stopped by a token or round limit is neither a clean terminal exit nor an explicit rejection, yet boundary-applied-stop requires the harness to yield on it.",
+    "A parked job resumed with a fresh meter spent 12 of a 10 budget; no phase reset was involved, so the phase-only meter rule does not catch it.",
+    "A custom gate that terminates with an empty reason is dropped on every tool-call iteration by the QwenPaw deferral site.",
+    "A child frame can push indefinitely while every yield has exactly one consumer, so ordering alone does not prove termination.",
+    "A timed-out Promise.race loser can keep running and write after the guard has failed open.",
+    "Error signatures that change every round do not prove progress, so a hard attempt or spend budget is still needed beside failure identity.",
+    "A host-side spawn filter narrower than the guard's grammar fails open silently, and the guard never starts to report it."
+  ],
+  "sources": [
+    {
+      "url": "https://raw.githubusercontent.com/agentscope-ai/QwenPaw/cbf1a4031d71915e0648d6cd2ef864989ccb42ae/src/qwenpaw/loop/gates/runner.py",
+      "result": "apply_stop_result docstring 'Defer stops and strategy warnings until tool results are processed. Ordinary keep-working prompts are unnecessary on tool-call iterations.'; body 'if stop_result.action == StopAction.TERMINATE and stop_result.reason:' sets _gate_pending_stop; continuation kept only with inject_on_tool_call and continuation_message. No not-executed tool result is created. Supports python--boundary-applied-stop."
+    },
+    {
+      "url": "https://raw.githubusercontent.com/agentscope-ai/QwenPaw/cbf1a4031d71915e0648d6cd2ef864989ccb42ae/src/qwenpaw/app/channels/base.py",
+      "result": "_clear_session_turn_usage docstring names 'turn start / cancel / error'; called on the response-error, asyncio.CancelledError and Exception branches of both process loops; _commit_turn_usage only in the success else-branch. Supports python--gate-state-lifetimes' zero-charge finding."
+    },
+    {
+      "url": "https://code.claude.com/docs/en/hooks",
+      "result": "'When Claude Code can't determine which commands the Bash input runs, it runs your hook regardless of the pattern. Because the if filter is best-effort, use the permission system rather than a hook to enforce a hard allow or deny.' Leading VAR=value assignments are stripped and each subcommand is checked; one rule per if field. Supports claude-code--advisory-guard-fail-mode's cost-filter-not-authority framing and its separate-handler fix."
+    },
+    {
+      "url": "https://github.com/Yeachan-Heo/oh-my-claudecode/blob/e9e8fa3847ce0b3529b84d895e841988c7308f3d/src/hooks/registry/dispatcher.ts",
+      "result": "Carried from 2026-09-09, not re-fetched: Promise.race bounds waiting, not execution. Still supports the advisory-guard-fail-mode clarification."
+    }
+  ],
+  "documents": {
+    "session-continuation.md": {
+      "disposition": "clarify",
+      "reason": "Widen the enumerated yield states so they include limit stops (with their typed reason), required input and cancellation, matching the new boundary-applied-stop section. Keep the meter-across-resume sentence only if gate-state-lifetimes states it. Still owed: claims are not acceptance, and continuation respects accepted scope."
+    },
+    "techniques/continuation-as-state.md": {
+      "disposition": "clarify",
+      "reason": "Add the yield states a limit gate, a required input and cancellation produce, so boundary-applied-stop's stop is legitimate here. Still owed: session vs run identity, bounded lease renewal, and that intermediate approval creates no new authority."
+    },
+    "techniques/single-loop-authority.md": {
+      "disposition": "clarify",
+      "reason": "Unchanged and still owed. One arbiter may compose several contributors; adopt cannot widen accepted scope; evaluator roles alone do not fix authority."
+    },
+    "techniques/ordered-yield-composition.md": {
+      "disposition": "clarify",
+      "reason": "Replace 'the stack terminates because each frame either consumes or passes' with an explicit bound on push and continue (depth and round ceilings). Still owed: protective refusal and cancellation outrank the order."
+    },
+    "techniques/advisory-guard-fail-mode.md": {
+      "disposition": "clarify",
+      "reason": "'The timeout is enforced by the registry ... abandoned at the deadline' must say that it bounds the wait, not the handler: a loser keeps running unless cancelled, and synchronous work is not bounded. An unknown hook class cannot silently default to advisory."
+    },
+    "techniques/ordered-teardown.md": {
+      "disposition": "clarify",
+      "reason": "Still owed. When the primary write fails, the group stays resumable but the local loop must still stop. Prefer generation or compare-and-swap over the short-expiry tombstone, because a writer paused past the tombstone's expiry resurrects the run."
+    },
+    "techniques/compaction-checkpoint.md": {
+      "disposition": "clarify",
+      "reason": "Still owed. Persist at control transitions as well as pre-compaction. Restore idempotently against the current generation. A missing checkpoint has unknown cause, not necessarily a failed write. The notepad cannot re-arm control."
+    },
+    "techniques/sealed-stage-advance.md": {
+      "disposition": "clarify",
+      "reason": "Still owed. Externally declared inputs, such as the invocation task, are valid. A content hash detects inconsistency, not tampering. A completion phrase is not acceptance. Compare-before-write needs a real lock or CAS, and an atomic advance does not guarantee delivery."
+    },
+    "techniques/stuck-loop-detection.md": {
+      "disposition": "clarify",
+      "reason": "The 2026-10-06 recency-vs-state marker paragraph holds. Still owed: keep a hard attempt and resource budget beside failure identity (changing signatures are not progress), make thresholds evidence-sensitive, and scope crash-resume authority."
+    },
+    "techniques/boundary-applied-stop.md": {
+      "disposition": "keep",
+      "reason": "The boundary definition, the pending typed stop, the one-iteration lateness bound with its injected-clock test, the will-anyone-read-it question and the not-executed status are coherent. The protective-stop exception is stated. The QwenPaw source confirms the deferral half."
+    },
+    "techniques/gate-state-lifetimes.md": {
+      "disposition": "clarify",
+      "reason": "Add the resume rule the golden path already asserts: a suspended and resumed invocation restores its meters and never re-arms them at full allowance (the athena-everywhere sighting). Otherwise sound: session keying, reset vs disarm, reset-peers constraints, the un-spend test, and charging on every terminal path."
+    },
+    "applications/node--advisory-guard-fail-mode.md": {
+      "disposition": "reverify",
+      "reason": "Its 2026-09-09 source-check section is in place. Live enforcement and the Node runtime were not exercised."
+    },
+    "applications/process--continuation-as-state.md": {
+      "disposition": "reverify",
+      "reason": "The source-check section landed with the future-timestamp and cancel-channel caveats. No live harness run."
+    },
+    "applications/process--sealed-stage-advance.md": {
+      "disposition": "reverify",
+      "reason": "Corrected to cite the ADR as design evidence. Implementation and delivery remain unverified at runtime."
+    },
+    "applications/python--boundary-applied-stop.md": {
+      "disposition": "keep",
+      "reason": "The pinned runner confirms the deferral sorting, the reason-required condition and the absence of any not-executed result. The doc says it read the code and did not execute it, and it states the unhandled refuse-before-dispatch case and the doc/code precedence disagreement."
+    },
+    "applications/python--gate-state-lifetimes.md": {
+      "disposition": "keep",
+      "reason": "The pinned channel base confirms commit-on-success-only and discard on error, cancel and exception. The phase-reset misfiling of wall time and tool calls, and the plugin scope gap, are stated as limits."
+    },
+    "applications/claude-code--advisory-guard-fail-mode.md": {
+      "disposition": "keep",
+      "reason": "The current hooks reference corroborates best-effort if-filtering, the run-anyway behaviour on unparseable input and one rule per handler, which matches the two-entry fix. The n=1, version-bound proof is disclosed with a re-run condition."
+    }
+  }
+}
+```

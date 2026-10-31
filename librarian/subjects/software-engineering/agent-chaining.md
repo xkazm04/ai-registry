@@ -191,3 +191,109 @@ total while the breadth guard beside it counted the whole trace. The paired test
 fired at 1.20 spent against a 1.00 ceiling on HEAD and halts after the fix. A third
 reading in the same tree (the live summary shows the max over paths as the
 chain's spend) was left as found.
+
+## Architecture review - 2026-10-31
+
+Re-review against `140c101d`. The 2026-09-09 clarify changes are in the text.
+Since then the subject gained `handoff-figures-carry-their-population` and a rust
+application of it. Re-reading the Dan Luu account partly retracts the 2026-09-09
+source result. The account does report an ordering: forced execution removed most
+incorrect explanations, cross-checking trailed it, and the combination did best.
+It reports this as one practitioner's experience, not a controlled study. The
+rewrite that followed the old record dropped that ordering. The new technique's
+worked example puts the inflated figure in the denominator, where it would deflate
+the ratio. No verification date was refreshed.
+
+<!-- architecture-review:v1 -->
+```json
+{
+  "subject": "software-engineering/agent-chaining",
+  "date": "2026-10-31",
+  "baseline": "140c101d",
+  "digest": "sha256-b2:596d59ae9fc2d310",
+  "disposition": "clarify",
+  "coverage": "All 15 current documents decided. The 13 carried from the 2026-09-09 record were checked by diff against baseline e76c81d7; the seven clarify changes that record asked for are present in the text. The two documents added since (handoff-figures-carry-their-population and its rust application) were read in full. Relative links resolve. One primary source was re-read. Not evaluated: any connected-project runtime, the n8n tree beyond the prior record's two files, every private application witness. No verification date was refreshed.",
+  "counterexamples": [
+    "A return-on-ad-spend figure computed over a company-wide revenue total is inflated because the broader figure sits in the numerator. A larger denominator would shrink the ratio, so 'the denominator is forty times too large' cannot produce 194 from 4.7.",
+    "A tree-wide spend sum over recorded links can still under-read a fan-out whose current hop is not yet booked. Taking the larger of the carried and summed figures tightens the guard but does not close the gap.",
+    "A practitioner can report that forced execution beat cross-checking in their workflow without that ordering holding for a design review, where nothing executable exists yet.",
+    "A delayed successor can arrive after every visible leaf has a stop row (retained from 2026-09-09)."
+  ],
+  "sources": [
+    {
+      "url": "https://danluu.com/ai-coding/",
+      "result": "Re-read. It reports agent bug-origin explanations wrong 'maybe 50% of the time or so', that asking agents to confirm a hypothesis 'by actually executing code' 'removed most incorrect explanations', that independent cross-checking trailed forced checking, and that combining both 'seems to have an even higher success rate'. It also reports a fabricated reproduction built in 'an artificial browser environment'. On models, it says a stronger model without a false-positive rejection process did worse than a weaker one with a reasonable setup, and that setup 'is a least as important as having the latest and greatest model'. So the source does state an ordering, as one practitioner's experience. This partly retracts the 2026-09-09 reading, which credited it only with 'scoped checking/review benefits'."
+    },
+    {
+      "source": "Arithmetic in techniques/handoff-figures-carry-their-population.md",
+      "result": "971,794 / 23,653 is about 41.1, and 4.7 x 41.1 is about 193, so the worked example's magnitudes are consistent. The online share is 2.4% ('about 2%'). The text names the wrong side of the ratio."
+    },
+    {
+      "source": "applications/rust--handoff-figures-carry-their-population.md",
+      "result": "Internally consistent: 0.20 + 0.50 = 0.70 on each path, which stays under 1.00, while the tree total is 1.20. The private tree at 1ce23dde3 was not reopened and nothing was re-executed."
+    }
+  ],
+  "documents": {
+    "agent-chaining.md": {
+      "disposition": "clarify",
+      "reason": "Prior clarifies applied. Two changes are still owed. (1) The grounding paragraph now says only that the account 'reports benefits ... as well as from independent review'. Restore the ordering the source does report (forced execution removed most errors, cross-checking trailed it, combined was best), labelled as one practitioner's observation. (2) 'a receiver that divides by it' should read 'a receiver that uses it as an operand in a ratio or comparison', to match the corrected technique."
+    },
+    "techniques/chain-identity-and-rollup.md": {
+      "disposition": "keep",
+      "reason": "The atomic root get-or-create, the finality condition (closed membership plus drained pending work) and the new fan-out sentence are all present and correct."
+    },
+    "techniques/cycle-and-depth-guards.md": {
+      "disposition": "keep",
+      "reason": "The 2026-09-09 clarifies landed: static checks only where a complete graph exists, a numeric depth chosen from a cost model, and an overall resource ceiling that individual guards may not remove."
+    },
+    "techniques/graph-to-wiring-translation.md": {
+      "disposition": "keep",
+      "reason": "Unchanged since the 2026-09-09 keep, and that reasoning still holds."
+    },
+    "techniques/grounding-over-deliberation.md": {
+      "disposition": "clarify",
+      "reason": "The 2026-09-09 rewrite over-corrected. The Evidence section says 'independent and combined reviews also helped' and leaves out the source's stated ordering. Restore that ordering as a scoped practitioner observation, plus the removed sizing lesson (a weaker model behind a false-positive rejection stage against a stronger model without one), which the source does contain. Keep the counterexamples and the no-universal-ranking caveat."
+    },
+    "techniques/handoff-figures-carry-their-population.md": {
+      "disposition": "clarify",
+      "reason": "The rule and decision rules are sound. The worked example inverts the ratio: revenue is the numerator of return on ad spend, so 'the denominator is roughly forty times too large' should say the numerator. Rule 2's 'before it divides by the figure' should cover the numerator too ('before it uses the figure in a ratio or comparison'). Optionally say 2.4% instead of 'about 2%'."
+    },
+    "techniques/handoff-payload-contracts.md": {
+      "disposition": "keep",
+      "reason": "The truncation-preserves-contract and access-controlled-inspection clarifies landed."
+    },
+    "techniques/run-conditions.md": {
+      "disposition": "keep",
+      "reason": "Unchanged since the 2026-09-09 keep."
+    },
+    "techniques/stop-reason-ledgers.md": {
+      "disposition": "keep",
+      "reason": "All five separations the prior record asked for landed: vocabulary change versus migration, outcome classes including cancellation, edge suppression versus terminal outcome, visible leaves versus closed membership, and parity tests that read the real producer."
+    },
+    "applications/node--cycle-and-depth-guards.md": {
+      "disposition": "reverify",
+      "reason": "The type-only depth and non-loosening resume claims are corrected, with a dated source-review note. The remaining anchors at fbd9449 were not reopened."
+    },
+    "applications/node--grounding-over-deliberation.md": {
+      "disposition": "reverify",
+      "reason": "The reviewer-blindness inference was corrected. The ab_verdict 'better' still rests on two constructed fixtures in a private tree that was not re-run."
+    },
+    "applications/node--stop-reason-ledgers.md": {
+      "disposition": "reverify",
+      "reason": "Unchanged. The private consumer artifacts were not reopened."
+    },
+    "applications/rust--graph-to-wiring-translation.md": {
+      "disposition": "reverify",
+      "reason": "Unchanged. No current runtime witness."
+    },
+    "applications/rust--stop-reason-ledgers.md": {
+      "disposition": "reverify",
+      "reason": "Unchanged. No current runtime witness."
+    },
+    "applications/rust--handoff-figures-carry-their-population.md": {
+      "disposition": "reverify",
+      "reason": "The paired arms are internally consistent and the floor is stated with identical failure sets. It openly records a two-surface 'chain cost' deviation. The private tree and its test runs were not reopened."
+    }
+  }
+}
+```

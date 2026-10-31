@@ -184,3 +184,86 @@ its first application document, and it is a `code` / `better` row.
   stated where each reader will meet it.
 - **Not touched:** `total-restart-point-by-reference` still owes the opaque-host
   boundary, and the second sighting has still not arrived.
+
+## Architecture review - 2026-10-31
+
+Re-review against `140c101d`. The subject is stale only because of additions: three
+applications, the marker boundary and the state-construction boundary. Those are
+sound. None of the clarify changes the 2026-09-09 record named were made, so they
+are restated below as still owed. The Temporal re-read supports the old record's
+first counterexample: replay is a valid recovery design whose cost is bounded by
+declared limits. No verification date was refreshed.
+
+<!-- architecture-review:v1 -->
+```json
+{
+  "subject": "software-engineering/durable-agent-operations",
+  "date": "2026-10-31",
+  "baseline": "140c101d",
+  "digest": "sha256-b2:2939cd03f8f3a4d1",
+  "disposition": "clarify",
+  "coverage": "All 10 current documents decided. The golden path and four techniques are byte-unchanged since the 2026-09-09 record (baseline fee4d71f), and the specific claims that record flagged were confirmed still present by grep. The two techniques with additions were read in their changed sections. The three applications added since were read in full. Relative links, including the new cross-subject link to session-continuation/stuck-loop-detection, resolve. One primary source was re-read. No private tree or runtime was reopened.",
+  "counterexamples": [
+    "An event-history engine recovers by replaying its journal and documents hard history limits with a remedy (Continue-As-New). A folded journal therefore has growing cost but is not untestable or unenumerable by construction.",
+    "A clean-shutdown marker that skips a recency-keyed sweep is safe. The same marker skipping a state-keyed sweep hides interrupted runs, and crash tests stay green because the crash path is untouched.",
+    "A spend column defaulted to zero cannot tell 'never reached the provider' from 'reached it and the cost is unknown'. A session-id predicate separates them on recorded data without pricing anything.",
+    "A fixture that writes only the record's enum value builds a state production never produces when the transition also writes a hold row in the same transaction."
+  ],
+  "sources": [
+    {
+      "url": "https://docs.temporal.io/workflow-execution/event",
+      "result": "Re-read. Event History 'enables the Workflow Execution to recover from a crash and continue making progress'. Execution is terminated when history 'exceeds 51,200 Events' (warning after 10,240), and Continue-As-New is the stated remedy. This supports the 'cost grows with the run' half of the journal failure mode. It refutes the claim, still in recovery-prefix-enumeration.md, that a folded journal makes crash states unenumerable or untestable."
+    },
+    {
+      "source": "git diff fee4d71f..140c101d over the subject directory",
+      "result": "Only additions landed: the marker boundary in close-is-a-controlled-crash, two construction boundaries in recovery-prefix-enumeration, and three applications. None of the 2026-09-09 clarify changes were made."
+    },
+    {
+      "source": "The three new applications (personas, gravitone)",
+      "result": "Read as documents. They are internally consistent: 4 of 8 states reopened before and 8 of 8 after; 22 + 3 = 25 priced and unpriced session rows plus 7 sessionless; the 31 reaped rows split into 21 + 10. The private trees were not reopened."
+    }
+  ],
+  "documents": {
+    "durable-agent-operations.md": {
+      "disposition": "clarify",
+      "reason": "The 2026-09-09 clarify for this document has not been applied: the text is unchanged since baseline fee4d71f. Still owed: scope representation choices, ownership fencing, transactional assumptions and shutdown guarantees. In particular, the 'journal that must be folded' failure mode should say its cost grows with the run while replay remains a valid recovery design."
+    },
+    "techniques/total-restart-point-by-reference.md": {
+      "disposition": "clarify",
+      "reason": "The 2026-09-09 clarify for this document has not been applied: the text is unchanged since baseline fee4d71f. Still owes the opaque-host boundary, the bounded-envelope versus collection-cost distinction, and cross-store cleanup."
+    },
+    "techniques/intent-mints-the-identity.md": {
+      "disposition": "clarify",
+      "reason": "The 2026-09-09 clarify for this document has not been applied: the text is unchanged since baseline fee4d71f. Distinguish the local attempt identity from the destination idempotency key, and require stale-owner protection. The new rust application shows the spend half: reserve or mark unknown at the intent."
+    },
+    "techniques/settlement-order-is-not-placement-order.md": {
+      "disposition": "clarify",
+      "reason": "The 2026-09-09 clarify for this document has not been applied: the text is unchanged since baseline fee4d71f. Scope the source-order requirement and parallelism, and admit durably staged batch placement as a valid alternative."
+    },
+    "techniques/two-cancellations-and-a-synchronous-door.md": {
+      "disposition": "clarify",
+      "reason": "The 2026-09-09 clarify for this document has not been applied: the text is unchanged since baseline fee4d71f. Local serialization does not establish global cancellation. Separate requested from reconciled, and handle failed persistence."
+    },
+    "techniques/close-is-a-controlled-crash.md": {
+      "disposition": "clarify",
+      "reason": "The new marker boundary (recency-keyed versus state-keyed sweep) is sound and is reconciled with the session-continuation technique. The 2026-09-09 items are still owed: separate admission sealing from write closure, preserve genuinely settled outcomes during a bounded drain, and test abrupt loss separately."
+    },
+    "techniques/recovery-prefix-enumeration.md": {
+      "disposition": "clarify",
+      "reason": "The two new boundaries (build a state the way its transition commits it; effect-prefix suites do not imply state-leaf coverage) are good. Still owed: line 25 equates a closed vocabulary with a finite state set, and 'When not to use it' still says a folded journal makes crash states not enumerable. Temporal's replay-based recovery contradicts the second."
+    },
+    "applications/node--recovery-prefix-enumeration.md": {
+      "disposition": "reverify",
+      "reason": "States a seeded-defect control, a floor of 528/528 tests, and that no recovery defect was found. The private tree and its suites were not re-run."
+    },
+    "applications/rust--close-is-a-controlled-crash.md": {
+      "disposition": "reverify",
+      "reason": "A clear paired fixture. The field count was revised from 31 to 10, stated as an upper bound with the confounders named. The private tree, the commit 5429ab2d5 and the 13/13 run were not reopened."
+    },
+    "applications/rust--intent-mints-the-identity.md": {
+      "disposition": "reverify",
+      "reason": "A read-only experiment on a private database. It stated its falsifiers, declined to give the dollar figure as a result, and shipped nothing. The queries were not re-run."
+    }
+  }
+}
+```
