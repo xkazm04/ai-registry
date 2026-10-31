@@ -109,11 +109,14 @@ change like a copy change to the marketing site, not like a refactor.
 Two cheap assertions catch every regression in this technique:
 
 - **Generate the world twice in one process and compare.** A single unseeded
-  call anywhere in the chain fails this immediately.
+  call anywhere in the chain fails this immediately. Hand both generations the
+  same reference instant: it is captured at instantiation, so without that the
+  check fails a correct world on its timestamps.
 - **Generate it in two processes and compare.** This additionally catches
   anything that depends on the process, the clock, or iteration order over an
-  unordered collection — the last of which is the subtle one, since a map's
-  iteration order can be stable within a process and differ across builds.
+  unordered collection — the last of which is the subtle one, since a hash
+  set's iteration order can be stable within a process and differ between
+  processes (string hashes salted per process, as in Python).
 
 Both run in milliseconds and both belong in the suite that runs on every change,
 because the way this property breaks is a one-line convenience added by someone

@@ -87,9 +87,11 @@ precisely why the containment rules in the honesty contract have to be enforced
 by tests rather than by architecture — architecture is not keeping this code
 away from real tenants; the contract is.
 
-The payload cost is usually smaller than it feels and is easy to bound: the
-fixture module is loaded on the demo route's code path only, so a real tenant
-pays for the dispatch and not for the world.
+The payload cost is usually smaller than it feels and is easy to bound: load
+the fixture module on the demo route's code path only, so a real tenant pays for
+the dispatch and not for the world. That holds only when the dispatch reaches
+the fake plane lazily. A static import from the dispatch module puts the whole
+world in every bundle that imports the client.
 
 ## Why it is worth paying
 

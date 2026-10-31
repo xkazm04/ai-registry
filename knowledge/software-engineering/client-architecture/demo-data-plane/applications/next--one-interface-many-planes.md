@@ -33,7 +33,7 @@ and it carries provenance in three different places at once:
 
 - **On the session.** `hasSyncedMetrics(projectId)` (`src/lib/report-metrics/store.ts:24`)
   is the one honest signal — true only once a tenant has synced rows — and
-  `projectDataSource(live, locale)` (`src/lib/project-data/source.ts:43`) maps
+  `projectDataSource(live, locale)` (`src/lib/project-data/source.ts:44`) maps
   it to the pill copy. Nothing about the *data* is consulted.
 - **On a wrapper.** `resolveReportDataset(project)` (`src/lib/report-metrics/resolve.ts:46`)
   returns `{ data, source, live, syncedAt, ... }` — provenance beside the value,
@@ -63,8 +63,8 @@ The six:
 
 1. `src/components/app/ProjectOverview.tsx:129` loads the sample dataset,
    `:139` reads `hasSyncedMetrics`, `:165` turns that into the
-   "Živá data · Google Ads" pill, and `:217` renders the KPI band from
-   `totalsOf(data.daily.slice(-30))` — the *sample* series. A synced tenant's
+   "Živá data · Google Ads" pill, and `:166` computes the KPI band's
+   `totalsOf(data.daily.slice(-30))` from the *sample* series. A synced tenant's
    overview shows sample numbers under a live label.
 2. `src/components/app/overview/portfolio-model.ts:200` builds each
    comparison row with `live: synced` and `totals` from the same sample

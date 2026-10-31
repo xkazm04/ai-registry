@@ -225,7 +225,8 @@ paths sells a product that does not exist.
 Fixture variation is desirable — a demo where every row holds the same number
 looks like a placeholder — but it must come from a **seeded generator**, so that
 the same world is produced on every render, in every tab, on every machine, on
-every reload.
+every reload. Ages and relative times hold everywhere. Absolute instants hold
+within one entry, because the world is dated from the moment it was entered.
 
 The reason is not engineering tidiness: it is that viewers **compare**. They open
 the demo in two tabs, they screenshot it and set the screenshot beside the live

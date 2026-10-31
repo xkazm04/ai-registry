@@ -5,7 +5,7 @@ subject: demo-data-plane
 technique: one-interface-many-planes
 stack: go
 status: forged
-verified_on: 2026-09-02
+verified_on: 2026-10-31
 verified_against: go@1
 ---
 
@@ -40,8 +40,10 @@ var (
 Five blank-identifier assignments assert, at compile time, that the fake plane
 implements every handler interface a real data source implements. Remove a
 method and the package does not build — the technique's mechanical test,
-passed before any browser opens. The file's own comment (`:17`) says what the
-assertions are for: *"ensures that testdata implements all client functions."*
+passed before any browser opens. The file's comment at `:17`, *"ensures that
+testdata implements all client functions"*, belongs to an older assertion that is
+now commented out (`:18`, `// var _ plugins.Client = &Service{}`). The live block
+carries no comment of its own.
 
 The implementation of those methods is a multiplexer: `QueryData` (`:68`)
 delegates to a `QueryTypeMux` that routes each query to one of thirty-odd
