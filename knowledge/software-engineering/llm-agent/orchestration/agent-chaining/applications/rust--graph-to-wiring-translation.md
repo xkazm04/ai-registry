@@ -4,7 +4,7 @@ type: application
 subject: agent-chaining
 technique: graph-to-wiring-translation
 stack: rust
-verified_on: 2026-08-18
+verified_on: 2026-10-31
 ---
 
 # Graph-to-wiring translation — team handoff wiring
@@ -46,7 +46,7 @@ died after the entry member."
   `connection_type == "feedback"` edges are skipped at translation
   (`team_handoff.rs:105-108`) — they are revision loops, and the module
   notes the chain-cycle guard in `triggers::create`
-  (`src-tauri/db/src/repos/resources/triggers.rs:149-160`, via
+  (`src-tauri/db/src/repos/resources/triggers/definitions.rs:245-254`, via
   `chain::detect_chain_cycle`) would reject them anyway. Static layer at
   the wiring door, confirmed twice over.
 - **Drift is manually repairable.** The pass is exposed as the
@@ -82,10 +82,31 @@ died after the entry member."
 
 The drawing surface itself moved: the reducer-board canvas that originally
 drew these graphs was deleted as orphaned (see the corpus note at
-the consumer's deviation register#w7-canvas-graph`); the
+`#w7-canvas-graph` in the consumer's deviation register); the
 surviving authoring surface for team connections is the Mastermind flow
-(`src-tauri/src/commands/design/team_synthesis.rs:692` calls
-`wire_team_handoff` after synthesis, and `team_preset_adopter.rs:573` on
+(`src-tauri/src/commands/design/team_synthesis.rs:736` calls
+`wire_team_handoff` after synthesis, and `team_preset_adopter.rs:662` on
 adoption). The wiring module outlived the canvas that fed it — evidence for
 the technique's claim that the drawn graph and the runtime wiring are
 separate artifacts with separate lifetimes.
+
+Re-checked 2026-10-31 at personas@61029d7ae: `team_handoff.rs` is unchanged
+in substance and every anchor in it still resolves (`:56-59`, `:104-186`,
+`:105-108`, `:152-155`, `:176-179`, `:203-214`, `:216-242`), as does
+`repair_team_handoff` (`teams.rs:50-55`). The verdicts hold: nothing deletes
+wiring when an arrow goes, because `delete_connection` removes only the
+`persona_team_connections` row, and rows are still matched structurally, not
+by edge id. Three anchors moved and are updated above. The cycle guard
+followed the 2026-08-22 split of the triggers repository into
+`triggers/definitions.rs`. Synthesis calls the wiring pass at
+`team_synthesis.rs:736`. Adoption calls it at `team_preset_adopter.rs:662`,
+and the member-retry path now re-wires at `:974` too. The deviation-register
+pointer had lost its form and is restored. Since the last check, the
+Mastermind canvas was retired as well (the register's 2026-09-25 entry), while
+both wiring call sites survive. That strengthens the closing claim. One thing
+this document never carried, though it predates the first check: the relay
+suppresses a `team_handoff.*` emitter whenever the completing run is already a
+chain execution or an assignment step (`chain.rs:489-533`, recorded as
+`handoff_suppressed`). So the wiring makes the next member start for one hop
+only. Flow over more steps belongs to the team's DAG, and a sequential A -> B
+-> C drawing wires B -> C rows that the relay will not fire from a chained B.

@@ -369,3 +369,124 @@ dispatcher application after its module split.
   }
 }
 ```
+
+## 2026-10-31 - architecture review (re-verification)
+
+This record follows the re-verification of the rust--artifact-lifecycle application
+against the personas tree. It is kept: one line count was corrected, a dated note
+was added, and verified_on moved. Everything else carries forward, and the overall
+disposition stays clarify.
+
+<!-- architecture-review:v1 -->
+```json
+{
+  "subject": "software-engineering/structured-output",
+  "date": "2026-10-31",
+  "baseline": "709547f1a",
+  "digest": "sha256-b2:c459a148a0f54ee4",
+  "disposition": "clarify",
+  "coverage": "All 20 current documents decided. rust--artifact-lifecycle was re-verified in full against the personas checkout at 61029d7ae. Every tree citation and every census figure it relies on was resolved, and one line count was corrected. The other 19 documents are byte-unchanged and carry their prior dispositions. rust--op-grammar-allowlisting stays at reverify (outside this pass), and two technique clarify items are still owed, so the overall disposition stays clarify.",
+  "trigger": "Re-verification of the application the prior records left unchecked against its tree.",
+  "intended_benefit": "Turn model text into exactly one of validated artifact or described failure, never a half-parsed, default-valued or silently unconstrained one.",
+  "failure_if_ignored": "Legal-looking corrupt state: default-constructed artifacts, validated-but-unanswered responses, fabricated answers where a tool call was suppressed.",
+  "boundary": "Starts at the settled record from streaming-output; ends at a validated proposal handed to hitl-approval; trust framing belongs to prompt-safety.",
+  "counterexamples": [
+    "A provider that carries tool calls in a separate structured field composes an output schema with tools; refusing that combination at assembly blocks a working turn.",
+    "A single-claimant system has no constraint budget to manage; shedding machinery there is a mechanism for a failure it cannot have.",
+    "A payload whose only defect is a trailing comma is recovered as a marked partial by rung 4 before rung 5's deterministic repair could make it complete.",
+    "A human-authored settings document may legitimately default when absent; extraction never may."
+  ],
+  "sources": [
+    {
+      "source": "personas checkout at 61029d7ae",
+      "result": "ai_artifact_flow.rs :93, :139-167, :271, :297, :349, :351, :384, :385-394 and the timeout block (:560-588) hold; recipe_generation.rs :11-24 const and :72-74 extractor; design.rs:276 extract_json_by_key; deliberation.rs :618 and :1503 unwrap_or_default; the golden-path census still reads 1,488 of 1,636 turns (91%), $44.94, STALL_LIMIT = 3."
+    }
+  ],
+  "documents": {
+    "structured-output.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: added technique-list entries for enumerable-domain-decoding and constraint-and-tool-channel-exclusion; scoped the schema-plus-tools precondition to providers that emit tool calls in the content channel, noting that separate-field providers compose the two."
+    },
+    "applications/node--graded-span-grounding.md": {
+      "disposition": "keep",
+      "reason": "Dated paired account with its own limits stated (small model arm, no locating seam). Consumer tree not reopened this run; verified_on unchanged."
+    },
+    "applications/node--schema-validation-and-repair.md": {
+      "disposition": "keep",
+      "reason": "Re-read the pinned upstream repair wrapper: single retry through the non-repairing inner function, catch limited to NoObjectGeneratedError caused by JSONParseError/TypeValidationError, null repairText rethrows the original. Remaining line anchors and deviation claims not re-checked; verified_on unchanged."
+    },
+    "applications/python--constraint-and-tool-channel-exclusion.md": {
+      "disposition": "keep",
+      "reason": "Self-dated server observation with a re-verification posture; a secondary report on a later server version (format-after-thinking blocks tool calls for most parsers, one harmony-format parser keeps them) is consistent with 'changes between versions'. Private pipeline half not re-executed."
+    },
+    "applications/python--enumerable-domain-decoding.md": {
+      "disposition": "keep",
+      "reason": "Structural-only account explicitly framed with its falsifier (clamp fire rate). Private tree not reopened; verified_on unchanged."
+    },
+    "applications/python--graded-span-grounding.md": {
+      "disposition": "keep",
+      "reason": "Pinned upstream resolver re-read: fuzzy threshold 0.75 and density 1/3, U+241F unit-separator delimiter, order-preserving occurrence DP all present (line anchors approximate, not re-run through the anchor checker)."
+    },
+    "applications/rust--artifact-lifecycle.md": {
+      "disposition": "keep",
+      "reason": "re-verified 2026-10-31 at personas@61029d7ae: every ai_artifact_flow.rs, recipe_generation.rs, design.rs and deliberation.rs anchor resolves; the census figures are unchanged in the golden-path document; both deviations still hold (one 'failed' status for extraction and spawn failure; Option extractor, no repair loop). One misread count corrected: the recipe messages const is 14 lines (:11-24), not 24. verified_on moved."
+    },
+    "applications/rust--constrained-decoding-is-a-shared-budget.md": {
+      "disposition": "keep",
+      "reason": "Dated paired account; single-claimant finding correctly bounds the technique. Private engine not reopened; verified_on unchanged."
+    },
+    "applications/rust--op-grammar-allowlisting.md": {
+      "disposition": "reverify",
+      "reason": "The cited dispatcher.rs no longer exists: the module is now split into a dispatcher/ directory (catalog, dispatch, envelope, tests, ...), so every line anchor is stale. Core symbols still exist (ALLOWED_ACTIONS in catalog, dispatch_with_sys, repair_op_json in envelope, 'rejected unknown action', the show_ship_milestone absence test). The catalog now declares ops through an op! table, which may retire deviation 2 (no single authority for menu/allowlist/arms); needs a full re-read before the deviation is kept or dropped."
+    },
+    "techniques/answer-coverage-gating.md": {
+      "disposition": "keep",
+      "reason": "Denominator-carrying gate is distinct from the validation door; zero-denominator, coercion-laundering and fallback-attribution rules are internally consistent with schema-validation-and-repair and output-budget-signal."
+    },
+    "techniques/artifact-lifecycle.md": {
+      "disposition": "clarify",
+      "reason": "Machine, single-flight, identity and convergent finalization hold. Still owed: 'host teardown reaps runningly' is a garbled phrase whose intended wording could not be confirmed, so it was not edited."
+    },
+    "techniques/constrained-decoding-is-a-shared-budget.md": {
+      "disposition": "keep",
+      "reason": "Primary provider documentation confirms request-scoped shared limits: 'These limits apply to the combined total across all strict schemas in a single request' (20 strict tools, 24 optional parameters, 16 union-typed parameters, plus internal compiled-grammar limits returning 400). The per-route dialect and unknown-vs-unsupported rules stand."
+    },
+    "techniques/constraint-and-tool-channel-exclusion.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: 'On most providers' -> 'On some providers'; a tool call is 'not always' metadata beside the response."
+    },
+    "techniques/display-vs-machine-channels.md": {
+      "disposition": "keep",
+      "reason": "Two bans, extractor-owned span removal, four-quadrant per-channel failure table and three retentions are consistent with the golden path."
+    },
+    "techniques/enumerable-domain-decoding.md": {
+      "disposition": "keep",
+      "reason": "Token-ID prefix tree in emission context is a sound mechanism; the 2k spread-shrink arithmetic (two candidates each moving k toward each other) checks. The between-candidates section is long for its one-sighting status (2026-09-23 note) but is scoped and measured."
+    },
+    "techniques/extraction-observability.md": {
+      "disposition": "keep",
+      "reason": "Per-flow counters with predicates, version-tagged baselines, size-capped expiring samples, instrument-the-door meta-rule."
+    },
+    "techniques/extraction-strategies.md": {
+      "disposition": "clarify",
+      "reason": "Still owed: rung 4 (longest-valid-span, partial) sits before rung 5 (deterministic meaning-preserving syntax repair), so a payload with only a trailing comma would be recovered as a marked partial before a repair that would yield a complete artifact; this conflicts with the ladder's own cheapest-and-most-reliable-first rule. Reordering is a design change, not applied."
+    },
+    "techniques/graded-span-grounding.md": {
+      "disposition": "keep",
+      "reason": "Figures agree with the node application (140+7=147 faithful, 137+130=267 fabrications; coverage 0.8 / density 0.36). Fuzzy defaults and delimiter/occurrence-DP claims re-read in the pinned upstream resolver."
+    },
+    "techniques/op-grammar-allowlisting.md": {
+      "disposition": "keep",
+      "reason": "Closed grammar with one authority, one dispatch door, no execution path for unknown ops, scoped reference validation and replay rules."
+    },
+    "techniques/output-budget-signal.md": {
+      "disposition": "keep",
+      "reason": "Measure-not-guard, null-not-zero, conservative unknown ceilings with assumed marks, high-percentile fleet reading; scoped exclusions (authoritative length stop reason) stated."
+    },
+    "techniques/schema-validation-and-repair.md": {
+      "disposition": "keep",
+      "reason": "Door depth, declared/absent/invalid asymmetry, never coerce/skip/partially accept, ordinal repair stopping rule and give-up semantics are coherent and cite the right laws."
+    }
+  }
+}
+```

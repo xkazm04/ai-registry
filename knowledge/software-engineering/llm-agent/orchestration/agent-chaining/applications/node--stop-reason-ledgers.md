@@ -5,8 +5,8 @@ subject: agent-chaining
 technique: stop-reason-ledgers
 stack: node
 status: forged
-verified_on: 2026-08-29
-verified_against: node@24
+verified_on: 2026-10-31
+verified_against: node@22
 applied: code
 ab_verdict: better
 ---
@@ -17,7 +17,7 @@ ab_verdict: better
 
 The [stop-reason-ledgers](../techniques/stop-reason-ledgers.md) technique asks
 for one closed, owned stop vocabulary. This tree has one: a `pub mod
-stop_reason` block of string consts in `src-tauri/db/src/chain.rs:44-86`,
+stop_reason` block of string consts in `src-tauri/db/src/chain.rs:45-92`,
 written to `chain_stop_reasons.reason_token`, resolved to a human label by
 `status_tokens.chain_stop` in the locale catalogs. Two artifacts, one
 vocabulary, across a language boundary — the mirroring problem, and the tree
@@ -104,3 +104,20 @@ precisely the ones missing. Nobody designed that; it fell out of the shape.
 - **It proves nothing about production traffic.** That a token has a label does
   not mean any row carries it. Whether `lookup_failed` has ever been written is
   a question for the table, and this gate never looks at data.
+
+Re-checked 2026-10-31 at personas@61029d7ae: arm B is what shipped
+(`d18d6ce80`, minutes after the pinned commit): the parity test parses the
+`pub mod stop_reason` block of `chain.rs` at run time and asserts at least 13
+consts before it compares. The block sits at `chain.rs:45-92`, both at
+`bf2a1e249` and at HEAD; the earlier `:44-86` was a mis-anchor and is corrected
+above. It still holds 15 consts, `en.json` carries exactly those 15 keys, and
+all 14 locale catalogs carry `lookup_failed` and `cost_ceiling_corrupt`. The
+test was not run here, because the checkout has no installed dependencies; its
+regex, replayed over the same two files in plain Node, matches 15 against 15.
+The 14-file repair cost is no longer current: the strict coverage hook was
+switched off on 2026-10-25, when the app went English-only, so the same repair
+today is one catalog. The measured cost stands for the date it was measured.
+Every limitation above still holds: no `completed`, `cancelled` or
+condition-unevaluable token exists, and nothing classifies a reason as success-
+or error-shaped. `verified_against` now names the Node major the tree pins
+(`.nvmrc`, 22); the earlier value was not readable in the tree.

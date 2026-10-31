@@ -395,3 +395,99 @@ overall disposition.
   }
 }
 ```
+
+## Architecture review - 2026-10-31 (re-verification)
+
+This record follows the re-verification of the four personas applications against
+the checked-out tree. All four are kept. The anchors were updated where they had
+moved, and dated notes record what changed. verified_on moved on three of them;
+it did not move on handoff-figures, whose suite could not be re-run here. The
+overall disposition stays reverify, because two applications outside this pass
+remain at reverify.
+
+<!-- architecture-review:v1 -->
+```json
+{
+  "subject": "software-engineering/agent-chaining",
+  "date": "2026-10-31",
+  "baseline": "709547f1a",
+  "digest": "sha256-b2:6b1a210dca4f9c7b",
+  "disposition": "reverify",
+  "coverage": "All 15 current documents decided. The four personas applications the prior record held at reverify were re-verified against the personas checkout at 61029d7ae, and against the pinned commits bf2a1e249, dc71e0b and 1ce23dde3 where one is cited. Every tree citation was resolved. One runtime re-run was blocked: the Rust suite could not build, because a system library is missing. The other 11 documents are byte-unchanged and carry their prior dispositions. node--cycle-and-depth-guards (an n8n tree) and node--grounding-over-deliberation (a private fixture run) were outside this pass and stay at reverify, so the overall disposition stays reverify.",
+  "counterexamples": [
+    "A return-on-ad-spend figure computed over a company-wide revenue total is inflated because the broader figure sits in the numerator. A larger denominator would shrink the ratio, so 'the denominator is forty times too large' cannot produce 194 from 4.7.",
+    "A tree-wide spend sum over recorded links can still under-read a fan-out whose current hop is not yet booked. Taking the larger of the carried and summed figures tightens the guard but does not close the gap.",
+    "A practitioner can report that forced execution beat cross-checking in their workflow without that ordering holding for a design review, where nothing executable exists yet.",
+    "A delayed successor can arrive after every visible leaf has a stop row (retained from 2026-09-09).",
+    "A sequential team drawing A -> B -> C gets B -> C wiring rows that the relay will not fire from a chained B: team handoffs are single-hop by design (handoff_suppressed), so correct wiring does not imply a multi-hop cascade."
+  ],
+  "sources": [
+    {
+      "source": "personas checkout at 61029d7ae plus pinned bf2a1e249, dc71e0b, 1ce23dde3",
+      "result": "Anchors checked by git show and grep at each pin and at HEAD; chain.rs stop_reason block parsed with the parity test's own regex (15 = 15 en.json keys); #[test] counts 51/53/53 in chain.rs and 6 in traces.rs; cargo test -p personas-db blocked by a missing gdk-3.0 system library."
+    }
+  ],
+  "documents": {
+    "agent-chaining.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: restored the source's ordering (forced execution removed most incorrect explanations, cross-checking trailed it, both together best) labelled as one practitioner's observation, not a controlled study; 'a receiver that divides by it or compares it against a limit' now reads 'uses it as an operand in a ratio or comparison'."
+    },
+    "techniques/chain-identity-and-rollup.md": {
+      "disposition": "keep",
+      "reason": "The atomic root get-or-create, the finality condition (closed membership plus drained pending work) and the new fan-out sentence are all present and correct."
+    },
+    "techniques/cycle-and-depth-guards.md": {
+      "disposition": "keep",
+      "reason": "The 2026-09-09 clarifies landed: static checks only where a complete graph exists, a numeric depth chosen from a cost model, and an overall resource ceiling that individual guards may not remove."
+    },
+    "techniques/graph-to-wiring-translation.md": {
+      "disposition": "keep",
+      "reason": "Unchanged since the 2026-09-09 keep, and that reasoning still holds."
+    },
+    "techniques/grounding-over-deliberation.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: the Evidence section now states the reported ordering with the source's quoted figures, scoped as one practitioner's observation, and restores the sizing lesson (weaker model behind a false-positive rejection process versus stronger model without one); counterexamples and the no-universal-ranking caveat kept."
+    },
+    "techniques/handoff-figures-carry-their-population.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: the worked example now names the numerator (heading, 'numerator is roughly forty times too large', 'what went in the top'); rule 2 and its decision rule now cover any use 'in a ratio or comparison'; 'about 2%' became 'about 2.4%'."
+    },
+    "techniques/handoff-payload-contracts.md": {
+      "disposition": "keep",
+      "reason": "The truncation-preserves-contract and access-controlled-inspection clarifies landed."
+    },
+    "techniques/run-conditions.md": {
+      "disposition": "keep",
+      "reason": "Unchanged since the 2026-09-09 keep."
+    },
+    "techniques/stop-reason-ledgers.md": {
+      "disposition": "keep",
+      "reason": "All five separations the prior record asked for landed: vocabulary change versus migration, outcome classes including cancellation, edge suppression versus terminal outcome, visible leaves versus closed membership, and parity tests that read the real producer."
+    },
+    "applications/node--cycle-and-depth-guards.md": {
+      "disposition": "reverify",
+      "reason": "The type-only depth and non-loosening resume claims are corrected, with a dated source-review note. The remaining anchors at fbd9449 were not reopened."
+    },
+    "applications/node--grounding-over-deliberation.md": {
+      "disposition": "reverify",
+      "reason": "The reviewer-blindness inference was corrected. The ab_verdict 'better' still rests on two constructed fixtures in a private tree that was not re-run."
+    },
+    "applications/node--stop-reason-ledgers.md": {
+      "disposition": "keep",
+      "reason": "re-verified 2026-10-31 at personas@61029d7ae: arm B shipped (d18d6ce80) and the parity test parses chain.rs at run time; the block anchor :44-86 was wrong even at the pin and is now :45-92; 15 consts match 15 en.json keys (the test's regex replayed in plain Node; vitest not installed); a dated note says the 14-file repair cost lapsed when the strict locale hook was switched off on 2026-10-25; the completeness limits still hold; verified_against corrected to the tree's .nvmrc (node@22); verified_on moved."
+    },
+    "applications/rust--graph-to-wiring-translation.md": {
+      "disposition": "keep",
+      "reason": "re-verified 2026-10-31 at personas@61029d7ae: every team_handoff.rs and teams.rs anchor holds; append-only and structural-matching deviations still true (delete_connection removes only the connection row); cycle guard re-anchored to triggers/definitions.rs:245-254, synthesis :736, adoption :662 (retry :974); deviation-register pointer repaired; dated note adds the Mastermind canvas retirement and the pre-existing single-hop handoff suppression (chain.rs:489-533), which bounds the opening claim to one hop without contradicting it; verified_on moved."
+    },
+    "applications/rust--stop-reason-ledgers.md": {
+      "disposition": "keep",
+      "reason": "re-verified 2026-10-31 at personas@61029d7ae: vocabulary (15 tokens), record_stop, trace-id no-op, swallowed insert, no happy-path row, predicate_unmet collapse and the ChainTraceView rendering all hold; five line anchors moved and were updated; the depth detail is now quoted verbatim; verified_on moved."
+    },
+    "applications/rust--handoff-figures-carry-their-population.md": {
+      "disposition": "keep",
+      "reason": "re-verified 2026-10-31: all five anchors resolve verbatim at 1ce23dde3; at HEAD chain.rs lines are unchanged, execution.rs and executions.rs anchors moved (dated note); both paired tests remain and #[test] counts match the floor (51 -> 53 chain, 6 traces); the two-surface deviation is still open. The suite was not re-run (cargo build blocked by a missing gdk-3.0 system library), so the measured arms stand as recorded and verified_on stays 2026-09-18."
+    }
+  }
+}
+```

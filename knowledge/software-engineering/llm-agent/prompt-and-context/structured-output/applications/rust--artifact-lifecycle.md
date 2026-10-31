@@ -4,7 +4,7 @@ type: application
 subject: structured-output
 technique: artifact-lifecycle
 stack: rust
-verified_on: 2026-08-18
+verified_on: 2026-10-31
 ---
 
 # The AI-artifact flow — the lifecycle machine built once, and the exits it forgot to type
@@ -17,8 +17,8 @@ error", so the invariant parts were captured as `AiArtifactMessages`,
 `AiArtifactParams`, and `run_ai_artifact_task`, "so that adding future
 AI-generates-X flows … is a matter of instantiation rather than
 reimplementation." The instantiations exist:
-`src-tauri/src/commands/recipes/recipe_generation.rs` (a 24-line
-`AiArtifactMessages` const + a one-line extractor) and
+`src-tauri/src/commands/recipes/recipe_generation.rs` (a 14-line
+`AiArtifactMessages` const at `:11-24` + a one-line extractor) and
 `src-tauri/src/commands/tools/automation_design.rs` ride the same runner
 with only prompt, event names, and extractor swapped.
 
@@ -77,3 +77,15 @@ with only prompt, event names, and extractor swapped.
    as `stall_limit` after three ticks. The flows that adopted the shared
    machine inherited honest extraction failure; the flow that did not,
    reinvented the third spelling of failure the golden path bans.
+
+Re-checked 2026-10-31 at personas@61029d7ae: every anchor above still resolves
+at the cited line (`ai_artifact_flow.rs:93`, `:139-167`, `:271`, `:297`,
+`:349`, `:351`, `:384`, `:385-394`, timeout kill and typed error at
+`:560-588`; `recipe_generation.rs:72-74`; `design.rs:276`;
+`deliberation.rs:618` and `:1503`), and the census figures (1,488 of 1,636
+headless turns, 91%, $44.94; `STALL_LIMIT = 3` escalating as `stall_limit`)
+are unchanged in the golden-path document. One count was misread: the recipe
+messages const spans lines 11-24, which is 14 lines, not 24; corrected above.
+Both deviations still hold: the extraction-failed and spawn-failed paths
+still emit the same `"failed"` status, and the extractor still returns
+`Option`.

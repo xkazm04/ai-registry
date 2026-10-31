@@ -83,3 +83,18 @@ a path ceiling described as a cascade ceiling.
 - The live summary's maximum-over-paths figure was left as found. Two surfaces
   still show "chain cost" over different populations, which the technique's
   fourth rule says to resolve by renaming one of them.
+
+Re-checked 2026-10-31 at personas@61029d7ae: all five anchors resolve verbatim
+at `1ce23dde3`. At HEAD the three `chain.rs` anchors sit at the same lines
+(`:316`, `:366`, `:404`), the running total has moved to `execution.rs:2747`,
+and the live summary's comment has moved to `executions.rs:1688`. That comment
+still describes a maximum over carried totals, so the two-surface deviation
+is unresolved. The paired tests are still in the suite
+(`test_chain_budget_counts_sibling_branches` at `chain.rs:2407`,
+`test_chain_budget_single_path_under_ceiling_still_fires` at `:2444`). The
+`#[test]` counts agree with the floor: 51 in `chain.rs` at `dc71e0b`, 53 at
+`1ce23dde3` and at HEAD, and 6 in `traces.rs` throughout. The `rust-version =
+"1.80.0"` pin is unchanged. The suite was not re-run: a cargo build of
+`personas-db` here stopped on a missing system library (`gdk-3.0`, needed by
+`gdk-sys`). The measured arms stand as recorded, and the verification date
+does not move.

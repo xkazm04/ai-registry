@@ -4,7 +4,7 @@ type: application
 subject: agent-chaining
 technique: stop-reason-ledgers
 stack: rust
-verified_on: 2026-08-18
+verified_on: 2026-10-31
 ---
 
 # Stop-reason ledgers — chain_stop_reasons
@@ -38,13 +38,13 @@ an operator can answer 'why did this chain stop?' per distributed trace."
   `chain_trace_id`, `link_execution_id`, optional `trigger_id` and
   `target_persona_id` (None for whole-cascade halts like the depth
   ceiling), `reason_token`, free-text `detail` ("chain depth 8 reached
-  limit 8", cost vs ceiling), and `chain_depth`
-  (`chain_stop_reasons.rs:25-49`) — the "answerable entirely from the
+  the limit of 8", cost vs ceiling), and `chain_depth`
+  (`chain_stop_reasons.rs:26-50`) — the "answerable entirely from the
   ledger row" bar.
 - **Written at the decision point.** Every non-continuation path in
   `evaluate_chain_triggers` calls the one `record_stop` closure
   (`chain.rs:245-269`) — depth (`:271-288`), lookup failure (`:295-300`),
-  corrupt/exceeded cost ceiling (`:318-368`), breadth (`:381-420`),
+  corrupt/exceeded cost ceiling (`:312-388`), breadth (`:390-440`),
   window, malformed config, suppression, cycle, predicate, CAS — one
   writer, exhaustively placed.
 - **User-facing, in the user's vocabulary.** `ChainTraceView` renders the
@@ -57,7 +57,7 @@ an operator can answer 'why did this chain stop?' per distributed trace."
 
 - **Best-effort writes.** A failed ledger insert is warn-logged and
   swallowed ("a lost audit row must never fail a cascade",
-  `chain_stop_reasons.rs:63-65`, `chain.rs:262-267`) — a deliberate
+  `chain_stop_reasons.rs:64-65`, `chain.rs:262-267`) — a deliberate
   availability trade against the technique's same-transaction rule. The
   cost is exactly the one the technique predicts: a lost row re-creates
   stopped/stuck ambiguity for that link.
@@ -68,7 +68,7 @@ an operator can answer 'why did this chain stop?' per distributed trace."
   reader cross-references outgoing wiring.
 - **Unevaluable collapses into `predicate_unmet`.** An unknown condition
   type and an unresolvable path expression both return `false` from
-  `evaluate_predicate` (`chain.rs:1023-1075`) — honestly fail-closed and
+  `evaluate_predicate` (`chain.rs:1026-1096`) — honestly fail-closed and
   loudly warn-logged (the comment names "silent non-firing is the worst
   failure mode"), but the *ledger* token is the same `predicate_unmet` a
   legitimate not-fired verdict gets. The unevaluable/not-fired distinction
@@ -76,3 +76,18 @@ an operator can answer 'why did this chain stop?' per distributed trace."
 - **Only traced chains get a ledger.** `record_stop` no-ops when the hop
   carries no `chain_trace_id` (`chain.rs:249`) — an untraced relay's stops
   remain silent by construction.
+
+Re-checked 2026-10-31 at personas@61029d7ae: every construct above still
+stands. The vocabulary is still the 15 tokens at `chain.rs:45-92`, the one
+`record_stop` closure (`:245-269`) still no-ops without a `chain_trace_id`
+(`:249`) and swallows a failed insert with a warning (`:262-267`), the
+no-triggers leaf still returns at `:306-309` with nothing written, and an
+unknown condition type or unresolvable path still returns `false` and lands
+as `predicate_unmet`. `ChainTraceView` still renders each reason through
+`tokenLabel(t, 'chain_stop', reason.reason_token)` with the total cost and the
+`partial` flag. Five anchors moved and are updated above: the row struct
+(`chain_stop_reasons.rs:26-50`), its best-effort comment (`:64-65`), the cost
+ceiling block, which grew with the 2026-09-18 whole-cascade fix (`:312-388`),
+the breadth block behind it (`:390-440`), and `evaluate_predicate`
+(`:1026-1096`). The depth detail is now quoted as the code writes it. All four
+deviations still hold.
