@@ -5,7 +5,7 @@
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 243,
   "techniques": 1957,
-  "applications": 1448,
+  "applications": 1449,
   "laws": 16,
   "categories": [
    "ui-surfaces",
@@ -20007,9 +20007,9 @@
    "subcategory": "standards-and-gates",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-process/standards-and-gates/knowledge-registry/knowledge-registry.md",
-   "digest": "sha256-b2:3dc9f1dec5aa4282",
-   "revision": 12,
-   "changedAt": "2026-10-22",
+   "digest": "sha256-b2:6c7d2c16b9fe5b9b",
+   "revision": 13,
+   "changedAt": "2026-10-31",
    "techniques": [
     {
      "slug": "catalog-as-sync-key",
@@ -20172,6 +20172,13 @@
      "technique": "verification-is-contributed",
      "file": "knowledge/software-engineering/engineering-process/standards-and-gates/knowledge-registry/applications/node--verification-is-contributed.md",
      "verified_on": "2026-08-27"
+    },
+    {
+     "stack": "rust",
+     "technique": "propose-then-adopt",
+     "file": "knowledge/software-engineering/engineering-process/standards-and-gates/knowledge-registry/applications/rust--propose-then-adopt.md",
+     "verified_on": "2026-10-31",
+     "verified_against": "rust@1.96"
     }
    ]
   },
