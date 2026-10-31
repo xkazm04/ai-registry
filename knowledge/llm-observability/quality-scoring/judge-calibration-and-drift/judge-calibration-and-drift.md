@@ -59,7 +59,8 @@ scores a high raw agreement rate while carrying zero information. Kappa is
 what separates "agrees with the human" from "agrees with the base rate."
 Field practice converges on a kappa bar around 0.6 as the floor of
 acceptability and 0.8 as strong — with the human inter-annotator kappa on the
-same set as the ceiling no judge can be expected to beat.
+same set, where its annotations are independent rather than adjudicated to
+one reference, as the ceiling no judge can be expected to beat.
 
 The deep obligation here is honesty about statistical power. Golden sets are
 small, because human labels are expensive — and small samples make paired
@@ -139,9 +140,10 @@ same model, parameters, contract version, same day. Nothing changed, so all
 movement is the instrument arguing with itself. That is the **repeatability
 floor**, and it is a third quantity beside the two already named: agreement
 is judge-vs-human, drift is judge-now-vs-judge-then, repeatability is
-judge-vs-itself. Field measurement on a public grading pipeline puts it high
-enough to matter — re-grading one fixed artifact with the same judge flipped
-the published verdict 23% of the time.
+judge-vs-itself. A field measurement on a grading pipeline, whose primary
+source has not been reached (the page the source note cites does not
+contain it), puts it high enough to matter — re-grading one fixed artifact
+with the same judge flipped the published verdict 23% of the time.
 
 Two consequences. A single-shot verdict from a judge with a floor that high
 is not a measurement, so anything it gates either aggregates over re-scores
@@ -152,9 +154,9 @@ smaller than the floor is noise, and a detector without the floor beneath it
 does not merely mis-fire: it pages on a cadence until it is muted, and the
 real drift then arrives into a muted channel.
 
-The floor is measured **per dimension, never per judge** — in the same run,
-one subjective dimension flipped 32% while two near-mechanical ones flipped
-5% and 3%, and a composite figure would have hidden both facts. Since
+The floor is measured **per dimension, never per judge** — in the same
+unsourced run, one subjective dimension flipped 32% while two near-mechanical
+ones flipped 5% and 3%, and a composite figure would have hidden both facts. Since
 dimensions carry weights and floors, a composite's repeatability is dominated
 by its least repeatable dimension, which is reliably the subjective one the
 rubric exists to capture

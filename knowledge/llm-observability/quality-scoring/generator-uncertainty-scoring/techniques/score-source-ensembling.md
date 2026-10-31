@@ -25,15 +25,18 @@ The three sources are wrong about different things. A judge fails where its
 rubric does not cover the failure mode. A consistency scorer fails where
 the model is stably, repeatably wrong. A token-probability scorer fails
 where fluency and correctness come apart, which is exactly what a
-well-trained model is good at. Because their errors are less than perfectly
-correlated, averaging recovers signal that none of them carries alone.
+well-trained model is good at. The working hypothesis is that their errors
+are less than perfectly correlated, so averaging recovers signal that none
+of them carries alone — a hypothesis, because the measurement below shows
+the combination winning and does not measure the error correlation that
+would explain why.
 
 The measured version is decisive and worth stating in full, because it is
 also the evidence against the story people expect. Across two dozen
-generator-and-dataset scenarios, a tuned weighted combination beat every
-one of its own components in **twenty of twenty-four** on a
-threshold-agnostic metric and led on a threshold-dependent one in
-**seventeen of twenty-four**. In the same experiment, among the individual
+generator-and-dataset scenarios (arXiv:2504.19254), a tuned weighted
+combination beat every one of its own components in **twenty of
+twenty-four** on a threshold-agnostic metric, AUROC, and had the highest
+F1, a threshold-dependent one, in **seventeen of twenty-four**. In the same experiment, among the individual
 non-ensemble scorers, the best performer was a **model judge in eleven
 scenarios**, a consistency scorer in seven, and a token-probability scorer
 in six.
@@ -79,9 +82,9 @@ Where the labels come from decides how much the fit is worth:
 Scorer performance depends on both the dataset and the generator, so the
 weights are fitted **per generator and per task** and are valid for
 in-domain deployment. The published work that establishes the ensemble's
-advantage tunes exactly this way and states plainly that it did not
-evaluate out-of-distribution generalization or cross-task transfer of
-learned weights.
+advantage tunes exactly this way and states plainly that it has "not
+evaluated out-of-distribution generalization, including cross-dataset
+transfer of learned weights".
 
 That is a limitation to inherit, not to route around. A fitted ensemble is
 a claim about one generator on one workload. Carrying it across a model

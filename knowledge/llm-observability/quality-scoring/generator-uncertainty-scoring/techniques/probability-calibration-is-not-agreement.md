@@ -35,11 +35,13 @@ error** is the largest single gap. The first is an average honesty; the
 second is a worst-case honesty, and they are not interchangeable.
 
 On a short-answer open-domain question-answering benchmark — fifteen
-hundred prompts, one thousand used to fit and five hundred held out — a raw
-multi-sample confidence score carried an expected calibration error of
-**0.428**. The number printed on the score was, on average, more than four
-tenths of the scale away from what it delivered. Fitting a monotone
-rescaling on the held-out protocol pulled expected calibration error to
+hundred NQ-Open prompts, one thousand used to fit and five hundred held out
+for the report (the UQLM score-calibration demo) — a raw single-generation
+token-probability score, the length-normalized probability of the one
+response drawn, carried an expected calibration error of **0.428**. The
+number printed on the score was, on average, more than four tenths of the
+scale away from what it delivered. An isotonic rescaling fitted on the
+thousand and read on the five hundred pulled expected calibration error to
 **0.031**.
 
 That looks like a solved problem until the second statistic is read. Over

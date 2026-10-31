@@ -30,8 +30,9 @@ it see.
   with the annotations. When ranking and reporting use the same
   annotations, the winning instruction's agreement is its training score.
 - **Iterating by hand.** A person reads the disagreements, edits the judge
-  prompt, and re-runs it. A published walkthrough of exactly this moved
-  raw agreement from 75.6% to 86.9% on 160 labeled rows, and the 160 rows
+  prompt, and re-runs it. A published walkthrough of exactly this (the
+  ragas align-llm-as-judge guide) moved raw agreement from 75.6% (121/160)
+  to 86.9% (139/160) on 160 labeled rows, and the 160 rows
   were both the error analysis and the result. The edit may well be an
   improvement. The number cannot say, because every row it is computed
   on informed the edit.
@@ -86,8 +87,9 @@ it see.
   ([the-judge-is-both-untrusted-and-under-test](../../../_laws.md#the-judge-is-both-untrusted-and-under-test)).
 - **Labels carry their criteria round.** Grading outputs changes what the
   graders think the criteria are: a study of assisted evaluator alignment
-  observed that people need criteria to grade outputs and that grading
-  outputs is how they define the criteria. Labels made before and after a
+  (Shankar et al., "Who Validates the Validators?", arXiv:2404.12272)
+  named this criteria drift — people need criteria to grade outputs, and
+  grading outputs is how they define the criteria. Labels made before and after a
   criteria change are different instruments. A judge fitted to one round
   and reported on the other measures the drift, not the judge.
 

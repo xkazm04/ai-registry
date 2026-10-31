@@ -78,15 +78,19 @@ opposite signs and no reader can reconcile them
   and every reason to make the two readings visibly share an origin.
 - **When choosing N, measure the curve on your own traffic and buy the
   elbow.** Discrimination rises steeply with the first few samples and
-  flattens: a published sweep over a generator-and-dataset pair moved from
-  roughly 0.54–0.57 at a single sample to roughly 0.75–0.80 at fifteen,
-  approximately monotonically with clear diminishing returns. Fifteen was
+  flattens: a published sweep (arXiv:2504.19254, Appendix D) moved the
+  black-box scorers' AUROC on GPT-4o responses to CSQA from 0.54–0.57 at a
+  single sample to 0.75–0.80 at fifteen, approximately monotonically with
+  diminishing returns. Fifteen was
   chosen there to make cross-scorer comparison robust, not as an operating
   point, and treating it as one buys the flat part of somebody else's
   curve at full price.
-- **When N is one, there is no spread and the score does not exist.**
-  Return an absence, not a confident zero-variance one. A single draw
-  cannot disagree with itself.
+- **When N is one, there is no spread and the consistency score does not
+  exist.** Return an absence, not a confident zero-variance one. A single
+  draw cannot disagree with itself. The rule binds multi-sample scoring
+  only: a single-generation token-probability score is defined at N of one,
+  because it reads the distribution over each emitted token rather than
+  agreement between draws — and it is in a different frame from this one.
 - **When the spread gates anything, aggregate over draws and declare the
   aggregation** — the same rule the repeatability floor imposes on the
   judge, for the same reason

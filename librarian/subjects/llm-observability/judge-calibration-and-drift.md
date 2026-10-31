@@ -388,3 +388,127 @@ lessons) were not reopened.
   }
 }
 ```
+
+
+## 2026-10-31 clarify-apply
+
+Applied the owed clarifications to three documents; repeatability-floor stays reverify for want of a primary source.
+
+<!-- architecture-review:v1 -->
+```json
+{
+  "subject": "llm-observability/judge-calibration-and-drift",
+  "date": "2026-10-31",
+  "baseline": "8b6ac3fa8",
+  "digest": "sha256-b2:fd4242b6455c67ed",
+  "disposition": "reverify",
+  "coverage": "Clarify-apply pass over the 2026-10-31 record. Edited: golden path, golden-set-agreement-measurement, fit-and-report-on-disjoint-labels. Primary sources read this run (not executed): the Feinstein and Cicchetti 1990 abstract on PubMed, the ragas align-llm-as-judge guide at 298b6827, and the arXiv abstract of 2404.12272. The repeatability magnitudes remain unreached; the golden path now marks them as such, and repeatability-floor stays reverify. Applications not edited and not re-checked; no verified_on moved.",
+  "counterexamples": [
+    "A golden set whose human labels are adjudicated to one reference has no inter-annotator kappa, so 'the ceiling no judge can be expected to beat' is undefined. A judge can exceed the raw pairwise agreement of the original annotators.",
+    "Under heavy prevalence a judge and a human can agree on 95% of items and still post a low kappa (the kappa paradox). The technique's blind-spot cell says only 'degenerate', and its text explains only the divide-by-zero case.",
+    "A rubric under active iteration has a muted windowed detector and a per-cycle detector whose every drop is a method change, so both drift horizons are blind at once.",
+    "A replacement judge replayed against a benchmark's repository row reads 'aligned' within 2.2 points, and against the same benchmark's paper row it reads -4.3 to +4.1. The anchor is two numbers, not one.",
+    "A palette-distance metric scores a render past the reference-against-reference ceiling while human review calls it short, so the reading is out of range and is not a win."
+  ],
+  "sources": [
+    {
+      "url": "https://pubmed.ncbi.nlm.nih.gov/2348207/",
+      "result": "Read (abstract). Feinstein AR, Cicchetti DV, 'High agreement but low kappa: I. The problems of two paradoxes', J Clin Epidemiol 1990;43(6):543-9: 'a high value of p0 can be drastically lowered by a substantial imbalance in the table's marginal totals'. Supports the kappa-paradox cell and paragraph."
+    },
+    {
+      "url": "https://raw.githubusercontent.com/explodinggradients/ragas/298b68274234c060deacab3cf5fb52aa3a20e885/docs/howtos/applications/align-llm-as-judge.md",
+      "result": "Read. 'Baseline alignment: 121/160 passed (75.6%)', 'V2 alignment: 139/160 passed (86.9%)', 'The alignment increased from 75.6% to 86.9%' on the same 160-sample dataset."
+    },
+    {
+      "url": "https://arxiv.org/abs/2404.12272",
+      "result": "Read (abstract). Shankar et al., 'Who Validates the Validators? Aligning LLM-Assisted Evaluation of LLM Outputs with Human Preferences': 'we identify a phenomenon we dub criteria drift: users need criteria to grade outputs, but grading outputs helps users define criteria'."
+    },
+    {
+      "source": "danluu.com/ai-coding/ (read 2026-10-31 by the prior record, not re-read)",
+      "result": "Does not contain the 23% or 32%/5%/3% figures; no other primary source found. The golden path now labels them unsourced rather than citing them as field measurement."
+    }
+  ],
+  "documents": {
+    "judge-calibration-and-drift.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: scoped the inter-annotator ceiling to independent rather than adjudicated annotations; marked the 23% verdict-flip and the 32%/5%/3% split as a measurement whose primary source has not been reached."
+    },
+    "techniques/golden-set-agreement-measurement.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: the kappa cell now names both imbalance failures (undefined when both raters use one class; the kappa paradox, low kappa despite high agreement under lopsided marginals) with a paragraph citing Feinstein and Cicchetti 1990 and asking for observed agreement and prevalence beside kappa; the ceiling sentence is scoped to independent annotations."
+    },
+    "techniques/judge-selection-by-spread.md": {
+      "disposition": "keep",
+      "reason": "Spread as disqualifier, the rotten-middle rule, price as tiebreaker and method-change re-verification hold. PoLL attribution verified 2026-09-10. The new fit-and-report technique correctly extends it with re-measuring the winner instead of contradicting it."
+    },
+    "techniques/repeatability-floor.md": {
+      "disposition": "reverify",
+      "reason": "The doctrine holds as reasoning: the floor bounds detectors, repeatability is per dimension, and the threshold multiplies the floor. Every magnitude it rests on (23%, 21%, more-than-halved passes, 32%/5%/3%) traces to a source note whose cited page does not contain them. It needs the primary URL of the grading-pipeline measurement, or the figures recast as unsourced."
+    },
+    "techniques/reserved-rubric-persistence.md": {
+      "disposition": "keep",
+      "reason": "Record shape and the leakage precondition are concrete; no external claim."
+    },
+    "techniques/scheduled-recalibration.md": {
+      "disposition": "keep",
+      "reason": "The cycle, the two per-cycle trigger levels, the untrusted-versus-crashed exit contract and the no-widening rule hold."
+    },
+    "techniques/trust-bar-verdict.md": {
+      "disposition": "keep",
+      "reason": "Three-state verdict, non-transfer scope and the committee-as-one-instrument rule hold. The 0.6/0.8 bar is presented as convention."
+    },
+    "techniques/windowed-score-drop-alerting.md": {
+      "disposition": "keep",
+      "reason": "Refusals, warm-up blindness, pairing with the memoryless check, and 'an alerting heuristic is not a release gate' hold."
+    },
+    "techniques/fit-and-report-on-disjoint-labels.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: named Shankar et al. 'Who Validates the Validators?' (arXiv:2404.12272) and its term criteria drift behind the criteria-round rule; attributed the 75.6%-to-86.9% walkthrough to the ragas align-llm-as-judge guide with its 121/160 and 139/160 counts."
+    },
+    "techniques/judge-replacement-bridge.md": {
+      "disposition": "keep",
+      "reason": "Anchor, per-cell, tolerance-from-floor, row-count and sign rules each stop a named failure. Licensing is bounded to aggregate comparison and never a trusted verdict, and the two-anchor case is stated. The measured case is described fairly, design sound and adjective unearned. Its paper-table figures were not re-fetched."
+    },
+    "techniques/reference-ladder.md": {
+      "disposition": "keep",
+      "reason": "Floor and reference-against-reference ceiling, the refusal of self-scoring, out-of-range disqualification, rungs scored as often as candidates, and the placement against spread and golden-set techniques hold. Corroboration is cross-bundle convergence, stated without links."
+    },
+    "applications/node--repeatability-floor.md": {
+      "disposition": "keep",
+      "reason": "Its structural finding (0 of 142 pairs judged twice) and its statement that the floor is unmeasured stand. Not recomputed. Still carries no status key."
+    },
+    "applications/process--golden-set-agreement-measurement.md": {
+      "disposition": "keep",
+      "reason": "The dated survey and its kappa-paradox caveat stand and are the evidence for the technique clarify. refresh_by 2026-11-20 falls within three weeks of this review, and its adversarial half was not re-surveyed here."
+    },
+    "applications/process--judge-selection-by-spread.md": {
+      "disposition": "keep",
+      "reason": "Faithful instance of the decision rules with limits travelling with the decision. The cited benchmark document was not opened."
+    },
+    "applications/rust--windowed-score-drop-alerting.md": {
+      "disposition": "keep",
+      "reason": "Realizes the detector's refusals and evidence-carrying alert. Seams not reopened."
+    },
+    "applications/python--judge-replacement-bridge.md": {
+      "disposition": "keep",
+      "reason": "A narrow stub-run (structure, never magnitude) cleanly separates the accounting-and-identity half (better) from the unmeasured bridge half. The two-anchor discrepancy is quoted with table numbers. arXiv:2506.16381 and the UltraEval-Audio tree were not reopened."
+    },
+    "applications/rust--fit-and-report-on-disjoint-labels.md": {
+      "disposition": "keep",
+      "reason": "Honestly unmeasurable, with prediction, falsifier and return condition per case. Tree not reopened."
+    },
+    "applications/python--fit-and-report-on-disjoint-labels.md": {
+      "disposition": "keep",
+      "reason": "Its genetic.py claims were re-read and hold: argmax over fitness, no split, only offspring scored. The base.py zip and dspy negation claims were not re-read."
+    },
+    "applications/python--golden-set-agreement-measurement.md": {
+      "disposition": "keep",
+      "reason": "Single-voter majority vote is a precise instance of the amendment's second failure. Lines not re-read."
+    },
+    "applications/rust--golden-set-agreement-measurement.md": {
+      "disposition": "keep",
+      "reason": "Paired live run on a local model, falsifier-seeking design, and limits stated (one small model, exact stamps rest on the request). Not re-run."
+    }
+  }
+}
+```
