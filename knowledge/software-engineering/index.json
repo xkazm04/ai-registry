@@ -5,7 +5,7 @@
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 243,
   "techniques": 1957,
-  "applications": 1456,
+  "applications": 1457,
   "laws": 16,
   "categories": [
    "ui-surfaces",
@@ -32368,9 +32368,9 @@
    "subcategory": "data-pipeline-semantics",
    "status": "forged",
    "file": "knowledge/software-engineering/backend-platform/data-pipeline-semantics/reversible-transform-pipelines/reversible-transform-pipelines.md",
-   "digest": "sha256-b2:7389a1aaa9b7fce8",
-   "revision": 2,
-   "changedAt": "2026-10-22",
+   "digest": "sha256-b2:3cbfeee628029a5d",
+   "revision": 3,
+   "changedAt": "2026-10-31",
    "techniques": [
     {
      "slug": "decollate-before-invert",
@@ -32455,6 +32455,13 @@
     }
    ],
    "applications": [
+    {
+     "stack": "node",
+     "technique": "decollate-before-invert",
+     "file": "knowledge/software-engineering/backend-platform/data-pipeline-semantics/reversible-transform-pipelines/applications/node--decollate-before-invert.md",
+     "verified_on": "2026-10-31",
+     "verified_against": "node@24"
+    },
     {
      "stack": "python",
      "technique": "operation-journal-on-the-payload",
