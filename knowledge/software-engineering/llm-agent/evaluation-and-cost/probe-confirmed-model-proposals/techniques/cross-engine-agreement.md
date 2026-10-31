@@ -24,10 +24,14 @@ that way.
 Engines trained on overlapping corpora share priors. Faced with an
 unconventional target, they agree on the conventional guess — the test command
 a typical project in that ecosystem would use, the folder name such projects
-usually have — and they agree confidently. Published audits of agreement as a
-confidence signal find the same thing at scale: it predicts correctness weakly
-and conditionally, and the most consistent engines are the most over-confident
-when they are wrong. So agreement is never a vote that admits a line, never a
+usually have — and they agree confidently. Two published studies point the same way. A study of more than
+350 models finds their errors substantially correlated, and finds "larger and more
+accurate models have highly correlated errors" even across different architectures
+and providers ([Kim et al.](https://arxiv.org/abs/2506.07962)). One preprint audit
+of self-consistency calls it "a conditional proxy for correctness, not a standalone
+confidence score". In that audit the most consistent model was the most
+over-confident, and its cross-model check covered only one family
+([Ding](https://arxiv.org/abs/2607.08065)). So agreement is never a vote that admits a line, never a
 reason to skip a probe, and never a reason to save a line the probes refuted.
 The probes adjudicate; agreement describes the proposers who were adjudicated
 ([_laws: claimant-does-not-adjudicate_](../../../../_laws.md#claimant-does-not-adjudicate)).
@@ -37,7 +41,8 @@ The probes adjudicate; agreement describes the proposers who were adjudicated
 Two samples of one model measure that model's sampling noise. Two sizes of one
 model family share most of their priors and measure less than they appear to.
 The informative comparison is across **independent families**, at the same
-effort setting, over the same pack. A same-family comparison is still useful
+effort setting, over the same pack. Independence lowers the correlation but does
+not remove it, because models from different providers still share errors. A same-family comparison is still useful
 for one decision — whether the cheaper size is good enough to be the default —
 but report it as that, not as stability.
 

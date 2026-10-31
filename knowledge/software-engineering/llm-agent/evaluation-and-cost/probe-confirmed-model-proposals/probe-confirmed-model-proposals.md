@@ -128,7 +128,8 @@ and the third is not the second: a command that timed out, a host that was
 unreachable, a sandbox that refused the binary did not prove the claim false,
 and recording it as refuted teaches the next proposal to avoid a correct
 answer ([_laws: failure-not-empty-success_](../../../_laws.md#failure-not-empty-success)).
-The model never sees a probe it can influence. Full design:
+A probe the model suggested runs only if it validates, and a probe its line
+requires runs whether or not the model suggested it. Full design:
 [probe-per-proposed-line](./techniques/probe-per-proposed-line.md).
 
 ## What is saved is what the probe found

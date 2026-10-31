@@ -5,7 +5,7 @@ subject: probe-confirmed-model-proposals
 technique: isolated-proposer-call
 stack: node
 status: forged
-verified_on: 2026-10-27
+verified_on: 2026-10-31
 ---
 
 # Node — one tool-less call from a temp directory, over a capped pack
@@ -67,6 +67,9 @@ without recording them, and the last resort is a byte slice,
 which can hand the model unparseable JSON. A CI file that fails to read is
 dropped with `/* unreadable: left out */` (`src/server/discover/facts/facts.ts:31`) rather than recorded.
 The cap is a round figure with no derivation from the prompt budget beside it.
+A prepared probe that fails leaves no trace: `withPipelines` returns the facts
+unchanged (`src/server/discover/propose/propose.ts:76`), so the model cannot tell
+"no pipelines were listed" from "the listing was never obtained".
 
 Agreement is measured, but narrowly. `src/server/discover/ab/agree.ts:1-2`
 compares two proposals "line kind by line kind" as order-free sets, scored out

@@ -5,7 +5,7 @@ subject: probe-confirmed-model-proposals
 technique: found-not-hinted
 stack: node
 status: forged
-verified_on: 2026-10-27
+verified_on: 2026-10-31
 ---
 
 # Node — the save step that reads only sealed findings
