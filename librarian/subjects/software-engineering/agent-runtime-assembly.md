@@ -513,3 +513,393 @@ Unapplied in the fleet: no project rewrites an agent's commands under a host's
 rules. Return: when one ships a rewriting pre-tool hook. Untriaged: argument
 fidelity in a transparent proxy (parse only your own flags, ask the tool,
 fuzz against it).
+
+## Architecture review - 2026-10-31
+
+First architecture-review record for the subject. All 36 documents were read: the golden path, 17 techniques and 18 applications. The techniques hold up. Four unstable claims were checked against primary text and three held exactly: specificity routing, the admission-webhook failure default, and asyncio's scoped cancellation. The fourth, the MCP task purge, holds in substance, but "indistinguishable on the wire" overstates it. What drifted is the golden path, which still summarizes three techniques as they stood before their later amendments: it gives a stale technique count, states the service-tier prohibition with no exceptions, and resets the budget on every drained input. There were also two small structural errors: a decision-rule bullet stranded after a section in guard-input-custody, and a "fifth question" reference to a four-question test. Applications rest on pinned or private trees not reopened here and stay `reverify`. The first record below is against the bytes as read (HEAD); the clarify items were then applied, and the second record is against the edited bytes.
+
+A concurrent session edited `applications/rust--bounded-projection-of-external-work.md` (verified_on, verified_against, one line anchor) while this review ran. That edit is not this review's, and it is included in the second record's digest.
+
+<!-- architecture-review:v1 -->
+```json
+{
+  "subject": "software-engineering/agent-runtime-assembly",
+  "date": "2026-10-31",
+  "baseline": "a374d84e3",
+  "digest": "sha256-b2:45b3f952560a4cbc",
+  "disposition": "clarify",
+  "coverage": "All 36 documents read in full: the golden path, 17 techniques and 18 applications. Primary sources were opened for four unstable claims: the MCP task extension's TTL and purge rules, the language-router specificity rule, the admission-webhook failurePolicy default, and the asyncio timeout/cancelling semantics. Applications rest on private or pinned trees that were not reopened, so they are reverify. The exception is node--guard-input-custody, whose citations live in this checkout and were re-resolved. Trigger: review-coverage state pending, first architecture review. Benefit: the golden path and the techniques it summarizes agree, and the unstable wire and runtime claims are checked against the specification text. Failure if ignored: a reader stops at the golden path and applies a stale absolute (service tier never names code; budget resets on every drained input). Boundary: this review does not re-execute any application's arms and does not adjudicate the open Q1 custody-subject escalation.",
+  "counterexamples": [
+    "A specificity router admits a contributed /auth/{id} over a host's /auth/ prefix however late it is registered, so mount-last protects nothing there.",
+    "An MCP receiver may return a distinct 'Task has expired' message for a purged task, so not-found and never-existed are distinguishable on some servers. The rule (record expired-unread, poll inside retention) holds either way.",
+    "A runtime with scoped cancellation (asyncio.timeout converting its own CancelledError to TimeoutError) already separates origins, and a wrapper that re-raises the translated timeout as a cancellation reintroduces the defect.",
+    "A peer agent's message on the drain is input but not a person's, so resetting the call budget per drained item lets an automated producer buy unlimited calls."
+  ],
+  "sources": [
+    {
+      "url": "https://modelcontextprotocol.io/specification/2025-11-25/basic/utilities/tasks",
+      "result": "Tasks 'currently considered experimental'. 'Receivers MAY override the requested ttl duration.' 'After a task's ttl lifetime has elapsed, receivers MAY delete the task and its results, regardless of the task status.' 'It is compliant behavior for a receiver to return an error stating the task cannot be found if it has purged an expired task.' The example 'Task has expired' error shares code -32602. Supports the technique's retention rule; refutes 'indistinguishable'."
+    },
+    {
+      "url": "https://go.dev/blog/routing-enhancements",
+      "result": "'the most specific pattern wins'; the longer pattern is chosen 'regardless of registration order'; conflicting patterns: 'Registering both of them (in either order!) will panic.' Confirms host-routes-win's specificity-router section."
+    },
+    {
+      "url": "https://kubernetes.io/docs/reference/access-authn-authz/extensible-admission-controllers/",
+      "result": "'Allowed values are Ignore or Fail' and 'The default failurePolicy for an admission webhooks is Fail.' Confirms operator-tier's load-time default analogy."
+    },
+    {
+      "url": "https://docs.python.org/3/library/asyncio-task.html",
+      "result": "asyncio.timeout 'is what transforms the asyncio.CancelledError into a TimeoutError'; Task.cancelling() returns 'the number of pending cancellation requests'. Confirms operator-tier's scoped-cancellation qualification."
+    },
+    {
+      "url": "https://code.visualstudio.com/blogs/2026/06/17/improving-token-efficiency-in-github-copilot",
+      "result": "Searched for the 2.3% grouped-delivery figure. This post does not contain it (nearest figures 2.17% and 2.45%). The originating account was not re-located; the technique's figure keeps its one-datum hedge."
+    },
+    {
+      "source": "This checkout: scripts/check-bundles.mjs and .github/workflows/knowledge.yml",
+      "result": "REQUIRED_PURITY present; eight jobs pin node-version '20'. node--guard-input-custody citations resolve."
+    }
+  ],
+  "documents": {
+    "agent-runtime-assembly.md": {
+      "disposition": "clarify",
+      "reason": "Intro count stale: says six plus four techniques while the frontmatter and list carry seventeen. The 'Code enters by the operator's hand' paragraph states the service-tier prohibition as absolute and omits two qualifications its own technique now carries (the isolated third row, and the widening from code-naming keys to keys a permission carve-out trusts). The additive-input list entry still says 'the budget reset per accepted input', which the 2026-09-04 qualification narrowed to input from a person."
+    },
+    "techniques/semantic-hook-placement.md": {
+      "disposition": "keep",
+      "reason": "Placement classes, one composer, compose-time relations and the originator rule hang together; the re-entrancy section is grounded in admission-control self-exclusion and is honestly a section, not a technique."
+    },
+    "techniques/assembly-identity.md": {
+      "disposition": "keep",
+      "reason": "Scope, declare-don't-probe, sort-vs-preserve, unwrap and the containment boundary with the prompt fingerprint are internally consistent and match the golden path."
+    },
+    "techniques/operator-tier-code-loading.md": {
+      "disposition": "clarify",
+      "reason": "The authority-widening section says the key is made settable 'from the repository-writable tier', a tier the technique's own table does not name; the rest of the section speaks of 'the untrusted tier'. Load-time default re-checked: the admission-control reference says 'The default failurePolicy for an admission webhooks is Fail'. The asyncio premise re-checked: asyncio.timeout 'is what transforms the asyncio.CancelledError into a TimeoutError', and Task.cancelling() returns 'the number of pending cancellation requests'. Both claims hold."
+    },
+    "techniques/activation-is-a-separate-mutation.md": {
+      "disposition": "keep",
+      "reason": "Reach classes and the body/activation/payload split are sound; the measured fleet census is first-party and dated. It lacks a decision-rules list, but 'What this does not license' carries the boundary. No subject-note entry records its landing; noted for the librarian, not a content defect."
+    },
+    "techniques/host-routes-win.md": {
+      "disposition": "keep",
+      "reason": "The specificity-router correction holds against the language's routing announcement: 'the most specific pattern wins', the longer pattern is chosen 'regardless of registration order', and conflicting patterns registered 'in either order!' panic."
+    },
+    "techniques/bounded-projection-of-external-work.md": {
+      "disposition": "clarify",
+      "reason": "The retention paragraph says a late poll 'answers not found, indistinguishable on the wire from a handle that never existed'. The task extension says 'Receivers MAY override the requested ttl' and 'MAY delete the task and its results, regardless of the task status', and that returning not-found for a purged task is compliant; its own example also shows a distinct 'Task has expired' message under the same -32602 code. So 'may' and 'need not tell apart' are correct; 'indistinguishable' is too strong. The 2.3% figure is attributed to one first-party account and hedged as one datum; that account was not re-located this run, so the figure keeps its existing hedge."
+    },
+    "techniques/checkpoint-mode-custody.md": {
+      "disposition": "keep",
+      "reason": "Asymmetric gate, read-vs-write placement, self-contained-only degradation and linearized resume are consistent; the quadratic claim is correctly scoped to message references. Q1 (custody as its own subject) stays open per the 2026-10-06 escalation."
+    },
+    "techniques/observer-and-mutator-surfaces.md": {
+      "disposition": "keep",
+      "reason": "Two surfaces with opposite return contracts and refusal as a typed result. Boundaries with placement, loading and rewrite are stated on this side."
+    },
+    "techniques/rewrite-before-the-gate.md": {
+      "disposition": "keep",
+      "reason": "Position, provenance, single-use continuation and the three frame states are consistent with the python application's re-pinned evidence (2026-09-23)."
+    },
+    "techniques/honest-hook-registry.md": {
+      "disposition": "keep",
+      "reason": "Classify-then-bound predicate and no-name-ahead-of-emitter are internally consistent; the cross-reference to the turn-boundary interceptor standard is by class."
+    },
+    "techniques/session-scoped-capability.md": {
+      "disposition": "keep",
+      "reason": "Session source over process slot, one resolver, one policy at two enforcement points; the discriminating test is stated."
+    },
+    "techniques/guard-input-custody.md": {
+      "disposition": "clarify",
+      "reason": "Structural defect: the last decision-rules bullet ('When two files could each carry the policy...') was stranded after the 'When placement is impossible' section, so it read as part of that section."
+    },
+    "techniques/additive-input-at-the-call-boundary.md": {
+      "disposition": "keep",
+      "reason": "The principal-class qualification of the budget reset is present here; the stale wording was in the golden path's list entry."
+    },
+    "techniques/indeterminate-closure-on-interruption.md": {
+      "disposition": "keep",
+      "reason": "Third status, closure before the terminal event, classify-don't-declare, cap before freshness, and the narrowed re-issue exemption are consistent; the usage-ledgers cross-reference is corpus-internal."
+    },
+    "techniques/substituted-result-attribution.md": {
+      "disposition": "keep",
+      "reason": "Replay vs substitution and the three false assertions are coherent; the by-construction decision rule is stronger than the 09-04 prose and is now in it."
+    },
+    "techniques/nested-run-is-not-its-parent.md": {
+      "disposition": "keep",
+      "reason": "Re-root at the door, unknown-not-parent at receivers, measure before scrubbing; the frontmatter's applied/ab_verdict on a technique records the 09-16 personas measurement."
+    },
+    "techniques/rewriting-under-a-foreign-gate.md": {
+      "disposition": "keep",
+      "reason": "The discriminator (who owns the gate's rules and what they were written against) is sharp; read-not-run evidence from one source is stated as such in its application."
+    },
+    "applications/neovim--indeterminate-closure-on-interruption.md": {
+      "disposition": "reverify",
+      "reason": "Line-anchored claims at a pinned commit; the tree was not reopened this run. Content is consistent with the technique."
+    },
+    "applications/next--additive-input-at-the-call-boundary.md": {
+      "disposition": "reverify",
+      "reason": "Re-read 2026-09-04 at a pinned commit; not reopened. The verdict is unmeasurable, and the document names the instrument that would measure it."
+    },
+    "applications/next--bounded-projection-of-external-work.md": {
+      "disposition": "reverify",
+      "reason": "Paired experiment in a private tree; not re-executed."
+    },
+    "applications/node--additive-input-at-the-call-boundary.md": {
+      "disposition": "reverify",
+      "reason": "Design-document reading at a pinned commit; not reopened."
+    },
+    "applications/node--guard-input-custody.md": {
+      "disposition": "keep",
+      "reason": "Citations in this checkout still resolve: REQUIRED_PURITY is in the bundle checker and knowledge.yml pins node-version '20'. The CI now has eight such jobs and the registry has more than eight bundles; both figures in the document are dated observations ('seven jobs on 2026-09-04', 'all eight published bundles'), not current claims. verified_on was left alone: the paired arms were not re-run."
+    },
+    "applications/node--indeterminate-closure-on-interruption.md": {
+      "disposition": "reverify",
+      "reason": "Fresh-clone re-read 2026-09-04; not reopened."
+    },
+    "applications/node--operator-tier-code-loading.md": {
+      "disposition": "reverify",
+      "reason": "Runtime witness withdrawn on 2026-09-04 (the tree pins bun); the stack-vocabulary gap is still open. Not reopened."
+    },
+    "applications/python--checkpoint-mode-custody.md": {
+      "disposition": "reverify",
+      "reason": "Re-pinned at 53df22bd on 2026-10-06; not reopened. The retention-contract section is honestly marked draft with no production trigger."
+    },
+    "applications/python--guard-input-custody.md": {
+      "disposition": "clarify",
+      "reason": "Refers to 'the technique's fifth enumeration question', but the technique's custody test has four questions."
+    },
+    "applications/python--operator-tier-code-loading.md": {
+      "disposition": "reverify",
+      "reason": "The 2026-10-06 withdrawal and the middlewares deviation are internally consistent; the tree was not reopened."
+    },
+    "applications/python--rewrite-before-the-gate.md": {
+      "disposition": "reverify",
+      "reason": "refresh_by 2026-11-05 is near; the claims are line-anchored in a fast-moving tree that was not reopened this run."
+    },
+    "applications/python--semantic-hook-placement.md": {
+      "disposition": "reverify",
+      "reason": "Re-pinned 2026-10-06; not reopened."
+    },
+    "applications/rust--bounded-projection-of-external-work.md": {
+      "disposition": "reverify",
+      "reason": "Private tree, not reopened by this review. A concurrent session changed this file's verified_on, verified_against and one line anchor while this review ran. That edit is not this worker's; the Director should attribute it before merging."
+    },
+    "applications/rust--guard-input-custody.md": {
+      "disposition": "reverify",
+      "reason": "Paired arms in a private tree; not re-executed."
+    },
+    "applications/rust--indeterminate-closure-on-interruption.md": {
+      "disposition": "reverify",
+      "reason": "Structural comparison against a private tree; not reopened."
+    },
+    "applications/rust--operator-tier-code-loading.md": {
+      "disposition": "reverify",
+      "reason": "Two structural reads (a source tree and a private one); neither reopened."
+    },
+    "applications/rust--rewriting-under-a-foreign-gate--rtk.md": {
+      "disposition": "reverify",
+      "reason": "Read-not-run at a pinned commit; not reopened."
+    },
+    "applications/rust--semantic-hook-placement.md": {
+      "disposition": "reverify",
+      "reason": "Simulation against a private tree; not reopened."
+    }
+  }
+}
+```
+
+## Architecture review - 2026-10-31 (clarify applied)
+
+The clarify items from the record above were applied in each document's own voice. The golden path's intro count now reads seventeen. One sentence now names the operator-tier qualifications (the isolated third row, and the widening to authority-acquiring keys). The additive-input entry now says the budget resets on input from a person. In operator-tier-code-loading, the tier name was aligned with the technique's own table. In bounded-projection-of-external-work, "indistinguishable" became "may answer not found ... need not tell the two apart", per the task extension. In guard-input-custody, the stranded bullet was restored to Decision rules. In python--guard-input-custody, "fifth enumeration question" became "custody test". No verification date was moved.
+
+<!-- architecture-review:v1 -->
+```json
+{
+  "subject": "software-engineering/agent-runtime-assembly",
+  "date": "2026-10-31",
+  "baseline": "a374d84e3",
+  "digest": "sha256-b2:aa00b28c91c3e569",
+  "disposition": "reverify",
+  "coverage": "Second record, against the bytes after the 2026-10-31 apply. The clarify items of five documents were applied: the golden path (three edits), operator-tier-code-loading, bounded-projection-of-external-work, guard-input-custody and python--guard-input-custody. Each edited passage was re-read. All other documents are byte-identical to the first record's reading, except rust--bounded-projection-of-external-work, which a concurrent session edited (frontmatter and one anchor) and which keeps reverify. No verification date was moved by this worker. Overall disposition is reverify because the application evidence stays unreopened.",
+  "counterexamples": [
+    "A specificity router admits a contributed /auth/{id} over a host's /auth/ prefix however late it is registered, so mount-last protects nothing there.",
+    "An MCP receiver may return a distinct 'Task has expired' message for a purged task, so not-found and never-existed are distinguishable on some servers. The rule (record expired-unread, poll inside retention) holds either way.",
+    "A runtime with scoped cancellation (asyncio.timeout converting its own CancelledError to TimeoutError) already separates origins, and a wrapper that re-raises the translated timeout as a cancellation reintroduces the defect.",
+    "A peer agent's message on the drain is input but not a person's, so resetting the call budget per drained item lets an automated producer buy unlimited calls."
+  ],
+  "sources": [
+    {
+      "url": "https://modelcontextprotocol.io/specification/2025-11-25/basic/utilities/tasks",
+      "result": "Tasks 'currently considered experimental'. 'Receivers MAY override the requested ttl duration.' 'After a task's ttl lifetime has elapsed, receivers MAY delete the task and its results, regardless of the task status.' 'It is compliant behavior for a receiver to return an error stating the task cannot be found if it has purged an expired task.' The example 'Task has expired' error shares code -32602. Supports the technique's retention rule; refutes 'indistinguishable'."
+    },
+    {
+      "url": "https://go.dev/blog/routing-enhancements",
+      "result": "'the most specific pattern wins'; the longer pattern is chosen 'regardless of registration order'; conflicting patterns: 'Registering both of them (in either order!) will panic.' Confirms host-routes-win's specificity-router section."
+    },
+    {
+      "url": "https://kubernetes.io/docs/reference/access-authn-authz/extensible-admission-controllers/",
+      "result": "'Allowed values are Ignore or Fail' and 'The default failurePolicy for an admission webhooks is Fail.' Confirms operator-tier's load-time default analogy."
+    },
+    {
+      "url": "https://docs.python.org/3/library/asyncio-task.html",
+      "result": "asyncio.timeout 'is what transforms the asyncio.CancelledError into a TimeoutError'; Task.cancelling() returns 'the number of pending cancellation requests'. Confirms operator-tier's scoped-cancellation qualification."
+    },
+    {
+      "url": "https://code.visualstudio.com/blogs/2026/06/17/improving-token-efficiency-in-github-copilot",
+      "result": "Searched for the 2.3% grouped-delivery figure. This post does not contain it (nearest figures 2.17% and 2.45%). The originating account was not re-located; the technique's figure keeps its one-datum hedge."
+    },
+    {
+      "source": "This checkout: scripts/check-bundles.mjs and .github/workflows/knowledge.yml",
+      "result": "REQUIRED_PURITY present; eight jobs pin node-version '20'. node--guard-input-custody citations resolve."
+    }
+  ],
+  "documents": {
+    "agent-runtime-assembly.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: intro count corrected to seventeen; one sentence naming the two operator-tier qualifications; additive-input entry now 'per accepted input from a person, never per drained item'."
+    },
+    "techniques/semantic-hook-placement.md": {
+      "disposition": "keep",
+      "reason": "Placement classes, one composer, compose-time relations and the originator rule hang together; the re-entrancy section is grounded in admission-control self-exclusion and is honestly a section, not a technique."
+    },
+    "techniques/assembly-identity.md": {
+      "disposition": "keep",
+      "reason": "Scope, declare-don't-probe, sort-vs-preserve, unwrap and the containment boundary with the prompt fingerprint are internally consistent and match the golden path."
+    },
+    "techniques/operator-tier-code-loading.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: the key is now made settable 'from a tier the untrusted party can write - the service-writable tier, or a repository-writable one'."
+    },
+    "techniques/activation-is-a-separate-mutation.md": {
+      "disposition": "keep",
+      "reason": "Reach classes and the body/activation/payload split are sound; the measured fleet census is first-party and dated. It lacks a decision-rules list, but 'What this does not license' carries the boundary. No subject-note entry records its landing; noted for the librarian, not a content defect."
+    },
+    "techniques/host-routes-win.md": {
+      "disposition": "keep",
+      "reason": "The specificity-router correction holds against the language's routing announcement: 'the most specific pattern wins', the longer pattern is chosen 'regardless of registration order', and conflicting patterns registered 'in either order!' panic."
+    },
+    "techniques/bounded-projection-of-external-work.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: 'may answer not found, with the same invalid-parameters error a handle that never existed gets, so the wire need not tell the two apart'."
+    },
+    "techniques/checkpoint-mode-custody.md": {
+      "disposition": "keep",
+      "reason": "Asymmetric gate, read-vs-write placement, self-contained-only degradation and linearized resume are consistent; the quadratic claim is correctly scoped to message references. Q1 (custody as its own subject) stays open per the 2026-10-06 escalation."
+    },
+    "techniques/observer-and-mutator-surfaces.md": {
+      "disposition": "keep",
+      "reason": "Two surfaces with opposite return contracts and refusal as a typed result. Boundaries with placement, loading and rewrite are stated on this side."
+    },
+    "techniques/rewrite-before-the-gate.md": {
+      "disposition": "keep",
+      "reason": "Position, provenance, single-use continuation and the three frame states are consistent with the python application's re-pinned evidence (2026-09-23)."
+    },
+    "techniques/honest-hook-registry.md": {
+      "disposition": "keep",
+      "reason": "Classify-then-bound predicate and no-name-ahead-of-emitter are internally consistent; the cross-reference to the turn-boundary interceptor standard is by class."
+    },
+    "techniques/session-scoped-capability.md": {
+      "disposition": "keep",
+      "reason": "Session source over process slot, one resolver, one policy at two enforcement points; the discriminating test is stated."
+    },
+    "techniques/guard-input-custody.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: the bullet moved back into the Decision rules list; no wording changed."
+    },
+    "techniques/additive-input-at-the-call-boundary.md": {
+      "disposition": "keep",
+      "reason": "The principal-class qualification of the budget reset is present here; the stale wording was in the golden path's list entry."
+    },
+    "techniques/indeterminate-closure-on-interruption.md": {
+      "disposition": "keep",
+      "reason": "Third status, closure before the terminal event, classify-don't-declare, cap before freshness, and the narrowed re-issue exemption are consistent; the usage-ledgers cross-reference is corpus-internal."
+    },
+    "techniques/substituted-result-attribution.md": {
+      "disposition": "keep",
+      "reason": "Replay vs substitution and the three false assertions are coherent; the by-construction decision rule is stronger than the 09-04 prose and is now in it."
+    },
+    "techniques/nested-run-is-not-its-parent.md": {
+      "disposition": "keep",
+      "reason": "Re-root at the door, unknown-not-parent at receivers, measure before scrubbing; the frontmatter's applied/ab_verdict on a technique records the 09-16 personas measurement."
+    },
+    "techniques/rewriting-under-a-foreign-gate.md": {
+      "disposition": "keep",
+      "reason": "The discriminator (who owns the gate's rules and what they were written against) is sharp; read-not-run evidence from one source is stated as such in its application."
+    },
+    "applications/neovim--indeterminate-closure-on-interruption.md": {
+      "disposition": "reverify",
+      "reason": "Line-anchored claims at a pinned commit; the tree was not reopened this run. Content is consistent with the technique."
+    },
+    "applications/next--additive-input-at-the-call-boundary.md": {
+      "disposition": "reverify",
+      "reason": "Re-read 2026-09-04 at a pinned commit; not reopened. The verdict is unmeasurable, and the document names the instrument that would measure it."
+    },
+    "applications/next--bounded-projection-of-external-work.md": {
+      "disposition": "reverify",
+      "reason": "Paired experiment in a private tree; not re-executed."
+    },
+    "applications/node--additive-input-at-the-call-boundary.md": {
+      "disposition": "reverify",
+      "reason": "Design-document reading at a pinned commit; not reopened."
+    },
+    "applications/node--guard-input-custody.md": {
+      "disposition": "keep",
+      "reason": "Citations in this checkout still resolve: REQUIRED_PURITY is in the bundle checker and knowledge.yml pins node-version '20'. The CI now has eight such jobs and the registry has more than eight bundles; both figures in the document are dated observations ('seven jobs on 2026-09-04', 'all eight published bundles'), not current claims. verified_on was left alone: the paired arms were not re-run."
+    },
+    "applications/node--indeterminate-closure-on-interruption.md": {
+      "disposition": "reverify",
+      "reason": "Fresh-clone re-read 2026-09-04; not reopened."
+    },
+    "applications/node--operator-tier-code-loading.md": {
+      "disposition": "reverify",
+      "reason": "Runtime witness withdrawn on 2026-09-04 (the tree pins bun); the stack-vocabulary gap is still open. Not reopened."
+    },
+    "applications/python--checkpoint-mode-custody.md": {
+      "disposition": "reverify",
+      "reason": "Re-pinned at 53df22bd on 2026-10-06; not reopened. The retention-contract section is honestly marked draft with no production trigger."
+    },
+    "applications/python--guard-input-custody.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: now 'the class of input the technique's custody test is about'. verified_on unchanged; the tree was not reopened."
+    },
+    "applications/python--operator-tier-code-loading.md": {
+      "disposition": "reverify",
+      "reason": "The 2026-10-06 withdrawal and the middlewares deviation are internally consistent; the tree was not reopened."
+    },
+    "applications/python--rewrite-before-the-gate.md": {
+      "disposition": "reverify",
+      "reason": "refresh_by 2026-11-05 is near; the claims are line-anchored in a fast-moving tree that was not reopened this run."
+    },
+    "applications/python--semantic-hook-placement.md": {
+      "disposition": "reverify",
+      "reason": "Re-pinned 2026-10-06; not reopened."
+    },
+    "applications/rust--bounded-projection-of-external-work.md": {
+      "disposition": "reverify",
+      "reason": "Private tree, not reopened by this review. A concurrent session changed this file's verified_on, verified_against and one line anchor while this review ran. That edit is not this worker's; the Director should attribute it before merging."
+    },
+    "applications/rust--guard-input-custody.md": {
+      "disposition": "reverify",
+      "reason": "Paired arms in a private tree; not re-executed."
+    },
+    "applications/rust--indeterminate-closure-on-interruption.md": {
+      "disposition": "reverify",
+      "reason": "Structural comparison against a private tree; not reopened."
+    },
+    "applications/rust--operator-tier-code-loading.md": {
+      "disposition": "reverify",
+      "reason": "Two structural reads (a source tree and a private one); neither reopened."
+    },
+    "applications/rust--rewriting-under-a-foreign-gate--rtk.md": {
+      "disposition": "reverify",
+      "reason": "Read-not-run at a pinned commit; not reopened."
+    },
+    "applications/rust--semantic-hook-placement.md": {
+      "disposition": "reverify",
+      "reason": "Simulation against a private tree; not reopened."
+    }
+  }
+}
+```

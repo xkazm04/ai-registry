@@ -234,6 +234,10 @@ provider-routing concern and is owned there, not here.
   enforcement claim that fails silently, because the label is what tells the
   next reader not to build on it. The stronger one is **to make the escape
   observable instead of impossible** — see below.
+- When two files could each carry the policy, that is two doors
+  ([one-validation-door](../../../../_laws.md#one-validation-door)); the door
+  with the narrower writer set is the one to keep, and the other is deleted
+  rather than deprecated.
 
 ## When placement is impossible, detect the escape differentially
 
@@ -263,7 +267,3 @@ the probe does not vary will pass it. Prefer placement. Where placement is not
 available, a differential probe converts "we assume nothing reads the real one"
 into a claim with a test behind it, which is the difference between a
 convention and a guard.
-- When two files could each carry the policy, that is two doors
-  ([one-validation-door](../../../../_laws.md#one-validation-door)); the door
-  with the narrower writer set is the one to keep, and the other is deleted
-  rather than deprecated.

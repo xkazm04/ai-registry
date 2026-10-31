@@ -143,8 +143,8 @@ So does the remote's own retention. A task-capable server keeps a finished
 result for a lifetime it chooses — the tool protocol's task extension lets
 the server override the requested lifetime and delete a task and its result
 once it elapses, whatever the task's status — and a poll that arrives after
-that answers *not found*, indistinguishable on the wire from a handle that
-never existed. That is a result which existed and was destroyed before it
+that may answer *not found*, with the same invalid-parameters error a handle
+that never existed gets, so the wire need not tell the two apart. That is a result which existed and was destroyed before it
 was read: not a failure of the work, not an empty result, and not a late
 write. The row records it as its own state — *expired unread* — and the
 lease the background runtime holds is sized from the remote's stated

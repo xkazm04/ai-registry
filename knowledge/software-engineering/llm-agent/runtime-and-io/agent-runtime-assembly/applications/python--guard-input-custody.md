@@ -33,7 +33,7 @@ Every instant the harness uses comes from an injected clock, because the score
 is defined as a pure derivation of simulated time — a backend that consults the
 real clock silently changes what the agent is measured as knowing. That
 injected clock is the run's confinement, and it is exactly the class of input
-the technique's fifth enumeration question is about.
+the technique's custody test is about.
 
 It cannot be placed out of reach. The backends are loaded into the harness's
 own process, and a process can always call the platform's clock; there is no

@@ -49,7 +49,8 @@ given. And the loop holds only what survives a compaction and a restart;
 everything else is a projection of a store that outlives the run. The
 techniques are these three sentences made operational - the first six from the
 runtime that raised the subject, four more from a peer runtime's extension host
-and capability surface, reconciled against them.
+and capability surface, reconciled against them, and seven since from later
+sources, seventeen in all.
 
 ## Where this subject starts and stops
 
@@ -171,7 +172,11 @@ repository and step: they are **the startup configuration only an operator
 can write** and **the configuration an authenticated caller can write through
 the service itself**, and the second must never be able to name code. An
 administrator with service access may configure behaviour; only the operator
-who controls the process's startup may load code into it.
+who controls the process's startup may load code into it. Two qualifications
+sit in the technique: the prohibition lifts only for a host that runs
+contributed code inside a real isolation primitive under four joint
+conditions, and it reaches past code to any key whose value a standing
+permission carve-out trusts.
 
 Two consequences follow. A load failure's severity is derived from the
 contribution's declared kind: an observational extension that breaks is
@@ -367,7 +372,8 @@ special-case it.
   — mid-unit input injected additively at the model-call boundary rather than
   by cancel-and-restart; the three properties supersede destroys; a
   caller-supplied drain the loop cannot see past; the record written before
-  the request that must reference it; the budget reset per accepted input;
+  the request that must reference it; the budget reset per accepted input
+  from a person, never per drained item;
   delivery as earliest-safe-point, stated.
 - [indeterminate-closure-on-interruption](./techniques/indeterminate-closure-on-interruption.md)
   — outstanding work closed as unknown rather than failed; the status

@@ -4,8 +4,8 @@ type: application
 subject: agent-runtime-assembly
 technique: bounded-projection-of-external-work
 stack: rust
-verified_on: 2026-09-02
-verified_against: rust@1.97
+verified_on: 2026-10-31
+verified_against: rust@1.96
 applied: code
 ab_verdict: better
 proof: ab-paired
@@ -51,7 +51,7 @@ fails every inbound job left running by a dead process.
 
 The technique requires that a remote payload re-entering the loop be framed
 as untrusted, with the trusted instruction outside the input boundary. The
-originator's listener (`append_outbound_episode`, `remote_jobs.rs:317`)
+originator's listener (`append_outbound_episode`, `remote_jobs.rs:417`)
 wrote the runner's model-authored summary and its last five notes verbatim
 into a **System-role** episode — the role the recall window trusts most —
 under a `[device: <name>]` prefix that is the originator's own voice. A

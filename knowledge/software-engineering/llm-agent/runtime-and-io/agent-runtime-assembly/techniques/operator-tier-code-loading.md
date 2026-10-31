@@ -369,8 +369,9 @@ carve-out*. Runtimes grant these routinely and for good reasons: a directory
 the agent may write to without asking, a path exempt from the approval
 prompt, a location whose contents are trusted on read. The carve-out is
 written against the key's value rather than against a fixed path, because
-the value is configurable. Then the same key is made settable from the
-repository-writable tier, and the two features compose into an arbitrary
+the value is configurable. Then the same key is made settable from a
+tier the untrusted party can write - the service-writable tier, or a
+repository-writable one - and the two features compose into an arbitrary
 write: point the key at a credential directory, a shell profile, an autostart
 location, and the carve-out that was scoped to a scratch directory now
 authorizes writes wherever the untrusted tier says.
