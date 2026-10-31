@@ -5,7 +5,7 @@ subject: bulk-adverse-action-governance
 technique: preview-then-approve-the-signed-set
 stack: react
 status: forged
-verified_on: 2026-09-26
+verified_on: 2026-10-31
 verified_against: react@19
 ---
 
@@ -16,8 +16,8 @@ write boundary) is recorded in the node application beside this one. This file i
 other half: the client that a recruiter reviews through. A token can only bind what the
 reviewer was shown, and this client's job is to make sure the preview on screen, the
 token it carries and the exclusions it echoes all belong to the same set. Read against
-a TypeScript applicant-tracking app on React 19 (`react` `^19.3.0`), pinned to one
-commit on 2026-09-26.
+a TypeScript applicant-tracking app on React 19 (`react` `^19.3.1`), pinned to one
+commit on 2026-10-31.
 
 ## The lifecycle is a reducer, not a hook
 

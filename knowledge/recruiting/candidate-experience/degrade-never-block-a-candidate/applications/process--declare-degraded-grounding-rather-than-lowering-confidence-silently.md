@@ -5,7 +5,7 @@ subject: degrade-never-block-a-candidate
 technique: declare-degraded-grounding-rather-than-lowering-confidence-silently
 stack: process
 status: forged
-verified_on: 2026-09-29
+verified_on: 2026-10-31
 applied: simulation
 ab_verdict: better
 ---
@@ -21,18 +21,19 @@ number fall, or does a flag say so?
 
 - **Salary and location.** When the candidate set no expectation or the posting states
   no pay, the eligibility check returns `EligibilityFlag(key="salary", state="unknown",
-  detail="no expectation set")` (`matching.py:493`; further salary cases `:506`, `:514`,
-  the posting case `:521`; location `:553`, `:562`). "Unknown" is a third state, not a
+  detail="no expectation set")` (`matching.py:501`; further salary cases `:514`, `:522`,
+  the posting case `:529`; location `:561`, `:570`). "Unknown" is a third state, not a
   failed check.
 - **A candidate whose intake did not normalise.** The automated scoring pass skips
   them instead of scoring a stub low: `entries.filter((e) => e.matchScore == null &&
-  !e.intakeDegraded && …)` (`app/_lib/automation-pass.ts:296-298`). The board shows a
-  degraded-intake banner with a "mark captured" action; the candidate stays unscored,
-  not low-ranked.
+  !e.intakeDegraded && …)`, now the predicate `isScorableEntry`
+  (`app/_lib/entry-scoring-policy.ts:18-20`), which `app/_lib/automation-pass.ts:309`
+  filters on. The board shows a degraded-intake banner with a "mark captured" action;
+  the candidate stays unscored, not low-ranked.
 - **The job's own silence.** An ad that names no language requirement does not count
   as full credit, and it does not count as zero either: `_NEUTRAL_LANGUAGE_COVERAGE =
   0.5` is imputed so "an absent language signal neither gifts nor penalizes"
-  (`matching.py:776-781`, `:863`).
+  (`matching.py:924-929`, `:1037`).
 
 ## Where a missing input becomes a lower number
 
@@ -43,9 +44,9 @@ lang_cov = _language_coverage(candidate, job) if job.languages else _NEUTRAL_LAN
 return round(0.5 * lang_cov + 0.5 * overlap, 4)
 ```
 
-`_language_coverage` (`matching.py:867-871`) returns `covered / len(job.languages)`. The
+`_language_coverage` (`matching.py:1062-1066`) returns `covered / len(job.languages)`. The
 candidate's list comes straight from extraction, `languages=_string_list(payload.get(
-"languages"))` (`pipeline/jobfit/pipeline.py:688`). When the reader extracted no
+"languages"))` (`pipeline/jobfit/pipeline.py:760`). When the reader extracted no
 languages and the ad names one, coverage is 0.0 and `personal` loses up to half its
 value. The formula cannot tell "the CV states no language" from "we did not read one",
 and nearly every CV holds at least one. This is the observed-only partial sum the
@@ -61,9 +62,9 @@ read").
 
 | Real case | A | B | What the code does |
 | --- | --- | --- | --- |
-| Salary/location unknown (`matching.py:493`) | approves | approves | flags, no score change |
-| Degraded intake (`automation-pass.ts:297`) | approves | approves | leaves unscored |
-| Empty extracted languages vs a stated requirement (`matching.py:863-871`) | approves: the evidence that arrived held no language | flags: an empty extraction is missing, and the job side's own neutral imputation shows the asymmetry | scores 0.0 coverage |
+| Salary/location unknown (`matching.py:501`) | approves | approves | flags, no score change |
+| Degraded intake (`entry-scoring-policy.ts:19`) | approves | approves | leaves unscored |
+| Empty extracted languages vs a stated requirement (`matching.py:1037`, `:1062-1066`) | approves: the evidence that arrived held no language | flags: an empty extraction is missing, and the job side's own neutral imputation shows the asymmetry | scores 0.0 coverage |
 
 B's verdict matches the code's actual behaviour and consequence in 3 of 3 cases; A's
 misses the one case that lowers a number. Better, by simulation. The KP defect is not

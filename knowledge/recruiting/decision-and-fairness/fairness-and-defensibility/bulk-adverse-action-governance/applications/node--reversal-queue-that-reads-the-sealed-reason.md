@@ -5,21 +5,21 @@ subject: bulk-adverse-action-governance
 technique: reversal-queue-that-reads-the-sealed-reason
 stack: node
 status: forged
-verified_on: 2026-09-26
+verified_on: 2026-10-31
 verified_against: node@24
 ---
 
 # A reconsider queue over auto-rejections
 
-`app/_lib/db/pipeline.ts:1245-1251` opens the section: "The screening wave auto-rejects
+`app/_lib/db/pipeline.ts:1303-1307` opens the section: "The screening wave auto-rejects
 the bottom cohort and the rejection is terminal — no undo path, and the candidate already
 got a (queued) rejection email." Two SQLite-backed functions, one shared SQL predicate,
 one route guard and one collapsed panel are the whole mechanism. Every citation below is
-pinned to a single commit of the app, read on 2026-09-26.
+pinned to a single commit of the app, read on 2026-10-31.
 
 ## Membership is decided by the newest decision, not the status
 
-The rule lives once, as a correlated SQL predicate (`pipeline.ts:1321-1323`):
+The rule lives once, as a correlated SQL predicate (`pipeline.ts:1377-1379`):
 
 ```sql
 (SELECT kind FROM pipeline_events
@@ -28,40 +28,40 @@ The rule lives once, as a correlated SQL predicate (`pipeline.ts:1321-1323`):
 ```
 
 An entry is reversible only while its **newest** decision event is the machine's
-`auto_rejected`. `listReconsiderQueue` (`pipeline.ts:1335-1365`) filters
+`auto_rejected`. `listReconsiderQueue` (`pipeline.ts:1391-1421`) filters
 `e.status = 'rejected'` by that predicate, takes `rejected_at` as a correlated
 `MAX(created_at)` over the entry's `auto_rejected` events, and orders by it, newest
 first. Its doc comment states the rule: "A human reject — including one after a
-reinstate — is a deliberate decision, not a queue item" (`:1332-1334`). So an entry
+reinstate — is a deliberate decision, not a queue item" (`:1388-1390`). So an entry
 auto-rejected, reinstated, then rejected by a recruiter is not listed; one auto-rejected
 again after a reinstate is.
 
-The same predicate backs `newestDecisionIsAutoRejection` (`:1326-1330`), which the
+The same predicate backs `newestDecisionIsAutoRejection` (`:1382-1386`), which the
 reinstate door calls before doing anything, so the queue never offers a reversal the door
 would refuse. The upstream half that makes this queryable at all: the wave writes exactly
-**one** `auto_rejected` event with `actor: "system"` (`screen-wave.ts:578-582`); the
+**one** `auto_rejected` event with `actor: "system"` (`screen-wave.ts:579-583`); the
 earlier shape wrote both a `rejected` act event and a separate automation event, counting
 every wave reject once as human and once as automated.
 
 The function also returns `total`, a `COUNT(*)` over the same filtered set
-(`:1341-1350`), and the route cuts the page at 50: `listReconsiderQueue(50, ws)`, with
-`truncated: total > 50, total` in the response (`app/api/decisions/reconsider/route.ts:23`,
-`:72`).
+(`:1397-1406`), and the route cuts the page at 50: `listReconsiderQueue(50, ws)`, with
+`truncated: total > 50, total` in the response (`app/api/decisions/reconsider/route.ts:22`,
+`:71`).
 
 ## Reinstatement
 
-The door is `app/api/pipeline/[id]/route.ts:118-163`. It first refuses
+The door is `app/api/pipeline/[id]/route.ts:160-205`. It first refuses
 `409 PIPELINE_NOT_REINSTATABLE` unless `newestDecisionIsAutoRejection(id, ws)`
-(`:128-130`): the store's own guard reads status alone, which a recruiter's hand reject
+(`:170-172`): the store's own guard reads status alone, which a recruiter's hand reject
 also satisfies, and the record sealed below says "Auto-rejection reversed", so writing it
 over a human decision "would put a false sentence into the tamper-evident chain"
-(`:119-127`). A hand reject is reopened through the human re-add door instead.
+(`:161-169`). A hand reject is reopened through the human re-add door instead.
 
-`reinstatePipelineEntry` (`pipeline.ts:1375-1424`) then runs in an immediate
-transaction, guards on `row.status !== "rejected"` (`:1399`, so a double-click or a stale
-view is a no-op, and the route answers it with the same `409`, `:142-144`), returns the
+`reinstatePipelineEntry` (`pipeline.ts:1431-1480`) then runs in an immediate
+transaction, guards on `row.status !== "rejected"` (`:1455`, so a double-click or a stale
+view is a no-op, and the route answers it with the same `409`, `:184-186`), returns the
 entry to `active` on the workspace's screened landing column
-(`screenedLandingStage(...) || "Screened"`, `:1390`), clears any approval, and records a
+(`screenedLandingStage(...) || "Screened"`, `:1446`), clears any approval, and records a
 `reinstated` reversal event. Its third parameter is the accountability contract:
 
 ```ts
@@ -75,18 +75,18 @@ actorRef?: string | null
 The original rejection is never deleted: the entry keeps its `auto_rejected` event and
 gains a `reinstated` one, so the reversal is visible as a reversal.
 
-`app/api/pipeline/[id]/route.ts:145-161` also seals the reversal into the tamper-evident
+`app/api/pipeline/[id]/route.ts:187-203` also seals the reversal into the tamper-evident
 decision chain (`kind: "reinstated"`), best-effort, because "recording only a pipeline
 event for the reinstate left the chain showing a rejection with no record it was
 overturned". The seal's inputs name the stage the store actually landed the candidate on
-(`restoredStage: restored.stage`, `:160`). Reinstatement deliberately does **not**
-re-notify the candidate; a follow-up message is a recruiter decision (`pipeline.ts:1372-1374`).
+(`restoredStage: restored.stage`, `:202`). Reinstatement deliberately does **not**
+re-notify the candidate; a follow-up message is a recruiter decision (`pipeline.ts:1428-1430`).
 
 ## Reading the sealed reason back
 
 The route reads each entry's sealed records in one batched query and takes the latest
 `auto_rejected` seal's `reasonCode` plus its sealed `inputs` as `reasonParams`
-(`reconsider/route.ts:35-60`). The queue panel
+(`reconsider/route.ts:34-59`). The queue panel
 (`app/features/hiring/decisions/DecisionsReconsiderQueue.tsx`) is a collapsed-by-default
 `details` region (`:49`) rendering each row with its rejection date, its score
 provenance, and `reconsiderReasonText(r)` (`:62`) built from the stored
@@ -94,7 +94,7 @@ provenance, and `reconsiderReasonText(r)` (`:62`) built from the stored
 re-derivation.
 
 The same discipline governs what the candidate sees:
-`docs/features/compliance/README.md:465-470` records that
+`docs/features/compliance/README.md:490-495` records that
 `app/_lib/status-decisions.ts` derives a redacted `CandidateDecisionView` (kind,
 attribution, reason code, and the decisive `facts`) from the same sealed rows, and that
 "Rejection reasons shown to candidates come **from this sealed record, never freshly
@@ -107,7 +107,7 @@ A committed rejection whose notification failed is addressable per row via `comm
 on the decision (`screen-wave-contract.ts:75-77`), mirroring the
 `rejection_comms_failed` audit event: the wave completed, but "the candidate is out of the
 funnel and needs a manual nudge". Both failure signals count: a thrown dispatch and a
-resolved dead letter (`screen-wave.ts:604-617`). The aggregate `commsFailures` count alone
+resolved dead letter (`screen-wave.ts:605-617`). The aggregate `commsFailures` count alone
 would not be actionable.
 
 ## Deviations from the standard
@@ -117,7 +117,7 @@ would not be actionable.
   computed anywhere.
 - **The 50-row cap is flagged on the wire but never shown.** The route sends `truncated`
   and `total`, but the client keeps only `p.items`
-  (`app/features/hiring/decisions/useDecisionsQueue.ts:228`), and the panel's heading
+  (`app/features/hiring/decisions/useDecisionsQueue.ts:229`), and the panel's heading
   counts `reconsider.length` (`DecisionsReconsiderQueue.tsx:56`). A wave that
   auto-rejected more than 50 people reads as exactly 50, and the rest are invisible in
   the one surface built to reverse them.
@@ -132,13 +132,13 @@ Two of this application's original deviations had been closed in the tree by the
   resolves `const actor = await humanActor()` (`auth/operator-approver.ts:88-94`), which
   is `human:<Name>` when the session carries identity, else the same `"human:recruiter"`
   role-token fallback as before, and threads it through both halves of the record:
-  `reinstatePipelineEntry(id, ws, actor)` (`route.ts:141`) and the seal's `actor` field
-  (`route.ts:152`). Landed `fix(api-pipeline)` (2026-08-21, commit `89fd67cd`). An
+  `reinstatePipelineEntry(id, ws, actor)` (`route.ts:183`) and the seal's `actor` field
+  (`route.ts:194`). Landed `fix(api-pipeline)` (2026-08-21, commit `89fd67cd`). An
   identity-less deployment still seals to the role token; that part of the original
   observation stands for that case.
 - **Reinstated candidates are excluded from the next wave.** A "REINSTATEMENT SHIELD"
-  (`screen-wave.ts:246-256`) removes any entry with a `reinstated` event
-  (`entryIdsWithEvent`, `:255`) from `wouldReject` before the holdout draw and before the
+  (`screen-wave.ts:247-257`) removes any entry with a `reinstated` event
+  (`entryIdsWithEvent`, `:256`) from `wouldReject` before the holdout draw and before the
   token is signed, and the row carries an explicit `"reinstated"` keep-reason. Landed
   `fix(craft-scan)` (2026-08-21, commit `62fbf833`). The commit message names the exact
   gap this application had documented: "The screening wave re-rejected candidates a

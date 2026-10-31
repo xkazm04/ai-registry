@@ -5,7 +5,7 @@ subject: adverse-impact-and-proxy-neutrality
 technique: name-and-proxy-neutrality-perturbation-testing
 stack: process
 status: forged
-verified_on: 2026-09-26
+verified_on: 2026-10-31
 applied: experiment
 ab_verdict: better
 ---
@@ -38,7 +38,7 @@ The fix has the three parts the technique now names:
   (`test_the_discoverer_reads_annotations_not_names`,
   `tests/test_neutrality_registry.py:83`). On 2026-09-26 it found 41 functions.
   38 of them are registered scorers with a runner and declared carrier paths.
-  The other 3 are exemptions (`EXEMPT`, `:549`): the letter drafters that
+  The other 3 are exemptions (`EXEMPT`, `:585`): the letter drafters that
   address the person by name after a decision was made, "gating nothing".
   `test_registry_is_complete` (`test_neutrality_registry.py:96`) asserts that the registered and exempt
   sets together equal the discovered set, and a new unregistered scorer fails by
@@ -73,13 +73,13 @@ comparison is name against name rather than name against a missing field.
 ## Byte-identity, with declared carriers
 
 For every scorer and every perturbation, the registry serializes the full
-payload canonically (`canonical`, `:677`). It removes the name only from that
-scorer's declared carrier paths (`redact`, `:623`) and requires byte-identity
+payload canonically (`canonical`, `:713`). It removes the name only from that
+scorer's declared carrier paths (`redact`, `:659`) and requires byte-identity
 with the baseline (`test_no_perturbation_moves_any_scorer`, `test_neutrality_registry.py:210`).
-`neutrality_problems` (`:687`) also refuses a vacuous pass: the baseline payload
-must carry the scorer's scored key (`:714`). A sentinel pass puts `SENTINEL`
+`neutrality_problems` (`:723`) also refuses a vacuous pass: the baseline payload
+must carry the scorer's scored key (`:750`, in `liveness_problems`). A sentinel pass puts `SENTINEL`
 (`:55`), a token no real name contains, into the name and fails on any path
-outside the declared carriers where it turns up (`find_paths`, `:632`;
+outside the declared carriers where it turns up (`find_paths`, `:668`;
 `test_the_name_reaches_only_declared_carriers`, `test_neutrality_registry.py:204`).
 
 The original suite keeps its specific guards. It pops one sanctioned carrier
@@ -111,3 +111,16 @@ suites (36 tests) pass unpatched.
 - **The proxy half is only partly tested.** Gendered prose is perturbed now.
   Postcode, school, first language, employment gap and dialect are not, although
   those features reach the scorers.
+
+## Since first documented
+
+### 2026-10-31 re-verification
+
+Re-checked 2026-10-31 at kp@6edf5d7e6: the registry, the perturbation set, the
+completeness check and the planted-mutation test are unchanged apart from line
+numbers. The discovered set grew by one: the discoverer now finds 42 functions, 39
+registered and the same 3 exempt, and the registered and exempt sets still equal the
+discovered set. The new scorer is `profile.fold_cv_detected_skills`, registered in the
+same commit that added it (`feat(cx/S41)`, 2026-10-22, commit `e3eff8613`), which is
+the registry working as designed. The 41 above is the count read on 2026-09-26, and
+the measurement in *The measurement, reproduced* was not re-run.

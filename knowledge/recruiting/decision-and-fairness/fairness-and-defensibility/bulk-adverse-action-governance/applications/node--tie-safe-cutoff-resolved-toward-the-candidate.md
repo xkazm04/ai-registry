@@ -5,7 +5,7 @@ subject: bulk-adverse-action-governance
 technique: tie-safe-cutoff-resolved-toward-the-candidate
 stack: node
 status: forged
-verified_on: 2026-09-26
+verified_on: 2026-10-31
 verified_against: node@24
 ---
 
@@ -15,7 +15,7 @@ The cutoff for a screening auto-reject wave is computed by two exported pure fun
 `app/_lib/decision-config-schema.ts`, called in sequence from `app/_lib/screen-wave.ts`.
 Keeping them pure and outside the wave is what makes both decisions unit-testable and
 re-derivable from the scores alone. Every citation below is pinned to a single commit of
-the app, read on 2026-09-26.
+the app, read on 2026-10-31.
 
 ## Step 1 — the window size
 
@@ -64,30 +64,30 @@ The function is total: `bottomCount <= 0 → 0`, `bottomCount >= length → leng
 
 ## Where they meet the wave
 
-`screen-wave.ts:187-206`. `screenBottomCount` runs over `n = sorted.length`, the
-**scored** cohort only (`screen-wave.ts:188-192`), a percentage of candidates who can be
+`screen-wave.ts:189-207`. `screenBottomCount` runs over `n = sorted.length`, the
+**scored** cohort only (`screen-wave.ts:189-193`), a percentage of candidates who can be
 ranked, not of a pool padded with unmeasured people. `tieSafeBottomCount` receives
 `sorted.map((e) => e.matchScore)`, genuine scores by construction because the null-score
-policy at `:179` excluded the unscored before ranking. No fabricated zero can form a tie
+policy at `:180` excluded the unscored before ranking. No fabricated zero can form a tie
 or occupy the boundary.
 
 ## Making the shrink visible
 
 - A candidate inside the raw window but outside the tie-safe one is flagged `tieSpared`
-  (`screen-wave.ts:355`) and receives the byte-pinned keep reason `"tie at cutoff — kept
-  so equal scores aren't split"` (`screen-wave.ts:101`, checked before the plain "above
+  (`screen-wave.ts:356`) and receives the byte-pinned keep reason `"tie at cutoff — kept
+  so equal scores aren't split"` (`screen-wave.ts:102`, checked before the plain "above
   the bottom cutoff" branch precisely so the audit trail says *why* they were above the
   effective cutoff).
 - Every reject rationale reports the effective count and, when it was shrunk, the raw one:
   `" (tie-adjusted from ${bottomCount} so no equal score is split)"`
-  (`screen-wave.ts:462-464`), with `tieAdjusted` carried in `reasonParams` (`:478`) for
+  (`screen-wave.ts:461-463`), with `tieAdjusted` carried in `reasonParams` (`:479`) for
   localized rendering. The shortfall therefore reads as a decision rather than a defect.
 - The per-candidate floor is the *effective* one, a role-family override or the global
-  value (`decision-config-schema.ts:53`, applied at `screen-wave.ts:232`). The rationale
+  value (`decision-config-schema.ts:53`, applied at `screen-wave.ts:233`). The rationale
   and `reasonParams.threshold` report that resolved number, so the audit trail "can
-  never claim a floor the wave didn't use" (comment at `:455-458`). The sealed record
-  keeps it in its inputs as `threshold` (`:561`), while the record's `policyVersion` is
-  the policy string the reviewer's approval signed (`:550`).
+  never claim a floor the wave didn't use" (comment at `:455-459`). The sealed record
+  keeps it in its inputs as `threshold` (`:562`, spread from `reasonParams`), while the record's `policyVersion` is
+  the policy string the reviewer's approval signed (`:551`).
 
 ## Deviations
 
@@ -110,7 +110,7 @@ or occupy the boundary.
   2026-08-30; only their line numbers moved.
 - **The sealed record's `policyVersion` changed meaning.** `fix(decisions)` (2026-09-04,
   commit `81a35926d`) made every `auto_rejected` seal carry the token's policy string
-  (`screen-wave.ts:550`) instead of a per-candidate
+  (`screen-wave.ts:551`) instead of a per-candidate
   `screen-wave/bottom<pct>/maxMatch<effective floor>`. The effective floor moved to the
   sealed `inputs.threshold`, so the "resolved number" is still recorded, just in a
   different field.

@@ -5,7 +5,7 @@ subject: degrade-never-block-a-candidate
 technique: a-candidate-action-is-debited-never-gated
 stack: node
 status: forged
-verified_on: 2026-09-29
+verified_on: 2026-10-31
 verified_against: node@24
 applied: simulation
 ab_verdict: unmeasurable
@@ -36,8 +36,8 @@ DEGRADE (`--no-llm`) for per-candidate garnish. There is no third, softer shape.
   `QuotaVerdict` the route turns into a 402 carrying a registered refusal code,
   `QUOTA_CODE = "BILLING_QUOTA_EXCEEDED"` (`enforce.ts:28`; it replaced the bare
   `"quota_exceeded"` string on 2026-09-04). `jobPostGate()` (`enforce.ts:131`) is its
-  only outcome-meter caller, invoked at `app/api/jobs/[id]/publish/route.ts:143` inside
-  the transaction opened at `:119`, and only when the transition is billable.
+  only outcome-meter caller, invoked at `app/api/jobs/[id]/publish/route.ts:152` inside
+  the transaction opened at `:128`, and only when the transition is billable.
 - **Debit:** `recordMeterUsage("hires", 1, …)` at `app/_lib/offer-finalize.ts:132`,
   on the candidate's own accept — with a comment that spells out the prohibition:
   "There is no meterGate before it and there must not be."
@@ -62,12 +62,12 @@ practice rather than in principle:
 3. **Conditional on the real hire.** The debit runs only when
    `actOnPipelineEntry(…, "accept", … { actor: "system" })` (`:88`) advanced the entry
    *onto the terminal stage by role*: `hired = advanced && !wasTerminal &&
-   stageHasRole(advanced.stage, "terminal", axis)` (`:104-106`). A stale offer link
+   stageHasRole(advanced.stage, "terminal", axis)` (`:105-106`). A stale offer link
    accepted after the candidate was closed elsewhere records an `offer_accept_blocked`
    event (`:113`) instead of resurrecting them and billing for it. A board with a
    column after the offer step is the case that forced the role test: accepting there
    moves the candidate one stage, onto something like a background check, and no hire
-   is debited until they reach the terminal column (`offer-lifecycle.test.ts:274`).
+   is debited until they reach the terminal column (`offer-lifecycle.test.ts:329`).
    That is also where the golden path now puts an identity control: after the
    acceptance, which is recorded and never refused, and before the start.
 

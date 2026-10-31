@@ -5,7 +5,7 @@ subject: adverse-impact-and-proxy-neutrality
 technique: selection-rate-ratio-testing
 stack: node
 status: forged
-verified_on: 2026-09-26
+verified_on: 2026-10-31
 verified_against: node@24
 applied: code
 ab_verdict: better
@@ -49,12 +49,12 @@ Since 2026-09-26 a test pins that case.
 
 ## Reference selection defended at both ends
 
-`computeAdverseImpact` (`:211`) picks the reference as the highest selection
+`computeAdverseImpact` (`:276`) picks the reference as the highest selection
 rate **among groups that clear the floor**, and states the reason inline: a
 sub-floor group "e.g. n=1 at 100%" can no longer anchor the verdict. Ties
 resolve to the first such group in input order.
 
-The reference is tracked **by index, not by name** (`:225`). Two pasted rows can
+The reference is tracked **by index, not by name** (`:286-289`). Two pasted rows can
 carry the same group name, and matching the reference back by name marked both
 of them as the reference, which exempts a row from ever being flagged. The
 comment records the incident: "A duplicate 'Women' row at a 0.25 ratio rendered
@@ -63,14 +63,14 @@ as 'reference' under a green verdict."
 Three input guards protect that data-chosen reference. All three are the
 standard's "input hygiene is fairness logic" rule realized:
 
-- `clampCounts` (`:188`) floors counts at zero and caps `selected` at `total`,
+- `clampCounts` (`:251`) floors counts at zero and caps `selected` at `total`,
   "rather than producing a >100% selection rate that would corrupt the
   reference".
-- `parseGroupCounts` (`:104`) records the 1-based line number of every non-blank
-  row that failed to parse (`:123`) instead of dropping it, because the
+- `parseGroupCounts` (`:155`) records the 1-based line number of every non-blank
+  row that failed to parse (`:174`) instead of dropping it, because the
   reference is "highest selection rate among whatever parsed". An empty numeric
   field is treated as a typo, not as a real zero.
-- A row must have **exactly three fields** (`:122`). A spreadsheet paste with
+- A row must have **exactly three fields** (`:173`). A spreadsheet paste with
   thousands separators ("Women, 1,200, 5,000") used to keep the first three
   fields and parse as 1/200, silently. A genuine 0.50 ratio then rendered green.
 
@@ -85,12 +85,12 @@ added the two numbers the technique requires:
   conditional exact test: that test is conservative at these cohort sizes. The
   mid-P test is exact at every size and converges on the Z-test at large N.
   `SIGNIFICANCE_ALPHA = 0.05` (`:48`) is the line.
-- `shortfall` (`:246`) is reference rate × total − selected. Its type comment
+- `shortfall` (`:311`) is reference rate × total − selected. Its type comment
   states the scale-bound reading: "40 short is noise across 100,000 applicants
   and decisive across 100". The view shows it with its share of the group
-  (`DecisionsComplianceImpactCheck.tsx:110`).
-- The result gains `anySignificantAdverse` (`:267`) and
-  `anySignificantGapAboveThreshold`. The view's verdict (`:36`) has the
+  (`DecisionsComplianceImpactCheck.tsx:103`).
+- The result gains `anySignificantAdverse` (`:342`) and
+  `anySignificantGapAboveThreshold`. The view's verdict (`:37`) has the
   technique's four readings: a significant flag, a flag that is "below 80%, not
   significant", a significant gap above 80% that is not a pass, and the clean
   result.
@@ -111,7 +111,7 @@ rendered green.
 ## Three states, enforced in the type and again in the view
 
 `AdverseImpactResult.reliable` is true only when at least two groups clear the
-floor. When it is false, `anyAdverseImpact` is **forced** false (`:266`) and
+floor. When it is false, `anyAdverseImpact` is **forced** false (`:341`) and
 the view shows a neutral steel verdict, not the green one. Per group,
 `impactRatio` is `null` whenever the group or the reference cannot support a
 ratio, so an unreliable rate is never promoted into an authoritative ratio. The
@@ -123,8 +123,8 @@ Two defects in the view's wording were fixed in the same commit:
 - The insufficient-sample line said "no group reaches 30 applicants" when
   exactly one group did.
 - A clean headline over a mixed report never mentioned the groups it had not
-  assessed. `unassessedGroups` (`:270`) now drives a line under the headline
-  (`:152`), which is the technique's "mixed reports state the mix" rule.
+  assessed. `unassessedGroups` (`:347`) now drives a line under the headline
+  (`:166-168`), which is the technique's "mixed reports state the mix" rule.
 
 ## The jurisdiction field that is mostly null
 
@@ -145,3 +145,27 @@ version either. The module is ad hoc by design, which leaves stamping as the
 caller's unowned problem. The significance line is a single α with no
 correction for comparing many groups at once, and the policy for that is not
 recorded anywhere.
+
+## Since first documented
+
+### 2026-10-31 re-verification
+
+Re-checked 2026-10-31 at kp@6edf5d7e6. Three commits after 3aae8e801 change what the
+view says; none reverses this application's verdict, and the measured table above
+is left as measured.
+
+- **A mixed clean report is now a headline state, not only a line under it.**
+  `fix(fairness)` (2026-10-14, commit `ab29eaad4`) moved the verdict into the module as
+  `adverseImpactVerdict` (`adverse-impact.ts:368-374`), with a `cleanPartial` state
+  for "the assessed groups show nothing, but some were never assessed"; the view reads
+  it at `DecisionsComplianceImpactCheck.tsx:37` and headlines the unassessed count
+  (`:141-142`). The last row of the table would now headline as partial rather than
+  clean.
+- **A non-significant verdict states what it could have detected.**
+  `feat(decisions)` (2026-09-29, commit `775c5d02e`) added `detectableRatio`
+  (`adverse-impact.ts:241-243`, `:348`), shown under the clean, partial and
+  below-80%-not-significant verdicts (`DecisionsComplianceImpactCheck.tsx:149-153`).
+- **Repaired input and the yardstick are disclosed.** `feat(adverse-impact)`
+  (2026-10-14, commit `435766724`) added `clamped` per row and `clampedRows`
+  (`:257`, `:345`) and `referenceRate` (`:346`) to the result, and the view warns on
+  clamped rows (`DecisionsComplianceImpactCheck.tsx:161-163`).

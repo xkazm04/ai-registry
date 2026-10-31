@@ -5,7 +5,7 @@ subject: degrade-never-block-a-candidate
 technique: never-cache-a-degraded-verdict
 stack: node
 status: forged
-verified_on: 2026-09-29
+verified_on: 2026-10-31
 verified_against: node@24
 ---
 
@@ -41,7 +41,7 @@ model, which the caller reports as `source="deterministic"`. That is the techniq
 "the degraded part that carries the conclusion colours the whole payload" rule, and
 the docstring states its purpose exactly (`:479`): "so a coerced-away answer can never
 pose as LLM output". Its caller returns `("deterministic" if degraded else "llm")`
-(`:555-559`).
+(`:560-564`).
 
 ## Key-side separation: automation drafting
 
@@ -57,19 +57,19 @@ forced it:
 Both directions of the poisoning, in one comment. Two implementation details are the
 generalizable craft:
 
-- **Folded unconditionally** (`automation-cache-key.ts:182-183`,
+- **Folded unconditionally** (`automation-cache-key.ts:192-193`,
   `input.degraded ? "no-llm" : "llm"`), not only when `degraded` is true, so entries written
   before the axis existed — the ones that may already be poisoned — are retired by the
   key change itself.
-- **Resolved before the key, not at spawn time.** `app/_lib/automation-run.ts:422`
+- **Resolved before the key, not at spawn time.** `app/_lib/automation-run.ts:480`
   computes `const degraded = !meterAllows("ai_candidates", { workspace: workspaceId })`
-  once; the same boolean feeds the cache-key axis at `automation-run.ts:455` and the
-  `--no-llm` CLI flag at `automation-run.ts:471`, "so they can't disagree".
+  once; the same boolean feeds the cache-key axis at `automation-run.ts:518` and the
+  `--no-llm` CLI flag at `automation-run.ts:562`, "so they can't disagree".
 
 `app/_lib/automation-cache-key.test.ts:194` pins it: *"THE FIX: a degraded (--no-llm)
 result never shares a key with an LLM result."*
 
-Note the tenancy detail at `automation-run.ts:419-421` and `enforce.ts:110-114`: the
+Note the tenancy detail at `automation-run.ts:477-479` and `enforce.ts:110-114`: the
 degrade switch reads the *asking* workspace's billing state. Before the workspace axis
 existed, every tenant's automation degrade was decided by the default workspace's plan
 — one team's candidates ran on another team's quota.
@@ -77,8 +77,8 @@ existed, every tenant's automation degrade was decided by the default workspace'
 ## The verdict carries its engine past the cache (since 2026-09-04)
 
 The cache is no longer the only place the grade lives. `automation-run.ts` stamps
-`verdictSource` (`VERDICT_SOURCES = ["llm", "template"]`, `:219`; `verdictSourceOf`,
-`:230`) onto every approval payload, and writes the engine into each automation event's
+`verdictSource` (`VERDICT_SOURCES = ["llm", "template"]`, `:215`; `verdictSourceOf`,
+`:226`) onto every approval payload, and writes the engine into each automation event's
 actor (`auto:automation-template` / `auto:automation-llm`). A cache HIT keeps the source
 it was stored with, which is why the grade had to be a key axis first. The stamp is
 what made the 2026-09-29 fix possible: a template screening verdict no longer routes

@@ -5,7 +5,7 @@ subject: adverse-impact-and-proxy-neutrality
 technique: cohort-shield-is-not-a-protected-class-test
 stack: node
 status: forged
-verified_on: 2026-09-26
+verified_on: 2026-10-31
 verified_against: node@24
 ---
 
@@ -33,12 +33,12 @@ hand … is now structurally impossible". At the time of reading, the registry
 had three archetypes. Two are shielded: `student`, and `career_switcher`, the
 career-changer cohort the technique names.
 
-`shieldsFromAutoReject` (`:65-67`) is the one rule both readers share. It
+`shieldsFromAutoReject` (`:72-74`) is the one rule both readers share. It
 shields an entry that is flagged `fairnessProtected` **or** scored on the
 early-career model, because the Python policy pass keys its never-auto-reject
 lever on the scoring model. A gate that read the flag alone "would be looser
 than the engine it backstops". The file is edited at runtime (custom archetypes,
-shield flips), so the live reader (`archetype-live.ts:30-36`) makes the shield a
+shield flips), so the live reader (`archetype-live.ts:28-34`) makes the shield a
 **union**: an id is shielded when the bundled registry shields it, when the live
 file shields it, or when neither knows it. The union can only add protection
 for an id the bundle knows. An unreadable file never throws; the
@@ -47,18 +47,18 @@ shielded.
 
 ## The gate fails closed on the unknown
 
-`isFairnessProtected` (`archetypes.ts:113-115`) returns true for a shielded
+`isFairnessProtected` (`archetypes.ts:120-122`) returns true for a shielded
 archetype **or** any archetype the registry does not recognize. Its comment
 states the rule as the standard does: "fail closed — we never auto-reject a
 class we cannot classify". The deliberate asymmetry with the positive classifier
-sits right below it. `isEarlyCareer` (`:121-123`) treats unknown as *not*
+sits right below it. `isEarlyCareer` (`:128-130`) treats unknown as *not*
 early-career, because "it drives display grouping and encouraging copy, not a
 safety gate, so it must not over-claim". One predicate resolves unknown toward
 the candidate and the other resolves it away, because only one of them can
 cause harm.
 
 Recognition itself had a hole that inverted the promise. `isKnownArchetype`
-(`:84-95`) now uses `Object.hasOwn`, not `in`. The label map comes from
+(`:91-102`) now uses `Object.hasOwn`, not `in`. The label map comes from
 `Object.fromEntries`, so `"constructor" in ARCHETYPE_LABEL` was true for an id
 the registry had never heard of. `isFairnessProtected("constructor")` therefore
 returned false and "handed the auto-reject sweep … a candidate it was supposed
@@ -67,7 +67,7 @@ it.
 
 ## The display fallback that would have stripped the shield
 
-`archetypeDisplayKey` (`:105-107`) is the standard's laundering rule caught in
+`archetypeDisplayKey` (`:112-114`) is the standard's laundering rule caught in
 the act. An unrecognized or sentinel archetype renders as an honest "unrouted"
 label, "NEVER collapsed to a concrete class like 'bau'". The comment names both
 harms: it "both misinforms the recruiter AND, if that 'bau' is persisted, strips
@@ -81,18 +81,18 @@ it, a rendering decision would have deleted a fairness protection.
 rejections, and the TypeScript layer used to apply them verbatim. So "any Python
 regression that emitted a reject for an early-career candidate, an unscored
 entry, or a score at/above the reject floor would be auto-applied" (`:1-8`).
-`assertAutoRejectFair` (`:47-69`) re-derives the sole legitimate reject path
+`assertAutoRejectFair` (`:52-74`) re-derives the sole legitimate reject path
 from the entry snapshot it already holds. It reads the archetype half through
-the live reader (`:51`), and it refuses in four ways that map cleanly onto the
+the live reader (`:56`), and it refuses in four ways that map cleanly onto the
 standard:
 
-- **Missing entry**: refused, "fail closed" (`:48-50`).
+- **Missing entry**: refused, "fail closed" (`:53-55`).
 - **Shielded archetype**: refused, with a reason that distinguishes a known
-  shielded archetype from an unknown one (`:52-57`).
+  shielded archetype from an unknown one (`:57-62`).
 - **Unscored entry** (`score === null || score <= 0`): refused. An absent score
   "means matching has not produced a genuine result (an unscored data gap, not a
-  real low match)" and is never read as a zero (`:59-64`).
-- **Score at or above the floor**: refused (`:65-67`).
+  real low match)" and is never read as a zero (`:64-69`).
+- **Score at or above the floor**: refused (`:70-72`).
 
 A refusal is not a silent drop. The header states the downgrade explicitly: "A
 refused reject is downgraded to `hold` + an alert (never silently applied) —
@@ -122,13 +122,29 @@ decided. The standard's auditability rule is met by the refusal reasons at the
 call site, not by a record anyone reviews.
 
 A built-in archetype's shield cannot be edited away. `updateArchetype`
-(`archetype-registry.ts:330-349`) refuses a change to `fairnessProtected` or
+(`archetype-registry.ts:322-351`) refuses a change to `fairnessProtected` or
 `scoringModel` on a built-in. A custom archetype's shield is different: an
 operator can switch it at runtime (the route is operator-gated,
-`app/api/archetypes/[id]/route.ts:6-15`). That switch changes who is protected,
+`app/api/archetypes/[id]/route.ts:7-16`). That switch changes who is protected,
 and no audit record or review stands behind it as a fairness event.
 
 The platform holds no demographic data, so the shield remains the only
 fairness-adjacent number the product can show. That is exactly the condition
 under which the standard requires the "this is not a protected-class analysis"
 line to be loudest.
+
+## Since first documented
+
+### 2026-10-31 re-verification
+
+Re-checked 2026-10-31 at kp@6edf5d7e6: the shield, the fail-closed gate, the display
+fallback and the apply-boundary re-check are unchanged apart from line numbers. One
+change touches the auditability deviation above. `fix(pipeline)` (2026-10-14, commit
+`304efa7d3`) gave every refusal a stable rule id (`AutoRejectRule`:
+`entry-missing`, `protected-cohort`, `unknown-archetype`, `unscored`,
+`at-or-above-floor`; `automation-fairness.ts:38-43`), and the policy pass persists it
+with the proposed outcome in the held decision's `reasonParams`
+(`automation-pass.ts:113`), so refusals are now countable by rule. That narrows the
+deviation without closing it: the record still carries no registry digest and nothing
+reviews the slice, and a custom archetype's shield switch is still written with no
+audit record.
