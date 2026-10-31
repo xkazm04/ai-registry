@@ -108,8 +108,10 @@ punishes the players with the slowest tracking.
 **Confidence is lowest when the defence happens.** Fast motion blurs, the hand turns edge-on
 and fingers occlude each other. The samples in the middle of a block are the least
 trustworthy samples in the session. A reward must not be earned from a low-confidence pose.
-A brief dip should defer the decision for a bounded few samples rather than reject it
-outright, because rejection on the dip is a systematic penalty on fast players.
+A brief dip should defer the decision rather than reject it outright, because rejection on
+the dip is a systematic penalty on fast players. The deferral bound is sized from the dips
+the tracker actually produces on a correct pose, and deferral is free only where the verdict
+waits for a resolution horizon.
 
 **Tracking loss is a game state, not an error.** The hands leave the view, overlap or drop
 below the confidence floor many times a session. The game decides what the simulation

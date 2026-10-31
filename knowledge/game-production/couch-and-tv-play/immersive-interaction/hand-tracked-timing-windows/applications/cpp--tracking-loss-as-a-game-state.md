@@ -103,4 +103,4 @@ rank this fix against the live-onset fix the confidence application put first in
 
 V1's device corpus with active state and confidence per frame (PROJECT-PLAN V1, 4 Nov): read the
 gap-length distribution, pick the coast bound from it, then run cases 1 and 2 as an experiment on
-the project's JS port of the detector. No change was made to the project's tree.
+a JavaScript port of the detector, rebuilt for the run, since none was kept. No change was made to the project's tree.

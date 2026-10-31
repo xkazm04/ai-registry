@@ -28,7 +28,7 @@ coast across short gaps, the re-acquisition hazard, and how the loss is shown.
 - **Occluded**: one hand covers the other, or a held object covers the hand.
 - **Low confidence**: the hand is reported, but below the floor that any decision uses.
 - **Runtime-level loss**: the tracking system pauses or hands control to another input
-  mode, for example when a controller is picked up.
+  mode, for example when a controller is picked up, or the application loses input focus.
 
 List them per platform, because the runtime's own states differ, and map each to one of
 the game's states below.
@@ -43,7 +43,8 @@ the game's states below.
    (wards drop, holds release, strokes in progress abort), and the simulation receives a
    neutral hand. In a single-player game the lost state may instead pause the simulation, so
    the player takes no hits while they cannot act. That choice is written into the design,
-   and it is subject to the same coast bound so that flicker does not pause the game.
+   and the pause has its own bound, longer than the coast bound, so that flicker does not
+   pause the game.
 4. **Re-acquiring**: tracking has returned. For a short settle interval, samples are shown
    but not trusted for motion. Release checks, onset searches and velocity-based recognizers
    ignore them.
