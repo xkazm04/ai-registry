@@ -5,7 +5,7 @@ subject: voice-interview-fidelity
 technique: never-infer-from-how-a-person-sounds
 stack: node
 status: forged
-verified_on: 2026-09-29
+verified_on: 2026-10-31
 verified_against: node@24
 ---
 
@@ -15,11 +15,12 @@ The technique writes one prohibition into the text that reads the transcript, an
 keeps a hard edge, content versus delivery. kp has the clause on the scoring side,
 and a set of timing observations that are captured and shown but never scored. Read at
 kp `60aab8088` on 2026-09-29. This subject had no application for this technique
-before.
+before. Line anchors re-checked at kp `6edf5d7` on 2026-10-31; every quote
+held.
 
 ## The clause, on the half that produces the number
 
-`pipeline/jobfit/automation.py:2495` (prompt `scorecard-v8`):
+`pipeline/jobfit/automation.py:2529` (prompt `scorecard-v8`):
 
 > "Rate substance, not delivery: never lower a rating for nerves, hesitation, filler
 > words, silences, a slow start, or imperfect grammar/accent in a language that is not
@@ -35,7 +36,7 @@ one, which is the technique's bona fide requirement rule.
 
 ## Observations that are recorded and never scored
 
-`app/_components/voice/call-observations.ts:7` states the doctrine as load-bearing:
+`app/_components/voice/call-observations.ts:8` states the doctrine as load-bearing:
 "an observation is NEVER scored, never shown to the candidate, and never a reason for
 the UI to behave differently ... A long pre-answer silence is a candidate thinking; a
 tab switch is a candidate reading the job ad. The record says what happened, and a

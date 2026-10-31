@@ -5,7 +5,7 @@ subject: candidate-self-scheduling
 technique: adjustments-asked-at-the-booking-step
 stack: node
 status: forged
-verified_on: 2026-09-28
+verified_on: 2026-10-31
 verified_against: node@24
 applied: simulation
 ab_verdict: better
@@ -16,6 +16,11 @@ ab_verdict: better
 Walked at kp `20d0a8db3` on 2026-09-28 (Next.js on Node 24, SQLite). Policy A is
 this subject's golden path as it stood before the technique: a trust boundary,
 an anchor zone, no dead end, and honest endings. Policy B is the technique.
+
+Re-checked 2026-10-31 at kp `6edf5d7`: three line anchors moved, the letter and
+confirmation copy are unchanged, and the same tree search still finds no
+candidate-facing adjustment ask (its new matches are kit-validator, prompt and
+taxonomy internals). The measured tally below is history and stands.
 
 kp is a good test because it already does A well. Its offered grid is
 validated structurally, its escape hatch exists and is wider than the grid, and
@@ -35,7 +40,7 @@ string asks about adjustments, and nothing earlier in the funnel does either.
 ## Three real paths
 
 **1. The invitation letter.** `dispatchScheduleInvite`
-(`app/_lib/comms-dispatch.ts:847`) sends `comms.scheduleInvite.body`: *"Good
+(`app/_lib/comms-dispatch.ts:875`) sends `comms.scheduleInvite.body`: *"Good
 news. We'd like to talk about {role}. Pick an interview time that suits you
 here: {link} The same link lets you reschedule later if something comes up."*,
 plus the length when one is set. A passes it, because delivery and content
@@ -49,9 +54,9 @@ it is expected, and this letter is where the ask belongs.
 needs thirty extra minutes, or only mornings, or a captioner. The picker offers
 two fixed times of the configured length. The propose form (`ProposeSection.tsx`)
 takes up to three weekday times between 08:00 and 18:00 (`MAX_PROPOSALS = 3`,
-`PROPOSAL_HOURS`, `schedule-slots.ts:260-263`), and it has no free-text field,
+`PROPOSAL_HOURS`, `schedule-slots.ts:288-291`), and it has no free-text field,
 because proposal labels are server-minted and *"never candidate text"*
-(`schedule-store.ts:83`). A passes: the hatch exists and is wider than the grid.
+(`schedule-store.ts:91`). A passes: the hatch exists and is wider than the grid.
 B fails: nothing on the page can carry the need, and the only way to state it is
 a reply to the email, sent to whoever sent it. No route leads outside the
 assessing panel, and nothing can make the slot longer. The only way to book a

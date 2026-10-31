@@ -5,7 +5,7 @@ subject: interview-round-design
 technique: shared-material-for-comparability
 stack: node
 status: forged
-verified_on: 2026-09-29
+verified_on: 2026-10-31
 verified_against: node@24
 ---
 
@@ -13,6 +13,8 @@ verified_against: node@24
 
 The comparability rule is enforced in one filter, in one pure module. It is worth
 reading because the enforcement is three lines and the argument is one comment.
+Anchors re-checked at kp `6edf5d7` on 2026-10-31; one line number moved, every
+construct held.
 
 ## The filter
 
@@ -47,7 +49,7 @@ half teams miss: a generator with no capacity bound will find somewhere to put i
 output, and the only remaining somewhere is the material that was supposed to be
 identical for everyone.
 
-The round-robin placement (`personalPhases[i % personalPhases.length]`, line 108) also
+The round-robin placement (`personalPhases[i % personalPhases.length]`, line 112) also
 means the personal phases fill evenly — no single phase absorbs the whole generated set
 and turns a three-minute block into an interrogation.
 

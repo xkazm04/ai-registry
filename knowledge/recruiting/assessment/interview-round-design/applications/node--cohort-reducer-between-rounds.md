@@ -5,7 +5,7 @@ subject: interview-round-design
 technique: cohort-reducer-between-rounds
 stack: node
 status: forged
-verified_on: 2026-09-29
+verified_on: 2026-10-31
 verified_against: node@24
 ---
 
@@ -14,7 +14,8 @@ verified_against: node@24
 The loop's shape lives in one config object, `InterviewPlanRule`
 (`app/_lib/decision-config-schema.ts:149`), stored in the tiered decision-config store
 alongside the rest of hiring policy. The reducer is a first-class field on a round, not
-an implicit behaviour of the code that advances candidates.
+an implicit behaviour of the code that advances candidates. Every anchor below
+re-checked at kp `6edf5d7` on 2026-10-31 and held.
 
 Since the first verification the plan became **stage-keyed**: `InterviewPlanRule` is now
 `{ steps: InterviewPlanStep[] }`, each step names the board column it governs
@@ -110,7 +111,7 @@ excluded from `PLANNABLE_ROLES` because they are "arrival and outcome, not decis
   applied. The technique's replayability rule stands unmet.
 - **No interviewer identity on the human side of the reducer.** This is the
   load-bearing one, and the repo documents it about itself at
-  `docs/concepts/interview-rounds.md:74`: `schedule_invites` and `interview_sessions`
+  `docs/concepts/interview-rounds.md:76`: `schedule_invites` and `interview_sessions`
   carry no `user_id`, "the only attribution is a free-text `interviewer` string on the
   prep artifact", and calendar grants are one per workspace rather than per user — so
   everything schedule- and interview-related is "team-scoped and person-blind". A

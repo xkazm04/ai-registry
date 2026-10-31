@@ -5,14 +5,15 @@ subject: voice-interview-fidelity
 technique: entity-fidelity-not-aggregate-error-rate
 stack: process
 status: forged
-verified_on: 2026-09-29
+verified_on: 2026-10-31
 ---
 
 # Entity fidelity in the voice evaluation harness
 
 The realization is a Python evaluation harness that drives real spoken sessions
 against the running app, plus the incident that forced it into existence. Re-read at
-kp `60aab8088` on 2026-09-29, from the commit.
+kp `60aab8088` on 2026-09-29, from the commit. Every anchor below re-checked at kp
+`6edf5d7` on 2026-10-31 and held.
 
 ## The incident that made the case
 

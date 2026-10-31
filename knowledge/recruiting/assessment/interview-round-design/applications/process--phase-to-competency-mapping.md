@@ -5,7 +5,7 @@ subject: interview-round-design
 technique: phase-to-competency-mapping
 stack: process
 status: forged
-verified_on: 2026-09-29
+verified_on: 2026-10-31
 ---
 
 # Phase-to-competency mapping as a checked-in interview script
@@ -14,7 +14,8 @@ The early-career interview round in this codebase is not prose in a wiki. It is 
 file — `pipeline/jobfit/interview-script.json` — that a voice agent, a recruiter prep
 document, and a client-side "about the method" panel all read from the same six-phase
 array. That single-source shape is what makes the mapping enforceable rather than
-aspirational.
+aspirational. Every anchor below re-checked at kp `6edf5d7` on 2026-10-31 and
+held.
 
 ## The six fields, as shipped
 

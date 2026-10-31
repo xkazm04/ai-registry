@@ -5,7 +5,7 @@ subject: voice-interview-fidelity
 technique: transcript-sampling-that-keeps-the-conclusion
 stack: node
 status: forged
-verified_on: 2026-09-29
+verified_on: 2026-10-31
 verified_against: node@24
 applied: unapplied
 ab_verdict: unapplied
@@ -15,7 +15,9 @@ ab_verdict: unapplied
 
 `app/_lib/interview-transcript.ts:5` is a module whose entire header is an argument
 for this technique, written after the failure it describes. Read at kp `60aab8088`
-on 2026-09-29, from the commit and not the working tree.
+on 2026-09-29, from the commit and not the working tree. Anchors re-checked at kp
+`6edf5d7` on 2026-10-31: the Python lines moved, every construct and every open
+deviation held.
 
 ## The failure it replaced
 
@@ -37,10 +39,10 @@ cap (`MAX_TRANSCRIPT_TURNS = 500`, `:48`). Every TypeScript consumer goes throug
 one function.
 
 New since the first verification: the Python scorecard has its own sampler,
-`sample_scorecard_notes` (`pipeline/jobfit/automation.py:2398`), because the
+`sample_scorecard_notes` (`pipeline/jobfit/automation.py:2421`), because the
 scorecard is synthesized on the Python side and its quote-grounding check runs
 against the *sampled* text. The budget is no longer a TypeScript literal. It is
-defined once in Python (`MAX_SCORECARD_NOTES_CHARS = 6000`, `:2395`) and generated
+defined once in Python (`MAX_SCORECARD_NOTES_CHARS = 6000`, `:2418`) and generated
 into `app/_lib/contract-constants.generated.ts:11`, which the TypeScript imports
 (`interview-transcript.ts:2`), and a test refuses a literal at the old home.
 
@@ -70,8 +72,8 @@ for the value.
   insurance here, and is required only where the read-back can precede a long close.
 - **Deviation, still open, and now a false comment** — the TypeScript split is
   symmetric (`headBudget = Math.ceil(budget / 2)`, `:207`; `headCount` at `:99`). The
-  Python sampler is symmetric too (`head = budget // 2`, `automation.py:2420`), under
-  a comment that reads "Bias to the tail" (`:2418`). The standard asks for a
+  Python sampler is symmetric too (`head = budget // 2`, `automation.py:2443`), under
+  a comment that reads "Bias to the tail" (`:2441`). The standard asks for a
   tail-heavier split; symmetric is defensible, and the comment claiming otherwise is
   wrong and will mislead whoever tunes it.
 - **Deviation, still open** — nothing anchors the window on the read-back exchange.
@@ -79,7 +81,7 @@ for the value.
 - **Deviation, moved and still open** — a competency whose only evidence sat in the
   dropped middle is not lowered to unassessed. What exists is the grounding step:
   a quote not found in the *sampled* text becomes `UNGROUNDED_EVIDENCE`
-  (`automation.py:2262`) and the confidence band widens, but the commit message says
+  (`automation.py:2285`) and the confidence band widens, but the commit message says
   "the rating is kept: this drops the citation, not the score". The read-side
   not-assessed filter (`interview-scorecard.ts:80`) recognises only a rating of 3
   carrying placeholder text, so a kept 5 or 2 with the placeholder counts as rated.

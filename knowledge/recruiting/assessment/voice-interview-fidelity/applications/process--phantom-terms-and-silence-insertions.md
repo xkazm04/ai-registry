@@ -5,7 +5,7 @@ subject: voice-interview-fidelity
 technique: phantom-terms-and-silence-insertions
 stack: process
 status: forged
-verified_on: 2026-09-29
+verified_on: 2026-10-31
 applied: simulation
 ab_verdict: unmeasurable
 ---
@@ -15,7 +15,10 @@ ab_verdict: unmeasurable
 The technique claims a recall-only entity gate passes a transcript that added a
 skill nobody said. kp's harness has exactly that gate, so it is a direct test.
 Nothing in kp was changed; the metric was exported from the commit and run in
-scratch.
+scratch. Re-checked 2026-10-31 at kp `6edf5d7`: `entity_fidelity` is still
+recall-only (`wer.py:242`, `ok` at `:238`), the fixture file is unchanged in shape,
+and `BASE_ASR_KEYWORDS` still holds both React and Rust, so the result below stands;
+the run itself was not repeated.
 
 ## What was run
 
