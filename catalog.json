@@ -374,16 +374,16 @@
     },
     {
       "name": "hackathon",
-      "version": "1.2.0",
+      "version": "1.2.1",
       "category": "workflow",
       "path": "skills/hackathon/SKILL.md",
-      "contentHash": "sha256-n1:cf85b6feb500de05",
+      "contentHash": "sha256-n1:cbf4a509f706894a",
       "adopters": [],
       "invokes30d": 0,
       "reportedInvokes": 0,
-      "lessons": 1,
+      "lessons": 3,
       "lessonsPath": "skills/hackathon/LESSONS.md",
-      "lessonsHash": "sha256-n1:f55960c7ca8eb667",
+      "lessonsHash": "sha256-n1:1505a762af39f53f",
       "usageContributors": [],
       "runs30d": 0,
       "outcomes30d": {},
@@ -819,9 +819,9 @@
       ],
       "invokes30d": 6,
       "reportedInvokes": 6,
-      "lessons": 35,
+      "lessons": 36,
       "lessonsPath": "skills/spark/LESSONS.md",
-      "lessonsHash": "sha256-n1:c87811725f8fd542",
+      "lessonsHash": "sha256-n1:c82709b3bb3546e2",
       "usageContributors": [
         "wolf"
       ],
@@ -1140,7 +1140,7 @@
     "skills": 44,
     "practices": 8,
     "memory": 10,
-    "lessons": 375
+    "lessons": 378
   },
   "bundles": [
     {
@@ -1165,9 +1165,9 @@
       "purity": "civic",
       "subjects": 15,
       "techniques": 92,
-      "applications": 70,
-      "files": 182,
-      "contentHash": "sha256-b2:1de626260492c7f1"
+      "applications": 71,
+      "files": 183,
+      "contentHash": "sha256-b2:d27a9a8d407e896e"
     },
     {
       "name": "game-production",
@@ -1178,9 +1178,9 @@
       "purity": "game",
       "subjects": 89,
       "techniques": 589,
-      "applications": 351,
-      "files": 1033,
-      "contentHash": "sha256-b2:eff723f80acffb6c"
+      "applications": 352,
+      "files": 1034,
+      "contentHash": "sha256-b2:c1e6d1b9773e3a78"
     },
     {
       "name": "grant-funding",
@@ -1243,9 +1243,9 @@
       "purity": "media",
       "subjects": 38,
       "techniques": 266,
-      "applications": 165,
-      "files": 474,
-      "contentHash": "sha256-b2:d175dcd4f48152df"
+      "applications": 166,
+      "files": 475,
+      "contentHash": "sha256-b2:732056991bef2ab9"
     },
     {
       "name": "recruiting",
@@ -1256,9 +1256,9 @@
       "purity": "recruiting",
       "subjects": 67,
       "techniques": 416,
-      "applications": 318,
-      "files": 805,
-      "contentHash": "sha256-b2:5965d8d2d17735bf"
+      "applications": 320,
+      "files": 807,
+      "contentHash": "sha256-b2:065afd390ba4c982"
     },
     {
       "name": "software-engineering",
@@ -1269,9 +1269,9 @@
       "purity": "software",
       "subjects": 243,
       "techniques": 1957,
-      "applications": 1446,
-      "files": 3651,
-      "contentHash": "sha256-b2:b0db3de0e59c6fa3"
+      "applications": 1460,
+      "files": 3665,
+      "contentHash": "sha256-b2:f0195d2e13e9421e"
     },
     {
       "name": "technical-writing",
