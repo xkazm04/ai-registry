@@ -5,7 +5,7 @@
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 243,
   "techniques": 1957,
-  "applications": 1461,
+  "applications": 1462,
   "laws": 16,
   "categories": [
    "ui-surfaces",
@@ -36225,9 +36225,9 @@
    "subcategory": "metered-billing",
    "status": "forged",
    "file": "knowledge/software-engineering/operations/metered-billing/subscription-billing-periods/subscription-billing-periods.md",
-   "digest": "sha256-b2:3a0a03da985229a4",
-   "revision": 2,
-   "changedAt": "2026-10-22",
+   "digest": "sha256-b2:ec7859c7a542ef72",
+   "revision": 3,
+   "changedAt": "2026-10-31",
    "techniques": [
     {
      "slug": "anchor-re-derived-not-chained",
@@ -36291,6 +36291,13 @@
     }
    ],
    "applications": [
+    {
+     "stack": "node",
+     "technique": "timezone-anchored-period-dates",
+     "file": "knowledge/software-engineering/operations/metered-billing/subscription-billing-periods/applications/node--timezone-anchored-period-dates--kp.md",
+     "verified_on": "2026-10-31",
+     "verified_against": "node@24"
+    },
     {
      "stack": "sql",
      "technique": "anchor-re-derived-not-chained",
