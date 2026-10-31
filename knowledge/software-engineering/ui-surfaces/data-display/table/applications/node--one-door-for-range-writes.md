@@ -5,7 +5,7 @@ subject: table
 technique: one-door-for-range-writes
 stack: node
 status: forged
-verified_on: 2026-10-14
+verified_on: 2026-10-31
 ---
 
 # Two write events, one store: the editor path and the range path in a data grid

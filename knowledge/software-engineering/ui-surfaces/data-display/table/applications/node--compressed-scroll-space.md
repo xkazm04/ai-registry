@@ -5,7 +5,7 @@ subject: table
 technique: compressed-scroll-space
 stack: node
 status: forged
-verified_on: 2026-10-14
+verified_on: 2026-10-31
 ---
 
 # A windowed grid that probes the browser's scroll ceiling and maps two coordinate systems

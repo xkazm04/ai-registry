@@ -140,16 +140,21 @@ the exact operation positional keys corrupt under.
 **Check the non-destructive alternative first.** The platform can skip
 layout and paint for off-screen content while keeping it mounted (the CSS
 containment standard's `content-visibility: auto`, supported by all major
-engines since 2024), and skipped content stays in the accessibility tree and
-in keyboard order, so the heaviest losses above do not occur. Find-in-page is
+engines since 2024), and skipped content stays in keyboard order and is meant
+to stay reachable to assistive technology, so the heaviest losses above
+usually do not occur. The specification does let an engine omit skipped
+content from the accessibility tree where it cannot represent it there
+without the layout it skipped, so verify with the assistive technology the
+surface serves. Find-in-page is
 the specification's promise rather than a uniform fact — at least one major
 engine has been reported not to search skipped content — so test it where the
 surface is a lookup tool. It cuts the
 rendering half of the cost, not the mount, reconciliation and memory half,
 so it can make rung 4 unnecessary only where rendering was the budget that
-broke. And it has a precondition tables in particular miss: containment has
-no effect on internal table boxes other than cells, so it does nothing to a
-native table row. It applies to rows laid out as their own boxes (a grid- or
+broke. And it has a precondition tables in particular miss: layout and paint
+containment have no effect on internal table boxes other than cells, and size
+containment has none on any internal table box, cells included, so it does
+nothing to a native table row and cannot take a size estimate on a cell. It applies to rows laid out as their own boxes (a grid- or
 block-built body), or to a chunk of rows wrapped in such a box, and it needs
 an intrinsic-size estimate per skipped box or the scrollbar lies.
 

@@ -5,7 +5,7 @@ subject: table
 technique: export-escapes-for-its-consumer
 stack: node
 status: forged
-verified_on: 2026-10-14
+verified_on: 2026-10-31
 ---
 
 # A grid CSV exporter with the parser layer only, and a generic serialiser for the rest

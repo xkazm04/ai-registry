@@ -58,9 +58,12 @@ the client is a viewport over state it never fully holds.
   are *policy* must be applied where they cannot be skipped), or when
   multiple consumers need the same query semantics.
 - What it costs: round-trip latency on every interaction — so the loading
-  technique's refresh rules do real work here — plus debounced inputs,
-  request cancellation (a stale response arriving late must not overwrite a
-  newer one), and cache/invalidation questions.
+  technique's refresh rules do real work here — plus free-text filters that
+  commit on an explicit act rather than per keystroke, latest-wins response
+  handling (a stale response arriving late is dropped, never allowed to
+  overwrite a newer one; cancelling its request is an optional bandwidth
+  saving, not the fix — see [filtering](./filtering.md)), and
+  cache/invalidation questions.
 
 The decision is per-table, not per-application: an app correctly serves a
 5,000-row reference list all-client and a million-row event log all-server.

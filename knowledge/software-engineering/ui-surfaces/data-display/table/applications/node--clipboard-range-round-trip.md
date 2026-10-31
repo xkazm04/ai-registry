@@ -5,7 +5,7 @@ subject: table
 technique: clipboard-range-round-trip
 stack: node
 status: forged
-verified_on: 2026-10-14
+verified_on: 2026-10-31
 ---
 
 # Copy joins on tab, paste splits on tab: the round trip breaks on the first awkward value

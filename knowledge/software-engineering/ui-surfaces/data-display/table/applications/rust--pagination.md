@@ -4,7 +4,7 @@ type: application
 subject: table
 technique: pagination
 stack: rust
-verified_on: 2026-08-18
+verified_on: 2026-10-31
 ---
 
 # Keyset pagination in the Rust/SQL backend
@@ -30,9 +30,10 @@ events oldest-first, strictly after a composite `(created_at, id)` cursor.
 Every element of the standard's cursor design is present:
 
 - **Tuple predicate** (`:391`): `created_at > ?2 OR (created_at = ?2 AND id >
-  ?3)` — the whole ordering tuple, not the sort value alone. SQLite has no
-  row-value comparison in this form's favor here, so the OR-expansion is the
-  portable spelling of `(created_at, id) > (?2, ?3)`.
+  ?3)` — the whole ordering tuple, not the sort value alone. SQLite has
+  supported the row-value form `(created_at, id) > (?2, ?3)` since 3.15.0;
+  the OR-expansion is an equivalent spelling that also ports to stores
+  without row values.
 - **Composite ORDER BY** (`:392`) matches the predicate exactly — `created_at
   ASC, id ASC` — so page boundaries fall between well-defined neighbors.
 - **Why the tiebreaker is not optional here**: the doc comment (`:374-375`)
