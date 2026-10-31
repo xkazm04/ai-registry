@@ -4,7 +4,8 @@ type: application
 subject: eval-harness
 technique: judge-stability
 stack: node
-verified_on: 2026-08-18
+verified_on: 2026-10-31
+verified_against: node@22
 ---
 
 # Judge packets and the model bench — instrument discipline in scripts
@@ -37,7 +38,7 @@ Two technique properties are load-bearing here:
 `scripts/test/athena-model-bench.mjs` runs the model×effort matrix for the
 companion's turn model: nine named cells (`o-base`, `o-med`, `s-high`,
 `s-low-r`, …) with model and effort **pinned per cell** in a literal table
-(`:76-84`), `--reps N` per cell, and scenario seeds/pinned sections frozen
+(`:102-124`), `--reps N` per cell, and scenario seeds/pinned sections frozen
 in fixtures. Scoring is a deterministic validator (`runValidator`, checking
 pinned-connector claims against the scenario contract); the header states
 that the **LLM prose-quality judge is a deliberate follow-up** — the
@@ -55,8 +56,8 @@ biases are measured facts, not folklore:
   0.50** — and **each ranked its own model family first**. The guide's
   conclusion ("the model axis did not survive its own cross-check") is the
   own-family-preference systematic, observed in-house.
-- Both judges scored work **4/4 while logging unsubstantiated claims
-  against it** — the confidence-is-not-calibration finding, and the origin
+- Both judges saturated at 4/4, and one of them **awarded 4/4 on evidence
+  discipline while logging 3–5 unsubstantiated claims per attempt** — the confidence-is-not-calibration finding, and the origin
   of the golden path's "read the transcripts" ritual: the benchmark's own
   fixture corpus passed a green data round-trip gate and was still
   anatomically broken the moment a human looked.
@@ -65,3 +66,15 @@ Together the three files split the technique's duties: the packet freezes
 *what the judge sees*, the bench freezes *what the candidates are*, and
 the guide documents *how far the judge itself can be trusted* — the drift
 and bias ledger every score in the other two must be read against.
+
+Re-checked 2026-10-31 against the project tree at `61029d7ae0`: the anchor above is
+re-pointed to that commit. The judge packet, the `judge.json` merge in
+`evaluate.mjs` and the bias figures in the guide read as described. The bench
+matrix grew from nine cells to eighteen. It now adds chat-prompt cells,
+Sonnet 5.5 and Haiku 5.5 cells, and two metered cells on a second engine, and
+each cell still pins its engine, model, effort and prompt class. The LLM
+prose judge is still a deliberate follow-up: the report prints
+"LLM-judge prose scoring: not run". So the defer-the-judge reading holds. The
+judges sentence above is corrected to match the guide. Both judges
+saturated, but the guide attributes the unsubstantiated-claims count to one
+judge, not to both.

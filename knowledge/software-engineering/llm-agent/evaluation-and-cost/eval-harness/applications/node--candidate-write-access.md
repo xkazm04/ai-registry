@@ -4,8 +4,8 @@ type: application
 subject: eval-harness
 technique: candidate-write-access
 stack: node
-verified_on: 2026-08-31
-verified_against: node@24
+verified_on: 2026-10-31
+verified_against: node@22
 applied: experiment
 ab_verdict: better
 proof: ab-paired
@@ -97,3 +97,16 @@ by editing the graded file: a *behavioural* budget check that measures a
 recorded output against the declared cap, rather than matching the sentence
 that declares it. That converts one of the six from spelling to target and
 gives the lane a property worth the name.
+
+Re-checked 2026-10-31 against the project tree at `61029d7ae0`: the suite is unchanged since
+it was added on 2026-06-11. The header claim, the four per-spec `it` blocks
+and the budget regex `cap[\s\S]{0,40}?\d{2,4}\s*words` read as described.
+The pre-push `evals` job and the `no-live-mutation` check in
+`reflect-eval.mjs` are both present. The real spec is 2,414 characters
+(2,424 bytes) at that commit and at the measurement date, so Arm A stands.
+The file also holds a golden-contract block outside the per-spec loop. It
+requires four section names in this one spec, and it was not among the six
+transcribed. It is a `toContain` over the same graded file, so including it
+would add a seventh spelling check, not a target check, and the verdict
+stands. `verified_against` now reads the tree's `.nvmrc` (22). The earlier
+24 was not readable in the tree.

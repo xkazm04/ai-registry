@@ -235,3 +235,81 @@ overall disposition.
   }
 }
 ```
+
+## Architecture review - 2026-10-31 (after private-tree re-verification)
+
+This record follows the re-verification of react--theme-architecture and react--token-enforcement at personas@61029d7ae0. The token-enforcement citations were also checked at its pinned 2b5e24223.
+
+<!-- architecture-review:v1 -->
+```json
+{
+  "subject": "software-engineering/design-tokens",
+  "date": "2026-10-31",
+  "baseline": "500de2cea",
+  "digest": "sha256-b2:55680e57c07ed66a",
+  "disposition": "reverify",
+  "coverage": "Since the previous record, two applications changed. In each, anchors were re-pointed, a dated re-check was added, and verified_on moved to 2026-10-31. Every tree citation (themeStore, globals.css, deriveCustomTheme, CustomThemeCreator, check-themes.mjs, ci.yml, eslint config and rules, designTokens, statusTokens, typography.css, Design.md, the active-runs ledger, and both golden-path audit docs) was checked at HEAD, and the token-enforcement citations also at the pin. Other documents are byte-unchanged and carry their prior dispositions. react--token-taxonomy keeps reverify, which stays the overall disposition.",
+  "counterexamples": [
+    "A later ESLint config block that sets only a severity string keeps the earlier block's options, so a law carried as rule options survives a severity-only override and is lost only to a block that restates options.",
+    "Collapsing a reduced-motion duration to exactly 0s means no transition starts and no transitionend fires; a consumer awaiting that event hangs, which is why near-zero, not zero, is the rule.",
+    "A theme product with exactly one binding set has no theme-varying values; readback buys nothing there and generation is the right strategy even for color.",
+    "An allow-list gate over an agent-writable vocabulary can end at zero findings with a larger vocabulary than it started with; green says the consumers agree with the vocabulary, not that the vocabulary is right."
+  ],
+  "sources": [
+    {
+      "source": "personas at 61029d7ae0 (read, not executed)",
+      "result": "Since 084bdd503, DEFAULT_BRIGHTNESS is {dark:'low', light:'high'}, so light themes open at 1.0, not 0.82. customThemeAttr stamps light-custom for a light base. check-themes.mjs grades typography.css colours and CIEDE2000 role distinctness; the brightness-filter model is printed, not graded; custom themes are still not read. The -raw counteraction grew to 16 declarations per re-mixed block (92 total) with the four role tokens. The six-prefix deny-list and the two brightness-lock users are unchanged. text-md: 111 occurrences in 26 files, and RAW_TEXT_RE still omits it. Lint rules still warn, with no --max-warnings."
+    },
+    {
+      "source": "personas at 2b5e24223 (git show)",
+      "result": "Pinned anchors reproduced: globals.css:816-833 filter block, 847-860 lock and prefix list, 867-962 six 12-declaration blocks (72), 5116-5123 cvd twin; text-md 231 occurrences in 63 files with 4 in Button.tsx. The ledger's 193d4aeab does not resolve in history. The typo-label change is 760f0ee05 (143 tsx files)."
+    }
+  ],
+  "documents": {
+    "design-tokens.md": {
+      "disposition": "keep",
+      "reason": "Two layers, closed axes, one authority, theming as rebinding, contrast floor in the contract, error-or-ratchet enforcement and token-change-as-migration are coherent with every technique; links resolve."
+    },
+    "techniques/token-taxonomy.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: 'A owner-answerable definition' now reads 'An owner-answerable definition'. Banked CTI-to-$type lead remains a lead."
+    },
+    "techniques/theme-architecture.md": {
+      "disposition": "keep",
+      "reason": "Per-state completeness, pre-paint stamping, stored seed plus algorithm version, derived themes through the same gates; consistent with the golden path."
+    },
+    "techniques/cross-language-token-parity.md": {
+      "disposition": "keep",
+      "reason": "Ranking with the two deciding questions (does a binding set rebind it, can the runtime observe the live binding) and set-equality parity hold; the node application confirms strategy 1's guarantees and limits."
+    },
+    "techniques/token-enforcement.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: the linter-evaluation paragraph now says every run but two reached zero findings (both linter bugs, fixed the same day) and that the usual repair was a component variant, a declared brand token plus a brand variant in the worked example; the config-block paragraph now scopes replacement to a later block with arguments of its own and notes a severity-only restatement usually keeps them."
+    },
+    "techniques/motion-tokens.md": {
+      "disposition": "keep",
+      "reason": "Zero-duration claim supported by the spec's 'combined duration is greater than 0s' start condition; allow-list polarity for reduced motion is consistent with token-enforcement."
+    },
+    "techniques/density-and-scale-axes.md": {
+      "disposition": "keep",
+      "reason": "Disjoint role ownership per axis, the pixel-filter trap and floors bounding axis ranges are sound and match the react theme application's measured specimen."
+    },
+    "applications/react--theme-architecture.md": {
+      "disposition": "keep",
+      "reason": "Re-verified at personas@61029d7ae0, with 25 anchors re-pointed. The dated note says the 0.82 light default is resolved for the default path (it is still selectable), light custom themes are stamped light-custom, and check-themes now grades typography and roles but still not derived themes, so the advisory-gate finding holds. verified_on 2026-10-31, verified_against react@19."
+    },
+    "applications/react--token-taxonomy.md": {
+      "disposition": "reverify",
+      "reason": "Counts, contrast ratios and the Tailwind emission-order claim rest on a private tree at 62c252dd that was not reopened; emission order not checked against Tailwind's source."
+    },
+    "applications/react--token-enforcement.md": {
+      "disposition": "keep",
+      "reason": "Re-verified at 2b5e24223 and 61029d7ae0. Unchanged anchors are re-pointed. The dated note records that the -raw twin grew from 72 to 92 declarations (confirming monotone growth), that the contrast gate widened but still grades pre-filter values, that text-md fell from 231/63 to 111/26 while the rule is still a deny-list, and that the typo-label hash is corrected to 760f0ee05. verified_on 2026-10-31."
+    },
+    "applications/node--cross-language-token-parity.md": {
+      "disposition": "keep",
+      "reason": "Pinned public source re-read for the load-bearing defaults and the silent transform fallback; all confirmed. Remaining line anchors not exhaustively rerun, so verified_on is unchanged."
+    }
+  }
+}
+```

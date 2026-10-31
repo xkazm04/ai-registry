@@ -4,7 +4,8 @@ type: application
 subject: accessibility
 technique: keyboard-navigation-models
 stack: react
-verified_on: 2026-08-18
+verified_on: 2026-10-31
+verified_against: react@19
 ---
 
 # Keyboard navigation models — React shell and widgets (Personas)
@@ -18,10 +19,10 @@ consume them.
 | Model | Implementation |
 |---|---|
 | Roving tabindex (arrows within, one stop outside) | `src/hooks/utility/interaction/useRovingTabIndex.ts` — WAI-ARIA pattern for horizontal composites: ArrowLeft/ArrowRight with wrap, Home/End, and the critical discipline that arrow movement moves *real focus and selection together* (`refs.current[next]?.focus()` after `onIndexChange`) |
-| Skip link | `App.tsx:326-331` — first tab stop of the shell, `sr-only focus:not-sr-only`, jumps to the main-content anchor; visually hidden until focused, then painted as a real control (fixed, elevated, ring) |
-| Landmarks | `Sidebar.tsx:169` — `role="navigation" aria-label="Primary"`; group rails labelled via `aria-labelledby` (`SidebarGroupNav.tsx:200,242`) |
+| Skip link | `App.tsx:397-402` — first tab stop of the shell, `sr-only focus:not-sr-only`, jumps to the main-content anchor; visually hidden until focused, then painted as a real control (fixed, elevated, ring) |
+| Landmarks | `Sidebar.tsx:210` — `role="navigation"`, labelled "Primary" through the locale catalog; group rails labelled via `aria-labelledby` (`SidebarGroupNav.tsx:212,256`) |
 | Shortcut discoverability | `src/lib/keyboard/ShortcutCheatSheet.tsx` — the `?` / Ctrl+/ overlay rendered entirely from `shortcutRegistry.ts`, the single authority both the cheat sheet and the bindings read; a binding added to the registry is discoverable by construction |
-| Never-steal-typing guard | duplicated deliberately at every shortcut door: `isTypingTarget()` in `KeyboardNavMode.tsx:29-34` and `ShortcutCheatSheet.tsx:15-20`; `useQuestionnaireKeyboardNav.ts:44-88` applies the same semantics per-key (digits suppressed while typing, Shift+Enter keeps the textarea newline, arrows left to the caret while typing) |
+| Never-steal-typing guard | duplicated deliberately at every shortcut door: `isTypingTarget()` in `KeyboardNavMode.tsx:30-35` and `ShortcutCheatSheet.tsx:15-20`; `useQuestionnaireKeyboardNav.ts:58-96` applies the same semantics per-key (digits suppressed while typing, Shift+Enter keeps the textarea newline, arrows left to the caret while typing) |
 | A designed modal navigation mode | `KeyboardNavMode.tsx` — `;` enters an explicit navigation mode (back, dock toggles), `Esc`/`;` exits, active state rendered as a viewport glow and hint keys under the dock capsules — a *visible* mode, not a hidden grammar; registered in `shortcutRegistry.ts` so the cheat sheet stays in sync |
 | Global key ordering | `AppKeyboardProvider` (consumed by both chrome surfaces above) — the house convention the legacy corpus documented as P9: global handlers declare their position instead of racing `stopPropagation` |
 
@@ -60,3 +61,12 @@ plus one shared `isTypingTarget` semantic at every door. The roving hook is
 trivially portable but this repo's own measurement is the caution: shipping
 the mechanism without wiring the composites is standard-without-adoption —
 the gap belongs in whatever census or review gate the adopting repo runs.
+
+Re-checked 2026-10-31 against the project tree at `61029d7ae0`: the anchors above are
+re-pointed to that commit. The four gaps still hold. No file outside
+`useRovingTabIndex.ts` imports the hook. The toast pause is still
+`onMouseEnter`/`onMouseLeave` only. `DragHandle` still renders `role="button"`
+with no key handler. One addition supports the zero-adopter finding: the
+questionnaire hook now drops keys a nearer handler already claimed, and its
+comment names `SelectPills`' own roving-focus arrows as the live case. That is
+a hand-rolled arrow model sitting next to the unused canonical hook.

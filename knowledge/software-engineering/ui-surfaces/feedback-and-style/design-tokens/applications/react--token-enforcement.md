@@ -5,13 +5,16 @@ subject: design-tokens
 technique: token-enforcement
 stack: react
 status: forged
-verified_on: 2026-08-29
+verified_on: 2026-10-31
 verified_against: react@19
 ---
 
 # React application — token enforcement
 
-*Verified against the project tree at `2b5e24223`.*
+*Verified against the project tree at `2b5e24223`. Re-checked 2026-10-31 at
+`61029d7ae0`: line anchors for the constructs that did not change are
+re-pointed to that commit. Counts, and the anchors of constructs that did
+change, stay the pinned commit's; the re-check at the end says what moved.*
 
 This tree is the technique's best measured specimen: it has every kind of
 gate the technique names, and 2026-08 audits measured exactly what each one
@@ -25,11 +28,11 @@ are `docs/concepts/golden-paths/design-token-usage.md` and
 the shipped stylesheet (`src/styles/globals.css`), layers each
 `[data-theme=...]` block over `:root`, recomputes WCAG ratios for the text
 pairs, and hard-fails (exit 1) any theme where body/muted text drops below
-4.5:1 (header comment, `check-themes.mjs:1-40`). It runs in CI
-(`.github/workflows/ci.yml:144`), supports a fixture redirect for testing
-the checker itself (`CHECK_THEMES_CSS`, `check-themes.mjs:47-50`), and has
+4.5:1 (header comment, `check-themes.mjs:1-77`). It runs in CI
+(`.github/workflows/ci.yml:607`), supports a fixture redirect for testing
+the checker itself (`CHECK_THEMES_CSS`, `check-themes.mjs:83-87`), and has
 no dependencies. Its measured limits (audited at
-`theming-and-contrast.md:245-287`): it reads *pre-filter* declarations while
+`theming-and-contrast.md:246-288`): it reads *pre-filter* declarations while
 a whole-document brightness filter changes what reaches the screen — the
 light themes' default 0.82 level pushes `muted-foreground@80%` from a
 passing 4.6:1 to a failing 4.0–4.1:1 with the gate green — and it audits 11
@@ -41,11 +44,11 @@ instrument pointed at a proxy of the target.
 The lint rules the technique prescribes all exist
 (`eslint-rules/no-raw-radius-classes.cjs`, `no-raw-text-classes.cjs`,
 `no-low-contrast-text-classes.cjs`, …) and all sit at `"warn"`
-(`eslint.config.js:96-101`). The measured lesson, verbatim from this repo's
+(`eslint.config.js:98-107`). The measured lesson, verbatim from this repo's
 own audits: `npm run check` runs with no `--max-warnings`, and the
 pre-commit hook runs `--quiet --max-warnings 99999`, so **a warn-level rule
 enforces nothing at either gate at any count, by construction**
-(`theming-and-contrast.md:761-765`). Baseline at HEAD: 0 errors, 1,135
+(`theming-and-contrast.md:762-766`). Baseline at HEAD: 0 errors, 1,135
 warnings — 705 of them `no-low-contrast-text-classes`, 128
 `no-raw-radius-classes`. The correlation-without-enforcement effect is also
 measured: token axes with an early-wired rule sit at 94–99% adoption (typo
@@ -62,7 +65,7 @@ surviving predictor.
   lexical rule can tell an adopter from a violator — which is why the color
   axis has no raw-value rule at all
   (`design-token-usage.md:493-511`).
-- **Deny-list certifying the nonexistent:** `no-raw-text-classes.cjs:41` is
+- **Deny-list certifying the nonexistent:** `no-raw-text-classes.cjs:89` is
   a deny-list, so `text-md` — a class defined by *no* layer — passes green;
   230 occurrences across 63 files, four of them inside the shared `Button`
   (`design-token-usage.md:438-451`).
@@ -70,12 +73,12 @@ surviving predictor.
   attribute-visiting gaps leave it seeing 130 of 307 real occurrences
   (42.3%) (`design-token-usage.md:401-411`); the contrast rule walks
   template-literal quasis but never expressions, costing 14% recall
-  (`theming-and-contrast.md:429-467`).
+  (`theming-and-contrast.md:430-468`).
 - **The authority violating itself:** the token file ships raw values the
   standard bans — `INPUT_FIELD` hardcodes `rounded-xl` against the
   documented `rounded-input` mandate (`src/lib/utils/designTokens.ts:141-142`,
-  and `INPUT_FIELD_ERROR` beside it at `:145-146`, vs `.claude/Design.md:216`) — and it can, because the exemption matrix
-  excludes `src/lib/` from the rules (`no-raw-radius-classes.cjs:46-52`).
+  and `INPUT_FIELD_ERROR` beside it at `:145-146`, vs `.claude/Design.md:242`) — and it can, because the exemption matrix
+  excludes `src/lib/` from the rules (`no-raw-radius-classes.cjs:45`).
 - **The unvisited variant prefix** *(added 2026-09-24, against `a056cdc06`;
   the rest of this document keeps its 2026-08-29 date)*:
   `no-direct-white-colors.cjs` anchored its match on whitespace or string
@@ -95,14 +98,14 @@ surviving predictor.
 The golden path's "a token change is a migration" section is this repo's
 `typo-label` change, generalized. The recipe dropped its uppercase + wide
 tracking (`src/styles/typography.css` — the current file carries the
-post-change script notes at `typography.css:89-98`; `.claude/Design.md:61`
-records the before/after). Because the recipe had been *suppressing* local
+post-change script notes at `typography.css:102-111`, and the recipe's own
+comment records the before/after at `typography.css:247-249`). Because the recipe had been *suppressing* local
 styling — `typography.css` is unlayered and beat utility-layer declarations
 — **567 `uppercase`/`tracking-*` utilities sitting next to `typo-label` in
 class strings were inert, and every one would have switched back on the
 instant the token stopped declaring `text-transform`**. The change swept all
 of them pre-emptively, touching 143 component files in the same commit
-(`193d4aeab`; run ledger `.claude/active-runs.md:263-267`). The ledger's own
+(`193d4aeab`; run ledger `.claude/active-runs.md:1230-1234`). The ledger's own
 lesson: *"when you soften a `typo-*` token, sweep the utilities it was
 silently suppressing in the same change or the app ends up half-shouting."*
 The blast radius of a token change is what referenced it plus what it
@@ -116,7 +119,7 @@ tree carries the same story in a form the technique names only in passing —
 express** — and it is worth recording because every one of its members looks
 like a token when read on its own.
 
-The root fact is one declaration. `src/styles/globals.css:831-833` applies a
+The root fact is one declaration. `src/styles/globals.css:906-908` applies a
 filter to the document element:
 
 ```css
@@ -125,17 +128,17 @@ html {
 }
 ```
 
-Six brightness levels feed it (`:816-819` — dark 1.25 / 1.38 / 1.50, light
-0.82 / 0.91 / 1.0), and the comment at `:820` states the appeal plainly:
+Six brightness levels feed it (`:891-894` — dark 1.25 / 1.38 / 1.50, light
+0.82 / 0.91 / 1.0), and the comment at `:895` states the appeal plainly:
 "Applied via filter on `<html>` so every theme benefits universally." One
 declaration, every theme, no per-token work. That is exactly the trade the
 technique warns about, and the bill arrives as vocabulary.
 
-**Member one: an inverse constant.** `:827` defines
+**Member one: an inverse constant.** `:902` defines
 `--brightness-compensate: calc(1 / var(--app-brightness))` — a token whose
 only meaning is "undo the other token".
 
-**Member two: a lock utility.** `@utility brightness-lock` (`:847-850`) sets
+**Member two: a lock utility.** `@utility brightness-lock` (`:922-925`) sets
 `--tw-brightness` to that inverse and re-declares the entire Tailwind filter
 chain by hand, because setting one link would drop the others:
 
@@ -149,7 +152,7 @@ At HEAD it is applied in exactly two components —
 the escape hatch exists, is countable, and is barely used.
 
 **Member three: a hardcoded class-prefix list, which is a deny-list.**
-`:852-860` re-applies the same nine-variable filter chain to a selector list
+`:927-935` re-applies the same nine-variable filter chain to a selector list
 matched on Tailwind class *substrings*:
 
 ```css
@@ -174,7 +177,7 @@ level, twelve declarations each — seventy-two `color-mix` lines whose factors
 comment at `:864`: "Factor = round(100 / brightness_value)". Every semantic
 colour therefore exists twice, as `--status-error-raw` and `--status-error`,
 and the split has escaped into the accessibility layer: `html[data-cvd="safe"]`
-(`:5116-5123`) must set both, and its comment says why —
+(`:5455-5462`) must set both, and its comment says why —
 
 > Override the -raw token AND the rendered token so the brightness
 > counteraction layer (color-mix on -raw) picks up the safe value too.
@@ -200,7 +203,7 @@ one is measured at 72 declarations, 6 selector prefixes, and one rule every
 future token author must be told.
 
 The compounding effect on the gates is already recorded in §7.A of this tree's
-own audit (`theming-and-contrast.md:245-287`), cited above: the contrast
+own audit (`theming-and-contrast.md:246-288`), cited above: the contrast
 checker reads pre-filter declarations, so it scores the `-raw`-derived values
 and not the pixels. The dialect and the gate blindness are the same fact seen
 from two sides — the filter is invisible to the token layer, so the token
@@ -237,3 +240,37 @@ token layer cannot see either the filter or whether the argument worked.
   is supported here by a single specimen with a single root cause. A second
   sighting (a global saturation, a zoom, a print stylesheet) is what would
   make it a family rather than an anecdote.
+
+## Re-checked 2026-10-31 at `61029d7ae0`
+
+Every anchor resolved. The verdicts hold, with these measured movements.
+
+- **The `-raw` twin grew.** Four accent-role tokens (`--role-agent`,
+  `-human`, `-external`, `-highlight`) joined the counteraction layer in
+  `6528f44d3`. The five re-mixed blocks now carry sixteen declarations each,
+  and the light-high reset block still carries twelve: 92 declarations in
+  `globals.css:937-1055`, up from 72. The runtime snapshot list
+  `BRIGHTNESS_EXEMPT_TOKENS` still names only the original twelve. The
+  role `-raw` values are declared statically, so the monotone-growth reading
+  is confirmed rather than reversed. The prefix deny-list is unchanged at six
+  prefixes, and `brightness-lock` is still applied in exactly the same two
+  components.
+- **The contrast gate widened but still grades declarations.**
+  `check-themes.mjs` now also grades the `.typo-*` colours in
+  `typography.css` (since 2026-10-03) and CIEDE2000 role distinctness (since
+  2026-09-24). It models the brightness filter for roles at `:462-502`, but
+  only prints that view and never grades it. The contrast floor is still
+  enforced on pre-filter values, so the proxy finding stands. Since
+  `084bdd503` a light theme opens at brightness 1.0 rather than 0.82, so the
+  failing 0.82 cell is now a user-chosen level rather than the default.
+- **`text-md` halved, and the rule is still a deny-list.** It now matches
+  111 occurrences across 26 files (231 across 63 when re-counted the same way
+  at the pin), and one is left in `Button.tsx`. No stylesheet defines the
+  class, and `RAW_TEXT_RE` still omits it. The rule now rejects phantom
+  `typo-*` names, but that is a separate fix.
+- **The `typo-label` commit hash does not resolve in this history.** The
+  ledger still names `193d4aeab`. The same change is `760f0ee05` (2026-08-07,
+  143 `.tsx` files plus `typography.css`, `.claude/Design.md` and the
+  changelog). The 143-file figure is confirmed. `.claude/Design.md` no longer
+  carries the before/after row. The warn severities and the gate invocations
+  that make them advisory are unchanged.

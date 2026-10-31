@@ -5,13 +5,16 @@ subject: accessibility
 technique: preference-respect
 stack: react
 status: forged
-verified_on: 2026-08-29
+verified_on: 2026-10-31
 verified_against: react@19
 ---
 
 # The composite reduced-motion signal: an attribute on the root, observed
 
-*Verified against the project tree at `c2a3c5fa1`.*
+*Verified against the project tree at `c2a3c5fa1`. Re-checked 2026-10-31 at
+`61029d7ae0`: line anchors for the constructs that did not change are
+re-pointed to that commit; counts and the ad-hoc-reader findings stay the
+pinned commit's measurements, and the re-check at the end says what moved.*
 
 The technique states the composite signal abstractly: a product may layer its
 **own** setting over the platform's, feeding the same single signal, "so no
@@ -24,7 +27,7 @@ the tree also measures what happens to every consumer that skipped the reader.
 
 ## The projection
 
-`src/stores/themeStore.ts:197-204` is the whole write side:
+`src/stores/themeStore.ts:212-219` is the whole write side:
 
 ```ts
 function applyReduceMotion(reduceMotion: boolean) {
@@ -37,16 +40,16 @@ function applyReduceMotion(reduceMotion: boolean) {
 }
 ```
 
-It runs from the setter (`:347-351`, which also mirrors the value into store
-state and emits an appearance event) and again on rehydrate (`:382`), beside
+It runs from the setter (`:383-387`, which also mirrors the value into store
+state and emits an appearance event) and again on rehydrate (`:432`), beside
 identical projections for contrast, dim and density. The preference therefore
 exists in two representations that cannot disagree: a store field for React,
 and a root attribute for everything that is not React.
 
 That second representation is not decoration. It is what lets the **style
 layer** honor the in-app preference with no JavaScript at all —
-`src/styles/globals.css:5189-5196` keys the universal duration collapse off
-`html[data-motion="reduce"]`, and the block above it (`:5181-5188`) states why
+`src/styles/globals.css:5528-5535` keys the universal duration collapse off
+`html[data-motion="reduce"]`, and the block above it (`:5520-5527`) states why
 the collapse is to `0.01ms` rather than `none`: it "preserves the FINAL state
 of state-driven CSS (so toggled classNames still apply the intended styles)
 while eliminating the motion path". That is the technique's replace-never-
@@ -168,7 +171,7 @@ their behavior splits precisely along whether they knew about the projection.
   reduced motion here has none.
 - **The library-level gate is not part of the composite.** The application
   wraps its tree in the animation library's own reduced-motion mode
-  (`App.tsx:366`), which resolves the platform query internally. Framework
+  (`App.tsx:392`), which resolves the platform query internally. Framework
   animations therefore honor the in-app toggle only where an author routed
   through the wrapped hooks; the global wrapper below them does not see it.
 - **This document covers one preference of four.** The technique's contract
@@ -181,3 +184,29 @@ their behavior splits precisely along whether they knew about the projection.
   in principle — set one attribute — but no test drives the whole product under
   it, and the lint rule checks for the *presence of a token*, not for correct
   behavior under the preference.
+
+## Re-checked 2026-10-31 at `61029d7ae0`
+
+The mechanism is unchanged: `useMotion.ts` and the lint rule are
+byte-identical to the pinned commit, the projection and the 0.01ms collapse
+read as quoted, and the library wrapper still resolves the platform query
+alone. Three measurements moved, and one gap is resolved.
+
+- **`AnimatedCounter` is resolved.** The private media-query-only hook is
+  gone; the component now imports the sanctioned `useReducedMotion`
+  (`AnimatedCounter.tsx:10`). The per-tick engine is still deaf to the in-app
+  toggle (`rafAnimationEngine.ts:71`, unchanged).
+- **The ad-hoc readers grew from three to nine files.** Literal runtime
+  reads of the media query outside the sanctioned hook now sit in nine
+  non-test files. Two check `data-motion` as well (`flashSpotlight.ts`, and
+  `DocumentSurface.tsx:99-101`, new since the pin). Seven read the query
+  alone: the engine plus six new readers in companion, decision-center and
+  team surfaces. So the split this document measured holds, and the
+  media-query-only side is now the larger one. The composite's adoption grew
+  too: the module is imported by 137 files, up from 50.
+- **The inline-style residue shrank.** Two component `<style>` blocks now key
+  on the media query only (one in the lifecycle-icon module, one in the
+  glyph), down from six. A new inline block in a companion stage keys on both
+  sources. `globals.css` now carries 16 `prefers-reduced-motion` and 18
+  `data-motion="reduce"` occurrences. Nothing derives one count from the
+  other, so the twins finding stands.

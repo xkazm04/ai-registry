@@ -396,3 +396,98 @@ consumer trees behind the five react applications.
   }
 }
 ```
+
+## Architecture review - 2026-10-31 (after private-tree re-verification)
+
+This record follows the re-verification of the two react applications that the record above marked `reverify`. Both were checked at personas@61029d7ae0, and where a commit was pinned, at that commit too.
+
+<!-- architecture-review:v1 -->
+```json
+{
+  "subject": "software-engineering/accessibility",
+  "date": "2026-10-31",
+  "baseline": "500de2cea",
+  "digest": "sha256-b2:a981516c48153a86",
+  "disposition": "reverify",
+  "coverage": "Since the previous record, two applications changed. react--keyboard-navigation-models: anchors re-pointed, a dated note added, verified_on 2026-10-31. react--preference-respect: anchors of unchanged constructs re-pointed, a dated re-check section added, verified_on 2026-10-31. Every tree citation in both was checked at personas@61029d7ae0, and the preference-respect citations also at the pinned c2a3c5fa1. Every other document is byte-unchanged and carries its prior disposition. The three remaining react applications keep reverify, which stays the overall disposition.",
+  "counterexamples": [
+    "A subtree marked not visible closes both accessibility channels yet still holds its layout space; only taking it out of the layout frees the space.",
+    "An alert-grade region that arrives already populated is voiced by most pairings, so 'pre-populated is silent' is a tendency with a named exception, not a rule.",
+    "A native accessibility schema can rank a direct label above the labelling relation, inverting the browser precedence the name technique outlines.",
+    "Tab out of a popup menu, per the published pattern, leaves the menu without returning to the trigger; Escape is what returns.",
+    "Removing a live region can be the accessibility fix (an ambient tally) and its diff looks like a regression."
+  ],
+  "sources": [
+    {
+      "source": "personas at 61029d7ae0 (read, not executed)",
+      "result": "Keyboard: useRovingTabIndex.ts has no importer outside itself; App.tsx:397-402 skip link; Sidebar.tsx:210 primary nav; SidebarGroupNav.tsx:212,256; isTypingTarget at KeyboardNavMode.tsx:30-35 and ShortcutCheatSheet.tsx:15-20; useToastTimer pause is onMouseEnter/onMouseLeave only; DragHandle is role=button with no key handler. Preference: useMotion.ts and the reduced-motion lint rule are byte-identical to c2a3c5fa1; themeStore.ts:212-219,383-387,432; globals.css:5520-5535; App.tsx:392 MotionConfig. AnimatedCounter now imports the sanctioned hook. There are nine non-sanctioned media-query reader files, two of them composite. useMotion has 137 importers. Two media-query-only inline style blocks remain."
+    },
+    {
+      "source": "personas at c2a3c5fa1 (git show)",
+      "result": "Pinned anchors and counts reproduced: 50 useMotion importers, 16/17 globals occurrences, four literal matchMedia readers (useMotion, rafAnimationEngine, AnimatedCounter, flashSpotlight), and six inline media-query blocks (4 lifecycle icons, glyph, AdoptCelebration)."
+    }
+  ],
+  "documents": {
+    "accessibility.md": {
+      "disposition": "keep",
+      "reason": "Load-bearing claims (primitives multiply, keyboard equivalence, two-channel hiding, engineered announcements, computed names, preference coverage, decaying claim, pairing grid) hold against the sources read; hedges match the techniques. Trigger: any app-wide accessibility decision; benefit: fixes land in primitives and gates; failure if ignored: N-call-site retrofit and silent regressions; boundary: neighbour subjects own overlay containment, field wiring, delivery policy, motion and token mechanics."
+    },
+    "techniques/primitive-level-a11y.md": {
+      "disposition": "keep",
+      "reason": "Native-first and the primitive contract are consistent with the platform semantics read; no unstable claim."
+    },
+    "techniques/keyboard-navigation-models.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: transient-composite exit now names a defined target outside the popup — Escape to the trigger, Tab out per the published menu pattern, the surface naming where it lands."
+    },
+    "techniques/hidden-but-mounted-inertness.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: the not-visible hide is stated as holding its layout space; both-channels claim unchanged."
+    },
+    "techniques/live-region-architecture.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: semantics #1 names the alert grade as the commonly documented exception, still not universal."
+    },
+    "techniques/name-and-description-wiring.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: precedence outline scoped as the browser's name-computation algorithm, with the native-schema inversion noted. Banked platform-dependent defect-direction candidate still owed."
+    },
+    "techniques/preference-respect.md": {
+      "disposition": "keep",
+      "reason": "AA floors and the 200% text-scale figure match WCAG 2.2 (1.4.3, 1.4.11, 1.4.4); the one-signal contract is internally consistent with its react application."
+    },
+    "techniques/a11y-verification.md": {
+      "disposition": "reverify",
+      "reason": "Denominator doctrine confirmed (Deque: 57.38% by volume; 16 of 50 AA criteria). The synthetic-evaluator paragraph cites unnamed systems and an absent human-to-human agreement figure; that source was not identified or reopened."
+    },
+    "techniques/assistive-tech-divergence.md": {
+      "disposition": "keep",
+      "reason": "Structural, product-free claims; supported by MDN's 'Behavior can vary across browser and assistive technology combinations' and the alert exception. Failure ranking is a stated judgement, not an empirical claim."
+    },
+    "applications/react--name-and-description-wiring.md": {
+      "disposition": "reverify",
+      "reason": "Private tree at a pinned commit not reopened; findings are internally consistent with the technique (absorbed error name, unchanged-string silence). verified_on unchanged."
+    },
+    "applications/react--hidden-but-mounted-inertness.md": {
+      "disposition": "reverify",
+      "reason": "Private tree not reopened; the mechanisms cited agree with the HTML inert semantics read this run. verified_on unchanged."
+    },
+    "applications/rust--name-and-description-wiring.md": {
+      "disposition": "keep",
+      "reason": "Central claim re-read at the pinned commit (direct label before labelled_by; description() ignores described_by). Remaining anchors and the executed harness not re-run; verified_on unchanged."
+    },
+    "applications/react--preference-respect.md": {
+      "disposition": "keep",
+      "reason": "Re-verified at c2a3c5fa1 and 61029d7ae0. The mechanism is unchanged and the unchanged anchors are re-pointed. The dated note records three moves: the AnimatedCounter gap is resolved, the ad-hoc readers grew from three to nine files (seven of them media-query only), and media-query-only inline blocks fell from six to two. The pinned measurements are retained. verified_on 2026-10-31."
+    },
+    "applications/react--keyboard-navigation-models.md": {
+      "disposition": "keep",
+      "reason": "Re-verified at personas@61029d7ae0. Five anchors re-pointed, and every gap holds: the roving hook still has zero importers, the toast pause is hover-only, and DragHandle has no key operation. A new questionnaire comment naming SelectPills' hand-rolled roving arrows supports the zero-adopter finding. verified_on 2026-10-31, verified_against react@19 from package.json."
+    },
+    "applications/react--live-region-architecture.md": {
+      "disposition": "reverify",
+      "reason": "Private tree not reopened; provider mechanics agree with the technique."
+    }
+  }
+}
+```
