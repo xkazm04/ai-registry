@@ -71,10 +71,14 @@ so the question is moot and three of the rules above invert:
   widget that appears and leaves focus behind has told a non-visual
   user nothing and moved nobody.
 - **The exit dismisses rather than advances.** Tab does not step to the
-  next member or the next widget; it closes the composite — which means
+  next member; it closes the composite and focus leaves it — which means
   the surface is about to destroy the element that currently holds
-  focus, and it owes the handoff *before* the destruction, back to the
-  trigger the user arrived from. A popup that unmounts on Tab while one
+  focus, and it owes the handoff *before* the destruction, to a defined
+  target outside the popup. The published authoring practices for a
+  menu send Escape back to the trigger the user arrived from and have
+  Tab move focus out without naming where it lands, so the surface
+  names that target itself — the trigger, or the sequence onward from
+  it. A popup that unmounts on Tab while one
   of its own rows still has focus drops the user at the top of the
   document, and the symptom — "focus sometimes disappears when I tab" —
   reads as a browser quirk for months.

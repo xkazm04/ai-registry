@@ -29,7 +29,9 @@ announcements:
    most platform/reader combinations — and the qualifier is load-bearing
    rather than cautious: this is the single edge where pairings diverge
    most, several announcing pre-populated regions of some grades and not
-   others, in no pattern a product can encode
+   others (the alert grade is the commonly documented exception, voiced
+   by most pairings even when it arrives populated, and still not by
+   all), in no pattern a product can encode
    ([assistive-tech-divergence](./assistive-tech-divergence.md)). Which
    is exactly why the architecture below does not try to encode it. The
    region must exist *before* the news.
