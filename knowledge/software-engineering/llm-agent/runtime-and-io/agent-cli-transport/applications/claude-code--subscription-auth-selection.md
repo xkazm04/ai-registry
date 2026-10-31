@@ -106,9 +106,9 @@ unexpectedly empty field as unknown rather than unchanged.
 
 ## Two new ceilings on 2.1.251 (help-verified 2026-08-30)
 
-The subject states that no tool in this class ships an overall wall-clock
-flag. Re-checked today on all three locally installed tools: still true,
-none has one. But this CLI has grown a ceiling of a different kind that a
+The subject then stated that no tool in this class ships an overall
+wall-clock flag; the golden path has since scoped that to the mainstream
+tools. Re-checked today on all three locally installed tools: none has one. But this CLI has grown a ceiling of a different kind that a
 transport in this subject should know about:
 
 - **`--max-budget-usd <amount>`** — "Maximum dollar amount to spend on API
@@ -116,11 +116,15 @@ transport in this subject should know about:
   ceiling, and directly relevant to a subject whose thesis is economics: on
   the metered leg of the ladder it is a real bound the adapter no longer has
   to synthesize. Semantics under seat auth were not smoked (UNVERIFIED
-  whether it is inert or still counts notional cost).
+  whether it is inert or still counts notional cost). The vendor reference
+  (re-read 2026-10-31) says the cap is checked against the CLI's
+  client-side cost estimate, "which can differ from your bill", and that
+  spend can pass the cap, so it is a soft bound with headroom, not a meter.
 - **`--restricted`** — a first-class hardened stance: removes the
   command-and-code-running tools and web fetch unless `--tools` names them,
   ignores user/project/local settings files, confines file tools to the
-  working directories, and **refuses `bypassPermissions`**. This is a
+  working directories, and **refuses `bypassPermissions`** (the vendor
+  reference, re-read 2026-10-31, gives its floor as v2.1.248). This is a
   stronger and more purpose-built isolation than the `--setting-sources
   user` workaround the output-normalization page records, and unlike
   `--bare` it does not change the auth direction. Flag surface verified in
