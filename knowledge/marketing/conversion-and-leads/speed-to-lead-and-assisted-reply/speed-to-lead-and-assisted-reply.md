@@ -101,8 +101,12 @@ while a stronger tier returned 35 with four risks. The list, by contrast, fails 
 the human: any entry buys a human read, whatever the number says. So the autonomy gate
 is a conjunction - channel enabled, autonomy set to automatic, confidence above the
 channel's bar, *and risks empty* - and the last conjunct is the one that holds when
-the model is weak. A fallback reply produced without a model scores zero and names
-itself as the risk, so the gate can never approve a canned draft.
+the model is weak. The list fails toward the human only while the model's errors are
+honest: an inbound written to make the model report a high number and an empty list
+defeats it on every tier, so hostile shapes the code itself detects in the inbound are
+risks the model cannot clear, read by the same gate. A fallback reply produced without a
+model scores zero and names itself as the risk, so the gate can never approve a canned
+draft.
 
 **Approval judges the text; delivery judges the act.** A draft a human approved last
 week must still be refused today if the channel was switched off, the weekly cap is
@@ -153,7 +157,7 @@ person did not ask about, it has become marketing and the gate applies.
 - Running the unattended assistant on a channel the operator set to *assist* or
   *review*: those settings are the operator's promise to themselves that a human is in
   the loop, and a scheduler is not a human.
-- Sending the prompt the customer's raw message as instruction rather than as quoted
+- Sending the customer's raw message to the model as instruction rather than as quoted
   material: the inbound message and its thread are written by whoever is on the other
   end, and the model's own confidence and risks are what the gate reads, which makes
   the reply prompt the sharpest injection surface a marketing system has.
