@@ -49,7 +49,7 @@ rights record application under the acceptance subject.
 | ElevenLabs Music v2 | native composition plan | picture-locked cues, revisable pieces | the schema above; proper API; ~4min+ single takes |
 | Suno v5 | prompt + section tags, no public API | vocal-led full songs | consensus vocal-quality leader; reachable only via third-party aggregators (create/extend/cover/persona/remaster ops, stems and MIDI export there); ~60–120s latency |
 | Google Lyria 3 | prompt-level | fast instrumental beds | roughly 2–4× faster generation than Suno-class; API via cloud platform |
-| Udio | prompt-level, no public API | vocal songs | commercial rights on paid plans |
+| Udio | prompt-level, no public API | none for a delivered cue | as of 2026-10-31: downloads off since 2025-10-29 ("Starting today, downloads from the platform will be unavailable", https://www.udio.com/blog/a-new-era); Terms (rev. 2025-11-12) allow Output "solely for your personal and non-commercial purposes" on every tier; licensed relaunch with Universal/Warner announced for 2026, not launched |
 | Stable Audio / MiniMax | prompt + duration | SFX-adjacent, short-form, open-weight options | proper APIs; quality trails the leaders on vocals |
 
 Sourcing consequence for a cue pipeline: as of 2026-08 only the

@@ -25,8 +25,20 @@ carries the date it was resolved and expects to go stale.
   free-plan songs by default (Suno may grant it for specific songs). This is the cleanest public example of the
   non-retroactivity trap the technique warns about, and the reason "plan
   tier at generation time" is the record's first field.
-- **Udio** — paid plans grant commercial use, no attribution required;
-  the free tier does not.
+- **Udio** — as of 2026-10-31: **no commercial grant on any tier, and no
+  downloads.** Udio's 2025-10-29 announcement of its Universal settlement
+  (https://www.udio.com/blog/a-new-era) says "Starting today, downloads
+  from the platform will be unavailable", and its Terms of Service (Last
+  Revised November 12, 2025; https://www.udio.com/terms-of-service) say
+  "you may use Output solely for your personal and non-commercial
+  purposes, provided that you may not download any copies of your Output
+  from the App for any purpose". A paid subscription now only waives the
+  attribution notice for Output made during it. The licensed platform
+  co-developed with Universal (and Warner, 2025-11-19) was announced for
+  2026; Udio's blog shows no launch as of this date. The earlier
+  "paid plans grant commercial use" posture is the strongest example of a
+  grant withdrawn after the fact — the reason the record captures the
+  terms in force at generation, not today's.
 - **ElevenLabs (Eleven Music)** — "cleared for broad commercial use" with
   tier-dependent restrictions; the operative document is the vendor's
   Music Terms, which distinguishes tiers and destinations — resolve it

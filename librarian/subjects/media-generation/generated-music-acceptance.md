@@ -212,3 +212,89 @@ application stays `reverify`, which is now the overall disposition.
   }
 }
 ```
+
+Targeted Udio correction, 2026-10-31: the application's paid-plan commercial-use line was
+contradicted by Udio's own announcement and terms and is now rewritten from them. The
+jurisdictional-guidance claim keeps the application, and so the subject, at `reverify`.
+
+<!-- architecture-review:v1 -->
+```json
+{
+  "subject": "media-generation/generated-music-acceptance",
+  "date": "2026-10-31",
+  "baseline": "96dec842b",
+  "digest": "sha256-b2:ba4ae482ee6e9290",
+  "disposition": "reverify",
+  "coverage": "All 7 documents decided. Targeted correction: the application's Udio line was rewritten from Udio's own announcement and its live Terms of Service (both opened this run) and the edited passage re-read. Other documents are byte-unchanged and carry their prior dispositions. The jurisdictional-guidance claim and the synced-effect vendor attestation remain unsourced; no verification date was refreshed.",
+  "counterexamples": [
+    "A master at -16 LUFS with a -1.2 dBTP peak meets Spotify's guidance without the extra -2 dBTP headroom, because Spotify asks for -2 dBTP only when the master is louder than -14 LUFS.",
+    "A composition plan detailed enough to fix every section is still, in the Copyright Office's terms, a prompt: 'prompts alone do not provide sufficient human control', so the plan alone does not carry a registration claim; human-written lyrics, selection and arrangement, and edits can.",
+    "A paid Udio subscription after October 2025 does not yield a deliverable file at all if downloads are disabled, so 'paid plans grant commercial use' cannot clear an asset for a production timeline.",
+    "A paid ElevenLabs tier clears a web trailer and still excludes film, TV and radio, so 'cleared for commercial use' without a destination is not a clearance."
+  ],
+  "sources": [
+    {
+      "url": "https://tech.ebu.ch/docs/r/r128.pdf",
+      "result": "Confirms 'Programme Loudness Level shall be normalised to a Target Level of -23.0 LUFS', 'True Peak Level of a programme shall not exceed -1 dBTP', and that 'Maximum True Peak Levels may be lower for different distribution systems and data reduction rates'. Supports the broadcast target and the ceiling."
+    },
+    {
+      "url": "https://support.spotify.com/artists/article/loudness-normalization",
+      "result": "'Target the loudness level of your master at -14dB integrated LUFS'; 'Keep it below -1dB TP (True Peak) max'; 'If your master is louder than -14dB integrated LUFS, keep True Peak below -2dB'. Supports -14 and -1 dBTP; the -2 dBTP condition is loudness above target, which the technique omits."
+    },
+    {
+      "url": "https://help.suno.com/en/articles/2425729",
+      "result": "Subscribing does not give retroactive commercial licensing for free-plan songs by default; 'Songs made with Suno's free plan can only be used for non-commercial purposes'; Suno may grant retroactive rights for specific songs. Supports the non-retroactivity trap, with a 'by default' qualifier the application lacks."
+    },
+    {
+      "url": "https://elevenlabs.io/music-terms",
+      "result": "Last updated 09 October 2026. Free through Business tiers: 'All online and offline commercial use permitted, except film, TV, radio, and Studio Games'; free tier downloads 'Not permitted'. Supports the application's 'tier-dependent, resolve per project' line and the technique's per-destination clearance rule."
+    },
+    {
+      "url": "https://www.copyright.gov/ai/Copyright-and-Artificial-Intelligence-Part-2-Copyrightability-Report.pdf",
+      "result": "January 2025: 'prompts alone do not provide sufficient human control to make users of an AI system the authors of the output'; outputs can be copyrightable 'where AI is used as a tool, and where a human has been able to determine the expressive elements they contain'. Supports the registration paragraph but refutes counting the plan/prompt itself as the human contribution."
+    },
+    {
+      "url": "https://www.bostonglobe.com/2025/10/30/business/universal-music-ai-song-udio/",
+      "result": "AP report: Udio 'immediately stopped allowing people to download songs created via AI'; songs to be 'controlled within a walled garden'. Contradicts the application's Udio posture as of 2026-08. Udio's own terms page (udio.com/terms-of-service) returned no readable text."
+    },
+    {
+      "url": "https://www.udio.com/blog/a-new-era",
+      "result": "2025-10-29: 'Starting today, downloads from the platform will be unavailable.' Udio's blog index (https://www.udio.com/blog) lists nothing after 'Udio with Warner Music Group' (2025-11-19), which describes 'Udio's reimagined platform' as forthcoming: no licensed relaunch announced as of 2026-10-31."
+    },
+    {
+      "url": "https://www.udio.com/terms-of-service",
+      "result": "Last Revised on November 12, 2025, live 2026-10-31: 'you may use Output solely for your personal and non-commercial purposes, provided that you may not download any copies of your Output from the App for any purpose'; a paid subscription only waives the attribution notice for Output made during it. Refutes any paid-plan commercial grant."
+    }
+  ],
+  "documents": {
+    "generated-music-acceptance.md": {
+      "disposition": "keep",
+      "reason": "Three non-substituting gates, measure-what-was-numbered, named defects routing remedies and rights-at-acceptance are coherent with every technique. The non-retroactivity claim ('routinely') is confirmed by Suno's terms. Boundary with generated-output-grading and the composition subject is stated."
+    },
+    "techniques/brief-conformance-listen.md": {
+      "disposition": "keep",
+      "reason": "Brief-derived checklist with a three-state verdict, listening conditions and routed fails. Methodological, no unstable claim."
+    },
+    "techniques/loudness-and-peak-acceptance.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: the -2 dBTP allowance now also covers a master running louder than the platform's normalization target, per Spotify's guidance, alongside lossy transcoding."
+    },
+    "techniques/generated-audio-defect-taxonomy.md": {
+      "disposition": "keep",
+      "reason": "Remedy routing and the recurrence rule are sound. The three synced-effect classes mirror sound-effect-generation's picture-as-timing-brief and are deliberately carried as generated-audio classes; their vendor attestation was not re-opened."
+    },
+    "techniques/structure-verification-against-plan.md": {
+      "disposition": "keep",
+      "reason": "Deterministic-before-ear ordering and the plan-only checkability argument are internally consistent; no unstable claim."
+    },
+    "techniques/rights-and-provenance-record.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: the registration sentence now says prompts alone, a plan included, do not make the user an author (Copyright Office, January 2025), and names the lyric, selection and arrangement, and edit history as the human contribution, with the plan as evidence of intent."
+    },
+    "applications/process--rights-and-provenance-record.md": {
+      "disposition": "reverify",
+      "reason": "applied 2026-10-31: the Udio line now reads, as of 2026-10-31, no commercial grant on any tier and no downloads, quoting Udio's 2025-10-29 announcement and its Terms (rev. 2025-11-12), with the 2026 licensed relaunch noted as not launched. Still owed: the 2026 jurisdictional-guidance claim names no source. verified_on left at 2026-08-26 because not every citation was re-checked; refresh_by 2026-11-26 stands."
+    }
+  }
+}
+```

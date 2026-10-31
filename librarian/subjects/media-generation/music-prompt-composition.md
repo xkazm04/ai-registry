@@ -216,3 +216,85 @@ against the edited bytes. The one item left open is the Udio rights row (reverif
   }
 }
 ```
+
+Targeted Udio correction, 2026-10-31: the row the prior record left open is rewritten from
+Udio's own announcement and terms, which closes the subject at `keep`.
+
+<!-- architecture-review:v1 -->
+```json
+{
+  "subject": "media-generation/music-prompt-composition",
+  "date": "2026-10-31",
+  "baseline": "96dec842b",
+  "digest": "sha256-b2:ad93535d80fe1214",
+  "disposition": "keep",
+  "coverage": "All 8 documents decided. Targeted correction: the process application's Udio row was rewritten from Udio's own announcement and live Terms of Service (both opened this run) and re-read; that was the one item the prior record left open. Other documents are byte-unchanged and carry their prior dispositions. The other vendor rows and the consumer application's live render were not re-checked; verified_on unchanged.",
+  "counterexamples": [
+    "A plan with both edges locked and a fixed tempo is producible when the bar math fits both (120 BPM puts a 26 s hit and a 38 s hard out both on bar lines), so 'both edges locked is unproducible' holds only when it does not fit.",
+    "In the vendor's v1 MusicPrompt schema no statement makes the first section the anchor; the anchor rule is documented for v2 chunks only, so 'every sectioned scheme' is wider than the evidence.",
+    "A section plan of one (a 6 s stinger) carries no revision advantage over a prose prompt, as the technique's own 'when not' already concedes.",
+    "A 32 ms overshoot is two frames at 60 fps; frame-accurate timelines at high rates still need a trim.",
+    "A paid Udio subscription in 2026 yields no downloadable file and only personal, non-commercial use, so Udio cannot source a delivered cue on any plan until a licensed relaunch says otherwise."
+  ],
+  "sources": [
+    {
+      "url": "https://elevenlabs.io/docs/api-reference/music/compose",
+      "result": "v2/v2.5 CompositionPlan is `chunks` (text, duration_ms 3000-120000, positive_styles, negative_styles, context_adherence default high, conditioning_ref); v1 MusicPrompt is positive_global_styles/negative_global_styles/sections. 'The styles for the first chunk are the most important as they set the overall tone and genre.' Refutes the worked example's mixed shape."
+    },
+    {
+      "url": "https://elevenlabs.io/docs/eleven-api/guides/how-to/music/composition-plans.md",
+      "result": "'an ordered list of up to 30 chunks'; 'Total duration must be between 3 seconds and 10 minutes, with each chunk between 3 and 120 seconds'; styles 'max 50'; square-bracket section names and curly-brace inline cues; chunks may reference a stored song. Supports the application's schema bullets."
+    },
+    {
+      "url": "https://elevenlabs.io/docs/overview/capabilities/music",
+      "result": "Music v2.5 is now the most advanced model; MP3 44.1kHz 128-192kbps plus WAV. Consistent with the dated 2026-08 snapshot; no edit needed."
+    },
+    {
+      "source": "Internal arithmetic",
+      "result": "240/B bar math re-derived: technique's 24 s table and node application's 96 BPM/10 s are correct; process application's 92 BPM for 26 s is 87 ms off; node application's frame claim false above 30 fps."
+    },
+    {
+      "url": "https://www.udio.com/blog/a-new-era",
+      "result": "2025-10-29: 'Starting today, downloads from the platform will be unavailable.' Udio's blog index (https://www.udio.com/blog) lists nothing after 'Udio with Warner Music Group' (2025-11-19), which describes 'Udio's reimagined platform' as forthcoming: no licensed relaunch announced as of 2026-10-31."
+    },
+    {
+      "url": "https://www.udio.com/terms-of-service",
+      "result": "Last Revised on November 12, 2025, live 2026-10-31: 'you may use Output solely for your personal and non-commercial purposes, provided that you may not download any copies of your Output from the App for any purpose'; a paid subscription only waives the attribution notice for Output made during it. Refutes any paid-plan commercial grant."
+    }
+  ],
+  "documents": {
+    "music-prompt-composition.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: 'In every sectioned generation scheme' narrowed to 'In sectioned generation schemes' (anchor rule is documented for the vendor's v2 chunks only)."
+    },
+    "techniques/section-plan-as-the-brief.md": {
+      "disposition": "keep",
+      "reason": "Shape (per-section duration in ms, include/exclude lists, dozens-of-sections caps, seconds-to-minutes totals) matches the vendor schema; numbers correctly delegated to the application."
+    },
+    "techniques/sonic-style-vocabulary.md": {
+      "disposition": "keep",
+      "reason": "Axis table and exclude-list fence are coherent and consistent with the vendor's include/exclude style lists; restatement law correctly applied."
+    },
+    "techniques/lyrics-for-singability.md": {
+      "disposition": "keep",
+      "reason": "Tags-and-braces separation matches the vendor's square-bracket section names and curly-brace inline cues; craft rules are stable."
+    },
+    "techniques/duration-and-tempo-locking.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: first decision rule now says both edges locked plus a fixed tempo over-determines the cue unless the bar math fits both, matching the body and the subject's worked examples."
+    },
+    "techniques/reference-track-anchoring.md": {
+      "disposition": "keep",
+      "reason": "Style-not-melody and own-accepted-work anchoring are sound; consistent with the vendor rejecting copyrighted content in styles."
+    },
+    "applications/process--section-plan-as-the-brief.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: the Udio row now reads, as of 2026-10-31, downloads off since 2025-10-29 and personal non-commercial use only on every tier (Terms rev. 2025-11-12), licensed relaunch announced for 2026 and not launched; its sourcing role is now 'none for a delivered cue'. The earlier v2 chunks rewrite and tempo correction stand. verified_on unchanged: the Suno/Lyria/Stable Audio/MiniMax rows and the Composer ship date were not re-checked (due at refresh_by 2026-11-26)."
+    },
+    "applications/node--duration-and-tempo-locking.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: 'well under a frame at any picture rate' -> 'under a frame at 24-30 fps (about two frames at 60)'. Live render not re-run; verified_on unchanged."
+    }
+  }
+}
+```
