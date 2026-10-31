@@ -69,6 +69,17 @@ What remains — and it is the hard part — is captured by one sentence:
 
 Every structural decision below follows from taking that literally.
 
+The budget is only spent inside what the recipient has consented to. A
+channel, a kind, or a recipient that has not opted in gets no initiative
+at any budget level, and an opt-out withdraws it. Within consent, two
+classes of contact differ in authority and are kept apart throughout: a
+**requested reminder** ("remind me at 9") is the user's own instruction
+replayed at the time they chose, while a **speculative nudge** is the
+agent's guess that something matters. A requested reminder may legitimately
+repeat, is not throttled by efficacy, and holds reserved capacity; a
+speculative nudge competes for what remains and earns its allowance from
+outcomes. Neither class is assumed useful because it was delivered.
+
 ## Noticing is cheap; interrupting is expensive
 
 The first structural move is to split the act everyone conflates.
@@ -125,9 +136,10 @@ disallowed, drop — means a notice suppressed by budget or by quiet hours
 simply vanishes: the machine *knew* something worth saying and forgot it
 because the moment was wrong. The correct semantics:
 
-> **Suppression defers; it never deletes. A notice blocked by policy
-> waits, and delivers when the window opens — unless it has gone stale,
-> in which case it expires with a record.**
+> **Suppression defers; it does not silently delete. A notice blocked by
+> policy waits, and delivers when the window opens — unless it has gone
+> stale, the recipient has opted out, or its retention bound is reached,
+> in which case it is dropped with a record.**
 
 Deferral needs its counterweight, expiry, because a notice is a claim
 about *now*: "you have an unresolved incident" delivered twelve hours
@@ -181,9 +193,12 @@ identity funds three behaviors no per-message cleverness can replace:
 - **Per-identity cooldown** — once delivered, the same identity stays
   quiet for a declared interval even if the condition persists; "still
   true" is not "news."
-- **Superseding** — a newer notice about the same subject *replaces* the
-  queued older one rather than stacking behind it; the user gets the
-  current state of the story, once.
+- **Superseding** — a newer notice about the same subject takes the
+  queued older one's place rather than stacking behind it. When the newer
+  payload is the current state of the story, it replaces; when it is a
+  delta (only what changed since the last pass), it *merges* into the
+  queued one, because replacing a delta discards every unread pass. The
+  user gets the story once, whole.
 
 Key construction, cooldown layering, and supersede-vs-stack rules are
 [nudge-identity-dedup](./techniques/nudge-identity-dedup.md).
@@ -202,9 +217,14 @@ This inversion is the heart of the subject. The instinct of every feature
 team whose nudges are ignored is to escalate — bigger, earlier, more
 often — which spends trust faster on a message the user has already voted
 against. The disciplined system reads ignoring *as* the vote: sustained
-non-action shrinks that kind's allowance toward a floor, and at the floor
-sits a **kill switch** — per-kind opt-out the user can reach from the
-nudge itself, honored absolutely. A kind that has been killed is the
+non-action shrinks that kind's allowance toward a floor. Two limits keep
+the vote honest: a notice nobody saw is *unobserved*, not ignored, and
+moves nothing; and a click is engagement, not proof the suggestion was
+completed or useful. Beside the floor sits a **kill switch** — per-kind
+opt-out the user can reach from the nudge itself, effective immediately
+for that kind and cancelling its pending contact. It is a consent
+withdrawal, so it is not undone by later efficacy data; only the user
+re-enables the kind. A kind that has been killed is the
 policy working, not failing; the alternative is the user killing the whole
 channel, or the product. Outcome capture, adaptation rules, and the kill
 switch are [efficacy-feedback](./techniques/efficacy-feedback.md).

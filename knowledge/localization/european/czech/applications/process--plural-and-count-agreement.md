@@ -8,12 +8,13 @@ status: forged
 verified_on: 2026-08-24
 ---
 
-# Process · Czech plural agreement across two real catalogs
+# Process · Czech plural agreement across three real catalogs
 
-Two products in the same fleet hit the Czech count system with opposite
-tooling — one with full ICU plural support, one with a two-slot system — and
-between them exercised nearly every failure mode this technique names.
-Verified against both working trees on 2026-08-24.
+Three products in the same fleet hit the Czech count system with different
+tooling — one with full ICU plural support, one with a two-slot system, one
+with no plural primitive at all — and between them exercised nearly every
+failure mode this technique names. The first two were verified against their
+working trees on 2026-08-24, the third on 2026-09-14.
 
 ## kp — full ICU, and the defects that survive it (~4 800-key catalog)
 
@@ -63,7 +64,7 @@ plus the explicit ban on the nominative-plural-only `_other` ("agenti",
 agreement pitfall this technique shares a boundary with: a template like
 "{name} je nastaven" breaking when a feminine persona name fills the slot.
 
-## Second tree: personas-web — two slots picked by `n === 1`, and no recorded workaround
+## Third tree: personas-web — two slots picked by `n === 1`, and no recorded workaround
 
 `personas-web` on `chore/remove-react-virtuoso` at `35d557b` (2026-09-14) is a third
 shape: no plural primitive at all. Everything below was read from catalogs and call
@@ -125,7 +126,7 @@ Before the switch flips, the catalog owes the one decision this technique asks f
 
 ## What generalized upward
 
-The upward lessons this subject's technique absorbed from these two repos:
+The upward lessons this subject's technique absorbed from these three repos:
 the count-invariant escape hatch as a *named* pattern rather than an ad-hoc
 dodge; CS-AGREE as a separate anchor from CS-NUM (branch-content checks
 systematically missed the shared tail until it had its own ID); the

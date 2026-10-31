@@ -271,9 +271,9 @@ has miscounted.
 
 ## Clip caps are a structural constraint
 
-Models emit seconds, not scenes — single-digit to low-double-digit seconds
-per request, with multi-shot modes stitching a handful of connected shots at
-best. A scene longer than the cap is a multi-request scene *by
+Models emit seconds, not scenes — single-digit seconds per request at the
+low end, about half a minute at the frontier, with multi-shot modes
+stitching a handful of connected shots at best. A scene longer than the cap is a multi-request scene *by
 construction*, and the seams between requests are edit points somebody must
 choose. Choose them at brief time, on structural beats, with tail-to-head
 anchoring across the seam — a seam left to land wherever the cap fell is a
@@ -589,6 +589,9 @@ Decide per clip, explicitly: keep it as an atmosphere lane, demote it under
 the cut's own voice and music, or strip it. A generated clip's baked audio
 never silently occupies the voice or music lane — the cut's narration and
 score are authored against picture, not inherited from a generator's guess.
+Where the platform prices audio as an output switch, *strip* is cheapest
+decided in the brief: a clip whose sound will be thrown away should not be
+paid for with it.
 
 Those three options all presuppose that the baked audio is *separable* from
 the picture and, increasingly, that its own layers are separable from each

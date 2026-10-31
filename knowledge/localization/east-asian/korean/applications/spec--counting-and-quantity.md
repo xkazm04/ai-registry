@@ -78,8 +78,8 @@ the data's answer.
 keeps a different stem set: `%spellout-ordinal-native` (line 208) runs through `-priv` (line
 212: 첫, **둘**) into `-smaller` (line 217: 한, 두, **셋**, **넷**). So 둘째/셋째/넷째 but
 두 번째/세 번째/네 번째 — 하나 and 둘 alternate before both morphemes, 셋 and 넷 only before
-번째. Over 1–99 the two stem series differ at **21 of 99** values ({2} plus every n ending in
-3 or 4 from 13 up), and a private `-smaller-x02` ruleset (line 248) exists solely to restore
+번째. Over 1–99 the two stem series differ at **21 of 99** values ({2, 3, 4} plus every n ending in
+3 or 4 from 13 to 94), and a private `-smaller-x02` ruleset (line 248) exists solely to restore
 둘 in the hundreds residue: 102 → 백둘째 but 백두 번째. A flat 하나→한 / 둘→두 / 셋→세 /
 넷→네 lookup table — what the technique's sentence invites — is wrong on all 21.
 

@@ -19,7 +19,6 @@ noise a source-language reviewer cannot see.
 
 ## FR-ZERO · Zero is singular
 
-> **Trigger** — any plural message whose count can reach 0.
 > **Trigger** — any plural message whose count can reach 0, or carry a decimal.
 > **Rule** — the CLDR `one` category for French is **the half-open interval
 > [0, 2)**, not the two integers 0 and 1. The rule tests the *integer part*

@@ -34,7 +34,11 @@ requirement), under ~6% *high*, under ~15% *moderate*, and above that
 
 - **The scale discriminates where applicants actually browse.** Most of the
   funders a nonprofit shortlists cluster under 10%; a naive scheme centered
-  on 50% would label them all "hard" and discriminate nothing.
+  on 50% would label them all "hard" and discriminate nothing. The cuts are
+  calibrated on that shortlist population, not on the sector-wide
+  foundation figure above: a typical local foundation funding a quarter of
+  its applicants lands in *approachable* by design. Say which population
+  the thresholds were drawn from in the methodology.
 - **The thresholds are constants, published in the methodology.** A reader
   comparing two indexes — or the same index across cycles — must be able to
   check that "high" still means what it meant.

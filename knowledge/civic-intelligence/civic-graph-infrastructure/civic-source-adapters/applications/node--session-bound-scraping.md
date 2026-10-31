@@ -91,7 +91,9 @@ A maintenance or challenge page can therefore resemble zero results.
 `parseCzechDate` checks shape without calendar ranges; `parseValueCell`
 removes commas and periods along with grouping whitespace, so decimal input
 would change magnitude rather than preserve fractional units. Empty,
-sentinel and malformed values also collapse into the same null pair.
+sentinel and malformed values also collapse into the same null pair. (Partly
+superseded 2026-10-14: a closed value state now travels beside the unchanged
+null pair; see the publisher-sentinel-values application.)
 These are implementation limits to resolve against the publisher's actual
 value grammar, not evidence that such malformed inputs occur in live traffic.
 

@@ -24,8 +24,8 @@ store them is pinned to a fixed reference midnight so date arithmetic is
 stable. The trap is then measuring "today" in that same reference frame: a
 scheduled job running shortly after universal midnight — which is still the
 previous evening for most of the Americas — computes every day count one too
-high or, once the count goes negative, treats the deadline's final day as
-already past. The two concrete symptoms:
+low (it measures from a "today" that is already tomorrow locally) and, once
+the count goes negative, treats the deadline's final day as already past. The two concrete symptoms:
 
 - the **day-of reminder fires a day early**, reading as a bug and eroding
   trust in the channel;

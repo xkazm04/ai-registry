@@ -86,13 +86,14 @@ inherits.
 ## Reading the ceiling as an instrument
 
 The distribution of grades against a ceiling is a diagnostic about the rubric and the
-pipeline, not about any one piece:
+pipeline, not about any one piece. Each pattern is a lead to investigate, not a
+diagnosis; selection, evidence and examiner drift can produce any of them:
 
-- **Nothing in the class ever reaches its ceiling.** The gap is in the process — a
-  missing finishing pass, a step nobody does. Investigate production, not the rubric.
-- **Everything in the class reaches its ceiling.** The ceiling is set too low, or the
-  criteria below it have stopped discriminating. Either way the class has outgrown its
-  lens and needs a new version.
+- **Nothing in the class ever reaches its ceiling.** Look first at the process — a
+  missing finishing pass, a step nobody does — before concluding the rubric is wrong.
+- **Everything in the class reaches its ceiling.** The ceiling may be set too low, or the
+  criteria below it may have stopped discriminating. If either holds, the class has
+  outgrown its lens and needs a new version.
 - **An arguable ceiling has not been revisited in a year.** Treat as expired. Re-derive
   it or promote it to permanent with a reason that explains why it stopped being
   arguable.

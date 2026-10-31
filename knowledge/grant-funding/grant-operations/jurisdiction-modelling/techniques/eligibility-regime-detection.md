@@ -31,6 +31,15 @@ the predicate as one shared pure function that both client and server import
 — the moment an onboarding form and a server-side parser each implement
 "does this market collect a legal form?" independently, they will drift.
 
+The shape has one blind spot: it cannot tell "no funder-side codes exist in
+this market" from "codes exist and nobody has transcribed them yet". A
+half-written code-regime profile reads as legal-form and gates every
+applicant there on the wrong rule. The guard is the profile's `supported`
+declaration, not a third value of the predicate: a profile does not become
+supported until its regime has been confirmed against the market's funders,
+and an unsupported profile routes to the unsupported surface, never to
+either gate.
+
 ## What each regime changes downstream
 
 The branch is small but it fans out:
@@ -57,7 +66,11 @@ The branch is small but it fans out:
 1. Implement the predicate once, as a pure function over the profile.
 2. Audit every consumer that currently assumes one regime — matcher,
    onboarding, opportunity parser, explanation strings — and route each
-   through the predicate.
+   through the predicate. Audit too for consumers that re-derive *part* of
+   it (testing the empty code set alone, say): a partial copy agrees with the
+   shared predicate on every real profile, so pin it with a test that walks
+   every registered profile and asserts each consumer's branch equals the
+   predicate.
 3. In code-regime profiles, hang applicant codes off each entity type so the
    gate reflects *who the applicant is* (a university, a municipality, a
    small business), with the jurisdiction-wide default set kept as the

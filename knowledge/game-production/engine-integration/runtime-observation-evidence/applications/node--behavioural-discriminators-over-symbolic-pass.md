@@ -49,6 +49,11 @@ defaults the technique prescribes:
 - `attribute-drop` — a resource pool's `max − min ≥ minDelta`, default 1
 - `ability-activated` — montage played OR any resource dropped
 
+The repo's comments call the droop statistic a "variance", but its `animated` and `static`
+defaults are in degrees; a variance of an angle is in degrees squared, so the thresholds are
+on a spread (a swing or a standard deviation). Which statistic the code computes was not
+re-read for this note — the threshold's basis should name it.
+
 Each carries a default that a specific `GateScenario` may raise — the "named kind with an
 overridable default" rule, realized.
 

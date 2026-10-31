@@ -52,8 +52,10 @@ credible consortium is a chain of judgments, each of which is a technique here:
    non-overlap, under a hard sameness constraint (region, population, or system)
    that makes the coalition legible as one intervention.
 3. **Name a lead who can carry the weight** (lead-applicant-selection). The lead is
-   legally the recipient: fiscally accountable for every member's spending, owner of
-   reporting, compliance, and audit exposure. This is an administrative-capacity
+   the recipient of record and owner of consolidated reporting and coordination; how
+   much of every member's spending it answers for depends on the regime (a US
+   pass-through prime answers for all of it, a Horizon Europe coordinator in principle
+   only for its own debt). This is an administrative-capacity
    decision, not an honorific, and it must be made before drafting begins because
    the funder underwrites the lead, not the coalition's average.
 4. **Split the money by a stated rule, before anyone has leverage**
@@ -88,7 +90,8 @@ balance rules that follow from this framing:
 - **Mix difficulty tiers deliberately.** All reach applications is a lottery
   ticket; all safe applications caps the organization at incremental money. A
   barbell — a base of approachable awards that keep the lights on, a measured
-  number of transformative reaches — outperforms a slate clustered in the middle.
+  number of transformative reaches — is a defensible starting shape; a slate
+  clustered in the middle is neither reliable nor transformative.
 - **Difficulty is per-program, not per-funder.** Award rates within one funder's
   programs routinely vary by an order of magnitude. A funder-level difficulty
   label is an average over things that should never have been averaged.
@@ -97,7 +100,7 @@ balance rules that follow from this framing:
   number is honest, a precise-looking one from three data points is a lie.
 - **Coalition opportunities enter the portfolio as their own tier.** They carry
   higher coordination cost and, with some funders, materially better odds — some
-  programs are documented to favor consortia heavily over solo applicants. That
+  programs signal a heavy preference for consortia over solo applicants. That
   signal, where it exists, changes the expected-value math and belongs in the
   balance decision, not in a footnote.
 

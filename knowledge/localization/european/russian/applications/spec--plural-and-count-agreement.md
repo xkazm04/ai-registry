@@ -38,7 +38,7 @@ other  (no condition — residue; @decimal samples only, no @integer samples)
 No third-party library: the operands `n i v w f t c e`, the relations and the
 `and`-binds-tighter-than-`or` precedence were implemented from **§Language Plural Rules →
 Operands / Relations**, then the rule strings parsed out of `plurals.xml` and run
-(`C:/tmp/rec/w-russian/ru_plural.py`, CPython 3.12, `Decimal`). **Validation first:** the
+(`ru_plural.py`, CPython 3.12, `Decimal`). **Validation first:** the
 engine reproduces all **13 rows** of the spec's own *Plural Operand Examples* table
 (`1.20050c3 → n=1200.5 i=1200 v=2 w=1 f=50 t=5 c=3`) — n=13, 13 pass, 0 fail.
 **Conformance:** every value in CLDR's `@integer`/`@decimal` samples for all four `ru`

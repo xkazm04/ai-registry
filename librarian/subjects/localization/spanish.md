@@ -1,8 +1,8 @@
 ---
 subject: spanish
 domain: localization
-last_touched: 2026-09-10
-touched_by: external-reconcile
+last_touched: 2026-10-31
+touched_by: architecture-review
 dry_streak: 0
 ---
 
@@ -308,3 +308,216 @@ files; I did not execute anything, and the application's harness was not re-run.
 }
 ```
 
+
+## 2026-10-31 — architecture re-review, then apply
+
+Trigger: stale since 2026-09-10 (repo-relative paths, an external-application marker).
+The bigger event happened upstream: **CLDR 49 was released on 2026-10-22**, which is
+exactly the re-verify trigger the last record attached to ES-ORDINAL.
+
+**It fired, and it inverts the rule's inference.** At the released `release-49`,
+`ordinals.xml` gives `es` its own `one` category (`n % 10 = 1,3 and n % 100 != 11`), and
+`rbnf/es.xml` rewrote the masculine-adjective abbreviation as
+`=#,##0=.$(ordinal,one{ᵉʳ}other{º})$`. Apocopation is now a category lookup; gender is
+still not. One detail nobody had written down: 48.2's `%%dord-mascabbrev` sends 13 to
+`º`, while 49's category sends it to `ᵉʳ`, so the two data versions disagree at 13.
+
+**I retract the prior record's 'cannot name the introducing release'.** `es` has no
+`many` at `release-39` and has it at `release-40`; so 'Since CLDR 42' becomes 'Since
+CLDR 40' rather than being dropped.
+
+**Intended benefit:** the ordinal rule is right for the CLDR a runtime actually ships.
+**Failure if ignored:** a translator told 'none of this is selectable' hand-codes the
+apocope beside a runtime that now selects it, and disagrees with it at 13.
+**Boundary:** published data only; no harness re-run, no consumer tree.
+
+<!-- architecture-review:v1 -->
+```json
+{
+  "subject": "localization/spanish",
+  "date": "2026-10-31",
+  "baseline": "3f7e1dfbc",
+  "digest": "sha256-b2:717da9cc182e591d",
+  "disposition": "clarify",
+  "coverage": "All 10 owned documents read at baseline bytes (identical to the 2026-09-10 reverted bytes except repo-relative paths in two process applications and 'counterpart: external'). CLDR plurals.xml at release-39, -40, -41 and -49; ordinals.xml, pluralRanges.xml and rbnf/es.xml at release-49; rbnf/es.xml at release-48-2; the CLDR 49 release page - all read, not executed. Not evaluated: the spec application's harness; RAE/Fundeu sources for typography and gender; the consumer tree the process applications cite; maturity or verified_on refresh.",
+  "counterexamples": [
+    "ES-ORDINAL now says CLDR 49 selects the apocope by category, but a stack that bundles CLDR 48 data (or an ICU built on it) will still render 13.º where a 49 stack renders 13.er - the same catalog reads differently by data version, and nothing in a message string reveals which.",
+    "ES-PLURAL-RANGE's override is stated for the end value, but the es table still has no (one, one) row at 49 - a 1-1 range falls back to the default rather than to a published result (carried from 2026-09-10, re-read today).",
+    "ES-GENDER-PLACEHOLDER's ladder assumes a fixed head noun can absorb the gender, but a bare status pill whose placeholder IS the head has only the last rung (carried, still true)."
+  ],
+  "sources": [
+    {
+      "url": "https://cldr.unicode.org/downloads/cldr-49",
+      "result": "Established that CLDR 49 was released 2026-10-22 and that its supplemental changes list plural/ordinal rule changes for es among others. This is the release the 2026-09-10 record named as the re-verify trigger for ES-ORDINAL: it has fired."
+    },
+    {
+      "url": "https://raw.githubusercontent.com/unicode-org/cldr/release-49/common/supplemental/ordinals.xml",
+      "result": "Established that at the released CLDR 49 es has its own ordinal block: one at 'n % 10 = 1,3 and n % 100 != 11' (@integer 1, 3, 13, 21, 23, ...) plus other. ES-ORDINAL's single-category premise is now false at the newest release."
+    },
+    {
+      "url": "https://raw.githubusercontent.com/unicode-org/cldr/release-49/common/rbnf/es.xml",
+      "result": "Established that CLDR 49's %digits-ordinal-masculine-adjective is '=#,##0=.$(ordinal,one{ᵉʳ}other{º})$' - the apocope is now selected by the ordinal plural category - and that the masculine, feminine and both plural abbreviation rulesets remain separate. So apocopation is selectable at 49; gender still is not."
+    },
+    {
+      "url": "https://raw.githubusercontent.com/unicode-org/cldr/release-48-2/common/rbnf/es.xml",
+      "result": "Established that at the pinned release %%dord-mascabbrev reads 0: º, 1: ᵉʳ, 2: º, 3: ᵉʳ, 4: º, 20: >>, 100: >>, so 13 takes º at 48.2 but ᵉʳ by the 49 category - the two releases disagree at 13. Confirms the spec application's description at its pin."
+    },
+    {
+      "url": "https://raw.githubusercontent.com/unicode-org/cldr/release-40/common/supplemental/plurals.xml",
+      "result": "Established that es carries one/many/other at CLDR 40, with the many rule the documents quote; release-41 identical. Together with release-39 (next source) this dates the introduction of es many to CLDR 40, so 'Since CLDR 42' and 'pre-CLDR-42' can be corrected rather than dropped."
+    },
+    {
+      "url": "https://raw.githubusercontent.com/unicode-org/cldr/release-39/common/supplemental/plurals.xml",
+      "result": "Established that at CLDR 39 es sits in the large one/other group with 'one: n = 1' and no many. Resolves the prior record's failed release-38 read: 40 is the introducing release."
+    },
+    {
+      "url": "https://raw.githubusercontent.com/unicode-org/cldr/release-49/common/supplemental/plurals.xml",
+      "result": "Established that the es cardinal rules at 49 are unchanged (one n = 1; many 'e = 0 and i != 0 and i % 1000000 = 0 and v = 0 or e != 0..5'; other). ES-PLURAL-CLDR, ES-PLURAL-MANY and the spec findings hold at the newest release."
+    },
+    {
+      "url": "https://raw.githubusercontent.com/unicode-org/cldr/release-49/common/supplemental/pluralRanges.xml",
+      "result": "Established that the 'ca es' range table at 49 is still the three rows one+other, other+one, other+other -> other, with no (one, one) row. ES-PLURAL-RANGE unchanged; the missing-row counterexample still stands."
+    }
+  ],
+  "documents": {
+    "spanish.md": {
+      "disposition": "clarify",
+      "reason": "Two dated claims, both now resolvable from data read today. 'Since CLDR 42 Spanish also has a many category' is wrong: es many first appears at release-40 (absent at release-39). And 'Ordinals have a single category' is false at the released CLDR 49 (2026-10-22), where es ordinals carry one at n % 10 = 1,3 and n % 100 != 11. Everything else holds, as recorded 2026-09-10."
+    },
+    "techniques/de-anglicization-constructions.md": {
+      "disposition": "keep",
+      "reason": "Unchanged since the 2026-09-10 keep; that reasoning still holds."
+    },
+    "techniques/plural-and-gender-agreement.md": {
+      "disposition": "clarify",
+      "reason": "The 2026-09-10 reverify fired: CLDR 49 shipped 2026-10-22. ES-ORDINAL's premise (single ordinal category) and its inference (apocopation not selectable by a plural block) are now false at the newest release - 49's ordinals.xml gives es a one category and its rbnf masculine-adjective ruleset selects ᵉʳ by that category. Gender remains unselectable. The heading 'one category' needs the same correction. ES-PLURAL-CLDR, ES-PLURAL-MANY and ES-PLURAL-RANGE re-read unchanged at 49."
+    },
+    "techniques/register-and-address.md": {
+      "disposition": "keep",
+      "reason": "Unchanged since the 2026-09-10 keep."
+    },
+    "techniques/terminology-and-loanwords.md": {
+      "disposition": "keep",
+      "reason": "Unchanged since the 2026-09-10 keep."
+    },
+    "techniques/typography-and-punctuation.md": {
+      "disposition": "keep",
+      "reason": "Unchanged since the 2026-09-10 keep."
+    },
+    "techniques/ui-conventions-and-length.md": {
+      "disposition": "keep",
+      "reason": "Unchanged since the 2026-09-10 keep."
+    },
+    "applications/process--register-and-address.md": {
+      "disposition": "keep",
+      "reason": "Only the machine path was replaced by a repo-relative one. Not re-verified against the tree; verified_on unchanged."
+    },
+    "applications/process--typography-and-punctuation.md": {
+      "disposition": "keep",
+      "reason": "Only the machine path fix. Not re-verified against the tree; verified_on unchanged."
+    },
+    "applications/spec--plural-and-gender-agreement.md": {
+      "disposition": "clarify",
+      "reason": "Was reverify; both items resolved today. Its C1 label 'the pre-CLDR-42 pipeline' is wrong (es many arrives at CLDR 40). Its ES-ORDINAL section is correct at its 48.2 pin - %%dord-mascabbrev re-read - and superseded at 49, which the document should say beside the finding rather than leave to the reader. Harness not re-run."
+    }
+  }
+}
+```
+
+### Applied 2026-10-31
+
+All three clarify items had data opened this run behind them, and all three are
+applied in the documents' own voice. Record against the post-edit digest:
+
+<!-- architecture-review:v1 -->
+```json
+{
+  "subject": "localization/spanish",
+  "date": "2026-10-31",
+  "baseline": "3f7e1dfbc",
+  "digest": "sha256-b2:12a6190a7e52938b",
+  "disposition": "keep",
+  "coverage": "All 10 owned documents read at baseline bytes (identical to the 2026-09-10 reverted bytes except repo-relative paths in two process applications and 'counterpart: external'). CLDR plurals.xml at release-39, -40, -41 and -49; ordinals.xml, pluralRanges.xml and rbnf/es.xml at release-49; rbnf/es.xml at release-48-2; the CLDR 49 release page - all read, not executed. Not evaluated: the spec application's harness; RAE/Fundeu sources for typography and gender; the consumer tree the process applications cite; maturity or verified_on refresh.",
+  "counterexamples": [
+    "ES-ORDINAL now says CLDR 49 selects the apocope by category, but a stack that bundles CLDR 48 data (or an ICU built on it) will still render 13.º where a 49 stack renders 13.er - the same catalog reads differently by data version, and nothing in a message string reveals which.",
+    "ES-PLURAL-RANGE's override is stated for the end value, but the es table still has no (one, one) row at 49 - a 1-1 range falls back to the default rather than to a published result (carried from 2026-09-10, re-read today).",
+    "ES-GENDER-PLACEHOLDER's ladder assumes a fixed head noun can absorb the gender, but a bare status pill whose placeholder IS the head has only the last rung (carried, still true)."
+  ],
+  "sources": [
+    {
+      "url": "https://cldr.unicode.org/downloads/cldr-49",
+      "result": "Established that CLDR 49 was released 2026-10-22 and that its supplemental changes list plural/ordinal rule changes for es among others. This is the release the 2026-09-10 record named as the re-verify trigger for ES-ORDINAL: it has fired."
+    },
+    {
+      "url": "https://raw.githubusercontent.com/unicode-org/cldr/release-49/common/supplemental/ordinals.xml",
+      "result": "Established that at the released CLDR 49 es has its own ordinal block: one at 'n % 10 = 1,3 and n % 100 != 11' (@integer 1, 3, 13, 21, 23, ...) plus other. ES-ORDINAL's single-category premise is now false at the newest release."
+    },
+    {
+      "url": "https://raw.githubusercontent.com/unicode-org/cldr/release-49/common/rbnf/es.xml",
+      "result": "Established that CLDR 49's %digits-ordinal-masculine-adjective is '=#,##0=.$(ordinal,one{ᵉʳ}other{º})$' - the apocope is now selected by the ordinal plural category - and that the masculine, feminine and both plural abbreviation rulesets remain separate. So apocopation is selectable at 49; gender still is not."
+    },
+    {
+      "url": "https://raw.githubusercontent.com/unicode-org/cldr/release-48-2/common/rbnf/es.xml",
+      "result": "Established that at the pinned release %%dord-mascabbrev reads 0: º, 1: ᵉʳ, 2: º, 3: ᵉʳ, 4: º, 20: >>, 100: >>, so 13 takes º at 48.2 but ᵉʳ by the 49 category - the two releases disagree at 13. Confirms the spec application's description at its pin."
+    },
+    {
+      "url": "https://raw.githubusercontent.com/unicode-org/cldr/release-40/common/supplemental/plurals.xml",
+      "result": "Established that es carries one/many/other at CLDR 40, with the many rule the documents quote; release-41 identical. Together with release-39 (next source) this dates the introduction of es many to CLDR 40, so 'Since CLDR 42' and 'pre-CLDR-42' can be corrected rather than dropped."
+    },
+    {
+      "url": "https://raw.githubusercontent.com/unicode-org/cldr/release-39/common/supplemental/plurals.xml",
+      "result": "Established that at CLDR 39 es sits in the large one/other group with 'one: n = 1' and no many. Resolves the prior record's failed release-38 read: 40 is the introducing release."
+    },
+    {
+      "url": "https://raw.githubusercontent.com/unicode-org/cldr/release-49/common/supplemental/plurals.xml",
+      "result": "Established that the es cardinal rules at 49 are unchanged (one n = 1; many 'e = 0 and i != 0 and i % 1000000 = 0 and v = 0 or e != 0..5'; other). ES-PLURAL-CLDR, ES-PLURAL-MANY and the spec findings hold at the newest release."
+    },
+    {
+      "url": "https://raw.githubusercontent.com/unicode-org/cldr/release-49/common/supplemental/pluralRanges.xml",
+      "result": "Established that the 'ca es' range table at 49 is still the three rows one+other, other+one, other+other -> other, with no (one, one) row. ES-PLURAL-RANGE unchanged; the missing-row counterexample still stands."
+    }
+  ],
+  "documents": {
+    "spanish.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: 'Since CLDR 42' -> 'Since CLDR 40'; 'Ordinals have a single category, and get abbreviated...' -> 'Ordinals are abbreviated... since CLDR 49 they also carry a one category, which is the apocopated masculine set (1.er, 3.er, 21.er)'."
+    },
+    "techniques/de-anglicization-constructions.md": {
+      "disposition": "keep",
+      "reason": "Unchanged since the 2026-09-10 keep; that reasoning still holds."
+    },
+    "techniques/plural-and-gender-agreement.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: heading -> 'ES-ORDINAL · gendered abbreviations, and an apocope CLDR 49 can select'; opening -> 'at CLDR 48 they had a single plural category'; the inference paragraph -> 'Gender is not selectable by a plural block; since CLDR 49, apocopation is', with the 49 rule, the masculine-adjective ruleset, and the 48/49 disagreement at 13. Re-verify again if a later CLDR moves es ordinals."
+    },
+    "techniques/register-and-address.md": {
+      "disposition": "keep",
+      "reason": "Unchanged since the 2026-09-10 keep."
+    },
+    "techniques/terminology-and-loanwords.md": {
+      "disposition": "keep",
+      "reason": "Unchanged since the 2026-09-10 keep."
+    },
+    "techniques/typography-and-punctuation.md": {
+      "disposition": "keep",
+      "reason": "Unchanged since the 2026-09-10 keep."
+    },
+    "techniques/ui-conventions-and-length.md": {
+      "disposition": "keep",
+      "reason": "Unchanged since the 2026-09-10 keep."
+    },
+    "applications/process--register-and-address.md": {
+      "disposition": "keep",
+      "reason": "Only the machine path was replaced by a repo-relative one. Not re-verified against the tree; verified_on unchanged."
+    },
+    "applications/process--typography-and-punctuation.md": {
+      "disposition": "keep",
+      "reason": "Only the machine path fix. Not re-verified against the tree; verified_on unchanged."
+    },
+    "applications/spec--plural-and-gender-agreement.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: C1 label -> 'the pre-CLDR-40 pipeline'; a dated 'Superseded at CLDR 49' paragraph under ES-ORDINAL quoting the 49 ordinal rule and the $(ordinal,one{ᵉʳ}other{º})$ substitution. Pin, harness figures and verified_on unchanged."
+    }
+  }
+}
+```

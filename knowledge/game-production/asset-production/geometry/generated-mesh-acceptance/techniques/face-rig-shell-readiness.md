@@ -22,9 +22,11 @@ its own axis — not as a pass, not as a fail, as a *readiness*.
 ## The rule
 
 Expressions and gaze need the eyes, lashes, brows and interior mouth to be addressable
-independently. Blend-shape and gaze rigging drive those regions as separate geometry; a
-head that arrived welded into a single shell cannot be given them by any tool, because
-there is nothing separable to drive.
+independently. A rig that drives those regions as separate geometry cannot be applied to a
+head that arrived welded into a single shell, because there is nothing separable to drive.
+That is a precondition of such a rig, not of facial animation as such: shape keys deform
+one mesh's vertices, and facial expressions are their commonest use, so a welded head can
+still be given hand-sculpted ones.
 
 That yields a minimum: **at least four substantial separable shells** before expression
 work is worth attempting at all. Count substantial shells with the face-share rule —

@@ -5,7 +5,7 @@ subject: copy-quality-gates
 technique: enforcement-at-the-write-seams
 stack: process
 status: forged
-verified_on: 2026-09-14
+verified_on: 2026-10-31
 ---
 
 # Always-on rules that reached no session, and a check that called them healthy
@@ -68,11 +68,21 @@ directories behind a symlink load, rule files behind one do not. In
 false` and the matching warning-shown flag `false` — the harness treats an
 out-of-project rule symlink as an external import awaiting an approval that a
 symlink alone never prompts for. When this changed is unknown; an earlier public
-report had symlinked rules loading.
+report had symlinked rules loading. The harness's memory documentation, read on
+2026-10-31, now states the behaviour outright: a rule symlink whose target lies
+outside the working directory is treated like an external import, loads only
+after a once-per-project approval asked in a dialog at the start of an
+interactive session — so a headless session is never asked — and after approval
+only the rules without `paths:` load. The witnessed failure is now documented
+behaviour, not a quirk.
 
-The harness documentation additionally says path-scoped rules fire when a
-matching file is read. That half was not probed here; it is why the technique
-does not count path-scoped instructions as a seam.
+The same documentation says a path-scoped rule loads when the agent's Read,
+Write or Edit tool touches a matching file, or a single-file shell read such as
+`cat` does (read 2026-10-31; the 2026-09-14 reading said only "read"). A shell
+or generator write still triggers nothing. That half was not probed here; it is
+why the technique does not count path-scoped instructions as a seam. The hooks
+documentation, read the same day, adds a per-hook opt-in to fail closed on
+failure or timeout, and says it has no effect on stop hooks.
 
 ## The fix (`84f4b6aa`)
 

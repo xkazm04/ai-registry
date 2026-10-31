@@ -28,10 +28,20 @@ Two moves are available and they look symmetric. They are not.
 
 ## Evidence and applicability
 
-[Dan Luu's practitioner account](https://danluu.com/ai-coding/) reports that
-executable checks reduced incorrect bug-origin explanations in his workflow;
-independent and combined reviews also helped. This is a scoped observation, not
-a controlled universal ranking of execution and deliberation.
+[Dan Luu's practitioner account](https://danluu.com/ai-coding/) reports an
+ordering for bug-origin explanations in his workflow. Prompted only to explain,
+even across several independent rounds, agents were wrong "maybe 50% of the time
+or so"; asking them to confirm the hypothesis by executing code "removed most
+incorrect explanations"; independent analyses that cross-checked each other did
+worse than forced checking; and doing both did best. This is one practitioner's
+observation, not a controlled universal ranking of execution and deliberation.
+
+The same account carries a sizing lesson: a weaker model behind a reasonable
+false-positive rejection process produced bug reports with no known false
+positives, while a stronger model forwarded without one produced a mix of real
+issues and noise — which he reads as the setup around a model being at least as
+important as the model. Before buying a larger reviewer, check whether a
+rejection stage is missing.
 
 Prefer a relevant check that can refute the claim when its cost and permissions
 fit the task. Repeated agreement does not establish independence, but reviewers

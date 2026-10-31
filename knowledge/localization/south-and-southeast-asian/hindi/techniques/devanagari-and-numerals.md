@@ -51,10 +51,11 @@ catalog drifts: half the strings get फ़ाइल and half get फाइल, 
 now fails a search and a termbase match. The rule to enforce is **consistency
 with the nukta present** — it is the dictionary spelling, both major vendor
 guides use it, and it round-trips transliteration cleanly. Encode it as the base
-consonant + combining nukta (U+093C) or the precomposed character consistently —
-pick the form your toolchain normalizes to (NFC keeps क़-class precomposed
-points; most pipelines emit base+combining) and audit byte-level consistency, or
-string equality and glossary lookups silently fail on visually identical text.
+consonant + combining nukta (U+093C): NFC and NFD both yield base + U+093C for
+the eight nukta letters क़ through य़ (U+0958–U+095F are composition exclusions),
+and a precomposed form survives only in un-normalized input. Normalize before
+comparing and audit byte-level consistency, or string equality and glossary
+lookups silently fail on visually identical text.
 
 **Exception:** words so fully nativized that the nukta-less spelling is the
 dictionary headform stay nukta-less; the termbase records the spelling per word

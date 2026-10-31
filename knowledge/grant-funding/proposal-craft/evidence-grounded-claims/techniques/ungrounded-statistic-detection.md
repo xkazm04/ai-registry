@@ -91,7 +91,11 @@ that cries wolf gets overridden by habit.
 The echo check verifies *consistency with grounding*, not truth: a wrong
 figure in the grounding echoes cleanly and passes. Upstream extraction
 honesty and provenance are what defend the grounding itself — this check
-assumes them. It is also the wrong tool for prose claims without numbers
+assumes them. Nor does it check *which* source a match came from: the
+grounding is one set of numbers, so a 25% cost-share figure in the call
+text grounds a fabricated "25% of eligible families" in the narrative.
+Where that matters, match organizational claims against the ledger alone,
+or treat a funder-side echo as a weaker pass. It is also the wrong tool for prose claims without numbers
 ("the leading cause", "most families") — those need a different review
 posture, and stretching the deterministic check to rhetoric costs the
 precision that justifies its severity.

@@ -27,8 +27,14 @@ at the coverage you require, not the criterion that picks the tier.
 token probabilities the serving call already returned: how low the least
 confident token was, how the sequence probability reads once normalized for
 length, how much entropy sat over the top few alternatives at each step.
-No additional call, no additional token, no additional latency. The
-marginal cost is arithmetic over data already in hand.
+No additional model call and no additional generated token. The marginal
+cost is arithmetic over data already in hand — once the data is in hand:
+serving APIs return per-token log probabilities only when the request opts
+in (a per-request `logprobs` flag, `responseLogprobs` on another
+provider), and the opted-in response carries a probability for every
+output token, a larger payload than the text alone. That opt-in and its
+payload are the whole of tier 0's cost, and they are why "genuinely zero"
+below is a condition to check, not a property of the tier.
 
 **Tier 1 — N-sample consistency.** The generator answers the same prompt N
 times and the score is the agreement among the answers: how many distinct
@@ -75,10 +81,10 @@ cannot execute, and its options at that point are all bad.
   ([_laws: nullable-never-zero_](../../../_laws.md#nullable-never-zero)).
 - **When choosing N at tier 1, buy the elbow, not the ceiling.** The
   discrimination of consistency scorers rises steeply and then flattens: in
-  a published sweep, hallucination-detection performance on one
-  generator-and-dataset pair moved from roughly 0.54–0.57 at a single
-  sample to roughly 0.75–0.80 at fifteen, approximately monotonically and
-  with clear diminishing returns throughout. Fifteen was chosen there to
+  a published sweep (arXiv:2504.19254, Appendix D), hallucination-detection
+  AUROC of the black-box scorers on GPT-4o responses to CSQA moved from
+  0.54–0.57 at a single sample to 0.75–0.80 at fifteen, approximately
+  monotonically and with diminishing returns throughout. Fifteen was chosen there to
   make the comparison across scorers robust, not because it was the
   operating point; in production the operating point is wherever the curve
   bends for your own traffic, and it must be measured on your own traffic

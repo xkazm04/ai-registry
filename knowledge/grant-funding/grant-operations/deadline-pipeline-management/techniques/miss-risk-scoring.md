@@ -15,8 +15,8 @@ Calendar thresholds are blind to finishability: a draft at 10% with two days
 left and a draft at 95% with two days left get the same nudge, and only one of
 them is in danger. Miss-risk scoring fuses the two signals the pipeline
 already has — days remaining and draft completion — into a single 0-to-1
-probability-of-missing estimate that ranks, escalates, and (just as
-importantly) *silences* correctly.
+miss-pressure index (uncalibrated, not a probability) that ranks, escalates,
+and (just as importantly) *silences* correctly.
 
 ## The model
 
@@ -36,10 +36,11 @@ Three quantities and one squash:
    (small-samples-stay-silent: a median over two data points is not a
    calibration); until then drafts in a family share the estimate, which is
    honest about what is actually known.
-2. **The pressure ratio.** `ratio = workLeft / (daysOut + 1)`. The `+1` is a
-   deliberate grace day: a draft with *exactly* as much work as time
-   (`workLeft = daysOut`) should read as tight, not as a certain miss —
-   without it, one day of work due in one day scores at the ceiling.
+2. **The pressure ratio.** `ratio = workLeft / (daysOut + 1)`. The `+1`'s
+   load-bearing job is the day of the deadline: at `daysOut = 0` the ratio
+   would divide by zero. It also acts as a grace day — a draft with exactly as
+   much work as time (`workLeft = daysOut`) scores below the 0.5 midpoint it
+   would score without it, reading as tight rather than as a miss in progress.
 3. **The squash.** `score = ratio / (ratio + 1)`. Maps the unbounded ratio
    into 0..1 monotonically: ratio 0 → 0, 1 → 0.5, 3 → 0.75, approaching 1 as
    the ratio explodes. Monotonicity is the property that matters — the score
@@ -48,8 +49,12 @@ Three quantities and one squash:
 
 Two boundary cases are decided before the formula runs, not by it:
 
-- **Finished means safe.** Completion at or above 100% scores exactly 0
-  regardless of the clock. A done draft that keeps generating urgency teaches
+- **Finished means safe — once nothing else blocks submission.** Completion
+  at or above 100% scores exactly 0 regardless of the clock, provided no
+  submission gate is still open (an unactivated registration, a pending
+  internal sign-off). A drafted application stuck behind a gate is not safe;
+  its risk lives on the gate's own dated item, and the radar must still show
+  it there. A done, unblocked draft that keeps generating urgency teaches
   users the scores are theater.
 - **Past-due and unfinished means maximal.** Negative days-out with work
   remaining scores exactly 1, in a distinct *overdue* level — those are the
@@ -86,6 +91,15 @@ eyeballing the output list.
   whole ranking confidently wrong. Completion must have a minimum-substance
   floor per section and a denominator matching the funder's actual required
   sections.
+- **Expect the linear model to read optimistic near the end.** `effortDays ×
+  (1 − completion)` assumes the remaining work is proportional to the
+  undrafted sections. It rarely is: the tail of an application — budget
+  justification, letters, sign-offs, a validation pass — is lumpy, and
+  self-assessed progress skews ahead of reality, as the planning-fallacy
+  literature has found for decades. Bias the errors toward caution: let a
+  draft cross into on-track only after the anchors say so, and prefer the
+  per-organization historical median, which already contains the tail, to any
+  hand-set constant.
 - **Keep the function pure.** Clock in, numbers out, no storage or transport
   concerns — the ranking logic is the part that must be exhaustively
   unit-tested against the anchor cases, and purity is what makes that cheap.

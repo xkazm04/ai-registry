@@ -49,7 +49,17 @@ wrong artifact.
 | MiniMax H3 (open weights) | **blocked: US/EU/UK/KR excl.** | marginal — pruned INT8 19.5 GB + NVFP4 encoder 14.6 GB, needs ~62 GB host RAM, 21.9 GB peak VRAM, ~300 s per 5 s 768p clip on a 4090 | best raw open-weights quality where licensed; 768p local ceiling |
 
 Hosted APIs (Veo 3.x, Kling 3.0, Sora, H3's own API at ~$0.08–0.13/s) still
-hold the quality ceiling: 2K, stronger physics, no quantization loss. The
+hold the quality ceiling: 2K, stronger physics, no quantization loss.
+**Re-checked 2026-10-31, and the hosted row churned faster than the local
+one.** H3's rates held ($0.08/s at 768P, $0.13/s at 2K; input video billed at
+the output rate). But OpenAI removed the Videos API and every `sora-2`
+snapshot from its API on 2026-09-24, naming no replacement, and the Gemini
+API retired its GA Veo models on 2026-06-30 and the Veo 3.1 previews on
+2026-10-22, pointing callers to `gemini-omni-1.1-flash` or to the Veo models
+on Google's enterprise platform. Two of the four hosted names above are no
+longer callable on the APIs this row was written against. That is the case
+for the plan's table: the swap is one edited row, not a hunt across
+surfaces. The
 routing consequence mirrors the image-side ledger: **draft locally, finish
 hosted** — the local row serves the exploratory and volume stages where
 per-render price dominates, the hosted row serves the promoted winner.
@@ -68,8 +78,12 @@ exists on this hardware class, not a throughput benchmark.
 Windows the engine caps pinned host memory at **40% of system RAM**
 (`comfy/model_management.py`, `MAX_PINNED_MEMORY = ram * 0.40`), and on
 Linux it goes higher: at least 40%, up to 90% of RAM less 4 GB, bounded by
-RAM plus swap less 16 GB. The only stock switch is
-`--disable-pinned-memory`, which turns pinning off entirely. On this 64 GB
+RAM plus swap less 16 GB. Re-read in the 0.43.0 source on 2026-10-31: the
+formula is unchanged, swap is no longer counted when a cgroup memory limit
+is set, and pinning is switched off automatically on an integrated GPU. The
+stock switches are `--disable-pinned-memory`, which turns pinning off
+entirely, and, new since the first read, `--fast-disk`, which forces
+disk-backed loading and offload over unpinned RAM. On this 64 GB
 machine that is about 26 GB kept for faster model transfers. On a 32 GB host
 it is about 13 GB, before the offloaded weights of a large video model need
 their own RAM. A practitioner on 32 GB reported that capping pinning at 10 GB
@@ -77,7 +91,7 @@ with a custom loader node let them run the large video model comfortably
 (n=1, not measured here). So a local-row plan sized from VRAM alone can
 exhaust system RAM on the smaller host class.
 
-## Sources (accessed 2026-08-24)
+## Sources (accessed 2026-08-24 unless dated)
 
 - https://www.minimax.io/blog/minimax-h3 (2026-07-31)
 - https://huggingface.co/MiniMaxAI/MiniMax-H3
@@ -88,3 +102,13 @@ exhaust system RAM on the smaller host class.
 - https://www.virse.ai/blog/minimax-h3-reddit-review (2026-08-07) — community speed/quality consensus
 - https://www.aimagicx.com/blog/open-source-ai-video-models-comparison-2026 — Wan vs LTX vs Hunyuan
 - https://curiousrefuge.com/blog/minimaxh3-review — quality dissent vs Seedance
+- https://huggingface.co/MiniMaxAI/MiniMax-H3/blob/main/LICENSE (accessed 2026-10-31) -
+  territory clause, $20M revenue authorization, UI attribution, no improving other models
+- https://platform.minimax.io/docs/guides/pricing (accessed 2026-10-31) - H3 per-second rates
+- https://developers.openai.com/api/docs/deprecations (accessed 2026-10-31) - Videos API and
+  Sora 2 removal on 2026-09-24
+- https://ai.google.dev/gemini-api/docs/deprecations (accessed 2026-10-31) - Veo shutdown dates
+- ComfyUI `comfy/model_management.py` and `comfy/cli_args.py` at 0.43.0 (read 2026-10-31)
+- Only the H3 license and price, the hosted-row availability and the pinned-memory facts were
+  re-sourced on 2026-10-31; the Wan, LTX and Hunyuan rows and the 4090 run were not, so
+  `verified_on` stays at the date the row was resolved

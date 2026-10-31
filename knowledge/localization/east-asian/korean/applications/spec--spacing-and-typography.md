@@ -106,10 +106,13 @@ KO-ELLIPSIS is safe either way: LB22 (`× IN`) protects `중…` and LB15d
 (`× IS`) protects `중...`, in both modes. The single-glyph ruling is
 convention, not breakage — **not conformance-testable**, and honestly so.
 
-## Brace placeholders orphan the particle
+## A raw brace key orphans the particle
 
 KO-SPACING says the particle glues to a placeholder exactly as it glues to
-Hangul. Orthographically yes; for wrapping, no. In the space-based tailoring:
+Hangul. For a rendered string that holds, because the placeholder is gone
+before layout: `{name}` is message-format syntax, replaced by its value, and
+the line breaker sees `Slack이(가) 연결되었습니다`. The brace reaches the
+breaker only when it is still in the text. In the space-based tailoring:
 
 - `철수님이 |오셨어요` — Hangul host holds (LB28, AL × AL)
 - `Slack이 |오셨어요` — Latin host holds (LB28)
@@ -119,11 +122,12 @@ Hangul. Orthographically yes; for wrapping, no. In the space-based tailoring:
 
 `}` is U+007D, class **CL**, not CP; LB13 forbids a break *before* it and no
 rule forbids one *after* it, so LB30's parenthesis exemption never reaches
-the particle. Every ICU-MessageFormat and i18next-style key can therefore
-wrap with the Korean particle alone on the next line, in the one placeholder
-syntax the technique's own examples use (`{name}이(가) 연결되었습니다`).
-This is a real defect class the anchors do not name, and it is invisible in
-the default mode because everything breaks there anyway.
+the particle. That bites in two narrower cases: an unsubstituted raw key
+(failed substitution, a key shown in place of its value, a pseudo-locale
+build), and a substituted value that itself ends in a CL character. In
+either, the Korean particle can wrap alone onto the next line. It is a
+narrow defect class the anchors do not name, and it is invisible in the
+default mode because everything breaks there anyway.
 
 ## What could not be settled here
 

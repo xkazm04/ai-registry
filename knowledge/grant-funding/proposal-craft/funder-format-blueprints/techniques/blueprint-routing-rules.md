@@ -34,7 +34,12 @@ match:
    genre's blueprint applies. Genre routing runs *after* source routing on
    purpose, and *before* the structural fallback below, so a regional
    government arts call still gets the arts form rather than the
-   government one.
+   government one. The movement form is the exception: a government
+   source never routes to it, because the movement family's own boundary
+   excludes public-agency funders (see
+   [movement-funder-sections](./movement-funder-sections.md)), so a
+   sub-national government call with advocacy vocabulary takes the
+   structural route below.
 3. **Then structural family resemblance.** A sub-national government grant
    with no specialized genre follows the federal rubric shape — same
    reviewer culture, same dimensions — under its own identity, so the two

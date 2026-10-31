@@ -99,8 +99,8 @@ actually takes — 손님 두 분, 세 개 — so a technique or termbase listin
 
 **And the alternation is conditioned on what follows, not on a lookup table.**
 The two ordinal series diverge: the 째 series keeps 둘째 and 셋째, while 번째
-takes 두 and 세. Over 1–99 the two disagree at **21 values** — the twos, and
-every number ending in three or four from thirteen up — and the divergence
+takes 두 and 세. Over 1–99 the two disagree at **21 values** — 2, 3 and 4, and
+every number ending in 3 or 4 from 13 to 94 — and the divergence
 survives into the hundreds, where 백둘째 stands against 백두 번째. A flat
 하나→한 / 둘→두 / 셋→세 substitution table is wrong on all 21.
 

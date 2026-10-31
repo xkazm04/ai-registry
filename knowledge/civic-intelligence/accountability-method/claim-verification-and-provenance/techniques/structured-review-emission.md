@@ -55,9 +55,11 @@ loosely.
 
 ## What a well-formed emission carries
 
-- **A numeric rating on a declared scale** (value, best, worst) plus a short
-  human-readable alternate name — and the on-page verdict visible to human
-  readers must be the same statement as the machine rating. Publishing norms
+- **A short human-readable rating name**, plus a numeric rating on a declared
+  scale (value, best, worst) where you use one; Google's profile requires the
+  name (`alternateName`) and recommends, but does not require, an integer
+  value. The on-page verdict visible to human readers must be the same
+  statement as the machine rating. Publishing norms
   for fact-check surfacing require the visible verdict and the markup to
   match; a divergence is treated as markup abuse, and deserves to be.
 - **The permanent claim address as the reviewed item's identity** — the
@@ -117,3 +119,9 @@ requires a review URL in its profile and states that Search support is being
 phased out while Fact Check Explorer remains supported. Do not promise search
 appearance from schema validity. Schema datePublished means first publication,
 not necessarily the review decision date.
+
+Re-checked 2026-10-31 (guide last updated 2026-09-08): the phase-out notice
+stands with no date given; `claimReviewed`, `reviewRating` and `url` are listed
+as required; "There must not be any mismatch between the structured data and
+page content"; and "A specific `ClaimReview` must only be on one page on your
+site."

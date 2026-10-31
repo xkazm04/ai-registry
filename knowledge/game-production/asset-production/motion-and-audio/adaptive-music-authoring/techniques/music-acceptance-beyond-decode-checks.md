@@ -49,9 +49,9 @@ Here the ladder starts being about music, and this is the rung most production l
 have.
 
 - **Tempo recovered from the audio matches the declared tempo** within a stated tolerance.
-  The tolerance is tight for a reason: a drift of 0.05 beats per minute across a two-minute
-  piece accumulates to roughly a third of a second of slip by the end, which in a layered
-  set is a phase disaster. State the tolerance and the window it was measured over.
+  The tolerance is tight for a reason: at 120 beats per minute, a drift of 0.05 beats per
+  minute across a two-minute piece accumulates to roughly fifty milliseconds of slip by the
+  end — a tenth of a beat, already an audible flam between layers in a layered set. State the tolerance and the window it was measured over.
 - **An onset grid is detectable and aligns to the declared downbeat.** A piece with no
   recoverable grid fails here regardless of how it sounds, because a scheduler cannot enter
   it on a boundary that does not exist.

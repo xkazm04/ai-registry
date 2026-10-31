@@ -27,9 +27,11 @@ Classify along two axes: **was the callee reached**, and **where does the fault 
 That yields the taxonomy below. The names matter less than that the set is closed and each
 member is distinguishable in code.
 
-- **Unreachable.** No response at all — connection refused, name resolution failure, socket
-  error. The callee is not running or not listening. *Response:* start it. Safe to retry
-  once it exists; the instruction provably never ran.
+- **Unreachable.** Nothing was sent — connection refused, name resolution failure. The
+  callee is not running or not listening. *Response:* start it. Safe to retry once it
+  exists; the instruction provably never ran. A socket error *after* the instruction went
+  out is not this kind: a connection closed before any response may follow a request that
+  succeeded (RFC 9110, section 9.2.2), so it carries the timeout's did-it-run ambiguity.
 - **Timed out.** The connection was accepted, the instruction was taken, and nothing came
   back inside the bound. *Response:* look at what the callee is doing. **Not** safe to
   retry a non-idempotent instruction — this is the one case where you genuinely do not know
@@ -77,7 +79,8 @@ exceeded, which status arrived, a truncated echo of the body. Bound the echo —
 hundred characters — so a failure cannot flood a log with the callee's output.
 
 **6. Write the retry policy as a function of the kind.** Not a wrapper that retries
-everything. Unreachable: retry with backoff. Timed out: retry only if idempotent. Aborted:
+everything. Unreachable (nothing sent): retry with backoff. Timed out, or a socket error
+after sending: retry only if idempotent. Aborted:
 never. Malformed or rejected: never. Executed-and-raised: never automatically.
 
 ## Decision rules

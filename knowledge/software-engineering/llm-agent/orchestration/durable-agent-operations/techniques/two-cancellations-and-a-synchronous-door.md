@@ -82,6 +82,12 @@ orders and no third:
 - **Cancellation first** — the door is closed before the check runs; the check
   refuses, the effect never starts, and the procedure enters reconciliation.
 
+Neither order says what the effect actually did. Reconciliation classifies each
+admitted effect by its real outcome — never started, completed, stopped
+cooperatively, or interrupted with an unknown outcome — and records that class,
+because "cancelled" is the operation's state, not a fact about every effect inside
+it.
+
 Two orders means two tests per gated integration, and *that* is why the door is
 worth its awkwardness. A design with an await in the middle has an unbounded
 number of interleavings and no finite test.
@@ -138,6 +144,20 @@ committing its marker, so no new effect is admitted while the marker is in
 flight; and the corollary on the read side is that a procedure resuming after a
 restart checks the marker, never a remembered refusal.
 
+If the marker commit **fails** after the door closed, no cancellation exists
+either. The request reports failure, not success, and the process either reopens
+the door — the operation was never cancelled — or exits so recovery decides from
+durable state. A closed door with no marker behind it is a cancellation only this
+process believes in.
+
+The door also orders cancellation only against effects **this process** admits.
+Local serialization does not establish global cancellation: another process, or a
+stale owner that has not yet noticed it lost the operation, admits effects through
+its own door and learns of the marker only when it reads it. So keep two states
+apart. **Requested** is the committed marker. **Reconciled** is every owner having
+observed it and every admitted effect classified. Report the first when the marker
+commits; claim the second only when reconciliation has finished.
+
 A cancellation request that arrives when no process owns the operation commits
 the marker and starts nothing. The next process to pick the operation up reads
 the marker first and goes straight to reconciliation, invoking none of the
@@ -174,7 +194,11 @@ keep working, or refuse to stop while starting nothing.
 - Do not gate commits, classification, synthetic outcomes, public record
   mutations, passive observers, or an already-admitted operation.
 - Close the door synchronously before committing the marker; never persist the
-  door's state.
+  door's state. If the marker commit fails, report failure and reopen the door or
+  exit.
+- Report cancellation as requested when the marker commits, and as reconciled
+  only once every owner has observed it and every admitted effect is classified by
+  what it actually did.
 - With no live process, commit the marker and start nothing; let the next
   process reconcile.
 

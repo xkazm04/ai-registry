@@ -11,9 +11,12 @@ use_when: [generation spend is dominated by drafts, choosing render sizes for a 
 
 # Resolution as a stage property
 
-Generation vendors price by output size, and steeply — per-image rates
-commonly double per size step, so the span from a small draft to a full
-delivery render is often four to eight times the money for the same prompt.
+Generation vendors price by output size — per-image rates commonly rise by
+half again to double per size step, so the span from a small draft to a full
+delivery render is typically two to four times the money for the same prompt,
+and more where a vendor prices by pixel area. Not every step costs more:
+some rate cards price two adjacent sizes identically, which is the merge case
+in the decision rules below.
 A pipeline that renders everything at one "reasonable" global resolution is
 therefore paying a delivery premium on every image whose purpose is to be
 thrown away. The correction is structural, not a tuning pass: **resolution
@@ -45,6 +48,14 @@ stage's output is *for*.
 
 Three rungs is the useful default; what is load-bearing is not the count but
 the invariant that **spend per image rises only as certainty rises**.
+
+Size is not the only knob the ladder can turn. Where a vendor also sells a
+quality tier, that tier can span a wider price range than size does, and
+vendors' own guidance names the lowest tier as the draft setting — so a rung
+is a (size, tier) pair, and the draft rung is the cheapest pair whose verdict
+survives promotion. A deferred-delivery tier (a batch queue, typically at
+about half price) belongs to rungs nobody is waiting on, never to the
+interactive draft loop it would stall.
 
 ## Promotion, not regeneration
 

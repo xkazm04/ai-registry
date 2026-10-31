@@ -125,6 +125,6 @@ actually passed; the mode flags alone are policy.
 This page is the matrix row a first local install must re-earn: on
 installing the binary, run the probe pair, smoke the envelope, test
 whether the deny-rules file is honored in print mode (the single most
-important unverified claim above — the synthesized stance *depends* on
-it), and stamp the results with the new date before any product feature
+important unverified claim above — the write-tool denylist layer of the
+read-only posture *depends* on it), and stamp the results with the new date before any product feature
 declares a requirement against this tool.

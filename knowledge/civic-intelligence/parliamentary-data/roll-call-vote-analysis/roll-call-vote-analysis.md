@@ -72,7 +72,7 @@ This discipline has a known cost, and honesty requires stating it: strategic
 absence is a real political behavior — a legislator who wants to defect
 without a recorded "no" simply skips the vote — and a strictly positional
 rebellion metric cannot see it. The field's standard cohesion measures share
-this blindness (a party where 20 of 100 members vote and 80 stay away scores
+this blindness (a party where 20 of 100 members vote yes and 80 stay away scores
 as perfectly unified). The answer is not to smuggle absences into the
 positional metric; it is to publish the participation metric *beside* the
 positional one and let the divergence itself be the signal.

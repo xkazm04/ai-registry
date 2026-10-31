@@ -62,16 +62,23 @@ what a texture tool shows you; the cell's are what decides the answer. The tie t
 display size (`minDisplaySize: 32`, `icon-sets.ts:191`) is the right basis: the chain stops at the
 smallest size the art is ever drawn at.
 
+The comment's "DXT5-equivalent" holds for footprint only: BC7 and DXT5 both spend 16 bytes per 4×4
+block. It does not hold for behaviour on hard edges. BC7 has eight modes, and "a BC7 block can contain
+multiple endpoint pairs" (Microsoft's BC7 format reference), which is the partitioning the owning
+technique's step 3 prefers over the oldest four-colour mode.
+
 ## Where it falls short of the technique
 
 - **`packing: '4096×4096 atlas — 256 px cells, 16×16 grid, no padding (UV boundary = cell
   boundary)'` (`icon-sets.ts:217`).** No gutter, no extrusion, and four mip levels. This is the
-  exact combination the technique forbids: at mip level 4 a cell's edge texel is an average of
-  sixteen source texels, several of which belong to the neighbouring icon, so a filtered sample at
+  exact combination the technique forbids: at mip level 4 (three halvings, a reduction of eight) a
+  cell's edge texel is an average of sixty-four source texels, several of which belong to the
+  neighbouring icon, so a filtered sample at
   a cell boundary reads a neighbour's colour. Cell-index addressing makes it *cheap* to fix — the
   in-cell UV can be inset by the margin without touching any row data — and cheap to specify. The
-  standard stands: 256-pixel cells with four mip levels need at least four texels of extruded
-  margin, and the cell budget should be stated as a 248-pixel usable area inside a 256-pixel cell.
+  standard stands: filter reach times the deepest reduction factor gives 256-pixel cells with four
+  mip levels at least eight texels of extruded margin, and the cell budget should be stated as a
+  240-pixel usable area inside a 256-pixel cell.
 - **Nothing measures any of it.** The step's acceptance is
   `fieldsPopulated('atlas', …, ['texture','packing','slots'])` composed with
   `wiringContractSound('atlas')` (`icon-sets.ts:254-257`). Both check that *strings are present and

@@ -15,15 +15,18 @@ A silent viewer must receive the whole argument. How many silent viewers there
 are is set by the **surface**, not by "the feed". The widely repeated muted
 majority, the 69–85% figures, traces to 2016 Facebook feed video. That feed
 autoplayed muted, and the figures were three publishers' reports of their own
-views. It is not a measurement of the vertical-short platforms. TikTok and Reels
-autoplay with sound on. The one figure a platform has published is an attitude
+views. It is not a measurement of the vertical-short platforms, nor of that
+feed today. TikTok and Reels autoplay with sound on. The one figure a platform has published is an attitude
 survey pointing the other way: 88% of TikTok users say sound is essential. No
 platform publishes a measured muted share for TikTok, Reels or Shorts.
 
 So the technique has two strengths:
 
-- **Where the surface autoplays muted** — a Facebook or LinkedIn feed, a YouTube
-  home feed, an embedded player — the silent viewer is the default. Invert the
+- **Where the surface autoplays muted** — a LinkedIn feed, a YouTube home feed,
+  an embedded player — the silent viewer is the default. Check the surface rather
+  than its reputation: the Facebook feed, the one the famous figure measured,
+  has started video with sound since 2017 unless the device is silenced, and
+  leaves muting to a viewer setting. Invert the
   audio-first habit: design so the argument arrives silently, and treat narration
   as the upgrade for the viewer who unmutes.
 - **Where the surface plays sound** — TikTok, Reels, the Shorts player — audio is
@@ -88,7 +91,8 @@ this failure.
   assumed range, marked as assumed — never one number for "short-form".
 - **When a template or a brief cites a muted-majority figure**, check which
   surface it measured before letting it set priorities. A 2016 Facebook-feed
-  figure can decide a Facebook-feed clip, not a TikTok one.
+  figure described a Facebook feed that has since changed its autoplay default; it
+decides neither a TikTok clip nor today's Facebook one.
 - **When a music-driven or performance format is the container** — where the
   audio *is* the content and the platform culture is sound-on — the inversion
   does not apply; declare the exception in the template rather than silently

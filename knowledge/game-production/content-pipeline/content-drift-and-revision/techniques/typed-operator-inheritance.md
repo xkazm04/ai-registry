@@ -47,18 +47,20 @@ a guarantee no review process has to provide.
 Inheritance is a tax as well as a tool, and the source system that proved
 it also caps it: cosmetic-only differences get a string-level variant, not
 a new entry; a property set shared *always* — not almost always — earns an
-abstract base, at most one or two levels deep; chains beyond that recreate
-the duplication they were meant to remove, in a form nobody can read.
-And where third parties overlay set-valued entries, **merge is the
-default** and whole-set replacement requires an explicit override flag —
-an overlay that clobbers its base silently is the drift this subject
-exists to catch.
+abstract base, kept shallow, because the source's own documentation warns
+that chained inheritance "is especially likely to become unwieldy"; long
+chains recreate the duplication they were meant to remove, in a form
+nobody can read. And where third parties overlay set-valued entries,
+**make merge the default** and whole-set replacement an explicit override
+flag, as the source does for at least one set-valued type — an overlay
+that clobbers its base silently is the drift this subject exists to catch.
 
 ## When not to use this
 
 Uneven operator support is worse than none: if only some content types
-honor the operators, authors cannot predict what a delta does, and the
-system's own maintainers call that state a standing tax — make support
-uniform or machine-queryable before relying on it. And do not inherit
+honor the operators, authors cannot predict what a delta does — the source system's own
+documentation says not all types are supported, "and not all are supported
+in the same way" — so make support uniform or machine-queryable before
+relying on it. And do not inherit
 across authorship boundaries you do not control; a variant of an entry
 another team may rename has coupled its correctness to their calendar.

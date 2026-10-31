@@ -93,10 +93,12 @@ carriage:
 - **"One or more" / "at least one":** legalistic English hedging; Japanese UI
   says 1 件以上 in genuinely numeric contexts and otherwise drops the hedge.
 - **Ordinal phrasing:** Japanese builds ordinals with 番目（3 番目）— there is
-  no -st/-nd/-rd/-th selection to localize, and ordinal-suffix placeholders
-  from the source（{n}{suffix}）should be flagged as a source defect: the
-  suffix slot is meaningless in Japanese and the string cannot be translated
-  cleanly around it.
+  no -st/-nd/-rd/-th selection to localize, and an ordinal-suffix placeholder
+  from the source（{n}{suffix}）is a source defect: the suffix slot is
+  meaningless in Japanese. The skeleton law still wins in the value — keep
+  {suffix}, exactly once, where it renders harmlessly（{n} 番目{suffix} when
+  the stack resolves it to empty for Japanese）— and file the defect upstream
+  rather than dropping the placeholder to make the string read cleanly.
 
 ## When not to apply this technique
 

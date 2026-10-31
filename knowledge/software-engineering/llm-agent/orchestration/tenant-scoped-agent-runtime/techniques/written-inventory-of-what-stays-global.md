@@ -124,7 +124,12 @@ distinguishes at least four:
   saying so. This is the row most likely to be omitted, because it *works*;
   it belongs in the enumeration precisely because an operator reading the
   isolation claim would not otherwise know that one scheduler is running
-  outside it.
+  outside it. The row is legitimate only for a subsystem that cannot act
+  across tenants in that state — one that touches host-owned state alone.
+  A subsystem that would read one tenant's data, spend one tenant's
+  credential or deliver into one tenant's store on another's behalf does
+  not get a warning: under isolation it is fatal at startup or
+  fail-closed, and writing it into the table does not make it acceptable.
 
 Enumerating them in one place is what lets a reviewer check the set for
 consistency — that nothing which can act across tenants fails open, and
@@ -151,14 +156,21 @@ between the two is where the worst misuse of this subject lives.
 - Name the hybrid overlay explicitly for registries whose host entries are
   global and tenant entries are keyed, and key it through the same resolver.
 - Enumerate the fail directions — fatal at startup, skipped with a warning,
-  fail-closed, documented fallback — and check the set for consistency.
+  fail-closed, documented fallback — and check the set for consistency; a
+  fallback that can act across tenants is fatal or fail-closed, never a
+  warning.
+- Inventory the infrastructure that separate processes still share.
 - State the non-goal: this layer isolates configurations, it does not
   authenticate or authorize people.
 
 ## When not to use it
 
-A runtime that isolates by process has nothing to inventory — the operating
-system's boundary is total, and a table of shared surfaces would be empty.
+A runtime that isolates by process has less to inventory, not nothing. The
+operating system separates address spaces; it does not separate what the
+processes still share — a host filesystem or volume, a credential injected
+into every process from one secret, a database or cache server, a log
+sink, an upstream account and its rate limit. Those rows belong in the same
+table, because the isolation claim an adopter reads covers them too.
 And a system with exactly one tenant does not need the document, though the
 moment a second is contemplated the table is the first artifact to write,
 before the first surface is scoped: the inventory is more useful as a plan

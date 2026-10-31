@@ -16,7 +16,11 @@ in twenty. A comparison run is never one test: it verdicts every target
 against the same baseline, and each verdict is a fresh chance at a false
 red. At six targets, the probability of *at least one* spurious "regressed"
 on a completely clean run is `1 − 0.95⁶ ≈ 26%` — a quarter of clean runs
-look broken. A gate with that property trains its operators to ignore red,
+look broken. That figure assumes the six tests are independent, and they are
+not: verdicts that share one baseline run and one case set are positively
+correlated, so their false reds tend to arrive together and the real rate
+sits below 26%. Read it as the upper bound, not the rate — the correction
+below is still owed, because it bounds the family under any dependence. A gate with that property trains its operators to ignore red,
 which is the terminal disease of any gate. Family-wise correction restores
 the promise the tool implicitly makes: "the chance this run shows you any
 false regression is bounded at the stated level."

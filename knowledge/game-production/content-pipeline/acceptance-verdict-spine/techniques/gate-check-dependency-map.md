@@ -91,12 +91,15 @@ Two details make the injection practical:
 ## Decision rules
 
 - **When a check has no dependencies, it is not a check.** Delete it or give it real
-  inputs. The evaluator enforces this: an
+  inputs, and make the evaluator enforce this: an
   empty or missing dependency list yields a named *unmapped* blocker, never zero blockers,
   because zero blockers reads as pass and a check nobody wired up would print success.
 - **When a dependency is missing entirely, that is a blocker, not a skip.**
 - **When blockers are mixed** — some failing, some deferred — report a failure. A
-  known failure dominates an unknown.
+  known failure dominates an unknown. This ranks only the check's headline status: every
+  blocker is still named with its own status, so nothing deferred is hidden, which is
+  why the gate may rank here while an all-of composition reporting one member's reason
+  may not (`first-non-pass-reporting-in-all-of`).
 - **When the gate is evaluated in more than one place, share the evaluation
   function**, not the intent.
 

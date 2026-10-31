@@ -173,8 +173,16 @@ function subjectIndexFor(map, registry) {
  * the evidence claims) - that stays the worker's job.
  */
 export function anchorProblem(root, evidence) {
-  const m = String(evidence || '').match(/([A-Za-z0-9_.@/-]+\.[A-Za-z0-9]+):(\d+)/);
+  // Route-group and dynamic-segment directories - Next.js `app/(studio)/`, `[token]/` - are
+  // ordinary path characters. A leading `(` or `[` that opens prose around the anchor is not,
+  // so it is stripped when the bracketed spelling names no file.
+  const m = String(evidence || '').match(/([A-Za-z0-9_.@/()[\]-]+\.[A-Za-z0-9]+):(\d+)/);
   if (!m) return 'no path:line anchor';
+  const isFile = (rel) => fs.existsSync(path.join(root, rel)) && fs.statSync(path.join(root, rel)).isFile();
+  if (!isFile(m[1])) {
+    const bare = m[1].replace(/^[([]+/, '');
+    if (bare !== m[1] && isFile(bare)) m[1] = bare;
+  }
   const file = path.join(root, m[1]);
   if (!fs.existsSync(file) || !fs.statSync(file).isFile()) return `anchor ${m[1]} does not exist`;
   const line = fs.readFileSync(file, 'utf8').split(/\r?\n/)[Number(m[2]) - 1];

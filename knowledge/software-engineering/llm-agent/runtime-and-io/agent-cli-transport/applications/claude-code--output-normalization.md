@@ -93,7 +93,13 @@ few-shot prompts make the model echo the example object before the answer.
 
 `--output-format` also offers `stream-json` (NDJSON events) and
 `--json-schema <inline>` for schema-constrained output (flag verified in
-help 2026-08-25; live-smoked in earlier sessions). Exit code and envelope
+help 2026-08-25; live-smoked in earlier sessions). With `--json-schema` the validated
+value arrives in a separate `structured_output` field, not in `.result`,
+and the field is absent when the run ends without valid structured output,
+so a schema caller checks for it before reading it. Piped stdin is capped at
+10 MB; past it the CLI exits non-zero with an error, so a larger input goes
+in a file the prompt names (both from the vendor's headless page, re-read
+2026-10-31). Exit code and envelope
 error state can disagree — systedo prefers stdout when non-empty even on
 nonzero exit, because some failed exits still print a usable answer. All
 of this is v2.1.245 data; re-verify the envelope fields on version change.

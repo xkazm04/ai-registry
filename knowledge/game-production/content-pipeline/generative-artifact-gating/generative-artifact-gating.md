@@ -89,7 +89,7 @@ collapsing any pair of them is how the line starts lying:
   inside the artifact — and it is more urgent than a missing asset, because it means the
   record of what happened is corrupt.
 
-The four-state shape is why the deferral tier matters. When a stand-in is holding the
+The five-state shape is why the deferral tier matters. When a stand-in is holding the
 slot, the honest report is not "this step is incomplete" in the abstract; it is "a visual
 artifact is missing, and only a generator run supplies it." Reporting a missing generated
 asset at the same rung as a missing configuration value sends someone to edit a file for
@@ -210,7 +210,9 @@ to stop the machine's pick being cited as a person's.
 
 In a pipeline where each stage costs money and each stage **amplifies the defects of its
 input**, gate placement is not a matter of taste. A downstream model reproduces and
-magnifies whatever it is fed; no later stage repairs a bad source. So the cheapest possible
+magnifies whatever it is fed; no later transforming stage repairs a bad source, and a stage
+built to repair one is a separately priced decision, not a reason to skip the gate. So the
+cheapest possible
 placement of a gate is *immediately before the first paid stage*, and the cost of a missed
 defect compounds: a flaw that survives to stage three has been paid for three times, and
 the work to correct it now includes discarding two stages of derived output that were

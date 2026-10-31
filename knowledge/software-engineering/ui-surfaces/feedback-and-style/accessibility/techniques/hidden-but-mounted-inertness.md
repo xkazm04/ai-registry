@@ -31,9 +31,10 @@ close:
 - **Removal from the document** closes everything — and discards the
   state that was the reason to stay mounted.
 - **Taking the subtree out of the layout, or marking it not visible**
-  closes both channels: nothing paints, nothing occupies space or takes a
-  tab stop, and no node enters the tree. These are the hides that need
-  no second act.
+  closes both channels: nothing paints or takes a tab stop, and no node
+  enters the tree (a subtree marked not visible still holds its space in
+  the layout; one taken out of the layout does not). These are the hides
+  that need no second act.
 - **Fading to zero opacity, translating off-screen, clipping to nothing,
   collapsing to zero size, or painting something over it** closes *only*
   the visual channel. The subtree keeps its tree node, its tab stops, its

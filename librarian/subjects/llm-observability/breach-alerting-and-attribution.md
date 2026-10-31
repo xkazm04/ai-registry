@@ -228,3 +228,134 @@ rerun, and no verified_on field was refreshed.
   }
 }
 ```
+
+## Architecture review - 2026-10-31
+
+Third review, against HEAD `140c101d`. Stale because two techniques were amended
+and two applications added (in commit `1f1613c1`, whose message names an
+unrelated skill). The four changed or added documents were read in full. The
+nine unchanged documents were confirmed byte-identical to the 2026-09-10
+baseline and carried forward against that record, not re-read line by line.
+
+**Both 2026-09-10 repairs are still owed.** `process--scoped-dedup-keys` still
+gives the SRE Workbook's third tier as "3x over 24h/72h". Re-read today, Table
+5-8 gives Ticket, 3 days, 6 hours, burn rate 1, 10%. `notification-channel-security`
+still requires re-checking at delivery without requiring that the connection use
+the checked address. That omission now has a second witness inside the subject:
+the new TypeScript application ships delivery-time vetting and then records that
+"a hostname that resolves to a private address (rebinding) is still caught only
+by resolve-and-pin at the fetch site, which the shared guard states it does not
+do". OWASP's SSRF cheat sheet states the missing rule directly: "A second,
+unchecked DNS lookup between validation and connection can bypass these checks"
+and "ensure the HTTP client connects only to validated addresses".
+
+**The `scoped-dedup-keys` exception is the strongest addition.** It replaces
+"condition versus observation" with "is the payload re-derivable from durable
+state?". A level survives being suppressed and a destructively-read delta does
+not. The arithmetic holds: a 15-minute flush under a one-hour cooldown suppresses
+the flushes at 15, 30 and 45 and delivers at 60, so three in four are lost. Strictly
+that depends on whether the cooldown boundary is inclusive, and the text does
+not say so. The closing section's edge list was extended to match, so the two
+parts agree.
+
+**The identity-refusal amendment and its forecast-sweep application agree.** A
+second alert producer on the customer axis puts identity in its message by
+construction. The application finds exactly that in a margin-erosion forecast.
+It honestly records that a flag, not data shape, now holds the boundary, which
+is weaker than the technique's mechanical reinforcement.
+
+<!-- architecture-review:v1 -->
+```json
+{
+  "subject": "llm-observability/breach-alerting-and-attribution",
+  "date": "2026-10-31",
+  "baseline": "140c101d",
+  "digest": "sha256-b2:183ec8b74ed943d6",
+  "disposition": "clarify",
+  "coverage": "All 13 documents assessed. Four read in full this run: the amended scoped-dedup-keys and identity-scope-attribution-refusal techniques, and the two new applications (rust forecast-sweep refusal, typescript delivery-time sink vetting). Nine unchanged documents confirmed byte-identical to the 44c8996 baseline and carried forward against the 2026-09-10 record. SRE Workbook Table 5-8 and the OWASP SSRF cheat sheet read. Not evaluated: LightTrack and the TypeScript service were not opened or run; the survey's Alertmanager, PagerDuty, AWS and GCP claims (refresh_by 2026-11-20).",
+  "counterexamples": [
+    "A vetted webhook host re-resolves to a link-local metadata address between the delivery-time check and the connect; every rule in notification-channel-security passes and the fetch reaches the platform's own metadata endpoint.",
+    "An operator configures the survey's '3x over 24h' ticket tier believing it is the SRE Workbook's; the Workbook's third tier is burn rate 1 over 3 days at 10% of budget.",
+    "A flushed rejection-count delta whose key carries the flush instant is never suppressed, so under a sustained storm the channel receives one message per flush; the technique buys burst protection back only through cadence choice, which an operator may set short.",
+    "A cooldown implemented as strictly-less-than versus less-than-or-equal changes whether a flush landing exactly on the cooldown boundary delivers, which moves the N-1 of N loss figure by one.",
+    "A customer-axis forecast whose identity flag is forgotten by a third producer: the refusal is now held by a per-producer flag rather than data shape, so each new producer must opt in."
+  ],
+  "sources": [
+    {
+      "url": "https://sre.google/workbook/alerting-on-slos/",
+      "result": "Re-read Table 5-8 for a 99.9% SLO: Page 1h/5m/14.4/2%; Page 6h/30m/6/5%; Ticket 3 days/6h/1/10%. Confirms process--scoped-dedup-keys' third tier ('3x over 24h/72h') is still misattributed."
+    },
+    {
+      "url": "https://cheatsheetseries.owasp.org/cheatsheets/Server_Side_Request_Forgery_Prevention_Cheat_Sheet.html",
+      "result": "Read. Supports the owed clarify: 'A second, unchecked DNS lookup between validation and connection can bypass these checks'; recommends a client that 'connects only to validated addresses' and disabling redirect following; DNS monitoring is 'not a substitute for connection-time enforcement'."
+    }
+  ],
+  "documents": {
+    "breach-alerting-and-attribution.md": {"disposition": "keep", "reason": "Unchanged since the 2026-09-10 keep; byte-identical."},
+    "techniques/identity-scope-attribution-refusal.md": {"disposition": "keep", "reason": "The second-producer rule correctly extends the refusal past the breach path, and its own application confirms the gap it names."},
+    "techniques/notification-channel-security.md": {"disposition": "clarify", "reason": "Unrepaired from 2026-09-10, now with OWASP and an in-subject application as witnesses. Change owed: require that the connection be made to the vetted address (pin the resolved IP and keep the hostname for Host/SNI, or validate in the socket-connect callback), and apply the same to every redirect hop and retry."},
+    "techniques/off-request-path-delivery.md": {"disposition": "keep", "reason": "Unchanged since the 2026-09-10 keep; byte-identical."},
+    "techniques/pre-breach-forecasting.md": {"disposition": "keep", "reason": "Unchanged since the 2026-09-10 keep; byte-identical."},
+    "techniques/scope-inverted-attribution.md": {"disposition": "keep", "reason": "Unchanged since the 2026-09-10 keep; byte-identical."},
+    "techniques/scoped-dedup-keys.md": {"disposition": "keep", "reason": "The re-derivability exception is a sound refinement of the key rule and the edge list was updated to match. The N-1 of N figure assumes an inclusive cooldown boundary; that is a minor precision note, not a defect."},
+    "techniques/top-contributor-attribution.md": {"disposition": "keep", "reason": "Unchanged since the 2026-09-10 keep; byte-identical."},
+    "applications/process--scoped-dedup-keys.md": {"disposition": "clarify", "reason": "Unrepaired from 2026-09-10. Change owed: replace '3x over 24h/72h (ticketed)' with the Workbook's 'burn rate 1 over 3 days, 6h short window, 10% of budget (ticket)', or attribute the 3x tier to the vendor practice it comes from."},
+    "applications/rust--identity-scope-attribution-refusal--forecast-sweep.md": {"disposition": "keep", "reason": "A falsifying seam with A/B and payload-reading tests. It names the residual risk that a flag, not data shape, holds the boundary. Not rerun."},
+    "applications/rust--pre-breach-forecasting.md": {"disposition": "keep", "reason": "Unchanged since the 2026-09-10 keep; byte-identical."},
+    "applications/rust--top-contributor-attribution.md": {"disposition": "keep", "reason": "Unchanged since the 2026-09-10 keep; byte-identical."},
+    "applications/typescript--notification-channel-security--delivery-time-sink-vetting.md": {"disposition": "keep", "reason": "Delivery-time re-vetting and manual redirects with A/B counts. It discloses that delivery is unsigned and that rebinding is not closed, each with a return condition. Not rerun."}
+  }
+}
+```
+
+## Clarify-apply - 2026-10-31
+
+Applied the two clarify items the earlier 2026-10-31 record carried forward from
+2026-09-10, against HEAD `90705bb6a`. `notification-channel-security` now requires
+the connection to use the vetted address on every hop and retry, in OWASP's own
+terms. `process--scoped-dedup-keys` now gives the SRE Workbook's third tier as it
+appears in Table 5-8 (burn rate 1, 3 days, 10%). Both sources were re-read this run.
+The overall disposition moves to `keep`: no clarify item remains open.
+
+<!-- architecture-review:v1 -->
+```json
+{
+  "subject": "llm-observability/breach-alerting-and-attribution",
+  "date": "2026-10-31",
+  "baseline": "90705bb6a",
+  "digest": "sha256-b2:8947309a04fcf2fb",
+  "disposition": "keep",
+  "coverage": "Clarify-apply pass against the 2026-10-31 record. The two owed clarify items were applied after re-reading SRE Workbook Table 5-8 and the OWASP SSRF cheat sheet this run; only notification-channel-security and process--scoped-dedup-keys changed, and every other document is carried forward from the earlier 2026-10-31 record. Not evaluated: LightTrack and the TypeScript service were not opened or run; the survey's Alertmanager, PagerDuty, AWS and GCP claims (refresh_by 2026-11-20); no verified_on or refresh_by field was moved.",
+  "counterexamples": [
+    "A vetted webhook host re-resolves to a link-local metadata address between the delivery-time check and the connect; every rule in notification-channel-security passes and the fetch reaches the platform's own metadata endpoint.",
+    "A flushed rejection-count delta whose key carries the flush instant is never suppressed, so under a sustained storm the channel receives one message per flush; the technique buys burst protection back only through cadence choice, which an operator may set short.",
+    "A cooldown implemented as strictly-less-than versus less-than-or-equal changes whether a flush landing exactly on the cooldown boundary delivers, which moves the N-1 of N loss figure by one.",
+    "A customer-axis forecast whose identity flag is forgotten by a third producer: the refusal is now held by a per-producer flag rather than data shape, so each new producer must opt in."
+  ],
+  "sources": [
+    {
+      "url": "https://sre.google/workbook/alerting-on-slos/",
+      "result": "Re-read this run. 'Table 5-8. Recommended parameters for a 99.9% SLO alerting configuration': Page 1 hour / 5 minutes / 14.4 / 2%; Page 6 hours / 30 minutes / 6 / 5%; Ticket 3 days / 6 hours / 1 / 10%. Basis for replacing the survey's '3x over 24h/72h' with 1x over 3 days at 10%."
+    },
+    {
+      "url": "https://cheatsheetseries.owasp.org/cheatsheets/Server_Side_Request_Forgery_Prevention_Cheat_Sheet.html",
+      "result": "Re-read this run. 'Validate the resolved destination IP addresses ... then ensure the HTTP client connects only to validated addresses. A second, unchecked DNS lookup between validation and connection can bypass these checks'; 'Use an HTTP client mechanism that connects to the validated IP while preserving the original hostname for the HTTP Host header, TLS Server Name Indication'; the same policy applies 'to retries and fallback connections'. Basis for the new connection-binding bullet."
+    }
+  ],
+  "documents": {
+    "breach-alerting-and-attribution.md": {"disposition": "keep", "reason": "Unchanged since the 2026-09-10 keep; byte-identical."},
+    "techniques/identity-scope-attribution-refusal.md": {"disposition": "keep", "reason": "The second-producer rule correctly extends the refusal past the breach path, and its own application confirms the gap it names."},
+    "techniques/notification-channel-security.md": {"disposition": "keep", "reason": "applied 2026-10-31: added a 'Connect to the address you checked' bullet under Vet where you send - pin the vetted IP while keeping the hostname for Host and SNI (or validate in the socket-connect callback), on every redirect hop and retry."},
+    "techniques/off-request-path-delivery.md": {"disposition": "keep", "reason": "Unchanged since the 2026-09-10 keep; byte-identical."},
+    "techniques/pre-breach-forecasting.md": {"disposition": "keep", "reason": "Unchanged since the 2026-09-10 keep; byte-identical."},
+    "techniques/scope-inverted-attribution.md": {"disposition": "keep", "reason": "Unchanged since the 2026-09-10 keep; byte-identical."},
+    "techniques/scoped-dedup-keys.md": {"disposition": "keep", "reason": "The re-derivability exception is a sound refinement of the key rule and the edge list was updated to match. The N-1 of N figure assumes an inclusive cooldown boundary; that is a minor precision note, not a defect."},
+    "techniques/top-contributor-attribution.md": {"disposition": "keep", "reason": "Unchanged since the 2026-09-10 keep; byte-identical."},
+    "applications/process--scoped-dedup-keys.md": {"disposition": "keep", "reason": "applied 2026-10-31: the Workbook's third tier now reads '1x over 3 days (ticketed, 10%)' instead of '3x over 24h/72h (ticketed)', and the second tier gains its 5%. Vendor-practice claims elsewhere in the survey stay inside refresh_by 2026-11-20 and were not re-checked."},
+    "applications/rust--identity-scope-attribution-refusal--forecast-sweep.md": {"disposition": "keep", "reason": "A falsifying seam with A/B and payload-reading tests. It names the residual risk that a flag, not data shape, holds the boundary. Not rerun."},
+    "applications/rust--pre-breach-forecasting.md": {"disposition": "keep", "reason": "Unchanged since the 2026-09-10 keep; byte-identical."},
+    "applications/rust--top-contributor-attribution.md": {"disposition": "keep", "reason": "Unchanged since the 2026-09-10 keep; byte-identical."},
+    "applications/typescript--notification-channel-security--delivery-time-sink-vetting.md": {"disposition": "keep", "reason": "Delivery-time re-vetting and manual redirects with A/B counts. It discloses that delivery is unsigned and that rebinding is not closed, each with a return condition. Not rerun."}
+  }
+}
+```

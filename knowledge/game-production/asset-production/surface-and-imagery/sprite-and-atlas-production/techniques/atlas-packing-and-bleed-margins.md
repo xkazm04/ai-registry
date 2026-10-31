@@ -72,9 +72,9 @@ a declared budget rather than as whatever the packer happened to need.
   worse to diagnose, not safer to ignore.
 - **When reduced-resolution levels are generated, the depth is floored by the region, not by the
   page.** The chain belongs to the page and a chain that is sensible for a large page is
-  catastrophic for the small regions inside it: seven halvings of a four-thousand-texel page leave
-  each two-hundred-texel region four texels across, averaged wholesale with its neighbours, and no
-  gutter survives that. Derive the depth from the smallest size a region is ever *drawn* at, and
+  catastrophic for the small regions inside it: a seven-level chain on a four-thousand-texel page
+  is six halvings, and it leaves each two-hundred-and-fifty-six-texel region four texels across,
+  averaged wholesale with its neighbours, and no gutter survives that. Derive the depth from the smallest size a region is ever *drawn* at, and
   state the region's size beside the page's wherever the chain is specified — a mip count quoted
   against the page's dimensions is the number that looks right and is wrong.
 - **When a region will be rotated or scaled at runtime, widen the margin rather than trusting

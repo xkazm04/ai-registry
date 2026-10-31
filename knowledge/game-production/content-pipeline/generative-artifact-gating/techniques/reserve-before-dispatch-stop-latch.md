@@ -71,10 +71,11 @@ cap, the latch below is what protects the line, not the cap.
 
 - **When quota or rate-limit evidence appears, latch; do not back off and continue.** A
   429-class error means a rate window, an exhausted balance or a spend ceiling, and the
-  caller cannot tell which. Jittered backoff is the right answer to a rate window and the
+  status alone does not say which. A body may name the cause, but that is the provider's
+  word, and nothing local can confirm it or refill a balance. Jittered backoff is the right answer to a rate window and the
   wrong answer to a spent balance, and a generator metered by a ceiling will not produce
-  images however politely it is asked. The latch converts an unanswerable question into a
-  human decision.
+  images however politely it is asked. The latch converts a question the line cannot settle
+  into a human decision.
 - **Match evidence on error context, not on a bare number.** A status code in a token
   count or a pixel dimension is not an error. Require the number to sit under an error or
   status field, or beside a phrase such as "too many requests"; otherwise the latch trips

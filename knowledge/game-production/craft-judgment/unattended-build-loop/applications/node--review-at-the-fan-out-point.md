@@ -60,7 +60,8 @@ runs:
   dependents launch. It moved from 0 to 4. **Arm A is zero by construction**, because
   the old code has no such event, so the 0-to-4 move is not the evidence. The pair
   measures two things from recorded data that no construction fixes: B's precision (3
-  of 4 requests land on a perceptual root) and the strict hold's floor (9 of 85 areas).
+  of 4 requests land on a perceptual root) and the strict hold's floor (9 of the 77 areas in the two
+  runs with a fan-out point).
   Read it as a re-derivation over recorded runs through the product helper, not as two
   live runs.
 - **Floor:** the harness suite, the typecheck and the scheduling. The suite went from
@@ -73,7 +74,8 @@ The request is the half that always pays, and it is what shipped: a
 `harness:review-request` event, printed as `REVIEW NOW`, and run-end agenda lines that
 list each root before the per-gate lines.
 
-The strict hold is refuted on this tree. It completes 9 of 85 areas, because the gate it
+The strict hold is refuted on this tree. It completes 9 of 77 areas in the two runs with a
+fan-out point, because the gate it
 waits on never returns. That is the technique's own reason for bounding the hold,
 observed rather than argued.
 

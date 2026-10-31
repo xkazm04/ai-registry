@@ -1,7 +1,7 @@
 ---
 domain: game-production
 subject: runtime-observation-evidence
-last_touched: 2026-09-10
+last_touched: 2026-10-31
 touched_by: architecture-review
 dry_streak: 0
 ---
@@ -222,3 +222,176 @@ One pointer added to `deterministic-headless-timestep` "When not to use": a fixe
 thermal behaviour, but the per-frame *cost* of identical work is measurable on one provided the step is stated in the
 number's basis. The discipline for that is the new subject `perf-regression-gating`, which borrows this subject's
 three outcomes and ladder unchanged. The review block above predates the edit and is not a verdict on it.
+
+## Architecture review - 2026-10-31
+
+Re-review against `85a365702`. None of the four clarify items the 2026-09-10 record
+named had landed, and they are carried here. One extension: the byte-floor finding was
+filed against the application only, but the technique's own verdict table says "a
+byte-size floor plus a non-black pixel fraction decides it mechanically", so the
+technique carries the same contradiction with its conservative rule and is now in scope.
+The subject gained a process application of `bounded-evidence-with-provenance`, read in
+full; its figures are consistent and its deviations are stated, and it rests on a tree
+that was not reopened. `process--tiers-of-truth` moves from keep to reverify for the same
+reason: its keep rested on a dated reading this run did not repeat.
+
+<!-- architecture-review:v1 -->
+```json
+{
+  "subject": "game-production/runtime-observation-evidence",
+  "date": "2026-10-31",
+  "baseline": "85a365702",
+  "digest": "sha256-b2:336e809d69d5be3a",
+  "disposition": "clarify",
+  "coverage": "All 11 documents decided. The 8 unchanged since 2026-09-10 were checked by diff and re-read at the cited passages; the new application and the two edited techniques were read in full. Not evaluated: any consuming checkout, engine run, capture or judge; the calibration behind the 10 and 5 degree defaults; the 12 KB and 439 KB figures.",
+  "counterexamples": [
+    "A real rendered frame of a dark or flat scene can compress under a 12 KB byte floor while passing the non-black pixel test; a byte-and-pixel conjunction condemns it on the proxy alone.",
+    "A droop angle swinging between 20 and 32 degrees has a 12-degree swing but a variance near 16 square degrees; a '10 degree' threshold applied to a variance is a different test from one applied to a swing.",
+    "A character playing the wrong animation still has non-zero spread; the discriminator separates motionless from moving, not moving-as-authored (retained from 2026-09-10).",
+    "A raw evidence store bound only by hash can be deleted outside the repository; the manifest then proves what was lost rather than restoring it (the new process application records this itself)."
+  ],
+  "sources": [
+    {
+      "source": "git diff 44c89965..85a365702 over the subject directory",
+      "result": "Since the last record: the new application process--bounded-evidence-with-provenance.md, a five-line rule added to bounded-evidence-with-provenance's technique, and the perf-regression-gating pointer in deterministic-headless-timestep. The four 2026-09-10 clarify items were all still owed."
+    },
+    {
+      "source": "Internal cross-read of the outcome vocabulary, the discriminator statistic and the frame-inspection rule across all eleven documents",
+      "result": "Confirms the three internal findings of the 2026-09-10 record and finds the byte-floor rule also stated in the technique's own verdict table, not only in the application. The new application's figures are internally consistent (559,800 committed bytes against 91,653,002 kept outside; 994.2 to 996.2 MiB growth attributed to post-ruling summaries)."
+    },
+    {
+      "source": "No external source",
+      "result": "The disputed points are internal inconsistencies; no primary source bears on them. The consuming checkouts (the visual gate, the observation types, the perf evidence tree) were not reopened."
+    }
+  ],
+  "documents": {
+    "runtime-observation-evidence.md": {
+      "disposition": "clarify",
+      "reason": "Sound as in 2026-09-10, but its discriminator sentence says 'variance across samples' and must follow the technique's corrected statistic."
+    },
+    "techniques/behavioural-discriminators-over-symbolic-pass.md": {
+      "disposition": "clarify",
+      "reason": "Still owed: 'take its variance' while its own assertion kinds say 'pose swing' and the thresholds are in degrees. Name a spread (swing or standard deviation) in the quantity's unit; same at the decision rule 'Variance is the discriminator'."
+    },
+    "techniques/bounded-evidence-with-provenance.md": {
+      "disposition": "clarify",
+      "reason": "The new summaries-in-git rule is sound. Step 2's 'a variance computed from eight points' should use the same statistic word as the sibling technique."
+    },
+    "techniques/deterministic-headless-timestep.md": {
+      "disposition": "keep",
+      "reason": "The perf-regression-gating pointer scopes per-frame cost measurement correctly and claims no stability for elapsed time; the 2026-09-10 keep holds."
+    },
+    "techniques/observation-spine-contract.md": {
+      "disposition": "keep",
+      "reason": "Unchanged since the 2026-09-10 keep."
+    },
+    "techniques/tiers-of-truth.md": {
+      "disposition": "keep",
+      "reason": "Unchanged since the 2026-09-10 keep."
+    },
+    "techniques/unverifiable-is-not-fail.md": {
+      "disposition": "clarify",
+      "reason": "Still owed: the verdict table labels no-runtime-configured and no-frame-produced 'unverifiable' after defining skipped and deferred as separate values. Name the umbrella and the member per row. The table also lets a byte-size floor decide a fail mechanically, contradicting its own 'when you cannot tell, it is unverifiable' rule; make the pixel measurement decide and send a proxy-only fail to deferred."
+    },
+    "applications/node--behavioural-discriminators-over-symbolic-pass.md": {
+      "disposition": "clarify",
+      "reason": "Still owed: quotes 'variance' with thresholds in degrees. Record the mismatch beside the quote without rewriting the source's words; which statistic the code computes is not established. verified_on unchanged."
+    },
+    "applications/node--unverifiable-is-not-fail.md": {
+      "disposition": "clarify",
+      "reason": "Still owed: endorses the byte-floor-and-pixel conjunction that condemns a small real frame. Record it as a deviation from the technique. verified_on unchanged."
+    },
+    "applications/process--tiers-of-truth.md": {
+      "disposition": "reverify",
+      "reason": "Unchanged; the 2026-09-10 keep rested on its dated reading of a private tree, not reopened this run."
+    },
+    "applications/process--bounded-evidence-with-provenance.md": {
+      "disposition": "reverify",
+      "reason": "New since the last record and read in full: quoted line anchors, a guard test, a manifest and three honest deviations. Internally consistent; the source tree at e6ef6752 was not reopened and nothing was re-run. verified_on 2026-10-16 unchanged."
+    }
+  }
+}
+```
+
+## Architecture review - 2026-10-31 (clarify applied)
+
+Applied all six clarify items. The applications keep the source's quoted words and gain
+a sentence of record beside them; no application date moved.
+
+<!-- architecture-review:v1 -->
+```json
+{
+  "subject": "game-production/runtime-observation-evidence",
+  "date": "2026-10-31",
+  "baseline": "85a365702",
+  "digest": "sha256-b2:39e5b9de461d4758",
+  "disposition": "reverify",
+  "coverage": "All 11 documents decided. All six clarify items of the first 2026-10-31 record were applied and the edited passages re-read; the other five documents are byte-unchanged. The two applications that rest on unopened private trees keep reverify, which is now the overall disposition.",
+  "counterexamples": [
+    "A real rendered frame of a dark or flat scene can compress under a 12 KB byte floor while passing the non-black pixel test; a byte-and-pixel conjunction condemns it on the proxy alone.",
+    "A droop angle swinging between 20 and 32 degrees has a 12-degree swing but a variance near 16 square degrees; a '10 degree' threshold applied to a variance is a different test from one applied to a swing.",
+    "A character playing the wrong animation still has non-zero spread; the discriminator separates motionless from moving, not moving-as-authored (retained from 2026-09-10).",
+    "A raw evidence store bound only by hash can be deleted outside the repository; the manifest then proves what was lost rather than restoring it (the new process application records this itself)."
+  ],
+  "sources": [
+    {
+      "source": "git diff 44c89965..85a365702 over the subject directory",
+      "result": "Since the last record: the new application process--bounded-evidence-with-provenance.md, a five-line rule added to bounded-evidence-with-provenance's technique, and the perf-regression-gating pointer in deterministic-headless-timestep. The four 2026-09-10 clarify items were all still owed."
+    },
+    {
+      "source": "Internal cross-read of the outcome vocabulary, the discriminator statistic and the frame-inspection rule across all eleven documents",
+      "result": "Confirms the three internal findings of the 2026-09-10 record and finds the byte-floor rule also stated in the technique's own verdict table, not only in the application. The new application's figures are internally consistent (559,800 committed bytes against 91,653,002 kept outside; 994.2 to 996.2 MiB growth attributed to post-ruling summaries)."
+    },
+    {
+      "source": "No external source",
+      "result": "The disputed points are internal inconsistencies; no primary source bears on them. The consuming checkouts (the visual gate, the observation types, the perf evidence tree) were not reopened."
+    }
+  ],
+  "documents": {
+    "runtime-observation-evidence.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: 'variance across samples' became 'spread across samples'."
+    },
+    "techniques/behavioural-discriminators-over-symbolic-pass.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: 'take its variance' now reads 'take its spread across samples — a swing (maximum minus minimum) or a standard deviation, in the quantity's own unit, with the statistic named'; the decision rule says 'Spread across samples is the discriminator'."
+    },
+    "techniques/bounded-evidence-with-provenance.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: step 2 says 'a spread computed from eight points'."
+    },
+    "techniques/deterministic-headless-timestep.md": {
+      "disposition": "keep",
+      "reason": "The perf-regression-gating pointer scopes per-frame cost measurement correctly and claims no stability for elapsed time; the 2026-09-10 keep holds."
+    },
+    "techniques/observation-spine-contract.md": {
+      "disposition": "keep",
+      "reason": "Unchanged since the 2026-09-10 keep."
+    },
+    "techniques/tiers-of-truth.md": {
+      "disposition": "keep",
+      "reason": "Unchanged since the 2026-09-10 keep."
+    },
+    "techniques/unverifiable-is-not-fail.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: the verdict table names unverifiable as the umbrella and labels its rows skipped (no runtime) and deferred (no frame); the mechanical fail is decided by the non-black pixel fraction, with the byte floor named as a proxy whose lone failure is deferred."
+    },
+    "applications/node--behavioural-discriminators-over-symbolic-pass.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: a paragraph after the assertion list records that the repo's 'variance' carries degree thresholds and so is a spread, and that the computed statistic was not re-read. Citations not re-checked; verified_on unchanged."
+    },
+    "applications/node--unverifiable-is-not-fail.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: the byte-floor conjunction is recorded as a deviation from the technique, with the 2026-08-30 code state not re-checked. verified_on unchanged."
+    },
+    "applications/process--tiers-of-truth.md": {
+      "disposition": "reverify",
+      "reason": "Unchanged; the 2026-09-10 keep rested on its dated reading of a private tree, not reopened this run."
+    },
+    "applications/process--bounded-evidence-with-provenance.md": {
+      "disposition": "reverify",
+      "reason": "New since the last record and read in full: quoted line anchors, a guard test, a manifest and three honest deviations. Internally consistent; the source tree at e6ef6752 was not reopened and nothing was re-run. verified_on 2026-10-16 unchanged."
+    }
+  }
+}
+```

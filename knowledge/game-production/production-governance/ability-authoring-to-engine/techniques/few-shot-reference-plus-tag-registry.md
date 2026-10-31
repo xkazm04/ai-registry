@@ -76,8 +76,8 @@ door.
   normative whether or not you meant them to be.
 - **When the same registry is checked downstream, both sides read one authority at a recorded revision.** The
   vocabulary handed to the author and the vocabulary the audit compares against must come
-  from the same extraction. If the target registry changes after briefing, revalidate and report that change
-rather than adopting against stale vocabulary.
+  from the same extraction. If the target registry changes after briefing, revalidate and
+  report that change rather than adopting against stale vocabulary.
 
 ## When not to use it
 

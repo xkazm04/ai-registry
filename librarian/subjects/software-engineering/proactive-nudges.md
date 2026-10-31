@@ -95,3 +95,206 @@ with "When the payload is a delta, supersede must merge" and the presentation-ti
 No product code shipped: the change spans both tiers. It is recorded as the project's next change.
 The scan's "single stack (rust)" point is not moved: the project's identity seam is Rust, and
 its React tier is the downstream half of the same application rather than a second stack.
+
+## Architecture review - 2026-10-31
+
+Re-review against the bytes after the 2026-10-14 to 2026-10-31 applications. Three
+applications are new (`rust--efficacy-feedback`, `rust--notice-delivery-decoupling`,
+`rust--nudge-identity-dedup`), and two techniques were amended (efficacy-feedback gained
+derivable-ignored and the bounded upward path; nudge-identity-dedup gained the
+delta-payload merge and the presentation-tier version rule). Neither amendment carries
+the 2026-09-09 clarifications. Every technique-level change that record named is still
+owed and is carried forward below. Nothing in the 2026-09-09 record is retracted.
+
+Two new contradictions inside the subject. First, the golden path's superseding bullet
+still says a newer notice replaces the queued one. The technique now says a delta
+payload must merge, never replace. Second, efficacy-feedback still defines `ignored` as
+"aged out with no interaction", while its new paragraph says ignored should mean
+seen-and-untouched, gated by an exposure stamp. The application measured the gap that
+definition leaves open.
+
+The cited personas source was read (not run) at `f8e62cb9` for the application anchors.
+Budget, quiet-window, digest-bucket and dedup claims hold. `rust--attention-budgets` has
+drifted: its line anchors no longer match, and it still describes modulation as
+engaged/dismissed only, but `adjustment` now takes `ignored`. Live database row counts
+in `rust--nudge-identity-dedup` were not re-queried.
+
+<!-- architecture-review:v1 -->
+```json
+{
+  "subject": "software-engineering/proactive-nudges",
+  "date": "2026-10-31",
+  "baseline": "c052abb9",
+  "digest": "sha256-b2:5ac900ae46e58393",
+  "disposition": "clarify",
+  "coverage": "All 12 owned documents read in full: golden path, 6 techniques, 5 applications. Application code anchors re-read in the personas source at f8e62cb9 (budget.rs, quiet.rs, mod.rs, message_triage.rs, execution_review.rs, athenaStore.ts, rust-toolchain.toml); nothing compiled, tested or executed, and the private live database was not re-queried. No notification sent and no connected-project action taken.",
+  "counterexamples": [
+    "A digest notice whose payload is a delta loses every unread pass if superseding replaces it, so the golden path's unconditional replace rule fails the floor the technique now measures.",
+    "A card delivered while the app is closed is classified ignored by an aged-out rule and costs its kind a cap step, although no human saw it.",
+    "A send can succeed before its acknowledgement times out, so releasing the claim on a failed-looking delivery can refund a slot that was spent.",
+    "A host in another timezone does not share the recipient's local midnight or 22:00.",
+    "An exhausted global cap can block a consented reminder whose kind is exempt from its own cap.",
+    "Two tenants or recipients with the same (kind, subject-ref) collide under an identity that omits the recipient scope."
+  ],
+  "sources": [
+    {
+      "source": "personas source at f8e62cb9: src-tauri/src/companion/proactive/budget.rs",
+      "result": "GLOBAL_DAILY_CAP = 12 at :23, kind_cap athena_scheduled = u32::MAX at :34-35, adjustment(engaged, dismissed, ignored) at :71, the ignored predicate `status = 'expired' AND delivered_at IS NOT NULL` at :92-94, clamp(1, base+2) at :135, try_consume at :228, today() keyed on Utc::now() at :268-269. Supports rust--efficacy-feedback; shows rust--attention-budgets anchors and its engaged/dismissed-only description are stale."
+    },
+    {
+      "source": "personas source at f8e62cb9: src-tauri/src/companion/proactive/mod.rs, quiet.rs, message_triage.rs, execution_review.rs, src/features/companions/athena/athenaStore.ts, rust-toolchain.toml",
+      "result": "sweep_lifecycle before dedupe at mod.rs:282, dedupe over status IN ('queued','delivered') at :291, expiry windows -7 days / -1 day / -7 days at :195/:210/:218, ORDER BY COALESCE at :412, claim_delivered WHERE status = 'queued' at :585 (cited :579 at the 2026-10-22 witness), Local::now() at quiet.rs:65, hour-bucket trigger_ref at message_triage.rs:426-429 and execution_review.rs:892-895, 'Dedupe by id' at athenaStore.ts:1078, toolchain channel 1.96.1. Supports the notice-delivery, quiet-window and identity applications."
+    },
+    {
+      "url": "https://docs.rs/chrono/0.4.45/chrono/offset/struct.Local.html",
+      "result": "Carried from 2026-09-09, not re-fetched: Local uses the executing host's zone and does not resolve a recipient's zone. Still supports the quiet-windows and attention-budgets clarifications."
+    }
+  ],
+  "documents": {
+    "proactive-nudges.md": {
+      "disposition": "clarify",
+      "reason": "Change the superseding bullet to: same-story updates replace, and delta payloads merge, per nudge-identity-dedup. Carry forward from 2026-09-09: bound initiative by recipient consent, separate requested reminders from speculative nudges, and drop the unconditional retention and 'honored absolutely' claims."
+    },
+    "techniques/attention-budgets.md": {
+      "disposition": "clarify",
+      "reason": "Still owed from 2026-09-09. Replace 'a granted claim whose delivery fails is released' with three outcomes: confirmed-not-sent releases, unknown holds and reconciles, sent spends. State that the consented lane can still be blocked by the global ceiling and how that is surfaced. Make the day-boundary zone a declared policy."
+    },
+    "techniques/notice-delivery-decoupling.md": {
+      "disposition": "clarify",
+      "reason": "Still owed. 'Mark first' can lose a delivery: prefer deliver-with-idempotency-key, or mark-pending then confirm. Expiry is not revalidation. Pending contact is cancelled on opt-out. Partitioned enforcement is allowed in place of one global queue."
+    },
+    "techniques/quiet-windows.md": {
+      "disposition": "clarify",
+      "reason": "Still owed. Separate the host clock from the recipient's zone, and membership from next-wakeup mapping (ambiguous and nonexistent local times). Make the bypass and default-window policies explicit choices, not universal rules."
+    },
+    "techniques/nudge-identity-dedup.md": {
+      "disposition": "clarify",
+      "reason": "The new delta-merge and version-aware presentation sections hold, and the paired replay supports them. Still owed: scope the identity by tenant and recipient, allow a stable occurrence key for requested recurring reminders, and bound retention of delivered identities."
+    },
+    "techniques/efficacy-feedback.md": {
+      "disposition": "clarify",
+      "reason": "Make the outcome list match the new paragraph: ignored = exposed and untouched, plus an unobserved state that never moves caps. Reword the 'Nothing raises a kind's volume' blockquote so it agrees with the bounded upward path. Still owed: clicks are not completion, an explicit zero allowance is permitted, and opt-out is immediate."
+    },
+    "techniques/trigger-evaluators.md": {
+      "disposition": "clarify",
+      "reason": "Unchanged since 2026-09-09 and still owed: bound and authorize snapshot collection, separate transient events (lost on a skipped tick) from periodic conditions, and qualify the timeout and purity guarantees."
+    },
+    "applications/rust--attention-budgets.md": {
+      "disposition": "clarify",
+      "reason": "Read against source at f8e62cb9. Re-anchor try_consume (now budget.rs:228), effective cap (:119-135) and today() (:268-). Change the efficacy row: modulation now counts ignored (expired with delivered_at) beside engaged and dismissed. Keep verified_on 2026-08-18 until a runtime check."
+    },
+    "applications/rust--quiet-windows.md": {
+      "disposition": "reverify",
+      "reason": "Local::now() at quiet.rs:65 is confirmed in source, and the 2026-09-09 host-clock caveat stands. The property tests and the release_pending hold were not rerun."
+    },
+    "applications/rust--efficacy-feedback.md": {
+      "disposition": "keep",
+      "reason": "The adjustment signature, the shared ignored predicate and the clamp are confirmed in source. The missing exposure stamp is stated as the limit, with bounded damage."
+    },
+    "applications/rust--notice-delivery-decoupling.md": {
+      "disposition": "keep",
+      "reason": "Mechanism anchors hold at f8e62cb9, except claim_delivered: that moved :579 -> :585 after the dated witness. The unrecorded-deferral finding and the 'unmeasurable' verdict are stated honestly, with a return condition."
+    },
+    "applications/rust--nudge-identity-dedup.md": {
+      "disposition": "keep",
+      "reason": "The hour-bucket refs, the dedupe query and the presentation-tier id dedupe are confirmed in source; the toolchain witness matches. The replay table supports the technique amendment. Live row counts are dated observations that this review did not re-query."
+    }
+  }
+}
+```
+
+## Architecture review - 2026-10-31 (clarify apply)
+
+Applied every clarify item the earlier 2026-10-31 record named, including the
+2026-09-09 items it carried forward. The golden path and the efficacy technique
+no longer contradict nudge-identity-dedup and the bounded upward path. The one
+remaining open item is rust--quiet-windows, which stays reverify because its
+property tests were not rerun. Nothing in the earlier records is retracted.
+
+<!-- architecture-review:v1 -->
+```json
+{
+  "subject": "software-engineering/proactive-nudges",
+  "date": "2026-10-31",
+  "baseline": "42172877b",
+  "digest": "sha256-b2:acb48797d6eb292b",
+  "disposition": "reverify",
+  "coverage": "Clarify-apply pass on the 2026-10-31 record. All 12 owned documents re-read; every clarify item applied in the golden path, the six techniques and rust--attention-budgets. Application anchors in rust--attention-budgets re-read against the personas source at f8e62cb9 (budget.rs, mod.rs); nothing compiled, tested or executed, and no live database queried. chrono LocalResult re-fetched for the quiet-window wakeup-mapping clarification. The other four applications were not re-checked this pass.",
+  "counterexamples": [
+    "A digest notice whose payload is a delta loses every unread pass if superseding replaces it.",
+    "A card delivered while the app is closed is unobserved, not ignored, yet a delivery-stamp predicate counts it as ignored.",
+    "A send can succeed before its acknowledgement times out, so refunding an unknown-outcome claim overdraws the cap.",
+    "A host in another timezone does not share the recipient's local midnight or 22:00.",
+    "An exhausted global cap can block a consented reminder whose kind is exempt from its own cap.",
+    "Two tenants or recipients with the same (kind, subject-ref) collide under an identity that omits the recipient scope."
+  ],
+  "sources": [
+    {
+      "source": "personas source at f8e62cb9: src-tauri/src/companion/proactive/budget.rs",
+      "result": "kind_cap at :31-48 with athena_scheduled = u32::MAX at :34-36; adjustment(engaged, dismissed, ignored) at :71 ('non-action (dismissed + ignored) >= 80% -> -1; engaged >= 60% -> +1'); ignored predicate `status = 'expired' AND delivered_at IS NOT NULL` at :92-94; effective_kind_cap :117-136 with clamp(1, base+2) at :135; KindModulation folds ignored into `dismissed` at :146-149; modulations_summary :154-199; try_consume :228-265; today() :268-284 with Utc::now() at :269. Supports the rust--attention-budgets re-anchor and efficacy-row change."
+    },
+    {
+      "source": "personas source at f8e62cb9: src-tauri/src/companion/proactive/mod.rs",
+      "result": "'The daily budget is **not** consulted here. Noticing is free; only [`release_pending`] spends attention' at :120-121; release_pending at :390 with the global break and per-kind continue at :441-455; claim_delivered :579-589 with `WHERE id = ?2 AND status = 'queued'` at :585. Supports the remaining rust--attention-budgets anchors."
+    },
+    {
+      "url": "https://docs.rs/chrono/0.4.45/chrono/offset/enum.LocalResult.html",
+      "result": "'Ambiguous(T, T) The local time is ambiguous because there is a fold in the local time ... None The local time does not exist because there is a gap in the local time.' Supports quiet-windows' membership vs next-wakeup split (one, two or no instants for a local time)."
+    },
+    {
+      "url": "https://docs.rs/chrono/0.4.45/chrono/offset/struct.Local.html",
+      "result": "Re-fetched: 'The local timescale.' Local reads the executing host's zone and carries no recipient zone. Supports the host-clock vs recipient-zone separation in quiet-windows and attention-budgets."
+    }
+  ],
+  "documents": {
+    "proactive-nudges.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: superseding bullet now replaces a same-story update and merges a delta payload; added a consent paragraph separating requested reminders from speculative nudges; the defer rule now drops with a record on staleness, opt-out or a retention bound instead of 'never deletes'; the efficacy section separates unobserved from ignored and clicks from completion, and the kill switch is 'effective immediately', cancels pending contact and is re-enabled only by the user (replacing 'honored absolutely')."
+    },
+    "techniques/attention-budgets.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: the release rule is now three outcomes (confirmed-not-sent releases, unknown holds and reconciles, sent spends); the consented lane states it can be blocked by the global ceiling and requires reserved capacity or a surfaced broken promise; the day-boundary zone and accounting scope are declared policies."
+    },
+    "techniques/notice-delivery-decoupling.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: mark-first named as a loss path, with idempotency-keyed delivery or mark-pending/confirm preferred; expiry stated as not revalidation; opt-out cancels pending contact; partitioned enforcement allowed in place of one queue, per-kind side channels still forbidden."
+    },
+    "techniques/quiet-windows.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: host clock separated from the recipient's zone; membership separated from next-wakeup mapping with fold and gap rules; default window, unknown-zone fallback and the existence of any bypass made explicit product policies."
+    },
+    "techniques/nudge-identity-dedup.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: identity scoped as (tenant, recipient, kind, subject-ref); requested recurring reminders carry a stable occurrence key; 'keeps its identity forever' replaced by a declared retention bound with a named reaper."
+    },
+    "techniques/efficacy-feedback.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: outcome list now has ignored = exposed and untouched plus an unobserved state that never moves caps; acted records engagement, not completion; the blockquote now permits bounded raises on explicit positive acts only; explicit zero allowance permitted as declared configuration; kill switch effective immediately, cancels queued notices, reverted only by the user."
+    },
+    "techniques/trigger-evaluators.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: snapshot collection bounded and authorized per recipient and tenant; transient events separated from periodic conditions and given a durable record or cursor; the deadline qualified as bounding the wait (cancellation or isolation needed to bound work); purity stated as a contract and determinism conditioned on the clock being in the snapshot."
+    },
+    "applications/rust--attention-budgets.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: re-anchored try_consume (budget.rs:228-265), effective cap (:117-136), modulations_summary (:154-199), today() (:268-284), the not-consulted doc (mod.rs:120-123), release_pending (:390, :441-455) and claim_delivered (:579-589) against f8e62cb9; the efficacy row now counts ignored (expired with delivered_at) beside engaged and dismissed and notes the missing exposure stamp. verified_on kept at 2026-08-18 pending a runtime check."
+    },
+    "applications/rust--quiet-windows.md": {
+      "disposition": "reverify",
+      "reason": "Local::now() at quiet.rs:65 is confirmed in source, and the 2026-09-09 host-clock caveat stands. The property tests and the release_pending hold were not rerun."
+    },
+    "applications/rust--efficacy-feedback.md": {
+      "disposition": "keep",
+      "reason": "The adjustment signature, the shared ignored predicate and the clamp are confirmed in source. The missing exposure stamp is stated as the limit, with bounded damage."
+    },
+    "applications/rust--notice-delivery-decoupling.md": {
+      "disposition": "keep",
+      "reason": "Mechanism anchors hold at f8e62cb9, except claim_delivered: that moved :579 -> :585 after the dated witness. The unrecorded-deferral finding and the 'unmeasurable' verdict are stated honestly, with a return condition."
+    },
+    "applications/rust--nudge-identity-dedup.md": {
+      "disposition": "keep",
+      "reason": "The hour-bucket refs, the dedupe query and the presentation-tier id dedupe are confirmed in source; the toolchain witness matches. The replay table supports the technique amendment. Live row counts are dated observations that this review did not re-query."
+    }
+  }
+}
+```

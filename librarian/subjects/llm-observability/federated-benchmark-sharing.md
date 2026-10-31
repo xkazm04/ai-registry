@@ -375,3 +375,209 @@ retained as historical records at their stated pins, unrerun and undated-forward
   }
 }
 ```
+
+## Architecture review - 2026-10-31
+
+Third review, against HEAD `140c101d`. Stale because of one new application
+(`rust--aggregate-only-digests--absent-measure`) and a frontmatter change to
+`python--fixed-task-vocabulary` (`counterpart: external`, `verified_against`
+removed). Both were read in full. The sixteen unchanged documents were confirmed
+byte-identical to the 2026-09-10 baseline and carried forward against that
+record, not re-read line by line.
+
+**None of the five 2026-09-10 clarify changes has landed.** Still owed:
+percentile pooling with no merge rule (golden path and `aggregate-only-digests`);
+the clamp-the-maximum argument stated without its `s >= 0.5` precondition; the
+1.4-on-[0,1] score clamp that launders a scale error; the missing digest-width
+floor in `content-addressed-contribution`; and the absent-cost case in
+`cost-bucketing-side-channels`.
+
+**The new application is a confirming sighting for the subject's absence rule,
+and indirect support for the open cost-bucketing item.** A consumer guarded
+between-run variance (`None`, not `0`) and left pass rate on `unwrap_or(0.0)`.
+One unrecorded run beside one fully passing run published 0.5. The fix drops
+the run at the source because the wire row has no room for absence. Its decision
+rule ("a default is a fabricated measurement whenever the field's required wire
+shape leaves no room for absence") is the general form of what
+`cost-bucketing-side-channels` is still silent on for an unpriced bucket.
+
+**k-anonymity cell-size range, partly checked.** The 2026-09-10 record put this
+on `reverify` because no source had been opened. Now: CMS's policy is that "no
+cell ... containing a value of 1 to 10 can be reported directly", Illinois DPH
+suppresses 1 to 9, and the traditional "less than 5" rule is still discussed in
+the literature. All of these sit inside the technique's 3 to 30. Neither endpoint
+was found. NCHS's reliability criteria are expressed as relative standard error
+above 30% or fewer than 20 events, which is not a minimum cell size, and the
+"30" may be a conflation with the RSE figure. This moves the item from unverified
+to a concrete clarify: cite the thresholds that exist rather than a range whose
+upper end was not found.
+
+<!-- architecture-review:v1 -->
+```json
+{
+  "subject": "llm-observability/federated-benchmark-sharing",
+  "date": "2026-10-31",
+  "baseline": "140c101d",
+  "digest": "sha256-b2:9ba72fc97cd5044b",
+  "disposition": "clarify",
+  "coverage": "All 18 documents assessed. Two read in full this run: the new rust--aggregate-only-digests--absent-measure application and python--fixed-task-vocabulary (frontmatter change only). Sixteen unchanged documents confirmed byte-identical to the 44c8996 baseline and carried forward against the 2026-09-10 record. CMS cell-suppression policy read; agency suppression thresholds surveyed by search. Not evaluated: mlcommons/inference and llmfit trees, the LightTrack collective crate, any test run.",
+  "counterexamples": [
+    "A share ceiling of 0.3 lets three sources each hold 0.33; clamping only the largest leaves two above the ceiling (carried from 2026-09-10, unrepaired).",
+    "A producer reports a 0-10 rubric into the [0,1] quality field and the gate clamps 8.5 to 1.0 (carried, unrepaired).",
+    "A digest row whose pass_rate is required and whose run recorded none: before the new application's fix, the run entered as zero and halved a fully passing bucket; any other required field reduced with a defaulting read has the same defect.",
+    "Dropping no-pass-rate runs at the source shrinks the bucket's case count, so a bucket can fall below the k_cases floor and vanish; the absent-measure fix interacts with the suppression floor and neither document says so.",
+    "A contributor configures k_cases = 30 citing the technique's range; no agency threshold read sets a minimum cell size of 30, so the default band's upper end is not anchored to practice."
+  ],
+  "sources": [
+    {
+      "url": "https://resdac.org/node/1506",
+      "result": "Read. CMS: 'no cell ... containing a value of 1 to 10 can be reported directly'; derived values in that range also prohibited; zero exempt. Supports a threshold inside the technique's range."
+    },
+    {
+      "url": "https://dph.illinois.gov/content/dam/soi/en/web/idph/resources/data-statistics/aggregate-data-suppression-policy-09242025.pdf",
+      "result": "Seen via search summary only, not opened: Illinois DPH prohibits revealing cell values 1 to 9; when datasets are combined the most stringent rule applies. Treated as corroborating, not quoted as read."
+    },
+    {
+      "url": "https://chs-nhlbi.org/node/56",
+      "result": "Seen via search summary only: NCHS reliability criteria are expressed as relative standard error (e.g. >30%) or number of events (e.g. <20), not as a minimum cell size. Suggests the technique's upper bound of 30 may conflate RSE with cell size; not confirmed."
+    }
+  ],
+  "documents": {
+    "federated-benchmark-sharing.md": {"disposition": "clarify", "reason": "Unrepaired from 2026-09-10. Change owed: state the combination rule for 'latency percentiles pooled across runs' (merge histograms or sketches, or publish per-source percentiles with no pooled figure), or drop pooling."},
+    "techniques/aggregate-only-digests.md": {"disposition": "clarify", "reason": "Unrepaired from 2026-09-10. Change owed: the same percentile merge rule. The new absent-measure application could be cited as the defaulting-read sighting of its ship-absence rule."},
+    "techniques/bounded-contributor-influence.md": {"disposition": "clarify", "reason": "Unrepaired from 2026-09-10. Change owed: attach the precondition 's >= 0.5' to 'clamping the maximum is sufficient and exact', and give the iterative clamp for tighter ceilings."},
+    "techniques/capture-locally-publish-separately.md": {"disposition": "keep", "reason": "Unchanged since the 2026-09-10 keep; byte-identical."},
+    "techniques/content-addressed-contribution.md": {"disposition": "clarify", "reason": "Unrepaired from 2026-09-10. Change owed: a digest-width floor (the application's 8-hex name is 32 bits), since detectable-not-improbable is the document's own test."},
+    "techniques/cost-bucketing-side-channels.md": {"disposition": "clarify", "reason": "Unrepaired from 2026-09-10. Change owed: say what a contributor publishes for a bucket whose cost is absent (omit the bucket's cost or mark it unknown, never zero), which the new absent-measure application's rule generalizes."},
+    "techniques/fixed-task-vocabulary.md": {"disposition": "keep", "reason": "Unchanged since the 2026-09-10 keep; byte-identical."},
+    "techniques/hub-ingest-plausibility-gates.md": {"disposition": "clarify", "reason": "Unrepaired from 2026-09-10. Change owed: separate a float-dust band (clamp) from a scale-error band (reject) for [0,1] scores, so 1.4 is refused rather than clamped."},
+    "techniques/k-anonymity-cases-and-sources.md": {"disposition": "clarify", "reason": "Upgraded from reverify: sources now read support thresholds of 5 to 11 (CMS suppresses 1-10, Illinois 1-9, the traditional less-than-5). Change owed: replace 'between 3 and 30' with the named thresholds, or anchor the endpoints. 30 was not found as a minimum cell size and may conflate NCHS's RSE criterion. The two-floor design is unchanged and sound."},
+    "techniques/strict-ingestion-lenient-consumption.md": {"disposition": "keep", "reason": "Unchanged since the 2026-09-10 keep; byte-identical."},
+    "applications/python--fixed-task-vocabulary.md": {"disposition": "keep", "reason": "Frontmatter-only change to mark it an external counterpart, consistent with not carrying verified_against. Content unchanged; retained as a pinned history record, not rerun."},
+    "applications/rust--aggregate-only-digests--absent-measure.md": {"disposition": "keep", "reason": "A paired A/B (0.5 versus 1.0) with a crisp decision rule. It says what was not measured. It does not mention that dropping runs can push a bucket under the k_cases floor; that belongs as a technique note, not a defect here. Not rerun."},
+    "applications/rust--bounded-contributor-influence.md": {"disposition": "keep", "reason": "Unchanged since the 2026-09-10 keep; at 0.8 the clamp argument holds."},
+    "applications/rust--capture-locally-publish-separately.md": {"disposition": "keep", "reason": "Unchanged since the 2026-09-10 keep; byte-identical."},
+    "applications/rust--content-addressed-contribution.md": {"disposition": "keep", "reason": "Unchanged since the 2026-09-10 keep; byte-identical."},
+    "applications/rust--hub-ingest-plausibility-gates.md": {"disposition": "keep", "reason": "Unchanged since the 2026-09-10 keep; inherits the technique's score-clamp posture, where the finding belongs."},
+    "applications/rust--k-anonymity-cases-and-sources.md": {"disposition": "keep", "reason": "Unchanged since the 2026-09-10 keep; byte-identical."},
+    "applications/rust--strict-ingestion-lenient-consumption.md": {"disposition": "keep", "reason": "Unchanged since the 2026-09-10 keep; byte-identical."}
+  }
+}
+```
+
+## Clarify applied - 2026-10-31
+
+All seven clarify items from the 2026-10-31 record are applied. The percentile
+rule (merge distributions or sketches, never percentiles) is in the golden path
+and in aggregate-only-digests. The share-ceiling exactness now carries its
+`s >= 0.5` precondition and the iterative clamp. The content hash has a 64-bit
+floor. An unpriced bucket ships its cost absent. Scores have a dust band and a
+scale-error band. The case floor names the CMS and Illinois thresholds, now read
+first-hand, instead of the 3-to-30 range. The golden path's case-floor
+parenthetical was changed to match, which was not owed. Its one-line summary of
+score clamping was left as it was and now reads looser than the technique.
+
+<!-- architecture-review:v1 -->
+```json
+{
+  "subject": "llm-observability/federated-benchmark-sharing",
+  "date": "2026-10-31",
+  "baseline": "19cb20182",
+  "digest": "sha256-b2:e376140d52a279c3",
+  "disposition": "keep",
+  "coverage": "Clarify-apply pass against the 2026-10-31 140c101d record. All seven owed clarify items applied in seven documents (golden path and six techniques); the eleven keep documents were not edited and their dispositions carry forward. CMS ResDAC cell-size page and the Illinois DPH suppression policy PDF read in full this run; the DDSketch abstract read. Not evaluated: any application rerun, the LightTrack collective crate, the interaction between dropping no-pass-rate runs and the k_cases floor (a recorded counterexample, not an owed change).",
+  "counterexamples": [
+    "A digest row whose pass_rate is required and whose run recorded none: before the new application's fix, the run entered as zero and halved a fully passing bucket; any other required field reduced with a defaulting read has the same defect.",
+    "Dropping no-pass-rate runs at the source shrinks the bucket's case count, so a bucket can fall below the k_cases floor and vanish; the absent-measure fix interacts with the suppression floor and neither document says so.",
+    "A hub sets the float-dust tolerance so wide (say 0.5) that the scale-error band disappears and 1.4 is again clamped; the tolerance is a named constant but the technique gives no value for it."
+  ],
+  "sources": [
+    {
+      "url": "https://resdac.org/node/1506",
+      "result": "Read this run. 'no cell ... containing a value of 1 to 10 can be reported directly'; 'no cell can be reported that allows a value of 1 to 10 to be derived from other reported cells or information'; 'A value of zero does not violate the minimum cell size policy.'"
+    },
+    {
+      "url": "https://dph.illinois.gov/content/dam/soi/en/web/idph/resources/data-statistics/aggregate-data-suppression-policy-09242025.pdf",
+      "result": "Read this run (text extracted from the PDF). B: 'Any data element in a cell ... with a value between 1 and 9 should be avoided when releasing information publicly whenever possible.' J: 'When datasets are combined, the suppression rules should follow the most stringent requirements from the contributing datasets.' Upgrades the prior search-summary-only entry."
+    },
+    {
+      "url": "https://arxiv.org/abs/1908.10693",
+      "result": "Read (abstract). DDSketch: 'mergeablility, i.e., several combined sketches must be as accurate as a single sketch of the same data'; 'the first fully-mergeable, relative-error quantile sketching algorithm with formal guarantees.' Supports the merge-sketches option."
+    }
+  ],
+  "documents": {
+    "federated-benchmark-sharing.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: added the percentile combination rule to the digest description (bucket percentiles from a merged histogram or mergeable sketch, never from run percentiles; the hub merges sketches or publishes per-source percentiles with no pooled figure). Also replaced the case-floor parenthetical '3 to 30' with the named CMS (1-10) and Illinois DPH (1-9) thresholds, for consistency with the k-anonymity technique; this was not an owed item."
+    },
+    "techniques/aggregate-only-digests.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: 'latency percentiles pooled across runs' now reads 'from the bucket's merged latency distribution', with a new 'merge distributions, not percentiles' rule citing DDSketch's mergeability; the ship-absence rule now covers a per-run missing pass rate and links the rust absent-measure application (unnamed in the body to keep the technique stack-neutral) as the defaulting-read sighting."
+    },
+    "techniques/bounded-contributor-influence.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: 'clamping the maximum is sufficient and exact' now carries the precondition s >= 0.5 with its one-line proof, plus the iterative clamp for tighter ceilings (cap the k largest at s*R/(1-k*s)) and the infeasible case k*s >= 1 (fewer than 1/s sources: equal weights, disclosed)."
+    },
+    "techniques/capture-locally-publish-separately.md": {
+      "disposition": "keep",
+      "reason": "Unchanged since the 2026-09-10 keep; byte-identical."
+    },
+    "techniques/content-addressed-contribution.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: added a digest-width floor: a 32-bit (8-hex) name reaches even collision odds near 77,000 files (birthday bound, 1.1774*2^16); keep at least 64 bits in the name or compare the full payload hash before declaring a duplicate."
+    },
+    "techniques/cost-bucketing-side-channels.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: a bucket whose cost was never priced publishes its cost omitted or marked unknown, never zero, distinguished from the wire's zero floor for garbage inputs."
+    },
+    "techniques/fixed-task-vocabulary.md": {
+      "disposition": "keep",
+      "reason": "Unchanged since the 2026-09-10 keep; byte-identical."
+    },
+    "techniques/hub-ingest-plausibility-gates.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: bounded scores are now clamped only within a named float-dust tolerance and refused as implausible beyond it; 1.4 is the scale-error example (a 0-10 rubric would publish 8.5 as 1.0). The golden path's one-line 'bounded scores, by contrast, are clamped' summary was not changed and now reads looser than this technique."
+    },
+    "techniques/k-anonymity-cases-and-sources.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: 'between 3 and 30' replaced with the named thresholds read this run: CMS forbids cells of 1 to 10, Illinois DPH avoids cells of 1 to 9 and applies the most stringent rule when datasets combine; the default is anchored to them. The 'traditional less-than-5' figure was not read and is not cited."
+    },
+    "techniques/strict-ingestion-lenient-consumption.md": {
+      "disposition": "keep",
+      "reason": "Unchanged since the 2026-09-10 keep; byte-identical."
+    },
+    "applications/python--fixed-task-vocabulary.md": {
+      "disposition": "keep",
+      "reason": "Frontmatter-only change to mark it an external counterpart, consistent with not carrying verified_against. Content unchanged; retained as a pinned history record, not rerun."
+    },
+    "applications/rust--aggregate-only-digests--absent-measure.md": {
+      "disposition": "keep",
+      "reason": "A paired A/B (0.5 versus 1.0) with a crisp decision rule. It says what was not measured. It does not mention that dropping runs can push a bucket under the k_cases floor; that belongs as a technique note, not a defect here. Not rerun."
+    },
+    "applications/rust--bounded-contributor-influence.md": {
+      "disposition": "keep",
+      "reason": "Unchanged since the 2026-09-10 keep; at 0.8 the clamp argument holds."
+    },
+    "applications/rust--capture-locally-publish-separately.md": {
+      "disposition": "keep",
+      "reason": "Unchanged since the 2026-09-10 keep; byte-identical."
+    },
+    "applications/rust--content-addressed-contribution.md": {
+      "disposition": "keep",
+      "reason": "Unchanged since the 2026-09-10 keep; byte-identical."
+    },
+    "applications/rust--hub-ingest-plausibility-gates.md": {
+      "disposition": "keep",
+      "reason": "Unchanged since the 2026-09-10 keep; inherits the technique's score-clamp posture, where the finding belongs."
+    },
+    "applications/rust--k-anonymity-cases-and-sources.md": {
+      "disposition": "keep",
+      "reason": "Unchanged since the 2026-09-10 keep; byte-identical."
+    },
+    "applications/rust--strict-ingestion-lenient-consumption.md": {
+      "disposition": "keep",
+      "reason": "Unchanged since the 2026-09-10 keep; byte-identical."
+    }
+  }
+}
+```

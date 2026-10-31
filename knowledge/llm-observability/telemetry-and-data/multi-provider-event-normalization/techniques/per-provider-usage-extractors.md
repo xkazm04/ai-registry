@@ -71,7 +71,7 @@ survives every downstream aggregate unchallenged.
   older SDK responses and from providers without cache accounting; an
   absent count must survive as null into the event, never coerced to zero
   — zero claims "no cache hit," which is a measurement the wire never made.
-- **Required facts default defensively, but visibly.** If a response
+- **Missing required facts are recorded as missing, visibly.** If a response
   carries no usage at all (a streaming path that skipped the final usage
   frame, an error response), record what is true — zeros for counts the
   provider genuinely reported as absent are still a claim; prefer recording
@@ -96,11 +96,22 @@ where the record is accepted:
 Under the inclusive convention that state is impossible; observing it is
 proof that some extractor copied an exclusive figure into an inclusive slot.
 It costs one comparison, it needs no knowledge of which provider produced the
-record, and it is the only cheap detector of a convention violation there is.
+record, and it is a cheap detector of a convention violation.
 Cache-heavy traffic makes it fire readily, because a warm prompt cache is
 exactly where the cached figure overtakes the residual uncached one. Treat a
 violation as a rejected or flagged record, not as something to repair: which
 of the two counts is wrong is not knowable from the record.
+
+The invariant holds only for inclusive tuples. A pipeline may legitimately
+state a **disjoint** target instead — each bucket counted once, the total
+defined as their sum — and there the sub-count-versus-total comparison can
+never fire, because the total is built from the buckets. The disjoint analogue
+is the residual: convert the provider's figures into buckets and check that
+the bucket derived by subtraction (uncached input = reported input minus the
+cache counts, for an inclusive-reporting provider) is not negative. A negative
+residual after conversion is the same proof of a wrong-direction reading, and
+the same reject-or-flag rule applies. Know which convention the tuple states
+before choosing which assertion guards it.
 
 Design the check knowing it is one-sided. A violation proves a broken
 extractor; conformance proves nothing, because a merely *understated* total

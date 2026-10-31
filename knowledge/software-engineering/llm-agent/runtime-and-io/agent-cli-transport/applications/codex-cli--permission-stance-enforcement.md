@@ -42,7 +42,13 @@ forms are:
   `codex -a never exec …` (flag before the subcommand), or
   `codex exec -c approval_policy=never …` (config override). Both parse
   clean on 0.139.0. Values are `untrusted|on-failure|on-request|never`, and
-  `on-failure` is now marked **DEPRECATED** in the tool's own help.
+  `on-failure` is now marked **DEPRECATED** in the tool's own help. The
+  vendor's current CLI reference (re-read 2026-10-31, no binary run) lists
+  `-a` among the global flags only, with values `on-request|never`, and adds
+  an `--approve-for-me` exec flag (on-request approvals with the
+  workspace-write sandbox); `--full-auto` appears nowhere in it. Re-smoke
+  the approval values before relying on the four-value list on a newer
+  version.
 - `--full-auto` is **accepted by `codex exec` and listed in no help output
   for it** (`codex exec --help | grep -c full-auto` → 0). The inverse of the
   `-a` case, in the same tool on the same day: help text is neither

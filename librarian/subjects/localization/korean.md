@@ -329,3 +329,212 @@ I am entitled to assert.
 }
 ```
 
+
+## 2026-10-31 - architecture re-review (digest moved)
+
+Stale on mechanical commits only: repo-relative paths in the two process applications,
+and `counterpart: external` on the two spec applications. All eleven documents re-read.
+The 2026-09-10 enumeration clarify has **not** landed in either the technique or the
+counting application.
+
+**The enumeration, recomputed from the rules rather than recounted from prose.** I read
+`rbnf/ko.xml` at `release-48-2` and walked both series over 1-99. The 째 series runs
+through `-priv` (1 첫, 2 둘) into `-smaller` (한, 두, 셋, 넷). Its 10s and 20s rules
+re-enter `-smaller`, so 12 is 열두째, the same stem as 열두 번째. The 번째 series is 첫 at
+1, then the attributive (한, 두, 세, 네). They disagree at 2, 3, 4 and at every number
+ending in 3 or 4 from 13 to 94: 3 + 18 = **21**. The total of 21 is right. Both
+documents' parentheses are wrong, in different ways. The technique's "the twos, and every
+number ending in three or four from thirteen up" counts 28 if "the twos" means 2, 12, ...
+92 (12 and 22 agree), and 19 if it means only 2. Either way it omits 3 and 4. The
+application's "{2} plus every n ending in 3 or 4 from 13 up" is 19. The correct
+enumeration is **{2, 3, 4} plus every n ending in 3 or 4 from 13 to 94**.
+
+**Resolved: KO-TRANSLIT's reverify, now a clarify.** The National Institute's loanword
+orthography resolved today. 제3장 제1절 제8항 writes the diphthong [ou] as '오' (boat ->
+보트). That is the clause behind 워크플로, 윈도 and 팔로. 제7항 is the long-vowel clause
+("장모음의 장음은 따로 표기하지 않는다", team -> 팀), and it is not what produces those
+spellings. 제1장 제4항 says "파열음 표기에는 된소리를 쓰지 않는 것을 원칙으로 한다": no tense
+consonants for **plosives**, in any position, as a principle. That covers 께임 (/g/). It
+does not cover 써비스, which is a fricative /s/ and falls under the fricative clauses.
+
+**Retraction of part of the 2026-09-10 keep.** That record praised the spacing spec
+application's brace-host orphan ("a closing brace is CL, not CP") as a real defect
+class. The premise does not hold for rendered text. `{name}` is message syntax, and the
+formatter replaces it with the value before any line breaker sees the string. What
+wraps is `<value>이(가)`, and that is the Latin/Hangul/parenthesis host case the same
+table already shows holding. The orphan occurs only when a placeholder fails to
+substitute and the raw key reaches the screen, or when a value itself ends in a CL
+character. That is a narrower and different finding.
+
+One golden-path clarify: korean.md still calls a one/other plural block "dead weight at
+best and a source defect at worst". The bundle's own Indonesian spec application
+measured a stray branch as inert under both message-format generations, and
+KO-PLURAL-OTHER in this subject already calls it "harmless noise".
+
+<!-- architecture-review:v1 -->
+```json
+{
+  "subject": "localization/korean",
+  "date": "2026-10-31",
+  "baseline": "362ef003a",
+  "digest": "sha256-b2:175ff84788b33ede",
+  "disposition": "clarify",
+  "coverage": "All 11 owned documents read in full at current bytes; diff since the 2026-09-10 baseline is four mechanical lines. CLDR release-48-2 rbnf/ko.xml read and both ordinal stem series walked by hand over 1-99. The National Institute of Korean Language loanword orthography (외래어 표기법) read for 제1장 제4항, 제3장 제1절 제3항, 제7항 and 제8항. Not evaluated: either spec application's harness (not re-run); ICU4J; any renderer's Korean line-break tailoring; the vendor Korean style guides; the private product tree the process applications cite; maturity or verified_on refresh.",
+  "counterexamples": [
+    "12: rbnf gives 열두째 (the 째 series re-enters -smaller, whose 2 is 두) and 열두 번째, so 'the twos' disagree only at 2; a reader applying the technique's parenthesis to every number ending in 2 would 'correct' 열두째 to 열둘째, which no ruleset produces.",
+    "써비스 is not barred by 제1장 제4항 at all ([s] is a fricative, not a plosive), so citing 'no initial doubled consonants' as the clause invites a reviewer to accept a word-medial tensed plosive, which the actual clause (any position, as a principle) also forbids.",
+    "A rendered '{name}' never reaches the line breaker in a working stack: 'Slack이(가) 연결되었습니다' is what wraps, and its Latin host holds under LB28, so the spacing application's brace-orphan defect appears only when substitution fails."
+  ],
+  "sources": [
+    {
+      "url": "https://raw.githubusercontent.com/unicode-org/cldr/release-48-2/common/rbnf/ko.xml",
+      "result": "%spellout-ordinal-native-count: '0: =%%spellout-ordinal-native-count-smaller= 번째', with -smaller '1: 첫; 2: =%spellout-cardinal-native-attributive=' (attributive 한/두/세/네). %%spellout-ordinal-native-priv: '1: 첫; 2: 둘; 3: =%%spellout-ordinal-native-smaller='; -smaller: '2: 두; 3: 셋; 4: 넷; 10: 열[>>]; 21: 스물[>>]'. Disagreements over 1-99 = {2,3,4} + 18 = 21. Confirms the total of 21 and refutes both documents' enumerations."
+    },
+    {
+      "url": "https://korean.go.kr/kornorms/regltn/regltnView.do?regltn_code=0003",
+      "result": "Resolved today. 제1장 제4항: '파열음 표기에는 된소리를 쓰지 않는 것을 원칙으로 한다'. 제3장 제1절 제7항: '장모음의 장음은 따로 표기하지 않는다' (team 팀, route 루트). 제8항: '[ou]는 오로' (boat 보트). KO-TRANSLIT's spellings are the standard forms, but its 'no long-vowel doubling' and 'no initial doubled consonants' labels name the wrong clauses."
+    },
+    {
+      "url": "https://www.unicode.org/Public/UCD/latest/ucd/LineBreak.txt",
+      "result": "U+007D is CL, as the spacing application says. Read together with message-format substitution semantics: the brace is syntax replaced before layout, so the CL property never applies to a rendered placeholder."
+    }
+  ],
+  "documents": {
+    "korean.md": {
+      "disposition": "clarify",
+      "reason": "The four load-bearing facts, the register mix, the 당신 grep and the punctuation and width facts all hold. One change owed: 'a message-format plural block with one/other branches is dead weight at best and a source defect at worst' should read 'a one branch is inert noise; collapse it, but it is not a defect'. That matches KO-PLURAL-OTHER and the bundle's measured inert-branch finding."
+    },
+    "techniques/counting-and-quantity.md": {
+      "disposition": "clarify",
+      "reason": "Carried from 2026-09-10, sharpened. The total of 21 is right but the parenthesis is wrong: 'the twos, and every number ending in three or four from thirteen up' omits 3 and 4 and, read as every number ending in 2, wrongly includes 12-92 (열두째 equals 열두 번째). Replace with '2, 3 and 4, and every number ending in 3 or 4 from 13 to 94'."
+    },
+    "techniques/de-anglicization-constructions.md": {
+      "disposition": "keep",
+      "reason": "Five anchored constructions with calqued and Korean forms, and a closing gate that permits a rewrite only when a finding names the anchor. Unchanged and sound."
+    },
+    "techniques/particles-and-interpolation.md": {
+      "disposition": "keep",
+      "reason": "The alternation table is correct in every row, the dual-form ordering is fixed and greppable, and KO-PARTICLE-RUNTIME's Latin-reading limit is real. It never claimed the brace orphan."
+    },
+    "techniques/register-and-honorifics.md": {
+      "disposition": "keep",
+      "reason": "Function-dispatched two-register mix, the noun-form chrome rule with its recorded-voice exception, the 당신 ban and honorifics that point at the user are each bounded and auditable."
+    },
+    "techniques/spacing-and-typography.md": {
+      "disposition": "keep",
+      "reason": "KO-PUNCT, KO-SPACING and KO-WIDTH's corrected default (syllable-break by default; space-only wrapping is the tailoring) are right. It does not carry the brace-orphan claim, so the spec application's error does not reach it."
+    },
+    "techniques/terminology-and-loanwords.md": {
+      "disposition": "clarify",
+      "reason": "Prior reverify resolved by reading the orthography. Relabel the bullets: '워크플로/윈도/팔로' follow 제3장 제1절 제8항 ([ou] -> 오), not a long-vowel rule (제7항, team -> 팀, is a different clause). The tense-consonant bullet should cite 제1장 제4항 (no 된소리 for plosives, any position; 께임) and drop 써비스 as its example, or move it to the fricative clause."
+    },
+    "applications/process--particles-and-interpolation.md": {
+      "disposition": "keep",
+      "reason": "Dated 2026-08-24 field record of the five dual forms with the guide's own counterexample. Only the path changed. Not re-run."
+    },
+    "applications/process--register-and-honorifics.md": {
+      "disposition": "keep",
+      "reason": "Dated field record settling register by count (zero -십시오). Only the path changed. Not re-run."
+    },
+    "applications/spec--counting-and-quantity.md": {
+      "disposition": "clarify",
+      "reason": "Ruleset facts re-read correctly today. Carried and sharpened: '({2} plus every n ending in 3 or 4 from 13 up)' enumerates 19 against its own 21. It should read '{2, 3, 4} plus every n ending in 3 or 4 from 13 to 94'. Its refutations of KO-NUM-UNIT and KO-PLURAL-OTHER sentences are historical; the technique has since absorbed them."
+    },
+    "applications/spec--spacing-and-typography.md": {
+      "disposition": "clarify",
+      "reason": "Syllable-break default, space-break tailoring and the punctuation-as-wrapping table stand. The brace-host section is wrong as written: '{name}' is replaced by its value before layout, so 'every ICU-MessageFormat and i18next-style key can wrap with the particle alone' does not follow. Rescope it to unsubstituted raw keys and to values that end in a CL character, or delete it. The harness was not re-run."
+    }
+  }
+}
+```
+
+## 2026-10-31 - clarify items applied
+
+All five owed clarifies are made, each against a source opened this run. The ordinal enumeration
+now lists its own 21 in both documents, the plural sentence in the golden path no longer calls a
+`one` branch a defect, the loanword bullets cite the clauses that actually hold them, and the
+spacing application's brace finding is confined to raw keys and CL-final values. Note for a later
+pass: spec--counting-and-quantity.md cites ko.xml line numbers (208, 212, 217, 248) that do not
+match the release-48-2 file (the -priv ruleset is at line 464); not changed here because no record
+owes it.
+
+<!-- architecture-review:v1 -->
+```json
+{
+  "subject": "localization/korean",
+  "date": "2026-10-31",
+  "baseline": "3f7e1dfbc",
+  "digest": "sha256-b2:3e962ddc6347d1ea",
+  "disposition": "keep",
+  "coverage": "Clarify-apply pass over the five clarify items of the earlier 2026-10-31 record; korean.md, techniques/counting-and-quantity.md, techniques/terminology-and-loanwords.md, applications/spec--counting-and-quantity.md and applications/spec--spacing-and-typography.md changed. Primary sources re-opened this run: CLDR release-48-2 rbnf/ko.xml (ordinal stem rulesets), the National Institute of Korean Language loanword orthography on korean.go.kr (제1장 and the English section of 제3장), and LineBreak.txt. The regltnView.do URL cited earlier returned 403 this run; the same norm was read from the institute's pageView pages instead. The six kept documents were not re-read beyond confirming they are byte-unchanged. Not evaluated: either spec harness, any renderer's Korean tailoring, vendor guides, the private product tree, maturity or verified_on refresh.",
+  "counterexamples": [
+    "12: rbnf gives 열두째 and 열두 번째 alike, so the applied enumeration ({2, 3, 4} plus n ending in 3 or 4 from 13 to 94) deliberately excludes every number ending in 2 above 2.",
+    "써비스 falls under no 제1장 clause ([s] is a fricative, not a plosive), so it was dropped from the tense-consonant bullet rather than kept under a clause that does not cover it.",
+    "A raw '{name}' key reaching the line breaker is now the only brace case the spacing application claims; a working substitution hands the breaker the value, and a Latin host holds under LB28."
+  ],
+  "sources": [
+    {
+      "url": "https://raw.githubusercontent.com/unicode-org/cldr/release-48-2/common/rbnf/ko.xml",
+      "result": "Re-read 2026-10-31: spellout-ordinal-native-priv '1: 첫; 2: 둘; 3: =%%spellout-ordinal-native-smaller='; -smaller '1: 한; 2: 두; 3: 셋; 4: 넷; 10: 열[→→]; 20: 스무; 21: 스물[→→]'; spellout-ordinal-native-count-smaller '1: 첫; 2: =%spellout-cardinal-native-attributive='. Stems differ at 2, 3, 4 and at n ending in 3 or 4 from 13 to 94 (18 values): 21 total, 12 not among them."
+    },
+    {
+      "url": "https://korean.go.kr/front/page/pageView.do?page_id=P000104&mn_id=97",
+      "result": "외래어 표기법 제1장 표기의 원칙, 제4항: '파열음 표기에는 된소리를 쓰지 않는 것을 원칙으로 한다.' Supports the relabelled tense-consonant bullet (plosives, any position; 게임 not 께임)."
+    },
+    {
+      "url": "https://korean.go.kr/front/page/pageView.do?page_id=P000124&mn_id=97",
+      "result": "제3장 표기 세칙, 영어: 제7항 장모음 '장모음의 장음은 따로 표기하지 않는다. team[tiːm] 팀 route[ruːt] 루트'; 제8항 중모음 '[ou]는 '오'로 ... 적는다' with boat[bout] 보트. Supports relabelling 워크플로/윈도/팔로 to 제3장 제1절 제8항."
+    },
+    {
+      "url": "https://www.unicode.org/Public/UCD/latest/ucd/LineBreak.txt",
+      "result": "LineBreak-18.0.0.txt: '007D ; CL # Pe RIGHT CURLY BRACKET' and '0029 ; CP # Pe RIGHT PARENTHESIS'. The CL class of the brace is unchanged; the rescope rests on substitution happening before layout."
+    }
+  ],
+  "documents": {
+    "korean.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: 'a message-format plural block with one/other branches is dead weight at best and a source defect at worst' -> 'a one branch in a message-format plural block is inert noise; collapse it, but it is not a defect', matching KO-PLURAL-OTHER."
+    },
+    "techniques/counting-and-quantity.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: 'the twos, and every number ending in three or four from thirteen up' -> '2, 3 and 4, and every number ending in 3 or 4 from 13 to 94', re-derived from rbnf/ko.xml this run; total of 21 unchanged."
+    },
+    "techniques/de-anglicization-constructions.md": {
+      "disposition": "keep",
+      "reason": "Five anchored constructions with calqued and Korean forms, and a closing gate that permits a rewrite only when a finding names the anchor. Unchanged and sound."
+    },
+    "techniques/particles-and-interpolation.md": {
+      "disposition": "keep",
+      "reason": "The alternation table is correct in every row, the dual-form ordering is fixed and greppable, and KO-PARTICLE-RUNTIME's Latin-reading limit is real. It never claimed the brace orphan."
+    },
+    "techniques/register-and-honorifics.md": {
+      "disposition": "keep",
+      "reason": "Function-dispatched two-register mix, the noun-form chrome rule with its recorded-voice exception, the 당신 ban and honorifics that point at the user are each bounded and auditable."
+    },
+    "techniques/spacing-and-typography.md": {
+      "disposition": "keep",
+      "reason": "KO-PUNCT, KO-SPACING and KO-WIDTH's corrected default (syllable-break by default; space-only wrapping is the tailoring) are right. It does not carry the brace-orphan claim, so the spec application's error does not reach it."
+    },
+    "techniques/terminology-and-loanwords.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: 'No long-vowel doubling' bullet relabelled '[ou] is written 오 (제3장 제1절 제8항)' with the same examples; 'No initial doubled consonants (서비스 not 써비스, 게임 not 께임)' -> 'No tensed consonants (된소리) for plosives, in any position (제1장 제4항: 게임 not 께임)', 써비스 dropped. Both clauses read on korean.go.kr this run."
+    },
+    "applications/process--particles-and-interpolation.md": {
+      "disposition": "keep",
+      "reason": "Dated 2026-08-24 field record of the five dual forms with the guide's own counterexample. Only the path changed. Not re-run."
+    },
+    "applications/process--register-and-honorifics.md": {
+      "disposition": "keep",
+      "reason": "Dated field record settling register by count (zero -십시오). Only the path changed. Not re-run."
+    },
+    "applications/spec--counting-and-quantity.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: '({2} plus every n ending in 3 or 4 from 13 up)' -> '({2, 3, 4} plus every n ending in 3 or 4 from 13 to 94)', now enumerating its own 21. Its line-number citations into ko.xml were not re-pinned (the release-48-2 file numbers them differently); harness not re-run."
+    },
+    "applications/spec--spacing-and-typography.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: brace-host section rescoped and retitled 'A raw brace key orphans the particle': it now states that '{name}' is replaced before layout, so the breaker sees the value, and confines the orphaned-particle defect to unsubstituted raw keys and to substituted values ending in a CL character. The claim that every ICU-MessageFormat and i18next-style key wraps that way is gone. Harness not re-run."
+    }
+  }
+}
+```

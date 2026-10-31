@@ -56,7 +56,10 @@ rule and its reason: "Count each requirement at most once per analysis so a
 verbose single analysis can't inflate a requirement's frequency." Empty
 normalized strings are dropped, blank funder ids are skipped entirely (lines
 43-44 — no default-funder fallthrough), and the final ranking is count
-descending with a deterministic `localeCompare` tie-break (lines 69-71). Shares
+descending with a `localeCompare` tie-break (lines 69-71). Called with no
+locale argument, it collates by the runtime's default locale, so the order is
+deterministic within one environment but can differ across environments; an
+explicit locale or a code-unit comparison would make it reproducible. Shares
 are computed against the funder's own `analysesCount` with a zero-guard.
 
 ## Where the standard exceeds the module

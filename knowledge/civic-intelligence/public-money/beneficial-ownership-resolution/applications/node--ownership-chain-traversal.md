@@ -47,7 +47,8 @@ The seam was chosen to falsify "a private form on the owner is harmless". It
 was not: a state railway's research institute and its advertising subsidiary
 were filed `private` through the state railway company, a form-private
 company owned by the state. The live register lists the state as a text-only
-shareholder entry (no identifier, neither person shape) that was dated out in
+shareholder entry (filed under the natural-person key with only a text name: no
+identifier, no birth date) that was dated out in
 2012, which the reader skips by shape, a second reason the one-hop answer
 cannot be trusted at the last owner.
 

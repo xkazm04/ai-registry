@@ -6,7 +6,7 @@ import path from 'node:path';
 import { spawnSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 import { EXIT } from '../lib/exit-codes.mjs';
-import { mergeRuns, acquireLock, stampOf, mergeTechniques, LOCK_NAME } from '../merge-conform-runs.mjs';
+import { mergeRuns, acquireLock, stampOf, mergeTechniques, LOCK_NAME, anchorProblem } from '../merge-conform-runs.mjs';
 
 const SCRIPT = fileURLToPath(new URL('../merge-conform-runs.mjs', import.meta.url));
 const CTX = '11111111-aaaa-bbbb-cccc-000000000001';
@@ -259,4 +259,16 @@ test('mergeTechniques: incoming verdicts win by slug, the rest are carried with 
     ['b', 'conformant', null], ['a', 'conformant', '2026-10-01'], ['c', 'conformant', '2026-09-01'],
   ]);
   assert.deepEqual(mergeTechniques(null, undefined), []);
+});
+
+test('anchor floor: a route-group or dynamic-segment path resolves, and prose brackets around an anchor are stripped', () => {
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), 'merge-conform-anchor-'));
+  fs.mkdirSync(path.join(root, 'app', '(studio)', 'board', '[id]'), { recursive: true });
+  fs.writeFileSync(path.join(root, 'app', '(studio)', 'board', '[id]', 'Board.tsx'), 'export const a = 1;\n');
+  fs.mkdirSync(path.join(root, 'lib'));
+  fs.writeFileSync(path.join(root, 'lib', 'x.ts'), 'const x = 1;\n');
+  assert.equal(anchorProblem(root, 'app/(studio)/board/[id]/Board.tsx:1 shows it'), null);
+  assert.equal(anchorProblem(root, 'the store (lib/x.ts:1) holds it'), null);
+  assert.match(anchorProblem(root, 'app/(studio)/board/[id]/Missing.tsx:1'), /does not exist/);
+  fs.rmSync(root, { recursive: true, force: true });
 });

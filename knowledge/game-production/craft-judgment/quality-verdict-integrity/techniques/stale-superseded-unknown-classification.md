@@ -24,7 +24,7 @@ and the order the rule evaluates it in.
 | `superseded` | the standard it was issued under is no longer in force | no |
 | `current` | fingerprint present, comparable, and equal to the content's | yes, fully |
 | `stale` | a *proven* mismatch — comparable fingerprint that differs, or a dateable verdict older than the content's last write | no |
-| `unknown` | provenance cannot be established: no fingerprint recorded, or one recorded under a superseded scheme | not confirmable, and not refutable |
+| `unknown` | provenance cannot be established: no fingerprint recorded, or one recorded under a scheme other than the one in force | not confirmable, and not refutable |
 
 Four values, not three and not five. Merging `stale` into `unknown` throws away
 the distinction between *we checked and it changed* and *we cannot check* —
@@ -39,7 +39,8 @@ Order matters; these are not independent predicates.
    verdict from an obsolete instrument bound perfectly to unchanged content is
    still not a statement about current quality.
 2. **Comparability second.** If a fingerprint is recorded but was computed under
-   a superseded scheme, stop: `unknown`. Do not compare. This step exists
+   any scheme other than the one in force — a superseded one, or a newer one met
+   after a rollback or during a mixed-version deploy — stop: `unknown`. Do not compare. This step exists
    entirely to prevent step 3 from producing a false `stale`.
 3. **Comparison third.** Fingerprint present on both sides and comparable:
    equal is `current`, different is `stale`.
@@ -69,7 +70,8 @@ anyone writes by accident.
 ## State the reason
 
 `unknown` carries a sentence saying which of its two causes applies: no binding
-was ever recorded, or the binding was recorded under a named superseded scheme.
+was ever recorded, or the binding was recorded under a named scheme that is not
+the one in force.
 Without it, a fingerprinting migration reads to every reviewer as an era in
 which nobody bothered to record bindings, and the natural response — "clean up
 the unbound rows" — destroys real evidence.

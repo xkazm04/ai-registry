@@ -73,6 +73,8 @@ gappy month's phantom days - the workspace has no `*.test.ts` under `src/lib/met
 or `src/lib/profit` - so both rules are proven by the source comments and the
 consumers above, not by a regression test. The standard is unchanged by that gap;
 it is the deviation to close first if the module is touched. And the 53-week
-restatement the technique labels as convention has no counterpart here: the shift is
-a fixed 364 with no accumulated-drift correction, which is correct for a series that
-caps at 400 synced days and would need revisiting on a multi-year archive.
+restatement the technique describes has no counterpart here: the shift is a fixed
+364 with no drift correction, which is correct for any one-year-back comparison -
+the drift of a rolling 364-day shift is bounded at one calendar day, two across a
+leap day, and never accumulates. It would need revisiting only for a comparison two
+or more years back, where a multiplied 364 drifts by about 1.24 days a year.

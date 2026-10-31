@@ -115,8 +115,11 @@ and the second direction is the one teams skip. A reference to an undeclared tag
 loudly and gets fixed. A declared tag nobody references breaks nothing, so it survives:
 the vocabulary accumulates dead entries, the next author reads them as real, and the
 registry stops being a description of the system. An undeclared reference can block acceptance; an unused declaration is a review
-lead, since reserved, hierarchical or externally consumed tags can be legitimate.
-Equal set weighting is a reporting convention, not an equal-risk judgment.
+lead, since reserved, hierarchical or externally consumed tags can be legitimate. The
+audit's score still weights the two directions equally, and that is a deliberate stance
+rather than a reporting convenience: the orphan's cost falls on the reliability of the
+registry every later author reads, which is unbounded and never observed. Gating stays
+asymmetric; the score does not.
 
 Coherence checking has one structural requirement people discover late: the audit must
 record *which authoring surface* each reference came from. Real systems have more than one
@@ -166,8 +169,8 @@ disagreeing is a finding in itself, and often the most useful one in the pipelin
 
 The report stores the rungs, not a summary of them: written, built, registered, present in
 the destination the runtime actually reads. And a count that was never returned is not
-zero — one is a missing measurement, the other an observed count whose significance
-depends on the expected output. They can send an engineer to
+zero — the first is a missing measurement, the second a measured result whose
+significance depends on the expected output. They can send an engineer to
 different places, and a schema that defaults the first into the second has destroyed the
 distinction before anyone can act on it.
 

@@ -20,7 +20,10 @@ export, and the exporting tool is innocent. A value nobody stated was replaced b
 nobody chose.
 
 The defaults were selected so that a minimal material renders as *something* — not so that
-an omission would be visible. Three of them account for most of the damage:
+an omission would be visible. They also differ between formats. The three below are the
+most widely used real-time interchange format's, and they account for most of the damage
+there; a widely used scene-description format defaults roughness to the midpoint and
+metalness to off, so the first of them does not hold on that path:
 
 - **The two gloss factors default to fully on.** A material that omits them is fully
   metallic and fully rough. Combined with an un-negated gloss axis, it is fully metallic and
@@ -82,9 +85,11 @@ the only thing that would route the bug to the right person
 - **When a defaulted value is accepted, record that it was defaulted.** An accepted default
   and an authored value that happens to match are different facts, and only the second one
   survives a change of delivering tool.
-- **When a whole delivery is fully metallic, suspect the defaults before the maps.** A
-  material with no gloss factors is far more common in machine-produced deliveries than one
-  authored as metal, and the two look identical downstream.
+- **When a whole delivery is fully metallic and its format defaults metalness on, suspect
+  the defaults before the maps.** A material with no gloss factors is far more common in
+  machine-produced deliveries than one authored as metal, and the two look identical
+  downstream. Where the format defaults metalness off, the same omission reads as a
+  uniformly non-metallic, mid-rough delivery instead; read which one applies first.
 - **When a project default is substituted for a format default, state it as a project
   decision with an owner.** Otherwise it becomes folklore, and the next pipeline will apply
   a different one and call the difference a regression.

@@ -102,7 +102,11 @@ into a bounded, auditable table.
 ## Maintenance discipline
 
 Treat the list as versioned configuration with a review trigger: every
-release of the conventions gets diffed against the table. Additions go at
+release of the conventions gets diffed against the table — and "the
+conventions" means every place they are published: the generative-AI
+conventions are now maintained in their own repository as an extension of
+the core semantic conventions, so watching only the core releases misses the
+renames that matter here. Additions go at
 the *front* (a rename means a new current name); nothing is removed while
 any measurable sender population still emits it — deployed instrumentation
 outlives deprecation notices by years.

@@ -72,12 +72,19 @@ carries it unchanged. Three downstream consumers read it rather than recomputing
 
 ## Where the tree stops short of the standard
 
-Two deviations, neither of which lowers the standard. The additive test runs on raw
+Three deviations, none of which lowers the standard. The first was recorded after
+the standard moved (2026-10-31): `proportionSignificance` pools every click and visit
+as an independent trial, which the technique now names as the quiet oversell on real
+volume, and the four value ratios return `"orientational"` where a day-level
+delta-method ratio test would grade them on the same footing as the additive metrics.
+The code comment's "no sound two-window test" is true of the daily-ratio z it
+replaced, not of ratio tests in general. Second, the additive test runs on raw
 daily values, not on weekday-de-seasonalised ones, even though the snapshot computes
 `weekdayWeightsBundle` (`snapshot.ts:104`) for the anomaly, trend and pacing passes
-in the same build; the autocorrelation caveat the technique states is therefore
-carried by the comment, not by a correction. And no multiple-comparison adjustment
-is applied across the eleven metrics of one `PeriodResult`, so a card grid will show
-roughly one spurious weak badge per grid on noise alone. Both are documented
+in the same build, so the autocorrelation caveat the technique states is
+carried by the comment, not by a correction. Third, no multiple-comparison adjustment
+is applied across the eleven metrics of one `PeriodResult`, so on pure noise a card
+grid will show about three spurious weak badges, and a spurious strong one on about
+every other grid, at the one- and two-standard-error cuts. The last two are documented
 heuristic limits of a badge, and the standard remains: de-seasonalise where the
 weights already exist, and never promote a grid's weak badge into a report sentence.

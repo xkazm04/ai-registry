@@ -6,7 +6,7 @@ technique: paired-per-case-testing
 stack: python
 status: forged
 verified_on: 2026-09-30
-verified_against: python@3.11
+counterpart: external
 applied: experiment
 ab_verdict: better
 ---
@@ -15,8 +15,8 @@ ab_verdict: better
 
 UltraRAG is an open RAG framework with an evaluation server that compares two ranked
 retrieval runs with a per-query permutation test. This document reads it at commit
-`a763d34432007fcd1b261209f222bb10df907beb`. The Python witness is its declared floor
-(`pyproject.toml:10` "requires-python"). **Executed in a narrow sense:** the tree's own
+`a763d34432007fcd1b261209f222bb10df907beb`. Its declared Python floor is
+`pyproject.toml:10` "requires-python". **Executed in a narrow sense:** the tree's own
 mean and permutation functions were lifted out by syntax tree and run on synthetic
 per-query scores, so the numbers below are structure and never magnitude. The tree was
 not modified.
@@ -54,7 +54,11 @@ Three smaller departures share the file:
   add-one form gives at least one over the resample count plus one.
 - **Nothing is corrected for the number of comparisons.** One call tests every metric at
   every cutoff in its list and marks each against the same 0.05, so six cutoffs across
-  three metrics is eighteen independent chances to be significant.
+  three metrics is eighteen tests at an uncorrected 0.05. They are not eighteen
+  independent chances: every test reads the same run pair, and a metric at neighbouring
+  cutoffs shares most of its hits, so the family-wide false-positive rate sits below the
+  independence figure, yet above the 0.05 each test is marked against unless the eighteen
+  move in perfect lockstep.
 
 ## What the realization cannot do
 

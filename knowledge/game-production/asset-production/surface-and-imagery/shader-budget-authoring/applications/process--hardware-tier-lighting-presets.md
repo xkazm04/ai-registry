@@ -63,6 +63,14 @@ The balanced AAA preset closes the loop back to the material layer: *"Switch ref
 hero surfaces (water) to the hit-lighting-reflections preset"* — the tier decision and
 the surface decision are cross-referenced in the text an author reads.
 
+## The floor tier the preset table does not have
+
+The technique prescribes four presets with a baked or screen-space fallback for the floor
+tier. This table's four are two hardware-traced AAA entries and two software-traced ones;
+nothing serves integrated graphics or handhelds, which is the outcome the technique's
+floor-tier section warns about. The `wide-hardware` tier label is also outside the
+technique's hardware-defined tiers and is not defined in the table.
+
 ## The headroom the preset table does not state
 
 `getLightingPreset(id)` is the single accessor, so there is one authority. What the

@@ -6,7 +6,7 @@ technique: per-provider-usage-extractors
 stack: rust
 status: forged
 verified_on: 2026-10-15
-verified_against: rust@2026.08.31
+counterpart: external
 ---
 
 # Usage from harness transcripts: a disjoint tuple, a three-state label (cass)
@@ -14,7 +14,7 @@ verified_against: rust@2026.08.31
 The tree is the connector crate behind cass (coding_agent_session_search),
 franken-agent-detection, which parses the session files of several dozen coding-agent
 harnesses into one record type (about forty connector modules). cass 0.10.0 pins this crate by exact version and git
-revision. Read at commit `6b337ba434b7`; the stack version is the toolchain pin (nightly 2026-08-31, written as a dotted date); the crate version is
+revision. Read at commit `6b337ba434b7`; the toolchain pin is a nightly of 2026-08-31; the crate version is
 `Cargo.toml:3 "version"` (0.3.10), whose declared minimum compiler is
 `Cargo.toml:5 "1.85"` and whose toolchain file pins a dated nightly. All paths below
 are relative to this crate's root. Nothing was executed.

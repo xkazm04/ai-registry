@@ -53,11 +53,13 @@ allocation that arrives as bare numbers gets fought *about*.
 The proportional split is the **opening anchor**, not the final word, and
 systems producing it must say so. Real budgets are built from scopes of work:
 the member running the most expensive program component may be the smallest
-organization. The negotiation sequence that works: (1) anchor with the
-proportional split, (2) adjust for scope — who delivers what, at what real cost,
-(3) add the lead's administrative allocation on top of its programmatic share
-(consolidated reporting and subrecipient monitoring are real labor; leaving them
-unpriced makes the lead subsidize everyone), (4) record the final split, with
+organization. The negotiation sequence that works: (1) carve the lead's
+administrative allocation off the award and anchor the proportional split on the
+remainder (consolidated reporting and subrecipient monitoring are real labor;
+leaving them unpriced makes the lead subsidize everyone, and adding them on top
+of a split that already sums to the award requests more than the award),
+(2) adjust for scope — who delivers what, at what real cost, (3) reconcile the
+adjusted shares back to exactly the award, (4) record the final split, with
 its deviations from the anchor and their reasons, in the signed partnership
 agreement. A deviation with a reason is a negotiation; a deviation without one
 is a precedent someone will regret.

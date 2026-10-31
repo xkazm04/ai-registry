@@ -96,6 +96,13 @@ masculine. Two forms the technique should add: **plural** abbreviations `.ᵒˢ`
 `ᵉʳ` at 1 and 3, `º` elsewhere, i.e. *1.ᵉʳ*, *3.ᵉʳ* before a masculine noun (*el
 1.er intento*, not *1.º intento*), a defect the rule misses today.
 
+**Superseded at CLDR 49** (released 2026-10-22; re-read 2026-10-31 at `release-49`):
+`ordinals.xml` gives `es` its own block, `one` at `n % 10 = 1,3 and n % 100 != 11`
+plus `other`, and `rbnf/es.xml` replaces `%%dord-mascabbrev` with
+`$(ordinal,one{ᵉʳ}other{º})$`. The single-category finding holds at this pin only;
+at 49 the apocopated masculine is selected by ordinal category, and 13 moves from
+`º` to `ᵉʳ`.
+
 ## Gender — mostly not conformance-testable, with one measurable exception
 
 CLDR's plural data says nothing about ES-GENDER-PLACEHOLDER or ES-GENDER-UNKNOWN:
@@ -115,7 +122,7 @@ plantillas*) — gender and the `many` category are one fact seen twice.
 
 ## Controls (each must fail, and does; probe n = 21)
 
-- **C1, two-branch selector** (`one` if `n = 1` else `other`), the pre-CLDR-42
+- **C1, two-branch selector** (`one` if `n = 1` else `other`), the pre-CLDR-40
   pipeline: 7/21 wrong — every `many` value.
 - **C2, magnitude-only `many`** (`n >= 1000000`), the technique's likely reading:
   5/21 wrong — `1500000`, `2500000`, `1000000.0` predicted `many`, really `other`.

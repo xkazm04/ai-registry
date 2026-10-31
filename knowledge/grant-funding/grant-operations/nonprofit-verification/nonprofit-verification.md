@@ -61,8 +61,11 @@ every legitimate applicant would have.** A foundation-funded organization has
 no federal-contractor registration, because that registration exists only for
 entities receiving government awards — its absence says nothing. A charity
 recognized as exempt last year has filed no annual return yet, because the
-first filing is not due — its absence says nothing. Collapse either of those
-absences into "fail" and the pipeline structurally discriminates against
+first filing is not due — its absence says nothing. Even the tax authority's
+own exempt-organization list is not complete: the US list states that some
+eligible donees — churches, group ruling subordinates and governmental units —
+may not be listed, so "not found" there is inconclusive for an applicant of
+those kinds. Collapse any of those absences into "fail" and the pipeline structurally discriminates against
 exactly the organizations — young, small, foundation-funded — that grant
 programs most often exist to reach. Each source's polarity (what its positive
 means, and whether its negative disqualifies) is a per-source editorial
@@ -97,7 +100,11 @@ affirmatively confirmed good standing, no source returned a determinate
 disqualifier, and the claimed name is not a registry mismatch.** Each clause
 closes a distinct hole. Requiring at least one pass means a run where every
 source errored out cannot certify anyone — zero findings is not a clean bill
-when zero checks decided. Requiring zero fails means no accumulation of
+when zero checks decided. The pass must come from a source whose positive
+establishes the organization's existence or standing: a clean sanctions
+screen is the absence of a disqualifier, not a confirmation, so a run in which
+only the sanctions screen decided has confirmed no identity and cannot satisfy
+this clause alone. Requiring zero fails means no accumulation of
 passes can outvote a sanctions hit or a dissolution record; determinate
 disqualifiers are gates, not score components. And the name clause means the
 impersonation guard cannot be averaged away.
@@ -145,10 +152,11 @@ active, because a false verified badge is the costlier lie.
 Two bookends complete the pipeline. Before any network call, validate the
 identifier's structure: most national organization identifiers carry an
 algorithmic check digit, and a checksum failure proves — without touching the
-registry — that the string is a typo, not an organization. That verdict is
-"invalid input, please re-check", never "no such organization": the user
-mistyped, and telling them their charity does not exist sends them down the
-wrong repair path.
+registry — that the string is not a valid identifier in that scheme: usually
+a typo, sometimes a number from another scheme, never an organization. That
+verdict is "invalid input, please re-check", never "no such organization": the
+input is wrong, and telling the user their charity does not exist sends them
+down the wrong repair path.
 
 At the far end, the aggregated result becomes a *portable, signed,
 time-boxed credential* — a verification passport the organization can present

@@ -5,8 +5,8 @@ subject: platform-format-adaptation
 technique: sound-off-first-design
 stack: process
 status: forged
-verified_on: 2026-09-26
-refresh_by: 2026-12-26
+verified_on: 2026-10-31
+refresh_by: 2027-01-31
 ---
 
 # The platform constraint table — the measured reality behind sound-off-first design
@@ -19,11 +19,32 @@ It is worked in the measured-template discipline:
 - ranges are left honestly wide where sources disagree;
 - what nobody measured is not stated.
 
-**First accessed 2026-08-20; re-verified 2026-09-26**, when the platform rows were
-re-checked against the platforms' own help pages and blogs where those exist.
+**First accessed 2026-08-20; re-verified 2026-09-26 and 2026-10-31**, each time
+against the platforms' own help pages and blogs where those exist.
 These are platform facts, and they drift. A consumer of this table re-dates it
 before enforcing it. The clock on this file is three months, a vendor-landscape
 clock, not the default for its stack.
+
+## What the 2026-10-31 re-check changed
+
+- **The Content ID line is withdrawn.** The 2026-09 row said new 1–3 min Shorts
+  with a Content ID claim stopped being blocked on 2026-09-24. On 2026-10-31 the
+  three-minute Shorts page (US and UK English), the Content ID page and the
+  rights-holder page all still say a Short over one minute with an active claim
+  is blocked globally and not monetizable. A vendor blog had seen the "no longer
+  automatically blocked" sentence on some localized pages in late September; it
+  is not on them now. Recorded as reported-then-absent, and not used.
+- **The Facebook feed is not a muted-autoplay surface.** It has started feed
+  video with sound, unless the device is silenced, since 2017, and its help page
+  now offers a "Reels start with sound" toggle. The technique's muted-surface list
+  no longer names it.
+- **The TikTok band row now names its metric.** A 2026 vendor sample of eight
+  million posts puts the engagement-rate peak at 15–30 s, and median views
+  several-fold higher past 60 s.
+- **Confirmed unchanged against the platform's own page:** Shorts up to 3 min
+  (artist channels since 2025-12-08), every 2027 program line, the current
+  program and expanded-program thresholds, Reels up to 20 min with the 3-minute
+  recommendation line, TikTok's template-only ad safe zones.
 
 ## What the 2026-09-26 re-check changed
 
@@ -37,7 +58,8 @@ clock, not the default for its stack.
 - **The YouTube Partner Program row misdescribed the 2027 change.** Corrected from
   the platform's own post.
 - **Two platform facts added:** Shorts view counting changed on 2025-03-31, and
-  Shorts of 1–3 min with a Content ID claim stopped being blocked on 2026-09-24.
+  a Content ID change for 1–3 min Shorts, dated 2026-09-24, that the 2026-10-31
+  re-check could not find on any platform page (withdrawn above).
 
 ## Canvas and safe zones (grade: published ad-spec / vendor-guide)
 
@@ -61,9 +83,9 @@ this table said ≈900×1400 centred, and that holds only for the loosest readin
 
 | Platform | Ceiling (published policy) | Performing band (vendor-observed, unaudited) | Policy lines (published) |
 |---|---|---|---|
-| TikTok | 10 min in-app recording; up to 60 min via upload | engagement peak ≈15–34 s; virality claims cluster ≈11–18 s | Creator Rewards pays only for original videos "over 1 minute", directly above the engagement band |
+| TikTok | 10 min in-app recording; up to 60 min via upload, rolling out unevenly (vendor-reported; no platform page found) | engagement-rate peak ≈15–30 s, but median views rise several-fold past 60 s (8 M brand posts, 2026-H1, vendor); virality claims cluster ≈11–18 s | Creator Rewards pays only for original videos "over 1 minute", directly above the engagement band |
 | Instagram Reels | up to 20 min per Instagram's help, rolling out unevenly (many accounts still see 3 min in-camera, 15 min on upload) | viral ≈7–15 s; value ≈30–45 s; aggressive looping makes very short clips over-count retention | "Reels over 3 minutes won't be recommended to new audiences" — the effective ceiling |
-| YouTube Shorts | 3 min, for uploads since 2024-10-15 | ≈30–60 s | See the next table. Since 2026-09-24, new Shorts of 1–3 min carrying a Content ID claim are no longer blocked automatically, but monetization still waits on the claim. |
+| YouTube Shorts | 3 min, for uploads since 2024-10-15 (artist channels since 2025-12-08) | ≈30–60 s | See the next table. A Short over 1 min with an active Content ID claim of any type is blocked globally and not monetizable until the claim resolves. |
 
 The table is itself the golden path's ceiling-vs-band argument in numbers: every
 ceiling sits 4–40× above its band. On all three platforms a **policy line pulls
@@ -106,6 +128,13 @@ the program thresholds and payouts use the qualified or engaged count. As a resu
   TikTok users said that sound is essential to the TikTok experience" (Kantar for
   TikTok, 2021). It is not a measured sound-on share. The platform autoplays with
   sound.
+- **Facebook feed.** Not a muted-autoplay surface since 2017: feed video starts
+  with sound unless the device is silenced (press coverage of the 2017-02-14
+  announcement), and the current help page offers a "Reels start with sound"
+  toggle — every Facebook video is now a reel. No default is published on that
+  page, and no sound-on share.
+- **LinkedIn and the YouTube home feed.** Both platform help pages say feed video
+  autoplays without sound; YouTube's turns captions on while it does.
 - **Reels.** "80% of Reels are viewed with sound on" circulates, attributed to
   Instagram's internal data. On 2026-09-26 it could not be traced to any Instagram
   or Meta page. Recorded here as untraced, and not used.
@@ -115,7 +144,8 @@ the program thresholds and payouts use the qualified or engaged count. As a resu
   is ≈80% more likely to be watched to completion, and comprehension of captioned
   ads is up ≈56%. The direction is consistent everywhere; the magnitudes are
   unaudited, and most were measured in muted-autoplay contexts.
-- **What to carry.** Per surface: muted-majority on muted-autoplay feeds; muted
+- **What to carry.** Per surface: muted-majority on muted-autoplay feeds
+  (LinkedIn, the YouTube home feed, embedded players); muted
   minority of **unknown size** on TikTok, Reels and the Shorts player. There is no
   single short-form figure.
 
@@ -148,7 +178,11 @@ Unmeasured is not pass.
 
 Platform-published:
 
-- https://support.google.com/youtube/answer/15424877 (Shorts up to 3 min; Content ID change)
+- https://support.google.com/youtube/answer/15424877 (Shorts up to 3 min; over-1-min claimed Shorts blocked)
+- https://support.google.com/youtube/answer/6013276 (Content ID claims on Shorts)
+- https://support.google.com/youtube/answer/7640367 (muted playback with captions in feeds)
+- https://www.facebook.com/help/android-app/379772859060113 ("Reels start with sound" toggle)
+- https://www.linkedin.com/help/linkedin/answer/a565326 (feed autoplay without sound)
 - https://blog.youtube/news-and-events/youtube-partner-program-updates-2027-new-opportunities-earn/ (2026-08-10, the 2027 thresholds)
 - https://support.google.com/youtube/answer/72851 (program eligibility)
 - https://support.google.com/youtube/answer/13429240 (expanded program)
@@ -161,6 +195,8 @@ Platform-published:
 Trade press and academic:
 
 - https://digiday.com/media/silent-world-facebook-video/ (2016-05-17, origin of the 85%)
+- https://www.engadget.com/2017/02/14/facebook-videos-in-your-news-feed-soon-autoplay-with-sound (2017-02-14, feed video starts with sound)
+- https://exemplary.ai/blog/youtube-shorts-music-rules (the late-September localized Content ID sentence)
 - https://arxiv.org/abs/2204.12954 (Dashlet swipe study)
 - https://ppc.land/youtube-changes-how-shorts-views-are-counted-from-march-31/ (view-count change)
 

@@ -1,8 +1,8 @@
 ---
 subject: russian
 domain: localization
-last_touched: 2026-09-10
-touched_by: external-reconcile
+last_touched: 2026-10-31
+touched_by: architecture-review
 dry_streak: 0
 ---
 
@@ -351,3 +351,216 @@ unresolved, not the reasoning.
 }
 ```
 
+
+## 2026-10-31 — architecture re-review, then apply
+
+Trigger: stale since 2026-09-10 after a privacy path fix and an external-application marker; CLDR 49 shipped 2026-10-22 in the meantime. The documents' content is what the 2026-09-10 record read, except four
+lines; the decisions below are re-made against today's evidence rather than carried.
+
+**Retraction of one reverify.** The 2026-09-10 record left
+`applications/spec--gender-and-aspect.md` at `reverify` because the two upstream RBNF
+defects were not re-read. I re-read `rbnf/ru.xml` at `release-48-2` (byte-identical to
+the file the application pins), at `release-49` and at `main`: the masculine
+prepositional still carries «двадцать» / «тридцать» at 20 and 30, and both plural
+digits-ordinal rulesets still end in Latin `e`. The evidence is resolved: the defects
+are current at the newest release. Read, not executed.
+
+**New finding.** Two spec applications published local machine paths for their
+harnesses (three occurrences). That is a lane rule, not a judgment, so both become
+`clarify`.
+
+**Intended benefit:** a reader citing the ru plural and spell-out data gets claims that
+hold at the released CLDR 49, not only at 48.2. **Failure if ignored:** the golden path
+keeps telling a layout engineer that Cyrillic is caseless, two paragraphs before the
+subject builds case rules on it. **Boundary:** this review re-reads published data and
+wording; it does not re-run the harnesses or re-open the consumer tree.
+
+The Вы scope stays owed. I found one secondary source (a national-newspaper language
+column) that supports narrowing it to include official messages to one specific
+person; it does not mention questionnaires, and the primary reference site refused the
+fetch. That is not enough to edit an authority claim.
+
+<!-- architecture-review:v1 -->
+```json
+{
+  "subject": "localization/russian",
+  "date": "2026-10-31",
+  "baseline": "3f7e1dfbc",
+  "digest": "sha256-b2:8b3a6423f877cfa0",
+  "disposition": "clarify",
+  "coverage": "All 11 owned documents read at baseline bytes (content identical to the 2026-09-10 reverted bytes except the privacy path fix and 'counterpart: external' lines). CLDR rbnf/ru.xml read at release-48-2, release-49 and main; plurals.xml and pluralRanges.xml at release-49; the CLDR 49 release page; one secondary source on Вы. All read, not executed. Not evaluated: the RBNF and plural harnesses; upstream ticket status; the consumer tree the two process applications cite; maturity or verified_on refresh.",
+  "counterexamples": [
+    "RU-VYCAP's 'none in UI' rests on UI addressing an anonymous plurality, but a transactional e-mail or in-app message rendered to one signed-in, named user is official correspondence to one specific person - the case the norm capitalizes - and the technique files it under marketing e-mail.",
+    "RU-FROZEN's «{count} выполняется» example says verbs do not decline for the numeral, but a verb next to a numeral subject still takes number (выполняется / выполняются are both in use), so the idiom avoids case government, not agreement altogether.",
+    "The subject is silent on Russian's instrumental government after «с» («с пятью файлами»), where the count governs neither genitive singular nor genitive plural - carried from the 2026-09-10 record, still true."
+  ],
+  "sources": [
+    {
+      "url": "https://raw.githubusercontent.com/unicode-org/cldr/release-48-2/common/rbnf/ru.xml",
+      "result": "Established that the file the gender spec application pins is byte-for-byte the one it cites (192742 B, sha256 prefix e42ce05a22cc3b9c), that %spellout-cardinal-masculine-prepositional still reads '20: двадцать[ >>];' and '30: тридцать[ >>];' at L497-498 while 40 reads 'сорока', and that %digits-ordinal-plural and %digits-ordinal-plural-accusative emit '=#,##0=-e' with U+0065 while %digits-ordinal-neuter uses U+0435. Confirms Finding 3 at its pin. It did not establish whether either defect has an upstream ticket."
+    },
+    {
+      "url": "https://raw.githubusercontent.com/unicode-org/cldr/release-49/common/rbnf/ru.xml",
+      "result": "Established that both defects survive into CLDR 49 (byte-identical to main today; the redundant <ruleset> encoding is gone, so the file is 69565 B): the nominative 20/30 rows in the masculine prepositional and the Latin e in both plural digits-ordinal rulesets. Resolves the prior record's reverify on spec--gender-and-aspect.md as 'still current'. Not executed: the 1380-rule harness."
+    },
+    {
+      "url": "https://raw.githubusercontent.com/unicode-org/cldr/release-49/common/supplemental/plurals.xml",
+      "result": "Established that the ru cardinal rules at the released CLDR 49 are unchanged from 48.2 (one/few/many each guarded by v = 0, other with @decimal samples only), now grouped 'ru uk'. RU-PLURAL, RU-FRACTION and the spec application's table remain correct at the newest release."
+    },
+    {
+      "url": "https://raw.githubusercontent.com/unicode-org/cldr/release-49/common/supplemental/pluralRanges.xml",
+      "result": "Established that the 'be lt ru uk' range table at 49 still opens one+one -> one, one+few -> few, few+one -> one, i.e. identity on the end value; RU-PLURAL-RANGE unchanged."
+    },
+    {
+      "url": "https://cldr.unicode.org/downloads/cldr-49",
+      "result": "Established that CLDR 49 was released 2026-10-22, so release-48-2 is no longer the newest citable edition; the spec applications' 'newest non-prerelease' wording is now historical but correctly dated to their 2026-08-29 fetch. Its RBNF changelog line names Ukrainian, not Russian."
+    },
+    {
+      "url": "https://rg.ru/2009/06/25/vy.html",
+      "result": "A national-newspaper language column (secondary, not an orthographic authority). Supports that the capital Вы is required in official messages addressed to one specific person and optional in personal letters - so 'only in personal correspondence' is narrower than the norm. It does not mention questionnaires or forms to an unnamed respondent, so the prior record's broader narrowing is still unconfirmed and the RU-VYCAP clarify stays owed."
+    }
+  ],
+  "documents": {
+    "russian.md": {
+      "disposition": "clarify",
+      "reason": "Owed from 2026-09-10 and re-confirmed: calls Cyrillic 'caseless in the typographic sense that matters' while the subject's own RU-CASING depends on Cyrillic case; and scopes the politeness capital to personal correspondence, narrower than the norm, which also requires it in official messages to one specific person (rg.ru column, secondary). Wording only; UI rulings unaffected."
+    },
+    "techniques/de-anglicization-constructions.md": {
+      "disposition": "keep",
+      "reason": "Unchanged since the 2026-09-10 keep; RU-CASEGOV, RU-PREP, RU-POSS and RU-NOUNCHAIN still each carry a detection cue, replacement and bounding exception."
+    },
+    "techniques/gender-and-aspect.md": {
+      "disposition": "keep",
+      "reason": "Unchanged. RU-NUMERAL-GENDER's two-positions claim and 'agreement is with the immediately governed noun' match the sibling spec application, whose source data I re-read today."
+    },
+    "techniques/plural-and-count-agreement.md": {
+      "disposition": "clarify",
+      "reason": "Owed from 2026-09-10: the 'other | fractions' row sits below the last-two-digits paragraph, outside the RU-PLURAL table, rendering as a stray one-row table after the 'total over the integers' sentence. The ru rules themselves are unchanged at CLDR 49, re-read today."
+    },
+    "techniques/register-and-address.md": {
+      "disposition": "clarify",
+      "reason": "Owed: RU-VYCAP scopes the capital to 'personal correspondence addressed to one identified individual'; the norm also requires it in official messages to one specific person (secondary source read today) and, per the prior record, possibly questionnaires to an unnamed respondent (not confirmed). The UI verdict stands; the statement of the authority does not. Not applied this run: no primary orthographic source was reachable (gramota.ru returned 403)."
+    },
+    "techniques/terminology-and-loanwords.md": {
+      "disposition": "keep",
+      "reason": "Unchanged; per-term recorded rulings remain the right shape for a moving loanword frontier."
+    },
+    "techniques/typography-and-spacing.md": {
+      "disposition": "keep",
+      "reason": "Unchanged; RU-CASING here is the rule the golden path's 'caseless' wording contradicts, and it is the one that is right."
+    },
+    "applications/process--plural-and-count-agreement.md": {
+      "disposition": "keep",
+      "reason": "Only the machine path was replaced by a repo-relative name since the last keep. Not re-verified against the consumer tree; verified_on unchanged."
+    },
+    "applications/process--terminology-and-loanwords.md": {
+      "disposition": "keep",
+      "reason": "Only the machine path fix since the last keep. Not recounted; verified_on unchanged."
+    },
+    "applications/spec--gender-and-aspect.md": {
+      "disposition": "clarify",
+      "reason": "The 2026-09-10 reverify is resolved: both upstream defects (nominative 20/30 in the masculine prepositional at L497-498; U+0065 in two plural digits-ordinal rulesets at L2942 and the accusative sibling) read back at release-48-2 and are still present at the released CLDR 49 and main today. Two edits owed: it publishes a local machine path for its artifacts and harness twice, which this public lane forbids, and it should carry the CLDR 49 currency finding. The 1380-rule harness was not re-run."
+    },
+    "applications/spec--plural-and-count-agreement.md": {
+      "disposition": "clarify",
+      "reason": "Findings re-confirmed: ru rules unchanged at CLDR 49. One edit owed: the harness is cited by a local machine path, which this public lane forbids."
+    }
+  }
+}
+```
+
+### Applied 2026-10-31
+
+Three edits made with confidence: the golden path's 'caseless' sentence (an internal
+contradiction with RU-CASING), the orphaned table row (placement), the machine paths in
+both spec applications plus the CLDR 49 currency line (data re-read today). The Вы scope
+is not applied. Record against the post-edit digest:
+
+<!-- architecture-review:v1 -->
+```json
+{
+  "subject": "localization/russian",
+  "date": "2026-10-31",
+  "baseline": "3f7e1dfbc",
+  "digest": "sha256-b2:a336a48f270867d7",
+  "disposition": "clarify",
+  "coverage": "All 11 owned documents read at baseline bytes (content identical to the 2026-09-10 reverted bytes except the privacy path fix and 'counterpart: external' lines). CLDR rbnf/ru.xml read at release-48-2, release-49 and main; plurals.xml and pluralRanges.xml at release-49; the CLDR 49 release page; one secondary source on Вы. All read, not executed. Not evaluated: the RBNF and plural harnesses; upstream ticket status; the consumer tree the two process applications cite; maturity or verified_on refresh.",
+  "counterexamples": [
+    "RU-VYCAP's 'none in UI' rests on UI addressing an anonymous plurality, but a transactional e-mail or in-app message rendered to one signed-in, named user is official correspondence to one specific person - the case the norm capitalizes - and the technique files it under marketing e-mail.",
+    "RU-FROZEN's «{count} выполняется» example says verbs do not decline for the numeral, but a verb next to a numeral subject still takes number (выполняется / выполняются are both in use), so the idiom avoids case government, not agreement altogether.",
+    "The subject is silent on Russian's instrumental government after «с» («с пятью файлами»), where the count governs neither genitive singular nor genitive plural - carried from the 2026-09-10 record, still true."
+  ],
+  "sources": [
+    {
+      "url": "https://raw.githubusercontent.com/unicode-org/cldr/release-48-2/common/rbnf/ru.xml",
+      "result": "Established that the file the gender spec application pins is byte-for-byte the one it cites (192742 B, sha256 prefix e42ce05a22cc3b9c), that %spellout-cardinal-masculine-prepositional still reads '20: двадцать[ >>];' and '30: тридцать[ >>];' at L497-498 while 40 reads 'сорока', and that %digits-ordinal-plural and %digits-ordinal-plural-accusative emit '=#,##0=-e' with U+0065 while %digits-ordinal-neuter uses U+0435. Confirms Finding 3 at its pin. It did not establish whether either defect has an upstream ticket."
+    },
+    {
+      "url": "https://raw.githubusercontent.com/unicode-org/cldr/release-49/common/rbnf/ru.xml",
+      "result": "Established that both defects survive into CLDR 49 (byte-identical to main today; the redundant <ruleset> encoding is gone, so the file is 69565 B): the nominative 20/30 rows in the masculine prepositional and the Latin e in both plural digits-ordinal rulesets. Resolves the prior record's reverify on spec--gender-and-aspect.md as 'still current'. Not executed: the 1380-rule harness."
+    },
+    {
+      "url": "https://raw.githubusercontent.com/unicode-org/cldr/release-49/common/supplemental/plurals.xml",
+      "result": "Established that the ru cardinal rules at the released CLDR 49 are unchanged from 48.2 (one/few/many each guarded by v = 0, other with @decimal samples only), now grouped 'ru uk'. RU-PLURAL, RU-FRACTION and the spec application's table remain correct at the newest release."
+    },
+    {
+      "url": "https://raw.githubusercontent.com/unicode-org/cldr/release-49/common/supplemental/pluralRanges.xml",
+      "result": "Established that the 'be lt ru uk' range table at 49 still opens one+one -> one, one+few -> few, few+one -> one, i.e. identity on the end value; RU-PLURAL-RANGE unchanged."
+    },
+    {
+      "url": "https://cldr.unicode.org/downloads/cldr-49",
+      "result": "Established that CLDR 49 was released 2026-10-22, so release-48-2 is no longer the newest citable edition; the spec applications' 'newest non-prerelease' wording is now historical but correctly dated to their 2026-08-29 fetch. Its RBNF changelog line names Ukrainian, not Russian."
+    },
+    {
+      "url": "https://rg.ru/2009/06/25/vy.html",
+      "result": "A national-newspaper language column (secondary, not an orthographic authority). Supports that the capital Вы is required in official messages addressed to one specific person and optional in personal letters - so 'only in personal correspondence' is narrower than the norm. It does not mention questionnaires or forms to an unnamed respondent, so the prior record's broader narrowing is still unconfirmed and the RU-VYCAP clarify stays owed."
+    }
+  ],
+  "documents": {
+    "russian.md": {
+      "disposition": "clarify",
+      "reason": "applied 2026-10-31: 'caseless in the typographic sense that matters (no all-caps conventions to fight)' -> 'bicameral like Latin (so casing rules still apply - see typography-and-spacing)'. Still owed: the politeness-capital scope, for want of a primary orthographic source."
+    },
+    "techniques/de-anglicization-constructions.md": {
+      "disposition": "keep",
+      "reason": "Unchanged since the 2026-09-10 keep; RU-CASEGOV, RU-PREP, RU-POSS and RU-NOUNCHAIN still each carry a detection cue, replacement and bounding exception."
+    },
+    "techniques/gender-and-aspect.md": {
+      "disposition": "keep",
+      "reason": "Unchanged. RU-NUMERAL-GENDER's two-positions claim and 'agreement is with the immediately governed noun' match the sibling spec application, whose source data I re-read today."
+    },
+    "techniques/plural-and-count-agreement.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: the 'other | fractions' row moved into the RU-PLURAL table as its fourth row; no wording changed."
+    },
+    "techniques/register-and-address.md": {
+      "disposition": "clarify",
+      "reason": "Owed: RU-VYCAP scopes the capital to 'personal correspondence addressed to one identified individual'; the norm also requires it in official messages to one specific person (secondary source read today) and, per the prior record, possibly questionnaires to an unnamed respondent (not confirmed). The UI verdict stands; the statement of the authority does not. Not applied this run: no primary orthographic source was reachable (gramota.ru returned 403)."
+    },
+    "techniques/terminology-and-loanwords.md": {
+      "disposition": "keep",
+      "reason": "Unchanged; per-term recorded rulings remain the right shape for a moving loanword frontier."
+    },
+    "techniques/typography-and-spacing.md": {
+      "disposition": "keep",
+      "reason": "Unchanged; RU-CASING here is the rule the golden path's 'caseless' wording contradicts, and it is the one that is right."
+    },
+    "applications/process--plural-and-count-agreement.md": {
+      "disposition": "keep",
+      "reason": "Only the machine path was replaced by a repo-relative name since the last keep. Not re-verified against the consumer tree; verified_on unchanged."
+    },
+    "applications/process--terminology-and-loanwords.md": {
+      "disposition": "keep",
+      "reason": "Only the machine path fix since the last keep. Not recounted; verified_on unchanged."
+    },
+    "applications/spec--gender-and-aspect.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: both machine paths removed ('Artifacts in scratch.', bare 'rbnf.py'), and Finding 3 now records that both defects are still present at release-49 and main, re-read 2026-10-31. verified_on left at 2026-08-29: only Finding 3's citations were re-checked, and the harness was not re-run."
+    },
+    "applications/spec--plural-and-count-agreement.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: machine path replaced by the bare harness name 'ru_plural.py'. verified_on unchanged."
+    }
+  }
+}
+```

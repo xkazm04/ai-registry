@@ -31,10 +31,14 @@ value rather than scoring everyone against the nonprofit set.
 
 Two design rules for the vocabulary itself:
 
-- **"Open to all" is a value, not an absence.** Unrestricted codes and
-  "others" codes map to it explicitly, and the jurisdiction model appends the
-  open codes to *every* entity type's eligible set — an unrestricted
-  opportunity must pass for everyone without per-type special cases.
+- **"Open to all" is a value, not an absence.** Unrestricted codes map to it
+  explicitly, and the jurisdiction model appends the open codes to *every*
+  entity type's eligible set — an unrestricted opportunity must pass for
+  everyone without per-type special cases. "Others" codes are not open: the
+  federal clearinghouse defines its "Others" code by reference to a free-text
+  clarification field, so it names an audience the code does not state. Route
+  it through the free-text tier (or to unknown), and treat even the unrestricted
+  code as subject to the same clarification text.
 - **An empty result is unset, not a default.** When no code and no text rule
   matches, return the empty set and leave the field absent. Unknown codes are
   ignored, never guessed into the dominant class; the gate downstream renders
@@ -45,7 +49,7 @@ Two design rules for the vocabulary itself:
 1. **Code table.** Map each source's enumerated codes to canonical types in a
    single explicit table (state governments → government; independent school
    districts → education; charitable-status and non-charitable nonprofits →
-   nonprofit; unrestricted → open-to-all). Normalize code formatting before
+   nonprofit; unrestricted → open-to-all; others → the clarification text). Normalize code formatting before
    lookup — sources disagree about zero-padding, and `"5"` and `"05"` must
    hit the same row.
 2. **Guard the input field.** Ingest pipelines carry many code-shaped fields

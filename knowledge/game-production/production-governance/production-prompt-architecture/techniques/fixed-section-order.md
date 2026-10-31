@@ -52,9 +52,13 @@ Everything else is conditional on having something concrete to say.
 ## Decision rules
 
 - **When a section has nothing concrete to say, omit it — do not emit boilerplate.** A
-  wiring section with no known wiring, rendered as four generic instructions, appears on
-  every prompt and teaches the producer that sections are skimmable. The cost of that
-  training is paid on the prompts where the section *did* have content.
+  wiring section rendered as four generic instructions on an artifact that attaches to
+  nothing appears on every prompt and teaches the producer that sections are skimmable.
+  The cost of that training is paid on the prompts where the section *did* have content.
+- **Except when absence is itself information.** Omit a section only when the producer's
+  default reading of its absence is correct. When absence would be read as "nothing here"
+  and that reading may be false — an empty project-state scan, a wiring obligation nobody
+  authored hints for — render the empty case in one explicit line instead.
 - **When a new kind of content appears twice, it becomes a section in the assembler** — with
   a name, a position and a rule for when it renders. It never becomes a paragraph appended
   inside an existing section, because that is how sections stop meaning anything.
@@ -73,7 +77,9 @@ Everything else is conditional on having something concrete to say.
 Three capabilities, none of which survive an ad-hoc prompt:
 
 1. **Auditability.** A canonical set with canonical positions is something a checker can
-   assert against a finished string.
+   assert against a finished string. The checker's denominator is the whole canonical
+   set; a section it cannot detect is named as unaudited, never silently left out of the
+   coverage figure.
 2. **Readable diffs.** Two revisions of a prompt diff section against section, so a review
    can ask "why did the constraints section grow" rather than reading 400 lines of text.
 3. **Attributable measurement.** When output quality moves after a prompt change, a fixed

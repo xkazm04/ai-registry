@@ -35,10 +35,12 @@ no quantity; it is a multiplier applied inside the one function that already own
   acquires an armor-piercing and an armor-eating entry nobody designed.
 - **No empty state for a stat.** A pool that empties has to be handled: refill, break,
   show. A reduction has nothing to empty and nothing to forget.
-- **Linear effective health.** With a constant factor, effective health is health divided
-  by one minus the factor, and every armor point adds the same slice. That is easy to
-  explain to a player, easy to balance, and the property a full-health floor check relies
-  on, because the weakest and strongest cars sit on a known line.
+- **Predictable effective health.** With a constant factor, effective health is health
+  divided by one minus the factor. When the factor is linear in armor points, every point
+  removes the same fraction of each hit, while effective health grows faster than linearly
+  (a 0.40 factor gives about 1.67 times health; 0.20 gives 1.25). That is easy to explain
+  to a player, easy to balance, and the property a full-health floor check relies on,
+  because the weakest and strongest cars sit on a known curve.
 
 ## Procedure
 
@@ -83,5 +85,5 @@ no quantity; it is a multiplier applied inside the one function that already own
 - **Do not use a reduction where a stat must block one specific weapon.** That is a
   counter and belongs in the weapon matrix as an explicit row, not smuggled in as a number
   on the car.
-- **Do not call the roster balanced because the defence is simple.** Linear is easy to
+- **Do not call the roster balanced because the defence is simple.** Simple is easy to
   reason about; only simulated matches, and later people, say whether it is fair.

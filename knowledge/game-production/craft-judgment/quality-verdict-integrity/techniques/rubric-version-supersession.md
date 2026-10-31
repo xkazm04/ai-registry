@@ -41,7 +41,9 @@ ignore it.
 Two predicates, asked separately, and conflating them is the classic bug.
 
 - **Selection** — *which of an artifact's verdicts speak for it?* Only those at
-  the **newest version present for that artifact**. A lenient older pass can
+  the **newest version present for that artifact, within one rubric identity**.
+  Versions of different rubrics (for instance per-class standards) are separate
+  lines and are never compared with each other. A lenient older pass can
   never outvote a newer strict failure, and an older failure can never outvote a
   newer pass.
 - **Strictness** — *is that newest-present version the version in force?* If
@@ -74,13 +76,14 @@ a median-of-several per arm to suppress judge noise, and report the deltas
 against a control arm that changed nothing.
 
 A worked example of what such a measurement buys: a run over roughly twenty
-cells found the control arm moved +0.4 points (standard deviation 3.1) — that is
-the noise floor. The same set with a generation instruction contaminating the
+cells found the control arm moved +0.4 points (standard deviation 3.1) — the
+dispersion is the noise floor; the +0.4 mean is the control's bias. The same set with a generation instruction contaminating the
 judged payload scored +16.9. The same set with the surrounding sibling context
 correctly supplied scored +4.3. Three numbers, and they settle three arguments
-at once: the harness noise is about three points, so a four-point effect is
-real; the contamination was forty times the noise floor and therefore invalidated
-every prior verdict; and the context fix was a real but modest correction, not a
+at once: per-cell noise is about three points, so over twenty-odd cells the
+standard error of an arm's mean is under one point and a four-point effect is
+real; the contamination was about five and a half standard deviations of the
+control and therefore invalidated every prior verdict; and the context fix was a real but modest correction, not a
 re-scaling. Without those numbers the bump is a shrug, and nobody can tell
 whether the old corpus was slightly off or worthless.
 
@@ -108,7 +111,8 @@ whether the old corpus was slightly off or worthless.
   one *after* the first change means the pre-change corpus is unmarked forever.
   The field costs nothing; add it at the start.
 - **When the change affects only one class of artifact**, a global bump retires
-  correct verdicts for every other class. Version the standard per class, or
+  correct verdicts for every other class. Version the standard per class (each
+  class standard is then its own rubric identity for selection), or
   accept the over-retirement deliberately and say so; do not fake a narrow bump
   by leaving the version alone.
 - **When re-grading the whole corpus is not affordable**, supersede anyway and

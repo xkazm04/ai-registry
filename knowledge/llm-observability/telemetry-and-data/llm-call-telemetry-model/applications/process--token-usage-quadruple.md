@@ -27,8 +27,11 @@ facts in this subject — re-verify by the frontmatter date.
   hidden deliberation volume is visible). The response also echoes
   `service_tier` at the top level — the *served* lane, not the requested one.
 - **Anthropic (Messages API).** `usage.input_tokens` **excludes** cache
-  traffic; `cache_read_input_tokens` rides beside it at ~0.1× the input
-  rate, and `cache_creation_input_tokens` is the field's clearest fifth
+  traffic; `cache_read_input_tokens` rides beside it at a per-model
+  multiple of the input rate (0.1× by default, 0.05× on Opus 5.5 and
+  Sonnet 5.5, 0.025× on Fable 5.1 and Mythos 5.1 — checked 2026-10-31, so a
+  read rate keyed per provider rather than per model under-reads the
+  discount on the newest traffic), and `cache_creation_input_tokens` is the field's clearest fifth
   class: a **premium-billed write** (~1.25× base for the 5-minute TTL, ~2×
   for the 1-hour TTL), with a `cache_creation` breakdown per TTL because the
   tier is what prices the write. Thinking tokens are simply included in
@@ -50,10 +53,14 @@ job.
 ## The normalization target
 
 The OpenTelemetry GenAI semantic conventions settled the convention the
-technique leaves to the schema: `gen_ai.usage.input_tokens` SHOULD include
-**all** input token types (cached included), with
-`gen_ai.usage.cache_read.input_tokens` and cache-creation counters as
-sub-attributes — and the Anthropic-specific convention states outright that
+technique leaves to the schema. Their attribute registry (the `gen-ai`
+attributes page in the `semantic-conventions-genai` repository) states that
+`gen_ai.usage.input_tokens` SHOULD include **all** input token types
+(cached included), with `gen_ai.usage.cache_read.input_tokens` and
+`gen_ai.usage.cache_write.input_tokens` as sub-counts that SHOULD be
+included in it, and `gen_ai.usage.reasoning.output_tokens` likewise
+included in the output total; it also carries per-modality text, image and
+audio counters, all at Development stability as of 2026-10-31 — and the Anthropic-specific convention states outright that
 Anthropic's exclusive counters MUST be *added* to compute the inclusive
 total. Inclusive-totals-with-sub-counts is therefore the field's normalized
 shape, and a normalizer emitting it must add, not copy, for

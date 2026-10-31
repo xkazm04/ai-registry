@@ -52,7 +52,8 @@ Checks worth carrying, all of which caught real defects in a measured pass:
   map, with exemptions coded rather than implied;
 - every cited sibling resolves to a step that exists;
 - a **stale-literal scan**: after any count changes, assert the old literals ("twelve
-  rows", "twenty-one") appear nowhere in any artifact of the entity.
+  rows", "twenty-one") appear nowhere in any artifact of the entity, except where a hit is
+  a published value the edit did not own (see "When NOT to use this").
 
 ## Recompute the superlative, not the value
 

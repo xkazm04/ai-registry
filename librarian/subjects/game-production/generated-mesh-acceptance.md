@@ -237,3 +237,138 @@ mesh graded, no corpus re-derived here.
 Landed technique `posed-see-through-render` and its python application (experiment, `better`), with a one-paragraph link from the golden path under the assembled-vs-shattered section. Source: a first-party build-walkthrough (`librarian/sources/2026-10-24-dark-souls-boss-ai.md`). Measured on PoF's four finished heroes with a headless DCC: two are 32-42% back faces at rest (inverted winding), one opens only when posed (excess to 10.4%), one is clean; the structural card passed all four. The run corrected its own first draft: a closed control reads up to 16% when posed past joint limits, so posed see-through is only the excess over a closed copy in the same pose.
 
 Open against this subject, from that run: the 2026-09-10 review's part-budget contradiction is untouched; the new technique's pose set is a blind sweep (22-59 of 216 views fold-free) and wants the project's real action poses.
+
+## Architecture review - 2026-10-31
+
+Re-review against `b005a97cb`. All four clarify items the 2026-09-10 post-revert record
+named are still in the text: the part budget of 8 against the ten-part assembled
+character, structural-scorecard step 6 against the always-graded world scale, the re-roll
+list's four-roll basis, and the mis-tiered flag with no observed positive (re-derived:
+all ten fails are `floaters`, which is in neither remedy list, and the other 42 meshes had
+no fail, so the flag is false on all 52). **Retraction:** the first 2026-09-10 record says
+face-rig-shell-readiness was repaired away from a universal shell prerequisite; that repair
+was reverted and the current text again says a welded head "cannot be given them by any
+tool". The Blender manual names facial animation as the commonest use of shape keys, which
+deform one object's vertices, so that sentence is owed a correction, with its echo in the
+golden path. New this run: unmeasured-is-not-pass calls the blunt-count fallback
+"conservative", and the first 2026-09-10 counterexample shows it can be looser. The new
+posed-see-through technique and its experiment are internally consistent.
+
+<!-- architecture-review:v1 -->
+```json
+{
+  "subject": "game-production/generated-mesh-acceptance",
+  "date": "2026-10-31",
+  "baseline": "b005a97cb",
+  "digest": "sha256-b2:9c6867753eefa10b",
+  "disposition": "clarify",
+  "coverage": "All 11 current documents read in full. Arithmetic re-derived: 36 rotations x 6 cameras = 216 posed views; the posed table against the technique's 32-42%, 0.95% -> 2.9%/10.4% and 0.95% -> 0.93%/1.5% figures; the mis-tiered flag across the 52-file corpus from the process application's partition. One primary source opened (Blender manual, shape keys). Not evaluated: any mesh, the pof tree, the DCC run, the 52-file corpus, the four production rolls. The engine single-sided-default claim was searched and not confirmed from a primary page. No verification date was refreshed.",
+  "counterexamples": [
+    "Seven components, six of them specks: the blunt fallback passes against a part budget of 8, while the histogram rule fails it against a speck tolerance of 4. 'Unchanged' fallback is not 'conservative'.",
+    "A welded head can carry sculpted expression shape keys: shape keys deform an object's vertices and facial animation is their commonest use.",
+    "The subject's own assembled character (at least ten named parts) fails the recommended default part budget of 8.",
+    "On the 52-file corpus the mis-tiered flag is false for every mesh, so the module's narrative about stating the tier is not demonstrated by the flag it computes."
+  ],
+  "sources": [
+    {
+      "url": "https://docs.blender.org/manual/en/latest/animation/shape_keys/introduction.html",
+      "result": "Read 2026-10-31: 'Shape keys are used to deform objects into new shapes for animation. In other terminology, shape keys may be called morph targets or blend shapes. The most common use cases for shape keys are in character facial animation (e.g. mouth positions, expressions, phonemes)'; 'Shape keys can be applied to object types with vertices, such as meshes'. Refutes 'cannot be given them by any tool' for a welded head; does not refute that a pipeline driving regions as separate geometry needs separable shells."
+    },
+    {
+      "source": "Internal cross-read of process--stage-declared-grading.md",
+      "result": "All ten fails are floaters; FINISH_RESOLVES omits floaters; misTiered needs failing codes with unaddressed empty. So the flag is false on the ten fails and, having no fails, on the other 42."
+    }
+  ],
+  "documents": {
+    "generated-mesh-acceptance.md": {"disposition": "clarify", "reason": "'Welded into one shell, no rigging tool can drive them' overclaims: shape keys drive a single mesh's vertices. Scope it to rigs that drive the regions as separate geometry. Otherwise accurate and its figures re-derive."},
+    "techniques/structural-scorecard.md": {"disposition": "clarify", "reason": "Step 6 grades world size only on request, against unmeasured-is-not-pass step 5, the golden path and the implementation. And 'a part budget of 8 ... for characters' fails the ten-part character the subject defends; scope the 8 or tell the reader to derive it from the class's part list."},
+    "techniques/floater-vs-part-face-share-rule.md": {"disposition": "keep", "reason": "Share-over-count, the floor, the truncation branches and the adjacency corollary hold. The dense-mesh speck floor (7,500 faces at 1.5M) is a known boundary, retained."},
+    "techniques/defect-code-taxonomy-not-prose.md": {"disposition": "clarify", "reason": "'Determined by the stage, not by the draw' is stated generally on four rolls of one prompt against one provider. Attach that basis to the conclusion."},
+    "techniques/stage-declared-grading.md": {"disposition": "clarify", "reason": "Say that on the 52-file corpus the mis-tiered flag fired on none: all ten fails were debris, which the finishing stage does not resolve."},
+    "techniques/unmeasured-is-not-pass.md": {"disposition": "clarify", "reason": "Step 3 calls the unchanged blunt fallback 'conservative'; the seven-components/six-specks case shows it can pass what the histogram rule fails. Say unchanged is not harsher and that the card must name the rule that ran."},
+    "techniques/face-rig-shell-readiness.md": {"disposition": "clarify", "reason": "'a head that arrived welded into a single shell cannot be given them by any tool' is refuted by the manual. Scope the shell minimum to a rig that drives the regions as separate geometry; keep the three outcomes and the keep-out-of-health rule."},
+    "techniques/posed-see-through-render.md": {"disposition": "keep", "reason": "Two-sided render predicate, closed-copy floor and the two-control instrument proof are coherent and its figures match the application. 'Real-time materials are single-sided by default' was not confirmed from a primary page this run; the blind pose sweep is admitted."},
+    "applications/node--structural-scorecard.md": {"disposition": "reverify", "reason": "Unchanged; verified_on 2026-08-30, no commit pinned, not run. DEFAULT_THRESHOLDS maxComponentsFail 8 is where the part-budget tension lands."},
+    "applications/process--stage-declared-grading.md": {"disposition": "reverify", "reason": "Unchanged; corpus, rolls and decimation pair not reproduced."},
+    "applications/python--posed-see-through-render.md": {"disposition": "reverify", "reason": "Internally consistent (216 posed views, controls 0/6 and 3/6, target 0 -> 3 of 4). The DCC run and meshes were not reopened."}
+  }
+}
+```
+
+## Architecture review - 2026-10-31 (clarify applied)
+
+Applied all six clarify items the earlier 2026-10-31 record named, against `f7a53ecb6`. The Blender manual was opened this run for the shell-readiness change; the others are internal inconsistencies and arithmetic verified from the subject's own documents. Applications were not touched and keep `reverify`, now the overall disposition.
+
+<!-- architecture-review:v1 -->
+```json
+{
+  "subject": "game-production/generated-mesh-acceptance",
+  "date": "2026-10-31",
+  "baseline": "f7a53ecb6",
+  "digest": "sha256-b2:07f816c7b61d653a",
+  "disposition": "reverify",
+  "coverage": "Second 2026-10-31 record. The clarify items applied are listed per document; each edited section was re-read after the edit. All other documents are byte-unchanged from the first 2026-10-31 record and keep its dispositions. All 11 current documents read in full. Arithmetic re-derived: 36 rotations x 6 cameras = 216 posed views; the posed table against the technique's 32-42%, 0.95% -> 2.9%/10.4% and 0.95% -> 0.93%/1.5% figures; the mis-tiered flag across the 52-file corpus from the process application's partition. One primary source opened (Blender manual, shape keys). Not evaluated: any mesh, the pof tree, the DCC run, the 52-file corpus, the four production rolls. The engine single-sided-default claim was searched and not confirmed from a primary page. No verification date was refreshed.",
+  "counterexamples": [
+    "Seven components, six of them specks: the blunt fallback passes against a part budget of 8, while the histogram rule fails it against a speck tolerance of 4. 'Unchanged' fallback is not 'conservative'.",
+    "A welded head can carry sculpted expression shape keys: shape keys deform an object's vertices and facial animation is their commonest use.",
+    "The subject's own assembled character (at least ten named parts) fails the recommended default part budget of 8.",
+    "On the 52-file corpus the mis-tiered flag is false for every mesh, so the module's narrative about stating the tier is not demonstrated by the flag it computes."
+  ],
+  "sources": [
+    {
+      "url": "https://docs.blender.org/manual/en/latest/animation/shape_keys/introduction.html",
+      "result": "Read 2026-10-31: 'Shape keys are used to deform objects into new shapes for animation. In other terminology, shape keys may be called morph targets or blend shapes. The most common use cases for shape keys are in character facial animation (e.g. mouth positions, expressions, phonemes)'; 'Shape keys can be applied to object types with vertices, such as meshes'. Refutes 'cannot be given them by any tool' for a welded head; does not refute that a pipeline driving regions as separate geometry needs separable shells."
+    },
+    {
+      "source": "Internal cross-read of process--stage-declared-grading.md",
+      "result": "All ten fails are floaters; FINISH_RESOLVES omits floaters; misTiered needs failing codes with unaddressed empty. So the flag is false on the ten fails and, having no fails, on the other 42."
+    }
+  ],
+  "documents": {
+    "generated-mesh-acceptance.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: 'no rigging tool can drive them' now reads that a rig driving the regions as separate geometry has nothing to drive, with a parenthesis that sculpted shape keys can still deform a welded head."
+    },
+    "techniques/structural-scorecard.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: step 6 grades the budget only on request and world scale always ('normalised, target size unknown'); the part budget of 8 is scoped to simple characters, with an instruction to derive an assembled character's budget from its part list."
+    },
+    "techniques/floater-vs-part-face-share-rule.md": {
+      "disposition": "keep",
+      "reason": "Share-over-count, the floor, the truncation branches and the adjacency corollary hold. The dense-mesh speck floor (7,500 faces at 1.5M) is a known boundary, retained."
+    },
+    "techniques/defect-code-taxonomy-not-prose.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: the stage-not-draw conclusion now carries its basis (one prompt, one provider) and asks for the observation to be widened before it is treated as general."
+    },
+    "techniques/stage-declared-grading.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: states that the mis-tiered flag fired on none of the 52 meshes because every fail carried the unaddressed debris code."
+    },
+    "techniques/unmeasured-is-not-pass.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: step 3 now says unchanged is not harsher, with the seven-components/six-specks case, and that naming the rule that ran is what discloses the skipped debris check."
+    },
+    "techniques/face-rig-shell-readiness.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: the shell minimum is scoped to a rig that drives the regions as separate geometry; shape keys on a welded head are acknowledged per the Blender manual."
+    },
+    "techniques/posed-see-through-render.md": {
+      "disposition": "keep",
+      "reason": "Two-sided render predicate, closed-copy floor and the two-control instrument proof are coherent and its figures match the application. 'Real-time materials are single-sided by default' was not confirmed from a primary page this run; the blind pose sweep is admitted."
+    },
+    "applications/node--structural-scorecard.md": {
+      "disposition": "reverify",
+      "reason": "Unchanged; verified_on 2026-08-30, no commit pinned, not run. DEFAULT_THRESHOLDS maxComponentsFail 8 is where the part-budget tension lands."
+    },
+    "applications/process--stage-declared-grading.md": {
+      "disposition": "reverify",
+      "reason": "Unchanged; corpus, rolls and decimation pair not reproduced."
+    },
+    "applications/python--posed-see-through-render.md": {
+      "disposition": "reverify",
+      "reason": "Internally consistent (216 posed views, controls 0/6 and 3/6, target 0 -> 3 of 4). The DCC run and meshes were not reopened."
+    }
+  }
+}
+```

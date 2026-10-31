@@ -44,6 +44,12 @@ pixels above luminance 8). Both must hold — "a large-but-black frame is still 
 pixel pass, a small real frame is caught by the byte pass" — and the gate degrades to the
 byte heuristic alone when the pixel library is absent rather than becoming unverifiable.
 
+That conjunction is a deviation from the technique. The technique condemns a frame that is
+*measurably* empty, which is what the pixel pass measures; the byte floor only estimates it.
+With the pixel library present, a real frame of a dark or flat scene that compresses under
+12 KB fails on the proxy alone, where the technique sends a frame it cannot decide to
+deferred. Whether the code has changed since 2026-08-30 was not re-checked.
+
 ## Advisory and de-duped
 
 The gate is opt-in (`ueVisual`) and `required:false` — "never blocks the loop" — and is

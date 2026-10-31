@@ -36,7 +36,10 @@ returns a different answer every run. Nobody debugs this quickly, because every 
 it looks correct: the simulation is right, the bisection is right, and the result is
 garbage. The fix is that the caller passes a fixed seed, so `metric(v)` is a
 deterministic function of `v`. Averaging over many iterations reduces the noise but does
-not remove it; determinism does.
+not remove it; determinism does. Determinism is repeatability, not monotonicity: a rate over
+a fixed number of iterations can only take whole-count steps, so even a seeded metric can
+step across the target or reverse by a step. Bisection's own contract asks for a continuous
+function, so that case is carried by the iteration cap and the convergence flag below.
 
 Write both conditions in the solver's own documentation, at the top, as a contract on
 the caller. A precondition that lives only in someone's head is a precondition that will

@@ -249,3 +249,196 @@ them.
 ### 2026-10-15 - intake coding_agent_session_search (run dle-004-1015, series DLE-004)
 
 Catch, recorded as `rust--per-provider-usage-extractors--cass.md`: three-state usage provenance (reported, estimated, suppressed because counted elsewhere), with one extractor breaking the disjoint-tuple convention. Untriaged amendment banked: a suppressed state for rows whose usage is counted elsewhere. Boundary named in the new sibling `agent-session-archive`, the at-rest form of this subject.
+
+## 2026-10-31 - architecture re-review (stale digest)
+
+Since `44c8996` the subject gained two applications and two technique sections:
+
+- `applications/rust--per-provider-usage-extractors.md` (LightTrack, 2026-09-20)
+- `applications/rust--per-provider-usage-extractors--cass.md` (from the 2026-10-15 intake)
+- a "convention is checkable" section in `per-provider-usage-extractors`
+- a three-valued collision read-back section in `deterministic-span-derived-ids`
+
+I read the new material in full. The eight unchanged documents I checked by diff plus targeted re-reads of the passages the 2026-09-10 record flagged. All five of its clarify findings are still unlanded at current bytes.
+
+**Partial retraction.** The 2026-09-10 counterexample "two spans legitimately sharing a span id ... real distinct spend is silently deduplicated" no longer holds as written. The new read-back section returns a conflict when the payloads differ, so a buggy sender's distinct spend is refused loudly, not silently merged. The residual hazard is the one that section itself names: an id collision across tenants, where the read sees no row.
+
+**Anthropic's convention, checked at source.** The current prompt-caching docs say `input_tokens` covers "only the tokens that come after the last cache breakpoint", with `total_input_tokens = cache_read_input_tokens + cache_creation_input_tokens + input_tokens`. So `process--per-provider-usage-extractors`' inclusive sum is right, and its pricing formula still double-prices cache-creation tokens. The same page also shows the cache-read multiplier is no longer a single number: 0.1x by default, 0.05x or 0.025x on some models. A pricer with one `cache_rate` per provider would mis-price those models. Per-model rates belong in the price book, which the subject already delegates to that book.
+
+**The new invariant section needs its scope stated.** "A sub-count never exceeds the total" is an invariant of the inclusive convention only. The cass application shows a disjoint target is a legitimate stated choice. Under that convention the total is the sum of the buckets, so the check has nothing to compare. The section should say it applies to inclusive tuples, and name the disjoint analogue: a negative residual after conversion. The heading-vs-body contradiction ("default defensively" against "prefer null") is still there.
+
+**Metadata defect in the cass application.** It documents a foreign tree (franken-agent-detection, behind cass) but carries `verified_against: rust@2026.08.31` and no `counterpart: external`. `docs/rkb-profile.md` forbids that pair for external applications. Commit `8e7b9394` says the cass application was marked external, but the file on disk is not marked.
+
+**The GenAI repository check.** `open-telemetry/semantic-conventions-genai` exists and describes itself as extending the core conventions with the GenAI ones. Its README does not say content was moved. The precedence-lists maintenance rule should name this repository as where GenAI changes now land, alongside the core releases. I am softening the earlier "has left" wording to that.
+
+<!-- architecture-review:v1 -->
+```json
+{
+  "subject": "llm-observability/multi-provider-event-normalization",
+  "date": "2026-10-31",
+  "baseline": "140c101d",
+  "digest": "sha256-b2:a0932e26160bfd85",
+  "disposition": "clarify",
+  "coverage": "All 12 current documents covered. The 2 new applications and the 2 new technique sections were read in full. The 8 documents unchanged since 44c8996 were confirmed by git diff and re-read at each passage the 2026-09-10 record flagged (maintenance rule, defensive-default heading, process pricing formula, refuse-to-derive total handling). Anthropic usage semantics were checked against current provider docs, and the GenAI conventions repository was checked on GitHub. Not evaluated: the LightTrack tree at a3cdcf7, the franken-agent-detection tree at 6b337ba434b7, any executed extractor or ingest path, and any verified_on refresh.",
+  "counterexamples": [
+    "Anthropic cache-creation tokens priced by process--per-provider-usage-extractors' formula: inside the inclusive input total they are billed once at the base rate (only cache reads are subtracted), then again at the write premium added on top.",
+    "LightTrack's fixture anthropic-messages-with-cache pins input 24 beside cached 2048. Through a saturating subtraction the whole prompt prices at the cached rate, and every test stays green.",
+    "A disjoint-convention extractor (cass) never trips 'a sub-count never exceeds the total', because its total is the sum of the buckets. The invariant cannot detect convention violations there, and the section does not say so.",
+    "A cache-heavy workload on a model whose cache-read rate is 0.05x is priced at a provider-wide 0.1x and over-billed twofold on reads, unless the price book keys the cached rate per model.",
+    "A sender emitting only gen_ai.usage.total_tokens: the split is correctly refused and the total is then discarded, so the one quantity the wire asserted leaves no trace.",
+    "A globally unique span id collides across tenants. The tenant-scoped read-back finds no row, and unless that case is decided deliberately it falls into whichever arm catches everything else."
+  ],
+  "sources": [
+    {
+      "url": "https://platform.claude.com/docs/en/docs/build-with-claude/prompt-caching",
+      "result": "Quoted: input_tokens 'represents only the tokens that come after the last cache breakpoint in your request, not all the input tokens you sent', and 'total_input_tokens = cache_read_input_tokens + cache_creation_input_tokens + input_tokens'. Cache writes cost 1.25x (5-minute TTL) or 2x (1-hour TTL); cache reads cost 0.1x, with per-model exceptions at 0.05x and 0.025x. Confirms the exclusive-reporter classification and the double-pricing error in the process application's formula. Shows the cached-read rate varies per model."
+    },
+    {
+      "url": "https://github.com/open-telemetry/semantic-conventions-genai",
+      "result": "The repository exists. Quoted README: 'This repository extends the OpenTelemetry Semantic Conventions with GenAI-specific conventions'. Supports naming it in the precedence-lists maintenance rule. Does not establish that GenAI attributes were removed from the core repository, so the 2026-09-10 'has left' wording is softened."
+    },
+    {
+      "path": "docs/rkb-profile.md",
+      "result": "States that an external application must not carry verified_against. The cass application documents a foreign tree and carries verified_against with no counterpart marking, so it violates this rule at current bytes."
+    }
+  ],
+  "documents": {
+    "multi-provider-event-normalization.md": {
+      "disposition": "keep",
+      "reason": "Premise, boundary, refusal posture and plural identity normalization are unchanged and still correct. The new application material sharpens the techniques without contradicting the golden path."
+    },
+    "techniques/attribute-precedence-lists.md": {
+      "disposition": "clarify",
+      "reason": "The maintenance rule ('every release of the conventions gets diffed against the table') must also name open-telemetry/semantic-conventions-genai, where the GenAI conventions are now maintained as an extension of the core repository."
+    },
+    "techniques/provider-family-matching.md": {
+      "disposition": "clarify",
+      "reason": "Unchanged. Still owed: say that the declared-identity-pair rule (map the family attribute, keep the host as provenance) dissolves the multi-family-host decision rule wherever the declared pair is present, and keep the host rule for senders that lack it."
+    },
+    "techniques/per-provider-usage-extractors.md": {
+      "disposition": "clarify",
+      "reason": "Three changes. (1) Rename the 'Required facts default defensively, but visibly' heading so it matches a body that forbids the default. (2) Scope the new 'sub-count never exceeds the total' invariant to inclusive tuples and give the disjoint-convention analogue (a negative residual after conversion), since the cass application shows disjoint is a legitimate stated target. (3) Soften 'the only cheap detector' to 'a cheap detector'. The pricer-compounds-the-violation paragraph is correct and valuable."
+    },
+    "techniques/refuse-to-derive.md": {
+      "disposition": "clarify",
+      "reason": "Two changes. (1) Separate refusing to split a bare total from discarding it: preserve the total as its own fact. (2) Record, rather than resolve by fiat, the cass disagreement: labelled estimates kept separable versus refused outright, with the double-count hazard as the price. Also land the banked 'suppressed' provenance state for usage that is real but counted on another row."
+    },
+    "techniques/deterministic-span-derived-ids.md": {
+      "disposition": "keep",
+      "reason": "The new three-valued read-back section is right. A failed read must answer retryable-unknown, never conflict, because a conflict tells a client to mint a new id for an event already recorded. The shared-replay-function and absent-is-not-different follow-ons name real drift points. It also retires the 2026-09-10 silent-dedup counterexample for differing payloads."
+    },
+    "techniques/two-doors-one-pipeline.md": {
+      "disposition": "keep",
+      "reason": "Unchanged. 'A door may translate; it may never adjudicate' stands, and the new read-back section correctly points replay logic here."
+    },
+    "applications/process--per-provider-usage-extractors.md": {
+      "disposition": "clarify",
+      "reason": "Fix the pricing formula to (input_total - cached_read - cache_creation) x base_rate + cached_read x read_rate + cache_creation x write_rate(tier). Note that the read rate is per model (0.1x default, 0.05x or 0.025x on some current Anthropic models). The inclusive-sum construction is confirmed by Anthropic's docs. refresh_by 2026-11-20 is still in force."
+    },
+    "applications/rust--attribute-precedence-lists.md": {
+      "disposition": "keep",
+      "reason": "Unchanged. The v1.37 gen_ai.system deprecation pin was verified on 2026-09-10. Line anchors not re-checked."
+    },
+    "applications/rust--two-doors-one-pipeline.md": {
+      "disposition": "reverify",
+      "reason": "Unchanged. The claim that the limit check cannot be routed around by choosing the other door still rests on reading the shared handler, not on a test. Anchors not checked."
+    },
+    "applications/rust--per-provider-usage-extractors.md": {
+      "disposition": "reverify",
+      "reason": "A strong reading: the shared cross-language fixture pins the unconverted Anthropic figures as correct, which shows that an expectation file not derived from a stated invariant becomes a lock. Its claims are line-anchored into the LightTrack tree at a3cdcf7, which this run did not open, and nothing was executed."
+    },
+    "applications/rust--per-provider-usage-extractors--cass.md": {
+      "disposition": "clarify",
+      "reason": "Fix the frontmatter. The document reads a foreign tree, so it must carry counterpart: external and drop verified_against, per docs/rkb-profile.md. Commit 8e7b9394 claims this was done and the file disagrees. The body (disjoint convention, the one inclusive-bucket break, the three-state label, the estimated-default defect) is careful and should be kept. Its anchors were not re-opened."
+    }
+  }
+}
+```
+
+## 2026-10-31 - clarify-apply
+
+Applied the six clarify items owed by the 2026-10-31 re-review. Overall disposition moves to reverify: nothing is owed in prose, and the two Rust applications still rest on trees this run did not open.
+
+<!-- architecture-review:v1 -->
+```json
+{
+  "subject": "llm-observability/multi-provider-event-normalization",
+  "date": "2026-10-31",
+  "baseline": "19cb20182",
+  "digest": "sha256-b2:506281981cc0e869",
+  "disposition": "reverify",
+  "coverage": "Clarify-apply pass on the 2026-10-31 record: all 12 documents keyed. The six clarify items were applied after re-reading each target document at current bytes; the other six documents were not edited and keep their prior dispositions. Anthropic cache usage semantics and per-model cache multipliers were re-fetched from the provider docs this run; the GenAI conventions repository README was fetched this run. Not evaluated: the LightTrack tree at a3cdcf7, the franken-agent-detection tree at 6b337ba434b7, any executed extractor or ingest path, and any verified_on refresh (no application's citations were re-checked).",
+  "counterexamples": [
+    "Anthropic cache-creation tokens priced by process--per-provider-usage-extractors' formula: inside the inclusive input total they are billed once at the base rate (only cache reads are subtracted), then again at the write premium added on top.",
+    "LightTrack's fixture anthropic-messages-with-cache pins input 24 beside cached 2048. Through a saturating subtraction the whole prompt prices at the cached rate, and every test stays green.",
+    "A disjoint-convention extractor (cass) never trips 'a sub-count never exceeds the total', because its total is the sum of the buckets. The invariant cannot detect convention violations there, and the section does not say so.",
+    "A cache-heavy workload on a model whose cache-read rate is 0.05x is priced at a provider-wide 0.1x and over-billed twofold on reads, unless the price book keys the cached rate per model.",
+    "A sender emitting only gen_ai.usage.total_tokens: the split is correctly refused and the total is then discarded, so the one quantity the wire asserted leaves no trace.",
+    "A globally unique span id collides across tenants. The tenant-scoped read-back finds no row, and unless that case is decided deliberately it falls into whichever arm catches everything else."
+  ],
+  "sources": [
+    {
+      "url": "https://platform.claude.com/docs/en/docs/build-with-claude/prompt-caching",
+      "result": "Re-fetched 2026-10-31. Quoted: 'The input_tokens field represents only the tokens that come after the last cache breakpoint in your request, not all the input tokens you sent'; 'total_input_tokens = cache_read_input_tokens + cache_creation_input_tokens + input_tokens'; '5-minute cache writes cost 25 percent more than base input tokens, 1-hour cache writes cost 2x base input tokens'; pricing footnotes 'Cache hits and refreshes on Claude Fable 5.1 and Claude Mythos 5.1 are priced at 0.025x the base input price', '... on Claude Opus 5.5 and Claude Sonnet 5.5 are priced at 0.05x', 'All other models use the standard 0.1x multiplier.' Supports the corrected pricing formula and the per-model read rate in the process application."
+    },
+    {
+      "url": "https://raw.githubusercontent.com/open-telemetry/semantic-conventions-genai/main/README.md",
+      "result": "Fetched 2026-10-31. Quoted: 'This repository extends the OpenTelemetry Semantic Conventions with GenAI-specific conventions, using Weaver to manage dependencies on the core semantic conventions.' Supports the maintenance-rule clarify; the technique names it generically (its own repository, extending the core conventions) because product names belong in applications."
+    },
+    {
+      "path": "docs/rkb-profile.md",
+      "result": "'An external application must not carry verified_against ... (check-bundles refuses the pair).' Applied to the cass application."
+    }
+  ],
+  "documents": {
+    "multi-provider-event-normalization.md": {
+      "disposition": "keep",
+      "reason": "Premise, boundary, refusal posture and plural identity normalization are unchanged and still correct. The new application material sharpens the techniques without contradicting the golden path."
+    },
+    "techniques/attribute-precedence-lists.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: the maintenance rule now says the conventions are diffed wherever they are published, naming the GenAI conventions' own repository (an extension of the core conventions) generically, since product names stay in applications."
+    },
+    "techniques/provider-family-matching.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: the multi-family-host decision rule now says the declared identity pair dissolves it where present (family attribute decides, host is provenance) and that it stays for senders carrying a single free-text provider value."
+    },
+    "techniques/per-provider-usage-extractors.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: (1) heading 'Required facts default defensively, but visibly' -> 'Missing required facts are recorded as missing, visibly'; (2) the sub-count invariant scoped to inclusive tuples, with the disjoint analogue (a negative derived residual after conversion) added; (3) 'the only cheap detector' -> 'a cheap detector'."
+    },
+    "techniques/refuse-to-derive.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: (1) refusing to split a bare total separated from discarding it; the total is kept as its own fact. (2) New section recording the labelled-estimate disagreement (separable versus refused, double-count hazard as its price, never default the label to estimated) without resolving it. (3) New decision rule for a 'suppressed' provenance state: usage real but counted on another row, no counts, no estimate, excluded from totals."
+    },
+    "techniques/deterministic-span-derived-ids.md": {
+      "disposition": "keep",
+      "reason": "The new three-valued read-back section is right. A failed read must answer retryable-unknown, never conflict, because a conflict tells a client to mint a new id for an event already recorded. The shared-replay-function and absent-is-not-different follow-ons name real drift points. It also retires the 2026-09-10 silent-dedup counterexample for differing payloads."
+    },
+    "techniques/two-doors-one-pipeline.md": {
+      "disposition": "keep",
+      "reason": "Unchanged. 'A door may translate; it may never adjudicate' stands, and the new read-back section correctly points replay logic here."
+    },
+    "applications/process--per-provider-usage-extractors.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: pricing formula -> (input_total - cached_read - cache_creation) x base_rate + cached_read x read_rate + cache_creation x write_rate(tier), with the double-billing of creation tokens under the old formula named, and the read rate stated per model (0.1x default, 0.05x or 0.025x on some current models) per the re-fetched provider docs. verified_on left at 2026-08-20 because the OpenAI and Gemini rows were not re-checked; refresh_by 2026-11-20 still in force."
+    },
+    "applications/rust--attribute-precedence-lists.md": {
+      "disposition": "keep",
+      "reason": "Unchanged. The v1.37 gen_ai.system deprecation pin was verified on 2026-09-10. Line anchors not re-checked."
+    },
+    "applications/rust--two-doors-one-pipeline.md": {
+      "disposition": "reverify",
+      "reason": "Unchanged. The claim that the limit check cannot be routed around by choosing the other door still rests on reading the shared handler, not on a test. Anchors not checked."
+    },
+    "applications/rust--per-provider-usage-extractors.md": {
+      "disposition": "reverify",
+      "reason": "A strong reading: the shared cross-language fixture pins the unconverted Anthropic figures as correct, which shows that an expectation file not derived from a stated invariant becomes a lock. Its claims are line-anchored into the LightTrack tree at a3cdcf7, which this run did not open, and nothing was executed."
+    },
+    "applications/rust--per-provider-usage-extractors--cass.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: frontmatter verified_against: rust@2026.08.31 replaced by counterpart: external per docs/rkb-profile.md, and the body sentence that called the toolchain pin 'the stack version' reworded to match. Body otherwise unchanged; anchors not re-opened, verified_on unchanged."
+    }
+  }
+}
+```

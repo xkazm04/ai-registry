@@ -53,8 +53,10 @@ One project's generated painted-card opponent covered 4 of the roughly 18 states
 for, and the costing showed:
 - about 1 to 1.5 hours of generation per clip including retries, with action clips needing one to
   three retries each;
-- about 550 cells for the one character at 256 px, or about 28 MB of pages on a mobile GPU;
-- at the cell size its real fighting distance needed, 6 to 9 pages and 57 to 85 MB;
+- about 550 cells for the one character at 256 px: three 4096² pages, about 28 MB in ASTC 6×6 with
+  mips on a mobile GPU;
+- at the cell size its real fighting distance needed (384 to 512 px), 6 to 9 pages and 57 to 85 MB on
+  the same basis;
 - every other character in the session (soldiers, hounds that orbit and so need facings, a
   second mage) still to do.
 

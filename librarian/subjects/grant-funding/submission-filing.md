@@ -1,7 +1,7 @@
 ---
 domain: grant-funding
 subject: submission-filing
-last_touched: 2026-09-10
+last_touched: 2026-10-31
 touched_by: architecture-review
 dry_streak: 0
 ---
@@ -196,6 +196,134 @@ already a contradiction between the documents as written.
     "applications/node--proof-of-filing.md": {
       "disposition": "clarify",
       "reason": "Records filed as membership in FILED_STATUSES, which combined with the documented one-way progression to awarded or declined makes verifiable flip to false on success and discards a funder-issued confirmation. The deviations section names the missing stamped instant and the missing post-submission validation state but not this inversion of the central derivation."
+    }
+  }
+}
+```
+
+## Architecture review - 2026-10-31
+
+Re-review against `8432a5cfa`. Only funder-portal-resolution changed since the
+2026-09-10 record (one sound added rule), so its three clarify items were still owed.
+The NIH page now states plainly that corrected applications overwrite earlier ones.
+
+<!-- architecture-review:v1 -->
+```json
+{
+  "subject": "grant-funding/submission-filing",
+  "date": "2026-10-31",
+  "baseline": "8432a5cfa",
+  "digest": "sha256-b2:b55fa27d7f176a02",
+  "disposition": "clarify",
+  "coverage": "All 8 documents decided. Diff against 44c8996: only funder-portal-resolution changed (one added rule, read). The golden path, proof-of-filing and both applications were re-read in full; their three clarify items are still owed. The NIH changed/corrected page was re-opened. Not evaluated: the private grant-writing repository, any portal status, any submission; no verification date refreshed.",
+  "counterexamples": [
+    "An applicant files a corrected package before the closing date: the earlier filing is overwritten, not un-sent, and the model has no way to say which of two filings against one opportunity the funder will review (retained).",
+    "An awarded submission: if 'filed' is membership in the filed statuses only, filed and verifiable go false at the moment of success and the confirmation number stops counting (retained).",
+    "Five filings by one organization naming the same portal URL read as high confidence under per-filing counting (retained).",
+    "A numeric-coercion shape test accepts '1e5' or '0x1F' and derives a link for a different opportunity than the record names."
+  ],
+  "sources": [
+    {
+      "url": "https://grants.nih.gov/grants-process/submit/submit-track-view/changed-corrected-application",
+      "result": "Re-opened 2026-10-31. 'Changed/corrected applications overwrite previous submissions'; 'It is very important that your corrective submissions are made prior to the submission deadline'; late submissions 'are rarely accepted'. Supports replacing 'the funder's copy cannot be un-sent' with supersession before the close. Does not establish any funder's post-close retraction policy."
+    }
+  ],
+  "documents": {
+    "submission-filing.md": {
+      "disposition": "clarify",
+      "reason": "Still owed from 2026-09-10 (byte-unchanged since): justifies irreversibility with 'the funder's copy cannot be un-sent', which NIH guidance contradicts (corrected applications overwrite earlier ones before the deadline). Keep the metrics argument; add supersession; and state that an outcome does not un-file, which both applications' FILED_STATUSES filter contradicts."
+    },
+    "techniques/crowd-verified-filing-profiles.md": {
+      "disposition": "keep",
+      "reason": "Unchanged since the 2026-09-10 keep."
+    },
+    "techniques/funder-portal-resolution.md": {
+      "disposition": "keep",
+      "reason": "One rule added since (match the canonical key, not numeric coercion); it is correct, since Number() accepts exponent, hex, binary and signed forms, and it tightens the existing shape test."
+    },
+    "techniques/majority-rule-doc-consensus.md": {
+      "disposition": "keep",
+      "reason": "Unchanged since the 2026-09-10 keep."
+    },
+    "techniques/proof-of-filing.md": {
+      "disposition": "keep",
+      "reason": "Unchanged since the 2026-09-10 keep; supersession is carried at the golden-path level."
+    },
+    "techniques/standard-materials-checklist.md": {
+      "disposition": "keep",
+      "reason": "Unchanged since the 2026-09-10 keep."
+    },
+    "applications/node--crowd-verified-filing-profiles.md": {
+      "disposition": "clarify",
+      "reason": "Still owed: only FILED_STATUSES rows contribute, and the recorded one-way move to awarded/declined would drop every decided filing from the sample; not named among its deviations. Private repo not reopened."
+    },
+    "applications/node--proof-of-filing.md": {
+      "disposition": "clarify",
+      "reason": "Still owed: filed = membership in FILED_STATUSES plus the recorded move to outcomes makes verifiable go false on success; no supersession link. Private repo not reopened."
+    }
+  }
+}
+```
+
+## Architecture review - 2026-10-31 (clarify applied)
+
+Applied the three owed clarify items. The application notes say what the recorded
+status model implies, not what the product does today; that check still needs the
+private checkout.
+
+<!-- architecture-review:v1 -->
+```json
+{
+  "subject": "grant-funding/submission-filing",
+  "date": "2026-10-31",
+  "baseline": "8432a5cfa",
+  "digest": "sha256-b2:27daa21a010b3b88",
+  "disposition": "keep",
+  "coverage": "All 8 documents decided. The three owed clarify items were applied and re-read; check-bundles passes. The golden-path change rests on the NIH page opened this run; the application gap notes are inferences from their own recorded status model, labelled as such. Whether the inversion is live in the product still needs the private checkout.",
+  "counterexamples": [
+    "An applicant files a corrected package before the closing date: the earlier filing is overwritten, not un-sent, and the model has no way to say which of two filings against one opportunity the funder will review (retained).",
+    "An awarded submission: if 'filed' is membership in the filed statuses only, filed and verifiable go false at the moment of success and the confirmation number stops counting (retained).",
+    "Five filings by one organization naming the same portal URL read as high confidence under per-filing counting (retained).",
+    "A numeric-coercion shape test accepts '1e5' or '0x1F' and derives a link for a different opportunity than the record names."
+  ],
+  "sources": [
+    {
+      "url": "https://grants.nih.gov/grants-process/submit/submit-track-view/changed-corrected-application",
+      "result": "Re-opened 2026-10-31. 'Changed/corrected applications overwrite previous submissions'; 'It is very important that your corrective submissions are made prior to the submission deadline'; late submissions 'are rarely accepted'. Supports replacing 'the funder's copy cannot be un-sent' with supersession before the close. Does not establish any funder's post-close retraction policy."
+    }
+  ],
+  "documents": {
+    "submission-filing.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: the irreversibility bullet now rests on the metrics argument and calls irreversibility a rule of the model, notes corrected packages overwrite earlier ones before the close, and models a corrected resubmission as a superseding second filing; a new bullet says an outcome does not un-file and that a filed-statuses-only predicate goes false at success."
+    },
+    "techniques/crowd-verified-filing-profiles.md": {
+      "disposition": "keep",
+      "reason": "Unchanged since the 2026-09-10 keep."
+    },
+    "techniques/funder-portal-resolution.md": {
+      "disposition": "keep",
+      "reason": "One rule added since (match the canonical key, not numeric coercion); it is correct, since Number() accepts exponent, hex, binary and signed forms, and it tightens the existing shape test."
+    },
+    "techniques/majority-rule-doc-consensus.md": {
+      "disposition": "keep",
+      "reason": "Unchanged since the 2026-09-10 keep."
+    },
+    "techniques/proof-of-filing.md": {
+      "disposition": "keep",
+      "reason": "Unchanged since the 2026-09-10 keep; supersession is carried at the golden-path level."
+    },
+    "techniques/standard-materials-checklist.md": {
+      "disposition": "keep",
+      "reason": "Unchanged since the 2026-09-10 keep."
+    },
+    "applications/node--crowd-verified-filing-profiles.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: added a second gap (outcome statuses outside FILED_STATUSES would drop decided filings from the sample), labelled as read from the record, not rerun; verified_on unchanged."
+    },
+    "applications/node--proof-of-filing.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: added a third gap (awarded filings would read filed=false and verifiable=false; no supersession link), labelled as read from the record, not rerun; verified_on unchanged."
     }
   }
 }

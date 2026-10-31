@@ -28,6 +28,9 @@ class-blind 200k default missed"*).
 | `environment` | 60,000 | 90,000 | 40 | large silhouettes earn a bigger budget; bounded because generated buildings fragment |
 | `modular-part` | 8,000 | 12,000 | 3 | assembled in multiples — the per-part budget must leave headroom for the whole |
 
+The character row's stored rationale calls it the highest per-asset budget, which the
+environment row's 60,000 contradicts; it holds only among the character-pipeline classes.
+
 The basis is stated in the module header: *"game-ready targets at ARPG camera
 distance"*, with the character figure explicitly **locked** to the character pipeline's
 game-tier spec and a written instruction to keep the two in sync — one authority, with

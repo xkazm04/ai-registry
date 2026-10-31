@@ -228,3 +228,226 @@ That is the subject's own asymmetry standing in code.
   against the configured one. The failure action is a real policy fork - warn, or
   refuse to process money - and the two have very different blast radii. Worth a
   technique once a second source or a second tree has an opinion.
+
+## Architecture review - 2026-10-31
+
+Third review, against HEAD `140c101d`. The subject went stale when the
+2026-09-11 intake (`contract-version-is-provenance`, its two applications, a
+golden-path paragraph) and two later amendments landed. Those reached the tree in
+commit `1f1613c1`, whose subject line is about a media skill and says nothing of
+this bundle; worth knowing for anyone tracing the history by message.
+
+Coverage is split honestly. The four new documents and the three amended ones
+were read in full. The six unchanged documents were confirmed byte-identical to
+the 2026-09-10 baseline (`git diff 44c8996..HEAD` is empty for them), and their
+prior dispositions were re-checked against that record rather than re-read line
+by line.
+
+**Still owed from 2026-09-10.** Neither replay-tolerance attribution was
+repaired: `signature-is-the-auth` still credits five minutes to the
+cross-provider specification, and `process--signature-is-the-auth` still says
+the spec has "a recommended replay tolerance of 300 seconds". Both stay `clarify`
+with the same change.
+
+**The new technique holds where it was checked, and over-reaches where it was
+not.** Polar's handbook confirms the request-side mechanics the KP application
+depends on: date-based versions selected by a `Polar-Version` header, Current
+served when the header is omitted, the resolved version echoed on the response,
+and "a malformed, unknown, or removed version returns `404 Not Found`". So
+"a wrong guess is a total billing outage rather than a drift" is sourced. Two
+caveats the documents do not carry: the handbook says "API versioning is
+currently being rolled out", with only Current and Next existing until the first
+full rotation, and neither handbook page says anything about webhooks. The
+technique's webhook-side claims (the endpoint's version is chosen at
+registration; an event keeps the version it was created under, so redeliveries
+reproduce the old payload; careful providers declare the version in a header and
+in the body) are consistent with Stripe's "each webhook endpoint has a specific
+API version. Stripe uses that version to structure the event payloads it sends",
+but the event-fixed-at-creation and redelivery claims were not found in the pages
+read. They should be attributed to a named provider document or stated as the
+design target rather than as observed provider behaviour.
+
+**KP application.** The code is in the KP tree as described (`Polar-Version`
+present only when pinned, the response header recorded, `webhook-api-version`
+with the body's `api_version` as fallback). The cited commit `4d373026` does not
+resolve in the KP checkout; the change landed under `95a8970`, a commit whose
+message is about a registry map. The pointer needs correcting.
+
+**New amendments.** The shared-key replay count in `deterministic-external-ids`
+checks out: with three cumulative and three delta deliveries there are 720
+orders, and the shared key is right only when the final cumulative arrives last
+(1 in 6, so 120), and never under deltas alone. Its "make the upsert monotone"
+option silently gives up partial-refund timing, which is the earlier record's
+fourth counterexample; worth one clause. The in-flight seen-set rule in
+`idempotent-revenue-upsert` and its Rust application are sound; the application
+names the non-atomic Postgres/Firestore batch as not fixed rather than burying it.
+
+**ISO 4217 versus provider semantics, checked this time.** Stripe's currency
+page confirms the technique's sharp edge exactly: ISK and UGX "transitioned to a
+zero-decimal currency, but backward compatibility requires you to represent it
+as a two-decimal value", and HUF and TWD are zero-decimal for payouts only.
+
+<!-- architecture-review:v1 -->
+```json
+{
+  "subject": "llm-observability/billing-revenue-normalization",
+  "date": "2026-10-31",
+  "baseline": "140c101d",
+  "digest": "sha256-b2:5016479d8228da36",
+  "disposition": "clarify",
+  "coverage": "All 14 documents assessed. Seven read in full this run: the four added since the last review (contract-version technique, node and rust contract-version applications, rust idempotent-upsert application) and the three amended (golden path, deterministic-external-ids, idempotent-revenue-upsert). Seven unchanged documents were confirmed byte-identical to the 44c8996 baseline and carried forward against the 2026-09-10 record, not re-read line by line. Polar's handbook (two pages), Stripe's webhook-versioning and currency pages read; the KP billing module grepped for the cited seams. Not evaluated: any webhook delivery or test run; the LightTrack tree (not available here); the dated survey's provider claims (refresh_by 2026-11-20).",
+  "counterexamples": [
+    "Polar's versioning is still being rolled out with only Current and Next in existence; an operator who pins today and reads the technique's 'finite support window is an operational date' has no Deprecated date to put in the calendar yet.",
+    "A shared refund key made monotone gets the final refunded total right in every delivery order and loses when each partial refund happened, which moves revenue between months.",
+    "A provider that re-serializes old events under the endpoint's new version on redelivery breaks the technique's 'treat old and new as concurrent' premise in the other direction: there is only one contract on the wire, and history is restated by the provider.",
+    "A corrected invoice snapshot arrives first and an old one last; the unconditional upsert restores the old amount (carried from the 2026-09-10 records, still unaddressed by design)."
+  ],
+  "sources": [
+    {
+      "url": "https://handbook.polar.sh/engineering/backend-development/api-versioning",
+      "result": "Read. Supports: 'When the header is omitted, the request uses Current'; 'A malformed, unknown, or removed version returns 404 Not Found'; three versions on a quarterly cadence, about nine months of support. Qualifies: 'API versioning is currently being rolled out'. Says nothing about webhooks."
+    },
+    {
+      "url": "https://handbook.polar.sh/engineering/design-documents/api-versioning",
+      "result": "Read. Marked 'Status: Draft' and 'may not reflect the final implementation'; points to the backend guide as source of truth. No webhook content."
+    },
+    {
+      "url": "https://docs.stripe.com/webhooks/versioning",
+      "result": "Read. Supports registration-time choice: 'Each webhook endpoint has a specific API version. Stripe uses that version to structure the event payloads it sends to the endpoint.' Does not state that an event's version is fixed at creation or what a redelivery carries after a version change."
+    },
+    {
+      "url": "https://docs.stripe.com/currencies",
+      "result": "Read. Supports minor-unit-currency-handling's provider-flattening edge: ISK and UGX are represented as two-decimal for backward compatibility; HUF and TWD are zero-decimal for payouts."
+    },
+    {
+      "path": "kp app/_lib/billing/polar.ts",
+      "result": "Grepped. Pin-only-when-configured header, response-version recording and webhook-api-version with api_version fallback are present. The application's cited commit 4d373026 does not resolve; the change is in 95a8970."
+    }
+  ],
+  "documents": {
+    "billing-revenue-normalization.md": {"disposition": "keep", "reason": "The added contract-version paragraph is additive and consistent with the provider docs read. The rest is unchanged since the 2026-09-10 keep."},
+    "techniques/contract-version-is-provenance.md": {"disposition": "clarify", "reason": "Request-side claims are confirmed by Polar's handbook. Change owed: attribute or soften the webhook-side claims (event version fixed at creation, redeliveries reproduce the original payload, version in both header and body), which no page read confirms. Also add that a provider's versioning may itself be mid-rollout, so a support-window date may not exist yet."},
+    "techniques/deterministic-external-ids.md": {"disposition": "clarify", "reason": "The new grain rule and its 120/720 replay count are arithmetically right. Change owed: one clause saying the monotone-shared-key option keeps the final total and loses partial-refund timing, so it is wrong where recognition is by month."},
+    "techniques/idempotent-revenue-upsert.md": {"disposition": "keep", "reason": "The in-flight duplicate rule (claim, refuse a concurrent repeat, mark at commit, release on every early exit) is a correct extension of acknowledge-only-what-persisted."},
+    "techniques/minor-unit-currency-handling.md": {"disposition": "keep", "reason": "Unchanged. Its provider-flattening edge is now confirmed against Stripe's currency page (ISK, UGX two-decimal for compatibility)."},
+    "techniques/revenue-kind-taxonomy.md": {"disposition": "keep", "reason": "Unchanged since the 2026-09-10 keep; byte-identical."},
+    "techniques/signature-is-the-auth.md": {"disposition": "clarify", "reason": "Unrepaired from 2026-09-10. Change owed: the spec prescribes no tolerance; credit the five-minute default to Stripe and reference implementations, not to the specification."},
+    "techniques/static-auditable-fx-book.md": {"disposition": "keep", "reason": "Unchanged since the 2026-09-10 keep; byte-identical."},
+    "applications/node--contract-version-is-provenance.md": {"disposition": "clarify", "reason": "Seams are present in the KP tree as described and the 404-on-unknown-version premise is sourced. Change owed: replace the unresolvable commit 4d373026 with 95a8970 (or drop the pointer), and note that the webhook-api-version header is read from the tree, not from a provider document."},
+    "applications/rust--contract-version-is-provenance.md": {"disposition": "keep", "reason": "A structural observation with an honest unmeasurable verdict and a stated return condition. Not rerun; LightTrack not available here."},
+    "applications/rust--idempotent-revenue-upsert.md": {"disposition": "keep", "reason": "A falsifying seam with A/B stated and the unfixed non-atomic batch on Postgres and Firestore disclosed. Not rerun."},
+    "applications/process--signature-is-the-auth.md": {"disposition": "clarify", "reason": "Unrepaired from 2026-09-10. Change owed: 'a recommended replay tolerance of 300 seconds' should be credited to Stripe and reference implementations. refresh_by 2026-11-20 governs the survey's other claims."},
+    "applications/rust--signature-is-the-auth.md": {"disposition": "keep", "reason": "Unchanged since the 2026-09-10 keep; still carries no status frontmatter key."},
+    "applications/rust--static-auditable-fx-book.md": {"disposition": "keep", "reason": "Unchanged since the 2026-09-10 keep; still carries no status frontmatter key."}
+  }
+}
+```
+
+## Clarify applied - 2026-10-31
+
+All five clarify items from the 2026-10-31 record are applied. The webhook-side
+version claims in contract-version-is-provenance are softened, because Stripe's
+page still says nothing about redelivery. The monotone shared-key option now
+states that it loses refund timing. The 300-second tolerance is credited to the
+Stripe and Standard Webhooks libraries and no longer to the specification, which
+names no value. In the KP application the commit pointer is dropped rather than
+replaced with 95a8970: that commit is the shallow checkout's boundary, not the
+change.
+
+<!-- architecture-review:v1 -->
+```json
+{
+  "subject": "llm-observability/billing-revenue-normalization",
+  "date": "2026-10-31",
+  "baseline": "19cb20182",
+  "digest": "sha256-b2:bdfa4958aabc8634",
+  "disposition": "keep",
+  "coverage": "Clarify-apply pass against the 2026-10-31 140c101d record. All five owed clarify items applied (three techniques, two applications); the nine keep documents were not edited and carry forward. Stripe's webhook-versioning page re-read this run (still silent on redelivery version); the Standard Webhooks spec read; the 300-second defaults confirmed in the stripe-node and standard-webhooks JavaScript library sources; the KP billing module grepped and the KP commit graph checked. Not evaluated: any webhook delivery or test run; the LightTrack tree; the survey's other provider claims.",
+  "counterexamples": [
+    "Polar's versioning is still being rolled out with only Current and Next in existence; an operator who pins today and reads the technique's 'finite support window is an operational date' has no Deprecated date to put in the calendar yet.",
+    "A shared refund key made monotone gets the final refunded total right in every delivery order and loses when each partial refund happened, which moves revenue between months.",
+    "A provider that re-serializes old events under the endpoint's new version on redelivery breaks the technique's 'treat old and new as concurrent' premise in the other direction: there is only one contract on the wire, and history is restated by the provider.",
+    "A corrected invoice snapshot arrives first and an old one last; the unconditional upsert restores the old amount (carried from the 2026-09-10 records, still unaddressed by design)."
+  ],
+  "sources": [
+    {
+      "url": "https://docs.stripe.com/webhooks/versioning",
+      "result": "Read this run. 'Each webhook endpoint has a specific API version. Stripe uses that version to structure the event payloads it sends to the endpoint.' Says nothing about an event's version being fixed at creation or about redelivery after a version change, which is why those claims were softened rather than attributed."
+    },
+    {
+      "url": "https://github.com/standard-webhooks/standard-webhooks/blob/main/spec/standard-webhooks.md",
+      "result": "Read. Requires verifying 'the webhook-timestamp header has a timestamp that is within some allowable tolerance of the current timestamp to prevent replay attacks'; names no value. The only 5-minute figure is an idempotency-store example."
+    },
+    {
+      "url": "https://raw.githubusercontent.com/standard-webhooks/standard-webhooks/main/libraries/javascript/src/index.ts",
+      "result": "Read. 'const WEBHOOK_TOLERANCE_IN_SECONDS = 5 * 60; // 5 minutes', applied in both directions."
+    },
+    {
+      "url": "https://raw.githubusercontent.com/stripe/stripe-node/master/src/Webhooks.ts",
+      "result": "Read. 'DEFAULT_TOLERANCE: 300, // 5 minutes'."
+    },
+    {
+      "path": "kp app/_lib/billing/polar.ts",
+      "result": "Grepped. Conditional Polar-Version header builder, webhook-api-version read with body api_version fallback present. 4d373026 does not resolve; the KP checkout is shallow and 95a8970 is a bulk registry-map commit at its boundary, so it is not cited as the change."
+    }
+  ],
+  "documents": {
+    "billing-revenue-normalization.md": {
+      "disposition": "keep",
+      "reason": "The added contract-version paragraph is additive and consistent with the provider docs read. The rest is unchanged since the 2026-09-10 keep."
+    },
+    "techniques/contract-version-is-provenance.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: softened the unconfirmed webhook claims: registration-time choice is attributed to Stripe's webhook page; what a redelivery carries after a version change is stated as provider-specific and undocumented in the pages read (design for fixed-at-creation unless the provider documents re-serialization); 'every careful provider puts it in header and body' became 'read it wherever the provider declares it, else fall back to the registered version and record the inference'; the concurrent-contracts rule is conditioned the same way; the support-window rule notes a mid-rollout provider may have no deprecation date yet."
+    },
+    "techniques/deterministic-external-ids.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: added that the monotone-shared-key option keeps the final refunded total and loses partial-refund timing, so it is wrong where revenue is recognized by month; there, key each delta."
+    },
+    "techniques/idempotent-revenue-upsert.md": {
+      "disposition": "keep",
+      "reason": "The in-flight duplicate rule (claim, refuse a concurrent repeat, mark at commit, release on every early exit) is a correct extension of acknowledge-only-what-persisted."
+    },
+    "techniques/minor-unit-currency-handling.md": {
+      "disposition": "keep",
+      "reason": "Unchanged. Its provider-flattening edge is now confirmed against Stripe's currency page (ISK, UGX two-decimal for compatibility)."
+    },
+    "techniques/revenue-kind-taxonomy.md": {
+      "disposition": "keep",
+      "reason": "Unchanged since the 2026-09-10 keep; byte-identical."
+    },
+    "techniques/signature-is-the-auth.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: the five-minute default is now credited to Stripe's server library and the specification's reference library (both 300 seconds; stack names kept out of the technique body); the specification is quoted as requiring 'some allowable tolerance' with no value."
+    },
+    "techniques/static-auditable-fx-book.md": {
+      "disposition": "keep",
+      "reason": "Unchanged since the 2026-09-10 keep; byte-identical."
+    },
+    "applications/node--contract-version-is-provenance.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: dropped the unresolvable commit pointer 4d373026 rather than substituting 95a8970: the KP checkout is shallow and 95a8970 is its boundary commit (a bulk registry-map commit), so it absorbs history rather than identifying the change. The change is now identified by its seams in the billing module. Added that the webhook-api-version header name (with body api_version fallback) comes from the integration's code, not a provider document. Seams re-checked in the KP tree; verified_on moved to 2026-10-31."
+    },
+    "applications/rust--contract-version-is-provenance.md": {
+      "disposition": "keep",
+      "reason": "A structural observation with an honest unmeasurable verdict and a stated return condition. Not rerun; LightTrack not available here."
+    },
+    "applications/rust--idempotent-revenue-upsert.md": {
+      "disposition": "keep",
+      "reason": "A falsifying seam with A/B stated and the unfixed non-atomic batch on Postgres and Firestore disclosed. Not rerun."
+    },
+    "applications/process--signature-is-the-auth.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: 'a recommended replay tolerance of 300 seconds' now says the specification requires a tolerance but names no value, and credits 300 seconds to its JavaScript reference library and Stripe's Node library. refresh_by 2026-11-20 still governs the survey's other claims; verified_on left unchanged because only this one claim was re-checked."
+    },
+    "applications/rust--signature-is-the-auth.md": {
+      "disposition": "keep",
+      "reason": "Unchanged since the 2026-09-10 keep; still carries no status frontmatter key."
+    },
+    "applications/rust--static-auditable-fx-book.md": {
+      "disposition": "keep",
+      "reason": "Unchanged since the 2026-09-10 keep; still carries no status frontmatter key."
+    }
+  }
+}
+```

@@ -51,9 +51,12 @@ they can answer*:
 3. **Applicant registries** — the identity, legal status and financials of
    the organizations that apply. Strong in most jurisdictions (charity
    registers, exempt-organization files, company registers), with one
-   important structural hole: supranational funding bodies have no unified
-   registry, only the member states' fragmented ones. Registries power
-   onboarding, verification and the eligibility gate.
+   important structural hole: a supranational funding body validates the
+   organizations that register with it, once for every programme it runs,
+   but keeps no public register a product can query for an arbitrary
+   applicant, so a product's own checks fall back to the member states'
+   fragmented registers. Registries power onboarding, verification and the
+   eligibility gate.
 
 The single most consequential field finding in this subject: **general-purpose
 open-data portals overwhelmingly publish kind 2 while appearing to promise
@@ -77,8 +80,8 @@ absence rather than around it.
 Source strategy cannot be designed once and applied everywhere. Each market
 must be assessed on all three kinds independently, because they do not
 correlate: a market can have world-class awarded-history data and no open-call
-feed at all; another can have the best open-call feed anywhere and no unified
-applicant registry. The assessment is empirical — fetch the endpoints, read
+feed at all; another can have the best open-call feed anywhere and no
+applicant registry a product can query. The assessment is empirical — fetch the endpoints, read
 the real columns, count the live rows — and it is dated, because portals
 change. A market map whose claims were never verified against live responses
 is a wish list ([market-readiness-tiering](./techniques/market-readiness-tiering.md)).
@@ -162,7 +165,7 @@ is what makes a multi-source corpus feel like one dataset instead of twelve.
   rather than fetched responses; half the "planned feeds" turn out to be
   award history or bot-walled.
 
-Each of these is prevented structurally by one of the six techniques, not by
+Each of these is prevented structurally by one of the seven techniques, not by
 downstream vigilance. The corpus is the foundation of everything a funding
 product does; the landscape discipline is what keeps the foundation honest.
 

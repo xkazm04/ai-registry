@@ -31,6 +31,22 @@ A nudge's dedup identity is the pair **(kind, subject-ref)**:
   kinds whose subject is the system itself ("maintenance-due" has one
   subject: now).
 
+The pair is unique only within one recipient. In any system with more
+than one tenant or recipient, the full key is **(tenant, recipient, kind,
+subject-ref)**: two users watching the same incident each get their own
+notice, and an identity that omits the recipient scope lets one user's
+delivered nudge suppress another's. A single-user product can leave the
+scope implicit, and says so.
+
+A **requested recurring reminder** ("every Monday at 9") is the one case
+where repetition is the point. Its identity carries a stable
+**occurrence key** — the scheduled slot it fulfils (the date of that
+Monday), derived from the user's schedule, not from when the evaluator
+happened to run. Each occurrence is new news; a re-fire for the same
+occurrence still dedups. That is not the timestamp the next list forbids:
+the occurrence is part of what the user asked for, the noticing time is
+not.
+
 What the key must *not* contain, per
 [identity-survives-reuse](../../../../_laws.md#identity-survives-reuse):
 
@@ -122,9 +138,13 @@ notice so it can.
 - Persist identity with the notice; restart must not re-mint. The
   classic failure is boot-time re-noticing under fresh identities,
   producing a morning burst of déjà vu.
-- The delivered-nudge record keeps its identity forever; efficacy
-  attribution ("this kind, this subject, ignored three times") is a join
-  on identity and dies without it.
+- The delivered-nudge record keeps its identity for as long as anything
+  joins on it; efficacy attribution ("this kind, this subject, ignored
+  three times") is a join on identity and dies without it. That is a
+  declared retention bound, not forever: the longest cooldown, the
+  efficacy window and any audit requirement set it, and records past it
+  are removed or reduced to per-kind aggregates by a named reaper. Dedup
+  against an identity older than the bound is not expected to hold.
 - Cross-tier dedup is downstream's job (the presentation layer dedups
   its own toasts and ledger entries) but it keys on the identity this
   layer minted — one key, every tier.

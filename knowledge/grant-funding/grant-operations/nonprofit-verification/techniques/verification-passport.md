@@ -42,7 +42,11 @@ name-match is not a mismatch.**
 - *At least one pass*: a run where every source came back inconclusive —
   outage, unconfigured deployment, unbuilt jurisdiction — certifies
   nothing. Zero findings from zero decided checks is not a clean bill;
-  requiring a positive makes "clean but unready" unrepresentable.
+  requiring a positive makes "clean but unready" unrepresentable. The pass
+  must come from a source whose positive establishes existence or standing.
+  A clean sanctions screen is the absence of a disqualifier; counted alone,
+  with the name binding unconfirmed (which does not block), it would
+  certify eligibility on no identity evidence.
 - *Zero fails*: determinate disqualifiers are gates, not score components.
   No accumulation of passes outvotes a dissolution record or a sanctions
   hit.

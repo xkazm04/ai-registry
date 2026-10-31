@@ -46,7 +46,7 @@ everything else and never the only budget on a short surface.
 
 Expansion is concentrated in short strings — published band guidance puts a source
 of ten characters or fewer at up to 200–300% and a source over seventy characters
-near 130% (published guidance, not a measurement on any one catalog; the sibling
+near 130%, for translation from English into European languages (published guidance, not a measurement on any one catalog; the sibling
 pipeline subject's
 [pseudo-localization-readiness](../../translation-pipeline-topology/techniques/pseudo-localization-readiness.md)
 technique carries the bands). A single ratio

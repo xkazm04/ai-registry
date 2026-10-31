@@ -45,8 +45,8 @@ Manufacturing's first-article rule stops the line until the first part is inspec
 the rule is right where an inspector is standing at the line. An unattended loop usually
 has no inspector, and a perceptual gate that cannot run returns no verdict at all. Under
 those conditions a hold is a required gate by another name. In the same recorded runs,
-holding every dependent until a perceptual verdict arrived completed 9 of 85 areas
-instead of 85. That is the coverage technique's forbidden fix arriving by a longer road:
+holding every dependent until a perceptual verdict arrived completed 9 of the 77 areas
+in the two runs that had a fan-out point (6 of 58 and 3 of 19) instead of all 77. That is the coverage technique's forbidden fix arriving by a longer road:
 success becomes unreachable, and the run burns its budget waiting.
 
 So the hold is **bounded**, and the bound is priced by whether anybody can answer inside

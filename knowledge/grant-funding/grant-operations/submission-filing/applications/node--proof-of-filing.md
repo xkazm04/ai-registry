@@ -72,3 +72,11 @@ clock" rule is the target for the v2 schema promotion; (2) there is no
 post-submission validation state (federal portals can bounce a package after
 issuing a tracking number), so `verifiable` proves receipt, not acceptance —
 which the technique's vocabulary already keeps honest.
+
+A third gap follows from the record as written, not from a rerun: `filed` is
+membership in `FILED_STATUSES`, and the recorded transitions move a filed
+record to awarded or declined. If those outcome statuses are outside the set,
+an awarded filing's `filed` and `verifiable` both read false, and a
+funder-issued confirmation stops counting at the moment the application
+succeeds. Nor is there a supersession link for a corrected resubmission
+against the same opportunity.

@@ -67,9 +67,10 @@ remained, one (Tooltip / Compare) condemns an off-by-one computed from a sibling
 modifier's stated cadence. If that modifier has been edited since, the condemnation is
 about text that no longer exists, and acceptance still counts it.
 
-**Verdict: better.** Arm B keeps 118 standing condemnations that no sibling edit can
-falsify. It isolates the 13 whose truth depends on a sibling. Arm A hides those 13, and
-arm C would have cleared the whole condemnation layer. The seam was chosen to falsify the
+**Verdict: better.** Arm B keeps standing the 118 condemnations whose weakest dimension
+does not read sibling context. It isolates the 13 whose truth depends on a sibling. Arm A
+hides those 13, and arm C would have cleared 131 of the 143 bound verdicts, passes and
+condemnations alike. The seam was chosen to falsify the
 technique's new steering case: a prompt input that looks like steering and is in fact
 evidence. It did refute the source's framing, where leaving an injected input out of the
 key is safe outright. It held as the per-dimension rule the technique now states.

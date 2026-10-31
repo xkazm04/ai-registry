@@ -64,8 +64,11 @@ while remaining, as always, a claim rather than the verdict.
 - **Render the section only when there is something concrete to say.** Generic wiring
   boilerplate on every prompt — including prompts producing artifacts that wire to nothing —
   trains the producer to skip the section, and it will still be skipping it on the prompt
-  where the table had six rows. When no per-artifact hints and no known dependencies exist,
-  omit the section.
+  where the table had six rows. Omit it for an artifact class with no runtime attachment.
+  When the artifact does attach but no per-artifact hints and no known dependencies exist,
+  do not omit it: an absent section reads as "no wiring needed" when it only means "no
+  hints were authored". Render one line saying the wiring is unknown and all four fields
+  are undeclared — name them.
 - **When the artifact class is known to have editor- or tool-authored dependencies that no
   code generator can create**, list them by name in the section. This is the single highest-
   value content it can carry, because it is the failure the producer cannot detect itself.

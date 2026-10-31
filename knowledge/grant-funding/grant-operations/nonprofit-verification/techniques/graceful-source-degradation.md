@@ -70,7 +70,11 @@ organization as defunct. The rules:
   a shallow extraction silently reads "no states" from a record that
   contains an active one. Walk for the values you need rather than
   assuming the happy-path shape, and let the drift widen what you *find*,
-  never what you *assume*.
+  never what you *assume*. Bind the walk to the subject entity: registry
+  payloads also carry related entities, predecessors and historical
+  records, and a walk that collects every registration state in the document
+  can pick up someone else's active registration — the one way a spurious
+  active state enters the direction the downward-only rule protects.
 
 ## Decision rules
 

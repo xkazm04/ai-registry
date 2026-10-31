@@ -1193,7 +1193,7 @@
       "techniques": 105,
       "applications": 71,
       "files": 198,
-      "contentHash": "sha256-b2:085b766eca815106"
+      "contentHash": "sha256-b2:7571f673953f421b"
     },
     {
       "name": "llm-observability",
@@ -1219,7 +1219,7 @@
       "techniques": 119,
       "applications": 75,
       "files": 215,
-      "contentHash": "sha256-b2:dc8c81676026520d"
+      "contentHash": "sha256-b2:b2123dd917acec87"
     },
     {
       "name": "marketing",
@@ -1245,7 +1245,7 @@
       "techniques": 266,
       "applications": 166,
       "files": 475,
-      "contentHash": "sha256-b2:732056991bef2ab9"
+      "contentHash": "sha256-b2:5f87fb6b04973520"
     },
     {
       "name": "recruiting",

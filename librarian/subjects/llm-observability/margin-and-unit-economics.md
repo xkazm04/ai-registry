@@ -225,3 +225,83 @@ thin band that three documents in this bundle key on.
   }
 }
 ```
+
+## 2026-10-31 - architecture re-review (stale digest)
+
+The record above went stale on one metadata line. Between `44c8996` and `140c101d` the only byte change is in `applications/python--cogs-by-construction.md`: `verified_against: python@3.12` was dropped and `counterpart: external` added (commit `8e7b9394`, which marks applications about foreign trees). That is correct for a LiteLLM reading. Nothing else changed. I re-read the golden path and all six techniques in full. I checked the three applications by diff only: their bodies are byte-identical to the 2026-09-10 reading. Every finding the 2026-09-10 re-review owed is still unlanded at current bytes:
+
+- `revenue-recognition-rules` rule 3 still says nothing about the future windows of a periodic event that a refund cancels.
+- `cogs-by-construction` still justifies itself from a forgotten filter rather than from the lossy rollup.
+- The golden path's "Which costs count" paragraph still does not warn that a markup can sit inside the cost term.
+
+**Benchmark bands, now checked against a source.** The golden path says classic software runs at "high-seventies to eighty-percent" gross margin and inference-backed products at "fifties to seventies". `loss-first-ordering` and `margin-erosion-forecasting` key a twenty-percent thin band on that framing. The closest primary source I could reach is a16z, *The New Business of AI* (2020). It gives AI companies "gross margins often in the 50-60% range" against "the 60-80%+ benchmark for comparable SaaS businesses". So the shape (inference products sit lower) is supported. The numbers are not: the cited SaaS floor is 60, not the high seventies, and the AI band tops out at 60, not 70. The bands need a citation and either a dated source or a range the source supports. This changes the golden-path clarify from "uncited" to "cited source disagrees with the stated numbers". The twenty-percent thin band stays a tuning heuristic. The documents already say "tune the threshold", so that part holds.
+
+<!-- architecture-review:v1 -->
+```json
+{
+  "subject": "llm-observability/margin-and-unit-economics",
+  "date": "2026-10-31",
+  "baseline": "140c101d",
+  "digest": "sha256-b2:c18d4210fdd38f70",
+  "disposition": "clarify",
+  "coverage": "Golden path and all 6 techniques re-read in full at current bytes. The 3 applications checked by diff: bodies unchanged since the 2026-09-10 full reading. git diff 44c8996..HEAD over the subject directory shows one frontmatter change (python--cogs-by-construction: verified_against dropped, counterpart: external added). Confirmed that the 2026-09-10 findings remain unlanded by re-reading the cited paragraphs. The gross-margin benchmark bands were checked against the a16z primary essay. Not evaluated: the LiteLLM tree at f005afa1 and its executed completion_cost cases, the tracklight recognition function (not re-opened this run), and any margin computation.",
+  "counterexamples": [
+    "An annual prepayment refunded in month two: the refund books negative in month two, and the original periodic event keeps recognizing a twelfth of a cancelled payment in months three through twelve. Rule 3 forbids restating the past, and no rule governs the open future side.",
+    "A resale proxy writes its configured markup into the stored spend. The cost term then contains revenue, and a healthy customer reads as thin on the loss-first ranking.",
+    "A reader takes the golden path's 'high-seventies to eighty-percent' SaaS band to a board deck. The primary source it paraphrases says 60-80%+, so every comparison against the band understates SaaS-like margins by up to fifteen points.",
+    "A dense daily series with explicit zeros cannot tell 'no traffic' from 'ingest down'. The technique names this as a disclosure problem and hands it to no one."
+  ],
+  "sources": [
+    {
+      "url": "https://a16z.com/the-new-business-of-ai-and-how-its-different-from-traditional-software/",
+      "result": "Quoted: AI companies have 'gross margins often in the 50-60% range - well below the 60-80%+ benchmark for comparable SaaS businesses'. Supports the direction of the golden path's claim (inference-backed products run lower margins). Refutes its specific bands ('high-seventies to eighty-percent' for software, 'fifties to seventies' for inference products). Dated 2020, so it is also not evidence of current levels."
+    },
+    {
+      "path": "knowledge/llm-observability/economics-and-governance/margin-and-unit-economics",
+      "result": "git diff 44c8996..140c101d: a single frontmatter edit in applications/python--cogs-by-construction.md. Re-reading confirms that revenue-recognition-rules rule 3, the cogs-by-construction justification and the golden path's 'Which costs count' paragraph are byte-identical to what the 2026-09-10 record dispositioned."
+    }
+  ],
+  "documents": {
+    "margin-and-unit-economics.md": {
+      "disposition": "clarify",
+      "reason": "Two repairs. (1) 'Which costs count' must warn that the cost term can contain revenue: a resale proxy's markup is written into the stored spend, banked from the LiteLLM reconcile and still unlanded. (2) Cite the gross-margin bands and make them match a source. The a16z essay says 60-80%+ for SaaS and 50-60% for AI companies, not 'high-seventies to eighty' and 'fifties to seventies'. The framing and term-by-term policy otherwise hold."
+    },
+    "techniques/below-filter-honesty.md": {
+      "disposition": "keep",
+      "reason": "The two-arm predicate with its idle-row guard, the three shapes to test, the echo-the-predicate rule and the 'below 0' identity are precise and testable. Unchanged since the 2026-09-10 keep."
+    },
+    "techniques/cogs-by-construction.md": {
+      "disposition": "clarify",
+      "reason": "Replace or augment the 'someone forgets the filter' justification with the stronger one this subject's own application supplies. A rollup is a lossy write: a discriminator missing from an aggregate's grouping key does not exist downstream, however faithfully the filter was applied upstream. The rules themselves are sound."
+    },
+    "techniques/loss-first-ordering.md": {
+      "disposition": "keep",
+      "reason": "Dollars-not-percentage is argued in both failure directions, and the cap rules (rank by absolute margin, totals before truncation, disclose the cut) are right. The twenty-percent thin band is presented as tunable, which is the correct posture given the band evidence above."
+    },
+    "techniques/margin-erosion-forecasting.md": {
+      "disposition": "keep",
+      "reason": "The construction rules, erosion shapes and decision rules are coherent. Its 'around twenty percent' thin threshold inherits the golden-path band problem only by framing; it is offered as a heuristic, not a measured constant."
+    },
+    "techniques/pricing-what-if-simulation.md": {
+      "disposition": "keep",
+      "reason": "The five-clause contract and the disclosed weaknesses are complete. The 10^6 unit-conversion warning and the identical-population rule are the operative decision rules."
+    },
+    "techniques/revenue-recognition-rules.md": {
+      "disposition": "clarify",
+      "reason": "Add a rule for the open side of rule 3. A full refund of a periodic event either truncates that event's recognition period going forward (not a restatement), or the technique states that the phantom tail is accepted and visible. Also say that the proration paragraph's credit-plus-new-event shape does not cover refunds."
+    },
+    "applications/python--cogs-by-construction.md": {
+      "disposition": "keep",
+      "reason": "The only change is the correct counterpart: external marking with verified_against dropped. Executed evidence (seven completion_cost cases) retained as a historical record and not re-executed. verified_on was not touched."
+    },
+    "applications/rust--pricing-what-if-simulation.md": {
+      "disposition": "keep",
+      "reason": "Maps the contract clause by clause onto the endpoint with the unattributed-bucket approximation disclosed. Unchanged; not re-run."
+    },
+    "applications/rust--revenue-recognition-rules.md": {
+      "disposition": "keep",
+      "reason": "Faithful to the technique, including the abs-before-negate refund guard. Its test set (refund of a point charge only) is where the refunded-periodic gap shows, and that gap is owed by the technique, not by this document. Unchanged; the tracklight function was not re-opened this run."
+    }
+  }
+}
+```

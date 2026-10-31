@@ -278,3 +278,185 @@ consistent about a variance the language itself permits, which is the correct ou
 }
 ```
 
+
+## 2026-10-31 - architecture re-review (digest moved)
+
+The subject went stale on two mechanical commits since the 2026-09-10 record: the
+privacy fix that made the two process applications' style-guide paths repo-relative,
+and the `counterpart: external` front-matter line on the spec application. Neither
+changes a claim. I re-read all ten documents anyway and re-judged them.
+
+**Retraction of part of the 2026-09-10 keep.** That record graded
+`techniques/devanagari-and-numerals.md` keep and praised HI-NUKTA's normalization
+sentence. The sentence's parenthetical is wrong: it says "NFC keeps क़-class
+precomposed points". Unicode's `CompositionExclusions.txt` lists U+0958..U+095F (QA
+through YYA) as composition exclusions, so NFC *decomposes* them to base + U+093C and
+never recomposes them. The earlier 2026-09-10 `reverify` record had already named this
+counterexample; the later keep record overrode it without addressing it. The rule
+(normalize consistently, audit byte-level) stands; the parenthetical inverts which
+form NFC yields.
+
+**Closed: the gap the last record left open.** I fetched `grammaticalFeatures.xml`
+and `common/main/hi.xml` at `release-48-2`. `targets="nominal" locales="hi pa"`
+declares case `nominative oblique` and gender `masculine feminine`; `hi.xml` carries
+exactly 321 `case="oblique"` occurrences; and the `few` ordinal minimal pair reads
+`{0} दाहिना मोड़ लें.` with no suffix while one/two/many/other carry ला/रा/ठा/वां.
+The spec application's gender half and HI-PLURAL's "4था cannot be lifted from the
+data" are now checked, not assumed.
+
+One small golden-path clarify: "Devanagari is left-to-right; no bidi handling
+applies" is true of Hindi text and false of a Hindi string interpolating an Urdu or
+Arabic user value, which still needs bidi isolation.
+
+<!-- architecture-review:v1 -->
+```json
+{
+  "subject": "localization/hindi",
+  "date": "2026-10-31",
+  "baseline": "362ef003a",
+  "digest": "sha256-b2:9ab3a14eb6e46f28",
+  "disposition": "clarify",
+  "coverage": "All 10 owned documents read in full at current bytes; diff since the 2026-09-10 baseline is two mechanical commits (repo-relative paths, counterpart flag). CLDR release-48-2 grammaticalFeatures.xml and common/main/hi.xml fetched and read for the hi entries; Unicode CompositionExclusions.txt read; NFC behaviour of U+0958/U+095B/U+095E additionally checked with a standard-library Unicode normalizer. Not evaluated: the OS-vendor and browser-vendor Hindi style guides the register, danda and digit rules cite; the private product tree the two process applications cite (historical field records, not re-run); any rendering or shaping witness; maturity or verified_on refresh.",
+  "counterexamples": [
+    "U+0958 (QA) under NFC becomes U+0915 U+093C, so a pipeline that 'keeps precomposed points under NFC' does not exist; HI-NUKTA's parenthetical predicts the opposite of what a normalizer emits.",
+    "A Hindi string interpolating an Urdu user name ({name} ने टिप्पणी की) contains RTL text, so the golden path's 'no bidi handling applies' fails at the placeholder even though Devanagari itself is LTR.",
+    "HI-OBLIQUE treats proper names as safe because they do not visibly decline, but an -आ-final place or organisation name used as a common noun (कलकत्ता -> कलकत्ते में in colloquial usage) is the case the rule's quoting frame was built for and is offered only for {item}."
+  ],
+  "sources": [
+    {
+      "url": "https://www.unicode.org/Public/UCD/latest/ucd/CompositionExclusions.txt",
+      "result": "Lists '0958 # DEVANAGARI LETTER QA' through '095F # DEVANAGARI LETTER YYA' under the note 'Many precomposed characters using a nukta diacritic in the Devanagari ... script'. Refutes HI-NUKTA's 'NFC keeps ka-class precomposed points'; NFC yields base + U+093C."
+    },
+    {
+      "url": "https://raw.githubusercontent.com/unicode-org/cldr/release-48-2/common/supplemental/grammaticalFeatures.xml",
+      "result": "Line 92: '<grammaticalFeatures targets=\"nominal\" locales=\"hi pa\">' with '<grammaticalCase values=\"nominative oblique\"/>' and '<grammaticalGender values=\"masculine feminine\"/>'. Confirms the spec application's case/gender inventory and HI-PLURAL's case-axis sentence."
+    },
+    {
+      "url": "https://raw.githubusercontent.com/unicode-org/cldr/release-48-2/common/main/hi.xml",
+      "result": "582,873 bytes, matching the spec application's pin. 321 occurrences of case=\"oblique\". Lines 7833-7837: ordinalMinimalPairs few = '{0} दाहिना मोड़ लें.' (no suffix), many = '{0}ठा ...', one = '{0}ला ...', other = '{0}वां ...', two = '{0}रा ...'. Confirms the suffix-less few pair and the 4था finding."
+    }
+  ],
+  "documents": {
+    "hindi.md": {
+      "disposition": "clarify",
+      "reason": "Framing, Hinglish dial, zero/sub-1 plural rule and five-ordinal pointer are all correct. One change owed: 'Devanagari is left-to-right; no bidi handling applies' should say Hindi text needs no bidi reordering but interpolated user values (Urdu, Arabic names) still need bidi isolation."
+    },
+    "techniques/de-anglicization-constructions.md": {
+      "disposition": "keep",
+      "reason": "HI-SOV, HI-POSTPOS, HI-LIGHTVERB and HI-CALQUE are trigger-first with legitimate-use exceptions (right dislocation, compound postpositions as units, settled native verbs). Unchanged since the 2026-09-10 keep and the reasoning holds."
+    },
+    "techniques/devanagari-and-numerals.md": {
+      "disposition": "clarify",
+      "reason": "HI-NUKTA's parenthetical 'NFC keeps ka-class precomposed points; most pipelines emit base+combining' is inverted: U+0958..U+095F are composition exclusions, so NFC always yields base + U+093C. Rewrite to: 'NFC and NFD both yield base + U+093C for the eight nukta letters (they are composition exclusions); a precomposed form survives only in un-normalized input, so normalize before comparing'. Danda, conjunct, digit and nasal-mark rules keep."
+    },
+    "techniques/gender-and-agreement.md": {
+      "disposition": "keep",
+      "reason": "Re-verified today: the oblique case axis (grammaticalFeatures.xml hi pa) and the suffix-less few minimal pair in hi.xml both read exactly as the technique states, on top of the cardinal/ordinal checks of 2026-09-10. The proper-name counterexample is a boundary worth a reviewer's eye, not a defect in the rule as scoped."
+    },
+    "techniques/register-and-address.md": {
+      "disposition": "keep",
+      "reason": "HI-AAP's recorded-ruling exception, HI-TUM-TU's greppable token list, HI-HONPLUR's possessive-agrees-with-possessed rule and HI-IMPER's one-imperative-register-per-surface are each bounded and auditable. Vendor-guide citations not retrieved."
+    },
+    "techniques/terminology-and-loanwords.md": {
+      "disposition": "keep",
+      "reason": "Four term classes, corpus-first boundary rulings, transliterate-by-default because reversible, and the per-part-of-speech TERMSPLIT are sound and consistent with the golden path."
+    },
+    "techniques/ui-conventions-and-length.md": {
+      "disposition": "keep",
+      "reason": "Asymmetric length profile, an ordered trim ladder ending in a never-trim list, single-glyph ellipsis and one-quote-convention rules. The ±20% browser-vendor budget is attributed, not asserted."
+    },
+    "applications/process--devanagari-and-numerals.md": {
+      "disposition": "keep",
+      "reason": "Dated 2026-08-24 field record; the only change since review is the repo-relative style-guide path. Its settled-versus-drifting contrast and the cooked-ICU incident remain the useful lesson. Counts not re-run against the private tree."
+    },
+    "applications/process--terminology-and-loanwords.md": {
+      "disposition": "keep",
+      "reason": "Dated field record instantiating the four term classes with counts; only the path changed. Not re-run against the private tree."
+    },
+    "applications/spec--gender-and-agreement.md": {
+      "disposition": "keep",
+      "reason": "Every data claim is now checked: cardinal and ordinal rules (2026-09-10), and today grammaticalFeatures.xml, the 321 oblique patterns, the 582,873-byte hi.xml and the suffix-less few pair. The harness was not re-run. Its 'golden path is silent on ordinals' finding is historical; the golden path has since gained the ordinal paragraph."
+    }
+  }
+}
+```
+
+## 2026-10-31 - clarify items applied
+
+Both owed clarifies are made. The golden path now separates Hindi text (strong L, no reordering)
+from an interpolated RTL value (still isolated). HI-NUKTA now says what a normalizer actually
+emits for U+0958-U+095F, and is scoped to those eight letters because U+0929/U+0931/U+0934 are
+not exclusions. No other document changed.
+
+<!-- architecture-review:v1 -->
+```json
+{
+  "subject": "localization/hindi",
+  "date": "2026-10-31",
+  "baseline": "3f7e1dfbc",
+  "digest": "sha256-b2:64434173e617b525",
+  "disposition": "keep",
+  "coverage": "Clarify-apply pass over the two clarify items of the earlier 2026-10-31 record; only hindi.md and techniques/devanagari-and-numerals.md changed. Primary sources re-opened this run: Unicode CompositionExclusions.txt, DerivedBidiClass.txt and UAX #9 section 2.4; NFC/NFD of U+0958, U+095B, U+095E and U+0929 checked with a standard-library Unicode normalizer. The other eight documents were not re-read beyond confirming they are byte-unchanged; their dispositions carry forward. Not evaluated: vendor style guides, the private product tree, any rendering witness, maturity or verified_on refresh.",
+  "counterexamples": [
+    "U+0929, U+0931 and U+0934 (NNNA, RRA, LLLA) are precomposed nukta letters that are NOT composition exclusions, so NFC keeps them precomposed; the applied HI-NUKTA text is therefore scoped to the eight letters U+0958-U+095F, not to every nukta form.",
+    "A Hindi string interpolating an Urdu user name still needs bidi isolation at the placeholder; the golden path now says so, but a renderer that ignores isolate characters will still misorder neutrals around the value.",
+    "HI-OBLIQUE's proper-name boundary (an -आ-final name used as a common noun) remains a reviewer judgement, carried from the earlier record."
+  ],
+  "sources": [
+    {
+      "url": "https://www.unicode.org/Public/UCD/latest/ucd/CompositionExclusions.txt",
+      "result": "Re-read 2026-10-31: lists '0958 # DEVANAGARI LETTER QA' through '095F # DEVANAGARI LETTER YYA'. A normalizer gives U+0958 -> U+0915 U+093C, U+095B -> U+091C U+093C, U+095E -> U+092B U+093C under both NFC and NFD, while U+0929 stays precomposed under NFC. Supports the applied HI-NUKTA wording."
+    },
+    {
+      "url": "https://www.unicode.org/Public/UCD/latest/ucd/extracted/DerivedBidiClass.txt",
+      "result": "'0904..0939 ; L # Lo [54] DEVANAGARI LETTER SHORT A..DEVANAGARI LETTER HA': Devanagari letters are strong L, so Hindi text needs no reordering."
+    },
+    {
+      "url": "https://www.unicode.org/reports/tr9/",
+      "result": "Section 2.4 Explicit Directional Isolates: 'The following characters signal that a piece of text is to be treated as directionally isolated from its surroundings ... an isolate has the effect of a neutral like U+FFFC OBJECT REPLACEMENT CHARACTER'. Supports the applied golden-path sentence that an interpolated RTL value needs isolation."
+    }
+  ],
+  "documents": {
+    "hindi.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: 'Devanagari is left-to-right; no bidi handling applies' -> Hindi text needs no bidi reordering, but an interpolated user value (an Urdu or Arabic name) is still right-to-left and still needs bidi isolation at the placeholder. Rest of the golden path carried as kept."
+    },
+    "techniques/de-anglicization-constructions.md": {
+      "disposition": "keep",
+      "reason": "HI-SOV, HI-POSTPOS, HI-LIGHTVERB and HI-CALQUE are trigger-first with legitimate-use exceptions (right dislocation, compound postpositions as units, settled native verbs). Unchanged since the 2026-09-10 keep and the reasoning holds."
+    },
+    "techniques/devanagari-and-numerals.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: HI-NUKTA's inverted parenthetical ('NFC keeps ka-class precomposed points') replaced with: encode base + U+093C; NFC and NFD both yield that for the eight nukta letters U+0958-U+095F (composition exclusions); a precomposed form survives only in un-normalized input; normalize before comparing. Danda, conjunct, digit and nasal-mark rules unchanged."
+    },
+    "techniques/gender-and-agreement.md": {
+      "disposition": "keep",
+      "reason": "Re-verified today: the oblique case axis (grammaticalFeatures.xml hi pa) and the suffix-less few minimal pair in hi.xml both read exactly as the technique states, on top of the cardinal/ordinal checks of 2026-09-10. The proper-name counterexample is a boundary worth a reviewer's eye, not a defect in the rule as scoped."
+    },
+    "techniques/register-and-address.md": {
+      "disposition": "keep",
+      "reason": "HI-AAP's recorded-ruling exception, HI-TUM-TU's greppable token list, HI-HONPLUR's possessive-agrees-with-possessed rule and HI-IMPER's one-imperative-register-per-surface are each bounded and auditable. Vendor-guide citations not retrieved."
+    },
+    "techniques/terminology-and-loanwords.md": {
+      "disposition": "keep",
+      "reason": "Four term classes, corpus-first boundary rulings, transliterate-by-default because reversible, and the per-part-of-speech TERMSPLIT are sound and consistent with the golden path."
+    },
+    "techniques/ui-conventions-and-length.md": {
+      "disposition": "keep",
+      "reason": "Asymmetric length profile, an ordered trim ladder ending in a never-trim list, single-glyph ellipsis and one-quote-convention rules. The ±20% browser-vendor budget is attributed, not asserted."
+    },
+    "applications/process--devanagari-and-numerals.md": {
+      "disposition": "keep",
+      "reason": "Dated 2026-08-24 field record; the only change since review is the repo-relative style-guide path. Its settled-versus-drifting contrast and the cooked-ICU incident remain the useful lesson. Counts not re-run against the private tree."
+    },
+    "applications/process--terminology-and-loanwords.md": {
+      "disposition": "keep",
+      "reason": "Dated field record instantiating the four term classes with counts; only the path changed. Not re-run against the private tree."
+    },
+    "applications/spec--gender-and-agreement.md": {
+      "disposition": "keep",
+      "reason": "Every data claim is now checked: cardinal and ordinal rules (2026-09-10), and today grammaticalFeatures.xml, the 321 oblique patterns, the 582,873-byte hi.xml and the suffix-less few pair. The harness was not re-run. Its 'golden path is silent on ordinals' finding is historical; the golden path has since gained the ordinal paragraph."
+    }
+  }
+}
+```

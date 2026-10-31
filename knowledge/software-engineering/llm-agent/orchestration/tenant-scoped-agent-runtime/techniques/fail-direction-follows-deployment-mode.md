@@ -27,8 +27,12 @@ holds that configuration's credentials — injected by a service manager, by
 a secret-manager wrapper that execs the process with values in place, or by
 a plain shell export. Here the scope is an **overlay**: a name found in the
 scope wins, and a name absent from it falls through to the process, because
-there is no second tenant whose value could be borrowed. There is nothing
-to leak from, so the strict rule buys nothing and costs everything.
+there is no second tenant whose value could be borrowed. There is no other
+tenant to leak to, so the strict rule is not required — though a
+single-tenant deployment that chooses strict scoping anyway, with every
+credential in its configuration, is valid and simply pays the migration
+cost up front. The section on destinations below names the one leak the
+overlay still has.
 
 **Isolation on.** Several configurations share the process, and the process
 environment may hold any of their values. Here the scope is
@@ -70,13 +74,17 @@ whether the credentials are configured. Nothing in the failure points at
 scoping, because the credential is present, spelled correctly, and works
 when a human tries it.
 
-That signature is worth recognising on sight: *background fails
-authentication, foreground does not* is a scope that swallowed the process
-environment in a deployment that had nothing to hide from.
+That signature is worth recognising as a **clue**, not a diagnosis:
+*background fails authentication, foreground does not* is what a scope that
+swallowed the process environment looks like, and it is the first thing to
+check. It is not a unique cause — a scheduler running as a different user,
+with a different environment file, or before a secret wrapper has injected
+anything produces the same split — so confirm it by reading what the
+resolver returned inside the scheduled block before changing anything.
 
 ## The overlay falls through per destination, not per name
 
-"There is nothing to leak from" holds for the overlay only while the scope
+"There is no other tenant to leak to" holds for the overlay only while the scope
 names credentials and nothing else. When the scope can also name **where the
 call goes** — an endpoint, a base address, a provider host — a miss on the
 credential is no longer harmless, even with one tenant. The process
@@ -110,6 +118,28 @@ A resolver that never lets the caller name a destination — the base
 address is derived inside the door from the credential's own record, as in
 [brokered egress](../../../../security/identity-and-access/credential-vault/techniques/brokered-egress.md)
 — has no such case to handle. This section is for the resolver that does.
+
+## Host authority is a declared class, and the mode is never inferred
+
+Two things the resolver depends on must be declared rather than guessed.
+
+**The deployment mode.** An undeclared mode is not isolation-off. A process
+that admits work from more than one caller — any authenticated bearer, any
+routed connector — without saying which mode it runs in has the overlay's
+fall-through and none of its premise. The safe default is the
+authoritative rule, and a startup that finds several callers admitted
+under the overlay refuses to start, or says so in its status surface,
+rather than serving.
+
+**Which reads belong to the host.** Every name the resolver can be asked
+for falls into one of two classes: **host authority** — the machine and
+the process, read from the process under every mode — or **tenant
+authority**, read through the scope. Membership is written, not inferred
+from where the value happens to live, and nothing defaults into the host
+class: an unclassified name is tenant material. Process-level work runs as
+the host, which resolves only host names; it never borrows a tenant's
+credential, including the default tenant's. The allowlist below is that
+class written down.
 
 ## The allowlist is tight, and widening it is never the fix
 
@@ -168,8 +198,13 @@ report. Where a fallback is legitimate, it records that it fired and why.
 ## Decision rules
 
 - Derive the fail direction from the deployment mode, held as a
-  process-level flag set once at startup. It describes the deployment, not
-  the unit of work, so it is not itself a scoped value.
+  process-level flag declared once at startup. It describes the deployment,
+  not the unit of work, so it is not itself a scoped value. An undeclared
+  mode with more than one caller admitted resolves as isolation on, never
+  as the overlay.
+- Classify every resolvable name as host authority or tenant authority in
+  writing; an unclassified name is tenant material, and process-level work
+  resolves only host names.
 - Isolation off: the scope is an overlay; a miss falls through to the
   process — but only toward the destination the process credential was
   issued for. A scope that names its own destination and no credential gets
@@ -186,6 +221,8 @@ report. Where a fallback is legitimate, it records that it fired and why.
   allowlist.
 - Do not let a broad exception handler downgrade the fail-closed signal into
   a silent fallback; a fallback that fires says so.
+- Treat "background fails, foreground works" as a clue to check the scope
+  first, and confirm it from the resolver's own output before acting.
 
 ## When not to use it
 

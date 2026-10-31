@@ -178,8 +178,9 @@ cannot reconcile.
 
 The working model is that each reference plays a **declared role** — one supplies form,
 another colour, another surface, exactly one supplies identity — and that the order they are
-assembled in matters, because later references are read as refinements of earlier ones and
-the last to speak on a property wins. Colour and material must be split: a single image asked
+assembled in matters, because later references tend to be read as refinements of earlier
+ones and the last to speak on a property tends to win. That is a behaviour of the
+generators this was observed on, not a law of every provider. Colour and material must be split: a single image asked
 to do both teaches the reconstruction that a highlight is a colour. See
 [reference-role-tagging](./techniques/reference-role-tagging.md) for the role set and the
 assembly discipline.

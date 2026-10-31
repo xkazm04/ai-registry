@@ -45,8 +45,8 @@ The four load-bearing facts, in the order they bite:
 3. **Numbers demand counters, and CLDR gives Korean one plural category.**
    A bare number cannot modify a noun; a counter word (개, 명, 건, 회…)
    mediates. Meanwhile the CLDR plural rules for Korean define only `other`,
-   for both cardinals and ordinals — so a message-format plural block with
-   `one`/`other` branches is dead weight at best and a source defect at worst,
+   for both cardinals and ordinals — so a `one` branch in a message-format
+   plural block is inert noise; collapse it, but it is not a defect,
    and grammatical number is simply not where Korean encodes quantity
    (see counting-and-quantity).
 4. **The lexicon is triple-layered.** Native Korean, Sino-Korean (한자어), and

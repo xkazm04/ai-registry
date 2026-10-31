@@ -29,7 +29,10 @@ at ingest, because downstream code cannot recover them:
 - **The end-of-day convention.** A major clearinghouse's documented
   convention is that applications close at 23:59 in the publisher's home
   timezone on the stated date. Stamp that time and that timezone onto every
-  row at normalization. Leaving it implicit makes the deadline float with
+  row at normalization, as a recorded source default: where the
+  opportunity's own notice states a closing time or a later operative
+  deadline, the notice wins, because the clearinghouse convention is the
+  latest the system accepts, not what each funder grants. Leaving it implicit makes the deadline float with
   the *reader's* timezone — an applicant west of the publisher sees hours
   they do not have, one east sees a deadline already passed while it is
   still open.
@@ -91,7 +94,9 @@ where the source lets you tell them apart.
 
 - When a source documents an end-of-day convention, encode it as explicit
   time + timezone at ingest; when it documents nothing, use the
-  publisher's home-timezone end-of-day and record that assumption.
+  publisher's home-timezone end-of-day and record that assumption. Either
+  way the stamp is a default: a time stated by the record or its notice
+  overrides it.
 - When a record carries multiple deadlines, store the next upcoming one and
   recompute per ingest; never the first, never only the last.
 - When a date fails validation, store null and keep the raw string in the

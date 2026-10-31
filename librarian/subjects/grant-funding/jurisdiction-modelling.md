@@ -201,3 +201,156 @@ consumer, so the stack count stays where it was. This run applied the next techn
 - Open, not this technique's rule: a member's per-market count of inherited calls, and
   programme association for a non-member (the UK and Horizon-family programmes). The
   architecture review's second counterexample still stands.
+
+## Architecture re-review - 2026-10-31
+
+Stale since four applications landed (compliance-document-taxonomy, eligibility-regime-detection,
+entity-type-code-mapping, supranational-membership-inheritance) and two techniques gained one
+rule each. Read all thirteen documents.
+
+The reverify owed on `node--jurisdiction-profile-schema` now has its evidence. The
+Grants.gov XML-extract help page lists the numeric EligibleApplicants table: "00 = State
+governments", "01 = County governments", "02 = City or township governments", "04 =
+Special district governments", "05 = Independent school districts", "25 = Others ...", "99
+= Unrestricted". So the profile's codes "00"-"99" are the funder-side opportunity-eligibility
+enumeration and not the applicant's SF-424 type. The application's municipality example
+(`["00","01","02","04","25","99"]`) lets a municipality match opportunities restricted to
+state or county governments. The document should name the enumeration and state that
+breadth. Whether the breadth is intended cannot be settled without the repository.
+
+The eligibility-regime clarify (two-valued predicate over a three-valued reality) is still
+owed. I am narrowing the 2026-09-10 prescription. A shape predicate cannot add an
+"undetermined" state, because a half-written code-regime profile and a genuine legal-form
+profile have the same shape. The guard belongs to the declaration both documents already
+carry, `supported`. The 2026-10-14 application adds a second item for the same technique:
+"audit every consumer" should include consumers that re-derive part of the predicate,
+pinned by a registry-wide equality test.
+
+A new inconsistency between applications: `node--market-claim-truthfulness` (verified
+2026-08-19) cites `level: "supranational"` in the EU profile and a countries-only list as
+present, while `node--supranational-membership-inheritance` (2026-10-22) reports that the
+default branch typed the EU as a country until that run's commit. The intake note already
+flagged this. The repository is needed to settle which branch the earlier record read.
+
+<!-- architecture-review:v1 -->
+```json
+{
+  "subject": "grant-funding/jurisdiction-modelling",
+  "date": "2026-10-31",
+  "baseline": "c283f0c50",
+  "digest": "sha256-b2:050abc894f0eedeb",
+  "disposition": "clarify",
+  "coverage": "All 13 documents read in full; the federal numeric eligibility table read at the publisher's page; applications cross-read against each other. Not evaluated: the private grant repository (all code citations and measurements are dated records); no national register's legal content verified; no verified_on or maturity change.",
+  "counterexamples": [
+    "A half-written code-regime profile (entity types entered, codes not yet transcribed) has the legal-form shape; only a declaration, not the shape, can keep it off the live gate.",
+    "A consumer that re-derives half the regime predicate agrees with the shared one on every real profile and diverges on a codeless, entity-type-less profile (measured 2026-10-14).",
+    "A municipality carrying federal code 00 (State governments) matches an opportunity restricted to states.",
+    "A UK entity eligible for some EU programmes as an associated country: memberOf cannot say 'this programme family, not that one'."
+  ],
+  "sources": [
+    {"url": "https://grants.gov/help/xml-extract/", "result": "EligibleApplicants numeric table: 00 State governments, 01 County governments, 02 City or township governments, 04 Special district governments, 05 Independent school districts, 25 Others, 99 Unrestricted. Confirms the profile's numeric table is the funder-side opportunity-eligibility enumeration and resolves the '00' reverify."},
+    {"url": "https://www.grants.gov/applicants/applicant-eligibility", "result": "Carried from 2026-09-10 (SF-424 letter taxonomy A-W); not re-fetched."}
+  ],
+  "documents": {
+    "jurisdiction-modelling.md": {"disposition": "keep", "reason": "Ownership test, level enum, structural regime split and registry-silence posture remain correct and consistent with the techniques."},
+    "techniques/compliance-document-taxonomy.md": {"disposition": "keep", "reason": "Gained normalize-the-upload-name, directly witnessed by its 6-of-6 to 0-of-6 application."},
+    "techniques/eligibility-regime-detection.md": {"disposition": "clarify", "reason": "Still owed, narrowed: a shape cannot express 'codes not yet transcribed', so a profile's regime must be confirmed before it is supported, and an unconfirmed profile routes to the unsupported surface. Also add from the 2026-10-14 application: audit consumers that re-derive part of the predicate and pin with a registry-wide equality test."},
+    "techniques/entity-type-code-mapping.md": {"disposition": "keep", "reason": "Unchanged; its key-the-map-by-registry rule is now field-witnessed (8 to 13 of 13)."},
+    "techniques/jurisdiction-profile-schema.md": {"disposition": "keep", "reason": "Unchanged; inventory and procedure stand."},
+    "techniques/market-claim-truthfulness.md": {"disposition": "keep", "reason": "Unchanged; derivation and the supported bar stand."},
+    "techniques/supranational-membership-inheritance.md": {"disposition": "keep", "reason": "Gained the exhaustive-dispatch retrofit rule, witnessed by the research-scoping fall-through."},
+    "applications/node--compliance-document-taxonomy.md": {"disposition": "keep", "reason": "Paired proof with a falsifiable seam and stated limits (one diacritic language, needles untouched)."},
+    "applications/node--eligibility-regime-detection.md": {"disposition": "keep", "reason": "Honest that it is a drift pin on a latent divergence; its upward lesson is owed to the technique."},
+    "applications/node--entity-type-code-mapping.md": {"disposition": "keep", "reason": "13-case paired instrument; states that no production applicant was misclassified."},
+    "applications/node--jurisdiction-profile-schema.md": {"disposition": "clarify", "reason": "Reverify resolved by the publisher's table: name the numeric codes as the funder-side opportunity-eligibility enumeration (not SF-424), and record that the municipality set includes 00 and 01 (state, county). Code citations not re-checked."},
+    "applications/node--market-claim-truthfulness.md": {"disposition": "reverify", "reason": "Cites the supranational level and countries-only list as present at 2026-08-19, while the 2026-10-22 application reports the default branch typed the EU as a country until then. Needs the repository to resolve which branch was read."},
+    "applications/node--supranational-membership-inheritance.md": {"disposition": "keep", "reason": "Paired proof (4 to 3 countries) with the floor stated and the open seams (per-member counts, programme association) named."}
+  }
+}
+```
+
+### 2026-10-31 - after applying
+
+Applied both clarify items. The market-claim application stays `reverify`: it needs the repository, not a web source. The record below is against the edited bytes.
+
+<!-- architecture-review:v1 -->
+```json
+{
+  "subject": "grant-funding/jurisdiction-modelling",
+  "date": "2026-10-31",
+  "baseline": "c283f0c50",
+  "digest": "sha256-b2:d336408f3817c213",
+  "disposition": "reverify",
+  "coverage": "All 13 documents read in full; the federal numeric eligibility table read at the publisher's page; applications cross-read against each other. Not evaluated: the private grant repository (all code citations and measurements are dated records); no national register's legal content verified; no verified_on or maturity change. Phase B applied two clarifies; one reverify left owed.",
+  "counterexamples": [
+    "A half-written code-regime profile (entity types entered, codes not yet transcribed) has the legal-form shape; only a declaration, not the shape, can keep it off the live gate.",
+    "A consumer that re-derives half the regime predicate agrees with the shared one on every real profile and diverges on a codeless, entity-type-less profile (measured 2026-10-14).",
+    "A municipality carrying federal code 00 (State governments) matches an opportunity restricted to states.",
+    "A UK entity eligible for some EU programmes as an associated country: memberOf cannot say 'this programme family, not that one'."
+  ],
+  "sources": [
+    {
+      "url": "https://grants.gov/help/xml-extract/",
+      "result": "EligibleApplicants numeric table: 00 State governments, 01 County governments, 02 City or township governments, 04 Special district governments, 05 Independent school districts, 25 Others, 99 Unrestricted. Confirms the profile's numeric table is the funder-side opportunity-eligibility enumeration and resolves the '00' reverify."
+    },
+    {
+      "url": "https://www.grants.gov/applicants/applicant-eligibility",
+      "result": "Carried from 2026-09-10 (SF-424 letter taxonomy A-W); not re-fetched."
+    }
+  ],
+  "documents": {
+    "jurisdiction-modelling.md": {
+      "disposition": "keep",
+      "reason": "Ownership test, level enum, structural regime split and registry-silence posture remain correct and consistent with the techniques."
+    },
+    "techniques/compliance-document-taxonomy.md": {
+      "disposition": "keep",
+      "reason": "Gained normalize-the-upload-name, directly witnessed by its 6-of-6 to 0-of-6 application."
+    },
+    "techniques/eligibility-regime-detection.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: names the shape's blind spot (no codes vs codes not yet transcribed) and puts the guard on the supported declaration; procedure step 2 now audits partial re-derivations, pinned by a registry-wide equality test."
+    },
+    "techniques/entity-type-code-mapping.md": {
+      "disposition": "keep",
+      "reason": "Unchanged; its key-the-map-by-registry rule is now field-witnessed (8 to 13 of 13)."
+    },
+    "techniques/jurisdiction-profile-schema.md": {
+      "disposition": "keep",
+      "reason": "Unchanged; inventory and procedure stand."
+    },
+    "techniques/market-claim-truthfulness.md": {
+      "disposition": "keep",
+      "reason": "Unchanged; derivation and the supported bar stand."
+    },
+    "techniques/supranational-membership-inheritance.md": {
+      "disposition": "keep",
+      "reason": "Gained the exhaustive-dispatch retrofit rule, witnessed by the research-scoping fall-through."
+    },
+    "applications/node--compliance-document-taxonomy.md": {
+      "disposition": "keep",
+      "reason": "Paired proof with a falsifiable seam and stated limits (one diacritic language, needles untouched)."
+    },
+    "applications/node--eligibility-regime-detection.md": {
+      "disposition": "keep",
+      "reason": "Honest that it is a drift pin on a latent divergence; its upward lesson is owed to the technique."
+    },
+    "applications/node--entity-type-code-mapping.md": {
+      "disposition": "keep",
+      "reason": "13-case paired instrument; states that no production applicant was misclassified."
+    },
+    "applications/node--jurisdiction-profile-schema.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: names the numeric table as the clearinghouse's funder-side opportunity-eligibility enumeration (not the lettered applicant types) and records that the municipality set's 00 and 01 are state and county governments per the publisher's table; code citations and verified_on unchanged."
+    },
+    "applications/node--market-claim-truthfulness.md": {
+      "disposition": "reverify",
+      "reason": "Cites the supranational level and countries-only list as present at 2026-08-19, while the 2026-10-22 application reports the default branch typed the EU as a country until then. Needs the repository to resolve which branch was read."
+    },
+    "applications/node--supranational-membership-inheritance.md": {
+      "disposition": "keep",
+      "reason": "Paired proof (4 to 3 countries) with the floor stated and the open seams (per-member counts, programme association) named."
+    }
+  }
+}
+```

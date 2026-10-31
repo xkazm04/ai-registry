@@ -46,7 +46,10 @@ legal-form regime's prose names forms, not categories.
 district applies under `["05","25","99"]`, a municipality under
 `["00","01","02","04","25","99"]`, a university under `["06","20","25","99"]`
 — with `"25"` (Others) and `"99"` (Unrestricted) appended to every type so
-open opportunities pass for everyone. The comment states the product point:
+open opportunities pass for everyone. Grants.gov defines 25 as "Others (see
+text field entitled 'Additional Information on Eligibility' for
+clarification)", so appending it everywhere passes every entity type on an
+audience the code defers to text the mapping discards. The comment states the product point:
 segments beyond nonprofits are *"first-class here so the largest market stops
 bouncing them."* Note `501c6` at `us.ts:45`: `grantEligible: false` — a
 recognized legal form that is modeled, labeled, and still gated out.

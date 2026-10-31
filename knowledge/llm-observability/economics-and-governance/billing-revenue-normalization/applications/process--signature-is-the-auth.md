@@ -22,7 +22,9 @@ the **Standard Webhooks specification** (standard-webhooks.org), steered by
 a committee drawn from Zapier, Twilio, Mux, ngrok, Supabase, Svix, and
 Kong. Its shape confirms the technique element by element — HMAC-SHA256,
 signature transmitted in a header (`webhook-signature`) beside a timestamp
-(`webhook-timestamp`), a recommended replay tolerance of **300 seconds**,
+(`webhook-timestamp`), a replay tolerance (the specification requires one
+but names no value; its JavaScript reference library and Stripe's Node library ship **300
+seconds**),
 verification over raw bytes, constant-time compare — and adds two things
 the technique has absorbed as sharpenings:
 

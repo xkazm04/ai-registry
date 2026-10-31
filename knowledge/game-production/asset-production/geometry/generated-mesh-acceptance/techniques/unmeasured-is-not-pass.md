@@ -60,7 +60,10 @@ the reader's head gets dropped in the next refactor.
    compliant value.
 3. **Make the fallback path conservative, not silent.** When the better measurement is
    unavailable, apply the older, blunter rule unchanged and say which rule was applied. A
-   missing input must never become a loosening.
+   missing input must never become a loosening. Unchanged is not the same as harsher: seven
+   components pass a part budget of 8 under the blunt count even when six are specks that
+   the histogram rule would fail against a speck tolerance of 4. Naming the rule that ran is
+   what tells the reader the debris check did not.
 4. **Resolve partial measurements toward the harsher verdict.** Where data is truncated and
    you cannot tell which side an omitted item falls on, count it on the side that makes the
    verdict worse, and check every branch against the property that *neither branch can

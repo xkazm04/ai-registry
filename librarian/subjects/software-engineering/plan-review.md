@@ -155,3 +155,173 @@ policy, empirical scope and unverified runtime effects explicit.
   }
 }
 ```
+
+## Architecture review - 2026-10-31
+
+Re-review against `140c101d`. Every clarify the 2026-09-09 record named landed. The
+subject is stale because of those edits plus two new applications, both soundly
+scoped. What remains is vocabulary drift left by the rewrite. 'Ladder' and 'rung'
+still carry a cost-ordered dominance in the golden path, the self-challenge
+technique and two process applications. The golden-path summary of
+informational-fold-in still states the retired durability rule. No verification
+date was refreshed.
+
+<!-- architecture-review:v1 -->
+```json
+{
+  "subject": "software-engineering/plan-review",
+  "date": "2026-10-31",
+  "baseline": "140c101d",
+  "digest": "sha256-b2:c9a78a4c9faf0799",
+  "disposition": "clarify",
+  "coverage": "All 10 current documents decided. The eight carried from the 2026-09-09 record (baseline bc1bd8aa) were checked by full diff, and every clarify that record named is present in the text. The two applications added since were read in full. The changed sections of fresh-posture-self-challenge and informational-fold-in were read in context, and a grep for the 'ladder' and 'rung' vocabulary was run across the subject. Relative links resolve. No primary source was re-fetched, because no new external claim entered; the 2026-09-09 sources still cover the cited studies. No private tree was reopened.",
+  "counterexamples": [
+    "A subject can declare 'not a universal cost-ordered ladder' and still route escalation through 'rung two to rung three' and 'the wrong rung for the artifact whose approval matters most'. The dominance claim survives in the vocabulary after leaving the argument.",
+    "A golden-path summary can still say 'durability tracking confidence' after its technique has replaced that rule with 'retention preserves uncertainty; confidence alone does not determine it'.",
+    "A record with three stored states (not run, ran with notes, ran and found nothing) has no 'fourth value'. Naming one invites a reader to look for a state that does not exist.",
+    "A forecast computed for one item and shown on a per-item surface is unavailable for every other item, and silence there reads as completeness (from the react application)."
+  ],
+  "sources": [
+    {
+      "source": "git diff bc1bd8aa..140c101d over the subject directory",
+      "result": "Confirmed that the 2026-09-09 clarifies landed: the scoped human gate, the removed concordance and separation claims, the classification policy, proportional slicing rationale, the quotable-or-requirement evidence rule, premise objections after plan time, the configured cap with no floor, typed estimate retention, and the queue-versus-execute and write-versus-commit corrections in both process applications."
+    },
+    {
+      "source": "grep for 'ladder' and 'rung' across the subject",
+      "result": "Residual cost-ordered vocabulary appears at plan-review.md:116 and :263-264; fresh-posture-self-challenge.md:103, :113, :144-145 and :157; process--fresh-posture-self-challenge.md:18; and process--objection-before-artifacts.md:34."
+    },
+    {
+      "url": "https://aclanthology.org/2024.findings-acl.826/",
+      "result": "Relied on as recorded 2026-09-09. The technique now cites it with that scope."
+    },
+    {
+      "url": "https://arxiv.org/html/2601.04790v1",
+      "result": "Relied on as recorded 2026-09-09. The technique now scopes it to preference judgments, as that record asked."
+    }
+  ],
+  "documents": {
+    "plan-review.md": {
+      "disposition": "clarify",
+      "reason": "Prior clarifies applied. Residual drift: the heading 'Two readers are less independent than the ladder implies' and the technique-list entry ('the cheap rung', 'the escalation ladder') re-assert the ordering line 107 disowns; rename to modes. The informational-fold-in entry still says 'durability tracking confidence'; replace it with 'retention preserving uncertainty'. The objection entry's 'the hard gate' should read 'the blocking gate where adopted'."
+    },
+    "techniques/decision-sized-slicing.md": {
+      "disposition": "keep",
+      "reason": "The observable-acceptance filter and proportional rationale landed. The guidance is consistent."
+    },
+    "techniques/fresh-posture-self-challenge.md": {
+      "disposition": "clarify",
+      "reason": "The study-scoping and sentinel clarifies landed. Still owed: (1) 'the same fourth value' contradicts 'keep three distinguishable states'; say empty, absent or malformed all map to the 'not run' state. (2) 'The escalation ladder', 'rung two to rung three', 'the wrong rung for the artifact whose approval matters most' and 'why the ladder has a third rung' keep a cost-ordered dominance the rewritten list disowns. Rename to modes, and state the move to a separate reader as a trigger-driven choice."
+    },
+    "techniques/informational-fold-in.md": {
+      "disposition": "keep",
+      "reason": "Typed retention and an estimate/actual discriminator replaced the deletion and colocation absolutes. The new item-scope rule for 'unavailable' is grounded in its application."
+    },
+    "techniques/objection-before-artifacts.md": {
+      "disposition": "keep",
+      "reason": "Evidence admissibility, retained late premise objections and the adopted-policy gate all landed. Consistent."
+    },
+    "techniques/silent-decision-surfacing.md": {
+      "disposition": "keep",
+      "reason": "A configured cap with no required minimum and a materiality condition replaced the five-story floor."
+    },
+    "applications/process--decision-sized-slicing.md": {
+      "disposition": "reverify",
+      "reason": "The queue-versus-execute interpretation is corrected, and it says historical counts are not new runtime evidence. Not re-run."
+    },
+    "applications/process--fresh-posture-self-challenge.md": {
+      "disposition": "clarify",
+      "reason": "Rename 'rung two of the challenge ladder' to the same-context role-switch mode. Its 'better' verdict covers only stored-state distinguishability (a target it states), and the private tree and its 97-test floor were not re-run."
+    },
+    "applications/process--objection-before-artifacts.md": {
+      "disposition": "clarify",
+      "reason": "The read-only and human-verdict corrections landed. Rename 'rung one of the challenge ladder' to the one-context self-review mode. Its historical installation evidence is not re-verified."
+    },
+    "applications/react--informational-fold-in.md": {
+      "disposition": "reverify",
+      "reason": "Honestly scoped: unmeasurable, structural-only, no render ran, fix filed rather than shipped. The private tree at 63a1703a4e was not reopened."
+    }
+  }
+}
+```
+
+## Clarify applied - 2026-10-31
+
+Applied the four vocabulary clarifies the 2026-10-31 review named, against `19cb20182`.
+'Ladder' and 'rung' are gone from the golden path, the self-challenge technique and both
+process applications; the three review modes are named as modes and the move to a
+separate reader is stated as a trigger-driven choice. The remaining 'ladder' at
+plan-review.md:107 is the sentence that disowns the cost-ordered ladder, and the one in
+informational-fold-in names a different system's severity ladder; both stay. Vocabulary
+only, so no primary source was re-fetched. No verification date was refreshed.
+
+<!-- architecture-review:v1 -->
+```json
+{
+  "subject": "software-engineering/plan-review",
+  "date": "2026-10-31",
+  "baseline": "19cb20182",
+  "digest": "sha256-b2:9669031f932606bb",
+  "disposition": "reverify",
+  "coverage": "All 10 documents keyed. The four documents carrying clarify items were re-read in their affected sections and edited; the other six are carried from the 2026-10-31 review unchanged (their bytes were not touched). A grep for 'ladder' and 'rung' across the subject after editing leaves only the disowning sentence at plan-review.md:107 and an unrelated 'severity ladder' in informational-fold-in. No private tree reopened, no model run.",
+  "counterexamples": [
+    "A subject that disowns a cost-ordered ladder in its argument and keeps 'rung two to rung three' in its headings still teaches the ladder; renaming to modes is what removes it.",
+    "A record with three stored states has no 'fourth value'; mapping empty, absent and malformed to 'not run' says the same thing without inventing a state."
+  ],
+  "sources": [
+    {
+      "source": "The 2026-10-31 architecture-review record's documents map for this subject",
+      "result": "Named the exact renames applied here; each was a vocabulary change with no new external claim, so no primary source was re-fetched."
+    },
+    {
+      "source": "grep for 'ladder' and 'rung' across the subject after the edits",
+      "result": "Residuals: plan-review.md:107 ('not a universal cost-ordered ladder', the disowning sentence) and informational-fold-in.md:88 (another system's severity ladder). Neither carries the cost-ordered dominance."
+    },
+    {
+      "url": "https://arxiv.org/html/2601.04790v1",
+      "result": "Relied on as recorded 2026-09-09; the technique's scoping to preference judgments is unchanged."
+    }
+  ],
+  "documents": {
+    "plan-review.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: heading 'Two readers are less independent than the ladder implies' -> '... than separation implies'; the self-challenge list entry 'the cheap rung ... the escalation ladder' -> 'the fresh-posture mode ... the three review modes with the observable trigger for choosing a separate reader'; the informational-fold-in entry 'durability tracking confidence' -> 'retention preserving uncertainty'; the objection entry 'the hard gate' -> 'the blocking gate where adopted'."
+    },
+    "techniques/decision-sized-slicing.md": {
+      "disposition": "keep",
+      "reason": "The observable-acceptance filter and proportional rationale landed. The guidance is consistent."
+    },
+    "techniques/fresh-posture-self-challenge.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: 'the same fourth value: did not run' -> empty, absent or malformed all map to the 'not run' state; heading 'The escalation ladder, with its trigger' -> 'Three review modes, and the trigger for a separate reader', with 'None dominates the others by cost' and the move to two-agent dispatch stated as a trigger-driven choice; 'the wrong rung' -> 'the wrong mode'; 'why the ladder has a third rung ... a team on rung two' -> 'why two-agent dispatch remains an available mode ... a team using the fresh-posture mode'."
+    },
+    "techniques/informational-fold-in.md": {
+      "disposition": "keep",
+      "reason": "Typed retention and an estimate/actual discriminator replaced the deletion and colocation absolutes. The new item-scope rule for 'unavailable' is grounded in its application."
+    },
+    "techniques/objection-before-artifacts.md": {
+      "disposition": "keep",
+      "reason": "Evidence admissibility, retained late premise objections and the adopted-policy gate all landed. Consistent."
+    },
+    "techniques/silent-decision-surfacing.md": {
+      "disposition": "keep",
+      "reason": "A configured cap with no required minimum and a materiality condition replaced the five-story floor."
+    },
+    "applications/process--decision-sized-slicing.md": {
+      "disposition": "reverify",
+      "reason": "The queue-versus-execute interpretation is corrected, and it says historical counts are not new runtime evidence. Not re-run."
+    },
+    "applications/process--fresh-posture-self-challenge.md": {
+      "disposition": "reverify",
+      "reason": "applied 2026-10-31: 'rung two of the challenge ladder' -> 'the fresh-posture (same-context role-switch) mode'. Still reverify: its 'better' verdict covers only stored-state distinguishability, and the private tree and its 97-test floor were not re-run."
+    },
+    "applications/process--objection-before-artifacts.md": {
+      "disposition": "reverify",
+      "reason": "applied 2026-10-31: 'rung one of the challenge ladder' -> 'the one-context self-review mode'. Still reverify: its historical installation evidence is not re-verified."
+    },
+    "applications/react--informational-fold-in.md": {
+      "disposition": "reverify",
+      "reason": "Honestly scoped: unmeasurable, structural-only, no render ran, fix filed rather than shipped. The private tree at 63a1703a4e was not reopened."
+    }
+  }
+}
+```

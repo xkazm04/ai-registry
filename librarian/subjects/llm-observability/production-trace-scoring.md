@@ -263,3 +263,94 @@ this design, and I did not test collision behavior.
   }
 }
 ```
+
+## 2026-10-31 - architecture re-review (stale digest)
+
+The 2026-09-10 record went stale on one metadata line. Commit `8e7b9394` changed `applications/node--stable-hash-sampling.md` from `verified_against: node@24` to `counterpart: external`, which is correct for a reading of Langfuse. Between `44c8996` and `140c101d` there is no other byte change in the subject. I re-read the golden path, `error-analysis-first-taxonomy` and the Langfuse application in full. I confirmed the rest by diff. All three 2026-09-10 clarify findings are still unlanded:
+
+- The golden path words membership as "the 1-in-N bucket" (line 70, and again in its technique list).
+- The Langfuse application still says, in the present tense, "The technique writes the mechanism as 'hash mod N equals zero'".
+- `error-analysis-first-taxonomy` still has the expert's critiques serve as the judge's worked examples while the same labeled traces become the golden set it is calibrated against. There is no held-out split.
+
+**One external anchor re-read at its pin.** `worker/src/features/evaluation/deterministicSampling.ts` at Langfuse `3c3ca18` reads exactly as the application says:
+
+- SHA-256 over the domain `"langfuse:evaluation-sampling:v1\0"` plus the target id.
+- The top 53 bits divided by `2 ** 53`.
+- `samplingRate >= 1` returns true and `samplingRate <= 0` returns false.
+- Otherwise the function returns `samplingValue < samplingRate`.
+
+So the threshold form the technique adopted is the one the tree ships, and the application's evidence base stands.
+
+<!-- architecture-review:v1 -->
+```json
+{
+  "subject": "llm-observability/production-trace-scoring",
+  "date": "2026-10-31",
+  "baseline": "140c101d",
+  "digest": "sha256-b2:95adbc351991715b",
+  "disposition": "clarify",
+  "coverage": "All 11 documents covered. The golden path, error-analysis-first-taxonomy and node--stable-hash-sampling were re-read in full. The other 8 were confirmed byte-identical to the 2026-09-10 full reading by git diff 44c8996..140c101d (the only change in the subject is one frontmatter line). Langfuse deterministicSampling.ts was fetched at the pinned commit and compared. Not evaluated: the Langfuse nesting and quantization harnesses, the LightTrack tree and its tests, live judge behaviour, and any verified_on or refresh_by change.",
+  "counterexamples": [
+    "A principal expert's critique of trace T is a worked example in the judge contract, and T is also in the golden set the judge is calibrated against. Agreement measured on T is agreement with the judge's own supervision.",
+    "An operator raises the sampling rate following the golden path's '1-in-N bucket' wording and implements residues. Mod-20 is not inside mod-3, the population is redrawn, and verdicts already paid for fall out of the sample.",
+    "Two scorers select the same unscored page between the anti-join and either write. Both pay the judge, and the uniqueness constraint saves the record, not the money.",
+    "A trace that never goes quiet is judged at the maximum-age ceiling mid-life, so the verdict describes a fraction of a session that later arrivals classify as grown."
+  ],
+  "sources": [
+    {
+      "url": "https://raw.githubusercontent.com/langfuse/langfuse/3c3ca18eed76b164b418776d8d93cc1590e1d65b/worker/src/features/evaluation/deterministicSampling.ts",
+      "result": "Fetched at the application's pin. Quoted: 'const SAMPLING_DOMAIN = \"langfuse:evaluation-sampling:v1\\0\"', 'const SAMPLING_BUCKET_COUNT = 2 ** 53', 'if (samplingRate >= 1) return true; if (samplingRate <= 0) return false; return samplingValue < samplingRate;'. Confirms the application's description and the threshold mechanism the technique adopted. Does not re-run the nesting test or the read-side quantization replay."
+    },
+    {
+      "path": "knowledge/llm-observability/quality-scoring/production-trace-scoring",
+      "result": "git diff 44c8996..140c101d shows only the counterpart: external frontmatter edit in node--stable-hash-sampling.md. grep confirms the '1-in-N bucket' wording (golden path lines 70 and 161), the present-tense 'hash mod N equals zero' sentence (application line 31), and the critique-recycling plus golden-set graduation lines (technique lines 55 and 64) remain."
+    }
+  ],
+  "documents": {
+    "production-trace-scoring.md": {
+      "disposition": "clarify",
+      "reason": "Reword membership from 'a stable hash of its id falling in the 1-in-N bucket' (line 70; also 'one-in-N membership' at line 161) to the threshold form: a stable hash mapped into [0,1) and admitted below the rate. That is the form stable-hash-sampling adopted on measured nesting evidence. The rest of the golden path holds."
+    },
+    "techniques/drift-classified-rescoring.md": {
+      "disposition": "keep",
+      "reason": "Unchanged. The three-state classification and the rule that staleness is a disclosure while re-scoring is a spend remain the sharpest idea in the bundle."
+    },
+    "techniques/error-analysis-first-taxonomy.md": {
+      "disposition": "clarify",
+      "reason": "Add a held-out rule to Graduation. Critiques used as judge worked examples must come from traces excluded from the golden set the judge is calibrated against. Otherwise agreement is inflated by construction."
+    },
+    "techniques/errors-always-oversampling.md": {
+      "disposition": "keep",
+      "reason": "Unchanged. The marginal-cost arithmetic, the gate order and the aggregate-confesses-the-bias rule hold."
+    },
+    "techniques/settle-window-completion.md": {
+      "disposition": "keep",
+      "reason": "Unchanged. The maximum-age ceiling and the 'what settling is not' section hold."
+    },
+    "techniques/stable-hash-sampling.md": {
+      "disposition": "keep",
+      "reason": "Unchanged. It carries the threshold form as the mechanism and mod-N as a demoted variant, which the Langfuse source re-read this run ships verbatim."
+    },
+    "techniques/unscored-work-queue.md": {
+      "disposition": "keep",
+      "reason": "Unchanged. It is explicit that the constraint protects the record, not the money, and states when leases earn their cost."
+    },
+    "techniques/verdict-coverage-receipt.md": {
+      "disposition": "keep",
+      "reason": "Unchanged. The three fields, the fingerprint scoped to what was judged, and truncation as provenance rather than drift all hold."
+    },
+    "applications/node--stable-hash-sampling.md": {
+      "disposition": "clarify",
+      "reason": "Fix the tense: 'The technique writes the mechanism as hash mod N equals zero' is no longer true. Add a line saying this application's finding is what moved the technique to the threshold form. The counterpart: external marking is correct, and the source anchor re-read at 3c3ca18 matches."
+    },
+    "applications/rust--drift-classified-rescoring.md": {
+      "disposition": "keep",
+      "reason": "Unchanged. Not rerun; refresh_by 2026-11-20 left as it stands."
+    },
+    "applications/rust--unscored-work-queue.md": {
+      "disposition": "keep",
+      "reason": "Unchanged. Not rerun."
+    }
+  }
+}
+```

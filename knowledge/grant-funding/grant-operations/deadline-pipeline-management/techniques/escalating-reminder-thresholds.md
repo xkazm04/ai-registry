@@ -83,10 +83,13 @@ notice happens; the risk score decides *how loudly*.
   fired this run into a single ranked message; five separate emails from one
   scheduler tick is the burst problem re-created at the transport layer.
 - **When adding a rung** (say, 60), existing applications past it must not
-  retro-fire it: the "smallest crossed unsent" rule fires the new rung only
-  for applications that legitimately sit inside it, and suppression retires
-  it for everyone deeper — verify this with a test before shipping the config
-  change.
+  retro-fire it — and "smallest crossed unsent" alone does not deliver that:
+  for an application at day 5 with 30/14/7 already handled, 60 is the only
+  unhandled crossed rung, so it fires. Add a high-water mark: a crossed rung
+  larger than the smallest rung already handled for that application is
+  recorded as suppressed, never fired. Verify both halves with a test (the stale
+  rung stays silent; an application that legitimately sits inside the new rung
+  still gets it) before shipping the config change.
 - **When a submission buffer is in force** (submission-lead-time-buffers),
   run the ladder against the effective plan-to date, not the funder close —
   a day-before nudge aimed at the funder's date arrives after the internal

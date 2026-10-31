@@ -26,9 +26,15 @@ sources. A contributor can *lead* a row; it can never *own* it.
 Winsorize the per-source weights, don't trim them. For each merged row,
 take the sources' case counts as raw weights; if the largest exceeds the
 share ceiling `s` of the total, clamp it to `s/(1-s)` times the sum of the
-others — the value at which its share is exactly `s`. Only the largest
-element can breach the ceiling (two sources cannot each hold more than
-half-plus), so clamping the maximum is sufficient and exact. Everything
+others — the value at which its share is exactly `s`. When `s ≥ 0.5`,
+clamping the maximum is sufficient and exact: after the clamp the others hold
+`1 − s ≤ s` between them, so none can breach. Below one half it is not — at
+`s = 0.3`, three sources holding a third each are all over the ceiling. For a
+tighter ceiling cap the `k` largest sources at `s·R/(1−k·s)` each, where `R`
+is the sum of the uncapped weights, taking the smallest `k` for which the next
+largest source is at or under that cap. If `k·s` reaches 1 before that happens
+(fewer than `1/s` sources), the ceiling cannot hold at all; the row falls to
+equal weights and should say so. Everything
 about the source still counts — its quality, its runs, its variance — at a
 bounded weight; this is the winsorized-aggregation instinct from the robust
 federated-learning literature applied to weights instead of model updates.

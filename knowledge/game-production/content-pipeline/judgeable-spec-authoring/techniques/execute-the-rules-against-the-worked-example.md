@@ -45,7 +45,11 @@ For every rule in the artifact that produces an output:
 2. **Apply the rule as literally written** — not as intended, not as understood. Read it
    the way a reviewer with no context would, and the way an implementer would code it.
 3. **Compare to the artifact's stated output.**
-4. When they differ, decide which is right — usually the example, because it was written
+4. **Ask how the example bound before asking who is right.** It bound to no rule (a rule
+   is missing), to two rules (the rule text is ambiguous), to a rule its author marked
+   unfinished (finish it), or to one finished rule whose output differs. Only the last is a
+   disagreement between rule and example; the other three have their own repairs.
+5. When a finished rule and the example differ, decide which is right — usually the example, because it was written
    while thinking about the real case — and correct the other.
 
 Then extend the same execution to the categories authors most often get wrong:

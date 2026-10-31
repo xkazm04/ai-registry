@@ -33,20 +33,25 @@ The ordering is the whole technique, and it is counterintuitive because every
 other property of a delivery is a property of the delivery.
 
 A subscribing endpoint selects its contract **when it is created**. Deliveries
-to that endpoint are serialized under the version the endpoint chose, and — in
-the careful designs — an event's version is fixed when the event is *created*,
-so a redelivery six weeks later reproduces the original payload rather than
-today's. That is the right decision and it has a consequence worth stating
-plainly: **changing an endpoint's version does not migrate its history.** After
-a rotation the endpoint receives new events under the new contract while
-redeliveries of old ones still arrive under the old, so the normalizer is
-simultaneously reading two contracts for the same event type. Any parser that
+to that endpoint are serialized under the version the endpoint chose (Stripe's
+webhook documentation says exactly this). What a redelivery carries after the
+endpoint's version changes is a separate question, and the provider pages read
+for this technique do not answer it: a provider may fix an event's version when
+the event is created, so a redelivery six weeks later reproduces the original
+payload, or it may re-serialize under the endpoint's current version. Design for
+the first unless the provider documents the second, and the consequence is worth
+stating plainly: **changing an endpoint's version does not migrate its
+history.** After a rotation the endpoint receives new events under the new
+contract while redeliveries of old ones may still arrive under the old, so the
+normalizer is reading two contracts for the same event type. Any parser that
 treats "this is an order-paid event" as sufficient to know the payload's shape
 is already wrong at that moment and will not be told.
 
-So the parse dispatches on the **declared** version, which every careful
-provider puts both in a delivery header and in the body. Reading it costs one
-lookup, and it converts a silent misparse into a decidable branch.
+So the parse dispatches on the **declared** version, read from wherever the
+provider declares it: a delivery header, a body field, or both. Where a delivery
+declares none, fall back to the version the endpoint was registered with and
+record that the value was inferred. Reading it costs one lookup, and it converts
+a silent misparse into a decidable branch.
 
 ## Absent is not current
 
@@ -116,8 +121,9 @@ Make the dependency explicit rather than ambient:
   pin where a reviewer will see it.** The default is not a choice, it is the
   absence of one.
 - **When an endpoint's version is rotated, treat old and new as concurrent.**
-  Redeliveries of prior events keep the prior contract; the parser must handle
-  both for at least the provider's retry horizon.
+  Unless the provider documents that redeliveries are re-serialized under the
+  new version, assume prior events keep the prior contract; the parser must
+  handle both for at least the provider's retry horizon.
 - **When the rate book is versioned on the record and the contract is not, that
   asymmetry is the finding.** It marks provenance discipline that stopped at the
   boundary of what the operator controls, which is precisely the boundary where
@@ -125,7 +131,9 @@ Make the dependency explicit rather than ambient:
 - **When a provider's support window is finite, the expiry is an operational
   date, not a documentation detail.** A contract that stops accepting requests
   is an outage scheduled in advance; it belongs in the same calendar as
-  certificate renewals.
+  certificate renewals. A provider whose versioning is itself still rolling
+  out may not have published a deprecation date yet; record the pin anyway and
+  add the date when the provider sets one.
 
 ## When not to use this
 

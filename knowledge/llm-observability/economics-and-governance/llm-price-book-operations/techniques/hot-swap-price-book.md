@@ -39,9 +39,13 @@ window where readers see a half-updated book.
    lock.** Not a single-key patch into the live map: reconstructing from the
    authoritative row set makes the in-memory state a pure function of the
    database, so no sequence of upserts, deletes, and races can accumulate
-   drift between them. The swap is one pointer assignment under the lock;
-   readers before it see the old book entire, readers after it the new book
-   entire.
+   drift between them. The re-read itself happens inside the same write
+   lock (or is versioned, so a swap carrying an older read than the live
+   book's is discarded): two admin writes that each re-read outside the lock
+   can swap in the wrong order, and memory then trails the database until
+   the next write or restart. The swap is one pointer assignment under the
+   lock; readers before it see the old book entire, readers after it the new
+   book entire.
 
 The read side stays cheap: resolution takes a shared read lock (or an atomic
 snapshot pointer) per event batch. Price lookups sit on the ingest hot path;

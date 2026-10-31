@@ -27,7 +27,8 @@ distinction you care about.
 
 The continuous quantity does. Sample a pose quantity that varies through a motion cycle —
 a limb's droop angle, the vertical oscillation of the root — several times across the run,
-and take its **variance**. The animating figure's value wanders through a wide arc; the
+and take its **spread across samples** — a swing (maximum minus minimum) or a standard
+deviation, in the quantity's own unit, with the statistic named. The animating figure's value wanders through a wide arc; the
 reference-posed figure's is flat to within measurement noise. One number, sampled a handful
 of times, sees what an unlimited number of structural checks cannot.
 
@@ -82,8 +83,8 @@ readings, and conflating them costs an investigation every time.
   degrade gracefully to the older, weaker check when it is absent. Observation emitters and
   observation consumers deploy on different clocks, and a required new field turns every
   older run into a false failure.
-- When one sample would do, take several anyway if the quantity is time-varying. Variance
-  is the discriminator; a single reading has none.
+- When one sample would do, take several anyway if the quantity is time-varying. Spread
+  across samples is the discriminator; a single reading has none.
 
 ## When not to use
 

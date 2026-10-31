@@ -57,8 +57,12 @@ The workable shape is a small additive formula over observable facts:
 - **Evidence increments and decrements** — probe reachability adds modestly;
   probe failure subtracts modestly (weak evidence, since real funder pages
   block probes); the adversarial verdict moves the score most, with
-  confirmed-real-and-open worth several times any completeness signal, and
-  confirmed-real-but-not-open worth a fraction of that.
+  confirmed-real-and-open worth several times any completeness signal.
+  Confirmed-real-but-not-open earns nothing here, because that row belongs
+  to funder intelligence and not to this queue
+  ([adversarial-verification-pass](./adversarial-verification-pass.md)). A
+  partial bonus for it is how the two verdicts collapse back into one at the
+  gate.
 
 The weights encode an epistemic ordering — independent verification outranks
 reachability outranks self-reported completeness — and that ordering is the

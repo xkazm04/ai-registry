@@ -14,9 +14,9 @@ use_when: [offering a year-over-year comparison baseline, a seasonal business co
 The like-for-like baseline for a seasonal business is the same window one year
 earlier, and "one year earlier" is **364 days, not 365**. Three hundred and
 sixty-four is exactly fifty-two weeks, so the year-ago twin of every day lands on
-the same weekday; 365 slides the twin by one weekday each year and by two across a
-leap year, and the weekday gap - a Sunday trough against a Monday peak - is then
-read as a year-over-year move.
+the same weekday; 365 slides the twin by one weekday, a same-calendar-date twin
+slides it by two whenever the year spans a 29 February, and the weekday gap - a
+Sunday trough against a Monday peak - is then read as a year-over-year move.
 
 ## Why weekday parity beats calendar parity
 
@@ -25,11 +25,21 @@ paid-search dip) has a weekday amplitude that routinely exceeds its genuine
 year-over-year change. Aligning the calendar date and misaligning the weekday puts
 the larger effect on the wrong side of the comparison. Aligning the weekday and
 letting the calendar date drift by one day puts a negligible effect there instead -
-one day of seasonal drift inside a 30-day window is immaterial next to seven days of
-weekday shape. Retail accounting reached the same conclusion with the 52/53-week
-fiscal year and its periodic 53rd-week restatement; the practitioner's version is
-the 364 shift and a note that after six or seven years the accumulated drift is worth
-a 371-day (53-week) correction. That correction horizon is convention.
+one day of seasonal drift (two across a leap day) inside a 30-day window is
+immaterial next to seven days of weekday shape. Retail accounting reached the same
+conclusion with the 52/53-week fiscal year: the 4-5-4 calendar inserts a 53rd week
+roughly every five to six years, and restates the following year by pushing each
+week of the 53-week year back one, so holidays line up.
+
+The drift does **not** accumulate on a rolling one-year shift. Today minus 364 days
+is always within one calendar day of today's date a year ago (two across a leap
+day), however many years the dashboard runs. Drift accumulates only when the shift
+is chained: a comparison k years back on 364 k days drifts by about 1.24 k days - a
+week by year five or six, the same cadence at which the retail calendar adds its
+53rd week - and a fiscal year defined as 52 weeks drifts identically. So the
+correction is owed by a multi-year comparison or a 52-week fiscal calendar, never by
+the ordinary year-over-year badge; for the former, realign on the nearest
+same-weekday date of the target year rather than multiplying 364.
 
 ## Procedure
 

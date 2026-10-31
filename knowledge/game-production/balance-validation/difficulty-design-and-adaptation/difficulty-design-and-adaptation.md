@@ -46,8 +46,8 @@ Model perceived difficulty as the balance between two pairs.
 - **Enemy skill** — how well the opposition is *played*: navigation, target selection,
   ability choice, spacing, precision, and the willingness to punish a mistake.
 
-Difficulty rises as the second pair grows against the first, and every difficulty decision
-anyone has ever made moves one of these four. The model earns its place not by being
+Difficulty rises as the second pair grows against the first, and most difficulty decisions
+move one of these four. The model earns its place not by being
 exhaustive but by being **separable**: the four have different costs, different failure
 signatures and — the part that matters most — different owners.
 
@@ -223,8 +223,8 @@ with one edit.
 - **One multiplier for everything.** Covered above, and it is the most common shipped form
   of a difficulty setting.
 - **Tuning against a player who does not exist.** The design team is the highest-skill
-  population the game will ever have, and a headless harness assumes perfect execution by
-  construction. Both estimate the fourth term optimistically, and they agree with each
+  population the game will ever have, and a headless harness driven at full skill executes
+  perfectly by construction. Both estimate the fourth term optimistically, and they agree with each
   other, which is what makes the error so durable.
 - **Treating a setting as a ranking of players.** A difficulty setting states which
   experience the player wants, not how good they are. Naming that implies a hierarchy

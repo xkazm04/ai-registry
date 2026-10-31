@@ -74,6 +74,14 @@ successful response. The safe reading of an empty generation result is
 *refused*, never *success with zero images* — misread it one way and the
 caller gets a re-route to a vendor that can serve them; misread it the other
 way and the caller gets nothing, silently, with a green status attached.
+That reading is the default for an empty result *with no reason attached*.
+Where the vendor does name a reason, the reason decides, and not every named
+stop is a refusal to walk past: a block for reproducing protected material is
+the same verdict at every vendor and must not be laundered by a hop, a
+"no image produced" without a policy reason is a failure rather than a
+refusal, and a stop because the account itself is restricted ends the chain
+and pages a human, because refusals accrue against the account that sends
+them.
 
 ## No elimination is silent
 
@@ -127,9 +135,11 @@ observes after the fact is a report, not a control.
 ## Resolution belongs to the stage, not to a global setting
 
 The last routing dimension is not *who* but *how large*. Vendors price by
-output size, often doubling per size step, and a pipeline that renders
-everything at one resolution pays final-quality prices for drafts that exist
-to be thrown away. Resolution is a property of the pipeline *stage* — cheap
+output size — on current rate cards more often half again per size step than
+double, with some adjacent sizes priced identically — and many also price a
+quality tier and a deferred-delivery tier on top of it. A pipeline that renders
+everything at one size and tier pays final-quality prices for drafts that
+exist to be thrown away. Resolution is a property of the pipeline *stage* — cheap
 and small for exploratory drafts, mid-size for the graded candidate, full size
 only for the promoted winner — and the promotion between sizes is an explicit
 step, not a re-roll that voids the grading already done.

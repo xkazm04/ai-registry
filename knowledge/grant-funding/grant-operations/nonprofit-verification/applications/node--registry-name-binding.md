@@ -62,3 +62,11 @@ The sibling reconciliation — registry legal-form code vs self-declared
 entity type — follows the same three-valued shape (`LegalFormMatch`,
 `passport.ts:139`, computed at `passport.ts:184-189`), surfacing
 disagreement as `mismatch` rather than silently preferring either source.
+
+## Gap against the standard
+
+Read from the recorded code, not rerun. Containment (stage 2) runs before the
+token stage and has no token-boundary or minimum-length condition, so a
+one-word claim contained in a longer registry name matches before the
+larger-set divisor is reached. The divisor's protection holds only for claims
+that are not substrings of the registry name.

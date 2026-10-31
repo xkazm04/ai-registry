@@ -73,7 +73,10 @@ index needs both because it has both obligations, to different parties.
 Per [provenance-per-field](../../../_laws.md#provenance-per-field), aggregates
 built from a consented pool state their sourcing where they are served: a
 provenance notice carrying the count of distinct contributing organizations
-and the suppression floor — "live, n=37 contributing orgs (k≥5 suppressed)".
+and the suppression floor — "live, n=37 contributing orgs; cells under 5
+orgs suppressed". State the inequality in the direction of what is hidden:
+a shorthand like "(k≥5 suppressed)" reads as "cells of five or more are
+suppressed", the inverse of the rule it exists to disclose.
 Two disciplines make the notice trustworthy rather than decorative:
 
 - **One home.** The notice string is composed in exactly one place, and

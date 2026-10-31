@@ -43,9 +43,10 @@ corrupt work that was already independently verified.**
   With several writers interleaved into one tree there is no coherent state to
   rewind *to* — the last green snapshot describes a tree that no longer
   corresponds to any worker's assumptions. Either run one item at a time, or
-  give each worker an isolated tree, or do not offer rollback. There is no
-  fourth option, and offering rollback anyway produces silent work loss under
-  concurrency.
+  give each worker an isolated tree, or do not offer a whole-tree rollback.
+  There is no fourth option for a whole-tree rewind; items that write disjoint
+  areas can instead revert per item (see below). Offering a whole-tree rewind
+  anyway produces silent work loss under concurrency.
 - **The ledger must survive a restart.** A resumed run that starts with an empty
   ledger takes a fresh baseline at the resume-time tree — which is exactly the
   damaged state the operator resumed in order to escape. Rehydrate the ledger

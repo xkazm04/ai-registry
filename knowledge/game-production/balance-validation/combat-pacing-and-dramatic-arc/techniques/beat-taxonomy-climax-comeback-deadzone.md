@@ -84,7 +84,7 @@ designer did not author.
 ## Decision rules
 
 - Detect on the term that carries the meaning, not always on the blend. Near-death is a threat
-  event. Climax is a blend event. Dead zone is a blend event with context. Mixing this up
+  event. Climax is a blend event. Dead zone is a raw-activity event with context. Mixing this up
   produces beats that fire for the wrong reason and are consequently untrustworthy.
 - Every threshold in the taxonomy is stated in the output with its basis. "Climax at 14.2
   seconds, tension 0.81, threshold 0.75 over one-second windows" is a finding; "climax
@@ -92,8 +92,8 @@ designer did not author.
 - Aggregate beats across trials as rates, never as averages of the curve. *Near-death in 12%
   of runs* is the useful statement, and it is invisible in a mean curve.
 - Absence of a beat is a reported value, not an empty field. No climax detected must render as
-  a finding — a fight with no detected beats is the definition of flat pacing, and a blank
-  section reads as a pass.
+  a finding — a fight with activity and no detected beats is usually flat pacing, which the
+  spread rule above confirms or not, and a blank section reads as a pass.
 - Gate the whole taxonomy on there being any activity at all. A timeline with no consequential
   events must short-circuit to a stated *nothing to pace* rather than running every detector
   over a zero curve, which would emit a confident list of pacing defects about a fight that

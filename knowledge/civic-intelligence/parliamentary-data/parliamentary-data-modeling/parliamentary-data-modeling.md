@@ -66,9 +66,10 @@ decisions.
   and a parent link — because memberships and offices all point here, and a
   single target table is what makes the membership query uniform.
 - **Mandates** — one row per seat-holding: this person, in this term, from
-  this region, elected on this list. The mandate id — not the person id — is
-  what ballots, absences and contact records reference in most publishers'
-  exports. Collapsing it into the person is the single most damaging
+  this region, elected on this list. In many publishers' exports the mandate
+  id — not the person id — is what ballots, absences and contact records
+  reference; others key the voter as a person, so follow each table's actual
+  foreign key. Collapsing it into the person is the single most damaging
   shortcut available (see mandate-vs-person-identity).
 - **Memberships and offices** — dated windows linking a person to a body,
   optionally through a named office (chair, vice-chair, speaker). An office

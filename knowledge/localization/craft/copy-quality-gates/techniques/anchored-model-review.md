@@ -32,7 +32,10 @@ does the most damage unobserved.
    naming the outcome?" for the English subject's EN-BUTTON). Checklists of
    yes/no questions raised agreement with human judgment over direct scoring
    (46.4% to 52.2% exact agreement in Cook et al. 2024; the same direction in
-   Lee et al. 2024).
+   Lee et al. 2024). The gain is not universal: across six checklist generators
+   and eight model sizes it held in pairwise comparison and was inconsistent in
+   direct scoring (Furuhashi et al. 2025), so measure the checklist against the
+   gold set before trusting it on a surface.
 2. **Give the reviewer the rendered unit, its surface class, its neighbours on
    the page, and the contract excerpt** — register line, exemplars, termbase rows
    for terms present. Never the writer's identity or its prompt.
@@ -46,7 +49,10 @@ does the most damage unobserved.
    unconstrained reviewer. Then run the deterministic veto layer below.
 5. **Isolate the reviewer from the writer.** A fresh context at minimum, a
    different model family where available. Self-preference grows with a model's
-   ability to recognize its own output (Panickssery et al. 2024).
+   ability to recognize its own output (Panickssery et al. 2024). Part of what
+   reads as self-preference is a judge correctly preferring better output; it
+   separates from bias only against gold judgments (Chen et al. 2025), so
+   isolation is the cheap default and the gold set below is the measurement.
 6. **Sample three runs and keep findings reported by at least two.** Output is not
    deterministic even at temperature zero, and single-run findings are where
    over-correction lives. For any pairwise comparison, run both orders; position

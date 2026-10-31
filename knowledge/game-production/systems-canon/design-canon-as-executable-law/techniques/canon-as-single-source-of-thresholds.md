@@ -38,6 +38,11 @@ its unit; a parse layer reads it out at load; every checker imports the parsed v
 copy, one editor, and a mechanical relationship between the sentence and the enforcement.
 This is the arrangement to build.
 
+The sidecar fails because it holds two authored copies, not because it is structured. A
+structured value from which the human-readable sentence is generated also has one copy,
+one editor and a mechanical relationship, and it satisfies the same rule; it is the natural
+shape for a number that is really a table.
+
 The objection is always the same: parsing prose is brittle. Yes — and that brittleness is
 the feature. A canon edit that breaks the parse is a loud failure at load, in front of the
 person who just made the edit, and it costs them ten minutes. A canon edit that silently

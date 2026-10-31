@@ -25,13 +25,25 @@ Every delivered nudge resolves to exactly one outcome:
 
 - **acted** — the user followed the nudge's affordance (opened the
   subject, ran the suggested step, clicked through). The strongest
-  positive signal and the only one worth optimizing for.
+  positive signal and the only one worth optimizing for. It records
+  engagement, not completion: a click-through says the user looked, not
+  that the step was finished or the suggestion was right. Where
+  completion is observable (the review was submitted), record it
+  separately rather than reading it into the click.
 - **dismissed** — the user explicitly waved it away. A weak negative:
   "not now" or "not this," deliberately ambiguous, and the record keeps
   it ambiguous rather than guessing.
-- **ignored** — the nudge aged out with no interaction. The quiet
-  majority outcome and, sustained, the strongest negative signal: the
-  user does not consider this kind worth even the dismissal gesture.
+- **ignored** — the nudge was **exposed** (actually shown to the user)
+  and aged out with no interaction. The quiet majority outcome and,
+  sustained, the strongest negative signal: the user does not consider
+  this kind worth even the dismissal gesture.
+- **unobserved** — the nudge was delivered but there is no evidence it
+  was ever shown (the app was closed, the device asleep, the surface
+  never rendered), and it aged out. It says nothing about the user's
+  preferences and **never moves a cap**, in either direction. Where
+  exposure cannot be stamped, this state cannot be separated from
+  ignored; say so beside the aggregate rather than counting every
+  aged-out delivery as a vote.
 - **expired-undelivered** is *not* an outcome of this loop — it never
   reached the user and says nothing about their preferences; it feeds cap
   and queue tuning instead. Mixing the two poisons the efficacy read.
@@ -46,7 +58,7 @@ shown), so that ignored means seen-and-untouched and a card delivered into a
 closed app costs its kind nothing.
 
 Attribution requires the delivered record to carry the nudge identity and
-kind forever; the outcome table is a join on identity. Aggregates are
+kind for the whole efficacy window; the outcome table is a join on identity. Aggregates are
 reported with their predicate
 ([count-carries-predicate](../../../../_laws.md#count-carries-predicate)):
 "maintenance-due: 2 acted / 1 dismissed / 9 ignored over 30 days" — never
@@ -57,8 +69,9 @@ a bare score whose window and denominator are folklore.
 The core asymmetry:
 
 > **Sustained non-action lowers a kind's budget toward a floor. Nothing
-> raises a kind's volume — recovery is earned by the acted-rate of the
-> few deliveries the floor still allows.**
+> but explicit positive acts raises a kind's volume — recovery is earned,
+> in bounded steps, by the acted-rate of the few deliveries the floor
+> still allows, and urgency or being ignored never raises it.**
 
 - Adaptation moves **per-kind caps only**, within the global ceiling; the
   user's total contact never rises because one kind performs well.
@@ -80,8 +93,12 @@ The core asymmetry:
   users that the system's behavior is weather.
 - The floor exists because ignore-driven decay to zero is a silent
   self-kill: the kind vanishes, nobody decided that, and the record shows
-  only a budget that drifted. Going to zero is reserved for the explicit
-  kill switch — a human decision, recorded as one.
+  only a budget that drifted. Going to zero is reserved for a human
+  decision, recorded as one: the user's kill switch, or an explicit zero
+  allowance an operator or user sets for a kind (a kind shipped dark, a
+  kind paused pending redesign). An explicit zero is a declared
+  configuration, distinct from decay, and the adaptation layer never
+  raises it.
 - Escalation on ignore — louder, earlier, more often — is the
   anti-pattern this technique exists to forbid. Ignoring *is* the vote.
   The legitimate response to "important kind, ignored anyway" is
@@ -94,9 +111,12 @@ The core asymmetry:
   this") — the moment of irritation is the moment the control must be in
   reach; a buried settings page converts irritation into channel-level
   revocation instead.
-- Honored absolutely and immediately: evaluator may still run (its signal
-  can feed passive surfaces), but the kind admits nothing to the delivery
-  queue. Killed is a state the operator can list and revert.
+- Effective immediately: the kind admits nothing to the delivery queue
+  from that moment, and its already-queued and deferred notices are
+  cancelled in the same act, not left to drain. The evaluator may still
+  run (its signal can feed passive surfaces). Killed is a state the
+  operator can list; reverting it is the user's act, because it is a
+  withdrawal of consent, and no efficacy data re-enables it.
 - A killed kind is the policy *succeeding*. The temptation to treat high
   kill rates as a reason to remove the switch — or to reword the kind
   and relaunch it under a new name, resetting its record — is

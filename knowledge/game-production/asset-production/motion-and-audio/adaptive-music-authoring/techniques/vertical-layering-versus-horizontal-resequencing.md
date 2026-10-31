@@ -29,10 +29,14 @@ continuously.
 one grid, and every layer has an **identical sample count**. A set whose members differ by
 a handful of samples drifts apart over minutes of play, and there is no runtime fix once it
 has shipped. Layers start together from one clock and keep running; a layer that was
-stopped cannot be restarted in phase, so "muted" means gain at silence, not stopped.
+stopped cannot be restarted in phase, so "muted" means gain at silence, not stopped. The
+exception is a runtime that virtualises a silent channel and keeps ticking its playback
+position, returning it "as if it had been playing"; there the layer gives up its real voice
+while silent, and the return's phase accuracy — especially from a compressed stream that
+must seek — is a property to measure, not to assume.
 
 **What it costs.** A voice and a stream per layer, at all times, including the silent
-ones. Memory and streaming bandwidth scale linearly with layer count. Authoring cost is
+ones (under virtualisation, a virtual slot in place of a real voice for the silent ones). Memory and streaming bandwidth scale linearly with layer count. Authoring cost is
 roughly constant in the number of game states, because adding a state usually means adding
 a threshold rather than composing new material.
 

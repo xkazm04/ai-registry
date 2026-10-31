@@ -76,7 +76,10 @@ Best Practices section. The ones that are authoring craft rather than design sem
 4. Combo timing bands: `animDuration` 0.4–1.5 s, `recovery` 0.1–0.5 s — the corpus range as
    an explicit constraint, backing up what the exemplars imply.
 5. Radar values consistent with existing abilities (a pure buff is 0 damage, high speed) —
-   an anchor against a profile drawn from nothing.
+   an anchor against a profile drawn from nothing. This rule asks the generator for a
+   profile that `strict-output-schema-with-derived-dependents` classes as derived from
+   the ability's primaries, and nothing recorded here computes it alongside or checks the
+   two for divergence. That is a deviation from the technique, not a house variant.
 
 The remaining rules pin the class hierarchy (`UARPGGameplayAbility`), the exact constructor
 call set (`SetAssetTags`, `ActivationOwnedTags`, `ActivationBlockedTags`,

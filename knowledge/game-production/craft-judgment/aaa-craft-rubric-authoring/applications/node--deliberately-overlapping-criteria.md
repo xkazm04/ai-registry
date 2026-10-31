@@ -70,9 +70,11 @@ line for the metering and history surfaces (`craftSpendMeter.test.ts:227`,
 `craftVerdictHistory.test.ts:342`).
 
 Routing keeps the overlap honest rather than accidental: `src/lib/craft/lens-map.ts` maps each
-deliverable class to exactly one lens, complete by test, and restricts catalog overrides to
-`TEXT_CLASSES` so that "a lens can never be dodged by re-labelling" (header comment, lines
-5–8).
+deliverable class to exactly one lens, complete by test, and its header says catalog
+overrides apply to `TEXT_CLASSES` only, so that "a lens can never be dodged by
+re-labelling" (header comment, lines 5–8). The same module also routes cutscene audio to
+the `voiceover` lens (see `process--checkable-against-the-stored-artifact`), a same-medium
+override the header's text-only wording does not cover.
 
 ## Deviations from the standard
 

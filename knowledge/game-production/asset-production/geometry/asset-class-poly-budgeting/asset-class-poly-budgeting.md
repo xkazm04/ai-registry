@@ -86,10 +86,12 @@ Modern renderers with virtualized geometry pipelines will happily draw source me
 of millions of triangles, and this is repeatedly misread as the end of poly budgets.
 It is not, for reasons that are all still live:
 
-- **Not every mesh is eligible.** Skinned and deforming meshes, translucent materials,
-  and anything driven by per-vertex position offsets fall outside the virtualized path
-  on most engines or take a slower route through it. Characters — the largest budget
-  in the table below — are exactly the eligible-last category.
+- **Not every mesh is eligible.** Translucent materials fall outside the virtualized
+  path, and anything driven by per-vertex position offsets takes a limited, slower route
+  through it. Skinned meshes were outside it too until recently; at least one major
+  engine's current documentation lists skeletal meshes as a supported type, so eligibility is a fact to
+  check per engine and version, not a constant. Characters — the most-deformed class in
+  the table below — were long the eligible-last category.
 - **Downstream consumers are not virtualized.** Collision, navigation, physics proxies,
   lightmapping, a lower-spec or preview target, and anything exported for a partner all
   read the source topology.
@@ -129,7 +131,7 @@ camera on a current desktop/console target:
 
 | Class | Requested target | Ship ceiling | Substantial parts allowed | Why |
 | --- | --- | --- | --- | --- |
-| Character (hero or named) | 40k tris | 60k | 24 | matched to the character pipeline's game-tier spec; the highest per-asset budget in the project |
+| Character (hero or named) | 40k tris | 60k | 24 | matched to the character pipeline's game-tier spec |
 | Environment piece / building | 60k tris | 90k | 40 | large silhouettes earn more; still bounded because generated buildings fragment |
 | Weapon / held item | 15k tris | 22.5k | 6 | close to camera at times, small on screen mostly; silhouette plus normal detail carries it |
 | Prop / interactable | 10k tris | 15k | 6 | placed many times per scene, and ships to non-virtualized consumers |

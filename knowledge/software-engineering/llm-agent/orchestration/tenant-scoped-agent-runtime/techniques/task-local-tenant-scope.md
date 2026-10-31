@@ -51,6 +51,16 @@ which a newly spawned child unit inherits as a snapshot, and which a change
 inside that child does not propagate back out of. Installing returns a
 token; the token restores the previous value.
 
+The snapshot is **shallow**: the copy holds the same value objects as the
+parent, so a mutable dictionary bound in the scope is shared by every copy,
+and a child that mutates it in place changes it for the parent and its
+siblings, and for any child that outlives the turn. Bind immutable scope
+values — a frozen record, a read-only mapping — and replace rather than
+mutate. Where the call graph is small enough to thread the tenant through
+as an **explicit parameter**, that is a valid alternative with no ambient
+state at all; the context-local variable earns its place when hundreds of
+existing call sites cannot all be given a new argument.
+
 Two variables, not one, and the order matters. The first carries the
 tenant's **home** — the root from which configuration, stores, memory,
 skills and extension discovery are all derived. The second carries the
@@ -100,12 +110,17 @@ and each omission is a silent cross-tenant read:
   part of a turn.
 
 And the case that looks like an exception and is not: **process-level work
-runs under the default tenant's scope, on purpose.** A configuration reload
-that serves the whole process still has to resolve a home and still may
-need a credential; running it unscoped means running it against whatever the
-process happens to hold, which under isolation is either wrong or an error.
-Choosing the default tenant explicitly is a decision someone can read;
-leaving it unscoped is the same decision made silently.
+runs under an explicit host authority, on purpose.** A configuration reload
+that serves the whole process still has to resolve a home and may need a
+setting; running it unscoped means running it against whatever the process
+happens to hold, which under isolation is either wrong or an error. Running
+it as the default tenant is no better: it hands process-wide work one
+tenant's credentials. The host authority is a declared class that resolves
+only the machine- and process-level names the separate resolver above
+serves, and no tenant's credential; work that genuinely needs a tenant's
+credential is enumerated per tenant and run in each tenant's scope.
+Declaring the class is a decision someone can read; leaving the work
+unscoped is the same decision made silently.
 
 ## Propagation into workers is explicit, and it is tested
 
@@ -114,25 +129,27 @@ assuming it is produces the subject's most confusing bug.
 
 A unit of work spawned by the runtime's own event-loop scheduler typically
 inherits a snapshot of its parent's context automatically. A
-**raw thread does not**: it starts with a fresh context, its resolver falls
-back to the process, and the work lands under the wrong tenant with no error
-anywhere. A **worker pool** is the trap in between, because whether it
-copies the submitting context is a property of the *runtime version* rather
-than of the pool's contract — a standard pool that propagates in a recent
-release does not propagate in the releases before it, and a deployment
-pinned below that line gets workers with an empty context. The observed
+**raw thread** depends on how it is started: by default it may begin with
+an empty context, and where a runtime copies the caller's context at thread
+start, that copy is taken once, when the thread starts. A **worker pool**
+is the trap in between, because its threads are started once and reused:
+a generic pool queues the callable and its arguments, not the submitting
+caller's context, so a reused worker runs each submission in whatever
+context it started with — the first submitter's, or an empty one. The
+observed
 consequence was not a leak but a silent degradation: the credential
 resolver correctly failed closed in the worker, and the caller's broad
 exception handler downgraded that to a lossy fallback nobody was told
 about.
 
 So the rule is: **at every hand-off to a pool or a thread, copy the current
-context explicitly and run the callable inside the copy** — and do it
-unconditionally, in the pool wrapper rather than at each call site, so that
-on a runtime which already propagates the extra copy is a harmless no-op
-and on one that does not it is the fix. Do not rely on the primitive's
-documented behaviour, because the version you ship on may not be the
-version the documentation describes. Prove it with two tests worth more
+context explicitly and run the callable inside the copy** — in the pool
+wrapper rather than at each call site. The explicit per-submission copy is
+the mechanism, not a patch for an old runtime version: a pool that starts
+threads once and reuses them has no point at which it could take each
+submitter's context unless the submission itself carries it. Only a bridge
+whose contract states that it propagates the caller's context may be relied
+on without the wrapper. Prove it with two tests worth more
 than any amount of review — one asserting a bare thread *loses* the scope,
 kept as documentation of the hazard, and one asserting the runtime's own
 bridge *keeps* it.
@@ -156,8 +173,11 @@ substitute for the exit clause.
 
 ## Decision rules
 
-- Put the tenant in a context-local variable. Never write it to the process
+- Put the tenant in a context-local variable, or pass it as an explicit
+  parameter where the call graph allows. Never write it to the process
   environment — not at startup, not per turn, not temporarily.
+- Bind immutable scope values; a copied context shares the parent's
+  mutable objects.
 - Install home first, then build the credential scope under it, then
   install that.
 - Give each a single resolver that consults the scope before the process,
@@ -168,8 +188,8 @@ substitute for the exit clause.
 - Wrap every seam where tenant-owned code runs: ingress startup, connect
   and reconnect, inbound handling, preprocessing, background and scheduled
   work, out-of-band resolution, and the turn.
-- Run process-level work under the default tenant's scope deliberately,
-  never unscoped.
+- Run process-level work under an explicit host authority that resolves
+  no tenant credential — never unscoped, and never as the default tenant.
 - Copy the context explicitly at every hand-off to a thread or pool, and
   test both the hazard and the bridge.
 - Pair every install with a token-based restore in an unconditional exit

@@ -35,7 +35,8 @@ A well-formed criterion has four parts and no more:
 - **The failure form.** What the artifact looks like when the bar is not met, in one
   clause, so the examiner recognises it rather than reasoning toward it.
 
-Nine to twelve criteria is an authoring convention. Choose count and grouping
+The golden path's seven to twelve criteria is an authoring convention, and this
+technique does not restate it with a band of its own. Choose count and grouping
 through coverage and calibration; there is no universal seven-criterion minimum
 or fourteen-criterion failure boundary.
 

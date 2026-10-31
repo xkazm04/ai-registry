@@ -186,9 +186,10 @@ prevent. Authors get cheap in-loop probes; the driver runs the official medians
 afterwards, resumably, over the changed set.
 
 **A single draw is not a verdict.** Independent authors measured the same unchanged
-artifact scoring 87 then 82, and 80 then 70. Anything under about five points of
-single-probe movement is noise, and treating it as signal produces revision spirals
-that consume budget and change nothing. Official verdicts are medians.
+artifact scoring 87 then 82, and 80 then 70. Single-probe movement of five points is
+routine and ten has been seen on content nobody touched, so a movement inside that range
+is noise. Treating it as signal produces revision spirals that consume budget and change
+nothing. Official verdicts are medians.
 
 The corollary authors find most useful: **expect the first probe on freshly rewritten
 content to score below the artifact's recorded baseline.** It is judging new text under

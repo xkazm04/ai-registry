@@ -196,7 +196,8 @@ seconds are the diagnosis. Time-to-kill bands are the honest measurement here, a
 narrow enough to be worth stating as thresholds: an encounter that resolves in **under 3 s**
 is trivial; one that runs past **45 s** is spongy; a player death inside **5 s** is not a
 difficulty setting but a rule that never gave the player a turn; and a roster whose combined
-enemy health exceeds about **five times** the player's own reads as tedious regardless of how
+enemy health exceeds about **five times** the player's tuned health pool (the player's
+maximum after the tuning's health multiplier, not the raw maximum) reads as tedious regardless of how
 the damage is distributed. Sample the fight in **2 s** buckets and look for buckets where
 neither side's state changed — dead air at that grain reads as broken even when every number
 is correct. The pacing and dramatic-arc craft that shapes those curves deliberately is a

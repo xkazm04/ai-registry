@@ -1,7 +1,7 @@
 ---
 domain: grant-funding
 subject: funder-format-blueprints
-last_touched: 2026-09-10
+last_touched: 2026-10-31
 touched_by: architecture-review
 dry_streak: 0
 ---
@@ -200,6 +200,200 @@ were read as dated records, not re-executed; their verified_on dates are unchang
     "applications/process--supranational-award-criteria-sections.md": {
       "disposition": "keep",
       "reason": "Its scoring arithmetic and weighting claims were re-checked against the published annex text this pass and hold. The successor-programme section is already framed as a proposal with weighting under discussion, which is the honest reading; verified-and-untouched remains the correct result."
+    }
+  }
+}
+```
+
+## Architecture review - 2026-10-31
+
+Twelve documents read in full: the golden path, six family techniques, three process applications
+and three Node applications added since 2026-09-10 (arts, trust, movement). Both 2026-09-10
+clarify items are still owed at current bytes. The golden path still calls an unscored section
+"dead weight"; the funder's own 2026-2027 General Annexes, opened this run, say applications
+"must be complete and contain all parts and mandatory Annexes and supporting documents" and that
+"Applicants must have completed the ethics self-assessment as part of their application" - content
+that earns no award points and without which the proposal is inadmissible. The movement technique
+still asserts that its program officers "are former organizers more often than not", with no source.
+
+One new finding, an internal inconsistency the applications expose. `blueprint-routing-rules`
+puts genre (including "advocacy funder") ahead of the sub-national government fallback for every
+genre, and its process application quotes the resolver doing exactly that ("so a state ARTS or
+ADVOCACY call still gets its specialized blueprint"). `movement-funder-sections` says "not for
+public-agency funders", and the 2026-10-14 movement application moved the state route ahead of
+advocacy (arts still above it) for that reason. The routing technique needs the exception. The
+process routing application is now a superseded record of the resolver (genre read with applicant
+keywords before 2026-10-11, advocacy above state before 2026-10-14); a dated supersession note
+needs the tree, so it is `reverify`, not mine.
+
+The annex also re-confirms the supranational numbers: "each criterion will be scored out of 5. The
+threshold for individual criteria will be 3. The overall threshold ... will be 10", Impact
+"given a weight of 1.5" for Innovation Action ranking, and first stages of two-stage calls
+evaluate only Excellence and Impact at a threshold of 4. I read documents; I ran no portal or tree.
+
+<!-- architecture-review:v1 -->
+```json
+{
+  "subject": "grant-funding/funder-format-blueprints",
+  "date": "2026-10-31",
+  "baseline": "8432a5cfa",
+  "digest": "sha256-b2:aec02f7c8d562627",
+  "disposition": "clarify",
+  "coverage": "All 12 documents read in full, routing rules cross-read against the movement boundary and the three newer applications. The Horizon Europe 2026-2027 General Annexes opened and its admissibility, ethics and scoring text quoted. NOT evaluated: no application tree re-read, no portal form inspected per call, no proposal drafted; no verified_on or maturity change.",
+  "counterexamples": [
+    "An ethics self-assessment earns no award points yet is required: a blueprint that drops unscored sections as dead weight is inadmissible.",
+    "A state agency notice whose description says \"policy reform\" fires the advocacy genre; genre-before-structure routing hands a public-agency funder the organizing form the movement technique forbids for it.",
+    "A specific named call publishes its own template that deviates from its family shape; the routing table is right about the family and wrong about the document.",
+    "The annex scores criteria, \"not ... the different aspects listed in the table\", so mirroring sub-questions helps navigation but no sub-question carries its own score."
+  ],
+  "sources": [
+    {
+      "url": "https://ec.europa.eu/info/funding-tenders/opportunities/docs/2021-2027/horizon/wp-call/2026-2027/wp-15-general-annexes_horizon-2026-2027_en.pdf",
+      "result": "Opened this run (text extracted). Quotes: \"Applications must be complete and contain all parts and mandatory Annexes and supporting documents\"; \"Applicants must have completed the ethics self-assessment as part of their application\"; \"each criterion will be scored out of 5. The threshold for individual criteria will be 3. The overall threshold, applying to the sum of the three individual scores, will be 10\"; Impact \"given a weight of 1.5\" for Innovation Action ranking; two-stage first stage evaluates Excellence and Impact only, threshold 4. Supports the golden-path clarify and the supranational technique and application."
+    },
+    {
+      "path": "knowledge/grant-funding/proposal-craft/funder-format-blueprints",
+      "result": "All 12 documents read; the routing/movement inconsistency derived from the techniques and confirmed by the 2026-10-14 movement application and the process routing application's quoted resolver."
+    }
+  ],
+  "documents": {
+    "funder-format-blueprints.md": {
+      "disposition": "clarify",
+      "reason": "Still owed and now sourced this run: \"a section the rubric does not score is dead weight\" is false where the funder requires unscored mandatory content (annex quotes above). Mandatory-but-unscored elements are a separate, non-negotiable class."
+    },
+    "techniques/arts-panel-sections.md": {
+      "disposition": "keep",
+      "reason": "Hedged, family-scoped triad; the funder-not-applicant trigger is backed by its paired application."
+    },
+    "techniques/blueprint-routing-rules.md": {
+      "disposition": "clarify",
+      "reason": "Genre-before-structure is stated for every genre, but movement-funder-sections forbids the movement form for public-agency funders and its application reordered the resolver accordingly. Name the exception: a government source never routes to the movement form."
+    },
+    "techniques/federal-rubric-sections.md": {
+      "disposition": "keep",
+      "reason": "The published rubric governs; quantitative claims hedged; placeholder valve present."
+    },
+    "techniques/movement-funder-sections.md": {
+      "disposition": "clarify",
+      "reason": "Still owed: \"program officers in this family are former organizers more often than not\" is an unsourced population claim doing no work; cut it."
+    },
+    "techniques/supranational-award-criteria-sections.md": {
+      "disposition": "keep",
+      "reason": "Thresholds, IA weighting and two-stage rules match the annex text opened this run."
+    },
+    "techniques/trust-and-lottery-sections.md": {
+      "disposition": "keep",
+      "reason": "Family-scoped with portal-wins rule; its application confirms the priorities rule carries. \"No professional review layer\" for most trusts is unsourced but hedged and does not change the structure; worth sourcing on a future pass."
+    },
+    "applications/node--arts-panel-sections.md": {
+      "disposition": "keep",
+      "reason": "297-pair paired proof with a floor and a census test; limits (prompt register, no migration, loose markers) stated."
+    },
+    "applications/node--movement-funder-sections.md": {
+      "disposition": "keep",
+      "reason": "Honest unmeasurable verdict; the reorder it records is the evidence for the routing clarify."
+    },
+    "applications/node--trust-and-lottery-sections.md": {
+      "disposition": "keep",
+      "reason": "Instruction-level change with an honest unmeasurable verdict and a stated return condition."
+    },
+    "applications/process--blueprint-routing-rules.md": {
+      "disposition": "reverify",
+      "reason": "Its quoted resolver (advocacy above state; genre fed by applicant keywords) is superseded by the 2026-10-11 and 2026-10-14 sibling applications. Needs a dated supersession note checked against the tree; not applied without reading it."
+    },
+    "applications/process--federal-rubric-sections.md": {
+      "disposition": "keep",
+      "reason": "Dated record of guidance and bands; citations not re-read."
+    },
+    "applications/process--supranational-award-criteria-sections.md": {
+      "disposition": "keep",
+      "reason": "Scoring arithmetic and two-stage claims re-confirmed against the annex this run. Only one of its four sources re-opened, so verified_on is unchanged."
+    }
+  }
+}
+```
+
+### 2026-10-31 - after applying the owed clarifications
+
+All three clarify items applied. The process routing application stays `reverify`.
+
+<!-- architecture-review:v1 -->
+```json
+{
+  "subject": "grant-funding/funder-format-blueprints",
+  "date": "2026-10-31",
+  "baseline": "8432a5cfa",
+  "digest": "sha256-b2:6a3940b4e8de873c",
+  "disposition": "reverify",
+  "coverage": "All 12 documents read in full, routing rules cross-read against the movement boundary and the three newer applications. The Horizon Europe 2026-2027 General Annexes opened and its admissibility, ethics and scoring text quoted. NOT evaluated: no application tree re-read, no portal form inspected per call, no proposal drafted; no verified_on or maturity change. Phase B applied three clarifications; process--blueprint-routing-rules remains reverify, so it now sets the overall disposition.",
+  "counterexamples": [
+    "An ethics self-assessment earns no award points yet is required: a blueprint that drops unscored sections as dead weight is inadmissible.",
+    "A state agency notice whose description says \"policy reform\" fires the advocacy genre; genre-before-structure routing hands a public-agency funder the organizing form the movement technique forbids for it.",
+    "A specific named call publishes its own template that deviates from its family shape; the routing table is right about the family and wrong about the document.",
+    "The annex scores criteria, \"not ... the different aspects listed in the table\", so mirroring sub-questions helps navigation but no sub-question carries its own score."
+  ],
+  "sources": [
+    {
+      "url": "https://ec.europa.eu/info/funding-tenders/opportunities/docs/2021-2027/horizon/wp-call/2026-2027/wp-15-general-annexes_horizon-2026-2027_en.pdf",
+      "result": "Opened this run (text extracted). Quotes: \"Applications must be complete and contain all parts and mandatory Annexes and supporting documents\"; \"Applicants must have completed the ethics self-assessment as part of their application\"; \"each criterion will be scored out of 5. The threshold for individual criteria will be 3. The overall threshold, applying to the sum of the three individual scores, will be 10\"; Impact \"given a weight of 1.5\" for Innovation Action ranking; two-stage first stage evaluates Excellence and Impact only, threshold 4. Supports the golden-path clarify and the supranational technique and application."
+    },
+    {
+      "path": "knowledge/grant-funding/proposal-craft/funder-format-blueprints",
+      "result": "All 12 documents read; the routing/movement inconsistency derived from the techniques and confirmed by the 2026-10-14 movement application and the process routing application's quoted resolver."
+    }
+  ],
+  "documents": {
+    "funder-format-blueprints.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: \"dead weight\" narrowed to unscored narrative sections; mandatory unscored elements (declarations, ethics self-assessment, required annexes) named as a separate class, with the annex admissibility quote opened this run."
+    },
+    "techniques/arts-panel-sections.md": {
+      "disposition": "keep",
+      "reason": "Hedged, family-scoped triad; the funder-not-applicant trigger is backed by its paired application."
+    },
+    "techniques/blueprint-routing-rules.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: genre-before-structure now names the movement exception (a government source never routes to the movement form; a sub-national advocacy-worded call takes the structural route), matching movement-funder-sections and its 2026-10-14 application."
+    },
+    "techniques/federal-rubric-sections.md": {
+      "disposition": "keep",
+      "reason": "The published rubric governs; quantitative claims hedged; placeholder valve present."
+    },
+    "techniques/movement-funder-sections.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: cut the unsourced \"program officers ... are former organizers more often than not\"; \"read for strategic realism\" kept."
+    },
+    "techniques/supranational-award-criteria-sections.md": {
+      "disposition": "keep",
+      "reason": "Thresholds, IA weighting and two-stage rules match the annex text opened this run."
+    },
+    "techniques/trust-and-lottery-sections.md": {
+      "disposition": "keep",
+      "reason": "Family-scoped with portal-wins rule; its application confirms the priorities rule carries. \"No professional review layer\" for most trusts is unsourced but hedged and does not change the structure; worth sourcing on a future pass."
+    },
+    "applications/node--arts-panel-sections.md": {
+      "disposition": "keep",
+      "reason": "297-pair paired proof with a floor and a census test; limits (prompt register, no migration, loose markers) stated."
+    },
+    "applications/node--movement-funder-sections.md": {
+      "disposition": "keep",
+      "reason": "Honest unmeasurable verdict; the reorder it records is the evidence for the routing clarify."
+    },
+    "applications/node--trust-and-lottery-sections.md": {
+      "disposition": "keep",
+      "reason": "Instruction-level change with an honest unmeasurable verdict and a stated return condition."
+    },
+    "applications/process--blueprint-routing-rules.md": {
+      "disposition": "reverify",
+      "reason": "Its quoted resolver (advocacy above state; genre fed by applicant keywords) is superseded by the 2026-10-11 and 2026-10-14 sibling applications. Needs a dated supersession note checked against the tree; not applied without reading it."
+    },
+    "applications/process--federal-rubric-sections.md": {
+      "disposition": "keep",
+      "reason": "Dated record of guidance and bands; citations not re-read."
+    },
+    "applications/process--supranational-award-criteria-sections.md": {
+      "disposition": "keep",
+      "reason": "Scoring arithmetic and two-stage claims re-confirmed against the annex this run. Only one of its four sources re-opened, so verified_on is unchanged."
     }
   }
 }

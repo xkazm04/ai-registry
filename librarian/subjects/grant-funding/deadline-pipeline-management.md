@@ -1,7 +1,7 @@
 ---
 domain: grant-funding
 subject: deadline-pipeline-management
-last_touched: 2026-09-10
+last_touched: 2026-10-31
 touched_by: architecture-review
 dry_streak: 0
 ---
@@ -179,6 +179,205 @@ code claim in the three applications is unverified rather than confirmed.
     "applications/node--closing-instant-resolution.md": {"disposition": "keep", "reason": "A faithful report of the technique in code, and honest about the guess-then-correct DST bound it inherits. It endorses the time-clamping choice, which is the technique's open boundary rather than this document's error. Repo unavailable this run, so line citations are unverified rather than confirmed."},
     "applications/node--miss-risk-scoring.md": {"disposition": "clarify", "reason": "Quotes the source comment '+1 grace: exactly-enough-time != certain miss', which carries the same wrong arithmetic as the technique - the ungraced score at parity is 0.5, not certain. Worth annotating as an inherited defect rather than presenting as the rationale. The anchor cases it cites (4.5 work-days over 2 calendar days -> critical; 95%@2d -> on_track) recompute correctly."},
     "applications/process--submission-lead-time-buffers.md": {"disposition": "reverify", "reason": "Two dated claims fail current checks. The 'official SAM.gov estimate of 3-5 business days' and the 'roughly triple' multiple are contradicted by Grants.gov's own registration page (7-10 business days); 3-5 days is the renewal figure in 2026 guidance. And the NIH late-window paragraph rests on NOT-OD-15-039, which was rescinded 2026-03-31 and replaced by NOT-OD-26-064 - a change this 2026-08-20 snapshot does not carry, and which materially narrows who may file late at all. NIH URLs returned 403 to me, so the replacement's exact wording remains unread: that is the reverify work."}
+  }
+}
+```
+
+## Architecture review - 2026-10-31
+
+Stale because three applications landed on 2026-10-14 and the process application was
+re-checked today. I read all fourteen documents. The buffers technique has absorbed
+its owed clarify (the rollover exception). The other three clarify items from
+2026-09-10 are still in the text: the new-rung rule, the +1 justification and the
+time clamp. The new escalating-reminder application independently reproduced the
+new-rung retro-fire and shipped the fix (a high-water mark), which is the evidence for
+the wording change.
+
+I retract the 2026-09-10 inference that timezone-correct-day-math's "one too high" is
+right for zones behind UTC. Worked through: close Wednesday, now Monday 20:00 in New
+York = Tuesday 01:00 UTC; the local count is 2, the UTC count is 1. The UTC count is
+too low, and the document's own symptoms only follow from a count that is too low.
+
+<!-- architecture-review:v1 -->
+```json
+{
+  "subject": "grant-funding/deadline-pipeline-management",
+  "date": "2026-10-31",
+  "baseline": "8432a5cfa",
+  "digest": "sha256-b2:f52d1e09ccc00e73",
+  "disposition": "clarify",
+  "coverage": "All 14 current documents read in full, including the three applications added since 2026-09-10 (cross-client-deadline-union, escalating-reminder-thresholds, severity-band-triage, all 2026-10-14) and the process application re-checked earlier today. The reminder-ladder rule, the miss-risk +1 and the UTC-midnight day-count direction were re-derived by hand. NOT-OD-26-064 opened directly this run. Not evaluated: the private grant tree at runtime; application line citations; no verification date refreshed by this run.",
+  "counterexamples": [
+    "A 60-day rung added while an application sits at day 5 with 30/14/7 recorded: crossed = {60,30,14,7}, unhandled = {60}, so 'fire the smallest crossed unhandled' fires 60. The technique's own application reproduced it (day 20, 30 recorded) and fixed it with a high-water mark.",
+    "Without the +1, workLeft = daysOut gives ratio 1 and score 0.5, the midpoint, not the ceiling.",
+    "Close date Wednesday, now Monday 20:00 in New York (Tuesday 01:00 UTC): local count 2, UTC count 1. The UTC-framed count is one too LOW, which is what makes the day-of reminder fire early and the count go negative a day early.",
+    "A funder time published as 25:73 clamped to 23:59 is a closing instant no funder stated."
+  ],
+  "sources": [
+    {
+      "url": "https://grants.nih.gov/grants/guide/notice-files/NOT-OD-26-064.html",
+      "result": "Opened directly. Quoted: applies 'for applications submitted for due dates on or after May 25, 2026'; 'We don't accept late applications due to situations involving individuals other than a PD/PI'; study-section service 'within four calendar weeks before or after the due date'; no late submissions for Fellowship and Small Business applications with the shortest pre-review time, Collaborative International Research applications (e.g., PF5, UF5), and opportunities that say so; Continuous Submission accepted 'through August 10, 2026'. Supports the process application except that it omits the international-collaboration exclusion and says 'of' rather than 'before or after'."
+    },
+    {
+      "url": "https://www.grants.gov/applicants/applicant-registration/organization-registration",
+      "result": "Quoted: SAM registration 'can take an average of 7-10 business days after all information has been entered in SAM'. Consistent with the process application's re-checked figures."
+    },
+    {
+      "path": "knowledge/grant-funding/grant-operations/deadline-pipeline-management",
+      "result": "All 14 documents read; rules re-derived on paper. No code executed."
+    }
+  ],
+  "documents": {
+    "deadline-pipeline-management.md": {
+      "disposition": "keep",
+      "reason": "Unchanged in substance since 2026-09-10; the two-clock split and plan-to/expire-by separation hold. The ladder summary states the two invariants without the flawed new-rung sentence."
+    },
+    "techniques/closing-instant-resolution.md": {
+      "disposition": "clarify",
+      "reason": "Still owed: 'Clamp parsed times into valid range rather than rejecting the record' contradicts the same document's 'do not fabricate precision' and honest-null-over-forced-guess."
+    },
+    "techniques/cross-client-deadline-union.md": {
+      "disposition": "keep",
+      "reason": "Unchanged; its application confirms degrade-visibly and loud cap-hits were the rules a conforming fan-out broke."
+    },
+    "techniques/escalating-reminder-thresholds.md": {
+      "disposition": "clarify",
+      "reason": "Still owed, and now confirmed by its own application: the 'When adding a rung' rule claims the stated selector prevents a retro-fire it actually produces. The fix the application shipped is a monotone high-water mark: never fire a rung larger than one already handled."
+    },
+    "techniques/miss-risk-scoring.md": {
+      "disposition": "clarify",
+      "reason": "Still owed: the +1 justification is arithmetically wrong (ungraced parity is 0.5, not the ceiling); its real job is the daysOut = 0 guard. The opening also calls the output a 'probability-of-missing estimate' while its own rules forbid presenting it as a probability."
+    },
+    "techniques/severity-band-triage.md": {
+      "disposition": "keep",
+      "reason": "The added 'ask the band function, never re-state its threshold' rule is backed by its application's paired test."
+    },
+    "techniques/submission-lead-time-buffers.md": {
+      "disposition": "keep",
+      "reason": "The 2026-09-10 clarify (rollover exception to the original-date rule) has been applied: the text now distinguishes the standing weekend/holiday rollover. The hardship-exception bullet matches NOT-OD-26-064."
+    },
+    "techniques/timezone-correct-day-math.md": {
+      "disposition": "clarify",
+      "reason": "Retracts the 2026-09-10 keep. 'computes every day count one too high' is backwards: after UTC midnight but before local midnight in a zone behind UTC, today-in-UTC is a day ahead, so the count is one too LOW. The document's own symptoms (day-of reminder early, count negative a day early) only follow from a count that is too low."
+    },
+    "applications/node--closing-instant-resolution.md": {
+      "disposition": "keep",
+      "reason": "Faithful report of the code; its clamping note describes the code and inherits the technique's open boundary. Line citations unverified (private tree)."
+    },
+    "applications/node--cross-client-deadline-union.md": {
+      "disposition": "keep",
+      "reason": "States its unmet gaps (no merged soonest-first list, server-instant day count) and a return condition. Not re-run."
+    },
+    "applications/node--escalating-reminder-thresholds.md": {
+      "disposition": "keep",
+      "reason": "The falsifying test and the high-water-mark invariant are the evidence for the technique's clarify. Not re-run."
+    },
+    "applications/node--miss-risk-scoring.md": {
+      "disposition": "clarify",
+      "reason": "Still owed: quotes the source comment '+1 grace: exactly-enough-time != certain miss' without noting the inherited arithmetic error. Anchor cases recompute (4.5/3 = 1.5 -> 0.6 critical; 0.25/3 -> 0.077 on track)."
+    },
+    "applications/node--severity-band-triage.md": {
+      "disposition": "keep",
+      "reason": "Paired test at eight edge days; scope of the change and the deliberately untouched email prefix are stated."
+    },
+    "applications/process--submission-lead-time-buffers.md": {
+      "disposition": "clarify",
+      "reason": "Re-checked earlier today and now largely right; the 2026-09-10 reverify items are resolved in the text. One gap against NOT-OD-26-064 opened this run: the excluded list omits Collaborative International Research applications (e.g. PF5, UF5), and study-section service is 'within four calendar weeks before or after' the due date."
+    }
+  }
+}
+```
+
+## Architecture review - 2026-10-31 (clarify applied)
+
+Applied all six clarify items. Nothing in the subject is now owed beyond the standing limit that the private tree's code citations were not re-checked.
+
+<!-- architecture-review:v1 -->
+```json
+{
+  "subject": "grant-funding/deadline-pipeline-management",
+  "date": "2026-10-31",
+  "baseline": "3f7e1dfbc",
+  "digest": "sha256-b2:870ba724ad273429",
+  "disposition": "keep",
+  "coverage": "All 14 documents decided. Every clarify item from the record above was applied and the edited passages re-read; the reminder rule, the +1 and the day-count direction were re-derived, and the NIH change rests on NOT-OD-26-064 opened this run. Other documents are byte-unchanged. No verification date changed. Application line citations remain unverified (private tree).",
+  "counterexamples": [
+    "A 60-day rung added while an application sits at day 5 with 30/14/7 recorded: crossed = {60,30,14,7}, unhandled = {60}, so 'fire the smallest crossed unhandled' fires 60. The technique's own application reproduced it (day 20, 30 recorded) and fixed it with a high-water mark.",
+    "Without the +1, workLeft = daysOut gives ratio 1 and score 0.5, the midpoint, not the ceiling.",
+    "Close date Wednesday, now Monday 20:00 in New York (Tuesday 01:00 UTC): local count 2, UTC count 1. The UTC-framed count is one too LOW, which is what makes the day-of reminder fire early and the count go negative a day early.",
+    "A funder time published as 25:73 clamped to 23:59 is a closing instant no funder stated."
+  ],
+  "sources": [
+    {
+      "url": "https://grants.nih.gov/grants/guide/notice-files/NOT-OD-26-064.html",
+      "result": "Opened directly. Quoted: applies 'for applications submitted for due dates on or after May 25, 2026'; 'We don't accept late applications due to situations involving individuals other than a PD/PI'; study-section service 'within four calendar weeks before or after the due date'; no late submissions for Fellowship and Small Business applications with the shortest pre-review time, Collaborative International Research applications (e.g., PF5, UF5), and opportunities that say so; Continuous Submission accepted 'through August 10, 2026'. Supports the process application except that it omits the international-collaboration exclusion and says 'of' rather than 'before or after'."
+    },
+    {
+      "url": "https://www.grants.gov/applicants/applicant-registration/organization-registration",
+      "result": "Quoted: SAM registration 'can take an average of 7-10 business days after all information has been entered in SAM'. Consistent with the process application's re-checked figures."
+    },
+    {
+      "path": "knowledge/grant-funding/grant-operations/deadline-pipeline-management",
+      "result": "All 14 documents read; rules re-derived on paper. No code executed."
+    }
+  ],
+  "documents": {
+    "deadline-pipeline-management.md": {
+      "disposition": "keep",
+      "reason": "Unchanged in substance since 2026-09-10; the two-clock split and plan-to/expire-by separation hold. The ladder summary states the two invariants without the flawed new-rung sentence."
+    },
+    "techniques/closing-instant-resolution.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: 'Clamp parsed times into valid range' replaced by repair-formatting-never-invent: a recoverable slip is normalized, an out-of-range time is dropped and the record falls back to date-only defaults."
+    },
+    "techniques/cross-client-deadline-union.md": {
+      "disposition": "keep",
+      "reason": "Unchanged; its application confirms degrade-visibly and loud cap-hits were the rules a conforming fan-out broke."
+    },
+    "techniques/escalating-reminder-thresholds.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: the new-rung rule now states that 'smallest crossed unsent' alone retro-fires (day 5, 30/14/7 handled, 60 fires) and adds the high-water mark its application shipped, with both test halves."
+    },
+    "techniques/miss-risk-scoring.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: 'probability-of-missing estimate' changed to 'miss-pressure index (uncalibrated, not a probability)'; the +1 now justified by the daysOut = 0 guard, with the grace effect stated correctly (below the 0.5 midpoint)."
+    },
+    "techniques/severity-band-triage.md": {
+      "disposition": "keep",
+      "reason": "The added 'ask the band function, never re-state its threshold' rule is backed by its application's paired test."
+    },
+    "techniques/submission-lead-time-buffers.md": {
+      "disposition": "keep",
+      "reason": "The 2026-09-10 clarify (rollover exception to the original-date rule) has been applied: the text now distinguishes the standing weekend/holiday rollover. The hardship-exception bullet matches NOT-OD-26-064."
+    },
+    "techniques/timezone-correct-day-math.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: 'one too high' corrected to 'one too low', with the reason (today-in-UTC is already tomorrow locally)."
+    },
+    "applications/node--closing-instant-resolution.md": {
+      "disposition": "keep",
+      "reason": "Faithful report of the code; its clamping note describes the code and inherits the technique's open boundary. Line citations unverified (private tree)."
+    },
+    "applications/node--cross-client-deadline-union.md": {
+      "disposition": "keep",
+      "reason": "States its unmet gaps (no merged soonest-first list, server-instant day count) and a return condition. Not re-run."
+    },
+    "applications/node--escalating-reminder-thresholds.md": {
+      "disposition": "keep",
+      "reason": "The falsifying test and the high-water-mark invariant are the evidence for the technique's clarify. Not re-run."
+    },
+    "applications/node--miss-risk-scoring.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: a note added that the quoted +1 comment inherits the old arithmetic. verified_on unchanged."
+    },
+    "applications/node--severity-band-triage.md": {
+      "disposition": "keep",
+      "reason": "Paired test at eight edge days; scope of the change and the deliberately untouched email prefix are stated."
+    },
+    "applications/process--submission-lead-time-buffers.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: NOT-OD-26-064 exclusions now include Collaborative International Research applications (PF5, UF5); study-section service is 'before or after' the due date, as the notice says. verified_on already 2026-10-31, unchanged."
+    }
   }
 }
 ```

@@ -27,8 +27,15 @@ Given `(provider, model, input tokens, lane)`:
    and a matching lane row exists for the model, use it — flat, done. If the
    lane row does not exist, **fall through to standard rates** rather than
    failing: a lane the operator has not priced is a lane billed at base, which
-   is the conservative direction (base rates are the ceiling for discount
-   lanes), and it means adopting a new lane in clients never breaks costing.
+   is the conservative direction for discount lanes (base rates are their
+   ceiling), and it means adopting a new lane in clients never breaks costing.
+   For a **premium** lane the same fall-through under-prices: providers list
+   priority-style lanes above standard (1.75x to 2.5x standard input at one
+   major provider in late 2026), so base is the floor there. Lanes also get
+   renamed, and a client sending the new name finds no row and falls through
+   the same way. An unpriced premium lane is therefore a disclosed partial
+   miss, as the class-fallback rule below treats a premium class, not a
+   silent price at base.
 2. **Then the prompt-length tier.** Among tier rows for the model, take the
    **highest threshold the call's input actually exceeds**; ties are
    impossible because thresholds are the key. If no threshold is exceeded, the

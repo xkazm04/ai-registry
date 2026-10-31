@@ -48,7 +48,8 @@ tens, not the tens of thousands.
    coordinates and received a mesh without them, with no explanation, will ship the mesh.
 4. **Propagate the refusal downstream.** A bake requested alongside a refused unwrap is
    also refused, for the stated reason that there is no texture space to write into. Never
-   run a bake into a mesh whose coordinates were not created this run.
+   run a bake into a mesh whose coordinates this run neither created nor deliberately kept
+   (a re-pack of an authored layout counts as keeping it).
 5. **Record which version was unwrapped** in the run report, so a later stage can tell
    whether the coordinates it sees are the ones this pipeline authored.
 

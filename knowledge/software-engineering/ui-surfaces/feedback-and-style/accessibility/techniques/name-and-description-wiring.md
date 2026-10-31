@@ -26,7 +26,11 @@ was never wired is an audit finding per control.
 In outline: an explicit reference to labeling elements wins over a
 direct label attribute, which wins over an associated visible label,
 which wins over the element's own content, with stragglers (placeholder,
-tooltip text) as fallbacks of last resort. Three practical consequences:
+tooltip text) as fallbacks of last resort. That ordering is the
+browser's published name-computation algorithm, not a law of the
+domain: a native accessibility schema can rank the top two the other
+way round, so a product with a browser surface and a native one wires
+two chains that disagree at the top. Three practical consequences:
 
 - **Know which source is naming each control.** When two sources are
   present, the higher-precedence one silently wins — the classic defect

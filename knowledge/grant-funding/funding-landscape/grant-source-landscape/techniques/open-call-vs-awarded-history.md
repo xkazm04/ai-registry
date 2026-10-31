@@ -19,7 +19,7 @@ exist, and each supports a different product function and nothing else:
 | --- | --- | --- | --- |
 | **Open-call feed** | what can be applied to, by when | the match itself; the deadline pipeline | scarce — a few structured feeds per continent |
 | **Awarded history** | who funded whom, at what size | funder intelligence; match *ranking*; "funders like yours" | abundant and structured almost everywhere |
-| **Applicant registry** | who the applicant legally is | onboarding; verification; the eligibility gate | strong nationally; absent at the supranational level |
+| **Applicant registry** | who the applicant legally is | onboarding; verification; the eligibility gate | strong nationally; at the supranational level, validation of registered participants but no register a third party can query |
 
 The kinds are not interchangeable and not convertible. No amount of awarded
 history produces a single applicable opportunity; no opportunity feed tells
@@ -83,10 +83,12 @@ a match candidate no one can apply to.
 - When awarded history is abundant and open calls are scarce — the normal
   case — let history power ranking and intelligence while the scarce feeds
   power existence. Both, correctly placed, beat either misplaced.
-- When a registry is missing at the level a funder operates (the
+- When the level a funder operates at validates its own registered
+  participants but offers no register a third party can query (the
   supranational case), the eligibility gate degrades to per-member-state
-  verification; plan the product around that seam rather than pretending a
-  unified registry exists.
+  verification for anything the product must check itself; plan the product
+  around that seam rather than pretending a queryable unified registry
+  exists.
 
 ## When not to apply
 

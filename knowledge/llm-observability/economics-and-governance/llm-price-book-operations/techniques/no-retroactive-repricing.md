@@ -44,16 +44,21 @@ only orphan them. Accounting that can change after the fact is not
 accounting. The bounded cost of a frozen wrong window — known, dated,
 explainable — is the price of every other number staying citable forever.
 
-## The deliberate asymmetry: imputed charges self-correct
+## The deliberate asymmetry: imputed charges are recomputed
 
 One class of traffic escapes the freeze, on purpose. An event whose model had
 *no row at all* at ingest was never stamped — its cost is null, per
 [nullable-never-zero](../../../_laws.md#nullable-never-zero) — so anywhere a
 charge for it is needed (a cost cap must count it as something), the charge
 is **imputed at evaluation time** under a disclosed rule. Because imputation
-is computed fresh at each evaluation, adding the missing price later means
-the very next evaluation prices that traffic correctly: **only unpriced
-traffic self-corrects, because only unpriced traffic carries no stamp.**
+is computed fresh at each evaluation, **only unpriced traffic can move after
+the fact, because only unpriced traffic carries no stamp.** What the next
+evaluation charges once the missing price lands depends on that rule. A rule
+that re-resolves the book per event and falls back to an estimate only on a
+miss prices that traffic at the new row. A rule that charges every unpriced
+call the window's mean priced-call cost does not: the new row only shifts the
+mean, through the traffic stamped after it landed. State which rule you run
+beside the caveat.
 
 The asymmetry is principled, not accidental, and worth stating as a rule:
 *a measurement, once made, is frozen; an estimate, never having been a

@@ -49,8 +49,11 @@ pile of examples:
   that folds exactly where folding is induced.
 - **Human labels have their own error.** Where feasible, label with more
   than one annotator and record inter-annotator agreement; it is the
-  ceiling against which the judge's kappa is read. A judge cannot agree
-  with humans more than humans agree with each other.
+  ceiling against which the judge's kappa is read. Where the annotations
+  are independent, a judge cannot be expected to agree with humans more
+  than humans agree with each other. A set adjudicated to one reference
+  label has no inter-annotator kappa left to serve as that ceiling, and a
+  judge can exceed the raw pairwise agreement of its original annotators.
 - **Sized for its question.** For a roughly balanced pass/fail criterion, a
   few dozen stratified items pin kappa to a usable band; skewed or
   heavy-tailed criteria need low hundreds. Below that, treat every kappa
@@ -74,7 +77,7 @@ No single number captures agreement. Compute the family over the paired
 | Correlation | does the judge *rank* quality like the human? | insensitive to scale compression and constant offset |
 | Mean absolute error / RMSE | how far do individual verdicts sit from the human's? | averages away systematic direction |
 | Bias (mean judge − mean human) | is the judge generous or harsh overall? | a zero bias can hide symmetric large errors |
-| Cohen's kappa on binarized pass/fail | does the judge make the same *decision* a gate would, beyond chance? | depends on the chosen threshold; degenerate under extreme class imbalance |
+| Cohen's kappa on binarized pass/fail | does the judge make the same *decision* a gate would, beyond chance? | depends on the chosen threshold; under class imbalance it fails two ways — undefined when both raters use one class, and low despite high agreement when the marginals are lopsided (the kappa paradox) |
 
 Kappa carries the trust verdict because it is the decision-shaped,
 chance-corrected one. Raw agreement rate is reported but never trusted
@@ -84,7 +87,12 @@ Handle the degenerate case explicitly: when both raters put every item in
 one class, expected agreement is total and the kappa formula divides by
 zero; define it as perfect only under full agreement, else zero, and say so
 in the output rather than emitting a NaN downstream code will compare
-against a bar.
+against a bar. The second failure needs no degeneracy: a substantial
+imbalance in the marginal totals can drastically lower kappa while observed
+agreement stays high (Feinstein and Cicchetti, "High agreement but low
+kappa", 1990). On a lopsided set, report observed agreement and the
+prevalence beside kappa, so a low kappa can be read as disagreement or as
+the paradox.
 
 Two thresholds parameterize the whole measurement and must travel with
 every result: the **pass threshold** that binarizes scores (it drives

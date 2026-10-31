@@ -116,3 +116,175 @@ it before landing. Live term-10 ballots: 495,800, all documented codes, 0 unknow
 so no figure moved. The technique gains one paragraph: every mapping built on the
 vocabulary owes rule 3, with typed input, imported sets and no default arm.
 Residual: the count is not yet rendered on the page.
+
+## Architecture review - 2026-10-31
+
+Re-review of all 13 documents. The 2026-09-09 clarifies are in the text, and four applications and two boundary paragraphs arrived since. One example in the golden path drops the condition that makes it true.
+
+<!-- architecture-review:v1 -->
+```json
+{
+  "subject": "civic-intelligence/roll-call-vote-analysis",
+  "date": "2026-10-31",
+  "baseline": "c283f0c50",
+  "digest": "sha256-b2:1fb04612acd77185",
+  "disposition": "clarify",
+  "coverage": "All 13 current documents read in full. Prior clarifies checked by diff against the 2026-09-09 baselines; applications' internal arithmetic recomputed. Primary sources listed were opened this run unless marked otherwise. Not evaluated: any connected-project tree, dump replay or test run. No verification date refreshed.",
+  "counterexamples": [
+    "Twenty members who vote 10 yes and 10 no while 80 stay away score Rice 0, not 1, so the strategic-absence example needs the shared direction.",
+    "A display bucketer with a default arm files an unknown code as an absence, the one slot reconciliation never compares.",
+    "Rounded stored rates tie at a top-N cut, so store order picks the last partners shown.",
+    "Two unanimous opposing groups yield average within-group Rice 1 and pooled Rice 0 (retained)."
+  ],
+  "sources": [
+    {
+      "url": "https://www.psp.cz/sqw/hp.sqw?k=1302",
+      "result": "Re-read 2026-10-31. hl_poslanec.id_poslanec is 'Identifikátor poslance, viz poslanec:id_poslanec' (the mandate row). Codes: 'A' ano, 'B' or 'N' ne, 'C' zdržel se, 'F' nehlasoval, '@' nepřihlášen, 'M' omluven, 'W' hlasování před složením slibu, 'K' zdržel se/nehlasoval; 'Od účinnosti novely jednacího řádu 90/1995 Sb. se nerozlišuje zdržel se a nehlasoval'. Manual votes: 'R - ruční (nejsou známy hlasování jednotlivých poslanců)'; 'E' marks votes with data missing through a technical fault. zmatecne votes are those 'na jejich výsledek nebyl brán zřetel'; hl_check records challenges, where mode 1 is only a note for the transcript. Supports the vocabulary, merged-category ceiling, coverage and challenge-is-not-annulment claims."
+    },
+    {
+      "url": "https://www.psp.cz/sqw/hp.sqw?k=1300",
+      "result": "Not re-opened; retained from 2026-09-09 (full-snapshot updates)."
+    }
+  ],
+  "documents": {
+    "roll-call-vote-analysis.md": {
+      "disposition": "clarify",
+      "reason": "2026-09-09 clarifies landed (coverage before census, binary metric cannot classify abstention intent, support floor is a convention). Owed: 'a party where 20 of 100 members vote and 80 stay away scores as perfectly unified' is true only if the 20 vote the same way; rice-cohesion-index says '20 of 100 members vote yes'. Align."
+    },
+    "techniques/club-line-and-rebellion.md": {
+      "disposition": "keep",
+      "reason": "Dated membership, a separate per-division line-support rule, leave-one-out disclosure and per-group rollup across switches are present."
+    },
+    "techniques/co-voting-agreement-matrix.md": {
+      "disposition": "keep",
+      "reason": "One resolved ballot per person/division, cross-period comparability and the 2026-10-10 rounded-rate tie boundary are present and consistent with the application (151 of 203 tie cuts)."
+    },
+    "techniques/positional-vs-participation-bases.md": {
+      "disposition": "keep",
+      "reason": "Binary convention scoped, subset fractions named, unaffiliated pairwise analysis preserved, eligibility respects mandate dates."
+    },
+    "techniques/rice-cohesion-index.md": {
+      "disposition": "keep",
+      "reason": "Whipping inference removed; within-group versus pooled cohesion separated; arithmetic checks: a 2-1 group of three scores 1/3, majority share = (Rice + 1) / 2."
+    },
+    "techniques/tally-reconciliation.md": {
+      "disposition": "keep",
+      "reason": "Same-snapshot comparison, affected-output gating, traceable repair of confirmed ingest defects and the identity-swap limit are present."
+    },
+    "techniques/vote-choice-vocabulary-mapping.md": {
+      "disposition": "keep",
+      "reason": "Raw codes kept, vocabulary-break claims limited to affected metrics, and the 2026-10-22 second-mapping paragraph is consistent with its application. Code list and the 90/1995 merge confirmed against k=1302 this run."
+    },
+    "applications/node--club-line-and-rebellion.md": {
+      "disposition": "reverify",
+      "reason": "The quoted 1995 ceiling note matches k=1302 (novela 90/1995 Sb.). Consumer code and fixtures not executed."
+    },
+    "applications/node--tally-reconciliation.md": {
+      "disposition": "reverify",
+      "reason": "Unchanged; consumer recount and the historical incident not replayed."
+    },
+    "applications/node--co-voting-agreement-matrix.md": {
+      "disposition": "reverify",
+      "reason": "Internally consistent (1,624 - 1,419 = 205 cross-club rows; 1,568 / 1,624 = 96.6%). Replay and private tree at 486c1bd not re-run."
+    },
+    "applications/node--positional-vs-participation-bases.md": {
+      "disposition": "reverify",
+      "reason": "Structural-only proof with two observed-but-unchanged defects disclosed; tree not reopened."
+    },
+    "applications/node--rice-cohesion-index.md": {
+      "disposition": "reverify",
+      "reason": "Fixture A/B; the live share of thin days is explicitly unmeasured; tree not reopened."
+    },
+    "applications/node--vote-choice-vocabulary-mapping.md": {
+      "disposition": "reverify",
+      "reason": "The four live codes it reports are documented codes in k=1302. Fixture A/B and 495,800-ballot count not re-run."
+    }
+  }
+}
+```
+
+## Architecture review - 2026-10-31 (clarify applied)
+
+Applied the golden-path clarify. Applications untouched and keep `reverify`, now the overall disposition.
+
+<!-- architecture-review:v1 -->
+```json
+{
+  "subject": "civic-intelligence/roll-call-vote-analysis",
+  "date": "2026-10-31",
+  "baseline": "8432a5cfa",
+  "digest": "sha256-b2:175c79131c4adda4",
+  "disposition": "reverify",
+  "coverage": "All 13 documents decided. The clarify items owed by the earlier 2026-10-31 record were applied and re-read; other documents are byte-unchanged and keep their dispositions. No private tree or runtime reopened; no verification date refreshed.",
+  "counterexamples": [
+    "Twenty members who vote 10 yes and 10 no while 80 stay away score Rice 0, not 1, so the strategic-absence example needs the shared direction.",
+    "A display bucketer with a default arm files an unknown code as an absence, the one slot reconciliation never compares.",
+    "Rounded stored rates tie at a top-N cut, so store order picks the last partners shown.",
+    "Two unanimous opposing groups yield average within-group Rice 1 and pooled Rice 0 (retained)."
+  ],
+  "sources": [
+    {
+      "url": "https://www.psp.cz/sqw/hp.sqw?k=1302",
+      "result": "Re-read 2026-10-31. hl_poslanec.id_poslanec is 'Identifikátor poslance, viz poslanec:id_poslanec' (the mandate row). Codes: 'A' ano, 'B' or 'N' ne, 'C' zdržel se, 'F' nehlasoval, '@' nepřihlášen, 'M' omluven, 'W' hlasování před složením slibu, 'K' zdržel se/nehlasoval; 'Od účinnosti novely jednacího řádu 90/1995 Sb. se nerozlišuje zdržel se a nehlasoval'. Manual votes: 'R - ruční (nejsou známy hlasování jednotlivých poslanců)'; 'E' marks votes with data missing through a technical fault. zmatecne votes are those 'na jejich výsledek nebyl brán zřetel'; hl_check records challenges, where mode 1 is only a note for the transcript. Supports the vocabulary, merged-category ceiling, coverage and challenge-is-not-annulment claims."
+    },
+    {
+      "url": "https://www.psp.cz/sqw/hp.sqw?k=1300",
+      "result": "Not re-opened; retained from 2026-09-09 (full-snapshot updates)."
+    }
+  ],
+  "documents": {
+    "roll-call-vote-analysis.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: the strategic-absence example now reads '20 of 100 members vote yes and 80 stay away', matching rice-cohesion-index; without the shared direction the 20 would not score as unified. Source-completeness, abstention-semantics and support-floor clarifies from 2026-09-09 are present."
+    },
+    "techniques/club-line-and-rebellion.md": {
+      "disposition": "keep",
+      "reason": "Dated membership, a separate per-division line-support rule, leave-one-out disclosure and per-group rollup across switches are present."
+    },
+    "techniques/co-voting-agreement-matrix.md": {
+      "disposition": "keep",
+      "reason": "One resolved ballot per person/division, cross-period comparability and the 2026-10-10 rounded-rate tie boundary are present and consistent with the application (151 of 203 tie cuts)."
+    },
+    "techniques/positional-vs-participation-bases.md": {
+      "disposition": "keep",
+      "reason": "Binary convention scoped, subset fractions named, unaffiliated pairwise analysis preserved, eligibility respects mandate dates."
+    },
+    "techniques/rice-cohesion-index.md": {
+      "disposition": "keep",
+      "reason": "Whipping inference removed; within-group versus pooled cohesion separated; arithmetic checks: a 2-1 group of three scores 1/3, majority share = (Rice + 1) / 2."
+    },
+    "techniques/tally-reconciliation.md": {
+      "disposition": "keep",
+      "reason": "Same-snapshot comparison, affected-output gating, traceable repair of confirmed ingest defects and the identity-swap limit are present."
+    },
+    "techniques/vote-choice-vocabulary-mapping.md": {
+      "disposition": "keep",
+      "reason": "Raw codes kept, vocabulary-break claims limited to affected metrics, and the 2026-10-22 second-mapping paragraph is consistent with its application. Code list and the 90/1995 merge confirmed against k=1302 this run."
+    },
+    "applications/node--club-line-and-rebellion.md": {
+      "disposition": "reverify",
+      "reason": "The quoted 1995 ceiling note matches k=1302 (novela 90/1995 Sb.). Consumer code and fixtures not executed."
+    },
+    "applications/node--tally-reconciliation.md": {
+      "disposition": "reverify",
+      "reason": "Unchanged; consumer recount and the historical incident not replayed."
+    },
+    "applications/node--co-voting-agreement-matrix.md": {
+      "disposition": "reverify",
+      "reason": "Internally consistent (1,624 - 1,419 = 205 cross-club rows; 1,568 / 1,624 = 96.6%). Replay and private tree at 486c1bd not re-run."
+    },
+    "applications/node--positional-vs-participation-bases.md": {
+      "disposition": "reverify",
+      "reason": "Structural-only proof with two observed-but-unchanged defects disclosed; tree not reopened."
+    },
+    "applications/node--rice-cohesion-index.md": {
+      "disposition": "reverify",
+      "reason": "Fixture A/B; the live share of thin days is explicitly unmeasured; tree not reopened."
+    },
+    "applications/node--vote-choice-vocabulary-mapping.md": {
+      "disposition": "reverify",
+      "reason": "The four live codes it reports are documented codes in k=1302. Fixture A/B and 495,800-ballot count not re-run."
+    }
+  }
+}
+```

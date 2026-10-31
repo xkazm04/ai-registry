@@ -184,3 +184,173 @@ its first application document, and it is a `code` / `better` row.
   stated where each reader will meet it.
 - **Not touched:** `total-restart-point-by-reference` still owes the opaque-host
   boundary, and the second sighting has still not arrived.
+
+## Architecture review - 2026-10-31
+
+Re-review against `140c101d`. The subject is stale only because of additions: three
+applications, the marker boundary and the state-construction boundary. Those are
+sound. None of the clarify changes the 2026-09-09 record named were made, so they
+are restated below as still owed. The Temporal re-read supports the old record's
+first counterexample: replay is a valid recovery design whose cost is bounded by
+declared limits. No verification date was refreshed.
+
+<!-- architecture-review:v1 -->
+```json
+{
+  "subject": "software-engineering/durable-agent-operations",
+  "date": "2026-10-31",
+  "baseline": "140c101d",
+  "digest": "sha256-b2:2939cd03f8f3a4d1",
+  "disposition": "clarify",
+  "coverage": "All 10 current documents decided. The golden path and four techniques are byte-unchanged since the 2026-09-09 record (baseline fee4d71f), and the specific claims that record flagged were confirmed still present by grep. The two techniques with additions were read in their changed sections. The three applications added since were read in full. Relative links, including the new cross-subject link to session-continuation/stuck-loop-detection, resolve. One primary source was re-read. No private tree or runtime was reopened.",
+  "counterexamples": [
+    "An event-history engine recovers by replaying its journal and documents hard history limits with a remedy (Continue-As-New). A folded journal therefore has growing cost but is not untestable or unenumerable by construction.",
+    "A clean-shutdown marker that skips a recency-keyed sweep is safe. The same marker skipping a state-keyed sweep hides interrupted runs, and crash tests stay green because the crash path is untouched.",
+    "A spend column defaulted to zero cannot tell 'never reached the provider' from 'reached it and the cost is unknown'. A session-id predicate separates them on recorded data without pricing anything.",
+    "A fixture that writes only the record's enum value builds a state production never produces when the transition also writes a hold row in the same transaction."
+  ],
+  "sources": [
+    {
+      "url": "https://docs.temporal.io/workflow-execution/event",
+      "result": "Re-read. Event History 'enables the Workflow Execution to recover from a crash and continue making progress'. Execution is terminated when history 'exceeds 51,200 Events' (warning after 10,240), and Continue-As-New is the stated remedy. This supports the 'cost grows with the run' half of the journal failure mode. It refutes the claim, still in recovery-prefix-enumeration.md, that a folded journal makes crash states unenumerable or untestable."
+    },
+    {
+      "source": "git diff fee4d71f..140c101d over the subject directory",
+      "result": "Only additions landed: the marker boundary in close-is-a-controlled-crash, two construction boundaries in recovery-prefix-enumeration, and three applications. None of the 2026-09-09 clarify changes were made."
+    },
+    {
+      "source": "The three new applications (personas, gravitone)",
+      "result": "Read as documents. They are internally consistent: 4 of 8 states reopened before and 8 of 8 after; 22 + 3 = 25 priced and unpriced session rows plus 7 sessionless; the 31 reaped rows split into 21 + 10. The private trees were not reopened."
+    }
+  ],
+  "documents": {
+    "durable-agent-operations.md": {
+      "disposition": "clarify",
+      "reason": "The 2026-09-09 clarify for this document has not been applied: the text is unchanged since baseline fee4d71f. Still owed: scope representation choices, ownership fencing, transactional assumptions and shutdown guarantees. In particular, the 'journal that must be folded' failure mode should say its cost grows with the run while replay remains a valid recovery design."
+    },
+    "techniques/total-restart-point-by-reference.md": {
+      "disposition": "clarify",
+      "reason": "The 2026-09-09 clarify for this document has not been applied: the text is unchanged since baseline fee4d71f. Still owes the opaque-host boundary, the bounded-envelope versus collection-cost distinction, and cross-store cleanup."
+    },
+    "techniques/intent-mints-the-identity.md": {
+      "disposition": "clarify",
+      "reason": "The 2026-09-09 clarify for this document has not been applied: the text is unchanged since baseline fee4d71f. Distinguish the local attempt identity from the destination idempotency key, and require stale-owner protection. The new rust application shows the spend half: reserve or mark unknown at the intent."
+    },
+    "techniques/settlement-order-is-not-placement-order.md": {
+      "disposition": "clarify",
+      "reason": "The 2026-09-09 clarify for this document has not been applied: the text is unchanged since baseline fee4d71f. Scope the source-order requirement and parallelism, and admit durably staged batch placement as a valid alternative."
+    },
+    "techniques/two-cancellations-and-a-synchronous-door.md": {
+      "disposition": "clarify",
+      "reason": "The 2026-09-09 clarify for this document has not been applied: the text is unchanged since baseline fee4d71f. Local serialization does not establish global cancellation. Separate requested from reconciled, and handle failed persistence."
+    },
+    "techniques/close-is-a-controlled-crash.md": {
+      "disposition": "clarify",
+      "reason": "The new marker boundary (recency-keyed versus state-keyed sweep) is sound and is reconciled with the session-continuation technique. The 2026-09-09 items are still owed: separate admission sealing from write closure, preserve genuinely settled outcomes during a bounded drain, and test abrupt loss separately."
+    },
+    "techniques/recovery-prefix-enumeration.md": {
+      "disposition": "clarify",
+      "reason": "The two new boundaries (build a state the way its transition commits it; effect-prefix suites do not imply state-leaf coverage) are good. Still owed: line 25 equates a closed vocabulary with a finite state set, and 'When not to use it' still says a folded journal makes crash states not enumerable. Temporal's replay-based recovery contradicts the second."
+    },
+    "applications/node--recovery-prefix-enumeration.md": {
+      "disposition": "reverify",
+      "reason": "States a seeded-defect control, a floor of 528/528 tests, and that no recovery defect was found. The private tree and its suites were not re-run."
+    },
+    "applications/rust--close-is-a-controlled-crash.md": {
+      "disposition": "reverify",
+      "reason": "A clear paired fixture. The field count was revised from 31 to 10, stated as an upper bound with the confounders named. The private tree, the commit 5429ab2d5 and the 13/13 run were not reopened."
+    },
+    "applications/rust--intent-mints-the-identity.md": {
+      "disposition": "reverify",
+      "reason": "A read-only experiment on a private database. It stated its falsifiers, declined to give the dollar figure as a result, and shipped nothing. The queries were not re-run."
+    }
+  }
+}
+```
+
+## Architecture review - 2026-10-31 (clarify applied)
+
+Applied every clarify item the earlier 2026-10-31 record restated as still owed,
+against `19cb20182`. Each was a minimal edit in the document's own voice; the
+factual anchors (Temporal history limits, SQLite atomic commit and flush caveat,
+AWS client request identifiers, fencing tokens) were re-opened this run. The three
+applications were not touched and stay `reverify`, which is now the overall
+disposition. The recovery-prefix edit also carries the 2026-09-09 write-order item.
+
+<!-- architecture-review:v1 -->
+```json
+{
+  "subject": "software-engineering/durable-agent-operations",
+  "date": "2026-10-31",
+  "baseline": "19cb20182",
+  "digest": "sha256-b2:c8b7bced3d1de81f",
+  "disposition": "reverify",
+  "coverage": "All 10 current documents decided. The seven clarify items owed by the 2026-10-31 record (and carried from 2026-09-09) were applied with minimal edits to the golden path and all six techniques; each edited section was re-read after the change. The three applications are untouched and keep their reverify dispositions. Four primary sources were opened this run. No private tree or runtime was reopened and no verification date was refreshed.",
+  "counterexamples": [
+    "An event-history engine recovers by replaying its journal and documents hard history limits with a remedy (Continue-As-New). A folded journal therefore has growing cost but is not untestable or unenumerable by construction.",
+    "A clean-shutdown marker that skips a recency-keyed sweep is safe. The same marker skipping a state-keyed sweep hides interrupted runs, and crash tests stay green because the crash path is untouched.",
+    "A spend column defaulted to zero cannot tell 'never reached the provider' from 'reached it and the cost is unknown'. A session-id predicate separates them on recorded data without pricing anything.",
+    "A fixture that writes only the record's enum value builds a state production never produces when the transition also writes a hold row in the same transaction."
+  ],
+  "sources": [
+    {
+      "url": "https://docs.temporal.io/workflow-execution/event",
+      "result": "Re-read 2026-10-31. Event History 'enables the Workflow Execution to recover from a crash and continue making progress'; a warning is logged 'after 10,240 Events' and execution 'is terminated when the Event History: exceeds 51,200 Events', with Continue-As-New as the remedy. Basis for the replay-is-valid wording in the golden path, total-restart-point-by-reference and recovery-prefix-enumeration."
+    },
+    {
+      "url": "https://www.sqlite.org/atomiccommit.html",
+      "result": "Re-read 2026-10-31. 'Atomic commit means that either all database changes within a single transaction occur or none of them occur', and section 9.2 reports that fsync()/FlushFileBuffers() may not work as advertised. Basis for the golden path's 'each commit is atomic ... rests on the storage honouring its flushes'."
+    },
+    {
+      "url": "https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/",
+      "result": "Re-read 2026-10-31. Describes 'a unique caller-provided client request identifier' reused on retry, a 'semantically equivalent response ... for the same unique request identifier for some interval', and 'a validation error indicating a parameter mismatch between idempotent requests'. Basis for the destination-idempotency-key paragraph in intent-mints-the-identity."
+    },
+    {
+      "url": "https://martin.kleppmann.com/2016/02/08/how-to-do-distributed-locking.html",
+      "result": "Read 2026-10-31. 'you need to include a fencing token with every write request to the storage service ... a number that increases ... every time a client acquires the lock'. Basis for the owner-token fencing added to the golden path and intent-mints-the-identity."
+    }
+  ],
+  "documents": {
+    "durable-agent-operations.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: added the four assumptions (representation is a choice and replay is valid; one owner writes, with fencing; each commit is atomic, resting on storage flushes; close is bounded and abrupt loss must be survived), restated the folded-journal failure mode as recovery cost growing with the run while replay with declared limits stays valid, and made close's drain bounded with genuine settlements committing."
+    },
+    "techniques/total-restart-point-by-reference.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: replaced 'only one survives a long run' with replay named as a valid design with declared limits; distinguished the bounded envelope/live storage from cumulative bytes written and referenced-content cost; added ordered cross-store cleanup with an owner-keyed orphan sweep; added the opaque-host boundary (a host persisting a guest-owned blob cannot name the next procedure from it)."
+    },
+    "techniques/intent-mints-the-identity.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: separated the local attempt identity from the destination idempotency key (reuse the key across retries of an unknown outcome, fresh only after settled failure, retention interval and parameter-mismatch limits); made both commits conditional on an owner/fencing token so a stale owner's late settlement is refused; two decision rules added."
+    },
+    "techniques/settlement-order-is-not-placement-order.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: scoped source order to records whose consumer reads position; stated that parallelism alone does not create the second order; admitted durably staged batch placement as valid, locating the duplication defect in mixing prefix-flush placement with turn-end display removal; decision rule revised."
+    },
+    "techniques/two-cancellations-and-a-synchronous-door.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: stated that the local door does not establish global cancellation; separated requested (marker committed) from reconciled (every owner observed, every admitted effect classified); added the failed-marker-commit path (report failure, reopen the door or exit); added classification of each admitted effect by its actual outcome."
+    },
+    "techniques/close-is-a-controlled-crash.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: separated admission sealing from write closure at the end of a bounded drain; genuine settlements during the drain now commit; added a decision rule to test abrupt loss separately from the close/crash equivalence test."
+    },
+    "techniques/recovery-prefix-enumeration.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: the enumeration is now of finite state shapes (leaves times durable positions) with selected contents, not a finite state set; 'When not to use it' now says journal prefixes are testable by replaying truncated histories, a different derivation; also applied the 2026-09-09 item that write-only traces cannot prove intent-before-effect, by recording effect dispatch in the decorator's sequence."
+    },
+    "applications/node--recovery-prefix-enumeration.md": {
+      "disposition": "reverify",
+      "reason": "States a seeded-defect control, a floor of 528/528 tests, and that no recovery defect was found. The private tree and its suites were not re-run."
+    },
+    "applications/rust--close-is-a-controlled-crash.md": {
+      "disposition": "reverify",
+      "reason": "A clear paired fixture. The field count was revised from 31 to 10, stated as an upper bound with the confounders named. The private tree, the commit 5429ab2d5 and the 13/13 run were not reopened."
+    },
+    "applications/rust--intent-mints-the-identity.md": {
+      "disposition": "reverify",
+      "reason": "A read-only experiment on a private database. It stated its falsifiers, declined to give the dollar figure as a result, and shipped nothing. The queries were not re-run."
+    }
+  }
+}
+```

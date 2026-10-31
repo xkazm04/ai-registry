@@ -16,8 +16,10 @@ ab_verdict: unmeasurable
 The politicas money loop corroborates MP-to-company ties against the live
 Czech register, and keeps a targeted adapter for the ministry's bulk
 export (one file per court, legal form and year). Reading the tree against
-the technique found it already conformant on every rule the technique states,
-so this row records a conformance read, not a change.
+the technique found it conformant on the outcome-state, provenance and
+personal-data rules; routing an absent identifier on to its dissolution-year
+partition is still manual (see the gap below). This row records a conformance
+read, not a change.
 
 ## What A and B were
 
@@ -27,7 +29,7 @@ miss as a routing decision. Three real cases, walked under both.
 
 1. **A company dissolved in 2012.** The live lookup 404s on both endpoints; the
    first two batches recorded a dead end. Under A the tie stays unchecked
-   forever. Under B the dissolution-year full export is fetched and the tie is
+   forever. Under B the dissolution-year full export was fetched by the re-point script and the tie is
    re-pointed to the right entity with its role history. Falsified if the
    export had held no record: it did hold one, and the batch note cites the file.
 2. **Six ties whose identifier was absent from the resolved export.** Under A

@@ -33,7 +33,8 @@ allowed to take. No single line is wrong in isolation. A reviewer reading either
 or the multiplier sees a reasonable piece of code, and an opponent watched on any ordinary
 surface looks right. The defect lives in the product of two correct lines.
 
-The repair is to delete one of the two, not to compensate. Adding power to the affected class
+The repair is to remove the double entry — delete one of the two, or make them exclusive by
+construction as below — not to compensate. Adding power to the affected class
 makes the race finish and leaves the opponent applying the penalty twice, which now shows up
 as that class being oddly weak whenever the surface changes again. Removing the duplicate
 returns the pace to what the single authority says it should be.

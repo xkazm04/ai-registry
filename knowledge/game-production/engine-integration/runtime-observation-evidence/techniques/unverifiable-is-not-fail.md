@@ -41,15 +41,18 @@ gets its own count, its own list, and a reason string naming the specific missin
 
 ## The verdict table for a perceptual check
 
-Worth stating literally, because every clause is load-bearing:
+Worth stating literally, because every clause is load-bearing. *Unverifiable* below is the
+umbrella for the two non-deciding values; each row names which one it is:
 
-- No runtime environment configured → **unverifiable**. An honest unknown, never a silent
-  pass and never a fail.
-- Environment present, but no frame produced (the run failed or timed out) → **unverifiable**.
-  An environmental capture failure is not a defect in the content.
+- No runtime environment configured → **unverifiable (skipped)**. An honest unknown, never a
+  silent pass and never a fail.
+- Environment present, but no frame produced (the run failed or timed out) → **unverifiable
+  (deferred)**. An environmental capture failure is not a defect in the content.
 - Frame produced but measurably black or near-empty → **fail**. The system booted and
   rendered nothing. This is a real observed failure and it needs no interpreting observer at
-  all — a byte-size floor plus a non-black pixel fraction decides it mechanically.
+  all — a non-black pixel fraction decides it mechanically. A byte-size floor is only a cheap
+  proxy for that measurement: a frame of a dark or flat scene can compress small and still be
+  real, so a frame that fails the proxy alone is deferred, not failed.
 - Frame produced and non-empty → **pass** as a floor. If an interpreting observer is
   configured and reachable, its adverse verdict overrides the floor.
 - Frame produced, interpreting observer unavailable → **pass at the floor**, with the frame

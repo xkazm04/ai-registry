@@ -105,9 +105,13 @@ Title Case is the definite-article convention: navigation and section labels
 take الـ, action controls drop it.
 
 The numeral question — Western `0-9` versus Eastern Arabic-Indic `٠-٩` — is the
-one genuinely per-market decision: CLDR defaults most `ar` locales to
-Arabic-Indic digits with the Maghreb on Western, while most software products
-override to Western digits everywhere. Either answer is defensible; what is a
+one genuinely per-market decision. In CLDR each `ar` locale either declares a
+numbering system or inherits one, and inheritance resolves to root's Western
+digits: plain `ar` itself inherits, so a product shipping the bare `ar` tag gets
+Western digits, while `ar_EG` declares Arabic-Indic. No regional rule survives
+the files (a Gulf locale inherits Western, a Maghreb locale declares
+Arabic-Indic), so cite the locale you ship, not the region. Most software
+products override to Western digits everywhere. Either answer is defensible; what is a
 defect is mixing them, or letting machine translation flip a product's settled
 choice string by string. Diacritics (tashkil) are off by default in UI prose,
 with a narrow, deliberate exception for words whose bare skeleton genuinely

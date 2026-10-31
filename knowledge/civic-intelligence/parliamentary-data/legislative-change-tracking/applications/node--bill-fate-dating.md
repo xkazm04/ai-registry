@@ -72,7 +72,9 @@ lowest-rank dedupe (`parseSponsorRoles`, `:281-297`) — **not** from
 authoritative only for written interpellations (`psp-activity.ts:43-50`).
 Rapporteurs are collected from three tables with scope preserved and are
 keyed by seat id, mapped to the person id via the mandate table
-(`:299-333`).
+(`:299-333`). The lowest-rank dedupe and the rank-1 reading were later
+superseded; see
+[node--sponsorship-and-rapporteur-roles](./node--sponsorship-and-rapporteur-roles.md).
 
 ## Review limits - 2026-09-09
 

@@ -37,13 +37,17 @@ at a line end (*k rozhodnutí*, with U+00A0 after *k*). Apply it where
 trivial and in generated text; do not hold a translation hostage chasing
 every instance in legacy strings.
 
-## CS-DASH · The em dash does not exist in Czech
+## CS-DASH · The en dash is the house dash; the em dash is a house ban
 
 > **Rule** — Czech uses the **en dash** *–* (pomlčka, U+2013) with a space on
 > each side where English uses an em dash, and closed up in ranges (*3–7*,
-> *100–240 V*; or use *až*). **—** (U+2014) is not a Czech character.
-> **Source** — MS §4.1.11, which states flatly that the em dash is not used
-> in Czech.
+> *100–240 V*; or use *až*). **—** (U+2014) is excluded as a house constant.
+> **Source** — the house default follows MS §4.1.11, which states flatly that
+> the em dash is not used in Czech. The norm itself is looser: the Language
+> Institute's handbook (prirucka.ujc.cas.cz, Pomlčka) says the long dash *—*
+> is sometimes used beside the short one, provided the two are used
+> consistently within a document. The ban is a recorded house choice, not a
+> fact about Czech.
 
 The instructive incident: a localized landing page carried em dashes in
 almost exactly the source's count — the character travelled with the copy
@@ -52,8 +56,10 @@ voice review could have caught it. It was found by *counting dashes per
 locale and comparing*. Frequency comparison against the source is a general
 detection move for character-level calques. A house may go further than the
 norm (some prose styles recast dashes away entirely, keeping – only for
-ranges); that is a legitimate recorded tightening — what is never legitimate
-is U+2014 in Czech text.
+ranges); that is a legitimate recorded tightening. Under the default house
+constant U+2014 is a finding; a house that has recorded a consistent long-dash
+style instead checks for *mixed* dash use, which the Language Institute rules
+out either way.
 
 ## CS-QUOTES · Czech quotation marks, and usually none at all
 

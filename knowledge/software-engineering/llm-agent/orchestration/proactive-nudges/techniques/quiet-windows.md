@@ -26,10 +26,11 @@ that was never real.
   local time falls in the wrapped interval," never as `start < now < end`
   with a silent assumption that start precedes end.
 - Multiple windows are allowed (nights and a focus block); overlapping
-  windows union. An empty declaration means no quiet time — but the
-  *default* configuration ships with a sane night window, because the
-  users most harmed by 03:00 contact are exactly the ones who never open
-  settings.
+  windows union. An empty declaration means no quiet time. What a user
+  who never declares anything gets is a product policy, chosen and
+  written down; the recommended choice is to ship a sane night window,
+  because the users most harmed by 03:00 contact are exactly the ones
+  who never open settings.
 - Degenerate declarations get pinned meanings: start == end is either
   "always quiet" or "never quiet," and which one is a decision made once,
   documented, and tested — not an accident of the comparison operator.
@@ -59,8 +60,10 @@ matters.
 
 ## The bypass is a closed class
 
-Some events justify waking someone. The design problem is not whether a
-bypass exists but how its membership is governed, because bypass creep is
+Some products decide that some events justify waking someone; a product
+may equally decide that nothing crosses a quiet window, and that is a
+legitimate policy, not a gap. Where a bypass exists, the design problem is
+how its membership is governed, because bypass creep is
 monotonic — kinds enter the privileged class and never leave, until the
 window gates nothing:
 
@@ -77,16 +80,32 @@ window gates nothing:
 
 ## Timezone honesty
 
-- Evaluate against the **user's current local clock**, resolved at each
-  delivery attempt — not the clock of the machine that runs the queue,
-  not the offset captured when the window was declared. Travel and
-  daylight-saving shifts move the user's 22:00; the window moves with it.
-- Daylight-saving transition days contain a skipped or doubled hour
-  inside many night windows. The wrapped-interval formulation over local
-  time handles both correctly for free; window arithmetic done in UTC
-  with a cached offset handles neither. Test the two transition days by
-  name.
-- A system that cannot know the user's timezone (no signal, headless
-  profile) degrades **toward quiet**, not toward delivery: the cost of
-  wrongly holding a nudge until morning is minutes; the cost of a 03:00
-  miss is the channel.
+- Evaluate against the **recipient's current local clock**, resolved at
+  each delivery attempt — not the offset captured when the window was
+  declared. Travel and daylight-saving shifts move the user's 22:00; the
+  window moves with it.
+- The host clock and the recipient's zone are two different inputs.
+  Reading the local clock of the machine that runs the queue is correct
+  only when that machine is, by declaration, in the recipient's zone (a
+  single-user desktop app); a server, or a recipient who travels away
+  from the device's configured zone, needs the recipient's zone
+  resolved explicitly. Name which one the code reads.
+- Two different questions sit on top of that clock. **Membership** (is
+  this instant inside the window?) maps an instant to local wall-clock
+  time, which is always well defined; the wrapped-interval formulation
+  over local time handles the skipped and doubled hours of a
+  daylight-saving day without extra work. **Next wakeup** (at what
+  instant does the window end, so deferred notices can be drained?)
+  maps a local wall-clock time back to an instant, and that mapping can
+  have one answer, two (the hour repeats in a fold), or none (the hour
+  is skipped in a gap). The scheduler has to choose a rule for each —
+  for example the earlier instant of a fold, and the first instant after
+  a gap — rather than inherit whatever the library does. Window
+  arithmetic done in UTC with a cached offset gets both questions wrong.
+  Test the two transition days by name, for both questions.
+- When the recipient's timezone is unknown (no signal, headless
+  profile), the fallback is a declared policy, not an accident. The
+  recommended default degrades **toward quiet**: the cost of wrongly
+  holding a nudge until morning is minutes; the cost of a 03:00 miss is
+  the channel. A product whose contact is time-critical may declare the
+  opposite, and says so.

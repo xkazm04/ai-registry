@@ -98,7 +98,10 @@ This changes what every downstream surface does. Triage lanes sort by risk
 score, not close date. Reminder digests lead with the at-risk count, not the
 soonest date. And a *finished* draft stops generating urgency altogether —
 zero remaining work means zero miss risk regardless of the clock, which is
-what lets the system go quiet about the things that are handled.
+what lets the system go quiet about the things that are handled. "Finished"
+means drafted *and* unblocked: a complete draft still waiting on a
+registration or an internal sign-off carries its risk on that gate's clock,
+not on none.
 
 ## Escalation without noise
 
@@ -150,7 +153,8 @@ risk day counts — run against an **effective plan-to date**: the close minus
 the applicant's internal review offset and a portal-risk margin, with
 prerequisite registrations tracked as their own dated items ahead of
 everything. Extensions move the plan-to date only when published, never when
-hoped for. The buffer layer is also where portfolio *capacity* becomes
+hoped for — and a funder's late-consideration window, where one exists, is a
+narrow hardship exception that is never counted as slack. The buffer layer is also where portfolio *capacity* becomes
 visible: several applications whose buffered final weeks land on the same
 calendar days are a staffing collision no per-item risk score can see, and
 re-staggering starts is only possible while the collision is still weeks out.

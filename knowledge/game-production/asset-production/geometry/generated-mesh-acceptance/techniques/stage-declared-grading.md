@@ -75,7 +75,10 @@ Two related refusals:
   failed it near 100% of the time. Re-measured on a real 52-file corpus: density had **no
   fail rule at all** and never failed anything; the true rejection rate was **10 of 52
   (19.2%)**; and **all ten** were debris. The claim was right in substance — a post-finish
-  bar was being applied to pre-finish geometry — and wrong in mechanism.
+  bar was being applied to pre-finish geometry — and wrong in mechanism. On that corpus the
+  mis-tiered flag fired on none of the 52: debris is in neither remedy list, so every fail
+  had an unaddressed code. Declaring the stage is still right; the flag has no observed
+  positive yet, and a report should say so.
 - **Fix the mechanism you measured, not the one you assumed.** In that case the response
   was to make the gate declare its stage rather than re-tune the density threshold the
   claim blamed, *because re-tuning that number would have changed exactly zero verdicts*.

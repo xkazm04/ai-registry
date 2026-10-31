@@ -90,3 +90,9 @@ Schema.org accepts textual rating values; review publication, decision and
 computation dates must remain distinct. Reverify decoder canonicalization,
 snapshot consistency, review eligibility and emitter metadata against consumer
 fixtures before refreshing this application's witness.
+
+Two cross-references, added 2026-10-31 without re-reading the tree. Omitting
+`url` keeps the object honest but makes it ineligible under Google's fact-check
+profile, which lists `url` as required. The decoder's canonical-form gap was
+found and closed later in the same module; see
+[node--claim-ref-addressing](./node--claim-ref-addressing.md).

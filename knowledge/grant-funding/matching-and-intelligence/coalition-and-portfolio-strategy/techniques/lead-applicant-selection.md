@@ -13,12 +13,17 @@ use_when: [a coalition is forming and must name its recipient of record, a partn
 
 The concern: every multi-organization application has exactly one recipient of
 record, and choosing it is the highest-stakes structural decision in coalition
-assembly. The lead is not a figurehead. In nearly every funding regime the lead
-organization is **legally and fiscally accountable for the entire award** — for
+assembly. The lead is not a figurehead. In a pass-through structure such as a US
+prime award the lead organization is **legally and fiscally accountable for the
+entire award** — for
 the appropriate expenditure of funds by every member, for consolidated reporting,
 for compliance and audit exposure across the whole coalition, and for executing a
 written subaward agreement with each partner. When a member misspends, the funder
-comes to the lead. The lead is who the funder underwrites; the coalition's
+comes to the lead. The accountability model is regime-dependent, so read the
+agreement: in EU programmes without the Mutual Insurance Mechanism the coordinator
+is fully liable for the whole recovery at final payment, while in Horizon Europe
+each beneficiary signs the grant agreement and is in principle liable only for its
+own debt. Either way the lead is who the funder deals with; the coalition's
 credibility is capped by the lead's administrative credibility.
 
 ## The default rule: capacity carries
@@ -77,8 +82,9 @@ accepted or intelligently contested, while a bare name gets resented.
 Leading is expensive: consolidated reporting, subrecipient monitoring, audit
 scope covering everyone's spending, and administrative labor that partners do not
 see. Two consequences for the assembly pipeline. First, the lead's share of the
-award should reflect the burden — an administrative allocation on top of the
-proportional split is standard practice, not greed, and proposing it explicitly
+award should reflect the burden — an administrative allocation carved off the
+award before the proportional split divides the remainder is standard practice,
+not greed, and proposing it explicitly
 prevents the lead from silently subsidizing the coalition. Second, an
 organization asked to lead may rationally decline; the pipeline needs a
 second-choice path, not an assumption that the top-ranked member accepts.

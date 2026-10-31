@@ -33,6 +33,11 @@ order, cheapest and strictest first:
 1. **Exact equality** of the normalized strings.
 2. **Containment** — one normalized name contains the other. This accepts
    the short form against the registered long form in either direction.
+   Because it runs before stage 3, it must not undo stage 3's protection:
+   require containment on token boundaries and a minimum length (or token
+   count) for the shorter side, or a one-word claim such as "Aid" is
+   contained in "Global Aid Foundation" and matches before the larger-set
+   divisor below ever runs.
 3. **Token-set overlap over meaningful tokens.** Tokenize both names, drop
    a curated stop-set of legal-form and filler words — the jurisdiction's
    entity-type suffixes and their abbreviations, plus generic organization

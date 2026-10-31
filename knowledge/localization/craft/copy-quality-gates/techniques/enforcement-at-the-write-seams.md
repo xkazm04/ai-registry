@@ -46,11 +46,13 @@ paths crosses. A check that sits on one path is feedback, not enforcement.
 ## What is not a seam
 
 - **A pre-write deny on file tools.** Fast and useful as feedback, but a shell
-  write bypasses it, and a hook that times out allows the write. Keep it only as
-  a duplicate of a real seam.
+  write bypasses it, and by default a hook that fails or times out allows the
+  write. One harness added an opt-in to fail closed (2026); even set, it guards
+  only the tool path the hook watches. Keep it only as a duplicate of a real seam.
 - **Path-scoped instruction files.** In at least one coding agent harness they
-  load when a matching file is *read*, not when a new file is created or a shell
-  writes one — so they are least reliable exactly when a new page is written.
+  load when the agent's file tools read, write or edit a matching file (and on a
+  single-file shell read), not when a shell, script or generator writes one — so
+  they miss exactly the pages a script produces.
 - **Always-on instructions.** They improve the first draft and enforce nothing.
 
 ## Verify delivery by load telemetry
@@ -89,8 +91,11 @@ generated copies with a drift check, and the lasting lesson was the instrument.
 
 - **When a check can see only one write path, do not count it as enforcement**,
   because the next session will use another path.
-- **When a hook can time out, assume it fails open** and keep a downstream seam
-  that cannot.
+- **When a hook can time out, assume it fails open** unless it is configured to
+  fail closed, and keep a downstream seam that cannot. The end-of-session seam is
+  the one that cannot be configured that way: in the harness documented, the
+  fail-closed setting has no effect on stop hooks, so a checker that crashes lets
+  the session end unchecked and the commit gate and CI must catch it.
 - **When the end-of-session check blocks twice with no change in findings, let the
   session end and surface the findings**, because a trapped agent tends to
   satisfy the gate by deleting or disguising copy.

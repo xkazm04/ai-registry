@@ -55,10 +55,12 @@ So a model that is confidently, stably, repeatably wrong scores high. This
 is not a corner case; it is the characteristic failure, and it is why a raw
 uncertainty score is a *rank* statistic and not a probability. The measured
 form of the gap is stark: on a short-answer open-domain question-answering
-benchmark, a raw multi-sample confidence score carried an expected
-calibration error of **0.428** — the number printed was on average more
-than four tenths of its own scale away from what it delivered — which a
-fitted monotone rescaling pulled to **0.031**. The ordering was informative
+benchmark (NQ-Open, in the UQLM score-calibration demo), a raw
+single-generation score — the length-normalized token probability of the
+one response drawn — carried an expected calibration error of **0.428** —
+the number printed was on average more than four tenths of its own scale
+away from what it delivered — which a fitted monotone rescaling pulled to
+**0.031**. The ordering was informative
 throughout; the level was fiction until labels made it otherwise
 ([probability-calibration-is-not-agreement](./techniques/probability-calibration-is-not-agreement.md)).
 
@@ -105,8 +107,8 @@ unavailable score is a disclosed absence, never a zero
 
 There is a tempting story here — cheap judge-free scorers beat expensive
 judges, so stop paying for judges. The published comparison does not
-support it. Across two dozen generator-and-dataset scenarios, the
-best-performing **non-ensemble** scorer was a model judge in eleven
+support it. Across two dozen generator-and-dataset scenarios
+(arXiv:2504.19254), the best-performing **non-ensemble** scorer was a model judge in eleven
 scenarios, a multi-sample consistency scorer in seven, and a
 token-probability scorer in six. The judges won the plurality. What the
 same experiment establishes with force is something else: a **weighted
@@ -131,7 +133,8 @@ coin across all four of its scenarios — while a larger judge on the same
 benchmark was the best scorer available. That is the calibration subject's
 selection-by-discrimination rule arriving from a second direction, and the
 same experiment supplies a usable heuristic for it: a model's own accuracy
-on a task predicted its quality as a judge of other models on that task.
+on a task positively relates to its quality as a judge of other models on
+that task.
 
 ## Two frames, and naming yours is the whole discipline
 
@@ -149,6 +152,11 @@ know, and the disagreement is the signal, not the error bar around it. The
 failure is not choosing wrongly between the frames but failing to say which
 one a given number is in; unlabelled, the same measurement is read whichever
 way is convenient.
+
+The spread both frames argue over exists only at N of two or more, and at
+N of one there is no consistency score. A tier-0 score is not that spread:
+it reads the distribution over each token of a single generation, so it
+exists at N of one and the rule does not reach it.
 
 This is the fourth quantity, beside the three the calibration subject
 already names. Agreement is judge-vs-human, drift is

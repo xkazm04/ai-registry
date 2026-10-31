@@ -68,8 +68,11 @@ rules for the guard itself:
   human or parsed back to an instant (allowlist it with the reason, and fail
   on a stale entry). A scan that truncates at the test-module marker also
   misses a site placed after it; say so or scan the whole file.
-- It covers clients and tools, not just the server: an SDK that formats
-  client event time variably poisons the store from outside.
+- It covers clients and tools in this workspace, not just the server. Its
+  reach stops at the workspace: an SDK built in another repository that
+  formats client event time variably poisons the store from outside and
+  passes this guard, so the ingest door below is the boundary for writers
+  the scan cannot see.
 
 This pattern — a repo-wide grep with teeth, guarding a cross-cutting textual
 invariant — generalizes well beyond timestamps, but timestamps are where it
@@ -78,8 +81,13 @@ pays for itself first.
 ## Where the encoding must also hold
 
 - **Ingest validation.** Skew rejection ("event time too far from server
-  time") parses the client string against the same canonical form; accepting
-  looser forms at the door creates rows that break the sort later.
+  time") parses the client string against the same canonical form. A door
+  may accept looser input forms only if it **re-encodes through the codec**
+  and stores the canonical string; storing the input string as received is
+  what creates rows that break the sort later. That is also the condition
+  under which an allowlisted "parsed back to an instant" site above is
+  safe: the parse is legitimate, the stored or compared value never is the
+  unparsed string.
 - **Cursors.** A keyset cursor embeds a timestamp; if the cursor's encoder
   and the column's encoder ever differ, pagination silently skips or repeats
   at the boundary.

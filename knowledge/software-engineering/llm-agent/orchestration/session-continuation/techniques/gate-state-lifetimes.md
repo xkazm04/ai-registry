@@ -114,6 +114,21 @@ limit as per-phase because it resets at turn start like an iteration counter.
 Elapsed time is spent, however, and restarting its origin on a phase reset
 gives each verification round a fresh time budget.
 
+## Meters survive a suspend and resume
+
+A phase reset is not the only way to re-arm a meter. An invocation that is
+suspended — parked waiting for an input, paused for approval, interrupted
+and restored — and later resumed is the same invocation, and its meters
+**resume at what was already spent**, never at full allowance. A harness that
+rebuilds the gate state from defaults when it restores a parked job hands
+the resumed run its whole budget again: one sighting resumed a parked job
+with a fresh meter and it spent 12 against a budget of 10, with no phase
+reset anywhere in the trace. So meters are part of what the suspend persists
+and the resume restores (with the rest of the control state
+[compaction-checkpoint](./compaction-checkpoint.md) ferries), and a resume
+that cannot find the persisted meter treats the allowance as unknown and
+stops, rather than as untouched.
+
 ## Charge the meter on every terminal path
 
 A meter that is correct inside the turn can still lie in the durable record.
@@ -150,6 +165,8 @@ dropping.
   every other gate's per-turn state, never the triggering gate's round counter.
 - Classify each counter: if zeroing it would un-spend something, it is a meter,
   and meters (including elapsed time) never reset on a phase.
+- Persist meters across a suspend and restore them on resume; a resumed
+  invocation never re-arms at full allowance.
 - Commit staged consumption on success, failure and cancellation, with the
   terminal status beside the amount.
 

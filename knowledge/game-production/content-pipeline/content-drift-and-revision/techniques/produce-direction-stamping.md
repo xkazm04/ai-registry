@@ -84,9 +84,11 @@ is answerable without being reported as drift.
 
 ## Decision rules
 
-- **When the direction is empty, store absence, not an empty string.** "No steer given"
-  and "steer cleared to nothing" are the same outcome but a defaulted empty string
-  becomes indistinguishable from a lost one during investigation.
+- **When the direction is empty, stamp it as empty.** "No steer given" and "steer
+  cleared to nothing" are the same outcome, recorded as a present stamp with an empty
+  direction. Keep a missing stamp for records that predate stamping, so an empty steer,
+  a pre-stamp record and a lost steer stay distinguishable during investigation — the
+  same three states catalog-pipeline-authoring's direction technique uses.
 - **When a bulk regeneration runs across many artifacts, each one carries its own
   stamp.** A batch-level steer applied to every artifact overwrites individual
   corrections — the most expensive form of this failure, because it destroys many

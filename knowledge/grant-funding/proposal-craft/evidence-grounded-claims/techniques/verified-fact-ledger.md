@@ -43,9 +43,11 @@ Each entry carries five things, all load-bearing:
 Cardinality is part of the type: an organization has one registration
 identifier and one annual revenue, but *several* program outcomes,
 demographics, and partners. Kinds that are legitimately plural accept
-multiple entries; singular kinds keep the first confident match. A ledger
-that stores five conflicting revenue figures is noise; one that stores only
-one program outcome has thrown away the org's second-strongest claim.
+multiple entries; singular kinds hold one value. Readings that agree
+collapse to one entry; readings that disagree are a conflict for the
+writer (see the decision rules), not a first-match win. A ledger that
+silently stores five conflicting revenue figures is noise; one that stores
+only one program outcome has thrown away the org's second-strongest claim.
 
 ## The injection contract
 

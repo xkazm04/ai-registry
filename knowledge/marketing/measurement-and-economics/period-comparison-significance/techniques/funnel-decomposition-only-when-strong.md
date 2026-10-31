@@ -75,16 +75,16 @@ the agency at random.
 The same gate applies to any multiplicative KPI identity: cost = clicks × cost per
 click; conversions = impressions × click-through rate × conversion rate; profit per
 order = average order value × margin. Two rules carry over. First, the gate is on the
-top-line tier, and the top line must be an additive or rate metric with a real tier -
-a value-ratio top line (return on ad spend) is orientational and therefore never
-decomposed. Second, aggregating across channels requires the log-mean weights rather
+top-line tier, and the top line must carry a real tier - a value-ratio top line
+(return on ad spend) on a surface without the day-level ratio test is orientational
+and therefore never decomposed. Second, aggregating across channels requires the log-mean weights rather
 than a naive sum of per-channel shares; without them the residual reappears and the
 shares no longer sum to one.
 
 ## When NOT to use
 
-Do not decompose a value-ratio move. Return on ad spend has no strong tier to gate
-on, so it has no funnel line; a reader who wants to know why the ratio moved gets the
+Do not decompose an orientational value-ratio move. Return on ad spend graded
+orientational has no strong tier to gate on, so it has no funnel line; a reader who wants to know why the ratio moved gets the
 revenue and cost decompositions separately.
 
 Do not decompose across a truncated or year-over-year-fallback comparison without

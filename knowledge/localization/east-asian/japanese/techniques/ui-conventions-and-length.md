@@ -23,9 +23,11 @@ runs out anyway.
 **Trigger:** sizing any container for Japanese, or judging whether a Japanese
 string "fits" from its length.
 
-**Rule:** a full-width CJK glyph renders at roughly twice the width of an
-average Latin letter, so a Japanese string half the character count of its
-English source is approximately the *same* width on screen. Budget in ems of
+**Rule:** a full-width CJK glyph occupies a square one-em frame, while Latin
+is proportional, so the ratio to an average Latin letter is a property of the
+Latin font — roughly 1.5–2× across common UI faces. A Japanese string half the
+character count of its English source can therefore be nearly as wide on
+screen. Measure the rendered width rather than trusting the ratio: budget in ems of
 rendered text, not in characters, and expect the net effect per string class:
 dense-kanji terms come out narrower than English; katakana-heavy strings come
 out as wide or wider（コンフィグレーション is longer than "configuration"

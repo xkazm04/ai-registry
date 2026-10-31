@@ -113,7 +113,7 @@ in two minutes. The charters are distinct enough that bundling them softens each
 a different job from *find what was chosen without anyone noticing a choice was
 available*. A reader asked to do all three does the first thing it finds and stops.
 
-## Two readers are less independent than the ladder implies
+## Two readers are less independent than separation implies
 
 Separated readers can still share priors, evidence and blind spots. Agreement
 does not establish correctness, and disagreement does not establish that one
@@ -258,10 +258,12 @@ this subject has no mechanization for that and should not claim one.
   readings.
 - [objection-before-artifacts](./techniques/objection-before-artifacts.md) — the
   chartered disagreement, raised while a premise-level objection is still cheap; the
-  admissibility rule, the closed category set, the two modes and the hard gate.
+  admissibility rule, the closed category set, the two modes and the blocking gate where
+  adopted.
 - [fresh-posture-self-challenge](./techniques/fresh-posture-self-challenge.md) — the
-  cheap rung: one reader, two postures, an explicit boundary; the retained challenge
-  notes, the reserved sentinel, and the escalation ladder with its observable trigger.
+  fresh-posture mode: one reader, two postures, an explicit boundary; the retained
+  challenge notes, the reserved sentinel, and the three review modes with the observable
+  trigger for choosing a separate reader.
 - [informational-fold-in](./techniques/informational-fold-in.md) — a derived number
-  landing in an existing gate as a field and never as a verdict; durability tracking
-  confidence; degrading to unavailable rather than to a value.
+  landing in an existing gate as a field and never as a verdict; retention preserving
+  uncertainty; degrading to unavailable rather than to a value.

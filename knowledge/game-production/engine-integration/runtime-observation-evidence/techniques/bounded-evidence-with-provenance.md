@@ -45,7 +45,7 @@ which is usually where the interesting thing happened; keeping the last N discar
 baseline. Even spacing preserves the shape at any cap.
 
 **2. Compute the statistics before you bound the samples.** The aggregate must be over
-everything observed, not over the extract. Otherwise you have a variance computed from eight
+everything observed, not over the extract. Otherwise you have a spread computed from eight
 points presented as if it described three hundred, and it will disagree with the threshold
 that was calibrated on the full stream.
 

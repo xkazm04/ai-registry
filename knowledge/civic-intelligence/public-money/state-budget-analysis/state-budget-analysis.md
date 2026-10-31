@@ -119,8 +119,8 @@ renders the indistinguishable and false "no ties".
   context but does not establish affordability, efficiency or fiscal health. The benchmark's recipe — grouping rule, unit, statistic,
   minimum sample, widening rule — is published on the surface, verbatim from
   the one definition the code runs.
-- Peer similarity is structural: size class and comparable mandate first,
-  geography second. Geography alone manufactures flattering comparisons.
+- Peer similarity is structural: comparable mandate and reporting perimeter first, then size class;
+  geography last. Geography alone manufactures flattering comparisons.
 - Where population is the relevant exposure, per-capita is a comparison unit; the population divisor comes from a compatible
   reference period and population definition, and a missing
   divisor makes the metric missing, not zero.

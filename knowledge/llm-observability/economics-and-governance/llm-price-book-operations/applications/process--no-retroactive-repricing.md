@@ -65,8 +65,10 @@ cap behavior is explained, not buried in a design doc.
 The runbook's answer to "we shipped a wrong rate" is fully determined by the
 temporal rule: fix the row now (hot swap makes speed cheap), expect stamped
 history to stay put, expect the affected windows to stay wrong until they
-roll, and expect any *unpriced* backlog for that model to self-correct on the
-next evaluation. Nothing in the flow offers a backfill, and the caveat riding
+roll, and expect any *unpriced* backlog for that model to keep its imputed
+charge — under the window-mean rule above, a new row moves the mean only
+through traffic stamped after it lands, so the product caveat's
+"self-corrects" overstates what the next evaluation does. Nothing in the flow offers a backfill, and the caveat riding
 in the API response means the operator learns the semantics at the moment
 they would otherwise be confused by them — disclosure in the payload, not the
 manual.

@@ -34,7 +34,8 @@ For each market, score each pillar on its own axis:
 The pillars do not correlate, and that is the point of scoring them
 separately. Real markets land in every corner: one with the world's best
 awarded-history standard and a scrape-only opportunity page; a supranational
-funder with the best open-call feed anywhere and *no* unified registry; a
+funder with the best open-call feed anywhere and *no* registry a product can
+query; a
 small market with both halves structured but a tiny addressable base. A
 single composite "data score" would erase exactly the information the
 roadmap needs.
@@ -67,7 +68,8 @@ and the map records it that way:
   intersection is rare; expect a single-digit list.
 - **Asymmetric**: one pillar world-class, another missing. Serve the strong
   pillar honestly and plan the weak one explicitly — per-member-state
-  verification where no unified registry exists; scraping or research
+  verification where no registry the product can query exists; scraping or
+  research
   engines where opportunities are unstructured.
 - **Backbone-carried**: no local structured feed, but a federal or
   supranational backbone already gives every applicant in the market a

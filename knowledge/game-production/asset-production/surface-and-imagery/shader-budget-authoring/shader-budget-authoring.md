@@ -34,10 +34,13 @@ unaffordable.
 ## Two ceilings, and only one of them announces itself
 
 Texture samplers are the canonical example. A pixel shader can bind a bounded number
-of sampler registers — sixteen is the long-standing ceiling on mainstream graphics
-hardware, and it has not moved in a decade because it is silicon, not policy. That is
-the **hard cap**. It is enforced by the compiler; past it the material is not a slow
-material, it is not a material.
+of sampler registers — sixteen per stage is the ceiling of the slot-based binding model
+of the previous API generation, which many real-time renderers still target, and of the
+lowest binding tier of the descriptor-heap APIs that succeeded it, whose higher tiers bind
+2048. It is a property of the binding model and the hardware tier you ship against, not
+something an author or an engine setting moves; it belongs to the renderer at a version
+like every other number here. That is the **hard cap**. It is enforced by the compiler;
+past it the material is not a slow material, it is not a material.
 
 The **soft cap** sits below it — thirteen is a defensible working figure against a
 sixteen-sampler ceiling — and nothing enforces it. It is the point at which the

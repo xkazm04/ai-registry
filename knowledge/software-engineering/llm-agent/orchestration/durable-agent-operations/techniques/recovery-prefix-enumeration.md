@@ -22,8 +22,13 @@ This technique is the case list. It is not general test-harness architecture —
 how suites are partitioned, what a fixture costs, which lane blocks a merge all
 belong to that subject, and this one assumes them. What is owned here is the
 *derivation*: because the durable state is a total value from a closed
-vocabulary, the set of states a crash can leave is finite and enumerable, and
-the test list is that enumeration rather than a sample of it.
+vocabulary, the set of state *shapes* a crash can leave — leaves times the
+durable positions inside each — is finite and enumerable, and the test list is
+that enumeration rather than a sample of it. A closed vocabulary does not make
+the concrete states finite: a leaf holding a batch of tool calls has unbounded
+contents. The enumeration covers every shape; within a shape, choose the
+contents that change the next transition — an empty batch, one call, a batch with
+a gap before a ready result — and say that is a selection.
 
 ## The case list is derived, not invented
 
@@ -95,7 +100,10 @@ correctness lives — an effect admitted before its intent commits is invisible 
 every assertion about the state before and after.
 
 So a second tier wraps the store in a **recording decorator** that captures every
-transaction's writes in order, runs the ordinary public surface against it, and
+transaction's writes in order — and records each effect dispatch into the same
+sequence, because a dispatch is not a write, and a trace of database writes alone
+cannot show that an intent committed before its effect started — runs the
+ordinary public surface against it, and
 asserts the observed write sequence and contents against the specification's own
 transaction tables. Per
 [gate-sees-target](../../../../_laws.md#gate-sees-target), this tier reads the
@@ -164,9 +172,11 @@ they cost, where the suite runs — defer to that subject entirely.
 
 An operation with one durable state and one effect has an enumeration of size
 one, and writing the machinery to enumerate it costs more than the single test
-it produces. The tier is also wasted where the durable model is not total — if
-the restart point is a journal that must be folded, the crash states are not
-enumerable and this technique has nothing to enumerate. That is worth saying
-plainly, because it is the same conclusion from the other end: a design that
-cannot list its crash states cannot test its recovery, and the fix is the state
-model, not more tests.
+it produces. Where the restart point is a journal that is folded on recovery, this derivation
+does not apply, but recovery is still testable: the crash states are the
+journal's prefixes, and an event-history design tests recovery by replaying
+truncated histories against the code that must resume from them. That is a
+different case list, derived from the journal's entry kinds rather than from a
+state vocabulary, and it should be owned there. What does not survive in either
+model is a design that cannot list its crash states at all — that cannot test its
+recovery, and the fix is the durable model, not more tests.

@@ -21,8 +21,8 @@ have passed every test, and the stored gauges would simply have started clusteri
 
 ## What was read
 
-All 40 anchor bullets. Twenty-nine of thirty upper-level bullets (A2 to A4) name at least one titled
-product except one: the production-process A3 bullet reads "mid-size studios running a textbook
+All 40 anchor bullets. Twenty-nine of the thirty upper-level bullets (A2 to A4) name at least
+one titled product. The exception is the production-process A3 bullet, which reads "mid-size studios running a textbook
 milestone ladder", a class of studio rather than a product, which the technique reserves for the
 floor only. The other lenses' floors are classes of output, as written. Not found: a pin on any
 anchor's release, so live-service anchors can drift without a lens edit; left as a note.

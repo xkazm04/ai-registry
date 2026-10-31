@@ -38,7 +38,7 @@ glossary by the exact identifier the emitting code already holds for each metric
 cannot display a number without being able to reach its definition, and every surface defines
 the term identically. A fourth part earns its place for metrics that are only meaningful in
 pairs: say how to read them *against each other*. *A six-second median with a nine-second
-average means a few long fights are pulling the average up* teaches more than either entry
+average usually means a few long fights are pulling the average up* teaches more than either entry
 alone, and divergences like that are where the interesting tuning problems hide.
 
 The glossary is versioned and single-sourced with the tool that emits the numbers; a judgment

@@ -50,7 +50,7 @@ frequently not written down.
 5. **State durations with a unit.** Milliseconds, ticks, or display frames at a stated rate.
    ([a-number-carries-its-unit-and-basis](../../../../_laws.md#a-number-carries-its-unit-and-basis))
    A bare "4" is four hundredths of a second in one runtime and four sixtieths in another, and the
-   resulting animation is a factor of two and a half out with no error anywhere.
+   resulting animation is a factor of five-thirds out with no error anywhere.
 6. **Declare loop points and check closure.** A cycle whose last frame does not lead back into its
    first has a visible hitch once per loop. The check is the same excursion measurement applied
    across the wrap, and it is exactly the seam check of a tiling texture in the time axis.

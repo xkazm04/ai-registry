@@ -85,6 +85,10 @@ negotiation.
   files with identical payload hashes under one subject are the same
   measurement; the merge should be able to say so rather than counting both
   ([aggregates-leave-identity-behind](../../../_laws.md#aggregates-leave-identity-behind)).
+  That needs a hash wide enough that equal names mean equal payloads. A
+  32-bit name (8 hex) reaches even odds of two different payloads colliding
+  at about 77,000 files under one namespace; keep at least 64 bits (16 hex) in
+  the name, or compare the full payload hash before declaring a duplicate.
 - **A stated policy for a repeated path with different content**, which means
   either the hash input or the payload changed. It is not a merge conflict to be
   resolved by choosing a side; it is a signal that one of the two is not what it

@@ -1,7 +1,7 @@
 ---
 domain: game-production
 subject: realtime-combat-semantics
-last_touched: 2026-09-10
+last_touched: 2026-10-31
 touched_by: architecture-review
 dry_streak: 0
 ---
@@ -202,6 +202,208 @@ their prompt-side quotations check out.
     "applications/process--telegraph-or-homing-for-area-effects.md": {
       "disposition": "reverify",
       "reason": "The module-eval-prompts quotation and the ARPG-LAWS survivability cap were not re-read at source; the deviation it records (no lead time measured against traversal) is unchanged."
+    }
+  }
+}
+```
+
+## Architecture review - 2026-10-31
+
+Re-review at `85a365702`. Since the 44c89965 record the subject gained three techniques for
+a combat race (`start-protection-window`, `no-one-shot-ehp-floor-in-racing`,
+`armor-as-reduction-not-pool`), one process application and a golden-path section. The
+nine documents carried from that record are byte-unchanged, so the golden-path clarify is
+still owed. The four new documents were read in full; the carried ones were read against
+the new section and against the shared quarter-second figure.
+
+One arithmetic error in the new material. `armor-as-reduction-not-pool` calls effective
+health "linear" and says "every armor point adds the same slice". Effective health is
+H/(1-f). With f linear in armor points, each point removes the same fraction of every
+hit, but effective health grows faster than linearly: 1.25x at f = 0.20, 1.67x at the
+application's 0.40 cap. A second overstatement: `no-one-shot-ehp-floor-in-racing` says
+that at two hits-to-kill "any later buff makes it a one-shot". Two hits-to-kill means the
+reduced hit is at least half of full health. Only a buff that lifts it to full health
+makes a one-shot. The rule's point ("fragile, record the margin") holds.
+
+The 0.25 s perception anchor is still unsourced. A search found published simple visual
+reaction times from about 180 to 300 ms depending on protocol, with no single primary
+source fit to cite. The anchor stays as owed evidence. The 0.2 s versus 0.25 s wording
+between the golden path and `active-defense-two-axis-split` is an internal inconsistency
+and can be reconciled without settling the empirical figure. The PoF tree is not present
+in this environment, so the five-times threshold fix rests on the expression the
+subject's own application quotes, which the 2026-09-10 record read verbatim at source.
+
+<!-- architecture-review:v1 -->
+```json
+{
+  "subject": "game-production/realtime-combat-semantics",
+  "date": "2026-10-31",
+  "baseline": "85a365702",
+  "digest": "sha256-b2:aa744914205e9faf",
+  "disposition": "clarify",
+  "coverage": "All 14 current documents decided. The 9 carried from the 44c89965 record were diffed against it and are byte-unchanged; the golden path's added section and the 4 new documents were read in full. Arithmetic re-derived (effective health under a capped reduction, hits-to-kill boundary, the hazard budget 0.25 + 5/10 = 0.75 s < 1.4 s, armor cap 0.04 x 10 = 0.40). One literature search on simple visual reaction time. Not evaluated: the PoF tree, the deathride tree, any simulation, engine session or playtest.",
+  "counterexamples": [
+    "The golden path's 'five times the player's own' health omits the tuning multiplier the cited comparison applies, playerMaxHP * tuning.playerHealthMul * 5 (retained).",
+    "A 0.2 s window is a 'coin flip' in active-defense-two-axis-split and below the 0.25 s floor the golden path states (retained).",
+    "With a reduction factor of 0.04 per armor point, armor 5 gives 1.25x effective health and armor 10 gives 1.67x: the second five points add more than the first five, so 'every armor point adds the same slice' is false for effective health.",
+    "A weapon at exactly two hits-to-kill whose reduced hit is 55% of full health does not become a one-shot under a 10% buff; only a buff to 100% does."
+  ],
+  "sources": [
+    {
+      "source": "Literature search, simple visual reaction time",
+      "result": "Reported means range roughly 180-300 ms by protocol and population (secondary summaries and small studies); no single primary source adequate to cite. The 0.25 s anchor stays unsourced."
+    },
+    {
+      "path": "applications/node--real-time-timers-with-an-escapable-window.md",
+      "result": "Quotes 'totalEnemyHP > playerMaxHP * tuning.playerHealthMul * 5', read verbatim at source by the 2026-09-10 record. Basis for the golden-path threshold wording."
+    },
+    {
+      "source": "Arithmetic in the three new techniques and the deathride application",
+      "result": "EHP = H/(1-f) is convex in f; hits-to-kill 2 means hit in [H/2, H); the hazard budget and the 0.40 armor cap are consistent."
+    }
+  ],
+  "documents": {
+    "realtime-combat-semantics.md": {
+      "disposition": "clarify",
+      "reason": "Still owed: the enemy-health threshold is five times the tuned player pool, not the player's own maximum. The 0.25 s anchor is unsourced and load-bearing (reverify half). The new combat-race section and the neighbour boundary paragraph are consistent with their techniques."
+    },
+    "techniques/telegraph-or-homing-for-area-effects.md": {
+      "disposition": "keep",
+      "reason": "Unchanged; uses the same quarter-second figure as the golden path."
+    },
+    "techniques/real-time-timers-with-an-escapable-window.md": {
+      "disposition": "keep",
+      "reason": "Unchanged; uses the same quarter-second figure."
+    },
+    "techniques/active-defense-two-axis-split.md": {
+      "disposition": "clarify",
+      "reason": "'Under roughly a fifth of a second is a coin flip' disagrees with the golden path's quarter-second floor and with the other techniques; align the wording to the subject's one anchor."
+    },
+    "techniques/hit-dedup-per-swing.md": {
+      "disposition": "keep",
+      "reason": "Unchanged; the 2026-09-10 keep holds."
+    },
+    "techniques/single-source-of-health-truth.md": {
+      "disposition": "keep",
+      "reason": "Unchanged; the new armor technique applies it correctly."
+    },
+    "techniques/death-via-state-tag-not-input-disable.md": {
+      "disposition": "keep",
+      "reason": "Unchanged."
+    },
+    "techniques/start-protection-window.md": {
+      "disposition": "keep",
+      "reason": "Both-gates rule, clock-derived remaining time, distribution-not-mean reporting and the simulated-versus-felt boundary are argued correctly and are internally consistent."
+    },
+    "techniques/no-one-shot-ehp-floor-in-racing.md": {
+      "disposition": "clarify",
+      "reason": "Sound rule and accumulation check; 'any later buff makes it a one-shot' at two hits-to-kill overstates the arithmetic."
+    },
+    "techniques/armor-as-reduction-not-pool.md": {
+      "disposition": "clarify",
+      "reason": "'Linear effective health ... every armor point adds the same slice ... a known line' is wrong: effective health is convex in a linear factor. The reduction-inside-one-authority argument, the clamp and the cap are correct."
+    },
+    "applications/node--real-time-timers-with-an-escapable-window.md": {
+      "disposition": "keep",
+      "reason": "Unchanged; confirmed verbatim at source on 2026-09-10."
+    },
+    "applications/process--death-via-state-tag-not-input-disable.md": {
+      "disposition": "reverify",
+      "reason": "Unchanged; ARPG-LAWS and crash-analyzer citations still not re-read."
+    },
+    "applications/process--telegraph-or-homing-for-area-effects.md": {
+      "disposition": "reverify",
+      "reason": "Unchanged."
+    },
+    "applications/process--start-protection-window.md": {
+      "disposition": "reverify",
+      "reason": "Internally consistent and honest about its simulated sample of 20 races and its two-levers-at-once deviation. The deathride tree was not reopened, and the clock-start and readout questions it raises remain open."
+    }
+  }
+}
+```
+
+## Architecture review - 2026-10-31 (clarify applied)
+
+The four clarify items above are applied. Each is a basis or arithmetic correction checked
+against the subject's own text. The 0.25 s anchor is not sourced, so the golden path
+stays `reverify` on that half.
+
+<!-- architecture-review:v1 -->
+```json
+{
+  "subject": "game-production/realtime-combat-semantics",
+  "date": "2026-10-31",
+  "baseline": "85a365702",
+  "digest": "sha256-b2:e8eb587c24986ab5",
+  "disposition": "reverify",
+  "coverage": "All 14 current documents decided. Four documents edited and re-read; the rest byte-unchanged. No PoF or deathride tree reopened, no simulation run, no verification date refreshed.",
+  "counterexamples": [
+    "Published simple visual reaction times span about 180-300 ms, so a single 0.25 s floor is a design anchor until a source is attached.",
+    "With a reduction factor of 0.04 per armor point, effective health is 1.25x at armor 5 and 1.67x at armor 10."
+  ],
+  "sources": [
+    {
+      "source": "Arithmetic re-derived 2026-10-31",
+      "result": "1/(1-0.20) = 1.25; 1/(1-0.40) = 1.667; two hits-to-kill means reduced hit in [H/2, H)."
+    }
+  ],
+  "documents": {
+    "realtime-combat-semantics.md": {
+      "disposition": "reverify",
+      "reason": "applied 2026-10-31: the threshold now reads 'five times the player's tuned health pool (the player's maximum after the tuning's health multiplier, not the raw maximum)'. Still owed: a source for the ~0.25 s perception anchor."
+    },
+    "techniques/telegraph-or-homing-for-area-effects.md": {
+      "disposition": "keep",
+      "reason": "Unchanged."
+    },
+    "techniques/real-time-timers-with-an-escapable-window.md": {
+      "disposition": "keep",
+      "reason": "Unchanged."
+    },
+    "techniques/active-defense-two-axis-split.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: 'under roughly a fifth of a second' became 'under the roughly quarter-second perception floor', matching the golden path and the other techniques."
+    },
+    "techniques/hit-dedup-per-swing.md": {
+      "disposition": "keep",
+      "reason": "Unchanged."
+    },
+    "techniques/single-source-of-health-truth.md": {
+      "disposition": "keep",
+      "reason": "Unchanged."
+    },
+    "techniques/death-via-state-tag-not-input-disable.md": {
+      "disposition": "keep",
+      "reason": "Unchanged."
+    },
+    "techniques/start-protection-window.md": {
+      "disposition": "keep",
+      "reason": "Unchanged."
+    },
+    "techniques/no-one-shot-ehp-floor-in-racing.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: 'any later buff makes it a one-shot' became 'one integer step from a one-shot, and a buff (or an armor cut) that lifts the reduced hit to the weakest car's full health makes it one'."
+    },
+    "techniques/armor-as-reduction-not-pool.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: 'Linear effective health' became 'Predictable effective health'; each point removes the same fraction of each hit while effective health grows faster than linearly (0.40 gives about 1.67x, 0.20 gives 1.25x); 'known line' became 'known curve'; 'Linear is easy to reason about' became 'Simple'."
+    },
+    "applications/node--real-time-timers-with-an-escapable-window.md": {
+      "disposition": "keep",
+      "reason": "Unchanged."
+    },
+    "applications/process--death-via-state-tag-not-input-disable.md": {
+      "disposition": "reverify",
+      "reason": "Unchanged."
+    },
+    "applications/process--telegraph-or-homing-for-area-effects.md": {
+      "disposition": "reverify",
+      "reason": "Unchanged."
+    },
+    "applications/process--start-protection-window.md": {
+      "disposition": "reverify",
+      "reason": "Unchanged; deathride tree not reopened."
     }
   }
 }

@@ -4,7 +4,7 @@ type: application
 subject: billing-revenue-normalization
 technique: contract-version-is-provenance
 stack: node
-verified_on: 2026-09-11
+verified_on: 2026-10-31
 verified_against: node@24
 applied: code
 ab_verdict: better
@@ -20,8 +20,10 @@ a quarterly release. Before this change the integration named no version at any
 of its four boundaries, so its contract was whatever the provider's current one
 happened to be that quarter.
 
-The witness for the stack version is the `engines` field; the change is commit
-`4d373026` on `main`, not pushed.
+The witness for the stack version is the `engines` field. The change is
+identified by the seams it left in that file (the conditional `Polar-Version`
+header builder and the declared-version read on the webhook path), not by a
+commit: the hash first recorded here never resolved.
 
 ## The four boundaries, and why one header builder
 
@@ -51,8 +53,11 @@ removed version is a hard 404 on every billing call, not a fall back to current,
 so a wrong guess is a total billing outage rather than a drift.
 
 So the change reads the version the provider reports (`Polar-Version` on a
-response, `webhook-api-version` on a delivery), records it, and logs **only on
-change**. A steady deployment stays silent; a rotation produces one line on the
+response, `webhook-api-version` on a delivery, falling back to the body's
+`api_version`), records it, and logs **only on change**. The delivery header's
+name is taken from the integration's own code, not from a provider document;
+the provider's versioning guide read for this application covers requests
+only. A steady deployment stays silent; a rotation produces one line on the
 day it happens, which is the signal an unpinned integration currently does not
 have at all. The pin follows once that value is known, from the deployment
 rather than from a page.

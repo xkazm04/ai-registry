@@ -413,9 +413,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/localization/craft/copy-quality-gates/copy-quality-gates.md",
-   "digest": "sha256-b2:f00a2dbd4e8fdce1",
-   "revision": 10,
-   "changedAt": "2026-10-14",
+   "digest": "sha256-b2:a18ac83ca9069a90",
+   "revision": 11,
+   "changedAt": "2026-10-31",
    "techniques": [
     {
      "slug": "anchored-model-review",
@@ -607,7 +607,7 @@
      "stack": "process",
      "technique": "enforcement-at-the-write-seams",
      "file": "knowledge/localization/craft/copy-quality-gates/applications/process--enforcement-at-the-write-seams.md",
-     "verified_on": "2026-09-14"
+     "verified_on": "2026-10-31"
     },
     {
      "stack": "process",

@@ -37,7 +37,15 @@ less-than-or-equal signs, multiplication crosses, en-dashes, and true minus sign
 the same rule will be written with different ones by different people over its life.
 Enumerating the acceptable punctuation is a losing game with a long tail. Skipping
 non-digit runs between anchor and number costs one character in the pattern and removes
-the entire class of failure.
+the entire class of typographic failure.
+
+The skip has one limit: it must not swallow a character that carries meaning. A non-digit
+run consumes a minus sign, so `−5` reads as `5`, and it consumes the comparison operator, so
+`≤3s` and `≥3s` both read as `3`. Where the check depends on the sign, capture an optional
+sign in front of the number; where it depends on the direction of the bound, anchor on the
+operator or assert it after the match. Skipping a sign is acceptable only when the exported
+identifier names the direction instead (a constant named for how far *below* a reference a
+value sits).
 
 ## A parse failure throws, at load, by name
 
@@ -86,7 +94,8 @@ single tolerance number is not, because the reader has to know what it is a tole
 2. **Identify the anchor phrase** — the two or three words that state what the number is,
    which a rewrite for clarity would preserve.
 3. **Write the pattern as anchor, non-digit run, capture; repeat for each number.** Capture
-   groups in the order the sentence states them.
+   groups in the order the sentence states them, with an optional sign before any number
+   that can be negative, and assert the operator where the bound's direction matters.
 4. **Convert to the checker's unit at the boundary** and name the constant with its unit.
 5. **Throw on no-match, with the rule id and the anchor in the message.**
 6. **Assert the parsed values in a test.** The test is documentation of what the prose

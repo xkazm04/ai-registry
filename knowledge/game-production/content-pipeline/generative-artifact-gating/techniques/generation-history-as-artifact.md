@@ -24,8 +24,9 @@ was kept are part of the artifact.** Not scaffolding, not telemetry, not a debug
 Per candidate, the minimum that makes a gate possible:
 
 - **Identity** — a stable handle a verdict can name and a human can fetch.
-- **Origin** — generated, or deterministic stand-in. Recorded at creation by the producer;
-  never inferred later from shape, size or name.
+- **Origin** — generated, constructed, or deterministic stand-in. Recorded at creation by
+  the producer; never inferred later from shape, size or name. An acquired asset carries
+  its own acquisition record instead.
 - **Position** — the candidate's own idea of where it sits in the kept set, so a selection
   pointing at it can be cross-checked against it.
 - **Kept or discarded** — discarding is an event, not a deletion. A selection that points

@@ -96,9 +96,9 @@ what an English- or even Russian-trained intuition expects:
 
 | Category | Rule (CLDR) | Examples |
 |---|---|---|
-| `one` | integer 1 | 1 den |
-| `few` | integers 2–4 | 2 dny, 4 dny |
-| `many` | any non-integer | 1,5 dne; 0,5 dne |
+| `one` | integer 1, no visible fraction digit (`v = 0`) | 1 den |
+| `few` | integers 2–4, no visible fraction digit (`v = 0`) | 2 dny, 4 dny |
+| `many` | rendered with a fraction digit (`v != 0`) | 1,5 dne; 0,5 dne; 1,0 dne |
 | `other` | 0 and integers 5+ | 0 dní, 5 dní, 100 dní |
 
 The trap is `many`: in Czech it is **not** a large-number category (as in
@@ -106,7 +106,9 @@ Russian) — it is the *decimal* category, taking the genitive singular. A
 catalog that only ever counts whole things can omit it; a catalog with rates,
 averages, or file sizes cannot. The second trap is that `one`/`few` require
 `v = 0`: "1,0" is `many`, not `one`. Ordinals collapse to a single category
-(*15.* works for every number), so ordinal selectors are never needed.
+(*15.* works for every number), so no ordinal branch ever needs Czech-specific
+forms — but that invariance is in the category set, not the syntax: a selector
+construct present in the source must still survive in the target.
 
 Grammatically the three integer forms differ in **case**, not just suffix: 2–4
 take nominative plural, 5+ force the counted noun into genitive plural and the
@@ -151,9 +153,9 @@ gender-neutral-forms and terminology-and-loanwords.
   forms run +10–20%. There is no accepted UI abbreviation convention — plan
   layout for the longer form rather than abbreviating. See
   ui-conventions-and-length.
-- **Typography:** Czech quotation marks open low and close high („…“); the em
-  dash is not a
-  Czech character; a number never wraps away from its unit. These are
+- **Typography:** Czech quotation marks open low and close high („…“); the house
+  default is the en dash (–) with spaces and no em dash, a house choice — the
+  Language Institute also permits a consistently used long dash (—); a number never wraps away from its unit. These are
   mechanically checkable and belong in automated gates. See
   typography-and-spacing.
 

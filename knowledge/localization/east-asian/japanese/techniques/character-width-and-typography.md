@@ -56,6 +56,26 @@ only casing authority.
 **Source:** JTF style guide (alphanumerics are half-width); consistent across
 vendor guides.
 
+## JA-HALFWIDTH-KANA · half-width katakana is a defect in prose
+
+**Trigger:** any code point in U+FF65..FF9F (ｱ, ｶﾞ, ｰ) — or the halfwidth
+punctuation ｡ ､ ｢ ｣ (U+FF61..FF64) — inside a Japanese string.
+
+**Rule:** half-width katakana in Japanese prose is a defect on sight, the kana
+twin of full-width Latin. Normalize it to the full-width form; NFKC does this
+mechanically, including composing a split voiced mark（ｶﾞ → ガ）. The
+identity check is cheap, and it matters past looks: these characters break lines
+under their own classes (ID, CJ and NS for the kana and marks; CL and OP for
+｡ ､ ｢ ｣), so a mixed string wraps unpredictably next to its full-width neighbours.
+
+**Source:** Unicode Character Database — UnicodeData gives each a `<narrow>`
+compatibility decomposition to the full-width kana (U+FF76 → U+30AB);
+EastAsianWidth marks them H; LineBreak 18.0 assigns the classes above.
+
+**Exception:** a fixed legacy interface that only accepts half-width kana
+(older bank, carrier and point-of-sale fields) — there the target form is a
+contract of the receiving system, not a style choice.
+
 ## JA-NO-WORD-SPACE · no spaces inside Japanese
 
 **Trigger:** any space between two Japanese characters.

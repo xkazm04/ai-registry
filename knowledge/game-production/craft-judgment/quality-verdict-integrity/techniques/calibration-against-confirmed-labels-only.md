@@ -81,10 +81,12 @@ measurement without its basis —
 
 - **Threshold**: state one, in one place, and never lower it to make a run pass.
   Lowering it is the only irreversible move here — every other mistake is
-  fixable by re-measuring. A working figure for a band decision is agreement at
+  fixable by re-measuring. A working figure for a band decision is raw agreement at
   or above 0.85; chance-corrected agreement statistics are the stricter and
   better instrument where the bands are unbalanced, and raw percentage
-  agreement flatters a set dominated by one band.
+  agreement flatters a set dominated by one band. State which basis the
+  threshold is on: a chance-corrected statistic reads lower than raw agreement
+  on the same labels, so 0.85 on the two scales is two different bars.
 - **Size**: a handful of targets is a smoke test, not a calibration. Roughly
   twenty stratified targets is the floor at which a band-agreement figure starts
   to mean something for a narrow, well-specified rubric; a broad rubric over
@@ -103,8 +105,9 @@ the instrument part of its own evidence and pollutes the quality corpus with
 scores produced under experimental conditions.
 
 Likewise, choose a grader from a different model family than the one that
-produced the content where that is possible: graders measurably prefer output
-from their own family, and a same-family pairing quietly inflates the very
+produced the content where that is possible: graders measurably prefer their own
+output, and some have been measured preferring output from other models of their
+own family as well, so a same-family pairing can quietly inflate the very
 agreement figure being reported.
 
 ## When not to use this

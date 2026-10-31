@@ -57,11 +57,12 @@ should be.
 > *schließen*, *außerdem*); ss follows short vowels (*Passwort*, *muss*,
 > *Schluss*). Never fold ß to ss in standard German — that is the Swiss
 > convention (`de-CH`), not `de`. In all-caps contexts the capital **ẞ**
-> (U+1E9E) has been official since 2017 and is the *preferred* variant since
-> the 2024 revision of the official rule set (STRAẞE preferred, STRASSE still
-> permitted).
+> (U+1E9E) has been official since 2017; since the 2024 revision the rule
+> names ẞ first and still permits SS (*Straße – STRAẞE – STRASSE*), without
+> ranking either.
 > **Source** — the official German orthography rules, 2017 amendment and 2024
-> revision (capital ẞ).
+> revision, § 25 E3: "Bei Schreibung mit Großbuchstaben ist neben der
+> Verwendung des Großbuchstabens ẞ auch die Schreibung SS möglich."
 > **Exception** — a `de-CH` catalog folds every ß to ss deliberately; that is
 > a locale variant, not an error, and must be the whole catalog or none of it.
 

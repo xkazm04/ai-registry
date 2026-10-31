@@ -55,12 +55,17 @@ policy, only twenty opinions.
 
 The registry is **derived from the installed registration**, not maintained
 beside it. The class is assigned by convention from the entrypoint's identity
-— a short, explicit map of the hard-risk entrypoints, with everything not in
-the map advisory — and the fail mode is a function of the class, so there is
-no second table that can drift from what is actually installed. A drift guard
-compares the derived registry against the installed registration on every
-build and reports an unknown event, an unparseable command or a missing
-timeout as a finding. When a protective guard does fail closed, the chain
+— a short, explicit map of the hard-risk entrypoints, with every *recognised*
+entrypoint not in the map advisory — and the fail mode is a function of the
+class, so there is no second table that can drift from what is actually
+installed. A hook the derivation cannot identify (an unknown entrypoint, a
+command it cannot parse) has an unknown class, and an unknown class does not
+silently become advisory: that would turn the one hook nobody reviewed into
+the one that passes on every failure. A drift guard compares the derived
+registry against the installed registration on every build and reports an
+unknown event, an unidentified hook, an unparseable command or a missing
+timeout as a finding, and the hook stays unclassified until someone assigns
+its class. When a protective guard does fail closed, the chain
 stops there: later hooks on the same event do not run, because a decision
 that has already refused must not be overridden by an advisory pass further
 down the order.
@@ -90,8 +95,18 @@ next section governs.
 Every handler runs under a **declared timeout**, and the timeout is enforced
 by the registry, not trusted to the handler. The timer that enforces it must
 not itself keep the process alive: an unreferenced timer, or one cleared on
-completion, so that a hook whose await never resolves is abandoned at the
-deadline rather than pinning the session open. A harness that has shipped a
+completion, so that the registry stops *waiting* for a hook whose await never
+resolves at the deadline, rather than pinning the session open.
+
+What the deadline bounds is the wait, not the handler. Racing a handler's
+promise against a timer settles the race and leaves the loser running: it
+keeps its resources and can still write a file or a record after the guard
+has already failed open, unless it is handed a cancellation signal it
+honours, or runs in a worker or process the registry can kill. A handler
+that does synchronous work is not bounded at all on a single-threaded
+runtime, because the timer cannot fire until that work returns. So the
+registry discards a late result rather than applying it, and a handler
+whose late write would be harmful is either cancellable or isolated. A harness that has shipped a
 hook with an unbounded await knows the symptom — a session that will not exit
 its turn, no error, no output — and the fix is structural at the registry,
 never a per-handler discipline.
@@ -113,7 +128,8 @@ the model reads and the operator does not.
 ## Decision rules
 
 - Give every registered interceptor a risk class; derive its fail mode from
-  the class; keep the fail-closed set enumerable from the registry.
+  the class; keep the fail-closed set enumerable from the registry. An
+  unidentified hook is a finding, never advisory by default.
 - Fail open for advisory guards; fail closed only where the wrong interval is
   irreversible. Ask what the wrong direction costs and whether it can be
   undone.
@@ -125,7 +141,9 @@ the model reads and the operator does not.
   both directions, so those are named as exemptions with a reason and a lift
   condition rather than bounded; the predicate is
   [honest-hook-registry](../../../runtime-and-io/agent-runtime-assembly/techniques/honest-hook-registry.md)'s.
-  A blanket bound reads as safety and is a silent state loss.
+  A blanket bound reads as safety and is a silent state loss. A timeout
+  bounds the wait, not the handler: cancel or isolate a handler whose late
+  work matters, and discard its late result.
 - On instrument failure, pass with a structured diagnostic; never pass
   silently.
 

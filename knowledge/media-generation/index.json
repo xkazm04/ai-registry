@@ -2289,9 +2289,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/media-generation/visual-generation/generative-provider-routing/generative-provider-routing.md",
-   "digest": "sha256-b2:5f893ef4493c954f",
-   "revision": 11,
-   "changedAt": "2026-09-17",
+   "digest": "sha256-b2:3035bdbc5262b8ba",
+   "revision": 12,
+   "changedAt": "2026-10-31",
    "techniques": [
     {
      "slug": "capability-to-vendor-plan",
@@ -3749,9 +3749,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/media-generation/production-ops/platform-format-adaptation/platform-format-adaptation.md",
-   "digest": "sha256-b2:14fcb9b8c64f1b8b",
-   "revision": 3,
-   "changedAt": "2026-09-26",
+   "digest": "sha256-b2:37d2aca4eff91fe6",
+   "revision": 4,
+   "changedAt": "2026-10-31",
    "techniques": [
     {
      "slug": "derived-short-contract",
@@ -3856,8 +3856,8 @@
      "stack": "process",
      "technique": "sound-off-first-design",
      "file": "knowledge/media-generation/production-ops/platform-format-adaptation/applications/process--sound-off-first-design.md",
-     "verified_on": "2026-09-26",
-     "refresh_by": "2026-12-26"
+     "verified_on": "2026-10-31",
+     "refresh_by": "2027-01-31"
     }
    ]
   },

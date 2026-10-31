@@ -45,9 +45,12 @@ the target diverge, which is the moment the test existed for.
   through the door. Callers arriving after the seal get a clear refusal.
 - **Reject observations at its boundary.** Waiting calls are rejected with a
   closed error rather than left hanging.
-- **Drain what was already admitted.** Work admitted before the seal is allowed
-  to finish its in-flight commit, so the store is left mid-nothing rather than
-  mid-transaction.
+- **Drain what was already admitted, for a bounded time.** Work admitted before
+  the seal is allowed to finish its in-flight commit, so the store is left
+  mid-nothing rather than mid-transaction — and an effect that genuinely settles
+  during the drain commits its real settlement. That is an outcome the world
+  produced, not a verdict close invented, and discarding it would turn a known
+  result back into an unknown one.
 - **Release resources it owns.** Connections, file handles, timers. Whether it
   also signals cooperative in-flight work to stop early is a local resource
   decision and does not change what is written.
@@ -69,10 +72,14 @@ the target diverge, which is the moment the test existed for.
   process that owned this went away cleanly" state, which is the second recovery
   path readmitted under a new name.
 
-An effect that finishes *after* the seal simply cannot commit: its write is
-refused, and the operation stays at its pending restart point, which is exactly
-where a crash one instant earlier would have left it. That refusal is the
-mechanism; there is nothing else to build.
+Keep two moments apart. **Admission sealing** happens first: no new effect may
+start. **Write closure** happens when the drain's bound expires: no commit may
+land. Between them, admitted effects still settle. An effect that finishes
+*after write closure* cannot commit: its write is refused, and the operation stays
+at its pending restart point, which is exactly where a crash one instant earlier
+would have left it. That refusal is the mechanism; there is nothing else to build.
+Collapsing the two moments into one either refuses settlements the drain existed
+to preserve, or leaves the store open to writes with no bound.
 
 ## The relationship to two-commit effect boundaries
 
@@ -153,7 +160,7 @@ because the crash path is untouched, and only the everyday exit is wrong.
 
 ## Decision rules
 
-- Make close seal, drain and stop. Write no cancellation, no terminal state, no
+- Make close seal, drain for a bounded time, and stop. Write no cancellation, no terminal state, no
   synthesized settlement, and delete no operation.
 - Let a post-seal write be refused rather than specially handled; the refusal is
   the mechanism.
@@ -162,6 +169,11 @@ because the crash path is untouched, and only the everyday exit is wrong.
 - Assert equivalence directly: for each durable state, close cleanly and compare
   the store against the same state after a simulated process loss. Any
   difference is the second recovery path reappearing.
+- Test abrupt loss on its own — a kill during the drain and between the two
+  commits — because close cannot promise to run, and the equivalence test only
+  covers the exits where it did.
+- Seal admission and close writes as two moments; let genuine settlements commit
+  between them, within the drain's bound.
 - Give a resource with no other releaser a lease, rather than giving shutdown a
   job only it can do.
 - Make an escaped effect's compensation handle durable, so a successor can run

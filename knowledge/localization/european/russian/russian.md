@@ -17,8 +17,8 @@ techniques:
 
 Russian is a heavily inflecting language wearing a familiar European alphabet, and
 that combination is exactly what makes it dangerous to localize by pattern-matching
-from English. Nothing about the script warns you: Cyrillic is left-to-right, caseless
-in the typographic sense that matters (no all-caps conventions to fight), needs no
+from English. Nothing about the script warns you: Cyrillic is left-to-right, bicameral
+like Latin (so casing rules still apply — see typography-and-spacing), needs no
 shaping engine, no bidi marks, no CJK line-breaking. The layout engineer's checklist
 is short — plan for text roughly 15–25% longer than English, mostly from case
 suffixes and compound technical nouns, and ship a font with full Cyrillic coverage

@@ -60,6 +60,11 @@ that forgot its rules.
 The checkpoint is written at the **pre-compaction event**, before the
 summariser runs, from the harness's own control state — never reconstructed
 by parsing the transcript, which is what the summariser is about to destroy.
+It is also written at every **control transition** — a mode armed or
+deactivated, a stage advanced, a job started or collected, a cancel — so
+that a compaction whose pre-event hook never fires restores the last
+transition rather than nothing, and so the checkpoint never lags the state
+it claims to carry.
 It is read at the **post-compaction session start**, and the read is **keyed
 on the reason the session started**. Harnesses report several start reasons —
 a cold open, a clear, a compaction, a resume — and the restore is correct for
@@ -68,11 +73,20 @@ just discarded; restoring on a resume double-arms modes that never left. The
 start hook branches on the reason, and an unrecognised reason is treated as
 unhandled, with a diagnostic, rather than as any of the known ones.
 
+The restore is **idempotent and checked against the current generation**.
+Running it twice must leave the same state as running it once, so a start
+hook that fires twice does not double-arm. And a checkpoint whose generation
+is older than the control record's current one — a cancel or a newer arming
+landed after it was written — is not applied over the newer state; it is
+reported as superseded.
+
 A missing checkpoint on a compaction start is **not** "no modes were active"
-([unknown-is-not-a-value](../../../../_laws.md#unknown-is-not-a-value)). It
-means the pre-compaction write did not happen — the hook failed, the event
-was not delivered, the file was not writable — and the honest restore says
-so, so that a loop silently dropped by a failed write is a visible incident
+([unknown-is-not-a-value](../../../../_laws.md#unknown-is-not-a-value)). Its
+cause is unknown: the pre-compaction write may have failed (the hook threw,
+the file was not writable), the event may not have been delivered, the
+checkpoint may have been cleaned up or written under another key, or no loop
+was armed at all. The honest restore reports a missing checkpoint as exactly
+that, without asserting which cause it was, so that a loop silently dropped by a failed write is a visible incident
 and not a session that seems to have finished. The restore may then fall back
 to the second channel.
 
@@ -94,6 +108,9 @@ restores a model that remembers its reasoning inside a harness that has
 forgotten to enforce anything. The notepad is advisory — the model may not
 have written it, and what it wrote may be stale — so the loop never depends
 on it; the checkpoint is authoritative and the loop depends on nothing else.
+In particular the notepad cannot re-arm control: a note saying "I was in
+the keep-working mode" restores the model's memory of the mode, not the mode.
+Arming stays with the checkpoint and the explicit arming channel.
 
 ## Decision rules
 
@@ -101,8 +118,13 @@ on it; the checkpoint is authoritative and the loop depends on nothing else.
   short; write it from the harness's own state at the pre-compaction event.
 - Restore at the post-compaction start, keyed on the start reason; treat an
   unrecognised reason as unhandled.
-- A missing checkpoint on a compaction start is a failed write, reported as
-  such — never read as "nothing was active".
+- Write at control transitions as well as pre-compaction; restore
+  idempotently, and never apply a checkpoint older than the current
+  generation.
+- A missing checkpoint on a compaction start has an unknown cause and is
+  reported as missing — never read as "nothing was active", and never
+  asserted to be a failed write.
+- The notepad never re-arms a mode.
 - Keep the harness checkpoint and the model notepad as separate channels; the
   loop depends only on the first.
 - Never let the summariser carry anything the loop depends on.

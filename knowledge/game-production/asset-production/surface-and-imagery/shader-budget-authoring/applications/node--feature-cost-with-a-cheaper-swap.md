@@ -95,7 +95,7 @@ line is suppressed. The specific finding wins.
 
 ## Deviations kept as deviations
 
-Two, and the standard does not move for either:
+Three, and the standard does not move for any of them:
 
 1. **The caps and deltas are literals in this module**, while the prompt side of the
    same feature derives its guidance from versioned engine facts
@@ -109,3 +109,8 @@ Two, and the standard does not move for either:
    records that the label *"used to say '60% headroom' and was inverted"*. The material
    estimator has the cap but not the share, so nobody can say how many such surfaces fit
    in one view.
+3. **The instruction warning measures feature presence, not expense.** 2.5× a
+   60-instruction metal base fires at 150 instructions, and `parallax` alone adds 250, so
+   any material carrying parallax clears it whatever else it holds — and the keyword
+   rules attach parallax to every stone, rock, brick, concrete or marble brief. The
+   threshold should say what it is meant to separate.

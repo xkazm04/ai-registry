@@ -45,8 +45,7 @@ untouched" law exists to prevent. No project change was made or owed.
 ## What this teaches the technique
 
 The you-can-ism bullet says a catalog where "every sentence" opens with يمكنك
-is the tell, with no threshold. In a copy set that was reviewed by a fluent
-speaker the base rate is 0.8%; a reviewer needs a number to separate a
+is the tell, with no threshold. In this tree the base rate is 0.8%; a reviewer needs a number to separate a
 calqued catalog from ordinary capability statements. A review pass should
 count sentence-initial يمكنك and escalate only when the share is a visible
 fraction of the sentences (this tree gives the clean floor, n=2,481, one

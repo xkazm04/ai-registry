@@ -366,3 +366,187 @@ application, at a different edge: the headless bake stage of its 3D pipeline.
   condition:** a second tree where a texture producer holds its own role table.
 - **Still open from the 2026-09-10 review:** step 4's "there is no mixed case" is refuted
   by base-colour alpha. This run did not touch it.
+
+## Architecture review - 2026-10-31
+
+Stale since the 2026-09-10 record: two applications landed (2026-10-06 node, 2026-10-10
+python). Read all 9 owned documents at the current bytes. The four clarify items the
+2026-09-10 record named are all still owed, and none of the documents was touched in between
+(the 2026-10-10 note says the same of step 4).
+
+Re-checked both format claims against primary sources this run, closing the gap the
+2026-09-10 record left open. The glTF 2.0 schema confirms every default the subject states
+and the base-colour texture's mixed encoding ("The first three components (RGB) **MUST** be
+encoded with the sRGB transfer function ... If the fourth component (A) is present, it
+represents the linear alpha coverage"). OpenUSD's UsdPreviewSurface specification, fetched
+this time rather than recalled, gives `roughness` 0.5, `metallic` 0.0, `opacity` 1.0 and
+`emissiveColor` (0, 0, 0). So the defaults are one format's, and a delivery through the
+other path that omits both gloss inputs arrives mid-rough and non-metallic. The same page
+says roughness "is usually squared before use with a GGX or Beckmann lobe", which supports
+the retained squared-roughness counterexample.
+
+The gloss arithmetic was recomputed. With the factor at its own format default of one,
+inverting map and factor separately gives (1 - 1)(1 - m) = 0 for every texel: a uniformly
+fully-rough reading of a smoothness channel, so the failure is a flat matte surface, which is
+neither a no-op nor the uniformly-shiny import.
+
+Both applications are internally consistent: 3 wrong of 5 per delivery over three deliveries
+is 9 of 15; 0.773 against 0.702 is the 0.071 mean error the table gives. Their private tree
+was not reopened.
+
+Naming the format in the techniques and golden path is ruled out by the corpus convention
+(product names live in applications), so the repair below states the values as one widely
+used format's and contrasts another without naming either.
+
+<!-- architecture-review:v1 -->
+```json
+{
+  "subject": "game-production/imported-material-conformance",
+  "date": "2026-10-31",
+  "baseline": "d59c2e044",
+  "digest": "sha256-b2:ea32a2326d2c666f",
+  "disposition": "clarify",
+  "coverage": "All 9 owned documents read in full at current bytes (golden path, 6 techniques, 2 applications). Material defaults and per-channel encodings checked against the glTF 2.0 schema; the contrasting defaults against the OpenUSD UsdPreviewSurface specification, fetched this run. Gloss arithmetic recomputed; both applications' arithmetic recomputed. Not evaluated: any importer, renderer, swatch, real delivery, or the private tree the two applications cite.",
+  "counterexamples": [
+    "glTF 2.0 base colour texture: sRGB RGB with linear alpha in one image, against 'there is no mixed case' (retained, now quoted from the schema).",
+    "A delivery through UsdPreviewSurface omitting roughness and metallic arrives at 0.5 and 0.0: mid-rough and non-metallic, so 'a fully metallic delivery means defaults' points the wrong way on that path.",
+    "A renderer that squares roughness before its GGX lobe: the conversion is not one-minus and the midpoint is not the fixed point (retained; the specification says roughness is usually squared before use).",
+    "A delivery whose materials carry no names: identity-from-declaration has nothing to derive from (retained)."
+  ],
+  "sources": [
+    {
+      "url": "https://raw.githubusercontent.com/KhronosGroup/glTF/main/specification/2.0/schema/material.pbrMetallicRoughness.schema.json",
+      "result": "baseColorFactor default [1,1,1,1], metallicFactor 1.0, roughnessFactor 1.0; base colour texture RGB 'MUST be encoded with the sRGB transfer function' and A 'represents the linear alpha coverage'; metallic-roughness texture 'MUST be encoded with a linear transfer function', metalness in B, roughness in G."
+    },
+    {
+      "url": "https://raw.githubusercontent.com/KhronosGroup/glTF/main/specification/2.0/schema/material.schema.json",
+      "result": "alphaMode default OPAQUE, doubleSided false, emissiveFactor [0,0,0]; emissive texture sRGB; normal and occlusion linear. Confirms five roles, two with a display curve."
+    },
+    {
+      "url": "https://openusd.org/release/spec_usdpreviewsurface.html",
+      "result": "roughness float 0.5, metallic float 0.0, opacity 1.0, emissiveColor (0,0,0), diffuseColor (0.18,0.18,0.18); roughness 'is usually squared before use with a GGX or Beckmann lobe'. Refutes the defaults as properties of formats in general."
+    },
+    {
+      "url": "local: knowledge/game-production/asset-production/surface-and-imagery/imported-material-conformance",
+      "result": "All owned documents read; gloss arithmetic recomputed ((1-f)(1-m) is 0.40 at f=0.2, m=0.5 against 0.10 original and 0.90 correct; 0 everywhere at f=1)."
+    }
+  ],
+  "documents": {
+    "imported-material-conformance.md": {
+      "disposition": "clarify",
+      "reason": "Still owed: states one format's defaults (gloss factors fully on, opaque, single-sided, base colour white against emissive zero) as 'the interchange formats'. Primary sources confirm them for glTF 2.0 and refute them for UsdPreviewSurface. Say they are one widely used format's and contrast the other, without naming a product."
+    },
+    "techniques/colour-space-is-per-texture-role.md": {
+      "disposition": "clarify",
+      "reason": "Still owed: step 4's 'there is no mixed case' is refuted by the glTF base colour texture (sRGB RGB, linear alpha). Keep the practical instruction; replace the universal with a per-channel reading of the role contract."
+    },
+    "techniques/format-defaults-are-not-asset-properties.md": {
+      "disposition": "clarify",
+      "reason": "Still owed: same generalisation as the golden path, and the 'fully metallic delivery' decision rule only holds where the format defaults metalness on. Its own step 1 already says to read the default per format."
+    },
+    "techniques/gloss-axis-inversion-and-the-midpoint.md": {
+      "disposition": "clarify",
+      "reason": "Still owed: step 3's 'negating twice restores the original' is arithmetically wrong; separate inversion gives (1-f)(1-m), a third surface, and at the default factor of one it is zero everywhere. The instruction to negate the product is right."
+    },
+    "techniques/a-fixer-script-is-the-edge-in-the-wrong-place.md": {
+      "disposition": "keep",
+      "reason": "Unchanged since the 2026-09-10 keep; the second-authority argument and the one-rule-at-a-time migration hold, and the node application exercised it."
+    },
+    "techniques/materialise-on-import.md": {
+      "disposition": "keep",
+      "reason": "Unchanged since the 2026-09-10 keep; the acceptance test is checkable and admits any addressing mechanism."
+    },
+    "techniques/surface-conformance-swatch.md": {
+      "disposition": "keep",
+      "reason": "Unchanged since the 2026-09-10 keep; straddle-the-midpoint, the empty material and the emissive-without-factor case each name a defect."
+    },
+    "applications/node--a-fixer-script-is-the-edge-in-the-wrong-place.md": {
+      "disposition": "reverify",
+      "reason": "Internally consistent (9 of 15 against 0 of 15; floor stated; engine stubbed and said so). Private tree not reopened; verified_on 2026-10-06 stands."
+    },
+    "applications/python--colour-space-is-per-texture-role.md": {
+      "disposition": "reverify",
+      "reason": "Internally consistent (mean error 0.0709 equals 0.773 minus 0.702; other maps byte-identical; refusal arm recorded). Private tree and Blender run not reopened; verified_on 2026-10-10 stands."
+    }
+  }
+}
+```
+
+## Architecture review - 2026-10-31 (clarify applied)
+
+Applied all four clarify items, the last of them owed since 2026-09-10. Both applications keep
+`reverify`, which is now the overall disposition.
+
+<!-- architecture-review:v1 -->
+```json
+{
+  "subject": "game-production/imported-material-conformance",
+  "date": "2026-10-31",
+  "baseline": "d59c2e044",
+  "digest": "sha256-b2:603c0ea1beb3d0be",
+  "disposition": "reverify",
+  "coverage": "Second record after applying all four clarify items, each against the glTF 2.0 schema, the OpenUSD UsdPreviewSurface specification or recomputed arithmetic quoted in the first 2026-10-31 record; edited passages re-read. No product is named outside applications. No importer, renderer or swatch was run and the applications private tree was not reopened.",
+  "counterexamples": [
+    "glTF 2.0 base colour texture: sRGB RGB with linear alpha in one image, against 'there is no mixed case' (retained, now quoted from the schema).",
+    "A delivery through UsdPreviewSurface omitting roughness and metallic arrives at 0.5 and 0.0: mid-rough and non-metallic, so 'a fully metallic delivery means defaults' points the wrong way on that path.",
+    "A renderer that squares roughness before its GGX lobe: the conversion is not one-minus and the midpoint is not the fixed point (retained; the specification says roughness is usually squared before use).",
+    "A delivery whose materials carry no names: identity-from-declaration has nothing to derive from (retained)."
+  ],
+  "sources": [
+    {
+      "url": "https://raw.githubusercontent.com/KhronosGroup/glTF/main/specification/2.0/schema/material.pbrMetallicRoughness.schema.json",
+      "result": "baseColorFactor default [1,1,1,1], metallicFactor 1.0, roughnessFactor 1.0; base colour texture RGB 'MUST be encoded with the sRGB transfer function' and A 'represents the linear alpha coverage'; metallic-roughness texture 'MUST be encoded with a linear transfer function', metalness in B, roughness in G."
+    },
+    {
+      "url": "https://raw.githubusercontent.com/KhronosGroup/glTF/main/specification/2.0/schema/material.schema.json",
+      "result": "alphaMode default OPAQUE, doubleSided false, emissiveFactor [0,0,0]; emissive texture sRGB; normal and occlusion linear. Confirms five roles, two with a display curve."
+    },
+    {
+      "url": "https://openusd.org/release/spec_usdpreviewsurface.html",
+      "result": "roughness float 0.5, metallic float 0.0, opacity 1.0, emissiveColor (0,0,0), diffuseColor (0.18,0.18,0.18); roughness 'is usually squared before use with a GGX or Beckmann lobe'. Refutes the defaults as properties of formats in general."
+    },
+    {
+      "url": "local: knowledge/game-production/asset-production/surface-and-imagery/imported-material-conformance",
+      "result": "All owned documents read; gloss arithmetic recomputed ((1-f)(1-m) is 0.40 at f=0.2, m=0.5 against 0.10 original and 0.90 correct; 0 everywhere at f=1)."
+    }
+  ],
+  "documents": {
+    "imported-material-conformance.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: the defaults paragraph now says the values are the most widely used real-time interchange format answers, not facts about materials, and that a widely used scene-description format defaults roughness to the midpoint and metalness to off."
+    },
+    "techniques/colour-space-is-per-texture-role.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: step 4 no longer says \"there is no mixed case\"; it names the base colour texture (display-curve colour, linear fourth channel) and an extension pairing as mixed cases, and says to read the role contract per channel."
+    },
+    "techniques/format-defaults-are-not-asset-properties.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: the three defaults are now stated as one format, with the other format contrast; the fully-metallic decision rule is conditioned on a format that defaults metalness on and says what the omission looks like otherwise."
+    },
+    "techniques/gloss-axis-inversion-and-the-midpoint.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: step 3 now gives (1 - f)(1 - m) as a third wrong surface with the 0.40 / 0.10 / 0.90 example and the zero-everywhere case at a factor of one, replacing \"negating twice restores the original\"."
+    },
+    "techniques/a-fixer-script-is-the-edge-in-the-wrong-place.md": {
+      "disposition": "keep",
+      "reason": "Unchanged since the 2026-09-10 keep; the second-authority argument and the one-rule-at-a-time migration hold, and the node application exercised it."
+    },
+    "techniques/materialise-on-import.md": {
+      "disposition": "keep",
+      "reason": "Unchanged since the 2026-09-10 keep; the acceptance test is checkable and admits any addressing mechanism."
+    },
+    "techniques/surface-conformance-swatch.md": {
+      "disposition": "keep",
+      "reason": "Unchanged since the 2026-09-10 keep; straddle-the-midpoint, the empty material and the emissive-without-factor case each name a defect."
+    },
+    "applications/node--a-fixer-script-is-the-edge-in-the-wrong-place.md": {
+      "disposition": "reverify",
+      "reason": "Internally consistent (9 of 15 against 0 of 15; floor stated; engine stubbed and said so). Private tree not reopened; verified_on 2026-10-06 stands."
+    },
+    "applications/python--colour-space-is-per-texture-role.md": {
+      "disposition": "reverify",
+      "reason": "Internally consistent (mean error 0.0709 equals 0.773 minus 0.702; other maps byte-identical; refusal arm recorded). Private tree and Blender run not reopened; verified_on 2026-10-10 stands."
+    }
+  }
+}
+```

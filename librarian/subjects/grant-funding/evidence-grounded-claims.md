@@ -1,7 +1,7 @@
 ---
 domain: grant-funding
 subject: evidence-grounded-claims
-last_touched: 2026-09-10
+last_touched: 2026-10-31
 touched_by: architecture-review
 dry_streak: 0
 ---
@@ -189,3 +189,183 @@ gate, require that no placeholder remains).
   detector, and the ledger's singular-kind conflict. This run tested the placeholder contract,
   not those.
 - **The repository is private.** The application describes the seam without paths.
+
+## Architecture review - 2026-10-31
+
+Thirteen documents read in full: the golden path, six techniques and six applications, four of
+them added since the 2026-09-10 record (bracketed placeholder, placeholder resolution and
+provenance on the grant product; document-fact extraction on kp). The three content findings of
+the 2026-09-10 re-review still stand at the current bytes and are still owed: the golden path's
+"structurally impossible" overclaim, the echo check's undifferentiated grounding set, and the
+ledger's first-match rule against its own surface-the-conflict rule. The new applications sharpen
+the third: the provenance application records that the grant tree lets the confidence grade
+decide when two readings of one kind collide, and `document-fact-extraction` says confidence
+breaks ties, so the ledger technique is the one document still saying recency or confidence must
+never silently pick. One new tension: `placeholder-to-fact-resolution` maps "budget" cues to
+annual revenue while its own offer section names "that's our revenue, not our program budget" as
+the error the click exists to catch, and its application lists a bare "budget" as an unmeasured
+loose cue. That one is left owed, because the right cue design needs measurement, not a reading.
+
+No dated external fact carries weight here; nothing was executed. The grant product's code was
+not re-read, so application citations stand as dated records.
+
+<!-- architecture-review:v1 -->
+```json
+{
+  "subject": "grant-funding/evidence-grounded-claims",
+  "date": "2026-10-31",
+  "baseline": "8432a5cfa",
+  "digest": "sha256-b2:95f028623c37cc30",
+  "disposition": "clarify",
+  "coverage": "All 13 documents read in full and cross-read for rule conflicts, including the four applications added since 2026-09-10. NOT evaluated: no application tree re-read, no drafting pipeline run, no false-positive rate measured; no verified_on or maturity change.",
+  "counterexamples": [
+    "A call text quoting a 25% cost-share requirement grounds a fabricated \"we serve 25% of eligible families\": the echo set does not distinguish which source a number came from.",
+    "A draft says \"we served 1,200 families\" where the ledger says 1,240; counts are out of the detector's scope, so the golden path's \"structurally impossible\" does not hold for them.",
+    "Two documents state FY2025 revenue as $1.2M and $1.3M; a first-confident-match ledger keeps one and the writer never sees the disagreement.",
+    "A placeholder \"[insert program budget]\" maps to annual revenue under a budget cue and offers the organization's total revenue, sourced and confident, into a program-budget blank."
+  ],
+  "sources": [
+    {
+      "path": "knowledge/grant-funding/proposal-craft/evidence-grounded-claims",
+      "result": "All 13 documents read; the ledger conflict and the grounding-scope hole re-derived by reading techniques against their applications. No external source carries a load-bearing claim in this subject."
+    }
+  ],
+  "documents": {
+    "evidence-grounded-claims.md": {
+      "disposition": "clarify",
+      "reason": "Still owed from 2026-09-10: \"makes a fabricated figure structurally impossible\" overclaims. Detection covers percentages only, counts and amounts are out of scope by design, and placeholders bind only at the submission gate; the page itself concedes each limit later."
+    },
+    "techniques/bracketed-placeholder-over-invention.md": {
+      "disposition": "keep",
+      "reason": "Four grounds hold; the 2026-10-11 boundary (one grammar for every reader, sized to recorded generator output, want-verb lead, no figure inside the brackets) is backed by its paired application."
+    },
+    "techniques/document-fact-extraction.md": {
+      "disposition": "keep",
+      "reason": "Conservative extraction rules sound; the cross-document import section added from the kp application is argued from an observed failure and bounded honestly (catches imports, does not certify)."
+    },
+    "techniques/placeholder-to-fact-resolution.md": {
+      "disposition": "clarify",
+      "reason": "The want-clause and whole-word cue rule is backed by its application. Owed: the cue list maps \"budget\" to annual revenue while the offer section names revenue-versus-program-budget as the error the click must catch, and the application lists bare \"budget\" as an unmeasured loose cue. Needs a measured cue decision, not applied this run."
+    },
+    "techniques/provenance-per-figure.md": {
+      "disposition": "keep",
+      "reason": "Three travelling fields with consumption rules; \"provenance is a live link\" now has an application showing enforcement belongs on the shared read path."
+    },
+    "techniques/ungrounded-statistic-detection.md": {
+      "disposition": "clarify",
+      "reason": "Still owed: the grounding is one numeric set across ledger, call text, funder profile and org profile, so any number from any source satisfies a match. State that a funder-side number can ground an organizational claim, or require a source of the right kind."
+    },
+    "techniques/verified-fact-ledger.md": {
+      "disposition": "clarify",
+      "reason": "Still owed: \"singular kinds keep the first confident match\" contradicts \"do not let recency or confidence silently pick\". Agreeing readings should collapse; disagreeing readings are the conflict the decision rule surfaces."
+    },
+    "applications/node--bracketed-placeholder-over-invention.md": {
+      "disposition": "keep",
+      "reason": "Paired proof with a declared floor and controls; the five-readers table is the evidence behind the technique's boundary. Private tree, described without paths."
+    },
+    "applications/node--placeholder-to-fact-resolution.md": {
+      "disposition": "keep",
+      "reason": "Falsification seam chosen honestly; states the unwired offer loop and the two loose cues it did not measure."
+    },
+    "applications/node--provenance-per-figure.md": {
+      "disposition": "keep",
+      "reason": "Paired proof that stored provenance was consumed by no reader; limits (re-extraction, in-place edits, frequency) stated."
+    },
+    "applications/node--ungrounded-statistic-detection.md": {
+      "disposition": "clarify",
+      "reason": "Faithful dated record. Owed: name the grounding-scope limit its own description shows (percentSet over the whole prompt: facts, RFP, funder DNA, profile) beside the limit it already names. Code citations not re-read."
+    },
+    "applications/node--verified-fact-ledger.md": {
+      "disposition": "keep",
+      "reason": "Accurate dated record; its \"singular kinds keep the first match\" is the evidence for the technique's clarify. Code citations not re-read."
+    },
+    "applications/python--document-fact-extraction--kp.md": {
+      "disposition": "keep",
+      "reason": "Live probe plus paired replay, with n stated as small and the leniency limits stated. Public tree, quoted lines read as a dated record."
+    }
+  }
+}
+```
+
+### 2026-10-31 - after applying the owed clarifications
+
+Four of the five clarify items applied, each an internal inconsistency verified by reading. The
+placeholder cue for "budget" stays owed: choosing the cue needs measurement.
+
+<!-- architecture-review:v1 -->
+```json
+{
+  "subject": "grant-funding/evidence-grounded-claims",
+  "date": "2026-10-31",
+  "baseline": "8432a5cfa",
+  "digest": "sha256-b2:de39a3026d7ea028",
+  "disposition": "clarify",
+  "coverage": "All 13 documents read in full and cross-read for rule conflicts, including the four applications added since 2026-09-10. NOT evaluated: no application tree re-read, no drafting pipeline run, no false-positive rate measured; no verified_on or maturity change. Phase B applied four clarifications from internal reading; placeholder-to-fact-resolution remains owed.",
+  "counterexamples": [
+    "A call text quoting a 25% cost-share requirement grounds a fabricated \"we serve 25% of eligible families\": the echo set does not distinguish which source a number came from.",
+    "A draft says \"we served 1,200 families\" where the ledger says 1,240; counts are out of the detector's scope, so the golden path's \"structurally impossible\" does not hold for them.",
+    "Two documents state FY2025 revenue as $1.2M and $1.3M; a first-confident-match ledger keeps one and the writer never sees the disagreement.",
+    "A placeholder \"[insert program budget]\" maps to annual revenue under a budget cue and offers the organization's total revenue, sourced and confident, into a program-budget blank."
+  ],
+  "sources": [
+    {
+      "path": "knowledge/grant-funding/proposal-craft/evidence-grounded-claims",
+      "result": "All 13 documents read; the ledger conflict and the grounding-scope hole re-derived by reading techniques against their applications. No external source carries a load-bearing claim in this subject."
+    }
+  ],
+  "documents": {
+    "evidence-grounded-claims.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: \"structurally impossible\" -> \"structurally hard\", with the three limits (percentages only, counts and amounts pass, placeholders bind at the submission gate) stated in the opening."
+    },
+    "techniques/bracketed-placeholder-over-invention.md": {
+      "disposition": "keep",
+      "reason": "Four grounds hold; the 2026-10-11 boundary (one grammar for every reader, sized to recorded generator output, want-verb lead, no figure inside the brackets) is backed by its paired application."
+    },
+    "techniques/document-fact-extraction.md": {
+      "disposition": "keep",
+      "reason": "Conservative extraction rules sound; the cross-document import section added from the kp application is argued from an observed failure and bounded honestly (catches imports, does not certify)."
+    },
+    "techniques/placeholder-to-fact-resolution.md": {
+      "disposition": "clarify",
+      "reason": "The want-clause and whole-word cue rule is backed by its application. Owed: the cue list maps \"budget\" to annual revenue while the offer section names revenue-versus-program-budget as the error the click must catch, and the application lists bare \"budget\" as an unmeasured loose cue. Needs a measured cue decision, not applied this run."
+    },
+    "techniques/provenance-per-figure.md": {
+      "disposition": "keep",
+      "reason": "Three travelling fields with consumption rules; \"provenance is a live link\" now has an application showing enforcement belongs on the shared read path."
+    },
+    "techniques/ungrounded-statistic-detection.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: when-not-to-use now states that the grounding is one set of numbers, so a funder-side figure grounds an organizational claim, and offers ledger-only matching or a weaker pass for funder-side echoes."
+    },
+    "techniques/verified-fact-ledger.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: \"singular kinds keep the first confident match\" -> agreeing readings collapse, disagreeing readings are a conflict for the writer, matching the decision rule."
+    },
+    "applications/node--bracketed-placeholder-over-invention.md": {
+      "disposition": "keep",
+      "reason": "Paired proof with a declared floor and controls; the five-readers table is the evidence behind the technique's boundary. Private tree, described without paths."
+    },
+    "applications/node--placeholder-to-fact-resolution.md": {
+      "disposition": "keep",
+      "reason": "Falsification seam chosen honestly; states the unwired offer loop and the two loose cues it did not measure."
+    },
+    "applications/node--provenance-per-figure.md": {
+      "disposition": "keep",
+      "reason": "Paired proof that stored provenance was consumed by no reader; limits (re-extraction, in-place edits, frequency) stated."
+    },
+    "applications/node--ungrounded-statistic-detection.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: known limits now include percentSet pooling facts, RFP, funder DNA and profile, so any RFP percentage grounds the same number as an organizational claim. Derived from the document's own description; code citations not re-read and verified_on unchanged."
+    },
+    "applications/node--verified-fact-ledger.md": {
+      "disposition": "keep",
+      "reason": "Accurate dated record; its \"singular kinds keep the first match\" is the evidence for the technique's clarify. Code citations not re-read."
+    },
+    "applications/python--document-fact-extraction--kp.md": {
+      "disposition": "keep",
+      "reason": "Live probe plus paired replay, with n stated as small and the leniency limits stated. Public tree, quoted lines read as a dated record."
+    }
+  }
+}
+```

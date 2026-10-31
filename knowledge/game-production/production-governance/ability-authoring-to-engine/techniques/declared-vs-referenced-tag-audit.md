@@ -37,9 +37,20 @@ apart from the asset.
 
 ## The procedure
 
-**1. Collect the declared set from the owning declaration.** Parse the authoritative source
-— the one place the system says these names exist. Not a hand-kept list; the same
-extraction that briefs the author, so the rule and the check share one source.
+**1. Collect the declared set from every owning declaration.** Parse the authoritative
+sources, not a hand-kept list; the same extraction briefs the author, so the rule and the
+check share one source. Do not assume there is one place. Some engines merge a tag
+vocabulary from several at once: an editor settings page, configuration files, imported
+data tables and native-code macros. Enumerate the sources the runtime registry actually
+merges, and report the extraction's source coverage beside the undeclared list. A name
+declared in a source you did not parse lands in *undeclared* and reads as a bug, so
+without the coverage line that list cannot be interpreted.
+
+**1a. Say how hierarchy is handled.** Where names are hierarchical (dotted segments to
+any depth), a parent used only as a query prefix may be neither separately declared nor
+separately referenced. Decide whether a declared or referenced child implies its
+parents, apply the rule on both sides, and state it beside the score; otherwise the same
+parent drifts between the orphan and undeclared sets with the extractor.
 
 **2. Collect the referenced set from every content source that can reference.** This is the
 step with the trap in it. A system usually has more than one authoring surface: the
@@ -102,8 +113,8 @@ and the number is the same number everywhere.
 
 - **When the vocabulary is open by design.** Systems where content legitimately mints names
   at runtime have no meaningful orphan set, and the audit reduces to a reference check.
-- **When declaration is not centralised.** If names can be declared in several places and
-  you can only parse one, the orphan list is fiction. Fix the extraction first, and until
+- **When you cannot parse every declaration source.** Non-centralised declaration is
+  common (step 1); if you can parse only some of the sources, the orphan list is fiction. Fix the extraction first, and until
   then report only the direction you can compute — labelled as partial.
 - **When the content set is a moving target.** Auditing mid-migration produces a score that
   measures the migration. Snapshot both sides at one revision, or say which revision the

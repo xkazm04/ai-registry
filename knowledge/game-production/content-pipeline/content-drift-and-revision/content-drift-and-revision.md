@@ -58,7 +58,7 @@ The correct position is a **bound**, and the craft is in defending the bound rat
 the number. The bound must be large enough to survive the realistic accident — a bad
 batch run, a wrong steer applied across a sweep, a misconfigured template — which is a
 handful of regenerations deep, not one. It must be small enough that retention does not
-grow with production volume. Two dozen revisions is a defensible answer to that shape of
+grow with production volume. About twenty revisions is a defensible answer to that shape of
 requirement; two is not, and unlimited is not. The technique states the rule.
 
 The two halves also feed each other, which is the argument for building both at once. If a

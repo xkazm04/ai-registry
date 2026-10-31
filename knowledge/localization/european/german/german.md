@@ -95,8 +95,8 @@ as "reads translated" is taste
 ## Plurals and grammar facts a message system must know
 
 German's CLDR cardinal categories are **one / other** — the same two as
-English, with the same boundary (exactly 1, including 1.0 contexts by the same
-rule English uses). A German catalog therefore keeps the source's plural branch
+English, with the same boundary (exactly integer 1 with no visible fraction
+digit, i = 1 and v = 0; "1,0" selects other, as in English). A German catalog therefore keeps the source's plural branch
 structure unchanged and translates inside the branches. This is a genuine
 simplification — no Slavic few/many machinery — and a genuine trap: because the
 branches match one-to-one, careless pipelines copy the English branch *bodies*

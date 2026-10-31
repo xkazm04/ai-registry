@@ -85,8 +85,8 @@ a boundary that was never emitted, and a pass that silently skipped the element
 sentinel costs one string and it is the only thing that makes the escalation trigger
 below computable at all.
 
-**The reader of a strict contract treats an empty, absent or malformed challenge as the
-same fourth value: "did not run".** Voiding the whole artifact for a malformed informational
+**The reader of a strict contract maps an empty, absent or malformed challenge to the
+"not run" state.** Voiding the whole artifact for a malformed informational
 field wakes a person over nothing, and accepting an empty list as clean is the failure the
 sentinel exists to end. Keep three distinguishable states in the stored record: not run, ran
 with notes, ran and found nothing.
@@ -100,7 +100,7 @@ recording role labels as experimental inputs; it does not show that an expert
 label makes a plan reviewer more accurate. Persistence in a wrong judgment is
 also possible. Pin the model, label, evidence packet and rubric when comparing runs.
 
-## The escalation ladder, with its trigger
+## Three review modes, and the trigger for a separate reader
 
 Three available modes; compare cost and error detection on the actual task:
 
@@ -110,7 +110,8 @@ Three available modes; compare cost and error detection on the actual task:
 3. **Two-agent dispatch** — a separate reader with its own charter and its own context,
    which is what the rest of this subject assumes.
 
-The observable trigger for moving from rung two to rung three is the **sentinel-only
+None dominates the others by cost. Moving from the fresh-posture mode to two-agent
+dispatch is a choice made on a trigger, and the observable trigger is the **sentinel-only
 ratio**: across real invocations, the share of runs where every element came back with
 the sentinel and nothing was revised. A pass that is doing work revises something,
 sometimes. A pass that has degenerated into self-confirmation returns the sentinel
@@ -141,8 +142,8 @@ control.
 - **When independent review is required by the task or an adopted policy.** A
   same-context role switch does not satisfy that requirement. Affordability alone
   is not evidence that another agent improves the result.
-- **On the highest-consequence plan in the pipeline.** The rung whose known weakness is
-  self-confirmation is the wrong rung for the artifact whose approval matters most.
+- **On the highest-consequence plan in the pipeline.** A mode whose known weakness is
+  self-confirmation is the wrong mode for the artifact whose approval matters most.
 - **When the pass cannot be blocked on.** A challenge whose output nothing reads is a
   longer generation, and the boundary the gate reads must be the persisted notes, never
   a claim in the same output that the challenge occurred
@@ -154,6 +155,6 @@ It cannot supply independence. The second posture shares the first's context win
 training priors, and its reading of the task; what it supplies is a structured excuse to
 look again, which catches the errors that survive only through momentum and misses the
 ones that come from the model's own model of the problem being wrong. Those are the
-errors that matter most, they are why the ladder has a third rung, and a team on rung two
-should record which class of error it is currently not catching rather than reporting a
+errors that matter most, they are why two-agent dispatch remains an available mode, and a
+team using the fresh-posture mode should record which class of error it is currently not catching rather than reporting a
 review that happened.

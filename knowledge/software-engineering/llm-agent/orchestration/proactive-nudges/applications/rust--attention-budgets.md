@@ -19,13 +19,13 @@ the release pass in `src-tauri/src/companion/proactive/mod.rs`.
 |---|---|
 | Global daily cap | `GLOBAL_DAILY_CAP = 12` (`budget.rs:23`), counted in `companion_proactive_budget(date, count)` |
 | Per-kind caps | `kind_cap()` (`budget.rs:31-48`): incidents 6, message-attention 8, execution reviews 4, goal kinds share 2, fallback 3 — counted in `companion_attention_budget(date, trigger_kind, count)` |
-| Atomic claim of both | `DailyBudget::try_consume` (`budget.rs:193-230`): one transaction, two conditional `UPDATE ... WHERE count < cap` statements; a per-kind refusal **rolls back** the already-applied global increment, so no phantom spend and no concurrent burst past either cap |
-| Claim at delivery, not notice | `evaluate_with_extra_candidates` doc: "The daily budget is **not** consulted here. Noticing is free; only `release_pending` spends attention" (`mod.rs:119-122`) |
-| Capped kind skips, never halts | `release_pending` (`mod.rs:427-447`): per-kind refusal `continue`s to the next row; only the global ceiling `break`s. The doc comment records the prior bug — the old loop `break`-ed on any refusal, letting one capped kind starve every kind behind it — and `per_kind_cap_does_not_starve_other_kinds` pins the fix |
+| Atomic claim of both | `DailyBudget::try_consume` (`budget.rs:228-265`): one transaction, two conditional `UPDATE ... WHERE count < cap` statements; a per-kind refusal **rolls back** the already-applied global increment, so no phantom spend and no concurrent burst past either cap |
+| Claim at delivery, not notice | `evaluate_with_extra_candidates` doc: "The daily budget is **not** consulted here. Noticing is free; only `release_pending` spends attention" (`mod.rs:120-123`) |
+| Capped kind skips, never halts | `release_pending` (`mod.rs:390`, the skip and break at `:441-455`): per-kind refusal `continue`s to the next row; only the global ceiling `break`s. The doc comment records the prior bug — the old loop `break`-ed on any refusal, letting one capped kind starve every kind behind it — and `per_kind_cap_does_not_starve_other_kinds` pins the fix |
 | Consented lane | `kind_cap("athena_scheduled") = u32::MAX` (`budget.rs:34-36`): user-requested check-ins are never throttled by their own kind, but still count toward the global ceiling |
-| Day boundary | UTC date string as the counter key (`today()`, `budget.rs:233-249`); rollover needs no scheduled job — the next `today()` simply reads fresh rows |
-| Efficacy modulation of caps | `effective_kind_cap` (`budget.rs:96-107`): 30-day engaged/dismissed rates move the base cap ±1, only past a 5-sample floor, clamped to `[1, base+2]` — slow, coarse, floored, exactly the technique's adaptation shape |
-| Operator visibility | `modulations_summary` (`budget.rs:122-164`) surfaces every kind whose effective cap differs from base, with the engaged/dismissed counts that justify it — counts carrying their predicate |
+| Day boundary | UTC date string as the counter key (`today()`, `budget.rs:268-284`, `Utc::now()` at `:269`); rollover needs no scheduled job — the next `today()` simply reads fresh rows |
+| Efficacy modulation of caps | `effective_kind_cap` (`budget.rs:117-136`) over `adjustment(engaged, dismissed, ignored)` (`budget.rs:71`): 30-day rates move the base cap ±1 (non-action — dismissed plus ignored — at 80% or more lowers it, engaged at 60% or more raises it), only past a 5-sample floor, clamped to `[1, base+2]` at `:135` — slow, coarse, floored, exactly the technique's adaptation shape. `ignored` is a row that expired **with** a delivery stamp (`status = 'expired' AND delivered_at IS NOT NULL`, `budget.rs:92-94`); a never-delivered expiry is excluded. There is no exposure stamp, so a card delivered into a closed app still counts as ignored |
+| Operator visibility | `modulations_summary` (`budget.rs:154-199`) surfaces every kind whose effective cap differs from base, with the counts that justify it — counts carrying their predicate. Its one rejection column folds ignored into `dismissed` (`budget.rs:146-149`), so the surface cannot yet tell the two apart |
 
 ## Judgment calls worth copying
 
@@ -38,7 +38,7 @@ the release pass in `src-tauri/src/companion/proactive/mod.rs`.
   count + 1 WHERE count < cap` returning a row count *is* the atomic
   check-and-increment — no SELECT-then-decide window, and the same
   pattern claims the `queued → delivered` transition (`claim_delivered`,
-  `mod.rs:568-578`, `WHERE ... AND status = 'queued'`).
+  `mod.rs:579-589`, `WHERE ... AND status = 'queued'`).
 - **Insert-or-ignore before the conditional update** ensures the counter
   row exists so "no row matched" unambiguously means "cap reached," never
   "first claim of the day."

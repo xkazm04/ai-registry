@@ -27,7 +27,10 @@ record continuation-as-state describes — and it holds exactly one value: which
 loop owns the decision that the session is over. Every hook that would refuse
 a stop consults that field before acting. A hook that is not the authority
 does not block; it may observe, record, and advise, but the refusal is one
-party's to issue. Two loops each willing to block are two authorities over one
+party's to issue. One authority does not mean one contributor: a single
+arbiter may compose the verdicts of several evaluators — a goal judge, a
+plan checker, a budget meter — into its decision, as long as it alone
+issues the refusal. Two loops each willing to block are two authorities over one
 vocabulary, and the vocabulary law names why that fails
 ([one-authority-per-vocabulary](../../../../_laws.md#one-authority-per-vocabulary)):
 the two will agree until one of them is extended, and then the session will
@@ -54,7 +57,10 @@ chosen from a **closed set**:
 - **adopt** — the second arming is absorbed into the existing authority: its
   condition is merged, its mode is recorded as a participant, and the
   existing loop continues to own the stop decision. Right when the second
-  loop is a narrower version of the first.
+  loop is a narrower version of the first. Adopting never widens the task:
+  the merged condition may be stricter, but the scope stays what the human
+  accepted when the first mode was armed, and a second arming that would
+  add work outside it is refused, not adopted.
 - **artifact-only** — the second loop is allowed to produce its state and its
   diagnostics without enforcing anything. Right for a host evaluator whose
   verdicts are useful as evidence but which must not block.
@@ -85,8 +91,11 @@ neighbour's completion-claim-verification — moves it to the second. A session
 that collapses the two has made the model's summary the definition of done,
 which is the original failure wearing a judge's robe.
 
-The adapter that connects a host judge to the custom loop therefore runs the
-judge in the artifact-only posture: it writes evaluator-passed into the
+Which role an evaluator plays does not by itself decide whether it holds
+the authority. A judge, a checker or a host evaluator is the authority only
+if the session's control state names it as such; the role says what it
+reads, not who may refuse. The adapter that connects a host judge to the
+custom loop therefore runs the judge in the artifact-only posture: it writes evaluator-passed into the
 control state and hands the decision back to the authority, which schedules
 verification and yields only when that returns clean.
 
@@ -112,7 +121,10 @@ policy is refuse, and the message says which condition conflicted.
   fails with a diagnostic.
 - Keep evaluator-passed and complete as distinct statuses; the harness's own
   verification is the only transition between them.
-- On adopt, take the stricter yield condition and record the merge.
+- On adopt, take the stricter yield condition, keep the accepted scope, and
+  record the merge.
+- One arbiter may compose many evaluators; the control state, not an
+  evaluator's role, names the authority.
 
 ## When not to use this
 

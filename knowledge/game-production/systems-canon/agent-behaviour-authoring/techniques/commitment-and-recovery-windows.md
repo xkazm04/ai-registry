@@ -27,7 +27,10 @@ no exploitable moment, and a fight against it is not a fight — it is a wall th
 
 **Minimum dwell.** Once an intent is chosen, the arbitration layer may not choose again for a
 stated time. Sub-second values are the working band for a combat agent; a value near a quarter
-of a second is roughly the floor at which a change reads as a decision rather than as noise.
+of a second is a common working floor for a change to read as a decision rather than as noise.
+That figure is a rule of thumb with no measured basis here, so a project that adopts it states
+what it checked it against — the animation's own transition length, or the player's
+perceive-and-respond time it is meant to leave room for.
 The number is per intent class, not per agent: a repositioning intent tolerates a longer dwell
 than a defensive reaction, and one global dwell forces the two to share a compromise that
 serves neither.

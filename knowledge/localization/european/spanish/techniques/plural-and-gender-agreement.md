@@ -79,11 +79,11 @@ no row deviates at all, and there an end-value shortcut is safe; roughly half th
 published groups carry at least one override. Presence and size say nothing —
 only reading the rows does.
 
-## ES-ORDINAL · one category, gendered abbreviations
+## ES-ORDINAL · gendered abbreviations, and an apocope CLDR 49 can select
 
-Spanish ordinals have a single CLDR category — no *1st/2nd/3rd* machinery — but
-their abbreviations are gendered and dotted: *1.º* / *1.ª* (masculine/feminine,
-period before the superscript, per the language academy's orthography). Never
+Spanish ordinals have no *1st/2nd/3rd* machinery — at CLDR 48 they had a single
+plural category — but their abbreviations are gendered and dotted: *1.º* / *1.ª*
+(masculine/feminine, period before the superscript, per the language academy's orthography). Never
 import English ordinal suffixes, and never emit *1º* bare when the referent is
 feminine. Above tenth, prose usually prefers the cardinal (*el puesto 15*), which
 sidesteps the morphology entirely.
@@ -94,9 +94,14 @@ adjectival form** before a masculine noun, at 1 and 3: *el 1.er intento*, not
 *el 1.º intento*. Both are carried in the published spell-out rulesets, so neither
 is a house invention.
 
-**Because ordinals have one category, none of this is selectable by a plural
-block.** Gender and apocopation are decided by the referent, which the format
-system cannot see — the same boundary the gender rules below describe.
+**Gender is not selectable by a plural block; since CLDR 49, apocopation is.**
+CLDR 49 (released 2026-10-22) gives `es` ordinals a `one` category at
+`n % 10 = 1,3 and n % 100 != 11`, and its numeric masculine-adjective ruleset now
+picks *ᵉʳ* for `one` and *º* for `other`. On 49 data the apocope is a category
+lookup; on 48 data it is not, and the two disagree at 13 — 48.2's abbreviation
+ruleset gives *13.º*, 49's category gives *13.er*. Gender and the plural
+abbreviations are still decided by the referent, which the format system cannot
+see — the same boundary the gender rules below describe.
 
 ## ES-NUMERAL-GENDER · the spelled numeral agrees too, and then stops
 

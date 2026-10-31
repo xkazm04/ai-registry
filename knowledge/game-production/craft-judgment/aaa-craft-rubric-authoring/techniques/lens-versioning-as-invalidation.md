@@ -122,8 +122,8 @@ failure is large enough to measure. One store held 143 bound verdicts, each scor
 projection of its neighbouring artifacts in the prompt. For 131 of them, a neighbour had
 been modified since the judgment:
 
-- **Full binding** would have cleared all 131, silencing 92% of the standing
-  condemnations.
+- **Full binding** would have cleared all 131, 92% of the 143 bound verdicts, passes
+  and condemnations alike.
 - **No binding**, the design as found, kept all 131 standing.
 - **Per-dimension binding** marked 13. In those, the consistency dimension was the
   weakest score, and one of them condemned an off-by-one computed from a neighbour's

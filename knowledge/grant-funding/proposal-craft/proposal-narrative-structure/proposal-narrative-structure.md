@@ -32,10 +32,9 @@ Each link answers the reader's next objection, in order:
 
 1. **The problem and the population** — not the organization. The opening
    names a specific problem, the specific people it affects, and evidence
-   that it is real, before the applicant's name matters at all. Reviewers
-   consistently flag "a problem described but never documented" as the most
-   pervasive narrative weakness; an opening about the org instead of the
-   need is its twin ([problem-population-opening](./techniques/problem-population-opening.md)).
+   that it is real, before the applicant's name matters at all. "A problem
+   described but never documented" is a weakness reviewers commonly flag;
+   an opening about the org instead of the need is its twin ([problem-population-opening](./techniques/problem-population-opening.md)).
 2. **The model** — what this organization specifically does about it. "We
    provide programming" is a category, not a model. The narrative must let
    the reader reconstruct the intervention: who does what, for whom, how
@@ -51,7 +50,7 @@ Each link answers the reader's next objection, in order:
    concrete difference between funded and unfunded, sized to the request
    ([funder-dollars-unlock-close](./techniques/funder-dollars-unlock-close.md)).
 
-The links must actually connect. The most common structural failure is the
+The links must actually connect. A recurring structural failure is the
 **circular narrative**: the need section asserts a problem, the model section
 describes activities with no stated mechanism, and the outcomes section
 promises change the activities were never argued to cause. The discipline

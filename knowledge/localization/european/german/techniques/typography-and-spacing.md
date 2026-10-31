@@ -40,7 +40,7 @@ check for a recorded house ruling before enforcing the default
 > page tracking its English source one-for-one has found copied punctuation,
 > not a ruling.
 
-## DE-QUOTES · German quotes are „low-high"
+## DE-QUOTES · German quotes are „low-high“
 
 > **Trigger** — any quotation marks in German strings.
 > **Rule** — opening **„** (U+201E, on the baseline), closing **“** (U+201C,

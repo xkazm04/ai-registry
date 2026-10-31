@@ -60,7 +60,10 @@ very short equal-power crossfade of a few milliseconds where the runtime support
 The rule: **if a fade longer than about ten milliseconds is needed to hide the join, the
 join is wrong and the fade is concealing a content problem.** Lengthening the fade is the
 standard wrong fix; it dips the level at the seam once per cycle, which the ear learns as
-a pulse.
+a pulse. The ceiling is about a fade that *hides* a join. An overlap-add loop whose longer
+crossfade carries the decay into the head is the tail fold below done with a curve, not
+concealment, and it is judged by measuring the seam over repeated cycles rather than by
+its fade length.
 
 ## Fixing the content discontinuity: fold the tail
 
@@ -92,10 +95,14 @@ cleanly. So:
 
 ## What a compressed encoding does to a boundary
 
-Any block-based compressed encoding pads. The encoder prepends a delay and appends enough
-samples to fill its last block, so the decoded stream is longer than the source and offset
-from it. A loop declared against the uncompressed stream and executed against a padded
-decode is wrong by the delay on **every** cycle, and because the error is constant rather
+Block-based compressed encodings pad. The encoder prepends a delay and appends enough
+samples to fill its last block, and unless the container trims both back off, the decoded
+stream is longer than the source and offset from it. Some pairs do trim — a container
+whose per-page sample positions account for the codec's priming and its final partial
+block reproduces the source length on a conforming decode — so the hazard belongs to
+the codec-plus-container-plus-decoder actually shipped, not to block coding as such. A
+loop declared against the uncompressed stream and executed against a padded decode is
+wrong by the delay on **every** cycle, and because the error is constant rather
 than random it reads as a rhythmic stutter of fixed length — which listeners describe as
 "the loop is slightly off" and engineers spend days hunting in the wrong place.
 

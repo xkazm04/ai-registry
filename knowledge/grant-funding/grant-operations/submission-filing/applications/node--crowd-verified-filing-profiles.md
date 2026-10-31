@@ -76,3 +76,9 @@ standard: the repo counts contributions per filing, not per org, so a single
 org filing repeatedly can reach "high" confidence alone — the technique's
 per-org preference for small samples is the upward standard the v2 promotion
 should adopt.
+
+A second gap follows from the record as written, not from a rerun: only rows
+in `FILED_STATUSES` contribute, and the recorded transitions move filed
+records to awarded or declined. If those outcome statuses are outside the
+set, every decided filing leaves the sample, so profiles thin out most for
+the funders organizations actually win with.

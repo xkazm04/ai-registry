@@ -21,10 +21,10 @@ set of extensions, and every one of those facts is written where a process
 keeps facts: the process environment, a module-level singleton, a handle
 bound in a constructor. Then somebody asks the same binary to serve a
 second configuration — a second workspace, a second bot, a second team's
-keys — and the honest answer is to run a second process. That answer stops
-being honest at about the fourth one, when the memory, the connection
-count and the deploy story all argue for collapsing them, and the process
-becomes a **multiplexer**: one event loop, one listener, one lock, serving
+keys — and the honest answer is to run a second process. That answer stays
+the stronger isolation at any count; it is abandoned when the memory, the
+connection count and the deploy story are measured and argue for
+collapsing them, and the process becomes a **multiplexer**: one event loop, one listener, one lock, serving
 several configurations that must never observe each other.
 
 This subject owns that collapse. A **tenant** here is a configuration —
@@ -102,13 +102,18 @@ what this subject adds is that a multiplexer opens one such store per
 tenant and must therefore satisfy that subject's inventory obligation
 several times over.
 
-And the line that must not blur: **isolating configurations is not
-authenticating users.** A tenant is a configuration, not a person. The
-runtime trusts its transport and its routing table to say which
+And the line that must not blur: **scope transport is neither
+authentication nor a sandbox.** A tenant is a configuration, not a person.
+The scope carries an identity that something upstream already decided to
+trust — the runtime trusts its transport and its routing table to say which
 configuration an event belongs to; request-level identity and per-user
-authorization sit above this layer and belong to authorization. A design
-that markets tenant scoping as a security boundary for end users has
-promised something it never built.
+authorization sit above this layer and belong to authorization. Nor does
+the scope confine code: anything loaded into the shared address space can
+read the process environment, another tenant's cached objects or the
+filesystem directly, and the resolvers only govern the reads that go
+through them. A design that markets tenant scoping as a security boundary
+for end users, or as containment for untrusted extensions, has promised
+something it never built.
 
 ## The environment is a slot, and a slot cannot hold a scope
 
@@ -136,8 +141,9 @@ surprises people, because it means a scope installed deep inside a worker
 is invisible to the code that spawned it. [task-local-tenant-scope](./techniques/task-local-tenant-scope.md)
 owns the installation, the seams that must be wrapped, the explicit hand-off
 into worker pools that do not propagate on their own, and the rule that
-process-level work runs under the default tenant's scope on purpose rather
-than under none.
+process-level work runs under an explicit **host authority** — a declared
+class of reads that names the machine and the process and no tenant —
+rather than under none and rather than borrowing the default tenant.
 
 ## A scope miss is a decision, and its direction depends on the deployment
 
@@ -181,10 +187,14 @@ by name, not by tenant, and rebuilding a registry replaces only the entry
 point it imports. A second tenant's same-named extension then re-executes
 its top level while its own nested imports resolve, from the module cache,
 to the *previous* tenant's already-loaded modules — and to whatever
-module-level state those captured. The rule is to evict the entry point
-**and every name nested beneath it**, on reload and on tenant switch alike,
-and to drop the whole keyed cache between isolated tests so a leak cannot
-hide behind ordering. [tenant-keyed-cache-evicts-loaded-code](./techniques/tenant-keyed-cache-evicts-loaded-code.md)
+module-level state those captured. The rule is that loaded code follows the
+**loader's own lifecycle**: per-tenant namespaces or instances where the
+loader supports them, and an eviction of the entry point and every name
+nested beneath it only where no other tenant can be importing through the
+same names at that moment — a global name eviction while another tenant
+runs is a race, not isolation. Keyed caches are bounded and reaped, and the
+whole keyed cache is dropped between isolated tests so a leak cannot hide
+behind ordering. [tenant-keyed-cache-evicts-loaded-code](./techniques/tenant-keyed-cache-evicts-loaded-code.md)
 owns both floors.
 
 ## Handles resolve at call time, and ownership is stamped before the router
@@ -240,30 +250,33 @@ half-scoped, and the enumerated fail directions at the boundary.
 - **The resolver's behaviour on a scope miss is derived from the
   deployment mode**, and a read with no scope under isolation raises rather
   than falling back.
-- **A cache keyed on the tenant also evicts the loaded code its entry
-  captured**, including everything nested under the entry point.
+- **A cache keyed on the tenant also retires the loaded code its entry
+  captured**, through the loader's own lifecycle rather than a process-wide
+  name eviction while other tenants run.
 - **No handle to tenant-owned storage is bound at construction time** in an
   object shared across tenants.
 - **Ownership is stamped before the first event can arrive**, and every
   per-lane structure is namespaced by tenant.
 - **What stays global is written down**, with its cost, beside the
   isolation claim.
-- **A tenant is a configuration, not a person.** This layer isolates; it
-  does not authenticate.
+- **A tenant is a configuration, not a person.** This layer isolates
+  configurations; it neither authenticates nor sandboxes.
 
 ## The techniques
 
 - [task-local-tenant-scope](./techniques/task-local-tenant-scope.md) — the
   tenant as a context-local value, the seams that must be wrapped, explicit
   propagation into worker pools, deterministic unwinding, and the
-  default-tenant rule for process-level work.
+  host-authority class for process-level work.
 - [fail-direction-follows-deployment-mode](./techniques/fail-direction-follows-deployment-mode.md)
   — overlay when nothing can leak, authoritative when something can; the
   unscoped read that raises; the tight global allowlist and why widening it
   is never the fix.
 - [tenant-keyed-cache-evicts-loaded-code](./techniques/tenant-keyed-cache-evicts-loaded-code.md)
-  — keying on the resolved tenant, evicting the entry point and everything
-  nested under it, and dropping the whole cache between isolated runs.
+  — keying on the resolved tenant, loaded code following the loader's own
+  lifecycle (per-tenant namespaces or instances, or eviction only where no
+  other tenant is importing), bounded reaped caches, and dropping the whole
+  cache between isolated runs.
 - [resolve-handles-at-call-time](./techniques/resolve-handles-at-call-time.md)
   — bind nothing at construction, resolve through the active scope, cache
   one handle per resolved address, and the discriminator against

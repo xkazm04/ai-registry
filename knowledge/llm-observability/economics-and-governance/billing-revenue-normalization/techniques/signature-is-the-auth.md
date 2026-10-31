@@ -50,9 +50,11 @@ earns its place:
   signed timestamp and your clock, absolute-valued in both directions. Wide
   enough for provider queue delay and modest clock drift; narrow enough that
   a captured delivery goes stale fast. Five minutes is the widely used
-  default (and the tolerance the emerging cross-provider webhook
-  specification recommends); treat widening it as a security decision, not a
-  convenience fix for a machine whose clock is wrong.
+  default: Stripe's server library and the cross-provider webhook
+  specification's reference library both ship 300 seconds, though the
+  specification itself only requires "some allowable tolerance" and names no
+  value. Treat widening it as a security decision, not a convenience fix for
+  a machine whose clock is wrong.
 
 Be honest about what the tolerance is: a *staleness* bound, not replay
 prevention. Inside the window, a captured delivery replays with a valid
