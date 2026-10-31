@@ -5,7 +5,7 @@ subject: candidate-archetype-routing
 technique: signal-scored-routing-not-rule-matching
 stack: process
 status: forged
-verified_on: 2026-09-26
+verified_on: 2026-10-31
 ---
 
 # The detection engine as data, in a spawned Python pipeline
@@ -36,7 +36,7 @@ The signals are observable facts. The weights are round: `enrolled` 2.0,
 `switch_strong` 3.0, `switch_weak` 1.0, and `substantial` scoring two archetypes at once
 (`bau` 1.0, `career_switcher` 0.5). The heaviest is a compound. None is a birth-cohort
 proxy: `expected_graduation` is a future date, evidence of current enrolment, and no row
-reads a past graduation year. `docs/features/candidates/README.md:1142-1152` publishes
+reads a past graduation year. `docs/features/candidates/README.md:1234-1244` publishes
 the table to the team under "Signal-scored, not rule-matched".
 
 ## Accumulate, rank, derive confidence from the share

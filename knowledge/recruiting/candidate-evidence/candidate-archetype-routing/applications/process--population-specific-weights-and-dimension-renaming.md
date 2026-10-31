@@ -5,7 +5,7 @@ subject: candidate-archetype-routing
 technique: population-specific-weights-and-dimension-renaming
 stack: process
 status: forged
-verified_on: 2026-09-26
+verified_on: 2026-10-31
 applied: experiment
 ab_verdict: better
 ---
@@ -24,9 +24,9 @@ Read on 2026-09-26 at the tree's main, `cf9a4b81c`. Scoring runs in the Python p
   - `career_switcher`: the same three labels at 0.35 / 0.40 / 0.25 (45-46).
 
   An unknown archetype falls back to the experienced weights
-  (`matching.py:923-924`).
+  (`matching.py:1118-1119`).
 - **The sum is enforced where the process reads the file.** `registry.py:30-58` raises at
-  import on any vector off 1.0 by more than 1e-6. `app/_lib/archetype-registry.ts:123`
+  import on any vector off 1.0 by more than 1e-6. `app/_lib/archetype-registry.ts:125`
   does the same on every TypeScript read.
 
 ## Where this falls short of the standard

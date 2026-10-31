@@ -5,7 +5,7 @@ subject: candidate-archetype-routing
 technique: conservative-default-and-the-unrouted-state
 stack: node
 status: forged
-verified_on: 2026-09-26
+verified_on: 2026-10-31
 verified_against: node@24
 applied: simulation
 ab_verdict: better
@@ -36,7 +36,7 @@ archetype: payload?.v2Profile?.archetype ?? "unknown",
 ```
 
 That comment is the technique in five lines: the *scorer* falls back to the experienced
-weights (`pipeline/jobfit/matching.py:923-924`,
+weights (`pipeline/jobfit/matching.py:1118-1119`,
 `WEIGHTS.get(archetype, WEIGHTS["bau"])`), the *record* stays `unknown`, and the knockout
 filter fails closed. Two consumers, two different safe directions, one honest value.
 
@@ -55,7 +55,7 @@ the early-career fairness shield".
 
 ## Display renders the unknown as unrouted, and never as a class
 
-`app/_lib/archetypes.ts:97-107` is the display boundary:
+`app/_lib/archetypes.ts:104-114` is the display boundary:
 
 ```ts
 export function archetypeDisplayKey(archetype: string | null | undefined): string {
@@ -67,10 +67,10 @@ Its docstring ends "The wire value stays canonical; only the shown label changes
 is the standard's *widen the type, do not narrow the value*.
 
 The two predicates sit adjacent with their opposite defaults documented as deliberate:
-`isFairnessProtected` at 109-115 ("an unknown one (fail closed — we never auto-reject a
-class we cannot classify)") and `isEarlyCareer` at 117-123 ("this treats unknown as NOT
+`isFairnessProtected` at 116-122 ("an unknown one (fail closed — we never auto-reject a
+class we cannot classify)") and `isEarlyCareer` at 124-130 ("this treats unknown as NOT
 early — it drives display grouping and encouraging copy, not a safety gate, so it must
-not over-claim"). Both key off `normalizeArchetype` (77-79), which trims and lower-cases.
+not over-claim"). Both key off `normalizeArchetype` (84-86), which trims and lower-cases.
 
 `app/_lib/archetype-display.test.ts:43` iterates `null`, `undefined`, `""`, `"unknown"`,
 `"not_a_real_archetype"` and `"  UNKNOWN  "` and asserts each displays as `unrouted`.
@@ -84,15 +84,15 @@ returns the registry's `defaultArchetype` (`bau`) at `defaultConfidence` (0.4) w
 `default` reason code when no signal fires. With `lowConfidenceThreshold: 0.55`
 (`archetypes.json:63-64`), that routing is always flagged, and `signals_absent`
 (`registry.py:154-160`) marks the no-signal branch distinctly from a contested one. Its
-one consumer, `pipeline.py:1625`, turns it into a per-candidate warning.
+one consumer, `pipeline.py:1719`, turns it into a per-candidate warning.
 
 ## Where this falls short of the standard
 
 - **The Python policy pass collapses a missing archetype into the experienced class.**
-  `pipeline/jobfit/automation.py:968` reads `archetype = entry.get("archetype") or "bau"`,
-  and 976 keys the shield on `archetype in _EARLY_CAREER`. So the pass can emit a reject
+  `pipeline/jobfit/automation.py:985` reads `archetype = entry.get("archetype") or "bau"`,
+  and 993 keys the shield on `archetype in _EARLY_CAREER`. So the pass can emit a reject
   for a null or `unknown` archetype below the reject score. It is caught one layer up:
-  `app/_lib/automation-fairness.ts:52` re-checks every reject with `isFairnessProtected`
+  `app/_lib/automation-fairness.ts:57` re-checks every reject with `isFairnessProtected`
   and refuses it, failing closed. That is the defence in depth the standard asks for, and
   it is also the exact shape the standard warns about: a convenience default at a read
   site that is harmless only while the second layer runs.
@@ -101,7 +101,7 @@ one consumer, `pipeline.py:1625`, turns it into a per-candidate warning.
   else: in the recruiter list (`pipeline/jobfit/recruiter.py:129`, one flat sort), against
   the shared pool-fit floor (`app/features/library/jobs/jobsRecruiterCandidatesLogic.ts:158`,
   `c.result.total >= FIT_PROMISING_FLOOR`), and in the screening wave's worst-first sort
-  (`app/_lib/screen-wave.ts:188`). The wave's reject is shielded, but a placeholder score
+  (`app/_lib/screen-wave.ts:189`). The wave's reject is shielded, but a placeholder score
   that understates the candidate still decides whether the rediscovery floor surfaces
   them at all.
 - **Nothing alarms on the unrouted rate.** `signals_absent` feeds a per-candidate warning

@@ -4,23 +4,23 @@ type: application
 subject: evidence-provenance-weighting
 technique: default-provenance-fails-safe
 stack: process
-verified_on: 2026-09-29
+verified_on: 2026-10-31
 applied: code
 ab_verdict: better
 ---
 
 # The default-provenance incident (Python matching pipeline)
 
-The ladder lives in `pipeline/jobfit/taxonomy.py:632` as `PROVENANCE_WEIGHTS`, twelve
+The ladder lives in `pipeline/jobfit/taxonomy.py:657` as `PROVENANCE_WEIGHTS`, twelve
 rungs: `observed` and `professional` at 1.0; `open_source` and `internship` at 0.85;
 `thesis` at 0.75; `academic_project` and `personal_project` at 0.7; `extracurricular`
 and `certification` at 0.6; `coursework` at 0.5; `self_declared` at 0.4; and `unknown`
-at 0.6. `skill_match_score` (`:1294`) multiplies the taxonomy match by the rung, so the
+at 0.6. `skill_match_score` (`:1336`) multiplies the taxonomy match by the rung, so the
 discount applies to every requirement comparison.
 
 ## The default was the strongest rung
 
-The incident comment sits at `taxonomy.py:654`, and it is the spine of the whole
+The incident comment sits at `taxonomy.py:679`, and it is the spine of the whole
 subject:
 
 > This used to be "professional" — the joint-highest trust tier — so absence of
@@ -29,7 +29,7 @@ subject:
 > production, and a well-written CV therefore outranked a plainly written one carrying
 > real artifacts.
 
-The fix is `DEFAULT_PROVENANCE = "self_declared"` (`:671`). The comment names the
+The fix is `DEFAULT_PROVENANCE = "self_declared"` (`:696`). The comment names the
 principle it restores: the discount fails *safe* (it understates an unevidenced
 claim) rather than *flattering*. It explicitly matches how the rest of the pipeline
 treats missing signal: unscored → excluded, unknown archetype → shielded, absent
@@ -38,14 +38,14 @@ robustness → `"not_varied"`.
 ## Placement: the definition, three call sites, and a fourth that minted
 
 `skill_match_score(..., provenance: str | None = DEFAULT_PROVENANCE)` puts the value at
-the parameter definition. `provenance_weight()` (`:1094`) now floors a `None` or
+the parameter definition. `provenance_weight()` (`:1136`) now floors a `None` or
 unrecognised key to the same default and logs it. The comment there records why: the
 old fallback to the `unknown` rung "let a typo'd provenance string promote an
 unevidenced claim into matched_skills".
 
-`docs/features/matching/README.md:189` records that **three** call sites converged on
+`docs/features/matching/README.md:272` records that **three** call sites converged on
 the fix: `taxonomy.py:DEFAULT_PROVENANCE`, `transform.py`'s per-archetype default
-(`:268` now passes `self_declared` for everyone), and `app/_lib/candidate-pool.ts`. The
+(`:290` now passes `self_declared` for everyone), and `app/_lib/candidate-pool.ts`. The
 doc also records the segmented discount in the repo's own words: before the fix, the
 discount "applied only to early-career candidates ... so the same unevidenced claim was
 penalised for the person least able to evidence it and waived for everyone else."
@@ -79,7 +79,7 @@ cannot be told apart from a stated one after the fact. Only new analyses change.
 ## The unknown rung is still mid-ladder
 
 `Evidence.provenance` defaults to `"unknown"`, and `resolved_provenance`
-(`profile.py:85`) maps the evidence kind `other` to it. The LLM schema offers `other`,
+(`profile.py:86`) maps the evidence kind `other` to it. The LLM schema offers `other`,
 and the CV path coerces any unlisted kind to it. `unknown` weighs 0.6, which is above
 `_MATCH_THRESHOLD = 0.5` (`matching.py:74`). A simulation on the real modules compared
 three `other` items with the rung at 0.6 and floored at 0.4, clearing the
@@ -121,7 +121,7 @@ fourth site.
   professional. Its extra value is realised in the confidence band
   (`matching._confidence` narrows for observed skills) and in consolidation, which uses
   a separate `PROVENANCE_RANK` because several rungs share a weight.
-- **The dropdown vocabulary.** `UI_PROVENANCE` (`taxonomy.py:716`) is a curated subset
+- **The dropdown vocabulary.** `UI_PROVENANCE` (`taxonomy.py:741`) is a curated subset
   of the ladder, weakest to strongest. It omits `observed` (producer-minted only) and
   `unknown` (a scoring fallback, not a choice). It is code-generated into the frontend
   and checked at import against the weights.

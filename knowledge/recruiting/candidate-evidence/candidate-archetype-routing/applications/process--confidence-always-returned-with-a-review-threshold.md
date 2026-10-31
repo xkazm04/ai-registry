@@ -5,7 +5,7 @@ subject: candidate-archetype-routing
 technique: confidence-always-returned-with-a-review-threshold
 stack: process
 status: forged
-verified_on: 2026-09-26
+verified_on: 2026-10-31
 applied: experiment
 ab_verdict: better
 ---
@@ -27,9 +27,9 @@ app for display.
   `lowConfidenceThreshold: 0.55` in one block. `registry.py:127-132` documents that "the
   unguided default (`defaultConfidence`) sits below it by construction, so a silent
   fallback always trips it".
-- **The threshold is wired to a flag.** `pipeline/jobfit/pipeline.py:850-863`
+- **The threshold is wired to a flag.** `pipeline/jobfit/pipeline.py:925-938`
   `_archetype_needs_review` returns `low_confidence` below 0.55 and `contradiction` when a
-  cap fired. It stamps `archetypeNeedsReview` and a code on the analysis (845-846), and
+  cap fired. It stamps `archetypeNeedsReview` and a code on the analysis (920-921), and
   `app/_components/results/ArchetypeBanner.tsx:133` renders a needs-review chip.
 - **None of the forbidden uses exists.** The routing confidence is not read by the
   matcher, the automation policy pass, the recruiter ranking or the screening wave.

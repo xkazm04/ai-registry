@@ -5,7 +5,7 @@ subject: hypothesis-not-verdict-soft-signals
 technique: benign-alternative-stated-alongside-the-risk
 stack: process
 status: forged
-verified_on: 2026-09-29
+verified_on: 2026-10-31
 applied: code
 ab_verdict: better
 ---
@@ -133,4 +133,4 @@ unfiltered, rendered as a list on the job-fit tab, bulleted into the provenance
 export (`app/_lib/provenance-dossier.ts:110`), and turned into red-flag-defense
 questions by the interview kit. The technique's rule is to drop a forbidden
 category before storage. The trust boundary for that is the parse site
-(`pipeline/jobfit/pipeline.py:1136`), not the fold.
+(`pipeline/jobfit/pipeline.py:1207`), not the fold.

@@ -4,7 +4,7 @@ type: application
 subject: evidence-provenance-weighting
 technique: provenance-trust-ladder
 stack: react
-verified_on: 2026-09-29
+verified_on: 2026-10-31
 verified_against: react@19
 applied: code
 ab_verdict: better
@@ -12,10 +12,10 @@ ab_verdict: better
 
 # The ladder on the recruiter's screen (TypeScript / React)
 
-The scoring ladder is Python (`pipeline/jobfit/taxonomy.py:632`). The ladder a
-recruiter *sees* is `provLabel` in `app/features/shared/matchTypes.ts:220`, the
+The scoring ladder is Python (`pipeline/jobfit/taxonomy.py:657`). The ladder a
+recruiter *sees* is `provLabel` in `app/features/shared/matchTypes.ts:223`, the
 canonical provenance-to-badge mapping. Every decision surface calls it:
-`DecisionsAnalysisParts.tsx:83`, `GroupEvalComparisonCells.tsx:122`,
+`DecisionsAnalysisParts.tsx:85`, `GroupEvalComparisonCells.tsx:122`,
 `MatchCardSkillChips.tsx:79` and `CandidatePreviewModal.tsx:125`. `JobsTypes.ts:169`
 records that it was deliberately moved there so there is one mapping, not
 hand-maintained copies.
@@ -62,7 +62,7 @@ badge rendered as "Unknown" with no catalog entry of its own.
 ## The fallback every consumer already spelled
 
 Each call site reads `prov[s] ?? "self_declared"`: the floor, never a stronger tier.
-That agreement is what made the display fix on the Python side cheap. `matching.py:1222`
+That agreement is what made the display fix on the Python side cheap. `matching.py:1451`
 emits `matched_skill_provenance` as `candidate.skill_provenance.get(s, "self_declared")`.
 Its comment records why it is deliberately *not* `provenance_default`. A skill the
 candidate merely listed used to come back tagged with the joint-highest tier, and "which
@@ -71,7 +71,7 @@ claim of verification that was never performed."
 
 Two disciplines from that fix are worth transplanting.
 - **The display channel and the scoring channel are separate.** The comment at
-  `matching.py:1218` says "SCORING IS UNAFFECTED and must stay that way", so display
+  `matching.py:1447` says "SCORING IS UNAFFECTED and must stay that way", so display
   honesty shipped with zero score movement. The score-moving decision shipped later,
   as its own change.
 - **When two layers disagree about a fallback, the honest layer wins.** The fix moved

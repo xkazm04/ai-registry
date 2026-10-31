@@ -4,7 +4,7 @@ type: application
 subject: evidence-provenance-weighting
 technique: observed-evidence-minting-gates
 stack: process
-verified_on: 2026-09-29
+verified_on: 2026-10-31
 applied: simulation
 ab_verdict: better
 ---
@@ -12,7 +12,7 @@ ab_verdict: better
 # Minting `observed` from a live work sample (Python pipeline)
 
 `pipeline/jobfit/live_case.py` holds the repo's two paths to `observed` provenance, the
-ladder's top rung (`taxonomy.py:632`, weight 1.0). One mints from a take-home
+ladder's top rung (`taxonomy.py:657`, weight 1.0). One mints from a take-home
 evaluation (`_mint`) and one from a case-grounded interview's scorecard. The module
 docstring states the contract: a completed work-sample evaluation becomes "the
 highest-trust signal the scoring engine knows", and it is "honest by construction".
@@ -41,11 +41,11 @@ docstring says the ordering is deliberate:
 `_whole_token_overlap` (`:65`) exists because of the incident the standard's Gate 1
 generalises. The old bidirectional `in` test "credited a short/generic must-have like
 'R' or 'Go' as *observed* off any transfer containing those letters". The fix is
-whole-token matching through `taxonomy.contains_whole_token` (`taxonomy.py:478`).
+whole-token matching through `taxonomy.contains_whole_token` (`taxonomy.py:503`).
 
 **Whole tokens are not enough, as a simulation on 2026-09-29 showed.** It called
 `_credited_skills` directly with four realistic LLM `transfers` strings, which the
-evaluator writes as free text (`devcase/evaluate.py:570`, `"transfers": [str]`). Every
+evaluator writes as free text (`devcase/evaluate.py:709`, `"transfers": [str]`). Every
 one minted the must-have at the top rung:
 - "Willing to go deeper on concurrency trade-offs" minted Go;
 - "Swift, well-structured decomposition of the problem" minted Swift;
@@ -65,13 +65,13 @@ and the cleaner fix is Gate 5 below.
 
 ## Empty match credits nothing; gaps beat transfers
 
-`_credited_skills` (`:82-111`) carries both of Gate 2's rules with the incident
+`_credited_skills` (`:82-102`) carries both of Gate 2's rules with the incident
 attached. A must-have the assessment lists under `gaps` is never credited, because
 "gaps win over a contradictory `transfers` entry". When nothing maps, nothing is
 credited. The removed `matched or musts` fallback "inflated 'we couldn't map the
 transfers onto the role's skills' into 'every skill was observed'".
 
-**Deviation: the interview path (`:239-292`) credits every must-have.** A
+**Deviation: the interview path (`:235-291`) credits every must-have.** A
 case-grounded interview's scorecard mints `observed` for
 `skills = [m for m in role.must_haves ...]` once the reasoning constructs average above
 `min_rating`. The docstring defends this: the must-haves are "the material the case ...
@@ -84,7 +84,7 @@ not-observed.
 ## Withholding is reported, not silent
 
 `MINTED`, `SKIP_LOW_CONFIDENCE`, `SKIP_BELOW_BAR` and `SKIP_NO_TRANSFERRED_MUST_HAVES`
-(`:113-115`) are machine-readable outcome reasons. They were introduced "so a caller can
+(`:112-115`) are machine-readable outcome reasons. They were introduced "so a caller can
 report a withheld credit instead of showing an indistinguishable silent no-op", and
 they reach callers through `MintOutcome` (`:174`). That class is a 2-tuple subclass, so
 existing unpacking keeps working while `.reason` is exposed.

@@ -5,7 +5,7 @@ subject: candidate-archetype-routing
 technique: one-registry-shared-across-runtimes
 stack: node
 status: forged
-verified_on: 2026-09-26
+verified_on: 2026-10-31
 verified_against: node@24
 ---
 
@@ -25,7 +25,7 @@ staying separate have been deliberately joined on the TypeScript gate.
 
 `archetypes.json:2` is a `_comment` key that opens "SINGLE SOURCE OF TRUTH for the
 candidate-archetype taxonomy, read by BOTH Python (`pipeline/jobfit/registry.py`) and
-TypeScript (`app/_lib/archetypes.ts`)" and ends "`fairnessProtected` is
+TypeScript (`app/_lib/archetypes.ts`)" and later states "`fairnessProtected` is
 compliance-critical: it shields an archetype from AUTOMATED rejection." The header of
 `app/_lib/archetypes.ts:1-19` names what the arrangement replaced, "the protected set
 copied into screen-wave / group-eval-run / comms-dispatch" (5-6). It now also notes that
@@ -35,8 +35,8 @@ live reader.
 ## Every consumer derives, none declares
 
 `app/_lib/archetypes.ts` builds its views by filtering the imported array: labels
-(34-36), the shielded set (68), the early-career set (71-73). The separate badge map was
-removed on purpose (38-47). `registry.py:109-114` does the same on the Python side:
+(41-43), the shielded set (75), the early-career set (77-79). The separate badge map was
+removed on purpose (45-54). `registry.py:109-114` does the same on the Python side:
 
 ```python
 def early_career_archetypes() -> tuple[str, ...]:
@@ -59,8 +59,8 @@ one-digit typo in a hand-edited archetype (e.g. summing to 0.9) silently rescale
 score/tier/shortlist"). `abs(total - 1.0) > 1e-6` is at 50, and the module-scope call at
 58 runs before any accessor exists.
 
-The TypeScript side caught up on 2026-09-04. `app/_lib/archetype-registry.ts:123`
-`validateRegistry` runs on every read, with `WEIGHT_SUM_TOLERANCE = 1e-6` at 36. Its
+The TypeScript side caught up on 2026-09-04. `app/_lib/archetype-registry.ts:125`
+`validateRegistry` runs on every read, with `WEIGHT_SUM_TOLERANCE = 1e-6` at 38. Its
 comment gives the reason in the standard's own terms: "Reading was a bare
 `JSON.parse(raw) as Registry` — a cast, which asserts nothing at runtime — while Python's
 reader validates the identical file at IMPORT ... Validating on READ makes the two
@@ -81,9 +81,9 @@ experience' question, so a new archetype can never silently get an empty intake"
 
 ## Where this falls short of the standard
 
-- **The two flags are no longer independent on the shield.** `archetypes.ts:65-67`
+- **The two flags are no longer independent on the shield.** `archetypes.ts:72-74`
   `shieldsFromAutoReject` returns `def.fairnessProtected === true ||
-  def.scoringModel === "early_career"` (2026-09-23). The reason is stated at 60-64:
+  def.scoringModel === "early_career"` (2026-09-23). The reason is stated at 67-71:
   Python's policy pass keys its shield on `scoringModel`, so "a TS gate that read the
   flag alone would be looser than the engine it backstops". The effect is that the
   compliance-critical flag the artifact names cannot switch a shield *off*. And
@@ -91,7 +91,7 @@ experience' question, so a new archetype can never silently get an empty intake"
   `archetypes.json:2` calls compliance-critical is not what the Python gate reads.
 - **The static import is still unvalidated.** `archetypes.ts:21` reads the file directly
   for labels and sets. It does not go through `validateRegistry`.
-- **Archival has no routing test.** `pipeline/jobfit/tests/test_registry.py:117-122`
+- **Archival has no routing test.** `pipeline/jobfit/tests/test_registry.py:118-123`
   `test_archived_flag_is_tolerated_and_still_scores` passes a retired entry to the
   weight validator only. It does not route or score a candidate into an archived class,
   so "keeps working" is still asserted by structure and a docstring.

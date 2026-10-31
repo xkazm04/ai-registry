@@ -5,7 +5,7 @@ subject: candidate-archetype-routing
 technique: self-declaration-trusted-contradictions-flagged
 stack: node
 status: forged
-verified_on: 2026-09-26
+verified_on: 2026-10-31
 verified_against: node@24
 applied: simulation
 ab_verdict: better
