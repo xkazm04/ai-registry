@@ -5,7 +5,7 @@ subject: peer-benchmarking-under-k-anonymity
 technique: all-time-basis-and-why-a-window-biases
 stack: node
 status: forged
-verified_on: 2026-09-29
+verified_on: 2026-10-31
 verified_against: node@24
 ---
 
@@ -47,7 +47,7 @@ accumulated only for rows in a terminal stage with both `created_at` and
 `stage_changed_at` present — completed processes only, which is the
 technique's step 2. Rows with a missing timestamp or a negative interval are
 dropped rather than defaulted, and `medianTimeToHireDays` is `null` when nothing
-qualifies (line 31), not zero.
+qualifies (`org-benchmarks.ts:116`), not zero.
 
 ## A row cap is an unchosen window
 

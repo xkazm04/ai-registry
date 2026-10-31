@@ -5,7 +5,7 @@ subject: peer-benchmarking-under-k-anonymity
 technique: normalise-each-contributor-to-its-own-process
 stack: sql
 status: forged
-verified_on: 2026-09-29
+verified_on: 2026-10-31
 ---
 
 # Per-team axis resolution over a cross-workspace join (SQLite)

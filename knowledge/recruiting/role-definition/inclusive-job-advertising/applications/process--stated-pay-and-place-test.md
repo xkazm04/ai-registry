@@ -5,7 +5,7 @@ subject: inclusive-job-advertising
 technique: stated-pay-and-place-test
 stack: process
 status: forged
-verified_on: 2026-09-29
+verified_on: 2026-10-31
 ---
 
 # The concreteness test across three runtimes (process)
@@ -13,7 +13,7 @@ verified_on: 2026-09-29
 The same rule — *a phrase never satisfies a fact test* — is implemented three
 times in this codebase, in two languages, on both sides of the
 advertisement/outbound seam. Reading them together is what shows the doctrine.
-Read at kp `9f2ff09d6`.
+Read at kp `9f2ff09d6`; anchors re-checked at kp `6edf5d7e6`.
 
 ## 1. The posting lint: what counts as a figure and a location
 
@@ -64,15 +64,15 @@ learns.
 
 ## 3. The outbound side: a defaulted value is simply absent
 
-`pipeline/jobfit/campaign.py:128-151` states the same rule for advertising copy
+`pipeline/jobfit/campaign.py:169-192` states the same rule for advertising copy
 sent outbound, where the sibling `sourcing-campaign-honesty` subject owns it.
 `_job_facts` is docstringed as *"The ONLY facts the copy may use. A
 DEFAULT_POLICY phantom (recorded in `defaulted_fields`) or a blank string is
-absent — never advertised."* Its `stated()` helper (`:133-135`) returns the
+absent — never advertised."* Its `stated()` helper (`:174-176`) returns the
 value only when it is both non-blank and not in `defaulted_fields`, and the
-salary line applies the rule explicitly (`:146-148`): *"an anchor band
+salary line applies the rule explicitly (`:187-189`): *"an anchor band
 normalize_job stamped ('salary_band' phantom) is absent, so WARN_NO_SALARY
-fires"* (`:159`).
+fires"* (`:200`).
 
 That is the standard's rule that suppression is not satisfaction, enforced on
 the harder side: a band exists in the record, and it still does not count,

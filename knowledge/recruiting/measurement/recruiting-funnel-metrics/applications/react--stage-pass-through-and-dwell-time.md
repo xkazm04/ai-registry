@@ -5,7 +5,7 @@ subject: recruiting-funnel-metrics
 technique: stage-pass-through-and-dwell-time
 stack: react
 status: forged
-verified_on: 2026-09-26
+verified_on: 2026-10-31
 verified_against: react@19
 ---
 

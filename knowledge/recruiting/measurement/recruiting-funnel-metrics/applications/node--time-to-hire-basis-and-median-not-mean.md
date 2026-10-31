@@ -5,7 +5,7 @@ subject: recruiting-funnel-metrics
 technique: time-to-hire-basis-and-median-not-mean
 stack: node
 status: forged
-verified_on: 2026-09-26
+verified_on: 2026-10-31
 verified_against: node@24
 applied: simulation
 ab_verdict: better
@@ -14,7 +14,7 @@ ab_verdict: better
 # One time-to-hire sample, three statistics, and a creation-cohort cap
 
 An analytics surface in a Next.js hiring app computes time to hire once and hands
-it to four readers. Read on 2026-09-26 at one pinned commit (Node 24). The sample
+it to four readers. Read on 2026-09-26 at one pinned commit (Node 24). Anchors re-checked 2026-10-31 at kp `6edf5d7e6`. The sample
 is honest; the basis it is drawn on, and the statistic each reader takes from it,
 are where the technique bites.
 
@@ -34,7 +34,7 @@ corpus by the tree's own count (`AnalyticsStatCluster.tsx:59-63`).
 ## The basis: a creation cohort, age-matched for deltas, not for the headline
 
 In a windowed view the sample is drawn from the window's **creation cohort**:
-entries created in the last N days (`app/_lib/db/analytics.ts:352-365`). That
+entries created in the last N days (`app/_lib/db/analytics.ts:355-368`). That
 cohort can only contain hires that took less than N days. The tree knows this.
 Its org benchmark refuses a window for exactly this reason: "a short created-at
 cohort can only contain the hires that already finished"
@@ -48,7 +48,7 @@ The headline did not get the same fix. "It takes {days} days on average to get f
 applied to hired" (`PerformanceBriefing.tsx:207`) prints the live cohort's figure. In a
 30-day view it is capped at 30 days, and nothing in the sentence says so. A terminal
 basis already exists on the same read: hires *closed* in the window, resolved by role
-(`hiresClosedInWindow`, `app/_lib/db/analytics.ts:787`), and cost per hire already divides by it (`:824-840`). The duration is not drawn from it.
+(`hiresClosedInWindow`, `app/_lib/db/analytics.ts:790`), and cost per hire already divides by it (`:827-844`). The duration is not drawn from it.
 
 ## The statistic: three readers, two choices
 

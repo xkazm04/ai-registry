@@ -5,7 +5,7 @@ subject: recruiting-funnel-metrics
 technique: non-overlapping-event-to-series-mapping
 stack: node
 status: forged
-verified_on: 2026-09-26
+verified_on: 2026-10-31
 verified_against: node@24
 applied: simulation
 ab_verdict: better
@@ -16,7 +16,7 @@ ab_verdict: better
 `app/_lib/analytics-momentum.ts` buckets pipeline events into four weekly
 series. Its header states the invariant before any code: the mapping is "kept
 NON-OVERLAPPING so a week's bars never double-count one transition" (`:5-6`).
-Re-read on 2026-09-26 at one pinned commit (Node 24).
+Re-read on 2026-09-26 at one pinned commit (Node 24). Anchors re-checked 2026-10-31 at kp `6edf5d7e6`.
 
 ## The arms, and the events deliberately excluded
 
@@ -40,7 +40,7 @@ are exclusive at the write path, which records exactly one per rejection
 (`:12-14`).
 
 `MOMENTUM_EVENT_KINDS` (`:29`) is exported for the SQL `IN` list
-(`app/_lib/db/analytics.ts:548-553`), so the fetch set and the classification set
+(`app/_lib/db/analytics.ts:551-556`), so the fetch set and the classification set
 are one declaration.
 
 ## Role, not label: the default is gone
@@ -50,7 +50,7 @@ It is now **required** (`:49-56`), and the comment says why the default had to
 go: on a board whose final column is called "Signed", "every completed hire landed
 in the `advanced` bars and the hire series read flat zero forever, with nothing
 on screen saying so". The caller resolves it by role, falling back to the axis's
-own last column, never to a shipped name (`app/_lib/db/analytics.ts:562-565`).
+own last column, never to a shipped name (`app/_lib/db/analytics.ts:565-567`).
 This is the technique's label rule applied to a default: a literal default is a
 label the code chose for the team.
 
@@ -76,7 +76,7 @@ both the parse and the format to UTC.
   (`AnalyticsMomentumPanel.tsx:76`). "Rolling 7 days ending now, UTC" appears
   only in the page header.
 - **One surface, two window lengths.** The span is `ceil(windowDays / 7)` weeks
-  (`app/_lib/db/analytics.ts:546`), so a 30-day view draws 35 days of momentum
+  (`app/_lib/db/analytics.ts:549`), so a 30-day view draws 35 days of momentum
   beside offer and cohort figures that cover 30.
 
 ## Downstream

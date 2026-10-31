@@ -5,7 +5,7 @@ subject: recruiting-funnel-metrics
 technique: offer-acceptance-rate-denominator
 stack: node
 status: forged
-verified_on: 2026-09-26
+verified_on: 2026-10-31
 verified_against: node@24
 applied: simulation
 ab_verdict: better
@@ -17,7 +17,7 @@ ab_verdict: better
 four offer-lifecycle events (`offer_sent`, `offer_accepted`, `offer_declined`,
 `offer_expired`) were already written to `pipeline_events` and had never been
 aggregated. Before the module existed the funnel stopped meaning anything after
-the interview stage (`:1-8`). Re-read on 2026-09-26 at one pinned commit (Node 24).
+the interview stage (`:1-8`). Re-read on 2026-09-26 at one pinned commit (Node 24). Anchors re-checked 2026-10-31 at kp `6edf5d7e6`.
 
 ## The max-denominator rule, literally
 
@@ -39,7 +39,7 @@ echoed so the panel prints "N of 5 needed".
 
 ## What the query feeds it: every kind by its own date
 
-`app/_lib/db/analytics.ts:571-576`:
+`app/_lib/db/analytics.ts:574-578`:
 
 ```
 SELECT kind, COUNT(*) AS c FROM pipeline_events
@@ -47,14 +47,14 @@ WHERE created_at >= ? AND <not-simulated> AND workspace_id = ? [AND role] GROUP 
 ```
 
 The fold reads `offer_sent` and the three terminal kinds from that one GROUP BY
-(`:603-608`). Each kind is counted by its **own** event timestamp inside the
+(`:606-611`). Each kind is counted by its **own** event timestamp inside the
 window. That makes the offer leg a transition-dated period, not an offer
 cohort. On that basis the module's two by-products do not mean what their
 comments say:
 
 - `resolved > extended` happens with perfect recording whenever more earlier
   offers close in the window than new offers are sent. `offer_sent` is also written
-  only when the offer letter is delivered (`app/_lib/comms-dispatch.ts:718`): "a
+  only when the offer letter is delivered (`app/_lib/comms-dispatch.ts:746`): "a
   dead-lettered or refused letter is neither". The `max` hides boundary straddle and
   a true missing send behind the same number.
 - `pending = extended − resolved` is a net flow. Closes of offers sent before the
@@ -94,7 +94,7 @@ right there, and the tree does not have that query.
   keeps entries without a job title in.
 - **The company passing and the candidate declining stay separate.**
   `PipelineAnalytics` keeps `rejected` and `declined` as two terminal closes
-  (`:65-70`, `:434-435`).
+  (`:68-73`, `:437-438`).
 - **The measured rate is the forecast's offer leg.** The accept rate is exported
   as a 0..1 fraction purely so `analytics-forecast.ts` can substitute it for the
   implied offer→hire leg, with the byte-identical fallback when it is null.
@@ -107,9 +107,9 @@ right there, and the tree does not have that query.
 ## Where it still falls short
 
 The whole view can now be scoped to one role (`eventJobPred`, `:339`, applied to
-this query at `:573`). Otherwise the rate is not segmented: role family, level and
+this query at `:576`). Otherwise the rate is not segmented: role family, level and
 market mix still move it with no way to see why. There is no event kind for a
 rescinded offer, so an employer withdrawal is indistinguishable from the
 candidate declining. A legacy offer with no deadline never lapses
-(`app/_lib/offers-store.ts:110`), so it stays open indefinitely. The panel's label ("{accepted} of {extended} offers extended") names
+(`app/_lib/offers-store.ts:96`), so it stays open indefinitely. The panel's label ("{accepted} of {extended} offers extended") names
 no basis. The window appears only in the page header.

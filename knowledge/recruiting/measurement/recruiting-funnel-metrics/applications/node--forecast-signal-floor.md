@@ -5,7 +5,7 @@ subject: recruiting-funnel-metrics
 technique: forecast-signal-floor
 stack: node
 status: forged
-verified_on: 2026-09-26
+verified_on: 2026-10-31
 verified_against: node@24
 applied: experiment
 ab_verdict: better
@@ -17,7 +17,7 @@ ab_verdict: better
 surface where every other figure is backward-looking (`:1-6`). It is built as the
 technique prescribes: pure, import-free, and fed from inputs the analytics
 payload already produced. Re-read on 2026-09-26 at one pinned commit of the
-consumer, whose engines field and CI both pin Node 24.
+consumer, whose engines field and CI both pin Node 24. Anchors re-checked 2026-10-31 at kp `6edf5d7e6`.
 
 ## The two independent sources
 
@@ -113,6 +113,6 @@ nominal coverage. None of the three cases came close.
 The forecast is still handed the **mean** time to hire as its realization lag:
 the briefing passes `avgTimeToHireDays` (`PerformanceBriefing.tsx:117`), and the
 module returns it as `etaDays` (`:181`). `medianTimeToHireDays` is computed beside
-it (`app/_lib/db/analytics.ts:441`) and never read there. A "typical lag" is a
+it (`app/_lib/db/analytics.ts:444`) and never read there. A "typical lag" is a
 typical-case question, so it wants the median. The tile labels it "Expected lag"
 with no statistic named.

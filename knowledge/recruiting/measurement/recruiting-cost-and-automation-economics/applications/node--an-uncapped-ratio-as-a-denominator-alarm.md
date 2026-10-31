@@ -5,7 +5,7 @@ subject: recruiting-cost-and-automation-economics
 technique: an-uncapped-ratio-as-a-denominator-alarm
 stack: node
 status: forged
-verified_on: 2026-09-29
+verified_on: 2026-10-31
 verified_against: node@24
 ---
 
@@ -31,7 +31,7 @@ declares the property where a consumer will see it (`:68-70`): "Share of the
 manual per-hire effort offset, as a percentage. UNBOUNDED ABOVE — see the note
 at the computation: a figure over 100 is a real signal, not an overflow to be
 tidied away." (Every citation here is to kp at its committed `0c6c9e39c`, read
-on 2026-09-29; the comment at `:112-117` still ends "An implausible figure now
+on 2026-09-29, line anchors re-checked at kp `6edf5d7e6` on 2026-10-31; the comment at `:112-117` still ends "An implausible figure now
 shows itself; that is the signal.")
 
 ## The two named breach causes are both real defects in this repo's history
@@ -63,7 +63,7 @@ per hire (≈23 h of it screening, ~13 h sourcing); 42 is the defensible
 mid-point"), and an
 organisation may replace it via the reserved `MANUAL_HOURS_TARGET_KEY` row
 (`analytics-target-keys.ts:25`, `"manual_hours_per_hire"`, capped at 1000 h at
-`:40`), which the call site now genuinely threads through (`analytics.ts:914-918`
+`:40`), which the call site now genuinely threads through (`analytics.ts:915-919`
 passes `targetValues.get(MANUAL_HOURS_TARGET_KEY)` alongside
 `hiresClosedInWindow`) and which a settings input on the panel sets
 (`AnalyticsAutomationPanel.tsx:178-184`, `metric={MANUAL_HOURS_KEY}`). An org that sets its own baseline low pushes the ratio
@@ -79,7 +79,7 @@ so. The org-settable override (above) is what makes that survivable.
 
 ## The upward lesson this repo taught, and the one it still owes
 
-The comment at `automation-roi.ts:42-44` (its twin at `analytics.ts:911-913`
+The comment at `automation-roi.ts:42-44` (its twin at `analytics.ts:912-914`
 reads "pinned the '% of manual effort offset' claim to a constant a customer could
 neither see nor contest") is the sharper half of the story:
 
