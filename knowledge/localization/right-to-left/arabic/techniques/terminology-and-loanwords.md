@@ -105,7 +105,7 @@ enforcing — the catalog's settled choice wins and the ruling is recorded, per
   (three or more consecutive Latin words) is not a terminology finding: it is
   an untranslated source that a glossary pass half-rewrote, and the coverage
   gate counts it as translated. Retranslate the whole string rather than
-  patching the substituted words. Detect it by counting Latin runs of four or
+  patching the substituted words. Detect it by counting Latin runs of three or
   more words in an ar string that differs from its English source.
 
 ## When NOT to apply

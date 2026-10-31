@@ -63,8 +63,10 @@ review surface is precise rather than large:
   with and without its conjunct is a real, observed defect class, and the fix is
   a termbase row with one canonical spelling.
 - **The র + য cluster in English loanwords needs a ZWJ** (র‍্যা- as in "ram",
-  "rank", "wrap") or it collapses into an unreadable ligature. This is the one
-  invisible-character problem Bengali actually has; ZWNJ is essentially unused.
+  "rank", "wrap") or it collapses into an unreadable ligature. ZWJ is the common
+  load-bearing joiner; ZWNJ has narrow legitimate uses in the standard (forcing an
+  explicit hasant, blocking a consonant-vowel ligature), so strip it only as a
+  recorded house policy, not as universal debris.
 
 The numerals question — Bengali digits ০-৯ or Latin 0-9 — is the place where
 published authorities genuinely disagree, and the settled software answer is a

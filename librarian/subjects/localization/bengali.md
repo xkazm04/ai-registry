@@ -423,3 +423,97 @@ numbers is wrong, and the verdict is the one a reader quotes.
   }
 }
 ```
+
+## Architecture review - 2026-10-31 (clarify items applied)
+
+Applied the three documents' clarify items owed by the record above. Golden path: the
+ZWNJ sentence now names its narrow standard uses and makes stripping a house policy.
+Technique: BN-ZWJ, BN-DIGITS (bn defaults to `beng`, identifiers bypass the formatter or
+pin `-u-nu-latn`), the lakh/crore universal (bn's `beng` percent pattern is `#,##0%`) and
+the BN-LATINSUFFIX trigger. Application: verdict count 23 -> 21 to match its arms. Primary
+sources re-read this pass: Unicode 17.0 ch.12 (Bengali) and CLDR `bn.xml` at release-48-2.
+
+<!-- architecture-review:v1 -->
+```json
+{
+  "subject": "localization/bengali",
+  "date": "2026-10-31",
+  "baseline": "90705bb6a",
+  "digest": "sha256-b2:36991cecaf34a651",
+  "disposition": "keep",
+  "coverage": "All 13 owned documents keyed. The three documents edited this pass were read in full at current bytes; the other ten are unchanged since the earlier 2026-10-31 record (only these three files changed under this subject) and carry its decisions. Trigger: clarify items owed by the earlier 2026-10-31 record. Intended benefit: Bengali copy keeps its invisible characters, digits and register correct by the standard and the locale data. Failure if ignored: an audit strips ZWNJs that force an explicit hasant, and identifiers routed through the bn formatter render in Bengali digits. Boundary: UI and product copy in standard written Bengali for both Bangladesh and West Bengal. Not evaluated: no catalog re-scanned, no detector rerun, no shaping engine or font driven, vendor style guides not retrieved; the 21-vs-23 reconciliation follows the application's own arms, the project catalog was not re-counted.",
+  "counterexamples": [
+    "An audit strips every U+200C per BN-ZWJ from ত্‌ত written with a ZWNJ after the hasant; Unicode 17.0 ch.12 says that sequence is 'always displayed with the explicit hasant', so the strip changes the rendered word.",
+    "A ZWNJ between র and ্য in a loanword is a misuse the ui-conventions application correctly fixed to ZWJ; it shows ZWNJ can be debris in one position without showing it is roleless everywhere.",
+    "Not every ZWNJ is a keeper: in a UI string most are paste debris, so the rule still lets a product strip them by recorded policy once the occurrence is not an explicit-hasant or ligature-block use."
+  ],
+  "sources": [
+    {
+      "url": "https://www.unicode.org/versions/Unicode17.0.0/core-spec/chapter-12/",
+      "result": "Bengali section re-read. 'a ZERO WIDTH NON-JOINER is inserted after the hasant. That sequence is always displayed with the explicit hasant'; 'If the ligated form is the default for a given font implementation, then ZWNJ can be inserted to block a ligature'; after a non-ra consonant 'a ZWJ is not necessary but can be present'. Grounds the BN-ZWJ and golden-path rewording."
+    },
+    {
+      "url": "https://raw.githubusercontent.com/unicode-org/cldr/release-48-2/common/main/bn.xml",
+      "result": "<defaultNumberingSystem>beng</defaultNumberingSystem>; percentFormats numberSystem=\"beng\" pattern '#,##0%' while numberSystem=\"latn\" percent is '#,##,##0%'; latn decimal '#,##,##0.###' and currency '#,##,##0.00¤' (beng decimal/currency patterns are ↑↑↑). Grounds BN-DIGITS and the limited lakh/crore claim."
+    },
+    {
+      "path": "knowledge/localization/south-and-southeast-asian/bengali",
+      "result": "Edited this pass: bengali.md, techniques/bengali-script-and-numerals.md, applications/process--de-anglicization-constructions.md. No other file under the subject touched."
+    }
+  ],
+  "documents": {
+    "bengali.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: the 'one invisible-character problem / ZWNJ is essentially unused' sentence now reads: ZWJ is the common load-bearing joiner; ZWNJ has narrow legitimate uses in the standard (explicit hasant, blocking a consonant-vowel ligature), so strip it only as a recorded house policy."
+    },
+    "techniques/bengali-script-and-numerals.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: all four corrections landed: (1) BN-ZWJ drops 'one genuinely load-bearing invisible character' and 'no established role', names the standard's ZWNJ uses (explicit hasant, ligature block) and makes stripping a recorded house policy; (2) BN-DIGITS says bn's default numbering system is beng, so identifiers bypass the locale formatter or pin -u-nu-latn; (3) lakh/crore grouping limited to decimal and currency, noting bn's beng percent pattern #,##0%; (4) BN-LATINSUFFIX triggers on Latin-script content (a Latin character or a placeholder whose value is Latin-script), not on a closing brace."
+    },
+    "techniques/classifiers-and-quantity.md": {
+      "disposition": "keep",
+      "reason": "Unchanged; CLDR cardinal and ordinal claims verified verbatim on 2026-09-10."
+    },
+    "techniques/de-anglicization-constructions.md": {
+      "disposition": "keep",
+      "reason": "The new calibration paragraph (count before rewriting; a bare termbase noun is one edit, tens of percent stranded Latin is an unfinished pass) is grounded in the new application and states no universal threshold."
+    },
+    "techniques/register-and-address.md": {
+      "disposition": "keep",
+      "reason": "Unchanged; the new register application shows its house-ruling exception stopping a wrong rewrite, which supports it."
+    },
+    "techniques/terminology-and-loanwords.md": {
+      "disposition": "keep",
+      "reason": "Unchanged; no claim overreaches its evidence."
+    },
+    "techniques/ui-conventions-and-length.md": {
+      "disposition": "keep",
+      "reason": "Unchanged; the new application found it held with no amendment."
+    },
+    "applications/process--classifiers-and-quantity.md": {
+      "disposition": "keep",
+      "reason": "Only change is the machine path scrub. Content unchanged."
+    },
+    "applications/process--de-anglicization-constructions.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: verdict reconciled with its own arms: 'went 23 to 0' -> 'went 21 to 0' (Arms A and B both count 21 strings). No citation re-checked, verified_on unchanged."
+    },
+    "applications/process--register-and-address.md": {
+      "disposition": "keep",
+      "reason": "Counts add up (16 stacked-please strings, 11 rewritten, 5 kept with reasons), the companion তুমি lines were filed rather than guessed, target and floor named. Not re-run."
+    },
+    "applications/process--terminology-and-loanwords.md": {
+      "disposition": "keep",
+      "reason": "Only change is the machine path scrub. Content unchanged."
+    },
+    "applications/process--ui-conventions-and-length.md": {
+      "disposition": "keep",
+      "reason": "Its ZWNJ-to-ZWJ fix at র + ্য matches the Unicode convention (ZWJ after ra selects ya-phalaa); it states that rendered width was not measured. Not re-run."
+    },
+    "applications/spec--bengali-script-and-numerals.md": {
+      "disposition": "keep",
+      "reason": "Only change is counterpart: external. Its ya-phalaa wording (ZWJ, not ZWNJ, after a non-ra consonant) matches Unicode 17.0 ch.12 exactly; it is the earlier review note, not this application, that misquoted it."
+    }
+  }
+}
+```

@@ -38,11 +38,14 @@ Fragments (labels, menu items) take no terminal punctuation at all — do not
 **Rule.** A number that is a *quantity in prose* — counts, durations,
 percentages, money amounts written into a sentence — uses Bengali digits ০-৯
 (২৪ ঘণ্টা, ৫০%). A number that is an *identifier* stays Latin: ports, IPs,
-version strings, cipher names, aspect ratios, and anything a placeholder will
-inject at runtime (the runtime's own formatter decides that script — never
-hardcode either script into a value destined for a placeholder). Digit grouping
-follows the South Asian lakh/crore pattern (১০,০০,০০০), which locale-aware
-formatters produce for bn.
+version strings, cipher names, aspect ratios. A placeholder value is rendered by
+the runtime, so never hardcode either script into it — but the bn locale's
+default numbering system is Bengali (`beng`), so a locale formatter turns a port
+or version into Bengali digits. Identifiers must bypass the locale formatter, or
+format with a pinned `-u-nu-latn`. Decimal and currency grouping follows the
+South Asian lakh/crore pattern (১০,০০,০০০) that locale-aware formatters produce
+for bn; it is not universal — bn's Bengali-digit percent pattern groups by
+thousands (`#,##0%`).
 
 **Never mix scripts on one token**: a Latin digit glued to a Bengali classifier
 (1টি) is a visible bug, observed shipped, not a pattern.
@@ -97,9 +100,12 @@ classic symptom of split encoding).
 **Rule.** English loanwords with an initial "r + ya" cluster — ram, rank, wrap,
 rapid — transliterate with **র + ZWJ (U+200D) + ্ + য** (র‍্যাম, র‍্যাঙ্ক, র‍্যাপ):
 the ZWJ forces the visible ্য form after র instead of the repha ligature, which
-would render the word unreadable. This is Bengali's one genuinely load-bearing
-invisible character. ZWNJ (U+200C) has no established role in Bengali UI text —
-its presence is almost always paste debris to strip.
+would render the word unreadable. ZWJ is the joiner UI text most often needs.
+ZWNJ (U+200C) is not roleless: the Unicode Standard uses it after a hasant to force
+the explicit hasant (no conjunct), and to block a consonant-vowel ligature a font
+would otherwise form. In UI copy it is far more often paste debris than either of
+those, so a product may strip it — but as a recorded house policy, after checking
+the occurrence is not one of those two uses, never as a blanket rule.
 
 **Trigger.** Mechanical: any occurrence of র followed directly by ্য inside a
 transliterated loanword is a candidate for a missing ZWJ; copy the joiner
@@ -117,7 +123,10 @@ suffix and hyphen sit *outside* the braces; the placeholder name itself is
 untouchable.
 
 **Trigger.** A Bengali suffix morpheme (এর, কে, টি, তে, এ…) directly adjacent to
-a Latin character or closing brace with neither hyphen nor space.
+Latin-script content — a Latin character, or a placeholder whose runtime value is
+Latin-script — with neither hyphen nor space. A closing brace alone is not the
+trigger: a numeric placeholder renders in Bengali digits under the bn default, so
+bare concatenation after it has no script collision.
 
 ## BN-ELLIPSIS · one glyph, not three periods
 

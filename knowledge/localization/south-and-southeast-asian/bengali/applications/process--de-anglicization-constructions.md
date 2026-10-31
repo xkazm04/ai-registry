@@ -62,7 +62,7 @@ signature of a draft that translated structure and skipped vocabulary.
 
 ## Verdict and return condition
 
-`better` for the app catalog: target (bare termbase noun) went 23 to 0 strings in
+`better` for the app catalog: target (bare termbase noun) went 21 to 0 strings in
 the Bengali catalog, floor (translation coverage, 0 gaps across 14 locales) held.
 The guide arm stays open as a `task`. Return when the guide's Bengali pass is
 re-translated and the same counter is run before and after; the instrument is the

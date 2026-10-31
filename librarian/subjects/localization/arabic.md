@@ -455,3 +455,109 @@ was recorded as a counterexample rather than a document change, and remains so.
   }
 }
 ```
+
+## Architecture review - 2026-10-31 (clarify items applied)
+
+Applied the three documents' clarify items owed by the record above. Golden path: the
+regional numeral shorthand replaced with the declare-versus-inherit finding (plain `ar`
+inherits to root `latn`; cite the locale). Terminology technique: one threshold, three or
+more consecutive Latin words, in both the definition and the detector. De-anglicization
+application: unsourced fluent-speaker review clause dropped. CLDR `ar`, `ar_AE`, `ar_MR`,
+`ar_EG` and `root` re-fetched at release-48-2 this pass.
+
+<!-- architecture-review:v1 -->
+```json
+{
+  "subject": "localization/arabic",
+  "date": "2026-10-31",
+  "baseline": "90705bb6a",
+  "digest": "sha256-b2:53c0663a7ebb154e",
+  "disposition": "keep",
+  "coverage": "All 13 owned documents keyed. The three documents edited this pass were read in full at current bytes; the other ten are unchanged since the earlier 2026-10-31 record (only these three files changed under this subject) and carry its decisions. Trigger: clarify items owed by the earlier 2026-10-31 record. Intended benefit: a product picks digits, register and terms from the locale data and its own termbase rather than from shorthand. Failure if ignored: a plain-ar product pins the wrong digit default, and a detector misses three-word Latin runs. Boundary: UI and product copy in Modern Standard Arabic. Not evaluated: no catalog re-scanned, no detector rerun, no renderer driven, UAX 9 and vendor style guides not retrieved.",
+  "counterexamples": [
+    "A detector built from 'Latin runs of four or more words' passes a string like 'Click to open شخصية.' whose only Latin run is three words, which the same bullet's first sentence defines as the half-rewritten-source defect.",
+    "A machine-drafted Arabic catalog where every capability sentence opens with يمكنك but sentences are few would show a high share from a small n; the 0.8% floor from one reviewed tree is not a threshold, as the application itself concedes.",
+    "A detector at three Latin words will also catch strings whose Latin run is a legitimate do-not-translate product or protocol name of three words; the termbase's keep-Latin list has to be subtracted before counting."
+  ],
+  "sources": [
+    {
+      "url": "https://raw.githubusercontent.com/unicode-org/cldr/release-48-2/common/main/ar.xml",
+      "result": "<defaultNumberingSystem>↑↑↑</defaultNumberingSystem> - inherits."
+    },
+    {
+      "url": "https://raw.githubusercontent.com/unicode-org/cldr/release-48-2/common/main/root.xml",
+      "result": "<defaultNumberingSystem>latn</defaultNumberingSystem> - what inheritance resolves to, so plain ar gets Western digits."
+    },
+    {
+      "url": "https://raw.githubusercontent.com/unicode-org/cldr/release-48-2/common/main/ar_AE.xml",
+      "result": "<defaultNumberingSystem>↑↑↑</defaultNumberingSystem> - a Gulf locale resolving to Western."
+    },
+    {
+      "url": "https://raw.githubusercontent.com/unicode-org/cldr/release-48-2/common/main/ar_MR.xml",
+      "result": "<defaultNumberingSystem>arab</defaultNumberingSystem> - a Maghreb locale declaring Arabic-Indic."
+    },
+    {
+      "url": "https://raw.githubusercontent.com/unicode-org/cldr/release-48-2/common/main/ar_EG.xml",
+      "result": "<defaultNumberingSystem>arab</defaultNumberingSystem>."
+    },
+    {
+      "path": "knowledge/localization/right-to-left/arabic",
+      "result": "Edited this pass: arabic.md, techniques/terminology-and-loanwords.md, applications/process--de-anglicization-constructions.md. No other file under the subject touched."
+    }
+  ],
+  "documents": {
+    "arabic.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: replaced 'CLDR defaults most ar locales to Arabic-Indic digits with the Maghreb on Western' with the declare-versus-inherit finding: inheritance resolves to root latn, plain ar inherits (Western), ar_EG declares Arabic-Indic, a Gulf locale inherits Western and a Maghreb locale declares Arabic-Indic, so cite the locale, not the region."
+    },
+    "techniques/plural-and-count-agreement.md": {
+      "disposition": "keep",
+      "reason": "Unchanged; six categories and five range overrides were verified verbatim on 2026-09-10. The ars no-range-row boundary stays a recorded counterexample."
+    },
+    "techniques/script-and-typography.md": {
+      "disposition": "keep",
+      "reason": "Unchanged; carries the corrected AR-NUMERALS the golden path should follow."
+    },
+    "techniques/bidirectional-text-and-interpolation.md": {
+      "disposition": "keep",
+      "reason": "Unchanged; craft stated as craft. UAX 9 not re-read."
+    },
+    "techniques/register-and-address.md": {
+      "disposition": "keep",
+      "reason": "Unchanged; vendor-guide citation behind AR-MSA still not retrieved."
+    },
+    "techniques/de-anglicization-constructions.md": {
+      "disposition": "keep",
+      "reason": "Unchanged; the new application found its tells absent and its 'clean strings stay untouched' boundary held, which supports rather than strains it."
+    },
+    "techniques/terminology-and-loanwords.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: reconciled to one threshold: detection now counts 'Latin runs of three or more words', matching the defect definition 'three or more consecutive Latin words'."
+    },
+    "applications/process--bidirectional-text-and-interpolation.md": {
+      "disposition": "keep",
+      "reason": "Only change is the machine path replaced by the repo name, which this public repo requires. Content unchanged."
+    },
+    "applications/process--de-anglicization-constructions.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: dropped the unsourced 'a copy set that was reviewed by a fluent speaker'; the sentence now reads 'In this tree the base rate is 0.8%', keeping the n=2,481, one-project, one-date floor already stated. No citation re-checked, verified_on unchanged."
+    },
+    "applications/process--register-and-address.md": {
+      "disposition": "keep",
+      "reason": "Only change is the machine path scrub. Content unchanged."
+    },
+    "applications/process--terminology-and-loanwords.md": {
+      "disposition": "keep",
+      "reason": "A falsification-first hunt that moved seams when the expected defect was absent, with target and floor named and the owed items (other locales, webhook and Prompt doubles) left as rulings rather than patched. Not re-run against the catalog."
+    },
+    "applications/spec--plural-and-count-agreement.md": {
+      "disposition": "keep",
+      "reason": "Only change is counterpart: external, matching the gate rule for external applications. Content verified on 2026-09-10."
+    },
+    "applications/spec--script-and-typography.md": {
+      "disposition": "keep",
+      "reason": "Only change is counterpart: external. Its numeral resolution re-confirmed on four locale files this pass."
+    }
+  }
+}
+```
