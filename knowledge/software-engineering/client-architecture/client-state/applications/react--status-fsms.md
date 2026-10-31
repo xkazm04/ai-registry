@@ -16,7 +16,8 @@ verified_against: react@19
 Two in-repo implementations, each carrying a different half of the
 technique: `processActivitySlice` is the keyed-machine half (concurrent
 per-run lifecycles), `sceneStore` is the state-set half (per-family status
-with data-presence-aware failure). The backend authority both of them
+with a shared failure transition — one that, at this pin, read the in-flight
+status instead of data presence). The backend authority both of them
 consume is the subject's rust application.
 
 ## Keyed machines: `src/stores/slices/processActivitySlice.ts`
@@ -80,11 +81,24 @@ export const failStatus = (prev: FamilyStatus): FamilyStatus =>
 ```
 
 Every family's `catch` routes through it — the shared
-transition-on-failure function the technique prescribes. A failed *first*
-load goes `failed`; a failed *reload* of a family with data goes `stale`,
-keeping real (merely unguaranteed) data on screen and feeding the page's
-data-health banner instead of a failure screen. `retryFailed` (`:317-329`)
-then treats `failed` and `stale` uniformly as retryable.
+transition-on-failure function the technique prescribes. It was written so
+that a failed *first* load goes `failed` and a failed *reload* of a family
+with data goes `stale`, keeping real (merely unguaranteed) data on screen and
+feeding the page's data-health banner instead of a failure screen.
+
+**At this pin the `stale` arm was unreachable.** Every loader set its family
+to `loading` before the await (`loadMeta` `:184`, `loadScans` `:198`, and the
+four siblings), and its `catch` then called `failStatus(s.<family>Status)`
+(`:192`, `:206`, `:249`, `:269`, `:293`, `:313`). The status it read was
+therefore always `loading`, and `failStatus('loading')` is `failed`. So no
+family could reach `stale`: a failed background refresh over held rows
+flipped the family to `failed`, and the data-health banner's "may be out of
+date" state never fired. The shared transition function existed; its input
+was the in-flight status, not the evidence of held data. That is the
+technique's failure-lands-by-data-presence clause in its negative form, and it
+is the lesson this tree teaches at this commit. `retryFailed` (`:317-329`)
+treats `failed` and `stale` uniformly as retryable, so retry worked either
+way.
 
 Scoping is honored downward too: `invalidateScans` (`:210-232`) refreshes
 one project's rows and, on failure, logs without flipping the family —
@@ -94,8 +108,8 @@ failed — the rest of the cache is still valid."
 **The gap the technique now names.** `failStatus` returns a bare status,
 and every `catch` that calls it first hands the error to
 `silentCatch(...)` (`:190`, `:204`, and the four siblings) — a log, not
-the store. A family in `stale` therefore holds real data and *no record
-of why the refresh failed*: the banner can say "may be out of date" and
+the store. Once a family can reach `stale` (see below), it holds real data
+and *no record of why the refresh failed*: the banner can say "may be out of date" and
 cannot say what went wrong, and a permanent backend failure is
 indistinguishable from a single dropped request. This is the exact
 transition the technique's "the failed reload's evidence travels with it"
@@ -115,36 +129,26 @@ The 2026-08-18 verification recorded that `sceneStore`'s whole-family
 loads carried no latest-wins token. Commits `c9d4ec29c` (2026-08-29) and
 `3aba78285` (2026-08-30) closed it: one `createLatestWins()` slot per
 family (`:146-153`), keyed like the status machine it protects; an
-in-flight registry for the argument-less loads (`:161`, join by default,
+in-flight registry for the argument-less loads (`:160`, join by default,
 `replace` after a world-changing event); a per-project keyed slot for
 `invalidateScans` that *peeks* the family generation so a scoped merge
-cannot cancel a full reload (`:167`, `:217-222`); and every completion —
+cannot cancel a full reload (`:166`, `:217-222`); and every completion —
 success and failure alike — checking its token before writing
 (`:187`, `:191`, `:201`, `:205`). The subject's react--async-race-guards
 application is the fuller reading of that change.
 
-## Re-checked 2026-10-31
+## Since 2026-10-19
 
 Re-checked 2026-10-31 at personas@61029d7ae0 (`react ^19.2.6`,
-`zustand ^5.0.13`). At `ee124810f` every citation resolves:
-`processActivitySlice` anchors, `FamilyStatus` `:36`, `failStatus`
-`:78-79`, `retryFailed` `:317-329`, `invalidateScans` `:210-232` with its
-quoted comment, the token checks, and the async-ui-states path. One reading
-above does not hold, and it is reversed here.
+`zustand ^5.0.13`). At `ee124810f` every citation above resolves. Earlier
+versions of this document said a failed reload of a family with data went
+`stale` at the pin; the loaders' `loading`-before-await made that
+unreachable, and the section above now says so.
 
-**The stale transition was unreachable at the pin.** Every loader set its
-family to `loading` before the await. Its `catch` then called
-`failStatus(s.<family>Status)`, which therefore always read `loading` and
-returned `failed`. So at `ee124810f` no family could reach `stale`. The
-sentence "a failed *reload* of a family with data goes `stale`" describes
-what `failStatus` was written for, not what the store did. A reader of
-this tree would have learned the wrong lesson: the shared transition
-function existed, but its input was the in-flight status, not the
-evidence of held data. That is the technique's failure-lands-by-data-presence
-clause in its negative form. The fix is `db4a19c2d` (2026-10-19). An
-`everLoaded` set records which families have answered once, and
-`failedReload(family)` (`:90-92`) asks it, so 6 of 6 failure paths can now
-reach `stale`.
+The fix is `db4a19c2d` (2026-10-19). An `everLoaded` set records which
+families have answered once, and `failedReload(family)` (`:90-92`) asks it
+instead of the status, so 6 of 6 failure paths can now reach `stale`; the
+commit adds the regression test to `sceneStore.test.ts`.
 
 The evidence gap named above is still open at HEAD. `failedReload` returns
 a bare status, and each `catch` still hands the error to `silentCatch`

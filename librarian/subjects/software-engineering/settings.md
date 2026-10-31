@@ -691,3 +691,142 @@ This record follows the re-verification of the four personas applications agains
   }
 }
 ```
+
+## 2026-10-31 - config-backup-and-restore body rewritten
+
+Applies the clarify item on rust--config-backup-and-restore. The body was written at 17:54 on 2026-09-03 and restore.rs landed at 18:16 the same day (c14d0edf4), so its 'no door back' was true when read. The body is now pinned to c14d0edf4^ in so many words. A Since paragraph says the backend half is built and that there is still no surface: the only callers outside the module are apply_pending_restore and log_offer. It also gives the 04b4c2b7f4 size-bounded rotation. The unrecorded 1.97 gate toolchain is replaced by the tree's own pin, 1.96.1 since 2026-09-18. Every citation was re-read, so verified_on moved. applied-defaults-ledger keeps its earlier clarify.
+
+<!-- architecture-review:v1 -->
+```json
+{
+  "subject": "software-engineering/settings",
+  "date": "2026-10-31",
+  "baseline": "3e5ac271e",
+  "digest": "sha256-b2:dc94a8ff02777c95",
+  "disposition": "clarify",
+  "coverage": "Rewrite record: rust--config-backup-and-restore re-read in full at c14d0edf4^, c14d0edf4 and personas@61029d7ae0; the other documents carry the prior record's dispositions. All 26 documents carry a decision; 1 remain non-keep.",
+  "counterexamples": [
+    "restore.rs lists sets with a named quick_check probe and defers the copy to the next boot via a marker, but no Tauri command or frontend calls list_backup_sets or request_restore, so the quarantined boot still ends in a log line."
+  ],
+  "sources": [
+    {
+      "url": "personas@c14d0edf4e",
+      "result": "2026-09-03 18:16: restore.rs adds list_backup_sets, offer_for, request_restore/apply_pending_restore; applied from init_db at lib.rs:395; quarantine ends in restore::log_offer at lib.rs:459."
+    },
+    {
+      "url": "personas@04b4c2b7f4:src-tauri/db/src/backup.rs",
+      "result": "2026-09-14: MIN_BACKUPS 2, MAX_BACKUPS 3 under MAX_BACKUP_BYTES 768 MiB (:44-52), ad-hoc sets age out after 14 days (:57); reason at :27-28."
+    },
+    {
+      "url": "personas@61029d7ae0:src-tauri/src",
+      "result": "No reference to list_backup_sets or request_restore outside src-tauri/db/src/restore.rs; rust-toolchain.toml pins 1.96.1 (added 1e48e9e1a3, 2026-09-18)."
+    }
+  ],
+  "documents": {
+    "settings.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: added a prose paragraph for author-declared-include-graph after the cross-source section (an authored graph, roots declared per link, unknown names refused, origin out of band, composes one way only) and a bullet in the closing list; restored the missing blank line before the in-place document heading."
+    },
+    "techniques/key-registry.md": {
+      "disposition": "keep",
+      "reason": "Both ends of the pipe, governed prefix families and quarantine-then-reap are sound. Its orphan set difference is correctly scoped by in-place-document-patch's boundary, which says it applies to keys this build registered."
+    },
+    "techniques/typed-accessors.md": {
+      "disposition": "keep",
+      "reason": "The decode-success-is-not-a-check section and its three remedies are correct, and the fail-direction rule is consistent with hitl-approval's evidence. The generic claims about permissive decoders are standard behaviour."
+    },
+    "techniques/read-batching.md": {
+      "disposition": "keep",
+      "reason": "The coalesce-versus-cache trade, key-only broadcast and coarse invalidation are sound, and the boundary against in-place patching is drawn on identity in the sibling technique."
+    },
+    "techniques/setting-kinds.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: 'the table is the contract' -> 'these five are the contract', pointing at the five-axis list rather than a table that does not exist."
+    },
+    "techniques/inherited-default-override.md": {
+      "disposition": "keep",
+      "reason": "The divergence write rule, the interaction-only re-evaluation and the derived-default column with travelling provenance are internally consistent and witnessed by two applications. The 2026-09-23 conform proposal about OR-composed toggles stays a lead, not a defect."
+    },
+    "techniques/settings-audit-and-history.md": {
+      "disposition": "keep",
+      "reason": "The record fields, structural redaction, per-key exclusion of bookkeeping and best-effort audit priority are sound and defer ledger mechanics to audit-logging correctly."
+    },
+    "techniques/save-experience.md": {
+      "disposition": "keep",
+      "reason": "Sound. The 2026-09-23 open question (per-row explicit commits beside instant toggles) is a refinement lead, not an error in the current text."
+    },
+    "techniques/cross-source-precedence-chain.md": {
+      "disposition": "keep",
+      "reason": "Absent-skips/malformed-stops, provenance and keep-every-failure are sound. The kube-rs re-check strengthens the technique, because the witness violates malformed-stops across rungs in exactly the way the technique's failure paragraph describes."
+    },
+    "techniques/presence-decides-precedence.md": {
+      "disposition": "keep",
+      "reason": "Presence-over-value precedence, the notice attached to presence with two messages and the release-named reaper are coherent and carry one ab-paired witness."
+    },
+    "techniques/applied-defaults-ledger.md": {
+      "disposition": "clarify",
+      "reason": "The 'ledger says nothing about removals' boundary says retiring a default is a warning, then a deliberate user act. The witness tree removes a retired default automatically when it still matches the shipped binding in every field, which destroys no edit, and warns only for the rest. State whether exact-match removal of an unedited retired default is admitted. Owed: this is a design judgment, not a verified error."
+    },
+    "techniques/config-backup-and-restore.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: the atomic-write bullet now says rename atomicity holds against a crashed process, and against power loss only with a flush of the temp file before the rename (and of the directory after it). The kill-the-process fault case now says it exercises process death only."
+    },
+    "techniques/author-declared-include-graph.md": {
+      "disposition": "keep",
+      "reason": "Per-link declared roots, refusal of unknown root names, out-of-band origin and cycle-by-path are sound. The cargo-make warn-and-default behaviour is re-confirmed at the pin."
+    },
+    "techniques/in-place-document-patch.md": {
+      "disposition": "keep",
+      "reason": "Patch-not-replace, opt-in pruning, subtree writes and the members-not-text ceiling are sound, and the boundaries against key-registry, read-batching, the ledger and the chain are drawn correctly."
+    },
+    "applications/rust--key-registry.md": {
+      "disposition": "keep",
+      "reason": "Re-verified 2026-10-31, and verified_on moved. Every cited construct is present (file now 3,380 lines, 1,569 at first reading). The dated note records the operator-only refusal ahead of write_validated (99cbdfa3c) and the wider deprecated_replacement set. The inline set excerpt is superseded by the note without changing the innermost-layer point. Set-equality hardening is still missing."
+    },
+    "applications/rust--typed-accessors.md": {
+      "disposition": "keep",
+      "reason": "The predicate for the 58/90 count is stated, and the A/B is precise about what the fix buys (an honest error, not a new safety property). The private tree was not re-run."
+    },
+    "applications/next--inherited-default-override.md": {
+      "disposition": "keep",
+      "reason": "An ab-paired, scoped claim with the deferred-resolution seam recorded honestly. The private tree was not re-run."
+    },
+    "applications/rust--inherited-default-override.md": {
+      "disposition": "keep",
+      "reason": "Labelled simulation/structural-only, with a falsifier stated for the one non-equal case."
+    },
+    "applications/react--read-batching.md": {
+      "disposition": "keep",
+      "reason": "Re-verified 2026-10-31, and verified_on moved. The coalescer, the bulk cap, the key-only event and historyCache hold. The dated note records that flushBatch has chunked at the server's 256-key cap since 4d2c3555b, so failure fan-out is per chunk. The body's 'single getAppSettingsBulk' describes the 2026-08-18 code and the note supersedes it explicitly."
+    },
+    "applications/node--presence-decides-precedence.md": {
+      "disposition": "keep",
+      "reason": "An ab-paired, scoped claim that names what it does not do (no single resolver, no notice)."
+    },
+    "applications/rust--cross-source-precedence-chain.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: fourteen -> fifteen KubeconfigError variants at mod.rs:33-95; a note that malformed-stops ends at the rung boundary; a first shortfall bullet on infer() falling through to in-cluster on any kubeconfig error (mod.rs:214-224); the CA re-read scoped to the rustls-tls feature; incluster_config.rs:49 -> :50; verified_on 2026-10-31 after every citation was re-checked at 7a4641d."
+    },
+    "applications/rust--author-declared-include-graph.md": {
+      "disposition": "keep",
+      "reason": "Warn-and-default on an unknown relative value is re-confirmed at 95dcc54 with the quoted message. The sentinel-test claim was not re-opened and keeps its original date."
+    },
+    "applications/cpp--config-backup-and-restore.md": {
+      "disposition": "keep",
+      "reason": "Re-checked: nine slots, SaveManually|OnlySaveIfChanged, the loadWithBackups loop with its silent no-backup branch, the three dialog buttons, the damaged-backups line and the CHANGELOG entry all hold at fda51f0. Its existing caution that atomicity is unconfirmed is consistent with the technique clarify."
+    },
+    "applications/cpp--applied-defaults-ledger.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: addDefaults :333-589 -> :333-556; resetToDefaults :558-589 -> :558-573, described as save-then-reload; the tombstone paragraph rewritten to record clearRemovedDefaults/tryRemoveDefault removing an unedited retired default automatically, with warnForRemovedHotkeyActions (:621-633) for removed actions only; verified_on 2026-10-31 after every citation was re-checked at fda51f0."
+    },
+    "applications/rust--config-backup-and-restore.md": {
+      "disposition": "keep",
+      "reason": "Rewritten 2026-10-31: body pinned to c14d0edf4^ (the read predates restore.rs by 22 minutes); Since paragraph gives the built backend half with no surface (callers only apply_pending_restore and log_offer) and the 2-3 set / 768 MiB rotation; the unrecorded 1.97 toolchain replaced by the tree's 1.96.1 pin. Every citation re-read; verified_on moved."
+    },
+    "applications/rust--applied-defaults-ledger.md": {
+      "disposition": "keep",
+      "reason": "Re-verified 2026-10-31. Two anchors were updated (Cargo.toml :222, support.rs :300-320), and verified_on moved. Two of six persisted stores now carry migrate. No overridable default set ships (the global hotkey is a fixed chord), so the return condition is unmet and not-better stands."
+    }
+  }
+}
+```

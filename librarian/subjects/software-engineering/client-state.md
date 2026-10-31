@@ -672,3 +672,138 @@ This record follows the re-verification of the four personas applications agains
   }
 }
 ```
+
+## 2026-10-31 - status-fsms body rewritten
+
+Applies the clarify item on react--status-fsms. At the pin ee124810f every loader set its family to loading before the await, so failStatus always read loading and no family could reach stale. The body now says so instead of describing what failStatus was written for. The fix, db4a19c2d (2026-10-19, the everLoaded set), and the HEAD anchors are in a Since paragraph. Two pin anchors that were one line off (:161, :167) are corrected. verified_on was already 2026-10-31 and every citation was re-read.
+
+<!-- architecture-review:v1 -->
+```json
+{
+  "subject": "software-engineering/client-state",
+  "date": "2026-10-31",
+  "baseline": "3e5ac271e",
+  "digest": "sha256-b2:540107cf5f3e48a8",
+  "disposition": "keep",
+  "coverage": "Rewrite record: react--status-fsms re-read in full at ee124810f and personas@61029d7ae0; the other documents carry the prior record's dispositions. All 26 documents carry a decision; 0 remain non-keep.",
+  "counterexamples": [
+    "At ee124810f every sceneStore loader set loading before its await, so failStatus(s.<family>Status) always returned failed and the stale state was unreachable: a shared transition function fed the in-flight status instead of the evidence of held data."
+  ],
+  "sources": [
+    {
+      "url": "personas@ee124810f:src/features/teams/sub_mastermind/lib/sceneStore.ts",
+      "result": "Loaders set '<family>Status: loading' at :184, :198, :241, :255, :275, :303, then catch with failStatus(s.<family>Status) at :192, :206, :249, :269, :293, :313."
+    },
+    {
+      "url": "personas@db4a19c2d4",
+      "result": "2026-10-19 'a failed reload over held data goes stale, not failed': everLoaded set and failedReload(family) (HEAD :90-92), with a sceneStore.test.ts regression test."
+    }
+  ],
+  "documents": {
+    "client-state.md": {
+      "disposition": "keep",
+      "reason": "Species classification, slice composition, FSM, race guards, optimistic path, persistence, narrowing, invalidation, eviction, singleton and effect-identity sections each delegate to an owning technique; every relative link resolves. The unqualified \"maximal load\" for primary polling is a summary of the technique, which carries the conditional-request qualifier. The proposed law \"the safe default is the failure you can see\" stays an operator call, not a golden-path edit."
+    },
+    "techniques/store-slicing.md": {
+      "disposition": "keep",
+      "reason": "Domain-of-change boundary test, slice-owned writes, writer-side reference stability and the three cross-slice patterns are internally consistent and correctly hand remediation to store-dependency-topology."
+    },
+    "techniques/store-dependency-topology.md": {
+      "disposition": "keep",
+      "reason": "Manifest properties, derived order (count sort is not a topological sort), the check-must-run rule and the discriminated accessor answer are sound; the half-dozen threshold is stated as judgement, with three observable signals."
+    },
+    "techniques/status-fsms.md": {
+      "disposition": "keep",
+      "reason": "Canonical state set, failure-lands-by-data-presence, stale carries the failed reload's evidence. The two-axis claim is confirmed upstream: TanStack Query's observer exposes isRefetchError = isError && hasData, i.e. an error and held data at once."
+    },
+    "techniques/async-race-guards.md": {
+      "disposition": "keep",
+      "reason": "Token minted before dispatch, inert stale completions, append path shares the slot sequence, debounce excluded from the family, canonical dedup key, removal on failure. No unstable external claim."
+    },
+    "techniques/optimistic-write-path.md": {
+      "disposition": "keep",
+      "reason": "Confirmed against the primary practitioner source for the mainstream cache layer: cancelQueries in onMutate \"aborts all currently running queries that could interfere with our optimistic update\", and invalidation is skipped unless isMutating is 1 (\"only ... if there's no other mutation in-flight\"). The technique's \"a count, not a mutex\" reading matches."
+    },
+    "techniques/persistence-and-migration.md": {
+      "disposition": "keep",
+      "reason": "The load-bearing middleware claim is confirmed at source. Zustand persist: version !== options.version (no direction check) routes a future payload through migrate, discards it when no migrate is supplied, and writes the migrated result back with setItem. redux-persist createMigrate: inboundVersion > currentVersion logs \"downgrading version is not supported\" and returns Promise.resolve(state) unchanged. Both shapes as described."
+    },
+    "techniques/rehydration-narrowing.md": {
+      "disposition": "keep",
+      "reason": "Direction rule with the widest-default predicate, whole-tuple-or-coerce, vocabulary-validates-itself, per-field guards, policy at hydration, throw vs refuse split. Internally consistent with persistence-and-migration and identity-scoped-eviction."
+    },
+    "techniques/invalidation-strategy.md": {
+      "disposition": "keep",
+      "reason": "Freshness hierarchy, demoted floor with the named live-figure exception, conditional-request qualifier (a 304 saves the body, not the round trip), readers-not-only-entries, scoped refresh failure. Sound."
+    },
+    "techniques/identity-scoped-eviction.md": {
+      "disposition": "keep",
+      "reason": "One owner below both layers, enumerated triggers with the credential-refresh exclusion, return-to-empty edge rule, wipe-everything asymmetry, persisted stores, network-independent local wipe. Sound."
+    },
+    "techniques/singleton-lifecycle.md": {
+      "disposition": "keep",
+      "reason": "Ladder (refcount, generation token, global slot) and inertness-over-prevention are sound. The per-module carry-over object is confirmed: Vite documents hot.data as \"persisted across successive instances of the same module during HMR\"."
+    },
+    "techniques/observed-read-subscription.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: the configuration-implied section now admits the extra-notify-condition realization beside the union, as the mainstream fetch layer does for its throw-on-error flag"
+    },
+    "techniques/effect-identity-and-latched-callbacks.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: the first-class-handler sentence now states its call-site restriction and that a value handed onward stays in a plain cell"
+    },
+    "applications/react--singleton-lifecycle.md": {
+      "disposition": "keep",
+      "reason": "Re-verified 2026-10-31, anchors hold at ee124810f. The dated note covers the HEAD drift: the rung-1 ticker now installs an unremoved module-scope visibilitychange listener (a leak, not a misfire), the census rule moved to rules.json (baseline 14 at the pin, 12 at HEAD), and fleetSlice gained a hatch. The 19-hatch count is not reproducible under a plain predicate, so verified_on is unchanged."
+    },
+    "applications/react--status-fsms.md": {
+      "disposition": "keep",
+      "reason": "Rewritten 2026-10-31: the body states that stale was unreachable at ee124810f (loading set before every await), the intro no longer calls the store data-presence-aware at the pin, db4a19c2d and HEAD anchors moved to a Since paragraph, pin anchors :160/:166 corrected. Every citation re-read."
+    },
+    "applications/rust--status-fsms.md": {
+      "disposition": "keep",
+      "reason": "Re-verified 2026-10-31, and verified_on moved. background_job.rs is byte-identical to the pin, so every anchor holds. The 25 statics and the 13/9/11/19 vs 2 census reproduce at the pin. HEAD reads 21 statics and 40 literal vs 2 enum sites, the artist module is gone, and the toolchain is pinned at 1.96.1. The verdict and the next change stand."
+    },
+    "applications/react--effect-identity-and-latched-callbacks.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: added a closing note that the pinned React ships the first-class handler, that the omitted values here are already-stable refs and a setter, and that the handler's call-site restriction is why a ref stays the right home for the caller-owned cells"
+    },
+    "applications/react--async-race-guards.md": {
+      "disposition": "keep",
+      "reason": "Re-verified 2026-10-31. Every Tree A citation holds at bf2a1e249. Policy B is recorded as shipped (c9d4ec29c), and the HEAD drift is a one-line move plus a keyed latest-wins export. Tree B was not reopened because it is not in this checkout, so verified_on stays 2026-08-29."
+    },
+    "applications/next--observed-read-subscription.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: the first return-condition heading is marked met by the shipped lint gate"
+    },
+    "applications/rust--persistence-and-migration.md": {
+      "disposition": "keep",
+      "reason": "Document-vs-state payload split is the source of the technique's clause and is consistent with it; both resolved notes (3ed7a9675, e52dc8e02) are dated. Zero-step migration chain gap stays open by design. Not re-executed."
+    },
+    "applications/react--store-dependency-topology.md": {
+      "disposition": "keep",
+      "reason": "Findings are specific and line-cited (count sort masked by a stable sort on equal counts; assertion on an unimported module). Provenance gap: no tree commit is pinned, only verified_on; pin one on the next drift pass."
+    },
+    "applications/react--invalidation-strategy.md": {
+      "disposition": "keep",
+      "reason": "Readers-not-subscribed defect and the subscriber-registry fix are consistent with the technique; limits are honest (one mutation source, no test pins the push)."
+    },
+    "applications/react--identity-scoped-eviction.md": {
+      "disposition": "keep",
+      "reason": "Owner, triggers, refresh exclusion and network-independent wipe are cited. Minor: \"the six stores the owner clears\" predates or ignores the resolved incidents-filter addition, and no tree commit is pinned; recount and pin on the next drift pass. Not changed here because the tree was not reopened."
+    },
+    "applications/next--persistence-and-migration.md": {
+      "disposition": "keep",
+      "reason": "Three-case simulation is honest about falsifiers and about being structural-only; matches the encoding and retired-version clauses."
+    },
+    "applications/react--optimistic-write-path.md": {
+      "disposition": "keep",
+      "reason": "Thin seam document that defers verdict and evidence to the delivery-guarantees application; link resolves; limits stated."
+    },
+    "applications/react--persistence-and-migration.md": {
+      "disposition": "keep",
+      "reason": "Backward-skew A/B with byte-identical outcome under B; limits (no disclosure consumer, convention-only single author) stated."
+    }
+  }
+}
+```

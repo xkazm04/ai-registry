@@ -359,3 +359,70 @@ Re-verification, 2026-10-31. node--duration-and-tempo-locking was re-read agains
   }
 }
 ```
+
+## 2026-10-31 - duration-and-tempo-locking body rewritten
+
+Applies the clarify item on node--duration-and-tempo-locking. The body is now scoped to gravitone-gcloud e427bd10 in so many words, with the pin-era gaps in the past tense. A Since paragraph gives the HEAD state: one section per scene since d5c10093, the route and ScoreSpotting retired (6d24d9b8, ed151a11), and three of four gaps closed. The 'smoke cue used 96 bpm' sentence is corrected to an example, because nothing records the smoke cue's tempo and barsFit had no caller at the pin. The 192 kbps deviation is a forging-session reading not recorded in the tree. verified_on is held.
+
+<!-- architecture-review:v1 -->
+```json
+{
+  "subject": "media-generation/music-prompt-composition",
+  "date": "2026-10-31",
+  "baseline": "3e5ac271e",
+  "digest": "sha256-b2:3fde8f9bc6f71c8f",
+  "disposition": "reverify",
+  "coverage": "Rewrite record: node--duration-and-tempo-locking re-read in full at e427bd10 and gravitone-gcloud@3c66e32e; the other documents carry the prior record's dispositions. All 8 documents carry a decision; 1 remain non-keep.",
+  "counterexamples": [
+    "barsFit had no caller at e427bd10, so the bar math was offered rather than applied until d5c10093 made the hard ending conditional on whole bars."
+  ],
+  "sources": [
+    {
+      "url": "gravitone-gcloud@e427bd10",
+      "result": "Commit message records 10.000s -> 10.032s in 3.0s wall clock and 'Not yet: section edits, take persistence, a music line in the budget ledger'; no kbps or smoke-cue bpm recorded; no barsFit caller outside lib/music/plan.ts."
+    },
+    {
+      "url": "gravitone-gcloud@3c66e32e:lib/music/plan.ts",
+      "result": "packScenes merges under 3s and splits over 120s; cueDurationS sums scenes; hard ending only when barsFit is whole, else 'arrival'."
+    },
+    {
+      "url": "gravitone-gcloud@3c66e32e:lib/sound/generate.ts",
+      "result": "op 'cue' calls cueToPlan; op 'section-edit'; score takes filed under {projectId, cueId}; lib/music/budget.ts over-budget 402 (2b516166)."
+    }
+  ],
+  "documents": {
+    "music-prompt-composition.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: 'In every sectioned generation scheme' narrowed to 'In sectioned generation schemes' (anchor rule is documented for the vendor's v2 chunks only)."
+    },
+    "techniques/section-plan-as-the-brief.md": {
+      "disposition": "keep",
+      "reason": "Shape (per-section duration in ms, include/exclude lists, dozens-of-sections caps, seconds-to-minutes totals) matches the vendor schema; numbers correctly delegated to the application."
+    },
+    "techniques/sonic-style-vocabulary.md": {
+      "disposition": "keep",
+      "reason": "Axis table and exclude-list fence are coherent and consistent with the vendor's include/exclude style lists; restatement law correctly applied."
+    },
+    "techniques/lyrics-for-singability.md": {
+      "disposition": "keep",
+      "reason": "Tags-and-braces separation matches the vendor's square-bracket section names and curly-brace inline cues; craft rules are stable."
+    },
+    "techniques/duration-and-tempo-locking.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: first decision rule now says both edges locked plus a fixed tempo over-determines the cue unless the bar math fits both, matching the body and the subject's worked examples."
+    },
+    "techniques/reference-track-anchoring.md": {
+      "disposition": "keep",
+      "reason": "Style-not-melody and own-accepted-work anchoring are sound; consistent with the vendor rejecting copyrighted content in styles."
+    },
+    "applications/process--section-plan-as-the-brief.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: the Udio row now reads, as of 2026-10-31, downloads off since 2025-10-29 and personal non-commercial use only on every tier (Terms rev. 2025-11-12), licensed relaunch announced for 2026 and not launched; its sourcing role is now 'none for a delivered cue'. The earlier v2 chunks rewrite and tempo correction stand. verified_on unchanged: the Suno/Lyria/Stable Audio/MiniMax rows and the Composer ship date were not re-checked (due at refresh_by 2026-11-26)."
+    },
+    "applications/node--duration-and-tempo-locking.md": {
+      "disposition": "reverify",
+      "reason": "Rewritten 2026-10-31: body pinned to e427bd10, pin-era gaps in the past tense, HEAD state in a Since paragraph, the smoke-cue 96 bpm claim corrected to an example. Still unconfirmed: the 192 kbps delivered-format reading is not recorded in the tree and needs a recorded render (spend) to re-check; verified_on held at 2026-08-26."
+    }
+  }
+}
+```

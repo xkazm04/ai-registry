@@ -410,3 +410,99 @@ Re-verification, 2026-10-31. Three applications were re-checked against the pers
   }
 }
 ```
+
+## 2026-10-31 - import-validation and format-detection bodies rewritten
+
+Applies both clarify items. rust--import-validation called the commit door atomic, quoting the doc comment at confirmation.rs:78-83. The code rolls back only when every requested entity failed, and a partial failure commits with an 'N of M entities failed' receipt. It also said CI verifies n8nLimits.generated.ts, quoting the generator's header, though no CI step does. Both claims were wrong at fd720f929c too, so they are corrected outright. The 155-row census is now cited to its in-tree golden path. node--format-detection's body predated eight commits from 2026-08-28 to 2026-09-22: telemetry, the four-adapter table, confidence-tied confirmation, JSON bounds and the js-yaml 4.3 rename. It is now read at personas@61029d7ae0, with a Since paragraph naming each commit. Both moved to verified_on 2026-10-31.
+
+<!-- architecture-review:v1 -->
+```json
+{
+  "subject": "software-engineering/import-normalization",
+  "date": "2026-10-31",
+  "baseline": "3e5ac271e",
+  "digest": "sha256-b2:7134178a2d071166",
+  "disposition": "keep",
+  "coverage": "Rewrite record: both applications re-read in full against personas@61029d7ae0 and their history; the other documents carry the prior record's dispositions. All 14 documents carry a decision; 0 remain non-keep.",
+  "counterexamples": [
+    "create_persona_atomically's comment promises no partial persona, but only total failure rolls back; a partial import commits and its receipt records the failures but not what was created.",
+    "n8nLimits.generated.ts has no CI drift step; the predev/prebuild codegen regenerates it, so the shipped bound cannot drift but a stale committed copy is never flagged."
+  ],
+  "sources": [
+    {
+      "url": "personas@61029d7ae0:src-tauri/src/commands/design/n8n_transform/confirmation.rs",
+      "result": "Rollback only when total_requested > 0 && total_created == 0 && errors (:406-437); otherwise commit with 'N of M entities failed' (:449-466). Same branch at fd720f929c :377."
+    },
+    {
+      "url": "personas@61029d7ae0:.github/workflows/ci.yml",
+      "result": "Drift checks only commandNames.generated.ts (:1404) and src/lib/bindings/ (:1490); no n8nLimits reference in .github/ at HEAD or fd720f929c. scripts/run-codegen.mjs:50,100-101 runs n8n-limits in predev/prebuild."
+    },
+    {
+      "url": "personas@61029d7ae0:docs/concepts/golden-paths/untrusted-definition-validation.md",
+      "result": ":590 import_transactions 155 rows, all committed, all entity_results '[]'; portable-export-bundle.md:221 counts 145 committed, 10 rolled back."
+    },
+    {
+      "url": "personas@61029d7ae0:src/lib/personas/parsers/workflowParser.ts",
+      "result": "Bounds :56-62 and :105-144, PLATFORM_ADAPTERS :171-179, needsConfirmation :280, telemetry :303-322, tryParsers :335-369; history c57bcf936e, 1fbbb6a02c, 2883da4ffb, be39ca2217, b8138ea56f, b40eb0ee0a, 14300578a4."
+    }
+  ],
+  "documents": {
+    "import-normalization.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: overlay paragraph no longer says a merge that maps absent and empty to one outcome has 'lost the argument' - that contradicted its own declared choice; the loss is collapsing them before the merge decides."
+    },
+    "techniques/format-detection.md": {
+      "disposition": "keep",
+      "reason": "Three-outcome contract, honest speculative escalation and the parser-not-sink condition on sniffing are coherent and stable; no disputed external claim."
+    },
+    "techniques/adapter-capability-tables.md": {
+      "disposition": "keep",
+      "reason": "Specificity-sorted matching, one table for transformer/coverage/ledger, and the refusal of fabricating fallbacks are sound; its grade vocabulary (full/approximate/data-only/unsupported) is the authority the other documents should name."
+    },
+    "techniques/intermediate-representation.md": {
+      "disposition": "keep",
+      "reason": "Both outside analogues confirmed verbatim this run (OWASP XSS cheat sheet on modifying after sanitizing; ASVS 5.0 1.1.2 on encoding as the final step). Identity minting and no-post-waist-write rule are internally consistent with the applications."
+    },
+    "techniques/durable-intermediate-representation.md": {
+      "disposition": "keep",
+      "reason": "Discriminator is precise (temporal, not combinatorial), the four obligations and the optional-guard trap are well bounded, and the when-transient-is-right list supplies its counterexamples."
+    },
+    "techniques/import-validation.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: configuration-API dialect sentence restated to what its own doc says (merges lists by key because whole-list replacement was 'often not what we want', carries explicit replace/delete directives); the unsupported history that two spellings of delete produced different results was removed. CVE-2026-45304 and RFC 7396 claims confirmed unchanged."
+    },
+    "techniques/review-before-commit.md": {
+      "disposition": "keep",
+      "reason": "Staged state with a reaper, per-entity opt-in, explicit collision policy, staged-first receipt that must enumerate; consistent with the rust application's measured divergence."
+    },
+    "techniques/lossy-conversion-disclosure.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: grade table's last row renamed from 'dropped' to 'unsupported' (meaning: dropped), matching the capability-table vocabulary the section says assigns the grade."
+    },
+    "techniques/overlay-merge-absence-semantics.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: 'a merge that collapses them into two is already broken' restated as a pipeline collapsing them before the merge decides, since the technique's own declared choice maps absent and empty to one outcome. Patch-convention descriptions confirmed against RFC 7396 and the strategic-merge-patch doc."
+    },
+    "applications/node--format-detection.md": {
+      "disposition": "keep",
+      "reason": "Rewritten 2026-10-31: body read at personas@61029d7ae0 (one-walk fingerprints, four-adapter table, confidence-tied confirmation, both-branch bounds with maxTotalMergeKeys, telemetry); the resolved telemetry divergence removed; Since paragraph names the seven commits. Every citation re-read."
+    },
+    "applications/node--import-validation.md": {
+      "disposition": "keep",
+      "reason": "Dated before-after experiment (n=9) with its limits stated (predicates copied, Rust side walked not run); internally consistent with the overlay application."
+    },
+    "applications/rust--import-validation.md": {
+      "disposition": "keep",
+      "reason": "Rewritten 2026-10-31: title and bullet now a staged commit door; partial-failure commit stated as a divergence (confirmation.rs:406-466 vs the :78-83 comment); CI claim replaced by the codegen-only reality; census cited to untrusted-definition-validation.md:590. Every citation re-read; verified_on moved."
+    },
+    "applications/node--intermediate-representation.md": {
+      "disposition": "keep",
+      "reason": "HEAD-pinned; a legitimate deliberate post-waist refusal with the compensation and its weakness (caller-held, single call site) stated honestly."
+    },
+    "applications/node--overlay-merge-absence-semantics.md": {
+      "disposition": "keep",
+      "reason": "Re-verified 2026-10-31. The three cited source files are byte-identical to the pinned b6dcf28aa1, and the templateVerification.ts ranges hold. The regression-test anchors were moved to :303-319 and :298-301. verified_on 2026-10-31, verified_against node@22 from .nvmrc."
+    }
+  }
+}
+```
