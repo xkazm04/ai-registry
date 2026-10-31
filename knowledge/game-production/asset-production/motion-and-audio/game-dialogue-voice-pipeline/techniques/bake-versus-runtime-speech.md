@@ -66,7 +66,9 @@ A budget of this kind shapes what is generated
 ([a budget shapes the output](../../../../_laws.md#a-budget-shapes-the-output)): short
 first sentences render sooner, so the text generator is told to lead with a short clause,
 and the renderer is fed sentence by sentence rather than after the whole reply. The
-perceived wait then approaches the longer of the two stages rather than their sum.
+perceived wait then becomes the time to generate the first clause plus the time to voice
+its first sample, rather than the time to generate the whole reply plus the time to voice
+it. It is still a sum, of smaller parts, so a slow first clause is still dead air.
 
 ## Decision rules
 

@@ -74,8 +74,9 @@ is exactly the case the budget exists to catch.
 
 - **When the duration of a take is not measured, the line's timing state is *not measured*,**
   never *within budget*
-  ([grade against what ships](../../../../_laws.md#grade-against-what-ships-not-on-a-curve)
-  applies: judge the locale that ships, not the source that passed).
+  ([unmeasured is not a pass](../../../../_laws.md#unmeasured-is-not-a-pass)). And the
+  locale judged is the one that ships, not the source that passed
+  ([grade against what ships](../../../../_laws.md#grade-against-what-ships-not-on-a-curve)).
 - **When a locale differs from the source by a large factor on many lines,** suspect the
   translation brief, not the renderer, and fix it at the brief.
 - **When a line is unattached (no animation, no beat),** it has no timing budget and needs
