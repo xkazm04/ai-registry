@@ -6,7 +6,7 @@ import { test, after } from 'node:test';
 import assert from 'node:assert/strict';
 import http from 'node:http';
 import { spawn } from 'node:child_process';
-import { mkdtempSync, mkdirSync, rmSync, writeFileSync } from 'node:fs';
+import { mkdtempSync, mkdirSync, rmSync, writeFileSync, readFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -20,12 +20,20 @@ after(() => { for (const d of made) rmSync(d, { recursive: true, force: true, ma
 const DECISIONS = [{ ideaId: 'i9', title: 'Guard the queue', lens: 'error-handler', contextId: 'c1', verdict: 'rejected', reason: 'already guarded upstream', decidedBy: 'human', decidedAt: '2026-10-01T00:00:00Z' }];
 const TRUST = { slices: [{ slice: 'technical|error-handler|-|S', level: 3, ceiling: 3, start: 2, agreement: 0.95, n: 20, changedAt: '2026-10-02T00:00:00Z', reason: 'earned' }], events: [] };
 
-async function door(repo, { decisions = true } = {}) {
+async function door(repo, { decisions = true, outcomeStatus = 200 } = {}) {
   const seen = [];
-  const server = http.createServer((req, res) => {
+  const posts = [];
+  const server = http.createServer(async (req, res) => {
     seen.push(req.url);
     res.setHeader('content-type', 'application/json');
     if (req.headers['x-personas-local-token'] !== 't') { res.statusCode = 401; return res.end('{}'); }
+    const m = /^\/dev-tools\/ideas\/([^/]+)\/outcome$/.exec(req.url);
+    if (m && req.method === 'POST') {
+      let raw = ''; for await (const c of req) raw += c;
+      posts.push({ id: m[1], body: JSON.parse(raw) });
+      res.statusCode = outcomeStatus;
+      return res.end(outcomeStatus === 200 ? JSON.stringify({ ideaId: m[1], ideaStatus: 'implemented', task: { id: 't1' } }) : 'outcome must be one of ...');
+    }
     if (req.url === '/dev-tools/projects') return res.end(JSON.stringify([{ id: 'p1', name: 'repo', root_path: repo }]));
     if (req.url === '/dev-tools/contexts/p1') return res.end(JSON.stringify([{ id: 'c1', name: 'Core' }]));
     if (decisions && req.url.startsWith('/dev-tools/scan/decisions?')) return res.end(JSON.stringify({ decisions: DECISIONS }));
@@ -33,13 +41,15 @@ async function door(repo, { decisions = true } = {}) {
     res.statusCode = 404; res.end('{}');
   });
   await new Promise((r) => server.listen(0, '127.0.0.1', r));
-  return { server, seen, port: server.address().port };
+  return { server, seen, posts, port: server.address().port };
 }
 
-function run(args, home) {
+function run(args, home, extra = {}) {
   return new Promise((resolve) => {
     const env = { ...process.env, HOME: home, USERPROFILE: home };
     delete env.PERSONAS_HANDSHAKE;
+    delete env.PERSONAS_SPOOL;
+    Object.assign(env, extra);
     const p = spawn(process.execPath, [SCRIPT, ...args], { env, windowsHide: true });
     let stdout = ''; let stderr = '';
     p.stdout.on('data', (d) => { stdout += d; });
@@ -114,6 +124,85 @@ test('trust: slices and events passed through', async () => {
     assert.equal(r.status, 0, r.stderr);
     assert.deepEqual(r.json.slices, TRUST.slices);
     assert.ok(f.seen.includes(`/dev-tools/scan/trust?projectId=p1&slice=${encodeURIComponent('product|feature-scout|-|M')}`));
+  } finally { f.server.close(); }
+});
+
+// ---- outcome (D6, D8): the director's post of what happened to an approved card -------------------------------
+
+const spoolOf = (home) => join(home, '.personas', 'spool', 'outcomes.jsonl');
+const readSpoolRows = (home) => { try { return readFileSync(spoolOf(home), 'utf8').trim().split('\n').filter(Boolean).map((l) => JSON.parse(l)); } catch { return []; } };
+
+test('outcome: POSTs to /ideas/{id}/outcome with the token; commit, figures and the director\'s choice reach the body', async () => {
+  // personas c2r2 (2026-10-31): 58 outcomes went through a one-off helper because no script had the verb, and the
+  // director's Lane C product choice (986a9e7b: no Undo on Build now, over cancel-on-undo) lived only in a merge message.
+  const f = await fixture();
+  try {
+    const choice = { picked: 'no Undo on Build now', rejected: 'cancel the queued task on undo', why: 'cancelling is harder to take back' };
+    const r = await run(['outcome', '986a9e7b', '--outcome', 'delivered', '--commit', 'a393580dc9', '--branch', 'scan/c2r2', '--note', 'better; undo offered -> none',
+      '--figures', JSON.stringify({ before: 'undo offered', after: 'none', control_value: '1 failed / 36' }), '--choice', JSON.stringify(choice)], f.home);
+    assert.equal(r.status, 0, r.stderr);
+    assert.deepEqual([r.json.posted, r.json.ideaId], [true, '986a9e7b']);
+    assert.equal(f.posts.length, 1);
+    const b = f.posts[0].body;
+    assert.deepEqual([b.outcome, b.commit, b.branch], ['delivered', 'a393580dc9', 'scan/c2r2']);
+    assert.deepEqual(b.figures, { before: 'undo offered', after: 'none', control_value: '1 failed / 36', choice });
+    assert.equal(b.note, 'better; undo offered -> none; choice: picked no Undo on Build now over cancel the queued task on undo - cancelling is harder to take back',
+      'the app stores note, not figures: the choice must survive in the note');
+  } finally { f.server.close(); }
+});
+
+test('outcome: app down (no handshake, or a stale one) spools durably, exit 0; --no-spool exits 3', async () => {
+  const home = scratch('door-home-');
+  const r = await run(['outcome', 'i9', '--outcome', 'declined', '--note', 'fp: Before did not reproduce'], home);
+  assert.equal(r.status, 0, r.stderr);
+  assert.deepEqual([r.json.posted, r.json.spooled], [false, true]);
+  const rows = readSpoolRows(home);
+  assert.equal(rows.length, 1);
+  assert.deepEqual([rows[0].state, rows[0].ideaId, rows[0].body.outcome], ['queued', 'i9', 'declined']);
+  // stale handshake: the file outlived the app (connection refused) - as down as a missing one
+  const stale = scratch('door-home-');
+  const dead = http.createServer(); await new Promise((ok) => dead.listen(0, '127.0.0.1', ok)); const port = dead.address().port; await new Promise((ok) => dead.close(ok));
+  mkdirSync(join(stale, '.personas'), { recursive: true });
+  writeFileSync(join(stale, '.personas', 'local-http.json'), JSON.stringify({ port, token: 't' }));
+  const s = await run(['outcome', 'i9', '--outcome', 'blocked'], stale);
+  assert.equal(s.status, 0, s.stderr);
+  assert.equal(readSpoolRows(stale).length, 1);
+  const n = await run(['outcome', 'i9', '--outcome', 'blocked', '--no-spool'], scratch('door-home-'));
+  assert.equal(n.status, 3);
+});
+
+test('outcome: an invalid post is refused before anything is sent or spooled (exit 2); an app refusal is exit 1, not spooled', async () => {
+  const f = await fixture();
+  try {
+    for (const args of [
+      ['outcome', 'i9', '--outcome', 'done'],
+      ['outcome', 'i9', '--outcome', 'already_delivered'],
+      ['outcome', '--outcome', 'delivered'],
+      ['outcome', 'i9', '--outcome', 'delivered', '--figures', '{not json'],
+      ['outcome', 'i9', '--outcome', 'delivered', '--choice', '{"picked":"A"}'],
+    ]) {
+      const r = await run(args, f.home);
+      assert.equal(r.status, 2, `${args.join(' ')}: ${r.stdout}`);
+    }
+    assert.equal(f.posts.length, 0);
+    assert.equal(readSpoolRows(f.home).length, 0);
+  } finally { f.server.close(); }
+  const g = await fixture({ outcomeStatus: 400 });
+  try {
+    const r = await run(['outcome', 'i9', '--outcome', 'delivered'], g.home);
+    assert.equal(r.status, 1);
+    assert.equal(r.json.posted, false);
+    assert.equal(readSpoolRows(g.home).length, 0, 'a refusal is not an outage: replaying it would only be refused again');
+  } finally { g.server.close(); }
+});
+
+test('outcome --help is side-effect free: no request, no spool', async () => {
+  const f = await fixture();
+  try {
+    const r = await run(['outcome', 'i9', '--outcome', 'delivered', '--help'], f.home);
+    assert.equal(r.status, 0);
+    assert.match(r.stdout, /door\.mjs outcome <idea-id>/);
+    assert.deepEqual([f.seen.length, readSpoolRows(f.home).length], [0, 0]);
   } finally { f.server.close(); }
 });
 

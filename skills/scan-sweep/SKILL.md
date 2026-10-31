@@ -5,7 +5,7 @@ argument-hint: "[--stabilize|--develop|--optimize|--challenge] [--cohort N] [--r
 category: workflow
 contexts: tracked
 memory: project
-version: 4.11.0
+version: 4.12.0
 tags: sweep, quality, stabilization, backlog, coverage, registry, atomic-commits
 ---
 # Context Sweep
@@ -254,6 +254,15 @@ Rules that keep the notice honest:
   decides next time whether a rescan was worth it. `contexts sync` hands the map to the app when it is up (spooled when not).
   `<registry>` = `.ai/manifest.yaml` `registry.local`, else `$AI_REGISTRY_DIR`, else `../ai-registry`. Without a Personas DB the
   commands degrade to the map file alone; nothing here may block the run.
+  **An operator-approved context-map card is a hand edit, not a rescan.** When the operator accepted a card that
+  corrects the map (a retired feature's paths, a missing file, a wrong owner), the director - or the worker it
+  dispatched - edits `context-map.json` for EXACTLY the approved entries and nothing else, validates it (the repo's
+  context-map test where one exists, else `node -e "JSON.parse(require('fs').readFileSync('context-map.json','utf8'))"`
+  plus a check that every path it names exists), commits it, then runs `personas-door contexts sync` so the app's
+  copy matches the file (spooled when the app is down). A card's own text saying "an operator rescan is the only
+  fix" is overruled by the operator's accept: write map cards as "edit these entries, then `contexts sync`", never
+  as "rescan". (personas c2r2, 2026-10-31: three approved map cards said a rescan was the only fix; the worker
+  edited the three entries by hand, and the app's copy was never synced.)
 
 - State the choice and why in the round header ("never swept" / "lens coverage
   4/28, oldest 2026-08-11" - the denominator is `coverage.mjs`'s, derived from
@@ -733,7 +742,17 @@ the stated size, takes the same figure on B, runs every gate with its status
 asserted, **seeds the control red**, and commits with a pathspec on its branch. The
 director reviews each return against the diff, merges `better` `--no-ff`, deletes
 `not-better` with both figures in the ledger, escalates `unmeasurable` to C, counts
-`fp` and `demoted` against the mechanism, and never pushes. The whole contract —
+`fp` and `demoted` against the mechanism, closes `superseded` (a card a sibling's
+merge in the same group made moot) as `already_delivered` without counting it,
+sends a void control (the reverted tree failed to import or compile the new
+symbol) back to re-seed, and never pushes. **Every verdict ends in an outcome
+post**: `node <skill>/scripts/door.mjs outcome <idea-id> --outcome
+delivered|declined|already_delivered|blocked [--commit <sha>] [--figures <json>]
+[--choice <json>]` (spooled when the app is down, replayed by `personas-door sync`;
+`outcomeFor` in `scripts/filing.mjs` maps the verdict). A product choice an
+approved Lane C card left open is the director's to make and to record:
+`choice: {picked, rejected, why}` on the ab row, a `Scan-Choice:` trailer on the
+merge commit, and `--choice` on the outcome post. The whole contract —
 worker steps, director rules, ledger shape, prompt template — is
 `references/ab-lane.md`; this section only says who goes there.
 
@@ -843,7 +862,11 @@ An item is set aside regardless of lane when it:
 The snapshot (§10) carries `lanes=A:<n>/B:<n>/C:<n>`,
 `ab=<better>/<not-better>/<unmeasurable>/<fp>/<demoted>` and `fp=<n>`. A false
 positive is a Lane A item that failed its gate at build, **or a Lane B item whose
-`Before` did not reproduce on the base tree**. **Three `fp` across the last five
+`Before` did not reproduce on the base tree**. A `superseded` item - its Before
+stopped reproducing because a sibling card's merge in the same group already did
+the work - is **not** a false positive: it sits in none of the five `ab` slots,
+never in `fp`, never against its lens's precision or trust, and the row carries it
+as `superseded=<n>` beside them (`abTally` in `scripts/filing.mjs`). **Three `fp` across the last five
 rounds and Lane A requires `Method: gate` — a probe no longer suffices — and Lane B
 requires the instrument commit to land before the fix, until three consecutive
 rounds at `fp=0`** - and for as long, every slice reads one level lower for this
@@ -985,7 +1008,8 @@ first, then this round's, highest-reward first - one finding at a time:
    degraded.
 
    **Every Lane A item's gate includes the overlay's census (count / ratchet)
-   gate**, not only typecheck, lint and the context's tests. Read it from the
+   gate and every other declared ratchet (`ratchets`, `structuralTests` - see
+   the director's rules below)**, not only typecheck, lint and the context's tests. Read it from the
    overlay's gates (`.claude/scan-sweep/config.md`, or the repo's `## Gates`) -
    Personas: `node scripts/census/run-census.mjs` / `npm run census:check` - and
    pin it verbatim in the round-agent brief beside the others. A census rise is a
@@ -1125,9 +1149,37 @@ no cross-agent contamination):
   for every completion (or dispatch in the foreground) before the final
   message; under `claude -p` the harness stops live subagents after the last
   turn (Invocation, `CLAUDE_CODE_PRINT_BG_WAIT_CEILING_MS=0`).
+- **The director runs EVERY ratchet the overlay declares, not only the census.**
+  After each merge and in each wave's combined gate, run each command in the
+  overlay's `ratchets` (default: the census gate in its `gates`, if any) and the
+  tests under its `structuralTests` dir, each in its own invocation, exit
+  asserted. The director's related-test scope for a merge is the touched
+  surfaces' tests PLUS `structuralTests`, whatever the merge touched: a
+  boundary ratchet fails on files it does not live beside. Measured personas
+  c2r2 (2026-10-31): wave 1 removed one `sub_design -> sub_editor` import
+  crossing, the structural ratchet `src/__tests__/structural/agents-sub-boundaries.test.ts`
+  (baseline `scripts/agents-sub-boundaries.baseline.json`) failed on the drop,
+  and it surfaced only because a later worker ran it - the related-test scope
+  had never reached `src/__tests__/structural`.
+- **Regenerate and diff after every merge.** Run the overlay's `regen` commands
+  (default: none - then say `regen: none declared`) on the merged tree, then
+  `git status --porcelain` must print nothing. A generated file that comes out
+  dirty is a worker's missed regen: the director commits it at once as
+  `chore(<context>): regen <file> after <merge sha>` and names the item in the
+  wave report. Every gate can be green over a stale generated file - personas
+  c2r2: a locale key landed without its per-section locale file (generated by
+  `scripts/i18n/split-locales.mjs`, the `i18n-split` task of
+  `scripts/run-codegen.mjs`), tsc, eslint, census and vitest all passed, and the
+  app would have shipped without the string.
 - **A ratchet that fails on a DROP is an improvement, not a red gate.** Some
-  repos' census or count gates fail when a count goes DOWN until the baseline
-  is lowered (personas `census:check` / `scripts/census/rules.json`). For a
+  repos' census, count or structural ratchets fail when a count goes DOWN until
+  the baseline is re-recorded (personas `census:check` /
+  `scripts/census/rules.json`; `agents-sub-boundaries` /
+  `scripts/agents-sub-boundaries.baseline.json` via its `--update`). The
+  director updates such a baseline in a commit of its OWN,
+  `chore(<context>): <ratchet> baseline <key> <old> -> <new>`, whose body traces
+  the drop to the merge and item that caused it - never folded into an
+  unrelated fix, never raised. For a
   round-agent that failure is a pass: it does not edit the baseline, it reports
   `ratchet: <file> <key> <old> -> <new>` in its reply, and the director lowers
   the baseline once, after the combined run (below). Where a commit hook runs
@@ -1380,7 +1432,7 @@ tally and `ab` the wave's verdicts - the numbers §5's self-correction reads.
 round's cards were filed under.
 
 ```json
-{"at":"<ISO-8601>","scope":"<context>","mode":"resolve|ideas","strategy":"stabilize|develop|optimize","run_id":"<run id>","lens_keys":["<key>"],"lens_no_surface":["<key>"],"lens_skipped":["<key>"],"lenses":<n>,"findings":<n>,"ranked":<n>,"reserve":<n>,"fixed":<n>,"auto":"<a>/<r>/<e>","lanes":"A:<n>/B:<n>/C:<n>","ab":"<better>/<not-better>/<unmeasurable>/<fp>/<demoted>","fp":<n>,"carried":<n>,"escalations":<n>,"leads":<n>,"degraded":<bool>,"note":"<<=80 chars>"}
+{"at":"<ISO-8601>","scope":"<context>","mode":"resolve|ideas","strategy":"stabilize|develop|optimize","run_id":"<run id>","lens_keys":["<key>"],"lens_no_surface":["<key>"],"lens_skipped":["<key>"],"lenses":<n>,"findings":<n>,"ranked":<n>,"reserve":<n>,"fixed":<n>,"auto":"<a>/<r>/<e>","lanes":"A:<n>/B:<n>/C:<n>","ab":"<better>/<not-better>/<unmeasurable>/<fp>/<demoted>","superseded":<n>,"fp":<n>,"carried":<n>,"escalations":<n>,"leads":<n>,"degraded":<bool>,"note":"<<=80 chars>"}
 ```
 
 **The row is committed, not left dirty.** Where `.claude/scan-history/` is
@@ -1397,7 +1449,8 @@ after Lane A's commits and the combined gate, so a row written at the gate reads
 `ab: 0/0/0/0/0` by construction (personas cycle 2: every row did, while the
 real figures sat in `ab.jsonl`). Write - or, if the row was already appended,
 rewrite - each round's `ab` and `lanes` from that round's `ab.jsonl` rows
-(`better/not-better/unmeasurable/fp/demoted`, counted by `run_id` and context)
+(`better/not-better/unmeasurable/fp/demoted`, counted by `run_id` and context
+with `abTally` in `scripts/filing.mjs`; `superseded` goes in its own field)
 once every Lane B worker of the wave has returned and the director has merged
 or rejected it; only then commit (or, where ignored, finalize) the wave's rows.
 A wave whose Lane B is still running has no row yet - not a zero row.
@@ -1447,6 +1500,9 @@ consuming repo. The skill runs on the defaults without it.
 | `challenge.sharedSurfaces` | none | Files every builder may append to under the shared-surface lock (locale catalogs, generated references, ratchet ceilings). |
 | `challenge.integrationGate` | the overlay's full gate list | What runs on the combined tree after each wave. |
 | `challenge.worktrees` | `false` | Whether builders may take worktrees (only when the repo's gates run in one). |
+| `ratchets` | the census gate in `gates`, if any | Every ratchet command the director runs after each merge and in the combined gate (§7): census, count and structural ratchets (personas: `npm run census:check`, `node scripts/check-agents-sub-boundaries.mjs`). A frontmatter list, or a `## Ratchets` section with one command per bullet. |
+| `structuralTests` | none | A test directory always inside the director's related-test scope, whatever a merge touched (personas: `src/__tests__/structural`). |
+| `regen` | none | Codegen commands run after each merge, followed by `git status --porcelain` (§7, "Regenerate and diff"). A frontmatter list, or a `## Regen` section with one command per bullet (personas: `node scripts/i18n/split-locales.mjs`, the section-locale task of `scripts/run-codegen.mjs`). |
 | `ab.workerModel` | `sonnet` | The Lane B worker model (§5, `references/ab-lane.md`). The one place a project may pin another; SKILL.md and ab-lane.md state the default only. |
 
 ## Coverage table

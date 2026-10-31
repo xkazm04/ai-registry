@@ -10,18 +10,61 @@
 // Usage:
 //   node door.mjs decisions --repo <root> [--context <name>] [--lens <id>] [--limit 50]
 //   node door.mjs trust     --repo <root> [--slice <category|lens|risk_class|size>]
-// Both print one JSON object. `reachable: false` (exit 3) means the app is down, the handshake is
+//   node door.mjs outcome   <idea-id> --outcome delivered|declined|already_delivered|blocked
+//                           [--commit <sha>] [--branch <b>] [--note <s>] [--figures <json>] [--choice <json>] [--no-spool]
+// The reads print one JSON object. `reachable: false` (exit 3) means the app is down, the handshake is
 // missing, or the app predates the endpoint - the caller falls back to the backlog digest and SAYS so.
 // Exit 4: the repo is not a registered Personas project. Exit 2: bad arguments.
 //
+// `outcome` is the write the director makes after a Lane B merge (or a superseded / fp / blocked verdict): POST
+// /dev-tools/ideas/{id}/outcome. personas c2r2 (2026-10-31) posted 58 of them through a one-off helper because no
+// script had the verb. App down (no handshake, or connection refused): the validated body is spooled to
+// <spool>/outcomes.jsonl (PERSONAS_SPOOL, else ~/.personas/spool - the registry's personas-door spool) and exit 0,
+// replayed by `personas-door sync`; --no-spool exits 3 instead. The app refusing the post (4xx/5xx) is exit 1 and
+// NOT spooled - a replay would only be refused again. `--choice {picked,rejected,why}` records a Lane C product
+// choice the director made; it rides in the note (the app keeps note) and in figures.
+//
 // levelFor() is the ladder lookup SKILL.md section 5 routes by; the door stays the authority (it
 // re-checks every autoDecide itself), so a wrong local answer can only cost autonomy, never grant it.
-import { readFileSync, existsSync, realpathSync } from 'node:fs';
+import { readFileSync, existsSync, realpathSync, mkdirSync, appendFileSync } from 'node:fs';
 import { homedir } from 'node:os';
 import { join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { toOutcome } from './filing.mjs';
 
 export const handshakePath = () => process.env.PERSONAS_HANDSHAKE || join(homedir(), '.personas', 'local-http.json');
+/** Same directory and record convention as the registry's scripts/lib/personas-door/door.mjs spool (latest line per id wins). */
+export const spoolDir = () => process.env.PERSONAS_SPOOL || join(homedir(), '.personas', 'spool');
+
+/** Queue one validated outcome for `personas-door sync`. */
+export function spoolOutcome(ideaId, body) {
+  const id = `${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 8)}`;
+  mkdirSync(spoolDir(), { recursive: true });
+  appendFileSync(join(spoolDir(), 'outcomes.jsonl'), JSON.stringify({ id, state: 'queued', ideaId, body, queuedAt: new Date().toISOString() }) + '\n');
+  return id;
+}
+
+/**
+ * POST one outcome; spool it when the app is down. Never spools an invalid body or one the app refused.
+ * @returns {Promise<{code: number, out: object}>}
+ */
+export async function postOutcome(ideaId, input, { spool = true, call = connect() } = {}) {
+  const f = toOutcome(input);
+  if (f.error) return { code: 2, out: { posted: false, ideaId, error: f.error } };
+  let down = call ? null : `no Personas handshake at ${handshakePath()}`;
+  if (call) {
+    try {
+      const r = await call('POST', `/ideas/${encodeURIComponent(ideaId)}/outcome`, f.body);
+      return { code: 0, out: { posted: true, ideaId, body: f.body, ideaStatus: r?.ideaStatus ?? null } };
+    } catch (e) {
+      if (e.status) return { code: 1, out: { posted: false, ideaId, error: e.message } };
+      down = `Personas did not answer: ${e.message}`;
+    }
+  }
+  if (!spool) return { code: 3, out: { posted: false, spooled: false, ideaId, reason: down } };
+  const id = spoolOutcome(ideaId, f.body);
+  return { code: 0, out: { posted: false, spooled: true, ideaId, spoolId: id, reason: down, body: f.body } };
+}
 
 /** @returns {{port: number, token: string} | null} */
 export function readHandshake() {
@@ -152,8 +195,28 @@ async function main(argv) {
   const opt = (f, d) => { const i = argv.indexOf(f); return i >= 0 && argv[i + 1] && !argv[i + 1].startsWith('--') ? argv[i + 1] : d; };
   const [verb] = argv;
   const print = (o) => console.log(JSON.stringify(o, null, 2));
-  const usage = 'usage: door.mjs decisions --repo <root> [--context <name>] [--lens <id>] [--limit 50]\n       door.mjs trust --repo <root> [--slice <key>]';
+  const usage = 'usage: door.mjs decisions --repo <root> [--context <name>] [--lens <id>] [--limit 50]\n       door.mjs trust --repo <root> [--slice <key>]\n'
+    + '       door.mjs outcome <idea-id> --outcome delivered|declined|already_delivered|blocked [--commit <sha>] [--branch <b>] [--note <s>] [--figures <json>] [--choice <json>] [--no-spool]';
   if (argv.includes('--help') || argv.includes('-h')) { console.log(usage); return 0; }
+  if (verb === 'outcome') {
+    const ideaId = argv[1] && !argv[1].startsWith('--') ? argv[1] : undefined;
+    if (!ideaId) { console.error(usage); return 2; }
+    const json = (flag) => {
+      const v = opt(flag);
+      if (v === undefined) return { v: undefined };
+      try { return { v: JSON.parse(v) }; } catch { return { error: `${flag} is not JSON` }; }
+    };
+    const figures = json('--figures');
+    const choice = json('--choice');
+    const bad = figures.error || choice.error;
+    if (bad) { print({ posted: false, ideaId, error: bad }); return 2; }
+    const r = await postOutcome(ideaId, {
+      outcome: opt('--outcome'), commit: opt('--commit'), branch: opt('--branch'), note: opt('--note'), pr_url: opt('--pr-url'),
+      figures: figures.v, choice: choice.v,
+    }, { spool: !argv.includes('--no-spool') });
+    print(r.out);
+    return r.code;
+  }
   if (verb !== 'decisions' && verb !== 'trust') {
     console.error(usage);
     return 2;

@@ -162,12 +162,114 @@ export function proofFromAb(r, { base_sha: baseSha } = {}) {
   // contract (and the Personas door) refuse it, so it is honestly `absent`. And the reading must have been RE-TAKEN on
   // the reverted tree (`control_run: "re-run"` with its `control_cmd`): personas cycle 2 (2026-10-30) had two workers
   // report the base tree's pre-edit reading as the control, which shows nothing about the instrument going red.
-  const red = r.seeded_red === true && present(r.control_value) && r.control_run === 're-run' && present(r.control_cmd);
+  // This holds for every method - a grep or comment count is re-run on the reverted file like any test.
+  const voided = voidControl(r);
+  const red = !voided && r.seeded_red === true && present(r.control_value) && r.control_run === 're-run' && present(r.control_cmd);
   const proof = {
     metric: r.metric, method: r.method, unit: r.unit, before: r.before, after: r.after, verdict,
     control: red ? 'red' : 'absent',
     control_value: red ? r.control_value : undefined, base_sha: r.base_sha ?? baseSha, head_sha: r.sha,
+    // Why the control is absent although the worker called it red; travels so the verify state can say it.
+    void_control: r.seeded_red === true ? voided : undefined,
   };
   for (const k of Object.keys(proof)) if (!present(proof[k])) delete proof[k];
   return proof;
+}
+
+/**
+ * The shapes a control takes when the reverted tree fails to LOAD the test rather than failing its assertion: the
+ * new symbol is gone, so the import, the link or the compile breaks. Kept to symbol-resolution errors on purpose -
+ * a type mismatch (TS2322, TS2739) can be the instrument itself (a typecheck card), a missing name never is.
+ */
+const MISSING_SYMBOL = [
+  /does not provide an export named/i,
+  /\bis not a function\b/i,
+  /\bis not defined\b/i,
+  /\bis not a constructor\b/i,
+  /Cannot find (module|package|name)\b/i,
+  /has no exported member/i,
+  /\bTS(2304|2305|2307|2339|2551|2614|2724)\b/,
+  /\berror\[E0(412|425|432|433|599)\]/,
+  /cannot find (function|value|type|struct|macro|module)\b/i,
+  /unresolved import/i,
+  /\b(ImportError|ModuleNotFoundError|NameError)\b/,
+  /has no attribute\b/i,
+];
+
+/**
+ * Is this control void - did it fail only because the new symbol was missing? A worker that reverted B by deleting
+ * the new function (rather than restoring the OLD behaviour behind the SAME signature) gets an import or compile
+ * error: red, and proof of nothing (personas c2r2, 2026-10-31: 21a3a2b5 failed to import, 9d2e26fc to compile).
+ * @returns {'missing-symbol'|'compile'|undefined}
+ */
+export function voidControl(r) {
+  if (r?.control_failure === 'missing-symbol' || r?.control_failure === 'compile') return r.control_failure;
+  const out = present(r?.control_value) ? String(r.control_value) : '';
+  return MISSING_SYMBOL.some((re) => re.test(out)) ? 'missing-symbol' : undefined;
+}
+
+/**
+ * A Lane B verdict -> the app's outcome for the idea (POST /dev-tools/ideas/{id}/outcome: delivered | declined |
+ * blocked | already_delivered). `superseded` is a card made moot by a sibling card's merge in the same group
+ * (personas c2r2: 16634bfc became true when d8397f84 merged and had to be filed `fp`): it closes as
+ * `already_delivered` naming the sibling's commit - the app requires `commit` for that outcome - and it is never an
+ * `fp` (abTally keeps it out of the five slots the self-correction reads).
+ * @param {object} r the worker return plus the director's `merge` (the --no-ff merge sha) and, for superseded,
+ *   `superseded_by` (the sibling idea id or sha) and `commit` (the sibling's merge sha)
+ * @returns {{outcome: string, commit?: string, note?: string} | {error: string}}
+ */
+export function outcomeFor(r) {
+  switch (r?.verdict) {
+    case 'better': return present(r.merge) ? { outcome: 'delivered', commit: r.merge } : { outcome: 'delivered' };
+    case 'not-better': case 'fp': return { outcome: 'declined' };
+    case 'unmeasurable': case 'demoted': return { outcome: 'blocked' };
+    case 'superseded': {
+      if (!present(r.superseded_by)) return { error: 'superseded needs superseded_by (the sibling idea id or sha)' };
+      if (!present(r.commit)) return { error: 'superseded needs commit (the sibling merge on the branch): already_delivered requires it' };
+      return { outcome: 'already_delivered', commit: r.commit, note: `superseded by ${r.superseded_by} (merged ${r.commit})` };
+    }
+    default: return { error: `no outcome for verdict ${JSON.stringify(r?.verdict)}` };
+  }
+}
+
+export const OUTCOMES = ['delivered', 'declined', 'blocked', 'already_delivered'];
+
+/**
+ * The body of POST /dev-tools/ideas/{id}/outcome (the app's IdeaOutcomeInput: outcome, note, branch, commit, pr_url),
+ * validated here so a post that the app would refuse is never spooled as "durable". Pure.
+ *
+ * `figures` (the measured before/after/control the director read) and `choice` (an approved Lane C card's open
+ * product choice that the director settled: {picked, rejected, why}) are extra keys the app ignores today, so the
+ * choice is ALSO written into `note`, which the app keeps as the task's outcome block - the one place it survives.
+ * @returns {{body: object} | {error: string}}
+ */
+export function toOutcome({ outcome, note, branch, commit, pr_url: prUrl, figures, choice } = {}) {
+  if (!OUTCOMES.includes(outcome)) return { error: `outcome must be ${OUTCOMES.join('|')} (got ${JSON.stringify(outcome)})` };
+  if (outcome === 'already_delivered' && !present(commit)) return { error: 'already_delivered requires commit (the commit that already satisfies the item)' };
+  if (present(figures) && (typeof figures !== 'object' || Array.isArray(figures))) return { error: 'figures must be a JSON object' };
+  if (present(choice)) {
+    if (typeof choice !== 'object' || Array.isArray(choice) || !['picked', 'rejected', 'why'].every((k) => present(choice[k]))) {
+      return { error: 'choice must be {picked, rejected, why}, all three present' };
+    }
+  }
+  const choiceLine = present(choice) ? `choice: picked ${choice.picked} over ${choice.rejected} - ${choice.why}` : undefined;
+  const body = {
+    outcome,
+    note: [present(note) ? String(note) : undefined, choiceLine].filter(Boolean).join('; ') || undefined,
+    branch, commit, pr_url: prUrl,
+    figures: present(figures) || present(choice) ? { ...(figures ?? {}), ...(present(choice) ? { choice } : {}) } : undefined,
+  };
+  for (const k of Object.keys(body)) if (!present(body[k])) delete body[k];
+  return { body };
+}
+
+/**
+ * ab.jsonl rows -> the snapshot's `ab` field (`better/not-better/unmeasurable/fp/demoted`, SKILL.md section 10) plus
+ * `superseded` beside it. A superseded card's premise was true when dispatched, so it counts in none of the five
+ * slots, least of all `fp`: the fp counter demotes the whole skill a level (section 5).
+ */
+export function abTally(rows) {
+  const n = { better: 0, 'not-better': 0, unmeasurable: 0, fp: 0, demoted: 0, superseded: 0 };
+  for (const r of rows ?? []) if (Object.hasOwn(n, r?.verdict)) n[r.verdict] += 1;
+  return { ab: [n.better, n['not-better'], n.unmeasurable, n.fp, n.demoted].join('/'), fp: n.fp, superseded: n.superseded };
 }

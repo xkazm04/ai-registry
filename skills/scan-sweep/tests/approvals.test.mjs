@@ -13,7 +13,13 @@ import { mkdtempSync, mkdirSync, rmSync, writeFileSync, readFileSync } from 'nod
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { proofFromAb } from '../scripts/filing.mjs';
+import * as filing from '../scripts/filing.mjs';
+
+// Namespace reads, not named imports: a missing export must fail ITS test on an assertion, not void the whole file
+// at link time (the D1 lesson applies to this file too).
+const { proofFromAb } = filing;
+const outcomeFor = (...a) => (filing.outcomeFor ?? (() => ({})))(...a);
+const abTally = (...a) => (filing.abTally ?? (() => ({})))(...a);
 
 const SCRIPT = fileURLToPath(new URL('../scripts/approvals.mjs', import.meta.url));
 const made = [];
@@ -249,6 +255,61 @@ test('proofFromAb: a control is red only when it was RE-RUN on the reverted tree
   assert.deepEqual([ok.control, ok.control_value], ['red', '3']);
   assert.ok(!('control_cmd' in ok), 'the command stays in ab.jsonl; the proof keeps the contract keys only');
   assert.ok(!('control_value' in proofFromAb({ ...r, control_run: 'base' })), 'an absent control carries no reading that could pass for one');
+});
+
+test('proofFromAb: a control that failed only because the new symbol is missing is void (D1)', () => {
+  // personas c2r2 (2026-10-31): 21a3a2b5's control failed to IMPORT the new helper and 9d2e26fc's failed to COMPILE;
+  // both came back seeded_red with a re-run command. A test that cannot load says nothing about the old behaviour.
+  const r = { verdict: 'better', metric: 'prefill', unit: 'cases', before: '0/4', after: '4/4', method: 'probe', seeded_red: true, control_run: 're-run', control_cmd: 'npx vitest run tryIt.test.ts', sha: 'h1' };
+  const shapes = [
+    'SyntaxError: The requested module \'./tryIt\' does not provide an export named \'samplePrefill\'',
+    'TypeError: samplePrefill is not a function',
+    'src/x.ts(4,10): error TS2305: Module \'"./tryIt"\' has no exported member \'samplePrefill\'.',
+    'error TS2339: Property \'recordPublish\' does not exist on type \'Api\'.',
+    'error[E0425]: cannot find function `record_publish` in this scope',
+    'Error: Cannot find module \'./publishRecord\'',
+  ];
+  for (const v of shapes) {
+    const p = proofFromAb({ ...r, control_value: v });
+    assert.equal(p.control, 'absent', `void: ${v}`);
+    assert.equal(p.void_control, 'missing-symbol', `void reported: ${v}`);
+    assert.ok(!('control_value' in p));
+  }
+  for (const kind of ['missing-symbol', 'compile']) {
+    const p = proofFromAb({ ...r, control_value: '1 failed / 4', control_failure: kind });
+    assert.deepEqual([p.control, p.void_control], ['absent', kind], `worker-declared ${kind} is void`);
+  }
+  const ok = proofFromAb({ ...r, control_value: '4 failed / 4 (expected {} to equal sample)', control_failure: 'assertion' });
+  assert.deepEqual([ok.control, ok.control_value], ['red', '4 failed / 4 (expected {} to equal sample)'], 'the behavioural re-seed is red');
+  assert.ok(!('void_control' in ok));
+});
+
+test('proofFromAb: a grep or comment control is not exempt from the re-run (D2)', () => {
+  // personas c2r2: f031e2e6 (a stale "14 locales" comment) returned the base tree's grep count as its control.
+  const r = { verdict: 'better', metric: 'stale comment', unit: 'count', before: '1', after: '0', method: 'probe', seeded_red: true, control_value: '1', sha: 'h1' };
+  for (const method of ['probe', 'grep', 'gate']) {
+    assert.equal(proofFromAb({ ...r, method }).control, 'absent', `${method}: no control_run`);
+    assert.equal(proofFromAb({ ...r, method, control_run: 'base', control_cmd: 'grep -c "14 locales" DesignHub.tsx' }).control, 'absent', `${method}: base reading`);
+    assert.equal(proofFromAb({ ...r, method, control_run: 're-run', control_cmd: 'grep -c "14 locales" DesignHub.tsx' }).control, 'red', `${method}: re-run grep`);
+  }
+});
+
+test('superseded: moot by a sibling merge - no proof, already_delivered with the sibling commit, never an fp (D3)', () => {
+  // personas c2r2: 16634bfc ("comments claim reason -> memory") became true when sibling d8397f84 merged; it had to
+  // be filed `fp` and counted against its lens although its premise was true when dispatched.
+  const s = { verdict: 'superseded', superseded_by: 'd8397f84', commit: '8156222cf9', slug: 'comments-claim' };
+  assert.equal(proofFromAb(s), undefined, 'nothing was built');
+  assert.deepEqual(outcomeFor(s), { outcome: 'already_delivered', commit: '8156222cf9', note: 'superseded by d8397f84 (merged 8156222cf9)' });
+  assert.match(outcomeFor({ verdict: 'superseded', commit: 'c1' }).error, /superseded_by/);
+  assert.match(outcomeFor({ verdict: 'superseded', superseded_by: 'd8' }).error, /commit/, 'the app refuses already_delivered without a commit');
+  assert.deepEqual(outcomeFor({ verdict: 'better', merge: 'm1' }), { outcome: 'delivered', commit: 'm1' });
+  assert.equal(outcomeFor({ verdict: 'not-better' }).outcome, 'declined');
+  assert.equal(outcomeFor({ verdict: 'fp' }).outcome, 'declined');
+  assert.equal(outcomeFor({ verdict: 'unmeasurable' }).outcome, 'blocked');
+  assert.equal(outcomeFor({ verdict: 'demoted' }).outcome, 'blocked');
+  const t = abTally([{ verdict: 'better' }, { verdict: 'fp' }, { verdict: 'superseded' }, { verdict: 'superseded' }, { verdict: 'demoted' }]);
+  assert.equal(t.ab, '1/0/0/1/1', 'superseded is not in any of the five slots');
+  assert.deepEqual([t.fp, t.superseded], [1, 2]);
 });
 
 test('door down: the spool fallback is unchanged - the raw cards are queued durably, exit 0', async () => {
