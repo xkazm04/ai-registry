@@ -26,10 +26,14 @@ deliver. The whole technique rests on one denominator being right.
    recoverable month reads as comfortable. The projection may use the present-count
    denominator for its weighting; the prescription never does.
 3. **Required daily = gap / future days.** Zero when there are no future days.
-4. **Recent daily = (projection minus month-to-date) / future days.** The pace the
+4. **Recent daily = the projection's share for the future days / future days.** That
+   share is month-to-date x (future days' weight / elapsed weight). The pace the
    remaining days are expected to deliver, implied by the seasonality-weighted
    projection, so it already carries the weekday shape of the recent past rather than a
-   flat run-rate of the last seven days.
+   flat run-rate of the last seven days. On a gapless month it equals (projection minus
+   month-to-date) / future days. On a gappy month that shortcut also counts the interior
+   gaps' expected weight as future pace: a flat 1 000 per day with five gaps, latest point
+   the 25th of a 31-day month, would read 1 833 per day.
 5. **The ratio required / recent** is the steering number: above one the remaining days
    must accelerate, at or below one the current pace suffices. Zero when recent is zero,
    never infinity in a cell.
@@ -64,7 +68,8 @@ deliver. The whole technique rests on one denominator being right.
 
 Revenue is the goal most surfaces pace, and the only one the workspace this bundle was
 reconciled against paces. The standard extends to a lower-is-better efficiency target
-(cost over revenue, or its inverse) with these rules:
+(cost over revenue; its inverse, return on spend, is higher-is-better and takes the same
+rules with the comparison flipped):
 
 - Project cost and revenue separately, each with its own weekday weights, and form the
   month-end efficiency as the ratio of the two projected sums.

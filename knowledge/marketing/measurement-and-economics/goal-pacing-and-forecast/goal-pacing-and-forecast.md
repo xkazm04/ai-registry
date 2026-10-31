@@ -54,10 +54,11 @@ complete the ratio is one and the projection is the actual, by construction.
 the days still to come are uncertain, so the band widens with the square root of the
 days remaining under the simplest defensible model - remaining de-seasonalised days as
 independent draws with the trailing daily noise - and narrows to nothing on the last
-day. This is the model a standard forecasting textbook gives for the sum of independent
-errors, and the same textbook warns that it understates the truth whenever the daily
-errors are positively correlated, which in a marketing series they usually are: a
-promotion, a stock-out or a broken tracking tag lasts more than a day. The band is
+day. This is the arithmetic of a sum of independent errors. A standard forecasting
+textbook warns that intervals for a sum are "more tricky due to the correlations between
+forecast errors", and when the daily errors are positively correlated the independent
+model understates the truth, which in a marketing series they usually are: a promotion,
+a stock-out or a broken tracking tag lasts more than a day. The band is
 therefore the honest minimum, said as such, and a surface that has six or more closed
 months should prefer the empirical error of its own projection at the same day of month
 over the theoretical one.
@@ -142,9 +143,10 @@ and refuses to speak of profitability
 The practitioner convention from paid-media budget pacing - a velocity index of the
 last seven days' average against the target daily figure - is the same idea as the
 "required versus recent" pair, and the pair is the more honest form of it: the recent
-pace is implied by the seasonality-weighted projection ((projection minus banked) over
-future days), so it already carries the weekday shape of the recent past rather than a
-flat seven-day mean. The ratio of required to recent is the single number that tells the
+pace is implied by the seasonality-weighted projection (the projection's share for the
+future days, over future days), so it already carries the weekday shape of the recent past
+rather than a flat seven-day mean. The share excludes interior gap days, or the recent pace
+is inflated by the same phantom days the required pace is protected from. The ratio of required to recent is the single number that tells the
 owner whether the remaining days need a nudge or a miracle. Practitioner guides put
 tolerance bands on pace variance - roughly ten percent as early-month noise, a
 persistent twenty percent as a call to act, thirty as critical - and every one of those

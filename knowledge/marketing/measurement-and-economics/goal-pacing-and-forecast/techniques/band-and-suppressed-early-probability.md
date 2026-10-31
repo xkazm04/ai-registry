@@ -30,8 +30,10 @@ probability to mean something.
 3. **Grow with the square root of remaining days.** Under the simplest defensible
    model - remaining de-seasonalised days as independent draws with that noise - the
    standard deviation of the remaining sum is the daily noise times the square root of
-   the days remaining. The remaining-day count for the band may include interior gaps,
-   because a missing day is an uncertain day.
+   the days remaining. Strictly the multiplier is the square root of the sum of the
+   remaining days' squared weekday weights, which equals that when the weights are flat.
+   The remaining-day count for the band may include interior gaps, because a missing day
+   is an uncertain day.
 4. **Choose the quantiles and say which.** A P10-P90 band (1.2816 standard deviations)
    is the usual choice on a goal card because it reads as "probable range" without the
    false comfort of a 95 percent interval on a model this simple. Label the quantiles on
