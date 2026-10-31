@@ -55,14 +55,18 @@ rides the same declaration via `strum`, so the message and the code cannot
 disagree about which failure they describe either.
 
 The numbering is banded deliberately — 100-110 for the tool's own semantic
-failures, a comment-separated 700-731 block for errors adopted from dependencies
-— so a caller can branch on a range. `NotFound(String) = 404` borrows a
-well-known code, which is the technique's "recognisable number" payoff at zero
-cost.
+failures, a comment-separated 700-731 block for errors adopted from dependencies.
+Only the first band fits in an exit status. `NotFound(String) = 404` borrows a
+well-known code, but 404 and every member of the 700 block are above 255, so the
+narrowing rule below sends all of them to the same generic failure. A shell can
+branch on 100-110 and on nothing else in the enum. The recognisable number is
+visible to a source reader and to the log line, never to the caller.
 
 The projection is read at the boundary by `impl std::process::Termination`
 (`error.rs:119-133`), which pulls the discriminant off the value rather than
-looking anything up.
+looking anything up. One variant is exempt: `ExitCode(std::process::ExitCode)`
+(`= 710`) carries a child's exit code and is returned as-is before the
+discriminant is read.
 
 ## The narrowing rule, implemented correctly
 
@@ -84,7 +88,8 @@ failure** value rather than to its own low bits, and the real number is written
 to the error stream so the operator reading the log can recover what the caller
 cannot see. Without that branch, `NotFound = 404` would truncate to 148 —
 a specific, wrong, plausible answer, and the `unknown-is-not-a-value` failure the
-law names.
+law names. With it, 404 exits as 1, which is honest but means the borrowed code
+never reaches a caller.
 
 ## The coverage failure, in the periphery, as predicted
 
@@ -134,5 +139,5 @@ discoverable only from `error.rs` — so the technique's last decision rule
 against a document that does not exist. That absence is itself worth noting: the
 projection is implemented well and is not documented as a contract, so callers
 branching on these numbers are relying on an undeclared surface, and the `= 404`
-that reads as deliberate to a source reader is invisible to the shell script that
-would use it.
+that reads as deliberate to a source reader never reaches the shell script that
+would use it, because it exits as 1.

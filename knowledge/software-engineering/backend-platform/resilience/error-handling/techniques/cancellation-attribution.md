@@ -38,25 +38,28 @@ owners: one belongs to the operation, one belongs to whoever pushed the
 button. Reporting all four as one thing means the two that matter arrive
 diluted by the two that do not.
 
-## The runtime's cancellation signal is deliberately causeless
+## The runtime's cancellation signal is causeless by default
 
 This is the mechanism that makes the whole problem durable, and it is
 worth stating plainly because it looks like a bug in each runtime and is
 in fact the same design decision everywhere: **the platform tells you
-that work was cancelled and never tells you who cancelled it.** The
-signal is a shared sentinel, a shared error identity, a single named
-condition — one value, propagated from whichever holder decided to stop,
-carrying no record of which holder that was. It is causeless by
-construction, because the mechanism is built to be composable, and a
-composable cancellation cannot know which of its nested owners fired.
+that work was cancelled, and tells you who cancelled it only if the
+canceller said so.** The signal is a shared sentinel, a shared error
+identity, a single named condition — one value, propagated from whichever
+holder decided to stop. The mechanism is built to be composable, and a
+composable cancellation cannot work out which of its nested owners fired.
+Some runtimes now carry an optional reason beside the signal (the Web's
+abort reason, Go's cancellation cause), but the slot is filled by the
+canceller or not at all: left empty it holds a generic value such as an
+abort error or a plain "canceled", and some cancel paths never set it.
 
 Two consequences follow directly:
 
 - **Attribution must be added at the site that cancels, not recovered at
   the site that catches.** The catcher sees one value and cannot
   distinguish four situations from it, no matter how carefully it looks.
-  Whoever calls for the stop knows why; that reason is recorded there or
-  it does not exist. An unattributed cancellation is *unknown*, and the
+  Whoever calls for the stop knows why; that reason is recorded there (in
+  the runtime's reason slot where one exists) or it does not exist. An unattributed cancellation is *unknown*, and the
   seductive move — filing it under the benign cause because most of them
   are benign — is
   [unknown-is-not-a-value](../../../../_laws.md#unknown-is-not-a-value)

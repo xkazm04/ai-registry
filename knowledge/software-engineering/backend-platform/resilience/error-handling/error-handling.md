@@ -173,9 +173,10 @@ draining for a restart is a real failure attributable to the deployment rather
 than to the code. One observable, four answers.
 
 What makes this durable rather than merely overlooked is that the platform's
-cancellation signal is **causeless by construction** — a shared sentinel
-propagated from whichever holder decided to stop, carrying no record of which
-one that was, because a composable cancellation cannot know. So the cause is
+cancellation signal is **causeless by default** — a shared sentinel propagated
+from whichever holder decided to stop. Some runtimes now offer a slot for a
+reason, but it holds one only if the canceller wrote it, and otherwise holds a
+generic value that names no one. So the cause is
 recorded where the stop is *called for*, never recovered where it is caught,
 and an unattributed cancellation is unknown rather than benign
 ([unknown-is-not-a-value](../../../_laws.md#unknown-is-not-a-value)). The
@@ -257,7 +258,10 @@ recent events that led there), **sanitize before persisting** (a crash report
 is the single most likely artifact to accidentally embed secrets, because it
 serializes state indiscriminately), persist locally first (the crash may
 take the reporter down with it), and ship on next start. Crash capture is
-[crash-capture](./techniques/crash-capture.md).
+[crash-capture](./techniques/crash-capture.md). A long-lived process that holds
+the user's work has a tier before that one: catch at the mutation chokepoint and
+put the state back as it was, which is
+[containment-boundary-restores-state](./techniques/containment-boundary-restores-state.md).
 
 ## Measuring the domain
 
@@ -274,6 +278,9 @@ swallowed-catch population larger than anyone predicted.
 - [taxonomy-design](./techniques/taxonomy-design.md) — the closed category
   set, the retryability and fault axes, retry-interval extraction, and
   mirroring one authority across language boundaries.
+- [reclassification-is-not-repair](./techniques/reclassification-is-not-repair.md)
+  — the internal class as a free detector, and the fork between fixing the
+  declaration and fixing the caller.
 - [error-doors](./techniques/error-doors.md) — the routing decision
   (user-facing vs background), the door primitives, deduplication across
   layers, and why an empty catch is a reviewable event.
@@ -296,7 +303,14 @@ swallowed-catch population larger than anyone predicted.
   that keep benign cancels out of the error door.
 - [crash-capture](./techniques/crash-capture.md) — last-resort handlers,
   breadcrumbs, sanitization before persistence, and crash-loop protection.
+- [containment-boundary-restores-state](./techniques/containment-boundary-restores-state.md)
+  — the catch at the mutation chokepoint that converts a panic into the
+  ordinary failure and restores a whole snapshot, and the targets where no
+  catch can run.
 - [consumer-decides-error-shape](./techniques/consumer-decides-error-shape.md)
   — the ownership axis: a closed enumeration where two sides ship
   independently, an opaque aggregate where the consumer is a door in the same
   release, and why the conversion only runs one way.
+- [exit-contract-is-a-taxonomy-projection](./techniques/exit-contract-is-a-taxonomy-projection.md)
+  — the exit status as a projection declared with each failure kind, the
+  coverage audit, and narrowing to the platform's code space.

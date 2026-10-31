@@ -55,7 +55,9 @@ Numbering the members deliberately is part of the payoff and costs nothing.
 Reserve bands by class so a caller can branch on a range rather than on a set of
 literals, and borrow a well-known code where one exists and matches — a reader
 who recognises the number gets the semantics for free, and a reader who does not
-is no worse off.
+is no worse off. Both only pay inside the platform's code space: a band or a
+borrowed number that does not fit is collapsed by the narrowing rule below, and
+every kind in it reaches the caller as the same generic failure.
 
 ## The coverage question, which is where the technique is actually lost
 
