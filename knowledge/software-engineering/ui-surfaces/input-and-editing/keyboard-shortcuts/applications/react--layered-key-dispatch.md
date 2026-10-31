@@ -5,7 +5,7 @@ subject: keyboard-shortcuts
 technique: layered-key-dispatch
 stack: react
 status: forged
-verified_on: 2026-10-27
+verified_on: 2026-10-31
 verified_against: react@19
 ---
 
@@ -90,6 +90,10 @@ and the fix: one listener per root hands Escape to the layer opened last,
   `src/lib/keyboard/useHotkeys.ts:8` "chords with `mod` always fire", where the
   technique passes only chords declared field-live. No editing chord is
   declared today, so the gap is latent.
+- **The composition guard is the composing flag alone**
+  (`src/lib/keyboard/useHotkeys.ts:41` "e.isComposing"), with no
+  processing-key-code check on Enter, so an engine that fires the committing
+  Enter after composition ends lets that Enter through to the dispatch.
 - **The slash carve-out is a literal inside the table's predicate**
   (`src/components/table/model/rowNavigation.ts:84` "e.key !== '/'"), not
   derived from the declaration that binds the slash.

@@ -35,7 +35,11 @@ composing (and some engines report the generic "processing" key code
 instead of the real key). None of those events is a command. The dispatch
 point ignores every key event during composition, including the Enter that
 commits the composition — that Enter belongs to the editor, not to submit and
-not to a shortcut. Treat an event whose key is unidentified the same way:
+not to a shortcut. The composing flag alone does not catch it everywhere: one
+engine fires that Enter after composition has ended, with the flag already
+false, so on Enter the dispatch point also treats the processing key code as
+composing (gated on Enter, since some virtual keyboards report that code for
+ordinary typing). Treat an event whose key is unidentified the same way:
 an unknown key is not a key that matches nothing, it is a key the shortcut
 layer cannot interpret and must leave alone
 ([unknown-is-not-a-value](../../../../_laws.md#unknown-is-not-a-value)).

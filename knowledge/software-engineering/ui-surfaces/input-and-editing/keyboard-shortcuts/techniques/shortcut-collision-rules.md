@@ -49,8 +49,10 @@ declaration time, where it is cheap, rather than discovered in a bug report.
 ## The character-key criterion
 
 The accessibility guidelines' character-key criterion applies to any
-shortcut made only of a letter, digit, punctuation or symbol: it must be
-possible to turn it off, to remap it to include a non-printing modifier, or
+shortcut made only of a letter (upper or lower case, so Shift plus a letter
+is still in scope), digit, punctuation or symbol: it must be
+possible to turn it off, to remap it to include a non-printing key such as
+Control or Alt, or
 it must be live only while its component has focus. The reason is speech
 input: a user dictating "delete draft" into a field that lost focus sends a
 stream of letters, each of which can fire a command. A bare-letter shortcut
@@ -62,8 +64,12 @@ is better not shipped.
 
 An application-wide or overlay-wide accelerator uses a **modified chord**,
 heard in the capture phase when an overlay owns it. Shift plus a letter is
-the lightest modifier that type-ahead ignores and fields still own (it is a
-capital letter there, so the typing guard still suppresses it). The primary
+the lightest chord, but it is not a non-printing one: it produces a capital
+letter, so fields own it (the typing guard suppresses it), a type-ahead
+predicate that takes any single character takes it too, and the
+character-key criterion still applies. It survives a focused composite only
+when it is heard in capture, above the composite, and it still needs the off
+switch, remap or focus scope the criterion asks for. The primary
 platform modifier plus a letter is the strongest, and the most crowded —
 check it against the browser's list first. Alt plus a letter is
 layout-dangerous: on many layouts it produces a character, and on some it
@@ -72,7 +78,8 @@ opens the application menu.
 Decision rules:
 
 - **When the key must work while a table or list has focus, it carries a
-  modifier**, because type-ahead takes every bare printable key.
+  non-printing modifier or is heard in capture**, because type-ahead takes
+  every printable key, a Shift-produced capital included.
 - **When the key must work inside a field, it uses the primary modifier and
   is declared field-live**, and it must not be an editing chord.
 - **When the key is a single printable character, scope it to a focused

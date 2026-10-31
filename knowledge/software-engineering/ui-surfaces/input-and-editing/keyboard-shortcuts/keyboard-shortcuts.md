@@ -92,8 +92,11 @@ dictating a word can trigger it letter by letter, which is why the
 character-key criterion of the accessibility guidelines requires single
 printable shortcuts to be switchable off, remappable to a modifier chord, or
 live only while their component has focus. The reliable default for an
-application-wide accelerator is a modified chord heard in capture phase;
-Space and Enter on a focused button belong to the button. The negotiation
+application-wide accelerator is a chord with a non-printing modifier (the
+primary modifier or Alt) heard in capture phase; Shift alone does not count,
+because Shift plus a letter still types a printable character, which
+type-ahead takes and the criterion covers. Space and Enter on a focused button
+belong to the button. The negotiation
 rules are [shortcut-collision-rules](./techniques/shortcut-collision-rules.md).
 
 ## The event stream is not one key, one press

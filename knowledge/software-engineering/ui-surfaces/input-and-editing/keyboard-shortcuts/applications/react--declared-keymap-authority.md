@@ -5,7 +5,7 @@ subject: keyboard-shortcuts
 technique: declared-keymap-authority
 stack: react
 status: forged
-verified_on: 2026-10-27
+verified_on: 2026-10-31
 verified_against: react@19
 ---
 
@@ -74,6 +74,8 @@ That count is what forced a Settings row when a new key hook landed.
   `src/app/features/task/model/docket/keys.ts:44` "{ id: 'replay', keys: [{ key: 'r' }], does: 'Replay' }",
   not only while one component has focus. The character-key criterion asks
   for an off switch, a remap to a modifier chord, or focus scoping; none exists.
+  The guide's global Shift+G is in the same position: the criterion counts
+  upper-case letters, so Shift does not take it out of scope.
 - **The announced shortcut is hand-written, not derived.** The declarations
   feed handlers and the page, but the one control that announces its
   shortcut spells it as a literal,

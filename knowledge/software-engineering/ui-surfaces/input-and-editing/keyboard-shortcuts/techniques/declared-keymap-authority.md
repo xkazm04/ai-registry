@@ -64,7 +64,10 @@ is visible and rejected, before any code runs.
 - **The announced shortcut** — the accessibility attribute that tells an
   assistive technology the control has a shortcut — is filled from the same
   entry, in the attribute's own syntax (modifiers first, the key last,
-  modifier names as the event model spells them). It announces; it does not
+  modifier names as the event model spells them), naming the keys the user
+  presses rather than the character they produce ("Shift+2", not "@"), so a
+  character-matched entry such as "?" is announced as the keys that type it
+  on the user's layout. It announces; it does not
   bind. A shortcut that is announced but not bound, or bound but not
   announced, is the same drift in a channel nobody looks at.
 - **The command palette** runs the same action ids by name and shows the
