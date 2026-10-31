@@ -139,8 +139,8 @@ was a caller acting on a job it had lost.
 2. **A stale comment claims a finalizer assertion that no longer exists.**
    `kube/src/mock_tests.rs:97` reads `// We expect a json patch to the
    specified document adding our finalizer`, and the three assertions beneath
-   it check a paginated `GET` carrying `limit=` and `continue=` tokens
-   (`:98-101`). The comment survived a scenario the file no longer contains.
+   it check a paginated `GET`: the method, a `limit=` token, and the absence
+   of a `continue=` token on the first page (`:98-101`). The comment survived a scenario the file no longer contains.
 
 3. **The two operator escapes are not named.** The caveat at `:114` states
    the deadlock and stops. Neither escape the technique requires — restoring
@@ -155,7 +155,11 @@ was a caller acting on a job it had lost.
    on the marker string only. A record deleted, recreated under the same
    name, and re-marked between the `Cleanup` await and the patch would have
    the *new* owner's marker removed — the `Test` compares the name at index
-   *i*, which is identical across both incarnations. The tree has the
+   *i*, which is identical across both incarnations. The window is narrower
+   than that sentence reads: while this controller's marker sits on the old
+   incarnation its deletion cannot complete, so the race needs a third party
+   to strip that marker during the `Cleanup` await — the manual escape
+   deviation 3 finds undocumented. The tree has the
    primitive for this class: `DeleteParams::preconditions`
    (`kube-core/src/params.rs:786-790`, builder at `:841-844`) exists for
    exactly the "still the object I meant" question, and the helper does not

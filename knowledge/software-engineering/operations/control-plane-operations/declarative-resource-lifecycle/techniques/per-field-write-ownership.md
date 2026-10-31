@@ -126,6 +126,14 @@ mechanism. And a process that seizes on every pass has told you something
 about its design rather than about the record: two writers hold one field and
 neither will yield, and the fix is upstream of this technique.
 
+One writer is the exception, and the store's own guidance for reconciling
+processes names it: a process writing the fields of a record it created and
+alone maintains is advised to seize on every write, because it has nobody to
+ask and cannot act on a refusal. That is a decision taken once, at design
+time, about which fields have exactly one legitimate owner. It stays honest
+only while that set is written down; a conflict on a field outside it is
+still a refusal to read, not one to override.
+
 ## The refusal must arrive as a verdict
 
 A conflict is not a generic write failure. It carries which paths were

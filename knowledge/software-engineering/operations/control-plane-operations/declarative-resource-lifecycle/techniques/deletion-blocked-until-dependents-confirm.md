@@ -109,11 +109,13 @@ named where an operator will read it, with exactly two exits and no third:
   contract. It is available more often than it looks — a redeployment of the
   removed component with the same marker name will find its records and drain
   them.
-- **An explicit, audited strip.** A human removes the marker, declaring that
-  the cleanup will not happen. This is a *recorded abandonment*, not a
+- **An explicit, audited strip.** A human removes the marker, declaring
+  either that the cleanup will not happen or that they performed it by hand,
+  and the record says which. The first is a *recorded abandonment*, not a
   completed removal, and it must be spelled that way wherever removals are
   logged; the external resource it was protecting is now leaked and somebody
-  should be told which one.
+  should be told which one. The second is a cleanup whose owner was a person,
+  and the record names what they removed.
 
 The third option — a timer that strips markers automatically after some
 interval — converts the guarantee into a suggestion, and it does so at
