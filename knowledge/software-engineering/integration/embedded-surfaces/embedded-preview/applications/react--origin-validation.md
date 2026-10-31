@@ -4,7 +4,8 @@ type: application
 subject: embedded-preview
 technique: origin-validation
 stack: react
-verified_on: 2026-08-18
+verified_on: 2026-10-31
+verified_against: react@19
 ---
 
 # Origin discipline on the Studio bridge — absent on both sides, measured
@@ -14,9 +15,9 @@ The technique's rule is symmetric: verify inbound `origin`, never send to
 application exists to make the gap precise, because the bridge is
 otherwise well-shaped and the omission is easy to miss.
 
-## Inbound, host side — `src/features/studio/StudioPage.tsx:114-142`
+## Inbound, host side — `src/features/studio/useStudioPreview.ts:111-176`
 
-The single `message` listener (`:116`) dispatches on shape only:
+The single `message` listener (`:113`) dispatches on shape only:
 
 ```ts
 if (!d || d.source !== 'athena-agent') return;
@@ -27,13 +28,13 @@ to the Studio window with `{source:'athena-agent', type:'located', rect}`
 moves the orb pointer; with `{type:'route', path}` it rewrites the
 address bar for whichever tab's frame it can impersonate — and since
 `route` attribution matches `e.source` against mounted frames
-(`:133-136`), a document *inside* one of those frames (the guest's own
+(`:134-136`), a document *inside* one of those frames (the guest's own
 code, a nested frame the guest embedded, the page a redirect landed on)
 qualifies. Today the verbs are cosmetic (a ring, an address bar), so
 the blast radius is small — the reason to fix it now is that the next
 verb added to this listener inherits the missing check.
 
-## Outbound, host side — `StudioPage.tsx:155-158`
+## Outbound, host side — `StudioPage.tsx:155-158` (as of 2026-08-18)
 
 ```ts
 iframe?.contentWindow?.postMessage({ source: 'athena', type: 'locate', selector, reqId }, '*');
@@ -41,28 +42,29 @@ iframe?.contentWindow?.postMessage({ source: 'athena', type: 'locate', selector,
 
 Wildcard target. The payload is a CSS selector — low sensitivity — but
 the frame's URL is a `src` the user can edit via the address bar
-(`:206-211`, "type any path"), and a guest can navigate itself anywhere;
+(now `guide/GuideFrame.tsx:80-95` → `navigateTo`), and a guest can navigate itself anywhere;
 after either, `'*'` delivers Studio's message to whatever loaded. The
 expected origin is *available* at this call site — it is
-`previewUrls[activeId]` (`:76-85`), minted from the registry's
+`previewUrls[activeId]` (`useStudioPreview.ts:62-71`), minted from the registry's
 `DevServerStatus.url` — so the fix is a one-argument change plus the
 same value used for the inbound check.
 
-## Both directions, guest side — `src-tauri/src/webbuild/preview_agent.rs:49-64,79-83`
+## Both directions, guest side — `src-tauri/src/webbuild/athena_preview_agent.tsx:145,291-322`
 
 The agent's listener filters `d.source !== "athena"` and never reads
-`e.origin` (`:53`); both of its sends target `"*"` (`:63`, `:82`). The
+`e.origin` (`:295`); every send goes through one `post` helper that
+targets `"*"` (`:145`). The
 technique notes the guest's copy of the expected origin must be injected
 configuration, not learned over the channel — the agent has no
 configuration channel at all today. The host's origin is the app's
 webview origin, which the agent could be told at injection time
-(`ensure()` writes the file verbatim, `:127-129`; a template substitution
+(`ensure()` in `preview_agent.rs` writes the file verbatim, `:31-37`; a template substitution
 would carry it).
 
 ## The rebind moment
 
 The one place the technique's *rebind* rule would bite is handled
-structurally: warm previews are keyed `\`${id}-${nonce}\`` (`:234`) so a
+structurally: warm previews are keyed `\`${id}-${nonce}\`` (`StudioPreviewFrames.tsx:41`) so a
 reload is a remount, and the URL is read from store state on each render.
 No stale-origin window exists — because no origin is checked. When the
 check is added, `previewUrls` is already the current truth to bind
@@ -76,3 +78,20 @@ it as the second argument of every `postMessage`, and compare `e.origin`
 against the set of live preview origins in the inbound handler
 (rejecting and counting the rest). Neither the protocol nor the agent
 needs to change shape.
+
+Re-checked 2026-10-31 at personas@22260d77: **the host's outbound half is
+fixed, so "absent on both sides" no longer holds for that direction.**
+Both host sends now compute `previewTargetOrigin(previewUrls[activeId])`
+(`new URL(url).origin`, `studioBuildModel.ts:52-59`) and pass it as the
+target: the `locate` ping (`useStudioPreview.ts:187-196`) and the new
+`tellPreview` helper for the inspect verbs (`:244-255`). With no origin
+the host sends nothing rather than falling back to `'*'` (`:184-188`),
+which is the fix this section proposed. Inbound, the host still never
+reads `e.origin`, but every report must now come from a mounted
+`iframe[data-tab]` by `contentWindow` identity, `located` and `picked`
+only from the active tab, and `picked` payloads are length-bounded
+(`:129-163`). A document inside the frame still passes that check, so the
+inbound gap stands, as does the guest side unchanged: no origin check on
+receive, `"*"` on send. The listener also carries more verbs now
+(`picked` sets the target of a queued change), which is the growth this
+application warned the missing inbound check would be inherited by.

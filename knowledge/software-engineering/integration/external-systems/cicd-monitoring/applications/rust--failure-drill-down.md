@@ -5,7 +5,7 @@ subject: cicd-monitoring
 technique: failure-drill-down
 stack: rust
 status: forged
-verified_on: 2026-09-26
+verified_on: 2026-10-31
 verified_against: rust@1
 ---
 
@@ -29,9 +29,9 @@ under rungs that cannot load. Read at `900b8f0b4`, toolchain pinned by
 | Bound at the IPC edge | `src-tauri/src/commands/infrastructure/gitlab.rs:1231-1248` - `DEFAULT_JOB_LOG_TAIL = 64 KiB`, `MAX_JOB_LOG_TAIL = 1 MiB`, the caller's `tail_bytes` clamped to `1..=1 MiB`. The doc comment names the reason: "expanding a job must not ship the full log over IPC for a 72-tall pane" |
 | Tail requested from the provider | `src-tauri/src/gitlab/client.rs:400-418` - `GET /projects/:id/jobs/:job_id/trace` with `Range: bytes=-N`, then `utf8_tail(&text, tail_bytes)` |
 | Server-ignores-Range guard | `client.rs:398-399` - "we still slice to `tail_bytes` so a server that ignores Range cannot dump a multi-MB trace over IPC". The slice is unconditional, so the bound holds whether or not the provider honoured the header |
-| UTF-8-safe cut | `client.rs:15-24` - `utf8_tail` walks the cut index forward to a char boundary; a byte bound over text never splits a code point |
-| Second bound at paint | `src/features/plugins/gitlab/components/JobRow.tsx:9,29` - `LOG_PAINT_LINES = 200`, `tailLines(log, 200)`; the React caller asks for `tailBytes = 65_536` (`src/api/system/gitlab.ts:102`) |
-| Empty is its own state | `JobRow.tsx:55-58` - `log.length === 0` renders `no_log_output`, distinct from the `log == null` skeleton (`:37`) |
+| UTF-8-safe cut | `client.rs:15-25` - `utf8_tail` walks the cut index forward to a char boundary; a byte bound over text never splits a code point |
+| Second bound at paint | `src/features/plugins/gitlab/components/JobRow.tsx:10,30` - `LOG_PAINT_LINES = 200`, `tailLines(log, 200)`; the React caller asks for `tailBytes = 65_536` (`src/api/system/gitlab.ts:102`) |
+| Empty is its own state | `JobRow.tsx:56-59` - `log.length === 0` renders `no_log_output`, distinct from the `log == null` skeleton (`:38`) |
 
 ## Judgment calls worth copying
 
@@ -63,8 +63,18 @@ under rungs that cannot load. Read at `900b8f0b4`, toolchain pinned by
   the same way. The right trigger is a 416 (Range Not Satisfiable) or a 200 carrying the
   full body; an auth failure should surface once, as the error it is.
 - **Unfetchable still reads as loading.** The Rust command returns a distinct error, but
-  `gitlabFetchJobLog` (`src/stores/slices/system/gitlabSlice.ts:452-460`) sets
+  `gitlabFetchJobLog` (`src/stores/slices/system/gitlabSlice.ts:478-489`) sets
   `gitlabJobLog: null` and, on failure, only `gitlabError`, so `JobLogViewer` keeps
   rendering the skeleton. The React application's "empty and unfetchable collapse"
   finding survives the new backend: the backend distinguishes the three states, and the
   store folds them into two again.
+
+Re-checked 2026-10-31 at personas@22260d77 (toolchain still `1.96.1`):
+every anchor above resolves, with line numbers updated where they moved,
+and every deviation holds. `get_job_trace` still returns `String`, and the
+ranged request still falls back on any `Err(_)`. `gitlabFetchJobLog` has
+gained a latest-wins token, so a stale response no longer overwrites a
+newer job's log. It still sets `gitlabJobLog: null` before the fetch and
+only `gitlabError` on failure, so unfetchable still renders as the
+skeleton. The four pipeline commands are still unregistered
+(`commandNames.overrides.ts:17-20`).

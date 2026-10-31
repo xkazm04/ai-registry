@@ -4,7 +4,8 @@ type: application
 subject: embedded-preview
 technique: preview-checkpoints
 stack: rust
-verified_on: 2026-08-18
+verified_on: 2026-10-31
+verified_against: rust@1
 ---
 
 # `versions.rs` in the preview loop — turn snapshots over a live guest
@@ -21,10 +22,10 @@ restore does to the *running* preview.
 ## Capture is aligned to the turn — exactly
 
 `commit_snapshot(project_path, &reply)` is called from
-`run_build_turn` (`companion/session.rs:2084-2086`) immediately after
+`run_build_turn` (`companion/session/build_turn.rs:222-225`) immediately after
 the turn's text is parsed and before `BuildTurnResult` returns — one
 snapshot per completed mutation turn, never mid-turn, never on a timer.
-The label is minted from the turn's own reply (`versions.rs:24-25`,
+The label is minted from the turn's own reply (`versions.rs:43-44`,
 `"athena: <first line, ≤72 chars>"`), so `StudioVersions` lists a
 *conversation* timeline, which is the identity the technique asks for.
 The store is the project's own git repo, present because the scaffold
@@ -32,13 +33,13 @@ ran `git init` (`:3-4`) — the "checkpoint substrate for free" case.
 
 ## Restore reaches two of the three parties
 
-`webbuild_restore_version` → `restore()` (`:67-84`) does the tree
+`webbuild_restore_version` → `restore()` (`:102-122`) does the tree
 (`git checkout <sha> -- .`, forward, non-destructive). The frontend then
-calls `onRestored` = `reloadActive` (`StudioVersions.tsx:32-34`,
-`StudioPage.tsx:297`, `:200-201`), which bumps the tab's iframe nonce:
-the frame remounts (`key={\`${id}-${nonce}\`}`, `:234`) and the route
+calls `onRestored` = `reloadActive` (`StudioVersions.tsx:49-55`,
+`guide/GuideFrame.tsx:111`, `useStudioPreview.ts:219-221`), which bumps the tab's iframe nonce:
+the frame remounts (`key={\`${id}-${nonce}\`}`, `StudioPreviewFrames.tsx:41`) and the route
 list rescans (nonce is a dependency of the discovery effect,
-`:101-112`). So:
+`useStudioPreview.ts:98-109`). So:
 
 | party | done? | how |
 |---|---|---|
@@ -68,3 +69,22 @@ list rescans (nonce is a dependency of the discovery effect,
   edited the project directly between turns (a register-existing repo
   invites exactly that), in which case `checkout -- .` erases their
   edits without a trace. Cited, not re-registered.
+
+Re-checked 2026-10-31 at personas@22260d77: `versions.rs` was rebuilt, and
+**two of the three deviations above are resolved.** Snapshots now go to a
+private ref, `refs/athena/snapshots` (`:20`), through the engine's
+`git_checkpoint::snapshot_worktree` (`:45`), so a turn no longer commits
+onto the owner's branch. Restore is `git restore --overlay --source <sha>
+--worktree -- .` (`:108-121`), which overwrites but never deletes, in
+place of `git checkout <sha> -- .`. **No pre-restore capture: resolved.**
+`restore()` snapshots the live tree as "before restore" first and refuses
+the restore if that capture fails (`:97-107`). **Silent capture failure:
+partly resolved.** `commit_snapshot` returns its error (`:45-47`) and the
+turn logs it at `warn` (`build_turn.rs:223-225`), but `BuildTurnResult`
+(`webbuild/plan.rs:29-40`) still has no snapshot field, so the store
+still cannot show a turn as unprotected. The "scaffold ran `git init`
+(`:3-4`)" line no longer has a citation: the header now describes the
+private ref, and the scaffold (`project.rs:141-189`) passes no
+`--disable-git` to `create-next-app`, which leaves git init to that
+tool's default. **Boot-only files: still open.** Nothing in `restore()`
+inspects the diff for `package.json` or `next.config.*`.

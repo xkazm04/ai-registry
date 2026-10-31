@@ -5,7 +5,7 @@ subject: cicd-monitoring
 technique: deployment-history
 stack: rust
 status: forged
-verified_on: 2026-09-26
+verified_on: 2026-10-31
 verified_against: rust@1
 ---
 
@@ -24,9 +24,9 @@ and a live probe of the provider. Read at `900b8f0b4` (`src-tauri/`, toolchain p
 |---|---|
 | Append-only run log | `src-tauri/db/src/repos/resources/deployment_history.rs:31-73` - `insert` is the only writer (uuid id, server-side `created_at`); no update or delete exists in the module. Each row carries method, result, agent id, the prompt snapshot that was actually deployed, `rolled_back_from`, and `target` |
 | One projection for every read | `deployment_history.rs:7-11` - a single `COLUMNS` constant and a name-bound row mapper, so the SELECT and the mapper cannot drift apart |
-| Windowed reads, newest first | `list_by_persona_project` / `list_by_project` / `list_all` (`:76-124`, `:225-238`), each with an explicit `LIMIT` |
-| Derived current state, recomputed per request | `src-tauri/src/commands/infrastructure/gitlab.rs:445-540` `gitlab_deployment_status` - folds the live Duo Agent list with the newest history row per persona slug. The fold is written out in the doc comment at `:427-441`: live agent means `active`, a history deploy with no live agent means `file-based` or `failed`, and a failed probe means `unknown` |
-| Honest unknown when the probe fails | `gitlab.rs:506-538` - api-method deploys become `unknown` ("never a false green"); `file-based` stays, because it was recorded at deploy time rather than probed |
+| Windowed reads, newest first | `list_by_persona_project` / `list_by_project` / `list_all` (`:76-141`), each with an explicit `LIMIT` |
+| Derived current state, recomputed per request | `src-tauri/src/commands/infrastructure/gitlab.rs:445-542` `gitlab_deployment_status` - folds the live Duo Agent list with the newest history row per persona slug. The fold is written out in the doc comment at `:425-441`: live agent means `active`, a history deploy with no live agent means `file-based` or `failed`, and a failed probe means `unknown` |
+| Honest unknown when the probe fails | `gitlab.rs:507-540` - api-method deploys become `unknown` ("never a false green"); `file-based` stays, because it was recorded at deploy time rather than probed |
 | Rollback reads its snapshot from the log | `gitlab.rs:1274-1289` - the target row's `snapshot_prompt` is redeployed, not the persona's current state |
 
 ## Judgment calls worth copying
@@ -46,9 +46,9 @@ and a live probe of the provider. Read at `900b8f0b4` (`src-tauri/`, toolchain p
 ## Gaps against the technique (deviations, reported not fixed)
 
 - **A deliberate removal renders as a failure.** `gitlab_undeploy_agent`
-  (`gitlab.rs:543-559`) deletes the live agent and writes no history row. The next
+  (`gitlab.rs:543-560`) deletes the live agent and writes no history row. The next
   `gitlab_deployment_status` finds an api-method history row with no live agent and
-  labels it `failed` (`:487-493`). The fold names its rule but not its event set:
+  labels it `failed` (`:489-493`). The fold names its rule but not its event set:
   undeploy is an event the log never receives, so the derivation cannot tell "removed"
   from "vanished". Per derivation-names-recomputation the fix is on the event side
   (write an `undeployed` row) and not in the fold.
@@ -68,3 +68,15 @@ and a live probe of the provider. Read at `900b8f0b4` (`src-tauri/`, toolchain p
   inserting. `get_previous_deployment`'s `deploy_result = 'success'` filter
   (`deployment_history.rs:141`) therefore selects every row. The log records successes
   only, so a streak or a success rate computed from it would be 100% by construction.
+
+Re-checked 2026-10-31 at personas@22260d77 (toolchain still `1.96.1`):
+every anchor above resolves, with line numbers updated where they moved,
+and three of the four deviations hold as written. Undeploy still writes no
+history row. The status fold still reads 200 rows through
+`unwrap_or_default()`. Rollback still searches the newest 100. One clause
+changed. `get_previous_deployment` and its `deploy_result = 'success'`
+filter, the `deployment_history.rs:141` cited in the last deviation, no
+longer exist: the module is now `insert` plus three windowed lists. The
+four writers still pass the literal `"success"` (`gitlab.rs:356`, `:901`,
+`:1083`, `:1336`), so the log still records successes only and a success
+rate computed from it would still be 100% by construction.
