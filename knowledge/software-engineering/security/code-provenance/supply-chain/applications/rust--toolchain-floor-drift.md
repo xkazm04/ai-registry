@@ -54,9 +54,11 @@ mechanism the technique names, where a point release raises a declared minimum
 and the change appears in no manifest the team reviews. The graph resolves 767
 packages; 518 declare a minimum at all.
 
-Eight minor versions is roughly two years of releases, which is the same order
-as the window the technique cites from a hundred-package survey. That is one
-tree agreeing with one survey, not a confirmation of the constant.
+Eight minor versions is under a year of releases at the six-week cadence
+(1.80.0 shipped 2024-07-25, 1.88.0 on 2025-06-26), about half the window the
+technique cites from a hundred-package survey: this graph overtook its claim
+faster than that survey's typical case. That is one tree against one survey,
+neither a confirmation nor a refutation of the constant.
 
 ## The structural fact: the two floors are enforced asymmetrically
 

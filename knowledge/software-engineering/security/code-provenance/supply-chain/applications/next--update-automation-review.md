@@ -47,7 +47,7 @@ Next.js 16.3.3 shipped 2026-08-25 with two critical unauthenticated-RCE fixes:
   not use the Cache Component. The advisory states there is **no workaround**.
 - **GHSA-2xp9-vwfh-vxw4** (CVSS v4 9.5) — RCE via `libheif` (reached through
   `sharp`) when the built-in image optimizer processes a crafted **AVIF** file.
-  Affected `>=10.0.0 <15.5.24` and `<16.3.3`.
+  Affected `>=10.0.0 <15.5.24` and `>=16.0.0 <16.3.3`.
 
 Every member's resolved version sat inside both ranges, and all six carry
 `sharp` in the lockfile. Exposure is not uniform, and the difference matters:

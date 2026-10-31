@@ -99,7 +99,11 @@ where transitive dependencies live — never the hand-written manifest,
 which names only the surface
 ([gate-sees-target](../../../_laws.md#gate-sees-target)). Policy shape,
 exception hygiene, and multi-ecosystem coverage are
-[dependency-policy-gates](./techniques/dependency-policy-gates.md).
+[dependency-policy-gates](./techniques/dependency-policy-gates.md). The
+license clause keys on the license *and* the form in which the component
+meets the product, because the same identifier reaches data, a separate
+program and linked code differently
+([license-reach-follows-integration-form](./techniques/license-reach-follows-integration-form.md)).
 
 Two properties of that lockfile have to hold before any of the gates reading it
 mean anything, and each fails quietly in its own way. It must still correspond
@@ -165,7 +169,11 @@ moved, and a green pipeline is understood as necessary but not sufficient
 the dependency's changed behavior outside that coverage, and a malicious
 release is engineered to pass exactly such tests. Risk-tiering, batching
 cadence, and the exposure-window metric are
-[update-automation-review](./techniques/update-automation-review.md).
+[update-automation-review](./techniques/update-automation-review.md). Driving
+several checkouts onto one version is an event, not a state: ordinary work in
+each re-resolves it alone, so what a fleet can hold is a floor, checked against
+each resolution record
+([one-version-decays-to-a-floor](./techniques/one-version-decays-to-a-floor.md)).
 
 The mirror case is the update **nobody proposed**. A project's declared
 minimum toolchain is a claim about a number it does not own: the effective
@@ -293,6 +301,12 @@ trust in artifacts the project itself *ships* is
 provenance of published artifacts is the subject of signed artifacts &
 provenance. The extraction-site defenses are
 [archive-extraction-safety](./techniques/archive-extraction-safety.md).
+Opening the container is half of it: a member whose format encodes object
+construction is loaded restricted by default
+([unsafe-deserialization-off-by-default](./techniques/unsafe-deserialization-off-by-default.md)),
+and content that *is* a program, read by a tool that only meant to look at it,
+runs only at an approved digest
+([reading-is-not-running](./techniques/reading-is-not-running.md)).
 
 ## The audit cadence is layered — fast at review, deep on schedule
 
@@ -322,6 +336,13 @@ are [scheduled-deep-analysis](./techniques/scheduled-deep-analysis.md).
   — the license verdict keyed on the (license, form) pair across data, separate
   program, dynamic and linked code; the form made a checkable place in the tree;
   and the form change that no identifier-keyed gate can see.
+- [verification-scope](./techniques/verification-scope.md) — a hash flag
+  verifies a stage, not a command; source builds fetching their own backend
+  and downloader subcommands; proving scope by observing egress.
+- [lockfile-freshness-oracle](./techniques/lockfile-freshness-oracle.md) —
+  freshness as "satisfies the manifest", constrained re-resolution, the
+  strict-install command that already is the oracle, and one lockfile per
+  matrix cell.
 - [build-time-dependency-tier](./techniques/build-time-dependency-tier.md) —
   the graph split by execution phase, the build-time slice priced by the
   host's exposure and inventoried by hand, and the hermetic build that
@@ -331,7 +352,7 @@ are [scheduled-deep-analysis](./techniques/scheduled-deep-analysis.md).
   imports under declared trust, and the unread import that renders as
   coverage.
 - [one-version-decays-to-a-floor](./techniques/one-version-decays-to-a-floor.md)
-  - a coordinated upgrade as an event rather than a state, why equality has no
+  — a coordinated upgrade as an event rather than a state, why equality has no
   owner and a floor does, the resolution record over the declaration, and the
   cross-checkout floor query that outlives the sweep.
 - [scheduled-deep-analysis](./techniques/scheduled-deep-analysis.md) — what
@@ -343,6 +364,9 @@ are [scheduled-deep-analysis](./techniques/scheduled-deep-analysis.md).
 - [archive-extraction-safety](./techniques/archive-extraction-safety.md) —
   traversal containment, decompression budgets, quarantine-then-promote,
   and the inventory of extraction sites.
+- [unsafe-deserialization-off-by-default](./techniques/unsafe-deserialization-off-by-default.md)
+  — restricted loader by default, a per-call opt-in named for the hazard, and
+  migration to a data-only format so the opt-in retires.
 - [reading-is-not-running](./techniques/reading-is-not-running.md) — a read
   verb stays a read: parse before evaluating, execute only an approved digest
   over the local import closure, refuse loudly on change.

@@ -41,7 +41,8 @@ the opt-in can retire.** Three parts, each necessary:
   deployments that matter
   ([absent-guard-is-loud](../../../../_laws.md#absent-guard-is-loud)); three
   large scientific-computing ecosystems flipped exactly this default between
-  2019 and 2025, each after an advisory, and each found that the permissive
+  2019 and 2025, one after a published advisory and another as an announced
+  hardening behind a release-long warning, and each found that the permissive
   path had been on for every user who never read the docstring.
 - **Named for the risk, at the call.** The flag says what it grants —
   "allow pickled members", "load code as well as weights" — so a reviewer

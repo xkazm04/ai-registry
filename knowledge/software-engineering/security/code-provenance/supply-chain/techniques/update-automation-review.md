@@ -146,7 +146,7 @@ silent degradation to a default with the operator's intent still sitting in the
 file
 ([absent-guard-is-loud](../../../../_laws.md#absent-guard-is-loud)).
 
-Two habits close it, and both are cheap:
+Three habits close it, and all are cheap:
 
 - **Read the mitigations, not just the fixes.** A fix says what was wrong; a
   mitigation says what the maintainer turned off to make it right. The
@@ -157,7 +157,6 @@ Two habits close it, and both are cheap:
   that is the point — and it is exactly the part of the surface the suite
   cannot see. Diff it against the release's mitigations on every framework
   bump; for everything the suite does reach, the suite is still the instrument.
-
 - **Take the baseline before you upgrade, not after.** Establish that the build,
   the suite and the start-up were green on the *outgoing* version, in this
   checkout, today. Without that, a failure after the bump is uninterpretable: it
@@ -187,7 +186,8 @@ label set the starting tier rather than the final one.
 The point of update automation is shrinking the time between *fix
 available* and *fix deployed* — the exposure window. Measure it: age of
 open update proposals, and time-to-merge for security-tagged ones. Two
-failure modes show up immediately in that number:
+failure modes show up immediately in that number, and a third stays
+invisible to it:
 
 - **The unmerged pile.** Automation opening proposals nobody merges is
   not hygiene, it is a backlog dressed as one — the window never closes,

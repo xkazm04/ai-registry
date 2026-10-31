@@ -275,3 +275,337 @@ mechanism. Return condition in `applied.md`.
 ### 2026-09-16 - `/harvest backlog` wave 1, one technique
 
 `reading-is-not-running`: three source notes ([[2026-09-15-ai-engineering-coach]], [[2026-08-31-knip]], [[2026-09-07-rodin-worldgen]]) banked the same shape untriaged - a read verb that silently executes content somebody else authored. Homed here rather than in sidecar-provisioning, beside `unsafe-deserialization-off-by-default`, because the discriminator is who authored the executing bytes: that technique owns formats encoding object construction, where a restricted loader exists; this owns content that *is* a program, where it does not. game-production's engine-integration-safety holds the opposite side (our automation as guest). Measured by replay on personas' read-only scan lane (2/3 planted markers fired -> 0/3 with a digest over the local import closure). The falsifying arm is the reusable part: hashing only the named config file still let an imported module run.
+
+## Architecture review - 2026-10-31
+
+First architecture review of this subject, against `e1fcb7785`. The trust-crossing thesis holds across all 18 techniques. The findings are completeness and accuracy, not structure: the golden path's prose and closing list both under-name the techniques its frontmatter lists; one technique overstates why deserialization defaults flipped; one technique miscounts its own bullets twice; one application misstates an advisory range and another miscomputes a release interval. Applications rest on private evidence that was not reopened.
+
+<!-- architecture-review:v1 -->
+```json
+{
+  "subject": "software-engineering/supply-chain",
+  "date": "2026-10-31",
+  "baseline": "e1fcb7785",
+  "digest": "sha256-b2:f5666db1094acd9f",
+  "disposition": "clarify",
+  "coverage": "All 26 current documents (golden path, 18 techniques, 7 applications) read in full. Primary sources opened for the deserialization-default history, release-age floors and bot ignore semantics, the AVIF advisory and compiler release dates. Not evaluated: any connected-project tree, pipeline log or harness behind the seven applications; the toolchain survey; the license-reach blind A/B. No verification date refreshed.",
+  "counterexamples": [
+    "A tensor framework flipped its loader default to restricted as a pre-announced hardening with a release-long warning and no CVE, so 'defaults flip only after an advisory' is false.",
+    "Eight compiler minors at a six-week cadence is under a year, so a graph can overtake a declared floor at half the survey's typical window.",
+    "On a bot where ignore rules also apply to security updates, an operated-major ceiling written as an ignore silences the security proposals it was never meant to mute.",
+    "In a hermetic, credential-free build that also covers developer builds, the build-time tier collapses into the runtime tier and the extra inventory is ceremony.",
+    "Process-private state written and reloaded within one lifetime gains nothing from the restricted loader."
+  ],
+  "sources": [
+    {
+      "url": "https://dev-discuss.pytorch.org/t/bc-breaking-change-torch-load-is-being-flipped-to-use-weights-only-true-by-default-in-the-nightlies-after-137602/2573",
+      "result": "Read. Motivation: pickle 'can import and execute arbitrary functions'; warned 'since version 2.4'; cites no CVE or advisory. Refutes 'each after an advisory'."
+    },
+    {
+      "url": "https://ubuntu.com/security/CVE-2019-6446",
+      "result": "Via search results with SUSE advisory: NumPy before 1.16.3 used pickle unsafely; fix 'Set allow_pickle to false by default'. Supports one advisory-driven flip."
+    },
+    {
+      "url": "https://docs.github.com/en/code-security/dependabot/working-with-dependabot/dependabot-options-reference",
+      "result": "Read. cooldown: 'only available for version updates, not security updates'; default 'not considered for a version update until 3 days after its release'. Supports release-age floors with security exempt."
+    },
+    {
+      "url": "https://docs.github.com/en/code-security/how-tos/secure-your-supply-chain/manage-your-dependency-security/controlling-dependencies-updated",
+      "result": "Read. Ignore applies 'when it opens pull requests for version updates and security updates'. Supports 'an ignore rule also suppresses the security proposals'."
+    },
+    {
+      "url": "https://docs.renovatebot.com/configuration-options/#minimumreleaseage",
+      "result": "Read. minimumReleaseAge 'requires Renovate to wait for a specified amount of time before suggesting a dependency update'; scopes include vulnerabilityAlert, so the security exemption is explicit configuration."
+    },
+    {
+      "url": "https://github.com/advisories/GHSA-2xp9-vwfh-vxw4",
+      "result": "Read. Affected '>= 10.0.0, < 15.5.24' and '>= 16.0.0, < 16.3.3'; CVSS 4.0 9.5; 'Until a fix has propagated, optimization of AVIF files is disabled.'"
+    },
+    {
+      "url": "https://www.cycognito.com/blog/emerging-threat-cve-2026-75604-next-js-remote-code-execution-via-windows-path-traversal/",
+      "result": "Secondary only (search results): Windows path traversal in the cache path, fixed in 15.5.24/16.3.3. Official record not reached; ranges disagree across secondaries."
+    },
+    {
+      "url": "https://raw.githubusercontent.com/rust-lang/rust/master/RELEASES.md",
+      "result": "Read. 1.80.0 (2024-07-25), 1.88.0 (2025-06-26): eight minors is eleven months, not two years."
+    },
+    {
+      "source": "Toolchain viability survey cited by toolchain-floor-drift",
+      "result": "Searched, not reached. The two-year figure stays unverified."
+    }
+  ],
+  "documents": {
+    "supply-chain.md": {
+      "disposition": "clarify",
+      "reason": "Thesis and boundaries hold. Two gaps: the closing technique list omits verification-scope, lockfile-freshness-oracle and unsafe-deserialization-off-by-default although the frontmatter lists all 18; and the body never mentions unsafe-deserialization-off-by-default, reading-is-not-running, license-reach-follows-integration-form or one-version-decays-to-a-floor, so a reader of the prose alone misses four techniques. Add the missing list entries and one sentence each in the sections they extend (archives, dependency policy, updates). The one-version list item also uses ' - ' where every other entry uses an em dash."
+    },
+    "techniques/secret-scanning-architecture.md": {
+      "disposition": "keep",
+      "reason": "Staged-diff placement, three-outcome wrapper, announced skip plus binding backstop, fingerprint allowlist with stale-entry failure and rotate-first response are internally consistent and match the golden path."
+    },
+    "techniques/dependency-policy-gates.md": {
+      "disposition": "keep",
+      "reason": "Four deny-by-default clauses, lockfile as target, pipeline steps as an ecosystem, expiring exceptions and the two liveness hazards hold. Cosmetic only: the body cites failure-not-empty-success but the laws field omits it."
+    },
+    "techniques/license-reach-follows-integration-form.md": {
+      "disposition": "keep",
+      "reason": "Form ladder (data, separate program, dynamic link, combined work), pair-keyed policy and the form-change-without-license-change event are sound and explicitly scoped as engineering policy, not legal opinion. Frontmatter claims applied: blind-ab / better with no application document in this subject; the evidence is not re-checkable here."
+    },
+    "techniques/verification-scope.md": {
+      "disposition": "keep",
+      "reason": "Stage-not-command scope of a hash flag, isolated source builds fetching their backend, and downloader subcommands are product-neutral mechanisms; decision rules follow from the text."
+    },
+    "techniques/lockfile-freshness-oracle.md": {
+      "disposition": "keep",
+      "reason": "Constrained re-resolution, strict-install-first (the correction from the 2026-08-31 A/B), semantic comparison and one-lockfile-per-matrix-cell are consistent."
+    },
+    "techniques/scheduled-deep-analysis.md": {
+      "disposition": "keep",
+      "reason": "Commit- versus clock-triggered partition, recency monitoring and owner routing hold."
+    },
+    "techniques/permission-manifest-scoping.md": {
+      "disposition": "keep",
+      "reason": "Deny-by-default manifests, remote-content boundary, one-authority allowlists and declared-versus-used verification with a nonzero-population assertion hold."
+    },
+    "techniques/archive-extraction-safety.md": {
+      "disposition": "keep",
+      "reason": "Canonicalized containment, link-entry policy, streaming budgets, verify-before-extract, quarantine-then-promote and the sentinel are standard and consistent."
+    },
+    "techniques/unsafe-deserialization-off-by-default.md": {
+      "disposition": "clarify",
+      "reason": "Rule holds. One factual over-reach: three ecosystems flipped the default 'each after an advisory'. The array library's flip did follow a CVE (CVE-2019-6446: default changed to allow_pickle=False), but the tensor framework's 2.6 flip cites no advisory: its announcement gives pickle's ability to 'import and execute arbitrary functions' as the reason, links a checkpoint-poisoning incident, and says the change was warned 'since version 2.4'. Reword to what the sources show."
+    },
+    "techniques/reading-is-not-running.md": {
+      "disposition": "keep",
+      "reason": "Parse-before-evaluate, digest over the local import closure and loud refusal are supported by the recorded three-arm replay; boundaries with deserialization and extension trust are stated."
+    },
+    "techniques/update-automation-review.md": {
+      "disposition": "clarify",
+      "reason": "Doctrine holds and the two unstable claims check out: release-age floors exist on the major update bots (Renovate minimumReleaseAge, scoped also to vulnerabilityAlert so the security exemption must be set explicitly; Dependabot cooldown, 'only available for version updates, not security updates'), and on at least one bot an ignore also mutes security proposals (GitHub: ignore applies 'when it opens pull requests for version updates and security updates'). Two internal count errors: 'Two habits close it' is followed by three bullets (the third detached by a blank line), and 'Two failure modes show up immediately in that number' is followed by three, the third (version-range drift) not being visible in that number at all."
+    },
+    "techniques/toolchain-floor-drift.md": {
+      "disposition": "reverify",
+      "reason": "Mechanism and the build-at-the-floor, resolve-as-a-consumer lane are sound. The roughly-two-year viability figure is the technique's one number and its source (a survey of the top hundred packages, binary search over compiler releases) was not reached this run; the text already hedges it as an order of magnitude."
+    },
+    "techniques/vendored-fork-ledger.md": {
+      "disposition": "keep",
+      "reason": "Ledger fields, falsifiable removal condition, two-way inventory plus reverse-apply, the re-vendoring walk and exact-pinning the overridden version are consistent."
+    },
+    "techniques/patching-mechanism-ladder.md": {
+      "disposition": "keep",
+      "reason": "Four rungs selected by shape, rung zero, posture-based rejection of the mirror's alternatives and what each rung leaves visible to the guards are coherent."
+    },
+    "techniques/signature-preserving-patching.md": {
+      "disposition": "keep",
+      "reason": "Channel as veto, valid-signature-over-stale-behaviour, audit corollary and the no-channel exceptions are coherent and correctly delegated to packaging and signed-artifacts."
+    },
+    "techniques/build-time-dependency-tier.md": {
+      "disposition": "keep",
+      "reason": "Execution-phase split, host-exposure pricing, hand inventory and hermetic-build inversion hold."
+    },
+    "techniques/review-attestation-ledger.md": {
+      "disposition": "keep",
+      "reason": "Two-axis framing, delta certification, pooling as load-bearing, unread-import-renders-as-coverage and the both-conditions-fail scope hold."
+    },
+    "techniques/one-version-decays-to-a-floor.md": {
+      "disposition": "clarify",
+      "reason": "Event-versus-state, floor over equality, resolution record over declaration and the cross-checkout query are sound. The measured shape says six checkouts were driven and twenty-two days later 'eight members carried that framework and two were below that floor'; it does not say whether the two were among the six swept. If they were not, the paragraph's reading (a sweep is not a standing state) does not follow from them. Not applied: the private fleet data was not reopened."
+    },
+    "applications/next--update-automation-review.md": {
+      "disposition": "clarify",
+      "reason": "Advisory facts re-checked: GHSA-2xp9-vwfh-vxw4 is 'Unauthenticated Remote Code Execution in Image Optimization API when AVIF files are used', CVSS 4.0 9.5, mitigation 'Until a fix has propagated, optimization of AVIF files is disabled.', which supports the subtraction finding. Its affected range is '>= 10.0.0, < 15.5.24' and '>= 16.0.0, < 16.3.3'; the application writes the second as '<16.3.3'. CVE-2026-75604 reached only through secondary sources (Windows path traversal, fixed in 15.5.24/16.3.3). Fleet lockfiles and configs not reopened; verified_on unchanged."
+    },
+    "applications/node--secret-scanning-architecture.md": {
+      "disposition": "reverify",
+      "reason": "Measured counts (3,186 skip messages, 40.0% path exemption, 443 of 963 test files) are a dated private measurement not re-run."
+    },
+    "applications/process--dependency-policy-gates.md": {
+      "disposition": "reverify",
+      "reason": "350-run zero-verdict history and the engine-float outage are dated private pipeline evidence not reopened."
+    },
+    "applications/process--unsafe-deserialization-off-by-default.md": {
+      "disposition": "reverify",
+      "reason": "Two-arm harness is internally consistent; the private tree and harness were not re-run."
+    },
+    "applications/process--update-automation-review.md": {
+      "disposition": "reverify",
+      "reason": "67-proposal count and calibration are private. Its claim that on this bot an ignore also silences security proposals is now corroborated by the bot vendor's documentation."
+    },
+    "applications/rust--archive-extraction-safety.md": {
+      "disposition": "reverify",
+      "reason": "Guard, sentinel and the three named gaps are a dated reading of a private source file not reopened."
+    },
+    "applications/rust--toolchain-floor-drift.md": {
+      "disposition": "clarify",
+      "reason": "Arithmetic error: 'Eight minor versions is roughly two years of releases, which is the same order as the window the technique cites'. At the six-week cadence eight minors is 48 weeks; the release notes date 1.80.0 to 2024-07-25 and 1.88.0 to 2025-06-26, eleven months. The graph overtook the claim in under a year, half the cited window. The measurement itself (60 of 518, effective 1.88) was not re-run."
+    }
+  }
+}
+```
+
+## Architecture review - 2026-10-31 (clarify applied)
+
+Applied the five clarify items the record above named that a primary source or verified arithmetic supports, against `dcca8ad22`. one-version-decays-to-a-floor stays clarify. With every applied item now keep, the overall disposition is `reverify`: toolchain-floor-drift's survey and the private application evidence remain unconfirmed.
+
+<!-- architecture-review:v1 -->
+```json
+{
+  "subject": "software-engineering/supply-chain",
+  "date": "2026-10-31",
+  "baseline": "dcca8ad22",
+  "digest": "sha256-b2:e5bfd6c5d6581fc1",
+  "disposition": "reverify",
+  "coverage": "All 26 documents decided. The five clarify items with a primary source or verified arithmetic were applied and the edited passages re-read; one-version-decays-to-a-floor stays clarify (needs private fleet data). Other documents byte-unchanged and keep their dispositions. No private tree or runtime reopened; no verification date refreshed.",
+  "counterexamples": [
+    "A tensor framework flipped its loader default to restricted as a pre-announced hardening with a release-long warning and no CVE, so 'defaults flip only after an advisory' is false.",
+    "Eight compiler minors at a six-week cadence is under a year, so a graph can overtake a declared floor at half the survey's typical window.",
+    "On a bot where ignore rules also apply to security updates, an operated-major ceiling written as an ignore silences the security proposals it was never meant to mute.",
+    "In a hermetic, credential-free build that also covers developer builds, the build-time tier collapses into the runtime tier and the extra inventory is ceremony.",
+    "Process-private state written and reloaded within one lifetime gains nothing from the restricted loader."
+  ],
+  "sources": [
+    {
+      "url": "https://dev-discuss.pytorch.org/t/bc-breaking-change-torch-load-is-being-flipped-to-use-weights-only-true-by-default-in-the-nightlies-after-137602/2573",
+      "result": "Read. Motivation: pickle 'can import and execute arbitrary functions'; warned 'since version 2.4'; cites no CVE or advisory. Refutes 'each after an advisory'."
+    },
+    {
+      "url": "https://ubuntu.com/security/CVE-2019-6446",
+      "result": "Via search results with SUSE advisory: NumPy before 1.16.3 used pickle unsafely; fix 'Set allow_pickle to false by default'. Supports one advisory-driven flip."
+    },
+    {
+      "url": "https://docs.github.com/en/code-security/dependabot/working-with-dependabot/dependabot-options-reference",
+      "result": "Read. cooldown: 'only available for version updates, not security updates'; default 'not considered for a version update until 3 days after its release'. Supports release-age floors with security exempt."
+    },
+    {
+      "url": "https://docs.github.com/en/code-security/how-tos/secure-your-supply-chain/manage-your-dependency-security/controlling-dependencies-updated",
+      "result": "Read. Ignore applies 'when it opens pull requests for version updates and security updates'. Supports 'an ignore rule also suppresses the security proposals'."
+    },
+    {
+      "url": "https://docs.renovatebot.com/configuration-options/#minimumreleaseage",
+      "result": "Read. minimumReleaseAge 'requires Renovate to wait for a specified amount of time before suggesting a dependency update'; scopes include vulnerabilityAlert, so the security exemption is explicit configuration."
+    },
+    {
+      "url": "https://github.com/advisories/GHSA-2xp9-vwfh-vxw4",
+      "result": "Read. Affected '>= 10.0.0, < 15.5.24' and '>= 16.0.0, < 16.3.3'; CVSS 4.0 9.5; 'Until a fix has propagated, optimization of AVIF files is disabled.'"
+    },
+    {
+      "url": "https://www.cycognito.com/blog/emerging-threat-cve-2026-75604-next-js-remote-code-execution-via-windows-path-traversal/",
+      "result": "Secondary only (search results): Windows path traversal in the cache path, fixed in 15.5.24/16.3.3. Official record not reached; ranges disagree across secondaries."
+    },
+    {
+      "url": "https://raw.githubusercontent.com/rust-lang/rust/master/RELEASES.md",
+      "result": "Read. 1.80.0 (2024-07-25), 1.88.0 (2025-06-26): eight minors is eleven months, not two years."
+    },
+    {
+      "source": "Toolchain viability survey cited by toolchain-floor-drift",
+      "result": "Searched, not reached. The two-year figure stays unverified."
+    }
+  ],
+  "documents": {
+    "supply-chain.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: added the three missing technique-list entries (verification-scope, lockfile-freshness-oracle, unsafe-deserialization-off-by-default), one sentence each linking license-reach-follows-integration-form (dependency policy), one-version-decays-to-a-floor (updates), unsafe-deserialization-off-by-default and reading-is-not-running (archives), and normalized the one-version list separator."
+    },
+    "techniques/secret-scanning-architecture.md": {
+      "disposition": "keep",
+      "reason": "Staged-diff placement, three-outcome wrapper, announced skip plus binding backstop, fingerprint allowlist with stale-entry failure and rotate-first response are internally consistent and match the golden path."
+    },
+    "techniques/dependency-policy-gates.md": {
+      "disposition": "keep",
+      "reason": "Four deny-by-default clauses, lockfile as target, pipeline steps as an ecosystem, expiring exceptions and the two liveness hazards hold. Cosmetic only: the body cites failure-not-empty-success but the laws field omits it."
+    },
+    "techniques/license-reach-follows-integration-form.md": {
+      "disposition": "keep",
+      "reason": "Form ladder (data, separate program, dynamic link, combined work), pair-keyed policy and the form-change-without-license-change event are sound and explicitly scoped as engineering policy, not legal opinion. Frontmatter claims applied: blind-ab / better with no application document in this subject; the evidence is not re-checkable here."
+    },
+    "techniques/verification-scope.md": {
+      "disposition": "keep",
+      "reason": "Stage-not-command scope of a hash flag, isolated source builds fetching their backend, and downloader subcommands are product-neutral mechanisms; decision rules follow from the text."
+    },
+    "techniques/lockfile-freshness-oracle.md": {
+      "disposition": "keep",
+      "reason": "Constrained re-resolution, strict-install-first (the correction from the 2026-08-31 A/B), semantic comparison and one-lockfile-per-matrix-cell are consistent."
+    },
+    "techniques/scheduled-deep-analysis.md": {
+      "disposition": "keep",
+      "reason": "Commit- versus clock-triggered partition, recency monitoring and owner routing hold."
+    },
+    "techniques/permission-manifest-scoping.md": {
+      "disposition": "keep",
+      "reason": "Deny-by-default manifests, remote-content boundary, one-authority allowlists and declared-versus-used verification with a nonzero-population assertion hold."
+    },
+    "techniques/archive-extraction-safety.md": {
+      "disposition": "keep",
+      "reason": "Canonicalized containment, link-entry policy, streaming budgets, verify-before-extract, quarantine-then-promote and the sentinel are standard and consistent."
+    },
+    "techniques/unsafe-deserialization-off-by-default.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: 'each after an advisory' now reads that one flipped after a published advisory and another as an announced hardening behind a release-long warning, matching CVE-2019-6446 and the tensor framework's 2.6 announcement."
+    },
+    "techniques/reading-is-not-running.md": {
+      "disposition": "keep",
+      "reason": "Parse-before-evaluate, digest over the local import closure and loud refusal are supported by the recorded three-arm replay; boundaries with deserialization and extension trust are stated."
+    },
+    "techniques/update-automation-review.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: 'Two habits' -> 'Three habits' with the detached bullet rejoined; 'Two failure modes show up immediately in that number' -> two show up in it and a third stays invisible to it."
+    },
+    "techniques/toolchain-floor-drift.md": {
+      "disposition": "reverify",
+      "reason": "Mechanism and the build-at-the-floor, resolve-as-a-consumer lane are sound. The roughly-two-year viability figure is the technique's one number and its source (a survey of the top hundred packages, binary search over compiler releases) was not reached this run; the text already hedges it as an order of magnitude."
+    },
+    "techniques/vendored-fork-ledger.md": {
+      "disposition": "keep",
+      "reason": "Ledger fields, falsifiable removal condition, two-way inventory plus reverse-apply, the re-vendoring walk and exact-pinning the overridden version are consistent."
+    },
+    "techniques/patching-mechanism-ladder.md": {
+      "disposition": "keep",
+      "reason": "Four rungs selected by shape, rung zero, posture-based rejection of the mirror's alternatives and what each rung leaves visible to the guards are coherent."
+    },
+    "techniques/signature-preserving-patching.md": {
+      "disposition": "keep",
+      "reason": "Channel as veto, valid-signature-over-stale-behaviour, audit corollary and the no-channel exceptions are coherent and correctly delegated to packaging and signed-artifacts."
+    },
+    "techniques/build-time-dependency-tier.md": {
+      "disposition": "keep",
+      "reason": "Execution-phase split, host-exposure pricing, hand inventory and hermetic-build inversion hold."
+    },
+    "techniques/review-attestation-ledger.md": {
+      "disposition": "keep",
+      "reason": "Two-axis framing, delta certification, pooling as load-bearing, unread-import-renders-as-coverage and the both-conditions-fail scope hold."
+    },
+    "techniques/one-version-decays-to-a-floor.md": {
+      "disposition": "clarify",
+      "reason": "Event-versus-state, floor over equality, resolution record over declaration and the cross-checkout query are sound. The measured shape says six checkouts were driven and twenty-two days later 'eight members carried that framework and two were below that floor'; it does not say whether the two were among the six swept. If they were not, the paragraph's reading (a sweep is not a standing state) does not follow from them. Not applied: the private fleet data was not reopened."
+    },
+    "applications/next--update-automation-review.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: second AVIF affected range now '>=16.0.0 <16.3.3' as the advisory states. verified_on unchanged (fleet lockfiles not reopened)."
+    },
+    "applications/node--secret-scanning-architecture.md": {
+      "disposition": "reverify",
+      "reason": "Measured counts (3,186 skip messages, 40.0% path exemption, 443 of 963 test files) are a dated private measurement not re-run."
+    },
+    "applications/process--dependency-policy-gates.md": {
+      "disposition": "reverify",
+      "reason": "350-run zero-verdict history and the engine-float outage are dated private pipeline evidence not reopened."
+    },
+    "applications/process--unsafe-deserialization-off-by-default.md": {
+      "disposition": "reverify",
+      "reason": "Two-arm harness is internally consistent; the private tree and harness were not re-run."
+    },
+    "applications/process--update-automation-review.md": {
+      "disposition": "reverify",
+      "reason": "67-proposal count and calibration are private. Its claim that on this bot an ignore also silences security proposals is now corroborated by the bot vendor's documentation."
+    },
+    "applications/rust--archive-extraction-safety.md": {
+      "disposition": "reverify",
+      "reason": "Guard, sentinel and the three named gaps are a dated reading of a private source file not reopened."
+    },
+    "applications/rust--toolchain-floor-drift.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: 'roughly two years of releases' corrected to under a year (1.80.0 2024-07-25, 1.88.0 2025-06-26), now read as half the technique's cited window rather than the same order. verified_on unchanged."
+    }
+  }
+}
+```
