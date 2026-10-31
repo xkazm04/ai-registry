@@ -4,7 +4,8 @@ type: application
 subject: feed
 technique: read-position-and-unseen
 stack: react
-verified_on: 2026-08-18
+verified_on: 2026-10-31
+verified_against: react@19
 ---
 
 # Read position and unseen — two anchors, one half-adoption (React + Zustand)
@@ -18,16 +19,16 @@ that has the scroll contract but no count. Read them together.
 `src/stores/slices/pipeline/channelSlice.ts` keeps one anchor per team:
 
 ```ts
-function readLastSeen(teamId: string): string | null {          // :71-77
+function readLastSeen(teamId: string): string | null {          // :118-124
   return localStorage.getItem(LAST_SEEN_PREFIX + teamId);
 }
-function writeLastSeen(teamId: string, at: string): void { … }  // :79-87
+function writeLastSeen(teamId: string, at: string): void { … }  // :126-134
 ```
 
 and **derives** the badge:
 
 ```ts
-export function countUnread(state: ChannelTeamState): number {  // :99-106
+export function countUnread(state: ChannelTeamState): number {  // :145-153
   let n = 0;
   for (const i of state.items) {
     if (i.kind === "directive") continue;                       // the user's own posts
@@ -41,13 +42,13 @@ export function countUnread(state: ChannelTeamState): number {  // :99-106
 Three technique clauses visible in ten lines: the anchor is the durable thing
 (`localStorage`, per team); the count is a comparison over items, never a
 maintained integer; and the **count carries its predicate** in code — the doc
-comment (`:89-97`) states that bridged `slack` rows *do* count and the reader's
+comment (`:136-144`) states that bridged `slack` rows *do* count and the reader's
 own directives do not ("you never have unread mail from yourself"). A
 never-read team counts as fully unread, deliberately.
 
-`markChannelSeen` (`:313-325`) is anchor-set-to-head: it writes the newest
+`markChannelSeen` (`:418-429`) is anchor-set-to-head: it writes the newest
 item's `at` and short-circuits when unchanged — idempotent, one write. The
-private-mode write failure is breadcrumbed, not swallowed (`:82-85`), so a badge
+private-mode write failure is breadcrumbed, not swallowed (`:129-133`), so a badge
 that stops surviving restarts leaves a trace.
 
 **Where it falls short of the technique — the anchor is a bare timestamp.**
@@ -56,7 +57,7 @@ that stops surviving restarts leaves a trace.
 **45.2%** on `team_channel_messages` (worst tie 7 — `chronological-feed.md`
 §0). Two rows sharing the watermark's second, one seen and one arriving after
 `markChannelSeen`, are indistinguishable: the later one is `<= lastSeenAt` and
-counts as read. The keyset cursor forty lines below (`loadOlderChannel:238-244`)
+counts as read. The keyset cursor further down the file (`loadOlderChannel:343-350`)
 already carries the composite `{ at, id }` for exactly this reason and comments
 it; the watermark did not get the same upgrade. The technique's rule — the
 anchor is the *tuple*, the same composite the cursor uses — is the fix, and it is
@@ -71,17 +72,17 @@ in the composer's report rather than edited into that file.
 ```ts
 // Freeze the previous-session anchor at first render, before the heartbeat
 // below advances the stored value for the next session.
-const [anchor] = useState<number | null>(() => readLastSeen());   // :113-115
+const [anchor] = useState<number | null>(() => readLastSeen());   // :184-186
 ```
 
 then advances the *stored* value on a 60s heartbeat plus `beforeunload` /
-`visibilitychange` (`:130-143`) so a crash replays at most a minute, while
-`computeSinceLeftBriefing` (`:50-`) derives every "since you left" line by
+`visibilitychange` (`useLastSeenHeartbeat`, `:143-162`) so a crash replays at most a minute, while
+`computeSinceLeftBriefing` (`:65-`) derives every "since you left" line by
 comparing item timestamps against the frozen `anchor` — never against the
 heartbeat's live value. Had the memo depended on the stored value, the
 surface's own heartbeat would zero the delta it was about to display; the
 `useState` initializer is what makes that race unspellable. `firstRun`
-(`:54`) — no anchor at all — renders nothing rather than "everything is new".
+(`:69`) — no anchor at all — renders nothing rather than "everything is new".
 
 Note the anchor here is an epoch-ms number rather than an ordering tuple. That
 is acceptable for *this* consumer because it compares against three
@@ -92,8 +93,8 @@ It would be the wrong shape for a single feed's watermark, which is Adoption
 
 ## The half-adoption — a jump pill with no count
 
-`src/features/plugins/companion/useChatScroll.ts` implements the scroll
-contract cleanly: `atBottom` tracked within a band (`:30-40`), auto-scroll only
+`src/features/companions/athena/useChatScroll.ts` implements the scroll
+contract cleanly: `atBottom` tracked within a band (`:35-42`), auto-scroll only
 while pinned (`:63`), and the doc comment (`:13-19`) hands the caller a
 "jump to latest" affordance off `atBottom`. What the caller gets is a boolean.
 There is no held-arrivals count anywhere on that path, so the affordance says
@@ -107,12 +108,23 @@ feed side: the scroll ethic without the read-position instrument.
 
 | Technique clause | Site |
 |---|---|
-| Anchor stored, count derived | `channelSlice.ts:71-87` + `countUnread:99-106` |
-| Count carries its predicate | `countUnread` doc `:89-97` (slack in, own directives out) |
-| Mark-all-read = anchor-set-to-head, idempotent | `channelSlice.ts:313-325` |
+| Anchor stored, count derived | `channelSlice.ts:118-134` + `countUnread:145-153` |
+| Count carries its predicate | `countUnread` doc `:136-144` (slack in, own directives out) |
+| Mark-all-read = anchor-set-to-head, idempotent | `channelSlice.ts:418-429` |
 | Anchor is the ordering tuple, not a bare timestamp | **violated** — `lastSeenAt: string`, `i.at <= lastSeenAt` on a 45%-tied key |
-| Freeze at entry; advance the store separately | `sinceLeftBriefing.ts:113-115` vs `:130-143` |
-| No anchor → render nothing, not "all new" | `sinceLeftBriefing.ts:54` |
-| Durable across restart | `localStorage` in both; write failure breadcrumbed at `channelSlice.ts:82-85` |
+| Freeze at entry; advance the store separately | `sinceLeftBriefing.ts:184-186` vs `:143-162` |
+| No anchor → render nothing, not "all new" | `sinceLeftBriefing.ts:69` |
+| Durable across restart | `localStorage` in both; write failure breadcrumbed at `channelSlice.ts:129-133` |
 | Jump affordance carries a count | **absent** — `useChatScroll.ts` exposes `atBottom` only (deferred-fixes `#w7-chat-transcript`) |
 | Multi-device convergence by max | not applicable — anchors are device-local (`localStorage`); if identity ever roams, take the max |
+
+Re-checked 2026-10-31 at personas@22260d77: the bare-timestamp watermark and
+the count-less jump pill both still hold (`countUnread` still compares
+`i.at <= lastSeenAt`; the Athena chat's `AthenaChatJumpToLatest` is driven by
+`atBottom` alone). One statement no longer holds: the watermark gap **is now
+registered** in the consumer's deferred-fixes register under `#w12-feed`
+(`docs/concepts/golden-path-deferred-fixes.md`), so "not registered anywhere
+in deferred-fixes today" is superseded. The heartbeat that advances the
+briefing's stored anchor now lives in its own hook, `useLastSeenHeartbeat`,
+and skips its interval stamp while the document is hidden; the
+freeze-at-entry shape is unchanged.

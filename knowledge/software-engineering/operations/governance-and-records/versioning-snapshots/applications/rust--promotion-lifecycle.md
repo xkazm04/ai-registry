@@ -4,7 +4,8 @@ type: application
 subject: versioning-snapshots
 technique: promotion-lifecycle
 stack: rust
-verified_on: 2026-08-18
+verified_on: 2026-10-31
+verified_against: rust@1.80
 ---
 
 # Promotion lifecycle — prompt-version tags, proposals, and auto-rollback
@@ -16,24 +17,24 @@ clause of the technique.
 
 ## Declared states, validated at the door
 
-`src-tauri/src/commands/execution/lab.rs::lab_tag_version` (:814) enumerates
+`src-tauri/src/commands/execution/lab.rs::lab_tag_version` (:822) enumerates
 the vocabulary in one place — `["production", "experimental", "archived"]` —
 and rejects anything else with a validation error. Versions are minted
-`'experimental'` (`lab.rs:626`, `versions.rs:23`): creation is not promotion.
+`'experimental'` (`lab.rs:631`, `versions.rs:85`): creation is not promotion.
 
 ## The atomic swap — and where "one pointer" is really N flags
 
-`activate_version_atomic` (`lab.rs:960`) is the promotion act: apply the
+`activate_version_atomic` (`lab.rs:980`) is the promotion act: apply the
 version's prompt to the live persona, demote the current `'production'` row
 to `'experimental'`, tag the target `'production'` — all in **one
 transaction**, deliberately replacing a former two-IPC flow whose partial
-failure left the prompt and the model mismatched (`lab.rs:1046-1052`
+failure left the prompt and the model mismatched (`lab.rs:1071-1077`
 documents the incident). Two honest caveats against the technique:
 
 - "Active" is a **tag scattered across version rows**, not a single pointer
   column; the atomic transaction is what prevents two `'production'` rows,
   and the readers hedge with `ORDER BY version_number DESC LIMIT 1`
-  (`lab.rs:902,1018`) — which silently picks one if the invariant ever
+  (`lab.rs:912,1043`) — which silently picks one if the invariant ever
   breaks rather than failing loudly.
 - Demotion re-tags the old production row `'experimental'`, erasing the fact
   that it was ever promoted. The technique's "promoted-ever" retention
@@ -43,7 +44,7 @@ documents the incident). Two honest caveats against the technique:
 ## Human-gated proposals
 
 Darwin-mode evolution cycles **always complete `promoted = false`**;
-`mark_cycle_promoted` (`src-tauri/db/src/repos/lab/evolution.rs:356`) is
+`mark_cycle_promoted` (`src-tauri/db/src/repos/lab/evolution.rs:355`) is
 documented as callable *only* from the human-approval path of a promotion
 proposal (`src-tauri/db/src/repos/lab/evolution_proposals.rs` — the
 `evolution_promotion_proposals` table). The machine nominates with fitness

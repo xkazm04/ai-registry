@@ -4,7 +4,7 @@ type: application
 subject: file-browsing
 technique: thumbnails-and-previews
 stack: rust
-verified_on: 2026-09-20
+verified_on: 2026-10-31
 verified_against: rust@1.80
 ---
 
