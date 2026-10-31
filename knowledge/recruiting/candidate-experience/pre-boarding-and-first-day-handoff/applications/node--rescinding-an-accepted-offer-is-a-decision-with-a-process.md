@@ -5,13 +5,27 @@ subject: pre-boarding-and-first-day-handoff
 technique: rescinding-an-accepted-offer-is-a-decision-with-a-process
 stack: node
 status: forged
-verified_on: 2026-09-29
+verified_on: 2026-10-31
 verified_against: node@24
 applied: experiment
 ab_verdict: unmeasurable
 ---
 
 # A hired candidate can be closed by the selection-stage reject — a Next.js/SQLite recruiting studio
+
+> **Re-checked 2026-10-31 at kp@6edf5d7e6: the door this application measured is
+> now shut.** `e6bd734cb` (2026-10-17, "refuse a reject on a Hired entry at both
+> doors") added a guard to `actOnPipelineEntry` (`app/_lib/db/pipeline.ts:3620-3629`).
+> A `reject` on an entry whose stage holds the `terminal` role, resolved by role
+> and not by the name "Hired", returns `null` and the routes answer
+> `PIPELINE_ENTRY_HIRED` (409): "Nothing was sealed, sent or changed. Rescinding
+> a hire is a separate action." The same pass made `reject` refuse a terminal
+> *status* too, so it is no longer idempotent. The arm-A probe below is history:
+> at HEAD it would return `null` and leave `{"stage":"Hired","status":"active"}`.
+> The single-door failure is resolved by refusal. The technique's remedy, a
+> distinct rescission outcome selected by a ground, is still not built: the tree
+> names it as a later, separate action, so the status vocabulary still has no
+> word for a company-side withdrawal of a hire.
 
 The tree's own header says the studio's terminal state is `Hired` and everything after
 belongs to the HRIS (`respondToOffer` in `app/_lib/offer-finalize.ts`, the comment above

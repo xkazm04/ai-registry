@@ -5,7 +5,7 @@ subject: pre-boarding-and-first-day-handoff
 technique: language-neutral-template-keys
 stack: process
 status: forged
-verified_on: 2026-09-29
+verified_on: 2026-10-31
 ---
 
 # Language-neutral keys — a four-language codebase's cross-cutting contract
@@ -52,8 +52,11 @@ dependency array: a formatter whose identity churns is a render loop waiting to 
 
 ## Two registries, because a refusal and an accident need opposite treatment
 
-`app/_lib/api-response.ts` holds `STORE_ERRORS` (`:42`), `REFUSAL_ERRORS` (`:548`),
-`jsonRefusal(code, status)` (`:2073`) and `safeJsonError` (`:2106`). The distinction is
+`app/_lib/api-response.ts` holds `jsonRefusal(code, status)` (`:35`) and
+`safeJsonError` (`:72`), and re-exports `STORE_ERRORS`
+(`app/_lib/api-errors/store-errors.ts:21`) and `REFUSAL_ERRORS`
+(`app/_lib/api-errors/refusal-errors.ts:23`), whose catalogs moved into
+`app/_lib/api-errors/`; `scripts/i18n-check.mjs` reads them there. The distinction is
 argued in the doc: a store failure hides its real message (it carries `SQLITE_*` codes
 and absolute paths) and is logged; a refusal's *message is the information* — the intake
 closed, the offer lapsed, this link isn't yours — and is not logged, because "an
@@ -88,7 +91,9 @@ read found two:
 
 That parity check is the technique's rule that a key ships with its catalog entry in the
 same change, enforced by CI rather than by review. `ERROR_LEAK_ALLOW` is the deliberate
-exception list, and it is now capped (`ERROR_LEAK_ALLOW_MAX`, currently 7): appending a
+exception list, and it is now capped (`ERROR_LEAK_ALLOW_MAX`, currently 7; re-checked
+2026-10-31 at kp@6edf5d7e6, the script holds 8 since `55b3f1921` on 2026-09-19, and
+the doc still says 7): appending a
 path without raising the ceiling, with a reason, fails the gate, and so does an entry
 that is not on disk. The doc still insists that adding to it "is a decision, not a
 formality."
@@ -117,7 +122,7 @@ the row reader, is the only place a sentence is composed.
 - **The stage-move refusal gap has closed in code and not in the doc.** The first read
   found business-rule refusals in `app/_lib/pipeline-entry-action.ts` still emitting
   documented English. That emitter now answers every refusal with a code
-  (`err(status, code, extra)`, `:178–181`, whose comment names the incident: "a lost race
+  (`err(status, code, extra)`, `:228–237`, whose comment names the incident: "a lost race
   read English on a Czech board"), yet the doc's *deliberate verbatim detail* bullet and
   the comment in `scripts/i18n-check.mjs:87` still cite "a stage-move refusal" as an
   English exception. A declared gap outlived the fix; the reader who trusts the doc

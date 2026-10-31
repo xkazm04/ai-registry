@@ -5,7 +5,7 @@ subject: pre-boarding-and-first-day-handoff
 technique: the-live-stage-gates-the-handoff
 stack: node
 status: forged
-verified_on: 2026-09-29
+verified_on: 2026-10-31
 verified_against: node@24
 ---
 
@@ -48,7 +48,7 @@ reported as `OFFER_EXPIRED`, not as `declined`, so "a null offer never defaults 
 accepter to 'declined'" now also holds for a candidate who pressed Accept on a lapsed one.
 
 What the CAS does **not** do is dedupe the person: it is per *token*. The file states it
-at `:101–103` — a re-extend mints a fresh token once the first is answered, so a second
+at `:98–102` — a re-extend mints a fresh token once the first is answered, so a second
 link on an already-hired entry wins its own claim.
 
 ## Necessary, not sufficient: the live entry refuses the advance
@@ -56,7 +56,7 @@ link on an already-hired entry wins its own claim.
 The token proves who is asking; the pipeline entry decides whether anything happens.
 
 ```ts
-const advanced = actOnPipelineEntry(offer.entryId, "accept", undefined, { actor: "system" }, offer.workspaceId);
+const advanced = actOnPipelineEntry(offer.entryId, "accept", undefined, { actor: "system", outcome: "offer_accepted" }, offer.workspaceId);
 ```
 — `app/_lib/offer-finalize.ts:88`, with the comment at `:85–87`: *"actOnPipelineEntry now
 refuses to advance a TERMINAL entry, so a stale offer link accepted after the candidate
@@ -81,11 +81,11 @@ recruiter may move a candidate back off Offer while the link is live; and a cand
 already on the terminal stage who accepts a second link hits `actOnPipelineEntry`'s
 "already terminal, no-op" branch, which still returns the entry. Only `hired` drives the
 hire meter (`:132`), the calibration outcome record (`:146`) and the
-`candidate.hired` webhook into the system of record (`:157–166`), so all three fire once
+`candidate.hired` webhook into the system of record (`:159–168`), so all three fire once
 per person, on the crossing.
 
 Two events therefore exist where the golden path says one: `offer.accepted` is dispatched
-on the CAS winner regardless of `hired` (`:173`, so a board with a stage after Offer still
+on the CAS winner regardless of `hired` (`:175`, so a board with a stage after Offer still
 hears the yes on the day it was said), and `candidate.hired` only on the crossing. That is
 the seam this technique's gate has to sit on. Acceptance starts the *owner's*
 accountability; provisioning waits for the crossing.
@@ -97,7 +97,7 @@ accountability; provisioning waits for the crossing.
   recordAutomationEvent(offer.entryId, "offer_accept_blocked", "accepted on a closed entry — not advanced to Hired", offer.workspaceId);
 }
 ```
-— `app/_lib/offer-finalize.ts:110–113`
+— `app/_lib/offer-finalize.ts:110–114`
 
 A refused provisioning attempt becomes a distinct, visible timeline event on the
 person's record so a recruiter can act on it, rather than a silent drop. The condition is
@@ -113,7 +113,7 @@ if (!stageHasRole(entry.stage, "terminal", getPipelineAxis(ws).stages)) {
   return jsonRefusal("HIRE_RATING_NOT_HIRED", 409);
 }
 ```
-— `app/api/pipeline/outcomes/route.ts:127–132`, with the comment at `:122–126`: *"enforced
+— `app/api/pipeline/outcomes/route.ts:125–130`, with the comment at `:121–124`: *"enforced
 here against the LIVE stage rather than trusted from the client, so a stale drawer cannot
 record an on-the-job outcome for a candidate who never took the job."*
 
@@ -122,7 +122,7 @@ stage axis by **role**, and reads false for an off-axis id — a candidate stand
 retired column is not "at the terminal stage" just because it used to be called Hired.
 `app/_lib/attention.ts:70` records the same lesson from the other side: reading the
 literals `"Hired"` and `"Accepted"` broke two badges. `closeEntriesByJobId`
-(`app/_lib/db/pipeline.ts:880`) resolves the placed candidate's column the same way, and
+(`app/_lib/db/pipeline.ts:883`) resolves the placed candidate's column the same way, and
 its comment names the failure of the literal: a name comparison "withdraws the very
 candidate the role was FILLED with — flipping a real hire to `role_closed`."
 
@@ -137,7 +137,7 @@ candidate being hired onto a different role, and for a `role_closed` one.
 
 `role_closed` is the ordinary way a hire is un-hired between acceptance and day one. Closing
 a job marks every `active`, non-terminal entry for it `role_closed`
-(`closeEntriesByJobId`, `app/_lib/db/pipeline.ts:880–937`). An entry that accepted onto a
+(`closeEntriesByJobId`, `app/_lib/db/pipeline.ts:874–953`). An entry that accepted onto a
 post-offer column is not yet on the terminal stage, so on this reading it is withdrawn with
 the rest — while its offer row still says `accepted`. Read from the code, not run: it is
 the concrete instance of "the requisition was pulled" that the technique lists, and the
@@ -145,11 +145,14 @@ reason the acceptance token could not be the authority.
 
 ## Refusals travel as codes
 
-`app/_lib/api-response.ts` splits `REFUSAL_ERRORS` (`:548`, a deliberate 4xx business
-rule, not logged) from `STORE_ERRORS` (`:42`, an accident, logged, generic text sent).
-A refusal on a public, token-authenticated candidate surface returns `{ error, code }`
-via `jsonRefusal` (`:2073`), and the page resolves the code in the reader's language.
-`offer-finalize.ts:19–21` states the rule at the type: *"A refusal carries its CODE, not a
+`app/_lib/api-response.ts` splits `REFUSAL_ERRORS`
+(`app/_lib/api-errors/refusal-errors.ts:23`, a deliberate 4xx business rule, not
+logged) from `STORE_ERRORS` (`app/_lib/api-errors/store-errors.ts:21`, an accident,
+logged, generic text sent); the two catalogs moved into `app/_lib/api-errors/` and
+are re-exported from `api-response.ts`. A refusal on a public, token-authenticated
+candidate surface returns `{ error, code }` via `jsonRefusal` (`api-response.ts:35`),
+and the page resolves the code in the reader's language.
+`offer-finalize.ts:20–22` states the rule at the type: *"A refusal carries its CODE, not a
 sentence: the candidate page localizes it."*
 
 ## What is not here
@@ -176,3 +179,7 @@ sentence: the candidate page localizes it."*
 - **No name for a hire the company rescinds.** The status vocabulary separates
   `rejected`, `declined`, `rematched` and `role_closed`, and a company-side withdrawal of
   a hired person has none: see the rescission technique's application.
+  Re-checked 2026-10-31 at kp@6edf5d7e6: the door is now refused instead.
+  `actOnPipelineEntry` answers a `reject` on the terminal stage with `null`
+  (`PIPELINE_ENTRY_HIRED`, 409, since `e6bd734cb`), so a hire can no longer be
+  closed as `rejected`. The vocabulary still has no rescission status.

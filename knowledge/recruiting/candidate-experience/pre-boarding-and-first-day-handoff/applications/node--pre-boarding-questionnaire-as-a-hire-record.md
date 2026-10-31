@@ -5,7 +5,7 @@ subject: pre-boarding-and-first-day-handoff
 technique: pre-boarding-questionnaire-as-a-hire-record
 stack: node
 status: forged
-verified_on: 2026-09-29
+verified_on: 2026-10-31
 verified_against: node@24
 applied: code
 ab_verdict: better
@@ -23,9 +23,9 @@ This studio is the case the sentence came from, so it is also the place to test 
 The post-hire onboarding module (checklists, the pre-boarding questionnaire, an
 internal e-signature stamp) was removed on 2026-08-18 without a drop migration. The
 tenancy manifest says so in its own words: the five `onboarding_*` tables are in
-`TENANCY_RETIRED_TABLES` (`app/_lib/tenancy.ts:543`), inert to the code and still
+`TENANCY_RETIRED_TABLES` (`app/_lib/tenancy.ts:607`), inert to the code and still
 present in any database created earlier. The erasure path kept its scrub for them.
-`scrubEntryLinkedPii` (`app/_lib/db/pipeline.ts:2438-2453`) blanks the run label, the
+`scrubEntryLinkedPii` (`app/_lib/db/pipeline.ts:2567-2584`) blanks the run label, the
 questionnaire `answers_json` and the signature `signer`, guarded by `tables.has(...)`,
 and a comment says why the block must stay: delete it only together with a migration
 that drops the tables.

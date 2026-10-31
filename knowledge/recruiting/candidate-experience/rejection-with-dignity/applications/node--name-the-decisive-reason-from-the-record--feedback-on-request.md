@@ -5,7 +5,7 @@ subject: rejection-with-dignity
 technique: name-the-decisive-reason-from-the-record
 stack: node
 status: forged
-verified_on: 2026-09-29
+verified_on: 2026-10-31
 verified_against: node@24
 applied: simulation
 ab_verdict: better
@@ -36,7 +36,7 @@ care:
   score-against-threshold explanation instead.
 - `role_closed` and `rematched` read as "not selected" on the status page, but the
   role closed under the person, so "there is no interview judgement to report".
-- A rejected entry with no reject event on record fails closed (`:121-`).
+- A rejected entry with no reject event on record fails closed (`:125`).
 - No recorded interview means no letter, because offering one "would promise
   feedback the record cannot back".
 - Consent withheld wins over everything, and blanks the view silently.
@@ -54,7 +54,7 @@ The keyless draft is `buildInterviewLetterTemplate`
 and a record with no areas at all says so in one plain sentence instead of
 guessing." The sentence is catalog copy, `interviewLetter.template.noSpecifics`:
 "The record of the interview does not point to specific areas, so we would rather
-not guess at any." (`:72`, test `:72`.) This is the refinement of the
+not guess at any." (`:72`, test `:75`.) This is the refinement of the
 silence-is-right rule: in the unsolicited decline an empty reason section renders
 nothing, and here, where the candidate asked, the letter states that it holds
 nothing specific. It still names no reason.
@@ -68,19 +68,19 @@ and no rating, can reach the letter through the keyless path." The only
 interpolated value that is not catalog copy is the role's title. A proxy phrase
 cannot reach a letter built this way, which the free-text deny-list cannot promise
 (see the protected-attribute application). The model-drafted variant goes through
-`letter_problem` (`pipeline/jobfit/automation.py:2037-`): empty, too long,
+`letter_problem` (`pipeline/jobfit/automation.py:2052-`): empty, too long,
 protected language, a digit outside the role's own terms, scoring machinery, or a
 quotation of the candidate each discard the draft "WHOLE; none of them is
 repaired", and the template ships.
 
 ## A person owns every sentence
 
-`dispatchInterviewLetter` (`app/_lib/comms-dispatch.ts:609-`) sends "the
+`dispatchInterviewLetter` (`app/_lib/comms-dispatch.ts:608-`) sends "the
 recruiter's own final text, verbatim: a person owns every sentence of it, so
 nothing here rewrites, trims or appends to what they approved beyond the delivery
 chrome". The approver is the signed-in session's actor, "derived from the session,
 never from the body, so nobody can approve in someone else's name"
-(`app/api/decisions/feedback-letters/[id]/approve/route.ts:30-, :91`), and the
+(`app/api/decisions/feedback-letters/[id]/approve/route.ts:30-, :89`), and the
 store refuses anything that is not a `human:` actor. The delivery outcome is
 reported truthfully, and a send that did not go out never turns the approval into
 a failure because the letter is also on the status page.

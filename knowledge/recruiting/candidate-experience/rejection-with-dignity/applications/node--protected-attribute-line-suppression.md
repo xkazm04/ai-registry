@@ -5,7 +5,7 @@ subject: rejection-with-dignity
 technique: protected-attribute-line-suppression
 stack: node
 status: forged
-verified_on: 2026-09-29
+verified_on: 2026-10-31
 verified_against: node@24
 applied: code
 ab_verdict: better
@@ -39,7 +39,7 @@ lawsuit."
 wrongly.** The 2026-08-20 reading said the stem-plus-`\w*` shape was "the
 morphology rule realized". It was not: `\bpohlaví\b` never matched the word at
 all, and `\bvěk\b` matched only the bare nominative, because JavaScript's `\b`
-is ASCII-only. The fix (`336e9dd70`, 2026-08-22) is the comment now at `:40-53`:
+is ASCII-only. The fix (`336e9dd70`, 2026-08-22) is the comment now at `:40-50`:
 a Unicode-aware "start of line or non-letter" guard, an open tail, and the
 `/u` flag. The German and French patterns follow the same shape.
 
@@ -67,7 +67,7 @@ gap went".
 
 ## Where it fires, and what gets recorded
 
-`dispatchRejection` (`app/_lib/comms-dispatch.ts:549-591`) calls
+`dispatchRejection` (`app/_lib/comms-dispatch.ts:557-606`) calls
 `buildRejectionFeedback` with `entryProfileGaps(...)` and appends the rendered
 block between the localized `rejection.opening` and `rejection.closing` strings.
 Its audit event carries exactly the two facts the standard asks for:
@@ -84,7 +84,7 @@ outbox body, with "a dropped line is a fairness event".
 ## The second guard: model-drafted letters
 
 The Python letter path is now guarded (the 2026-08-20 deviation is closed in
-kind). `protected_language()` (`pipeline/jobfit/automation.py:415-`) scores every
+kind). `protected_language()` (`pipeline/jobfit/automation.py:432-`) scores every
 candidate-visible field against `PROTECTED_TERM_RE`, and `_letter_is_safe` /
 `letter_problem` discard the whole draft when it hits, so the deterministic
 template ships and the source is labelled `deterministic`. The docstring gives the
@@ -137,6 +137,13 @@ labels are the author's):
   we recorded for this role". `filtered: true` is recorded, but the letter
   itself reads as complete. The list is unranked, so the module cannot know the
   dropped one was the decisive one.
+
+Re-checked 2026-10-31 at kp@6edf5d7e6: `4dd303bdd`, recorded above as a local
+commit, is now on `main`. The regex comment adds that `eval/automation_eval.py`
+imports `PROTECTED_TERM_RE` instead of keeping its own copy, so the Python side
+is one vocabulary within Python. The TypeScript list is still separate, so the
+two-vocabularies deviation below stands. The table records the 2026-09-29
+measurement and was not re-run.
 
 ## Deviations
 

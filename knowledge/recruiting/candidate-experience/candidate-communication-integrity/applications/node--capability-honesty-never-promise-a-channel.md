@@ -5,7 +5,7 @@ subject: candidate-communication-integrity
 technique: capability-honesty-never-promise-a-channel
 stack: node
 status: forged
-verified_on: 2026-08-30
+verified_on: 2026-10-31
 verified_against: node@24
 ---
 
@@ -42,7 +42,7 @@ real receiver URL and says forwarding isn't wired
 
 ## 2. Absolute links, and the loud warning when the origin is a guess
 
-`candidateLinkBase()` (`app/_lib/comms-dispatch.ts:94`) is the one link builder
+`candidateLinkBase()` (`app/_lib/comms-dispatch.ts:117`, comment from `:97`) is the one link builder
 for candidate-facing URLs composed inside the dispatch module. Its comment states
 the reason: "Links a candidate opens from an email must be ABSOLUTE — a relative
 `/data/er-…` path is dead in every mail client (capst-l2-102)."
@@ -57,7 +57,7 @@ default *and* the code warns loudly, because "a fallback means nothing
 deployment-specific was configured — the link uses the DEFAULT origin, which may
 be wrong for this deploy".
 
-The footer this serves (`dataFooter`, `app/_lib/comms-dispatch.ts:146`) is the
+The footer this serves (`dataFooter`, rendered at `app/_lib/comms-dispatch.ts:232`) is the
 self-service data-rights line appended to every candidate-facing message: a
 localized "review or erase your data" line carrying the entry's opaque erasure
 token to the public `/data/[token]` page. The rule the code states is the one
@@ -65,9 +65,18 @@ worth transplanting — "the footer still renders — never silently drop a lega
 affordance" — with the single honest exception of an already-anonymized entry,
 where there is nothing left to manage.
 
+Re-checked 2026-10-31 at kp@6edf5d7e6: `dataFooter` is now the catalog key, not
+a function. The builder is `candidateFooters` (`app/_lib/comms-dispatch.ts:200`),
+which since `843963acd` appends a second, separate affordance beside it: a
+`stopFooter` with its own opt-out token and `/stop/[token]` page, so declining
+further mail no longer means erasing the application. The "never silently drop a
+legal affordance" rule still stands in the comment above `candidateLinkBase`.
+Both footers are also skipped when no token can be minted, a second exception
+beside the anonymized entry.
+
 ## 3. The reminder that is only promised when it will fire
 
-`dispatchInterviewConfirmation()` (`app/_lib/comms-dispatch.ts:413`) takes
+`dispatchInterviewConfirmation()` (`app/_lib/comms-dispatch.ts:757`) takes
 `opts.shortNotice`, decided by `app/_lib/interview-reminder-policy.ts`, and
 selects between two catalog bodies: `interviewConfirmation.normal`, which
 promises a separate reminder before the call, and `interviewConfirmation.short`,

@@ -5,7 +5,7 @@ subject: candidate-communication-integrity
 technique: terminal-delivery-status-vocabulary
 stack: node
 status: forged
-verified_on: 2026-08-30
+verified_on: 2026-10-31
 verified_against: node@24
 ---
 
@@ -72,6 +72,19 @@ reason from a retry that later succeeded can never sit next to a green badge".
 Both resend controls (`ResendButton`, `BouncedResend`) "surface the server's
 refusal reason and only report success when the fresh row itself isn't
 `failed`" — the button inherits the claim discipline of the send.
+
+Re-checked 2026-10-31 at kp@6edf5d7e6: §8 now calls the drawer the "candidate
+modal", and the resend wording quoted above is gone. Both resend clients
+(`ResendButton`, `BouncedResend`) now read one shared fold,
+`resendOutcome` in `app/_lib/comms-resend-outcome.ts`, with five outcomes:
+refused, refused-but-recovered, dead-lettered again, recorded but undeliverable
+(`queued`), and relayed (`sent`). Only the last may say "Resent". The discipline
+is the same and stricter, because a `queued` resend no longer reads as success.
+
+`OUTBOX_STATUSES` itself has four members (`queued`, `sent`, `failed`,
+`bounced`, since `895cfcae8` on 2026-06-26). The fourth is the receipt row, not a
+message state, so the three-terminal-states table above still describes what a
+message can be.
 
 ## The configuration surface as an honesty surface
 

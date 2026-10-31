@@ -5,13 +5,13 @@ subject: rejection-with-dignity
 technique: deterministic-dispatch-so-nobody-is-ghosted
 stack: node
 status: forged
-verified_on: 2026-09-29
+verified_on: 2026-10-31
 verified_against: node@24
 ---
 
 # The never-ghost promise across every reject surface
 
-`dispatchRejection` (`app/_lib/comms-dispatch.ts:549-591`) is the single door.
+`dispatchRejection` (`app/_lib/comms-dispatch.ts:557-606`) is the single door.
 Its doc comment states the design: "Deterministic, respectful template — no LLM,
 so it works in a batch policy pass and never ghosts a rejected candidate", with
 the reason for the no-model rule spelled out — "a fresh LLM call here would be
@@ -20,7 +20,7 @@ reason."
 
 Composition is fixed copy plus recorded facts: `t("rejection.opening")` +
 an archetype-conditional middle (`isEarlyCareer(entry.archetype) ?
-t("rejection.early") : t("rejection.standard")`, `:554`) +
+t("rejection.early") : t("rejection.standard")`, `:574`) +
 the feedback block from `rejection-feedback.ts` + `t("rejection.closing")`. The
 archetype branch is documented as "keeping the fairness lever consistent through
 to the adverse comm" — the same early-career treatment that shaped the
@@ -29,20 +29,20 @@ assessment shapes the letter.
 ## A human rejects; the pass queues
 
 `app/_lib/automation-pass.ts` records the retirement of unattended auto-reject
-(`:425-432`, "AUTO1 RETIRED (UAT M6 / GDPR Art. 22)"): a rejection is "the one
+(`:394-396`, "AUTO1 RETIRED (UAT M6 / GDPR Art. 22)"): a rejection is "the one
 irreversible" outcome, so "every fairness-cleared reject is queued for a human
 on the Decisions gate". `AutomationSummary.rejected` is "structurally 0"
-(`:159`) because the pass no longer produces a rejection — and the preview
+(`:167`) because the pass no longer produces a rejection — and the preview
 was corrected to match, since forecasting N rejections and delivering N approval
 cards is a preview that lies.
 
 A second backstop refuses a reject the fairness invariant protects and
 downgrades it to a hold plus an alert rather than "silently auto-rejecting"
-(`:482`) — the standard's rule that a reason category touching a protected
+(`:451`) — the standard's rule that a reason category touching a protected
 or unscored state sends the decision to review instead of to a letter.
 
 The exact-set property lives at the bulk surface:
-`app/api/pipeline/command/route.ts:155-159` intersects the recruiter's previewed
+`app/api/pipeline/command/route.ts:167-175` intersects the recruiter's previewed
 ids with the currently-matching set via `resolveRejectTargets` and reports
 `droppedOut`, so an approval cannot silently widen between preview and commit.
 
@@ -56,8 +56,8 @@ screen-wave notified — so the FASTEST reject surface was the one that went
 silent"; that comment no longer exists in the tree, and the UAT M3 label survives
 only in `pipeline-command.ts:70`). That loop is gone: the command bar's `execute.ts` now calls the same
 `runPipelineEntryAction` as a single reject, so a human reject has ONE dispatch
-site (`app/_lib/pipeline-entry-action.ts:531-570`), and the only other caller of
-`dispatchRejection` is the screen wave (`screen-wave.ts:610`, `{ automated: true
+site (`app/_lib/pipeline-entry-action.ts:653-674`), and the only other caller of
+`dispatchRejection` is the screen wave (`screen-wave.ts:611`, `{ automated: true
 }`, "queued, never ghosts"). Two doors where there were three-plus is the
 enumerate-every-surface rule realised as a chokepoint rather than a checklist.
 
@@ -73,15 +73,22 @@ counted as a failure.
 
 ## The obligation before the record exists
 
-`dispatchKnockoutDecline` (`comms-dispatch.ts:638-`) is entry-less by design:
-channel leads are declined at `lead-intake.ts:122-155` *before* any pipeline
+`dispatchKnockoutDecline` (`comms-dispatch.ts:643-`) is entry-less by design:
+channel leads are declined at `lead-intake.ts:126-170` *before* any pipeline
 entry exists, so "the one identity in hand is the inbound email". The comment
 names the exact person the standard cares about: it exists "for webhook surfaces
 whose candidate saw 'submitted' on a third-party board and would otherwise hear
-nothing, ever" — and `lead-intake.ts:133-136` states the priority: "The adverse
+nothing, ever" — and `lead-intake.ts:136-137` states the priority: "The adverse
 outcome is where the never-ghost promise matters most." Its tenant is passed in
 by the caller, because with no entry there is nothing for the outbox row to
 derive a workspace from, and the row used to land in the default team's board.
+
+Re-checked 2026-10-31 at kp@6edf5d7e6: the "would otherwise hear nothing, ever"
+sentence is gone, because the scope widened. The decline is now sent at EVERY
+door whenever an address is in hand (the old webhook-only option is marked
+`@deprecated No effect`, `lead-intake.ts:77`). It names the must-have that ended
+the application and carries a human-review route (a reply reaches a person).
+The "one identity in hand" is now "the email" rather than "the inbound email".
 
 `intakeSubmission` (`app/_lib/distribution.ts:106-`) shows the durable-marker
 rule worked out under failure: the acknowledgement is gated on whether an outbox
@@ -110,7 +117,7 @@ still stand.
   "oldest"/"owed" marker and an unnotified counter found none). The system is
   correct by construction, not by verification: a third door that forgets to call
   the dispatcher produces silent ghosting with no detector.
-- **The knockout decline still swallows its failure.** `lead-intake.ts:148-154`
+- **The knockout decline still swallows its failure.** `lead-intake.ts:158-164`
   logs a failed `dispatchKnockoutDecline` to the console only. There is no
   `rejection_comms_failed`-style event, unlike both entry-bound doors, so the one
   message owed to a person with no pipeline record is the one whose failure

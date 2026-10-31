@@ -5,7 +5,7 @@ subject: candidate-communication-integrity
 technique: bounce-receipt-supersedes-a-green-send
 stack: node
 status: forged
-verified_on: 2026-09-26
+verified_on: 2026-10-31
 verified_against: node@24
 applied: code
 ab_verdict: better
@@ -77,9 +77,18 @@ stable across retries, and sends it out as the `Idempotency-Key` header. The
 callback still reads only `ref`, `kind` and `outcome`, so nothing echoes it back
 and the heuristic still decides (`pickBounceTarget`, `app/_lib/comms-view.ts`).
 
+Re-checked 2026-10-31 at kp@6edf5d7e6: the echo is now built (`c578b7704`,
+2026-10-18). The outbox stores the `messageId` on every row
+(`dev_outbox.message_id`), the callback reads an optional `messageId` from the
+body, and `bounceTargetFor` (`app/_lib/comms-view.ts:181`) matches a receipt to
+the send carrying the same id. `pickBounceTarget` remains as the fallback for a
+relay that does not echo the id and for legacy rows without one, and an
+id-bearing send can no longer be claimed by a receipt naming a different id.
+The heuristic is now the degraded path rather than the only one.
+
 ## One verdict function, born from two surfaces disagreeing
 
-`commsVerdict()` (`app/_lib/comms-view.ts:71`) returns exactly one of
+`commsVerdict()` (`app/_lib/comms-view.ts:77`) returns exactly one of
 `orphaned | bounced | recovered | failed | sent | queued`, and derived bits
 outrank the stored `status` in that order. The comment names the incident: the
 Comms Center and the candidate drawer "used to disagree about the SAME message —
@@ -129,6 +138,12 @@ database so the bare runner loads it directly.
   arrives out of order" does not hold when the send's own stamp is the later one.
   This was read from the tree at `17619a52`, not reproduced. The window is
   narrow, and the half-built `messageId` echo would close it.
+  Re-checked 2026-10-31 at kp@6edf5d7e6: the echo landed, but it does not close
+  this window. `WebhookChannel.send` still records the row after `deliver()`
+  returns, and `bounceTargetFor` still passes the exact-id matches through
+  `pickBounceTarget`, which skips any send stamped after the bounce. When the
+  relay echoes the id, the early receipt now binds to nothing (an orphan) instead
+  of to the previous send. The bounced message still keeps its green tick.
 - **Foreign receipts left no trace in the install; closed 2026-09-26.** An
   `unknown_ref` answer reached the relay and nowhere else. If the relay switched
   reference schemes wholesale, every real bounce would take that path, and kp's
