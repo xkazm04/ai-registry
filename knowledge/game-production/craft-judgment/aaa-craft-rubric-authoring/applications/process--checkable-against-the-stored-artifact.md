@@ -25,8 +25,11 @@ technique names:
 > 2d-art lens. Overrides never apply to media classes, so a lens can never be dodged by
 > re-labelling.
 
-`TEXT_CLASSES` is `['text-config', 'graph-data']`, and `lensForStep` only consults the
-catalog override sets when the deliverable is in that list. `production-process` is
+`TEXT_CLASSES` is `['text-config', 'graph-data']`, and `lensForStep` consults the
+catalog override sets for those. The header's "never apply to media classes" is broader
+than the routing this document itself lists: cutscene audio going to `voiceover` is an
+audio-to-audio override, so the module allows same-medium refinement of a media class,
+which is the technique's same-shape rule, not its text-only example. `production-process` is
 deliberately unreachable from `lensForStep` — it is a per-catalog lens applied to the
 pipeline as a whole, never to a step, which keeps the process instrument out of the craft
 instrument.

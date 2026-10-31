@@ -35,8 +35,10 @@ is a summary someone will want to compute later, and they can only compute it if
 were stored.
 
 **2. Derive each field from observation, on the receiving side.** File list from the file
-system or the diff, not from the narration. Build status from an authenticated runner receipt bound to this input revision,
-build target and run. Registration from expected artifact identities in the
+system or the diff, not from the narration. Build status from the build's own result,
+read by the receiving side from the project, at minimum; where one exists, from an
+authenticated runner receipt bound to this input revision, build target and run. Record
+which of those two rungs the build evidence reached. Registration from expected artifact identities in the
 destination, not merely a positive total that could count pre-existing rows. Where the generator's own claim is
 recorded at all, store it as a separate, labelled, self-reported field beside the observed
 one — the two disagreeing is a finding, and often the most useful signal the pipeline

@@ -1,7 +1,7 @@
 ---
 domain: game-production
 subject: aaa-craft-rubric-authoring
-last_touched: 2026-09-10
+last_touched: 2026-10-31
 touched_by: architecture-review
 dry_streak: 0
 ---
@@ -270,3 +270,244 @@ except where quoted above.
 - Applied to pof as an experiment, verdict better. Of 143 bound panel verdicts with siblings, 131 had a sibling updated since judgment: full binding stales 131, per-dimension (coherence weakest) 13, as built 0. The application is `applications/node--lens-versioning-as-invalidation.md`.
 - Independent convergence: the same source shows stale scores faded rather than blanked, which matches "display stale-under-current-policy separately from never judged".
 - Owed in pof: a digest of the sibling projection on each verdict. Until then drift is measured from modification times, which overstates it.
+
+## Architecture review - 2026-10-31
+
+Re-review at `b005a97cb`. The four clarify items the 2026-09-10 record owed are all
+still in the text. Since then the subject gained four `pof` applications and the
+injected-context section of `lens-versioning-as-invalidation`. ASWG-R001 was opened
+in full this run. It names the loudness source the cited-source application left
+unidentified, and it narrows that source's scope: whole title, home platform, at
+least 30 minutes of measurement. The `pof` checkout is not on this machine, so the
+2026-09-10 consumer readings (lens-map line 88, craft.ts:160) are carried as that
+record's evidence and are not re-witnessed here.
+
+<!-- architecture-review:v1 -->
+```json
+{
+  "subject": "game-production/aaa-craft-rubric-authoring",
+  "date": "2026-10-31",
+  "baseline": "b005a97cb",
+  "digest": "sha256-b2:30e56086d6ef6162",
+  "disposition": "clarify",
+  "coverage": "All 18 current documents read in full at baseline. The 14 carried from the 2026-09-10 record were checked by diff against 44c899658: only capped-disqualifiers (write-door rule) and lens-versioning-as-invalidation (injected-context section) changed; four applications were added. One primary source (ASWG-R001) opened and quoted; internal arithmetic recomputed. Not evaluated: the pof consumer (absent on this machine), any model judgment, pilot or private run. No verification date refreshed.",
+  "counterexamples": [
+    "A rubric author cannot derive one criterion-count band: the golden path says seven to twelve, the cited-source technique nine to twelve, and its application calls nine 'the top of the band' (carried from 2026-09-10, still present at baseline).",
+    "The routing application lists cutscene audio routed to the voiceover lens while quoting a header that says overrides never apply to media classes; both cannot be implementation facts.",
+    "ASWG-R001's -24 LKFS is a whole-title, home-platform, 30-minute-minimum measurement; a criterion checking it against one stored stem is an adaptation, not the specification.",
+    "'Nothing in the class reaches its ceiling -> investigate production, not the rubric' contradicts the golden path's own rule that a distribution alone does not identify its cause.",
+    "Full binding cleared 131 of 143 verdicts, passes included; calling that '92% of the standing condemnations' mislabels the population."
+  ],
+  "sources": [
+    {
+      "url": "http://gameaudiopodcast.com/ASWG-R001.pdf",
+      "result": "Opened and read 2026-10-31 (pages 1-6). Sony Worldwide Studios Audio Standards Working Group, Recommendation ASWG-R001 v1.10, August 2013: 'the Average Loudness Level of audio content within a title developed for home-based SCE platforms should be normalized to a Target Level of -24 (±2) LKFS'; portable platforms -18 (±2) LKFS; maximum true peak 'should not exceed -1 dBTP'; content 'should be measured as a whole' for 'a minimum of 30 minutes'. Identifies the source the application left unnamed, and narrows its scope to whole-title home-platform measurement rather than per-file stems."
+    },
+    {
+      "source": "Internal arithmetic, node--lens-versioning-as-invalidation and techniques/lens-versioning-as-invalidation",
+      "result": "131/143 = 91.6%, so '92%' is a share of the 143 bound verdicts (fails and passes), not of 'the standing condemnations'; 131 + 21 = 152 and 131 - 13 = 118 check out."
+    },
+    {
+      "source": "Internal arithmetic, process--capped-disqualifiers",
+      "result": "47 caps at A1 and 3 at A2 over A1-A4: above-cap gauges 47x3 + 3x2 = 147, at-or-below 47 + 6 = 53, total 200 = 50 x 4. Consistent."
+    },
+    {
+      "source": "pof consumer checkout",
+      "result": "Not available on this machine. No application citation, line number or private run was re-checked; the 2026-09-10 pof readings are carried as that record's evidence, not re-witnessed."
+    }
+  ],
+  "documents": {
+    "aaa-craft-rubric-authoring.md": {
+      "disposition": "clarify",
+      "reason": "Owed since 2026-09-10 and still present: the seven-to-twelve band has rival owners in the technique and application, and 'pilot' versus 'smoke check' grains are unnamed while two techniques promote caps and end pre-release on 'the pilot'."
+    },
+    "techniques/capped-disqualifiers.md": {
+      "disposition": "clarify",
+      "reason": "The new write-door rule (since 2026-09-10) is sound. 'Before you have piloted a lens against known-good and known-bad artifacts' reads as the pair the golden path calls only a smoke check; name the held-out set."
+    },
+    "techniques/ceiling-as-a-market-assumption.md": {
+      "disposition": "clarify",
+      "reason": "'Reading the ceiling as an instrument' asserts causes ('Investigate production, not the rubric'; 'the ceiling is set too low') that the golden path's closing section says a distribution cannot identify. Hedge to leads."
+    },
+    "techniques/checkable-against-the-stored-artifact.md": {
+      "disposition": "keep",
+      "reason": "Unchanged since the 2026-09-10 keep; override policy already hedged as same-shape rather than text-only."
+    },
+    "techniques/criterion-set-coverage-audit.md": {
+      "disposition": "keep",
+      "reason": "Unchanged since the 2026-09-10 keep."
+    },
+    "techniques/criterion-with-a-cited-source.md": {
+      "disposition": "clarify",
+      "reason": "Owed since 2026-09-10: 'Nine to twelve' rivals the golden path's seven to twelve; defer to the golden path as the band's one owner."
+    },
+    "techniques/deliberately-overlapping-criteria.md": {
+      "disposition": "keep",
+      "reason": "Unchanged; lowest-k arithmetic re-checked ([1,4,4] -> 2.5, [1,1,4,4] -> 1)."
+    },
+    "techniques/lens-versioning-as-invalidation.md": {
+      "disposition": "clarify",
+      "reason": "The steering/evidence section added 2026-09-16 is the strongest addition, but 'silencing 92% of the standing condemnations' mislabels 131 of 143 bound verdicts (fails and passes)."
+    },
+    "techniques/named-benchmark-anchors-per-level.md": {
+      "disposition": "keep",
+      "reason": "Unchanged since the 2026-09-10 keep."
+    },
+    "techniques/question-form-criteria-for-open-judgment.md": {
+      "disposition": "keep",
+      "reason": "Unchanged since the 2026-09-10 keep."
+    },
+    "applications/node--deliberately-overlapping-criteria.md": {
+      "disposition": "clarify",
+      "reason": "Repeats the 'overrides restricted to TEXT_CLASSES' header as the routing fact while a sibling application lists an audio-to-voiceover override; display-only isolation remains reverify (revision 9aa31407 not re-executed)."
+    },
+    "applications/node--lens-versioning-as-invalidation.md": {
+      "disposition": "clarify",
+      "reason": "Arithmetic consistent, but 'arm C would have cleared the whole condemnation layer' and '118 ... that no sibling edit can falsify' overstate what the table and its own weakest-dimension caveat support. Private store not re-run."
+    },
+    "applications/process--capped-disqualifiers.md": {
+      "disposition": "reverify",
+      "reason": "New since 2026-09-10. Arithmetic checks (147 above cap, 53 at or below, 200 total). Shipped commit 8481218a and its tests are in a private tree that was not reopened."
+    },
+    "applications/process--ceiling-as-a-market-assumption.md": {
+      "disposition": "reverify",
+      "reason": "The A2^ badge / 'A3 AA' spoken-form mismatch is still unlocated in the text; the 2026-09-10 reading placed it in the consumer's doc comment, but the consumer could not be reopened this run to confirm before editing."
+    },
+    "applications/process--checkable-against-the-stored-artifact.md": {
+      "disposition": "clarify",
+      "reason": "Owed since 2026-09-10: the quoted 'overrides never apply to media classes' contradicts the same document's cutscene-audio-to-voiceover override; state the module's real rule as same-medium refinement."
+    },
+    "applications/process--criterion-set-coverage-audit.md": {
+      "disposition": "reverify",
+      "reason": "New since 2026-09-10; internally consistent and honest about the unrun enumeration half. Shipped commit 23196728 not reopened."
+    },
+    "applications/process--criterion-with-a-cited-source.md": {
+      "disposition": "clarify",
+      "reason": "Owed since 2026-09-10: name the loudness source (now opened: ASWG-R001) and its scope, and fix 'top of the band' against the golden path's band."
+    },
+    "applications/process--named-benchmark-anchors-per-level.md": {
+      "disposition": "clarify",
+      "reason": "New since 2026-09-10. 'Twenty-nine of thirty ... name at least one titled product except one' double-counts the exception; counts otherwise consistent (10 x 4 = 40, 30 upper). Commit eef0b7e4 not reopened."
+    }
+  }
+}
+```
+
+## Architecture review - 2026-10-31 (clarify applied)
+
+Applied every clarify item from the record above in the subject's own voice. Grounds:
+ASWG-R001 opened this run, the subject's own text, and arithmetic. Edited applications
+are recorded `keep`, with their consumer evidence noted as not re-witnessed. The three
+untouched applications keep `reverify`, because their evidence is in a tree this machine
+cannot open. The ceiling application's A2/A3 mismatch stays owed for the same reason.
+
+<!-- architecture-review:v1 -->
+```json
+{
+  "subject": "game-production/aaa-craft-rubric-authoring",
+  "date": "2026-10-31",
+  "baseline": "b005a97cb",
+  "digest": "sha256-b2:294445ba9734200c",
+  "disposition": "reverify",
+  "coverage": "All 18 current documents read in full at baseline. The 14 carried from the 2026-09-10 record were checked by diff against 44c899658: only capped-disqualifiers (write-door rule) and lens-versioning-as-invalidation (injected-context section) changed; four applications were added. One primary source (ASWG-R001) opened and quoted; internal arithmetic recomputed. Not evaluated: the pof consumer (absent on this machine), any model judgment, pilot or private run. Ten documents edited after the first record and re-read; the rest byte-unchanged. No verification date refreshed.",
+  "counterexamples": [
+    "A rubric author cannot derive one criterion-count band: the golden path says seven to twelve, the cited-source technique nine to twelve, and its application calls nine 'the top of the band' (carried from 2026-09-10, still present at baseline).",
+    "The routing application lists cutscene audio routed to the voiceover lens while quoting a header that says overrides never apply to media classes; both cannot be implementation facts.",
+    "ASWG-R001's -24 LKFS is a whole-title, home-platform, 30-minute-minimum measurement; a criterion checking it against one stored stem is an adaptation, not the specification.",
+    "'Nothing in the class reaches its ceiling -> investigate production, not the rubric' contradicts the golden path's own rule that a distribution alone does not identify its cause.",
+    "Full binding cleared 131 of 143 verdicts, passes included; calling that '92% of the standing condemnations' mislabels the population."
+  ],
+  "sources": [
+    {
+      "url": "http://gameaudiopodcast.com/ASWG-R001.pdf",
+      "result": "Opened and read 2026-10-31 (pages 1-6). Sony Worldwide Studios Audio Standards Working Group, Recommendation ASWG-R001 v1.10, August 2013: 'the Average Loudness Level of audio content within a title developed for home-based SCE platforms should be normalized to a Target Level of -24 (±2) LKFS'; portable platforms -18 (±2) LKFS; maximum true peak 'should not exceed -1 dBTP'; content 'should be measured as a whole' for 'a minimum of 30 minutes'. Identifies the source the application left unnamed, and narrows its scope to whole-title home-platform measurement rather than per-file stems."
+    },
+    {
+      "source": "Internal arithmetic, node--lens-versioning-as-invalidation and techniques/lens-versioning-as-invalidation",
+      "result": "131/143 = 91.6%, so '92%' is a share of the 143 bound verdicts (fails and passes), not of 'the standing condemnations'; 131 + 21 = 152 and 131 - 13 = 118 check out."
+    },
+    {
+      "source": "Internal arithmetic, process--capped-disqualifiers",
+      "result": "47 caps at A1 and 3 at A2 over A1-A4: above-cap gauges 47x3 + 3x2 = 147, at-or-below 47 + 6 = 53, total 200 = 50 x 4. Consistent."
+    },
+    {
+      "source": "pof consumer checkout",
+      "result": "Not available on this machine. No application citation, line number or private run was re-checked; the 2026-09-10 pof readings are carried as that record's evidence, not re-witnessed."
+    }
+  ],
+  "documents": {
+    "aaa-craft-rubric-authoring.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: step 8 now names 'the pilot' as the calibration period over the held-out set, which promotes caps and ends pre-release; the pair stays a smoke check. Seven to twelve stays the band's one owner."
+    },
+    "techniques/capped-disqualifiers.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: 'piloted a lens against a held-out set of known-good and known-bad artifacts'."
+    },
+    "techniques/ceiling-as-a-market-assumption.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: the three distribution readings are stated as leads to investigate, with selection, evidence and examiner drift named as alternative causes, matching the golden path."
+    },
+    "techniques/checkable-against-the-stored-artifact.md": {
+      "disposition": "keep",
+      "reason": "Unchanged since the 2026-09-10 keep; override policy already hedged as same-shape rather than text-only."
+    },
+    "techniques/criterion-set-coverage-audit.md": {
+      "disposition": "keep",
+      "reason": "Unchanged since the 2026-09-10 keep."
+    },
+    "techniques/criterion-with-a-cited-source.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: 'Nine to twelve' replaced by a pointer to the golden path's seven-to-twelve convention."
+    },
+    "techniques/deliberately-overlapping-criteria.md": {
+      "disposition": "keep",
+      "reason": "Unchanged; lowest-k arithmetic re-checked ([1,4,4] -> 2.5, [1,1,4,4] -> 1)."
+    },
+    "techniques/lens-versioning-as-invalidation.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: full binding 'cleared all 131, 92% of the 143 bound verdicts, passes and condemnations alike'."
+    },
+    "techniques/named-benchmark-anchors-per-level.md": {
+      "disposition": "keep",
+      "reason": "Unchanged since the 2026-09-10 keep."
+    },
+    "techniques/question-form-criteria-for-open-judgment.md": {
+      "disposition": "keep",
+      "reason": "Unchanged since the 2026-09-10 keep."
+    },
+    "applications/node--deliberately-overlapping-criteria.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: the TEXT_CLASSES claim is now attributed to the header, with the cutscene-audio same-medium override noted. Display-only isolation still needs the consumer at 9aa31407. Consumer evidence remains unre-witnessed; verified_on unchanged."
+    },
+    "applications/node--lens-versioning-as-invalidation.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: arm C now reads '131 of the 143 bound verdicts, passes and condemnations alike', arm B '118 condemnations whose weakest dimension does not read sibling context'. The private store was not re-run."
+    },
+    "applications/process--capped-disqualifiers.md": {
+      "disposition": "reverify",
+      "reason": "New since 2026-09-10. Arithmetic checks (147 above cap, 53 at or below, 200 total). Shipped commit 8481218a and its tests are in a private tree that was not reopened."
+    },
+    "applications/process--ceiling-as-a-market-assumption.md": {
+      "disposition": "reverify",
+      "reason": "The A2^ badge / 'A3 AA' spoken-form mismatch is still unlocated in the text; the 2026-09-10 reading placed it in the consumer's doc comment, but the consumer could not be reopened this run to confirm before editing."
+    },
+    "applications/process--checkable-against-the-stored-artifact.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: the header's 'never apply to media classes' is now stated as broader than the routing the document lists, with cutscene audio as a same-medium override. Line citations not re-checked against the consumer. Consumer evidence remains unre-witnessed; verified_on unchanged."
+    },
+    "applications/process--criterion-set-coverage-audit.md": {
+      "disposition": "reverify",
+      "reason": "New since 2026-09-10; internally consistent and honest about the unrun enumeration half. Shipped commit 23196728 not reopened."
+    },
+    "applications/process--criterion-with-a-cited-source.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: the loudness entry names ASWG-R001 v1.10 with quoted figures; the review boundary records its home-platform, whole-title, 30-minute scope; 'top of the band' now reads as inside the seven-to-twelve convention. Consumer lens files not reopened."
+    },
+    "applications/process--named-benchmark-anchors-per-level.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: the double-counted exception sentence now reads 'Twenty-nine of the thirty ... The exception is the production-process A3 bullet'. Commit eef0b7e4 not reopened. Consumer evidence remains unre-witnessed; verified_on unchanged."
+    }
+  }
+}
+```

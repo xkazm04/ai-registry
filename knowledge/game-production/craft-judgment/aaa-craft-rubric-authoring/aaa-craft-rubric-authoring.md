@@ -265,6 +265,8 @@ traffic and is not duplicated here.
 8. **Version it, then pilot it.** Score a known-good and a known-bad artifact. A false pass or false rejection can arise from labels, evidence, routing,
    criteria, aggregation or examiner error. Investigate before changing the bar.
    A known-good/bad pair is a smoke check; use a broader held-out set for calibration.
+   "The pilot" in the techniques means that calibration period over the held-out set:
+   it, not the pair, is what promotes a defect to a cap or ends a lens's pre-release state.
 9. **Audit what the set does not ask.** Enumerate the class's dimensions from the
    incidents alone, without the rubric in front of you, map the criteria onto them, and
    publish the dimensions nothing covers as unmeasured. Re-run this whenever a defect

@@ -31,7 +31,7 @@ Three kinds of internally impossible reply passed the validator:
   engine effect; the constructor's `AbilityManaCost` literal is read by the shipped code.
   The model writes both, nothing compares them, and the two surfaces then disagree.
 
-The second kind is the technique's "quantity at two layers" rule in a form the corpus
+The third kind is the technique's "quantity at two layers" rule in a form the corpus
 had not named: the second layer is a literal inside a generated text artifact, not a
 second structured field, which is why a field-by-field validator cannot see it.
 

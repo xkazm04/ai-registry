@@ -55,8 +55,10 @@ ordering, missing versus null, and exact string preservation; object serializati
 need not be byte-identical to preserve values. Then name the implications
 explicitly in the rules, because the author cannot guess your dependency graph: if the cost
 falls, the cost field and the cost as it appears in the generated code both fall; if the
-shape becomes an area effect, the area axis of the profile rises and the code grows the
-sweep that justifies it.
+shape becomes an area effect, the code grows the sweep that justifies it and the area axis
+of the profile rises. That axis is derived: recompute it from the revised primaries, or,
+where the profile is kept as the author's claim, check the claim against the computed
+value (see `strict-output-schema-with-derived-dependents`) rather than trusting a hand edit.
 
 **5. Pin identity across refinements.** The artifact's stable identifier does not change on
 a refinement unless the instruction changes what the thing fundamentally is. An identifier

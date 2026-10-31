@@ -32,9 +32,10 @@ computed over it overstates what is known.
 
 This is not a rare edge. It appears exactly where labels drift: legacy units that
 predate the registered pipeline, synthetic namespaces written by a feature that keeps
-its own lifecycle, ad-hoc rows from a one-off migration. In one measured case, a
-sixth of the persisted rows for a mature content type carried labels the registered
-pipeline never declared — every one of them a producer's word taken as a verdict.
+its own lifecycle, ad-hoc rows from a one-off migration. Rows like these have been
+found in the persisted store of a mature content type, carrying labels the registered
+pipeline never declared — every one of them a producer's word taken as a verdict. How
+large a share they are is a property of each store; count it before quoting it.
 
 ## The four states, and why the fourth is a finding
 

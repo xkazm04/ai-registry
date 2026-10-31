@@ -45,8 +45,11 @@ source, what in the stored artifact answers it, and the failure form ("a monolit
 
 ## Specifications beat talks, and the corpus shows why
 
-`src/lib/craft/lenses/audio.md:36` is an entry referring to a platform loudness specification that this document
-does not identify precisely: the criterion
+`src/lib/craft/lenses/audio.md:36` is an entry whose figures match Sony's Audio Standards
+Working Group Recommendation ASWG-R001 (v1.10, August 2013), which recommends that "the
+Average Loudness Level of audio content within a title developed for home-based SCE
+platforms should be normalized to a Target Level of -24 (±2) LKFS" and that true peak
+"should not exceed -1 dBTP". The criterion
 carries the target figure (−24 LKFS ±2 LU), the true-peak ceiling (−1 dBTP), and the
 requirement that the stored file's metadata carry a *measured* integrated loudness plus a
 *declared* target that match within tolerance — with any deviation from the platform norm
@@ -88,15 +91,18 @@ Two deviations, neither of which lowers the bar in the golden path:
   typed `DIMENSIONS` bars carry no sources at all. The typed bars are the ones fused with
   the prompt packs, and the sourced ones are the ones with provenance — the technique
   wants both properties in one place.
-- **Criterion count runs at the top of the band.** Nine per lens is within range; the
-  visual lenses combined with their sub-rubrics push a single medium past a dozen bars
+- **Criterion count sits in the upper half of the band.** Nine per lens is inside the
+  golden path's seven-to-twelve convention; the visual lenses combined with their sub-rubrics push a single medium past a dozen bars
   spread across documents, which is where examiners start averaging rather than
   answering.
 
 ## Review boundary - 2026-09-09
 
-The quoted -24 LKFS target cannot be treated as universal for stored game audio;
-the specific platform specification and delivery unit must be identified. The
+The quoted -24 LKFS target cannot be treated as universal for stored game audio.
+ASWG-R001 (re-read 2026-10-31) scopes it to home-based platforms, sets -18 LKFS for
+portable ones, and measures "audio content ... as a whole" over "a minimum of 30
+minutes" of representative gameplay, not per stored file. Applying it to one stored
+stem is an adaptation the criterion must state. The
 [EBU R128 publication](https://tech.ebu.ch/publications/r128) describes a different
 programme-loudness target (-23 LUFS), illustrating why source applicability matters.
 No consumer loudness measurement or named-talk verification was performed.

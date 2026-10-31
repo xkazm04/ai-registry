@@ -1,7 +1,7 @@
 ---
 domain: game-production
 subject: acceptance-verdict-spine
-last_touched: 2026-09-10
+last_touched: 2026-10-31
 touched_by: architecture-review
 dry_streak: 0
 ---
@@ -183,6 +183,172 @@ imports.
     "applications/node--three-layer-merge-order.md": {"disposition": "clarify", "reason": "The overlay guard and the shared per-step filter re-resolved exactly; resolveStepAcceptance has moved from the cited :38 to :62. The clarify is for the appended 'Review boundary - 2026-09-09' section carrying review commentary inside a knowledge document, whose central qualification (the consumer was not opened) this review supersedes."},
     "applications/process--hardcoded-pass-antipattern.md": {"disposition": "clarify", "reason": "The incident, the two-stage remediation and the three-dimension blocking rubric all re-resolved; UNSERVABLE_STEPS is still empty so its recorded deviation is live. Same clarify as its siblings: an appended review-boundary section belongs in the ledger, and the itemsSteps citations have drifted by four to twenty lines."},
     "applications/react--explain-why-this-verdict.md": {"disposition": "clarify", "reason": "explainMembers at :76 and the non-enumerable members symbol at combinators.ts:28 are both exact. Same appended-review-boundary clarify, and its own note about the openWhy conditional re-evaluating per render while open is a fair reading of the quoted code that the document above it does not reflect."}
+  }
+}
+```
+
+## Architecture review - 2026-10-31
+
+Re-review at `b005a97cb`. The three clarify items owed by the 2026-09-10 record are
+still in the text: the unsupported one-sixth figure, the missing dissent slot in the
+golden path, and the same gap in the merge technique. I retract one inference from
+that record. Its "move the review-boundary sections into the ledger" clarify on all
+three applications is a corpus convention, not a defect of this subject. Both other
+subjects reviewed in this run carry the same sections. Since then the subject gained
+the empty-all-of rule, the unmapped-blocker rule and their react application. One
+tension is new to this record. The gate ranks failure above deferred, but the all-of
+composition refuses to rank them. The gate side can be reconciled from the text. The
+all-of side, which the react application's boundary questions, is left for the Director.
+
+<!-- architecture-review:v1 -->
+```json
+{
+  "subject": "game-production/acceptance-verdict-spine",
+  "date": "2026-10-31",
+  "baseline": "b005a97cb",
+  "digest": "sha256-b2:25217c1b6264a2cf",
+  "disposition": "clarify",
+  "coverage": "All 11 current documents read in full at baseline. The 10 carried from the 2026-09-10 record were diffed against 44c899658; two techniques gained one rule each and one react application was added. No external source was needed: every clarify here is an internal inconsistency or an unsupported figure. Not evaluated: the pof consumer (absent here), any resolver run or test. No verification date refreshed.",
+  "counterexamples": [
+    "A drain that ran a runtime gate and observed a failure on a unit whose local checker returned pass: the merge keeps pass and, at baseline, no record field carries the drain's dissent (retained from 2026-09-10).",
+    "A gate check with one failing and one deferred blocker reports failure, while an all-of with a not-measured first member and a failing second reports not-measured; the two techniques rank the same pair differently and only the gate shows every input.",
+    "A filtered member list can build an empty all-of; the new rule returns deferred rather than undefined or pass.",
+    "A human curator's signed decision is a verdict, not an unverified claim (retained)."
+  ],
+  "sources": [
+    {
+      "source": "Internal reading of the subject's documents",
+      "result": "The one-sixth figure in ungraded-marker-doctrine still has no count, population or source anywhere in the subject. The verdict record still has no field for a drain outcome that contradicts a checker's own decision. gate-check-dependency-map ranks a failure over a deferred blocker, while first-non-pass-reporting-in-all-of refuses to rank failed against not-measured. Reconcilable, because the gate names every blocker, but the subject never says so."
+    },
+    {
+      "source": "pof consumer checkout",
+      "result": "Not available on this machine. The 2026-09-10 re-resolution at d823bffe (line drift :38 -> :62 and others) is carried as that record's evidence and was not re-witnessed. Commit 93444e6e3's application was not re-run."
+    }
+  ],
+  "documents": {
+    "acceptance-verdict-spine.md": {
+      "disposition": "clarify",
+      "reason": "Owed since 2026-09-10: the enumerated verdict record has no slot for a drain outcome the merge rule declines to apply but tells the reader to investigate."
+    },
+    "techniques/explain-why-this-verdict.md": {
+      "disposition": "keep",
+      "reason": "Unchanged since keep."
+    },
+    "techniques/first-non-pass-reporting-in-all-of.md": {
+      "disposition": "keep",
+      "reason": "The empty-conjunction-defers rule (2026-10-14) is correct. The not-measured-first-then-fail case is a declared trade; the react application's review boundary asks for an aggregate failure there, and that disagreement is a design decision left owed to the Director rather than edited here."
+    },
+    "techniques/gate-check-dependency-map.md": {
+      "disposition": "clarify",
+      "reason": "The unmapped-blocker rule is sound but phrased as a fact about 'the evaluator' rather than a requirement; and 'known failure dominates an unknown' needs one sentence on why ranking is allowed here when the all-of technique forbids it."
+    },
+    "techniques/hardcoded-pass-antipattern.md": {
+      "disposition": "keep",
+      "reason": "Unchanged since keep."
+    },
+    "techniques/three-layer-merge-order.md": {
+      "disposition": "clarify",
+      "reason": "Owed since 2026-09-10: say where the drain's dissenting outcome lives; the procedure's return value omits it."
+    },
+    "techniques/ungraded-marker-doctrine.md": {
+      "disposition": "clarify",
+      "reason": "Owed since 2026-09-10: 'a sixth of the persisted rows' is an unrecorded measurement; state the observation without the fraction."
+    },
+    "applications/node--three-layer-merge-order.md": {
+      "disposition": "reverify",
+      "reason": "The 2026-09-10 clarify asked to move the appended review-boundary section into the ledger; I retract that as a per-subject defect, since the same convention runs through both sibling subjects reviewed here and changing it is corpus policy. Citations drifted per the 2026-09-10 reading; consumer not reopened this run."
+    },
+    "applications/process--hardcoded-pass-antipattern.md": {
+      "disposition": "reverify",
+      "reason": "Same retraction of the move-the-boundary clarify; UNSERVABLE_STEPS and itemsSteps citations rest on the 2026-09-10 reading, not re-checked."
+    },
+    "applications/react--explain-why-this-verdict.md": {
+      "disposition": "reverify",
+      "reason": "Same retraction; its review boundary's 'deferred-before-fail needs an aggregate failure' conflicts with first-non-pass and is carried as an owed design question. Consumer not reopened."
+    },
+    "applications/react--gate-check-dependency-map.md": {
+      "disposition": "reverify",
+      "reason": "New since 2026-09-10; internally consistent (unmapped check blocks; five of thirteen steps ungated, named). Commit and 1083 tests not re-run."
+    }
+  }
+}
+```
+
+## Architecture review - 2026-10-31 (clarify applied)
+
+Applied the four clarify items from the record above from the subject's own text. The
+all-of not-measured-before-fail question and the four applications stay as recorded.
+
+<!-- architecture-review:v1 -->
+```json
+{
+  "subject": "game-production/acceptance-verdict-spine",
+  "date": "2026-10-31",
+  "baseline": "b005a97cb",
+  "digest": "sha256-b2:b8bcdefc8333de86",
+  "disposition": "reverify",
+  "coverage": "All 11 current documents read in full at baseline. The 10 carried from the 2026-09-10 record were diffed against 44c899658; two techniques gained one rule each and one react application was added. No external source was needed: every clarify here is an internal inconsistency or an unsupported figure. Not evaluated: the pof consumer (absent here), any resolver run or test. Four documents edited after the first record and re-read; the rest byte-unchanged. No verification date refreshed.",
+  "counterexamples": [
+    "A drain that ran a runtime gate and observed a failure on a unit whose local checker returned pass: the merge keeps pass and, at baseline, no record field carries the drain's dissent (retained from 2026-09-10).",
+    "A gate check with one failing and one deferred blocker reports failure, while an all-of with a not-measured first member and a failing second reports not-measured; the two techniques rank the same pair differently and only the gate shows every input.",
+    "A filtered member list can build an empty all-of; the new rule returns deferred rather than undefined or pass.",
+    "A human curator's signed decision is a verdict, not an unverified claim (retained)."
+  ],
+  "sources": [
+    {
+      "source": "Internal reading of the subject's documents",
+      "result": "The one-sixth figure in ungraded-marker-doctrine still has no count, population or source anywhere in the subject. The verdict record still has no field for a drain outcome that contradicts a checker's own decision. gate-check-dependency-map ranks a failure over a deferred blocker, while first-non-pass-reporting-in-all-of refuses to rank failed against not-measured. Reconcilable, because the gate names every blocker, but the subject never says so."
+    },
+    {
+      "source": "pof consumer checkout",
+      "result": "Not available on this machine. The 2026-09-10 re-resolution at d823bffe (line drift :38 -> :62 and others) is carried as that record's evidence and was not re-witnessed. Commit 93444e6e3's application was not re-run."
+    }
+  ],
+  "documents": {
+    "acceptance-verdict-spine.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: the verdict record gains a 'dissent' field carrying a later authority's stored outcome that disagreed with a status it could not override."
+    },
+    "techniques/explain-why-this-verdict.md": {
+      "disposition": "keep",
+      "reason": "Unchanged since keep."
+    },
+    "techniques/first-non-pass-reporting-in-all-of.md": {
+      "disposition": "keep",
+      "reason": "The empty-conjunction-defers rule (2026-10-14) is correct. The not-measured-first-then-fail case is a declared trade; the react application's review boundary asks for an aggregate failure there, and that disagreement is a design decision left owed to the Director rather than edited here."
+    },
+    "techniques/gate-check-dependency-map.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: 'make the evaluator enforce this'; the mixed-blockers rule now says it ranks only the headline status while every blocker stays named, which is why the gate may rank where the all-of may not."
+    },
+    "techniques/hardcoded-pass-antipattern.md": {
+      "disposition": "keep",
+      "reason": "Unchanged since keep."
+    },
+    "techniques/three-layer-merge-order.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: step 4 returns any declined dissenting outcome, and the contradiction rule carries the drain's outcome on the record as a dissent."
+    },
+    "techniques/ungraded-marker-doctrine.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: the one-sixth figure is replaced by the observation without a fraction, plus 'count it before quoting it'."
+    },
+    "applications/node--three-layer-merge-order.md": {
+      "disposition": "reverify",
+      "reason": "The 2026-09-10 clarify asked to move the appended review-boundary section into the ledger; I retract that as a per-subject defect, since the same convention runs through both sibling subjects reviewed here and changing it is corpus policy. Citations drifted per the 2026-09-10 reading; consumer not reopened this run."
+    },
+    "applications/process--hardcoded-pass-antipattern.md": {
+      "disposition": "reverify",
+      "reason": "Same retraction of the move-the-boundary clarify; UNSERVABLE_STEPS and itemsSteps citations rest on the 2026-09-10 reading, not re-checked."
+    },
+    "applications/react--explain-why-this-verdict.md": {
+      "disposition": "reverify",
+      "reason": "Same retraction; its review boundary's 'deferred-before-fail needs an aggregate failure' conflicts with first-non-pass and is carried as an owed design question. Consumer not reopened."
+    },
+    "applications/react--gate-check-dependency-map.md": {
+      "disposition": "reverify",
+      "reason": "New since 2026-09-10; internally consistent (unmapped check blocks; five of thirteen steps ungated, named). Commit and 1083 tests not re-run."
+    }
   }
 }
 ```

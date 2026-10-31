@@ -112,8 +112,8 @@ back into arithmetic.
 
 - **Where the defect is a matter of degree.** Slightly off, mostly off, and entirely
   off are three states; a cap sees two. Degree belongs to criteria.
-- **Early in a class's life.** Before you have piloted a lens against known-good and
-  known-bad artifacts, a disqualifier list is guesswork, and a wrong cap rejects good
+- **Early in a class's life.** Before you have piloted a lens against a held-out set of
+  known-good and known-bad artifacts, a disqualifier list is guesswork, and a wrong cap rejects good
   work with total confidence. Start with criteria, promote to caps the defects that
   the pilot shows are actually fatal and actually unambiguous.
 - **For process failures.** That an artifact skipped a review stage or was produced

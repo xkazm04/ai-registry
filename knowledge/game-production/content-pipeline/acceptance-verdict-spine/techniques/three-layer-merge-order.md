@@ -43,8 +43,8 @@ says when it is permitted to change anything.
    scoped to this unit's judged class may turn a pass into a failure. It may never
    turn a failure into a pass. Attach the judgment's provenance to the result even
    when the judgment was not applied.
-4. Return the result. It carries status, rung, reason, and the identity of the layer
-   that decided.
+4. Return the result. It carries status, rung, reason, the identity of the layer
+   that decided, and any dissenting stored outcome the guards declined to apply.
 
 ## Decision rules
 
@@ -53,8 +53,8 @@ says when it is permitted to change anything.
   an instance of this. If you cannot state what the later layer knows that the
   earlier one did not, delete the layer.
 - **When the drain's stored outcome contradicts a checker that decided for itself,
-  keep the checker's verdict and treat the contradiction as a defect to
-  investigate** — do not silently prefer either. Two authorities answering a question
+  keep the checker's verdict, carry the drain's outcome on the record as a dissent, and
+  treat the contradiction as a defect to investigate** — do not silently prefer either. Two authorities answering a question
   one of them owns is the condition
   [one authority per quantity](../../../_laws.md#one-authority-per-quantity) exists to
   forbid.

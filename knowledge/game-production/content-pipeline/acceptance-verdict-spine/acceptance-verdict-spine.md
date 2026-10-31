@@ -118,6 +118,10 @@ The merged result is not a status. It is a small record that survives to the sur
   structural rung is not confused with `pass` at a perceptual one.
 - **reason** — why, in the failing and deferred cases, always.
 - **deciding authority** — which layer changed the verdict last.
+- **dissent** — a later authority's stored outcome that disagreed with a status it was
+  not permitted to override (a drain failure under a checker's own pass). The merge keeps
+  the earlier verdict and carries the disagreement here, so the contradiction the merge
+  rule says to investigate has a field a surface can show.
 - **judgment provenance** — attached even when the judgment was *not* applied,
   because a craft verdict about content the unit no longer holds is evidence about
   the past, and dropping it silently lets "unjudged since the last edit" read as

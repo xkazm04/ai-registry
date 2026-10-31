@@ -1,7 +1,7 @@
 ---
 domain: game-production
 subject: ability-authoring-to-engine
-last_touched: 2026-09-10
+last_touched: 2026-10-31
 touched_by: architecture-review
 dry_streak: 0
 ---
@@ -254,6 +254,197 @@ build, no engine run, no generated artifact was evaluated.
     "applications/node--server-derived-codegen-report.md": {
       "disposition": "reverify",
       "reason": "Same unverified checkout. Its deviation - the status is derived but the rungs it derives from are still the agent's booleans - is the correct and useful finding, and is a better statement of the standard than the technique's inserted receipt requirement."
+    }
+  }
+}
+```
+
+## Architecture review - 2026-10-31
+
+Re-review at `b005a97cb`. The 2026-09-10 record owed six clarify items. None had
+landed. Since then the subject gained three `next` applications and one decision rule
+in each of two techniques. A re-read of Epic's gameplay-tag page confirms the
+multi-source and hierarchy findings, so I keep the 2026-09-10 reasoning. I depart from
+it on one point. The golden path's asymmetric gating ("an undeclared reference can block
+acceptance; an unused declaration is a review lead") is sound and should stay. The
+reconciliation is to say that the score stays symmetric while gating stays asymmetric.
+The technique's argument does not need to overrule the golden path.
+
+<!-- architecture-review:v1 -->
+```json
+{
+  "subject": "game-production/ability-authoring-to-engine",
+  "date": "2026-10-31",
+  "baseline": "b005a97cb",
+  "digest": "sha256-b2:5830c3752f48cc16",
+  "disposition": "clarify",
+  "coverage": "All 13 current documents read in full at baseline. The 10 carried from the 2026-09-10 record were diffed against 44c899658 (only two techniques gained one decision rule each); three next-- applications were added and read in full. The Epic gameplay-tag page was re-read and quoted. Not evaluated: the pof consumer (absent here), any Unreal project, build, generated code or test run. No verification date refreshed.",
+  "counterexamples": [
+    "A config-file or data-table-declared tag referenced by content is scored 'used but never defined - a bug' by an audit that parses native-code declarations only (retained from 2026-09-10; still in the technique at baseline).",
+    "A parent tag used only as a query prefix lands in the orphan or undeclared set depending on an extractor rule no document specifies (retained).",
+    "The golden path calls equal weighting 'a reporting convention, not an equal-risk judgment' while the technique argues equal weighting is a deliberate stance because orphans are the costlier, never-observed direction.",
+    "A refinement that hand-raises the radar area axis and a computed profile can disagree with nothing comparing them, the exact contradiction the schema technique forbids.",
+    "A single authenticated-runner-receipt bar for the build rung is unreachable for most projects, while a receiver reading the build result from the project still clears the rung's purpose (retained)."
+  ],
+  "sources": [
+    {
+      "url": "https://dev.epicgames.com/documentation/en-us/unreal-engine/using-gameplay-tags-in-unreal-engine",
+      "result": "Re-read 2026-10-31. 'You can add (or remove) tags with one of the following methods': directly in Project Settings; 'imports all Gameplay Tags from .ini files, including Config/DefaultGameplayTags.ini and any in Config/Tags'; 'importing a .csv or .json file as a Data Table'; and C++ 'macros defined in NativeGameplayTags.h'. 'Gameplay Tags can have any number of hierarchical levels, as indicated by . character separations.' Confirms the 2026-09-10 finding that the audit's single-owning-declaration premise is false for this engine and that hierarchy is unaddressed. Says nothing on how parent and child match in queries."
+    },
+    {
+      "source": "Internal reading of the subject's documents",
+      "result": "The golden path and declared-vs-referenced-tag-audit still hold opposite positions on equal weighting; refinement step 4 still hand-maintains the radar axis that strict-output-schema classes as derived; the next-- strict-schema application calls its third listed kind 'the second kind'."
+    },
+    {
+      "source": "pof consumer checkout",
+      "result": "Not available on this machine; no application citation, commit (00f4000d etc.) or test count was re-checked."
+    }
+  ],
+  "documents": {
+    "ability-authoring-to-engine.md": {
+      "disposition": "clarify",
+      "reason": "Owed since 2026-09-10 and unchanged: the equal-weighting sentence contradicts the technique, and the count-versus-null sentence lost its parallel structure."
+    },
+    "techniques/declared-vs-referenced-tag-audit.md": {
+      "disposition": "clarify",
+      "reason": "Owed since 2026-09-10: step 1 assumes one owning declaration; the Epic page (re-read) lists four declaration methods and arbitrary-depth hierarchy. Promote non-centralised declaration to a stated precondition with source coverage, and say how hierarchy is handled."
+    },
+    "techniques/few-shot-reference-plus-tag-registry.md": {
+      "disposition": "clarify",
+      "reason": "Content sound (keep on substance); the last decision rule still has an unindented continuation line breaking the list item."
+    },
+    "techniques/refinement-mode-minimal-diff.md": {
+      "disposition": "clarify",
+      "reason": "The new identity-and-prose rule (2026-10-14) is sound. Step 4 still re-derives the profile's area axis by hand, treating a derived field as authored."
+    },
+    "techniques/server-derived-codegen-report.md": {
+      "disposition": "clarify",
+      "reason": "Owed since 2026-09-10: step 2's authenticated-runner-receipt bar should be a ladder from receiver-observed to independently attested."
+    },
+    "techniques/strict-output-schema-with-derived-dependents.md": {
+      "disposition": "keep",
+      "reason": "The new text-literal-copy decision rule is the application's sound generalisation; the rest unchanged since keep."
+    },
+    "techniques/tag-dialect-normalization.md": {
+      "disposition": "keep",
+      "reason": "Unchanged since keep; the new application confirms its declared-table-over-convention rule."
+    },
+    "applications/next--refinement-mode-minimal-diff.md": {
+      "disposition": "reverify",
+      "reason": "New since 2026-09-10; honest about detection-only scope. Private tree and tests not reopened; verified_against untouched."
+    },
+    "applications/next--strict-output-schema-with-derived-dependents.md": {
+      "disposition": "clarify",
+      "reason": "New since 2026-09-10. Lists three kinds of impossible reply, then calls the third (manaCost authored twice) 'the second kind'. Tests (3,927) not re-run."
+    },
+    "applications/next--tag-dialect-normalization.md": {
+      "disposition": "reverify",
+      "reason": "New since 2026-09-10; consistent (2 of 7 failed before, 7 of 7 after). Commit 00f4000d not reopened."
+    },
+    "applications/node--declared-vs-referenced-tag-audit.md": {
+      "disposition": "reverify",
+      "reason": "Unchanged; its review boundary already carries the declaration-sources caveat. Module not executed."
+    },
+    "applications/node--server-derived-codegen-report.md": {
+      "disposition": "reverify",
+      "reason": "Unchanged; no checkout, build or callback evaluated."
+    },
+    "applications/process--few-shot-reference-plus-tag-registry.md": {
+      "disposition": "clarify",
+      "reason": "Owed since 2026-09-10: house rule 5 asks the generator for the radar profile with no deviation note against the schema technique."
+    }
+  }
+}
+```
+
+## Architecture review - 2026-10-31 (clarify applied)
+
+Applied all seven clarify items from the record above. Grounds: the re-read Epic page
+and the subject's own text. Product names stay out of the techniques. The four
+untouched applications keep `reverify`.
+
+<!-- architecture-review:v1 -->
+```json
+{
+  "subject": "game-production/ability-authoring-to-engine",
+  "date": "2026-10-31",
+  "baseline": "b005a97cb",
+  "digest": "sha256-b2:5986547ff5545789",
+  "disposition": "reverify",
+  "coverage": "All 13 current documents read in full at baseline. The 10 carried from the 2026-09-10 record were diffed against 44c899658 (only two techniques gained one decision rule each); three next-- applications were added and read in full. The Epic gameplay-tag page was re-read and quoted. Not evaluated: the pof consumer (absent here), any Unreal project, build, generated code or test run. Seven documents edited after the first record and re-read; the rest byte-unchanged. No verification date refreshed.",
+  "counterexamples": [
+    "A config-file or data-table-declared tag referenced by content is scored 'used but never defined - a bug' by an audit that parses native-code declarations only (retained from 2026-09-10; still in the technique at baseline).",
+    "A parent tag used only as a query prefix lands in the orphan or undeclared set depending on an extractor rule no document specifies (retained).",
+    "The golden path calls equal weighting 'a reporting convention, not an equal-risk judgment' while the technique argues equal weighting is a deliberate stance because orphans are the costlier, never-observed direction.",
+    "A refinement that hand-raises the radar area axis and a computed profile can disagree with nothing comparing them, the exact contradiction the schema technique forbids.",
+    "A single authenticated-runner-receipt bar for the build rung is unreachable for most projects, while a receiver reading the build result from the project still clears the rung's purpose (retained)."
+  ],
+  "sources": [
+    {
+      "url": "https://dev.epicgames.com/documentation/en-us/unreal-engine/using-gameplay-tags-in-unreal-engine",
+      "result": "Re-read 2026-10-31. 'You can add (or remove) tags with one of the following methods': directly in Project Settings; 'imports all Gameplay Tags from .ini files, including Config/DefaultGameplayTags.ini and any in Config/Tags'; 'importing a .csv or .json file as a Data Table'; and C++ 'macros defined in NativeGameplayTags.h'. 'Gameplay Tags can have any number of hierarchical levels, as indicated by . character separations.' Confirms the 2026-09-10 finding that the audit's single-owning-declaration premise is false for this engine and that hierarchy is unaddressed. Says nothing on how parent and child match in queries."
+    },
+    {
+      "source": "Internal reading of the subject's documents",
+      "result": "The golden path and declared-vs-referenced-tag-audit still hold opposite positions on equal weighting; refinement step 4 still hand-maintains the radar axis that strict-output-schema classes as derived; the next-- strict-schema application calls its third listed kind 'the second kind'."
+    },
+    {
+      "source": "pof consumer checkout",
+      "result": "Not available on this machine; no application citation, commit (00f4000d etc.) or test count was re-checked."
+    }
+  ],
+  "documents": {
+    "ability-authoring-to-engine.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: the coherence paragraph now keeps asymmetric gating and states the score's equal weighting as the technique's deliberate stance (orphan cost falls on registry reliability); count-versus-null reads 'the first is a missing measurement, the second a measured result'."
+    },
+    "techniques/declared-vs-referenced-tag-audit.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: step 1 collects from every owning declaration, names the multi-source case generically and requires source coverage beside the undeclared list; new step 1a states the hierarchy rule; the when-not-to-use bullet now points back to step 1."
+    },
+    "techniques/few-shot-reference-plus-tag-registry.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: continuation line re-indented into its list item."
+    },
+    "techniques/refinement-mode-minimal-diff.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: step 4 says the area axis is derived - recompute it, or check the author's claim against the computed value, citing strict-output-schema."
+    },
+    "techniques/server-derived-codegen-report.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: step 2's build evidence is a two-rung ladder (receiver reads the build result from the project; authenticated runner receipt where one exists) and the rung reached is recorded."
+    },
+    "techniques/strict-output-schema-with-derived-dependents.md": {
+      "disposition": "keep",
+      "reason": "The new text-literal-copy decision rule is the application's sound generalisation; the rest unchanged since keep."
+    },
+    "techniques/tag-dialect-normalization.md": {
+      "disposition": "keep",
+      "reason": "Unchanged since keep; the new application confirms its declared-table-over-convention rule."
+    },
+    "applications/next--refinement-mode-minimal-diff.md": {
+      "disposition": "reverify",
+      "reason": "New since 2026-09-10; honest about detection-only scope. Private tree and tests not reopened; verified_against untouched."
+    },
+    "applications/next--strict-output-schema-with-derived-dependents.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: 'The second kind' -> 'The third kind'. Private tree not reopened; verified_on unchanged."
+    },
+    "applications/next--tag-dialect-normalization.md": {
+      "disposition": "reverify",
+      "reason": "New since 2026-09-10; consistent (2 of 7 failed before, 7 of 7 after). Commit 00f4000d not reopened."
+    },
+    "applications/node--declared-vs-referenced-tag-audit.md": {
+      "disposition": "reverify",
+      "reason": "Unchanged; its review boundary already carries the declaration-sources caveat. Module not executed."
+    },
+    "applications/node--server-derived-codegen-report.md": {
+      "disposition": "reverify",
+      "reason": "Unchanged; no checkout, build or callback evaluated."
+    },
+    "applications/process--few-shot-reference-plus-tag-registry.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: house rule 5 now records the radar profile as a deviation from strict-output-schema (generator-supplied derived field with no computed counterpart or divergence check). Prompt citations not re-checked; verified_on unchanged."
     }
   }
 }
