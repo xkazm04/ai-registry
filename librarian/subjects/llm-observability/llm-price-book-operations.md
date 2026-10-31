@@ -297,3 +297,79 @@ record's.
   }
 }
 ```
+
+## 2026-10-31 - clarify applied
+
+All five still-owed clarifies are applied, plus the golden path's matching sentence.
+The imputation overclaim is now conditional on the rule in all three places. The lane
+fall-through names the premium direction with OpenAI's Fast-lane multiples, re-read
+this run. Hot-swap step 4 puts the re-read inside the lock. The rust application lists
+the priority-to-flex deviation and the unmapped 'fast' hint. Only the process
+application's at-refresh currency facts remain, so the subject stays at clarify.
+
+<!-- architecture-review:v1 -->
+```json
+{
+  "subject": "llm-observability/llm-price-book-operations",
+  "date": "2026-10-31",
+  "baseline": "90705bb6a",
+  "digest": "sha256-b2:7f657d109c2ac38c",
+  "disposition": "clarify",
+  "coverage": "Clarify-apply pass on the 2026-10-31 record. The six clarify documents were re-read at the passages named and edited; embedded-seed-fallback, price-provenance-and-staleness and price-row-variant-encoding are unchanged and carry that record's decisions. OpenAI pricing page re-read this run for the Fast-lane facts. Not evaluated: the LightTrack tree (the rust application's priority-to-flex deviation rests on the document's own prior reading of PricingMode::parse), any price-book execution. No verified_on or refresh_by field was refreshed; the process application's at-refresh currency items were left for its refresh.",
+  "counterexamples": [
+    "A call declares OpenAI's Fast (formerly priority) lane at 2.5x standard and the book has no such row. Resolution falls through to base and under-prices by 60%, in the direction the golden path says flatters the dashboard.",
+    "A client sends the lane hint 'priority' to a parser that maps it to flex, and a premium call prices at the discounted rate.",
+    "A model's row is added after a month of unpriced traffic, and under the window-mean imputation rule the backlog is still charged at the mean, not at the new rate.",
+    "Two admin writes each re-read the full table outside the lock, and the older read swaps last, so memory falls behind the database until restart.",
+    "A per-provider cache-read rate of 0.1x applied to Opus 5.5 traffic over-charges reads by 2x against the published 0.05x."
+  ],
+  "sources": [
+    {
+      "url": "https://developers.openai.com/api/docs/pricing",
+      "result": "Read, not executed, 2026-10-31. 'Priority processing was renamed Fast mode on July 30, 2026.' Fast pricing table against Flex/Batch (half of standard): gpt-5.5 short-context input $12.50 Fast vs $2.50 Flex (2.5x standard); gpt-4.1 and o3 $3.50 Fast vs $1.00 Batch (1.75x standard); gpt-6 family 2x standard. Supports the premium-lane under-pricing wording in price-resolution-order and the 'fast' grammar gap in the rust application."
+    },
+    {
+      "url": "https://platform.claude.com/docs/en/docs/build-with-claude/prompt-caching",
+      "result": "Read, not executed, 2026-10-31. Footnotes still list 0.025x for Fable 5.1 / Mythos 5.1, 0.05x for Opus 5.5 / Sonnet 5.5, 'All other models use the standard 0.1x multiplier.' No edit rested on it this pass; the golden path's caveat stands."
+    }
+  ],
+  "documents": {
+    "llm-price-book-operations.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: 'self-corrects the moment a price lands' replaced with recomputed-not-frozen plus the dependency on the imputation rule (per-event re-resolution prices at the new row; a window-mean rule only moves the mean); the technique-list bullet qualified the same way."
+    },
+    "techniques/embedded-seed-fallback.md": {
+      "disposition": "keep",
+      "reason": "Precedence rule, the boot line disclosing the winning source, and build-time assertions hold. Unchanged."
+    },
+    "techniques/hot-swap-price-book.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: step 4 now requires the full re-read inside the same write lock, or a versioned read whose older swap is discarded, and names the two-writer reorder it prevents."
+    },
+    "techniques/no-retroactive-repricing.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: heading and paragraph weakened from 'the very next evaluation prices that traffic correctly' to 'only unpriced traffic can move after the fact', with the per-event re-resolution versus window-mean distinction stated and a rule to name which one runs. The freeze principle unchanged."
+    },
+    "techniques/price-provenance-and-staleness.md": {
+      "disposition": "keep",
+      "reason": "Declared non-coverage, staleness against the shortest provider cadence, and effective date versus announcement date hold. A provider renaming a lane (priority to Fast) is exactly the cadence event this technique's staleness rule should catch."
+    },
+    "techniques/price-resolution-order.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: the lane fall-through now scopes 'base is the ceiling' to discount lanes, states that it under-prices premium lanes (1.75x-2.5x standard input at one major provider, unnamed since techniques carry no product names; the source is OpenAI's Fast lane) and that a renamed lane falls through the same way, and makes an unpriced premium lane a disclosed partial miss, matching the class-fallback rule."
+    },
+    "techniques/price-row-variant-encoding.md": {
+      "disposition": "keep",
+      "reason": "Modifier-in-key with a closed grammar, self-contained rate cards, and the class map as an orthogonal axis hold. Cache-write classes re-confirmed."
+    },
+    "applications/process--no-retroactive-repricing.md": {
+      "disposition": "clarify",
+      "reason": "Applied 2026-10-31: the runbook's 'expect any unpriced backlog ... to self-correct' now says the backlog keeps its imputed charge under the window-mean rule and that the product caveat's 'self-corrects' overstates; the quoted caveat left verbatim. Still owed at its refresh (refresh_by 2026-11-20, not applied now so its dated survey is refreshed whole): OpenAI cached input is 50-95% off (5% to 50% of input), not 50-90%; Anthropic reads are per model (0.1x / 0.05x / 0.025x)."
+    },
+    "applications/rust--price-resolution-order.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: the deviations section now lists PricingMode::parse mapping 'priority' to flex (a premium lane priced at a discount) and the provider's current lane name 'fast' falling through to standard base, beside the effective_date deviation. Tree not reopened; verified_on unchanged."
+    }
+  }
+}
+```

@@ -104,9 +104,11 @@ documentation says so out loud. This is
 the temporal boundary that makes the book *accounting* rather than a cache of
 opinions: numbers that can change after the fact are not records. The one
 deliberate asymmetry: traffic that was *unpriced* at ingest carries no stamp,
-so its imputed charge is recomputed at evaluation time and self-corrects the
-moment a price lands — the stamped and the imputed live under different rules,
-and both rules are stated.
+so its imputed charge is recomputed at evaluation time rather than frozen.
+Whether a landed price then charges that backlog at its own rate depends on
+the imputation rule: one that re-resolves the book per event does; a
+window-mean rule only moves the mean. The stamped and the imputed live under
+different rules, and both rules are stated.
 
 **Live updates are forward-only swaps.** New prices should take effect without
 a restart — a provider price cut at noon should not price the afternoon at
@@ -173,5 +175,6 @@ from two quarters ago sit silently under a live margin report.
   last-verified stamps, and declared non-coverage.
 - [no-retroactive-repricing](./techniques/no-retroactive-repricing.md) — cost
   stamped once at ingest; corrections apply forward; windows stay wrong until
-  they roll; only imputed charges self-correct, and the caveat ships with the
-  product.
+  they roll; only imputed charges are recomputed (and price at the new row
+  only if the imputation rule re-resolves per event), and the caveat ships
+  with the product.

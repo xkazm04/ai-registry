@@ -77,7 +77,12 @@ base** rather than erroring; `date_suffix_fallback` pins the alias trim;
 
 Confirmed against the standard: single resolver, closed order, lane→tier→base
 →alias, strict thresholds, conservative lane fallback, null on miss, narrow
-alias policy, tested edges. One deviation worth noting: `PriceBook::rows`
+alias policy, tested edges. Two deviations worth noting. First,
+`PricingMode::parse` treats `"priority"` as a synonym for flex, so a premium
+lane hint prices at the discounted flex rate, and the provider's current name
+for that lane, `"fast"` (OpenAI renamed priority to Fast on 2026-07-30), is
+not in the grammar and falls through to standard base — both under-price a
+lane billed above standard. Second, `PriceBook::rows`
 (`:117-133`) stamps `effective_date: Utc::now()` when flattening the seed for
 DB insertion — seed rows get "now" rather than the seed's own last-verified
 date, so a freshly seeded install's provenance overstates how current its

@@ -125,3 +125,10 @@ a class earns its slot the day one of *your* providers prices it distinctly —
 not the day it appears in someone's API reference. A counter reported at the
 same rate as an existing class (tool-result tokens folded into the input
 rate, say) has not cleared the bar, however prominently it is reported.
+The same bar applies when the normalization target is wider than the
+record: the cross-vendor telemetry standard's attribute registry now
+defines per-modality input, output and cache-read counters plus a
+cache-write counter, and the canonical accounting record still does not
+mirror that shape. It adds a class only when one of your providers prices
+it distinctly, and the mapping from the standard's attributes to the
+record's classes is done once, at ingest.
