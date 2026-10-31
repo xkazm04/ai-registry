@@ -73,14 +73,16 @@ That minting is the pattern
 prescribes: a real defect with no rule gets the rule written, and the next
 thousand strings are auditable.
 
-## FR-DASH · The em dash is not French punctuation
+## FR-DASH · UI default: en dash, not em dash
 
 > **Rule** — replace **—** in prose with a period, a comma pair, a colon, or
 > parentheses. Where the emphasis is worth keeping, the **en dash –** is the
 > French device — and even it is a stylistic minority; the guide calls it more
 > fluid and casual than a colon. The en dash survives uncontested only in
 > number ranges (*3–5 jours*).
-> **Source** — Microsoft French style guide §4.1.14 (dashes).
+> **Source** — Microsoft French style guide §4.1.14 (dashes), a vendor ruling
+> for UI text. French itself uses the em dash: the OQLF names it, with the en
+> dash, as a punctuation mark for dialogue, set-off passages and lists.
 > **Exception** — a house may ban dash-as-punctuation outright, converting even
 > en dashes to recasts; that is a legitimate tightening. The mechanical
 > half-step (— → –) is safe to sweep; choosing between comma, colon and

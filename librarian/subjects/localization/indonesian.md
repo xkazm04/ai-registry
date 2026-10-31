@@ -350,3 +350,79 @@ the wording change waits on the primary clause.
   }
 }
 ```
+
+## 2026-10-31 - clarify applied (spec application)
+
+Applied the one clarify owed by the earlier 2026-10-31 record against `8432a5cfa`.
+The spec application now says Part 9 defines six data-model errors and names all of
+them. Re-fetched tr35-78 confirms the list. The subject stays `reverify`: the EYD V
+title-capitalization clause behind `indonesian.md` and `ui-conventions-and-length.md`
+is still unread, and that work is not a clarify.
+
+<!-- architecture-review:v1 -->
+```json
+{
+  "subject": "localization/indonesian",
+  "date": "2026-10-31",
+  "baseline": "8432a5cfa",
+  "digest": "sha256-b2:c85be7881a6cd02f",
+  "disposition": "reverify",
+  "coverage": "Clarify-apply pass on the earlier 2026-10-31 record. The spec application's error-count clarify was applied and the edited passages re-read. UTS #35 Part 9 at the pinned tr35-78 revision was re-fetched this run (321,613 bytes) and its Data Model Errors list read. The two reverify items (indonesian.md and ui-conventions-and-length.md, the EYD V title-capitalization clause) are not clarify work and were left open. Not evaluated: ICU4J and the application's harness (not re-run), the EYD V text, KBBI entries, vendor style guides, the private product tree, and any verified_on refresh.",
+  "counterexamples": [
+    "A book, article or report title rendered in an Indonesian help page or document list (Panduan Memulai Proyek Baru) follows the spelling standard's title capitalization, so 'Indonesian has no title-case convention at all' misfires outside UI chrome even though sentence case is right for buttons.",
+    "A single-category locale can still need a separate count-1 wording through an exact =1 key; reading ID-CLDR-OTHER as 'one category means one wording' would delete that legitimate variant."
+  ],
+  "sources": [
+    {
+      "url": "https://www.unicode.org/reports/tr35/tr35-78/tr35-messageFormat.html",
+      "result": "Re-fetched 2026-10-31: 321,613 bytes, matching the application's pin. Its Data Model Errors section lists Variant Key Mismatch, Missing Fallback Variant, Missing Selector Annotation, Duplicate Declaration, Duplicate Option Name and Duplicate Variant: six. None covers an unreachable key. The application now says six."
+    },
+    {
+      "url": "https://www.unicode.org/reports/tr35/tr35-messageFormat.html",
+      "result": "Current revision (CLDR 49). Quotes relied on: 'At least one variant MUST exist whose keys are all equal to the \"catch-all\" key *'; 'The rules for a given locale might not produce all of the keywords'; a keyword match 'is a stronger match than the fallback key * but a weaker match than any exact match'. Confirms ID-CLDR-OTHER's generation-dependent catch-all, the inert stray branch, and exact-key precedence."
+    },
+    {
+      "url": "https://ejaan.kemdikbud.go.id/eyd/penggunaan-huruf/huruf-kapital/",
+      "result": "Did not resolve from this session. Secondary sources (publisher guidance quoting EYD) describe capitalizing every word except function words in titles of works. The primary clause was not read, so ID-SENTENCE-CASE's absolute claim is recorded as reverify, not clarify."
+    }
+  ],
+  "documents": {
+    "indonesian.md": {
+      "disposition": "reverify",
+      "reason": "Sound throughout except one absolute: 'Indonesian has no title-case convention at all'. The spelling standard appears to prescribe title capitalization for titles of works. Read the EYD V capital-letter clause; if confirmed, scope the sentence to UI labels, buttons and headings."
+    },
+    "techniques/de-anglicization-constructions.md": {
+      "disposition": "keep",
+      "reason": "ID-PASSIVE's who-the-sentence-is-about rule, the agent-focus passive, ordered DIMANA repairs, the YANG-CHAIN threshold with a definiteness carve-out, and the collocation list are all trigger-first and bounded. Unchanged since the 2026-09-10 keep."
+    },
+    "techniques/quantity-and-plurality.md": {
+      "disposition": "keep",
+      "reason": "Today's Part 9 read confirms its rewritten catch-all paragraph (generation-dependent spelling, all-* fallback), its inert-branch statement (rules need not produce every keyword) and its exact-key carve-out (exact match outranks keyword). It names no error count, so the application's miscount does not reach it."
+    },
+    "techniques/register-and-address.md": {
+      "disposition": "keep",
+      "reason": "ID-ANDA, ID-REGISTER's whole-pronoun-family clause, ID-IMP-DROP and ID-FIRST-PERSON are each correct and greppable. EYD citation not re-read (site unreachable); the Anda rule is the uncontroversial clause."
+    },
+    "techniques/terminology-and-loanwords.md": {
+      "disposition": "keep",
+      "reason": "Three routes, the KBBI-sanctions-usage-decides ordered rules, the single klik exception and the drift pairs are sound. KBBI entries not re-checked."
+    },
+    "techniques/ui-conventions-and-length.md": {
+      "disposition": "reverify",
+      "reason": "ID-VERB-SLOT, ID-LENGTH and ID-TYPOGRAPHY keep. ID-SENTENCE-CASE's source line ('no published Indonesian style authority defines a title case') conflicts with the spelling standard's title-of-works capitalization as secondary sources quote it. Read the EYD V clause; if confirmed, restate as: EYD capitalizes titles of works, UI chrome is sentence case by vendor convention."
+    },
+    "applications/process--terminology-and-loanwords.md": {
+      "disposition": "keep",
+      "reason": "Dated 2026-08-24 field record; the deployment split and the counted drift pairs are the transferable lesson. Not re-run against the private tree."
+    },
+    "applications/process--ui-conventions-and-length.md": {
+      "disposition": "keep",
+      "reason": "Dated field record; the ellipsis ruling (majority declared wrong) and the measured +11% are the lesson. Not re-run."
+    },
+    "applications/spec--quantity-and-plurality.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: 'lists four data-model errors' and the four-item list now read 'defines six data-model errors' and name all six (adding duplicate declaration and duplicate option name, and naming variant-key mismatch by its Part 9 title). The inert-branch conclusion is unchanged: none of the six covers an unreachable key."
+    }
+  }
+}
+```

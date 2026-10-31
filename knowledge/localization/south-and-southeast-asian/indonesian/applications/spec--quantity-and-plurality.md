@@ -60,8 +60,7 @@ cardinal cohort predicts nothing about ordinals; Czech runs the other way
 
 ## The sharp finding: the mandatory branch is `*`, and it is not `other`
 
-Part 9's *Matcher* section lists four data-model errors a valid message must
-avoid; the governing one is **Missing Fallback Variant** — at least one variant
+Part 9 defines six data-model errors a valid message must avoid; the governing one is **Missing Fallback Variant** — at least one variant
 must have all its keys equal to the catch-all key `*`. `other` is an ordinary
 literal key: it matches when rule selection returns the keyword `other`, but it
 does **not** satisfy the fallback requirement. Against ICU4J:
@@ -87,8 +86,9 @@ and disagree on its spelling; the technique states only the older one.
 "Dead weight at best and a skeleton defect at worst" has no support in the
 standard. *Rule Selection* states outright that the rules for a given locale
 might not produce all of the keywords, and no error class covers an unreachable
-key — the four data-model errors are variant-key count, missing fallback,
-missing selector annotation, duplicate variant. A `one` variant in an `id`
+key — the six data-model errors are variant-key mismatch, missing fallback,
+missing selector annotation, duplicate declaration, duplicate option name,
+duplicate variant. A `one` variant in an `id`
 message violates none. Measured:
 
 | generation | message | locale | counts 0,1,2,5,11,100 |

@@ -375,3 +375,80 @@ it, and the rule's UI verdict stands. Nothing was executed.
   }
 }
 ```
+
+## Architecture review - 2026-10-31 (clarify applied)
+
+Applied both clarifies owed by the earlier 2026-10-31 record against `8432a5cfa`.
+FR-ZERO's redundant first **Trigger** line is gone. FR-DASH is now headed 'UI
+default: en dash, not em dash'. Its source names the Microsoft guide as a vendor
+ruling and cites the OQLF for the fact that French uses the em dash as punctuation.
+The OQLF record was re-fetched this run. The subject returns to `keep`. Nothing was
+executed.
+
+<!-- architecture-review:v1 -->
+```json
+{
+  "subject": "localization/french",
+  "date": "2026-10-31",
+  "baseline": "8432a5cfa",
+  "digest": "sha256-b2:7bf65427ac5a903d",
+  "disposition": "keep",
+  "coverage": "Clarify-apply pass on the 2026-10-31 record. The two owed clarifies were applied and the edited passages re-read. The OQLF Grand dictionnaire terminologique record for tiret cadratin was re-fetched this run and its Note 1 quoted. The other eight documents are unchanged since the earlier 2026-10-31 record and its decisions carry. Not evaluated: the Microsoft French style guide text (its citation was reframed, not re-read), the Imprimerie nationale Lexique, the kp and Personas trees, and FR-RANGE's 'roughly half the published groups' proportion. No verification date was refreshed.",
+  "counterexamples": [
+    "FR-ZERO's exception (a counter guarded so 0 never displays) has no companion for the decimal half. A guarded surface can still render 1,5 (retained from 2026-09-10).",
+    "FR-COGNATE has no class for a string identical to English because the source is a code identifier or enum value (retained)."
+  ],
+  "sources": [
+    {
+      "url": "https://vitrinelinguistique.oqlf.gouv.qc.ca/fiche-gdt/fiche/8392388/tiret-cadratin",
+      "result": "Re-fetched 2026-10-31. Note 1: 'Comme signe de ponctuation, en français, le tiret cadratin (—), tout comme le tiret demi-cadratin (–), peut notamment être employé pour indiquer un changement de locuteur dans les dialogues, pour mettre un passage en valeur dans un texte ou pour séparer les éléments d'une énumération.' Supports retitling FR-DASH as a UI house default and citing the OQLF for the language-level fact."
+    },
+    {
+      "url": "https://raw.githubusercontent.com/unicode-org/cldr/main/common/supplemental/plurals.xml",
+      "result": "Carried from the 2026-09-10 read, not re-fetched: fr one is i = 0..1, with many present. No plural document changed since."
+    }
+  ],
+  "documents": {
+    "french.md": {
+      "disposition": "keep",
+      "reason": "Unchanged since the 2026-09-10 keep; untouched by this pass."
+    },
+    "techniques/de-anglicization-constructions.md": {
+      "disposition": "keep",
+      "reason": "Unchanged since the 2026-09-10 keep; untouched by this pass."
+    },
+    "techniques/plural-and-agreement.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: deleted FR-ZERO's first Trigger line ('any plural message whose count can reach 0.'), which the remaining line strictly contains. No rule text changed."
+    },
+    "techniques/register-and-address.md": {
+      "disposition": "keep",
+      "reason": "Unchanged since the 2026-09-10 keep; untouched by this pass."
+    },
+    "techniques/terminology-and-loanwords.md": {
+      "disposition": "keep",
+      "reason": "Unchanged since the 2026-09-10 keep; untouched by this pass."
+    },
+    "techniques/typography-and-spacing.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: FR-DASH retitled from 'The em dash is not French punctuation' to 'UI default: en dash, not em dash'; its Source now names the Microsoft guide as a vendor ruling for UI text and cites the OQLF for the em dash as French punctuation. The en dash prescription, the house-ban exception and the other five rules are unchanged."
+    },
+    "techniques/ui-conventions-and-length.md": {
+      "disposition": "keep",
+      "reason": "Unchanged since the 2026-09-10 keep; untouched by this pass."
+    },
+    "applications/process--terminology-and-loanwords.md": {
+      "disposition": "keep",
+      "reason": "Only the machine path became repo-relative. The 2026-09-10 keep stands."
+    },
+    "applications/process--typography-and-spacing.md": {
+      "disposition": "keep",
+      "reason": "Only machine paths became repo-relative. Its framing of kp's dash ban as a house overruling its authority is consistent with the OQLF evidence."
+    },
+    "applications/spec--plural-and-agreement.md": {
+      "disposition": "keep",
+      "reason": "Only counterpart: external was added. The 2026-09-10 CLDR re-verification stands. Not re-executed."
+    }
+  }
+}
+```
