@@ -26,8 +26,9 @@ document of the right general shape and asks: which of these nodes may render?)
 
 ## The passes, in order
 
-1. **Envelope**: is this a spec at all — version present and known (or
-   downlevelable), top-level shape correct? Envelope failure is the one case
+1. **Envelope**: is this a spec at all — version present with a major the
+   renderer knows (or can downlevel; a newer minor passes, and its unknown
+   kinds drop per node), top-level shape correct? Envelope failure is the one case
    that rejects outright; there is nothing to salvage from a document that
    is not a spec. Rejection renders a designed failure state — never a blank
    surface, never the empty state. Invalid and empty are different facts and

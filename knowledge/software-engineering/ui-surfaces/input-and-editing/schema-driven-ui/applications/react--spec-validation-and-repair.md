@@ -4,7 +4,7 @@ type: application
 subject: schema-driven-ui
 technique: spec-validation-and-repair
 stack: react
-verified_on: 2026-08-18
+verified_on: 2026-10-31
 ---
 
 # SurfaceSpec — the repo's one validation door, with honest repair
@@ -53,7 +53,7 @@ contract, never guesses. There is no misspelled-kind correction anywhere.
 ## The disclosure
 
 `SurfaceRenderer` receives `dropped` and renders the line only when nonzero
-(`SurfaceRenderer.tsx:122-126`): a calm caption
+(`SurfaceRenderer.tsx:162-166`): a calm caption
 (`data-testid="surface-dropped-note"`), text from the translated
 `dropped_blocks` key with the count interpolated — "N blocks left out". The
 prop is documented as "Blocks removed by the repair pass — surfaced honestly,
@@ -67,9 +67,16 @@ embedded `surface` key, or one NDJSON line) — which is structured-output's
 territory; it funnels every candidate through the same `parseSurfaceSpec`
 door. One door, enumerable writers: repo-wide, nothing constructs a rendered
 surface except through these two exports (re-exported as the single import
-site at `SurfaceRenderer.tsx:323`).
+site at `SurfaceRenderer.tsx:352-353`).
 
 ## Gaps against the standard (reported, standard kept)
+
+- **A collection cap rejects instead of truncating.** The block cap truncates
+  and counts its overflow, but `tableBlockSchema`'s `rows` is `.max(200)`
+  (`surfaceSpec.ts:108-123`): a table of 201 rows fails as a whole block and
+  adds 1 to `dropped`, so "1 block left out" stands for 201 rows. That is the
+  count-without-predicate failure, produced by a cap the technique says to
+  truncate at.
 
 - **The ledger is a count, not a ledger.** `dropped` is an integer; no
   per-drop reason, node identity, or kind is recorded, and nothing feeds
@@ -79,6 +86,6 @@ site at `SurfaceRenderer.tsx:323`).
 - **The cockpit sibling has no door at dispatch.** The other spec pipeline
   (`compose_cockpit` → `CockpitPanel`) stores widget specs without validating
   kinds at dispatch — registered under the `w4-prompt-assembly` deferred-fix
-  anchor; `CockpitPanel.tsx:150-157` distinguishes a corrupt persisted spec
-  from never-composed (parse-failure renders an error + retry, not the empty
+  anchor; `panel/useCockpitSource.ts:112-121` and `:161-162` distinguish a
+  corrupt persisted spec from never-composed (parse-failure renders an error + retry, not the empty
   CTA), which is the render-side half of the discipline holding alone.

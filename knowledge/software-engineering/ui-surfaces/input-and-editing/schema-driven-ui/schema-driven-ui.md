@@ -56,8 +56,8 @@ any parser at a trust boundary:
 1. **The node vocabulary is closed.** The spec chooses among a finite,
    versioned set of node kinds. There is no raw-markup kind, no style
    pass-through, no "custom component" escape hatch. A kind the renderer does
-   not know is not rendered — and not silently skipped either (see repair,
-   below). The vocabulary and its discipline are
+   not know is never rendered as content — and not silently skipped either
+   (see repair, below). The vocabulary and its discipline are
    [node-vocabulary-design](./techniques/node-vocabulary-design.md).
 2. **Rendering maps onto blessed primitives only.** Each kind resolves through
    a registry to a component the design system already reviewed — with its own

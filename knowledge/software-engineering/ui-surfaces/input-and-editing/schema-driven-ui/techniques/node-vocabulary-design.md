@@ -74,8 +74,13 @@ against. Growth discipline:
   and are worth resisting, because stored specs are long-lived documents,
   emitted by models whose instructions also lag (see
   [emitter-registry-sync](./emitter-registry-sync.md)).
-- A spec claiming a *newer* version than the renderer knows is treated as
-  containing unknown kinds: salvage what is recognized, disclose the rest.
+- A spec claiming a *newer minor* version of a major the renderer knows is
+  treated as containing unknown kinds: salvage what is recognized, disclose
+  the rest. That is safe only because minors are additive. A spec claiming an
+  unknown *major* fails the envelope pass and falls back to the plain display
+  channel ([spec-validation-and-repair](./spec-validation-and-repair.md)),
+  because nothing promises that a new major's known-looking kinds still mean
+  what this renderer thinks they mean.
 
 There is exactly one definition of the vocabulary, and the validator, the
 registry, and the emitter documentation all derive from it. Two hand-maintained
