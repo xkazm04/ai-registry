@@ -1,7 +1,7 @@
 ---
 subject: serving-process-topology
 domain: software-engineering
-last_touched: 2026-09-04
+last_touched: 2026-10-31
 touched_by: intake
 dry_streak: 0
 ---
@@ -44,3 +44,21 @@ The forging worker refused the tree's dismissal of the config-object testability
 real at scale is unmeasured here. The process-count formula is also a hand-maintained
 copy of the spawning code with no computed check - recorded as a shortfall in the
 application, and a natural thing for a later pass to test.
+
+## 2026-10-31 - fleet apply that changed code: one-config-object-as-engine-state (rust)
+
+Run intake-apply-ocoes-1031, dispatched for "single stack (python)". The 10-22 kp row tested
+the technique's single-door claim and found a duplicated default literal. This run picked a
+seam that could falsify the *resolved, not absent* half. Tracklight already carries one
+composite engine config passed whole, so the question was whether readers still disagree
+about a field's meaning once the object exists. They did. The judge model field holds an
+unresolved `[provider/]model[@effort]` spec. Three judge readers parse it with the shared
+parser. The free-form text call handed it raw to the CLI. Code A/B over a 10-spec matrix:
+reader disagreement 6/10 -> 0/10 (every prefixed spec had been misrouted). Floor: unprefixed
+argv identical 4/4, engine and runner suites green. tracklight bc07275 + 5aa119f. Application
+`rust--one-config-object-as-engine-state.md` is the subject's first non-python stack. What
+the tree shows: the composite object is necessary, not sufficient. A field carrying an operator
+string makes every reader a parser, and the tree had paid for the same drift once before (the
+effort suffix). Banked boundary (gain 1, risk 1, not written): a shared parser is the fallback
+when resolving at construction would touch every hand-built literal, and it holds only for
+readers written after the incident that created it.

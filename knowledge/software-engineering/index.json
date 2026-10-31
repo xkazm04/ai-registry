@@ -5,7 +5,7 @@
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 243,
   "techniques": 1957,
-  "applications": 1459,
+  "applications": 1460,
   "laws": 16,
   "categories": [
    "ui-surfaces",
@@ -33802,9 +33802,9 @@
    "subcategory": "inference-serving",
    "status": "forged",
    "file": "knowledge/software-engineering/backend-platform/inference-serving/serving-process-topology/serving-process-topology.md",
-   "digest": "sha256-b2:d8ed5a9bfd85e73c",
-   "revision": 3,
-   "changedAt": "2026-09-04",
+   "digest": "sha256-b2:59db333b735852a8",
+   "revision": 4,
+   "changedAt": "2026-10-31",
    "techniques": [
     {
      "slug": "cache-residency-sets-the-balancing-unit",
@@ -33914,6 +33914,13 @@
      "file": "knowledge/software-engineering/backend-platform/inference-serving/serving-process-topology/applications/python--process-count-as-a-formula.md",
      "verified_on": "2026-09-03",
      "verified_against": "python@3.12"
+    },
+    {
+     "stack": "rust",
+     "technique": "one-config-object-as-engine-state",
+     "file": "knowledge/software-engineering/backend-platform/inference-serving/serving-process-topology/applications/rust--one-config-object-as-engine-state.md",
+     "verified_on": "2026-10-31",
+     "verified_against": "rust@1.96"
     }
    ]
   },
