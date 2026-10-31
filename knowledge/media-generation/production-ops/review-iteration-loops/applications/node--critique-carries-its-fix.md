@@ -5,7 +5,7 @@ subject: review-iteration-loops
 technique: critique-carries-its-fix
 stack: node
 status: forged
-verified_on: 2026-08-31
+verified_on: 2026-10-31
 verified_against: node@24
 applied: code
 ab_verdict: better
@@ -100,3 +100,17 @@ Finally, the marking is inert until something reads it. Nothing today filters
 conditioning material by `settled`, so the immediate effect is legibility, not
 better output — the claim proved here is that the distinction is recoverable at
 all, which it was not.
+
+Re-checked 2026-10-31 at `gravitone-gcloud@fd09c06`. `CRITIQUE_SCHEMA`
+(`lib/foundry/extract/vocabulary.ts:110`) still requires both fields. The
+loop rule moved into the producers package:
+`packages/producers/src/extract/units.ts` holds `usableFix` (`:83`, the
+40-character floor and the same-recipe refusal, though its comment no longer
+says "learn nothing") and `settleReason` (`:100`). `replicaSettled` is now a
+private `settled` that delegates to it (`:111`). `settleReason` has one more
+condition than the A/B saw: a round that drew text is never `target-met`.
+`store.ts:438` still writes the reason onto the exemplar. The last paragraph
+above is now partly out of date. Something does read the mark:
+`packages/domain/src/styleView.ts:271` derives `abandoned` from it, and the
+style surface dims those plates. Conditioning still does not filter on it.
+None of this changes the verdict.

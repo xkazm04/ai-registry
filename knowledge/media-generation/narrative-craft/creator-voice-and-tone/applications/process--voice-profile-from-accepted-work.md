@@ -5,7 +5,7 @@ subject: creator-voice-and-tone
 technique: voice-profile-from-accepted-work
 stack: process
 status: forged
-verified_on: 2026-08-19
+verified_on: 2026-10-31
 ---
 
 # Process: the gravitone-gcloud voice-profile loop and schema
@@ -21,7 +21,8 @@ Five numbered rules, each mapping directly to the technique's disciplines:
 
 1. **Seed from 3–5 scripts the creator likes** — back catalogue or nominated
    exemplars — measured with the same corpus scripts used throughout the library
-   (`corpus/metrics.py`), so profile numbers and corpus ranges share a counter.
+   (`corpus/metrics.py`, one copy per template under
+   `knowledge/templates/<template>/steps/01-script/`), so profile numbers and corpus ranges share a counter.
 2. **Store a profile per creator × format** — justified upstream by TONE.md §1's
    measurement of one presenter running materially different dials across two of
    their own formats.
@@ -67,3 +68,11 @@ validates renders against caption-derived corpus baselines without unifying the
 counter compares incommensurable units. The transferable rule: before the accept
 loop's first update, prove the seed measurements and the render measurements share
 one counter.
+
+Re-checked 2026-10-31 at `gravitone-gcloud@fd09c06`: every cited range still
+lands on its passage. One description above reads looser than the artifact:
+`dials` holds seven keys, not six, and not every one is `{target, note}` —
+`rate_wpm` and `humour_frequency_per_s` are bare numbers,
+`formality_contractions_per1k` carries a target with no note, and
+`sentence_shape` is a prose string. The sourced-numbers point stands on the
+dials that do carry notes; the shape claim does not.

@@ -5,7 +5,7 @@ subject: review-iteration-loops
 technique: gate-record-outlives-the-media
 stack: node
 status: forged
-verified_on: 2026-09-20
+verified_on: 2026-10-31
 verified_against: node@24
 ---
 
@@ -13,6 +13,21 @@ verified_against: node@24
 
 *Citations resolved against the `gravitone-gcloud` tree at `0e05c50`,
 2026-09-20.*
+
+*Re-checked 2026-10-31 at `gravitone-gcloud@fd09c06`. **The last section's
+finding is resolved.** `commitCycle()` now writes the ledger rows before the
+cull: keepers (1), then the ledger rows (2), then the cull (3), whose comment
+reads "delete run media / thumbs only AFTER ledger write succeeded!"
+(`lib/foundry/training/store.ts:341-417`). That is the reordering this
+application asked for. The whole commit also runs under a run lock and one
+catalogue transaction (`:306-317`), so two gates committing at once no longer
+lose a row. The line quoted under step 1 ("the tracked copy must exist before
+the source is unlinked") is gone; the header now says "the tracked copy is
+the survivor" (`:20`). The status guard, the 409 on a second commit,
+`ENOENT` handling, `MediaRef.deleted`, `reflected: false | string` and the
+ledger's `_purpose` text are as quoted. No reading-end join of ledger rows
+against `training/thumbs/` was found, so that gap is still open. The
+counts table is history from 2026-09-20 and is left as it was.*
 
 Gravitone's training loop runs on a machine with the GPU; the human gate runs
 in the app, in a checkout on another machine. Nothing about the arrangement is

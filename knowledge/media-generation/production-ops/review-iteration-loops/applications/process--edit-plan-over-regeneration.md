@@ -5,7 +5,7 @@ subject: review-iteration-loops
 technique: edit-plan-over-regeneration
 stack: process
 status: forged
-verified_on: 2026-08-19
+verified_on: 2026-10-31
 ---
 
 # Process: the recalibration prompt as an edit-plan contract
@@ -38,23 +38,23 @@ them, not for a log." The attribution ledger rides along: `cards` is
 mandatory on `rewrite`/`insert`, and a rewrite must "start from the `cards`
 the beat arrived with" and amend rather than re-derive — the prompt's own
 warning is that a re-derived list "is how the matrix drifts away from the
-script" (lines 88–102, 162–163).
+script" (lines 88–102, 162–164).
 
 ## Seven unbreakable rules, refused wholesale
 
-Lines 105–139 list the rules the app itself enforces on the output —
+Lines 106–140 list the rules the app itself enforces on the output —
 nothing enters that is not in the notebook; every `unknown.impact` binds;
 required material (the steel-man) stays; descoped material stays out;
 a turn keeps its evidence; runtime is fixed ("Do not quietly shrink an
 unrelated beat to make the arithmetic work"); every connector is BUT or
 THEREFORE. A plan violating one is "refused wholesale, not partially
 applied". The output schema carries `refusals[]` and `unchanged[]` beside
-`edits[]` (lines 64–74), making refusal and explicit-untouched first-class
+`edits[]` (lines 65–75), making refusal and explicit-untouched first-class
 outputs.
 
 ## The self-audit ends on the tell
 
-The prompt's final checklist (lines 158–171) ends by instructing the model
+The prompt's final checklist (lines 159–172) ends by instructing the model
 to re-read one item above the others: "Are the beats you did not need to
 change absent from `edits[]` entirely? … An edit list longer than the notes
 is a regeneration wearing an edit list's clothes." The scope-creep tell
