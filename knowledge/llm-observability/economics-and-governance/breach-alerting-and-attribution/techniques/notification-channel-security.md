@@ -54,6 +54,11 @@ delivery time (DNS answers change between the two):
   in private, loopback, and link-local ranges, and re-apply the check on every
   redirect hop. Without this, a tenant-facing "add a webhook" form is a probe
   into the platform's internal network.
+- **Connect to the address you checked** — a delivery-time check followed by a
+  fresh lookup at connect leaves a rebinding window the sink's DNS controls.
+  Pin the vetted IP for the connection while keeping the hostname for the Host
+  header and TLS SNI (or validate inside the socket-connect callback), and
+  apply the same binding to every redirect hop and every retry.
 - **Optional destination allowlist** — deployments that can enumerate their
   legitimate sinks (a chat domain, a paging domain) should be able to pin
   them; the default stays open, the knob exists.

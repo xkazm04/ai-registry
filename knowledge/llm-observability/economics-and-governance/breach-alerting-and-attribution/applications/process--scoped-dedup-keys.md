@@ -41,8 +41,8 @@ The Google SRE Workbook's multi-window multi-burn-rate pattern is the settled
 2025-2026 recommendation for "warn before the budget is gone," implemented
 natively by Splunk Observability's SLO burn-rate detectors, Datadog burn-rate
 monitors, and Google Cloud SLO alerting. The canonical tiers: 14.4x burn over
-1h (paged, ~2% of a 30-day budget), 6x over 6h (paged), 3x over 24h/72h
-(ticketed) — each paired with a short confirmation window (guideline: 1/12 of
+1h (paged, ~2% of a 30-day budget), 6x over 6h (paged, 5%), 1x over 3 days
+(ticketed, 10%) — each paired with a short confirmation window (guideline: 1/12 of
 the long window) so the alert fires only while the burn is current. Two
 transfers to money budgets are direct: the *severity-tiers-by-burn-rate* idea
 (a fast burn pages, a slow burn tickets — escalation policy derived from

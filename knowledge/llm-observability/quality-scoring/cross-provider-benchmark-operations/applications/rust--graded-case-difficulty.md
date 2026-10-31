@@ -90,10 +90,14 @@ The honesty machinery around it is the transplantable part. Medians rather than
 means, because one case that spiralled to the token cap would drag a mean past
 what the model typically spends. `CaseSpend::thinking` returns `None` where the
 basis was not measured, which keeps a missing count out of the median instead of
-entering it as a zero. And `thinking_basis` labels the figure: the Messages API
-and the CLI path report no reasoning/answer split, so there the measure falls
-back to output tokens and every derived figure says `output_tokens`, never
-"reasoning tokens". `crates/runner/src/stats/effort_curve.rs` walks the same
+entering it as a zero. And `thinking_basis` labels the figure: the tree treats
+the Messages API and the CLI path as reporting no reasoning/answer split, so
+there the measure falls back to output tokens and every derived figure says
+`output_tokens`, never "reasoning tokens". That was the tree's reading when this
+was verified; the Messages API's usage now carries
+`output_tokens_details.thinking_tokens` (the billed output tokens that were
+internal reasoning), so that path can move to a measured basis once the tree
+reads the field. `crates/runner/src/stats/effort_curve.rs` walks the same
 data across adjacent rungs of one model, over the cases both judged, and reports
 whether the dial is alive at all (a ratio of median thinking below ~1.2× means
 every rung above it is the same call at a higher price), which cases flipped

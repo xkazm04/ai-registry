@@ -21,9 +21,11 @@ unit-tested functions in `crates/core/src/collective/rigor.rs`.
 
 Three levels, ordered weakest first — `sampled` < `best-effort` < `exact`
 (`BENCHMARK_FRAMEWORK.md:265`). `exact` requires every sampling control
-pinned *including a seed* (OpenAI, Gemini take one); the Anthropic Messages
-API has no seed and the `claude -p` CLI has no sampling knobs at all, so
-those paths stamp `best-effort` — degraded and disclosed, never excluded
+pinned *including a seed*. On a seed-accepting path the stamp records how
+pinned the call was, not that a replay will reproduce: OpenAI documents that
+its seed aims at "(mostly) deterministic outputs" that backend configuration
+changes can still alter. The Anthropic Messages API has no seed and the
+`claude -p` CLI has no sampling knobs at all, so those paths stamp `best-effort` — degraded and disclosed, never excluded
 (`BENCHMARK_FRAMEWORK.md:243-245, 271-272`).
 
 D13 extends the stamp to generation, not just judging: compare and pairwise

@@ -24,7 +24,12 @@ closed vocabulary, ordered weakest first:
   draw onto one output and silently delete the feature; so sample, and say so.
 - **best-effort** — every control the provider exposes was pinned, but the
   provider exposes no seed (or no controls), so replays can differ.
-- **exact** — temperature pinned *and* a seed accepted; a replay reproduces.
+- **exact** — temperature pinned *and* a seed accepted. This is the strongest
+  pinning on offer, not a promise that a replay reproduces: a seed narrows
+  draw variance rather than removing it, and a seeded provider can still
+  return different outputs after a change to its own backend configuration
+  (which is why such providers expose a configuration fingerprint beside the
+  output).
 
 ## Procedure
 
@@ -62,7 +67,10 @@ The stamp changes how downstream numbers are read, and that is its value:
   is sampling noise rather than genuine ambiguity — read judge-agreement
   figures accordingly, and expect run-to-run deltas to carry a dice
   component that no amount of statistical correction removes.
-- An exact-stamped run whose replay differs is a *bug report* — on the
+- An exact-stamped run whose replay differs is a question before it is a
+  *bug report*. First compare the provider's configuration fingerprint across
+  the two runs: if it moved, the difference is documented drift, not a defect.
+  Only a replay that differs under an unchanged fingerprint points at the
   stamping, the provider, or an unpinned input (an unfrozen dataset defeats
   an exact stamp; the two disciplines only work together).
 - When runs are compared or merged across instances, the stamp is part of

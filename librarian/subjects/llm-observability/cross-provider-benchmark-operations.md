@@ -486,3 +486,68 @@ and its Rust application close a real hole that the earlier keep missed: a
   }
 }
 ```
+
+## Clarify-apply - 2026-10-31
+
+Applied three of the clarify items in the earlier 2026-10-31 record, against HEAD
+`90705bb6a`, after re-reading both provider pages this run. `determinism-stamping`
+no longer says an `exact` replay reproduces, and a differing replay is checked
+against the provider's configuration fingerprint before it counts as a bug report.
+Its Rust application drops the provider list that read as a reproducibility claim.
+`rust--graded-case-difficulty` now presents the missing reasoning split as the
+tree's reading and names the Messages API field that now reports it.
+
+Left undone: `verified_against: rust@2021` on `rust--async-run-queue-with-cancel`
+and `rust--graded-case-difficulty`. Fixing it means writing a toolchain version
+nobody witnessed in this run, or deleting the field. Neither is this pass's call,
+so both items stay `clarify`.
+
+<!-- architecture-review:v1 -->
+```json
+{
+  "subject": "llm-observability/cross-provider-benchmark-operations",
+  "date": "2026-10-31",
+  "baseline": "90705bb6a",
+  "digest": "sha256-b2:258de45cc5762fe2",
+  "disposition": "clarify",
+  "coverage": "Clarify-apply pass against the earlier 2026-10-31 record. Applied: determinism-stamping's exact rung and reading rule, rust--determinism-stamping's seed sentence, and rust--graded-case-difficulty's thinking-split claim, after re-reading OpenAI's advanced-usage page and Anthropic's extended-thinking page this run. Left undone: the verified_against rust@2021 fixes (this pass may not write verified_against, and no toolchain version was witnessed). Every other document carried forward. Not evaluated: LightTrack, lm-evaluation-harness probes, any provider call, the residency measurements; no verified_on moved.",
+  "counterexamples": [
+    "An Anthropic Messages API run whose usage carries output_tokens_details.thinking_tokens is labelled output_tokens basis by a harness that believes no split exists; the effort audit overstates thinking by the answer length on every case.",
+    "A matrix mixing a plan-reached column with metered columns has no commensurable cost axis, yet cheapest-sufficient-configuration's new 'cost order is measured' rule still orders by cost (carried from 2026-09-10, still unstated).",
+    "A self-hosted target whose serving layer reports no placement fraction cannot satisfy residency procedure step 3; the technique names no fallback reading.",
+    "A cancelling job's worker is alive but partitioned from the store, so its lease goes stale; the settler marks it cancelled while the worker is still spending until its next case boundary."
+  ],
+  "sources": [
+    {
+      "url": "https://developers.openai.com/api/docs/guides/advanced-usage",
+      "result": "Re-read this run. 'Chat Completions are non-deterministic by default'; the seed gives 'some control towards deterministic outputs' and 'To receive (mostly) deterministic outputs across API calls' set seed and keep other parameters identical; 'Sometimes, determinism may be impacted due to necessary changes OpenAI makes to model configurations on our end ... If this value [system_fingerprint] is different, you may see different outputs'. Basis for the exact-rung and fingerprint-first reading edits."
+    },
+    {
+      "url": "https://platform.claude.com/docs/en/build-with-claude/extended-thinking",
+      "result": "Re-read this run. 'monitor the usage.output_tokens_details.thinking_tokens field in the response, which reports how many of the billed output tokens were internal reasoning. When streaming, this breakdown appears only on the final message_delta event.' Basis for restating the graded-difficulty application's split claim as the tree's reading. Says nothing about the CLI path."
+    }
+  ],
+  "documents": {
+    "cross-provider-benchmark-operations.md": {"disposition": "keep", "reason": "The surfaces paragraph and residency drift bullet are additive and point at owned techniques. The plan-reached cost carve-out noted on 2026-09-10 remains an unstated interaction, not a wrong claim."},
+    "techniques/async-run-queue-with-cancel.md": {"disposition": "keep", "reason": "Rule 6 (a stale-lease cancelling job is settled by the reclaim path with a distinct marker) closes a real hole and is backed by its application."},
+    "techniques/axes-and-caveats-live-at-the-surface.md": {"disposition": "keep", "reason": "Input and output halves each name a silent failure and a test that reads the surface as a caller receives it; scope limits are explicit."},
+    "techniques/budget-preflight-and-ceiling.md": {"disposition": "keep", "reason": "Unchanged since the 2026-09-10 keep; byte-identical."},
+    "techniques/cheapest-sufficient-configuration.md": {"disposition": "keep", "reason": "The cost-order-is-measured rule is correct and places the failure upstream in assumed tier rankings. It also puts a per-call reasoning-spend obligation on the instrument."},
+    "techniques/dataset-sampling-anonymize-freeze.md": {"disposition": "keep", "reason": "Unchanged since the 2026-09-10 keep; byte-identical."},
+    "techniques/determinism-stamping.md": {"disposition": "keep", "reason": "applied 2026-10-31: exact now reads as the strongest pinning on offer, not a promise that a replay reproduces (a seed narrows variance; backend configuration changes can alter seeded output, hence the fingerprint). The reading rule now checks the provider's configuration fingerprint first and treats a moved fingerprint as documented drift; only a differing replay under an unchanged fingerprint is a bug report."},
+    "techniques/entitlement-exhaustion-is-not-ill-health.md": {"disposition": "keep", "reason": "Unchanged since the 2026-09-10 keep; byte-identical."},
+    "techniques/failure-clustering-recommendations.md": {"disposition": "keep", "reason": "Unchanged since the 2026-09-10 keep; byte-identical."},
+    "techniques/graded-case-difficulty.md": {"disposition": "keep", "reason": "The read-degrades/write-refuses split, the descriptive-not-a-test verdict, the human-ladder warning and the effort audit are each bounded. Its 'where a provider reports no split' clause is generic and correct."},
+    "techniques/handicap-disclosure-in-the-result-row.md": {"disposition": "keep", "reason": "Unchanged since the 2026-09-10 keep; byte-identical."},
+    "techniques/sampling-knobs-are-axes-not-strings.md": {"disposition": "keep", "reason": "Rule 8 (scale the deadline with the level per request, never widen the shared client) is right, and it names the black-holed-endpoint reason for keeping the default short."},
+    "techniques/self-hosted-residency-is-part-of-the-target.md": {"disposition": "keep", "reason": "Residency as a declared and read-back axis, total-parameter fit screening with correct arithmetic, and an explicit non-portability limit. The offload percentages are one machine's dated measurement and say so."},
+    "techniques/target-matrix-runs.md": {"disposition": "keep", "reason": "Unchanged since the 2026-09-10 keep; byte-identical."},
+    "applications/python--target-matrix-runs.md": {"disposition": "reverify", "reason": "Only the frontmatter changed (counterpart: external, verified_against removed). The 2026-09-10 reverify stands: executed probes not re-run and line anchors drifting with the upstream version."},
+    "applications/rust--async-run-queue-with-cancel.md": {"disposition": "clarify", "reason": "Content is sound (A/B on the conformance suite; Postgres and Firestore not run, said so). Change owed: verified_against rust@2021 is an edition, not a toolchain version."},
+    "applications/rust--budget-preflight-and-ceiling.md": {"disposition": "reverify", "reason": "Unchanged. The BENCHMARK_FRAMEWORK.md anchor conflict with the sibling subject (:427-445 versus :462-480) still needs the LightTrack tree to settle."},
+    "applications/rust--determinism-stamping.md": {"disposition": "keep", "reason": "applied 2026-10-31: dropped '(OpenAI, Gemini take one)' as an implied reproducibility claim; the stamp on a seeded path now records how pinned the call was, quoting OpenAI's '(mostly) deterministic outputs'. Fold semantics and anchors unchanged. Not rerun."},
+    "applications/rust--entitlement-exhaustion-is-not-ill-health.md": {"disposition": "reverify", "reason": "Unchanged. verified_against rust@2021 is still unusable and its return condition is still unchecked."},
+    "applications/rust--graded-case-difficulty.md": {"disposition": "clarify", "reason": "Partly applied 2026-10-31: the 'Messages API and CLI path report no reasoning/answer split' sentence is now the tree's reading at verification, followed by the Messages API's current usage.output_tokens_details.thinking_tokens field. Still owed: verified_against rust@2021 is an edition, not a toolchain version; not changed because this pass may not write verified_against and no toolchain was witnessed."}
+  }
+}
+```

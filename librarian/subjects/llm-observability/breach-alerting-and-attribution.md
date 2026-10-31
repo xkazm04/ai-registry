@@ -307,3 +307,55 @@ is weaker than the technique's mechanical reinforcement.
   }
 }
 ```
+
+## Clarify-apply - 2026-10-31
+
+Applied the two clarify items the earlier 2026-10-31 record carried forward from
+2026-09-10, against HEAD `90705bb6a`. `notification-channel-security` now requires
+the connection to use the vetted address on every hop and retry, in OWASP's own
+terms. `process--scoped-dedup-keys` now gives the SRE Workbook's third tier as it
+appears in Table 5-8 (burn rate 1, 3 days, 10%). Both sources were re-read this run.
+The overall disposition moves to `keep`: no clarify item remains open.
+
+<!-- architecture-review:v1 -->
+```json
+{
+  "subject": "llm-observability/breach-alerting-and-attribution",
+  "date": "2026-10-31",
+  "baseline": "90705bb6a",
+  "digest": "sha256-b2:8947309a04fcf2fb",
+  "disposition": "keep",
+  "coverage": "Clarify-apply pass against the 2026-10-31 record. The two owed clarify items were applied after re-reading SRE Workbook Table 5-8 and the OWASP SSRF cheat sheet this run; only notification-channel-security and process--scoped-dedup-keys changed, and every other document is carried forward from the earlier 2026-10-31 record. Not evaluated: LightTrack and the TypeScript service were not opened or run; the survey's Alertmanager, PagerDuty, AWS and GCP claims (refresh_by 2026-11-20); no verified_on or refresh_by field was moved.",
+  "counterexamples": [
+    "A vetted webhook host re-resolves to a link-local metadata address between the delivery-time check and the connect; every rule in notification-channel-security passes and the fetch reaches the platform's own metadata endpoint.",
+    "A flushed rejection-count delta whose key carries the flush instant is never suppressed, so under a sustained storm the channel receives one message per flush; the technique buys burst protection back only through cadence choice, which an operator may set short.",
+    "A cooldown implemented as strictly-less-than versus less-than-or-equal changes whether a flush landing exactly on the cooldown boundary delivers, which moves the N-1 of N loss figure by one.",
+    "A customer-axis forecast whose identity flag is forgotten by a third producer: the refusal is now held by a per-producer flag rather than data shape, so each new producer must opt in."
+  ],
+  "sources": [
+    {
+      "url": "https://sre.google/workbook/alerting-on-slos/",
+      "result": "Re-read this run. 'Table 5-8. Recommended parameters for a 99.9% SLO alerting configuration': Page 1 hour / 5 minutes / 14.4 / 2%; Page 6 hours / 30 minutes / 6 / 5%; Ticket 3 days / 6 hours / 1 / 10%. Basis for replacing the survey's '3x over 24h/72h' with 1x over 3 days at 10%."
+    },
+    {
+      "url": "https://cheatsheetseries.owasp.org/cheatsheets/Server_Side_Request_Forgery_Prevention_Cheat_Sheet.html",
+      "result": "Re-read this run. 'Validate the resolved destination IP addresses ... then ensure the HTTP client connects only to validated addresses. A second, unchecked DNS lookup between validation and connection can bypass these checks'; 'Use an HTTP client mechanism that connects to the validated IP while preserving the original hostname for the HTTP Host header, TLS Server Name Indication'; the same policy applies 'to retries and fallback connections'. Basis for the new connection-binding bullet."
+    }
+  ],
+  "documents": {
+    "breach-alerting-and-attribution.md": {"disposition": "keep", "reason": "Unchanged since the 2026-09-10 keep; byte-identical."},
+    "techniques/identity-scope-attribution-refusal.md": {"disposition": "keep", "reason": "The second-producer rule correctly extends the refusal past the breach path, and its own application confirms the gap it names."},
+    "techniques/notification-channel-security.md": {"disposition": "keep", "reason": "applied 2026-10-31: added a 'Connect to the address you checked' bullet under Vet where you send - pin the vetted IP while keeping the hostname for Host and SNI (or validate in the socket-connect callback), on every redirect hop and retry."},
+    "techniques/off-request-path-delivery.md": {"disposition": "keep", "reason": "Unchanged since the 2026-09-10 keep; byte-identical."},
+    "techniques/pre-breach-forecasting.md": {"disposition": "keep", "reason": "Unchanged since the 2026-09-10 keep; byte-identical."},
+    "techniques/scope-inverted-attribution.md": {"disposition": "keep", "reason": "Unchanged since the 2026-09-10 keep; byte-identical."},
+    "techniques/scoped-dedup-keys.md": {"disposition": "keep", "reason": "The re-derivability exception is a sound refinement of the key rule and the edge list was updated to match. The N-1 of N figure assumes an inclusive cooldown boundary; that is a minor precision note, not a defect."},
+    "techniques/top-contributor-attribution.md": {"disposition": "keep", "reason": "Unchanged since the 2026-09-10 keep; byte-identical."},
+    "applications/process--scoped-dedup-keys.md": {"disposition": "keep", "reason": "applied 2026-10-31: the Workbook's third tier now reads '1x over 3 days (ticketed, 10%)' instead of '3x over 24h/72h (ticketed)', and the second tier gains its 5%. Vendor-practice claims elsewhere in the survey stay inside refresh_by 2026-11-20 and were not re-checked."},
+    "applications/rust--identity-scope-attribution-refusal--forecast-sweep.md": {"disposition": "keep", "reason": "A falsifying seam with A/B and payload-reading tests. It names the residual risk that a flag, not data shape, holds the boundary. Not rerun."},
+    "applications/rust--pre-breach-forecasting.md": {"disposition": "keep", "reason": "Unchanged since the 2026-09-10 keep; byte-identical."},
+    "applications/rust--top-contributor-attribution.md": {"disposition": "keep", "reason": "Unchanged since the 2026-09-10 keep; byte-identical."},
+    "applications/typescript--notification-channel-security--delivery-time-sink-vetting.md": {"disposition": "keep", "reason": "Delivery-time re-vetting and manual redirects with A/B counts. It discloses that delivery is unsigned and that rebinding is not closed, each with a return condition. Not rerun."}
+  }
+}
+```
