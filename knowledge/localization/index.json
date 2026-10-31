@@ -414,8 +414,8 @@
    "status": "forged",
    "file": "knowledge/localization/craft/copy-quality-gates/copy-quality-gates.md",
    "digest": "sha256-b2:a18ac83ca9069a90",
-   "revision": 10,
-   "changedAt": "2026-10-14",
+   "revision": 11,
+   "changedAt": "2026-10-31",
    "techniques": [
     {
      "slug": "anchored-model-review",

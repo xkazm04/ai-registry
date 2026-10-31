@@ -2290,8 +2290,8 @@
    "status": "forged",
    "file": "knowledge/media-generation/visual-generation/generative-provider-routing/generative-provider-routing.md",
    "digest": "sha256-b2:3035bdbc5262b8ba",
-   "revision": 11,
-   "changedAt": "2026-09-17",
+   "revision": 12,
+   "changedAt": "2026-10-31",
    "techniques": [
     {
      "slug": "capability-to-vendor-plan",
@@ -3750,8 +3750,8 @@
    "status": "forged",
    "file": "knowledge/media-generation/production-ops/platform-format-adaptation/platform-format-adaptation.md",
    "digest": "sha256-b2:37d2aca4eff91fe6",
-   "revision": 3,
-   "changedAt": "2026-09-26",
+   "revision": 4,
+   "changedAt": "2026-10-31",
    "techniques": [
     {
      "slug": "derived-short-contract",

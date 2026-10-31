@@ -153,8 +153,8 @@
    "status": "forged",
    "file": "knowledge/grant-funding/grant-operations/deadline-pipeline-management/deadline-pipeline-management.md",
    "digest": "sha256-b2:f52d1e09ccc00e73",
-   "revision": 4,
-   "changedAt": "2026-10-14",
+   "revision": 5,
+   "changedAt": "2026-10-31",
    "techniques": [
     {
      "slug": "closing-instant-resolution",
