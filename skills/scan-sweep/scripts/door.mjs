@@ -12,6 +12,8 @@
 //   node door.mjs trust     --repo <root> [--slice <category|lens|risk_class|size>]
 //   node door.mjs outcome   <idea-id> --outcome delivered|declined|already_delivered|blocked
 //                           [--commit <sha>] [--branch <b>] [--note <s>] [--figures <json>] [--choice <json>] [--no-spool]
+// `decisions --context` matches the app's context by name, folded name or app id; a context read that comes back
+// EMPTY widens to project (+lens) with `widened: true`, and every read reports `project_total` (personas c3).
 // The reads print one JSON object. `reachable: false` (exit 3) means the app is down, the handshake is
 // missing, or the app predates the endpoint - the caller falls back to the backlog digest and SAYS so.
 // Exit 4: the repo is not a registered Personas project. Exit 2: bad arguments.
@@ -30,7 +32,7 @@ import { readFileSync, existsSync, realpathSync, mkdirSync, appendFileSync } fro
 import { homedir } from 'node:os';
 import { join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { toOutcome } from './filing.mjs';
+import { toOutcome, resolveContext } from './filing.mjs';
 
 export const handshakePath = () => process.env.PERSONAS_HANDSHAKE || join(homedir(), '.personas', 'local-http.json');
 /** Same directory and record convention as the registry's scripts/lib/personas-door/door.mjs spool (latest line per id wins). */
@@ -232,10 +234,13 @@ async function main(argv) {
   try {
     if (verb === 'decisions') {
       const ctxName = opt('--context');
+      const lens = opt('--lens');
+      const limit = opt('--limit', 50);
       let contextId;
       let note;
       if (ctxName) {
-        contextId = (await contextIds(call, project.id)).get(ctxName.trim().toLowerCase());
+        // By name, folded name, or the app's own id (filing.mjs resolveContext): the map's id is not the app's.
+        contextId = resolveContext(await contextIds(call, project.id), ctxName);
         // A context the app does not know widens the read to the whole project. personas cycle 2 (2026-10-30):
         // all four contexts were unknown and every "context" read quietly answered about the project. Say it in
         // the reply's own words, flag it, and warn on stderr so a caller that keeps only the decisions still sees it.
@@ -244,8 +249,20 @@ async function main(argv) {
           console.error(note);
         }
       }
-      const rows = await decisions(call, { projectId: project.id, contextId, lens: opt('--lens'), limit: opt('--limit', 50) });
-      print({ reachable: true, project: project.id, scope: contextId ? 'context' : 'project', ...(contextId ? { contextId } : {}), ...(note ? { widened: true, note } : {}), decisions: rows });
+      let rows = await decisions(call, { projectId: project.id, contextId, lens, limit });
+      let scope = contextId ? 'context' : 'project';
+      // A KNOWN context with zero decisions is not "no precedent": ideas filed before the context existed carry
+      // context_id null (personas c3, 2026-10-31: every context read returned 0, unflagged, while the project held 29).
+      // Widen to project + lens and flag it, exactly like an unknown context.
+      if (contextId && rows.length === 0) {
+        rows = await decisions(call, { projectId: project.id, lens, limit });
+        scope = 'project';
+        note = `scope: project${lens ? '+lens' : ''} (context ${ctxName} has 0 decisions - older ideas carry no context id)`;
+        console.error(note);
+      }
+      // The project total, so a caller can see how much memory the scoped read did not show (capped at the door's 100).
+      const total = (await decisions(call, { projectId: project.id, limit: 100 })).length;
+      print({ reachable: true, project: project.id, scope, ...(contextId ? { contextId } : {}), ...(note ? { widened: true, note } : {}), project_total: total, ...(total >= 100 ? { project_total_capped: true } : {}), decisions: rows });
     } else {
       const r = await trust(call, { projectId: project.id, slice: opt('--slice') });
       print({ reachable: true, project: project.id, ...r });

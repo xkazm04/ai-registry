@@ -30,8 +30,9 @@ after(() => { for (const d of made) rmSync(d, { recursive: true, force: true, ma
  * A fake Personas door: one project at `repo`, one context `core`, every idea created. A filing with
  * `autoDecide: true` is answered the way Seam A4 says the door answers it at level 1.
  */
-async function door(repo) {
+async function door(repo, { nearDup = [] } = {}) {
   const filed = [];
+  const outcomes = [];
   const server = http.createServer((req, res) => {
     let body = '';
     req.on('data', (c) => { body += c; });
@@ -39,8 +40,18 @@ async function door(repo) {
       res.setHeader('content-type', 'application/json');
       if (req.method === 'GET' && req.url === '/dev-tools/projects') return res.end(JSON.stringify([{ id: 'p1', name: 'repo', root_path: repo }]));
       if (req.method === 'GET' && req.url.startsWith('/dev-tools/contexts/')) return res.end(JSON.stringify([{ id: 'c1', name: 'core' }]));
+      const om = /^\/dev-tools\/ideas\/([^/]+)\/outcome$/.exec(req.url);
+      if (req.method === 'POST' && om) {
+        outcomes.push({ id: om[1], body: JSON.parse(body) });
+        return res.end(JSON.stringify({ ideaId: om[1], ideaStatus: 'implemented' }));
+      }
       if (req.method === 'POST' && req.url === '/dev-tools/ideas') {
         const b = JSON.parse(body);
+        // The app's paraphrase check (app_master_writeback.rs FILE_IDEA_NEAR_DUPLICATE): nothing is filed unless force.
+        if (nearDup.includes(b.title) && b.force !== true) {
+          filed.push({ ...b, refused: 'near_duplicate' });
+          return res.end(JSON.stringify({ outcome: 'near_duplicate', idea: { id: 'i-old', status: 'pending', title: 'Other card' }, duplicateNote: 'already on the backlog as [i-old] "Other card" (pending, similarity 0.61), so nothing new was filed; if yours is a different finding, re-file with "force": true' }));
+        }
         filed.push(b);
         if (b.autoDecide === true) return res.end(JSON.stringify({ outcome: 'created', idea: { id: `i${filed.length}`, status: 'accepted' }, autoDecided: true, level: 1 }));
         return res.end(JSON.stringify({ outcome: 'created', idea: { id: `i${filed.length}`, status: 'pending' }, ...(b.autoDecide === false ? { autoDecided: false, level: 0 } : {}) }));
@@ -49,7 +60,7 @@ async function door(repo) {
     });
   });
   await new Promise((r) => server.listen(0, '127.0.0.1', r));
-  return { server, filed, port: server.address().port };
+  return { server, filed, outcomes, port: server.address().port };
 }
 
 function run(args, home) {
@@ -62,10 +73,10 @@ function run(args, home) {
   });
 }
 
-async function fixture(lines) {
+async function fixture(lines, opts) {
   const home = scratch('approvals-home-');
   const repo = scratch('approvals-repo-');
-  const d = await door(repo);
+  const d = await door(repo, opts);
   mkdirSync(join(home, '.personas'), { recursive: true });
   writeFileSync(join(home, '.personas', 'local-http.json'), JSON.stringify({ port: d.port, token: 't' }));
   const file = join(repo, 'handoff.jsonl');
@@ -222,14 +233,120 @@ test('a present but out-of-scale or out-of-enum field is a card still owed (exit
   } finally { f.server.close(); }
 });
 
-test('a carry is owed to the next round: never posted to the door, still owed (exit 1)', async () => {
-  const f = await fixture([JSON.stringify({ title: 'Owed', disposition: 'carry' }), JSON.stringify({ title: 'Ok', disposition: 'backlog' })]);
+test('a carry the run did not reach is converted to Lane B at filing, and the conversion is reported (W11)', async () => {
+  // personas c3 (2026-10-31): filing.mjs refused `carry` (the door refuses it too), while section 9.1 says carries
+  // the run did not reach are handed off as Lane B; the director sent them as carry and fixed them after the dry run.
+  const f = await fixture([JSON.stringify({ title: 'Owed', disposition: 'carry', lane: 'A' }), JSON.stringify({ title: 'Ok', disposition: 'backlog' })]);
+  try {
+    const r = await run(['--file', f.file, '--repo', f.repo, '--json'], f.home);
+    assert.equal(r.status, 0, r.stdout + r.stderr);
+    const b = f.filed.find((x) => x.title === 'Owed');
+    assert.deepEqual([b.disposition, b.lane], ['backlog', 'B'], 'the door never sees carry');
+    assert.match(b.description, /Lane B - A\/B-drainable/);
+    assert.match(b.reasoning, /carry -> Lane B/);
+    const out = JSON.parse(r.stdout);
+    assert.equal(out.results.find((x) => x.title === 'Owed').converted, 'carry->B');
+    assert.equal(out.converted, 1, 'the conversion is counted in the reply');
+  } finally { f.server.close(); }
+});
+
+// ---- W1: the near-duplicate gate ------------------------------------------------------------
+
+test('a near_duplicate is NOT landed: counted apart, exit 1, the source stays; --force re-files the named card (W1)', async () => {
+  // personas c3 (2026-10-31): the door matched 25 unrelated cards (similarity 0.50-0.71) onto others; approvals counted
+  // near_duplicate as landed and exited 0, so section 9.1 would have deleted the source with them unfiled.
+  const cards = [{ title: 'Rust A', fp: 'fp-a' }, { title: 'Rust B', fp: 'fp-b' }, { title: 'Clean' }];
+  const f = await fixture(cards.map((c) => JSON.stringify(c)), { nearDup: ['Rust A', 'Rust B'] });
+  const out = join(f.repo, 'res.jsonl');
+  try {
+    const r = await run(['--file', f.file, '--repo', f.repo, '--out', out], f.home);
+    assert.equal(r.status, 1, `exit 0 deletes a file holding two unfiled cards\n${r.stdout}${r.stderr}`);
+    assert.match(r.stdout, /2 near_duplicate/);
+    assert.match(r.stdout, /2 near-duplicate - NOT filed, still owed/);
+    const rows = readFileSync(out, 'utf8').trim().split('\n').map((l) => JSON.parse(l));
+    const a = rows.find((x) => x.title === 'Rust A');
+    assert.deepEqual([a.outcome, a.duplicateOf, a.owed], ['near_duplicate', 'i-old', true]);
+    assert.match(a.note, /similarity 0\.61/);
+  } finally { f.server.close(); }
+  // Re-file only the one the director judged different.
+  const g = await fixture(cards.map((c) => JSON.stringify(c)), { nearDup: ['Rust A', 'Rust B'] });
+  try {
+    const r = await run(['--file', g.file, '--repo', g.repo, '--force', 'fp-a'], g.home);
+    assert.equal(r.status, 1, 'Rust B is still owed');
+    const sent = g.filed.filter((b) => !b.refused).map((b) => [b.title, b.force]);
+    assert.deepEqual(sent, [['Rust A', true], ['Clean', undefined]], 'force only on the named fp, never on the rest');
+    const all = await run(['--file', g.file, '--repo', g.repo, '--force', 'fp-a,fp-b'], g.home);
+    assert.equal(all.status, 0, all.stdout + all.stderr);
+  } finally { g.server.close(); }
+});
+
+test('a card note travels in reasoning, never the title/description head; shared boilerplate heads are warned (W1)', async () => {
+  // personas c3: "gate unrunnable" prepended to every Rust card's body; two thirds of the matches onto the most-matched
+  // card were Rust cards. The note is a structured field; the door's paraphrase check reads title + description only.
+  const note = 'gate unrunnable on host: test:rust - cargo guard held by the running app';
+  const cards = [1, 2, 3].map((i) => ({ title: `Card ${i}`, body: `${note}\n\n## Summary\nthing ${i}` }));
+  cards.push({ title: 'Noted', body: '## Summary\nx', note });
+  const f = await fixture(cards.map((c) => JSON.stringify(c)));
   try {
     const r = await run(['--file', f.file, '--repo', f.repo], f.home);
-    assert.equal(r.status, 1, r.stdout);
-    assert.deepEqual(f.filed.map((b) => b.title), ['Ok']);
-    assert.match(r.stderr, /line 1: disposition carry is owed to the next round/);
+    assert.equal(r.status, 0, r.stderr);
+    assert.match(r.stderr, /3 cards open with the same line/);
+    const n = f.filed.find((b) => b.title === 'Noted');
+    assert.match(n.reasoning, /note: gate unrunnable on host/);
+    assert.doesNotMatch(n.description, /gate unrunnable/);
   } finally { f.server.close(); }
+});
+
+// ---- W2: an in-run Lane B item ends in an outcome post --------------------------------------
+
+test('an in-run Lane B card carries its ab_result: filed, then its outcome posted in the same pass (W2)', async () => {
+  // personas c3: Lane B items built inside the wave had no idea id, so `door.mjs outcome` could not close them and
+  // the ab ledger's outcome_posted stayed n.
+  const merged = { title: 'Built in run', lane: 'B', proof: PROOF, ab_result: { verdict: 'better', merge: 'm123', before: '3', after: '0', control_value: '3 failed' } };
+  const bad = { title: 'Merged without sha', lane: 'B', ab_result: { verdict: 'better' } };
+  const f = await fixture([JSON.stringify(merged), JSON.stringify(bad)]);
+  const out = join(f.repo, 'res.jsonl');
+  try {
+    const r = await run(['--file', f.file, '--repo', f.repo, '--out', out], f.home);
+    assert.equal(r.status, 1, 'the card with no merge sha is owed');
+    assert.match(r.stderr, /line 2: ab_result better needs merge/);
+    assert.deepEqual(f.outcomes, [{ id: 'i1', body: { outcome: 'delivered', commit: 'm123', figures: { before: '3', after: '0', control_value: '3 failed' } } }]);
+    assert.ok(!('ab_result' in f.filed[0]) && !('abResult' in f.filed[0]), 'the worker return is not a wire field');
+    const rows = readFileSync(out, 'utf8').trim().split('\n').map((l) => JSON.parse(l));
+    assert.equal(rows[0].outcome_posted, 'y', 'the ab ledger copies this');
+  } finally { f.server.close(); }
+});
+
+// ---- W7: test-only fixes; W9: half-superseded ------------------------------------------------
+
+test('test-only: the red is the seeded drift, re-run; a test-only better without it is refused at filing (W7)', () => {
+  // personas c3: a PERSONA_NULLABLE_FIELDS parity test passed on base - the fix IS the test, so the only red is the
+  // control seeded by drifting the subject it guards.
+  const r = { verdict: 'better', metric: 'drift caught', unit: 'cases', before: 'drift not caught', after: 'caught', method: 'test-only', seeded_red: true, control_run: 're-run', control_cmd: 'npx vitest run parity.test.ts', control_value: '1 failed (expected nullable list to include lastRunAt)', control_failure: 'assertion', sha: 'h1' };
+  assert.equal(proofFromAb({ ...r }).control, 'absent', 'test-only needs the seeded drift named (control_seed)');
+  const ok = proofFromAb({ ...r, control_seed: 'removed lastRunAt from PERSONA_NULLABLE_FIELDS' });
+  assert.deepEqual([ok.method, ok.control, ok.control_seed], ['test-only', 'red', 'removed lastRunAt from PERSONA_NULLABLE_FIELDS']);
+  const absent = filing.toFiling({ title: 'T', proof: { ...PROOF, method: 'test-only', control: 'absent' } });
+  assert.match(absent.error ?? '', /test-only proof is better only with its seeded control/);
+  assert.ok(filing.toFiling({ title: 'T', proof: { ...PROOF, method: 'test-only', control: 'red', control_value: '1 failed' } }).body);
+  assert.ok(filing.toFiling({ title: 'T', proof: { ...PROOF, method: 'test-only', verdict: 'not-better', control: 'absent' } }).body, 'only a better claim needs the control');
+});
+
+test('partially_superseded: the remainder is measured and decides; the superseded part names the sibling sha (W9)', () => {
+  // personas c3: half of personas-ts-comment-column-count was fixed by a sibling commit; it was reported `better` for
+  // the rest with no word for the half.
+  const p = { verdict: 'partially_superseded', remainder: 'better', superseded_part: 'the column count comment', superseded_by: 'abc1234', merge: 'm9', metric: 'stale comments', unit: 'count', before: '2', after: '0', method: 'probe', seeded_red: true, control_run: 're-run', control_cmd: 'grep -c x f.ts', control_value: '1', sha: 'h1' };
+  assert.deepEqual(outcomeFor(p), { outcome: 'delivered', commit: 'm9', note: 'partially superseded: the column count comment by abc1234; remainder better' });
+  assert.equal(outcomeFor({ ...p, remainder: 'not-better' }).outcome, 'declined');
+  assert.equal(outcomeFor({ ...p, remainder: 'unmeasurable' }).outcome, 'blocked');
+  assert.match(outcomeFor({ ...p, superseded_by: undefined }).error ?? '', /superseded_by/);
+  assert.match(outcomeFor({ ...p, superseded_part: undefined }).error ?? '', /superseded_part/);
+  assert.match(outcomeFor({ ...p, remainder: 'fp' }).error ?? '', /remainder/);
+  const proof = proofFromAb(p);
+  assert.deepEqual([proof?.verdict, proof?.superseded_part, proof?.superseded_by], ['better', 'the column count comment', 'abc1234']);
+  const t = abTally([{ verdict: 'partially_superseded', remainder: 'better' }, { verdict: 'better' }]);
+  assert.equal(t.ab, '2/0/0/0/0', 'the remainder counts in its own slot');
+  assert.equal(t.partially_superseded, 1);
 });
 
 test('proofFromAb: a Lane B return becomes the contract proof; fp/demoted built nothing', () => {

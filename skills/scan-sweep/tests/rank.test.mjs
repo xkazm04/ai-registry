@@ -132,6 +132,26 @@ test('ladder: Lane C items are never auto-decided - gate none + lane C, and gate
   assert.equal(by.plain.auto_decide, true);
 });
 
+test('CLI --siblings: a finding whose subject_key a sibling round already holds is not ranked again (W8)', () => {
+  // personas c3 (2026-10-31): two sibling rounds built the same PERSONA_NULLABLE_FIELDS parity test.
+  const dir = scratch();
+  const sib = join(dir, 'sibling.jsonl');
+  writeFileSync(sib, [{ lens: 'test-gap', title: 'Pin the nullable list', subject_key: 'symbol:PERSONA_NULLABLE_FIELDS' }].map((x) => JSON.stringify(x)).join('\n'));
+  const file = join(dir, 'f.jsonl');
+  writeFileSync(file, [
+    f('contract-auditor', 'Parity test for nullable fields', 8, { subject_key: ' Symbol:PERSONA_NULLABLE_FIELDS ' }),
+    f('contract-auditor', 'Other', 5, { subject_key: 'test:src/x.test.ts' }),
+    f('error-handler', 'No key', 4),
+  ].map((x) => JSON.stringify(x)).join('\n'));
+  const out = join(dir, 'ranked.jsonl');
+  const json = JSON.parse(execFileSync(process.execPath, [SCRIPT, '--file', file, '--cap', '16', '--out', out, '--siblings', sib, '--json'], { encoding: 'utf8' }));
+  const rows = readFileSync(out, 'utf8').trim().split('\n').map((l) => JSON.parse(l));
+  assert.deepEqual(rows.map((r) => r.title).sort(), ['No key', 'Other'], 'the duplicate is not in ranked.jsonl - the sibling owns it');
+  assert.deepEqual(json.duplicates, [{ title: 'Parity test for nullable fields', subject_key: 'symbol:persona_nullable_fields', dup_of: 'sibling.jsonl: Pin the nullable list' }]);
+  const table = execFileSync(process.execPath, [SCRIPT, '--file', file, '--cap', '16', '--siblings', sib], { encoding: 'utf8' });
+  assert.match(table, /1 duplicate of a sibling round: "Parity test for nullable fields" ~ sibling\.jsonl: Pin the nullable list/);
+});
+
 test('CLI: an out-of-scale value writes nothing and exits 1', () => {
   const dir = scratch();
   const file = join(dir, 'f.jsonl');

@@ -3,7 +3,7 @@
 //
 //   status   [--repo R]                      DB path, app up/down, project registered?, spool depth
 //   sql      "<SELECT ...>"                  read-only query against the app database (JSON out)
-//   ideas file --file cards.jsonl [--repo R] [--register] [--dry-run] [--no-spool] [--origin scan_sweep] [--out f]
+//   ideas file --file cards.jsonl [--repo R] [--register] [--dry-run] [--no-spool] [--origin scan_sweep] [--out f] [--force fp,id,slug]
 //            list [--repo R] [--status pending] [--limit 50]
 //   contexts refresh [--repo R] [--dry-run]  deterministic map refresh from git; flags contexts worth an LLM rescan
 //            plan    [--repo R] [--only a,b] [--limit 12] packets for the flagged contexts (what the session LLM re-judges)
@@ -55,7 +55,7 @@ try {
   if (cmd === 'status') {
     const up = await door.appUp(); const p = await door.findProject(repo);
     out({ db: door.dbPath(), dbReadable: !!(await door.openRO()), appUp: up, repo, project: p ? { id: p.id, name: p.name } : null,
-      spool: { ideas: door.pending('ideas').length, contexts: door.pending('contexts').length, outcomes: door.pending('outcomes').length }, map: fs.existsSync(ctx.mapPath(repo)) });
+      spool: { ideas: door.pending('ideas').filter((e) => e.state !== 'held').length, ideasHeld: door.pending('ideas').filter((e) => e.state === 'held').length, contexts: door.pending('contexts').length, outcomes: door.pending('outcomes').length }, map: fs.existsSync(ctx.mapPath(repo)) });
   } else if (cmd === 'sql') {
     out(await door.query(argv[1] ?? ''));
   } else if (cmd === 'ideas' && sub === 'file') {
@@ -64,14 +64,16 @@ try {
       const d = await drain();
       const { cards, unreadable } = ideas.parseCards(fs.readFileSync(f, 'utf8'));
       for (const u of unreadable) console.error(`line ${u.line}: ${u.error} - not filed, still owed`);
-      const r = await ideas.file(cards, repo, { register: has('--register'), dryRun: has('--dry-run'), spool: !has('--no-spool'), origin: opt('--origin', 'scan_sweep') });
+      const r = await ideas.file(cards, repo, { register: has('--register'), dryRun: has('--dry-run'), spool: !has('--no-spool'), origin: opt('--origin', 'scan_sweep'), force: (opt('--force') ?? '').split(',').filter(Boolean) });
       const results = [...r.results, ...unreadable.map((u) => ({ line: u.line, outcome: 'unreadable', error: u.error }))];
       if (opt('--out')) fs.writeFileSync(opt('--out'), results.map((x) => JSON.stringify(x)).join('\n') + '\n');
       const tally = ideas.tally(results);
       console.log(`${path.basename(repo)}: ${cards.length} cards via ${r.mode} -> ${Object.entries(tally).map(([k, v]) => `${v} ${k}`).join(', ') || 'nothing'}${d ? ` (drained ${d.ideas} earlier)` : ''}`);
       if (r.mode === 'spool') console.log('  queued durably in ~/.personas/spool; they reach Approvals the next time any session runs this tool with the app up');
       for (const x of results.filter((x) => x.outcome === 'error')) console.log(`  FAILED ${x.title}: ${x.error}`);
-      const ok = results.every((x) => ideas.LANDED.has(x.outcome) || x.outcome === 'queued' || x.outcome === 'dry-run');
+      // near_duplicate is owed (the door filed nothing) and so is a refused in-run Lane B outcome: exit 1, the source stays.
+      for (const x of results.filter((x) => x.outcome === ideas.HELD)) console.log(`  NEAR-DUPLICATE (not filed, still owed) ${x.title} ~ ${x.duplicateOf}: re-file with --force <fp> if it is a different finding`);
+      const ok = results.every((x) => (ideas.LANDED.has(x.outcome) && x.outcome_posted !== 'n') || x.outcome === 'queued' || x.outcome === 'dry-run');
       process.exitCode = ok ? 0 : r.mode === 'none' || results.some((x) => x.outcome === 'unregistered') ? 4 : 1;
     }
   } else if (cmd === 'ideas' && sub === 'list') {

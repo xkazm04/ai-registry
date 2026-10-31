@@ -10,7 +10,11 @@
 // Usage:
 //   node rank.mjs --file <findings.jsonl> --cap <N> [--out <ranked.jsonl>] [--json]
 //                 [--trust <door trust JSON>] [--start technical=2,product=0] [--frozen <p1,p2>] [--strict]
-//                 [--tokens <lens=n,...>] [--skipped <lens,...>]
+//                 [--tokens <lens=n,...>] [--skipped <lens,...>] [--siblings <f1.jsonl,f2.jsonl>]
+//
+// --siblings: the findings / ranked files of sibling rounds in the same wave. A finding whose `subject_key`
+// (`symbol:<name>`, `test:<path>`, `file:<path>`) one of them already holds is left out of the allocation and
+// listed as a duplicate - its sibling owns it (personas c3, 2026-10-31: two rounds built one parity test).
 //
 // Each line is one VERIFIED finding of this round (snake_case finding shape; `lens` required). The
 // script computes `score` / `score_parts` with score.mjs (effort from size when only a size is known;
@@ -22,6 +26,7 @@
 // Exit 0 ok; 1 a line is unreadable, lacks `lens`, or carries an out-of-scale value (nothing written);
 // 2 bad arguments.
 import { readFileSync, writeFileSync, existsSync } from 'node:fs';
+import { basename } from 'node:path';
 import { scanScore, sizeToEffort } from './score.mjs';
 import { levelFor, isEntry } from './door.mjs';
 import { clampCategory } from './filing.mjs';
@@ -71,6 +76,29 @@ export function allocate(findings, cap) {
   return [...rows].sort((a, b) => (a.f.band === b.f.band ? byScore(a, b) : a.f.band === 'ranked' ? -1 : 1)).map((r) => r.f);
 }
 
+/** `symbol:Foo` / `test:<repo path>` / `file:<repo path>` - the one thing the fix edits, normalized for comparison. */
+export const subjectKey = (f) => (present(f?.subject_key) ? String(f.subject_key).trim().toLowerCase() : undefined);
+
+/**
+ * Drop the findings a sibling round already holds, by `subject_key` (SKILL.md section 7, "Cross-round"). personas c3
+ * (2026-10-31): two sibling rounds built the same PERSONA_NULLABLE_FIELDS parity test. A finding without a key is
+ * kept - this is a seam for the director's dedup, not a guess at sameness.
+ * @param {object[]} findings this round's
+ * @param {{name: string, rows: object[]}[]} siblings other rounds' findings / ranked files
+ */
+export function dedupSiblings(findings, siblings) {
+  const held = new Map();
+  for (const s of siblings) for (const r of s.rows) { const k = subjectKey(r); if (k && !held.has(k)) held.set(k, `${s.name}: ${r.title}`); }
+  const kept = [];
+  const duplicates = [];
+  for (const f of findings) {
+    const k = subjectKey(f);
+    if (k && held.has(k)) duplicates.push({ title: f.title, subject_key: k, dup_of: held.get(k) });
+    else kept.push(f);
+  }
+  return { kept, duplicates };
+}
+
 /** The per-lens table the round report prints (lens order: MVP score desc). */
 export function lensTable(ranked, { tokens = {} } = {}) {
   const by = new Map();
@@ -89,7 +117,7 @@ function main(argv) {
   const opt = (f, d) => { const i = argv.indexOf(f); return i >= 0 && argv[i + 1] && !argv[i + 1].startsWith('--') ? argv[i + 1] : d; };
   const file = opt('--file');
   const cap = Number(opt('--cap'));
-  const usage = 'usage: rank.mjs --file <findings.jsonl> --cap <N> [--out <p>] [--json] [--trust <p>] [--start technical=2,product=0] [--frozen <p1,p2>] [--strict] [--tokens <lens=n,...>] [--skipped <lens,...>]';
+  const usage = 'usage: rank.mjs --file <findings.jsonl> --cap <N> [--out <p>] [--json] [--trust <p>] [--start technical=2,product=0] [--frozen <p1,p2>] [--strict] [--tokens <lens=n,...>] [--skipped <lens,...>] [--siblings <f1,f2>]';
   // --help wins over every other argument and writes nothing (personas cycle 2: a --help wrote).
   if (has('--help') || has('-h')) { console.log(usage); return 0; }
   if (!file || !existsSync(file) || !Number.isInteger(cap) || cap < 0) {
@@ -102,8 +130,16 @@ function main(argv) {
     if (!raw.trim()) return;
     try { findings.push(JSON.parse(raw)); } catch { bad.push(`line ${i + 1}: not JSON`); }
   });
+  const siblings = [];
+  for (const p of (opt('--siblings') ?? '').split(',').filter(Boolean)) {
+    if (!existsSync(p)) { bad.push(`--siblings ${p}: no such file`); continue; }
+    const rows = [];
+    readFileSync(p, 'utf8').split('\n').forEach((raw, i) => { if (!raw.trim()) return; try { rows.push(JSON.parse(raw)); } catch { bad.push(`${p} line ${i + 1}: not JSON`); } });
+    siblings.push({ name: basename(p), rows });
+  }
+  const { kept, duplicates } = dedupSiblings(findings, siblings);
   let ranked;
-  try { if (!bad.length) ranked = allocate(findings, cap); } catch (e) { bad.push(e.message); }
+  try { if (!bad.length) ranked = allocate(kept, cap); } catch (e) { bad.push(e.message); }
   if (bad.length) { for (const b of bad) console.error(b); console.error('nothing written'); return 1; }
 
   const kv = (s) => Object.fromEntries((s ?? '').split(',').filter(Boolean).map((p) => { const [k, v] = p.split('='); return [k.trim(), Number(v)]; }));
@@ -119,7 +155,7 @@ function main(argv) {
   const table = lensTable(ranked, { tokens: kv(opt('--tokens')) });
   const skipped = (opt('--skipped') ?? '').split(',').filter(Boolean);
   const nRanked = ranked.filter((f) => f.band === 'ranked').length;
-  const summary = { cap, ranked: nRanked, reserve: ranked.length - nRanked, over_cap: Math.max(0, nRanked - cap), unscored: ranked.filter((f) => !present(f.score)).length, clamped: ranked.filter((f) => f.category_clamped).length, lenses: table, skipped };
+  const summary = { cap, ranked: nRanked, reserve: ranked.length - nRanked, over_cap: Math.max(0, nRanked - cap), unscored: ranked.filter((f) => !present(f.score)).length, clamped: ranked.filter((f) => f.category_clamped).length, lenses: table, skipped, ...(siblings.length ? { duplicates } : {}) };
   if (has('--json')) { console.log(JSON.stringify(summary, null, 2)); return 0; }
   const withTokens = table.some((r) => present(r.tokens));
   console.log(`| lens | ranked | reserve | MVP | MVP score |${withTokens ? ' tokens |' : ''}`);
@@ -127,6 +163,9 @@ function main(argv) {
   for (const r of table) console.log(`| ${r.lens} | ${r.ranked} | ${r.reserve} | ${r.mvp_title ?? '-'} | ${present(r.mvp_score) ? r.mvp_score : 'unscored'} |${withTokens ? ` ${present(r.tokens) ? r.tokens : '-'} |` : ''}`);
   console.log(`\n${nRanked} ranked (cap ${cap}${summary.over_cap ? `, +${summary.over_cap} MVPs over it` : ''}), ${summary.reserve} reserve${summary.unscored ? `, ${summary.unscored} unscored` : ''}${summary.clamped ? `, ${summary.clamped} clamped technical -> product` : ''}`);
   console.log(`skipped: ${skipped.length ? skipped.join(', ') : 'none'}`);
+  if (duplicates.length) {
+    console.log(`${duplicates.length} duplicate of a sibling round: ${duplicates.map((d) => `"${d.title}" ~ ${d.dup_of}`).join('; ')}`);
+  }
   return 0;
 }
 

@@ -116,7 +116,9 @@ test('spool replay files a scan_sweep card on its native 1-10 scale through the 
   const sweep = filingFor(card, 'p1', new Map(), 'scan_sweep');
   assert.equal(sweep.body.impact, 8, 'never halved: the door normalizes a scan_sweep row once');
   assert.equal(sweep.body.score, 40.5, 'scan-score/1 computed by the skill mapping');
-  assert.match(filingFor({ title: 'C', disposition: 'carry' }, 'p1', new Map(), 'scan_sweep').error, /carry/);
+  // scan-sweep 4.12 W11: a carry the run did not reach goes to the door as Lane B (the door refuses `carry` itself).
+  const carry = filingFor({ title: 'C', disposition: 'carry' }, 'p1', new Map(), 'scan_sweep');
+  assert.deepEqual([carry.body.disposition, carry.body.lane, carry.converted], ['backlog', 'B', 'carry->B']);
   assert.equal(filingFor(card, 'p1', new Map(), 'lens_scan').body.impact, 4, 'other origins file 1-5');
 });
 
@@ -164,6 +166,52 @@ test('spooled outcomes (scan-sweep door.mjs outcome, app down) replay through PO
   } finally {
     server.close();
     for (const [k, v] of [['PERSONAS_HANDSHAKE', saved.h], ['PERSONAS_SPOOL', saved.s]]) { if (v === undefined) delete process.env[k]; else process.env[k] = v; }
+  }
+});
+
+test('spool replay: a near_duplicate is held (not done, not retried), --force reaches the door, an ab_result outcome is posted', async () => {
+  // scan-sweep 4.12 W1/W2 (personas c3, 2026-10-31): near_duplicate counted as landed and the spool row marked done,
+  // so a card the door filed NOTHING for vanished; and an in-run Lane B card never got its outcome posted.
+  const spool = tmp();
+  const repo = tmp();
+  const saved = { h: process.env.PERSONAS_HANDSHAKE, s: process.env.PERSONAS_SPOOL, d: process.env.PERSONAS_DB };
+  const ideasLib = await import('./lib/personas-door/ideas.mjs');
+  const filed = []; const outs = [];
+  const server = http.createServer(async (req, res) => {
+    let raw = ''; for await (const c of req) raw += c;
+    res.setHeader('content-type', 'application/json');
+    if (req.url === '/dev-tools/projects') return res.end(JSON.stringify([{ id: 'p1', name: 'r', root_path: repo }]));
+    if (req.url.startsWith('/dev-tools/contexts/')) return res.end('[]');
+    const m = /^\/dev-tools\/ideas\/([^/]+)\/outcome$/.exec(req.url);
+    if (m) { outs.push({ id: m[1], body: JSON.parse(raw) }); return res.end('{}'); }
+    if (req.url === '/dev-tools/ideas') {
+      const b = JSON.parse(raw); filed.push(b);
+      if (b.title === 'Alike' && b.force !== true) return res.end(JSON.stringify({ outcome: 'near_duplicate', idea: { id: 'i-old', status: 'pending' }, duplicateNote: 'similarity 0.6' }));
+      return res.end(JSON.stringify({ outcome: 'created', idea: { id: `i${filed.length}`, status: 'pending' } }));
+    }
+    res.statusCode = 404; res.end('{}');
+  });
+  await new Promise((r) => server.listen(0, '127.0.0.1', r));
+  try {
+    process.env.PERSONAS_SPOOL = spool;
+    process.env.PERSONAS_HANDSHAKE = path.join(spool, 'hs.json');
+    process.env.PERSONAS_DB = path.join(spool, 'none.db');
+    const cards = [{ title: 'Alike', fp: 'f1' }, { title: 'Built', ab_result: { verdict: 'better', merge: 'm1' } }];
+    const q = await ideasLib.file(cards, repo, {});
+    assert.equal(q.mode, 'spool');
+    fs.writeFileSync(process.env.PERSONAS_HANDSHAKE, JSON.stringify({ port: server.address().port, token: 't' }));
+    const r = await ideasLib.sync();
+    assert.deepEqual([r.drained, r.held], [1, 1], 'the near-duplicate is held, not drained');
+    assert.deepEqual(outs, [{ id: 'i2', body: { outcome: 'delivered', commit: 'm1' } }]);
+    const again = await ideasLib.sync();
+    assert.equal(filed.length, 2, `a held card is not re-posted on every sync (${again.drained})`);
+    assert.ok(!ideasLib.LANDED.has('near_duplicate'));
+    // --force on a direct filing names the card by fp.
+    const d = await ideasLib.file([{ title: 'Alike', fp: 'f1' }], repo, { force: ['f1'] });
+    assert.deepEqual([d.mode, d.results[0].outcome, filed.at(-1).force], ['door', 'created', true]);
+  } finally {
+    server.close();
+    for (const [k, v] of [['PERSONAS_HANDSHAKE', saved.h], ['PERSONAS_SPOOL', saved.s], ['PERSONAS_DB', saved.d]]) { if (v === undefined) delete process.env[k]; else process.env[k] = v; }
   }
 });
 

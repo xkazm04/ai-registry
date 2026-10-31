@@ -2,11 +2,15 @@
 // The door keeps dedup / rating / near-duplicate logic, so nothing here ever writes the app DB.
 import path from 'node:path';
 import { call, appUp, findProject, query, norm, appendSpool, readSpool, pending, mintId } from './door.mjs';
-import { toFiling as sweepFiling } from '../../../skills/scan-sweep/scripts/filing.mjs';
+import { toFiling as sweepFiling, forcedBy } from '../../../skills/scan-sweep/scripts/filing.mjs';
 
 const SIZE_EFFORT = { XS: 1, S: 1, M: 2, L: 3, XL: 4 };
 const to5 = (v) => (Number.isFinite(v) && v > 0 ? Math.min(5, Math.max(1, Math.ceil(v / 2))) : null);
-export const LANDED = new Set(['created', 'deduped', 'rated', 'near_duplicate']);
+// near_duplicate is NOT landed: the door filed nothing (its idea is the OTHER card). personas c3 (2026-10-31): counting it
+// landed let 25 unfiled cards pass as delivered. On replay such a card is HELD - kept, not retried (the door would
+// answer the same), until it is re-filed with --force or dropped.
+export const LANDED = new Set(['created', 'deduped', 'rated']);
+export const HELD = 'near_duplicate';
 
 export function parseCards(text) {
   const cards = []; const unreadable = [];
@@ -24,9 +28,9 @@ export function parseCards(text) {
  * the skill's own scan-finding/1 mapping (native 1-10 scales, every contract field top-level, score computed): the
  * door normalizes a scan_sweep row once, so the halving below would land it at half scale. Other origins file 1-5.
  */
-export function filingFor(c, projectId, contexts, origin = 'scan_sweep') {
-  if (origin !== 'scan_sweep') return { body: toFiling(c, projectId, contexts, origin) };
-  return sweepFiling(c, { projectId, contexts });
+export function filingFor(c, projectId, contexts, origin = 'scan_sweep', { force = false } = {}) {
+  if (origin !== 'scan_sweep') return { body: { ...toFiling(c, projectId, contexts, origin), ...(force ? { force: true } : {}) } };
+  return sweepFiling(c, { projectId, contexts, force });
 }
 
 /** Card (skill finding shape, scales 1-10) -> the door's filing body (scales 1-5), for origins other than scan_sweep. */
@@ -55,7 +59,7 @@ async function contextIds(projectId) {
 }
 
 /** Deliver cards for one repo through the door. Returns per-card results; never throws on a card failure. */
-export async function deliver(cards, repo, { register = false, dryRun = false, origin } = {}) {
+export async function deliver(cards, repo, { register = false, dryRun = false, origin, force = [] } = {}) {
   const projects = await call('GET', '/projects');
   let project = projects.find((p) => norm(p.root_path) === norm(repo));
   if (!project) {
@@ -65,13 +69,19 @@ export async function deliver(cards, repo, { register = false, dryRun = false, o
   const ctx = project ? await contextIds(project.id) : new Map();
   const results = [];
   for (const c of cards) {
-    const f = filingFor(c, project ? project.id : '<unregistered>', ctx, origin);
+    const f = filingFor(c, project ? project.id : '<unregistered>', ctx, origin, { force: forcedBy(c, force) });
     if (f.error) { results.push({ title: c.title, outcome: 'invalid', error: f.error }); continue; }
     const body = f.body;
     if (dryRun) { results.push({ title: body.title, outcome: 'dry-run', filing: body }); continue; }
     try {
       const r = await call('POST', '/ideas', body);
-      results.push({ title: body.title, outcome: r.outcome, id: r.idea?.id, status: r.idea?.status, note: r.duplicateNote || r.goalNote || null });
+      const row = { title: body.title, outcome: r.outcome, id: r.idea?.id, status: r.idea?.status, note: r.duplicateNote || r.goalNote || null };
+      if (r.outcome === HELD) { row.duplicateOf = r.idea?.id; delete row.id; delete row.status; }
+      // An in-run Lane B card (scan-sweep filing.mjs abOutcome) is closed the moment it has an id.
+      if (f.outcome && LANDED.has(r.outcome) && row.id) {
+        try { await call('POST', `/ideas/${encodeURIComponent(row.id)}/outcome`, f.outcome); row.outcome_posted = 'y'; } catch (e) { row.outcome_posted = 'n'; row.outcome_error = e.message; }
+      }
+      results.push(row);
     } catch (e) { results.push({ title: body.title, outcome: 'error', error: e.message }); }
   }
   return { project, results };
@@ -87,7 +97,7 @@ export async function file(cards, repo, opts = {}) {
   const { spool = true } = opts;
   if (opts.dryRun) {
     const project = await findProject(repo);
-    const results = cards.map((c) => { const f = filingFor(c, project?.id ?? '<unregistered>', new Map(), opts.origin); return f.error ? { title: c.title, outcome: 'invalid', error: f.error } : { title: c.title, outcome: 'dry-run', filing: f.body }; });
+    const results = cards.map((c) => { const f = filingFor(c, project?.id ?? '<unregistered>', new Map(), opts.origin, { force: forcedBy(c, opts.force) }); return f.error ? { title: c.title, outcome: 'invalid', error: f.error } : { title: c.title, outcome: 'dry-run', filing: f.body }; });
     return { mode: 'dry-run', project, results, tally: { 'dry-run': cards.length } };
   }
   if (await appUp()) {
@@ -102,7 +112,9 @@ export async function file(cards, repo, opts = {}) {
     const f = filingFor(c, '<unregistered>', new Map(), opts.origin);
     if (f.error) return { title: c.title, outcome: 'invalid', error: f.error };
     const id = mintId();
-    appendSpool('ideas', { id, state: 'queued', repo: path.resolve(repo), register: !!opts.register, origin: opts.origin || 'scan_sweep', queuedAt: new Date().toISOString(), card: c });
+    // A --force named card keeps its force through the spool (the card itself is stored as written otherwise).
+    const card = forcedBy(c, opts.force) ? { ...c, force: true } : c;
+    appendSpool('ideas', { id, state: 'queued', repo: path.resolve(repo), register: !!opts.register, origin: opts.origin || 'scan_sweep', queuedAt: new Date().toISOString(), card });
     return { title: c.title, outcome: 'queued', id };
   });
   return { mode: 'spool', results, tally: tally(results) };
@@ -110,9 +122,9 @@ export async function file(cards, repo, opts = {}) {
 
 /** Drain the spool through the door, grouped by repo. Entries that land are marked done; the rest stay queued. */
 export async function sync() {
-  const queued = pending('ideas');
-  if (!queued.length) return { drained: 0, left: 0, results: [] };
-  if (!(await appUp())) return { drained: 0, left: queued.length, results: [], appDown: true };
+  const queued = pending('ideas').filter((e) => e.state !== 'held');
+  if (!queued.length) return { drained: 0, left: 0, held: 0, results: [] };
+  if (!(await appUp())) return { drained: 0, left: queued.length, held: 0, results: [], appDown: true };
   const byRepo = new Map();
   for (const e of queued) { const k = `${e.repo}|${e.origin || ''}|${!!e.register}`; (byRepo.get(k) ?? byRepo.set(k, []).get(k)).push(e); }
   const out = [];
@@ -121,13 +133,15 @@ export async function sync() {
     const r = await deliver(entries.map((e) => e.card), repo, { register, origin });
     r.results.forEach((res, i) => {
       const e = entries[i];
-      if (LANDED.has(res.outcome)) appendSpool('ideas', { id: e.id, state: 'done', doneAt: new Date().toISOString(), outcome: res.outcome, ideaId: res.id ?? null });
+      if (LANDED.has(res.outcome)) appendSpool('ideas', { id: e.id, state: 'done', doneAt: new Date().toISOString(), outcome: res.outcome, ideaId: res.id ?? null, ...(res.outcome_posted ? { outcome_posted: res.outcome_posted } : {}) });
+      else if (res.outcome === HELD) appendSpool('ideas', { id: e.id, state: 'held', outcome: HELD, duplicateOf: res.duplicateOf ?? null, note: res.note, heldAt: new Date().toISOString() });
       else appendSpool('ideas', { id: e.id, state: 'queued', lastError: res.error || res.outcome, lastTriedAt: new Date().toISOString() });
       out.push({ ...res, repo });
     });
   }
   const done = out.filter((r) => LANDED.has(r.outcome)).length;
-  return { drained: done, left: queued.length - done, results: out };
+  const held = out.filter((r) => r.outcome === HELD).length;
+  return { drained: done, held, left: queued.length - done - held, results: out };
 }
 
 export async function list(repo, { status, limit = 50 } = {}) {

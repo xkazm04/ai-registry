@@ -23,10 +23,19 @@
 // Each result carries the door's `autoDecided` / `level` when it answered them (Seam A4): the door,
 // not this script, decides whether an `auto_decide` card's predicted verdict becomes the decision.
 //
-// Exit codes: 0 every line of the file landed as a card (created / deduped / rated /
-// near_duplicate), 1 at least one card failed or a line was not a card (bad JSON, no
+// Exit codes: 0 every line of the file landed as a card (created / deduped / rated) and every
+// in-run Lane B outcome was posted, 1 at least one card failed, was a `near_duplicate` (the door
+// filed NOTHING - still owed), had its outcome refused, or a line was not a card (bad JSON, no
 // title, invalid field - reported by line number), 2 bad arguments, 3 Personas is not running,
 // 4 the repo is not a registered Personas project (pass --register).
+//
+// near_duplicate is owed, not landed (personas c3, 2026-10-31): the door's paraphrase check matched 25
+// unrelated cards onto others (similarity 0.50-0.71), this script counted them landed and exited 0, and
+// section 9.1 would have deleted the source. `--force <fp,id,slug,...>` re-files the NAMED cards with the
+// door's `force: true` once the director judged each a different finding; a card may also carry `force: true`.
+// A card with `ab_result` (an in-run Lane B item, filing.mjs abOutcome) gets its outcome posted right after
+// it is filed; the result row says `outcome_posted: y|n` for the ab ledger. `carry` is filed as Lane B
+// (filing.mjs) and the reply counts it under `converted`.
 // With the registry's scripts/personas-door.mjs reachable, "Personas is not running" no longer exits 3: the cards are
 // spooled (exit 0, durable) and replayed through the same door the next time the app is up. --no-spool restores exit 3.
 // The caller deletes a source file only on exit 0: a card that did not land is
@@ -36,7 +45,7 @@ import { join, resolve, basename, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { spawnSync } from 'node:child_process';
 import { handshakePath, readHandshake, connect, findProject, contextIds } from './door.mjs';
-import { toFiling } from './filing.mjs';
+import { toFiling, forcedBy } from './filing.mjs';
 
 const argv = process.argv.slice(2);
 const has = (f) => argv.includes(f);
@@ -49,8 +58,9 @@ const register = has('--register');
 const outPath = opt('--out');
 const asJson = has('--json');
 const runId = opt('--run-id');
+const forceKeys = (opt('--force') ?? '').split(',').map((s) => s.trim()).filter(Boolean);
 
-const USAGE = 'usage: approvals.mjs --file <cards.jsonl> [--repo <root>] [--run-id <id>] [--dry-run] [--register] [--out <p>] [--json]';
+const USAGE = 'usage: approvals.mjs --file <cards.jsonl> [--repo <root>] [--run-id <id>] [--force <fp,id,slug,...>] [--dry-run] [--register] [--out <p>] [--json]';
 // --help wins over every other argument: a help flag must never file a card (personas cycle 2: a --help wrote).
 if (has('--help') || has('-h')) { console.log(USAGE); process.exit(0); }
 if (!file || !existsSync(file)) {
@@ -73,6 +83,19 @@ readFileSync(file, 'utf8').split('\n').forEach((raw, i) => {
 });
 for (const u of unreadable) console.error(`line ${u.line}: ${u.error} - not filed, still owed`);
 
+// Identical boilerplate at the head of many bodies makes unrelated cards read alike to the door's paraphrase
+// check (personas c3: "gate unrunnable" prepended to every Rust card). Warn; the note belongs in `note`.
+{
+  const heads = new Map();
+  for (const { card } of cards) {
+    const h = String(card.body ?? '').split('\n').map((s) => s.trim()).find(Boolean);
+    if (h && !h.startsWith('#')) heads.set(h, (heads.get(h) ?? 0) + 1);
+  }
+  for (const [h, n] of heads) {
+    if (n >= 3) console.error(`warning: ${n} cards open with the same line "${h.slice(0, 80)}" - move it to the card's \`note\` field; a shared head makes the door match unrelated cards as near-duplicates`);
+  }
+}
+
 // Reachability first: a handshake file that outlived the app (connection refused) is as down as a missing
 // one. Before 2026-10-30 only a MISSING file reached the spool, so a stale one exited 3 with the spool tool
 // right there (personas, 4.9.0).
@@ -92,7 +115,7 @@ if (down && !has('--no-spool') && !dryRun) {
     .filter(Boolean).map((d) => join(d, 'personas-door.mjs'));
   const tool = cands.find((c) => existsSync(c));
   if (tool) {
-    const r = spawnSync(process.execPath, [tool, 'ideas', 'file', '--file', file, '--repo', repo, '--origin', 'scan_sweep', ...(register ? ['--register'] : []), ...(outPath ? ['--out', outPath] : [])], { stdio: 'inherit' });
+    const r = spawnSync(process.execPath, [tool, 'ideas', 'file', '--file', file, '--repo', repo, '--origin', 'scan_sweep', ...(register ? ['--register'] : []), ...(outPath ? ['--out', outPath] : []), ...(forceKeys.length ? ['--force', forceKeys.join(',')] : [])], { stdio: 'inherit' });
     process.exit(r.status ?? 1);
   }
 }
@@ -115,27 +138,41 @@ if (!project) {
 
 const contexts = project ? await contextIds(call, project.id) : new Map();
 
-const LANDED = new Set(['created', 'deduped', 'rated', 'near_duplicate']);
+// near_duplicate is NOT here: the door filed nothing for it (see the header).
+const LANDED = new Set(['created', 'deduped', 'rated']);
 const results = [];
 for (const { line, card } of cards) {
-  const f = toFiling(card, { projectId: project ? project.id : '<unregistered>', contexts, runId });
+  const f = toFiling(card, { projectId: project ? project.id : '<unregistered>', contexts, runId, force: forcedBy(card, forceKeys) });
   const title = card.title.trim().slice(0, 200);
   if (f.error) {
     console.error(`line ${line}: ${f.error} - not filed, still owed`);
     results.push({ line, title, outcome: 'invalid', error: f.error });
     continue;
   }
-  if (dryRun) { results.push({ title, outcome: 'dry-run', filing: f.body }); continue; }
+  const keys = Object.fromEntries(['fp', 'id', 'slug'].filter((k) => card[k] !== undefined).map((k) => [k === 'id' ? 'card_id' : k, card[k]]));
+  if (dryRun) { results.push({ line, title, ...keys, outcome: 'dry-run', filing: f.body, ...(f.outcome ? { outcome_body: f.outcome } : {}), ...(f.converted ? { converted: f.converted } : {}) }); continue; }
   try {
     const r = await call('POST', '/ideas', f.body);
-    const row = { title, outcome: r.outcome, id: r.idea?.id, status: r.idea?.status, note: r.duplicateNote || r.goalNote || null };
+    const row = { line, title, ...keys, outcome: r.outcome, id: r.idea?.id, status: r.idea?.status, note: r.duplicateNote || r.goalNote || null };
+    if (r.outcome === 'near_duplicate') {
+      // The id the door answered is the OTHER card's; this one is owed until re-filed with --force or dropped.
+      row.duplicateOf = r.idea?.id;
+      delete row.id; delete row.status;
+      row.owed = true;
+    }
     // Echo what the door decided about autonomy; absent means it did not say (an older app).
     if (typeof r.autoDecided === 'boolean') row.autoDecided = r.autoDecided;
     if (Number.isInteger(r.level)) row.level = r.level;
     if (f.notes.some((n) => n.startsWith('category clamped'))) row.clamped = true;
+    if (f.converted) row.converted = f.converted;
+    if (f.body.force) row.forced = true;
+    // In-run Lane B: close it now that it has an id (W2). A refusal keeps the exit at 1 - the outcome is owed.
+    if (f.outcome && LANDED.has(r.outcome) && row.id) {
+      try { await call('POST', `/ideas/${encodeURIComponent(row.id)}/outcome`, f.outcome); row.outcome_posted = 'y'; } catch (e) { row.outcome_posted = 'n'; row.outcome_error = e.message; }
+    }
     results.push(row);
   } catch (e) {
-    results.push({ title, outcome: 'error', error: e.message });
+    results.push({ line, title, outcome: 'error', error: e.message });
   }
 }
 
@@ -144,11 +181,20 @@ for (const u of unreadable) results.push({ line: u.line, outcome: 'unreadable', 
 const tally = {};
 for (const r of results) tally[r.outcome] = (tally[r.outcome] || 0) + 1;
 if (outPath) writeFileSync(outPath, results.map((r) => JSON.stringify(r)).join('\n') + '\n');
+const nearDup = results.filter((r) => r.outcome === 'near_duplicate');
+const converted = results.filter((r) => r.converted).length;
+const outcomeOwed = results.filter((r) => r.outcome_posted === 'n');
 if (asJson) {
-  console.log(JSON.stringify({ project: project?.name ?? null, cards: cards.length, tally, results }, null, 2));
+  console.log(JSON.stringify({ project: project?.name ?? null, cards: cards.length, tally, owed: results.filter((r) => !dryRun && !LANDED.has(r.outcome)).length, near_duplicate: nearDup.length, converted, results }, null, 2));
 } else {
   console.log(`${project?.name ?? basename(repo)}: ${cards.length} cards -> ${Object.entries(tally).map(([k, v]) => `${v} ${k}`).join(', ') || 'nothing'}`);
   for (const r of results.filter((r) => r.outcome === 'error' || r.outcome === 'invalid')) console.log(`  FAILED ${r.title}: ${r.error}`);
+  if (nearDup.length) {
+    console.log(`  ${nearDup.length} near-duplicate - NOT filed, still owed. Read each note: the same finding -> drop it; a different one -> re-run with --force <fp|id|slug>`);
+    for (const r of nearDup) console.log(`    line ${r.line} ${r.fp ?? r.card_id ?? r.slug ?? '(no fp - give the card one to force it)'} "${r.title}" ~ ${r.duplicateOf}`);
+  }
+  if (converted) console.log(`  ${converted} carry -> Lane B (handed off A/B-drainable)`);
+  for (const r of outcomeOwed) console.log(`  OUTCOME OWED ${r.title} (${r.id}): ${r.outcome_error}`);
   const auto = results.filter((r) => r.autoDecided === true);
   if (auto.length) console.log(`  ${auto.length} machine-decided by the door (L${[...new Set(auto.map((r) => r.level))].join('/L')}, 24 h veto window)`);
   const clamped = results.filter((r) => r.clamped);
@@ -157,4 +203,4 @@ if (asJson) {
   if (accepted.length) console.log(`  ${accepted.length} already decided in Approvals (dedup hit on a ${[...new Set(accepted.map((r) => r.status))].join('/')} row)`);
 }
 // exitCode, not exit(): exiting while fetch's sockets close trips a libuv assertion on Windows.
-process.exitCode = dryRun || results.every((r) => LANDED.has(r.outcome)) ? 0 : 1;
+process.exitCode = dryRun || results.every((r) => LANDED.has(r.outcome) && r.outcome_posted !== 'n') ? 0 : 1;

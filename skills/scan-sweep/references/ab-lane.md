@@ -116,15 +116,26 @@ The worker does these **in order**, and stops at the first that fails:
    `void_control: <kind>`), and the director sends the item back to re-seed
    (personas c2r2: 21a3a2b5 failed to import, 9d2e26fc to compile; both re-seeded
    behaviourally, then failed on their assertions).
-7. **Commit with a pathspec** on the worktree branch, `fix(<ctx>): <title>` with the
+   **When the fix IS a test** (`method: "test-only"` - a parity or guard test that
+   passes on the base tree), reverting B removes the test, which proves nothing.
+   The control is the SUBJECT drifted with the test in place: drop the field from
+   the list, rename the symbol, add the forbidden import; re-run the test; require
+   RED on its assertion; restore. Before = `drift not caught`, After = `drift
+   caught`; report `control_seed` (the drift you seeded) beside `control_cmd` /
+   `control_value`. `proofFromAb` writes `control: red` for test-only only with
+   `control_seed`, and `filing.mjs` refuses a test-only `better` without a red
+   control (SKILL.md §4.11; personas c3: the PERSONA_NULLABLE_FIELDS parity test).
+7. **Commit with a pathspec** on the worktree branch, `<type>(<ctx>): <title>` - the
+   type follows the change (`fix` behaviour, `test` test-only or instrument, `docs`,
+   `refactor`, `perf`; SKILL.md §7.3) - with the
    lens, the Before/After as re-measured, the seeded-control result, and the gate exit
    codes in the body. Never push. Never `git add -A`.
 8. **Return** one JSON object, nothing else:
 
 ```json
-{"slug":"...","verdict":"better|not-better|unmeasurable|fp|demoted|superseded","metric":"<what was measured>","unit":"<ms|count|cases|...>",
- "before":"...","after":"...","method":"gate|probe|experiment","seeded_red":true,"control_run":"re-run|base","control_cmd":"<command run on the reverted tree>","control_value":"<what that re-run printed>","control_failure":"assertion|missing-symbol|compile","gates":{"typecheck":0,"lint":0,"test":0},
- "base_sha":"<arm A commit>","sha":"...","branch":"sweep/<slug>","size_actual":"S|M|L","files":[...],"superseded_by":"<sibling idea id or sha, superseded only>","note":"<=200 chars"}
+{"slug":"...","verdict":"better|not-better|unmeasurable|fp|demoted|superseded|partially_superseded","metric":"<what was measured>","unit":"<ms|count|cases|...>",
+ "before":"...","after":"...","method":"gate|test-only|probe|experiment","seeded_red":true,"control_run":"re-run|base","control_cmd":"<command run on the reverted tree>","control_value":"<what that re-run printed>","control_failure":"assertion|missing-symbol|compile","control_seed":"<test-only: the drift seeded>","gates":{"typecheck":0,"lint":0,"test":0},
+ "base_sha":"<arm A commit>","sha":"...","branch":"sweep/<slug>","size_actual":"S|M|L","files":[...],"superseded_by":"<sibling idea id or sha, superseded / partially_superseded>","superseded_part":"<partially_superseded: what the sibling already did>","remainder":"better|not-better|unmeasurable (partially_superseded only)","note":"<=200 chars"}
 ```
 
 `metric`, `unit` and `base_sha` exist so the director can write the contract's
@@ -143,6 +154,20 @@ counted as an `fp` - not in the snapshot's `ab`, not in §5's fp counter, not
 against the lens. `fp` stays for a Before that did not reproduce on the base tree
 for any other reason.
 
+**`partially_superseded`** is for a card a sibling's commit did HALF of (personas
+c3, 2026-10-31: half of `personas-ts-comment-column-count` was fixed by a sibling
+commit, and the card was reported `better` for the rest with nothing to say about
+the half). The worker re-measures A on the group's branch, builds and measures
+the REMAINDER like any B (steps 3-6), and reports `verdict:
+"partially_superseded"`, `remainder: better|not-better|unmeasurable` (the
+remainder's own verdict), `superseded_part` (what the sibling already did) and
+`superseded_by` (the sibling's sha). The remainder decides everything else:
+`proofFromAb` writes the remainder's proof (plus `superseded_part` /
+`superseded_by`), `outcomeFor` closes it `delivered` (with the merge) /
+`declined` / `blocked` with a note naming the part and the sha, and `abTally`
+counts the remainder in its own slot and the card once under
+`partially_superseded`.
+
 `unmeasurable` after a real attempt must name the instrument it could not build and
 why; it is the only verdict that goes on to Lane C.
 
@@ -155,10 +180,23 @@ dispatches, reads, and merges.
   once on the base tree, exit asserted (SKILL.md §7.9). A gate that cannot run on this
   host - a missing toolchain, a cross-target compiler - makes every item that needs it
   unmeasurable before a worker is spent on it: do not dispatch those; hand them off as
-  Lane B with `note: "gate unrunnable on host: <gate> - <reason>"`, naming the operator
-  act that would unblock it. (personas 2026-10-30: `npm run test:rust` exited 101 -
+  Lane B with the card's `note` FIELD set to `"gate unrunnable on host: <gate> - <reason>"`,
+  naming the operator act that would unblock it - never that line prepended to the
+  body (SKILL.md §9.1: identical body heads made the door match unrelated cards as
+  near-duplicates, personas c3). (personas 2026-10-30: `npm run test:rust` exited 101 -
   cc-rs found no `clang` for `aarch64-pc-windows-msvc` - and both Rust items came back
   unmeasurable after the workers ran.)
+- **A gate that WAITS is not a gate that cannot run.** Before calling a gate
+  unrunnable, check for a guard the running app holds. Personas: while the app is
+  up, `npm run test:rust` (and any `cargo test|build|check|clippy`) queues behind
+  the app's own cargo under the one-cargo-at-a-time guard
+  (`scripts/build/guard-concurrent-cargo.mjs`, `scripts/build/cargo-run.mjs`) and
+  waits forever. Run it with **`CARGO_GUARD=off`** (skips the queue only; the
+  throttle stays) - in the preflight, in every round-agent brief and in every
+  worker dispatch prompt - or read it from the overlay's `env` key (SKILL.md
+  "Project overlay"). Cards are not marked unbuildable for a guard: personas c3
+  (2026-10-31) handed 13 Rust cards off as unbuildable because the gate hung on
+  this guard.
 - **Dispatch** every group in one message so the workers run concurrently. Cap at
   `--workers N` (default 4). Groups beyond the cap wait for a free slot.
 - **Review each return against the diff**, not the report: the gate ran (exit codes
@@ -200,11 +238,18 @@ dispatches, reads, and merges.
   `outcomeFor(verdict)` in `scripts/filing.mjs` gives `<o>`: `better` ->
   `delivered` (commit = the merge), `not-better` / `fp` -> `declined`,
   `unmeasurable` / `demoted` -> `blocked`, `superseded` -> `already_delivered`
-  (commit = the sibling's merge; the app refuses `already_delivered` without one).
+  (commit = the sibling's merge; the app refuses `already_delivered` without one),
+  `partially_superseded` -> the remainder's outcome, its note naming the part and sibling sha.
   `--figures` carries the before / after / control_value read. App down: the
   verb spools the validated post (exit 0) and `personas-door sync` replays it;
   an app REFUSAL is exit 1 and is fixed, not retried (personas c2r2: 58 outcomes
   went through a one-off helper because there was no verb).
+  **An item found and built inside this wave has no idea id** - nothing to post
+  to (personas c3, 2026-10-31: those rows kept `outcome_posted: n`). It is handed
+  off at the end with its `proof` and `ab_result` (this return plus `merge`), and
+  `approvals.mjs` files it and posts `outcomeFor(ab_result)` to the new id in the
+  same pass (SKILL.md §9.1); copy the result row's `outcome_posted` (`y`) and `id`
+  into the ledger row. An in-run `not-better` has no card: `outcome_posted: "n/a"`.
 - **A product choice an approved Lane C card left open is the director's, and it
   is recorded.** When the card says "fix A or B" and the operator approved it
   without picking, the director picks, preferring the one that is easier to take
@@ -226,13 +271,15 @@ One line per B item, appended by the director to `.claude/scan-history/ab.jsonl`
 
 ```json
 {"at":"<ISO>","scope":"<context>","slug":"<slug>","title":"...","lane":"B","mode":"code|experiment",
- "verdict":"better|not-better|unmeasurable|fp|demoted|superseded","before":"...","after":"...","seeded_red":true,
+ "verdict":"better|not-better|unmeasurable|fp|demoted|superseded|partially_superseded","remainder":"<partially_superseded only>","before":"...","after":"...","seeded_red":true,
  "control_run":"re-run|base","control_cmd":"...","control_value":"...","control_failure":"assertion|missing-symbol|compile","sha":"<merge sha or null>","branch_kept":false,"worker":"sonnet",
- "idea_id":"<the app's idea id>","superseded_by":"<superseded only>","choice":{"picked":"...","rejected":"...","why":"..."},"outcome_posted":"y|spooled|n","note":"<=80 chars"}
+ "idea_id":"<the app's idea id>","superseded_by":"<superseded only>","choice":{"picked":"...","rejected":"...","why":"..."},"outcome_posted":"y|spooled|n|n/a","note":"<=80 chars"}
 ```
 
 `choice` only when the director settled a product choice; `outcome_posted` is what
-`door.mjs outcome` answered (`posted: true` -> `y`, `spooled: true` -> `spooled`).
+`door.mjs outcome` answered (`posted: true` -> `y`, `spooled: true` -> `spooled`),
+or, for an in-run item, the `outcome_posted` of its `approvals.mjs` result row;
+`n/a` only for an in-run `not-better` (no card exists).
 
 This is what the next round's picker reads to avoid re-dispatching a `not-better`, and
 what the snapshot's `ab=` field is summed from.
@@ -276,8 +323,16 @@ unrunnable gate) carries it, and Personas' verify state reads it instead of a bl
 > test. Revert to the OLD behaviour behind the SAME signature, so the test fails on
 > its assertion (`control_failure: "assertion"`); a control that fails to import or
 > compile is void. If a sibling item's commit on your branch already made this card's
-> Before untrue, report `superseded` with `superseded_by`. Commit with a pathspec; never push. Return exactly one JSON object in the
+> Before untrue, report `superseded` with `superseded_by` (or `partially_superseded`
+> with `superseded_part` and the remainder measured, if it did half). If the fix IS
+> a test that passes on base, your control is the subject drifted with the test in
+> place (`method: "test-only"`, `control_seed`). A ratchet (census) that exits 1
+> on a DROP your change caused is a pass: report `ratchet: <file> <key> <old> ->
+> <new>` and do not edit the baseline; a rise is yours to fix. The commit type
+> follows the change (`fix`, `test`, `docs`, `refactor`, `perf`). Commit with a pathspec; never push. Return exactly one JSON object in the
 > shape the contract gives and nothing else.
+>
+> `<overlay env, e.g. CARGO_GUARD=off for every cargo / test:rust run>`
 >
 > `<card body, evidence, size, method, gate>`
 > `<repo gates, from the overlay>`

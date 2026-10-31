@@ -20,7 +20,7 @@ after(() => { for (const d of made) rmSync(d, { recursive: true, force: true, ma
 const DECISIONS = [{ ideaId: 'i9', title: 'Guard the queue', lens: 'error-handler', contextId: 'c1', verdict: 'rejected', reason: 'already guarded upstream', decidedBy: 'human', decidedAt: '2026-10-01T00:00:00Z' }];
 const TRUST = { slices: [{ slice: 'technical|error-handler|-|S', level: 3, ceiling: 3, start: 2, agreement: 0.95, n: 20, changedAt: '2026-10-02T00:00:00Z', reason: 'earned' }], events: [] };
 
-async function door(repo, { decisions = true, outcomeStatus = 200 } = {}) {
+async function door(repo, { decisions = true, outcomeStatus = 200, emptyContext = false, contexts = [{ id: 'c1', name: 'Core' }] } = {}) {
   const seen = [];
   const posts = [];
   const server = http.createServer(async (req, res) => {
@@ -35,8 +35,9 @@ async function door(repo, { decisions = true, outcomeStatus = 200 } = {}) {
       return res.end(outcomeStatus === 200 ? JSON.stringify({ ideaId: m[1], ideaStatus: 'implemented', task: { id: 't1' } }) : 'outcome must be one of ...');
     }
     if (req.url === '/dev-tools/projects') return res.end(JSON.stringify([{ id: 'p1', name: 'repo', root_path: repo }]));
-    if (req.url === '/dev-tools/contexts/p1') return res.end(JSON.stringify([{ id: 'c1', name: 'Core' }]));
-    if (decisions && req.url.startsWith('/dev-tools/scan/decisions?')) return res.end(JSON.stringify({ decisions: DECISIONS }));
+    if (req.url === '/dev-tools/contexts/p1') return res.end(JSON.stringify(contexts));
+    // emptyContext: the app's shape in personas c3 - ideas filed with context_id null, so a context read is empty.
+    if (decisions && req.url.startsWith('/dev-tools/scan/decisions?')) return res.end(JSON.stringify({ decisions: emptyContext && /contextId=/.test(req.url) ? [] : DECISIONS }));
     if (req.url.startsWith('/dev-tools/scan/trust?')) return res.end(JSON.stringify(TRUST));
     res.statusCode = 404; res.end('{}');
   });
@@ -92,6 +93,40 @@ test('decisions: an unknown context reads project-wide and says so; limit is cla
     assert.equal(r.json.note, 'scope: project (context nowhere unknown to the app) - run `personas-door contexts sync` first');
     assert.match(r.stderr, /scope: project \(context nowhere unknown to the app\)/);
     assert.ok(f.seen.includes('/dev-tools/scan/decisions?projectId=p1&limit=100'));
+  } finally { f.server.close(); }
+});
+
+test('decisions: a context read that returns 0 widens to project+lens, says widened, and reports the project total (W5)', async () => {
+  // personas c3 (2026-10-31): every context read returned 0 with no `widened` flag - cycle-2 ideas carry context_id
+  // null - and the project read held 29 decisions nobody saw.
+  const f = await fixture({ emptyContext: true });
+  try {
+    const r = await run(['decisions', '--repo', f.repo, '--context', 'Core', '--lens', 'error-handler'], f.home);
+    assert.equal(r.status, 0, r.stderr);
+    assert.equal(r.json.widened, true, 'zero by context is a widening, flagged');
+    assert.equal(r.json.scope, 'project');
+    assert.equal(r.json.contextId, 'c1', 'the context was known; it just had no decisions');
+    assert.deepEqual(r.json.decisions, DECISIONS);
+    assert.match(r.json.note, /context Core has 0 decisions/);
+    assert.ok(f.seen.includes('/dev-tools/scan/decisions?projectId=p1&lens=error-handler&limit=50'), 'widened to project + lens');
+    assert.equal(r.json.project_total, 1);
+  } finally { f.server.close(); }
+});
+
+test('decisions: the context is matched by NAME (folded) or by the app id, not only the exact name (W5)', async () => {
+  // personas c3: the app's id (549e67d5) differed from context-map.json's (5d538a29); the name is the shared key.
+  const f = await fixture();
+  try {
+    for (const ref of ['core', ' CORE ', 'c1']) {
+      const r = await run(['decisions', '--repo', f.repo, '--context', ref], f.home);
+      assert.equal(r.json.contextId, 'c1', `ref ${JSON.stringify(ref)}`);
+      assert.equal(r.json.scope, 'context');
+    }
+    const g = await fixture({ contexts: [{ id: 'c9', name: 'Core API' }] });
+    try {
+      const r = await run(['decisions', '--repo', g.repo, '--context', 'core-api'], g.home);
+      assert.equal(r.json.contextId, 'c9', 'punctuation folded: core-api = Core API');
+    } finally { g.server.close(); }
   } finally { f.server.close(); }
 });
 
