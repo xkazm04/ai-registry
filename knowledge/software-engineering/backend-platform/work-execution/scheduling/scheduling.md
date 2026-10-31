@@ -41,7 +41,9 @@ The consequences of that stance are the spine of this subject:
    records the run (with a minted run identity), advances `next_run_at` by recomputing
    it from the rule (see next-run-computation), and only then dispatches the work.
    Advancing *before* dispatch is deliberate: a crash mid-dispatch produces at most one
-   lost run, never an infinite refire of the same due moment.
+   lost run, never an infinite refire of the same due moment. That is the at-most-once
+   choice; an item declared at-least-once (see below) keeps the same order and has the
+   startup sweep re-dispatch any run recorded but never acknowledged as started.
 3. **The tick is cheap and dumb; the intelligence is in the data.** The loop's cadence
    bounds firing latency (a 30-second tick means jobs fire up to 30 seconds late) but
    carries no per-item logic. Precision requirements change the tick interval, not the

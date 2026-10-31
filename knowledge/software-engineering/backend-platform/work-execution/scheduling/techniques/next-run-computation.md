@@ -49,6 +49,11 @@ calendar math happens.
 
 ## DST and calendar edge decisions (make them once, write them down)
 
+The two transition rules below are for rules that name a specific wall-clock time
+(a fixed hour and minute). A rule that fires every hour or more often is scheduled on
+elapsed time across a transition: it neither collapses the repeated hour nor fires a
+make-up run for the skipped one. Vixie-derived cron draws the same line.
+
 - **Spring-forward gap** ("02:30 daily" on a night with no 02:30): fire at the first
   valid instant after the gap, once. Skipping the day entirely surprises authors;
   firing twice is worse.

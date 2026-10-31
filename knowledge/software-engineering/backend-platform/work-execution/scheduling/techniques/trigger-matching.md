@@ -37,11 +37,12 @@ failure-not-empty-success).
    evaluates it against the subscription set. Publish sites that hand-deliver to known
    subscribers bypass filtering, logging, and fan-out limits — they are the routing
    equivalent of validation sprinkled across call sites.
-4. **Filters evaluate on declared payload fields, fail closed, and report.** A filter
+4. **Filters evaluate on declared payload fields, fail closed by default, and report.** A filter
    referencing a field the payload lacks is a *broken filter event*, not a silent
    non-match — the subscription's author meant something, and the mismatch is a schema
-   drift signal. Decide and document: does a filter error suppress the fire (safe for
-   side-effectful work) or force it (safe for alerting)? Either way it is recorded.
+   drift signal. Suppressing the fire is the default (safe for side-effectful work);
+   forcing it (safe for alerting) is a per-subscription choice that is documented where
+   it is made. Either way it is recorded.
 5. **Record the match decision at the moment of dispatch**: event id → the set of
    subscriptions evaluated, matched, suppressed (disabled / filtered / rate-limited).
    This is the raw material for "why didn't my trigger fire" (see
