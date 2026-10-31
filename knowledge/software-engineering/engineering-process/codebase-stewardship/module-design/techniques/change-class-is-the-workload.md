@@ -50,9 +50,11 @@ direction and disagree on the size:
 - A controlled study of 2,000 agent trajectories: 100 tasks, four target
   languages of differing representation in pretraining data, five models, one
   minimal agent harness. After fitting task identity as a random effect, the
-  less-represented substrates cost **1.16x to 1.69x** more output tokens than
-  the best-represented one, p < 0.001 across every model — **at comparable
-  success rates**. The predicate those figures travel with
+  least-represented substrate cost **1.28x to 1.69x** more output tokens than
+  the best-represented one, p < 0.001 under every model — **at comparable
+  success rates**. The two intermediate substrates' penalties were
+  model-dependent (1.16x and up under the two proprietary models) and not
+  significant for one open-weight model. The predicate those figures travel with
   ([count-carries-predicate](../../../../_laws.md#count-carries-predicate)):
   contest-style single-file tasks, output tokens only, one trajectory per cell,
   mid-2026 models.
@@ -82,7 +84,7 @@ derived, never picked
 run-to-run spread of your own meter on your own substrate first, then compute
 how many replays each arm needs to resolve the effect you expect. A fleet
 measurement over 118 real agent sessions across five trees put the within-tree
-spread of output-token cost at a geometric SD of **5.92x**, with per-tree
+spread of output-token cost at a geometric SD of **5.91x**, with per-tree
 coefficients of variation from 0.52 to 3.09; at that band, resolving a 1.21x
 effect takes on the order of **a thousand replays per arm** and a 2.7x effect
 about fifty.

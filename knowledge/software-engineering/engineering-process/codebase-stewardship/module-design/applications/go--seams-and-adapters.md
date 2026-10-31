@@ -48,7 +48,7 @@ left out rather than included and refused, which is the
 
 `testing/fstest/testfs.go:39` exports `TestFS`, an executable conformance
 suite for any `fs.FS`. It is referenced from the seam's own doc
-(`io/fs/fs.go:20-23`: "may be used to test implementations of an FS for
+(`io/fs/fs.go:38-39`: "may be used to test implementations of an FS for
 correctness") and it checks the promises the interface makes in prose:
 `ReadDir` results sorted (`testfs.go:253`, `:268`), reads at EOF returning
 zero entries with the right error (`:178-186`), `DirEntry.Info` /

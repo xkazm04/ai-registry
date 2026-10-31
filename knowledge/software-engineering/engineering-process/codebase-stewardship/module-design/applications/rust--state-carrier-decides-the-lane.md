@@ -46,7 +46,7 @@ The struct contains no field for which a copy is the right semantics.
 
 ## The concession, and the comment that records it
 
-`src/lib/runner.rs:238-247` is the parallel arm of `run_task_flow`:
+`src/lib/runner.rs:236-251` is the parallel arm of `run_task_flow`:
 
 ```rust
 if parallel {
@@ -70,11 +70,11 @@ if parallel {
 The shape is exactly the one the technique predicts: the state is borrowed,
 deep-copied out of the `Rc`, moved into the closure, and **rebuilt as a fresh
 `Rc<RefCell<_>>` inside the thread** so that everything downstream can keep the
-signature it has. At `runner.rs:253-257` the threads are joined for their
+signature it has. At `runner.rs:254-258` the threads are joined for their
 `Result` only; the reconstructed `FlowState` is dropped with the closure. The
-sequential arm on line 249 passes the real `Rc`.
+sequential arm on line 250 passes the real `Rc`.
 
-The comment on line 240 is the apology the technique says to look for. It is
+The comment on line 238 is the apology the technique says to look for. It is
 phrased as a product limitation — *we do not support* — and it sits immediately
 after the line that made it true.
 
@@ -116,7 +116,7 @@ it: the hazard the author designed for is documented, and the hazards that fell
 out of an `!Send` bound are not, because the bound made the decision and nobody
 formed the thought. No design document, changelog entry or test asserts the
 isolation as a guarantee; the only record of it anywhere in the repository is
-the one-line comment on `runner.rs:240`.
+the one-line comment on `runner.rs:238`.
 
 ## What the tree could not have been built to prove, and proves anyway
 

@@ -5,7 +5,7 @@ subject: module-design
 technique: host-primitive-facade
 stack: rust
 status: forged
-verified_on: 2026-10-02
+verified_on: 2026-10-31
 verified_against: rust@1.86
 ---
 

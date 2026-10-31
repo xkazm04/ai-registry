@@ -121,4 +121,4 @@ The measurement that settles an argument about it is cheap and specific:
 **count the branches of the decision that the project's own test runner can
 reach.** Before the extraction that number is usually zero — not because the
 branches are hard, but because nothing can call them. After it, it is all of
-them, and the shim that remains has none.
+them, and the shim that remains takes no verdict branch.

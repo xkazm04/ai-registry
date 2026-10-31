@@ -124,13 +124,15 @@ that machine-written code is bad — it is frequently excellent, locally. It is
 that a long sequence of locally excellent changes, each made without regard for
 the whole, accumulates into a structure nobody chose. Longitudinal studies of
 agent trajectories on long-horizon iterative tasks report exactly this shape:
-output volume rises in the large majority of runs and structural erosion in
-nearly as many, diverging from maintained human-kept repositories the longer the
-run goes. One 2026 benchmark built to measure that divergence put it at
-roughly four in five agent trajectories with rising erosion against a little
-over half of comparable human-kept repositories, with agent volume growing
-about twice as fast — counted by its own verbosity and erosion metrics over
-its own task set, which is the predicate those figures travel with.
+redundancy and structural erosion each rise in roughly three quarters of runs,
+diverging from maintained human-kept repositories the longer the run goes. One
+2026 benchmark built to measure that divergence put it at 77% of agent
+trajectories with rising erosion against 53% of comparable human-kept
+repositories, with agent verbosity and erosion growing several times faster per
+checkpoint than in the human histories — counted by its own verbosity and
+erosion metrics over its own task set, in the paper's revised version of May
+2026 (its first version reported 80% against 55%), which is the predicate those
+figures travel with.
 
 The second half of the problem is that **verification is behaviour-blind**. A
 change can satisfy every acceptance criterion, pass every test, clear every gate,
@@ -217,8 +219,8 @@ stream, a device handle, an editor's document model — and have no constructor
 outside it, so "hand it in as a value" leaves the test exactly where it was.
 The disposal is a third one: define an ordinary **mirror** of what this module
 actually reads, convert to it in the host-facing function's first line, and
-write every branch against the mirror, leaving a shim that has no branches to
-reach. [mirror-type-at-the-edge](./techniques/mirror-type-at-the-edge.md) owns
+write every branch against the mirror, leaving a shim that takes no verdict
+branch for a test to miss. [mirror-type-at-the-edge](./techniques/mirror-type-at-the-edge.md) owns
 the shape, the two moves it replaces — mocking the host type, or booting it —
 and the drift cost a second vocabulary charges.
 
@@ -443,6 +445,11 @@ manners.
   mirror of what the module actually reads, conversion at both edges, the
   branchless shim, why mocking the host type is a gate reading its own author,
   and the three rules that keep a second vocabulary from drifting.
+- [state-carrier-decides-the-lane](./techniques/state-carrier-decides-the-lane.md) —
+  the container holding shared state answers the concurrency question before it
+  is asked: a copy made to cross a boundary is correct per field, not per
+  struct, so accumulators and latched decisions are lost or diverge, and the
+  apology at the spawn site is the tell.
 - [emitted-code-names-from-a-root](./techniques/emitted-code-names-from-a-root.md) — a
   generator's hidden interface is the scope it expands into: every name the invocation
   does not supply spelled from a root, helpers enclosed but products left visible, the
