@@ -34,8 +34,10 @@ a license for padding.
 ## ZH-LENGTH · budget by glyph width, then resist over-compression
 
 **Trigger:** setting or checking length budgets for zh slots.
-**Rule:** each Han glyph renders at roughly 1.5–1.75× a Latin letter's width,
-so budgets are counted in characters, small: nav/sidebar labels ≤ 6, buttons
+**Rule:** each Han glyph occupies a square one-em frame while Latin is
+proportional, so its width relative to a Latin letter depends on the Latin
+font — roughly 1.5–2× across common UI faces; measure rendered width where a
+slot is tight. Because Chinese is so dense, budgets are counted in characters, small: nav/sidebar labels ≤ 6, buttons
 and tabs ≤ 4, single-line toasts/chips ≤ 12 is a workable default set —
 derived from a real 14-locale catalog and generous for most strings, because
 Chinese density leaves room to spare.

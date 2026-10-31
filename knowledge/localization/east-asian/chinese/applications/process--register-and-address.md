@@ -31,8 +31,9 @@ than flipped in either direction.
 **B.** The 325 strings outside the companion sections were standardized by a
 scripted 你 to 您 over parsed values (你的, 你自己 follow for free; one 你们双方
 recast to 双方, the plural the technique says to avoid).
-Coverage gate 0 gaps across 13 locales, key count unchanged. 65% became 94% formal
-by string; 90 strings remain by design.
+Coverage gate 0 gaps across 13 locales, key count unchanged. 65% became about 92%
+formal by string (1,082 您 of 1,172 pronoun-bearing strings: 757 + 325 against the 90
+left); 90 strings remain by design.
 
 **Calibration.** Re-measure the ratio before citing a guide's percentage; a ruling
 written at 11.5k keys was 65% by the time the catalog reached 24.8k. Not

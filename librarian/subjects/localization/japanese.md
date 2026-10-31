@@ -386,3 +386,95 @@ siblings.
   }
 }
 ```
+
+## 2026-10-31 (clarify-apply)
+
+All four clarify items carried from 2026-09-10 have landed. The golden path now states
+width as an identity check on specific code points and gives the glyph ratio as
+roughly 1.5-2x depending on the font. JA-WIDTH-BUDGET drops the unsourced 'twice' for
+the same font-dependent range, grounded in JLReq's square character frame against
+proportional Western text and in the measured average advance of four Latin faces. The
+typography technique gains JA-HALFWIDTH-KANA, with its line-break classes read from
+LineBreak 18.0 and its NFKC mapping from UnicodeData. The ordinal paragraph now states
+that the skeleton law wins in the value and the source defect is filed upstream. The
+Chinese sibling carries the same range in this change; Korean is aligned separately.
+
+<!-- architecture-review:v1 -->
+```json
+{
+  "subject": "localization/japanese",
+  "date": "2026-10-31",
+  "baseline": "1aecea799",
+  "digest": "sha256-b2:a3a50b84fb4fedf4",
+  "disposition": "keep",
+  "coverage": "Edited the four documents the 2026-10-31 record named and re-read each edit in place. Primary sources read this run: W3C JLReq (square character frame, proportional Western text), Unicode LineBreak 18.0.0, EastAsianWidth and UnicodeData for U+FF61..FF9F, and the OS/2 and head tables of four Latin fonts. NFKC behaviour confirmed with a Unicode 15.1 normalizer (ｶﾞﾊﾟ to ガパ). Not evaluated: the six documents left at keep were not re-read beyond the previous record; no renderer, harness or private product tree was run; no verified_on moved.",
+  "counterexamples": [
+    "The 1.5-2x range is itself only an indicator: a condensed or monospaced Latin face, or a CJK font with proportional kana, moves the ratio outside it, which is why the rule still says to measure the rendered width.",
+    "A legacy interface that only accepts half-width kana makes ｱ correct output; JA-HALFWIDTH-KANA carves this out as a contract of the receiving system."
+  ],
+  "sources": [
+    {
+      "url": "https://www.w3.org/TR/jlreq/",
+      "result": "§2.1.2: Japanese characters 'have square character frames of equal dimensions'; §2.3.1 note: 'have basically been designed to have a square character frame'; §2.3.2 note contrasts fullwidth alphanumerics with 'those with proportional width used for Western text'. Grounds the one-em-versus-proportional framing."
+    },
+    {
+      "url": "local font files: DejaVu Sans, DejaVu Serif, Inter Regular, FreeSans (OpenType head.unitsPerEm and OS/2.xAvgCharWidth)",
+      "result": "Read the font tables directly: xAvgCharWidth/unitsPerEm = DejaVu Sans 1038/2048 (0.51 em), DejaVu Serif 1050/2048 (0.51 em), Inter 1313/2048 (0.64 em), FreeSans 682/1000 (0.68 em). Against a one-em full-width frame the ratio is about 1.5-2x and moves with the Latin face, which is the basis for stating the range as font-dependent. xAvgCharWidth averages all glyphs, so it is an indicator, not a lowercase-text measurement."
+    },
+    {
+      "url": "https://www.unicode.org/Public/UCD/latest/ucd/LineBreak.txt",
+      "result": "Header LineBreak-18.0.0. 'FF61 ; CL', 'FF62 ; OP', 'FF63 ; CL', 'FF64 ; CL', 'FF65 ; NS', 'FF66 ; ID', 'FF67..FF6F ; CJ', 'FF70 ; CJ', 'FF71..FF9D ; ID', 'FF9E..FF9F ; NS'. The classes JA-HALFWIDTH-KANA names."
+    },
+    {
+      "url": "https://www.unicode.org/Public/UCD/latest/ucd/EastAsianWidth.txt",
+      "result": "'3001..3003 ; W', '300C ; W', '300D ; W', 'FF61 ; H'. 。、「」 are Wide and their partners Halfwidth: the relational framing the golden path now uses."
+    },
+    {
+      "url": "https://www.unicode.org/Public/UCD/latest/ucd/UnicodeData.txt",
+      "result": "'FF76;HALFWIDTH KATAKANA LETTER KA;Lo;0;L;<narrow> 30AB', 'FF61;HALFWIDTH IDEOGRAPHIC FULL STOP;Po;0;ON;<narrow> 3002'. The compatibility decompositions NFKC applies."
+    }
+  ],
+  "documents": {
+    "japanese.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: the width paragraph now names the encoding question as an identity check on specific code points (。 vs ｡, ア vs ｱ, １ vs 1), with full-width/half-width described as compatibility pairs; both '~2x'/'roughly twice' statements became 'roughly 1.5-2x depending on the font', with 'measure the rendered width'."
+    },
+    "techniques/character-width-and-typography.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: added JA-HALFWIDTH-KANA (U+FF65..FF9F and ｡､｢｣ in prose are a defect; normalize via NFKC, including voiced-mark composition; break classes ID/CJ/NS and CL/OP per LineBreak 18.0; exception for fixed legacy interfaces)."
+    },
+    "techniques/counting-and-quantity.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: the ordinal paragraph now states the precedence: the {n}{suffix} source is a defect filed upstream, while the value keeps {suffix} exactly once where it renders harmlessly ({n} 番目{suffix} when it resolves to empty), never dropped."
+    },
+    "techniques/de-anglicization-constructions.md": {
+      "disposition": "keep",
+      "reason": "Trigger-first rules with legitimate-use exceptions and an explicit ban on bulk pattern rewriting. JA-PARTICLE-PLACEHOLDER's apposition escape remains the strongest content in the subject."
+    },
+    "techniques/register-and-politeness.md": {
+      "disposition": "keep",
+      "reason": "Register by text category with a predicate test for labels versus sentences, a bounded keigo ceiling and a recorded-house-ruling exit. Vendor guides not retrieved."
+    },
+    "techniques/terminology-and-katakana-loanwords.md": {
+      "disposition": "keep",
+      "reason": "Prior reverify resolved. The 2008 switch is Microsoft's 2008-07-25 move to the Cabinet Notification's written-out form, as stated. JIS Z 8301's three-or-more-morae omission rule is consistently described in secondary sources. The heuristic is labelled a heuristic and the chōonpu rule ends in pick-one-and-record. Residual: the 2019 JIS annex wording was not read. Optionally name the vendor and date so the claim is checkable."
+    },
+    "techniques/ui-conventions-and-length.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: JA-WIDTH-BUDGET's 'roughly twice' became a one-em square frame against proportional Latin, a font-dependent ratio of roughly 1.5-2x across common UI faces, and 'measure the rendered width'; the ems-of-rendered-text instruction is kept. Chinese aligned in the same change."
+    },
+    "applications/process--counting-and-quantity.md": {
+      "disposition": "keep",
+      "reason": "Dated 2026-08-24 incident record keyed to real catalog keys. Only the path changed. The two-severity split on one suffix is the lesson. Not re-run."
+    },
+    "applications/process--register-and-politeness.md": {
+      "disposition": "keep",
+      "reason": "Dated field record of count-before-ruling (zero だ。 in about 14,500 lines, about 40 clean labels). Only the path changed. Not re-run."
+    },
+    "applications/spec--character-width-and-typography.md": {
+      "disposition": "keep",
+      "reason": "Its line-break classes re-read correctly in LineBreak 18.0 today (301C NS, FF5E ID, FF1A NS, small kana and ー CJ). It is the record that names the half-width katakana omission. The harness was not re-run."
+    }
+  }
+}
+```

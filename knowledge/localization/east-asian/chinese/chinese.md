@@ -78,8 +78,9 @@ Chinese Text Layout (clreq) is the citable authority for all of this,
 including the spacing between Han and Latin runs that products must settle as
 policy (see character-width-and-typography).
 
-Each Han character is a full-width glyph, rendering at roughly 1.5–1.75× the
-width of a Latin letter — but Chinese text is so much denser than English
+Each Han character occupies a square one-em frame (Unicode classes it Wide —
+"full-width" names a compatibility pair, not the character), rendering at
+roughly 1.5–2× the width of a Latin letter depending on the font — but Chinese text is so much denser than English
 (a 15-character English label routinely becomes 4–5 characters) that the net
 effect is the opposite of German: strings shrink. The real length risks are a
 compound noun overflowing a narrow slot despite the shrinkage, and —

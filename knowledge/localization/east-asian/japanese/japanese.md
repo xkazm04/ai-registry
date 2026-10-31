@@ -95,9 +95,12 @@ drives most of the typography rules: word boundaries are invisible, so line
 breaking is character-class-driven (禁則処理 — the prohibition rules on what
 may start or end a line, specified publicly in the W3C's Japanese text layout
 requirements), and the width of every character matters twice — once as an
-encoding question (full-width vs half-width code points are different
-characters) and once as a rendering question (a full-width glyph occupies
-roughly twice the horizontal space of a Latin letter).
+encoding question (which code point is present: 。 versus the halfwidth ｡,
+ア versus ｱ, １ versus 1 — identities checked on specific characters, since
+"full-width" and "half-width" describe compatibility pairs rather than labels a
+character carries alone) and once as a rendering question (a full-width glyph
+occupies roughly 1.5–2× the horizontal space of a Latin letter, depending on
+the font).
 
 The encoding half is pure rule: Japanese punctuation in Japanese prose is
 full-width (。、（）「」), embedded Latin and digits are half-width, and the
@@ -138,8 +141,9 @@ Japanese translations usually *shrink* relative to English — kanji compounds
 are dense (a four-character compound routinely replaces a ten-letter English
 word) — which makes Japanese the rare locale where truncation is not the
 default fear. The trap is converting that character saving into a pixel
-assumption: full-width glyphs are ~2× the width of Latin letters, so a string
-half as long in characters can be equally wide on screen. Layout planning for
+assumption: full-width glyphs are roughly 1.5–2× the width of Latin letters
+depending on the font, so a string half as long in characters can be nearly as
+wide on screen — measure the rendered width. Layout planning for
 Japanese is therefore about rendered width, line-height (CJK glyphs want more
 vertical room than Latin at the same point size), and wrap behavior (no spaces
 means text can wrap anywhere the kinsoku rules allow — which is a feature, but

@@ -25,8 +25,9 @@ for the first half; the classifier rules are grammar, citable by identifier.
 never the bare calque {count} 连接器, which reads as broken Chinese, not as a
 minor style slip. The classifier goes between the count and the noun; with
 the recommended CJK-Latin spacing convention that is `{count} 个连接器`
-(space before the classifier because the placeholder resolves to a numeral,
-none after it).
+(space before the classifier only because the placeholder renders as Latin
+digits — the seam is ZH-PANGU's, not this rule's — and none after it). A count
+rendered in Chinese numerals takes no space: 三个连接器.
 **Exceptions that earn their absence:** measure-word-free counting is correct
 for nouns that are themselves units or take zero classifier — 3 天, 5 次
 (次 is itself the classifier), calendar/time expressions, and headline-style

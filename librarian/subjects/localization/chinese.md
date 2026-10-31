@@ -379,3 +379,93 @@ executed.
   }
 }
 ```
+
+## 2026-10-31 (clarify-apply)
+
+Four of the five clarify items have landed. The golden path and ZH-LENGTH now describe
+a Han glyph as a one-em square frame against proportional Latin and state the ratio as
+roughly 1.5-2x depending on the font, the same range the Japanese sibling now carries,
+grounded in JLReq and in measured Latin font metrics. ZH-CLASSIFIER's space before the
+classifier is now conditional on a Latin-digit rendering and deferred to ZH-PANGU. The
+register application's outcome is recomputed from its own figures: 757 + 325 = 1,082
+formal of 1,172 pronoun-bearing strings is about 92%, not 94%.
+
+Still owed: the measure-words application's nine-versus-seven count. Resolving it
+needs the private catalog, which was not reopened, so it stays clarify. The optional
+clreq strictness-level note in ZH-LINEBREAK was not added.
+
+<!-- architecture-review:v1 -->
+```json
+{
+  "subject": "localization/chinese",
+  "date": "2026-10-31",
+  "baseline": "1aecea799",
+  "digest": "sha256-b2:0a8f741a4c45e97c",
+  "disposition": "clarify",
+  "coverage": "Edited four documents of the five the 2026-10-31 record named and re-read each edit in place. Primary sources read this run: W3C JLReq (square character frame, proportional Western text; used for the shared CJK one-em claim) and the OS/2 and head tables of four Latin fonts. The register application's recomputation uses only figures stated in the application itself. Not evaluated: the private catalog behind both process applications; clreq strictness levels; the documents left at keep beyond the previous record; no verified_on moved.",
+  "counterexamples": [
+    "The 1.5-2x range is an indicator: a condensed or monospaced Latin face moves it, so ZH-LENGTH says to measure rendered width where a slot is tight.",
+    "If any of the 325 standardized strings had carried 你 alongside an already formal 您, the string-level count would differ; the application states none mixed, so 92% follows from its own numbers."
+  ],
+  "sources": [
+    {
+      "url": "https://www.w3.org/TR/jlreq/",
+      "result": "§2.1.2: Japanese characters 'have square character frames of equal dimensions'; §2.3.1 note: 'have basically been designed to have a square character frame'; §2.3.2 note contrasts fullwidth alphanumerics with 'those with proportional width used for Western text'. Grounds the one-em-versus-proportional framing."
+    },
+    {
+      "url": "local font files: DejaVu Sans, DejaVu Serif, Inter Regular, FreeSans (OpenType head.unitsPerEm and OS/2.xAvgCharWidth)",
+      "result": "Read the font tables directly: xAvgCharWidth/unitsPerEm = DejaVu Sans 1038/2048 (0.51 em), DejaVu Serif 1050/2048 (0.51 em), Inter 1313/2048 (0.64 em), FreeSans 682/1000 (0.68 em). Against a one-em full-width frame the ratio is about 1.5-2x and moves with the Latin face, which is the basis for stating the range as font-dependent. xAvgCharWidth averages all glyphs, so it is an indicator, not a lowercase-text measurement."
+    }
+  ],
+  "documents": {
+    "chinese.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: 'Each Han character is a full-width glyph' became a one-em square frame (Unicode Wide; 'full-width' names a compatibility pair), and 1.5-1.75x became 'roughly 1.5-2x depending on the font', matching the Japanese sibling."
+    },
+    "techniques/character-width-and-typography.md": {
+      "disposition": "keep",
+      "reason": "Unchanged since the 2026-09-10 keep. ZH-QUOTES' Hans/Hant split is now confirmed against clreq 5.2. GB/T 15834 is still the one unread citation."
+    },
+    "techniques/measure-words-and-quantity.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: ZH-CLASSIFIER's space before the classifier now applies only when the placeholder renders as Latin digits, defers the seam to ZH-PANGU, and states that a Chinese-numeral count takes no space (三个连接器)."
+    },
+    "techniques/de-anglicization-constructions.md": {
+      "disposition": "keep",
+      "reason": "Unchanged since the 2026-09-10 keep."
+    },
+    "techniques/register-and-address.md": {
+      "disposition": "keep",
+      "reason": "The added decay paragraph is accurate to its application (757 to 415 is 65%) and puts the companion-voice exclusion behind a recorded ruling, which fits the technique's own exception. The 请求 exclusion is a correct false-positive guard."
+    },
+    "techniques/terminology-and-variants.md": {
+      "disposition": "keep",
+      "reason": "Unchanged since the 2026-09-10 keep."
+    },
+    "techniques/ui-conventions-and-length.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: ZH-LENGTH's unsourced 1.5-1.75x became a one-em square frame against proportional Latin with a font-dependent ratio of roughly 1.5-2x and 'measure rendered width where a slot is tight', reconciled with Japanese in the same change. The optional clreq strictness-level note was not added."
+    },
+    "applications/process--de-anglicization-constructions.md": {
+      "disposition": "keep",
+      "reason": "Only the machine path became repo-relative. The 2026-09-10 keep stands. Not re-verified against the repo."
+    },
+    "applications/process--terminology-and-variants.md": {
+      "disposition": "keep",
+      "reason": "Only the machine path became repo-relative. The 2026-09-10 keep stands."
+    },
+    "applications/spec--character-width-and-typography.md": {
+      "disposition": "keep",
+      "reason": "Only counterpart: external was added. The 2026-09-10 keep stands. Not re-executed."
+    },
+    "applications/process--measure-words-and-quantity.md": {
+      "disposition": "clarify",
+      "reason": "A useful record: 94% classifier adoption makes this a spot-fix, and the glued-s seam is a real finding. One count does not close. The glued-s set is nine strings ('{count} 团队s' plus eight English sentences), but B says 'seven sentences retranslated whole'. State what happened to the eighth sentence, or correct either count. The private catalog was not reopened."
+    },
+    "applications/process--register-and-address.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: outcome recomputed from the application's own figures to 'about 92% formal by string (1,082 您 of 1,172 pronoun-bearing strings: 757 + 325 against the 90 left)'. Private catalog not reopened; verified_on unchanged."
+    }
+  }
+}
+```
