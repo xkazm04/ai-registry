@@ -5,7 +5,8 @@ subject: sourcing-campaign-honesty
 technique: missing-fact-as-a-warning-code
 stack: react
 status: forged
-verified_on: 2026-09-29
+verified_on: 2026-10-31
+verified_against: react@19
 ---
 
 # Codes on the wire, copy in the catalogs (React campaign tab, since withdrawn)
@@ -18,6 +19,9 @@ pack back to a screen is a new surface, not a revert." The producer, the API and
 the pack store remain. The React sections below are therefore the **last state of
 a withdrawn surface**, re-read at `402b1f4b8`, the final commit that had it; the
 producer sections are re-read at kp `092f2e1e3` (local, unpushed when written).
+Re-checked 2026-10-31: every `402b1f4b8` anchor below resolves at that commit, and
+at kp@6edf5d7 `campaign.py` is byte-identical to `092f2e1e3`; the surface is still
+absent and nothing in `app/` renders the codes.
 
 The diagnostic crosses three layers with one rule, stated in the Python
 module's docstring (`pipeline/jobfit/campaign.py:16-17`): *"Missing facts

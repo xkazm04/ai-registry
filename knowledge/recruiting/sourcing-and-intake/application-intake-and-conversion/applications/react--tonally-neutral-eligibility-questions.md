@@ -5,7 +5,7 @@ subject: application-intake-and-conversion
 technique: tonally-neutral-eligibility-questions
 stack: react
 status: forged
-verified_on: 2026-09-26
+verified_on: 2026-10-31
 verified_against: react@19
 ---
 
@@ -20,7 +20,7 @@ threshold that refuses to render a question with a single answer.
 `app/apply/[id]/ApplyStepControls.tsx:68` branches on `step.type === "ko"` and
 renders two buttons with *identical* class strings (`:80`, `:88`), both composed
 from the shared secondary recipe, whose hover is the neutral coral
-(`app/_components/ui/recipes.ts:163`). The comment above the first one is the
+(`app/_components/ui/recipes.ts:172`). The comment above the first one is the
 incident and the rule together (`:74-79`):
 
 > NEUTRAL hover, deliberately the same coral affordance as No (and as the
@@ -105,7 +105,7 @@ when the question could not honestly be asked.
 
 ## The verification lever is not used
 
-The knockout prompts (`app/_lib/apply.ts:241-261`, copy in `messages/en.json:2383-2387`)
+The knockout prompts (`app/_lib/apply.ts:240-262`, copy in `messages/en.json:2289-2293`)
 carry no stakes line and never say an answer will be checked. Two of the three
 are worded as preferences rather than checkable facts: work mode ("Does that
 work for you?") and language ("Are you comfortable with that?"). Only work

@@ -5,7 +5,8 @@ subject: portable-hiring-records
 technique: personal-data-egress-audit
 stack: node
 status: forged
-verified_on: 2026-08-20
+verified_on: 2026-10-31
+verified_against: node@24
 ---
 
 # Two egress doors, two gates, one manifest
@@ -16,7 +17,7 @@ problem differently.
 
 ## The bulk door: manifest-scoped and double-gated
 
-`app/api/workspace/export/route.ts:11` records what it replaced:
+`app/api/workspace/export/route.ts:14` records what it replaced:
 
 > This replaced a WHOLE-DATABASE dump. That version enumerated `sqlite_master` and did
 > `SELECT * FROM <table>` with no predicate, so with `KP_MULTI_WORKSPACE` on any
@@ -29,17 +30,17 @@ over-broad door was closed while the narrow one was built, not left open for one
 more sprint.
 
 The replacement is scoped by **manifest, not by enumeration**. `orgExportClass`
-(`app/_lib/tenancy.ts:453`) returns an export class per table and returns `null`
+(`app/_lib/tenancy.ts:739`) returns an export class per table and returns `null`
 for anything unclassified; `dumpOrg` is driven by that manifest rather than by
 `sqlite_master`. The fail-closed half is a test:
-`app/_lib/tenancy-coverage.test.ts:86` collects every declared table whose class is
+`app/_lib/tenancy-coverage.test.ts:109` collects every declared table whose class is
 `null` and asserts the list is empty, with the reasoning in the comment above it —
 *"then it fails HERE, in CI, instead of by leaking or by silently omitting
 somebody's data."* An unclassified table breaks the build. That is exactly the
 technique's coverage check, and it is the difference between a manifest and a
 document.
 
-The gate is double, and the route says why (`:25`): *"this exports FULL PII
+The gate is double, and the route says why (`:28-29`): *"this exports FULL PII
 (candidates, contacts, transcripts) for the whole org, so it is gated twice — a
 valid non-demo session, AND `org:manage`."* `requireOperator()` rejects the
 anonymous demo session that the proxy would otherwise accept; `requireOrgCapability
@@ -47,8 +48,8 @@ anonymous demo session that the proxy would otherwise accept; `requireOrgCapabil
 session's team, which is what makes it hold under multi-workspace.
 
 The exclusions travel with the file: `ORG_CONFIG_NOT_PORTABLE`
-(`app/_lib/tenancy.ts:472`) is echoed into the payload's `notPortable` *"so the
-reason travels with the file"*, and a second test (`tenancy-coverage.test.ts:94`)
+(`app/_lib/tenancy.ts:762`) is echoed into the payload's `notPortable` *"so the
+reason travels with the file"*, and a second test (`tenancy-coverage.test.ts:124`)
 asserts each of those tables really is classified `exclude` — because a summary
 promising an absence that the file contradicts is worse than no summary.
 
@@ -56,7 +57,7 @@ promising an absence that the file contradicts is worse than no summary.
 
 `app/api/ats/candidate/[id]/route.ts` returns one candidate's full portable record.
 Its audit is filed not in a global export log but on that candidate's own immutable
-pipeline-event timeline, and `app/api/ats/candidate/ats-candidate-audit.ts:3`
+pipeline-event timeline, and `app/api/ats/candidate/ats-candidate-audit.ts:8-15`
 states the threat it addresses — the finding's remaining gap was *"unscoped,
 unlogged, and enumerable"*, and the fix makes *"a bulk harvest detectable after the
 fact."*
@@ -69,10 +70,10 @@ without being told.
 
 ## The import side
 
-`app/api/workspace/import/route.ts:3` is dry-run-by-default, apply-by-flag, and
+`app/api/workspace/import/route.ts:9-14` is dry-run-by-default, apply-by-flag, and
 delete-by-second-flag, with the reason stated in the header: *"so '12 tables' can
 never stand in for 'and 4,000 rows are about to go'."* And the foreign-file refusal
-sits before `planOrgRestore`, not before `restoreOrg`, with the reason at `:44`:
+sits before `planOrgRestore`, not before `restoreOrg`, with the reason at `:70-72`:
 planning a foreign file *"would report counts for a scope this caller has no
 authority over"* — the dry run gated exactly like the apply.
 

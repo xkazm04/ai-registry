@@ -5,23 +5,29 @@ subject: portable-hiring-records
 technique: human-versus-automated-decision-attribution-on-export
 stack: node
 status: forged
-verified_on: 2026-08-20
+verified_on: 2026-10-31
+verified_against: node@24
 ---
 
 # Deriving `automated` from the actor, in the portable record mapper
 
 `app/_lib/ats-record.ts` is the pure, dependency-free mapper that turns internal
-rows into the vendor-neutral record a connector maps from. Its header (`:1`) names
+rows into the vendor-neutral record a connector maps from. Its header (`:1-6`) names
 the payload: *"one candidate, one role, the pipeline state, the SEALED decision with
 its tamper-evident hash + auto/human attribution, and the offer comp."*
 
 ## The record's decision block
 
-`app/_lib/ats-record.ts:65` onward defines `AtsCandidateRecord`. The decision
+`app/_lib/ats-record.ts:103` onward defines `AtsCandidateRecord`. The decision
 sub-object carries `kind`, `reasonCode`, `actor`, `automated`, `sealedRecordHash`,
 `policyVersion` and `decidedAt` — or the whole block is `null` when no sealed
 decision exists. Null rather than a defaulted shape is the right shape: an absent
 decision is not an undecided one wearing default values.
+
+Re-checked 2026-10-31 at kp@6edf5d7: the block has grown two additive fields,
+`rationale` (the sealed reason in the record's own words, or null) and
+`rationaleWithheld` (`ats-record.ts:140-146`), still under `kp.ats.v1`. The
+attribution fields above are unchanged and the verdict stands.
 
 Two things travel that the technique asks for and most exports drop. The
 `policyVersion` means the receiving system holds the rule version in force, not
@@ -31,7 +37,7 @@ the source, rather than as a re-typed assertion.
 
 ## `automated` is derived, never trusted
 
-The load-bearing line is `:111`:
+The load-bearing line is `:164`:
 
 ```ts
 /** True unless the decision actor is explicitly a human (e.g. "human:recruiter").
@@ -42,7 +48,7 @@ function isAutomatedActor(actor: string): boolean {
 }
 ```
 
-and its single use at `:153`, `automated: isAutomatedActor(decision.actor)`.
+and its single use at `:284`, `automated: isAutomatedActor(decision.actor)`.
 
 This is the technique's rule 1 and its central decision rule in four lines. The flag
 is computed at export time from the sealed actor string rather than read from a
@@ -59,7 +65,7 @@ is what removes the need for a flag at all.
 
 ## Versioned, and pinned in both directions
 
-`ATS_SCHEMA_VERSION` (`:25`, `"kp.ats.v1"`) is stamped on every record with the
+`ATS_SCHEMA_VERSION` (`:28`, `"kp.ats.v1"`) is stamped on every record with the
 instruction *"bump on any breaking change to `AtsCandidateRecord` so consumers can
 pin a map"*, and `exportedAt` is caller-stamped so the mapper stays pure (no clock,
 no DB) — which is also what makes the record unit-testable without a database.
@@ -72,12 +78,12 @@ enforced by a test rather than asserted in a design doc.
 
 ## The delivery boundary
 
-`app/_lib/ats-egress.ts:78` marks the seam this subject cedes to the
+`app/_lib/ats-egress.ts:228-232` marks the seam this subject cedes to the
 communication-integrity discipline, and states the general rule in its local form:
 *"DELIVERED means the RECEIVER ACCEPTED it (HTTP 2xx). A non-2xx response … is a
 FAILURE — previously ANY HTTP response counted as delivered, so a receiver
 [rejecting the payload] looked like success."* Non-delivery goes to the durable
-delivery ledger for retry (`:126`). Credential storage, request signing, the
+delivery ledger for retry (`:481-484`). Credential storage, request signing, the
 destination-address guard and the retry schedule around it are the neighbouring
 engineering bundle's, not this subject's.
 

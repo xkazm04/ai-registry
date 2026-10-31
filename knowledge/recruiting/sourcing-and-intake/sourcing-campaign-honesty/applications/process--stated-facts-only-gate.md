@@ -5,7 +5,7 @@ subject: sourcing-campaign-honesty
 technique: stated-facts-only-gate
 stack: process
 status: forged
-verified_on: 2026-09-29
+verified_on: 2026-10-31
 applied: code
 ab_verdict: better
 ---
@@ -14,6 +14,8 @@ ab_verdict: better
 
 Line numbers are `pipeline/jobfit/campaign.py` at kp `092f2e1e3` (local, unpushed
 when written) unless a file is named. The 2026-08-20 citations had all moved.
+Re-checked 2026-10-31 at kp@6edf5d7: `campaign.py` is byte-identical to `092f2e1e3`, so
+every anchor below still holds.
 
 `pipeline/jobfit/campaign.py` implements the gate as one small function whose
 docstring is the contract: `_job_facts` (`:169-192`) — *"The ONLY facts the
@@ -87,7 +89,7 @@ def stated(value: str, field: str) -> str | None:
 `stated()` collapses the standard's three states into what the copy needs: a
 value survives only if it is non-blank **and** the normalizer did not put it
 there. `defaulted_fields` is produced upstream by `normalize_job`
-(`pipeline/jobfit/jobs.py:357-366, :401`) against `DEFAULT_POLICY`
+(`pipeline/jobfit/jobs.py:352-367, :401`) against `DEFAULT_POLICY`
 (`jobs.py:64-71`, four fields: company, location, work mode, seniority), whose own
 comment states the concept in the same words the standard uses: *"Each is a
 PHANTOM value the ad never actually stated, so a row that defaulted to
@@ -157,7 +159,7 @@ the missing live-output measurement are recorded there.
   The boundary cannot see it, because 95 000 is a stated figure.
 - **Freshness is not modelled.** Facts are read live from the `Job` at
   generation time, which is the cheap version the standard endorses, but a
-  stored pack (`PackRecord`) keeps rendering the facts as they were, and
+  stored pack (`CampaignPackRecord`, `app/_lib/db/campaign.ts:16`) keeps rendering the facts as they were, and
   nothing re-checks it against a re-scoped requisition.
 - **The assumed-fact chips have no surface.** `jobsCampaignDefaulted.ts` and its
   `jobs.campaign.defaulted` catalog strings still exist, and nothing but their

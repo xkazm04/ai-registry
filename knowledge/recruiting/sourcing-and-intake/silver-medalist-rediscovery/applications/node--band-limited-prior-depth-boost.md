@@ -4,14 +4,15 @@ type: application
 subject: silver-medalist-rediscovery
 technique: band-limited-prior-depth-boost
 stack: node
-verified_on: 2026-08-20
+verified_on: 2026-10-31
+verified_against: node@24
 ---
 
 # The five-point band in the rediscovery ranker (Node)
 
 The ranking rule lives in `app/_lib/rediscovery-rank.ts`, deliberately split out
 of `app/_lib/rediscover.ts` so the band guarantee is unit-testable: the header
-comment (`:11-14`) records that the sibling is kept "IMPORT-light (only
+comment (`:11-13`) records that the sibling is kept "IMPORT-light (only
 `PIPELINE_STAGES`, a pure DB-free axis) so the band guarantee is unit-testable
 under bare `node --test` — rediscover.ts pulls in better-sqlite3 + the db barrel
 + python-runner and won't load there." The fairness property is a test target,
@@ -20,7 +21,7 @@ not a comment.
 ## The band is derived, not chosen
 
 `PRIOR_DEPTH_BAND = 5` (`rediscovery-rank.ts:26`) is documented with its
-derivation rather than as a tuned constant (`:17-25`):
+derivation rather than as a tuned constant (`:16-25`):
 
 > 5 is the chosen, defensible band: it's half of matching's 10-point fit-tier
 > step (`SCORE_FLOOR=55` mirrors the "promising" tier), so the boost can shuffle
@@ -42,17 +43,24 @@ we can place deeper on the axis; it never penalises" (`:35-37`).
 
 ## Ordering only, honest score displayed
 
-`byPriorAwareRank` (`:52-57`) sorts on `score + boost` and falls back to the
+`byPriorAwareRank` (`:50-55`) sorts on `score + boost` and falls back to the
 honest `score` as the stable tiebreak, and the contract is explicit that
-"callers keep displaying `score`, the honest base" (`:46-51`). The consumer in
-`rediscover.ts:141-143` sorts with it and keeps the displayed `score` as the
-rounded raw total from the ranking run (`:127`).
+"callers keep displaying `score`, the honest base" (`:44-49`). The consumer in
+`rediscover.ts:228-230` sorts with it and keeps the displayed `score` as the
+rounded raw total from the ranking run (`:214`).
 
-Admission precedes the boost, exactly as the standard requires. `rediscover.ts:117`
+Admission precedes the boost, exactly as the standard requires. `rediscover.ts:193-201`
 filters on `row.koPassed && Math.round(row.result?.total ?? 0) >= SCORE_FLOOR` —
 knockout gates first, then the honest total against the floor — and the comment
-at `:132-140` states the resulting property: "Admission (`SCORE_FLOOR`) already
+at `:219-227` states the resulting property: "Admission (`SCORE_FLOOR`) already
 happened above on the HONEST score, so the boost only REORDERS the admitted set."
+
+Re-checked 2026-10-31 at kp@6edf5d7: the one-line filter quoted above is gone.
+The admission now reads `koPassed` first, then sends a row whose total is absent
+or non-finite to the `skipped` list as `unscored` instead of folding it to 0,
+and only compares a real number against `SCORE_FLOOR` (`:185-201`). The order
+the standard requires is unchanged: knockout, then the honest total, then the
+boost.
 
 The same comment reasons about the display cut, which the standard now carries
 as a named consequence: at the `REDISCOVER_LIMIT` cut "a deeper prior just below
@@ -62,8 +70,8 @@ got bumped for."
 
 ## The active-candidate exemption
 
-`pickPrior` (`rediscover.ts:58-84`) returns a `depth` of `priorDepthBoost(o.stage)`
-for terminal priors, but the `elsewhere` branch overrides it to zero (`:82`):
+`pickPrior` (`rediscover.ts:82-121`) returns a `depth` of `priorDepthBoost(o.stage)`
+for terminal priors, but the `elsewhere` branch overrides it to zero (`:119`):
 
 > An `elsewhere` prior is a LIVE entry, not a terminal one — the depth boost
 > (and its "got as far as X last time" disclosure) is about how far a silver
@@ -72,11 +80,11 @@ for terminal priors, but the `elsewhere` branch overrides it to zero (`:82`):
 > available.
 
 The same file drops anyone already active in *this* role before ranking
-(`:120-121`) — "Already in THIS role's pipeline → not a rediscovery."
+(`:206-207`) — "Already in THIS role's pipeline → not a rediscovery."
 
 ## Depth doubles as the disclosure trigger
 
-The `PriorOutcome` type (`:31-43`) documents `depth > 0` as "the signal a
+The `PriorOutcome` type (`:33-45`) documents `depth > 0` as "the signal a
 surface uses to DISCLOSE the depth in its why-now rationale — the boost that
 influenced order", with `stage` carried alongside as the canonical, enum-mapped
 value. That ties the ranking adjustment and the candidate-facing explanation to

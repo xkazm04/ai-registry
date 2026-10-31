@@ -5,7 +5,7 @@ subject: application-intake-and-conversion
 technique: always-live-submit-that-names-the-blocker
 stack: react
 status: forged
-verified_on: 2026-09-26
+verified_on: 2026-10-31
 verified_against: react@19
 applied: simulation
 ab_verdict: better
@@ -27,10 +27,10 @@ removal is pinned as a test.
   // submits — and gets told what's missing (see `submit`).
   disabled={submitting}
 ```
-(`:384-388`)
+(`:392-396`)
 
 The comment on `firstMissingControlId` states the reasoning the standard
-argues for, from the incident side (`:108-116`):
+argues for, from the incident side (`:113-121`):
 
 > The submit button no longer renders `disabled` on an incomplete form: a dead
 > grey button on a paid-traffic mobile form is a silent leak (nothing names the
@@ -38,9 +38,9 @@ argues for, from the incident side (`:108-116`):
 
 ## Activation resolves the first blocker, in visual order, and jumps to it
 
-`firstMissingControlId` (`:117-122`) returns the first outstanding control as a
+`firstMissingControlId` (`:122-127`) returns the first outstanding control as a
 DOM id — name, then email, then the first knockout gate whose answer is still
-`undefined` — or `null` when the form is complete. `submit` (`:124-135`) calls
+`undefined` — or `null` when the form is complete. `submit` (`:129-140`) calls
 it before anything else. On a hit it raises a localized alert and hands the id
 to one jump helper:
 
@@ -53,12 +53,12 @@ if (missing) {
 }
 ```
 
-`jumpTo` (`:67-71`) focuses the control and scrolls it into view, and honours
+`jumpTo` (`:68-72`) focuses the control and scrolls it into view, and honours
 reduced motion (`behavior: reducedMotion ? "auto" : "smooth"`). The reason
-for doing both is in the comment at `:128-129`: "focus for keyboard/SR users,
+for doing both is in the comment at `:133-134`: "focus for keyboard/SR users,
 scroll for everyone else — the KO gates can sit below the fold on a phone". The
-hint renders as `role="alert"` (`:379`). The knockout group's focus target is
-single-sourced as `koControlId` (`:21`), so the render and the jump cannot
+hint renders as `role="alert"` (`:387`). The knockout group's focus target is
+single-sourced as `koControlId` (`:22`), so the render and the jump cannot
 drift.
 
 ## The first-blocker rule, measured against the summary rule
@@ -77,7 +77,7 @@ is as long as the job's gates. Walked on the form's own controls:
    items remain. A summary names all five in one round.
 3. **A server `field` refusal** (an address the server rejects). The quick
    form shows the refusal's message but deliberately does not use the named
-   field (`:172-174`, "`fixStepId` is not used here; only its MESSAGE is"),
+   field (`:179-181`, "`fixStepId` is not used here; only its MESSAGE is"),
    so nothing is focused or marked. The summary rule lists it against its
    field.
 
@@ -86,8 +86,8 @@ reverses the always-live rule this form exists to pin.
 
 Two accessibility gaps sit beside the gate case:
 
-- The hint is attached by `aria-describedby` from the name field (`:303`) and
-  the submit (`:389`) only. The email field and the knockout groups never
+- The hint is attached by `aria-describedby` from the name field (`:311`) and
+  the submit (`:397`) only. The email field and the knockout groups never
   reference it.
 - No missing field is marked invalid in the accessibility tree.
 
@@ -97,7 +97,7 @@ The server treats an absent knockout answer as a fail. `failedKoStepIds`
 (`app/_lib/apply-intake.ts:143`) is documented as "the POST body is a public,
 untrusted trust boundary — an ABSENT key is a fail, not a pass". That
 strictness is survivable for real candidates only because the form guarantees
-completeness first, and `QuickApplyForm.tsx:116` says so: "which is exactly
+completeness first, and `QuickApplyForm.tsx:121` says so: "which is exactly
 why we never let it be POSTed". The address check is single-sourced too.
 `APPLY_EMAIL_RE` (`apply-intake.ts:105`) is shared by both client forms and
 both server routes.
@@ -110,9 +110,9 @@ predicate: 5xx, 408 and 429 are retryable, and every other 4xx is not, because
 "re-POSTing the identical payload fails identically".
 
 While the POST is in flight the inputs, toggles and button all carry native
-`disabled` (`:304`, `:324`, `:352`, `:388`), so focus leaves the button when
+`disabled` (`:312`, `:332`, `:360`, `:396`), so focus leaves the button when
 it is pressed. After a failed POST nothing moves focus back. The `role="alert"`
-error (`:371`) is announced, but a keyboard user is left wherever focus fell.
+error (`:379`) is announced, but a keyboard user is left wherever focus fell.
 
 ## Pinned as source-contract tests
 
@@ -128,7 +128,7 @@ the unit runner has no DOM renderer.
 The first version of this application (2026-08-20) recorded that the
 conversational door had only restart or re-POST. It now has a third path:
 
-- **A field-named re-ask.** `app/apply/[id]/apply-submit-outcome.ts:18-25`
+- **A field-named re-ask.** `app/apply/[id]/apply-submit-outcome.ts:19-25`
   sets the order: can a re-POST help, and if not, what can the candidate fix?
   A validation 400 names the step, and "the door re-asks THAT question with
   the typed answer still in the box — the step is repairable, not a restart".
