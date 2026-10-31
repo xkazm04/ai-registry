@@ -1,0 +1,51 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "intake-apply-nudge-dedup-1031",
+  "skill": "intake",
+  "skill_version": "2.18.0",
+  "mode": "apply",
+  "domain": "software-engineering",
+  "started_at": "2026-10-31T14:25:00Z",
+  "ended_at": "2026-10-31T15:30:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 1,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "software-engineering/proactive-nudges",
+      "at": "2026-10-31",
+      "engine": "intake",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "proactive-nudges",
+      "technique": "nudge-identity-dedup",
+      "verdict": "better",
+      "mode": "experiment"
+    }
+  ],
+  "files": [
+    "knowledge/software-engineering/llm-agent/orchestration/proactive-nudges/techniques/nudge-identity-dedup.md",
+    "knowledge/software-engineering/llm-agent/orchestration/proactive-nudges/applications/rust--nudge-identity-dedup.md",
+    "knowledge/software-engineering/index.json",
+    "catalog.json",
+    "rules/ai-registry-software-engineering.md",
+    "librarian/subjects/software-engineering/proactive-nudges.md",
+    "librarian/applied.md",
+    ".claude/skills/intake/SCORECARD.md"
+  ],
+  "commits": [],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "Phase 7.5 alone. Technique amended (delta payloads: supersede must merge; presentation tier must replace a newer version). personas f8e62cb9cc (ledger row) pushed to master from a worktree of origin/master."
+}
