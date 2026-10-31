@@ -293,3 +293,107 @@ are outside every pinned source and remain unbacked by anything but standard gra
   }
 }
 ```
+
+## Architecture review - 2026-10-31
+
+Re-review against `90705bb6a`. Since the 2026-09-10 record the subject gained two
+dated process applications (gender-neutral-forms on 2026-10-14 and
+typography-and-spacing on 2026-10-15, both shipped code with a held floor). It
+also gained a third-tree section in the plural process application (personas-web,
+2026-09-14), a `counterpart: external` flag on the spec application, and
+repo-relative paths. No technique or golden-path byte changed, so all three
+clarify changes the old record asked for are still owed. `czech.md:101` still
+reads `many` as 'any non-integer'. `czech.md:109` still says ordinal selectors
+are never needed. CS-DASH is still headed 'The em dash does not exist in Czech'.
+The register sweep list still carries `tvi` and bare `ti`.
+
+The Language Institute page behind the CS-DASH finding was re-read this time and
+still says the same thing. The 'Absolute machine paths remain a cosmetic cleanup
+item' note in the old record for the de-anglicization application is now
+resolved. Nothing was executed and no consuming tree was reopened.
+
+<!-- architecture-review:v1 -->
+```json
+{
+  "subject": "localization/czech",
+  "date": "2026-10-31",
+  "baseline": "90705bb6a",
+  "digest": "sha256-b2:235d75274930244a",
+  "disposition": "clarify",
+  "coverage": "All 13 current documents decided. The 11 carried from the 2026-09-10 record were checked by diff against baseline 44c8996585f2; only applications changed, and every change was read in full, including the new personas-web section of the plural process application. The two new applications were read in full and their counts cross-checked internally. UJC Internetova jazykova prirucka id=165 was re-read. The prirucka percent entry returned HTTP 503. Not evaluated: CSN 01 6910, the kp and personas-web trees (not reopened, nothing re-run), and any rendered wrapping. No verification date was refreshed.",
+  "counterexamples": [
+    "A currency surface formatted with two fraction digits selects many for every count, so the golden path's 'any non-integer' reading cannot predict that the one and few branches are dead (retained).",
+    "A house following the Language Institute that uses the long dash consistently is still reported defective by CS-DASH as written (retained, source re-read).",
+    "The register gate's bare ti matches the dative clitic and the demonstrative in a catalog with no tykani (retained).",
+    "The proposed {one, few, many} helper recorded in the plural application drops other, which covers 0 and every integer from 5, and adds many, which Czech selects only for a visible fraction digit. A schema that looks Czech-shaped is wrong on arrival."
+  ],
+  "sources": [
+    {
+      "url": "https://prirucka.ujc.cas.cz/?id=165",
+      "result": "Re-read: 'Vedle krátké pomlčky (–) se v textu někdy používá také pomlčka dlouhá (—)', and the use of the two dashes 'musí být jednotné', with the long dash used for the other cases within one document. This still refutes CS-DASH's 'not a Czech character' and the golden path's sentence. It does not overturn a recorded house ban."
+    },
+    {
+      "url": "https://prirucka.ujc.cas.cz/?id=785",
+      "result": "Unreachable (HTTP 503). The CS-NBSP adjective exception (50% sleva against 87 %) that the typography application relies on was not re-verified against the Institute this session. It is carried on MS section 4.1.16 as the technique cites it."
+    },
+    {
+      "source": "Internal counts in the three changed applications",
+      "result": "Typography: 16 + 50 = 66 spans, consistent. Plural, personas-web section: 4 named pairs plus 7 unnamed sites gives 11 catalog selectors, and the outcome table sums 4+4+1+2 = 11, consistent. The Czech forms cited (zbývají 3 fáze against zbývá 5 fází; odběry, návrhy, shody as nominative plurals) are correct grammar. Gender: 13 strings across 11 keys against 114 slash forms, consistent."
+    }
+  ],
+  "documents": {
+    "czech.md": {
+      "disposition": "clarify",
+      "reason": "Unchanged and still owed from 2026-09-10. The plural table's many row should read 'rendered with a fraction digit (v != 0)', and the one and few rows should carry v = 0. The em dash sentence should become a house default, not a fact about Czech. 'ordinal selectors are never needed' should match the technique's category-set caveat."
+    },
+    "techniques/plural-and-count-agreement.md": {
+      "disposition": "keep",
+      "reason": "Unchanged since the 2026-09-10 keep. The new personas-web evidence fits its two-workaround rule and its ban on nominative-plural other."
+    },
+    "techniques/typography-and-spacing.md": {
+      "disposition": "clarify",
+      "reason": "Still owed: restate CS-DASH (heading 'The em dash does not exist in Czech', body 'is not a Czech character', close 'never legitimate ... in Czech text') as a house constant defaulting to MS section 4.1.11. Keep the dash-count detection move. The Language Institute was re-read and permits a consistent long dash. CS-NBSP is unchanged and its new application supports it."
+    },
+    "techniques/register-and-address.md": {
+      "disposition": "clarify",
+      "reason": "Still owed: the sweep list 'tvůj/tvoje/tvi/ti' should drop bare ti (dative clitic and demonstrative) and correct tvi to tví, or switch to a word-boundary list of possessive forms only."
+    },
+    "techniques/gender-neutral-forms.md": {
+      "disposition": "keep",
+      "reason": "Unchanged and confirmed by its new application. That application suggests adding its word-attached bracket-suffix pattern as an audit detector beside the never-the-bracket rule. That is a banked lead, not a correction."
+    },
+    "techniques/terminology-and-loanwords.md": {
+      "disposition": "keep",
+      "reason": "Unchanged since the 2026-09-10 keep."
+    },
+    "techniques/de-anglicization-constructions.md": {
+      "disposition": "keep",
+      "reason": "Unchanged since the 2026-09-10 keep."
+    },
+    "techniques/ui-conventions-and-length.md": {
+      "disposition": "keep",
+      "reason": "Unchanged since the 2026-09-10 keep."
+    },
+    "applications/process--de-anglicization-constructions.md": {
+      "disposition": "keep",
+      "reason": "The machine paths the old record flagged are now repo-relative. Otherwise unchanged and not re-verified against kp."
+    },
+    "applications/process--plural-and-count-agreement.md": {
+      "disposition": "clarify",
+      "reason": "The new personas-web section is strong evidence (11 two-slot selectors, a mixed set of outcomes, and a proposed schema that is wrong for Czech), and its counts close. The document now describes three trees but still says two. The title 'across two real catalogs', the intro 'Two products ... Verified against both working trees on 2026-08-24' and 'What generalized upward ... from these two repos' should say three and give the third tree its 2026-09-14 date. The heading 'Second tree: personas-web' should read 'Third tree'. The tree was not reopened."
+    },
+    "applications/spec--plural-and-count-agreement.md": {
+      "disposition": "keep",
+      "reason": "Only counterpart: external was added. The 2026-09-10 keep stands. Not re-executed."
+    },
+    "applications/process--gender-neutral-forms.md": {
+      "disposition": "keep",
+      "reason": "A clean A/B: a target measure, a byte-identical floor, a mechanical change with no rewording, and recasts that need a native ruling left out and named. Counts consistent. The kp tree was not reopened."
+    },
+    "applications/process--typography-and-spacing.md": {
+      "disposition": "clarify",
+      "reason": "The NBSP result (50 to 0, floor held) is sound, and the open one-letter-preposition decision is honest. The quote handling reads as a contradiction. B says it turned 'the single ASCII quote pair around a slug value' into the Czech pair. 'Not done' says 'The one ASCII pair around a literal config value ... the technique says to leave it'. State that there were two ASCII pairs, one converted and one left, and why the slug counted as prose. Also note that B touched a quote outside the stated target measure. The kp tree was not reopened."
+    }
+  }
+}
+```

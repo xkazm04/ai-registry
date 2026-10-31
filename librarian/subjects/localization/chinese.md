@@ -280,3 +280,102 @@ against either Microsoft variant guide.
   }
 }
 ```
+
+## Architecture review - 2026-10-31
+
+Re-review against `90705bb6a`. Since the 2026-09-10 record the subject gained two
+dated process applications (measure-words, register-and-address, both 2026-10-14),
+one audit line in `measure-words-and-quantity` (the glued Latin plural `s`), one
+decay paragraph in `register-and-address`, a `counterpart: external` flag on the
+spec application and repo-relative paths in two process applications. None of the
+three clarify changes the old record asked for has landed: `chinese.md:81` still
+calls each Han character a full-width glyph at 1.5-1.75x, ZH-LENGTH still carries
+the same unsourced ratio while the Japanese sibling still says roughly twice, and
+ZH-CLASSIFIER still justifies its space by a numeral that may not be Latin.
+
+One item the old record left open is now resolved. clreq section 6.1.1 was read
+this time. At its "basic" level it keeps closing-type and pause/stop marks off a
+line start and opening-type marks off a line end. That matches ZH-LINEBREAK's
+parenthetical. clreq also presents the rules as four strictness levels of
+typesetting style, which the technique does not mention. That is a nuance, not a
+defect. clreq section 5.2 confirms the variant split in ZH-QUOTES: the mainland
+uses double quotes first, Taiwan uses corner brackets first. Nothing was
+executed.
+
+<!-- architecture-review:v1 -->
+```json
+{
+  "subject": "localization/chinese",
+  "date": "2026-10-31",
+  "baseline": "90705bb6a",
+  "digest": "sha256-b2:7e7d9ba93cb13ebe",
+  "disposition": "clarify",
+  "coverage": "All 12 current documents decided. The 10 carried from the 2026-09-10 record were checked by diff against baseline 44c8996585f2; only path rewrites, a frontmatter flag and two technique additions changed, and those additions were read in full. The two new applications were read in full and their arithmetic re-done. W3C clreq sections 5.2 and 6.1.1 were read. Not evaluated: GB/T 15834, both Microsoft variant guides, the private catalog the two new applications measured (not reopened, no script re-run), and any renderer or font. No verification date was refreshed.",
+  "counterexamples": [
+    "ZH-CLASSIFIER's space before the classifier rests on a Han/Latin boundary that a count rendered as a Chinese numeral does not create (retained from 2026-09-10).",
+    "A fleet shipping ja and zh still reads 1.5-1.75x in one subject and roughly 2x in the other for the same glyph-versus-Latin measurement (retained).",
+    "A register sweep that standardizes 325 of 415 strings out of 1,172 pronoun-bearing strings reaches about 92% formal, not the 94% the register application reports. A cited percentage that does not reproduce from its own counts is the defect the same application warns against.",
+    "A product typeset at clreq's 'none' or a looser level can legitimately allow a closing mark at a line start, so ZH-LINEBREAK's list is one level, not a fixed rule of the script."
+  ],
+  "sources": [
+    {
+      "url": "https://www.w3.org/TR/clreq/",
+      "result": "Section 5.2: 'Chinese Mainland will apply double quotation marks first, followed by single quotation marks', and 'Taiwan will apply single quotation marks first' (corner brackets). This confirms ZH-QUOTES' variant split. Section 6.1.1 at the basic level keeps closing-type and pause/stop marks off a line start and keeps 'Opening quotation marks, opening parentheses, and opening angle brackets' off a line end. This confirms ZH-LINEBREAK's lists and closes the item the 2026-09-10 record left open. The section frames the rules as four strictness levels."
+    },
+    {
+      "source": "Arithmetic in applications/process--register-and-address.md and applications/process--measure-words-and-quantity.md",
+      "result": "757/(757+415) is 64.6%, which supports the stated 65%. Flipping 325 strings gives (757+325)/1172, about 92.3%, against the stated 94%. 1,366/1,458 is 93.7%, which supports 94%. The glued-s set is nine strings (one {count} 团队s plus eight English sentences), but B retranslates seven sentences and leaves the eighth unaccounted for."
+    }
+  ],
+  "documents": {
+    "chinese.md": {
+      "disposition": "clarify",
+      "reason": "Unchanged and still owed from 2026-09-10. Line 81's 'Each Han character is a full-width glyph' should use the relational vocabulary the technique opens with. The 1.5-1.75x ratio should become one sourced or explicitly font-dependent statement, reconciled with the Japanese sibling's 'roughly twice'."
+    },
+    "techniques/character-width-and-typography.md": {
+      "disposition": "keep",
+      "reason": "Unchanged since the 2026-09-10 keep. ZH-QUOTES' Hans/Hant split is now confirmed against clreq 5.2. GB/T 15834 is still the one unread citation."
+    },
+    "techniques/measure-words-and-quantity.md": {
+      "disposition": "clarify",
+      "reason": "The new glued-s audit line is sound and matches its application. Still owed: ZH-CLASSIFIER says the space goes before the classifier 'because the placeholder resolves to a numeral'. Make that conditional on a Latin-digit rendering, or defer it to ZH-PANGU, so that a Chinese-numeral count takes no space."
+    },
+    "techniques/de-anglicization-constructions.md": {
+      "disposition": "keep",
+      "reason": "Unchanged since the 2026-09-10 keep."
+    },
+    "techniques/register-and-address.md": {
+      "disposition": "keep",
+      "reason": "The added decay paragraph is accurate to its application (757 to 415 is 65%) and puts the companion-voice exclusion behind a recorded ruling, which fits the technique's own exception. The 请求 exclusion is a correct false-positive guard."
+    },
+    "techniques/terminology-and-variants.md": {
+      "disposition": "keep",
+      "reason": "Unchanged since the 2026-09-10 keep."
+    },
+    "techniques/ui-conventions-and-length.md": {
+      "disposition": "clarify",
+      "reason": "Still owed: ZH-LENGTH's unsourced 1.5-1.75x ratio contradicts the Japanese sibling. Reconcile it in both subjects. ZH-LINEBREAK's prohibition lists are now confirmed against clreq 6.1.1 (basic level). Optionally add that clreq defines strictness levels."
+    },
+    "applications/process--de-anglicization-constructions.md": {
+      "disposition": "keep",
+      "reason": "Only the machine path became repo-relative. The 2026-09-10 keep stands. Not re-verified against the repo."
+    },
+    "applications/process--terminology-and-variants.md": {
+      "disposition": "keep",
+      "reason": "Only the machine path became repo-relative. The 2026-09-10 keep stands."
+    },
+    "applications/spec--character-width-and-typography.md": {
+      "disposition": "keep",
+      "reason": "Only counterpart: external was added. The 2026-09-10 keep stands. Not re-executed."
+    },
+    "applications/process--measure-words-and-quantity.md": {
+      "disposition": "clarify",
+      "reason": "A useful record: 94% classifier adoption makes this a spot-fix, and the glued-s seam is a real finding. One count does not close. The glued-s set is nine strings ('{count} 团队s' plus eight English sentences), but B says 'seven sentences retranslated whole'. State what happened to the eighth sentence, or correct either count. The private catalog was not reopened."
+    },
+    "applications/process--register-and-address.md": {
+      "disposition": "clarify",
+      "reason": "The decay measurement and the decision to leave the companion voice alone are sound. Its outcome figure does not reproduce. Standardizing 325 of the 415 你 strings among 1,172 pronoun-bearing strings gives about 92% formal, not '94% formal by string'. Recompute it, or state the denominator that yields 94%. The private catalog was not reopened."
+    }
+  }
+}
+```

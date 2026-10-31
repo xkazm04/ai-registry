@@ -308,3 +308,93 @@ DE-DASH and DE-LOANWORD was not retrieved; several rules honestly mark themselve
   }
 }
 ```
+
+## Architecture review - 2026-10-31
+
+Re-review against `90705bb6a`. Since the 2026-09-10 record the only changes are
+repo-relative paths in the two process applications and a `counterpart: external`
+flag on the spec application. Both clarify items from that record are still
+owed. `german.md:98` still says 'exactly 1, including 1.0 contexts'. The DE-QUOTES
+heading still closes `„low-high` with ASCII U+0022, checked by byte dump this
+session.
+
+**Resolving the old record's `reverify` on capitalization-and-compounds.** The
+2026-09-10 record could not extract the Rat's PDF. This time the 2024 Amtliches
+Regelwerk was downloaded and the text extracted locally. Section 25 E3 (PDF page 50)
+reads: 'Bei Schreibung mit Großbuchstaben ist neben der Verwendung des
+Großbuchstabens ẞ auch die Schreibung SS möglich: Straße – STRAẞE – STRASSE.'
+That confirms the old record's secondary-source reading. The order of mention is
+inverted so that ẞ comes first, both forms are permitted, and the word
+'preferred' does not appear. DE-ESZETT's '*preferred* variant since the 2024
+revision (STRAẞE preferred, STRASSE still permitted)' therefore goes beyond its
+source. The decision moves from `reverify` to `clarify`. Reading a PDF is not
+executing software, and nothing was executed.
+
+<!-- architecture-review:v1 -->
+```json
+{
+  "subject": "localization/german",
+  "date": "2026-10-31",
+  "baseline": "90705bb6a",
+  "digest": "sha256-b2:9bc6e089ff871b75",
+  "disposition": "clarify",
+  "coverage": "All 10 current documents decided. Each was checked by diff against baseline 44c8996585f2, where the 2026-09-10 record read all 10 in full. Only paths and one frontmatter flag changed. The three owed items were confirmed still present by line, and the DE-QUOTES one by byte. The 2024 Amtliches Regelwerk PDF was fetched and section 25 E3 extracted as text. CLDR plural reads are carried from 2026-09-10. Not evaluated: DIN 5008, the vendor style guide, the kp and Personas trees, and the UCD case-mapping harness (not re-run). No verification date was refreshed.",
+  "counterexamples": [
+    "A price formatted 1,00 selects other under CLDR's i = 1 and v = 0, but the golden path's 'including 1.0 contexts' sends a reader to the one branch (retained).",
+    "An all-caps style guide that prints STRASSE is fully compliant with the 2024 rule, yet DE-ESZETT's 'preferred' wording would let a reviewer file it as a dispreferred form.",
+    "The DE-QUOTES heading itself pairs „ with ASCII U+0022, the asymmetric pair its body names as the recurring defect (retained, re-checked by byte)."
+  ],
+  "sources": [
+    {
+      "url": "https://www.rechtschreibrat.com/DOX/RfdR_Amtliches-Regelwerk_2024.pdf",
+      "result": "Section 25 E3, PDF page 50, extracted text: 'Bei Schreibung mit Großbuchstaben ist neben der Verwendung des Großbuchstabens ẞ auch die Schreibung SS möglich: Straße – STRAẞE – STRASSE.' This confirms that ẞ is named first and both are permitted, and it refutes 'preferred'. The front matter states the Regelwerk was adopted by the state authorities in 2024."
+    },
+    {
+      "url": "https://raw.githubusercontent.com/unicode-org/cldr/release-48-2/common/supplemental/plurals.xml",
+      "result": "Carried from the 2026-09-10 read, not re-fetched: de one is i = 1 and v = 0. No plural text changed since."
+    }
+  ],
+  "documents": {
+    "german.md": {
+      "disposition": "clarify",
+      "reason": "Still owed: replace 'exactly 1, including 1.0 contexts by the same rule English uses' with 'exactly integer 1 with no visible fraction digit (i = 1 and v = 0); 1,0 selects other, as in English'. Keep the branch-set and copied-body claims. If the golden path restates DE-ESZETT, align it with the corrected wording."
+    },
+    "techniques/typography-and-spacing.md": {
+      "disposition": "clarify",
+      "reason": "Still owed: in the DE-QUOTES heading (line 43), replace the closing ASCII U+0022 after 'low-high' with U+201C. The rest of the 2026-09-10 keep reasoning holds, and DIN 5008 is still unread."
+    },
+    "techniques/capitalization-and-compounds.md": {
+      "disposition": "clarify",
+      "reason": "Was reverify; the primary text is now read. DE-ESZETT says ẞ 'is the *preferred* variant since the 2024 revision ... (STRAẞE preferred, STRASSE still permitted)'. Regelwerk 2024 section 25 E3 only names ẞ first and permits SS ('neben der Verwendung des Großbuchstabens ẞ auch die Schreibung SS möglich'). Restate it as 'since 2024 the rule names ẞ first and still permits SS', and cite section 25 E3. The Unicode half is unaffected."
+    },
+    "techniques/register-and-address.md": {
+      "disposition": "keep",
+      "reason": "Unchanged since the 2026-09-10 keep."
+    },
+    "techniques/de-anglicization-constructions.md": {
+      "disposition": "keep",
+      "reason": "Unchanged since the 2026-09-10 keep."
+    },
+    "techniques/length-and-compression.md": {
+      "disposition": "keep",
+      "reason": "Unchanged since the 2026-09-10 keep."
+    },
+    "techniques/terminology-and-loanwords.md": {
+      "disposition": "keep",
+      "reason": "Unchanged since the 2026-09-10 keep."
+    },
+    "applications/process--de-anglicization-constructions.md": {
+      "disposition": "keep",
+      "reason": "Only machine paths became repo-relative. The 2026-09-10 keep stands."
+    },
+    "applications/process--register-and-address.md": {
+      "disposition": "keep",
+      "reason": "Only machine paths became repo-relative. The 2026-09-10 keep stands."
+    },
+    "applications/spec--capitalization-and-compounds.md": {
+      "disposition": "keep",
+      "reason": "Only counterpart: external was added. It stays silent on the orthography claim, which is now settled in the technique's decision above. Not re-executed."
+    }
+  }
+}
+```

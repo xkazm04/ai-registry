@@ -288,3 +288,90 @@ number in the corpus that no source I read establishes.
 }
 ```
 
+
+## Architecture review - 2026-10-31
+
+Re-review against `90705bb6a`. Since the 2026-09-10 record the only changes are
+repo-relative paths in the two process applications and a `counterpart: external`
+flag on the spec application. Neither clarify item from that record has landed.
+FR-ZERO still opens with two consecutive **Trigger** lines
+(`plural-and-agreement.md:22-23`). FR-DASH is still headed 'The em dash is not
+French punctuation'.
+
+The old record's overall `keep` understated it: two changes were owed and
+neither has landed, so this record grades the subject `clarify`. The FR-DASH
+finding no longer rests only on a mismatch between the claim's scope and its
+vendor source. The OQLF's terminology record, a public language authority, says
+that 'Comme signe de ponctuation, en français, le tiret cadratin (—), tout comme
+le tiret demi-cadratin (–)' can mark a change of speaker, set off a passage or
+separate list items. The em dash is French punctuation. A product may still ban
+it, and the rule's UI verdict stands. Nothing was executed.
+
+<!-- architecture-review:v1 -->
+```json
+{
+  "subject": "localization/french",
+  "date": "2026-10-31",
+  "baseline": "90705bb6a",
+  "digest": "sha256-b2:3eebbb00531c7fb5",
+  "disposition": "clarify",
+  "coverage": "All 10 current documents decided. Each was checked by diff against baseline 44c8996585f2, where the 2026-09-10 record read all 10 in full. Only paths and one frontmatter flag changed. The two owed clarifies were confirmed still present by line. The OQLF Grand dictionnaire terminologique record for tiret cadratin was read. The CLDR re-verification from 2026-09-10 is carried, not re-fetched. Not evaluated: the Microsoft French style guide, the Imprimerie nationale Lexique, the kp and Personas trees, and the 'roughly half the published groups' proportion in FR-RANGE. No verification date was refreshed.",
+  "counterexamples": [
+    "A French house following OQLF usage sets an incise with em dashes and is reported as using non-French punctuation by FR-DASH's headline, although the rule body concedes houses differ.",
+    "FR-ZERO's exception (a counter guarded so 0 never displays) has no companion for the decimal half. A guarded surface can still render 1,5 (retained from 2026-09-10).",
+    "FR-COGNATE has no class for a string identical to English because the source is a code identifier or enum value (retained)."
+  ],
+  "sources": [
+    {
+      "url": "https://vitrinelinguistique.oqlf.gouv.qc.ca/fiche-gdt/fiche/8392388/tiret-cadratin",
+      "result": "Note 1: 'Comme signe de ponctuation, en français, le tiret cadratin (—), tout comme le tiret demi-cadratin (–), peut notamment être employé pour indiquer un changement de locuteur dans les dialogues, pour mettre un passage en valeur dans un texte ou pour séparer les éléments d'une énumération.' This refutes FR-DASH's headline as a statement about the language. It is a Quebec authority, so it does not settle fr-FR house practice, and it does not mention the incise by name."
+    },
+    {
+      "url": "https://raw.githubusercontent.com/unicode-org/cldr/main/common/supplemental/plurals.xml",
+      "result": "Carried from the 2026-09-10 read, not re-fetched: fr one is i = 0..1, with many present. No plural document changed since."
+    }
+  ],
+  "documents": {
+    "french.md": {
+      "disposition": "keep",
+      "reason": "Unchanged since the 2026-09-10 keep."
+    },
+    "techniques/de-anglicization-constructions.md": {
+      "disposition": "keep",
+      "reason": "Unchanged since the 2026-09-10 keep."
+    },
+    "techniques/plural-and-agreement.md": {
+      "disposition": "clarify",
+      "reason": "Still owed: delete the first of FR-ZERO's two consecutive Trigger lines (line 22, 'any plural message whose count can reach 0.'). The second line strictly contains it. The substance was verified against CLDR on 2026-09-10 and has not changed."
+    },
+    "techniques/register-and-address.md": {
+      "disposition": "keep",
+      "reason": "Unchanged since the 2026-09-10 keep."
+    },
+    "techniques/terminology-and-loanwords.md": {
+      "disposition": "keep",
+      "reason": "Unchanged since the 2026-09-10 keep."
+    },
+    "techniques/typography-and-spacing.md": {
+      "disposition": "clarify",
+      "reason": "Still owed, now with primary evidence. The FR-DASH heading 'The em dash is not French punctuation' contradicts the OQLF, which names the em dash as a French punctuation mark. Retitle it as a UI house default (for example 'UI default: en dash, not em dash'), cite the Microsoft guide as a vendor ruling, and keep the en dash prescription and the house-ban escape. FR-APOS, FR-SPACE, FR-UNIT, FR-ELLIPSIS and FR-ACCENT are unaffected."
+    },
+    "techniques/ui-conventions-and-length.md": {
+      "disposition": "keep",
+      "reason": "Unchanged since the 2026-09-10 keep."
+    },
+    "applications/process--terminology-and-loanwords.md": {
+      "disposition": "keep",
+      "reason": "Only the machine path became repo-relative. The 2026-09-10 keep stands."
+    },
+    "applications/process--typography-and-spacing.md": {
+      "disposition": "keep",
+      "reason": "Only machine paths became repo-relative. Its framing of kp's dash ban as a house overruling its authority is consistent with the OQLF evidence."
+    },
+    "applications/spec--plural-and-agreement.md": {
+      "disposition": "keep",
+      "reason": "Only counterpart: external was added. The 2026-09-10 CLDR re-verification stands. Not re-executed."
+    }
+  }
+}
+```
