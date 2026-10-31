@@ -84,4 +84,7 @@ actually tested: each reader sees a credential issued seconds earlier. The rule 
 passport counts as absent has no consumer here yet. The signature is still a truncated content
 hash, labelled as a stub. It detects alteration but does not prove who issued it. A roster with a
 passing source was covered only by unit test. The replay ran offline, so every row was
-inconclusive, and the live verdict path was not exercised against a real registry.
+inconclusive, and the live verdict path was not exercised against a real registry. The verdict's
+first clause still counts any determinate pass. If the screening source maps "clear" to a pass, as
+the subject's 2026-08-19 record of the adapters shows, a run where only that screen decided
+satisfies it. This change did not touch that clause, and that mapping was not checked here.

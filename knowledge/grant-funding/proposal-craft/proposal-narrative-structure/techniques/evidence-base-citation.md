@@ -19,19 +19,22 @@ missing**.
 
 ## The evidence ladder
 
-Three rungs, in descending strength, each legitimate when labeled as what
-it is:
+Three rungs, each legitimate when labeled as what it is. They are not one
+scale of strength: each is strongest for a different claim.
 
 1. **The applicant's own measured results.** Prior cohort outcomes, tracked
    over time, with the data source named (intake logs, attendance records,
-   assessment scores). Strongest, because it evidences both the model and
-   this organization's capacity to run it.
+   assessment scores). Strongest for *this organization's* claim: that it
+   can run the model and has done so. Uncontrolled internal records do not,
+   on their own, show that the model caused the change.
 2. **The published evidence base for the intervention class.** Where the
    organization is young or the program new, the model can stand on
    external research: studies, meta-analyses, recognized practice
-   registries showing the intervention class works. This is honest and
-   often sufficient — provided the narrative claims "this model class is
-   evidenced", not "we have achieved these results".
+   registries showing the intervention class works. Strongest for the
+   *causal* claim when the studies use a design that can support one (a
+   randomized or comparison-group design), which an attendance log cannot.
+   This is honest and often sufficient — provided the narrative claims
+   "this model class is evidenced", not "we have achieved these results".
 3. **A credible evaluation plan.** Where neither exists, the honest move is
    prospective: named metrics, baselines, collection instruments and a
    measurement timeline. Reviewers score a real evaluation design far above

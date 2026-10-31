@@ -19,8 +19,9 @@ did this source produce *evidence that decides*, or did it merely produce
 an answer?
 
 - **Determinate pass** — affirmative confirmation of good standing: an
-  active registration, recognized exempt status of the right kind, a clean
-  sanctions screen.
+  active registration, recognized exempt status of the right kind. A clean
+  sanctions screen also passes, but it confirms only that a disqualifier is
+  absent, not that the organization exists (see the aggregation rule below).
 - **Determinate fail** — evidence that disqualifies: no entity behind the
   identifier, a dissolved entity, the wrong kind of exempt status for
   charitable funding, a sanctions-list hit.
@@ -39,9 +40,12 @@ legitimate applicant have this record?** Only if yes may absence fail.
 
 - The national register of legal entities: yes — every real organization is
   in it, so "no such identifier" and "dissolved" are determinate fails.
-- The tax authority's exempt-organization list: yes for the status it
-  certifies — "not found" and "found but the wrong exemption class for
-  charitable funding" are determinate fails.
+- The tax authority's exempt-organization list: **not for every applicant.**
+  "Found but the wrong exemption class for charitable funding" is a
+  determinate fail. "Not found" is not: the US list itself states that some
+  eligible donees — churches, group ruling subordinates and governmental
+  units — may not be listed. Absence there is inconclusive unless the
+  applicant is known not to belong to one of those classes.
 - The annual-filing index: **no** — a newly recognized charity has no
   filing on record because none is due yet. "Recognized but no filing" is
   inconclusive. Only "no such organization at all" fails.
@@ -50,15 +54,17 @@ legitimate applicant have this record?** Only if yes may absence fail.
   is the normal state. "Not registered" is inconclusive; only an active
   registration signals anything, and what it signals is a pass.
 - The sanctions screen: inverted polarity — presence is the disqualifier.
-  "Clear" passes; a potential match is a determinate fail that routes to
+  "Clear" passes, as a non-disqualifier rather than a confirmation of
+  identity; a potential match is a determinate fail that routes to
   manual review (names collide; the block is real, the accusation is not
   yet).
 
 Get one polarity wrong and the pipeline develops a demographic: the
 annual-filing collapse fails every young charity, the contractor-roster
-collapse fails every organization that never took government money. Both
-are structural discrimination against legitimate applicants, produced by a
-one-line mapping.
+collapse fails every organization that never took government money, and the
+exempt-list collapse fails churches, group ruling subordinates and
+governmental units. Each is structural discrimination against legitimate
+applicants, produced by a one-line mapping.
 
 ## Decision rules
 
@@ -71,7 +77,8 @@ one-line mapping.
   look while a wrong fail silently ends a legitimate application; the error
   costs are not symmetric.
 - **When aggregating, let inconclusives neither help nor block: the verdict
-  reads only determinate outcomes** (at least one pass, zero fails) **and
+  reads only determinate outcomes** (at least one pass from a source whose
+  positive establishes existence or standing, zero fails) **and
   any confidence score divides by decided checks only, because** counting
   inconclusives in the denominator converts pipeline weather into apparent
   applicant risk.

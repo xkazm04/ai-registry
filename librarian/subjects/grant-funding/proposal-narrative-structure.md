@@ -1,7 +1,7 @@
 ---
 domain: grant-funding
 subject: proposal-narrative-structure
-last_touched: 2026-09-10
+last_touched: 2026-10-31
 touched_by: architecture-review
 dry_streak: 0
 ---
@@ -202,6 +202,154 @@ debrief or a study of scored applications — not another reading of the corpus.
     "applications/process--genre-register-classification.md": {
       "disposition": "keep",
       "reason": "Reports the pure classifier, its documented token guards, its cost-ordered precedence and the deliberate exclusion of national arts and library endowments from the federal signal list. The orthogonal segment-voice axis and the conditional voice instruction are recorded as implemented, matching the technique."
+    }
+  }
+}
+```
+
+## Architecture review - 2026-10-31
+
+Re-review against `8432a5cfa`. The nine documents of the 2026-09-10 record are
+byte-unchanged, so its three clarify items were still owed. One application was added
+on 2026-10-14; it records an honest unmeasurable verdict.
+
+<!-- architecture-review:v1 -->
+```json
+{
+  "subject": "grant-funding/proposal-narrative-structure",
+  "date": "2026-10-31",
+  "baseline": "8432a5cfa",
+  "digest": "sha256-b2:4ac550453602d6fa",
+  "disposition": "clarify",
+  "coverage": "All 10 documents decided. Diff against 44c8996 shows the nine documents of the 2026-09-10 record byte-unchanged, so its three clarify items are still owed; those three were re-read in full and the rest skimmed against the prior reasons. The one application added since (node--funder-dollars-unlock-close, 2026-10-14) was read in full. The WWC design page was opened. Not evaluated: published reviewer-side evidence on which weakness is most common (none found or sought beyond the hedge), any private tree, any generated draft; no verification date refreshed.",
+  "counterexamples": [
+    "A young program with no results of its own citing a well-designed comparison-group study: the external rung supports the causal claim better than an uncontrolled attendance log, so 'descending strength' inverts (retained from 2026-09-10).",
+    "The golden path's 'most pervasive narrative weakness' and problem-population-opening's 'single most common rejection reason' name different failures, cannot both head the same list, and neither cites a source.",
+    "A national arts agency that is legally a government funder but reads as an arts panel: classification by legal category gets the register wrong (retained).",
+    "A one-line 'close on the unlock' instruction was present and 17 of 23 recorded closes still ended on generic-impact language: the headline alone does not produce the technique's product."
+  ],
+  "sources": [
+    {
+      "url": "https://ies.ed.gov/ncee/wwc/Document/246",
+      "result": "Opened 2026-10-31. 'The WWC reviews four types of study designs than can provide causal evidence according to WWC standards' (randomized controlled trials, quasi-experimental, regression discontinuity, single-case), and notes nonexperimental comparison-group studies 'include a risk of bias'. Supports saying an uncontrolled internal record is not causal evidence and a comparison-group study can be; it says nothing about reviewer rankings."
+    }
+  ],
+  "documents": {
+    "proposal-narrative-structure.md": {
+      "disposition": "clarify",
+      "reason": "Still owed from 2026-09-10 (byte-unchanged since): 'Reviewers consistently flag ... as the most pervasive narrative weakness' is an unsourced superlative that competes with problem-population-opening's own superlative; the same paragraph group calls the circular narrative 'the most common structural failure', a third unsourced ranking. Hedge them; the advice stands without a ranking."
+    },
+    "techniques/evidence-base-citation.md": {
+      "disposition": "clarify",
+      "reason": "Still owed: 'in descending strength' with own results above the published evidence base conflates capacity evidence with causal evidence. Say what each rung is strongest for."
+    },
+    "techniques/funder-dollars-unlock-close.md": {
+      "disposition": "keep",
+      "reason": "Unchanged since the 2026-09-10 keep; its new application corroborates the three-question structure over the one-line headline."
+    },
+    "techniques/genre-register-classification.md": {
+      "disposition": "keep",
+      "reason": "Unchanged since the 2026-09-10 keep."
+    },
+    "techniques/problem-population-opening.md": {
+      "disposition": "clarify",
+      "reason": "Still owed: 'the single most common rejection reason' and 'the most pervasive weakness reviewers report' are unsourced and compete with the golden path."
+    },
+    "techniques/program-model-specificity.md": {
+      "disposition": "keep",
+      "reason": "Unchanged since the 2026-09-10 keep."
+    },
+    "techniques/theory-of-change-framing.md": {
+      "disposition": "keep",
+      "reason": "Unchanged since the 2026-09-10 keep. Its 'most common logic-model defect' is a superlative within a narrower list and was not raised."
+    },
+    "applications/process--evidence-base-citation.md": {
+      "disposition": "keep",
+      "reason": "Unchanged since the 2026-09-10 keep; private repo not reopened, verified_on unchanged."
+    },
+    "applications/process--genre-register-classification.md": {
+      "disposition": "keep",
+      "reason": "Unchanged since the 2026-09-10 keep; private repo not reopened."
+    },
+    "applications/node--funder-dollars-unlock-close.md": {
+      "disposition": "reverify",
+      "reason": "New since last record. Honest unmeasurable verdict: arm A counts are internally consistent (4 and 17 of 23), arm B was not run, and the return condition is concrete. The recorded closes and the private tree were not reopened."
+    }
+  }
+}
+```
+
+## Architecture review - 2026-10-31 (clarify applied)
+
+Applied the three owed clarify items. The superlatives are hedged, not sourced; a
+reviewer-side study would let them be stated more strongly again. The overall
+disposition is now reverify, carried by the new application's unrun arm B.
+
+<!-- architecture-review:v1 -->
+```json
+{
+  "subject": "grant-funding/proposal-narrative-structure",
+  "date": "2026-10-31",
+  "baseline": "8432a5cfa",
+  "digest": "sha256-b2:465cb98eab86dee5",
+  "disposition": "reverify",
+  "coverage": "All 10 documents decided. The three owed clarify items were applied and the edited passages re-read; check-bundles passes. The superlatives were hedged rather than sourced, since no reviewer-side study was opened; the ladder rewrite rests on the WWC page opened this run. Overall reverify because the new application's arm B was never run.",
+  "counterexamples": [
+    "A young program with no results of its own citing a well-designed comparison-group study: the external rung supports the causal claim better than an uncontrolled attendance log, so 'descending strength' inverts (retained from 2026-09-10).",
+    "The golden path's 'most pervasive narrative weakness' and problem-population-opening's 'single most common rejection reason' name different failures, cannot both head the same list, and neither cites a source.",
+    "A national arts agency that is legally a government funder but reads as an arts panel: classification by legal category gets the register wrong (retained).",
+    "A one-line 'close on the unlock' instruction was present and 17 of 23 recorded closes still ended on generic-impact language: the headline alone does not produce the technique's product."
+  ],
+  "sources": [
+    {
+      "url": "https://ies.ed.gov/ncee/wwc/Document/246",
+      "result": "Opened 2026-10-31. 'The WWC reviews four types of study designs than can provide causal evidence according to WWC standards' (randomized controlled trials, quasi-experimental, regression discontinuity, single-case), and notes nonexperimental comparison-group studies 'include a risk of bias'. Supports saying an uncontrolled internal record is not causal evidence and a comparison-group study can be; it says nothing about reviewer rankings."
+    },
+    {
+      "source": "Internal consistency",
+      "result": "Two competing unsourced 'most common' claims in the golden path and problem-population-opening; resolved by hedging both."
+    }
+  ],
+  "documents": {
+    "proposal-narrative-structure.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: 'consistently flag ... as the most pervasive narrative weakness' now reads 'is a weakness reviewers commonly flag'; 'The most common structural failure' now reads 'A recurring structural failure'."
+    },
+    "techniques/evidence-base-citation.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: the ladder no longer claims descending strength; rung 1 is strongest for capacity and notes uncontrolled records do not show causation, rung 2 is strongest for the causal claim when the studies use a randomized or comparison-group design."
+    },
+    "techniques/funder-dollars-unlock-close.md": {
+      "disposition": "keep",
+      "reason": "Unchanged since the 2026-09-10 keep; its new application corroborates the three-question structure over the one-line headline."
+    },
+    "techniques/genre-register-classification.md": {
+      "disposition": "keep",
+      "reason": "Unchanged since the 2026-09-10 keep."
+    },
+    "techniques/problem-population-opening.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: 'the most pervasive weakness reviewers report' became 'a weakness reviewers commonly report'; 'the single most common rejection reason' became 'a frequent rejection reason'."
+    },
+    "techniques/program-model-specificity.md": {
+      "disposition": "keep",
+      "reason": "Unchanged since the 2026-09-10 keep."
+    },
+    "techniques/theory-of-change-framing.md": {
+      "disposition": "keep",
+      "reason": "Unchanged since the 2026-09-10 keep. Its 'most common logic-model defect' is a superlative within a narrower list and was not raised."
+    },
+    "applications/process--evidence-base-citation.md": {
+      "disposition": "keep",
+      "reason": "Unchanged since the 2026-09-10 keep; private repo not reopened, verified_on unchanged."
+    },
+    "applications/process--genre-register-classification.md": {
+      "disposition": "keep",
+      "reason": "Unchanged since the 2026-09-10 keep; private repo not reopened."
+    },
+    "applications/node--funder-dollars-unlock-close.md": {
+      "disposition": "reverify",
+      "reason": "New since last record. Honest unmeasurable verdict: arm A counts are internally consistent (4 and 17 of 23), arm B was not run, and the return condition is concrete. The recorded closes and the private tree were not reopened."
     }
   }
 }

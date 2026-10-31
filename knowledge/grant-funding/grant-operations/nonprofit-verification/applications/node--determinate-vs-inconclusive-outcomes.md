@@ -69,3 +69,13 @@ empty-status record to `historical` rather than promoting it to `active`
 verified badge"), with `collectRegistrationStates()` (`ares.ts:189-195`)
 walking nested payloads so upstream structure drift widens what is found,
 never what is assumed.
+
+## Gaps against the standard
+
+Read from the mappings recorded above, not rerun. The exempt-org adapter maps
+`nonexistent` to a determinate fail, but the IRS states that churches, group
+ruling subordinates and governmental units may not be listed, so for those
+applicants absence is inconclusive under the technique. And the verdict
+`passes > 0` counts the sanctions screen's `clear` as a pass, so a run where
+only that screen decided satisfies `grantEligible` with no source having
+confirmed the organization exists.

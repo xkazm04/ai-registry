@@ -30,8 +30,8 @@ problem*, never as the subject of the story.
    reaching them. A precise small population outscores a vague large one —
    reviewers fund tractable problems, and precision signals the applicant
    actually knows these people.
-3. **Document, don't emote.** The most pervasive weakness reviewers report
-   is a problem described but never documented. Every empirical claim in the
+3. **Document, don't emote.** A weakness reviewers commonly report is a
+   problem described but never documented. Every empirical claim in the
    opening carries a figure or a source — the applicant's own intake data,
    a public statistic, a published study. Where a figure would strengthen
    the case and none is verified, a bracketed placeholder for the writer
@@ -39,8 +39,8 @@ problem*, never as the subject of the story.
    than a blank they fill.
 4. **Connect the problem to the funder's stated priorities** — in the
    funder's own language where the solicitation provides it. Misalignment
-   with priorities is the single most common rejection reason, and the
-   opening is where alignment is either established or lost.
+   with priorities is a frequent rejection reason, and the opening is where
+   alignment is either established or lost.
 5. **Enter the organization as the response.** Only after the problem
    stands does the applicant appear — and immediately as mechanism ("X was
    built to close this gap"), not as biography.

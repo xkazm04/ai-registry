@@ -70,9 +70,18 @@ draft stops being the org's private object and becomes a claim about the
 outside world — *this left the building*. Model it that way:
 
 - **The transition is irreversible by design.** From filed, only outcomes
-  follow: awarded, declined. There is no path back to drafting, because the
-  funder's copy cannot be un-sent, and because every metric keyed on
-  submission counts would silently corrupt if filings could be retracted.
+  follow: awarded, declined. There is no path back to drafting, because
+  every metric keyed on submission counts would silently corrupt if filings
+  could be retracted. That is a rule of the model, not a fact about the
+  funder: some portals accept a changed or corrected package before the
+  closing date, and it overwrites the earlier one. A corrected resubmission
+  is therefore a second filing that supersedes the first against the same
+  opportunity, never an un-filing, and the record needs a way to say which
+  filing the funder will review.
+- **An outcome does not un-file.** An awarded or declined submission is
+  still a filed one, and its evidence still proves receipt. A "filed"
+  predicate that tests for the filed statuses alone goes false at the
+  moment of success.
 - **The one safe reversal is abandonment.** A draft set aside *before* any
   submission signal recorded nothing the outside world saw; reactivating it
   corrupts no metric. Grant work is cyclical — last year's abandoned draft is

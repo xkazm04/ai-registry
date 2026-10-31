@@ -1,8 +1,8 @@
 ---
 domain: grant-funding
 subject: nonprofit-verification
-last_touched: 2026-10-22
-touched_by: intake
+last_touched: 2026-10-31
+touched_by: architecture-review
 dry_streak: 0
 ---
 
@@ -255,3 +255,178 @@ no `applied.md` row.
   decision rule was appended: build the roster from the declaration, not from the fan-out's
   output. Still open: the passport is minted live and never persisted, so expiry has no
   consumer yet.
+
+## Architecture review - 2026-10-31
+
+Re-review against `8432a5cfa`. None of the 2026-09-10 clarify items had landed: the
+golden path, determinate-vs-inconclusive, registry-name-binding and both 2026-08-19
+applications were byte-unchanged. Since then four applications were added and four
+techniques each gained one decision rule; all are consistent with the subject. The IRS
+page was re-opened and still lists the three classes that may be absent from Pub. 78.
+
+<!-- architecture-review:v1 -->
+```json
+{
+  "subject": "grant-funding/nonprofit-verification",
+  "date": "2026-10-31",
+  "baseline": "8432a5cfa",
+  "digest": "sha256-b2:247c9dd2beeb2f4d",
+  "disposition": "clarify",
+  "coverage": "All 13 documents decided. The golden path and the seven documents carried from the 2026-09-10 record were checked by diff against 44c8996: the golden path, determinate-vs-inconclusive, registry-name-binding and both 2026-08-19 applications are byte-unchanged, so all their clarify items are still owed; four techniques gained one appended decision rule each, read in full. The four applications added since (2026-10-14 and 2026-10-22) were read in full. The IRS search page was re-opened. Not evaluated: any live registry, sanctions or IRS lookup, OFAC guidance, and the private consumer tree; no verification date refreshed.",
+  "counterexamples": [
+    "A church eligible for deductible contributions is absent from the Pub. 78 data by design; mapping exempt-list 'not found' to a determinate fail blocks it. Group ruling subordinates and governmental units are in the same position (retained from 2026-09-10).",
+    "The business register times out and the exemption lookup errors; the sanctions screen comes back clear. One pass, zero fails, name binding unconfirmed: the unqualified verdict is grant-eligible with no source having confirmed the organization exists.",
+    "A claimed name 'Aid' is contained in 'Global Aid Foundation' and matches at the containment stage before the larger-set divisor runs.",
+    "A registry payload nests a predecessor entity's active registration; an unbound walk for registration states finds it."
+  ],
+  "sources": [
+    {
+      "url": "https://www.irs.gov/charities-non-profits/search-for-tax-exempt-organizations",
+      "result": "Re-opened 2026-10-31. States: 'Some donees (i.e., churches, group ruling subordinates, and governmental units) eligible to receive tax-deductible charitable contributions may not be listed in Pub. 78 Data.' Supports making exempt-list absence inconclusive for those classes. Says nothing about other roster sources; no lookup performed."
+    }
+  ],
+  "documents": {
+    "nonprofit-verification.md": {
+      "disposition": "clarify",
+      "reason": "Still owed from 2026-09-10 (text unchanged since): (1) the aggregation rule accepts any pass, including a sanctions 'clear', which is not affirmative confirmation of standing; require a pass from a source that establishes existence or standing. (2) The absence paragraph should name the exempt-list coverage exceptions the IRS states. (3) 'a checksum failure proves ... that the string is a typo' overreaches: it proves the string is not valid in that scheme (typo or another scheme), which the technique itself says."
+    },
+    "techniques/determinate-vs-inconclusive-outcomes.md": {
+      "disposition": "clarify",
+      "reason": "Still owed from 2026-09-10: the exempt-org list's 'yes, every applicant has it' polarity answer is contradicted by the IRS page for churches, group ruling subordinates and governmental units; and a clean sanctions screen is listed as a determinate pass with no rule stopping it from carrying the verdict's positive clause alone."
+    },
+    "techniques/graceful-source-degradation.md": {
+      "disposition": "clarify",
+      "reason": "Still owed: the defensive walk over nested payloads is not bound to the subject entity, the one route by which a spurious active state enters the direction the downward-only rule protects. The added explicit-not-found rule (2026-10-14) is sound and consistent with the ladder."
+    },
+    "techniques/identifier-checksum-prevalidation.md": {
+      "disposition": "keep",
+      "reason": "Retained keep. The added shared-normalizer rule (2026-10-14) follows from procedure step 1 and is backed by its application's paired arms."
+    },
+    "techniques/registry-adapter-contract.md": {
+      "disposition": "keep",
+      "reason": "Retained keep. The added carry-the-profile-label rule (2026-10-22) is a presentation-layer corollary of the one-declaration contract, backed by its application."
+    },
+    "techniques/registry-name-binding.md": {
+      "disposition": "clarify",
+      "reason": "Still owed: containment runs before the token stage with no token-boundary or minimum-length condition, so a one-token claim bypasses the larger-set divisor the document argues for."
+    },
+    "techniques/verification-passport.md": {
+      "disposition": "clarify",
+      "reason": "Still owed: the first verdict clause is satisfiable by a sanctions 'clear' alone with an unconfirmed (non-blocking) name binding. The added declared-roster rule (2026-10-22) is sound and closes the roster gap the graceful-degradation application left open."
+    },
+    "applications/node--determinate-vs-inconclusive-outcomes.md": {
+      "disposition": "clarify",
+      "reason": "Still owed: records the exempt-org adapter's nonexistent->fail without the IRS coverage exceptions and the passes>0 verdict without noting a sanctions-only pass satisfies it. Historical, not rerun; verified_on unchanged."
+    },
+    "applications/node--registry-name-binding.md": {
+      "disposition": "clarify",
+      "reason": "Still owed: documents containment-in-either-direction without noting it runs before, and defeats, the larger-set divisor. Historical, not rerun."
+    },
+    "applications/node--graceful-source-degradation.md": {
+      "disposition": "reverify",
+      "reason": "New since last record. Paired arms over five constructed partial bodies are internally consistent and the not-measured live rate is stated. Its 'Open' roster gap is later closed by the verification-passport application. Private tree not reopened."
+    },
+    "applications/node--identifier-checksum-prevalidation.md": {
+      "disposition": "reverify",
+      "reason": "New since last record. Clear seam, consistent arms (4 of 4 to 0 of 4, typo floor held), and the short-id choice is argued. Private tree not reopened."
+    },
+    "applications/node--registry-adapter-contract.md": {
+      "disposition": "reverify",
+      "reason": "New since last record. Consistent counts (6 of 11 to 0; 1 of 11 to 11) and remaining hand-kept lists disclosed. Private tree not reopened."
+    },
+    "applications/node--verification-passport.md": {
+      "disposition": "clarify",
+      "reason": "New since last record. Roster and denominator arms are consistent and disclosed limits are honest. It reports the three-clause verdict as complete without noting that a sanctions-only pass would satisfy its first clause if the screen maps 'clear' to pass. Private tree not reopened."
+    }
+  }
+}
+```
+
+## Architecture review - 2026-10-31 (clarify applied)
+
+Applied every clarify item from the record above. The two 2026-08-19 applications
+and the 2026-10-22 passport application gained short gap notes derived from their own
+recorded code, labelled as not rerun; their verified_on dates are unchanged. The
+overall disposition is now reverify, carried by the four private-tree applications.
+
+<!-- architecture-review:v1 -->
+```json
+{
+  "subject": "grant-funding/nonprofit-verification",
+  "date": "2026-10-31",
+  "baseline": "8432a5cfa",
+  "digest": "sha256-b2:7140a029c5f784a7",
+  "disposition": "reverify",
+  "coverage": "All 13 documents decided. Every clarify item owed by the first 2026-10-31 record was applied and the edited passages re-read; check-bundles passes. The IRS exceptions rest on the page re-opened this run; the other changes rest on the documents' own definitions (the golden path's 'affirmative confirmation' wording, the name-binding divisor argument). The application additions are inferences from their own recorded code, labelled as such, not reruns. Overall reverify because four applications rest on private trees not reopened.",
+  "counterexamples": [
+    "A church eligible for deductible contributions is absent from the Pub. 78 data by design; mapping exempt-list 'not found' to a determinate fail blocks it. Group ruling subordinates and governmental units are in the same position (retained from 2026-09-10).",
+    "The business register times out and the exemption lookup errors; the sanctions screen comes back clear. One pass, zero fails, name binding unconfirmed: the unqualified verdict is grant-eligible with no source having confirmed the organization exists.",
+    "A claimed name 'Aid' is contained in 'Global Aid Foundation' and matches at the containment stage before the larger-set divisor runs.",
+    "A registry payload nests a predecessor entity's active registration; an unbound walk for registration states finds it."
+  ],
+  "sources": [
+    {
+      "url": "https://www.irs.gov/charities-non-profits/search-for-tax-exempt-organizations",
+      "result": "Re-opened 2026-10-31. States: 'Some donees (i.e., churches, group ruling subordinates, and governmental units) eligible to receive tax-deductible charitable contributions may not be listed in Pub. 78 Data.' Supports making exempt-list absence inconclusive for those classes. Says nothing about other roster sources; no lookup performed."
+    },
+    {
+      "source": "Internal consistency",
+      "result": "The sanctions-only eligibility hole and the containment bypass follow from the documents' own definitions and worked examples; the walk-binding gap from the downward-only rule's stated purpose."
+    }
+  ],
+  "documents": {
+    "nonprofit-verification.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: the aggregation paragraph now requires the pass to come from a source that establishes existence or standing and says a sanctions-only run cannot satisfy it; the absence paragraph names the IRS's churches/group-ruling-subordinate/governmental-unit exceptions; the checksum sentence now says 'not a valid identifier in that scheme: usually a typo, sometimes a number from another scheme'."
+    },
+    "techniques/determinate-vs-inconclusive-outcomes.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: exempt-list 'not found' is now inconclusive with the IRS exceptions quoted in paraphrase, wrong-class stays a fail; the sanctions 'clear' is described as a non-disqualifier, not identity; the demographic paragraph adds the exempt-list collapse; the aggregation rule requires a pass from an existence-or-standing source."
+    },
+    "techniques/graceful-source-degradation.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: the defensive-parsing rule now binds the walk to the subject entity, naming related entities, predecessors and historical records."
+    },
+    "techniques/identifier-checksum-prevalidation.md": {
+      "disposition": "keep",
+      "reason": "Retained keep. The added shared-normalizer rule (2026-10-14) follows from procedure step 1 and is backed by its application's paired arms."
+    },
+    "techniques/registry-adapter-contract.md": {
+      "disposition": "keep",
+      "reason": "Retained keep. The added carry-the-profile-label rule (2026-10-22) is a presentation-layer corollary of the one-declaration contract, backed by its application."
+    },
+    "techniques/registry-name-binding.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: stage 2 now requires token-boundary containment and a minimum length or token count for the shorter side, with the 'Aid' example."
+    },
+    "techniques/verification-passport.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: the at-least-one-pass clause now requires an existence-or-standing source and explains why a sanctions clear alone cannot carry it."
+    },
+    "applications/node--determinate-vs-inconclusive-outcomes.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: added a 'Gaps against the standard' section (exempt-list nonexistent->fail without IRS exceptions; sanctions-only pass satisfies passes>0), marked as read from the record, not rerun; verified_on unchanged. Code itself remains reverify."
+    },
+    "applications/node--registry-name-binding.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: added a 'Gap against the standard' section on containment preceding the divisor, marked as read from the record, not rerun; verified_on unchanged."
+    },
+    "applications/node--graceful-source-degradation.md": {
+      "disposition": "reverify",
+      "reason": "New since last record. Paired arms over five constructed partial bodies are internally consistent and the not-measured live rate is stated. Its 'Open' roster gap is later closed by the verification-passport application. Private tree not reopened."
+    },
+    "applications/node--identifier-checksum-prevalidation.md": {
+      "disposition": "reverify",
+      "reason": "New since last record. Clear seam, consistent arms (4 of 4 to 0 of 4, typo floor held), and the short-id choice is argued. Private tree not reopened."
+    },
+    "applications/node--registry-adapter-contract.md": {
+      "disposition": "reverify",
+      "reason": "New since last record. Consistent counts (6 of 11 to 0; 1 of 11 to 11) and remaining hand-kept lists disclosed. Private tree not reopened."
+    },
+    "applications/node--verification-passport.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: the limits section now notes the first clause still counts any pass and that a sanctions-only clear would satisfy it if the screen maps clear to pass, with that mapping stated as unchecked; verified_on unchanged."
+    }
+  }
+}
+```
