@@ -18,7 +18,7 @@ a seed and a format the production chose. The voice identity is shared; the
 performance is not. Casting decides on production reads, then locks the
 parameters that made them.
 
-## The two stages
+## The three stages
 
 1. **Design.** The description, design text, seed and adherence setting produce
    previews. Each preview carries a temporary identifier.

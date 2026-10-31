@@ -12,7 +12,7 @@ use_when: [writing the prompt a text-to-voice designer turns into a voice, a des
 # Voice description composition
 
 The description is the only channel into a text-to-voice designer that shapes the
-voice itself. It is short (designers accept a few hundred characters at most),
+voice itself. It is short (one widely used designer caps it at 1,000 characters),
 it is read by a model trained on how people describe voices, and every word in it
 either moves an acoustic property or is noise. Composing it is turning the timbre
 column of the vocal brief into that vocabulary, in a stable order.
@@ -35,9 +35,11 @@ column of the vocal brief into that vocabulary, in a stable order.
    channel ("headset-style") is the one exception the brief allows here, used
    only when no effect chain will own it.
 
-Two or three sentences, roughly 200 to 400 characters, is the useful band. A
-very short description leaves most properties to the seed; a long one starts
-contradicting itself.
+Two or three sentences, roughly 200 to 400 characters, is a useful starting
+band, not a limit. A very short description leaves most properties to the seed;
+a long one risks contradicting itself unless every added word is audible. A
+designer may recommend longer, more detailed prompts at a lower adherence
+setting, and that pairing is worth trying when a short description underfits.
 
 ## Decision rules
 
@@ -75,7 +77,9 @@ Most designers expose a prompt-adherence control (how strictly the description
 is followed versus how freely the model improvises) and a seed. Hold both
 constant across a slate so the descriptions are the only variable; raise
 adherence when candidates ignore the description, lower it when every candidate
-sounds like the same flat reading of the words. A designer usually returns
+sounds like the same flat reading of the words. A high adherence setting can
+itself make the voice sound artificial, so a synthetic edge that appears as
+adherence rises is the knob, not the timbre. A designer usually returns
 several previews per call; they are siblings of one description and are worth
 hearing before writing another.
 
