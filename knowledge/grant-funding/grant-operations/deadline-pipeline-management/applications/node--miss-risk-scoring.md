@@ -37,6 +37,10 @@ const ratio = workLeftDays / (daysOut + 1); // +1 grace: exactly-enough-time ≠
 const score = ratio / (ratio + 1);          // squash: 0→0, 1→0.5, 3→0.75, →1
 ```
 
+The `+1` comment inherits the technique's old arithmetic: without the `+1`,
+exactly-enough-time scores 0.5, not a certain miss; what the `+1` actually
+prevents is division by zero on the deadline day.
+
 The comments carry the calibration anchors: thresholds are "tuned so the
 brief's anchor cases land sensibly: 10%@2d (4.5 work-days / 2 cal-days) →
 critical; 95%@2d → on_track" — and the `DEFAULT_EFFORT_DAYS` comment names

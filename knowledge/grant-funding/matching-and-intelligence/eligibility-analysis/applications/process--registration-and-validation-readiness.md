@@ -23,8 +23,9 @@ numbers the upper layers deliberately omit.
   Grants.gov submissions — the "active status is the gate, lapse flips it
   without a profile edit" claim, verbatim. Registration must be **renewed
   annually**.
-- Lead-time reality vs marketing figure: SAM.gov's own documentation cites
-  3–5 business days; practitioner guidance for 2025–2026 measures **10–14
+- Lead-time reality vs official figure: Grants.gov's registration page gives
+  an average of 7–10 business days after all information is entered in SAM;
+  practitioner guidance for 2025–2026 measures **10–14
   business days typical and 6–8 weeks in bad cases** (IRS validation,
   documentation issues, backlog), and NIH tells applicants to allow at
   least 10 business days before pleading a late submission. This is the

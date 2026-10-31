@@ -1,7 +1,7 @@
 ---
 domain: grant-funding
 subject: coalition-and-portfolio-strategy
-last_touched: 2026-09-10
+last_touched: 2026-10-31
 touched_by: architecture-review
 dry_streak: 0
 ---
@@ -256,3 +256,200 @@ only geography fail is a foreign national programme, which no partner cures.
 - **The repository is private.** The application describes the seam without paths. The older
   `node--complementarity-scoring` application cites line ranges in the same eligibility module,
   and those ranges have since drifted.
+
+### 2026-10-31 - architecture re-review (stale after four new applications)
+
+The subject went stale because four applications landed after the 2026-09-10 record.
+I read all thirteen documents. None of the five clarify items that record named has
+been applied: the barbell "outperforms", the complementarity "at any complementarity
+level", the two "on top of" administrative allocations and the "nearly every funding
+regime" lead liability are all still in the text. The four new applications are
+careful, falsification-shaped records and their figures recompute.
+
+The open question from 2026-09-10, how EU liability is allocated, is now settled from
+the Annotated Grant Agreement itself. It is not one rule: outside Horizon Europe the
+coordinator is fully liable for the whole recovery at balance; inside Horizon Europe
+(the Mutual Insurance Mechanism) each beneficiary is in principle liable for its own
+debt. So the earlier record's framing ("the coordinator acts on behalf of the
+consortium rather than absorbing its members' expenditure liability") was right for
+Horizon Europe and wrong as a statement about EU grants generally. I narrow it here.
+
+The capacity-floor hard-fail-on-a-proxy contradiction stays owed. It is the same
+question as eligibility-analysis's award-size-capacity-fit versus
+hard-gate-vs-soft-score, and should be settled once, by whoever owns both subjects.
+
+<!-- architecture-review:v1 -->
+```json
+{
+  "subject": "grant-funding/coalition-and-portfolio-strategy",
+  "date": "2026-10-31",
+  "baseline": "8432a5cfa",
+  "digest": "sha256-b2:ec06b242b68b93f5",
+  "disposition": "clarify",
+  "coverage": "All 13 current documents read in full, including the four applications added since the 2026-09-10 record (capacity-floor-detection 2026-10-11, lead-applicant-selection 2026-10-13, portfolio-balance-across-difficulty and proportional-subgrant-split 2026-10-14). Their reported ratios were recomputed (497/756 = 66 percent, 305/798 = 38 percent, 7.55 to 8.41 million = +11 percent, 136/500 = 27 percent). The complementarity tie and the administrative over-allocation were re-derived by arithmetic. One primary source opened on lead liability (EU Annotated Grant Agreement V2.0, 2025-04-01) and one on localeCompare (MDN). Not evaluated: the private grant tree at runtime, the internal intelligence dataset behind the 4-to-1 consortium signal, US Uniform Guidance subrecipient provisions. No verification date refreshed.",
+  "counterexamples": [
+    "A same-region peer whose capabilities all duplicate the applicant's scores 1 + 0; a fully novel out-of-region peer scores 0 + 1. They tie and the capacity tie-break decides (carried from 2026-09-10, still in the text).",
+    "Three members split 100 percent by revenue, then the lead's 10 percent administrative allocation is added on top: the budget requests 110 percent of the award (carried, still in the text).",
+    "A Horizon Europe coordinator is not liable for the whole recovery at final payment; each beneficiary's liability is in principle limited to its own debt. In an EU programme without the Mutual Insurance Mechanism the coordinator IS fully liable at balance. 'Nearly every regime' fits neither description of the EU case as one rule.",
+    "A fiscally sponsored project with a large pass-through budget and small recorded revenue is hard-failed by the capacity gate that the same document's 'when not to use' says should not run on it (carried, unresolved)."
+  ],
+  "sources": [
+    {
+      "url": "https://ec.europa.eu/info/funding-tenders/opportunities/docs/2021-2027/common/guidance/aga_en.pdf",
+      "result": "Read V2.0 (2025-04-01). Quoted: 'For programmes without MIM (all programmes except HE): At the payment of the balance, the coordinator is fully liable for the whole amount that needs to be recovered' and 'For programmes with MIM (HE only): The coordinator is not fully liable for the whole amount that needs to be recovered; each beneficiary's financial liability is in principle limited to their own debt'. Supports making lead liability regime-dependent; settles the question the 2026-09-10 record left open."
+    },
+    {
+      "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/localeCompare",
+      "result": "Quoted: 'In implementations without Intl.Collator support, this parameter is ignored and the host's locale is usually used'; with Intl support the parameters are the Intl.Collator constructor's. A bare localeCompare depends on the runtime's locale, so it is deterministic per environment, not across environments."
+    },
+    {
+      "path": "knowledge/grant-funding/matching-and-intelligence/coalition-and-portfolio-strategy",
+      "result": "All 13 documents read; arithmetic re-derived on paper. No code executed."
+    }
+  ],
+  "documents": {
+    "coalition-and-portfolio-strategy.md": {
+      "disposition": "clarify",
+      "reason": "Still owed from 2026-09-10: 'a barbell ... outperforms a slate clustered in the middle' states a result the technique itself only calls 'a defensible starting shape'. New this run: step 3 says the lead is 'fiscally accountable for every member's spending', which the EU AGA contradicts for Horizon Europe; and 'some programs are documented to favor consortia heavily' rests in this subject on one internal intelligence-dataset row, not a funder publication."
+    },
+    "techniques/capacity-floor-detection.md": {
+      "disposition": "clarify",
+      "reason": "Still owed: hard-fails on annual revenue while calling it 'the working proxy' and 'a heuristic', contradicting the evidence-class rule in eligibility-analysis/hard-gate-vs-soft-score. The 2026-10-11 boundary paragraph (attach the pointer after every check; 'hard' means structural) is sound and backed by its application. Resolving the proxy question is a cross-subject design decision, not a wording fix."
+    },
+    "techniques/complementarity-scoring.md": {
+      "disposition": "clarify",
+      "reason": "Still owed: 'outranks an out-of-region one at any complementarity level' is false; complementarity reaches exactly 1.0, so 1 + 0 ties 0 + 1 and the capacity tie-break decides."
+    },
+    "techniques/lead-applicant-selection.md": {
+      "disposition": "clarify",
+      "reason": "Still owed, now settled by the AGA: 'in nearly every funding regime the lead ... is accountable for the entire award' is regime-dependent (US pass-through prime yes; EU non-MIM coordinator first-line at balance; Horizon Europe each beneficiary for its own debt). Also still owed: 'an administrative allocation on top of the proportional split' allocates past 100 percent unless carved off first."
+    },
+    "techniques/portfolio-balance-across-difficulty.md": {
+      "disposition": "keep",
+      "reason": "Correctly hedged. The median-of-measured-rates rule added from its application is consistent with small-samples-stay-silent and is backed by a paired test."
+    },
+    "techniques/proportional-subgrant-split.md": {
+      "disposition": "clarify",
+      "reason": "Still owed: step 3 adds the administrative allocation on top of a split that already sums to the whole award. The largest-remainder rule added since is correct and its 'more than a quarter' matches 136 of 500."
+    },
+    "techniques/requirement-profile-aggregation.md": {
+      "disposition": "keep",
+      "reason": "Unchanged since 2026-09-10; that record's keep stands."
+    },
+    "applications/node--capacity-floor-detection.md": {
+      "disposition": "keep",
+      "reason": "A falsification-shaped field record: constructed 16-case matrix, stated floor, and an honest 'what this cannot do' (no production caller, duration-blind, no route for fiscally sponsored forms). Private tree, so not re-checked; verified_on unchanged."
+    },
+    "applications/node--complementarity-scoring.md": {
+      "disposition": "clarify",
+      "reason": "Still owed: repeats 'region strictly dominates', which the arithmetic refutes (tie at complementarity 1.0). Its line citations into the eligibility module have drifted per the 2026-10-11 note; that is reverify work the Director may want, not something this run could check."
+    },
+    "applications/node--lead-applicant-selection.md": {
+      "disposition": "keep",
+      "reason": "Constructed 48-case matrix, explicitly not a rate; the canLead veto implements the technique's eligibility-gate rule and the null-lead output is honest. Not re-run."
+    },
+    "applications/node--portfolio-balance-across-difficulty.md": {
+      "disposition": "keep",
+      "reason": "Ratios recompute (497/756, 305/798, +11 percent); assumptions behind the dollar comparison are stated. Not re-run."
+    },
+    "applications/node--proportional-subgrant-split.md": {
+      "disposition": "keep",
+      "reason": "136 of 500 recomputes to the technique's 'more than a quarter'; equal thirds 34/33/33 is the correct largest-remainder output."
+    },
+    "applications/node--requirement-profile-aggregation.md": {
+      "disposition": "clarify",
+      "reason": "Still owed: calls a bare localeCompare a deterministic tie-break; MDN confirms the default depends on the host locale, so it is deterministic within one environment only."
+    }
+  }
+}
+```
+
+### 2026-10-31 - clarify applied
+
+Applied six of the seven clarify items the record above names. The one left is capacity-floor-detection's hard fail on a revenue proxy: settling it is a design decision shared with eligibility-analysis/award-size-capacity-fit, and the overall disposition stays clarify for it.
+
+<!-- architecture-review:v1 -->
+```json
+{
+  "subject": "grant-funding/coalition-and-portfolio-strategy",
+  "date": "2026-10-31",
+  "baseline": "3f7e1dfbc",
+  "digest": "sha256-b2:8b725ba66db5fb5f",
+  "disposition": "clarify",
+  "coverage": "All 13 documents decided. Six clarify items applied and the edited passages re-read; the arithmetic changes were re-derived and the liability change rests on the EU AGA V2.0 opened this run. Other documents are byte-unchanged and keep their dispositions. No verification date changed.",
+  "counterexamples": [
+    "A same-region peer whose capabilities all duplicate the applicant's scores 1 + 0; a fully novel out-of-region peer scores 0 + 1. They tie and the capacity tie-break decides (carried from 2026-09-10, still in the text).",
+    "Three members split 100 percent by revenue, then the lead's 10 percent administrative allocation is added on top: the budget requests 110 percent of the award (carried, still in the text).",
+    "A Horizon Europe coordinator is not liable for the whole recovery at final payment; each beneficiary's liability is in principle limited to its own debt. In an EU programme without the Mutual Insurance Mechanism the coordinator IS fully liable at balance. 'Nearly every regime' fits neither description of the EU case as one rule.",
+    "A fiscally sponsored project with a large pass-through budget and small recorded revenue is hard-failed by the capacity gate that the same document's 'when not to use' says should not run on it (carried, unresolved)."
+  ],
+  "sources": [
+    {
+      "url": "https://ec.europa.eu/info/funding-tenders/opportunities/docs/2021-2027/common/guidance/aga_en.pdf",
+      "result": "Read V2.0 (2025-04-01). Quoted: 'For programmes without MIM (all programmes except HE): At the payment of the balance, the coordinator is fully liable for the whole amount that needs to be recovered' and 'For programmes with MIM (HE only): The coordinator is not fully liable for the whole amount that needs to be recovered; each beneficiary's financial liability is in principle limited to their own debt'. Supports making lead liability regime-dependent; settles the question the 2026-09-10 record left open."
+    },
+    {
+      "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/localeCompare",
+      "result": "Quoted: 'In implementations without Intl.Collator support, this parameter is ignored and the host's locale is usually used'; with Intl support the parameters are the Intl.Collator constructor's. A bare localeCompare depends on the runtime's locale, so it is deterministic per environment, not across environments."
+    },
+    {
+      "path": "knowledge/grant-funding/matching-and-intelligence/coalition-and-portfolio-strategy",
+      "result": "All 13 documents read; arithmetic re-derived on paper. No code executed."
+    }
+  ],
+  "documents": {
+    "coalition-and-portfolio-strategy.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: barbell restated as 'a defensible starting shape' (matching the technique); step 3 lead liability made regime-dependent per the EU AGA; 'documented to favor consortia' softened to 'signal a heavy preference', since the only evidence in the subject is an internal dataset row."
+    },
+    "techniques/capacity-floor-detection.md": {
+      "disposition": "clarify",
+      "reason": "Still owed: hard-fails on annual revenue while calling it 'the working proxy' and 'a heuristic', contradicting the evidence-class rule in eligibility-analysis/hard-gate-vs-soft-score. The 2026-10-11 boundary paragraph (attach the pointer after every check; 'hard' means structural) is sound and backed by its application. Resolving the proxy question is a cross-subject design decision, not a wording fix."
+    },
+    "techniques/complementarity-scoring.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: 'outranks ... at any complementarity level' replaced by the 1 + 0 = 0 + 1 tie, the capacity tie-break, and how to make the constraint strict (weight above 1, or filter first)."
+    },
+    "techniques/lead-applicant-selection.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: 'nearly every funding regime' narrowed to pass-through structures such as a US prime, with the AGA's non-MIM versus Horizon Europe liability split added; administrative allocation now carved off the award before the split instead of added on top."
+    },
+    "techniques/portfolio-balance-across-difficulty.md": {
+      "disposition": "keep",
+      "reason": "Correctly hedged. The median-of-measured-rates rule added from its application is consistent with small-samples-stay-silent and is backed by a paired test."
+    },
+    "techniques/proportional-subgrant-split.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: negotiation sequence reordered: carve the administrative allocation off first and anchor the split on the remainder, then adjust for scope, reconcile to exactly the award, record."
+    },
+    "techniques/requirement-profile-aggregation.md": {
+      "disposition": "keep",
+      "reason": "Unchanged since 2026-09-10; that record's keep stands."
+    },
+    "applications/node--capacity-floor-detection.md": {
+      "disposition": "keep",
+      "reason": "A falsification-shaped field record: constructed 16-case matrix, stated floor, and an honest 'what this cannot do' (no production caller, duration-blind, no route for fiscally sponsored forms). Private tree, so not re-checked; verified_on unchanged."
+    },
+    "applications/node--complementarity-scoring.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: 'region strictly dominates' replaced by the tie at complementarity 1.0 decided by the revenue tie-break. Line-citation drift is still unchecked; verified_on unchanged."
+    },
+    "applications/node--lead-applicant-selection.md": {
+      "disposition": "keep",
+      "reason": "Constructed 48-case matrix, explicitly not a rate; the canLead veto implements the technique's eligibility-gate rule and the null-lead output is honest. Not re-run."
+    },
+    "applications/node--portfolio-balance-across-difficulty.md": {
+      "disposition": "keep",
+      "reason": "Ratios recompute (497/756, 305/798, +11 percent); assumptions behind the dollar comparison are stated. Not re-run."
+    },
+    "applications/node--proportional-subgrant-split.md": {
+      "disposition": "keep",
+      "reason": "136 of 500 recomputes to the technique's 'more than a quarter'; equal thirds 34/33/33 is the correct largest-remainder output."
+    },
+    "applications/node--requirement-profile-aggregation.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: bare localeCompare described as deterministic within one environment (runtime default locale, per MDN), not across environments. verified_on unchanged."
+    }
+  }
+}
+```

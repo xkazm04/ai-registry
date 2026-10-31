@@ -88,8 +88,10 @@ future to past without any data changing.
 - **Store time and zone as separate optional fields**, not baked into the
   date string. Their *absence* is information — it selects the calendar-day
   fallback — and a pre-combined timestamp destroys that signal.
-- **Clamp parsed times into valid range** rather than rejecting the record; a
-  deadline with a slightly-mangled published time is still a deadline.
+- **Repair formatting, never invent a time.** A published time with a recoverable
+  slip (a stray separator, a missing leading zero) is normalized and kept; a time
+  out of range (25:73) is dropped and the record falls back to the date-only
+  defaults, keeping its deadline but not a closing instant the funder never stated.
 
 ## When not to use it
 

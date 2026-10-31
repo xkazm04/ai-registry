@@ -1,7 +1,7 @@
 ---
 domain: grant-funding
 subject: eligibility-analysis
-last_touched: 2026-09-10
+last_touched: 2026-10-31
 touched_by: architecture-review
 dry_streak: 0
 ---
@@ -225,6 +225,205 @@ days", which I could not confirm either. That document is reverify, not keep.
     "applications/process--registration-and-validation-readiness.md": {
       "disposition": "reverify",
       "reason": "The dated snapshot carries the subject's unresolved evidence. The 2024 2 CFR 200 revision figures are consistent with what I know; the 2025-08-07 executive order, the 2026-05-29 OMB proposed rule, and the competing SAM.gov lead-time figures (3-5 business days documented versus 10-14 typical) were not checked against a primary source in this run, and I did not perform any registration. verified_on 2026-08-20 left unchanged."
+    }
+  }
+}
+```
+
+### 2026-10-31 - architecture re-review (stale after three new applications)
+
+Stale because three applications landed on 2026-10-14. I read all fourteen documents.
+The new applications are falsification-shaped and each found a seam the technique
+already names. None of the four clarify items from 2026-09-10 has been applied.
+
+The question that record could not settle is now settled from the Grants.gov
+funding-synopsis schema: code 25 is "Others (see text field entitled 'Additional
+Information on Eligibility' for clarification)", and code 99 is unrestricted "subject
+to any clarification" in that same field. The earlier inference that collapsing 25 into
+open-to-all manufactures a false pass is confirmed.
+
+The capacity-ceiling contradiction stays owed. It is shared with
+coalition-and-portfolio-strategy/capacity-floor-detection and should be settled once.
+
+<!-- architecture-review:v1 -->
+```json
+{
+  "subject": "grant-funding/eligibility-analysis",
+  "date": "2026-10-31",
+  "baseline": "8432a5cfa",
+  "digest": "sha256-b2:198a681c980c0e23",
+  "disposition": "clarify",
+  "coverage": "All 14 current documents read in full, including the three applications added since 2026-09-10 (award-size-capacity-fit, deadline-and-cutoff-evaluation, geographic-scope-gating, all 2026-10-14). The Grants.gov funding-synopsis schema was opened for codes 25 and 99, and Grants.gov organization registration for SAM timing. Not evaluated: the private grant tree at runtime, any grants.gov / SAM.gov / EU portal API call, EO 14332 and the 2026-05-29 OMB proposed rule, 2 CFR 200.501 (eCFR redirected to a block page). No verification date refreshed.",
+  "counterexamples": [
+    "An opportunity coded only 25 ('Others (see text field ... for clarification)') whose clarification names research institutes passes every applicant when 25 is mapped to open-to-all.",
+    "An applicant just under an award floor is hard-blocked by a rule of thumb while one in a structurally excluded country is not, because award_fit hard-blocks and geography does not (carried, unresolved).",
+    "An applicant on the central register's exclusion list passes 'Order of operations' as written, because that section runs four gates and never the registration check.",
+    "A PLN-denominated floor read as dollars fails a USD 620k organization (from the 2026-10-14 application; fixed there, and the technique already states the rule)."
+  ],
+  "sources": [
+    {
+      "url": "https://www.grants.gov/system-to-system/grantor-system-to-system/schemas/grants-funding-synopsis",
+      "result": "Quoted: '25 (Others (see text field entitled \"Additional Information on Eligibility\" for clarification))' and '99 (Unrestricted (i.e., open to any type of entity above), subject to any clarification in text field entitled \"Additional Information on Eligibility\")'. Settles the 2026-09-10 open question: 25 is an under-specified audience, not open-to-all, and even 99 is subject to the clarification text."
+    },
+    {
+      "url": "https://www.grants.gov/applicants/applicant-registration/organization-registration",
+      "result": "Quoted: SAM registration 'can take an average of 7-10 business days after all information has been entered in SAM'. Refutes the process application's 'SAM.gov's own documentation cites 3-5 business days' as the official first-time figure."
+    },
+    {
+      "path": "knowledge/grant-funding/matching-and-intelligence/eligibility-analysis",
+      "result": "All 14 documents read. No code executed."
+    }
+  ],
+  "documents": {
+    "eligibility-analysis.md": {
+      "disposition": "clarify",
+      "reason": "Still owed: 'Order of operations' runs four gates and never sequences registration readiness, so the exclusion-list hard fail the same document calls a true hard fail has no place in the stated procedure."
+    },
+    "techniques/applicant-type-code-mapping.md": {
+      "disposition": "clarify",
+      "reason": "Still owed, now settled from the Grants.gov schema: code 25 means 'Others (see text field ... for clarification)', so mapping 'others' codes to open-to-all turns an under-specified audience into a universal pass. Code 99 is open-to-all but 'subject to any clarification' in the same text field."
+    },
+    "techniques/award-size-capacity-fit.md": {
+      "disposition": "clarify",
+      "reason": "Still owed: declares the capacity ceiling 'the only fail' while hard-gate-vs-soft-score step 4 says heuristics return pass or unknown. A cross-subject design decision (shared with coalition-and-portfolio-strategy/capacity-floor-detection), not a wording fix."
+    },
+    "techniques/deadline-and-cutoff-evaluation.md": {
+      "disposition": "keep",
+      "reason": "Unchanged; its application found a date-only cutoff resolved as UTC midnight, which is exactly the dates-versus-instants error the technique names."
+    },
+    "techniques/geographic-scope-gating.md": {
+      "disposition": "keep",
+      "reason": "The added one-shared-matcher rule is backed by its application's paired test."
+    },
+    "techniques/hard-gate-vs-soft-score.md": {
+      "disposition": "keep",
+      "reason": "Unchanged; it is the rule the capacity gate contradicts, not the document at fault."
+    },
+    "techniques/legal-form-eligibility-model.md": {
+      "disposition": "keep",
+      "reason": "Unchanged; 2026-09-10 keep stands."
+    },
+    "techniques/registration-and-validation-readiness.md": {
+      "disposition": "keep",
+      "reason": "Unchanged; internally consistent and leaves numbers to the application layer."
+    },
+    "applications/node--applicant-type-code-mapping.md": {
+      "disposition": "clarify",
+      "reason": "Still owed: reports codes 25 and 99 both resolving to 'any' without noting that 25's definition defers to a clarification text the mapping discards. Historical code; not rerun."
+    },
+    "applications/node--award-size-capacity-fit.md": {
+      "disposition": "keep",
+      "reason": "Paired test on the currency fallback; names the two sibling readers it did not change. Not rerun."
+    },
+    "applications/node--deadline-and-cutoff-evaluation.md": {
+      "disposition": "keep",
+      "reason": "Guard case passes in both arms, two target cases fail on A; scope stated. Not rerun."
+    },
+    "applications/node--geographic-scope-gating.md": {
+      "disposition": "keep",
+      "reason": "Two failing-then-passing cases with a stated floor. Not rerun."
+    },
+    "applications/node--hard-gate-vs-soft-score.md": {
+      "disposition": "clarify",
+      "reason": "Still owed: approves geography's exclusion from the hard-block set without noting that award_fit, the most heuristic gate, is inside it."
+    },
+    "applications/process--registration-and-validation-readiness.md": {
+      "disposition": "reverify",
+      "reason": "One item now resolved by a primary source: the 'SAM.gov's own documentation cites 3-5 business days' figure is contradicted by Grants.gov's 7-10 business days (clarify). Still unverified: EO 14332, the 2026-05-29 OMB proposed rule and its comment period, and the 2 CFR 200 figures (eCFR blocked this run)."
+    }
+  }
+}
+```
+
+### 2026-10-31 - clarify applied
+
+Applied three clarify items and corrected the SAM figure in the process application (it stays reverify for the executive order, the OMB proposed rule and the 2 CFR 200 figures). Still owed: award-size-capacity-fit's 'only fail' against hard-gate-vs-soft-score step 4 (a design decision shared with coalition-and-portfolio-strategy), and the hard-gate application's silence on award_fit being in the hard-block set, which waits on that decision.
+
+<!-- architecture-review:v1 -->
+```json
+{
+  "subject": "grant-funding/eligibility-analysis",
+  "date": "2026-10-31",
+  "baseline": "3f7e1dfbc",
+  "digest": "sha256-b2:52865c2e50f9d60f",
+  "disposition": "clarify",
+  "coverage": "All 14 documents decided. Three clarify items applied and re-read; the code-25 change rests on the Grants.gov schema opened this run. The SAM.gov 3-5 day figure in the process application was corrected to Grants.gov's 7-10 business days, but that document keeps reverify for its unchecked 2025-2026 regulatory items. Other documents byte-unchanged. No verification date changed.",
+  "counterexamples": [
+    "An opportunity coded only 25 ('Others (see text field ... for clarification)') whose clarification names research institutes passes every applicant when 25 is mapped to open-to-all.",
+    "An applicant just under an award floor is hard-blocked by a rule of thumb while one in a structurally excluded country is not, because award_fit hard-blocks and geography does not (carried, unresolved).",
+    "An applicant on the central register's exclusion list passes 'Order of operations' as written, because that section runs four gates and never the registration check.",
+    "A PLN-denominated floor read as dollars fails a USD 620k organization (from the 2026-10-14 application; fixed there, and the technique already states the rule)."
+  ],
+  "sources": [
+    {
+      "url": "https://www.grants.gov/system-to-system/grantor-system-to-system/schemas/grants-funding-synopsis",
+      "result": "Quoted: '25 (Others (see text field entitled \"Additional Information on Eligibility\" for clarification))' and '99 (Unrestricted (i.e., open to any type of entity above), subject to any clarification in text field entitled \"Additional Information on Eligibility\")'. Settles the 2026-09-10 open question: 25 is an under-specified audience, not open-to-all, and even 99 is subject to the clarification text."
+    },
+    {
+      "url": "https://www.grants.gov/applicants/applicant-registration/organization-registration",
+      "result": "Quoted: SAM registration 'can take an average of 7-10 business days after all information has been entered in SAM'. Refutes the process application's 'SAM.gov's own documentation cites 3-5 business days' as the official first-time figure."
+    },
+    {
+      "path": "knowledge/grant-funding/matching-and-intelligence/eligibility-analysis",
+      "result": "All 14 documents read. No code executed."
+    }
+  ],
+  "documents": {
+    "eligibility-analysis.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: 'Order of operations' now runs the registration check beside the four gates where a central register exists: exclusion joins the hard fails, readiness travels with the deadline result."
+    },
+    "techniques/applicant-type-code-mapping.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: 'others' codes no longer map to open-to-all; per the Grants.gov schema they route through the clarification text (or unknown), and the unrestricted code is noted as subject to the same text."
+    },
+    "techniques/award-size-capacity-fit.md": {
+      "disposition": "clarify",
+      "reason": "Still owed: declares the capacity ceiling 'the only fail' while hard-gate-vs-soft-score step 4 says heuristics return pass or unknown. A cross-subject design decision (shared with coalition-and-portfolio-strategy/capacity-floor-detection), not a wording fix."
+    },
+    "techniques/deadline-and-cutoff-evaluation.md": {
+      "disposition": "keep",
+      "reason": "Unchanged; its application found a date-only cutoff resolved as UTC midnight, which is exactly the dates-versus-instants error the technique names."
+    },
+    "techniques/geographic-scope-gating.md": {
+      "disposition": "keep",
+      "reason": "The added one-shared-matcher rule is backed by its application's paired test."
+    },
+    "techniques/hard-gate-vs-soft-score.md": {
+      "disposition": "keep",
+      "reason": "Unchanged; it is the rule the capacity gate contradicts, not the document at fault."
+    },
+    "techniques/legal-form-eligibility-model.md": {
+      "disposition": "keep",
+      "reason": "Unchanged; 2026-09-10 keep stands."
+    },
+    "techniques/registration-and-validation-readiness.md": {
+      "disposition": "keep",
+      "reason": "Unchanged; internally consistent and leaves numbers to the application layer."
+    },
+    "applications/node--applicant-type-code-mapping.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: note added quoting Grants.gov's code 25 definition and what appending it to every type does. verified_on unchanged."
+    },
+    "applications/node--award-size-capacity-fit.md": {
+      "disposition": "keep",
+      "reason": "Paired test on the currency fallback; names the two sibling readers it did not change. Not rerun."
+    },
+    "applications/node--deadline-and-cutoff-evaluation.md": {
+      "disposition": "keep",
+      "reason": "Guard case passes in both arms, two target cases fail on A; scope stated. Not rerun."
+    },
+    "applications/node--geographic-scope-gating.md": {
+      "disposition": "keep",
+      "reason": "Two failing-then-passing cases with a stated floor. Not rerun."
+    },
+    "applications/node--hard-gate-vs-soft-score.md": {
+      "disposition": "clarify",
+      "reason": "Still owed: approves geography's exclusion from the hard-block set without noting that award_fit, the most heuristic gate, is inside it."
+    },
+    "applications/process--registration-and-validation-readiness.md": {
+      "disposition": "reverify",
+      "reason": "applied 2026-10-31: the 'SAM.gov's own documentation cites 3-5 business days' figure replaced by Grants.gov's 7-10 business days. Still unverified: EO 14332, the 2026-05-29 OMB proposed rule and its comment period, and the 2 CFR 200 figures (eCFR blocked this run). verified_on 2026-08-20 unchanged."
     }
   }
 }

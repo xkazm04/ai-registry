@@ -166,4 +166,7 @@ short-circuit on the first fail. The user deciding whether to pursue a
 workaround needs the whole picture (a coalition is worth exploring only if
 type, geography and deadline all pass). Then derive the verdict: any hard
 fail → ineligible; otherwise the fit layer takes over and the verdict becomes
-a fit judgement. Eligibility ends where argument begins.
+a fit judgement. Where the regime has a central register, run the registration
+check beside the four: its exclusion-list fail joins the hard fails, and its
+readiness warning travels with the deadline result rather than the verdict.
+Eligibility ends where argument begins.

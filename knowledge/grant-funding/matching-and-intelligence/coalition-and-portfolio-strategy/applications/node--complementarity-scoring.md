@@ -47,10 +47,11 @@ Mission keywords are normalized in `kwSet` (lowercase + trim, line 29-31) and
 the score is the fraction of the *peer's* keywords new to the org — the
 "what do they add?" denominator, with the empty-set → 0 rule (missing data never
 scores high). `partnerScore` (lines 43-47) adds the sameness constraint as a
-binary same-state indicator (`sameRegion + complementarity(...)`), so a
-same-region partner outranks an out-of-region one at any complementarity level —
-the constraint is additive with weight 1 against a 0-1 complementarity term,
-i.e. region strictly dominates.
+binary same-state indicator (`sameRegion + complementarity(...)`) — the
+constraint is additive with weight 1 against a 0-1 complementarity term. That
+weight does not make region strictly dominate: complementarity reaches 1.0, so a
+same-region peer adding nothing (1 + 0) ties a fully novel out-of-region peer
+(0 + 1), and the revenue tie-break decides.
 
 ## Assembly, lead, split
 

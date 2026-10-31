@@ -48,8 +48,11 @@ organizations — which no funder wants either. The coalition must be legible as
 **one intervention in one place or system**: same region, same target population,
 or same service chain. So the ranking combines a hard sameness term with the
 complementarity term — for example, a binary same-region indicator added to the
-complementarity fraction, so a same-region complementary partner outranks an
-out-of-region one at any complementarity level. The design intuition: **be the
+complementarity fraction. Because complementarity reaches exactly 1.0, a weight
+of 1 does not make region dominate: a same-region partner that adds nothing
+(1 + 0) ties a fully novel out-of-region one (0 + 1), and the capacity tie-break
+decides. Give the sameness term a weight above 1, or filter on it first, when
+the constraint must be strict. The design intuition: **be the
 same where the funder needs coherence; differ where the funder needs coverage.**
 Which axis carries the sameness constraint is grant-specific — a place-based
 funder needs geographic sameness; a systems-change funder may need population

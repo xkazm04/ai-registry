@@ -94,8 +94,9 @@ per funder family.
   circumstances affecting a PD/PI — never an AOR, key personnel or a
   collaborator — documented in the cover letter, never pre-approved, and not
   at all for the excluded categories (some fellowship and small-business
-  applications, opportunities that say so). Recent NIH study-section service
-  within four calendar weeks of the due date is a pre-authorized reason. The
+  applications, Collaborative International Research applications such as
+  PF5 and UF5, opportunities that say so). NIH study-section service within
+  four calendar weeks before or after the due date is a pre-authorized reason. The
   same notice ends continuous submission (accepted through 2026-08-10, for the
   January 2027 council).
 
