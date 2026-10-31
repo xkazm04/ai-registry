@@ -284,3 +284,105 @@ retrieved. None of these is doubtful, but none was verified this session.
   }
 }
 ```
+
+## 2026-10-31 - architecture re-review (digest moved)
+
+Stale on two mechanical commits: repo-relative style-guide paths in the two process
+applications, and `counterpart: external` on the spec application. I re-read all ten
+documents. **None of the four clarifies the 2026-09-10 record named has landed.** The
+golden path's per-character width framing, the missing half-width katakana rule, the
+ordinal-suffix versus skeleton-law collision, and the unsourced 2x width ratio are all
+still in place, word for word. They carry forward below, sharpened where new evidence
+allows.
+
+**Resolved: the terminology technique's reverify.** The 2008 vendor switch is
+Microsoft. It was announced 2008-07-25 and is reported as moving to the 1991 Cabinet
+Notification's written-out long vowel (ブラウザ to ブラウザー, サーバ to サーバー). The
+JIS Z 8301 rule (omit the final chōonpu on words of three or more morae, keep it on two
+or fewer) is consistently described in secondary sources. The current 2019 edition's
+annex text was not read: JSA publishes only a preview. The technique's claims are now
+corroborated enough to keep.
+
+**Re-checked in the line-break data** (`LineBreak-18.0.0`): U+301C is NS, U+FF5E is ID,
+U+FF1A is NS, and small kana and ー are CJ. Every line-break claim the typography
+technique makes still holds one Unicode version later. The same file classes half-width
+katakana U+FF71..FF9D as ID, U+FF67..FF6F as CJ and U+FF61 as CL. That is the material
+for the half-width katakana rule the technique still lacks.
+
+The sibling inconsistency on glyph width has grown into a bundle-level one. Japanese
+says about 2x, Chinese about 1.5-1.75x, Korean about 1.5-1.8x, and none is sourced. The
+fix belongs in all three, so I name it in the Japanese record and flag it for the
+siblings.
+
+<!-- architecture-review:v1 -->
+```json
+{
+  "subject": "localization/japanese",
+  "date": "2026-10-31",
+  "baseline": "362ef003a",
+  "digest": "sha256-b2:fd6a70b4e29cd675",
+  "disposition": "clarify",
+  "coverage": "All 10 owned documents read in full at current bytes; diff since the 2026-09-10 baseline is three mechanical lines. Unicode LineBreak.txt (18.0.0) read for the code points the typography technique and spec application cite, plus half-width katakana. Microsoft's 2008 chōonpu announcement located through contemporaneous press. JIS Z 8301 corroborated only through secondary descriptions (paid standard; JSA preview not read). Not evaluated: the UAX 14 harness and its conformance run (not re-run); any Japanese renderer; the JTF and vendor style guides; the private product tree the process applications cite; maturity or verified_on refresh.",
+  "counterexamples": [
+    "Half-width katakana ｱﾌﾟﾘ in a catalog passes every rule in character-width-and-typography (it is not ASCII punctuation, not full-width Latin, not a space), yet it is the legacy-form defect a Japanese reviewer would flag first; LineBreak.txt classes it ID/CJ so it also wraps differently from the full-width form.",
+    "A source string 'Ranked {n}{suffix}' leaves a translator two incompatible orders: JA-PLURAL-OTHER/skeleton law says every placeholder appears exactly once, while the ordinal paragraph says the suffix slot is meaningless and the string cannot be translated cleanly. Nothing says which wins.",
+    "In a proportional UI font a CJK glyph is about 1 em while average Latin lowercase runs about 0.5-0.6 em, so 'about 2x' and 'about 1.5-1.75x' can both be right for different fonts. Three sibling subjects asserting three unsourced ratios turn a font property into a language property."
+  ],
+  "sources": [
+    {
+      "url": "https://www.unicode.org/Public/UCD/latest/ucd/LineBreak.txt",
+      "result": "Header LineBreak-18.0.0. Lines read: '301C ; NS # Pd WAVE DASH', 'FF5E ; ID # Sm FULLWIDTH TILDE', 'FF1A..FF1B ; NS', '3083 ; CJ', '30FC ; CJ', 'FF61 ; CL # HALFWIDTH IDEOGRAPHIC FULL STOP', 'FF67..FF6F ; CJ # HALFWIDTH KATAKANA LETTER SMALL A..SMALL TU', 'FF71..FF9D ; ID # HALFWIDTH KATAKANA LETTER A..N'. Confirms JA-REAL-GLYPHS and JA-KINSOKU at one version past the pin, and supplies the classes for the missing half-width katakana rule."
+    },
+    {
+      "url": "https://atmarkit.itmedia.co.jp/news/200807/25/microsoft.html",
+      "result": "Contemporaneous report (2008-07-25) that Microsoft would change the final long-vowel notation of katakana loanwords to follow the 1991 Cabinet Notification, e.g. ブラウザ to ブラウザー and サーバ to サーバー (about 313-314 terms). Resolves the unnamed 2008 vendor switch in JA-CHOONPU."
+    },
+    {
+      "url": "https://webdesk.jsa.or.jp/preview/pre_jis_z_08301_000_000_2019_j_ed10_ch.pdf",
+      "result": "Not read: a preview of a paid standard. Secondary descriptions consistently state JIS Z 8301's rule of omitting the final chōonpu on words of three or more morae. Corroborates JA-CHOONPU's description, but the current annex wording is not verified."
+    }
+  ],
+  "documents": {
+    "japanese.md": {
+      "disposition": "clarify",
+      "reason": "Carried from 2026-09-10, not landed. (1) The width paragraph frames full-width and half-width as per-character labels ('full-width vs half-width code points are different characters'). The technique's own opening caution and UAX 11 treat them as relational: 。、「」 are Wide, not Fullwidth, and their halfwidth partners are U+FF61..FF64. Restate as an identity check on specific code points. (2) '~2x the width of Latin letters' should become 'roughly 1.5-2x depending on font; measure the rendered width', aligned with the Chinese and Korean siblings."
+    },
+    "techniques/character-width-and-typography.md": {
+      "disposition": "clarify",
+      "reason": "Every landed correction holds, and today's LineBreak 18.0 read re-confirms the NS/ID/CJ claims. Carried, not landed: add a JA-HALFWIDTH-KANA rule. Half-width katakana (U+FF65..FF9F) in Japanese prose is a defect on sight. Normalize it to full-width (NFKC does this), except in fixed legacy interfaces. Note that it wraps under different classes (ID/CJ, CL for ｡)."
+    },
+    "techniques/counting-and-quantity.md": {
+      "disposition": "clarify",
+      "reason": "Carried, not landed. The ordinal paragraph says to flag a {n}{suffix} source as a source defect 'and the string cannot be translated cleanly', and the same document makes every placeholder mandatory. State the precedence: keep {suffix} in the value per the skeleton law, positioned where it renders harmlessly (or render 番目 and leave {suffix} at the end if the stack resolves it to empty), and file the source defect upstream."
+    },
+    "techniques/de-anglicization-constructions.md": {
+      "disposition": "keep",
+      "reason": "Trigger-first rules with legitimate-use exceptions and an explicit ban on bulk pattern rewriting. JA-PARTICLE-PLACEHOLDER's apposition escape remains the strongest content in the subject."
+    },
+    "techniques/register-and-politeness.md": {
+      "disposition": "keep",
+      "reason": "Register by text category with a predicate test for labels versus sentences, a bounded keigo ceiling and a recorded-house-ruling exit. Vendor guides not retrieved."
+    },
+    "techniques/terminology-and-katakana-loanwords.md": {
+      "disposition": "keep",
+      "reason": "Prior reverify resolved. The 2008 switch is Microsoft's 2008-07-25 move to the Cabinet Notification's written-out form, as stated. JIS Z 8301's three-or-more-morae omission rule is consistently described in secondary sources. The heuristic is labelled a heuristic and the chōonpu rule ends in pick-one-and-record. Residual: the 2019 JIS annex wording was not read. Optionally name the vendor and date so the claim is checkable."
+    },
+    "techniques/ui-conventions-and-length.md": {
+      "disposition": "clarify",
+      "reason": "Carried, not landed. JA-WIDTH-BUDGET's 'roughly twice the width of an average Latin letter' is unsourced. It disagrees with chinese (1.5-1.75x) and korean (1.5-1.8x) for the same class of full-square glyph. Replace it with a font-dependent range plus the existing 'budget in ems of rendered text' instruction, and align all three siblings in one change."
+    },
+    "applications/process--counting-and-quantity.md": {
+      "disposition": "keep",
+      "reason": "Dated 2026-08-24 incident record keyed to real catalog keys. Only the path changed. The two-severity split on one suffix is the lesson. Not re-run."
+    },
+    "applications/process--register-and-politeness.md": {
+      "disposition": "keep",
+      "reason": "Dated field record of count-before-ruling (zero だ。 in about 14,500 lines, about 40 clean labels). Only the path changed. Not re-run."
+    },
+    "applications/spec--character-width-and-typography.md": {
+      "disposition": "keep",
+      "reason": "Its line-break classes re-read correctly in LineBreak 18.0 today (301C NS, FF5E ID, FF1A NS, small kana and ー CJ). It is the record that names the half-width katakana omission. The harness was not re-run."
+    }
+  }
+}
+```
