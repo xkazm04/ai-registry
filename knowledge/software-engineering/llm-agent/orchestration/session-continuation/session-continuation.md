@@ -95,11 +95,19 @@ both be true: a crashed run must expire on its own rather than arming every
 future session opened in that directory, and a long task must not be cut off
 by a clock tuned for a short one. A stale record is treated as inactive, not
 as an error, and the boundary says which it saw. The states in which the
-harness may yield control to the human are **enumerated**: a clean terminal
-exit on the stated condition, and an explicit rejection. A positive review
-verdict is not in the set, and that omission is the single most valuable line
+harness may yield control to the human are **enumerated**, and each carries
+a typed reason: a clean terminal exit on the stated condition; an explicit
+rejection; a **limit stop** (time, token, round, iteration or spend
+allowance exhausted, naming which); a **required input** only the human
+can supply; and **cancellation**. A positive review verdict is not in the
+set, and that omission is the single most valuable line
 in the subject, because "the plan is approved" is the moment a model most
-reliably summarises and stops. continuation-as-state holds this, including
+reliably summarises and stops. Nor is the model's own claim: "the tests
+pass" or "done" in the transcript is a claim, and the stated condition is
+met only when the harness accepts it against evidence. Continuation also
+stays inside the scope the human accepted when the mode was armed; it
+keeps the session working on that task, and never licenses new work the
+human did not ask for. continuation-as-state holds this, including
 the rule that the channel which arms a mode is suppressed inside spawned
 workers, so the harness cannot arm itself recursively through its own
 delegates.
@@ -232,7 +240,10 @@ challenger. stuck-loop-detection holds the counters and the rules.
 - **Every continuation record has a lease, and a stale record is inactive.**
 - **Exactly one loop authority per session, single-valued, with an enumerated
   conflict policy and no warn-and-continue branch.**
-- **A positive verdict is not a yield state.** Yield states are enumerated.
+- **A positive verdict is not a yield state.** Yield states are enumerated,
+  typed, and include limit stops, required input and cancellation.
+- **A claim is not acceptance, and continuation never widens the accepted
+  scope.**
 - **Every boundary interceptor declares its risk class, derives its fail mode
   from it, and is bounded by a timeout that cannot hold the process open.**
 - **Cancel clears every stop-blocking guard from one path, in order, and wins

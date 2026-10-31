@@ -26,8 +26,14 @@ the turn boundary and acts on by refusing the stop.**
 The record is a small file or row, written when a continuation mode is armed
 and read by the stop-time hook on every turn boundary. It carries, at minimum:
 the mode that is active; the condition it is waiting for, stated so the hook
-can evaluate it or so the model can be asked to; the moment it was armed and
-last confirmed; and the identity of the session that owns it. When the model
+can evaluate it or so the model can be asked to; the scope of the task the
+human accepted when arming it; the moment it was armed and last confirmed;
+and the identity of the session that owns it, plus the identity of the run.
+The two differ: one session can host several runs in sequence, and a run
+can outlive the session that started it (a resume). A hook that matches only
+on the session lets a finished run's record arm the next run in the same
+session; one that matches only on the run lets a resumed run be enforced
+from a session that never armed it. Match on both. When the model
 tries to end its turn, the hook reads the record, decides whether the
 condition holds, and if it does not, returns a continuation instruction and
 blocks the stop. The model resumes work because the harness put it back to
@@ -58,6 +64,11 @@ migration, a large refactor across a slow test suite — is cut off by a clock
 tuned for something smaller. Too long and the crashed run holds the directory
 hostage. The hook that reads the record renews the lease on every confirmed
 continuation, so an active loop never ages out and only an abandoned one does.
+Renewal is bounded too: each renewal extends the lease by the same fixed
+window, never beyond a ceiling on total run time the record states at arming,
+and a record whose timestamp lies in the future is treated as stale rather
+than as fresh for longer. Unbounded renewal turns the lease back into a
+record with no expiry.
 
 A stale record is **inactive, not an error**. The hook that finds one lets the
 stop proceed and says, in its diagnostic, that it found a stale record and
@@ -81,10 +92,22 @@ genuine turn boundary, never by refusing forever.
 ## Yield states are enumerated, and approval is not one
 
 The record says when to keep going; the hook needs the complementary list of
-when it is allowed to let go. That list is **closed and short**: a clean
-terminal exit, meaning the stated condition holds and the hook has confirmed
-it; and an explicit rejection, meaning an operator or a gate said no and the
-loop has nothing further to do. A stop for any other reason is refused.
+when it is allowed to let go. That list is **closed and short**, and each
+entry carries a typed reason the diagnostic reports:
+
+- a **clean terminal exit**, meaning the stated condition holds and the hook
+  has confirmed it;
+- an **explicit rejection**, meaning an operator or a gate said no and the
+  loop has nothing further to do;
+- a **limit stop**, meaning a declared allowance — wall time, tokens, rounds,
+  iterations, spend — is exhausted, naming which one (boundary-applied-stop
+  decides *when* such a stop lands; this list makes it a legitimate yield);
+- a **required input**, meaning the next step needs something only the human
+  can supply (a credential, a decision outside the accepted scope), so
+  continuing would mean guessing;
+- **cancellation**, meaning the operator asked to stop.
+
+A stop for any other reason is refused.
 
 The line that earns this technique its place is the one that is missing from
 the list. **A positive review verdict is not a yield state.** When a plan
@@ -96,7 +119,10 @@ model back, and yields only on completion. Harnesses that leave this implicit
 watch their agents stop precisely at the moments they were built to continue
 past. The decision of *what* is approved belongs to the human gate and to the
 executor's fixed and amendable terms; this technique only refuses to treat
-the approval as an exit.
+the approval as an exit. An intermediate approval also creates no new
+authority: it lets the loop proceed within the scope accepted at arming, and
+does not widen that scope or re-arm a mode that has ended. Likewise the
+model's claim that the condition holds is not the hook's confirmation of it.
 
 ## The arming channel is suppressed inside workers
 
@@ -123,8 +149,12 @@ for, and the cost of requiring an explicit command for it is one keystroke.
   must never be the only carrier.
 - Every record has a lease, renewed on each confirmed continuation. Past the
   lease it is inactive, the stop proceeds, and the diagnostic says why.
-- Enumerate the yield states: clean terminal exit on the stated condition,
-  explicit rejection. Nothing else, and never a positive verdict.
+- Enumerate the yield states, each with a typed reason: clean terminal exit
+  on the stated condition, explicit rejection, a limit stop naming its
+  limit, a required input, cancellation. Nothing else, and never a positive
+  verdict.
+- Key the record by session and run, and bound lease renewal by a ceiling
+  stated at arming.
 - Suppress the arming channel in spawned sessions, identified by a marker the
   spawner sets. Keep spawning modes off keyword detection.
 - Before shipping, run both halves of the destructive test.

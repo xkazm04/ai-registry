@@ -51,17 +51,28 @@ and each take it. The rules:
   sitting in the deferral queue holds no slot; slots are spent on actual
   interruptions. (Claiming at notice time silently converts the budget
   into a cap on *noticing*, which was supposed to be free.)
-- A claim that is granted but whose delivery then fails is **released**
-  with a trace. Failed deliveries that eat budget teach the system to be
-  silent in proportion to its bugs.
+- A granted claim settles on what is known about the delivery, with a
+  trace, in one of three ways. **Confirmed not sent** (the send was
+  refused before it left) releases the slot; failed deliveries that eat
+  budget teach the system to be silent in proportion to its bugs.
+  **Sent** spends it. **Unknown** (a timeout, a lost acknowledgement)
+  holds the slot and reconciles later against the delivery side's
+  record, because a send can succeed before its acknowledgement times
+  out, and refunding it overdraws the cap by exactly the deliveries the
+  user did see.
 
 ## The day boundary
 
-- Budgets reset on a **declared boundary** in the user's local time —
-  typically local midnight — with the same timezone honesty quiet windows
-  demand. A budget keyed to server-time midnight resets mid-afternoon for
-  someone, and their day gets double allowance while their evening gets
-  none.
+- Budgets reset on a **declared boundary**, and the zone it is computed
+  in is a policy choice written down beside the caps: the recipient's
+  local midnight, a fixed account zone, or UTC. The recipient's local
+  time, with the same timezone honesty quiet windows demand, is the
+  default that matches the promise. A budget keyed to the host's or UTC
+  midnight resets mid-afternoon for someone, so their day gets double
+  allowance while their evening gets none; that is acceptable only when
+  it is the declared policy, not an accident of which clock the code
+  read. The accounting scope is declared the same way: per recipient,
+  per device, or per account.
 - Unspent budget **does not roll over**. Attention is not bankable; five
   quiet days do not entitle the machine to a Saturday barrage. Rollover
   budgets recreate the burst the cap existed to prevent.
@@ -101,7 +112,12 @@ The budget is operator-visible or it is indistinguishable from caprice:
   nudge; throttling it under its kind's cap breaks a promise the user
   made to themselves. Exempt the consented lane from its per-kind cap —
   but never from the global ceiling, which is the outer wall for
-  everything machine-initiated.
+  everything machine-initiated. That means the consented lane *can* be
+  blocked: speculative kinds that spent the global allowance first
+  starve a promised reminder. Either reserve global capacity for the
+  consented lane, or treat a refused consented claim as a broken
+  promise that is surfaced (recorded as such, and shown to the user or
+  operator), never as an ordinary deferral.
 - The budget governs machine-*initiated* contact only. Responses to the
   user, and alerts owned by threshold rules, spend from different
   accounts — folding them in either starves nudges or inflates the cap

@@ -364,3 +364,121 @@ Primary checks (read only, not executed):
   }
 }
 ```
+
+## Architecture review - 2026-10-31 (clarify apply)
+
+Applied every clarify item in the earlier 2026-10-31 record, including the
+2026-09-09 technique items it carried forward. The yield-state contradiction is
+closed: continuation-as-state and the golden path now list limit stops, required
+input and cancellation as typed yields. gate-state-lifetimes now states the
+meter-across-resume rule the golden path asserted. The three source-tree
+applications stay reverify (no runtime evidence). Nothing earlier is retracted.
+
+<!-- architecture-review:v1 -->
+```json
+{
+  "subject": "software-engineering/session-continuation",
+  "date": "2026-10-31",
+  "baseline": "42172877b",
+  "digest": "sha256-b2:23f9ee426474cca5",
+  "disposition": "reverify",
+  "coverage": "Clarify-apply pass on the earlier 2026-10-31 record. All 17 owned documents re-read; every clarify item applied in the golden path and nine techniques. Promise.race cancellation semantics re-checked in MDN for the advisory-guard timeout item. Applications were not edited and their citations not re-checked; the oh-my-claudecode sources rely on the 2026-09-09 pinned reads. No harness, hook or test was executed.",
+  "counterexamples": [
+    "A turn stopped by a token or round limit is neither a clean terminal exit nor an explicit rejection, so the yield list must name limit stops.",
+    "A parked job resumed with a fresh meter spent 12 of a 10 budget with no phase reset involved.",
+    "A child frame can push indefinitely while every yield has exactly one consumer, so ordering alone does not prove termination.",
+    "A timed-out Promise.race loser can keep running and write after the guard has failed open.",
+    "A writer paused past a short tombstone expiry can resurrect a cancelled run without a generation check.",
+    "Error signatures that change every round do not prove progress, so a hard attempt or spend budget is still needed beside failure identity.",
+    "A host-side spawn filter narrower than the guard's grammar fails open silently, and the guard never starts to report it."
+  ],
+  "sources": [
+    {
+      "url": "https://raw.githubusercontent.com/mdn/content/main/files/en-us/web/javascript/reference/global_objects/promise/race/index.md",
+      "result": "'Settling the returned promise does not cancel the losing operations or unsubscribe the handlers attached to their promises.' Supports advisory-guard-fail-mode's 'the deadline bounds the wait, not the handler'."
+    },
+    {
+      "url": "https://github.com/Yeachan-Heo/oh-my-claudecode/blob/e9e8fa3847ce0b3529b84d895e841988c7308f3d/src/hooks/registry/dispatcher.ts",
+      "result": "Carried from 2026-09-09, not re-fetched: handler evaluated before the timeout promise, no loser cancellation. Supports the same clarification as observed practice."
+    },
+    {
+      "url": "https://raw.githubusercontent.com/agentscope-ai/QwenPaw/cbf1a4031d71915e0648d6cd2ef864989ccb42ae/src/qwenpaw/loop/gates/runner.py",
+      "result": "Carried from the earlier 2026-10-31 record, not re-fetched: stops are deferred until tool results are processed. Supports treating limit stops as legitimate typed yields in continuation-as-state and the golden path."
+    },
+    {
+      "url": "https://code.claude.com/docs/en/hooks",
+      "result": "Carried from the earlier 2026-10-31 record, not re-fetched: the if filter is best-effort and the hook runs when the command cannot be parsed. Still supports claude-code--advisory-guard-fail-mode."
+    }
+  ],
+  "documents": {
+    "session-continuation.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: yield states widened to typed clean exit, rejection, limit stop, required input and cancellation (invariant updated); added that a claim is not acceptance and continuation never widens the accepted scope (new invariant). The meter-across-resume sentence kept, now stated in gate-state-lifetimes."
+    },
+    "techniques/continuation-as-state.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: yield list now includes limit stop, required input and cancellation with typed reasons; record keyed by session and run, carries accepted scope; lease renewal bounded by a ceiling stated at arming and future timestamps treated as stale; intermediate approval creates no new authority and a model claim is not confirmation."
+    },
+    "techniques/single-loop-authority.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: one arbiter may compose several evaluators; adopt cannot widen accepted scope (out-of-scope arming is refused); an evaluator's role does not by itself fix authority, the control state names it."
+    },
+    "techniques/ordered-yield-composition.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: replaced 'the stack terminates because each frame either consumes or passes' with push-depth and continue-round ceilings that pop and re-offer; new section ranks protective refusal and operator cancellation above the order."
+    },
+    "techniques/advisory-guard-fail-mode.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: the timeout now bounds the wait, not the handler (loser keeps running unless cancelled or isolated; synchronous work unbounded; late results discarded); an unidentified hook has an unknown class, is a drift finding, and never defaults to advisory."
+    },
+    "techniques/ordered-teardown.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: on a failed primary write the record stays resumable but the local loop still stops and reports it; generation or compare-and-swap preferred over a short-expiry tombstone, which a writer paused past expiry defeats."
+    },
+    "techniques/compaction-checkpoint.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: checkpoint also written at control transitions; restore idempotent and never applied over a newer generation; a missing checkpoint has unknown cause (not asserted to be a failed write); the notepad cannot re-arm control."
+    },
+    "techniques/sealed-stage-advance.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: inputs declared at invocation and captured in the descriptor are valid; the hash detects inconsistency, not tampering; a completion signal is a claim, not acceptance; compare-before-write requires an atomic CAS or lock; an atomic advance is not reliable dispatch, so advanced-not-started is detected and dispatched."
+    },
+    "techniques/stuck-loop-detection.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: a hard attempt and resource budget kept beside failure identity (changing signatures are not progress); N declared per lane from evidence with flaky failures confirmed; crash-resume limited to sessions that held unexpired continuation authority, within accepted scope and budget."
+    },
+    "techniques/boundary-applied-stop.md": {
+      "disposition": "keep",
+      "reason": "The boundary definition, the pending typed stop, the one-iteration lateness bound with its injected-clock test, the will-anyone-read-it question and the not-executed status are coherent. The protective-stop exception is stated. The QwenPaw source confirms the deferral half."
+    },
+    "techniques/gate-state-lifetimes.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: new section 'Meters survive a suspend and resume' (restore spent meters, never re-arm at full allowance, unknown meter stops the resume) with the 12-of-10 sighting, plus a decision rule."
+    },
+    "applications/node--advisory-guard-fail-mode.md": {
+      "disposition": "reverify",
+      "reason": "Its 2026-09-09 source-check section is in place. Live enforcement and the Node runtime were not exercised."
+    },
+    "applications/process--continuation-as-state.md": {
+      "disposition": "reverify",
+      "reason": "The source-check section landed with the future-timestamp and cancel-channel caveats. No live harness run."
+    },
+    "applications/process--sealed-stage-advance.md": {
+      "disposition": "reverify",
+      "reason": "Corrected to cite the ADR as design evidence. Implementation and delivery remain unverified at runtime."
+    },
+    "applications/python--boundary-applied-stop.md": {
+      "disposition": "keep",
+      "reason": "The pinned runner confirms the deferral sorting, the reason-required condition and the absence of any not-executed result. The doc says it read the code and did not execute it, and it states the unhandled refuse-before-dispatch case and the doc/code precedence disagreement."
+    },
+    "applications/python--gate-state-lifetimes.md": {
+      "disposition": "keep",
+      "reason": "The pinned channel base confirms commit-on-success-only and discard on error, cancel and exception. The phase-reset misfiling of wall time and tool calls, and the plugin scope gap, are stated as limits."
+    },
+    "applications/claude-code--advisory-guard-fail-mode.md": {
+      "disposition": "keep",
+      "reason": "The current hooks reference corroborates best-effort if-filtering, the run-anyway behaviour on unparseable input and one rule per handler, which matches the two-entry fix. The n=1, version-bound proof is disclosed with a re-run condition."
+    }
+  }
+}
+```

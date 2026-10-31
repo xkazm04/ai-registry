@@ -20,6 +20,14 @@ letting it run to ten burns seven rounds producing the same error. The
 instrument that separates the two is not the count but **the identity of the
 failure**.
 
+The count does not go away, though; it moves from being the instrument to
+being the backstop. A failure signature that changes every round is not
+proof of progress — a loop can thrash through endless *different* errors,
+each repair breaking something new — and failure identity never fires on
+it. So a **hard budget** stays beside it: a ceiling on attempts, wall time,
+tokens or spend for the lane, set well above what a productive loop needs,
+which ends the lane as a limit stop whatever the signatures say.
+
 ## Stop on failure identity
 
 Each failed attempt yields a **failure signature**: the error class, the
@@ -28,9 +36,14 @@ numbers that shift with edits, timestamps) normalised away. The loop keeps
 the signatures of its recent attempts. When the **same signature survives N
 repair attempts** — the loop tried N different repairs and the failure came
 back identical each time — that lane halts. N is small, on the order of three,
-and it is the same at every layer the loop nests: a worker halts its own lane
-at N, a coordinator halts the worker's lane at N, an outer run halts the
-coordinator at N. A count of attempts without the predicate "of this
+and the same rule applies at every layer the loop nests: a worker halts its
+own lane at N, a coordinator halts the worker's lane at N, an outer run halts
+the coordinator at N. Three is a default, not a constant: N is declared per
+lane and set from the evidence an attempt yields. Where an attempt is cheap
+and each repair is genuinely distinct, a slightly larger N costs little;
+where a failure is flaky (the same signature can come back by chance) the
+loop confirms it — re-running the unchanged attempt — before counting it; and
+where each attempt is expensive or has side effects, N is smaller. A count of attempts without the predicate "of this
 signature" is the number the naive design uses, and it supports no
 conclusion ([count-carries-predicate](../../../../_laws.md#count-carries-predicate)):
 "attempt 7" says nothing; "attempt 3 of the same failure after 3 distinct
@@ -112,8 +125,15 @@ first attempt. Involuntary interruption is therefore a **second key**, counted
 separately, and the counter lives with whatever restores work across restarts
 rather than inside the loop that died.
 
+- **Resume only what was authorized to continue.** Auto-continuing is a
+  continuation decision, so it carries the same authority as any other: a
+  session is a candidate only if it was running under an armed, unexpired
+  continuation mode (or an equivalent unattended run record) when the
+  process died, and the resumed turn continues the accepted task inside its
+  scope and budget — it does not get a fresh allowance or a new task.
+  A session the operator was merely chatting in is restored, not driven.
 - **Mark on the way in, not on the way out.** On a start that follows an
-  unclean exit, every session touched inside a short recency window — a couple
+  unclean exit, every eligible session touched inside a short recency window — a couple
   of minutes, long enough to cover a turn that was in flight, short enough to
   leave long-idle sessions alone — is marked *resume-pending* and
   auto-continued. Sessions already marked are not re-marked; sessions somebody
@@ -167,7 +187,10 @@ nothing left to notice.
 ## Decision rules
 
 - Key the stop on the failure signature, normalised; halt a lane when the
-  same signature survives N repair attempts, with N the same at every layer.
+  same signature survives N repair attempts, with N declared per lane from
+  the evidence an attempt yields and confirmed against flakiness.
+- Keep a hard attempt and resource budget beside failure identity; changing
+  signatures are not progress.
 - Halt with a root-cause hypothesis handed upward, never a bare stop.
 - The stuck stop outranks batching, deferral and sweep-completion policies.
 - Keep failure and stagnation counters separately; any win resets failure,
@@ -175,7 +198,8 @@ nothing left to notice.
 - Accept a candidate only from the re-measured merged state.
 - Forbid one approach family from winning N consecutive rounds.
 - Count involuntary interruptions separately from failures: mark
-  recently-touched sessions resume-pending after an unclean start, clear the
+  recently-touched sessions that held continuation authority resume-pending
+  after an unclean start, clear the
   mark only on a turn that succeeds, and suspend a session that survives N
   consecutive restarts.
 - Record clean shutdowns explicitly, and skip the resume sweep when the marker

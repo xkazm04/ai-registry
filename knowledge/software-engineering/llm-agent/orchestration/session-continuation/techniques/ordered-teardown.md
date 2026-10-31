@@ -59,7 +59,12 @@ half-erased group is worse than an intact one: the primary is still armed,
 the dependents it needs are gone, and the next turn re-arms them from
 defaults that may not match what the operator had. Intact and resumable means
 the operator can cancel again and get the same outcome; half-erased means the
-next cancel starts from a state nobody designed.
+next cancel starts from a state nobody designed. Resumable describes the
+*record*, not the running session: when the primary write fails, the local
+loop still stops — it stops renewing, stops dispatching, and ends the turn —
+and reports that the durable cancel did not land. A failed write is a reason
+to keep the state recoverable, never a reason to keep executing against an
+operator who asked to stop.
 
 ## Deactivate is not cancel
 
@@ -91,9 +96,16 @@ race: arm a loop, issue cancel and a stop on the same turn in both orders, and
 assert the session stops in both. A harness that passes only one order has
 not fixed the race; it has chosen the order its test happens to run.
 
-The tombstone is itself a guard, and it carries its own short expiry — tens
-of seconds, long enough to cover the turn on which cancel and re-arm collide
-and no longer. A cancel signal that persisted would be the next stale record:
+Prefer the generation or the compare-and-swap. A tombstone protects only for
+as long as it lives, and a writer that was paused — a suspended process, a
+slow disk, a garbage-collection stall — past the tombstone's expiry finds no
+tombstone, renews the record it read before the cancel, and resurrects the
+cancelled run. A generation the cancel bumps defeats that writer at any
+delay, because its renewal names a generation that is no longer current.
+
+Where a tombstone is used, it is itself a guard, and it carries its own short
+expiry — tens of seconds, long enough to cover the turn on which cancel and
+re-arm collide and no longer. A cancel signal that persisted would be the next stale record:
 it would suppress enforcement for every mode armed after it, which is exactly
 the handoff failure the deactivate-versus-cancel rule exists to prevent. The
 stop hook should also recognise the operator's explicit cancel command in the
@@ -106,12 +118,13 @@ both.
 - One cancel path; it clears every guard the harness can set, derived from
   the guard registry or asserted by a test that enumerates writers.
 - Primary record first, then dependents. If the primary write fails, abort
-  and leave the group intact and resumable.
+  and leave the group intact and resumable, and still stop the local loop.
 - A mode ending on its own emits deactivate — a narrow write. Cancel is the
   global signal, issued by the operator or a session-wide policy, never by a
   mode's own exit.
 - Cancel wins the same-turn race against re-arm, and the race is tested in
-  both orders.
+  both orders. Prefer a generation or compare-and-swap to a short-expiry
+  tombstone, which a writer paused past its expiry defeats.
 
 ## When not to use this
 

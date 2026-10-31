@@ -58,7 +58,11 @@ world moves. Two counterweights keep late delivery honest:
   condition still holds, the next evaluation pass re-notices it with
   freshly derived text, and if it resolved itself, nothing re-fires —
   which is the correct outcome, reached without any gate-time recheck.
-  The expire-and-refire form has one prerequisite: it only works for
+  Expiry is not revalidation, though: a notice still inside its window
+  is delivered without any check that it is true, so a short window
+  bounds how stale it can be without proving it current. Kinds whose
+  late delivery would be false news inside that window need the
+  gate-time recheck. The expire-and-refire form has one prerequisite: it only works for
   evaluator-driven kinds. A notice with no re-fire path (an explicit
   user-requested future check-in) must get a far more generous expiry,
   because expiring it destroys a promise nothing will restate.
@@ -90,9 +94,16 @@ response rather than an emergent one:
 
 ## Decision rules
 
-- One queue, all kinds. Per-kind side channels ("this kind is special,
-  it delivers directly") are the decoupling's death by exemption — every
-  policy gate must sit on the only road.
+- Every delivery passes the same gates. One queue for all kinds is the
+  simplest way to guarantee it; partitioned queues (per recipient, per
+  tenant, per shard) are equally valid as long as each partition
+  enforces the same budget, quiet and opt-out policy against the shared
+  counters. What is never valid is a per-kind side channel ("this kind is
+  special, it delivers directly") — the decoupling's death by exemption.
+- An opt-out cancels pending contact. When a recipient withdraws consent
+  for a kind or the channel, its queued and deferred notices are dropped
+  with a trace in the same act; a window opening later must not deliver
+  a notice the recipient has since refused.
 - Run the expiry sweep **before** the dedup check at admission, in the
   same pass. A row that has aged past its window is no longer a live
   claim on its identity; retiring it first lets the evaluator restate
@@ -100,8 +111,13 @@ response rather than an emergent one:
   ghost — the "dead tick" defect, invisible in testing and chronic in
   production.
 - The delivery act is idempotent per notice identity: a crash between
-  delivery and marking-delivered must not double-deliver on recovery;
-  mark first or deliver-with-dedup at the presentation tier.
+  delivery and marking-delivered must not double-deliver on recovery.
+  Marking delivered *first* trades that duplicate for a loss — a crash
+  after the mark and before the send leaves a notice recorded as
+  delivered that nobody received. Prefer delivering with an idempotency
+  key the delivery side deduplicates on (or dedup at the presentation
+  tier), or mark *pending*, send, then confirm, and reconcile pending
+  rows on recovery.
 - Deferral reasons are enumerable (budget-kind, budget-global, quiet,
   awaiting-revalidation) and queryable; the operator view of the queue is
   part of the technique, not an afterthought.

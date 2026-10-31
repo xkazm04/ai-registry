@@ -81,8 +81,15 @@ The flat field's `adopt` policy carries a condition it cannot always meet:
 the two modes' yield states must be reconcilable, and where one mode's
 completion is the other's failure, the policy falls back to refuse. Under an
 ordered stack that fork does not arise. Two conditions that cannot be merged
-do not need to be merged — they are evaluated at different depths, in order,
-and the stack terminates because each frame either consumes or passes.
+do not need to be merged — they are evaluated at different depths, in order.
+Ordering does not prove termination, though: a frame can `continue` on every
+candidate yield, or `push` a child that pushes another, and each yield still
+has exactly one consumer. The stack therefore carries explicit ceilings — a
+maximum depth for `push`, and a maximum number of consecutive `continue`
+rounds per frame and for the stack as a whole. A frame that hits a ceiling
+is popped and recorded as having hit it, and the candidate yield is
+re-offered below, so the bound degrades to the frame below deciding rather
+than to an endless session.
 
 Composition also makes the control state **inspectable and reversible for
 free**, because the stack is a subtree of the session's own record rather
@@ -92,6 +99,18 @@ behaviour currently owns the stop decision* without new plumbing. A stack
 that lives only in process memory has none of these properties and will
 reproduce the state bugs
 [continuation-as-state](./continuation-as-state.md) exists to prevent.
+
+## Protective refusal and cancellation outrank the order
+
+The order governs which contribution decides an ordinary candidate yield.
+It does not govern two decisions that sit above it. A **protective
+refusal** — a fail-closed guard declining an action because running it
+would disclose or destroy something — applies wherever it sits in the
+stack, because its risk class, not its depth, fixes its precedence. And
+**cancellation** from the operator ends the session regardless of which
+frame holds the current yield: it is not offered to the frames to consume,
+and no frame can `continue` past it. A stack that routes either through the
+ordinary order lets an inner frame outvote the operator.
 
 ## Two obligations the stack inherits
 

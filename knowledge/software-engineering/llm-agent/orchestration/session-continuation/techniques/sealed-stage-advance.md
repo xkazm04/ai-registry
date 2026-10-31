@@ -25,7 +25,9 @@ selection, and an advance that happens **exactly once, on evidence**.
 
 The run admits only stage sequences from an enumerated set of named profiles,
 and every stage in a profile consumes only what an earlier stage in the same
-profile produced. A stage that needs an input nothing before it emits is a
+profile produced, or an input **declared at invocation** and captured in the
+run descriptor — the task the operator gave, a named target, a pinned
+reference. A stage that needs an undeclared input nothing before it emits is a
 stage that will be fed by whatever happens to be on disk — a stale artifact
 from a previous run, a file the operator edited by hand — and the run's
 correctness then depends on the state of the directory rather than on the
@@ -49,6 +51,10 @@ question small enough to answer.
 When a profile is selected, its shape — the ordered stages, each stage's
 adapter and its exact completion signal — is hashed and the hash is written
 into an **immutable run descriptor** together with the run's identity. The
+hash detects that the shape changed; it does not authenticate who changed
+it. Anyone who can rewrite the descriptor can recompute the hash, so the
+seal is a consistency check, and protecting the descriptor from tampering
+is the job of where it is stored and who may write there. The
 descriptor is what a resume reads. A later edit to the profile definition
 produces a different hash and therefore a different run; it cannot alter a
 run in flight, because the run no longer reads the definition. The run's
@@ -71,7 +77,12 @@ stage, or by the same stage in a different run, does not count. The signal is
 the current adapter's, not any adapter's: a run in the verify stage does not
 advance on the implement stage's completion phrase appearing again. The gate
 reads the record, never the model's summary of it
-([gate-sees-target](../../../../_laws.md#gate-sees-target)).
+([gate-sees-target](../../../../_laws.md#gate-sees-target)). A completion
+signal is still the stage's own claim that it finished, not acceptance that
+its output is correct: where a stage's output has to be right, the next
+stage (or the run's own acceptance check) verifies it, and "authenticated"
+here means the record came from the harness's path after activation, not
+that its content is true.
 
 The advance is written under **compare-before-write**: the writer reads the
 descriptor's current stage, computes the next, and writes only if the stage
@@ -81,7 +92,17 @@ race here, and the discipline is that **the loser re-reads once and reports
 the current status**. It does not retry the advance, because the winner has
 already advanced and a second advance skips a stage; it does not fail,
 because nothing went wrong. It reads, sees the run is now one stage further,
-and says so.
+and says so. Compare-before-write is only a guarantee if the compare and the
+write are one atomic act — a lock held across both, or a compare-and-swap the
+store performs (a conditional update, an atomic rename against a version).
+A read followed by a separate write is the race it was meant to close.
+
+An atomic advance is not a reliable dispatch. The descriptor moving to the
+next stage records that the stage *should* start; it does not prove the next
+stage's work was launched. A crash between the advance and the dispatch
+leaves a run that is one stage further on paper and idle in fact, so the
+resume path treats "advanced, not started" as a state it detects and
+dispatches, keyed on the stage, so a repeat dispatch is harmless.
 
 ## Decision rules
 
@@ -92,8 +113,11 @@ and says so.
 - Advance exactly once per stage, on the current adapter's exact completion
   signal, found in an authenticated record — no symlink, bounded, written
   after the recorded activation boundary.
-- Write the advance under compare-before-write; a concurrent loser re-reads
-  once and reports the current status.
+- Write the advance under an atomic compare-and-swap or a lock; a concurrent
+  loser re-reads once and reports the current status. Detect and dispatch an
+  advanced stage that never started.
+- A content hash detects inconsistency, not tampering; a completion signal is
+  a claim, not acceptance.
 - Reject the general workflow engine explicitly, and name pipeline-dag as
   where an authored graph belongs.
 
