@@ -89,7 +89,11 @@ mastermind suite and `tsc --noEmit` are green under B.
   (`:169-182`) refreshes one project's rows and is deliberately outside the
   family token, so a per-project invalidation still races a whole-family
   load. Covering it needs a keyed token map — the keyed-machine half of
-  status-fsms — and that is a different change than this one.
+  status-fsms — and that is a different change than this one. *(Later: the
+  status-fsms application's 2026-09-05 re-verification records a per-project
+  keyed slot for `invalidateScans` and an in-flight registry for the
+  argument-less loads, commit `3aba78285`; this bullet and the next describe
+  Tree A as it stood at `bf2a1e249`.)*
 - **Latest-wins is one of three guards.** No in-flight deduplication was
   added: three mounts asking for the same collection still issue three
   calls, and the technique's mutation-path rules are untouched because this

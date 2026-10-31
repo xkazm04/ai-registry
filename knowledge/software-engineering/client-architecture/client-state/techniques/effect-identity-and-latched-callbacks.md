@@ -98,6 +98,9 @@ Two rules, applied together:
   mark a piece of logic non-reactive — a handler that reads the latest
   values but is deliberately excluded from the list — prefer it: it is the
   same latch with the omission checked rather than asserted in a comment.
+  Mind its boundary: such a handler may be called only from inside the
+  effect, never during render and never handed to another component or
+  hook, so a value the session passes onward stays in a plain cell.
 
 State that must survive across ticks but must *not* trigger a re-render
 lives in the same kind of cell: a failure map, a backoff schedule, a

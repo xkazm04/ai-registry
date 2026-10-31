@@ -174,3 +174,335 @@ goat 3, grant 1, politicas 1, kp 1, ascent 1) carries only `unknown` pairs - nev
 judged, so nothing to re-judge. Added after the checkout was declared (same day):
 personas-web 3 stale verdicts, including its one `deviation` and one `conformant`.
 `/conform --stale` queue: personas, personas-web.
+
+## 2026-10-31 - architecture review (first record)
+
+State before: pending. All 26 documents decided. The 2026-09-05 deepen claims that rested on external software (persistence middleware shapes, query-cache error-with-data, optimistic cancel and isMutating gate, the HMR carry-over object, the stable non-reactive handler) were re-read at source and hold. Five clarify items: two technique refinements from primary sources (observed-read-subscription, effect-identity), the banked react--effect-identity note, and two internal inconsistencies in applications.
+
+<!-- architecture-review:v1 -->
+```json
+{
+  "subject": "software-engineering/client-state",
+  "date": "2026-10-31",
+  "baseline": "a2ac51c1c",
+  "digest": "sha256-b2:b667f5c1f4abdd9d",
+  "disposition": "clarify",
+  "coverage": "All 26 documents read in full (golden path, 12 techniques, 13 applications); every relative link resolves. Six primary sources opened for the unstable claims (persistence middleware, query-cache notify and error-with-data, concurrent optimistic updates, HMR data object, Effect Events, useMemo contract). Not evaluated: any connected-project tree or runtime; every application witness is taken as dated and was not re-executed, so no verified_on moved.",
+  "counterexamples": [
+    "A persistence middleware that checks only version inequality runs a future payload through the forward migrate and writes it back, so a rollback loses data even where a migrate function exists.",
+    "A configuration-implied notification need not enter the tracked set: a fetch layer can check it as a separate condition, so an audit looking for the union finds nothing and wrongly concludes the case is unhandled.",
+    "An Effect Event cannot be passed to a child or another hook, so \"prefer the first-class handler\" cannot replace a cell whose value is handed onward.",
+    "Refs and a state setter passed as props are already stable; listing them in the dependency array would not restart the session, so the restart loop needs a re-created argument, not merely a listed one."
+  ],
+  "sources": [
+    {
+      "url": "https://raw.githubusercontent.com/pmndrs/zustand/main/src/middleware/persist.ts",
+      "result": "Confirms: version !== options.version routes any mismatch, future included, through migrate; no migrate logs \"couldn't be migrated since no migrate function was provided\" and discards; migrated state is written back via setItem."
+    },
+    {
+      "url": "https://raw.githubusercontent.com/rt2zz/redux-persist/master/src/createMigrate.ts",
+      "result": "Confirms: inboundVersion > currentVersion logs \"redux-persist: downgrading version is not supported\" and returns Promise.resolve(state) unchanged."
+    },
+    {
+      "url": "https://raw.githubusercontent.com/TanStack/query/main/packages/query-core/src/queryObserver.ts",
+      "result": "Confirms both fail-open guards (no prevResult -> notify; empty trackedProps without declaration -> notify) and the proxy read trap; isRefetchError = isError && hasData. Refines: throwOnError is an extra notify condition, not a union into the tracked set."
+    },
+    {
+      "url": "https://tanstack.com/query/latest/docs/eslint/no-rest-destructuring",
+      "result": "Confirms the spread hazard: rest destructuring \"automatically subscribes to every field of the query result\"."
+    },
+    {
+      "url": "https://tkdodo.eu/blog/concurrent-optimistic-updates-in-react-query",
+      "result": "Confirms paint-time cancelQueries and settlement invalidation gated on isMutating === 1."
+    },
+    {
+      "url": "https://vite.dev/guide/api-hmr",
+      "result": "Confirms hot.data \"is persisted across successive instances of the same module during HMR\"."
+    },
+    {
+      "url": "https://react.dev/blog/2025/10/01/react-19-2",
+      "result": "useEffectEvent listed under New React Features in 19.2; \"Effect Events should not be declared in the dependency array\"; roomId/theme example supports the session-identity reading."
+    },
+    {
+      "url": "https://react.dev/reference/react/useEffectEvent",
+      "result": "Restriction: \"can only be called from inside Effects or other Effect Events. Do not call them during rendering or pass them to other components or Hooks.\""
+    },
+    {
+      "url": "https://react.dev/reference/react/useMemo",
+      "result": "Supports the memoization claim: \"a performance optimization, not a semantic guarantee, React may throw away the cached value\"."
+    }
+  ],
+  "documents": {
+    "client-state.md": {
+      "disposition": "keep",
+      "reason": "Species classification, slice composition, FSM, race guards, optimistic path, persistence, narrowing, invalidation, eviction, singleton and effect-identity sections each delegate to an owning technique; every relative link resolves. The unqualified \"maximal load\" for primary polling is a summary of the technique, which carries the conditional-request qualifier. The proposed law \"the safe default is the failure you can see\" stays an operator call, not a golden-path edit."
+    },
+    "techniques/store-slicing.md": {
+      "disposition": "keep",
+      "reason": "Domain-of-change boundary test, slice-owned writes, writer-side reference stability and the three cross-slice patterns are internally consistent and correctly hand remediation to store-dependency-topology."
+    },
+    "techniques/store-dependency-topology.md": {
+      "disposition": "keep",
+      "reason": "Manifest properties, derived order (count sort is not a topological sort), the check-must-run rule and the discriminated accessor answer are sound; the half-dozen threshold is stated as judgement, with three observable signals."
+    },
+    "techniques/status-fsms.md": {
+      "disposition": "keep",
+      "reason": "Canonical state set, failure-lands-by-data-presence, stale carries the failed reload's evidence. The two-axis claim is confirmed upstream: TanStack Query's observer exposes isRefetchError = isError && hasData, i.e. an error and held data at once."
+    },
+    "techniques/async-race-guards.md": {
+      "disposition": "keep",
+      "reason": "Token minted before dispatch, inert stale completions, append path shares the slot sequence, debounce excluded from the family, canonical dedup key, removal on failure. No unstable external claim."
+    },
+    "techniques/optimistic-write-path.md": {
+      "disposition": "keep",
+      "reason": "Confirmed against the primary practitioner source for the mainstream cache layer: cancelQueries in onMutate \"aborts all currently running queries that could interfere with our optimistic update\", and invalidation is skipped unless isMutating is 1 (\"only ... if there's no other mutation in-flight\"). The technique's \"a count, not a mutex\" reading matches."
+    },
+    "techniques/persistence-and-migration.md": {
+      "disposition": "keep",
+      "reason": "The load-bearing middleware claim is confirmed at source. Zustand persist: version !== options.version (no direction check) routes a future payload through migrate, discards it when no migrate is supplied, and writes the migrated result back with setItem. redux-persist createMigrate: inboundVersion > currentVersion logs \"downgrading version is not supported\" and returns Promise.resolve(state) unchanged. Both shapes as described."
+    },
+    "techniques/rehydration-narrowing.md": {
+      "disposition": "keep",
+      "reason": "Direction rule with the widest-default predicate, whole-tuple-or-coerce, vocabulary-validates-itself, per-field guards, policy at hydration, throw vs refuse split. Internally consistent with persistence-and-migration and identity-scoped-eviction."
+    },
+    "techniques/invalidation-strategy.md": {
+      "disposition": "keep",
+      "reason": "Freshness hierarchy, demoted floor with the named live-figure exception, conditional-request qualifier (a 304 saves the body, not the round trip), readers-not-only-entries, scoped refresh failure. Sound."
+    },
+    "techniques/identity-scoped-eviction.md": {
+      "disposition": "keep",
+      "reason": "One owner below both layers, enumerated triggers with the credential-refresh exclusion, return-to-empty edge rule, wipe-everything asymmetry, persisted stores, network-independent local wipe. Sound."
+    },
+    "techniques/singleton-lifecycle.md": {
+      "disposition": "keep",
+      "reason": "Ladder (refcount, generation token, global slot) and inertness-over-prevention are sound. The per-module carry-over object is confirmed: Vite documents hot.data as \"persisted across successive instances of the same module during HMR\"."
+    },
+    "techniques/observed-read-subscription.md": {
+      "disposition": "clarify",
+      "reason": "Both fail-open guards are confirmed in TanStack Query's shouldNotifyListeners (\"if (!prevResult) return true\"; an empty trackedProps with no declaration notifies on any change), and the lint rationale is confirmed (rest destructuring \"automatically subscribes to every field\"). One refinement: upstream realizes the configuration-implied case for throwOnError not by unioning \"error\" into the tracked set but as a separate notify condition (throwOnError && error changed). The section should admit either realization so a reader does not look for a union that is not there."
+    },
+    "techniques/effect-identity-and-latched-callbacks.md": {
+      "disposition": "clarify",
+      "reason": "Session-identity reading is confirmed by the framework's own example (roomId in the list, theme read through an Effect Event). The memoization claim is supported by the useMemo docs (\"a performance optimization, not a semantic guarantee, React may throw away the cached value\"). Owed: the first-class non-reactive handler, shipped in React 19.2 as useEffectEvent, carries a restriction the technique does not state - \"Effect Events can only be called from inside Effects or other Effect Events. Do not call them during rendering or pass them to other components or Hooks.\" So a callback that must be handed onward still needs the plain cell."
+    },
+    "applications/react--singleton-lifecycle.md": {
+      "disposition": "keep",
+      "reason": "Rung mapping, the reset-hatch census (19 hatches, 2 of 7 global-slot owners) and the realm boundary are specific and cited at ee124810f. Private tree not reopened; verified_on unchanged."
+    },
+    "applications/react--status-fsms.md": {
+      "disposition": "keep",
+      "reason": "Keyed-machine and state-set halves cited at ee124810f; the stale-without-evidence gap matches the technique clause it motivated; the previously reported latest-wins gap is recorded as closed with commits. Not re-executed."
+    },
+    "applications/rust--status-fsms.md": {
+      "disposition": "keep",
+      "reason": "Literal-write census is arithmetically consistent (13+9+11+19 = 52 literal sites vs 2 enum sites); the cancel_outcome evidence axis and the upsert-mints-a-row finding are specific. Not re-executed."
+    },
+    "applications/react--effect-identity-and-latched-callbacks.md": {
+      "disposition": "clarify",
+      "reason": "Banked from the 2026-09-05 note: the tree pins react 19.2.4, which ships useEffectEvent, and the application never says so. Also the omitted dependencies are refs and a state setter, identities React already keeps stable, so the counterfactual restart applies only to re-created arguments; worth one sentence. Tree not reopened."
+    },
+    "applications/react--async-race-guards.md": {
+      "disposition": "clarify",
+      "reason": "Internal inconsistency with the sibling react--status-fsms application: this document's \"guards families, not entities\" and \"no in-flight deduplication was added\" limits are presented as current, while the sibling's 2026-09-05 re-verification records commit 3aba78285 (2026-08-30) adding a per-project keyed slot for invalidateScans and an in-flight registry for the argument-less loads. Add a dated pointer; the tree itself was not reopened."
+    },
+    "applications/next--observed-read-subscription.md": {
+      "disposition": "clarify",
+      "reason": "Carries two \"## Return condition\" headings; the first (\"Install the lint rule\") was met by the Shipped section (d4995c3) and now reads as still open. Mark it met so only the getter conversion reads as owed."
+    },
+    "applications/rust--persistence-and-migration.md": {
+      "disposition": "keep",
+      "reason": "Document-vs-state payload split is the source of the technique's clause and is consistent with it; both resolved notes (3ed7a9675, e52dc8e02) are dated. Zero-step migration chain gap stays open by design. Not re-executed."
+    },
+    "applications/react--store-dependency-topology.md": {
+      "disposition": "keep",
+      "reason": "Findings are specific and line-cited (count sort masked by a stable sort on equal counts; assertion on an unimported module). Provenance gap: no tree commit is pinned, only verified_on; pin one on the next drift pass."
+    },
+    "applications/react--invalidation-strategy.md": {
+      "disposition": "keep",
+      "reason": "Readers-not-subscribed defect and the subscriber-registry fix are consistent with the technique; limits are honest (one mutation source, no test pins the push)."
+    },
+    "applications/react--identity-scoped-eviction.md": {
+      "disposition": "keep",
+      "reason": "Owner, triggers, refresh exclusion and network-independent wipe are cited. Minor: \"the six stores the owner clears\" predates or ignores the resolved incidents-filter addition, and no tree commit is pinned; recount and pin on the next drift pass. Not changed here because the tree was not reopened."
+    },
+    "applications/next--persistence-and-migration.md": {
+      "disposition": "keep",
+      "reason": "Three-case simulation is honest about falsifiers and about being structural-only; matches the encoding and retired-version clauses."
+    },
+    "applications/react--optimistic-write-path.md": {
+      "disposition": "keep",
+      "reason": "Thin seam document that defers verdict and evidence to the delivery-guarantees application; link resolves; limits stated."
+    },
+    "applications/react--persistence-and-migration.md": {
+      "disposition": "keep",
+      "reason": "Backward-skew A/B with byte-identical outcome under B; limits (no disclosure consumer, convention-only single author) stated."
+    }
+  }
+}
+```
+
+## 2026-10-31 - architecture review, re-record after apply
+
+The five clarify items of the record above were applied minimally in each document's own voice; this record is against the new digest. No other document changed.
+
+<!-- architecture-review:v1 -->
+```json
+{
+  "subject": "software-engineering/client-state",
+  "date": "2026-10-31",
+  "baseline": "8d20ba827",
+  "digest": "sha256-b2:9b7a96e67d0d158a",
+  "disposition": "keep",
+  "coverage": "Second record after applying the five clarify items of the first 2026-10-31 record. All 26 documents carried; only the five edited documents changed. No verified_on date moved; no connected-project tree was reopened.",
+  "counterexamples": [
+    "A persistence middleware that checks only version inequality runs a future payload through the forward migrate and writes it back, so a rollback loses data even where a migrate function exists.",
+    "A configuration-implied notification need not enter the tracked set: a fetch layer can check it as a separate condition, so an audit looking for the union finds nothing and wrongly concludes the case is unhandled.",
+    "An Effect Event cannot be passed to a child or another hook, so \"prefer the first-class handler\" cannot replace a cell whose value is handed onward.",
+    "Refs and a state setter passed as props are already stable; listing them in the dependency array would not restart the session, so the restart loop needs a re-created argument, not merely a listed one."
+  ],
+  "sources": [
+    {
+      "url": "https://raw.githubusercontent.com/pmndrs/zustand/main/src/middleware/persist.ts",
+      "result": "Confirms: version !== options.version routes any mismatch, future included, through migrate; no migrate logs \"couldn't be migrated since no migrate function was provided\" and discards; migrated state is written back via setItem."
+    },
+    {
+      "url": "https://raw.githubusercontent.com/rt2zz/redux-persist/master/src/createMigrate.ts",
+      "result": "Confirms: inboundVersion > currentVersion logs \"redux-persist: downgrading version is not supported\" and returns Promise.resolve(state) unchanged."
+    },
+    {
+      "url": "https://raw.githubusercontent.com/TanStack/query/main/packages/query-core/src/queryObserver.ts",
+      "result": "Confirms both fail-open guards (no prevResult -> notify; empty trackedProps without declaration -> notify) and the proxy read trap; isRefetchError = isError && hasData. Refines: throwOnError is an extra notify condition, not a union into the tracked set."
+    },
+    {
+      "url": "https://tanstack.com/query/latest/docs/eslint/no-rest-destructuring",
+      "result": "Confirms the spread hazard: rest destructuring \"automatically subscribes to every field of the query result\"."
+    },
+    {
+      "url": "https://tkdodo.eu/blog/concurrent-optimistic-updates-in-react-query",
+      "result": "Confirms paint-time cancelQueries and settlement invalidation gated on isMutating === 1."
+    },
+    {
+      "url": "https://vite.dev/guide/api-hmr",
+      "result": "Confirms hot.data \"is persisted across successive instances of the same module during HMR\"."
+    },
+    {
+      "url": "https://react.dev/blog/2025/10/01/react-19-2",
+      "result": "useEffectEvent listed under New React Features in 19.2; \"Effect Events should not be declared in the dependency array\"; roomId/theme example supports the session-identity reading."
+    },
+    {
+      "url": "https://react.dev/reference/react/useEffectEvent",
+      "result": "Restriction: \"can only be called from inside Effects or other Effect Events. Do not call them during rendering or pass them to other components or Hooks.\""
+    },
+    {
+      "url": "https://react.dev/reference/react/useMemo",
+      "result": "Supports the memoization claim: \"a performance optimization, not a semantic guarantee, React may throw away the cached value\"."
+    }
+  ],
+  "documents": {
+    "client-state.md": {
+      "disposition": "keep",
+      "reason": "Species classification, slice composition, FSM, race guards, optimistic path, persistence, narrowing, invalidation, eviction, singleton and effect-identity sections each delegate to an owning technique; every relative link resolves. The unqualified \"maximal load\" for primary polling is a summary of the technique, which carries the conditional-request qualifier. The proposed law \"the safe default is the failure you can see\" stays an operator call, not a golden-path edit."
+    },
+    "techniques/store-slicing.md": {
+      "disposition": "keep",
+      "reason": "Domain-of-change boundary test, slice-owned writes, writer-side reference stability and the three cross-slice patterns are internally consistent and correctly hand remediation to store-dependency-topology."
+    },
+    "techniques/store-dependency-topology.md": {
+      "disposition": "keep",
+      "reason": "Manifest properties, derived order (count sort is not a topological sort), the check-must-run rule and the discriminated accessor answer are sound; the half-dozen threshold is stated as judgement, with three observable signals."
+    },
+    "techniques/status-fsms.md": {
+      "disposition": "keep",
+      "reason": "Canonical state set, failure-lands-by-data-presence, stale carries the failed reload's evidence. The two-axis claim is confirmed upstream: TanStack Query's observer exposes isRefetchError = isError && hasData, i.e. an error and held data at once."
+    },
+    "techniques/async-race-guards.md": {
+      "disposition": "keep",
+      "reason": "Token minted before dispatch, inert stale completions, append path shares the slot sequence, debounce excluded from the family, canonical dedup key, removal on failure. No unstable external claim."
+    },
+    "techniques/optimistic-write-path.md": {
+      "disposition": "keep",
+      "reason": "Confirmed against the primary practitioner source for the mainstream cache layer: cancelQueries in onMutate \"aborts all currently running queries that could interfere with our optimistic update\", and invalidation is skipped unless isMutating is 1 (\"only ... if there's no other mutation in-flight\"). The technique's \"a count, not a mutex\" reading matches."
+    },
+    "techniques/persistence-and-migration.md": {
+      "disposition": "keep",
+      "reason": "The load-bearing middleware claim is confirmed at source. Zustand persist: version !== options.version (no direction check) routes a future payload through migrate, discards it when no migrate is supplied, and writes the migrated result back with setItem. redux-persist createMigrate: inboundVersion > currentVersion logs \"downgrading version is not supported\" and returns Promise.resolve(state) unchanged. Both shapes as described."
+    },
+    "techniques/rehydration-narrowing.md": {
+      "disposition": "keep",
+      "reason": "Direction rule with the widest-default predicate, whole-tuple-or-coerce, vocabulary-validates-itself, per-field guards, policy at hydration, throw vs refuse split. Internally consistent with persistence-and-migration and identity-scoped-eviction."
+    },
+    "techniques/invalidation-strategy.md": {
+      "disposition": "keep",
+      "reason": "Freshness hierarchy, demoted floor with the named live-figure exception, conditional-request qualifier (a 304 saves the body, not the round trip), readers-not-only-entries, scoped refresh failure. Sound."
+    },
+    "techniques/identity-scoped-eviction.md": {
+      "disposition": "keep",
+      "reason": "One owner below both layers, enumerated triggers with the credential-refresh exclusion, return-to-empty edge rule, wipe-everything asymmetry, persisted stores, network-independent local wipe. Sound."
+    },
+    "techniques/singleton-lifecycle.md": {
+      "disposition": "keep",
+      "reason": "Ladder (refcount, generation token, global slot) and inertness-over-prevention are sound. The per-module carry-over object is confirmed: Vite documents hot.data as \"persisted across successive instances of the same module during HMR\"."
+    },
+    "techniques/observed-read-subscription.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: the configuration-implied section now admits the extra-notify-condition realization beside the union, as the mainstream fetch layer does for its throw-on-error flag"
+    },
+    "techniques/effect-identity-and-latched-callbacks.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: the first-class-handler sentence now states its call-site restriction and that a value handed onward stays in a plain cell"
+    },
+    "applications/react--singleton-lifecycle.md": {
+      "disposition": "keep",
+      "reason": "Rung mapping, the reset-hatch census (19 hatches, 2 of 7 global-slot owners) and the realm boundary are specific and cited at ee124810f. Private tree not reopened; verified_on unchanged."
+    },
+    "applications/react--status-fsms.md": {
+      "disposition": "keep",
+      "reason": "Keyed-machine and state-set halves cited at ee124810f; the stale-without-evidence gap matches the technique clause it motivated; the previously reported latest-wins gap is recorded as closed with commits. Not re-executed."
+    },
+    "applications/rust--status-fsms.md": {
+      "disposition": "keep",
+      "reason": "Literal-write census is arithmetically consistent (13+9+11+19 = 52 literal sites vs 2 enum sites); the cancel_outcome evidence axis and the upsert-mints-a-row finding are specific. Not re-executed."
+    },
+    "applications/react--effect-identity-and-latched-callbacks.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: added a closing note that the pinned React ships the first-class handler, that the omitted values here are already-stable refs and a setter, and that the handler's call-site restriction is why a ref stays the right home for the caller-owned cells"
+    },
+    "applications/react--async-race-guards.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: added a dated note under the limits pointing to the later per-project keyed slot and in-flight registry as recorded by the status-fsms application's 2026-09-05 re-verification"
+    },
+    "applications/next--observed-read-subscription.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: the first return-condition heading is marked met by the shipped lint gate"
+    },
+    "applications/rust--persistence-and-migration.md": {
+      "disposition": "keep",
+      "reason": "Document-vs-state payload split is the source of the technique's clause and is consistent with it; both resolved notes (3ed7a9675, e52dc8e02) are dated. Zero-step migration chain gap stays open by design. Not re-executed."
+    },
+    "applications/react--store-dependency-topology.md": {
+      "disposition": "keep",
+      "reason": "Findings are specific and line-cited (count sort masked by a stable sort on equal counts; assertion on an unimported module). Provenance gap: no tree commit is pinned, only verified_on; pin one on the next drift pass."
+    },
+    "applications/react--invalidation-strategy.md": {
+      "disposition": "keep",
+      "reason": "Readers-not-subscribed defect and the subscriber-registry fix are consistent with the technique; limits are honest (one mutation source, no test pins the push)."
+    },
+    "applications/react--identity-scoped-eviction.md": {
+      "disposition": "keep",
+      "reason": "Owner, triggers, refresh exclusion and network-independent wipe are cited. Minor: \"the six stores the owner clears\" predates or ignores the resolved incidents-filter addition, and no tree commit is pinned; recount and pin on the next drift pass. Not changed here because the tree was not reopened."
+    },
+    "applications/next--persistence-and-migration.md": {
+      "disposition": "keep",
+      "reason": "Three-case simulation is honest about falsifiers and about being structural-only; matches the encoding and retired-version clauses."
+    },
+    "applications/react--optimistic-write-path.md": {
+      "disposition": "keep",
+      "reason": "Thin seam document that defers verdict and evidence to the delivery-guarantees application; link resolves; limits stated."
+    },
+    "applications/react--persistence-and-migration.md": {
+      "disposition": "keep",
+      "reason": "Backward-skew A/B with byte-identical outcome under B; limits (no disclosure consumer, convention-only single author) stated."
+    }
+  }
+}
+```

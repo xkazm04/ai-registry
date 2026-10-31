@@ -78,7 +78,7 @@ spread and rest syntax applied to query results, which finds the idiomatic
 form. A field-by-field copy would be invisible to that search and equally
 defeating.
 
-## Return condition
+## Return condition (met — see Shipped)
 
 Install the lint rule. It is one dependency and one configuration line, it
 would have flagged the wrapper at the moment it was written, and it converts

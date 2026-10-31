@@ -100,3 +100,14 @@ suppression comment names the session ("refs are stable"), so the
 narrower-than-linted dependency list reads as a decision rather than as an
 oversight; an unexplained suppression on a long-lived effect is
 indistinguishable from a bug and gets deleted.
+
+## Note on the first-class handler
+
+The pinned React (19.2) ships `useEffectEvent`, the first-class non-reactive
+handler the technique prefers to a hand-rolled cell. It changes little here:
+the values this effect leaves out are refs and a state setter, identities
+React already keeps stable, so the restart above needs one of them to be
+re-created by the caller, not merely listed. And an Effect Event may be
+called only from inside an effect, never handed to other components or
+hooks — the caller-owned `scanGen` and `recentScan` cells are shared with
+`FleetMap`, so a ref stays their right home.

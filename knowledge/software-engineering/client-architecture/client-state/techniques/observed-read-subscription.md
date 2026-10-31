@@ -143,7 +143,9 @@ the field is unused, and the behaviour will not fire.
 
 So the resolved subscription is the observed set **plus** whatever the
 consumer's own configuration implies, unioned by the layer that knows those
-implications. Enumerate those injections in one place next to the resolution;
+implications — or, equivalently, checked beside the set as an extra notify
+condition, which is how one mainstream fetch layer handles its
+throw-on-error flag (notify when the error changed, whatever was read). Enumerate those injections in one place next to the resolution;
 they are few, but each one is a permanently silent consumer if it is missed,
 and they cannot be discovered from the read trace by construction.
 
