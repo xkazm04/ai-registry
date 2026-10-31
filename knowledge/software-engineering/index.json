@@ -5,7 +5,7 @@
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 243,
   "techniques": 1957,
-  "applications": 1446,
+  "applications": 1447,
   "laws": 16,
   "categories": [
    "ui-surfaces",
@@ -14497,9 +14497,9 @@
    "subcategory": "language-runtime",
    "status": "forged",
    "file": "knowledge/software-engineering/backend-platform/language-runtime/engine-binding-surface/engine-binding-surface.md",
-   "digest": "sha256-b2:823cd55ac89d000b",
-   "revision": 2,
-   "changedAt": "2026-09-25",
+   "digest": "sha256-b2:cf656e76f4ec68fa",
+   "revision": 3,
+   "changedAt": "2026-10-31",
    "techniques": [
     {
      "slug": "address-sensitive-construction",
@@ -14616,6 +14616,13 @@
      "file": "knowledge/software-engineering/backend-platform/language-runtime/engine-binding-surface/applications/rust--capability-deferred-release.md",
      "verified_on": "2026-09-05",
      "verified_against": "rust@1.91.0"
+    },
+    {
+     "stack": "rust",
+     "technique": "hierarchy-as-three-relations",
+     "file": "knowledge/software-engineering/backend-platform/language-runtime/engine-binding-surface/applications/rust--hierarchy-as-three-relations.md",
+     "verified_on": "2026-10-31",
+     "verified_against": "rust@1.97"
     }
    ]
   },

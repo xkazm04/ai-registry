@@ -1,0 +1,48 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "apply-h3r-1031",
+  "skill": "intake",
+  "skill_version": "2.18.0",
+  "mode": "apply",
+  "domain": "software-engineering",
+  "started_at": "2026-10-31T13:00:00Z",
+  "ended_at": "2026-10-31T13:50:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 1,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "software-engineering/engine-binding-surface",
+      "at": "2026-10-31",
+      "engine": "intake",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "engine-binding-surface",
+      "technique": "hierarchy-as-three-relations",
+      "verdict": "unmeasurable",
+      "mode": "simulation"
+    }
+  ],
+  "files": [
+    "knowledge/software-engineering/backend-platform/language-runtime/engine-binding-surface/applications/rust--hierarchy-as-three-relations.md",
+    "knowledge/software-engineering/index.json",
+    "librarian/applied.md",
+    "librarian/subjects/software-engineering/engine-binding-surface.md",
+    ".claude/skills/intake/SCORECARD.md"
+  ],
+  "commits": [],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "Apply-only, third attempt. Dependency grep found the first fleet consumer of a foreign interface tree; structural-only application written against it and the generator it pins. No product change: the consumer writes no conversions. One lead banked."
+}
