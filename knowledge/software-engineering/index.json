@@ -5,7 +5,7 @@
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 243,
   "techniques": 1957,
-  "applications": 1447,
+  "applications": 1448,
   "laws": 16,
   "categories": [
    "ui-surfaces",
@@ -16016,9 +16016,9 @@
    "subcategory": "extension-trust",
    "status": "forged",
    "file": "knowledge/software-engineering/security/extension-trust/extension-trust-boundary/extension-trust-boundary.md",
-   "digest": "sha256-b2:8fa86538a46c8656",
-   "revision": 1,
-   "changedAt": "2026-09-03",
+   "digest": "sha256-b2:85e6e45c27f84012",
+   "revision": 2,
+   "changedAt": "2026-10-31",
    "techniques": [
     {
      "slug": "invert-the-default-for-exposed-surface",
@@ -16088,6 +16088,13 @@
      "technique": "invert-the-default-for-exposed-surface",
      "file": "knowledge/software-engineering/security/extension-trust/extension-trust-boundary/applications/python--invert-the-default-for-exposed-surface.md",
      "verified_on": "2026-09-03",
+     "verified_against": "python@3.12"
+    },
+    {
+     "stack": "python",
+     "technique": "re-entrant-registration-across-processes",
+     "file": "knowledge/software-engineering/security/extension-trust/extension-trust-boundary/applications/python--re-entrant-registration-across-processes.md",
+     "verified_on": "2026-10-31",
      "verified_against": "python@3.12"
     },
     {
