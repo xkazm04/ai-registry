@@ -28,7 +28,7 @@ prevents from being collected.
 ## The null it learns from has several causes, and only one is about the world
 
 The training signal is "the distiller returned no candidates". That sentence
-has at least four causes, and they are not the same fact:
+has at least five causes, and they are not the same fact:
 
 - **The call failed.** A gateway timed out, the provider 500'd, the client
   returned null. This is a statement about the infrastructure.

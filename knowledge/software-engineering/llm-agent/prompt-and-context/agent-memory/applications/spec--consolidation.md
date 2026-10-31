@@ -76,6 +76,11 @@ raw rounds lost accuracy while the same items added as keys gained it. That
 finding is from the LongMemEval paper, which this session could not open. Two
 independent research lanes reported it from the paper's abstract and body
 through a search index, so it is recorded here as **reported, not resolved**.
+Resolved on 2026-10-31, when the paper's HTML version was opened: its value
+section says "replacing sessions or rounds with extracted summaries or facts
+negatively impacts QA performance due to information loss", with multi-session
+reasoning as the one exception, and its key section says expansion "particularly
+when using user facts, yielded an average improvement of 9.4% in recall@k".
 What the repository does show is that the comparison is a first-class switch in
 its retrieval harness:
 

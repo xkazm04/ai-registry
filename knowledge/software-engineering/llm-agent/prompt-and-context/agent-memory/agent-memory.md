@@ -587,9 +587,18 @@ comparison a stated result instead of an unexamined premise.
 - [procedure-promotion](./techniques/procedure-promotion.md) — the memory-to-
   capability boundary: promotion bar, demonstration versus observation, one
   door, versioning, retirement.
+- [diagnosis-withheld-from-the-executor](./techniques/diagnosis-withheld-from-the-executor.md) —
+  the store's two readers: the reviser reads accumulated diagnosis, the executor
+  whose trace is the evidence does not, decided per run.
+- [rejected-revision-leaves-its-evidence](./techniques/rejected-revision-leaves-its-evidence.md) —
+  the artifact reverts, the diagnosis does not: the gate records target, diff,
+  score and outcome, never a reason.
 - [coverage-instrumentation](./techniques/coverage-instrumentation.md) — the
   absence-first instrument: the denominator is the tracked population, and
   honest zeros over flattering ones.
+- [gap-directed-elicitation](./techniques/gap-directed-elicitation.md) — what
+  was never transacted: a named gap triggers a question to the principal, and
+  the answer enters as an episode, not a belief.
 - [baseline-ladder](./techniques/baseline-ladder.md) — what the pipeline is
   measured against: no memory, the whole history in context, retrieval over
   the raw record, then the pipeline — with the consumer, the index and the
@@ -598,6 +607,10 @@ comparison a stated result instead of an unexamined premise.
   retrieval lanes still agree with the record: declared lane membership,
   absence versus pollution, why an absence claim needs a complete scan, and
   the invariant that chooses each operation's write order.
+- [durable-store-failure-posture](./techniques/durable-store-failure-posture.md) —
+  a store that is present and does not parse: the read path degrades and says
+  so, the write path refuses, and a pass held across a model call compares what
+  it read.
 - [owner-and-counterpart-scope](./techniques/owner-and-counterpart-scope.md) —
   the two identity axes a memory answers to: the owner its address derives,
   the counterpart it was formed with as a per-request view filter, and why
@@ -623,6 +636,12 @@ comparison a stated result instead of an unexamined premise.
   content fails to reach the reader without a notice: second doors, the
   window-to-rollup seam, the cap on the assembled block, the fallback behind the
   fallback; notices that name kind, count and cause and survive the next cut.
+- [stale-served-versus-stale-answered](./techniques/stale-served-versus-stale-answered.md) —
+  a stale answer has two links: whether the store served the superseded value,
+  and whether the reader repeated it, measured separately.
+- [filter-at-the-id-door](./techniques/filter-at-the-id-door.md) — the
+  shortlist is a suggestion, the loader is the door: retirement, tier and
+  membership re-checked by id, and an empty selection injects nothing.
 - [scope-before-similarity](./techniques/scope-before-similarity.md) — similarity is
   not ownership: partition by namespace, visibility and private author before clustering
   or choosing a distiller window; the merge door re-checks and the merged item inherits

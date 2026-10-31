@@ -38,12 +38,11 @@ is not a throughput optimization; it is what makes the judgment good:
   the moment its durability is least assessable. The batch boundary is a
   cooling-off period built into the architecture.
 
-The trigger is **accumulated input, not the clock**. What a pass costs — and
-what makes it worth running — is the volume of unconsolidated material - which is a trigger for how much work is
-available, never for whether it pays; the threshold property is measured in
-[addresses-before-compression](./addresses-before-compression.md), so
-the honest trigger is pressure: enough new episodes since the last completed
-pass. The clock survives only as a floor (a burst must not cycle twice in an
+The trigger is **accumulated input, not the clock**. What a pass costs is the
+volume of unconsolidated material, so the honest trigger is pressure: enough new
+episodes since the last completed pass. Pressure says how much work is
+available, never whether the pass pays; that second question is measured in
+[addresses-before-compression](./addresses-before-compression.md). The clock survives only as a floor (a burst must not cycle twice in an
 hour) and as a staleness release (a quiet week still gets compressed
 eventually); neither is the trigger. A pure timer runs expensive passes over
 empty windows on quiet days and lets heavy days overflow the window on busy
@@ -198,10 +197,11 @@ The discipline:
   authority**: when the person whose state it is says the value changed,
   the later statement closes the earlier one whatever the reinforcement
   count, because ten confirmations of the old address are not evidence
-  against a move — they are the history of the state. Reading them as
-  weight is the measured failure of this class: on a 2026 consolidation
-  benchmark every published memory system lost most of the questions where
-  a later statement should have overridden an earlier one. The strongest
+  against a move — they are the history of the state. This class is
+  measurably hard: on the conflict-resolution task of a 2026 agent-memory
+  benchmark, where the agent is told to prefer the later statement, every
+  evaluated method scored at most 28% on the multi-hop questions, and only
+  long-context agents did reasonably on the single-hop ones. The strongest
   reported fix restructures the decision: one step extracts *every*
   candidate that matches the state, keeps its version and picks no winner,
   and a separate step runs newest-wins over that set. Its own ablation

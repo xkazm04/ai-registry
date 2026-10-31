@@ -945,3 +945,717 @@ One amendment, three source-tree applications, memory lane entered on judgement.
 - Catches: nine, including polarity-blind dedup (`consolidation` already orders contradiction
   before duplicate) and the always-include degeneration `recall-injection` names, which the
   personas brain still has.
+
+## Architecture review - 2026-10-31
+
+First architecture review of this subject, against `304e86d6b`. Every one of the 76
+documents was read. Three primary sources were opened. The LongMemEval paper confirms
+the distillations-as-keys boundary that the golden path, rollup-compaction and
+spec--consolidation carry; the last had recorded it as reported, not resolved. The
+conflict-resolution repository README still states the separation result as quoted.
+The 2026 agent-memory benchmark does not support consolidation's claim that every
+published system lost most later-statement-overrides questions: it reports at most
+28% on multi-hop, and long-context agents do reasonably on single-hop. Four clarify
+items were found: that claim, a broken trigger sentence in consolidation, a count
+error in self-trained-capture-filter, and six techniques missing from the golden
+path's closing list. Techniques whose headline numbers rest on 2026 studies that were
+not re-opened are marked reverify. Applications are reverify because no tree was
+reopened.
+
+<!-- architecture-review:v1 -->
+```json
+{
+  "subject": "software-engineering/agent-memory",
+  "date": "2026-10-31",
+  "baseline": "304e86d6b",
+  "digest": "sha256-b2:6c06fb6d8d6c900f",
+  "disposition": "clarify",
+  "coverage": "All 76 current documents read in full (golden path, 31 techniques, 44 applications). Three primary sources opened this run. No private tree, public source tree or harness was reopened or executed; no verification date refreshed.",
+  "counterexamples": [
+    "A store whose history still fits the consumer's window and is never corrected can lose to the raw transcript in context (baseline-ladder rung 2).",
+    "On a conflict benchmark that tells the agent to prefer the later statement, long-context agents still reach 78% single-hop and at most 28% multi-hop, so the failure is not only weighting by reinforcement.",
+    "LongMemEval: fact decomposition as the value helps multi-session reasoning questions while hurting QA overall.",
+    "A personalized store loses coverage to a gated shared tier yet holds the only copy of most of its items (cross-context-promotion)."
+  ],
+  "sources": [
+    {
+      "url": "https://arxiv.org/html/2410.10813",
+      "result": "Opened. Sec. 5.2: 'replacing sessions or rounds with extracted summaries or facts negatively impacts QA performance due to information loss', except multi-session reasoning. Sec. 5.3: key expansion 'particularly when using user facts, yielded an average improvement of 9.4% in recall@k'. Supports the golden-path boundary and rollup-compaction; resolves spec--consolidation's 'reported, not resolved'."
+    },
+    {
+      "url": "https://raw.githubusercontent.com/cvikasreddy/memory-conflict-resolution/main/README.md",
+      "result": "Re-read. Gain 'not mainly from replacing the LLM with max()'; executor swap worth 2.0 pp average and 0 at 262K; LongMemEval check 26/45 vs 29/45, a null result. No statement that published systems lose most conflict questions."
+    },
+    {
+      "url": "https://arxiv.org/html/2507.05257",
+      "result": "Opened. 'all methods fail on the multi-hop situation (with achieving at most 28% accuracy)'; 'Only long context agents can achieve fairly reasonable results on single-hop scenarios'; agents 'prompted to prioritize later information in case of conflict'. Refutes the consolidation technique's 'every published memory system lost most' as stated."
+    },
+    {
+      "source": "Internal arithmetic",
+      "result": "Checked figures in addresses-before-compression, addresses-not-atoms, cross-context-promotion, diagnosis-withheld-from-the-executor, exposure-is-not-credit, memory-value-model and the rust decay applications; all consistent."
+    },
+    {
+      "source": "Unreopened 2026 studies",
+      "result": "Working-memory harness ablation, procedure transfer and skills-in-harness studies, write-channel injection study, procedure-evolution ablation: not re-opened; affected techniques carry reverify or a stated limit."
+    }
+  ],
+  "documents": {
+    "agent-memory.md": {
+      "disposition": "clarify",
+      "reason": "Hierarchy, provenance, budget, value-model and assumption sections hold. The LongMemEval boundary (distillations lose as values, gain as keys) was confirmed against the paper this run. Owed: the closing technique list omits six techniques the frontmatter declares (diagnosis-withheld-from-the-executor, rejected-revision-leaves-its-evidence, durable-store-failure-posture, gap-directed-elicitation, stale-served-versus-stale-answered, filter-at-the-id-door); add one line each. Not re-checked: the 'later diagnostic work put the larger loss at the write step' sentence."
+    },
+    "techniques/working-memory.md": {
+      "disposition": "reverify",
+      "reason": "Synthesis, scope, reaper and promotion rules are sound design. The propose-check-commit section rests on an unnamed 2026 harness study (+23.9 vs +2.0, 13.5-point write-review ablation) that was not re-opened."
+    },
+    "techniques/episodic-capture.md": {
+      "disposition": "keep",
+      "reason": "Boundaries, distilled body plus pointer, two caps with defer-not-drop, atomic identity claim and immutability are internally consistent and match the rust episodic-capture application."
+    },
+    "techniques/consolidation.md": {
+      "disposition": "clarify",
+      "reason": "Owed (1): the trigger paragraph has a broken sentence ('is the volume of unconsolidated material - which is a trigger for how much work is available...'); restate pressure as the trigger and addresses-before-compression as the payoff question. Owed (2): 'every published memory system lost most of the questions where a later statement should have overridden an earlier one' overstates the 2026 benchmark, which reports at most 28% on multi-hop conflict questions and reasonable single-hop results for long-context agents. The separation result matches the repository README quoted this run."
+    },
+    "techniques/decay-and-forgetting.md": {
+      "disposition": "keep",
+      "reason": "Conjunctive gate, per-tier retirement counts, door tests, expiry vs review window, and the forget bar are consistent with four applications. The 261/375 and 0/133 figures come from the private year replay and were not re-run."
+    },
+    "techniques/recall-injection.md": {
+      "disposition": "keep",
+      "reason": "Tiers, whole-item packing, ceiling-not-target, complements, labels and failed-vs-empty recall hold. The 14.0 to 16.7 granularity figure matches addresses-not-atoms."
+    },
+    "techniques/memory-governance.md": {
+      "disposition": "reverify",
+      "reason": "Lanes, author-of-evidence and taint inheritance are sound. The 2026 study numbers (four write channels, success roughly doubling, weak-signal evasion by more than forty points) were not re-opened."
+    },
+    "techniques/memory-value-model.md": {
+      "disposition": "keep",
+      "reason": "One model, three axes, clamped clock, unknown-instant default and signed-signal boundary are consistent with the node and rust applications; the 54-delivery cap arithmetic checks (e^4 - 1)."
+    },
+    "techniques/rollup-compaction.md": {
+      "disposition": "keep",
+      "reason": "Symmetric measure, minimum family, silence over invention, confidence ceiling and routing-vs-assertion grades hold. The public-benchmark paragraph is now confirmed by the LongMemEval paper (Sec. 5.2-5.3). 0.89 vs 0.86 and 16 stale agree with baseline-ladder."
+    },
+    "techniques/coverage-instrumentation.md": {
+      "disposition": "keep",
+      "reason": "Population denominator, four honest zeros, symbol-level tracing and reliability-vs-accuracy separation are consistent with the bun and react applications."
+    },
+    "techniques/procedure-promotion.md": {
+      "disposition": "reverify",
+      "reason": "Promotion bar, one door, versioning and the first-sight relocation are sound and backed by the claude-code applications. The 2026 transfer study (24.3/33.6/50.5 etc.) and the 8,135-trial skills study (65.7%/4.5%, 29.6%->3.3%) were not re-opened."
+    },
+    "techniques/diagnosis-withheld-from-the-executor.md": {
+      "disposition": "keep",
+      "reason": "Arithmetic checks (63.7-48.7=15.0; 2.8 and 3.4 tax), and the document already states the single-model, no-spread limit and that the mechanism is a hypothesis. The study itself was not re-opened."
+    },
+    "techniques/rejected-revision-leaves-its-evidence.md": {
+      "disposition": "keep",
+      "reason": "Separates the measured half from the design half explicitly; four-field record and best-score bar are argued with their costs. Study not re-opened."
+    },
+    "techniques/baseline-ladder.md": {
+      "disposition": "keep",
+      "reason": "Rungs, learned-rung arm, regime predicate, judge and budget, restraint pair and inner-cap rules hold; 0.68 to 0.89 is the stated 21 points; matches the python baseline-ladder application."
+    },
+    "techniques/lane-reconciliation.md": {
+      "disposition": "keep",
+      "reason": "Declared membership, two directions, floor-based severity, exhaustive absence and per-operation write order are consistent with the node and python applications."
+    },
+    "techniques/probe-without-write-back.md": {
+      "disposition": "keep",
+      "reason": "Read path writes, caller enumeration, uncounted-read structure, writer-side audit and un-baselined probe are consistent with the node and rust applications."
+    },
+    "techniques/owner-and-counterpart-scope.md": {
+      "disposition": "keep",
+      "reason": "Two axes, view-filter test, transition alias and lossless encoding match the python application's cited design."
+    },
+    "techniques/read-set-bounded-links.md": {
+      "disposition": "keep",
+      "reason": "Request-local ids, disjoint ranges and links beside the body; scope limits stated (existence, not truth)."
+    },
+    "techniques/durable-store-failure-posture.md": {
+      "disposition": "keep",
+      "reason": "Read degrades, write refuses; concurrent-loss boundary and the read-set check are stated with the measured limits from the pof application."
+    },
+    "techniques/pending-beliefs-live-apart.md": {
+      "disposition": "keep",
+      "reason": "Failure-direction argument, utterance-first card, whole-claim rejection key and per-credential attribution agree with the rust application (27/6 and 56/7 counts)."
+    },
+    "techniques/self-trained-capture-filter.md": {
+      "disposition": "clarify",
+      "reason": "Typed null, re-test exit, add bar below match bar and unit mismatch are sound and match the node application. Owed: 'at least four causes' introduces a list of five; the later 'first four' reading depends on five."
+    },
+    "techniques/gap-directed-elicitation.md": {
+      "disposition": "keep",
+      "reason": "Acquisition path that feeds episodes, unanswered-is-not-a-value, and the held-out-class blind spot match the python application."
+    },
+    "techniques/loss-site-inventory.md": {
+      "disposition": "keep",
+      "reason": "Sites, in-band notice rule, survival under the next cut and the seeded test are concrete; figures (204/240, 38/96, 311 chars) are from a private run not re-executed."
+    },
+    "techniques/scope-before-similarity.md": {
+      "disposition": "keep",
+      "reason": "Partition first, door re-check, inheritance and the finer-than-read mirror agree with the tencentdb application (0/3/73 of 73)."
+    },
+    "techniques/cross-context-promotion.md": {
+      "disposition": "keep",
+      "reason": "Table arithmetic checks against the claude-code application (123/830 = 15%, 16/16, 14/16, 13/31, 8/31; 128-227 = 15-27% of pool). Admit-never-evict and floor-not-census hold."
+    },
+    "techniques/addresses-before-compression.md": {
+      "disposition": "keep",
+      "reason": "Arithmetic checks (6,895 to 7,376 = +7%; 28 to 10 = -64%; 1,628/26,150 = 6%; 21.7-19.7 = 2.0; 17.3-13.7 = 3.6); falsifiers stated."
+    },
+    "techniques/addresses-not-atoms.md": {
+      "disposition": "keep",
+      "reason": "Per-arm abstention table sums to 18 answerable probes in every arm; reach-vs-fineness arm and falsifiers stated. 'Three and a half points' rounds 3.7."
+    },
+    "techniques/observation-clock.md": {
+      "disposition": "keep",
+      "reason": "Two clocks, grounding instruction, import-as-replay and the prompt-vs-call-path test agree with the python (mem0) and rust applications."
+    },
+    "techniques/stale-served-versus-stale-answered.md": {
+      "disposition": "keep",
+      "reason": "Two rates and the pair table are sound; 92/92 served vs 6-7 answered agrees with the python application."
+    },
+    "techniques/filter-at-the-id-door.md": {
+      "disposition": "keep",
+      "reason": "Loader as the door, empty-is-an-answer and per-hop defaults agree with the node and rust applications."
+    },
+    "techniques/container-carries-decision-status.md": {
+      "disposition": "keep",
+      "reason": "Container rule and the 12/12 vs 0/12 result agree with the rust application; decision rules carry their limits."
+    },
+    "techniques/exposure-is-not-credit.md": {
+      "disposition": "keep",
+      "reason": "Figures agree with the python application (0.82/0.06, 25 of 36, 44/69, 0.36 to 0.92; 5+9+4 = 18). Not-better repair stated honestly."
+    },
+    "applications/bun--coverage-instrumentation.md": {
+      "disposition": "reverify",
+      "reason": "Read in full; internally consistent with its technique. The public source tree and any run behind it were not reopened or re-executed this pass; verified_on unchanged."
+    },
+    "applications/bun--exposure-is-not-credit--practitioner-memory.md": {
+      "disposition": "reverify",
+      "reason": "Read in full; internally consistent with its technique. The public source tree and any run behind it were not reopened or re-executed this pass; verified_on unchanged."
+    },
+    "applications/claude-code--cross-context-promotion.md": {
+      "disposition": "reverify",
+      "reason": "Read in full; internally consistent with its technique. The private or fleet tree and any run behind it were not reopened or re-executed this pass; verified_on unchanged."
+    },
+    "applications/claude-code--diagnosis-withheld-from-the-executor.md": {
+      "disposition": "reverify",
+      "reason": "Read in full; internally consistent with its technique. The private or fleet tree and any run behind it were not reopened or re-executed this pass; verified_on unchanged."
+    },
+    "applications/claude-code--memory-governance.md": {
+      "disposition": "reverify",
+      "reason": "Read in full; internally consistent with its technique. The private or fleet tree and any run behind it were not reopened or re-executed this pass; verified_on unchanged."
+    },
+    "applications/claude-code--procedure-promotion.md": {
+      "disposition": "reverify",
+      "reason": "Read in full; internally consistent with its technique. The private or fleet tree and any run behind it were not reopened or re-executed this pass; verified_on unchanged."
+    },
+    "applications/node--consolidation--tencentdb.md": {
+      "disposition": "reverify",
+      "reason": "Read in full; internally consistent with its technique. The public source tree and any run behind it were not reopened or re-executed this pass; verified_on unchanged."
+    },
+    "applications/node--decay-and-forgetting--tencentdb.md": {
+      "disposition": "reverify",
+      "reason": "Read in full; internally consistent with its technique. The public source tree and any run behind it were not reopened or re-executed this pass; verified_on unchanged."
+    },
+    "applications/node--decay-and-forgetting.md": {
+      "disposition": "reverify",
+      "reason": "Read in full; internally consistent with its technique. The public source tree and any run behind it were not reopened or re-executed this pass; verified_on unchanged."
+    },
+    "applications/node--durable-store-failure-posture--pof.md": {
+      "disposition": "reverify",
+      "reason": "Read in full; internally consistent with its technique. The private or fleet tree and any run behind it were not reopened or re-executed this pass; verified_on unchanged."
+    },
+    "applications/node--durable-store-failure-posture.md": {
+      "disposition": "reverify",
+      "reason": "Read in full; internally consistent with its technique. The private or fleet tree and any run behind it were not reopened or re-executed this pass; verified_on unchanged."
+    },
+    "applications/node--filter-at-the-id-door.md": {
+      "disposition": "reverify",
+      "reason": "Read in full; internally consistent with its technique. The private or fleet tree and any run behind it were not reopened or re-executed this pass; verified_on unchanged."
+    },
+    "applications/node--lane-reconciliation.md": {
+      "disposition": "reverify",
+      "reason": "Read in full; internally consistent with its technique. The private or fleet tree and any run behind it were not reopened or re-executed this pass; verified_on unchanged."
+    },
+    "applications/node--memory-value-model.md": {
+      "disposition": "reverify",
+      "reason": "Read in full; internally consistent with its technique. The private or fleet tree and any run behind it were not reopened or re-executed this pass; verified_on unchanged."
+    },
+    "applications/node--probe-without-write-back.md": {
+      "disposition": "reverify",
+      "reason": "Read in full; internally consistent with its technique. The private or fleet tree and any run behind it were not reopened or re-executed this pass; verified_on unchanged."
+    },
+    "applications/node--scope-before-similarity--tencentdb.md": {
+      "disposition": "reverify",
+      "reason": "Read in full; internally consistent with its technique. The public source tree and any run behind it were not reopened or re-executed this pass; verified_on unchanged."
+    },
+    "applications/node--self-trained-capture-filter.md": {
+      "disposition": "reverify",
+      "reason": "Read in full; internally consistent with its technique. The public source tree and any run behind it were not reopened or re-executed this pass; verified_on unchanged."
+    },
+    "applications/python--baseline-ladder.md": {
+      "disposition": "reverify",
+      "reason": "Read in full; internally consistent with its technique. The public source tree and any run behind it were not reopened or re-executed this pass; verified_on unchanged."
+    },
+    "applications/python--exposure-is-not-credit--personas.md": {
+      "disposition": "reverify",
+      "reason": "Read in full; internally consistent with its technique. The private or fleet tree and any run behind it were not reopened or re-executed this pass; verified_on unchanged."
+    },
+    "applications/python--gap-directed-elicitation.md": {
+      "disposition": "reverify",
+      "reason": "Read in full; internally consistent with its technique. The private or fleet tree and any run behind it were not reopened or re-executed this pass; verified_on unchanged."
+    },
+    "applications/python--lane-reconciliation.md": {
+      "disposition": "reverify",
+      "reason": "Read in full; internally consistent with its technique. The public source tree and any run behind it were not reopened or re-executed this pass; verified_on unchanged."
+    },
+    "applications/python--observation-clock.md": {
+      "disposition": "reverify",
+      "reason": "Read in full; internally consistent with its technique. The public source tree and any run behind it were not reopened or re-executed this pass; verified_on unchanged."
+    },
+    "applications/python--owner-and-counterpart-scope.md": {
+      "disposition": "reverify",
+      "reason": "Read in full; internally consistent with its technique. The public source tree and any run behind it were not reopened or re-executed this pass; verified_on unchanged."
+    },
+    "applications/python--probe-without-write-back.md": {
+      "disposition": "reverify",
+      "reason": "Read in full; internally consistent with its technique. The public source tree and any run behind it were not reopened or re-executed this pass; verified_on unchanged."
+    },
+    "applications/python--read-set-bounded-links.md": {
+      "disposition": "reverify",
+      "reason": "Read in full; internally consistent with its technique. The public source tree and any run behind it were not reopened or re-executed this pass; verified_on unchanged."
+    },
+    "applications/python--stale-served-versus-stale-answered.md": {
+      "disposition": "reverify",
+      "reason": "Read in full; internally consistent with its technique. The private or fleet tree and any run behind it were not reopened or re-executed this pass; verified_on unchanged."
+    },
+    "applications/react--coverage-instrumentation.md": {
+      "disposition": "reverify",
+      "reason": "Read in full; internally consistent with its technique. The private or fleet tree and any run behind it were not reopened or re-executed this pass; verified_on unchanged."
+    },
+    "applications/rust--consolidation--icm.md": {
+      "disposition": "reverify",
+      "reason": "Read in full; internally consistent with its technique. The public source tree and any run behind it were not reopened or re-executed this pass; verified_on unchanged."
+    },
+    "applications/rust--consolidation.md": {
+      "disposition": "reverify",
+      "reason": "Read in full; internally consistent with its technique. The private or fleet tree and any run behind it were not reopened or re-executed this pass; verified_on unchanged."
+    },
+    "applications/rust--container-carries-decision-status.md": {
+      "disposition": "reverify",
+      "reason": "Read in full; internally consistent with its technique. The private or fleet tree and any run behind it were not reopened or re-executed this pass; verified_on unchanged."
+    },
+    "applications/rust--decay-and-forgetting--icm.md": {
+      "disposition": "reverify",
+      "reason": "Read in full; internally consistent with its technique. The public source tree and any run behind it were not reopened or re-executed this pass; verified_on unchanged."
+    },
+    "applications/rust--decay-and-forgetting.md": {
+      "disposition": "reverify",
+      "reason": "Read in full; internally consistent with its technique. The private or fleet tree and any run behind it were not reopened or re-executed this pass; verified_on unchanged."
+    },
+    "applications/rust--durable-store-failure-posture.md": {
+      "disposition": "reverify",
+      "reason": "Read in full; internally consistent with its technique. The private or fleet tree and any run behind it were not reopened or re-executed this pass; verified_on unchanged."
+    },
+    "applications/rust--episodic-capture.md": {
+      "disposition": "reverify",
+      "reason": "Read in full; internally consistent with its technique. The private or fleet tree and any run behind it were not reopened or re-executed this pass; verified_on unchanged."
+    },
+    "applications/rust--filter-at-the-id-door--personas.md": {
+      "disposition": "reverify",
+      "reason": "Read in full; internally consistent with its technique. The private or fleet tree and any run behind it were not reopened or re-executed this pass; verified_on unchanged."
+    },
+    "applications/rust--memory-value-model.md": {
+      "disposition": "reverify",
+      "reason": "Read in full; internally consistent with its technique. The private or fleet tree and any run behind it were not reopened or re-executed this pass; verified_on unchanged."
+    },
+    "applications/rust--observation-clock.md": {
+      "disposition": "reverify",
+      "reason": "Read in full; internally consistent with its technique. The private or fleet tree and any run behind it were not reopened or re-executed this pass; verified_on unchanged."
+    },
+    "applications/rust--pending-beliefs-live-apart.md": {
+      "disposition": "reverify",
+      "reason": "Read in full; internally consistent with its technique. The private or fleet tree and any run behind it were not reopened or re-executed this pass; verified_on unchanged."
+    },
+    "applications/rust--probe-without-write-back.md": {
+      "disposition": "reverify",
+      "reason": "Read in full; internally consistent with its technique. The private or fleet tree and any run behind it were not reopened or re-executed this pass; verified_on unchanged."
+    },
+    "applications/rust--recall-injection--icm.md": {
+      "disposition": "reverify",
+      "reason": "Read in full; internally consistent with its technique. The public source tree and any run behind it were not reopened or re-executed this pass; verified_on unchanged."
+    },
+    "applications/rust--recall-injection.md": {
+      "disposition": "reverify",
+      "reason": "Read in full; internally consistent with its technique. The private or fleet tree and any run behind it were not reopened or re-executed this pass; verified_on unchanged."
+    },
+    "applications/rust--rejected-revision-leaves-its-evidence.md": {
+      "disposition": "reverify",
+      "reason": "Read in full; internally consistent with its technique. The private or fleet tree and any run behind it were not reopened or re-executed this pass; verified_on unchanged."
+    },
+    "applications/spec--consolidation.md": {
+      "disposition": "clarify",
+      "reason": "README quotes for the conflict-resolution repository re-checked this run (2.0 pp, 0 pp at 262K, 26/45 vs 29/45). Owed: the LongMemEval finding is marked 'reported, not resolved'; the paper's HTML was opened this run and supports it (Sec. 5.2 values, Sec. 5.3 keys, 9.4% recall@k). Graphiti README not re-read, so verified_on stays."
+    },
+    "applications/sql--consolidation.md": {
+      "disposition": "reverify",
+      "reason": "Read in full; internally consistent with its technique. The private or fleet tree and any run behind it were not reopened or re-executed this pass; verified_on unchanged."
+    }
+  }
+}
+```
+
+## Architecture review - 2026-10-31 (clarify applied)
+
+The four clarify items from the record above were applied in each document's own
+voice. The second record is computed against the new digest. The remaining reverify
+items are unchanged, so reverify is now the overall disposition.
+
+<!-- architecture-review:v1 -->
+```json
+{
+  "subject": "software-engineering/agent-memory",
+  "date": "2026-10-31",
+  "baseline": "304e86d6b",
+  "digest": "sha256-b2:3969141e7ec94b83",
+  "disposition": "reverify",
+  "coverage": "Second record after applying the four clarify items of the first 2026-10-31 record; edited sections re-read. Other documents byte-unchanged and keep their dispositions. Same sources; no tree reopened, no verification date refreshed.",
+  "counterexamples": [
+    "A store whose history still fits the consumer's window and is never corrected can lose to the raw transcript in context (baseline-ladder rung 2).",
+    "On a conflict benchmark that tells the agent to prefer the later statement, long-context agents still reach 78% single-hop and at most 28% multi-hop, so the failure is not only weighting by reinforcement.",
+    "LongMemEval: fact decomposition as the value helps multi-session reasoning questions while hurting QA overall.",
+    "A personalized store loses coverage to a gated shared tier yet holds the only copy of most of its items (cross-context-promotion)."
+  ],
+  "sources": [
+    {
+      "url": "https://arxiv.org/html/2410.10813",
+      "result": "Opened. Sec. 5.2: 'replacing sessions or rounds with extracted summaries or facts negatively impacts QA performance due to information loss', except multi-session reasoning. Sec. 5.3: key expansion 'particularly when using user facts, yielded an average improvement of 9.4% in recall@k'. Supports the golden-path boundary and rollup-compaction; resolves spec--consolidation's 'reported, not resolved'."
+    },
+    {
+      "url": "https://raw.githubusercontent.com/cvikasreddy/memory-conflict-resolution/main/README.md",
+      "result": "Re-read. Gain 'not mainly from replacing the LLM with max()'; executor swap worth 2.0 pp average and 0 at 262K; LongMemEval check 26/45 vs 29/45, a null result. No statement that published systems lose most conflict questions."
+    },
+    {
+      "url": "https://arxiv.org/html/2507.05257",
+      "result": "Opened. 'all methods fail on the multi-hop situation (with achieving at most 28% accuracy)'; 'Only long context agents can achieve fairly reasonable results on single-hop scenarios'; agents 'prompted to prioritize later information in case of conflict'. Refutes the consolidation technique's 'every published memory system lost most' as stated."
+    },
+    {
+      "source": "Internal arithmetic",
+      "result": "Checked figures in addresses-before-compression, addresses-not-atoms, cross-context-promotion, diagnosis-withheld-from-the-executor, exposure-is-not-credit, memory-value-model and the rust decay applications; all consistent."
+    },
+    {
+      "source": "Unreopened 2026 studies",
+      "result": "Working-memory harness ablation, procedure transfer and skills-in-harness studies, write-channel injection study, procedure-evolution ablation: not re-opened; affected techniques carry reverify or a stated limit."
+    }
+  ],
+  "documents": {
+    "agent-memory.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: added the six missing techniques to the closing list (31 entries, matching the frontmatter). Other sections unchanged and kept."
+    },
+    "techniques/working-memory.md": {
+      "disposition": "reverify",
+      "reason": "Synthesis, scope, reaper and promotion rules are sound design. The propose-check-commit section rests on an unnamed 2026 harness study (+23.9 vs +2.0, 13.5-point write-review ablation) that was not re-opened."
+    },
+    "techniques/episodic-capture.md": {
+      "disposition": "keep",
+      "reason": "Boundaries, distilled body plus pointer, two caps with defer-not-drop, atomic identity claim and immutability are internally consistent and match the rust episodic-capture application."
+    },
+    "techniques/consolidation.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: repaired the trigger sentence (pressure is the trigger; whether the pass pays is addresses-before-compression's question) and replaced the overstated benchmark claim with the measured one (at most 28% multi-hop; long-context agents reasonable single-hop)."
+    },
+    "techniques/decay-and-forgetting.md": {
+      "disposition": "keep",
+      "reason": "Conjunctive gate, per-tier retirement counts, door tests, expiry vs review window, and the forget bar are consistent with four applications. The 261/375 and 0/133 figures come from the private year replay and were not re-run."
+    },
+    "techniques/recall-injection.md": {
+      "disposition": "keep",
+      "reason": "Tiers, whole-item packing, ceiling-not-target, complements, labels and failed-vs-empty recall hold. The 14.0 to 16.7 granularity figure matches addresses-not-atoms."
+    },
+    "techniques/memory-governance.md": {
+      "disposition": "reverify",
+      "reason": "Lanes, author-of-evidence and taint inheritance are sound. The 2026 study numbers (four write channels, success roughly doubling, weak-signal evasion by more than forty points) were not re-opened."
+    },
+    "techniques/memory-value-model.md": {
+      "disposition": "keep",
+      "reason": "One model, three axes, clamped clock, unknown-instant default and signed-signal boundary are consistent with the node and rust applications; the 54-delivery cap arithmetic checks (e^4 - 1)."
+    },
+    "techniques/rollup-compaction.md": {
+      "disposition": "keep",
+      "reason": "Symmetric measure, minimum family, silence over invention, confidence ceiling and routing-vs-assertion grades hold. The public-benchmark paragraph is now confirmed by the LongMemEval paper (Sec. 5.2-5.3). 0.89 vs 0.86 and 16 stale agree with baseline-ladder."
+    },
+    "techniques/coverage-instrumentation.md": {
+      "disposition": "keep",
+      "reason": "Population denominator, four honest zeros, symbol-level tracing and reliability-vs-accuracy separation are consistent with the bun and react applications."
+    },
+    "techniques/procedure-promotion.md": {
+      "disposition": "reverify",
+      "reason": "Promotion bar, one door, versioning and the first-sight relocation are sound and backed by the claude-code applications. The 2026 transfer study (24.3/33.6/50.5 etc.) and the 8,135-trial skills study (65.7%/4.5%, 29.6%->3.3%) were not re-opened."
+    },
+    "techniques/diagnosis-withheld-from-the-executor.md": {
+      "disposition": "keep",
+      "reason": "Arithmetic checks (63.7-48.7=15.0; 2.8 and 3.4 tax), and the document already states the single-model, no-spread limit and that the mechanism is a hypothesis. The study itself was not re-opened."
+    },
+    "techniques/rejected-revision-leaves-its-evidence.md": {
+      "disposition": "keep",
+      "reason": "Separates the measured half from the design half explicitly; four-field record and best-score bar are argued with their costs. Study not re-opened."
+    },
+    "techniques/baseline-ladder.md": {
+      "disposition": "keep",
+      "reason": "Rungs, learned-rung arm, regime predicate, judge and budget, restraint pair and inner-cap rules hold; 0.68 to 0.89 is the stated 21 points; matches the python baseline-ladder application."
+    },
+    "techniques/lane-reconciliation.md": {
+      "disposition": "keep",
+      "reason": "Declared membership, two directions, floor-based severity, exhaustive absence and per-operation write order are consistent with the node and python applications."
+    },
+    "techniques/probe-without-write-back.md": {
+      "disposition": "keep",
+      "reason": "Read path writes, caller enumeration, uncounted-read structure, writer-side audit and un-baselined probe are consistent with the node and rust applications."
+    },
+    "techniques/owner-and-counterpart-scope.md": {
+      "disposition": "keep",
+      "reason": "Two axes, view-filter test, transition alias and lossless encoding match the python application's cited design."
+    },
+    "techniques/read-set-bounded-links.md": {
+      "disposition": "keep",
+      "reason": "Request-local ids, disjoint ranges and links beside the body; scope limits stated (existence, not truth)."
+    },
+    "techniques/durable-store-failure-posture.md": {
+      "disposition": "keep",
+      "reason": "Read degrades, write refuses; concurrent-loss boundary and the read-set check are stated with the measured limits from the pof application."
+    },
+    "techniques/pending-beliefs-live-apart.md": {
+      "disposition": "keep",
+      "reason": "Failure-direction argument, utterance-first card, whole-claim rejection key and per-credential attribution agree with the rust application (27/6 and 56/7 counts)."
+    },
+    "techniques/self-trained-capture-filter.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: 'at least four causes' -> 'at least five causes', matching the list."
+    },
+    "techniques/gap-directed-elicitation.md": {
+      "disposition": "keep",
+      "reason": "Acquisition path that feeds episodes, unanswered-is-not-a-value, and the held-out-class blind spot match the python application."
+    },
+    "techniques/loss-site-inventory.md": {
+      "disposition": "keep",
+      "reason": "Sites, in-band notice rule, survival under the next cut and the seeded test are concrete; figures (204/240, 38/96, 311 chars) are from a private run not re-executed."
+    },
+    "techniques/scope-before-similarity.md": {
+      "disposition": "keep",
+      "reason": "Partition first, door re-check, inheritance and the finer-than-read mirror agree with the tencentdb application (0/3/73 of 73)."
+    },
+    "techniques/cross-context-promotion.md": {
+      "disposition": "keep",
+      "reason": "Table arithmetic checks against the claude-code application (123/830 = 15%, 16/16, 14/16, 13/31, 8/31; 128-227 = 15-27% of pool). Admit-never-evict and floor-not-census hold."
+    },
+    "techniques/addresses-before-compression.md": {
+      "disposition": "keep",
+      "reason": "Arithmetic checks (6,895 to 7,376 = +7%; 28 to 10 = -64%; 1,628/26,150 = 6%; 21.7-19.7 = 2.0; 17.3-13.7 = 3.6); falsifiers stated."
+    },
+    "techniques/addresses-not-atoms.md": {
+      "disposition": "keep",
+      "reason": "Per-arm abstention table sums to 18 answerable probes in every arm; reach-vs-fineness arm and falsifiers stated. 'Three and a half points' rounds 3.7."
+    },
+    "techniques/observation-clock.md": {
+      "disposition": "keep",
+      "reason": "Two clocks, grounding instruction, import-as-replay and the prompt-vs-call-path test agree with the python (mem0) and rust applications."
+    },
+    "techniques/stale-served-versus-stale-answered.md": {
+      "disposition": "keep",
+      "reason": "Two rates and the pair table are sound; 92/92 served vs 6-7 answered agrees with the python application."
+    },
+    "techniques/filter-at-the-id-door.md": {
+      "disposition": "keep",
+      "reason": "Loader as the door, empty-is-an-answer and per-hop defaults agree with the node and rust applications."
+    },
+    "techniques/container-carries-decision-status.md": {
+      "disposition": "keep",
+      "reason": "Container rule and the 12/12 vs 0/12 result agree with the rust application; decision rules carry their limits."
+    },
+    "techniques/exposure-is-not-credit.md": {
+      "disposition": "keep",
+      "reason": "Figures agree with the python application (0.82/0.06, 25 of 36, 44/69, 0.36 to 0.92; 5+9+4 = 18). Not-better repair stated honestly."
+    },
+    "applications/bun--coverage-instrumentation.md": {
+      "disposition": "reverify",
+      "reason": "Read in full; internally consistent with its technique. The public source tree and any run behind it were not reopened or re-executed this pass; verified_on unchanged."
+    },
+    "applications/bun--exposure-is-not-credit--practitioner-memory.md": {
+      "disposition": "reverify",
+      "reason": "Read in full; internally consistent with its technique. The public source tree and any run behind it were not reopened or re-executed this pass; verified_on unchanged."
+    },
+    "applications/claude-code--cross-context-promotion.md": {
+      "disposition": "reverify",
+      "reason": "Read in full; internally consistent with its technique. The private or fleet tree and any run behind it were not reopened or re-executed this pass; verified_on unchanged."
+    },
+    "applications/claude-code--diagnosis-withheld-from-the-executor.md": {
+      "disposition": "reverify",
+      "reason": "Read in full; internally consistent with its technique. The private or fleet tree and any run behind it were not reopened or re-executed this pass; verified_on unchanged."
+    },
+    "applications/claude-code--memory-governance.md": {
+      "disposition": "reverify",
+      "reason": "Read in full; internally consistent with its technique. The private or fleet tree and any run behind it were not reopened or re-executed this pass; verified_on unchanged."
+    },
+    "applications/claude-code--procedure-promotion.md": {
+      "disposition": "reverify",
+      "reason": "Read in full; internally consistent with its technique. The private or fleet tree and any run behind it were not reopened or re-executed this pass; verified_on unchanged."
+    },
+    "applications/node--consolidation--tencentdb.md": {
+      "disposition": "reverify",
+      "reason": "Read in full; internally consistent with its technique. The public source tree and any run behind it were not reopened or re-executed this pass; verified_on unchanged."
+    },
+    "applications/node--decay-and-forgetting--tencentdb.md": {
+      "disposition": "reverify",
+      "reason": "Read in full; internally consistent with its technique. The public source tree and any run behind it were not reopened or re-executed this pass; verified_on unchanged."
+    },
+    "applications/node--decay-and-forgetting.md": {
+      "disposition": "reverify",
+      "reason": "Read in full; internally consistent with its technique. The public source tree and any run behind it were not reopened or re-executed this pass; verified_on unchanged."
+    },
+    "applications/node--durable-store-failure-posture--pof.md": {
+      "disposition": "reverify",
+      "reason": "Read in full; internally consistent with its technique. The private or fleet tree and any run behind it were not reopened or re-executed this pass; verified_on unchanged."
+    },
+    "applications/node--durable-store-failure-posture.md": {
+      "disposition": "reverify",
+      "reason": "Read in full; internally consistent with its technique. The private or fleet tree and any run behind it were not reopened or re-executed this pass; verified_on unchanged."
+    },
+    "applications/node--filter-at-the-id-door.md": {
+      "disposition": "reverify",
+      "reason": "Read in full; internally consistent with its technique. The private or fleet tree and any run behind it were not reopened or re-executed this pass; verified_on unchanged."
+    },
+    "applications/node--lane-reconciliation.md": {
+      "disposition": "reverify",
+      "reason": "Read in full; internally consistent with its technique. The private or fleet tree and any run behind it were not reopened or re-executed this pass; verified_on unchanged."
+    },
+    "applications/node--memory-value-model.md": {
+      "disposition": "reverify",
+      "reason": "Read in full; internally consistent with its technique. The private or fleet tree and any run behind it were not reopened or re-executed this pass; verified_on unchanged."
+    },
+    "applications/node--probe-without-write-back.md": {
+      "disposition": "reverify",
+      "reason": "Read in full; internally consistent with its technique. The private or fleet tree and any run behind it were not reopened or re-executed this pass; verified_on unchanged."
+    },
+    "applications/node--scope-before-similarity--tencentdb.md": {
+      "disposition": "reverify",
+      "reason": "Read in full; internally consistent with its technique. The public source tree and any run behind it were not reopened or re-executed this pass; verified_on unchanged."
+    },
+    "applications/node--self-trained-capture-filter.md": {
+      "disposition": "reverify",
+      "reason": "Read in full; internally consistent with its technique. The public source tree and any run behind it were not reopened or re-executed this pass; verified_on unchanged."
+    },
+    "applications/python--baseline-ladder.md": {
+      "disposition": "reverify",
+      "reason": "Read in full; internally consistent with its technique. The public source tree and any run behind it were not reopened or re-executed this pass; verified_on unchanged."
+    },
+    "applications/python--exposure-is-not-credit--personas.md": {
+      "disposition": "reverify",
+      "reason": "Read in full; internally consistent with its technique. The private or fleet tree and any run behind it were not reopened or re-executed this pass; verified_on unchanged."
+    },
+    "applications/python--gap-directed-elicitation.md": {
+      "disposition": "reverify",
+      "reason": "Read in full; internally consistent with its technique. The private or fleet tree and any run behind it were not reopened or re-executed this pass; verified_on unchanged."
+    },
+    "applications/python--lane-reconciliation.md": {
+      "disposition": "reverify",
+      "reason": "Read in full; internally consistent with its technique. The public source tree and any run behind it were not reopened or re-executed this pass; verified_on unchanged."
+    },
+    "applications/python--observation-clock.md": {
+      "disposition": "reverify",
+      "reason": "Read in full; internally consistent with its technique. The public source tree and any run behind it were not reopened or re-executed this pass; verified_on unchanged."
+    },
+    "applications/python--owner-and-counterpart-scope.md": {
+      "disposition": "reverify",
+      "reason": "Read in full; internally consistent with its technique. The public source tree and any run behind it were not reopened or re-executed this pass; verified_on unchanged."
+    },
+    "applications/python--probe-without-write-back.md": {
+      "disposition": "reverify",
+      "reason": "Read in full; internally consistent with its technique. The public source tree and any run behind it were not reopened or re-executed this pass; verified_on unchanged."
+    },
+    "applications/python--read-set-bounded-links.md": {
+      "disposition": "reverify",
+      "reason": "Read in full; internally consistent with its technique. The public source tree and any run behind it were not reopened or re-executed this pass; verified_on unchanged."
+    },
+    "applications/python--stale-served-versus-stale-answered.md": {
+      "disposition": "reverify",
+      "reason": "Read in full; internally consistent with its technique. The private or fleet tree and any run behind it were not reopened or re-executed this pass; verified_on unchanged."
+    },
+    "applications/react--coverage-instrumentation.md": {
+      "disposition": "reverify",
+      "reason": "Read in full; internally consistent with its technique. The private or fleet tree and any run behind it were not reopened or re-executed this pass; verified_on unchanged."
+    },
+    "applications/rust--consolidation--icm.md": {
+      "disposition": "reverify",
+      "reason": "Read in full; internally consistent with its technique. The public source tree and any run behind it were not reopened or re-executed this pass; verified_on unchanged."
+    },
+    "applications/rust--consolidation.md": {
+      "disposition": "reverify",
+      "reason": "Read in full; internally consistent with its technique. The private or fleet tree and any run behind it were not reopened or re-executed this pass; verified_on unchanged."
+    },
+    "applications/rust--container-carries-decision-status.md": {
+      "disposition": "reverify",
+      "reason": "Read in full; internally consistent with its technique. The private or fleet tree and any run behind it were not reopened or re-executed this pass; verified_on unchanged."
+    },
+    "applications/rust--decay-and-forgetting--icm.md": {
+      "disposition": "reverify",
+      "reason": "Read in full; internally consistent with its technique. The public source tree and any run behind it were not reopened or re-executed this pass; verified_on unchanged."
+    },
+    "applications/rust--decay-and-forgetting.md": {
+      "disposition": "reverify",
+      "reason": "Read in full; internally consistent with its technique. The private or fleet tree and any run behind it were not reopened or re-executed this pass; verified_on unchanged."
+    },
+    "applications/rust--durable-store-failure-posture.md": {
+      "disposition": "reverify",
+      "reason": "Read in full; internally consistent with its technique. The private or fleet tree and any run behind it were not reopened or re-executed this pass; verified_on unchanged."
+    },
+    "applications/rust--episodic-capture.md": {
+      "disposition": "reverify",
+      "reason": "Read in full; internally consistent with its technique. The private or fleet tree and any run behind it were not reopened or re-executed this pass; verified_on unchanged."
+    },
+    "applications/rust--filter-at-the-id-door--personas.md": {
+      "disposition": "reverify",
+      "reason": "Read in full; internally consistent with its technique. The private or fleet tree and any run behind it were not reopened or re-executed this pass; verified_on unchanged."
+    },
+    "applications/rust--memory-value-model.md": {
+      "disposition": "reverify",
+      "reason": "Read in full; internally consistent with its technique. The private or fleet tree and any run behind it were not reopened or re-executed this pass; verified_on unchanged."
+    },
+    "applications/rust--observation-clock.md": {
+      "disposition": "reverify",
+      "reason": "Read in full; internally consistent with its technique. The private or fleet tree and any run behind it were not reopened or re-executed this pass; verified_on unchanged."
+    },
+    "applications/rust--pending-beliefs-live-apart.md": {
+      "disposition": "reverify",
+      "reason": "Read in full; internally consistent with its technique. The private or fleet tree and any run behind it were not reopened or re-executed this pass; verified_on unchanged."
+    },
+    "applications/rust--probe-without-write-back.md": {
+      "disposition": "reverify",
+      "reason": "Read in full; internally consistent with its technique. The private or fleet tree and any run behind it were not reopened or re-executed this pass; verified_on unchanged."
+    },
+    "applications/rust--recall-injection--icm.md": {
+      "disposition": "reverify",
+      "reason": "Read in full; internally consistent with its technique. The public source tree and any run behind it were not reopened or re-executed this pass; verified_on unchanged."
+    },
+    "applications/rust--recall-injection.md": {
+      "disposition": "reverify",
+      "reason": "Read in full; internally consistent with its technique. The private or fleet tree and any run behind it were not reopened or re-executed this pass; verified_on unchanged."
+    },
+    "applications/rust--rejected-revision-leaves-its-evidence.md": {
+      "disposition": "reverify",
+      "reason": "Read in full; internally consistent with its technique. The private or fleet tree and any run behind it were not reopened or re-executed this pass; verified_on unchanged."
+    },
+    "applications/spec--consolidation.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: recorded the LongMemEval paper's own wording as resolving the 'reported, not resolved' finding. verified_on left unchanged because the Graphiti README was not re-read."
+    },
+    "applications/sql--consolidation.md": {
+      "disposition": "reverify",
+      "reason": "Read in full; internally consistent with its technique. The private or fleet tree and any run behind it were not reopened or re-executed this pass; verified_on unchanged."
+    }
+  }
+}
+```
