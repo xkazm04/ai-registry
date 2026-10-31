@@ -27,7 +27,9 @@ to preserve**, and it arrives disguised as a successful update.
 ## Three states, not two
 
 An overlay's treatment of a collection has three distinguishable inputs, and
-a merge that collapses them into two is already broken:
+a pipeline that collapses them into two before the merge decides is already
+broken — the merge may map two of them to one outcome, but only as a declared
+choice:
 
 | Overlay says | Intended meaning |
 | --- | --- |

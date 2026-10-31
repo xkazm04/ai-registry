@@ -31,7 +31,7 @@ applied per entity (and, where it earns its keep, per field):
 | **full** | semantics preserved | works as it did at home |
 | **approximate** | works, differs in a stated way | read the note before relying on it |
 | **data-only** | carried as inert configuration | finish this by hand |
-| **dropped** | not carried, with reason | rebuild or live without |
+| **unsupported** | dropped — not carried, with reason | rebuild or live without |
 
 Four-ish grades is the sweet spot: two ("imported / not") cannot express
 approximation, which is where the dangerous surprises live; ten produces

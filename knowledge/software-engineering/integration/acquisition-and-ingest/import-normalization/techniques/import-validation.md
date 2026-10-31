@@ -95,9 +95,9 @@ wholesale*, because it cannot patch inside an array at all. JSON Patch
 operation. The common deep-merge utilities read an empty source collection
 as *nothing to contribute* and leave the target intact — the opposite of
 the merge-patch reading for the same bytes. And at least one widely
-deployed configuration-API merge dialect grew explicit `replace` and
-`delete` directives after its two documented spellings of *delete* were
-found to produce different results.
+deployed configuration-API merge dialect exists because whole-list
+replacement was "often not what we want": it merges lists by key and
+carries explicit `replace` and `delete` directives.
 
 The rule: **a partial-document format declares which spelling means
 "untouched", and the merge tests presence before it tests content.** When

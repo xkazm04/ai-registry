@@ -206,8 +206,9 @@ The second import of the same material is not a fresh proposal but an
 **overlay** on something canonical, and one question decides whether it
 preserves or destroys: what does the overlay's *silence* mean? A key the
 overlay never mentions, a collection it carries empty, and a collection it
-fills are three distinguishable inputs, and a merge that collapses the first
-two has already lost the argument. This path's declared choice — because the
+fills are three distinguishable inputs, and a pipeline that collapses the
+first two before the merge decides has already lost the argument — the merge
+may resolve two of them to one outcome, but only as a declared choice. This path's declared choice — because the
 overlay's author is typically an exporter omitting what it considers
 unchanged, or a person who edited one branch of a large document — is that
 **an empty collection means "not mentioned", and wholesale replacement
