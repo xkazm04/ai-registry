@@ -302,7 +302,7 @@
       "name": "lens-scan",
       "source": "./skills/lens-scan",
       "description": "Measure a product feature by feature through one lens or all of them in one read - development, security, design, or any lens whose manifest declares a scan block (judgement, or composed script / conform / judgement steps) - and record hard numbers over time in a local store inside the repo, then propose backlog items scored by the shared scan-finding/1 contract that each name the metric they…",
-      "version": "1.13.0",
+      "version": "1.14.0",
       "category": "workflow",
       "tags": [
         "measure",
