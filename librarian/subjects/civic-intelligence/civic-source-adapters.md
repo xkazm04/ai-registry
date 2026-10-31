@@ -131,3 +131,152 @@ project is node.
   }
 }
 ```
+
+## Architecture review - 2026-10-31
+
+The 2026-09-09 clarifies are in the text. The publisher pages were re-read and Unicode decomposition re-probed. One application's 2026-09-09 limitation is now partly superseded by a sibling application.
+
+<!-- architecture-review:v1 -->
+```json
+{
+  "subject": "civic-intelligence/civic-source-adapters",
+  "date": "2026-10-31",
+  "baseline": "8432a5cfa",
+  "digest": "sha256-b2:12619eb6d175ea59",
+  "disposition": "clarify",
+  "coverage": "All thirteen owned documents read: the golden path, six techniques and six applications, four of the applications added 2026-10-10 to 2026-10-14. The 2026-09-09 clarify items are present. The publisher format and open-data pages were re-read. Unicode decomposition was re-probed under the local Node runtime's built-in normalization. The consumer tree, the live registry pagination and the bulk exports were not exercised, and application dates stay as they were.",
+  "counterexamples": [
+    "An application's 2026-09-09 review note says empty, sentinel and malformed value cells collapse into one null pair, while a 2026-10-14 sibling application adds a closed value state beside that pair. A reader of the older note gets a stale limitation.",
+    "A header-only election registry body has no documented empty marker, so the shape guard cannot distinguish an empty acquisition from an empty registry.",
+    "A table-only fold leaves a decomposed acute accent in the key, so the composed and decomposed spellings of one name fold to different keys.",
+    "A withdrawn contract disappears from the publisher's historical dumps but persists in a cached copy (retained from 2026-09-09)."
+  ],
+  "sources": [
+    {
+      "url": "https://www.psp.cz/sqw/hp.sqw?k=1300",
+      "result": "Re-read 2026-10-31. Pipe separator ('znak roury'), empty column is null, backslash-led escape sequences with no enumerated list, windows-1250, 'nové sloupce přidávány na konec' (new columns appended at the end), no timezone statement. Attribution required: 'uvedením zdroje dat a případně datem zpracování'. The unchanged reverify on the UNL application stands."
+    },
+    {
+      "url": "https://smlouvy.gov.cz/stranka/otevrena-data",
+      "result": "Re-read 2026-10-31. Monthly 'dump_<YYYY>_<MM>.xml' refreshed daily, with an index.xml. Modification or withdrawal updates already generated dumps, and withdrawal at the publisher's request removes 'všech verzí smlouvy z historických dumpů'. The recipient 'se stává správcem osobních údajů'. Supports the technique's withdrawal propagation and the retraction of 'no structured export'."
+    },
+    {
+      "source": "Built-in normalization probe, Node 22",
+      "result": "NFD gives ď = U+0064 U+030C, ť = U+0074 U+030C, ľ = U+006C U+030C, á = U+0061 U+0301. ł, đ and ø have no decomposition. Supports the normalization technique and its application's correction."
+    },
+    {
+      "source": "Internal consistency across applications",
+      "result": "The session-bound application's null-pair limitation is partly superseded by the publisher-sentinel-values application (ValueState added, null pair unchanged). In the session-bound application, 132 x 5 = 660 calls checks out."
+    }
+  ],
+  "documents": {
+    "civic-source-adapters.md": {"disposition": "keep", "reason": "The decoder, compatible-extension, snapshot-completeness, normalization-versus-transliteration and privacy narrowing all landed."},
+    "techniques/entity-name-normalization.md": {"disposition": "keep", "reason": "Caron decomposition and stroke exceptions were reproduced. The 2026-10-10 whitespace boundary matches its application."},
+    "techniques/fail-loud-schema-drift.md": {"disposition": "keep", "reason": "Positive empty evidence, compatible trailing extensions and transition-scoped event identity are present. The publisher's append-at-end policy confirms the extension clause."},
+    "techniques/legacy-encoding-and-escape-parsing.md": {"disposition": "keep", "reason": "Unknown escapes are quarantined. The 'source-backed timezone' rule is consistent with the publisher page, which gives none."},
+    "techniques/licence-and-privacy-by-construction.md": {"disposition": "keep", "reason": "Licence and privacy are kept separate. The 2026-10-14 note-writer boundary is consistent. Withdrawal propagation is confirmed by the publisher's dump policy."},
+    "techniques/publisher-sentinel-values.md": {"disposition": "keep", "reason": "Documented-convention-only sentinels and the three kinds of null are present and match the 2026-10-14 application."},
+    "techniques/session-bound-scraping.md": {"disposition": "keep", "reason": "Negative discovery claims are scoped, structured channels are preferred, and the cache follows the publisher's freshness contract."},
+    "applications/node--legacy-encoding-and-escape-parsing.md": {"disposition": "reverify", "reason": "The publisher grammar was re-read and still lacks an escape list and timezone. The consumer repair of the five reproduced limits is not shown."},
+    "applications/node--session-bound-scraping.md": {"disposition": "clarify", "reason": "Its 2026-09-09 note says empty, sentinel and malformed cells 'collapse into the same null pair'. The 2026-10-14 sentinel application adds a closed value state beside the unchanged pair, so add a dated cross-reference. The live protocol has still not been rerun."},
+    "applications/node--entity-name-normalization.md": {"disposition": "reverify", "reason": "The decomposition facts were reproduced and the table is internally consistent (853 decomposed twins, 13 whitespace misses). The consumer commits and the payload population were not reopened."},
+    "applications/node--fail-loud-schema-drift.md": {"disposition": "reverify", "reason": "Internally consistent, with its scope limits stated (no empty marker, header not re-fetched). The consumer change was not reopened."},
+    "applications/node--licence-and-privacy-by-construction.md": {"disposition": "reverify", "reason": "Structural-only proof with persisted prose left open, as stated. The consumer change was not reopened."},
+    "applications/node--publisher-sentinel-values.md": {"disposition": "reverify", "reason": "Internally consistent; the unparsed frequency is unmeasured, as stated. The consumer change was not reopened."}
+  }
+}
+```
+
+### Applied - 2026-10-31
+
+Phase B applied the cross-reference. The application stays `reverify` for its live protocol.
+
+<!-- architecture-review:v1 -->
+```json
+{
+  "subject": "civic-intelligence/civic-source-adapters",
+  "date": "2026-10-31",
+  "baseline": "8432a5cfa",
+  "digest": "sha256-b2:d0e1ed56581d3d10",
+  "disposition": "reverify",
+  "coverage": "Second record, same session, against the digest after Phase B. All thirteen owned documents read: the golden path, six techniques and six applications, four of the applications added 2026-10-10 to 2026-10-14. The 2026-09-09 clarify items are present. The publisher format and open-data pages were re-read. Unicode decomposition was re-probed under the local Node runtime's built-in normalization. The consumer tree, the live registry pagination and the bulk exports were not exercised, and application dates stay as they were.",
+  "counterexamples": [
+    "An application's 2026-09-09 review note says empty, sentinel and malformed value cells collapse into one null pair, while a 2026-10-14 sibling application adds a closed value state beside that pair. A reader of the older note gets a stale limitation.",
+    "A header-only election registry body has no documented empty marker, so the shape guard cannot distinguish an empty acquisition from an empty registry.",
+    "A table-only fold leaves a decomposed acute accent in the key, so the composed and decomposed spellings of one name fold to different keys.",
+    "A withdrawn contract disappears from the publisher's historical dumps but persists in a cached copy (retained from 2026-09-09)."
+  ],
+  "sources": [
+    {
+      "url": "https://www.psp.cz/sqw/hp.sqw?k=1300",
+      "result": "Re-read 2026-10-31. Pipe separator ('znak roury'), empty column is null, backslash-led escape sequences with no enumerated list, windows-1250, 'nové sloupce přidávány na konec' (new columns appended at the end), no timezone statement. Attribution required: 'uvedením zdroje dat a případně datem zpracování'. The unchanged reverify on the UNL application stands."
+    },
+    {
+      "url": "https://smlouvy.gov.cz/stranka/otevrena-data",
+      "result": "Re-read 2026-10-31. Monthly 'dump_<YYYY>_<MM>.xml' refreshed daily, with an index.xml. Modification or withdrawal updates already generated dumps, and withdrawal at the publisher's request removes 'všech verzí smlouvy z historických dumpů'. The recipient 'se stává správcem osobních údajů'. Supports the technique's withdrawal propagation and the retraction of 'no structured export'."
+    },
+    {
+      "source": "Built-in normalization probe, Node 22",
+      "result": "NFD gives ď = U+0064 U+030C, ť = U+0074 U+030C, ľ = U+006C U+030C, á = U+0061 U+0301. ł, đ and ø have no decomposition. Supports the normalization technique and its application's correction."
+    },
+    {
+      "source": "Internal consistency across applications",
+      "result": "The session-bound application's null-pair limitation is partly superseded by the publisher-sentinel-values application (ValueState added, null pair unchanged). In the session-bound application, 132 x 5 = 660 calls checks out."
+    }
+  ],
+  "documents": {
+    "civic-source-adapters.md": {
+      "disposition": "keep",
+      "reason": "The decoder, compatible-extension, snapshot-completeness, normalization-versus-transliteration and privacy narrowing all landed."
+    },
+    "techniques/entity-name-normalization.md": {
+      "disposition": "keep",
+      "reason": "Caron decomposition and stroke exceptions were reproduced. The 2026-10-10 whitespace boundary matches its application."
+    },
+    "techniques/fail-loud-schema-drift.md": {
+      "disposition": "keep",
+      "reason": "Positive empty evidence, compatible trailing extensions and transition-scoped event identity are present. The publisher's append-at-end policy confirms the extension clause."
+    },
+    "techniques/legacy-encoding-and-escape-parsing.md": {
+      "disposition": "keep",
+      "reason": "Unknown escapes are quarantined. The 'source-backed timezone' rule is consistent with the publisher page, which gives none."
+    },
+    "techniques/licence-and-privacy-by-construction.md": {
+      "disposition": "keep",
+      "reason": "Licence and privacy are kept separate. The 2026-10-14 note-writer boundary is consistent. Withdrawal propagation is confirmed by the publisher's dump policy."
+    },
+    "techniques/publisher-sentinel-values.md": {
+      "disposition": "keep",
+      "reason": "Documented-convention-only sentinels and the three kinds of null are present and match the 2026-10-14 application."
+    },
+    "techniques/session-bound-scraping.md": {
+      "disposition": "keep",
+      "reason": "Negative discovery claims are scoped, structured channels are preferred, and the cache follows the publisher's freshness contract."
+    },
+    "applications/node--legacy-encoding-and-escape-parsing.md": {
+      "disposition": "reverify",
+      "reason": "The publisher grammar was re-read and still lacks an escape list and timezone. The consumer repair of the five reproduced limits is not shown."
+    },
+    "applications/node--session-bound-scraping.md": {
+      "disposition": "reverify",
+      "reason": "applied 2026-10-31: the null-pair limitation now carries a dated note that a closed value state travels beside the unchanged pair (2026-10-14 sentinel application). Live pagination, the empty-page check, calendar dates and the decimal grammar are still unverified."
+    },
+    "applications/node--entity-name-normalization.md": {
+      "disposition": "reverify",
+      "reason": "The decomposition facts were reproduced and the table is internally consistent (853 decomposed twins, 13 whitespace misses). The consumer commits and the payload population were not reopened."
+    },
+    "applications/node--fail-loud-schema-drift.md": {
+      "disposition": "reverify",
+      "reason": "Internally consistent, with its scope limits stated (no empty marker, header not re-fetched). The consumer change was not reopened."
+    },
+    "applications/node--licence-and-privacy-by-construction.md": {
+      "disposition": "reverify",
+      "reason": "Structural-only proof with persisted prose left open, as stated. The consumer change was not reopened."
+    },
+    "applications/node--publisher-sentinel-values.md": {
+      "disposition": "reverify",
+      "reason": "Internally consistent; the unparsed frequency is unmeasured, as stated. The consumer change was not reopened."
+    }
+  }
+}
+```

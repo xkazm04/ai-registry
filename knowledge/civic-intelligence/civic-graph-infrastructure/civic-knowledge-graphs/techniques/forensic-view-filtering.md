@@ -23,7 +23,8 @@ checks happen before this display filter, including before data reaches a client
 
 In the graph's forensic reading mode, the ambient landscape — the hairball a
 reader explores without having asked a specific question — shows only edges
-that passed human review. Per
+that passed human review, plus deterministic public-record edges that carry no
+review state (see the admission rule below). Per
 [lead-not-finding](../../../_laws.md#lead-not-finding), a pending machine match is
 a lead; painting it into the default landscape *asserts* it to every reader who
 will never open its detail. The filter runs at the edge level against review
