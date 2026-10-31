@@ -24,9 +24,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/localization/right-to-left/arabic/arabic.md",
-   "digest": "sha256-b2:6990eeca9f2e4fa6",
-   "revision": 9,
-   "changedAt": "2026-10-25",
+   "digest": "sha256-b2:53c0663a7ebb154e",
+   "revision": 10,
+   "changedAt": "2026-10-31",
    "techniques": [
     {
      "slug": "bidirectional-text-and-interpolation",
@@ -157,9 +157,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/localization/south-and-southeast-asian/bengali/bengali.md",
-   "digest": "sha256-b2:f8222814b4410c8c",
-   "revision": 8,
-   "changedAt": "2026-10-25",
+   "digest": "sha256-b2:36991cecaf34a651",
+   "revision": 9,
+   "changedAt": "2026-10-31",
    "techniques": [
     {
      "slug": "bengali-script-and-numerals",
@@ -287,9 +287,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/localization/east-asian/chinese/chinese.md",
-   "digest": "sha256-b2:7e7d9ba93cb13ebe",
-   "revision": 8,
-   "changedAt": "2026-10-25",
+   "digest": "sha256-b2:0a8f741a4c45e97c",
+   "revision": 9,
+   "changedAt": "2026-10-31",
    "techniques": [
     {
      "slug": "character-width-and-typography",
@@ -652,9 +652,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/localization/european/czech/czech.md",
-   "digest": "sha256-b2:235d75274930244a",
-   "revision": 10,
-   "changedAt": "2026-10-25",
+   "digest": "sha256-b2:23aa7e62bfa07654",
+   "revision": 11,
+   "changedAt": "2026-10-31",
    "techniques": [
     {
      "slug": "de-anglicization-constructions",
@@ -931,9 +931,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/localization/european/french/french.md",
-   "digest": "sha256-b2:3eebbb00531c7fb5",
-   "revision": 8,
-   "changedAt": "2026-10-25",
+   "digest": "sha256-b2:7bf65427ac5a903d",
+   "revision": 9,
+   "changedAt": "2026-10-31",
    "techniques": [
     {
      "slug": "de-anglicization-constructions",
@@ -1044,9 +1044,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/localization/european/german/german.md",
-   "digest": "sha256-b2:9bc6e089ff871b75",
-   "revision": 6,
-   "changedAt": "2026-10-25",
+   "digest": "sha256-b2:7d853083e9e11474",
+   "revision": 7,
+   "changedAt": "2026-10-31",
    "techniques": [
     {
      "slug": "capitalization-and-compounds",
@@ -1153,9 +1153,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/localization/south-and-southeast-asian/hindi/hindi.md",
-   "digest": "sha256-b2:9ab3a14eb6e46f28",
-   "revision": 6,
-   "changedAt": "2026-10-25",
+   "digest": "sha256-b2:64434173e617b525",
+   "revision": 7,
+   "changedAt": "2026-10-31",
    "techniques": [
     {
      "slug": "de-anglicization-constructions",
@@ -1265,9 +1265,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/localization/south-and-southeast-asian/indonesian/indonesian.md",
-   "digest": "sha256-b2:ea02c26160210172",
-   "revision": 5,
-   "changedAt": "2026-10-25",
+   "digest": "sha256-b2:c85be7881a6cd02f",
+   "revision": 6,
+   "changedAt": "2026-10-31",
    "techniques": [
     {
      "slug": "de-anglicization-constructions",
@@ -1364,9 +1364,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/localization/east-asian/japanese/japanese.md",
-   "digest": "sha256-b2:fd6a70b4e29cd675",
-   "revision": 6,
-   "changedAt": "2026-10-25",
+   "digest": "sha256-b2:a3a50b84fb4fedf4",
+   "revision": 7,
+   "changedAt": "2026-10-31",
    "techniques": [
     {
      "slug": "character-width-and-typography",
@@ -1475,9 +1475,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/localization/east-asian/korean/korean.md",
-   "digest": "sha256-b2:175ff84788b33ede",
-   "revision": 8,
-   "changedAt": "2026-10-25",
+   "digest": "sha256-b2:3e962ddc6347d1ea",
+   "revision": 9,
+   "changedAt": "2026-10-31",
    "techniques": [
     {
      "slug": "counting-and-quantity",
@@ -1594,9 +1594,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/localization/european/russian/russian.md",
-   "digest": "sha256-b2:8b3a6423f877cfa0",
-   "revision": 7,
-   "changedAt": "2026-10-25",
+   "digest": "sha256-b2:a336a48f270867d7",
+   "revision": 8,
+   "changedAt": "2026-10-31",
    "techniques": [
     {
      "slug": "de-anglicization-constructions",
@@ -1707,9 +1707,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/localization/european/spanish/spanish.md",
-   "digest": "sha256-b2:717da9cc182e591d",
-   "revision": 6,
-   "changedAt": "2026-10-25",
+   "digest": "sha256-b2:12a6190a7e52938b",
+   "revision": 7,
+   "changedAt": "2026-10-31",
    "techniques": [
     {
      "slug": "de-anglicization-constructions",

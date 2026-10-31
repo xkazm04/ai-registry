@@ -157,9 +157,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/civic-intelligence/public-money/beneficial-ownership-resolution/beneficial-ownership-resolution.md",
-   "digest": "sha256-b2:6ed2df0c3ed437c2",
-   "revision": 7,
-   "changedAt": "2026-10-14",
+   "digest": "sha256-b2:85e59c93d448fae9",
+   "revision": 8,
+   "changedAt": "2026-10-31",
    "techniques": [
     {
      "slug": "identifier-checksum-validation",
@@ -290,9 +290,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/civic-intelligence/civic-graph-infrastructure/civic-knowledge-graphs/civic-knowledge-graphs.md",
-   "digest": "sha256-b2:76e2caa5616df8ad",
-   "revision": 7,
-   "changedAt": "2026-10-14",
+   "digest": "sha256-b2:832373fc73c83206",
+   "revision": 8,
+   "changedAt": "2026-10-31",
    "techniques": [
     {
      "slug": "civic-entity-ontology",
@@ -424,9 +424,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/civic-intelligence/civic-graph-infrastructure/civic-source-adapters/civic-source-adapters.md",
-   "digest": "sha256-b2:12619eb6d175ea59",
-   "revision": 7,
-   "changedAt": "2026-10-14",
+   "digest": "sha256-b2:d0e1ed56581d3d10",
+   "revision": 8,
+   "changedAt": "2026-10-31",
    "techniques": [
     {
      "slug": "entity-name-normalization",
@@ -565,9 +565,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/civic-intelligence/accountability-method/claim-verification-and-provenance/claim-verification-and-provenance.md",
-   "digest": "sha256-b2:36b08a11e64fd422",
-   "revision": 5,
-   "changedAt": "2026-10-14",
+   "digest": "sha256-b2:91f2f36cba299241",
+   "revision": 6,
+   "changedAt": "2026-10-31",
    "techniques": [
     {
      "slug": "claim-ref-addressing",
@@ -694,9 +694,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/civic-intelligence/public-money/conflict-of-interest-detection/conflict-of-interest-detection.md",
-   "digest": "sha256-b2:2ba35a7ec2bb7a1a",
-   "revision": 7,
-   "changedAt": "2026-10-14",
+   "digest": "sha256-b2:6652049b0f2d055f",
+   "revision": 8,
+   "changedAt": "2026-10-31",
    "techniques": [
     {
      "slug": "registry-corroboration-gating",
@@ -835,9 +835,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/civic-intelligence/parliamentary-data/legislative-change-tracking/legislative-change-tracking.md",
-   "digest": "sha256-b2:a63c6d5f390c3952",
-   "revision": 7,
-   "changedAt": "2026-10-22",
+   "digest": "sha256-b2:c5f160215de46ea4",
+   "revision": 8,
+   "changedAt": "2026-10-31",
    "techniques": [
     {
      "slug": "amendment-instruction-grammar",
@@ -1116,9 +1116,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/civic-intelligence/parliamentary-data/parliamentary-data-modeling/parliamentary-data-modeling.md",
-   "digest": "sha256-b2:8694b54aa1c6544b",
-   "revision": 7,
-   "changedAt": "2026-10-22",
+   "digest": "sha256-b2:f4afaad144597153",
+   "revision": 8,
+   "changedAt": "2026-10-31",
    "techniques": [
     {
      "slug": "cross-term-registry-loading",
@@ -1721,9 +1721,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/civic-intelligence/parliamentary-data/roll-call-vote-analysis/roll-call-vote-analysis.md",
-   "digest": "sha256-b2:1fb04612acd77185",
-   "revision": 7,
-   "changedAt": "2026-10-22",
+   "digest": "sha256-b2:175c79131c4adda4",
+   "revision": 8,
+   "changedAt": "2026-10-31",
    "techniques": [
     {
      "slug": "club-line-and-rebellion",
@@ -1863,8 +1863,8 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/civic-intelligence/public-money/state-budget-analysis/state-budget-analysis.md",
-   "digest": "sha256-b2:4feef15a43fc221c",
-   "revision": 7,
+   "digest": "sha256-b2:1eb6844cff16b102",
+   "revision": 8,
    "changedAt": "2026-10-31",
    "techniques": [
     {

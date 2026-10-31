@@ -23,9 +23,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/grant-funding/matching-and-intelligence/coalition-and-portfolio-strategy/coalition-and-portfolio-strategy.md",
-   "digest": "sha256-b2:ec06b242b68b93f5",
-   "revision": 5,
-   "changedAt": "2026-10-14",
+   "digest": "sha256-b2:8b725ba66db5fb5f",
+   "revision": 6,
+   "changedAt": "2026-10-31",
    "techniques": [
     {
      "slug": "capacity-floor-detection",
@@ -152,8 +152,8 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/grant-funding/grant-operations/deadline-pipeline-management/deadline-pipeline-management.md",
-   "digest": "sha256-b2:f52d1e09ccc00e73",
-   "revision": 5,
+   "digest": "sha256-b2:870ba724ad273429",
+   "revision": 6,
    "changedAt": "2026-10-31",
    "techniques": [
     {
@@ -293,9 +293,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/grant-funding/matching-and-intelligence/eligibility-analysis/eligibility-analysis.md",
-   "digest": "sha256-b2:198a681c980c0e23",
-   "revision": 4,
-   "changedAt": "2026-10-14",
+   "digest": "sha256-b2:52865c2e50f9d60f",
+   "revision": 5,
+   "changedAt": "2026-10-31",
    "techniques": [
     {
      "slug": "applicant-type-code-mapping",
@@ -442,9 +442,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/grant-funding/proposal-craft/evidence-grounded-claims/evidence-grounded-claims.md",
-   "digest": "sha256-b2:95f028623c37cc30",
-   "revision": 5,
-   "changedAt": "2026-10-14",
+   "digest": "sha256-b2:de39a3026d7ea028",
+   "revision": 6,
+   "changedAt": "2026-10-31",
    "techniques": [
     {
      "slug": "bracketed-placeholder-over-invention",
@@ -579,9 +579,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/grant-funding/proposal-craft/funder-format-blueprints/funder-format-blueprints.md",
-   "digest": "sha256-b2:aec02f7c8d562627",
-   "revision": 4,
-   "changedAt": "2026-10-14",
+   "digest": "sha256-b2:6a3940b4e8de873c",
+   "revision": 5,
+   "changedAt": "2026-10-31",
    "techniques": [
     {
      "slug": "arts-panel-sections",
@@ -713,9 +713,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/grant-funding/matching-and-intelligence/funder-intelligence-index/funder-intelligence-index.md",
-   "digest": "sha256-b2:2f706a1a6b2de40a",
-   "revision": 2,
-   "changedAt": "2026-10-14",
+   "digest": "sha256-b2:61cbe307a1df9006",
+   "revision": 3,
+   "changedAt": "2026-10-31",
    "techniques": [
     {
      "slug": "award-rate-by-revenue-bracket",
@@ -827,9 +827,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/grant-funding/funding-landscape/funder-research/funder-research.md",
-   "digest": "sha256-b2:f6444a0625aab599",
-   "revision": 2,
-   "changedAt": "2026-10-14",
+   "digest": "sha256-b2:0db17a0855c89da0",
+   "revision": 3,
+   "changedAt": "2026-10-31",
    "techniques": [
     {
      "slug": "adversarial-verification-pass",
@@ -1046,9 +1046,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/grant-funding/funding-landscape/grant-source-landscape/grant-source-landscape.md",
-   "digest": "sha256-b2:77f47d13fe985d09",
-   "revision": 6,
-   "changedAt": "2026-10-22",
+   "digest": "sha256-b2:8b074fa86a859efc",
+   "revision": 7,
+   "changedAt": "2026-10-31",
    "techniques": [
     {
      "slug": "close-date-normalization",
@@ -1433,9 +1433,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/grant-funding/grant-operations/jurisdiction-modelling/jurisdiction-modelling.md",
-   "digest": "sha256-b2:050abc894f0eedeb",
-   "revision": 5,
-   "changedAt": "2026-10-22",
+   "digest": "sha256-b2:d336408f3817c213",
+   "revision": 6,
+   "changedAt": "2026-10-31",
    "techniques": [
     {
      "slug": "compliance-document-taxonomy",
@@ -1567,9 +1567,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/grant-funding/grant-operations/nonprofit-verification/nonprofit-verification.md",
-   "digest": "sha256-b2:247c9dd2beeb2f4d",
-   "revision": 5,
-   "changedAt": "2026-10-22",
+   "digest": "sha256-b2:7140a029c5f784a7",
+   "revision": 6,
+   "changedAt": "2026-10-31",
    "techniques": [
     {
      "slug": "determinate-vs-inconclusive-outcomes",
@@ -1811,9 +1811,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/grant-funding/proposal-craft/proposal-narrative-structure/proposal-narrative-structure.md",
-   "digest": "sha256-b2:4ac550453602d6fa",
-   "revision": 2,
-   "changedAt": "2026-10-14",
+   "digest": "sha256-b2:465cb98eab86dee5",
+   "revision": 3,
+   "changedAt": "2026-10-31",
    "techniques": [
     {
      "slug": "evidence-base-citation",
@@ -2029,9 +2029,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/grant-funding/grant-operations/submission-filing/submission-filing.md",
-   "digest": "sha256-b2:b55fa27d7f176a02",
-   "revision": 2,
-   "changedAt": "2026-10-14",
+   "digest": "sha256-b2:27daa21a010b3b88",
+   "revision": 3,
+   "changedAt": "2026-10-31",
    "techniques": [
     {
      "slug": "crowd-verified-filing-profiles",

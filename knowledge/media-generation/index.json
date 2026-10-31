@@ -647,9 +647,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/media-generation/visual-generation/cinematic-language/cinematic-language.md",
-   "digest": "sha256-b2:b0a6b6d577cdcffc",
-   "revision": 11,
-   "changedAt": "2026-10-15",
+   "digest": "sha256-b2:0828cce877e4ddb0",
+   "revision": 12,
+   "changedAt": "2026-10-31",
    "techniques": [
     {
      "slug": "camera-position-semantics",
@@ -952,9 +952,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/media-generation/narrative-craft/creator-voice-and-tone/creator-voice-and-tone.md",
-   "digest": "sha256-b2:750a2ae7e033a1e6",
-   "revision": 5,
-   "changedAt": "2026-10-14",
+   "digest": "sha256-b2:0c994a2015ba8d3e",
+   "revision": 6,
+   "changedAt": "2026-10-31",
    "techniques": [
     {
      "slug": "delivery-rate-budgeting",
@@ -1055,7 +1055,7 @@
      "stack": "process",
      "technique": "engine-tone-separation",
      "file": "knowledge/media-generation/narrative-craft/creator-voice-and-tone/applications/process--engine-tone-separation.md",
-     "verified_on": "2026-08-19"
+     "verified_on": "2026-10-31"
     },
     {
      "stack": "process",
@@ -1073,7 +1073,7 @@
      "stack": "process",
      "technique": "voice-profile-from-accepted-work",
      "file": "knowledge/media-generation/narrative-craft/creator-voice-and-tone/applications/process--voice-profile-from-accepted-work.md",
-     "verified_on": "2026-08-19"
+     "verified_on": "2026-10-31"
     }
    ]
   },
@@ -1970,9 +1970,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/media-generation/visual-generation/generated-output-grading/generated-output-grading.md",
-   "digest": "sha256-b2:a433b5aafd6813f5",
-   "revision": 11,
-   "changedAt": "2026-09-20",
+   "digest": "sha256-b2:46713ed8aca7abab",
+   "revision": 13,
+   "changedAt": "2026-10-31",
    "techniques": [
     {
      "slug": "cross-provider-flip-analysis",
@@ -2100,14 +2100,14 @@
      "stack": "node",
      "technique": "input-channel-parity",
      "file": "knowledge/media-generation/visual-generation/generated-output-grading/applications/node--input-channel-parity.md",
-     "verified_on": "2026-09-04",
-     "verified_against": "node@22"
+     "verified_on": "2026-10-31",
+     "verified_against": "node@24"
     },
     {
      "stack": "node",
      "technique": "trial-matrix-design",
      "file": "knowledge/media-generation/visual-generation/generated-output-grading/applications/node--trial-matrix-design.md",
-     "verified_on": "2026-08-28",
+     "verified_on": "2026-10-31",
      "verified_against": "node@24"
     },
     {
@@ -2289,8 +2289,8 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/media-generation/visual-generation/generative-provider-routing/generative-provider-routing.md",
-   "digest": "sha256-b2:3035bdbc5262b8ba",
-   "revision": 12,
+   "digest": "sha256-b2:78d7d53a0ea6d438",
+   "revision": 13,
    "changedAt": "2026-10-31",
    "techniques": [
     {
@@ -2421,22 +2421,22 @@
      "stack": "node",
      "technique": "non-silent-elimination",
      "file": "knowledge/media-generation/visual-generation/generative-provider-routing/applications/node--non-silent-elimination.md",
-     "verified_on": "2026-08-27",
+     "verified_on": "2026-10-31",
      "verified_against": "node@24"
     },
     {
      "stack": "node",
      "technique": "refusal-reroute-hop",
      "file": "knowledge/media-generation/visual-generation/generative-provider-routing/applications/node--refusal-reroute-hop.md",
-     "verified_on": "2026-08-27",
+     "verified_on": "2026-10-31",
      "verified_against": "node@24"
     },
     {
      "stack": "node",
      "technique": "unspent-budget-is-a-defect",
      "file": "knowledge/media-generation/visual-generation/generative-provider-routing/applications/node--unspent-budget-is-a-defect.md",
-     "verified_on": "2026-09-07",
-     "verified_against": "node@22"
+     "verified_on": "2026-10-31",
+     "verified_against": "node@24"
     },
     {
      "stack": "process",
@@ -2449,7 +2449,7 @@
      "stack": "process",
      "technique": "cost-per-usable-economics",
      "file": "knowledge/media-generation/visual-generation/generative-provider-routing/applications/process--cost-per-usable-economics.md",
-     "verified_on": "2026-08-19"
+     "verified_on": "2026-10-31"
     },
     {
      "stack": "process",
@@ -2471,9 +2471,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/media-generation/visual-generation/image-prompt-composition/image-prompt-composition.md",
-   "digest": "sha256-b2:d254a22feb4a9423",
-   "revision": 14,
-   "changedAt": "2026-10-15",
+   "digest": "sha256-b2:eff882899eb316cd",
+   "revision": 15,
+   "changedAt": "2026-10-31",
    "techniques": [
     {
      "slug": "assigned-colour-roles",
@@ -2659,7 +2659,7 @@
      "stack": "process",
      "technique": "style-first-token-ordering",
      "file": "knowledge/media-generation/visual-generation/image-prompt-composition/applications/process--style-first-token-ordering.md",
-     "verified_on": "2026-08-19"
+     "verified_on": "2026-10-31"
     },
     {
      "stack": "react",
@@ -2672,7 +2672,8 @@
      "stack": "react",
      "technique": "two-block-style-and-action",
      "file": "knowledge/media-generation/visual-generation/image-prompt-composition/applications/react--two-block-style-and-action.md",
-     "verified_on": "2026-08-19"
+     "verified_on": "2026-10-31",
+     "verified_against": "react@19"
     }
    ]
   },
@@ -3866,9 +3867,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/media-generation/production-ops/production-pipeline-phasing/production-pipeline-phasing.md",
-   "digest": "sha256-b2:f1762f69eb77b8d3",
-   "revision": 5,
-   "changedAt": "2026-10-21",
+   "digest": "sha256-b2:95dfbb64eb030b29",
+   "revision": 6,
+   "changedAt": "2026-10-31",
    "techniques": [
     {
      "slug": "approval-reads-forward",
@@ -4009,9 +4010,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/media-generation/production-ops/review-iteration-loops/review-iteration-loops.md",
-   "digest": "sha256-b2:a3bbc2c5b531b8d5",
-   "revision": 11,
-   "changedAt": "2026-10-15",
+   "digest": "sha256-b2:15b0ff05d7134042",
+   "revision": 12,
+   "changedAt": "2026-10-31",
    "techniques": [
     {
      "slug": "anchored-variation-slate",
@@ -4168,14 +4169,14 @@
      "stack": "node",
      "technique": "critique-carries-its-fix",
      "file": "knowledge/media-generation/production-ops/review-iteration-loops/applications/node--critique-carries-its-fix.md",
-     "verified_on": "2026-08-31",
+     "verified_on": "2026-10-31",
      "verified_against": "node@24"
     },
     {
      "stack": "node",
      "technique": "gate-record-outlives-the-media",
      "file": "knowledge/media-generation/production-ops/review-iteration-loops/applications/node--gate-record-outlives-the-media.md",
-     "verified_on": "2026-09-20",
+     "verified_on": "2026-10-31",
      "verified_against": "node@24"
     },
     {
@@ -4189,7 +4190,7 @@
      "stack": "process",
      "technique": "edit-plan-over-regeneration",
      "file": "knowledge/media-generation/production-ops/review-iteration-loops/applications/process--edit-plan-over-regeneration.md",
-     "verified_on": "2026-08-19"
+     "verified_on": "2026-10-31"
     },
     {
      "stack": "react",
@@ -4211,9 +4212,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/media-generation/narrative-craft/short-form-narrative-structure/short-form-narrative-structure.md",
-   "digest": "sha256-b2:dd5bc32ae4e71fbb",
-   "revision": 2,
-   "changedAt": "2026-09-26",
+   "digest": "sha256-b2:9c90253577817ff3",
+   "revision": 3,
+   "changedAt": "2026-10-31",
    "techniques": [
     {
      "slug": "but-therefore-beat-linking",
@@ -4293,20 +4294,20 @@
      "stack": "next",
      "technique": "but-therefore-beat-linking",
      "file": "knowledge/media-generation/narrative-craft/short-form-narrative-structure/applications/next--but-therefore-beat-linking.md",
-     "verified_on": "2026-09-26",
+     "verified_on": "2026-10-31",
      "verified_against": "next@16.3.3"
     },
     {
      "stack": "process",
      "technique": "question-stack-architecture",
      "file": "knowledge/media-generation/narrative-craft/short-form-narrative-structure/applications/process--question-stack-architecture.md",
-     "verified_on": "2026-09-26"
+     "verified_on": "2026-10-31"
     },
     {
      "stack": "process",
      "technique": "reversal-anatomy",
      "file": "knowledge/media-generation/narrative-craft/short-form-narrative-structure/applications/process--reversal-anatomy.md",
-     "verified_on": "2026-09-26"
+     "verified_on": "2026-10-31"
     }
    ]
   },
@@ -4742,9 +4743,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/media-generation/narrative-craft/trailer-structure/trailer-structure.md",
-   "digest": "sha256-b2:6a687c5a8080a492",
-   "revision": 3,
-   "changedAt": "2026-09-01",
+   "digest": "sha256-b2:9098cda1720f6dc6",
+   "revision": 4,
+   "changedAt": "2026-10-31",
    "techniques": [
     {
      "slug": "concealment-and-its-tells",
@@ -4835,7 +4836,7 @@
      "stack": "node",
      "technique": "cue-first-assembly",
      "file": "knowledge/media-generation/narrative-craft/trailer-structure/applications/node--cue-first-assembly.md",
-     "verified_on": "2026-09-01",
+     "verified_on": "2026-10-31",
      "verified_against": "node@24"
     }
    ]
@@ -4845,9 +4846,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/media-generation/production-ops/video-assembly/video-assembly.md",
-   "digest": "sha256-b2:5f548f222df2e692",
-   "revision": 20,
-   "changedAt": "2026-10-21",
+   "digest": "sha256-b2:b473fc80468e38af",
+   "revision": 21,
+   "changedAt": "2026-10-31",
    "techniques": [
     {
      "slug": "alignment-names-its-text",
@@ -5131,7 +5132,7 @@
      "stack": "process",
      "technique": "generated-shot-sourcing",
      "file": "knowledge/media-generation/production-ops/video-assembly/applications/process--generated-shot-sourcing.md",
-     "verified_on": "2026-09-08"
+     "verified_on": "2026-10-31"
     },
     {
      "stack": "python",
@@ -5181,9 +5182,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/media-generation/visual-generation/visual-style-locking/visual-style-locking.md",
-   "digest": "sha256-b2:281e1e4a619b1b07",
-   "revision": 8,
-   "changedAt": "2026-09-14",
+   "digest": "sha256-b2:dcb6f8bd5346d9ad",
+   "revision": 10,
+   "changedAt": "2026-10-31",
    "techniques": [
     {
      "slug": "approved-reference-sheet",
@@ -5309,13 +5310,14 @@
      "stack": "react",
      "technique": "draft-proofing-locked-ratchet",
      "file": "knowledge/media-generation/visual-generation/visual-style-locking/applications/react--draft-proofing-locked-ratchet.md",
-     "verified_on": "2026-08-19"
+     "verified_on": "2026-10-31",
+     "verified_against": "react@19"
     },
     {
      "stack": "react",
      "technique": "style-block-restated-every-call",
      "file": "knowledge/media-generation/visual-generation/visual-style-locking/applications/react--style-block-restated-every-call.md",
-     "verified_on": "2026-08-27",
+     "verified_on": "2026-10-31",
      "verified_against": "react@19"
     }
    ]

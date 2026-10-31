@@ -1154,7 +1154,7 @@
       "techniques": 40,
       "applications": 35,
       "files": 88,
-      "contentHash": "sha256-b2:09153cfbb59d8e1a"
+      "contentHash": "sha256-b2:b40b6c39fe0c27b1"
     },
     {
       "name": "civic-intelligence",
@@ -1167,7 +1167,7 @@
       "techniques": 92,
       "applications": 71,
       "files": 183,
-      "contentHash": "sha256-b2:d27a9a8d407e896e"
+      "contentHash": "sha256-b2:c03e692a5eaa08ff"
     },
     {
       "name": "game-production",
@@ -1180,7 +1180,7 @@
       "techniques": 589,
       "applications": 352,
       "files": 1034,
-      "contentHash": "sha256-b2:c1e6d1b9773e3a78"
+      "contentHash": "sha256-b2:6e605368b49ab81c"
     },
     {
       "name": "grant-funding",
@@ -1193,7 +1193,7 @@
       "techniques": 105,
       "applications": 71,
       "files": 198,
-      "contentHash": "sha256-b2:7571f673953f421b"
+      "contentHash": "sha256-b2:52f2d47441fd1dac"
     },
     {
       "name": "llm-observability",
@@ -1206,7 +1206,7 @@
       "techniques": 134,
       "applications": 100,
       "files": 258,
-      "contentHash": "sha256-b2:3183efe979cb727c"
+      "contentHash": "sha256-b2:9bf12f92c428efa1"
     },
     {
       "name": "localization",
@@ -1219,7 +1219,7 @@
       "techniques": 119,
       "applications": 75,
       "files": 215,
-      "contentHash": "sha256-b2:b2123dd917acec87"
+      "contentHash": "sha256-b2:e8ea2a5823cb52e1"
     },
     {
       "name": "marketing",
@@ -1230,9 +1230,9 @@
       "purity": "marketing",
       "subjects": 30,
       "techniques": 184,
-      "applications": 136,
-      "files": 354,
-      "contentHash": "sha256-b2:12c7fca4df51df7b"
+      "applications": 137,
+      "files": 355,
+      "contentHash": "sha256-b2:74bc197e100d9997"
     },
     {
       "name": "media-generation",
@@ -1245,7 +1245,7 @@
       "techniques": 266,
       "applications": 166,
       "files": 475,
-      "contentHash": "sha256-b2:5f87fb6b04973520"
+      "contentHash": "sha256-b2:7c5dd093da4e13da"
     },
     {
       "name": "recruiting",
@@ -1271,7 +1271,7 @@
       "techniques": 1957,
       "applications": 1454,
       "files": 3659,
-      "contentHash": "sha256-b2:753b2aa3cdb791cd"
+      "contentHash": "sha256-b2:efb00cd98b9c216f"
     },
     {
       "name": "technical-writing",

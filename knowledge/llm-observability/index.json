@@ -190,9 +190,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/llm-observability/telemetry-and-data/analytics-store-design/analytics-store-design.md",
-   "digest": "sha256-b2:dd9e74116ab5601b",
-   "revision": 6,
-   "changedAt": "2026-10-14",
+   "digest": "sha256-b2:29017646a9e618aa",
+   "revision": 7,
+   "changedAt": "2026-10-31",
    "techniques": [
     {
      "slug": "analytical-copy-partitioning",
@@ -323,9 +323,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/llm-observability/economics-and-governance/billing-revenue-normalization/billing-revenue-normalization.md",
-   "digest": "sha256-b2:5016479d8228da36",
-   "revision": 5,
-   "changedAt": "2026-10-14",
+   "digest": "sha256-b2:bdfa4958aabc8634",
+   "revision": 6,
+   "changedAt": "2026-10-31",
    "techniques": [
     {
      "slug": "contract-version-is-provenance",
@@ -422,7 +422,7 @@
      "stack": "node",
      "technique": "contract-version-is-provenance",
      "file": "knowledge/llm-observability/economics-and-governance/billing-revenue-normalization/applications/node--contract-version-is-provenance.md",
-     "verified_on": "2026-09-11",
+     "verified_on": "2026-10-31",
      "verified_against": "node@24"
     },
     {
@@ -467,9 +467,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/llm-observability/economics-and-governance/breach-alerting-and-attribution/breach-alerting-and-attribution.md",
-   "digest": "sha256-b2:183ec8b74ed943d6",
-   "revision": 5,
-   "changedAt": "2026-10-14",
+   "digest": "sha256-b2:8947309a04fcf2fb",
+   "revision": 6,
+   "changedAt": "2026-10-31",
    "techniques": [
     {
      "slug": "identity-scope-attribution-refusal",
@@ -607,9 +607,9 @@
    "subcategory": null,
    "status": "reconciled",
    "file": "knowledge/llm-observability/quality-scoring/cross-provider-benchmark-operations/cross-provider-benchmark-operations.md",
-   "digest": "sha256-b2:a6d9e74af45916cc",
-   "revision": 13,
-   "changedAt": "2026-10-25",
+   "digest": "sha256-b2:258de45cc5762fe2",
+   "revision": 14,
+   "changedAt": "2026-10-31",
    "techniques": [
     {
      "slug": "async-run-queue-with-cancel",
@@ -855,9 +855,9 @@
    "subcategory": null,
    "status": "reconciled",
    "file": "knowledge/llm-observability/federation-and-surfaces/federated-benchmark-sharing/federated-benchmark-sharing.md",
-   "digest": "sha256-b2:9ba72fc97cd5044b",
-   "revision": 12,
-   "changedAt": "2026-10-25",
+   "digest": "sha256-b2:e376140d52a279c3",
+   "revision": 13,
+   "changedAt": "2026-10-31",
    "techniques": [
     {
      "slug": "aggregate-only-digests",
@@ -1052,9 +1052,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/llm-observability/quality-scoring/generator-uncertainty-scoring/generator-uncertainty-scoring.md",
-   "digest": "sha256-b2:a449ca2b8da79c6e",
-   "revision": 3,
-   "changedAt": "2026-10-05",
+   "digest": "sha256-b2:1d91fb8c42c157dc",
+   "revision": 4,
+   "changedAt": "2026-10-31",
    "techniques": [
     {
      "slug": "compare-gates-at-matched-coverage",
@@ -1305,9 +1305,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/llm-observability/quality-scoring/judge-calibration-and-drift/judge-calibration-and-drift.md",
-   "digest": "sha256-b2:80bd8653a6d797f2",
-   "revision": 6,
-   "changedAt": "2026-10-13",
+   "digest": "sha256-b2:fd4242b6455c67ed",
+   "revision": 7,
+   "changedAt": "2026-10-31",
    "techniques": [
     {
      "slug": "fit-and-report-on-disjoint-labels",
@@ -1648,9 +1648,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/llm-observability/telemetry-and-data/llm-call-telemetry-model/llm-call-telemetry-model.md",
-   "digest": "sha256-b2:9f199f8ff9e7a925",
-   "revision": 7,
-   "changedAt": "2026-10-06",
+   "digest": "sha256-b2:1f714561b0d97d20",
+   "revision": 8,
+   "changedAt": "2026-10-31",
    "techniques": [
     {
      "slug": "dual-clock-event-time",
@@ -1783,9 +1783,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/llm-observability/economics-and-governance/llm-price-book-operations/llm-price-book-operations.md",
-   "digest": "sha256-b2:1f43aefeff056ea5",
-   "revision": 2,
-   "changedAt": "2026-10-02",
+   "digest": "sha256-b2:7f657d109c2ac38c",
+   "revision": 3,
+   "changedAt": "2026-10-31",
    "techniques": [
     {
      "slug": "embedded-seed-fallback",
@@ -1998,9 +1998,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/llm-observability/telemetry-and-data/multi-provider-event-normalization/multi-provider-event-normalization.md",
-   "digest": "sha256-b2:a0932e26160bfd85",
-   "revision": 7,
-   "changedAt": "2026-10-15",
+   "digest": "sha256-b2:506281981cc0e869",
+   "revision": 8,
+   "changedAt": "2026-10-31",
    "techniques": [
     {
      "slug": "attribute-precedence-lists",
@@ -2105,8 +2105,7 @@
      "stack": "rust",
      "technique": "per-provider-usage-extractors",
      "file": "knowledge/llm-observability/telemetry-and-data/multi-provider-event-normalization/applications/rust--per-provider-usage-extractors--cass.md",
-     "verified_on": "2026-10-15",
-     "verified_against": "rust@2026.08.31"
+     "verified_on": "2026-10-15"
     },
     {
      "stack": "rust",
@@ -2363,9 +2362,9 @@
    "subcategory": null,
    "status": "reconciled",
    "file": "knowledge/llm-observability/quality-scoring/quality-regression-gating/quality-regression-gating.md",
-   "digest": "sha256-b2:9548319fbd9c4eae",
-   "revision": 9,
-   "changedAt": "2026-10-25",
+   "digest": "sha256-b2:e7bdcf6b440837bf",
+   "revision": 10,
+   "changedAt": "2026-10-31",
    "techniques": [
     {
      "slug": "baseline-carries-its-conditions",
@@ -2480,8 +2479,7 @@
      "stack": "python",
      "technique": "paired-per-case-testing",
      "file": "knowledge/llm-observability/quality-scoring/quality-regression-gating/applications/python--paired-per-case-testing--ultrarag.md",
-     "verified_on": "2026-09-30",
-     "verified_against": "python@3.11"
+     "verified_on": "2026-09-30"
     },
     {
      "stack": "rust",

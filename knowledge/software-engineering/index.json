@@ -29,9 +29,9 @@
    "subcategory": "feedback-and-style",
    "status": "forged",
    "file": "knowledge/software-engineering/ui-surfaces/feedback-and-style/accessibility/accessibility.md",
-   "digest": "sha256-b2:d839f62eac6007da",
-   "revision": 8,
-   "changedAt": "2026-10-25",
+   "digest": "sha256-b2:96c7307f86674f00",
+   "revision": 9,
+   "changedAt": "2026-10-31",
    "techniques": [
     {
      "slug": "a11y-verification",
@@ -1136,9 +1136,9 @@
    "subcategory": "orchestration",
    "status": "reconciled",
    "file": "knowledge/software-engineering/llm-agent/orchestration/agent-chaining/agent-chaining.md",
-   "digest": "sha256-b2:596d59ae9fc2d310",
-   "revision": 12,
-   "changedAt": "2026-09-18",
+   "digest": "sha256-b2:aa3979ebb7af5661",
+   "revision": 13,
+   "changedAt": "2026-10-31",
    "techniques": [
     {
      "slug": "chain-identity-and-rollup",
@@ -1308,9 +1308,9 @@
    "subcategory": "runtime-and-io",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/runtime-and-io/agent-cli-transport/agent-cli-transport.md",
-   "digest": "sha256-b2:75415727a875a42a",
-   "revision": 10,
-   "changedAt": "2026-10-27",
+   "digest": "sha256-b2:4c477772b57213db",
+   "revision": 11,
+   "changedAt": "2026-10-31",
    "techniques": [
     {
      "slug": "availability-probe",
@@ -1995,9 +1995,9 @@
    "subcategory": "prompt-and-context",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/prompt-and-context/agent-memory/agent-memory.md",
-   "digest": "sha256-b2:6c06fb6d8d6c900f",
-   "revision": 52,
-   "changedAt": "2026-10-25",
+   "digest": "sha256-b2:3969141e7ec94b83",
+   "revision": 53,
+   "changedAt": "2026-10-31",
    "techniques": [
     {
      "slug": "addresses-before-compression",
@@ -3522,9 +3522,9 @@
    "subcategory": "shell-and-navigation",
    "status": "forged",
    "file": "knowledge/software-engineering/ui-surfaces/shell-and-navigation/app-shell/app-shell.md",
-   "digest": "sha256-b2:b55c5172e3d9fac0",
-   "revision": 8,
-   "changedAt": "2026-10-27",
+   "digest": "sha256-b2:1221778e9c5ba863",
+   "revision": 9,
+   "changedAt": "2026-10-31",
    "techniques": [
     {
      "slug": "badge-and-attention",
@@ -4977,9 +4977,9 @@
    "subcategory": "data-and-transport",
    "status": "forged",
    "file": "knowledge/software-engineering/security/data-and-transport/browser-credential-boundary/browser-credential-boundary.md",
-   "digest": "sha256-b2:8c4e4cc37445b46c",
-   "revision": 4,
-   "changedAt": "2026-10-27",
+   "digest": "sha256-b2:f27e4f74ae614b8e",
+   "revision": 5,
+   "changedAt": "2026-10-31",
    "techniques": [
     {
      "slug": "aggregate-view-not-base-table",
@@ -5846,9 +5846,9 @@
    "subcategory": "external-systems",
    "status": "forged",
    "file": "knowledge/software-engineering/integration/external-systems/cicd-monitoring/cicd-monitoring.md",
-   "digest": "sha256-b2:9acef61dd04439ca",
-   "revision": 3,
-   "changedAt": "2026-09-26",
+   "digest": "sha256-b2:37c3a96456cc1a7d",
+   "revision": 4,
+   "changedAt": "2026-10-31",
    "techniques": [
     {
      "slug": "deployment-history",
@@ -5934,19 +5934,22 @@
      "stack": "react",
      "technique": "deployment-history",
      "file": "knowledge/software-engineering/integration/external-systems/cicd-monitoring/applications/react--deployment-history.md",
-     "verified_on": "2026-08-18"
+     "verified_on": "2026-10-31",
+     "verified_against": "react@19"
     },
     {
      "stack": "react",
      "technique": "failure-drill-down",
      "file": "knowledge/software-engineering/integration/external-systems/cicd-monitoring/applications/react--failure-drill-down.md",
-     "verified_on": "2026-09-26"
+     "verified_on": "2026-10-31",
+     "verified_against": "react@19"
     },
     {
      "stack": "react",
      "technique": "liveness-scoped-polling",
      "file": "knowledge/software-engineering/integration/external-systems/cicd-monitoring/applications/react--liveness-scoped-polling.md",
-     "verified_on": "2026-09-26"
+     "verified_on": "2026-10-31",
+     "verified_against": "react@19"
     },
     {
      "stack": "react",
@@ -6306,9 +6309,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/software-engineering/client-architecture/client-state/client-state.md",
-   "digest": "sha256-b2:b667f5c1f4abdd9d",
-   "revision": 15,
-   "changedAt": "2026-09-05",
+   "digest": "sha256-b2:9b7a96e67d0d158a",
+   "revision": 16,
+   "changedAt": "2026-10-31",
    "techniques": [
     {
      "slug": "async-race-guards",
@@ -9035,9 +9038,9 @@
    "subcategory": "evaluation-and-cost",
    "status": "reconciled",
    "file": "knowledge/software-engineering/llm-agent/evaluation-and-cost/cost-metering/cost-metering.md",
-   "digest": "sha256-b2:7247db31eb8f3dce",
-   "revision": 15,
-   "changedAt": "2026-10-14",
+   "digest": "sha256-b2:91fbaddc26169fa6",
+   "revision": 16,
+   "changedAt": "2026-10-31",
    "techniques": [
     {
      "slug": "budget-enforcement",
@@ -9237,14 +9240,14 @@
      "stack": "go",
      "technique": "housekeeping-calls-obey-the-ceiling",
      "file": "knowledge/software-engineering/llm-agent/evaluation-and-cost/cost-metering/applications/go--housekeeping-calls-obey-the-ceiling.md",
-     "verified_on": "2026-10-14",
+     "verified_on": "2026-10-31",
      "verified_against": "go@1.27"
     },
     {
      "stack": "go",
      "technique": "one-pot-across-delegation",
      "file": "knowledge/software-engineering/llm-agent/evaluation-and-cost/cost-metering/applications/go--one-pot-across-delegation.md",
-     "verified_on": "2026-10-14",
+     "verified_on": "2026-10-31",
      "verified_against": "go@1.27"
     },
     {
@@ -9257,7 +9260,7 @@
      "stack": "go",
      "technique": "time-ceilings-count-working-time",
      "file": "knowledge/software-engineering/llm-agent/evaluation-and-cost/cost-metering/applications/go--time-ceilings-count-working-time.md",
-     "verified_on": "2026-10-14",
+     "verified_on": "2026-10-31",
      "verified_against": "go@1.27"
     },
     {
@@ -9664,9 +9667,9 @@
    "subcategory": "data-layer",
    "status": "reconciled",
    "file": "knowledge/software-engineering/backend-platform/data-layer/data-access/data-access.md",
-   "digest": "sha256-b2:2dba94be6400dea1",
-   "revision": 19,
-   "changedAt": "2026-10-15",
+   "digest": "sha256-b2:e64392f062530fdb",
+   "revision": 20,
+   "changedAt": "2026-10-31",
    "techniques": [
     {
      "slug": "batching-and-n-plus-one",
@@ -12046,9 +12049,9 @@
    "subcategory": "feedback-and-style",
    "status": "reconciled",
    "file": "knowledge/software-engineering/ui-surfaces/feedback-and-style/design-tokens/design-tokens.md",
-   "digest": "sha256-b2:165125b7a54d0de3",
-   "revision": 7,
-   "changedAt": "2026-09-24",
+   "digest": "sha256-b2:0736bafd92a6dca9",
+   "revision": 8,
+   "changedAt": "2026-10-31",
    "techniques": [
     {
      "slug": "cross-language-token-parity",
@@ -12430,9 +12433,9 @@
    "subcategory": "data-display",
    "status": "forged",
    "file": "knowledge/software-engineering/ui-surfaces/data-display/diff-comparison/diff-comparison.md",
-   "digest": "sha256-b2:8d6a27cb32976f49",
-   "revision": 6,
-   "changedAt": "2026-09-20",
+   "digest": "sha256-b2:5524257483b9bba3",
+   "revision": 7,
+   "changedAt": "2026-10-31",
    "techniques": [
     {
      "slug": "baseline-species-degradation",
@@ -13548,9 +13551,9 @@
    "subcategory": "orchestration",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/orchestration/durable-agent-operations/durable-agent-operations.md",
-   "digest": "sha256-b2:2939cd03f8f3a4d1",
-   "revision": 6,
-   "changedAt": "2026-10-22",
+   "digest": "sha256-b2:c8b7bced3d1de81f",
+   "revision": 7,
+   "changedAt": "2026-10-31",
    "techniques": [
     {
      "slug": "close-is-a-controlled-crash",
@@ -14248,9 +14251,9 @@
    "subcategory": "embedded-surfaces",
    "status": "forged",
    "file": "knowledge/software-engineering/integration/embedded-surfaces/embedded-preview/embedded-preview.md",
-   "digest": "sha256-b2:a6e12ae70d42efcc",
-   "revision": 2,
-   "changedAt": "2026-09-15",
+   "digest": "sha256-b2:4e216b48cb72a2ef",
+   "revision": 3,
+   "changedAt": "2026-10-31",
    "techniques": [
     {
      "slug": "convention-discovery",
@@ -14851,9 +14854,9 @@
    "subcategory": "governance-and-records",
    "status": "forged",
    "file": "knowledge/software-engineering/operations/governance-and-records/entity-lifecycle/entity-lifecycle.md",
-   "digest": "sha256-b2:cef5e3463825ff22",
-   "revision": 6,
-   "changedAt": "2026-08-31",
+   "digest": "sha256-b2:69a5a771531e6414",
+   "revision": 7,
+   "changedAt": "2026-10-31",
    "techniques": [
     {
      "slug": "archive-restore-semantics",
@@ -14967,14 +14970,14 @@
      "stack": "node",
      "technique": "archive-restore-semantics",
      "file": "knowledge/software-engineering/operations/governance-and-records/entity-lifecycle/applications/node--archive-restore-semantics.md",
-     "verified_on": "2026-08-29",
+     "verified_on": "2026-10-31",
      "verified_against": "node@24"
     },
     {
      "stack": "node",
      "technique": "blast-radius-computation",
      "file": "knowledge/software-engineering/operations/governance-and-records/entity-lifecycle/applications/node--blast-radius-computation.md",
-     "verified_on": "2026-08-30",
+     "verified_on": "2026-10-31",
      "verified_against": "node@24"
     },
     {
@@ -15012,9 +15015,9 @@
    "subcategory": "resilience",
    "status": "forged",
    "file": "knowledge/software-engineering/backend-platform/resilience/error-handling/error-handling.md",
-   "digest": "sha256-b2:d811928687fd4faf",
-   "revision": 17,
-   "changedAt": "2026-10-14",
+   "digest": "sha256-b2:ab263ebfb27fd9b8",
+   "revision": 18,
+   "changedAt": "2026-10-31",
    "techniques": [
     {
      "slug": "cancellation-attribution",
@@ -15272,9 +15275,9 @@
    "subcategory": "evaluation-and-cost",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/evaluation-and-cost/eval-harness/eval-harness.md",
-   "digest": "sha256-b2:7ccead00b7f92aba",
-   "revision": 37,
-   "changedAt": "2026-09-29",
+   "digest": "sha256-b2:b801359aa7489ad7",
+   "revision": 38,
+   "changedAt": "2026-10-31",
    "techniques": [
     {
      "slug": "assertion-vs-judgment",
@@ -16599,9 +16602,9 @@
    "subcategory": "orchestration",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/orchestration/fleet-orchestration/fleet-orchestration.md",
-   "digest": "sha256-b2:93bd71853ab468b1",
-   "revision": 28,
-   "changedAt": "2026-10-15",
+   "digest": "sha256-b2:2e1a3b2ab288bdf0",
+   "revision": 29,
+   "changedAt": "2026-10-31",
    "techniques": [
     {
      "slug": "absent-status-passthrough",
@@ -18531,9 +18534,9 @@
    "subcategory": "acquisition-and-ingest",
    "status": "forged",
    "file": "knowledge/software-engineering/integration/acquisition-and-ingest/import-normalization/import-normalization.md",
-   "digest": "sha256-b2:4981ff0ea8a59c1b",
-   "revision": 1,
-   "changedAt": "2026-09-05",
+   "digest": "sha256-b2:e4903b0af5df591d",
+   "revision": 2,
+   "changedAt": "2026-10-31",
    "techniques": [
     {
      "slug": "adapter-capability-tables",
@@ -20962,9 +20965,9 @@
    "subcategory": "embedded-surfaces",
    "status": "forged",
    "file": "knowledge/software-engineering/integration/embedded-surfaces/markdown-vault/markdown-vault.md",
-   "digest": "sha256-b2:7a10f98b2d9488ac",
-   "revision": 2,
-   "changedAt": "2026-09-07",
+   "digest": "sha256-b2:7eac369df32d979d",
+   "revision": 3,
+   "changedAt": "2026-10-31",
    "techniques": [
     {
      "slug": "editor-interop",
@@ -23632,9 +23635,9 @@
    "subcategory": "codebase-stewardship",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-process/codebase-stewardship/module-design/module-design.md",
-   "digest": "sha256-b2:7c8008f2207b1946",
-   "revision": 18,
-   "changedAt": "2026-10-14",
+   "digest": "sha256-b2:e1d2812b4abcee57",
+   "revision": 19,
+   "changedAt": "2026-10-31",
    "techniques": [
     {
      "slug": "borrowed-surface",
@@ -23927,7 +23930,7 @@
      "stack": "rust",
      "technique": "host-primitive-facade",
      "file": "knowledge/software-engineering/engineering-process/codebase-stewardship/module-design/applications/rust--host-primitive-facade--yoagent.md",
-     "verified_on": "2026-10-02",
+     "verified_on": "2026-10-31",
      "verified_against": "rust@1.86"
     },
     {
@@ -27118,9 +27121,9 @@
    "subcategory": "service-operations",
    "status": "forged",
    "file": "knowledge/software-engineering/operations/service-operations/plan-entitlements/plan-entitlements.md",
-   "digest": "sha256-b2:66961f93b3ce02ba",
-   "revision": 8,
-   "changedAt": "2026-10-25",
+   "digest": "sha256-b2:40bcdf63d13ac086",
+   "revision": 9,
+   "changedAt": "2026-10-31",
    "techniques": [
     {
      "slug": "capability-gate-predicates",
@@ -27304,7 +27307,7 @@
      "stack": "node",
      "technique": "live-catalog-edit-is-a-lifecycle-event",
      "file": "knowledge/software-engineering/operations/service-operations/plan-entitlements/applications/node--live-catalog-edit-is-a-lifecycle-event.md",
-     "verified_on": "2026-09-18",
+     "verified_on": "2026-10-31",
      "verified_against": "node@24"
     },
     {
@@ -27327,9 +27330,9 @@
    "subcategory": "orchestration",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/orchestration/plan-review/plan-review.md",
-   "digest": "sha256-b2:c9a78a4c9faf0799",
-   "revision": 5,
-   "changedAt": "2026-10-22",
+   "digest": "sha256-b2:9669031f932606bb",
+   "revision": 6,
+   "changedAt": "2026-10-31",
    "techniques": [
     {
      "slug": "decision-sized-slicing",
@@ -27444,9 +27447,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/software-engineering/secret-custody-and-issuance/priced-authority/priced-authority.md",
-   "digest": "sha256-b2:5f06e495d1f48a79",
-   "revision": 4,
-   "changedAt": "2026-09-26",
+   "digest": "sha256-b2:b0363ca8926ac758",
+   "revision": 5,
+   "changedAt": "2026-10-31",
    "techniques": [
     {
      "slug": "approver-not-requester",
@@ -27573,7 +27576,7 @@
      "stack": "next",
      "technique": "never-persisted-token-class",
      "file": "knowledge/software-engineering/secret-custody-and-issuance/priced-authority/applications/next--never-persisted-token-class.md",
-     "verified_on": "2026-09-26",
+     "verified_on": "2026-10-31",
      "verified_against": "next@16"
     }
    ]
@@ -27583,8 +27586,8 @@
    "subcategory": "orchestration",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/orchestration/proactive-nudges/proactive-nudges.md",
-   "digest": "sha256-b2:5ac900ae46e58393",
-   "revision": 8,
+   "digest": "sha256-b2:acb48797d6eb292b",
+   "revision": 9,
    "changedAt": "2026-10-31",
    "techniques": [
     {
@@ -27807,9 +27810,9 @@
    "subcategory": "prompt-and-context",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/prompt-and-context/prompt-assembly/prompt-assembly.md",
-   "digest": "sha256-b2:ad13b2ee69c25e8d",
-   "revision": 44,
-   "changedAt": "2026-10-14",
+   "digest": "sha256-b2:e72fd75e79e6a4a2",
+   "revision": 45,
+   "changedAt": "2026-10-31",
    "techniques": [
     {
      "slug": "amortized-compaction-cadence",
@@ -29137,9 +29140,9 @@
    "subcategory": "standards-and-gates",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-process/standards-and-gates/quality-gates/quality-gates.md",
-   "digest": "sha256-b2:0d8378dd13155e59",
-   "revision": 54,
-   "changedAt": "2026-10-14",
+   "digest": "sha256-b2:d5f8a264c5f1b9ff",
+   "revision": 55,
+   "changedAt": "2026-10-31",
    "techniques": [
     {
      "slug": "advancement-evidence-fields",
@@ -29805,9 +29808,9 @@
    "subcategory": "service-operations",
    "status": "forged",
    "file": "knowledge/software-engineering/operations/service-operations/quorum-and-recovery-procedures/quorum-and-recovery-procedures.md",
-   "digest": "sha256-b2:adce67260d401a6a",
-   "revision": 3,
-   "changedAt": "2026-09-26",
+   "digest": "sha256-b2:1e917793f5850b03",
+   "revision": 4,
+   "changedAt": "2026-10-31",
    "techniques": [
     {
      "slug": "cancel-leaves-prior-state-valid",
@@ -29928,14 +29931,14 @@
      "stack": "node",
      "technique": "migration-lock-in-source",
      "file": "knowledge/software-engineering/operations/service-operations/quorum-and-recovery-procedures/applications/node--migration-lock-in-source.md",
-     "verified_on": "2026-09-26",
+     "verified_on": "2026-10-31",
      "verified_against": "node@24"
     },
     {
      "stack": "node",
      "technique": "nonce-progress-verify",
      "file": "knowledge/software-engineering/operations/service-operations/quorum-and-recovery-procedures/applications/node--nonce-progress-verify.md",
-     "verified_on": "2026-09-26",
+     "verified_on": "2026-10-31",
      "verified_against": "node@24"
     }
    ]
@@ -32921,9 +32924,9 @@
    "subcategory": "service-operations",
    "status": "forged",
    "file": "knowledge/software-engineering/operations/service-operations/scoring-rubrics/scoring-rubrics.md",
-   "digest": "sha256-b2:476078a37f34137d",
-   "revision": 3,
-   "changedAt": "2026-09-20",
+   "digest": "sha256-b2:60a8d51619b8012d",
+   "revision": 4,
+   "changedAt": "2026-10-31",
    "techniques": [
     {
      "slug": "gap-ranking",
@@ -33038,13 +33041,13 @@
      "stack": "react",
      "technique": "gap-ranking",
      "file": "knowledge/software-engineering/operations/service-operations/scoring-rubrics/applications/react--gap-ranking.md",
-     "verified_on": "2026-08-18"
+     "verified_on": "2026-10-31"
     },
     {
      "stack": "react",
      "technique": "weight-design",
      "file": "knowledge/software-engineering/operations/service-operations/scoring-rubrics/applications/react--weight-design.md",
-     "verified_on": "2026-08-18"
+     "verified_on": "2026-10-31"
     }
    ]
   },
@@ -33053,9 +33056,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/software-engineering/secret-custody-and-issuance/seal-and-key-hierarchy/seal-and-key-hierarchy.md",
-   "digest": "sha256-b2:044e6e9d3f3395f0",
-   "revision": 3,
-   "changedAt": "2026-09-26",
+   "digest": "sha256-b2:7323edbf17299cb3",
+   "revision": 4,
+   "changedAt": "2026-10-31",
    "techniques": [
     {
      "slug": "any-one-seal-unseals",
@@ -33178,7 +33181,7 @@
      "stack": "node",
      "technique": "append-only-keyring-rotation",
      "file": "knowledge/software-engineering/secret-custody-and-issuance/seal-and-key-hierarchy/applications/node--append-only-keyring-rotation.md",
-     "verified_on": "2026-09-26",
+     "verified_on": "2026-10-31",
      "verified_against": "node@24"
     },
     {
@@ -33887,9 +33890,9 @@
    "subcategory": "orchestration",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/orchestration/session-continuation/session-continuation.md",
-   "digest": "sha256-b2:b0eabf78abd856a4",
-   "revision": 8,
-   "changedAt": "2026-10-09",
+   "digest": "sha256-b2:23f9ee426474cca5",
+   "revision": 9,
+   "changedAt": "2026-10-31",
    "techniques": [
     {
      "slug": "advisory-guard-fail-mode",
@@ -34862,9 +34865,9 @@
    "subcategory": "embedded-surfaces",
    "status": "forged",
    "file": "knowledge/software-engineering/integration/embedded-surfaces/sql-console/sql-console.md",
-   "digest": "sha256-b2:60a26f15745fd8c1",
-   "revision": 1,
-   "changedAt": "2026-09-05",
+   "digest": "sha256-b2:fd16b5b668df1a8e",
+   "revision": 2,
+   "changedAt": "2026-10-31",
    "techniques": [
     {
      "slug": "dialect-capability-declaration",
@@ -35692,9 +35695,9 @@
    "subcategory": "prompt-and-context",
    "status": "reconciled",
    "file": "knowledge/software-engineering/llm-agent/prompt-and-context/structured-output/structured-output.md",
-   "digest": "sha256-b2:d51aec71411ccb2b",
-   "revision": 15,
-   "changedAt": "2026-09-23",
+   "digest": "sha256-b2:abe3ad815f0563b3",
+   "revision": 16,
+   "changedAt": "2026-10-31",
    "techniques": [
     {
      "slug": "answer-coverage-gating",
@@ -36854,9 +36857,9 @@
    "subcategory": "data-display",
    "status": "forged",
    "file": "knowledge/software-engineering/ui-surfaces/data-display/table/table.md",
-   "digest": "sha256-b2:c587a204413d5373",
-   "revision": 14,
-   "changedAt": "2026-10-14",
+   "digest": "sha256-b2:217f74855ae8d9c1",
+   "revision": 15,
+   "changedAt": "2026-10-31",
    "techniques": [
     {
      "slug": "client-server-split",
@@ -37060,25 +37063,25 @@
      "stack": "node",
      "technique": "clipboard-range-round-trip",
      "file": "knowledge/software-engineering/ui-surfaces/data-display/table/applications/node--clipboard-range-round-trip.md",
-     "verified_on": "2026-10-14"
+     "verified_on": "2026-10-31"
     },
     {
      "stack": "node",
      "technique": "compressed-scroll-space",
      "file": "knowledge/software-engineering/ui-surfaces/data-display/table/applications/node--compressed-scroll-space.md",
-     "verified_on": "2026-10-14"
+     "verified_on": "2026-10-31"
     },
     {
      "stack": "node",
      "technique": "export-escapes-for-its-consumer",
      "file": "knowledge/software-engineering/ui-surfaces/data-display/table/applications/node--export-escapes-for-its-consumer--revogrid.md",
-     "verified_on": "2026-10-14"
+     "verified_on": "2026-10-31"
     },
     {
      "stack": "node",
      "technique": "one-door-for-range-writes",
      "file": "knowledge/software-engineering/ui-surfaces/data-display/table/applications/node--one-door-for-range-writes.md",
-     "verified_on": "2026-10-14"
+     "verified_on": "2026-10-31"
     },
     {
      "stack": "react",
@@ -37105,7 +37108,7 @@
      "stack": "rust",
      "technique": "pagination",
      "file": "knowledge/software-engineering/ui-surfaces/data-display/table/applications/rust--pagination.md",
-     "verified_on": "2026-08-18"
+     "verified_on": "2026-10-31"
     }
    ]
   },
@@ -37567,9 +37570,9 @@
    "subcategory": "orchestration",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/orchestration/tenant-scoped-agent-runtime/tenant-scoped-agent-runtime.md",
-   "digest": "sha256-b2:e25b75ee0d820e2b",
-   "revision": 7,
-   "changedAt": "2026-10-10",
+   "digest": "sha256-b2:2d3422c2e1c1946e",
+   "revision": 8,
+   "changedAt": "2026-10-31",
    "techniques": [
     {
      "slug": "fail-direction-follows-deployment-mode",
@@ -37694,9 +37697,9 @@
    "subcategory": "runtime-and-io",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/runtime-and-io/terminal-multiplexing/terminal-multiplexing.md",
-   "digest": "sha256-b2:c3ef11aba4a471f5",
-   "revision": 7,
-   "changedAt": "2026-09-04",
+   "digest": "sha256-b2:5a9b9587de8d6709",
+   "revision": 8,
+   "changedAt": "2026-10-31",
    "techniques": [
     {
      "slug": "attach-detach-lifecycle",
@@ -37880,7 +37883,7 @@
      "stack": "c",
      "technique": "multi-client-fan-out",
      "file": "knowledge/software-engineering/llm-agent/runtime-and-io/terminal-multiplexing/applications/c--multi-client-fan-out.md",
-     "verified_on": "2026-09-02"
+     "verified_on": "2026-10-31"
     },
     {
      "stack": "react",
@@ -37915,9 +37918,9 @@
    "subcategory": "build-and-release",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-process/build-and-release/test-harness/test-harness.md",
-   "digest": "sha256-b2:c96e1ee699a88119",
-   "revision": 27,
-   "changedAt": "2026-10-23",
+   "digest": "sha256-b2:2287af36a9532062",
+   "revision": 28,
+   "changedAt": "2026-10-31",
    "techniques": [
     {
      "slug": "approval-snapshots-with-guarded-update",
@@ -40268,9 +40271,9 @@
    "subcategory": "service-operations",
    "status": "forged",
    "file": "knowledge/software-engineering/operations/service-operations/usage-analytics/usage-analytics.md",
-   "digest": "sha256-b2:83367bcb68dbb99a",
-   "revision": 4,
-   "changedAt": "2026-09-26",
+   "digest": "sha256-b2:f965f69b13650632",
+   "revision": 5,
+   "changedAt": "2026-10-31",
    "techniques": [
     {
      "slug": "activation-and-funnel-honesty",
@@ -40364,7 +40367,7 @@
      "stack": "next",
      "technique": "event-taxonomy",
      "file": "knowledge/software-engineering/operations/service-operations/usage-analytics/applications/next--event-taxonomy.md",
-     "verified_on": "2026-09-26",
+     "verified_on": "2026-10-31",
      "verified_against": "next@16"
     },
     {

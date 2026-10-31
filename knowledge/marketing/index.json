@@ -5,7 +5,7 @@
   "source": "knowledge/marketing/ (frontmatter only)",
   "subjects": 30,
   "techniques": 184,
-  "applications": 136,
+  "applications": 137,
   "laws": 10,
   "categories": [
    "search-and-content",
@@ -2651,9 +2651,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/marketing/measurement-and-economics/period-comparison-significance/period-comparison-significance.md",
-   "digest": "sha256-b2:19d7b11db78bbddc",
-   "revision": 1,
-   "changedAt": "2026-09-09",
+   "digest": "sha256-b2:c54ce205137453eb",
+   "revision": 2,
+   "changedAt": "2026-10-31",
    "techniques": [
     {
      "slug": "equal-windows-and-truncated-flag",
@@ -2757,6 +2757,13 @@
      "file": "knowledge/marketing/measurement-and-economics/period-comparison-significance/applications/node--yoy-364-day-shift.md",
      "verified_on": "2026-09-09",
      "verified_against": "node@24"
+    },
+    {
+     "stack": "process",
+     "technique": "yoy-364-day-shift",
+     "file": "knowledge/marketing/measurement-and-economics/period-comparison-significance/applications/process--yoy-364-day-shift.md",
+     "verified_on": "2026-10-31",
+     "refresh_by": "2027-01-31"
     },
     {
      "stack": "react",
