@@ -211,9 +211,10 @@ spread:
 
 Two practical traps the same measurement surfaced, both cheap to avoid:
 
-- **A two-token score silently reads as its first digit.** On a 0–10 scale the
-  top answer is two tokens, so a distribution read at the score position scores
-  `10` as a `1` — which does not error, does not look wrong, and in the run that
+- **A two-token score silently reads as its first digit.** On a tokenizer that
+  splits numbers one digit per token, as some open-weight vision models' do,
+  the top answer on a 0–10 scale is two tokens, so a distribution read at
+  the score position scores `10` as a `1` — which does not error, does not look wrong, and in the run that
   found it produced an apparent eight-point correction that was pure artifact.
   Keep the scale single-token (0–9), or reassemble the number before reading any
   mass over it.

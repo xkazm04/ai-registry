@@ -75,9 +75,9 @@ applies to grading their round trips.
 
 - **Grading content fidelity**, which measures copying and fails every honest
   replication.
-- **Reporting the mean and stopping.** A 77% aggregate hides that half the
-  fields scored 100% and the rest scored 50% — the only actionable shape in
-  the data.
+- **Reporting the mean and stopping.** A 75% aggregate hides that half the
+  fields scored 100% and the rest scored 50% — the shape the per-field rates
+  exist to show, and one a small sample can also produce by chance.
 - **Concluding from a handful of frames.** Per-field rates over a few images
   are a signal to pursue, not a measurement to publish; say which it is.
 - **Quoting the schema's labels straight into the generation prompt**, then

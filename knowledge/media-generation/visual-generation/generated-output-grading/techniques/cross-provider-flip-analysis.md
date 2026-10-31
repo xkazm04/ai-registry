@@ -26,7 +26,10 @@ is what carries the diagnosis.
 The diff is only valid if the generator was the *only* variable:
 
 - **Same briefs, same style blocks, same aspect, same grading schema, same
-  judge.** Any second difference contaminates every flip.
+  judge.** Any second difference contaminates every flip. The one difference
+  this cannot remove is a channel: when one generator takes a dimension as
+  typed input and the other only as prose, declare it and report both numbers
+  ([input-channel-parity](./input-channel-parity.md)).
 - **The generator must be an explicit parameter of the harness**, selected per
   run — never an environment side effect or a router's silent choice. If
   routing decides, you cannot re-run the grid on the other side, and the

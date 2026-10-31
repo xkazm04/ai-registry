@@ -5,7 +5,7 @@ subject: generated-output-grading
 technique: trial-matrix-design
 stack: node
 status: forged
-verified_on: 2026-08-28
+verified_on: 2026-10-31
 verified_against: node@24
 ---
 
@@ -21,7 +21,7 @@ few hundred lines.
 `pipeline/build-style-trials.mts:1-19` states the design intent in its header:
 six styles × five trials = thirty plates, and "the point is not thirty
 pictures; it is the GRID … you only ever learn that by holding one style still
-and varying the problem." The trial axis is `app/library/trials.ts:1-20` —
+and varying the problem." The trial axis is `lib/library/trials.ts:1-20` —
 five beats **lifted from the repo's own finished Bitcoin script**, not
 invented, "because a trial set invented for the purpose would quietly avoid
 the shapes that are hard to draw." Each trial names its visual problem
@@ -31,20 +31,20 @@ written picture-only — no labels or numbers — because captions are the
 deterministic vector layer.
 
 The candidate axis is held still per run: `--provider` is an explicit flag
-(`build-style-trials.mts:51-67`), with the comment carrying the doctrine —
+(`build-style-trials.mts:52-67`), with the comment carrying the doctrine —
 "which model drew a plate has to be a variable rather than an environment
 side effect." `CONCURRENCY = 3` is "kept low on purpose: Leonardo's rate
 limits are unpublished, and the failure mode of guessing high is a
-half-finished grid plus a cooldown" (`:68-70`).
+half-finished grid plus a cooldown" (`:69-71`).
 
 ## Grading every cell
 
-`GRADE_SCHEMA` (`build-style-trials.mts:78-88`) is the fixed schema: `hasText`
+`GRADE_SCHEMA` (`build-style-trials.mts:76-88`) is the fixed schema: `hasText`
 first ("the first field is the unconditional fail — captions are our vector
 layer, so a plate carrying letters is unusable however handsome it is"), then
 boolean `drewWhatWasAsked`, `dominantColors` as plain lowercase names,
 anchored 1–5 `clutter`, and a one-sentence `description`. `gradeImage`
-(`:130-146`) quotes the originating brief into the instruction, pins the judge
+(`:129-146`) quotes the originating brief into the instruction, pins the judge
 with "Answer only about what you can actually see", records `gradedBy` from
 provenance, and **never throws** — "a lost judgement must not cost the plate";
 failure lands as `gradedBy: "ungraded: <kind>"`.
@@ -57,7 +57,7 @@ image on disk + grade in index → skip; image on disk + no grade + `--regrade`
 naming the trap: "Without this branch the only way to recover a lost
 judgement is to re-render the plate, which pays generation cost to fix a
 recognition problem." The index (`public/trials/index.json`) is keyed
-`provider/styleId/trialId` (`:106-111`) so "the two grids coexist in one
+`provider/styleId/trialId` (`:110-112`) so "the two grids coexist in one
 index … diffed cell for cell, which is the only comparison worth making."
 
 ## The free reader, and the flip diff

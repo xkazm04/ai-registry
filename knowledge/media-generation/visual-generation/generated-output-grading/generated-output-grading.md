@@ -107,6 +107,11 @@ explanations — some architectures silently truncate long prompts, so a model
 that "ignored" everything after the midpoint may never have seen it. Re-run
 with only the head of the prompt before writing the verdict.
 
+One prerequisite cannot always be met by holding the harness still: when one
+candidate takes a dimension as a typed input and the others only as a sentence,
+no single brief reaches both, and the diff measures the channel as much as the
+model. Declare it and report both numbers (input-channel-parity).
+
 The comparison's bottom line is economic, and it must be computed over the
 right denominator: **cost per usable output, not cost per render**. A cheaper
 generator that fails the gate more often is the more expensive one, and the
@@ -132,6 +137,10 @@ known error characteristics, not an oracle:
   what it can actually see, and record *which* grader produced each verdict —
   an ungraded cell labeled as ungraded is honest; an ungraded cell that looks
   like a pass is a lie the pipeline tells itself.
+- A schema's vocabulary has to be tested, not just read. Feed an annotation
+  alone to a generator, annotate the result, and compare field by field: a field
+  that does not survive the round trip is not carrying what it names
+  (replication-as-comprehension-test).
 
 The mature arrangement is a cascade: deterministic detectors for whatever can
 be detected deterministically, vision-model grading for semantic adherence,

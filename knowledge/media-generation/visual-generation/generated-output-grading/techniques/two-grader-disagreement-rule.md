@@ -27,14 +27,19 @@ pipeline silently converts into whichever opinion it happened to hire.
 ## Why two, and why disagreement routes to a human
 
 A boundary the field has since measured: vision-language judges **rank
-reliably but score unreliably** — the same judge, same image, same rubric
-returns visibly different scalar scores across repeats, while its pairwise
-verdicts stay stable. So the rule applies to *categorical* judgements
-(booleans, pass/fail bands, A-versus-B), where disagreement carries
-information; scalar-score disagreement is partly instrument noise and must
-not be routed to a human as if it were signal. Prefer head-to-head and
-banded questions; where a scalar is unavoidable, repeat it and read the
-spread before reading the value. Two protocol rules ride along from
+reliably but score unreliably** — across a set of responses a judge's scores
+order them close to the way humans do, while the absolute score on any one
+response carries a wide, uninformative uncertainty interval. (That study
+scored each response on its own with deterministic decoding; it measured
+neither repeat variance nor head-to-head verdicts, and recommends pairwise
+comparison only where the intervals are wide.) So the rule applies to
+*categorical* judgements (booleans, pass/fail bands, A-versus-B), where
+disagreement carries information; a gap between two judges' scalar scores is
+partly instrument imprecision and must not be routed to a human as if it
+were signal. Prefer head-to-head and banded questions; where a scalar is
+unavoidable, read it as a position within the batch before reading it as a
+value — at deterministic settings a repeat returns the same number and shows
+no spread at all. Two protocol rules ride along from
 measured judge biases: judge both presentation orders (order reversal
 flips verdicts), and never hire a judge from the same model family as the
 generator (self-preference is confirmed).

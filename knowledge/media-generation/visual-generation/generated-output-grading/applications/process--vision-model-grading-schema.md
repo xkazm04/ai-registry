@@ -46,10 +46,12 @@ to a measured one.
 Findings that shape the protocol, regardless of which judge is hired:
 
 - **Judges rank reliably but score unreliably.** Across frontier and open
-  judges, independent scalar scoring shows high variance while pairwise
-  comparison stays stable. Prefer head-to-head verdicts or coarse
-  pass/fail bands over 1–10 rubrics; treat scalar-score disagreement as
-  partly noise (see the two-grader-disagreement-rule's boundary note).
+  judges, independently assigned scores order responses close to human
+  order while each absolute score carries a wide uncertainty interval. The
+  cited study decoded deterministically and ran no pairwise comparisons; it
+  recommends them where intervals are wide. Prefer head-to-head verdicts or
+  coarse pass/fail bands over 1–10 rubrics; treat scalar-score disagreement
+  as partly noise (see the two-grader-disagreement-rule's boundary note).
 - **Measured biases require protocol, not trust:** position bias (order
   reversal flips verdicts — always judge both orders), verbosity bias
   (stronger than position bias in multimodal judges), self-preference
@@ -86,8 +88,10 @@ calls. **n=5 per probe — a protocol calibration, not a vendor ranking.**
   **3/5**, with wrong verdicts occurring in *both* presentation orders,
   and judges disagreeing about which image carried the drop shadows.
 
-Read against the literature's "rank reliably, score unreliably": in this
-setup the relationship **inverted**, and the probes differ in exactly one
+Read against the common reading of "rank reliably, score unreliably" (the
+study itself measured neither repeat variance nor pairwise verdicts, so this
+contrasts with the reading, not with its data): in this setup the relationship
+**inverted**, and the probes differ in exactly one
 craft-relevant way — the scalar probe had a countable rubric, the pairwise
 probe a holistic similarity question. Working hypothesis, consistent with
 this bundle's own unconditional-fail and countable-rubric doctrine: **the
