@@ -68,8 +68,8 @@ line that gets quoted in the meeting, detached from every caveat around it. An
 inverted recommendation therefore does not degrade the report — it weaponizes
 it, and it does so silently, because a confidently-worded wrong priority looks
 exactly like a confidently-worded right one. Between a section that says "no
-recommendation this period" and a section that has a one-in-five chance of
-telling the organization to fix its best thing, the empty section wins on
+recommendation this period" and a section that can tell the organization
+to fix its best thing, the empty section wins on
 every axis that matters.
 
 The general form: **for outputs whose wrongness is unfalsifiable by the

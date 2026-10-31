@@ -38,7 +38,8 @@ from a session-token policy.
 
 The corollary is that expiry must be **visible and recoverable**: an expired
 link renders a page saying the report has expired and how to request a current
-one, never a generic not-found. A not-found teaches the recipient that your
+one, never a generic not-found; the status is 410 Gone, which tells clients and
+crawlers the grant existed and has ended. A not-found teaches the recipient that your
 system is broken; an expiry notice teaches them that the report was a
 snapshot, which is exactly the lesson.
 
@@ -155,6 +156,10 @@ a share link as proof the numbers are authentic.
   lookup.
 - Share grants with no expiry column, or an expiry column nothing reads.
 - Expired links returning the generic not-found page.
+- A shared page that loads third-party resources or links out without
+  suppressing the referrer, so the token travels in the Referer header; the
+  link also lands in server logs and browser history, which is one more reason
+  its lifetime must be short.
 - The share table growing monotonically with no reaper — every report ever
   shared, still resolvable.
 - A "share" button whose scope does not change when the report contains a
