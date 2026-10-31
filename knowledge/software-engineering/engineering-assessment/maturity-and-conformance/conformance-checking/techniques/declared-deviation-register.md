@@ -96,9 +96,9 @@ stating because the near misses are where the judgment lives:
 ## What the register does to a checker
 
 The register is not documentation the checker ignores; it changes the
-arithmetic. A conformance run against a registered deviation produces a
-**third outcome**, beside the four in this subject's ladder: *known, accepted,
-dated*. Wire it as its own class, never by either of the two available shortcuts:
+arithmetic. A conformance run against a registered deviation produces
+**an outcome of its own**, beside the four in this subject's ladder: *known,
+accepted, dated*. Wire it as its own class, never by either of the two available shortcuts:
 
 - **Not as a suppression that removes it from the denominator.** That inflates
   the pass ratio by exactly the number of things you decided not to do, and the

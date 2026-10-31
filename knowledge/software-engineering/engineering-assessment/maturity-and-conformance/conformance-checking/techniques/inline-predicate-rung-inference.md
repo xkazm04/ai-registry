@@ -46,7 +46,7 @@ and one success symbol.
 
 This is [count-carries-predicate](../../../../_laws.md#count-carries-predicate)
 at the level of the spec sheet: *91.6% verified* is a number whose predicate is
-"has a command", not "is proven", and the two are five times apart.
+"has a command", not "is proven", and the two are roughly five times apart.
 
 **The cheap rung dominates precisely because the format succeeded.** When
 writing a predicate is mandatory and costs one line, the predicate that costs
@@ -81,7 +81,8 @@ wrong:
   reported the execution share as **40%**; matching at the head of each
   segment gave **7.2%** before wrapper resolution and **20.8%** after. The
   instrument's bias inflated exactly the number the finding turned on, by
-  5.5x, in the direction that flattered the spec.
+  1.9x against the resolved figure (5.5x against the unresolved one), in the
+  direction that flattered the spec.
 - **Resolve wrappers before classifying.** `cd <dir> && <real command>`,
   `env X=1 <real command>`, and a project's own `check-*.sh` helper are not
   their own rungs; unresolved, they land in an `other` bucket that silently

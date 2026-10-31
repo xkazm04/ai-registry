@@ -97,10 +97,9 @@ The crash class is not decoration. A failed check says the implementation
 disagrees with the standard; a crashed check says the implementation cannot be
 asked the question. They have different owners, different urgency and
 different fixes, and a report that folds crashes into failures loses the only
-signal that distinguishes "wrong" from "broken". In
-[finding-severity-ladder](./finding-severity-ladder.md)'s terms a crash sits
-at the hard-failure rung - it is the finding that is already irreversible when
-observed, because the run could not complete the clause - and it is the one
+signal that distinguishes "wrong" from "broken". It is not a hard failure in
+[finding-severity-ladder](./finding-severity-ladder.md)'s sense - nothing
+irreversible has happened, and the run continues past it - but it is the one
 kind of regression that may block a change on its own.
 
 ## Where the delta lives: beside the change, not in front of it

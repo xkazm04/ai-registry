@@ -58,15 +58,17 @@ response. The driver at `mcp_bin.rs:107` is `for line in stdin.lock().lines()`.
 Across both files there is no `as_array`, no `is_array`, no `Value::Array` — no
 batch path of any kind.
 
-Section 6 of the cited specification requires a server to accept an array of
-request objects and answer with an array of responses. This server, handed one,
+Section 6 of the cited specification lets a client send an array of request
+objects and says the server "should respond with an Array containing the
+corresponding Response objects". This server, handed one,
 parses it successfully into an array value, finds no `method` member on it,
 falls through to the default arm, and returns a single error response with a
 null identifier. That is not the specified behaviour and it is not an
 approximation of it.
 
 The deviation is very probably correct. A line-delimited transport makes
-batching awkward, the protocol layered on top has been moving away from it, and
+batching awkward, the protocol layered on top removed batching support in its
+2025-06-18 revision, and
 no client in this deployment sends batches. **That is exactly why it needs an
 entry.** As the tree stands, a maintainer reading `handle_jsonrpc` has no way to
 tell whether batching is absent because somebody decided it should be or because

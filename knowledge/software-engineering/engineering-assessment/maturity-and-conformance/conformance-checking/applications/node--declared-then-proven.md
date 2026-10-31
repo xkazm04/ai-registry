@@ -94,7 +94,10 @@ to the run's actual outcome — "pass → true, fail → false; a stale true nev
 outlives a broken command" — with the serializer's one-line-per-capability
 format making the targeted rewrite safe, and placeholder capabilities never
 touched. Without it, the comment notes, "the manifest promised a flip that
-never happened."
+never happened." What it writes is still a bare boolean: no run, time,
+standard version or rung travels with the flag, which is the provenance
+[claim-write-back](../techniques/claim-write-back.md) asks of a stamp, so a
+reader of the manifest cannot tell a fresh proof from an old one.
 
 The banner at `doctor.ts:16` states the perimeter that makes this safe:
 `--run` shell-executes commands declared in the manifest, so it must never

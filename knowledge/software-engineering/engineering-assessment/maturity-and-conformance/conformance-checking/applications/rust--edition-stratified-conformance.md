@@ -21,7 +21,8 @@ grows monthly, and the tree carries every move of the technique.
 
 `test262_config.toml:1` opens with `commit = "d86b2294..."`, and the same file
 holds the ignored-feature list (`:3-40`), grouped by reason class in comments:
-"Unimplemented features", "Pending proposals" (each with its proposal link).
+"Unimplemented features", "Pending proposals" (each with its proposal link),
+"Non-standard".
 The run's denominator is therefore a function of the engine's commit and the
 suite's, and both are in the tree. Ignored entries are scope, as the
 declared-deviation neighbour requires; the compare mode counts them

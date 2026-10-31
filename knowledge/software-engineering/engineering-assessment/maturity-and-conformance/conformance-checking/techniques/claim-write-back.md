@@ -97,7 +97,7 @@ absolute:
 ## The report-back leg has its own rules
 
 Where results also travel outward — a run posting its verdict to a central
-record — three additional rules, each learned by being violated:
+record — four additional rules, each learned by being violated:
 
 - **The credential must name what it may write about.** A deployment-wide
   ingest token is bound to no subject, so any holder can post a verdict
