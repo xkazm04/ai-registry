@@ -5,7 +5,7 @@ subject: dynamic-secret-lifecycle
 technique: persist-before-provision
 stack: rust
 status: forged
-verified_on: 2026-09-26
+verified_on: 2026-10-31
 verified_against: rust@1
 applied: simulation
 ab_verdict: better
@@ -19,16 +19,17 @@ verifier are one SQLite table. That removes the Go tree's hard case (a remote
 user with no lease) and exposes the one this technique had not named. When the
 record *is* the credential, the effect that can fail after the write is the
 **handout** of the plaintext. A row whose plaintext never reached a holder is a
-live credential that nobody holds. Read at `900b8f0b4`, toolchain `1.96.1`.
+live credential that nobody holds. Read at `900b8f0b4`, toolchain `1.96.1`;
+anchors re-checked at `22260d77` on 2026-10-31.
 
 ## The store: record first, plaintext once
 
-`src-tauri/db/src/repos/resources/external_api_keys.rs:59-106` generates the
-token, hashes it, and `INSERT ... RETURNING *`s the row (line 85). Only then
-does it return the plaintext (line 102). The table holds only the SHA-256 hash,
+`src-tauri/db/src/repos/resources/external_api_keys.rs:72-125` generates the
+token, hashes it, and `INSERT ... RETURNING *`s the row (line 105). Only then
+does it return the plaintext (line 122). The table holds only the SHA-256 hash,
 so the plaintext exists in exactly one place: whatever the caller does next
-with the response. Lookup (`:148-182`) enforces revocation and expiry on every
-request, and expiry is checked in Rust (`:169`, `ExternalApiKey::is_expired_at`
+with the response. Lookup (`:160-200`) enforces revocation and expiry on every
+request, and expiry is checked in Rust (`:189`, `ExternalApiKey::is_expired_at`
 in `src-tauri/core/src/models/external_api_key.rs`). A malformed `expires_at`
 counts as expired.
 
@@ -45,11 +46,11 @@ arise. Revoked and expired rows are kept for audit, and no sweep prunes them.
 
 | Path | Handout carrier | On handout failure |
 |---|---|---|
-| Operator key, `src-tauri/db/src/operator_key.rs:185-210` | a token file written atomically after the insert | **revokes the new row** (`:199-203`): "A key whose token nobody holds is litter at best; revoke it." |
-| Attended pairing, `src-tauri/src/commands/credentials/external_api_keys.rs:163-202` | the in-memory pending map (`pairing::set_approved`, `:202`), claimed once by the browser | returns the error; the row stays active |
+| Operator key, `src-tauri/db/src/operator_key.rs:185-210` | a token file written atomically after the insert | **revokes the new row** (`:200-204`): "A key whose token nobody holds is litter at best; revoke it." |
+| Attended pairing, `src-tauri/src/commands/credentials/external_api_keys.rs:162-214` | the in-memory pending map (`pairing::set_approved`, `:200`), claimed once by the browser | returns the error; the row stays active |
 | Headless pairing, `src-tauri/engine/src/pairing.rs:304-348` | the same map (`:339`) | returns the error; the row stays active (1-day expiry, `:324`) |
-| System key, `src-tauri/src/engine/management_api.rs:835-876` | a process-wide cache plus an env var set at boot | no failure branch; see the race below |
-| Broker handle, `src-tauri/src/engine/credential_broker.rs:130-183` | the command's own response | none needed; the response *is* the handout, and the row expires in 5 to 1440 minutes |
+| System key, `src-tauri/src/engine/management_api.rs:860-901` | a process-wide cache plus an env var set at boot | no failure branch; see the race below |
+| Broker handle, `src-tauri/engine/src/credential_broker.rs:130-183` | the command's own response | none needed; the response *is* the handout, and the row expires in 5 to 1440 minutes |
 
 The operator key applies the technique's third decision rule: the effect
 succeeded and completing it failed, so revoke with the identity in hand and
@@ -64,7 +65,7 @@ it. Three consequences:
 
 - A browser that claims after the window, or never (a closed tab), leaves an
   active origin-bound key behind. An attended approval with no
-  `expires_in_days` (`external_api_keys.rs:187-189`) never expires.
+  `expires_in_days` (`external_api_keys.rs:186`) never expires.
 - `pending_origin` (`pairing.rs:234-242`) does not check age or prune, so an
   approval that arrives after the window still mints. The next `claim` then
   prunes the entry, and that key's claim is guaranteed to fail.
@@ -78,13 +79,13 @@ the operator's attention, not by the issuer.
 ## Deviation: the system key's check-then-mint is not atomic
 
 `get_or_create_system_api_key` reads the cache under the mutex and releases it
-(`management_api.rs:837-842`). It then revokes every enabled `system` row
-(`:844-850`), inserts a fresh one (`:856`), and re-takes the mutex, preferring
-a value another thread stored (`:870-874`). The doc comment says "only the
+(`management_api.rs:862-867`). It then revokes every enabled `system` row
+(`:869-875`), inserts a fresh one (`:881`), and re-takes the mutex, preferring
+a value another thread stored (`:895-899`). The doc comment says "only the
 first one through actually mints". That is true only when the calls do not
 overlap. Boot mints from `spawn_blocking` (`src-tauri/src/boot/finalize.rs:41-64`)
 while the frontend's privileged `get_system_api_key` command and the runner
-(`src-tauri/src/engine/runner/mod.rs:1766`) call the same function.
+(`src-tauri/src/engine/runner/mod.rs:1793`) call the same function.
 
 An interleaving model of the two concurrent first calls counted the outcomes of
 all 70 orderings of their four steps. Script: this run's scratch, not
@@ -102,13 +103,13 @@ milliseconds at startup.
 
 ## Revocation, for the record
 
-`revoke` (`external_api_keys.rs:184-199`) filters on `id` only, so a second
+`revoke` (`external_api_keys.rs:203-217`) filters on `id` only, so a second
 revoke of a revoked key succeeds and **re-stamps** `revoked_at`, overwriting
 the first revocation instant. A missing row is `NotFound`. That is harmless for
 the UI's single click. For a caller that retries, it is the non-idempotent
 revoke that [idempotent-revoke-and-give-up](../techniques/idempotent-revoke-and-give-up.md)
-names. `delete` (`:321-330`) is a hard delete and its command writes no audit
-row, where `revoke` does (`external_api_keys.rs` command, `:70-82` vs `:87-94`).
+names. `delete` (`:340-349`) is a hard delete and its command writes no audit
+row, where `revoke` does (`external_api_keys.rs` command, `:69-82` vs `:86-93`).
 
 ## Applied
 

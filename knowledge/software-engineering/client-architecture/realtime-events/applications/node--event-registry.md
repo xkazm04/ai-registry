@@ -5,8 +5,8 @@ subject: realtime-events
 technique: event-registry
 stack: node
 status: forged
-verified_on: 2026-08-29
-verified_against: node@24
+verified_on: 2026-10-31
+verified_against: node@22
 applied: code
 ab_verdict: better
 ---
@@ -120,3 +120,23 @@ design. The comment is corrected in the same commit.
   boundary, which are internal, who else listens — the operational questions the
   technique says a registry earns its keep by answering — are still unanswerable
   from this artifact.
+
+## Re-checked 2026-10-31
+
+At personas@`22260d77` the findings above are repaired, and the gate has grown
+past this document's B. All five private-const names now live in
+`src-tauri/core/src/events.rs` (`:432-448`) and in `src/lib/eventRegistry.ts`.
+`ExecutionStep.tsx` no longer listens to `execution-complete`: it subscribes to
+`EventName.EXECUTION_STATUS` (`:81-82`) and settles on the first terminal state,
+with a comment recording why. The registry's doc comment names `events.rs` as
+its mirror (`eventRegistry.ts:5-7`). `npm run check:contracts` now exits 0 with
+`170 Rust events, 171 TypeScript events, 10 literal call sites all in registry`,
+and it adds a third pass: an emitter-to-listener pairing walk over the Rust tree
+(`scripts/check-event-registry.mjs:311-400`). That pass fails on a Rust emit no
+TypeScript references and asserts its walk visited files. So the "dead emitter"
+limitation above is closed in the Rust-to-TypeScript direction. The reverse
+direction is reported as a note, not a failure: eight registered names are
+referenced in TypeScript and never named by Rust outside the registry. The
+literal-only limit still holds. `useRunEventListener.ts` still calls raw
+`listen` with a free-text name (`:69`, was `:60,83`). The verdict stands: the
+B form is the one that shipped.

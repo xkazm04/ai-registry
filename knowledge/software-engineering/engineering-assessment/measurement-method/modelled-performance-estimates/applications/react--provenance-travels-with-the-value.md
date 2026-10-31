@@ -5,7 +5,7 @@ subject: modelled-performance-estimates
 technique: provenance-travels-with-the-value
 stack: react
 status: forged
-verified_on: 2026-09-26
+verified_on: 2026-10-31
 verified_against: react@19
 ---
 
@@ -19,7 +19,8 @@ multiplied by a price, which makes each a modelled estimate in this subject's
 sense. The arena module is the best worked example of the provenance rule the
 author has read in a front end. The three surfaces together are a worked
 example of the basis rule failing: **one resolution function** is not
-enforced. Citations are against commit `900b8f0b4` (read 2026-09-26).
+enforced. Citations are against commit `900b8f0b4` (read 2026-09-26), re-anchored
+at `22260d77` on 2026-10-31.
 
 ## The class lives in a type, not a name
 
@@ -46,7 +47,7 @@ contender to zero would report a cheaper match than the one that runs".
 The dispatch gauge carries a weaker sibling. `estimateDispatch`
 (`src/features/fleet/monitor/grid/dockEstimate.ts:128`) returns
 `assumedModel` (`:142`) beside the cost, and the dock's tooltip switches its
-wording on it (`QuickDispatchDock.tsx:285`). That is one bit, not a rung. It
+wording on it (`dock/DockParts.tsx:49`, beside `dockEstimate.ts`). That is one bit, not a rung. It
 says the rate was assumed, and it does not say which rate.
 
 ## Deviation: the basis is resolved three times, from three tables
@@ -55,7 +56,7 @@ The arena module's header claims the prices come "from ANTHROPIC_TIERS, the
 one place the app declares them" (`:10`). The tree has three tables for the
 same model families, and they disagree:
 
-| family | arena (`compareHelpers.ts:57`) | dispatch (`dockEstimate.ts:50-57`) | execution preview (`src-tauri/engine/src/cost.rs:15`, `:40`) |
+| family | arena (`compareHelpers.ts:21`) | dispatch (`dockEstimate.ts:50-57`) | execution preview (`src-tauri/engine/src/cost.rs:15`, `:39`) |
 | --- | --- | --- | --- |
 | sonnet, in/out per MTok | 3 / 15 | 2 / 10 | 3 / 15 |
 | opus | 5 / 25 | 5 / 25 | 15 / 75 |

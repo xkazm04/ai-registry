@@ -4,7 +4,8 @@ type: application
 subject: client-fetch-cache
 technique: swr-design
 stack: react
-verified_on: 2026-08-18
+verified_on: 2026-10-31
+verified_against: react@19
 ---
 
 # Stale-while-revalidate in this repo — the primitive family
@@ -79,3 +80,18 @@ the *set* has no single index, which is the residual gap.
   (`JSON.stringify(args)`) — fine for today's scalar callers, but
   non-canonical for object arguments (field-order fragmentation) per
   [cache-key-discipline](../techniques/cache-key-discipline.md).
+
+Re-checked 2026-10-31 at personas@`22260d77`. Every path above still exists
+and the primitive still behaves as described, at 166 lines now rather than
+~110. Two changes. `createSWRFetcher` gained a per-request token
+(`_requestToken`, `staleWhileRevalidate.ts:31`), so a request disowned by
+`invalidateSWRCache` can no longer repopulate the key or delete a newer
+request's in-flight entry. A fresh hit now re-`set`s the key too (`:89-93`), so
+eviction is recency-ordered on reads as well as writes. The first two
+deviations still hold: there is no stale ceiling, and a failed background
+refresh still reaches only `silentCatch` (`:135`). **The third deviation is
+resolved.** `deduplicateKeyedFetch` no longer keys by `JSON.stringify(args)`.
+`deduplicatedFetchKey` (`deduplicateFetch.ts:103`) encodes arguments
+canonically, with sorted object keys, typed tags for `undefined`, `null` and
+`bigint`, and a refusal for function and symbol arguments. Field order no
+longer fragments the key.

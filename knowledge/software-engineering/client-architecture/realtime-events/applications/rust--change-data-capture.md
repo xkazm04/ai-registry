@@ -4,7 +4,8 @@ type: application
 subject: realtime-events
 technique: change-data-capture
 stack: rust
-verified_on: 2026-08-18
+verified_on: 2026-10-31
+verified_against: rust@1
 ---
 
 # Change data capture — SQLite update hook feeding Tauri events
@@ -95,3 +96,18 @@ invisible to `scripts/check-event-registry.mjs`, which only compares names
 declared *in* the two registries. The
 [event-registry](../techniques/event-registry.md) gate rule (a name emitted
 anywhere that is not in the registry fails) is the missing enforcement.
+
+Re-checked 2026-10-31 at personas@`22260d77` (`src-tauri/db/src/cdc.rs`): the
+hook, the drop ledger (`:38-65`), the reader thread, the pre-blackout
+watermark (`:351`), the 6 s wait and the replay (`:402`) all hold as described,
+and the "effectively committed" comment is at `:447-451`. One change in the
+hook: the allowlist check is now `is_captured(table, action)` (`:169`,
+defined `:318-320`), which is `table_to_event(...).is_some()` widened by two
+note tables (`dev_notes`, `dev_note_comments`) that nudge the cloud sync loop
+and emit no frontend event. The second deviation has sharpened. The six
+literal names are still minted only in `table_to_event` (`:223-247`) and
+appear in neither registry file, and the gate's newer Rust-to-TypeScript
+pairing pass does not see them either: `npm run check:contracts` exits 0. A
+search of `src/` finds no listener for any of the six. So these are emitted
+events that nothing consumes, which is the dead-emitter case the
+event-registry technique names, not only an unregistered-name case.

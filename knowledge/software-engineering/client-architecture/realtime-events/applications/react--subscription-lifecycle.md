@@ -4,7 +4,8 @@ type: application
 subject: realtime-events
 technique: subscription-lifecycle
 stack: react
-verified_on: 2026-08-18
+verified_on: 2026-10-31
+verified_against: react@19
 ---
 
 # Subscription lifecycle — React over a Tauri IPC boundary
@@ -99,3 +100,15 @@ topology, one factory call per event name:
   but there is no inspectable "which names have native listeners, how many
   consumers each" surface — the technique's audit question is currently
   answerable only in a debugger.
+
+Re-checked 2026-10-31 at personas@`22260d77`: `useTauriEvent.ts` and
+`createSingletonListener.ts` still hold every mechanism above, including the
+keep-oldest buffer (`earlyBuffer.length < MAX_BUFFER`, `:125`) and the absent
+grace period. Two things moved. The "asynchronous-cleanup race" sentence sits
+on the doc comment of the sibling `useTypedTauriEvent` (`useTauriEvent.ts:62-75`),
+not on `useTauriEvent` itself. And `getEarlyDroppedCount()` no longer exists:
+the drop count is now reachable only through the per-hook `onDrop` callback,
+plus a test-only `__resetForTests` hatch (`:237-255`). The no-census deviation
+therefore stands more strongly than written: even the drop total has no
+module-level reader. A rejected `listen()` is now uncached and reported
+(`:135-149`), so a failed handshake no longer kills the channel for the session.

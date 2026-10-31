@@ -4,8 +4,8 @@ type: application
 subject: ipc-contract
 technique: command-registration
 stack: node
-verified_on: 2026-08-29
-verified_against: node@24
+verified_on: 2026-10-31
+verified_against: node@22
 ---
 
 # Registration parity gates over a Tauri dispatch table (Node tooling)
@@ -21,20 +21,21 @@ this transport grants by default.
 
 `scripts/check-command-contract.mjs` derives D from the generated name union,
 R by parsing the registration block, and I from every wrapper call site, then
-reports `missing from generated` / `stale in generated` (`:248-249`) and
+reports `missing from generated` / `stale in generated` (`:244-245`) and
 invoked-but-unregistered names not covered by the forward-reference
 overrides. The forward-reference list obeys both covenants: an override whose
-handler is *implemented* but unregistered fails (`:260`, `:283-286`), and
+handler is *implemented* but unregistered fails (`:256-258`, `:279-283`), and
 `scripts/generate-command-names.mjs:265-290` auto-prunes overrides the
 moment they appear in R. Parameter parity — payload keys versus the
 handler's required, non-injected parameters — runs in the same pass
-(`:290-311`), with dynamic payloads counted as unanalyzable rather than
+(`:285-306`), with dynamic payloads counted as unanalyzable rather than
 guessed at.
 
 ## The direction nobody guarded: defined but never registered
 
 `scripts/check-command-registration.mjs` (`:1-15`) records the hole its own
-existence closed. The Rust structural test in `lib.rs` (`:2217`) guarded
+existence closed. The Rust structural test, then in `lib.rs` (now in
+`src-tauri/src/ipc_shards/mod.rs:264-301`), guarded
 *one* direction — a registration naming a function that does not exist —
 and by 2026-08-21 the tree held **73 `#[tauri::command]` functions defined
 and never registered**: "an IPC surface each one advertises and none of them
@@ -50,17 +51,17 @@ The gate's shape is worth copying:
   rather than naming `lib.rs`, because `lib.rs` "is about to be decomposed"
   and a file-anchored parser dies with the split (`:19-26`).
 - **Extract once and share.** The registration walk is *imported* from the
-  generator (`:41`), not re-implemented — the technique's "one authority per
+  generator (`:44`), not re-implemented — the technique's "one authority per
   derivation" corollary, stated in the header as "Writing a third parser in
   Rust would be the third parser."
-- **Instrument floor.** `MIN_DEFINITIONS = 1400` (`:56-59`) against 1,656 at
+- **Instrument floor.** `MIN_DEFINITIONS = 1400` (`:52-59`) against 1,656 at
   the commit that added it; below the floor the run fails as "matcher
   broken", because "an empty definition set makes EVERY orphan disappear,
   which is a green run that means nothing" — the same floor the generator
   carries as `MIN_COMMANDS` (`generate-command-names.mjs:85`, `:231`).
 - **Two-sided allowlist.** `scripts/command-registration-allowlist.txt` fails
   on a new orphan *and* on a listed name that stopped being one (`:29-36`,
-  `stale` at `:97`). The file is now **empty on purpose** (allowlist header):
+  `stale` at `:103`). The file is now **empty on purpose** (allowlist header):
   of the 73, 12 carried a false `#[tauri::command]` attribute and were
   stripped, 60 were deleted outright, and exactly one was registered —
   the only entry with a live consumer, a test-automation spec invoking it by
@@ -96,3 +97,20 @@ technique's "not enveloped, therefore not a domain error" test, and it
 deliberately stops there: unregistered and ungranted still land in one
 verdict (`unsupported`), which is correct for a feature probe and would not
 be for a diagnostic.
+
+Re-checked 2026-10-31 at personas@`22260d77`. **The split the generator was
+rewritten for has happened.** The dispatch table is no longer one block in
+`lib.rs`. `lib.rs:231` wraps a router, `ipc_auth::wrap_invoke_handler(ipc_shards::handler())`,
+and the registrations live in eight `personas_macros::ipc_shard!(tauri::generate_handler![...])`
+lists, `src-tauri/src/ipc_shards/shard_0.rs` to `shard_7.rs`. The module header
+records the reason: rustc's cost for one handler body is super-linear in the
+arm count. One list took 259-349 s cold and eight lists took 127-132 s, at
+1,607 commands. The gates held through it. `check-command-registration.mjs`
+reports `1753 #[tauri::command] definitions (1750 distinct), 1750 registered,
+0 orphaned`, and the allowlist is still empty. The generator's
+multi-block union and `MIN_COMMANDS` floor are now load-bearing, not
+hypothetical. This bears out the "file-anchored parser dies with the split"
+reasoning above rather than reversing it. The capability file has changed
+too. `src-tauri/capabilities/default.json` now lists seventeen permissions,
+all plugin, core or window grants, and still no `allow-<command>` entry for
+the app's own commands. So R − P is still empty by regime.

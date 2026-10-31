@@ -4,7 +4,8 @@ type: application
 subject: client-fetch-cache
 technique: warm-remount-caches
 stack: react
-verified_on: 2026-08-18
+verified_on: 2026-10-31
+verified_against: react@19
 ---
 
 # Warm remount caches in this repo — the loading-v2 law 4 precedents
@@ -80,3 +81,21 @@ describes.
   the scores go stale if those sets change while the review object lives.
   Its `WeakMap` keying, on the other hand, is the technique's
   GC-as-reaper form working as designed.
+
+Re-checked 2026-10-31 at personas@`22260d77`: **both precedents are gone.**
+`competitions/CompetitionList.tsx` no longer exists, and nothing in `src/`
+holds `cachedProjectId` or `cachedCompetitions`. `LifecyclePage.tsx` was
+rewritten as a 52-line shell over the Lifecycle Lens, with no
+`cachedDevClone` or `cachedTriggers`. `useCertificationData.ts` and its
+`certLastRefreshedAt` latch are gone too. So the ageless-latch deviation has no
+site left to cite. `docs/design/overview-loading.md` no longer carries the rule
+as law 4: its six laws now cover chrome, placeholders, cascade and per-region
+retirement, and law 4 is the item-level cascade. The warm-remount rule survives
+in `docs/concepts/golden-paths/page-loading.md` (`:25`, and step 10 at `:52`).
+What remains is the extracted primitive. `createTtlValueCache.ts` holds as
+described, with both doors and the same lineage comment, and eight production
+modules now import it, among them `sub_projects/useProjectPulse.ts` and
+`teams/sub_factory/factoryData.tsx`. The "precedents with no invalidation door"
+deviation therefore names files that no longer exist. `reviewParseCache.ts`
+holds as described: a `WeakMap` keyed by review, and `readinessScore` memoized
+without its connector and credential sets in the key (`:64-79`).
