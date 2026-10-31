@@ -28,13 +28,14 @@ Worst-first:
    one fact that overrides every efficiency number.
 2. **Spending without conversions.** Cost positive, conversions exactly zero.
    Critical. The zero must be an unrounded count; a rounded 0.4 is not zero.
-3. **Return far below target.** Cost positive, return positive, return below the
-   critical multiple of target. Critical.
-4. **Return below target.** Cost positive, return at or above the critical
-   multiple and below target. Warning. This band starts exactly where the
+3. **Return far below target.** Cost positive, conversions above zero, return
+   positive, return below the critical multiple of target. Critical.
+4. **Return below target.** Cost positive, conversions above zero, return at or
+   above the critical multiple and below target. Warning. This band starts exactly where the
    previous one ends, which is what makes them disjoint.
 5. **Above target, below break-even.** Fires only when a margin-derived break-even
-   is supplied and return is at or above target but below break-even. Warning.
+   is supplied, conversions are above zero, and return is at or above target but
+   below break-even. Warning.
    Its band starts where rule 4 ends. Without a margin it never fires, so a
    margin-blind client's verdicts are unchanged.
 
