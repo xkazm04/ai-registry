@@ -35,9 +35,10 @@ whose mtime differs, and adds files the index has never seen.
 
 The mtime comparison at `:250-253` is `!=`, not `>`. That is the correct
 predicate for this subject's physics and it is worth recording as a positive:
-the peer writers here include a sync client and a version-control checkout, both
-of which set mtimes *backwards* on restore, and a `>` comparison would silently
-never re-index a note restored from backup. The tree chose the predicate that
+the peer writers here include sync clients and backup restores, which can set
+mtimes *backwards*, and a `>` comparison would silently never re-index a note
+restored from backup. (A version-control checkout moves stamps forward, to the
+time of the checkout, so even a `>` comparison catches it.) The tree chose the predicate that
 catches motion in both directions.
 
 So the mirror is about as fresh as a mirror gets. Staleness is bounded by one

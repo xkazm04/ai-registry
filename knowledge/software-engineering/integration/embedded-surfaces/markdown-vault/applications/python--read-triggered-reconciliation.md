@@ -61,8 +61,10 @@ lives inside the record the gate protects, and the other half of the comparison
 is a live `getmtime` on the file itself.
 
 The comparison is `!=`. The tree does not explain why, and the reason is the
-substrate: a checkout or a timestamp-preserving copy can install an *older*
-file, which a `<` gate would read as "the index is ahead" and skip forever.
+substrate: a backup restore, a sync client or a timestamp-preserving copy can
+install a file with an *older* stamp, which a `<` gate would read as "the index
+is ahead" and skip forever. (A version-control checkout is not one of them: it
+stamps what it writes with the current time.)
 
 ## Schema change is a constant
 

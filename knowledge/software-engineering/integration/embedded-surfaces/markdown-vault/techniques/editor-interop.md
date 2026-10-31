@@ -115,7 +115,10 @@ by the editor's own deep-link scheme. Discipline of the link itself:
   worse than none, because it is silently wrong.
 - **Normalize the path shape** to the form the editor's scheme expects
   (separator direction, extension conventions), and encode it properly —
-  paths contain spaces and human punctuation.
+  paths contain spaces and human punctuation. That includes whether the value
+  is relative to the vault root or absolute: a scheme can take both as
+  different parameters, so an absolute path in the vault-relative slot (or the
+  reverse) opens nothing. Convert at one boundary, not per call site.
 - **Degrade to a no-op, visibly harmless,** when the editor or vault
   identity is not yet known — the affordance can be wired unconditionally
   and simply do nothing rather than every call site growing a guard.

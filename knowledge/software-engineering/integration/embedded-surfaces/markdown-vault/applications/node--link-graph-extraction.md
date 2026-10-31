@@ -38,8 +38,9 @@ independent implementation converged on without contact.
 
 ## Disagreement 1: identifiers are path suffixes, not basenames
 
-The technique says links "name targets by note title, resolved
-case-insensitively against an index of every note's basename". Foam's index is
+The technique said, before this file corrected it, that links "name targets by
+note title, resolved case-insensitively against an index of every note's
+basename". Foam's index is
 not a basename index. `FoamWorkspace` stores resources in a trie keyed by the
 note's path **with its segments reversed** (`getTrieIdentifier`, `:350-365`), so
 a prefix search in that trie is a *path-suffix* search over the vault. `[[bar]]`
@@ -59,7 +60,7 @@ matches when there is more than one, and sorts by path; only `find` (`:373`)
 collapses that to `[0]`. So the ambiguity survives as data through the API and
 is discarded at the last possible moment — which is what lets a completion UI
 offer both candidates and a linter report the ambiguity as its own finding,
-rather than each re-deriving it. The technique's "the resolver picks a
+rather than each re-deriving it. The technique's original "the resolver picks a
 deterministic winner" is true of Foam's final step and misleading about its
 design: the winner is picked once, at the top, and the ambiguity is preserved
 everywhere below.
@@ -96,7 +97,7 @@ plugin does not model embeds. Parsing is not free; it is correct.
 
 ## Disagreement 3: an unresolved link is a node, not a flagged edge
 
-The technique says "unresolved links are still edges". Foam makes the *target* a
+The technique said, before this file, "unresolved links are still edges". Foam makes the *target* a
 first-class node: an unresolved wikilink resolves to `URI.placeholder(target)`
 (`markdown-provider.ts:120`), a URI in its own `placeholder` scheme
 (`uri.ts:99-102`, `:201-202`), and `FoamGraph` keeps a `placeholders` map
@@ -104,7 +105,7 @@ alongside `links` and `backlinks` (`graph.ts:21-29`). Placeholders have
 backlinks. They appear in `getAllNodes`. They are garbage-collected when their
 last backlink disappears (`disconnectResource`, `:234-237`).
 
-The consequence the technique misses is what this costs to maintain
+The consequence the technique then missed is what this costs to maintain
 incrementally. When a note is **added**, it may fill a placeholder — and every
 note that linked to that placeholder now resolves somewhere else. Resolution
 cannot be cheaply inverted, so `onResourceAdded` re-resolves the sources of
@@ -117,7 +118,7 @@ equivalence tests pin incremental output against a rebuild
 
 ## The debounce finding
 
-The subject tells the application to debounce change events into batches. Foam's
+The subject told the application, before this file, to debounce change events into batches. Foam's
 graph does the opposite, deliberately, with the reason at the call site
 (`graph.ts:87-90`): the incremental handlers are "NOT debounced: debouncing
 coalesces events, but incremental updates need every event (each carries a

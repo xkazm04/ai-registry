@@ -178,3 +178,291 @@ boundary; (3) `replicated-substrate` should cover the application as its own rep
 agent - its writes owe atomic replace and a divergence check, and they reset the mtime
 the staleness check reads. **Coverage:** a directory ingest into a vector store is a real
 gap for an ingestion subject, not this one.
+
+## Architecture review - 2026-10-31
+
+First architecture review of the subject, against `a2ac51c1c`. All 19 documents read
+in full. The techniques hold up, and the watcher failure modes they lean on are
+confirmed by the platform documentation. One cross-document error recurs: three
+documents name a version-control checkout as a writer that installs an *older*
+modification time. The Git FAQ says the opposite. A checkout stamps every file it
+writes with the current time. The `!=` predicate stays correct, because sync clients,
+backup restores, archive extraction and timestamp-preserving copies can still move a
+stamp backwards. Only the attribution is wrong.
+
+Two of the 2026-09-23 conform proposals turn out to be checkable. The deep-link
+path-shape error is real: the editor's URI scheme takes a vault-relative `file` and
+an absolute `path` as two different parameters. The proposed when-not-to-use section
+is a scoping judgment that no source decides, so it stays owed. The third proposal
+(the application as its own replication agent) is banked as a lead, not a
+correction.
+
+Spot-checks against the private consumer tree at `a7b34f56`: the sidecar's vault-note
+write now goes through `atomic_write`, so the seam `applications/rust--editor-interop.md`
+measured is closed. The graph's orphan command and its stats still count "no
+backlinks" with no entry-point exemption. Whatever the conform note meant by "fixed
+since: the graph panel's orphan predicate", the backend divergence recorded in the
+lint application is still there.
+
+<!-- architecture-review:v1 -->
+```json
+{
+  "subject": "software-engineering/markdown-vault",
+  "date": "2026-10-31",
+  "baseline": "a2ac51c1c",
+  "digest": "sha256-b2:7a10f98b2d9488ac",
+  "disposition": "clarify",
+  "coverage": "All 19 documents (golden path, 9 techniques, 9 applications) read in full. Public sources were opened this run: the flatnotes tree at its pinned commit (re-executed the four projection cases), Foam at its pinned commit (3 of about 20 anchors), the Git FAQ, inotify(7), Apple's FSEvents guide and Obsidian's URI documentation. Private consumer tree applications were spot-checked against a newer commit only. Their dated commits were not re-run.",
+  "counterexamples": [
+    "A version-control checkout of an older revision writes older content under a NEWER modification time, so an ordering gate catches it. A backup restore or a timestamp-preserving copy is the writer that defeats `<`.",
+    "A deep link that is vault-relative in shape can still be wrong: an absolute path placed in the scheme's vault-relative parameter resolves to nothing.",
+    "A credential vault or a database browser matches 'vault' lexically and has none of this subject's physics (no human editor peer, no files as records).",
+    "A mirror reconciled on every query is never stale and still cannot find a token its projection dropped (retained from the technique; reproduced this run on flatnotes)."
+  ],
+  "sources": [
+    {
+      "url": "https://archive.kernel.org/oldwiki/git.wiki.kernel.org/index.php/Git_FAQ.html",
+      "result": "'Git sets the current time as the timestamp on every file it modifies, but only those.' Refutes 'a checkout can install an older stamp' in three documents. Supports replicated-substrate's 'a fresh checkout ... writes every file at checkout time'."
+    },
+    {
+      "url": "https://man7.org/linux/man-pages/man7/inotify.7.html",
+      "result": "Inotify 'does not catch remote events that occur on network filesystems'. 'the event queue can overflow. In this case, events are lost', and recovery may rebuild 'part or all of the application cache'. max_user_watches is 'an upper limit on the number of watches that can be created per real user ID'. Supports editor-interop and replicated-substrate."
+    },
+    {
+      "url": "https://developer.apple.com/library/archive/documentation/Darwin/Conceptual/FSEvents_ProgGuide/UsingtheFSEventsFramework/UsingtheFSEventsFramework.html",
+      "result": "Events 'may be coalesced into a single event'. On drops 'you must do a full scan'. 'backup software should still periodically perform a full sweep of any volume'. Supports the coalescing and periodic-full-scan claims."
+    },
+    {
+      "url": "https://obsidian.md/help/Extending+Obsidian/Obsidian+URI",
+      "result": "'file can be either a file name, or a path from the vault root'; 'path an absolute file system path to a file' that overrides vault and file; values must be URI encoded. Supports the conform judge's reverse path-shape proposal for editor-interop."
+    },
+    {
+      "url": "https://github.com/dullage/flatnotes/tree/7f5b773c9cb37cc84978079ed4790e7de38d3970",
+      "result": "file_system.py, README, entrypoint.sh, .python-version, pyproject.toml and Dockerfile re-read at the pinned commit. Every line anchor in both python applications matches (28, 35, 39, 57, 118, 157, 173-192, 194-207, 200-202, 219, 229, 234-270, 250-253, 272-286, 343). The README quote matches, as do version 5.5.5, whoosh==2.7.4 and the absence of --workers. The four projection cases re-executed with identical output. The tree-wide 'no tests' and 'no watcher' claims were not re-checked (tree listing unavailable)."
+    },
+    {
+      "url": "https://github.com/foambubble/foam/tree/3452c984a7f5d62fbabfa7ed800263aa3c48dfb0",
+      "result": "Spot-checked graph.ts:21-29 (placeholders/links/backlinks maps), graph.ts:87-90 (the NOT-debounced comment, verbatim) and workspace.ts:528 (normalize = toLocaleLowerCase). All hold; the other anchors were not reopened."
+    },
+    {
+      "source": "Private consumer tree at a7b34f56 (newer than every application's dated commit)",
+      "result": "The MCP sidecar's vault note write now calls atomic_write and yaml_quote, so the rust--editor-interop seam is closed. graph.rs orphan list and stats still have no entry-point exemption, while lint.rs keeps is_likely_entry_point. Spot-check only; the applications' dated commits were not re-run."
+    }
+  ],
+  "documents": {
+    "markdown-vault.md": {
+      "disposition": "clarify",
+      "reason": "Content consistent with the techniques. Owed from the 2026-09-23 conform judge: a when-not-to-use section naming credential vaults, database browsers and one-shot vector ingest as out of scope, which would also give the context matcher a precondition. Scope is a judgment call, not a sourced fact."
+    },
+    "techniques/vault-as-database.md": {
+      "disposition": "keep",
+      "reason": "Write-strict/read-tolerant/round-trip, in-band vs out-of-band references, two named path funnels and atomic write with a reaper are coherent and match their application."
+    },
+    "techniques/link-graph-extraction.md": {
+      "disposition": "keep",
+      "reason": "Already absorbed the Foam corrections (path suffixes, structure-located links, placeholder nodes, incremental fan-out, debounce for recompute consumers only). The spot-checked Foam anchors hold."
+    },
+    "techniques/knowledge-integrity-lint.md": {
+      "disposition": "keep",
+      "reason": "Defect classes, the false-clean rule, the absent-vs-unreadable gap and the reachability-of-the-judgment-tier lesson are consistent with their applications and with replicated-substrate."
+    },
+    "techniques/vault-walking.md": {
+      "disposition": "keep",
+      "reason": "Three declared decisions, symlink postures and behaviour-preserving unification are sound. Replication-artifact exclusion is owned by replicated-substrate, which names this gap."
+    },
+    "techniques/mirror-indexes.md": {
+      "disposition": "keep",
+      "reason": "Rebuild path, hash-gated writes, non-blocking mirror, confessed ledger gap and direction-as-contract are coherent. Read-triggered reconciliation is correctly framed as an alternative trigger, not a contradiction."
+    },
+    "techniques/read-triggered-reconciliation.md": {
+      "disposition": "clarify",
+      "reason": "'a sync client, a checkout, an archive extraction and a timestamp-preserving copy ... any of them can install a record whose stamp is older' is wrong for the checkout: Git stamps written files with the current time. Keep the checkout as a wholesale rewriter, and drop it from the older-stamp claim."
+    },
+    "techniques/projection-covers-the-record.md": {
+      "disposition": "clarify",
+      "reason": "Frontmatter `laws` lists derivation-names-recomputation (never invoked in the body) and omits count-carries-predicate (invoked in the coverage-assertion section). Reconciling it changes the generated index, so the Director owes it together with an index regeneration."
+    },
+    "techniques/editor-interop.md": {
+      "disposition": "clarify",
+      "reason": "The watcher failure modes are confirmed by inotify(7) and the FSEvents guide. The deep-link rule covers separators and extensions but not relative-vs-absolute shape, and the scheme takes a vault-relative `file` and an absolute `path` as separate parameters. Add: the value's shape follows the parameter it fills, converted at one boundary."
+    },
+    "techniques/replicated-substrate.md": {
+      "disposition": "keep",
+      "reason": "Its checkout claim matches the Git FAQ, and its watcher claims match inotify(7) and FSEvents. Lead from the 2026-09-23 conform judge, not a correction: the application is itself a replication agent whose writes reset the mtime the staleness check reads and owe a divergence check."
+    },
+    "applications/rust--vault-walking.md": {
+      "disposition": "reverify",
+      "reason": "Private tree at a2ef6400e not re-run. No contradiction found."
+    },
+    "applications/rust--vault-as-database.md": {
+      "disposition": "reverify",
+      "reason": "Private tree at a2ef6400e not re-run. No contradiction found."
+    },
+    "applications/rust--mirror-indexes.md": {
+      "disposition": "reverify",
+      "reason": "Private tree at a2ef6400e not re-run. The 2026-09-23 conform note still lists the ledger-vs-disk gap shape as unreconciled."
+    },
+    "applications/rust--knowledge-integrity-lint.md": {
+      "disposition": "reverify",
+      "reason": "Dated claims stand as dated. At a7b34f56 the graph orphan list and stats still have no entry-point exemption, so the recorded divergence persists in the backend. The full anchor set was not re-run."
+    },
+    "applications/rust--editor-interop.md": {
+      "disposition": "clarify",
+      "reason": "Its header says the seam is unchanged and the sidecar 'still writes naively'. At a7b34f56 the sidecar's vault-note write calls atomic_write. Add a dated note that the seam closed. The A/B, the Windows rename-error finding and the bounded-retry obligation are unaffected."
+    },
+    "applications/node--link-graph-extraction.md": {
+      "disposition": "clarify",
+      "reason": "Three 'the technique says' quotes (basename index, unresolved links as edges, blanket debounce) describe the technique before this file corrected it. The current technique says the opposite, so they need past tense. The spot-checked anchors hold."
+    },
+    "applications/python--read-triggered-reconciliation.md": {
+      "disposition": "clarify",
+      "reason": "All line anchors and the README quote re-verified at 7f5b773. 'a checkout or a timestamp-preserving copy can install an older file' needs the checkout replaced by a restore-style writer, per the Git FAQ. The tree-wide no-watcher claim was not re-checked, so verified_on stays."
+    },
+    "applications/node--read-triggered-reconciliation.md": {
+      "disposition": "reverify",
+      "reason": "Private consumer measurement, not reopened. Internally consistent: the two arms, the 4,215/4,198 counts on different stamps and the cmd.exe caret pitfall are plausible and scoped."
+    },
+    "applications/python--projection-covers-the-record.md": {
+      "disposition": "clarify",
+      "reason": "Anchors and the four executed cases reproduced at 7f5b773. 'a sync client and a version-control checkout, both of which set mtimes backwards on restore' contradicts the Git FAQ for the checkout; name a backup restore instead. The 0-test-files count was not re-checked, so verified_on stays."
+    }
+  }
+}
+```
+
+## Architecture review - 2026-10-31 (clarify applied)
+
+Applied six of the eight clarify items from the record above, against `b0759cea0`.
+The checkout attribution is corrected in the technique and in both flatnotes
+applications. The deep-link rule now covers relative-vs-absolute shape. The Foam
+application's stale present-tense quotes of the technique are now past tense. The
+editor-interop application carries a dated note that its seam has closed. Still
+owed: the golden path's when-not-to-use section (a scoping judgment) and the
+projection-covers-the-record `laws` frontmatter (it needs an index regeneration
+outside this worker's scope). The overall disposition therefore stays `clarify`.
+
+<!-- architecture-review:v1 -->
+```json
+{
+  "subject": "software-engineering/markdown-vault",
+  "date": "2026-10-31",
+  "baseline": "b0759cea0",
+  "digest": "sha256-b2:7eac369df32d979d",
+  "disposition": "clarify",
+  "coverage": "Second 2026-10-31 record. All 19 documents decided. Six of the eight clarify items were applied from sources opened this run (the Git FAQ, Obsidian's URI documentation, the private consumer tree at a7b34f56) or from the internal contradiction between an application and the current technique. Edited passages were re-read. Untouched documents keep the first record's dispositions. No verified_on date moved, because no application had every citation re-checked.",
+  "counterexamples": [
+    "A version-control checkout of an older revision writes older content under a NEWER modification time, so an ordering gate catches it. A backup restore or a timestamp-preserving copy is the writer that defeats `<`.",
+    "A deep link that is vault-relative in shape can still be wrong: an absolute path placed in the scheme's vault-relative parameter resolves to nothing.",
+    "A credential vault or a database browser matches 'vault' lexically and has none of this subject's physics (no human editor peer, no files as records).",
+    "A mirror reconciled on every query is never stale and still cannot find a token its projection dropped (retained from the technique; reproduced this run on flatnotes)."
+  ],
+  "sources": [
+    {
+      "url": "https://archive.kernel.org/oldwiki/git.wiki.kernel.org/index.php/Git_FAQ.html",
+      "result": "'Git sets the current time as the timestamp on every file it modifies, but only those.' Refutes 'a checkout can install an older stamp' in three documents. Supports replicated-substrate's 'a fresh checkout ... writes every file at checkout time'."
+    },
+    {
+      "url": "https://man7.org/linux/man-pages/man7/inotify.7.html",
+      "result": "Inotify 'does not catch remote events that occur on network filesystems'. 'the event queue can overflow. In this case, events are lost', and recovery may rebuild 'part or all of the application cache'. max_user_watches is 'an upper limit on the number of watches that can be created per real user ID'. Supports editor-interop and replicated-substrate."
+    },
+    {
+      "url": "https://developer.apple.com/library/archive/documentation/Darwin/Conceptual/FSEvents_ProgGuide/UsingtheFSEventsFramework/UsingtheFSEventsFramework.html",
+      "result": "Events 'may be coalesced into a single event'. On drops 'you must do a full scan'. 'backup software should still periodically perform a full sweep of any volume'. Supports the coalescing and periodic-full-scan claims."
+    },
+    {
+      "url": "https://obsidian.md/help/Extending+Obsidian/Obsidian+URI",
+      "result": "'file can be either a file name, or a path from the vault root'; 'path an absolute file system path to a file' that overrides vault and file; values must be URI encoded. Supports the conform judge's reverse path-shape proposal for editor-interop."
+    },
+    {
+      "url": "https://github.com/dullage/flatnotes/tree/7f5b773c9cb37cc84978079ed4790e7de38d3970",
+      "result": "file_system.py, README, entrypoint.sh, .python-version, pyproject.toml and Dockerfile re-read at the pinned commit. Every line anchor in both python applications matches (28, 35, 39, 57, 118, 157, 173-192, 194-207, 200-202, 219, 229, 234-270, 250-253, 272-286, 343). The README quote matches, as do version 5.5.5, whoosh==2.7.4 and the absence of --workers. The four projection cases re-executed with identical output. The tree-wide 'no tests' and 'no watcher' claims were not re-checked (tree listing unavailable)."
+    },
+    {
+      "url": "https://github.com/foambubble/foam/tree/3452c984a7f5d62fbabfa7ed800263aa3c48dfb0",
+      "result": "Spot-checked graph.ts:21-29 (placeholders/links/backlinks maps), graph.ts:87-90 (the NOT-debounced comment, verbatim) and workspace.ts:528 (normalize = toLocaleLowerCase). All hold; the other anchors were not reopened."
+    },
+    {
+      "source": "Private consumer tree at a7b34f56 (newer than every application's dated commit)",
+      "result": "The MCP sidecar's vault note write now calls atomic_write and yaml_quote, so the rust--editor-interop seam is closed. graph.rs orphan list and stats still have no entry-point exemption, while lint.rs keeps is_likely_entry_point. Spot-check only; the applications' dated commits were not re-run."
+    }
+  ],
+  "documents": {
+    "markdown-vault.md": {
+      "disposition": "clarify",
+      "reason": "Content consistent with the techniques. Owed from the 2026-09-23 conform judge: a when-not-to-use section naming credential vaults, database browsers and one-shot vector ingest as out of scope, which would also give the context matcher a precondition. Scope is a judgment call, not a sourced fact."
+    },
+    "techniques/vault-as-database.md": {
+      "disposition": "keep",
+      "reason": "Write-strict/read-tolerant/round-trip, in-band vs out-of-band references, two named path funnels and atomic write with a reaper are coherent and match their application."
+    },
+    "techniques/link-graph-extraction.md": {
+      "disposition": "keep",
+      "reason": "Already absorbed the Foam corrections (path suffixes, structure-located links, placeholder nodes, incremental fan-out, debounce for recompute consumers only). The spot-checked Foam anchors hold."
+    },
+    "techniques/knowledge-integrity-lint.md": {
+      "disposition": "keep",
+      "reason": "Defect classes, the false-clean rule, the absent-vs-unreadable gap and the reachability-of-the-judgment-tier lesson are consistent with their applications and with replicated-substrate."
+    },
+    "techniques/vault-walking.md": {
+      "disposition": "keep",
+      "reason": "Three declared decisions, symlink postures and behaviour-preserving unification are sound. Replication-artifact exclusion is owned by replicated-substrate, which names this gap."
+    },
+    "techniques/mirror-indexes.md": {
+      "disposition": "keep",
+      "reason": "Rebuild path, hash-gated writes, non-blocking mirror, confessed ledger gap and direction-as-contract are coherent. Read-triggered reconciliation is correctly framed as an alternative trigger, not a contradiction."
+    },
+    "techniques/read-triggered-reconciliation.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: the older-stamp claim now names a sync client, backup restore, archive extraction or timestamp-preserving copy. It states that a checkout stamps with the current time. The 'ordering comparison' failure mode reads 'restore, sync or timestamp-preserving copy' instead of 'checkout'."
+    },
+    "techniques/projection-covers-the-record.md": {
+      "disposition": "clarify",
+      "reason": "Frontmatter `laws` lists derivation-names-recomputation (never invoked in the body) and omits count-carries-predicate (invoked in the coverage-assertion section). Reconciling it changes the generated index, so the Director owes it together with an index regeneration."
+    },
+    "techniques/editor-interop.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: the deep-link path-shape rule now covers relative-vs-absolute. A scheme can take both shapes as different parameters, so the value is converted at one boundary."
+    },
+    "techniques/replicated-substrate.md": {
+      "disposition": "keep",
+      "reason": "Its checkout claim matches the Git FAQ, and its watcher claims match inotify(7) and FSEvents. Lead from the 2026-09-23 conform judge, not a correction: the application is itself a replication agent whose writes reset the mtime the staleness check reads and owe a divergence check."
+    },
+    "applications/rust--vault-walking.md": {
+      "disposition": "reverify",
+      "reason": "Private tree at a2ef6400e not re-run. No contradiction found."
+    },
+    "applications/rust--vault-as-database.md": {
+      "disposition": "reverify",
+      "reason": "Private tree at a2ef6400e not re-run. No contradiction found."
+    },
+    "applications/rust--mirror-indexes.md": {
+      "disposition": "reverify",
+      "reason": "Private tree at a2ef6400e not re-run. The 2026-09-23 conform note still lists the ledger-vs-disk gap shape as unreconciled."
+    },
+    "applications/rust--knowledge-integrity-lint.md": {
+      "disposition": "reverify",
+      "reason": "Dated claims stand as dated. At a7b34f56 the graph orphan list and stats still have no entry-point exemption, so the recorded divergence persists in the backend. The full anchor set was not re-run."
+    },
+    "applications/rust--editor-interop.md": {
+      "disposition": "reverify",
+      "reason": "applied 2026-10-31: a dated source note records that at a7b34f56 the sidecar's vault-note write calls atomic_write, so the measured seam is closed. The rest of the dated anchors were not re-run, so the application stays reverify."
+    },
+    "applications/node--link-graph-extraction.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: the three 'the technique says' quotes (basename index, unresolved links as edges, blanket debounce) are now past tense and attributed to the pre-correction technique. Three pinned anchors were spot-checked and hold. verified_on unchanged."
+    },
+    "applications/python--read-triggered-reconciliation.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: the older-stamp writer is now a backup restore, sync client or timestamp-preserving copy, with a note that a checkout stamps the current time. All line anchors re-verified at 7f5b773. The tree-wide no-watcher claim was not re-checked, so verified_on unchanged."
+    },
+    "applications/node--read-triggered-reconciliation.md": {
+      "disposition": "reverify",
+      "reason": "Private consumer measurement, not reopened. Internally consistent: the two arms, the 4,215/4,198 counts on different stamps and the cmd.exe caret pitfall are plausible and scoped."
+    },
+    "applications/python--projection-covers-the-record.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: backwards-mtime writers are now sync clients and backup restores. A checkout moves stamps forward, so even a > comparison catches it. Anchors and the four executed cases reproduced at 7f5b773. The 0-test-files count was not re-checked, so verified_on unchanged."
+    }
+  }
+}
+```

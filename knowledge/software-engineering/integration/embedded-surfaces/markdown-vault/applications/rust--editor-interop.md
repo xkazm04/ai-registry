@@ -17,6 +17,11 @@ ab_verdict: better
 2026-08-30. The seam is unchanged — the sidecar still writes naively at
 `tools.rs:1471` — and one citation moved.*
 
+*2026-10-31 source note: at `a7b34f56` the sidecar's vault-note write calls
+`atomic_write` (and emits frontmatter through `yaml_quote`), so the seam this file
+measured is closed. The A/B, the rename-error finding and the bounded-retry
+obligation below are unaffected. The other citations were not re-checked.*
+
 "Atomic replace on every write — temp sibling, then rename over the target" is
 the kind of rule that gets agreed to in review and then not applied, because the
 cost of not applying it is a defect nobody can reproduce on demand. This tree

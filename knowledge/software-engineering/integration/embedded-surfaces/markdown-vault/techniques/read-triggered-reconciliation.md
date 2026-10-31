@@ -67,8 +67,10 @@ An ordering comparison assumes change-stamps only move forward. Under this
 subject's second peer writer they do not
 ([replicated-substrate](./replicated-substrate.md)): a sync client, a checkout,
 an archive extraction and a timestamp-preserving copy all write modification
-times wholesale, and any of them can install a record whose stamp is *older*
-than the one the mirror recorded. A `<` gate reads that as "the mirror is ahead,
+times wholesale. A checkout stamps what it writes with the current time, but a
+sync client, a backup restore, an archive extraction or a timestamp-preserving
+copy can install a record whose stamp is *older* than the one the mirror
+recorded. A `<` gate reads that as "the mirror is ahead,
 nothing to do" and serves the superseded derivation forever. Inequality treats
 every disagreement as a disagreement, which is the only claim a stamp the
 substrate owns can actually support.
@@ -159,7 +161,7 @@ is still a name, and exhaustion still degrades.
   goes silent forever once the edit lands, so drift is detectable during exactly
   the one moment it is not yet drift.
 - **The ordering comparison.** `stored < live` against a stamp the substrate
-  owns, serving a superseded derivation after any restore, checkout or
+  owns, serving a superseded derivation after any restore, sync or
   timestamp-preserving copy.
 - **The migration for a derived store** — schema evolution code maintained for
   data that a full walk regenerates in seconds.
