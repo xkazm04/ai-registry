@@ -4,7 +4,8 @@ type: application
 subject: self-healing
 technique: strategy-selection
 stack: rust
-verified_on: 2026-08-18
+verified_on: 2026-10-31
+verified_against: rust@1.96
 ---
 
 # Strategy selection in the Personas healing engine (Rust)
@@ -28,7 +29,7 @@ the chosen strategy", `:180-181`), returning exactly one of a closed enum:
 (`:109-120`). Purity is what lets the whole precedence contract live in unit
 tests (`circuit_breaker_takes_priority_over_auto_fix`,
 `rule_based_retry_preempts_ai_healing`, `circuit_breaker_beats_storm_cap`,
-`:319-347,:410-424,:821-835`).
+`:319-347,:410-424,:823-838`).
 
 ## 2. Precedence documented — including the strategies the tree never selects
 
@@ -88,7 +89,7 @@ When the storm cap trips, the selection is still a first-class outcome:
 `CreateIssue` with `storm_capped_diagnosis` — and the test asserts it is
 *distinguishable* from the ordinary exhausted-budget issue
 (`d.title.contains("Provider incident")`, category preserved "for correct
-attribution", `:769-789`). Likewise `CircuitBreakerTripped` is its own
+attribution", `:771-792`). Likewise `CircuitBreakerTripped` is its own
 variant, not a silent skip. Decline-with-reason, as an enum.
 
 ## What to copy, what to improve

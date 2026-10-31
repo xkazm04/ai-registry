@@ -4,7 +4,8 @@ type: application
 subject: retry-backoff
 technique: circuit-breakers
 stack: rust
-verified_on: 2026-08-18
+verified_on: 2026-10-31
+verified_against: rust@1.96
 ---
 
 # Circuit breakers in the Personas execution engine (Rust)
@@ -15,7 +16,7 @@ persona-level breaker in another, and a written contract for how they relate.
 
 ## 1. Two scopes in one component, deny-wins, global checked first
 
-`src-tauri/src/engine/failover.rs` holds `ProviderCircuitBreaker`: per-provider
+`src-tauri/engine/src/failover.rs` holds `ProviderCircuitBreaker`: per-provider
 consecutive-failure breakers (`CIRCUIT_BREAKER_THRESHOLD = 5`, `CIRCUIT_COOLDOWN`
 60s) under a global breaker that trips on **total failures across all providers
 in a rolling window** (`GLOBAL_FAILURE_THRESHOLD = 10` in
@@ -34,7 +35,7 @@ points at `docs/architecture/circuit-breakers.md` for the full precedence/reset
 contract. The two breakers also deliberately partition the evidence:
 `healing.rs`'s storm-cap comment records that the persona breaker *excludes
 environmental failures by design*, which is why the storm cap exists as the
-cross-chain backstop (`src-tauri/core/src/healing.rs:244-275`).
+cross-chain backstop (`src-tauri/core/src/healing.rs:256-287`).
 
 ## 2. Evidence discipline: only classified, failover-eligible failures count
 
@@ -42,7 +43,7 @@ cross-chain backstop (`src-tauri/core/src/healing.rs:244-275`).
 (`src-tauri/core/src/error_taxonomy.rs`) and feeds the breaker only when
 `is_failover_eligible(&category)` — RateLimit, SessionLimit, Timeout,
 ProviderNotFound; **not** CredentialError, Validation, or Unknown
-(`error_taxonomy.rs:381-391`). Unmatched errors increment
+(`error_taxonomy.rs:523-531`). Unmatched errors increment
 `FAILOVER_UNCLASSIFIED_ERRORS` and log with the cumulative count — the
 technique's "count the unknowns" rule, live.
 

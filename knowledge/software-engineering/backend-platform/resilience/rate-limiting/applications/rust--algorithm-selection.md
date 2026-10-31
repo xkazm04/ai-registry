@@ -4,7 +4,8 @@ type: application
 subject: rate-limiting
 technique: algorithm-selection
 stack: rust
-verified_on: 2026-08-18
+verified_on: 2026-10-31
+verified_against: rust@1.96
 ---
 
 # Two families in one binary: sliding-window log and token bucket
@@ -29,7 +30,7 @@ window), and the refusing branch returning *before* the `push` (`:89` vs
 `:93`) so refusals never consume window space.
 
 Deviation, structural: the policy is a **parameter of every `check` call**,
-stored nowhere — which is why `tier_usage.rs:83-87` must guess a bucket's
+stored nowhere — which is why `src-tauri/src/commands/infrastructure/tier_usage.rs:83-87` must guess a bucket's
 limit from its key prefix (`key.starts_with("webhook:")`), and guesses wrong
 for the `apikey:`/`mcp_tool:`/`tool:` families whose budgets are constants,
 not tier values. The golden path's policy-ownership stance is the missing
@@ -38,23 +39,23 @@ piece, not a different algorithm.
 ## Token bucket for egress (`src-tauri/src/engine/api_proxy.rs`)
 
 The per-credential outbound limiter is a continuous-refill token bucket
-(`TokenBucket`, `:178-217`): `tokens` refills lazily on access at
-`max / RATE_LIMIT_WINDOW_SECS` per second (`:203-206`), capped at
+(`TokenBucket`, `:194-234`): `tokens` refills lazily on access at
+`max / RATE_LIMIT_WINDOW_SECS` per second (`:212`, `:219-221`), capped at
 `max_tokens`, and a refusal computes retry-after as
-`(1.0 - tokens) / refill_rate` (`:213-214`) — again from the same arithmetic
+`(1.0 - tokens) / refill_rate` (`:229-231`) — again from the same arithmetic
 that refused. The family fits the posture: this is the *citizen* side, pacing
 outbound connector calls against providers' own limits, where smooth sustained
 rate matters more than window exactness and per-key state must be O(1)
 (`RATE_LIMITERS` is one registry across all credentials, hard-capped at 1024
-entries, `:175`).
+entries, `:192`).
 
 Clock discipline holds in both: all interval arithmetic runs on `Instant`
-(monotonic); refill is clamped by `.min(self.max_tokens)` (`:204`) so no
+(monotonic); refill is clamped by `.min(self.max_tokens)` (`:221`) so no
 elapsed-time surprise can mint more than one bucketful. Capacity changes apply
-to a live bucket without resetting its tokens (`:303-310`) — a limit raise is
+to a live bucket without resetting its tokens (`:319-326`) — a limit raise is
 not a free refill.
 
-Deviation, egress-model staleness: `parse_rate_limit_from_metadata` (`:251`)
+Deviation, egress-model staleness: `parse_rate_limit_from_metadata` (`:268`)
 reads `rate_limit_rpm` from connector metadata, but zero of the seeded
 connectors declare it, so every credential gets `DEFAULT_RATE_LIMIT = 60`/min —
 including providers whose documented limit is lower (arXiv: 20/min, stated

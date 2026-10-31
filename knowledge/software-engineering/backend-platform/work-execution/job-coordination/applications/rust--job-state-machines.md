@@ -4,7 +4,8 @@ type: application
 subject: job-coordination
 technique: job-state-machines
 stack: rust
-verified_on: 2026-08-18
+verified_on: 2026-10-31
+verified_against: rust@1.96
 ---
 
 # The build-session phase machine
@@ -22,7 +23,7 @@ one-authority law held across the language boundary. `as_str` /
 parser is **strict**: an unknown stored value returns `None`, with the doc
 comment naming the temptation it refuses — "instead of silently mapping to
 `Failed`." The row mapper surfaces it as a real error
-(`src-tauri/db/src/repos/core/build_sessions.rs:33-37`), so vocabulary
+(`src-tauri/db/src/repos/core/build_sessions.rs:34-40`), so vocabulary
 drift between schema and code becomes a loud defect, not a plausible
 verdict.
 
@@ -38,7 +39,7 @@ verdict.
   ends. Terminal phases return `false` for all ordinary exits (`:86`) —
   verdicts are final on the normal paths.
 - **History:** `append_phase_timing`
-  (`src-tauri/db/src/repos/core/build_sessions.rs:226`) appends
+  (`src-tauri/db/src/repos/core/build_sessions.rs:227`) appends
   `{phase, ts}` to an append-only JSON column at each transition, so
   per-phase wall clock is reconstructable from the record alone — the
   transition trail as a queryable artifact.
@@ -62,9 +63,9 @@ The n8n transform pipeline shows the same machine split across the
 subject's two stores: durable session rows with `status` + `step` columns
 (`src-tauri/db/src/repos/resources/n8n_sessions.rs`) beneath an in-memory
 job manager holding the live execution state — snapshot, log ring, cancel
-token (`src-tauri/src/commands/design/n8n_transform/job_state.rs:41-50`).
+token (`src-tauri/src/commands/design/n8n_transform/job_state.rs:44-53`).
 The start path guards admission with an atomic check-and-insert keyed on
-the *session*, not just the transform (`cli_runner.rs:66-91`), and boot
+the *session*, not just the transform (`cli_runner.rs:73-98`), and boot
 recovery re-verdicts the rows while returning the ids whose in-memory
 half must be purged — the record precedes the process, and the process's
 state is treated as the cache it is.

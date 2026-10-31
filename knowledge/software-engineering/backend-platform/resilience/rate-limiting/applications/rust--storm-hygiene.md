@@ -4,7 +4,8 @@ type: application
 subject: rate-limiting
 technique: storm-hygiene
 stack: rust
-verified_on: 2026-08-18
+verified_on: 2026-10-31
+verified_against: rust@1.96
 ---
 
 # Storm hygiene in the shared ingress limiter
@@ -51,11 +52,11 @@ between sweeps and zero after one. `test_auto_prune_on_check_interval`
 (`:311`) pins that expired buckets actually leave the map.
 
 The egress-side registry in `src-tauri/src/engine/api_proxy.rs` shows the same
-discipline with harder bounds: an idle sweep (`sweep_stale`, `:235-244`)
+discipline with harder bounds: an idle sweep (`sweep_stale`, `:252-261`)
 throttled to at most once per 60 s, idle eviction at 600 s, and a hard cap of
 1024 entries with least-recently-used eviction when a new credential arrives at
-capacity (`:286-296`). Cap, cadence, and staleness horizon all sit as named
-constants at the top of the module (`:166-175`) — the bound shipped with the
+capacity (`:301-313`). Cap, cadence, and staleness horizon all sit as named
+constants at the top of the module (`:184-192`) — the bound shipped with the
 map.
 
 ## The refusal path stays O(1)

@@ -5,7 +5,7 @@ subject: self-healing
 technique: incident-promotion
 stack: react
 status: forged
-verified_on: 2026-08-29
+verified_on: 2026-10-31
 verified_against: react@19
 applied: code
 ab_verdict: better
@@ -14,6 +14,17 @@ ab_verdict: better
 # "Louder, not quieter" is a sort order (React)
 
 *Verified against the project tree at `bf2a1e249`.*
+
+Re-checked 2026-10-31 at `personas@22260d77c9`: arm B is what the tree runs. It landed as
+`a698c07e03` (2026-08-29), so `incidentTaxonomy.ts` now carries `isUnclassifiedSeverity` (`:78`),
+`UNCLASSIFIED_RANK = 5` (`:82`), and the four functions at `:84` (badge), `:89` (rank, default arm
+`:95`), `:105` (shape) and `:123` (urgency label); the `:57/:60/:79/:95` anchors below are arm A at
+`bf2a1e249`. The test is `libs/__tests__/incidentSeverityFloor.test.ts`. `useIncidentLedger.ts:64`
+still sorts by rank descending, and the `dedup_key` doc comment and `kind` field in
+`src/lib/bindings/AuditIncident.ts` are unchanged. One fact below changed: `libs/groupIncidents.ts`
+was deleted as unreachable on 2026-10-21 (`12d731054c`). The negative finding stands, minus its
+second half: the tree still has a signature token (`kind`) that nothing groups by, and it no longer
+has a grouping module at all.
 
 The technique's sentence with teeth is short: *a healer that keeps failing must
 get louder over time, not quieter.* In a promoted-incident inbox that sentence

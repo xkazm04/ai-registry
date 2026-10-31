@@ -5,7 +5,7 @@ subject: stream-proxy-hop
 technique: reconnect-storm-hygiene
 stack: rust
 status: forged
-verified_on: 2026-09-05
+verified_on: 2026-10-31
 verified_against: rust@1.96
 applied: code
 ab_verdict: better
@@ -23,7 +23,19 @@ the end cites the post-change lines. The workspace declares
 that built this read is `rustc 1.96.1`; the witness above is the observed
 toolchain, with the manifest's floor stated here beside it. The HTTP client is `reqwest 0.12` with `stream` enabled.
 
-The exemplar is `src-tauri/src/engine/smee_relay.rs` (846 lines): a
+Re-checked 2026-10-31 at `personas@22260d77c9`: every line anchor below now points at that commit (the
+original anchors in the body did not land on the cited constructs at `ee124810f`; the "Applied" anchors
+did, at `095d55ea2c`). The floor is now `src-tauri/Cargo.toml:222`, and since 2026-09-18 the tree pins
+its toolchain in `rust-toolchain.toml` (`channel = "1.96.1"`), which is what the witness above names.
+The apply landed on `master` as `095d55ea2c` (see the end). The file has since changed twice
+(`6be02bb01a`, `5b966ac969`, 2026-10-20): SSE is decoded as bytes by
+`personas_engine::webhook_ingest::SseDecoder`, and `RelayDedup` is now an alias of that crate's
+`DeliveryDedup` (cap still 512, `src-tauri/engine/src/webhook_ingest.rs:199`). Neither touches the
+reconnect ladder; the code blocks in the two backoff sections show the pre-apply spelling
+(`max_backoff`, the `Ok`-arm reset) that the apply replaced with `RECONNECT_BACKOFF_BASE`/`_MAX` and
+`backoff_after_close`.
+
+The exemplar is `src-tauri/src/engine/smee_relay.rs` (846 lines then; 918 at the re-check): a
 background task that opens a long-lived server-pushed stream to a public
 webhook-relay channel, parses it, and re-emits each payload into the
 application's local event bus. It is the subject's *consumer* half — the
@@ -33,19 +45,19 @@ other than node. Where the subject's node exemplar is a browser hook behind a
 hop, this is a desktop process talking to an origin directly; the disciplines
 are the same and two of them are stronger here.
 
-## Single socket, by construction (`:616-618`, `:664-668`, `:831-838`)
+## Single socket, by construction (`:627-629`, `:697`, `:791-798`)
 
 One task per relay id, tracked in a map, with `if tasks.contains_key(relay_id)
 { continue; }` at the top of the start loop. A reconnect happens *inside* the
-task (`:757-828`), never by spawning a second one, so two sockets to the same
+task (`:716-788`), never by spawning a second one, so two sockets to the same
 channel cannot exist from one process. The technique's "provably single-instance"
 exemption applies — and the tree still pays the guard's price, in a different
 coin: a config change stops the old task and starts a new one
-(`:643-661`), and the stop is a cancellation token plus a two-second grace
-before `abort()` (`:575-596`), so the old socket is closed before the new
+(`:603-621`), and the stop is a cancellation token plus a two-second grace
+before `abort()` (`:535-556`), so the old socket is closed before the new
 subscription opens.
 
-## Backoff with a ceiling, no jitter (`:751-752`, `:812-819`)
+## Backoff with a ceiling, no jitter (`:41-42`, `:711`, `:771-779`)
 
 ```rust
 let mut backoff = Duration::from_secs(1);
@@ -60,11 +72,11 @@ one subscription, so there is no population to spread. The sentence in the
 technique that says the argument returns with a second instance is exactly
 this tree's exposure if the relay ever moves server-side.
 
-The sleep is `select!`ed against the cancellation token (`:812-818`), so a
+The sleep is `select!`ed against the cancellation token (`:772-778`), so a
 relay deleted mid-backoff does not reconnect after it is gone — the teardown
 clears the pending timer, in the technique's words.
 
-## Backoff resets on a stable connection, not on open (`:40-43`, `:771`, `:787-789`)
+## Backoff resets on a stable connection, not on open (`:29-35`, `:742`, `:771`)
 
 ```rust
 /// Minimum time a connection must be alive before we consider it "stable" and
@@ -78,7 +90,7 @@ if connected_at.elapsed().as_secs() >= MIN_STABLE_CONNECTION_SECS {
 ```
 
 This is the rung-reset rule the technique carries from this tree. `relay_sse_core`
-returns `Ok(())` on a clean end of body (`:345-347`, `:572`), which is what a
+returns `Ok(())` on a clean end of body (`:318-320`, `:533`), which is what a
 rate-limiting origin produces — accept, then close — and a client that reset
 on `open` would hammer it at one-second intervals forever while its status
 showed `connected` each time. Here a close inside thirty seconds keeps the
@@ -92,23 +104,23 @@ laptop-sleep and Wi-Fi-drop shapes the tree's own bug-hunt note names - kept
 whatever rung the failure ladder before it had reached. That is the finding
 the apply pass below moved.
 
-## The stream is bounded and the cursor is carried (`:36-38`, `:242-248`, `:292-295`)
+## The stream is bounded and the cursor is carried (`:25-27`, `:233-238`, `:263-266`)
 
 Two disciplines the technique does not own but the subject does:
 
 - **A one-megabyte buffer cap** (`MAX_SSE_BUFFER_BYTES`): a stream that
   produces that many bytes without a frame boundary is dropped with an error
-  rather than grown (`:353-357`). A named reaper for the parse buffer.
-- **`Last-Event-ID` on reconnect** (`:293-295`): the most recent `id:` seen is
+  rather than grown (`:324-329`). A named reaper for the parse buffer.
+- **`Last-Event-ID` on reconnect** (`:263-266`): the most recent `id:` seen is
   sent on every reopen, "so a spec-compliant server resumes after it instead
-  of replaying from scratch" — the resume cursor the standard's allowlist
+  of replaying from scratch" (the comment now reads "so the server need not replay") — the resume cursor the standard's allowlist
   section names, sent by a hand-rolled reader that must do by hand what the
   browser client does automatically. Beside it sits a bounded de-duplication
   set (`RelayDedup`, cap 512) for the origin that replays anyway; the two
-  together are why the tree's own bug-hunt note (`:236-240`) describes
+  together are why the tree's own bug-hunt note (`:233-237`) describes
   duplicate executions in the past tense.
 
-## What the surface is told (`:114-121`, `:174-209`)
+## What the surface is told (`:113-118`, `:171-206`)
 
 Per-relay `connected`, `error`, `events_relayed`, `last_event_at` — and the
 aggregate status is emitted only on change. `last_event_at` is the arrival
@@ -120,24 +132,24 @@ tab does so was not checked in this pass.
 **Every non-abort exit is one error string.** `relay_sse_core` returns
 `Result<(), String>`: connection failure, non-2xx handshake, mid-stream read
 error and buffer overflow are four causes formatted into one `String` that
-lands in `record_error` and the UI (`:791-810`). Retryability is not encoded —
+lands in `record_error` and the UI (`:750-769`). Retryability is not encoded —
 a `403` from a channel that no longer exists is retried on the same ladder as
 a network blip — which is the technique's "retryability comes from the hop"
 rule with nobody to read the answer; here the reader exists (the status code is
-in hand at `:301-303`) and is discarded.
+in hand at `:272-274`) and is discarded.
 
 **No attempt limit and no disconnected state.** The loop retries at the
 thirty-second cap indefinitely; the only exit is cancellation or the relay
-being deleted (`:821-827`). A channel that is permanently gone produces a
+being deleted (`:781-787`). A channel that is permanently gone produces a
 status that alternates `error` / silent retry forever, which is the
 "retrying forever with a friendly indicator" shape the technique closes with an
 honest disconnected state and a manual retry.
 
 **The credential is the URL.** The channel URL is, in the file's own words, "an
-unauthenticated bearer credential" (`:47-48`). That is the subject's
+unauthenticated bearer credential" (`:58-59`). That is the subject's
 credential-placement question answered by the origin's design rather than the
 tree's, and the tree's response — opt-in HMAC over the forwarded signature
-(`:414-449`) — is a sender-authentication control from
+(`:370-404`) — is a sender-authentication control from
 [webhook-ingestion](../../webhook-ingestion/webhook-ingestion.md)'s ground, not
 this subject's; it is noted here only because a reader of this file will meet
 it first.
@@ -152,8 +164,8 @@ tree classifies a clean end of body against a read error and a refused
 handshake, and what each does to the ladder.
 
 **What the tree already did.** A clean end of body (`stream.next()` yielding
-`None`, `:356-358`) breaks out to `Ok(())`; the loop does not exit on `Ok`,
-it falls through to the sleep and re-opens (`:795-830`). So this hand-rolled
+`None`, `:318-320`) breaks out to `Ok(())`; the loop does not exit on `Ok`,
+it falls through to the sleep and re-opens (`:743-788`). So this hand-rolled
 reader does *not* go dead on a clean close - the subject's "lane stays dead
 until the user reloads" is the default a general fetch hands you, and this
 tree overrode it by putting the read inside a loop that treats every return as
@@ -172,11 +184,11 @@ the clean-close arm resets on, and it did not.
 module as `policy_a`: reset to the base only when the close was clean *and* the
 connection was stable. B is `backoff_after_close` (`:48-54`): reset when the
 connection was stable, whatever the close. The loop now measures `lived` once,
-before the arms (`:793`), and applies the rung after them (`:822`). The base
+before the arms (`:742`), and applies the rung after them (`:771`). The base
 and cap became named constants beside the stable threshold (`:41-42`), which
 is the technique's "read together" rule and cost two lines.
 
-**Instrument and result.** Four unit tests (`:871-969`) replay recorded close
+**Instrument and result.** Four unit tests (`:820-918`) replay recorded close
 sequences through both policies and read the sequence of sleeps. The cases are
 the three shapes the tree's bug-hunt note of 2026-06-07 names for this relay,
 plus the refused handshake:
@@ -226,3 +238,8 @@ module verbatim (constants, function and test module extracted by line
 range). The return condition is the gate itself: `cargo test -p
 personas-desktop --lib --features desktop reconnect_backoff_tests` on a machine
 whose test binary loads, then a fast-forward of `master`.
+
+Re-checked 2026-10-31 at `personas@22260d77c9`: the change is on `master` as `095d55ea2c`
+(2026-09-05, "reset the reconnect backoff on a stable connection, whatever its close looked like"),
+so the return condition above has been met; `backoff_after_close` and `reconnect_backoff_tests` are in
+the tree at the anchors cited. The three deviations under "Not moved" still stand at HEAD.
