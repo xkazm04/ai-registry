@@ -108,8 +108,9 @@ what happens below it.
   Never write it into the harness.** Steps are dated vendor facts and they
   move: in September 2026 one provider's current generation billed a
   million-token window at one flat per-token rate after its earlier models had
-  banded above two hundred thousand, while another provider was reported to
-  double above roughly two hundred and seventy thousand. A step hardcoded from
+  banded above two hundred thousand, while another provider doubled input above
+  two hundred and seventy-two thousand; on 2026-10-31 the first provider
+  banded one current model above a hundred thousand. A step hardcoded from
   one model is a missing wall on the next model that has one, and a forced
   compaction on the next model that does not. Fix it for the session beside
   the cache ratio, with the date it was checked, for the same reason the ratio
@@ -184,8 +185,8 @@ extra lossy folds is unmeasured, as at the price step above.
   response ends overstates what is left by the generation time.
 - **Read both prices per model, beside the ratio.** The branches need the
   write price over base input and the read price, not only their ratio, and
-  the read price is no longer one number: in October 2026 one provider read
-  most models at a tenth of input, one at a twentieth and two at a fortieth.
+  the read price is no longer one number: on 2026-10-31 one provider read
+  most models at a tenth of input, two at a twentieth and two at a fortieth.
   Fix them for the session with the date checked, for the reason the ratio
   is fixed ([limits-are-derived](../../../../_laws.md#limits-are-derived)).
 

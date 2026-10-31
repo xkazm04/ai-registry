@@ -590,3 +590,639 @@ Source: [[2026-10-02-yoagent]]. Gained `compaction-target-is-an-aim`, `compactio
   removed per-turn recall as cache-breaking; a proxy that delivers context by answering a turn
   with a synthesized tool call (attribution mirror of `substituted-result-attribution`, in
   agent-runtime-assembly).
+
+## Architecture review - 2026-10-31
+
+First architecture review of this subject. No older record exists, so nothing is retracted. All 66 documents were read. The subject holds together. Open items are a golden-path index gap, four techniques whose numbers moved or never added up, and two applications that contradict themselves. Most applications stay `reverify` because their trees were not reopened. No verification clock was moved.
+
+<!-- architecture-review:v1 -->
+```json
+{
+  "subject": "software-engineering/prompt-assembly",
+  "date": "2026-10-31",
+  "baseline": "21a2bc974",
+  "digest": "sha256-b2:ad13b2ee69c25e8d",
+  "disposition": "clarify",
+  "coverage": "First architecture review. All 66 documents (golden path, 32 techniques, 33 applications) were read in full, and every relative link resolves. Primary sources re-opened this run: the persona study abstract, the second provider's prompt-caching guide and pricing page, and the first provider's caching and pricing pages. Internal arithmetic was recomputed in eleven documents. Not evaluated: any private or external tree behind the applications, every replay, and the 2026-09 first-party coding-agent account (not re-located). No verification date was refreshed.",
+  "counterexamples": [
+    "A prefix cache that reads at 0.025x makes a cached standing layer about four times cheaper to keep than the tenth-of-base rule of thumb implies, so a break-even computed at 0.1x overstates the case for compressing it.",
+    "A provider that bills its current generation flat across a million tokens can band a cheaper model of the same generation above 100K; a step read from one model is wrong for its sibling.",
+    "A compactor that keeps the first and last N lines and adds a marker emits 2N+1 lines, so even a correctly charged marker needs the cap defined as total lines, or the second pass still changes bytes.",
+    "A block placed third of eight can rebuild at most five blocks below it; a claim that it invalidates six stable blocks cannot be literal."
+  ],
+  "sources": [
+    {
+      "url": "https://arxiv.org/abs/2311.10054",
+      "result": "Supports task-envelope: '162 roles', '4 popular families of LLMs and 2,410 factual questions', adding personas 'does not improve model performance', automatic best-persona selection 'often performing no better than random selection'."
+    },
+    {
+      "url": "https://developers.openai.com/api/docs/guides/prompt-caching",
+      "result": "Supports cache-affinity-key: 'Cached states live on individual machines, where traffic above 15 requests per minute can lead to overflow routing'; separate keys for cached-token accounting and to 'prevent cache-hit probing across customers'; 'On GPT-5.6 and later, OpenAI handles cache routing automatically; the key is not needed'."
+    },
+    {
+      "url": "https://developers.openai.com/api/docs/pricing",
+      "result": "Supports the 272K step: 'Long context: >272K input tokens', with listed long-context input at twice standard (e.g. 5.00 to 10.00 per 1M) for several models."
+    },
+    {
+      "url": "https://platform.claude.com/docs/en/docs/build-with-claude/prompt-caching",
+      "result": "Writes 1.25x (5 min) and 2x (1 h); reads 'standard 0.1x', 0.05x on two models and 0.025x on two. 'The lifetime is measured from the start of the request that writes or reads the cache entry, not from the end of its response.' Supports the clock rule. Refutes compaction-horizon-breakeven's count of one model at a twentieth."
+    },
+    {
+      "url": "https://platform.claude.com/docs/en/about-claude/pricing",
+      "result": "'Claude 4.6 and later models (except Claude Haiku 5.5) ... include the full 1M token context window at standard pricing'; Haiku 5.5 'is priced by prompt length' above 100,000 tokens. Supports the flat-book claim and the per-model step rule."
+    },
+    {
+      "source": "Web search for the 2026-09 first-party coding-agent account (decoration removal ~5%, conservative compressor)",
+      "result": "Not located. Claims quoting it stay as written, already labelled n=1; not refreshed."
+    }
+  ],
+  "documents": {
+    "prompt-assembly.md": {
+      "disposition": "clarify",
+      "reason": "The frontmatter lists 32 techniques but 'The techniques' section links only 30: compression-hardens-deferred-decisions and pinned-prompt-clock have no bullet and no link anywhere in the golden path. Add both bullets. The rest holds; every relative link resolves."
+    },
+    "techniques/layered-composition.md": {
+      "disposition": "keep",
+      "reason": "Owned sections, one door per family and the sealed-door clause stand. The proxy section's two poles agree with its own numbers (17.5k read over ~890k written is about 0.02)."
+    },
+    "techniques/variable-interpolation.md": {
+      "disposition": "keep",
+      "reason": "Declared, classified variables and the three honest missing-input outcomes are sound and stable."
+    },
+    "techniques/house-vocabulary-layer.md": {
+      "disposition": "keep",
+      "reason": "Argument is internal and stable; floor classification is consistent with context-reachability."
+    },
+    "techniques/context-reachability.md": {
+      "disposition": "keep",
+      "reason": "Classification, freshness corollary and A/B-against-absence check stand. Open lead (feeders do not yet declare their class) belongs to the feeder subjects."
+    },
+    "techniques/context-budgeting.md": {
+      "disposition": "clarify",
+      "reason": "'A prefix ... re-reads at roughly a tenth of base rate' is now per-model: the provider's caching page reads most models at 0.1x, two at 0.05x and two at 0.025x. Say the read price varies by model. The 'two thousand uncached inclusions' scale anchor names no source; owed: cite it or drop it."
+    },
+    "techniques/response-reservation-sizing.md": {
+      "disposition": "keep",
+      "reason": "Purchase-not-limit framing, derive-and-escalate and the zero-cost precondition stand; the precondition was confirmed by its own application."
+    },
+    "techniques/history-compaction.md": {
+      "disposition": "keep",
+      "reason": "Pairing, resume and size invariants, both compaction paths and the once-per-turn guard hold. The 0.65/0.85 pair and the provider-anchored count match the neovim application."
+    },
+    "techniques/tiered-history-projection.md": {
+      "disposition": "keep",
+      "reason": "Coverage arithmetic (R + F log_F N; lifetime N/(F-1) calls) is correct, and the two adoption gates are stated."
+    },
+    "techniques/capability-documentation.md": {
+      "disposition": "keep",
+      "reason": "Registry-derived rendering, doctrine sync and active-set fingerprinting stand."
+    },
+    "techniques/contributed-document-admission.md": {
+      "disposition": "keep",
+      "reason": "Index-not-body, declaration-is-not-grant, nothing executed, location identity and visible invalid entries are a coherent contract."
+    },
+    "techniques/fingerprinting-and-cache-keys.md": {
+      "disposition": "keep",
+      "reason": "Determinism, digest boundary, gate-sees-target and the send-site ledger stand."
+    },
+    "techniques/cache-breakpoint-allocation.md": {
+      "disposition": "keep",
+      "reason": "Cadence-boundary allocation and the variability-within-lifetime rule hold; the hit-rate predicate caveat is consistent with compaction-is-a-fixed-point."
+    },
+    "techniques/continuation-prompts.md": {
+      "disposition": "keep",
+      "reason": "Two regimes, carry-decided/re-derive-observable and staleness checks stand."
+    },
+    "techniques/task-envelope.md": {
+      "disposition": "clarify",
+      "reason": "Persona study verified this run (162 roles, 2,410 factual questions, 4 model families, no gain, best-persona selection near random). Owed: the '2026 trajectory corpora' figures (about a quarter of failed runs fabricate success, ~23%, ~3%) name no source; cite them or mark them unsourced."
+    },
+    "techniques/amortized-compaction-cadence.md": {
+      "disposition": "clarify",
+      "reason": "Schedules, the reclaim-size gate and the operator-turn exemption stand. Owed, from the 2026-09-23 banked lead: pass counters must split by outcome. The python application shows a single total over absorbed, failed and skipped passes making a skipping session look healthy. Not applied here because it adds a rule rather than correcting one."
+    },
+    "techniques/compaction-horizon-breakeven.md": {
+      "disposition": "clarify",
+      "reason": "Arithmetic and replays are consistent with their applications (233-235 of 247; 86-91%). The primary sources hold for the 272K step at the second provider, flat 1M pricing on the first provider's 4.6+ models, and the lifetime running from the start of a request. One count is stale: the first provider's caching page now reads two models at a twentieth, not one. The same price book also bands a current model above 100K tokens, which supports the per-model step rule."
+    },
+    "techniques/speculative-compaction-splice.md": {
+      "disposition": "keep",
+      "reason": "Internally sound; derived margin and the losing-speculation fallback are stated. Still has no application (single-stack debt from the note)."
+    },
+    "techniques/deferred-interface-invalidation.md": {
+      "disposition": "keep",
+      "reason": "Defer-by-default with the compaction exemption and immediate revocation is coherent and checkable."
+    },
+    "techniques/endpoint-sealed-continuation-metadata.md": {
+      "disposition": "keep",
+      "reason": "Segment-level replay, strict endpoint equality and demotion-not-deletion stand, corroborated by the node application."
+    },
+    "techniques/elision-to-a-refetch-pointer.md": {
+      "disposition": "keep",
+      "reason": "Material classes, decorator siting and the recomputability caveat stand. The 2026-09 first-party account it quotes was not re-located this run; it is labelled n=1 and dated, so nothing hangs on it beyond illustration."
+    },
+    "techniques/compression-hardens-deferred-decisions.md": {
+      "disposition": "keep",
+      "reason": "Hedge-as-deferral and test-before-shrink stand; the field instance is told without a source but carries no number the rules depend on."
+    },
+    "techniques/recovery-path-as-loss-signal.md": {
+      "disposition": "keep",
+      "reason": "Recovery family, measurement boundary and the two-sided reading stand; the rust application reproduces the mechanism."
+    },
+    "techniques/consumer-coupled-decoration.md": {
+      "disposition": "keep",
+      "reason": "Audit, silent expiry and purity ordering stand. The ~5%/~3% account was not re-located this run; it is already scoped as n=1, one harness."
+    },
+    "techniques/context-ownership-regimes.md": {
+      "disposition": "keep",
+      "reason": "Three-regime table, exclusive ownership and per-request resolution stand; matches the neovim tree."
+    },
+    "techniques/live-attachment-delta-resharing.md": {
+      "disposition": "clarify",
+      "reason": "Says the scene digest 'sat above six stable blocks in the composed order'. The rust application places it third of eight, above four stable blocks (plugins, voice, mode, static addenda). Six is impossible from third of eight. Should read 'above four of the six stable blocks'."
+    },
+    "techniques/foreign-harness-history-folding.md": {
+      "disposition": "keep",
+      "reason": "Paired table is consistent (10/10 vs 0/10 arms); the reviewer case is scoped by the falsifying seam."
+    },
+    "techniques/fold-only-acknowledged-evidence.md": {
+      "disposition": "keep",
+      "reason": "Capture/acknowledge split, protected set and typed unfit error stand, witnessed by the python application tests."
+    },
+    "techniques/summary-evidence-gate.md": {
+      "disposition": "keep",
+      "reason": "Local fail-closed parse, model-free checks and their stated limits stand; quote-only form matches the node application."
+    },
+    "techniques/pinned-prompt-clock.md": {
+      "disposition": "keep",
+      "reason": "Freeze, tail notice, refresh-at-checkpoint and probe purity stand, with a reference realization."
+    },
+    "techniques/compaction-target-is-an-aim.md": {
+      "disposition": "keep",
+      "reason": "Figures (91%/41% to 0%/2%, +7%; 13.3 to 26.4; four of five) match the reproduced sweep."
+    },
+    "techniques/compaction-is-a-fixed-point.md": {
+      "disposition": "clarify",
+      "reason": "The ceiling arithmetic checks ((n-1)/(n+1): 87% at 14, 95% at 39, 96% at 49), but leak 1 does not: 'cutting a long result to its first and last N lines ... yields N+1 lines'. Keeping the first and last N lines gives 2N+1. State it as an N-line cap split between head and tail."
+    },
+    "techniques/cache-affinity-key-from-the-unrewritable-layer.md": {
+      "disposition": "keep",
+      "reason": "Verified against the provider guide this run: about 15 requests per minute per key, cached state on individual machines, accounting/probing reasons, and automatic routing on its newest models."
+    },
+    "applications/claude-code--compaction-horizon-breakeven.md": {
+      "disposition": "reverify",
+      "reason": "Arithmetic is consistent. The 0.05x read price and the start-of-request lifetime match the provider's pages this run. The private replay and the plugin were not re-run."
+    },
+    "applications/claude-code--elision-to-a-refetch-pointer.md": {
+      "disposition": "reverify",
+      "reason": "Internally consistent (175/208 = 84%; 870k/1,187k = 73%). The one-machine transcript replay was not re-run."
+    },
+    "applications/neovim--context-ownership-regimes.md": {
+      "disposition": "reverify",
+      "reason": "Anchors at f73f40e9 not reopened; the doc-vs-code contradiction is recorded with the code winning."
+    },
+    "applications/neovim--history-compaction.md": {
+      "disposition": "reverify",
+      "reason": "Anchors not reopened; the summary-of-summary and no-reactive-path deviations are stated."
+    },
+    "applications/neovim--live-attachment-delta-resharing.md": {
+      "disposition": "reverify",
+      "reason": "Anchors not reopened."
+    },
+    "applications/node--compaction-horizon-breakeven.md": {
+      "disposition": "reverify",
+      "reason": "SoL-Pi anchors at 2b791687 and the 166-session replay not re-run."
+    },
+    "applications/node--elision-to-a-refetch-pointer.md": {
+      "disposition": "reverify",
+      "reason": "Anchors not reopened; the blog figures are quoted as the source reports them."
+    },
+    "applications/node--endpoint-sealed-continuation-metadata.md": {
+      "disposition": "reverify",
+      "reason": "Clone at f4fce64a not reopened."
+    },
+    "applications/node--foreign-harness-history-folding--tencentdb.md": {
+      "disposition": "reverify",
+      "reason": "Traced path at 37b16296 not reopened; already unmeasurable."
+    },
+    "applications/node--foreign-harness-history-folding.md": {
+      "disposition": "reverify",
+      "reason": "Cline tree at 6e8bea1c not reopened."
+    },
+    "applications/node--history-compaction--pilotdeck.md": {
+      "disposition": "reverify",
+      "reason": "Executed findings at ae87280a not re-run."
+    },
+    "applications/node--history-compaction.md": {
+      "disposition": "reverify",
+      "reason": "Private tree not reopened."
+    },
+    "applications/node--pinned-prompt-clock.md": {
+      "disposition": "reverify",
+      "reason": "Anchors at ae87280a not reopened; test was read, never executed."
+    },
+    "applications/node--summary-evidence-gate--pilotdeck.md": {
+      "disposition": "reverify",
+      "reason": "Executed findings not re-run."
+    },
+    "applications/node--summary-evidence-gate.md": {
+      "disposition": "reverify",
+      "reason": "Anchors not reopened."
+    },
+    "applications/node--tiered-history-projection.md": {
+      "disposition": "reverify",
+      "reason": "Private tree at 0e1f0b30 not reopened."
+    },
+    "applications/python--amortized-compaction-cadence.md": {
+      "disposition": "clarify",
+      "reason": "The header says the first-party doc moved to the website tree. Two later sections still cite it by its old path (`docs/micro-compaction.md` §), so the application contradicts itself. Its refresh_by of 2026-11-05 is still open, and the hermes tree was not reopened."
+    },
+    "applications/python--fold-only-acknowledged-evidence.md": {
+      "disposition": "reverify",
+      "reason": "QwenPaw anchors at cbf1a403 not reopened."
+    },
+    "applications/python--summary-evidence-gate.md": {
+      "disposition": "reverify",
+      "reason": "QwenPaw anchors not reopened."
+    },
+    "applications/rust--cache-affinity-key-from-the-unrewritable-layer--yoagent.md": {
+      "disposition": "reverify",
+      "reason": "The provider-guidance claims were re-verified this run. The crate anchors at 2428f68d were not reopened."
+    },
+    "applications/rust--compaction-is-a-fixed-point--yoagent.md": {
+      "disposition": "reverify",
+      "reason": "Replay numbers are the tree's own and were never re-run."
+    },
+    "applications/rust--compaction-target-is-an-aim--yoagent.md": {
+      "disposition": "clarify",
+      "reason": "The table reports '43 marker-only per run', while the technique and the note quote the same figure as '43 marker-only compactions per 100 requests'. One unit is wrong. Owed: fix it from the sweep's output. Not applied, because the sweep was not re-run."
+    },
+    "applications/rust--compression-hardens-deferred-decisions.md": {
+      "disposition": "reverify",
+      "reason": "Simulation over a recorded baseline; the bench was never run for arm B."
+    },
+    "applications/rust--consumer-coupled-decoration.md": {
+      "disposition": "reverify",
+      "reason": "Byte tables come from a reimplementation; the tree was not reopened."
+    },
+    "applications/rust--context-budgeting.md": {
+      "disposition": "reverify",
+      "reason": "No verified_against; private anchors not reopened."
+    },
+    "applications/rust--context-ownership-regimes.md": {
+      "disposition": "reverify",
+      "reason": "Private tree not reopened."
+    },
+    "applications/rust--elision-to-a-refetch-pointer.md": {
+      "disposition": "reverify",
+      "reason": "All table arithmetic was recomputed and is consistent (52.6%, 1.0/5.2/9.4% overshoot, 4.7x). Tree not reopened."
+    },
+    "applications/rust--foreign-harness-history-folding.md": {
+      "disposition": "reverify",
+      "reason": "Private tree at cf54b904b and the local model runs not reopened."
+    },
+    "applications/rust--layered-composition.md": {
+      "disposition": "clarify",
+      "reason": "The listed order opens with '## Triggering Event' (per-call input) before Identity. The next sentence then says 'Identity/instructions lead; per-call input trails', which the list contradicts. Owed: re-read the assembler and either correct the order or record the triggering event as a deviation from the gradient. Not applied, because the private source was not reopened."
+    },
+    "applications/rust--live-attachment-delta-resharing.md": {
+      "disposition": "reverify",
+      "reason": "Table sums were recomputed: 11,708,577 total, 1,662,815 changed, 14.2%, and 1.66M stable below the digest. Ledger not re-read."
+    },
+    "applications/rust--pinned-prompt-clock--personas.md": {
+      "disposition": "reverify",
+      "reason": "Private tree not reopened."
+    },
+    "applications/rust--recovery-path-as-loss-signal.md": {
+      "disposition": "reverify",
+      "reason": "Break-even table recomputed (1,208 B per recovery; 135 of 200; 138.0%). Tree not reopened."
+    },
+    "applications/rust--response-reservation-sizing.md": {
+      "disposition": "reverify",
+      "reason": "Arithmetic checks (16,000/4,096 = 3.91; 72 vs 18 cases at 220 tokens). Tree at 07fa255c not reopened."
+    },
+    "applications/rust--task-envelope.md": {
+      "disposition": "reverify",
+      "reason": "Private tree not reopened; effect unmeasured, as it says."
+    }
+  }
+}
+```
+
+## Architecture review - 2026-10-31 (clarify applied)
+
+Applied five of the first record's clarify items. Each change rests on a primary source opened this run or on internal arithmetic verified this run. context-budgeting got the per-model read-price qualifier, but its unsourced two-thousand-inclusion anchor is still owed, so it stays `clarify`. task-envelope, amortized-compaction-cadence, rust--layered-composition and rust--compaction-target-is-an-aim--yoagent are untouched and keep `clarify`.
+
+<!-- architecture-review:v1 -->
+```json
+{
+  "subject": "software-engineering/prompt-assembly",
+  "date": "2026-10-31",
+  "baseline": "b0759cea0",
+  "digest": "sha256-b2:e72fd75e79e6a4a2",
+  "disposition": "clarify",
+  "coverage": "Second record of the day. The six clarify items marked applied were edited and the edited passages re-read. Every other document is byte-unchanged and keeps its first-record disposition. Owed clarify items remain on the golden path's neighbours (context-budgeting's anchor, task-envelope, amortized-compaction-cadence) and on two applications. No private tree was reopened and no verification date was refreshed.",
+  "counterexamples": [
+    "A prefix cache that reads at 0.025x makes a cached standing layer about four times cheaper to keep than the tenth-of-base rule of thumb implies, so a break-even computed at 0.1x overstates the case for compressing it.",
+    "A provider that bills its current generation flat across a million tokens can band a cheaper model of the same generation above 100K; a step read from one model is wrong for its sibling.",
+    "A compactor that keeps the first and last N lines and adds a marker emits 2N+1 lines, so even a correctly charged marker needs the cap defined as total lines, or the second pass still changes bytes.",
+    "A block placed third of eight can rebuild at most five blocks below it; a claim that it invalidates six stable blocks cannot be literal."
+  ],
+  "sources": [
+    {
+      "url": "https://arxiv.org/abs/2311.10054",
+      "result": "Supports task-envelope: '162 roles', '4 popular families of LLMs and 2,410 factual questions', adding personas 'does not improve model performance', automatic best-persona selection 'often performing no better than random selection'."
+    },
+    {
+      "url": "https://developers.openai.com/api/docs/guides/prompt-caching",
+      "result": "Supports cache-affinity-key: 'Cached states live on individual machines, where traffic above 15 requests per minute can lead to overflow routing'; separate keys for cached-token accounting and to 'prevent cache-hit probing across customers'; 'On GPT-5.6 and later, OpenAI handles cache routing automatically; the key is not needed'."
+    },
+    {
+      "url": "https://developers.openai.com/api/docs/pricing",
+      "result": "Supports the 272K step: 'Long context: >272K input tokens', with listed long-context input at twice standard (e.g. 5.00 to 10.00 per 1M) for several models."
+    },
+    {
+      "url": "https://platform.claude.com/docs/en/docs/build-with-claude/prompt-caching",
+      "result": "Writes 1.25x (5 min) and 2x (1 h); reads 'standard 0.1x', 0.05x on two models and 0.025x on two. 'The lifetime is measured from the start of the request that writes or reads the cache entry, not from the end of its response.' Supports the clock rule. Refutes compaction-horizon-breakeven's count of one model at a twentieth."
+    },
+    {
+      "url": "https://platform.claude.com/docs/en/about-claude/pricing",
+      "result": "'Claude 4.6 and later models (except Claude Haiku 5.5) ... include the full 1M token context window at standard pricing'; Haiku 5.5 'is priced by prompt length' above 100,000 tokens. Supports the flat-book claim and the per-model step rule."
+    },
+    {
+      "source": "Web search for the 2026-09 first-party coding-agent account (decoration removal ~5%, conservative compressor)",
+      "result": "Not located. Claims quoting it stay as written, already labelled n=1; not refreshed."
+    }
+  ],
+  "documents": {
+    "prompt-assembly.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: added the two missing bullets to The techniques (pinned-prompt-clock after fingerprinting-and-cache-keys; compression-hardens-deferred-decisions after consumer-coupled-decoration); all 32 frontmatter techniques are now linked."
+    },
+    "techniques/layered-composition.md": {
+      "disposition": "keep",
+      "reason": "Owned sections, one door per family and the sealed-door clause stand. The proxy section's two poles agree with its own numbers (17.5k read over ~890k written is about 0.02)."
+    },
+    "techniques/variable-interpolation.md": {
+      "disposition": "keep",
+      "reason": "Declared, classified variables and the three honest missing-input outcomes are sound and stable."
+    },
+    "techniques/house-vocabulary-layer.md": {
+      "disposition": "keep",
+      "reason": "Argument is internal and stable; floor classification is consistent with context-reachability."
+    },
+    "techniques/context-reachability.md": {
+      "disposition": "keep",
+      "reason": "Classification, freshness corollary and A/B-against-absence check stand. Open lead (feeders do not yet declare their class) belongs to the feeder subjects."
+    },
+    "techniques/context-budgeting.md": {
+      "disposition": "clarify",
+      "reason": "applied 2026-10-31 in part: the cache-read sentence now says the read price is set per model and is less than a tenth on some. Still owed: the two-thousand-uncached-inclusions scale anchor names no source; cite it or drop it."
+    },
+    "techniques/response-reservation-sizing.md": {
+      "disposition": "keep",
+      "reason": "Purchase-not-limit framing, derive-and-escalate and the zero-cost precondition stand; the precondition was confirmed by its own application."
+    },
+    "techniques/history-compaction.md": {
+      "disposition": "keep",
+      "reason": "Pairing, resume and size invariants, both compaction paths and the once-per-turn guard hold. The 0.65/0.85 pair and the provider-anchored count match the neovim application."
+    },
+    "techniques/tiered-history-projection.md": {
+      "disposition": "keep",
+      "reason": "Coverage arithmetic (R + F log_F N; lifetime N/(F-1) calls) is correct, and the two adoption gates are stated."
+    },
+    "techniques/capability-documentation.md": {
+      "disposition": "keep",
+      "reason": "Registry-derived rendering, doctrine sync and active-set fingerprinting stand."
+    },
+    "techniques/contributed-document-admission.md": {
+      "disposition": "keep",
+      "reason": "Index-not-body, declaration-is-not-grant, nothing executed, location identity and visible invalid entries are a coherent contract."
+    },
+    "techniques/fingerprinting-and-cache-keys.md": {
+      "disposition": "keep",
+      "reason": "Determinism, digest boundary, gate-sees-target and the send-site ledger stand."
+    },
+    "techniques/cache-breakpoint-allocation.md": {
+      "disposition": "keep",
+      "reason": "Cadence-boundary allocation and the variability-within-lifetime rule hold; the hit-rate predicate caveat is consistent with compaction-is-a-fixed-point."
+    },
+    "techniques/continuation-prompts.md": {
+      "disposition": "keep",
+      "reason": "Two regimes, carry-decided/re-derive-observable and staleness checks stand."
+    },
+    "techniques/task-envelope.md": {
+      "disposition": "clarify",
+      "reason": "Persona study verified this run (162 roles, 2,410 factual questions, 4 model families, no gain, best-persona selection near random). Owed: the '2026 trajectory corpora' figures (about a quarter of failed runs fabricate success, ~23%, ~3%) name no source; cite them or mark them unsourced."
+    },
+    "techniques/amortized-compaction-cadence.md": {
+      "disposition": "clarify",
+      "reason": "Schedules, the reclaim-size gate and the operator-turn exemption stand. Owed, from the 2026-09-23 banked lead: pass counters must split by outcome. The python application shows a single total over absorbed, failed and skipped passes making a skipping session look healthy. Not applied here because it adds a rule rather than correcting one."
+    },
+    "techniques/compaction-horizon-breakeven.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: read-price count corrected to most at a tenth, two at a twentieth, two at a fortieth (dated 2026-10-31); the 272K step now stated as primary-sourced (input doubles above 272K) and the first provider’s 100K-banded model added as evidence that steps move per model."
+    },
+    "techniques/speculative-compaction-splice.md": {
+      "disposition": "keep",
+      "reason": "Internally sound; derived margin and the losing-speculation fallback are stated. Still has no application (single-stack debt from the note)."
+    },
+    "techniques/deferred-interface-invalidation.md": {
+      "disposition": "keep",
+      "reason": "Defer-by-default with the compaction exemption and immediate revocation is coherent and checkable."
+    },
+    "techniques/endpoint-sealed-continuation-metadata.md": {
+      "disposition": "keep",
+      "reason": "Segment-level replay, strict endpoint equality and demotion-not-deletion stand, corroborated by the node application."
+    },
+    "techniques/elision-to-a-refetch-pointer.md": {
+      "disposition": "keep",
+      "reason": "Material classes, decorator siting and the recomputability caveat stand. The 2026-09 first-party account it quotes was not re-located this run; it is labelled n=1 and dated, so nothing hangs on it beyond illustration."
+    },
+    "techniques/compression-hardens-deferred-decisions.md": {
+      "disposition": "keep",
+      "reason": "Hedge-as-deferral and test-before-shrink stand; the field instance is told without a source but carries no number the rules depend on."
+    },
+    "techniques/recovery-path-as-loss-signal.md": {
+      "disposition": "keep",
+      "reason": "Recovery family, measurement boundary and the two-sided reading stand; the rust application reproduces the mechanism."
+    },
+    "techniques/consumer-coupled-decoration.md": {
+      "disposition": "keep",
+      "reason": "Audit, silent expiry and purity ordering stand. The ~5%/~3% account was not re-located this run; it is already scoped as n=1, one harness."
+    },
+    "techniques/context-ownership-regimes.md": {
+      "disposition": "keep",
+      "reason": "Three-regime table, exclusive ownership and per-request resolution stand; matches the neovim tree."
+    },
+    "techniques/live-attachment-delta-resharing.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: above six stable blocks now reads above four of the six stable blocks, matching the rust application’s third-of-eight order."
+    },
+    "techniques/foreign-harness-history-folding.md": {
+      "disposition": "keep",
+      "reason": "Paired table is consistent (10/10 vs 0/10 arms); the reviewer case is scoped by the falsifying seam."
+    },
+    "techniques/fold-only-acknowledged-evidence.md": {
+      "disposition": "keep",
+      "reason": "Capture/acknowledge split, protected set and typed unfit error stand, witnessed by the python application tests."
+    },
+    "techniques/summary-evidence-gate.md": {
+      "disposition": "keep",
+      "reason": "Local fail-closed parse, model-free checks and their stated limits stand; quote-only form matches the node application."
+    },
+    "techniques/pinned-prompt-clock.md": {
+      "disposition": "keep",
+      "reason": "Freeze, tail notice, refresh-at-checkpoint and probe purity stand, with a reference realization."
+    },
+    "techniques/compaction-target-is-an-aim.md": {
+      "disposition": "keep",
+      "reason": "Figures (91%/41% to 0%/2%, +7%; 13.3 to 26.4; four of five) match the reproduced sweep."
+    },
+    "techniques/compaction-is-a-fixed-point.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: leak 1 now defines the truncation as an N-line cap split between head and tail, so the N+1 arithmetic holds."
+    },
+    "techniques/cache-affinity-key-from-the-unrewritable-layer.md": {
+      "disposition": "keep",
+      "reason": "Verified against the provider guide this run: about 15 requests per minute per key, cached state on individual machines, accounting/probing reasons, and automatic routing on its newest models."
+    },
+    "applications/claude-code--compaction-horizon-breakeven.md": {
+      "disposition": "reverify",
+      "reason": "Arithmetic is consistent. The 0.05x read price and the start-of-request lifetime match the provider's pages this run. The private replay and the plugin were not re-run."
+    },
+    "applications/claude-code--elision-to-a-refetch-pointer.md": {
+      "disposition": "reverify",
+      "reason": "Internally consistent (175/208 = 84%; 870k/1,187k = 73%). The one-machine transcript replay was not re-run."
+    },
+    "applications/neovim--context-ownership-regimes.md": {
+      "disposition": "reverify",
+      "reason": "Anchors at f73f40e9 not reopened; the doc-vs-code contradiction is recorded with the code winning."
+    },
+    "applications/neovim--history-compaction.md": {
+      "disposition": "reverify",
+      "reason": "Anchors not reopened; the summary-of-summary and no-reactive-path deviations are stated."
+    },
+    "applications/neovim--live-attachment-delta-resharing.md": {
+      "disposition": "reverify",
+      "reason": "Anchors not reopened."
+    },
+    "applications/node--compaction-horizon-breakeven.md": {
+      "disposition": "reverify",
+      "reason": "SoL-Pi anchors at 2b791687 and the 166-session replay not re-run."
+    },
+    "applications/node--elision-to-a-refetch-pointer.md": {
+      "disposition": "reverify",
+      "reason": "Anchors not reopened; the blog figures are quoted as the source reports them."
+    },
+    "applications/node--endpoint-sealed-continuation-metadata.md": {
+      "disposition": "reverify",
+      "reason": "Clone at f4fce64a not reopened."
+    },
+    "applications/node--foreign-harness-history-folding--tencentdb.md": {
+      "disposition": "reverify",
+      "reason": "Traced path at 37b16296 not reopened; already unmeasurable."
+    },
+    "applications/node--foreign-harness-history-folding.md": {
+      "disposition": "reverify",
+      "reason": "Cline tree at 6e8bea1c not reopened."
+    },
+    "applications/node--history-compaction--pilotdeck.md": {
+      "disposition": "reverify",
+      "reason": "Executed findings at ae87280a not re-run."
+    },
+    "applications/node--history-compaction.md": {
+      "disposition": "reverify",
+      "reason": "Private tree not reopened."
+    },
+    "applications/node--pinned-prompt-clock.md": {
+      "disposition": "reverify",
+      "reason": "Anchors at ae87280a not reopened; test was read, never executed."
+    },
+    "applications/node--summary-evidence-gate--pilotdeck.md": {
+      "disposition": "reverify",
+      "reason": "Executed findings not re-run."
+    },
+    "applications/node--summary-evidence-gate.md": {
+      "disposition": "reverify",
+      "reason": "Anchors not reopened."
+    },
+    "applications/node--tiered-history-projection.md": {
+      "disposition": "reverify",
+      "reason": "Private tree at 0e1f0b30 not reopened."
+    },
+    "applications/python--amortized-compaction-cadence.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: the two section citations of the old docs/micro-compaction.md path now cite the first-party doc named in the header. Tree not reopened; refresh_by 2026-11-05 still open."
+    },
+    "applications/python--fold-only-acknowledged-evidence.md": {
+      "disposition": "reverify",
+      "reason": "QwenPaw anchors at cbf1a403 not reopened."
+    },
+    "applications/python--summary-evidence-gate.md": {
+      "disposition": "reverify",
+      "reason": "QwenPaw anchors not reopened."
+    },
+    "applications/rust--cache-affinity-key-from-the-unrewritable-layer--yoagent.md": {
+      "disposition": "reverify",
+      "reason": "The provider-guidance claims were re-verified this run. The crate anchors at 2428f68d were not reopened."
+    },
+    "applications/rust--compaction-is-a-fixed-point--yoagent.md": {
+      "disposition": "reverify",
+      "reason": "Replay numbers are the tree's own and were never re-run."
+    },
+    "applications/rust--compaction-target-is-an-aim--yoagent.md": {
+      "disposition": "clarify",
+      "reason": "The table reports '43 marker-only per run', while the technique and the note quote the same figure as '43 marker-only compactions per 100 requests'. One unit is wrong. Owed: fix it from the sweep's output. Not applied, because the sweep was not re-run."
+    },
+    "applications/rust--compression-hardens-deferred-decisions.md": {
+      "disposition": "reverify",
+      "reason": "Simulation over a recorded baseline; the bench was never run for arm B."
+    },
+    "applications/rust--consumer-coupled-decoration.md": {
+      "disposition": "reverify",
+      "reason": "Byte tables come from a reimplementation; the tree was not reopened."
+    },
+    "applications/rust--context-budgeting.md": {
+      "disposition": "reverify",
+      "reason": "No verified_against; private anchors not reopened."
+    },
+    "applications/rust--context-ownership-regimes.md": {
+      "disposition": "reverify",
+      "reason": "Private tree not reopened."
+    },
+    "applications/rust--elision-to-a-refetch-pointer.md": {
+      "disposition": "reverify",
+      "reason": "All table arithmetic was recomputed and is consistent (52.6%, 1.0/5.2/9.4% overshoot, 4.7x). Tree not reopened."
+    },
+    "applications/rust--foreign-harness-history-folding.md": {
+      "disposition": "reverify",
+      "reason": "Private tree at cf54b904b and the local model runs not reopened."
+    },
+    "applications/rust--layered-composition.md": {
+      "disposition": "clarify",
+      "reason": "The listed order opens with '## Triggering Event' (per-call input) before Identity. The next sentence then says 'Identity/instructions lead; per-call input trails', which the list contradicts. Owed: re-read the assembler and either correct the order or record the triggering event as a deviation from the gradient. Not applied, because the private source was not reopened."
+    },
+    "applications/rust--live-attachment-delta-resharing.md": {
+      "disposition": "reverify",
+      "reason": "Table sums were recomputed: 11,708,577 total, 1,662,815 changed, 14.2%, and 1.66M stable below the digest. Ledger not re-read."
+    },
+    "applications/rust--pinned-prompt-clock--personas.md": {
+      "disposition": "reverify",
+      "reason": "Private tree not reopened."
+    },
+    "applications/rust--recovery-path-as-loss-signal.md": {
+      "disposition": "reverify",
+      "reason": "Break-even table recomputed (1,208 B per recovery; 135 of 200; 138.0%). Tree not reopened."
+    },
+    "applications/rust--response-reservation-sizing.md": {
+      "disposition": "reverify",
+      "reason": "Arithmetic checks (16,000/4,096 = 3.91; 72 vs 18 cases at 220 tokens). Tree at 07fa255c not reopened."
+    },
+    "applications/rust--task-envelope.md": {
+      "disposition": "reverify",
+      "reason": "Private tree not reopened; effect unmeasured, as it says."
+    }
+  }
+}
+```

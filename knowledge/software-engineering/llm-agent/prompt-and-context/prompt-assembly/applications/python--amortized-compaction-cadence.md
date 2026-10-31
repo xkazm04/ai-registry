@@ -56,7 +56,7 @@ it replaced.
 
 ## The exemption, stated as a product guarantee
 
-`docs/micro-compaction.md` § "Your messages are never compacted": an exchange
+The first-party doc § "Your messages are never compacted": an exchange
 deliberately starts at the *assistant* message, compaction walks straight past
 user messages to get there, and user prompts stay verbatim for the life of the
 session. The argument in the doc is the technique's argument verbatim —
@@ -85,7 +85,7 @@ become the active turn by itself."
 ## Measured: occupancy flattened, no batch compaction
 
 One 3.5-hour whole-project code review, ~75K tokens of transcript, 400K window,
-threshold 320K (`docs/micro-compaction.md` § "What it looks like when it is
+threshold 320K (the first-party doc § "What it looks like when it is
 working"): occupancy 8.7% → 15.0% → 17.5% → 21.8% → 22.0%, then held. The last
 two passes are identical in message count; between them the conversation added
 4,841 tokens and compaction reclaimed 4,395 — equilibrium. Zero batch

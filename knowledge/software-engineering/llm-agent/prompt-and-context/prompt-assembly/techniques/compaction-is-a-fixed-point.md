@@ -33,7 +33,8 @@ Each of these is a quiet, locally reasonable choice, and each is invisible to a 
 that checks size and pairing.
 
 1. **A truncation marker that is not charged to the cap.** Cutting a long result to
-   its first and last N lines and inserting "M lines omitted" yields N+1 lines. The
+   an N-line cap split between its head and tail, and inserting "M lines omitted",
+   yields N+1 lines. The
    next pass sees a result over the cap, cuts again, and restates the count: 950
    lines omitted becomes 3. The bytes changed, the loss was misreported, and a
    second full-prefix invalidation arrived on top of the first. Charge the marker

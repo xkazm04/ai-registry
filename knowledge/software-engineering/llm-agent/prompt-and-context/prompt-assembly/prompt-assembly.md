@@ -467,6 +467,10 @@ disappearing.
 - [fingerprinting-and-cache-keys](./techniques/fingerprinting-and-cache-keys.md)
   — what goes in the digest, session staleness, per-layer granularity, and
   the fingerprint as the prompt's version stamp.
+- [pinned-prompt-clock](./techniques/pinned-prompt-clock.md) — the date as a
+  session-lifetime input: frozen at first assembly, a change delivered as a
+  notice at the tail, refreshed only where a compaction rewrites the prefix
+  anyway, and budget probes that assemble without consuming the refresh.
 - [endpoint-sealed-continuation-metadata](./techniques/endpoint-sealed-continuation-metadata.md)
   — the transcript's sealed half: segment-level replay decided against the
   target endpoint, strict provider-instance plus model-id equality, demotion
@@ -497,6 +501,11 @@ disappearing.
   trigger rather than a signal, pure removals sorted ahead of any compression
   scheme for the same bytes, and re-siting to the narrowest surface with a named
   consumer instead of deleting the idea.
+- [compression-hardens-deferred-decisions](./techniques/compression-hardens-deferred-decisions.md)
+  — the risk side of shrinking an instruction layer: a compressor deletes the
+  hedges first, and a deleted hedge is a decision made at authoring time;
+  prefer rewrites that return the decision to the model, and write the
+  behavioural tests before commissioning the shrink.
 - [cache-breakpoint-allocation](./techniques/cache-breakpoint-allocation.md)
   — cutting the ordered stack into cached blocks: cut points as a scarce
   request-wide budget, merging by cadence, matching lifetimes, and the

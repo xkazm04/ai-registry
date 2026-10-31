@@ -60,8 +60,8 @@ sixty-five consecutive companion turns, composed with a per-block content hash,
 showed **86% of the composed bytes unchanged from the previous turn**, which is
 the share of the prompt this policy would not have transmitted at all. The
 churn sat in two blocks, a scene digest rewritten on nearly every turn and a
-recall block rewritten on every other, and one of them sat *above* six stable
-blocks in the composed order, so a stable prefix was rebuilt on every call by
+recall block rewritten on every other, and one of them sat *above* four of the six
+stable blocks in the composed order, so a stable prefix was rebuilt on every call by
 a block that should have been a delta below it.
 
 That measurement also marks the boundary. This technique governs material

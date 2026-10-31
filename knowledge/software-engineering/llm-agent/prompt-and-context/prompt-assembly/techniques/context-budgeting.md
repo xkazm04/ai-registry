@@ -129,7 +129,8 @@ after roughly two thousand uncached inclusions.
 
 **And the denominator moves with cache state**, which inverts the intuition
 in one important case. A prefix sitting in a provider's cache re-reads at
-roughly a tenth of base rate, so the same shrink saves about an order of
+roughly a tenth of base rate (less on some models; the read price is
+set per model), so the same shrink saves about an order of
 magnitude less per call while it stays cached — pushing the break-even out by
 the same factor. Worse, the edit itself invalidates the entry and the next
 call rewrites it at above base rate (the multipliers and their derivation live
