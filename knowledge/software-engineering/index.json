@@ -5,7 +5,7 @@
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 243,
   "techniques": 1957,
-  "applications": 1462,
+  "applications": 1463,
   "laws": 16,
   "categories": [
    "ui-surfaces",
@@ -40681,9 +40681,9 @@
    "subcategory": "build-and-release",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-process/build-and-release/vendored-patch-stack/vendored-patch-stack.md",
-   "digest": "sha256-b2:1ae671738a90f0a1",
-   "revision": 3,
-   "changedAt": "2026-10-22",
+   "digest": "sha256-b2:9cff60afceb56cfb",
+   "revision": 4,
+   "changedAt": "2026-10-31",
    "techniques": [
     {
      "slug": "collapse-patch-axes-that-share-hunks",
@@ -40776,6 +40776,13 @@
      "file": "knowledge/software-engineering/engineering-process/build-and-release/vendored-patch-stack/applications/node--least-invasive-carrier.md",
      "verified_on": "2026-10-22",
      "verified_against": "node@22"
+    },
+    {
+     "stack": "python",
+     "technique": "one-reset-authority",
+     "file": "knowledge/software-engineering/engineering-process/build-and-release/vendored-patch-stack/applications/python--one-reset-authority--garden-vr.md",
+     "verified_on": "2026-10-31",
+     "verified_against": "python@3.12"
     }
    ]
   },
