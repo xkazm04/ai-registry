@@ -1,7 +1,7 @@
 ---
 domain: game-production
 subject: regeneration-vs-repair-economics
-last_touched: 2026-09-10
+last_touched: 2026-10-31
 touched_by: architecture-review
 dry_streak: 0
 ---
@@ -196,6 +196,163 @@ number is knowable, so nothing downstream rests on it, but it will age.
     "applications/process--bounded-refine-iteration.md": {
       "disposition": "reverify",
       "reason": "DEFAULT_MAX_ATTEMPTS = 3, failureShape and the distinct ungated value confirmed at source, but the two docs/research specifications it quotes for the loop doctrine were not re-read and no loop was executed."
+    }
+  }
+}
+```
+
+## Architecture review - 2026-10-31
+
+Re-review against `85a365702`. Since the 2026-09-10 record the only change is a privacy
+fix in both applications (a machine path replaced by the repo name), so the content
+reasoning carries. The `bounded-refine-iteration` clarify that record named was still
+owed. Re-reading `reroll-economics-per-credit` found its cost-per-success sentence
+ambiguous in the way the first 2026-09-10 record's counterexample describes: the repair
+that record made was undone by the compression revert, and the later keep did not
+re-flag it. That keep is retracted for the arithmetic sentence only. The two
+applications move from keep/reverify to reverify: the private tree they cite was not
+reopened this run.
+
+<!-- architecture-review:v1 -->
+```json
+{
+  "subject": "game-production/regeneration-vs-repair-economics",
+  "date": "2026-10-31",
+  "baseline": "85a365702",
+  "digest": "sha256-b2:a1a7192b63247062",
+  "disposition": "clarify",
+  "coverage": "All 9 documents decided. The only change since the 2026-09-10 record is a path-only privacy edit to both applications (diffed). All techniques and the golden path re-read; the provider pricing page opened. Not evaluated: the private consumer tree, any generation, grading or reroll.",
+  "counterexamples": [
+    "A deterministic generator fed inputs amended from a critique has a genuine refine loop, which bounded-refine-iteration's 'when not to use' clause told the reader it did not have.",
+    "With roll cost 2, grading cost 1 and pass rate 0.25, expected cost per accepted artifact is (2+1)/0.25 = 12; 'roll cost divided by pass rate, plus the cost of grading each attempt' reads naturally as 2/0.25 + 1 = 9.",
+    "A per-generation price quoted in credits is not a money figure until the credit price is known: the provider pricing page lists 5 to 35 credits per image-to-3D request and states no dollar value per credit.",
+    "A sweep whose grader throws on the highest-quality candidate selects a worse artifact with no signal (retained from 2026-09-10)."
+  ],
+  "sources": [
+    {
+      "url": "https://docs.meshy.ai/en/api/pricing",
+      "result": "Read 2026-10-31. Image-to-3D costs 20 credits mesh-only and 30 with a 2K texture on the current models, 5 and 15 on the lite and older models, 8K textures 35 and 20; 'The page doesn't state a dollar value per credit'. Supports 'a textured generation commonly runs a few tens of credits' and 'more for a textured result ... and more again at higher texture resolution'. Does not establish the 'sub-dollar range' market claim."
+    },
+    {
+      "source": "git diff 44c89965..85a365702 over the subject directory",
+      "result": "Only change since the last record is the privacy fix replacing a machine path with the repo name in both applications. No content change to any claim."
+    },
+    {
+      "source": "Internal cross-read of bounded-refine-iteration against its own contract, and of the four-roll versus three-run floater measurements",
+      "result": "The deterministic-generator exclusion contradicts the contract's own refine-versus-reroll definition. The two measurement sets come from different experiments (the twelve-fragment roll is below the four-roll set's sixteen floor) and nothing said so."
+    }
+  ],
+  "documents": {
+    "regeneration-vs-repair-economics.md": {
+      "disposition": "keep",
+      "reason": "Unchanged since the 2026-09-10 keep; three branches, stage-versus-draw classification outranking the arithmetic, and the measured before/after pair still hold."
+    },
+    "techniques/defect-class-to-remedy-map.md": {
+      "disposition": "keep",
+      "reason": "Unchanged since the 2026-09-10 keep; the remedy-to-classes direction, anti-entries and declared stage hold."
+    },
+    "techniques/reroll-economics-per-credit.md": {
+      "disposition": "clarify",
+      "reason": "Procedure step 3 ('roll cost divided by that pass rate, plus the cost of grading each attempt') is ambiguous and reads as roll/p + grade, which under-counts the grading of failed attempts; state (roll + grade)/p. Provider pricing re-checked: credit ranges and the textured/resolution premium hold; the 'sub-dollar range' aside stays unsourced, load-bearing on nothing."
+    },
+    "techniques/refuse-the-fix-that-cannot-help.md": {
+      "disposition": "keep",
+      "reason": "Unchanged since the 2026-09-10 keep."
+    },
+    "techniques/bounded-refine-iteration.md": {
+      "disposition": "clarify",
+      "reason": "Still owed from 2026-09-10: the deterministic-generator exclusion describes a re-roll loop, which the contract defines as not this technique. Also name the three-run measurement as separate from the golden path's four-roll set."
+    },
+    "techniques/score-basis-must-be-stated.md": {
+      "disposition": "keep",
+      "reason": "Unchanged since the 2026-09-10 keep."
+    },
+    "techniques/best-of-n-parameter-sweep.md": {
+      "disposition": "keep",
+      "reason": "Unchanged since the 2026-09-10 keep."
+    },
+    "applications/node--defect-class-to-remedy-map.md": {
+      "disposition": "reverify",
+      "reason": "Path-only privacy edit since the last record. The 2026-09-10 keep rested on reading the private tree; it was not reopened this run, so the claims stand on that dated reading. verified_on unchanged."
+    },
+    "applications/process--bounded-refine-iteration.md": {
+      "disposition": "reverify",
+      "reason": "Path-only privacy edit. The two research specifications it quotes and the loop code were not re-read; no loop executed. verified_on unchanged."
+    }
+  }
+}
+```
+
+## Architecture review - 2026-10-31 (clarify applied)
+
+Applied both clarify items. Edits are minimal and in the documents' voice; no application
+was touched.
+
+<!-- architecture-review:v1 -->
+```json
+{
+  "subject": "game-production/regeneration-vs-repair-economics",
+  "date": "2026-10-31",
+  "baseline": "85a365702",
+  "digest": "sha256-b2:53ce4564df524b04",
+  "disposition": "reverify",
+  "coverage": "All 9 documents decided. The two clarify items of the first 2026-10-31 record were applied and the edited passages re-read; the other seven documents are byte-unchanged. Applications keep reverify, which is now the overall disposition. No private tree reopened, no verification date refreshed.",
+  "counterexamples": [
+    "A deterministic generator fed inputs amended from a critique has a genuine refine loop, which bounded-refine-iteration's 'when not to use' clause told the reader it did not have.",
+    "With roll cost 2, grading cost 1 and pass rate 0.25, expected cost per accepted artifact is (2+1)/0.25 = 12; 'roll cost divided by pass rate, plus the cost of grading each attempt' reads naturally as 2/0.25 + 1 = 9.",
+    "A per-generation price quoted in credits is not a money figure until the credit price is known: the provider pricing page lists 5 to 35 credits per image-to-3D request and states no dollar value per credit.",
+    "A sweep whose grader throws on the highest-quality candidate selects a worse artifact with no signal (retained from 2026-09-10)."
+  ],
+  "sources": [
+    {
+      "url": "https://docs.meshy.ai/en/api/pricing",
+      "result": "Read 2026-10-31. Image-to-3D costs 20 credits mesh-only and 30 with a 2K texture on the current models, 5 and 15 on the lite and older models, 8K textures 35 and 20; 'The page doesn't state a dollar value per credit'. Supports 'a textured generation commonly runs a few tens of credits' and 'more for a textured result ... and more again at higher texture resolution'. Does not establish the 'sub-dollar range' market claim."
+    },
+    {
+      "source": "git diff 44c89965..85a365702 over the subject directory",
+      "result": "Only change since the last record is the privacy fix replacing a machine path with the repo name in both applications. No content change to any claim."
+    },
+    {
+      "source": "Internal cross-read of bounded-refine-iteration against its own contract, and of the four-roll versus three-run floater measurements",
+      "result": "The deterministic-generator exclusion contradicts the contract's own refine-versus-reroll definition. The two measurement sets come from different experiments (the twelve-fragment roll is below the four-roll set's sixteen floor) and nothing said so."
+    }
+  ],
+  "documents": {
+    "regeneration-vs-repair-economics.md": {
+      "disposition": "keep",
+      "reason": "Unchanged since the 2026-09-10 keep; three branches, stage-versus-draw classification outranking the arithmetic, and the measured before/after pair still hold."
+    },
+    "techniques/defect-class-to-remedy-map.md": {
+      "disposition": "keep",
+      "reason": "Unchanged since the 2026-09-10 keep; the remedy-to-classes direction, anti-entries and declared stage hold."
+    },
+    "techniques/reroll-economics-per-credit.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: procedure step 3 now reads 'the cost of one attempt — the roll plus its grading — divided by that pass rate, since every failed attempt was graded too'. The 'sub-dollar range' aside stays unsourced and load-bearing on nothing."
+    },
+    "techniques/refuse-the-fix-that-cannot-help.md": {
+      "disposition": "keep",
+      "reason": "Unchanged since the 2026-09-10 keep."
+    },
+    "techniques/bounded-refine-iteration.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: the deterministic exclusion now covers only re-running the same input, and states that a deterministic generator fed critique-amended inputs is a refine loop needing the cap; the three-run measurement is named as separate from the golden path's four-roll set."
+    },
+    "techniques/score-basis-must-be-stated.md": {
+      "disposition": "keep",
+      "reason": "Unchanged since the 2026-09-10 keep."
+    },
+    "techniques/best-of-n-parameter-sweep.md": {
+      "disposition": "keep",
+      "reason": "Unchanged since the 2026-09-10 keep."
+    },
+    "applications/node--defect-class-to-remedy-map.md": {
+      "disposition": "reverify",
+      "reason": "Path-only privacy edit since the last record. The 2026-09-10 keep rested on reading the private tree; it was not reopened this run, so the claims stand on that dated reading. verified_on unchanged."
+    },
+    "applications/process--bounded-refine-iteration.md": {
+      "disposition": "reverify",
+      "reason": "Path-only privacy edit. The two research specifications it quotes and the loop code were not re-read; no loop executed. verified_on unchanged."
     }
   }
 }

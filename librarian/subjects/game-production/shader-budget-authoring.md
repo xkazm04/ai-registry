@@ -1,7 +1,7 @@
 ---
 domain: game-production
 subject: shader-budget-authoring
-last_touched: 2026-09-10
+last_touched: 2026-10-31
 touched_by: architecture-review
 dry_streak: 0
 ---
@@ -229,6 +229,171 @@ executed, no material compiled, no frame profiled.
     "applications/process--surface-to-shading-model-map.md": {
       "disposition": "reverify",
       "reason": "Same unverified checkout. Its identification of the unmatched-keyword gap is the right finding and matches the technique's decision rule; the engine-facts derivation it praises is also the fix the estimator application needs."
+    }
+  }
+}
+```
+
+## Architecture review - 2026-10-31
+
+Re-review against `85a365702`. Only a path-only privacy edit landed since 2026-09-10, so
+every correction that record asked for was still owed. Re-opening the primary sources
+partly retracts that record's attribution: Microsoft's Direct3D 12 hardware-tiers page
+lists the per-stage sampler limit under "Limits dependant on hardware" as 16 on
+resource-binding Tier 1 and 2048 on Tiers 2 and 3. So sixteen is not purely "a
+binding-model limit, not a hardware one" either; it is the D3D11-era binding model and
+the lowest D3D12 binding tier. "Silicon, not policy" stays wrong, because the ceiling
+moved on most hardware. The two application deviations named in 2026-09-10 are visible
+in the applications' own text, so they can be recorded without reopening the code;
+the applications move from reverify to clarify for those items.
+
+<!-- architecture-review:v1 -->
+```json
+{
+  "subject": "game-production/shader-budget-authoring",
+  "date": "2026-10-31",
+  "baseline": "85a365702",
+  "digest": "sha256-b2:d1c4f6c93cb669e0",
+  "disposition": "clarify",
+  "coverage": "All 10 documents decided. Only a path-only privacy edit since 2026-09-10 (diffed); the golden path, the sampler technique and all three applications re-read; both Microsoft limit pages opened. Not evaluated: any private checkout, renderer, compiled material or profile; any engine's actual reserved sampler count.",
+  "counterexamples": [
+    "Sixteen is D3D11_COMMONSHADER_SAMPLER_SLOT_COUNT, an API constant in D3d11.h, while the same API allows 4096 sampler objects per context; under Direct3D 12 resource-binding Tier 1 hardware still binds 16 per stage and Tier 2 and 3 bind 2048 - so the ceiling is binding model plus hardware tier, neither pure silicon nor pure policy.",
+    "A 2.5x-of-60 instruction threshold fires at 150 while parallax alone adds 250, and the keyword rules attach parallax to every stone brief, so the warning separates 'has parallax' rather than 'is meaningfully expensive'.",
+    "A four-preset table with no baked or screen-space entry ships nothing for integrated graphics, which the technique's floor-tier section predicts.",
+    "A subsurface premium quoted as 'a third to two-thirds' without renderer, resolution or lighting is the unbased number the golden path warns about."
+  ],
+  "sources": [
+    {
+      "url": "https://learn.microsoft.com/en-us/windows/win32/direct3d11/overviews-direct3d-11-resources-limits",
+      "result": "Re-read 2026-10-31. 'All of these resource limits are defined as constants in D3d11.h.' Rows: 'Common-shader core sampler slots | D3D11_COMMONSHADER_SAMPLER_SLOT_COUNT (16)' and 'Total number of sampler objects per context | D3D11_REQ_SAMPLER_OBJECT_COUNT_PER_DEVICE (4096)'."
+    },
+    {
+      "url": "https://learn.microsoft.com/en-us/windows/win32/direct3d12/hardware-support",
+      "result": "Read 2026-10-31. Under 'Limits dependant on hardware': 'Maximum number of Samplers in all descriptor tables per shader stage | 16 | 2048 | 2048' for Tiers 1/2/3; 'The maximum number of samplers in a shader visible descriptor heap is 2048.' Partly retracts the 2026-09-10 reading ('a binding-model limit, not a hardware one'): in D3D12 the 16 survives as the Tier 1 hardware limit, so the correct attribution is binding model plus hardware binding tier."
+    },
+    {
+      "source": "git diff 44c89965..85a365702 over the subject directory",
+      "result": "Only a path-only privacy edit in two applications. All five 2026-09-10 clarify/deviation items were still owed."
+    }
+  ],
+  "documents": {
+    "shader-budget-authoring.md": {
+      "disposition": "clarify",
+      "reason": "Still owed: 'it has not moved in a decade because it is silicon, not policy' is wrong. Attribute sixteen to the D3D11-era binding model and the lowest D3D12 binding tier (higher tiers: 2048), a property of the renderer's target at a version."
+    },
+    "techniques/sampler-hard-and-soft-caps.md": {
+      "disposition": "clarify",
+      "reason": "Still owed: same correction for 'a hardware property rather than an engine setting'. The rest - two thresholds, reserve-do-not-round, refuse-do-not-trim, the bindless caveat - stays."
+    },
+    "techniques/channel-packing.md": {
+      "disposition": "keep",
+      "reason": "Unchanged since the 2026-09-10 keep."
+    },
+    "techniques/surface-to-shading-model-map.md": {
+      "disposition": "clarify",
+      "reason": "The subsurface premium carries no renderer, resolution or lighting basis in a subject whose rule is that a number needs one; say so beside the figure."
+    },
+    "techniques/feature-cost-with-a-cheaper-swap.md": {
+      "disposition": "keep",
+      "reason": "Unchanged since the 2026-09-10 keep."
+    },
+    "techniques/forbidden-feature-combinations.md": {
+      "disposition": "keep",
+      "reason": "Unchanged since the 2026-09-10 keep."
+    },
+    "techniques/hardware-tier-lighting-presets.md": {
+      "disposition": "keep",
+      "reason": "Unchanged since the 2026-09-10 keep; the floor-tier gap is the application's."
+    },
+    "applications/node--feature-cost-with-a-cheaper-swap.md": {
+      "disposition": "clarify",
+      "reason": "Still owed: add the 2.5x threshold against the 250-instruction parallax delta beside its two recorded deviations; arithmetic checked from the document's own figures. Code not reopened; verified_on unchanged."
+    },
+    "applications/process--hardware-tier-lighting-presets.md": {
+      "disposition": "clarify",
+      "reason": "Still owed: record the missing floor-tier preset and the undefined 'wide-hardware' label, both visible in its own table. Code not reopened; verified_on unchanged."
+    },
+    "applications/process--surface-to-shading-model-map.md": {
+      "disposition": "reverify",
+      "reason": "Path-unchanged and content-unchanged; the private checkout it cites by line was not reopened. verified_on unchanged."
+    }
+  }
+}
+```
+
+## Architecture review - 2026-10-31 (clarify applied)
+
+Applied all five clarify items. No verification date moved.
+
+<!-- architecture-review:v1 -->
+```json
+{
+  "subject": "game-production/shader-budget-authoring",
+  "date": "2026-10-31",
+  "baseline": "85a365702",
+  "digest": "sha256-b2:df053e7efdc0eee4",
+  "disposition": "reverify",
+  "coverage": "All 10 documents decided. All five clarify items of the first 2026-10-31 record were applied and the edited passages re-read; the other five documents are byte-unchanged. One application rests on an unopened private checkout and keeps reverify, which is now the overall disposition.",
+  "counterexamples": [
+    "Sixteen is D3D11_COMMONSHADER_SAMPLER_SLOT_COUNT, an API constant in D3d11.h, while the same API allows 4096 sampler objects per context; under Direct3D 12 resource-binding Tier 1 hardware still binds 16 per stage and Tier 2 and 3 bind 2048 - so the ceiling is binding model plus hardware tier, neither pure silicon nor pure policy.",
+    "A 2.5x-of-60 instruction threshold fires at 150 while parallax alone adds 250, and the keyword rules attach parallax to every stone brief, so the warning separates 'has parallax' rather than 'is meaningfully expensive'.",
+    "A four-preset table with no baked or screen-space entry ships nothing for integrated graphics, which the technique's floor-tier section predicts.",
+    "A subsurface premium quoted as 'a third to two-thirds' without renderer, resolution or lighting is the unbased number the golden path warns about."
+  ],
+  "sources": [
+    {
+      "url": "https://learn.microsoft.com/en-us/windows/win32/direct3d11/overviews-direct3d-11-resources-limits",
+      "result": "Re-read 2026-10-31. 'All of these resource limits are defined as constants in D3d11.h.' Rows: 'Common-shader core sampler slots | D3D11_COMMONSHADER_SAMPLER_SLOT_COUNT (16)' and 'Total number of sampler objects per context | D3D11_REQ_SAMPLER_OBJECT_COUNT_PER_DEVICE (4096)'."
+    },
+    {
+      "url": "https://learn.microsoft.com/en-us/windows/win32/direct3d12/hardware-support",
+      "result": "Read 2026-10-31. Under 'Limits dependant on hardware': 'Maximum number of Samplers in all descriptor tables per shader stage | 16 | 2048 | 2048' for Tiers 1/2/3; 'The maximum number of samplers in a shader visible descriptor heap is 2048.' Partly retracts the 2026-09-10 reading ('a binding-model limit, not a hardware one'): in D3D12 the 16 survives as the Tier 1 hardware limit, so the correct attribution is binding model plus hardware binding tier."
+    },
+    {
+      "source": "git diff 44c89965..85a365702 over the subject directory",
+      "result": "Only a path-only privacy edit in two applications. All five 2026-09-10 clarify/deviation items were still owed."
+    }
+  ],
+  "documents": {
+    "shader-budget-authoring.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: the hard cap is now 'the ceiling of the slot-based binding model of the previous API generation ... and of the lowest binding tier of the descriptor-heap APIs that succeeded it, whose higher tiers bind 2048' (API names kept out of the technique layer), a property of binding model and hardware tier that belongs to the renderer at a version."
+    },
+    "techniques/sampler-hard-and-soft-caps.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: 'sixteen in the previous API generation's slot-based binding model, and on the lowest binding tier of the descriptor-heap APIs that succeeded it (higher tiers bind 2048)', fixed by API and hardware tier rather than an engine setting."
+    },
+    "techniques/channel-packing.md": {
+      "disposition": "keep",
+      "reason": "Unchanged since the 2026-09-10 keep."
+    },
+    "techniques/surface-to-shading-model-map.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: the subsurface premium is marked as quoted without a renderer, resolution or lighting basis, to be measured on the reader's renderer."
+    },
+    "techniques/feature-cost-with-a-cheaper-swap.md": {
+      "disposition": "keep",
+      "reason": "Unchanged since the 2026-09-10 keep."
+    },
+    "techniques/forbidden-feature-combinations.md": {
+      "disposition": "keep",
+      "reason": "Unchanged since the 2026-09-10 keep."
+    },
+    "techniques/hardware-tier-lighting-presets.md": {
+      "disposition": "keep",
+      "reason": "Unchanged since the 2026-09-10 keep; the floor-tier gap is the application's."
+    },
+    "applications/node--feature-cost-with-a-cheaper-swap.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: third deviation added - the 2.5x warning fires at 150 instructions while parallax adds 250 and stone-family keywords attach parallax, so it measures feature presence. Code not reopened; verified_on unchanged."
+    },
+    "applications/process--hardware-tier-lighting-presets.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: new section records no floor-tier preset and the undefined 'wide-hardware' label. Code not reopened; verified_on unchanged."
+    },
+    "applications/process--surface-to-shading-model-map.md": {
+      "disposition": "reverify",
+      "reason": "Path-unchanged and content-unchanged; the private checkout it cites by line was not reopened. verified_on unchanged."
     }
   }
 }

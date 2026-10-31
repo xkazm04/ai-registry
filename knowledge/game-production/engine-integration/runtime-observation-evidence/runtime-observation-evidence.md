@@ -110,7 +110,7 @@ saying its output is valid, a routine returning a success code, a log line readi
 What replaces it is a **discriminator**: a continuous measured quantity that separates the
 two states a boolean cannot. The motionless-character case is the canonical illustration.
 No boolean the system offers distinguishes "playing an animation" from "displaying a
-static pose" — both report an animation as active. But the *variance across samples* of a
+static pose" — both report an animation as active. But the *spread across samples* of a
 continuously-varying pose quantity does distinguish them, sharply and repeatably: an
 animating figure's limb angles wander, a reference-posed one's do not move at all. One
 sampled number, taken several times, sees what an entire structural suite could not.

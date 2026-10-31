@@ -54,7 +54,8 @@ when the bound is reached.
 ## Why the shape comparison, and not the string
 
 Two rolls of the same broken generator never fail identically. Measured against a live
-generator across three runs, the counts moved every roll — thirty-three fragments and
+generator across three runs (a separate measurement from the four-roll set the golden path
+uses to show the defect is stage-determined), the counts moved every roll — thirty-three fragments and
 fifty-six parts, then twelve and thirty-eight — and the tail of the finding list
 fluctuated too, an incidental low-severity finding appearing on some rolls and not others.
 Comparing raw text never matches. Comparing the whole normalised list still misses,
@@ -84,8 +85,10 @@ and stably, so that "first" means "verdict-driving".
 
 ## When not to use this
 
-- **When the generator is deterministic.** Re-running the same input returns the same
-  output, so there is no loop to bound — the free lever is a parameter sweep instead.
+- **When the only lever is re-running the same input on a deterministic generator.** That
+  returns the same output, so there is nothing to bound — the free lever is a parameter
+  sweep instead. A deterministic generator whose inputs *are* amended from the critique is a
+  genuine refine loop, and it needs this cap like any other.
 - **When each iteration is a paid roll of a stage-determined defect.** The bound would only
   limit how much you waste. Classification comes first; the loop is for defects a redraw
   can actually change.

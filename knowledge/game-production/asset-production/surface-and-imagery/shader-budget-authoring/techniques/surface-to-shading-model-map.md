@@ -53,7 +53,8 @@ grades a finished one.
    ([law-and-check-share-one-source](../../../../_laws.md#law-and-check-share-one-source)).
 6. **Give each path its own cost entry and its own cheaper substitute**, exactly as an
    optional feature has. A subsurface path is not free because it was forced — it runs
-   roughly a third to two-thirds more expensive per pixel than the opaque default, and
+   roughly a third to two-thirds more expensive per pixel than the opaque default (a
+   figure quoted without a renderer, resolution or lighting basis — measure it on yours), and
    there is usually a pre-integrated approximation that serves many cases without the
    full transport pass. The path selection is the largest single cost decision in the
    material, so it is the one that most needs its alternative named beside it.

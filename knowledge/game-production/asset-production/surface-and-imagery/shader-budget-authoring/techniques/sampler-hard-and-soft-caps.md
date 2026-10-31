@@ -14,8 +14,10 @@ use_when: [setting a texture budget for a material class, a material fails to co
 
 A material's texture sampler count has two thresholds that behave nothing alike, and
 almost every team carries only one of them. The **hard cap** is the number of sampler
-registers a single shader stage may bind — sixteen on mainstream graphics hardware,
-unchanged for years because it is a hardware property rather than an engine setting.
+registers a single shader stage may bind — sixteen in the previous API generation's
+slot-based binding model, and on the lowest binding tier of the descriptor-heap APIs that
+succeeded it (higher tiers bind 2048). It is fixed by the API and hardware tier the
+renderer targets, not by an engine setting an author can change.
 Cross it and the material fails to compile, or the toolchain drops maps to make it fit
 and tells you afterwards, or not at all.
 

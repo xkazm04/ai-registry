@@ -43,8 +43,8 @@ cheapest option is always the one that fails fastest.
 2. If the class is not in the paid set, stop: the expected improvement is *known to be
    near zero* and no cost comparison is required. This is the common case.
 3. If it is, retrieve the measured pass rate for that class over recent rolls. Expected
-   cost per accepted artifact is the roll cost divided by that pass rate, plus the cost of
-   grading each attempt.
+   cost per accepted artifact is the cost of one attempt — the roll *plus* its grading —
+   divided by that pass rate, since every failed attempt was graded too.
 4. Compare against the repair path's expected cost per accepted artifact, computed the
    same way — including its own failure probability.
 5. Choose the cheaper, unless the cheaper one exceeds the human cost, in which case choose
