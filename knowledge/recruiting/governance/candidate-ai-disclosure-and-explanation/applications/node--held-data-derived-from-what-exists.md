@@ -5,7 +5,7 @@ subject: candidate-ai-disclosure-and-explanation
 technique: held-data-derived-from-what-exists
 stack: node
 status: forged
-verified_on: 2026-09-26
+verified_on: 2026-10-31
 verified_against: node@24
 ---
 

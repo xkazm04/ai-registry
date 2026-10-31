@@ -5,7 +5,7 @@ subject: candidate-ai-disclosure-and-explanation
 technique: disclosure-at-the-point-of-submission
 stack: react
 status: forged
-verified_on: 2026-09-26
+verified_on: 2026-10-31
 verified_against: react@19
 ---
 
@@ -29,6 +29,15 @@ promises only what the pipeline enforces. Rejection is the one decision no
 setting can delegate. Advance and offer are human by default and delegable, and a
 delegated step is logged. That is the technique's "only promise what the pipeline
 enforces", applied by weakening the sentence rather than by closing the path.
+
+Re-checked 2026-10-31 at kp@6edf5d7: the body quoted above has moved again. It now reads
+"... fit for the role. Answering no to a must-have the role states ends an application
+automatically; you are told which one and can ask a person to review it. Every other
+rejection is a person's: no setting can hand that decision to the machine. ..." with the
+advance/offer and human-review clauses unchanged. Rejection is therefore no longer the
+one decision that is never automatic: the apply knockout declines at once, and the notice
+says so at the point of submission, with the recourse beside it. That is the same rule
+applied a second time (the sentence follows the pipeline), not a reversal.
 
 ## The retention number is the enforced one
 

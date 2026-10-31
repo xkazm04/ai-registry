@@ -4,7 +4,7 @@ type: application
 subject: decision-audit-and-traceability
 technique: structured-facts-plus-a-locale-invariant-audit-string
 stack: process
-verified_on: 2026-09-29
+verified_on: 2026-10-31
 ---
 
 # "The record is canonical English, the UI localizes" as a written convention
@@ -13,7 +13,9 @@ This repo runs in four locales and seals decisions into an immutable chain, so i
 answer the question directly. The answer is a doctrine, stated in three places that cite
 each other, and it points in *both* directions: facts get localized at render, and sealed
 content never does. Re-read at kp `104a4b1b5` (2026-09-29); the first reading was
-2026-08-20, and every quotation below is still verbatim, at the lines given.
+2026-08-20, and every quotation below is still verbatim, at the lines given. Re-checked at
+kp `6edf5d7` (2026-10-31): the quotations still hold verbatim; line numbers are updated
+where they moved.
 
 ## Half one — persist facts, compose the sentence at render
 
@@ -28,7 +30,7 @@ The fix mirrors the pattern used elsewhere for server-generated display data: "t
 value stays canonical, only the rendered label is localized." Concretely, `RiskFact`
 (`:144-149`) is a discriminated union — `{ kind: "low_fit", label, score }`,
 `{ kind: "early_career", label }`, `{ kind: "gaps", label, gaps[] }` — and `SummaryFacts`
-(`:156-166`) is a branch discriminator plus params, one `kind` per branch of
+(`:156-167`) is a branch discriminator plus params, one `kind` per branch of
 `group-eval-run`'s summary switch, with `separation` "present only when the crown needs
 the confidence hedge." The client composes the sentence from those at render time.
 
@@ -60,7 +62,7 @@ The same convention governs `separationNote` (`group-eval-separation.ts:97`) and
 `reasonCode`/`kind` enums. The UI's localized mirror is composed from the reason code, not
 from the sealed sentence.
 
-The identity half is `app/features/shell/simulation/useSimulationWalk.ts:28-36`. In a file
+The identity half is `app/features/shell/simulation/useSimulationWalk.ts:29-37`. In a file
 whose every other string is translated, `DEMO_APPROVER = "Guided demo (auto-approved)"` is
 a deliberate exception, and the comment says why: it is written into a sealed record as the
 human-approval actor, "where the actor is an identity a reviewer and an exporter compare
@@ -92,13 +94,13 @@ it was. The technique now asks for the tag. Return for code: seal the org locale
 
 ## The read-back, and the scoped absence
 
-`parseSealTraceability` (`app/_lib/decision-attribution.ts:419`) "had shipped with **no
+`parseSealTraceability` (`app/_lib/decision-attribution.ts:425`) "had shipped with **no
 production caller**" — sealed for a period and rendered nowhere. Its first reader is
 `app/features/insights/analytics/sections/DecisionRecordDetail.tsx`, which renders prompt
 versions as chips and the lead's verdict, strengths and gaps **verbatim** — "it is
 evidence, so it is never summarised or re-narrated."
 
-The absences are enumerated rather than blanked (`docs/features/compliance/README.md:418-437`,
+The absences are enumerated rather than blanked (`docs/features/compliance/README.md:435-453`,
 the Art. 12 read-back section): a seal carrying neither half says so in one sentence naming
 both possible causes; a seal with a prompt version but no model text says that; a run with
 no model behind it reports an empty prompt version as *not recorded* rather than implying
@@ -112,14 +114,20 @@ Pinned by `sections/sealTraceabilityRender.test.ts`.
 `app/_lib/status-decisions.ts:1-8` holds the seam: the operator dossier
 (`/api/decisions/records`) "exposes the full sealed record: rationale text (which names the
 approving operator), payload snapshots, chain hashes, policy versions. None of that may
-cross the public token boundary." The candidate's `CandidateDecisionView` (`:44-65`) is a
+cross the public token boundary." The candidate's `CandidateDecisionView` (`:51-72`) is a
 closed shape: kind, timestamp, a three-state `attribution` ("so an unknown writer is never
 misattributed to the machine OR a human"), `personApproved`, the structured `reasonCode`,
-and a closed `facts` union (`:28-40`). The union is where the record-side rule reached
+and a closed `facts` union (`:31-46`). The union is where the record-side rule reached
 the candidate side since the first reading. `threshold` carries the decisive
 `{ score, threshold }` pair *and* a `stale` flag, "the caveat sealed WITH the pair",
 because "a clean pair without it is a claim the record itself does not make". `rubric`
 carries competencies by their canonical key, localized at the page through a label
 lookup rather than shipped in English. Leak tests pin it. Visible kinds sit on an
-allowlist (`CANDIDATE_VISIBLE_DECISION_KINDS`, `:82-97`), so a future kind ships hidden
+allowlist (`CANDIDATE_VISIBLE_DECISION_KINDS`, `:89-104`), so a future kind ships hidden
 by default.
+
+Re-checked 2026-10-31 at kp@6edf5d7: the `facts` union gained a third member, `verdict`
+(`:42-46`), carrying an automated advance's recommendation from the closed
+`INTERVIEW_RECOMMENDATIONS` set plus a 0-100 confidence that is null when off-scale. It is
+the same record-side rule reaching the candidate one kind further; nothing above is
+reversed. The sealed `leadReasoning` still carries no language tag (`group-eval-run.ts:846-849`).

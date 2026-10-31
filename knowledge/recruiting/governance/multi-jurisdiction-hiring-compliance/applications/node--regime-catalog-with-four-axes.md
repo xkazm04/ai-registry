@@ -5,7 +5,7 @@ subject: multi-jurisdiction-hiring-compliance
 technique: regime-catalog-with-four-axes
 stack: node
 status: forged
-verified_on: 2026-09-29
+verified_on: 2026-10-31
 verified_against: node@24
 applied: code
 ab_verdict: better

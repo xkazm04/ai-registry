@@ -5,7 +5,7 @@ subject: candidate-ai-disclosure-and-explanation
 technique: three-state-attribution-that-fails-to-unknown
 stack: node
 status: forged
-verified_on: 2026-09-26
+verified_on: 2026-10-31
 verified_against: node@24
 applied: code
 ab_verdict: better
@@ -60,6 +60,16 @@ things against `screen-wave.ts`: the wave refuses an unnamed approver, the seal
 is machine-attributed, and the approver rides the inputs the view reads. It also
 asserts that the approved state has copy. If any of these moves, the promise and
 the surface can no longer be read as one fact, and the suite says so.
+
+Re-checked 2026-10-31 at kp@6edf5d7: the notice no longer says "A rejection is always a
+person's". `aiDisclosure.body` now names one automatic decline (answering no to a stated
+must-have ends the application, the candidate is told which one and can ask a person to
+review it) and promises "Every other rejection is a person's". The reconciliation test in
+`app/api/status/status-decisions.test.ts` moved with it and asserts the new sentence; its
+three assertions against `screen-wave.ts` and the approved-state copy are unchanged. The
+knockout decline is audited as `ko_declined`, classed `auto` (`app/_lib/trust-posture.ts`),
+and is not on the candidate allowlist, so it does not reach this history at all. The
+screen-wave contradiction and its fix stand as written.
 
 ## Measured
 
