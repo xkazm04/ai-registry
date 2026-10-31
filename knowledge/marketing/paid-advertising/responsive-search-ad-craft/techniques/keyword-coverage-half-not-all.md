@@ -24,8 +24,9 @@ not all - is the technique.
 A rater that awards full marks when every headline contains the keyword trains writers
 and generators to stuff. A rater whose goal is a share, reached at half and not
 improved beyond it, rewards the mix the combiner needs. The half is practitioner
-convention; the platform documents neither a share nor a count, only that headlines
-"should include" the keywords.
+convention; the platform documents neither a share nor a count, only "Include popular
+keywords" and that "a keyword must be contained entirely within a single headline to
+improve Ad Strength".
 
 ## Procedure
 

@@ -62,9 +62,10 @@ subject says so where it uses one. The limits and the targets are on different f
 and a rater that presents its targets as platform behaviour has manufactured folklore.
 
 **A label is a proxy.** The platform attaches a Poor-to-Excellent "ad strength" label to
-the set. It is computed from the assets alone: count, distinctness, keyword presence,
-length spread. It does not read the landing page, it does not know the offer, it does
-not move with the ad's own results. A set can carry the top label while pointing at a
+the set. It is computed from the material: keyword relevance, how many headlines and
+descriptions, how diverse they are, and sitelinks, by the platform's own list. Its
+documentation says it "does not measure external factors", naming the landing page and
+the offer, and that it is not used to calculate Ad Rank or Quality Score. A set can carry the top label while pointing at a
 page that an experiment already proved loses. The label is a linting pass on the
 material, and a rater that mirrors it locally is doing the same linting - useful,
 cheap, and silent about relevance.
@@ -97,7 +98,9 @@ The order of work for one ad group is fixed enough to state.
    renders well on a wide screen and truncates on a phone, where the platform prefers
    a short headline in the third slot or drops it. Short, medium and long headlines
    give the combiner something to fit every width. The bucket edges are convention;
-   the need for buckets is a documented rendering behaviour.
+   the need for buckets is a documented rendering behaviour. The headroom in step 5
+   pulls every line toward the long end, so the short bucket is the one that empties;
+   ask for it by name.
 
 5. **Stay slightly under every limit.** A thirty-character limit is a boundary, not a
    target. Copy written *to* the limit fails on the platform's own counting (some
@@ -143,19 +146,21 @@ counts combinations. That drop is the one case where the label's opinion and the
 practitioner's coincide for the wrong reason - the label objects to fewer
 combinations, the practitioner objects to fewer experiments.
 
-**Trusting the label as performance.** A 2023 analysis by an ad-management vendor of
-roughly twenty thousand accounts found no correlation between the strength label and
-click-through, conversion rate or cost per acquisition, and a practitioner experiment
-the same year found an "Excellent" set losing to a "Good" one on click-through,
-conversion rate and the platform's quality score. Most well-performing sets in the
-wild carry "Poor" or "Average". The label's own documentation says it does not change
-with performance. It is a completeness check on the material, and a rater that mirrors
+**Trusting the label as performance.** A 2024 analysis by an ad-management vendor of
+more than twenty-two thousand accounts found no clear correlation between the strength
+label and performance: no meaningful difference in click-through, and the "Average"
+sets had the best cost per acquisition, conversion rate and return on spend. A
+practitioner experiment found an "Excellent" set losing to a "Good" one on
+click-through, conversion rate and the platform's quality score. Most sets in the
+vendor's sample carried "Poor" or "Average" and still performed well. The label's own
+documentation says it is not used to calculate Ad Rank or Quality Score. It is a completeness check on the material, and a rater that mirrors
 it must say so in its label.
 
 **Letting the platform write assets.** The dominant platform offers to generate
 headlines and descriptions from the landing page and the ad group's keywords; since
 mid-2025 that offer lives inside a campaign-level automation setting rather than a
-standalone toggle, and it is opt-in there. A platform-written asset is ungrounded by
+standalone toggle, and it is opt-in there - except that campaigns which already had the
+old toggle on are upgraded into it automatically from September 2026. A platform-written asset is ungrounded by
 this bundle's standard - nothing in the grounding contract supplied it - so a business
 that cannot review every served asset leaves the option off, and one that turns it on
 reviews the generated assets as it would review a generator's output.

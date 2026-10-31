@@ -24,9 +24,9 @@ badly is seen before the auction sees it.
 That the platform composes ads per device and prefers shorter assets where space is
 tight is documented behaviour. The bucket edges - fifteen characters or fewer as
 short, up to twenty-four as medium, longer as long - are practitioner convention; a
-rater that uses them says so. That a served combination is three headlines and two
-descriptions is the platform's documented serving shape and is the number the preview
-mirrors.
+rater that uses them says so. That a served combination is at most three headlines and
+two descriptions, with only the first of each guaranteed, is the platform's documented
+serving shape; the preview mirrors the full three and two.
 
 ## Procedure - spread
 
