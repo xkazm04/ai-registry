@@ -97,7 +97,7 @@ Percentiles derived from tiny corpora are not noisy — they are *confidently
 wrong*. With four peers, the possible outputs are roughly 0%, 25%, 50%, 75%,
 100%, and the top of that ladder renders as **"you beat 100% of your
 peers"**: maximally strong language backed by a set small enough that one
-new joiner could move it two rungs. Nonparametric position estimates need
+new joiner or leaver could move it by as much as a whole rung. Nonparametric position estimates need
 substantial n before their confidence interval narrows to anything a reader
 would recognize as a rank; extreme positions need more still, because the
 tails are exactly where a handful of observations must stand in for a

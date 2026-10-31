@@ -21,7 +21,8 @@ With a corpus of four peers, a rank has five possible values: beat none,
 one, two, three, or all four. Rendered as a percentage, the top of that
 ladder reads **"better than 100% of your peers"** — the strongest sentence
 the surface can produce, generated from the weakest evidence it will ever
-have. One peer joining or leaving moves the reader two rungs. The number is
+have. One peer joining or leaving can move the reader by as much as a whole
+rung — 25 points. The number is
 not imprecise in a way the reader can discount; it is precise-looking and
 unstable, which is the worst combination an instrument can have.
 
@@ -37,7 +38,8 @@ single digits are not in the running.
 ## The second, independent argument: small cohorts leak
 
 A peer corpus is data about other customers. At n=3, a participant who knows
-two of the three has learned the third's number by subtraction; at n=1 the
+two of the three has learned the third's number by subtraction from any
+released average or total; at n=1 the
 "benchmark" is a direct disclosure. Privacy practice has a name for this
 family of thresholds — a minimum group size below which an aggregate is
 suppressed — and it lands in the same numeric neighbourhood as the

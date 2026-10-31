@@ -24,8 +24,8 @@ both are called "score"; the query is short and reads fine. It is wrong, and
 wrong in a specific, directional way.
 
 Averaging shrinks. A mean of twenty items sits closer to the centre of the
-underlying distribution than a randomly drawn item does — that is what the
-central limit theorem says, and the shrinkage grows with the number of items
+underlying distribution than a randomly drawn item does — the variance of a
+mean of n independent items is the item variance divided by n, and the shrinkage grows with the number of items
 averaged. So a mean placed inside a population of raw items lands nearer the
 middle than the organization's true standing among *organizations*. Strong
 performers are systematically understated; weak performers are
@@ -83,9 +83,13 @@ change the question to fit the query plan.
   downward by exactly the tied mass, so when a whole band of peers shares
   the subject's score, the subject at the ceiling reads as "above 0%".
   The tie-symmetric form is the mid-rank (strictly below plus half the
-  ties), which is what scipy's `percentileofscore` returns by default
-  (`kind='rank'`, checked against its documentation 2026-09-30; `weak` and
-  `strict` are the one-sided forms, `mean` the average of those two). Use
+  ties), which is scipy's `percentileofscore` with `kind='mean'`, the
+  average of the one-sided `weak` and `strict` forms. Its default,
+  `kind='rank'`, is a different thing: it averages the percentage ranks of
+  the matching scores, so the documented tie example `[1, 2, 3, 3, 4]` at 3
+  gives 70 under `rank` against 60 under `mean`, and with no tie `rank`
+  equals the at-or-below form (checked against its documentation
+  2026-10-31). Use
   strictly-below where the claim is an upper bound the reader will
   quote flat ("beats X%"), mid-rank where the score is banded enough that
   ties are the common case, and never mix the two across surfaces or
