@@ -258,3 +258,107 @@ this run did not reopen.
   }
 }
 ```
+
+Record following re-verification of applications (react and rust FTS applications re-checked against personas@22260d77 by a separate worker); overall stays `reverify` for the three applications on unreopened trees.
+
+<!-- architecture-review:v1 -->
+```json
+{
+  "subject": "software-engineering/search",
+  "date": "2026-10-31",
+  "baseline": "96dec842b",
+  "digest": "sha256-b2:7d7797dcec503703",
+  "disposition": "reverify",
+  "coverage": "All 14 documents decided. Since the previous record only the react and rust (execution FTS) applications changed, in the re-verification commit against personas@22260d77: line numbers re-anchored, verified_on moved to 2026-10-31, no finding changed. Their cited lines were spot-read at that commit and hold (the docsize drift count with != and skip-on-unreadable, build_fts5_query, the bm25-then-created_at order, fuzzyScore bands, the score-only sorts). The other 12 documents are byte-unchanged and carry their dispositions. Three applications on unreopened trees remain reverify.",
+  "counterexamples": [
+    "A search box whose input is a program (a saved routing or display rule) must refuse an ill-typed expression rather than search it as literal text; query-parsing's literal fallback is wrong there, which is why typed-filter-language owns the inverse rule.",
+    "Over 200,000 documents an index beat a scan 150-234x at zero matches and about 1x once a quarter of the corpus matched; a benchmark of rare single terms says nothing about ranked, phrase or common-word queries.",
+    "A drift check on an external-content FTS5 index that counts through the virtual table compares the source against itself, because a query without MATCH is passed through to the content table; only the index's own storage can disagree.",
+    "A personal-scale corpus scanned in memory needs no index, and a mandatory tenant predicate can make a million-row store a two-thousand-row scan."
+  ],
+  "sources": [
+    {
+      "url": "https://www.nngroup.com/articles/response-times-3-important-limits/",
+      "result": "Read 2026-10-31. 0.1 s 'is about the limit for having the user feel that the system is reacting instantaneously'; 1.0 s 'is about the limit for the user's flow of thought to stay uninterrupted, even though the user will notice the delay'. Supports the 100 ms figure; refutes 'feels broken above roughly a second' as worded (1 s is where flow breaks, not where the system reads as broken)."
+    },
+    {
+      "url": "https://planetscale.com/blog/introducing-tin",
+      "result": "Read 2026-10-31. On the 150M-document Stack Exchange corpus, Postgres GIN (ranked with ts_rank_cd) ran '0.4' queries per second with p99 '288,066ms' on top-10 conjunction and phrase queries, and 'GIN can't complete this benchmark, because it runs out of memory performing the disjunction searches'. Supports full-text-indexing's 'under one ranked query a second, with a p99 near five minutes and disjunctions exhausting memory'. The post itself does not discuss score pruning; 'without score pruning' is the technique's characterization of GIN plus ts_rank_cd, not a quote."
+    },
+    {
+      "url": "https://www.sqlite.org/fts5.html",
+      "result": "Read 2026-10-31. External content: 'If the query does not use the full-text index - does not contain a MATCH operator ... - then the query is effectively passed through to the external content table'; the column-size table is '<name>_docsize'; 'rebuild' 'deletes the entire full-text index, then rebuilds it based on the contents of the table or content table'; snippet's last argument 'must be greater than zero and equal to or less than 64'. Supports the mechanism behind 'measure the index through its own storage' and the rust application's docsize fix, rebuild command and snippet call."
+    },
+    {
+      "url": "https://vector.dev/docs/reference/vrl/",
+      "result": "Read 2026-10-31. 'VRL implements progressive type safety, erroring at compilation-time if a type mismatch is detected.' Corroborates typed-filter-language's claim that log-pipeline expression languages type at save/compile time; note VRL's typing is 'progressive' (only where the type is known), i.e. the partial-typing boundary the technique names."
+    },
+    {
+      "url": "https://github.com/Chatterino/chatterino2 at fda51f0d3a4a5cd15f099b951b796e299d566e9e",
+      "result": "Read 2026-10-31: src/controllers/filters/FilterSet.cpp ('if (!f->valid() || !f->filter(ctx)) { return false; }', so an invalid record fails closed) and lang/expressions/IdentifierExpression.cpp ('// FIXME: Return an error here immediately instead of failing when type-checking.'; flags.elevated_message and flags.hype_chat typed Bool returning false under '// Feature deprecated by Twitch in 2023'). Supports the cpp application's fail-closed, two-table and deprecated-constant readings. Line numbers and the 37-name count were not re-checked."
+    },
+    {
+      "source": "Internal cross-check: full-text-indexing.md against applications/node--full-text-indexing.md",
+      "result": "The application's table shows count 150-234x versus top-10 190-208x at 0% matched, so ranking did not halve the advantage there; its own prose says ranking halves the speedup 'once matches number in the thousands'. The technique's 'at every match fraction' overstates its source. The quoted 21x / 9x at 2% sit inside the 0.7-3% row (13-25x, 4-11x)."
+    }
+  ],
+  "documents": {
+    "search.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: added the typed-filter-language bullet to the closing technique list; 'feels broken above roughly a second' now reads 'interrupts the user's flow of thought above roughly a second', per the Nielsen limit."
+    },
+    "techniques/query-parsing.md": {
+      "disposition": "keep",
+      "reason": "One door owning both escaping and matching policy, the injection-versus-policy split, tokenize-then-quote with bounds, the labelled degradation ladder and failure-not-previous-results are coherent and are what the next and rust applications measure against."
+    },
+    "techniques/full-text-indexing.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: 'ranking roughly halved the index's advantage over a scan at every match fraction' now reads '... once matches numbered in the thousands', matching the source table (no halving at 0% matched). Vendor figures confirmed unchanged."
+    },
+    "techniques/ranking-and-excerpts.md": {
+      "disposition": "keep",
+      "reason": "BM25 framing, written-down signal combination, total order ending in identity (with the label-as-tiebreak near-miss), engine-derived highlighting and escape-then-mark are correct and stable."
+    },
+    "techniques/faceting-and-filters.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: 'unfilterable-to precisely' corrected to 'unfilterable precisely'."
+    },
+    "techniques/saved-views.md": {
+      "disposition": "keep",
+      "reason": "Predicate-not-results, parsed-form persistence, identity independent of name, dirty state and visible degradation on schema drift are sound; no unstable external claim."
+    },
+    "techniques/command-surface.md": {
+      "disposition": "keep",
+      "reason": "Blind-enter contract, one registry, boundary/consecutive scoring with a floor, the banded simplification with its tiebreak obligation, and prior-within-matched-set are coherent; the react application is read against exactly this text."
+    },
+    "techniques/typed-filter-language.md": {
+      "disposition": "keep",
+      "reason": "Typing pass at storage, boolean root, located verdicts, and the deliberate inversion of query-parsing's fallback hold. The convergence claim is corroborated for log pipelines by Vector's VRL ('erroring at compilation-time if a type mismatch is detected'), with VRL's 'progressive' typing matching the partial-typing boundary. _laws.md anchors resolve."
+    },
+    "applications/cpp--typed-filter-language.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: the coercing evaluator is now read against the technique's 'may keep defensive branches' boundary (permitted; the residual cost is a silent default rather than an assert under a checker hole), and the deprecated-field paragraph no longer cites a nonexistent 'retire-as-constant rule'. Three citations re-read at the pinned commit; line numbers and the 37-name count not re-checked, so verified_on stays 2026-09-03."
+    },
+    "applications/next--query-parsing.md": {
+      "disposition": "reverify",
+      "reason": "Internally consistent with the technique (ten-site table, the 250 ms debounce against the 300 ms figure, the failure-as-previous-answer finding). All citations are in a private tree at 62c252dd that was not reopened."
+    },
+    "applications/node--full-text-indexing.md": {
+      "disposition": "reverify",
+      "reason": "Its table is the source of the technique's figures and is internally consistent. The private tree at 74eb3c0 and its benchmark runs were not reopened."
+    },
+    "applications/react--command-surface.md": {
+      "disposition": "keep",
+      "reason": "re-verified 2026-10-31 against personas@22260d77: citations re-anchored (commandPaletteUtils.ts :22-23, :25-27, :126-139; CommandPalette.tsx :241-242 ... :330-331) and the banded fuzzyScore and score-only sort without a tiebreak still read as described."
+    },
+    "applications/rust--full-text-indexing--cass.md": {
+      "disposition": "reverify",
+      "reason": "Its additions (unobservable count fails, source count through the derivation's filter, maintenance cost in the index-or-scan decision) are coherent and its staged-path window is honestly marked unconfirmed. The cass tree at 7fc01958d367 was not reopened, so the window remains unconfirmed."
+    },
+    "applications/rust--full-text-indexing.md": {
+      "disposition": "keep",
+      "reason": "re-verified 2026-10-31 against personas@22260d77: citations re-anchored (lib.rs :548-625, executions.rs :374-382, :673-735); the docsize-counted drift check with != and skip-on-unreadable, the tokenize-quote-OR door with its 2-char and 12-term bounds, and the bm25-then-created_at order hold, so the stops-short findings stand. FTS5 mechanics confirmed by the SQLite docs."
+    }
+  }
+}
+```
