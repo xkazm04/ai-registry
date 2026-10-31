@@ -5,7 +5,7 @@
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 243,
   "techniques": 1957,
-  "applications": 1460,
+  "applications": 1461,
   "laws": 16,
   "categories": [
    "ui-surfaces",
@@ -35042,9 +35042,9 @@
    "subcategory": "language-runtime",
    "status": "forged",
    "file": "knowledge/software-engineering/backend-platform/language-runtime/standards-layered-runtime/standards-layered-runtime.md",
-   "digest": "sha256-b2:3cf694924d502131",
-   "revision": 2,
-   "changedAt": "2026-10-22",
+   "digest": "sha256-b2:72be2b66c8d50db7",
+   "revision": 3,
+   "changedAt": "2026-10-31",
    "techniques": [
     {
      "slug": "backend-parameterised-web-api",
@@ -35131,6 +35131,13 @@
     }
    ],
    "applications": [
+    {
+     "stack": "node",
+     "technique": "baseline-plus-extension-tuple",
+     "file": "knowledge/software-engineering/backend-platform/language-runtime/standards-layered-runtime/applications/node--baseline-plus-extension-tuple--personas.md",
+     "verified_on": "2026-10-31",
+     "verified_against": "node@22"
+    },
     {
      "stack": "rust",
      "technique": "backend-parameterised-web-api",
