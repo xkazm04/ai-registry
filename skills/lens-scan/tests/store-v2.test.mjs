@@ -42,7 +42,8 @@ function build(db, run, ids, { fail = [] } = {}) {
   const k = packCreate(db, { lens: 'design', short: 'DES', baseRef: 'main', baseSha: 'b0', run });
   for (const id of ids) {
     proposalUpdate(db, { id, status: 'executing', pack: k.id });
-    proposalUpdate(db, { id, status: fail.includes(id) ? 'failed' : 'done', commitSha: `c-${id}` });
+    proposalUpdate(db, { id, status: fail.includes(id) ? 'failed' : 'done', commitSha: `c-${id}`,
+      ...(fail.includes(id) ? { run, failure: { stage: 'after', reason: 'rawLiterals did not move', evidence: 'measure rawLiterals 4 -> 4' } } : {}) });
   }
   return k;
 }

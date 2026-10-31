@@ -92,3 +92,17 @@ only after it) can eliminate on reachability and this technique is a no-op. A pa
 runs after scope analysis has the bindings as data and can move a hoisted declaration to
 the scope head before eliminating; that is a better pass and a larger one, and the
 technique is the rule for the pass that runs before it.
+
+The post-scope pass does not have to move anything, and measured against one it does
+better than this technique on two counts. Where every read of the binding resolves, it
+folds the read to the undefined value and deletes branch and declaration together.
+Where a read cannot be folded (it comes before the declaration, or the declaration
+shadows an outer name of the same spelling), it keeps the conditional as an empty shell
+around the bare declaration, with the initialiser and every other statement gone. That
+is exactly the extract-and-eliminate rewrite the decision rules forbid, and it is
+correct there because the bindings are data. So the refusal only binds the pass that
+does the folding. A project whose dead-code elimination is a bundler or minifier that
+runs after scope analysis has nothing to adopt. What it owes instead is one shadowing
+case in its build check: a dead-branch declaration of the hoisting kind that shadows an
+outer name, read before the branch. That is the case a regression in the dependency
+would break first, and it shows up as a wrong value rather than a thrown error.

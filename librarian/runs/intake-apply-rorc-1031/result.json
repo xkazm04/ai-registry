@@ -1,0 +1,51 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "intake-apply-rorc-1031",
+  "skill": "intake",
+  "skill_version": "2.18.0",
+  "mode": "apply",
+  "domain": "recruiting",
+  "started_at": "2026-10-31T13:00:00Z",
+  "ended_at": "2026-10-31T14:30:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 1,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "recruiting/cv-content-construction",
+      "at": "2026-10-31",
+      "engine": "intake",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "cv-content-construction",
+      "technique": "relevance-ordering-and-recency-compression",
+      "verdict": "better",
+      "mode": "code"
+    }
+  ],
+  "files": [
+    "knowledge/recruiting/candidate-self-presentation/cv-content-construction/applications/process--relevance-ordering-and-recency-compression.md",
+    "knowledge/recruiting/candidate-self-presentation/cv-content-construction/techniques/relevance-ordering-and-recency-compression.md",
+    "knowledge/recruiting/index.json",
+    "catalog.json",
+    "rules/ai-registry-recruiting.md",
+    "librarian/subjects/recruiting/cv-content-construction.md",
+    "librarian/applied.md",
+    ".claude/skills/intake/SCORECARD.md"
+  ],
+  "commits": [],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "Apply-only, falsifying seam. kp CV builder budgeted roles by line position, not date; oldest-first probe A 5/4/5 oldest on top, B 5/4/2 newest on top. Floor 162 jobseeker tests, tsc, pre-push gate. kp e2a1b2e0b pushed. Single-stack point unmoved."
+}

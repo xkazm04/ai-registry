@@ -1,7 +1,7 @@
 ---
 subject: repository-landing-document
 domain: software-engineering
-last_touched: 2026-10-07
+last_touched: 2026-10-31
 dry_streak: 0
 ---
 
@@ -97,6 +97,33 @@ settings-panel discipline, not a behavior a test can observe. Recorded as
 landing document is rewritten, check its host metadata in the same pass
 rather than opening a separate finding.
 
+## 2026-10-31 - applied: input-channel-distinction, second stack (node)
+
+Dispatched by Curator for "single stack (process)": every application was
+`process`. Run `apply-icd-1031`, Phase 7.5 alone, 0 siblings.
+
+- **Seam.** personas `README.md` tier-locked installer block: a POSIX
+  env-prefix command in a `bash` fence, under a feature heading, in a README
+  whose setup opens with PowerShell. Code hosts never display a fence's
+  language tag, so the block's only distinguishing mark rendered nowhere.
+- **A/B (code, ab-paired, better).** Target: misroutable blocks 1 -> 0.
+  Floor: check-readmes findings identical on both arms, 0 command lines
+  removed. Shipped and pushed as personas `1faa1ba0bf` (README) and
+  `460d9e0b4e` (ledger row). Application: `node--input-channel-distinction`.
+- **Seam chosen to falsify the strict reading of clause 1.** Over 15 landing
+  documents (53 fences) the strict reading flagged 32 and the hazard reading
+  5; a hand read confirmed all 5 and found the other 27 were trees, diagrams,
+  source code or portable lines. No landing document in the fleet carries
+  agent speech: the second destination is reached by shell dialect first.
+- **Technique amended** ("When the second destination is a second shell"):
+  the fence's tag is a channel missing on every surface; a heading lead-in
+  survives the strip as well as an in-block one; count the hazard, not the
+  sharing.
+- **Detector ported** into `check-readmes.mjs` (fixture-asserted). It
+  reproduces the 5 flags. The other two (tracklight's first-event block,
+  pumper's `irm` blocks) are unrepaired; return condition: the next run that
+  touches either README.
+
 ## Open leads (banked, with return conditions)
 
 - **Nobody measured what the publishing surfaces actually strip.**
@@ -104,9 +131,9 @@ rather than opening a separate finding.
   by observation. Return condition: a run with an unspent fetch budget whose
   source touches package-registry or marketplace rendering. One fetch, factual
   answer.
-- **The instrument encodes only three of seven techniques.**
-  `check-readmes.mjs` checks routing, cadence, badge evidence and captions.
-  `multi-surface-degradation`, `input-channel-distinction` and
+- **The instrument encodes four of seven techniques.**
+  `check-readmes.mjs` checks routing, cadence, badge evidence, captions and
+  (since 2026-10-31) shell-dialect channels. `multi-surface-degradation` and
   `style-rule-ships-its-detector` have no detector — which the subject's own
   closing technique says is the state that turns a rule into decoration. Return
   condition: the next run that touches this subject.

@@ -80,6 +80,16 @@ export function shortlistLabels(state) {
   return Object.fromEntries(Object.entries(out).map(([k, v]) => [k, v.join(', ')]));
 }
 
+/**
+ * Ideas that sit in more than one entry, as { id: [entry, ...] }. Count entries, never split a
+ * label: pack titles carry commas ("A real AI agent, fenced").
+ */
+export function sharedIdeas(state) {
+  const by = {};
+  for (const row of state.shortlist ?? []) for (const id of row.ideas ?? (row.idea ? [row.idea] : [])) (by[id] ??= []).push(row.entry);
+  return Object.fromEntries(Object.entries(by).filter(([, v]) => v.length > 1));
+}
+
 /** Distinct idea ids across the shortlist (an idea in two packs once). */
 export const shortlistedIdeas = (state) => [...new Set((state.shortlist ?? []).flatMap((r) => r.ideas ?? (r.idea ? [r.idea] : [])))];
 

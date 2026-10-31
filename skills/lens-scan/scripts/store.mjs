@@ -53,7 +53,10 @@
 //   proposal-update --id <id> [--status executing|done|failed] [--after-value n] [--result-sha sha]
 //             [--commit-sha sha] [--pack k] [--attempt-of p] [--release rel]
 //             --pack names an open pack; a person's triage moves (accepted, rework, descoped) and `released`
-//             are never proposal-update's
+//             are never proposal-update's. --status failed needs --run <execute run> and the failure:
+//             --failure-stage recheck|before|build|gate|after --failure-reason t --failure-evidence t (the failing
+//             command and its first failing line); recorded as an `error` activity `failure <id>: {json}`, read back
+//             as the item's `failure` by every proposals read (bp's p-bcddc7 failed with no reason on the item)
 //   shot --run <id> --feature f --path <rel to store dir> [--size s] [--theme t] [--module m] [--report-file p]
 //        [--proposal p --phase before|after]
 //   coverage --run <id> --feature f --standard s --state conformant|deviation|not-applicable|unknown [--evidence e]
@@ -105,7 +108,9 @@
 //             re-seeded reading on the before side of the after. lens-scan's own keys: gates {"<command>": exit},
 //             stacked (bool), secondary [{metric, unit?, before, after, better: up|down}] - each a recorded reading,
 //             its verdict stated by the store; the primary verdict stands. A static|harness proof written control
-//             absent is answered with control_owed (what it still owes before L2).
+//             absent is answered with control_owed (what it still owes before L2). method `test` (a test-adding
+//             item, over judgement|static rows) is always red: test_control {command, mutation, exit != 0,
+//             assertion} and control_value = its failing assertions (control.mjs run prints all of them).
 //   triage --machine --ids a,b [--start ...]  L2: a `done` technical item in an L2 slice whose proof is better with a
 //             red control, gates recorded and all 0, and an after not stacked, is accepted by machine:lens-scan (veto
 //             24 h); anything else waits for a person
@@ -207,6 +212,13 @@ export const BANDS = ['ranked', 'reserve'];
 export const MVP_RULES = ['top-score', 'override'];
 export const PROOF_VERDICTS = ['better', 'not-better', 'inconclusive'];
 export const CONTROLS = ['red', 'absent'];
+// (bp cycle 3) A proof's method may also be `test`: the item adds or extends tests, and the new test is the instrument
+// its red control runs - re-run with the guarded production line reverted or drifted, it must fail on an assertion.
+// Only a proof says `test`: the readings under it stay the count they were (judgement or static; the measurements
+// table's method CHECK is the v5 contract, unchanged). bp's cycle-3 qa-4 pack: 5 test commits, every proof judgement.
+export const PROOF_METHODS = [...METHODS, 'test'];
+/** Where an item's build stopped (SKILL.md 5. Execute steps 0, before, 3, 6): the stage of its `failure`. */
+export const FAILURE_STAGES = ['recheck', 'before', 'build', 'gate', 'after'];
 /** Who a machine decision is recorded as. Only `decide --machine` and `triage --machine` write it. */
 export const MACHINE = 'machine:lens-scan';
 export const VETO_MS = 24 * 60 * 60 * 1000;
@@ -225,8 +237,9 @@ const CEILING_ONE = ['secret', 'authz', 'money'];
 export const CONTROLLABLE = ['static', 'harness'];
 // Proof keys lens-scan adds to scan-finding/1's proof (bp's first self-scan, 2026-10-30): `gates` {command: exit code}
 // the item ran (H-L2), `stacked` true when its after includes earlier items of the pack (H-L2), `secondary` readings that
-// credit what the primary metric's grain cannot (H-L6). The machine's L2 accept needs gates all 0 and an isolated after.
-export const PROOF_EXTENSION = ['gates', 'stacked', 'secondary'];
+// credit what the primary metric's grain cannot (H-L6), `test_control` {command, mutation, exit, assertion} the red
+// control of a `test` proof (bp cycle 3). The machine's L2 accept needs gates all 0 and an isolated after.
+export const PROOF_EXTENSION = ['gates', 'stacked', 'secondary', 'test_control'];
 // The largest size `decide --machine` decides on its own (overlay `auto_max_size`): bp's --auto built a reserve L.
 export const AUTO_MAX_SIZE = 'M';
 /** A run's default ranked slots: never under DEFAULT_CAP, two per lens the run names (bp: 7 lenses, 10 slots was thin). */
@@ -825,11 +838,11 @@ export function proposals(db, { status, feature, lens, run, band, kind, ids, pac
     args.push(...order);
   }
   const sql = `SELECT * FROM proposals${where.length ? ` WHERE ${where.join(' AND ')}` : ''} ORDER BY ${PROPOSAL_ORDER}`;
-  const rows = db.prepare(sql).all(...args).map(proposalRow);
+  const rows = db.prepare(sql).all(...args).map((r) => withFailure(db, proposalRow(r)));
   return order ? rows.sort((a, b) => order.indexOf(a.id) - order.indexOf(b.id)) : rows;
 }
 
-export function proposalUpdate(db, { id, status, afterValue, resultSha, commitSha, pack, attemptOf, release } = {}) {
+export function proposalUpdate(db, { id, status, afterValue, resultSha, commitSha, pack, attemptOf, release, run, failure } = {}) {
   const p = db.prepare('SELECT * FROM proposals WHERE id = ?').get(need('id', id));
   if (!p) refuse(`proposal ${id} does not exist`);
   if (status === 'approved' || status === 'declined') refuse(`'${status}' is a human decision the review UI records; the skill never decides a proposal`);
@@ -837,6 +850,17 @@ export function proposalUpdate(db, { id, status, afterValue, resultSha, commitSh
   if (status !== undefined) {
     oneOf('status', status, Object.keys(SKILL_STATUS));
     if (!SKILL_STATUS[status].includes(p.status)) refuse(`proposal ${id} is ${p.status}; it cannot move to ${status}`);
+  }
+  // (bp cycle 3) a failed item says why, on the item: p-bcddc7 failed with its cause only in a free-text error
+  // activity, so the execute summary and the triage UI showed `failed` and nothing else
+  if (failure !== undefined && status !== 'failed') bad('failure belongs to --status failed');
+  if (status === 'failed') {
+    if (failure === undefined) bad(`a failed item records its failure: --failure-stage ${FAILURE_STAGES.join('|')} --failure-reason <why> --failure-evidence <the failing command and its first failing line>`);
+    if (!failure || typeof failure !== 'object' || Array.isArray(failure)) bad('failure is {stage, reason, evidence}');
+    oneOf('failure-stage', failure.stage, FAILURE_STAGES);
+    need('failure-reason', typeof failure.reason === 'string' ? failure.reason.trim() : failure.reason);
+    need('failure-evidence', typeof failure.evidence === 'string' ? failure.evidence.trim() : failure.evidence);
+    if (run === undefined) bad('a failure is recorded in the execute run: pass --run <id>');
   }
   const after = num('after-value', afterValue);
   for (const [k, v] of [['result-sha', resultSha], ['commit-sha', commitSha], ['pack', pack], ['attempt-of', attemptOf], ['release', release]]) if (v !== undefined) need(k, v);
@@ -854,14 +878,41 @@ export function proposalUpdate(db, { id, status, afterValue, resultSha, commitSh
     bad('nothing to update (--status, --after-value, --result-sha, --commit-sha, --pack, --attempt-of, --release)');
   }
   // compare-and-set on the status read above: a second executor that read the same `approved` row loses here
-  const r = db.prepare(`UPDATE proposals SET status = COALESCE(?, status), after_value = COALESCE(?, after_value),
-    result_sha = COALESCE(?, result_sha), commit_sha = COALESCE(?, commit_sha), pack_id = COALESCE(?, pack_id),
-    attempt_of = COALESCE(?, attempt_of), release_id = COALESCE(?, release_id), updated_at = ? WHERE id = ? AND status = ?`)
-    .run(status ?? null, after ?? null, resultSha ?? null, commitSha ?? null, pack ?? null, attemptOf ?? null, release ?? null, now(), p.id, p.status);
-  if (r.changes === 0) refuse(`proposal ${id} moved on while this update ran (it was ${p.status}); someone else holds it`);
+  const write = () => {
+    const at = now();
+    const r = db.prepare(`UPDATE proposals SET status = COALESCE(?, status), after_value = COALESCE(?, after_value),
+      result_sha = COALESCE(?, result_sha), commit_sha = COALESCE(?, commit_sha), pack_id = COALESCE(?, pack_id),
+      attempt_of = COALESCE(?, attempt_of), release_id = COALESCE(?, release_id), updated_at = ? WHERE id = ? AND status = ?`)
+      .run(status ?? null, after ?? null, resultSha ?? null, commitSha ?? null, pack ?? null, attemptOf ?? null, release ?? null, at, p.id, p.status);
+    if (r.changes === 0) refuse(`proposal ${id} moved on while this update ran (it was ${p.status}); someone else holds it`);
+    if (status === 'failed') {
+      // the v5 schema has no failure column (bp reads the store's tables directly): the record is an `error` activity
+      // in the execute run, keyed by the item, and proposals reads attach it as `failure`
+      const runId = liveRun(db, run);
+      const rec = { stage: failure.stage, reason: failure.reason.trim(), evidence: failure.evidence.trim() };
+      db.prepare('INSERT INTO activity (run_id, at, feature, lens, kind, text) VALUES (?, ?, ?, ?, ?, ?)')
+        .run(runId, at, p.feature, p.lens, 'error', `${FAILURE_PREFIX}${p.id}: ${JSON.stringify(rec)}`);
+      touchRun(db, runId, at);
+    }
+  };
+  if (status === 'failed') tx(db, write); else write();
   return getProposal(db, p.id);
 }
-const getProposal = (db, id) => proposalRow(db.prepare('SELECT * FROM proposals WHERE id = ?').get(id));
+const FAILURE_PREFIX = 'failure ';
+/**
+ * A failed item's failure {stage, reason, evidence}: its latest `failure <id>:` error activity; for an item failed
+ * before 1.14 (no record), the latest error activity whose text starts with its id, stage `unknown` (bp's p-bcddc7:
+ * "p-bcddc7 failed, no commit: ..."); with neither, said so - a failed item never reads as failed for no reason.
+ */
+function failureOf(db, id) {
+  const rec = db.prepare("SELECT text FROM activity WHERE kind = 'error' AND text LIKE ? ORDER BY at DESC, id DESC LIMIT 1").get(`${FAILURE_PREFIX}${id}: %`);
+  if (rec) { try { return JSON.parse(rec.text.slice(FAILURE_PREFIX.length + id.length + 2)); } catch { /* a hand-written row: read as legacy below */ } }
+  const old = db.prepare("SELECT id, text FROM activity WHERE kind = 'error' AND (text LIKE ? OR text LIKE ?) ORDER BY at DESC, id DESC LIMIT 1").get(`${id} %`, `${id}:%`);
+  if (old) return { stage: 'unknown', reason: old.text, evidence: `activity ${old.id}` };
+  return { stage: 'unknown', reason: 'no failure recorded', evidence: 'none' };
+}
+const withFailure = (db, p) => (p && p.status === 'failed' ? { ...p, failure: failureOf(db, p.id) } : p);
+const getProposal = (db, id) => withFailure(db, proposalRow(db.prepare('SELECT * FROM proposals WHERE id = ?').get(id)));
 
 export function shot(db, { run, feature, path, size, theme, module, report, reportFile, proposal, phase } = {}) {
   const id = liveRun(db, run);
@@ -1142,18 +1193,30 @@ export function proof(db, { id, json, proof: given } = {}) {
   if (extra.length) bad(`proof keys are ${allowed.join(', ')} (got ${extra.join(', ')})`);
   pr = Object.fromEntries(Object.entries(pr).filter(([, v]) => v !== undefined));
   if (!METRIC_RE.test(need('proof.metric', pr.metric))) bad('proof.metric is a lens field key');
-  oneOf('proof.method', pr.method, METHODS);
+  oneOf('proof.method', pr.method, PROOF_METHODS);
   for (const k of ['before', 'after']) if (typeof pr[k] !== 'number' || !Number.isFinite(pr[k])) bad(`proof.${k} is a finite number: a proof compares two readings`);
   oneOf('proof.verdict', pr.verdict, PROOF_VERDICTS);
   oneOf('proof.control', pr.control, CONTROLS);
   need('proof.base_sha', pr.base_sha); need('proof.head_sha', pr.head_sha);
   if (pr.unit !== undefined) need('proof.unit', pr.unit);
   if (pr.verdict === 'better' && pr.before === pr.after) bad('proof.verdict better with before = after: the number did not move');
-  if (pr.control === 'red') {
+  if (pr.method === 'test') {
+    // (bp cycle 3) the new test is the instrument: re-run with the guarded production line reverted or drifted, it
+    // failed on an assertion. control_value counts its failing assertions there (control.mjs run prints all four).
+    if (pr.control !== 'red') bad('a test proof is its red control: re-run the new test with the guarded production line reverted (control.mjs run) and write control red, or write the count\'s own method with control absent');
+    const tc = pr.test_control;
+    if (!tc || typeof tc !== 'object' || Array.isArray(tc)) bad('a test proof names test_control {command, mutation, exit, assertion}: what ran, what was seeded, how it failed');
+    const tk = Object.keys(tc).filter((k) => !['command', 'mutation', 'exit', 'assertion'].includes(k));
+    if (tk.length) bad(`proof.test_control keys are command, mutation, exit, assertion (got ${tk.join(', ')})`);
+    for (const k of ['command', 'mutation', 'assertion']) if (typeof tc[k] !== 'string' || !tc[k].trim()) bad(`proof.test_control.${k} is required: ${k === 'assertion' ? 'the failing assertion line, which tells a red control from a crash' : k === 'mutation' ? 'the production line reverted or drifted' : 'the test command, verbatim'}`);
+    if (!Number.isInteger(tc.exit) || tc.exit === 0) bad(`proof.test_control.exit ${JSON.stringify(tc.exit)}: the test did not fail under the mutation, so it does not guard the line - no red control`);
+    if (!Number.isInteger(pr.control_value) || pr.control_value < 1) bad('proof.control_value of a test proof counts the new test\'s failing assertions under the mutation: at least 1');
+  } else if (pr.control === 'red') {
     if (!CONTROLLABLE.includes(pr.method)) bad(`a ${pr.method} reading has no red control (only ${CONTROLLABLE.join(', ')} do); write control absent - such an item caps at L1`);
     if (typeof pr.control_value !== 'number' || !Number.isFinite(pr.control_value)) bad('a red control names control_value: the instrument\'s reading with the defect re-seeded');
     if ((pr.control_value - pr.after) * (pr.before - pr.after) <= 0) bad(`the control did not read red: control_value ${pr.control_value} is not on the before side (${pr.before}) of the after (${pr.after})`);
-  } else if (pr.control_value !== undefined) bad('control_value belongs to a red control');
+  } else if (pr.control_value !== undefined && pr.method !== 'test') bad('control_value belongs to a red control');
+  if (pr.method !== 'test' && pr.test_control !== undefined) bad('proof.test_control belongs to a test proof (method test)');
   // lens-scan's extension (H-L2, H-L6; outside scan-finding/1, which a consumer that does not know them ignores)
   if (pr.gates !== undefined && (!pr.gates || typeof pr.gates !== 'object' || Array.isArray(pr.gates)
     || Object.entries(pr.gates).some(([k, v]) => !k.trim() || !Number.isInteger(v)))) bad('proof.gates is {"<command>": <exit code>}: each overlay gate the item ran, verbatim, and its exit code');
@@ -1188,7 +1251,10 @@ export function proof(db, { id, json, proof: given } = {}) {
     // red control, and a before and after read by two instruments compare nothing
     if (methods.before && methods.after && methods.before !== methods.after) bad(`the item's before was read by ${methods.before} and its after by ${methods.after}: re-measure both with one instrument`);
     const recorded = methods.before ?? methods.after;
-    if (recorded && recorded !== pr.method) bad(`proof.method ${pr.method}: the item's readings of ${pr.metric} were recorded with method ${recorded}`);
+    // a test proof stands on a count (the reader's, or a command's): the test is the control, not the reading
+    if (pr.method === 'test') {
+      if (recorded && !['judgement', 'static'].includes(recorded)) bad(`a test proof stands on a count (judgement or static); the item's readings of ${pr.metric} were recorded with method ${recorded}`);
+    } else if (recorded && recorded !== pr.method) bad(`proof.method ${pr.method}: the item's readings of ${pr.metric} were recorded with method ${recorded}`);
     for (const s of pr.secondary ?? []) {
       for (const ph of ['before', 'after']) {
         const r = reading.get(pid, ph, s.metric);
@@ -1240,7 +1306,10 @@ export function triageMachine(db, { ids, start } = {}) {
       const red = gates.find(([, code]) => code !== 0);
       if (red) { skipped.push({ id, status: p.status, reason: `gate ${red[0]} exited ${red[1]}: a person triages` }); continue; }
       if (pr.stacked === true) { skipped.push({ id, status: p.status, reason: 'after stacked on earlier items of the pack: a person triages' }); continue; }
-      const note = `machine L${level} (${slice}): ${pr.metric} ${pr.before} -> ${pr.after}${pr.unit ? ` ${pr.unit}` : ''}, red control ${pr.control_value}`;
+      const control = pr.method === 'test' && pr.test_control
+        ? `test control: ${pr.test_control.command} failed ${pr.control_value} under ${pr.test_control.mutation} (${pr.test_control.assertion})`
+        : `red control ${pr.control_value}`;
+      const note = `machine L${level} (${slice}): ${pr.metric} ${pr.before} -> ${pr.after}${pr.unit ? ` ${pr.unit}` : ''}, ${control}`;
       const r = db.prepare(`UPDATE proposals SET status = 'accepted', triaged_by = ?, triaged_at = ?, triage_note = ?, triaged_from = 'done', veto_until = ?, updated_at = ?
         WHERE id = ? AND status = 'done'`).run(MACHINE, at, note.slice(0, 500), until, at, id);
       if (!r.changes) { skipped.push({ id, status: p.status }); continue; }
@@ -1804,7 +1873,11 @@ export function main(argv) {
         return r;
       }
       case 'proposals': return proposals(db, a);
-      case 'proposal-update': return proposalUpdate(db, a);
+      case 'proposal-update': {
+        const { failureStage, failureReason, failureEvidence, ...rest } = a;
+        const named = [failureStage, failureReason, failureEvidence].some((v) => v !== undefined);
+        return proposalUpdate(db, { ...rest, failure: named ? { stage: failureStage, reason: failureReason, evidence: failureEvidence } : undefined });
+      }
       case 'rank': return rank(db, a);
       case 'update-external': return updateExternal(db, { id: a.id, title: a.title, bodyFile: a.bodyFile, externalUrl: a.externalUrl });
       case 'shot': return shot(db, a);

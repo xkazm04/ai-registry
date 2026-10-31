@@ -49,7 +49,7 @@ import { planSessionWhy, MIN_SESSION_MS, isoLocal, hhmm, stamp, humanDuration, s
 import { validateIdeasDoc, recoverFromFinal, buildBoard, groupIdeas, leaks } from './lib/ideas.mjs';
 import { renderTemplate, demoteHeadings, ideaMarkdown, boardHtml, boardMarkdown, judgingHtml, judgingMarkdown } from './lib/render.mjs';
 import { seatContributions, upsertSeatLedger, renderSeatsMd, upsertIndexRow, renderHackathonNote } from './lib/ledger.mjs';
-import { validatePacks, packMarkdown, shortlistLabels, entryIdeaLabel, pickAdvice } from './lib/packs.mjs';
+import { validatePacks, packMarkdown, shortlistLabels, sharedIdeas, entryIdeaLabel, pickAdvice } from './lib/packs.mjs';
 import { withFileLock } from './lib/lock.mjs';
 import { ramCheck, reaperNote, effectiveSpec, RAM_PER_ENTRY_GB } from './lib/preflight.mjs';
 import { parseFusion, fusionBase, verdictLabel, wrapPlan } from './lib/verdict.mjs';
@@ -295,9 +295,16 @@ function funded(s, p, command, concurrent, ceilingUsd = null) {
  * After a session: the outcome as the funding sees it. A spent, capped or refused key, or a second
  * rate limit in a row, switches the whole night to the subscription, once.
  */
-function settle(dir, { billing, outcome, errors, seat, n = null, previous = null }) {
+function settle(dir, { billing, outcome, errors, seat, n = null, previous = null, costUsd = null }) {
   const refined = fundingOutcome({ billing, outcome, errors });
-  if (shouldSwitch(refined, previous)) {
+  // The spend so far includes this session, whose cost is not recorded in the state yet.
+  const now = readJson(stateFile(dir));
+  const spentUsd = keySpend(now) + (billing === 'key' ? Number(costUsd) || 0 : 0);
+  const capUsd = now.funding?.credit_usd ?? null;
+  if (refined === 'budget-reached' && !shouldSwitch(refined, previous, { spentUsd, capUsd })) {
+    log(`funding: ${seat}${n ? ` session ${n}` : ''} spent its share; $${(capUsd - spentUsd).toFixed(2)} of the cap is left - it resumes on the key`);
+  }
+  if (shouldSwitch(refined, previous, { spentUsd, capUsd })) {
     const reason = switchReason(refined, { seat, n });
     let first = false;
     update(dir, (x) => { if (x.funding && !x.funding.switched) { x.funding.switched = { at: isoLocal(Date.now()), reason }; first = true; } });
@@ -405,7 +412,7 @@ async function ideate() {
     log(`ideate ${p.id}: starting in ${wt} (ceiling ${timeoutMin} min, billed to ${b.billing}${b.reason ? ` - ${b.reason}` : ''})`);
     const r = await runSeat(command, { cwd: wt, timeoutMs: timeoutMin * 60000, logDir, label: p.id });
     const parsed = parseEnvelope(p.engine, r.stdout);
-    const outcome = settle(dir, { billing: b.billing, outcome: classifyOutcome(parsed, r), errors: parsed.errors, seat: p.id });
+    const outcome = settle(dir, { billing: b.billing, outcome: classifyOutcome(parsed, r), errors: parsed.errors, seat: p.id, costUsd: parsed.cost_usd });
     fs.writeFileSync(path.join(logDir, 'final.md'), parsed.final ?? '');
     let doc = null;
     let recovered = false;
@@ -610,13 +617,13 @@ function shortlistPacks(s, dir, bj) {
     };
     return { entry, title: p.title, ideas: p.ideas };
   });
-  const shared = Object.entries(shortlistLabels({ shortlist: list })).filter(([, v]) => v.includes(','));
+  const shared = Object.entries(sharedIdeas({ shortlist: list }));
   const next = commitShortlist(dir, list, entries);
   for (const { entry } of list) {
     const e = entries[entry];
     console.log(`${entry}: pack "${e.title}" [${e.pack.focus}] fusing ${e.ideas.join(', ')} - built by ${e.spec}, port ${e.port}, branch ${e.branch}`);
   }
-  if (shared.length) console.log(`ideas in more than one pack: ${shared.map(([id, v]) => `${id} (${v})`).join('; ')}`);
+  if (shared.length) console.log(`ideas in more than one pack: ${shared.map(([id, v]) => `${id} (${v.join(', ')})`).join('; ')}`);
   finishShortlist(next, dir);
 }
 
@@ -830,7 +837,7 @@ async function runEntry(dir, eid, mode, concurrent = 1) {
       log(`${eid}: session ${n} (${plan.kind}) starts, ends ${hhmm(plan.end)}, deadline ${hhmm(deadline)} - ${p.spec}, billed to ${b.billing}${b.maxBudgetUsd !== null ? ` (cap $${b.maxBudgetUsd})` : ''}${b.reason ? ` - ${b.reason}` : ''}`);
       const r = await runSeat(command, { cwd: wt, timeoutMs, logDir, label: `${eid}-${n}` });
       const parsed = parseEnvelope(p.engine, r.stdout);
-      const outcome = settle(dir, { billing: b.billing, outcome: classifyOutcome(parsed, r), errors: parsed.errors, seat: eid, n, previous: last?.outcome ?? null });
+      const outcome = settle(dir, { billing: b.billing, outcome: classifyOutcome(parsed, r), errors: parsed.errors, seat: eid, n, previous: last?.outcome ?? null, costUsd: parsed.cost_usd });
       fs.writeFileSync(path.join(logDir, 'final.md'), parsed.final ?? '');
       const snap = snapshot(wt, eid, n, e.branch);
       copyDeliverables(wt, edir);

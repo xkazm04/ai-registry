@@ -121,6 +121,39 @@ same check, worth doing by hand at least once per significant change, is to
 load the page with scripting disabled and read what is left — the result is
 usually a surprise the first time.
 
+### When the renderer streams, there are two pre-script documents
+
+A renderer that streams can place finished server-rendered content in the
+response *hidden*, in a segment that a small inline script moves into place
+once its boundary resolves. The bytes hold the content, but a reader that
+runs no script never sees it. "Server-rendered" then splits into two
+properties the configuration cannot tell apart: **in the bytes**, which a
+text extractor or a raw fetch receives, and **visible without script**,
+which a script-disabled browser, a reader mode that drops hidden nodes, or a
+failed bundle receives. Audit both, as two numbers per page. A single "is the
+text in the response" check passes a page that shows a script-free reader a
+loading message.
+
+Two configurations produce the split, and neither involves a section's own
+mode:
+
+- **A route-level loading boundary.** A fallback declared for the whole
+  route wraps every page in a boundary, and a prerender that reaches it
+  before the page is ready emits the fallback where the page should be and
+  the page in a hidden segment. One file, written to soften navigation
+  between routes, can hide every section on every page, including the ones
+  this tree requires to be present.
+- **A section loader with a loading placeholder.** A section declared
+  server-rendered but code-split behind a placeholder can arrive the same
+  way: its content in the bytes, its placeholder on the visible page.
+
+The same audit also catches a mode that is set in two places. A section
+behind a viewport gate emits the gate's placeholder ahead of time whatever
+its own mode says, so the gate makes the decision and the section's flag
+only looks like one. Record the reason where the decision takes effect, and
+pin it: a section is client-only *because* it is gated, and removing the gate
+re-opens the question.
+
 ## Reserved geometry is part of the bargain
 
 A client-only section that occupies zero space before it mounts pays for its

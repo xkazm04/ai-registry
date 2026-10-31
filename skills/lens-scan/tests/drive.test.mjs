@@ -119,7 +119,18 @@ if (m[4]) for (let p of proposals(db, { ids: m[4] })) {
   if (p.status === 'rework') p = proposals(db, { ids: reworkAttempt(db, { id: p.id, run: id }).id })[0]; // the rebuild is a new attempt
   if (p.status === 'approved') proposalUpdate(db, { id: p.id, status: 'executing' });
   if (process.env.FAKE_DIE) process.exit(1); // the session dies mid-build: the run stays running, the item executing
+  if (process.env.FAKE_FAIL === p.feature) { // broke a gate: no commit, the failure on the item
+    proposalUpdate(db, { id: p.id, status: 'failed', run: id, failure: { stage: 'gate', reason: 'the door answers 405 before the route', evidence: 'node scripts/check-lan-door.ts -> FAIL decide: 405' } });
+    continue;
+  }
   proposalUpdate(db, { id: p.id, status: 'done', resultSha: 'abc1234' }); // a cut-off item is reconciled, never re-claimed
+  if (process.env.FAKE_TEST_PROOF) { // a test-adding item: the reader's count, proved by the new test failing under a seeded mutation
+    measure(db, id, [{ feature: p.feature, lens: p.lens, metric: p.metric, value: 2, method: 'judgement', proposal: p.id, phase: 'before', commit_sha: 'b0' },
+      { feature: p.feature, lens: p.lens, metric: p.metric, value: 1, method: 'judgement', proposal: p.id, phase: 'after', commit_sha: 'abc1234' }]);
+    proof(db, { id: p.id, proof: { metric: p.metric, method: 'test', before: 2, after: 1, verdict: 'better', control: 'red', control_value: 2, base_sha: 'b0', head_sha: 'abc1234',
+      gates: { 'npm run check': 0 }, stacked: false,
+      test_control: { command: 'node scripts/check-server.mjs', mutation: 'main.ts:63 .catch dropped', exit: 1, assertion: 'FAIL a route module that fails to import' } } });
+  }
   if (process.env.FAKE_PROOF) { // the item's before/after at base and commit, and its proof with a re-seeded control
     measure(db, id, [{ feature: p.feature, lens: p.lens, metric: p.metric, value: 10, method: 'static', proposal: p.id, phase: 'before', commit_sha: 'b0' },
       { feature: p.feature, lens: p.lens, metric: p.metric, value: 5, method: 'static', proposal: p.id, phase: 'after', commit_sha: 'abc1234' }]);
@@ -206,7 +217,8 @@ test('drive: triage and compare pass through to the store; execute passes --base
   measure(db, ex, [{ feature: 'a', lens: LENS, metric: 'conf', value: 40, proposal: p1, phase: 'before', commit_sha: 'b0b0b0b' }]);
   for (const [p, sha, st] of [[p1, 'c1c1c1c', 'done'], [p2, 'c2c2c2c', 'failed']]) {
     proposalUpdate(db, { id: p, status: 'executing', pack: k.id });
-    proposalUpdate(db, { id: p, status: st, commitSha: sha, resultSha: sha, ...(st === 'done' ? { afterValue: 50 } : {}) });
+    proposalUpdate(db, { id: p, status: st, commitSha: sha, resultSha: sha, ...(st === 'done' ? { afterValue: 50 }
+      : { run: ex, failure: { stage: 'after', reason: 'conf did not move', evidence: 'measure conf 40 -> 40' } }) });
   }
   measure(db, ex, [{ feature: 'a', lens: LENS, metric: 'conf', value: 50, proposal: p1, phase: 'after', commit_sha: 'c1c1c1c' }]);
   runEnd(db, { run: ex, status: 'done' });
@@ -490,5 +502,31 @@ test('H-L3 drive execute --auto: a reserve item and one above the auto size are 
     assert.deepEqual(ex.plan, [`/lens-scan execute --proposals ${ranked}`], 'only the ranked, in-size machine approval is built');
     assert.match(ex.skipped.find((s) => s.id === reserveL).reason, /band reserve.*waits for a person/);
     assert.deepEqual(ex.machine_triaged.map((x) => x.id), [ranked]);
+  } finally { process.stderr.write = quiet; }
+});
+
+test('H3 drive execute --auto: a test-method proof with its red control is machine-accepted; a failed item carries its failure in the summary (bp cycle 3: qa-4 all judgement, p-bcddc7 no reason)', async () => {
+  const { root, db } = repoAll();
+  const { id: pr } = runStart(db, { phase: 'propose', lenses: 'development', model: 'test-model' });
+  const item = (feature) => propose(db, { run: pr, feature, lens: 'development', title: `t ${feature}`, kind: 'fix', metric: 'loc', expectedDelta: -1, size: 'S',
+    predictedVerdict: 'accept', predictedWhy: 'no precedent yet', category: 'technical', riskClass: 'debt' }).id;
+  const tested = item('a');
+  const broke = item('b');
+  runEnd(db, { run: pr, status: 'done' });
+  db.close();
+  const fake = join(root, 'fake-claude.mjs');
+  writeFileSync(fake, FAKE);
+  const env = { ...process.env, LENS_SCAN_CLAUDE_BIN: fake, FAKE_TEST_PROOF: '1', FAKE_FAIL: 'b' };
+  const quiet = process.stderr.write;
+  process.stderr.write = () => true;
+  try {
+    const ex = await drive(['execute', '--lens', 'development', '--root', root, '--auto'], env);
+    assert.ok(ex.ok, JSON.stringify(ex.jobs));
+    assert.deepEqual(ex.machine_triaged.map((x) => x.id), [tested], 'the test proof\'s red control lifts the person-only wait');
+    assert.equal(ex.waits_for_triage, undefined);
+    const failed = ex.items.find((p) => p.id === broke);
+    assert.equal(failed.status, 'failed');
+    assert.deepEqual(failed.failure, { stage: 'gate', reason: 'the door answers 405 before the route', evidence: 'node scripts/check-lan-door.ts -> FAIL decide: 405' });
+    assert.equal(ex.items.find((p) => p.id === tested).failure, undefined);
   } finally { process.stderr.write = quiet; }
 });

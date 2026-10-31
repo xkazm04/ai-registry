@@ -72,6 +72,29 @@ dropped without a word.
   a few seconds; a raid greeted a minute late has already lost the newcomers who were going
   to leave.
 
+## When suspending the boost moves nothing
+
+Step 4 has two boundaries that one measured show crossed together.
+
+**A picker usually rewards newness twice.** The first reward is the first-contact boost.
+The second is an anti-domination rule that favours any viewer the host has never
+answered. During a raid both fire for every raider, so suspending only the first leaves
+an equal reward standing. In a replayed show, 98 of 108 raider picks in a raid's first
+minute carried the never-answered bonus. Holding the first-contact suspension for that
+whole minute moved the room's share from 28 of 90 picks to 29 of 89 in a large room, and
+not at all (6 of 52) in a small one. "Suspend the boost" means every newness bonus, for
+raid arrivals only. Regulars and genuine newcomers outside the raid keep theirs.
+
+**The window inherits its detector's false alarms.** A surge detector (a handful of
+first-timers within seconds) also fires while a room fills at the start of a show. A
+window keyed to it changed the picks before the raid in 7 of 16 replays, and in 2 of 8
+replays of a room that never had a raid. Key the window to the platform's raid event, or
+to arrivals that name the raid. A surge alone is not enough while the room is still filling.
+
+In the small room nothing reordered at all: raiders held 46 of 52 slots in both arms.
+Volume was holding the slots, not a bonus, and only the bounded-rate tier in the second
+half of step 4 can answer that.
+
 ## When not to use it
 
 A surge that is not a group — a channel being featured somewhere and newcomers trickling

@@ -1,0 +1,48 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "apply-reentrant-1031",
+  "skill": "intake",
+  "skill_version": "2.18.0",
+  "mode": "apply",
+  "domain": "software-engineering",
+  "started_at": "2026-10-31T15:00:00Z",
+  "ended_at": "2026-10-31T16:10:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 1,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "software-engineering/extension-trust-boundary",
+      "at": "2026-10-31",
+      "engine": "intake",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "extension-trust-boundary",
+      "technique": "re-entrant-registration-across-processes",
+      "verdict": "better",
+      "mode": "code"
+    }
+  ],
+  "files": [
+    "knowledge/software-engineering/security/extension-trust/extension-trust-boundary/applications/python--re-entrant-registration-across-processes.md",
+    "knowledge/software-engineering/index.json",
+    "librarian/applied.md",
+    "librarian/subjects/software-engineering/extension-trust-boundary.md",
+    ".claude/skills/intake/SCORECARD.md"
+  ],
+  "commits": [],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "Apply-only, fourth attempt; return condition fired. Project plugin host in a spawn pool: per-worker load confirmed, inherit fails loudly; paired code fix for a load failure that aborted the whole build. Project commit on a local unpushed branch."
+}

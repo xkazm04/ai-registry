@@ -1,7 +1,7 @@
 ---
 domain: civic-intelligence
 subject: state-budget-analysis
-last_touched: 2026-10-22
+last_touched: 2026-10-31
 touched_by: intake
 dry_streak: 0
 ---
@@ -130,3 +130,17 @@ edit and no tree change; the first node application for this technique is
 `applications/node--per-capita-normalisation.md`. Lead: one town's divisor
 steps -15.7% between 2021 and 2022 and the technique says nothing about a
 divisor that breaks between periods; wait for a second town before amending.
+
+## Application - 2026-10-31 (small-sample-widening, politicas, code)
+
+Seam chosen to falsify decision rule 4 (the floor applies to the effective
+sample): the per-metric medians were computed from each metric's own
+reporters, but all three verdicts were guarded with the debt count. Batch
+probe: 0 of 132 towns had a capex or saldo sample that differed, so the rule
+held by data, and a pinned test would have blocked the next thinning batch
+instead of rendering it. The fix splits the count per metric and prints it
+when it differs. The fixture went red on A and green on B, and no batch
+verdict moved. First application document for this technique:
+`applications/node--small-sample-widening.md`. The single-stack point stays:
+the fleet has one civic consumer. Owed: a per-point floor on the debt trend
+and on any future rank.

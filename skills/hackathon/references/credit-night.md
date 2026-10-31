@@ -33,7 +33,7 @@ night without funding). A key-billed session that fails on the key gets its own 
 | Outcome | Seen as | Switches the night |
 |---|---|---|
 | `credit-exhausted` | "credit balance is too low ... purchase credits" | at once |
-| `budget-reached` | `error_max_budget_usd` (the night's `--credit-usd` cap) | at once |
+| `budget-reached` | `error_max_budget_usd`: a session spent its share of the night's `--credit-usd` cap | only when less than $1 of the cap is left; otherwise the entry resumes on the key with a fresh share (1.2.1) |
 | `key-rejected` | `authentication_error` / invalid x-api-key | at once |
 | `key-limited` | a rate limit on the key | on the second in a row for that entry; the first resumes on the key after 2 min |
 

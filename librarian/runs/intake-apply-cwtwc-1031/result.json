@@ -1,0 +1,50 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "intake-apply-cwtwc-1031",
+  "skill": "intake",
+  "skill_version": "2.18.0",
+  "mode": "apply",
+  "domain": "game-production",
+  "started_at": "2026-10-31T09:40:00Z",
+  "ended_at": "2026-10-31T10:30:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 1,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "game-production/generated-video-motion-extraction",
+      "at": "2026-10-31",
+      "engine": "intake",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "generated-video-motion-extraction",
+      "technique": "contact-window-travels-with-the-clip",
+      "verdict": "better",
+      "mode": "experiment"
+    }
+  ],
+  "files": [
+    "knowledge/game-production/asset-production/motion-and-audio/generated-video-motion-extraction/applications/cpp--contact-window-travels-with-the-clip.md",
+    "knowledge/game-production/index.json",
+    "catalog.json",
+    "rules/ai-registry-game-production.md",
+    "librarian/subjects/game-production/generated-video-motion-extraction.md",
+    "librarian/applied.md",
+    ".claude/skills/intake/SCORECARD.md"
+  ],
+  "commits": [],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "Apply-only. PoF player strike: constant 0.20 s hit vs measured window f133-135 @30 fps (resampled) on the extracted clip, 4.23 s apart. Floor held across contact points; direction moves it 5 frames. Instrument pushed to pof. First cpp application."
+}

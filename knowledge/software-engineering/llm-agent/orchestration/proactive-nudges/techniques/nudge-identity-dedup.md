@@ -80,6 +80,40 @@ The design pressure to "merge related nudges" across kinds belongs in
 payload composition at delivery time (one delivery mentioning both), not
 in identity, where it destroys the audit trail of which judgment fired.
 
+## When the payload is a delta, supersede must merge
+
+"Replace the queued notice" assumes the newer candidate carries the whole
+current state of the story. A **digest** kind breaks that assumption: each
+pass summarizes only what arrived since the last pass (a cursor moved), so
+the payload is a delta, and replacing it drops every earlier delta the user
+never read. Facing that loss, the tempting design is to put the time back
+into the identity (one digest per hour bucket), which keeps the deltas by
+giving up dedup. A tumbling bucket fails exactly at its edges: two passes
+minutes apart on either side of a boundary mint two identities, and an
+ignored digest stacks one card per bucket for as long as cards stay live.
+Both naive choices lose, in opposite directions.
+
+- Give the digest a **singleton subject-ref** (its subject is the stream,
+  not the hour), and on an identity hit **merge** the new delta into the
+  live notice, or recompose the payload from the underlying state since the
+  notice was first created. Never replace.
+- Bound the merged payload (newest first, older deltas collapsed to a
+  count). The live notice's lifetime, not a clock bucket, then caps how much
+  it can accumulate.
+- Test the choice with a replay of real arrivals: count notices delivered
+  and peak concurrent unresolved notices (the target), and count the
+  per-pass summaries still reachable on live notices (the floor). A replace
+  arm moves the target and fails the floor. That failure is what tells you
+  the payload was a delta.
+
+Superseding a notice that was already **delivered** also needs the
+presentation tier's cooperation. A downstream dedup that drops any
+redelivery of a known identity is correct for re-fires, but it also hides a
+superseded version, so the update never reaches the user. That tier must
+tell "same identity, same version" (drop) from "same identity, newer
+version" (replace in place). Carry a superseded-count or version with the
+notice so it can.
+
 ## Decision rules
 
 - Mint identity at candidate creation, in the evaluator's output path —

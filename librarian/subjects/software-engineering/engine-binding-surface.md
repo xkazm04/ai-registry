@@ -57,3 +57,19 @@ different host language, is the natural counterpart.
 
 **Category note.** `backend-platform/language-runtime` is now at 10 of 10. The
 next subject there needs a subdivision first.
+
+## 2026-10-31 - intake apply: hierarchy-as-three-relations (third attempt)
+
+First fleet tree holding the technique's shape, from the consumer side: paypal's
+table-os consumes the platform interface tree through a generated binding crate.
+Application `rust--hierarchy-as-three-relations` (structural-only, unmeasurable:
+the consumer hand-writes zero conversions). The generator confirms per-edge
+declarations, generated widening and predicate narrowing as a value; the refusal
+naming both types is not held.
+
+**Lead (banked, return condition: a second binding generator shows it).** The
+generator's `required_hierarchy` edge carries a query flag, so a conversion that
+needs the runtime's pointer adjustment stays inside the declaration list instead
+of leaving the scheme, as "When not to use it" currently sends a
+multiple-inheritance tree. Scored G2/R2/C1 (rewrites a stated boundary), so it
+was not landed.

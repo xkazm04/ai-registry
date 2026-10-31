@@ -53,3 +53,22 @@ One source-tree application (`rust--instruction-format-follows-program-lifetime`
 `verified_against: rust@1.95` from `Cargo.toml:28`). Apply row: **unapplied** —
 all twelve fleet trees searched per-project, no managed project embeds a language
 runtime, which confirms this note's own 2026-09-03 statement from the other side.
+
+## 2026-10-31 - apply:dce-refuses-hoisted-declarations (run `apply-dce-hoisted-1031`)
+
+Third seam hunt for this technique, dispatched for "single stack (rust)". The fleet
+still owns no fold pass (guard census over eight trees: every hoisting declaration near
+a build-time constant guard sits outside the guard). But the fleet depends on one: a
+desktop app's production build trusts its bundler to strip dev-gated branches. That pass
+was the falsifying seam. A caught outcome would have been a shadowing `var` that
+production reads as the outer value. **Experiment, 9 cases, both arms run: 9/9 outputs
+identical, 9/9 dead initialisers stripped (1,189 -> 442 bytes).** The pass never
+refuses. It folds resolvable reads to undefined, and keeps `if(0)var t;` (the bare
+declaration, initialiser gone) where the read is unfoldable. That is the
+extract-and-eliminate rewrite the technique forbids, done correctly after scope analysis.
+
+Verdict `not-better`, as a boundary and not a refutation. The amendment says the
+refusal binds only a pass that runs before scope analysis, and that a consumer of the
+larger pass owes one shadowing case in its build check instead. This is the subject's
+first non-rust application (`node--dce-refuses-hoisted-declarations`, `node@20` from
+the engines field).

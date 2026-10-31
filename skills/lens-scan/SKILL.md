@@ -4,7 +4,7 @@ description: "Measure a product feature by feature through one lens or all of th
 argument-hint: "[measure|propose|execute|propagate|status|onboard] [--lens development|security|design|performance|<lens id with a scan block>|all] [--scope <group|context|feature[,feature...]>] [--proposals <id,id>] [--base <ref>] | release --id rel-<version> [--finish] | onboard \"<description>\" [--id com.x.y] [--temporary] [--draft-only] [--first-scan]"
 category: workflow
 memory: project
-version: 1.13.0
+version: 1.14.0
 tags: measure, metrics, lens, backlog, approval, house-standards, propagation, sqlite
 ---
 # Lens scan
@@ -520,7 +520,7 @@ item's metric with the method it was measured with, in the pack worktree at the 
 and record it linked: `measure --run <run> --feature <f> --lens <l> --metric <m> --value <n>
 --unit <u> --method <m> --evidence <e> --proposal <p> --phase before --commit-sha <base sha>`.
 If the Before moved since the proposal, say so in the commit body; an item already moot is
-recorded `failed` with the reason.
+recorded `failed` with the reason (`--failure-stage before`, see step 3).
 
 - **Design lens** (every design item, whatever its metric's method: a person triages design by
   looking, so a judged `undesignedStates` item needs its screens as much as a harness metric):
@@ -542,8 +542,8 @@ recorded `failed` with the reason.
 
 0. **Re-check the item against Propose as it reads today** (a cut-off item too, after its
    landed work is reconciled). An item that cannot meet those rules (a delta at the wrong
-   grain, a metric that no longer exists) is not built: record it `failed` with a `note`
-   activity `re-propose: <why>`.
+   grain, a metric that no longer exists) is not built: record it `failed` with
+   `--failure-stage recheck` (step 3) and a `note` activity `re-propose: <why>`.
 1. `proposal-update --id <p> --status executing --pack <k>` (a cut-off item is already
    `executing`: skip it); `activity --kind executing`.
 2. Build the change in the pack worktree, on top of the items before it, judged against
@@ -558,8 +558,16 @@ recorded `failed` with the reason.
    still committed seven items.
 3. **Did not build, or broke a gate**: not committed. Discard its changes in the pack
    worktree (`git restore --staged --worktree -- <its files>`, delete the files it created),
-   so the next item stacks on a green head. `proposal-update --id <p> --status failed` with
-   no sha, and an `error` activity carrying the failing command and its first failing line.
+   so the next item stacks on a green head. `proposal-update --id <p> --status failed --run
+   <run> --failure-stage build|gate --failure-reason "<why, in one sentence>" --failure-evidence
+   "<the failing command> -> <its first failing line>"`, with no sha. **Every move to `failed`
+   carries its failure** - the store refuses one without (stages `recheck`, `before`, `build`,
+   `gate`, `after`), records it as an `error` activity `failure p-<id>: {stage, reason,
+   evidence}` in the run, and every `proposals` read, `drive.mjs execute`'s `items` among them,
+   shows it as the item's `failure`. A design call the build ran into is the reason, said as
+   the call (`needs a door option for a route-owned Kettle answer`). (bp's cycle-3 `p-bcddc7`
+   read `failed` with nothing else in the execute output; its cause sat only in a free-text
+   error activity.)
 4. **Built and green**: one commit, the item's files staged by name:
    ```
    <type>(<ctx>): <title>
@@ -584,13 +592,17 @@ recorded `failed` with the reason.
    pack and said so only in the run's note.)
 6. Record it: moved its metric in the expected direction -> `proposal-update --id <p>
    --status done --after-value <n> --commit-sha <sha> --result-sha <sha> --pack <k>`, with a
-   `committed` activity. Did not move it -> the same with `--status failed`: **the commit
-   stays on the pack**, so the person can look and still accept it with a note.
+   `committed` activity. Did not move it -> the same with `--status failed --run <run>
+   --failure-stage after --failure-reason "<metric> <before> -> <after>: <why>"
+   --failure-evidence "<the after reading's evidence>"`: **the commit stays on the pack**, so
+   the person can look and still accept it with a note.
    **A `work-item` has no metric** (an imported ticket, a sweep finding): it is `done` when its
    acceptance criteria (in its body) are met and the product's gates are green at its commit,
    `failed` otherwise, with no `--after-value`; name in the `committed` activity which criteria
    you checked and how.
-7. **The proof** (scan-finding/1), for every item with a metric, `done` or `failed`:
+7. **The proof** (scan-finding/1), for every item with a metric and a commit, `done` or
+   `failed` at step 6 (a step-0/3 failure has no after and so no proof; its `failure` is its
+   record):
    `store.mjs proof --id <p> --json <file>` with `{metric, method, unit, before, after, verdict,
    control, base_sha, head_sha}` plus lens-scan's `gates` (step 2) and `stacked` (step 5) -
    `before`/`after` are the readings recorded in steps above (the store refuses any other
@@ -618,6 +630,26 @@ recorded `failed` with the reason.
    - `probe` and `judgement`: no control exists (a probe's samples have no re-seeded twin we
      trust; a reader's count is not an instrument). Write `control: absent`. Such items never
      reach L2's machine accept - they cap at L1 and wait for a person's triage.
+   **An item whose diff adds or extends tests proves itself with `method: test`**, whatever
+   method its count was read with (`untestedPaths` by a reader stays `judgement` on its
+   rows; only the proof says `test`). The new test is the instrument, and its red control is
+   a step, not an option: `control.mjs classify --repo <pack worktree> --base <base sha> --sha
+   <sha>` says whether the diff holds a test file (bp's `scripts/check-*.ts` count) and which
+   production files it has; then, in the pack worktree at the item's commit and clean,
+   `control.mjs run --repo <pack worktree> --sha <sha> --test "<the new test's command>"`
+   with `--revert-production --base <base sha>` when the item also changed the production
+   line, else `--patch <file>`: a diff that drifts the guarded production line (a test-only
+   item has no line of its own to revert - drop the check, loosen the rule, flip the status).
+   The script proves the test green unmutated, re-runs it mutated, requires a non-zero exit
+   **with an assertion line** (a crash or import error is not red), undoes the mutation and
+   checks the tree clean. Red (exit 0): merge its `proof_fields` - `method: test`, `control:
+   red`, `control_value` (the failing assertions it counted), `test_control {command,
+   mutation, exit, assertion}` - into the proof, and write the `control p-<id>:` note. Not red
+   (exit 1): its `why` goes in the commit body and the proof keeps the count's own method with
+   `control: absent`. The store refuses a `test` proof without a red `test_control`, and
+   `triage --machine` accepts a gated, isolated `test` proof like any red one. (bp's cycle-3
+   pack qa-4: five test commits, each with a by-hand control in a note, every proof
+   `judgement` / `absent` - all five waited for a person.)
    **A secondary reading** credits what the metric's grain cannot: an item that repaired its
    own instrument (`p-c9c46b`: `brokenTests 1 -> 1` while the checks that run went `0 -> 28`)
    reads `not-better` on its metric. Record the second count as readings of its own (`measure
@@ -703,7 +735,8 @@ A propose also prints the per-lens table of [3. Propose](#3-propose) (ranked | r
 title | score | tokens when known | skipped lenses), each item's score or "unscored", and
 its predicted verdict with the precedent it quoted.
 An execute also names its pack (id, branch, base ref and sha) and, per item, `done` or
-`failed`, its commit (or "no commit"), `before -> after unit` and whether the after is
+`failed` (a failed item with its `failure`: stage, reason, evidence), its commit (or "no
+commit"), `before -> after unit` and whether the after is
 stacked on earlier items, its proof (`verdict`, `control`, a secondary reading when there is
 one), and the gates it ran with their exit codes (or `build gate not run`); it never says an item "landed" or "merged": nothing of a pack
 reaches main until a release. A release reports as [release.md](references/release.md#reporting) says.

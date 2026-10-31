@@ -1,0 +1,50 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "intake-apply-repro-ladder-1031",
+  "skill": "intake",
+  "skill_version": "2.18.0",
+  "mode": "apply",
+  "domain": "software-engineering",
+  "started_at": "2026-10-31T13:20:00Z",
+  "ended_at": "2026-10-31T14:10:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 1,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "software-engineering/live-defect-debugging",
+      "at": "2026-10-31",
+      "engine": "intake",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "live-defect-debugging",
+      "technique": "reproduction-ladder",
+      "verdict": "better",
+      "mode": "simulation"
+    }
+  ],
+  "files": [
+    "knowledge/software-engineering/engineering-process/codebase-stewardship/live-defect-debugging/applications/rust--reproduction-ladder.md",
+    "knowledge/software-engineering/engineering-process/codebase-stewardship/live-defect-debugging/techniques/reproduction-ladder.md",
+    "knowledge/software-engineering/index.json",
+    "catalog.json",
+    "librarian/applied.md",
+    "librarian/subjects/software-engineering/live-defect-debugging.md",
+    ".claude/skills/intake/SCORECARD.md"
+  ],
+  "commits": [],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "First rust application of the subject. Three committed fixes replayed: helper mutation red 3/3, call-site revert red 1/3. Amendment: reintroduce the defect where it lived. Consumer ledger row pushed; the skill step and the call-site moves were filed as next change, not shipped."
+}

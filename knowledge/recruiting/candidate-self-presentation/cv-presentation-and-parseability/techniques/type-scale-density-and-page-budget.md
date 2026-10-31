@@ -48,8 +48,20 @@ reasons they hold.
 
 ## Density
 
-- **Line length about 55-90 characters.** Wider lines slow reading; a single column on A4
-  or Letter with margins of 15-20 mm lands in range at 10-11 pt.
+- **Line length about 55-90 characters.** Wider lines slow reading. A single column on A4
+  with margins of 15-20 mm does **not** land in range at 10-11 pt in a common sans: measured
+  over five reference documents, it set full lines at 103-113 characters, every one past 90.
+  Reaching the range takes a cap on the running text (about 36 em; bullets and summary
+  only, the entry head keeps the full width so dates stay at the edge) or margins near
+  30 mm. Two-column layouts are already narrower and land at 73-84.
+- **The measure trades against the page budget; decide it with both numbers.** Narrowing
+  the measure rewraps about a fifth of the text onto extra lines. In the same measurement a
+  fourteen-year document that filled one page exactly went to a second page 4-8% full at
+  every cap tried (36, 38 and 40 em) - the spill the page-budget rules forbid. So a measure
+  change is not a free fix applied under existing documents: measure line length and page
+  fill together, and when narrowing spills a page, either trim content per the spill rule
+  below and show the owner the cut, or keep the wider measure and say so. Never reach the
+  measure by shrinking type.
 - **Leading 1.2-1.4** for body text; bullets separated by a small gap (2-4 pt), entries by
   a visible one (6-12 pt), sections by more. Whitespace groups; rules and boxes are optional
   reinforcement.

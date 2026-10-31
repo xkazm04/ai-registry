@@ -1,7 +1,8 @@
 ---
 subject: proactive-nudges
 domain: software-engineering
-last_touched: 2026-09-09
+last_touched: 2026-10-31
+touched_by: intake
 dry_streak: 0
 ---
 
@@ -80,3 +81,17 @@ application dates remain unchanged; source-contract checks are not runtime evide
   }
 }
 ```
+
+## 2026-10-31 - intake apply: nudge-identity-dedup (run intake-apply-nudge-dedup-1031)
+
+First application of `nudge-identity-dedup`, on personas (`rust`), mode `experiment`, verdict
+`better`, proof `ab-paired`. Seam chosen to falsify "no timestamps in the key": two digest kinds
+key on an hour bucket on purpose. The live record held 4 digest cards from one afternoon, two
+boundary pairs 5-6 minutes apart, all live at once, all expired unread. The rule held. The
+technique's own supersede step, however, failed the floor when replayed: replacing a delta
+payload kept 1 of 4 pass summaries, while merging kept 4 of 4 at 1 card. Amended the technique
+with "When the payload is a delta, supersede must merge" and the presentation-tier half
+(a same-id drop hides a superseded version). Application: `applications/rust--nudge-identity-dedup.md`.
+No product code shipped: the change spans both tiers. It is recorded as the project's next change.
+The scan's "single stack (rust)" point is not moved: the project's identity seam is Rust, and
+its React tier is the downstream half of the same application rather than a second stack.

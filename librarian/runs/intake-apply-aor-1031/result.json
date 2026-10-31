@@ -1,0 +1,45 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "intake-apply-aor-1031",
+  "skill": "intake",
+  "skill_version": "2.18.0",
+  "mode": "apply",
+  "domain": "software-engineering",
+  "started_at": "2026-10-31T12:00:00Z",
+  "ended_at": "2026-10-31T12:30:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 0,
+    "declined": 0,
+    "idled": 1,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "software-engineering/deferred-operation-fusion",
+      "at": "2026-10-31",
+      "engine": "intake",
+      "outcome": "idled",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "deferred-operation-fusion",
+      "technique": "algebraic-op-representation",
+      "verdict": "unmeasurable",
+      "mode": "simulation"
+    }
+  ],
+  "files": [
+    "librarian/applied.md",
+    ".claude/skills/intake/SCORECARD.md"
+  ],
+  "commits": [],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "Apply-only, third attempt. Delta seam hunt over fleet commits since 10-22 found no accumulator of spatial operations; three hits read and rejected. No project edited. Return condition: a fleet project grows a lazy spatial pipeline."
+}

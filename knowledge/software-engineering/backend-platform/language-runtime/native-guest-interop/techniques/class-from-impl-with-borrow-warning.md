@@ -105,6 +105,42 @@ governs the derived receiver's borrow: a refusal the script caused must reach
 the script as a value it can catch
 ([verdict-survives-boundary](../../../../_laws.md#verdict-survives-boundary)).
 
+## When the engine owns the host state, not the guest heap
+
+The hazard above rests on one premise: the host payload sits in a cell the
+guest can alias, so the borrow has to be checked at run time. Some engines
+break that premise by construction. The host state lives in a store the
+embedding owns for the length of one guest call, the guest reaches it only
+through declared imports, and those imports carry no guest-callable value —
+no function reference, no handle to an object with methods. There the
+derivation hands every generated import an *exclusive compile-time*
+reference to the store, and the two details this technique weighs collapse:
+an exclusive receiver on a read-only import is not a hazard against its
+siblings, because imports on one store serialize and none of them can call
+back into the guest, and there is no runtime borrow whose failure could
+panic. A host applying this technique there changes nothing it can measure;
+the right action is to write down the invariant that makes it free — *no
+import calls back into the guest* — in the interface contract, because it is
+the sentence the first callback-carrying or object-handle import will
+falsify.
+
+That collapse is conditional, and two changes reinstate the technique in
+full. The first is an import that accepts a guest handle to an object with
+methods, which is the derived class again under another name; the handle
+table's lookup should then fail as a value, never by panicking. The second is
+moving the imports to a concurrent model, in which a guest may have several
+host calls in flight on one store. A well-made derivation answers that move
+the way this technique's first decision rule asks — it stops handing out the
+reference and offers a scoped access whose closure cannot return a borrow, so
+whatever must outlive the access is copied out before the await. The same
+derivation may still *panic* on a nested access, and that is defensible on
+one condition, which is the discriminator for the panic-versus-typed-error
+rule above: **a re-borrow only host code can trigger is an assertion about
+the host and may panic; a re-borrow guest input can trigger is a refusal the
+script caused and must reach it as a value.** The engine's own refusal of a
+guest re-entering an instance mid-call takes the second door — it returns a
+typed trap to the host rather than aborting.
+
 ## When not to use it
 
 A host type with one or two methods, or whose methods take no self reference,

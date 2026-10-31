@@ -1,0 +1,47 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "intake-apply-pta-1031",
+  "skill": "intake",
+  "skill_version": "2.18.0",
+  "mode": "apply",
+  "domain": "software-engineering",
+  "started_at": "2026-10-31T12:30:00Z",
+  "ended_at": "2026-10-31T13:30:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 1,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "software-engineering/knowledge-registry",
+      "at": "2026-10-31",
+      "engine": "intake",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "knowledge-registry",
+      "technique": "propose-then-adopt",
+      "verdict": "better",
+      "mode": "code"
+    }
+  ],
+  "files": [
+    "knowledge/software-engineering/engineering-process/standards-and-gates/knowledge-registry/applications/rust--propose-then-adopt.md",
+    "knowledge/software-engineering/index.json",
+    "librarian/applied.md",
+    ".claude/skills/intake/SCORECARD.md"
+  ],
+  "commits": [],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "First rust application of the subject. Project commit is on a branch in the consumer, unpushed by the technique's own rule (it edits the instruction dispatched runs follow)."
+}

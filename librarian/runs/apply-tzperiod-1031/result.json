@@ -1,0 +1,50 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "apply-tzperiod-1031",
+  "skill": "intake",
+  "skill_version": "2.18.0",
+  "mode": "apply",
+  "domain": "software-engineering",
+  "started_at": "2026-10-31T17:15:00Z",
+  "ended_at": "2026-10-31T18:15:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 1,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "software-engineering/subscription-billing-periods",
+      "at": "2026-10-31",
+      "engine": "intake",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "subscription-billing-periods",
+      "technique": "timezone-anchored-period-dates",
+      "verdict": "better",
+      "mode": "code"
+    }
+  ],
+  "files": [
+    "knowledge/software-engineering/operations/metered-billing/subscription-billing-periods/applications/node--timezone-anchored-period-dates--kp.md",
+    "knowledge/software-engineering/index.json",
+    "catalog.json",
+    "rules/ai-registry-software-engineering.md",
+    "librarian/subjects/software-engineering/subscription-billing-periods.md",
+    "librarian/applied.md",
+    ".claude/skills/intake/SCORECARD.md"
+  ],
+  "commits": [],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "Phase 7.5 alone, second stack (node). kp plan card labelled a UTC-computed billing boundary in the viewer zone beside two UTC-labelled rows. Code A/B over 6 boundaries x 5 viewer zones: card vs meter-row day 9/30 -> 0/30; floor held. kp 97c25de52 + f3e3f243b pushed."
+}

@@ -1,0 +1,38 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "apply-axisbuf-1031",
+  "skill": "intake",
+  "skill_version": "2.18.0",
+  "mode": "apply",
+  "domain": "software-engineering",
+  "started_at": "2026-10-31T18:20:00Z",
+  "ended_at": "2026-10-31T18:40:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 0,
+    "declined": 0,
+    "idled": 1,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "software-engineering/windowed-inference-over-oversized-inputs",
+      "at": "2026-10-31",
+      "engine": "intake",
+      "outcome": "idled",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [],
+  "files": [
+    "librarian/applied.md",
+    ".claude/skills/intake/SCORECARD.md"
+  ],
+  "commits": [],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "Phase 7.5 alone, dispatched for single stack (python). Cross-stack fleet hunt over 11 trees found no stitched output canvas (overlord matte readback, personas text chunker are not stitches). Re-confirms the 10-22 unapplied row; nothing landed or shipped."
+}

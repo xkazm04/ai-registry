@@ -1,0 +1,50 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "intake-apply-bpet-1031",
+  "skill": "intake",
+  "skill_version": "2.18.0",
+  "mode": "apply",
+  "domain": "software-engineering",
+  "started_at": "2026-10-31T16:30:00Z",
+  "ended_at": "2026-10-31T17:30:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 1,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "software-engineering/standards-layered-runtime",
+      "at": "2026-10-31",
+      "engine": "intake",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "standards-layered-runtime",
+      "technique": "baseline-plus-extension-tuple",
+      "verdict": "better",
+      "mode": "code"
+    }
+  ],
+  "files": [
+    "knowledge/software-engineering/backend-platform/language-runtime/standards-layered-runtime/applications/node--baseline-plus-extension-tuple--personas.md",
+    "knowledge/software-engineering/index.json",
+    "catalog.json",
+    "rules/ai-registry-software-engineering.md",
+    "librarian/subjects/software-engineering/standards-layered-runtime.md",
+    "librarian/applied.md",
+    ".claude/skills/intake/SCORECARD.md"
+  ],
+  "commits": [],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "Phase 7.5 alone, second stack (node). personas WebMCP polyfill registerTool was a looser door than the standard (no promise, sync throws, silent overwrite of a taken name). Code A/B vs the draft steps: conformant 0/10 -> 10/10; floor held. personas cca476b278."
+}

@@ -1,0 +1,49 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "intake-apply-ssw-1031",
+  "skill": "intake",
+  "skill_version": "2.18.0",
+  "mode": "apply",
+  "domain": "civic-intelligence",
+  "started_at": "2026-10-31T09:30:00Z",
+  "ended_at": "2026-10-31T10:30:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 1,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "civic-intelligence/state-budget-analysis",
+      "at": "2026-10-31",
+      "engine": "intake",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "state-budget-analysis",
+      "technique": "small-sample-widening",
+      "verdict": "better",
+      "mode": "code"
+    }
+  ],
+  "files": [
+    "knowledge/civic-intelligence/public-money/state-budget-analysis/applications/node--small-sample-widening.md",
+    "knowledge/civic-intelligence/index.json",
+    "rules/ai-registry-civic-intelligence.md",
+    "librarian/subjects/civic-intelligence/state-budget-analysis.md",
+    "librarian/applied.md",
+    ".claude/skills/intake/SCORECARD.md"
+  ],
+  "commits": [],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "Apply-only. Rule 4 held by data and a pinned tripwire: capex/saldo verdicts used the debt sample. Split per metric; fixture A red, B green; 0/264 batch verdicts move. Project commits pushed. Single-stack point unmoved: one civic consumer, node."
+}

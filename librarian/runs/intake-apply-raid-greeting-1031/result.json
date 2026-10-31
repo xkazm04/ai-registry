@@ -1,0 +1,51 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "intake-apply-raid-greeting-1031",
+  "skill": "intake",
+  "skill_version": "2.18.0",
+  "mode": "apply",
+  "domain": "media-generation",
+  "started_at": "2026-10-31T10:40:00Z",
+  "ended_at": "2026-10-31T12:30:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 1,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "media-generation/audience-absorption-at-scale",
+      "at": "2026-10-31",
+      "engine": "intake",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "audience-absorption-at-scale",
+      "technique": "raid-group-greeting",
+      "verdict": "not-better",
+      "mode": "code"
+    }
+  ],
+  "files": [
+    "knowledge/media-generation/streaming/live-show/audience-absorption-at-scale/applications/rust--raid-group-greeting.md",
+    "knowledge/media-generation/streaming/live-show/audience-absorption-at-scale/techniques/raid-group-greeting.md",
+    "knowledge/media-generation/index.json",
+    "catalog.json",
+    "rules/ai-registry-media-generation.md",
+    "librarian/subjects/media-generation/audience-absorption-at-scale.md",
+    "librarian/applied.md",
+    ".claude/skills/intake/SCORECARD.md"
+  ],
+  "commits": [],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "Apply-only, falsifying seam. A 60 s raid flag moved room first-minute picks 28/90 -> 29/89 and 6/52 -> 6/52; floor broke (7/16 pre-raid, 2/8 raid-free). 98/108 raider picks carry the never-picked bonus. Patch withheld; instrument pushed (overlord 917629d)."
+}

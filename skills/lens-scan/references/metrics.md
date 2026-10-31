@@ -156,6 +156,12 @@ head_sha}` plus `control_value` for a red control. The rules this catalog adds:
 | `harness` | the same harness entry against the re-seeded worktree (or a fixture page with the defect); same rule | `control: absent` |
 | `probe` | none: a probe's samples have no trustworthy re-seeded twin, and noise can fake one | always `absent` |
 | `judgement` | none: a reader's count is not an instrument | always `absent` |
+| `test` (proof only) | the item's new or extended test, green at its commit, re-run with the guarded production line reverted (`--revert-production`) or drifted (`--patch`): it must exit non-zero on an assertion (`control.mjs run`); `control_value` counts the failing assertions, `test_control {command, mutation, exit, assertion}` records the run | not a `test` proof: write the count's own method, `absent` |
+
+  `test` is a proof method, never a reading's: the item's rows keep the method the count was
+  read with (`judgement` or `static`; the store refuses a `test` proof over `probe` or
+  `harness` rows). Any item whose diff adds or extends a test file proves itself this way
+  (`control.mjs classify` decides; bp's `scripts/check-*.ts` are test files).
 
   A `control: absent` item can be accepted only by a person: the store's L2 machine accept
   takes `better` + `red` alone, so probe and judgement items cap at L1. A `static` or
@@ -166,7 +172,8 @@ head_sha}` plus `control_value` for a red control. The rules this catalog adds:
   `stacked` - `true` when the after was read with earlier items of the pack applied, `false`
   when isolated; `secondary` `[{metric, unit?, before, after, better: up|down}]` - another
   recorded reading of the item, for a change the metric's grain cannot credit (an instrument
-  repaired: `checksRun 0 -> 28` while `brokenTests` stays `1 -> 1`). The store states each
+  repaired: `checksRun 0 -> 28` while `brokenTests` stays `1 -> 1`); `test_control` - the red
+  control of a `test` proof, above. The store states each
   secondary's `verdict`; it never changes the proof's. The L2 machine accept also needs `gates`
   non-empty and all `0`, and `stacked` not `true`; it never reads `secondary`. A person's accept
   of a `failed` item names the secondary reading in its note.
