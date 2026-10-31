@@ -12,7 +12,7 @@ use_when: [attributing a member to a party, computing party-level metrics, handl
 # Party club vs electoral list
 
 "Which party is this member in?" hides distinct affiliations, including
-party membership, electoral list and parliamentary club, and a parliamentary model must keep both answers, because they
+party membership, electoral list and parliamentary club, and a parliamentary model must keep these answers apart, because they
 diverge routinely and each is correct for a different consumer:
 
 - **The electoral list** — the candidacy the person was elected on. Fixed

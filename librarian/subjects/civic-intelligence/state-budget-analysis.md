@@ -144,3 +144,183 @@ verdict moved. First application document for this technique:
 `applications/node--small-sample-widening.md`. The single-stack point stays:
 the fleet has one civic consumer. Owed: a per-point floor on the debt trend
 and on any future rank.
+
+## Architecture review - 2026-10-31
+
+Re-review of all 13 documents. The 2026-09-09 clarifies are in the text, and five applications arrived since, two of which added boundary sentences. One precedence statement in the golden path disagrees with its technique.
+
+<!-- architecture-review:v1 -->
+```json
+{
+  "subject": "civic-intelligence/state-budget-analysis",
+  "date": "2026-10-31",
+  "baseline": "c283f0c50",
+  "digest": "sha256-b2:4feef15a43fc221c",
+  "disposition": "clarify",
+  "coverage": "All 13 current documents read in full. Prior clarifies checked by diff against the 2026-09-09 baselines; applications' internal arithmetic recomputed. Primary sources listed were opened this run unless marked otherwise. Not evaluated: any connected-project tree, dump replay or test run. No verification date refreshed.",
+  "counterexamples": [
+    "Debt reported for the town alone sits beside consolidated expenditure under one 'consolidated' caption.",
+    "A capex median over four reporters passes a guard that counts five debt reporters.",
+    "A town's population base steps 15.7% between two years, so a per-resident trend partly measures the divisor.",
+    "Five eligible peers with only two reporting a metric do not meet a five-reporting-peer floor (retained)."
+  ],
+  "sources": [
+    {
+      "url": "https://csu.gov.cz/docs/107508/211ffe08-c8da-ce70-c3cd-796bacaa99ad/340130-22dds.htm",
+      "result": "Read 2026-10-31. The statistics office's dataset 'Velikostní skupiny obcí' defines ten groups: under 200, 200-499, 500-999, 1 000-1 999, 2 000-4 999, 5 000-9 999, 10 000-19 999, 20 000-49 999, 50 000-99 999, 100 000 and over. This locates an official ten-band definition matching the application's 'ten bands' description; the consumer's constants were not re-read, so the application stays reverify."
+    },
+    {
+      "url": "https://www.imf.org/external/Pubs/FT/GFS/Manual/2014/gfsfinal.pdf",
+      "result": "Not re-opened; retained from 2026-09-09 (GFSM 2014 3.159-3.161 consolidation)."
+    },
+    {
+      "source": "Arithmetic across documents",
+      "result": "1.85 bn / 794 mil = 2.33 (the 2.3x case); 17,103 to 14,420 = -15.7%; 132 x 5 = 660 cells."
+    }
+  ],
+  "documents": {
+    "state-budget-analysis.md": {
+      "disposition": "clarify",
+      "reason": "2026-09-09 clarifies landed (municipal-comparison scope, no universal per-capita). Owed: the principles bullet puts 'size class and comparable mandate first, geography second', while peer-group-construction rule 1 orders 'comparable mandate, reporting perimeter and period first; size next'. Align the precedence."
+    },
+    "techniques/consolidated-vs-headline-figures.md": {
+      "disposition": "keep",
+      "reason": "Debt-stock consolidation, perimeter/basis/stage and the 2026-10-22 per-indicator provenance sentence are present. The single 2.3x case is consistent with the application's adapter figure (1.85 bn / 794 mil = 2.33) and with its batch range (1.14x to 7.98x)."
+    },
+    "techniques/median-over-mean-for-peers.md": {
+      "disposition": "keep",
+      "reason": "Below-floor policy unified with widening; typical-town versus resident-weighted estimands distinguished."
+    },
+    "techniques/municipal-money-trail.md": {
+      "disposition": "keep",
+      "reason": "Party identity, transaction proof for payment, involvement versus allocation and undated-period gating are present."
+    },
+    "techniques/peer-group-construction.md": {
+      "disposition": "keep",
+      "reason": "Mandate/perimeter prerequisites and qualified official-band and dynamic-cohort prescriptions are present."
+    },
+    "techniques/per-capita-normalisation.md": {
+      "disposition": "keep",
+      "reason": "Finite positive divisor and aligned reference definitions present. Open lead (a divisor that steps between periods) has one sighting and is not owed here."
+    },
+    "techniques/small-sample-widening.md": {
+      "disposition": "keep",
+      "reason": "The false median rationale is gone; the small-population exception is per metric. Decision rule 4 is now corroborated by its application."
+    },
+    "applications/node--municipal-money-trail.md": {
+      "disposition": "reverify",
+      "reason": "Unchanged since 2026-09-09; publisher-or-party join and paid predicate gaps disclosed; not executed."
+    },
+    "applications/node--peer-group-construction.md": {
+      "disposition": "reverify",
+      "reason": "The statistics office's ten size groups were located this run (csu.gov.cz dataset 'Velikostní skupiny obcí'), matching the application's 'ten half-open bands'. The consumer's POPULATION_BANDS were not re-read, so conformity is still unverified; per-metric sample is now fixed per the small-sample application."
+    },
+    "applications/node--consolidated-vs-headline-figures.md": {
+      "disposition": "reverify",
+      "reason": "Internally consistent (330 of 660 town-years; 1.85 bn / 794 mil). The 660-call source capture and private tree not re-run."
+    },
+    "applications/node--median-over-mean-for-peers.md": {
+      "disposition": "reverify",
+      "reason": "Batch counts and fixture A/B not re-run; residuals (trend line, table) disclosed."
+    },
+    "applications/node--per-capita-normalisation.md": {
+      "disposition": "reverify",
+      "reason": "17,103 to 14,420 is -15.7%, as stated. Arms not re-run."
+    },
+    "applications/node--small-sample-widening.md": {
+      "disposition": "reverify",
+      "reason": "Fixture A/B and the 0 of 132 probe not re-run."
+    }
+  }
+}
+```
+
+## Architecture review - 2026-10-31 (clarify applied)
+
+Applied the golden-path clarify. Applications untouched and keep `reverify`, now the overall disposition.
+
+<!-- architecture-review:v1 -->
+```json
+{
+  "subject": "civic-intelligence/state-budget-analysis",
+  "date": "2026-10-31",
+  "baseline": "8432a5cfa",
+  "digest": "sha256-b2:1eb6844cff16b102",
+  "disposition": "reverify",
+  "coverage": "All 13 documents decided. The clarify items owed by the earlier 2026-10-31 record were applied and re-read; other documents are byte-unchanged and keep their dispositions. No private tree or runtime reopened; no verification date refreshed.",
+  "counterexamples": [
+    "Debt reported for the town alone sits beside consolidated expenditure under one 'consolidated' caption.",
+    "A capex median over four reporters passes a guard that counts five debt reporters.",
+    "A town's population base steps 15.7% between two years, so a per-resident trend partly measures the divisor.",
+    "Five eligible peers with only two reporting a metric do not meet a five-reporting-peer floor (retained)."
+  ],
+  "sources": [
+    {
+      "url": "https://csu.gov.cz/docs/107508/211ffe08-c8da-ce70-c3cd-796bacaa99ad/340130-22dds.htm",
+      "result": "Read 2026-10-31. The statistics office's dataset 'Velikostní skupiny obcí' defines ten groups: under 200, 200-499, 500-999, 1 000-1 999, 2 000-4 999, 5 000-9 999, 10 000-19 999, 20 000-49 999, 50 000-99 999, 100 000 and over. This locates an official ten-band definition matching the application's 'ten bands' description; the consumer's constants were not re-read, so the application stays reverify."
+    },
+    {
+      "url": "https://www.imf.org/external/Pubs/FT/GFS/Manual/2014/gfsfinal.pdf",
+      "result": "Not re-opened; retained from 2026-09-09 (GFSM 2014 3.159-3.161 consolidation)."
+    },
+    {
+      "source": "Arithmetic across documents",
+      "result": "1.85 bn / 794 mil = 2.33 (the 2.3x case); 17,103 to 14,420 = -15.7%; 132 x 5 = 660 cells."
+    }
+  ],
+  "documents": {
+    "state-budget-analysis.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: the principles bullet 'size class and comparable mandate first, geography second' now reads 'comparable mandate and reporting perimeter first, then size class; geography last', matching peer-group-construction rule 1. Per-capita and real-budget universals removed by the 2026-09-09 pass remain removed."
+    },
+    "techniques/consolidated-vs-headline-figures.md": {
+      "disposition": "keep",
+      "reason": "Debt-stock consolidation, perimeter/basis/stage and the 2026-10-22 per-indicator provenance sentence are present. The single 2.3x case is consistent with the application's adapter figure (1.85 bn / 794 mil = 2.33) and with its batch range (1.14x to 7.98x)."
+    },
+    "techniques/median-over-mean-for-peers.md": {
+      "disposition": "keep",
+      "reason": "Below-floor policy unified with widening; typical-town versus resident-weighted estimands distinguished."
+    },
+    "techniques/municipal-money-trail.md": {
+      "disposition": "keep",
+      "reason": "Party identity, transaction proof for payment, involvement versus allocation and undated-period gating are present."
+    },
+    "techniques/peer-group-construction.md": {
+      "disposition": "keep",
+      "reason": "Mandate/perimeter prerequisites and qualified official-band and dynamic-cohort prescriptions are present."
+    },
+    "techniques/per-capita-normalisation.md": {
+      "disposition": "keep",
+      "reason": "Finite positive divisor and aligned reference definitions present. Open lead (a divisor that steps between periods) has one sighting and is not owed here."
+    },
+    "techniques/small-sample-widening.md": {
+      "disposition": "keep",
+      "reason": "The false median rationale is gone; the small-population exception is per metric. Decision rule 4 is now corroborated by its application."
+    },
+    "applications/node--municipal-money-trail.md": {
+      "disposition": "reverify",
+      "reason": "Unchanged since 2026-09-09; publisher-or-party join and paid predicate gaps disclosed; not executed."
+    },
+    "applications/node--peer-group-construction.md": {
+      "disposition": "reverify",
+      "reason": "The statistics office's ten size groups were located this run (csu.gov.cz dataset 'Velikostní skupiny obcí'), matching the application's 'ten half-open bands'. The consumer's POPULATION_BANDS were not re-read, so conformity is still unverified; per-metric sample is now fixed per the small-sample application."
+    },
+    "applications/node--consolidated-vs-headline-figures.md": {
+      "disposition": "reverify",
+      "reason": "Internally consistent (330 of 660 town-years; 1.85 bn / 794 mil). The 660-call source capture and private tree not re-run."
+    },
+    "applications/node--median-over-mean-for-peers.md": {
+      "disposition": "reverify",
+      "reason": "Batch counts and fixture A/B not re-run; residuals (trend line, table) disclosed."
+    },
+    "applications/node--per-capita-normalisation.md": {
+      "disposition": "reverify",
+      "reason": "17,103 to 14,420 is -15.7%, as stated. Arms not re-run."
+    },
+    "applications/node--small-sample-widening.md": {
+      "disposition": "reverify",
+      "reason": "Fixture A/B and the 0 of 132 probe not re-run."
+    }
+  }
+}
+```

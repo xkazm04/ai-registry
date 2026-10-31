@@ -13,9 +13,9 @@ use_when: [linking votes or absences to people, scoring per-member activity, han
 
 A mandate is a seat-holding: one person, in one term, elected from one
 region on one list, for some sub-interval of the term. It is a distinct
-entity from the person, with its own id — and most publishers' event tables
+entity from the person, with its own id — and many publishers' event tables
 (ballots, excuses, contact records) reference the **mandate id**, not the
-person id. The technique is to keep both entities, map between them through
+person id, while other schemas name the voter as a person. The technique is to keep both entities, map between them through
 the mandate table, and treat every place where the two could be conflated as
 a defect with a name.
 
