@@ -158,7 +158,10 @@ at it, and only at that position, which is why it survives review.
 So a peak above rest size is a **derived** number, not a chosen one
 ([limits-are-derived](../../../../_laws.md#limits-are-derived)): the maximum
 overshoot is the measured gutter divided by half the element's width, at the
-narrowest viewport where the two-column layout still applies. Measure it, write
+narrowest viewport where the two-column layout still applies. That halving
+assumes the element scales from its centre; scaled from the edge away from the
+gutter, all of the growth goes toward it and the divisor is the whole width.
+Measure it, write
 the derivation beside the number, and re-check it when the column widths
 change. A peak factor picked because it looked good on one screen is a
 collision waiting for a narrower one.

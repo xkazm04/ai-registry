@@ -53,7 +53,8 @@ station's travel, which is the reading window; it dips to `0.1` and `0.15` at
 the extremes rather than to zero.
 
 The number dot has its own curve on the same input, `[0.34, 0.5] → [0, 1]`
-(`:95`), so the marker snaps in over the last sixth of the approach — the
+(`:95`), so the marker snaps in over the last third of the approach (the
+last sixth of the station's travel) — the
 technique's "a small marker can be crisper and faster", expressed as a
 narrower keyframe window rather than as a second input.
 
