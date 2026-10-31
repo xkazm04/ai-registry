@@ -56,14 +56,17 @@ Peak music voices are not the top tier's layer count. They are:
 
 ```
 peak = layers unmuted at the highest intensity tier
-     + layers held running-but-silent for phase lock
+     + layers held running-but-silent for phase lock (unless virtualised)
      + layers of the outgoing side during the longest overlap
      + voices reserved for accents and one-shot cues
 ```
 
 Every term after the first is routinely forgotten, and the second is forgotten most of all
 *because it is inaudible*. A muted layer is still a voice: it cannot be stopped, since a
-stopped layer cannot be restarted in phase. The third term is the one that bites during
+stopped layer cannot be restarted in phase. The term is conditional on the runtime: one
+that virtualises silent channels and keeps their position ticking moves it out of the real
+voice count and into the virtual one, so the derivation names which counting model the
+reservation assumes and whether the return from virtual has been measured in phase. The third term is the one that bites during
 exactly the moments the score was written for — a crossfade pays for both sides at once, so
 the peak occurs during transitions, not during the loudest tier.
 

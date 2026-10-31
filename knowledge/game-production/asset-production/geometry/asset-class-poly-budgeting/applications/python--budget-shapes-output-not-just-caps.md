@@ -5,7 +5,7 @@ subject: asset-class-poly-budgeting
 technique: budget-shapes-output-not-just-caps
 stack: python
 status: draft
-verified_on: 2026-10-25
+verified_on: 2026-10-31
 verified_against: python@3.13
 applied: code
 ab_verdict: better
@@ -23,7 +23,7 @@ project plan and are written into each asset's manifest.
 ## Before
 
 At `9259783^` the shelves manifest recorded 1,092 triangles against a 24,000 budget. Its five
-siblings sat at 4 to 15 percent of theirs. The scripts contained no bevel, no weighted normal,
+siblings sat at 6 to 15 percent of theirs. The scripts contained no bevel, no weighted normal,
 and no smooth shading on lathed parts. Every structural gate passed. In the destination's own
 light (a dark studio, a cool table under-light, one warm practical) the owner described the
 result as early-2000s.

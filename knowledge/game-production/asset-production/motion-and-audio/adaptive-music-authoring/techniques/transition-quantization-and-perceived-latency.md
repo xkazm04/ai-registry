@@ -74,7 +74,7 @@ it is almost never in a first implementation.
 ## The commit horizon
 
 Under both clocks sits a floor nobody tunes away. Output buffering costs on the order of
-tens of milliseconds — a two-thousand-sample buffer at a common playback rate is about
+tens of milliseconds — a 2048-sample buffer at 48 kHz is about
 **43 ms** — and a request has to cross from the game's thread to the mixing thread before
 it can be scheduled at all. Together these define a **commit horizon** in front of every
 boundary, conservatively one full buffer period plus one game frame, and a request arriving

@@ -105,7 +105,9 @@ shading on every lathe. Under the destination's own lighting they read as blocks
 older generation of games, while passing every structural gate. Rebuilt with an
 angle-limited bevel, weighted normals, smooth lathes and secondary parts, the same kit
 landed at 30 to 79 percent of the same budgets. The reviewing owner judged the rebuilt prop
-the better one. The budgets did not change; only how much of them the script spent.
+the better one. The budgets did not change; only how much of them the script spent. The
+same rebuild also changed textures and UVs, so the improvement is not attributable to
+triangle spend alone, and one kit is a lead rather than a rate.
 
 - **When a scripted asset lands under about a fifth of its budget**, check for a finishing
   pass before calling it efficient: count bevelled convex edges, check smooth shading on

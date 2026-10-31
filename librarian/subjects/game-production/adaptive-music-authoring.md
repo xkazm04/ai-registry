@@ -1,7 +1,7 @@
 ---
 domain: game-production
 subject: adaptive-music-authoring
-last_touched: 2026-09-10
+last_touched: 2026-10-31
 touched_by: architecture-review
 dry_streak: 0
 ---
@@ -218,6 +218,208 @@ session was evaluated here. Their `verified_on: 2026-09-02` witnesses are untouc
     "applications/process--intensity-mapping-from-declared-game-state.md": {
       "disposition": "reverify",
       "reason": "Describes a proposed method with no recorded trace-test result. The 15% hysteresis, phrase-length dwell and one-change-per-eight-bars figures are example tunings, not measured acceptance limits, and the Wwise lead behind its phase claim is still unretrieved."
+    }
+  }
+}
+```
+
+## Architecture review - 2026-10-31
+
+Re-review against `b005a97cb`. The nine documents the 2026-09-10 record covered are
+byte-unchanged, so its four clarify items were still owed. Three applications have been
+added since. The phase-lock qualification no longer waits on Audiokinetic: FMOD's own
+manual documents virtual channels whose position keeps ticking and which resume in place.
+That confirms the voice half of the claim is runtime-conditional. It does not show
+sample-accurate return, so the qualification keeps return accuracy as a measurement. The
+2026-09-10 record called the 43 ms buffer figure correct. Quartz gives 43 ms for 2048
+samples at 48 kHz, not for 'two thousand at a common rate', so that is now a precision
+clarify. The new loop application's measurement scopes the loop technique's
+ten-millisecond rule.
+
+<!-- architecture-review:v1 -->
+```json
+{
+  "subject": "game-production/adaptive-music-authoring",
+  "date": "2026-10-31",
+  "baseline": "b005a97cb",
+  "digest": "sha256-b2:fccf430fd4de0e8d",
+  "disposition": "clarify",
+  "coverage": "All 12 current documents read in full. The nine carried from the 2026-09-10 record were checked by diff against 44c89965 (byte-unchanged) and re-read; the three applications added since were read in full. Primary sources opened this run: the FMOD 2.03 manual, the Unreal Quartz overview, the Vorbis I specification; Audiokinetic still 403. Arithmetic recomputed. Not evaluated: any consumer tree, rendered audio, decoder, engine, profiler or listener. No verification date refreshed.",
+  "counterexamples": [
+    "A 0.05 BPM error over 120 s at 120 BPM displaces a beat by ~50 ms, not ~333 ms (retained until applied).",
+    "A synthesised score (MIDI/sampler-driven or algorithmic) is neither vertical layering nor horizontal resequencing, and no rung, loop contract or stream budget here applies to it (retained from 2026-09-10; a silence, not an error).",
+    "Under FMOD's virtual voice system a silent layer gives up its real voice and CPU while its position keeps ticking, so the peak-voice formula's phase-lock term is runtime-conditional; the stream half of the cost is not shown to disappear.",
+    "Ogg Vorbis trims priming and the final partial block through granule positions, so 'any block-based encoding pads the decode longer than the source' is false for that pair.",
+    "An overlap-add loop with an 80-250 ms quarter-sine crossfade showed no seam notch or dip over three cycles (node loop application), so fade length alone does not mark a concealing fade.",
+    "A stinger that is also the head of a looping bed is both 'plays once' and 'must loop'; the loop technique's exclusions treat the classes as disjoint (retained)."
+  ],
+  "sources": [
+    {
+      "url": "https://d1s9dnlmdewoh1.cloudfront.net/2.03/api/managing-resources-in-the-core-api.html",
+      "result": "FMOD Engine 2.03 user manual, read 2026-10-31. Virtual channels are 'emulated with a simple position and audibility update, and so are not heard and don't consume CPU time'; 'When going virtual, the sound's time will still be ticked ... When the Channel becomes real again, it will resume as if it had been playing properly'; 'When channels stop being virtual, they resume from their proper place, part-way through the sound.' Virtual channels still count against the maxchannels (virtual) limit. Primary vendor confirmation that a silent layer need not hold a real voice; it does NOT establish sample-accurate phase on return, stream I/O behaviour while virtual, or Wwise semantics."
+    },
+    {
+      "url": "https://www.audiokinetic.com/en/library/edge/?id=concept_virtualvoices.html&source=SDK",
+      "result": "HTTP 403 again on 2026-10-31 (third run). A second Audiokinetic help URL also returned 403. Wwise wording remains unread first-hand; the FMOD manual above now carries the qualification instead."
+    },
+    {
+      "url": "https://dev.epicgames.com/documentation/en-us/unreal-engine/overview-of-quartz-in-unreal-engine",
+      "result": "Read 2026-10-31: 'If that buffer contains 2048 samples rendered at 48k samples per second (kHz) ... the buffer results in an audible latency of up to 43 milliseconds (ms)', and 'commands issued from the game thread take time to get to the audio engine' (worst case 56 ms with 13 ms threading latency). Supports the 43 ms figure only for 2048 samples at 48 kHz; 2000 samples is 41.7 ms at 48 kHz and 45.4 ms at 44.1 kHz."
+    },
+    {
+      "url": "https://xiph.org/vorbis/doc/Vorbis_I_spec.html",
+      "result": "Re-read 2026-10-31. 'Data is not returned from the first frame; it must be used to prime the decode engine. The encoder accounts for this priming when calculating PCM offsets'; and in the Ogg encapsulation, 'A granule position on the final page in a stream that indicates less audio data than the final packet would normally return is used to end the stream on other than even frame boundaries. The difference ... indicates how many trailing samples to discard.' So Ogg Vorbis trims both ends; nothing was decoded."
+    },
+    {
+      "source": "Arithmetic",
+      "result": "0.05 BPM at 120 BPM over 120 s: 240 beats at 120.05 BPM take 119.950 s, slip about 50 ms (rung 2 said about 333 ms). 96 BPM bar = 2500 ms, 5x the 500 ms window; 0.5-bar crossfade 1.25 s, real response 1.25-3.75 s. Stem application: 12 + 2 + 3 = 17. All recomputed."
+    }
+  ],
+  "documents": {
+    "adaptive-music-authoring.md": {
+      "disposition": "clarify",
+      "reason": "Owed since 2026-09-10 and still present: the layering cost and the budget paragraph state that a stopped layer cannot be restarted in phase and that a silent layer is always a voice. FMOD's manual documents virtual channels that keep ticking and resume in place, so the voice half is runtime-conditional. Also 'a two-thousand-sample buffer at a common playback rate is around 43 ms' should be the Quartz figure, 2048 samples at 48 kHz."
+    },
+    "techniques/vertical-layering-versus-horizontal-resequencing.md": {
+      "disposition": "clarify",
+      "reason": "Owed since 2026-09-10: 'a layer that was stopped cannot be restarted in phase' and 'a voice and a stream per layer ... including the silent ones' are absolute; qualify for runtimes that virtualise silent channels, keeping phase accuracy on return as something to measure. Transition-count arithmetic (5 gives 20, 10 gives 90) and the magnitude-versus-kind rule hold."
+    },
+    "techniques/transition-quantization-and-perceived-latency.md": {
+      "disposition": "clarify",
+      "reason": "Every other number re-derived and correct. One precision fix: 'a two-thousand-sample buffer at a common playback rate is about 43 ms' - 43 ms is 2048 samples at 48 kHz per the Quartz page; 2000 samples gives 41.7 or 45.4 ms. The commit-horizon and cover-the-gap rules stay."
+    },
+    "techniques/loop-boundary-and-tail-contract.md": {
+      "disposition": "clarify",
+      "reason": "Owed since 2026-09-10: 'Any block-based compressed encoding pads ... the decoded stream is longer than the source' is false for Ogg Vorbis, whose granule positions trim both ends; attribute the hazard to the shipped codec-container-decoder. New: the node loop application measured an 80-250 ms overlap-add fold with no notch or dip, so scope the ten-millisecond ceiling to fades that hide a join. The re-measure rule stays."
+    },
+    "techniques/stem-and-voice-budget-derivation.md": {
+      "disposition": "clarify",
+      "reason": "Owed since 2026-09-10: the peak formula's phase-lock term and 'a muted layer is still a voice' are unconditional; under virtualisation that term moves to the virtual count. Name the counting model. The reservation authority, yield order and bandwidth-binds-first observation hold."
+    },
+    "techniques/intensity-mapping-from-declared-game-state.md": {
+      "disposition": "keep",
+      "reason": "Unchanged since the 2026-09-10 keep. Hysteresis, dwell floor and ceiling, and the coverage guard are consistent and hedged as ranges."
+    },
+    "techniques/music-acceptance-beyond-decode-checks.md": {
+      "disposition": "clarify",
+      "reason": "Owed since 2026-09-10: rung 2's tempo-slip figure is wrong by about 7x (recomputed: ~50 ms, not a third of a second). The tolerance argument survives."
+    },
+    "applications/node--music-acceptance-beyond-decode-checks.md": {
+      "disposition": "reverify",
+      "reason": "Unchanged. Citations against consumer commit 9aa31407 not reopened; no audio, packaged asset or engine run."
+    },
+    "applications/process--intensity-mapping-from-declared-game-state.md": {
+      "disposition": "reverify",
+      "reason": "Unchanged. A proposed method with no recorded trace result; its Wwise link is still unreadable first-hand."
+    },
+    "applications/node--loop-boundary-and-tail-contract.md": {
+      "disposition": "reverify",
+      "reason": "New since the last record; read in full. Internally consistent (quarter-sine fold summed at unity, three-cycle seam and RMS reads, honest unmeasurable verdict for the engine re-import). Its finding feeds the loop technique's clarify. The private VR tree and its audio were not reopened."
+    },
+    "applications/node--stem-and-voice-budget-derivation.md": {
+      "disposition": "reverify",
+      "reason": "New; read in full. 12 + 2 + 3 = 17 recomputed; the subtotal-not-total finding is sound and the verdict is honestly unmeasurable. Private tree not reopened."
+    },
+    "applications/node--transition-quantization-and-perceived-latency.md": {
+      "disposition": "reverify",
+      "reason": "New; read in full. Bar wait, crossfade range and the 2048-sample/48 kHz/43 ms horizon all recomputed and consistent with the Quartz page. The paired test counts (3 of 3 to 0 of 3; 946 files, 8289 tests) come from a private tree that was not re-run."
+    }
+  }
+}
+```
+
+## Architecture review - 2026-10-31 (clarify applied)
+
+Applied the six clarify items above in each document's own voice. The second record is
+against the edited bytes. No application or verification date was touched.
+
+<!-- architecture-review:v1 -->
+```json
+{
+  "subject": "game-production/adaptive-music-authoring",
+  "date": "2026-10-31",
+  "baseline": "b005a97cb",
+  "digest": "sha256-b2:23d6767be7d10378",
+  "disposition": "reverify",
+  "coverage": "All 12 documents decided. The six clarify items (five owed since 2026-09-10, one new) were applied and the edited passages re-read against the sources quoted. Applications untouched; they keep reverify, which is now the overall disposition. No verification date refreshed.",
+  "counterexamples": [
+    "A 0.05 BPM error over 120 s at 120 BPM displaces a beat by ~50 ms, not ~333 ms (retained until applied).",
+    "A synthesised score (MIDI/sampler-driven or algorithmic) is neither vertical layering nor horizontal resequencing, and no rung, loop contract or stream budget here applies to it (retained from 2026-09-10; a silence, not an error).",
+    "Under FMOD's virtual voice system a silent layer gives up its real voice and CPU while its position keeps ticking, so the peak-voice formula's phase-lock term is runtime-conditional; the stream half of the cost is not shown to disappear.",
+    "Ogg Vorbis trims priming and the final partial block through granule positions, so 'any block-based encoding pads the decode longer than the source' is false for that pair.",
+    "An overlap-add loop with an 80-250 ms quarter-sine crossfade showed no seam notch or dip over three cycles (node loop application), so fade length alone does not mark a concealing fade.",
+    "A stinger that is also the head of a looping bed is both 'plays once' and 'must loop'; the loop technique's exclusions treat the classes as disjoint (retained)."
+  ],
+  "sources": [
+    {
+      "url": "https://d1s9dnlmdewoh1.cloudfront.net/2.03/api/managing-resources-in-the-core-api.html",
+      "result": "FMOD Engine 2.03 user manual, read 2026-10-31. Virtual channels are 'emulated with a simple position and audibility update, and so are not heard and don't consume CPU time'; 'When going virtual, the sound's time will still be ticked ... When the Channel becomes real again, it will resume as if it had been playing properly'; 'When channels stop being virtual, they resume from their proper place, part-way through the sound.' Virtual channels still count against the maxchannels (virtual) limit. Primary vendor confirmation that a silent layer need not hold a real voice; it does NOT establish sample-accurate phase on return, stream I/O behaviour while virtual, or Wwise semantics."
+    },
+    {
+      "url": "https://www.audiokinetic.com/en/library/edge/?id=concept_virtualvoices.html&source=SDK",
+      "result": "HTTP 403 again on 2026-10-31 (third run). A second Audiokinetic help URL also returned 403. Wwise wording remains unread first-hand; the FMOD manual above now carries the qualification instead."
+    },
+    {
+      "url": "https://dev.epicgames.com/documentation/en-us/unreal-engine/overview-of-quartz-in-unreal-engine",
+      "result": "Read 2026-10-31: 'If that buffer contains 2048 samples rendered at 48k samples per second (kHz) ... the buffer results in an audible latency of up to 43 milliseconds (ms)', and 'commands issued from the game thread take time to get to the audio engine' (worst case 56 ms with 13 ms threading latency). Supports the 43 ms figure only for 2048 samples at 48 kHz; 2000 samples is 41.7 ms at 48 kHz and 45.4 ms at 44.1 kHz."
+    },
+    {
+      "url": "https://xiph.org/vorbis/doc/Vorbis_I_spec.html",
+      "result": "Re-read 2026-10-31. 'Data is not returned from the first frame; it must be used to prime the decode engine. The encoder accounts for this priming when calculating PCM offsets'; and in the Ogg encapsulation, 'A granule position on the final page in a stream that indicates less audio data than the final packet would normally return is used to end the stream on other than even frame boundaries. The difference ... indicates how many trailing samples to discard.' So Ogg Vorbis trims both ends; nothing was decoded."
+    },
+    {
+      "source": "Arithmetic",
+      "result": "0.05 BPM at 120 BPM over 120 s: 240 beats at 120.05 BPM take 119.950 s, slip about 50 ms (rung 2 said about 333 ms). 96 BPM bar = 2500 ms, 5x the 500 ms window; 0.5-bar crossfade 1.25 s, real response 1.25-3.75 s. Stem application: 12 + 2 + 3 = 17. All recomputed."
+    }
+  ],
+  "documents": {
+    "adaptive-music-authoring.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: the layering-cost sentence now notes that a runtime which virtualises a silent channel and keeps its position changes the voice half of the cost, not the stream half, with return accuracy the runtime's to prove; the budget paragraph says a virtualised silent layer holds a virtual slot and that support is stated in the reservation; the buffer example now reads 2048 samples at 48 kHz."
+    },
+    "techniques/vertical-layering-versus-horizontal-resequencing.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: added the virtualisation exception after 'muted means gain at silence', with phase accuracy on return (especially from a seeking compressed stream) to be measured; the cost line notes a virtual slot in place of a real voice for silent layers."
+    },
+    "techniques/transition-quantization-and-perceived-latency.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: the buffer example now reads 'a 2048-sample buffer at 48 kHz is about 43 ms'."
+    },
+    "techniques/loop-boundary-and-tail-contract.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: the compressed-encoding paragraph now says padding persists unless the container trims it, notes that a container whose per-page sample positions account for priming and the final partial block reproduces the source length (the Vorbis-in-Ogg case, left unnamed in the technique layer), and attributes the hazard to the shipped codec-container-decoder; the ten-millisecond rule now says it is about a fade that hides a join, not an overlap-add fold that carries the decay into the head, which is judged by measuring the seam over cycles."
+    },
+    "techniques/stem-and-voice-budget-derivation.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: the formula's phase-lock term is marked '(unless virtualised)' and the prose says the term moves to the virtual count on such runtimes, so the derivation names its counting model and whether the virtual return was measured in phase."
+    },
+    "techniques/intensity-mapping-from-declared-game-state.md": {
+      "disposition": "keep",
+      "reason": "Unchanged since the 2026-09-10 keep. Hysteresis, dwell floor and ceiling, and the coverage guard are consistent and hedged as ranges."
+    },
+    "techniques/music-acceptance-beyond-decode-checks.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: rung 2 now says, at 120 BPM, roughly fifty milliseconds of slip, a tenth of a beat and an audible flam between layers."
+    },
+    "applications/node--music-acceptance-beyond-decode-checks.md": {
+      "disposition": "reverify",
+      "reason": "Unchanged. Citations against consumer commit 9aa31407 not reopened; no audio, packaged asset or engine run."
+    },
+    "applications/process--intensity-mapping-from-declared-game-state.md": {
+      "disposition": "reverify",
+      "reason": "Unchanged. A proposed method with no recorded trace result; its Wwise link is still unreadable first-hand."
+    },
+    "applications/node--loop-boundary-and-tail-contract.md": {
+      "disposition": "reverify",
+      "reason": "New since the last record; read in full. Internally consistent (quarter-sine fold summed at unity, three-cycle seam and RMS reads, honest unmeasurable verdict for the engine re-import). Its finding feeds the loop technique's clarify. The private VR tree and its audio were not reopened."
+    },
+    "applications/node--stem-and-voice-budget-derivation.md": {
+      "disposition": "reverify",
+      "reason": "New; read in full. 12 + 2 + 3 = 17 recomputed; the subtotal-not-total finding is sound and the verdict is honestly unmeasurable. Private tree not reopened."
+    },
+    "applications/node--transition-quantization-and-perceived-latency.md": {
+      "disposition": "reverify",
+      "reason": "New; read in full. Bar wait, crossfade range and the 2048-sample/48 kHz/43 ms horizon all recomputed and consistent with the Quartz page. The paired test counts (3 of 3 to 0 of 3; 946 files, 8289 tests) come from a private tree that was not re-run."
     }
   }
 }

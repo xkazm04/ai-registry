@@ -95,7 +95,9 @@ gives way to combat gives way to a victory cadence.
 They are not stylistic alternatives; they answer different questions and their costs run in
 opposite directions. Layering responds instantly and coherently, and costs a voice and a
 stream per layer at all times — including the layers currently at silence, because a layer
-that was stopped cannot be restarted in phase. Resequencing costs one voice plus a brief
+that was stopped cannot be restarted in phase. (A runtime that virtualises a silent channel
+and keeps its playback position ticking changes the voice half of that cost, not the
+stream half; whether its return is sample-accurate is the runtime's to prove.) Resequencing costs one voice plus a brief
 overlap, and does what layering structurally cannot: change key, change theme, cadence,
 resolve. Its authoring cost grows with the square of the segment count, because every
 permitted move is a composed transition somebody writes.
@@ -131,7 +133,7 @@ and cannot be harmonically wrong, and let the harmonic change land on the bar wh
 belongs.
 
 Underneath both clocks is a floor nobody tunes away. Output buffering costs tens of
-milliseconds — a two-thousand-sample buffer at a common playback rate is around 43 ms — and
+milliseconds — a 2048-sample buffer at 48 kHz is around 43 ms — and
 a request must cross from the game's thread to the mixing thread before it can be
 scheduled. So a **commit horizon** sits in front of every boundary, and a request arriving
 inside it must be pushed to the next boundary. The naive implementation clamps it to *now*,
@@ -156,7 +158,8 @@ tier are *derived from* it rather than discovered during integration
 ([a-budget-shapes-the-output](../../../_laws.md#a-budget-shapes-the-output)) — counting the
 terms teams miss: a crossfade pays for both sides at once, an accent needs its own voice,
 and a layer held running-but-silent for phase lock is a voice precisely because nobody can
-hear it. The corollary settles arguments: **when the budget binds, music yields first**, because
+hear it, unless the runtime virtualises it and keeps its position, in which case it holds a
+virtual slot instead and that support is stated in the reservation. The corollary settles arguments: **when the budget binds, music yields first**, because
 a lost world sound may have been a gameplay signal and a thinner bed never is. The full
 derivation, including the bandwidth constraint that usually binds before the voice count
 does, is [stem-and-voice-budget-derivation](./techniques/stem-and-voice-budget-derivation.md).

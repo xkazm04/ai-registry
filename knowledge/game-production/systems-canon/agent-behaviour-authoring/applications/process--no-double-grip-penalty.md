@@ -31,8 +31,8 @@ target at 97 percent of top speed, and `:6` `aiGripFraction,0.70` has the rival 
 of the lateral budget. The margin is per skill row in `ai-skills.csv` (`cornerMarginMps` is 4
 for the Rookie row and 2 for Club). The design note for the wave states the intent in one
 line, `docs/concepts/deathride/W3-movement.md:17`: "AI sees the same grip limit and lowers
-corner speed, with no physics cheats". Confirmed on every point, including the one the
-technique treats as optional: grip is read ahead (`s+look`), not underfoot.
+corner speed, with no physics cheats". Confirmed on every point, including the look-ahead
+refinement the technique lists third: grip is read ahead (`s+look`), not underfoot.
 
 ## The duplicate and how it was found
 

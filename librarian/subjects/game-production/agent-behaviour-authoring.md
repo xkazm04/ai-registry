@@ -1,7 +1,7 @@
 ---
 domain: game-production
 subject: agent-behaviour-authoring
-last_touched: 2026-09-10
+last_touched: 2026-10-31
 touched_by: architecture-review
 dry_streak: 0
 ---
@@ -176,6 +176,197 @@ witnesses, and this review produced none — every claim above is a reading of t
     "techniques/perception-before-decision.md": {"disposition": "keep", "reason": "Senses enumerated with units and reference conditions, a fact schema carrying value/place/time/confidence, accumulation and decay windows as the source of the whole noticing-losing-forgetting vocabulary, perception latency separated from reaction delay, and the three-valued rule with searching as its consequence."},
     "applications/node--group-coordination-without-a-hive-mind.md": {"disposition": "clarify", "reason": "Every citation re-resolved exactly at pof HEAD and the deviations it records are still live. Two problems: it drops the source's own 'WildStar pattern' attribution while framing the design as an upward lesson, and it carries an appended in-document 'Review boundary - 2026-09-10' section whose central claim (the consumer was not opened) is now superseded by this review."},
     "applications/process--perception-before-decision.md": {"disposition": "clarify", "reason": "The four deviations it records — sibling dependency order, no reference target on SightRadius, no reaction delay and therefore nowhere to implement a difficulty ceiling, no three-valued rule — were each re-checked against pof HEAD and all four still hold. It carries the same appended review-boundary section, review commentary living inside a knowledge document, which is where the clarify sits."}
+  }
+}
+```
+
+## Architecture review - 2026-10-31
+
+Re-review against `b005a97cb`. The six original techniques and two applications are
+byte-unchanged since the 2026-09-10 record, so its four clarify items were still owed. The
+subject has since gained three racing-opponent techniques, a process application and a
+golden-path paragraph. The new material is sound physics. It disagreed with itself in two
+places: the golden path said only a completion test finds a duplicated grip factor, and the
+grip technique said deletion is the repair while recommending exclusivity. The WildStar
+attribution could not be applied. The consumer that names it is not reachable from this
+run, and a web search found no public primary source to cite in its place.
+
+<!-- architecture-review:v1 -->
+```json
+{
+  "subject": "game-production/agent-behaviour-authoring",
+  "date": "2026-10-31",
+  "baseline": "b005a97cb",
+  "digest": "sha256-b2:b39a982c7a2e1077",
+  "disposition": "clarify",
+  "coverage": "All 13 current documents decided. The nine carried from the 2026-09-10 record are byte-unchanged except the golden path, which gained the racing paragraph and a technique list; both were re-read. The three racing techniques and their process application, added since, were read in full. Not evaluated: the pof and racing-game trees (neither is available here), any agent, trace or race run. No verification date refreshed.",
+  "counterexamples": [
+    "A duplicated grip factor can be found by reading, by summing the factors between the limit and the target and listing which read the same input, which is the technique's own first decision rule. A completion test is the reliable instrument, not the only one.",
+    "A surface-dependent factor kept for straights and forced to 1.0 on corners is a second factor that is not a double count. 'Delete one of the two' is too strong as the only repair.",
+    "A quarter-second dwell floor can be too long for a duelling agent and too short for a heavy unit whose transition animation runs 0.6 s. A floor with no basis cannot say which.",
+    "A squad manager assigning coarse roles while melee slots are claimed on a target-owned ring is a commander and a reservation system together (retained from 2026-09-10).",
+    "An 8 m pass trigger reading as 'half a length' for a heavy car implies a 16 m vehicle; the ratio argument holds, but the example's heavy car is truck-sized."
+  ],
+  "sources": [
+    {
+      "source": "Internal consistency across the subject",
+      "result": "The golden path's racing paragraph said a duplicated grip limit 'only a completion test across every surface will find', while no-double-grip-penalty's first decision rule tells the reader to sum the factors and list which read the same input, a reading-based find. no-double-grip-penalty said 'The repair is to delete one of the two' while its own section, and the process application's upward lesson, recommend making the two factors exclusive by construction. The process application called look-ahead grip 'the one the technique treats as optional'; ai-corner-speed-from-grip-limit lists it as the third refinement."
+    },
+    {
+      "source": "Arithmetic",
+      "result": "Corner speed v = sqrt(a_lat x grip / k) from v^2 k = a_lat checked; grip enters through the root. sqrt(0.32) = 0.566, matching the process application's 'about 0.57' for ice."
+    },
+    {
+      "source": "Two web searches for a WildStar or Carbine primary source, 2026-10-31",
+      "result": "Searches for a public WildStar or Carbine source on target-owned melee reservation found nothing primary. The consumer's 'the WildStar pattern' wording was confirmed on 2026-09-10 against the pof checkout, which is not available to this run. The attribution item therefore stays owed rather than applied."
+    }
+  ],
+  "documents": {
+    "agent-behaviour-authoring.md": {
+      "disposition": "clarify",
+      "reason": "The 2026-09-10 keep covered the four-link spine. The racing paragraph added since says a duplicated grip limit is a defect 'only a completion test across every surface will find', which contradicts no-double-grip-penalty's reading-based decision rule. Say a reading rarely shows it and the completion test reliably does."
+    },
+    "techniques/behaviour-model-selection.md": {
+      "disposition": "keep",
+      "reason": "Unchanged since the 2026-09-10 keep. Emittability still has no probe step; recorded as a counterexample in that record, not a defect in the text."
+    },
+    "techniques/perception-before-decision.md": {
+      "disposition": "keep",
+      "reason": "Unchanged since the 2026-09-10 keep."
+    },
+    "techniques/blackboard-as-declared-shared-state.md": {
+      "disposition": "keep",
+      "reason": "Unchanged since the 2026-09-10 keep."
+    },
+    "techniques/decision-trace-as-evidence.md": {
+      "disposition": "keep",
+      "reason": "Unchanged since the 2026-09-10 keep."
+    },
+    "techniques/commitment-and-recovery-windows.md": {
+      "disposition": "clarify",
+      "reason": "Owed since 2026-09-10: 'a value near a quarter of a second is roughly the floor at which a change reads as a decision' carries no basis or source in a document that cites the unit-and-basis law. No primary source was found this run, so the fix is to label it a working rule of thumb and name what a project checks it against."
+    },
+    "techniques/group-coordination-without-a-hive-mind.md": {
+      "disposition": "clarify",
+      "reason": "Owed since 2026-09-10: the target-owned registry and the arrive-and-confirm handshake came from a consumer that names them 'the WildStar pattern', and the technique carries no attribution. Not applied: the consumer is not reachable this run and no public primary source was found."
+    },
+    "techniques/ai-corner-speed-from-grip-limit.md": {
+      "disposition": "keep",
+      "reason": "New since the last record; read in full. The derivation v = sqrt(a_lat x grip / k) is correct, the fraction and margin are separated with a reason, and the evidence grade (authored / simulated / felt) is stated honestly."
+    },
+    "techniques/no-double-grip-penalty.md": {
+      "disposition": "clarify",
+      "reason": "New; read in full. Sound overall, but 'The repair is to delete one of the two' contradicts its own 'make them exclusive by construction' and the process application's upward lesson. Say: remove the double entry, by deletion or by exclusivity."
+    },
+    "techniques/ai-distances-from-car-size.md": {
+      "disposition": "keep",
+      "reason": "New; read in full. The relative / absolute / mixed split and its redraw-at-twice-the-size test are sound. The 8 m example implies a 16 m heavy car (counterexample); not worth a change."
+    },
+    "applications/node--group-coordination-without-a-hive-mind.md": {
+      "disposition": "clarify",
+      "reason": "Owed since 2026-09-10: it drops the consumer's 'WildStar pattern' attribution while presenting the design as an upward lesson, and it carries an in-document 'Review boundary - 2026-09-10' section that belongs in this ledger. Not applied: the attribution needs the consumer, and removing the section is a structural change for the Director."
+    },
+    "applications/process--perception-before-decision.md": {
+      "disposition": "clarify",
+      "reason": "Owed since 2026-09-10: the in-document 'Review boundary - 2026-09-10' section is review commentary inside a knowledge document. Not applied, for the same reason. Citations not reopened."
+    },
+    "applications/process--no-double-grip-penalty.md": {
+      "disposition": "clarify",
+      "reason": "New; read in full. Citations against a private game tree not reopened. One internal misstatement: it calls look-ahead grip 'the one the technique treats as optional', and the technique lists it as a refinement. The sqrt clamp figures are consistent."
+    }
+  }
+}
+```
+
+## Architecture review - 2026-10-31 (clarify applied)
+
+Applied the commitment basis label and the three internal-consistency fixes. The
+second record is against the edited bytes. The attribution and review-boundary items stay
+owed, for the reasons in the first record.
+
+<!-- architecture-review:v1 -->
+```json
+{
+  "subject": "game-production/agent-behaviour-authoring",
+  "date": "2026-10-31",
+  "baseline": "b005a97cb",
+  "digest": "sha256-b2:08128053dc97eb84",
+  "disposition": "clarify",
+  "coverage": "All 13 documents decided. Three clarify items were applied (two internal inconsistencies, one owed basis label), and a fourth, the process application's 'optional' wording, was applied too; the edited passages were re-read. Still owed: the WildStar attribution in the coordination technique and its node application, and the in-document review-boundary sections in two applications. No verification date refreshed.",
+  "counterexamples": [
+    "A duplicated grip factor can be found by reading, by summing the factors between the limit and the target and listing which read the same input, which is the technique's own first decision rule. A completion test is the reliable instrument, not the only one.",
+    "A surface-dependent factor kept for straights and forced to 1.0 on corners is a second factor that is not a double count. 'Delete one of the two' is too strong as the only repair.",
+    "A quarter-second dwell floor can be too long for a duelling agent and too short for a heavy unit whose transition animation runs 0.6 s. A floor with no basis cannot say which.",
+    "A squad manager assigning coarse roles while melee slots are claimed on a target-owned ring is a commander and a reservation system together (retained from 2026-09-10).",
+    "An 8 m pass trigger reading as 'half a length' for a heavy car implies a 16 m vehicle; the ratio argument holds, but the example's heavy car is truck-sized."
+  ],
+  "sources": [
+    {
+      "source": "Internal consistency across the subject",
+      "result": "The golden path's racing paragraph said a duplicated grip limit 'only a completion test across every surface will find', while no-double-grip-penalty's first decision rule tells the reader to sum the factors and list which read the same input, a reading-based find. no-double-grip-penalty said 'The repair is to delete one of the two' while its own section, and the process application's upward lesson, recommend making the two factors exclusive by construction. The process application called look-ahead grip 'the one the technique treats as optional'; ai-corner-speed-from-grip-limit lists it as the third refinement."
+    },
+    {
+      "source": "Arithmetic",
+      "result": "Corner speed v = sqrt(a_lat x grip / k) from v^2 k = a_lat checked; grip enters through the root. sqrt(0.32) = 0.566, matching the process application's 'about 0.57' for ice."
+    },
+    {
+      "source": "Two web searches for a WildStar or Carbine primary source, 2026-10-31",
+      "result": "Searches for a public WildStar or Carbine source on target-owned melee reservation found nothing primary. The consumer's 'the WildStar pattern' wording was confirmed on 2026-09-10 against the pof checkout, which is not available to this run. The attribution item therefore stays owed rather than applied."
+    }
+  ],
+  "documents": {
+    "agent-behaviour-authoring.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: 'a defect that only a completion test across every surface will find' now reads 'a defect that a reading of either line rarely shows and a completion test across every surface reliably does'."
+    },
+    "techniques/behaviour-model-selection.md": {
+      "disposition": "keep",
+      "reason": "Unchanged since the 2026-09-10 keep. Emittability still has no probe step; recorded as a counterexample in that record, not a defect in the text."
+    },
+    "techniques/perception-before-decision.md": {
+      "disposition": "keep",
+      "reason": "Unchanged since the 2026-09-10 keep."
+    },
+    "techniques/blackboard-as-declared-shared-state.md": {
+      "disposition": "keep",
+      "reason": "Unchanged since the 2026-09-10 keep."
+    },
+    "techniques/decision-trace-as-evidence.md": {
+      "disposition": "keep",
+      "reason": "Unchanged since the 2026-09-10 keep."
+    },
+    "techniques/commitment-and-recovery-windows.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: the quarter-second figure is now 'a common working floor', followed by a sentence saying it has no measured basis here and that an adopting project states what it checked it against (the animation's transition length, or the player's perceive-and-respond time)."
+    },
+    "techniques/group-coordination-without-a-hive-mind.md": {
+      "disposition": "clarify",
+      "reason": "Owed since 2026-09-10: the target-owned registry and the arrive-and-confirm handshake came from a consumer that names them 'the WildStar pattern', and the technique carries no attribution. Not applied: the consumer is not reachable this run and no public primary source was found."
+    },
+    "techniques/ai-corner-speed-from-grip-limit.md": {
+      "disposition": "keep",
+      "reason": "New since the last record; read in full. The derivation v = sqrt(a_lat x grip / k) is correct, the fraction and margin are separated with a reason, and the evidence grade (authored / simulated / felt) is stated honestly."
+    },
+    "techniques/no-double-grip-penalty.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: 'The repair is to delete one of the two' now reads 'The repair is to remove the double entry - delete one of the two, or make them exclusive by construction as below - not to compensate'."
+    },
+    "techniques/ai-distances-from-car-size.md": {
+      "disposition": "keep",
+      "reason": "New; read in full. The relative / absolute / mixed split and its redraw-at-twice-the-size test are sound. The 8 m example implies a 16 m heavy car (counterexample); not worth a change."
+    },
+    "applications/node--group-coordination-without-a-hive-mind.md": {
+      "disposition": "clarify",
+      "reason": "Owed since 2026-09-10: it drops the consumer's 'WildStar pattern' attribution while presenting the design as an upward lesson, and it carries an in-document 'Review boundary - 2026-09-10' section that belongs in this ledger. Not applied: the attribution needs the consumer, and removing the section is a structural change for the Director."
+    },
+    "applications/process--perception-before-decision.md": {
+      "disposition": "clarify",
+      "reason": "Owed since 2026-09-10: the in-document 'Review boundary - 2026-09-10' section is review commentary inside a knowledge document. Not applied, for the same reason. Citations not reopened."
+    },
+    "applications/process--no-double-grip-penalty.md": {
+      "disposition": "reverify",
+      "reason": "applied 2026-10-31: 'including the one the technique treats as optional' now reads 'including the look-ahead refinement the technique lists third'. The citations into the private game tree were not reopened, so the document stays reverify."
+    }
   }
 }
 ```

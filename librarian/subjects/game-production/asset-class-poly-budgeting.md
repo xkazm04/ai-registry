@@ -1,7 +1,7 @@
 ---
 domain: game-production
 subject: asset-class-poly-budgeting
-last_touched: 2026-09-10
+last_touched: 2026-10-31
 touched_by: architecture-review
 dry_streak: 0
 ---
@@ -214,6 +214,173 @@ lettering rule without scoping it to generated detail at generation-time density
     "applications/process--class-ceiling-vs-requested-budget.md": {
       "disposition": "clarify",
       "reason": "The preset table re-read against polycount-presets.ts and matches row for row. Two corrections are owed. It reproduces the character row's 'highest per-asset budget' rationale, which its own table refutes at the environment row. And its appended review boundary claims 'a parts<1 check alone does not reject fractions, infinity or NaN' - planPartBudget guards !Number.isFinite(parts) || parts < 1, so infinity and NaN are rejected and only the fractional case survives; narrow that sentence. Its Nanite point is affirmed. No grading or budget planning was executed and verified_on is not refreshed."
+    }
+  }
+}
+```
+
+## Architecture review - 2026-10-31
+
+Re-review against `b005a97cb`. The two golden-path fixes and the two process-application
+corrections the 2026-09-10 record asked for are still owed. Current Unreal documentation
+now supplies a primary source for the Nanite point; the 2026-09-10 record cited a forum
+thread. Since that record, the budget-shapes technique gained an inverse-signal section for
+scripted geometry, and the subject gained a python application on a public repository.
+Unlike the consumer-bound applications, that repository could be re-checked, and its
+citations hold. One sibling-range figure is off, and the technique leaves out the confound
+the application states.
+
+<!-- architecture-review:v1 -->
+```json
+{
+  "subject": "game-production/asset-class-poly-budgeting",
+  "date": "2026-10-31",
+  "baseline": "b005a97cb",
+  "digest": "sha256-b2:fc75444ee7981874",
+  "disposition": "clarify",
+  "coverage": "All 10 current documents decided. The nine carried from the 2026-09-10 record are byte-unchanged except budget-shapes-output-not-just-caps, whose added section was read in full; the new python application was read in full and its citations were re-checked against the public bp repository. The Unreal Nanite page was read. Not evaluated: the pof consumer, which is unavailable here; any mesh generation, measurement or render. Only the python application's verification date moved.",
+  "counterexamples": [
+    "The character row's 'highest per-asset budget in the project' sits two rows above an environment target of 60k against the character's 40k (retained until applied).",
+    "Unreal's current documentation lists skeletal meshes as Nanite-supported, so 'skinned meshes fall outside the virtualized path' is a dated, per-engine claim.",
+    "A scripted rebuild that raises triangle spend while also changing textures and UVs cannot attribute its quality gain to triangles; one kit is a lead, not a rate.",
+    "quad-trap-detection: a mirrored mesh from a genuine quad request lands near 2x, and the request guard does not distinguish it (retained from 2026-09-10).",
+    "class-ceiling-vs-requested-budget: a provider that clamps silently makes the grader accuse it of ignoring a budget it partly honoured (retained)."
+  ],
+  "sources": [
+    {
+      "url": "https://dev.epicgames.com/documentation/en-us/unreal-engine/nanite-virtualized-geometry-in-unreal-engine",
+      "result": "Read 2026-10-31 (page headed Unreal Engine 5.8). Lists 'Skeletal mesh' as a supported component type ('Nanite Skeletal Meshes include support for: ... One draw call for an entire mesh'; 'Nanite Skeletal Mesh uses animation LODs'); 'Nanite supports materials that have their Blend Mode set to Opaque and Masked'; 'While deformation with World Position Offset (WPO) in a material is supported, it is limited.' Basis for rewriting the eligibility bullet. It does not establish performance or default-on status, and says nothing about other engines."
+    },
+    {
+      "url": "https://github.com/xkazm04/bp",
+      "result": "Public repository, read 2026-10-31 through a blobless clone. At d8b1fea: scripts/art/lib/finish.bpy:15 'HARD_DEG = 30.0' and :17 'SEGMENTS = 2'; apps/vr/ArtSource/studio-shelves/manifest.json:4 'budget_tris': 24000 and :56 'tris': 17144. At 9259783^ (6cb649f8) the shelves manifest records 1092 tris. Across the six studio-kit manifests the before shares are 5, 8, 15, 13, 7 and 6 percent (shelves 4.55 percent) and the after shares are 71, 44, 51, 48, 30 and 79 percent, so the kit spans 4-15 before and 30-79 after, while the shelves' five siblings span 6-15. The owner's verdict and the Blender build were not re-checked."
+    },
+    {
+      "source": "Internal consistency",
+      "result": "The golden path's character row and eligibility bullet both call the character the largest budget in the table; the environment row carries 60k against 40k. The process application's table reproduces the same rationale. The budget-shapes technique's inverse-signal section omits the confound its own python application states (bevels, textures and UVs changed together)."
+    }
+  ],
+  "documents": {
+    "asset-class-poly-budgeting.md": {
+      "disposition": "clarify",
+      "reason": "Owed since 2026-09-10, both still present. (1) The character row's rationale, 'the highest per-asset budget in the project', is refuted by the environment row; the eligibility bullet repeats it ('the largest budget in the table below'). (2) The eligibility bullet puts skinned meshes outside the virtualized path 'on most engines'; Unreal's current documentation lists skeletal meshes as supported, and keeps translucency out and WPO limited."
+    },
+    "techniques/triangles-as-the-authored-unit.md": {
+      "disposition": "keep",
+      "reason": "Unchanged since the 2026-09-10 keep."
+    },
+    "techniques/provider-face-limit-conversion.md": {
+      "disposition": "keep",
+      "reason": "Unchanged since the 2026-09-10 keep."
+    },
+    "techniques/quad-trap-detection.md": {
+      "disposition": "keep",
+      "reason": "Unchanged since the 2026-09-10 keep; the mirrored-mesh counterexample is retained."
+    },
+    "techniques/budget-shapes-output-not-just-caps.md": {
+      "disposition": "clarify",
+      "reason": "The original sections are unchanged. The inverse-signal section added since is sound on mechanism, but it reports the kit's quality gain without the confound its own application states (bevels, textures and UVs changed together) and generalises from one kit. Add the confound and the sample size."
+    },
+    "techniques/part-split-budget-division.md": {
+      "disposition": "keep",
+      "reason": "Unchanged since the 2026-09-10 keep."
+    },
+    "techniques/class-ceiling-vs-requested-budget.md": {
+      "disposition": "keep",
+      "reason": "Unchanged since the 2026-09-10 keep."
+    },
+    "applications/node--provider-face-limit-conversion.md": {
+      "disposition": "keep",
+      "reason": "Unchanged since the 2026-09-10 keep, whose citation check against the consumer stands. The consumer was not reopened this run."
+    },
+    "applications/process--class-ceiling-vs-requested-budget.md": {
+      "disposition": "clarify",
+      "reason": "Owed since 2026-09-10. (1) Its table reproduces the character row's 'highest per-asset budget' rationale with nothing noting that its own environment row refutes it. (2) Its appended review boundary says 'a parts<1 check alone does not reject fractions, infinity or NaN'; the 2026-09-10 review read a !Number.isFinite guard. That narrowing needs the consumer, which this run cannot reach."
+    },
+    "applications/python--budget-shapes-output-not-just-caps.md": {
+      "disposition": "clarify",
+      "reason": "New since the last record. Citations re-checked against the public repository and they hold. One figure is off: 'Its five siblings sat at 4 to 15 percent'. The siblings span 6 to 15; the 4 is the shelves' own 4.55 percent."
+    }
+  }
+}
+```
+
+## Architecture review - 2026-10-31 (clarify applied)
+
+Applied the golden-path fixes, the technique's confound sentence, the python
+application's figure, and the character note in the process application. The second
+record is against the edited bytes. The parts<1 narrowing stays owed.
+
+<!-- architecture-review:v1 -->
+```json
+{
+  "subject": "game-production/asset-class-poly-budgeting",
+  "date": "2026-10-31",
+  "baseline": "b005a97cb",
+  "digest": "sha256-b2:7c6e69ee1bae5eb3",
+  "disposition": "clarify",
+  "coverage": "All 10 documents decided. Three clarify items were applied and one half-applied (the process application's character note); the edited passages were re-read. Still owed: the process application's parts<1 review-boundary narrowing, which needs the consumer.",
+  "counterexamples": [
+    "The character row's 'highest per-asset budget in the project' sits two rows above an environment target of 60k against the character's 40k (retained until applied).",
+    "Unreal's current documentation lists skeletal meshes as Nanite-supported, so 'skinned meshes fall outside the virtualized path' is a dated, per-engine claim.",
+    "A scripted rebuild that raises triangle spend while also changing textures and UVs cannot attribute its quality gain to triangles; one kit is a lead, not a rate.",
+    "quad-trap-detection: a mirrored mesh from a genuine quad request lands near 2x, and the request guard does not distinguish it (retained from 2026-09-10).",
+    "class-ceiling-vs-requested-budget: a provider that clamps silently makes the grader accuse it of ignoring a budget it partly honoured (retained)."
+  ],
+  "sources": [
+    {
+      "url": "https://dev.epicgames.com/documentation/en-us/unreal-engine/nanite-virtualized-geometry-in-unreal-engine",
+      "result": "Read 2026-10-31 (page headed Unreal Engine 5.8). Lists 'Skeletal mesh' as a supported component type ('Nanite Skeletal Meshes include support for: ... One draw call for an entire mesh'; 'Nanite Skeletal Mesh uses animation LODs'); 'Nanite supports materials that have their Blend Mode set to Opaque and Masked'; 'While deformation with World Position Offset (WPO) in a material is supported, it is limited.' Basis for rewriting the eligibility bullet. It does not establish performance or default-on status, and says nothing about other engines."
+    },
+    {
+      "url": "https://github.com/xkazm04/bp",
+      "result": "Public repository, read 2026-10-31 through a blobless clone. At d8b1fea: scripts/art/lib/finish.bpy:15 'HARD_DEG = 30.0' and :17 'SEGMENTS = 2'; apps/vr/ArtSource/studio-shelves/manifest.json:4 'budget_tris': 24000 and :56 'tris': 17144. At 9259783^ (6cb649f8) the shelves manifest records 1092 tris. Across the six studio-kit manifests the before shares are 5, 8, 15, 13, 7 and 6 percent (shelves 4.55 percent) and the after shares are 71, 44, 51, 48, 30 and 79 percent, so the kit spans 4-15 before and 30-79 after, while the shelves' five siblings span 6-15. The owner's verdict and the Blender build were not re-checked."
+    },
+    {
+      "source": "Internal consistency",
+      "result": "The golden path's character row and eligibility bullet both call the character the largest budget in the table; the environment row carries 60k against 40k. The process application's table reproduces the same rationale. The budget-shapes technique's inverse-signal section omits the confound its own python application states (bevels, textures and UVs changed together)."
+    }
+  ],
+  "documents": {
+    "asset-class-poly-budgeting.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: the character row's rationale is cut back to 'matched to the character pipeline's game-tier spec'. The eligibility bullet now says translucent materials fall outside the path and position offsets take a limited, slower route; that skinned meshes were outside until recently and at least one major engine's current documentation lists skeletal meshes as supported (product name kept out of the golden path), so eligibility is checked per engine and version; and that characters, the most-deformed class, were long the eligible-last category."
+    },
+    "techniques/triangles-as-the-authored-unit.md": {
+      "disposition": "keep",
+      "reason": "Unchanged since the 2026-09-10 keep."
+    },
+    "techniques/provider-face-limit-conversion.md": {
+      "disposition": "keep",
+      "reason": "Unchanged since the 2026-09-10 keep."
+    },
+    "techniques/quad-trap-detection.md": {
+      "disposition": "keep",
+      "reason": "Unchanged since the 2026-09-10 keep; the mirrored-mesh counterexample is retained."
+    },
+    "techniques/budget-shapes-output-not-just-caps.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: the inverse-signal evidence now adds that the rebuild also changed textures and UVs, so the gain is not attributable to triangle spend alone, and that one kit is a lead rather than a rate."
+    },
+    "techniques/part-split-budget-division.md": {
+      "disposition": "keep",
+      "reason": "Unchanged since the 2026-09-10 keep."
+    },
+    "techniques/class-ceiling-vs-requested-budget.md": {
+      "disposition": "keep",
+      "reason": "Unchanged since the 2026-09-10 keep."
+    },
+    "applications/node--provider-face-limit-conversion.md": {
+      "disposition": "keep",
+      "reason": "Unchanged since the 2026-09-10 keep, whose citation check against the consumer stands. The consumer was not reopened this run."
+    },
+    "applications/process--class-ceiling-vs-requested-budget.md": {
+      "disposition": "clarify",
+      "reason": "applied 2026-10-31 (half): a sentence after the table now says the character row's stored 'highest per-asset budget' rationale is contradicted by the environment row's 60,000 and holds only among the character-pipeline classes. Still owed: narrowing the review boundary's 'parts<1 ... infinity or NaN' sentence to the fractional case, which needs the consumer to confirm the isFinite guard."
+    },
+    "applications/python--budget-shapes-output-not-just-caps.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: 'Its five siblings sat at 4 to 15 percent' now reads '6 to 15 percent'. Every cited path, line and figure was re-checked against the public repository, so verified_on moved to 2026-10-31; the owner's verdict was not re-checked."
     }
   }
 }
