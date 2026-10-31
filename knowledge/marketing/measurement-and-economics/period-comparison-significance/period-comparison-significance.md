@@ -52,16 +52,26 @@ textbook test on the underlying trials. Value ratios - return on ad spend, cost-
 revenue ratio, average order value, cost per click - are ratios of sums or per-unit
 means, and **a ratio of sums is not a proportion**: it has no trial count, its daily
 values are not additive samples, and averaging daily ratios weights a quiet Sunday
-the same as a peak Monday. The honest position is that value ratios get a direction
-and no confidence claim. A surface that badges a return-on-ad-spend move as
-"significant" has manufactured the badge. This is the first technique and the
-subject's centre of gravity.
+the same as a peak Monday. A sound test for a ratio of sums does exist - the
+delta-method linearisation over day-level numerator and denominator sums, standard
+for ratio metrics in online experimentation - and it is exactly as sound as the
+additive test, because it rests on the same days-as-units footing. What does not
+exist is a sound test on daily ratios. So the honest position is that a value ratio
+is graded only by that linearised test, and without one it gets a direction and no
+confidence claim. A surface that badges a return-on-ad-spend move as "significant"
+from a z over daily ratios has manufactured the badge. This is the first technique
+and the subject's centre of gravity.
 
 Second, **the confidence a daily two-sample test reports is optimistic, and the
 practitioner says so.** Daily marketing series are autocorrelated - yesterday
-predicts today - and the published treatment of comparing autocorrelated series is
+predicts today - and the published treatment of comparing autocorrelated series
+(the climate-statistics literature on tests of the mean under serial correlation) is
 that an uncorrected test inflates its false-positive rate substantially, because the
 effective number of independent observations is smaller than the number of days.
+The same holds one level down for rates: a pooled count test treats every impression
+or visit as an independent trial, but trials cluster by day, so on large volumes it
+grades almost any move strong. Days, not trials, are the honest unit of a
+period comparison.
 Weekday shape is the strongest form of this. The disciplined response is threefold:
 de-seasonalise by weekday before testing where the anomaly machinery already
 provides the weights; state plainly that the tier is a heuristic for "real or
@@ -85,8 +95,9 @@ applied to the most common verdict in the domain.
 
 A delta carries one of four tiers: **strong**, **weak**, **noise**, and
 **orientational**. The first three are a confidence ladder. The fourth is not on the
-ladder - it is the tier of a metric class for which no sound two-window test exists,
-and it says "direction only, no confidence claimed". The mistake to design against
+ladder - it is the tier of a metric for which the surface runs no sound two-window
+test (a value ratio without the linearised test), and it says "direction only, no
+confidence claimed". The mistake to design against
 is folding orientational into weak. A weak signal is a tested move that did not clear
 the strong cut; an orientational read is an untested move. They render differently
 (a weak move is coloured with a "weak signal" note; an orientational move is coloured
@@ -109,12 +120,16 @@ Three window rules recur across every surface and are worth holding as one
 discipline.
 
 **Year-over-year lands on the same weekday.** A 365-day shift moves the year-ago
-twin by one weekday every year and two across a leap year, so a Monday is compared
-with a Sunday and the weekday gap is read as a year-over-year move. A 364-day shift -
-exactly 52 weeks - lands on the same weekday and trades one calendar day of drift for
-weekday parity. Retail calendars institutionalise the same choice with a 52/53-week
-year; the practitioner's version is simply "shift by 364, restate every seven years
-when the drift accumulates". A year-over-year request that cannot fit even one day a
+twin by one weekday, and a same-calendar-date twin moves it by two whenever the year
+spans a 29 February, so a Monday is compared with a Sunday and the weekday gap is
+read as a year-over-year move. A 364-day shift - exactly 52 weeks - lands on the same
+weekday and trades one calendar day of drift (two across a leap day) for weekday
+parity. That drift does not accumulate on a rolling one-year comparison: it
+accumulates only when the shift is chained - a comparison k years back drifts about
+1.24 k days, and a fiscal calendar built from 52-week years drifts the same way,
+which is why the retail 4-5-4 calendar inserts a 53rd week roughly every five to six
+years and restates the following year against it. The practitioner's version is
+simply "shift by 364 for one year back; realign before chaining it". A year-over-year request that cannot fit even one day a
 year back falls back to the adjacent window and *says it did*, so neither the
 interface nor a model grounded on the result claims a comparison that never happened.
 
