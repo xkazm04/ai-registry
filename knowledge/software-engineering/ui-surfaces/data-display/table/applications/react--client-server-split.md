@@ -4,8 +4,8 @@ type: application
 subject: table
 technique: client-server-split
 stack: react
-verified_on: 2026-09-21
-verified_against: react@19.2.6
+verified_on: 2026-10-31
+verified_against: react@19
 ---
 
 # UnifiedTable — how this repo's React side realizes the table standard
@@ -20,6 +20,23 @@ windowing, grouping, keyboard nav, and the entire cold-load choreography.
 when you need `pageSize` pagination or row selection with bulk actions, which
 `UnifiedTable` deliberately lacks (see `docs/concepts/golden-paths/tables.md`
 for the full capability matrix and adoption census).
+
+**Re-checked 2026-10-31 at `personas@61029d7ae0`.** Every anchor below is
+moved to HEAD, and every behaviour it describes still holds with one
+exception. **`UnifiedTable` can now be told the order.** A controlled `sort`
+prop, `{ key, dir, onSort }` (`:221-228`, landed 2026-10-14), makes the
+table render `data` in the order given, draw the arrow from the caller's
+state, forward header clicks, and neither sort nor persist
+(`:565-578`, `:596-597`). The claim in "Where the split sits today" that
+lifting sort to the request "`UnifiedTable` cannot express today" is
+reversed. Server windowing plus a lifted sort is now the fourth way out of
+the forbidden split. The gap list it points to
+(`docs/concepts/golden-paths/tables.md` §"structural gaps", item 6) still
+says otherwise, so the tree's own doc is stale on this point. Filter and
+search are still unapplied chrome. Outside `ColumnHeader` (`:369`), the
+props are declared and never read. The `@catalog` header still calls the
+body "a strict three-state machine" (`:11-24`), which the error branch made
+untrue on 2026-09-20.
 
 ## The props contract
 
@@ -42,42 +59,42 @@ for the full capability matrix and adoption census).
   `searchable`, `align`. Define columns in a sibling `useXColumns()` hook and
   translate every `label`.
 - **Row identity**: `getRowKey` feeds the element key in *all* render paths —
-  plain, virtualized (`:679`), and grouped (`:835`) — and the reveal tracker's
-  id-guard (`useRowRevealEntrance`, `:239-257`). Pass a database id; never an
+  virtualized (`:765`), plain (`:801`), and grouped (`:951`) — and the reveal tracker's
+  id-guard (`useRowRevealEntrance`, `:265-283`). Pass a database id; never an
   index.
 - **Sort**: internal `(sortKey, sortDir)` state, read from `localStorage`
-  under `table-sort:<tableId>` on mount (`readPersistedSort`, `:45-62`) and
-  written back on every change (`:497-504`); the persisted value wins over
-  `defaultSortKey` when seeding initial state (`:492-494`). The default
-  comparator is string-`localeCompare` (`:526-530`) — pass a typed `sortFn`
+  under `table-sort:<tableId>` on mount (`readPersistedSort`, `:50-66`) and
+  written back on every change (`:571-578`); the persisted value wins over
+  `defaultSortKey` when seeding initial state (`:563-566`). The default
+  comparator is string-`localeCompare` (`:603-608`) — pass a typed `sortFn`
   for numeric, date, or ranked-enum columns.
 
 ## Ghost-under-chrome, row reveal, empty-state rules
 
 The body is a four-state machine of loading-pattern v2
-(`docs/design/overview-loading.md`, the five laws), roughly `:616-647`. It was
+(`docs/design/overview-loading.md`, the five laws), roughly `:704-731`. It was
 a strict *three*-state machine (no failure branch) until 2026-09-20, when the
 error branch below landed — see "Known shortfalls":
 
-1. `isLoading && data.length === 0` → `TableGhostRows` (`:288-315`): eight
+1. `isLoading && data.length === 0` → `TableGhostRows` (`:336-363`): eight
    geometry-matched rows under the *always-rendered* column header, entering
    via `animate-fade-in` behind a staggered `≥120ms` `animation-delay` — the
    delay is the anti-flash; no `animate-pulse`, ever.
-2. `error && data.length === 0` → a failure banner (`:622-625`, `ErrorBanner
+2. `error && data.length === 0` → a failure banner (`:705-708`, `ErrorBanner
    variant="panel"`) — "I couldn't look," not "there is nothing."
 3. `!isLoading && !error && data.length === 0` → the settled empty state
-   (`:626-641`). Empty never flashes before the first fetch resolves because
+   (`:709-726`). Empty never flashes before the first fetch resolves because
    the ghost branch wins while in flight, and a *failed* fetch renders the
    failure banner instead of this branch.
 4. `data.length > 0` → rows, rippling in once via the id-guarded cascade.
-   `resolveRowReveal` (`:266-276`) couples the cascade to `isLoading`, so the
+   `resolveRowReveal` (`:314-324`) couples the cascade to `isLoading`, so the
    single flag buys ghost → ripple; `rowReveal={false}` opts out,
    `rowReveal={{ resetKey }}` re-ripples on a context switch. The entered-id
    set lives in `useRevealTracker`
-   (`src/hooks/utility/interaction/useProgressiveReveal.ts:184-199`), a
+   (`src/hooks/utility/interaction/useProgressiveReveal.ts:210`), a
    ref-backed Set that survives virtualized unmount/remount. A failed
    *refresh* that still holds rows keeps them mounted and adds an inline
-   banner above them (`:644-647`) rather than falling back to any of the
+   banner above them (`:728-731`) rather than falling back to any of the
    above three branches — a fifth, additive state, not a replacement of
    "rows."
 
@@ -91,10 +108,10 @@ plus its own virtualizer): the primitive, retyped.
 ## Where the split sits today — and its edge
 
 Only **sort** is client-side work the primitive actually does: `sortedData`
-is a `useMemo` over `data` (`:518-533`, `[data, sortKey, sortDir, columns]`).
+is a `useMemo` over `data` (`:596-611`, `[data, controlledSort, sortKey, sortDir, columns]`).
 **Filter and search are not** — `TableColumn` carries `filterValue` /
-`onFilterChange` / `searchValue` / `onSearchChange` (`:80-92`), and
-`ColumnHeader` reads and renders them (`:346-349`, `:401-403`, `:421-429`),
+`onFilterChange` / `searchValue` / `onSearchChange` (`:86-96`), and
+`ColumnHeader` reads and renders them (`:396-399`, `:451-466`, `:478-501`),
 but every one of those is controlled chrome: the value is drawn from props
 and every change is forwarded straight to the caller's handler. Nothing in
 `UnifiedTable` or `GroupedTableBody` ever narrows `data`/`sortedData` by
@@ -109,14 +126,14 @@ it hands to `data` — in a `useMemo` upstream of the table, in a store
 selector, wherever. `UnifiedTable` only proves the control was clicked; it
 never proves the predicate ran. A caller that renders `filterOptions` /
 `searchable` on a column and forgets to filter `data` upstream ships a
-control that changes color (`isFiltered`/`isSearched`, `:348-349`) and does
+control that changes color (`isFiltered`/`isSearched`, `:398-399`) and does
 nothing else — the drift shows up one call site down, not in the primitive.
 
 Sort itself is genuinely the clean all-client regime: correct for the app's
 local-first, modest-cardinality surfaces, and the one piece of "the split"
 `UnifiedTable` actually closes over.
 
-The edge to respect: `onEndReached` (`:176-186`) wires **server-side
+The edge to respect: `onEndReached` (`:182-194`) wires **server-side
 windowing** (load-older pages) into a table whose sort remains client-side.
 Used together with `sortable` columns, that is the forbidden split — the
 client reorders the loaded window while the header claims to reorder the
@@ -134,11 +151,11 @@ fill the viewport.
 - **No error state — CLOSED 2026-09-20**: the body used to have no failure
   branch, so a failed fetch that settled with zero rows rendered the *empty*
   state, telling callers "there is nothing" when the truth was "I couldn't
-  look." That's fixed: `error`/`onRetry` props (`:117-128`) feed a fourth
+  look." That's fixed: `error`/`onRetry` props (`:123-134`) feed a fourth
   body branch — `error && data.length === 0` paints a panel `ErrorBanner`
-  under the still-mounted column header (`:622-625`), and `error &&
+  under the still-mounted column header (`:705-708`), and `error &&
   data.length > 0` keeps the rows and adds an inline banner above them
-  (`:644-647`) rather than blanking a successful earlier load. Covered by
+  (`:728-731`) rather than blanking a successful earlier load. Covered by
   `__tests__/UnifiedTableFailure.test.tsx`. Callers that were catching
   failures upstream and rendering their own failure surface to work around
   the gap can now delete that workaround and pass `error` straight through.
@@ -147,10 +164,10 @@ fill the viewport.
 - **Default comparator is stringly**: numeric and date columns sort wrong
   until a `sortFn` is supplied, and the default sort applies `reverse()` to a
   stable sort for `desc`, inverting tie order instead of tiebreaking on
-  identity (`:526-532`).
+  identity (`:603-610`).
 - **Filter and search are unapplied chrome**: `UnifiedTable` renders the
   dropdown filter and the inline search box and forwards their changes to
-  the caller (`:80-92`, `:346-429`), but never filters or searches `data`
+  the caller (`:86-96`, `:396-501`), but never filters or searches `data`
   itself — see "Where the split sits today" above. A column that declares
   `filterOptions`/`searchable` without an upstream filter on `data` renders a
   fully functional-looking control that does nothing.

@@ -273,3 +273,84 @@ The two applications marked clarify were edited minimally. The node application'
   }
 }
 ```
+
+## Re-verification - 2026-10-31
+
+This record follows a re-verification of the two unpinned React applications against the personas tree, at the last commit of 2026-08-18 (`24c9ecb058`, standing in for their unpinned verified_on) and at HEAD `61029d7ae0`. Both are now dated and anchored. In chart-loading-economics one verdict is reversed: the viewport-deferral component had no importer even on 2026-08-18. Its checklist names two deleted components, and metric-identity's makeTrend claim overstates the code, so both are marked `clarify`.
+
+<!-- architecture-review:v1 -->
+```json
+{
+  "subject": "software-engineering/data-viz",
+  "date": "2026-10-31",
+  "baseline": "709547f1a",
+  "digest": "sha256-b2:bda143034178edd2",
+  "disposition": "clarify",
+  "coverage": "Re-verification only: react--chart-loading-economics and react--metric-identity checked citation by citation against the personas tree at 24c9ecb058 (last commit of 2026-08-18) and at HEAD 61029d7ae0. LazyChart fallback use and ChartErrorBoundary coverage were re-counted over today's call sites. Nothing was executed and no build was run (the ~450 KB chunk is the tree doc's figure). The golden path, the six techniques and the four other applications carry the prior record's decisions unchanged.",
+  "counterexamples": [
+    "A deferral component can exist, be documented as the repo's viewport gate, and have no importer. On 2026-08-18 nothing mounted sub_usage/components/LazyChart.tsx, so 'the repo defers offscreen charts' was false the day it was written.",
+    "A mirror kept by comment discipline did diverge in the way the parity-gate argument predicts: UTF-16 .length against Rust's UTF-8 byte length. A one-sided test written after the fix pins the TS half and still shares no fixture with the Rust side.",
+    "Returning { pctChange: 0, direction: 'stable' } for an unmeasured average baseline avoids fabricating a delta but fabricates a 'no change'. Suppression and stability are different claims on a tile."
+  ],
+  "sources": [
+    {
+      "source": "personas tree at 24c9ecb058 and HEAD 61029d7ae0 (read, not run)",
+      "result": "At 24c9ecb058 MetricChart had 3 call sites (sub_observability/MetricsCharts.tsx) and the sub_usage viewport LazyChart had none; both were deleted 2026-10-20 as unreachable. The KPIDashboard fallback sat at :306, not :296, and the dashboard was rebuilt 2026-10-06. Today LazyChart gets fallback at 4 of 11 call sites, and ChartErrorBoundary wraps 6 of 8 calling files. DimensionRadial was switched to UTF-8 byte lengths 2026-10-20. KpiTile reads sparklineScale.ts (scale parameter) since 2026-09-17; kpiMath and directorScore keep their own sparklinePoints. SlaDailyPoint still has six fields."
+    }
+  ],
+  "documents": {
+    "applications/node--scale-and-axis-design.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: concat independence now names the polar position channels; tick signal written ceil(size/40) with the axis length stated, per the pinned source. verified_on left at 2026-08-23 (no runtime re-run)."
+    },
+    "applications/react--chart-loading-economics.md": {
+      "disposition": "clarify",
+      "reason": "Re-verified 2026-10-31 at personas@61029d7ae0; verified_on moved and verified_against set to react@19. The engine door, DashboardChartCard and ChartErrorBoundary hold. The dated paragraph records that the viewport-deferral LazyChart had no importer even on 2026-08-18 (a reversed verdict), that MetricChart and the KPIDashboard exemplar are gone, and today's counts (fallback 4/11, boundary 6/8). The body's 'Mount on visibility' section and checklist steps 1-3 still prescribe deleted components and should be rewritten to today's door (DashboardChartCard, or LazyChart with a same-height fallback inside ChartErrorBoundary), with no viewport gate."
+    },
+    "applications/react--empty-and-degraded-chart-states.md": {
+      "disposition": "keep",
+      "reason": "Pinned at bf2a1e249; the consumer's current resolver matches the B arm (number | null with a doc comment). Limits section is honest."
+    },
+    "applications/react--encoding-vocabulary.md": {
+      "disposition": "keep",
+      "reason": "Pinned at b6dcf28aa; counter-rotation still present in the current tree; mechanism confirmed by SVG 2; limits stated."
+    },
+    "applications/react--metric-identity.md": {
+      "disposition": "clarify",
+      "reason": "Re-verified 2026-10-31 at personas@61029d7ae0; verified_on moved and verified_against set to react@19. The registry, derivation door, mirrors and provenance ceiling hold, with anchors moved. The dated paragraph records that the UTF-16/UTF-8 divergence happened and was fixed by hand with still no parity gate, that KpiTile adopted the shared scale helper while two other sparklinePoints remain (three in all), and the calendar split. The body still says makeTrend 'suppresses the trend' ('Unmeasured ≠ zero, applied at the derivation'). The code returns a stable 0, so that bullet should be corrected to match the dated note."
+    },
+    "applications/react--scale-and-axis-design.md": {
+      "disposition": "keep",
+      "reason": "Pinned at the ascent tree 62c252dd; the required-door projection, the data-derived zero-anchored ceilings, the NaN-to-floor deviation and the two bypassing glyphs are stated with their limits (source-read only, bypass count a floor). Consistent with the amended scale technique; consumer tree not re-read this run."
+    },
+    "data-viz.md": {
+      "disposition": "keep",
+      "reason": "Scope (chart vs table vs tile vs micro-viz), the self-carried-scale test, five honesty rules and accessibility posture are consistent with every technique; no claim refuted."
+    },
+    "techniques/chart-loading-economics.md": {
+      "disposition": "keep",
+      "reason": "Lazy engine, shared placeholder, required loading affordances, fail-open visibility gate, per-chart boundary with telemetry are internally consistent; no unstable external claim."
+    },
+    "techniques/empty-and-degraded-chart-states.md": {
+      "disposition": "keep",
+      "reason": "Four facts, gaps vs zero carried by the value type, structural-minimum degradation and the track rule for length encodings are coherent; the React application supplies the evidence."
+    },
+    "techniques/encoding-vocabulary.md": {
+      "disposition": "keep",
+      "reason": "Pattern tiles resolve in the referencing element's user space and patternTransform applies independently, gradient shear under non-square objectBoundingBox: both confirmed in SVG 2."
+    },
+    "techniques/metric-identity.md": {
+      "disposition": "keep",
+      "reason": "Contract members including measured resolution, registered variants carrying the whole contract, provenance surviving merges, and parity gates over shared fixtures are coherent and grounded in the applications."
+    },
+    "techniques/micro-visualizations.md": {
+      "disposition": "keep",
+      "reason": "Shared-scale mandate correctly scoped to same-metric cells, denominator families named, threshold rule only when the threshold is real; consistent with scale and empty-state techniques."
+    },
+    "techniques/scale-and-axis-design.md": {
+      "disposition": "keep",
+      "reason": "Decision procedure, sample-anchored floor, required-domain door plus census of bypasses, zero-baseline rules, time-axis rules hold; the Vega-Lite reconcile confirms the defaults. Banked leads (pixel-density ticks, per-channel resolution) are additions, not corrections."
+    }
+  }
+}
+```

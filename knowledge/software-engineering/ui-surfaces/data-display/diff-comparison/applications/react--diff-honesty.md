@@ -15,6 +15,33 @@ ab_verdict: better
 
 *Verified against the project tree at `bf2a1e249`.*
 
+**Re-checked 2026-10-31 at `personas@61029d7ae0`.** B is what the tree runs.
+It landed on 2026-08-29: `contentKey` / `unmatchedByContent`
+(`memoryDiff.ts:66-91`) feed `computeMemoryDiff` (`:99-101`), and the
+timeline hook calls the same helper (`useRunDiffSummaries.ts:84-87`). The
+type's vocabulary is at `:38-41` and the importance-shift refusal at
+`:119-130`. The anchors in "The seam" are `bf2a1e249` anchors. The pinning
+case is `memoryDiff.test.ts:43`. The kernel replay was re-run on both files,
+outside the suite: two runs holding the same two learnings under fresh ids
+gave 2 added and 2 removed under the `bf2a1e249` file and 0 and 0 under HEAD,
+and the two-against-one multiset case left exactly one removed. The vitest
+and `tsc` results below were not re-run, because this checkout has no
+installed dependencies. The rendered labels are "{count} new memory" and
+"{count} removed" (the `en` catalog), which make the same claim the type
+comments do.
+
+The same family has surfaced twice since. One was fixed: a `'manual'` stats
+bucket of run-less memories was read as a run, so a default comparison
+against it reported every memory as added or removed (`teamRunCounts`,
+`:4-21`, 2026-10-19). One is open. Since 2026-09-17 `get_by_run` caps each
+run's read at `BY_RUN_DEFAULT_LIMIT = 200`, oldest first
+(`src-tauri/db/src/repos/resources/team_memories.rs:97-110`). Neither
+`RunDiffView.tsx:62-65` nor the timeline hook passes a limit or says one
+applied, so a run past 200 memories is compared as its first page, and
+`totalA` / `totalB` count that page. As before, the arithmetic is right and
+the claim exceeds what was read. How many real runs pass 200 was not
+measured.
+
 The technique's clause "the vocabulary matches the alignment" describes a
 failure that is easy to state and hard to see, because the arithmetic is
 correct at every step. This is a worked case where the whole mechanism was

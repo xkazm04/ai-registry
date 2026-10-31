@@ -4,7 +4,7 @@ type: application
 subject: diff-comparison
 technique: semantic-level-selection
 stack: react
-verified_on: 2026-08-30
+verified_on: 2026-10-31
 verified_against: react@19
 ---
 
@@ -15,6 +15,36 @@ citation still resolves except `getSectionSummary`, corrected below; the
 `stringify-decided-equality` condition was re-checked and still holds — no
 key-sorting replacer and no `Object.keys(x).sort()` on any comparison path
 (the only sorted-key sites are test assertions).*
+
+**Re-checked 2026-10-31 at `personas@61029d7ae0`.** The projection failure,
+the prose LCS and the composed lab levels hold unchanged, and their anchors
+are moved to HEAD. Two findings below are now resolved in the code, and the
+measured results that record them are left as measured:
+
+- **All three structural lies in `jsonDiff` are fixed.** Since 2026-10-31 the
+  kernel lives in `libs/comparisonDiffCore.ts:94-137`. It recurses to leaf
+  paths (`config.retries`, `tags[1]`), walks the union of keys so a nested
+  reorder compares equal, and prints `(absent)` for a key one side lacks
+  rather than folding it into `null` (`:80-81`, `:105-115`). Replaying the
+  three table inputs against that file (with its JSON parser stubbed) gave
+  `[]`, one change at `input.topic`, and one change at `b` reading
+  `(absent)` → `null`. Arrays still align by index. The table below is the
+  `a2ef6400e` measurement, and its `:85-86` anchors are from that tree.
+- **The normalization policies are down to two.** The worker and its
+  fallback now share `splitLogLines` (`comparisonDiffCore.ts:76-78`), so
+  that pair cannot disagree. `PromptDiffModal.tsx` was deleted on
+  2026-09-24, which leaves `conflictDiff.ts:20-21`'s bare `split('\n')` as
+  the other policy. No document says which policy is intended.
+- **The census rule now finds 4 sites in 4 files** (baseline 4/4). The
+  kernel site is `comparisonDiffCore.ts:119`, which is now a leaf compare
+  reached only after the walk has split containers apart. One correction to
+  the 2026-08-30 note: a key-sorting canonicalizer does exist,
+  `stableStringify` in `src/lib/tauriInvoke.ts` (present since 2026-04-25).
+  It builds request-dedup keys, not a diff, so the claim about comparison
+  paths holds.
+- The set-membership `diffLines` moved with `jsonDiff` and keeps its
+  docstring. `ComparisonDiff.tsx` still draws the left/right line-number
+  gutters over it.
 
 Every kernel in this repo was hand-written for one entity, and reading
 them side by side is a level ladder with worked examples on each rung —
@@ -35,14 +65,14 @@ all of which were found here.
   `src/features/agents/sub_lab/shared/DiffViewer.tsx:29` and
   `src/features/agents/sub_lab/components/shared/InlineDiffPreview.tsx:29`
   compare section keys first, then run the token diff (`diffStrings`,
-  `labPrimitives.ts:113`) only inside sections whose text differs. This is
+  `labPrimitives.ts:117`) only inside sections whose text differs. This is
   the technique's *levels compose* clause and is why those two stay cheap.
 
 ## Level chosen from convenience: the terminal-log set diff
 
-`src/features/agents/sub_executions/libs/comparisonHelpers.ts::diffLines`
-(`:53`) is a **set-membership** diff — a line is `same` if the other side
-contains it anywhere. The docstring (`:42-52`) is exemplary honesty about
+`src/features/agents/sub_executions/libs/comparisonDiffCore.ts::diffLines`
+(`:52`; in `comparisonHelpers.ts` until 2026-09-20) is a **set-membership** diff — a line is `same` if the other side
+contains it anywhere. The docstring (`:41-51`) is exemplary honesty about
 what that gives up: repeat-count changes read as `same`, reordering is
 invisible, all `added` lines are appended after A's rather than placed.
 "Good enough for a quick 'did anything change' signal — do not rely on it
@@ -50,7 +80,7 @@ for exact positional diffing." The level is wrong for prose and
 defensible for terminal logs, and the kernel *says which it is doing* —
 the technique's last section, honored in a comment. What it does not do
 is say so on the surface: `ComparisonDiff.tsx` renders it with left/right
-line-number gutters (`:111-127`) that imply positional alignment the
+line-number gutters (`:143-158`) that imply positional alignment the
 kernel never computed.
 
 ## The three structural lies, all present in one function
@@ -77,9 +107,9 @@ sees `comparisonHelpers.ts:85`, the diff kernel itself.
 ## The projection failure
 
 `DiffViewer.tsx:14-16` normalizes both versions through `getSectionSummary`
-(`src/lib/personas/promptMigration.ts:260`), which iterates
+(`src/lib/personas/promptMigration.ts:142`), which iterates
 `STANDARD_SECTION_KEYS` — five of the seven fields a `StructuredPrompt`
-holds; `customSections` and `webSearch` (`promptMigration.ts:70-80`)
+holds; `customSections` and `webSearch` (the `StructuredPrompt` interface, `promptMigration.ts:43-44`)
 never reach the diff. The empty state at `DiffViewer.tsx:54` then
 re-walks *the same five keys* and, finding them equal, renders
 `t.agents.lab.no_structural_diff` — an affirmative denial computed over
@@ -88,7 +118,7 @@ a different route.
 
 The 2026-08-30 pass found a second defect in the same projection, one rung
 down from the missing fields. `getSectionSummary` keys its output map by
-`SECTION_LABELS[key]` (`promptMigration.ts:268`) — the human-readable
+`SECTION_LABELS[key]` (`promptMigration.ts:150`) — the human-readable
 display label — rather than by the schema key it just iterated. The pair is
 therefore aligned on a presentation string: editing a label to improve the
 UI silently re-keys both sides, and any section whose label changed between

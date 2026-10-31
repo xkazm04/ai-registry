@@ -4,13 +4,47 @@ type: application
 subject: data-viz
 technique: chart-loading-economics
 stack: react
-verified_on: 2026-08-18
+verified_on: 2026-10-31
+verified_against: react@19
 ---
 
 # Chart loading economics — React + Recharts, as built here
 
 How this repo implements the technique, where it complies, and where the
 call-site data argues for tightening the primitives.
+
+**Re-checked 2026-10-31 at `personas@61029d7ae0`.** The engine door holds as
+written (`RechartsWrapper.tsx:3-6`, `:27`, still `fallback = null`), and so do
+`DashboardChartCard`'s shell (`bodyHeightClass`, `:33-34`) and
+`ChartErrorBoundary` (`:32`, `:35-37`). Three things below no longer hold.
+
+- **The viewport-deferral half was never live.** At the last commit of
+  2026-08-18, nothing in `src/` imported
+  `sub_usage/components/LazyChart.tsx`. The "Mount on visibility" section
+  describes a component no chart mounted, so the repo had no viewport
+  deferral then. On 2026-10-20 the file was deleted as unreachable. No chart
+  uses an `IntersectionObserver` today.
+- **`MetricChart` is gone.** It had three call sites, all in
+  `sub_observability/MetricsCharts.tsx`, on 2026-08-18. That file has since
+  moved to calling `LazyChart` directly inside its own `ChartErrorBoundary`,
+  passing a same-height fallback (`:50-53`). The 2026-10-20 sweep then
+  deleted `MetricChart` as an orphan. The name collision recorded below
+  resolved by deletion. Step 1 of the checklist now has one shell left,
+  `DashboardChartCard`. That shell passes no `fallback` either (`:73`); the
+  box is reserved by its height class.
+- **The `KPIDashboard.tsx:296` fallback is gone.** The KPI dashboard was
+  rebuilt on 2026-10-06. The anchor was already ten lines off on 2026-08-18
+  (it sat at `:306`). The nearest equivalent today is
+  `teams/sub_kpis/layer/KpiSmallMultiples.tsx:111`, with reserved `h-24`,
+  `animate-fade-in`, a `150ms` delay and `aria-hidden`.
+
+Re-measured over today's population, which differs from the 2026-08-15
+census population: `LazyChart` receives `fallback` at **4 of 11** call sites
+(it was 3/11), and `ChartErrorBoundary` wraps **6 of 8** files that call
+`LazyChart` (it was 4 of 8). The two bare files are
+`sub_kpis/kpiDistance.tsx` and `sub_kpis/layer/KpiSmallMultiples.tsx`. The
+~450 KB chunk size is the tree doc's figure (`chart-component.md`); no build
+was run.
 
 ## The engine loads lazily, once
 

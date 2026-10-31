@@ -283,3 +283,105 @@ writes the declared annotation. Each needs its primary source opened.
   }
 }
 ```
+
+## Re-verification - 2026-10-31
+
+This record follows a re-verification of the four React applications against the personas tree, at the pinned `a2ef6400e` / `bf2a1e249` and at HEAD `61029d7ae0`. It changes no technique. Three verdicts in the applications are now resolved in that tree, and one is reversed: the execution-comparison worker shares its kernel with the fallback, its caches evict, and `jsonDiff` no longer tells the three structural lies, while the drift findings now have no reader. Each change is a dated paragraph in its document.
+
+<!-- architecture-review:v1 -->
+```json
+{
+  "subject": "software-engineering/diff-comparison",
+  "date": "2026-10-31",
+  "baseline": "df3f1c1d7",
+  "digest": "sha256-b2:9411e6efa1fff5db",
+  "disposition": "reverify",
+  "coverage": "Re-verification only: the four React applications (computation-offload, semantic-level-selection, drift-against-declared, diff-honesty) were checked citation by citation against the personas tree at their pinned commits and at HEAD 61029d7ae0. The jsonDiff and memory-diff kernels were replayed with Node's type stripping, outside the project's suite (JSON parser stubbed for jsonDiff). The census rule was run for its one rule. Not run: vitest and tsc (no installed dependencies in that checkout). The golden path, the eight techniques and the four non-React applications carry the prior record's decisions unchanged.",
+  "counterexamples": [
+    "A worker that computes the whole result and then posts it in chunks spreads the render but not the computation. 'Streaming' in the message protocol does not mean the first rows paint before the tail is computed.",
+    "A comparison kernel with no budget can still be bounded at its input. Each side of the terminal diff is fetched at 500 lines and the cap is disclosed, which is a different mechanism from a degradation ladder and answers a different failure.",
+    "A drift detector can be correct and still useless: once its only surface was deleted as orphaned, findings were computed and persisted on every run with no reader, so the identity defects stopped costing attention and only cost storage.",
+    "Content-multiset alignment fixes the id-disjointness lie, but a read capped at 200 rows per run reintroduces an over-claim in the same panel: the counts are correct for the page and silent about the rest."
+  ],
+  "sources": [
+    {
+      "source": "personas tree at a2ef6400e and HEAD 61029d7ae0 (read, kernels replayed)",
+      "result": "Worker and fallback both call comparisonDiffCore diffLines(splitLogLines(...)) since 2026-10-19. Caches are an LRU capped at 24 since 2026-08-30. The worker slices a finished result into chunks. jsonDiff walks to leaf paths with (absent) distinct from null since 2026-10-31; replay of the three table inputs gave [], one change at input.topic, and one at b. PromptDiffModal.tsx was deleted 2026-09-24. useDriftEventsForPersona and the DesignTab wiring were deleted 2026-09-04, and nothing outside the store and middleware reads designDriftEvents. The census rule stringify-decided-equality is at 4 sites in 4 files."
+    },
+    {
+      "source": "personas tree at bf2a1e249 and HEAD 61029d7ae0 (memoryDiff replayed)",
+      "result": "id alignment at bf2a1e249 gave 2 added and 2 removed for the same learnings under fresh ids. Content-multiset alignment at HEAD gave 0 and 0, and 1 removed for two-against-one. get_by_run caps a run's read at 200 since 2026-09-17, with no limit passed by RunDiffView or the timeline hook. The 'manual' bucket was filtered out of the run list 2026-10-19."
+    }
+  ],
+  "documents": {
+    "applications/next--diff-honesty.md": {
+      "disposition": "reverify",
+      "reason": "Internally consistent. The no-retry and unscoped-denial deviations are honestly stated. The private tree at 62c252dd was not reopened."
+    },
+    "applications/next--pair-and-baseline-selection.md": {
+      "disposition": "reverify",
+      "reason": "Internally consistent. The asked-for-versus-resolved guard and its stated gaps are coherent. The private tree at 62c252dd was not reopened."
+    },
+    "applications/react--computation-offload.md": {
+      "disposition": "keep",
+      "reason": "Re-verified 2026-10-31 at personas@61029d7ae0; verified_on moved. Every anchor in the worked example moved to HEAD. A dated paragraph records two resolved departures (caches now an LRU capped at 24; the fallback calls the same core kernel as the worker), the narrower streaming claim (chunks follow a finished computation), the disclosed 500-line input cap, and the deletion of PromptDiffModal. The quadratic append, the unvirtualized render and the missing kernel budget still hold. The replay timings are the tree doc's measurements (version-diff-view.md §7) and stand as measured."
+    },
+    "applications/react--diff-honesty.md": {
+      "disposition": "keep",
+      "reason": "Re-checked 2026-10-31 at personas@61029d7ae0. B is what the tree runs (content-multiset alignment, shared with the timeline hook), and the A/B kernel result was replayed on both files. A dated paragraph adds the fixed 'manual'-bucket defect and an open one: a 200-row per-run read cap, undisclosed. verified_on stays 2026-08-29, because the vitest and tsc results it reports were not re-run."
+    },
+    "applications/react--drift-against-declared.md": {
+      "disposition": "keep",
+      "reason": "Re-verified 2026-10-31 at personas@61029d7ae0; verified_on moved. The detector, its thresholds and all four identity defects hold, with every anchor moved to HEAD. Reversed: the surface that read the findings was deleted 2026-09-04, so findings are written and never shown. That is stated in the dated paragraph and marked inline at the deleted hook. Also recorded: the streak count's off-by-one fix and an unpriced cost carried as null."
+    },
+    "applications/react--semantic-level-selection.md": {
+      "disposition": "keep",
+      "reason": "Re-verified 2026-10-31 at personas@61029d7ae0; verified_on moved. The prose LCS, the composed lab levels and the projection failure hold, with their anchors moved to HEAD (getSectionSummary :142, label keying :150). A dated paragraph records that all three jsonDiff structural lies are fixed (replayed), that the normalization policies are down to two, the census at 4/4, and the tauriInvoke canonicalizer that the earlier note missed. The table stays as the a2ef6400e measurement. 0 of 73 resolves to the tree doc."
+    },
+    "applications/rust--baseline-species-degradation.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: the annotation is now absent for server-side-apply reconcilers, with a note that a GitOps controller whose default sync is client-side does write it (Argo CD docs, Flux PR #527). The truncation-from-size-limit causal claim was replaced: an oversized object fails to apply. The templating-package-manager claim is still unchecked, and the private tree at fdb58c0d was not reopened."
+    },
+    "applications/rust--pair-and-baseline-selection.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: dropped the claim that the case is cited in the golden path's counter_evidence:, which does not exist. The private tree remains unreopened; the remaining citations are as dated."
+    },
+    "diff-comparison.md": {
+      "disposition": "keep",
+      "reason": "Boundaries (computing vs rendering vs reconciling), the three prior decisions and the honesty floor are coherent with every technique. Neighbour links resolve to named subjects."
+    },
+    "techniques/baseline-species-degradation.md": {
+      "disposition": "keep",
+      "reason": "The ladder, the label carried in the same value, scoped labels, empty-result labelling and absent-versus-malformed are generic and correct. Its population claim ('the population that adopted a different workflow') is properly hedged."
+    },
+    "techniques/computation-offload.md": {
+      "disposition": "keep",
+      "reason": "Primary source supports the conditional hardness claim. Request-keyed answers, the degradation ladder, the strip-plus-slider pair and the short-circuit ordering are sound."
+    },
+    "techniques/diff-honesty.md": {
+      "disposition": "keep",
+      "reason": "Git documentation confirms the move and rename parameters: a 50% default threshold, a 20-alphanumeric-character move floor, and the similarity-index header. The refusal-travels-with-paraphrase rule is sound."
+    },
+    "techniques/drift-against-declared.md": {
+      "disposition": "keep",
+      "reason": "Two stamps, directional vocabulary, the governed amend verb, clause-plus-entity finding identity and coverage-carrying empty reports are internally consistent."
+    },
+    "techniques/invisible-differences.md": {
+      "disposition": "keep",
+      "reason": "The CVE mapping is confirmed. The 'every surface examined at once' breadth claim rests on the Trojan Source paper, which was not re-opened this run. The text is phrased as the paper's finding and was not altered."
+    },
+    "techniques/pair-and-baseline-selection.md": {
+      "disposition": "keep",
+      "reason": "Species, role naming, the degenerate pairs, the asked-for-versus-resolved rule and aggregate partitioning are consistent and backed by the two applications."
+    },
+    "techniques/presentation-modes.md": {
+      "disposition": "keep",
+      "reason": "The counter-evidence section accurately reflects the eye-tracking study (small n, no significant differences). The WCAG level-A criteria are cited correctly. The measured-value 'held' member and the non-finite guard are sound."
+    },
+    "techniques/semantic-level-selection.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: the Bytes rung's 'hash equality short-circuits everything above' now names identity, length or an already-existing digest as the cheap pre-checks, says computing a digest is not cheap, and links computation-offload."
+    }
+  }
+}
+```
