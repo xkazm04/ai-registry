@@ -92,10 +92,11 @@ content billed as a real generation"*.
   network's hashtag count matches; the professional network is "klidně s odrážkami" in
   one and not the other). The technique asks for one table rendered into both.
 - **One limit per network, not per account.** The microblog budget of 280 is the free
-  tier's ceiling; a paid-tier account is capped at the floor. The limits are also
-  below the current documented ceilings for two networks (the short-video feed now
-  accepts several thousand characters; the conversational network far more), which is
-  safe but unlabelled as a deliberate floor.
+  tier's ceiling; a paid-tier account is capped at the floor. The short-video 2,200
+  matches its posting API's documented caption ceiling (the several thousand its own
+  composer accepts is not reachable through the API). The conversational network's
+  2,200 is far below its documented ceiling, which is safe but unlabelled as a
+  deliberate floor.
 - **Register is prompt-only.** No validator checks hashtag count or placement; the
   register is enforced by the model's compliance and the reviewer's eye, which the
   technique accepts, but the limit is the only half with a gate.

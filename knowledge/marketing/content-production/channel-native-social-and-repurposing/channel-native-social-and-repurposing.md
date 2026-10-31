@@ -49,8 +49,8 @@ enforced only in a validator drift apart within a quarter.
 **Every post has three parts, and the reader sees only the first.** A hook, a concrete
 value, a call to action. The hook is the sentence that survives the fold - on most
 feeds a reader sees somewhere between the first one hundred and one hundred and fifty
-characters before a "more" control, a fact of the platform's own rendering rather than
-a convention - so a post whose value arrives in sentence four has, for most readers, no
+characters before a "more" control, an observed rendering that no platform documents and
+a redesign can move - so a post whose value arrives in sentence four has, for most readers, no
 value. The concrete value is the one thing the reader can take away without clicking.
 The call to action is what the business wants next, and it is one thing, not three.
 `hook-value-cta-triad` gives the shape, the order, and the test for each part.
@@ -80,9 +80,13 @@ not. `cadence-caps-at-one-chokepoint` is the technique. The evidence on cadence 
 worth stating plainly: a 2026 analysis of roughly forty million posts by a
 scheduling-tool vendor found per-post reach and interactions falling across every
 major network while posting frequency rose - on the professional network, post volume
-nearly doubled year-over-year while impressions per post fell by about a quarter. More
-posts buy more total exposure and less exposure per post; the cap protects the
-business from paying for the second with the quality of each post.
+nearly doubled year-over-year while impressions per post fell by about a quarter. That
+is a platform-wide aggregate - more accounts posting more into the same feed - and a
+different question from what one account gains by posting more: a within-account study
+of over two million posts by another scheduling vendor found reach per post rising with
+weekly frequency, with the caveat that low-quality posts posted often do not. The cap
+protects the business from buying volume with the quality of each post; it is not a
+claim that fewer posts reach further.
 
 **Grounding comes from what was measured, and only from what was measured.** "Write
 something like what worked" is the most useful instruction a social prompt can carry
@@ -114,8 +118,9 @@ is the technique, and it is the one that makes the other five honest.
 
 *Limit versus visible length.* A network's caption limit (two or three thousand
 characters on most long-form feeds, a few hundred on a microblog's free tier, several
-thousand on a short-video feed after a recent raise) is the technical ceiling. The
-visible length before a fold is a tenth of that. A post is written to the visible
+thousand in a short-video feed's own composer, though its posting API still caps a
+caption at 2,200) is the technical ceiling. The visible length before a fold is a
+twentieth of that or less. A post is written to the visible
 length and validated to the limit; conflating them produces posts that pass validation
 and lose the reader.
 
@@ -163,8 +168,9 @@ a column headed "CTR" will be read as one. The column is dropped rather than fil
   form value, a timezone misread - a scheduled time more than a small skew window in
   the past is a mistake to refuse, never an instruction to post immediately on a
   connected account, which is the least reversible action in the subject.
-- **Frequency as growth.** Doubling the posting rate to chase reach is the strategy the
-  measured data most consistently punishes.
+- **Frequency as growth.** Doubling the posting rate to chase reach without holding the
+  quality of each post. The platform-wide data shows per-post reach falling as everyone
+  posts more; the within-account data rewards frequency only while quality holds.
 
 Every threshold in this subject - the top-three count, the ninety-day window, the
 two-minute skew, the head-and-tail split of a digest, the cap itself - is a convention

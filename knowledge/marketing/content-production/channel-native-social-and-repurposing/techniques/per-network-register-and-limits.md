@@ -46,13 +46,17 @@ themselves:
 
 1. **The technical ceiling and the visible length are different numbers.** As of this
    writing the long-form feeds accept two to three thousand characters, a short-video
-   feed accepts several thousand after a recent raise from about two thousand, and a
+   feed's own composer accepts several thousand while its posting API still caps a
+   caption at 2,200, and a
    microblog's free tier accepts a few hundred while a paid tier accepts tens of
    thousands. Before a "more" fold the reader sees roughly the first hundred to hundred
-   and fifty characters on most feeds. Posts are *written* to the visible length and
+   and fifty characters on most feeds - an observed rendering, documented by no platform
+   and moved by any redesign. Posts are *written* to the visible length and
    *validated* to the ceiling.
-2. **A limit is a contract per account, not per network.** The microblog case shows
-   why: the ceiling depends on the account's tier. A system that stores one number per
+2. **A limit is a contract per account and per posting path, not per network.** The
+   microblog case shows the first: the ceiling depends on the account's tier. The
+   short-video case shows the second: an integration posting through the API meets the
+   API's ceiling, not the composer's. A system that stores one number per
    network is storing a floor, and "slightly under the limit" in the prompt is the
    margin that keeps the floor safe.
 

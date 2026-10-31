@@ -34,7 +34,7 @@ Two Czech articles (storing nuts, choosing winter tyres) x two arms x two repeti
 the professional and visual variants each, through a Sonnet-class model with the tool's
 own system instruction (A) and the same instruction plus two rules (B): the three parts
 in order with figures taken only from the article, and the visual network names where
-the link is and pastes no address. One reader scored 16 posts per arm.
+the link is and pastes no address. One reader scored 16 posts, eight per arm.
 
 | Measure | A (no triad) | B (triad stated) |
 | --- | --- | --- |

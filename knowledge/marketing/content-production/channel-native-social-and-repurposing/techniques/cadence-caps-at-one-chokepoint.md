@@ -80,8 +80,11 @@ million posts by a scheduling-tool vendor found per-post reach and interactions 
 across every major network while posting frequency rose - on the professional network,
 post volume nearly doubled year-over-year while impressions per post fell by about a
 quarter; on the short-video feed, weekly frequency rose about a fifth while interactions
-per post fell by about a third. More posts buy more total exposure and less per post;
-the sustainable cadence is the one the business can hold without the quality of each
+per post fell by about a third. Those are platform-wide aggregates, the shape of more
+competition in one feed, and they do not say what one account loses by posting more: a
+within-account study of over two million posts on the professional network by another
+vendor found reach per post *rising* with weekly frequency, while warning that
+low-quality posts posted often do not travel. The sustainable cadence is the one the business can hold without the quality of each
 post falling, and the cap is the business's own estimate of that. A cap that is never
 hit is too loose to be informative; a cap that is overridden every week is a promise the
 business does not mean and should be renegotiated, not bypassed.
@@ -113,5 +116,5 @@ business does not mean and should be renegotiated, not bypassed.
 - Not to auto-reschedule. Moving a post to next week because this week is full is a
   decision about the business's calendar and belongs to a person.
 - Not as a measure of success. Filling the cap every week is not a goal; the cap is a
-  ceiling, and the measured evidence on frequency says the ceiling is the safer side to
-  err on.
+  ceiling the business set to protect the quality of each post, not a target the
+  evidence on frequency sets for it.
