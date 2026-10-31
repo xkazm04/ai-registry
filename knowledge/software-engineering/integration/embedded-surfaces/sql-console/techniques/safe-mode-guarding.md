@@ -88,9 +88,9 @@ The discipline, in order:
    ad-hoc regex per call site. Seed it from the engine's own definition of
    a read-only transaction rather than from intuition: the SQL standard's
    `READ ONLY` access mode, as engines implement it, refuses more than the
-   obvious verbs — statements that *read* into a new table, cursor and
-   prepared-statement executions of a refused command, copy-in, and
-   sequence advancement — and a vocabulary that lists only the verbs
+   obvious verbs — statements that *read* into a new table, `EXPLAIN
+   ANALYZE` and prepared-statement `EXECUTE` of a refused command, copy-in,
+   and sequence advancement — and a vocabulary that lists only the verbs
    people type by hand misses every one of those. Read-shaped writes
    (`SELECT ... INTO`, `SELECT ... FOR UPDATE`, a select that calls a
    sequence or a file-writing function) belong in the mutation class even

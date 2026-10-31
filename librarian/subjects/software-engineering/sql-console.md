@@ -76,3 +76,197 @@ rendered as an empty success, NULL copied as text and pinned that way by a test,
 client-built command beside the parameterized door, NL output marked ready with no SQL.
 Two claims in the 2026-08-29 detail were never true (the truncation message always named
 its bound; engine errors are scrubbed backend-side). No proposals.
+
+## 2026-10-31 - architecture review
+
+First architecture-review record for this subject. All 12 documents read. The golden path
+and five of six techniques hold. One technique carries an inaccurate gloss of the
+PostgreSQL read-only list ('cursor' executions are not on it; `EXPLAIN ANALYZE` is). The
+four applications citing the personas tree were checked against it at `a7b34f56`: the
+engine module moved into an extracted crate (every `src-tauri/src/engine/db_query.rs`
+citation is stale), the react application's banner deviation has since been fixed, and
+the second mutation door now adds a single-statement check. The two ascent applications
+could not be re-read from this checkout. Those are reverify items, not refreshed dates.
+
+<!-- architecture-review:v1 -->
+```json
+{
+  "subject": "software-engineering/sql-console",
+  "date": "2026-10-31",
+  "baseline": "a2473a65c",
+  "digest": "sha256-b2:60a26f15745fd8c1",
+  "disposition": "reverify",
+  "coverage": "All 12 documents decided (golden path, 6 techniques, 5 applications). Trigger: never architecture-reviewed (state pending). Intended benefit: a console that keeps the credential in the vault and every SQL author behind one classified-statement executor. Failure if ignored: a second executor or a read-only envelope as the only guard lets a stacked COMMIT through. Boundary: foreign-schema user SQL only; the application's own persistence is data-access, grid mechanics are table, extraction is structured-output. Primary sources re-opened: RFC 8259 section 6, the PostgreSQL SET TRANSACTION page, PostgreSQL sequence.c, the Datadog Security Labs post-mortem. Consumer trees: personas read at a7b34f56; ascent not reachable from this checkout.",
+  "counterexamples": [
+    "A console whose only guard is a BEGIN READ ONLY envelope is escaped by a payload-internal COMMIT when the driver accepts stacked statements (the 2025 reference Postgres MCP server).",
+    "A SELECT-led statement can still write: nextval() and setval() on a non-temporary sequence are refused in a PostgreSQL read-only transaction, so a first-keyword read list admits a write.",
+    "An integer id above 2^53 - 1 crosses a JSON boundary without any interoperability guarantee; a console that parses it as a binary64 number shows and copies a neighbouring id.",
+    "A modal overlay can keep a consent's destination frozen without capturing it, until a non-modal path (a refresh, a keyboard route) re-points it."
+  ],
+  "sources": [
+    {
+      "url": "https://www.rfc-editor.org/rfc/rfc8259#section-6",
+      "result": "Read 2026-10-31. 'numbers that are integers and are in the range [-(2**53)+1, (2**53)-1] are interoperable in the sense that implementations will agree exactly on their numeric values'; 'A JSON number such as 1E400 or 3.141592653589793238462643383279 may indicate potential interoperability problems'. Supports result-fidelity's number-transport rule as written."
+    },
+    {
+      "url": "https://www.postgresql.org/docs/current/sql-set-transaction.html",
+      "result": "Read 2026-10-31. Read-only disallows 'INSERT, UPDATE, DELETE, MERGE, and COPY FROM if the table they would write to is not a temporary table; all CREATE, ALTER, and DROP commands; COMMENT, GRANT, REVOKE, TRUNCATE; and EXPLAIN ANALYZE and EXECUTE if the command they would execute is among those listed. This is a high-level notion of read-only that does not prevent all writes to disk.' Supports the envelope quote; refutes safe-mode-guarding's 'cursor' gloss (the list names EXPLAIN ANALYZE and EXECUTE, not cursors)."
+    },
+    {
+      "url": "https://raw.githubusercontent.com/postgres/postgres/master/src/backend/commands/sequence.c",
+      "result": "Read 2026-10-31. '/* read-only transactions may only modify temp sequences */ if (!seqrel->rd_islocaltemp) PreventCommandIfReadOnly(\"nextval()\");' and the same for setval(). Supports 'sequence advancement' in rule 4."
+    },
+    {
+      "url": "https://securitylabs.datadoghq.com/articles/mcp-vulnerability-case-study-SQL-injection-in-the-postgresql-mcp-server/",
+      "result": "Read 2026-10-31, dated August 21, 2025. 'Every SQL query submitted by the user is wrapped in a read-only transaction'; the input can 'terminate the transaction with a COMMIT; statement'; demo payload 'COMMIT; DROP SCHEMA public CASCADE;'; mitigations a least-privilege role and 'prepared statements, which do not allow multiple statements'. Supports the 2025 post-mortem and the layering order in safe-mode-guarding and nl-assist-gating."
+    },
+    {
+      "source": "personas tree at a7b34f56 (read, not executed)",
+      "result": "db_query.rs now lives in the extracted engine crate; is_mutation at :561, has_multiple_statements at :496, READ_SHAPED_WRITES at :307 with a parity test against the client regex; introspect_columns at :1015 still binds the sanitized name. MutationConfirmBanner renders the whole statement in a scrolling pre with a comment naming the 200-character cut it replaced. classifyDbQuery still has no caller beyond its wrapper. connector_use.rs execute_mutation still gates on starts_with over seven verbs and now also requires is_single_statement. introspectionQueries.ts getSelectAllQuery emits a Redis SCAN command at :168."
+    }
+  ],
+  "documents": {
+    "sql-console.md": {
+      "disposition": "keep",
+      "reason": "The containment framing, the boundaries against data-access, credential-vault, table and structured-output, the two-sided guard, one classified-statement executor and the NL lane as second author are coherent and consistent with every technique."
+    },
+    "techniques/safe-mode-guarding.md": {
+      "disposition": "clarify",
+      "reason": "Rule 4 says the read-only access mode refuses 'cursor and prepared-statement executions of a refused command'. The PostgreSQL page lists 'EXPLAIN ANALYZE and EXECUTE if the command they would execute is among those listed'; cursors are not named. Replace with EXPLAIN ANALYZE and prepared-statement EXECUTE. Sequence advancement (sequence.c) and the envelope quote and post-mortem (Datadog) are verified and stay."
+    },
+    "techniques/result-fidelity.md": {
+      "disposition": "keep",
+      "reason": "The RFC 8259 section 6 range and quote match the source. The stale-success/error pair, n+1 truncation detection and secret scrubbing are internally consistent with the golden path."
+    },
+    "techniques/introspection-architecture.md": {
+      "disposition": "keep",
+      "reason": "Names as bound values in catalog lookups, the executed-versus-emitted line, progressive disclosure and labelled row counts are sound; no unstable external claim."
+    },
+    "techniques/dialect-capability-declaration.md": {
+      "disposition": "keep",
+      "reason": "One declaration per family next to the execute dispatch, declare over probe, and minimal profile for unknown engines are coherent; no unstable external claim."
+    },
+    "techniques/editor-ergonomics.md": {
+      "disposition": "keep",
+      "reason": "The editor floor, identity-keyed bounded history, promotion to saved queries and every convenience terminating at the guard are sound and match the golden path."
+    },
+    "techniques/nl-assist-gating.md": {
+      "disposition": "keep",
+      "reason": "Second author not second path; the no-human-behind-it rule matches the Datadog mitigations (least-privilege role, statements that cannot stack) re-read this run."
+    },
+    "applications/next--result-fidelity.md": {
+      "disposition": "reverify",
+      "reason": "Cites the ascent tree at a57f272c, which is not reachable from this checkout; no evidence of drift and none of currency. Needs a re-read of the cited hooks and MemoryRecallPanel at a current HEAD before verified_on moves."
+    },
+    "applications/next--safe-mode-guarding.md": {
+      "disposition": "reverify",
+      "reason": "Same ascent tree at a57f272c, not reachable here. Needs a re-read of ConfirmAction, usePlaybookCard and DataErasurePreview at a current HEAD, in particular whether the destination is now captured."
+    },
+    "applications/react--safe-mode-guarding.md": {
+      "disposition": "reverify",
+      "reason": "Drifted in the personas tree at a7b34f56: the banner deviation (slice at 200 characters) is fixed, the client regex for read-shaped writes moved to :54, and the Rust citation src-tauri/src/engine/db_query.rs no longer exists (now the engine crate). The classifyDbQuery zero-caller finding still holds. Needs a full line re-check and a rewrite of the deviation paragraph."
+    },
+    "applications/rust--introspection-architecture.md": {
+      "disposition": "reverify",
+      "reason": "The mechanism still holds (sanitized name bound into information_schema.columns at :1015-1060 of the moved file), but every db_query.rs path and line is stale, and the 2026-09-23 conform reported a client-built command beside the parameterized door (getSelectAllQuery now emits a Redis SCAN at :168); whether it is executed or only copied decides the 'second door deleted' claim."
+    },
+    "applications/rust--safe-mode-guarding.md": {
+      "disposition": "reverify",
+      "reason": "Paths and lines stale after the move to the engine crate, and the second-door gap changed: execute_mutation now also requires is_single_statement before reaching the pool. Needs re-citation and a re-statement of what the gap still is."
+    }
+  }
+}
+```
+
+
+Phase B applied the one clarify; the record below supersedes the first 2026-10-31 record against the new bytes.
+
+<!-- architecture-review:v1 -->
+```json
+{
+  "subject": "software-engineering/sql-console",
+  "date": "2026-10-31",
+  "baseline": "a2473a65c",
+  "digest": "sha256-b2:fd16b5b668df1a8e",
+  "disposition": "reverify",
+  "coverage": "Second record of 2026-10-31, after Phase B. The one clarify (safe-mode-guarding rule 4) was applied against the PostgreSQL SET TRANSACTION page opened this run and the edited sentence re-read. All other documents are byte-unchanged and keep the dispositions of the first 2026-10-31 record; the five applications stay reverify and no verified_on moved. Boundary, trigger and sources as in the first record.",
+  "counterexamples": [
+    "A console whose only guard is a BEGIN READ ONLY envelope is escaped by a payload-internal COMMIT when the driver accepts stacked statements (the 2025 reference Postgres MCP server).",
+    "A SELECT-led statement can still write: nextval() and setval() on a non-temporary sequence are refused in a PostgreSQL read-only transaction, so a first-keyword read list admits a write.",
+    "An integer id above 2^53 - 1 crosses a JSON boundary without any interoperability guarantee; a console that parses it as a binary64 number shows and copies a neighbouring id.",
+    "A modal overlay can keep a consent's destination frozen without capturing it, until a non-modal path (a refresh, a keyboard route) re-points it."
+  ],
+  "sources": [
+    {
+      "url": "https://www.rfc-editor.org/rfc/rfc8259#section-6",
+      "result": "Read 2026-10-31. 'numbers that are integers and are in the range [-(2**53)+1, (2**53)-1] are interoperable in the sense that implementations will agree exactly on their numeric values'; 'A JSON number such as 1E400 or 3.141592653589793238462643383279 may indicate potential interoperability problems'. Supports result-fidelity's number-transport rule as written."
+    },
+    {
+      "url": "https://www.postgresql.org/docs/current/sql-set-transaction.html",
+      "result": "Read 2026-10-31. Read-only disallows 'INSERT, UPDATE, DELETE, MERGE, and COPY FROM if the table they would write to is not a temporary table; all CREATE, ALTER, and DROP commands; COMMENT, GRANT, REVOKE, TRUNCATE; and EXPLAIN ANALYZE and EXECUTE if the command they would execute is among those listed. This is a high-level notion of read-only that does not prevent all writes to disk.' Supports the envelope quote; refutes safe-mode-guarding's 'cursor' gloss (the list names EXPLAIN ANALYZE and EXECUTE, not cursors)."
+    },
+    {
+      "url": "https://raw.githubusercontent.com/postgres/postgres/master/src/backend/commands/sequence.c",
+      "result": "Read 2026-10-31. '/* read-only transactions may only modify temp sequences */ if (!seqrel->rd_islocaltemp) PreventCommandIfReadOnly(\"nextval()\");' and the same for setval(). Supports 'sequence advancement' in rule 4."
+    },
+    {
+      "url": "https://securitylabs.datadoghq.com/articles/mcp-vulnerability-case-study-SQL-injection-in-the-postgresql-mcp-server/",
+      "result": "Read 2026-10-31, dated August 21, 2025. 'Every SQL query submitted by the user is wrapped in a read-only transaction'; the input can 'terminate the transaction with a COMMIT; statement'; demo payload 'COMMIT; DROP SCHEMA public CASCADE;'; mitigations a least-privilege role and 'prepared statements, which do not allow multiple statements'. Supports the 2025 post-mortem and the layering order in safe-mode-guarding and nl-assist-gating."
+    },
+    {
+      "source": "personas tree at a7b34f56 (read, not executed)",
+      "result": "db_query.rs now lives in the extracted engine crate; is_mutation at :561, has_multiple_statements at :496, READ_SHAPED_WRITES at :307 with a parity test against the client regex; introspect_columns at :1015 still binds the sanitized name. MutationConfirmBanner renders the whole statement in a scrolling pre with a comment naming the 200-character cut it replaced. classifyDbQuery still has no caller beyond its wrapper. connector_use.rs execute_mutation still gates on starts_with over seven verbs and now also requires is_single_statement. introspectionQueries.ts getSelectAllQuery emits a Redis SCAN command at :168."
+    }
+  ],
+  "documents": {
+    "sql-console.md": {
+      "disposition": "keep",
+      "reason": "The containment framing, the boundaries against data-access, credential-vault, table and structured-output, the two-sided guard, one classified-statement executor and the NL lane as second author are coherent and consistent with every technique."
+    },
+    "techniques/safe-mode-guarding.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: rule 4's 'cursor and prepared-statement executions of a refused command' now reads '`EXPLAIN ANALYZE` and prepared-statement `EXECUTE` of a refused command', matching the PostgreSQL read-only list; sequence advancement and the envelope paragraph unchanged."
+    },
+    "techniques/result-fidelity.md": {
+      "disposition": "keep",
+      "reason": "The RFC 8259 section 6 range and quote match the source. The stale-success/error pair, n+1 truncation detection and secret scrubbing are internally consistent with the golden path."
+    },
+    "techniques/introspection-architecture.md": {
+      "disposition": "keep",
+      "reason": "Names as bound values in catalog lookups, the executed-versus-emitted line, progressive disclosure and labelled row counts are sound; no unstable external claim."
+    },
+    "techniques/dialect-capability-declaration.md": {
+      "disposition": "keep",
+      "reason": "One declaration per family next to the execute dispatch, declare over probe, and minimal profile for unknown engines are coherent; no unstable external claim."
+    },
+    "techniques/editor-ergonomics.md": {
+      "disposition": "keep",
+      "reason": "The editor floor, identity-keyed bounded history, promotion to saved queries and every convenience terminating at the guard are sound and match the golden path."
+    },
+    "techniques/nl-assist-gating.md": {
+      "disposition": "keep",
+      "reason": "Second author not second path; the no-human-behind-it rule matches the Datadog mitigations (least-privilege role, statements that cannot stack) re-read this run."
+    },
+    "applications/next--result-fidelity.md": {
+      "disposition": "reverify",
+      "reason": "Cites the ascent tree at a57f272c, which is not reachable from this checkout; no evidence of drift and none of currency. Needs a re-read of the cited hooks and MemoryRecallPanel at a current HEAD before verified_on moves."
+    },
+    "applications/next--safe-mode-guarding.md": {
+      "disposition": "reverify",
+      "reason": "Same ascent tree at a57f272c, not reachable here. Needs a re-read of ConfirmAction, usePlaybookCard and DataErasurePreview at a current HEAD, in particular whether the destination is now captured."
+    },
+    "applications/react--safe-mode-guarding.md": {
+      "disposition": "reverify",
+      "reason": "Drifted in the personas tree at a7b34f56: the banner deviation (slice at 200 characters) is fixed, the client regex for read-shaped writes moved to :54, and the Rust citation src-tauri/src/engine/db_query.rs no longer exists (now the engine crate). The classifyDbQuery zero-caller finding still holds. Needs a full line re-check and a rewrite of the deviation paragraph."
+    },
+    "applications/rust--introspection-architecture.md": {
+      "disposition": "reverify",
+      "reason": "The mechanism still holds (sanitized name bound into information_schema.columns at :1015-1060 of the moved file), but every db_query.rs path and line is stale, and the 2026-09-23 conform reported a client-built command beside the parameterized door (getSelectAllQuery now emits a Redis SCAN at :168); whether it is executed or only copied decides the 'second door deleted' claim."
+    },
+    "applications/rust--safe-mode-guarding.md": {
+      "disposition": "reverify",
+      "reason": "Paths and lines stale after the move to the engine crate, and the second-door gap changed: execute_mutation now also requires is_single_statement before reaching the pool. Needs re-citation and a re-statement of what the gap still is."
+    }
+  }
+}
+```
