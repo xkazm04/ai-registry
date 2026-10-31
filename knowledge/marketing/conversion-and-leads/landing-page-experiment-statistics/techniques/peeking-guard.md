@@ -106,9 +106,9 @@ week of waiting for a badge.
 
 ## When NOT to use
 
-- A stopped test: it is read at the stop, labelled, and the guard does not apply
-  retroactively. The dishonesty to avoid is the *promotion* of a stopped test, not
-  its read.
+- A stopped test: it is read at the stop and labelled, and the guard does not forbid
+  that read. The dishonesty to avoid is the *promotion* of a stopped test below its
+  gate, not its read.
 - A sequential design with always-valid thresholds is its own guard; stacking a fixed
   sample gate on it withholds a valid early stop for no gain.
 - Monitoring for harm - a challenger with a collapsing rate, a broken form - is not

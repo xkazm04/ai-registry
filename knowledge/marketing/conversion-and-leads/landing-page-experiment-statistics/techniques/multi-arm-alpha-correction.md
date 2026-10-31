@@ -66,7 +66,7 @@ businesses - and that cap is a traffic argument, not a reason to switch forms.
 Direction is a second, quieter source of slack. A surface that declares only a
 challenger that *beats* the control, against a two-sided threshold, spends half its
 budget: the same replay put the false-winner rate at about 0.025 for one challenger and
-0.021 to 0.023 for several. That is conservative and it is paid for in traffic,
+0.020 to 0.023 for several. That is conservative and it is paid for in traffic,
 because the sizing used the two-sided quantile. Whether to keep it is a choice: a
 two-sided test also reports a losing challenger honestly. Say on the result which one
 was made.

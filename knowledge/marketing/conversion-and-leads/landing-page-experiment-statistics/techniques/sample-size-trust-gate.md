@@ -84,8 +84,9 @@ opposite direction: an absent requirement is not a met one.
 ## When NOT to use
 
 - A test the operator stopped deliberately is read on its confidence at the stop and
-  labelled as stopped; the gate governs *running* tests. Promoting a stopped test to
-  a winner it did not earn is the peeking guard's concern, not this one's.
+  labelled as stopped; this technique sizes and paces the test, and it does not decide
+  that read. Whether a closed test may be called significant is the peeking guard's
+  concern: it may, only past this same gate, so closing a test is not a way around it.
 - A sequential design with always-valid thresholds replaces the fixed-horizon
   requirement with a threshold that tightens per look; do not stack a fixed gate on
   top of it as if both were needed.
