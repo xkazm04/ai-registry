@@ -18,6 +18,35 @@ onboarding, the challenge lenses, registry-conformance as a lens - conformance i
 `coverage` rows record here). A finding outside the map is not stored as a metric; if
 it matters, name it in the report for another skill.
 
+## Lens categories
+
+A finding's scan-finding/1 `category` is its lens's **declared default**; the judge may move
+a finding technical -> product, never product -> technical (the category picks the autonomy
+start: technical L2, product L0). `store.mjs propose` clamps a `technical` finding of a
+`product` lens to `product` and answers `clamped: true`. Declarations, first hit wins:
+
+1. the lens manifest's own `category` (`technical` | `product`) in the app-structure beside
+   the store - how a project or temporary lens declares itself;
+2. this table, for the built-in lenses (parsed by the store; keep the shape `| \`id\` | category |`):
+
+| Lens | Category |
+| --- | --- |
+| `business` | product |
+| `design` | technical |
+| `development` | technical |
+| `operations` | technical |
+| `performance` | technical |
+| `quality` | technical |
+| `security` | technical |
+
+3. **default: `technical`** for a lens neither declares - no clamp, the judge's category
+   stands (the pre-1.13 behaviour). Declare a product lens to close the gate on it.
+
+`design` is technical because most of what it measures is the build's own quality (axe
+violations, undesigned states, raw literals); a UX-direction finding is moved to `product`
+by the judge. A finding with no category stays without one (L0); the store does not fill
+it from the lens.
+
 ## Lenses with a scan block (1.2)
 
 Any other lens in the map - a project lens, a temporary `tmp.<kebab>` lens, a built-in

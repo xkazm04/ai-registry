@@ -135,9 +135,15 @@ export function levelFor(f, { reachable, slices = [], start = {}, frozen = [], s
   // The repo-wide false-positive counter (section 5) is a LOCAL demotion on top: one level down while strict.
   const effective = Math.max(0, level - (strict ? 1 : 0));
   // Door unreachable: autoDecide is only ASKED (L1 at most); the door re-decides it when the card lands.
-  // A Lane C escalation is the human's by the skill's own law, whatever the slice has earned.
-  const human = HUMAN_GATES.has(f.gate);
-  return { slice, level, source, effective, lane_a_ok: !human && effective >= 2, auto_decide: !human && effective >= 1 };
+  // A Lane C escalation is the human's by the skill's own law, whatever the slice has earned. Lane C is read
+  // from the gate AND from the card's own lane marker: personas cycle 2 (2026-10-30) auto-decided a context-map
+  // edit carrying `gate: none, lane: C` and another carrying `gate: contract`, because only the four gates were
+  // read. A `contract` card stays Lane-A-buildable (in-tree, verifier green - section 5) but a handed-off one is
+  // never machine-decided: its consumers are what the human is asked about.
+  const laneC = String(f.lane ?? '').toUpperCase() === 'C';
+  const human = HUMAN_GATES.has(f.gate) || laneC;
+  const decide = !human && f.gate !== 'contract';
+  return { slice, level, source, effective, lane_a_ok: !human && effective >= 2, auto_decide: decide && effective >= 1 };
 }
 
 // ---- CLI ---------------------------------------------------------------------------------------
@@ -146,8 +152,10 @@ async function main(argv) {
   const opt = (f, d) => { const i = argv.indexOf(f); return i >= 0 && argv[i + 1] && !argv[i + 1].startsWith('--') ? argv[i + 1] : d; };
   const [verb] = argv;
   const print = (o) => console.log(JSON.stringify(o, null, 2));
+  const usage = 'usage: door.mjs decisions --repo <root> [--context <name>] [--lens <id>] [--limit 50]\n       door.mjs trust --repo <root> [--slice <key>]';
+  if (argv.includes('--help') || argv.includes('-h')) { console.log(usage); return 0; }
   if (verb !== 'decisions' && verb !== 'trust') {
-    console.error('usage: door.mjs decisions --repo <root> [--context <name>] [--lens <id>] [--limit 50]\n       door.mjs trust --repo <root> [--slice <key>]');
+    console.error(usage);
     return 2;
   }
   const repo = resolve(opt('--repo', process.cwd()));
@@ -165,10 +173,16 @@ async function main(argv) {
       let note;
       if (ctxName) {
         contextId = (await contextIds(call, project.id)).get(ctxName.trim().toLowerCase());
-        if (!contextId) note = `context "${ctxName}" is not in the app's map: decisions read project-wide`;
+        // A context the app does not know widens the read to the whole project. personas cycle 2 (2026-10-30):
+        // all four contexts were unknown and every "context" read quietly answered about the project. Say it in
+        // the reply's own words, flag it, and warn on stderr so a caller that keeps only the decisions still sees it.
+        if (!contextId) {
+          note = `scope: project (context ${ctxName} unknown to the app) - run \`personas-door contexts sync\` first`;
+          console.error(note);
+        }
       }
       const rows = await decisions(call, { projectId: project.id, contextId, lens: opt('--lens'), limit: opt('--limit', 50) });
-      print({ reachable: true, project: project.id, scope: contextId ? 'context' : 'project', ...(contextId ? { contextId } : {}), ...(note ? { note } : {}), decisions: rows });
+      print({ reachable: true, project: project.id, scope: contextId ? 'context' : 'project', ...(contextId ? { contextId } : {}), ...(note ? { widened: true, note } : {}), decisions: rows });
     } else {
       const r = await trust(call, { projectId: project.id, slice: opt('--slice') });
       print({ reachable: true, project: project.id, ...r });

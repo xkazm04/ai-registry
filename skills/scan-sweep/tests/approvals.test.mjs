@@ -168,6 +168,17 @@ test('absent stays absent: no default scales, no score, category from the lens r
   } finally { f.server.close(); }
 });
 
+test('a product lens card filed as technical goes to the door as product, and the reply says clamped', async () => {
+  const f = await fixture([JSON.stringify({ title: 'Relabelled', lens: 'copy-auditor', category: 'technical', impact: 5, effort: 2 })]);
+  try {
+    const r = await run(['--file', f.file, '--repo', f.repo, '--json'], f.home);
+    assert.equal(r.status, 0, r.stderr);
+    assert.equal(f.filed[0].category, 'product');
+    assert.match(f.filed[0].reasoning, /category clamped technical -> product/);
+    assert.equal(JSON.parse(r.stdout).results[0].clamped, true);
+  } finally { f.server.close(); }
+});
+
 test('reserve-band cards are posted, not dropped', async () => {
   const f = await fixture([JSON.stringify({ title: 'R1', lens: 'bounty-hunter', band: 'reserve', impact: 3, effort: 2 }), JSON.stringify({ title: 'K1', lens: 'bounty-hunter', band: 'ranked' })]);
   try {
@@ -219,11 +230,25 @@ test('proofFromAb: a Lane B return becomes the contract proof; fp/demoted built 
   const r = { verdict: 'unmeasurable', metric: 'p95', unit: 'ms', before: '410', after: '400', method: 'probe', seeded_red: false, sha: 'h1' };
   assert.deepEqual(proofFromAb(r, { base_sha: 'b0' }), { metric: 'p95', method: 'probe', unit: 'ms', before: '410', after: '400', verdict: 'inconclusive', control: 'absent', base_sha: 'b0', head_sha: 'h1' });
   assert.equal(proofFromAb({ ...r, verdict: 'better', seeded_red: true }).control, 'absent', 'a red control without its reading is unverifiable');
-  const red = proofFromAb({ ...r, verdict: 'better', seeded_red: true, control_value: '0 cases' });
+  const red = proofFromAb({ ...r, verdict: 'better', seeded_red: true, control_value: '0 cases', control_run: 're-run', control_cmd: 'node --test t.mjs' });
   assert.deepEqual([red.control, red.control_value], ['red', '0 cases']);
   assert.ok(!('base_sha' in proofFromAb({ ...r, verdict: 'better' })), 'an unknown sha is omitted, not guessed');
   assert.equal(proofFromAb({ ...r, verdict: 'fp' }), undefined);
   assert.equal(proofFromAb({ ...r, verdict: 'demoted' }), undefined);
+});
+
+test('proofFromAb: a control is red only when it was RE-RUN on the reverted tree, with its command', () => {
+  // personas cycle 2: two design workers reported the base-tree (pre-edit) reading as the control - "3 (pre-edit
+  // reading, not re-run)" - and the contract took it. A reading nobody re-took after reverting B proves nothing
+  // about the instrument.
+  const r = { verdict: 'better', metric: 'wrong statements', unit: 'count', before: '3', after: '0', method: 'probe', seeded_red: true, control_value: '3', sha: 'h1' };
+  assert.equal(proofFromAb(r).control, 'absent', 'no control_run: not shown to be re-run');
+  assert.equal(proofFromAb({ ...r, control_run: 'base', control_cmd: 'grep -c x README.md' }).control, 'absent', 'a base-tree reading is absent');
+  assert.equal(proofFromAb({ ...r, control_run: 're-run' }).control, 'absent', 're-run without the command is unverifiable');
+  const ok = proofFromAb({ ...r, control_run: 're-run', control_cmd: 'grep -c x README.md' });
+  assert.deepEqual([ok.control, ok.control_value], ['red', '3']);
+  assert.ok(!('control_cmd' in ok), 'the command stays in ab.jsonl; the proof keeps the contract keys only');
+  assert.ok(!('control_value' in proofFromAb({ ...r, control_run: 'base' })), 'an absent control carries no reading that could pass for one');
 });
 
 test('door down: the spool fallback is unchanged - the raw cards are queued durably, exit 0', async () => {

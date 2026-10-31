@@ -50,8 +50,11 @@ const outPath = opt('--out');
 const asJson = has('--json');
 const runId = opt('--run-id');
 
+const USAGE = 'usage: approvals.mjs --file <cards.jsonl> [--repo <root>] [--run-id <id>] [--dry-run] [--register] [--out <p>] [--json]';
+// --help wins over every other argument: a help flag must never file a card (personas cycle 2: a --help wrote).
+if (has('--help') || has('-h')) { console.log(USAGE); process.exit(0); }
 if (!file || !existsSync(file)) {
-  console.error('usage: approvals.mjs --file <cards.jsonl> [--repo <root>] [--run-id <id>] [--dry-run] [--register] [--out <p>] [--json]');
+  console.error(USAGE);
   process.exit(2);
 }
 
@@ -129,6 +132,7 @@ for (const { line, card } of cards) {
     // Echo what the door decided about autonomy; absent means it did not say (an older app).
     if (typeof r.autoDecided === 'boolean') row.autoDecided = r.autoDecided;
     if (Number.isInteger(r.level)) row.level = r.level;
+    if (f.notes.some((n) => n.startsWith('category clamped'))) row.clamped = true;
     results.push(row);
   } catch (e) {
     results.push({ title, outcome: 'error', error: e.message });
@@ -147,6 +151,8 @@ if (asJson) {
   for (const r of results.filter((r) => r.outcome === 'error' || r.outcome === 'invalid')) console.log(`  FAILED ${r.title}: ${r.error}`);
   const auto = results.filter((r) => r.autoDecided === true);
   if (auto.length) console.log(`  ${auto.length} machine-decided by the door (L${[...new Set(auto.map((r) => r.level))].join('/L')}, 24 h veto window)`);
+  const clamped = results.filter((r) => r.clamped);
+  if (clamped.length) console.log(`  ${clamped.length} clamped technical -> product (a product lens's card; category is the lens's default)`);
   const accepted = results.filter((r) => r.status && r.status !== 'pending' && r.autoDecided !== true);
   if (accepted.length) console.log(`  ${accepted.length} already decided in Approvals (dedup hit on a ${[...new Set(accepted.map((r) => r.status))].join('/')} row)`);
 }

@@ -132,3 +132,57 @@ test('--history reads a ledger outside the cwd (the main checkout\'s, when the w
   assert.equal(run(dir).rows.find((r) => r.name === 'tiny').sweeps, 0, 'non-vacuity: the cwd ledger is empty');
   assert.equal(run(dir, '--history', ledger).rows.find((r) => r.name === 'tiny').sweeps, 1);
 });
+
+test('--help prints usage and exits 0 without reading the map or printing the table', () => {
+  // personas cycle 2: `coverage.mjs --help` printed the coverage table.
+  const dir = scratch(); // no context map here: a help that read it would exit 2
+  const out = execFileSync(process.execPath, [SCRIPT, '--help'], { cwd: dir, encoding: 'utf8' });
+  assert.match(out, /usage: coverage\.mjs/);
+  assert.doesNotMatch(out, /CONTEXT\s+FILES/);
+});
+
+// A git repo whose history carries two sweep rounds the ledger lost (the worktree holding it was removed).
+function gitFixture() {
+  const dir = fixture([]);
+  const git = (...a) => execFileSync('git', a, { cwd: dir, encoding: 'utf8', env: { ...process.env, GIT_AUTHOR_DATE: process.env.GIT_DATE, GIT_COMMITTER_DATE: process.env.GIT_DATE } });
+  const commit = (msg, date) => {
+    process.env.GIT_DATE = date;
+    writeFileSync(join(dir, 'f.txt'), `${msg}\n${date}\n`);
+    git('add', 'f.txt');
+    git('-c', 'user.name=t', '-c', 'user.email=t@example.com', 'commit', '-q', '-m', msg);
+  };
+  git('init', '-q');
+  commit('chore: initial', '2026-10-01T10:00:00Z');
+  commit('fix(big-g1): guard the null row\n\nLens: error-handler', '2026-10-29T10:00:00Z');
+  commit('test(big-g1): pin the guard', '2026-10-29T11:00:00Z');
+  commit('fix(tiny): copy', '2026-10-30T09:00:00Z');
+  commit('fix(not-a-context): ignored', '2026-10-30T09:30:00Z');
+  delete process.env.GIT_DATE;
+  return dir;
+}
+
+test('--rebuild-from-git reconstructs one sweep row per context per day, marked reconstructed, with no lens coverage', () => {
+  const dir = gitFixture();
+  const out = execFileSync(process.execPath, [SCRIPT, '--rebuild-from-git'], { cwd: dir, encoding: 'utf8' });
+  const rows = out.trim().split('\n').map((l) => JSON.parse(l));
+  assert.deepEqual(rows.map((r) => [r.scope, r.at.slice(0, 10), r.commits]), [['big-g1', '2026-10-29', 2], ['tiny', '2026-10-30', 1]]);
+  for (const r of rows) {
+    assert.equal(r.reconstructed, true);
+    assert.deepEqual(r.lens_keys, [], 'git history does not say which lenses read the context');
+    assert.equal(r.strategy, 'reconstructed');
+  }
+  // Nothing written without --write: the ledger is still empty.
+  assert.equal(run(dir).rows.find((r) => r.name === 'big-g1').sweeps, 0);
+});
+
+test('--rebuild-from-git --write appends the rows once; the picker then stops re-picking those contexts as never swept', () => {
+  const dir = gitFixture();
+  execFileSync(process.execPath, [SCRIPT, '--rebuild-from-git', '--write'], { cwd: dir, encoding: 'utf8' });
+  execFileSync(process.execPath, [SCRIPT, '--rebuild-from-git', '--write'], { cwd: dir, encoding: 'utf8' });
+  const ledger = readFileSync(join(dir, '.claude', 'scan-history', 'scan-sweep.jsonl'), 'utf8').trim().split('\n').filter(Boolean);
+  assert.equal(ledger.length, 2, 'a second rebuild adds nothing it already wrote');
+  const r = run(dir);
+  assert.equal(r.rows.find((x) => x.name === 'big-g1').sweeps, 1);
+  assert.equal(r.rows.find((x) => x.name === 'big-g1').lenses, 0);
+  assert.notEqual(r.next, 'big-g1', 'a reconstructed context is swept; never-swept ones come first');
+});

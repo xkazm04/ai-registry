@@ -48,6 +48,19 @@ export function lensCategories() {
   return lensCats;
 }
 
+/**
+ * The finding's category under the contract's one-way rule: it is the lens's declared default, and a judge may
+ * move it technical -> product, never product -> technical. Why: category picks the autonomy start (technical L2,
+ * product L0), so a relabel was a way past the human gate - Dowser cycle 2 (2026-10-30) watched a fork mark a
+ * product lens's cards technical and pre-triage decide them. A lens with no declaration keeps the card's value.
+ * @returns {{category: string|undefined, clamped: boolean}}
+ */
+export function clampCategory(lens, category) {
+  const declared = lens ? lensCategories().get(lens) : undefined;
+  if (declared === 'product' && category === 'technical') return { category: 'product', clamped: true };
+  return { category: category ?? declared, clamped: false };
+}
+
 const present = (v) => v !== undefined && v !== null && v !== '';
 /** A card may carry a key snake_case (the finding shape) or camelCase (a converted wire body). */
 const pick = (c, k) => (present(c[k]) ? c[k] : present(c[camel(k)]) ? c[camel(k)] : undefined);
@@ -61,7 +74,9 @@ export function toFiling(c, { projectId = '<unregistered>', contexts = new Map()
   const notes = [];
   const get = (k) => pick(c, k);
   const size = present(get('size')) ? String(get('size')).toUpperCase() : undefined;
-  const fields = { category: get('category') ?? (c.lens ? lensCategories().get(c.lens) : undefined), confidence: get('confidence'), band: get('band'), mvp_rule: get('mvp_rule'), predicted_verdict: get('predicted_verdict'), size };
+  const cat = clampCategory(c.lens, get('category'));
+  if (cat.clamped) notes.push(`category clamped technical -> product (lens ${c.lens} declares product)`);
+  const fields = { category: cat.category, confidence: get('confidence'), band: get('band'), mvp_rule: get('mvp_rule'), predicted_verdict: get('predicted_verdict'), size };
   for (const [k, allowed] of Object.entries(ENUMS)) {
     if (present(fields[k]) && !allowed.includes(fields[k])) return { error: `${k} must be ${allowed.join('|')} (got ${JSON.stringify(fields[k])})` };
   }
@@ -143,12 +158,15 @@ export function toFiling(c, { projectId = '<unregistered>', contexts = new Map()
 export function proofFromAb(r, { base_sha: baseSha } = {}) {
   const verdict = { better: 'better', 'not-better': 'not-better', unmeasurable: 'inconclusive' }[r?.verdict];
   if (!verdict) return undefined;
+  // A red control carries the reading the seeded control produced; without it the claim is unverifiable and the
+  // contract (and the Personas door) refuse it, so it is honestly `absent`. And the reading must have been RE-TAKEN on
+  // the reverted tree (`control_run: "re-run"` with its `control_cmd`): personas cycle 2 (2026-10-30) had two workers
+  // report the base tree's pre-edit reading as the control, which shows nothing about the instrument going red.
+  const red = r.seeded_red === true && present(r.control_value) && r.control_run === 're-run' && present(r.control_cmd);
   const proof = {
     metric: r.metric, method: r.method, unit: r.unit, before: r.before, after: r.after, verdict,
-    // A red control carries the reading the seeded control produced; without it the claim is unverifiable and the
-    // contract (and the Personas door) refuse it, so it is honestly `absent`.
-    control: r.seeded_red === true && present(r.control_value) ? 'red' : 'absent',
-    control_value: r.seeded_red === true ? r.control_value : undefined, base_sha: r.base_sha ?? baseSha, head_sha: r.sha,
+    control: red ? 'red' : 'absent',
+    control_value: red ? r.control_value : undefined, base_sha: r.base_sha ?? baseSha, head_sha: r.sha,
   };
   for (const k of Object.keys(proof)) if (!present(proof[k])) delete proof[k];
   return proof;

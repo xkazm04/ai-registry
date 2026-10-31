@@ -8,7 +8,7 @@
 import { test, after } from 'node:test';
 import assert from 'node:assert/strict';
 import { spawnSync } from 'node:child_process';
-import { mkdtempSync, rmSync, symlinkSync, writeFileSync, mkdirSync } from 'node:fs';
+import { mkdtempSync, rmSync, symlinkSync, writeFileSync, mkdirSync, existsSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -31,6 +31,26 @@ function run(script, args, { home, cwd } = {}) {
   if (home) Object.assign(env, { HOME: home, USERPROFILE: home, PERSONAS_HANDSHAKE: join(home, '.personas', 'local-http.json') });
   return spawnSync(process.execPath, [script, ...args], { encoding: 'utf8', env, cwd, windowsHide: true });
 }
+
+test('--help on every CLI: usage on stdout, exit 0, and no write even when the write arguments are present', () => {
+  // personas cycle 2: `coverage.mjs --help` printed the table, and the door CLI's `--help` rewrote a file.
+  const dir = scratch('scan-sweep-help-');
+  const cards = join(dir, 'cards.jsonl');
+  writeFileSync(cards, `${JSON.stringify({ title: 'T' })}\n`);
+  const home = scratch('scan-sweep-help-home-');
+  const cases = {
+    'approvals.mjs': ['--file', cards, '--repo', dir],
+    'rank.mjs': ['--file', cards, '--cap', '4', '--out', join(dir, 'ranked.jsonl')],
+    'door.mjs': ['trust', '--repo', dir],
+    'coverage.mjs': [],
+  };
+  for (const [s, args] of Object.entries(cases)) {
+    const r = run(join(SKILL, 'scripts', s), [...args, '--help'], { home, cwd: dir });
+    assert.equal(r.status, 0, `${s}: exit ${r.status} ${r.stderr}`);
+    assert.match(r.stdout, new RegExp(`usage: ${s.replace('.', '\\.')}`), s);
+  }
+  assert.ok(!existsSync(join(dir, 'ranked.jsonl')), 'rank.mjs --help wrote nothing');
+});
 
 test('door.mjs through the link: the CLI runs (no handshake -> reachable:false JSON, exit 3), not a silent exit 0', () => {
   const link = linked();

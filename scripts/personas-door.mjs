@@ -31,6 +31,16 @@ const bad = (m) => { console.error(m); process.exitCode = 2; };
 
 const [cmd, sub] = argv;
 
+// --help anywhere: usage and exit 0 BEFORE any verb runs or the spool drains. personas cycle 2 (2026-10-30):
+// `contexts refresh --help` ignored the flag and rewrote context-map.json - a help flag must never be a write.
+if (has('--help') || has('-h')) {
+  const src = fs.readFileSync(new URL(import.meta.url), 'utf8').split('\n');
+  const start = src.findIndex((l) => l.startsWith('//   status'));
+  const end = src.findIndex((l, i) => i > start && !l.startsWith('//   '));
+  console.log(['usage: personas-door <verb> [...]', ...src.slice(start, end).map((l) => l.slice(3))].join('\n'));
+  process.exit(0);
+}
+
 async function drain() {
   if (has('--no-drain') || cmd === 'sync') return null;
   if (!door.pending('ideas').length && !door.pending('contexts').length) return null;

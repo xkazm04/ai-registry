@@ -652,8 +652,39 @@ export function propose(db, o = {}) {
       f.band, f.mvp, f.mvp_rule ?? null, f.mvp_why ?? null, f.category ?? null,
       f.predicted_verdict ?? null, f.predicted_why ?? null, f.predicted_by ?? null, f.predicted_verdict ? (f.predicted_at ?? at) : null);
     touchRun(db, run, at);
-    return f.score === undefined ? { id } : { id, score: f.score };
+    const r = f.score === undefined ? { id } : { id, score: f.score };
+    if (f.clamped) Object.assign(r, { category: 'product', clamped: true, note: `category clamped technical -> product (lens ${lens} declares product)` });
+    return r;
   });
+}
+
+let mapCategories;
+/** Built-in lens -> category, from references/lenses-map.md "## Lens categories" (the declaration, not a copy). */
+function lensMapCategories() {
+  if (mapCategories) return mapCategories;
+  mapCategories = new Map();
+  try {
+    const md = readFileSync(resolve(HERE, '../references/lenses-map.md'), 'utf8');
+    const sec = md.split(/^## /m).find((s) => s.startsWith('Lens categories'));
+    for (const m of (sec ?? '').matchAll(/^\| `([^`]+)` \| (technical|product) \|\s*$/gm)) mapCategories.set(m[1], m[2]);
+  } catch { /* no map: every lens falls to the default */ }
+  return mapCategories;
+}
+
+/**
+ * A lens's declared category: its manifest's `category` in the app-structure, else the lenses-map table, else
+ * undefined (the documented default `technical`: no clamp). Dowser cycle 2 (2026-10-30) showed why it exists: a judge
+ * relabelled a product lens's cards technical and they skipped the human gate.
+ */
+export function declaredCategory(lens, structurePath) {
+  if (structurePath && existsSync(structurePath)) {
+    try {
+      const s = JSON.parse(readFileSync(structurePath, 'utf8'));
+      const c = (s.lenses ?? []).find((x) => x?.id === lens)?.manifest?.category;
+      if (CATEGORIES.includes(c)) return c;
+    } catch { /* an unreadable structure declares nothing; the map still does */ }
+  }
+  return lensMapCategories().get(lens);
 }
 
 /** An integer 1-10 on the contract's scale, or undefined when absent. */
@@ -693,6 +724,8 @@ function findingFields(db, o, { run, feature, lens, size, risk, standard: std })
   if (o.confidence !== undefined) out.confidence = oneOf('confidence', o.confidence, CONFIDENCES);
   out.effort = o.effort !== undefined ? scale10('effort', o.effort) : sizeToEffort(size);
   if (o.category !== undefined) out.category = oneOf('category', o.category, CATEGORIES);
+  // One way only (scan-finding/1): a product lens's finding is product whatever the judge wrote.
+  if (out.category === 'technical' && declaredCategory(lens, o.structure) === 'product') { out.category = 'product'; out.clamped = true; }
   out.band = o.band === undefined ? 'ranked' : oneOf('band', o.band, BANDS);
   out.mvp = boolOf('mvp', o.mvp) ? 1 : 0;
   if (o.mvpRule !== undefined) out.mvp_rule = oneOf('mvp-rule', o.mvpRule, MVP_RULES);
@@ -1765,7 +1798,8 @@ export function main(argv) {
         return r;
       }
       case 'propose': {
-        const r = propose(db, { ...a, expectedDelta: a.expectedDelta });
+        const structure = typeof a.structure === 'string' ? a.structure : join(dirname(typeof a.db === 'string' ? a.db : DEFAULT_DB), 'app-structure.json');
+        const r = propose(db, { ...a, expectedDelta: a.expectedDelta, structure });
         activity(db, { run: a.run, kind: 'proposed', feature: a.feature, lens: a.lens, text: String(a.title) });
         return r;
       }

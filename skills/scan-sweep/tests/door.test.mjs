@@ -64,6 +64,7 @@ test('decisions: context name resolved to its id, lens and limit passed, reasons
     assert.equal(r.status, 0, r.stderr);
     assert.equal(r.json.reachable, true);
     assert.equal(r.json.scope, 'context');
+    assert.ok(!('widened' in r.json));
     assert.deepEqual(r.json.decisions, DECISIONS);
     const q = f.seen.find((u) => u.startsWith('/dev-tools/scan/decisions?'));
     assert.equal(q, '/dev-tools/scan/decisions?projectId=p1&contextId=c1&lens=error-handler&limit=50');
@@ -76,7 +77,10 @@ test('decisions: an unknown context reads project-wide and says so; limit is cla
     const r = await run(['decisions', '--repo', f.repo, '--context', 'nowhere', '--limit', '500'], f.home);
     assert.equal(r.status, 0, r.stderr);
     assert.equal(r.json.scope, 'project');
-    assert.match(r.json.note, /not in the app's map/);
+    // personas cycle 2: all four contexts were unknown to the app and every read quietly went project-wide.
+    assert.equal(r.json.widened, true, 'the widening is a flag, not only prose');
+    assert.equal(r.json.note, 'scope: project (context nowhere unknown to the app) - run `personas-door contexts sync` first');
+    assert.match(r.stderr, /scope: project \(context nowhere unknown to the app\)/);
     assert.ok(f.seen.includes('/dev-tools/scan/decisions?projectId=p1&limit=100'));
   } finally { f.server.close(); }
 });

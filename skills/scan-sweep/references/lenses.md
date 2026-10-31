@@ -4,9 +4,12 @@ One section per lens. `Match` is the same keyword rule the Personas app uses
 to bundle lenses for a context — apply it to the context's attributes when no
 explicit `--lenses` list was passed. `Category` is the lens's default
 scan-finding/1 `category` (technical = the codebase's own quality, product = what
-users get); the reader overrides it on a finding that is the other kind - a
-ux-reviewer finding that is a crash on a flow is `technical`. `scripts/filing.mjs`
-reads it for a card that carries no category, so it is never guessed.
+users get). The reader may move a `technical` lens's finding to `product`, never
+the reverse: a product lens's finding is `product` even when it is a crash on a
+flow (the category picks the autonomy start, so a relabel would skip the human
+gate). `scripts/filing.mjs` reads it for a card that carries no category, and
+`filing.mjs` / `rank.mjs` clamp a product lens's `technical` card to `product`
+and report it clamped.
 
 ## code-optimizer — Code Optimizer ⚡
 

@@ -5,7 +5,7 @@ argument-hint: "[--stabilize|--develop|--optimize|--challenge] [--cohort N] [--r
 category: workflow
 contexts: tracked
 memory: project
-version: 4.10.0
+version: 4.11.0
 tags: sweep, quality, stabilization, backlog, coverage, registry, atomic-commits
 ---
 # Context Sweep
@@ -277,7 +277,14 @@ Rules that keep the notice honest:
   finding's `predicted_verdict` leans on (§4.12): titles alone are not memory. On
   `reachable: false` (exit 3: app down, or an app that predates the endpoint) or
   exit 4 (repo not registered), fall back to the digest below and say so in the
-  round header: `memory: digest only (<reason>)`.
+  round header: `memory: digest only (<reason>)`. **Run `node scripts/personas-door.mjs
+  contexts sync` (the registry's door CLI, or the app's own context sync) before the
+  first decisions read of a run** - a context the app's map does not hold widens the
+  read to the whole project. The reply then carries `widened: true` and
+  `note: "scope: project (context <x> unknown to the app) ..."` (and says so on
+  stderr); a widened read is NOT this context's memory - print
+  `memory: project-wide (context <x> unknown to the app)` in the header and quote
+  only decisions whose `contextId` or lens actually match.
 - **Backlog memory** (overlay key `backlogDigest`, default
   `.personas/backlog-digest.json`) - pending / accepted / rejected titles.
   **Never re-propose anything on those lists, including rephrasings of rejected
@@ -430,6 +437,7 @@ Rules that keep the notice honest:
    - **"Unused/dead" claims require proof.** A finding that says dead/unused MUST
      cite its zero-consumer grep in the evidence. Verified dead-code removal is
      the best reward/risk class there is; guessed dead-code removal is the worst.
+     It routes one way (§5, Lane A, "Dead-code deletion").
    - **Repo-declared incremental migrations** (string extraction, token adoption
      - whatever the repo calls fix-as-you-touch) are in scope for the nearest
      lens in files you already read, never as a bulk migration, and never where a
@@ -582,7 +590,7 @@ Rules that keep the notice honest:
     | Field | How the reader assigns it |
     | --- | --- |
     | `lens` | the lens that found it - always its own field, never folded into `skill` or a source. |
-    | `category` | the lens's `Category` line in `references/lenses.md`; override on a finding that is the other kind (a ux-reviewer crash is `technical`). `filing.mjs` falls back to the lens line, never to a blind `technical`. |
+    | `category` | the lens's `Category` line in `references/lenses.md`; a technical lens's finding may be moved to `product`, a product lens's finding is never `technical` (a ux-reviewer crash stays `product`; `rank.mjs` / `filing.mjs` clamp it and report `clamped`). `filing.mjs` falls back to the lens line, never to a blind `technical`. |
     | `impact`, `impact_why` | §4.5's reward 1-10, and the one-line reason for the number (≤ 200 chars). |
     | `confidence` | the contract's evidence rule, applied to THIS tree: `high` = the quoted evidence re-read now AND reproduced or measured (a `gate` / `probe` / `experiment` figure); `medium` = the quoted evidence re-read now, nothing reproduced (`simulation`); `low` = inference - a line you did not re-read, a pattern you did not trace. |
     | `effort` | 1-10 build effort. When you only know the size, leave `effort` out and keep `size`: `score.mjs`'s `sizeToEffort` maps XS 1, S 2, M 4, L 7, XL 10. |
@@ -683,6 +691,22 @@ An item is Lane A when **all** of:
 - its slice is at **level ≥ 2** on the autonomy ladder (`lane_a_ok` from
   `rank.mjs`, below) - and it is in the **ranked** band.
 
+**Dead-code deletion has ONE route: Lane A on a repo-wide grep probe.** Deleting
+code has no honest fail-first test (nothing to assert on code that is gone), so
+the instrument is the reference count: `Method: probe`, Before = the repo-wide
+grep of the symbol (all files, not the context's paths; name the command), After
+= **`grep: 0 hits after`** outside the deleted lines, plus the typecheck/build
+gate green (the compiler is the second consumer probe). The seeded control is
+restoring the deletion's export/barrel line and watching the grep (or the
+typecheck) find it again. Size and risk rules apply as for any Lane A item. Why
+this and not Lane B: the figure is seconds of grep the director can take and
+re-read, and a worker adds nothing a re-run would not show; why not a test: one
+written only to fail on the old symbol cannot fail any other way (personas cycle
+2's unmeasurable verdict). When a grep cannot see every consumer - string-built
+imports, reflection, a name registered in config or another repository - it is
+not this route: it is a `contract` (Lane C if the readers are outside the tree).
+The two personas cycle-2 agents routed it two ways; this is the one.
+
 Lane A is executed in-session, one atomic commit per item, highest-reward first,
 under §7. A Lane A item the round cannot build (budget, time, a tree that will not
 take a commit) is emitted `disposition: carry` and is Lane A **first** next round —
@@ -772,7 +796,17 @@ reads one (§2 `door.mjs trust`) and `rank.mjs --trust` writes per item `slice`,
   is a Lane C escalation** (`direction`, `architecture`, `irreversible`,
   `policy-loosen`, an operator-only act): those four are the human's by this
   skill's own law, so their cards go with `auto_decide: false` whatever the
-  slice level says.
+  slice level says. **Any Lane C card is the human's**: `rank.mjs` reads the
+  card's `lane: "C"` marker as well as its gate, and a handed-off `gate: contract`
+  card is never `auto_decide` either (an in-tree contract with its verifier green
+  may still be Lane A). Put `lane: "C"` on every Lane C card - an XL or a
+  context-map edit whose gate is `none` is still Lane C.
+- **Category is the lens's, one way.** A finding's `category` is its lens's
+  `Category:` line in `references/lenses.md`; the reader may move a technical
+  lens's finding to `product`, never a product lens's finding to `technical`.
+  `rank.mjs` and `filing.mjs` clamp such a card to `product` and report it
+  (`category_clamped` on the row, `clamped` in the summary and the hand-off
+  reply) - relabelling must not move a card past the L0 gate.
 
 **What Lane B is for, stated once.** Unit tests say a change did not break what was
 already pinned. Lane B says the change made the figure better than it was, on the
@@ -950,6 +984,16 @@ first, then this round's, highest-reward first - one finding at a time:
    not run is a gate that did not pass**: say so in the report and mark the round
    degraded.
 
+   **Every Lane A item's gate includes the overlay's census (count / ratchet)
+   gate**, not only typecheck, lint and the context's tests. Read it from the
+   overlay's gates (`.claude/scan-sweep/config.md`, or the repo's `## Gates`) -
+   Personas: `node scripts/census/run-census.mjs` / `npm run census:check` - and
+   pin it verbatim in the round-agent brief beside the others. A census rise is a
+   breach (the ratchet rule below); a census drop is reported, not fixed. Measured
+   personas cycle 2 (2026-10-30): §7 named tsc, eslint and tests only, two census
+   rises passed those gates, and one round-agent caught them only because it ran
+   census on its own. An overlay with no census gate: say `census: none declared`.
+
    **ASSERT the gate's own exit code. Reading it is not asserting it, and
    piping it away destroys it.** Three ways this rule has actually been defeated,
    all in one session, each by the shell rather than by the code:
@@ -1102,8 +1146,9 @@ no cross-agent contamination):
   never-touch list, and the reply shape. Correct the brief when a round finds
   a gate wrong. A rule told to one agent only applies to that agent.
 - **Integrate after every wave, before the next starts.** Run the full
-  offline gate on the combined tree. Then commit the wave's ledger rows in one
-  `chore(scan-sweep): wave <n> ledger` commit, and lower any ratchet baseline
+  offline gate on the combined tree. Then - after the wave's Lane B returns
+  are merged or rejected, so each row's `ab` is real (§10) - commit the wave's
+  ledger rows in one `chore(scan-sweep): wave <n> ledger` commit, and lower any ratchet baseline
   only after that combined run. A ratchet that drifted up during the wave
   goes back to the agents whose files caused it, with the files named. The
   director never formats the whole tree.
@@ -1343,9 +1388,29 @@ tracked, the snapshot rides in the round's **last fix commit**; if the round
 built nothing, it goes in a closing `chore(<context>): scan-sweep round <n>
 ledger` commit of its own. A round that ends with an uncommitted ledger row has
 not recorded its coverage - the next picker reads the file from HEAD. Under a
-director-run fan-out (§7), the director commits the wave's rows together right
-after the wave's combined gate, so no row sits uncommitted while the next wave
-runs.
+director-run fan-out (§7), the director commits the wave's rows together after
+the wave's combined gate and its Lane B returns (below), so no row sits
+uncommitted while the next wave runs.
+
+**The `ab` field is written after Lane B, never before.** Lane B is dispatched
+after Lane A's commits and the combined gate, so a row written at the gate reads
+`ab: 0/0/0/0/0` by construction (personas cycle 2: every row did, while the
+real figures sat in `ab.jsonl`). Write - or, if the row was already appended,
+rewrite - each round's `ab` and `lanes` from that round's `ab.jsonl` rows
+(`better/not-better/unmeasurable/fp/demoted`, counted by `run_id` and context)
+once every Lane B worker of the wave has returned and the director has merged
+or rejected it; only then commit (or, where ignored, finalize) the wave's rows.
+A wave whose Lane B is still running has no row yet - not a zero row.
+
+**A lost ledger is rebuilt from git, never by hand.** When the snapshot file
+died with a worktree (or was never written), run
+`coverage.mjs --rebuild-from-git [--since <date>]` from the repository root:
+it reconstructs one row per context per day from the round commits
+(`<type>(<context>): ...`) and `sweep/*` merges, marked `reconstructed: true`
+with `lens_keys: []` - history does not say which lenses read a context, so the
+row claims a sweep and no lens coverage. Read the rows, then append them with
+`--write` (with `--history <main ledger>` where the ledger lives in the main
+checkout), and say `ledger: N reconstructed rows` in the report.
 
 **Where the ledger is ignored, it lives in the MAIN checkout.** Check first:
 `git check-ignore -q .claude/scan-history/scan-sweep.jsonl` (exit 0 = ignored -
@@ -1408,7 +1473,7 @@ hitl-approval (a gate on anything visible outside the system; severity ladder).
 | Key | Type | Meaning |
 |---|---|---|
 | `lens` | string | the dimension that found it (lens id). Never collapsed into a source/origin. |
-| `category` | `technical` \| `product` | technical = the codebase's own quality (bugs, perf, reliability, security, debt, docs drift, a11y); product = what users get (features, UX direction, copy, pricing). Decides the autonomy start level. |
+| `category` | `technical` \| `product` | technical = the codebase's own quality (bugs, perf, reliability, security, debt, docs drift, a11y); product = what users get (features, UX direction, copy, pricing). Decides the autonomy start level. **A finding's category is its lens's declared default; a judge may move it technical -> product, never product -> technical** - the store clamps a product lens's finding to `product` and reports it clamped, so relabelling cannot skip the human gate. |
 | `impact` | int 1-10 | defects: how bad if left (10 = data loss, breach, outage on a main path); opportunities: value if done. |
 | `impact_why` | string <=200 | the one-line reason for the number. |
 | `confidence` | `low` \| `medium` \| `high` | high = quoted evidence re-read in the current tree AND reproduced or measured; medium = quoted evidence re-read; low = inference. |

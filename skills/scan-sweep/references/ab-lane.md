@@ -93,7 +93,13 @@ The worker does these **in order**, and stops at the first that fails:
 6. **Seed the control.** Revert B's source change in the worktree, run the instrument,
    require RED; restore. For an item spanning N surfaces, seed each surface alone. An
    instrument that stays green on A is not an instrument, and the verdict above it is
-   void.
+   void. **The control is a RE-RUN, not a recollection**: report `control_run: "re-run"`,
+   `control_cmd` (the exact command run on the reverted tree) and `control_value` (what
+   it printed then). The step-1 Before reading is NOT a control - it was taken before
+   the instrument existed or before B was built, so it cannot show the instrument
+   telling A from B. A worker that did not re-run reports `control_run: "base"` (or
+   omits it), and `proofFromAb` writes `control: absent` (personas cycle 2: two
+   workers returned "3 (pre-edit reading, not re-run)" as the control).
 7. **Commit with a pathspec** on the worktree branch, `fix(<ctx>): <title>` with the
    lens, the Before/After as re-measured, the seeded-control result, and the gate exit
    codes in the body. Never push. Never `git add -A`.
@@ -101,7 +107,7 @@ The worker does these **in order**, and stops at the first that fails:
 
 ```json
 {"slug":"...","verdict":"better|not-better|unmeasurable|fp|demoted","metric":"<what was measured>","unit":"<ms|count|cases|...>",
- "before":"...","after":"...","method":"gate|probe|experiment","seeded_red":true,"control_value":"<the instrument reading on the seeded control>","gates":{"typecheck":0,"lint":0,"test":0},
+ "before":"...","after":"...","method":"gate|probe|experiment","seeded_red":true,"control_run":"re-run|base","control_cmd":"<command run on the reverted tree>","control_value":"<what that re-run printed>","gates":{"typecheck":0,"lint":0,"test":0},
  "base_sha":"<arm A commit>","sha":"...","branch":"sweep/<slug>","size_actual":"S|M|L","files":[...],"note":"<=200 chars"}
 ```
 
@@ -127,7 +133,9 @@ dispatches, reads, and merges.
 - **Dispatch** every group in one message so the workers run concurrently. Cap at
   `--workers N` (default 4). Groups beyond the cap wait for a free slot.
 - **Review each return against the diff**, not the report: the gate ran (exit codes
-  present), `seeded_red` is true, the After matches what the gate could see, the size
+  present), `seeded_red` is true with `control_run: "re-run"` and a `control_cmd`
+  you could run yourself (a control_value equal to the step-1 Before with no command
+  is a base reading, not a control), the After matches what the gate could see, the size
   did not creep, only the card's files moved.
 - **Merge** a `better` with green gates into the active branch, `--no-ff`, message
   naming the item and the gate date. **Unlink the junction before removing the
@@ -162,7 +170,7 @@ One line per B item, appended by the director to `.claude/scan-history/ab.jsonl`
 ```json
 {"at":"<ISO>","scope":"<context>","slug":"<slug>","title":"...","lane":"B","mode":"code|experiment",
  "verdict":"better|not-better|unmeasurable|fp|demoted","before":"...","after":"...","seeded_red":true,
- "sha":"<merge sha or null>","branch_kept":false,"worker":"sonnet","note":"<=80 chars"}
+ "control_run":"re-run|base","control_cmd":"...","control_value":"...","sha":"<merge sha or null>","branch_kept":false,"worker":"sonnet","note":"<=80 chars"}
 ```
 
 This is what the next round's picker reads to avoid re-dispatching a `not-better`, and
@@ -179,8 +187,9 @@ the item's finding/hand-off line (scan-finding/1, SKILL.md §4.12), in the same 
 - `verdict`: the worker's `better` and `not-better` verbatim; `unmeasurable` is
   `inconclusive`. `fp` and `demoted` built nothing and write **no** proof.
 - `control`: `red` only when `seeded_red` is true AND the worker reported `control_value` (the reading the
-  seeded control produced; the contract refuses a red control without it) - the instrument was shown to go red
-  on A. Anything else is `absent`, and a `better` with `control: absent` is not a
+  seeded control produced; the contract refuses a red control without it) AND `control_run: "re-run"` with its
+  `control_cmd` - the instrument was shown to go red on A by running it again on the reverted tree. A base-tree
+  reading is `absent`. Anything else is `absent`, and a `better` with `control: absent` is not a
   landable verdict (the L2 rule in `## Finding contract`); the director does not merge it.
 - A key the worker did not report is left out, never filled with a guess.
 - The mapping is `proofFromAb(workerReturn, { base_sha })` in `scripts/filing.mjs`, one
@@ -198,7 +207,9 @@ unrunnable gate) carries it, and Personas' verify state reads it instead of a bl
 > the first that fails. You may edit only the files the card names plus their tests and
 > any generated artefact the repo requires you to regenerate. Run every gate in its own
 > invocation and assert its exit code; never pipe a gate. Seed the control before you
-> commit. Commit with a pathspec; never push. Return exactly one JSON object in the
+> commit: revert B, RE-RUN the instrument, and return that command and its output as
+> `control_cmd` / `control_value` with `control_run: "re-run"` - your step-1 Before
+> reading is not a control. Commit with a pathspec; never push. Return exactly one JSON object in the
 > shape the contract gives and nothing else.
 >
 > `<card body, evidence, size, method, gate>`

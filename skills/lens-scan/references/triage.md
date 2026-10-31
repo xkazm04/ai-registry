@@ -130,6 +130,9 @@ They answer different questions, and neither is derived from the other:
 - **`category`**: `technical` (the code's own quality - every tier example above is one) or
   `product` (what users get: features, UX direction, copy, pricing). It decides the
   autonomy start level, so an honest `product` keeps the machine out of a person's call.
+  It starts from the lens's declared category ([lenses-map.md](lenses-map.md#lens-categories))
+  and moves one way only: technical -> product is yours, product -> technical is clamped back
+  by `propose` (`clamped: true`).
 - An imported `work-item` carries no score unless the importer knows impact and effort; an
   unscored item sorts after every scored one in its tier and shows "unscored", never 0.
 

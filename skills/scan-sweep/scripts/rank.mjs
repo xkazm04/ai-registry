@@ -24,6 +24,7 @@
 import { readFileSync, writeFileSync, existsSync } from 'node:fs';
 import { scanScore, sizeToEffort } from './score.mjs';
 import { levelFor, isEntry } from './door.mjs';
+import { clampCategory } from './filing.mjs';
 
 const present = (v) => v !== undefined && v !== null && v !== '';
 // Scored first by score desc; unscored after every scored finding (the contract); stable otherwise.
@@ -39,6 +40,10 @@ export function allocate(findings, cap) {
     const f = { ...f0 };
     if (!present(f.lens)) throw new Error(`finding ${i + 1} has no lens`);
     if (f.mvp_rule === 'override' && !present(f.mvp_why)) throw new Error(`finding ${i + 1}: mvp_rule override needs mvp_why`);
+    // Category before the ladder: a product lens's card is product whatever the reader wrote (scan-finding/1).
+    const cat = clampCategory(f.lens, present(f.category) ? f.category : undefined);
+    if (present(cat.category)) f.category = cat.category;
+    if (cat.clamped) f.category_clamped = true;
     const effort = present(f.effort) ? f.effort : sizeToEffort(present(f.size) ? String(f.size).toUpperCase() : undefined);
     if (!present(f.effort) && present(effort)) f.effort = effort;
     const s = scanScore({ impact: f.impact, confidence: f.confidence, effort, risk: f.risk });
@@ -84,8 +89,11 @@ function main(argv) {
   const opt = (f, d) => { const i = argv.indexOf(f); return i >= 0 && argv[i + 1] && !argv[i + 1].startsWith('--') ? argv[i + 1] : d; };
   const file = opt('--file');
   const cap = Number(opt('--cap'));
+  const usage = 'usage: rank.mjs --file <findings.jsonl> --cap <N> [--out <p>] [--json] [--trust <p>] [--start technical=2,product=0] [--frozen <p1,p2>] [--strict] [--tokens <lens=n,...>] [--skipped <lens,...>]';
+  // --help wins over every other argument and writes nothing (personas cycle 2: a --help wrote).
+  if (has('--help') || has('-h')) { console.log(usage); return 0; }
   if (!file || !existsSync(file) || !Number.isInteger(cap) || cap < 0) {
-    console.error('usage: rank.mjs --file <findings.jsonl> --cap <N> [--out <p>] [--json] [--trust <p>] [--start technical=2,product=0] [--frozen <p1,p2>] [--strict] [--tokens <lens=n,...>] [--skipped <lens,...>]');
+    console.error(usage);
     return 2;
   }
   const findings = [];
@@ -111,13 +119,13 @@ function main(argv) {
   const table = lensTable(ranked, { tokens: kv(opt('--tokens')) });
   const skipped = (opt('--skipped') ?? '').split(',').filter(Boolean);
   const nRanked = ranked.filter((f) => f.band === 'ranked').length;
-  const summary = { cap, ranked: nRanked, reserve: ranked.length - nRanked, over_cap: Math.max(0, nRanked - cap), unscored: ranked.filter((f) => !present(f.score)).length, lenses: table, skipped };
+  const summary = { cap, ranked: nRanked, reserve: ranked.length - nRanked, over_cap: Math.max(0, nRanked - cap), unscored: ranked.filter((f) => !present(f.score)).length, clamped: ranked.filter((f) => f.category_clamped).length, lenses: table, skipped };
   if (has('--json')) { console.log(JSON.stringify(summary, null, 2)); return 0; }
   const withTokens = table.some((r) => present(r.tokens));
   console.log(`| lens | ranked | reserve | MVP | MVP score |${withTokens ? ' tokens |' : ''}`);
   console.log(`|---|---|---|---|---|${withTokens ? '---|' : ''}`);
   for (const r of table) console.log(`| ${r.lens} | ${r.ranked} | ${r.reserve} | ${r.mvp_title ?? '-'} | ${present(r.mvp_score) ? r.mvp_score : 'unscored'} |${withTokens ? ` ${present(r.tokens) ? r.tokens : '-'} |` : ''}`);
-  console.log(`\n${nRanked} ranked (cap ${cap}${summary.over_cap ? `, +${summary.over_cap} MVPs over it` : ''}), ${summary.reserve} reserve${summary.unscored ? `, ${summary.unscored} unscored` : ''}`);
+  console.log(`\n${nRanked} ranked (cap ${cap}${summary.over_cap ? `, +${summary.over_cap} MVPs over it` : ''}), ${summary.reserve} reserve${summary.unscored ? `, ${summary.unscored} unscored` : ''}${summary.clamped ? `, ${summary.clamped} clamped technical -> product` : ''}`);
   console.log(`skipped: ${skipped.length ? skipped.join(', ') : 'none'}`);
   return 0;
 }

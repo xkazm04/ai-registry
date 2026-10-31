@@ -196,6 +196,29 @@ test('propose: the store computes scan-score/1 - the contract reference values -
   assert.equal(typeof p.score_parts, 'object', 'score_parts prints as an object');
 });
 
+test('propose: category is the lens\'s declared default, one way - a product lens\'s technical card is clamped and says so', () => {
+  // Dowser cycle 2 (2026-10-30): a fork marked a product lens's cards technical and pre-triage decided them at L1.
+  // Operator decision 2026-10-31: technical -> product is the judge's right, product -> technical is never.
+  const { path, db, run } = store({ lenses: 'business,development,com.acme.pricing' });
+  const biz = propose(db, fix(run, 'biz relabelled', { lens: 'business', category: 'technical' }));
+  assert.deepEqual([biz.category, biz.clamped], ['product', true]);
+  assert.equal(proposals(db, { ids: biz.id })[0].category, 'product');
+  const dev = propose(db, fix(run, 'dev moved', { category: 'product' }));
+  assert.ok(!('clamped' in dev), 'a technical lens\'s finding may move to product');
+  assert.equal(proposals(db, { ids: dev.id })[0].category, 'product');
+  assert.equal(proposals(db, { ids: propose(db, fix(run, 'dev', { category: 'technical' })).id })[0].category, 'technical');
+  assert.equal(proposals(db, { ids: propose(db, fix(run, 'biz bare', { lens: 'business' })).id })[0].category, undefined, 'absent stays absent (L0), not filled upward');
+  // A project lens declares its category in its manifest (the app-structure beside the store).
+  const structure = join(dirname(path), 'app-structure.json');
+  writeFileSync(structure, JSON.stringify({ lenses: [{ id: 'com.acme.pricing', enabled: true, manifest: { id: 'com.acme.pricing', category: 'product', fields: [] } }], features: [] }));
+  const pr = propose(db, fix(run, 'pricing relabelled', { lens: 'com.acme.pricing', category: 'technical', structure }));
+  assert.deepEqual([pr.category, pr.clamped], ['product', true]);
+  db.close();
+  // The CLI reads the structure beside the db by default and reports the clamp.
+  const r = cli(path, 'propose', '--run', run, '--feature', 'a', '--lens', 'com.acme.pricing', '--title', 'T', '--kind', 'fix', '--metric', 'loc', '--expected-delta', '-1', '--category', 'technical');
+  assert.deepEqual([r.category, r.clamped], ['product', true]);
+});
+
 test('propose: contract field checks - scales, text caps, MVP rules, one MVP per lens per run', () => {
   const { db, run } = store();
   for (const impact of [0, 11, 2.5, 'x']) assert.throws(() => propose(db, fix(run, 'x', { impact })), /integer 1-10|finite number/);
@@ -648,10 +671,12 @@ test('H-L3 decide --machine: a reserve item and one above the auto size (default
 });
 
 test('H-L4 trust: a person\'s triage of a machine-decided item is a human verdict - accept agrees, rework or descope disagrees (bp: 7 accepts, n was 0)', () => {
-  const { db, run } = store({ lenses: 'quality,security,business,development,operations' });
-  // bp's execute r-..9286: each item machine-approved (L1), built, then triaged by a person
-  const shape = [['quality', 'S', 'accept'], ['security', 'XS', 'accept'], ['business', 'XS', 'accept'], ['development', 'S', 'accept'],
-    ['business', 'XS', 'accept'], ['operations', 'S', 'accept'], ['development', 'L', 'accept'], ['quality', 'XS', 'rework']];
+  const { db, run } = store({ lenses: 'quality,security,performance,development,operations' });
+  // bp's execute r-..9286: each item machine-approved (L1), built, then triaged by a person. bp's two `business` items
+  // were labelled technical; from 1.13.0 the store clamps a product lens's card to product (L0, never machine-decided),
+  // so the fixture keeps the shape on a technical lens (`performance`).
+  const shape = [['quality', 'S', 'accept'], ['security', 'XS', 'accept'], ['performance', 'XS', 'accept'], ['development', 'S', 'accept'],
+    ['performance', 'XS', 'accept'], ['operations', 'S', 'accept'], ['development', 'L', 'accept'], ['quality', 'XS', 'rework']];
   const ids = shape.map(([lens, size], i) => {
     const id = propose(db, predicted(run, i, { category: 'technical', lens, size, riskClass: undefined, metric: 'dupSites' })).id;
     assert.equal(decide(db, { ids: id, machine: true, maxSize: 'L' }).decided.length, 1);
@@ -661,7 +686,7 @@ test('H-L4 trust: a person\'s triage of a machine-decided item is a human verdic
   });
   shape.forEach(([, , d], i) => triage(db, { ids: ids[i], decision: d, by: 'human:kazdan', note: d === 'rework' ? 'fix the instrument first' : 'calibration' }));
   const t = Object.fromEntries(trust(db).slices.map((s) => [s.slice, [s.n, s.agreement]]));
-  assert.deepEqual(t['technical|business|-|XS'], [2, 1]);
+  assert.deepEqual(t['technical|performance|-|XS'], [2, 1]);
   assert.deepEqual(t['technical|development|-|L'], [1, 1]);
   assert.deepEqual(t['technical|quality|-|S'], [1, 1]);
   assert.deepEqual(t['technical|quality|-|XS'], [1, 0], 'a rework of a machine-decided build disagrees');

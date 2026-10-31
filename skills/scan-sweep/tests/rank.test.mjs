@@ -87,6 +87,51 @@ test('CLI: writes the ranked file, annotates the ladder from a trust file, print
   assert.match(stdout, /skipped: mobile-specialist/);
 });
 
+test('category: a product lens card relabelled technical is clamped to product and reported (never product -> technical)', () => {
+  // Dowser cycle 2: a fork relabelled its product lens's cards `technical` and they landed in an L1 slice,
+  // skipping the human gate. Operator decision 2026-10-31: technical -> product is allowed, the reverse is not.
+  const out = allocate([
+    f('feature-scout', 'relabelled', 6, { category: 'technical', size: 'S' }),
+    f('error-handler', 'moved to product', 5, { category: 'product', size: 'S' }),
+    f('feature-scout', 'defaulted', 4, { size: 'S' }),
+  ], 5);
+  const by = Object.fromEntries(out.map((x) => [x.title, x]));
+  assert.equal(by.relabelled.category, 'product');
+  assert.equal(by.relabelled.category_clamped, true);
+  assert.equal(by['moved to product'].category, 'product', 'technical lens -> product is the judge\'s right');
+  assert.ok(!('category_clamped' in by['moved to product']));
+  assert.equal(by.defaulted.category, 'product', 'absent category takes the lens default');
+});
+
+test('CLI: the clamp happens before the ladder lookup, and the summary counts it', () => {
+  const dir = scratch();
+  const file = join(dir, 'f.jsonl');
+  writeFileSync(file, JSON.stringify(f('feature-scout', 'fs', 6, { category: 'technical', size: 'S' })));
+  writeFileSync(join(dir, 'trust.json'), JSON.stringify({ reachable: false }));
+  const out = join(dir, 'ranked.jsonl');
+  const stdout = execFileSync(process.execPath, [SCRIPT, '--file', file, '--cap', '4', '--out', out, '--trust', join(dir, 'trust.json'), '--json'], { encoding: 'utf8' });
+  const [row] = readFileSync(out, 'utf8').trim().split('\n').map((l) => JSON.parse(l));
+  assert.deepEqual([row.slice, row.level, row.auto_decide], ['product|feature-scout|-|S', 0, false]);
+  assert.equal(JSON.parse(stdout).clamped, 1);
+});
+
+test('ladder: Lane C items are never auto-decided - gate none + lane C, and gate contract (personas cycle 2 shapes)', () => {
+  const dir = scratch();
+  const file = join(dir, 'f.jsonl');
+  writeFileSync(file, [
+    f('architecture-analyst', 'context-map split', 6, { category: 'technical', size: 'S', gate: 'none', lane: 'C' }),
+    f('architecture-analyst', 'context-map contract', 5, { category: 'technical', size: 'S', gate: 'contract' }),
+    f('error-handler', 'plain', 5, { category: 'technical', size: 'S', gate: 'none' }),
+  ].map((x) => JSON.stringify(x)).join('\n'));
+  writeFileSync(join(dir, 'trust.json'), JSON.stringify({ reachable: true, slices: [] }));
+  const out = join(dir, 'ranked.jsonl');
+  execFileSync(process.execPath, [SCRIPT, '--file', file, '--cap', '4', '--out', out, '--trust', join(dir, 'trust.json')], { encoding: 'utf8' });
+  const by = Object.fromEntries(readFileSync(out, 'utf8').trim().split('\n').map((l) => JSON.parse(l)).map((r) => [r.title, r]));
+  assert.deepEqual([by['context-map split'].auto_decide, by['context-map split'].lane_a_ok], [false, false]);
+  assert.equal(by['context-map contract'].auto_decide, false);
+  assert.equal(by.plain.auto_decide, true);
+});
+
 test('CLI: an out-of-scale value writes nothing and exits 1', () => {
   const dir = scratch();
   const file = join(dir, 'f.jsonl');

@@ -46,6 +46,21 @@ test('refresh drops gone files, follows renames, attaches new files by directory
   assert.ok(plan(r).packets.some((p) => p.context === 'alpha'));
 });
 
+test('--help on any verb prints usage, exits 0 and writes nothing (contexts refresh --help used to rewrite the map)', () => {
+  // personas cycle 2 (2026-10-30): `contexts refresh --help` ignored the flag and rewrote context-map.json.
+  const r = fixture(); put(r, 'src/a/n.ts'); git(r, 'add', '-A'); git(r, 'commit', '-qm', 'n');
+  const spool = tmp(); const env = { ...process.env, PERSONAS_HANDSHAKE: path.join(spool, 'none.json'), PERSONAS_SPOOL: spool, PERSONAS_DB: path.join(spool, 'none.db') };
+  const before = fs.readFileSync(path.join(r, 'context-map.json'), 'utf8');
+  for (const args of [['contexts', 'refresh', '--help'], ['contexts', 'apply', '--help'], ['ideas', 'file', '--help'], ['--help']]) {
+    const p = spawnSync(process.execPath, [CLI, ...args, '--repo', r], { encoding: 'utf8', env });
+    assert.equal(p.status, 0, `${args.join(' ')}: ${p.stderr}`);
+    assert.match(p.stdout, /usage: personas-door/);
+  }
+  assert.equal(fs.readFileSync(path.join(r, 'context-map.json'), 'utf8'), before, 'the map is untouched');
+  assert.equal(readLedger(r).length, 0, 'no refresh ledger row');
+  assert.ok(!fs.existsSync(path.join(spool, 'ideas.jsonl')), 'nothing spooled');
+});
+
 test('dry-run writes nothing', () => {
   const r = fixture(); put(r, 'src/a/n.ts'); git(r, 'add', '-A'); git(r, 'commit', '-qm', 'n');
   const before = fs.readFileSync(path.join(r, 'context-map.json'), 'utf8');

@@ -4,7 +4,7 @@ description: "Measure a product feature by feature through one lens or all of th
 argument-hint: "[measure|propose|execute|propagate|status|onboard] [--lens development|security|design|performance|<lens id with a scan block>|all] [--scope <group|context|feature[,feature...]>] [--proposals <id,id>] [--base <ref>] | release --id rel-<version> [--finish] | onboard \"<description>\" [--id com.x.y] [--temporary] [--draft-only] [--first-scan]"
 category: workflow
 memory: project
-version: 1.12.0
+version: 1.13.0
 tags: measure, metrics, lens, backlog, approval, house-standards, propagation, sqlite
 ---
 # Lens scan
@@ -334,7 +334,11 @@ Every item names:
   (`high` = the quoted `file:line` re-read in this tree AND reproduced or measured - a stored
   measurement counts; `medium` = re-read; `low` = inference); `--effort` only when it is not
   the size's (XS=1 S=2 M=4 L=7 XL=10); `--category` (`technical` for the code's own quality,
-  `product` for what users get). Never pass a score: the store computes it. An unknown
+  `product` for what users get) - **one way from the lens's declared category**
+  ([lenses-map.md](references/lenses-map.md#lens-categories): the manifest's `category`, else
+  the built-in table, else `technical`): you may move a technical lens's finding to `product`,
+  never a product lens's finding to `technical`; the store clamps it and answers
+  `clamped: true` - report the count. Never pass a score: the store computes it. An unknown
   value is left out, never guessed and never 0 ([triage.md](references/triage.md#impact-and-tier)).
 - **The prediction, from memory.** Before each item, `store.mjs precedent --feature <f>
   --lens <lens>` (with `--standard` and `--title` when you have them): the feature and
@@ -917,7 +921,7 @@ hitl-approval (a gate on anything visible outside the system; severity ladder).
 | Key | Type | Meaning |
 |---|---|---|
 | `lens` | string | the dimension that found it (lens id). Never collapsed into a source/origin. |
-| `category` | `technical` \| `product` | technical = the codebase's own quality (bugs, perf, reliability, security, debt, docs drift, a11y); product = what users get (features, UX direction, copy, pricing). Decides the autonomy start level. |
+| `category` | `technical` \| `product` | technical = the codebase's own quality (bugs, perf, reliability, security, debt, docs drift, a11y); product = what users get (features, UX direction, copy, pricing). Decides the autonomy start level. **A finding's category is its lens's declared default; a judge may move it technical -> product, never product -> technical** - the store clamps a product lens's finding to `product` and reports it clamped, so relabelling cannot skip the human gate. |
 | `impact` | int 1-10 | defects: how bad if left (10 = data loss, breach, outage on a main path); opportunities: value if done. |
 | `impact_why` | string <=200 | the one-line reason for the number. |
 | `confidence` | `low` \| `medium` \| `high` | high = quoted evidence re-read in the current tree AND reproduced or measured; medium = quoted evidence re-read; low = inference. |

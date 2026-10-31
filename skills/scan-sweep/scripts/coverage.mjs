@@ -10,16 +10,39 @@
 //   node coverage.mjs --map <p>   # context map at a non-default path
 //   node coverage.mjs --lenses <p> # lens reference at a non-default path (default ../references/lenses.md)
 //   node coverage.mjs --history <p> # snapshot ledger at a non-default path (default .claude/scan-history/scan-sweep.jsonl)
+//   node coverage.mjs --rebuild-from-git [--write] [--since <date>]
+//                                 # reconstruct lost sweep rows from git history (see below); --write appends them
+//   node coverage.mjs --help      # this usage; reads nothing
+//
+// --rebuild-from-git: the ledger is gitignored and once lived in a worktree, so a removed worktree took the
+// history with it and the picker re-picked swept contexts (personas cycle 2, 2026-10-30: rows written by hand).
+// Git still holds the rounds: section 7 commits are `<type>(<context>): <title>` and Lane B merges name
+// `sweep/<...-context>`. One row per context per UTC day, `reconstructed: true`, `strategy: "reconstructed"`,
+// `lens_keys: []` - history does not say which lenses read the context, so it claims no lens coverage and the
+// picker still ranks it by its (zero) lens union among swept contexts. A day that already has a row is skipped.
 //
 // --next implements the picker rule in SKILL.md section 1, verbatim and in one place:
 // never-swept first (in map order), else smallest lens union, else oldest last sweep.
 // The loop asks this script rather than re-deriving it, so the ledger and the picker
 // cannot drift apart.
-import { readFileSync, existsSync } from 'node:fs';
+import { readFileSync, existsSync, appendFileSync, mkdirSync } from 'node:fs';
+import { dirname } from 'node:path';
+import { execFileSync } from 'node:child_process';
 
 const argv = process.argv.slice(2);
 const has = (f) => argv.includes(f);
 const opt = (f, d) => { const i = argv.indexOf(f); return i >= 0 && argv[i + 1] ? argv[i + 1] : d; };
+
+// --help first, before any read: personas cycle 2 found `--help` printing the table (an unknown flag was ignored).
+if (has('--help') || has('-h')) {
+  console.log([
+    'usage: coverage.mjs [--all] [--next] [--json] [--map <p>] [--lenses <p>] [--history <p>]',
+    '       coverage.mjs --challenge [--cohort <n>] [--riders <n>] [--group <g>] [--in-flight <cohort.json,...>] [--json]',
+    '       coverage.mjs --rebuild-from-git [--write] [--since <date>] [--map <p>] [--history <p>]',
+    'Per-context lens coverage from the scan-sweep snapshot ledger; see the header of this file.',
+  ].join('\n'));
+  process.exit(0);
+}
 
 const all = has('--all');
 const asJson = has('--json');
@@ -37,6 +60,55 @@ const histPath = opt('--history', '.claude/scan-history/scan-sweep.jsonl');
 const hist = existsSync(histPath)
   ? readFileSync(histPath, 'utf8').split('\n').filter(Boolean).map((l) => { try { return JSON.parse(l); } catch { return null; } }).filter(Boolean)
   : [];
+
+if (has('--rebuild-from-git')) {
+  const names = [
+    ...(map.contexts ?? []),
+    ...(map.groups ?? []).flatMap((g) => g.contexts ?? []),
+  ].map((c) => c.name).filter(Boolean);
+  const known = new Set(names);
+  // Longest name first, so `sweep/c2-b-agents-editor` matches `agents-editor` before `editor`.
+  const bySuffix = [...names].sort((a, b) => b.length - a.length);
+  const since = opt('--since', null);
+  let log;
+  try {
+    log = execFileSync('git', ['log', '--format=%H%x1f%cI%x1f%s%x1e', ...(since ? [`--since=${since}`] : [])], { encoding: 'utf8', maxBuffer: 256 * 1024 * 1024 });
+  } catch (e) {
+    console.error(`git log failed (${e.message.split('\n')[0]}) - run from the repository root`);
+    process.exit(2);
+  }
+  const contextOf = (subject) => {
+    const conv = /^[a-z]+\(([^)]+)\)!?:/.exec(subject);
+    if (conv && known.has(conv[1])) return conv[1];
+    const merge = /^Merge (?:branch|pull request) .*?'?sweep\/([^'\s]+)'?/.exec(subject);
+    if (merge) return bySuffix.find((n) => merge[1] === n || merge[1].endsWith(`-${n}`) || merge[1].endsWith(`/${n}`)) ?? null;
+    return null;
+  };
+  const day = new Map(); // `${scope}\u0000${yyyy-mm-dd}` -> row
+  for (const rec of log.split('\x1e')) {
+    const [sha, at, subject] = rec.trim().split('\x1f');
+    if (!sha || !subject) continue;
+    const scope = contextOf(subject);
+    if (!scope) continue;
+    const iso = new Date(at).toISOString();
+    const key = `${scope}\u0000${iso.slice(0, 10)}`;
+    const r = day.get(key) ?? { at: iso, scope, strategy: 'reconstructed', reconstructed: true, lens_keys: [], commits: 0, shas: [], source: 'git' };
+    if (iso > r.at) r.at = iso;
+    r.commits += 1;
+    r.shas.push(sha.slice(0, 10));
+    day.set(key, r);
+  }
+  const have = new Set(hist.filter((h) => h.scope && h.at).map((h) => `${h.scope}\u0000${String(h.at).slice(0, 10)}`));
+  const rows = [...day.entries()].filter(([k]) => !have.has(k)).map(([, r]) => r)
+    .sort((a, b) => (a.at > b.at ? 1 : a.at < b.at ? -1 : a.scope.localeCompare(b.scope)));
+  const text = rows.map((r) => JSON.stringify(r)).join('\n') + (rows.length ? '\n' : '');
+  if (has('--write')) {
+    if (rows.length) { mkdirSync(dirname(histPath), { recursive: true }); appendFileSync(histPath, text); }
+    console.error(`${rows.length} reconstructed row(s) appended to ${histPath}`);
+  }
+  process.stdout.write(text);
+  process.exit(0);
+}
 
 // Total lens count is DERIVED from the reference's `## <id> ` headings, with no
 // fallback number: the old fallback was 22 while the file held 28, so a failed
