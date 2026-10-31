@@ -4,8 +4,8 @@ type: application
 subject: ipc-contract
 technique: drift-gates
 stack: rust
-verified_on: 2026-08-29
-verified_against: rust@1.97
+verified_on: 2026-10-31
+verified_against: rust@1.96
 ---
 
 # The orphan blind spot, re-measured and finally gated (Rust side)
@@ -84,6 +84,13 @@ running half of one direction.
   **new** entry *and* on an allowlisted name that has **stopped** being one —
   so the baseline cannot silently become fiction as the orphans are cleared,
   and clearing one is a required edit rather than an unobserved improvement.
+
+  > Re-checked 2026-10-31 at personas@22260d77: the baseline has moved —
+  > `binding-orphan-allowlist.txt` now holds 31 non-comment lines and
+  > `binding-missing-allowlist.txt` 1, so four orphans and three missing
+  > bindings were cleared through the required edit the two-sided allowlist
+  > forces. The stale-exemption branches are at
+  > `check-binding-orphans.mjs:131-134` and `:226-256`.
 - **Inventory, not diff.** It never regenerates and never diffs; it counts
   both populations and set-subtracts. That is the only shape that can see
   this class, and it costs milliseconds, which is why it can live at
@@ -96,7 +103,9 @@ consumer imports through — **hand-maintained, with no generator and no gate**.
 An added binding was silently missing from it; a removed one left a dangling
 `export type … from "./Gone"` that breaks the type-checker. It is now emitted
 by `scripts/generate-bindings-index.mjs`, registered as the `bindings-index`
-codegen task, and verified byte-for-byte by `npm run check`. Generated
+codegen task (`scripts/run-codegen.mjs:96`), and verified byte-for-byte by
+`npm run check` (`check:bindings` runs it with `--check` ahead of the orphan
+walk, `package.json:150`). Generated
 vocabularies acquire hand-written index files quietly, and an index of a
 generated set is itself a derived artifact — it just does not look like one,
 because a human wrote it.

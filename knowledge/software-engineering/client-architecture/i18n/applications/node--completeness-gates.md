@@ -4,7 +4,8 @@ type: application
 subject: i18n
 technique: completeness-gates
 stack: node
-verified_on: 2026-08-18
+verified_on: 2026-10-31
+verified_against: node@22
 ---
 
 # The three gates and the pipeline — completeness as this repo enforces it
@@ -16,6 +17,21 @@ the standard was built only after its absence hid ~57k byte-identical
 English strings (~24% of the app) behind a green report until 2026-07-12
 (`lefthook.yml:41-48` records the incident inline).
 
+> **Re-checked 2026-10-31 at personas@22260d77 — the verdict below no longer
+> describes this repo.** On 2026-10-25 the app went English-only
+> (`SHIPPED_UI_LOCALES = ['en']`, `src/i18n/locales.manifest.ts:70`) and both
+> pre-commit gates were switched off (`lefthook.yml:65-69`: "new en.json keys
+> are no longer translated. Reviving a locale means restoring both gates in the
+> same change"); the pre-push/CI coverage job went with them (`lefthook.yml:122-123`).
+> The inline incident record at `lefthook.yml:41-48` is gone with them. The
+> catalog has since drifted exactly as the standard predicts once the door is
+> off: `en.json` holds 27,648 leaf keys, and `check-coverage.mjs` now reports
+> each of the 13 non-English locales at **103 missing / 37 extra** and exits 1
+> — a red gate nothing runs. Only `i18n-escape-integrity` survives on
+> `en.json` (`lefthook.yml:79-81`). The 13 locale files are kept, unshipped.
+> The scripts and anchors below still exist and are re-anchored; what they
+> describe is now a dormant mechanism, not an enforced state.
+
 ## Key parity: `check-coverage.mjs`
 
 `scripts/i18n/check-coverage.mjs` flattens each locale's key tree
@@ -23,12 +39,13 @@ English strings (~24% of the app) behind a green report until 2026-07-12
 
 - **Extras always fail, in every mode** (`:8-11`) — stale keys after a
   source rename. Missing keys warn by default and fail under `--strict`.
-- Missing `en.json` itself is FATAL (`:74-77`) — a config error, never an
-  empty success.
+- Missing `en.json` itself is FATAL (`:84-87`) — a config error, never an
+  empty success. (Since re-check: a floor at `:73-82` also fails a walk that
+  finds fewer than 14 locale files.)
 
 `npm run check:i18n:strict` is the no-gap form; the default form runs on
 pre-push and CI as a backstop. One drift worth knowing: the script's
-header comment (`:14-21`) still documents the retired "translation teams
+header comment (`:13-21`) still documents the retired "translation teams
 catch up asynchronously" posture, while the pre-commit hook below enforces
 the opposite — the mode that runs by default is the policy; the comment is
 archaeology.
@@ -42,11 +59,11 @@ deep-merges English underneath, so nothing warns."
 
 - **Tolerance list**: `docs/i18n/untranslated-allowlist.json`, entries
   `"<lang>:<key>"` or `"*:<key>"` for values legitimately identical to
-  English (`:17-19`).
+  English (`:16-18`).
 - **Scoped to live keys**: dead keys (no source call site, per
   `find-unused-i18n-keys.mjs`) are excluded so the gate measures what a
   user can see — and if the dead-key scanner fails, the catch block leaves
-  `dead` empty and the gate **checks everything** (`:45-59`), failing safe
+  `dead` empty and the gate **checks everything** (`:42-60`), failing safe
   exactly as the technique requires. `--include-dead` exists for full
   audits.
 
@@ -75,9 +92,9 @@ Three scripts, matching the technique's stages one-for-one:
 3. `scripts/i18n/translate-merge.mjs` — the validating door: refuses a
    locale that is absent, unparseable, dropped keys, or **broke a
    placeholder** — `phSet()` extracts and sorts `{…}` tokens and compares
-   against the source (`:47`, `:60-62`). On success it deep-merges, re-runs
+   against the source (`:55`, `:66-70`). On success it deep-merges, re-runs
    `split-locales.mjs`, re-asserts `check-coverage.mjs --strict`, and
-   deletes the workdir (`:77-83`) — the pipeline ends by re-running the
+   deletes the workdir (`:72-90`) — the pipeline ends by re-running the
    gate it exists to satisfy.
 
 ## The third check, present in pieces
@@ -93,3 +110,9 @@ exactly where the standard predicts blindness: the composition-era sweep
 renders as a raw token) behind fully green parity boards — in this repo and
 in two unrelated ones. Per-domain parity tests exist where someone has been
 burned; a systematic domain-vs-catalog gate does not yet.
+
+Re-checked 2026-10-31 at personas@22260d77: the gap is still live —
+`kpis.measurement_source` in `en.json` carries five arms and no `ai-compose`,
+while `src-tauri/db/src/repos/dev/kpis.rs:568` still writes `'ai-compose'`.
+`chainStopReasons.parity.test.ts` now parses the `pub mod stop_reason` block
+in `src-tauri/db/src/chain.rs` at run time rather than holding a hand-copy.

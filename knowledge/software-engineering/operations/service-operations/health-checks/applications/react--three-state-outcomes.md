@@ -5,7 +5,7 @@ subject: health-checks
 technique: three-state-outcomes
 stack: react
 status: forged
-verified_on: 2026-08-29
+verified_on: 2026-10-31
 verified_against: react@19
 applied: code
 ab_verdict: better
@@ -14,6 +14,42 @@ ab_verdict: better
 # Three-state outcomes — adding the fourth verdict to a React health surface
 
 *Verified against the project tree at `bf2a1e249`.*
+
+> **Re-checked 2026-10-31 at personas@22260d77.** Change B survived, but the
+> seam it was made in did not, and one limitation below has inverted.
+>
+> - **The seam moved.** On 2026-10-30 the per-agent check stopped scoring
+>   design feasibility and now grades by one shared definition,
+>   `src/features/agents/sub_health/agentHealth.ts` (telemetry signals,
+>   healing issues, config warnings), read by both the editor badge and the
+>   weekly digest. The config-warnings failure still mints `undetermined`:
+>   `readConfigWarnings` returns a tagged `{ status: 'unavailable' }` rather
+>   than an empty list (`agentHealth.ts:196-205`), and `buildResultFromSignals`
+>   turns it into one `undetermined` issue (`:142-143`). `useHealthCheck.ts`
+>   is now a 110-line hook; the `:406` and `:75` anchors are gone.
+>   `computeHealthScore` lives at `healthScoring.ts:56-68`, still filtering
+>   only the first three severities. `aggregateDigest` is at
+>   `healthCheckSlice.ts:21-55` with the explicit four-way branch and its
+>   comment ("the tail is how a fourth verdict gets laundered into the third
+>   one"). The union is `types.ts:26`; `undeterminedCount` is `types.ts:72`.
+>   One further change: `totalIssues` is now errors + warnings only, so `info`
+>   left it as well.
+> - **The render surface is back, and it hides the fourth verdict.**
+>   `HealthDigestPanel.tsx`, mounted in notification settings, renders the
+>   digest. Its rows come from `attentionChecks`, which keeps only checks with
+>   an error or warning (`needsAttention` and `attentionChecks`, `healthScoring.ts:93-109`). Its summary prints
+>   `totalScore` and `totalIssues`. Nothing reads `undeterminedCount`. A fleet
+>   whose only finding is "config warnings could not be read" therefore shows
+>   the empty state, `all_healthy` with tone `success`, which is the
+>   technique's "never green" rule broken at the one surface that now exists.
+>   The "No render semantics" limitation below was written when no surface
+>   existed; it now describes a surface that renders unverifiable as healthy.
+> - **Retry got partway.** `useHealthDigestScheduler.ts:53-62` re-checks
+>   hourly while the app stays open, rather than once per launch. That is
+>   still the digest's own clock, not the obstacle's.
+> - **The main probe.** A telemetry-pipeline failure now throws
+>   (`agentHealth.ts:164`) and the hook reports `phase: 'error'`. "The check
+>   did not run" is still an absent result, not a verdict.
 
 The [three-state-outcomes](../techniques/three-state-outcomes.md) technique is
 about the answer "I couldn't find out". This surface is a per-agent health

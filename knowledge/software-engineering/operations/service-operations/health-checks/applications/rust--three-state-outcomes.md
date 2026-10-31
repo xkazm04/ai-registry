@@ -4,7 +4,8 @@ type: application
 subject: health-checks
 technique: three-state-outcomes
 stack: rust
-verified_on: 2026-08-18
+verified_on: 2026-10-31
+verified_against: rust@1.96
 ---
 
 # Three-state outcomes — the credential probe's Verified/Unverifiable/Failed
@@ -37,6 +38,16 @@ hand-copying it (one-authority-per-vocabulary); `HealthProbeState::token()`
 pins the persisted metadata form and documents that it must stay in sync with
 the serde wire form.
 
+> Re-checked 2026-10-31 at personas@22260d77: the sum now has a **fourth**
+> member. `HealthProbeState::Unreachable` (`src-tauri/src/engine/healthcheck.rs:30-42`)
+> is "the probe could not reach the service at all (connect / DNS / timeout,
+> or a CLI probe that hung)". The comment says it is "NOT a verdict: it is never
+> persisted over the credential's last real state", and `is_verdict()`
+> (`:61-63`) encodes that. So the engine now separates **cannot-probe-now**
+> (`Unreachable`) from **cannot-probe-ever** (`Unverifiable`), which is the
+> technique's now/ever split. The wire form is now `rename_all = "camelCase"`,
+> and `token()` (`:49-56`) is pinned to it.
+
 ## The retrofit trap, live
 
 The typed state was layered over a legacy boolean, kept for gating:
@@ -59,11 +70,20 @@ the typed `state`, and `BulkHealthcheckSummary` keeps `unverifiable: u32` as
 its own field precisely *"so the UI can render a neutral, non-green/non-red
 badge instead of silently crediting these as verified."*
 
+> Re-checked 2026-10-31: `summarize_probe_states` (`healthcheck.rs:707-723`)
+> counts `Unverifiable | Unreachable` together in the `unverifiable` bucket
+> ("checked, but no verdict"). `unverifiable()` still sets `success: true`
+> (`:103-107`), and `BulkHealthcheckSummary.unverifiable: u32` is at `:627`.
+> The retrofit trap and its fix held.
+
 ## Distinct render semantics downstream
 
 `src/features/vault/shared/hooks/health/useCredentialHealth.ts` types the
 frontend result as `state?: 'verified' | 'unverifiable' | 'failed' | null`
-with legacy fallback to `success`, and its three-layer storage contract marks
+with legacy fallback to `success` (re-checked 2026-10-31: now
+`state?: HealthProbeState | null`, imported from the generated binding at
+`useCredentialHealth.ts:4`, so the near side no longer hand-copies the
+vocabulary and picked up `unreachable` without an edit), and its three-layer storage contract marks
 results loaded from persisted metadata with `isStale: true` — an old green
 rendered as an old green. The banded rendering tests live at
 `src/features/vault/shared/utils/__tests__/credentialHealthScore.threestate.test.ts`.
@@ -76,5 +96,10 @@ Inactive / Info`) has no could-not-determine member; e.g. the keyring probe's
 "keyring unavailable" arm — a probe obstacle, not an observed failure — maps
 to `Warn`. The panel partially compensates with a separate `ipcError` channel
 for "the checks themselves could not run" (`useHealthChecks` →
-`SystemHealthPanel.tsx`), but per-item unknowns still collapse. The
+`SystemHealthPanel.tsx`), but per-item unknowns still collapse. (Re-checked
+2026-10-31: the hook is now `useHealthSections`
+(`src/features/overview/components/health/useHealthSections.ts:79`), and
+`SystemHealthPanel.tsx:145` passes `ipcError={board.anyFailed}`.
+`HealthCheckStatus` is unchanged (`health.rs:22-28`), and the keyring
+"Keyring unavailable" arm still maps to `Warn` (`health.rs:301-303`).) The
 credential engine, not the system report, is the standard-bearer here.

@@ -5,7 +5,7 @@ subject: usage-analytics
 technique: activation-and-funnel-honesty
 stack: react
 status: forged
-verified_on: 2026-08-29
+verified_on: 2026-10-31
 verified_against: react@19
 applied: code
 ab_verdict: better
@@ -14,6 +14,20 @@ ab_verdict: better
 # The activation latch that recorded intent — a two-line ordering with a permanent cost
 
 *Verified against the project tree at `bf2a1e249`.*
+
+> Re-checked 2026-10-31 at personas@22260d77: B is what the tree runs now.
+> `markActivation` (`src/lib/analytics/activation.ts:125-150`) writes
+> `reached` first, then writes the separate `REPORTED_KEY` latch (`:21`) only
+> after `isSinkDelivering()` (`sink.ts:107-108`, identity against `noopSink`)
+> and a conversion that did not throw. The opt-out-and-back case is pinned at
+> `activation.test.ts:102-115`. The old test at `:96-100` now comments
+> `// reached-state still advances`. The A anchors in the seam section below
+> (`:125-127`) describe the tree at `bf2a1e249` and are kept as history. The
+> current anchors are `ACTIVATION_FUNNEL` at `:31-36`, the install id at
+> `:53-81`, and `hasReachedActivation` at `:115`. There are still seven call
+> sites outside the module. `hasReachedActivation` and
+> `getReachedActivations` still have no callers outside it, so the last
+> limitation below stands.
 
 The [activation-and-funnel-honesty](../techniques/activation-and-funnel-honesty.md)
 technique carries one rule about the once-per-install dedupe latch: **the latch
