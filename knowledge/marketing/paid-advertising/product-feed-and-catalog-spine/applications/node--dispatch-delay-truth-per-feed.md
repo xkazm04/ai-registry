@@ -46,9 +46,9 @@ Both readings match the platforms' own documentation as of this verification: th
 shopping platform's specification enumerates `in_stock`, `out_of_stock`, `preorder`
 and `backorder` (the last two requiring `availability_date`, else disapproval), and the
 Czech comparison marketplace documents `DELIVERY_DATE` as the number of days until
-dispatch, with `0` meaning in stock and values `0-3` shown as in-stock in its catalog.
-That `0-3` rule is documented platform behaviour, which is why the parser's cutoff is
-a fact and not a convention.
+dispatch, with `0` shown as in stock ("skladem") and `1-3` shown as "within 3 days", its
+first delay band. The marketplace publishes no orderable cutoff, so the parser's cutoff
+of 3 is a convention aligned with that first band, not documented platform behaviour.
 
 ## The inbound parser reads a delay as a delay
 
@@ -85,4 +85,5 @@ ihned"` ("preorder now", `:111`) and the description clause to `"Naskladnění b
 `"Ověřená kvalita"` / `"Oblíbená volba zákazníků"` (`:122-123`) when the owner supplied
 fewer than two selling points. Each is a promise or a proof the record does not carry.
 The standard stands: an unavailable item gets no availability line, and an empty
-benefit slot is filled with a descriptive fact or left empty.
+benefit slot is filled with a descriptive fact or left empty. The 2026-10-22
+`node--usps-become-ad-benefits` application removed these fallbacks on a branch.

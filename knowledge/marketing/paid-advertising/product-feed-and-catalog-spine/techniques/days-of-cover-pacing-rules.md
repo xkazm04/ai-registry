@@ -23,9 +23,12 @@ shape is fixed; the thresholds are convention:
 |---|---|---|
 | below the pause line | pause | stop the ads; the shelf empties within the week |
 | pause line to trim line | low | reduce budget; stock is thin |
-| pause line to warning line | at risk | early warning, no action yet |
+| pause line to warning line, within low | at risk | early-warning flag on a low item |
 | pause, with a restock inside the horizon | resuming | pause until the restock date, then resume |
 | above the trim line | ok | run at full budget |
+
+At risk is a flag carried inside the low band, not a fifth status: the verdict a label
+or a budget action reads is one of pause, resuming, low or ok.
 
 A common convention is a pause line at seven days, a trim line at twenty-one, an
 early-warning line at fourteen and a restock horizon of forty-five; all four are

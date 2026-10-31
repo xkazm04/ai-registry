@@ -17,7 +17,8 @@ of stock, preorder, backorder - and requires an availability date on the last tw
 disapproving the listing without one. A central-European price-comparison marketplace
 carries no boolean at all: its delivery field is a dispatch delay in days - zero for
 "ships now", a small integer for days until dispatch, a date for "orders ship from" -
-and the marketplace's own catalog treats a short delay as in stock. A serializer that
+and the marketplace's own catalog shows only a zero delay as in stock and a short delay
+as its next, still orderable band. A serializer that
 maps a boolean onto both is wrong on at least one of them.
 
 The rule is that **each feed says what its vocabulary can say truthfully, and says

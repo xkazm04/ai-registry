@@ -76,8 +76,8 @@ ad, not as a listing marked unavailable in a channel that has no unavailable val
 is filtered out at the one seam where the model becomes a list of things to market.
 
 The reason the filter lives at the seam and not in each consumer is that consumers
-proliferate. The batch ad exporter, the single-item ad generator, three feed
-serializers, the pacing table and the brand context each read products; the first time
+proliferate. The batch ad exporter, the single-item ad generator, the serializers for
+three feeds, the pacing table and the brand context each read products; the first time
 one of them forgets to check the flag, a deliberately paused item is advertised, and
 the owner who paused it is the one who finds out. Filtering once, where the model is
 adapted for consumption, makes forgetting impossible rather than unlikely. This is the
@@ -137,8 +137,8 @@ in-stock, out-of-stock, preorder and backorder values, and requires an availabil
 date for the last two. A central-European price-comparison marketplace carries no
 boolean at all: its delivery field is a **dispatch delay** - zero for "ships now", a
 small integer for days to dispatch, a date for "orders ship from". The marketplace
-treats short delays as in stock; a longer delay is a slower listing, not a missing
-one.
+shows zero as in stock and a delay of one to three days as a separate within-three-days
+band; a longer delay is a slower listing, not a missing one.
 
 So the same product tells two truths. On the shopping feed, an item that cannot ship
 is listed as out of stock, because the vocabulary has a true value for it. On the
