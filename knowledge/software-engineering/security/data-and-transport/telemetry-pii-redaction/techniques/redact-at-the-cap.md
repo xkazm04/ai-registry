@@ -88,9 +88,10 @@ failed, and nothing else. Then the failure is counted somewhere a human
 sees it, because a scrubber that has started throwing on every event is a
 boundary that has silently stopped existing.
 
-The same reasoning governs the transport's own contract. Many outbound
-hooks treat a thrown callback as *send the original*; a few treat it as
-*drop the event*. Find out which, in writing, before relying on it — and
+The same reasoning governs the transport's own contract. Outbound hooks
+differ on whether a thrown callback means *send the original* or *drop the
+event*; the widely used error-tracker clients checked drop it, which is
+the right default and still not one to inherit unread. Find out which, in writing, before relying on it — and
 regardless of the answer, do not let the exception reach the transport.
 
 ## Choosing the numbers

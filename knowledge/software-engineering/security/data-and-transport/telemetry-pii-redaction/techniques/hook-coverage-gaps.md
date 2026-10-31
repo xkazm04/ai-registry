@@ -54,12 +54,13 @@ whose value to triage does not exceed the cost of not being able to
 guarantee what is in it. A disabled channel is the only channel with no
 gaps.
 
-**The callback's own failure.** In most implementations a callback that
-throws is treated as consent to send the original record. So the body is
-guarded and returns a gutted record on error, per
-[redact-at-the-cap](./redact-at-the-cap.md); an unguarded hook is a
-boundary that disappears exactly when the payload is unusual, which is the
-same population as the payloads worth worrying about.
+**The callback's own failure.** What a callback that throws means is the
+transport's decision: the widely used clients checked drop the record and
+count the drop, and another transport may send the original instead. So the
+body is guarded and returns a gutted record on error, per
+[redact-at-the-cap](./redact-at-the-cap.md); an unguarded hook hands its
+behaviour on the unusual payload to someone else's choice, and the unusual
+payloads are the same population as the payloads worth worrying about.
 
 **Caller-supplied payloads at high-volume sites.** Not a mechanism gap but
 a distributional one, and it is the reason the next section exists. The

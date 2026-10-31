@@ -165,9 +165,10 @@ and a walker written for objects routinely steps straight past the message
 and the exception value, which are strings, and past the frame variables,
 which sit inside an array of frames rather than in the contexts block.
 Sibling channels leave by their own path: route and transaction names,
-metric attributes, session recordings, performance payloads. And in most
-implementations a callback that throws is treated as consent to send the
-original. Where a channel cannot be reached by a field walker even in
+metric attributes, session recordings, performance payloads. And what a
+callback that throws means is the transport's choice, not the team's: the
+widely used clients checked drop the event, but nothing obliges another
+transport to. Where a channel cannot be reached by a field walker even in
 principle — a session recording is a picture of a screen, and the screen
 had the data on it — the answer is not a cleverer scrubber but the sample
 rate set to zero in the shared configuration, which is the one form of
