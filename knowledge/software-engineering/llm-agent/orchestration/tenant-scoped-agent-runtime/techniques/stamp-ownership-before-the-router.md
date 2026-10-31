@@ -61,19 +61,33 @@ and carried
 It survives reconnects, which is the property that matters most: a surface
 that re-authenticates and rebuilds its connection must not lose its owner in
 the process, or every reconnect silently returns that tenant's traffic to
-the default lane. The default tenant is represented as the absence of a
-stamp rather than as its name, so the key shape stays stable across a
-runtime that has isolation switched off.
+the default lane.
+
+Two states that look alike must stay apart. The **legacy default tenant**
+is a served, resolved identity: it is what a runtime with isolation off
+serves, and it may serialise to the unnamespaced key shape so stored keys
+survive the migration. **Unresolved identity** is the absence of any answer.
+The first is written as an explicit owner on the surface and produces the
+legacy key; the second never produces a key at all. A runtime that encodes
+both as "no stamp" cannot tell a default-tenant event from an orphan, and
+turns every orphan into the default tenant's traffic.
 
 ## The resolution order, and why it is that order
 
 An adapter-derived key resolves its tenant from three sources, first match
-wins:
+wins — but **trust precedes specificity**: a source is a candidate only if
+the runtime trusts whoever set it.
 
 1. **The event's own stamp**, where routing has already run — some ingress
    paths, notably a relay or connector that routes upstream, deliver events
-   that already carry the tenant. That stamp is the most specific fact
-   available and outranks everything.
+   that already carry the tenant. That stamp outranks the surface's owner
+   only when it was set by a router the runtime trusts on this surface. A
+   stamp arriving in a payload the sender controls is a claim, not a fact,
+   and on a surface without a trusted upstream router it is ignored or the
+   event is rejected. A trusted stamp that **conflicts** with the surface's
+   configured owner — a surface owned by one tenant delivering an event
+   stamped for another it was not configured to relay — is rejected, never
+   resolved by picking the more specific of the two.
 2. **The surface's configured owner** — this ingress's own tenant, the
    subject of this technique, and the answer for everything that runs before
    routing.
@@ -81,8 +95,8 @@ wins:
    This is the fallback, and it is correct only when the first two are
    genuinely absent.
 
-The order is specificity-descending, and each rung answers a case the rung
-below cannot. Collapsing it to the third rung alone is the defect this
+Among trusted sources the order is specificity-descending, and each rung
+answers a case the rung below cannot. Collapsing it to the third rung alone is the defect this
 technique names; collapsing it to the first alone breaks every pre-routing
 path.
 
@@ -125,14 +139,26 @@ One namespacing scheme, applied to all of them, derived from one function.
 A structure keyed by a hand-built string is the addressing hole again, and
 it is found by searching for the key format outside its builder.
 
+The function must be **collision-free**, not merely namespaced. Joining
+tenant and conversation with a separator collides as soon as either part
+can contain the separator — tenant `a:b` with conversation `c` and tenant
+`a` with conversation `b:c` produce the same string — and the legacy
+unnamespaced shape can collide with a namespaced one unless a prefix is
+reserved for it. Escape or length-prefix each component, or key by a tuple,
+and reserve the legacy shape so no namespaced key can produce it.
+
 ## Decision rules
 
 - Stamp the tenant on every ingress surface at configuration time, in the
   block that installs its handlers, with the reason written beside it.
-- Make the stamp survive reconnects; represent the default tenant as an
-  absent stamp rather than a named one.
-- Resolve in order: the event's stamp, the surface's owner, the store's
-  resolver. Never collapse the order.
+- Make the stamp survive reconnects; write the legacy default tenant as an
+  explicit owner that serialises to the legacy key, distinct from an
+  unresolved identity, which produces no key.
+- Resolve in order: the event's stamp from a trusted router, the surface's
+  owner, the store's resolver. Never collapse the order. Ignore or reject
+  an untrusted stamp, and reject a trusted stamp that conflicts with the
+  surface's owner.
+- Build keys with a collision-free encoding and a reserved legacy shape.
 - Type-check every candidate before interpolating it into a key, and read
   every attribute defensively.
 - Drop an event whose tenant cannot be resolved, or whose target is not

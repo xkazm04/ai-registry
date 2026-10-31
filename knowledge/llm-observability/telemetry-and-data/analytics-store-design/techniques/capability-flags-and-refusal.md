@@ -86,7 +86,8 @@ remembers.
 ## When not to use this
 
 - When the capability could be implemented in an afternoon — refusal is for
-  genuine physics (a backend that *cannot* aggregate) or deliberate
+  genuine physics (a backend that *cannot* serve grouped aggregation with
+  aggregate predicates in a bounded read) or deliberate
   sequencing, not for skipping work on the hot path of a shipped product.
   Prefer implementing.
 - For enforcement-adjacent surfaces, refusal may not be enough: a backend

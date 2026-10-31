@@ -61,9 +61,24 @@ for the duration of an operation, keep working
 the handle's identity is the resolved address, which survives the object
 being shared and the tenant being re-entered).
 
-**Two tenants never share a handle.** That is the whole isolation claim, and
-it follows from the key being the resolved address rather than the object
-that owns the cache.
+**Two tenants never share a handle — provided the resolver never gives two
+tenants the same address.** The handle cache can only be as distinct as the
+addresses it is keyed on: if two tenant scopes resolve to one path, one
+database or one bucket — a shared default, a missing tenant component, two
+spellings normalised together — they get one handle and share data, with
+every handle-level check passing. The isolation claim therefore rests on
+the address resolver being tenant-distinct, and that is what the test
+asserts, not object identity. Conversely, a shared pool is legitimate when
+the scoping lives below the handle — a pooled connection whose every
+statement carries the tenant in its key, or a server that enforces the
+tenant per session — and that pool is correctly scoped even though tenants
+share it.
+
+**A handle is captured for the duration of a transaction.** Resolve once at
+the start of an operation that spans several statements, and use that one
+handle to the end. Re-resolving mid-transaction, after a scope change or a
+cache eviction, can split one logical write across two stores or two
+connections.
 
 **Construction failure is bounded, not repeated.** A store that cannot be
 opened must not turn every subsequent call into a fresh open attempt. The
@@ -119,7 +134,10 @@ against an object that caches the last tenant it saw.
 - Bind no handle in the constructor of a store object that more than one
   tenant will use.
 - Resolve the storage address on every operation, through the shared
-  resolver, never by re-deriving the path locally.
+  resolver, never by re-deriving the path locally; assert that distinct
+  tenants resolve to distinct addresses.
+- Capture the handle once per transaction and hold it to the end.
+- A shared pool is fine where the tenant is enforced below the handle.
 - Cache one handle per resolved address; keep handle identity stable per
   tenant so callers may compare and stash it.
 - Bound construction failure with a backoff per address; offer an explicit

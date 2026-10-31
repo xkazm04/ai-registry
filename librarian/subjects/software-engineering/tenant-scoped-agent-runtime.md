@@ -236,3 +236,91 @@ clone's history, but the cited lines read identically at `f8e62cb9`.
   }
 }
 ```
+
+## Clarify apply - 2026-10-31
+
+Every clarify owed by the 2026-10-31 review landed. The golden path loses the
+process-count threshold, says scope transport is neither authentication nor a sandbox,
+replaces the default-tenant rule for process-level work with a declared host-authority
+class, and replaces universal eviction with the loader's own lifecycle. The pool
+paragraph in task-local-tenant-scope now treats the explicit per-submission copy as the
+mechanism. This rests on CPython 3.14.0's thread.py, re-read this run. The technique's
+process-level paragraph was changed to the host-authority class in the same pass so it
+agrees with the golden path. The two applications were not reopened; their dispositions
+and dates are unchanged.
+
+<!-- architecture-review:v1 -->
+```json
+{
+  "subject": "software-engineering/tenant-scoped-agent-runtime",
+  "date": "2026-10-31",
+  "baseline": "8b6ac3fa8",
+  "digest": "sha256-b2:2d3422c2e1c1946e",
+  "disposition": "keep",
+  "coverage": "Clarify apply over the earlier 2026-10-31 record: golden path and all 6 techniques edited and re-read; 2 applications not reopened (dispositions carried). Primary sources re-fetched and read this run: CPython 3.14.0 concurrent/futures/thread.py, the 3.14 contextvars, threading and import-system documentation. No runtime, gateway or worker executed.",
+  "counterexamples": [
+    "On CPython 3.14 a ThreadPoolExecutor worker reused across submissions does not take each caller's context, so 'a standard pool that propagates in a recent release' is false and the explicit copy is never a no-op to rely on.",
+    "A scope that names an endpoint and no key sent the worker's own key to a caller-chosen host in 13 of 48 cases with one tenant, so isolation-off is not 'nothing to leak from'.",
+    "An untrusted event stamp outranks a trusted connector owner under specificity-first resolution.",
+    "Two tenant scopes can resolve to the same storage address; distinct handles keyed by address then share data.",
+    "Evicting module names while another tenant is importing races, and existing references keep the old module alive.",
+    "A subsystem that falls back to single-tenant behaviour with a warning is still running outside the isolation claim."
+  ],
+  "sources": [
+    {
+      "url": "https://github.com/python/cpython/blob/v3.14.0/Lib/concurrent/futures/thread.py",
+      "result": "Re-read this run (raw v3.14.0). submit() builds 'task = self._resolve_work_item_task(fn, args, kwargs)' and '_WorkItem(f, task)'; the worker runs 'work_item.run(ctx)' where ctx is the per-thread WorkerContext created once in _adjust_thread_count, not a contextvars copy. Supports dropping the version-dependent propagation sentence."
+    },
+    {
+      "url": "https://docs.python.org/3.14/library/contextvars.html",
+      "result": "Context.copy(): 'Return a shallow copy of the context object.' Supports the shared-mutable-values clause."
+    },
+    {
+      "url": "https://docs.python.org/3.14/library/threading.html#threading.Thread",
+      "result": "'The default value is None which indicates that the sys.flags.thread_inherit_context flag controls the behaviour. If the flag is true, threads will start with a copy of the context of the caller of start(). If false, they will start with an empty context.' Supports the raw-thread wording: a copy is taken at start, once."
+    },
+    {
+      "url": "https://docs.python.org/3.14/reference/import.html#the-module-cache",
+      "result": "'Deleting a key may not destroy the associated module (as other modules may hold references to it)' and a re-import after invalidation yields a different module object. Supports the loader-lifecycle rewrite."
+    }
+  ],
+  "documents": {
+    "tenant-scoped-agent-runtime.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: dropped the 'about the fourth one' threshold (separate processes stay the stronger isolation at any count); scope transport is neither authentication nor a sandbox; process-level work runs under an explicit host authority, not the default tenant; eviction on tenant switch replaced by loader-specific lifecycle with bounded reaped caches, in body, invariant and technique list."
+    },
+    "techniques/task-local-tenant-scope.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: removed the recent-release propagation sentence and the harmless-no-op clause; the per-submission copy is stated as the mechanism for reused pool threads; added shallow-copy sharing of mutable values, immutable scope values and explicit parameters as a valid alternative; process-level work now runs under the host-authority class, matching the golden path."
+    },
+    "techniques/fail-direction-follows-deployment-mode.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: new section classifies host versus tenant authority in writing with no default into the host class; an undeclared mode with several callers admitted resolves as isolation on (unsafe default rejected); single-tenant strict scoping stated as valid; the background-fails/foreground-works fingerprint is now a clue with named alternative causes, confirmed from the resolver's output."
+    },
+    "techniques/tenant-keyed-cache-evicts-loaded-code.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: global module-cache eviction during concurrent tenant use named a race, not isolation; preference order per-tenant namespaces or instances, loader-owned eviction at a quiescent point, separate processes; keyed cache bounded with a reaper; decision rules updated."
+    },
+    "techniques/resolve-handles-at-call-time.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: the isolation claim now rests on a tenant-distinct address resolver, with the test asserting distinct addresses; handles captured for a transaction's duration; correctly scoped shared pools (tenant enforced below the handle) stated as valid."
+    },
+    "techniques/stamp-ownership-before-the-router.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: trust precedes specificity (an event stamp counts only from a trusted router; untrusted ignored or rejected; conflicting trusted stamp rejected); collision-free key encoding with a reserved legacy shape; the legacy default tenant is an explicit owner, separate from unresolved identity, which produces no key."
+    },
+    "techniques/written-inventory-of-what-stays-global.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: the documented-fallback row is limited to subsystems that cannot act across tenants; one that can is fatal or fail-closed; process isolation still inventories shared infrastructure (filesystem, injected credentials, database, log sink, upstream account)."
+    },
+    "applications/python--task-local-tenant-scope.md": {
+      "disposition": "keep",
+      "reason": "Refreshed 2026-09-23 within refresh_by 2026-11-05. It carries the corrected 3.14 reading, and the refreshed commit's daemon_pool still matches its quote. Multiplex-on-by-default framing as refreshed."
+    },
+    "applications/node--fail-direction-follows-deployment-mode.md": {
+      "disposition": "keep",
+      "reason": "Quoted anchors read identically in the current personas tree. The 48-case A/B and the canary arm are dated observations, with the open undeclared-mode limit stated. The fix commit was not available locally to re-derive the arms."
+    }
+  }
+}
+```

@@ -78,14 +78,36 @@ module object than the one still referenced. So a partial eviction can leave
 two live copies of the same module — one reachable through the cache, one
 through a stale reference — with independent module-level state.
 
-So the rule is: **evict the entry point and every name nested beneath it,
-before re-importing** — matching on the entry point's name and on that name
-followed by the nesting separator, so no descendant survives. Do it in both
-places that discard a load: the reload path within one tenant, and the
-switch path between tenants. And drop the reference to the discarded object
-in the same operation, so no stale copy stays reachable
-([creation-names-reaper](../../../../_laws.md#creation-names-reaper): the
-loader that put those names in the cache is what takes them out).
+So the rule is: **loaded code follows the loader's own lifecycle, and a
+global name eviction is the last resort, not the isolation.** The module
+cache is one process-wide table. Evicting names from it while another
+tenant's turn is importing through the same names is a race — that tenant
+can re-populate a name halfway through the eviction, or hold a reference to
+the module just removed — and the stale references it already holds keep
+the old module alive regardless. In order of preference:
+
+- **Per-tenant namespaces or instances.** Load each tenant's contribution
+  under a name that includes the tenant, or through a loader that returns a
+  fresh, tenant-owned instance rather than a cached module, so two tenants
+  never share a module-cache entry and nothing has to be evicted while the
+  other runs.
+- **Loader-owned eviction at a quiescent point.** Where names must be
+  shared, the loader that put them in the cache takes them out
+  ([creation-names-reaper](../../../../_laws.md#creation-names-reaper)): the
+  entry point and every name nested beneath it — matching on the entry
+  point's name and on that name followed by the nesting separator, so no
+  descendant survives — before re-importing, and only when no other tenant
+  can be importing through those names, for example under the loader's own
+  lock or between turns. Drop the reference to the discarded object in the
+  same operation, so no stale copy stays reachable.
+- **Separate processes**, when neither of the above is available: the
+  operating system's address spaces are the only eviction that cannot
+  race.
+
+The keyed cache itself is **bounded and reaped**. One entry per tenant the
+process has ever served, never evicted, is an accumulator of loaded code
+and captured state; the cache carries a size or idle bound and a reaper
+that retires an entry through the same loader lifecycle.
 
 ## The whole cache is dropped between isolated runs
 
@@ -126,11 +148,14 @@ deliberately, rather than becoming the design.
   by one mechanism.
 - Never guard a cache by asking whether a process-level setting changed; a
   task-local switch does not move it.
-- On every load, reload and tenant switch, evict the contribution's entry
-  point **and every name nested beneath it** from the module cache before
-  re-importing.
-- Drop the reference to a discarded object in the same operation that
-  evicts its names, so no second live copy remains reachable.
+- Prefer per-tenant namespaces or instances for loaded code; a global
+  module-cache eviction while another tenant runs is a race, not
+  isolation.
+- Where names must be shared, let the loader evict the entry point **and
+  every name nested beneath it** at a quiescent point, before re-importing,
+  and drop the reference to the discarded object in the same operation.
+- Bound the keyed cache and give it a reaper that retires entries through
+  the loader's lifecycle.
 - Between isolated runs, drop the whole keyed cache and purge every
   contribution's names; clear host-owned persistent registries explicitly.
 - Write the regression against the task-local switch, and include a case

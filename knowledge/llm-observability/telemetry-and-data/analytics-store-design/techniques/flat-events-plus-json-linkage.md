@@ -58,7 +58,11 @@ otherwise:
   performance one.
 - **Metadata** — the open extension surface. App-supplied attribution
   (customer id, product id, feature flag arm) lands here first, queryable by
-  key or key=value. This is the pressure valve that lets the product answer
+  key or key=value — with the caller's key **bound as data** (membership
+  over the object's keys, compared to a bound parameter), never composed
+  into a path expression: a key containing the path syntax's own quote or
+  separator turns "no such key" into a malformed path, and an engine that
+  throws on one fails the whole listing. This is the pressure valve that lets the product answer
   per-customer questions *before* the schema knows customers exist.
 
 ## Promotion across the boundary is additive, always

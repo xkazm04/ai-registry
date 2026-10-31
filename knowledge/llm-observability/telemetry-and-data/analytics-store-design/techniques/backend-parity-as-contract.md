@@ -76,8 +76,11 @@ The decision rule, per method:
   face value is a fabricated measurement. Per
   [estimation-announces-itself](../../../_laws.md#estimation-announces-itself),
   the disclosure belongs **in the payload** — a caveat field the rendering
-  surface can show — with the documentation matrix as the map, not the
-  disclosure.
+  surface is obliged to show — with the documentation matrix as the map, not
+  the disclosure. A caveat the renderer receives and drops leaves the same
+  unlabeled chart; the cell counts as documented degradation only when the
+  payload carries the caveat and the surface that paints the series shows
+  it.
 - **Point reads and listings** — full or refused. There is no honest
   partial version of "list this project's events".
 

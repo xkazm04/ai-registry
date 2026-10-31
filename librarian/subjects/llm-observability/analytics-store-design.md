@@ -416,3 +416,102 @@ re-encodes through the codec rather than storing the input string. Say so.
   }
 }
 ```
+
+## Clarify apply - 2026-10-31
+
+Every clarify owed by the 2026-10-31 review landed. The golden path and capability-flags'
+When-not-to-use now say what Firestore's own documentation leaves out: grouped aggregation
+with aggregate predicates in a bounded read. The documentation was re-read this run. The
+flat-events Metadata bullet binds the caller's key as data. The timestamp guard states it
+stops at the workspace, and the ingest bullet now accepts looser input only when the door
+re-encodes through the codec. The parity technique obliges the renderer to show the
+caveat. The three `reverify` applications were not touched and stay open; that is why the
+overall disposition is `reverify`.
+
+<!-- architecture-review:v1 -->
+```json
+{
+  "subject": "llm-observability/analytics-store-design",
+  "date": "2026-10-31",
+  "baseline": "8b6ac3fa8",
+  "digest": "sha256-b2:29017646a9e618aa",
+  "disposition": "reverify",
+  "coverage": "Clarify apply over the earlier 2026-10-31 record: golden path and the 4 owing techniques edited and re-read; the 2 kept techniques and 6 applications not reopened (dispositions carried). Primary sources re-fetched this run: Firestore aggregation-queries documentation and SQLite JSON1 documentation. The LightTrack tree was not opened; no query plan measured.",
+  "counterexamples": [
+    "Firestore serves count, sum and average server-side, so 'cannot aggregate' is false of the subject's own document backend; only grouped aggregation with aggregate predicates is out of reach.",
+    "A caller-supplied metadata key containing a double quote, composed into a quoted JSON path, makes SQLite raise and fails the whole listing instead of answering 'no such key'.",
+    "A bare formatter site placed after the test-module marker passes a guard that truncates its scan there.",
+    "An ingest door that accepts a looser timestamp form is harmless if it re-encodes through the codec and harmful if it stores the input string; the technique states only the harmful reading.",
+    "A client SDK in another repository formats event time inline; the workspace guard passes and the store inherits the drift.",
+    "A renderer that receives a caveat field and does not show it still paints a zero-cost series as a free month."
+  ],
+  "sources": [
+    {
+      "url": "https://firebase.google.com/docs/firestore/query-data/aggregation-queries",
+      "result": "Re-read this run: 'An aggregation query processes the data from multiple index entries to return a single summary value. Cloud Firestore supports the following aggregation queries: count() sum() average()'. The behaviour-and-limitations section names no grouping. Supports the narrowed 'grouped aggregation with aggregate predicates' wording."
+    },
+    {
+      "url": "https://sqlite.org/json1.html",
+      "result": "Re-read this run, section 3.3: 'For functions that accept PATH arguments, that PATH must be well-formed or else the function will throw an error.' Supports binding the metadata key as data rather than composing it into a path."
+    },
+    {
+      "url": "https://www.cloudzero.com/blog/s3-pricing/",
+      "result": "Carried from 2026-09-10, not re-fetched: $0.023/GB-month is S3 Standard, not a cold tier. Bears on the reverify application only."
+    }
+  ],
+  "documents": {
+    "analytics-store-design.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: 'a document store that cannot aggregate server-side' -> 'can count, sum and average server-side but cannot serve grouped aggregation with aggregate predicates in a bounded read'."
+    },
+    "techniques/flat-events-plus-json-linkage.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: Metadata bullet now binds the caller's key as data (membership over the object's keys against a bound parameter), never composed into a path expression, with the malformed-path failure named."
+    },
+    "techniques/fixed-width-timestamp-encoding.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: the guard's reach is stated as this workspace, with SDKs built elsewhere passing it and the ingest door as their boundary; the ingest bullet allows looser input only when the door re-encodes through the codec and stores the canonical string, reconciled with the 'parsed back to an instant' allowlist."
+    },
+    "techniques/dashboard-driven-composite-indexes.md": {
+      "disposition": "keep",
+      "reason": "Unchanged since 2026-09-10. Equality-first-range-last, prune-as-much-as-mint and the two-clock index families still hold."
+    },
+    "techniques/capability-flags-and-refusal.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: When-not-to-use 'a backend that *cannot* aggregate' -> 'a backend that *cannot* serve grouped aggregation with aggregate predicates in a bounded read', matching its opening."
+    },
+    "techniques/backend-parity-as-contract.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: 'a caveat field the rendering surface can show' -> 'is obliged to show', and a cell counts as documented degradation only when the payload carries the caveat and the painting surface shows it."
+    },
+    "techniques/analytical-copy-partitioning.md": {
+      "disposition": "keep",
+      "reason": "Unchanged since 2026-09-10. Sink-not-peer, event-time partitioning and the query-class fork trigger still hold."
+    },
+    "applications/process--analytical-copy-partitioning.md": {
+      "disposition": "reverify",
+      "reason": "Still quotes $0.023/GB-month as the cold rate (it is S3 Standard). Vendor self-reported speedups and throughput unverified. refresh_by 2026-11-20 still in force."
+    },
+    "applications/rust--backend-parity-as-contract.md": {
+      "disposition": "reverify",
+      "reason": "Unchanged. Not re-executed; line anchors not checked."
+    },
+    "applications/rust--capability-flags-and-refusal.md": {
+      "disposition": "keep",
+      "reason": "Unchanged and precisely scoped. The Firestore docs corroborate its framing that grouped rollups are the gap."
+    },
+    "applications/sql--dashboard-driven-composite-indexes.md": {
+      "disposition": "reverify",
+      "reason": "Unchanged. No query plan or latency measured; verified_against sql@16 names a version without an engine."
+    },
+    "applications/rust--fixed-width-timestamp-encoding.md": {
+      "disposition": "keep",
+      "reason": "A/B is scoped honestly: the finding is guard coverage, not a defect, and the residual blind spot was folded into the technique. LightTrack was not opened, so the 5-file and 6-call counts are the application's dated observation."
+    },
+    "applications/rust--flat-events-plus-json-linkage.md": {
+      "disposition": "keep",
+      "reason": "The probe matches SQLite's documented throw-on-malformed-path behaviour, and the Postgres refusal is stated. Its 'the technique held' line is now answered by the technique's bind-as-data clause."
+    }
+  }
+}
+```

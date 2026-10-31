@@ -119,7 +119,8 @@ success. Both are found by reading the query surface, not the schema — see
 
 The same store interface fronts backends with wildly different powers: an
 embedded relational store that can do everything, a document store that
-cannot aggregate server-side, an analytical warehouse that aggregates
+can count, sum and average server-side but cannot serve grouped aggregation
+with aggregate predicates in a bounded read, an analytical warehouse that aggregates
 brilliantly but should never serve point reads, and an embedded analytical
 engine that shares the warehouse's strengths and refusals while sharing the
 embedded store's deployment. Two disciplines keep this honest:
