@@ -5,7 +5,7 @@ subject: kept-alive-screen-host
 technique: sliced-screen-stream
 stack: next
 status: forged
-verified_on: 2026-10-27
+verified_on: 2026-10-31
 verified_against: next@16
 ---
 

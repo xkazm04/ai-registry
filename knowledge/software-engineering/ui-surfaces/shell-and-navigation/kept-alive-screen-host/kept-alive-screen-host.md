@@ -40,10 +40,10 @@ the wait.
 
 Exactly one component decides which screen is shown. It holds the current
 screen identity, the set of kept screens, and the per-screen data state. It
-hears every plain in-app link click in one place, by delegation at the document
-in the capture phase, so no screen has to remember to route through it. Clicks
-the browser should keep pass through untouched: a modifier key, a non-primary
-button, a download, a new-tab target, an external origin, an explicit opt-out
+hears every plain in-app link click in one place, by one listener on the
+window in the capture phase, so no screen has to remember to route through
+it. Clicks the browser should keep pass through untouched: a modifier key, a
+non-primary button, a download, a new-tab target, an external origin, an explicit opt-out
 marker on the link. Every other click is prevented and turned into a host
 transition. That transition changes the visible screen first. It writes the
 address second, and only because a person moved. A redirect the server

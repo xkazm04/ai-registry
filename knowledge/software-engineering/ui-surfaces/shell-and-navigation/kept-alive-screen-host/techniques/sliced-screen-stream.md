@@ -75,9 +75,11 @@ The payload is plain JSON and the stream enforces it. Before writing a line,
 the server walks the value and refuses a map, a set, a date object, a
 function, a class instance or a non-finite number. It answers that slice as
 an `error` and logs the path of the offending field. JSON serialisation would
-otherwise turn these silently into `{}`, a string or `null`, and the client
-would receive a value that looks typed and is not. Convert at the edge: send
-arrays and ISO strings, and revive on the client where a richer type is needed.
+otherwise turn these silently into `{}`, a string or `null`, or drop a
+function-valued key altogether. The client would receive a value that looks
+typed and is not, or an omitted key that it reads as unknown. Convert at the
+edge: send arrays and ISO strings, and revive on the client where a richer
+type is needed.
 
 An absent optional value is an omitted key. It is never `null`, `0` or `""`,
 because each of those is a definite value that a renderer will draw. The

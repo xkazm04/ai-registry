@@ -56,7 +56,9 @@ and outside an effect is the code that leaks across a hide.
 The boundary needs an element to hide. Where a hidden subtree renders no
 element of its own (a route page that draws nothing, a fragment), wrap it in a
 layout-neutral container. Otherwise the hide falls through to whatever element
-is nearest, and that can be the visible screen's own frame.
+is nearest, and that can be the visible screen's own frame. A hidden subtree
+that renders only text draws nothing at all, because there is no element to
+hide.
 
 ## Work that must outlive a visit does not hang off a view effect
 
@@ -97,7 +99,9 @@ unread state, or it marks everything as changed.
 Some side effects belong to the nodes and survive a hide: media playing, a
 document-level attribute or stylesheet the screen set, an element id that a
 document query finds twice. Audit these per screen. Hiding covers effects, not
-the document. Entrance motion is the reverse case: an entrance tied to mount
+the document. Where a node's side effect must stop on hide, give it an effect
+whose cleanup stops it (pause the media), and make that a layout effect so the
+cleanup runs when the screen is hidden and is not deferred behind a transition. Entrance motion is the reverse case: an entrance tied to mount
 plays once, and a kept screen shown again must not replay it, because the
 person has already seen it arrive.
 

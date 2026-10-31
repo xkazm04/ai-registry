@@ -5,7 +5,7 @@ subject: kept-alive-screen-host
 technique: hidden-but-alive-screens
 stack: react
 status: forged
-verified_on: 2026-10-27
+verified_on: 2026-10-31
 verified_against: react@19
 ---
 
