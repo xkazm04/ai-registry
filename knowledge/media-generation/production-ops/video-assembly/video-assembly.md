@@ -129,10 +129,17 @@ they differ by destination — broadcast practice normalizes around −23 to
 −24 integrated with a −1 to −2 dB true-peak ceiling, mainstream streaming
 platforms normalize programs near −14, and premium episodic delivery
 measures dialogue-gated loudness near −27, anchoring the whole mix to the
-narration the viewer follows. Two consequences: master to the strictest
-destination you will deliver to and let the louder platforms normalize
-down, never the reverse (upward normalization invites limiting that cannot
-be undone); and treat the target as part of the cut's computed truth —
+narration the viewer follows. Two consequences: **one master per
+destination**, each measured against its own number — a single master
+does not serve them all, because platform normalization is asymmetric.
+Turning a loud program down is lossless and every platform does it;
+turning a quiet one up is not, so platforms either refuse to (the quiet
+program simply plays quieter than its neighbours) or raise it only as far
+as its true-peak headroom allows. A broadcast-level master sent to a
+streaming platform arrives several decibels under everything around it,
+and no normalization rescues it; the louder streaming master is a separate
+pass, with its own limiting decided by the mixer rather than by a player.
+And treat the target as part of the cut's computed truth —
 "the mix is at −23.2 integrated, peaks at −1.5" is a measurement the
 assembly can state, "it sounds about right" is not.
 
@@ -178,7 +185,8 @@ waiting.
 - Drift is measured in milliseconds at head and tail, corrected against a
   named mark, and its status re-derived from the current offset.
 - Loudness ships to a destination's stated number and ceiling, measured —
-  never to the room's impression of loud enough.
+  never to the room's impression of loud enough, and never by trusting one
+  master to be normalized up to a louder destination.
 - A generated shot is sourced material, not a finished scene: it enters the
   cut through the same acceptance bar as delivered footage, with its brief
   and anchors kept as provenance.
