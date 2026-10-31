@@ -15,7 +15,7 @@ verified_against: react@19
 application on 2026-08-29: that document computes period edges in a server
 codebase; this one is a desktop scheduling calendar and a different tree.*
 
-Everything above computes period *edges*. This surface computes the same
+The node-stack application of this technique computes period *edges*. This surface computes the same
 edges and then faces the question the technique does not yet reach: once a
 nominal slot lies in the past, **what is allowed to fill it**. The answer here
 is a four-state model plus a tolerance derived from the grid rather than
@@ -135,7 +135,6 @@ their real runs and fabricate no slots at all (`:192`).
   derived from observed tick lag, and no instrument would notice if lag grew
   past it — the failure would present as slots going unknown, which is
   indistinguishable from slots genuinely not running.
-- **The stack differs from the rest of this document.** The mechanisms above
-  are TypeScript in a desktop client, not the server-side node surfaces cited
-  in the earlier sections; the arithmetic transplants, the IPC boundary does
-  not.
+- **The stack differs from the node-stack application.** The mechanisms
+  above are TypeScript in a desktop client, not the server-side node surfaces
+  that document cites; the arithmetic transplants, the IPC boundary does not.

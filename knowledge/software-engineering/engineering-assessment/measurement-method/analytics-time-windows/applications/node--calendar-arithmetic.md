@@ -36,8 +36,10 @@ Two further details the technique now carries as rules:
   shared `Schedule` type, so a missing or extra cadence is a compile error
   here rather than a divergence between the route validator and the scheduler.
   Anchoring the step on the *intended* slot rather than the wall clock
-  (`nextSlotFrom`, same file) is the neighbouring scheduling subject's
-  concern, not this one's.
+  (`nextSlotFrom`, same file) is where this technique's anchor rule is
+  tested: once the stored slot has clamped, stepping from it never returns
+  to the 31st. That chain is recorded in
+  [node--calendar-arithmetic--persisted-monthly-slot](./node--calendar-arithmetic--persisted-monthly-slot.md).
 
 ## Allowance metering: the calendar month, with its trade-offs named
 

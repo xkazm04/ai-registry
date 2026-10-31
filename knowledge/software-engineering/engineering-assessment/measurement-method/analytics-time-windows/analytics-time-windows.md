@@ -204,7 +204,7 @@ as its own separately named figure, and never let one number carry both. See
   invisible without a per-entity cross-check.
 - **"Rolling thirty days is close enough to a month."** It is 12.17 periods
   per year instead of 12. On an allowance, that is a 1.4% overspend that
-  compounds and that no dashboard shows.
+  accumulates every year and that no dashboard shows.
 - **"The zone only matters at the boundaries."** It matters at every bucket
   key, every label, every alignment, and every comparison; boundaries are just
   where it is easiest to see.
