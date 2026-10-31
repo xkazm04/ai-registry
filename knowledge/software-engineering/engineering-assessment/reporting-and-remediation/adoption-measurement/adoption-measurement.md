@@ -105,8 +105,8 @@ crossed the first threshold at all) and *depth* (how far the ones who
 crossed it have gone) — and confusing them is how enablement programs spend
 a year pushing the wrong lever. The denominator is a design decision, not a
 lookup: eligibility must be defined and stated, because a practice that
-applies to eleven of ninety teams is at 100% when nine of eleven adopt it,
-not 10%. Band cutoffs, eligibility, and the shape readings are
+applies to eleven of ninety teams is at about 82% when nine of eleven adopt
+it, not 10%. Band cutoffs, eligibility, and the shape readings are
 [adoption-distribution-bands](./techniques/adoption-distribution-bands.md).
 
 ## Not every recorded touch is a use

@@ -61,7 +61,7 @@ a naive recency test maps both to the same verdict.
    its window.
 5. **Name every verdict state.** At least: `new` (too young to judge),
    `active` (qualifying use within the window), `dormant` (old enough,
-   qualifying use once, none within the window), `never-used` (old enough,
+   qualifying use at least once, none within the window), `never-used` (old enough,
    zero qualifying use ever), and `unmeasured` (no instrumentation on this
    pathway). The last one is not optional: an artifact whose usage cannot be
    observed must not silently share a state with one observed to be idle

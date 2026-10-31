@@ -39,8 +39,8 @@ Pairs added: **245**. Pairs removed: **188**. Net: **+57**.
 
 The naive reading is the net: the map grew 7%, so a conformance rate computed on
 each side is roughly comparable. The paired reading is that only **576 of 821
-after-side pairs (70%) existed on the before side** — the churn is four times the
-net movement, and a delta computed on the totals is comparing two populations
+after-side pairs (70%) existed on the before side** — the additions alone are four
+times the net movement (additions and removals together, more than seven), and a delta computed on the totals is comparing two populations
 that differ in nearly a third of their members.
 
 So far this is the technique's step 5 doing its job. The amendment's question is
@@ -54,8 +54,8 @@ change, step 5 governs, exclusion is correct.
 Worth noting because it cuts the other way: over the same period the project's
 source tree went from **4,746 to 5,881 files (+24%)**. Real induced scope
 existed in abundance and the map's unit population did not track it. A reader
-who assumed "the tree grew, so new units are new work" would have reached the
-right conclusion by the wrong route, and been wrong on these numbers.
+who assumed "the tree grew, so new units are new work" would have been right
+about the tree and wrong about the map's 245 additions.
 
 ## Instrument 2: a lint ratchet with a population floor
 
