@@ -19,8 +19,8 @@ constraint at once. Both qualifications are about **who gets the constraint**.
 Neither can see the case where the constraint is granted, uncontested, to the
 only claimant — and disables something else.
 
-A tool call is not metadata travelling beside the response. On most providers it
-is **emitted through the same channel as the content**, as a distinguished token
+A tool call is not always metadata travelling beside the response. On some
+providers it is **emitted through the same channel as the content**, as a distinguished token
 or tag the decoder produces inline. A grammar that constrains that channel to a
 JSON schema makes the tool-call token unemittable, because the token is not in
 the schema. The model cannot call the tool, so it does the only thing the

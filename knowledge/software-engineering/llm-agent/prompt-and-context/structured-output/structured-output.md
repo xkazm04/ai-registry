@@ -59,12 +59,13 @@ When *not* to build this:
   door: constrained decoding guarantees syntax, and syntax was never the
   contract. A well-formed object naming an entity that does not exist, a
   quantity out of range, or an operation outside the allowlist is exactly as
-  dangerous well-formed as malformed. And it carries one hard precondition: the
-  turn must not also need to **act**. On providers that emit tool calls through
-  the same channel as the content, a grammar over that channel makes the
-  tool-call token unemittable and the model answers from nothing, at success,
-  with a validating object — so a turn carrying both a schema and tools is
-  refused at assembly and split in two
+  dangerous well-formed as malformed. And it carries one precondition, measured
+  per provider rather than assumed: on providers that emit tool calls through
+  the same channel as the content, the turn must not also need to **act**. A
+  grammar over that channel makes the tool-call token unemittable and the model
+  answers from nothing, at success, with a validating object — so there a turn
+  carrying both a schema and tools is refused at assembly and split in two.
+  Providers that carry tool calls in a separate field compose the two
   ([constraint-and-tool-channel-exclusion](./techniques/constraint-and-tool-channel-exclusion.md)).
 
 ## The model is an unreliable serializer
@@ -317,6 +318,13 @@ by [extraction-observability](./techniques/extraction-observability.md).
 - [output-budget-signal](./techniques/output-budget-signal.md) — the output
   ceiling as a measurement that triggers splitting a call, the two kinds of
   unknown ceiling, and why "not measured" is not zero.
+- [enumerable-domain-decoding](./techniques/enumerable-domain-decoding.md) —
+  which value domains a token mask can enforce (closed sets and bounded
+  ranges, compiled to a token-prefix tree in emission context), and the
+  classes the validation door keeps.
+- [constraint-and-tool-channel-exclusion](./techniques/constraint-and-tool-channel-exclusion.md)
+  — why a constraint and a tool list on one turn can suppress the tool call,
+  the refusal at assembly, and the paired run that measures it per provider.
 - [constrained-decoding-is-a-shared-budget](./techniques/constrained-decoding-is-a-shared-budget.md)
   — what changes once more than one contribution can request a constraint on
   the same request: a provider-capped capacity that fails on the innocent

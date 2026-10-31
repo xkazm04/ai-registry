@@ -67,7 +67,7 @@ with only prompt, event names, and extractor swapped.
    model attempt. Budget-zero is a legal repair budget, but here it is
    unstated rather than chosen.
 3. **The sharpest counter-example rides a *different*, hand-rolled
-   lifecycle.** `src-tauri/src/engine/deliberation.rs:516` and `:1372` spend
+   lifecycle.** `src-tauri/src/engine/deliberation.rs:618` and `:1503` spend
    a parse failure as `unwrap_or_default()` — a default-constructed,
    fully legal artifact. The legacy census
    (`docs/concepts/golden-paths/structured-output-extraction.md`) measured
