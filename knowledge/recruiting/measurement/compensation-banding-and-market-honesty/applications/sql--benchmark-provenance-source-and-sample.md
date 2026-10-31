@@ -5,7 +5,7 @@ subject: compensation-banding-and-market-honesty
 technique: benchmark-provenance-source-and-sample
 stack: sql
 status: forged
-verified_on: 2026-09-27
+verified_on: 2026-10-31
 applied: experiment
 ab_verdict: better
 ---
@@ -121,8 +121,8 @@ is one role's own midpoint.
   so the aging factor still cannot be recomputed against a new effective date
   without editing the row.
 - `sample_k` means two things. In the anchor corpus it is the survey's
-  employee count in thousands (`apply-market-salaries.mjs:169`: `sample_k =
-  ref.employees_k`). The thin-sample threshold beside it (`taxonomy.py:778-788`,
+  employee count in thousands (`apply-market-salaries.mjs:171`: `sample_k =
+  ref.employees_k`). The thin-sample threshold beside it (`taxonomy.py:818-827`,
   `THIN_SAMPLE_K = 30`) is documented as rows: "separates 'a couple of dozen
   rows' from 'a real sample'". The aggregate fills the same field with
   `rows.length`. A figure resting on 19 000 surveyed employees and one resting

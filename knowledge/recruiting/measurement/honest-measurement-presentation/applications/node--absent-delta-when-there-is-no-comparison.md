@@ -5,7 +5,7 @@ subject: honest-measurement-presentation
 technique: absent-delta-when-there-is-no-comparison
 stack: node
 status: forged
-verified_on: 2026-09-29
+verified_on: 2026-10-31
 verified_against: node@24
 ---
 
@@ -17,7 +17,7 @@ renders one only if it received one. The file is "pure + import-free so the
 contract is unit-testable and the route can compose it over two
 `pipelineAnalytics()` calls" — the same structural move the golden path argues
 for, an honesty rule held as a value rather than as a branch in a component.
-Citations are at kp `24006b85e`.
+Citations are at kp `6edf5d7e6`.
 
 ## The shape carries the refusal
 
@@ -61,13 +61,13 @@ grow a chip on a live gauge.
 conversion and time-to-hire, not only source and channel rows (`gatedRate`,
 `:123`): a rate delta carries both sides' `n`, and a side below the floor
 nulls the movement and records why in `withheld` — `thinCurrent`, `thinPrior`
-or `thinBoth` (`:27`). The suppression still travels through the null
+or `thinBoth` (`:30`). The suppression still travels through the null
 channel, so a second component doing its own subtraction cannot defeat it.
 
 Incomparability that is not about sample size is handled the same way:
 `costPerApplicantCzk` is null in windowed views because spend is a lifetime
 total (the DB layer's windowed-CPA honesty rule), "so its delta is null there
-by construction" (`:35`). Two numbers exist; they are not comparable; no chip.
+by construction" (`:37`). Two numbers exist; they are not comparable; no chip.
 
 ## The chip: direction is not valence
 

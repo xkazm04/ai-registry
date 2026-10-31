@@ -5,7 +5,7 @@ subject: honest-measurement-presentation
 technique: no-verdict-colour-without-a-goal-someone-set
 stack: react
 status: forged
-verified_on: 2026-09-29
+verified_on: 2026-10-31
 verified_against: react@19
 ---
 
@@ -83,7 +83,7 @@ component is a guard nothing can see.
 
 ## Confirmed elsewhere, and one honest gap
 
-`docs/features/analytics/README.md:1210` lists "no verdict colour without a goal
+`docs/features/analytics/README.md:1226` lists "no verdict colour without a goal
 the org set" among the honesty rules the surface keeps, under a heading that
 calls them **load-bearing, not stylistic** — the framing this subject argues
 for. `docs/product/uat-insights/2026-08-17-analytics-sections.md:77` carries
@@ -96,7 +96,7 @@ reached/current counts but no transition count. On a workspace whose
 candidates all arrive already-screened, `hasNoStageTransitions()` reads
 movement that never happened, and the first gate in the ladder opens too
 early. It is pinned as a `KNOWN GAP` test in `analyticsFunnelGuard.test.ts`
-(`:336`, still open at kp `24006b85e`) rather than papered over — which is the right handling, but the gate is
+(`:336`, still open at kp `6edf5d7e6`) rather than papered over — which is the right handling, but the gate is
 currently weaker than the technique requires.
 
 ## A verdict on a thin sample, beside the benchmark

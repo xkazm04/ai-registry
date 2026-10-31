@@ -5,7 +5,7 @@ subject: honest-measurement-presentation
 technique: a-dash-means-not-measured-never-zero
 stack: react
 status: forged
-verified_on: 2026-09-29
+verified_on: 2026-10-31
 verified_against: react@19
 ---
 
@@ -14,11 +14,11 @@ verified_against: react@19
 Two surfaces in this repo carry the technique, at opposite ends of the
 audience: the analytics tab, where a dash must read as *not measured*, and the
 public `/market` page, where a missing open-data figure must read as nothing at
-all. Citations are at kp `24006b85e`.
+all. Citations are at kp `6edf5d7e6`.
 
 ## The em-dash rule, stated as doctrine
 
-`docs/features/analytics/README.md:1210` opens the honesty-rules list —
+`docs/features/analytics/README.md:1226` opens the honesty-rules list —
 explicitly "load-bearing, not stylistic" — with the exact claim:
 
 > an unknown cost renders as `—`, never `$0` ("free" and "unpriced" are
@@ -53,7 +53,7 @@ non-figure, so one glyph carries one meaning across the page. The colour
 helpers (`heatColor` `:271`, `salaryColor` `:282`) clamp non-finite input
 rather than propagating it, after `heatColor(NaN)` used to destructure
 `undefined` and throw, "taking the whole map down client-side"
-(`docs/features/marketing/README.md:499`).
+(`docs/features/marketing/README.md:478`).
 
 ## A missing figure has no place on the scale
 
@@ -70,7 +70,7 @@ snapshot carries a median.
 
 ## The hiding ladder, enumerated
 
-`docs/features/marketing/README.md:445-459` lists the per-surface answers, and
+`docs/features/marketing/README.md:427-439` lists the per-surface answers, and
 they are precisely the ladder the technique describes:
 
 - region card — the median tile disappears and **the vacancy count takes the
@@ -141,7 +141,7 @@ list that was never produced (`undefined` coalesced to a length of 0). The
 list behind it is capped at eight with no "+N more".
 
 **The region remainder is still in the docs only.**
-`docs/features/marketing/README.md:579` records that region vacancy counts
+`docs/features/marketing/README.md:567` records that region vacancy counts
 sum to ~35 200 against a national total of ~38 600, because postings with no
 region are unattributed. The hero prints the national figure
 (`MarketPulseApp.tsx:123`); the map and its top-five list show only

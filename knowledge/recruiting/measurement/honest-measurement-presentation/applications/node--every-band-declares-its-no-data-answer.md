@@ -5,7 +5,7 @@ subject: honest-measurement-presentation
 technique: every-band-declares-its-no-data-answer
 stack: node
 status: forged
-verified_on: 2026-09-29
+verified_on: 2026-10-31
 verified_against: node@24
 ---
 
@@ -15,9 +15,9 @@ kp's analytics read is bounded. `pipelineAnalytics()` in `app/_lib/db/analytics.
 reads at most a cap of `pipeline_entries` rows, newest first, and says when the
 cap bit (`truncated`), because a funnel computed over the first N of M rows is a
 different number from the one the page claims. `created_at` is nullable in the
-schema (`app/_lib/db/core.ts:589`), and an undated row has no cohort to belong
+schema (`app/_lib/db/core.ts:592`), and an undated row has no cohort to belong
 to. The comment on the read put those rows last on purpose: they "are the first
-thing a bounded read should drop". Citations are at kp `24006b85e`.
+thing a bounded read should drop". Citations are at kp `6edf5d7e6`.
 
 ## Where the position came from
 
@@ -56,3 +56,10 @@ layer holds 191 `ORDER BY` clauses, 121 of them descending. Most sort
 non-null keys and are safe on either engine. Which ones sort a nullable key is
 a question the audit cannot answer from a regex. A port has to ask it of each
 one.
+
+Re-checked 2026-10-31 at kp@6edf5d7e6: the audit still has no rule for implicit
+null ordering, and the clause count has grown. Counted the same way that
+reproduces the figures above to within one at `24006b85e` (case-insensitive
+`ORDER BY` across the non-test `.ts` files under `app/_lib/db/`), the data layer
+now holds about 208, 129 of them descending. The finding stands; the surface a
+port must ask about is larger.
