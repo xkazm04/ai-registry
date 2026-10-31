@@ -4010,8 +4010,8 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/media-generation/production-ops/review-iteration-loops/review-iteration-loops.md",
-   "digest": "sha256-b2:15b0ff05d7134042",
-   "revision": 12,
+   "digest": "sha256-b2:c8e5daa9280bf290",
+   "revision": 13,
    "changedAt": "2026-10-31",
    "techniques": [
     {

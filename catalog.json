@@ -1245,7 +1245,7 @@
       "techniques": 266,
       "applications": 166,
       "files": 475,
-      "contentHash": "sha256-b2:7c5dd093da4e13da"
+      "contentHash": "sha256-b2:96cbb12b950c4a01"
     },
     {
       "name": "recruiting",
@@ -1258,7 +1258,7 @@
       "techniques": 416,
       "applications": 320,
       "files": 807,
-      "contentHash": "sha256-b2:065afd390ba4c982"
+      "contentHash": "sha256-b2:467623daddbd989a"
     },
     {
       "name": "software-engineering",
@@ -1271,7 +1271,7 @@
       "techniques": 1957,
       "applications": 1454,
       "files": 3659,
-      "contentHash": "sha256-b2:efb00cd98b9c216f"
+      "contentHash": "sha256-b2:0802a0de27ab7706"
     },
     {
       "name": "technical-writing",
