@@ -381,9 +381,9 @@
       "adopters": [],
       "invokes30d": 0,
       "reportedInvokes": 0,
-      "lessons": 3,
+      "lessons": 4,
       "lessonsPath": "skills/hackathon/LESSONS.md",
-      "lessonsHash": "sha256-n1:1505a762af39f53f",
+      "lessonsHash": "sha256-n1:df895531967afa14",
       "usageContributors": [],
       "runs30d": 0,
       "outcomes30d": {},
@@ -1140,7 +1140,7 @@
     "skills": 44,
     "practices": 8,
     "memory": 10,
-    "lessons": 379
+    "lessons": 380
   },
   "bundles": [
     {
