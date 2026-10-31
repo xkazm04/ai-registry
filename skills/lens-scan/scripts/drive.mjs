@@ -37,7 +37,8 @@
 //            (store.mjs decide --machine, which skips reserve and oversize items; `machine_decided`, `machine_skipped`),
 //            and after the runs offers every built item to store.mjs triage --machine, which accepts only a better
 //            proof with a red control, green gates and an after of its own (`machine_triaged`; the rest
-//            `waits_for_triage`). --start is the overlay's trust_start (it only lowers); --max-size XS..XL its
+//            `waits_for_triage`). Every item in `items` that ended `failed` carries its `failure` {stage, reason,
+//            evidence} as the store read it. --start is the overlay's trust_start (it only lowers); --max-size XS..XL its
 //            auto_max_size (default M).
 //            Nothing here releases: a release stays a person's.
 //   --lens all (status, cover, execute): every enabled lens of the app-structure with a scan method (store.mjs
@@ -327,6 +328,8 @@ export async function drive(argv, env = process.env) {
       summary.items = read((db) => proposals(db, { ids: go.join(',') })).map((p) => ({
         id: p.id, feature: p.feature, status: p.status, metric: p.metric, expected_delta: p.expected_delta, after_value: p.after_value, result_sha: p.result_sha,
         commit_sha: p.commit_sha, pack: p.pack_id, title: p.title,
+        // a failed item says why (bp cycle 3: p-bcddc7 read `failed` here and nothing else)
+        ...(p.failure ? { failure: p.failure } : {}),
       }));
       // a rework item stays `rework`; its rebuild is the new attempt that names it
       const attempts = read((db) => db.prepare(`SELECT id, attempt_of, status, pack_id, commit_sha FROM proposals WHERE attempt_of IN (${go.map(() => '?').join(',')})`).all(...go));

@@ -759,6 +759,94 @@ test('H-L7 lessons: a run\'s project lessons live in the store (activity note `l
   assert.deepEqual(cli(path, 'lessons', '--run', 'r-none').lessons, []);
 });
 
+// ------------------------------------------------------------------- bp cycle 3 (2026-10-31): test proofs, failure records
+/** A built item whose before/after are a reader's count (bp's untestedPaths 2 -> 1, method judgement). */
+function judgedTestItem(db, run, n, { method = 'judgement' } = {}) {
+  const id = built(db, run, n, { metric: 'untestedPaths' });
+  db.prepare('UPDATE measurements SET method = ?, value = CASE phase WHEN \'before\' THEN 2 ELSE 1 END WHERE proposal_id = ?').run(method, id);
+  return id;
+}
+const testProof = (extra = {}) => ({ metric: 'untestedPaths', method: 'test', unit: 'paths', before: 2, after: 1, verdict: 'better', control: 'red', control_value: 3,
+  base_sha: 'b0', head_sha: 'h1', gates: { 'npm run check': 0 }, stacked: false,
+  test_control: { command: 'node scripts/check-scan-jobs.ts', mutation: 'shots/route.ts:35 segment rule loosened', exit: 1, assertion: 'FAIL out-of-dir legs 403,404' }, ...extra });
+
+test('H3-L1 proof method test: a test-adding item proves itself by a seeded red control, and the machine may accept it (bp qa-4: 5 test items, all judgement)', () => {
+  const { db, run } = store();
+  const id = judgedTestItem(db, run, 1);
+  // the bp shape: judgement, control absent - stays a person's
+  const absent = judgedTestItem(db, run, 2);
+  proof(db, { id: absent, proof: testProof({ method: 'judgement', control: 'absent', control_value: undefined, test_control: undefined }) });
+  // a test proof IS its red control
+  assert.throws(() => proof(db, { id, proof: testProof({ control: 'absent', control_value: undefined }) }), /a test proof is its red control/);
+  assert.throws(() => proof(db, { id, proof: testProof({ test_control: undefined }) }), /test_control/);
+  assert.throws(() => proof(db, { id, proof: testProof({ test_control: { ...testProof().test_control, exit: 0 } }) }), /did not fail/);
+  assert.throws(() => proof(db, { id, proof: testProof({ test_control: { ...testProof().test_control, assertion: ' ' } }) }), /assertion/);
+  assert.throws(() => proof(db, { id, proof: testProof({ test_control: { ...testProof().test_control, mutation: '' } }) }), /mutation/);
+  assert.throws(() => proof(db, { id, proof: testProof({ control_value: 0 }) }), /control_value.*failing/);
+  assert.throws(() => proof(db, { id, proof: testProof({ method: 'static', test_control: undefined }) }), /recorded with method judgement/, 'the reader\'s count is not a static instrument');
+  assert.throws(() => proof(db, { id: absent, proof: testProof({ method: 'judgement' }) }), /no red control/, 'judgement still has none');
+  // test_control belongs to a test proof only
+  assert.throws(() => proof(db, { id: absent, proof: testProof({ method: 'judgement', control: 'absent', control_value: undefined }) }), /test_control belongs to a test proof/);
+  // probe readings are noise: a test cannot stand on them
+  const probe = judgedTestItem(db, run, 3, { method: 'probe' });
+  assert.throws(() => proof(db, { id: probe, proof: testProof() }), /probe/);
+  const out = proof(db, { id, proof: testProof() });
+  assert.equal(out.proof.method, 'test');
+  assert.deepEqual(proposals(db, { ids: id })[0].proof.test_control, testProof().test_control);
+  // a stacked test proof still waits; the isolated one is machine-accepted at L2
+  const stacked = judgedTestItem(db, run, 4);
+  proof(db, { id: stacked, proof: testProof({ stacked: true }) });
+  const r = triage(db, { ids: [id, absent, stacked], machine: true });
+  assert.deepEqual(r.triaged.map((x) => x.id), [id]);
+  assert.deepEqual(r.skipped.map((s) => [s.id, s.reason]), [
+    [absent, 'proof better, control absent: a person triages'],
+    [stacked, 'after stacked on earlier items of the pack: a person triages'],
+  ]);
+  assert.match(proposals(db, { ids: id })[0].triage_note, /test control: node scripts\/check-scan-jobs\.ts failed 3/);
+  db.close();
+});
+
+test('H3-L2 failed: an item moved to failed records failure {stage, reason, evidence}; without one the writer refuses (bp p-bcddc7 had none)', () => {
+  const { path, db, run } = store();
+  const id = propose(db, predicted(run, 1, { category: 'technical', lens: 'development', riskClass: 'debt', metric: 'dupSites' })).id;
+  decide(db, { ids: id, decision: 'approve', by: jane });
+  const k = packCreate(db, { lens: 'development', short: 'DEV', baseRef: 'main', baseSha: 'b0', run });
+  proposalUpdate(db, { id, status: 'executing', pack: k.id });
+  assert.throws(() => proposalUpdate(db, { id, status: 'failed' }), /a failed item records its failure/);
+  assert.throws(() => proposalUpdate(db, { id, status: 'failed', run, failure: { stage: 'gate', reason: 'x' } }), /--failure-evidence is required/);
+  assert.throws(() => proposalUpdate(db, { id, status: 'failed', run, failure: { stage: 'oops', reason: 'x', evidence: 'y' } }), /--failure-stage must be one of/);
+  assert.throws(() => proposalUpdate(db, { id, status: 'failed', failure: { stage: 'gate', reason: 'x', evidence: 'y' } }), /--run/);
+  assert.throws(() => proposalUpdate(db, { id, status: 'done', run, failure: { stage: 'gate', reason: 'x', evidence: 'y' } }), /failure belongs to --status failed/);
+  assert.equal(proposals(db, { ids: id })[0].status, 'executing', 'nothing moved on a refused write');
+  const failure = { stage: 'gate', reason: 'door() answers an unhosted kettle slug 405 before the route\'s 404', evidence: 'node scripts/check-lan-door.ts -> FAIL decide: 405' };
+  const p = proposalUpdate(db, { id, status: 'failed', run, failure });
+  assert.deepEqual([p.status, p.failure], ['failed', failure]);
+  assert.deepEqual(proposals(db, { ids: id })[0].failure, failure, 'every reader of the item sees why');
+  const err = db.prepare("SELECT kind, text FROM activity WHERE run_id = ? AND kind = 'error'").all(run);
+  assert.equal(err.length, 1);
+  assert.match(err[0].text, new RegExp(`^failure ${id}: `));
+  // a pre-1.14 failed item: no record, but the run's error activity names it - read as the failure, stage unknown
+  const old = propose(db, fix(run, 'old')).id;
+  db.prepare("UPDATE proposals SET status = 'failed' WHERE id = ?").run(old);
+  const legacy = activity(db, { run, kind: 'error', feature: 'a', text: `${old} failed, no commit: npm run check -> FAIL x` });
+  assert.deepEqual(proposals(db, { ids: old })[0].failure, { stage: 'unknown', reason: `${old} failed, no commit: npm run check -> FAIL x`, evidence: `activity ${legacy.id}` });
+  // none at all: said so, never silent
+  const bare = propose(db, fix(run, 'bare')).id;
+  db.prepare("UPDATE proposals SET status = 'failed' WHERE id = ?").run(bare);
+  assert.deepEqual(proposals(db, { ids: bare })[0].failure, { stage: 'unknown', reason: 'no failure recorded', evidence: 'none' });
+  assert.equal(proposals(db, { ids: id })[0].proof, undefined, 'the failure is not a proof');
+  // the CLI: three flags, all required with --status failed
+  const id2 = propose(db, predicted(run, 2, { category: 'technical', lens: 'development', riskClass: 'debt', metric: 'dupSites' })).id;
+  decide(db, { ids: id2, decision: 'approve', by: jane });
+  proposalUpdate(db, { id: id2, status: 'executing', pack: k.id });
+  db.close();
+  const bad = run$(path, 'proposal-update', '--id', id2, '--status', 'failed', '--run', run, '--failure-stage', 'build');
+  assert.equal(bad.status, 2);
+  assert.match(bad.stderr, /--failure-reason is required/);
+  const ok = cli(path, 'proposal-update', '--id', id2, '--status', 'failed', '--run', run, '--failure-stage', 'build', '--failure-reason', 'typecheck red', '--failure-evidence', 'npm run typecheck -> TS2345 a.ts:3');
+  assert.deepEqual(ok.failure, { stage: 'build', reason: 'typecheck red', evidence: 'npm run typecheck -> TS2345 a.ts:3' });
+});
+
 test('StoreError codes: bad input exits 2, a store rule 1', () => {
   const { db, run } = store();
   try { propose(db, fix(run, 'x', { impact: 99 })); } catch (e) { assert.ok(e instanceof StoreError && e.code === 2); }
