@@ -5,7 +5,7 @@ subject: shared-research-record
 technique: resolution-bounded-leaders
 stack: process
 status: draft
-verified_on: 2026-09-24
+verified_on: 2026-10-31
 applied: code
 ab_verdict: better
 ---
@@ -24,7 +24,7 @@ next.
 
 Round five added an arm driven as a real service and reported it at the top:
 
-- evals/memory-year/FINDINGS.md:239 "It tops the ladder at 0.90, and 0.92 when its raw-history layer is left out of the read."
+- evals/memory-year/FINDINGS.md:273 "It tops the ladder at 0.90, and 0.92 when its raw-history layer is left out of the read."
 
 The ladder bolds successive leaders at 0.89, 0.90 and 0.92. A two-point step is four
 probes. The accuracy column cannot say how many probes disagreed in each direction to
@@ -62,7 +62,7 @@ threshold forced to always resolve, the self-pair trips the control and the chec
 
 The finding was committed beside the claim it qualifies, in the file's own voice:
 
-- evals/memory-year/FINDINGS.md:244 "every adjacent step from 0.86 to 0.92 is a"
+- evals/memory-year/FINDINGS.md:278 "every adjacent step from 0.86 to 0.92 is a"
 
 ## What this realization cannot do
 

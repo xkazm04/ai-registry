@@ -5,7 +5,7 @@ subject: model-and-effort-selection
 technique: pin-the-resolved-configuration
 stack: rust
 status: forged
-verified_on: 2026-09-28
+verified_on: 2026-10-31
 verified_against: rust@1.96
 applied: code
 ab_verdict: better
@@ -31,6 +31,14 @@ to pass them:
 | Dev task runner (`task_executor.rs`) | pinned | never passed |
 | Curator dispatch (`curator/tick.rs`) | never passed | never passed |
 | **Fleet wake (`fleet_wake_session`)** | **dropped** | **dropped** |
+
+Re-checked 2026-10-31 at personas@a7b34f56: two rows of this table have moved. The dev
+task runner now passes an effort as well as a model (`dev_runner_request` in
+`src-tauri/src/commands/infrastructure/task_executor.rs` pushes `--effort` from its call
+class's route). A codex worker's persisted row args now carry `--effort` when one is set
+(`engine_row_args` in `src-tauri/src/commands/fleet/headless.rs`). The Curator dispatch
+still passes neither (`queue::headless_args(&prompt, Vec::new())` in
+`src-tauri/src/commands/curator/tick.rs`). The wake fix below still holds as described.
 
 The persona-execution lane had already met this bug once, and its comment says so: a run
 whose profile asked for `high` "was silently downgraded to `medium` the moment it was

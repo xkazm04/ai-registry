@@ -4,7 +4,8 @@ type: application
 subject: cicd-monitoring
 technique: deployment-history
 stack: react
-verified_on: 2026-08-18
+verified_on: 2026-10-31
+verified_against: react@19
 ---
 
 # Deployment history — GitOps versions + deployment audit trail (Personas)
@@ -19,10 +20,10 @@ run-log / current-state-per-environment split and its normality cues.
 |---|---|
 | Run log, append-only, locally owned | `deployment_history` table via `gitlab_list_deployment_history` / `list_deployment_history_all` (`src-tauri/src/commands/infrastructure/gitlab.rs:1204-1229`); each row carries method, result, actor-ish fields, `rolledBackFrom` lineage, and a `target` discriminator so cloud and provider deploys mix in one trail (`src/lib/bindings/GitLabDeploymentRecord.ts`) |
 | Rendered timeline | `DeploymentHistoryTab.tsx` — persona filter, refresh, count header, per-row rollback (arm-then-confirm) |
-| Version-per-environment view | `GitOpsVersionHistory.tsx` — tag list (`gitlab_list_persona_versions`, `gitlab.rs:665-711`) with `environment` parsed from the tag name and an **environment branches** section (`:110-170`) showing branch → short SHA + protected marker: the "what is on staging" surface |
-| Current marker | `isCurrent` computed server-side (`gitlab.rs:706-710`) and rendered as a `StatusBadge` on the row (`GitOpsVersionHistory.tsx:277-281`) |
+| Version-per-environment view | `GitOpsVersionHistory.tsx` — tag list (`gitlab_list_persona_versions`, `gitlab.rs:665-713`) with `environment` parsed from the tag name and an **environment branches** section (`:111-164`) showing branch → short SHA + protected marker: the "what is on staging" surface |
+| Current marker | `isCurrent` computed server-side (`gitlab.rs:705-710`) and rendered as a `StatusBadge` on the row (`GitOpsVersionHistory.tsx:268-271`) |
 | Provider owns the ground truth for versions | tags + agents fetched live from the provider (`tokio::join!` at `gitlab.rs:676-679`); the monitor windows, it does not mirror |
-| Failure kept separate from empty | `fetchUnifiedDeploymentHistory` on error clears loading and *keeps the previous rows* (`gitlabSlice.ts:589-599`, comment: "never blank the dashboard on a history error") |
+| Failure kept separate from empty | `fetchUnifiedDeploymentHistory` on error clears loading and *keeps the previous rows* (`gitlabSlice.ts:625-635`, comment: "never blank the dashboard on a history error") |
 
 ## Judgment calls worth copying
 
@@ -35,13 +36,13 @@ run-log / current-state-per-environment split and its normality cues.
   than two parallel ledgers, so "what happened to this persona" has one
   answer.
 - **A tag failing to land is reported at deploy time**
-  (`gitlabSlice.ts:506-515`), so the version trail's gap is announced when
+  (`gitlabSlice.ts:538-547`), so the version trail's gap is announced when
   it opens, not discovered during an incident — the history's integrity is
   protected at the write.
 
 ## Gaps against the technique (deviations, reported not fixed)
 
-- **`isCurrent` is a heuristic that names itself so** (`gitlab.rs:706` —
+- **`isCurrent` is a heuristic that names itself so** (`gitlab.rs:705` —
   "heuristic: matches current agent"): if *any* agent with the persona's
   slug exists, the *first tag in the list* is marked current, regardless
   of which commit the agent actually runs or which environment the tag
@@ -55,10 +56,13 @@ run-log / current-state-per-environment split and its normality cues.
   fixed/broken markers; both surfaces are flat lists newest-first. "Is
   this normal" is still answered by the reader's memory.
 - **Counts without predicates.** `{history.length} deployment(s)`
-  (`DeploymentHistoryTab.tsx:111`) and `{branches.length} branch(es)`
+  (`DeploymentHistoryTab.tsx:115`) and `{branches.length} branch(es)`
   are rendered as totals, but the query is `limit.unwrap_or(50)` and a
   persona filter — a window presented as a population. (Also hand-rolled
-  English pluralisation, outside i18n.)
+  English pluralisation, outside i18n.) *Re-checked 2026-10-31 at
+  personas@a7b34f56:* both counts now go through i18n plural keys
+  (`deployment_count_one` / `_other`, `branch_count_one` / `_other`), so the
+  parenthetical no longer holds. The window-as-population gap still does.
 - **Terminal rows are not cached by identity.** Every refresh and every
   filter change re-fetches the whole window (`loadHistory` on
   `[projectId, filterPersonaId]`); nothing keys immutable rows by id, so

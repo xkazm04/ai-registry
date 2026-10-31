@@ -5,7 +5,7 @@ subject: agent-run-budgeting
 technique: termination-cause-record
 stack: process
 status: forged
-verified_on: 2026-09-27
+verified_on: 2026-10-31
 applied: code
 ab_verdict: better
 ---

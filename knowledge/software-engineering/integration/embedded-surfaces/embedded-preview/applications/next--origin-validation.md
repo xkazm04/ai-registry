@@ -64,6 +64,18 @@ sandboxing the frame without that permission would break the feature and protect
 than the `srcdoc` mechanism, came from this case. It would flip the day a report's body is
 inserted as rendered markup instead of escaped text.
 
+Re-checked 2026-10-31 at personas@a7b34f56: that day has come. `buildPrintDocument`
+(`reportPrint.ts:86-113`) now inserts rendered markup: an `html` report prints its own
+document after `sanitizeHtmlDocument`, and a markdown report prints the markup
+`RichMarkdown` commits, sanitized again as a document. Only the title, persona name and
+date are still escaped. `openPrintFrame` (`:129-157`) now sets
+`sandbox="allow-same-origin allow-modals"`: scripts are off, and same-origin stays because
+`print()` needs it. So the frame now holds markup a persona wrote, and the premise of the
+"not better" verdict above (the host's own template with escaped values) no longer
+describes this code. The project's answer is sanitization plus a sandbox with no scripts,
+not an opaque origin. Whether Policy B is now better here has not been decided again, by
+reading or by a run.
+
 ## What this cannot show
 
 Three cases walked by reading, not a run: no guest was loaded and no hostile message was
