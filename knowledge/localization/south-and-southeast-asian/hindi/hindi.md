@@ -125,7 +125,9 @@ gender-and-agreement.
 
 ## Script and layout facts an engineer must know
 
-- Devanagari is **left-to-right**; no bidi handling applies.
+- Devanagari is **left-to-right**; Hindi text itself needs no bidi reordering,
+  but an interpolated user value (an Urdu or Arabic name) is still right-to-left
+  and still needs bidi isolation at the placeholder.
 - It is a **complex script**: consonants combine into conjuncts, vowels attach
   as matras above, below, before, or after the consonant, and the nukta dot
   derives the loanword consonants क़ ज़ फ़. Correct rendering requires a shaping

@@ -58,12 +58,12 @@ that is what makes a spelling citable rather than a taste vote. The
 standard's decisions that most often surprise translators, and therefore
 most repay anchoring:
 
-- **No long-vowel doubling**: 워크플로 not 워크플로우, 윈도 not 윈도우
-  (standard), 팔로 not 팔로우.
+- **[ou] is written 오** (제3장 제1절 제8항): 워크플로 not 워크플로우, 윈도
+  not 윈도우 (standard), 팔로 not 팔로우.
 - **콘텐츠** not 컨텐츠; **메시지** not 메세지; **애플리케이션** not
   어플리케이션; **디렉터리** not 디렉토리; **릴리스** not 릴리즈;
   **라이선스** not 라이센스.
-- No initial doubled consonants for foreign sounds (서비스 not 써비스,
+- No tensed consonants (된소리) for plosives, in any position (제1장 제4항:
   게임 not 께임) — tensed spellings read as slangy emphasis.
 
 Everyday usage defies several of these (윈도우 and 컨텐츠 are arguably more
