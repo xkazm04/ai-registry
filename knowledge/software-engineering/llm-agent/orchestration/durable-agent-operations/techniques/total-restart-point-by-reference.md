@@ -12,12 +12,14 @@ use_when: [designing what a crashed agent operation leaves behind, recovery has 
 # Total restart point by reference
 
 An operation that outlives its process needs a durable answer to one question:
-*what happens next?* There are three ways to store that answer and only one of
-them survives contact with a long run. You can append what just happened and
+*what happens next?* There are three ways to store that answer, and they fail
+differently on a long run. You can append what just happened and
 fold the appended entries back into a position at read time. You can store a
 difference against a previous value and walk the chain. Or you can store the
-complete current state and replace it whole at every durable transition. This
-technique is the third, plus the reference discipline that makes it cheap: the
+complete current state and replace it whole at every durable transition. The
+first is a valid recovery design — event-history engines replay an append-only
+journal and bound its growing cost with declared history limits — but every read
+pays for the run so far. This technique is the third, plus the reference discipline that makes it cheap: the
 state carries bounded policy and the **identities** of large content, and the
 content itself lives at sibling addresses the operation owns and the terminal
 transaction deletes.
@@ -67,6 +69,13 @@ grow: replacing it costs the same at turn thirty as at turn one, and totality
 becomes constant cost per transition. A thirty-turn run writes the state thirty
 times, each write the size of a handful of fields.
 
+Be exact about what is bounded. The **envelope** — the size of one state value,
+and so the live storage the state store holds per open operation — is constant.
+The **cumulative bytes written** still grow linearly with the run, and the
+referenced content at sibling addresses grows as content does. What the design
+removes is the quadratic term and the read-time fold, not cost that scales with
+work; the price of the referenced content is paid once, at the deletion below.
+
 The neighbour's binary is therefore correct within its premise and the premise
 is escapable. State the escape that way — not as a claim that full checkpoints
 are cheap, which is false, but as a claim that a restart point does not have to
@@ -107,6 +116,15 @@ immutable result — [creation-names-reaper](../../../../_laws.md#creation-names
 satisfied at the strongest available grade, since the reaper is not a later
 process but the same transaction that ends the work. What remains afterwards is
 exactly the conversation, the spend ledger, and a few long-lived values.
+
+That single commit exists only while every operation-owned address lives in the
+same transactional store as the state. When content sits in a second store — a
+blob bucket beside a database — no one transaction spans both, and cleanup
+becomes ordered: delete the state and write the result first, so the operation is
+closed, then delete the external addresses, each keyed by the owning operation so
+an interrupted cleanup leaves orphans a sweep can find by owner. That sweep is the
+collection this design otherwise avoids; keep it confined to the cross-store
+remainder and say so.
 
 The consequences are worth stating because teams expect the opposite. There is
 no garbage collector for operation state. There are no tombstones. There is no
@@ -158,7 +176,12 @@ Where the durable value genuinely must contain the growing artifact — the
 conversation itself, an accumulating document, a large model output that has
 nowhere else to live — totality is quadratic again and the custody discipline's
 delta representation is the right answer, with its marker, its single accessor
-and its fail-closed compatibility gate. The technique also earns nothing for
+and its fail-closed compatibility gate. It also presupposes that the runtime owns the state vocabulary. A host whose
+durable content is opaque to it — a plugin host persisting a guest-owned blob
+whose shape guest code decides — can store that blob totally and by reference and
+still cannot name the next procedure from it or list its crash states, because the
+leaves belong to the guest. There the technique governs only the host's own
+envelope around the blob. The technique also earns nothing for
 work whose entire body is one idempotent step: there is one state, recovery is
 "run it again", and a state machine with a single leaf is ceremony. It starts
 paying at the second uncertain effect in one unit of work, because that is the

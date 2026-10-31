@@ -14,8 +14,10 @@ use_when: [parallel tool calls must appear in the order the model asked for them
 A model asks for three tools in one message. They run in parallel, because
 running them one at a time wastes the latency of the two that are ready. They
 finish in whatever order the world decides. And their results must appear in
-the transcript in the order the model asked for them, because that ordering is
-what the next request will read.
+the transcript in the order the model asked for them, wherever the record's
+consumer reads position — the next request reads the transcript, and a
+transcript whose results are matched by call identity rather than by position
+relaxes this constraint without removing the second state.
 
 Two orders, then, and the defect this technique removes is treating them as
 one. Give the result a durable state **between** "the effect settled" and "the
@@ -72,14 +74,16 @@ starting at the first position that is not yet placed**. Several may enter in
 one transaction. Then stop; a later sibling that is ready but has a gap before
 it waits.
 
-The wrong design here is a barrier at the end of the turn: hold everything until
-all calls are complete, then place them all at once. It is tempting because it
-sounds atomic, and it is wrong for a concrete reason. With a prefix flush, an
-early result *can* be placed while later siblings are still running — so a
-turn-end barrier that also drives the display would leave that result present
-in the placed transcript and simultaneously in the in-flight collection, and
-every consumer sees it twice. The flush and the projection have to agree on the
-same event, and the event is placement of that call, not the end of the turn.
+The load-bearing half is the durable staging, not the flush. A **durably staged
+batch placement** — stage every outcome at its own completion, then place the
+whole batch in one transaction once all are ready — is a valid alternative: it
+loses nothing on a crash and repeats no effect, and it trades early visibility of
+placed results for a single placement event. What is wrong is *mixing* the two:
+placing early by prefix flush while the display still removes calls at turn end
+leaves an early result in the placed transcript and simultaneously in the
+in-flight collection, and every consumer sees it twice. Whichever placement rule
+is chosen, the flush and the projection have to agree on the same event — the
+placement of that call.
 
 ## What a projection owes the intermediate state
 
@@ -131,8 +135,8 @@ batched at turn end.
   bounded independently of any progress output.
 - Materialize the contiguous ready prefix from the first unplaced position;
   place several in one transaction when several are ready.
-- Never gate placement on the end of the turn or on all siblings being
-  complete.
+- Gate placement on the end of the turn only as a deliberate batch rule over
+  durably staged outcomes, never as a substitute for staging them.
 - Delete the call's progress snapshot and any invocation-scoped scratch state in
   the staging commit, and refuse late writes against a call that has staged.
 - Project all three states; drop a call from the in-flight collection on its own
@@ -154,7 +158,10 @@ neither is a special case of the other.
 ## When not to use it
 
 If effects never run concurrently, there is no second order and the intermediate
-state is a leaf nobody enters — place at settlement. If results genuinely may
+state is a leaf nobody enters — place at settlement. The same holds for effects
+that run concurrently but settle into separate records, or whose single record
+has no positional constraint: parallelism alone does not create the second order,
+a required order over one record does. If results genuinely may
 appear in completion order, the ordering constraint is absent and the same
 applies. The technique starts paying at the first parallel batch whose results
 feed a record with a required order, which in an agent runtime is the first turn

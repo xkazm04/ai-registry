@@ -41,6 +41,20 @@ bracketed by two commits.** Everything below is those two ideas made
 operational — plus the discipline that makes them checkable, which is that the
 set of states a crash can leave behind is finite and each one is a test case.
 
+Four assumptions sit under that sentence, and the rest of the subject holds only
+while they do. **Representation is a choice:** replacing a total value is this
+subject's representation, not the only correct one — an engine that recovers by
+replaying an append-only event history is a valid design with a different cost
+profile, and the techniques below say where the line falls. **One owner writes:**
+the restart point assumes a single live executor per operation, so a process that
+lost its lease and kept running must be fenced — every write carries an owner
+token the store checks — or its late commit overwrites the new owner's state.
+**Each commit is atomic:** "two commits" means two transactions the store makes
+all-or-nothing, which in turn rests on the storage honouring its flushes; a store
+that cannot promise that cannot promise the bracket. **Shutdown guarantees
+nothing it cannot keep:** close is bounded, and an abrupt loss is the case the
+design must survive, not the case it gets to prevent.
+
 ## Where this subject sits, and where it should have sat
 
 The merits placement for this material is the runtime-and-input-output
@@ -212,9 +226,12 @@ a **second recovery path** — one exercised only on clean exits, which is to sa
 the one that is wrong, because the path exercised on the rare event is the path
 nobody has ever watched work. Make close indistinguishable from a power loss
 and the single recovery path is exercised by every shutdown; the rare case
-stops being rare. Close seals admission, drains what was already admitted,
-releases resources, and stops. Reopening finds exactly the restart point a
-crash would have left.
+stops being rare. Close seals admission, drains what was already admitted
+for a bounded time, releases resources, and stops. "Writes nothing" means no
+verdict: an effect that genuinely settles during the drain still commits its
+settlement, and what is still pending at the bound is left pending. Reopening
+finds exactly the restart point a crash would have left — and because close cannot
+promise to run at all, abrupt loss is tested on its own.
 
 This is where two techniques in this registry look like they disagree and do
 not. Ordered teardown, next door, governs **guards that can refuse a stop**,
@@ -245,7 +262,9 @@ checks write *order*, which no state test can see.
 - **The inferred phase** — recovery deducing where it is from a field that is
   absent, and being wrong under exactly one crash.
 - **The journal that must be folded** — a restart point assembled by replaying
-  appended entries, whose cost and whose correctness both grow with the run.
+  appended entries, whose recovery cost grows with the run. Replay is still a
+  valid recovery design when its limits are declared and enforced; the failure is
+  a fold nobody bounded, not the journal itself.
 - **The guessing restart** — a crash before the effect and a crash during it
   recorded identically, so recovery must choose between repeating a side effect
   and losing one.

@@ -25,15 +25,15 @@ valid and the answer is fiction.
 
 ## Two shapes, one mistake
 
-**A total becomes a narrower link's denominator.** A composite workflow reads
+**A total becomes a narrower link's numerator.** A composite workflow reads
 the quarter's revenue from the ledger and hands it downstream so that "every
 step steers by one number." A marketing link then computes return on ad spend
 over it. But the ledger covers the whole business, and the ads could only
-reach the online slice, which here is about 2% of it. A campaign returning a
-real 4.7 reports 194, because the denominator is roughly forty times too
+reach the online slice, which here is about 2.4% of it. A campaign returning a
+real 4.7 reports 194, because the numerator is roughly forty times too
 large. The figure is enormous, flattering and entirely unreal, and it is the
 one the owner budgets from. The tell is a ratio an order of magnitude better
-than the field allows. Nobody checks what went in the bottom, because the
+than the field allows. Nobody checks what went in the top, because the
 number came from the system of record.
 
 **A path total is checked against a tree-wide limit.** A chain carries its
@@ -67,8 +67,8 @@ Concretely:
    ledger, all channels, the quarter) in a form the receiver can compare.
    A guard's running total is labelled with the population it summed: this
    path, this trace, completed hops only.
-2. **The receiver checks the population before it divides by the figure or
-   compares it.** A ratio is computed against the base the receiving link
+2. **The receiver checks the population before it uses the figure in a ratio
+   or comparison.** A ratio is computed against the base the receiving link
    can actually reach. When the handed-down total is broader, the receiver
    fetches its own base (the online revenue, the chain-wide sum) and reports
    both: *"Online revenue was 23,653 of the quarter's 971,794; return is
@@ -119,8 +119,8 @@ The failure never throws, so look for it structurally:
 
 - Every numeric payload field names its population; a guard's running total
   names whether it is path- or tree-scoped.
-- A receiver divides or compares only against a figure over its own
-  population; a broader figure is shown beside the result as context.
+- A receiver uses a figure in a ratio or comparison only when it measures its
+  own population; a broader figure is shown beside the result as context.
 - A limit on a tree reads a sum over the tree, and takes the larger of the
   carried and summed figures while the sum can lag.
 - A ratio an order of magnitude better than its field allows is a

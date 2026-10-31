@@ -29,6 +29,12 @@ captured for it.* The state after this commit says the effect is pending.
 spend row, and the next state, atomically, in one transaction. Either all of it
 is durable or none of it is.
 
+Both commits are conditional on ownership. The intent records which owner — a
+lease epoch or fencing token — wrote it, and the settlement commits only if that
+owner still holds the operation. Otherwise a process that lost its lease, while
+recovery wrote a synthetic settlement into the reserved slot, returns from its
+effect and overwrites the recovered state with a second, late settlement.
+
 This is [record-precedes-effect](../../../../_laws.md#record-precedes-effect)
 in its ordinary form, with the ordinary consequence: if the intent cannot be
 written, the effect does not happen. What is less ordinary is what the intent
@@ -92,6 +98,17 @@ A retry after a *settled* failure is a different attempt and takes fresh
 identities — the failed response is durable history, and overwriting it would
 erase the evidence of the attempt and its cost. The reservation is per attempt,
 not per logical effect.
+
+**Keep the local attempt identity apart from the destination's idempotency key.**
+The identities above are this runtime's: transcript slots and ledger rows. A
+destination that accepts a client request identifier deduplicates on *its* key,
+and a fresh local attempt does not imply a fresh one. When the earlier outcome is
+unknown — the pending rows of the table — the retry must resend the key the intent
+minted for the logical effect, or the destination sees a new request and performs
+the effect twice; only after a settled failure is a new key correct. Mint that key
+at the first intent, store it in the state, and remember its limits: a destination
+honours it for a retention interval, not forever, and may refuse a reused key whose
+parameters differ.
 
 ## The metering corollary
 
@@ -161,6 +178,10 @@ preferred. Two commits per effect is real cost.
 - Commit output, spend and next state in one transaction. A settlement that
   lands in pieces reintroduces the window it exists to close.
 - Refuse the effect when the intent cannot be committed.
+- Make the settlement conditional on the owner token the intent recorded; a stale
+  owner's settlement is refused, not merged.
+- Reuse the destination's idempotency key across retries of an unknown outcome;
+  mint a fresh one only after a settled failure.
 - Declare, per effect class, the policy for "pending and the owner is gone" —
   and accept that "before the effect" and "during the effect" are one state.
 - Keep the reservation per attempt: a retry after a settled failure takes fresh

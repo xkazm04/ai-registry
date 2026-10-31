@@ -174,8 +174,8 @@ happening wherever the transport happens to choke. The contract lives in
 
 The contract governs shape, size and origin, and a well-formed envelope still
 carries a wrong number as easily as a right one. Every figure in it was
-measured over some population, and a receiver that divides by it or compares
-it against a limit is claiming that population is its own. A company-wide
+measured over some population, and a receiver that uses it as an operand in a ratio
+or comparison is claiming that population is its own. A company-wide
 total handed to a link that can only reach one channel becomes a return
 figure forty times too good. A running cost carried hop to hop becomes a
 cascade ceiling that sees one branch of a fan-out. Neither breaks a type
@@ -233,9 +233,11 @@ Two moves look symmetric and are not. A **deliberating** step reads the claim
 and forms an opinion: another reviewer, a contrarian persona, a fresh-context
 re-analysis. A **grounding** step forces the claim through something that can
 refuse it: running the code, executing the hypothesis, producing the state
-the claim predicts. A practitioner account reports benefits from executable checks of bug-origin
-hypotheses, as well as from independent review. This supports preferring a relevant
-refuting check when available; it does not establish that execution universally
+the claim predicts. One practitioner reports an ordering for bug-origin
+explanations: forcing agents to confirm a hypothesis by executing code removed most
+incorrect explanations, independent analyses that cross-checked each other did worse
+than that, and doing both did best. That is one practitioner's observation, not a
+controlled study. It supports preferring a relevant refuting check when available; it does not establish that execution universally
 outperforms reasoning. See the technique for source scope and counterexamples.
 
 The corollary is the expensive half. An agent asked to prove a claim will
