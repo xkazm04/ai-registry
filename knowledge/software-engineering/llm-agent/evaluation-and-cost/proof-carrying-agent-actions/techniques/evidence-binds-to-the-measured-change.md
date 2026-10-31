@@ -26,7 +26,8 @@ the verdict.
   branch is a pointer, and the pointer moves.
 - **A digest of the change itself** — of the diff between base and head as the
   checker computed it. Two different base/head pairs can carry the same change,
-  and one pair can be rebased into a different change; the digest is what the
+  and a branch can be rebased into a different change under the same name; the
+  digest is what the
   envelope and weakening checks actually judged.
 - **The checker's identity** — a content hash of the checker code and a
   revision of the policy it read, so a verdict produced before a checker fix

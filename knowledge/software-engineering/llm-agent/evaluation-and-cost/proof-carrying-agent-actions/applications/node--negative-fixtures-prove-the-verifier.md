@@ -5,7 +5,7 @@ subject: proof-carrying-agent-actions
 technique: negative-fixtures-prove-the-verifier
 stack: node
 status: forged
-verified_on: 2026-10-27
+verified_on: 2026-10-31
 verified_against: node@24
 ---
 
@@ -46,7 +46,8 @@ maturity stage (line 172), and 2 for a ledger trial short of its minimum, commen
 ## The weakened fixture, read
 
 `engine/__fixtures__/exploit/input.weakened.json` reuses the honest run's JUnit files and a
-clean same-version rescan; only the diff differs. `weakened.diff` replaces
+same-version rescan that closes the finding; its claims, vector and job references differ
+too, but the diff is what decides the verdict. `weakened.diff` replaces
 `assertFailsWith<ExportFileNotFound> { service.read("st-1", "../../../etc/passwd") }` with
 `assertTrue(outcome.isSuccess || outcome.isFailure)` — an assertion that cannot fail, which the
 ladder ranks as bare truthiness and so refuses as a loosening from a typed failure — adds

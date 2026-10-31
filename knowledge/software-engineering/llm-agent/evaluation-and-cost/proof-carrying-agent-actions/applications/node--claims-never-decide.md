@@ -5,7 +5,7 @@ subject: proof-carrying-agent-actions
 technique: claims-never-decide
 stack: node
 status: forged
-verified_on: 2026-10-27
+verified_on: 2026-10-31
 verified_against: node@24
 ---
 
@@ -83,3 +83,8 @@ the classes' envelopes differ — the fixture `engine/__fixtures__/exploit/input
 declares `dep-bump.patch` over a source fix and is refused as "diff outside the class envelope"
 (`.gitlab-ci.yml:166`). The standard stays: derive the class from paths and finding, and compare
 it with the declaration.
+
+The exploit-test needle is case-folded. `engine/proofs/exploitTest.ts:31` defines `squash` as
+whitespace-collapse plus `toLowerCase()`, and lines 60-61 apply it to both the base failure
+text and the vector before matching. Only the cited-diff quote is compared after whitespace
+alone. The standard stays: normalise whitespace and nothing else.
