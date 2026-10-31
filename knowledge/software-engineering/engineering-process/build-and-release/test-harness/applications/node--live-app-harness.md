@@ -11,7 +11,7 @@ verified_on: 2026-08-18
 
 The live lane drives a **real running Tauri desktop app**, not a browser. The
 control surface is the test-automation HTTP server
-(`src-tauri/src/test_automation.rs`, `DEFAULT_PORT: u16 = 17320` at `:1333`);
+(`src-tauri/src/test_automation.rs`, `DEFAULT_PORT: u16 = 17320` at `:1440`);
 the typed client is `tests/playwright/companion-bridge.ts`; the runner is
 Playwright used purely as a TS test runner — `expect()`, reporters, retry
 logic — with zero browser launch (`playwright.config.ts:31-38` states the
@@ -20,7 +20,7 @@ architecture: WebDriver-via-`tauri-driver` was "too brittle on Windows").
 ## Control surface, build-gated
 
 The endpoint compiles only under the `test-automation` cargo feature
-(`src-tauri/Cargo.toml:69`); `npm run tauri:dev:test` builds with it, on
+(`src-tauri/Cargo.toml:286`); `npm run tauri:dev:test` builds with it, on
 :17320. A production install can opt in explicitly via `PERSONAS_TEST_PORT`
 (the harness follows with `COMPANION_TEST_PORT`). The vocabulary is
 product-level — `/click-testid`, `/fill-field`, `/query`, `/find-text` — keyed
@@ -82,3 +82,38 @@ one missing word in a `cargo build` features flag (`e2e-smoke.yml:60`), never
 once green, unnoticed because red was normal from day one. The full autopsy
 is `docs/concepts/golden-paths/live-ui-test-automation.md` §7 C1 — the
 never-green lane the golden path's lane-health section exists to kill.
+
+Re-checked 2026-10-31 at personas@61029d7ae0: the bridge, the Playwright
+config, the launcher's four virtualized singletons and the header quirks all
+hold. The port and feature anchors above are updated.
+
+The "build-gated" section needs a correction, and it was already wrong when it
+was written. `pub mod test_automation;` (`src-tauri/src/lib.rs:99`) has no cfg,
+so the server code compiles in every build. What is gated is whether it
+*starts*, in `src-tauri/src/boot/test_bridge.rs:27-59`. A
+`--features test-automation` build always starts it, on :17320 unless
+`PERSONAS_TEST_PORT` names another port. A debug build without the feature
+starts it only when that variable is set. A release build without the feature
+ignores the variable and logs a warning. That last arm dates from a 2026-07-02
+security audit: the bridge has no auth, and its routes include `/eval`. So "a
+production install can opt in explicitly via `PERSONAS_TEST_PORT`" is false. It
+repeats a stale comment that is still in `playwright.config.ts` and in
+`test_automation.rs`'s own header. The deviation from the technique's
+never-a-runtime-flag rule is narrower than the sentence implies: an
+environment variable opens the bridge only in debug builds, and no installed
+release build can be opened that way.
+
+Two corrections to the counter-example. The missing word was found and fixed in `f9e3a33fda`
+(2026-08-14), four days before this document's earlier verification date.
+That commit pulled the run history from the CI API: 34 failures, 4
+cancellations, zero successes. The cargo build now reads
+`--features desktop,test-automation`, at `e2e-smoke.yml:91` after a later
+rewrite. So "has failed 38 of 38 runs" stands as the history up to the fix.
+Present-tense "never once green" is no longer something the tree shows. Run
+health after the fix was not checked, and the smoke step is
+`continue-on-error: true`, so a green job would not prove a green suite. The
+lane is also 27 tests, not 28: `tools/test-mcp/smoke_test.py` registers 18
+named tests plus one per entry of its nine-section navigation list, and that
+file has not changed since 2026-05-10. The kpi-sim and use-case-slice session
+logs cited for the eval-DOM readback trick are not in the tree and were not
+re-read.

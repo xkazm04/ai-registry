@@ -5,7 +5,7 @@ subject: test-harness
 technique: configuration-axes-cross-the-ladder
 stack: node
 status: forged
-verified_on: 2026-09-25
+verified_on: 2026-10-31
 verified_against: node@22
 applied: experiment
 ab_verdict: unmeasurable

@@ -766,3 +766,228 @@ Applied the nine clarify items whose change was confirmed by a source opened thi
   }
 }
 ```
+
+## 2026-10-31 - re-verification against the project trees (third record)
+
+Follows re-verification of the five tree-bound applications against the personas and pumper checkouts. Three were held or re-anchored. rust--configuration-axes has its central verdict resolved at HEAD, by the test cell added 2026-10-24, and now carries a dated note saying so. node--live-app-harness moves from reverify to clarify, because its new dated note contradicts the body on the build gate and the smoke-lane count. verified_on moved on three applications.
+
+<!-- architecture-review:v1 -->
+```json
+{
+  "subject": "software-engineering/test-harness",
+  "date": "2026-10-31",
+  "baseline": "2fbbde6db",
+  "digest": "sha256-b2:bdaeca7f4fcff31c",
+  "disposition": "clarify",
+  "coverage": "Re-verification record: the five tree-bound applications were re-opened against the personas and pumper checkouts, at their pinned commits where pinned and at HEAD. The rest carry the prior record's dispositions. All 45 documents carry a decision; 4 remain non-keep.",
+  "counterexamples": [
+    "The CI test cell rust--configuration-axes priced and left unshipped was added on 2026-10-24, so its 'not one cargo test enables ml' finding is history at HEAD.",
+    "The fixture template's per-test copies were never deleted and reached 70 GB, so build-once-copy-per-test without a reaper for the copies is not yet discard-whole.",
+    "The personas test bridge does not open from an environment variable in release builds, so the live-app application's production opt-in sentence is false and the never-a-runtime-flag deviation is narrower than stated."
+  ],
+  "sources": [
+    {
+      "url": "personas@61029d7ae0:src-tauri/src/boot/test_bridge.rs",
+      "result": "Lines 27-59: feature build always starts the bridge; debug build only with PERSONAS_TEST_PORT; release build ignores it with a warning (2026-07-02 audit)."
+    },
+    {
+      "url": "personas@7c452cd83f:.github/workflows/ci.yml",
+      "result": "rust-features desktop-full leg runs cargo test --workspace --lib --features desktop,ml; scripts/test-feature-cells-baseline.json emptied."
+    },
+    {
+      "url": "personas@369ac36a27",
+      "result": "Commit message measures 15,669 leaked personas_test_*.db files (70 GB) and adds sweep_stale_test_dbs()."
+    },
+    {
+      "url": "personas@f9e3a33fda",
+      "result": "e2e-smoke: 38 runs, 34 failure, 4 cancelled, 0 success, fixed by --features desktop,test-automation."
+    },
+    {
+      "url": "pumper@fcfd2fd:crates/core/tests/eval_tier3_extraction.rs",
+      "result": "Replaces the is_none() preamble guard with RECORDED_PREAMBLE_MISSES and preamble_misses_are_exactly_the_ones_declared."
+    }
+  ],
+  "documents": {
+    "applications/cpp--approval-snapshots-with-guarded-update.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: \"retrying any failing test up to four times\" -> \"running any failing test up to four times (three retries)\""
+    },
+    "applications/dotnet--recorded-interaction-fixtures.md": {
+      "disposition": "keep",
+      "reason": "Pinned public citations dated 2026-10-06 and internally consistent with the technique; not re-opened this run, dates unchanged."
+    },
+    "applications/node--approval-snapshots-with-guarded-update.md": {
+      "disposition": "keep",
+      "reason": "Exposure measurement (17/17) with an honest unmeasurable verdict and stated biases."
+    },
+    "applications/node--assert-through-the-reader.md": {
+      "disposition": "keep",
+      "reason": "Two artifacts map cleanly onto the technique; gaps stated; private tree not re-opened."
+    },
+    "applications/node--configuration-axes-cross-the-ladder.md": {
+      "disposition": "keep",
+      "reason": "Re-verified 2026-10-31 at personas@61029d7ae0: every gather/regather/evaluate quote and line holds unchanged since the pinned 26b26be930; 11 + 3 archived bundles confirmed at e7c4090b2c / df6146349a; run directory still ignored. verified_on moved."
+    },
+    "applications/node--far-side-oracle.md": {
+      "disposition": "keep",
+      "reason": "Matches the technique property for property; limits (no fault injection, unauthenticated agent) stated."
+    },
+    "applications/node--gate-scope-is-not-report-scope.md": {
+      "disposition": "clarify",
+      "reason": "Codebase-1 arithmetic does not reconcile inside the document: 1,070 absent files cannot be derived from 5 scoped files, 1,171 reported and 1,156 source files (1,151 or 1,166 would follow). Not applied: which figure is wrong needs the tree."
+    },
+    "applications/node--live-app-harness.md": {
+      "disposition": "clarify",
+      "reason": "Re-verified 2026-10-31: anchors updated (:1440, Cargo.toml:286). The dated note now contradicts the body. The server compiles in every build, release builds ignore PERSONAS_TEST_PORT (test_bridge.rs:27-59), e2e-smoke's missing feature was fixed in f9e3a33fda, and the smoke lane is 27 tests, not 28. Owed: rewrite the build-gated paragraph and the counter-example in the body. verified_on held, because the cited session logs are not in the tree."
+    },
+    "applications/node--suite-partitioning.md": {
+      "disposition": "keep",
+      "reason": "Table arithmetic (521 = 516 + 5; environment ~5x tests) checks; limits stated."
+    },
+    "applications/node--unreached-decisions-pin-nothing.md": {
+      "disposition": "keep",
+      "reason": "Mutation table and verdict (1/4 -> 4/4) consistent; private tree not re-opened."
+    },
+    "applications/python--constraint-injection-for-unreachable-tiers.md": {
+      "disposition": "clarify",
+      "reason": "Infers that \"a sweep ... found a bug\" from a ladder comment that, as quoted, records only that the rung was split after its low band regressed; who found it is not shown. Not applied: needs the pinned comment."
+    },
+    "applications/python--derived-selection-must-be-measured.md": {
+      "disposition": "keep",
+      "reason": "Counterfactual R2 and marker dump support the technique. Its \"no floor check\" is consistent with the corrected runner claim (the zero was one file inside a larger selected run)."
+    },
+    "applications/rust--configuration-axes-cross-the-ladder.md": {
+      "disposition": "keep",
+      "reason": "Re-verified 2026-10-31: every figure holds at the pinned 91b684dfb (256/105 cfg sites, 12/7/4/2 gated tests, twin.rs:3121 with 10). The check's commit id was corrected from 120b04bc0 to 2c1df01869. The central verdict is resolved at HEAD, and the dated note says so: 7c452cd83f added a Linux desktop,ml test cell, the baseline is empty, and 27 gated tests run. The body stays pinned to its commit. verified_on moved."
+    },
+    "applications/rust--fixture-economics.md": {
+      "disposition": "keep",
+      "reason": "Re-verified 2026-10-31: lib.rs anchors re-pointed to 2322-2491. The dated note records that the uuid copies leaked (369ac36a27: 15,669 files, 70 GB) until an age-based sweep was added, so discard is bounded by age rather than per test. The note also records that the seeders now run in one transaction. verified_on held: the brainiac tree was not re-read."
+    },
+    "applications/rust--mutation-lane-with-a-triaged-baseline--yoagent.md": {
+      "disposition": "keep",
+      "reason": "93 = 22 + 58 + 12 + 1 and 22 = 13 + 2 + 7 reconcile; sampled baseline stated as one."
+    },
+    "applications/rust--mutation-lane-with-a-triaged-baseline.md": {
+      "disposition": "keep",
+      "reason": "84 = 68 + 7 + 9, 68/75 ~ 91% and the 7 -> 5 target reconcile; single-module scope stated."
+    },
+    "applications/rust--negative-control-tests.md": {
+      "disposition": "keep",
+      "reason": "Re-verified 2026-10-31 at pumper@c436ec9: anchors updated. The preamble guard was strengthened by fcfd2fd into a declared-miss list plus a fence test and an exact-0.20 assertion, which the dated note records. Scorer, weights, mutations, floors and the changed-prompt control are unchanged. verified_on moved."
+    },
+    "applications/rust--platform-quirk-absorption.md": {
+      "disposition": "keep",
+      "reason": "Honest not-better verdict confirming the no-mode boundary."
+    },
+    "applications/rust--suite-partitioning.md": {
+      "disposition": "keep",
+      "reason": "Pinned public tree; 33 = 24 + 6 + 3 checks; deviation (no denominator reconciliation) stated."
+    },
+    "techniques/approval-snapshots-with-guarded-update.md": {
+      "disposition": "keep",
+      "reason": "Source-constant switch with an integrity test is confirmed by the pinned C++ tree (constant and comment re-read this run)."
+    },
+    "techniques/assert-the-schedule-not-the-stopwatch.md": {
+      "disposition": "keep",
+      "reason": "Overlap/cap/cutoff by observation is sound and scoped away from genuine duration standards."
+    },
+    "techniques/assert-through-the-reader.md": {
+      "disposition": "keep",
+      "reason": "Reader-as-oracle at unit cost and the prior-state matrix agree with the Node application; boundaries against far-side-oracle stated."
+    },
+    "techniques/configuration-axes-cross-the-ladder.md": {
+      "disposition": "keep",
+      "reason": "Cell-as-result-unit and missing-cell inventory are sound; its 1,340/1,352/1,189 figures and twelve-cell arithmetic agree with the Rust application."
+    },
+    "techniques/constraint-injection-for-unreachable-tiers.md": {
+      "disposition": "keep",
+      "reason": "Probe-level interception and the two-claim discipline are sound; limits stated."
+    },
+    "techniques/context-starved-executor.md": {
+      "disposition": "clarify",
+      "reason": "\"The honest state of the shape\" (six journeys, five refusing) is an undated count of one tree inside a technique; it should carry a date or move to an application. Not applied: the reconciliation date is not recorded in the document or this run."
+    },
+    "techniques/derived-selection-must-be-measured.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: replaced the universal claim with the pytest exit-5 / filtered cargo test exit-0 split and scoped the survival property to a zero inside a larger non-empty run"
+    },
+    "techniques/dynamic-verifier-classes.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: interpreting family restated as three orders of magnitude or more with the 3000x-7000x microbenchmark; simulation as one to two orders (20x-50x), compiler-inserted checks under 10x; lane-placement bullet updated to match"
+    },
+    "techniques/far-side-oracle.md": {
+      "disposition": "keep",
+      "reason": "Far-side observer, skip-when-absent and derived budget are coherent and match the Node application."
+    },
+    "techniques/fixture-economics.md": {
+      "disposition": "keep",
+      "reason": "Build-once-copy-per-test, fingerprinted freshness and seeded-data honesty are sound; cleanup-list figures agree with the Rust application."
+    },
+    "techniques/flake-lifecycle.md": {
+      "disposition": "keep",
+      "reason": "Five-transition process, same-inputs qualifier and register figures are sound and match the golden-path summary."
+    },
+    "techniques/gate-scope-is-not-report-scope.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: scoped the claim to implicit arms (fall-through, missing else, condition and consequence on one line)"
+    },
+    "techniques/history-driven-partitioning.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: ratio of 2 now reads \"at least half of the capacity is idle\"; LPT stated as typically within a few percent on many tests and never worse than 4/3 of optimal"
+    },
+    "techniques/isolation-lanes.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: \"Three rules\" -> \"Four rules\""
+    },
+    "techniques/live-app-harness.md": {
+      "disposition": "keep",
+      "reason": "Control-surface, serial law, stash-and-read-back and test-identifier contract are internally consistent; no unstable external claim."
+    },
+    "techniques/long-lane-certification.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: added a one-sentence pointer to flake-lifecycle naming the expiry"
+    },
+    "techniques/mutation-lane-with-a-triaged-baseline.md": {
+      "disposition": "keep",
+      "reason": "Lane placement, cost-first ordering, sampled baseline and four-bin triage are sound; arithmetic (205+26 s ~ 230 s; 11-33 s build under a minute total) checks. The 928-mutant/30-minute figure was not re-derived against the shard count."
+    },
+    "techniques/negative-control-tests.md": {
+      "disposition": "keep",
+      "reason": "Procedure, unabsorbable-mutation rule and the unapplied-break check are sound and confirmed by the Rust application."
+    },
+    "techniques/out-of-graph-artifacts.md": {
+      "disposition": "keep",
+      "reason": "Artifact-side inventory and load-not-compile rule are sound; boundaries with partitioning and gate-liveness are stated."
+    },
+    "techniques/pin-the-call-not-the-name.md": {
+      "disposition": "keep",
+      "reason": "Needle/haystack/population settings are coherent and cross-referenced; no external claim to check."
+    },
+    "techniques/platform-quirk-absorption.md": {
+      "disposition": "keep",
+      "reason": "Absorption boundary and the post-main numerics refinement are coherent; the Rust application confirms the stated no-mode exception."
+    },
+    "techniques/recorded-interaction-fixtures.md": {
+      "disposition": "keep",
+      "reason": "Transport seam, fidelity dial, freshness obligation and timing neutralization agree with the .NET application that exercises them."
+    },
+    "techniques/suite-partitioning.md": {
+      "disposition": "keep",
+      "reason": "Per-suite configuration, location membership, exhaustive/disjoint partition and denominator reconciliation are consistent with the applications that test them."
+    },
+    "techniques/unreached-decisions-pin-nothing.md": {
+      "disposition": "keep",
+      "reason": "Reach probe and repair order are sound; the Node application's 1-of-4 / 4-of-4 table supports it."
+    },
+    "techniques/verification-inherits-driver-reach.md": {
+      "disposition": "keep",
+      "reason": "Two-number pairing and the exhaustive-checker exception are sound; no unstable external figure."
+    },
+    "test-harness.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: added the five missing techniques (derived-selection, far-side-oracle, constraint-injection, assert-the-schedule, approval-snapshots) to the closing list, each in one line drawn from its own document"
+    }
+  }
+}
+```

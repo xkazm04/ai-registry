@@ -4,7 +4,7 @@ type: application
 subject: test-harness
 technique: negative-control-tests
 stack: rust
-verified_on: 2026-08-24
+verified_on: 2026-10-31
 verified_against: rust@1.96
 ---
 
@@ -15,19 +15,19 @@ model tier of the fetcher carries its own negative control **as a checked-in
 sibling test** rather than as a procedure someone once ran. The eval is
 `crates/core/tests/eval_tier3_extraction.rs`; the control is
 `adversarial_mutations_score_below_the_recording_not_the_same`
-(`:530-603`). Both are plain `#[test]`/`#[tokio::test]` functions with no
+(`:579-675`). Both are plain `#[test]`/`#[tokio::test]` functions with no
 `#[ignore]`, so they run inside `cargo test --workspace`
-(`.github/workflows/ci.yml:51`) on every push.
+(`.github/workflows/ci.yml:182`, through the flake recorder) on every push.
 
 ## What is under control here is an instrument, not a production guard
 
 The technique's usual subject is a protection in the production path. Here the
-subject is the **scorer** — `score_extraction` at `:314-335`, a deterministic
+subject is the **scorer** — `score_extraction` at `:315-336`, a deterministic
 weighted judge (term coverage 0.55, commentary-free 0.20, chrome-free 0.10,
 length-in-band 0.15) with no model anywhere in the accept path. Each case is
 ratcheted against the score measured at recording time
 (`evals/tier3-extraction/manifest.json:19-28`, plus a `baseline_score` per
-case), and the eval fails any case that falls below it (`:486-501`).
+case), and the eval fails any case that falls below it (`:487-502`).
 
 That ratchet is worth exactly what the scorer's ability to say *worse* is worth,
 which is what the control establishes. The module doc states the dependency
@@ -37,19 +37,19 @@ scores below baseline is a real regression signal rather than an opinion"
 
 ## Five mutations, each chosen so the pipeline cannot absorb it
 
-The control loops over all ten cases (`:534-603`) and applies five coarse
+The control loops over all ten cases (`:587-673`) and applies five coarse
 mutations to each recorded answer — the technique's rule that a mutation must be
 one the system has no way to normalize:
 
-- **Truncated to 1%** of the answer (`:543-552`) — the classic silent regression
+- **Truncated to 1%** of the answer (`:592-601`) — the classic silent regression
   of a model extraction tier.
-- **Prefaced with commentary** (`:554-561`) — asserted to trip
+- **Prefaced with commentary** (`:603-610`) — asserted to trip
   `commentary_preamble` specifically, not merely to lower the total.
-- **A refusal string** (`:569-580`) — asserted below an absolute 0.4, not merely
+- **A refusal string** (`:641-652`) — asserted below an absolute 0.4, not merely
   below the recording.
-- **Chrome re-attached** at both ends (`:582-589`) — asserted to trip
+- **Chrome re-attached** at both ends (`:654-661`) — asserted to trip
   `surviving_chrome` *and* to cost score.
-- **Empty** (`:591-598`) — again against the absolute 0.4 floor.
+- **Empty** (`:663-670`) — again against the absolute 0.4 floor.
 
 Each assertion names the signal it expects, so a mutation that lowers the total
 by accident (through some other weight) does not certify the detector that was
@@ -64,7 +64,7 @@ prompt-adherence miss, kept and scored as one
 (`evals/tier3-extraction/manifest.json:17`, "nothing was re-rolled for a better
 score"). The preamble mutation therefore cannot make that case worse, and the
 control guards the assertion behind `if base.preamble.is_none()`
-(`:562-567`) with a comment naming the case. This is the honest shape: the
+(`:562-567` in the version read; see the re-check below) with a comment naming the case. This is the honest shape: the
 control is weakened for one case by a fact about the corpus, and the weakening
 is visible in the source instead of being avoided by re-rolling the fixture.
 
@@ -74,12 +74,12 @@ The scorer is not the only instrument here, and the file gates the other two:
 
 - **The ground truth is checked against the page, not asserted.** Every
   `must_include` term must occur in the frozen HTML or the eval fails *on the
-  fixture* (`:404-411`) — checked against the raw HTML rather than the derived
+  fixture* (`:405-412`) — checked against the raw HTML rather than the derived
   Markdown, because the free-path converter legitimately drops whole regions
-  (`:399-403`). Three invented terms were caught this way while the corpus was
+  (`:400-404`). Three invented terms were caught this way while the corpus was
   built (`:28-30`).
 - **The replay harness must not absorb a changed prompt.**
-  `a_changed_tier3_prompt_fails_the_eval_not_passes_silently` (`:605-632`)
+  `a_changed_tier3_prompt_fails_the_eval_not_passes_silently` (`:677-705`)
   drives the fetcher with a prompt that no longer names the target page and
   asserts a typed replay failure with a message containing "no recorded
   transcript" — the mutation is applied to the production request, and both the
@@ -103,7 +103,22 @@ control certifies the instrument; it does not certify the extraction tier.
 
 The same eval is an equally good realization of the eval-harness subject's
 assertion-vs-judgment technique — everything gradeable is asserted (schema,
-trace verdict, character counts, cost reaching the ledger, `:434-484`) and the
+trace verdict, character counts, cost reaching the ledger, `:435-485`) and the
 one residual quality question is answered by a deterministic weighted scorer
 rather than by a judge — and the two documents describe the same file from
 opposite ends.
+
+Re-checked 2026-10-31 at pumper@c436ec9: the anchors above are updated to that
+tree. The scorer, its four weights, the five mutations, the two 0.4 floors, the
+fixture-side ground-truth check and the changed-prompt control all hold
+unchanged. The one construct that moved is the preamble guard, and it moved
+toward the technique. Later on the same day as the earlier verification,
+`fcfd2fd` replaced `if base.preamble.is_none()` with a declared list,
+`RECORDED_PREAMBLE_MISSES = ["oh-grants-portal"]` (`:548`), and a fence test,
+`preamble_misses_are_exactly_the_ones_declared` (`:554-577`). The fence fails
+when a second recording starts opening with commentary, or when the declared
+one stops. Inside the control, an `assert_eq!` (`:621-628`) now requires the
+weak branch to be taken only by a declared miss. Every other case must lose
+exactly the 0.20 preamble weight (`:630-638`). So the weakening this section
+calls honest is still visible in the source, and it can no longer quietly cover
+a second case.

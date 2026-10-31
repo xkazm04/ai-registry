@@ -5,7 +5,7 @@ subject: test-harness
 technique: configuration-axes-cross-the-ladder
 stack: rust
 status: forged
-verified_on: 2026-09-17
+verified_on: 2026-10-31
 verified_against: rust@1.80
 ---
 
@@ -154,7 +154,7 @@ that enumerates `Cargo.toml`'s features against the feature values any
 tests; the second is what keeps the answer true after the next feature lands.
 
 The second half shipped as `scripts/check-test-feature-cells.mjs`
-(`backlog/c34`, `120b04bc0`), wired into `check` and `check:fast` as
+(`backlog/c34`, `2c1df01869`), wired into `check` and `check:fast` as
 `check:test-cells`, with its baseline seeded at today's 25 on the same
 two-sided convention as `check-command-feature-coverage.mjs` — a rise fails and
 so does a silent drop. The added test cell itself was deliberately not shipped:
@@ -180,3 +180,23 @@ miss.
 
 `check-gate-negative-controls.mjs` reports the new gate `ok` and holds at its
 pre-existing 23-against-21 failure, unchanged by the commit.
+
+Re-checked 2026-10-31 at personas@61029d7ae0. Every figure above was
+re-read at `91b684dfb` and holds there: the `ci.yml` lines, the 256 `ml` and
+105 `p2p` `#[cfg(feature = …)]` sites, the four gated modules with 12/7/4/2
+tests, and `twin.rs`'s ungated module at `:3121` with its 10 tests. The commit
+id for the shipped check is corrected above: `120b04bc0` resolves to nothing,
+and the check landed as `2c1df01869` (2026-09-17) with its baseline at the 25
+tests and four sites recorded here. **The central verdict is resolved at
+HEAD.** `7c452cd83f` (2026-10-24) added the test cell this document priced and
+left to the owner. The `desktop-full` leg of `rust-features` now runs
+`cargo test --workspace --lib --features desktop,ml` on Linux, with its
+timeout raised to 100 minutes for that leg. `scripts/test-feature-cells-baseline.json`
+is an empty list, and the self-test's "baseline records a real uncovered cell"
+assertion was rewritten to accept that. The gated population had grown to 27
+tests in five modules by then: `chunker` holds 13, and `companion/brain/retrieval.rs:946`
+adds 1. The project's runner also gained a `desktop,p2p` lane. So the
+statement that no `cargo test` enables `ml` or `p2p` is now false. What is
+still true: the new cell is Linux only, so `(windows, desktop-full)` is still
+in no test cell, and `scraper` and `test-automation` still carry no test cell.
+The check reports them clean because they gate no test code of their own.
