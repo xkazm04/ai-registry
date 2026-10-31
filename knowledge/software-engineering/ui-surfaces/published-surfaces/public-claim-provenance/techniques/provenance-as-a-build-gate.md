@@ -69,7 +69,8 @@ one wrong flag per week is argued about, a rule with ten is disabled, and a
 disabled rule protects nothing while looking like protection. A precise rule
 that catches most of the class outperforms a complete rule that is switched
 off, and the same reasoning governs how the rule is rolled out across an
-existing surface — see quality-gates' treatment of false-positive economics
+existing surface — see quality-gates'
+[false-positive-economics](../../../../engineering-process/standards-and-gates/quality-gates/techniques/false-positive-economics.md)
 for the general form.
 
 ## Satisfiers are file-scoped, and the exception is annotated

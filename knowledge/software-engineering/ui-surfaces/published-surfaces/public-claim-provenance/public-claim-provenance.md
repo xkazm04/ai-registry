@@ -132,11 +132,13 @@ be raised — belongs at the declaration site where both halves are visible, not
 at the render site where only the ratio is.
 
 The second is **the number that is not a number**: an empty catalog divided by
-an empty target. The visual survives this, because a zero-width bar looks
-exactly like honest zero progress, while the non-visual rendering emits
-garbage into an accessibility attribute. The defect ships to precisely the
-readers who cannot see that it is a defect, and no screenshot review will ever
-catch it. The general rule this instance teaches: **one condition must flip
+an empty target. The visual usually passes review, because the browser drops
+the non-numeric width and the bar falls back to whatever its stylesheet gives
+it, which looks like honest zero progress (or, for a block-level fill, like a
+finished one), while the non-visual rendering emits garbage into an
+accessibility attribute. The defect ships to precisely the
+readers who cannot see that it is a defect, and a screenshot review will
+rarely catch it. The general rule this instance teaches: **one condition must flip
 every dependent presentation together** — the count, the percentage, the
 accessible value, the bar geometry and the pluralised prose all read the same
 boolean or none of them do. A surface with five dependents on one condition

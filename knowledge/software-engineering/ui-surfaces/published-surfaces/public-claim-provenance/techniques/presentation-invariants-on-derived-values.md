@@ -14,10 +14,11 @@ use_when: [a live count is rendered against a hand-authored target, a progress b
 The moment one half of a displayed pair updates without a human, the pair can
 reach combinations nobody drew. The values are each individually correct; the
 *presentation* is not defined for their combination, and the rendering does
-something — clamps, overflows, or emits a non-number — with no error and no
-signal. These are the invariants that must be stated as rules and asserted
-where the pair is declared, because by the render site only the ratio is left
-and the two halves can no longer be compared.
+something — clamps, overflows, or emits a non-number — with no error and, at
+most, a warning in a development console nobody reading the page will see.
+These are the invariants that must be stated as rules and asserted where the
+pair is declared, because by the render site only the ratio is left and the
+two halves can no longer be compared.
 
 ## Every target sits at or above its live count
 
@@ -57,8 +58,11 @@ at pixel scale: "nothing to measure" and "measured, none of it done" are
 different facts, and the naive arithmetic spells them the same way or worse.
 
 The damage is asymmetric in a way worth internalising. The *visual* rendering
-usually survives: a bar of non-numeric width collapses to zero width, which
-looks exactly like honest zero progress, so every screenshot review passes.
+usually survives: a non-numeric width is an illegal value the browser ignores,
+so the bar falls back to its stylesheet width — typically zero, which looks
+exactly like honest zero progress, so every screenshot review passes. (A
+block-level fill with no other width rule renders full instead, which is a
+completion claim nobody made.)
 The *non-visual* rendering does not: the accessibility attribute that carries
 the value to assistive technology receives the garbage verbatim, and the
 surface becomes broken or nonsensical for precisely the readers who cannot see
@@ -70,7 +74,9 @@ the empty case — and the guard's comment says what it protects downstream, not
 merely that it protects something, because the next author will otherwise
 inline the division and rediscover the bug. Where the honest answer is "there
 is nothing here", the surface says that instead of rendering a zero-length bar
-that claims a measurement of nothing.
+that claims a measurement of nothing. Accessibility semantics already have this
+state: a progress bar whose value is indeterminate omits its current-value
+attribute rather than carrying a number.
 
 ## One condition flips every dependent presentation
 

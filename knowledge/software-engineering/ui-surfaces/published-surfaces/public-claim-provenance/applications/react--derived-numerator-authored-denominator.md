@@ -112,8 +112,9 @@ Two deviations, both instances of the technique's own warnings:
    module as the derived exports above, and two of them are typed counts:
    "Support for 15+ languages worldwide" (`roadmap-phases.ts:27`) and "40+
    service integrations built in" (`:30`). `LANGUAGES` holds fourteen entries
-   (`i18nStore.ts:16-44`), so the sentence claims more than the catalog four
-   lines of derivation away in the same file. Nobody sorted them because they
+   (`i18nStore.ts:16-44`), so the sentence claims more than the catalog it
+   describes, a few lines above a block in the same file that derives its own
+   figures. Nobody sorted them because they
    did not look like values.
 2. **The hero renders three provenances in one row.**
    `src/components/sections/HeroClient.tsx:37-42` builds `heroStats` from
