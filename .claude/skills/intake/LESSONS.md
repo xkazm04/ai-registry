@@ -12721,3 +12721,9 @@ applied here - one sighting, and the honest record is in the source note.
 
 - A game-motion technique that measures existing output needs no generator: the engine's headless editor reading the already-extracted asset (AnimPose in component space, read-only, no save) was a full experiment arm with the project's real clip, and it took two minutes. Check for the consuming engine project on the machine before filing a game apply row as simulation or "no local stack".
 - The earlier application named the gap at the app's checker (a TS function reading an authored notify); the live consequence was one repository over, in the engine's fallback for a montage with no notify. When a capture script re-sources an asset the game loads by path, grep the engine source for that path; the fallback that fires is the seam.
+
+## 2.18.0 - 2026-10-31 - apply:raid-group-greeting
+
+- A replay that takes an event's time from the generator measures the wrong window when the runtime moves the event. The first pass read the raid time from the regenerated population. The chat room had pushed the raid past its guards, so every "first minute" held zero raiders and read as 100% room share, a plausible extreme rather than an error. Anchor the clock to the event as it appears in the output (the first raider line), and treat a 100% or 0% class share as an instrument fault until the rows say otherwise.
+- The same pass counted any pick whose id it could not resolve as the favourable class. Carry an `unknown` count beside every classified count, and require it to be zero, before reading the split.
+- When a falsifying seam returns not-better, dump why the winners won (the picker's own reason tags) before writing the amendment. The verdict says the step did not hold. The tags said why: a second newness bonus the step never named. Only the tags made the boundary writable.
