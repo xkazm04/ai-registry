@@ -29,10 +29,26 @@ is staged, the secret scan always). Pre-push carries the expensive tier:
 `npx tsc --noEmit` (~218s), the census ratchet, i18n coverage, evals, and
 the `.ai` conformance pair.
 
+Re-checked 2026-10-31 at personas@61029d7ae0. The header's rung budgets
+are still there word for word, and both rungs still exist, but their
+contents moved. Pre-commit is still four jobs and a different four:
+`eslint-staged`, `gitleaks-staged`, `rustfmt-staged` (glob `*.rs`) and
+`i18n-escape-integrity` (glob on `en.json` only); the two translation
+gates were switched off on 2026-10-25 when the app went English-only.
+Pre-push now answers typecheck and census in one job through the warm
+gate daemon (`typecheck-and-census`, routed 2026-09-18, with a cold
+fallback that keeps the same exit code), adds `bridge-methods-join`, and
+keeps evals and the `.ai` pair; i18n coverage is off for the same
+reason. `npm run check` is now eighteen `&&`-chained constituents, not
+nine, and `check:corpus` sits at step 10 of 18. The measurements below
+are dated and stand as measured.
+
 ## A rung placement decision with its reasoning attached
 
 The census job's comment in `lefthook.yml` is a model of explicit ladder
-design. It was added to pre-push in 2026-08-16 because the check "was
+design (at HEAD the comment is kept as history above the merged
+`typecheck-and-census` job, because "the reason the census is on pre-push
+at all is recorded nowhere else"). It was added to pre-push in 2026-08-16 because the check "was
 enforced NOWHERE: `census:check` lives only inside `npm run check`, which
 nothing runs automatically" — and the author "pushed past a red one" as a
 result. Placement: "pre-push and not pre-commit, deliberately: the walk is
@@ -69,6 +85,14 @@ demanded a rung and the budget math that chose it.
   `scripts/census/check-corpus-integrity.mjs`).
 
 ## Control placement, stated as a thesis and shipped as a matrix
+
+Re-checked 2026-10-31: `src/lib/onboarding/tracks.ts` and
+`src/lib/standard/wiring.ts`, which this section and the next cite, do
+not exist in the personas tree at HEAD, and no path ending in either
+name appears anywhere in its history. The two files most likely belong
+to another fleet repository that was not available to this re-check, so
+the quotes, the `ControlSpec` and `CONTROL` anchors and the weekly
+`schedule` detail below are unverified here, not refuted.
 
 The onboarding generator (`src/lib/onboarding/tracks.ts:1`) opens by
 arguing the placement decision rather than assuming the default:
@@ -126,7 +150,9 @@ two different severities by construction.
 The pre-commit lint and the merge-rung lint both run the same
 `eslint.config.js` — rule content has a single source; the rungs differ
 only in scope and flags (`--quiet --max-warnings 99999` at commit, bare
-`eslint src/` in the full chain — neither of which, measured by fault
+`eslint src/` in the full chain (both now also pass `--cache` with
+their own cache locations, and the commit rung adds `--no-warn-ignored`;
+re-checked 2026-10-31) — neither of which, measured by fault
 injection in `commit-path-gates.md`, lets a warn-level rule fail).
 Severity is where this ladder's single-authority story ends and the
 severity-by-construction technique takes over.

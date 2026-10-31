@@ -4,7 +4,7 @@ type: application
 subject: quality-gates
 technique: gate-liveness
 stack: node
-verified_on: 2026-08-18
+verified_on: 2026-10-31
 ---
 
 # Gate liveness in this repo's Node checker scripts
@@ -35,6 +35,19 @@ absent)." The implementation keeps three outcomes distinguishable:
 Note the population floor: not just `leaves.length > 0` but
 `leaves.length < 200` against an expected ~247. A broken walker that
 still finds *some* nodes is caught by the bound, not just by zero.
+
+Re-checked 2026-10-31 at personas@61029d7ae0: the population floor is
+gone. The situation spine it walked was retired on 2026-09-30 with the
+leaf-composition campaign (`b6674407df`), and the spine-walk check, with
+its `< 200` bound and `THE WALKER IS BROKEN, NOT THE SPINE.`, went with
+it. The could-not-run tier now asserts different instruments, each by
+zero rather than by a bound: required inputs present, at least one
+golden-path file (`THE READER IS BROKEN.`), at least one markdown link
+across the corpus (`THE LINK MATCHER IS BROKEN.`), and at least one rule
+in `rules.json` (`THE PARSER IS BROKEN.`), all at exit 2. The three-way
+exit vocabulary holds; the bounded-floor example above describes the
+checker as it stood on 2026-08-18 and has no current instance in this
+file.
 
 ## The portability incident, preserved at the fix site
 
@@ -68,6 +81,12 @@ CI workflows currently run no secret scan, so on any machine without the
 tool the D9 control is opt-in. The wrapper is a liveness improvement over
 its predecessor on the display channel and unchanged on the enforcement
 channel.
+
+Re-checked 2026-10-31 at personas@61029d7ae0: unchanged. The wrapper
+still prints the SKIPPED line and exits 0 when the probe fails, the
+pre-commit job still runs it, and no workflow under `.github/workflows/`
+runs gitleaks or any other secret scan, so the control is still opt-in
+on a machine without the binary.
 
 ## The invocation channel, measured
 

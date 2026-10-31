@@ -4,7 +4,7 @@ type: application
 subject: quality-gates
 technique: blocking-by-input-determinism
 stack: python
-verified_on: 2026-09-20
+verified_on: 2026-10-31
 verified_against: python@3.14
 ---
 
@@ -102,3 +102,47 @@ the gate and corrosive to the doctrine, because a contributor reading the
 file learns that the lane is still ungated. It is the projection failure this
 subject's [policy-projection](../techniques/policy-projection.md) names,
 pointing in the direction that under-reports enforcement.
+
+Re-checked 2026-10-31 at gravitone-gcloud@3c66e32e: **this drift is
+resolved.** The docstring was rewritten on 2026-10-08 (`c866f882`) and
+now opens "The foundry pipeline's own gate" and states under WHAT IT IS
+that it is "A BLOCKING gate: the `python` job in
+.github/workflows/gates.yml runs it." The README-promise quote and the
+stdlib-only rule are unchanged.
+
+## Re-checked 2026-10-31 at gravitone-gcloud@3c66e32e
+
+The header quotes cited above are all still present and `setup-python`
+is still pinned to `3.14`. The job has grown in three ways, and one of
+them moved the projection drift to a new place.
+
+- **The job now runs `npm ci`.** Since 2026-10-20 (`06db3b41`) the
+  `python` job sets up Node and installs from the committed lockfile,
+  because the acquire case writes through the kernel store door, which
+  spawns a Node runner; without the packages it died with
+  `ERR_MODULE_NOT_FOUND`, red on main from 2026-10-19. The step comment
+  says "Input stays pinned by the lock", so the blocking grade still
+  holds on the input axis, and the job's inputs are now the tree, the
+  lockfile and the pinned interpreter rather than the tree and the
+  interpreter alone. The header, though, still says the job needs
+  "`setup-python`, and no `npm ci` at all", as does the comment above the
+  job. That is the same under-reporting projection drift as the one
+  resolved above, one file over.
+- **The unpinned install has an advisory home.** A
+  `selftest_pillow.py` step runs `pip install pillow numpy` under
+  `continue-on-error: true`, and its comment cites the rule above: "the
+  install is unpinned, which is exactly what the note above says may not
+  block." The promotion trigger was honoured by splitting the job rather
+  than by downgrading it.
+- **A second blocking step,** `python -m compileall -q pipeline/foundry`,
+  byte-compiles every tracked `.py` there, on the same stdlib-only
+  argument.
+
+`selftest.py` is now 1,582 lines and lists 47 cases in `TESTS`; its
+imports add `re` and `subprocess` at module level and a few more stdlib
+modules inside cases, still no third-party package. The step is still
+named "5 cases", and the 2026-09-06 blocked-import verification covered
+five cases; nothing in the tree records it being re-run over the
+current 47. The tree now
+tracks 118 `.py` files; the 22 under `pipeline/foundry/` come to 5,844
+lines.

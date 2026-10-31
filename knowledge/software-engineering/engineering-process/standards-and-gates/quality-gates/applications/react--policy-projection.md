@@ -5,7 +5,7 @@ subject: quality-gates
 technique: policy-projection
 stack: react
 status: forged
-verified_on: 2026-08-29
+verified_on: 2026-10-31
 verified_against: react@19
 ---
 
@@ -155,6 +155,46 @@ healthy" (`adapters.ts:36-43`), and `totalCount` starts `null` for the same
 reason — which is the same instinct one layer over: a bound and an unknown
 are both facts about the *measurement*, and both have to survive into the
 projection or the surface lies confidently.
+
+## Re-checked 2026-10-31 at personas@61029d7ae0
+
+Every citation above was read at the pinned `2b5e24223` and holds there.
+At HEAD two of the four instances survive and two do not, so the "same
+decision made four times" count is a measurement of the pinned tree, not
+of today's.
+
+- **The template catalog no longer has a cap to disclose.** On
+  2026-10-19 (`cc8b6d9eeb`) `useDesignReviews` stopped fetching review
+  rows at all, because its one caller read none of them: `REVIEW_LIST_LIMIT`,
+  the capped page and `isTruncated` are gone, and the hook returns only
+  the count-query `totalCount` (`null` until answered). The test file now
+  asserts the TRUE total (124) and that no rows are fetched; the 50-row
+  over-the-bound fixture went with the page. The cap was removed rather
+  than disclosed, which settles the "disclosure is not always reachable"
+  limit below by deletion. The render-site comment
+  (`DesignReviewsPage.tsx:49-53`) still names `REVIEW_LIST_LIMIT`, a
+  constant that no longer exists anywhere in `src/`.
+- **The triage-deck test is gone.** `deckHonestEndings.test.tsx` was
+  deleted on 2026-10-06 (`f5a1c27d2b`, retiring what the Decision Center
+  replaced). The came-back-full fact itself survives in
+  `useUnifiedTriage.ts:430`, and the same wording now appears at two
+  further sites, `ActivityTab.tsx:61` ("their tab count is a floor, not a
+  total") and `useProjectPulse.ts:49` (`truncated`, with a test in
+  `sub_projects/__tests__/projectPulse.test.tsx`), which were not read
+  past those lines.
+- **The persona tile holds, at moved anchors:** the doc comment at
+  `personaStats.ts:79-82`, the `TrustPercent` fields at `:87-90`, the
+  return at `:96`; the consumer at `PersonaOverviewWidget.tsx:173` (tone)
+  and `:210-211` (the clamped `Hint`); the test pins at
+  `personaStats.test.ts:22-23`.
+- **The repository adapter holds, at moved anchors:** the disclosure doc
+  at `adapters.ts:24-30` (now also saying in place why `openIssues` is
+  marked capped), `openPrsCapped` at `:136`, `commitsLastWeekCapped` at
+  `:149`, `openIssuesCapped: openPrsCapped` at `:164` with its reason at
+  `:162-163`, `unresolvedIssues: number | null` at `:36-40`, and the
+  render suffix at `ProjectOverviewPage.tsx:332`, now applied to all three
+  counts. The two-copies-of-100 limit still holds, at `:125` and `:136`,
+  and is repeated in the GitLab branch (`:195`/`:220`).
 
 ## What this realization cannot do or prove
 

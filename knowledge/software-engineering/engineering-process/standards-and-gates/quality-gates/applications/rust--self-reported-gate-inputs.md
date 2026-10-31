@@ -4,7 +4,7 @@ type: application
 subject: quality-gates
 technique: self-reported-gate-inputs
 stack: rust
-verified_on: 2026-09-23
+verified_on: 2026-10-31
 ---
 
 # A review council's result file, and the door that will not take its word
@@ -56,3 +56,15 @@ The discriminating pair is `refuses_a_result_whose_own_numbers_disagree` beside
 `a_difference_inside_the_tolerance_is_not_a_disagreement`: the first alone is
 passed by a door that refuses everything, the second alone by one that checks
 nothing.
+
+Re-checked 2026-10-31 at personas@61029d7ae0: the door, its three-part
+header, the `1e-6` tolerance, the "states overall … but its own
+dimensions give …" refusal, the derived `floor`/`floor_hit`/`advisory`,
+the rubric constants and their brief-pinning test in `council.rs`, and
+all four named tests still stand; the rounding case is
+`a_not_applicable_dimension_leaves_both_sums`, and the branch table is
+`the_pass_rule_branch_table`. One construct widened: since 2026-10-07
+(`61f95dc81c`) the round cap is counted per mode, so a fourth lite round
+stalls without touching the full council's count
+(`a_lite_round_4_stalls_without_touching_the_full_count`). The cap is
+still read first.
