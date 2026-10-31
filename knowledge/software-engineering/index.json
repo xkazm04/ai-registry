@@ -5,7 +5,7 @@
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 243,
   "techniques": 1957,
-  "applications": 1454,
+  "applications": 1455,
   "laws": 16,
   "categories": [
    "ui-surfaces",
@@ -30556,9 +30556,9 @@
    "subcategory": "language-runtime",
    "status": "forged",
    "file": "knowledge/software-engineering/backend-platform/language-runtime/register-bytecode-execution/register-bytecode-execution.md",
-   "digest": "sha256-b2:e9d7b45e69f60087",
-   "revision": 3,
-   "changedAt": "2026-09-04",
+   "digest": "sha256-b2:7a8111a0a2ae3aa6",
+   "revision": 4,
+   "changedAt": "2026-10-31",
    "techniques": [
     {
      "slug": "dce-refuses-hoisted-declarations",
@@ -30686,6 +30686,13 @@
     }
    ],
    "applications": [
+    {
+     "stack": "node",
+     "technique": "dce-refuses-hoisted-declarations",
+     "file": "knowledge/software-engineering/backend-platform/language-runtime/register-bytecode-execution/applications/node--dce-refuses-hoisted-declarations.md",
+     "verified_on": "2026-10-31",
+     "verified_against": "node@20"
+    },
     {
      "stack": "rust",
      "technique": "fixpoint-pass-with-iteration-cap",
