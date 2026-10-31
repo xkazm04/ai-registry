@@ -5,7 +5,7 @@
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 243,
   "techniques": 1957,
-  "applications": 1458,
+  "applications": 1459,
   "laws": 16,
   "categories": [
    "ui-surfaces",
@@ -33480,9 +33480,9 @@
    "subcategory": "model-workflow-contracts",
    "status": "forged",
    "file": "knowledge/software-engineering/backend-platform/model-workflow-contracts/self-describing-model-packages/self-describing-model-packages.md",
-   "digest": "sha256-b2:d22f4172adbc5004",
-   "revision": 1,
-   "changedAt": "2026-09-03",
+   "digest": "sha256-b2:bd272d2a3cc87197",
+   "revision": 2,
+   "changedAt": "2026-10-31",
    "techniques": [
     {
      "slug": "advisory-version-floors",
@@ -33570,6 +33570,13 @@
     }
    ],
    "applications": [
+    {
+     "stack": "next",
+     "technique": "advisory-version-floors",
+     "file": "knowledge/software-engineering/backend-platform/model-workflow-contracts/self-describing-model-packages/applications/next--advisory-version-floors.md",
+     "verified_on": "2026-10-31",
+     "verified_against": "next@16"
+    },
     {
      "stack": "python",
      "technique": "config-frozen-artifact",
