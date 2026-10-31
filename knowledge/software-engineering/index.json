@@ -5,7 +5,7 @@
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 243,
   "techniques": 1957,
-  "applications": 1451,
+  "applications": 1452,
   "laws": 16,
   "categories": [
    "ui-surfaces",
@@ -24776,9 +24776,9 @@
    "subcategory": "language-runtime",
    "status": "forged",
    "file": "knowledge/software-engineering/backend-platform/language-runtime/native-guest-interop/native-guest-interop.md",
-   "digest": "sha256-b2:24dff9c7b931faef",
-   "revision": 3,
-   "changedAt": "2026-10-22",
+   "digest": "sha256-b2:6124db5a2085100a",
+   "revision": 4,
+   "changedAt": "2026-10-31",
    "techniques": [
     {
      "slug": "aligned-native-data-cell",
@@ -24878,6 +24878,13 @@
      "technique": "async-native-as-promise",
      "file": "knowledge/software-engineering/backend-platform/language-runtime/native-guest-interop/applications/rust--async-native-as-promise.md",
      "verified_on": "2026-10-22",
+     "verified_against": "rust@1.96"
+    },
+    {
+     "stack": "rust",
+     "technique": "class-from-impl-with-borrow-warning",
+     "file": "knowledge/software-engineering/backend-platform/language-runtime/native-guest-interop/applications/rust--class-from-impl-with-borrow-warning.md",
+     "verified_on": "2026-10-31",
      "verified_against": "rust@1.96"
     },
     {
