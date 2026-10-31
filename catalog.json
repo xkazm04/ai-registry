@@ -374,16 +374,16 @@
     },
     {
       "name": "hackathon",
-      "version": "1.2.0",
+      "version": "1.2.1",
       "category": "workflow",
       "path": "skills/hackathon/SKILL.md",
-      "contentHash": "sha256-n1:cf85b6feb500de05",
+      "contentHash": "sha256-n1:cbf4a509f706894a",
       "adopters": [],
       "invokes30d": 0,
       "reportedInvokes": 0,
-      "lessons": 2,
+      "lessons": 3,
       "lessonsPath": "skills/hackathon/LESSONS.md",
-      "lessonsHash": "sha256-n1:98945c17e5d4fe2c",
+      "lessonsHash": "sha256-n1:1505a762af39f53f",
       "usageContributors": [],
       "runs30d": 0,
       "outcomes30d": {},
@@ -1140,7 +1140,7 @@
     "skills": 44,
     "practices": 8,
     "memory": 10,
-    "lessons": 376
+    "lessons": 377
   },
   "bundles": [
     {

@@ -129,9 +129,17 @@ export function fundingOutcome({ billing, outcome, errors = [] }) {
  * at once. A rate limit is often transient (the CLI already retried), so the first one resumes on
  * the key after a pause and only a second in a row for the same entry switches. Otherwise, credit
  * the operator wants spent would go unspent.
+ *
+ * `budget-reached` means ONE session spent its share of the night's cap (the cap split across the
+ * entries running at once), not that the cap is spent. It switches only when what is left of the cap
+ * is under SHARE_FLOOR_USD. Otherwise the entry resumes on the key with a fresh share of what is
+ * left. Without this, the first entry to spend its share would hand every entry to the subscription
+ * with most of the cap unspent.
  */
-export function shouldSwitch(outcome, previousOutcome = null) {
+export const SHARE_FLOOR_USD = 1;
+export function shouldSwitch(outcome, previousOutcome = null, { spentUsd = null, capUsd = null } = {}) {
   if (!KEY_OUTCOMES.has(outcome)) return false;
+  if (outcome === 'budget-reached' && capUsd !== null && spentUsd !== null) return capUsd - spentUsd < SHARE_FLOOR_USD;
   if (outcome !== 'key-limited') return true;
   return previousOutcome === 'key-limited';
 }

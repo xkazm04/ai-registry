@@ -19,7 +19,7 @@ import { planSession, planSessionWhy, countedSessions, isoLocal, hhmm, humanDura
 import { renderTemplate, demoteHeadings, markdownToHtml,boardHtml, boardMarkdown, ideaMarkdown, escapeHtml } from '../scripts/lib/render.mjs';
 import { seatKey, seatContributions, upsertSeatLedger, seatTotals, renderSeatsMd, upsertIndexRow, renderHackathonNote } from '../scripts/lib/ledger.mjs';
 import { addExcludeLine } from '../scripts/lib/git.mjs';
-import { validatePacks, packMarkdown, shortlistLabels, entryIdeaLabel, PACK_LICENSE, pickAdvice } from '../scripts/lib/packs.mjs';
+import { validatePacks, packMarkdown, shortlistLabels, sharedIdeas, entryIdeaLabel, PACK_LICENSE, pickAdvice } from '../scripts/lib/packs.mjs';
 import { ramCheck, reaperNote, effectiveSpec } from '../scripts/lib/preflight.mjs';
 import { acquireLock, withFileLock } from '../scripts/lib/lock.mjs';
 import { parseFusion, fusionBase, verdictLabel, wrapPlan } from '../scripts/lib/verdict.mjs';
@@ -554,6 +554,16 @@ test('pick advice: more picks than seats are steered to packs', () => {
   assert.equal(pickAdvice(1, 2).refuse, false);
 });
 
+test('sharedIdeas counts entries, not commas in a pack title', () => {
+  const state = { shortlist: [
+    { entry: 'e1', title: 'A real AI agent, fenced', ideas: ['B2'] },
+    { entry: 'e2', title: 'Say it, then see it', ideas: ['A5', 'B5'] },
+    { entry: 'e3', title: 'Broad sweep', ideas: ['B5', 'A7'] },
+  ] };
+  assert.deepEqual(sharedIdeas(state), { B5: ['e2', 'e3'] });
+  assert.deepEqual(sharedIdeas({ shortlist: [{ entry: 'e1', idea: 'A3' }] }), {});
+});
+
 // ---------------------------------------------------------------- funding (credit night)
 
 const KEY = 'sk-ant-test-0000';
@@ -631,6 +641,10 @@ test('funding outcome: key failures are their own outcomes; only a second rate l
   assert.equal(shouldSwitch('key-limited', 'completed'), false);
   assert.equal(shouldSwitch('key-limited', 'key-limited'), true);
   assert.equal(shouldSwitch('errored'), false);
+  // budget-reached is one session's share of the cap: the night switches only when the cap itself is spent.
+  assert.equal(shouldSwitch('budget-reached', null, { spentUsd: 51, capUsd: 255 }), false, 'one share spent, $204 left: resume on the key');
+  assert.equal(shouldSwitch('budget-reached', null, { spentUsd: 254.5, capUsd: 255 }), true, 'under the $1 floor: switch');
+  assert.equal(shouldSwitch('budget-reached', null, { spentUsd: 260, capUsd: 255 }), true);
   assert.match(switchReason('credit-exhausted', { seat: 'e2', n: 3 }), /out of credit \(e2 session 3\)/);
 });
 
