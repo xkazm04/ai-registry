@@ -23,10 +23,14 @@ so nobody can defend.
 The load-bearing distinction is between numbers that are *measurements on a
 known scale* and numbers that are *weights the merge will trust*:
 
-- **Bounded scores are clamped.** A quality of 1.4 or a pass rate of −0.2
-  on a `[0,1]` scale is a rounding or serialization artifact; clamp into
-  range and keep the entry. Rejecting an otherwise-sound contribution over
-  float dust punishes honest contributors for their toolchains.
+- **Bounded scores are clamped within float dust, rejected beyond it.** A
+  quality of 1.0000001 or a pass rate of −0.0000002 on a `[0,1]` scale is a
+  rounding or serialization artifact; clamp into range and keep the entry.
+  Rejecting an otherwise-sound contribution over float dust punishes honest
+  contributors for their toolchains. A quality of 1.4 is not dust: it is a
+  scale error (a 0–10 rubric reported into a `[0,1]` field), and clamping
+  it would publish an 8.5 as a perfect 1.0. Set a small tolerance band as a
+  named constant and refuse anything outside it as implausible.
 - **Counts are rejected.** A case count is the weight this entry will carry
   in every merged row it touches. Clamping an implausible count to the
   ceiling *launders* it — a fabricated billion becomes a credible million,

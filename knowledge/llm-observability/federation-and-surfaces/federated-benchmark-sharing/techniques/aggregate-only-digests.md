@@ -28,7 +28,8 @@ One row per `(provider, model, task category)` bucket, carrying only:
 - **Public model identity** — provider and model name, the things the
   leaderboard exists to compare. These are the only names on the wire.
 - **Aggregate measures** — mean quality and pass rate on bounded scales,
-  bucketed mean cost, latency percentiles pooled across runs.
+  bucketed mean cost, latency percentiles from the bucket's merged latency
+  distribution.
 - **Evidence shape** — case count, run count, and the between-run variance of
   quality, so the merge can weight and interval the row honestly.
 - **Trust metadata from closed vocabularies** — judge family, rigor facets,
@@ -49,7 +50,16 @@ a schema version, a generation timestamp, and the consent scope disclosure
   bucket has no between-run variance — the field is null, not zero. A zero
   variance is a claim of perfect agreement; a null is an admission, and the
   merge downstream treats the two entirely differently (a fabricated zero
-  would tighten a confidence interval it has no right to tighten).
+  would tighten a confidence interval it has no right to tighten). The
+  same holds per run: a run that recorded no pass rate stays out of the
+  bucket's pass rate rather than entering as zero, which a defaulting read
+  does silently ([one consumer shipped exactly that](../applications/rust--aggregate-only-digests--absent-measure.md)).
+- **Merge distributions, not percentiles.** A p95 of p95s is not a p95, and
+  no weighting repairs it. Build each bucket's percentiles from a merged
+  latency histogram or a mergeable quantile sketch (DDSketch is designed so
+  that combined sketches are as accurate as one built over all the data),
+  and give the hub the same choice: merge the sketches, or publish each
+  source's percentiles side by side with no pooled figure.
 - **Every schema change is additive and defaulted.** A digest network has
   contributors on every version simultaneously, forever. New fields must
   deserialize as absent/unknown on old payloads, and the hub must state the

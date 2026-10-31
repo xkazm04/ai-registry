@@ -36,7 +36,11 @@ the field an attacker inflates to own a row.
 The unit of contribution is a **digest**: a set of rows keyed by
 `(provider, model, task category)`, each carrying aggregate quality, pass
 rate, bucketed cost, latency percentiles, a case count, a run count, and a
-between-run variance. Nothing else. No prompts, no responses, no project
+between-run variance. Nothing else. Percentiles are the one measure that does
+not average: the median of medians is not the median, so a bucket's percentiles
+are computed from a merged latency histogram or mergeable quantile sketch, never
+from the runs' own percentiles, and the hub combines contributors the same way
+or publishes per-source percentiles with no pooled figure. No prompts, no responses, no project
 identifiers, no customer data, no free-form names — the digest is built from
 run scorecards that never contained raw text in the first place, so the
 privacy property is structural, not a redaction step that can be forgotten
@@ -72,8 +76,9 @@ classes recur:
 k-anonymity applies twice, and confusing the two floors is the most common
 design error in the space
 ([k-anonymity-cases-and-sources](./techniques/k-anonymity-cases-and-sources.md)).
-A **case floor** (published health-statistics practice puts minimum cell
-sizes anywhere from 3 to 30; pick one and hold it) is enforced by the
+A **case floor** (published health-statistics policy suppresses cells of
+about ten or fewer: CMS cells of 1 to 10, Illinois DPH cells of 1 to 9; pick
+one and hold it) is enforced by the
 contributor: a bucket aggregating fewer cases than the floor is *dropped*,
 because a rare task with three cases fingerprints the one organization that
 runs it. A **source floor** is enforced by the hub: a merged row backed by

@@ -21,9 +21,11 @@ A bucket is published only when it aggregates at least `k_cases` scored
 cases. The threat it addresses is the rare task: an evaluation category only
 one organization runs, with a handful of cases, is a fingerprint of that
 organization no matter how aggregate its numbers are. Statistical disclosure
-practice in regulated domains puts minimum cell sizes between 3 and 30;
-pick a default in that range, let the contributor raise it, and clamp it to
-at least 1 so a misconfiguration cannot mean "no floor".
+policy in health statistics suppresses small cells: CMS forbids reporting any
+cell of 1 to 10, and Illinois DPH avoids publishing cells of 1 to 9 and, when
+datasets are combined, follows the most stringent contributing rule. Anchor
+the default to those named thresholds, let the contributor raise it, and
+clamp it to at least 1 so a misconfiguration cannot mean "no floor".
 
 Below the floor, the bucket is **dropped**, not flagged — this is the one
 place where suppression beats disclosure, because the whole point is that

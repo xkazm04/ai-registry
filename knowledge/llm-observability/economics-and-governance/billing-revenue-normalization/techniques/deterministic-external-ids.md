@@ -71,7 +71,10 @@ technique exists to make unnecessary.
   whichever arrived last, so a second partial refund or a late redelivery
   understates it. Choose one authoritative grain per fact: either key each
   delta on its own object id and ignore the cumulative announcement, or keep
-  the shared key and make the upsert monotone for that figure. Replayed over
+  the shared key and make the upsert monotone for that figure. The monotone
+  option keeps the final refunded total and loses when each partial refund
+  happened, so it is wrong wherever revenue is recognized by month; there,
+  key each delta. Replayed over
   every delivery order of three partial refunds, the shared key was right in
   120 of 720 orders (both events), 0 of 720 (delta only).
 - When an object genuinely has no provider id (rare; some manual-entry

@@ -40,7 +40,10 @@ Implementation details that are not details:
   values map to zero *at this boundary* — on the wire, where a sentinel is
   safer than a NaN. (Internally the rule is the opposite: an unpriceable
   cost is null, never zero. The wire format's zero is a floor on published
-  garbage, not an accounting statement.)
+  garbage, not an accounting statement.) A bucket whose cost was never
+  priced is different: omit its cost or mark it unknown, never zero. A
+  published zero ranks the model as free; an absent cost ranks it as
+  unmeasured.
 - **Kill float residue after rounding.** Divide-and-multiply rounding
   leaves representation noise (`0.0030000000000000005`); a value that is
   *supposed* to be a clean band member must serialize as one, or the noise
