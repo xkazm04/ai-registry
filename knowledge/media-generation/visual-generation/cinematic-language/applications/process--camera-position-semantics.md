@@ -21,8 +21,8 @@ in gravity's dojo lane (`gravitone-gcloud`, HEAD `51c0eea`).
 ## The instrument
 
 - **Generator:** Flux 2 dev (fp8 mixed) through a local ComfyUI graph —
-  `pipeline/foundry/forge.py:187`, driven per pair by
-  `pipeline/foundry/dojo_pairs.py:87`. Seed-matched, 1280×720, 20 steps.
+  `pipeline/foundry/forge.py:212`, driven per pair by
+  `pipeline/foundry/dojo_pairs.py:84-89`. Seed-matched, 1280×720, 20 steps.
   One model family; nothing here is a cross-model result unless a row
   says so.
 - **Two judges, independently.** A local vision model (`qwen3.8:27b`)
@@ -113,8 +113,18 @@ than a general law, because that is exactly the size of the evidence.
 Only the two unanimous rules were re-run elsewhere. On a hosted image
 model (Nano Banana 2, no seed available, so k=2 repeats per arm instead
 of a seed match), *what stays dark* and *counted performance beats* both
-held at 0.75 pick rate for about $1.62 — `.claude/dojo/config.md:233`.
+held at 0.75 pick rate for about $1.62 — `.claude/dojo/config.md:273-276`.
 The five non-unanimous rows, the diagonal and the light layer among
 them, remain single-stack results. Read every table number above as
 "true of one diffusion model family on these dates" until a second stack
 says otherwise.
+
+Re-checked 2026-10-31 at gravitone-gcloud@fd09c06: the code and config
+anchors hold at the line numbers now given (the ComfyUI graph is
+`flux_workflow`, still loading `flux2_dev_fp8mixed`; the dojo's two-stack
+table and the Nano Banana transfer entry are unchanged in substance). The
+`foundry-out/training/...` cycle, readback and verdict files are run
+output that the repository ignores (`.gitignore` excludes `/foundry-out/`),
+so a checkout cannot resolve them; the measured rows above are left as the
+history they are, and this document's `verified_on` stays where it was
+until those artifacts are read on the machine that holds them.

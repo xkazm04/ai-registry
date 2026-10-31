@@ -5,7 +5,8 @@ subject: image-prompt-composition
 technique: two-block-style-and-action
 stack: react
 status: forged
-verified_on: 2026-08-19
+verified_on: 2026-10-31
+verified_against: react@19
 ---
 
 # React/TypeScript: a one-function prompt compiler
@@ -21,8 +22,8 @@ after one" (`lib/stylePrompt.ts:1-19`).
 
 `compileStyleBlock(b: StyleBlock)` (`lib/stylePrompt.ts:30-40`) renders the
 project's locked style from structured data: technique sentence, subject
-vocabulary sentence, palette, finish. The style is data (`StyleBlock` from
-`lib/themes`), so a project edits its theme in one place and every
+vocabulary sentence, palette, finish. The style is data (`StyleBlock`, now imported from
+`@gt/catalog/style` at `lib/stylePrompt.ts:21`), so a project edits its theme in one place and every
 subsequent frame inherits it.
 
 Finding 1 in the header is the law made executable: "THE STYLE BLOCK IS
@@ -78,3 +79,15 @@ an unconditional constraint constant, and exported budget constants. Any
 React (or plain TypeScript) generation pipeline can adopt it verbatim; the
 discipline is not the strings but the fact that no call site can assemble a
 prompt without going through the function that restates the whole contract.
+
+Re-checked 2026-10-31 at gravitone-gcloud@fd09c06: `lib/stylePrompt.ts` is
+still 67 lines and every anchor above lands on the same text; the producers
+that draw plates call `compilePrompt` (`lib/producers/frames.ts:31`,
+`still.ts:10`, `style.ts:52`). One qualification to "the one compiler": the
+style half now has a second spelling, `compileStyleBlock` in
+`packages/domain/src/style.ratchet.ts:93-98`, declared "byte for byte" a copy
+of this one because a proof's recorded block digest is taken over these
+words. The two are held equal by a test over the six presets
+(`tests/next-server/style-ratchet-v1.test.ts:24`), not by construction, so
+"no call site can assemble the style half outside this module" is now true
+by test rather than by API shape.

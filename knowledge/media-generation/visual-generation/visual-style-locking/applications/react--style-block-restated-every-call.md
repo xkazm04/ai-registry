@@ -5,7 +5,7 @@ subject: visual-style-locking
 technique: style-block-restated-every-call
 stack: react
 status: forged
-verified_on: 2026-08-27
+verified_on: 2026-10-31
 verified_against: react@19
 ---
 
@@ -52,7 +52,7 @@ approved-reference-sheet discipline.
 
 ## Labeling references and translating negatives
 
-The provider adapter (`lib/imaging/providers/google.ts:337-347`) compiles
+The provider adapter (`lib/imaging/providers/google.ts:439-449`) compiles
 the contract into what the vendor accepts. `buildPrompt` prepends, before
 any image part, an explicit role statement:
 
@@ -63,7 +63,7 @@ any image part, an explicit role statement:
  their visual language.`
 ```
 
-The comment names why (`google.ts:327-335`, `:160-165`): "attached images
+The comment names why (`google.ts:398-406`, `:180-184`): "attached images
 are ambiguous by default: the model has no way to know whether it is being
 shown a subject to redraw or a look to imitate, and it guesses 'subject'" —
 an unlabeled reference on a style-lock request returns "the previous frame's
@@ -115,3 +115,23 @@ lesson for the technique: "every call goes through one compiler" governs the
 *text* half by construction, but the *image* half rides a separate optional
 field, and an optional field is where the contract leaks. The pipeline's
 compiler owns the prompt; nothing owned the attachment.
+
+## Re-checked 2026-10-31 at gravitone-gcloud@fd09c06
+
+The knowledge-base anchors (`VISUAL-STYLE.md:18-31`, `:37-50`), the adapter's
+labelling clause and exclusion translation, and the `docs/imaging.md:145-178`
+measurement all hold. The playground they were read through does not:
+`app/library/Playground.tsx` was removed with the v1 library, and with it
+`MAX_REFS` and `IMAGES_PER_RUN`. The window-versus-send-count discipline
+survives in the shared ratchet instead — `PROOF_CAP = 14` beside
+`SEND_REFS = 4`, plus `PINNED_REFS = 2` founding approvals that every
+generation keeps sending (`packages/domain/src/style.ratchet.ts:52-59`), and
+the adapter still slices at the model's 14 (`google.ts:176`). The compiler is
+unchanged at `lib/stylePrompt.ts:61-63` and the production producers call it
+(`lib/producers/frames.ts:31`, `still.ts:10`, `style.ts:52`). The
+2026-08-27 lesson above repeated itself after that date: the Phase 4 server
+producer drew every plate in the first preset and sent no references, with
+nothing reporting it, until `packages/producers/src/frames/look.ts` resolved
+the project's style through the store and made `styleRefs` the one
+reference selection (`look.ts:17-22`, `:29-34`). The image half had leaked
+again through the same optional field.

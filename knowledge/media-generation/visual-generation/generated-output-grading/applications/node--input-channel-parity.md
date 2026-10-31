@@ -5,8 +5,8 @@ subject: generated-output-grading
 technique: input-channel-parity
 stack: node
 status: forged
-verified_on: 2026-09-04
-verified_against: node@22
+verified_on: 2026-10-31
+verified_against: node@24
 applied: code
 ab_verdict: better
 proof: structural-only
@@ -14,25 +14,26 @@ proof: structural-only
 
 # Node — the channel declaration one dimension already had, and the one it did not
 
-The witness for `node@22` is the CI workflow's own `node-version: 22`
-(`.github/workflows/gates.yml:180,274`), not a guess: it is the version the
+The witness for `node@24` is the CI workflow's own `node-version: 24`
+(`.github/workflows/gates.yml:252,440`; both pins read 22 when this was first
+written), not a guess: it is the version the
 gate that graded this change actually runs on.
 
 The gravitone-gcloud imaging layer routes generation across three vendor
 adapters, two of which can generate. It arrived at this technique's first step
 on its own, for one control dimension, and wrote the reasoning into the type:
 
-> `lib/imaging/types.ts:199` — `supportsReferences` is "separate from
+> `lib/imaging/types.ts:223-235` — `supportsReferences` is "separate from
 > `capabilities` because it is not about which methods exist — both providers
 > generate — but about whether a field of the request is honoured or quietly
 > ignored… That silent near-miss is the worst failure this layer could have, so
 > the router treats reference support as a routing constraint rather than
 > letting adapters drop the field on the floor."
 
-That is the channel enumeration, implemented and enforced: `google.ts:153`
-declares `true`, `leonardo.ts:118` declares `false` with the comment "Declared
+That is the channel enumeration, implemented and enforced: `google.ts:169`
+declares `true`, `leonardo.ts:126-128` declares `false` with the comment "Declared
 false so the router sends style-locked work elsewhere instead of this adapter
-dropping the field", and `router.ts:414` turns the declaration into a routing
+dropping the field", and `router.ts:523` turns the declaration into a routing
 constraint for any request carrying references.
 
 ## The structural fact: the pair inverts, and only one direction was noticed
@@ -42,8 +43,8 @@ different mechanisms, and before this change nothing recorded it.
 
 | Dimension | google | leonardo | Declared before |
 | --- | --- | --- | --- |
-| `references` | typed — image parts after the instruction (`google.ts:158-166`) | unsupported | yes, and routed |
-| `negativePrompt` | **prose** — `buildPrompt` appends "Do not include any of the following: …" to the positive prompt (`google.ts:387-397`) | **native** — its own `negative_prompt` request field (`leonardo.ts:142`) | no |
+| `references` | typed — image parts after the instruction (`google.ts:176-184`) | unsupported | yes, and routed |
+| `negativePrompt` | **prose** — `buildPrompt` appends "Do not include any of the following: …" to the positive prompt (`google.ts:439-449`) | **native** — its own `negative_prompt` request field (`leonardo.ts:158`) | no |
 
 The two dimensions **invert across the same provider pair**. Nobody designed
 that. It fell out of `references` being the dimension where the failure was
@@ -91,7 +92,8 @@ made — the arms differ in what the pipeline can *say* about a comparison, not
 yet in any rendered pixel. The behavioural half of this technique, the parity
 arm of step 2, is unrun here: nobody has yet driven the native-negative vendor
 through prose on the same briefs to size its interface advantage. This tree can
-run it — the trial set (`app/library/trials.ts`) and the grid are already
+run it — the trial set (now `lib/library/trials.ts`, mirrored as `STYLE_TRIALS` in
+`packages/domain/src/style.ratchet.ts:63-77`) and the grid are already
 built — and until it does, the declaration makes the confound visible without
 measuring it.
 
@@ -108,3 +110,19 @@ measuring it.
   enforced by routing rather than by a receipt, which is stronger for that
   dimension and weaker for the historical record: an asset cannot say after the
   fact which reference window served it.
+
+## Re-checked 2026-10-31 at gravitone-gcloud@fd09c06
+
+The declaration and the router stamp hold (`router.ts:531-533`), and the
+roster this document counted has grown from two generate-capable adapters to
+six. Five declare a channel: `leonardo` native, and `google`, `comfy-flux2`,
+`leonardo-studio` and `leonardo-flare` prose. The sixth is the limit stated
+above arriving in the tree: `agy`, now first in the dev `generate` plan
+(`router.ts:93`), declares no channel on purpose (`providers/agy.ts:205-208`,
+"Left undefined rather than guessed"), and its `generate` reads only
+`req.prompt`, `req.aspect` and `req.count` (`agy.ts:218-230`) — so a negative
+prompt sent to it is dropped, and the router stamps
+`negativePromptChannel: undefined` on the result, which a reader cannot tell
+from "no negative was sent". Nothing failed when the adapter omitted the
+field, exactly as "What this realization cannot do" predicted. The 1/2 → 2/2
+proof above is the record of the two-adapter tree and was not re-run.

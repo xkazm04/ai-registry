@@ -5,8 +5,8 @@ subject: generative-provider-routing
 technique: unspent-budget-is-a-defect
 stack: node
 status: forged
-verified_on: 2026-09-07
-verified_against: node@22
+verified_on: 2026-10-31
+verified_against: node@24
 applied: code
 ab_verdict: better
 proof: ab-paired
@@ -16,7 +16,8 @@ proof: ab-paired
 
 `gravitone-gcloud` meters every image call in `lib/imaging/budget.ts` behind
 the router chokepoint. The version witnessed here is the CI pin in
-`.github/workflows/gates.yml:250` (`node-version: 22`), not the dev box's
+`.github/workflows/gates.yml:252` (`node-version: 24`; it read 22 when this
+was first written), not the dev box's
 runtime — the repository declares no `engines` field, so the pin is the only
 version the tree itself asserts.
 
@@ -113,3 +114,15 @@ That is the technique's second explanation (the work never reached the entry)
 rather than its first, and it is a $0-vs-billed difference rather than a
 quality one — which is exactly the shape a spend meter should have caught and
 could not.
+
+Re-checked 2026-10-31 at gravitone-gcloud@fd09c06: the header block still
+closes its enumeration at two (`lib/imaging/budget.ts:47-58`); `FLOOR_VAR`,
+`budgetFloorUsd()`, `floorUsd`/`underFloor` on `budgetStats` and
+`reachByCapability()` (served rows only) are where this describes them
+(`budget.ts:83`, `:105`, `:290-315`, `:342-363`), and `assertWithinBudget`
+still reads no floor. The `underFloor` arithmetic itself now lives in the
+shared meter (`lib/spend/meter.ts:441`, which the music budget reads too),
+still requiring a non-empty window. `unreachedPlanTops()` is at
+`router.ts:181-194`, and the dev `recognize` plan is still
+`["ollama", "google"]`. The 21/21 test count above is the run's own record
+and was not re-run.

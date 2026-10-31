@@ -5,7 +5,7 @@ subject: image-prompt-composition
 technique: style-first-token-ordering
 stack: process
 status: forged
-verified_on: 2026-08-19
+verified_on: 2026-10-31
 ---
 
 # Process: the model-probe prompt as an ordering artifact
@@ -78,3 +78,7 @@ early-element misses at models. The probe measures the *method* (locked
 style, no text, reserved margins, assigned palette, countable composition),
 and must be re-run per production model before its scores are trusted
 (`pipeline/FRAMES-PROMPT.md:136-139`).
+
+Re-checked 2026-10-31 at gravitone-gcloud@fd09c06: every
+`pipeline/FRAMES-PROMPT.md` and `docs/imaging.md` anchor above still lands
+on the quoted text; nothing moved.

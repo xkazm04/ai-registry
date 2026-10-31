@@ -5,7 +5,7 @@ subject: generative-provider-routing
 technique: cost-per-usable-economics
 stack: process
 status: forged
-verified_on: 2026-08-19
+verified_on: 2026-10-31
 ---
 
 # Process — the style-trial grid that re-ordered a vendor plan
@@ -52,7 +52,7 @@ survives six different prompts is not a prompt problem."
 
 ## Acting on it, and recording it where it acts
 
-The dev plan in `lib/imaging/router.ts:58-79` was flipped to
+The dev plan in `lib/imaging/router.ts:72-93` was flipped to
 `generate: ["google", "leonardo"]`, with the full measurement restated in the
 comment above the row — "MEASURED, not assumed" — so the number and the
 decision it drives live one screen apart. Leonardo stays in the chain as the
@@ -62,7 +62,7 @@ it did not purge it.
 
 ## The pricing hygiene underneath
 
-The per-render figures feed `lib/imaging/pricing.ts:94-133` as `estimated`
+The per-render figures feed `lib/imaging/pricing.ts:97-136` as `estimated`
 rows whose `source` says exactly what they are: "our spend over our render
 count, not a rate card", each with a `checked:` date. The file's rule
 (`pricing.ts:10-14`): never invent a price — rows without a measurement are
@@ -70,7 +70,7 @@ count, not a rate card", each with a `checked:` date. The file's rule
 the table, and an unpriced call surfaces as unknown, never as $0.00. The
 grid's rate is also size-bound: the Google row carries `atSize: "1K"`, and a
 call at any other size quotes unpriced because "the price does not scale
-linearly across sizes" (`pricing.ts:70-78,205-213`).
+linearly across sizes" (`pricing.ts:72-79,288-296`).
 
 ## Residuals the method flagged, honestly
 
@@ -81,3 +81,14 @@ judgments ask two and treat disagreement as "needs a human". And per-plate
 variance (`docs/imaging.md:176-178`: the same prompt leaked text in one run
 and not the next) is the argument for grading every plate rather than
 sampling — acceptance is a rate, not a property of the prompt.
+
+Re-checked 2026-10-31 at gravitone-gcloud@fd09c06: every `docs/imaging.md`
+anchor still lands on the same lines, and the measurement comment above the
+plan row is unchanged (`router.ts:74-86`). The row itself now reads
+`generate: ["agy", "google", "leonardo"]` (`router.ts:93`): the operator's
+own CLI was put ahead of both vendors, skipped by the same no-key presence
+check when it is absent. That is a new entry, not a reversal — Google still
+sits ahead of Leonardo, as the grid ordered it — but `agy` was placed first
+without a grid of its own, and its price row is deliberately unpriced
+(billed against the operator's CLI plan quota, `pricing.ts:175-188`), so its
+cost per usable plate is unmeasured.
