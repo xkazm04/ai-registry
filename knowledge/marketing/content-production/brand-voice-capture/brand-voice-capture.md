@@ -57,7 +57,8 @@ the question in the first sentence. Never open with an apology.") - the heart
 of the voice, and the part a tone word cannot replace. **Traits** are short
 adjectives, useful as display and as light seasoning, never as the whole
 profile. **A length habit** ("two to four sentences", "one paragraph") because
-length is the dimension a model gets wrong most reliably and most visibly.
+length is the dimension a model gets wrong most visibly when nobody states
+it, while a short length stated explicitly is one most models follow.
 **Hard constraints** split into always and never - the business's red lines,
 rendered as a list the model cannot mistake for a suggestion. **Examples** -
 short lines written *in* the voice, for the model to imitate rather than
@@ -156,7 +157,7 @@ answered interview question, so it feeds the next distillation. What decides
 whether it banks is the *kind* of change, not its size: the corrections that
 carry a voice are one adjective, one cut hedge, one added clause of
 attribution, and a size threshold that writes everything small off as a typo
-discards exactly those. A typo, a case or diacritic fix and a corrected
+discards exactly those. A typo, a case, diacritic or punctuation fix and a corrected
 number are discarded; any other changed word banks, as its changed span.
 
 ## The sample persona is not the tenant's voice

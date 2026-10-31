@@ -49,8 +49,10 @@ unsupported one is a fabrication with the same confidence as an observed one.
 
 With no samples and no answers, the honest output is a summary that says
 "nothing was distilled yet", directives derived cautiously from the business
-type and clearly marked as a starting point, and the questions. Some
-implementations return the starter questions alone. What is never acceptable
+type and clearly marked as a starting point, and the questions. This is
+the one place the business type may inform the profile, and only the
+directives: hard rules and exemplar sentences stay empty until material
+exists. Some implementations return the starter questions alone. What is never acceptable
 is a full, confident profile; the owner reads it, recognises nothing, and
 stops trusting the tool before the first real sample is pasted. The fallback
 when no model is reachable follows the same rule: an explicit "not distilled",

@@ -28,8 +28,9 @@ directives and two red lines) under whatever a tenant saved, and the readiness
 scorer counted that merged list raw. A tenant who trained nothing therefore
 earned partial credit on the voice milestone (a generic register exists) and on
 the guardrails milestone (two constraints exist). Measured across all five
-project types: an untrained twin scored 33 of 100, of which two sixths of a
-milestone each came from the seed.
+project types: an untrained twin scored 33 of 100, of which half a milestone
+each on voice and guardrails - one sixth of the score together - came from the
+seed.
 
 ## What B was
 
