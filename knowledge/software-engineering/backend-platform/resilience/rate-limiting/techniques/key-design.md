@@ -137,15 +137,19 @@ unidentifiability the cheapest evasion in the system. The options, in
 decreasing strictness: refuse outright (where identification is mandatory
 anyway); pool all unknowns into one shared, deliberately tight allowance —
 unknown actors collectively get scraps, and the pool's exhaustion is a signal
-worth watching; or fall back to a coarser axis (per source) with its own tight
-limit. Which one is right depends on the door; that there *is* one, chosen in
-advance, is the technique.
+worth watching — right only when the unattributable class is small and mostly
+hostile, because ordinary unattributable traffic exhausts one shared allowance
+on its own (see unattributable-client-bucketing, which spreads the class under
+an aggregate ceiling instead); or fall back to a coarser axis (per source) with
+its own tight limit. Which one is right depends on the door; that there *is*
+one, chosen in advance, is the technique.
 
 **And it depends on the window, which is why one system needs two opposite
-answers for the same sentinel.** Pooling every unidentifiable caller into one
-shared allowance is the strict, correct choice in a seconds-to-minutes burst
-window: the blast radius is bounded by the clock, an honest visitor caught in
-the pool waits a minute, and an attacker gains nothing by being anonymous. Carry
+answers for the same sentinel.** Where pooling is chosen at all, pooling
+every unidentifiable caller into one shared allowance is the strict choice in a
+seconds-to-minutes burst window: the blast radius is bounded by the clock, an
+honest visitor caught in the pool waits a minute, and an attacker gains nothing
+by being anonymous. Carry
 that same pooled sentinel into a month-long allowance and it inverts: the first
 handful of anonymous requests exhausts the shared bucket and every anonymous
 visitor is locked out for the rest of the window — which reads to the operator
@@ -193,8 +197,9 @@ key: actors who did nothing stop working.
 - **Run the evasion test before shipping.** Whatever the abuser can mint for
   free must not be the sole key. Layer a bounded-cardinality axis above any
   free-to-mint one.
-- **Scale the unknown-key policy to the horizon.** Pool and refuse unidentifiable
-  callers where the window is seconds; treat them as unenforceable where the
+- **Scale the unknown-key policy to the horizon.** Limit unidentifiable callers
+  where the window is seconds (pooled only for a small hostile class, otherwise
+  spread under a ceiling); treat them as unenforceable where the
   window is a month. The same sentinel, the opposite direction, each stated.
 - **Bound every map at birth.** Cap, staleness horizon, and reaper are part of
   the map's construction, not a hardening ticket. A limiter reviewed without

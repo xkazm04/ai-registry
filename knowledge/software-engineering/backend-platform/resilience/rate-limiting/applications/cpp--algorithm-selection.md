@@ -5,7 +5,7 @@ subject: rate-limiting
 technique: algorithm-selection
 stack: cpp
 status: forged
-verified_on: 2026-09-03
+verified_on: 2026-10-31
 verified_against: cpp@23
 ---
 
@@ -49,9 +49,9 @@ fixed window never appears.
 
 `src/providers/twitch/TwitchIrcServer.cpp:51-52` sets
 `JOIN_RATELIMIT_BUDGET = 18` and `JOIN_RATELIMIT_COOLDOWN = 12500`;
-`TwitchIrcServer.hpp:200-202` names the provider's published per-connection
-join limit as the authority the bucket models. That limit is twenty joins
-per ten seconds. Eighteen per twelve and a half seconds is below it on
+`TwitchIrcServer.hpp:200-202` names the provider's published join limit
+as the authority the bucket models. That limit is twenty join attempts per
+ten seconds per user. Eighteen per twelve and a half seconds is below it on
 both axes - a smaller burst and a slower sustained rate (1.44 per second
 against 2) - which is the golden path's "runs slightly conservative" for
 an egress limiter, chosen because the local model of a remote authority

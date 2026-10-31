@@ -46,15 +46,21 @@ of itself.
   lazily on access, so an idle key costs no background work. Right whenever
   bursts are *legitimate* (a client waking up and syncing) but must be bounded.
 - **Leaky bucket / smoothed variants.** Enforce spacing between admissions
-  rather than a count per window — the output side becomes a steady drip. Right
+  rather than a count per window — the output side becomes a steady drip. This
+  is the leaky bucket *as a queue*; the leaky bucket *as a meter* is a mirror
+  image of the token bucket and belongs to that family. Right
   when the resource cares about inter-arrival time (a fragile downstream that
   wants pacing, not quotas); wrong as a general ingress limit, because it
   penalizes even trivial bursts that the resource could absorb.
 
-Two composition notes. First, families combine: a token bucket whose capacity
-equals its per-window rate degenerates into (roughly) a sliding window, and a
-"rate + burst" requirement stated by a product owner is a token bucket spec
-whether or not anyone says the words. Second, the burst question must be asked
+Two composition notes. First, families combine, and the edges are exact. A
+token bucket whose capacity equals its per-window allowance and which returns
+each token exactly one window after the spend that consumed it is a sliding
+window log, with timers standing in for timestamps. With continuous refill it
+is not: a full bucket can be spent at once and refilled within the same window,
+so any one window can admit up to about twice the allowance, the same seam
+doubling a fixed window shows. And a "rate + burst" requirement stated by a
+product owner is a token bucket spec whether or not anyone says the words. Second, the burst question must be asked
 *of the resource*, not of the algorithm: "if a key that has been silent for an
 hour sends its entire allowance in one instant, does anything break?" If yes,
 the burst capacity is a real design number and the token bucket makes it

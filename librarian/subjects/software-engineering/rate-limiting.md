@@ -81,3 +81,266 @@ Negative finding: the bucket can never say no - the queue is unbounded and the p
 sends no refusal for the operation, so conservative provisioning is the whole defence.
 The tree calls it a leaky bucket; by this subject's vocabulary it is a token bucket with
 a queue.
+
+## Architecture review - 2026-10-31
+
+First architecture review (state was pending). Trigger: the subject had never been
+judged as a unit, and grew from eight to ten techniques across two concurrent waves.
+Intended benefit: the techniques agree with each other about the case where nothing
+identifies the caller, and the one composition claim that a reader would use to
+choose a family is arithmetically right. Failure if ignored: a reader following
+key-design pools every unattributable caller into one burst bucket, the self-inflicted
+outage unattributable-client-bucketing exists to prevent; and a reader takes a
+continuous token bucket as equivalent to a sliding window and gets seam doubling.
+Boundary: this review reads text and public pinned sources; it does not reopen the
+five private consumer applications or execute anything.
+
+Findings: algorithm-selection's composition note held only for per-spend refill;
+key-design still presented pooling as the correct burst-horizon answer, against the
+newer technique; the cpp application called the Twitch join limit per-connection,
+which Twitch publishes per user. The node limiter-topology application endorses the
+pooled sentinel and owes a deviation line.
+<!-- architecture-review:v1 -->
+```json
+{
+  "subject": "software-engineering/rate-limiting",
+  "date": "2026-10-31",
+  "baseline": "f74433542",
+  "digest": "sha256-b2:c1ab95c98c885951",
+  "disposition": "clarify",
+  "coverage": "All 18 documents read in full. Two public applications checked against their pinned sources (Chatterino 2 fully, OpenBao on load-bearing anchors); four primary references quoted. Not evaluated: the five private consumer applications, any runtime.",
+  "counterexamples": [
+    "A continuous-refill token bucket of capacity N and refill N per window, spent fully at t=0, admits about 2N within one window; a sliding window of N admits N.",
+    "A carrier-scale NAT puts thousands of honest callers in the unattributable class; one pooled burst bucket refuses all of them within seconds.",
+    "Twitch limits joins per user, so two connections under one account share one 20-per-10s allowance; a per-connection model would over-permit."
+  ],
+  "sources": [
+    {
+      "url": "https://dev.twitch.tv/docs/chat/#rate-limits",
+      "result": "Quote: '20 join attempts per 10 seconds per user' and 'All of the above limits are per user, unless otherwise stated.' Supports the cpp application's numbers and its below-ceiling arithmetic (1.44/s against 2/s); refutes its 'per-connection' wording."
+    },
+    {
+      "url": "https://github.com/Chatterino/chatterino2/tree/fda51f0d",
+      "result": "Read the pinned RatelimitBucket.hpp/.cpp, TwitchIrcServer.hpp/.cpp, IrcMessageHandler.cpp, tests/src/RatelimitBucket.cpp and CMakeLists.txt: budget 18 / cooldown 12500 at :51-52, per-spend single-shot refill at :43-46, unbounded queue_ at hpp:35, VERSION 2.5.5, CMAKE_CXX_STANDARD 23. The header at hpp:200-202 cites the Twitch rate-limit page and does not say per-connection. All cited anchors hold."
+    },
+    {
+      "url": "https://github.com/openbao/openbao/tree/6b5f82e1",
+      "result": "Read pinned go.mod:12 (go 1.27.0), quotas.go:121-129 exempt set, :475-479 priority comment, :504-506 'conflicting quota definitions detected', fairshare/jobmanager.go:236-240 'math.Ceil(0.9 * numTotalWorkers / numActiveQueues)', api/response.go:32-34 health-path 429 branch. Supports the go application; remaining anchors not exhaustively rerun, so verified_on unchanged."
+    },
+    {
+      "url": "https://en.wikipedia.org/wiki/Leaky_bucket",
+      "result": "Quote: 'The leaky bucket as a meter is exactly equivalent to (a mirror image of) the token bucket algorithm'; the queue version 'imposes conformance rather than checking it'. Supports scoping algorithm-selection's leaky-bucket entry to the queue form."
+    },
+    {
+      "url": "https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/X-Forwarded-For",
+      "result": "Quote: 'The X-Forwarded-For IP list is searched from the rightmost by that count minus one' and 'Leftmost (untrusted) values must only be used for cases where there is no negative impact from using spoofed values.' Supports untrusted-key-derivation's read-from-the-far-end-with-a-depth rule."
+    },
+    {
+      "url": "https://docs.github.com/en/rest/using-the-rest-api/best-practices-for-using-the-rest-api",
+      "result": "Quote: 'Making a conditional request does not count against your primary rate limit if a 304 response is returned and the request was made while correctly authorized'. Supports limit-derivation's unbilled-revalidation claim and the node application's 'free 304', with the authorization condition."
+    },
+    {
+      "source": "Private consumer applications (node limit-derivation, node limiter-topology, node untrusted-key-derivation, rust storm-hygiene, rust algorithm-selection)",
+      "result": "Dated reports retained; private sources not reopened. Verification dates unchanged."
+    }
+  ],
+  "documents": {
+    "rate-limiting.md": {
+      "disposition": "keep",
+      "reason": "Boundaries against admission, budget, exclusivity and retry are distinct and stated; the seven consequences and done-bar match the ten techniques, including the unattributable spread-under-ceiling rule."
+    },
+    "techniques/algorithm-selection.md": {
+      "disposition": "clarify",
+      "reason": "The composition note claims a token bucket with capacity equal to its per-window rate is roughly a sliding window; with continuous refill a full bucket spent at once refills within the window, so up to ~2x the allowance per window (arithmetic). Only per-spend refill (the cpp case) is exactly a sliding-window log. Leaky-bucket entry should name the queue form; the meter form is the token bucket's mirror (Wikipedia)."
+    },
+    "techniques/key-design.md": {
+      "disposition": "clarify",
+      "reason": "Unknown-key policy presents pooling all unknowns as the strict, correct burst-horizon answer, contradicting unattributable-client-bucketing ('Never pool unattributable callers by default') and golden-path consequence 3. Qualify pooling to a small hostile class and point to spreading under a ceiling."
+    },
+    "techniques/refusal-contract.md": {
+      "disposition": "keep",
+      "reason": "Four contract fields, not-before semantics, authority disambiguation and could-not-evaluate path are consistent with limiter-topology and the go application's health-path 429 branch (read at pin)."
+    },
+    "techniques/untrusted-key-derivation.md": {
+      "disposition": "keep",
+      "reason": "Ordered ladder with runtime witnesses and far-end chain reading agrees with MDN's trusted-proxy-count rule (quoted)."
+    },
+    "techniques/unattributable-client-bucketing.md": {
+      "disposition": "keep",
+      "reason": "Spread-then-cap pair, empty-fingerprint floor and entropy labelling are internally consistent; now matched by key-design."
+    },
+    "techniques/limiter-topology.md": {
+      "disposition": "keep",
+      "reason": "One-instance rule, evaluate-all-then-commit, ladder-versus-stack and fail-closed-in-front-of-spend are coherent; the scoped ladder is confirmed by the pinned OpenBao source."
+    },
+    "techniques/storm-hygiene.md": {
+      "disposition": "keep",
+      "reason": "Hot refusal branch, per-episode latch with reset and bounded reaper are stated as testable properties; no unstable external claim."
+    },
+    "techniques/limit-observability.md": {
+      "disposition": "keep",
+      "reason": "Passive snapshots, demand = admitted + refused, and limit-change events are sound and cross-reference the right techniques."
+    },
+    "techniques/limit-derivation.md": {
+      "disposition": "keep",
+      "reason": "Ceiling/floor arithmetic and friction exception are sound; the unbilled-revalidation claim holds for GitHub under authorization (quoted). Optional future nuance: the 304 exemption is conditional on authorization."
+    },
+    "techniques/metered-step-selection.md": {
+      "disposition": "keep",
+      "reason": "Production/egress/amplification split, divergence and false-positive checks are coherent and correctly ordered before derivation."
+    },
+    "applications/cpp--algorithm-selection.md": {
+      "disposition": "clarify",
+      "reason": "Pinned source holds at every cited anchor, but Twitch publishes the join limit per user, not per connection, and the tree's header does not say per-connection."
+    },
+    "applications/go--limiter-topology.md": {
+      "disposition": "keep",
+      "reason": "Load-bearing anchors (go.mod, exempt set, priority ladder, conflict error, fair-share cap, health 429) re-read at 6b5f82e1 and hold; not every anchor rerun, so verified_on unchanged."
+    },
+    "applications/node--limit-derivation.md": {
+      "disposition": "reverify",
+      "reason": "Clear worked example with honest deviations; private source not reopened. Note it carries no verified_against."
+    },
+    "applications/node--limiter-topology.md": {
+      "disposition": "clarify",
+      "reason": "Presents the single pooled 'unknown' burst bucket approvingly; under unattributable-client-bucketing (forged two days later) that is correct only for a small hostile class. Needs a deviation line, owed until the repo's unattributable traffic shape is known; private source not reopened."
+    },
+    "applications/node--untrusted-key-derivation.md": {
+      "disposition": "reverify",
+      "reason": "Ladder, platform gate, negative tests and the inverted waitlist polarity are well evidenced in the account; private source not reopened."
+    },
+    "applications/rust--storm-hygiene.md": {
+      "disposition": "reverify",
+      "reason": "Latch-with-reset and amortized reaper account is consistent with the technique and names its own gap; private source not reopened."
+    },
+    "applications/rust--algorithm-selection.md": {
+      "disposition": "reverify",
+      "reason": "Two-family account and policy-as-parameter deviation consistent with the golden path; private source not reopened."
+    }
+  }
+}
+```
+
+Applied the same day: the three clarify items in algorithm-selection, key-design and
+the cpp application, each confirmed by arithmetic, an internal contradiction, or a
+primary source opened this run. The node limiter-topology deviation stays owed.
+<!-- architecture-review:v1 -->
+```json
+{
+  "subject": "software-engineering/rate-limiting",
+  "date": "2026-10-31",
+  "baseline": "f74433542",
+  "digest": "sha256-b2:7d87d7638ebf7b54",
+  "disposition": "clarify",
+  "coverage": "All 18 documents read in full. Two public applications checked against their pinned sources (Chatterino 2 fully, OpenBao on load-bearing anchors); four primary references quoted. Not evaluated: the five private consumer applications, any runtime. Second record: three clarify items applied after the first record; remaining owed item unchanged.",
+  "counterexamples": [
+    "A continuous-refill token bucket of capacity N and refill N per window, spent fully at t=0, admits about 2N within one window; a sliding window of N admits N.",
+    "A carrier-scale NAT puts thousands of honest callers in the unattributable class; one pooled burst bucket refuses all of them within seconds.",
+    "Twitch limits joins per user, so two connections under one account share one 20-per-10s allowance; a per-connection model would over-permit."
+  ],
+  "sources": [
+    {
+      "url": "https://dev.twitch.tv/docs/chat/#rate-limits",
+      "result": "Quote: '20 join attempts per 10 seconds per user' and 'All of the above limits are per user, unless otherwise stated.' Supports the cpp application's numbers and its below-ceiling arithmetic (1.44/s against 2/s); refutes its 'per-connection' wording."
+    },
+    {
+      "url": "https://github.com/Chatterino/chatterino2/tree/fda51f0d",
+      "result": "Read the pinned RatelimitBucket.hpp/.cpp, TwitchIrcServer.hpp/.cpp, IrcMessageHandler.cpp, tests/src/RatelimitBucket.cpp and CMakeLists.txt: budget 18 / cooldown 12500 at :51-52, per-spend single-shot refill at :43-46, unbounded queue_ at hpp:35, VERSION 2.5.5, CMAKE_CXX_STANDARD 23. The header at hpp:200-202 cites the Twitch rate-limit page and does not say per-connection. All cited anchors hold."
+    },
+    {
+      "url": "https://github.com/openbao/openbao/tree/6b5f82e1",
+      "result": "Read pinned go.mod:12 (go 1.27.0), quotas.go:121-129 exempt set, :475-479 priority comment, :504-506 'conflicting quota definitions detected', fairshare/jobmanager.go:236-240 'math.Ceil(0.9 * numTotalWorkers / numActiveQueues)', api/response.go:32-34 health-path 429 branch. Supports the go application; remaining anchors not exhaustively rerun, so verified_on unchanged."
+    },
+    {
+      "url": "https://en.wikipedia.org/wiki/Leaky_bucket",
+      "result": "Quote: 'The leaky bucket as a meter is exactly equivalent to (a mirror image of) the token bucket algorithm'; the queue version 'imposes conformance rather than checking it'. Supports scoping algorithm-selection's leaky-bucket entry to the queue form."
+    },
+    {
+      "url": "https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/X-Forwarded-For",
+      "result": "Quote: 'The X-Forwarded-For IP list is searched from the rightmost by that count minus one' and 'Leftmost (untrusted) values must only be used for cases where there is no negative impact from using spoofed values.' Supports untrusted-key-derivation's read-from-the-far-end-with-a-depth rule."
+    },
+    {
+      "url": "https://docs.github.com/en/rest/using-the-rest-api/best-practices-for-using-the-rest-api",
+      "result": "Quote: 'Making a conditional request does not count against your primary rate limit if a 304 response is returned and the request was made while correctly authorized'. Supports limit-derivation's unbilled-revalidation claim and the node application's 'free 304', with the authorization condition."
+    },
+    {
+      "source": "Private consumer applications (node limit-derivation, node limiter-topology, node untrusted-key-derivation, rust storm-hygiene, rust algorithm-selection)",
+      "result": "Dated reports retained; private sources not reopened. Verification dates unchanged."
+    }
+  ],
+  "documents": {
+    "rate-limiting.md": {
+      "disposition": "keep",
+      "reason": "Boundaries against admission, budget, exclusivity and retry are distinct and stated; the seven consequences and done-bar match the ten techniques, including the unattributable spread-under-ceiling rule."
+    },
+    "techniques/algorithm-selection.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: composition note now says only per-spend refill makes capacity-equals-allowance a sliding-window log, continuous refill admits up to about twice the allowance per window; leaky-bucket entry scoped to the queue form, meter form named as the token bucket's mirror."
+    },
+    "techniques/key-design.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: unknown-key pooling qualified to a small, mostly hostile class with a pointer to unattributable-client-bucketing; horizon paragraph and decision rule no longer present pooling as the unconditional burst-horizon answer."
+    },
+    "techniques/refusal-contract.md": {
+      "disposition": "keep",
+      "reason": "Four contract fields, not-before semantics, authority disambiguation and could-not-evaluate path are consistent with limiter-topology and the go application's health-path 429 branch (read at pin)."
+    },
+    "techniques/untrusted-key-derivation.md": {
+      "disposition": "keep",
+      "reason": "Ordered ladder with runtime witnesses and far-end chain reading agrees with MDN's trusted-proxy-count rule (quoted)."
+    },
+    "techniques/unattributable-client-bucketing.md": {
+      "disposition": "keep",
+      "reason": "Spread-then-cap pair, empty-fingerprint floor and entropy labelling are internally consistent; now matched by key-design."
+    },
+    "techniques/limiter-topology.md": {
+      "disposition": "keep",
+      "reason": "One-instance rule, evaluate-all-then-commit, ladder-versus-stack and fail-closed-in-front-of-spend are coherent; the scoped ladder is confirmed by the pinned OpenBao source."
+    },
+    "techniques/storm-hygiene.md": {
+      "disposition": "keep",
+      "reason": "Hot refusal branch, per-episode latch with reset and bounded reaper are stated as testable properties; no unstable external claim."
+    },
+    "techniques/limit-observability.md": {
+      "disposition": "keep",
+      "reason": "Passive snapshots, demand = admitted + refused, and limit-change events are sound and cross-reference the right techniques."
+    },
+    "techniques/limit-derivation.md": {
+      "disposition": "keep",
+      "reason": "Ceiling/floor arithmetic and friction exception are sound; the unbilled-revalidation claim holds for GitHub under authorization (quoted). Optional future nuance: the 304 exemption is conditional on authorization."
+    },
+    "techniques/metered-step-selection.md": {
+      "disposition": "keep",
+      "reason": "Production/egress/amplification split, divergence and false-positive checks are coherent and correctly ordered before derivation."
+    },
+    "applications/cpp--algorithm-selection.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: 'per-connection join limit' corrected to the provider's published 'twenty join attempts per ten seconds per user'; every cited anchor re-read at fda51f0d, verified_on moved to 2026-10-31."
+    },
+    "applications/go--limiter-topology.md": {
+      "disposition": "keep",
+      "reason": "Load-bearing anchors (go.mod, exempt set, priority ladder, conflict error, fair-share cap, health 429) re-read at 6b5f82e1 and hold; not every anchor rerun, so verified_on unchanged."
+    },
+    "applications/node--limit-derivation.md": {
+      "disposition": "reverify",
+      "reason": "Clear worked example with honest deviations; private source not reopened. Note it carries no verified_against."
+    },
+    "applications/node--limiter-topology.md": {
+      "disposition": "clarify",
+      "reason": "Presents the single pooled 'unknown' burst bucket approvingly; under unattributable-client-bucketing (forged two days later) that is correct only for a small hostile class. Needs a deviation line, owed until the repo's unattributable traffic shape is known; private source not reopened."
+    },
+    "applications/node--untrusted-key-derivation.md": {
+      "disposition": "reverify",
+      "reason": "Ladder, platform gate, negative tests and the inverted waitlist polarity are well evidenced in the account; private source not reopened."
+    },
+    "applications/rust--storm-hygiene.md": {
+      "disposition": "reverify",
+      "reason": "Latch-with-reset and amortized reaper account is consistent with the technique and names its own gap; private source not reopened."
+    },
+    "applications/rust--algorithm-selection.md": {
+      "disposition": "reverify",
+      "reason": "Two-family account and policy-as-parameter deviation consistent with the golden path; private source not reopened."
+    }
+  }
+}
+```
