@@ -4,7 +4,7 @@ type: application
 subject: scale-investment-timing
 technique: migration-reason-audit
 stack: node
-verified_on: 2026-08-30
+verified_on: 2026-10-31
 verified_against: node@24
 ---
 
@@ -32,18 +32,18 @@ technique's two columns:
 - Concurrent readers, concurrent writers, durable one-file backup — **yes**, and the
   writer row states the scale it is a claim about: *"Concurrent writers, 1–2
   users/team | Yes — writers serialize; `busy_timeout=5000` waits briefly. KP's stated
-  scale."* (`postgres-backend.md:91`). That is a ceiling with all three parts — a
+  scale."* (`postgres-backend.md:145`). That is a ceiling with all three parts — a
   figure, an axis (concurrent writers per team), and the mechanism that makes it
-  hold, which `app/_lib/db/core.ts:225` opens every store with.
+  hold, which `openStore()` in `app/_lib/db-path.ts:160` opens every store with.
 - Multiple app replicas — **no**; a managed database with a customer's tooling —
-  **no** (`postgres-backend.md:93-94`).
+  **no** (`postgres-backend.md:147-148`).
 
 So the measured-constraint column, for capacity, is empty and says so: the TL;DR
 opens *"SQLite + WAL already handles KP's concurrency (1–2 users per team). The only
 real reason to leave it is **multi-replica HA**"* (`postgres-backend.md:9-10`). The
 migration's surviving reasons are second-column reasons the technique names as
 legitimate on their own — availability, and a customer's operational mandate — and the
-document does not pretend otherwise. `app/_lib/db-path.ts:79-81` repeats the sort at
+document does not pretend otherwise. `app/_lib/db-path.ts:80-82` repeats the sort at
 the seam itself: a Postgres backend is *"needed for multi-replica HA, not for KP's
 1–2-users-per-team concurrency, which SQLite+WAL already handles"*.
 
@@ -64,10 +64,10 @@ sites across ~48 files, plus 16 files using synchronous transactions**
 The count is reproducible — a grep of `.get(`/`.run(`/`.all(` under `app/_lib/db/`
 returned 593 lines on the date in the frontmatter, the same order — and it is kept
 current by an instrument rather than a memory: `npm run db:pg-audit`
-(`package.json:55`, `scripts/pg-portability-audit.mjs`) flags SQLite-only dialect so
+(`package.json:110`, `scripts/pg-portability-audit.mjs`) flags SQLite-only dialect so
 the portable subset does not erode while the decision is open. A second instrument
 pins the property the port must preserve: an `eslint` `no-restricted-syntax` rule
-(`eslint.config.mjs:230-236`) fails the build on an `await` inside
+(`eslint.config.mjs:45-71`, `TRANSACTION_SELECTORS`) fails the build on an `await` inside
 `db.transaction()`, and the plan records the datum that rule produced — *"zero
 violations across the 34 transaction call sites"* (`postgres-backend.md:41`) — as an
 input to the cost, since a port that makes transactions async must re-derive the
@@ -87,9 +87,9 @@ the reason is on the page. §4 is exactly that: with the reason narrowed to
 libSQL/Turso or rqlite — *"could satisfy multi-replica HA while preserving the
 synchronous data layer and almost all 48 files"* and is *"the recommended first
 investigation — it can make the whole Postgres question moot"*
-(`postgres-backend.md:132-145`). Option A, the full port, is reserved for the one
+(`postgres-backend.md:197-208`). Option A, the full port, is reserved for the one
 reason that cannot be met any other way: *"A customer hard-requires Postgres (their
-compliance/DBA mandates it)"* (`postgres-backend.md:152-153`), which is the
+compliance/DBA mandates it)"* (`postgres-backend.md:216-217`), which is the
 technique's *forced migration* case, named in advance with its trigger.
 
 ## The ceiling is enforced, not remembered
@@ -101,7 +101,7 @@ serve one database — a second replica would contend/corrupt it"* — and the
 Deployment pins `Recreate` on a ReadWriteOnce volume. The record also names what
 would reopen the decision: *"A hosted deployment that must serve more than one
 replica, or a workspace whose working set stops fitting comfortably in one file"*
-(`0002-sqlite-single-file-persistence.md:64-65`). A trigger stated at decision time
+(`0002-sqlite-single-file-persistence.md:91-92`). A trigger stated at decision time
 is what lets the audit be rerun later without relitigating it.
 
 ## What this realization cannot do
@@ -124,7 +124,7 @@ technique asks for that is absent here.
 method returned headroom.** `scripts/perf/sqlite-writer-knee.mjs` runs the repo's
 real pragmas with single-row transactions across N=1..5 worker connections, 1000
 commits each, and the §2 writer row now carries the result inline
-(`postgres-backend.md:91`, `Basis: **measured 2026-08-30**`): p95 commit latency
+(`postgres-backend.md:145`, `Basis: **measured 2026-08-30**`): p95 commit latency
 stays ~0.1–0.16 ms through N=5 with zero `SQLITE_BUSY`, and only the worst-case
 tail grows (~10 ms at N=1 to ~110–140 ms at N=4–5). A third writer does not
 degrade the typical commit, so the stated 1–2 figure has measured headroom for the

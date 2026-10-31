@@ -5,7 +5,7 @@ subject: candidate-outreach-and-halt-rules
 technique: the-first-touch-carries-the-notice
 stack: node
 status: forged
-verified_on: 2026-09-28
+verified_on: 2026-10-31
 verified_against: node@24
 applied: simulation
 ab_verdict: better
@@ -14,12 +14,14 @@ ab_verdict: better
 # The first touch in a hiring app that already has its stop link
 
 Walked at kp `0c9a742d3` on 2026-09-28 (Next.js on Node 24, SQLite, a Python
-letter pipeline). Policy A is this subject's golden path as it stood before the
+letter pipeline). Re-checked 2026-10-31 at kp@6edf5d7: the anchors moved and
+are updated below; every construct held, including the absence of an
+acquisition source in the letter's fact base. Policy A is this subject's golden path as it stood before the
 technique: say how to stop, in the first message. Policy B is the technique.
 
 This tree is a good test because it already does A well. Every candidate comm
 carries a data link and a separate stop link
-(`app/_lib/comms-dispatch.ts:203`, `renderCandidateFooters`), the stop writes at
+(`app/_lib/comms-dispatch.ts:217`, `renderCandidateFooters`), the stop writes at
 the durable person and fails closed (`app/_lib/outreach-state-store.ts:71`), and
 the machine half is a one-click `List-Unsubscribe` header. Whatever B finds, A
 already certifies.
@@ -29,8 +31,8 @@ already certifies.
 **A recruiter-sourced first touch.** The consent gate passes a person with no
 record anywhere, on purpose — *"recruiter-sourced first touch, contactable"*
 (`app/_lib/rediscovery-alert-store.ts:525`). The letter is `draft_outreach`
-(`pipeline/jobfit/automation.py:1212`). A passes: the stop link is there, one
-click, durable. B fails it on step 2. The fact base (`_letter_context`, `:841`)
+(`pipeline/jobfit/automation.py:1236`). A passes: the stop link is there, one
+click, durable. B fails it on step 2. The fact base (`_letter_context`, `:858`)
 holds no acquisition source, so the model has nothing true to say about where
 the details came from, and the deterministic fallback opens *"your background in
 … caught our eye"*. No candidate notice is linked (step 3). The stop line is its
@@ -46,7 +48,7 @@ us for …" and the objection line. The line is present; the source is not,
 because the letter context carries no prior application.
 
 **The application acknowledgement.** A process message the person's own
-application started (`dispatchApplicationReceived`, `comms-dispatch.ts:407`).
+application started (`dispatchApplicationReceived`, `comms-dispatch.ts:424`).
 Both policies abstain, which is B's "when not to use this" working as written.
 
 ## Verdict

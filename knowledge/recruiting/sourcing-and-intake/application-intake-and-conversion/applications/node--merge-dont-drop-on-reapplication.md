@@ -5,7 +5,7 @@ subject: application-intake-and-conversion
 technique: merge-dont-drop-on-reapplication
 stack: node
 status: forged
-verified_on: 2026-09-26
+verified_on: 2026-10-31
 verified_against: node@24
 applied: code
 ab_verdict: better
@@ -30,8 +30,8 @@ until this pass fixed it.
 
 ## The proof table
 
-`application-filing.ts:20-37` states it in one place ("what a match may do is
-the door's stated proof, not scattered code"), typed at `:77`
+`application-filing.ts:20-38` states it in one place ("what a match may do is
+the door's stated proof, not scattered code"), typed at `:80`
 (`FilingProof = "token" | "channel" | "none"`):
 
 - **token** — the `?lead=` capability emailed in the acknowledgement. The only
@@ -41,7 +41,14 @@ the door's stated proof, not scattered code"), typed at `:77`
 - **none** — "the match came from a typed name/email, which is not a secret.
   Nothing on the matched entry moves".
 
-The route restates it at `route.ts:347-359`: knowing that a person applied, "a
+Re-checked 2026-10-31 at kp@6edf5d7: the table gained one clause
+(`application-filing.ts:33-38`, applied at `:236`). A repeat caught by the
+`applicantKey` backstop during a concurrent first filing is treated as the same
+applicant "by construction", so "a raced 'none' writes like 'channel'". An
+erased applicant cannot reach that path, because erasure nulls the key. This
+narrows `none` for one race only and does not change the finding.
+
+The route restates it at `route.ts:372-384`: knowing that a person applied, "a
 LinkedIn post is enough — must not make you their contact of record or
 overwrite the profile a recruiter scores".
 
@@ -54,38 +61,38 @@ data-processing consent (which re-extends the GDPR retention clock)".
 
 ## Identity precedence is unchanged; authority is new
 
-`route.ts:319-328` resolves the enrichment token first, and the token "resolves
+`route.ts:344-350` resolves the enrichment token first, and the token "resolves
 DIRECTLY to the lead's own entry". Anything invalid, stale or mismatched
 "degrades silently to the email/name identity fallback below, never an error".
 Below the token, `applicantKey` (`app/_lib/applicant-key.ts:12`) keys on the
 normalized email, else the name. It is a hashed key that "replaced
 applyDedupeKey, which put the email IN CLEAR into" the entry's primary key
-(`:5`). `route.ts:217` keeps the anonymous rule: "We never dedup on the
+(`:5`). `route.ts:219-222` keeps the anonymous rule: "We never dedup on the
 fallback".
 
 What a match may *do* is now the proof, not the match.
 
 ## Fill-only fields, a proven rebuild, and a failure that touches nothing
 
-The repeat branch is `application-filing.ts:218-267`:
+The repeat branch is `application-filing.ts:235-283`:
 
-- a contact backfills only a contactless entry (`:227`);
-- a GitHub handle backfills only a handle-less one (`:231`);
+- a contact backfills only a contactless entry (`:243`);
+- a GitHub handle backfills only a handle-less one (`:247`);
 - the profile rebuilds only under `proof === "token"`, when the repeat carries a
-  CV or the entry is a degraded stub (`:239`);
-- `updates` is populated only inside `if (rebuilt.ok)` (`:241`), so "a failed
-  rebuild moves nothing" (`:237`).
+  CV or the entry is a degraded stub (`:255`);
+- `updates` is populated only inside `if (rebuilt.ok)` (`:257`), so "a failed
+  rebuild moves nothing" (`:253`).
 
-A proven repeat refreshes consent best-effort (`:257`, the helper at `:159`:
+A proven repeat refreshes consent best-effort (`:273`, the helper at `:175`:
 "the consent bookkeeping must never undo a filed application"). It records
-`re_applied` (`:258-265`) and re-acks a newly reachable entry through the one
-ack seam (`:201`, "so the first ack and the newly-reachable re-ack cannot
-drift"; `:252`). The conversational door defers that dispatch off the response
-path (`route.ts:397`).
+`re_applied` (`:274-281`) and re-acks a newly reachable entry through the one
+ack seam (`:217`, "so the first ack and the newly-reachable re-ack cannot
+drift"; `:269`). The conversational door defers that dispatch off the response
+path (`route.ts:421-424`).
 
 ## The unproven repeat gets link recovery, not a write
 
-A `none` repeat returns before any write (`application-filing.ts:221`). The
+A `none` repeat returns before any write (`application-filing.ts:237-238`). The
 real returning candidate is then served by `app/_lib/apply-link-recovery.ts`,
 which "delivers the capability to the one party who can prove ownership: the
 inbox already on the entry" (`:16`):
@@ -109,7 +116,7 @@ Measured on the real handler at the pre-fix commit:
   decision history).
 
 The fix (kp `327e40e00`) threads the proof into the lead core
-(`lead-intake.ts:204`, default `channel`, so the webhooks are unchanged). The
+(`lead-intake.ts:219`, default `channel`, so the webhooks are unchanged). The
 quick route passes `proof: addressOnFile ? "channel" : "none"`
 (`quick/route.ts:154`): with the address on file the match *is* that address,
 and without it the only possible match is the name. After the fix, nothing
@@ -121,11 +128,22 @@ The cost is the one the technique names. A contactless conversational
 applicant can no longer make themselves reachable by quick-applying with an
 address. The token walk or a recruiter does it.
 
+Re-checked 2026-10-31 at kp@6edf5d7: the quick door now goes further than the
+fix above. It passes `proof: "none"` always (`quick/route.ts:151-162`), including
+when the typed address is already on file, because "an address is not a secret
+and anyone can POST someone else's". A known-address repeat on the quick form
+therefore no longer renews consent or writes `re_applied`. The address on file
+gets its links back through link recovery instead. The pins moved with it:
+`reapply-capability-gate.test.ts:267` (a known address renews nothing) and
+`:326-360` (a name match on a contactless entry moves nothing and mails nothing).
+The verdict stands and the door is stricter than this section describes.
+`lead-intake.ts` still defaults to `channel` for the webhooks.
+
 ## Deviations still open
 
-- `route.ts:139-145`'s file header still says a repeat's "fresh signals MERGE
+- `route.ts:143-149`'s file header still says a repeat's "fresh signals MERGE
   onto the original" and names `applyDedupeKey`. The code below it
-  (`:347-359`) and the applicant-key module say otherwise.
+  (`:372-384`) and the applicant-key module say otherwise.
 - The newly reachable merge is now reachable only under proof. On the
   conversational door that path runs through the token. A contactless entry
   from a webhook becomes reachable only through a later webhook repeat

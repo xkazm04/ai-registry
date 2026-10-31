@@ -5,7 +5,7 @@ subject: conversation-orchestration
 technique: structured-visual-replies
 stack: react
 status: forged
-verified_on: 2026-09-29
+verified_on: 2026-10-31
 verified_against: react@19
 ---
 
@@ -20,7 +20,8 @@ everything about how they are drawn is decided in three small files.
 *Citations resolved at kp `86eded59d` on 2026-09-29. `ChatBlocks`, `ChatTable`
 and `ChatMiniChart` barely moved; `ChatTranscript` and `CompanionDockBody`
 shifted by 5 to 130 lines, and `CompanionDockBody` now lives at
-`app/features/shell/companion/CompanionDockBody.tsx`.*
+`app/features/shell/companion/CompanionDockBody.tsx`. Re-checked 2026-10-31
+at kp@6edf5d7: every citation below still resolves to the same line.*
 
 ## One dispatcher, wired through a slot rather than into the transcript
 

@@ -5,7 +5,7 @@ subject: application-intake-and-conversion
 technique: recoverable-decline-and-no-dead-ends
 stack: node
 status: forged
-verified_on: 2026-09-26
+verified_on: 2026-10-31
 verified_against: node@24
 ---
 
@@ -16,10 +16,43 @@ no pipeline entry. That half of the technique is built deliberately and well.
 The other half is not built: a person never sees the decision, and the
 candidate is never told which gate declined them.
 
+**Re-checked 2026-10-31 at kp@6edf5d7. The tree has since closed part of what
+this application lists as open, and that reverses two of its deviations.**
+ADR `0019-the-knockout-decline-is-automatic-and-says-so` landed the change:
+
+- **The failed gate is now named to the candidate.** Both doors return
+  `failedKoNames` with the decline (`route.ts:278-284`,
+  `quick/route.ts:192-195`), and both decline screens render them through the
+  shared `ApplyDeclineDetail` (`app/apply/[id]/ApplyDeclineDetail.tsx`). The
+  screen says the decision was automatic and how to ask a person to review it.
+  The webhook letter's "One of the role's eligibility requirements isn't met" is
+  gone. `koDecline.body` (`en.json:577-581`) lists the must-haves, says "A person
+  did not make this decision", and offers "reply to this message and a person
+  will review it". That deviation is resolved.
+- **The notice now goes out at every door.** `dispatchKnockoutDecline`
+  (`app/_lib/comms-dispatch.ts:644-681`) is sent whenever an address is in hand:
+  from the lead core (`lead-intake.ts:136-165`, where `notifyDecline` is now
+  `@deprecated No effect`) and from the conversational door
+  (`route.ts:259-277`). The quick form therefore shows the decline on screen
+  *and* sends the email. "One notice, on the channel the candidate watches"
+  below no longer describes the tree.
+- **The gate is still the last word, but it is no longer final.** There is
+  still no hold state and nobody sees the decision before the candidate does.
+  A person can now be reached afterwards by replying to the letter. That is a
+  route to human review after the decision, not the hold the technique asks for,
+  so the deviation narrows and does not close.
+- **The contactless claim now has a time limit.** The `ko_declined` event still
+  records no address. The decline letter keeps the address, the name and the
+  letter for `KO_DECLINE_CONTACT_RETENTION_DAYS = 30` (`pipeline.ts:3442-3445`),
+  and the letter tells the applicant so.
+
+Still as described: no actor on the audit event, no correction trail, and no
+onward option.
+
 ## Audited, entry-less, and deliberately contactless
 
-`recordKnockoutDecline` (`app/_lib/db/pipeline.ts:3143`, rationale at
-`:3125-3141`) writes a `ko_declined` event with no entry. The event carries the
+`recordKnockoutDecline` (`app/_lib/db/pipeline.ts:3447`, rationale at
+`:3425-3441`) writes a `ko_declined` event with no entry. The event carries the
 applicant's display name, the role, the channel, and which gates failed.
 The reasons, from the comment:
 
@@ -31,9 +64,9 @@ The reasons, from the comment:
 - **Required tenant:** omitting it would zero every other team's
   turned-away metric.
 
-The conversational door calls it at `app/api/apply/[id]/route.ts:247`, and the
+The conversational door calls it at `app/api/apply/[id]/route.ts:250`, and the
 lead core behind the quick form and the webhooks at
-`app/_lib/lead-intake.ts:124`. This is the technique's "a standalone audit event
+`app/_lib/lead-intake.ts:127`. This is the technique's "a standalone audit event
 that does not mint a pipeline record", and the retention clock of a full
 application never starts.
 
@@ -48,12 +81,12 @@ no double notice for one event.
 ## Recovery: in place on one door, an announced restart on the other
 
 - **Quick form.** The decline card's "Try again" is `setDone(null)`
-  (`app/apply/[id]/quick/QuickApplyForm.tsx:207`). The form re-renders with the
+  (`app/apply/[id]/quick/QuickApplyForm.tsx:215`). The form re-renders with the
   name, email and every toggle still held. That is the technique's standard.
 - **Conversational door.** The decline's recovery is "Start over"
-  (`app/apply/[id]/ApplyDoneCard.tsx:45-56`), and it says so first:
+  (`app/apply/[id]/ApplyDoneCard.tsx:47-57`), and it says so first:
   "Your earlier answers weren't kept, so you'll enter them fresh"
-  (`messages/en.json:2428`). The behaviour is pinned by
+  (`messages/en.json:2334`). The behaviour is pinned by
   `candidate-door-conversion.test.ts:136`. For a script of eight to eleven
   steps this meets the technique's stated minimum, not its standard.
 
@@ -79,7 +112,7 @@ no double notice for one event.
   the technique reads as a signal about the question, cannot be seen.
 - **The failed gate is never named to the candidate.** The screen says
   "Based on your answers this role isn't the right fit right now"
-  (`en.json:2332`), and the webhook email says "One of the role's eligibility
+  (`en.json:2238`), and the webhook email says "One of the role's eligibility
   requirements isn't met" (`en.json:578`). The server holds the failed ids and
   returns them only to the integrator on the webhook path. The technique's
   "what would change the answer" is unreachable without them.

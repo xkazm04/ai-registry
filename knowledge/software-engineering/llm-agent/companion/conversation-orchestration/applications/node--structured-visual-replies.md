@@ -5,7 +5,7 @@ subject: conversation-orchestration
 technique: structured-visual-replies
 stack: node
 status: forged
-verified_on: 2026-09-29
+verified_on: 2026-10-31
 verified_against: node@24
 ---
 
@@ -20,7 +20,8 @@ each other, and the seam between them is the interesting part.
 *Citations resolved at kp `86eded59d` on 2026-09-29. Every line moved since the
 first pass (the file gained a voice channel and two register bullets, all
 citations below shifted by roughly 24-28 lines), so a line number here is a
-location at that sha, not at the branch tip.*
+location at that sha, not at the branch tip. Re-checked 2026-10-31 at
+kp@6edf5d7: every citation below still resolves to the same line.*
 
 ## The register, stated as checkable rules
 

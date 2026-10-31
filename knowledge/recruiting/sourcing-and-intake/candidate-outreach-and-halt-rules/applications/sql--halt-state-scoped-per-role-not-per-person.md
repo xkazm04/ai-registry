@@ -5,7 +5,7 @@ subject: candidate-outreach-and-halt-rules
 technique: halt-state-scoped-per-role-not-per-person
 stack: sql
 status: forged
-verified_on: 2026-09-28
+verified_on: 2026-10-31
 verified_against: sql@3
 ---
 
@@ -13,10 +13,12 @@ verified_against: sql@3
 
 Re-read at kp `0c9a742d3` on 2026-09-28 (SQLite). Since the first reading
 (2026-08-20) the table has gained the one column the technique's layering needed:
-a person-level stop that outranks the per-role state.
+a person-level stop that outranks the per-role state. Re-checked 2026-10-31 at
+kp@6edf5d7: the schema and every reader held. The anchors below are at that sha,
+and one deviation is annotated.
 
-`app/_lib/db/core.ts:2000` — one small table carries the entire halt policy, and
-the schema comment above it (`core.ts:1986`) makes the scoping decision explicit
+`app/_lib/db/core.ts:2140` — one small table carries the entire halt policy, and
+the schema comment above it (`core.ts:2126-2139`) makes the scoping decision explicit
 rather than incidental.
 
 ```sql
@@ -34,7 +36,7 @@ CREATE TABLE IF NOT EXISTS outreach_state (
 ## The grain is stated, and its cost is stated with it
 
 The key is the pipeline entry — candidate × role — not the candidate.
-`app/_lib/outreach-halt.ts:9` argues it in one sentence: *"A reply about the
+`app/_lib/outreach-halt.ts:9-11` argues it in one sentence: *"A reply about the
 backend opening should not silence a genuinely separate conversation about a
 different role — but it must absolutely silence the sequence it answered."*
 
@@ -90,6 +92,12 @@ unsubscribe, keeps the first objection's time.
   counts how many first contacts one person receives across roles and
   recruiters, and the recruiter's resend door is a second path a sequence-only
   ceiling would miss.
+  Re-checked 2026-10-31 at kp@6edf5d7: the quoted line is gone. Outreach is no
+  longer sent from the automation run at all. The draft is held as an
+  `outreach_letters` row that a person approves and releases ("approve before
+  first outreach", `automation-run.ts:812-825`), and the `outreach_sent` marker
+  still allows one send per entry (`:826`). The deviation stands: there is still
+  no person-level count or touch budget across roles.
 - **The reply and manual halts fail open.** `outreachHaltFor`
   (`outreach-state-store.ts:151`) allows the send when the workflow row is
   unreadable, and argues it in place: the consent gate and the candidate's stop
