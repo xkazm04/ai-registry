@@ -36,10 +36,11 @@ nothing useful. The keystrokes land in a device whose reader is not yet
 listening for them, and the first command is lost with no error anywhere.
 
 The marker vocabulary has distinct roles for a reason, and the fix is to use
-them: a prompt-start marker says a prompt is being drawn; a command-line
+them: a prompt-start marker says a prompt is being drawn; an input-start
+marker says the prompt has ended and user input begins; a command-line
 marker reports what was submitted; an execution marker says a command has
 begun; a completion marker carries its status. Exactly one role means *the
-input path is now live*, and that one — the command-ready edge — is the only
+input path is now live*, and that one — the input-start role, the command-ready edge — is the only
 observation that may arm the session. Waiting for a specific role rather than
 for protocol traffic is the whole of the correction, and it is a one-line
 change that a detector written from the protocol's shape rather than from its

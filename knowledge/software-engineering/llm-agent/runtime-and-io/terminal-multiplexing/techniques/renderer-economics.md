@@ -21,8 +21,8 @@ the lifecycle discipline that resolves the tension.
 ## The scarce resource is counted, not metered
 
 GPU contexts are not a smooth cost that degrades gracefully as you add
-more; platforms cap them at a small integer per process, and exceeding the
-cap does not slow the newest context — it **revokes the oldest**, usually
+more; platforms cap them at a small integer per process or page, and
+exceeding the cap does not slow the newest context — it **revokes the oldest**, usually
 the one under the terminal the user is actually reading. This changes the
 design question. A metered resource can be managed reactively ("optimize
 when profiling says so"); a counted resource must be budgeted structurally,

@@ -33,7 +33,7 @@ vocabulary in which special keys and modifier chords are named
 (`<enter>`, `<escape>`, `<c-c>`-style chords, in whatever surface syntax
 the product picks) and everything else is literal text.
 
-Two rules make the notation trustworthy:
+Three rules make the notation trustworthy:
 
 - **One parser is the authority**
   ([one-authority-per-vocabulary](../../../../_laws.md#one-authority-per-vocabulary)).
@@ -53,7 +53,7 @@ Two rules make the notation trustworthy:
 
 The notation earns a second dividend the byte form cannot: **legible plans
 and safe logs.** A driving plan rendered in notation can be read, asserted
-on in tests, and round-tripped; and the logging rule above becomes
+on in tests, and round-tripped; and the logging rule below becomes
 mechanical — named keys render as themselves, literal text renders as its
 length only, so the shareable trace shows the plan's *shape* without ever
 carrying the payload.

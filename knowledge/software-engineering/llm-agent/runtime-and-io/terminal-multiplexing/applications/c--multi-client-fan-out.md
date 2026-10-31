@@ -5,7 +5,7 @@ subject: terminal-multiplexing
 technique: multi-client-fan-out
 stack: c
 status: forged
-verified_on: 2026-09-02
+verified_on: 2026-10-31
 ---
 
 # tmux — how the reference multiplexer bounds fan-out to many attached clients

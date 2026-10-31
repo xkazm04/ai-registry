@@ -163,3 +163,299 @@ which point `occupant-state-detection` moves with it.
 
 Unapplied: no authorized fleet project injects a shell-integration script.
 Return condition in `applied.md`.
+
+## Architecture review - 2026-10-31
+
+First architecture review, against `a2473a65c`. All 18 documents read in full:
+the golden path, twelve techniques, five applications. The subject holds
+together. The two-column cost model, the ladder and the three-tier evidence
+model are each stated once and deferred to from every technique. The tmux
+application's load-bearing mechanics were re-read at its pinned commit
+`1dd1717` and all hold: the block thresholds, the discard-and-redraw timer, the
+pause/continue and "too far behind" fork, the drain to the slowest un-paused
+reader, control clients excluded from sizing, and the CHANGES version
+attributions (window-size 2.9, latest as default 3.1, pause 3.2). GNU screen's
+manual confirms the multi-client technique's claim about the older lineage:
+`nonblock` is off by default, so screen "waits until the display restarts to
+accept the output". The semantic-prompts proposal names one role as "end of
+prompt and start of user input" (`OSC 133;B`). readiness-edge-detection arms on
+that role but leaves it out of its own list of roles. Three internal wording
+errors were found: that missing role, a rule count in keystroke-injection, and a
+per-process/per-page mismatch in renderer-economics. The product tree behind
+the four product applications has moved since they were written. One recorded
+deviation is now fixed (resize skips the no-op), a WebGL budget has been added,
+and the line anchors have drifted. Those applications are `reverify`. No
+verification date was refreshed in this record.
+
+<!-- architecture-review:v1 -->
+```json
+{
+  "subject": "software-engineering/terminal-multiplexing",
+  "date": "2026-10-31",
+  "baseline": "a2473a65c",
+  "digest": "sha256-b2:c3ef11aba4a471f5",
+  "disposition": "clarify",
+  "coverage": "All 18 documents read in full. Source checks: the tmux tree at the pinned commit (tty.c, control.c, server-client.c, resize.c, tmux.1, CHANGES), the GNU screen manual's nonblock entry, the semantic-prompts proposal, and a spot-check of the product tree at its current head. Product applications were not exhaustively re-anchored.",
+  "trigger": "Pending: no architecture-review record existed.",
+  "intended_benefit": "A host running N terminal sessions with K watched spends per-session costs only where attention is, re-attaches without loss, and drives occupants on evidence it can defend.",
+  "failure_if_ignored": "Renderers and subscriptions scale with N; detach kills or leaks sessions; automation types into dialogs or harvests a quiet screen as a finished run.",
+  "boundary": "Begins at the pseudo-terminal and ends at the pixels. Spawn and reap belong to subprocess-lifecycle, the roster and the lifecycle state machine to fleet-orchestration, generic buffering to streaming-output, the reload-survival ladder to client-state.",
+  "counterexamples": [
+    "A single-viewer desktop host has M = 1 everywhere; multi-client-fan-out collapses to the golden path's table and should not be built.",
+    "An occupant that emits native lifecycle events makes occupant-state-detection unnecessary; the technique says not to build it.",
+    "A full-screen occupant on the alternate screen defeats the ring's tail promise: replay reconstructs the current grid, not a transcript.",
+    "The older multiplexer lineage (GNU screen) defaults to waiting on a stalled display, the opposite of the non-blocking default the subject prescribes.",
+    "A web terminal that spawns one child per connection has no shared session, so fan-out policy has nothing to arbitrate."
+  ],
+  "sources": [
+    {
+      "url": "https://github.com/tmux/tmux/blob/1dd1717/tty.c",
+      "result": "TTY_BLOCK_START/STOP at 8x and 1/8 of sx*sy, 100 ms interval; tty_block_maybe drains the whole queue and logs \"can't keep up\"; the timer clears TTY_BLOCK and calls tty_invalidate once discards fall below the stop threshold. Supports the c application and the technique's discard-and-redraw rule."
+    },
+    {
+      "url": "https://github.com/tmux/tmux/blob/1dd1717/control.c",
+      "result": "control_check_age: with pause-after set, the pane is paused, discarded and \"%pause\" sent; otherwise, past CONTROL_MAXIMUM_AGE 300000, the client exits with \"too far behind\". control_continue_pane resets the offset to the pane's current offset. Supports the paused-and-told rule."
+    },
+    {
+      "url": "https://github.com/tmux/tmux/blob/1dd1717/server-client.c",
+      "result": "server_client_check_pane_buffer comment: \"If there is data remaining, and there are no clients able to consume it, do not read any more.\" Supports throttling the child only when nobody can consume it."
+    },
+    {
+      "url": "https://github.com/tmux/tmux/blob/1dd1717/resize.c",
+      "result": "default_window_size ignores the client \"if it is a control client\". Supports control-plane clients not voting."
+    },
+    {
+      "url": "https://github.com/tmux/tmux/blob/1dd1717/CHANGES",
+      "result": "Pause mechanism in the 3.1c-to-3.2 section; \"latest\" window-size \"This is now the default\" in 3.0a-to-3.1; clipped-viewport cost warning in the 2.9 section. Attributions confirmed."
+    },
+    {
+      "url": "https://www.gnu.org/software/screen/manual/screen.html",
+      "result": "nonblock: \"If nonblock is off (this is the default) screen waits until the display restarts to accept the output.\" Confirms the older lineage's blocking default. When the option was added was not checked."
+    },
+    {
+      "url": "https://gitlab.freedesktop.org/Per_Bothner/specifications/-/raw/master/proposals/semantic-prompts.md",
+      "result": "OSC 133;A starts the prompt, 133;B is \"End of prompt and start of user input\", 133;C is \"End of input, and start of output\", 133;D is \"End of current command\" with an exit code. Supports the five-role boundary vocabulary in the golden path. readiness-edge-detection's list omits B, the role it arms on."
+    },
+    {
+      "source": "Product tree at its current head (spot-check)",
+      "result": "MAX_PARKED = 6 and OUTPUT_RING_CAP 512 KiB still present; `subscribed: bool` still the attachment set; the payload sniff still routes to write_text_line. pushResize now skips the no-op, contradicting a recorded deviation; a WebGL budget was added; line anchors drifted."
+    }
+  ],
+  "documents": {
+    "terminal-multiplexing.md": {
+      "disposition": "keep",
+      "reason": "Boundaries with four neighbours stated once; the cost model's K-counts-attachments caveat, the alternate-screen condition on rule 1, and the three-tier evidence model are internally consistent with the techniques. The GPU-cap claim agrees with the Chromium evidence the react application cites."
+    },
+    "techniques/attach-detach-lifecycle.md": {
+      "disposition": "keep",
+      "reason": "Ordered teardown, least-recently-viewed eviction, and focus unevictable with a budget of at least two all hold; the per-client clause defers correctly to multi-client-fan-out."
+    },
+    "techniques/bounded-replay-buffers.md": {
+      "disposition": "keep",
+      "reason": "Defers the generic discipline to streaming-output; the position-keyed and atomic-snapshot splices are both sound; the alternate-screen boundary and its gated recoveries are stated with their limits."
+    },
+    "techniques/renderer-economics.md": {
+      "disposition": "clarify",
+      "reason": "Says platforms cap GPU contexts \"per process\"; the golden path (corrected 2026-09-02) and the cited browser evidence say per process or page. Align the wording."
+    },
+    "techniques/pty-management.md": {
+      "disposition": "keep",
+      "reason": "Lineage differences are stated as semantics without overclaiming; the rule that process wait gives the verdict and stream end only corroborates it is sound."
+    },
+    "techniques/keystroke-injection.md": {
+      "disposition": "clarify",
+      "reason": "\"Two rules make the notation trustworthy\" introduces three bullets, and \"the logging rule above\" points to a rule stated in the final section below. Fix the count and the direction."
+    },
+    "techniques/multiplexer-state.md": {
+      "disposition": "keep",
+      "reason": "The single dispatcher, the view-as-loan model, and focus as a per-client singleton with write permission deferred to fan-out are coherent; reload-survival duties are layered on client-state rather than restating it."
+    },
+    "techniques/occupant-state-detection.md": {
+      "disposition": "keep",
+      "reason": "Ranks channels and reads from a buffer the user cannot scroll; unknown is never spent as an answer; a programmatic read never marks a session seen. The boundary with lifecycle-signals is stated from both sides. Its dated spinner versions are illustrative, not load-bearing."
+    },
+    "techniques/multi-client-fan-out.md": {
+      "disposition": "keep",
+      "reason": "Every mechanic re-confirmed in the pinned tmux tree. The older lineage's blocking default is confirmed by the screen manual; the claim that its non-blocking option came later was not dated."
+    },
+    "techniques/completion-authority-arbitration.md": {
+      "disposition": "keep",
+      "reason": "Revoke-not-outrank, the closed set of positive terminators, and a heuristic tier that never asserts exit status are consistent with the semantic-prompts vocabulary, where only D carries an exit code."
+    },
+    "techniques/readiness-edge-detection.md": {
+      "disposition": "clarify",
+      "reason": "Lists prompt-start, command-line, execution and completion roles, then says exactly one role means the input path is live. That role (OSC 133;B, \"start of user input\") is missing from the list. Add it."
+    },
+    "techniques/capability-revalidation.md": {
+      "disposition": "keep",
+      "reason": "Revalidates per run with a bounded acknowledgement window, so an infinite wait cannot happen. Demotion is per run and recorded. Consistent with arbitration and readiness."
+    },
+    "techniques/injected-hook-reconvergence.md": {
+      "disposition": "keep",
+      "reason": "Repairs on assert and never reinstalls, limits itself to the integration's own invariants, and steps down loudly when it cannot converge. No external claim needing a source."
+    },
+    "applications/react--attach-detach-lifecycle.md": {
+      "disposition": "reverify",
+      "reason": "Product tree moved: pushResize now skips the no-op (recorded deviation resolved), a WebGL budget constant was added beside MAX_PARKED, and line anchors drifted. Needs a full re-anchor at a pinned commit."
+    },
+    "applications/react--keystroke-injection.md": {
+      "disposition": "reverify",
+      "reason": "Structure still present (the payload sniff routes to write_text_line), but anchors drifted from the pinned 2b5e24223. The four naive call sites and the paste tests were not re-located."
+    },
+    "applications/rust--pty-management.md": {
+      "disposition": "reverify",
+      "reason": "Not re-anchored this run; its deviations (temp cleanup, geometry ordering, unobservable submit outcome) may have been fixed as the neighbouring react deviation was."
+    },
+    "applications/rust--multi-client-fan-out.md": {
+      "disposition": "keep",
+      "reason": "Negative application labelled unapplied. Its return condition (`subscribed: bool` replaced by a set) has not triggered: the field is unchanged at head."
+    },
+    "applications/c--multi-client-fan-out.md": {
+      "disposition": "keep",
+      "reason": "Load-bearing citations re-read at the pinned commit 1dd1717 and confirmed. Line anchors match within a line or two. Its limits section is honest."
+    }
+  }
+}
+```
+
+### Re-record after apply - 2026-10-31
+
+Applied the three technique clarifications from the record above: the
+per-process-or-page cap wording in renderer-economics, the rule count and
+pointer direction in keystroke-injection, and the missing input-start role in
+readiness-edge-detection. Moved the c application's `verified_on` to
+2026-10-31, because its citations were re-read at the pin this run. No
+document is left owing a clarification. The overall disposition is now
+`reverify`: the three product applications still need re-anchoring at a pinned
+commit of the product tree, and nothing else is outstanding.
+
+<!-- architecture-review:v1 -->
+```json
+{
+  "subject": "software-engineering/terminal-multiplexing",
+  "date": "2026-10-31",
+  "baseline": "a2473a65c",
+  "digest": "sha256-b2:5a9b9587de8d6709",
+  "disposition": "reverify",
+  "coverage": "All 18 documents read in full. Source checks: the tmux tree at the pinned commit (tty.c, control.c, server-client.c, resize.c, tmux.1, CHANGES), the GNU screen manual's nonblock entry, the semantic-prompts proposal, and a spot-check of the product tree at its current head. Product applications were not exhaustively re-anchored. Second record: the three technique clarifications were applied, and the c application's verified_on was moved after its re-check. The three product applications remain reverify.",
+  "trigger": "Pending: no architecture-review record existed.",
+  "intended_benefit": "A host running N terminal sessions with K watched spends per-session costs only where attention is, re-attaches without loss, and drives occupants on evidence it can defend.",
+  "failure_if_ignored": "Renderers and subscriptions scale with N; detach kills or leaks sessions; automation types into dialogs or harvests a quiet screen as a finished run.",
+  "boundary": "Begins at the pseudo-terminal and ends at the pixels. Spawn and reap belong to subprocess-lifecycle, the roster and the lifecycle state machine to fleet-orchestration, generic buffering to streaming-output, the reload-survival ladder to client-state.",
+  "counterexamples": [
+    "A single-viewer desktop host has M = 1 everywhere; multi-client-fan-out collapses to the golden path's table and should not be built.",
+    "An occupant that emits native lifecycle events makes occupant-state-detection unnecessary; the technique says not to build it.",
+    "A full-screen occupant on the alternate screen defeats the ring's tail promise: replay reconstructs the current grid, not a transcript.",
+    "The older multiplexer lineage (GNU screen) defaults to waiting on a stalled display, the opposite of the non-blocking default the subject prescribes.",
+    "A web terminal that spawns one child per connection has no shared session, so fan-out policy has nothing to arbitrate."
+  ],
+  "sources": [
+    {
+      "url": "https://github.com/tmux/tmux/blob/1dd1717/tty.c",
+      "result": "TTY_BLOCK_START/STOP at 8x and 1/8 of sx*sy, 100 ms interval; tty_block_maybe drains the whole queue and logs \"can't keep up\"; the timer clears TTY_BLOCK and calls tty_invalidate once discards fall below the stop threshold. Supports the c application and the technique's discard-and-redraw rule."
+    },
+    {
+      "url": "https://github.com/tmux/tmux/blob/1dd1717/control.c",
+      "result": "control_check_age: with pause-after set, the pane is paused, discarded and \"%pause\" sent; otherwise, past CONTROL_MAXIMUM_AGE 300000, the client exits with \"too far behind\". control_continue_pane resets the offset to the pane's current offset. Supports the paused-and-told rule."
+    },
+    {
+      "url": "https://github.com/tmux/tmux/blob/1dd1717/server-client.c",
+      "result": "server_client_check_pane_buffer comment: \"If there is data remaining, and there are no clients able to consume it, do not read any more.\" Supports throttling the child only when nobody can consume it."
+    },
+    {
+      "url": "https://github.com/tmux/tmux/blob/1dd1717/resize.c",
+      "result": "default_window_size ignores the client \"if it is a control client\". Supports control-plane clients not voting."
+    },
+    {
+      "url": "https://github.com/tmux/tmux/blob/1dd1717/CHANGES",
+      "result": "Pause mechanism in the 3.1c-to-3.2 section; \"latest\" window-size \"This is now the default\" in 3.0a-to-3.1; clipped-viewport cost warning in the 2.9 section. Attributions confirmed."
+    },
+    {
+      "url": "https://www.gnu.org/software/screen/manual/screen.html",
+      "result": "nonblock: \"If nonblock is off (this is the default) screen waits until the display restarts to accept the output.\" Confirms the older lineage's blocking default. When the option was added was not checked."
+    },
+    {
+      "url": "https://gitlab.freedesktop.org/Per_Bothner/specifications/-/raw/master/proposals/semantic-prompts.md",
+      "result": "OSC 133;A starts the prompt, 133;B is \"End of prompt and start of user input\", 133;C is \"End of input, and start of output\", 133;D is \"End of current command\" with an exit code. Supports the five-role boundary vocabulary in the golden path. readiness-edge-detection's list omits B, the role it arms on."
+    },
+    {
+      "source": "Product tree at its current head (spot-check)",
+      "result": "MAX_PARKED = 6 and OUTPUT_RING_CAP 512 KiB still present; `subscribed: bool` still the attachment set; the payload sniff still routes to write_text_line. pushResize now skips the no-op, contradicting a recorded deviation; a WebGL budget was added; line anchors drifted."
+    }
+  ],
+  "documents": {
+    "terminal-multiplexing.md": {
+      "disposition": "keep",
+      "reason": "Boundaries with four neighbours stated once; the cost model's K-counts-attachments caveat, the alternate-screen condition on rule 1, and the three-tier evidence model are internally consistent with the techniques. The GPU-cap claim agrees with the Chromium evidence the react application cites."
+    },
+    "techniques/attach-detach-lifecycle.md": {
+      "disposition": "keep",
+      "reason": "Ordered teardown, least-recently-viewed eviction, and focus unevictable with a budget of at least two all hold; the per-client clause defers correctly to multi-client-fan-out."
+    },
+    "techniques/bounded-replay-buffers.md": {
+      "disposition": "keep",
+      "reason": "Defers the generic discipline to streaming-output; the position-keyed and atomic-snapshot splices are both sound; the alternate-screen boundary and its gated recoveries are stated with their limits."
+    },
+    "techniques/renderer-economics.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: GPU-context cap now reads \"per process or page\", matching the golden path and the cited browser evidence."
+    },
+    "techniques/pty-management.md": {
+      "disposition": "keep",
+      "reason": "Lineage differences are stated as semantics without overclaiming; the rule that process wait gives the verdict and stream end only corroborates it is sound."
+    },
+    "techniques/keystroke-injection.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: \"Two rules\" -> \"Three rules\" to match the three bullets; \"the logging rule above\" -> \"below\", where the rule is stated."
+    },
+    "techniques/multiplexer-state.md": {
+      "disposition": "keep",
+      "reason": "The single dispatcher, the view-as-loan model, and focus as a per-client singleton with write permission deferred to fan-out are coherent; reload-survival duties are layered on client-state rather than restating it."
+    },
+    "techniques/occupant-state-detection.md": {
+      "disposition": "keep",
+      "reason": "Ranks channels and reads from a buffer the user cannot scroll; unknown is never spent as an answer; a programmatic read never marks a session seen. The boundary with lifecycle-signals is stated from both sides. Its dated spinner versions are illustrative, not load-bearing."
+    },
+    "techniques/multi-client-fan-out.md": {
+      "disposition": "keep",
+      "reason": "Every mechanic re-confirmed in the pinned tmux tree. The older lineage's blocking default is confirmed by the screen manual; the claim that its non-blocking option came later was not dated."
+    },
+    "techniques/completion-authority-arbitration.md": {
+      "disposition": "keep",
+      "reason": "Revoke-not-outrank, the closed set of positive terminators, and a heuristic tier that never asserts exit status are consistent with the semantic-prompts vocabulary, where only D carries an exit code."
+    },
+    "techniques/readiness-edge-detection.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: added the input-start role (end of prompt, start of user input; semantic-prompts OSC 133;B) to the role list and named it as the command-ready edge."
+    },
+    "techniques/capability-revalidation.md": {
+      "disposition": "keep",
+      "reason": "Revalidates per run with a bounded acknowledgement window, so an infinite wait cannot happen. Demotion is per run and recorded. Consistent with arbitration and readiness."
+    },
+    "techniques/injected-hook-reconvergence.md": {
+      "disposition": "keep",
+      "reason": "Repairs on assert and never reinstalls, limits itself to the integration's own invariants, and steps down loudly when it cannot converge. No external claim needing a source."
+    },
+    "applications/react--attach-detach-lifecycle.md": {
+      "disposition": "reverify",
+      "reason": "Product tree moved: pushResize now skips the no-op (recorded deviation resolved), a WebGL budget constant was added beside MAX_PARKED, and line anchors drifted. Needs a full re-anchor at a pinned commit."
+    },
+    "applications/react--keystroke-injection.md": {
+      "disposition": "reverify",
+      "reason": "Structure still present (the payload sniff routes to write_text_line), but anchors drifted from the pinned 2b5e24223. The four naive call sites and the paste tests were not re-located."
+    },
+    "applications/rust--pty-management.md": {
+      "disposition": "reverify",
+      "reason": "Not re-anchored this run; its deviations (temp cleanup, geometry ordering, unobservable submit outcome) may have been fixed as the neighbouring react deviation was."
+    },
+    "applications/rust--multi-client-fan-out.md": {
+      "disposition": "keep",
+      "reason": "Negative application labelled unapplied. Its return condition (`subscribed: bool` replaced by a set) has not triggered: the field is unchanged at head."
+    },
+    "applications/c--multi-client-fan-out.md": {
+      "disposition": "keep",
+      "reason": "Load-bearing citations re-read at the pinned commit 1dd1717 and confirmed; verified_on moved to 2026-10-31 on that re-check. Line anchors match within a line or two."
+    }
+  }
+}
+```
