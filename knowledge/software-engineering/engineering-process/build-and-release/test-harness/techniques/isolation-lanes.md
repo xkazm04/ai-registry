@@ -45,7 +45,7 @@ environment knob the product honors at that directory, seeds it from the
 fixture tier the lane requires (or leaves it virgin for first-run tests),
 allocates ports, starts the process, and tears the world down afterwards.
 
-Three rules make launchers trustworthy:
+Four rules make launchers trustworthy:
 
 1. **The launcher is the only entrance.** If tests can also be started raw —
    inheriting whatever world the invoker happened to have — the lane's

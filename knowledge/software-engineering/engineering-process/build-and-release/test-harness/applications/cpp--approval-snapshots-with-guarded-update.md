@@ -104,8 +104,8 @@ of the snapshot library, and a new field with run-to-run variance would fail
 on every run until someone noticed.
 
 **A neighbouring harness choice worth one sentence.** The same pipeline runs
-`ctest --repeat until-pass:4` (`test.yml:80`), retrying any failing test up
-to four times before calling it red. That is a flake-masking retry, not the
+`ctest --repeat until-pass:4` (`test.yml:80`), running any failing test up
+to four times (three retries) before calling it red. That is a flake-masking retry, not the
 recording retry this subject's flake-lifecycle technique asks for; it does
 not touch the snapshot guard (an integrity failure is deterministic and
 fails all four times), but it is the kind of retry a snapshot with a

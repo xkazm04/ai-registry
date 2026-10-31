@@ -30,16 +30,16 @@ worker, so the run takes 9 minutes: the parallelism bought 44% of its potential,
 the workers again buys almost nothing, because the 9-minute worker does not divide.
 
 The tell is easy to check and almost nobody checks it: **compare the slowest worker's duration
-against the mean**. A ratio near 1 means the split is working. A ratio of 2 or more means most
-of the capacity is idle, and the fix is the split, not more workers.
+against the mean**. A ratio near 1 means the split is working. A ratio of 2 or more means at
+least half of the capacity is idle, and the fix is the split, not more workers.
 
 ## Split by measured duration
 
 1. **Record per-test duration on every run**, keyed by stable test identity.
 2. **Partition to equalize predicted total duration**, not count. Longest-first greedy
    assignment — sort tests by duration descending, assign each to the currently-least-loaded
-   worker — is within a few percent of optimal and takes ten lines. Nothing more sophisticated
-   is needed.
+   worker — takes ten lines, is typically within a few percent of optimal on a suite of many
+   tests, and is never worse than 4/3 of optimal. Nothing more sophisticated is needed.
 3. **Rebalance continuously.** The distribution is recomputed from recent history, not frozen
    at the moment somebody tuned it. A hand-tuned split is correct on the day it is written and
    decays from then on.

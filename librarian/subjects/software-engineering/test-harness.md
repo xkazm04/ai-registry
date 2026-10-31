@@ -296,3 +296,473 @@ client's timeout out of reach) is banked untriaged at GAIN 1 in the source note.
   no-op-repair case. The lead is the incident that bullet was written from. No edit.
 
 2026-10-23 (intake-firetv-inbox-1023, [[2026-10-23-firetv-inbox-harvest]]): new technique assert-the-schedule-not-the-stopwatch (in-flight counts, start barriers, per-fixture clocks). Unapplied, no seam in 10 node trees. Banked: unreached-decisions-pin-nothing gains the overlay-key-that-names-nothing case (row 22). Catches: row 4 (capability-detection), row 18 (secret-scanning-architecture). Row 60 re-homed as a lead under live-system-demo-film.
+
+## 2026-10-31 - architecture review (first record)
+
+First architecture-review record for this subject; no earlier record, so no clarify items were owed. All 45 documents read. Six primary sources checked. Two load-bearing claims were refuted by them. pytest exits 5 when everything is deselected, so "every runner exits green on an empty filter" is wrong for the measured runner itself. The interpreting verifier is measured at 3,000-7,000x native, not one to two orders of magnitude. Trigger: pending since forge. Intended benefit: the subject's own counts and costs hold when a reader acts on them. Failure if ignored: an agent prices an interpreter lane like a simulator, or trusts pytest exit codes to catch a zero-selection lane that never reaches them. Boundary: the documents themselves were not edited before this record. The digest is over the bytes at the baseline.
+
+<!-- architecture-review:v1 -->
+```json
+{
+  "subject": "software-engineering/test-harness",
+  "date": "2026-10-31",
+  "baseline": "a2ac51c1c",
+  "digest": "sha256-b2:c96e1ee699a88119",
+  "disposition": "clarify",
+  "coverage": "All 45 documents read in full (golden path, 25 techniques, 19 applications). Primary sources checked for the runner exit-code claim, the coverage criterion claim, ctest repeat semantics, the C++ application's pinned workflow and switch, verifier cost figures and the LPT bound; private application trees not re-opened.",
+  "counterexamples": [
+    "pytest exits 5 when every collected item is deselected, so a whole run that selects nothing is not green there; only a zero inside a larger selected run is.",
+    "A four-outcome function whose arms are each on their own line shows the untaken arms as uncovered lines; line coverage misses only implicit arms.",
+    "Longest-first greedy can land at 4/3 of optimal on adversarial durations, so \"within a few percent\" holds typically, not always.",
+    "The interpreting verifier is measured at 3000x-7000x native, so placing it beside a 20x-50x simulator as one cost tier misprices the lane.",
+    "ctest --repeat until-pass:4 runs a test at most four times, which is three retries, not four."
+  ],
+  "sources": [
+    {
+      "url": "https://docs.pytest.org/en/stable/reference/exit-codes.html",
+      "result": "Exit code 5: \"No tests were collected\". With pytest src/_pytest/main.py (testscollected = len(items) after pytest_collection_modifyitems; testscollected == 0 -> NO_TESTS_COLLECTED), refutes the universal exit-0 claim."
+    },
+    {
+      "url": "https://coverage.readthedocs.io/en/latest/branch.html",
+      "result": "\"Statement coverage would show all lines of the function as executed. But the if was never evaluated as false\" - supports the claim only for implicit arms."
+    },
+    {
+      "url": "https://cmake.org/cmake/help/latest/manual/ctest.1.html",
+      "result": "until-pass: \"Allow each test to run up to <n> times in order to pass\" - up to four runs, three retries."
+    },
+    {
+      "url": "https://github.com/Chatterino/chatterino2/blob/fda51f0d3a4a5cd15f099b951b796e299d566e9e/.github/workflows/test.yml",
+      "result": "Line 80 reads `ctest --repeat until-pass:4 --output-on-failure`; tests/src/IrcMessageHandler.cpp:56-63 carries `constexpr bool UPDATE_SNAPSHOTS = false;` with the quoted comment."
+    },
+    {
+      "url": "https://research.ralfj.de/papers/2026-popl-miri.pdf",
+      "result": "\"Miri is about 3000x slower than the native code; for the highest n, the ratio is about 7000x\"; sanitizers \"less than 10x overhead\"; Valgrind \"typical slowdown is on the order of 20x-50x\". Refutes the cost figures, supports the two-family split."
+    },
+    {
+      "url": "https://en.wikipedia.org/wiki/Longest-processing-time-first_scheduling",
+      "result": "Worst case \"at most 4/3 times the optimal\"; near-optimal on random inputs - supports a typical, not universal, few-percent claim."
+    },
+    {
+      "source": "Existing consumer applications",
+      "result": "Dated reports retained; private trees not re-opened and nothing re-executed. verified_on dates unchanged."
+    }
+  ],
+  "documents": {
+    "applications/cpp--approval-snapshots-with-guarded-update.md": {
+      "disposition": "clarify",
+      "reason": "Pinned test.yml:80 re-read: `ctest --repeat until-pass:4`; CMake documents until-pass:<n> as \"Allow each test to run up to <n> times\", so \"retrying ... up to four times\" overstates by one. UPDATE_SNAPSHOTS constant and comment at IrcMessageHandler.cpp:56-63 confirmed. Other anchors not re-opened, so verified_on unchanged."
+    },
+    "applications/dotnet--recorded-interaction-fixtures.md": {
+      "disposition": "keep",
+      "reason": "Pinned public citations dated 2026-10-06 and internally consistent with the technique; not re-opened this run, dates unchanged."
+    },
+    "applications/node--approval-snapshots-with-guarded-update.md": {
+      "disposition": "keep",
+      "reason": "Exposure measurement (17/17) with an honest unmeasurable verdict and stated biases."
+    },
+    "applications/node--assert-through-the-reader.md": {
+      "disposition": "keep",
+      "reason": "Two artifacts map cleanly onto the technique; gaps stated; private tree not re-opened."
+    },
+    "applications/node--configuration-axes-cross-the-ladder.md": {
+      "disposition": "keep",
+      "reason": "Writer-side immutability breach with a zero-incidence history and an unmeasurable verdict, stated as such."
+    },
+    "applications/node--far-side-oracle.md": {
+      "disposition": "keep",
+      "reason": "Matches the technique property for property; limits (no fault injection, unauthenticated agent) stated."
+    },
+    "applications/node--gate-scope-is-not-report-scope.md": {
+      "disposition": "clarify",
+      "reason": "Codebase-1 arithmetic does not reconcile inside the document: 1,070 absent files cannot be derived from 5 scoped files, 1,171 reported and 1,156 source files (1,151 or 1,166 would follow). Not applied: which figure is wrong needs the tree."
+    },
+    "applications/node--live-app-harness.md": {
+      "disposition": "reverify",
+      "reason": "Says the endpoint compiles only under a cargo feature, then that a production install can opt in through an environment port variable; the deviation from the technique's never-a-runtime-flag rule is unflagged. No verified_against; the 38-of-38 never-green figure was not re-opened."
+    },
+    "applications/node--suite-partitioning.md": {
+      "disposition": "keep",
+      "reason": "Table arithmetic (521 = 516 + 5; environment ~5x tests) checks; limits stated."
+    },
+    "applications/node--unreached-decisions-pin-nothing.md": {
+      "disposition": "keep",
+      "reason": "Mutation table and verdict (1/4 -> 4/4) consistent; private tree not re-opened."
+    },
+    "applications/python--constraint-injection-for-unreachable-tiers.md": {
+      "disposition": "clarify",
+      "reason": "Infers that \"a sweep ... found a bug\" from a ladder comment that, as quoted, records only that the rung was split after its low band regressed; who found it is not shown. Not applied: needs the pinned comment."
+    },
+    "applications/python--derived-selection-must-be-measured.md": {
+      "disposition": "keep",
+      "reason": "Counterfactual R2 and marker dump support the technique. Its \"no floor check\" is consistent with the corrected runner claim (the zero was one file inside a larger selected run)."
+    },
+    "applications/rust--configuration-axes-cross-the-ladder.md": {
+      "disposition": "keep",
+      "reason": "Counts reconcile (1,340 / 1,189 + 12 / 1,352; 163 = 1,352 - 1,189; 1,337 + 3); negative control and instrument defects recorded."
+    },
+    "applications/rust--fixture-economics.md": {
+      "disposition": "keep",
+      "reason": "89 s -> 2.9 s and torn-copy hardening agree with the technique; private tree not re-opened."
+    },
+    "applications/rust--mutation-lane-with-a-triaged-baseline--yoagent.md": {
+      "disposition": "keep",
+      "reason": "93 = 22 + 58 + 12 + 1 and 22 = 13 + 2 + 7 reconcile; sampled baseline stated as one."
+    },
+    "applications/rust--mutation-lane-with-a-triaged-baseline.md": {
+      "disposition": "keep",
+      "reason": "84 = 68 + 7 + 9, 68/75 ~ 91% and the 7 -> 5 target reconcile; single-module scope stated."
+    },
+    "applications/rust--negative-control-tests.md": {
+      "disposition": "keep",
+      "reason": "Standing negative control over a pure scorer; consistent with the technique."
+    },
+    "applications/rust--platform-quirk-absorption.md": {
+      "disposition": "keep",
+      "reason": "Honest not-better verdict confirming the no-mode boundary."
+    },
+    "applications/rust--suite-partitioning.md": {
+      "disposition": "keep",
+      "reason": "Pinned public tree; 33 = 24 + 6 + 3 checks; deviation (no denominator reconciliation) stated."
+    },
+    "techniques/approval-snapshots-with-guarded-update.md": {
+      "disposition": "keep",
+      "reason": "Source-constant switch with an integrity test is confirmed by the pinned C++ tree (constant and comment re-read this run)."
+    },
+    "techniques/assert-the-schedule-not-the-stopwatch.md": {
+      "disposition": "keep",
+      "reason": "Overlap/cap/cutoff by observation is sound and scoped away from genuine duration standards."
+    },
+    "techniques/assert-through-the-reader.md": {
+      "disposition": "keep",
+      "reason": "Reader-as-oracle at unit cost and the prior-state matrix agree with the Node application; boundaries against far-side-oracle stated."
+    },
+    "techniques/configuration-axes-cross-the-ladder.md": {
+      "disposition": "keep",
+      "reason": "Cell-as-result-unit and missing-cell inventory are sound; its 1,340/1,352/1,189 figures and twelve-cell arithmetic agree with the Rust application."
+    },
+    "techniques/constraint-injection-for-unreachable-tiers.md": {
+      "disposition": "keep",
+      "reason": "Probe-level interception and the two-claim discipline are sound; limits stated."
+    },
+    "techniques/context-starved-executor.md": {
+      "disposition": "clarify",
+      "reason": "\"The honest state of the shape\" (six journeys, five refusing) is an undated count of one tree inside a technique; it should carry a date or move to an application. Not applied: the reconciliation date is not recorded in the document or this run."
+    },
+    "techniques/derived-selection-must-be-measured.md": {
+      "disposition": "clarify",
+      "reason": "\"Every runner in common use exits successfully when a filter matches nothing\" is refuted for the measured runner itself: pytest returns exit 5 (no tests collected) when every item is deselected. What survives is that no runner refuses a zero-selection lane, file or group inside a larger non-empty run."
+    },
+    "techniques/dynamic-verifier-classes.md": {
+      "disposition": "clarify",
+      "reason": "Cost figures refuted by the interpreter's own POPL 2026 paper: interpretation measured about 3000x-7000x native (three-plus orders, not one to two), machine-code simulation typically 20x-50x (not the same order as interpretation), sanitizers under 10x. Two-family partition and boundary argument confirmed by the same paper."
+    },
+    "techniques/far-side-oracle.md": {
+      "disposition": "keep",
+      "reason": "Far-side observer, skip-when-absent and derived budget are coherent and match the Node application."
+    },
+    "techniques/fixture-economics.md": {
+      "disposition": "keep",
+      "reason": "Build-once-copy-per-test, fingerprinted freshness and seeded-data honesty are sound; cleanup-list figures agree with the Rust application."
+    },
+    "techniques/flake-lifecycle.md": {
+      "disposition": "keep",
+      "reason": "Five-transition process, same-inputs qualifier and register figures are sound and match the golden-path summary."
+    },
+    "techniques/gate-scope-is-not-report-scope.md": {
+      "disposition": "clarify",
+      "reason": "Line-coverage claim overgeneralised: a function with four outcomes reaches full line coverage from two-outcome tests only where the untaken arms are implicit (fall-through, missing else, one-line condition). coverage.py documents exactly that case."
+    },
+    "techniques/history-driven-partitioning.md": {
+      "disposition": "clarify",
+      "reason": "Arithmetic: a slowest/mean ratio of 2 idles exactly half the capacity, not \"most\". Longest-first greedy is unconditionally \"within a few percent of optimal\"; Graham bound is 4/3 worst case, near-optimal only typically."
+    },
+    "techniques/isolation-lanes.md": {
+      "disposition": "clarify",
+      "reason": "Internal count error: \"Three rules make launchers trustworthy\" introduces four numbered rules."
+    },
+    "techniques/live-app-harness.md": {
+      "disposition": "keep",
+      "reason": "Control-surface, serial law, stash-and-read-back and test-identifier contract are internally consistent; no unstable external claim."
+    },
+    "techniques/long-lane-certification.md": {
+      "disposition": "clarify",
+      "reason": "Its quarantine rule (owner, entry date, failure signature) omits the expiry flake-lifecycle makes mandatory, with no pointer between the two statements of one discipline."
+    },
+    "techniques/mutation-lane-with-a-triaged-baseline.md": {
+      "disposition": "keep",
+      "reason": "Lane placement, cost-first ordering, sampled baseline and four-bin triage are sound; arithmetic (205+26 s ~ 230 s; 11-33 s build under a minute total) checks. The 928-mutant/30-minute figure was not re-derived against the shard count."
+    },
+    "techniques/negative-control-tests.md": {
+      "disposition": "keep",
+      "reason": "Procedure, unabsorbable-mutation rule and the unapplied-break check are sound and confirmed by the Rust application."
+    },
+    "techniques/out-of-graph-artifacts.md": {
+      "disposition": "keep",
+      "reason": "Artifact-side inventory and load-not-compile rule are sound; boundaries with partitioning and gate-liveness are stated."
+    },
+    "techniques/pin-the-call-not-the-name.md": {
+      "disposition": "keep",
+      "reason": "Needle/haystack/population settings are coherent and cross-referenced; no external claim to check."
+    },
+    "techniques/platform-quirk-absorption.md": {
+      "disposition": "keep",
+      "reason": "Absorption boundary and the post-main numerics refinement are coherent; the Rust application confirms the stated no-mode exception."
+    },
+    "techniques/recorded-interaction-fixtures.md": {
+      "disposition": "keep",
+      "reason": "Transport seam, fidelity dial, freshness obligation and timing neutralization agree with the .NET application that exercises them."
+    },
+    "techniques/suite-partitioning.md": {
+      "disposition": "keep",
+      "reason": "Per-suite configuration, location membership, exhaustive/disjoint partition and denominator reconciliation are consistent with the applications that test them."
+    },
+    "techniques/unreached-decisions-pin-nothing.md": {
+      "disposition": "keep",
+      "reason": "Reach probe and repair order are sound; the Node application's 1-of-4 / 4-of-4 table supports it."
+    },
+    "techniques/verification-inherits-driver-reach.md": {
+      "disposition": "keep",
+      "reason": "Two-number pairing and the exhaustive-checker exception are sound; no unstable external figure."
+    },
+    "test-harness.md": {
+      "disposition": "clarify",
+      "reason": "Five frontmatter techniques were missing from the closing technique list, and three (approval-snapshots, assert-the-schedule, constraint-injection) were never linked anywhere in the body. Boundary, ladder and lane-health argument otherwise sound."
+    }
+  }
+}
+```
+
+## 2026-10-31 - applied clarifications (second record)
+
+Applied the nine clarify items whose change was confirmed by a source opened this run or by the documents' own arithmetic: golden-path technique list, derived-selection, history-driven-partitioning, isolation-lanes, dynamic-verifier-classes, gate-scope, long-lane-certification and the C++ approval application. Still owed: context-starved-executor (date the tree count), node--gate-scope (codebase-1 arithmetic), python--constraint-injection (sweep-found inference). Also owed: reverify node--live-app-harness (runtime opt-in versus feature-only compile). No verified_on moved.
+
+<!-- architecture-review:v1 -->
+```json
+{
+  "subject": "software-engineering/test-harness",
+  "date": "2026-10-31",
+  "baseline": "a2ac51c1c",
+  "digest": "sha256-b2:2287af36a9532062",
+  "disposition": "clarify",
+  "coverage": "Post-apply record: 9 clarify items applied, 3 clarify and 1 reverify left owed; all 45 documents carry a decision.",
+  "counterexamples": [
+    "pytest exits 5 when every collected item is deselected, so a whole run that selects nothing is not green there; only a zero inside a larger selected run is.",
+    "A four-outcome function whose arms are each on their own line shows the untaken arms as uncovered lines; line coverage misses only implicit arms.",
+    "Longest-first greedy can land at 4/3 of optimal on adversarial durations, so \"within a few percent\" holds typically, not always.",
+    "The interpreting verifier is measured at 3000x-7000x native, so placing it beside a 20x-50x simulator as one cost tier misprices the lane.",
+    "ctest --repeat until-pass:4 runs a test at most four times, which is three retries, not four."
+  ],
+  "sources": [
+    {
+      "url": "https://docs.pytest.org/en/stable/reference/exit-codes.html",
+      "result": "Exit code 5: \"No tests were collected\". With pytest src/_pytest/main.py (testscollected = len(items) after pytest_collection_modifyitems; testscollected == 0 -> NO_TESTS_COLLECTED), refutes the universal exit-0 claim."
+    },
+    {
+      "url": "https://coverage.readthedocs.io/en/latest/branch.html",
+      "result": "\"Statement coverage would show all lines of the function as executed. But the if was never evaluated as false\" - supports the claim only for implicit arms."
+    },
+    {
+      "url": "https://cmake.org/cmake/help/latest/manual/ctest.1.html",
+      "result": "until-pass: \"Allow each test to run up to <n> times in order to pass\" - up to four runs, three retries."
+    },
+    {
+      "url": "https://github.com/Chatterino/chatterino2/blob/fda51f0d3a4a5cd15f099b951b796e299d566e9e/.github/workflows/test.yml",
+      "result": "Line 80 reads `ctest --repeat until-pass:4 --output-on-failure`; tests/src/IrcMessageHandler.cpp:56-63 carries `constexpr bool UPDATE_SNAPSHOTS = false;` with the quoted comment."
+    },
+    {
+      "url": "https://research.ralfj.de/papers/2026-popl-miri.pdf",
+      "result": "\"Miri is about 3000x slower than the native code; for the highest n, the ratio is about 7000x\"; sanitizers \"less than 10x overhead\"; Valgrind \"typical slowdown is on the order of 20x-50x\". Refutes the cost figures, supports the two-family split."
+    },
+    {
+      "url": "https://en.wikipedia.org/wiki/Longest-processing-time-first_scheduling",
+      "result": "Worst case \"at most 4/3 times the optimal\"; near-optimal on random inputs - supports a typical, not universal, few-percent claim."
+    },
+    {
+      "source": "Existing consumer applications",
+      "result": "Dated reports retained; private trees not re-opened and nothing re-executed. verified_on dates unchanged."
+    }
+  ],
+  "documents": {
+    "applications/cpp--approval-snapshots-with-guarded-update.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: \"retrying any failing test up to four times\" -> \"running any failing test up to four times (three retries)\""
+    },
+    "applications/dotnet--recorded-interaction-fixtures.md": {
+      "disposition": "keep",
+      "reason": "Pinned public citations dated 2026-10-06 and internally consistent with the technique; not re-opened this run, dates unchanged."
+    },
+    "applications/node--approval-snapshots-with-guarded-update.md": {
+      "disposition": "keep",
+      "reason": "Exposure measurement (17/17) with an honest unmeasurable verdict and stated biases."
+    },
+    "applications/node--assert-through-the-reader.md": {
+      "disposition": "keep",
+      "reason": "Two artifacts map cleanly onto the technique; gaps stated; private tree not re-opened."
+    },
+    "applications/node--configuration-axes-cross-the-ladder.md": {
+      "disposition": "keep",
+      "reason": "Writer-side immutability breach with a zero-incidence history and an unmeasurable verdict, stated as such."
+    },
+    "applications/node--far-side-oracle.md": {
+      "disposition": "keep",
+      "reason": "Matches the technique property for property; limits (no fault injection, unauthenticated agent) stated."
+    },
+    "applications/node--gate-scope-is-not-report-scope.md": {
+      "disposition": "clarify",
+      "reason": "Codebase-1 arithmetic does not reconcile inside the document: 1,070 absent files cannot be derived from 5 scoped files, 1,171 reported and 1,156 source files (1,151 or 1,166 would follow). Not applied: which figure is wrong needs the tree."
+    },
+    "applications/node--live-app-harness.md": {
+      "disposition": "reverify",
+      "reason": "Says the endpoint compiles only under a cargo feature, then that a production install can opt in through an environment port variable; the deviation from the technique's never-a-runtime-flag rule is unflagged. No verified_against; the 38-of-38 never-green figure was not re-opened."
+    },
+    "applications/node--suite-partitioning.md": {
+      "disposition": "keep",
+      "reason": "Table arithmetic (521 = 516 + 5; environment ~5x tests) checks; limits stated."
+    },
+    "applications/node--unreached-decisions-pin-nothing.md": {
+      "disposition": "keep",
+      "reason": "Mutation table and verdict (1/4 -> 4/4) consistent; private tree not re-opened."
+    },
+    "applications/python--constraint-injection-for-unreachable-tiers.md": {
+      "disposition": "clarify",
+      "reason": "Infers that \"a sweep ... found a bug\" from a ladder comment that, as quoted, records only that the rung was split after its low band regressed; who found it is not shown. Not applied: needs the pinned comment."
+    },
+    "applications/python--derived-selection-must-be-measured.md": {
+      "disposition": "keep",
+      "reason": "Counterfactual R2 and marker dump support the technique. Its \"no floor check\" is consistent with the corrected runner claim (the zero was one file inside a larger selected run)."
+    },
+    "applications/rust--configuration-axes-cross-the-ladder.md": {
+      "disposition": "keep",
+      "reason": "Counts reconcile (1,340 / 1,189 + 12 / 1,352; 163 = 1,352 - 1,189; 1,337 + 3); negative control and instrument defects recorded."
+    },
+    "applications/rust--fixture-economics.md": {
+      "disposition": "keep",
+      "reason": "89 s -> 2.9 s and torn-copy hardening agree with the technique; private tree not re-opened."
+    },
+    "applications/rust--mutation-lane-with-a-triaged-baseline--yoagent.md": {
+      "disposition": "keep",
+      "reason": "93 = 22 + 58 + 12 + 1 and 22 = 13 + 2 + 7 reconcile; sampled baseline stated as one."
+    },
+    "applications/rust--mutation-lane-with-a-triaged-baseline.md": {
+      "disposition": "keep",
+      "reason": "84 = 68 + 7 + 9, 68/75 ~ 91% and the 7 -> 5 target reconcile; single-module scope stated."
+    },
+    "applications/rust--negative-control-tests.md": {
+      "disposition": "keep",
+      "reason": "Standing negative control over a pure scorer; consistent with the technique."
+    },
+    "applications/rust--platform-quirk-absorption.md": {
+      "disposition": "keep",
+      "reason": "Honest not-better verdict confirming the no-mode boundary."
+    },
+    "applications/rust--suite-partitioning.md": {
+      "disposition": "keep",
+      "reason": "Pinned public tree; 33 = 24 + 6 + 3 checks; deviation (no denominator reconciliation) stated."
+    },
+    "techniques/approval-snapshots-with-guarded-update.md": {
+      "disposition": "keep",
+      "reason": "Source-constant switch with an integrity test is confirmed by the pinned C++ tree (constant and comment re-read this run)."
+    },
+    "techniques/assert-the-schedule-not-the-stopwatch.md": {
+      "disposition": "keep",
+      "reason": "Overlap/cap/cutoff by observation is sound and scoped away from genuine duration standards."
+    },
+    "techniques/assert-through-the-reader.md": {
+      "disposition": "keep",
+      "reason": "Reader-as-oracle at unit cost and the prior-state matrix agree with the Node application; boundaries against far-side-oracle stated."
+    },
+    "techniques/configuration-axes-cross-the-ladder.md": {
+      "disposition": "keep",
+      "reason": "Cell-as-result-unit and missing-cell inventory are sound; its 1,340/1,352/1,189 figures and twelve-cell arithmetic agree with the Rust application."
+    },
+    "techniques/constraint-injection-for-unreachable-tiers.md": {
+      "disposition": "keep",
+      "reason": "Probe-level interception and the two-claim discipline are sound; limits stated."
+    },
+    "techniques/context-starved-executor.md": {
+      "disposition": "clarify",
+      "reason": "\"The honest state of the shape\" (six journeys, five refusing) is an undated count of one tree inside a technique; it should carry a date or move to an application. Not applied: the reconciliation date is not recorded in the document or this run."
+    },
+    "techniques/derived-selection-must-be-measured.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: replaced the universal claim with the pytest exit-5 / filtered cargo test exit-0 split and scoped the survival property to a zero inside a larger non-empty run"
+    },
+    "techniques/dynamic-verifier-classes.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: interpreting family restated as three orders of magnitude or more with the 3000x-7000x microbenchmark; simulation as one to two orders (20x-50x), compiler-inserted checks under 10x; lane-placement bullet updated to match"
+    },
+    "techniques/far-side-oracle.md": {
+      "disposition": "keep",
+      "reason": "Far-side observer, skip-when-absent and derived budget are coherent and match the Node application."
+    },
+    "techniques/fixture-economics.md": {
+      "disposition": "keep",
+      "reason": "Build-once-copy-per-test, fingerprinted freshness and seeded-data honesty are sound; cleanup-list figures agree with the Rust application."
+    },
+    "techniques/flake-lifecycle.md": {
+      "disposition": "keep",
+      "reason": "Five-transition process, same-inputs qualifier and register figures are sound and match the golden-path summary."
+    },
+    "techniques/gate-scope-is-not-report-scope.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: scoped the claim to implicit arms (fall-through, missing else, condition and consequence on one line)"
+    },
+    "techniques/history-driven-partitioning.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: ratio of 2 now reads \"at least half of the capacity is idle\"; LPT stated as typically within a few percent on many tests and never worse than 4/3 of optimal"
+    },
+    "techniques/isolation-lanes.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: \"Three rules\" -> \"Four rules\""
+    },
+    "techniques/live-app-harness.md": {
+      "disposition": "keep",
+      "reason": "Control-surface, serial law, stash-and-read-back and test-identifier contract are internally consistent; no unstable external claim."
+    },
+    "techniques/long-lane-certification.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: added a one-sentence pointer to flake-lifecycle naming the expiry"
+    },
+    "techniques/mutation-lane-with-a-triaged-baseline.md": {
+      "disposition": "keep",
+      "reason": "Lane placement, cost-first ordering, sampled baseline and four-bin triage are sound; arithmetic (205+26 s ~ 230 s; 11-33 s build under a minute total) checks. The 928-mutant/30-minute figure was not re-derived against the shard count."
+    },
+    "techniques/negative-control-tests.md": {
+      "disposition": "keep",
+      "reason": "Procedure, unabsorbable-mutation rule and the unapplied-break check are sound and confirmed by the Rust application."
+    },
+    "techniques/out-of-graph-artifacts.md": {
+      "disposition": "keep",
+      "reason": "Artifact-side inventory and load-not-compile rule are sound; boundaries with partitioning and gate-liveness are stated."
+    },
+    "techniques/pin-the-call-not-the-name.md": {
+      "disposition": "keep",
+      "reason": "Needle/haystack/population settings are coherent and cross-referenced; no external claim to check."
+    },
+    "techniques/platform-quirk-absorption.md": {
+      "disposition": "keep",
+      "reason": "Absorption boundary and the post-main numerics refinement are coherent; the Rust application confirms the stated no-mode exception."
+    },
+    "techniques/recorded-interaction-fixtures.md": {
+      "disposition": "keep",
+      "reason": "Transport seam, fidelity dial, freshness obligation and timing neutralization agree with the .NET application that exercises them."
+    },
+    "techniques/suite-partitioning.md": {
+      "disposition": "keep",
+      "reason": "Per-suite configuration, location membership, exhaustive/disjoint partition and denominator reconciliation are consistent with the applications that test them."
+    },
+    "techniques/unreached-decisions-pin-nothing.md": {
+      "disposition": "keep",
+      "reason": "Reach probe and repair order are sound; the Node application's 1-of-4 / 4-of-4 table supports it."
+    },
+    "techniques/verification-inherits-driver-reach.md": {
+      "disposition": "keep",
+      "reason": "Two-number pairing and the exhaustive-checker exception are sound; no unstable external figure."
+    },
+    "test-harness.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: added the five missing techniques (derived-selection, far-side-oracle, constraint-injection, assert-the-schedule, approval-snapshots) to the closing list, each in one line drawn from its own document"
+    }
+  }
+}
+```

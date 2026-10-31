@@ -319,6 +319,10 @@ a soak run misunderstands both; the design of these lanes is
 - [suite-partitioning](./techniques/suite-partitioning.md) — one configuration
   per suite, membership by location, the cost-tier table, and what runs at
   commit / push / merge / nightly.
+- [derived-selection-must-be-measured](./techniques/derived-selection-must-be-measured.md)
+  — membership derived from file content and composed with filter expressions:
+  a selection floor per lane, and a clause is not the cause until removing it
+  moves the count.
 - [history-driven-partitioning](./techniques/history-driven-partitioning.md) —
   splitting one suite across workers by measured duration, longest-first
   assignment, continuous rebalance, and the cold-start default.
@@ -327,6 +331,14 @@ a soak run misunderstands both; the design of these lanes is
 - [live-app-harness](./techniques/live-app-harness.md) — driving the real
   product through a test-only control surface: serial constraints, readback
   for fire-and-forget operations, the test-identifier contract.
+- [far-side-oracle](./techniques/far-side-oracle.md) — for a product whose
+  claim is an effect on a system it does not own: a deployable observer that
+  reports substrate facts, skips when absent, and holds leak claims to a
+  derived budget.
+- [constraint-injection-for-unreachable-tiers](./techniques/constraint-injection-for-unreachable-tiers.md)
+  — overriding the capacity probe so the constrained rungs of a capability
+  ladder run their real decision logic on one machine, the sweep as a mode,
+  and the claim it cannot make about genuine exhaustion.
 - [gate-scope-is-not-report-scope](./techniques/gate-scope-is-not-report-scope.md)
   — the gate's scoped include set versus the report's whole-tree denominator,
   the ratchet's blind spot, and the obligation an exclusion carries.
@@ -342,6 +354,14 @@ a soak run misunderstands both; the design of these lanes is
 - [long-lane-certification](./techniques/long-lane-certification.md) — chaos /
   load / soak as scheduled lanes with statistical pass criteria, lane-health
   bookkeeping, and quarantine review.
+- [assert-the-schedule-not-the-stopwatch](./techniques/assert-the-schedule-not-the-stopwatch.md)
+  — overlap, caps and cutoffs proved by counting units in flight and reading
+  each fixture's own recorded span, never by an elapsed-time bound that
+  stretches on a loaded runner.
+- [approval-snapshots-with-guarded-update](./techniques/approval-snapshots-with-guarded-update.md)
+  — recorded rich outputs as the oracle, a record switch kept as a source
+  constant that a test in the suite asserts is off, and the snapshot diff
+  read as the approval.
 - [negative-control-tests](./techniques/negative-control-tests.md) — proving a test
   can fail before trusting it: choosing a mutation the system cannot absorb, and
   why a process-global crash handler installed for quiet makes a whole suite

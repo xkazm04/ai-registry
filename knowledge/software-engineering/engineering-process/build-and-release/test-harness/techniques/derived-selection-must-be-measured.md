@@ -79,9 +79,14 @@ at all**, because the cause was in the derivation.
 
 ## Zero selected is a failure, not a pass
 
-Every runner in common use exits successfully when a filter matches nothing, and
-that is the single property that lets this class survive for months. A suite that
-selected nothing and a suite whose tests all passed produce the same green badge
+Many runners exit successfully when a filter matches nothing. The ones that
+refuse do so only for a whole run that selected nothing: pytest exits with its
+own "no tests were collected" status (5) even when every item was deselected,
+while a filtered `cargo test` prints `running 0 tests` and exits zero. No runner
+refuses a lane, file or group that selected zero inside a run that selected
+something else, and that is the property that lets this class survive for
+months. A file that selected nothing and a file whose tests all passed produce
+the same green badge
 ([failure-not-empty-success](../../../../_laws.md#failure-not-empty-success)).
 
 So each configured lane declares a **floor on what it must select**, and the run

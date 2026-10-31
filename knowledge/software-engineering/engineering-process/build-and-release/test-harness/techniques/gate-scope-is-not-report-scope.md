@@ -152,10 +152,11 @@ or it is a figure two teams will read as two different claims.
 
 The consequence for a floor is sharper than the consequence for a report. **A
 line-criterion floor is satisfiable by tests that take no decision the code
-offers.** A function with three thresholds and four outcomes reaches full line
-coverage from tests that exercise two of them, because the untaken arms
-contribute no uncovered lines — they are the *absence* of a line, and absence
-is not a measurable region. The one path that was never taken is the sensor
+offers.** A function with three thresholds and four outcomes can reach full
+line coverage from tests that exercise two of them, wherever the untaken arms
+are implicit — a fall-through, a missing `else`, a condition and its
+consequence on one line. Those arms contribute no uncovered lines — they are
+the *absence* of a line, and absence is not a measurable region. The one path that was never taken is the sensor
 error case, and it is the one anybody would have written a test for if they had
 known it was missing. A gate defined on the weak criterion is thus green
 precisely over the code whose risk is decision-shaped, which is most code worth

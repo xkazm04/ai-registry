@@ -47,8 +47,9 @@ What follows from that position:
   interpret. The typical failure is an explicit refusal at the call, which is
   the honest outcome; the dangerous variant is a mocked-out boundary that lets
   the run go green over a program that is not the one that ships.
-- **The slowdown is one to two orders of magnitude**, because every operation
-  is interpreted rather than executed.
+- **The slowdown is three orders of magnitude or more**, because every
+  operation is interpreted rather than executed — one published microbenchmark
+  put one language's leading interpreting verifier at about 3,000 to 7,000 times native.
 
 ## Family two: observe the emitted machine code
 
@@ -66,9 +67,10 @@ emitted code. Its position gives it the mirror-image properties:
 - **False positives are occasional rather than rare** — custom allocators,
   hand-written synchronisation, and unusual memory-ordering all produce
   patterns the verifier's heuristics misread.
-- **Cost varies by mechanism**: full machine simulation lands in the same order
-  of magnitude as interpretation; compiler-inserted checks are a small multiple,
-  which is what makes them affordable on a routine lane.
+- **Cost varies by mechanism**: full machine simulation is one to two orders of
+  magnitude (typically twenty to fifty times native), well below
+  interpretation; compiler-inserted checks are a small multiple, under ten
+  times, which is what makes them affordable on a routine lane.
 
 ## The finding that decides the harness's shape
 
@@ -96,10 +98,12 @@ union is the program.
 ## Placing them in the harness
 
 - **Which lane.** Both are cost-tier decisions, not per-test annotations: at
-  one to two orders of magnitude, the interpreting family runs over a chosen
+  three orders of magnitude or more, the interpreting family runs over a chosen
   subset (the paths carrying manual memory management) on a scheduled or
-  merge-gated lane, never on every save. The cheap compiler-inserted variant of
-  the second family can sit on a routine lane.
+  merge-gated lane, never on every save, usually with iteration counts reduced
+  for that lane. The simulating variant of the second family belongs on the
+  same scheduled tier; the cheap compiler-inserted variant can sit on a routine
+  lane.
 - **Which population.** Both families verify whatever the driving suite
   executed, and nothing else — see
   [verification-inherits-driver-reach](./verification-inherits-driver-reach.md),

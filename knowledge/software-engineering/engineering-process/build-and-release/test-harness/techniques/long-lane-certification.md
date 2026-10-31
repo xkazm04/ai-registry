@@ -95,7 +95,9 @@ harness keeps its authority:
    failure signature. The set's size is reported wherever the lane's results
    are, and it is reviewed on a schedule with two exits: fixed and restored,
    or a documented decision that the claim is no longer worth carrying.
-   Quarantine without scheduled review is deletion with a waiting period.
+   Quarantine without scheduled review is deletion with a waiting period. The
+   full lifecycle, including the expiry each entry carries, is
+   [flake-lifecycle](./flake-lifecycle.md).
 3. **Retries measure; they do not mask.** An automatic retry may salvage a
    run, but the first failure is recorded, attributed, and counted. The
    retried-test count per run is a lane health metric; a rising curve is the
