@@ -5,7 +5,7 @@ subject: conversational-assessment-validation
 technique: candidate-behaviour-persona-bank
 stack: process
 status: forged
-verified_on: 2026-09-27
+verified_on: 2026-10-31
 applied: simulation
 ab_verdict: better
 ---
@@ -13,7 +13,8 @@ ab_verdict: better
 # The behaviour taxonomy behind the interview scenario bank
 
 Re-read on 2026-09-27 at the tree's main, `71f94335b`. The Python generator is
-unchanged since before 2026-08-20; every claim below still holds at the lines given.
+unchanged since before 2026-08-20; every claim below still holds at the lines given. Re-checked
+at kp `6edf5d7` on 2026-10-31, both banks included: unchanged.
 
 `pipeline/jobfit/eval/interview_scenarios_gen.py:39` holds the `BEHAVIORS` list —
 sixteen entries that *are* the coverage, as its comment says: *"Each behaviour is

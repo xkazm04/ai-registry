@@ -5,7 +5,7 @@ subject: voice-interview-fidelity
 technique: closing-read-back-as-the-authoritative-record
 stack: node
 status: forged
-verified_on: 2026-09-29
+verified_on: 2026-10-31
 verified_against: node@24
 applied: unapplied
 ab_verdict: unapplied
@@ -17,10 +17,12 @@ Three artifacts implement the standard: the brief asks for the read-back, the
 synthesis prompt privileges it and structures it, and the TypeScript boundary
 normalizes it for the recruiter surface. Read at kp `60aab8088` on 2026-09-29; the
 citations below are that commit, not the working tree, which held sibling edits.
+Line anchors re-checked at kp `6edf5d7` on 2026-10-31: the Python lines and one
+TypeScript comment moved; every construct, quote and deviation held.
 
 ## The prompt makes it authoritative
 
-`pipeline/jobfit/automation.py:2502` (prompt `scorecard-v8`, `:127`) — the scorecard
+`pipeline/jobfit/automation.py:2536` (prompt `scorecard-v8`, `:127`) — the scorecard
 synthesis prompt still carries an explicit recognition clause:
 
 > "The transcript comes from voice recognition, which can corrupt technology and
@@ -32,8 +34,8 @@ synthesis prompt still carries an explicit recognition clause:
 
 It carries the unconfirmed rule (a technology found only in earlier turns is noted
 "as unconfirmed (possible transcription error) rather than asserting it") and the
-fourth-state rule at `:2514`: *"If NO read-back exchange occurred, set "entities" to
-null — never invent one."* The clause moved from about line 893 to 2502 since the
+fourth-state rule at `:2549`: *"If NO read-back exchange occurred, set "entities" to
+null — never invent one."* The clause moved from about line 893 to 2536 since the
 first verification and did not change in substance.
 
 ## Three buckets with documented precedence
@@ -49,16 +51,16 @@ unconfirmed: string[];                              // never asserted as a skill
 
 `normalizeScorecardEntities` (`:159`) does the cross-bucket dedupe with the
 precedence written into the code (`:177`): `corrected.meant > confirmed >
-unconfirmed`. It is mirrored by `_coerce_entities` (`automation.py:2347`), so the two
+unconfirmed`. It is mirrored by `_coerce_entities` (`automation.py:2370`), so the two
 consumers cannot disagree about one interview, and both return `null` when every
 bucket is empty, so absence renders no chrome.
 
 ## Quote grounding is new, and it certifies the transcript, not the speaker
 
-`ground_scorecard_evidence` (`automation.py:2278`) is new since the first
+`ground_scorecard_evidence` (`automation.py:2301`) is new since the first
 verification. It drops any evidence quote that does not occur in the transcript
 the model read, after folding case, punctuation and whitespace, and replaces it
-with `UNGROUNDED_EVIDENCE` (`:2262`). That closes the invented-quote hole and is a
+with `UNGROUNDED_EVIDENCE` (`:2285`). That closes the invented-quote hole and is a
 real improvement: a paraphrase is correctly not grounded.
 
 What it certifies is that the *transcript* contains the words. A quote that
@@ -66,7 +68,7 @@ contains a corrected `heard` form ("used Rust for the front end", where the
 candidate said React) is in the transcript by construction and passes. Nothing in
 the scorecard code compares evidence against `corrected[].heard`; a search of the
 scorecard files for `heard` finds only the parsing. The tree already knows the
-exposure: `app/_lib/status-decisions.ts:173` deliberately does not seal `evidence`
+exposure: `app/_lib/status-decisions.ts:182` deliberately does not seal `evidence`
 into a candidate-facing decision record because "a mis-transcribed quote (voice ASR
 — see ScorecardEntities) reads as something they did not say".
 
@@ -89,7 +91,7 @@ and is not a rate.
 - **Deviation, still open** — nothing verifies that the read-back *happened*. The
   director's close block says only "The read-back, if any, then end_interview and a
   short goodbye" (`app/_lib/voice/director-brief.ts:93`); `closeReserveMin`
-  (`director-types.ts:92`, "minutes reserved at the end for the read-back and the
+  (`director-types.ts:93`, "minutes reserved at the end for the read-back and the
   candidate's questions") reserves the time and never checks it was used. A skipped
   read-back and an interview with no particulars both render as no chrome.
 - **Deviation, still open, and now sharper** — evidence quotes are grounded against
@@ -106,7 +108,7 @@ and is not a rate.
   (dictation review, not this task), so a written confirmation on the candidate's
   screen is an option the tree does not offer and the standard now names.
 - **Related, not this technique** — an axis the interview never reached is rated 3
-  with placeholder evidence (`automation.py:2489`), and the read side treats a 3 with
+  with placeholder evidence (`automation.py:2516`), and the read side treats a 3 with
   placeholder text as not assessed (`interview-scorecard.ts:80`, with a comment that
   says outright that "not-assessed is on the scale"). A dropped-quote axis keeps its
   model rating with placeholder text and is *not* caught by that filter, because it

@@ -5,7 +5,7 @@ subject: conversational-assessment-validation
 technique: prompt-change-regression-baseline
 stack: node
 status: forged
-verified_on: 2026-09-27
+verified_on: 2026-10-31
 verified_against: node@24
 applied: code
 ab_verdict: better
@@ -13,7 +13,8 @@ ab_verdict: better
 
 # A cell-by-cell brief diff with seven classes, and the pin it was missing
 
-Read on 2026-09-27 at the tree's main, `71f94335b`. The instrument is the
+Read on 2026-09-27 at the tree's main, `71f94335b`; re-checked at kp `6edf5d7` on
+2026-10-31, where the engine-keyed `instrumentKey` is in place and every claim held. The instrument is the
 TypeScript interview simulator's diff, `app/_lib/interview-sim/baseline-diff.ts`.
 The verdict CLI (`scripts/interview-sim-verdict.ts`) runs it as
 `--baseline <earlier verdict dir>`, optionally with `--targets <ids>`, and

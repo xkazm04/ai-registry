@@ -5,7 +5,7 @@ subject: voice-interview-fidelity
 technique: language-choice-and-per-turn-drift-detection
 stack: node
 status: forged
-verified_on: 2026-09-29
+verified_on: 2026-10-31
 verified_against: node@24
 ---
 
@@ -14,20 +14,21 @@ verified_against: node@24
 The technique has two halves, a language set in the recogniser's configuration and a
 per-turn drift verdict. kp has both, in TypeScript, and the tree's own comments give
 the field evidence the technique was missing. Read at kp `60aab8088` on 2026-09-29.
-This subject had no application for this technique before.
+This subject had no application for this technique before. Anchors re-checked at kp
+`6edf5d7` on 2026-10-31: three moved by a line or two; one quote is corrected below.
 
 ## Configuration first
 
-- **ElevenLabs.** `app/_components/voice/transport/elevenlabs.ts:172` sends
+- **ElevenLabs.** `app/_components/voice/transport/elevenlabs.ts:173` sends
   `agent.language` as a session override whenever there is a concrete hint. The
   comment above it records why: the agent's dashboard default is Czech, "the prompt's
   'follow the candidate's language' rule loses to that config over voice (the
   voice-harness caught the agent replying in Czech to an English candidate ~2/3 of
   the time)".
-- **OpenAI.** `app/_lib/voice/openai.ts:207` sets input-audio transcription
+- **OpenAI.** `app/_lib/voice/openai.ts:209` sets input-audio transcription
   `language` from the candidate's locale, through `normalizeTranscriptionLanguage`
   (`:143`), which accepts only a well-formed two-letter primary subtag and otherwise
-  omits the field so the model auto-detects. Its comment (`:173`) records the same
+  omits the field so the model auto-detects. Its comment (`:174`) records the same
   finding: "prompt-level language locks lose to transport config, so Czech speech was
   transcribing against an English default".
 - **The pin used to be wrong for most locales.** `portalLanguageHint`
@@ -49,8 +50,12 @@ transcript in which the candidate never produced a confident turn is
 technique's, and it is a TypeScript port pinned to the offline Python check by a
 shared-fixture test on both sides. The verdict is stamped into interview telemetry
 (`app/_lib/interview-telemetry.ts:166`) and worded for the recruiter as whether the
-*interviewer* "stayed in the candidate's language" or "drifted mid-call": a defect
-report on the system's own turns.
+*interviewer* "stayed in the candidate's language" or "drifted from the candidate's
+language": a defect report on the system's own turns. (Re-checked 2026-10-31 at
+kp@6edf5d7: the label was quoted earlier as "drifted mid-call"; that phrase is the
+telemetry type comment's, `interview-telemetry.ts:42`, which says the *interviewer*
+may "switch away mid-call". The label read the same at `60aab8088`. The
+attribution to the interviewer holds.)
 
 ## Confirmed, deviating
 

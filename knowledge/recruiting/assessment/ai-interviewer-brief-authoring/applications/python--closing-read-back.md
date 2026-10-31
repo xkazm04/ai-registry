@@ -4,7 +4,7 @@ type: application
 subject: ai-interviewer-brief-authoring
 technique: closing-read-back
 stack: python
-verified_on: 2026-09-26
+verified_on: 2026-10-31
 verified_against: python@3.12
 applied: simulation
 ab_verdict: not-better
@@ -15,7 +15,8 @@ ab_verdict: not-better
 The technique's last section says a read-back is only worth writing if whatever
 synthesises the transcript is told that a closing confirmation or correction
 overrides earlier occurrences. This tree wrote both halves, and the second half is
-the rarer one.
+the rarer one. Anchors re-checked at kp `6edf5d7` on 2026-10-31: the scorecard
+prompt moved, its wording and the deviation held.
 
 ## The brief side
 
@@ -38,7 +39,7 @@ That incident is kept as a keyless fixture,
 
 ## The consumer side
 
-The scorecard prompt in `pipeline/jobfit/automation.py:2488-2504` carries the
+The scorecard prompt in `pipeline/jobfit/automation.py:2536-2553` carries the
 contract the technique asks for, in words:
 
 > "If the interviewer read back a list of technologies near the end and the

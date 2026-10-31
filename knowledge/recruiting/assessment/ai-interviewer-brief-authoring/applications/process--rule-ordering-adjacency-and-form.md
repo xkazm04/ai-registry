@@ -4,7 +4,7 @@ type: application
 subject: ai-interviewer-brief-authoring
 technique: rule-ordering-adjacency-and-form
 stack: process
-verified_on: 2026-09-26
+verified_on: 2026-10-31
 applied: simulation
 ab_verdict: better
 ---
@@ -18,6 +18,8 @@ drives turn by turn — composes the same `personaLines` block, so a wording cha
 lands once. The offline eval no longer carries a copy: since 2026-09-23 it reads
 rendered briefs from a committed snapshot (`pipeline/jobfit/eval/interview_briefs.json`),
 held to the TypeScript builders by `app/_lib/voice/interview-brief-snapshot.test.ts`.
+Anchors re-checked at kp `6edf5d7` on 2026-10-31; two Python line ranges moved,
+every construct and every deviation held.
 
 ## The order is the artifact
 
@@ -97,13 +99,13 @@ array); history inline. Those three still hold.
 
 - **The sync claim is stale.** The comment still says the rule is "Kept defined +
   Python-synced". Commit b49819944 (2026-09-23) removed the Python port, and
-  `pipeline/jobfit/tests/test_interview_eval.py:511-516` now asserts that no
+  `pipeline/jobfit/tests/test_interview_eval.py:533-538` now asserts that no
   `PERSONA_` constant remains in the eval source. The snapshot that replaced it
   holds rendered briefs only, so the unshipped rule now lives in one place and is
   referenced by no test. The sync obligation itself is met by construction — one
   composer, many consumers — so the defect is the comment, not the architecture.
 - **The optimiser appends after the guarded block.**
-  `pipeline/jobfit/eval/interview_optimize.py:139-152` builds a candidate brief as
+  `pipeline/jobfit/eval/interview_optimize.py:139-153` builds a candidate brief as
   the rendered brief plus the accepted rules appended at the end — after
   `CLOSING` and after the language lock. Every rule the optimiser proposes is
   therefore measured in the one position this tree's own harness showed breaks the

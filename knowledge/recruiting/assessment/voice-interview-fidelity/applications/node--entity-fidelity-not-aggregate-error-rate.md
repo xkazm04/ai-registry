@@ -5,7 +5,7 @@ subject: voice-interview-fidelity
 technique: entity-fidelity-not-aggregate-error-rate
 stack: node
 status: forged
-verified_on: 2026-09-29
+verified_on: 2026-10-31
 verified_against: node@24
 ---
 
@@ -13,19 +13,19 @@ verified_against: node@24
 
 The technique's decision rules prefer a remedy that recovers a term over one that
 discards the interview, and name a targeted re-listen as one. kp ships that remedy,
-and it says so in four places that cite this subject (`app/_lib/interview-recording.ts:5`,
+and it says so in four places that cite this subject (`app/_lib/interview-recording.ts:8`,
 `app/_components/voice/useInterviewRecording.ts:13`,
 `app/features/hiring/schedule/ScheduleInterviewRecordings.tsx:6`,
-`docs/features/interviews/README.md:1529`). Read at kp `60aab8088` on 2026-09-29; the
+`docs/features/interviews/README.md:1571`). Read at kp `60aab8088` on 2026-09-29; the
 recording feature is new since the first verification, which recorded no remedy at
-all.
+all. Anchors re-checked at kp `6edf5d7` on 2026-10-31: two moved, every quote held.
 
 ## What it is
 
 With a workspace setting on and a candidate's **separate** tick, distinct from the
 transcript consent, the browser records the candidate's microphone only and streams
 it to the server's own disk. It exists "for one purpose: a recruiter re-listening to
-repair a speech-recognition error on a technology name" (`interview-recording.ts:5`).
+repair a speech-recognition error on a technology name" (`interview-recording.ts:6`).
 It is an observation aid: "Nothing scores it, nothing is derived from it, and no
 surface may present it as evidence of a verdict". Retention is bounded: 30 days after
 the decision, 180 after the call when none was taken, on the candidate's own request

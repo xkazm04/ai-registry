@@ -5,13 +5,14 @@ subject: conversational-assessment-validation
 technique: guardrail-ablation-self-test
 stack: node
 status: forged
-verified_on: 2026-09-27
+verified_on: 2026-10-31
 verified_against: node@24
 ---
 
 # A measured, rejected guardrail kept live in the brief module
 
-Re-read on 2026-09-27 at the tree's main, `71f94335b`.
+Re-read on 2026-09-27 at the tree's main, `71f94335b`. Re-checked at kp `6edf5d7` on
+2026-10-31: every line and quote below held.
 
 `app/_lib/student-interview.ts` is the shared policy module that assembles the
 interviewer brief. At line 183 it exports `PERSONA_HOSTILITY` — a rule that was

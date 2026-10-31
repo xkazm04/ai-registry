@@ -5,7 +5,7 @@ subject: conversational-assessment-validation
 technique: deterministic-reliability-invariants-at-full-pass
 stack: process
 status: forged
-verified_on: 2026-09-27
+verified_on: 2026-10-31
 applied: code
 ab_verdict: better
 ---
@@ -13,7 +13,8 @@ ab_verdict: better
 # The two-axis interview gate in the Python eval pipeline
 
 Re-read on 2026-09-27 at the tree's main, `71f94335b`, which carries this pass's
-own fix to the refusal pairing (below).
+own fix to the refusal pairing (below). Re-checked at kp `6edf5d7` on 2026-10-31:
+`interview_eval.py` is unchanged at the lines given; three `thresholds.py` anchors moved.
 
 `pipeline/jobfit/eval/interview_eval.py` (1486 lines) drives the **real**
 interviewer brief against a simulated candidate in pure text and scores the
@@ -26,12 +27,12 @@ validates is the text that ships. The model that plays the interviewer is not:
 see the golden path's condition on the text plane.
 
 The two pass marks live in `pipeline/jobfit/eval/thresholds.py`, now as entries
-in a table of bars with their reasons (`SCALAR_BARS`, lines 234–250), read out
-as `RELIABILITY_THRESHOLD` and `QUALITY_THRESHOLD` (lines 368–369). The values
+in a table of bars with their reasons (`SCALAR_BARS`, lines 235–252), read out
+as `RELIABILITY_THRESHOLD` and `QUALITY_THRESHOLD` (lines 370–371). The values
 are unchanged: 1.0, with slack 0.0 and "the only readable bar", and 3.5 on a 1-5
 scale, marked *"UNMEASURED: … no judged run is recorded in-tree; record one
 before tightening."* The module's purpose is in its docstring: *"Centralised so
-a gate can't silently drift per-module"*, and `_validate()` (line 423) rejects
+a gate can't silently drift per-module"*, and `_validate()` (line 425) rejects
 an out-of-range threshold at import.
 
 ## Refusal before violation, and the span a refusal covers

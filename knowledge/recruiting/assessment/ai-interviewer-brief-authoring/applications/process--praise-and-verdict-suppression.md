@@ -4,7 +4,7 @@ type: application
 subject: ai-interviewer-brief-authoring
 technique: praise-and-verdict-suppression
 stack: process
-verified_on: 2026-09-26
+verified_on: 2026-10-31
 applied: experiment
 ab_verdict: better
 ---
@@ -18,7 +18,8 @@ by hand in four other places: `noJudgementClose` in `app/_lib/interview-run.ts:1
 `app/_lib/voice/candidate-brief.ts:269`, `app/_lib/voice/index.ts:76` and
 `scripts/setup-eleven-agent.mjs:105`. It is one sentence and it is the clearest
 instance in the repo of the standard's claim that the praise ban is the harder
-half:
+half. Anchors re-checked at kp `6edf5d7` on 2026-10-31; the Python lines moved,
+every quote and every deviation held.
 
 ```
 "Do not give feedback, scores, or any hiring decision, and never praise or judge
@@ -68,9 +69,9 @@ The 2026-08-20 version of this application said compliance was asserted only by 
 composition test. That was wrong then: a transcript-level count has existed since
 2026-07-07.
 
-- **Composition.** `pipeline/jobfit/tests/test_interview_eval.py:524-529` asserts
+- **Composition.** `pipeline/jobfit/tests/test_interview_eval.py:546-551` asserts
   every rendered brief carries "Do not give feedback, scores".
-- **A broad count.** `_PRAISE_RE` in `pipeline/jobfit/eval/interview_eval.py:501-514`
+- **A broad count.** `_PRAISE_RE` in `pipeline/jobfit/eval/interview_eval.py:526-538`
   scans interviewer turns and reports an `evaluative_praise` metric — by its own
   comment a noise-free count to trend, "NOT hard 100% gates".
 - **A narrow gate.** Since 2026-09-18 the simulator runs `noPraise`
@@ -116,5 +117,5 @@ which acknowledgements are already uniform, where B adds nothing to A.
   run the brief's own list as a counted metric and use it as the positive control.
 - **Five hand-kept copies of one clause.** A wording change to `CLOSING` has four
   other places to land. Tests assert that several of them carry the opening words
-  (`app/_lib/voice/candidate-brief.test.ts:242`, `test_interview_eval.py:436`); none
+  (`app/_lib/voice/candidate-brief.test.ts:242`, `test_interview_eval.py:458`); none
   asserts that the five agree past them, which is where the praise list lives.
