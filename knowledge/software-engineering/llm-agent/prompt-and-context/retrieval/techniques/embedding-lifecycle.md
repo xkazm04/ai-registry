@@ -114,7 +114,7 @@ shapes:
 
 What is never acceptable is the third shape most systems ship by accident:
 new model, no guard, no backfill — the mixed corpus. The choice between the
-two honest shapes is a availability-versus-completeness trade the operator
+two honest shapes is an availability-versus-completeness trade the operator
 should make knowingly; the discipline is that *both* end with the excluded
 count at zero and the old vectors reaped.
 

@@ -119,7 +119,8 @@ manufactures one from a proxy: in one memory store the fallback scores every
 hit as `min(0.95, 0.72 + query_length * 0.02)`. That number is monotone in the
 length of the *query* and carries no information about the match at all, and it
 is emitted into the same field the real index writes a term-frequency score
-into. Every hit therefore lands at or above 0.76.
+into. Every hit for a query of two or more characters therefore lands at or
+above 0.76.
 
 What makes that costly is where such numbers are read. Downstream thresholds
 were calibrated against the real lane's distribution, and they cannot tell a

@@ -194,7 +194,9 @@ between source and index is detectable and has a named rebuild). This plane is
 
 **Query time** — query → decomposition into abstraction tiers → per-lane
 execution with overfetch → per-lane floors →
-fusion into one order with cross-lane dedup → budget cut in consumer units →
+fusion into one order with cross-lane dedup → optional second-pass rescoring
+of the fused pool ([second-pass-rescoring](./techniques/second-pass-rescoring.md))
+→ budget cut in consumer units →
 the slice, each item carrying provenance (which source, which lanes matched,
 what standing). The first arrow is the stage most pipelines omit: where the
 corpus is indexed at more than one level of abstraction, the query must be

@@ -287,3 +287,366 @@ published recall figure (`retrieval-evaluation`).
 ### 2026-10-15 - intake coding_agent_session_search (run dle-004-1015, series DLE-004)
 
 Catches, recorded as applications: `rust--retrieval-evaluation--cass.md` (counter-example: CI qrels are single invented tokens, recall 1.0 by construction, no should-be-empty stratum; the manual bake-off peaked at NDCG@10 0.118 against its own 0.25 floor) and `rust--ranking-budgets--cass.md` (packs admit on the measured rendered output; search still sums per-hit sizes and calls its budget soft). Lead banked in the source note: sealed embedding generations behind an epoch compare-and-swap pointer, designed but refused by the source's own loader.
+
+## Architecture review - 2026-10-31
+
+First architecture-review record for this subject, against `e4622e121`. Golden path and
+techniques hold; five clarify items (one pipeline omission, one contradiction between
+centrality and fusion, two overstated figures, one typo) and one unresolved corpus-size
+disagreement in `ranking-budgets`. Applications on private or unreopened trees are
+`reverify`; the UltraRAG anchors were re-read and hold.
+
+<!-- architecture-review:v1 -->
+```json
+{
+  "subject": "software-engineering/retrieval",
+  "date": "2026-10-31",
+  "baseline": "e4622e121",
+  "digest": "sha256-b2:a49d27f889212d3f",
+  "disposition": "clarify",
+  "coverage": "All 31 documents decided (golden path, 13 techniques, 17 applications). Primary sources opened for the padding sentinel, squared distances, embedding roles, Weaviate certainty, sqlite-vec's L2 and the UltraRAG anchors; all quoted arithmetic recomputed. Private trees (personas, harnesses, live corpora) and other external pins were not reopened, so their applications stay reverify. No runtime was executed.",
+  "counterexamples": [
+    "A rescorer that can read the blind class (a graph-aware reranker) needs no promote-only bound; the bound is a property of the scorer's blindness, not of the stage.",
+    "On a tiny corpus where every statement on the topic fits in the cut, the period vote buys nothing and the browsable-index check wins.",
+    "A symmetric embedder makes the role rule inert; and gemini-embedding-2 carries the role in prompt text rather than a task_type field, so 'name the role at the call site' survives but its spelling changes.",
+    "A fallback lane whose scores really are calibrated (a second BM25 index) does not manufacture relevance; the relevance-floors rule targets proxy scores, not every substitute."
+  ],
+  "sources": [
+    {
+      "url": "https://github.com/facebookresearch/faiss/wiki/FAQ",
+      "result": "'If there are not enough elements to fill the result list, the missing results are set to -1.' Supports padded-slots-are-misses."
+    },
+    {
+      "url": "https://github.com/facebookresearch/faiss/wiki/Getting-started",
+      "result": "'the search operation returns a nq-by-k floating-point matrix with the corresponding squared distances.' Supports the squared-distance branch of relevance-floors."
+    },
+    {
+      "url": "https://ai.google.dev/gemini-api/docs/embeddings",
+      "result": "'Use RETRIEVAL_QUERY for queries; RETRIEVAL_DOCUMENT for documents to be retrieved'; SEMANTIC_SIMILARITY 'optimized to assess text similarity'; 'Specify task type to improve performance'. Also: 'You cannot use the task_type field for the gemini-embedding-2 model' (instruction goes in the prompt). Supports embedding-lifecycle's role section."
+    },
+    {
+      "url": "https://docs.weaviate.io/weaviate/config-refs/distances",
+      "result": "certainty normalizes distance into 0..1 and 'is however unique to cosine distance'. Consistent with go--relevance-floors' conversion door."
+    },
+    {
+      "url": "https://github.com/asg017/sqlite-vec/blob/v0.1.6/sqlite-vec.c",
+      "result": "distance_l2_sqr_float dispatches to l2_sqr_float / _avx / _neon, each returning sqrt(...). Supports rust--relevance-floors."
+    },
+    {
+      "url": "https://github.com/OpenBMB/UltraRAG/tree/a763d34432007fcd1b261209f222bb10df907beb",
+      "result": "faiss_backend.py:212-214, pyproject.toml:10, index_backends/__init__.py and tests/servers/retriever/test_faiss_search_padding.py all match the application; no Milvus padding test (404)."
+    },
+    {
+      "source": "Arithmetic in named-period-vote, relevance-floors, ranking-budgets and applications",
+      "result": "Recomputed every quoted ratio and threshold; only the 'filter loses two' (one at cut 5), the 0.76 floor (needs query length >= 2) and the 590 vs 1,105 corpus size disagree."
+    }
+  ],
+  "documents": {
+    "retrieval.md": {
+      "disposition": "clarify",
+      "reason": "The query-time pipeline (decomposition -> lanes -> floors -> fusion -> budget cut) omits the second-pass rescoring stage that the technique list carries and that second-pass-rescoring places as 'the last stage before the budget cut'. Add it to the arrow chain. The rest holds: the lane roster counts (fifth seat proximity, sixth centrality) agree with the techniques, and the skip/empty/outage distinction matches retrieval-triggering."
+    },
+    "techniques/retrieval-triggering.md": {
+      "disposition": "keep",
+      "reason": "Four triggers, one authority with reason codes, three-valued skip/empty/unavailable, asymmetric threshold and late retrieval recorded as retrieval. No unstable external claim."
+    },
+    "techniques/chunking-and-indexing.md": {
+      "disposition": "keep",
+      "reason": "Structure-first boundaries, content-addressed identity, index writes and deletions as coupled derivations, zero-yield reporting. Doctrine, no unstable claim."
+    },
+    "techniques/embedding-lifecycle.md": {
+      "disposition": "clarify",
+      "reason": "Typo 'a availability-versus-completeness' should be 'an'. The asymmetric-role section is supported by the Gemini embeddings documentation (separate RETRIEVAL_QUERY / RETRIEVAL_DOCUMENT task types, SEMANTIC_SIMILARITY for similarity); that page also says gemini-embedding-2 takes no task_type and carries the task in the prompt text, which the technique's 'a query prefix and a document prefix, or a task type chosen per call' already covers."
+    },
+    "techniques/hybrid-lane-fusion.md": {
+      "disposition": "keep",
+      "reason": "Rank fusion vs normalization vs tiered concatenation, deterministic tiebreak, convergence only across independent lanes, request-side vs item-side blind predicates re-imposed at one point. Internally consistent with the proximity and centrality techniques."
+    },
+    "techniques/named-period-vote.md": {
+      "disposition": "clarify",
+      "reason": "Tables recomputed: net gains 23 (quarter) and 26 (full) at cut 5, wrong-window loss 24 -> 7, 62 contexts with no in-month statement (140-78) all hold. 'The filter loses two that the vote keeps' is two at cuts 10 and 40 but one at cut 5 (103 vs 104); say 'one or two'."
+    },
+    "techniques/relationship-proximity-lane.md": {
+      "disposition": "keep",
+      "reason": "Reader enumeration before pricing a store, fan-out cap, set-vs-path reach, dependent-lane fusion as tier or attribution, per-relation policy, scope re-imposed after traversal. Consistent with hybrid-lane-fusion."
+    },
+    "techniques/structural-centrality-lane.md": {
+      "disposition": "clarify",
+      "reason": "Internal contradiction: the independence section says to let the proximity lane's agreement 'register as convergence rather than as additional score', but hybrid-lane-fusion holds that convergence is evidence only across independent lanes, and this section has just said the two lanes are not independent. Agreement should be recorded in lane provenance, not counted as convergence."
+    },
+    "techniques/second-pass-rescoring.md": {
+      "disposition": "keep",
+      "reason": "Promote-only min(fused, rescored) admission, permutation not re-injection, bounded pin with its cost, shortlist window, no-op by identity, trimmer exemptions including threshold computation, strict vs lenient recall. Figures (21/39 -> 3/39, 449/470 -> 379/470) match the bun application."
+    },
+    "techniques/ranking-budgets.md": {
+      "disposition": "clarify",
+      "reason": "The non-additive section cites 'a 590-item corpus' for the 17.9% / 0.14% framing measurement, while the application it came from (same commit db015b56c) reports 1,105 episode nodes. Arithmetic checks (83/463 = 17.9%, 83/57,292 = 0.14%, ratio 128x) but the corpus size disagrees and I could not establish which is right or what 590 counts."
+    },
+    "techniques/relevance-floors.md": {
+      "disposition": "clarify",
+      "reason": "Conversion identity and arithmetic verified: 1 - D^2/2 >= 0.85 admits cos >= 0.726; the formulas coincide at cos 1, 0.5, 0 and (clamped) -1. FAISS documents squared distances. But 'Every hit therefore lands at or above 0.76' holds only for queries of two or more characters (0.72 + 1*0.02 = 0.74), as the node application itself states."
+    },
+    "techniques/padded-slots-are-misses.md": {
+      "disposition": "keep",
+      "reason": "Faiss FAQ: 'If there are not enough elements to fill the result list, the missing results are set to -1.' The positional-lookup failure, the drop-at-the-boundary rule and the fixture shape follow."
+    },
+    "techniques/retrieval-evaluation.md": {
+      "disposition": "keep",
+      "reason": "Strata incl. should-be-empty, whole-record judgments, metrics bound to their predicate, tuning and corpus leak checks, production-path rule, regression and ablation gates. No unstable claim."
+    },
+    "applications/bun--second-pass-rescoring.md": {
+      "disposition": "reverify",
+      "reason": "Internally consistent with the technique; gbrain at 2efaaf8f was not reopened this run."
+    },
+    "applications/go--relevance-floors.md": {
+      "disposition": "reverify",
+      "reason": "Weaviate docs confirm certainty is cosine-only and normalized to 0..1, consistent with dist = (1-certainty)*2; the adcffc5 line anchors were not reopened. Note it carries no status field."
+    },
+    "applications/next--embedding-lifecycle.md": {
+      "disposition": "reverify",
+      "reason": "Gemini task types confirmed. The three trees' anchors were not reopened; whether they call gemini-embedding-001 (task_type) or a model that takes the instruction in the prompt text affects the 'accepts a per-call task type' sentence."
+    },
+    "applications/node--relevance-floors.md": {
+      "disposition": "reverify",
+      "reason": "The 0.76 arithmetic and the 0.75 sigmoid threshold (raw about 5.49: 5*ln 3 = 5.49) check out; memory-lancedb-pro at 1a683cf5 and the personas arm were not reopened."
+    },
+    "applications/python--named-period-vote.md": {
+      "disposition": "reverify",
+      "reason": "Figures agree with the technique's tables; the private harness at 4933593909 was not re-run."
+    },
+    "applications/python--padded-slots-are-misses--ultrarag.md": {
+      "disposition": "keep",
+      "reason": "Re-checked at a763d344 this run: faiss_backend.py:212 'if doc_id == -1:' and :214 lookup with the 'LAST document' comment; pyproject.toml:10 requires-python >=3.11; backends faiss, milvus, qdrant in __init__.py; padding tests cover below/equal/above/single; no Milvus padding test exists. verified_on can move."
+    },
+    "applications/python--query-decomposition-before-the-lanes.md": {
+      "disposition": "reverify",
+      "reason": "Analysis consistent with the technique; LightRAG at c1248646 not reopened."
+    },
+    "applications/rust--embedding-lifecycle.md": {
+      "disposition": "reverify",
+      "reason": "No runtime witness or verified_against; personas anchors at the 2026-08-18 state not reopened."
+    },
+    "applications/rust--hybrid-lane-fusion.md": {
+      "disposition": "reverify",
+      "reason": "Internally consistent; the 2026-09-20 ab-paired replay and the personas anchors were not re-run or reopened."
+    },
+    "applications/rust--named-period-vote.md": {
+      "disposition": "reverify",
+      "reason": "Cross-references to the technique tables check (24/24, 21, 1 of 105); icm at 5f402434 not reopened; its own verdict is unmeasurable."
+    },
+    "applications/rust--ranking-budgets--cass.md": {
+      "disposition": "reverify",
+      "reason": "cass at 7fc01958d367 not reopened."
+    },
+    "applications/rust--ranking-budgets--icm.md": {
+      "disposition": "reverify",
+      "reason": "icm at 5f402434 not reopened."
+    },
+    "applications/rust--ranking-budgets.md": {
+      "disposition": "reverify",
+      "reason": "Arithmetic checks (39,212/1,560 = 25.1x; 17.9% and 0.14%). Its 1,105-episode corpus disagrees with the technique's '590-item corpus' (see ranking-budgets). Live operator corpus not reachable."
+    },
+    "applications/rust--relationship-proximity-lane.md": {
+      "disposition": "reverify",
+      "reason": "Personas anchors not reopened; superseded in part by the structural-centrality application's finding that companion_edge has 0 rows."
+    },
+    "applications/rust--relevance-floors.md": {
+      "disposition": "reverify",
+      "reason": "sqlite-vec 0.1.6 re-read this run: distance_l2_sqr_float dispatches to l2_sqr_float* which all return sqrt (sqlite-vec.c:374-404 matches); floor arithmetic 1.30 -> cos 0.155 vs 0.35 checks. The personas and tutorial anchors were not reopened."
+    },
+    "applications/rust--retrieval-evaluation--cass.md": {
+      "disposition": "reverify",
+      "reason": "cass at 7fc01958d367 not reopened."
+    },
+    "applications/rust--structural-centrality-lane.md": {
+      "disposition": "reverify",
+      "reason": "478/510 = 93.7% checks; the live corpus measurement is not reproducible here."
+    },
+    "techniques/query-decomposition-before-the-lanes.md": {
+      "disposition": "keep",
+      "reason": "Tiers as a closed vocabulary, tier-to-lane policy over a caller flag, empty tier vs absent decomposition, cache keyed on query and decomposer only, undecomposed baseline as a named mode. Consistent with the LightRAG application's findings; no unstable claim."
+    }
+  }
+}
+```
+
+## Architecture review - 2026-10-31 (clarify applied)
+
+Applied five of the six clarify items above and re-verified the UltraRAG application.
+Still owed: `techniques/ranking-budgets.md` states a 590-item corpus for the framing
+measurement where `applications/rust--ranking-budgets.md` reports 1,105 episode nodes;
+the operator's live corpus is needed to say which (or what 590 counts).
+
+<!-- architecture-review:v1 -->
+```json
+{
+  "subject": "software-engineering/retrieval",
+  "date": "2026-10-31",
+  "baseline": "e4622e121",
+  "digest": "sha256-b2:48058466e203c0f8",
+  "disposition": "clarify",
+  "coverage": "Five clarify items applied and the edited sentences re-read; the UltraRAG application re-verified and its verified_on moved. One clarify left owed: ranking-budgets' '590-item corpus' disagrees with its source application's 1,105 episode nodes and could not be resolved. Other documents byte-unchanged and keep their dispositions; applications on unreopened trees stay reverify.",
+  "counterexamples": [
+    "A rescorer that can read the blind class (a graph-aware reranker) needs no promote-only bound; the bound is a property of the scorer's blindness, not of the stage.",
+    "On a tiny corpus where every statement on the topic fits in the cut, the period vote buys nothing and the browsable-index check wins.",
+    "A symmetric embedder makes the role rule inert; and gemini-embedding-2 carries the role in prompt text rather than a task_type field, so 'name the role at the call site' survives but its spelling changes.",
+    "A fallback lane whose scores really are calibrated (a second BM25 index) does not manufacture relevance; the relevance-floors rule targets proxy scores, not every substitute."
+  ],
+  "sources": [
+    {
+      "url": "https://github.com/facebookresearch/faiss/wiki/FAQ",
+      "result": "'If there are not enough elements to fill the result list, the missing results are set to -1.' Supports padded-slots-are-misses."
+    },
+    {
+      "url": "https://github.com/facebookresearch/faiss/wiki/Getting-started",
+      "result": "'the search operation returns a nq-by-k floating-point matrix with the corresponding squared distances.' Supports the squared-distance branch of relevance-floors."
+    },
+    {
+      "url": "https://ai.google.dev/gemini-api/docs/embeddings",
+      "result": "'Use RETRIEVAL_QUERY for queries; RETRIEVAL_DOCUMENT for documents to be retrieved'; SEMANTIC_SIMILARITY 'optimized to assess text similarity'; 'Specify task type to improve performance'. Also: 'You cannot use the task_type field for the gemini-embedding-2 model' (instruction goes in the prompt). Supports embedding-lifecycle's role section."
+    },
+    {
+      "url": "https://docs.weaviate.io/weaviate/config-refs/distances",
+      "result": "certainty normalizes distance into 0..1 and 'is however unique to cosine distance'. Consistent with go--relevance-floors' conversion door."
+    },
+    {
+      "url": "https://github.com/asg017/sqlite-vec/blob/v0.1.6/sqlite-vec.c",
+      "result": "distance_l2_sqr_float dispatches to l2_sqr_float / _avx / _neon, each returning sqrt(...). Supports rust--relevance-floors."
+    },
+    {
+      "url": "https://github.com/OpenBMB/UltraRAG/tree/a763d34432007fcd1b261209f222bb10df907beb",
+      "result": "faiss_backend.py:212-214, pyproject.toml:10, index_backends/__init__.py and tests/servers/retriever/test_faiss_search_padding.py all match the application; no Milvus padding test (404)."
+    },
+    {
+      "source": "Arithmetic in named-period-vote, relevance-floors, ranking-budgets and applications",
+      "result": "Recomputed every quoted ratio and threshold; only the 'filter loses two' (one at cut 5), the 0.76 floor (needs query length >= 2) and the 590 vs 1,105 corpus size disagree."
+    }
+  ],
+  "documents": {
+    "retrieval.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: the query-time arrow chain now carries 'optional second-pass rescoring of the fused pool' between fusion and the budget cut, linked to its technique."
+    },
+    "techniques/retrieval-triggering.md": {
+      "disposition": "keep",
+      "reason": "Four triggers, one authority with reason codes, three-valued skip/empty/unavailable, asymmetric threshold and late retrieval recorded as retrieval. No unstable external claim."
+    },
+    "techniques/chunking-and-indexing.md": {
+      "disposition": "keep",
+      "reason": "Structure-first boundaries, content-addressed identity, index writes and deletions as coupled derivations, zero-yield reporting. Doctrine, no unstable claim."
+    },
+    "techniques/embedding-lifecycle.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: 'a availability-versus-completeness' -> 'an availability-versus-completeness'. Role section unchanged; supported by the Gemini embeddings page."
+    },
+    "techniques/hybrid-lane-fusion.md": {
+      "disposition": "keep",
+      "reason": "Rank fusion vs normalization vs tiered concatenation, deterministic tiebreak, convergence only across independent lanes, request-side vs item-side blind predicates re-imposed at one point. Internally consistent with the proximity and centrality techniques."
+    },
+    "techniques/named-period-vote.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: 'the filter loses two that the vote keeps' -> 'one or two' (103 vs 104 at cut 5, two at 10 and 40)."
+    },
+    "techniques/relationship-proximity-lane.md": {
+      "disposition": "keep",
+      "reason": "Reader enumeration before pricing a store, fan-out cap, set-vs-path reach, dependent-lane fusion as tier or attribution, per-relation policy, scope re-imposed after traversal. Consistent with hybrid-lane-fusion."
+    },
+    "techniques/structural-centrality-lane.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: the proximity lane's agreement is now 'recorded in the item's lane provenance, counted neither as additional score nor as convergence, which is evidence only across independent lanes'."
+    },
+    "techniques/second-pass-rescoring.md": {
+      "disposition": "keep",
+      "reason": "Promote-only min(fused, rescored) admission, permutation not re-injection, bounded pin with its cost, shortlist window, no-op by identity, trimmer exemptions including threshold computation, strict vs lenient recall. Figures (21/39 -> 3/39, 449/470 -> 379/470) match the bun application."
+    },
+    "techniques/ranking-budgets.md": {
+      "disposition": "clarify",
+      "reason": "The non-additive section cites 'a 590-item corpus' for the 17.9% / 0.14% framing measurement, while the application it came from (same commit db015b56c) reports 1,105 episode nodes. Arithmetic checks (83/463 = 17.9%, 83/57,292 = 0.14%, ratio 128x) but the corpus size disagrees and I could not establish which is right or what 590 counts."
+    },
+    "techniques/relevance-floors.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: 'Every hit' -> 'Every hit for a query of two or more characters' lands at or above 0.76."
+    },
+    "techniques/padded-slots-are-misses.md": {
+      "disposition": "keep",
+      "reason": "Faiss FAQ: 'If there are not enough elements to fill the result list, the missing results are set to -1.' The positional-lookup failure, the drop-at-the-boundary rule and the fixture shape follow."
+    },
+    "techniques/retrieval-evaluation.md": {
+      "disposition": "keep",
+      "reason": "Strata incl. should-be-empty, whole-record judgments, metrics bound to their predicate, tuning and corpus leak checks, production-path rule, regression and ablation gates. No unstable claim."
+    },
+    "applications/bun--second-pass-rescoring.md": {
+      "disposition": "reverify",
+      "reason": "Internally consistent with the technique; gbrain at 2efaaf8f was not reopened this run."
+    },
+    "applications/go--relevance-floors.md": {
+      "disposition": "reverify",
+      "reason": "Weaviate docs confirm certainty is cosine-only and normalized to 0..1, consistent with dist = (1-certainty)*2; the adcffc5 line anchors were not reopened. Note it carries no status field."
+    },
+    "applications/next--embedding-lifecycle.md": {
+      "disposition": "reverify",
+      "reason": "Gemini task types confirmed. The three trees' anchors were not reopened; whether they call gemini-embedding-001 (task_type) or a model that takes the instruction in the prompt text affects the 'accepts a per-call task type' sentence."
+    },
+    "applications/node--relevance-floors.md": {
+      "disposition": "reverify",
+      "reason": "The 0.76 arithmetic and the 0.75 sigmoid threshold (raw about 5.49: 5*ln 3 = 5.49) check out; memory-lancedb-pro at 1a683cf5 and the personas arm were not reopened."
+    },
+    "applications/python--named-period-vote.md": {
+      "disposition": "reverify",
+      "reason": "Figures agree with the technique's tables; the private harness at 4933593909 was not re-run."
+    },
+    "applications/python--padded-slots-are-misses--ultrarag.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: every citation re-checked at a763d344 (faiss_backend.py:212/214, pyproject.toml:10, backend factory, padding tests); verified_on moved 2026-09-30 -> 2026-10-31."
+    },
+    "applications/python--query-decomposition-before-the-lanes.md": {
+      "disposition": "reverify",
+      "reason": "Analysis consistent with the technique; LightRAG at c1248646 not reopened."
+    },
+    "applications/rust--embedding-lifecycle.md": {
+      "disposition": "reverify",
+      "reason": "No runtime witness or verified_against; personas anchors at the 2026-08-18 state not reopened."
+    },
+    "applications/rust--hybrid-lane-fusion.md": {
+      "disposition": "reverify",
+      "reason": "Internally consistent; the 2026-09-20 ab-paired replay and the personas anchors were not re-run or reopened."
+    },
+    "applications/rust--named-period-vote.md": {
+      "disposition": "reverify",
+      "reason": "Cross-references to the technique tables check (24/24, 21, 1 of 105); icm at 5f402434 not reopened; its own verdict is unmeasurable."
+    },
+    "applications/rust--ranking-budgets--cass.md": {
+      "disposition": "reverify",
+      "reason": "cass at 7fc01958d367 not reopened."
+    },
+    "applications/rust--ranking-budgets--icm.md": {
+      "disposition": "reverify",
+      "reason": "icm at 5f402434 not reopened."
+    },
+    "applications/rust--ranking-budgets.md": {
+      "disposition": "reverify",
+      "reason": "Arithmetic checks (39,212/1,560 = 25.1x; 17.9% and 0.14%). Its 1,105-episode corpus disagrees with the technique's '590-item corpus' (see ranking-budgets). Live operator corpus not reachable."
+    },
+    "applications/rust--relationship-proximity-lane.md": {
+      "disposition": "reverify",
+      "reason": "Personas anchors not reopened; superseded in part by the structural-centrality application's finding that companion_edge has 0 rows."
+    },
+    "applications/rust--relevance-floors.md": {
+      "disposition": "reverify",
+      "reason": "sqlite-vec 0.1.6 re-read this run: distance_l2_sqr_float dispatches to l2_sqr_float* which all return sqrt (sqlite-vec.c:374-404 matches); floor arithmetic 1.30 -> cos 0.155 vs 0.35 checks. The personas and tutorial anchors were not reopened."
+    },
+    "applications/rust--retrieval-evaluation--cass.md": {
+      "disposition": "reverify",
+      "reason": "cass at 7fc01958d367 not reopened."
+    },
+    "applications/rust--structural-centrality-lane.md": {
+      "disposition": "reverify",
+      "reason": "478/510 = 93.7% checks; the live corpus measurement is not reproducible here."
+    },
+    "techniques/query-decomposition-before-the-lanes.md": {
+      "disposition": "keep",
+      "reason": "Tiers as a closed vocabulary, tier-to-lane policy over a caller flag, empty tier vs absent decomposition, cache keyed on query and decomposer only, undecomposed baseline as a named mode. Consistent with the LightRAG application's findings; no unstable claim."
+    }
+  }
+}
+```

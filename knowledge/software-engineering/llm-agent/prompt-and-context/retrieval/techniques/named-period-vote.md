@@ -38,7 +38,7 @@ questions whose packed context held a statement made in the asked-about month:
 
 Ignoring the period is clearly wrong: at a cut of five, 72 of the 140 contexts also held
 the superseding statement and 62 held no statement from the asked-about month at all. Once
-the window is parsed correctly, filtering and voting are close; the filter loses two that
+the window is parsed correctly, filtering and voting are close; the filter loses one or two that
 the vote keeps.
 
 The case that decides between them is the window being **wrong**. A period is parsed out

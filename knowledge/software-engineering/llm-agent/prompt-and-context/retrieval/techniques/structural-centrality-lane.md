@@ -139,10 +139,10 @@ high in both by construction.
 
 Fused as peers they double-count exactly the items most likely to be
 over-represented already. Fuse them as one relational contribution — take the
-max, or attribute the item to whichever lane found it first and let the other
-lane's agreement register as
-[convergence](./hybrid-lane-fusion.md)
-rather than as additional score. Against the query lanes it is genuinely
+max, or attribute the item to whichever lane found it first and record the other
+lane's agreement in the item's lane provenance, counted neither as additional
+score nor as [convergence](./hybrid-lane-fusion.md), which is evidence only
+across independent lanes. Against the query lanes it is genuinely
 independent: it consults no term index and no vector, and it will disagree with
 both, which is the point.
 

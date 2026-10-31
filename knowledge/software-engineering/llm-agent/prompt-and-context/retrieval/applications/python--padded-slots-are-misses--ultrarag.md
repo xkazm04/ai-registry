@@ -5,7 +5,7 @@ subject: retrieval
 technique: padded-slots-are-misses
 stack: python
 status: forged
-verified_on: 2026-09-30
+verified_on: 2026-10-31
 verified_against: python@3.11
 ---
 
