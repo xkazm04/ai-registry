@@ -20,9 +20,12 @@ program officer who catches one figure that cannot be sourced stops trusting
 every other figure in the proposal; a government reviewer who catches one may
 be looking at a false-statement problem, not a style problem. The subject of
 evidence-grounded claims is the discipline that makes a fabricated figure
-*structurally impossible* in a drafting pipeline — not merely discouraged by
-an instruction — by controlling where numbers may come from, what happens
+*structurally hard* in a drafting pipeline — not merely discouraged by an
+instruction — by controlling where numbers may come from, what happens
 when no number exists, and how every stated figure is checked and traced.
+It is not impossible: the deterministic check covers percentages only, a
+fabricated count or amount passes it by design, and placeholders are
+enforced at the submission gate rather than at every step.
 
 The naive reading is "tell the writer (human or model) not to make things
 up". That instruction is necessary and radically insufficient. Language

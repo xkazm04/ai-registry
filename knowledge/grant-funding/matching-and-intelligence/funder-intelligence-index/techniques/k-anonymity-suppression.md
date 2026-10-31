@@ -30,8 +30,9 @@ One prolific organization can generate fifty outcome records in a cell that
 still describes only that organization; a record-count floor of 5 would
 publish it. The aggregation therefore tracks a contributor set per cell and
 tests its cardinality. Conventional floors in published-statistics practice
-run k=5 to k=10 (health statistics commonly use 5, sometimes 10 for
-sensitive categories); k=5 is a defensible default for funder aggregates,
+run from k=5 to about k=11 (health statistics commonly use 5, sometimes 10
+for sensitive categories, and US Medicare data use bars reporting any cell
+of 1 to 10); k=5 is a defensible default for funder aggregates,
 and the chosen value is a named constant — because the methodology page
 discloses it, and the disclosed floor and the enforced floor must be the
 same symbol so they cannot drift apart.

@@ -38,8 +38,8 @@ the targets and decision-points where pressure lands; and why this
 approach can move them **within the grant period**. The theory of change
 is a causal argument — "if we do X, then Y shifts, because Z" — not a
 diagram or a mission restatement. Honest strategy sections name what must
-be true for the plan to work; program officers in this family are former
-organizers more often than not, and they read for strategic realism.
+be true for the plan to work; program officers in this family read for
+strategic realism.
 
 **Base, coalition & leadership.** The power behind the work: the base and
 how it is built, the coalition and partners, the **leadership of

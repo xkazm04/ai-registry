@@ -41,7 +41,9 @@ no-op that documented nothing" — a malformed cell (a fraction like 0.065,
 or a value > 100) must not "surface a nonsense probability with full UI
 confidence on the product's most decision-relevant number" (lines 28-32).
 This is the percent-vs-fraction unit confusion the technique warns about,
-caught in this repo's own history.
+caught in this repo's own history. One gap against the technique remains:
+zeroing a non-finite value displays a 0% rate rather than suppressing the
+display, and a clamp cannot tell a fraction like 0.065 from a real 0.065%.
 
 ## The per-cell merge that closed an open loop
 
@@ -49,7 +51,13 @@ caught in this repo's own history.
 curated prior per `(funderId, revenueBracket)` cell: live wins only when
 `l.applications >= k` (k imported from the index's `K_ANONYMITY`);
 otherwise the curated prior stands, and a below-floor live-only cell is
-dropped, "never surfaced raw" (line 56). The comment at lines 39-45 records
+dropped, "never surfaced raw" (line 56). Note which floor this is: the
+test is an *application* count against the distinct-contributor privacy
+constant. The contributor floor was already applied upstream in the
+aggregation, so this is a second, statistical job for the same symbol —
+the reuse the golden path warns against. Five applications is a thin
+statistical floor, and the merge's own test certifies volume, not
+contributors. The comment at lines 39-45 records
 the wiring gap the technique names as a silent failure: outcome recording
 (`recordOutcome`) and aggregation (`getFunderQuartileSignals`) were both
 built but "unconnected in the middle" — no recorded outcome could move a

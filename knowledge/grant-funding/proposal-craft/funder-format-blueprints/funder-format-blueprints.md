@@ -55,9 +55,15 @@ and anything longer works against the applicant. An arts panel scores the
 work itself, its public, and its deliverability. A movement funder reads for
 the injustice, the theory of change, the base, and how power gets measured.
 
-The mapping cuts both ways. A section the rubric does not score is dead
-weight the reviewer must skim past; a criterion no section answers is points
-forfeited at the desk. When the funder publishes sub-questions under a
+The mapping cuts both ways. A narrative section the rubric does not score
+is dead weight the reviewer must skim past; a criterion no section answers
+is points forfeited at the desk. The mapping governs the *narrative*
+sections only. Mandatory elements that earn no points — declarations, an
+ethics self-assessment, required annexes and supporting documents — are a
+separate class the blueprint must carry regardless: the supranational
+family's admissibility rules require applications to "contain all parts and
+mandatory Annexes and supporting documents", and a document well mapped to
+the score sheet without them is not admissible. When the funder publishes sub-questions under a
 criterion, the section answers all of them, in order, in the funder's own
 words — reviewers navigate by their score sheet, and a section that mirrors
 it is a section they can score in one pass.

@@ -71,7 +71,10 @@ retroactive opt-out by construction — and only then do
 provenance line every index data route attaches:
 `` `${prefix}, n=${count} contributing orgs (k>=${K_ANONYMITY} suppressed)` ``.
 Routes supply only their prefix; the count comes from the consent-filtered
-pool and the floor from the enforced constant. The published methodology
+pool and the floor from the enforced constant. The string's shorthand is the
+one weak point: "(k>=5 suppressed)" reads as "cells of five or more are
+suppressed", the inverse of the rule, so the disclosure that cannot drift in
+value can still be misread in direction. The published methodology
 (`src/app/intelligence/IndexMethodology.tsx` lines 40-44) repeats the
 promise in prose — "no funder is reported below k=5 … small-population
 funders are surfaced only at the funder level, not the program level" —

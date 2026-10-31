@@ -72,6 +72,9 @@ code: scope chosen by false-positive reasoning rather than ambition
 (percentages only), exclusions that protect the honest form (placeholder
 stripping, 0/100 exemption), and the grounding defined as *what the model
 was shown*, making the check a pure echo test that needs no model to run.
-Its known limit is the one the technique states: a wrong figure inside the
-grounding echoes cleanly — extraction honesty and provenance upstream are
-what this gate presumes, not what it provides.
+Its known limits are the ones the technique states: a wrong figure inside
+the grounding echoes cleanly — extraction honesty and provenance upstream
+are what this gate presumes, not what it provides — and because
+`percentSet` pools the facts, the RFP, the funder DNA and the profile into
+one set of values, a percentage the RFP states for any reason grounds the
+same number as an organizational claim in the draft.

@@ -1,7 +1,7 @@
 ---
 domain: grant-funding
 subject: funder-intelligence-index
-last_touched: 2026-09-10
+last_touched: 2026-10-31
 touched_by: architecture-review
 dry_streak: 0
 ---
@@ -162,6 +162,185 @@ line-number and code claims are unverified rather than confirmed.
     "techniques/win-probability-confidence-bands.md": {"disposition": "keep", "reason": "The base-rate-lookup-first argument, the same-row rule for probability and confidence, the enumerated forbidden fallbacks, the per-cell merge, and the percent-vs-fraction last-mile guard are all sound; the binomial claim behind the 800/200 thresholds recomputes correctly at 1.65 and 3.3 points."},
     "applications/node--k-anonymity-suppression.md": {"disposition": "clarify", "reason": "Faithful on the substance - one constant, orgs.size cardinality gating, total suppression, write-time generalization, consent-first layering, the private dashboard's separate MIN_DECIDED_FOR_WIN_RATE - and the cliff-cutover incident is exactly the kind of upward lesson an application should carry. The defect it reproduces without comment is the disclosure string's inverted inequality, 'k>=5 suppressed'. Repo unavailable this run, so line citations are unverified."},
     "applications/node--win-probability-confidence-bands.md": {"disposition": "clarify", "reason": "Documents mergeQuartiles gating the live-over-curated swap on 'l.applications >= k' with k imported from K_ANONYMITY - an application-count test against the distinct-contributor privacy constant. The golden path forbids reusing one floor for both jobs and the suppression technique forbids record-count floors specifically; the document should say which floor the merge applies and why one symbol serves both. The rest (named confidence constants, one-lookup-both-values, honest null off-cell, the unit-confusion guard, the three-valued calibration audit) is faithful."}
+  }
+}
+```
+
+## Architecture review - 2026-10-31
+
+Ten documents read in full, including the consent application added 2026-10-14.
+
+**Retraction.** The 2026-09-10 record says the Candid page it cites "corroborates the 10-30% general
+band, 5-15% for large national foundations, 15-25% community-foundation full proposals", and on
+that basis kept the golden path's spread and `rfp-difficulty-scoring`'s "foundations typically fund
+15-30%". That record called its own evidence search-surfaced. Opened directly this run, the page
+says the opposite: there is "virtually no research on the question of what percentage of proposals
+they fund", and its one data point is a 2004 Foundation Center report: "Overall, 35 percent funded
+50 percent or more of the grant requests they received." The sector-spread figures in both documents
+are therefore unsourced, not corroborated, and become `reverify`.
+
+The three 2026-09-10 clarify items still stand at current bytes: the provenance notice "(k>=5
+suppressed)" states the inequality in the direction of what is published; `rfp-difficulty-scoring`
+does not say which population its 2/6/15% cuts are calibrated on; and the win-probability
+application's merge tests an application count against the distinct-contributor privacy constant
+without saying which floor it applies. That application also records `toWinPercent` zeroing
+non-finite input, where the technique says to reject non-finite values to a suppressed display - a
+zero is a fabricated rate. New, from a primary source: `k-anonymity-suppression` gives the
+conventional range as k=5 to k=10, but the US Medicare data-use policy, as ResDAC states it, is
+that "no cell ... containing a value of 1 to 10 can be reported directly" - a floor of 11.
+
+The binomial claim (p=0.06, n=800: half-width 1.96*sqrt(.06*.94/800) = 1.65 points) recomputes.
+Nothing was executed and no application tree was re-read.
+
+<!-- architecture-review:v1 -->
+```json
+{
+  "subject": "grant-funding/funder-intelligence-index",
+  "date": "2026-10-31",
+  "baseline": "8432a5cfa",
+  "digest": "sha256-b2:2f706a1a6b2de40a",
+  "disposition": "clarify",
+  "coverage": "All 10 documents read in full; the binomial half-width recomputed; the Candid page the previous record relied on opened directly; the CMS cell-size policy checked through ResDAC. NOT evaluated: no application tree re-read, no runtime, no re-identification test of a real cell; no verified_on or maturity change.",
+  "counterexamples": [
+    "A cell with five distinct contributors where one org supplied 96% of the applications passes the floor while the published rate is effectively that org's history.",
+    "A publisher bound by the CMS rule (cells of 1-10 unreportable) cannot adopt any floor inside the technique's stated k=5 to k=10 range.",
+    "A reader of \"n=37 contributing orgs (k>=5 suppressed)\" concludes that cells of five or more are hidden, the inverse of the rule.",
+    "A typical local foundation funding 25% of applicants is \"approachable\" under the 15% cut, which is right for a shortlist dominated by national funders and wrong as a statement about the sector median the page also cites."
+  ],
+  "sources": [
+    {
+      "url": "https://learning.candid.org/grant-statistics-funded-proposals-percentage/278283",
+      "result": "Opened directly. States \"virtually no research\" on proposal funding percentages; only data point: a 2004 Foundation Center report, \"35 percent funded 50 percent or more of the grant requests they received\". Refutes the 2026-09-10 claim that this page corroborates the 10-30% / 5-15% / 15-25% bands."
+    },
+    {
+      "url": "https://resdac.org/articles/cms-cell-size-suppression-policy",
+      "result": "States \"no cell (e.g. admissions, discharges, patients, services, etc.) containing a value of 1 to 10 can be reported directly\"; zero is exempt; derivation of a 1-10 value from other cells is also barred. Shows a common health-data floor of 11, outside the technique's k=5 to k=10 range, and independently supports its subtraction-attack rule."
+    },
+    {
+      "path": "knowledge/grant-funding/matching-and-intelligence/funder-intelligence-index",
+      "result": "All 10 documents read; binomial claim recomputed at 1.65 points; technique-versus-application conflicts derived by reading."
+    }
+  ],
+  "documents": {
+    "funder-intelligence-index.md": {
+      "disposition": "reverify",
+      "reason": "Frame (four failure axes, two-sided ledger, per-cell merge, methodology page) sound. The sector spread \"low single digits ... to 30% and beyond\" loses its corroboration with the retraction above; needs a primary source or a hedge."
+    },
+    "techniques/award-rate-by-revenue-bracket.md": {
+      "disposition": "keep",
+      "reason": "Write-time brackets, application collapse with idempotent capture, the submitted/decided distinction with raw counts published. Its 5%/12%/1% example is framed as hypothetical."
+    },
+    "techniques/consent-scoped-contribution.md": {
+      "disposition": "clarify",
+      "reason": "Still owed: the sample notice \"(k≥5 suppressed)\" states the inequality in the published direction. Rest sound, and the derived-table rule is backed by its application."
+    },
+    "techniques/fit-calibration-monotonicity.md": {
+      "disposition": "keep",
+      "reason": "Freeze-at-submit, coarse bands, three counts, three-valued answer, no re-tuning against the audit set."
+    },
+    "techniques/k-anonymity-suppression.md": {
+      "disposition": "clarify",
+      "reason": "Conventional range \"k=5 to k=10 (health statistics ... sometimes 10)\" understates practice: the CMS rule bars cells of 1-10, a floor of 11. Widen the range with that example."
+    },
+    "techniques/rfp-difficulty-scoring.md": {
+      "disposition": "reverify",
+      "reason": "Clarify owed: name the population the 2/6/15% cuts are calibrated on (the shortlist under 10%), since the page also says typical foundations fund 15-30%. Reverify: that 15-30% sector figure and the ~20% research-funder figure lost their corroboration with the retraction above."
+    },
+    "techniques/win-probability-confidence-bands.md": {
+      "disposition": "keep",
+      "reason": "Lookup-first, same-row band, forbidden fallbacks, per-cell merge, last-mile guard; binomial thresholds recompute."
+    },
+    "applications/node--consent-scoped-contribution.md": {
+      "disposition": "keep",
+      "reason": "Paired test with a non-consenting org; states the unmeasured leak size and the unopened band-suppression question."
+    },
+    "applications/node--k-anonymity-suppression.md": {
+      "disposition": "clarify",
+      "reason": "Faithful dated record. Owed: say that the quoted disclosure string \"(k>=${K_ANONYMITY} suppressed)\" reads as the inverse of the rule it discloses. Code citations not re-read."
+    },
+    "applications/node--win-probability-confidence-bands.md": {
+      "disposition": "clarify",
+      "reason": "Owed: the merge gates on an application count against K_ANONYMITY, a second statistical job for the privacy constant the golden path says not to reuse; and toWinPercent zeroes non-finite input where the technique says to suppress. Name both as known limits. Code citations not re-read."
+    }
+  }
+}
+```
+
+### 2026-10-31 - after applying the owed clarifications
+
+Five clarify items applied. The golden path's and the difficulty technique's sector-spread figures
+stay `reverify`: the source they were credited to does not state them.
+
+<!-- architecture-review:v1 -->
+```json
+{
+  "subject": "grant-funding/funder-intelligence-index",
+  "date": "2026-10-31",
+  "baseline": "8432a5cfa",
+  "digest": "sha256-b2:61cbe307a1df9006",
+  "disposition": "reverify",
+  "coverage": "All 10 documents read in full; the binomial half-width recomputed; the Candid page the previous record relied on opened directly; the CMS cell-size policy checked through ResDAC. NOT evaluated: no application tree re-read, no runtime, no re-identification test of a real cell; no verified_on or maturity change. Phase B applied five clarifications; the golden path and rfp-difficulty-scoring remain reverify for the unsourced sector spread.",
+  "counterexamples": [
+    "A cell with five distinct contributors where one org supplied 96% of the applications passes the floor while the published rate is effectively that org's history.",
+    "A publisher bound by the CMS rule (cells of 1-10 unreportable) cannot adopt any floor inside the technique's stated k=5 to k=10 range.",
+    "A reader of \"n=37 contributing orgs (k>=5 suppressed)\" concludes that cells of five or more are hidden, the inverse of the rule.",
+    "A typical local foundation funding 25% of applicants is \"approachable\" under the 15% cut, which is right for a shortlist dominated by national funders and wrong as a statement about the sector median the page also cites."
+  ],
+  "sources": [
+    {
+      "url": "https://learning.candid.org/grant-statistics-funded-proposals-percentage/278283",
+      "result": "Opened directly. States \"virtually no research\" on proposal funding percentages; only data point: a 2004 Foundation Center report, \"35 percent funded 50 percent or more of the grant requests they received\". Refutes the 2026-09-10 claim that this page corroborates the 10-30% / 5-15% / 15-25% bands."
+    },
+    {
+      "url": "https://resdac.org/articles/cms-cell-size-suppression-policy",
+      "result": "States \"no cell (e.g. admissions, discharges, patients, services, etc.) containing a value of 1 to 10 can be reported directly\"; zero is exempt; derivation of a 1-10 value from other cells is also barred. Shows a common health-data floor of 11, outside the technique's k=5 to k=10 range, and independently supports its subtraction-attack rule."
+    },
+    {
+      "path": "knowledge/grant-funding/matching-and-intelligence/funder-intelligence-index",
+      "result": "All 10 documents read; binomial claim recomputed at 1.65 points; technique-versus-application conflicts derived by reading."
+    }
+  ],
+  "documents": {
+    "funder-intelligence-index.md": {
+      "disposition": "reverify",
+      "reason": "Frame (four failure axes, two-sided ledger, per-cell merge, methodology page) sound. The sector spread \"low single digits ... to 30% and beyond\" loses its corroboration with the retraction above; needs a primary source or a hedge."
+    },
+    "techniques/award-rate-by-revenue-bracket.md": {
+      "disposition": "keep",
+      "reason": "Write-time brackets, application collapse with idempotent capture, the submitted/decided distinction with raw counts published. Its 5%/12%/1% example is framed as hypothetical."
+    },
+    "techniques/consent-scoped-contribution.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: sample notice -> \"cells under 5 orgs suppressed\", with a sentence on why \"(k≥5 suppressed)\" reads as the inverse of the rule."
+    },
+    "techniques/fit-calibration-monotonicity.md": {
+      "disposition": "keep",
+      "reason": "Freeze-at-submit, coarse bands, three counts, three-valued answer, no re-tuning against the audit set."
+    },
+    "techniques/k-anonymity-suppression.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: conventional range \"k=5 to k=10\" -> \"k=5 to about k=11\", citing the Medicare rule barring cells of 1 to 10 (ResDAC, opened this run)."
+    },
+    "techniques/rfp-difficulty-scoring.md": {
+      "disposition": "reverify",
+      "reason": "applied 2026-10-31: the cuts are now said to be calibrated on the shortlist population under 10%, not the sector-wide figure, and the methodology must name the population. Still reverify: the 15-30% foundation and ~20% research-funder figures have no source since the Candid retraction."
+    },
+    "techniques/win-probability-confidence-bands.md": {
+      "disposition": "keep",
+      "reason": "Lookup-first, same-row band, forbidden fallbacks, per-cell merge, last-mile guard; binomial thresholds recompute."
+    },
+    "applications/node--consent-scoped-contribution.md": {
+      "disposition": "keep",
+      "reason": "Paired test with a non-consenting org; states the unmeasured leak size and the unopened band-suppression question."
+    },
+    "applications/node--k-anonymity-suppression.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: added that the quoted \"(k>=5 suppressed)\" string reads in the inverse direction. Quote itself unchanged; code citations not re-read; verified_on unchanged."
+    },
+    "applications/node--win-probability-confidence-bands.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: named the merge test as an application count against the privacy constant (a second statistical job, volume not contributors), and the toWinPercent gap (zero instead of suppression for non-finite; clamp cannot see a fraction). Code citations not re-read; verified_on unchanged."
+    }
   }
 }
 ```
