@@ -225,3 +225,75 @@ Currency only: "a tenth is typical" for cache reads now carries a per-model cave
 read its newest models at a twentieth and a fortieth in October 2026, verified on its caching
 page). The sentence stays true, and a price book that keys the read rate per provider rather
 than per model now under-reads the discount on exactly the newest models.
+
+## 2026-10-31 - architecture review (stale since the 2026-10-02 currency edit)
+
+The only byte change since the 2026-09-10 record is the golden path's cache-read caveat
+("a twentieth and a fortieth"). It is correct: the Anthropic caching page lists 0.05x on
+Opus 5.5 and Sonnet 5.5 and 0.025x on Fable 5.1 and Mythos 5.1. None of the five
+2026-09-10 clarifies has been applied, and this run strengthens two of them.
+
+**The premium-lane fallback is now priced in the field.** OpenAI's pricing page lists the
+priority lane, renamed "Fast" on 2026-07-30, at 1.75x to 2.5x standard input. So
+`price-resolution-order`'s "base rates are the ceiling" fallback under-prices that lane by
+up to 60%. The rename adds a second path to the same error: a client that declares
+`fast` finds no lane row and falls through to base, and the Rust parser that maps
+`priority` to flex prices it at half rate. That is the 2026-09-10 finding on a lane that
+now has two names.
+
+**The imputation overclaim is still in three places.** The golden path ("self-corrects
+the moment a price lands"), the technique ("the very next evaluation prices that traffic
+correctly") and the process application all say it. Under the documented
+window-mean imputation rule, adding a row moves the mean and does not price the event at
+its own rate. The golden path was not named in the 2026-09-10 handoff, but its sentence
+carries the same claim and should change with the other two.
+
+**One more currency fact for the process application's class-map section.** OpenAI's
+cached input now runs from 5% to 50% of input across models, a discount of 50-95%, not
+"roughly 50-90%".
+
+Coverage note: the golden path, `price-resolution-order`, `hot-swap-price-book` and
+`no-retroactive-repricing` were re-read at the lines in question. The other five were
+read for structure against the 2026-09-10 full read, because none of their bytes changed
+that the digest could attribute to them. That is a narrower read than the earlier
+record's.
+
+<!-- architecture-review:v1 -->
+```json
+{
+  "subject": "llm-observability/llm-price-book-operations",
+  "date": "2026-10-31",
+  "baseline": "140c101d",
+  "digest": "sha256-b2:1f43aefeff056ea5",
+  "disposition": "clarify",
+  "coverage": "All 9 owned documents covered. The golden path and the three techniques carrying open findings were re-read at the contested passages, and the rest were read for structure against the 2026-09-10 full read. Provider pricing re-checked against the Anthropic caching page and the OpenAI pricing page. Not evaluated: the LightTrack tree and its tests, Gemini cached rate fractions, and any price-book execution. No last_verified, verified_on or refresh_by field was refreshed.",
+  "counterexamples": [
+    "A call declares OpenAI's Fast (formerly priority) lane at 2.5x standard and the book has no such row. Resolution falls through to base and under-prices by 60%, in the direction the golden path says flatters the dashboard.",
+    "A client sends the lane hint 'priority' to a parser that maps it to flex, and a premium call prices at the discounted rate.",
+    "A model's row is added after a month of unpriced traffic, and under the window-mean imputation rule the backlog is still charged at the mean, not at the new rate.",
+    "Two admin writes each re-read the full table outside the lock, and the older read swaps last, so memory falls behind the database until restart.",
+    "A per-provider cache-read rate of 0.1x applied to Opus 5.5 traffic over-charges reads by 2x against the published 0.05x."
+  ],
+  "sources": [
+    {
+      "url": "https://platform.claude.com/docs/en/docs/build-with-claude/prompt-caching",
+      "result": "Read, not executed. Confirms 0.1x default reads with 'Cache hits and refreshes on Claude Opus 5.5 and Claude Sonnet 5.5 are priced at 0.05x' and Fable 5.1 / Mythos 5.1 at 0.025x, so the golden path's 'a twentieth and a fortieth' is accurate. Also confirms 1.25x 5-minute and 2x 1-hour writes."
+    },
+    {
+      "url": "https://developers.openai.com/api/docs/pricing",
+      "result": "Read, not executed. 'Priority processing was renamed Fast mode on July 30, 2026', with Fast input at 1.75x-2.5x standard (gpt-5.5 2.5x, gpt-4.1/o3 1.75x). Batch and Flex are half of standard. Cached input ranges from about 5% to 50% of input across models. This supports the premium-lane under-pricing finding and refutes 'roughly 50-90% off' as the current range."
+    }
+  ],
+  "documents": {
+    "llm-price-book-operations.md": {"disposition": "clarify", "reason": "The four distinctions and the failure-modes list hold, and the new per-model cache-read caveat is accurate. Change 'its imputed charge is recomputed at evaluation time and self-corrects the moment a price lands' to match the imputation rule actually stated. It carries the same overclaim as no-retroactive-repricing, which the 2026-09-10 handoff named only for the technique and application."},
+    "techniques/embedded-seed-fallback.md": {"disposition": "keep", "reason": "Precedence rule, the boot line disclosing the winning source, and build-time assertions hold. Unchanged."},
+    "techniques/hot-swap-price-book.md": {"disposition": "clarify", "reason": "Still owed: step 4 must say the full re-read happens inside the write lock, or is versioned so that an older read cannot swap last."},
+    "techniques/no-retroactive-repricing.md": {"disposition": "clarify", "reason": "Still owed: either state that imputation re-resolves the book per event and uses the window mean only on a miss, or weaken 'the very next evaluation prices that traffic correctly'. The freeze principle itself holds."},
+    "techniques/price-provenance-and-staleness.md": {"disposition": "keep", "reason": "Declared non-coverage, staleness against the shortest provider cadence, and effective date versus announcement date hold. A provider renaming a lane (priority to Fast) is exactly the cadence event this technique's staleness rule should catch."},
+    "techniques/price-resolution-order.md": {"disposition": "clarify", "reason": "Still owed and now quantified: the fall-through-to-base rationale ('base rates are the ceiling for discount lanes') under-prices premium lanes, which OpenAI lists at 1.75-2.5x standard. State the failure direction for premium lanes, and say that an unpriced premium lane is a disclosed partial miss, as the class-fallback section already does for premium classes."},
+    "techniques/price-row-variant-encoding.md": {"disposition": "keep", "reason": "Modifier-in-key with a closed grammar, self-contained rate cards, and the class map as an orthogonal axis hold. Cache-write classes re-confirmed."},
+    "applications/process--no-retroactive-repricing.md": {"disposition": "clarify", "reason": "Still owed: drop or qualify 'expect any unpriced backlog for that model to self-correct' given its own window-mean rule. At its refresh: OpenAI cached input is now 50-95% off (5% to 50% of input), not 50-90%; Anthropic reads are per model (0.1x / 0.05x / 0.025x). refresh_by 2026-11-20 left as it stands."},
+    "applications/rust--price-resolution-order.md": {"disposition": "clarify", "reason": "Still owed: list PricingMode::parse mapping 'priority' to flex as a deviation (a premium lane priced at a discount), beside the effective_date deviation. Also note that the provider's current name for the lane, 'fast', is not in the grammar and falls through to base. Tree not reopened."}
+  }
+}
+```

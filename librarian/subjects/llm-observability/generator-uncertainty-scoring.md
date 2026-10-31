@@ -252,3 +252,124 @@ Applied twice in one project, the first seam chosen to falsify: `not-better` at 
 ## 2026-10-05 - a seventh technique, from [[2026-10-05-decision-model-fixed-line-calibration]]
 
 `compare-gates-at-matched-coverage`: a confidence gate is a point on a risk-coverage curve, and a recalibration, a scorer swap or a richer input moves coverage at an unchanged number. Until this landing the subject owned every threshold on a confidence score and had no notion of coverage. The same rule lives in `agent-memory/baseline-ladder` (software-engineering) for abstention, reached from selective prediction; cross-bundle links being forbidden, it is restated here. Measured on the source's own fixture (30-way support-action pick, a word-feature classifier, four disjoint splits, three seeds): a fixed line attributed 124 errors of change to recalibration where matched coverage found 19, and the sign at a fixed line followed the temperature - the best fit read as tripling errors. Applied in pof, `code`, `better`: the input gate's reported outcome now names whose line decided it (0/267 -> 267/267, 178 borrowed lines disclosed, verdicts 267/267). The golden path gained one paragraph in the threshold section; its existing sentences stay true. Boundary: `judge-calibration-and-drift` owns a grader's agreement and drift; the operating point of a line on its score is owned here.
+
+## 2026-10-31 - architecture review (stale since the two October techniques)
+
+All ten documents read at current bytes: the golden path, seven techniques and the
+two applications. The record went stale because `stated-distribution-over-closed-labels`
+(2026-09-18) and `compare-gates-at-matched-coverage` (2026-10-05) landed with their
+applications. None of the 2026-09-10 handoffs has been applied. The N-of-one rule is
+still unscoped, the tier-0 cost sentence is still unconditional, and no document cites
+a source.
+
+**Retraction of the 2026-09-10 `reverify` on the uncited figures.** That record held
+the golden path, `probability-calibration-is-not-agreement` and `score-source-ensembling`
+at `reverify` because their numbers could not be reached. This run reached them. Every
+figure in the ensemble and selection claims is in Bouchard and Chauhan, arXiv:2504.19254:
+the 20/24 (AUROC) and 17/24 (F1) ensemble results, the 11/7/6 best-non-ensemble split,
+the GPT-4o-mini judge at chance on all four GSM8K scenarios, the m=1..15 sweep
+(GPT-4o on CSQA, 0.54-0.57 to 0.75-0.8), and the admission that cross-dataset transfer
+of weights was not evaluated. The calibration figures come from UQLM's own score-calibration
+demo: 0.428037 to 0.030675 ECE and 0.511129 to 0.500000 MCE on NQ-Open, with 1,000 prompts
+used to fit and 500 to report. The evidence holds, so those three documents move from
+`reverify` to `clarify`. What is still owed is a citation a reader can follow.
+
+**A new finding, and it contradicts this note's own framing.** The golden path and
+`probability-calibration-is-not-agreement` both call the 0.428 score "a raw multi-sample
+confidence score". The notebook builds `WhiteBoxUQ(llm=llm, scorers=["normalized_probability"])`.
+That is one generation per prompt and a length-normalized token probability, the subject's
+tier 0. The refutation still stands, but it belongs to the other rung. This matters twice.
+The subject's showcase calibration evidence is about the tier it promotes for in-path use,
+and that strengthens the threshold rule. It is also an N=1 score, which makes
+`generator-vs-itself`'s unscoped "when N is one the score does not exist" contradict the
+subject's own primary evidence, not just its ladder.
+
+**One overstatement.** The golden path says a model's own accuracy "predicted" its quality
+as a judge. The paper says it "positively relates", a correlational statement with no
+effect size. The sentence should use the paper's verb.
+
+**`compare-gates-at-matched-coverage`.** Its published-walkthrough numbers (97 to 36
+mistakes, 160 to 326 escalations, "even though we haven't actually tweaked the gate")
+carry no citation, and an exact-phrase search found nothing. The arithmetic is internally
+consistent (1000-160=840, 1000-326=674). The rebuilt measurement and the fleet-gate replay
+are the document's own evidence and are stated with their pre-declared prediction and
+falsifier. Name the walkthrough.
+
+<!-- architecture-review:v1 -->
+```json
+{
+  "subject": "llm-observability/generator-uncertainty-scoring",
+  "date": "2026-10-31",
+  "baseline": "140c101d",
+  "digest": "sha256-b2:a449ca2b8da79c6e",
+  "disposition": "clarify",
+  "coverage": "All 10 owned documents read in full at current bytes: golden path, 7 techniques, 2 applications. Primary sources resolved by reading: arXiv:2504.19254 full HTML, the UQLM score-calibration demo notebook, and the public system-one adapter's confidence_metrics.py at adffc2ea. Not evaluated: the pof tree behind the node application, the memory-evaluation runs behind the python application, the compare-gates rebuild and its fixture, any scorer execution. Whether serving APIs need a log-probability opt-in (the tier-0 cost clarify) was carried from the 2026-09-10 record and not re-fetched. No knowledge/ file was edited.",
+  "counterexamples": [
+    "The subject's own calibration evidence is an N=1 white-box score (UQLM WhiteBoxUQ normalized_probability), and generator-vs-itself says a score at N of one does not exist.",
+    "A model that has memorized a wrong fact answers the same way on every draw and every token, so it is maximally confident at every tier and never correct. Nothing in the subject detects it.",
+    "A calibration fit that cuts ECE about fourteenfold leaves MCE at 0.500, so a floor set on the fitted score sits in a bin the fit did not repair.",
+    "A provider starts charging for log probabilities, or requires an opt-in that enlarges the payload, and an in-path tier-0 scorer changes cost class with no code change.",
+    "A recalibration at an unchanged 0.9 line reads as tripling errors (8 to 24) on the seed where it most improved ECE, because the line admitted more cases."
+  ],
+  "sources": [
+    {
+      "url": "https://arxiv.org/html/2504.19254",
+      "result": "Read, not executed. Confirms verbatim: ensemble beats its components in 20 of 24 scenarios (AUROC) and has the highest F1 in 17 of 24; LLM-as-a-Judge, black-box and white-box were top non-ensemble in 11, 7 and 6 scenarios; the GPT-4o-mini judge was near random on all four GSM8K scenarios; GPT-4o on CSQA AUROC went from 0.54-0.57 at m=1 to 0.75-0.8 at m=15; 'we have not evaluated out-of-distribution generalization, including cross-dataset transfer of learned weights'. Refutes the strength of 'predicted': the paper says accuracy 'positively relates' to judging ability. Does not establish the error-correlation mechanism the ensembling technique offers as the reason averaging works."
+    },
+    {
+      "url": "https://cvs-health.github.io/uqlm/latest/_notebooks/examples/score_calibration_demo.html",
+      "result": "Read, not executed. Confirms NQ-Open, 1,500 prompts, 1,000 fit and 500 test, isotonic calibration, ECE 0.428037 to 0.030675 and MCE 0.511129 to 0.500000. Refutes the subject's description of the scorer: it is WhiteBoxUQ with scorers=['normalized_probability'], a single-generation token-probability score, not a multi-sample consistency score."
+    },
+    {
+      "url": "https://raw.githubusercontent.com/typesafe-ai/system-one-adapter-python/adffc2ea/src/system_one_adapter/_utils/confidence_metrics.py",
+      "result": "Read, not executed. Confirms the python application's two formulas: the choice confidence rescales the peak so that uniform reads 0, and the score confidence is 1 minus the distance from the mode over the uniform MAD. Does not re-establish the paired-run results."
+    },
+    {
+      "source": "web search for the compare-gates walkthrough phrase",
+      "result": "No match for \"haven't actually tweaked the gate\". The walkthrough the technique quotes remains unidentified."
+    }
+  ],
+  "documents": {
+    "generator-uncertainty-scoring.md": {
+      "disposition": "clarify",
+      "reason": "The premise and the complementarity reading hold, and every figure is now confirmed. Four changes: cite arXiv:2504.19254 and the UQLM calibration demo; call the 0.428/0.031 scorer a single-generation length-normalized token-probability score, not a raw multi-sample confidence score; replace 'predicted its quality as a judge' with the paper's 'positively relates'; carve tier 0 out of the N-of-one rule where the two frames are discussed."
+    },
+    "techniques/score-source-kinds.md": {
+      "disposition": "keep",
+      "reason": "The third kind, the inherited-rule exemptions and the sign-normalization clause hold. The stated-distribution technique records its own exception to the no-prompt cell rather than rewriting this table, which is the correct layering."
+    },
+    "techniques/scorer-cost-class.md": {
+      "disposition": "clarify",
+      "reason": "Unchanged since 2026-09-10 and that handoff is still owed: tier 0 should read 'no additional model call or generated token', and the per-request log-probability opt-in and larger payload belong in the sentence, because the in-path admissibility condition depends on the word 'genuinely'. Also cite the N-sweep (arXiv:2504.19254 Appendix D, GPT-4o on CSQA)."
+    },
+    "techniques/probability-calibration-is-not-agreement.md": {
+      "disposition": "clarify",
+      "reason": "The worst-bin argument is now backed by the reachable notebook (ECE 0.428 to 0.031, MCE 0.511 to 0.500). Two changes: name the scorer as a single-generation normalized token probability, not a raw multi-sample confidence score, and cite the UQLM calibration demo with its 1,000/500 fit/report split."
+    },
+    "techniques/generator-vs-itself.md": {
+      "disposition": "clarify",
+      "reason": "The four-quantity table and the frame discriminator hold. Scope 'When N is one, there is no spread and the score does not exist' to consistency (multi-sample) scoring: the subject's own calibration evidence is an N=1 token-probability score. Cite the N-sweep."
+    },
+    "techniques/score-source-ensembling.md": {
+      "disposition": "clarify",
+      "reason": "All numbers are confirmed against arXiv:2504.19254, including the threshold-agnostic (AUROC) and threshold-dependent (F1) split and the stated non-evaluation of weight transfer. Cite the paper, name the two metrics, and present the error-correlation mechanism as a hypothesis, because the paper does not measure it."
+    },
+    "techniques/stated-distribution-over-closed-labels.md": {
+      "disposition": "keep",
+      "reason": "Shape statistics per answer shape match the public adapter's formulas. Code-held thresholds, gated destructive labels, a none-of-the-above exit, kept sum error and the saturation count are each tied to a failure. The two-seam measurement is stated with its verdicts in both directions and with the repeatability caveat (100/120 reproduction). The vendor calibration is disclosed as unmeasured."
+    },
+    "techniques/compare-gates-at-matched-coverage.md": {
+      "disposition": "clarify",
+      "reason": "The risk-coverage framing, the observation that sign follows temperature, and the rules (operating point first, threshold belongs to its scorer, record the pair) hold. The measurement reports a missed prediction honestly (15% against a 10% bound). Name the published walkthrough whose 97-to-36 and 160-to-326 figures it quotes; an exact-phrase search could not find it."
+    },
+    "applications/node--compare-gates-at-matched-coverage--pof.md": {
+      "disposition": "reverify",
+      "reason": "A coherent realization with honest limits (a disclosure, not a fitted line; integer-scale matching approximate; third provider unmeasured). The pof tree, the committed arena jsonl and the 267/267 replay were not reopened."
+    },
+    "applications/python--stated-distribution-over-closed-labels.md": {
+      "disposition": "keep",
+      "reason": "Its public anchor was re-read and matches: both confidence formulas, as quoted. The paired runs are stated as one draw per arm, with the borderline label named as a proxy and the hosted model declared unmeasured. Runs were not re-executed and the original verified_on is unchanged."
+    }
+  }
+}
+```
