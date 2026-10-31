@@ -101,7 +101,8 @@ computed differently
 ([_laws: count-carries-predicate_](../../../_laws.md#count-carries-predicate)).
 That list of rules is not closed, and the entry it is missing is the one most
 shipping decisions rest on: the probability that *every* attempt succeeds,
-which falls as trials are added where the others rise. reliability-aggregation
+which falls as trials are added where the others rise.
+[reliability-aggregation](./techniques/reliability-aggregation.md)
 owns the choice between it and its optimistic twin, and why the pair is worth
 more than either.
 
@@ -310,7 +311,7 @@ because a schema was ambiguous fails the prompt's tell and the pipeline's
 tell alike, so a strictly followed funnel lands it in the residual bucket
 and prescribes a model change for a description problem.
 
-Two of the six are not the system at all. A case whose expected property is
+Two of the seven are not the system at all. A case whose expected property is
 wrong, and a case that is unrepresentative of anything a user will do, both
 go red without a defect existing; the "fix" for either, applied to the
 system, improves the score while moving the system away from correct. That is
@@ -321,7 +322,7 @@ is not a low score — pushed one level down to the case
 Attribution is manual, is done on a sample from both tails, and produces
 *classes* rather than cases: five failures owned by the same missing field is
 a change you can design and measure, while one attributed case is an
-anecdote. And the class that resists all six owners is the most valuable
+anecdote. And the class that resists all seven owners is the most valuable
 thing the review produces — it means competent reviewers disagree about the
 right answer, which is a product policy nobody has written, not a model
 weakness. The discipline is
@@ -430,6 +431,12 @@ are a design input, not an afterthought: [eval-economics](./techniques/eval-econ
 - [judge-stability](./techniques/judge-stability.md) — the pinned judge
   packet, anchor-set drift measurement, inter-judge disagreement, the
   own-family preference bias.
+- [reliability-aggregation](./techniques/reliability-aggregation.md) —
+  any-of-N against all-of-N over the same trials, measured versus modelled,
+  and the pair whose spread is the finding.
+- [measurement-revision](./techniques/measurement-revision.md) — revising a
+  published result: a re-run at the same n is a second sample, a concentrated
+  effect reported as its distribution, and the direction of the revision.
 - [comparison-modes](./techniques/comparison-modes.md) — absolute vs pairwise
   vs matrix, win-rates and their pathologies, declared winners and declared
   aggregation.

@@ -291,6 +291,8 @@ survives being quoted. Where the seeding is what makes the suite affordable,
 say that too — it converts an apparent weakness into a stated scope, and it
 tells the next reader exactly which stage still needs a harder environment.
 
+## Expected properties, not expected outputs
+
 A deterministic fixture can declare its expected output. A scenario for a
 non-deterministic system declares expected *properties*: constraints any
 acceptable answer satisfies (must mention, must never claim, must stay

@@ -42,6 +42,7 @@ up scoring against divergent standards while reporting into one column.
 Every emitted score carries its packet version — a score without its
 instrument identity attached will inevitably be compared against a score
 from a different instrument
+([_laws: count-carries-predicate_](../../../../_laws.md#count-carries-predicate)).
 
 **A pin is verified by what it resolved to, not by what it is named.** The
 alias rule above is usually read as being about a vendor's moving labels, and
@@ -54,7 +55,6 @@ resolved to is **stamped onto the run artifact beside the packet version**.
 Without that stamp, the only evidence of which instrument scored a series is a
 constant whose value at scoring time nobody recorded — and the anchor set then
 detects a drift it cannot attribute to anything.
-([_laws: count-carries-predicate_](../../../../_laws.md#count-carries-predicate)).
 
 **The consumer's answer register is part of the judge's premise.** A rubric written while
 looking at one system's output silently encodes how that system talks — its length,

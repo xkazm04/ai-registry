@@ -48,7 +48,7 @@ it part of the delta's predicate
 ([count-carries-predicate](../../../../_laws.md#count-carries-predicate)):
 report trials-that-elected over trials-run, and calls per electing trial,
 in the same table as the effect. A published paired report doing this
-correctly reads `300 / 300 (100.00%)` with `989` total calls — three per
+correctly reads `300 / 300 (100.00%)` with `989` total calls — about 3.3 per
 trial — and only against that line is its 37% token reduction a statement
 about retrieval rather than about a tool description.
 

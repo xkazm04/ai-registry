@@ -92,10 +92,10 @@ differently.
 ## What this buys and what it costs
 
 The measurement above ranked candidates within about one point of an
-exhaustive search while running roughly a fifth of the cells, and at one
-budget slightly *out*-ranked the exhaustive search — which is not
-paradoxical: concentrating trials on the split scenarios estimates the
-ranking, not the score, with less noise than spreading them evenly. The cost
+exhaustive search while running roughly a fifth of the cells, and in the
+same study's text-classification setting slightly *out*-performed the
+exhaustive search at one budget — which is not paradoxical: concentrating
+trials on the split scenarios estimates the ranking, not the score, with less noise than spreading them evenly. The cost
 is the one the study's authors name themselves: the budget per candidate is
 fixed *before* any of its results are seen, so the scheme can neither stop
 early on a candidate that is already clearly worse nor spend more on two

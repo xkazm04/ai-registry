@@ -12,7 +12,7 @@ ab_verdict: better
 proof: structural-only
 ---
 
-# The right idea, implemented three ways wrong, which is why it is legible
+# The right idea, implemented two ways wrong, which is why it is legible
 
 An open-source deep-research agent carries two evaluation suites. The main one
 is artifact-level and thorough: six judges over a benchmark of expert-authored
@@ -29,7 +29,8 @@ boolean per case - **did the supervisor fan out to the width this case was
 labelled for?** No judge, no report, no rubric. A decision with a gold answer.
 
 That file is the technique. It is also the clearest available demonstration of
-each of the three ways the technique goes wrong, because it commits all three,
+the ways the technique goes wrong, because it commits two of the three and
+meets the third only by accident of scope,
 read against the version witness of the tree itself - the runtime the project
 declares in its graph configuration.
 

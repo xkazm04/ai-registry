@@ -134,9 +134,9 @@ and it fires when there is only one condition and no ranking at all.
 
 [candidate-write-access](./candidate-write-access.md) owns the write
 surfaces and the holdout's provenance. This technique is what remains when
-every one of its four questions answers clean: the candidate read nothing it
+every one of its five questions answers clean: the candidate read nothing it
 should not, wrote nothing it should not, built no holdout, got a fresh
-environment per condition — and still returned a maximum over 150 attempts.
+environment per condition, could not write its own confinement — and still returned a maximum over 150 attempts.
 
 [comparison-modes](./comparison-modes.md) owns which question a run answers
 and requires the aggregation rule to precede the data. It names worst-of-N
