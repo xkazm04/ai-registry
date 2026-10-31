@@ -193,6 +193,10 @@ while the assembled product has gaps and drift no surface can locate.
 - [shared-clock-across-phases](./techniques/shared-clock-across-phases.md) —
   one time base for every phase's output, so gaps, drift, and refusals have
   an address.
+- [delivery-promise-lock](./techniques/delivery-promise-lock.md) — the kind
+  of deliverable classified and locked before the means are chosen, a
+  fulfilment ratio whose excluded near-miss category is named, and a halt
+  rather than a silent downgrade when a stage cannot honour it.
 - [approval-reads-forward](./techniques/approval-reads-forward.md) — the
   forward half of a shared asset's sign-off: the list of what the beats
   downstream need from its geometry, resolved before it graduates.

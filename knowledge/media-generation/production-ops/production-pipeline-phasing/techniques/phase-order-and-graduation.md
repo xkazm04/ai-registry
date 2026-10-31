@@ -39,6 +39,13 @@ ever feels will push toward re-merging them. Merge phases whose decisions
 are inseparable; split phases only along seams where the earlier half can be
 genuinely locked while the later half is still open.
 
+A merge verdict describes the work as it stands, not forever. When the later
+half grows machinery of its own — a turn that proposes or declines it, a
+render queue, graded takes, failure states nothing upstream has — it has
+become something that can be settled on its own, and it earns its phase back.
+The record can still keep both halves together; the phase boundary and the
+record boundary are separate choices.
+
 ## Graduation is a human act, not an inference
 
 A phase graduates — becomes safe to build on — when its decisions are
