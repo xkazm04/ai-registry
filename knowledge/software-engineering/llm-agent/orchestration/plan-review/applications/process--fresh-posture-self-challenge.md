@@ -15,8 +15,8 @@ ab_verdict: better
 A code-maintenance product runs a read-only planning session per batch of findings and gates
 the execution on the operator's decision over the stored plan. The planner writes one JSON
 block in one pass: intent, per-item approach, files, declared architecture moves, a `risks`
-list and a `notDoing` list. That is rung two of the challenge ladder with its boundary
-missing: the plan and its self-assessed risks come from the same pass, and the reader maps an
+list and a `notDoing` list. That is the fresh-posture (same-context role-switch) mode with its
+boundary missing: the plan and its self-assessed risks come from the same pass, and the reader maps an
 absent `risks` field and an examined-and-clean plan to the same empty list, which the desk
 renders as nothing.
 

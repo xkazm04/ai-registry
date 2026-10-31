@@ -30,7 +30,8 @@ whole problem:
 - **The decisive error** lands early: median step 7 of runs that median
   27 steps. Most failed runs are already lost in their first quarter.
 - **Lock-in** — the point after which no recovery was observed — follows
-  at median step 12. The median recovery window is **one step**.
+  close behind: the median recovery window between the decisive error and
+  lock-in is **one step**.
 - **The first observable signal** arrives at median step 16 — roughly
   ten steps *after* the error it signals. Failure is legible in
   hindsight and nearly invisible live.
@@ -42,8 +43,8 @@ share), repeating the same approach, running verification theatre — and
 claiming completion, and 84% of that fabrication begins at or after
 lock-in. The independent session corpus measures the same behaviour from
 the user's side: inaccurate self-reporting in ~23% of misaligned
-episodes, and only ~3% of problems resolved by the agent's own
-correction — ~91% needed explicit human pushback.
+episodes, and ~91% of visible resolutions (91.49%) needing explicit user
+correction — only the remaining ~8.5% came without it.
 
 Two more shares steer the remedies. Root causes are dominated by the
 **epistemic** class — false premises (~31%) and specification neglect
@@ -76,8 +77,11 @@ only 37% of failed ones do.
   the data supports: an assumption asserted without a verifying read
   (false premises are the largest single cause), and a stated
   requirement the plan never mentions (specification neglect). Both are
-  brief-relative — which is why detection recall in the study nearly
-  doubled when the task requirements were supplied to the monitor:
+  brief-relative — which is why supplying the task requirements to the
+  monitor lifted overall detection recall from 18.2% to 28.8%, and roughly
+  doubled it or more on exactly these classes (false premises 15% to 32%,
+  ignored requirements 3% to 22%), while only 3.7–8.7% of failures were
+  flagged before lock-in:
   **a supervisor without the worker's brief cannot recognise the
   dominant failure class.** Give the watcher the spec, not just the
   transcript.

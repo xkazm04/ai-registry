@@ -1001,3 +1001,201 @@ verification date was refreshed.
   }
 }
 ```
+
+## Clarify applied - 2026-10-31
+
+Applied the six clarifies the 2026-10-31 architecture review named, against `19cb20182`.
+Primary sources were re-opened this run. One correction to that review's own sources: the
+pinned taxonomy paper's Figure 1 (v3) prints the category shares as 44.2 / 32.3 / 23.5, not
+the 44.1 / 31.4 / 23.5 the 2026-09-10 record transcribed; the documents now carry the
+figure's values, rounded, with the version named. The eleven-against-ten overshoot is now
+stated consistently and named as undetermined: the replay counts recorded intervals and
+cannot separate a recording artifact from an unenforced admission path. The ~23%
+inaccurate-self-reporting figure in worker-trajectory-anatomy was not named in the owed
+corrections and still has no confirmed source; it is left as it was. No verification date
+was refreshed.
+
+<!-- architecture-review:v1 -->
+```json
+{
+  "subject": "software-engineering/fleet-orchestration",
+  "date": "2026-10-31",
+  "baseline": "19cb20182",
+  "digest": "sha256-b2:2e1a3b2ab288bdf0",
+  "disposition": "reverify",
+  "coverage": "All 35 documents keyed. The six documents carrying clarify items were re-read in their affected sections and edited; the other 29 are carried from the 2026-10-31 review unchanged (their bytes were not touched). Primary sources re-opened this run: arXiv 2503.13657v3 (HTML and the rendered Figure 1 SVG), 2607.09510v1 (HTML), 2605.29442, 2602.01011 and 2508.17536 (abstracts). No private tree, store replay or model run.",
+  "counterexamples": [
+    "A configured ceiling of ten observed at eleven in a replay of recorded intervals can be a late end stamp rather than an over-admission; the replay alone cannot tell, so the documents now say so instead of choosing.",
+    "A cap that never fires is still a backstop; zero fires is evidence about the soft budget, not about whether the cap exists.",
+    "Debate's martingale holds under an unbiased belief update; a revision step biased toward correction leaves that premise and can gain."
+  ],
+  "sources": [
+    {
+      "url": "https://arxiv.org/html/2503.13657v3",
+      "result": "Figure 1 (taxonomy_neurips_final_10_23_25.svg, rendered this run) prints System Design Issues 44.2%, Inter-Agent Misalignment 32.3%, Task Verification 23.5%; its mode percentages sum to those totals. Text: 'adding a high-level task objective verification step to ChatDev yields a +15.6% improvement in task success on ProgramDev'; role-specification improvements '+9.4% success rate increase for ChatDev'. Corrects the 2026-09-10 record's 44.1/31.4."
+    },
+    {
+      "url": "https://arxiv.org/html/2607.09510v1",
+      "result": "'A decisive error typically leaves a median recovery window of one execution step before failure lock-in'; 'supplying the monitor with task's requirements lifts recall from 18.2% to 28.8%'; per class 'ignored requirements from 3% to 22%, on false premises from 15% to 32%, and on capability gaps from 12% to 30%'; 'only 3.7-8.7% of failures are flagged before lock-in'."
+    },
+    {
+      "url": "https://arxiv.org/abs/2605.29442",
+      "result": "Abstract: '91.49% of visible resolutions still require explicit user correction'. The ~8.5% without is that figure's complement, written as such. The ~23% self-reporting share is not in the abstract and was not checked further."
+    },
+    {
+      "url": "https://arxiv.org/abs/2508.17536",
+      "result": "Abstract (v2, NeurIPS 2025): Majority Voting 'accounts for most of the performance gains typically attributed to MAD'; debate modelled as a stochastic process that 'induces a martingale over agents' belief trajectories, implying that debate alone does not improve expected correctness'; 'biasing the belief update toward correction, can meaningfully enhance debate effectiveness'. Full paper not read."
+    },
+    {
+      "url": "https://arxiv.org/abs/2602.01011",
+      "result": "Abstract: LLM teams 'consistently fail to match their expert agent's performance, even when explicitly told who the expert is, incurring performance losses of up to 41.1%'; leveraging, not identification, is the bottleneck."
+    },
+    {
+      "source": "The subject's own process--parallel-dispatch application (Controls section)",
+      "result": "The concurrency instrument counts overlapping recorded intervals (1 for twenty serial, 20 for twenty overlapping). This is what grounds the 'recording artifact or unenforced path' statement; the private store was not reopened, so which one occurred is not established."
+    }
+  ],
+  "documents": {
+    "fleet-orchestration.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: technique-list shares 42/37/21 -> ~44/~32/~24 with 'as arXiv 2503.13657v3 publishes them'; the supervisory-stock paragraph now says the ceiling of ten engaged with a recorded peak of eleven and points to parallel-dispatch for what the overshoot can and cannot mean."
+    },
+    "techniques/absent-status-passthrough.md": {
+      "disposition": "keep",
+      "reason": "Unchanged since the 2026-09-10 keep, and that reasoning still holds."
+    },
+    "techniques/brief-carries-the-session.md": {
+      "disposition": "keep",
+      "reason": "The only change is a pointer to inherited-state-provenance, which closes the 'That is all' enumeration correctly."
+    },
+    "techniques/completion-claim-verification.md": {
+      "disposition": "keep",
+      "reason": "The new rule that a lost exit marker is UNVERIFIED and never the meta status is sound, and is grounded in two changelog-recorded incidents. The verifier-seat pointer is apt."
+    },
+    "techniques/coordination-failure-triage.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: table shares 42/37/21 -> ~44/~32/~24, pinned to arXiv 2503.13657v3 Figure 1 (44.2/32.3/23.5) with a note that the shares moved between versions; the +15.6 verification gain is now scoped to one benchmark (ProgramDev)."
+    },
+    "techniques/deliberation-as-an-elected-turn.md": {
+      "disposition": "keep",
+      "reason": "Unchanged since the 2026-09-10 keep, and that reasoning still holds."
+    },
+    "techniques/durable-fleet-state.md": {
+      "disposition": "keep",
+      "reason": "Unchanged since the 2026-09-10 keep, and that reasoning still holds."
+    },
+    "techniques/evidence-outranks-a-liveness-claim.md": {
+      "disposition": "keep",
+      "reason": "The claim-versus-evidence split, three-valued liveness, the lease boundary (renewal cadence plus fenced writes) and the measured refutation of its own strong form are coherent and scoped. The entry-only crash is stated as the non-goal."
+    },
+    "techniques/heterogeneous-model-panels.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: the martingale claim now cites arXiv 2508.17536 and carries its condition (an unbiased belief update; a correction-biased update breaks it and improves debate), plus its finding that majority voting accounts for most debate gains; 'announcing the expert moved outcomes by a few points' -> teams told who the expert is still fail to match it, losses up to 41.1% (arXiv 2602.01011)."
+    },
+    "techniques/hibernation-and-resume.md": {
+      "disposition": "keep",
+      "reason": "Unchanged since the 2026-09-10 keep, and that reasoning still holds."
+    },
+    "techniques/inherited-state-provenance.md": {
+      "disposition": "keep",
+      "reason": "Provenance, count and mandate each prevent one of the three named misreadings. The orchestrator-log-versus-worker-channel diff and the asymmetry tell are reusable. The measured claim is modest and bounded."
+    },
+    "techniques/lifecycle-signals.md": {
+      "disposition": "keep",
+      "reason": "Unchanged. The 2026-09-23 conform proposals (runtime-owned status markers, the shared-machine orphan scan) are leads, not defects."
+    },
+    "techniques/outbound-compute-plane.md": {
+      "disposition": "keep",
+      "reason": "Unchanged since the 2026-09-10 keep, and that reasoning still holds."
+    },
+    "techniques/parallel-dispatch.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: after 'eleven simultaneous runs against a limit of ten', states that the peak counts overlapping recorded run intervals, so it is either a recording artifact or a path that admitted past the ceiling, that a timestamp replay cannot separate them, and what would (the admission log or slot grants). The cause itself remains undetermined and is owed to process--parallel-dispatch's reverify."
+    },
+    "techniques/result-harvest.md": {
+      "disposition": "keep",
+      "reason": "The clean-exit-without-result continuation is correctly bounded, accounted and ingested through the same door, and it says the rescue rate is unmeasured."
+    },
+    "techniques/session-registry.md": {
+      "disposition": "keep",
+      "reason": "Unchanged since the 2026-09-10 keep, and that reasoning still holds."
+    },
+    "techniques/soft-budget-under-the-hard-cap.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: sibling links added to parallel-dispatch (the run total as the loop's hard cap, not the releasing slot cap), deliberation-as-an-elected-turn, verifier-seat-capacity and rust--soft-budget-under-the-hard-cap; the 'Zero cap-fired stops ... imaginary' bullet reworded so zero fires calls for checking the cap is enforced rather than proving it absent."
+    },
+    "techniques/substrate-reconciliation.md": {
+      "disposition": "keep",
+      "reason": "Unchanged since the 2026-09-10 keep, and that reasoning still holds."
+    },
+    "techniques/verifier-seat-capacity.md": {
+      "disposition": "keep",
+      "reason": "Counting at the seat, the oldest-age report, an occupancy check paired with the cap, the verifier's residue and the self-grading signature are each tied to a recorded failure. It explicitly declines to infer inflation from unpaired populations."
+    },
+    "techniques/worker-trajectory-anatomy.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: 'lock-in at median step 12' -> lock-in follows the decisive error with a median recovery window of one step; 'recall nearly doubled' -> 18.2% to 28.8% overall with the per-class doublings and 3.7-8.7% flagged before lock-in; '~3% resolved by the agent's own correction' -> 91.49% of visible resolutions need explicit user correction, the remaining ~8.5% without. The ~23% self-reporting figure was not among the owed items and is unchanged."
+    },
+    "applications/node--evidence-outranks-a-liveness-claim.md": {
+      "disposition": "reverify",
+      "reason": "A regression test with a replicated-predecessor positive control and floor rows, against the registry's own board. Not re-run in this review."
+    },
+    "applications/node--parallel-dispatch.md": {
+      "disposition": "reverify",
+      "reason": "The mechanism is present at the public kp HEAD. The cited commits 73672577 and 05a9cb7f are absent from a clone's history, so re-pin it to a reachable commit and re-check the line anchors."
+    },
+    "applications/node--substrate-reconciliation.md": {
+      "disposition": "reverify",
+      "reason": "Unchanged. Commit ff7a192 still not opened."
+    },
+    "applications/process--parallel-dispatch.md": {
+      "disposition": "reverify",
+      "reason": "Private store replay with instrument controls. Its peak of 11 against a ceiling of 10 is the source of the clarify on parallel-dispatch. Not re-run."
+    },
+    "applications/process--verifier-seat-capacity--practitioner-swarm.md": {
+      "disposition": "reverify",
+      "reason": "The public audit confirms the vacancy, the refusal at the hard cap, 28 verdicts and the unverified verifier output. 'The list names eleven' and the franken_engine closure proxy were not re-checked."
+    },
+    "applications/python--completion-claim-verification.md": {
+      "disposition": "reverify",
+      "reason": "Re-pinned to deer-flow 53df22bd on 2026-10-06, with the fallback section and the 1,500-word correction. Not reopened here."
+    },
+    "applications/python--deliberation-as-an-elected-turn.md": {
+      "disposition": "reverify",
+      "reason": "Unchanged since the 2026-09-10 reverify."
+    },
+    "applications/react--session-registry.md": {
+      "disposition": "reverify",
+      "reason": "Unchanged since the 2026-09-10 reverify."
+    },
+    "applications/rust--absent-status-passthrough.md": {
+      "disposition": "reverify",
+      "reason": "Unchanged since the 2026-09-10 reverify."
+    },
+    "applications/rust--brief-carries-the-session.md": {
+      "disposition": "reverify",
+      "reason": "Unchanged since the 2026-09-10 reverify."
+    },
+    "applications/rust--completion-claim-verification.md": {
+      "disposition": "reverify",
+      "reason": "Unchanged. The named falsifier query has still not been run."
+    },
+    "applications/rust--evidence-outranks-a-liveness-claim--agent-mail.md": {
+      "disposition": "reverify",
+      "reason": "Public tree at 3821104c. Its anchors were not opened in this review. Its departures (unknown read as stale; expiry outranking evidence without fencing) are clearly stated."
+    },
+    "applications/rust--parallel-dispatch.md": {
+      "disposition": "reverify",
+      "reason": "Unchanged since the 2026-09-10 reverify."
+    },
+    "applications/rust--session-registry.md": {
+      "disposition": "reverify",
+      "reason": "Unchanged. The new-id-on-wake deviation is still open; the 2026-09-23 conform pass confirms it."
+    },
+    "applications/rust--soft-budget-under-the-hard-cap.md": {
+      "disposition": "reverify",
+      "reason": "Unchanged since the 2026-09-10 reverify."
+    }
+  }
+}
+```

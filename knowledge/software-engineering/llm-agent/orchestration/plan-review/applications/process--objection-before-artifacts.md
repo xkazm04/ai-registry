@@ -31,7 +31,7 @@ Three risks, produced by the same pass that produced the proposed shape, with th
 mitigation attached to each. Every admissibility property the technique requires is
 absent, and each absence is visible in the template rather than inferred:
 
-- **No separate reader.** This is rung one of the challenge ladder — a self-review with
+- **No separate reader.** This is the one-context self-review mode — a self-review with
   no boundary at all. The pass that argues for the change also states what is wrong with
   it, and states the answer in the same breath.
 - **A count, not a floor with a cap.** Three slots invite three risks. A finding with one

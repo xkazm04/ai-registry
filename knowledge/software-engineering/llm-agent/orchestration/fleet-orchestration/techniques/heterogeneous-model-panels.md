@@ -64,7 +64,12 @@ answers predate contamination.
 Later rounds, where members read each other and may revise, are consistency
 machinery: analysis of simultaneous-revision debate shows belief in the
 correct answer moves as a martingale — no expected gain beyond what the
-first-round vote already held.
+first-round vote already held ([arXiv 2508.17536](https://arxiv.org/abs/2508.17536),
+which also finds majority voting accounts for most reported debate gains). The
+result is a property of its model, not a law: it holds for an unbiased belief
+update, and the same paper shows that biasing the update toward correction
+breaks it and improves debate. A panel whose revision step is built that way
+has left the result's premise.
 
 **That result is for a panel whose seats are equally competent on the item, and
 the asymmetric case is worse than neutral.** Where one seat is right and the
@@ -84,9 +89,10 @@ Two consequences, and the second is the one that surprises.
   only cost. An exchange earns its place when the panel is peers.
 - **Telling the panel which seat is authoritative does not fix it.** Measured,
   the panel identifies the expert readily and still fails to defer — the
-  shortfall is in leveraging, not in identification, and announcing the expert
-  moved outcomes by a few points where routing its answer around the vote
-  recovers the whole gap. A label is not a routing rule.
+  shortfall is in leveraging, not in identification. Teams told who the expert
+  is still fail to match it, with losses up to 41.1%
+  ([arXiv 2602.01011](https://arxiv.org/abs/2602.01011)); routing the expert's
+  answer around the vote is what recovers the gap. A label is not a routing rule.
 
 The related failure is one this technique already warns about from the other
 side: a role label is not a free framing device. Naming a seat authoritative

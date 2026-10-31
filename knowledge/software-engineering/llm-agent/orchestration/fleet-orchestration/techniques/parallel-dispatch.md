@@ -159,7 +159,12 @@ numbers with three release events, and only two of the three are observable:
 On one single-operator fleet over three weeks the machine side engaged its configured
 concurrency ceiling — eleven simultaneous runs against a limit of ten — and peaked at
 fifteen live sessions on a door whose live-session ceiling had never been switched on
-at all. Over the same period the supervisory stock, items raised for a human verdict
+at all. The eleventh is unexplained, not explained away: the peak counts overlapping
+*recorded* run intervals, so it is either a recording artifact (a run's end stamped
+after its slot was already handed on) or a path that admitted past the ceiling, and a
+replay of timestamps cannot tell the two apart. Only the door's own admission log, or
+a replay that also reads slot grants, decides it; until then read the ceiling as
+engaging at ten, with one unattributed overshoot. Over the same period the supervisory stock, items raised for a human verdict
 and still open, peaked at **thirty-four**, and stood at ten or more on eight of the
 ten active days; on five of those days the machine ceiling did not bind once. The
 machine ceiling bound first and bounded nothing downstream, because a cap on a stock

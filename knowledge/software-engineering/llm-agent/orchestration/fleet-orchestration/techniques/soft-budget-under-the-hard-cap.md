@@ -25,7 +25,9 @@ So the loop carries **two** numbers with two different owners:
 
 - The **hard cap**, in the machinery. Counted by the orchestrator, enforced
   regardless of what the dispatcher says, and its job is to bound cost when
-  everything else has failed. It is a backstop.
+  everything else has failed. It is a backstop. For a loop that fans out, it
+  is the run total of [parallel-dispatch](./parallel-dispatch.md#the-cap-counts-a-stock-the-run-needs-a-second-number),
+  not the slot cap: a slot cap releases on every return, so it never ends a loop.
 - The **soft budget**, in the brief. A smaller number the dispatcher is told
   to observe, so that it elects to stop before the backstop is reached. Its
   job is to make the cap never fire.
@@ -81,12 +83,25 @@ by election**, over the population of runs that entered the loop
 - **Rising cap-fired stops** mean the soft budget is too close to the cap, or
   the brief is not being read. Both are cheap to test, and neither is visible
   in any output-quality metric until much later.
-- **Zero cap-fired stops, ever** means the cap is not binding, and the cost
-  ceiling it represents is imaginary — the run is bounded by the brief alone,
-  which is a bound a model may ignore.
+- **Zero cap-fired stops, ever** is the goal reached or the cap gone, and the
+  fraction cannot tell which. A cap that never fires is still a backstop, so
+  zero fires does not prove the cap absent; it calls for checking that the cap
+  is enforced at all (one forced run past it is enough), because an unenforced
+  cap leaves the run bounded by the brief alone, which is a bound a model may
+  ignore.
 - **Cap-fired stops concentrated in one class of brief** is a briefing
   problem, not a budget problem. Widening the cap for everyone buys the
   wrong thing.
+
+The elected stop is a decision the dispatcher makes at a boundary, which is
+what [deliberation-as-an-elected-turn](./deliberation-as-an-elected-turn.md)
+gives it a turn for; a dispatcher that stops electing that turn as it nears
+its budget is reading the budget as pressure. The same two-level shape holds
+outside loops: [verifier-seat-capacity](./verifier-seat-capacity.md) applies
+it to a verification-debt cap, where a fleet that first hears of a vacancy at
+the hard level hears of it at the stall. A paired A/B on one service's research
+loop, where the brief's budget had drifted from the configured cap, is
+[rust--soft-budget-under-the-hard-cap](../applications/rust--soft-budget-under-the-hard-cap.md).
 
 ## Decision rules
 

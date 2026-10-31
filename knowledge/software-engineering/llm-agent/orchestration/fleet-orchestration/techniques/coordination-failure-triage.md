@@ -17,13 +17,15 @@ part that looks like the system. The measured record says the instinct
 misallocates. The largest annotated corpus of multi-agent failures to date
 (1,600+ traces across seven frameworks, taxonomy built on 150
 expert-annotated traces at kappa 0.88) sorts every failure into three
-classes, and the shares are the point:
+classes, and the shares are the point. They are the ones published in
+[arXiv 2503.13657v3](https://arxiv.org/html/2503.13657v3), Figure 1; the
+shares moved between the paper's versions, so the version travels with them:
 
 | Class | Share | What it actually is |
 | --- | --- | --- |
-| **Specification** | ~42% | the brief was violated or under-written: task requirements not followed, steps repeated, termination conditions unknown to the agent, context lost |
-| **Inter-agent misalignment** | ~37% | the conversation failed: clarification never sought, task derailed, reasoning-action mismatch, input ignored |
-| **Verification** | ~21% | the check failed: premature termination, no or incomplete verification, verification that approves wrong work |
+| **Specification** | ~44% | the brief was violated or under-written: task requirements not followed, steps repeated, termination conditions unknown to the agent, context lost |
+| **Inter-agent misalignment** | ~32% | the conversation failed: clarification never sought, task derailed, reasoning-action mismatch, input ignored |
+| **Verification** | ~24% | the check failed: premature termination, no or incomplete verification, verification that approves wrong work |
 
 Two readings matter more than the tabulated modes:
 
@@ -36,7 +38,8 @@ Two readings matter more than the tabulated modes:
 - **The cheap interventions are at the edges, and they were measured.** In
   the same study, rewriting role specifications alone bought +9.4 points of
   success on an unchanged system; adding a task-objective verification
-  layer over the existing code checks bought +15.6. Both are brief-and-gate
+  layer over the existing code checks bought +15.6 — on one benchmark
+  (ProgramDev), not as a general figure. Both are brief-and-gate
   work, not topology work — and both left the system far from reliable,
   which is the third reading: a taxonomy diagnoses, it does not cure.
 

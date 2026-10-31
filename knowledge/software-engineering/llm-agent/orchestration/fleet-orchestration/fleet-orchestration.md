@@ -205,8 +205,10 @@ live units one supervisor is carrying. It is a stock that **does not release
 when work finishes** - the slot returns to the machine and the item moves onto a
 person - and it comes down only when that person decides they are finished with
 the work, which no system observes. Measured on a single-operator fleet, the
-machine ceiling engaged at ten simultaneous runs while the supervisory stock
-reached thirty-four, so the machine ceiling bound first and bounded nothing:
+machine ceiling of ten engaged (its recorded peak was eleven simultaneous
+runs; [parallel-dispatch](./techniques/parallel-dispatch.md) says what that
+overshoot can and cannot mean) while the supervisory stock reached
+thirty-four, so the machine ceiling bound first and bounded nothing:
 a cap on a stock that releases places no bound on a stock that does not. Its
 overflow can be neither queued nor deferred, because the work is already done,
 so the only honest response is to stop admitting and say so.
@@ -345,7 +347,8 @@ into a sweep. The bound itself is a dispatch-door concern and lives with
   context.
 - [coordination-failure-triage](./techniques/coordination-failure-triage.md) —
   classify failed runs against the measured three-class taxonomy
-  (specification ~42%, misalignment ~37%, verification ~21%) before
+  (specification ~44%, misalignment ~32%, verification ~24%, as
+  arXiv 2503.13657v3 publishes them) before
   redesigning anything; the cheap measured fixes are briefs and gates, not
   topology.
 - [worker-trajectory-anatomy](./techniques/worker-trajectory-anatomy.md) —
