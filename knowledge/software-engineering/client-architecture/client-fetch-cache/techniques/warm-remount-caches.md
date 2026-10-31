@@ -107,8 +107,9 @@ to learn any fact.
 
 ## Decision rules
 
-- One module-scoped map per request family, keyed by entity, size-capped,
-  holding plain snapshots only.
+- One module-scoped cache per request family, holding plain snapshots only:
+  a keyed single slot by default, a size-capped map keyed by entity only when
+  several scopes are live at once.
 - Paint warm synchronously on remount; revalidate unless within a declared
   fresh window. Never guard with an ageless "already loaded" boolean.
 - Report warm-stale as its own status; do not impersonate fresh.

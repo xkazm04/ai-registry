@@ -108,3 +108,295 @@ run in the source's own harness. **Applied in code and shipped**: tracklight's s
 recovery returned an empty list for an unlistable directory, indistinguishable from a clean
 start; the seam was chosen because it documented that choice as deliberate, and the boundary
 that survived is ENOENT, which stays a genuine empty.
+
+## Architecture review - 2026-10-31
+
+First architecture review, against `0f30830bc`. All 20 documents read in full. The
+plural-claim mechanics the subject rests on were checked against the pinned
+TanStack Query core the cache-key application already cites: retention is a
+monotonic maximum, staleness is existential over attached observers, and a focus
+signal refetches through the first observer that wants it. The `Map`/`Set`
+collision that application reports reproduces. The two `react--` applications
+have drifted from their tree: one cited component no longer exists, the dev-clone
+slot names are gone, and the SWR primitive now carries a per-request identity token
+and recency re-ordering on fresh reads, which removes part of what the deviations
+list describes. They are `reverify`, not refreshed. Two internal inconsistencies
+are fixable in place: the golden path's technique list omits both admission
+techniques and its bet list never points at the fifth bet, and the warm-remount
+decision rule prescribes a map where its own prose says a keyed single slot is the
+right size.
+
+<!-- architecture-review:v1 -->
+```json
+{
+  "subject": "software-engineering/client-fetch-cache",
+  "date": "2026-10-31",
+  "baseline": "0f30830bc",
+  "digest": "sha256-b2:20824426732ffb6a",
+  "disposition": "clarify",
+  "coverage": "All 20 documents (golden path, 11 techniques, 8 applications) read in full. Primary-source checks: pinned TanStack Query core (hashKey, isPlainObject, gcTime resolution, observer staleness, focus refetch) and the SWR and TanStack documented defaults. Consumer trees behind the next-- applications and the node-- showcase tree were not reopened; the react-- consumer tree was spot-checked and found drifted.",
+  "trigger": "Pending: the subject had no architecture-review record.",
+  "intended_benefit": "One client-side layer that answers key, lifetime, eviction and admission at construction, joins identical flights, and keeps stale truth visible, so surfaces neither fetch three times nor paint ghosts nor serve one question's answer to another.",
+  "failure_if_ignored": "Accreted fetch layers: duplicate requests at mount, cold remounts, focus refetch storms, unbounded memory, silent cross-identity collisions and wrong hits under resemblance keys.",
+  "boundary": "Client-held caches between call wrapping and stores/surfaces. Store structure and invalidation strategy belong to client-state; presentation to async-ui-states; cross-process single-flight to concurrency-guards; caching inside the called authority is excluded.",
+  "counterexamples": [
+    "A canonicalized or projection-keyed memo looks like a resemblance key at the call site but is an identity key; none of similarity-keyed-admission's costs apply.",
+    "A value about to be acted on (a balance before a transfer) should bypass stale-while-revalidate at the point of consequence.",
+    "TanStack Query's default hash serializes Map and Set as {} so two different keys share one entry, despite one builder and canonical object serialization.",
+    "A prefetcher's longer freshness claim is inert while a consumer with a shorter claim is attached; the warmth it declared is never reached.",
+    "On a deep link or reload there is no sibling list entry to borrow; the cold path is the design for those users."
+  ],
+  "sources": [
+    {
+      "url": "https://github.com/TanStack/query/blob/40321a0/packages/query-core/src/utils.ts",
+      "result": "hashKey (232-243) is JSON.stringify with a replacer that sorts keys only of objects passing isPlainObject (361-390), which requires toString tag [object Object]. JSON.stringify([\"t\", new Map([[\"a\",1]])]) and a Set both yield [\"t\",{}] (reproduced locally). Supports the node--cache-key-discipline collision claim and its line anchors."
+    },
+    {
+      "url": "https://github.com/TanStack/query/blob/40321a0/packages/query-core/src/removable.ts",
+      "result": "updateGcTime: \"this.gcTime = Math.max(this.gcTime || 0, newGcTime ?? ...5 * 60 * 1000)\". Supports plural-policy-claims: eviction resolves by maximum and never shrinks."
+    },
+    {
+      "url": "https://github.com/TanStack/query/blob/40321a0/packages/query-core/src/query.ts",
+      "result": "isStale: \"return this.observers.some((observer) => observer.getCurrentResult().isStale)\"; onFocus: \"const observer = this.observers.find((x) => x.shouldFetchOnWindowFocus())\" then one refetch. Supports existential believability and the one-claimant trigger rule."
+    },
+    {
+      "url": "https://swr.vercel.app/docs/api",
+      "result": "\"revalidateOnFocus = true: automatically revalidate when window gets focused\". Supports swr-design's claim that focus revalidation is a default posture of popular tools."
+    },
+    {
+      "url": "https://tanstack.com/query/latest/docs/framework/react/guides/important-defaults",
+      "result": "\"Stale queries are refetched automatically in the background when ... The window is refocused\"; inactive queries garbage collected after 5 minutes. Corroborates swr-design (with the nuance that only stale queries refetch, and the default staleTime makes every query stale)."
+    },
+    {
+      "source": "react-- consumer tree at its current head",
+      "result": "staleWhileRevalidate.ts now mints a per-request identity token, drops the in-flight entry on invalidation, and re-sets fresh hits for recency; the cited CompetitionList.tsx is gone, cachedDevClone/cachedTriggers are gone from LifecyclePage.tsx, the certLastRefreshedAt latch is gone. Refutes parts of both react-- applications as current descriptions."
+    },
+    {
+      "source": "next-- and node-- consumer applications",
+      "result": "Dated paired-proof and census accounts retained; their private or unpinned trees were not reopened. Verification dates unchanged."
+    }
+  ],
+  "documents": {
+    "client-fetch-cache.md": {
+      "disposition": "clarify",
+      "reason": "The technique list names 9 of the 11 frontmatter techniques (admission-hypothesis and similarity-keyed-admission missing), and the Admission bullet says only four bets exist without scoping them to identity keys or pointing at the fifth bet its own technique now carries."
+    },
+    "techniques/admission-hypothesis.md": {
+      "disposition": "keep",
+      "reason": "Four bets, eviction-axis match, reachability-versus-conversion and the fifth-bet scoping are coherent; its next--admission-hypothesis application measures exactly the reachability rule."
+    },
+    "techniques/similarity-keyed-admission.md": {
+      "disposition": "keep",
+      "reason": "Falsity-not-staleness, metric-plus-cut-point, vetoing ladder, reinforcing eviction, precision needing a negative set, reject-arm scope, canonicalization/projection boundary and residual pricing are distinct and internally consistent; field claims are labelled as such."
+    },
+    "techniques/swr-design.md": {
+      "disposition": "keep",
+      "reason": "Three zones, failure that never stamps freshness, invalidation retiring the flight and the recognised-empty versus unrecognisable boundary hold; the focus-revalidation default claim is confirmed by SWR and TanStack documentation."
+    },
+    "techniques/in-flight-dedup.md": {
+      "disposition": "keep",
+      "reason": "Synchronous registration, identity-checked reaper, invalidation reaching the flight, failure fan-out and the dedup/idempotency boundary are consistent with swr-design and its next-- application."
+    },
+    "techniques/cache-key-discipline.md": {
+      "disposition": "keep",
+      "reason": "Asymmetry with its stated precondition, derived keys, canonical serialization, absent-sentinel and the collision audit hold; the Map/Set counterexample in its application is consistent with the totality requirement."
+    },
+    "techniques/warm-remount-caches.md": {
+      "disposition": "clarify",
+      "reason": "Prose says a keyed single slot is the right size for the view just left and to reach for a map only when several scopes are live, but the first decision rule prescribes a map per request family."
+    },
+    "techniques/prefetch-and-defer.md": {
+      "disposition": "clarify",
+      "reason": "Content holds; a stray soft hyphen (U+00AD) sits before an em dash in the prefetch-failure bullet."
+    },
+    "techniques/parse-and-derive-caches.md": {
+      "disposition": "keep",
+      "reason": "Content-identity keying with declared spelling, purity, weak-reference reaping, derivation versioning and deterministic-only failure caching are sound."
+    },
+    "techniques/plural-policy-claims.md": {
+      "disposition": "keep",
+      "reason": "Per-policy quantifiers match the pinned TanStack core: Math.max gcTime, observers.some staleness, and one observer refetching on focus; the clock-starts-on-last-detach distinction stands."
+    },
+    "techniques/portable-read-definitions.md": {
+      "disposition": "keep",
+      "reason": "Invariant-in-definition versus per-consumer-at-call-site and the untypeable pass-through argument are coherent and backed by its next-- build failure account."
+    },
+    "techniques/sibling-entry-warmth.md": {
+      "disposition": "keep",
+      "reason": "Summary-typed borrowing, placeholder-only status, lookup by entity id across the family and the cold twin are sound; consistent with the golden path's fourth warmth source."
+    },
+    "applications/next--admission-hypothesis.md": {
+      "disposition": "keep",
+      "reason": "Arithmetic is consistent (5/7 is 71 percent); limits are stated. Private tree not reopened; verification date unchanged."
+    },
+    "applications/next--in-flight-dedup.md": {
+      "disposition": "keep",
+      "reason": "States the met identity-at-settle rule and the unmet invalidation half with its bound. Private tree not reopened."
+    },
+    "applications/next--plural-policy-claims.md": {
+      "disposition": "clarify",
+      "reason": "Owed, not applied: 'list detail' is tabled as consistent while next--portable-read-definitions reports a 60000 declaration among that key's copies; and 'four carry a divergent claim' disagrees with the two divergences counted and tabled. Needs the private tree to reconcile."
+    },
+    "applications/next--portable-read-definitions.md": {
+      "disposition": "keep",
+      "reason": "Hand-verified counts, the instrument's blind spots and the typecheck-only verification are disclosed. Private tree not reopened."
+    },
+    "applications/node--cache-key-discipline.md": {
+      "disposition": "keep",
+      "reason": "Tree A's hashKey/isPlainObject anchors and the Map/Set collision re-confirmed at the pinned commit; Tree B is a private tree not reopened, so verified_on stays. A repeated pin sentence in Tree A's intro is cosmetic."
+    },
+    "applications/node--swr-design.md": {
+      "disposition": "keep",
+      "reason": "Pinned commit, paired proof and the heuristic-recognition and per-instance limits are stated. Tree not reopened."
+    },
+    "applications/react--swr-design.md": {
+      "disposition": "reverify",
+      "reason": "The primitive has moved: a per-request identity token, invalidation dropping the in-flight entry, and fresh-hit recency re-ordering. The insertion-order eviction description and possibly the deviations list need re-deriving at a pinned commit; paths are also printed twice."
+    },
+    "applications/react--warm-remount-caches.md": {
+      "disposition": "reverify",
+      "reason": "CompetitionList.tsx no longer exists (the keyed-slot pattern now appears in useLlmPinpoints.ts), LifecyclePage no longer holds cachedDevClone/cachedTriggers, and the cited ageless latch is gone. Needs re-deriving against the current tree."
+    }
+  }
+}
+```
+
+Second record after Phase B: the golden path's technique list and fifth-bet pointer,
+the warm-remount decision rule, and a stray soft hyphen were fixed in place. The
+next--plural-policy-claims reconciliation stays owed (needs the private tree), and the
+two react-- applications stay `reverify`.
+
+<!-- architecture-review:v1 -->
+```json
+{
+  "subject": "software-engineering/client-fetch-cache",
+  "date": "2026-10-31",
+  "baseline": "0f30830bc",
+  "digest": "sha256-b2:ede62f90f88c4de7",
+  "disposition": "clarify",
+  "coverage": "All 20 documents (golden path, 11 techniques, 8 applications) read in full. Primary-source checks: pinned TanStack Query core (hashKey, isPlainObject, gcTime resolution, observer staleness, focus refetch) and the SWR and TanStack documented defaults. Consumer trees behind the next-- applications and the node-- showcase tree were not reopened; the react-- consumer tree was spot-checked and found drifted. Second record after applying three internal-consistency clarifications; next--plural-policy-claims stays owed, two react-- applications stay reverify.",
+  "trigger": "Phase B applied three clarify items from the record above; this record is against the edited bytes.",
+  "intended_benefit": "One client-side layer that answers key, lifetime, eviction and admission at construction, joins identical flights, and keeps stale truth visible, so surfaces neither fetch three times nor paint ghosts nor serve one question's answer to another.",
+  "failure_if_ignored": "Accreted fetch layers: duplicate requests at mount, cold remounts, focus refetch storms, unbounded memory, silent cross-identity collisions and wrong hits under resemblance keys.",
+  "boundary": "Client-held caches between call wrapping and stores/surfaces. Store structure and invalidation strategy belong to client-state; presentation to async-ui-states; cross-process single-flight to concurrency-guards; caching inside the called authority is excluded.",
+  "counterexamples": [
+    "A canonicalized or projection-keyed memo looks like a resemblance key at the call site but is an identity key; none of similarity-keyed-admission's costs apply.",
+    "A value about to be acted on (a balance before a transfer) should bypass stale-while-revalidate at the point of consequence.",
+    "TanStack Query's default hash serializes Map and Set as {} so two different keys share one entry, despite one builder and canonical object serialization.",
+    "A prefetcher's longer freshness claim is inert while a consumer with a shorter claim is attached; the warmth it declared is never reached.",
+    "On a deep link or reload there is no sibling list entry to borrow; the cold path is the design for those users."
+  ],
+  "sources": [
+    {
+      "url": "https://github.com/TanStack/query/blob/40321a0/packages/query-core/src/utils.ts",
+      "result": "hashKey (232-243) is JSON.stringify with a replacer that sorts keys only of objects passing isPlainObject (361-390), which requires toString tag [object Object]. JSON.stringify([\"t\", new Map([[\"a\",1]])]) and a Set both yield [\"t\",{}] (reproduced locally). Supports the node--cache-key-discipline collision claim and its line anchors."
+    },
+    {
+      "url": "https://github.com/TanStack/query/blob/40321a0/packages/query-core/src/removable.ts",
+      "result": "updateGcTime: \"this.gcTime = Math.max(this.gcTime || 0, newGcTime ?? ...5 * 60 * 1000)\". Supports plural-policy-claims: eviction resolves by maximum and never shrinks."
+    },
+    {
+      "url": "https://github.com/TanStack/query/blob/40321a0/packages/query-core/src/query.ts",
+      "result": "isStale: \"return this.observers.some((observer) => observer.getCurrentResult().isStale)\"; onFocus: \"const observer = this.observers.find((x) => x.shouldFetchOnWindowFocus())\" then one refetch. Supports existential believability and the one-claimant trigger rule."
+    },
+    {
+      "url": "https://swr.vercel.app/docs/api",
+      "result": "\"revalidateOnFocus = true: automatically revalidate when window gets focused\". Supports swr-design's claim that focus revalidation is a default posture of popular tools."
+    },
+    {
+      "url": "https://tanstack.com/query/latest/docs/framework/react/guides/important-defaults",
+      "result": "\"Stale queries are refetched automatically in the background when ... The window is refocused\"; inactive queries garbage collected after 5 minutes. Corroborates swr-design (with the nuance that only stale queries refetch, and the default staleTime makes every query stale)."
+    },
+    {
+      "source": "react-- consumer tree at its current head",
+      "result": "staleWhileRevalidate.ts now mints a per-request identity token, drops the in-flight entry on invalidation, and re-sets fresh hits for recency; the cited CompetitionList.tsx is gone, cachedDevClone/cachedTriggers are gone from LifecyclePage.tsx, the certLastRefreshedAt latch is gone. Refutes parts of both react-- applications as current descriptions."
+    },
+    {
+      "source": "next-- and node-- consumer applications",
+      "result": "Dated paired-proof and census accounts retained; their private or unpinned trees were not reopened. Verification dates unchanged."
+    }
+  ],
+  "documents": {
+    "client-fetch-cache.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: technique list now names admission-hypothesis and similarity-keyed-admission; the Admission bullet scopes the four bets to identity keys and points at the fifth bet."
+    },
+    "techniques/admission-hypothesis.md": {
+      "disposition": "keep",
+      "reason": "Four bets, eviction-axis match, reachability-versus-conversion and the fifth-bet scoping are coherent; its next--admission-hypothesis application measures exactly the reachability rule."
+    },
+    "techniques/similarity-keyed-admission.md": {
+      "disposition": "keep",
+      "reason": "Falsity-not-staleness, metric-plus-cut-point, vetoing ladder, reinforcing eviction, precision needing a negative set, reject-arm scope, canonicalization/projection boundary and residual pricing are distinct and internally consistent; field claims are labelled as such."
+    },
+    "techniques/swr-design.md": {
+      "disposition": "keep",
+      "reason": "Three zones, failure that never stamps freshness, invalidation retiring the flight and the recognised-empty versus unrecognisable boundary hold; the focus-revalidation default claim is confirmed by SWR and TanStack documentation."
+    },
+    "techniques/in-flight-dedup.md": {
+      "disposition": "keep",
+      "reason": "Synchronous registration, identity-checked reaper, invalidation reaching the flight, failure fan-out and the dedup/idempotency boundary are consistent with swr-design and its next-- application."
+    },
+    "techniques/cache-key-discipline.md": {
+      "disposition": "keep",
+      "reason": "Asymmetry with its stated precondition, derived keys, canonical serialization, absent-sentinel and the collision audit hold; the Map/Set counterexample in its application is consistent with the totality requirement."
+    },
+    "techniques/warm-remount-caches.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: first decision rule now prescribes a keyed single slot by default and a capped map only when several scopes are live, matching the prose."
+    },
+    "techniques/prefetch-and-defer.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: removed the stray soft hyphen in the prefetch-failure bullet."
+    },
+    "techniques/parse-and-derive-caches.md": {
+      "disposition": "keep",
+      "reason": "Content-identity keying with declared spelling, purity, weak-reference reaping, derivation versioning and deterministic-only failure caching are sound."
+    },
+    "techniques/plural-policy-claims.md": {
+      "disposition": "keep",
+      "reason": "Per-policy quantifiers match the pinned TanStack core: Math.max gcTime, observers.some staleness, and one observer refetching on focus; the clock-starts-on-last-detach distinction stands."
+    },
+    "techniques/portable-read-definitions.md": {
+      "disposition": "keep",
+      "reason": "Invariant-in-definition versus per-consumer-at-call-site and the untypeable pass-through argument are coherent and backed by its next-- build failure account."
+    },
+    "techniques/sibling-entry-warmth.md": {
+      "disposition": "keep",
+      "reason": "Summary-typed borrowing, placeholder-only status, lookup by entity id across the family and the cold twin are sound; consistent with the golden path's fourth warmth source."
+    },
+    "applications/next--admission-hypothesis.md": {
+      "disposition": "keep",
+      "reason": "Arithmetic is consistent (5/7 is 71 percent); limits are stated. Private tree not reopened; verification date unchanged."
+    },
+    "applications/next--in-flight-dedup.md": {
+      "disposition": "keep",
+      "reason": "States the met identity-at-settle rule and the unmet invalidation half with its bound. Private tree not reopened."
+    },
+    "applications/next--plural-policy-claims.md": {
+      "disposition": "clarify",
+      "reason": "Owed, not applied: 'list detail' is tabled as consistent while next--portable-read-definitions reports a 60000 declaration among that key's copies; and 'four carry a divergent claim' disagrees with the two divergences counted and tabled. Needs the private tree to reconcile."
+    },
+    "applications/next--portable-read-definitions.md": {
+      "disposition": "keep",
+      "reason": "Hand-verified counts, the instrument's blind spots and the typecheck-only verification are disclosed. Private tree not reopened."
+    },
+    "applications/node--cache-key-discipline.md": {
+      "disposition": "keep",
+      "reason": "Tree A's hashKey/isPlainObject anchors and the Map/Set collision re-confirmed at the pinned commit; Tree B is a private tree not reopened, so verified_on stays. A repeated pin sentence in Tree A's intro is cosmetic."
+    },
+    "applications/node--swr-design.md": {
+      "disposition": "keep",
+      "reason": "Pinned commit, paired proof and the heuristic-recognition and per-instance limits are stated. Tree not reopened."
+    },
+    "applications/react--swr-design.md": {
+      "disposition": "reverify",
+      "reason": "The primitive has moved: a per-request identity token, invalidation dropping the in-flight entry, and fresh-hit recency re-ordering. The insertion-order eviction description and possibly the deviations list need re-deriving at a pinned commit; paths are also printed twice."
+    },
+    "applications/react--warm-remount-caches.md": {
+      "disposition": "reverify",
+      "reason": "CompetitionList.tsx no longer exists (the keyed-slot pattern now appears in useLlmPinpoints.ts), LifecyclePage no longer holds cachedDevClone/cachedTriggers, and the cited ageless latch is gone. Needs re-deriving against the current tree."
+    }
+  }
+}
+```

@@ -111,7 +111,11 @@ policies, and a cache missing any one of them is either a leak or a lie:
   once, which is the same as having no reason to expect reuse from any of them.
   The four bets, why eviction's axis must match admission's, and the check that
   a stated rule can still fire are
-  [admission-hypothesis](./techniques/admission-hypothesis.md).
+  [admission-hypothesis](./techniques/admission-hypothesis.md). All four
+  assume the key is an identity, so a hit proves the entry belongs to the
+  request. A cache keyed on resemblance makes a fifth bet, paraphrase
+  recurrence, under which a hit can be wrong rather than old; that is
+  [similarity-keyed-admission](./techniques/similarity-keyed-admission.md).
 
 The reason to write the bet down is that the rest of the cache is only
 checkable against it. Least-recently-used eviction is a bet on recency of
@@ -244,6 +248,13 @@ The shape is [parse-and-derive-caches](./techniques/parse-and-derive-caches.md).
 
 ## The techniques
 
+- [admission-hypothesis](./techniques/admission-hypothesis.md) — the four
+  identity-key reuse bets, eviction's axis matched to admission's, and the
+  check that a stated rule can still fire.
+- [similarity-keyed-admission](./techniques/similarity-keyed-admission.md) —
+  the fifth bet under a resemblance key: a stated tolerance for wrong hits,
+  metric and cut-point together, eviction that can remove a wrong entry, and
+  precision measured against a negative set.
 - [swr-design](./techniques/swr-design.md) — the three freshness zones, TTL
   selection, revalidation triggers, size-capped eviction, failure that
   keeps stale truth visible.

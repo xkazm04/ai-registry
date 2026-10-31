@@ -55,7 +55,7 @@ Prefetch discipline, in order of importance:
   crossing ten targets is not ten intents), dedupe per key, and skip
   entirely when the entry is already fresh.
 - **Failures are silent but recorded.** The user never asked; show them
-  nothing ­— surfacing a prefetch error is announcing a failure of a
+  nothing — surfacing a prefetch error is announcing a failure of a
   request they did not make. Silence toward the user is not silence
   toward the log: still count it, or a broken endpoint hides behind
   "the real fetch will retry anyway."
