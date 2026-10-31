@@ -5,7 +5,7 @@ subject: interview-calendar-integrity
 technique: idempotent-event-lifecycle-with-orphan-surfacing
 stack: node
 status: forged
-verified_on: 2026-09-29
+verified_on: 2026-10-31
 verified_against: node@24
 ---
 
@@ -34,7 +34,7 @@ let result = invite.calendarEventId
 
 `calendar_event_id` on `schedule_invites` is *"the provider handle that makes the
 lifecycle idempotent"* (`docs/features/scheduling/README.md`). The lifecycle
-table at `README.md:112` maps every transition onto exactly one verb: first
+table at `README.md:385` maps every transition onto exactly one verb: first
 confirm CREATEs; a reschedule (candidate self-serve or recruiter) PATCHes *"the
 same event — never a second one at the new time"*; attaching or changing a
 meeting link PATCHes the existing event's location and *"never creates one"*; a
@@ -64,7 +64,7 @@ interview that closed while its invitation stayed live on somebody's calendar.
 
 ## Repair a live interview, surface a closed one
 
-The `gone` branch (`:99`) is the technique's step 8 in code:
+The `gone` branch (`:96`) is the technique's step 8 in code:
 
 ```
 if (!result.ok && result.reason === "gone") {
@@ -92,8 +92,8 @@ the draft did not have.
 
 ## Rendering by actionability
 
-`ScheduleCalendarEventChip.tsx` renders `failed` and `orphaned` as chips — *"the
-two a human can act on"* — and the rest as quiet single-line facts, with
+`ScheduleCalendarEventChip.tsx` renders `failed` and `orphaned` as chips — the two of the five that are
+*"genuinely actionable"* — and the rest as quiet single-line facts, with
 `written` linking straight to the event. Copy is set-equality guarded against
 `CALENDAR_EVENT_STATES` by `calendar-status-i18n.test.ts`; end-to-end coverage
 against real routes with a stubbed edge is

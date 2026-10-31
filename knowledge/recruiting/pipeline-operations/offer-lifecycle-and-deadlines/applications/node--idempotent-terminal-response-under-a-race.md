@@ -5,7 +5,7 @@ subject: offer-lifecycle-and-deadlines
 technique: idempotent-terminal-response-under-a-race
 stack: node
 status: forged
-verified_on: 2026-09-29
+verified_on: 2026-10-31
 verified_against: node@24
 ---
 
@@ -25,7 +25,7 @@ The first statement is `expireOfferIfDue(token)` (`offer-finalize.ts:29`),
 with the rule attached: "an offer past its deadline must not be acceptable even if
 the candidate is holding a stale tab — the deadline is the lever."
 
-`expireOfferIfDue` (`app/_lib/offers-store.ts:223`) is itself a guarded write —
+`expireOfferIfDue` (`app/_lib/offers-store.ts:209`) is itself a guarded write —
 `UPDATE offers SET status = 'expired' WHERE token = ? AND status = 'extended'
 RETURNING *` — so "only the still-open row flips; an already accepted/declined offer
 is never touched", and it records an `offer_expired` automation event so "a dead
@@ -33,7 +33,7 @@ offer leaves an audit trail, surfaces on the candidate timeline, and doesn't rea
 'still pending' in accept-rate/funnel analytics."
 
 The same lazy lapse runs in the read path: `offerView(token)`
-(`app/_lib/offer-finalize.ts:205`) opens with `expireOfferIfDue` too, "so the page
+(`app/_lib/offer-finalize.ts:207`) opens with `expireOfferIfDue` too, "so the page
 renders 'expired' the moment it's due rather than waiting on the heartbeat sweep."
 The global sweep `lapseExpiredOffers` still exists on the heartbeat, but it is the
 janitor, not the enforcer — which is exactly what keeps the published deadline and
@@ -58,7 +58,7 @@ localizes through `REFUSAL_ERRORS` in `api-response.ts`.
 
 The status check above it is explicitly labelled a snapshot, not a decision. The
 real claim is `markOfferResponded(token, status)`
-(`app/_lib/offers-store.ts:392`), one statement:
+(`app/_lib/offers-store.ts:378`), one statement:
 
 ```
 UPDATE offers SET status = ?, responded_at = ? WHERE token = ? AND status = 'extended' RETURNING *
@@ -168,7 +168,7 @@ candidate double-clicks or the link is opened twice."
 - **A late accept is refused and forgotten.** Both refusal paths (`offer-finalize.ts:35`
   and the `reportLoser` fall-through at `:70`) return `OFFER_EXPIRED` and record nothing
   about the attempt. The one event a recruiter sees is `offer_expired`, written when
-  the lapse is first evaluated (`offers-store.ts:235`), which says the offer lapsed and
+  the lapse is first evaluated (`offers-store.ts:221`), which says the offer lapsed and
   not that a candidate then tried to take it. Re-read at `ca3d48934` on 2026-09-29. The
   technique now asks for the attempt to be recorded and routed to a person. The
   404/410 split itself is safe here: the token is `randomBytes(24)` base64url

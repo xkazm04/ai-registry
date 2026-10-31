@@ -5,7 +5,7 @@ subject: pipeline-aging-and-attention-triage
 technique: attention-queue-ordering-and-rationale
 stack: node
 status: forged
-verified_on: 2026-09-29
+verified_on: 2026-10-31
 verified_against: node@24
 ---
 
@@ -135,11 +135,11 @@ passed" until a four-hour `RECENT_WINDOW_MS` grace bucket was added.
   ordering rather than named queues each carrying a sentence. Read at HEAD on
   2026-09-29: the model carries no reason string. A row waiting on a human states
   its kind (`ladderParts.tsx:140`, `OrbitMatches.tsx:55-66`); an aging row shows
-  only an amber "12d / 7d" (`AgeText`, `ladderParts.tsx:72`), so the rationale
+  only an amber "12d / 7d" (`AgeText`, `ladderParts.tsx:68`), so the rationale
   rule holds for the top queue and not for the second. Groups are by lens
   (family, city, seniority), not by queue.
-- **A copied clock.** The orbit view's `isStale` (`PipelineOrbitView.tsx:93`)
-  and the tab's (`usePipelineTabState.ts:139`) are each
+- **A copied clock.** The orbit view's `isStale` (`PipelineOrbitView.tsx:102`)
+  and the tab's (`usePipelineTabState.ts:127-128`) are each
   `daysSince(...) ?? 0 >= slaForStage(...)`. Neither calls `agingTierAt`, so
   neither has a stalled tier, and both read an unknown date as zero days rather
   than as unmeasured, while the orbit view's comment calls the tab's copy "the

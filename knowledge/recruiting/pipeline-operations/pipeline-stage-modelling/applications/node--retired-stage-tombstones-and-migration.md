@@ -5,7 +5,7 @@ subject: pipeline-stage-modelling
 technique: retired-stage-tombstones-and-migration
 stack: node
 status: forged
-verified_on: 2026-09-29
+verified_on: 2026-10-31
 verified_against: node@24
 ---
 
@@ -17,7 +17,7 @@ principles.
 
 ## One route, because it is one decision
 
-`:12-17`: its own endpoint rather than a flag on the general config write,
+`:13-18`: its own endpoint rather than a flag on the general config write,
 "because the two halves are one decision: *remove this column, and send the
 people on it to that one*. Splitting them across two calls would let a client
 perform half — which is exactly the stranding this whole phase exists to
@@ -25,7 +25,7 @@ prevent."
 
 ## Moves first, axis second — the order is the argument
 
-`:19-29` states the ordering rule and, unusually, the reason it cannot be
+`:20-30` states the ordering rule and, unusually, the reason it cannot be
 solved by a transaction: the axis config and the pipeline rows sit behind
 separate connections, "so a single transaction cannot span them, and the
 order decides what a failure between them looks like":
@@ -44,14 +44,14 @@ reachable partial state is the harmless one, and write down why.
 
 ## The destination must exist on the NEW axis
 
-`:80-107`. `removed` is derived by diffing the current axis against the
+`:80-113`. `removed` is derived by diffing the current axis against the
 submitted one rather than trusted from the client, and every entry of the
 `migrate` mapping is checked against `nextIds` — the ids of the axis being
 written — with the comment stating the trap: "Mapping onto another column
 this same edit removes would move candidates from one hole into another."
 The refusal is specific, not a generic invalid-body error: a code with the
 offending pair as data, `jsonRefusal("PIPELINE_MIGRATION_MAPPING_INVALID", 400,
-{ fromStage, toStage, reason: "target_missing" })` (`:80-107`). An earlier
+{ fromStage, toStage, reason: "target_missing" })` (`:101-105`). An earlier
 reading of this page quoted an English sentence here; no such string exists
 anywhere in `app/`, it was removed on 2026-09-02, and the page was already stale
 when it was written.
@@ -61,7 +61,7 @@ when it was written.
 `app/_lib/pipeline-axis.ts:15-21` types the axis as `{ stages, retired }`,
 with retired documented as "NOT rendered, but still resolvable, so history and
 a stranded candidate can be named rather than shown a raw id."
-the pipeline README's `retired` paragraph (`:168-173`) states the consequence the standard
+the pipeline README's `retired` paragraph (`:172-177`) states the consequence the standard
 demands: a dropped column is moved there rather than deleted, so historical
 events and a stranded candidate's stage still resolve to a label; and the
 board write path "accepts retired stages too: a candidate standing on one is
@@ -70,13 +70,13 @@ would lose the application."
 
 `knownStageIds` (`pipeline-axis.ts:57-62`) is the concrete form — the set a
 stored stage value is allowed to hold is live **plus** retired — and
-`pipeline-entry-action.ts:337-342` validates a manual move against "THIS
+`pipeline-entry-action.ts:396-402` validates a manual move against "THIS
 WORKSPACE's board, not the shipped list", listing the acceptable ids in the
 error.
 
 ## A board-shape move is its own event kind
 
-the README's `stage_migrated` section (`:205-218`): `migratePipelineStages` writes a
+the README's `stage_migrated` section (`:209-222`): `migratePipelineStages` writes a
 `stage_migrated` event per moved candidate carrying from/to — "its own event
 kind rather than `moved`: nobody chose to advance *this* candidate — the board
 changed shape — and a recruiter reading the trail weeks later needs that
@@ -97,7 +97,7 @@ axis must open with entry (`:541`) and end with terminal (`:542`). Executed
 against constructed axes: no terminal, two terminals, two entries, two offers, a
 terminal not last, a missing or unknown role, a duplicate id, thirteen stages and
 an extra key are all refused; twelve stages and an axis that lacks a screening,
-interview or offer stage are accepted. The README (`:162-166`)
+interview or offer stage are accepted. The README (`:166-170`)
 states the governing principle in the standard's own terms: "the validator
 enforces only what the rest of the product resolves through … Everything else
 is open — any number of screening stages, interview rounds or `custom`
@@ -105,7 +105,7 @@ columns, in any order, under any name."
 
 ## Refuse with the count, at the write door
 
-`:109-119` is the standard's step-two verbatim. The server "does not take the
+`:115-132` is the standard's step-two verbatim. The server "does not take the
 client's word for who is stranded: it recomputes occupancy here. A removal
 with occupants and no mapping is refused — the client's Save button is a
 courtesy, this is the guarantee." The 409 names each unmapped stage **with its
@@ -121,7 +121,7 @@ whatever the composer saw when the operator opened it.
 
 ## What the door grew after the first reading
 
-Four guards now sit in front of the same two writes (`route.ts:48-131`); none
+Four guards now sit in front of the same two writes (`route.ts:49-144`); none
 is in the technique's five steps, and each answers a failure the ordering
 argument alone does not.
 
@@ -135,23 +135,31 @@ argument alone does not.
   answers `PIPELINE_AXIS_STALE` (409), because a mapping written against a
   board someone else has since reshaped may name ids that no longer exist. The
   token is re-asserted inside `setDecisionConfig` under the store's write lock
-  (`:126-130`), so a concurrent save between the check and the write is caught
+  (`:139-143`), so a concurrent save between the check and the write is caught
   by the second half of the pair rather than clobbered. That second refusal
   arrives after the moves, so it is the benign partial state the ordering
   argument describes and not a clean no; only the first check refuses before
-  anybody moves. Between `:77` and `:130` every call is synchronous, so in one
+  anybody moves. Between `:77` and `:143` every call is synchronous, so in one
   process nothing can interleave there and the pair matters across processes. The check is opt-in: the
   first-run wizard composes an axis from nothing and sends no token.
 - **The refusal is data, not prose.** Every refusal is a code with fields
   (`PIPELINE_MIGRATION_REQUIRED` carries `unmapped: [{ stage, count }]`); the
   validator's English rides as `detail` and "must never be the thing the UI
-  paints" (`:61-64`).
-- **The write is a recruiter operation** (`:51-57`): `pipeline:write` is asked
+  paints" (`:62-65`).
+- **The write is a recruiter operation** (`:50-58`): `pipeline:write` is asked
   of the seat, because the operator check "proves a trusted session is present"
   and in open mode that is true for everyone. A viewer is refused with a code
   instead of moving candidates.
 
-The rate limit (`:121`, 20 per 10 minutes) is placed after every cheap refusal,
+Re-checked 2026-10-31 at kp@6edf5d7: a fifth guard sits in the same loop. A
+mapping onto the new axis's terminal stage is refused with
+`PIPELINE_TERMINAL_NOT_MANUAL` (422, `:106-111`), because the terminal stage is
+reached by an accepted offer, never by a move. An axis that hands the terminal
+role to an occupied column is refused the same way (`:119-125`), and the store
+backs both with `TerminalMigrationTargetError` (`:148-150`). This adds to the
+list above and reverses nothing.
+
+The rate limit (`:134`, 20 per 10 minutes) is placed after every cheap refusal,
 so a malformed mapping costs no budget. And the failure message was corrected
 against the ordering: `STAGE_MIGRATION_FAILED` used to read "Nothing was
 saved", "the opposite of what this order guarantees", because a throw from
@@ -174,8 +182,8 @@ identity is the id. The composer does not offer that path: `mintStageId`
 is no restore action. So the hole is reachable through the API and not through
 the screen.
 
-**The door the guarantee sits on is one of two.** The route's header (`:12-17`,
-`:111`) says removal is its own endpoint "rather than a flag on
+**The door the guarantee sits on is one of two.** The route's header (`:13-18`,
+`:117`) says removal is its own endpoint "rather than a flag on
 /api/decisions/config" and that its occupancy check "is the guarantee". But
 `validateDecisionConfig` dispatches `phase: "pipelineStages"`
 (`decision-config-schema.ts:429`), the general config route

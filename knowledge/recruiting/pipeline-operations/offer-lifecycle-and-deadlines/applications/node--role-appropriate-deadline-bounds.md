@@ -5,7 +5,7 @@ subject: offer-lifecycle-and-deadlines
 technique: role-appropriate-deadline-bounds
 stack: node
 status: forged
-verified_on: 2026-09-29
+verified_on: 2026-10-31
 verified_against: node@24
 ---
 
@@ -168,7 +168,7 @@ timeline while the at-most-once claim stays unrewound.
   is no extension to confuse it with.
 - **The company zone is a deployment setting, not an offer field.** The timezone
   shortfall this section listed on 2026-08-20 is closed: the letter's
-  `formatOfferDeadline` (`app/_lib/comms-dispatch.ts:1052`) and the page's
+  `formatOfferDeadline` (`app/_lib/comms-dispatch.ts:1109`) and the page's
   (`app/offer/[token]/offer-deadline.ts`) both name the zone (`timeZoneName: "short"`).
   What remains is that the two surfaces name different clocks: the page states
   `INTERVIEW_TZ` (the offer row has no zone column, and the page module says so),

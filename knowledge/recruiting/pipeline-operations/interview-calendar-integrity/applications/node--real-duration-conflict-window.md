@@ -5,7 +5,7 @@ subject: interview-calendar-integrity
 technique: real-duration-conflict-window
 stack: node
 status: forged
-verified_on: 2026-09-29
+verified_on: 2026-10-31
 verified_against: node@24
 ---
 

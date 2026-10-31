@@ -5,7 +5,7 @@ subject: pipeline-aging-and-attention-triage
 technique: per-stage-aging-thresholds-not-one-global-cut
 stack: react
 status: forged
-verified_on: 2026-09-29
+verified_on: 2026-10-31
 verified_against: react@19
 ---
 
@@ -68,8 +68,8 @@ call `agingTierAt(e.stage, e.stageChangedAt, now, axis)`, which applies the term
 exclusion and `slaForStage` internally.
 
 `attention.ts`'s `attentionStale` comment records the failure the parameter closes, in the standard's
-own terms: "a composed column ('Tech round', role interview) ages at the
-interview default, not on the flat legacy cut a name lookup fell through to."
+own terms: "a composed column ('Tech round', role interview) ages at its
+role's SLA, not on the flat legacy cut a name lookup fell through to."
 The same block documents a second, sharper case for honouring the resolver's
 non-positive contract rather than relying on coincidence: retire the id `Hired`
 while renaming the terminal column, and every already-hired entry resolves to no
@@ -140,7 +140,7 @@ What that satisfies of the override contract:
 
 What the standard asks for and this still lacks: an override's **actor and date**,
 and a mark on the board that it runs a custom policy. Read on 2026-09-29 at
-`dd0669e3a`: the route (`stage-sla/route.ts:34-80`) calls
+`dd0669e3a`: the route (`stage-sla/route.ts:34-79`) calls
 `updateDecisionConfig("pipelineStages", ..., ws, "team")` with no identity, and
 `writeConfigRow` (`decision-config-store.ts:227-304`) deletes and inserts
 `(phase, config_json, updated_at, workspace_id)`. There is a timestamp, which
@@ -169,9 +169,9 @@ went out the same day, except the second row):
 | Not sent, 6 days in | 6 | stalled |
 
 The window length and whether the offer went out have no effect. The offer
-lifecycle has an `expires_at` column (`offers-store.ts:44`), a 7-day default
+lifecycle has an `expires_at` column (`offers-store.ts:45`), a 7-day default
 window (`offer-policy.ts:23-26`, per-offer 1 to 90 days) and a lapse job
-(`lapseExpiredOffers`, `:243`), none of which the aging path consults, and its
+(`lapseExpiredOffers`, `:229`), none of which the aging path consults, and its
 one pre-expiry nudge goes to the candidate. Against the standard's who-owes-the-next-action test, the
 column reads as a stall alarm for a candidate deliberating inside the window the
 team set. The homework row is the same test done right; the offer row is where

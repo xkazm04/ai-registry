@@ -5,7 +5,7 @@ subject: offer-lifecycle-and-deadlines
 technique: server-authoritative-countdown
 stack: react
 status: forged
-verified_on: 2026-09-29
+verified_on: 2026-10-31
 verified_against: react@19
 ---
 
@@ -27,7 +27,7 @@ The view type declares the rule on the field itself (`OfferClient.tsx`, the
 > disagree with server-enforced expiry on a skewed/back-dated client clock. Null when
 > the offer carries no valid deadline.
 
-The producer is `offerView` (`app/_lib/offer-finalize.ts:205`), which returns
+The producer is `offerView` (`app/_lib/offer-finalize.ts:207`), which returns
 `hoursRemaining` and `minutesRemaining` from one `Date.now()` read — computed "on the
 SERVER clock … so the candidate's 'X hours left' copy can't drift from server-enforced
 expiry under client clock skew". Crucially it is the *same module* that
@@ -106,6 +106,13 @@ discipline the API applies with 410-vs-404:
   POST failure surfaces as an inline banner that *preserves* the card and re-enables
   the buttons, "so a transient blip on accept/decline isn't a dead end."
 
+Re-checked 2026-10-31 at kp@6edf5d7: what a POST answer means moved out of
+`OfferClient.tsx` into the pure `classifyOfferResponse` (`offer-response.ts:30-41`).
+The quoted 410 comment is gone. Its replacement says the card "swaps to `expired`
+rather than showing an inline error over live-looking buttons" (`:26-28`). The
+behaviour is the same, and one case is new: a 2xx that names no recorded status is
+now a failure, not a settled card.
+
 `refresh()` closes the ambiguous-POST hole (it replaced the separate `reconcile`, and
 now serves the revalidation too): after a dropped connection it
 re-reads the authoritative status and flips the card if the server already recorded
@@ -116,8 +123,8 @@ response — the server's CAS decides, and the page asks it rather than guessing
 ## The letter cannot contradict this page
 
 The countdown is only trustworthy if the emailed letter names the same date.
-`dispatchOffer` (`app/_lib/comms-dispatch.ts:699`) is where that is enforced, and
-its doc comment at `:692` states the rule: "the terms are injected at DISPATCH, not
+`dispatchOffer` (`app/_lib/comms-dispatch.ts:727`) is where that is enforced, and
+its doc comment at `:720` states the rule: "the terms are injected at DISPATCH, not
 draft: the deadline is a per-offer lever the recruiter sets at approval time
 (ttlDays → offers.expires_at), so the letter draft cannot know it." The deadline and
 start-date lines are appended deterministically from the offer row at send time, so
@@ -132,6 +139,11 @@ offer's **own** stored currency (`kit/OfferKitView.tsx`, the compensation figure
 non-Czech offer. When the currency is genuinely unknown, omit the unit rather than
 asserting a wrong one."
 
+Re-checked 2026-10-31 at kp@6edf5d7: that quoted comment is no longer in
+`OfferKitView.tsx`. The rule now lives in `offerKitTerms` (`kit/offerKitModel.ts:43-54`):
+"the currency is never invented", and the unit is `o.currency || null`. The
+behaviour holds.
+
 Upstream, the recruiter-facing review card applies the same posture to an unpriced
 draft. `app/features/hiring/decisions/decisionsAiReviewCardLogic.ts` documents
 the fail-safe and the bug it replaced: when no market band is configured and the
@@ -142,7 +154,7 @@ the real one." The card "used to render those nulls through
 `Number(x ?? 0).toLocaleString()` — a literal '0' headline and a 0–0 band meter —
 i.e. it fabricated the one number nobody was willing to invent, on exactly the drafts
 that exist because the number is unknown." The repair is two booleans, `unpriced`
-and `hasBand` (`:46`), and no figure and no meter unless the payload genuinely
+and `hasBand` (`:57-58`), and no figure and no meter unless the payload genuinely
 carries them. The generator side matches it: `draft_offer` in
 `pipeline/jobfit/automation.py` sets `lo = hi = recommended = None` and instructs the
 letter model to "Do NOT state, estimate, imply, or hint at any compensation figure,
@@ -150,8 +162,8 @@ band, or range — none has been" set.
 
 ## Where this deployment falls short of the standard
 
-- **The expired card says less than the technique asks.** It reads "the deadline for a
-  reply has passed; contact the hiring team" (`expiredBody`), naming neither the role
+- **The expired card says less than the technique asks.** It reads "The deadline to
+  respond has passed. If you're still interested, please contact the hiring team." (`expiredBody`), naming neither the role
   nor the date it lapsed. The open GET, by contrast, returns the full view — candidate
   label and figure included — for an expired offer to whoever holds the token. The
   token is the bearer capability, so this is not an enumeration path, but the page

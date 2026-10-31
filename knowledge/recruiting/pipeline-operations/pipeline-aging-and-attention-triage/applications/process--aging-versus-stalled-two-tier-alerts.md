@@ -5,7 +5,7 @@ subject: pipeline-aging-and-attention-triage
 technique: aging-versus-stalled-two-tier-alerts
 stack: process
 status: forged
-verified_on: 2026-09-29
+verified_on: 2026-10-31
 ---
 
 # Two tiers in the automation policy pass (process)
@@ -43,10 +43,10 @@ Three surfaces read that one function: the board's amber dot, the sidebar badge,
 and the policy pass. The pass never re-derives the tier.
 `listActiveEntriesForAutomation` stamps `agingTier` on each entry on that
 entry's own workspace axis, and Python maps it (`AGING_TIER_ALERTS`, `automation.py`
-`:178`): `aging` becomes `stale_alert`, `stalled` becomes `aging_alert`. The flat
+`:184`): `aging` becomes `stale_alert`, `stalled` becomes `aging_alert`. The flat
 `POLICY` 21/30 cut survives only as the fallback for a caller that sends no
 tier (the bare CLI) and now also refuses a terminal stage on that path
-(`aging_alerts`, `:220-233`). The constants that cross the language boundary as
+(`aging_alerts`, `:226-239`). The constants that cross the language boundary as
 code are bound by `AgingTierSyncTest`, which reads the TypeScript literals and
 fails on drift.
 
@@ -77,18 +77,18 @@ carried there as its own rule.
 
 ## Executed 2026-09-29: where a stint starts and ends
 
-Run against the real store (`recordDecisionAlerts`, `automation-pass.ts:388-410`;
-`hasEventSinceStageChange`, `db/pipeline.ts:3205-3221`), with `stage_changed_at` and
+Run against the real store (`recordDecisionAlerts`, `automation-pass.ts:356-377`;
+`hasEventSinceStageChange`, `db/pipeline.ts:3509-3519`), with `stage_changed_at` and
 event times overwritten to simulate elapsed days except where noted:
 
 - **Aging, edited but not moved, then stalled:** day 4 writes one `stale_alert`; a
   second pass the same day writes nothing; after an edit that leaves the stage
   timestamp alone, day 7 writes one `aging_alert`. The two kinds dedupe
   independently, so the harder tier still fires once.
-- **Un-reject:** `reinstatePipelineEntry` (`db/pipeline.ts:1402-1406`) sets
+- **Un-reject:** `reinstatePipelineEntry` (`db/pipeline.ts:1459-1462`) sets
   `stage_changed_at` to now, so the old alerts sit before the new anchor and a new
   stint starts. That is the right shape for an outcome that ended the last stint.
-- **Reopening a closed role:** `reopenEntriesByJobId` (`:974`) sets status only.
+- **Reopening a closed role:** `reopenEntriesByJobId` (`:982`) sets status only.
   Unedited close and reopen left `stageChangedAt` at its old value, so the stint
   continues, the alert already written stays suppressed, and only the next tier
   fires; months of closure count as dwell. Whether that is the right answer turns
@@ -99,7 +99,7 @@ event times overwritten to simulate elapsed days except where noted:
   event of that kind would suppress forever; unreachable in practice because the
   tier is `none` for an unknown date, and worth a test.
 
-The existing `automation-pass.test.ts:125-155` pins once-per-stint and the new
+The existing `automation-pass.test.ts:126-156` pins once-per-stint and the new
 stint after a move. Nothing pins the reopen case, and nothing in the pass reads
 whether an offer is sent or its window is open (see the React note): an offer
 inside its window collects the same `stale_alert` and `aging_alert` as any other
@@ -114,6 +114,14 @@ branch reads `days` or the tier to advance, reject or close.
 `elif` shape, one tier per entry and never both, holds on both the tier path
 and the fallback.
 
+Re-checked 2026-10-31 at kp@6edf5d7: one branch does read `days` to advance.
+On a screening-role stage, a strong BAU score advances only once
+`days >= POLICY["screening_auto_days"]` (2 days, `automation.py:1041-1042`);
+before that it holds while the entry settles. That is a minimum dwell before an
+automatic advance, not the aging tier, and nothing in it alerts. The finding
+still holds for the tiers: no branch reads the tier or `alerts` to choose an
+action. The sentence above about `days` is too broad.
+
 ## Remaining deviations
 
 - **The fallback path is still one global cut.** A caller that sends no tier
@@ -127,7 +135,7 @@ and the fallback.
   tunable (see the React application), so the half-tunable failure no longer
   applies to the path that matters.
 - **A missing duration still coerces to zero.** `days = int(entry.get("daysInStage") or 0)`
-  (`:973`) is unchanged, and on the fallback path a missing duration therefore
+  (`:990`) is unchanged, and on the fallback path a missing duration therefore
   never alerts by arithmetic rather than by an explicit unmeasured state. On the
   tier path the TypeScript side reads an unparseable or absent timestamp as
   `none` on purpose (`daysInStageAt` returns null), which is the explicit form.
