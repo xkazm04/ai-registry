@@ -5,13 +5,14 @@ subject: recruiting-cost-and-automation-economics
 technique: date-every-derived-money-figure
 stack: sql
 status: forged
-verified_on: 2026-09-29
+verified_on: 2026-10-31
 verified_against: sql@3
 ---
 
 # The blended cost-per-hire carries its oldest input's date
 
-Line references are to kp at its committed `0c6c9e39c`, read 2026-09-29.
+Line references are to kp at `6edf5d7e6`, re-read 2026-10-31 (first read at
+`0c6c9e39c`, 2026-09-29).
 Channel spend in this repo is a single stored figure per channel:
 `channel_spend(channel, amount_czk, updated_at, workspace_id)`, written by
 `setChannelSpend` (`app/_lib/db/channels.ts:402`) and read back as
@@ -44,7 +45,7 @@ row launder a set of fossils." The date is null exactly when the figure is
 null, so the pair can never separate.
 
 The date survives to the reader rather than dying in the payload:
-`EconomicsBoard.tsx:356-363` (`:361`) passes `costPerHireAsOf` into the compute-cost
+`EconomicsBoard.tsx:365-372` (`:370`) passes `costPerHireAsOf` into the compute-cost
 panel with the same sentence repeated at the call site. That is the
 technique's rule 3 — the date renders next to the figure, not in a tooltip.
 
@@ -62,7 +63,7 @@ is not an approximation but a different quantity — and note which way the
 repo resolved it: withhold the figure until spend is recorded per period,
 rather than pro-rating the numerator by a guess.
 
-**Every stored figure that divides is reachable.** `analytics.ts:689-699`
+**Every stored figure that divides is reachable.** `analytics.ts:689-698`
 seeds a `byChannel` row for any channel with recorded spend even when no
 candidates are attributed to it, and the second of its two stated reasons is
 the technique's corollary about ownership of inputs:
@@ -82,7 +83,7 @@ Two ledgers meet on this board and neither is converted into the other. The
 channel spend is in the application's currency; the model-usage ledger prices
 in a different one, and `analytics.ts:120-122` records the constraint plainly —
 the tile is "labelled in USD, never fake-converted". The section's closing
-comment (`EconomicsBoard.tsx:366-379`) states the rule for the whole surface:
+comment (`EconomicsBoard.tsx:375-388`) states the rule for the whole surface:
 "Nothing here converts, sums or compares the [one] ledger against the [other]
 spend", and places the link to the billing breakdown *under the compute panel
 specifically* so it can never read as a total of both. Where a reader wants
@@ -92,8 +93,8 @@ navigation rather than arithmetic that the companion technique asks for.
 
 The same comment records the metric that was *declined*, and it is the
 cleanest example in the repo of refusing a figure whose denominator cannot be
-defended (`EconomicsBoard.tsx:372-374`, restated in
-`docs/features/analytics/README.md:445-452`): a per-decision cost column stays
+defended (`EconomicsBoard.tsx:381-383`, restated in
+`docs/features/analytics/README.md:445-453`): a per-decision cost column stays
 out because the usage ledger's `request_id` is never joined to a pipeline
 event, so "an unlabelled per-decision figure would be the LLM slice reading as
 the whole cost of the decision". The available number was computable and
@@ -104,9 +105,9 @@ navigation exit instead — "this adds a navigation exit, not a number".
 
 Two further honesty controls on the same ledger are worth recording because
 they are dating's neighbours on the confidence ladder. `computeCostWindow`
-(`analytics.ts:1062-1106`) sums over priced rows only and returns
+(`analytics.ts:1063-1107`) sums over priced rows only and returns
 `unpricedCalls` separately, so that a null-cost row cannot render as zero
-spend — "so `$0` ≠ `nothing spent`". And `workspaceCount` (typed at `:139`, computed at `:836`) exists
+spend — "so `$0` ≠ `nothing spent`". And `workspaceCount` (typed at `:139`, computed at `:837`) exists
 because the usage table has no workspace column: the numerator is
 account-wide while the denominator is one workspace's hires, so the per-hire
 figure is suppressed entirely when more than one workspace shares the ledger.

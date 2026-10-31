@@ -5,7 +5,7 @@ subject: small-sample-honesty-in-hiring-analytics
 technique: insufficient-sample-is-not-a-pass
 stack: node
 status: forged
-verified_on: 2026-09-29
+verified_on: 2026-10-31
 verified_against: node@24
 ---
 
@@ -21,18 +21,18 @@ sealed into a decision record.
 `app/_lib/adverse-impact.ts` computes the EEOC four-fifths selection-rate ratio
 and carries the refusal in two places at two granularities:
 
-- **Per group** (`:201-203`): `reliable` is true only when that group's own
+- **Per group** (`:205-207`): `reliable` is true only when that group's own
   `total` meets `ADVERSE_IMPACT_MIN_COHORT` (30, `:39`), and the comment is
   explicit that *"when false the UI must render an 'insufficient sample' state —
   NOT a verdict."*
-- **Per analysis** (`:235-239`): `reliable` is true only when **at least two**
+- **Per analysis** (`:244-248`): `reliable` is true only when **at least two**
   groups meet the floor — one to anchor the reference, one to measure against it
   — and *"when false the sample is too small to assess and the UI MUST show
   'insufficient sample' instead of an adverse / no-adverse verdict."*
 
 The load-bearing detail is what happens to the summary bit in that case:
 `anyAdverseImpact` is **forced false** while `reliable` is false
-(`:260-263`, `:329`). A consumer reading `anyAdverseImpact` alone therefore
+(`:271-273`, `:341`). A consumer reading `anyAdverseImpact` alone therefore
 gets a value that is safe against the "skipped counted as clean" failure only
 because it is paired with `reliable` — the two fields together are the typed
 verdict this technique demands, and neither is meaningful alone. The doc comment
@@ -40,15 +40,15 @@ states the rule in the technique's own words: *"the sample is too small to
 assess, which is a DISTINCT state from 'no adverse impact'."*
 
 Since 2026-09-26 the same primitive states the count of what it did not measure
-as a number of its own: `unassessedGroups` (`:231`, `:333`) is printed by the
-component beside the verdict (`DecisionsComplianceImpactCheck.tsx:161-163`) — *"the
+as a number of its own: `unassessedGroups` (`:240`, `:347`) is printed by the
+component beside the verdict (`DecisionsComplianceImpactCheck.tsx:166-170`) — *"the
 result above does not cover them"* — so a clean headline says how many groups it
 never assessed instead of folding them into its passes. The verdict is also read
 with a significance test now, and what a not-significant line could have seen is
 stated at the point of use; the measurement behind that is in the
 state-what-the-sample-could-have-seen application.
 
-The thin-cell-as-reference trap is closed at the same site (`:253-258`, `:279-283`): groups
+The thin-cell-as-reference trap is closed at the same site (`:264-269`, `:284-294`): groups
 below the floor *"carry a null ratio and are never flagged or used as the
 reference — a single-applicant '100%' group can no longer become the reference
 and flip the whole verdict."* That is the exclusion from a *baseline role*, which
@@ -114,7 +114,7 @@ shown, which is the thin-state substitution rather than a suppression.
 
 `app/_lib/metric-pack.ts:361` computes `certifiable` as
 `metrics.every((m) => m.status === "measured") && !onlyCapacitySnapshot`, and `caveats` carries the
-human-readable list of why not (`:61`, `:117-118`). A pack containing a
+human-readable list of why not (`:85-86`, `:339-347`). A pack containing a
 `not_measurable` metric can never be certifiable, so no aggregation path exists
 by which a refusal is summed into a clean result — the aggregator constraint this
 technique requires, implemented as an `every` rather than a count.

@@ -5,7 +5,7 @@ subject: recruiting-cost-and-automation-economics
 technique: date-every-derived-money-figure
 stack: react
 status: forged
-verified_on: 2026-09-29
+verified_on: 2026-10-31
 verified_against: react@19
 ---
 
@@ -20,14 +20,14 @@ reader in one place and not in another.
 above the other that both print the same field, `data.costPerHireCzk`:
 
 - `AnalyticsComputeCostPanel` receives `costPerHireAsOf={data.costPerHireAsOf ?? null}`
-  (`EconomicsBoard.tsx:361`) and prints it under the figure only when both are
+  (`EconomicsBoard.tsx:370`) and prints it under the figure only when both are
   present (`AnalyticsComputeCostPanel.tsx:121-124`, "spendAsOfOldest"), with the
   comment that the manual leg "says when it was last entered; 'oldest' because a
   blend is only as current as its stalest input".
 - `AnalyticsAutomationPanel` receives `costPerHireCzk` and not the date
-  (`EconomicsBoard.tsx:345-350`, the `AutomationPanel` props). Its leadership readout prints the same number as a
+  (`EconomicsBoard.tsx:354-361`, the `AutomationPanel` props). Its leadership readout prints the same number as a
   headline tile, "Cost per hire", with the subtitle "all-time"
-  (`AnalyticsAutomationPanel.tsx:149-151`, `messages/en.json` `insights.roi.rdCostPerHire`,
+  (`AnalyticsAutomationPanel.tsx:149-151`, `messages/en.json` `analytics.roi.rdCostPerHire`,
   `rdAllTime`). Nothing on the tile says how old the entry it divides is, and the panel's CSV export
 writes the bare figure too (`:108`).
 
@@ -43,7 +43,7 @@ date cannot be dropped by omission.
 ## Adjacent: hours and currency in one headline
 
 The same panel opens with "about {hours} recruiter-hours, about {czk} CZK"
-(`insights.roi.headline`), and the basis line states the rate. The golden path's
+(`analytics.roi.headline`), and the basis line states the rate. The golden path's
 position is that hours are shown as hours because converting them to currency
 asserts that the time was reallocated, and that assertion needs an owner. Here the
 rate has an owner (the panel exposes it as an editable input) and the reallocation

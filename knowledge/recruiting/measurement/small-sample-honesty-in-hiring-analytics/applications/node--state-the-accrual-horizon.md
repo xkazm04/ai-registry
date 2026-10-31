@@ -5,7 +5,7 @@ subject: small-sample-honesty-in-hiring-analytics
 technique: state-the-accrual-horizon
 stack: node
 status: forged
-verified_on: 2026-09-29
+verified_on: 2026-10-31
 verified_against: node@24
 ---
 
@@ -14,7 +14,7 @@ verified_against: node@24
 kp applies this technique in two places, six weeks after it was written and citing
 it by name in both: a module that turns a refusal into a plan, and a cohort fold
 that keeps two periods equally mature. Citations resolve against the kp tree at
-`775c5d02e` (2026-09-29).
+`6edf5d7e6` (re-checked 2026-10-31; first read at `775c5d02e`, 2026-09-29).
 
 ## A refusal with a date, or with its reason
 
@@ -47,7 +47,7 @@ rather than borrow the hire pace; recruiter capacity is a snapshot and says
 snapshot (`:328-329`). The floors it counts against are the row's own
 (`MIN_SAMPLE`, five times that in actions, `MIN_OPEN_ROLES`, the response minimum).
 
-The result travels: `need` on every blocking row (`:57-61`) with a sentence
+The result travels: `need` on every blocking row (`:56-61`) with a sentence
 resolved at build time, appended verbatim to the Markdown caveat so the file and the
 in-app preview say the same thing (`:339-348`). "Four of the eight needed, about
 five weeks, by this date" replaces a bare "only 5 observations" — which is the
@@ -55,7 +55,7 @@ published-floor rule and the horizon rule meeting in one field.
 
 ## Periods are equally mature
 
-`app/_lib/analytics-cohort.ts:20-33` is the technique's decision rule *"when a
+`app/_lib/analytics-cohort.ts:20-30` is the technique's decision rule *"when a
 figure is compared across periods, the periods must be equally mature"* enforced in
 the fold that feeds both sides of every period-over-period delta. A cohort is
 judged **as of its window's end**: a terminal row counts as hired, and joins the
@@ -68,10 +68,10 @@ time-to-hire delta as an improvement, every time, with no change in behaviour."*
 The two windows also come from one clock and tile half-open, so the boundary row
 belongs to exactly one.
 
-The limit is stated in the same comment (`:31-36`): only the terminal leg is
+The limit is stated in the same comment (`:32-37`): only the terminal leg is
 age-matched; earlier columns keep a current-stage basis because a stage-as-of read
 needs the event ledger. Every rate is still gated on both sides' n
-(`app/_lib/analytics-deltas.ts:111`), so the un-matched legs cannot turn into
+(`app/_lib/analytics-deltas.ts:90-97`), so the un-matched legs cannot turn into
 alarms on thin cohorts.
 
 ## Deviations

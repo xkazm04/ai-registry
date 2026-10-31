@@ -5,7 +5,7 @@ subject: compensation-banding-and-market-honesty
 technique: refuse-to-quote-an-uncalibrated-market
 stack: process
 status: forged
-verified_on: 2026-09-27
+verified_on: 2026-10-31
 ---
 
 # A market as a frozen configuration record, with an empty band list as a legal value
@@ -87,7 +87,7 @@ the single switch point every consumer reads.
 
 ## The corresponding refusal in the lookup
 
-`pipeline/jobfit/taxonomy.py:751` (`role_band`) is the read side and refuses
+`pipeline/jobfit/taxonomy.py:791` (`role_band`) is the read side and refuses
 symmetrically: it "Returns `None` when the family is unknown, the seniority key
 is missing, or the band entry is short / non-numeric (tolerated by skipping
 rather than raising)". No nearest-family fallback, no interpolation onto an
@@ -118,10 +118,18 @@ the same tree honour the marker. The payload is not displayed as a count today:
 the one surface reading it requires `belowMarket === true`. So this is a latent
 false negative, not a published statistic.
 
+Re-checked 2026-10-31 at kp@6edf5d7e6: the second loss is closed. Since `d790fdf67`
+(2026-09-29) winnability reads `defaulted_fields` and treats a defaulted
+`salary_band` or `seniority` as unstated (`assumedInputs`), and `belowMarket` is now
+`None` when the currency differs *or* an input was assumed (`winnability.py:191-210`).
+The first loss stands: with matching currency, nothing assumed and no `market_band`,
+the `and` chain still reaches `bool()` and returns `False`. The third loss below is
+unchanged: `draft_offer` does not read the marker.
+
 The third loss defeats the demonstration market. `draft_offer`'s fail-safe
-(`pipeline/jobfit/automation.py:2768-2779`: `lo = hi = recommended = None`, "No
+(`pipeline/jobfit/automation.py:2833-2844`: `lo = hi = recommended = None`, "No
 salary band is configured for the '{market_id}' market...") runs only when the
-job carries no band (`:2751-2757`). As above, `normalize_job` always stamps one
+job carries no band (`:2816-2822`). As above, `normalize_job` always stamps one
 for a recognised family. It stamps it from the active market's benchmark
 block, and the `de-berlin` block in `data/salary_benchmarks.json` is not empty.
 It holds sample bands for every family, "the CZ band / 25 rounded to the

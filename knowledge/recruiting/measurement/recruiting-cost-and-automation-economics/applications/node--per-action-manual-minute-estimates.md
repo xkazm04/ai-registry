@@ -5,7 +5,7 @@ subject: recruiting-cost-and-automation-economics
 technique: per-action-manual-minute-estimates
 stack: node
 status: forged
-verified_on: 2026-09-29
+verified_on: 2026-10-31
 verified_against: node@24
 applied: simulation
 ab_verdict: not-better
@@ -14,7 +14,7 @@ ab_verdict: not-better
 # A minutes-per-kind table, and the kinds it refuses to pay for
 
 `app/_lib/automation-roi.ts:14` (kp at its committed `0c6c9e39c`, read 2026-09-29; the
-file is unchanged since 2026-08-18) is the whole model in one exported constant:
+file is unchanged since 2026-08-18, and still so at `6edf5d7e6` on 2026-10-31) is the whole model in one exported constant:
 `MINUTES_SAVED_PER_KIND`, a map from recorded event kind to "minutes a
 recruiter would have spent doing this by hand", each entry carrying its human
 sentence in a trailing comment. The header calls the shape of the claim
@@ -153,21 +153,22 @@ recruiter would otherwise have done (the emitters were not each opened).
 describe overlapping human work on one candidate: read and score against a role,
 shortlist against a role, review and pass. Whether one candidate's pass emits
 all three, and whether a person would have done three separate tasks, was not
-resolved from the tree (`scored` is emitted at `automation-pass.ts:349`; the
-others come from other paths). The technique's overlap rule makes it a question
+resolved from the tree (`scored` is emitted at `entry-scoring.ts:77`, the scoring
+half the automation pass now shares with the post-filing hook; the others come from
+other paths). The technique's overlap rule makes it a question
 to answer from the recorded trail before the sum is quoted.
 
 **The default baseline is unmarked and its pedigree is missing.** The panel exposes both
-the rate and the baseline as editable inputs (`AnalyticsAutomationPanel.tsx:172-184`, one
+the rate and the baseline as editable inputs (`AnalyticsAutomationPanel.tsx:171-184`, one
 `TargetInput` each), so the override is genuine end to end. But it prints the effective
 number with no mark of whether it is the shipped default or the team's own: the sentence
 reads "about {pct}% of the ~{baseline} h a hire takes by hand" either way
-(`messages/en.json`, `insights.roi.perHire`), and `AnalyticsTargetInput.tsx` carries no
+(`messages/en.json`, `analytics.roi.perHire`), and `AnalyticsTargetInput.tsx` carries no
 default marker or editing actor. The 42 hours behind it is called a "research anchor" in
 `automation-roi.ts:36-46` with no source.
 
 **The headline converts hours to currency.** The panel opens with "about {hours}
-recruiter-hours, about {czk} CZK" (`insights.roi.headline`) and states the rate in the
+recruiter-hours, about {czk} CZK" (`analytics.roi.headline`) and states the rate in the
 basis line. The golden path's position is hours as hours, because conversion asserts a
 reallocation that needs an owner. The rate has an owner (the editable input); the
 reallocation does not.

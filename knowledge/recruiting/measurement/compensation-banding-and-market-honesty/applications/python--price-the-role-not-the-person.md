@@ -5,7 +5,7 @@ subject: compensation-banding-and-market-honesty
 technique: price-the-role-not-the-person
 stack: python
 status: forged
-verified_on: 2026-09-27
+verified_on: 2026-10-31
 verified_against: python@3.12
 applied: code
 ab_verdict: better

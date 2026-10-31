@@ -5,7 +5,7 @@ subject: compensation-banding-and-market-honesty
 technique: advertised-pay-is-not-earnings
 stack: process
 status: forged
-verified_on: 2026-09-27
+verified_on: 2026-10-31
 applied: experiment
 ab_verdict: unmeasurable
 ---
@@ -103,7 +103,7 @@ Three things the split did not fix:
   build fills it from the median with fixed multipliers (D1 0.62, Q1 0.78,
   Q3 1.3, D9 1.75; `build-market-pulse.mjs:210-213`). The page's own coverage
   note says the opposite: "Where the survey has no figure for something, we
-  leave it out rather than estimate it" (`:410`). Those imputed deciles feed
+  leave it out rather than estimate it" (`:415`). Those imputed deciles feed
   the seniority anchors.
 - **One row sets the period.** The survey period is read from the first
   regional or national row only (`market-earnings.mjs:168`), and nothing checks

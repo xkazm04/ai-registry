@@ -5,7 +5,7 @@ subject: small-sample-honesty-in-hiring-analytics
 technique: thin-but-real-as-a-labelled-state
 stack: process
 status: forged
-verified_on: 2026-09-29
+verified_on: 2026-10-31
 ---
 
 # The three-state contract, and the process that stops it eroding

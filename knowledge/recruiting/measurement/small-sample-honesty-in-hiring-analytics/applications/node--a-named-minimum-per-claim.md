@@ -5,7 +5,7 @@ subject: small-sample-honesty-in-hiring-analytics
 technique: a-named-minimum-per-claim
 stack: node
 status: forged
-verified_on: 2026-09-29
+verified_on: 2026-10-31
 verified_against: node@24
 ---
 
@@ -94,7 +94,7 @@ progress rather than a bare refusal: `minOffers` on `OfferConversion`
 (`analytics-offer.ts:38`), `minOutcomes` on `CalibrationResult`
 (`calibration.ts:39`, commented *"echoed so the UI can render 'N /
 minOutcomes'"*), and `sample` on every `Metric` (`metric-pack.ts:52`). Since 2026-09-23 the pack goes one step further and carries `need` on every
-blocking row (`metric-pack.ts:57-61`): the shortfall in the row's own unit, whole
+blocking row (`metric-pack.ts:56-61`): the shortfall in the row's own unit, whole
 weeks at the recent pace and the date, or the named reason there is none (see the
 state-the-accrual-horizon application). The result is a "K of N needed" line instead of an unexplainable empty panel — the
 difference between a refusal recruiters trust and one they report as a bug.
