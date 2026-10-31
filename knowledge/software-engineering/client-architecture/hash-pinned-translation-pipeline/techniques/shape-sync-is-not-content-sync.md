@@ -38,7 +38,8 @@ The two defect classes surface in the product in opposite ways, and the
 difference decides which one gets fixed.
 
 A **missing** translation renders as source-language fallback text: an English
-sentence in the middle of a Japanese page. It is visible, it is ugly, and the
+sentence in the middle of a Japanese page — or, where no fallback is
+configured, the raw key itself. Either way it is visible, it is ugly, and the
 first user in that locale reports it. Missing is loud and self-repairing —
 someone will always tell you.
 

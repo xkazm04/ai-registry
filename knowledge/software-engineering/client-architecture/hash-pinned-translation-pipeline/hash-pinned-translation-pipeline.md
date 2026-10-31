@@ -56,8 +56,9 @@ fact about **two instants**, and every shape check compares two artifacts at
 **one**. The gap is structural, not a matter of rigor.
 
 And the failure hides better than the one the shape check catches. A *missing*
-translation surfaces in the product as source-language fallback text: visible,
-ugly, reported by the first user in that locale. A *stale* translation
+translation surfaces in the product as source-language fallback text, or as
+the raw key where no fallback is configured: visible, ugly, reported by the
+first user in that locale. A *stale* translation
 surfaces as fluent, confident, plausible prose in the reader's own language
 that describes a screen that no longer exists. Nobody reports it, because
 nothing looks broken — and the parity board is green, which is precisely why
