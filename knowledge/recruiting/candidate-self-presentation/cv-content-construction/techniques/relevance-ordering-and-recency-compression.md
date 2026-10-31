@@ -72,6 +72,12 @@ reaches zero for anything with a date.**
   treats an unexplained gap as information; [absence of evidence is not
   evidence](../../../_laws.md#absence-of-evidence-is-not-evidence) cuts both ways - the
   document should not *create* an absence either.
+- **Budget by a role's dates, never by its line.** A source written oldest first (a
+  traditional chronological CV, an extraction that kept that order) goes into time order
+  before the budget is applied. A budget keyed to position gives the oldest role the
+  current role's bullets and prints the career upside down. When a dated history holds an
+  undated entry, there is nothing to place that entry by: the source's order stands, and
+  the owner is asked for the date.
 - **When several short or similar old roles exist, group them** under one dated line
   rather than listing each; the interval survives, the attention cost drops.
 - **When the same employer appears twice** (a promotion, a return), keep both entries or

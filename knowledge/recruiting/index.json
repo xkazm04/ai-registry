@@ -5,7 +5,7 @@
   "source": "knowledge/recruiting/ (frontmatter only)",
   "subjects": 67,
   "techniques": 416,
-  "applications": 318,
+  "applications": 319,
   "laws": 11,
   "categories": [
    "role-definition",
@@ -3240,9 +3240,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/recruiting/candidate-self-presentation/cv-content-construction/cv-content-construction.md",
-   "digest": "sha256-b2:89891dbe52530c41",
-   "revision": 6,
-   "changedAt": "2026-10-22",
+   "digest": "sha256-b2:1d7159238530a288",
+   "revision": 7,
+   "changedAt": "2026-10-31",
    "techniques": [
     {
      "slug": "accomplishment-statements-without-invention",
@@ -3361,6 +3361,12 @@
      "technique": "machine-rewrite-fidelity-contract",
      "file": "knowledge/recruiting/candidate-self-presentation/cv-content-construction/applications/process--machine-rewrite-fidelity-contract.md",
      "verified_on": "2026-09-26"
+    },
+    {
+     "stack": "process",
+     "technique": "relevance-ordering-and-recency-compression",
+     "file": "knowledge/recruiting/candidate-self-presentation/cv-content-construction/applications/process--relevance-ordering-and-recency-compression.md",
+     "verified_on": "2026-10-31"
     }
    ]
   },

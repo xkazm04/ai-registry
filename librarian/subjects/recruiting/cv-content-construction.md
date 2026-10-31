@@ -1,7 +1,7 @@
 ---
 domain: recruiting
 subject: cv-content-construction
-last_touched: 2026-10-22
+last_touched: 2026-10-31
 touched_by: intake
 dry_streak: 0
 ---
@@ -11,6 +11,19 @@ dry_streak: 0
 Subject note. Part of [[index]]; graded against [[standard]].
 
 ## Touch log
+
+### 2026-10-31 - intake apply: relevance-ordering-and-recency-compression (run intake-apply-rorc-1031)
+
+First application of the technique. The seam was chosen to falsify "kp already holds it".
+The budget table, ranking by outcome and one-line compression with dates kept were all
+present. The newest-first rule was missing. kp's CV builder kept the roles in the order
+they arrived, and its budget read the line position as recency. An oldest-first probe
+printed 2009-2012 first with 5 bullets and the current role last (A). After the fix it
+prints the current role first, with 5/4/2 bullets (B). The floor held: 162 job-seeker
+tests, tsc and the pre-push gate. Verdict `better`, kp e2a1b2e0b on origin main. The
+technique gained the decision rule "budget by a role's dates, never by its line". The
+dispatching finding ("single stack (process)") is not reduced: this is a fifth `process`
+application, and kp is still the only fleet project that declares recruiting.
 
 ### 2026-10-22 - intake apply: career-change-framing (run intake-apply-ccf-1022)
 
