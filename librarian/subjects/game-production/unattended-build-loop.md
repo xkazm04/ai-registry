@@ -330,3 +330,197 @@ Boundaries observed:
 
 Return conditions: read a per-item rung once the tree's plan carries one;
 measure the bounded hold on a live run with operator response latency logged.
+
+## Architecture review - 2026-10-31
+
+Stale since the drain batch and the 2026-09-29 fan-out intake. Re-read all 15
+documents against `e14131e35`. None of the four 2026-09-10 clarify items had
+been applied. All four are re-confirmed here and are internal. The two new
+techniques are sound. The fan-out pair carries one arithmetic contradiction: its
+own table gives 9 strict-hold completions over the 77 areas of the two runs with
+a fan-out point, while the prose says 9 of 85. No reading of the four rows
+produces 85, so the prose is corrected to the table, not the other way round.
+
+<!-- architecture-review:v1 -->
+```json
+{
+  "subject": "game-production/unattended-build-loop",
+  "date": "2026-10-31",
+  "baseline": "e14131e35",
+  "digest": "sha256-b2:9206627385bc870d",
+  "disposition": "clarify",
+  "coverage": "All 15 owned documents read: the golden path (with its two new sections), the two new techniques (confirmation-inherits-the-gates-limits, review-at-the-fan-out-point) and the new fan-out application in full; the remaining twelve re-read against the 2026-09-10 findings. Every figure in the fan-out application's tables re-added. Not evaluated: any PoF checkout, the four recorded harness runs, any gate or orchestrator run; no new external source opened, so the golden path's 20-30 point completion-gap figure still rests on the 2026-09-10 search-summary corroboration.",
+  "counterexamples": [
+    "With the reservation term in place the residual overshoot is the summed estimate error across drained items, not pool width; a single badly-underestimated session can exceed one launch's worth.",
+    "Per-item revert of an isolated item's own paths is a fourth option for items in one tree, which the rollback technique's own when-not-to-use section offers.",
+    "The fan-out tables give strict-hold completions of 6 of 58 and 3 of 19 for the two runs with a fan-out point (9 of 77), and 8 and 8 for the two dzin runs; no reading of them yields the stated 9 of 85.",
+    "A confirmation that reuses the gate's runner but is invoked against a later tree state still inherits the gate's limits and still measures a different tree; parity of limits is not parity of input."
+  ],
+  "sources": [
+    {
+      "path": "knowledge/game-production/craft-judgment/unattended-build-loop",
+      "result": "Read as primary evidence. Re-added the fan-out application: 75 + 29 = 104 sessions, 371 + 184 = 555 min (about nine hours) - correct; strict hold 6 + 3 = 9 completions over 58 + 19 = 77 areas, contradicting the '9 of 85' in the technique and application. Re-confirmed the three 2026-09-10 technique findings and the verifier application's proof label were never applied."
+    },
+    {
+      "url": "https://arxiv.org/html/2602.19594",
+      "result": "Not re-opened this run; carried from 2026-09-10 at search-summary level for the completion-gap figure. Listed so the gap stays visible."
+    }
+  ],
+  "documents": {
+    "unattended-build-loop.md": {
+      "disposition": "keep",
+      "reason": "The new confirmation and fan-out sections match their techniques. The 20-30 point completion-gap figure should still name a source; it is not wrong, so this is not a clarify."
+    },
+    "techniques/no-gate-self-certifies.md": {
+      "disposition": "keep",
+      "reason": "Unchanged since 2026-09-10 keep."
+    },
+    "techniques/verified-vs-self-reported-pass-rate.md": {
+      "disposition": "keep",
+      "reason": "Unchanged since 2026-09-10 keep."
+    },
+    "techniques/completed-with-gaps-excluded-from-the-numerator.md": {
+      "disposition": "keep",
+      "reason": "Unchanged since 2026-09-10 keep."
+    },
+    "techniques/budget-reservation-and-drain-not-kill.md": {
+      "disposition": "clarify",
+      "reason": "Still owed: the closing sentence says pool width IS the worst-case overshoot, which is the unreserved regime's bound (N-1, per step 4). Under reservation the residual is estimate error. Separate the two."
+    },
+    "techniques/rollback-to-last-green.md": {
+      "disposition": "clarify",
+      "reason": "Still owed: 'there is no fourth option' against its own per-item-revert bullet. Scope the enumeration to a whole-tree rewind and point to the per-item revert."
+    },
+    "techniques/unreachable-success-preflight.md": {
+      "disposition": "clarify",
+      "reason": "Still owed: step 2 (environment absent) and step 3 (runtime-determined) overlap with no test. The document's own message section names the static half ('no command configured, or a required environment variable absent'); state the test as readable-from-configuration versus learnable-only-by-attempting."
+    },
+    "techniques/verifier-coverage-review-agenda.md": {
+      "disposition": "keep",
+      "reason": "Unchanged since 2026-09-10 keep."
+    },
+    "techniques/confirmation-inherits-the-gates-limits.md": {
+      "disposition": "keep",
+      "reason": "New. Parity-not-generosity, confirm-through-the-gate, dynamic limits from the failed gate, three outcomes with a harness kill routed to unverifiable, and same-signal judgment are each tied to a named failure. The 'loud success' test seed is a concrete, transferable detail."
+    },
+    "techniques/review-at-the-fan-out-point.md": {
+      "disposition": "clarify",
+      "reason": "New and sound in mechanism: bounded hold priced by operator latency, root-first agenda grouping without deduplication, window never growing into a required gate. But 'completed 9 of 85 areas instead of 85' disagrees with the application's own tables (9 of the 77 areas in the two runs with a fan-out point)."
+    },
+    "applications/process--no-gate-self-certifies.md": {
+      "disposition": "reverify",
+      "reason": "Unchanged; PoF doctrine quotations not reopened, verified_on 2026-08-20."
+    },
+    "applications/node--verified-vs-self-reported-pass-rate.md": {
+      "disposition": "reverify",
+      "reason": "Unchanged; PoF citations not reopened, verified_on 2026-08-30."
+    },
+    "applications/node--budget-reservation-and-drain-not-kill.md": {
+      "disposition": "reverify",
+      "reason": "Unchanged; PoF citations not reopened."
+    },
+    "applications/node--verifier-coverage-review-agenda.md": {
+      "disposition": "clarify",
+      "reason": "Still owed: proof: ab-paired for two deterministic re-readings of four fixed records with arm B zero by construction. The corpus already uses proof: measured-history for re-derivations over recorded data."
+    },
+    "applications/node--review-at-the-fan-out-point.md": {
+      "disposition": "clarify",
+      "reason": "Honest about arm A being zero by construction and about the 3-of-4 precision; the 104-session and nine-hour figures re-add correctly. Two '9 of 85 areas' statements contradict its own table (6 of 58 + 3 of 19). Its proof: ab-paired is defensible only as it disclaims; left as is. PoF tree not reopened, verified_on unchanged."
+    }
+  }
+}
+```
+
+Applied all six clarify items above and re-recorded against the new digest. Owed
+and not applied: a named source for the golden path's 20-30 point completion
+gap (not opened this run). The four PoF applications remain reverify.
+
+<!-- architecture-review:v1 -->
+```json
+{
+  "subject": "game-production/unattended-build-loop",
+  "date": "2026-10-31",
+  "baseline": "e14131e35",
+  "digest": "sha256-b2:04c7d2d93567ceb3",
+  "disposition": "reverify",
+  "coverage": "All 15 owned documents read: the golden path (with its two new sections), the two new techniques (confirmation-inherits-the-gates-limits, review-at-the-fan-out-point) and the new fan-out application in full; the remaining twelve re-read against the 2026-09-10 findings. Every figure in the fan-out application's tables re-added. Not evaluated: any PoF checkout, the four recorded harness runs, any gate or orchestrator run; no new external source opened, so the golden path's 20-30 point completion-gap figure still rests on the 2026-09-10 search-summary corroboration. Second record after applying the clarify items; remaining open work is the four PoF applications' citations.",
+  "counterexamples": [
+    "With the reservation term in place the residual overshoot is the summed estimate error across drained items, not pool width; a single badly-underestimated session can exceed one launch's worth.",
+    "Per-item revert of an isolated item's own paths is a fourth option for items in one tree, which the rollback technique's own when-not-to-use section offers.",
+    "The fan-out tables give strict-hold completions of 6 of 58 and 3 of 19 for the two runs with a fan-out point (9 of 77), and 8 and 8 for the two dzin runs; no reading of them yields the stated 9 of 85.",
+    "A confirmation that reuses the gate's runner but is invoked against a later tree state still inherits the gate's limits and still measures a different tree; parity of limits is not parity of input."
+  ],
+  "sources": [
+    {
+      "path": "knowledge/game-production/craft-judgment/unattended-build-loop",
+      "result": "Read as primary evidence. Re-added the fan-out application: 75 + 29 = 104 sessions, 371 + 184 = 555 min (about nine hours) - correct; strict hold 6 + 3 = 9 completions over 58 + 19 = 77 areas, contradicting the '9 of 85' in the technique and application. Re-confirmed the three 2026-09-10 technique findings and the verifier application's proof label were never applied."
+    },
+    {
+      "url": "https://arxiv.org/html/2602.19594",
+      "result": "Not re-opened this run; carried from 2026-09-10 at search-summary level for the completion-gap figure. Listed so the gap stays visible."
+    }
+  ],
+  "documents": {
+    "unattended-build-loop.md": {
+      "disposition": "keep",
+      "reason": "The new confirmation and fan-out sections match their techniques. The 20-30 point completion-gap figure should still name a source; it is not wrong, so this is not a clarify."
+    },
+    "techniques/no-gate-self-certifies.md": {
+      "disposition": "keep",
+      "reason": "Unchanged since 2026-09-10 keep."
+    },
+    "techniques/verified-vs-self-reported-pass-rate.md": {
+      "disposition": "keep",
+      "reason": "Unchanged since 2026-09-10 keep."
+    },
+    "techniques/completed-with-gaps-excluded-from-the-numerator.md": {
+      "disposition": "keep",
+      "reason": "Unchanged since 2026-09-10 keep."
+    },
+    "techniques/budget-reservation-and-drain-not-kill.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: closing paragraph now separates the unreserved bound (pool width less one launch) from the reserved residual (summed estimate error)."
+    },
+    "techniques/rollback-to-last-green.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: 'no fourth option' scoped to a whole-tree rewind, with per-item revert for disjoint items pointed to."
+    },
+    "techniques/unreachable-success-preflight.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: step 3 states the boundary with step 2 (readable from configuration at launch = static; learnable only by attempting = runtime)."
+    },
+    "techniques/verifier-coverage-review-agenda.md": {
+      "disposition": "keep",
+      "reason": "Unchanged since 2026-09-10 keep."
+    },
+    "techniques/confirmation-inherits-the-gates-limits.md": {
+      "disposition": "keep",
+      "reason": "New. Parity-not-generosity, confirm-through-the-gate, dynamic limits from the failed gate, three outcomes with a harness kill routed to unverifiable, and same-signal judgment are each tied to a named failure. The 'loud success' test seed is a concrete, transferable detail."
+    },
+    "techniques/review-at-the-fan-out-point.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: '9 of 85 instead of 85' -> '9 of the 77 areas in the two runs that had a fan-out point (6 of 58 and 3 of 19) instead of all 77'."
+    },
+    "applications/process--no-gate-self-certifies.md": {
+      "disposition": "reverify",
+      "reason": "Unchanged; PoF doctrine quotations not reopened, verified_on 2026-08-20."
+    },
+    "applications/node--verified-vs-self-reported-pass-rate.md": {
+      "disposition": "reverify",
+      "reason": "Unchanged; PoF citations not reopened, verified_on 2026-08-30."
+    },
+    "applications/node--budget-reservation-and-drain-not-kill.md": {
+      "disposition": "reverify",
+      "reason": "Unchanged; PoF citations not reopened."
+    },
+    "applications/node--verifier-coverage-review-agenda.md": {
+      "disposition": "reverify",
+      "reason": "applied 2026-10-31: proof ab-paired -> measured-history. Underlying recorded runs still not re-read."
+    },
+    "applications/node--review-at-the-fan-out-point.md": {
+      "disposition": "reverify",
+      "reason": "applied 2026-10-31: both '9 of 85' statements -> 9 of 77 areas in the two runs with a fan-out point. PoF tree and recorded runs not reopened."
+    }
+  }
+}
+```

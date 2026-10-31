@@ -239,3 +239,190 @@ declaration is "trivially readable at rest". F2 is counter-evidence: a declarati
 not stable at rest, and its check belongs on the artifact, with only the guard's presence left for preflight. Options:
 (a) a sentence on load-time rewriting under that rung; (b) a recurring inhabitant in `preflight-before-an-expensive-cook`
 ("a guard against a tool that rewrites the declaration"); (c) leave both as they are, carried by the application.
+
+## Architecture review - 2026-10-31
+
+Stale since the 2026-10-07 and 2026-10-09 extensions. Re-read all 13 documents
+against `e14131e35`. The four new documents hold up; the kotlin application's two
+store and platform citations were re-opened and still say what it quotes. Three
+findings. Two are arithmetic: the ratchet sentences call 1.1^10 (2.59) and 1.1^7
+(1.95) each "a doubling". The first 2026-09-10 record raised the second and the
+later keep record dropped it without saying why; it is reinstated here. The third
+is the at-rest exception the 2026-10-09 note left as the owner's call, option (a):
+the golden path contradicts its own cpp application, so a one-sentence exception
+goes under the rung. The 443-line count in the node preflight application remains
+owed: its consumer was not reachable this run.
+
+<!-- architecture-review:v1 -->
+```json
+{
+  "subject": "game-production/ship-pipeline-gating",
+  "date": "2026-10-31",
+  "baseline": "e14131e35",
+  "digest": "sha256-b2:9441126e96ce0ac9",
+  "disposition": "clarify",
+  "coverage": "All 13 owned documents read: the golden path and the four documents added since the 2026-09-10 keep record (ship-only-what-the-runtime-reads, its kotlin application, the cpp preflight application, and the golden-path paragraph) in full; the nine documents unchanged since that record re-read for drift and arithmetic. Primary sources opened this run: Amazon's device-filtering page and Android's app-optimization page. Not evaluated: the pof, firetv-deathride and mage-arena-vr checkouts, the UE 5.8 engine source, any cook, package, launch or self-test.",
+  "counterexamples": [
+    "A declaration the engine rewrites at load time (UE 5.8 HandleXRSupport writing com.oculus.supportedDevices back into the default config) is not stable at rest, so a preflight read of it certifies a value the transform may not consume; the golden path's 'trivially readable at rest' sentence had no exception for it.",
+    "A store whose architecture guidance moves by date: Amazon's submission page (2026-02) says bundle only armeabi-v7a while its device-filtering page (2026-05) says never remove 32-bit and add 64-bit. An architecture trim correct against one page is wrong against the other.",
+    "A growth allowance of ten percent accepted seven times is about 1.95 times, ten times about 2.59 times; prose that calls both 'a doubling' understates one and overstates the other in a subject that insists a number carries its basis."
+  ],
+  "sources": [
+    {
+      "url": "https://developer.amazon.com/docs/app-submission/device-filtering-and-compatibility.html",
+      "result": "Opened 2026-10-31; last updated May 27, 2026. Quotes: 'add 64-bit (arm64-v8a) support to your app' and 'Do not remove support for 32-bit (armeabi-v7a) while building your app, as it may impact current Amazon device selection.' Supports the kotlin application's reading of the newer page and the technique's step 6 warning."
+    },
+    {
+      "url": "https://developer.android.com/topic/performance/app-optimization/enable-app-optimization",
+      "result": "Opened 2026-10-31. Quote: 'set isMinifyEnabled = true (for code optimization) and isShrinkResources = true (for resource optimization) in your release build's app-level build script. We recommend that you always enable both settings.' Supports the release-only shrink. The page now notes AGP 9.3+ replaces these flags with optimization { enable = true }; the application pins AGP 8.7.3, so it is unaffected."
+    },
+    {
+      "path": "knowledge/game-production/engine-integration/ship-pipeline-gating",
+      "result": "Read as primary evidence; recomputed the two ratchet figures (1.1^7 = 1.949, 1.1^10 = 2.594) and compared the cpp application's at-rest counter-evidence against the golden path's configuration-sanity rung."
+    }
+  ],
+  "documents": {
+    "ship-pipeline-gating.md": {
+      "disposition": "clarify",
+      "reason": "Two repairs. 'Ten percent per build, accepted ten times, is a doubling' understates 1.1^10 = 2.59; say more than a doubling. And the configuration-sanity rung says each declaration is 'trivially readable at rest' while the subject's own cpp application documents a declaration the engine rewrites at load time (option (a) of the 2026-10-09 note): add the exception and where its check moves. The new ship-only-what-the-runtime-reads paragraph is consistent with its technique."
+    },
+    "techniques/editor-only-api-audit-for-shipping.md": {
+      "disposition": "keep",
+      "reason": "Unchanged since the 2026-09-10 keep record; re-read for drift, nothing new."
+    },
+    "techniques/fail-closed-on-corrupt-gate-config.md": {
+      "disposition": "keep",
+      "reason": "Unchanged since the 2026-09-10 keep record; absent-versus-corrupt asymmetry still carried identically with the golden path."
+    },
+    "techniques/post-cook-process-liveness-smoke.md": {
+      "disposition": "keep",
+      "reason": "Unchanged since the 2026-09-10 keep record; re-read for drift."
+    },
+    "techniques/preflight-before-an-expensive-cook.md": {
+      "disposition": "keep",
+      "reason": "Unchanged. The cpp application's load-time-rewrite case is handled by the third inclusion test (verdict must not depend on what the transform produces); an explicit inhabitant (option (b)) is optional and not made."
+    },
+    "techniques/size-budget-and-growth-baseline.md": {
+      "disposition": "clarify",
+      "reason": "'Ten percent accepted on each of seven consecutive builds is a doubling': 1.1^7 = 1.95, nearly a doubling. Raised in the first 2026-09-10 record and dropped by the second; still owed. Everything else stands."
+    },
+    "techniques/validator-log-classification.md": {
+      "disposition": "keep",
+      "reason": "Unchanged since the 2026-09-10 keep record."
+    },
+    "techniques/ship-only-what-the-runtime-reads.md": {
+      "disposition": "keep",
+      "reason": "New since the last record. The census of readers, exclusion by packaging rule rather than deletion, release-only shrinking with a device launch as proof, and one-basis measurement are each argued from a failure; step 6's store-guidance warning is supported by Amazon's device-filtering page opened this run. Evidence status is honestly scoped to one package."
+    },
+    "applications/kotlin--ship-only-what-the-runtime-reads.md": {
+      "disposition": "keep",
+      "reason": "Discloses its own cross-configuration shrink figure, broad keep rules and launch-only verification. Outside corroboration re-checked against Amazon's and Android's pages this run; the in-tree citations at 86cb512d were not re-read, so verified_on stays 2026-10-07."
+    },
+    "applications/cpp--preflight-before-an-expensive-cook.md": {
+      "disposition": "reverify",
+      "reason": "A careful graded-provenance record whose decisive claim (a real package declares quest|quest3|quest3s) is explicitly unverified: no APK exists and the aapt extraction regex has never seen a real dump. Engine source and project tree not re-read here. Its counter-evidence to the golden path is internally sound and drives the golden-path clarify."
+    },
+    "applications/node--post-cook-process-liveness-smoke.md": {
+      "disposition": "keep",
+      "reason": "Unchanged since the 2026-09-10 keep record, which re-read every cited symbol; the pof checkout is not available to this run."
+    },
+    "applications/node--preflight-before-an-expensive-cook.md": {
+      "disposition": "clarify",
+      "reason": "Still owed from 2026-09-10: '(443 lines)' was measured at 482 then. Not applied here because the pof checkout could not be opened this run to confirm the drop or a current figure; drop the line count or anchor by symbol."
+    },
+    "applications/process--validator-log-classification.md": {
+      "disposition": "keep",
+      "reason": "Unchanged since the 2026-09-10 keep record."
+    }
+  }
+}
+```
+
+Applied the three clarify items above (golden path: ratchet figure and the
+load-time-rewrite exception; size-budget technique: ratchet figure). Re-recorded
+against the new digest. The node preflight line count stays owed.
+
+<!-- architecture-review:v1 -->
+```json
+{
+  "subject": "game-production/ship-pipeline-gating",
+  "date": "2026-10-31",
+  "baseline": "e14131e35",
+  "digest": "sha256-b2:2f7b76d7b7e9e9f7",
+  "disposition": "clarify",
+  "coverage": "All 13 owned documents read: the golden path and the four documents added since the 2026-09-10 keep record (ship-only-what-the-runtime-reads, its kotlin application, the cpp preflight application, and the golden-path paragraph) in full; the nine documents unchanged since that record re-read for drift and arithmetic. Primary sources opened this run: Amazon's device-filtering page and Android's app-optimization page. Not evaluated: the pof, firetv-deathride and mage-arena-vr checkouts, the UE 5.8 engine source, any cook, package, launch or self-test. Second record after applying the clarify items; the cpp application's unverified package claim and the node preflight line count remain open.",
+  "counterexamples": [
+    "A declaration the engine rewrites at load time (UE 5.8 HandleXRSupport writing com.oculus.supportedDevices back into the default config) is not stable at rest, so a preflight read of it certifies a value the transform may not consume; the golden path's 'trivially readable at rest' sentence had no exception for it.",
+    "A store whose architecture guidance moves by date: Amazon's submission page (2026-02) says bundle only armeabi-v7a while its device-filtering page (2026-05) says never remove 32-bit and add 64-bit. An architecture trim correct against one page is wrong against the other.",
+    "A growth allowance of ten percent accepted seven times is about 1.95 times, ten times about 2.59 times; prose that calls both 'a doubling' understates one and overstates the other in a subject that insists a number carries its basis."
+  ],
+  "sources": [
+    {
+      "url": "https://developer.amazon.com/docs/app-submission/device-filtering-and-compatibility.html",
+      "result": "Opened 2026-10-31; last updated May 27, 2026. Quotes: 'add 64-bit (arm64-v8a) support to your app' and 'Do not remove support for 32-bit (armeabi-v7a) while building your app, as it may impact current Amazon device selection.' Supports the kotlin application's reading of the newer page and the technique's step 6 warning."
+    },
+    {
+      "url": "https://developer.android.com/topic/performance/app-optimization/enable-app-optimization",
+      "result": "Opened 2026-10-31. Quote: 'set isMinifyEnabled = true (for code optimization) and isShrinkResources = true (for resource optimization) in your release build's app-level build script. We recommend that you always enable both settings.' Supports the release-only shrink. The page now notes AGP 9.3+ replaces these flags with optimization { enable = true }; the application pins AGP 8.7.3, so it is unaffected."
+    },
+    {
+      "path": "knowledge/game-production/engine-integration/ship-pipeline-gating",
+      "result": "Read as primary evidence; recomputed the two ratchet figures (1.1^7 = 1.949, 1.1^10 = 2.594) and compared the cpp application's at-rest counter-evidence against the golden path's configuration-sanity rung."
+    }
+  ],
+  "documents": {
+    "ship-pipeline-gating.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: ten-times ratchet now 'more than a doubling (about 2.6 times)'; configuration-sanity rung now names the load-time-rewrite exception (check moves to the artifact, preflight keeps the guard)."
+    },
+    "techniques/editor-only-api-audit-for-shipping.md": {
+      "disposition": "keep",
+      "reason": "Unchanged since the 2026-09-10 keep record; re-read for drift, nothing new."
+    },
+    "techniques/fail-closed-on-corrupt-gate-config.md": {
+      "disposition": "keep",
+      "reason": "Unchanged since the 2026-09-10 keep record; absent-versus-corrupt asymmetry still carried identically with the golden path."
+    },
+    "techniques/post-cook-process-liveness-smoke.md": {
+      "disposition": "keep",
+      "reason": "Unchanged since the 2026-09-10 keep record; re-read for drift."
+    },
+    "techniques/preflight-before-an-expensive-cook.md": {
+      "disposition": "keep",
+      "reason": "Unchanged. The cpp application's load-time-rewrite case is handled by the third inclusion test (verdict must not depend on what the transform produces); an explicit inhabitant (option (b)) is optional and not made."
+    },
+    "techniques/size-budget-and-growth-baseline.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: seven-times ratchet now 'nearly a doubling (about 1.95 times)'."
+    },
+    "techniques/validator-log-classification.md": {
+      "disposition": "keep",
+      "reason": "Unchanged since the 2026-09-10 keep record."
+    },
+    "techniques/ship-only-what-the-runtime-reads.md": {
+      "disposition": "keep",
+      "reason": "New since the last record. The census of readers, exclusion by packaging rule rather than deletion, release-only shrinking with a device launch as proof, and one-basis measurement are each argued from a failure; step 6's store-guidance warning is supported by Amazon's device-filtering page opened this run. Evidence status is honestly scoped to one package."
+    },
+    "applications/kotlin--ship-only-what-the-runtime-reads.md": {
+      "disposition": "keep",
+      "reason": "Discloses its own cross-configuration shrink figure, broad keep rules and launch-only verification. Outside corroboration re-checked against Amazon's and Android's pages this run; the in-tree citations at 86cb512d were not re-read, so verified_on stays 2026-10-07."
+    },
+    "applications/cpp--preflight-before-an-expensive-cook.md": {
+      "disposition": "reverify",
+      "reason": "A careful graded-provenance record whose decisive claim (a real package declares quest|quest3|quest3s) is explicitly unverified: no APK exists and the aapt extraction regex has never seen a real dump. Engine source and project tree not re-read here. Its counter-evidence to the golden path is internally sound and drives the golden-path clarify."
+    },
+    "applications/node--post-cook-process-liveness-smoke.md": {
+      "disposition": "keep",
+      "reason": "Unchanged since the 2026-09-10 keep record, which re-read every cited symbol; the pof checkout is not available to this run."
+    },
+    "applications/node--preflight-before-an-expensive-cook.md": {
+      "disposition": "clarify",
+      "reason": "Still owed from 2026-09-10: '(443 lines)' was measured at 482 then. Not applied here because the pof checkout could not be opened this run to confirm the drop or a current figure; drop the line count or anchor by symbol."
+    },
+    "applications/process--validator-log-classification.md": {
+      "disposition": "keep",
+      "reason": "Unchanged since the 2026-09-10 keep record."
+    }
+  }
+}
+```

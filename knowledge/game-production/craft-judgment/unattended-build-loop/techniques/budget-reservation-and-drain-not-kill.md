@@ -72,8 +72,12 @@ ceiling: enforcement happens between claims, not mid-claim, so whatever is in
 flight when the ceiling is crossed runs to completion. A ceiling of one unit that
 pauses having spent 1.06 units is behaving correctly. What is not correct is
 reporting 1.00, or reporting nothing. Return the overshoot width from the pool so
-the caller can state it, and size the pool knowing that its width *is* the
-worst-case overshoot in units of one launch.
+the caller can state it, and size the pool knowing which regime bounds it.
+Without the reservation term the worst case is the pool width less one, in units
+of one launch. With it, every in-flight item was admitted against the
+projection, so the residual overshoot is the summed amount by which the drained
+items exceeded their estimates: bounded by estimation error, not by pool width,
+and able to exceed one launch's worth when the estimate runs low.
 
 ## When NOT to use this
 

@@ -148,8 +148,8 @@ system and four hundredths in the next.
 ## Compression is not neutral, and flat art is where it stops being neutral
 
 The fourth declaration is what the art is allowed to survive. Fixed-rate block compression —
-the family that divides an image into small blocks and stores a pair of endpoint colours per
-block with a couple of index bits per pixel — was designed for photographic and painterly
+the family that divides an image into small blocks and, in its oldest mode, stores a pair of
+endpoint colours per block with a couple of index bits per pixel — was designed for photographic and painterly
 surfaces, where a block's colours genuinely do lie near a line through colour space and the
 eye is forgiving of a small error. Flat art violates both premises at once. A block
 straddling a hard dark outline between two flat fills holds three colours that do not lie on

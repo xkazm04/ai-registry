@@ -219,3 +219,170 @@ it more strongly and was not performed.
   }
 }
 ```
+
+## Architecture review - 2026-10-31
+
+Stale since the 2026-10 roster-costing extension. Re-read all 11 documents
+against `e14131e35`. None of the four repairs the 2026-09-10 re-review found had
+been made. All four are re-confirmed by recomputation, and the block-format one
+is now settled against Microsoft's BC7 reference rather than against the corpus.
+The new roster technique is sound. Its memory figures had dropped the
+compression basis that the public source states (ASTC 6x6 plus mips); the
+application's three quotes match that source verbatim.
+
+<!-- architecture-review:v1 -->
+```json
+{
+  "subject": "game-production/sprite-and-atlas-production",
+  "date": "2026-10-31",
+  "baseline": "e14131e35",
+  "digest": "sha256-b2:ec73167420ee1e8f",
+  "disposition": "clarify",
+  "coverage": "All 11 owned documents read: the golden path, seven techniques and three applications, with the 2026-10 roster-costing technique, its process application and the golden-path paragraph read in full as new. Every numeric claim recomputed, including the roster's page and memory figures. Primary sources opened this run: Microsoft's BC7 format reference and the mage-arena SPRITE-COVERAGE note at 0dc4a18 (public). Not evaluated: any packer or encoder run, rendered output, or the PoF checkout behind the two older applications.",
+  "counterexamples": [
+    "A partitioned block-compressed mode encoding a two-colour hard edge exactly: BC7 'can contain multiple endpoint pairs', so the single-pair 'must approximate' derivation is the oldest mode's mechanism; the class-level rule survives without it.",
+    "A region delivered as a texture-array layer rather than an atlas cell: no neighbours, so the bleed-margin apparatus is inert and pages-per-class has no referent.",
+    "A roster memory figure without its compression basis: 28 MB is ASTC 6x6 plus mips for three 4096-square pages; the same pages are about 64 MB in desktop BC3, so a bare MB figure invites the cross-basis comparison the subject forbids."
+  ],
+  "sources": [
+    {
+      "url": "https://learn.microsoft.com/en-us/windows/win32/direct3d11/bc7-format",
+      "result": "Opened 2026-10-31. Quotes: 'BC7 uses a fixed block size of 16 bytes (128 bits) and a fixed tile size of 4x4 texels', 'A BC7 implementation can specify one of 8 modes', 'A BC7 block can contain multiple endpoint pairs.' Supports scoping the one-endpoint-pair model to the oldest mode and flagging 'DXT5-equivalent' as footprint-only (DXT5 is also 16 bytes per 4x4 block)."
+    },
+    {
+      "url": "https://raw.githubusercontent.com/xkazm04/mage-arena/0dc4a18/docs/archive/graphics-push-2026-10/notes/SPRITE-COVERAGE.md",
+      "result": "Opened 2026-10-31. Lines 11, 84 and 86 match the process application's quotes verbatim. The page table (lines 88-92) gives 256 px: 3 pages, ~28 MB ASTC 6x6 + mips, ~64 MB desktop BC3 + mips; 384 px: 6 pages, ~57 MB; 512 px: 9 pages, ~85 MB. Recomputed: 3 x 4096^2 x 0.444 B x 4/3 = 29.8 MB = 28.4 MiB. Supplies the basis the technique omitted."
+    },
+    {
+      "path": "knowledge/game-production/asset-production/surface-and-imagery/sprite-and-atlas-production",
+      "result": "Read as primary evidence. Confirmed the four 2026-09-10 numeric findings are still in the text: 4/100 vs 4/60 is 5/3; a seven-level chain is six halvings, 256/64 = 4; at a reduction of 8 a texel covers 64 source texels and the derived margin is 8 per side (240 px usable); BC7 'DXT5-equivalent' unflagged."
+    }
+  ],
+  "documents": {
+    "sprite-and-atlas-production.md": {
+      "disposition": "clarify",
+      "reason": "Its mip arithmetic is right. Bring the block-compression sentence in line with the technique being repaired: the one endpoint pair per block is the oldest mode's model (BC7 reference). The new roster paragraph is consistent with its technique."
+    },
+    "techniques/atlas-packing-and-bleed-margins.md": {
+      "disposition": "clarify",
+      "reason": "Still owed from 2026-09-10: 'seven halvings of a four-thousand-texel page leave each two-hundred-texel region four texels across' is wrong (seven halvings of 200 is 1.56). A seven-level chain is six halvings, and 256/64 = 4."
+    },
+    "techniques/autotile-rule-set-completeness.md": {
+      "disposition": "keep",
+      "reason": "Unchanged; 16, 256 and 47 counts hold."
+    },
+    "techniques/lossy-compression-acceptance-for-flat-art.md": {
+      "disposition": "clarify",
+      "reason": "Still owed: the concern derives 'the encoder must approximate' from a one-pair model that its own step 3 says partitioned modes improve on. BC7's reference confirms multiple endpoint pairs per block. Scope the model to the oldest mode and keep the conclusion at class level."
+    },
+    "techniques/palette-discipline-across-frames.md": {
+      "disposition": "keep",
+      "reason": "Unchanged since the 2026-09-10 keep."
+    },
+    "techniques/pixel-grid-and-resolution-contract.md": {
+      "disposition": "keep",
+      "reason": "Unchanged since the 2026-09-10 keep."
+    },
+    "techniques/sprite-sequence-timing-and-pivot-stability.md": {
+      "disposition": "clarify",
+      "reason": "Still owed: 'a factor of two and a half out' for four hundredths against four sixtieths; the ratio is 5/3."
+    },
+    "techniques/state-roster-costing-for-generated-characters.md": {
+      "disposition": "clarify",
+      "reason": "New. Roster enumeration, the clips x facings x (1 + retries) cost model and covered-over-roster reporting are sound. But 'about 28 MB of pages on a mobile GPU' and '57 to 85 MB' carry no compression basis, in a technique whose laws include a-number-carries-its-unit-and-basis. The source note gives ASTC 6x6 plus mips at 384 to 512 px cells."
+    },
+    "applications/node--atlas-packing-and-bleed-margins.md": {
+      "disposition": "clarify",
+      "reason": "Still owed: for a 256-to-32 chain (reduction 8) an edge texel averages 64 source texels, not sixteen; filter reach times the deepest factor gives an 8-texel margin, not 4, and 240 px usable, not 248. 'BC7 (DXT5-equivalent)' needs a note that this holds for footprint only. verified_on 2026-09-02 not refreshed: the PoF tree was not reopened."
+    },
+    "applications/process--pixel-grid-and-resolution-contract.md": {
+      "disposition": "keep",
+      "reason": "Unchanged since the 2026-09-10 keep; arithmetic holds."
+    },
+    "applications/process--state-roster-costing-for-generated-characters.md": {
+      "disposition": "keep",
+      "reason": "Its three quoted lines re-checked verbatim against the public source at 0dc4a18 this run; figures (4 of ~18 states, 1-1.5 h per clip, ~550 cells, 3 or 6-9 pages) match. ab_verdict better is a decision-outcome claim, plainly worded. verified_on left at 2026-10-29 because no text changed."
+    }
+  }
+}
+```
+
+Applied every clarify item above and re-recorded against the new digest. The node
+atlas application stays reverify for its unreopened PoF citations.
+
+<!-- architecture-review:v1 -->
+```json
+{
+  "subject": "game-production/sprite-and-atlas-production",
+  "date": "2026-10-31",
+  "baseline": "e14131e35",
+  "digest": "sha256-b2:13744a5e0c550706",
+  "disposition": "keep",
+  "coverage": "All 11 owned documents read: the golden path, seven techniques and three applications, with the 2026-10 roster-costing technique, its process application and the golden-path paragraph read in full as new. Every numeric claim recomputed, including the roster's page and memory figures. Primary sources opened this run: Microsoft's BC7 format reference and the mage-arena SPRITE-COVERAGE note at 0dc4a18 (public). Not evaluated: any packer or encoder run, rendered output, or the PoF checkout behind the two older applications. Second record after applying the clarify items; only the node atlas application's historical citations remain unverified.",
+  "counterexamples": [
+    "A partitioned block-compressed mode encoding a two-colour hard edge exactly: BC7 'can contain multiple endpoint pairs', so the single-pair 'must approximate' derivation is the oldest mode's mechanism; the class-level rule survives without it.",
+    "A region delivered as a texture-array layer rather than an atlas cell: no neighbours, so the bleed-margin apparatus is inert and pages-per-class has no referent.",
+    "A roster memory figure without its compression basis: 28 MB is ASTC 6x6 plus mips for three 4096-square pages; the same pages are about 64 MB in desktop BC3, so a bare MB figure invites the cross-basis comparison the subject forbids."
+  ],
+  "sources": [
+    {
+      "url": "https://learn.microsoft.com/en-us/windows/win32/direct3d11/bc7-format",
+      "result": "Opened 2026-10-31. Quotes: 'BC7 uses a fixed block size of 16 bytes (128 bits) and a fixed tile size of 4x4 texels', 'A BC7 implementation can specify one of 8 modes', 'A BC7 block can contain multiple endpoint pairs.' Supports scoping the one-endpoint-pair model to the oldest mode and flagging 'DXT5-equivalent' as footprint-only (DXT5 is also 16 bytes per 4x4 block)."
+    },
+    {
+      "url": "https://raw.githubusercontent.com/xkazm04/mage-arena/0dc4a18/docs/archive/graphics-push-2026-10/notes/SPRITE-COVERAGE.md",
+      "result": "Opened 2026-10-31. Lines 11, 84 and 86 match the process application's quotes verbatim. The page table (lines 88-92) gives 256 px: 3 pages, ~28 MB ASTC 6x6 + mips, ~64 MB desktop BC3 + mips; 384 px: 6 pages, ~57 MB; 512 px: 9 pages, ~85 MB. Recomputed: 3 x 4096^2 x 0.444 B x 4/3 = 29.8 MB = 28.4 MiB. Supplies the basis the technique omitted."
+    },
+    {
+      "path": "knowledge/game-production/asset-production/surface-and-imagery/sprite-and-atlas-production",
+      "result": "Read as primary evidence. Confirmed the four 2026-09-10 numeric findings are still in the text: 4/100 vs 4/60 is 5/3; a seven-level chain is six halvings, 256/64 = 4; at a reduction of 8 a texel covers 64 source texels and the derived margin is 8 per side (240 px usable); BC7 'DXT5-equivalent' unflagged."
+    }
+  ],
+  "documents": {
+    "sprite-and-atlas-production.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: block-compression sentence now says 'in its oldest mode' stores one endpoint pair per block."
+    },
+    "techniques/atlas-packing-and-bleed-margins.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: decision rule now reads a seven-level chain is six halvings, leaving each 256-texel region four texels across."
+    },
+    "techniques/autotile-rule-set-completeness.md": {
+      "disposition": "keep",
+      "reason": "Unchanged; 16, 256 and 47 counts hold."
+    },
+    "techniques/lossy-compression-acceptance-for-flat-art.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: concern scopes the one-pair model to the oldest mode and notes partitioned modes recover part of the edge, so the rule is stated by class."
+    },
+    "techniques/palette-discipline-across-frames.md": {
+      "disposition": "keep",
+      "reason": "Unchanged since the 2026-09-10 keep."
+    },
+    "techniques/pixel-grid-and-resolution-contract.md": {
+      "disposition": "keep",
+      "reason": "Unchanged since the 2026-09-10 keep."
+    },
+    "techniques/sprite-sequence-timing-and-pivot-stability.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: 'two and a half' -> 'five-thirds'."
+    },
+    "techniques/state-roster-costing-for-generated-characters.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: figures now state three 4096-square pages, ASTC 6x6 with mips, and 384 to 512 px cells on the same basis."
+    },
+    "applications/node--atlas-packing-and-bleed-margins.md": {
+      "disposition": "reverify",
+      "reason": "applied 2026-10-31: sixteen -> sixty-four source texels (reduction of eight), four -> eight texel margin, 248 -> 240 px usable, plus a footprint-only note on 'DXT5-equivalent' citing the BC7 reference. Remains reverify for the PoF citations at verified_on 2026-09-02, not reopened."
+    },
+    "applications/process--pixel-grid-and-resolution-contract.md": {
+      "disposition": "keep",
+      "reason": "Unchanged since the 2026-09-10 keep; arithmetic holds."
+    },
+    "applications/process--state-roster-costing-for-generated-characters.md": {
+      "disposition": "keep",
+      "reason": "Its three quoted lines re-checked verbatim against the public source at 0dc4a18 this run; figures (4 of ~18 states, 1-1.5 h per clip, ~550 cells, 3 or 6-9 pages) match. ab_verdict better is a decision-outcome claim, plainly worded. verified_on left at 2026-10-29 because no text changed."
+    }
+  }
+}
+```

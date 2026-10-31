@@ -9,7 +9,7 @@ verified_on: 2026-08-30
 verified_against: node@24
 applied: experiment
 ab_verdict: better
-proof: ab-paired
+proof: measured-history
 ---
 
 # The perceptual gate that never ran, in PoF's recorded harness runs

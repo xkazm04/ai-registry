@@ -41,6 +41,10 @@ The cost of the check that prevents this is one function call at launch.
    that depend on a capture, a boot or an external service can fail for
    environmental reasons at any moment and must never be judged unreachable
    statically — a false positive here trains operators to ignore the warning.
+   The boundary with step 2: if the blocking fact can be read from configuration
+   at launch (no command configured, a required environment variable unset), it
+   is static; if it can only be learned by attempting the check (a capture that
+   may fail, a service that may not answer), it is runtime and excluded.
 4. **Return a structured result**: reachable or not, the list of blocking check
    names, and a reason string.
 5. **Warn loudly; do not block.** Emit an operator-visible warning and a

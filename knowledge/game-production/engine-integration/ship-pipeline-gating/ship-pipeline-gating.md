@@ -66,6 +66,9 @@ trivia is what stops the cost.
   identity string, a default entry point, a default mode of operation, the target
   platform list. Each is trivially readable at rest, and each of them fails the
   expensive run at the very end, when the packager finally consults it. Milliseconds.
+  The exception is a declaration the tool itself rewrites at load time: what is read at
+  rest is then not what the transform consumes, so its check moves to the artifact and
+  preflight keeps only the guard that stops the rewrite.
 - *Source audit for configuration-conditional capability.* Code that compiles in the
   development configuration and does not exist in the shipped one. Seconds to minutes
   over a source tree. This is the only cheap observer of a failure class that otherwise
@@ -165,8 +168,8 @@ which build, whose, when. A reference it cannot name is reported as unattributed
 sits nearer to unmeasured than to a pass.
 
 The corollary at the other end: a growth allowance against a moving baseline ratchets.
-Ten percent per build, accepted ten times, is a doubling that no single gate ever
-objected to. The absolute budget is what stops the ratchet, and it is the reason both
+Ten percent per build, accepted ten times, is more than a doubling (about 2.6 times)
+that no single gate ever objected to. The absolute budget is what stops the ratchet, and it is the reason both
 comparisons must exist rather than either alone.
 
 A size gate that fires says how much, not what. The cut that is both largest and safest is

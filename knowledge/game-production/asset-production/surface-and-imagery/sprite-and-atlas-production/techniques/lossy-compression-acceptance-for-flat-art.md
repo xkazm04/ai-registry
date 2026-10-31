@@ -14,13 +14,15 @@ use_when: [choosing the compression path for a two-dimensional art class, colour
 ## The concern
 
 Compression schemes are tuned for the images their designers had. Fixed-rate block compression —
-divide the image into small blocks, store a pair of endpoint colours per block, give each pixel a
-couple of bits selecting a point along the line between them — is tuned for photographic and
-painterly surfaces, where a small neighbourhood really does hold colours near a line and a small
-error disappears into the texture.
+in its oldest mode, divide the image into small blocks, store a pair of endpoint colours per block,
+give each pixel a couple of bits selecting a point along the line between them — is tuned for
+photographic and painterly surfaces, where a small neighbourhood really does hold colours near a
+line and a small error disappears into the texture.
 
 Flat art breaks both assumptions in the same block. A block straddling a dark outline between two
-flat fills holds three colours that are nowhere near a line, and the encoder must approximate. The
+flat fills holds three colours that are nowhere near a line, and a one-pair encoder must
+approximate; partitioned modes, which give a block several endpoint pairs, recover part of this
+(step 3), which is why the rule below is stated for the class and not derived from the mode. The
 approximation appears as invented intermediate colours smeared along the outline — exactly the
 edge the style consists of. The identical encoder is invisible on a rock face and disfiguring on
 an icon, which is why this is a decision per class of art and never a global setting.

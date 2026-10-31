@@ -90,9 +90,9 @@ not evaluated rather than counting it among the passes.
 ## The ratchet, and why the absolute budget is load-bearing
 
 A growth allowance against a moving baseline compounds. Ten percent accepted on each of
-seven consecutive builds is a doubling, and no single gate ever objected. The absolute
-budget is the only thing that stops it, which is why "we have a growth gate" is not a
-substitute for having a ceiling.
+seven consecutive builds is nearly a doubling (about 1.95 times), and no single gate
+ever objected. The absolute budget is the only thing that stops it, which is why "we
+have a growth gate" is not a substitute for having a ceiling.
 
 The reverse trap: a ceiling set far above where the artifact should be is not a neutral
 safety margin. A limit handed to a production process is read as the intended size, and
