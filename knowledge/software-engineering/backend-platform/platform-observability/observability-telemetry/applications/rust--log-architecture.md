@@ -4,7 +4,8 @@ type: application
 subject: observability-telemetry
 technique: log-architecture
 stack: rust
-verified_on: 2026-08-18
+verified_on: 2026-10-31
+verified_against: rust@1.80
 ---
 
 # Rust — log architecture in `src-tauri/src/logging.rs`
@@ -15,23 +16,23 @@ topology, write path — as they land in this repo's `tracing` +
 
 ## One sink, many taps — the subscriber registry
 
-`logging.rs:55-90` (`init()`) builds exactly the fan-in/fan-out shape the
+`logging.rs:136-151` (`init()`) builds exactly the fan-in/fan-out shape the
 technique prescribes: one `tracing_subscriber::registry()` receives every
 `tracing::*!` call in the process, then fans out to three destinations
 with per-destination formatting:
 
-- `stdout_layer` — colored, compact, for the dev console (`:59-64`);
+- `stdout_layer` — colored, compact, for the dev console (`:101-107`);
 - `file_layer` — same events, `with_ansi(false)`, routed through the
-  deferred writer to a rolling daily file (`:66-72`);
+  deferred writer to a rolling daily file (`:66-72`; see the re-check below);
 - `sentry_layer` — the remote tap, mapping `ERROR` → event and `WARN` →
-  breadcrumb, everything else ignored (`:76-80`). This is the
+  breadcrumb, everything else ignored (`:139-143`). This is the
   level→telemetry-class coupling remote-telemetry-economics warns about,
   wired in six lines.
 
 ## Per-origin filtering — `EnvFilter`, and a cautionary tale
 
 `EnvFilter::try_from_default_env().unwrap_or_else(|_| EnvFilter::new("info,personas_desktop=debug"))`
-(`:56-57`) gives global `info` with a per-crate `debug` override, and
+(`:56-57`; see the re-check below) gives global `info` with a per-crate `debug` override, and
 `RUST_LOG` as the runtime escape hatch — the technique's "filter at the
 origin" in one line.
 
@@ -52,14 +53,14 @@ Two gaps, both instructive:
 
 ## The non-blocking write path
 
-`add_file_layer` (`:96-142`) builds a `RollingFileAppender` (daily,
+`add_file_layer` (`:184-221`, appender in `open_appender`, `:169-177`) builds a `RollingFileAppender` (daily,
 `max_log_files(TRACING_LOG_RETENTION)`) and wraps it in
 `tauri_appender::non_blocking` — emitters append to a bounded channel, a
 worker thread drains to disk. The `WorkerGuard` is stashed in a static
-`OnceLock` (`FILE_LOG_GUARD`, `:18`) so the buffer flushes on orderly
+`OnceLock` (`FILE_LOG_GUARD`, `:50`) so the buffer flushes on orderly
 shutdown — the technique's "flush is explicit at the exits". Crash-path
 records deliberately do *not* go through this channel: the panic hook
-(`install_crash_hook`, `:228-302`) writes synchronously to its own store,
+(`install_crash_hook`, `:395-476`) writes synchronously to its own store,
 exactly the split the technique mandates.
 
 Not present: a visible dropped-records counter. `NonBlocking`'s default
@@ -73,7 +74,7 @@ The stack supports the structured envelope natively
 before message). Adoption is measured, not assumed:
 `docs/concepts/golden-paths/structured-logging.md` counts 2,118 of 2,653
 call sites carrying structured fields (79.8%) and 288 interpolated-only
-sites, with `src-tauri/db/src/backup.rs:107-112` as the shape to copy —
+sites, with `src-tauri/db/src/backup.rs:141-146` as the shape to copy —
 fields first, `%`-Display, constant message naming the consequence.
 
 ## The known counter-example
@@ -84,3 +85,32 @@ fields, no filter, no retention, and no scrub point, measured holding
 99.1% of the log bytes on the operator's machine, including live
 credentials. It is this subject's strongest evidence that "the writer is
 the scrub point" and "no private diaries" are not stylistic preferences.
+
+## Re-checked 2026-10-31
+
+At personas@22260d77c9 `logging.rs` has been restructured into a module
+(`logging/jsonl.rs`, `logging/rate_limit.rs`, `logging/fingerprint.rs`), and
+three things above changed:
+
+- **The stale-origin gap is fixed.** The fallback filter is now
+  `default_filter_directives()` (`logging.rs:70-79`): in debug builds
+  `info,app_lib=debug,personas_core=debug,personas_db=debug,personas_engine=debug,webview=debug`,
+  in release plain `info`, and `env_filter()` (`:84-90`) always adds
+  `devlog=info`. The comment cites the same structured-logging §7 P2 finding.
+  The `EnvFilter::new("info,personas_desktop=debug")` line and its `:56-57`
+  anchor are gone. There is still no `reload` layer.
+- **The file tap is now a JSONL layer, not a second `fmt` layer.** Stdout and
+  `JsonlLayer` sit behind one `RateLimited` wrapper (`sink_layers`,
+  `:95-112`): 20 records per fingerprint per 60 s, then one `log.suppressed`
+  count. The `with_ansi(false)` file layer at `:66-72` no longer exists, and
+  the daily files are `personas.YYYY-MM-DD.jsonl`. The one-registry,
+  three-destination shape and the Sentry level mapping are unchanged.
+- **`ExecutionLogger` now has a scrub point.** `log()` passes every line
+  through `sanitize_secrets` before writing (`engine/src/logger.rs:76-90`),
+  and an hourly reaper deletes logs whose execution row is gone
+  (`execution_log_retention_tick`, `src/engine/background/cleanup.rs:254`). It is
+  still a second appender with no level, fields or filter, so the one-sink
+  counter-example stands. The credential and byte measurements above are history.
+
+`NonBlocking` drops are still not counted anywhere. The rate limiter's
+`log.suppressed` counts are deliberate suppression, not overflow drops.

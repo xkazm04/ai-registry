@@ -4,7 +4,8 @@ type: application
 subject: outbound-notifications
 technique: inbound-counterparts
 stack: rust
-verified_on: 2026-08-18
+verified_on: 2026-10-31
+verified_against: rust@1.80
 ---
 
 # Inbound counterparts — the chat pollers, the bridge, and `is_echo` (Personas)
@@ -19,19 +20,19 @@ and `src-tauri/src/engine/team_slack_relay.rs`.
 | Mechanism | Implementation |
 |---|---|
 | Poll first, push as an upgrade path | both pollers' module docs say why polling and name the swap point: "swap this module's `fetch_new_messages` for a WSS consumer that pushes onto the same dispatch path" (`discord_poller.rs:23-30`; `slack_poller.rs:38-48`) |
-| Durable per-channel cursor | `slack_poll_state.last_ts` / `discord_poll_state.last_message_id`, read at `slack_poller.rs:1051`, written `:1068`/`:1081`; advanced only after the drained set is recorded |
+| Durable per-channel cursor | `slack_poll_state.last_ts` / `discord_poll_state.last_message_id`, read at `slack_poller.rs:1063`, written `:1080`/`:1098`; advanced only after the drained set is recorded |
 | Bounded fetch, arithmetic in the comment | `FETCH_LIMIT = 50` sized against the per-route rate budget, with the budget stated (`discord_poller.rs:48-60`, `slack_poller.rs:69-80`) |
-| Bounded burst drain | `MAX_DRAIN_PAGES = 20` (`slack_poller.rs:82-88`); the drain loop (`:940-965`) walks `latest` backward so the newest page's ts cannot strand the gap — the silent-loss shape the comment names — and warns loudly when the cap is hit (`:967-975`) |
-| Author filtering at the source | `should_ingest` (`:540-553`) — pure, four drop reasons testable without HTTP: any bot, system subtypes, *our own user id when posting as a user*, empty text; dedup deliberately excluded ("needs the DB") |
-| Reply correlation | `slack_inbound_messages` rows keyed by `(channel_id, message_ts)` with `execution_id` + `replied_message_ts`; pass 2 (`:212`) finds finished-unanswered rows via `list_pending_replies` bounded by `MAX_REPLIES_PER_TICK = 25` (`:736`), posts in-thread, records the reply ts (`:1171-1178`) |
-| Reply size cap with headroom | `SLACK_TEXT_LIMIT = 39000` chars, truncated on char boundary (`:96`, `:1035-1040`) |
+| Bounded burst drain | `MAX_DRAIN_PAGES = 20` (`slack_poller.rs:82-88`); the drain loop (`:950-976`) walks `latest` backward so the newest page's ts cannot strand the gap — the silent-loss shape the comment names — and warns loudly when the cap is hit (`:979-989`) |
+| Author filtering at the source | `should_ingest` (`:551-566`) — pure, four drop reasons testable without HTTP: any bot, system subtypes, *our own user id when posting as a user*, empty text; dedup deliberately excluded ("needs the DB") |
+| Reply correlation | `slack_inbound_messages` rows keyed by `(channel_id, message_ts)` with `execution_id` + `replied_message_ts`; pass 2 (`:222`) finds finished-unanswered rows via `list_pending_replies` bounded by `MAX_REPLIES_PER_TICK = 25` (`:737`), posts in-thread, records the reply ts (`:1191-1204`) |
+| Reply size cap with headroom | `SLACK_TEXT_LIMIT = 39000` chars, truncated on char boundary (`:96`, `:1050-1057`) |
 | Leader-only guard | both `run_poller`s gate on `state.leadership.is_leader()` with the double-reply reason stated (`discord_poller.rs:75-79`, `slack_poller.rs:108-112`) |
 | The echo guard, named once | `slack_bridge::is_echo(author_kind)` (`slack_bridge.rs:114-121`) — "kept as a named function … so the guard has exactly one definition and one test"; `should_mirror_message` checks it **first and unconditionally** before any flag (`:130-141`); test `echo_guard_rejects_slack_authored_rows` sets every outbound flag on and asserts the guard still wins (`:361-371`) |
 | Opt-in by author kind | `MESSAGE_AUTHOR_KINDS` / `DIRECTIVE_AUTHOR_KIND` allowlists (`:59-63`); unknown kinds "rejected too, so a future writer has to opt in here deliberately" (`:127-129`, test `:404-409`) |
 | One binding, both directions, one parser | `parse_bridge` (`:164-196`) read by both `slack_poller` and `team_slack_relay`; the discriminator `teamBridge` is a strict fork — "wiring a bridge cannot change how existing notification channels behave" (`:29-32`, regression test `:264-278`) |
 | Bridge identity is the pair | `TeamBridgeSpec::key()` = `team_id:slack_channel_id` (`:99-107`): two specs on different personas naming the same pair are one bridge for cursor / rate / breaker |
 | Acting identity declared on the binding | `persona_id` + `credential_id` parsed from the spec (`:76-97`), never inferred from the message |
-| Decided rows advance the cursor | in the relay, rows the bridge does not mirror (echoes, muted kinds) still move the watermark — "decided, not deferred" (`team_slack_relay.rs:412-416`) |
+| Decided rows advance the cursor | in the relay, rows the bridge does not mirror (echoes, muted kinds) still move the watermark — "decided, not deferred" (`team_slack_relay.rs:413-417`) |
 
 ## Judgment calls worth copying
 

@@ -5,7 +5,7 @@ subject: alerting
 technique: rule-authoring-validation
 stack: rust
 status: forged
-verified_on: 2026-09-29
+verified_on: 2026-10-31
 verified_against: rust@1.80
 ---
 
@@ -104,3 +104,20 @@ repo layer builds its SET clauses per field (`alert_rules.rs:139-179`) with no
 fetch-merge, which is why the delta-only validation cannot be completed there.
 The stack witness is the `rust-version = "1.80.0"` floor in
 `src-tauri/Cargo.toml`.
+
+Re-checked 2026-10-31 at personas@22260d77c9. **The partial-edit hole is
+closed, which reverses the "partial-edit hole" section above.** Since
+`28e4fa2a55` (2026-10-21) `update_alert_rule` loads the stored row whenever an
+edit carries the operator or the threshold, and validates the rule as it will
+be stored: `check_merged_rule` (`alerts.rs:29-34`) runs `reject_always_true_rule`
+over `input.operator.unwrap_or(existing.operator)` and
+`input.threshold.unwrap_or(existing.threshold)`, called at `:74-80`. That is
+the technique's fetch-merge-validate shape, done in the command layer rather
+than the repo, so a threshold-only edit to `0` on a `>=` rule is now refused.
+The quoted delta-only block and its `:59-72` anchor no longer exist. The
+other three gaps stand: never-true rules still save, there is still no preview,
+and the window still lives in evaluator constants, which have now drifted
+further apart (`SUMMARY_WINDOW_DAYS = 1` at `alert_evaluator.rs:60`,
+`ALERT_EVAL_WINDOW_DAYS = 8` at `useGlobalAlertEvaluator.ts:40`, raised so the
+cost-spike median has priors). `AlertRuleForm.tsx:41` and
+`alert_rules.rs:139-179` hold as cited.

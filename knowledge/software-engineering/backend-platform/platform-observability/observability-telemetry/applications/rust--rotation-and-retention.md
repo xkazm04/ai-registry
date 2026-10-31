@@ -4,7 +4,8 @@ type: application
 subject: observability-telemetry
 technique: rotation-and-retention
 stack: rust
-verified_on: 2026-08-18
+verified_on: 2026-10-31
+verified_against: rust@1.80
 ---
 
 # Rust — rotation, retention, and disk accounting in `src-tauri/src/logging.rs`
@@ -15,14 +16,15 @@ accounting drifts from its predicate.
 
 ## Rotation: daily rolling with a file cap
 
-`add_file_layer` (`logging.rs:121-127`) builds the rolling appender:
+`add_file_layer` builds the rolling appender (now in `open_appender`,
+`logging.rs:169-177`; see the re-check below):
 
 ```rust
 rolling::RollingFileAppender::builder()
     .rotation(rolling::Rotation::DAILY)
     .filename_prefix("personas")
     .filename_suffix("log")
-    .max_log_files(TRACING_LOG_RETENTION)   // 7 (:40)
+    .max_log_files(TRACING_LOG_RETENTION)   // 7 (:67)
     .build(&log_dir)
 ```
 
@@ -30,7 +32,7 @@ Names encode the boundary (`personas.YYYY-MM-DD.log`), so a descending
 lexical sort is a chronological sort — both humans and the reaper order
 the set without opening files. Graceful degradation is explicit: an
 unwritable directory logs a warning and disables file logging rather
-than failing boot (`:98-101`, `:138-140`).
+than failing boot (`:186-189`, `:217-219`).
 
 Note the technique's named hole is present: rotation is interval-only.
 A pathological error loop can grow one day's file without limit — there
@@ -39,29 +41,29 @@ is no size cap within the interval and no total-byte cap on the set
 
 ## Retention: two reapers, both startup-run, both pattern-scoped
 
-- `prune_orphan_personas_logs` (`:194-224`) — belt-and-braces beside
+- `prune_orphan_personas_logs` (`:264-296`) — belt-and-braces beside
   the appender's own rotation-time enforcement, run at startup before
-  the new appender starts writing (`:118`), for the case where the cap
+  the new appender starts writing (`:206`), for the case where the cap
   was reduced between runs. It matches only `personas.*.log` and
   explicitly preserves `last_boot.log`, UUID-named execution logs, and
   freeze-monitor dumps — the technique's "the reaper reaps only what it
   owns", with a unit test pinning exactly that
-  (`prune_orphan_personas_logs_ignores_other_files`, `:486-524`).
-- `prune_crash_logs` (`:345-373`) — bounds the crash directory to
-  `CRASH_LOG_RETENTION` (20, `:34`) before the panic hook is installed
-  (`:240`), "so the diagnostics surface starts in a known state".
+  (`prune_orphan_personas_logs_ignores_other_files`, `:660-702`).
+- `prune_crash_logs` (`:519-547`) — bounds the crash directory to
+  `CRASH_LOG_RETENTION` (20, `:60`) before the panic hook is installed
+  (`:407`), "so the diagnostics surface starts in a known state".
 
 Deviation from the technique: the crash-store cap is enforced *only* at
-startup, not on insert — the panic hook (`:245-299`) writes without
+startup, not on insert — the panic hook (`:411-476`) writes without
 re-pruning, so a crash-looping process can exceed 20 files within one
 run; the excess is clawed back on the next boot. And reaping is silent
-on success — only failures log (`:220-222`), so a reaper that stopped
+on success — only failures log (`:291-293`), so a reaper that stopped
 running is not distinguishable from one with nothing to do.
 
 ## Accounting: measure by walking
 
-`log_directory_stats` (`:413-436`) recomputes the footprint from the
-directory itself (`directory_stats`, `:395-409` — a flat walk summing
+`log_directory_stats` (`:588-611`) recomputes the footprint from the
+directory itself (`directory_stats`, `:570-584` — a flat walk summing
 `metadata().len()`), never from a maintained counter, and reports the
 retention caps *alongside* the measured numbers
 (`tracing_log_retention`, `crash_log_retention`) so the settings
@@ -80,3 +82,19 @@ files / 410 MB (`docs/concepts/golden-paths/structured-logging.md` §7
 P0). The count traveled without its predicate, and the diagnostics
 surface reassured while the directory grew 60× past what the stated cap
 could produce.
+
+Re-checked 2026-10-31 at personas@22260d77c9. The rolling files are now
+`personas.YYYY-MM-DD.jsonl` (`filename_suffix("jsonl")`, `logging.rs:174`);
+the appender's own cap reaches only `.jsonl`, and `prune_orphan_personas_logs`
+now counts `.jsonl` and the old `.log` files together under the one cap. Rotation
+is still interval-only with no byte cap. **The predicate drift above is now
+largely answered by a third reaper**: `execution_log_retention_tick`
+(`src/engine/background/cleanup.rs:254-287`, run by the builtin cleanup
+subscription, `src/engine/subscription/builtin.rs:253`) deletes `<uuid>.log`
+files whose execution row is gone and that have sat untouched past
+`EXECUTION_LOG_ORPHAN_GRACE` (24 h, `logging.rs:302`), and it logs on success,
+not only on failure. The per-execution population is therefore bounded by the
+execution retention setting, not unbounded. `log_bytes` still sums every file
+beside a `tracing_log_retention` that counts only the rolling files, so the
+stats surface still prints a count without its predicate. The crash-store and
+silent-reaper deviations stand as described.

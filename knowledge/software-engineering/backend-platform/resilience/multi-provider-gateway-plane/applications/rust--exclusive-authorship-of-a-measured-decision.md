@@ -8,8 +8,8 @@ status: forged
 applied: code
 ab_verdict: unmeasurable
 proof: structural-only
-verified_on: 2026-09-04
-verified_against: rust@1.80.0
+verified_on: 2026-10-31
+verified_against: rust@1.80
 ---
 
 # An audit flag that could not observe the substitution it reported
@@ -24,14 +24,14 @@ It cannot, and the reason is the defect the technique describes in the abstract:
 **the audit reads the coarsest axis of the decision on a plane whose
 substitutions happen on a finer one.** The stack version is witnessed by the
 workspace's own `rust-version = "1.80.0"` and `edition = "2021"`
-(`src-tauri/Cargo.toml:114`), not by a dispatch's guess.
+(`src-tauri/Cargo.toml:221-222`), not by a dispatch's guess.
 
 ## The measurable, and the arm that ran
 
 The number the technique says should move: **the share of runs in which a model
 substitution occurred that the compliance record is able to flag.**
 
-The application builds a failover chain (`src-tauri/src/engine/failover.rs:673`)
+The application builds a failover chain (`src-tauri/engine/src/failover.rs:673`)
 whose rungs are `claude-opus-4-8` → `claude-sonnet-4-6` →
 `claude-haiku-4-5-20251001` (`CLAUDE_MODEL_CHAIN`, `failover.rs:639`), tried in
 order by the runner's spawn loop until one succeeds. When rung 1 or 2 serves, a
@@ -71,7 +71,7 @@ is not what the number means, and the difference matters enough to state
 plainly.
 
 The loop exits with `break 'failover driver` the moment `CliProcessDriver::spawn`
-**succeeds** (`src-tauri/src/engine/runner/mod.rs:1899-1903`). So the chain only
+**succeeds** (`src-tauri/src/engine/runner/mod.rs:2385-2389`). So the chain only
 advances when the *process launch* fails — a missing binary, an OS-level spawn
 error. Every fault a different model could actually survive (a rate limit, a
 context overflow, a model-side refusal) happens *after* a successful spawn, inside
@@ -93,7 +93,7 @@ ladder, or fix the record. Nobody could tell which they were in, for 6,163 runs.
 
 The change and its test **compile clean** under the project's own CI feature set
 (`cargo test --workspace --features desktop`, the invocation
-`.github/workflows/ci.yml:346` uses). The test could not be *executed*: the
+`.github/workflows/ci.yml:1039` uses). The test could not be *executed*: the
 `app_lib` test binary fails to launch on this machine with
 `STATUS_ENTRYPOINT_NOT_FOUND` (0xc0000139), a native-dependency load failure.
 That is pre-existing and binary-wide, not a consequence of this change — an
@@ -115,19 +115,19 @@ The application already computes both halves of the comparison the technique
 asks for. `set_launch_model_info` stamps the model a run was actually spawned
 with, extracted from the final argv — and the comment says *why*, in the
 technique's own terms: *"so failover/resume paths are covered"*
-(`src-tauri/src/engine/runner/mod.rs:2013`). Later, the CLI's own system-init
+(`src-tauri/src/engine/runner/mod.rs:2518`). Later, the CLI's own system-init
 event reports the model that really answered, and `set_model_used_actual` records
 it.
 
 Both write **the same column**: `persona_executions.model_used`
-(`src-tauri/db/src/repos/execution/executions.rs:838` and `:864`). The second
+(`src-tauri/db/src/repos/execution/executions.rs:1022-1027` and `:1052`). The second
 write destroys the first.
 
 So the decided value and the served value are not merely uncompared — they are
 **unstorable simultaneously**. The comparison the technique's third rule requires
 is impossible in this schema, not because anyone rejected it but because the two
 facts were treated as one field with a refinement, and the code comment at
-`runner/mod.rs:2015` says so plainly: the later event *"overwrites `model_used`
+`runner/mod.rs:2519-2520` says so plainly: the later event *"overwrites `model_used`
 with the CLI-reported actual model"*.
 
 That is the technique's claim arriving as an accident of storage. Nothing in the
@@ -171,7 +171,7 @@ may answer in the selector's place — does not bind here the way it binds on a
 hosted plane. A desktop application cannot return 503 to its user, and the
 `when not to use it` clause covers exactly that case: the substitution is
 allowed, provided it is visible. It is partly visible already (the run log
-carries a `[FAILOVER] Trying …` line, `runner/mod.rs:1847`), and after this change
+carries a `[FAILOVER] Trying …` line, `runner/mod.rs:2333`), and after this change
 it is visible in the durable record too — but only as a boolean.
 
 The mismatch check the technique's third rule really wants — comparing what was
@@ -180,3 +180,26 @@ is worth being precise about why: the wrapped CLI is the only witness of the
 served model, so its report is trusted directly rather than verified. There is
 no second observer, which means a mismatch between the wrapper's intent and the
 CLI's behaviour is detectable only where the CLI chooses to report it.
+
+## Re-checked 2026-10-31
+
+At personas@22260d77c9. `failover.rs` moved with the engine extraction to
+`src-tauri/engine/src/failover.rs` (same line numbers). `CLAUDE_MODEL_CHAIN`
+now names `model_ids::OPUS_CURRENT` → `SONNET_CURRENT` → `HAIKU_CURRENT`
+(`claude-opus-5` → `claude-sonnet-5-5` → `claude-haiku-5-5`,
+`src-tauri/core/src/model_ids.rs:33-35`) rather than the literal ids quoted
+above. The shipped flag holds (`runner/mod.rs:3824`), and the ladder still
+advances only when the spawn fails (`:2385-2389`), so the `unmeasurable`
+verdict stands.
+
+**The single-column overwrite this document leaves open is closed.** Migration
+`e23_model_requested` (landed in `b5e92aa5d7`, 2026-09-06) added
+`persona_executions.model_requested`, and `set_launch_model_info` writes it once
+with `model_requested = COALESCE(model_requested, ?1)`
+(`executions.rs:1002-1027`), so resume and failover re-entries keep the first
+decision. `set_model_used_actual` still overwrites `model_used` with the
+served name. The test `model_requested_survives_the_served_model_write`
+(`:4579`) pins it. Decided and served are now stored side by side, which
+reverses the "unstorable simultaneously" finding and the "Deliberately not
+changed" paragraph. The comparison itself is still not made, and the CLI is
+still the only witness of the served model.
