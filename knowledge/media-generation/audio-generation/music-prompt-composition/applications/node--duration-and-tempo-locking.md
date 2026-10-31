@@ -62,3 +62,38 @@ tab; persistence into the studio's asset store is the next seam. Spend has
 no budget ledger — the access gate and rate limit are the only ceiling,
 stated in the route rather than papered over. And acceptance is manual:
 the duration measurement above was run by hand, not by a scripted gate.
+
+## Re-checked 2026-10-31
+
+Re-checked 2026-10-31 at gravitone-gcloud@3c66e32e. Everything above holds
+at the commit it describes (`e427bd10`, 2026-08-26, now on the main line):
+`cueToPlan` split cues of 20s and over build → release at 2:1 with the hard
+ending on the release only, `barsFit` returned whole 4/4 bars or `null`, and
+the vendor windows were asserted before spend. The 10.000s → 10.032s render
+and the 3.0s wall clock match that commit's own record; the 192 kbps
+deviation was not re-measured. At HEAD the tree has moved on in four places:
+
+- **The 2:1 split is gone** (2026-08-29). `cueToPlan` in `lib/music/plan.ts`
+  now takes the scenes the cue plays under and writes one section per scene,
+  merging scenes under the 3s floor forward and splitting a pack over 120s
+  evenly. The hard ending goes on the last section only when `barsFit` says
+  the span is a whole number of bars; otherwise the brief says outright that
+  the span is not whole bars and asks for "arrival". Duration is now derived
+  from the summed scene lengths (`cueDurationS`), not typed in. The lock got
+  stricter. The "under 20s is one section" rule no longer exists.
+- **The vendor windows still hold** (`lib/music/elevenlabs.ts`: 1..30
+  sections, 3s..120s per section, 3s..10min in total, all refused as
+  `bad-request` before any call), and `refused` still maps to 422 through
+  `statusFor` in `lib/music/errors.ts`.
+- **The seam moved.** `app/api/music/generate/route.ts` and the Score phase's
+  `ScoreSpotting.tsx` were retired at the Phase 6 cutover (2026-10-18). A cue
+  now renders through the score producer (`lib/producers/score.ts`) into
+  `generateTake` op `"cue"` (`lib/sound/generate.ts`), which still calls
+  `cueToPlan` on the server. The doctrine stays in one file. The browser
+  still never sends a plan.
+- **Three of the four gaps above are closed.** Section edits exist (op
+  `"section-edit"`). Takes are filed in the sound store under their
+  `{projectId, cueId}`, so they no longer die with the tab. Spend runs under a
+  music budget ledger (`lib/music/budget.ts`, which refuses with
+  `over-budget`/402 before the vendor is asked). Scripted acceptance of
+  delivered duration was not checked here.

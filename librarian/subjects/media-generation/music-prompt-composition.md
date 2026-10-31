@@ -298,3 +298,64 @@ Udio's own announcement and terms, which closes the subject at `keep`.
   }
 }
 ```
+
+Re-verification, 2026-10-31. node--duration-and-tempo-locking was re-read against gravitone-gcloud at its 2026-08-26 commit and at HEAD. The body holds at that commit, but the tree has moved past it, so a dated re-check section was added. The application goes to clarify because its body now contradicts that section.
+
+<!-- architecture-review:v1 -->
+```json
+{
+  "subject": "media-generation/music-prompt-composition",
+  "date": "2026-10-31",
+  "baseline": "f2f29cef4",
+  "digest": "sha256-b2:e7ce3194a6c1b906",
+  "disposition": "clarify",
+  "coverage": "Re-verification pass for applications/node--duration-and-tempo-locking.md against gravitone-gcloud (read, not executed). At e427bd10, the 2026-08-26 music-engine commit and now an ancestor of HEAD, the body holds. cueToPlan used MIN_TWO_SECTION_S = 20 and a 2:1 build to release split with the hard ending on release, barsFit was as stated, and the commit message records the 10.032s render in 3.0s. At HEAD 3c66e32e: cueToPlan (d5c10093, 2026-08-29) writes one section per scene, folds scenes under the 3s floor forward, splits packs over 120s, and asks for a hard ending only when barsFit says whole bars. The elevenlabs.ts windows hold at :212-218, and refused still maps to 422 in errors.ts statusFor. app/api/music/generate/route.ts and ScoreSpotting.tsx were retired at the 2026-10-18 cutover (ed151a11). Cues now render through lib/producers/score.ts into lib/sound/generate.ts op cue. Section edits, filed take persistence and lib/music/budget.ts close three of the four stated gaps. The 192 kbps deviation could not be re-measured, so verified_on is unchanged. Every other document carries the earlier 2026-10-31 record.",
+  "counterexamples": [
+    "A plan with both edges locked and a fixed tempo is producible when the bar math fits both (120 BPM puts a 26 s hit and a 38 s hard out both on bar lines), so 'both edges locked is unproducible' holds only when it does not fit.",
+    "In the vendor's v1 MusicPrompt schema no statement makes the first section the anchor; the anchor rule is documented for v2 chunks only, so 'every sectioned scheme' is wider than the evidence.",
+    "A section plan of one (a 6 s stinger) carries no revision advantage over a prose prompt, as the technique's own 'when not' already concedes.",
+    "A 32 ms overshoot is two frames at 60 fps; frame-accurate timelines at high rates still need a trim.",
+    "A paid Udio subscription in 2026 yields no downloadable file and only personal, non-commercial use, so Udio cannot source a delivered cue on any plan until a licensed relaunch says otherwise."
+  ],
+  "sources": [
+    {
+      "source": "gravitone-gcloud at e427bd10 and 3c66e32e (read, not executed)",
+      "result": "At e427bd10, lib/music/plan.ts:36 has MIN_TWO_SECTION_S = 20 and :56-71 has the 2:1 split with 'hard ending on the beat' on release. At HEAD, lib/music/plan.ts cueToPlan builds per-scene sections from CuePicture. lib/music/elevenlabs.ts:212-218 has the 1..30 sections, 3s..120s and 3s..10min asserts. lib/music/errors.ts statusFor maps refused to 422 and over-budget to 402. lib/sound/generate.ts lists op cue and op section-edit. git log shows ed151a11 removing app/api/music/generate/route.ts."
+    }
+  ],
+  "documents": {
+    "music-prompt-composition.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: 'In every sectioned generation scheme' narrowed to 'In sectioned generation schemes' (anchor rule is documented for the vendor's v2 chunks only)."
+    },
+    "techniques/section-plan-as-the-brief.md": {
+      "disposition": "keep",
+      "reason": "Shape (per-section duration in ms, include/exclude lists, dozens-of-sections caps, seconds-to-minutes totals) matches the vendor schema; numbers correctly delegated to the application."
+    },
+    "techniques/sonic-style-vocabulary.md": {
+      "disposition": "keep",
+      "reason": "Axis table and exclude-list fence are coherent and consistent with the vendor's include/exclude style lists; restatement law correctly applied."
+    },
+    "techniques/lyrics-for-singability.md": {
+      "disposition": "keep",
+      "reason": "Tags-and-braces separation matches the vendor's square-bracket section names and curly-brace inline cues; craft rules are stable."
+    },
+    "techniques/duration-and-tempo-locking.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: first decision rule now says both edges locked plus a fixed tempo over-determines the cue unless the bar math fits both, matching the body and the subject's worked examples."
+    },
+    "techniques/reference-track-anchoring.md": {
+      "disposition": "keep",
+      "reason": "Style-not-melody and own-accepted-work anchoring are sound; consistent with the vendor rejecting copyrighted content in styles."
+    },
+    "applications/process--section-plan-as-the-brief.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: the Udio row now reads, as of 2026-10-31, downloads off since 2025-10-29 and personal non-commercial use only on every tier (Terms rev. 2025-11-12), licensed relaunch announced for 2026 and not launched; its sourcing role is now 'none for a delivered cue'. The earlier v2 chunks rewrite and tempo correction stand. verified_on unchanged: the Suno/Lyria/Stable Audio/MiniMax rows and the Composer ship date were not re-checked (due at refresh_by 2026-11-26)."
+    },
+    "applications/node--duration-and-tempo-locking.md": {
+      "disposition": "clarify",
+      "reason": "Re-verified 2026-10-31. The body holds at e427bd10, but at gravitone-gcloud@3c66e32e the 2:1 split is replaced by per-scene sections, the route and Score surface were retired, and three of the four 'cannot do yet' gaps are closed (section edits, persisted takes, budget ledger). A dated re-check section records this. The body's lock bullets and gap list still read as current, so they should be folded into the present tense. The 192 kbps figure was not re-measured, so verified_on is unchanged."
+    }
+  }
+}
+```

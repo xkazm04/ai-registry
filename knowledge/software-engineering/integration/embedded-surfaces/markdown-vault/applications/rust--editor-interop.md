@@ -5,8 +5,8 @@ subject: markdown-vault
 technique: editor-interop
 stack: rust
 status: forged
-verified_on: 2026-08-30
-verified_against: rust@1.97
+verified_on: 2026-10-31
+verified_against: rust@1.96
 applied: experiment
 ab_verdict: better
 ---
@@ -17,10 +17,24 @@ ab_verdict: better
 2026-08-30. The seam is unchanged — the sidecar still writes naively at
 `tools.rs:1471` — and one citation moved.*
 
-*2026-10-31 source note: at `a7b34f56` the sidecar's vault-note write calls
-`atomic_write` (and emits frontmatter through `yaml_quote`), so the seam this file
-measured is closed. The A/B, the rename-error finding and the bounded-retry
-obligation below are unaffected. The other citations were not re-checked.*
+Re-checked 2026-10-31 at personas@61029d7ae0. **The seam this file measured is
+closed.** The sidecar's vault-note write (the `obsidian_vault_write_note` tool's
+handler, `src-tauri/src/mcp_server/tools.rs:1513`) now calls the app's `atomic_write`, and
+its frontmatter goes through the Brain's `yaml_quote`. The naive
+`std::fs::write` cited at `tools.rs:1471` below is the state at `bf2a1e249` and
+`a2ef6400e`, where it was re-read unchanged. `atomic_write` itself is unchanged
+apart from its line (`mod.rs:65`) and visibility. It is now `pub(crate)`, and
+its doc comment names the sidecar as the reason ("One vault, one writer
+contract"). The error path still reports `write {path}: {e}` to the caller. The tool
+also has tests now (`src-tauri/src/mcp_server/obsidian_vault_tests.rs`), so
+"no test in this tree exercises the sidecar's write path" no longer holds at
+HEAD. Tearing is still a race that those tests do not exercise. The
+A/B and the rename-error finding below are measured results and stand. **The
+bounded-retry obligation is still open**: `atomic_write` removes the temp file
+and returns the first rename error, with no retry. The sidecar is a second
+binary (`personas-mcp`) of the same Cargo package, not a second crate.
+"Per crate" in the structural fact below should therefore be read as "per
+writer". The finding itself held until this fix and is what the fix answers.
 
 "Atomic replace on every write — temp sibling, then rename over the target" is
 the kind of rule that gets agreed to in review and then not applied, because the
@@ -32,7 +46,7 @@ them.
 
 The app crate has the primitive and a doc comment that states the technique
 better than the technique does — `atomic_write` at
-`src-tauri/src/commands/obsidian_brain/mod.rs:59`, explaining that
+`src-tauri/src/commands/obsidian_brain/mod.rs:65`, explaining that
 `std::fs::write` "truncates the destination first and then streams bytes", that
 the rename is atomic "on the same filesystem (POSIX rename semantics; Windows
 MoveFileEx-equivalent)", and that on rename failure the temp sibling is cleaned
@@ -94,7 +108,7 @@ toward the human's editor. What this tree shows is that the discipline is
 adopted per *crate*, not per product, and that the boundary where it lapses is
 invisible from the vault. The app crate carries `atomic_write` twice over — the
 sibling application document for `vault-as-database` records another copy at
-`graph.rs:516`, with a unique-uuid temp name — while the sidecar, which is
+`graph.rs:445`, with a unique-uuid temp name — while the sidecar, which is
 the process an external MCP client actually drives, writes the naive way. The
 vault cannot tell the two writers apart, the human cannot either, and the rule
 propagated along crate boundaries instead of along the shared resource it exists

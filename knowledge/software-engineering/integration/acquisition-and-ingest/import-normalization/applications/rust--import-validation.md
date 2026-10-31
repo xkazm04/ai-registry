@@ -57,7 +57,7 @@ definition is untrusted input".
   per-entity errors are collected into `EntityError { entity_type,
   entity_name, error }` so the frontend can render "3 of 5 tools failed:
   X, Y, Z — fix and retry". The receipt flips to committed/failed with
-  `entity_results` and `error_summary` at the end (`:460-465`).
+  `entity_results` and `error_summary` at the end (`:459-466`).
 - **Credentials as requirements, not values**: the commit returns
   `connectors_needing_setup: Vec<String>` — named, valueless slots the
   user fulfills through the credential flow afterwards. No secret-shaped
@@ -76,7 +76,38 @@ definition is untrusted input".
   record cannot answer "why is this import missing behavior" — the
   disclosure chain ends at the wizard UI.
 - **Draft normalization fills gaps silently but harmlessly**
-  (`types.rs:53-67`): empty name/color/icon get defaults. Display-only
+  (`types.rs:63-77`): empty name/color/icon get defaults. Display-only
   fields, so this stays on the right side of the default-construction
   line — but it is the pattern to watch if semantic fields ever join the
   list.
+
+## Re-checked 2026-10-31
+
+Re-checked 2026-10-31 at personas@61029d7ae0. Two anchors moved and are
+updated above: the receipt write is now at `confirmation.rs:459-466` and the
+draft defaults are at `types.rs:63-77`. The caps, the derivation, the 2x test,
+the seven sanitizer layers with their limits, nonce and canary, the client
+twin's drift comment, the `'staged'` receipt and `connectors_needing_setup`
+all read as described. Two claims do not hold, and the second one did not
+hold on 2026-08-18 either:
+
+- **The commit door is atomic only against total failure.** The doc comment
+  on `create_persona_atomically` (`confirmation.rs:78-83`) says any entity
+  failure rolls the whole transaction back. The code rolls back only when
+  entities were requested, none were created, and errors were collected
+  (`:405-437`, receipt `rolled_back`). A partial failure commits the persona
+  with the entities that succeeded, and the receipt is `committed` with
+  `"N of M entities failed"` as its `error_summary`. The tree at 2026-08-18
+  (`fd720f929c`) had the same branch, so "any entity failure rolls back the
+  whole transaction — no partial persona exists" above quotes the comment,
+  not the behaviour. The per-entity error collection is real. It is what a
+  partial import reports, not what a rollback reports. The divergence on
+  enumeration therefore stands and is wider than stated: a committed
+  partial import records the failures and never records what was created.
+- **No CI step verifies `n8nLimits.generated.ts`.** The generator's header
+  says CI does. `.github/workflows/ci.yml` checks drift only for
+  `commandNames.generated.ts` and the ts-rs bindings, at HEAD and at
+  `fd720f929c`. What keeps the TypeScript mirror honest is the `n8n-limits`
+  task in the `predev`/`prebuild` codegen (`scripts/run-codegen.mjs`). That
+  task regenerates the file before every build, and CI's build runs it. So the
+  shipped bound cannot drift, but a stale committed copy is never flagged.

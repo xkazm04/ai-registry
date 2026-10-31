@@ -524,3 +524,95 @@ gap (not opened this run). The four PoF applications remain reverify.
   }
 }
 ```
+
+Re-verification, 2026-10-31. The two applications marked reverify that this run was assigned were checked against the personas checkout. That tree does not hold the cited harness, so both stay reverify and no document changed.
+
+<!-- architecture-review:v1 -->
+```json
+{
+  "subject": "game-production/unattended-build-loop",
+  "date": "2026-10-31",
+  "baseline": "b3879e1d2",
+  "digest": "sha256-b2:04c7d2d93567ceb3",
+  "disposition": "reverify",
+  "coverage": "Re-verification pass for two applications (node--verified-vs-self-reported-pass-rate, node--verifier-coverage-review-agenda), both read in full against the personas checkout at 61029d7ae0. That tree has a harness at src/lib/harness/, but not the one these applications cite. It has no feature-match.ts or visual-gate.ts, no verifiedFeatures, passRateBasis, createVisualGate or gateCannotVerify. Its updatePlanStats keeps a single passingFeatures count. Commit c0f640c2 is not an object in that repository, and a history search over all refs found no feature-match.ts, no visual-gate.ts and no passRateBasis. No .harness-* run directories exist. The citations belong to the PoF tree, which is not checked out here. Every other document carries the earlier 2026-10-31 record unchanged, and the bundle digest is unchanged.",
+  "counterexamples": [
+    "With the reservation term in place the residual overshoot is the summed estimate error across drained items, not pool width; a single badly-underestimated session can exceed one launch's worth.",
+    "Per-item revert of an isolated item's own paths is a fourth option for items in one tree, which the rollback technique's own when-not-to-use section offers.",
+    "The fan-out tables give strict-hold completions of 6 of 58 and 3 of 19 for the two runs with a fan-out point (9 of 77), and 8 and 8 for the two dzin runs; no reading of them yields the stated 9 of 85.",
+    "A confirmation that reuses the gate's runner but is invoked against a later tree state still inherits the gate's limits and still measures a different tree; parity of limits is not parity of input."
+  ],
+  "sources": [
+    {
+      "source": "personas checkout at 61029d7ae0 (read, not executed)",
+      "result": "src/lib/harness/{orchestrator,plan-builder,run-harness,verifier,types}.ts read. plan-builder.ts:74-80 updatePlanStats counts only status === 'pass'. There are no verified flags, no pass-rate basis and no visual gate. git cat-file on c0f640c2 fails. A git log --all search for feature-match.ts, visual-gate.ts and passRateBasis returned nothing. Neither application's citations can be resolved from this tree."
+    },
+    {
+      "url": "https://arxiv.org/html/2602.19594",
+      "result": "Not re-opened. Carried from the earlier records for the golden path's completion-gap figure."
+    }
+  ],
+  "documents": {
+    "unattended-build-loop.md": {
+      "disposition": "keep",
+      "reason": "The new confirmation and fan-out sections match their techniques. The 20-30 point completion-gap figure should still name a source; it is not wrong, so this is not a clarify."
+    },
+    "techniques/no-gate-self-certifies.md": {
+      "disposition": "keep",
+      "reason": "Unchanged since 2026-09-10 keep."
+    },
+    "techniques/verified-vs-self-reported-pass-rate.md": {
+      "disposition": "keep",
+      "reason": "Unchanged since 2026-09-10 keep."
+    },
+    "techniques/completed-with-gaps-excluded-from-the-numerator.md": {
+      "disposition": "keep",
+      "reason": "Unchanged since 2026-09-10 keep."
+    },
+    "techniques/budget-reservation-and-drain-not-kill.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: closing paragraph now separates the unreserved bound (pool width less one launch) from the reserved residual (summed estimate error)."
+    },
+    "techniques/rollback-to-last-green.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: 'no fourth option' scoped to a whole-tree rewind, with per-item revert for disjoint items pointed to."
+    },
+    "techniques/unreachable-success-preflight.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: step 3 states the boundary with step 2 (readable from configuration at launch = static; learnable only by attempting = runtime)."
+    },
+    "techniques/verifier-coverage-review-agenda.md": {
+      "disposition": "keep",
+      "reason": "Unchanged since 2026-09-10 keep."
+    },
+    "techniques/confirmation-inherits-the-gates-limits.md": {
+      "disposition": "keep",
+      "reason": "New. Parity-not-generosity, confirm-through-the-gate, dynamic limits from the failed gate, three outcomes with a harness kill routed to unverifiable, and same-signal judgment are each tied to a named failure. The 'loud success' test seed is a concrete, transferable detail."
+    },
+    "techniques/review-at-the-fan-out-point.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: '9 of 85 instead of 85' -> '9 of the 77 areas in the two runs that had a fan-out point (6 of 58 and 3 of 19) instead of all 77'."
+    },
+    "applications/process--no-gate-self-certifies.md": {
+      "disposition": "reverify",
+      "reason": "Unchanged; PoF doctrine quotations not reopened, verified_on 2026-08-20."
+    },
+    "applications/node--verified-vs-self-reported-pass-rate.md": {
+      "disposition": "reverify",
+      "reason": "Re-verified 2026-10-31 against the personas checkout. That tree's harness has none of the cited constructs (feature-match.ts, verifiedFeatures, passRateBasis, the two-numerator updatePlanStats), and its history never had them. The citations are PoF's, which is not checked out here. Unchanged, verified_on 2026-08-30."
+    },
+    "applications/node--budget-reservation-and-drain-not-kill.md": {
+      "disposition": "reverify",
+      "reason": "Unchanged; PoF citations not reopened."
+    },
+    "applications/node--verifier-coverage-review-agenda.md": {
+      "disposition": "reverify",
+      "reason": "Re-verified 2026-10-31 against the personas checkout. c0f640c2 is not in that repository, there is no visual-gate.ts, verifier.ts has no gateCannotVerify, and no .harness-* run records exist. The seam and the four recorded runs belong to PoF, which is not checked out here. Unchanged, verified_on 2026-08-30."
+    },
+    "applications/node--review-at-the-fan-out-point.md": {
+      "disposition": "reverify",
+      "reason": "applied 2026-10-31: both '9 of 85' statements -> 9 of 77 areas in the two runs with a fan-out point. PoF tree and recorded runs not reopened."
+    }
+  }
+}
+```

@@ -527,3 +527,93 @@ This record follows the re-verification of applications at gravitone-gcloud@fd09
   }
 }
 ```
+
+Re-verification, 2026-10-31. process--unconditional-fail-criteria was re-checked line by line against gravitone-gcloud at 3c66e32e. Two schema anchors were moved, verified_on moved, and the application goes from reverify to keep.
+
+<!-- architecture-review:v1 -->
+```json
+{
+  "subject": "media-generation/generated-output-grading",
+  "date": "2026-10-31",
+  "baseline": "f2f29cef4",
+  "digest": "sha256-b2:e65cad7aa105e311",
+  "disposition": "clarify",
+  "coverage": "Re-verification pass for applications/process--unconditional-fail-criteria.md against gravitone-gcloud at 3c66e32e (read, not executed). Every FRAMES-PROMPT.md range (81-83, 87-124, 89, 91-104, 106-112, 114-120, 121-124, 127-134) was re-read, along with every quoted phrase. All hold verbatim. The two machine-grading schemas were checked at HEAD and at 011fc3d5, the last commit before 2026-08-29. GRADE_SCHEMA in build-style-trials.mts is at 79-89 in both, so the original 78-88 was off by one. GRADE in direct-frames.mts moved from 159-168 to 160-169. Both still lead with hasText, and both anchors were updated. The docs/imaging.md:176-178 leakage sentence holds verbatim. verified_on moved to 2026-10-31. No verified_against was added, because the process stack takes none. Every other document carries the earlier 2026-10-31 record.",
+  "counterexamples": [
+    "A judge whose scores correlate 0.8 with human order can still be wrong by a full band on one image, so ordering a batch by its score is safe and gating one image on it is not.",
+    "At deterministic decoding a repeated scalar grade is byte-identical, so 'repeat it and read the spread' reveals nothing; the spread has to come from another grader or a calibration set.",
+    "On a tokenizer that keeps '10' as one token, a 0-10 score is single-token and the first-digit trap does not occur; on Qwen2.5-VL, which isolates every digit, it does.",
+    "Two arms that differ in what they can be told (typed camera path against prose) cannot satisfy flip analysis's 'generator is the only variable' rule however carefully the harness is held still.",
+    "A field split of half at 100% and half at 50% averages 75%, so the same aggregate hides it whether the split is real or, as the n=36 run showed, pilot noise.",
+    "An adapter added after the channel declaration shipped can leave the field undefined, and the provenance stamp then reads the same as 'no negative was sent' (agy at gravitone-gcloud@fd09c06)."
+  ],
+  "sources": [
+    {
+      "source": "gravitone-gcloud at 3c66e32e (read, not executed)",
+      "result": "pipeline/FRAMES-PROMPT.md:81-134 matches every quoted rubric line and caveat. pipeline/build-style-trials.mts:79-89 and pipeline/direct-frames.mts:160-169 are the grade schemas, each required list opening with hasText. docs/imaging.md:176-178 reads 'Text leakage is a per-generation risk, not a per-model verdict'. At 011fc3d5 the same schemas sit at 79-89 and 159-168."
+    }
+  ],
+  "documents": {
+    "generated-output-grading.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: a paragraph in the attribution section on arms that cannot be told the same brief, pointing to input-channel-parity; a bullet in the grader section on testing a vocabulary by round trip, pointing to replication-as-comprehension-test."
+    },
+    "techniques/unconditional-fail-criteria.md": {
+      "disposition": "keep",
+      "reason": "Veto tests (contract, character evidence, binary detectability), deterministic-detector preference and the short list are coherent with the schema and the judge-selection application."
+    },
+    "techniques/cross-provider-flip-analysis.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: the first prerequisite now names the channel difference as the one it cannot remove and links input-channel-parity."
+    },
+    "techniques/trial-matrix-design.md": {
+      "disposition": "keep",
+      "reason": "Problems-not-pictures axis, single-variable rule, resumability and row/column reading are sound; the channel exception is owned by input-channel-parity and reached through flip analysis."
+    },
+    "techniques/replication-as-comprehension-test.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: '77% aggregate' became '75%' to match half at 100% and half at 50%; 'the only actionable shape in the data' now says the shape is what per-field rates exist to show and that a small sample can produce it by chance."
+    },
+    "techniques/two-grader-disagreement-rule.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: the boundary paragraph now states the study's finding (scores order close to human order, absolute scores carry wide intervals), says it used deterministic decoding and measured neither repeat variance nor head-to-head verdicts, and replaces 'repeat it and read the spread' with reading a scalar as a position within the batch."
+    },
+    "techniques/vision-model-grading-schema.md": {
+      "disposition": "clarify",
+      "reason": "applied 2026-10-31: the two-token trap is scoped to tokenizers that split numbers one digit per token. Still owed: 'Measured practice is unambiguous' on boolean versus scalar agreement names no source; the 'about twenty-three minutes per frame' clause does not say which reader it timed."
+    },
+    "techniques/regrade-without-regenerate.md": {
+      "disposition": "keep",
+      "reason": "Four cell states, explicit regrade mode, whole-corpus migration on schema change and the frozen-set comparison argument hold."
+    },
+    "techniques/input-channel-parity.md": {
+      "disposition": "keep",
+      "reason": "The two labelled numbers, the parity arm and the complexity banding follow from its law; the vendor source was not re-read, and the technique's argument does not rest on its numbers."
+    },
+    "applications/node--input-channel-parity.md": {
+      "disposition": "keep",
+      "reason": "re-verified 2026-10-31 against gravitone-gcloud@fd09c06: citations re-anchored and spot-checked (node-version 24 at gates.yml:252,440; router stamp at :531-533; agy's undeclared channel at agy.ts:205-208). The dated section records the roster growing to six adapters and agy dropping the negative prompt undeclared, which is the limit its own 'What this realization cannot do' predicted; it labels the 1/2 -> 2/2 proof as the two-adapter record, so the verdict and the note agree."
+    },
+    "applications/node--trial-matrix-design.md": {
+      "disposition": "keep",
+      "reason": "A concurrent working-tree edit, not this run's, re-anchors its citations (lib/library/trials.ts, shifted line ranges) and moves verified_on. Spot-check agrees: trials.ts exists at the new path, GRADE_SCHEMA at :79, CONCURRENCY at :71, the perception pin at :140. Cost arithmetic is consistent."
+    },
+    "applications/process--replication-as-comprehension-test.md": {
+      "disposition": "clarify",
+      "reason": "The adjudication table gives 94% and 75% 'vs hand-labelled truth' at 'n=8 graded fields on 2 frames'; 94% is not k/8. Read as 8 fields on each of 2 frames (16 judgements), 15/16 and 12/16 fit. Owed, not applied: the private run was not reopened. Its 80% mean matches the table (79.1% over ten fields). refresh_by 2026-11-25 is close."
+    },
+    "applications/process--trial-matrix-design.md": {
+      "disposition": "reverify",
+      "reason": "n=1 screening honestly labelled; its eight sources and the local probe were not re-read or re-run this pass."
+    },
+    "applications/process--unconditional-fail-criteria.md": {
+      "disposition": "keep",
+      "reason": "Re-verified 2026-10-31 at gravitone-gcloud@3c66e32e. Every rubric range and quote holds. The schema anchors were re-anchored to build-style-trials.mts:79-89 and direct-frames.mts:160-169, and both still lead with hasText. The imaging.md leakage sentence holds. verified_on 2026-10-31."
+    },
+    "applications/process--vision-model-grading-schema.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: Tier-2's first bullet now describes the rank/score study as scores ordering close to human order with wide absolute intervals, decoded deterministically, with no pairwise runs; the appendix's 'inverted' sentence is qualified as a contrast with the common reading, not with the study's data. verified_on unchanged: its other sources were not re-read."
+    }
+  }
+}
+```

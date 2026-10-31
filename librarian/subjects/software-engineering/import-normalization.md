@@ -320,3 +320,93 @@ new bytes; the application items stay owed.
   }
 }
 ```
+
+Re-verification, 2026-10-31. Three applications were re-checked against the personas checkout at 61029d7ae0. One verdict is reversed: the import commit door rolls back only on total failure, so it was never atomic against partial failure. That finding and five changes to format detection went into dated re-check sections. The owed tag for the expansion cap was applied.
+
+<!-- architecture-review:v1 -->
+```json
+{
+  "subject": "software-engineering/import-normalization",
+  "date": "2026-10-31",
+  "baseline": "1212e28aa",
+  "digest": "sha256-b2:1c8da53c7836a640",
+  "disposition": "clarify",
+  "coverage": "Re-verification pass for three applications against the personas checkout at 61029d7ae0 (read, not executed). node--format-detection: workflowDetector.ts, workflowParser.ts and useWorkflowImport.ts were read in full. Five moved anchors were updated, and a dated section records the changes: telemetry was added (the 'no telemetry' divergence is resolved), detection is one walk with JSON GitHub Actions detection, speculative parsing covers all four adapters from a total table, needsConfirmation is confidence !== 'high', the YAML bounds are now maxDepth 50 and maxTotalMergeKeys 200, and the JSON branch gets a pre-parse byte cap and a post-parse structure walk. The owed expansion-cap tag was applied. node--overlay-merge-absence-semantics: templateOverlays.ts, templateCatalog.ts and generate-template-checksums.mjs are byte-identical to the pinned b6dcf28aa1, the templateVerification.ts ranges hold, and the regression-test anchors moved by one line. rust--import-validation: n8n_limits.rs, prompt_sanitizer.rs, workflowSanitizer.ts, confirmation.rs and types.rs were read. Two anchors were moved, and two claims fail at HEAD and at fd720f929c (2026-08-18). The rollback branch fires only when every requested entity failed, and no ci.yml step diffs n8nLimits.generated.ts (codegen regenerates it in predev/prebuild). Its live-install count of 155 of 155 was not re-measured, so verified_on is unchanged. Every other document carries the earlier 2026-10-31 record.",
+  "counterexamples": [
+    "A format whose overlay carries no delete at all may legitimately resolve absent, null and empty to one outcome (the node overlay application) - the invariant is that the distinction survives to the merge, not that the merge yields three outcomes.",
+    "Under RFC 7396 a present empty array is a wholesale replace, so 'empty means not mentioned' is one dialect's answer, correctly stated as a declared choice.",
+    "A small shallow YAML document passes byte and depth caps and still expands exponentially through collection aliases.",
+    "A cheap deterministic parse makes the durable intermediate representation pure maintenance cost.",
+    "A post-waist write can be a deliberate refusal of a guarantee (the ads-connector application) and still be legitimate when the compensation is stated.",
+    "A transaction whose doc comment says any failure rolls it back can still commit partial results when the rollback branch fires only on total failure (personas confirmation.rs), so atomicity has to be read off the branch, not the comment."
+  ],
+  "sources": [
+    {
+      "source": "personas checkout at 61029d7ae0 and fd720f929c (read, not executed)",
+      "result": "workflowDetector.ts:11-25 DetectionResult, :67-175 analyzeWorkflow, :200 extension split. workflowParser.ts:56-62 YAML limits, :105-144 size and structure asserts, :171-179 PLATFORM_ADAPTERS, :224-246 syntax errors, :280 needsConfirmation, :303-322 telemetry, :335-369 tryParsers. useWorkflowImport.ts:70-78 FILE_PARSED and :96-99 size gate. templateOverlays.test.ts:298-301 and :303-319. confirmation.rs:78-83 doc comment, :405-437 total-failure-only rollback (the same branch at fd720f929c:370-), :459-466 receipt, :450 entity_results is the error list only. types.rs:63-77 defaults. .github/workflows/ci.yml diffs only commandNames.generated.ts and src/lib/bindings/. scripts/run-codegen.mjs:100-101 lists n8n-limits in predev and prebuild. .nvmrc is 22."
+    },
+    {
+      "source": "Live-install receipt census",
+      "result": "The 155 of 155 '[]' entity_results count was not re-measured. It is the one citation in rust--import-validation that this run could not resolve."
+    }
+  ],
+  "documents": {
+    "import-normalization.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: overlay paragraph no longer says a merge that maps absent and empty to one outcome has 'lost the argument' - that contradicted its own declared choice; the loss is collapsing them before the merge decides."
+    },
+    "techniques/format-detection.md": {
+      "disposition": "keep",
+      "reason": "Three-outcome contract, honest speculative escalation and the parser-not-sink condition on sniffing are coherent and stable; no disputed external claim."
+    },
+    "techniques/adapter-capability-tables.md": {
+      "disposition": "keep",
+      "reason": "Specificity-sorted matching, one table for transformer/coverage/ledger, and the refusal of fabricating fallbacks are sound; its grade vocabulary (full/approximate/data-only/unsupported) is the authority the other documents should name."
+    },
+    "techniques/intermediate-representation.md": {
+      "disposition": "keep",
+      "reason": "Both outside analogues confirmed verbatim this run (OWASP XSS cheat sheet on modifying after sanitizing; ASVS 5.0 1.1.2 on encoding as the final step). Identity minting and no-post-waist-write rule are internally consistent with the applications."
+    },
+    "techniques/durable-intermediate-representation.md": {
+      "disposition": "keep",
+      "reason": "Discriminator is precise (temporal, not combinatorial), the four obligations and the optional-guard trap are well bounded, and the when-transient-is-right list supplies its counterexamples."
+    },
+    "techniques/import-validation.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: configuration-API dialect sentence restated to what its own doc says (merges lists by key because whole-list replacement was 'often not what we want', carries explicit replace/delete directives); the unsupported history that two spellings of delete produced different results was removed. CVE-2026-45304 and RFC 7396 claims confirmed unchanged."
+    },
+    "techniques/review-before-commit.md": {
+      "disposition": "keep",
+      "reason": "Staged state with a reaper, per-entity opt-in, explicit collision policy, staged-first receipt that must enumerate; consistent with the rust application's measured divergence."
+    },
+    "techniques/lossy-conversion-disclosure.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: grade table's last row renamed from 'dropped' to 'unsupported' (meaning: dropped), matching the capability-table vocabulary the section says assigns the grade."
+    },
+    "techniques/overlay-merge-absence-semantics.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: 'a merge that collapses them into two is already broken' restated as a pipeline collapsing them before the merge decides, since the technique's own declared choice maps absent and empty to one outcome. Patch-convention descriptions confirmed against RFC 7396 and the strategic-merge-patch doc."
+    },
+    "applications/node--format-detection.md": {
+      "disposition": "clarify",
+      "reason": "Re-verified 2026-10-31. All citations resolved, anchors were moved, and verified_on is 2026-10-31 (node@22). The owed expansion-cap tag was applied. The dated section records five changes, including that the telemetry divergence is resolved and that the speculative parse covers four adapters. The body's 'Where it diverges' telemetry bullet and the three-adapter wording still read as current, so they should be folded into the present tense."
+    },
+    "applications/node--import-validation.md": {
+      "disposition": "keep",
+      "reason": "Dated before-after experiment (n=9) with its limits stated (predicates copied, Rust side walked not run); internally consistent with the overlay application."
+    },
+    "applications/rust--import-validation.md": {
+      "disposition": "clarify",
+      "reason": "Re-verified 2026-10-31. Verdict reversed: create_persona_atomically rolls back only when every requested entity failed. A partial failure commits with a 'N of M entities failed' receipt, the same as at fd720f929c, so 'any entity failure rolls back' quoted the doc comment rather than the code. Also corrected: no CI step diffs n8nLimits.generated.ts. A dated section records both. The Confirmed bullet still states the old claim and should be rewritten. Anchors were moved. verified_on is unchanged because the live 155-of-155 count was not re-measured."
+    },
+    "applications/node--intermediate-representation.md": {
+      "disposition": "keep",
+      "reason": "HEAD-pinned; a legitimate deliberate post-waist refusal with the compensation and its weakness (caller-held, single call site) stated honestly."
+    },
+    "applications/node--overlay-merge-absence-semantics.md": {
+      "disposition": "keep",
+      "reason": "Re-verified 2026-10-31. The three cited source files are byte-identical to the pinned b6dcf28aa1, and the templateVerification.ts ranges hold. The regression-test anchors were moved to :303-319 and :298-301. verified_on 2026-10-31, verified_against node@22 from .nvmrc."
+    }
+  }
+}
+```

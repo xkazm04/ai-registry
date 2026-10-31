@@ -5,8 +5,8 @@ subject: import-normalization
 technique: overlay-merge-absence-semantics
 status: forged
 stack: node
-verified_on: 2026-09-01
-verified_against: node@20
+verified_on: 2026-10-31
+verified_against: node@22
 ---
 
 # Translation overlays — the empty array that deleted the canonical, past a green checksum
@@ -19,7 +19,13 @@ strings, and the module header states the contract outright
 (`templateOverlays.ts:1-14`): *"structural fields (ids, cron, connector
 names, event types, maps_to paths) stay single-sourced in the canonical
 file… overlays are not independently checksummed."* All citations resolved
-at HEAD `b6dcf28aa1a5197407112922fa84692bed2f104d`.
+at HEAD `b6dcf28aa1a5197407112922fa84692bed2f104d`. Re-checked 2026-10-31
+at personas@61029d7ae0: `templateOverlays.ts`, `templateCatalog.ts` and
+`generate-template-checksums.mjs` are byte-identical to that commit, so every
+line cited from them holds. The sync digest's lines in `templateVerification.ts`
+still hold, though the file grew below them. The regression test moved down one
+line, because a `// @vitest-environment node` header was added, and its anchors
+below are updated.
 
 ## The vacuous guard, verbatim
 
@@ -94,10 +100,10 @@ application already credits this repo for.
 
 ## The regression test does what the technique asks
 
-`src/lib/personas/templates/__tests__/templateOverlays.test.ts:302-318`
+`src/lib/personas/templates/__tests__/templateOverlays.test.ts:303-319`
 pins both shapes in one case — an object array (`use_cases: []`) and a
 primitive array (`service_flow: []`) — and asserts the canonical survives
-both. The adjacent pre-existing case at `:297-300` covered the empty
+both. The adjacent pre-existing case at `:298-301` covered the empty
 *object* only, which is why the empty *array* went unnoticed for the
 module's whole life: the emptiness fixture existed and tested the other
 container kind.
