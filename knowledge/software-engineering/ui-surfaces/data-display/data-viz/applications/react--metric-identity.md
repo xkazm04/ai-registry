@@ -35,7 +35,9 @@ computation door, three declared windows. One edge inside that door cuts
 against the subject's own standard, though: a missing or zero denominator
 returns `0` (`:55-57`), collapsing "unmeasured" into "0%" at the derivation
 edge — exactly the upstream decision the empty-and-degraded technique warns
-about. Contrast with the better edge in `computeTrends.ts` below.
+about. (Since changed: the sibling
+[empty-and-degraded application](./react--empty-and-degraded-chart-states.md)
+widened the resolver to `number | null`.) Contrast with the better edge in `computeTrends.ts` below.
 
 ## One derivation, refusing to fabricate
 
@@ -79,7 +81,7 @@ comment into a mechanism.
 
 ## Where identity forked anyway
 
-The counter-example the golden path's frontmatter carries:
+The counterexample:
 `src/features/overview/components/shared/KpiTile.tsx:104` computes its own
 sparkline scale (`Math.min(...data)` floor) instead of importing the declared
 projection, and `sub_kpis/kpiMath.ts:93` exports a second `sparklinePoints()`

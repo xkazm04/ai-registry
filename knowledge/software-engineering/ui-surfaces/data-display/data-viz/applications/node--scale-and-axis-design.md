@@ -64,7 +64,8 @@ answered structurally in `defaultScaleResolve()` (`src/compile/resolve.ts:6-16`)
 - **facet** → `shared` for every channel but `theta`. Small multiples get the
   fixed common scale the technique demands by default, not by discipline.
   *(runnable)* a faceted line chart emits exactly two scales, `x` and `y`.
-- **concat** → `independent` for x/y and x/y-offset, `shared` for the rest. Worth
+- **concat** → `independent` for x/y, x/y-offset and the polar position channels
+  (theta/radius), `shared` for the rest. Worth
   stealing: concatenated panels are usually *different metrics* sharing a page, so
   position must not be unioned, while color must still mean one thing across the
   figure. *(runnable)* an `hconcat` of two identical charts emits `concat_0_x`,
@@ -97,11 +98,11 @@ applied to a construction the technique says should barely exist.
 ## 5. Tick density is a function of pixels, not a constant
 
 `defaultTickCount()` (`src/compile/axis/properties.ts:293-323`) emits the Vega signal
-`ceil(height/40)` for continuous non-log scales — one tick per 40 pixels, so "three to
-five per axis" becomes a density that survives resize rather than a number that stops
-holding. Binned axes get `ceil(size/10)` to stay under `maxbins`; log and discrete
-scales get no count; month/hours/day/quarter time units return `undefined` so Vega
-ticks on calendar boundaries.
+`ceil(size/40)` (the axis length: height on y, width on x) for continuous non-log scales
+— one tick per 40 pixels, so "three to five per axis" becomes a density that survives
+resize rather than a number that stops holding. Binned axes get `ceil(size/10)` to stay
+under `maxbins`; log and discrete scales get no count; month/hours/day/quarter time
+units return `undefined` so Vega ticks on calendar boundaries.
 
 `defaultTickMinStep()` (`:325-340`) makes "round numbers in the data's unit"
 mechanical: format `d` pins the step to `1` (no 2.5 on a count axis), a `timeUnit`
