@@ -5,7 +5,7 @@ subject: seated-in-world-reading
 technique: angular-legibility-floor
 stack: cpp
 status: draft
-verified_on: 2026-10-26
+verified_on: 2026-10-31
 applied: code
 ab_verdict: better
 proof: before-after

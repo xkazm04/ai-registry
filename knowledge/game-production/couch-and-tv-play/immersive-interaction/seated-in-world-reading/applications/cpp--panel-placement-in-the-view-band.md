@@ -5,7 +5,7 @@ subject: seated-in-world-reading
 technique: panel-placement-in-the-view-band
 stack: cpp
 status: draft
-verified_on: 2026-10-26
+verified_on: 2026-10-31
 applied: code
 ab_verdict: not-better
 proof: before-after
@@ -49,6 +49,17 @@ cropped at the frame edge, not in front of me". The rear screens' text bled abov
 which is the stacking failure the technique names. The owner then approved the move this
 technique prescribes: centre the deck straight ahead at 70 to 80 centimetres, scale it by 1.25 so
 the text keeps its angle, and fan the next screens to the side as spines.
+
+That move has since landed. At `master` `d1f37d7` (read 2026-10-31) the deck stands straight
+ahead at 75 centimetres, 40 x 22.5 centimetres (1.25 times 32 x 18), with the next screens as
+spines to its right:
+
+apps/vr/Source/bp/BpTable.h:347 "static constexpr float DeckDistanceCm = 75.f;"
+apps/vr/Source/bp/BpTable.h:348 "static constexpr float DeckYawDeg = 0.f;"
+apps/vr/Source/bp/BpTable.h:342 "stand as spines to its right (DeckSpine*), each DeckSpineWidthCm wide, DeckSpineGapCm apart and DeckStepBackCm"
+
+No owner verdict on the moved deck is recorded here, so the verdict above stays on the committed
+placement it was measured against.
 
 The geometry conflict was found, and written down in a comment, and still resolved toward the
 nominal distance rather than raised with the person who set it. That is the step the technique's

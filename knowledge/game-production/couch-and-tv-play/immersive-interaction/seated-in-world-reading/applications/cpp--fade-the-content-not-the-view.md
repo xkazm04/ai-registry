@@ -5,7 +5,7 @@ subject: seated-in-world-reading
 technique: fade-the-content-not-the-view
 stack: cpp
 status: draft
-verified_on: 2026-10-26
+verified_on: 2026-10-31
 applied: code
 ab_verdict: unmeasurable
 proof: structural-only

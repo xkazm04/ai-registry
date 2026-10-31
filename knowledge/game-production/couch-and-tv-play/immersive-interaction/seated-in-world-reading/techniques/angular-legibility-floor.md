@@ -21,11 +21,13 @@ author tested from. The scene then ships labels that read in one place and blur 
 Keep one constant: the minimum cap height, in arcminutes, at the eye the scene is judged from.
 Give its basis beside it:
 - published minimum legible text in headsets is about 0.35 to 0.5 degrees (21 to 30
-  arcminutes);
-- comfortable reading is about 0.6 to 0.8 degrees;
+  arcminutes): 0.35 to 0.4 at 2 metres, 0.4 to 0.5 at 45 centimetres;
+- comfortable reading is about 0.6 to 0.8 degrees (0.6 to 0.75 at 2 metres, 0.65 to 0.8 at
+  45 centimetres);
 - desktop display practice prefers 20 to 22 arcminutes.
 
-A floor near 22 arcminutes is the bottom of the legible band. It is right for labels a person
+A floor near 22 arcminutes is the bottom of the legible band, and at arm's length it sits just
+under the published near minimum of 24 arcminutes. It is right only for labels a person
 glances at. It is wrong as the size for anything a person reads line by line. Write a second,
 larger constant for body text on reading panels, and name both. One authority means every
 surface reads its size from these constants. No surface keeps a private minimum.
@@ -34,7 +36,7 @@ surface reads its size from these constants. No surface keeps a private minimum.
 
 The floor is checked in the pixels of the instrument that resolves the fewest pixels per
 degree. That is usually not the headset. A flat review capture of 1600 pixels across a 90-degree
-field resolves about 14 pixels a degree, and a current consumer headset about 25. Text that
+field resolves about 14 pixels a degree at its centre, and a current consumer headset about 25. Text that
 clears the floor in the headset can sit below it in every capture the team reviews. So the
 floor is converted into capture pixels (in one project, 6 pixels of cap height at 1600 x 900,
 because 5 pixels blurred digits together in test renders) and into arcminutes at the headset

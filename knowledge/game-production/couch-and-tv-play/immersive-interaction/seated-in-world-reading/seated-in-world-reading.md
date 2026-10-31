@@ -45,14 +45,17 @@ between contexts without the world moving under them.
 
 Legibility in a headset is set by the angle a character subtends at the eye. One platform
 vendor's user research puts the minimum legible text height at about 0.35 to 0.5 degrees
-(21 to 30 arcminutes) and comfortable reading at about 0.6 to 0.8 degrees. A desktop display
+(21 to 30 arcminutes) and comfortable reading at about 0.6 to 0.8 degrees. Both bands move
+with distance: the minimum is 0.35 to 0.4 degrees at 2 metres and 0.4 to 0.5 degrees at
+45 centimetres, so text read at arm's length, as a seated person reads, sits at the high end. A desktop display
 standard prefers 20 to 22 arcminutes for display text. The first rule follows: a floor is
 written as an angle, and each surface converts it into its own units at its own worst
 placement.
 
 The second rule is the one teams miss. The instrument that judges the scene usually resolves
 fewer pixels per degree than the headset does. A flat 1600-pixel capture at a 90-degree field
-resolves about 14 pixels a degree, where a current consumer headset resolves about 25. So
+resolves about 14 pixels a degree at its centre (a perspective image spends fewer pixels per
+degree in the middle than its 18-a-degree average), where a current consumer headset resolves about 25. So
 the binding check is in the capture's pixels, not the headset's. A label that reads in the
 headset can still blur in every review frame, and the review frames are where decisions get
 made. The floor is checked where it binds, and that is usually the capture. See
