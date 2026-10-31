@@ -55,9 +55,12 @@ means the colour-space policy, not the shading model.**
    and written back another
    ([one-authority-per-quantity](../../../../_laws.md#one-authority-per-quantity)).
 4. **Handle the shared texture as a measurement, whole.** Where several single-channel
-   quantities share one texture, that texture is measurement data in every channel — there
-   is no mixed case, because a display curve applies to the whole image and cannot be
-   applied to two of its three channels.
+   quantities share one texture, that texture is measurement data in every channel. Do not
+   generalise that into "a texture has one encoding": a format can declare a mixed texture
+   outright. The common case is the base colour texture, whose colour channels carry a
+   display curve while its fourth channel is linear coverage, and an extension may pair a
+   display-encoded colour with a linear strength the same way. Read the role contract per
+   channel, and decode each channel by it.
 5. **Assert it, do not inspect it.** Push a known ramp through each role and read the
    values back. A display curve applied to a linear ramp is obvious in numbers and nearly
    invisible to an eye that is also judging the material's design.

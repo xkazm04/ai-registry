@@ -340,3 +340,209 @@ pinned commit and re-running the paired collector arm.
   }
 }
 ```
+
+## Architecture review - 2026-10-31
+
+Stale since the second 2026-09-10 record. Since then only
+`applications/node--single-subject-plain-background.md` changed: a 2026-10-05 re-read moved
+its anchors (`input-gate.ts:142` to `:207`, the route to `:136-149`), added two outcome
+fields, and moved its verified_on to 2026-10-05. Read all 14 owned documents at the current
+bytes.
+
+**The two clarify items owed by the 2026-09-10 record are still owed.** The golden path still
+says "the last to speak on a property wins" where `reference-role-tagging`, which owns the
+rule, says "tends to win". `process--score-defect-verdict-protocol` still says the refusal
+function "refuses only on `verdict !== 'fail'`", which quotes the no-refusal guard as the
+refusal condition; the sibling application quotes the same line correctly.
+
+**One retraction of my own predecessor's reasoning.** The 2026-09-10 record moved the four
+Node and process applications from `reverify` to `keep` on the ground that not reopening a
+consumer tree "is a limit on this review, not a defect in the document". The second half is
+right and stands. But docs/semantic-review.md makes evidence a review could not reach
+`reverify` work, so the applications whose private tree was not reopened go back to
+`reverify`, with no content defect alleged and every verified_on left as written.
+
+**The anchor drift is explained, not an error.** The 2026-09-10 record read `:141` here and
+`:142` in the sibling as one drifted anchor. The sibling has since been re-read on
+2026-10-05 and now cites `:207`; this document still describes the 2026-08-20 file. The two
+anchors belong to different dates, and only a re-read of the consumer tree can move this
+one.
+
+**What I could not verify.** No consumer tree, no generator, no provider and no vision judge.
+Provider ordering behaviour (whether any API weights later references more) was not
+measured; the fix below aligns the golden path with the hedge its technique already holds.
+
+<!-- architecture-review:v1 -->
+```json
+{
+  "subject": "game-production/image-to-3d-input-gating",
+  "date": "2026-10-31",
+  "baseline": "d59c2e044",
+  "digest": "sha256-b2:665c480cdb829d21",
+  "disposition": "clarify",
+  "coverage": "All 14 owned documents read in full at current bytes, with the diff since the 2026-09-10 baseline (one application re-anchored on 2026-10-05). Golden-path-to-technique delegation and the two applications that quote one function were cross-checked. Not evaluated: any consumer tree, generation, provider ordering behaviour, judge latency or cost, or the historical measurements in the four applications; no verified_on was moved.",
+  "counterexamples": [
+    "A provider API that attends over all references jointly has no 'last to speak'; an ordering rule stated as fact there sends the master to the end for no effect, which is why the golden path must carry the technique's 'tends to'.",
+    "Scene mode where two adjacent regions return one fused mesh: coverage passes and the three-state area model has no term for it (retained from 2026-09-10).",
+    "A generator that synthesises its own extra views after submission: the caller never sees them and has no gate to withhold (retained from 2026-09-10)."
+  ],
+  "sources": [
+    {
+      "url": "local: knowledge/game-production/asset-production/sourcing-economics/image-to-3d-input-gating",
+      "result": "Every owned document read; established the two owed inconsistencies by direct comparison with reference-role-tagging and with node--single-subject-plain-background, which quotes the guard 'if (!outcome.ran || outcome.verdict !== 'fail') return null'. Established nothing about the consumer code or provider behaviour."
+    },
+    {
+      "url": "git: log of the subject directory since 44c899658",
+      "result": "Two commits: a repo-relative path fix (2026-09-23) and the 2026-10-05 re-read of node--single-subject-plain-background. Explains why that document and this one now cite different line numbers for one function."
+    }
+  ],
+  "documents": {
+    "image-to-3d-input-gating.md": {
+      "disposition": "clarify",
+      "reason": "Still owed from 2026-09-10: 'the last to speak on a property wins' is stronger than reference-role-tagging's 'tends to win', and the master-last ordering rests on that provider-dependent behaviour. Bring the golden path to the technique's modality. Everything else reads clean."
+    },
+    "techniques/canonical-pose-rule.md": {
+      "disposition": "keep",
+      "reason": "Unchanged since the 2026-09-10 keep; the off-frontal rule is conditioned on no extra view and the non-rigged and captured cases are exempted."
+    },
+    "techniques/multi-view-master-reference.md": {
+      "disposition": "keep",
+      "reason": "Unchanged; three to four views is a practical ceiling with a stated mechanism, and synthesised views are refused the status of observation."
+    },
+    "techniques/part-cut-planning.md": {
+      "disposition": "keep",
+      "reason": "Unchanged; four consumers each name a downstream cost, and distinct-part versus instance counts are kept apart."
+    },
+    "techniques/reference-role-tagging.md": {
+      "disposition": "keep",
+      "reason": "Unchanged; it owns the ordering rule and states it with the correct modality ('tends to win')."
+    },
+    "techniques/scene-partition-is-the-gated-unit.md": {
+      "disposition": "keep",
+      "reason": "Unchanged; residue as a third state and a minimum-not-average verdict are correct, bounded by the fused-mesh counterexample."
+    },
+    "techniques/score-defect-verdict-protocol.md": {
+      "disposition": "keep",
+      "reason": "Unchanged; three honest states, a closed vocabulary, the middle band and the rule that only a produced verdict may refuse a spend are consistent."
+    },
+    "techniques/single-subject-plain-background.md": {
+      "disposition": "keep",
+      "reason": "Unchanged; six ordered steps, a reasoned frame-edge hard fail and the scene hand-off."
+    },
+    "techniques/text-is-never-geometry.md": {
+      "disposition": "keep",
+      "reason": "Unchanged; the opening universal is bounded by its own decision rule to measure on one's own asset class."
+    },
+    "applications/node--part-cut-planning.md": {
+      "disposition": "reverify",
+      "reason": "Honest about status (simulation, structural-only, case 3 predicts no difference, falsifier named). Private tree not reopened; verified_on 2026-09-07 stands."
+    },
+    "applications/node--reference-role-tagging.md": {
+      "disposition": "reverify",
+      "reason": "Records its own deviation (style bundles lighting and material) and seam (video-shaped roles). Private tree not reopened; verified_on 2026-08-30 stands."
+    },
+    "applications/node--scene-partition-is-the-gated-unit.md": {
+      "disposition": "reverify",
+      "reason": "Paired measurement whose first arm refuted the hypothesis; A and B byte-identical, C reports 5 unresolved. Private tree not reopened; verified_on 2026-09-07 stands."
+    },
+    "applications/node--single-subject-plain-background.md": {
+      "disposition": "reverify",
+      "reason": "Re-anchored 2026-10-05 and internally consistent: the guard returns no refusal unless a produced verdict is 'fail', both non-running states stamp 'submitted ungated'. Private tree not reopened by this review; verified_on 2026-10-05 stands."
+    },
+    "applications/process--score-defect-verdict-protocol.md": {
+      "disposition": "clarify",
+      "reason": "Still owed from 2026-09-10: 'refuses only on verdict !== \"fail\"' quotes the no-refusal guard as the refusal condition. Say it refuses only a produced 'fail', so a 5 or 6 generates. The :141 anchor describes the 2026-08-20 file and cannot be moved without re-reading the tree."
+    }
+  }
+}
+```
+
+## Architecture review - 2026-10-31 (clarify applied)
+
+Applied both owed clarify items. The four Node applications keep `reverify`, which is now the
+overall disposition.
+
+<!-- architecture-review:v1 -->
+```json
+{
+  "subject": "game-production/image-to-3d-input-gating",
+  "date": "2026-10-31",
+  "baseline": "d59c2e044",
+  "digest": "sha256-b2:040949c4354d9404",
+  "disposition": "reverify",
+  "coverage": "Second record after applying both clarify items owed since 2026-09-10 and restated by the first 2026-10-31 record; edited passages re-read. Unedited documents keep their dispositions. No consumer tree, generation or provider behaviour was evaluated and no verified_on was moved.",
+  "counterexamples": [
+    "A provider API that attends over all references jointly has no 'last to speak'; an ordering rule stated as fact there sends the master to the end for no effect, which is why the golden path must carry the technique's 'tends to'.",
+    "Scene mode where two adjacent regions return one fused mesh: coverage passes and the three-state area model has no term for it (retained from 2026-09-10).",
+    "A generator that synthesises its own extra views after submission: the caller never sees them and has no gate to withhold (retained from 2026-09-10)."
+  ],
+  "sources": [
+    {
+      "url": "local: knowledge/game-production/asset-production/sourcing-economics/image-to-3d-input-gating",
+      "result": "Every owned document read; established the two owed inconsistencies by direct comparison with reference-role-tagging and with node--single-subject-plain-background, which quotes the guard 'if (!outcome.ran || outcome.verdict !== 'fail') return null'. Established nothing about the consumer code or provider behaviour."
+    },
+    {
+      "url": "git: log of the subject directory since 44c899658",
+      "result": "Two commits: a repo-relative path fix (2026-09-23) and the 2026-10-05 re-read of node--single-subject-plain-background. Explains why that document and this one now cite different line numbers for one function."
+    }
+  ],
+  "documents": {
+    "image-to-3d-input-gating.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: the assembly rule now reads \"tend to be read as refinements\" and \"tends to win\", matching reference-role-tagging, and says it is a behaviour of the generators it was observed on, not a law of every provider."
+    },
+    "techniques/canonical-pose-rule.md": {
+      "disposition": "keep",
+      "reason": "Unchanged since the 2026-09-10 keep; the off-frontal rule is conditioned on no extra view and the non-rigged and captured cases are exempted."
+    },
+    "techniques/multi-view-master-reference.md": {
+      "disposition": "keep",
+      "reason": "Unchanged; three to four views is a practical ceiling with a stated mechanism, and synthesised views are refused the status of observation."
+    },
+    "techniques/part-cut-planning.md": {
+      "disposition": "keep",
+      "reason": "Unchanged; four consumers each name a downstream cost, and distinct-part versus instance counts are kept apart."
+    },
+    "techniques/reference-role-tagging.md": {
+      "disposition": "keep",
+      "reason": "Unchanged; it owns the ordering rule and states it with the correct modality ('tends to win')."
+    },
+    "techniques/scene-partition-is-the-gated-unit.md": {
+      "disposition": "keep",
+      "reason": "Unchanged; residue as a third state and a minimum-not-average verdict are correct, bounded by the fused-mesh counterexample."
+    },
+    "techniques/score-defect-verdict-protocol.md": {
+      "disposition": "keep",
+      "reason": "Unchanged; three honest states, a closed vocabulary, the middle band and the rule that only a produced verdict may refuse a spend are consistent."
+    },
+    "techniques/single-subject-plain-background.md": {
+      "disposition": "keep",
+      "reason": "Unchanged; six ordered steps, a reasoned frame-edge hard fail and the scene hand-off."
+    },
+    "techniques/text-is-never-geometry.md": {
+      "disposition": "keep",
+      "reason": "Unchanged; the opening universal is bounded by its own decision rule to measure on one's own asset class."
+    },
+    "applications/node--part-cut-planning.md": {
+      "disposition": "reverify",
+      "reason": "Honest about status (simulation, structural-only, case 3 predicts no difference, falsifier named). Private tree not reopened; verified_on 2026-09-07 stands."
+    },
+    "applications/node--reference-role-tagging.md": {
+      "disposition": "reverify",
+      "reason": "Records its own deviation (style bundles lighting and material) and seam (video-shaped roles). Private tree not reopened; verified_on 2026-08-30 stands."
+    },
+    "applications/node--scene-partition-is-the-gated-unit.md": {
+      "disposition": "reverify",
+      "reason": "Paired measurement whose first arm refuted the hypothesis; A and B byte-identical, C reports 5 unresolved. Private tree not reopened; verified_on 2026-09-07 stands."
+    },
+    "applications/node--single-subject-plain-background.md": {
+      "disposition": "reverify",
+      "reason": "Re-anchored 2026-10-05 and internally consistent: the guard returns no refusal unless a produced verdict is 'fail', both non-running states stamp 'submitted ungated'. Private tree not reopened by this review; verified_on 2026-10-05 stands."
+    },
+    "applications/process--score-defect-verdict-protocol.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: \"refuses only on verdict !== fail\" now reads \"returns no refusal whenever verdict !== fail, so it refuses only a produced fail\". The :141 anchor and verified_on 2026-08-20 were left as written."
+    }
+  }
+}
+```

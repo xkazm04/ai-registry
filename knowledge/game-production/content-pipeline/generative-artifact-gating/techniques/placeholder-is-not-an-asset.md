@@ -49,9 +49,12 @@ The only reliable way to know whether a gate makes this distinction is to attack
 
 1. Enumerate every registered generative step. The whole registry, not a sample — the
    steps you would have sampled are the ones somebody thought about.
-2. For each, take the live content the step's check reads and produce mutants: scale every
-   numeric field by a large factor, replace every string with a different string, and
-   where a selection exists, point it elsewhere.
+2. For each, take the live content the step's check reads and produce mutants **one leaf
+   at a time**: scale a numeric field by a large factor, replace a string with a different
+   string, delete a key, and where a selection exists, point it elsewhere. Recurse into
+   nested objects. Scaling every number at once preserves ratios, so a check graded on a
+   ratio cannot move. A walk of the top level alone never reaches a nested value. Either
+   shortcut reports a working gate as insensitive.
 3. Re-run the verdict against each mutant.
 4. Record, per step, whether **any** mutant moved the verdict.
 

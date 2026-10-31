@@ -51,8 +51,12 @@ relocates without negating gets the familiar uniformly-shiny import.
    ([one-authority-per-quantity](../../../../_laws.md#one-authority-per-quantity)).
 3. **Apply the scalar factor and the map in the order the source convention defines**,
    which is normally multiplication of the sampled value by the factor. Negate the
-   *product*, not the map and the factor separately — negating twice restores the original
-   and looks, from outside, exactly like a conversion that never ran.
+   *product*, not the map and the factor separately. Inverting each term and then
+   multiplying gives (1 − f)(1 − m), which is neither the original f·m nor the correct
+   1 − f·m: at f = 0.2 and m = 0.5 the three are 0.40, 0.10 and 0.90. It is a third, wrong
+   surface, and with the factor at a default of one it is zero everywhere: a uniformly
+   fully-rough surface that matches neither the familiar uniformly-shiny symptom nor the
+   delivery.
 4. **Calibrate off the midpoint, at both ends.** Assert the conversion against values at
    both extremes and at least one asymmetric intermediate. A test built around a single mid
    value is a test that cannot fail for the reason the code exists.

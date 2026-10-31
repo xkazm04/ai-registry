@@ -29,8 +29,11 @@ repair: **dereference, then judge the object, and bind the verdict to it.**
    position it occupies. If the candidate's position disagrees with the field that selected
    it, **fail**. Disagreement means something reordered or rewrote the history without
    updating the pointer, and every verdict already bound to this artifact is suspect.
-4. **Classify the candidate's origin.** Generated, or deterministic stand-in. A stand-in
-   defers; a generated asset proceeds to grading.
+4. **Classify the candidate's origin.** Read any acquisition record first; an acquired
+   asset is graded on that record, never as generated. Otherwise the origin is generated,
+   constructed or deterministic stand-in. A stand-in defers; a constructed artifact, for a
+   class that declares a terminal deterministic producer, is graded on the class's own
+   terms; a generated asset proceeds to grading.
 5. **Grade the resolved object** against the criteria for its class, at the lowest rung its
    evidence actually supports.
 6. **Name the object in the verdict.** The verdict text carries the identity of the

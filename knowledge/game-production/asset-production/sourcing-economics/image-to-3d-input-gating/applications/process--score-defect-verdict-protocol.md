@@ -62,8 +62,9 @@ unreliable for exactly the reason the technique states: two phrasings of one pro
 two rows. The standard is a closed vocabulary; this is a deviation, and the fix is a small
 enumerated list in the prompt plus validation in the parser, not a looser standard.
 
-**The middle band proceeds.** `inputGateRefusal` (`input-gate.ts:141`) refuses only on
-`verdict !== 'fail'`, so a 5 or 6 generates. The technique's rule is *prepare and re-gate*.
+**The middle band proceeds.** `inputGateRefusal` (`input-gate.ts:141`) returns no refusal
+whenever `verdict !== 'fail'`, so it refuses only a produced `fail`, and a 5 or 6
+generates. The technique's rule is *prepare and re-gate*.
 Keeping `warn` visible in the report is honest; letting it spend is not.
 
 ## The basis mismatch, kept visible

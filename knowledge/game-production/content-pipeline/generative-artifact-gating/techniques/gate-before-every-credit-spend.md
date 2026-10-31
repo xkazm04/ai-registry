@@ -16,7 +16,9 @@ In a pipeline where each stage costs money and each stage transforms the previou
 output, defects do not merely survive — they **amplify**. A downstream model reproduces
 and magnifies whatever it is fed: a flaw in the source is not smoothed by the next
 transform, it is elaborated into the next representation, where it is harder to see and
-much harder to remove. No later stage repairs a bad input. The gate therefore belongs on
+much harder to remove. No later transforming stage repairs a bad input; a stage built to
+repair one is a separate decision with its own price, owned by the repair-economics
+neighbour, and never a reason to skip this gate. The gate therefore belongs on
 the **input** to each paid stage, not on its output.
 
 ## The economic argument

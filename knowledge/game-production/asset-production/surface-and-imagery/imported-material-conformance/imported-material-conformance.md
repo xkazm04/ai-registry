@@ -102,9 +102,13 @@ that follows from the fixed point, are
 The third disagreement is the one that sends teams to debug the wrong tool for a day,
 because it presents as data loss and is not.
 
-The interchange formats state a default for every material property, and the defaults were
+An interchange format states a default for every material property, and the defaults were
 chosen so that a minimal material renders as *something*, not so that an omission is
-visible. The two gloss factors default to fully on, so a material that simply omits them
+visible. The values below are those of the most widely used real-time interchange format,
+and they are that format's answers, not facts about materials: a widely used
+scene-description format defaults roughness to the midpoint and metalness to off, so the
+same omission arrives there mid-rough and non-metallic. In the first format the two gloss
+factors default to fully on, so a material that simply omits them
 arrives fully metallic and fully rough — and through an un-negated gloss axis, fully
 metallic and mirror-bright. Transparency defaults to opaque and two-sidedness to off, so a
 pane authored as a window arrives as an opaque single-sided card.
