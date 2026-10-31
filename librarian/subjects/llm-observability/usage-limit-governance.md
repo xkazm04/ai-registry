@@ -288,3 +288,126 @@ caps, Bedrock, Google Cloud spend-cap budgets) were not re-resolved; its
 ```
 
 - **Impact evaluation, 2026-10-14.** cost-evidence-and-imputation: impact-null, blind 4/5 vs 4/5; enforcement-placement-and-reconciliation: impact-null, pre-landing arm 2/5 vs HEAD arm 1/5, margin not attributed to the landing. Ledger: `librarian/harvest/evaluations.md`.
+
+## Architecture review - 2026-10-31
+
+Re-review because the bytes moved since the 2026-09-10 record. Three techniques changed:
+`cost-evidence-and-imputation` (token caps lose the "a token count is exact" exemption;
+missing usage is unmeasurable, not headroom), `enforcement-placement-and-reconciliation`
+(force-and-observe a stream usage frame; the admission check adds zero to the usage
+meter), and `incremental-window-accounting` (a new section: on a failed commit, reset the
+cache and rebuild, because a rolled-back write can leave an advanced cursor past ids the
+store will reuse). The other ten documents are byte-identical to the 2026-09-10 record's
+baseline; its decisions on them carry forward, including the still-owed `clarify` on the
+node application's stale "correction owed" closing section.
+
+**New finding - the token-cap amendment did not propagate to its sibling.**
+`metric-window-threshold-action-model` still says "calls and tokens are exact by
+construction - a call is a call - and need no evidence structure". The amended
+`cost-evidence-and-imputation` now says the opposite for tokens: exact only once
+captured, missing usage on an enforcing token cap is the unmeasurable state, and the
+evidence structure belongs on "a cost or token cap whose meter can go missing". A reader
+of the metric model drops the presence flag the amendment says is how a token cap becomes
+unlimited for that call.
+
+**The rollback section checks out against a primary source, and is stronger than it
+claims.** SQLite's documentation says a rowid without AUTOINCREMENT is one larger than the
+current largest, and that even with AUTOINCREMENT "ROWID values that were rolled back are
+ignored and can be reused". So the advanced-cursor under-count is reachable on SQLite
+whichever key form is used; the technique's "confirm that the store reuses ids" is the
+right instruction (a Postgres sequence does not roll back), and it does not overclaim.
+
+**The stream amendment reads correctly with one reading hazard.** OpenAI's
+`stream_options.include_usage` puts usage only in an extra final chunk, and its own type
+docs warn that an interrupted stream may never deliver it. The amendment names the
+estimate as the fallback when the frame "cannot be forced or observed", which covers
+that; "charge last-observed actuals ... including when the stream never ends" is only
+reachable on protocols that send cumulative usage mid-stream. Below the bar for a change.
+
+Not evaluated: no runtime witness, no tree opened this pass, the 2026-10-14 impact
+evaluations not rerun, provider-survey rows still governed by their refresh_by.
+
+<!-- architecture-review:v1 -->
+```json
+{
+  "subject": "llm-observability/usage-limit-governance",
+  "date": "2026-10-31",
+  "baseline": "ab72ede2",
+  "digest": "sha256-b2:a784035133baaaba",
+  "disposition": "clarify",
+  "coverage": "All 13 owned documents checked at current bytes: the three techniques changed since the 2026-09-10 record read in full, the ten unchanged documents re-checked by diff against that record's baseline (44c8996) and a grep for claims the amendments could contradict. Trigger: bytes changed (harvest batch 2 amendments plus the rollback section). Intended benefit: no cap admits for free when its meter goes missing or its cache drifts. Failure if ignored: a reader of the metric model treats an unmeasured token count as exact, and the node application keeps listing corrections that already landed. Boundary: caps on LLM spend, calls and tokens in an operator's own seats; provider-side enforcement is described, not designed. Not evaluated: no build, test or A/B rerun, no consumer tree opened, provider-survey rows not re-resolved.",
+  "counterexamples": [
+    "A stream is cut off before OpenAI's include_usage final chunk arrives. No usage frame was ever observed, so 'charge last-observed actuals' has nothing to charge and the estimate fallback is the only path - fine as written, but the 'even when the stream never ends' clause applies only to protocols with mid-stream cumulative usage.",
+    "A reader of metric-window-threshold-action-model builds a token cap with no evidence structure because tokens are 'exact by construction'; a call with missing usage then evaluates as zero tokens and the cap admits it, the exact failure the amended cost-evidence technique names.",
+    "A Postgres-backed ledger keyed by a sequence does not reuse rolled-back ids, so the advanced-cursor under-count does not occur there; only the phantom over-count does. The technique's 'confirm the store reuses ids' covers this."
+  ],
+  "sources": [
+    {
+      "url": "https://www.sqlite.org/autoinc.html",
+      "result": "Quoted: without AUTOINCREMENT the new ROWID is 'one larger than the largest ROWID in the table prior to the insert'; with AUTOINCREMENT 'Only ROWID values from previous transactions that were committed are considered. ROWID values that were rolled back are ignored and can be reused.' Supports the rollback section's id-reuse premise on SQLite under either key form. Does not speak to other stores."
+    },
+    {
+      "url": "https://rubydoc.info/github/openai/openai-ruby/OpenAI/Models/Chat/ChatCompletionStreamOptions",
+      "result": "Found via search with the OpenAI-generated type docs: include_usage streams an additional final chunk carrying usage, and if the stream is interrupted that chunk may not be received. Supports keeping the estimate as fallback; shows the usage frame on that protocol is terminal, not mid-stream."
+    },
+    {
+      "path": "knowledge/llm-observability/economics-and-governance/usage-limit-governance",
+      "result": "git diff 44c8996..ab72ede2 shows only the three changed techniques; grep finds metric-window-threshold-action-model line 25 still asserting tokens are exact and need no evidence structure."
+    }
+  ],
+  "documents": {
+    "usage-limit-governance.md": {
+      "disposition": "keep",
+      "reason": "Unchanged since the 2026-09-10 record; the honesty rule and the four-seat account still hold and nothing in it contradicts the amendments."
+    },
+    "techniques/concurrent-admission-integrity.md": {
+      "disposition": "keep",
+      "reason": "Unchanged; the advisory-lock hash-collision silence remains a boundary gap below the bar for a rewrite."
+    },
+    "techniques/cost-evidence-and-imputation.md": {
+      "disposition": "keep",
+      "reason": "The amendment removes a false exemption: a token count is exact only once captured, and missing usage on an enforcing token cap refuses or records unmeasurable rather than admitting. Internally consistent and consistent with the Azure gateway behaviour the subject already cites."
+    },
+    "techniques/dimension-scoped-caps.md": {
+      "disposition": "keep",
+      "reason": "Unchanged; absence-never-matches and the untagged-bucket obligation still hold."
+    },
+    "techniques/enforcement-placement-and-reconciliation.md": {
+      "disposition": "keep",
+      "reason": "The force-and-observe paragraph keeps the estimate as the fallback when a usage frame cannot be forced or observed, which covers OpenAI's terminal-only usage chunk that an interrupted stream may never send. 'Admission check adds zero of the usage meter' is a correct, specific guard. The 'even when the stream never ends' clause is reachable only with mid-stream cumulative usage; a reading hazard, not a wrong claim."
+    },
+    "techniques/graduated-throttle-with-deterministic-shed.md": {
+      "disposition": "keep",
+      "reason": "Unchanged; monotonicity remains scoped to a fixed id population."
+    },
+    "techniques/incremental-window-accounting.md": {
+      "disposition": "keep",
+      "reason": "New rollback section is correct and well argued: phantom over-count versus advanced-cursor under-count, reset-and-rebuild over cursor restore, and a store-dependent premise it tells the reader to confirm. SQLite docs confirm rolled-back rowids are reused even with AUTOINCREMENT, so the hazard is real on that store."
+    },
+    "techniques/metric-window-threshold-action-model.md": {
+      "disposition": "clarify",
+      "reason": "Line 25 still says 'calls and tokens are exact by construction ... and need no evidence structure', which the amended cost-evidence-and-imputation now contradicts for tokens. Change to: calls are exact by construction; tokens are exact once captured, and an enforcing token cap carries the presence/evidence structure because its meter can go missing (see cost-evidence-and-imputation)."
+    },
+    "applications/node--enforcement-placement-and-reconciliation.md": {
+      "disposition": "clarify",
+      "reason": "Unchanged, so the 2026-09-10 clarify is still owed: the closing section says the technique 'does not yet say' the correction and the rust sibling 'should be amended', but both have landed and clients/README carries the paragraph. Rewrite the section to say the corrections landed."
+    },
+    "applications/process--enforcement-placement-and-reconciliation.md": {
+      "disposition": "keep",
+      "reason": "Unchanged; Azure and OpenAI claims were re-resolved on 2026-09-10; other provider rows remain governed by refresh_by 2026-12-05."
+    },
+    "applications/rust--concurrent-admission-integrity.md": {
+      "disposition": "keep",
+      "reason": "Unchanged; names its unwritten assumptions honestly. Not rebuilt."
+    },
+    "applications/rust--enforcement-placement-and-reconciliation.md": {
+      "disposition": "keep",
+      "reason": "Unchanged; carries the corrected TTL bound and the bootstrap gap. Not rebuilt."
+    },
+    "applications/rust--graduated-throttle-with-deterministic-shed.md": {
+      "disposition": "keep",
+      "reason": "Unchanged; scope of the monotonicity test stated exactly. Not rebuilt."
+    }
+  }
+}
+```

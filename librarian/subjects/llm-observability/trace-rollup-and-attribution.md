@@ -299,3 +299,120 @@ field is left as it stands.
 ```
 
 - **Impact evaluation, 2026-10-14.** span-cap-truncation-signal: impact-null, blind 5/5 vs 5/5; neither arm opened the technique, so a weak test (consult routing). Ledger: `librarian/harvest/evaluations.md`.
+
+## Architecture review - 2026-10-31
+
+Re-review because the bytes moved since the 2026-09-10 record. Two documents changed:
+`span-cap-truncation-signal` gained the sampled-list amendment from the 2026-09-17
+harvest, and the Phoenix application swapped `verified_against` for
+`counterpart: external`. The other eleven documents are byte-identical to what the
+2026-09-10 record judged, and every finding it made is still on disk: the golden path
+still prescribes "activity timestamp plus trace id" as the cursor, both the golden path
+and `tenant-scoped-trace-ids` still call the standard's hex ids case-insensitive, the
+redelivered-span rule and the zeroed summed-latency exclusion are unchanged, and the
+LightTrack application still cites the `(ended, trace_id)` keyset unflagged. Those
+decisions carry forward unchanged; nothing in this pass retracts them. W3C Trace Context
+was re-read and still reads `trace-id = 32HEXDIGLC` with the lowercase-only alphabet.
+
+**New finding - the sampled-list amendment asks for a field a sample cannot fill.** The
+amendment says a list over a sampled or federated store should "carry
+true/retained/truncated". The contract it borrows defines *true* as the real count,
+"learned cheaply (fetch one past the cap, or a count query)". That works for a cap over
+a census and is exactly what a sampled store cannot give: under probability sampling the
+population is an *estimate* (OpenTelemetry calls it the adjusted count, "an estimate of
+the number of spans there would be without sampling"), and under a scan ceiling or rate
+limit - the two cases the amendment names - the adjusted count "is not defined" at all.
+Read literally, the amendment asks the payload to fill the true field with a number it
+does not have, which breaks the technique's own `estimation-announces-itself` law. The
+direction of the amendment is right; its contract should say the sampled form carries
+retained/scanned plus an estimated total with its method, or an explicit unknown, never a
+value in the field that means census.
+
+What I did not do: no tree was cloned, no harness or suite rerun, no verified_on,
+applied or ab_verdict field refreshed.
+
+<!-- architecture-review:v1 -->
+```json
+{
+  "subject": "llm-observability/trace-rollup-and-attribution",
+  "date": "2026-10-31",
+  "baseline": "ab72ede2",
+  "digest": "sha256-b2:3db1001b079944c5",
+  "disposition": "clarify",
+  "coverage": "All 13 owned documents checked at current bytes; the two documents changed since the 2026-09-10 record (span-cap-truncation-signal, python--keyset-trace-pagination) read in full, and the eleven unchanged documents re-checked by diff against that record's baseline plus a grep confirming each of its findings is still present. Trigger: bytes changed (harvest batch 2 amendment, external-counterpart metadata). Intended benefit: every number the subject teaches carries the set it describes. Failure if ignored: a reader entering at the golden path pages on the skipping column, and a sampled list carries a 'true' count it never measured. Boundary: operator-side rollup over span events, not producer-side sampling design. Not evaluated: no third-party or consumer tree cloned, no harness, vitest or cargo suite rerun, no verified_on/applied/ab_verdict refreshed.",
+  "counterexamples": [
+    "A list over a rate-limited federated backend fills true/retained/truncated as the amendment asks. The backend returned a scan ceiling, so 'true' is either the ceiling (a lie of omission) or a guess, and the field reads as a census either way.",
+    "A list over a 1-in-100 probability-sampled store reports the adjusted-count estimate in the 'true' field. The number is a statistical estimate with variance, presented in the field the contract defines as an exact count.",
+    "A trace list paged newest-first on the trace's latest event time, as the golden path still prescribes, silently skips a trace a late span moves in front of the cursor (carried from the 2026-09-10 record; still on disk).",
+    "An ingest door case-folds an uppercase-hex traceparent the golden path calls valid under a case-insensitive standard; W3C Trace Context makes it invalid and requires it to be ignored (carried; still on disk)."
+  ],
+  "sources": [
+    {
+      "url": "https://www.w3.org/TR/trace-context/",
+      "result": "Re-read: trace-id = 32HEXDIGLC, parent-id = 16HEXDIGLC, HEXDIGLC is the lowercase hex alphabet; 'Vendors MUST ignore the traceparent when the parent-id is invalid', with non-lowercase hex as the example; only the header name must be accepted in any case. Still contradicts the 'case-insensitive' premise in the golden path and tenant-scoped-trace-ids."
+    },
+    {
+      "url": "https://opentelemetry.io/docs/specs/otel/trace/tracestate-probability-sampling/",
+      "result": "Quoted: adjusted count is 'the mathematical inverse (reciprocal) of the sampling probability' and is 'useful as an estimate of the number of spans there would be without sampling'; 'Adjusted count is not defined for spans that were obtained via non-probabilistic sampling'. Supports the finding that a sampled list cannot fill an exact 'true' count; does not say how an operator surface should display the estimate."
+    },
+    {
+      "path": "knowledge/llm-observability/telemetry-and-data/trace-rollup-and-attribution",
+      "result": "git diff from the 2026-09-10 baseline 44c8996 to ab72ede2 shows only the two changed documents; grep confirms the 'activity timestamp', 'case-insensitive', 'two distinct calls', 'conservative' and '(ended' passages the earlier record judged are unchanged."
+    }
+  ],
+  "documents": {
+    "trace-rollup-and-attribution.md": {
+      "disposition": "clarify",
+      "reason": "Unchanged since the 2026-09-10 record and its two corrections are still owed: replace '(activity timestamp plus trace id)' with the technique's immutable-or-duplicate-direction cursor rule, and replace 'the distributed-tracing standard defines hex ids as case-insensitive' with lenient ingest of a non-conforming id (W3C mandates lowercase, re-read this pass)."
+    },
+    "techniques/derived-trace-rollup.md": {
+      "disposition": "clarify",
+      "reason": "Unchanged; still owed: present 'two events reporting the same span id are two distinct calls' as a policy with its failure direction (a redelivered span double-counts the totals the invariant protects), not as a fact."
+    },
+    "techniques/keyset-trace-pagination.md": {
+      "disposition": "keep",
+      "reason": "Unchanged; carries the cursor-column direction constraint correctly and is the document the golden path and the Rust application must follow."
+    },
+    "techniques/single-shape-rule.md": {
+      "disposition": "keep",
+      "reason": "Unchanged; the collection amendment and its conformance-fixture extension still hold."
+    },
+    "techniques/span-cap-truncation-signal.md": {
+      "disposition": "clarify",
+      "reason": "The new sampled-list amendment is right in direction but asks a sampled or scan-ceilinged list to carry 'true/retained/truncated', and the contract defines 'true' as an exact count learned cheaply. A sample cannot supply it (OTel: an estimate under probability sampling, undefined under non-probabilistic). State the sampled form as retained/scanned plus an estimated total with its method or an explicit unknown, never a census value in the 'true' field; add the sampled-list case to use_when."
+    },
+    "techniques/tenant-scoped-trace-ids.md": {
+      "disposition": "clarify",
+      "reason": "Unchanged; still owed: drop 'the standard's hex ids are case-insensitive' and restate canonicalization as lenient ingest of a non-conforming id, since W3C Trace Context requires an uppercase-hex traceparent to be ignored."
+    },
+    "techniques/unpriced-span-accounting.md": {
+      "disposition": "clarify",
+      "reason": "Unchanged; still owed: the latency exclusion argues about wall-clock duration, not the summed per-span latency the sibling technique requires, where a zeroed value is an uncounted understatement - give summed latency an unmeasured count or scope the exclusion."
+    },
+    "applications/python--keyset-trace-pagination.md": {
+      "disposition": "keep",
+      "reason": "Only change is the frontmatter swap from verified_against to counterpart: external, which matches the gate rule that external applications carry no verified_against. Content and its measured disproof unchanged; not rerun."
+    },
+    "applications/react--derived-trace-rollup.md": {
+      "disposition": "keep",
+      "reason": "Unchanged; honest about what first-wins linkage does not buy. Not rerun."
+    },
+    "applications/react--single-shape-rule.md": {
+      "disposition": "keep",
+      "reason": "Unchanged; limits section remains accurate. Not rerun."
+    },
+    "applications/react--unpriced-span-accounting.md": {
+      "disposition": "keep",
+      "reason": "Unchanged; the absence-destroyed-in-the-mapper finding stands. Not rerun."
+    },
+    "applications/rust--derived-trace-rollup.md": {
+      "disposition": "clarify",
+      "reason": "Unchanged; still cites the '(ended, trace_id)' keyset as a pinned property without flagging that the sibling application measured that column losing rows newest-first and the technique forbids it. Add that flag."
+    },
+    "applications/rust--unpriced-span-accounting.md": {
+      "disposition": "keep",
+      "reason": "Unchanged; reports the zeroed-latency contrast faithfully, the finding belongs to the technique. Not rerun."
+    }
+  }
+}
+```

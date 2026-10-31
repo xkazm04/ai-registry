@@ -315,3 +315,122 @@ re-verify is the executed vitest table and the grep-scoped negatives, so it stay
   }
 }
 ```
+
+## 2026-10-31 - architecture re-review (stale digest)
+
+Since `44c8996` this subject took real content changes:
+
+- `paired-per-case-testing` gained "Equal length is not a matching case set". It replaced "refuse to pair" on any mismatch with "refuse what cannot be matched; pair the intersection and disclose it".
+- `rust--paired-per-case-testing.md` was rewritten around the case-identity fix (`CaseScore`, `paired_deltas_by_case`, the named `Unpairable` refusals, retained and dropped counts carried with the deltas).
+- A new external application, `python--paired-per-case-testing--ultrarag.md`, was added.
+- The promptfoo application took the `counterpart: external` frontmatter change.
+
+I read all four in full. I confirmed the other nine documents unchanged by diff, and re-read the passages the 2026-09-10 record flagged.
+
+**Retraction.** The 2026-09-10 keep on `paired-per-case-testing` cited "the refuse-to-pair rule" as correct. That rule has since been revised, and I think the revision is right. A flat refusal deletes the tested comparison from most real matrices, while the cases that are shared are genuinely matched. The new text separates four named refusals from a disclosed subset, carries the real n to the power disclosure, and couples the zero-spread-is-maximal-evidence rule to identity-verified pairing. The monotone-difficulty argument (a one-position offset yields a constant fake delta, so zero spread, so p = 0) is the strongest new idea in the bundle.
+
+**The revision did not reach the golden path.** Its "silent pair mismatch" failure mode still ends "Refuse to pair, loudly, when the cases do not line up". It also treats dropping unmatched cases as the failure, when the technique now prescribes exactly that, provided it is disclosed. The two documents now give opposite instructions for the commonest case: two targets that errored on different cases.
+
+**UltraRAG, checked at its pin.** I fetched `servers/evaluation/src/evaluation.py` at `a763d344`. Every quoted line matches:
+
+- line 628, union of query ids
+- line 610, the `0.0` fill
+- line 368, `cnt / n_resamples`
+- line 5, unseeded `import random`
+- line 650, `p_val < 0.05`
+
+The zero-p finding matches Phipson & Smyth (2010): a permutation p-value should never be zero, and the exact p-value is bounded above by (b+1)/(m+1). One wording slips into the same error the 2026-09-10 record found in `family-wise-correction`: "eighteen independent chances to be significant". Metrics and cutoffs computed over one run pair are strongly correlated, so eighteen is the count of tests, not of independent chances. The frontmatter is also wrong for an external reading. It carries `verified_against: python@3.11` and no `counterpart: external`, which `docs/rkb-profile.md` forbids.
+
+Still owed from 2026-09-10, unchanged at current bytes:
+
+- the golden path's flat "several times more statistical power"
+- the 26% figure stated without its independence bound
+- unknown status mapping to exit 0
+- the `$0` vocabulary and the incompatible `BENCHMARK_FRAMEWORK.md` anchors in `rust--partial-run-never-green`
+
+<!-- architecture-review:v1 -->
+```json
+{
+  "subject": "llm-observability/quality-regression-gating",
+  "date": "2026-10-31",
+  "baseline": "140c101d",
+  "digest": "sha256-b2:9548319fbd9c4eae",
+  "disposition": "clarify",
+  "coverage": "All 13 current documents covered. The 4 documents changed since 44c8996 were read in full (paired-per-case-testing, rust--paired-per-case-testing, the new python--paired-per-case-testing--ultrarag, and node--unverified-vs-regressed-exit-states, frontmatter only). The other 9 were confirmed unchanged by git diff and re-read at the passages the 2026-09-10 record flagged. UltraRAG evaluation.py was fetched at the pinned commit and its quoted lines compared. Not evaluated: the LightTrack paired.rs and cases.rs anchors, the promptfoo vitest harness, the UltraRAG lifted-function measurements (not re-run), and any verified_on refresh.",
+  "counterexamples": [
+    "Two targets each error on a different case of a difficulty-ordered suite. The golden path says refuse loudly; the technique says pair the intersection and disclose the retained count. A reader following the golden path discards a valid test that the technique requires.",
+    "UltraRAG: two runs identical on the 20 queries both answered, with one silent on 30 more. Zero-filled union gives a mean difference of 0.280 at p = 0.0000; the intersection gives 0.000 at p = 1.0. The report carries no filled-query count.",
+    "Eighteen metric-by-cutoff tests over one run pair are not eighteen independent chances: recall@5 and recall@10 share most of their hits, so the spurious-significance rate sits below 1 - 0.95^18.",
+    "Six targets tested against one shared baseline and case set: 26% spurious red is an upper bound under independence, not the rate.",
+    "An unrecognized run status maps to exit 0 by documented decision, so a writer newer than its reader silently unguards the gate."
+  ],
+  "sources": [
+    {
+      "url": "https://raw.githubusercontent.com/OpenBMB/UltraRAG/a763d34432007fcd1b261209f222bb10df907beb/servers/evaluation/src/evaluation.py",
+      "result": "Fetched at the application's pin. Lines match verbatim: 5 'import random', 357 'if not diffs:', 365 's += d if random.getrandbits(1) else -d', 368 'return cnt / n_resamples', 610 'return row[key] if key in row else 0.0', 628 'qids = sorted(set(per_a.keys()) | set(per_b.keys()))', 650 '\"significant\": bool(p_val < 0.05)'. Confirms the union-with-zero-fill, unseeded, zero-floor and uncorrected findings structurally. The application's numeric measurements were not re-run."
+    },
+    {
+      "url": "https://www.degruyterbrill.com/document/doi/10.2202/1544-6115.1585",
+      "result": "Phipson & Smyth (2010), 'Permutation P-values Should Never Be Zero'. Per the search summary and the flipr vignette that restates it, permutation p-values computed as b/m are understated by about 1/m, and the exact p-value is bounded by (b+1)/(m+1). Supports the UltraRAG application's add-one correction. Full paper text was not read."
+    },
+    {
+      "path": "knowledge/llm-observability/quality-scoring/quality-regression-gating",
+      "result": "git diff 44c8996..140c101d covers the four changed documents. grep confirms the golden path's line 144 'Refuse to pair, loudly' now contradicts the technique's intersection-with-disclosure rule. It also confirms that the power, 26%, unknown-status and $0/anchor passages flagged on 2026-09-10 are unchanged."
+    }
+  ],
+  "documents": {
+    "quality-regression-gating.md": {
+      "disposition": "clarify",
+      "reason": "Two changes. (1) Rewrite the 'silent pair mismatch' failure mode to match the revised technique. The failure is dropping unmatched cases silently or zipping by position; refuse only the named unpairable cases (disjoint, duplicate ids, fewer than two shared, empty) and otherwise pair the intersection with retained and dropped counts disclosed. (2) Name the within-case correlation as the condition behind 'several times more statistical power' (still owed)."
+    },
+    "techniques/paired-per-case-testing.md": {
+      "disposition": "keep",
+      "reason": "The equal-length-is-not-identity section, the four named refusals versus the disclosed subset, the selection-effect and bounded-preview caveats, and coupling the zero-spread rule to identity-verified pairing are all correct. The power claim stays hedged as 'typically'. Retracts the 2026-09-10 reason that praised the flat refuse-to-pair rule."
+    },
+    "techniques/family-wise-correction.md": {
+      "disposition": "clarify",
+      "reason": "Unchanged. State 1 - 0.95^6 = 26% as an upper bound under independence; tests sharing a baseline and case set are positively correlated."
+    },
+    "techniques/fixed-alpha-discipline.md": {
+      "disposition": "keep",
+      "reason": "Unchanged. The constant-versus-default argument and the routing of flexibility elsewhere hold."
+    },
+    "techniques/tested-superiority-claims.md": {
+      "disposition": "keep",
+      "reason": "Unchanged. The argmax-is-a-sample-fact framing and the two permitted sentences hold."
+    },
+    "techniques/unverified-vs-regressed-exit-states.md": {
+      "disposition": "clarify",
+      "reason": "Unchanged. Map an unrecognized status to unverified rather than exit 0, or mark the current default as the deliberate exception to the composition doctrine that it is."
+    },
+    "techniques/partial-run-never-green.md": {
+      "disposition": "keep",
+      "reason": "Unchanged. The doctrine and the recorded-plan exemption hold."
+    },
+    "techniques/baseline-carries-its-conditions.md": {
+      "disposition": "keep",
+      "reason": "Unchanged. Still the deepest document in the subject."
+    },
+    "applications/node--unverified-vs-regressed-exit-states.md": {
+      "disposition": "reverify",
+      "reason": "Only the correct counterpart: external marking changed. The NaN green-hole reasoning stands as arithmetic. The executed vitest table and promptfoo 0.122.0 anchors were not re-verified."
+    },
+    "applications/rust--baseline-carries-its-conditions.md": {
+      "disposition": "reverify",
+      "reason": "Unchanged. The eight-case paired arms and the canonicalization table were not re-run. The 'disarms nothing' framing holds only if an unverified refusal counts as detection."
+    },
+    "applications/rust--paired-per-case-testing.md": {
+      "disposition": "reverify",
+      "reason": "Rewritten around the identity fix, and the narrative is coherent: positional helper confined to an aligned-by-construction caller, the CaseScore type, the named refusals, paired_cases and paired_cases_dropped serialized, and the fixture-not-field caveat on the ladder test. Everything is anchored into the LightTrack tree, which this run did not open, and the normal-approximation regime at eval-suite n is still unstated."
+    },
+    "applications/rust--partial-run-never-green.md": {
+      "disposition": "reverify",
+      "reason": "Unchanged. The BENCHMARK_FRAMEWORK.md:462-480 anchor still conflicts with the sibling's :427-445 under one verified_on, and '$0' still conflicts with the null-never-zero vocabulary."
+    },
+    "applications/python--paired-per-case-testing--ultrarag.md": {
+      "disposition": "clarify",
+      "reason": "Every quoted line was confirmed at a763d344. Two fixes. (1) Frontmatter: an external reading must carry counterpart: external and drop verified_against: python@3.11, per docs/rkb-profile.md. (2) Change 'eighteen independent chances to be significant' to 'eighteen tests', because metrics and cutoffs over one run pair are correlated. The union-zero-fill finding and its measurement framing (structure, never magnitude) are sound."
+    }
+  }
+}
+```
