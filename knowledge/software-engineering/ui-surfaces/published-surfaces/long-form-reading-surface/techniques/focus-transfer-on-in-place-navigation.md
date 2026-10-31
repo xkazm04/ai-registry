@@ -18,7 +18,9 @@ performs for free does not happen. A visual reader loses nothing: the new prose
 is under their eyes. A keyboard reader is still focused on the link they
 activated, in a panel that now describes a document they are not reading, and a
 screen-reader reader has been told nothing at all — the surface changed
-underneath a cursor that did not move.
+underneath a cursor that did not move. Some routers do announce the new page's
+title on a client-side transition; an announcement still leaves focus where it
+was.
 
 This is a specific instance of a general contract owned by the accessibility
 subject — in-place navigation moves focus or announces, and any surface that

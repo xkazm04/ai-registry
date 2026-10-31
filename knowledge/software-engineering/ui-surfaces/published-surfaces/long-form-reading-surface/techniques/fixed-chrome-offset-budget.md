@@ -71,7 +71,11 @@ anyway" — is exactly the divergence the module exists to prevent.
   that every anchor jump — from the panel, from a shared link, from the browser's
   own restoration — lands the heading visible with prose beneath it. Doing this
   by intercepting clicks and scrolling manually fixes one entry point and leaves
-  the others broken.
+  the others broken. A single top scroll padding on the scroll container is the
+  equivalent alternative: the platform honors both the target's scroll margin
+  and the container's scroll padding when it scrolls an element into view, so
+  either covers every entry point, and the padding is one declaration instead
+  of one per heading. Pick one; stacking both double-counts the chrome.
 - **The reading band's top edge.** The band that defines the current section
   starts below the chrome, for the same reason: a heading hidden behind the
   header is not "where the reader is". This one has a constraint the others do
@@ -94,11 +98,13 @@ anyway" — is exactly the divergence the module exists to prevent.
 
 ## The scrolling-ancestor constraint
 
-Pinning is relative to the nearest scrolling ancestor, not to the window. So a
-scroll container introduced anywhere between a pinned element and the viewport
-silently disables the pinning — not with an error, not with a warning: the
-element simply scrolls away with the content, and everything else about the page
-looks correct. The change that causes it is usually unrelated and reasonable —
+Pinning is relative to the nearest scrolling ancestor, not to the window — and
+"scrolling" here means any ancestor whose overflow is hidden, auto or scroll,
+even one that never actually scrolls because nothing constrains its height. So
+a scroll container introduced anywhere between a pinned element and the
+viewport silently disables the pinning — not with an error, not with a
+warning: the element simply scrolls away with the content, and everything else
+about the page looks correct. The change that causes it is usually unrelated and reasonable —
 making a layout region scroll independently so a sibling can be held still —
 and the symptom appears on a different screen, days later.
 
