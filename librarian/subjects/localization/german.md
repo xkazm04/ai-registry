@@ -398,3 +398,80 @@ executing software, and nothing was executed.
   }
 }
 ```
+
+## Architecture review - 2026-10-31 (clarify applied)
+
+Applies the three clarify items of the earlier 2026-10-31 record against `10c1901ce`.
+The golden-path plural boundary now states CLDR's `i = 1 and v = 0`, and "1,0" selects
+other. The DE-QUOTES heading closes with U+201C. DE-ESZETT no longer calls ẞ preferred;
+it says the 2024 rule names ẞ first and still permits SS, and it quotes section 25 E3,
+re-extracted from the Regelwerk PDF this run. Nothing was executed.
+
+<!-- architecture-review:v1 -->
+```json
+{
+  "subject": "localization/german",
+  "date": "2026-10-31",
+  "baseline": "10c1901ce",
+  "digest": "sha256-b2:7d853083e9e11474",
+  "disposition": "keep",
+  "coverage": "All 10 current documents decided. This record applies the three clarify items of the earlier 2026-10-31 record (baseline 90705bb6a) and changes nothing else; the seven keeps are carried unchanged. CLDR release-48-2 plurals.xml was fetched this run and the de rule read. The 2024 Amtliches Regelwerk PDF was fetched again and PDF page 50 extracted as text. The golden path was checked and does not restate DE-ESZETT, so it needed no alignment. Not evaluated: DIN 5008, the vendor style guide, the kp and Personas trees, the UCD case-mapping harness (not re-run). No verification date was refreshed.",
+  "counterexamples": [
+    "A price formatted 1,00 selects other under CLDR's i = 1 and v = 0; the golden path now says 1,0 selects other (resolved).",
+    "An all-caps style guide that prints STRASSE is fully compliant with the 2024 rule; DE-ESZETT no longer calls ẞ preferred (resolved). The spec application still paraphrases the technique's old 'preferred' wording in one sentence; that document is not owed a change by the earlier record and is left as is.",
+    "The DE-QUOTES heading now closes „low-high with U+201C (resolved)."
+  ],
+  "sources": [
+    {
+      "url": "https://www.rechtschreibrat.com/DOX/RfdR_Amtliches-Regelwerk_2024.pdf",
+      "result": "Fetched this run (HTTP 200); section 25 E3, PDF page 50, extracted text: 'E3: Bei Schreibung mit Großbuchstaben ist neben der Verwendung des Großbuchstabens ẞ auch die Schreibung SS möglich: Straße – STRAẞE – STRASSE.' Grounds the DE-ESZETT restatement and its new citation."
+    },
+    {
+      "url": "https://raw.githubusercontent.com/unicode-org/cldr/release-48-2/common/supplemental/plurals.xml",
+      "result": "Fetched this run. de shares the en group: 'one' = 'i = 1 and v = 0 @integer 1'; 'other' includes '@decimal 0.0~1.5'. Grounds the golden-path boundary rewrite."
+    }
+  ],
+  "documents": {
+    "german.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: 'exactly 1, including 1.0 contexts by the same rule English uses' now reads 'exactly integer 1 with no visible fraction digit, i = 1 and v = 0; \"1,0\" selects other, as in English'. Branch-set and copied-body claims kept. The golden path does not restate DE-ESZETT."
+    },
+    "techniques/typography-and-spacing.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: the DE-QUOTES heading's closing ASCII U+0022 after 'low-high' is now U+201C. The rest of the 2026-09-10 keep reasoning holds, and DIN 5008 is still unread."
+    },
+    "techniques/capitalization-and-compounds.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: DE-ESZETT's 'preferred variant since the 2024 revision (STRAẞE preferred, STRASSE still permitted)' now reads 'since the 2024 revision the rule names ẞ first and still permits SS (Straße – STRAẞE – STRASSE), without ranking either', and the source line cites and quotes section 25 E3. The Unicode half is unaffected."
+    },
+    "techniques/register-and-address.md": {
+      "disposition": "keep",
+      "reason": "Unchanged since the 2026-09-10 keep."
+    },
+    "techniques/de-anglicization-constructions.md": {
+      "disposition": "keep",
+      "reason": "Unchanged since the 2026-09-10 keep."
+    },
+    "techniques/length-and-compression.md": {
+      "disposition": "keep",
+      "reason": "Unchanged since the 2026-09-10 keep."
+    },
+    "techniques/terminology-and-loanwords.md": {
+      "disposition": "keep",
+      "reason": "Unchanged since the 2026-09-10 keep."
+    },
+    "applications/process--de-anglicization-constructions.md": {
+      "disposition": "keep",
+      "reason": "Only machine paths became repo-relative. The 2026-09-10 keep stands."
+    },
+    "applications/process--register-and-address.md": {
+      "disposition": "keep",
+      "reason": "Only machine paths became repo-relative. The 2026-09-10 keep stands."
+    },
+    "applications/spec--capitalization-and-compounds.md": {
+      "disposition": "keep",
+      "reason": "Only counterpart: external was added. Its refutation of presentation-layer uppercasing still stands. One sentence paraphrases the technique as 'saying ẞ is the preferred all-caps variant', which the technique no longer says; worth aligning at the next review, but no change was owed here. Not re-executed."
+    }
+  }
+}
+```

@@ -26,8 +26,10 @@ warm; it reads presumptuous. Choose tykání only as a deliberate whole-brand
 decision applied to every string — the two registers cannot coexist in one
 catalog, and a single *tvůj* leaking into a vykání catalog is a defect an
 audit flags on sight. Register drift is a certainty when sections are
-translated at different times; sweep for *tvůj/tvoje/tvi/ti* and singular
-imperative forms (*zkontroluj*, *vyber*) as a mechanical gate. When a legacy
+translated at different times; sweep at word boundaries for the possessive
+forms (*tvůj/tvoje/tvá/tvé/tví*) — not for bare *ti*, which also spells the
+demonstrative plural (*ti uživatelé*) — and for singular imperative forms
+(*zkontroluj*, *vyber*) as a mechanical gate. When a legacy
 section shipped in the wrong register, the ruling is: new strings follow the
 house register, the legacy section is queued for one coordinated migration —
 never "matched" by new strings, which spreads the drift.

@@ -397,3 +397,105 @@ resolved. Nothing was executed and no consuming tree was reopened.
   }
 }
 ```
+
+## Architecture review - 2026-10-31 (clarify applied)
+
+Applies the five clarify items of the earlier 2026-10-31 record against `10c1901ce`.
+The golden-path plural table now follows CLDR's `v = 0` / `v != 0` split. The ordinal
+sentence now carries the technique's category-set caveat. The em-dash clause is a house
+default in both the golden path and CS-DASH, quoting the Language Institute. The register
+sweep is a word-boundary possessive list without bare *ti*. The plural application says
+three trees, and the typography application separates its two ASCII quote pairs. One
+inference in the earlier record is retracted: the second-person dative clitic *ti* is
+itself tykání, so it is not a false positive for a register sweep; the demonstrative
+plural is. Nothing was executed.
+
+<!-- architecture-review:v1 -->
+```json
+{
+  "subject": "localization/czech",
+  "date": "2026-10-31",
+  "baseline": "10c1901ce",
+  "digest": "sha256-b2:23aa7e62bfa07654",
+  "disposition": "keep",
+  "coverage": "All 13 current documents decided. This record applies the five clarify items of the earlier 2026-10-31 record (baseline 90705bb6a) and changes nothing else; the eight keeps are carried unchanged. CLDR release-48-2 plurals.xml and ordinals.xml were fetched and the cs rules read; UJC Internetova jazykova prirucka id=165 was re-read. For the typography application, the current kp Czech catalog was read for the two quoted strings it describes; the kp history in this checkout is too shallow to see the 2026-10-15 change itself. Not evaluated: MS style guide section 4.1.11 (cited, not re-read; the edit no longer rests a fact about Czech on it), CSN 01 6910, prirucka id=785, the personas and personas-web trees, any rendered wrapping. Nothing was executed and no verification date was refreshed.",
+  "counterexamples": [
+    "A currency surface formatted with two fraction digits selects many for every count; the golden path's many row now reads v != 0 and predicts it (resolved).",
+    "A house following the Language Institute that uses the long dash consistently is no longer reported defective by CS-DASH as rewritten; it is checked for mixed dash use instead (resolved).",
+    "The register gate no longer sweeps bare ti, which also spells the demonstrative plural (ti uživatelé) (resolved).",
+    "The proposed {one, few, many} helper recorded in the plural application drops other, which covers 0 and every integer from 5, and adds many, which Czech selects only for a visible fraction digit. A schema that looks Czech-shaped is wrong on arrival (retained)."
+  ],
+  "sources": [
+    {
+      "url": "https://raw.githubusercontent.com/unicode-org/cldr/release-48-2/common/supplemental/plurals.xml",
+      "result": "Fetched this run. cs: 'one' = 'i = 1 and v = 0', 'few' = 'i = 2..4 and v = 0', 'many' = 'v != 0 @decimal 0.0~1.5, 10.0, ...', 'other' = '@integer 0, 5~19, 100, ...'. Grounds the rewritten plural table rows."
+    },
+    {
+      "url": "https://raw.githubusercontent.com/unicode-org/cldr/release-48-2/common/supplemental/ordinals.xml",
+      "result": "Fetched this run. cs sits in the single-category group: 'other @integer 0~15, 100, ...'. Grounds 'ordinals collapse to a single category'; the selector-survival caveat comes from the technique."
+    },
+    {
+      "url": "https://prirucka.ujc.cas.cz/?id=165",
+      "result": "Re-read this run (HTTP 200): 'Vedle krátké pomlčky (–) se v textu někdy používá také pomlčka dlouhá (—). Použití znaků pomlčky a dlouhé pomlčky musí být jednotné'. Grounds restating CS-DASH and the golden-path sentence as a house default."
+    },
+    {
+      "source": "kp Czech catalog, current working tree",
+      "result": "Read this run: coachTraceNotFound carries 'neodpovídá „{slug}“' inside a running sentence; HIRE_POPULATION_UNSUPPORTED carries 'Nastavte population na \"agent\"' with ASCII quotes. Consistent with the application's corrected account of one pair converted and one left."
+    }
+  ],
+  "documents": {
+    "czech.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: plural table rows now read one = integer 1 with v = 0, few = integers 2-4 with v = 0, many = rendered with a fraction digit (v != 0, adds 1,0 dne); 'ordinal selectors are never needed' now says no ordinal branch needs Czech-specific forms but a source selector must survive; the em dash clause is now a house default (en dash, no em dash) with the Language Institute's consistent-long-dash allowance."
+    },
+    "techniques/plural-and-count-agreement.md": {
+      "disposition": "keep",
+      "reason": "Unchanged since the 2026-09-10 keep. The new personas-web evidence fits its two-workaround rule and its ban on nominative-plural other."
+    },
+    "techniques/typography-and-spacing.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: CS-DASH heading now 'The en dash is the house dash; the em dash is a house ban'; the rule calls U+2014 excluded as a house constant following MS section 4.1.11 and quotes the Language Institute's consistent-long-dash allowance; the closing line now says U+2014 is a finding under the default constant, and a long-dash house checks for mixed dash use. The dash-count detection move is kept. CS-NBSP untouched."
+    },
+    "techniques/register-and-address.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: the sweep list 'tvůj/tvoje/tvi/ti' is now a word-boundary sweep for possessive forms tvůj/tvoje/tvá/tvé/tví, with bare ti excluded because it also spells the demonstrative plural. Note: the earlier record also named the dative clitic as a false positive, but the second-person dative clitic ti is itself tykání, so only the demonstrative was given as the reason."
+    },
+    "techniques/gender-neutral-forms.md": {
+      "disposition": "keep",
+      "reason": "Unchanged and confirmed by its new application. That application suggests adding its word-attached bracket-suffix pattern as an audit detector beside the never-the-bracket rule. That is a banked lead, not a correction."
+    },
+    "techniques/terminology-and-loanwords.md": {
+      "disposition": "keep",
+      "reason": "Unchanged since the 2026-09-10 keep."
+    },
+    "techniques/de-anglicization-constructions.md": {
+      "disposition": "keep",
+      "reason": "Unchanged since the 2026-09-10 keep."
+    },
+    "techniques/ui-conventions-and-length.md": {
+      "disposition": "keep",
+      "reason": "Unchanged since the 2026-09-10 keep."
+    },
+    "applications/process--de-anglicization-constructions.md": {
+      "disposition": "keep",
+      "reason": "The machine paths the old record flagged are now repo-relative. Otherwise unchanged and not re-verified against kp."
+    },
+    "applications/process--plural-and-count-agreement.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: title now 'across three real catalogs'; intro now names three products (full ICU, two-slot, no plural primitive) with the first two verified 2026-08-24 and the third 2026-09-14; heading 'Second tree: personas-web' now 'Third tree'; 'from these two repos' now 'three'. The tree was not reopened and verified_on is unchanged."
+    },
+    "applications/spec--plural-and-count-agreement.md": {
+      "disposition": "keep",
+      "reason": "Only counterpart: external was added. The 2026-09-10 keep stands. Not re-executed."
+    },
+    "applications/process--gender-neutral-forms.md": {
+      "disposition": "keep",
+      "reason": "A clean A/B: a target measure, a byte-identical floor, a mechanical change with no rewording, and recasts that need a native ruling left out and named. Counts consistent. The kp tree was not reopened."
+    },
+    "applications/process--typography-and-spacing.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: B now says one of the catalog's two ASCII quote pairs (around the slug placeholder) was converted and that this sits outside the NBSP target measure; 'not done' now says the other pair (population na \"agent\") was left as a verbatim value, and the slug pair counted as prose because it quotes a placeholder inside a running sentence. Checked against the current kp catalog; verified_on unchanged because the other citations were not re-checked."
+    }
+  }
+}
+```
