@@ -64,8 +64,8 @@ the window it was computed for named beside it.
   low-margin channels and punishes high-margin ones.
 - **When the margin changes**, re-derive; never edit a break-even.
 - **When serialising a break-even across a boundary that types the field as a
-  number**, map the infinite case to absent, because a JSON encoder writes infinity as
-  null and a consumer reading null as zero would call a never-profitable channel
+  number**, map the infinite case to absent, because JavaScript's JSON encoder writes
+  infinity as null (other encoders emit a non-standard token or refuse) and a consumer reading null as zero would call a never-profitable channel
   profitable at any return.
 
 ## Procedure

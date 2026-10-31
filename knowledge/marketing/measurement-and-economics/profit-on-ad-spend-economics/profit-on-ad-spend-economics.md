@@ -64,7 +64,8 @@ A margin of zero or below has no break-even: the channel can never cover spend f
 gross profit, and the honest value is "never", not a large number and not zero. The
 loaded variant folds fixed overhead and per-order fulfilment onto the spend the margin
 must cover: break-even rises to (ad cost + overhead + fulfilment) divided by (ad cost
-times margin), and it is only defined when there is spend to divide by.
+times margin), and it is only defined when there is spend to divide by and a
+positive margin.
 
 ## Profitable means net profit is not negative
 
@@ -138,8 +139,8 @@ that failed its gate is never used to price a spend the data has not seen.
   quietly replaced by zero produced a rosier "true net profit" that omitted exactly the
   overhead the model existed to capture. Reject the input; never default a cost to zero.
 - **Two margin bases drifting.** A per-channel blended margin and a single persisted
-  margin describe the same business; when they diverge by more than a couple of
-  percentage points the two surfaces tell two profit stories, and one is wrong.
+  margin describe the same business; when they diverge by two percentage points or
+  more the two surfaces tell two profit stories, and one is wrong.
 - **Partial buckets compared.** A trailing partial month against a full one fakes a
   collapse in net profit; that belongs to the period-comparison subject, but the
   profit trend must flag the bucket before anyone reads it.

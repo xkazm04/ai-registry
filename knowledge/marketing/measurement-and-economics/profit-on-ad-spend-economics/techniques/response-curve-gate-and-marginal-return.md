@@ -41,9 +41,11 @@ keeping its constant-return behaviour and disclosing "linear". The bars, and the
 footing:
 
 - **Minimum spend days: 14.** Convention. Two calendar weeks average out the weekday
-  shape the curve does not model. Practitioner guidance for weekly-grain media models
-  asks for twelve or more weeks; at daily grain two weeks is the floor below which the
-  weekday cycle is the dominant signal.
+  shape the curve does not model. It is a floor, not a media-mix standard: Google's
+  Meridian documentation asks for at least two years of weekly data for a geo-level
+  model and three for a national one. At daily grain two weeks is the floor below
+  which the weekday cycle is the dominant signal, and a fit that clears it supports
+  a local marginal reading, not a media-mix estimate.
 - **Minimum log-log r-squared: 0.3.** Convention. Below it the spend-revenue cloud has
   no usable shape and a curve would be a confident-looking coin flip.
 - **Elasticity in [0.2, 1).** Convention on both ends. A measured slope at or above 1
