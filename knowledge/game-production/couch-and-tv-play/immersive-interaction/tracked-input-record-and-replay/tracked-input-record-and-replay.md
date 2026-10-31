@@ -23,8 +23,9 @@ the replay, and the honest handling of stand-in input used before real recording
 
 ## Status of this subject
 
-This subject is a draft. It is written from design reasoning and from one consumer's plan,
-not from a measured run. Its evidence gate is owed: the regressions that replay catches,
+This subject is a draft. Its techniques have been reconciled against one consumer's tree,
+on synthetic clips only, and no application has yet set replay against a person. Its
+evidence gate is owed: the regressions that replay catches,
 set against the regressions that a person playing catches. There is no evidence for that
 comparison yet, and nothing below should be read as having passed it. The gate is met by a
 later application, never by this text.

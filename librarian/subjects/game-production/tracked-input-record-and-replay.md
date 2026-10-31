@@ -123,3 +123,175 @@ says so: 0 recorded clips, 0 human mouse draws.
   ledger row where a human figure disagrees with a generated one.
 - Retire the generated corpus per rule only by the ledger's section 4. The sigil stroke
   bounds (`InnerTailRatio`, `MinInnerStrokeRatio`) were set entirely on stand-ins.
+
+## Architecture review - 2026-10-31
+
+First architecture review. Every technique has now been reconciled against one consumer
+tree, but only on synthetic clips, so the replay-versus-person gate is still owed. The
+`versioned-input-corpus` application (2026-10-22, project change `14a0f63`) has no touch-log
+entry above; it is the subject's only `ab-paired` proof. Primary sources confirm the
+raw-sensor playback divergence (ARCore) and that pinch strength and the system-gesture flag
+are runtime-reported (OpenXR aim state; one runtime always leaves the system bit unset). Two
+clarify items were found: the golden path's status paragraph, and the headless technique's
+"a person who watched it" oracle sentence, which contradicts its own boundary.
+
+<!-- architecture-review:v1 -->
+```json
+{
+  "subject": "game-production/tracked-input-record-and-replay",
+  "date": "2026-10-31",
+  "baseline": "b3879e1d2",
+  "digest": "sha256-b2:1fc15cf2f3e3b36d",
+  "disposition": "clarify",
+  "coverage": "All 9 documents read in full (golden path, 4 techniques, 4 cpp applications). Four external sources checked for the raw-sensor playback, decided-field and runtime-version claims; the Khronos page refused direct fetch. Application arithmetic recomputed. Not evaluated: the private consumer tree, any engine build, any real-hand recording (none exists).",
+  "counterexamples": [
+    "A raw-sensor replay can produce different poses from the session it came from and between playback runs (ARCore documents both), so an exact threshold assertion on that tier fails with no rule change.",
+    "A runtime can leave a decided field permanently unset: Ultraleap's OpenXR layer always clears the system-gesture aim bit, so a rule gated on it is unexercised on that runtime whatever the clips say.",
+    "A differential oracle taken from the shipped rule on a clean clip is not circular: a wrong rule does not make 'the input path leaves the verdict unchanged' pass, provided the reference is anchored.",
+    "A synthetic corpus that poses the thumb from the authored pinch reports zero cross-layer disagreements by construction; that zero is not a pass."
+  ],
+  "sources": [
+    {
+      "url": "https://developers.google.com/ar/develop/java/recording-and-playback/developer-guide",
+      "result": "Read 2026-10-31: 'ARCore APIs may produce different results during playback than observed during recording.' and 'They may also produce different results during subsequent playback sessions.' Supports record-below-the-rule's raw-sensor row (tolerances, repeated runs). It does not say tracking is re-run; the row's 'tracking run again on playback' is the technique's inference, consistent with but not stated by this page."
+    },
+    {
+      "url": "https://registry.khronos.org/OpenXR/specs/1.1/man/html/XrHandTrackingAimStateFB.html",
+      "result": "Direct fetch refused (403); spec content reached through search excerpts and the Ultraleap page. XrHandTrackingAimStateFB carries pinchStrengthIndex (0.0-1.0, 1.0 = thumb and index fully touching) and the SYSTEM_GESTURE aim flag, chained onto xrLocateHandJointsEXT. Supports 'a frame of joints often also carries a contact strength ... and a system-gesture flag' as runtime-decided fields."
+    },
+    {
+      "url": "https://docs.ultraleap.com/openxr/features/facebook-aim/index.html",
+      "result": "Via search excerpt: the MENU_PRESSED and SYSTEM_GESTURE bits are always unset on that runtime. Confirms decided fields vary by runtime, not only by version."
+    },
+    {
+      "url": "https://developer.oculus.com/blog/hand-tracking-22-response-time-meta-quest-developers",
+      "result": "Via search excerpts (vendor's own claim): Hands 2.2 on system v56 cut hand latency up to 40% typical and 75% in fast motion, and added an opt-in Fast Motion Mode. Supports 'an older runtime is a different corpus' and 'sensor mode' as a provenance field. Vendor figures, not independent."
+    },
+    {
+      "source": "Internal arithmetic across the applications",
+      "result": "Headless replay: 18+2+1+6+6 = 33 tests, 27 rule-verdict, 9 relabelled under arm B, 3 snapshots + 6 differentials after the boundary - consistent. Record-below: 8,995+4,947+360 = 14,302 frames over 113 clips, against versioned-input-corpus's 14,132 samples over 111 clips - consistent with two more clips counted across two directories, not proven. Proxy ledger: 4 wrong-basis wordings, one fixed, 3 left - consistent."
+    }
+  ],
+  "documents": {
+    "tracked-input-record-and-replay.md": {
+      "disposition": "clarify",
+      "reason": "Status section says the subject is 'written from design reasoning and from one consumer's plan, not from a measured run'. Four applications since reconciled every technique against one consumer's tree (static audits and one paired A/B), all on synthetic clips. Restate: reconciled against one tree, synthetic input only, and the replay-versus-person evidence gate still owed. Rest keep: boundaries, layer paragraph and distinctions agree with the techniques and with the sources above."
+    },
+    "techniques/headless-replay-against-the-rules.md": {
+      "disposition": "clarify",
+      "reason": "First section says the expected outcome 'is written down by a person who watched it'. The technique's own boundary section accepts an authored-intent oracle (a synthetic clip nobody watched) and a differential oracle from the shipped rule on a different input path, and its application counts 18 authored-intent tests as legitimate. Widen the sentence to name the clip's authored intent and point to the boundary."
+    },
+    "techniques/proxy-corpus-miss-ledger.md": {
+      "disposition": "keep",
+      "reason": "Rules are internally consistent; the channel-versus-basis decision rule is the earned addition from its application and does not overreach. No unstable external claim."
+    },
+    "techniques/record-below-the-rule.md": {
+      "disposition": "keep",
+      "reason": "Raw-sensor row matches ARCore's documented playback divergence; the decided-field section matches the OpenXR aim-state fields and Ultraleap's always-unset system bit. 'Tracking run again on playback' is inference the ARCore page neither states nor contradicts; acceptable as written."
+    },
+    "techniques/versioned-input-corpus.md": {
+      "disposition": "keep",
+      "reason": "Runtime-and-mode provenance is supported by Meta's Hands 2.2 latency change and its opt-in Fast Motion Mode. The closed-schema sidecar rule is earned from its application."
+    },
+    "applications/cpp--headless-replay-against-the-rules.md": {
+      "disposition": "reverify",
+      "reason": "Counts are internally consistent. The private tree at 27e1633 was not reopened, no engine build was run, and every anchor quote is unverified this run."
+    },
+    "applications/cpp--proxy-corpus-miss-ledger.md": {
+      "disposition": "reverify",
+      "reason": "Table arithmetic consistent. Private tree at 9ebdf43 and its 31-statement inventory not reopened."
+    },
+    "applications/cpp--record-below-the-rule.md": {
+      "disposition": "reverify",
+      "reason": "Frame table sums to 14,302 over 113 clips; the instrument and control clip were not re-run and the tree at a31989a was not reopened."
+    },
+    "applications/cpp--versioned-input-corpus.md": {
+      "disposition": "reverify",
+      "reason": "Only ab-paired application; its three-edit instrument was not re-run. Its clip count (111) differs from the record-below application's 113 at a different commit and directory scope; consistent, not proven. The subject note has no touch-log entry for this 2026-10-22 application."
+    }
+  }
+}
+```
+
+## Architecture review - 2026-10-31 (clarify applied)
+
+Applied the two clarify items above, against the new digest. Applications were not touched
+and keep `reverify`, which is now the overall disposition.
+
+<!-- architecture-review:v1 -->
+```json
+{
+  "subject": "game-production/tracked-input-record-and-replay",
+  "date": "2026-10-31",
+  "baseline": "1212e28aa",
+  "digest": "sha256-b2:679e145ae10ec510",
+  "disposition": "reverify",
+  "coverage": "Second record after applying the two clarify items of the first 2026-10-31 record; the edited sentences re-read. Other seven documents byte-unchanged and keep their dispositions. Applications untouched; verification dates not moved.",
+  "counterexamples": [
+    "A raw-sensor replay can produce different poses from the session it came from and between playback runs (ARCore documents both), so an exact threshold assertion on that tier fails with no rule change.",
+    "A runtime can leave a decided field permanently unset: Ultraleap's OpenXR layer always clears the system-gesture aim bit, so a rule gated on it is unexercised on that runtime whatever the clips say.",
+    "A differential oracle taken from the shipped rule on a clean clip is not circular: a wrong rule does not make 'the input path leaves the verdict unchanged' pass, provided the reference is anchored.",
+    "A synthetic corpus that poses the thumb from the authored pinch reports zero cross-layer disagreements by construction; that zero is not a pass."
+  ],
+  "sources": [
+    {
+      "url": "https://developers.google.com/ar/develop/java/recording-and-playback/developer-guide",
+      "result": "Read 2026-10-31: 'ARCore APIs may produce different results during playback than observed during recording.' and 'They may also produce different results during subsequent playback sessions.' Supports record-below-the-rule's raw-sensor row (tolerances, repeated runs). It does not say tracking is re-run; the row's 'tracking run again on playback' is the technique's inference, consistent with but not stated by this page."
+    },
+    {
+      "url": "https://registry.khronos.org/OpenXR/specs/1.1/man/html/XrHandTrackingAimStateFB.html",
+      "result": "Direct fetch refused (403); spec content reached through search excerpts and the Ultraleap page. XrHandTrackingAimStateFB carries pinchStrengthIndex (0.0-1.0, 1.0 = thumb and index fully touching) and the SYSTEM_GESTURE aim flag, chained onto xrLocateHandJointsEXT. Supports 'a frame of joints often also carries a contact strength ... and a system-gesture flag' as runtime-decided fields."
+    },
+    {
+      "url": "https://docs.ultraleap.com/openxr/features/facebook-aim/index.html",
+      "result": "Via search excerpt: the MENU_PRESSED and SYSTEM_GESTURE bits are always unset on that runtime. Confirms decided fields vary by runtime, not only by version."
+    },
+    {
+      "url": "https://developer.oculus.com/blog/hand-tracking-22-response-time-meta-quest-developers",
+      "result": "Via search excerpts (vendor's own claim): Hands 2.2 on system v56 cut hand latency up to 40% typical and 75% in fast motion, and added an opt-in Fast Motion Mode. Supports 'an older runtime is a different corpus' and 'sensor mode' as a provenance field. Vendor figures, not independent."
+    },
+    {
+      "source": "Internal arithmetic across the applications",
+      "result": "Headless replay: 18+2+1+6+6 = 33 tests, 27 rule-verdict, 9 relabelled under arm B, 3 snapshots + 6 differentials after the boundary - consistent. Record-below: 8,995+4,947+360 = 14,302 frames over 113 clips, against versioned-input-corpus's 14,132 samples over 111 clips - consistent with two more clips counted across two directories, not proven. Proxy ledger: 4 wrong-basis wordings, one fixed, 3 left - consistent."
+    }
+  ],
+  "documents": {
+    "tracked-input-record-and-replay.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: status section now says the techniques were reconciled against one consumer's tree, on synthetic clips only, and that no application has measured replay against a person; the evidence-gate sentence is unchanged."
+    },
+    "techniques/headless-replay-against-the-rules.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: 'written down by a person who watched it' now reads 'taken from the clip's authored intent, or written down by a person who watched it', with a pointer to the boundary section for the differential case."
+    },
+    "techniques/proxy-corpus-miss-ledger.md": {
+      "disposition": "keep",
+      "reason": "Rules are internally consistent; the channel-versus-basis decision rule is the earned addition from its application and does not overreach. No unstable external claim."
+    },
+    "techniques/record-below-the-rule.md": {
+      "disposition": "keep",
+      "reason": "Raw-sensor row matches ARCore's documented playback divergence; the decided-field section matches the OpenXR aim-state fields and Ultraleap's always-unset system bit. 'Tracking run again on playback' is inference the ARCore page neither states nor contradicts; acceptable as written."
+    },
+    "techniques/versioned-input-corpus.md": {
+      "disposition": "keep",
+      "reason": "Runtime-and-mode provenance is supported by Meta's Hands 2.2 latency change and its opt-in Fast Motion Mode. The closed-schema sidecar rule is earned from its application."
+    },
+    "applications/cpp--headless-replay-against-the-rules.md": {
+      "disposition": "reverify",
+      "reason": "Counts are internally consistent. The private tree at 27e1633 was not reopened, no engine build was run, and every anchor quote is unverified this run."
+    },
+    "applications/cpp--proxy-corpus-miss-ledger.md": {
+      "disposition": "reverify",
+      "reason": "Table arithmetic consistent. Private tree at 9ebdf43 and its 31-statement inventory not reopened."
+    },
+    "applications/cpp--record-below-the-rule.md": {
+      "disposition": "reverify",
+      "reason": "Frame table sums to 14,302 over 113 clips; the instrument and control clip were not re-run and the tree at a31989a was not reopened."
+    },
+    "applications/cpp--versioned-input-corpus.md": {
+      "disposition": "reverify",
+      "reason": "Only ab-paired application; its three-edit instrument was not re-run. Its clip count (111) differs from the record-below application's 113 at a different commit and directory scope; consistent, not proven. The subject note has no touch-log entry for this 2026-10-22 application."
+    }
+  }
+}
+```

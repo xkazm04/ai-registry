@@ -19,8 +19,9 @@ a device, and that test is only worth anything if it runs the rule the game runs
 The replay drives the same rule path the live game uses, from the sample stream onward, with
 no rendering and no sensor. Determinism of the run itself is owned by the deterministic
 headless timestep technique; this technique only requires that the replay use it. The
-expected outcome of each clip is written down by a person who watched it, not derived from
-the rule's own output on that clip.
+expected outcome of each clip is taken from the clip's authored intent, or written down by a
+person who watched it, not derived from the rule's own output on that clip. The one exception,
+the rule's output on a different input path, is set out in the boundary section below.
 
 ## When a replay diverges from the live session it recorded, find the input-path difference before changing any rule, because the divergence is a finding
 
