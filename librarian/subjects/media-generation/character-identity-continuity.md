@@ -1,7 +1,7 @@
 ---
 domain: media-generation
 subject: character-identity-continuity
-last_touched: 2026-08-28
+last_touched: 2026-10-31
 touched_by: librarian
 dry_streak: 0
 ---
@@ -120,3 +120,164 @@ worker's read - see [[2026-08-27-1]].
 - Second proposal, and this one would have been **wrong**: that game-production's rule against synthesised views ("elaborated guesses, not evidence") inverts here, since an identity anchor has no ground truth to be wrong about. The technique already holds the correct version - a variant "minted *from* the neutral reference inherits whatever that reference got wrong, silently and everywhere" - which is the same inheritance rule without the overclaim. The proposed discriminator would have licensed the failure that sentence warns about.
 - Residue, not landed: the "size the variant vocabulary rather than maximize it" argument is priced against a photographic **sitting**, where each variant costs. From a re-renderable source that marginal cost approaches zero - and the recommendation survives anyway on the inheritance risk, so nothing moves. Recorded so a later run does not re-derive it.
 - Corroboration read but not needed: the multi-view identity literature's answer to a state-laden reference is **canonicalization** into a re-renderable neutral artifact, which is this technique's composition list arrived at from the other side.
+
+## Architecture review - 2026-10-31
+
+First architecture review, against `7b8db2118`. The subject holds up. Its load-bearing
+literature claim (the 2025 benchmark of 435 test cases where face similarity and
+copy-paste rise together) was re-opened and quoted. Two applications disagree with
+themselves or with current software: a motion result called tighter than a real take
+is not below it, and a node-order rule conflicts with current ComfyUI source. The
+private trailer-consistency tree was not reopened, so the applications stay
+`reverify` and no verification date was refreshed.
+
+<!-- architecture-review:v1 -->
+```json
+{
+  "subject": "media-generation/character-identity-continuity",
+  "date": "2026-10-31",
+  "baseline": "7b8db2118",
+  "digest": "sha256-b2:1b3e132bebd8dcc9",
+  "disposition": "clarify",
+  "coverage": "All 8 documents read in full (golden path, 4 techniques, 3 process applications). One academic primary source and two ComfyUI source files were opened; application figures were cross-checked against each other. Not evaluated: the private consumer tree, any generation run, the MiniMax H3 asset. No verification date refreshed.",
+  "counterexamples": [
+    "A recognition embedding scores a frozen expression across grief, fury and relief at its best, because it is built to be invariant to expression; a good identity number says nothing about the performance.",
+    "A mask, prosthetic or one-expression presenter wants the state locked; a state-scrubbed reference throws away what makes them recognisable.",
+    "A locked-off interview or product turntable really is one setup at several magnifications, so the zoom-only list is the right test there.",
+    "A plate or turnaround sheet wants full-authority conditioning; admitting the reference late removes control the operator wanted.",
+    "A node-order rule observed in one ComfyUI build can be false on another, where both nodes merge their own conditioning key."
+  ],
+  "sources": [
+    {
+      "url": "https://arxiv.org/html/2510.14975",
+      "result": "WithAnyone (Oct 2025). MultiID-Bench 'yielding 435 test cases'; 'We observe a clear trade-off between face similarity and copy-paste artifacts', with most methods on one regression curve; ID methods 'fail to make the subject smile when the reference image is neutral' and 'often cannot adjust head pose or even eye gaze'. Supports reference-shows-only-invariants as written."
+    },
+    {
+      "url": "https://github.com/comfyanonymous/ComfyUI/blob/master/comfy_extras/nodes_edit_model.py",
+      "result": "ReferenceLatent appends to 'reference_latents' via conditioning_set_values(..., append=True), so chaining supplies several references. Supports the application's chaining statement."
+    },
+    {
+      "url": "https://github.com/comfyanonymous/ComfyUI/blob/master/comfy_extras/nodes_flux.py",
+      "result": "FluxGuidance only calls conditioning_set_values(conditioning, {'guidance': guidance}); node_helpers.conditioning_set_values copies each entry's dict and sets only the given keys. On current master node order should not drop reference_latents, which contradicts the application's 'guidance first drops the references silently' unless version- or graph-specific. Left as reverify."
+    },
+    {
+      "source": "Arithmetic across the applications",
+      "result": "0.625 - 0.364 = 0.261 (stated +0.26, consistent). 0.1887 is not below the 0.188 within-take rung, so 'tighter than one continuous take' overstates it."
+    }
+  ],
+  "documents": {
+    "character-identity-continuity.md": {
+      "disposition": "clarify",
+      "reason": "Sound and consistent with its four techniques. One wording collision: the within-take paragraph calls real film's within-take distance 'the floor a generated shot should be held to', while identity-ruler-calibration names the across-cut rung FLOOR and the applications use 'the real-film floor' for it (0.364). Reword the within-take sentence to 'the bar', so 'floor' names one rung only."
+    },
+    "techniques/identity-ruler-calibration.md": {
+      "disposition": "keep",
+      "reason": "The rung ladder, the inversion check before any verdict, the two-axis rule and the refusal floor are internally consistent and match the application's measured order (0.188 < 0.281-0.364 < 0.625-0.733). The fixed-size normalized crop claim matches how recognition embeddings are fed. No dated claim to re-source."
+    },
+    "techniques/reference-admitted-late.md": {
+      "disposition": "keep",
+      "reason": "Timing-not-strength, the two-sided window, the crop-versus-timing isolation and the clip-head relocation are each backed by the application's ablation. The coarse-to-fine ordering is stated as mechanism, not as a measured number, and is the standard reading of diffusion sampling. The motion-side gate is explicitly left untested."
+    },
+    "techniques/reference-shows-only-invariants.md": {
+      "disposition": "keep",
+      "reason": "The load-bearing source claim was re-opened: WithAnyone (arXiv 2510.14975, Oct 2025) builds MultiID-Bench with '435 test cases', reports 'a clear trade-off between face similarity and copy-paste artifacts' with most methods along a regression curve, and that ID methods 'fail to make the subject smile when the reference image is neutral' and 'often cannot adjust head pose or even eye gaze'. The technique's scoping (still-image methods, 2025, not your pipeline) matches. The extremes claim is already labelled reported, not measured."
+    },
+    "techniques/camera-position-not-focal-length.md": {
+      "disposition": "keep",
+      "reason": "The zoom-test trap, the 'could one camera produce two of these without moving' check and the asymmetric-marking tell are sound; its 'past the different-people ceiling' claim agrees with the application's 0.764 against a 0.625 ceiling."
+    },
+    "applications/process--identity-ruler-calibration.md": {
+      "disposition": "reverify",
+      "reason": "Arithmetic checks: ceiling 0.625 minus worst floor 0.364 = 0.261, the stated +0.26. The DINOv2 inversion and the MIN_FACE_PX = 80 gap are dated reports from a private tree that was not reopened; verified_on unchanged."
+    },
+    "applications/process--reference-admitted-late.md": {
+      "disposition": "clarify",
+      "reason": "(1) 'Identity across three hard cuts: 0.1887, tighter than one continuous take of real film' - the within-take rung is 0.188, and 0.1887 is not smaller; it matches the take, it does not beat it. Reword to 'on par with'. (2) Reverify: 'Putting guidance first drops the references silently' conflicts with current ComfyUI source, where FluxGuidance and ReferenceLatent both go through conditioning_set_values, which copies each entry's dict and sets only its own key, so order should not drop reference_latents. The claim may hold for the run's ComfyUI version or graph; the private tree was not reopened, so it is not edited. The MiniMax H3 asset, the mod-17 clip-length rule and the timing table are private-run reports, not re-checked."
+    },
+    "applications/process--reference-shows-only-invariants.md": {
+      "disposition": "reverify",
+      "reason": "A read-only description of a private tree's prompt, crop helper and annotation schema; nothing was re-read this run. Its owed coupling probe is still owed, and the unrecorded eyeline constant is still the open lead in the note."
+    }
+  }
+}
+```
+
+## Architecture review - 2026-10-31 (clarify applied)
+
+Applied the two clarify items the record above named. The golden path now calls
+real film's within-take distance "the bar", so "floor" names only the across-cut
+rung. The motion result reads "on par with" the within-take rung instead of
+"tighter than" it. The node-order claim stays `reverify`. It needs the run's ComfyUI
+version or graph, not a source read. The applications keep `reverify`, which is
+now the overall disposition.
+
+<!-- architecture-review:v1 -->
+```json
+{
+  "subject": "media-generation/character-identity-continuity",
+  "date": "2026-10-31",
+  "baseline": "7b8db2118",
+  "digest": "sha256-b2:29a4aad3dbf762bd",
+  "disposition": "reverify",
+  "coverage": "All 8 documents decided. The two clarify items from the first 2026-10-31 record were applied and the edited lines re-read; the other six documents are byte-unchanged and keep their dispositions. Same sources as the first record; no private tree reopened and no verification date refreshed.",
+  "counterexamples": [
+    "A recognition embedding scores a frozen expression across grief, fury and relief at its best, because it is built to be invariant to expression; a good identity number says nothing about the performance.",
+    "A mask, prosthetic or one-expression presenter wants the state locked; a state-scrubbed reference throws away what makes them recognisable.",
+    "A locked-off interview or product turntable really is one setup at several magnifications, so the zoom-only list is the right test there.",
+    "A plate or turnaround sheet wants full-authority conditioning; admitting the reference late removes control the operator wanted.",
+    "A node-order rule observed in one ComfyUI build can be false on another, where both nodes merge their own conditioning key."
+  ],
+  "sources": [
+    {
+      "url": "https://arxiv.org/html/2510.14975",
+      "result": "WithAnyone (Oct 2025). MultiID-Bench 'yielding 435 test cases'; 'We observe a clear trade-off between face similarity and copy-paste artifacts', with most methods on one regression curve; ID methods 'fail to make the subject smile when the reference image is neutral' and 'often cannot adjust head pose or even eye gaze'. Supports reference-shows-only-invariants as written."
+    },
+    {
+      "url": "https://github.com/comfyanonymous/ComfyUI/blob/master/comfy_extras/nodes_edit_model.py",
+      "result": "ReferenceLatent appends to 'reference_latents' via conditioning_set_values(..., append=True), so chaining supplies several references. Supports the application's chaining statement."
+    },
+    {
+      "url": "https://github.com/comfyanonymous/ComfyUI/blob/master/comfy_extras/nodes_flux.py",
+      "result": "FluxGuidance only calls conditioning_set_values(conditioning, {'guidance': guidance}); node_helpers.conditioning_set_values copies each entry's dict and sets only the given keys. On current master node order should not drop reference_latents, which contradicts the application's 'guidance first drops the references silently' unless version- or graph-specific. Left as reverify."
+    },
+    {
+      "source": "Arithmetic across the applications",
+      "result": "0.625 - 0.364 = 0.261 (stated +0.26, consistent). 0.1887 is not below the 0.188 within-take rung, so 'tighter than one continuous take' overstates it."
+    }
+  ],
+  "documents": {
+    "character-identity-continuity.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: the within-take sentence now calls real film's within-take distance 'the bar a generated shot should be held to', leaving 'floor' to the across-cut rung named in identity-ruler-calibration and the applications."
+    },
+    "techniques/identity-ruler-calibration.md": {
+      "disposition": "keep",
+      "reason": "The rung ladder, the inversion check before any verdict, the two-axis rule and the refusal floor are internally consistent and match the application's measured order (0.188 < 0.281-0.364 < 0.625-0.733). The fixed-size normalized crop claim matches how recognition embeddings are fed. No dated claim to re-source."
+    },
+    "techniques/reference-admitted-late.md": {
+      "disposition": "keep",
+      "reason": "Timing-not-strength, the two-sided window, the crop-versus-timing isolation and the clip-head relocation are each backed by the application's ablation. The coarse-to-fine ordering is stated as mechanism, not as a measured number, and is the standard reading of diffusion sampling. The motion-side gate is explicitly left untested."
+    },
+    "techniques/reference-shows-only-invariants.md": {
+      "disposition": "keep",
+      "reason": "The load-bearing source claim was re-opened: WithAnyone (arXiv 2510.14975, Oct 2025) builds MultiID-Bench with '435 test cases', reports 'a clear trade-off between face similarity and copy-paste artifacts' with most methods along a regression curve, and that ID methods 'fail to make the subject smile when the reference image is neutral' and 'often cannot adjust head pose or even eye gaze'. The technique's scoping (still-image methods, 2025, not your pipeline) matches. The extremes claim is already labelled reported, not measured."
+    },
+    "techniques/camera-position-not-focal-length.md": {
+      "disposition": "keep",
+      "reason": "The zoom-test trap, the 'could one camera produce two of these without moving' check and the asymmetric-marking tell are sound; its 'past the different-people ceiling' claim agrees with the application's 0.764 against a 0.625 ceiling."
+    },
+    "applications/process--identity-ruler-calibration.md": {
+      "disposition": "reverify",
+      "reason": "Arithmetic checks: ceiling 0.625 minus worst floor 0.364 = 0.261, the stated +0.26. The DINOv2 inversion and the MIN_FACE_PX = 80 gap are dated reports from a private tree that was not reopened; verified_on unchanged."
+    },
+    "applications/process--reference-admitted-late.md": {
+      "disposition": "reverify",
+      "reason": "applied 2026-10-31: '0.1887, tighter than one continuous take' now reads 'on par with one continuous take of real film (0.188)' - 0.1887 is not below 0.188. Still reverify: 'Putting guidance first drops the references silently' conflicts with current ComfyUI source (FluxGuidance and ReferenceLatent both merge their own key via conditioning_set_values), possibly version- or graph-specific; the private tree, the MiniMax H3 asset, the mod-17 clip-length rule and the timing table were not re-checked. verified_on unchanged."
+    },
+    "applications/process--reference-shows-only-invariants.md": {
+      "disposition": "reverify",
+      "reason": "A read-only description of a private tree's prompt, crop helper and annotation schema; nothing was re-read this run. Its owed coupling probe is still owed, and the unrecorded eyeline constant is still the open lead in the note."
+    }
+  }
+}
+```

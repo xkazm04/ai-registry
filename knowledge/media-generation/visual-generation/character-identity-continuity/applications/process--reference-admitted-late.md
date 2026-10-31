@@ -83,8 +83,8 @@ genuinely absent asset in the whole spike) with the ref2v 4-step turbo LoRA,
 `ref_images.ref_image_N` and the prompt must name them with `<Picture N>` tags
 (1-indexed) or the reference is free to be ignored.
 
-Identity across three hard cuts: **0.1887**, tighter than one continuous take
-of real film. Against last-frame chaining through `MiniMaxH3ImageToVideo` at
+Identity across three hard cuts: **0.1887**, on par with one continuous take
+of real film (0.188). Against last-frame chaining through `MiniMaxH3ImageToVideo` at
 **0.6262**, which is the different-actor ceiling — chaining drifts to a
 different person by the third clip, confirming what generated-shot-sourcing
 already states about adjacency anchoring over a chain.

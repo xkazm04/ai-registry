@@ -37,7 +37,7 @@ technique that solves one may be useless at the next:
 
 - **Within a continuous take.** The face at the start and the face at the end
   of a single generated shot. Real film's own answer to this is very tight,
-  and it is the floor a generated shot should be held to.
+  and it is the bar a generated shot should be held to.
 - **Across a cut.** Two shots of the same character from camera positions that
   cannot see each other. This is the trailer question, and it is where
   prompt-only discipline stops working.
