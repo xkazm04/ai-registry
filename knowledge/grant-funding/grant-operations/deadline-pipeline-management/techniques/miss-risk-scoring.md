@@ -48,8 +48,12 @@ Three quantities and one squash:
 
 Two boundary cases are decided before the formula runs, not by it:
 
-- **Finished means safe.** Completion at or above 100% scores exactly 0
-  regardless of the clock. A done draft that keeps generating urgency teaches
+- **Finished means safe — once nothing else blocks submission.** Completion
+  at or above 100% scores exactly 0 regardless of the clock, provided no
+  submission gate is still open (an unactivated registration, a pending
+  internal sign-off). A drafted application stuck behind a gate is not safe;
+  its risk lives on the gate's own dated item, and the radar must still show
+  it there. A done, unblocked draft that keeps generating urgency teaches
   users the scores are theater.
 - **Past-due and unfinished means maximal.** Negative days-out with work
   remaining scores exactly 1, in a distinct *overdue* level — those are the
@@ -86,6 +90,15 @@ eyeballing the output list.
   whole ranking confidently wrong. Completion must have a minimum-substance
   floor per section and a denominator matching the funder's actual required
   sections.
+- **Expect the linear model to read optimistic near the end.** `effortDays ×
+  (1 − completion)` assumes the remaining work is proportional to the
+  undrafted sections. It rarely is: the tail of an application — budget
+  justification, letters, sign-offs, a validation pass — is lumpy, and
+  self-assessed progress skews ahead of reality, as the planning-fallacy
+  literature has found for decades. Bias the errors toward caution: let a
+  draft cross into on-track only after the anchors say so, and prefer the
+  per-organization historical median, which already contains the tail, to any
+  hand-set constant.
 - **Keep the function pure.** Clock in, numbers out, no storage or transport
   concerns — the ranking logic is the part that must be exhaustively
   unit-tested against the anchor cases, and purity is what makes that cheap.

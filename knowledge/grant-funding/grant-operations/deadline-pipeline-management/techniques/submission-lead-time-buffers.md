@@ -39,12 +39,20 @@ expiry; the plan-to date becomes the truth about pacing.
    sign-off) impose an internal deadline of their own, commonly four to five
    *business* days before the funder's. Where such an office exists, the
    internal deadline **is** the deadline for everyone upstream of it; the
-   funder's date is the review office's concern.
+   funder's date is the review office's concern. The offset is often
+   **tiered by component** rather than single: administrative pieces (routing
+   approvals, budget, compliance forms) due at the longer offset, the final
+   narrative and package as little as two business days out. Model a tiered
+   office as several dated items, not as the most lenient or the strictest
+   one — the former misses the administrative cutoff, the latter steals days
+   from the narrative.
 3. **The portal-risk margin.** Electronic portals reject late submissions by
    the second, produce validation errors that take hours to resolve, and
-   suffer outages that cluster — predictably — around popular deadlines. The
-   professional norm is to submit two to three days early, which also
-   preserves any correction window the portal offers. The margin is smallest
+   suffer outages that cluster — predictably — around popular deadlines.
+   Portal operators' own published margins are short — a day or two — and
+   cautious practice runs longer; the point of the margin is time to fix a
+   validation rejection and resubmit before the close, which is the only
+   correction path most portals offer. The margin is smallest
    for a familiar portal and a previously-submitted-through profile, and
    largest for a first submission through an unfamiliar system.
 
@@ -61,7 +69,14 @@ extensions from corrupting planning:
   entertain late submissions typically compute the grace window from the
   *original* due date even when the deadline itself was extended — so an
   extension does not stack with a late window, and treating them as additive
-  manufactures a miss.
+  manufactures a miss. The usual exception is the funder's *standing*
+  weekend/holiday rollover, which is part of its calendar rather than an
+  extension: there the window can run from the rolled business day. Read the
+  rule per funder family; never infer one family's rule from another's.
+- **A late window is a hardship exception, not a buffer.** Where one exists it
+  is narrow — who may claim it, for which reasons, documented after the fact,
+  never pre-approved — and funders have tightened rather than widened it. A
+  pipeline that counts it as slack has planned to need an excuse.
 
 ## Procedure
 
