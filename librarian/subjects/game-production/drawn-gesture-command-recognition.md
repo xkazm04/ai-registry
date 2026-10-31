@@ -90,3 +90,181 @@ extraction. **Return:** when that style becomes selectable, or the suite classif
   model where the hand keeps drawing while untracked. **Return:** the first recorded hands
   corpus with dropouts. Re-read the curve before the confidence gate is built.
 - **Single stack (cpp).** Unmoved: one project draws gestures, in one stack.
+
+## Architecture review - 2026-10-31
+
+First review, against `e3f00b8a4`. All eleven documents read. The tables in all five cpp
+applications recompute. Two technique claims about the $-family were checked against the
+primary papers and need scoping: $P and $Q distances are unbounded, and $Q's early abandoning
+precludes a margin unless one is designed in. The golden path's held-out-user gap holds only
+when templates come from one person. One internal inconsistency is in stroke-plane-projection
+('completely' versus its own sign rule). The founding open item, that
+`vocabulary-distinctiveness-audit` has no application, is closed by the 2026-10-14 application.
+The consumer tree was not reachable, so no verified_on date moved.
+
+<!-- architecture-review:v1 -->
+```json
+{
+  "subject": "game-production/drawn-gesture-command-recognition",
+  "date": "2026-10-31",
+  "baseline": "e3f00b8a4",
+  "digest": "sha256-b2:c763688c28aafebb",
+  "disposition": "clarify",
+  "coverage": "All 11 documents read in full (golden path, 5 techniques, 5 cpp applications). Every table in the applications was recomputed. Relative links to on-device-verification-harness resolve. Three primary sources opened. Trigger: pending since founding. Intended benefit: the subject's claims about the $-family match what the papers say. Failure if ignored: a team sets a reject floor as if scores were bounded, or builds a margin on $Q's early-abandoned partial sums. Boundary: no tracked-hand evidence exists; every application figure is synthetic, and the consumer tree was not re-opened.",
+  "counterexamples": [
+    "Templates drawn by many people on flat input reach >99% user-independent accuracy with $P/$Q. The held-out gap is large only when one person drew the templates.",
+    "A fitted plane is facing-invariant, but its eigen-solver sign is not. Pointed at a world constant, every stroke mirrors past 90 degrees of yaw (99 of 270 wrong in the cpp experiment).",
+    "A $Q matcher with early abandoning cannot report a margin. The second-best distance it returns is a partial sum.",
+    "A short tracking gap (up to about 200 ms in one synthetic corpus) is forgiven by a resampling point-cloud matcher. 'Abort after a few samples' discards every correct cast there."
+  ],
+  "sources": [
+    {
+      "url": "https://depts.washington.edu/acelab/proj/dollar/dollar.pdf",
+      "result": "$1 pseudocode read. RECOGNIZE returns 'score <- 1 - b / 0.5*sqrt(size^2 + size^2)', a score bounded to [0..1]. It defines no reject step, which matches the founding note's reading."
+    },
+    {
+      "url": "https://mintviz.usv.ro/publications/MobileHCI2018_1.pdf",
+      "result": "$Q paper (Vatavu, Anthony, Wobbrock, MobileHCI 2018) read. '$P delivers 99% user-dependent accuracy with T=4 templates per gesture type ... reaches 99.1% user-independent accuracy starting from PxT = 32 templates'. The pseudocode starts 'score <- infinity' and returns the minimum distance (unbounded). '$Q similarly implements early abandonment during the point-cloud matching process', plus a lower bound LB(C,T) <= $Q(C,T) that skips CLOUD-DISTANCE calls. '$Q evaluated over 1,000 templates in just 82 ms on the Cortex-A53', consistent with 'microseconds per template' and 'well under a frame' for a few dozen templates."
+    },
+    {
+      "url": "https://depts.washington.edu/acelab/proj/dollar/index.html",
+      "result": "$-family landing page. '$Q ... 142x faster and slightly more accurate'. No reject or threshold guidance."
+    },
+    {
+      "source": "mage-arena-vr (consumer tree)",
+      "result": "Not reachable from this checkout. Application anchors were not re-opened. Arithmetic was recomputed from the documents' own tables. No verified_on refreshed."
+    }
+  ],
+  "documents": {
+    "drawn-gesture-command-recognition.md": {
+      "disposition": "clarify",
+      "reason": "The held-out-user claim was unscoped. The $Q paper reports $P at 99.1% user-independent accuracy from 32 templates per gesture type on flat input, so the gap is a property of templates drawn by one person. Scope the sentence to that case and add the multi-person counterexample. The rest stands: the six-stage pipeline, the matcher-always-answers rule and the corpus labels are consistent with every technique."
+    },
+    "techniques/pen-down-stroke-segmentation.md": {
+      "disposition": "keep",
+      "reason": "Its numbers match the cpp application: 1,440 trials = 360 x 4, 95.0% to 200 ms, 88/75/54% at 300/400/600 ms, 8 extra wrong = 72 - 64. The bridge rule and the held-pose-versus-missing-frame rule follow from that experiment. Hysteresis, pre-roll and reach-not-path are standard and internally consistent."
+    },
+    "techniques/stroke-plane-projection.md": {
+      "disposition": "clarify",
+      "reason": "Internal inconsistency. 'Three ways to choose the plane' says a fitted plane 'removes facing error completely', but the decision rule added on 2026-10-13 (from the cpp experiment: 13 to 99 wrong casts of 270 past 90 degrees of yaw) says the normal's sign still needs head forward. Scope the sentence to 'up to the normal's sign'."
+    },
+    "techniques/reject-class-recognition.md": {
+      "disposition": "clarify",
+      "reason": "Two corrections from primary sources. (1) 'Its scores are bounded' holds for $1, where score = 1 - b / 0.5*sqrt(size^2 + size^2), but not for $P and $Q, which return a raw summed (squared, for $Q) distance that starts at infinity. The cpp application's floor is the raw distance 26000. (2) The margin refusal needs the second-best distance, and $Q's early abandoning and lower bound stop computing any template that cannot beat the best so far. A margin has to be designed into the search. The four refusals, the negative-corpus procedure and the decision rules stand."
+    },
+    "techniques/vocabulary-distinctiveness-audit.md": {
+      "disposition": "keep",
+      "reason": "The invariance-first rule matches $P and $Q's documented direction and articulation invariance. The two decision rules added on 2026-10-14 (per-command bars inside each variant; remainder share under a shared prefix) are backed by the cpp application's 24/30 cell under a pooled 82/90. The founding note's open item, that this technique had no application, is closed by that application."
+    },
+    "techniques/held-out-cross-user-acceptance.md": {
+      "disposition": "keep",
+      "reason": "It holds out by person, labels the corpus by what produced it, re-draws the negatives with the split, and fails a skipped template. Each rule is traced to a cpp finding. The 'fewer than about five people' preliminary threshold is a judgement and is labelled as one."
+    },
+    "applications/cpp--held-out-cross-user-acceptance.md": {
+      "disposition": "keep",
+      "reason": "The arithmetic checks: 87/90 = 96.7%, 88/90 = 97.8%, 82/90 = 91.1%. Unmeasured rows are stated as unmeasured. The source tree (mage-arena-vr) is not reachable from this checkout, so the line anchors were not re-opened and verified_on is unchanged."
+    },
+    "applications/cpp--pen-down-stroke-segmentation.md": {
+      "disposition": "keep",
+      "reason": "Every precision in the table recomputes (1,376/1,440 = 95.6% through 159/251 = 63.3%). 15 samples at 72 Hz = 208 ms, and 3 samples = 42 ms. Anchors not re-opened (tree unavailable). Note for the next reader: the header names a86c1c6 while the 2026-10-10 touch log names e9f99db as the measured base and a86c1c6 as the applied row. Not resolvable without the tree."
+    },
+    "applications/cpp--reject-class-recognition.md": {
+      "disposition": "keep",
+      "reason": "26000 - 23595 = 2405, and 251/270 = 93.0% leaves 19 misses, matching the 'all 19 extrap25 misses' anchor. The no-margin deviation is honestly recorded. Anchors not re-opened (tree unavailable)."
+    },
+    "applications/cpp--stroke-plane-projection.md": {
+      "disposition": "keep",
+      "reason": "170 + 99 + 1 = 270. Line3 at 180 degrees: 48 + 37 + 4 + 1 reject = 90. Line1 and line2 losses (3 + 11) plus line3's 85 account for 99 wrong. The unbuilt C++ half and the assumed yaw are declared. Anchors not re-opened (tree unavailable)."
+    },
+    "applications/cpp--vocabulary-distinctiveness-audit.md": {
+      "disposition": "keep",
+      "reason": "0.90 x 90 = 81, 24/30 = 80% and 28/30 = 93.3% across 12 cells (4 variants x 3 classes), all consistent. Being JS-port-only and synthetic is declared. Anchors not re-opened (tree unavailable)."
+    }
+  }
+}
+```
+
+Applied the same day, re-recorded against the new digest. The three clarify items above are
+now in the text.
+
+<!-- architecture-review:v1 -->
+```json
+{
+  "subject": "game-production/drawn-gesture-command-recognition",
+  "date": "2026-10-31",
+  "baseline": "e3f00b8a4",
+  "digest": "sha256-b2:3007cbcc28588de7",
+  "disposition": "keep",
+  "coverage": "All 11 documents read in full (golden path, 5 techniques, 5 cpp applications). Every table in the applications was recomputed. Relative links to on-device-verification-harness resolve. Three primary sources opened. Trigger: re-record after applying this run's three clarify items. Intended benefit: the subject's claims about the $-family match what the papers say. Failure if ignored: a team sets a reject floor as if scores were bounded, or builds a margin on $Q's early-abandoned partial sums. Boundary: no tracked-hand evidence exists; every application figure is synthetic, and the consumer tree was not re-opened.",
+  "counterexamples": [
+    "Templates drawn by many people on flat input reach >99% user-independent accuracy with $P/$Q. The held-out gap is large only when one person drew the templates.",
+    "A fitted plane is facing-invariant, but its eigen-solver sign is not. Pointed at a world constant, every stroke mirrors past 90 degrees of yaw (99 of 270 wrong in the cpp experiment).",
+    "A $Q matcher with early abandoning cannot report a margin. The second-best distance it returns is a partial sum.",
+    "A short tracking gap (up to about 200 ms in one synthetic corpus) is forgiven by a resampling point-cloud matcher. 'Abort after a few samples' discards every correct cast there."
+  ],
+  "sources": [
+    {
+      "url": "https://depts.washington.edu/acelab/proj/dollar/dollar.pdf",
+      "result": "$1 pseudocode read. RECOGNIZE returns 'score <- 1 - b / 0.5*sqrt(size^2 + size^2)', a score bounded to [0..1]. It defines no reject step, which matches the founding note's reading."
+    },
+    {
+      "url": "https://mintviz.usv.ro/publications/MobileHCI2018_1.pdf",
+      "result": "$Q paper (Vatavu, Anthony, Wobbrock, MobileHCI 2018) read. '$P delivers 99% user-dependent accuracy with T=4 templates per gesture type ... reaches 99.1% user-independent accuracy starting from PxT = 32 templates'. The pseudocode starts 'score <- infinity' and returns the minimum distance (unbounded). '$Q similarly implements early abandonment during the point-cloud matching process', plus a lower bound LB(C,T) <= $Q(C,T) that skips CLOUD-DISTANCE calls. '$Q evaluated over 1,000 templates in just 82 ms on the Cortex-A53', consistent with 'microseconds per template' and 'well under a frame' for a few dozen templates."
+    },
+    {
+      "url": "https://depts.washington.edu/acelab/proj/dollar/index.html",
+      "result": "$-family landing page. '$Q ... 142x faster and slightly more accurate'. No reject or threshold guidance."
+    },
+    {
+      "source": "mage-arena-vr (consumer tree)",
+      "result": "Not reachable from this checkout. Application anchors were not re-opened. Arithmetic was recomputed from the documents' own tables. No verified_on refreshed."
+    }
+  ],
+  "documents": {
+    "drawn-gesture-command-recognition.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: held-out-user claim scoped to single-person templates, plus the $P 99.1% user-independent counterexample (from 32 templates per shape) from the $Q paper."
+    },
+    "techniques/pen-down-stroke-segmentation.md": {
+      "disposition": "keep",
+      "reason": "Its numbers match the cpp application: 1,440 trials = 360 x 4, 95.0% to 200 ms, 88/75/54% at 300/400/600 ms, 8 extra wrong = 72 - 64. The bridge rule and the held-pose-versus-missing-frame rule follow from that experiment. Hysteresis, pre-roll and reach-not-path are standard and internally consistent."
+    },
+    "techniques/stroke-plane-projection.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: 'removes facing error completely' -> 'up to the normal's sign', pointing to the existing sign decision rule."
+    },
+    "techniques/reject-class-recognition.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: comparable-not-bounded scores ($1 bounded in [0..1]; $P/$Q raw unbounded distance), and the margin refusal now notes that $Q's early abandoning and lower bound never compute the second-best score."
+    },
+    "techniques/vocabulary-distinctiveness-audit.md": {
+      "disposition": "keep",
+      "reason": "The invariance-first rule matches $P and $Q's documented direction and articulation invariance. The two decision rules added on 2026-10-14 (per-command bars inside each variant; remainder share under a shared prefix) are backed by the cpp application's 24/30 cell under a pooled 82/90. The founding note's open item, that this technique had no application, is closed by that application."
+    },
+    "techniques/held-out-cross-user-acceptance.md": {
+      "disposition": "keep",
+      "reason": "It holds out by person, labels the corpus by what produced it, re-draws the negatives with the split, and fails a skipped template. Each rule is traced to a cpp finding. The 'fewer than about five people' preliminary threshold is a judgement and is labelled as one."
+    },
+    "applications/cpp--held-out-cross-user-acceptance.md": {
+      "disposition": "keep",
+      "reason": "The arithmetic checks: 87/90 = 96.7%, 88/90 = 97.8%, 82/90 = 91.1%. Unmeasured rows are stated as unmeasured. The source tree (mage-arena-vr) is not reachable from this checkout, so the line anchors were not re-opened and verified_on is unchanged."
+    },
+    "applications/cpp--pen-down-stroke-segmentation.md": {
+      "disposition": "keep",
+      "reason": "Every precision in the table recomputes (1,376/1,440 = 95.6% through 159/251 = 63.3%). 15 samples at 72 Hz = 208 ms, and 3 samples = 42 ms. Anchors not re-opened (tree unavailable). Note for the next reader: the header names a86c1c6 while the 2026-10-10 touch log names e9f99db as the measured base and a86c1c6 as the applied row. Not resolvable without the tree."
+    },
+    "applications/cpp--reject-class-recognition.md": {
+      "disposition": "keep",
+      "reason": "26000 - 23595 = 2405, and 251/270 = 93.0% leaves 19 misses, matching the 'all 19 extrap25 misses' anchor. The no-margin deviation is honestly recorded. Anchors not re-opened (tree unavailable)."
+    },
+    "applications/cpp--stroke-plane-projection.md": {
+      "disposition": "keep",
+      "reason": "170 + 99 + 1 = 270. Line3 at 180 degrees: 48 + 37 + 4 + 1 reject = 90. Line1 and line2 losses (3 + 11) plus line3's 85 account for 99 wrong. The unbuilt C++ half and the assumed yaw are declared. Anchors not re-opened (tree unavailable)."
+    },
+    "applications/cpp--vocabulary-distinctiveness-audit.md": {
+      "disposition": "keep",
+      "reason": "0.90 x 90 = 81, 24/30 = 80% and 28/30 = 93.3% across 12 cells (4 variants x 3 classes), all consistent. Being JS-port-only and synthetic is declared. Anchors not re-opened (tree unavailable)."
+    }
+  }
+}
+```

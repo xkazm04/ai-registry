@@ -29,7 +29,8 @@ This is the default for seated play. Capture the frame once per stroke. A plane 
 following the head while the player draws turns a head movement into a stroke distortion.
 
 **A plane fitted to the stroke** by least squares, with the normal taken as the direction of
-least spread. It removes facing error completely. It is unstable for strokes that are
+least spread. It removes facing error up to the normal's sign, which still needs a reference
+(see the decision rule on the sign below). It is unstable for strokes that are
 nearly straight lines, because a line lies in infinitely many planes. Its axes also carry
 no meaning: the two in-plane directions come out in an arbitrary order and with arbitrary
 signs.

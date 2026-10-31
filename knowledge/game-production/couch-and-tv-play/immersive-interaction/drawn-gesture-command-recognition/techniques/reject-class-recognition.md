@@ -20,8 +20,11 @@ motion is not a command. A recognizer without a reject class turns that motion i
 
 For a small vocabulary (roughly up to twenty shapes) drawn by one tracked point, a template
 matcher of the resample, normalise and compare family is the right default. It needs a few
-examples per shape, no training run and no data set. Its scores are bounded and comparable
-across inputs, which is what makes a reject threshold possible. It runs in microseconds per
+examples per shape, no training run and no data set. Every input is resampled and normalised the same way, so
+its scores are comparable across inputs, which is what makes a reject threshold possible.
+Only some members bound them: $1 turns its distance into a score in [0..1], while the
+point-cloud $P and $Q return a raw distance with no upper limit, so their floor is a
+distance tied to one resampling and normalisation. It runs in microseconds per
 template, and its failures can be read by plotting the stroke over the template. Reach for a
 trained classifier when the vocabulary is large, when shapes differ by dynamics rather than
 path, or when a held-out cross-user corpus of hundreds of strokes per shape exists. The
@@ -45,7 +48,10 @@ decision, and the distinctiveness audit has to know it.
    main guard against non-command motion.
 3. **A margin.** Reject when the best and second-best scores are too close, either as a
    difference or as a ratio. An ambiguous stroke must not be resolved by a coin flip that
-   favours whichever template sorts first.
+   favours whichever template sorts first. A margin needs the second-best score computed in
+   full. A matcher that abandons a template once it cannot beat the best so far, as $Q does
+   with early abandoning and a lower bound, never computes it, so the margin has to be built
+   into the search.
 4. **Explicit garbage templates**, where the vocabulary has known look-alikes: the defensive
    raise, the reach, the hand dropping back to rest. When the nearest template is a garbage
    template, the stroke is rejected however well it scores. This is cheaper and more honest

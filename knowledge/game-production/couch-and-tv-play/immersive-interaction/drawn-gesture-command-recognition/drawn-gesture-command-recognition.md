@@ -86,9 +86,10 @@ player does not control: gravity, or the head's forward direction at the start o
 
 **Accuracy belongs to a population, and the author is not in it.** Strokes from the person
 who drew the templates are the most flattering test set possible. They share that person's
-proportions, speed, start points and habits. Recognition rates on held-out users routinely
-fall well below the author's own figures, and a few examples from a new user recover much
-of the gap. Acceptance is therefore a figure on strokes from people whose strokes formed no
+proportions, speed, start points and habits. When the templates come from one person,
+recognition rates on held-out users routinely fall well below the author's own figures, and
+a few examples from a new user recover much of the gap. Templates drawn by several people
+close it too: on flat input, $P reached 99.1% on held-out users from 32 templates per shape. Acceptance is therefore a figure on strokes from people whose strokes formed no
 template, reported per person and not pooled, with the false-accept rate on non-command
 motion beside it.
 
