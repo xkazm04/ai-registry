@@ -72,3 +72,239 @@ applications' accessibility trees. Return condition in `applied.md`.
 Added technique native-side-owns-the-target-set (entitlement of a command to touch the filesystem or spawn, upstream of ipc-contract call shape) with one application against the source tree. Leads banked in the source note: exact exemptions from a protected root, mode-detection ladder that fails toward the cheaper wrong guess. Return condition for both: a second independent source.
 
 2026-10-23 (intake-firetv-inbox-1023, [[2026-10-23-firetv-inbox-harvest]]): new technique host-forwarded-key-contract (tested key table, consumption readback, back leaves only when the page did not take it). Unapplied: no managed project wraps a page for a remote-driven host. Boundary named in the technique: script-created key events carry no default action, which keyboard-navigation-models should say too (banked rows 5 and 26).
+
+## 2026-10-31 - architecture review
+
+All 17 documents read. Two internal defects and no source refutation: the golden path's body never reaches its two newest techniques, and the idle-timeout formula has no jitter margin, which the stream witness's own 45 s constant exposes (the application's arithmetic for it was wrong). Rule four of the target-set technique and the key-contract boundary were checked against primary sources and hold.
+
+<!-- architecture-review:v1 -->
+```json
+{
+  "subject": "software-engineering/native-shell-integration",
+  "date": "2026-10-31",
+  "baseline": "a7d8d83e0",
+  "digest": "sha256-b2:9034ad02704d9c88",
+  "disposition": "clarify",
+  "coverage": "Golden path, all 10 techniques and all 6 applications read in full. Primary sources checked for the Tauri command default, untrusted-event default actions, Chromium occlusion behaviour, and the native-owned-stream witness at its pinned commit; other application anchors were not reopened.",
+  "counterexamples": [
+    "A stream whose only consumer is a visible view is correctly left in the view; relocating it adds a hop and a second reconnect policy for nothing.",
+    "A host that delivers raw virtual keys to targets makes layout resolution a bug generator; hardcoding is the right answer there.",
+    "A transparent or cloaked window is not counted as occluding by Chromium, so an overlay below full opacity does not trigger hibernation for that class of target - which is exactly why that fix does not generalise.",
+    "A product shipping to one host has no presence matrix; the presence axis collapses into the grant vector.",
+    "A task runner's shell string is the product; the bound moves to who may call it rather than to the string."
+  ],
+  "sources": [
+    {
+      "url": "https://v2.tauri.app/security/capabilities/",
+      "result": "Quote: 'By default, all commands that you registered in your app are allowed to be used by all the windows and webviews of the app. To change that, consider using AppManifest::commands.' Supports native-side-owns-the-target-set rule four."
+    },
+    {
+      "url": "https://developer.mozilla.org/en-US/docs/Web/API/Event/isTrusted",
+      "result": "Quote: isTrusted is 'false when the event was dispatched via EventTarget.dispatchEvent()'. Supports host-forwarded-key-contract boundary (untrusted)."
+    },
+    {
+      "url": "https://groups.google.com/a/chromium.org/g/blink-dev/c/WEMnlVIbe70/m/hP7fhHP0AAAJ",
+      "result": "Via search summary: per UI Events, un-trusted events should not invoke the default action; 'click' is the only legacy permitted case. Supports the no-default-action half of the boundary."
+    },
+    {
+      "url": "https://chromium.googlesource.com/chromium/src/+/b78a1594de8fdb3ce9eea0665d2d773123e8c435/docs/windows_native_window_occlusion_tracking.md",
+      "result": "Quotes: occluded windows - 'rendering stops, and js is throttled'; 'Transparent windows, cloaked windows, floating windows, non-rectangular windows, etc, are not considered occluding.' Supports observer-perturbation mechanism and its rejected rung; says nothing about accessibility reparenting."
+    },
+    {
+      "url": "https://raw.githubusercontent.com/jamiepine/voicebox/51f49dea198384b4eb6087b72c17057c6eb1c1cd/tauri/src-tauri/src/speak_monitor.rs",
+      "result": "Pinned witness: 15 s heartbeat, 45 s STREAM_IDLE_TIMEOUT 'absorbs one missed heartbeat', productive-round backoff reset, unconditional post-round sleep at :82 - all as cited. Refutes the application's '15 s x (1+1)' arithmetic."
+    },
+    {
+      "url": "https://developer.apple.com/documentation/iokit/iohidaccesstype",
+      "result": "Page not machine-readable (JS-only); IOHIDAccessType values remain attested only by the witness's own FFI comment."
+    }
+  ],
+  "documents": {
+    "native-shell-integration.md": {
+      "disposition": "clarify",
+      "reason": "Frontmatter lists ten techniques; the closing technique list names eight and the body never mentions native-side-owns-the-target-set or host-forwarded-key-contract, so a reader of the path never reaches them. Add both to the list and name the target-set technique where the boundary section already states its question ('which side may perform this act')."
+    },
+    "techniques/permission-gate-vector.md": {
+      "disposition": "keep",
+      "reason": "Killer/degrader split, poll-not-try, three-plus-one query states and refocus reconciliation are coherent and witnessed; the three-valued IOHID access enum is consistent with the witness's own FFI comment (Apple's page was not machine-readable this run)."
+    },
+    "techniques/capability-presence-contract.md": {
+      "disposition": "keep",
+      "reason": "Presence as an axis distinct from grant, four classes, typed refusal and compile-out-only-for-unsafe are well bounded; the witness application shows the motivating collapse concretely."
+    },
+    "techniques/non-stealing-overlay.md": {
+      "disposition": "keep",
+      "reason": "Layered teardown order, omitted-focus comment, idempotent construction and verified hand-back stand; claims are scoped to 'at least one host' and witnessed."
+    },
+    "techniques/query-transparent-overlay.md": {
+      "disposition": "keep",
+      "reason": "Three-transparency enumeration and both rejected rungs are argued from mechanism; 16-33 ms flicker is the correct arithmetic for one to two frames at 60 Hz. Single-source provenance for the rejected rungs is acknowledged in the subject note."
+    },
+    "techniques/observer-perturbation.md": {
+      "disposition": "keep",
+      "reason": "Chromium's own occlusion document confirms that an occluded window stops rendering and that transparent windows are not considered occluding, which supports both the mechanism and why the rejected 'defeat the detector' rung works for that class only. The accessibility-provider reparenting detail remains single-source (the intake) and is stated as observed behaviour, not as a documented contract."
+    },
+    "techniques/unexported-capability-ladder.md": {
+      "disposition": "keep",
+      "reason": "The search-order rule ahead of the ladder is the load-bearing content and is well argued; per-rung timings are single-source measurements presented as such."
+    },
+    "techniques/layout-resolved-input-synthesis.md": {
+      "disposition": "keep",
+      "reason": "Per-host matching layer, main-thread resolution with change notification, single cell and logged fallback are coherent; the witness carries both host comments verbatim."
+    },
+    "techniques/native-owned-stream.md": {
+      "disposition": "clarify",
+      "reason": "Formula 'heartbeat x (missed beats tolerated + 1)' puts the deadline exactly at the due time of the beat after the tolerated miss, so any jitter trips it; the witness's 45 s for a 15 s heartbeat (verified at source) is that formula plus one interval of margin, which the formula cannot produce. Add an explicit margin term."
+    },
+    "techniques/native-side-owns-the-target-set.md": {
+      "disposition": "keep",
+      "reason": "Rule four verified against Tauri 2 capabilities documentation: 'By default, all commands that you registered in your app are allowed to be used by all the windows and webviews of the app. To change that, consider using AppManifest::commands.' Other rules are general security reasoning, scoped command by command."
+    },
+    "techniques/host-forwarded-key-contract.md": {
+      "disposition": "keep",
+      "reason": "Boundary claim verified: MDN defines isTrusted false for events dispatched via dispatchEvent(), and the UI Events rule (as cited in Chromium's intent to ship) is that untrusted events do not invoke default actions, click being the only legacy exception, which does not affect the keyboard case described."
+    },
+    "applications/react--permission-gate-vector.md": {
+      "disposition": "keep",
+      "reason": "Re-read the pinned useDictationReadiness.ts: lines 85-90 and allReady at 95, the web 'treat both as granted' at 78-81 and the poll stop condition at 64-75 match the citations. Other anchors not reopened; verified_on unchanged."
+    },
+    "applications/rust--capability-presence-contract.md": {
+      "disposition": "keep",
+      "reason": "Shows the class-collapse defect concretely and states the fix; anchors not reopened this run, verified_on unchanged."
+    },
+    "applications/rust--layout-resolved-input-synthesis.md": {
+      "disposition": "keep",
+      "reason": "Quotes both host comments and the fallback constant; the anchor note already corrects a stale spec range. Anchors not reopened, verified_on unchanged."
+    },
+    "applications/rust--native-owned-stream.md": {
+      "disposition": "clarify",
+      "reason": "Arithmetic error: '45 s is 15 s x (1 missed beat + 1)' evaluates to 30 s. The constant and its comment (verified at the pinned commit, speak_monitor.rs:38-42) are one tolerated miss plus a full interval of margin; say that."
+    },
+    "applications/rust--native-side-owns-the-target-set.md": {
+      "disposition": "keep",
+      "reason": "Read-only witness with its exploitability limit stated; the manifest finding is consistent with the Tauri default verified above. Anchors not reopened, verified_on unchanged."
+    },
+    "applications/rust--non-stealing-overlay.md": {
+      "disposition": "keep",
+      "reason": "Teardown order, Linux compile-out reason and verified activation ordering are quoted from the tree; the missing native-side watchdog is disclosed. Anchors not reopened, verified_on unchanged."
+    }
+  }
+}
+```
+
+Applied the three clarify items the same day (golden-path technique list, idle-timeout margin, stream witness arithmetic); record against the new digest below.
+
+<!-- architecture-review:v1 -->
+```json
+{
+  "subject": "software-engineering/native-shell-integration",
+  "date": "2026-10-31",
+  "baseline": "a7d8d83e0",
+  "digest": "sha256-b2:a28c1929a3d0c38a",
+  "disposition": "keep",
+  "coverage": "Golden path, all 10 techniques and all 6 applications read in full. Primary sources checked for the Tauri command default, untrusted-event default actions, Chromium occlusion behaviour, and the native-owned-stream witness at its pinned commit; other application anchors were not reopened.",
+  "counterexamples": [
+    "A stream whose only consumer is a visible view is correctly left in the view; relocating it adds a hop and a second reconnect policy for nothing.",
+    "A host that delivers raw virtual keys to targets makes layout resolution a bug generator; hardcoding is the right answer there.",
+    "A transparent or cloaked window is not counted as occluding by Chromium, so an overlay below full opacity does not trigger hibernation for that class of target - which is exactly why that fix does not generalise.",
+    "A product shipping to one host has no presence matrix; the presence axis collapses into the grant vector.",
+    "A task runner's shell string is the product; the bound moves to who may call it rather than to the string."
+  ],
+  "sources": [
+    {
+      "url": "https://v2.tauri.app/security/capabilities/",
+      "result": "Quote: 'By default, all commands that you registered in your app are allowed to be used by all the windows and webviews of the app. To change that, consider using AppManifest::commands.' Supports native-side-owns-the-target-set rule four."
+    },
+    {
+      "url": "https://developer.mozilla.org/en-US/docs/Web/API/Event/isTrusted",
+      "result": "Quote: isTrusted is 'false when the event was dispatched via EventTarget.dispatchEvent()'. Supports host-forwarded-key-contract boundary (untrusted)."
+    },
+    {
+      "url": "https://groups.google.com/a/chromium.org/g/blink-dev/c/WEMnlVIbe70/m/hP7fhHP0AAAJ",
+      "result": "Via search summary: per UI Events, un-trusted events should not invoke the default action; 'click' is the only legacy permitted case. Supports the no-default-action half of the boundary."
+    },
+    {
+      "url": "https://chromium.googlesource.com/chromium/src/+/b78a1594de8fdb3ce9eea0665d2d773123e8c435/docs/windows_native_window_occlusion_tracking.md",
+      "result": "Quotes: occluded windows - 'rendering stops, and js is throttled'; 'Transparent windows, cloaked windows, floating windows, non-rectangular windows, etc, are not considered occluding.' Supports observer-perturbation mechanism and its rejected rung; says nothing about accessibility reparenting."
+    },
+    {
+      "url": "https://raw.githubusercontent.com/jamiepine/voicebox/51f49dea198384b4eb6087b72c17057c6eb1c1cd/tauri/src-tauri/src/speak_monitor.rs",
+      "result": "Pinned witness: 15 s heartbeat, 45 s STREAM_IDLE_TIMEOUT 'absorbs one missed heartbeat', productive-round backoff reset, unconditional post-round sleep at :82 - all as cited. Refutes the application's '15 s x (1+1)' arithmetic."
+    },
+    {
+      "url": "https://developer.apple.com/documentation/iokit/iohidaccesstype",
+      "result": "Page not machine-readable (JS-only); IOHIDAccessType values remain attested only by the witness's own FFI comment."
+    }
+  ],
+  "documents": {
+    "native-shell-integration.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: added native-side-owns-the-target-set and host-forwarded-key-contract to the techniques list (both were in frontmatter, absent from the body) and named the target-set technique in the boundary section. Body still develops neither in its own section; a fuller paragraph for each is optional, not owed."
+    },
+    "techniques/permission-gate-vector.md": {
+      "disposition": "keep",
+      "reason": "Killer/degrader split, poll-not-try, three-plus-one query states and refocus reconciliation are coherent and witnessed; the three-valued IOHID access enum is consistent with the witness's own FFI comment (Apple's page was not machine-readable this run)."
+    },
+    "techniques/capability-presence-contract.md": {
+      "disposition": "keep",
+      "reason": "Presence as an axis distinct from grant, four classes, typed refusal and compile-out-only-for-unsafe are well bounded; the witness application shows the motivating collapse concretely."
+    },
+    "techniques/non-stealing-overlay.md": {
+      "disposition": "keep",
+      "reason": "Layered teardown order, omitted-focus comment, idempotent construction and verified hand-back stand; claims are scoped to 'at least one host' and witnessed."
+    },
+    "techniques/query-transparent-overlay.md": {
+      "disposition": "keep",
+      "reason": "Three-transparency enumeration and both rejected rungs are argued from mechanism; 16-33 ms flicker is the correct arithmetic for one to two frames at 60 Hz. Single-source provenance for the rejected rungs is acknowledged in the subject note."
+    },
+    "techniques/observer-perturbation.md": {
+      "disposition": "keep",
+      "reason": "Chromium's own occlusion document confirms that an occluded window stops rendering and that transparent windows are not considered occluding, which supports both the mechanism and why the rejected 'defeat the detector' rung works for that class only. The accessibility-provider reparenting detail remains single-source (the intake) and is stated as observed behaviour, not as a documented contract."
+    },
+    "techniques/unexported-capability-ladder.md": {
+      "disposition": "keep",
+      "reason": "The search-order rule ahead of the ladder is the load-bearing content and is well argued; per-rung timings are single-source measurements presented as such."
+    },
+    "techniques/layout-resolved-input-synthesis.md": {
+      "disposition": "keep",
+      "reason": "Per-host matching layer, main-thread resolution with change notification, single cell and logged fallback are coherent; the witness carries both host comments verbatim."
+    },
+    "techniques/native-owned-stream.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: the idle-timeout formula now adds a stated jitter margin (up to one interval) to heartbeat x (tolerated misses + 1), since the bare formula puts the deadline exactly on the next beat's due time; the decision rule says the same."
+    },
+    "techniques/native-side-owns-the-target-set.md": {
+      "disposition": "keep",
+      "reason": "Rule four verified against Tauri 2 capabilities documentation: 'By default, all commands that you registered in your app are allowed to be used by all the windows and webviews of the app. To change that, consider using AppManifest::commands.' Other rules are general security reasoning, scoped command by command."
+    },
+    "techniques/host-forwarded-key-contract.md": {
+      "disposition": "keep",
+      "reason": "Boundary claim verified: MDN defines isTrusted false for events dispatched via dispatchEvent(), and the UI Events rule (as cited in Chromium's intent to ship) is that untrusted events do not invoke default actions, click being the only legacy exception, which does not affect the keyboard case described."
+    },
+    "applications/react--permission-gate-vector.md": {
+      "disposition": "keep",
+      "reason": "Re-read the pinned useDictationReadiness.ts: lines 85-90 and allReady at 95, the web 'treat both as granted' at 78-81 and the poll stop condition at 64-75 match the citations. Other anchors not reopened; verified_on unchanged."
+    },
+    "applications/rust--capability-presence-contract.md": {
+      "disposition": "keep",
+      "reason": "Shows the class-collapse defect concretely and states the fix; anchors not reopened this run, verified_on unchanged."
+    },
+    "applications/rust--layout-resolved-input-synthesis.md": {
+      "disposition": "keep",
+      "reason": "Quotes both host comments and the fallback constant; the anchor note already corrects a stale spec range. Anchors not reopened, verified_on unchanged."
+    },
+    "applications/rust--native-owned-stream.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: replaced '45 s is 15 s x (1 missed beat + 1) with a full interval of slack' (15 x 2 = 30, not 45) with the formula-plus-margin reading; every speak_monitor.rs citation re-checked at the pinned commit (1-8, 16-28, 36-42, 44-48, 63-86, 89-92, 109, 114-117) plus useDictationReadiness.ts 61-76, so verified_on moved to 2026-10-31."
+    },
+    "applications/rust--native-side-owns-the-target-set.md": {
+      "disposition": "keep",
+      "reason": "Read-only witness with its exploitability limit stated; the manifest finding is consistent with the Tauri default verified above. Anchors not reopened, verified_on unchanged."
+    },
+    "applications/rust--non-stealing-overlay.md": {
+      "disposition": "keep",
+      "reason": "Teardown order, Linux compile-out reason and verified activation ordering are quoted from the tree; the missing native-side watchdog is disclosed. Anchors not reopened, verified_on unchanged."
+    }
+  }
+}
+```

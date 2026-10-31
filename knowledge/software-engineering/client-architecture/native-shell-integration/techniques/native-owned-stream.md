@@ -65,7 +65,12 @@ The only defence is an idle timeout on the read, and the number is not a taste
 question:
 
 > **Idle timeout = producer heartbeat interval × (missed beats tolerated + 1),
-> with the tolerance chosen and written down.**
+> plus a jitter margin of up to one interval, with the tolerance and the margin
+> chosen and written down.**
+
+The margin is not optional: without it the deadline falls exactly on the due
+time of the beat after the tolerated miss, and any lateness in that beat trips
+the timeout.
 
 Tolerating exactly one missed beat is the usual right answer: it absorbs a
 pause, a brief stall, a scheduling hiccup, and it detects a genuinely dead
@@ -110,8 +115,8 @@ reconnecting task outlives the surface it feeds
 
 - If a stream must arrive while the view is hidden, the native process owns it.
 - The view keeps no connection state and displays no health it cannot observe.
-- Idle timeout = heartbeat × (tolerated misses + 1); write the derivation next
-  to the constant.
+- Idle timeout = heartbeat × (tolerated misses + 1) plus a margin of up to one
+  interval; write the derivation next to the constant.
 - No heartbeat on the producer means no correct timeout — add the heartbeat.
 - Reset the backoff only for a round that produced a frame.
 - Escalate to a stated ceiling; log once per escalation with attempt and delay.

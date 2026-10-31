@@ -5,7 +5,7 @@ subject: native-shell-integration
 technique: native-owned-stream
 stack: rust
 status: forged
-verified_on: 2026-09-03
+verified_on: 2026-10-31
 verified_against: rust@2021
 ---
 
@@ -54,8 +54,9 @@ health opinion — the pure-renderer split.
 const STREAM_IDLE_TIMEOUT: Duration = Duration::from_secs(45);
 ```
 
-45 s is `15 s × (1 missed beat + 1)` with a full interval of slack — the
-technique's formula, with the tolerance named. The module comment at `:23-28`
+45 s is `15 s × (1 missed beat + 1)` = 30 s, plus one full interval of jitter
+margin — the technique's formula, with the tolerance named and the margin at its
+ceiling. The module comment at `:23-28`
 states what it defends against: "a backend that accepts the TCP connection but
 stops producing frames (deadlocked SSE endpoint, zombie process). Without a
 timeout the `chunk().await` blocks forever and the task never notices."

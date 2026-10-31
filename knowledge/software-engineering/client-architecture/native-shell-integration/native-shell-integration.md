@@ -53,6 +53,8 @@ side is entitled to do at all*, which is upstream of every call shape. The rule
 a reader uses: if the question is "how does this value cross", it is the
 contract's; if it is "which side may perform this act, and what happens on a
 host where nobody may", it is this path's.
+[native-side-owns-the-target-set](./techniques/native-side-owns-the-target-set.md)
+asks that question of every command that deletes, writes or spawns.
 
 Acquiring, verifying and supervising external executables and large model files
 is a different subject again, and the native process is merely its most common
@@ -286,3 +288,9 @@ it into a hot loop.
 - [native-owned-stream](./techniques/native-owned-stream.md) — moving stream
   ownership out of a throttleable context, what stays behind, and the derived
   idle timeout and productive-round backoff.
+- [native-side-owns-the-target-set](./techniques/native-side-owns-the-target-set.md)
+  — send a handle rather than a target list, allow-lists over deny-lists,
+  layers that can refuse, and the manifest that governs only what it names.
+- [host-forwarded-key-contract](./techniques/host-forwarded-key-contract.md)
+  — a tested key table, consumption read back from the page, and back leaving
+  only when the page did not take it.
