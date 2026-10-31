@@ -24,6 +24,9 @@
  *   routing        whether a table routes the reader onward, and how much prose
  *                  lives in the pages it routes to
  *   first screen   whether anything non-prose appears before the fold
+ *   channels       shell blocks that would run in one dialect and fail in the other
+ *                  dialect the page also sends readers to, with no text naming theirs
+ *                  (a fence's language tag renders on no host, so it does not count)
  *
  * THE INSTRUMENT IS ASSERTED BEFORE THE RESULT. Every measurement function runs
  * against a built-in fixture with hand-counted answers first; a disagreement is
@@ -194,6 +197,47 @@ const NON_PROSE = /!\[|^\s*\||^```|^>\s*\[!|<img|<p align|<table/m;
 const firstScreenHasVisual = (md) =>
   NON_PROSE.test(md.split('\n').slice(0, T.firstScreenLines).join('\n'));
 
+// input-channel-distinction: a fenced block that runs in one shell dialect and fails
+// in the other one the document ALSO sends readers to, with no text naming its own
+// destination inside the block, on the line above it, or in the heading it sits under.
+// A code host never displays a fence's language tag, so the tag does not count.
+// Trees, diagrams and source excerpts are not flagged: they announce themselves, and a
+// detector that flags every non-command fence flagged 27 false alarms of 32 on the fleet
+// (2026-10-31). Returns the 1-based line of each misroutable block's opening fence.
+const POSIX_ONLY = [/^\s*[A-Z_][A-Z0-9_]*=\S+\s+\S/, /^\s*source\s/, /^\s*export\s+[A-Z_]/, /\$HOME\b/, /\\\s*$/, /^\s*sudo\s/];
+const PWSH_ONLY = [/^\s*irm\s/, /\|\s*iex\b/, /^\s*&\s+["']/, /^\s*\.\\/, /\$env:/i, /^\s*winget\s/];
+const SHELL_NAMES = /\b(windows|powershell|pwsh|macos|mac|linux|bash|posix|zsh|git bash|wsl|unix|cmd)\b/i;
+const findMisroutedBlocks = (md) => {
+  const lines = md.split(/\r?\n/);
+  const blocks = [];
+  let cur = null;
+  lines.forEach((l, i) => {
+    if (/^\s*(```|~~~)/.test(l)) {
+      if (!cur) cur = { start: i + 1, body: [] };
+      else { blocks.push(cur); cur = null; }
+    } else if (cur) cur.body.push(l);
+  });
+  const dialectOf = (b) => {
+    const code = b.body.filter((x) => !/^\s*#/.test(x)).map((x) => x.replace(/\s#.*$/, ''));
+    const p = code.some((x) => POSIX_ONLY.some((r) => r.test(x)));
+    const w = code.some((x) => PWSH_ONLY.some((r) => r.test(x)));
+    return p && !w ? 'posix' : w && !p ? 'pwsh' : null;
+  };
+  const named = (b) => {
+    if (b.body.some((x) => x.includes('#') && SHELL_NAMES.test(x.slice(x.indexOf('#'))))) return true;
+    let i = b.start - 2;
+    while (i >= 0 && !lines[i].trim()) i--;
+    if (i >= 0 && SHELL_NAMES.test(lines[i])) return true;
+    for (let j = b.start - 2; j >= 0; j--) if (/^#{1,6}\s/.test(lines[j])) return SHELL_NAMES.test(lines[j]);
+    return false;
+  };
+  const dialects = new Set(blocks.map(dialectOf));
+  const reachesPwsh = dialects.has('pwsh') || /\b(windows|powershell)\b/i.test(md);
+  const reachesPosix = dialects.has('posix') || /\b(macos|linux|bash)\b/i.test(md);
+  if (!(reachesPwsh && reachesPosix)) return [];
+  return blocks.filter((b) => dialectOf(b) && !named(b)).map((b) => b.start);
+};
+
 // ------------------------------------------------- assert the instrument
 // Hand-counted fixture. If any of these disagree, the report below is noise.
 const FIXTURE = [
@@ -240,6 +284,17 @@ function assertInstrument() {
   check('longest prose run', longestProseRun(FIXTURE), 2);
   check('furniture is not a break', isFurniture('---'), true);
   check('a real paragraph is not furniture', isFurniture('some prose here'), false);
+  // Channel fixture: block 1 is a POSIX env prefix under a feature heading (flagged),
+  // block 2 sits under a heading naming its shell, block 3 carries an in-block lead-in,
+  // block 4 is a tree (self-announcing, never flagged).
+  const CHANNELS = [
+    '## Windows setup', '```powershell', 'winget install x', '```',
+    '## Build tiers', '```bash', 'TIER=a npm run build', '```',
+    '```bash', '# macOS or Linux', 'export TIER=a', '```',
+    '```', 'src/', '└── a/', '```',
+  ].join('\n');
+  check('misrouted shell blocks', findMisroutedBlocks(CHANNELS), [6]);
+  check('one-dialect document has no channel hazard', findMisroutedBlocks('```bash\nsudo x\n```'), []);
   if (problems.length) {
     console.error('check-readmes: THE INSTRUMENT IS BROKEN - refusing to report.\n');
     for (const p of problems) console.error(`  - ${p}`);
@@ -329,6 +384,7 @@ for (const [slug, project] of Object.entries(targets)) {
     routedWords,
     longestProseRun: longestProseRun(md),
     firstScreenVisual: firstScreenHasVisual(md),
+    misroutedBlocks: findMisroutedBlocks(md),
   };
 
   const findings = [];
@@ -347,6 +403,11 @@ for (const [slug, project] of Object.entries(targets)) {
     findings.push(`${m.longestProseRun} consecutive prose lines unbroken (budget ${T.proseRunLines})`);
   }
   if (!m.firstScreenVisual) findings.push('nothing but prose above the fold');
+  if (m.misroutedBlocks.length) {
+    findings.push(
+      `${m.misroutedBlocks.length} shell block(s) fail in the other shell this page sends readers to, and nothing names theirs (line ${m.misroutedBlocks.join(', ')})`,
+    );
+  }
 
   results.push({ ...m, findings });
 }

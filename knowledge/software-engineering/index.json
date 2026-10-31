@@ -5,7 +5,7 @@
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 243,
   "techniques": 1957,
-  "applications": 1455,
+  "applications": 1456,
   "laws": 16,
   "categories": [
    "ui-surfaces",
@@ -31677,9 +31677,9 @@
    "subcategory": "codebase-stewardship",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-process/codebase-stewardship/repository-landing-document/repository-landing-document.md",
-   "digest": "sha256-b2:6f6a6c4541bc949b",
-   "revision": 4,
-   "changedAt": "2026-10-22",
+   "digest": "sha256-b2:21e7be3c68f38a9a",
+   "revision": 5,
+   "changedAt": "2026-10-31",
    "techniques": [
     {
      "slug": "caption-carrying-figures",
@@ -31790,6 +31790,13 @@
     }
    ],
    "applications": [
+    {
+     "stack": "node",
+     "technique": "input-channel-distinction",
+     "file": "knowledge/software-engineering/engineering-process/codebase-stewardship/repository-landing-document/applications/node--input-channel-distinction.md",
+     "verified_on": "2026-10-31",
+     "verified_against": "node@22"
+    },
     {
      "stack": "process",
      "technique": "caption-carrying-figures",

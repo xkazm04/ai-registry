@@ -1,0 +1,52 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "apply-icd-1031",
+  "skill": "intake",
+  "skill_version": "2.18.0",
+  "mode": "apply",
+  "domain": "software-engineering",
+  "started_at": "2026-10-31T13:40:00Z",
+  "ended_at": "2026-10-31T14:30:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 1,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "software-engineering/repository-landing-document",
+      "at": "2026-10-31",
+      "engine": "intake",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "repository-landing-document",
+      "technique": "input-channel-distinction",
+      "verdict": "better",
+      "mode": "code"
+    }
+  ],
+  "files": [
+    "knowledge/software-engineering/engineering-process/codebase-stewardship/repository-landing-document/techniques/input-channel-distinction.md",
+    "knowledge/software-engineering/engineering-process/codebase-stewardship/repository-landing-document/applications/node--input-channel-distinction.md",
+    "knowledge/software-engineering/index.json",
+    "catalog.json",
+    "rules/ai-registry-software-engineering.md",
+    "scripts/check-readmes.mjs",
+    "librarian/subjects/software-engineering/repository-landing-document.md",
+    "librarian/applied.md",
+    ".claude/skills/intake/SCORECARD.md"
+  ],
+  "commits": [],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "Phase 7.5 alone, second stack (node). Code A/B on a project landing document: misroutable shell blocks 1 -> 0, floor held. Technique amended for the two-shell case; hazard detector ported into check-readmes. personas 1faa1ba0bf + 460d9e0b4e pushed from an origin worktree."
+}

@@ -94,6 +94,37 @@ treatments in the document is finite and enumerable, and a rule that says
 *every fenced block is a shell command and every callout opens with the
 lead-in phrase* is a two-line search away from being checkable.
 
+## When the second destination is a second shell
+
+The second destination a landing document usually reaches is not an agent.
+It is another shell. A project that ships to more than one operating system
+sends readers to a POSIX shell and to the platform's own shell, and some
+lines run in one and fail in the other: a leading environment assignment, a
+backslash continuation, a heredoc, an inline variable write in the other
+dialect's syntax. Both shells claim the fence, so the rule's first clause is
+already broken, and no visual treatment can fix it. A host gives one
+monospace block, not two.
+
+The fence's language tag looks like the answer and is not. Code hosts do not
+display the tag. It survives only as syntax colouring, and no reader takes
+colouring as an instruction. That makes the tag a distinction that is
+missing on every surface, including the richest one, which is a worse case
+than the degrading callout above. The lead-in in text is the only signal
+here, on every surface. Put it inside the block, as a comment line that both
+dialects ignore, or in the heading the block sits under. A heading naming
+the operating system survives the strip as well as an in-block line does.
+A block under a heading that names a feature instead fails silently.
+
+Count the hazard, not the sharing. Directory trees, box diagrams and source
+excerpts also sit in fences. They have to, because monospace alignment is
+all they need and the fence is the only channel that keeps it. Their content
+announces itself: nobody pastes a box-drawing tree into a shell expecting it
+to run. A detector that flags every non-command fence flags mostly these,
+and teaches its readers to ignore it, the same failure the decorative third
+clause warns about. The flag worth raising is narrower: a block that would
+visibly fail in another destination the same document names, with no text
+naming its own.
+
 ## When not to bother
 
 A document with exactly one input destination does not need channels. If
