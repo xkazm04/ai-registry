@@ -152,7 +152,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/grant-funding/grant-operations/deadline-pipeline-management/deadline-pipeline-management.md",
-   "digest": "sha256-b2:721a04f1205b55a9",
+   "digest": "sha256-b2:f52d1e09ccc00e73",
    "revision": 4,
    "changedAt": "2026-10-14",
    "techniques": [
@@ -284,7 +284,7 @@
      "stack": "process",
      "technique": "submission-lead-time-buffers",
      "file": "knowledge/grant-funding/grant-operations/deadline-pipeline-management/applications/process--submission-lead-time-buffers.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-10-31"
     }
    ]
   },
