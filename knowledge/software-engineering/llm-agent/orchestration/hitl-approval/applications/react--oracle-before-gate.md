@@ -4,7 +4,7 @@ type: application
 subject: hitl-approval
 technique: oracle-before-gate
 stack: react
-verified_on: 2026-08-31
+verified_on: 2026-10-31
 verified_against: react@19
 applied: simulation
 ab_verdict: better
@@ -26,35 +26,45 @@ decide what a reviewer sees and in what order. Their terms, in full:
 
 | function | line | terms |
 | --- | --- | --- |
-| `triageValueScore` | 77 | `impact`, `effort`, `risk` |
-| `withinLevelRanges` | 159 | `effort`, `risk` |
-| `hasLevelFilter` | 165 | `effort`, `risk` |
+| `triageValueScore` | 180 | `impact`, `effort`, `risk` |
+| `withinLevelRanges` | 274 | `effort`, `risk` |
+| `hasLevelFilter` | 280 | `effort`, `risk` |
 
 Three distinct terms across three functions. `impact` is what happens if the
 item matters; `effort` and `risk` are what it costs to act and what it costs to
 be wrong. All three are properties of consequence, which is exactly the axis the
 subject's gate map already keys on — and the scorer is explicit about the
 arithmetic: `impact * 2 - effort - risk`, "reward impact, charge for effort +
-risk" (line 73).
+risk" (line 176).
 
 The sort keys are six — `category`, `title`, `project`, `value`, `quick`,
-`created` (line 100). Four are identity or metadata; `value` and `quick` both
+`created` (line 203). Four are identity or metadata; `value` and `quick` both
 resolve back to the same three consequence terms. **No ordering, scoring or
 filtering path in the surface takes a verifiability term of any kind.**
+
+Re-checked 2026-10-31 at personas@22260d77: the census above still holds term
+for term, but the ordering it sits under has moved. `BacklogSortKey` now has a
+seventh key, `score` (line 203), and the panel's `default` mode sorts by it
+(`SORT_MODE_COLUMN`, line 252): a producer-stored `scan-score/1` value, opaque to
+the surface, whose shipped breakdown names a `confidence_w` part
+(`ScanFindingChips.tsx:16`). That is the producer's confidence in the finding,
+not a verification state; `verifyState` is still consulted by no sort, score or
+filter path in `backlogModel.ts`. The verdict stands; the focus deck's next card
+(case 1 below) is now ordered by `score` first, not by `triageValueScore`.
 
 ## The field that is already there
 
 `BacklogIdea` carries `verifyState: string | null` (line 35), populated from the
-stored `verify_state` in `toBacklogIdea` (line 67), and the backend exposes a
-writer for it (`src/api/devTools/devTools.ts:944-946`,
+stored `verify_state` in `toBacklogIdea` (line 86), and the backend exposes a
+writer for it (`src/api/devTools/devTools.ts:833-839`,
 `dev_tools_set_finding_verify_state`, which also takes `verifyEvidence`). So the
 tree has a per-item verification state *and* a place to record the evidence
 behind it.
 
 It is referenced four times in the Backlog surface. Two are the declaration and
 the mapping above. The other two are renders — `<VerdictChip verifyState={…} />`
-in `SwipeCard.tsx:119` and `BacklogDetailLedger.tsx:76` — plus one more as a
-neutral tag in `triageAdapters.ts:755`. Every occurrence is plumbing or pixels.
+in `SwipeCard.tsx:120` and `BacklogDetailLedger.tsx:80` — plus one more as a
+neutral tag in `src/features/agents/quick-answer/triage/triageAdapters.ts:773`. Every occurrence is plumbing or pixels.
 Zero are decisions.
 
 ## The structural fact

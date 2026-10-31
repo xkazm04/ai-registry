@@ -4,7 +4,7 @@ type: application
 subject: tool-result-economy
 technique: escape-hatch-usage-as-the-safety-metric
 stack: rust
-verified_on: 2026-09-04
+verified_on: 2026-10-31
 verified_against: rust@1.80
 applied: code
 ab_verdict: unmeasurable
@@ -16,9 +16,26 @@ proof: structural-only
 A desktop agent platform folds a persona's long-term coaching notes into the
 evaluation payload it sends the reviewing model, cut to 4,000 characters. The
 cut is implemented by a small char-safe helper that appends a bare ellipsis
-(`src-tauri/src/engine/director.rs:657-664`, called at `:853`).
+(`src-tauri/src/engine/director.rs:657-664`, called at `:853`; see the
+re-check below for where both sit now).
 `verified_against` names the version the tree witnesses:
-`rust-version = "1.80.0"` in `src-tauri/Cargo.toml:115`.
+`rust-version = "1.80.0"` in `src-tauri/Cargo.toml:222`.
+
+**Re-checked 2026-10-31 at personas@22260d77: the "how much" half of this
+finding is resolved in the tree, by a different fix than the one this run
+wrote; the "where" half is not.** The bare-ellipsis helper is still there
+(`director.rs:696-702`), but the brain-history call no longer uses it:
+`director.rs:1071` now passes the history through
+`brain_payload::fold_history(&history, 4000)` (`src-tauri/engine/src/brain_payload.rs:109-192`).
+That keeps the same char-safe head and then appends an in-band
+`_[Memory notice: cut at 4000 of N chars; not shown: …]_` naming the omitted
+reviews and digest entries, so the dropped amount is now stated. The notice
+ends "Past coaching not visible here may exist." and does not name the vault
+folder, so the model is still not told where the rest lives. The arguments below
+that the format "is structurally incapable of carrying either fact" and that the
+recovery rate is zero "by construction" describe the tree as first read; on
+today's tree they hold only for the missing location. `truncate_with_notice`
+from the arms below never reached the trunk.
 
 This is the technique's advertisement precondition, found in the wild and
 failing in the direction the technique predicts is invisible.
@@ -27,7 +44,7 @@ failing in the direction the technique predicts is invisible.
 
 The notes are not synthesized for the payload. They are markdown files in a
 vault the platform mirrors, read back per persona from a stable folder
-(`director_brain.rs:202-206`, folder from `director_vault_folder`), and the
+(`director_brain.rs:204-211`, folder from `director_vault_folder`), and the
 reviewing persona runs with file-reading capability. So the material is
 addressable at its source and re-reading it is a normal action the model can
 take — which is precisely

@@ -4,7 +4,8 @@ type: application
 subject: hitl-approval
 technique: consent-gates
 stack: rust
-verified_on: 2026-08-18
+verified_on: 2026-10-31
+verified_against: rust@1.80
 ---
 
 # Consent gates in the companion lane and the autonomy front door (Rust)
@@ -16,29 +17,31 @@ answers "may this act unattended at all".
 
 ## Allowlist first: what may become a question
 
-`src-tauri/src/companion/dispatcher.rs` scans assistant output for op JSON
+`src-tauri/src/companion/dispatcher/` (once a single `dispatcher.rs`, now a
+module directory) scans assistant output for op JSON
 blocks and persists them as approval rows in `companion_approval` — but only
-ops on `ALLOWED_ACTIONS` (`dispatcher.rs:239`) ever become approval cards; an
+ops on `ALLOWED_ACTIONS` (`dispatcher/catalog.rs:11`) ever become approval cards; an
 unknown action is dropped, not asked about. The read-only exemption is by
 design and defended in comments that anticipate the misreading: read-only
 connector capabilities auto-fire "no approval card — friction the user
 explicitly [declined]" while "write/mutation capabilities
 (`ConnectorCapability::requires_approval`) route through an approval card"
-(`:276-282`, `:1848-1857`) — and the comment at `:281-282` warns against
+(`catalog.rs:46-55`, `dispatch.rs:1192-1197`) — and the comment at
+`catalog.rs:52-55` warns against
 reading "no approval card" as "writes fire unattended": the invariant is
 locked by the test `every_write_capability_requires_approval`. Pure UI
 navigation (`open_route`, `open_lab`) bypasses approval because "the user
-already asked" (`:35-42`) — the manual-invocation-is-the-consent rule.
+already asked" (`catalog.rs:43-45`, `types.rs:29`) — the manual-invocation-is-the-consent rule.
 
 This is the technique's default posture realized: closed by construction
 (allowlist, not blocklist), consequence-tiered (reads free, writes gated),
 and the disclosure derives from the bound op envelope the executor will run,
 not from the assistant's prose — the op JSON is stripped from the chat text
-and the card renders in its place (`:13`).
+and the card renders in its place (`dispatcher/mod.rs:13`).
 
 ## The autonomy dial, per trigger, with a held-fire queue
 
-`set_trigger_unattended_mode` (`src-tauri/src/commands/tools/triggers.rs:160-170`)
+`set_trigger_unattended_mode` (`src-tauri/src/commands/tools/triggers.rs:162-172`)
 sets a three-position dial per trigger — `auto` | `dry_run` | `approval` —
 enumerated contracts, not a vague "balanced": fire normally, fire with
 outbound suppressed (simulation), or hold for approval. In `approval` mode a
@@ -48,15 +51,15 @@ fire lands in `pending_trigger_fires` and surfaces in
 render the control for trigger types the backend does not honor — "surfacing
 a control the backend doesn't honor would be a worse (lying) signal".
 
-The resolution path (`resolve_pending_trigger_fire`, `triggers.rs:184-224`)
+The resolution path (`resolve_pending_trigger_fire`, `triggers.rs:186-226`)
 is the decision-write discipline in miniature: the pre-check on `pending`
-status is documented as "NEVER what authorises the publish" (`:190-193`);
+status is documented as "NEVER what authorises the publish" (`:192-196`);
 only the compare-and-swap in `resolve_pending_fire` picks a single winner,
 and the held event is published **gated on `won_cas`, not on the caller's
 `approved` flag** — "without this gate, a losing concurrent call would still
 publish from its own stale intent, firing an approval-gated automation twice
-from one click" (`:202-206`). A lost CAS to the same verdict returns the
-resolved row as success (`:220-223`): the human's approval *was* recorded,
+from one click" (`:205-210`). A lost CAS to the same verdict returns the
+resolved row as success (`:222-225`): the human's approval *was* recorded,
 just by the other delivery.
 
 ## One fail-closed front door
@@ -65,10 +68,15 @@ just by the other delivery.
 this project" once, for 13 named `Action`s. `global_enabled` reads
 `== Some("true")`, so a missing row, a corrupt value, and a database error
 all resolve to `false` — fail-closed by construction. Per-project modes
-parse with `unwrap_or(AutopilotMode::Off)` so "a garbled row can never widen
+parse with `unwrap_or(AutopilotMode::Off)` (in `load_modes`,
+`src-tauri/engine/src/autopilot.rs:141`, which `autonomy.rs` defers to) so "a garbled row can never widen
 autonomy past the global flag". The keys never leave the module
 (`Action::global_key()`), and the precedence rule is unit-tested. Turning
 the dial down is one settings write that the very next tick reads.
+
+Re-checked 2026-10-31 at personas@22260d77: the `Action` enum
+(`autonomy.rs:109`) now names 14 actions, not 13; the fail-closed reads and the
+`global_key()` encapsulation are unchanged.
 
 The measured caveat (from the legacy autonomy-gating audit) is the standard's
 ceiling rule inverted: all 17 autonomy switches default `false`, but the

@@ -4,7 +4,8 @@ type: application
 subject: prompt-safety
 technique: session-capability-conjunction
 stack: rust
-verified_on: 2026-09-14
+verified_on: 2026-10-31
+verified_against: rust@1.80
 applied: simulation
 ab_verdict: unmeasurable
 proof: structural-only
@@ -27,7 +28,7 @@ scope shrinks C, it does not remove it" rule came from.
 ## Three cases from the tree, under policy A (as built) and B (the conjunction)
 
 **1. A credential-relayed write after a third-party read.** The emit site
-`hooks::MutationPoint::ApiRequest` (`src-tauri/src/engine/api_proxy.rs:724-820`)
+`hooks::MutationPoint::ApiRequest` (`src-tauri/src/engine/api_proxy.rs:724-836`)
 wraps SSRF validation and scope enforcement. The request record it judges is
 `ApiCall { credential_id, service_type, method, path, original_path, rewrites }`
 (`src-tauri/src/engine/runner/hooks/mod.rs:164-174`): no execution or session
@@ -46,10 +47,10 @@ at spawn, not on read, because the host cannot see a read of its own environment
 *Falsifier:* the CLI's environment is unreadable to model-issued tool calls.
 
 **3. The roster is undeclared.** `resolve_allowed_tools`
-(`src-tauri/engine/src/prompt/discipline.rs:127-157`) returns `None` unless an
+(`src-tauri/engine/src/prompt/discipline.rs:127-167`) returns `None` unless an
 operator sets the `allowed_tools` parameter, and the runner's own comment records
 that `None` "is every persona until an operator sets the parameter"
-(`src-tauri/src/engine/runner/mod.rs:614-617`). Outside tests, no tree file sets it.
+(`src-tauri/src/engine/runner/mod.rs:802-805`). Outside tests, no tree file sets it.
 *A:* whether a session can fetch pages (leg A) or open a network connection from a
 shell (leg C) belongs to the harness underneath and is unknown to the host. *B:*
 undeclared means all legs lit, so every connector-carrying session hits the
