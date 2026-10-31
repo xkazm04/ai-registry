@@ -5,7 +5,7 @@
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 243,
   "techniques": 1957,
-  "applications": 1457,
+  "applications": 1458,
   "laws": 16,
   "categories": [
    "ui-surfaces",
@@ -33373,9 +33373,9 @@
    "subcategory": "data-pipeline-semantics",
    "status": "forged",
    "file": "knowledge/software-engineering/backend-platform/data-pipeline-semantics/self-describing-data-envelopes/self-describing-data-envelopes.md",
-   "digest": "sha256-b2:2b277f02bbefbfb9",
-   "revision": 2,
-   "changedAt": "2026-10-22",
+   "digest": "sha256-b2:dd726f07b8f6a609",
+   "revision": 3,
+   "changedAt": "2026-10-31",
    "techniques": [
     {
      "slug": "batch-vs-instance-copy-policy",
@@ -33465,6 +33465,13 @@
      "file": "knowledge/software-engineering/backend-platform/data-pipeline-semantics/self-describing-data-envelopes/applications/python--intersect-then-collate.md",
      "verified_on": "2026-09-03",
      "verified_against": "python@3.10"
+    },
+    {
+     "stack": "react",
+     "technique": "first-input-wins-propagation",
+     "file": "knowledge/software-engineering/backend-platform/data-pipeline-semantics/self-describing-data-envelopes/applications/react--first-input-wins-propagation.md",
+     "verified_on": "2026-10-31",
+     "verified_against": "react@19"
     }
    ]
   },
