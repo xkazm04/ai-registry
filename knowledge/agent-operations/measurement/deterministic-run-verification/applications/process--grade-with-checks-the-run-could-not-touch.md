@@ -36,8 +36,9 @@ setup files. There were 19 such files. The guard classified **3**. The 16 it mis
 
 An edit to any of these turns a gate green without touching a test, and the guard would
 have reported the lane as clean. The fix added the classes, plus a root `conftest.py`
-(where a published benchmark's graded agent forged pass lines from a hook) and test setup
-files. The eleven new seed paths are red under the old classifier and green under the new
+(where an audit of a published benchmark showed a hook in that file
+forging passes that survive the grader's reset of the test files) and test setup files.
+The eleven new seed paths are red under the old classifier and green under the new
 one; three near misses (a `config.toml` that is not cargo's, docs about a hook, a setup
 module in application code) stay unclassified under both. Coverage over the real files went
 from 3 of 19 to 19 of 19. Controls: the guard's own positive seeds classify and ordinary

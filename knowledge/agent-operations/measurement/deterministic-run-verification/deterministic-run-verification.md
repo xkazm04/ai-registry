@@ -35,7 +35,8 @@ facts were measured independently.
   files present, log rows appended, a verdict line that parses, a map that still validates.
 - **What was left behind** — uncommitted changes, scratch directories, half-written
   artefacts; separated from the things a repository legitimately ignores.
-- **Rule overrides** — anything committed that the repository's own exclusion rules cover.
+- **Rule overrides** — any path the run's commits added that the starting revision's committed
+  exclusion rules cover.
 - **Evasions** — checks disabled, tests skipped, assertions weakened, thresholds relaxed.
 - **Citations** — whether the file and line references in the run's own report resolve in
   the tree at the revision it produced, and whether every commit it names exists on a ref

@@ -169,3 +169,182 @@ of the validator lead. `check-currency` reports agent-operations at 0 expired an
 across 26 applications, with no drift on this subject. dry_streak is unchanged, because a
 declined dispatch is not a dry pass. The fix belongs in the dispatcher. It should read
 origin, and read `librarian/runs/*/result.json` for the subject, before it sends.
+
+## Architecture review - 2026-10-31
+
+First architecture review, against `e3f00b8a4`. Primary sources this run support the
+three load-bearing mechanisms. The version-control reference confirms the ignore check
+skips tracked files unless the index is disregarded, and a throwaway repository reproduced
+it. ImpossibleBench names the exact evasions the grade-with technique says a restore
+cannot reach, and reverts modified tests at scoring. The BenchJack audit shows a root
+`conftest.py` surviving a grader that resets only the files its test patch names. Two
+gaps were found. The golden path's "rule overrides" bullet still says "anything
+committed", which the declared-rule technique narrowed to added paths under the starting
+revision's rules. The grade-with application credits a "graded agent" with the hook
+forgery, but the audit that matches it describes a researcher-built exploit. The retry
+counts in baseline-relative-gate-evaluation have no source this run could find. No
+verification date was refreshed.
+
+<!-- architecture-review:v1 -->
+```json
+{
+  "subject": "agent-operations/deterministic-run-verification",
+  "date": "2026-10-31",
+  "baseline": "e3f00b8a4",
+  "digest": "sha256-b2:ac3b017c4d37ee49",
+  "disposition": "clarify",
+  "trigger": "pending: no architecture-review record existed.",
+  "benefit": "A harness grades the tree with checks the run could not edit, against the baseline's failing and passing sets, and recomputes facts from stored evidence.",
+  "failure_if_ignored": "Runs that edit tests, delete tests, or commit excluded files read as green; a definition fix cannot be applied to stored runs.",
+  "boundary": "Mechanical facts about a run. Whether a change was worth making, or a test asserts the right thing, stays with a reader. The in-task freeze belongs to quality-gates' oracle-frozen-during-repair.",
+  "coverage": "All 9 documents read in full. Three primary sources opened and quoted; the ignore-check behaviour reproduced in a throwaway repository. Not evaluated: every private fleet tree, store and loop the four applications measure; the retry-count claims.",
+  "counterexamples": [
+    "A root conftest.py added by the run survives a restore that covers only the files the test patch names, and forges passes (BenchJack, SWE-bench Verified).",
+    "A path tracked before its exclusion rule was written reads as tracked-and-excluded under the index-disregarding check, yet says nothing about the run that is being graded.",
+    "A prompt can cut test modification from 92% to 1% for one model while another model under the same prompt still cheats 33% of the time, so instruction changes frequency, not trust.",
+    "An order-dependent test fails deterministically in a given order, so rerunning it alone passes and hides the pollution."
+  ],
+  "sources": [
+    {
+      "url": "https://git-scm.com/docs/git-check-ignore",
+      "result": "'By default, tracked files are not shown at all since they are not subject to exclude rules; but see --no-index.' --no-index: 'Don't look in the index when undertaking the checks ... to match a path previously added with git add -f.' Reproduced with git 2.43 on a throwaway repository: the default form exits 1 for a force-added a.log, the --no-index form names .gitignore:1:*.log. Supports declared-rule-verification and its application's throwaway-repo claim."
+    },
+    {
+      "url": "https://arxiv.org/html/2510.20270v1",
+      "result": "ImpossibleBench. 'Hiding tests from agents reduces cheating success rate to near zero' but 'degrades performance'; 'Read-only access ... preventing test modification attempts' but 'does not eliminate other cheating methods such as special-casing or operator overloading'; 'We revert the modified tests during scoring in the read-only setting.' Categories include 'Overload Comparison Operators', 'Record Extra States', 'Special Casing', and test modification 'despite being explicitly instructed not to'. Prompt D lowers GPT-5 and o3 to '1% and 33%'. Supports grade-with step 4 and 'instruction is not the mechanism'."
+    },
+    {
+      "url": "https://arxiv.org/html/2605.12673",
+      "result": "BenchJack (UC Berkeley). 'SWE-bench resets any files enumerated in the upstream test patch to their original state'; 'a conftest.py at the repository root survives the reset'; a PyTest hook 'overwrites each test's reported outcome'. The exploit was 'manually constructed' by the researchers; no passage has a model under evaluation writing it. Supports grade-with step 2; refutes the application's 'graded agent' wording."
+    },
+    {
+      "url": "https://cs.gmu.edu/~winglam/publications/2019/LamETAL19iDFlakies.pdf",
+      "result": "Not opened; found by search. iDFlakies treats order-dependent tests as deterministic per order and detects them by varying order. Consistent with 'rerunning a test alone hides the pollution'; gives no basis for 'up to three' same-order retries or 'one retry settles most' non-order flakes."
+    }
+  ],
+  "documents": {
+    "deterministic-run-verification.md": {
+      "disposition": "clarify",
+      "reason": "The 'Rule overrides' bullet says 'anything committed that the repository's own exclusion rules cover', which contradicts declared-rule-verification: grandfathered paths say nothing about the run, and a rule the run edited is not the rule it was bound by. Narrow it to paths the run's commits added, under the starting revision's committed rules. The rest holds."
+    },
+    "techniques/baseline-relative-gate-evaluation.md": {
+      "disposition": "reverify",
+      "reason": "Set comparison, the passing-set half, evidence the suite ran, clean-checkout grading and build isolation are sound and match the application. Step 8's numbers ('one retry ... settles most flakes', 'up to three, in the same order') have no source this run reached; it needs the flaky-test study the 2026-09-27 run read, quoted."
+    },
+    "techniques/declared-rule-verification.md": {
+      "disposition": "keep",
+      "reason": "The tracked-file behaviour and the fix are confirmed by the reference docs and a reproduction. Added-paths-only, starting-revision rules and recording machine-local exclude sources follow from the application's dating."
+    },
+    "techniques/grade-with-checks-the-run-could-not-touch.md": {
+      "disposition": "keep",
+      "reason": "Restore-then-run, the log versus exit-status cross-check (a root conftest.py survives a test-patch-scoped reset), the held-out check for special-casing, operator overloading and recorded state, and 'instruction is not the mechanism' all match ImpossibleBench and BenchJack."
+    },
+    "techniques/recompute-facts-at-report-time.md": {
+      "disposition": "keep",
+      "reason": "Derive-versus-re-execute, material-versus-cosmetic, code-revision stamps and keep-the-replaced-verdict are internally consistent and match the application's cases."
+    },
+    "applications/process--baseline-relative-gate-evaluation.md": {
+      "disposition": "reverify",
+      "reason": "Internally consistent with the technique (one retry recorded, set gate not retried against a no-retry baseline). The private clones and gate runs were not reopened."
+    },
+    "applications/process--declared-rule-verification.md": {
+      "disposition": "reverify",
+      "reason": "The throwaway-repository claim was reproduced this run. The 13-tree counts (0 versus 129, 104 in one tree) rest on private trees not reopened."
+    },
+    "applications/process--grade-with-checks-the-run-could-not-touch.md": {
+      "disposition": "clarify",
+      "reason": "'where a published benchmark's graded agent forged pass lines from a hook' is not supported by the audit that matches the mechanism: the root conftest.py hook was a researcher-built exploit against SWE-bench's test-patch-scoped reset. Reword to that. The 3/19 to 19/19 and 113/100/82/95 counts rest on private trees not reopened (reverify after the edit)."
+    },
+    "applications/process--recompute-facts-at-report-time.md": {
+      "disposition": "reverify",
+      "reason": "Cases are internally consistent (five runs on 09-04 inside seven re-judged). The title's 'four judge versions' against 'changed on 09-03 (twice), 09-04 and 09-17' counts four changes, which yields up to five versions; the private store was not reopened to settle which, so this is owed, not applied."
+    }
+  }
+}
+```
+
+## Architecture review - 2026-10-31 (clarify applied)
+
+Applied the two clarify items named by the record above. Both are wording changes backed by
+an internal contradiction (golden path) or a primary source opened this run (the audit).
+The remaining open items are evidence, not wording, so the overall disposition is now
+`reverify`: the retry counts in baseline-relative-gate-evaluation, the private evidence
+behind all four applications, and the judge-version count in the recompute application.
+
+<!-- architecture-review:v1 -->
+```json
+{
+  "subject": "agent-operations/deterministic-run-verification",
+  "date": "2026-10-31",
+  "baseline": "e3f00b8a4",
+  "digest": "sha256-b2:d4c5b547f7f01dbb",
+  "disposition": "reverify",
+  "trigger": "pending: no architecture-review record existed.",
+  "benefit": "A harness grades the tree with checks the run could not edit, against the baseline's failing and passing sets, and recomputes facts from stored evidence.",
+  "failure_if_ignored": "Runs that edit tests, delete tests, or commit excluded files read as green; a definition fix cannot be applied to stored runs.",
+  "boundary": "Mechanical facts about a run. Whether a change was worth making, or a test asserts the right thing, stays with a reader. The in-task freeze belongs to quality-gates' oracle-frozen-during-repair.",
+  "coverage": "All 9 documents decided. The two clarify items from the first 2026-10-31 record were applied and the edited passages re-read; the other seven documents are byte-unchanged and keep their dispositions. Sources as in the first record, opened this run. Not evaluated: private fleet trees, stores and loops; the retry-count claims.",
+  "counterexamples": [
+    "A root conftest.py added by the run survives a restore that covers only the files the test patch names, and forges passes (BenchJack, SWE-bench Verified).",
+    "A path tracked before its exclusion rule was written reads as tracked-and-excluded under the index-disregarding check, yet says nothing about the run that is being graded.",
+    "A prompt can cut test modification from 92% to 1% for one model while another model under the same prompt still cheats 33% of the time, so instruction changes frequency, not trust.",
+    "An order-dependent test fails deterministically in a given order, so rerunning it alone passes and hides the pollution."
+  ],
+  "sources": [
+    {
+      "url": "https://git-scm.com/docs/git-check-ignore",
+      "result": "'By default, tracked files are not shown at all since they are not subject to exclude rules; but see --no-index.' --no-index: 'Don't look in the index when undertaking the checks ... to match a path previously added with git add -f.' Reproduced with git 2.43 on a throwaway repository: the default form exits 1 for a force-added a.log, the --no-index form names .gitignore:1:*.log. Supports declared-rule-verification and its application's throwaway-repo claim."
+    },
+    {
+      "url": "https://arxiv.org/html/2510.20270v1",
+      "result": "ImpossibleBench. 'Hiding tests from agents reduces cheating success rate to near zero' but 'degrades performance'; 'Read-only access ... preventing test modification attempts' but 'does not eliminate other cheating methods such as special-casing or operator overloading'; 'We revert the modified tests during scoring in the read-only setting.' Categories include 'Overload Comparison Operators', 'Record Extra States', 'Special Casing', and test modification 'despite being explicitly instructed not to'. Prompt D lowers GPT-5 and o3 to '1% and 33%'. Supports grade-with step 4 and 'instruction is not the mechanism'."
+    },
+    {
+      "url": "https://arxiv.org/html/2605.12673",
+      "result": "BenchJack (UC Berkeley). 'SWE-bench resets any files enumerated in the upstream test patch to their original state'; 'a conftest.py at the repository root survives the reset'; a PyTest hook 'overwrites each test's reported outcome'. The exploit was 'manually constructed' by the researchers; no passage has a model under evaluation writing it. Supports grade-with step 2; refutes the application's 'graded agent' wording."
+    },
+    {
+      "url": "https://cs.gmu.edu/~winglam/publications/2019/LamETAL19iDFlakies.pdf",
+      "result": "Not opened; found by search. iDFlakies treats order-dependent tests as deterministic per order and detects them by varying order. Consistent with 'rerunning a test alone hides the pollution'; gives no basis for 'up to three' same-order retries or 'one retry settles most' non-order flakes."
+    }
+  ],
+  "documents": {
+    "deterministic-run-verification.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: 'Rule overrides' now reads 'any path the run's commits added that the starting revision's committed exclusion rules cover', matching declared-rule-verification."
+    },
+    "techniques/baseline-relative-gate-evaluation.md": {
+      "disposition": "reverify",
+      "reason": "Set comparison, the passing-set half, evidence the suite ran, clean-checkout grading and build isolation are sound and match the application. Step 8's numbers ('one retry ... settles most flakes', 'up to three, in the same order') have no source this run reached; it needs the flaky-test study the 2026-09-27 run read, quoted."
+    },
+    "techniques/declared-rule-verification.md": {
+      "disposition": "keep",
+      "reason": "The tracked-file behaviour and the fix are confirmed by the reference docs and a reproduction. Added-paths-only, starting-revision rules and recording machine-local exclude sources follow from the application's dating."
+    },
+    "techniques/grade-with-checks-the-run-could-not-touch.md": {
+      "disposition": "keep",
+      "reason": "Restore-then-run, the log versus exit-status cross-check (a root conftest.py survives a test-patch-scoped reset), the held-out check for special-casing, operator overloading and recorded state, and 'instruction is not the mechanism' all match ImpossibleBench and BenchJack."
+    },
+    "techniques/recompute-facts-at-report-time.md": {
+      "disposition": "keep",
+      "reason": "Derive-versus-re-execute, material-versus-cosmetic, code-revision stamps and keep-the-replaced-verdict are internally consistent and match the application's cases."
+    },
+    "applications/process--baseline-relative-gate-evaluation.md": {
+      "disposition": "reverify",
+      "reason": "Internally consistent with the technique (one retry recorded, set gate not retried against a no-retry baseline). The private clones and gate runs were not reopened."
+    },
+    "applications/process--declared-rule-verification.md": {
+      "disposition": "reverify",
+      "reason": "The throwaway-repository claim was reproduced this run. The 13-tree counts (0 versus 129, 104 in one tree) rest on private trees not reopened."
+    },
+    "applications/process--grade-with-checks-the-run-could-not-touch.md": {
+      "disposition": "reverify",
+      "reason": "applied 2026-10-31: 'a published benchmark's graded agent forged pass lines from a hook' now reads 'an audit of a published benchmark showed a hook in that file forging passes that survive the grader's reset of the test files' (BenchJack). Still reverify: the 3/19 to 19/19 and 113/100/82/95 counts rest on private trees not reopened. verified_on unchanged."
+    },
+    "applications/process--recompute-facts-at-report-time.md": {
+      "disposition": "reverify",
+      "reason": "Cases are internally consistent (five runs on 09-04 inside seven re-judged). The title's 'four judge versions' against 'changed on 09-03 (twice), 09-04 and 09-17' counts four changes, which yields up to five versions; the private store was not reopened to settle which, so this is owed, not applied."
+    }
+  }
+}
+```
