@@ -5,7 +5,7 @@ subject: time-travel-replay
 technique: timeline-derivation
 status: forged
 stack: rust
-verified_on: 2026-09-26
+verified_on: 2026-10-31
 verified_against: rust@1.96
 applied: code
 ab_verdict: better
@@ -14,7 +14,8 @@ ab_verdict: better
 # The record behind a replay: what the Rust engine writes, and what its reader serves (personas)
 
 Written against `personas` master at `a8cb3aa62` (toolchain pinned `1.96.1`,
-edition 2021, Tauri 2). The React half of this replay is described in
+edition 2021, Tauri 2); line anchors re-checked 2026-10-31 at
+personas@22260d77. The React half of this replay is described in
 [react--timeline-derivation](./react--timeline-derivation.md). This is the half
 that decides what that timeline can know: the engine that writes the record
 and the commands that hand it to the viewer. No Rust code in the fleet runs a
@@ -26,9 +27,9 @@ the replay's worst defect lived.
 The run is recorded against three different origins:
 
 - **tool steps** carry `started_at_ms: start_time.elapsed()` from a monotonic
-  `Instant` taken at `run_execution` entry (`src-tauri/src/engine/runner/mod.rs:245`);
+  `Instant` taken at `run_execution` entry (`src-tauri/src/engine/runner/mod.rs:278`);
 - **trace spans** carry milliseconds from the trace collector's own epoch,
-  created one statement later (`:248`);
+  created one statement later (`:281`);
 - **log lines** carry a wall-clock stamp, `chrono::Utc::now().to_rfc3339()`,
   written as `[{timestamp}] {msg}` (`src-tauri/engine/src/logger.rs:78-80`).
 
@@ -37,7 +38,7 @@ the only one a person can read as a time of day. The client puts step markers
 and log silences on one axis, so the technique's single-time-authority rule
 applies: the log offsets are measured from the first stamped line, not from
 the step clock's origin, and the two origins differ by the time between entry
-and the logger's creation (`:276`). Small, and stated nowhere.
+and the logger's creation (`:309`). Small, and stated nowhere.
 
 ## Unclosed items: disclosed on spans, erased on steps
 
@@ -45,10 +46,10 @@ The engine closes what the stream never closed, in two places, and only one
 of them keeps the disclosure the technique asks for:
 
 - **spans**: `finalize` force-closes orphans at the run's end and writes
-  `span.error = Some("span not properly closed")` (`src-tauri/core/src/trace.rs:398-405`).
+  `span.error = Some("span not properly closed")` (`src-tauri/core/src/trace.rs:414-422`).
   The item is bounded and it says so.
 - **tool steps**: `finalize_open_tool_steps` stamps an open step with the
-  run's end (`runner/mod.rs:3493-3506`), and the comment is candid that "the
+  run's end (`runner/mod.rs:3560-3572`, the function at `:4231`), and the comment is candid that "the
   stamp is therefore indistinguishable from a normally-closed step", because a
   `finalized` flag would have regenerated a ts-rs binding outside that
   change's write set. The client later infers ends for historical rows and
@@ -63,7 +64,7 @@ comments record 240 of 2,998 persisted steps left unclosed.
 
 ## The reader stripped the tempo off the record
 
-`get_execution_log_lines` (`src-tauri/src/commands/execution/executions.rs:800`)
+`get_execution_log_lines` (`src-tauri/src/commands/execution/executions.rs:808`)
 is the paged reader the Replay tab switched to on 2026-09-17, replacing a
 full-file read that could ship 10 MB. It kept only the text after the stdout
 tag:
@@ -73,7 +74,7 @@ line.find("[STDOUT] ").map(|pos| sanitize_secrets(&line[pos + 9..]))
 ```
 
 Every stdout line on disk is `[<rfc3339>] [STDOUT] <text>` (the runner writes
-`logger.log(&format!("[STDOUT] {}", ..))`, `runner/mod.rs:2877`), so the
+`logger.log(&format!("[STDOUT] {}", ..))`, `runner/mod.rs:2942`), so the
 page arrived with its stamps cut off. The client's timestamp parser anchors on
 a leading `[`, found nothing, and fell back to spreading lines evenly across
 the run. The silence disclosure and skip-silence built on 2026-09-02 were all
@@ -111,6 +112,16 @@ run continued. The technique's derivation rule reaches the reader: a timeline
 is derived from what the reader serves, so a page, a filter or a strip between
 writer and timeline is part of the derivation and states its coverage. This
 one is recorded here and not fixed in this run.
+
+Re-checked 2026-10-31 at personas@22260d77: **this finding is resolved.**
+The replay now pages forward through `fetchReplayLines`
+(`src/features/agents/sub_executions/replay/fetchReplayLines.ts:19-27`),
+500 stamped lines a page, until a short page or a 10,000-line cap
+(`REPLAY_MAX_LINES`), and `ReplaySandbox.tsx:169-171` shows a
+`replay_capped` notice when the cap is reached. Its doc comment names the
+defect this section recorded ("A single 500-line page replayed only the
+first 500 lines of a longer run"). The engine-line filter before paging
+was not re-examined.
 
 ## Why the engine does not ship frames
 

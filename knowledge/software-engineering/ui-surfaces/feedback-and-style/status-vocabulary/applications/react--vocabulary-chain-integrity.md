@@ -58,11 +58,28 @@ asserting the two agree on which status wins a group"*) and `752d426fe`
 (2026-07-24). No commit in this tree converts an array ordering to a map;
 this is convergent practice, not a documented refactor.
 
+Re-checked 2026-10-31 at personas@22260d77 (a shallow clone: the two
+commits above and the full history behind "no commit converts" could not be
+opened). The specimen this section leads with is gone: `dimCategories.ts`,
+`CategoryPopover.tsx`, `IslandMenu.tsx`, `libraryModel.ts`,
+`KnowledgeTree.tsx` and both unit tests no longer exist, `STATUS_RANK`,
+`CATEGORY_ORDER` and `BAND_ORDER` are named nowhere in `src/`, and
+`KnowledgeStatus` is no longer in `src/api/devTools/workspaces.ts`. The
+`DimStatus` union still sits at `types.ts:12`. The rest of the family
+holds at the cited lines: `personaSafetyScanner.ts:417-418` (union `:15`),
+`uiModes.ts:39-43` with `>=` / `<=` at `:51,56`, `buildEventRows.ts:152`
+(`classOrder`, moved from `:168`), `KpiListPopover.tsx:31`,
+`RecipesTableResults.tsx:36-40`. The practice did not shrink with the
+specimen: a grep for `RANK`/`ORDER` constants typed `Record<…, number>`
+finds more than a dozen others across `src/features/`
+(`INCIDENT_STATE_RANK`, `VERDICT_RANK`, `GRADE_RANK`, `MOVE_RANK`, …),
+some of them keyed `Record<string, number>`.
+
 ## The counter-specimen, live and unguarded
 
 ```ts
-// src/features/home/sub_welcome/LanguageSwitcher.tsx:32-42
-type ScriptFamily = 'latin' | 'cjk' | 'indic' | 'arabic' | 'cyrillic'; // :5
+// src/features/home/sub_welcome/LanguageSwitcher.tsx:33-43
+type ScriptFamily = 'latin' | 'cjk' | 'indic' | 'arabic' | 'cyrillic'; // :7
 const SCRIPT_ORDER: ScriptFamily[] = ['latin', 'cjk', 'indic', 'arabic', 'cyrillic'];
 …
 const scriptDiff = SCRIPT_ORDER.indexOf(a.script) - SCRIPT_ORDER.indexOf(b.script);
@@ -70,7 +87,7 @@ const scriptDiff = SCRIPT_ORDER.indexOf(a.script) - SCRIPT_ORDER.indexOf(b.scrip
 
 The array's *entries* are checked against `ScriptFamily`; its *length* is
 not. Add `'hebrew'` to the union (or a `{ script: 'hebrew' }` row to
-`LANGUAGES` at `:15-30`) and the build stays green — `indexOf` returns
+`LANGUAGES` at `:16-31`) and the build stays green — `indexOf` returns
 `-1`, and Hebrew sorts ahead of Latin at the top of the switcher. Nothing
 references `sortLanguages` or `SCRIPT_ORDER` outside this one file; no test
 covers it.
@@ -86,8 +103,10 @@ Two nearby forms show what the array actually costs:
 - `src/features/fleet/monitor/MonitorDrawer.tsx:62-65` uses a `Record` and
   still gets nothing, because it is `Record<string, number>` with a `?? 9`
   tail. The container is not what helps; the **union key** is.
+  (Re-checked 2026-10-31: `MonitorDrawer.tsx` no longer holds a rank
+  table; the `?? 9` form is gone from it.)
 
-The silent-clamp variant recurs: `passportModel.ts:258`,
+The silent-clamp variant recurs: `passportModel.ts:267-268`,
 `passport/passportRows.ts:86` and `passport/improve/levels.ts:87` all wrap
 `scale.indexOf(...)` in `Math.max(0, …)`, mapping the unknown member onto
 the *first* rank deliberately; `src/lib/analytics/activation.ts:41`
@@ -96,12 +115,13 @@ the *first* rank deliberately; `src/lib/analytics/activation.ts:41`
 ## What actually gates it
 
 `tsc --noEmit`, and nothing else. It runs in `lefthook.yml` pre-push
-(`typecheck`) and in `package.json:54`'s `check` script. Omit a member from
+(`typecheck`; at the 2026-10-31 re-check the job is `typecheck-and-census`,
+answered by the warm gate daemon) and in `package.json:56`'s `check` script. Omit a member from
 `Record<DimStatus, number>` and it fails TS2741 by name; widen `DimStatus`
 and every total map over it fails until updated. None of the 21 custom
-rules under `eslint-rules/` and no structural test under
+rules under `eslint-rules/` (22 at the 2026-10-31 re-check, none about ordering) and no structural test under
 `src/__tests__/structural/` checks ordering completeness — and the two unit
-tests that do exist (`dimCategories.test.ts:40-52`,
-`libraryModel.test.ts:147-153`) enumerate members by hand, so they pin
+tests that did exist (`dimCategories.test.ts:40-52`,
+`libraryModel.test.ts:147-153`, both deleted by 2026-10-31) enumerate members by hand, so they pin
 relative order and would *not* fail on a newly added member. The
 exhaustiveness comes entirely from the total map's type.

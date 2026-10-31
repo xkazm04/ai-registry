@@ -20,16 +20,23 @@ chain exists here, every joint has been measured, and the deep audit is
   `src-tauri/db/src/migrations/incremental.rs` and siblings — **66 unique
   vocabularies** over 38 distinct columns / 184 distinct tokens (e.g.
   `CHECK(status IN ('observed','proposed','adopted','deprecated','rejected'))`
-  at `incremental.rs:6939`).
+  at `incremental.rs:6939`). Re-checked 2026-10-31 at personas@22260d77:
+  `incremental.rs` is now a directory of per-change modules
+  (`src-tauri/db/src/migrations/incremental/*.rs`), and the cited
+  `observed…rejected` check is gone with the workspace-knowledge tables
+  (`e28_retire_workspace_knowledge.rs`, decided 2026-09-14). A plain grep
+  for `CHECK(<col> IN` across `migrations/` finds 159 occurrences; the
+  unique-vocabulary counts were not re-measured.
 - **Wire token:** Rust enums with `#[derive(TS)] #[ts(export)]` +
   `#[serde(rename_all = "snake_case")]`, exported to
   `src/lib/bindings/*.ts` as string-literal unions — **88 exist**
   (`PersonaEventStatus`, `ExecutionState`, `AutomationRunStatus`, …).
 - **Label catalog:** `status_tokens.<category>` in
-  `src/i18n/locales/en.json` — 26 categories / 156 labels, each category
+  `src/i18n/locales/en.json` — 26 categories / 156 labels (34 / 238 at the
+  2026-10-31 re-check), each category
   emitted as a closed object type by `scripts/i18n/gen-types.mjs`.
 - **Presentation:** `tokenLabel(t, category, token)`
-  (`src/i18n/tokenMaps.ts:35`) + a per-vocabulary table feeding
+  (`src/i18n/tokenMaps.ts:38`) + a per-vocabulary table feeding
   `StatusBadge` (see the react--status-color-mapping application).
 
 ## The measured drift, joint by joint
@@ -47,6 +54,12 @@ chain exists here, every joint has been measured, and the deep audit is
   (`ErrorSeverity`, `AlertSeverity`) share one `severity` category;
   `warning` has no label and `AlertRulesPanel.tsx:194` renders the raw
   token as its fallback.
+  Re-checked 2026-10-31 at personas@22260d77: `status_tokens.event` now
+  lacks only `delivered` and `completed` (`skipped`, `dead_letter` and
+  `discarded` gained labels) and still defines `processed` and
+  `retrying`; `severity` still has no `warning`. `AlertRulesPanel.tsx`
+  no longer calls `tokenLabel`; its raw-token fallback is now `:100`
+  (`sev ? alertLabel(t, sev.labelKey) : rule.severity`).
 - **Authority ↔ constraint:** mirrored by convention, verified by
   nothing — in this repo and in the `brainiac` sibling, whose
   `library.rs:4-6` states the same convention and also has no mechanism.
@@ -55,6 +68,11 @@ chain exists here, every joint has been measured, and the deep audit is
   `AppError::Validation` with the allowed list — 1 definition, 6 call
   sites, one file, against 66 vocabularies. Everywhere else an invalid
   token surfaces as a raw `SQLITE_CONSTRAINT_CHECK`.
+  Re-checked 2026-10-31 at personas@22260d77: `validate_one_of` is gone.
+  `dev_workspaces.rs` is now a 14-line re-export shim over
+  `repos::workspaces::*`, and no function of that name exists anywhere
+  under `src-tauri/`. The one door check this finding counted no longer
+  exists; whether another took its place elsewhere was not surveyed.
 
 ## The compile-time coverage gate — verified working here
 
@@ -80,12 +98,12 @@ hand-maintained fallback exists twice
 
 ## The unknown path and the registry class
 
-`tokenLabel`'s miss path is dev-only (`tokenMaps.ts:40-50`): a
+`tokenLabel`'s miss path is dev-only (`tokenMaps.ts:43-52`): a
 `console.warn` behind `import.meta.env.DEV`, then the raw token —
 production renders it silently. Registered as deferred-fix anchor
 **#w3-i18n**. The registry-drift class the technique names is registered
 twice more in this repo's ledger: **#w2-realtime-events** (six event
-names minted as literals in `cdc.rs::table_to_event`, outside both event
+names minted as literals in `cdc.rs::table_to_event` (`src-tauri/db/src/cdc.rs:211`), outside both event
 registries and invisible to `check-event-registry.mjs`) and
 **#w5-alerting** (two evaluators of one alert-rule vocabulary; the
 client-side one never reads `rule.persona_id`, so scope diverges per

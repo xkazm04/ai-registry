@@ -4,7 +4,7 @@ type: application
 subject: time-travel-replay
 technique: transport-and-time-mapping
 stack: react
-verified_on: 2026-09-26
+verified_on: 2026-10-31
 verified_against: react@19
 ---
 
@@ -17,6 +17,8 @@ this document (2026-08-18), the orphaned second transport,
 (`44b0bc8bd`, 2026-09-02), and disclosed silence-skipping was added. One
 transport remains: `src/hooks/execution/useReplayTimeline.ts`, driven by
 `src/features/agents/sub_executions/replay/ReplaySandbox.tsx`.
+Re-checked 2026-10-31 at personas@22260d77: every line anchor below still
+holds, and `useTimelineReplay.ts` is still absent.
 
 ## The mapping, done right
 

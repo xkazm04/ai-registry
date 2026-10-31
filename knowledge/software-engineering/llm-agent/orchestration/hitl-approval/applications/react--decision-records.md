@@ -5,7 +5,7 @@ subject: hitl-approval
 technique: decision-records
 stack: react
 status: forged
-verified_on: 2026-09-23
+verified_on: 2026-10-31
 verified_against: react@19
 applied: code
 ab_verdict: better
@@ -18,31 +18,32 @@ personas is a desktop agent platform with an embedded browser. Its "twin" is a m
 of the user's own writing voice. The Twin toolbar
 (`src/features/browser/twinDraftLane.ts`) lets the user click a comment box on any web
 page and have the twin draft a reply straight into it. `verified_against` is the
-`react ^19.2.6` range in `package.json`. Read at `39272628`.
+`react ^19.2.6` range in `package.json`. Read at `39272628`; current-tree
+anchors re-checked 2026-10-31 at personas@22260d77.
 
 ## The gate is the surface's own commit control
 
-The lane's header records the design decision (`twinDraftLane.ts:11-17`). The draft is
+The lane's header records the design decision (`twinDraftLane.ts:9-17`). The draft is
 typed into the page's box, "there is no app-side draft panel", and the user edits the
 text in place and sends it "with the site's own button or the toolbar's Submit". The
 user guide says the same thing from the user's side: "Nothing is sent until you send it"
-(`docs/features/browser.md:129`). The technique's boundary applies. A panel in the app
+(`docs/features/browser.md:200`). The technique's boundary applies. A panel in the app
 asking "use this draft?" in front of a box the user is already looking at, followed by
 the site's own send button, would ask the same question twice.
 
 The toolbar's own Submit is a different act, and the lane gates it. `requestSubmit`
-(`twinDraftLane.ts:311`) shows an inline "Submit the form?" line, and only
-`confirmSubmit` (`:326`) presses the page's submit control. There the app, not the
+(`twinDraftLane.ts:337`) shows an inline "Submit the form?" line, and only
+`confirmSubmit` (`:352`) presses the page's submit control. There the app, not the
 person, is pressing someone else's button, so the confirmation is the only human
 answer on that path and is not a duplicate.
 
 ## The record binds to the app's own act, written at insert time
 
-`draftAndFill` (`:222`) drafts, fills the box, marks the lane inserted, and then writes
-a twin communication on channel `browser` (`:238`). The app never learns whether the
+`draftAndFill` (`:243`) drafts, fills the box, marks the lane inserted, and then writes
+a twin communication on channel `browser` (`:263`). The app never learns whether the
 page's send button was pressed, so insert time is the only moment available for a
 record. The failure rule is relaxed exactly as the technique describes: the write is
-caught into the error channel (`:248`), and the comment above it explains that "the
+caught into the error channel (`:274`), and the comment above it explains that "the
 text is already in the box: a failed ledger write is telemetry, not a failed insert,
 and telling the user 'failed' over a draft they can see would be a lie."
 
@@ -50,9 +51,11 @@ and telling the user 'failed' over a draft they can see would be a lie."
 
 **The placement was filed as a sent message.** At `39272628` the row is written with direction `out`
 (`twinDraftLane.ts:238-247`) through the same `record_interaction` every outbound reply
-uses (`src-tauri/db/src/repos/twin.rs:670`). The row has no field that separates
+uses (`src-tauri/db/src/repos/twin.rs:789`). The row has no field that separates
 "placed in a box" from "delivered". Only the channel name hints at it. The feature
-docs call it "an outbound `browser` communication" (`docs/features/plugins/twin.md:223`).
+docs call it "an outbound `browser` communication" (`docs/features/plugins/twin.md:223`;
+re-checked 2026-10-31, the doc now reads "recorded as a `browser` placement,
+not a send" and names the `{"kind":"placement"}` tag, `twin.md:322-324`).
 Two consequences follow from the code:
 
 - A draft the user deleted, or a page they closed, still reads as an outbound message.

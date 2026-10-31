@@ -5,7 +5,7 @@ subject: hitl-approval
 technique: fail-loud-classification-default
 stack: react
 status: forged
-verified_on: 2026-08-29
+verified_on: 2026-10-31
 verified_against: react@19
 applied: code
 ab_verdict: better
@@ -34,12 +34,12 @@ the same decision in `src/features/fleet/monitor/monitorModel.ts:49-53` —
 `critical` maps to critical, `warning`/`high` to warning, and everything else
 `return 'info'`.
 
-`SEVERITY_LABELS` (`libs/reviewHelpers.ts:13`) knows three tokens:
+`SEVERITY_LABELS` (`libs/reviewHelpers.ts:8`) knows three tokens:
 `info`, `warning`, `critical`. The producer knows more. The prompt that asks a
 persona to raise a review specifies the schema as
 `"severity": "info|warning|error|critical"`
-(`src-tauri/src/commands/design/reviews.rs:685`), and a second writer in the
-same file emits `severity: "high"` (`reviews.rs:1787`). So `error` — the second
+(`src-tauri/src/commands/design/reviews.rs:703`), and a second writer in the
+same file emits `severity: "high"` (`reviews.rs:2186`). So `error` — the second
 loudest rung the producer is offered — arrived at the queue and was rendered
 **Info**, and sorted last in the drawer that orders by severity rank.
 
@@ -47,7 +47,7 @@ No payload had to be malformed for the technique's failure to occur. The
 consumer's `??` arm *was* the version skew, standing in for a schema agreement
 that was never written down. And the composition the technique warns about is
 present: this queue is one Night Shift resolves unattended overnight, a fact
-documented in the shared write door at `src/lib/decisions/rowWrites.ts:22-25`.
+documented in the shared write door at `src/lib/decisions/rowWrites.ts:23-26`.
 
 ## A and B
 
@@ -61,6 +61,15 @@ through to `critical`, not `info`. Both render sites show the marker inline.
 The marker is a boolean on the returned object rather than a phrase in a
 string, so "how many pending items are unparsed defaults" is a question the
 surface can be asked later.
+
+Re-checked 2026-10-31 at personas@22260d77: B is what the tree holds.
+`resolveReviewSeverity` is at `libs/reviewHelpers.ts:32-35`;
+`ReviewListItem.tsx:12-13` and `ReviewDetailPanel.tsx:156` render its
+marker; `severityBucket` reads `READABLE_SEVERITY` and falls through to
+`'critical'` (`src/features/fleet/monitor/monitorModel.ts:53-71`). The
+readable table has since grown `medium` and `low`, with a comment that
+`medium` had been falling through to the loud default and rendering as
+critical. The anchors in the seam section above are A's, at `bf2a1e249`.
 
 ## What was read
 

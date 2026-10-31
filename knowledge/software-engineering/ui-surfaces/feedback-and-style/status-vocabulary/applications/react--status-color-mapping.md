@@ -23,6 +23,14 @@ degraded silently."* Its residual gaps are instructive too:
 `Record<string, …>` instead of `Record<Verdict, …>` (`:40`) and the
 `?? verdict.toLowerCase()` raw-token fallback (`:41`).
 
+Re-checked 2026-10-31 at personas@22260d77: `VerdictBadge.tsx` and the
+whole `sub_certification` directory are gone, and `VERDICT_CONFIG` is
+named nowhere in `src/`. The only trace is the header of
+`src/features/plugins/dev-tools/sub_lifecycle/lifecycleView/system/pillLooks.ts:1-5`,
+which lists `VerdictBadge` among the per-vocabulary badges its one tone
+table replaced. The exemplar this section points at can no longer be
+opened in this tree; the finding stands as a record of the shape.
+
 ## The palette and the best-typed table
 
 - `src/lib/design/statusTokens.ts` — `STATUS_PALETTE` /
@@ -38,7 +46,7 @@ degraded silently."* Its residual gaps are instructive too:
   shape-not-color rule stated in-source. Best-formed table in the repo;
   its label half does not exist.
 - Unknown-direction evidence: `EXECUTION_STATUS_MAP`'s
-  `DEFAULT_STATUS_ENTRY` (`src/lib/utils/formatters.ts:155-170`) is
+  `DEFAULT_STATUS_PRESENTATION` (`src/lib/utils/formatters.ts:368-380`) is
   deliberately grey — commented *"(gray badge, not red)"* — correct for a
   state vocabulary. The severity-direction argument the technique quotes
   is `brainiac`'s `console/src/docs/facets.ts:10-16` (unknown policy →
@@ -53,7 +61,9 @@ degraded silently."* Its residual gaps are instructive too:
   type annotation at all. `STATUS_PALETTE` itself is named in 10 files.
   241 entries across 38 files pair an English `label:` with a color class
   in one object literal — untranslatable by construction (census rule
-  `untranslatable-token-label`, baseline 38/241).
+  `untranslatable-token-label`, baseline 38/241; re-checked 2026-10-31
+  at personas@22260d77, `scripts/census/rules.json` now baselines it at
+  23 files / 148 matches).
 - **The slot-starvation fork, live:** `sub_health` carries three
   competing `Record<HealthGrade, …>` palettes —
   `heartbeats/model.ts:22` (`GRADE_THEME`, 8 slots, self-described
@@ -63,6 +73,13 @@ degraded silently."* Its residual gaps are instructive too:
   the shared `StatusToken` has five slots and these consumers want
   eight, plus raw hex for canvas (`HEALTH_HEX`, `GraphCanvas.tsx:29`).
   Widen the slot set; do not fork.
+  Re-checked 2026-10-31 at personas@22260d77: `HeartbeatIndicator.tsx`
+  and `StatusPageView.tsx` are gone, so `GRADE_COLORS` and `GRADE_META`
+  no longer exist; `GRADE_THEME` (now `heartbeats/model.ts:8`, still
+  8 slots, still "Single source of truth") is the one `Record<HealthGrade, …>`
+  palette left in `sub_health`. The three-way fork is resolved by
+  deletion, not by widening `StatusToken`. `HEALTH_HEX` still sits at
+  `GraphCanvas.tsx:29` (`src/features/vault/sub_dependencies/`).
 - **Severity duplicated 3×** across the design layer — registered as
   deferred-fix anchor **#w3-design-tokens**.
 - **Raw tokens on screen:** 79 sites in 55 files render `{row.status}` /
@@ -71,6 +88,9 @@ degraded silently."* Its residual gaps are instructive too:
   shape is worth copying and whose body is not. And
   `VerdictBadge.test.tsx:26-30` asserts the raw-token render of an
   unknown verdict — the defect enshrined as specified behavior.
+  Re-checked 2026-10-31 at personas@22260d77: `HealingIssueStatusBadge.tsx`
+  and `VerdictBadge.test.tsx` are both gone. The other counts in this
+  section (maps, files, sites, call sites) were not re-measured.
 
 ## Convergence
 
