@@ -82,9 +82,10 @@ campaign, so the ledger keys stay stable.
 - When the worst set contains a campaign the model was not shown, the ranking and the
   prompt have diverged; rebuild the request rather than patching the response.
 - When a diagnosis is about a cohort or a lead source rather than a portfolio, the same
-  shape applies with a different quantity: the lowest lifetime-value ratio, the source
-  with the worst cost per qualified lead. Rank by the amount at stake, not by the
-  ratio alone.
+  shape applies with a different quantity: the acquisition spend a cohort's
+  lifetime-value ratio does not justify against its target, a source's cost per
+  qualified lead above its floor times its qualified leads. The ratio finds the
+  candidates; rank by the amount at stake, not by the ratio alone.
 
 ## When NOT to use
 

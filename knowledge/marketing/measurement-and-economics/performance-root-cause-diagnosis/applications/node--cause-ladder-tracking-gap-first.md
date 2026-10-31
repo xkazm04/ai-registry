@@ -81,7 +81,8 @@ diagnosis only guarantees they agree with the cause.
   `budget-misallocation`, the "neutral, always-actionable catch-all", while an *empty*
   cause falls to the deterministic pick (`:256-257`). The technique's rule is that an
   unknown label falls to the ladder's pick as well; a fixed catch-all answers "what if
-  nothing fires", not "what if the model said something unknown". Deviation.
+  nothing fires", not "what if the model said something unknown". Deviation at this
+  commit; fixed at `7bbd1cab` (2026-10-22), see `node--thresholds-mirror-the-prompt`.
 - The ladder is first-match, so a portfolio with both waste and drift reports waste
   only. The tree does not tell the reader that; the standard says it should.
 - The drift rung reads `deltaCostPct` / `deltaValuePct` from the sync-over-sync diff

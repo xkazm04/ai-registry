@@ -44,7 +44,7 @@ in `ADVICE_INVERSE_KEYS` (`:141`), and applies `ADVICE_OUTCOME_DEADBAND = 0.05`
 (`:87`, `:143`). The docstring repeats the rule that `deltaPct` "is never sign-flipped
 for an inverse key ... Only the VERDICT inverts".
 
-`upsert` (`:147-198`) carries three of the technique's refusals:
+`upsert` (`:147-198`) carries four of the technique's refusals:
 
 - **Sticky sample** - `...(prev.sample || sighting.sample ? { sample: true } : {})`
   (`:184`).
