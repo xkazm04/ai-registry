@@ -5,7 +5,7 @@
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 243,
   "techniques": 1957,
-  "applications": 1452,
+  "applications": 1453,
   "laws": 16,
   "categories": [
    "ui-surfaces",
@@ -26112,9 +26112,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/software-engineering/client-architecture/page-load-pipeline/page-load-pipeline.md",
-   "digest": "sha256-b2:449e36ca8d3fe3a6",
-   "revision": 4,
-   "changedAt": "2026-10-22",
+   "digest": "sha256-b2:6eb078a45499ad8a",
+   "revision": 5,
+   "changedAt": "2026-10-31",
    "techniques": [
     {
      "slug": "discoverable-critical-resources",
@@ -26248,6 +26248,13 @@
      "file": "knowledge/software-engineering/client-architecture/page-load-pipeline/applications/next--layout-stability-by-reservation.md",
      "verified_on": "2026-09-24",
      "verified_against": "next@16.3.3"
+    },
+    {
+     "stack": "next",
+     "technique": "navigation-reuse",
+     "file": "knowledge/software-engineering/client-architecture/page-load-pipeline/applications/next--navigation-reuse.md",
+     "verified_on": "2026-10-31",
+     "verified_against": "next@16.3.8"
     }
    ]
   },
