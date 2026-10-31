@@ -31,7 +31,9 @@ over the entity's own schema for structured data; text diffs for text.**
 ## The level ladder
 
 - **Bytes** — answers only "identical or not". Legitimate as a cheap
-  pre-check (hash equality short-circuits everything above) and as the
+  pre-check (identity, length, or a digest that already exists
+  short-circuits everything above; computing a digest to compare is not
+  cheap — see [computation-offload](./computation-offload.md)) and as the
   honest level for opaque blobs. Never a presentation level.
 - **Lines/text** — the right level for things humans author *as* text:
   prose, source, templates. Word/token refinement within changed lines is

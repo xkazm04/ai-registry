@@ -26,8 +26,11 @@ without a single silent substitution.
 The surface's advertised baseline is the object's own
 `last-applied-configuration` annotation — a **declared** baseline, written
 by the client-side apply workflow. The annotation is absent for every
-object reconciled by a GitOps controller or a templating package manager,
-because nothing in those workflows performs a client-side apply. So the
+object reconciled through server-side apply — a GitOps controller that
+applies server-side, or one switched to it — and for objects a templating
+package manager installs, because nothing in those workflows performs a
+client-side apply. (A GitOps controller whose default sync is client-side
+apply does write it.) So the
 strong rung is missing on exactly the clusters where "what changed under
 me?" is asked in anger, and present on the hand-managed clusters where the
 question is least urgent. The tree states this inversion in the function's
@@ -76,10 +79,12 @@ absent-degrades-malformed-fails-fast, and this is the malformed half
 arriving through the absent half's handler.
 
 The frequency is low and honestly stated: the annotation is machine-written
-and normally well-formed. The severity is not low, and the correlation is
-adverse — a truncated `last-applied-configuration` is itself a symptom of an
-object that has outgrown the annotation size limit, so the phantom total-diff
-fires during exactly the investigation that produced it. The fix is one arm:
+and normally well-formed. The severity is not low: a damaged or hand-edited
+`last-applied-configuration` is itself a sign that something unusual happened
+to the object, so the phantom total-diff is likeliest during exactly the
+investigation that would open this view. (An object that outgrows the
+annotation size limit fails to apply rather than leaving a truncated
+annotation behind.) The fix is one arm:
 treat a parse failure as a broken baseline with its own message, rather than
 letting `unwrap_or` return the source text into a comparison against a
 different notation.

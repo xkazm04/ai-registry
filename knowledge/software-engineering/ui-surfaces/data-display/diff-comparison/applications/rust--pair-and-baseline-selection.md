@@ -102,5 +102,4 @@ technique, in ascending cost:
   base → working tree" — one baseline, one candidate, everything the
   slot did — which is what "more informative" was reaching for.
 
-Cited in the golden path's `counter_evidence:`; measured first in
-`docs/concepts/golden-paths/version-diff-view.md` §7 D6.
+Measured first in `docs/concepts/golden-paths/version-diff-view.md` §7 D6.
