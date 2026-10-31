@@ -113,8 +113,9 @@ on the sheet holds the look" — and claims earn measurement. The honest
 instrument is a **controlled comparison**: an anchor render, a conditioned
 render of a *different* subject, and an unconditioned control of that same
 subject, scored by an independent judge (a vision model reading through one
-schema, or embedding-space similarity — self-supervised image embeddings
-separate style better than text-aligned ones, which reward shared content).
+schema, or embedding-space similarity — general-purpose image embeddings,
+text-aligned or self-supervised, are trained toward content and reward shared
+subject matter, so a descriptor trained for style is the better instrument).
 The control arm is what distinguishes "the references locked the style" from
 "the block was already specific enough on its own" — a genuinely plausible
 alternative whenever the block names exact colors. One production pipeline
@@ -168,3 +169,6 @@ consistency claim without this measurement is not a pass — it is unmeasured.
 - [consistency-control-arm](./techniques/consistency-control-arm.md) — the
   anchor/conditioned/control experiment and the judging discipline that
   turns "it looks consistent" into a number.
+- [motion-sampled-under-a-frame-budget](./techniques/motion-sampled-under-a-frame-budget.md) —
+  capturing a motion signature from sampled stills: the per-request frame
+  budget, why spacing matters more than count, and declaring the sampling.

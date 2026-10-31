@@ -114,3 +114,206 @@ detached worktree of `HEAD`.
 - Amended `motion-sampled-under-a-frame-budget` with "When the extractor can run instruments, the budget binds only the naming": route timing and palette to instruments, measurement settles values not categories, declare which values were measured. Evidence: planted-truth clip, tool-using extractors across three engines 5/5 cuts in 4 of 5 runs and 11/11 colours in all 5; vision-only arms 1/5 cuts and 0/2 holds.
 - New application `python--motion-sampled-under-a-frame-budget` (code, better, ab-paired): two style readers disagreed on the palette category for 6/6 sources; a measurement over the same frames settled 4. Bundle `stacks:` gained `python`.
 - Owed: a render pair of a recipe written from the measured palette against the readback (lead in the source note).
+
+## Architecture review - 2026-10-31
+
+First architecture review of the subject, against `5a08b4610`. All 12 documents
+were read in full. Two load-bearing claims were checked against primary sources.
+The vendor vision page confirms the motion technique's platform premise (image
+blocks only, animations reduced to their first frame, a stricter per-image
+dimension limit above 20 images) but its programmatic cap is now 100 or 600 by
+model, not "low hundreds". The claim, carried in the golden path and the control
+arm, that self-supervised image embeddings separate style better than
+text-aligned ones is contradicted by the one style-retrieval benchmark opened:
+CLIP outscored DINO there, and a descriptor trained for style beat both. The
+golden path's technique list also omits the seventh technique its own front
+matter names. Both react applications cite files that the consuming tree's
+rebuild removed; the doctrine survives there in moved modules, but the anchors
+no longer resolve. No verification date was refreshed.
+
+<!-- architecture-review:v1 -->
+```json
+{
+  "subject": "media-generation/visual-style-locking",
+  "date": "2026-10-31",
+  "baseline": "5a08b4610",
+  "digest": "sha256-b2:281e1e4a619b1b07",
+  "disposition": "clarify",
+  "coverage": "All 12 current documents read in full (golden path, 7 techniques, 4 applications). Two primary sources opened: the vendor vision documentation and a style-similarity benchmark paper. The motion technique's stride arithmetic was recomputed. The consuming tree named by the react applications was inspected at its current HEAD for the cited files only. Not evaluated: the game-production and content pipelines behind the next and python applications, any render or runtime witness.",
+  "trigger": "Pending: the subject had no architecture-review record.",
+  "intended_benefit": "A batch of generated frames reads as one publication because the style is a ratified two-channel artifact restated on every call and measured against a control.",
+  "failure_if_ignored": "Per-shot look drift, reference images read as content, silent stand-in styles, and consistency claims ratified by flattering samples.",
+  "boundary": "Generation calls that mint new frames of a styled set. Not one-off images, not minimal edits of an existing render, not codegen from another product's shipped surface.",
+  "counterexamples": [
+    "A general text-aligned embedding (CLIP) outscored a self-supervised one (DINO) on style retrieval in a published benchmark, so 'self-supervised separates style better' does not hold as a default; a style-trained descriptor beat both.",
+    "A 9-of-10 pick has gaps of 1 and 2 while a 4-of-10 pick has a uniform stride of 3: a larger sample is the less regular instrument.",
+    "An agent that decodes the file measures cut timing and palette over every frame, so the frame budget binds only the naming, not the values.",
+    "A one-video plate cut has no scene that earns its own register, so a tree with no style override is correct for its shape rather than missing a feature."
+  ],
+  "sources": [
+    {
+      "url": "https://platform.claude.com/docs/en/build-with-claude/vision",
+      "result": "Read 2026-10-31. 'The maximum number of images for each message or request is: 20 for each message on claude.ai; 100 for each request on the API, for models with a 200k-token context window; 600 for each request on the API, for all other models.' 'If a single API request contains more than 20 images, a stricter per-image dimension limit applies to every image in that request.' 'Animations are unsupported, and only the first frame is used.' Supports the motion technique's premise and its quality cliff; refutes 'low hundreds' for the programmatic cap."
+    },
+    {
+      "url": "https://arxiv.org/html/2404.01292v1",
+      "result": "Read 2026-10-31 (Measuring Style Similarity in Diffusion Models). Table 1 style retrieval mAP@1: CLIP ViT-B/16 73.7 DomainNet / 52.2 WikiArt; DINO ViT-B/16 69.4 / 44.0; DINO ViT-B/8 72.2 / 46.9; the paper's style descriptor best in all but one case. The abstract notes existing tools 'focus on retrieving images of similar semantic content'. Refutes the self-supervised-over-text-aligned claim as stated."
+    },
+    {
+      "source": "Arithmetic in techniques/motion-sampled-under-a-frame-budget.md",
+      "result": "Recomputed: (10-1)/(4-1)=3, uniform; (10-1)/(9-1) is not an integer, gaps 1 and 2; with available-1 prime the divisors of available-1 admit only kept=2 or kept=available; 14-1=13 is prime. Consistent."
+    },
+    {
+      "source": "Consuming tree of the react applications, at its 2026-10-31 HEAD",
+      "result": "lib/themes.ts and app/library/Playground.tsx no longer exist. Ratchet helpers (statusOf, lockBlocker) now live in a domain package; compilePrompt is still in lib/stylePrompt.ts; the provider adapter still prepends the STYLE REFERENCES role statement and the no-negative-field clause at different line numbers; docs/imaging.md still records 67% vs 33%. Anchors stale, doctrine present."
+    }
+  ],
+  "documents": {
+    "visual-style-locking.md": {
+      "disposition": "clarify",
+      "reason": "(1) The techniques list omits motion-sampled-under-a-frame-budget, which the front matter names; add its bullet. (2) 'self-supervised image embeddings separate style better than text-aligned ones, which reward shared content' is contradicted by the benchmark opened this run; restate as: general embeddings of either kind are trained toward content, and a descriptor trained for style is the better instrument."
+    },
+    "techniques/style-block-restated-every-call.md": {
+      "disposition": "keep",
+      "reason": "Procedure, override scoping and the dated boundary (references plus a restated core; text as the portable floor) are internally consistent and correctly scoped."
+    },
+    "techniques/approved-reference-sheet.md": {
+      "disposition": "keep",
+      "reason": "Window versus send count, approved-only references and the identity-sheet inversion are coherent; no unstable vendor figure is asserted."
+    },
+    "techniques/style-onboarding-from-sample.md": {
+      "disposition": "keep",
+      "reason": "Capture, coherence gate, house-style decomposition, the structure boundary and the pointer to the sampling middle case agree with each other and with the motion technique."
+    },
+    "techniques/draft-proofing-locked-ratchet.md": {
+      "disposition": "keep",
+      "reason": "Derived status, the lock gate, the one-way ratchet and named misses form a consistent state machine."
+    },
+    "techniques/rejections-as-negative-evidence.md": {
+      "disposition": "keep",
+      "reason": "Rejection never a reference, never counted against the window; consistent with the sheet technique."
+    },
+    "techniques/consistency-control-arm.md": {
+      "disposition": "clarify",
+      "reason": "Same embedding claim as the golden path ('self-supervised image embeddings separate style better than text-aligned image-text embeddings'); contradicted by the benchmark. The three-arm design and judging rules stand."
+    },
+    "techniques/motion-sampled-under-a-frame-budget.md": {
+      "disposition": "clarify",
+      "reason": "Premise confirmed by the vendor page, arithmetic recomputed. 'low hundreds on a programmatic one' should read one hundred to six hundred, depending on the model's context window."
+    },
+    "applications/next--motion-sampled-under-a-frame-budget.md": {
+      "disposition": "reverify",
+      "reason": "Internally consistent (10-of-14 indices and gaps check out); the private tree and its probe were not reopened."
+    },
+    "applications/python--motion-sampled-under-a-frame-budget.md": {
+      "disposition": "reverify",
+      "reason": "Tables are internally consistent and limits are stated; the private pipeline and its selftest were not re-run."
+    },
+    "applications/react--draft-proofing-locked-ratchet.md": {
+      "disposition": "reverify",
+      "reason": "Every cited anchor (lib/themes.ts, app/library/Playground.tsx, app/library/presets.ts) is gone from the consuming tree after its rebuild; the ratchet now lives in a domain package with a changed status vocabulary. Needs re-anchoring against the current modules."
+    },
+    "applications/react--style-block-restated-every-call.md": {
+      "disposition": "reverify",
+      "reason": "Doctrine still present (compilePrompt, the STYLE REFERENCES role clause, the negative-as-prose clause, the 67% vs 33% probe), but Playground.tsx and MAX_REFS are gone and line anchors moved. Needs re-anchoring."
+    }
+  }
+}
+```
+
+## Architecture review - 2026-10-31 (clarify applied)
+
+Applied the three clarify items the earlier 2026-10-31 record named. The
+vendor vision page and the style-retrieval benchmark were both opened this run.
+The four applications were not touched and keep `reverify`, which is now the
+overall disposition.
+
+<!-- architecture-review:v1 -->
+```json
+{
+  "subject": "media-generation/visual-style-locking",
+  "date": "2026-10-31",
+  "baseline": "5a08b4610",
+  "digest": "sha256-b2:4e94305fcfba9d02",
+  "disposition": "reverify",
+  "coverage": "All 12 current documents decided. The three clarify items owed by the first 2026-10-31 record (golden path, consistency-control-arm, motion-sampled-under-a-frame-budget) were applied from sources opened this run and the edited passages re-read. Other documents are byte-unchanged and keep their dispositions. No private tree or runtime was reopened and no verification date was refreshed.",
+  "trigger": "Pending: the subject had no architecture-review record.",
+  "intended_benefit": "A batch of generated frames reads as one publication because the style is a ratified two-channel artifact restated on every call and measured against a control.",
+  "failure_if_ignored": "Per-shot look drift, reference images read as content, silent stand-in styles, and consistency claims ratified by flattering samples.",
+  "boundary": "Generation calls that mint new frames of a styled set. Not one-off images, not minimal edits of an existing render, not codegen from another product's shipped surface.",
+  "counterexamples": [
+    "A general text-aligned embedding (CLIP) outscored a self-supervised one (DINO) on style retrieval in a published benchmark, so 'self-supervised separates style better' does not hold as a default; a style-trained descriptor beat both.",
+    "A 9-of-10 pick has gaps of 1 and 2 while a 4-of-10 pick has a uniform stride of 3: a larger sample is the less regular instrument.",
+    "An agent that decodes the file measures cut timing and palette over every frame, so the frame budget binds only the naming, not the values.",
+    "A one-video plate cut has no scene that earns its own register, so a tree with no style override is correct for its shape rather than missing a feature."
+  ],
+  "sources": [
+    {
+      "url": "https://platform.claude.com/docs/en/build-with-claude/vision",
+      "result": "Read 2026-10-31. 'The maximum number of images for each message or request is: 20 for each message on claude.ai; 100 for each request on the API, for models with a 200k-token context window; 600 for each request on the API, for all other models.' 'If a single API request contains more than 20 images, a stricter per-image dimension limit applies to every image in that request.' 'Animations are unsupported, and only the first frame is used.' Supports the motion technique's premise and its quality cliff; refutes 'low hundreds' for the programmatic cap."
+    },
+    {
+      "url": "https://arxiv.org/html/2404.01292v1",
+      "result": "Read 2026-10-31 (Measuring Style Similarity in Diffusion Models). Table 1 style retrieval mAP@1: CLIP ViT-B/16 73.7 DomainNet / 52.2 WikiArt; DINO ViT-B/16 69.4 / 44.0; DINO ViT-B/8 72.2 / 46.9; the paper's style descriptor best in all but one case. The abstract notes existing tools 'focus on retrieving images of similar semantic content'. Refutes the self-supervised-over-text-aligned claim as stated."
+    },
+    {
+      "source": "Arithmetic in techniques/motion-sampled-under-a-frame-budget.md",
+      "result": "Recomputed: (10-1)/(4-1)=3, uniform; (10-1)/(9-1) is not an integer, gaps 1 and 2; with available-1 prime the divisors of available-1 admit only kept=2 or kept=available; 14-1=13 is prime. Consistent."
+    },
+    {
+      "source": "Consuming tree of the react applications, at its 2026-10-31 HEAD",
+      "result": "lib/themes.ts and app/library/Playground.tsx no longer exist. Ratchet helpers (statusOf, lockBlocker) now live in a domain package; compilePrompt is still in lib/stylePrompt.ts; the provider adapter still prepends the STYLE REFERENCES role statement and the no-negative-field clause at different line numbers; docs/imaging.md still records 67% vs 33%. Anchors stale, doctrine present."
+    }
+  ],
+  "documents": {
+    "visual-style-locking.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: added the motion-sampled-under-a-frame-budget bullet to the techniques list; the embedding clause now says general-purpose embeddings, text-aligned or self-supervised, are trained toward content and a descriptor trained for style is the better instrument."
+    },
+    "techniques/style-block-restated-every-call.md": {
+      "disposition": "keep",
+      "reason": "Procedure, override scoping and the dated boundary (references plus a restated core; text as the portable floor) are internally consistent and correctly scoped."
+    },
+    "techniques/approved-reference-sheet.md": {
+      "disposition": "keep",
+      "reason": "Window versus send count, approved-only references and the identity-sheet inversion are coherent; no unstable vendor figure is asserted."
+    },
+    "techniques/style-onboarding-from-sample.md": {
+      "disposition": "keep",
+      "reason": "Capture, coherence gate, house-style decomposition, the structure boundary and the pointer to the sampling middle case agree with each other and with the motion technique."
+    },
+    "techniques/draft-proofing-locked-ratchet.md": {
+      "disposition": "keep",
+      "reason": "Derived status, the lock gate, the one-way ratchet and named misses form a consistent state machine."
+    },
+    "techniques/rejections-as-negative-evidence.md": {
+      "disposition": "keep",
+      "reason": "Rejection never a reference, never counted against the window; consistent with the sheet technique."
+    },
+    "techniques/consistency-control-arm.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: replaced 'self-supervised embeddings separate style better than text-aligned ones' with the benchmark's finding (text-aligned outscored self-supervised on style retrieval, a style-trained descriptor beat both; prefer a style descriptor)."
+    },
+    "techniques/motion-sampled-under-a-frame-budget.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: 'low hundreds on a programmatic one' now reads 'one hundred to six hundred on a programmatic one, depending on the model's context window', per the vendor page."
+    },
+    "applications/next--motion-sampled-under-a-frame-budget.md": {
+      "disposition": "reverify",
+      "reason": "Internally consistent (10-of-14 indices and gaps check out); the private tree and its probe were not reopened."
+    },
+    "applications/python--motion-sampled-under-a-frame-budget.md": {
+      "disposition": "reverify",
+      "reason": "Tables are internally consistent and limits are stated; the private pipeline and its selftest were not re-run."
+    },
+    "applications/react--draft-proofing-locked-ratchet.md": {
+      "disposition": "reverify",
+      "reason": "Every cited anchor (lib/themes.ts, app/library/Playground.tsx, app/library/presets.ts) is gone from the consuming tree after its rebuild; the ratchet now lives in a domain package with a changed status vocabulary. Needs re-anchoring against the current modules."
+    },
+    "applications/react--style-block-restated-every-call.md": {
+      "disposition": "reverify",
+      "reason": "Doctrine still present (compilePrompt, the STYLE REFERENCES role clause, the negative-as-prose clause, the 67% vs 33% probe), but Playground.tsx and MAX_REFS are gone and line anchors moved. Needs re-anchoring."
+    }
+  }
+}
+```

@@ -47,8 +47,9 @@ Two constraints bound the sample, and neither scales with how much footage the
 caller wants understood:
 
 - **A hard cap on images per request**, fixed by the platform and by the
-  surface being used — a low double-digit cap on a chat surface, low hundreds
-  on a programmatic one.
+  surface being used — a low double-digit cap on a chat surface, one hundred
+  to six hundred on a programmatic one, depending on the model's context
+  window.
 - **A quality cliff at a small threshold**: past roughly the first score of
   images, a stricter per-image dimension limit applies to *every* image in the
   request. Buying more instants therefore costs resolution on all of them, so

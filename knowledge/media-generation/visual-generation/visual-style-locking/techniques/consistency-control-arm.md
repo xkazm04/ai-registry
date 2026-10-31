@@ -47,10 +47,12 @@ palette will under-credit the sheet.
 - **One judge, one schema, all arms.** A vision model reading each render
   into the same structured description (palette observed, shape complexity,
   finish attributes), or an embedding-space similarity. For embeddings,
-  self-supervised image embeddings separate *style* better than
-  text-aligned image-text embeddings, which score shared content as
-  similarity — the standard batch metric is pairwise similarity within the
-  generated set. Whatever the judge, it must not be the system under test
+  general-purpose image embeddings — text-aligned and self-supervised
+  alike — are trained toward content and score shared subject matter as
+  similarity; in one style-retrieval benchmark the text-aligned model
+  outscored the self-supervised one and a descriptor trained for style beat
+  both, so prefer a style descriptor — the standard batch metric is pairwise
+  similarity within the generated set. Whatever the judge, it must not be the system under test
   grading itself informally.
 - **Assert an absolute bar, not the comparison — at small n.** At one run,
   "conditioned beats control" is a coin flip dressed as a test. Assert a
