@@ -306,7 +306,7 @@ correct number of remote callers is zero, it is here.
   the debug surface over a process that holds other parties' credentials: a
   short list of keys that survive into the stream, every header value replaced,
   and an operator credential whose absence stops the process rather than
-    warning it.
+  warning it.
 - [loopback-addressed-request-gate](./techniques/loopback-addressed-request-gate.md)
   — a local app acting with the person's own login answers only a request
   whose Host, forwarded host and Origin name loopback and which no proxy

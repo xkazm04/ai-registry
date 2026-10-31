@@ -73,9 +73,13 @@ for all of it is the store's policy engine, not any code in this tree. The
 golden path's rule that the two regimes coexist has a degenerate case worth
 naming: a tree can run entirely in regime one, and then "server-side" means
 nothing for security. The starter ships no schema and no policies, so a
-project that adds a table without switching policies on has published it —
-the hosted platform's default grants give the public role every privilege on
-a new table in the exposed schema.
+project that adds a table without switching policies on has published it
+wherever the hosted platform's old default still holds — `select`, `insert`,
+`update` and `delete` granted to the public role on every table in the exposed
+schema. The platform withdrew that default for new tables in 2026 (new
+projects from 30 May, existing projects from 30 October); a table created
+since then needs an explicit grant, while tables that already existed keep the
+grants they had.
 
 ## The silent fallback, in the auth gate
 

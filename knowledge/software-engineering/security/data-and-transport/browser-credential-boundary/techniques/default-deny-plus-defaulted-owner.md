@@ -72,12 +72,15 @@ Policy sets are read as declarations of intent and behave as a conjunction over
 the operations a statement performs. The gap between those two readings is
 where working code starts failing, and one case accounts for most of it: an
 **insert-or-update** statement is checked against the insert policy *and*, when
-it takes the conflict path, the update policy — and the read policy besides, if
-anything in the statement returns rows.
+it takes the conflict path, the update policy — and, in the dominant engine,
+the read policy besides, whether or not the statement returns rows: a conflict
+clause makes read access to the relation a requirement, and the existing and
+updated rows are checked against the read policy too. The conflict path is never
+silently skipped; a row that fails these checks raises an error.
 
 The practical consequence is blunt. If a client writes with an upsert and the
-table has only an insert policy, the first write for a given key succeeds and
-every subsequent one is denied. That reads to the user as "my change did not
+table has insert and read policies but no update policy, the first write for a
+given key succeeds and every subsequent one is denied. That reads to the user as "my change did not
 save", to the developer as an intermittent bug, and to the operator as nothing
 at all, because a policy refusal is not an application error. Write the update
 policy in the same change as the insert policy, or make the client's write path
@@ -91,8 +94,10 @@ as one.
 
 ## Assert refusal, not just permission
 
-A denied read returns an empty result set. A denied write, in the common
-client shapes, returns a refusal that is easy to swallow. Neither is
+A denied read returns an empty result set. A denied write either raises a
+refusal that is easy to swallow — an insert, or an update whose new row fails
+the check — or, for an update or delete aimed at a row the policy hides, touches
+zero rows with no error at all. Neither is
 distinguishable, from the outside, from the benign case
 ([failure-not-empty-success](../../../../_laws.md#failure-not-empty-success)) — so
 a test suite that checks "the legitimate caller still sees its rows" passes
@@ -111,8 +116,11 @@ The suite that means something has three shapes per table, and connects as the
   deliberately public, and the assertion is on emptiness *and* on the table
   having been queried at all, so a typo in the table name cannot pass as a
   security result.
-- The forbidden write is **refused**, asserted as a refusal with the expected
-  class, not as an absence of change.
+- The forbidden insert, and the update whose new row the check rejects, is
+  **refused**, asserted as a refusal with the expected class, not as an absence
+  of change. The update or delete aimed at another caller's row is filtered,
+  not refused, so there the assertion is zero rows affected *and* the row
+  unchanged when re-read by a role that can see it.
 
 Run it against the deployed schema, as the role the browser uses, on the same
 key the bundle ships. A suite run as the migration's own privileged role proves

@@ -44,7 +44,7 @@ permissions. Confirm the setting on the deployed object rather than trusting
 the migration text; it is a property with a default, and defaults are how this
 one is usually wrong.
 
-Two consequences follow that surprise people:
+Three consequences follow that surprise people:
 
 - The view's own grant is necessary but not sufficient. The caller needs the
   grant on the view *and* a policy on the base table that lets them see the
