@@ -14,7 +14,13 @@ import { drive } from '../scripts/drive.mjs';
 // suites had left hundreds in the OS temp dir (hygiene disk lane, temp-leak rows).
 const madeDirs = [];
 const mkdtempTracked = (prefix) => { const d = mkdtempSync(prefix); madeDirs.push(d); return d; };
-after(() => { for (const d of madeDirs) rmSync(d, { recursive: true, force: true, maxRetries: 5, retryDelay: 100 }); });
+// Windows refuses to delete a SQLite file a handle still holds (EPERM): a test that left its store open (the first
+// two never closed theirs) failed the whole file in this hook. Every store repo() opens is closed here first.
+const openDbs = [];
+after(() => {
+  for (const db of openDbs) { try { db.close(); } catch { /* closed by its test */ } }
+  for (const d of madeDirs) rmSync(d, { recursive: true, force: true, maxRetries: 5, retryDelay: 100 });
+});
 
 const STORE = fileURLToPath(new URL('../scripts/store.mjs', import.meta.url));
 const LENS = 'com.x.reg';
@@ -33,7 +39,9 @@ function repo() {
   const file = join(root, '.ai', 'lens-scan', 'app-structure.json');
   writeFileSync(file, JSON.stringify(structure));
   const dbPath = join(root, '.ai', 'lens-scan', 'scan.db');
-  return { root, file, dbPath, db: openStore(dbPath) };
+  const db = openStore(dbPath);
+  openDbs.push(db);
+  return { root, file, dbPath, db };
 }
 
 test('gaps: unmeasured until a done run covers a feature, unmeasurable after, stale before the context map', () => {
@@ -74,7 +82,7 @@ test('decide: a caller decision is recorded with who, only on proposed items; st
 // scoped features; for an execute, moves each approved id to done. It never decides anything.
 const FAKE = `
 import { readFileSync } from 'node:fs';
-import { openStore, runStart, runEnd, measure, propose, proposalUpdate, proposals, releaseUpdate, reworkAttempt } from ${JSON.stringify(pathToFileURL(STORE).href)};
+import { openStore, runStart, runEnd, measure, propose, proposalUpdate, proposals, releaseUpdate, reworkAttempt, proof } from ${JSON.stringify(pathToFileURL(STORE).href)};
 const prompt = readFileSync(0, 'utf8').trim();
 const db = openStore('.ai/lens-scan/scan.db');
 // a release: building -> (a measure run noted with the release) -> pr-open; --finish: merged -> tagged
@@ -112,6 +120,12 @@ if (m[4]) for (let p of proposals(db, { ids: m[4] })) {
   if (p.status === 'approved') proposalUpdate(db, { id: p.id, status: 'executing' });
   if (process.env.FAKE_DIE) process.exit(1); // the session dies mid-build: the run stays running, the item executing
   proposalUpdate(db, { id: p.id, status: 'done', resultSha: 'abc1234' }); // a cut-off item is reconciled, never re-claimed
+  if (process.env.FAKE_PROOF) { // the item's before/after at base and commit, and its proof with a re-seeded control
+    measure(db, id, [{ feature: p.feature, lens: p.lens, metric: p.metric, value: 10, method: 'static', proposal: p.id, phase: 'before', commit_sha: 'b0' },
+      { feature: p.feature, lens: p.lens, metric: p.metric, value: 5, method: 'static', proposal: p.id, phase: 'after', commit_sha: 'abc1234' }]);
+    proof(db, { id: p.id, proof: { metric: p.metric, method: 'static', before: 10, after: 5, verdict: 'better', control: 'red', control_value: 10, base_sha: 'b0', head_sha: 'abc1234',
+      gates: { 'npm run check': 0 }, stacked: false } });
+  }
 }
 runEnd(db, { run: id, status: 'done' });
 console.log('fake done', prompt);
@@ -358,5 +372,123 @@ test('drive: an unknown flag is refused before any session starts (a --dry-run t
     // every documented flag is still accepted
     const ok = await drive(['execute', '--lens', LENS, '--root', root, '--dry', '--ids', p1, '--batch', '2', '--timeout-min', '30', '--model', 'm1'], env);
     assert.deepEqual(ok.plan, [`/lens-scan execute --proposals ${p1}`]);
+  } finally { process.stderr.write = quiet; }
+});
+
+// v5: --lens all and --auto
+const metricField = (key) => ({ key, type: 'integer', metric: { better: 'down', method: 'judgement' } });
+const allStructure = {
+  generated_at: '2999-01-01T00:00:00.000Z',
+  features: [{ slug: 'a' }, { slug: 'b' }],
+  lenses: [
+    { id: 'development', enabled: true, manifest: { fields: [metricField('loc')] } },
+    { id: 'tmp.drops', enabled: true, manifest: { scan: { method: 'judgement', instructions: 'Count the drops.' }, fields: [metricField('drops')] } },
+    { id: 'business', enabled: true, manifest: { fields: [metricField('x')] } },
+    { id: 'design', enabled: false, manifest: { fields: [metricField('rawLiterals')] } },
+  ],
+};
+function repoAll() {
+  const r = repo();
+  writeFileSync(r.file, JSON.stringify(allStructure));
+  return r;
+}
+const listedIds = (dbPath) => { const ro = openStore(dbPath, { readOnly: true }); try { return proposals(ro).map((p) => p.id); } finally { ro.close(); } };
+
+test('drive --lens all: status and cover over every enabled lens with a scan method; one read per feature; propagate refuses it', async () => {
+  const { root, dbPath, db } = repoAll();
+  const { id: run } = runStart(db, { phase: 'measure', lenses: 'development', features: 'a', knownFeatures: new Set(['a', 'b']) });
+  measure(db, run, [{ feature: 'a', lens: 'development', metric: 'loc', value: 10 }]);
+  runEnd(db, { run, status: 'done' });
+  const { id: pr } = runStart(db, { phase: 'propose', lenses: 'development,tmp.drops' });
+  const d = propose(db, { run: pr, feature: 'a', lens: 'development', title: 'd', kind: 'fix', metric: 'loc', expectedDelta: -1 }).id;
+  const t = propose(db, { run: pr, feature: 'b', lens: 'tmp.drops', title: 't', kind: 'fix', metric: 'drops', expectedDelta: -1 }).id;
+  decide(db, { ids: [d, t], decision: 'approve', by: 'operator:jane' });
+  runEnd(db, { run: pr, status: 'done' });
+  db.close();
+  const env = { ...process.env, LENS_SCAN_CLAUDE_BIN: join(root, 'none.mjs') };
+  const st = await drive(['status', '--lens', 'all', '--root', root], env);
+  assert.deepEqual(st.lenses, ['development', 'tmp.drops']);
+  assert.deepEqual(st.skipped_lenses, [{ id: 'business', why: 'no scan method (not a built-in, no scan block)' }]);
+  assert.deepEqual(st.gaps, [{ feature: 'b', unmeasured: ['development.loc', 'tmp.drops.drops'] }, { feature: 'a', unmeasured: ['tmp.drops.drops'] }]);
+  assert.deepEqual(st.before.totals, { features: 2, cells: 4, measured: 1, unmeasured: 3, unmeasurable: 0, stale: 0 });
+  assert.deepEqual(Object.keys(st.before.lenses), ['development', 'tmp.drops']);
+  const cov = await drive(['cover', '--lens', 'all', '--root', root, '--dry'], env);
+  assert.deepEqual(cov.plan, ['/lens-scan measure --lens all --scope b,a', '/lens-scan propose --lens all']);
+  const ex = await drive(['execute', '--lens', 'all', '--root', root, '--dry'], env);
+  assert.deepEqual(ex.plan, [`/lens-scan execute --proposals ${listedIds(dbPath).filter((id) => [d, t].includes(id)).join(',')}`], 'every lens\'s approved items');
+  await assert.rejects(drive(['propagate', '--lens', 'all', '--root', root, '--dry'], env), (e) => e.code === 2 && /one landed upgrade at a time/.test(e.message));
+});
+
+test('drive execute --auto: the store decides (L1) and accepts (L2) by its trust levels; machine approvals below L2 wait; release stays human', async () => {
+  const { root, dbPath, db } = repoAll();
+  const { id: pr } = runStart(db, { phase: 'propose', lenses: 'development', model: 'test-model' });
+  const item = (feature, extra) => propose(db, { run: pr, feature, lens: 'development', title: `t ${feature}`, kind: 'fix', metric: 'loc', expectedDelta: -5, size: 'S',
+    predictedVerdict: 'accept', predictedWhy: 'no precedent yet', ...extra }).id;
+  const tech = item('a', { category: 'technical', riskClass: 'debt' }); // L2: decided, built, accepted
+  const secret = item('b', { category: 'technical', riskClass: 'secret' }); // L1: decided, never built here
+  const product = item('c', { category: 'product', riskClass: 'ux' }); // L0: not decided
+  const human = propose(db, { run: pr, feature: 'd', lens: 'development', title: 'human', kind: 'fix', metric: 'loc', expectedDelta: -1, category: 'product' }).id;
+  decide(db, { ids: human, decision: 'approve', by: 'operator:jane' });
+  runEnd(db, { run: pr, status: 'done' });
+  db.close();
+  const fake = join(root, 'fake-claude.mjs');
+  writeFileSync(fake, FAKE);
+  const env = { ...process.env, LENS_SCAN_CLAUDE_BIN: fake, FAKE_PROOF: '1' };
+  const quiet = process.stderr.write;
+  process.stderr.write = () => true;
+  try {
+    await assert.rejects(drive(['execute', '--lens', 'development', '--root', root, '--auto', '--approve-proposed', '--by', 'agent:x'], env), /pass one/);
+    await assert.rejects(drive(['cover', '--lens', 'development', '--root', root, '--auto'], env), /--auto belongs to execute/);
+    await assert.rejects(drive(['execute', '--lens', 'development', '--root', root, '--start', 'technical=1'], env), /belongs to execute --auto/);
+    const ex = await drive(['execute', '--lens', 'development', '--root', root, '--auto'], env);
+    assert.ok(ex.ok, JSON.stringify(ex.jobs));
+    assert.deepEqual(ex.machine_decided.map((x) => `${x.id}:${x.level}`).sort(), [`${secret}:1`, `${tech}:2`].sort());
+    assert.deepEqual(ex.machine_skipped, [{ id: product, status: 'proposed', reason: 'refused: slice product|development|ux|S is L0' }]);
+    assert.equal(ex.plan.length, 1);
+    assert.deepEqual(ex.plan[0].replace('/lens-scan execute --proposals ', '').split(',').sort(), [tech, human].sort(), 'the L2 machine approval and the person\'s approval are built');
+    assert.match(ex.skipped.find((s) => s.id === secret).reason, /slice technical\|development\|secret\|S \(L1\).*waits for a person/);
+    assert.deepEqual(ex.machine_triaged.map((x) => x.id), [tech]);
+    assert.deepEqual(ex.waits_for_triage, [{ id: human, status: 'done', reason: 'category product: a person triages' }]);
+    const ro = openStore(dbPath, { readOnly: true });
+    const [p] = proposals(ro, { ids: tech });
+    assert.deepEqual([p.status, p.decided_by, p.triaged_by, p.proof.verdict], ['accepted', 'machine:lens-scan', 'machine:lens-scan', 'better']);
+    assert.equal(proposals(ro, { ids: human })[0].status, 'done');
+    assert.equal(ro.prepare('SELECT COUNT(*) AS n FROM releases').get().n, 0, 'nothing released');
+    ro.close();
+  } finally { process.stderr.write = quiet; }
+});
+
+test('H-L3 drive execute --auto: a reserve item and one above the auto size are neither machine-decided nor machine-built (bp built reserve L p-af6b17)', async () => {
+  const { root, dbPath, db } = repoAll();
+  const { id: pr } = runStart(db, { phase: 'propose', lenses: 'development', model: 'test-model' });
+  const item = (feature, extra) => propose(db, { run: pr, feature, lens: 'development', title: `t ${feature}`, kind: 'fix', metric: 'loc', expectedDelta: -5, size: 'S',
+    predictedVerdict: 'accept', predictedWhy: 'no precedent yet', category: 'technical', riskClass: 'debt', ...extra }).id;
+  const ranked = item('a');
+  const reserveL = item('b', { size: 'L' });
+  // bp's shape: the reserve L was already machine-approved (decided_by machine:lens-scan) by an earlier --auto, then
+  // allocated to reserve
+  assert.equal(decide(db, { ids: reserveL, machine: true, maxSize: 'XL' }).decided.length, 1);
+  db.prepare("UPDATE proposals SET band = 'reserve' WHERE id = ?").run(reserveL);
+  const reserveOpen = item('c', { band: 'reserve' });
+  const large = item('d', { size: 'L' });
+  runEnd(db, { run: pr, status: 'done' });
+  db.close();
+  const fake = join(root, 'fake-claude.mjs');
+  writeFileSync(fake, FAKE);
+  const env = { ...process.env, LENS_SCAN_CLAUDE_BIN: fake, FAKE_PROOF: '1' };
+  const quiet = process.stderr.write;
+  process.stderr.write = () => true;
+  try {
+    const dry = await drive(['execute', '--lens', 'development', '--root', root, '--auto', '--max-size', 'L', '--dry'], env);
+    assert.ok(dry.ok);
+    await assert.rejects(drive(['execute', '--lens', 'development', '--root', root, '--max-size', 'L'], env), /--max-size .*belongs to execute --auto/);
+    await assert.rejects(drive(['execute', '--lens', 'development', '--root', root, '--auto', '--max-size', 'XXL'], env), /--max-size is one of/);
+    const ex = await drive(['execute', '--lens', 'development', '--root', root, '--auto'], env);
+    assert.ok(ex.ok, JSON.stringify(ex.jobs));
+    assert.deepEqual(ex.machine_decided.map((x) => x.id), [ranked]);
+    assert.deepEqual(ex.machine_skipped.map((s) => [s.id, s.reason]).sort(), [[reserveOpen, 'band reserve: a person decides'], [large, 'size L above the auto size M: a person decides']].sort());
+    assert.deepEqual(ex.plan, [`/lens-scan execute --proposals ${ranked}`], 'only the ranked, in-size machine approval is built');
+    assert.match(ex.skipped.find((s) => s.id === reserveL).reason, /band reserve.*waits for a person/);
+    assert.deepEqual(ex.machine_triaged.map((x) => x.id), [ranked]);
   } finally { process.stderr.write = quiet; }
 });

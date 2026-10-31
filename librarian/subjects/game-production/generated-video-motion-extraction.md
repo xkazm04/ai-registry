@@ -1,7 +1,7 @@
 ---
 domain: game-production
 subject: generated-video-motion-extraction
-last_touched: 2026-10-25
+last_touched: 2026-10-31
 touched_by: intake
 dry_streak: 0
 ---
@@ -17,3 +17,7 @@ Evidence base is thin and stated as such: one practitioner account (n=1) plus th
 Boundaries held in prose: motion-quality-gating judges the extracted motion (this subject took over only the pre-solver trackability gate, and that neighbour's seam paragraph was not edited); mesh-finishing binds rigs; realtime-combat-semantics owns what a contact window means; talking-avatar in the software-engineering bundle holds the opposite default (generated frames are the shipped output there).
 
 Open: the 5-7 cm ground offset in the triangulation example is unexplained; the engine-side single-view solver's depth error on the same clip was not measured; L17 vs a negated "no effects" prompt is undecided pending a prompt-free arm.
+
+## Applied - 2026-10-31 (run intake-apply-cwtwc-1031)
+
+First application of `contact-window-travels-with-the-clip`, and the subject's first non-`process` stack (`cpp`, PoF's Unreal project). PoF's player strike plays a montage rebuilt from an extracted generated-video saber strike; the montage carries no notify, so the ability lands damage at a constant 0.20 s while the motion's window (both hands, downward speed, half of peak) is frames 133-135 at 30 fps, 4.2 s later. Verdict `better` at experiment mode; the instrument shipped to pof, the game-side fix is the project's next change. Two boundary facts the technique states in one line, now measured: the declared direction moves the window five frames (more than its length), and a 0.6% rate-mapping error moved it one frame, so the basis is not decoration. Not edited into the technique: both are already its rules.

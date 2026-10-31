@@ -28,6 +28,10 @@ const shape = (x) => ['runs', 'measurements', 'proposals', 'activity', 'shots', 
   .map((t) => x.prepare(`PRAGMA table_info(${t})`).all().map((c) => `${t}.${c.name}:${c.type}:${c.notnull}:${c.dflt_value}`).join(','));
 const indexes = (x) => x.prepare("SELECT name FROM sqlite_master WHERE type = 'index' AND tbl_name = 'proposals' AND name NOT LIKE 'sqlite_%' ORDER BY name").all().map((r) => r.name);
 const V4_COLS = ['origin', 'external_ref', 'external_url', 'tier', 'risk_class', 'ranked_by', 'ranked_at'];
+// v5 (store-v5.test.mjs pins them): a v3 row reaches the current version, so its new columns are v4's and v5's
+const V5_COLS = ['impact', 'impact_why', 'confidence', 'effort', 'score', 'score_parts', 'band', 'mvp', 'mvp_rule', 'mvp_why', 'category',
+  'predicted_verdict', 'predicted_why', 'predicted_by', 'predicted_at', 'veto_until', 'proof'];
+const CURRENT = 5;
 const fix = (run, title, extra = {}) => ({ run, feature: 'a', lens: 'security', title, kind: 'fix', metric: 'findingsHigh', expectedDelta: -1, ...extra });
 const item = (run, n, extra = {}) => ({ run, feature: 'backlog', lens: 'quality', title: `ADO ${n}`, kind: 'work-item', origin: 'ado', externalRef: `ado:${n}`, ...extra });
 
@@ -38,12 +42,14 @@ function store() {
   return { path, db, run };
 }
 
-test('fresh: a new file is v4 from the DDL, the seven v4 columns last, the two v4 indexes', () => {
+test('fresh: a new file carries the seven v4 columns right after triaged_from, the two v4 indexes', () => {
   const { db } = store();
-  assert.equal(db.prepare('PRAGMA user_version').get().user_version, 4);
+  assert.equal(db.prepare('PRAGMA user_version').get().user_version, CURRENT);
   const cols = db.prepare('PRAGMA table_info(proposals)').all().map((c) => c.name);
-  assert.deepEqual(cols.slice(-8), ['triaged_from', ...V4_COLS], 'the v4 columns follow triaged_from, in contract order');
-  assert.deepEqual(indexes(db), ['proposals_external_ref', 'proposals_pack', 'proposals_release', 'proposals_tier', 'proposals_updated']);
+  const at = cols.indexOf('triaged_from');
+  assert.deepEqual(cols.slice(at, at + 8), ['triaged_from', ...V4_COLS], 'the v4 columns follow triaged_from, in contract order');
+  assert.deepEqual(cols.slice(at + 8), V5_COLS, 'and only the v5 columns after them');
+  assert.ok(['proposals_external_ref', 'proposals_tier'].every((i) => indexes(db).includes(i)));
   db.close();
 });
 
@@ -67,11 +73,11 @@ test('migration: a v3 file becomes v4 in place - every row and id kept, origin s
   v3.close();
 
   const ro = openStore(path, { readOnly: true });
-  assert.equal(ro.prepare('PRAGMA user_version').get().user_version, 4, 'a reader never meets v3');
+  assert.equal(ro.prepare('PRAGMA user_version').get().user_version, CURRENT, 'a reader never meets v3');
   ro.close();
   const db = openStore(path);
   const afterRows = db.prepare('SELECT * FROM proposals ORDER BY id').all();
-  assert.deepEqual(afterRows.map((r) => Object.fromEntries(Object.entries(r).filter(([k]) => !V4_COLS.includes(k)))), before, 'every v3 column of every row is copied');
+  assert.deepEqual(afterRows.map((r) => Object.fromEntries(Object.entries(r).filter(([k]) => !V4_COLS.includes(k) && !V5_COLS.includes(k)))), before, 'every v3 column of every row is copied');
   assert.ok(afterRows.every((r) => r.origin === 'scan' && V4_COLS.slice(1).every((k) => r[k] === null)), 'origin defaults to scan, the rest NULL');
   const listed = proposals(db);
   assert.deepEqual(listed.map((p) => p.id), ['p-aaaaaa', 'p-bbbbbb']);
@@ -90,7 +96,7 @@ test('migration: a v3 file becomes v4 in place - every row and id kept, origin s
   assert.deepEqual(triage(db, { ids: 'p-bbbbbb', decision: 'reopen', by: 'operator:jane' }).triaged, ['p-bbbbbb']);
   db.close();
   const again = openStore(path);
-  assert.equal(again.prepare('PRAGMA user_version').get().user_version, 4, 'a second open is a no-op');
+  assert.equal(again.prepare('PRAGMA user_version').get().user_version, CURRENT, 'a second open is a no-op');
   assert.equal(proposals(again).length, 3);
   again.close();
 });
@@ -107,7 +113,7 @@ test('migration: a v2 file reaches v4 through the chain, one shape with a fresh 
     VALUES ('p-dddddd', 'r-1', 'a', 'design', 'Old', 'fix', 'rawLiterals', -2, 'proposed', ?, ?)`).run(at, at);
   v2.close();
   const db = openStore(path);
-  assert.equal(db.prepare('PRAGMA user_version').get().user_version, 4);
+  assert.equal(db.prepare('PRAGMA user_version').get().user_version, CURRENT);
   const [p] = proposals(db);
   assert.deepEqual([p.id, p.title, p.expected_delta, p.origin], ['p-dddddd', 'Old', -2, 'scan']);
   const fresh = openStore(tmpDb());

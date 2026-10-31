@@ -1,6 +1,6 @@
 # Civic intelligence - the subjects this registry carries
 
-`civic-intelligence` - 15 subjects, 92 techniques, 70 applications.
+`civic-intelligence` - 15 subjects, 92 techniques, 71 applications.
 Slugs only; open one with `registry_subject` (or `node <registry>/scripts/registry-query.mjs --subject <slug>`), never by reading `index.json` - the access rule beside this file describes the loop.
 
 ### parliamentary-data

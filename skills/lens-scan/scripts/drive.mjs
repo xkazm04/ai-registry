@@ -4,9 +4,10 @@
 // which features or items need a run, and starts `claude -p` once per run with a lens-scan prompt on stdin -
 // the same prompts the blueprint's job runner sends. The model works only inside those runs.
 //
-//   node drive.mjs status  --lens <id> [--root <product repo>]
-//   node drive.mjs cover   --lens <id> [--root r] [--features a,b | --stale] [--retry] [--chunk n] [--max-runs n] [--no-propose]
-//   node drive.mjs execute --lens <id> [--root r] [--ids a,b] [--approve-proposed --by <kind:name>] [--batch n] [--base <ref>]
+//   node drive.mjs status  --lens <id>|all [--root <product repo>]
+//   node drive.mjs cover   --lens <id>|all [--root r] [--features a,b | --stale] [--retry] [--chunk n] [--max-runs n] [--no-propose]
+//   node drive.mjs execute --lens <id>|all [--root r] [--ids a,b] [--approve-proposed --by <kind:name> | --auto [--start technical=n,product=m] [--max-size XS..XL]]
+//                          [--batch n] [--base <ref>]
 //   node drive.mjs propagate --lens <id> [--root r] [--ids <upgrade,...> | --standard house:<subject>/<line>]
 //   node drive.mjs release --id rel-<version> [--root r] [--finish]
 //   node drive.mjs triage  --ids a,b --decision accept|rework|descope --by <kind:name> [--note t] [--root r]
@@ -29,6 +30,21 @@
 //            pack/<short>-<n> cut from the release base, one commit per item, never merged into main. --base <ref> passes
 //            a specific release base into the prompt. With --ids, a named `rework` item is in the plan too: the run
 //            rebuilds it as a new attempt (store.mjs rework-attempt).
+//            A machine-approved item (decided_by machine:lens-scan, an L1 decision) is built only in a technical slice
+//            the store puts at L2, and never when it is band reserve or sized above --max-size (bp's first --auto built
+//            a reserve L); elsewhere it is skipped and waits for a person. --auto (the autonomy ladder,
+//            SKILL.md Autonomy) first records the predicted verdict of each `proposed` item whose slice is >= L1
+//            (store.mjs decide --machine, which skips reserve and oversize items; `machine_decided`, `machine_skipped`),
+//            and after the runs offers every built item to store.mjs triage --machine, which accepts only a better
+//            proof with a red control, green gates and an after of its own (`machine_triaged`; the rest
+//            `waits_for_triage`). --start is the overlay's trust_start (it only lowers); --max-size XS..XL its
+//            auto_max_size (default M).
+//            Nothing here releases: a release stays a person's.
+//   --lens all (status, cover, execute): every enabled lens of the app-structure with a scan method (store.mjs
+//            structureLenses). status and cover merge the lenses' gaps (per feature, `<lens>.<metric>`), cover runs
+//            `/lens-scan measure --lens all --scope ...` in chunks of the smallest conform budget among them (each
+//            feature read once, judged through every lens) and one `/lens-scan propose --lens all`; execute takes
+//            every lens's items. `lenses`, `before.lenses` per lens and `skipped_lenses` (with why) are in the summary.
 //   propagate one `claude -p` per landed baseline upgrade of the lens (SKILL.md 6. Propagate,
 //            references/propagation.md): `/lens-scan propagate --lens <id> --proposals <upgrade>`, which emits one
 //            `propagation` child per similar site for a person to approve. Without --ids / --standard, every `done`
@@ -51,7 +67,10 @@ import { createWriteStream, existsSync, mkdirSync, readFileSync, realpathSync, s
 import { delimiter, extname, join, resolve } from 'node:path';
 import { randomBytes } from 'node:crypto';
 import { fileURLToPath } from 'node:url';
-import { openStore, gaps, decide, proposals, parseArgs, runEnd, triage, compare, releaseGet, releaseUpdate, structureLens, StoreError } from './store.mjs';
+import {
+  openStore, gaps, decide, proposals, parseArgs, runEnd, triage, compare, releaseGet, releaseUpdate, structureLens, structureLenses, trust, sliceOf,
+  MACHINE, StoreError, SIZES, AUTO_MAX_SIZE,
+} from './store.mjs';
 
 const MAX_BATCH = 50;
 const SAFE_ID = /^[A-Za-z0-9._-]+$/;
@@ -62,7 +81,9 @@ const VERBS = ['status', 'cover', 'execute', 'propagate', 'release', 'triage', '
 // Every flag the header documents, as parseArgs names them. Anything else is refused before a session starts: an
 // unknown flag was silently ignored, so `--dry-run` for `--dry` ran real `claude -p` sessions.
 const FLAGS = ['root', 'lens', 'features', 'stale', 'retry', 'chunk', 'maxRuns', 'noPropose', 'ids', 'approveProposed', 'by', 'batch',
-  'base', 'standard', 'id', 'finish', 'decision', 'note', 'pack', 'model', 'timeoutMin', 'dry'];
+  'base', 'standard', 'id', 'finish', 'decision', 'note', 'pack', 'model', 'timeoutMin', 'dry', 'auto', 'start', 'maxSize'];
+/** `--lens all`: every enabled lens with a scan method, each feature read once per run (SKILL.md 2. Measure). */
+const ALL = 'all';
 const kebab = (k) => k.replace(/[A-Z]/g, (c) => `-${c.toLowerCase()}`);
 const bad = (m) => { throw new StoreError(m, 2); };
 const say = (m) => process.stderr.write(`drive: ${m}\n`);
@@ -190,28 +211,61 @@ export async function drive(argv, env = process.env) {
   if (base !== undefined && verb !== 'execute') bad('--base belongs to execute');
   if (a.features !== undefined && verb !== 'cover') bad('--features belongs to cover');
   if (a.standard !== undefined && verb !== 'propagate') bad('--standard belongs to propagate');
-  if (verb === 'propagate') return propagate(a, { lens, root, dbPath, model, dry, read, env, timeoutMin: intFlag(a, 'timeoutMin', 90) });
+  if (a.auto !== undefined && verb !== 'execute') bad('--auto belongs to execute');
+  if (a.start !== undefined && a.auto === undefined) bad('--start (the overlay\'s trust_start) belongs to execute --auto');
+  if (a.maxSize !== undefined && a.auto === undefined) bad('--max-size (the overlay\'s auto_max_size) belongs to execute --auto');
+  const maxSize = a.maxSize === undefined ? AUTO_MAX_SIZE : (SIZES.includes(a.maxSize) ? a.maxSize : bad(`--max-size is one of ${SIZES.join(', ')} (the overlay's auto_max_size)`));
+  if (a.auto !== undefined && a.approveProposed !== undefined) bad('--auto lets the store decide by its trust levels; --approve-proposed is a person\'s blanket decision - pass one');
+  if (verb === 'propagate') {
+    if (lens === ALL) bad('propagate runs one landed upgrade at a time; name its lens (--lens all is for status, cover and execute)');
+    return propagate(a, { lens, root, dbPath, model, dry, read, env, timeoutMin: intFlag(a, 'timeoutMin', 90) });
+  }
   // a cover run is one bounded measure; an execute run builds, gates and re-measures every item (paypal's 9 took
   // over 90 min): 30 min per item, never under 90, unless the caller says otherwise
   const timeoutFor = (items) => intFlag(a, 'timeoutMin', Math.max(90, 30 * items));
-  const before = read((db) => gaps(db, { lens, structure }));
+  // --lens all: the structure's lens set; a lens it cannot count gaps for (no metric field) is skipped with why
+  let lensSet = [lens];
+  const skippedLenses = [];
+  if (lens === ALL) {
+    const set = structureLenses(structure) ?? bad(`--lens all reads the app-structure, and there is none at ${structure}`);
+    skippedLenses.push(...set.skipped);
+    lensSet = set.lenses;
+  }
+  const perLens = {};
+  for (const l of lensSet) {
+    try { perLens[l] = read((db) => gaps(db, { lens: l, structure })); } catch (e) {
+      if (lens !== ALL || !(e instanceof StoreError) || e.code !== 2) throw e;
+      skippedLenses.push({ id: l, why: e.message });
+    }
+  }
+  lensSet = lensSet.filter((l) => perLens[l]);
+  if (lens === ALL && !lensSet.length) bad(`--lens all: no lens to drive (${skippedLenses.map((s) => `${s.id}: ${s.why}`).join('; ') || 'lenses[] is empty'})`);
+  // one lens: its gaps as before; all: per lens, and every feature with a gap in any lens
+  const before = lens === ALL ? mergeGaps(perLens) : perLens[lens];
   const summary = { verb, lens, root, dry, before: { totals: before.totals, backlog: before.backlog } };
+  if (lens === ALL) {
+    summary.lenses = lensSet;
+    summary.before.lenses = Object.fromEntries(lensSet.map((l) => [l, { totals: perLens[l].totals, backlog: perLens[l].backlog }]));
+    if (skippedLenses.length) summary.skipped_lenses = skippedLenses;
+  }
 
   if (verb === 'status') return { ...summary, gaps: before.features, ok: true };
 
   const jobs = [];
   if (verb === 'cover') {
-    const named = a.features === undefined ? undefined : namedFeatures(a.features, structure, lens);
+    const named = a.features === undefined ? undefined : namedFeatures(a.features, structure, lensSet[0]);
     const todo = named ?? before.features.filter((f) => f.unmeasured || (a.stale === true && f.stale) || (a.retry === true && f.unmeasurable)).map((f) => f.feature);
-    const budget = conformBudget(structure, lens);
-    const size = intFlag(a, 'chunk', budget ?? 12, 200);
+    // all lenses in one run: the smallest conform budget among them, so every steps lens still gets a pair per feature
+    const budgets = lensSet.map((l) => conformBudget(structure, l)).filter((b) => b !== undefined);
+    const size = intFlag(a, 'chunk', budgets.length ? Math.min(...budgets) : 12, 200);
     const plan = chunks(todo, size).slice(0, intFlag(a, 'maxRuns', Infinity));
     summary.plan = plan.map((c) => `/lens-scan measure --lens ${lens} --scope ${c.join(',')}`);
     if (a.noPropose !== true) summary.plan.push(`/lens-scan propose --lens ${lens}`);
     summary.unmeasurable = before.features.filter((f) => f.unmeasurable).map((f) => ({ feature: f.feature, metrics: f.unmeasurable }));
     if (!dry) for (const prompt of summary.plan) jobs.push(await runJob({ root, dbPath, prompt, model, timeoutMin: timeoutFor(1), env }));
   } else {
-    let items = read((db) => proposals(db, a.ids !== undefined ? { ids: a.ids } : {})).filter((p) => p.lens === lens);
+    const inScope = (p) => lens === ALL || p.lens === lens;
+    let items = read((db) => proposals(db, a.ids !== undefined ? { ids: a.ids } : {})).filter(inScope);
     if (a.ids !== undefined) {
       // as propagate --ids: a named id that is no item of this lens is refused, never dropped into an empty ok plan
       const found = new Set(items.map((p) => p.id));
@@ -227,6 +281,32 @@ export async function drive(argv, env = process.env) {
       } else summary.approved = dry ? open : [];
       items = read((db) => proposals(db, { ids: items.map((p) => p.id).join(',') || 'none' }));
     }
+    // --auto (SKILL.md Autonomy): the store, not this script, decides what the machine may do. L1: each predicted
+    // `proposed` item's verdict is recorded where its slice allows it (decide --machine). L2: a machine-approved item
+    // is built only in an L2 technical slice; a person's approval is built as always. After the runs, triage --machine
+    // accepts only a better proof with a red control. Nothing here releases: a release stays a person's.
+    let levels;
+    if (a.auto !== undefined) {
+      const start = typeof a.start === 'string' ? a.start : undefined;
+      const open = items.filter((p) => p.status === 'proposed' && p.predicted_verdict).map((p) => p.id);
+      if (open.length && !dry) {
+        const r = write((db) => decide(db, { ids: open, machine: true, start, maxSize }));
+        summary.machine_decided = r.decided;
+        if (r.skipped.length) summary.machine_skipped = r.skipped;
+      }
+      items = read((db) => proposals(db, { ids: items.map((p) => p.id).join(',') || 'none' }));
+      if (start) summary.start = start;
+    }
+    // a machine's approval is an L1 decision; building it is L2, with or without --auto: only in an L2 technical slice
+    if (items.some((p) => p.status === 'approved' && p.decided_by === MACHINE)) {
+      const start = typeof a.start === 'string' ? a.start : undefined;
+      levels = new Map(write((db) => trust(db, { start })).slices.map((s) => [s.slice, s.level]));
+    }
+    // (H-L3) and never a reserve item or one above the auto size, even one a machine approved before this rule
+    const oversize = (p) => p.size && SIZES.indexOf(p.size) > SIZES.indexOf(maxSize);
+    const machineOnly = (p) => p.status === 'approved' && p.decided_by === MACHINE;
+    const parked = (p) => machineOnly(p) && (p.band === 'reserve' || oversize(p));
+    const waits = (p) => parked(p) || (levels !== undefined && machineOnly(p) && !(p.category === 'technical' && (levels.get(sliceOf(p)) ?? 0) >= 2));
     // an item left `executing` by a run that is no longer running was cut off; the next execute reconciles it
     const held = read((db) => new Set(db.prepare("SELECT scope FROM runs WHERE phase = 'execute' AND status = 'running'").all()
       .flatMap((r) => { try { return JSON.parse(r.scope ?? '{}').proposals ?? ['*']; } catch { return ['*']; } })));
@@ -234,8 +314,12 @@ export async function drive(argv, env = process.env) {
     if (cutOff.length) summary.cut_off = cutOff;
     // a `rework` item is rebuilt only by an execute that names it (--ids): the run makes its new attempt
     const named = a.ids !== undefined;
-    const go = items.filter((p) => p.status === 'approved' || cutOff.includes(p.id) || (named && p.status === 'rework') || (dry && summary.approved?.includes(p.id))).map((p) => p.id).filter((id) => SAFE_ID.test(id));
-    summary.skipped = items.filter((p) => !go.includes(p.id)).map((p) => ({ id: p.id, status: p.status }));
+    const go = items.filter((p) => (p.status === 'approved' && !waits(p)) || cutOff.includes(p.id) || (named && p.status === 'rework') || (dry && summary.approved?.includes(p.id))).map((p) => p.id).filter((id) => SAFE_ID.test(id));
+    summary.skipped = items.filter((p) => !go.includes(p.id)).map((p) => (parked(p)
+      ? { id: p.id, status: p.status, reason: `machine-approved ${p.band === 'reserve' ? 'band reserve' : `size ${p.size} above the auto size ${maxSize}`}: it waits for a person` }
+      : waits(p)
+      ? { id: p.id, status: p.status, reason: `machine-approved in slice ${sliceOf(p)} (L${levels.get(sliceOf(p)) ?? 0}${p.category === 'technical' ? '' : `, ${p.category ?? 'no category'}`}): building it is L2; it waits for a person` }
+      : { id: p.id, status: p.status }));
     const batches = chunks(go, intFlag(a, 'batch', MAX_BATCH, MAX_BATCH));
     summary.plan = batches.map((c) => `/lens-scan execute --proposals ${c.join(',')}${base ? ` --base ${base}` : ''}`);
     if (!dry) for (const [i, prompt] of summary.plan.entries()) jobs.push(await runJob({ root, dbPath, prompt, model, timeoutMin: timeoutFor(batches[i].length), env }));
@@ -247,12 +331,40 @@ export async function drive(argv, env = process.env) {
       // a rework item stays `rework`; its rebuild is the new attempt that names it
       const attempts = read((db) => db.prepare(`SELECT id, attempt_of, status, pack_id, commit_sha FROM proposals WHERE attempt_of IN (${go.map(() => '?').join(',')})`).all(...go));
       if (attempts.length) summary.attempts = attempts.map((p) => ({ id: p.id, attempt_of: p.attempt_of, status: p.status, pack: p.pack_id ?? undefined, commit_sha: p.commit_sha ?? undefined }));
+      // L2's landing rule: the machine accepts a built item only on a better proof with a red control (the store checks)
+      const built = [...summary.items, ...(summary.attempts ?? [])].filter((p) => p.status === 'done').map((p) => p.id);
+      if (a.auto !== undefined && built.length) {
+        const r = write((db) => triage(db, { ids: built, machine: true, start: typeof a.start === 'string' ? a.start : undefined }));
+        summary.machine_triaged = r.triaged;
+        if (r.skipped.length) summary.waits_for_triage = r.skipped;
+      }
     }
   }
   summary.jobs = jobs;
-  if (!dry) { const after = read((db) => gaps(db, { lens, structure })); summary.after = { totals: after.totals, backlog: after.backlog }; }
+  if (!dry) {
+    const after = lens === ALL ? mergeGaps(Object.fromEntries(lensSet.map((l) => [l, read((db) => gaps(db, { lens: l, structure }))]))) : read((db) => gaps(db, { lens, structure }));
+    summary.after = { totals: after.totals, backlog: after.backlog };
+  }
   summary.ok = jobs.every((j) => j.status === 'done');
   return summary;
+}
+
+/**
+ * The gaps of several lenses as one plan input: totals and backlog summed, and per feature the union of what any lens
+ * still needs, each metric named `<lens>.<metric>` so the report says which lens a gap belongs to.
+ */
+export function mergeGaps(perLens) {
+  const totals = {}, backlog = {}, byFeature = new Map();
+  for (const [l, g] of Object.entries(perLens)) {
+    for (const [k, v] of Object.entries(g.totals)) totals[k] = k === 'features' ? Math.max(totals[k] ?? 0, v) : (totals[k] ?? 0) + v;
+    for (const [k, v] of Object.entries(g.backlog ?? {})) backlog[k] = (backlog[k] ?? 0) + v;
+    for (const f of g.features) {
+      if (!byFeature.has(f.feature)) byFeature.set(f.feature, { feature: f.feature });
+      const row = byFeature.get(f.feature);
+      for (const k of ['unmeasured', 'unmeasurable', 'stale']) if (f[k]) row[k] = [...(row[k] ?? []), ...f[k].map((m) => `${l}.${m}`)];
+    }
+  }
+  return { totals, backlog, features: [...byFeature.values()] };
 }
 
 /** `--features a,b`: the named slugs, each one a feature of the app-structure (else bad input naming the unknown). */

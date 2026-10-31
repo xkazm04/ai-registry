@@ -29,6 +29,11 @@ Run shape: four ideators (`claude-opus-5-5@high`, `claude-sonnet-5-5@high`, `agy
   - A second `run` process beside the main one could lose state writes. `hackathon.json` now has a lock.
   - agy runs `xhigh` as `high`, but the ledger recorded `@xhigh`. Specs are now recorded as they run.
 
+## 1.1.0 - 2026-10-29 - gravitone-gcloud (audio-steer-1028 follow-up)
+- **The fusion verdict and wrap worked on first use.** `verdict --fuse "e1=base,e2=absorb,e3=defer,e4=absorb" --followup "spark audio-agent-studio"` recorded the owner's composition after the fact, and wrap removed only the deferred entry's tree. Keeping the base tree paid off: the follow-up /spark reused it as its own worktree (its `npm ci` already done, the absorbed entry's local config reachable), and the spark landed 80 commits including the entries' history.
+- **A seat's own run script is evidence, not infrastructure.** The base seat wrote `.hackathon/env.sh` for its DEMO; sourced later for gates, it built store paths from an unexpanded `$(...)` and failed 16 unrelated probes. Proposal: the demo pass and any later gate run use the overlay's documented env, never a seat-written script, and the pack names a seat script that does not run clean in a fresh shell.
+- **An absorbed entry's untracked local config travels with nobody.** e2's sample-folder config lived only in its gitignored `.hackathon/` (`instruments.local.json`); in the follow-up tree the engine silently fell back to synth stand-ins until that file was copied over. Proposal: collect lists every gitignored file an entry's DEMO depends on, so an absorb disposition carries them.
+
 ## 1.2.0 - 2026-10-30 - paypal
 - First credit night (`--cloud`, killer-1030). The owner started it at 08:52, so `--until 08:00` would have meant a 23 h clock and the instrument refuses that. `--cloud --hours 8` kept the key funding with a daytime clock, which was the right escape. The evening sync should ask about the clock first whenever it runs after midnight.
 - The pre-round on the key cost $1.44 for 20 valid ideas (Opus 5.5 high $1.01 in 257 s, Sonnet 5.5 high $0.43 in 187 s). The $15 ideation ceiling is about ten times what was needed.

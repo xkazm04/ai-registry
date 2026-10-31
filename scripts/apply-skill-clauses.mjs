@@ -85,6 +85,10 @@ const CLAUSES = [
     skills: ['architect', 'council', 'explorer', 'friend', 'perfect', 'ship-loop', 'spark', 'tiger', 'uat', 'mvp',
       'research', 'project-populate', 'i18n-translate', 'kpi-sim', 'ci-triage', 'promote', 'straighten', 'maintain', 'kit', 'illustrate', 'lens-scan'],
   },
+  // The backlog scanners share one finding contract (scores, MVP per lens, reserve band, autonomy
+  // ladder). Dowser carries a byte copy outside the lane; inside it, the stamp is the only copy.
+  // Placed like knowledge-sync: directly above the reflection block.
+  { id: 'finding-contract', version: 1, skills: ['scan-sweep', 'lens-scan'] },
 ];
 
 const skills = fs.readdirSync(LANE, { withFileTypes: true })

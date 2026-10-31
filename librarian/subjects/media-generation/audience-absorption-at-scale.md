@@ -1,7 +1,7 @@
 ---
 subject: audience-absorption-at-scale
 domain: media-generation
-last_touched: 2026-10-22
+last_touched: 2026-10-31
 dry_streak: 0
 ---
 
@@ -13,7 +13,7 @@ checkout. Both applications read that one tree, so the scan ranked it
 
 ## State
 
-6 techniques, 2 applications (rust x2, overlord @ 4025231). Depth rung L2:
+6 techniques, 4 applications (rust x4, overlord; latest @ 917629d). Depth rung L2:
 the techniques rest on the tree's own picker plus the tree's sourced chat
 research. `check-currency --volatile` finds no platform-set quantities.
 Every number the subject states is a self-measured or self-designed figure.
@@ -87,6 +87,26 @@ raiders went to a second wave of the same raid. raid-group-greeting step 3
 now says to keep the boost on one wave. The single-stack ranking still
 holds: no second fleet tree runs a chat picker.
 
+## 2026-10-31 - /intake apply raid-group-greeting (Curator)
+
+The application document for raid-group-greeting. Mode `code`, verdict
+`not-better`, run `intake-apply-raid-greeting-1031`. The seam is step 4,
+which says raiders stay a group for about a minute. The tree's pick context
+marks a raid per beat, while its greeting already tracks a raid spread over
+20 s. The seam was chosen to falsify: a longer raid flag might not give the
+room anything back. It did not. A full-brain replay ran with the scripted
+engine over raid rooms of 300 and 40 viewers and a raid-free room of 30,
+8 seeds each. Holding the flag for 60 s moved room picks in the raid's
+first minute from 28/90 to 29/89 (300) and left 6/52 unchanged (40). It
+also changed picks before the raid in 7/16 runs and in 2/8 raid-free runs.
+Not shipped. The replay test shipped (overlord 917629d, pushed).
+
+The tags are the finding. 98 of 108 raider picks carried the picker's
+never-picked bonus and 63 carried first_contact. A picker rewards newness
+twice, and the step only named one reward. The technique now has a
+section on both boundaries: suspend every newness bonus for raid arrivals,
+and key the window to a raid event rather than to a surge.
+
 ## Open leads
 
 - **Second stack.** Return: a fleet project grows a chat allocator in
@@ -101,3 +121,9 @@ holds: no second fleet tree runs a chat picker.
   room filling up is not a raid and should be greeted one by one, and this
   run did not separate the two cases. Return: a platform adapter that
   carries the raid event, or a sandbox recording with a labelled raid.
+  2026-10-31 measured half of it: a 60 s window keyed to the 20 s surge
+  tracker changed pre-raid picks in 7/16 replays and raid-free picks in 2/8.
+- **Raid tier without the novelty bonus.** Return: re-run
+  `raid_window_replay` with `novel` suppressed for raid arrivals and the
+  window keyed to `raid_named`. Better needs the room's first-minute share
+  to rise and zero pre-raid or raid-free changes.
