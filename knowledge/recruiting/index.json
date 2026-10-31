@@ -29,9 +29,9 @@
    "subcategory": "fairness-and-defensibility",
    "status": "forged",
    "file": "knowledge/recruiting/decision-and-fairness/fairness-and-defensibility/adverse-impact-and-proxy-neutrality/adverse-impact-and-proxy-neutrality.md",
-   "digest": "sha256-b2:a6b772b8ebe7f352",
-   "revision": 4,
-   "changedAt": "2026-10-14",
+   "digest": "sha256-b2:a0225c6b1b11a541",
+   "revision": 5,
+   "changedAt": "2026-10-31",
    "techniques": [
     {
      "slug": "cohort-shield-is-not-a-protected-class-test",
@@ -121,7 +121,7 @@
      "stack": "node",
      "technique": "cohort-shield-is-not-a-protected-class-test",
      "file": "knowledge/recruiting/decision-and-fairness/fairness-and-defensibility/adverse-impact-and-proxy-neutrality/applications/node--cohort-shield-is-not-a-protected-class-test.md",
-     "verified_on": "2026-09-26",
+     "verified_on": "2026-10-31",
      "verified_against": "node@24"
     },
     {
@@ -135,7 +135,7 @@
      "stack": "node",
      "technique": "selection-rate-ratio-testing",
      "file": "knowledge/recruiting/decision-and-fairness/fairness-and-defensibility/adverse-impact-and-proxy-neutrality/applications/node--selection-rate-ratio-testing.md",
-     "verified_on": "2026-09-26",
+     "verified_on": "2026-10-31",
      "verified_against": "node@24"
     },
     {
@@ -149,7 +149,7 @@
      "stack": "process",
      "technique": "name-and-proxy-neutrality-perturbation-testing",
      "file": "knowledge/recruiting/decision-and-fairness/fairness-and-defensibility/adverse-impact-and-proxy-neutrality/applications/process--name-and-proxy-neutrality-perturbation-testing.md",
-     "verified_on": "2026-09-26"
+     "verified_on": "2026-10-31"
     }
    ]
   },
@@ -158,8 +158,8 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/recruiting/assessment/ai-assistance-detection-and-fairness/ai-assistance-detection-and-fairness.md",
-   "digest": "sha256-b2:e3dfd0100ce542b0",
-   "revision": 5,
+   "digest": "sha256-b2:10c9a15b593aac69",
+   "revision": 6,
    "changedAt": "2026-10-31",
    "techniques": [
     {
@@ -263,14 +263,14 @@
      "stack": "node",
      "technique": "observed-process-is-supporting-not-load-bearing",
      "file": "knowledge/recruiting/assessment/ai-assistance-detection-and-fairness/applications/node--observed-process-is-supporting-not-load-bearing.md",
-     "verified_on": "2026-09-26",
+     "verified_on": "2026-10-31",
      "verified_against": "node@24"
     },
     {
      "stack": "process",
      "technique": "behaviour-matched-peer-test-for-over-reliance",
      "file": "knowledge/recruiting/assessment/ai-assistance-detection-and-fairness/applications/process--behaviour-matched-peer-test-for-over-reliance.md",
-     "verified_on": "2026-09-26"
+     "verified_on": "2026-10-31"
     },
     {
      "stack": "process",
@@ -299,8 +299,8 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/recruiting/assessment/ai-interviewer-brief-authoring/ai-interviewer-brief-authoring.md",
-   "digest": "sha256-b2:955a8b52fedc9906",
-   "revision": 4,
+   "digest": "sha256-b2:7064adcbed22a5d4",
+   "revision": 5,
    "changedAt": "2026-10-31",
    "techniques": [
     {
@@ -410,19 +410,19 @@
      "stack": "process",
      "technique": "praise-and-verdict-suppression",
      "file": "knowledge/recruiting/assessment/ai-interviewer-brief-authoring/applications/process--praise-and-verdict-suppression.md",
-     "verified_on": "2026-09-26"
+     "verified_on": "2026-10-31"
     },
     {
      "stack": "process",
      "technique": "rule-ordering-adjacency-and-form",
      "file": "knowledge/recruiting/assessment/ai-interviewer-brief-authoring/applications/process--rule-ordering-adjacency-and-form.md",
-     "verified_on": "2026-09-26"
+     "verified_on": "2026-10-31"
     },
     {
      "stack": "python",
      "technique": "closing-read-back",
      "file": "knowledge/recruiting/assessment/ai-interviewer-brief-authoring/applications/python--closing-read-back.md",
-     "verified_on": "2026-09-26",
+     "verified_on": "2026-10-31",
      "verified_against": "python@3.12"
     }
    ]
@@ -572,9 +572,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/recruiting/assessment/assessment-instrument-validation/assessment-instrument-validation.md",
-   "digest": "sha256-b2:d2f46d3df08e4b06",
-   "revision": 6,
-   "changedAt": "2026-10-25",
+   "digest": "sha256-b2:4bf9567592d759b3",
+   "revision": 7,
+   "changedAt": "2026-10-31",
    "techniques": [
     {
      "slug": "adversarial-persona-red-teaming",
@@ -681,7 +681,7 @@
      "stack": "process",
      "technique": "judge-independent-of-generator",
      "file": "knowledge/recruiting/assessment/assessment-instrument-validation/applications/process--judge-independent-of-generator.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-10-31"
     },
     {
      "stack": "python",
@@ -710,9 +710,9 @@
    "subcategory": "fairness-and-defensibility",
    "status": "forged",
    "file": "knowledge/recruiting/decision-and-fairness/fairness-and-defensibility/automated-screening-fairness-gates/automated-screening-fairness-gates.md",
-   "digest": "sha256-b2:1f4e2b1f7486ecbc",
-   "revision": 5,
-   "changedAt": "2026-10-14",
+   "digest": "sha256-b2:358c04ef1cdc55b6",
+   "revision": 6,
+   "changedAt": "2026-10-31",
    "techniques": [
     {
      "slug": "blocked-rejection-as-an-audited-event",
@@ -817,27 +817,27 @@
      "stack": "node",
      "technique": "defense-in-depth-recheck-at-the-apply-boundary",
      "file": "knowledge/recruiting/decision-and-fairness/fairness-and-defensibility/automated-screening-fairness-gates/applications/node--defense-in-depth-recheck-at-the-apply-boundary.md",
-     "verified_on": "2026-09-26",
+     "verified_on": "2026-10-31",
      "verified_against": "node@24"
     },
     {
      "stack": "node",
      "technique": "fail-closed-on-an-unclassifiable-candidate",
      "file": "knowledge/recruiting/decision-and-fairness/fairness-and-defensibility/automated-screening-fairness-gates/applications/node--fail-closed-on-an-unclassifiable-candidate.md",
-     "verified_on": "2026-09-26",
+     "verified_on": "2026-10-31",
      "verified_against": "node@24"
     },
     {
      "stack": "process",
      "technique": "never-auto-reject-a-protected-cohort",
      "file": "knowledge/recruiting/decision-and-fairness/fairness-and-defensibility/automated-screening-fairness-gates/applications/process--never-auto-reject-a-protected-cohort.md",
-     "verified_on": "2026-09-26"
+     "verified_on": "2026-10-31"
     },
     {
      "stack": "process",
      "technique": "route-vocabulary-narrower-than-verdict-vocabulary",
      "file": "knowledge/recruiting/decision-and-fairness/fairness-and-defensibility/automated-screening-fairness-gates/applications/process--route-vocabulary-narrower-than-verdict-vocabulary.md",
-     "verified_on": "2026-09-26"
+     "verified_on": "2026-10-31"
     },
     {
      "stack": "python",
@@ -853,9 +853,9 @@
    "subcategory": "fairness-and-defensibility",
    "status": "forged",
    "file": "knowledge/recruiting/decision-and-fairness/fairness-and-defensibility/blind-screening-and-redaction/blind-screening-and-redaction.md",
-   "digest": "sha256-b2:b619f222335ed0cc",
-   "revision": 4,
-   "changedAt": "2026-10-14",
+   "digest": "sha256-b2:53eb966e603ba9c2",
+   "revision": 5,
+   "changedAt": "2026-10-31",
    "techniques": [
     {
      "slug": "disclose-the-redaction-to-the-assessor",
@@ -963,20 +963,20 @@
      "stack": "node",
      "technique": "reattach-identity-only-after-the-verdict",
      "file": "knowledge/recruiting/decision-and-fairness/fairness-and-defensibility/blind-screening-and-redaction/applications/node--reattach-identity-only-after-the-verdict.md",
-     "verified_on": "2026-09-26",
+     "verified_on": "2026-10-31",
      "verified_against": "node@24"
     },
     {
      "stack": "process",
      "technique": "fail-closed-on-an-unmaskable-document",
      "file": "knowledge/recruiting/decision-and-fairness/fairness-and-defensibility/blind-screening-and-redaction/applications/process--fail-closed-on-an-unmaskable-document.md",
-     "verified_on": "2026-09-26"
+     "verified_on": "2026-10-31"
     },
     {
      "stack": "process",
      "technique": "identity-signal-inventory",
      "file": "knowledge/recruiting/decision-and-fairness/fairness-and-defensibility/blind-screening-and-redaction/applications/process--identity-signal-inventory.md",
-     "verified_on": "2026-09-26"
+     "verified_on": "2026-10-31"
     },
     {
      "stack": "process",
@@ -997,9 +997,9 @@
    "subcategory": "fairness-and-defensibility",
    "status": "forged",
    "file": "knowledge/recruiting/decision-and-fairness/fairness-and-defensibility/bulk-adverse-action-governance/bulk-adverse-action-governance.md",
-   "digest": "sha256-b2:f33d2cefcafef4c0",
-   "revision": 6,
-   "changedAt": "2026-10-14",
+   "digest": "sha256-b2:d428e067c804efe1",
+   "revision": 8,
+   "changedAt": "2026-10-31",
    "techniques": [
     {
      "slug": "cohort-drift-forces-a-fresh-review",
@@ -1119,35 +1119,35 @@
      "stack": "node",
      "technique": "contest-door-at-the-point-of-decision",
      "file": "knowledge/recruiting/decision-and-fairness/fairness-and-defensibility/bulk-adverse-action-governance/applications/node--contest-door-at-the-point-of-decision.md",
-     "verified_on": "2026-09-29",
+     "verified_on": "2026-10-31",
      "verified_against": "node@24"
     },
     {
      "stack": "node",
      "technique": "preview-then-approve-the-signed-set",
      "file": "knowledge/recruiting/decision-and-fairness/fairness-and-defensibility/bulk-adverse-action-governance/applications/node--preview-then-approve-the-signed-set.md",
-     "verified_on": "2026-09-26",
+     "verified_on": "2026-10-31",
      "verified_against": "node@24"
     },
     {
      "stack": "node",
      "technique": "reversal-queue-that-reads-the-sealed-reason",
      "file": "knowledge/recruiting/decision-and-fairness/fairness-and-defensibility/bulk-adverse-action-governance/applications/node--reversal-queue-that-reads-the-sealed-reason.md",
-     "verified_on": "2026-09-26",
+     "verified_on": "2026-10-31",
      "verified_against": "node@24"
     },
     {
      "stack": "node",
      "technique": "tie-safe-cutoff-resolved-toward-the-candidate",
      "file": "knowledge/recruiting/decision-and-fairness/fairness-and-defensibility/bulk-adverse-action-governance/applications/node--tie-safe-cutoff-resolved-toward-the-candidate.md",
-     "verified_on": "2026-09-26",
+     "verified_on": "2026-10-31",
      "verified_against": "node@24"
     },
     {
      "stack": "react",
      "technique": "preview-then-approve-the-signed-set",
      "file": "knowledge/recruiting/decision-and-fairness/fairness-and-defensibility/bulk-adverse-action-governance/applications/react--preview-then-approve-the-signed-set.md",
-     "verified_on": "2026-09-26",
+     "verified_on": "2026-10-31",
      "verified_against": "react@19"
     }
    ]
@@ -1437,9 +1437,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/recruiting/candidate-experience/candidate-communication-integrity/candidate-communication-integrity.md",
-   "digest": "sha256-b2:bc7f247331d1e433",
-   "revision": 7,
-   "changedAt": "2026-10-25",
+   "digest": "sha256-b2:a92f14bcb20f8ead",
+   "revision": 8,
+   "changedAt": "2026-10-31",
    "techniques": [
     {
      "slug": "bounce-receipt-supersedes-a-green-send",
@@ -1537,7 +1537,7 @@
      "stack": "node",
      "technique": "bounce-receipt-supersedes-a-green-send",
      "file": "knowledge/recruiting/candidate-experience/candidate-communication-integrity/applications/node--bounce-receipt-supersedes-a-green-send.md",
-     "verified_on": "2026-09-26",
+     "verified_on": "2026-10-31",
      "verified_against": "node@24"
     },
     {
@@ -1551,14 +1551,14 @@
      "stack": "node",
      "technique": "capability-honesty-never-promise-a-channel",
      "file": "knowledge/recruiting/candidate-experience/candidate-communication-integrity/applications/node--capability-honesty-never-promise-a-channel.md",
-     "verified_on": "2026-08-30",
+     "verified_on": "2026-10-31",
      "verified_against": "node@24"
     },
     {
      "stack": "node",
      "technique": "terminal-delivery-status-vocabulary",
      "file": "knowledge/recruiting/candidate-experience/candidate-communication-integrity/applications/node--terminal-delivery-status-vocabulary.md",
-     "verified_on": "2026-08-30",
+     "verified_on": "2026-10-31",
      "verified_against": "node@24"
     },
     {
@@ -1712,9 +1712,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/recruiting/candidate-evidence/candidate-identity-and-staleness/candidate-identity-and-staleness.md",
-   "digest": "sha256-b2:de93d60f8b519fac",
-   "revision": 4,
-   "changedAt": "2026-09-28",
+   "digest": "sha256-b2:407673e8a783213c",
+   "revision": 5,
+   "changedAt": "2026-10-31",
    "techniques": [
     {
      "slug": "content-addressed-document-identity",
@@ -1826,28 +1826,28 @@
      "stack": "node",
      "technique": "content-addressed-document-identity",
      "file": "knowledge/recruiting/candidate-evidence/candidate-identity-and-staleness/applications/node--content-addressed-document-identity.md",
-     "verified_on": "2026-09-28",
+     "verified_on": "2026-10-31",
      "verified_against": "node@24"
     },
     {
      "stack": "node",
      "technique": "requirement-edited-since-scored",
      "file": "knowledge/recruiting/candidate-evidence/candidate-identity-and-staleness/applications/node--requirement-edited-since-scored.md",
-     "verified_on": "2026-09-28",
+     "verified_on": "2026-10-31",
      "verified_against": "node@24"
     },
     {
      "stack": "node",
      "technique": "shared-artifact-across-claimed-identities",
      "file": "knowledge/recruiting/candidate-evidence/candidate-identity-and-staleness/applications/node--shared-artifact-across-claimed-identities.md",
-     "verified_on": "2026-09-28",
+     "verified_on": "2026-10-31",
      "verified_against": "node@24"
     },
     {
      "stack": "react",
      "technique": "retired-outranks-stale-status-precedence",
      "file": "knowledge/recruiting/candidate-evidence/candidate-identity-and-staleness/applications/react--retired-outranks-stale-status-precedence.md",
-     "verified_on": "2026-09-28",
+     "verified_on": "2026-10-31",
      "verified_against": "react@19"
     }
    ]
@@ -2035,9 +2035,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/recruiting/pipeline-operations/candidate-self-scheduling/candidate-self-scheduling.md",
-   "digest": "sha256-b2:c98d961dc620761e",
-   "revision": 3,
-   "changedAt": "2026-10-25",
+   "digest": "sha256-b2:d9fdb36307fb431d",
+   "revision": 5,
+   "changedAt": "2026-10-31",
    "techniques": [
     {
      "slug": "adjustments-asked-at-the-booking-step",
@@ -2146,28 +2146,28 @@
      "stack": "node",
      "technique": "adjustments-asked-at-the-booking-step",
      "file": "knowledge/recruiting/pipeline-operations/candidate-self-scheduling/applications/node--adjustments-asked-at-the-booking-step.md",
-     "verified_on": "2026-09-28",
+     "verified_on": "2026-10-31",
      "verified_against": "node@24"
     },
     {
      "stack": "node",
      "technique": "reschedule-cap-with-a-recruiter-bypass",
      "file": "knowledge/recruiting/pipeline-operations/candidate-self-scheduling/applications/node--reschedule-cap-with-a-recruiter-bypass.md",
-     "verified_on": "2026-09-28",
+     "verified_on": "2026-10-31",
      "verified_against": "node@24"
     },
     {
      "stack": "node",
      "technique": "structural-slot-validation-on-submit",
      "file": "knowledge/recruiting/pipeline-operations/candidate-self-scheduling/applications/node--structural-slot-validation-on-submit.md",
-     "verified_on": "2026-09-28",
+     "verified_on": "2026-10-31",
      "verified_against": "node@24"
     },
     {
      "stack": "react",
      "technique": "withdraw-is-not-cancel",
      "file": "knowledge/recruiting/pipeline-operations/candidate-self-scheduling/applications/react--withdraw-is-not-cancel.md",
-     "verified_on": "2026-09-28",
+     "verified_on": "2026-10-31",
      "verified_against": "react@19"
     },
     {
@@ -2198,9 +2198,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/recruiting/candidate-experience/candidate-status-transparency/candidate-status-transparency.md",
-   "digest": "sha256-b2:436aa789c377bd9c",
-   "revision": 4,
-   "changedAt": "2026-10-25",
+   "digest": "sha256-b2:e1005d9099eea55b",
+   "revision": 5,
+   "changedAt": "2026-10-31",
    "techniques": [
     {
      "slug": "candidate-legible-timeline",
@@ -2308,35 +2308,35 @@
      "stack": "node",
      "technique": "candidate-safe-status-projection",
      "file": "knowledge/recruiting/candidate-experience/candidate-status-transparency/applications/node--candidate-safe-status-projection.md",
-     "verified_on": "2026-09-28",
+     "verified_on": "2026-10-31",
      "verified_against": "node@24"
     },
     {
      "stack": "node",
      "technique": "committed-dates-not-forecasts",
      "file": "knowledge/recruiting/candidate-experience/candidate-status-transparency/applications/node--committed-dates-not-forecasts.md",
-     "verified_on": "2026-09-28",
+     "verified_on": "2026-10-31",
      "verified_against": "node@24"
     },
     {
      "stack": "node",
      "technique": "terminal-moment-experience-measurement",
      "file": "knowledge/recruiting/candidate-experience/candidate-status-transparency/applications/node--terminal-moment-experience-measurement.md",
-     "verified_on": "2026-09-28",
+     "verified_on": "2026-10-31",
      "verified_against": "node@24"
     },
     {
      "stack": "react",
      "technique": "candidate-legible-timeline",
      "file": "knowledge/recruiting/candidate-experience/candidate-status-transparency/applications/react--candidate-legible-timeline.md",
-     "verified_on": "2026-09-28",
+     "verified_on": "2026-10-31",
      "verified_against": "react@19"
     },
     {
      "stack": "react",
      "technique": "honest-failure-classification",
      "file": "knowledge/recruiting/candidate-experience/candidate-status-transparency/applications/react--honest-failure-classification.md",
-     "verified_on": "2026-09-28",
+     "verified_on": "2026-10-31",
      "verified_against": "react@19"
     },
     {
@@ -2374,9 +2374,9 @@
    "subcategory": "fairness-and-defensibility",
    "status": "forged",
    "file": "knowledge/recruiting/decision-and-fairness/fairness-and-defensibility/collective-and-statutory-hiring-governance/collective-and-statutory-hiring-governance.md",
-   "digest": "sha256-b2:a8611b249f54c3dd",
-   "revision": 3,
-   "changedAt": "2026-10-25",
+   "digest": "sha256-b2:92b27ff60ab5d32f",
+   "revision": 4,
+   "changedAt": "2026-10-31",
    "techniques": [
     {
      "slug": "advisory-machine-that-never-seals",
@@ -2488,28 +2488,28 @@
      "stack": "node",
      "technique": "advisory-machine-that-never-seals",
      "file": "knowledge/recruiting/decision-and-fairness/fairness-and-defensibility/collective-and-statutory-hiring-governance/applications/node--advisory-machine-that-never-seals.md",
-     "verified_on": "2026-09-28",
+     "verified_on": "2026-10-31",
      "verified_against": "node@24"
     },
     {
      "stack": "node",
      "technique": "machine-ordering-after-independent-reads",
      "file": "knowledge/recruiting/decision-and-fairness/fairness-and-defensibility/collective-and-statutory-hiring-governance/applications/node--machine-ordering-after-independent-reads.md",
-     "verified_on": "2026-09-28",
+     "verified_on": "2026-10-31",
      "verified_against": "node@24"
     },
     {
      "stack": "node",
      "technique": "sticky-governance-against-silent-downgrade",
      "file": "knowledge/recruiting/decision-and-fairness/fairness-and-defensibility/collective-and-statutory-hiring-governance/applications/node--sticky-governance-against-silent-downgrade.md",
-     "verified_on": "2026-09-28",
+     "verified_on": "2026-10-31",
      "verified_against": "node@24"
     },
     {
      "stack": "process",
      "technique": "name-the-ceiling-you-cannot-compute",
      "file": "knowledge/recruiting/decision-and-fairness/fairness-and-defensibility/collective-and-statutory-hiring-governance/applications/process--name-the-ceiling-you-cannot-compute.md",
-     "verified_on": "2026-09-28"
+     "verified_on": "2026-10-31"
     },
     {
      "stack": "spec",
@@ -2553,9 +2553,9 @@
    "subcategory": "scoring-and-decision",
    "status": "forged",
    "file": "knowledge/recruiting/decision-and-fairness/scoring-and-decision/combining-signals-into-a-hire-decision/combining-signals-into-a-hire-decision.md",
-   "digest": "sha256-b2:bcc62660e7a59154",
-   "revision": 2,
-   "changedAt": "2026-09-27",
+   "digest": "sha256-b2:8b12c08c5d6477e8",
+   "revision": 3,
+   "changedAt": "2026-10-31",
    "techniques": [
     {
      "slug": "a-hold-that-blocks-auto-advance",
@@ -2653,28 +2653,28 @@
      "stack": "node",
      "technique": "a-hold-that-blocks-auto-advance",
      "file": "knowledge/recruiting/decision-and-fairness/scoring-and-decision/combining-signals-into-a-hire-decision/applications/node--a-hold-that-blocks-auto-advance.md",
-     "verified_on": "2026-09-27",
+     "verified_on": "2026-10-31",
      "verified_against": "node@24"
     },
     {
      "stack": "node",
      "technique": "outcome-feedback-loop-per-team",
      "file": "knowledge/recruiting/decision-and-fairness/scoring-and-decision/combining-signals-into-a-hire-decision/applications/node--outcome-feedback-loop-per-team.md",
-     "verified_on": "2026-09-27",
+     "verified_on": "2026-10-31",
      "verified_against": "node@24"
     },
     {
      "stack": "node",
      "technique": "promote-floor-calibrated-against-real-outcomes",
      "file": "knowledge/recruiting/decision-and-fairness/scoring-and-decision/combining-signals-into-a-hire-decision/applications/node--promote-floor-calibrated-against-real-outcomes.md",
-     "verified_on": "2026-09-27",
+     "verified_on": "2026-10-31",
      "verified_against": "node@24"
     },
     {
      "stack": "process",
      "technique": "weight-signals-by-validity-not-by-precision",
      "file": "knowledge/recruiting/decision-and-fairness/scoring-and-decision/combining-signals-into-a-hire-decision/applications/process--weight-signals-by-validity-not-by-precision.md",
-     "verified_on": "2026-09-27"
+     "verified_on": "2026-10-31"
     }
    ]
   },
@@ -2683,9 +2683,9 @@
    "subcategory": "scoring-and-decision",
    "status": "forged",
    "file": "knowledge/recruiting/decision-and-fairness/scoring-and-decision/comparative-shortlist-evaluation/comparative-shortlist-evaluation.md",
-   "digest": "sha256-b2:b430bb5e1d99181c",
-   "revision": 2,
-   "changedAt": "2026-09-27",
+   "digest": "sha256-b2:40fa48aa02badd92",
+   "revision": 3,
+   "changedAt": "2026-10-31",
    "techniques": [
     {
      "slug": "confidence-band-lead-separation",
@@ -2797,7 +2797,7 @@
      "stack": "node",
      "technique": "confidence-band-lead-separation",
      "file": "knowledge/recruiting/decision-and-fairness/scoring-and-decision/comparative-shortlist-evaluation/applications/node--confidence-band-lead-separation.md",
-     "verified_on": "2026-09-27",
+     "verified_on": "2026-10-31",
      "verified_against": "node@24"
     },
     {
@@ -2811,20 +2811,20 @@
      "stack": "node",
      "technique": "robustness-status-taxonomy",
      "file": "knowledge/recruiting/decision-and-fairness/scoring-and-decision/comparative-shortlist-evaluation/applications/node--robustness-status-taxonomy.md",
-     "verified_on": "2026-09-27",
+     "verified_on": "2026-10-31",
      "verified_against": "node@24"
     },
     {
      "stack": "process",
      "technique": "counterbalanced-candidate-order",
      "file": "knowledge/recruiting/decision-and-fairness/scoring-and-decision/comparative-shortlist-evaluation/applications/process--counterbalanced-candidate-order.md",
-     "verified_on": "2026-09-27"
+     "verified_on": "2026-10-31"
     },
     {
      "stack": "process",
      "technique": "cross-scheme-weight-robustness",
      "file": "knowledge/recruiting/decision-and-fairness/scoring-and-decision/comparative-shortlist-evaluation/applications/process--cross-scheme-weight-robustness.md",
-     "verified_on": "2026-09-27"
+     "verified_on": "2026-10-31"
     }
    ]
   },
@@ -2975,9 +2975,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/recruiting/assessment/conversational-assessment-validation/conversational-assessment-validation.md",
-   "digest": "sha256-b2:4067c862a07d4a6b",
-   "revision": 3,
-   "changedAt": "2026-09-27",
+   "digest": "sha256-b2:1c90fbdefa4ca568",
+   "revision": 4,
+   "changedAt": "2026-10-31",
    "techniques": [
     {
      "slug": "candidate-behaviour-persona-bank",
@@ -3072,7 +3072,7 @@
      "stack": "node",
      "technique": "guardrail-ablation-self-test",
      "file": "knowledge/recruiting/assessment/conversational-assessment-validation/applications/node--guardrail-ablation-self-test.md",
-     "verified_on": "2026-09-27",
+     "verified_on": "2026-10-31",
      "verified_against": "node@24"
     },
     {
@@ -3086,20 +3086,20 @@
      "stack": "node",
      "technique": "prompt-change-regression-baseline",
      "file": "knowledge/recruiting/assessment/conversational-assessment-validation/applications/node--prompt-change-regression-baseline.md",
-     "verified_on": "2026-09-27",
+     "verified_on": "2026-10-31",
      "verified_against": "node@24"
     },
     {
      "stack": "process",
      "technique": "candidate-behaviour-persona-bank",
      "file": "knowledge/recruiting/assessment/conversational-assessment-validation/applications/process--candidate-behaviour-persona-bank.md",
-     "verified_on": "2026-09-27"
+     "verified_on": "2026-10-31"
     },
     {
      "stack": "process",
      "technique": "deterministic-reliability-invariants-at-full-pass",
      "file": "knowledge/recruiting/assessment/conversational-assessment-validation/applications/process--deterministic-reliability-invariants-at-full-pass.md",
-     "verified_on": "2026-09-27"
+     "verified_on": "2026-10-31"
     }
    ]
   },
@@ -3377,9 +3377,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/recruiting/candidate-evidence/cv-parsing-and-career-reading/cv-parsing-and-career-reading.md",
-   "digest": "sha256-b2:ed0423375acf354a",
-   "revision": 2,
-   "changedAt": "2026-09-29",
+   "digest": "sha256-b2:20ce121e54052569",
+   "revision": 3,
+   "changedAt": "2026-10-31",
    "techniques": [
     {
      "slug": "degraded-intake-as-a-visible-queue",
@@ -3498,8 +3498,8 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/recruiting/candidate-self-presentation/cv-presentation-and-parseability/cv-presentation-and-parseability.md",
-   "digest": "sha256-b2:483ef83258469ee2",
-   "revision": 5,
+   "digest": "sha256-b2:ff18040e65df7ea4",
+   "revision": 6,
    "changedAt": "2026-10-31",
    "techniques": [
     {
@@ -3593,8 +3593,8 @@
      "stack": "react",
      "technique": "parse-safe-reading-order",
      "file": "knowledge/recruiting/candidate-self-presentation/cv-presentation-and-parseability/applications/react--parse-safe-reading-order.md",
-     "verified_on": "2026-09-26",
-     "verified_against": "react@19.3"
+     "verified_on": "2026-10-31",
+     "verified_against": "react@19"
     },
     {
      "stack": "react",
@@ -3745,9 +3745,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/recruiting/candidate-experience/degrade-never-block-a-candidate/degrade-never-block-a-candidate.md",
-   "digest": "sha256-b2:42db1bcfc4f098d3",
-   "revision": 2,
-   "changedAt": "2026-09-29",
+   "digest": "sha256-b2:aad37363fc3c9c4d",
+   "revision": 3,
+   "changedAt": "2026-10-31",
    "techniques": [
     {
      "slug": "a-candidate-action-is-debited-never-gated",
@@ -3840,27 +3840,27 @@
      "stack": "node",
      "technique": "a-candidate-action-is-debited-never-gated",
      "file": "knowledge/recruiting/candidate-experience/degrade-never-block-a-candidate/applications/node--a-candidate-action-is-debited-never-gated.md",
-     "verified_on": "2026-09-29",
+     "verified_on": "2026-10-31",
      "verified_against": "node@24"
     },
     {
      "stack": "node",
      "technique": "never-cache-a-degraded-verdict",
      "file": "knowledge/recruiting/candidate-experience/degrade-never-block-a-candidate/applications/node--never-cache-a-degraded-verdict.md",
-     "verified_on": "2026-09-29",
+     "verified_on": "2026-10-31",
      "verified_against": "node@24"
     },
     {
      "stack": "process",
      "technique": "an-outage-must-not-change-who-advances",
      "file": "knowledge/recruiting/candidate-experience/degrade-never-block-a-candidate/applications/process--an-outage-must-not-change-who-advances.md",
-     "verified_on": "2026-09-29"
+     "verified_on": "2026-10-31"
     },
     {
      "stack": "process",
      "technique": "declare-degraded-grounding-rather-than-lowering-confidence-silently",
      "file": "knowledge/recruiting/candidate-experience/degrade-never-block-a-candidate/applications/process--declare-degraded-grounding-rather-than-lowering-confidence-silently.md",
-     "verified_on": "2026-09-29"
+     "verified_on": "2026-10-31"
     }
    ]
   },
@@ -4505,9 +4505,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/recruiting/candidate-evidence/hypothesis-not-verdict-soft-signals/hypothesis-not-verdict-soft-signals.md",
-   "digest": "sha256-b2:8652a467dc7229b0",
-   "revision": 2,
-   "changedAt": "2026-09-29",
+   "digest": "sha256-b2:4706edd9efd9f5be",
+   "revision": 3,
+   "changedAt": "2026-10-31",
    "techniques": [
     {
      "slug": "a-confirmation-probe-per-signal",
@@ -4603,7 +4603,7 @@
      "stack": "process",
      "technique": "a-confirmation-probe-per-signal",
      "file": "knowledge/recruiting/candidate-evidence/hypothesis-not-verdict-soft-signals/applications/process--a-confirmation-probe-per-signal.md",
-     "verified_on": "2026-09-29"
+     "verified_on": "2026-10-31"
     },
     {
      "stack": "process",
@@ -4743,9 +4743,9 @@
    "subcategory": "scoring-and-decision",
    "status": "forged",
    "file": "knowledge/recruiting/decision-and-fairness/scoring-and-decision/inference-labelling-and-refusal/inference-labelling-and-refusal.md",
-   "digest": "sha256-b2:72a7c498b07fdffd",
-   "revision": 3,
-   "changedAt": "2026-09-29",
+   "digest": "sha256-b2:ff75af1650a9b218",
+   "revision": 4,
+   "changedAt": "2026-10-31",
    "techniques": [
     {
      "slug": "could-not-determine-is-not-no-concern",
@@ -4843,13 +4843,14 @@
      "stack": "node",
      "technique": "enumerate-the-evidence-budget",
      "file": "knowledge/recruiting/decision-and-fairness/scoring-and-decision/inference-labelling-and-refusal/applications/node--enumerate-the-evidence-budget.md",
-     "verified_on": "2026-09-29"
+     "verified_on": "2026-10-31",
+     "verified_against": "node@24"
     },
     {
      "stack": "process",
      "technique": "declare-degraded-provenance-never-launder-it",
      "file": "knowledge/recruiting/decision-and-fairness/scoring-and-decision/inference-labelling-and-refusal/applications/process--declare-degraded-provenance-never-launder-it.md",
-     "verified_on": "2026-09-29"
+     "verified_on": "2026-10-31"
     },
     {
      "stack": "react",
@@ -4864,9 +4865,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/recruiting/pipeline-operations/interview-calendar-integrity/interview-calendar-integrity.md",
-   "digest": "sha256-b2:293e8ac1c60f9a41",
-   "revision": 3,
-   "changedAt": "2026-09-29",
+   "digest": "sha256-b2:4d527a9453ebfb38",
+   "revision": 5,
+   "changedAt": "2026-10-31",
    "techniques": [
     {
      "slug": "audience-scoped-calendar-disclosure",
@@ -4960,28 +4961,28 @@
      "stack": "node",
      "technique": "idempotent-event-lifecycle-with-orphan-surfacing",
      "file": "knowledge/recruiting/pipeline-operations/interview-calendar-integrity/applications/node--idempotent-event-lifecycle-with-orphan-surfacing.md",
-     "verified_on": "2026-09-29",
+     "verified_on": "2026-10-31",
      "verified_against": "node@24"
     },
     {
      "stack": "node",
      "technique": "real-duration-conflict-window",
      "file": "knowledge/recruiting/pipeline-operations/interview-calendar-integrity/applications/node--real-duration-conflict-window.md",
-     "verified_on": "2026-09-29",
+     "verified_on": "2026-10-31",
      "verified_against": "node@24"
     },
     {
      "stack": "node",
      "technique": "three-valued-free-busy-unknown-is-not-free",
      "file": "knowledge/recruiting/pipeline-operations/interview-calendar-integrity/applications/node--three-valued-free-busy-unknown-is-not-free.md",
-     "verified_on": "2026-09-29",
+     "verified_on": "2026-10-31",
      "verified_against": "node@24"
     },
     {
      "stack": "react",
      "technique": "lifecycle-bucketing-with-a-post-start-grace",
      "file": "knowledge/recruiting/pipeline-operations/interview-calendar-integrity/applications/react--lifecycle-bucketing-with-a-post-start-grace.md",
-     "verified_on": "2026-09-29",
+     "verified_on": "2026-10-31",
      "verified_against": "react@19"
     }
    ]
@@ -4991,9 +4992,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/recruiting/assessment/interview-round-design/interview-round-design.md",
-   "digest": "sha256-b2:6c115a739c45b00b",
-   "revision": 4,
-   "changedAt": "2026-09-29",
+   "digest": "sha256-b2:3f61f6480d39c2a4",
+   "revision": 5,
+   "changedAt": "2026-10-31",
    "techniques": [
     {
      "slug": "cohort-reducer-between-rounds",
@@ -5091,21 +5092,21 @@
      "stack": "node",
      "technique": "cohort-reducer-between-rounds",
      "file": "knowledge/recruiting/assessment/interview-round-design/applications/node--cohort-reducer-between-rounds.md",
-     "verified_on": "2026-09-29",
+     "verified_on": "2026-10-31",
      "verified_against": "node@24"
     },
     {
      "stack": "node",
      "technique": "shared-material-for-comparability",
      "file": "knowledge/recruiting/assessment/interview-round-design/applications/node--shared-material-for-comparability.md",
-     "verified_on": "2026-09-29",
+     "verified_on": "2026-10-31",
      "verified_against": "node@24"
     },
     {
      "stack": "process",
      "technique": "phase-to-competency-mapping",
      "file": "knowledge/recruiting/assessment/interview-round-design/applications/process--phase-to-competency-mapping.md",
-     "verified_on": "2026-09-29"
+     "verified_on": "2026-10-31"
     }
    ]
   },
@@ -5374,9 +5375,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/recruiting/assessment/llm-era-work-sample-design/llm-era-work-sample-design.md",
-   "digest": "sha256-b2:dadbb132f58c50f5",
-   "revision": 1,
-   "changedAt": "2026-08-21",
+   "digest": "sha256-b2:74eff3e47fe9ae64",
+   "revision": 2,
+   "changedAt": "2026-10-31",
    "techniques": [
     {
      "slug": "anchor-the-task-to-the-role-not-the-material",
@@ -5470,13 +5471,14 @@
      "stack": "node",
      "technique": "probe-discrimination-audit-before-shipping",
      "file": "knowledge/recruiting/assessment/llm-era-work-sample-design/applications/node--probe-discrimination-audit-before-shipping.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-10-31",
+     "verified_against": "node@24"
     },
     {
      "stack": "process",
      "technique": "authorship-verifying-debrief-questions",
      "file": "knowledge/recruiting/assessment/llm-era-work-sample-design/applications/process--authorship-verifying-debrief-questions.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-10-31"
     },
     {
      "stack": "process",
@@ -5608,9 +5610,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/recruiting/pipeline-operations/offer-lifecycle-and-deadlines/offer-lifecycle-and-deadlines.md",
-   "digest": "sha256-b2:2dd5f1019a2a6048",
-   "revision": 3,
-   "changedAt": "2026-09-29",
+   "digest": "sha256-b2:4a3dec1457decc47",
+   "revision": 4,
+   "changedAt": "2026-10-31",
    "techniques": [
     {
      "slug": "expired-is-a-different-answer-from-invalid",
@@ -5702,21 +5704,21 @@
      "stack": "node",
      "technique": "idempotent-terminal-response-under-a-race",
      "file": "knowledge/recruiting/pipeline-operations/offer-lifecycle-and-deadlines/applications/node--idempotent-terminal-response-under-a-race.md",
-     "verified_on": "2026-09-29",
+     "verified_on": "2026-10-31",
      "verified_against": "node@24"
     },
     {
      "stack": "node",
      "technique": "role-appropriate-deadline-bounds",
      "file": "knowledge/recruiting/pipeline-operations/offer-lifecycle-and-deadlines/applications/node--role-appropriate-deadline-bounds.md",
-     "verified_on": "2026-09-29",
+     "verified_on": "2026-10-31",
      "verified_against": "node@24"
     },
     {
      "stack": "react",
      "technique": "server-authoritative-countdown",
      "file": "knowledge/recruiting/pipeline-operations/offer-lifecycle-and-deadlines/applications/react--server-authoritative-countdown.md",
-     "verified_on": "2026-09-29",
+     "verified_on": "2026-10-31",
      "verified_against": "react@19"
     }
    ]
@@ -5841,9 +5843,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/recruiting/pipeline-operations/pipeline-aging-and-attention-triage/pipeline-aging-and-attention-triage.md",
-   "digest": "sha256-b2:771f4c9edd97ec09",
-   "revision": 4,
-   "changedAt": "2026-09-29",
+   "digest": "sha256-b2:876e4815060a147d",
+   "revision": 5,
+   "changedAt": "2026-10-31",
    "techniques": [
     {
      "slug": "aging-versus-stalled-two-tier-alerts",
@@ -5936,20 +5938,20 @@
      "stack": "node",
      "technique": "attention-queue-ordering-and-rationale",
      "file": "knowledge/recruiting/pipeline-operations/pipeline-aging-and-attention-triage/applications/node--attention-queue-ordering-and-rationale.md",
-     "verified_on": "2026-09-29",
+     "verified_on": "2026-10-31",
      "verified_against": "node@24"
     },
     {
      "stack": "process",
      "technique": "aging-versus-stalled-two-tier-alerts",
      "file": "knowledge/recruiting/pipeline-operations/pipeline-aging-and-attention-triage/applications/process--aging-versus-stalled-two-tier-alerts.md",
-     "verified_on": "2026-09-29"
+     "verified_on": "2026-10-31"
     },
     {
      "stack": "react",
      "technique": "per-stage-aging-thresholds-not-one-global-cut",
      "file": "knowledge/recruiting/pipeline-operations/pipeline-aging-and-attention-triage/applications/react--per-stage-aging-thresholds-not-one-global-cut.md",
-     "verified_on": "2026-09-29",
+     "verified_on": "2026-10-31",
      "verified_against": "react@19"
     }
    ]
@@ -5959,9 +5961,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/recruiting/pipeline-operations/pipeline-stage-modelling/pipeline-stage-modelling.md",
-   "digest": "sha256-b2:83fe44f86efb3eca",
-   "revision": 6,
-   "changedAt": "2026-10-25",
+   "digest": "sha256-b2:9f15cff80a066dee",
+   "revision": 7,
+   "changedAt": "2026-10-31",
    "techniques": [
     {
      "slug": "entry-and-terminal-role-requirements",
@@ -6058,7 +6060,7 @@
      "stack": "node",
      "technique": "retired-stage-tombstones-and-migration",
      "file": "knowledge/recruiting/pipeline-operations/pipeline-stage-modelling/applications/node--retired-stage-tombstones-and-migration.md",
-     "verified_on": "2026-09-29",
+     "verified_on": "2026-10-31",
      "verified_against": "node@24"
     },
     {
@@ -6371,9 +6373,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/recruiting/candidate-experience/pre-boarding-and-first-day-handoff/pre-boarding-and-first-day-handoff.md",
-   "digest": "sha256-b2:642373c1d68765ca",
-   "revision": 6,
-   "changedAt": "2026-09-30",
+   "digest": "sha256-b2:acb2bfdabc6c14af",
+   "revision": 7,
+   "changedAt": "2026-10-31",
    "techniques": [
     {
      "slug": "industry-preset-checklists",
@@ -6486,28 +6488,28 @@
      "stack": "node",
      "technique": "pre-boarding-questionnaire-as-a-hire-record",
      "file": "knowledge/recruiting/candidate-experience/pre-boarding-and-first-day-handoff/applications/node--pre-boarding-questionnaire-as-a-hire-record.md",
-     "verified_on": "2026-09-29",
+     "verified_on": "2026-10-31",
      "verified_against": "node@24"
     },
     {
      "stack": "node",
      "technique": "rescinding-an-accepted-offer-is-a-decision-with-a-process",
      "file": "knowledge/recruiting/candidate-experience/pre-boarding-and-first-day-handoff/applications/node--rescinding-an-accepted-offer-is-a-decision-with-a-process.md",
-     "verified_on": "2026-09-29",
+     "verified_on": "2026-10-31",
      "verified_against": "node@24"
     },
     {
      "stack": "node",
      "technique": "the-live-stage-gates-the-handoff",
      "file": "knowledge/recruiting/candidate-experience/pre-boarding-and-first-day-handoff/applications/node--the-live-stage-gates-the-handoff.md",
-     "verified_on": "2026-09-29",
+     "verified_on": "2026-10-31",
      "verified_against": "node@24"
     },
     {
      "stack": "process",
      "technique": "language-neutral-template-keys",
      "file": "knowledge/recruiting/candidate-experience/pre-boarding-and-first-day-handoff/applications/process--language-neutral-template-keys.md",
-     "verified_on": "2026-09-29"
+     "verified_on": "2026-10-31"
     },
     {
      "stack": "process",
@@ -6675,9 +6677,9 @@
    "subcategory": "scoring-and-decision",
    "status": "forged",
    "file": "knowledge/recruiting/decision-and-fairness/scoring-and-decision/presenting-a-score-to-a-recruiter/presenting-a-score-to-a-recruiter.md",
-   "digest": "sha256-b2:2f2c709e36632f30",
-   "revision": 2,
-   "changedAt": "2026-09-29",
+   "digest": "sha256-b2:292f556fe96e5126",
+   "revision": 3,
+   "changedAt": "2026-10-31",
    "techniques": [
     {
      "slug": "absent-score-is-its-own-tier",
@@ -6780,7 +6782,7 @@
      "stack": "node",
      "technique": "one-canonical-score-with-provenance",
      "file": "knowledge/recruiting/decision-and-fairness/scoring-and-decision/presenting-a-score-to-a-recruiter/applications/node--one-canonical-score-with-provenance.md",
-     "verified_on": "2026-09-29",
+     "verified_on": "2026-10-31",
      "verified_against": "node@24"
     },
     {
@@ -6793,20 +6795,20 @@
      "stack": "process",
      "technique": "surface-the-assumptions-behind-the-number",
      "file": "knowledge/recruiting/decision-and-fairness/scoring-and-decision/presenting-a-score-to-a-recruiter/applications/process--surface-the-assumptions-behind-the-number.md",
-     "verified_on": "2026-09-29"
+     "verified_on": "2026-10-31"
     },
     {
      "stack": "react",
      "technique": "component-sum-is-authoritative",
      "file": "knowledge/recruiting/decision-and-fairness/scoring-and-decision/presenting-a-score-to-a-recruiter/applications/react--component-sum-is-authoritative.md",
-     "verified_on": "2026-09-29",
+     "verified_on": "2026-10-31",
      "verified_against": "react@19"
     },
     {
      "stack": "react",
      "technique": "score-bands-locked-across-surfaces",
      "file": "knowledge/recruiting/decision-and-fairness/scoring-and-decision/presenting-a-score-to-a-recruiter/applications/react--score-bands-locked-across-surfaces--two-band-families.md",
-     "verified_on": "2026-09-29",
+     "verified_on": "2026-10-31",
      "verified_against": "react@19"
     }
    ]
@@ -6940,9 +6942,9 @@
    "subcategory": "scoring-and-decision",
    "status": "forged",
    "file": "knowledge/recruiting/decision-and-fairness/scoring-and-decision/recruiter-anchored-model-evaluation/recruiter-anchored-model-evaluation.md",
-   "digest": "sha256-b2:13ad9e158b079e32",
-   "revision": 4,
-   "changedAt": "2026-09-29",
+   "digest": "sha256-b2:a2e73faa93ac9d40",
+   "revision": 5,
+   "changedAt": "2026-10-31",
    "techniques": [
     {
      "slug": "decision-anchored-score-bands",
@@ -7062,13 +7064,13 @@
      "stack": "process",
      "technique": "task-definition-matches-the-real-deliverable",
      "file": "knowledge/recruiting/decision-and-fairness/scoring-and-decision/recruiter-anchored-model-evaluation/applications/process--task-definition-matches-the-real-deliverable.md",
-     "verified_on": "2026-09-29"
+     "verified_on": "2026-10-31"
     },
     {
      "stack": "process",
      "technique": "unverifiable-is-not-fabricated",
      "file": "knowledge/recruiting/decision-and-fairness/scoring-and-decision/recruiter-anchored-model-evaluation/applications/process--unverifiable-is-not-fabricated.md",
-     "verified_on": "2026-09-29"
+     "verified_on": "2026-10-31"
     }
    ]
   },
@@ -7348,9 +7350,9 @@
    "subcategory": "fairness-and-defensibility",
    "status": "forged",
    "file": "knowledge/recruiting/decision-and-fairness/fairness-and-defensibility/regulated-credential-gating/regulated-credential-gating.md",
-   "digest": "sha256-b2:c50d247cc160e408",
-   "revision": 4,
-   "changedAt": "2026-10-25",
+   "digest": "sha256-b2:8f9d793bb2a2f152",
+   "revision": 6,
+   "changedAt": "2026-10-31",
    "techniques": [
     {
      "slug": "credential-cue-catalog-per-role-family",
@@ -7451,19 +7453,19 @@
      "stack": "process",
      "technique": "credential-cue-catalog-per-role-family",
      "file": "knowledge/recruiting/decision-and-fairness/fairness-and-defensibility/regulated-credential-gating/applications/process--credential-cue-catalog-per-role-family.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-10-31"
     },
     {
      "stack": "process",
      "technique": "deterministic-safety-net-behind-the-model",
      "file": "knowledge/recruiting/decision-and-fairness/fairness-and-defensibility/regulated-credential-gating/applications/process--deterministic-safety-net-behind-the-model.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-10-31"
     },
     {
      "stack": "process",
      "technique": "issue-versus-expiry-date-disambiguation",
      "file": "knowledge/recruiting/decision-and-fairness/fairness-and-defensibility/regulated-credential-gating/applications/process--issue-versus-expiry-date-disambiguation.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-10-31"
     }
    ]
   },
@@ -7472,9 +7474,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/recruiting/candidate-experience/rejection-with-dignity/rejection-with-dignity.md",
-   "digest": "sha256-b2:2775c4b674b85615",
-   "revision": 2,
-   "changedAt": "2026-09-29",
+   "digest": "sha256-b2:2a5f6f3801cb9504",
+   "revision": 3,
+   "changedAt": "2026-10-31",
    "techniques": [
     {
      "slug": "deterministic-dispatch-so-nobody-is-ghosted",
@@ -7567,21 +7569,21 @@
      "stack": "node",
      "technique": "deterministic-dispatch-so-nobody-is-ghosted",
      "file": "knowledge/recruiting/candidate-experience/rejection-with-dignity/applications/node--deterministic-dispatch-so-nobody-is-ghosted.md",
-     "verified_on": "2026-09-29",
+     "verified_on": "2026-10-31",
      "verified_against": "node@24"
     },
     {
      "stack": "node",
      "technique": "name-the-decisive-reason-from-the-record",
      "file": "knowledge/recruiting/candidate-experience/rejection-with-dignity/applications/node--name-the-decisive-reason-from-the-record--feedback-on-request.md",
-     "verified_on": "2026-09-29",
+     "verified_on": "2026-10-31",
      "verified_against": "node@24"
     },
     {
      "stack": "node",
      "technique": "protected-attribute-line-suppression",
      "file": "knowledge/recruiting/candidate-experience/rejection-with-dignity/applications/node--protected-attribute-line-suppression.md",
-     "verified_on": "2026-09-29",
+     "verified_on": "2026-10-31",
      "verified_against": "node@24"
     },
     {
@@ -8012,9 +8014,9 @@
    "subcategory": "scoring-and-decision",
    "status": "forged",
    "file": "knowledge/recruiting/decision-and-fairness/scoring-and-decision/selection-score-calibration/selection-score-calibration.md",
-   "digest": "sha256-b2:3532a6c1ef935e0a",
-   "revision": 2,
-   "changedAt": "2026-09-29",
+   "digest": "sha256-b2:d95123a3b81297b2",
+   "revision": 3,
+   "changedAt": "2026-10-31",
    "techniques": [
     {
      "slug": "base-rate-skill-score",
@@ -8110,21 +8112,21 @@
      "stack": "node",
      "technique": "base-rate-skill-score",
      "file": "knowledge/recruiting/decision-and-fairness/scoring-and-decision/selection-score-calibration/applications/node--base-rate-skill-score.md",
-     "verified_on": "2026-09-29",
+     "verified_on": "2026-10-31",
      "verified_against": "node@24"
     },
     {
      "stack": "node",
      "technique": "deterministic-holdout-clean-arm",
      "file": "knowledge/recruiting/decision-and-fairness/scoring-and-decision/selection-score-calibration/applications/node--deterministic-holdout-clean-arm.md",
-     "verified_on": "2026-09-29",
+     "verified_on": "2026-10-31",
      "verified_against": "node@24"
     },
     {
      "stack": "node",
      "technique": "label-leakage-taxonomy",
      "file": "knowledge/recruiting/decision-and-fairness/scoring-and-decision/selection-score-calibration/applications/node--label-leakage-taxonomy.md",
-     "verified_on": "2026-09-29",
+     "verified_on": "2026-10-31",
      "verified_against": "node@24"
     },
     {
@@ -8786,9 +8788,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/recruiting/assessment/voice-interview-fidelity/voice-interview-fidelity.md",
-   "digest": "sha256-b2:45d3a27151ad5179",
-   "revision": 2,
-   "changedAt": "2026-09-29",
+   "digest": "sha256-b2:6496fde79ea373b8",
+   "revision": 4,
+   "changedAt": "2026-10-31",
    "techniques": [
     {
      "slug": "accent-and-first-language-error-disparity",
@@ -8900,48 +8902,48 @@
      "stack": "node",
      "technique": "closing-read-back-as-the-authoritative-record",
      "file": "knowledge/recruiting/assessment/voice-interview-fidelity/applications/node--closing-read-back-as-the-authoritative-record.md",
-     "verified_on": "2026-09-29",
+     "verified_on": "2026-10-31",
      "verified_against": "node@24"
     },
     {
      "stack": "node",
      "technique": "entity-fidelity-not-aggregate-error-rate",
      "file": "knowledge/recruiting/assessment/voice-interview-fidelity/applications/node--entity-fidelity-not-aggregate-error-rate.md",
-     "verified_on": "2026-09-29",
+     "verified_on": "2026-10-31",
      "verified_against": "node@24"
     },
     {
      "stack": "node",
      "technique": "language-choice-and-per-turn-drift-detection",
      "file": "knowledge/recruiting/assessment/voice-interview-fidelity/applications/node--language-choice-and-per-turn-drift-detection.md",
-     "verified_on": "2026-09-29",
+     "verified_on": "2026-10-31",
      "verified_against": "node@24"
     },
     {
      "stack": "node",
      "technique": "never-infer-from-how-a-person-sounds",
      "file": "knowledge/recruiting/assessment/voice-interview-fidelity/applications/node--never-infer-from-how-a-person-sounds.md",
-     "verified_on": "2026-09-29",
+     "verified_on": "2026-10-31",
      "verified_against": "node@24"
     },
     {
      "stack": "node",
      "technique": "transcript-sampling-that-keeps-the-conclusion",
      "file": "knowledge/recruiting/assessment/voice-interview-fidelity/applications/node--transcript-sampling-that-keeps-the-conclusion.md",
-     "verified_on": "2026-09-29",
+     "verified_on": "2026-10-31",
      "verified_against": "node@24"
     },
     {
      "stack": "process",
      "technique": "entity-fidelity-not-aggregate-error-rate",
      "file": "knowledge/recruiting/assessment/voice-interview-fidelity/applications/process--entity-fidelity-not-aggregate-error-rate.md",
-     "verified_on": "2026-09-29"
+     "verified_on": "2026-10-31"
     },
     {
      "stack": "process",
      "technique": "phantom-terms-and-silence-insertions",
      "file": "knowledge/recruiting/assessment/voice-interview-fidelity/applications/process--phantom-terms-and-silence-insertions.md",
-     "verified_on": "2026-09-29"
+     "verified_on": "2026-10-31"
     }
    ]
   },
@@ -8950,9 +8952,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/recruiting/assessment/work-sample-timeboxing-and-cost/work-sample-timeboxing-and-cost.md",
-   "digest": "sha256-b2:043a27a092f107f0",
-   "revision": 2,
-   "changedAt": "2026-09-29",
+   "digest": "sha256-b2:c6a36e63bb984bed",
+   "revision": 3,
+   "changedAt": "2026-10-31",
    "techniques": [
     {
      "slug": "accommodation-and-device-advisory",
@@ -9044,27 +9046,27 @@
      "stack": "node",
      "technique": "clamp-a-proposed-timebox",
      "file": "knowledge/recruiting/assessment/work-sample-timeboxing-and-cost/applications/node--clamp-a-proposed-timebox.md",
-     "verified_on": "2026-09-29",
+     "verified_on": "2026-10-31",
      "verified_against": "node@24"
     },
     {
      "stack": "process",
      "technique": "hard-timebox-cap",
      "file": "knowledge/recruiting/assessment/work-sample-timeboxing-and-cost/applications/process--hard-timebox-cap.md",
-     "verified_on": "2026-09-29"
+     "verified_on": "2026-10-31"
     },
     {
      "stack": "react",
      "technique": "draft-durability-and-no-silent-loss",
      "file": "knowledge/recruiting/assessment/work-sample-timeboxing-and-cost/applications/react--draft-durability-and-no-silent-loss.md",
-     "verified_on": "2026-09-29",
+     "verified_on": "2026-10-31",
      "verified_against": "react@19"
     },
     {
      "stack": "react",
      "technique": "state-what-is-and-is-not-observed",
      "file": "knowledge/recruiting/assessment/work-sample-timeboxing-and-cost/applications/react--state-what-is-and-is-not-observed.md",
-     "verified_on": "2026-09-29",
+     "verified_on": "2026-10-31",
      "verified_against": "react@19"
     }
    ]

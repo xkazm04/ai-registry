@@ -9486,9 +9486,9 @@
    "subcategory": "immersive-interaction",
    "status": "draft",
    "file": "knowledge/game-production/couch-and-tv-play/immersive-interaction/seated-in-world-reading/seated-in-world-reading.md",
-   "digest": "sha256-b2:c7f18a3222f4f56c",
-   "revision": 1,
-   "changedAt": "2026-10-26",
+   "digest": "sha256-b2:7cb71889f51f2935",
+   "revision": 2,
+   "changedAt": "2026-10-31",
    "techniques": [
     {
      "slug": "angular-legibility-floor",
@@ -9542,19 +9542,19 @@
      "stack": "cpp",
      "technique": "angular-legibility-floor",
      "file": "knowledge/game-production/couch-and-tv-play/immersive-interaction/seated-in-world-reading/applications/cpp--angular-legibility-floor.md",
-     "verified_on": "2026-10-26"
+     "verified_on": "2026-10-31"
     },
     {
      "stack": "cpp",
      "technique": "fade-the-content-not-the-view",
      "file": "knowledge/game-production/couch-and-tv-play/immersive-interaction/seated-in-world-reading/applications/cpp--fade-the-content-not-the-view.md",
-     "verified_on": "2026-10-26"
+     "verified_on": "2026-10-31"
     },
     {
      "stack": "cpp",
      "technique": "panel-placement-in-the-view-band",
      "file": "knowledge/game-production/couch-and-tv-play/immersive-interaction/seated-in-world-reading/applications/cpp--panel-placement-in-the-view-band.md",
-     "verified_on": "2026-10-26"
+     "verified_on": "2026-10-31"
     }
    ]
   },

@@ -804,9 +804,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/media-generation/research-grounding/content-research-grounding/content-research-grounding.md",
-   "digest": "sha256-b2:094f1b2708130460",
-   "revision": 5,
-   "changedAt": "2026-10-14",
+   "digest": "sha256-b2:54a41d3b2c87cc90",
+   "revision": 6,
+   "changedAt": "2026-10-31",
    "techniques": [
     {
      "slug": "evidence-grading-ladder",
@@ -910,7 +910,7 @@
      "stack": "process",
      "technique": "tension-finding-taxonomy",
      "file": "knowledge/media-generation/research-grounding/content-research-grounding/applications/process--tension-finding-taxonomy.md",
-     "verified_on": "2026-08-19"
+     "verified_on": "2026-10-31"
     },
     {
      "stack": "react",
@@ -1877,9 +1877,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/media-generation/audio-generation/generated-music-acceptance/generated-music-acceptance.md",
-   "digest": "sha256-b2:3f9de82f80a6905a",
-   "revision": 2,
-   "changedAt": "2026-08-29",
+   "digest": "sha256-b2:ba4ae482ee6e9290",
+   "revision": 4,
+   "changedAt": "2026-10-31",
    "techniques": [
     {
      "slug": "brief-conformance-listen",
@@ -3335,9 +3335,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/media-generation/audio-generation/music-prompt-composition/music-prompt-composition.md",
-   "digest": "sha256-b2:2d8975c2a51e5157",
-   "revision": 1,
-   "changedAt": "2026-08-26",
+   "digest": "sha256-b2:ad93535d80fe1214",
+   "revision": 3,
+   "changedAt": "2026-10-31",
    "techniques": [
     {
      "slug": "duration-and-tempo-locking",
@@ -5182,8 +5182,8 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/media-generation/visual-generation/visual-style-locking/visual-style-locking.md",
-   "digest": "sha256-b2:dcb6f8bd5346d9ad",
-   "revision": 10,
+   "digest": "sha256-b2:198ecdedcef5f0ae",
+   "revision": 11,
    "changedAt": "2026-10-31",
    "techniques": [
     {
