@@ -89,7 +89,7 @@ carries these rules:
   wholesale is the derived profile, and only when the new submission actually carries a
   document, or when the existing record is a degraded stub with nothing to lose.
 - **Identity for merging is the strongest signal available, and a name is not it.** Two
-  people share a name; an address or an issued token is theirs. Key the merge on the
+  people share a name; an address or an issued token is theirs. Key the match on the
   strongest identifier present, fall back explicitly, and where no stable identifier
   exists do not merge at all — collapsing two real applicants onto one record is a worse
   failure than a duplicate row.

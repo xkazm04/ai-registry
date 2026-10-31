@@ -70,8 +70,9 @@ language. The test corpus is the contract; the patterns are an implementation de
   averaged, never silently preferred. [A claim carries its sample and its
   basis](../../../_laws.md#a-claim-carries-its-sample-and-its-basis): the two numbers have
   different bases and must not be blended into one.
-- **A range collapses to its lower bound**, and the bound is recorded as a bound. "Three
-  to five" is evidence of three.
+- **A range is recorded as its bounds.** "Three to five" is evidence of three and a
+  claim of up to five; a threshold that falls between the bounds goes to a human, never
+  to a cut on either bound.
 - **Language detection precedes pattern selection, and never gates it.** Run every
   supported language's patterns where detection is uncertain; a document may be
   bilingual, and many are. Detection failure must not mean no parsing.

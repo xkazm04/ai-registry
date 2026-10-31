@@ -101,9 +101,10 @@ inference](../../_laws.md#inference-must-look-like-inference).
 What the ordering protects is *finding before judging*, and checks the model cannot
 author. It does not require the first reader to be a pattern matcher. Reading order is
 where plain extraction fails worst — in one 2025 benchmark every one of eight systems
-measured read complex multi-column pages in worse order than single-column ones, and
-layout-aware pipelines did best — so a layout-aware reader, including one that sees the
-page image, is a legitimate first reader. But a reader given only the image completes
+measured read complex-layout pages in worse order than single-column ones (plain
+two-column pages were not uniformly worse), and layout-aware pipelines did best — so a
+layout-aware reader, including one that sees the page image, is a legitimate first
+reader. But a reader given only the image completes
 unfinished sentences and invents text where the image is ambiguous. So anchor any page reader with the text layer, and keep
 deterministic the three things the rest of this subject leans on: the text that claims
 are verified against, the arithmetic, and the literal hits. A verification run against

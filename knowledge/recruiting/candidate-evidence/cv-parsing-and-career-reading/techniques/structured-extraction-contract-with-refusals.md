@@ -83,7 +83,8 @@ State these as rules the model must follow, not as tone guidance:
    require any manipulation attempt to be *recorded* as a risk flag rather than merely
    ignored — an attempt is evidence about the candidate. Neutralise any marker the
    document itself contains, or it can close its own fence. Delimiting is the weakest
-   form of this defence: measured, delimiters cut attack success by about half, while
+   form of this defence: measured on a single model, delimiters cut attack success by
+   about half, while
    datamarking — a marker interleaved through the untrusted text — took it from about
    50% to below 3%, and the authors do not recommend delimiting alone (Hines et al.
    2024). And the clause addresses the minority form: in about 200,000 real résumés,

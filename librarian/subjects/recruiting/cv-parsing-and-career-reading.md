@@ -229,3 +229,114 @@ verdicts**. No other project joins it.
   number.
 - **The fleet tree**: the highest-yield lane again. Two conditions upward (the
   proof split, the election bias) came from reading real code.
+
+## Architecture review - 2026-10-31
+
+First architecture-review record. All ten documents read in full. Primary sources
+re-opened this run and matched against raw fetched text: arXiv 2605.28999 (Zhang et
+al. 2026), the spotlighting paper's HTML (Hines et al. 2024), the OPM qualification
+policies page, the amended Art. 3(1)(f) of Directive 2005/36/EC as 2013/55/EU worded
+it, GDPR Art. 16, the Azure structured-outputs page, olmOCR's HTML (Poznanski et al.
+2025) and OmniDocBench Table 5. The mojibake preimage claim was re-derived: Ł, Ń, ň,
+Ő and Ř all decode to the same damaged sequence under cp1250 with replacement.
+
+Two findings correct the record above. **The open lead "Unknown provenance lands high
+(kp)" is closed in the tree**: at kp `6edf5d7e6`, `pipeline.py:830` reads
+`default_prov = DEFAULT_PROVENANCE` (`"self_declared"`), with a comment naming the old
+early/experienced split as removed. The structured-extraction application still states
+the deviation, so it is owed a re-read. And **the OmniDocBench sentence is broader than
+its table**: all eight systems read the *complex*-layout column worse than
+single-column, but plain double-column pages were not uniformly worse (MinerU, Mathpix,
+GOT-OCR and Nougat scored better on double than single). Hines et al.'s figures are
+measured on GPT-3.5-Turbo.
+
+Two internal inconsistencies: the degraded-intake technique still says "Key the merge on
+the strongest identifier present" one bullet before it says the identifier only finds;
+and the quantity parser collapses a stated range to its lower bound, which resolves
+ambiguity in the candidate's disfavour against the golden path's refusal clause and the
+tenure technique's bounds rule.
+
+<!-- architecture-review:v1 -->
+```json
+{
+  "subject": "recruiting/cv-parsing-and-career-reading",
+  "date": "2026-10-31",
+  "baseline": "c4cd49a0c",
+  "digest": "sha256-b2:ed0423375acf354a",
+  "disposition": "clarify",
+  "coverage": "All 10 documents read in full; eight primary sources re-matched against raw text; three applications spot-checked against kp 6edf5d7e6 anchors, not fully re-read.",
+  "counterexamples": [
+    "A plain two-column CV can read in better order than a single-column one for a given extractor (OmniDocBench Table 5, MinerU 0.101 vs 0.311).",
+    "A stated '3 to 5 years' against a 4-year threshold: the lower-bound collapse rejects on an ambiguity the candidate did not create.",
+    "A typed email that matches a record must not rebuild it; 'merge on the strongest identifier' read alone permits exactly that.",
+    "A document with stated part-time load: the interval union over-credits it, so the union is only a ceiling."
+  ],
+  "sources": [
+    {"url": "https://arxiv.org/abs/2605.28999", "result": "Confirmed: 'approximately 200K real-world resumes', 'approximately 1% of resumes contain hidden prompt injections', 'more than 90% of injected prompts do not use explici[t instructions]'."},
+    {"url": "https://arxiv.org/html/2403.14720", "result": "Confirmed with scope: delimiters 'reduce ASR by about half'; datamarking 'from approximately 50% to below 3%' - both 'With GPT-3.5-Turbo'; 'we do not recommend this approach'."},
+    {"url": "https://www.opm.gov/policy-data-oversight/classification-qualifications/general-schedule-qualification-policies/", "result": "Confirmed verbatim: 20 hours per week for 12 months credited 6 months; 'credit can be given for only 1 year of experience for any 12-month period'; unpaid work 'given the same credit as comparable paid experience'."},
+    {"url": "https://www.legislation.gov.uk/eudr/2005/36/article/3", "result": "Confirmed: (f) as amended by 2013/55/EU, 'the actual and lawful full-time or equivalent part-time pursuit of the profession concerned'."},
+    {"url": "https://gdpr-info.eu/art-16-gdpr/", "result": "Confirmed: 'the right to have incomplete personal data completed, including by means of providing a supplementary statement'."},
+    {"url": "https://learn.microsoft.com/en-us/azure/ai-foundry/openai/how-to/structured-outputs", "result": "Confirmed: 'emulate an optional parameter by using a union type with null'."},
+    {"url": "https://arxiv.org/html/2502.18443", "result": "Confirmed: page image alone 'prone to models completing unfinished sentences, or to invent larger texts when the image data was ambiguous'."},
+    {"url": "https://arxiv.org/html/2412.07626", "result": "Partly refutes wording: Table 5, eight systems; all eight worse on Complex than Single; Double-column not uniformly worse. Layout-aware pipelines (Marker, MinerU) best on Complex."},
+    {"source": "kp tree at 6edf5d7e6 (read-only spot check)", "result": "Extractor anchors hold; pipeline.py anchors drifted (582->653, 604->675, 268->274); application-filing proof check moved to :237 with a race-to-channel downgrade; provenance default now self_declared for every archetype."}
+  ],
+  "documents": {
+    "cv-parsing-and-career-reading.md": {"disposition": "clarify", "reason": "OmniDocBench sentence says 'complex multi-column pages'; Table 5 supports complex-layout pages, not multi-column in general. Rest of the path consistent with its techniques and with the re-matched OPM, Zhang and olmOCR sources."},
+    "techniques/text-extraction-damage-and-repair.md": {"disposition": "keep", "reason": "Preimage claim re-derived (five letters, one damaged sequence); 50 of 232 consistent with the application; olmOCR quote matched. Repair-versus-invention line is sound."},
+    "techniques/tenure-and-date-range-reading.md": {"disposition": "keep", "reason": "OPM and the directive matched verbatim; union-as-ceiling and bounds-at-threshold rules consistent with the golden path."},
+    "techniques/structured-extraction-contract-with-refusals.md": {"disposition": "clarify", "reason": "Hines et al. figures are measured on GPT-3.5-Turbo; the sentence states them unscoped. Zhang et al. and the strict-mode null union matched."},
+    "techniques/degraded-intake-as-a-visible-queue.md": {"disposition": "clarify", "reason": "'Key the merge on the strongest identifier present' contradicts the following find-versus-rebuild bullet and is the A arm the node application measured against; should read as keying the match. GDPR Art. 16 matched."},
+    "techniques/multilingual-experience-quantity-parsing.md": {"disposition": "clarify", "reason": "'A range collapses to its lower bound' resolves ambiguity in the candidate's disfavour, against the golden path ('do not resolve ambiguity in the candidate's disfavour') and the tenure bounds rule; carry both bounds and send a threshold between them to a human."},
+    "techniques/per-claim-provenance-at-extraction-time.md": {"disposition": "keep", "reason": "Mint-time provenance, floor default and two-sided map validation are internally consistent; no unstable external claim."},
+    "applications/node--degraded-intake-as-a-visible-queue.md": {"disposition": "reverify", "reason": "kp moved: the proof==='none' return is now application-filing.ts:237 and a raced 'none' is downgraded to 'channel', which the A/B does not describe. Needs a full re-read at kp HEAD before verified_on moves."},
+    "applications/process--structured-extraction-contract-with-refusals.md": {"disposition": "reverify", "reason": "Its third 'differs' bullet (unrecognised provenance lands high at pipeline.py:755) is closed at kp 6edf5d7e6 (pipeline.py:830, DEFAULT_PROVENANCE = 'self_declared'). Needs a full re-read; not edited piecemeal."},
+    "applications/process--text-extraction-damage-and-repair.md": {"disposition": "clarify", "reason": "Every extractors.py and test anchor checked holds at kp 6edf5d7e6; pipeline.py anchors drifted (compare_extraction_quality :582->:653, _letter_spacing_hits :604->:675, profile_text_thin :268->:274). Owed at the next full re-read; not re-anchored partially because the 'Re-read at' header would then be false."}
+  }
+}
+```
+
+### Applied - 2026-10-31
+
+Four clarify items applied in the documents' own voice, each from a source re-matched
+this run or a verified internal inconsistency. The three applications were not edited:
+two need a full re-read at kp HEAD (reverify) and the third's anchor refresh belongs to
+that same re-read.
+
+<!-- architecture-review:v1 -->
+```json
+{
+  "subject": "recruiting/cv-parsing-and-career-reading",
+  "date": "2026-10-31",
+  "baseline": "c4cd49a0c",
+  "digest": "sha256-b2:20ce121e54052569",
+  "disposition": "reverify",
+  "coverage": "All 10 documents decided; four clarify items applied against the record above; the three applications remain owed a full re-read at kp HEAD.",
+  "counterexamples": [
+    "A plain two-column CV can read in better order than a single-column one for a given extractor (OmniDocBench Table 5, MinerU 0.101 vs 0.311).",
+    "A stated '3 to 5 years' against a 4-year threshold: a lower-bound collapse rejects on an ambiguity the candidate did not create.",
+    "A typed email that matches a record must not rebuild it.",
+    "A document with stated part-time load: the interval union over-credits it, so the union is only a ceiling."
+  ],
+  "sources": [
+    {"url": "https://arxiv.org/html/2412.07626", "result": "Table 5 supports the narrowed 'complex-layout' wording applied to the golden path."},
+    {"url": "https://arxiv.org/html/2403.14720", "result": "'With GPT-3.5-Turbo' scope applied to the structured-extraction technique."},
+    {"url": "https://arxiv.org/abs/2605.28999", "result": "Unchanged; confirmed in the record above."},
+    {"url": "https://www.opm.gov/policy-data-oversight/classification-qualifications/general-schedule-qualification-policies/", "result": "Unchanged; confirmed in the record above."},
+    {"source": "kp tree at 6edf5d7e6 (read-only spot check)", "result": "Basis of the three application dispositions; unchanged."}
+  ],
+  "documents": {
+    "cv-parsing-and-career-reading.md": {"disposition": "keep", "reason": "applied 2026-10-31: 'complex multi-column pages' -> 'complex-layout pages (plain two-column pages were not uniformly worse)', per OmniDocBench Table 5."},
+    "techniques/text-extraction-damage-and-repair.md": {"disposition": "keep", "reason": "Preimage claim re-derived; olmOCR quote matched. Unchanged."},
+    "techniques/tenure-and-date-range-reading.md": {"disposition": "keep", "reason": "OPM and the directive matched verbatim. Unchanged."},
+    "techniques/structured-extraction-contract-with-refusals.md": {"disposition": "keep", "reason": "applied 2026-10-31: Hines et al. figures scoped 'measured on a single model' (GPT-3.5-Turbo per the source; the model name is kept out of the technique layer)."},
+    "techniques/degraded-intake-as-a-visible-queue.md": {"disposition": "keep", "reason": "applied 2026-10-31: 'Key the merge on the strongest identifier' -> 'Key the match on', consistent with the find-versus-rebuild bullet that follows."},
+    "techniques/multilingual-experience-quantity-parsing.md": {"disposition": "keep", "reason": "applied 2026-10-31: 'A range collapses to its lower bound' -> recorded as its bounds; lower bound is what is evidenced; a threshold between the bounds goes to a human. Aligns with the golden path refusal clause and the tenure bounds rule."},
+    "techniques/per-claim-provenance-at-extraction-time.md": {"disposition": "keep", "reason": "Internally consistent; no unstable external claim. Unchanged."},
+    "applications/node--degraded-intake-as-a-visible-queue.md": {"disposition": "reverify", "reason": "kp moved: the proof==='none' return is now application-filing.ts:237 and a raced 'none' is downgraded to 'channel', which the A/B does not describe. Needs a full re-read at kp HEAD before verified_on moves."},
+    "applications/process--structured-extraction-contract-with-refusals.md": {"disposition": "reverify", "reason": "Its third 'differs' bullet (unrecognised provenance lands high at pipeline.py:755) is closed at kp 6edf5d7e6 (pipeline.py:830, DEFAULT_PROVENANCE = 'self_declared'). Needs a full re-read; not edited piecemeal."},
+    "applications/process--text-extraction-damage-and-repair.md": {"disposition": "clarify", "reason": "Still owed: pipeline.py anchors drifted (compare_extraction_quality :582->:653, _letter_spacing_hits :604->:675, profile_text_thin :268->:274); refresh at the next full re-read, not partially."}
+  }
+}
+```
