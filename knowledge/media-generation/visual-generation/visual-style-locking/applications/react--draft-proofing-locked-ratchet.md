@@ -9,112 +9,118 @@ verified_on: 2026-10-31
 verified_against: react@19
 ---
 
-# React: the theme record as a one-way ratchet
+# React: the style record as a one-way ratchet
 
-The gravitone-gcloud studio (a Next.js/React video studio, IndexedDB-backed)
-implements the full lifecycle in one module, `lib/themes.ts`, and its
-comments narrate the incidents that shaped it.
+Described at gravitone-gcloud@`fd09c06`. The studio (a Next.js/React video
+studio over a SQLite store) keeps the whole ratchet in one pure file,
+`packages/domain/src/style.ratchet.ts`. The record's door, the kernel's
+writes and the view a screen is handed all read the same functions, and the
+file header (`:5-19`) records how two v1 ratchets, the catalogue's
+`proven` and the theme's `locked`, were merged into it. The comments narrate
+the incidents that shaped it.
 
 ## The record and the ratchet
 
-The file header states the doctrine directly (`lib/themes.ts:10-18`):
+Status is **derived, never written by a caller** (`statusOf`, `:127-131`):
+a lock event on the record means `locked`; otherwise an operator's keeps in
+`PROVEN_KEEPS = 2` distinct run/scene cells (`:49`, counted by `keptCells`,
+`:122-125`) mean `proven`; otherwise `candidate`. An agent's keep is
+evidence, never a vote (`:122`). The states and their edges are a table,
+`candidate -> proven -> locked`, with no way out of `locked`
+(`packages/domain/src/style.machine.ts:22-26`). Its comment (`:9-21`)
+records that a `locked -> proven` edge existed until Phase 5 and was removed
+because it contradicted the plan and v1's own lock.
 
-```
-//    draft ──generate proofs──> proofing ──approve them all──> locked
-//
-// `locked` is the state a project may be created against. That gate is the
-// point of the whole surface: the research this product is built on found that
-// style consistency comes from an APPROVED ARTIFACT, not from a prompt suffix,
-// and that skipping the approval step is the single reliable way to get forty
-// frames that do not match.
-```
+The lock gate is `lockBlocker` (`style.ratchet.ts:185-202`). It keeps v1's
+sentences in the user's words: a block must exist, at least one proof must
+exist, no proof may still be pending, and not every proof may be rejected.
+It adds two gates. Approvals under the **current** block must cover
+`LOCK_PROBLEMS = 3` trial problems (`:51`, `:192-198`), and the style must
+be proven (`:199-200`). Coverage is measured against block lineage: each
+proof records the digest of the block it was drawn under, and an approval
+under an earlier block is reported as stale and no longer counts
+(`sheetCoverage`, `:142-164`).
 
-The `Theme` record holds the four-slot `StyleBlock` (technique · subject ·
-role-assigned 3-color palette · finish, `themes.ts:36-42`), the element
-vocabulary, and the `proofs` array. Status is **derived, never stored**
-(`statusOf`, `themes.ts:135-138`): `lockedAt` set → locked; proofs exist →
-proofing; else draft. The comment gives the reason — a stored status "drifts
-the moment a proof is approved somewhere that forgot to update it."
-
-The lock gate (`canLock`, `themes.ts:163-166`) is exactly the technique's
-rule: at least one approved proof and no proof still `pending` — "a rejected
-proof is a decision, a pending one is not." `lockBlocker`
-(`themes.ts:176-183`) renders the refusal in the user's words. Nothing ever
-clears `lockedAt`; evolution is duplicate-into-new-draft, and the resolver
-comment leans on the ratchet to *delete a whole case*: "a theme that exists
-but is no longer locked is not a case here … there is no way to reach it and
-nothing to draw" (`themes.ts:217-219`).
+The gate is refused **at the write**, not greyed out in a view. The kernel's
+`lock` operation calls `lockBlocker` and returns `refused` with its sentence
+(`packages/kernel/src/styles/core.ts:115-120`). The header records why:
+v1's lock hook skipped `canLock` and could lock anything
+(`style.ratchet.ts:15-16`). `ratchetBlocker` (`:211-223`) is the second
+write rule. Status moves only along the machine, a lock is never lifted or
+re-stamped, a locked block never changes, and a locked sheet keeps at least
+one approval. Evolution is duplicate-into-new-draft: the kernel's
+`duplicate` operation copies the look and drops the lock, proofs and
+evidence (`core.ts:121-125`).
 
 ## One resolution point, honest misses
 
-`projectStyle()` (`themes.ts:221-225`) is "THE one place a project's visual
-identity is resolved," and its comment preserves the shipped defect it
-replaced: the frames step used to resolve style as
-`themes.find(t => statusOf(t) === "locked")` — the account's most recently
-touched lock — so "on an account with two locked styles that was wrong for
-at least one project, always" (`themes.ts:206-211`). The replacement returns
-a discriminated union (`{theme, miss: null} | {theme: null, miss: "unset" |
-"deleted"}`) so a caller *cannot* read a name off a miss, and
-`STYLE_MISS_WORD` supplies the user-facing sentence each fallback must show.
-No stand-in theme is ever substituted by the resolver itself.
+`lookOf` in `packages/producers/src/frames/look.ts` answers which style a
+project's pictures are drawn in, from the project's own binding
+(`:70-81`). Its header (`:11-34`) keeps the defects it replaced. v1 once
+resolved "the" style as the account's most recently touched lock, which is
+wrong for at least one project on any account with two. Later, Phase 4 drew
+every plate in `PRESETS[0]` with no references, and nothing said so.
+
+On a miss (`unset`, `missing`, or `no-block` for a catalogue style with no
+block, `:71-73`) the resolver draws the named default `DEFAULT_LOOK_PRESET`
+(`:58`) with no references, and carries the miss on the result.
+`lookWords` prints it on the receipt as "default style … · " plus the miss
+sentence from `LOOK_MISS_WORDS` (`:94`). A resolved style sends `styleRefs`:
+the founding `PINNED_REFS = 2` approvals pinned, then the newest, up to
+`SEND_REFS = 4`. Pending, rejected and stale approvals never travel
+(`style.ratchet.ts:54-59`, `:227-235`).
 
 ## The proofing loop that feeds the gate
 
-`app/library/Playground.tsx:1-15` is the only route to a locked style: "a
-style block is words until something renders it," and the panel's subject is
-an editable input so the user can generate twice with the same block and a
-different subject — "then seeing whether the two look like one publication."
-The presets that seed drafts (`app/library/presets.ts:1-38`) encode the
-attribute-grammar finding: each is "a complete four-slot style block … not a
-mood word," every palette assigns ground/objects/accent roles, and all six
-preset thumbnails render one `CANON_SUBJECT` "so the user is comparing the
-only thing they are actually choosing."
+The atelier, under `app/(studio)/library/style/[id]/`, is where proofs are
+made and judged. It renders against the fixed trial set `STYLE_TRIALS`:
+five real beats that pose five visual problems, so that no style passes by
+being good at one thing (`style.ratchet.ts:63-77`). The subject clause goes
+to the model verbatim, and an edited subject is no longer the trial
+(`:44`). Each generation is launched through the same receipt flow the
+Plan and the part editors use (`_atelier/Atelier.tsx:4-5`,
+`generate` at `:148-152`), so a proof run is priced before it spends.
 
-## Cost honesty at the gate
+The presets that seed drafts (`packages/catalog/src/presets.ts:1-16`)
+encode the attribute-grammar finding. Each is "a complete four-slot style
+block … not a mood word", every palette assigns ground/objects/accent
+roles, and all six thumbnails render one `CANON_SUBJECT` "so the user is
+comparing the only thing they are actually choosing."
 
-`sheetSpend` (`themes.ts:150-155`) totals per-proof `costUsd` and counts
-`unpriced` proofs separately — "counted rather than assumed free … anything
-asking a user to throw this away has to say so honestly." And `putTheme`
-throws on write failure (`themes.ts:257-263`) because the sheet is base64
-images in IndexedDB and "silently losing an approved sheet would be the
-worst bug this surface could have."
+## Where the realization departs from the technique
 
-## Re-checked 2026-10-31 at gravitone-gcloud@fd09c06
+- **No project-creation gate.** A project binds a style by id and nothing
+  checks the style's status. Per `look.ts:32-34`, a style with a block that
+  is not yet locked "is still drawn in (the project chose it), and the
+  receipt says 'not locked' - the gate is the atelier's, the honesty is
+  here." `lookWords` appends ", not locked" for such a style (`:95`). So
+  `locked` is the state the atelier ratifies and the receipt reports, not
+  the state a project must be created against.
+- **The resolver substitutes a named stand-in.** On a miss, `lookOf` draws
+  `DEFAULT_LOOK_PRESET` itself rather than leaving the fallback to the
+  caller. The miss stays named and is printed, which keeps the honesty half
+  of the technique's rule.
 
-Every `lib/themes.ts`, `app/library/Playground.tsx` and `app/library/presets.ts`
-anchor above is gone: the rebuild removed the v1 module and its IndexedDB store,
-and the ratchet now lives in one pure file, `packages/domain/src/style.ratchet.ts`,
-shared by the record's door, the kernel's writes and the view. The sections above
-are left as the record of the v1 tree. What the current tree does:
+## History
 
-- **The ratchet held and got stricter.** Status is still derived, never written
-  (`statusOf`, `style.ratchet.ts:127-131`), but the states are now
-  `candidate -> proven -> locked`, both edges one-way, with no way out of
-  `locked` (`packages/domain/src/style.machine.ts:9-26`). `lockBlocker`
-  (`style.ratchet.ts:185-202`) keeps v1's "no pending proof, at least one
-  approval" sentences and adds two gates: approvals under the *current* block
-  must cover `LOCK_PROBLEMS = 3` trial problems, and the style must be proven by
-  operator keeps in two distinct cells. The lock is refused at the write
-  (`packages/kernel/src/styles/core.ts:117`), not greyed out in a view;
-  the file records that v1's lock hook skipped `canLock` and could lock anything
-  (`style.ratchet.ts:15-16`). `ratchetBlocker` (`:211-223`) freezes the block
-  and the lock event, so evolution is still duplicate-into-new-draft.
-- **The project-creation gate did not survive, and this weakens one claim
-  above.** A project binds a style by id and nothing checks its status: a style
-  with a block that is not yet locked "is still drawn in (the project chose it),
-  and the receipt says 'not locked' - the gate is the atelier's, the honesty is
-  here" (`packages/producers/src/frames/look.ts:32-34`, `:95`). `locked` is no
-  longer the state a project may be created against; it is the state the
-  atelier ratifies, and the frames receipt reports the gap.
-- **The resolver now substitutes a named default.** `projectStyle` and
-  `STYLE_MISS_WORD` were absorbed into `lookOf` (`look.ts:11-22`, `:70-81`):
-  on a miss (`unset`, `missing`, or the new `no-block`) it draws
-  `DEFAULT_LOOK_PRESET` with no references and carries the miss for the receipt
-  to print. That reverses "no stand-in theme is ever substituted by the resolver
-  itself" while keeping the named miss; the header also records that Phase 4 had
-  lost the named miss entirely (every plate drawn in `PRESETS[0]` with no
-  references, silently) before this file restored it.
-- The presets moved to `packages/catalog/src/presets.ts:1-16` with the
-  four-slot and `CANON_SUBJECT` reasoning intact. `sheetSpend` and `putTheme`
-  have no successor under those names; the proofing loop's surface is now the
-  atelier under `app/(studio)/library/style/[id]/`.
+- **Forged** (date not recorded) against the v1 tree. The lifecycle lived
+  in one module, `lib/themes.ts`, over IndexedDB. Its header stated
+  `draft -> proofing -> locked` and that "`locked` is the state a project
+  may be created against". Status was derived from `lockedAt` and the
+  proofs array; `canLock` required one approval and no pending proof;
+  `projectStyle()` returned a discriminated miss (`unset` / `deleted`) and
+  substituted no stand-in theme; `app/library/Playground.tsx` let the user
+  edit the subject and render twice with one block; `sheetSpend` counted
+  unpriced proofs separately; and `putTheme` threw on write failure so an
+  approved sheet could not be lost silently.
+- **Re-checked 2026-10-31 at gravitone-gcloud@`fd09c06`.** Every v1 anchor
+  is gone: the rebuild removed `lib/themes.ts`, its IndexedDB store,
+  `Playground.tsx` and `app/library/presets.ts`. Findings at that commit:
+  the **ratchet held and got stricter** (derived status, one-way edges,
+  three-problem coverage under the current block, refusal at the write).
+  The **project-creation gate did not survive**, and the resolver **now
+  substitutes a named default**. Both reverse claims the v1 body stated as
+  the realization; they are recorded above as current departures. The
+  presets moved to `packages/catalog` with their reasoning intact.
+  `sheetSpend` and `putTheme` have no successor under those names; spend
+  now goes through the shared receipt flow.

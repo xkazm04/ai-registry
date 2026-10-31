@@ -8,94 +8,119 @@ verified_on: 2026-10-31
 verified_against: react@19
 ---
 
-# Warm remount caches in this repo — the loading-v2 law 4 precedents
+# Warm remount caches in this repo — `createTtlValueCache` and its callers
 
-The app's sections are lazy routes that unmount fully on navigation, so
-"warm remount" is codified as law 4 of the loading doctrine
-(`docs/design/overview-loading.md`): *a view that fully unmounts on
-nav-away keeps its last fetch in a module-scoped cache keyed by entity so
-a remount paints warm, not a re-ghost.* Two precedents carry it:
+Described at personas@`22260d77`. The app's sections are lazy routes that
+unmount fully on navigation, so warm remount is written into the loading
+doctrine. `docs/concepts/golden-paths/page-loading.md` states it as the
+last sentence of "The one way" (`:25`): *for a view that fully unmounts on
+nav-away and holds its data in `useState` rather than a store, stash the
+last fetch in a module-scoped cache keyed by entity so a return visit paints
+warm instead of re-ghosting.* Step 10 of its recipe (`:52`) adds the
+mechanics: seed `useState` from the cache and start `isFetching` **false**
+on a warm hit.
 
-## CompetitionList — the keyed single slot
+## The primitive
 
-`src/features/plugins/dev-tools/sub_lifecycle/competitions/CompetitionList.tsx` (`src/features/plugins/dev-tools/sub_lifecycle/competitions/CompetitionList.tsx`)
-is the technique's "minimal honest form" — a single slot plus the key it
-belongs to:
+`src/lib/async/createTtlValueCache.ts` is the rule as a shared primitive.
+It holds `{ value, at }` per key at module scope (`:35`), answers `get` only
+while the entry is younger than the TTL (`:37-41`), and exposes per-key
+`delete` as the invalidation door (`:45-47`) and `clear()` as the reset
+hatch (`:48-50`). Its doc comment (`:1-21`) names the division of labor:
+`createCachedFetch` keeps only a freshness *timestamp*, which is enough
+when the data lives in a Zustand store. For `useState`-resident data that
+dies with the view, a timestamp-only gate would skip the refetch *and* have
+nothing to show, which is the failure the technique's "ageless latch"
+warning describes.
 
-```ts
-let cachedProjectId: string | null = null;
-let cachedCompetitions: DevCompetition[] = [];
-```
+Six modules construct a cache from it, and two more import only its type.
+Three callers show the range.
 
-- **Warm paint**: `useState(() => warmForProject ? cachedCompetitions : [])`
-  seeds the first render synchronously; `loading` starts `false` on a warm
-  return so cards paint on frame 1.
-- **Key comparison carries correctness**: `warmForProject` requires
-  `activeProjectId === cachedProjectId` — the comment states the rule as
-  the technique does: "project A's list must never flash under project B."
-- **Always revalidates**: the mount effect refetches regardless; the warm
-  data only bridges the gap, and `loading` "only ever gates the
-  ghost/empty branch, never the cards already on screen."
+## `factoryData.tsx` — the warm paint and the fresh window, kept apart
 
-## LifecyclePage — the unkeyed slot, correctly unkeyed
+`src/features/teams/sub_factory/factoryData.tsx` is the fullest
+realization. Its comment (`:230-238`) records the cost it removed: each
+mount of the KPI provider used to refetch the whole tree, about 130 IPC
+calls for 20 projects, on every visit. It holds **two** caches over one key
+(`:240-241`):
 
-`src/features/plugins/dev-tools/sub_lifecycle/LifecyclePage.tsx` (`src/features/plugins/dev-tools/sub_lifecycle/LifecyclePage.tsx`)
-caches `cachedDevClone` / `cachedTriggers` with no key. That is *correct*
-here, not an omission: the dev-clone persona is located by an app-global
-search (`listPersonas()` + name match), not a per-project query, so there
-is no scope axis to key by. Same always-revalidate shape: `refresh()` runs
-on every mount; the cache seeds `useState` and `everLoaded` so only a
-first-ever visit sees the cold ghost.
+- `factoryPaint`, 30 minutes: what a mount may paint immediately. The
+  provider seeds `useState` from it with `loading: false` (`:317-320`).
+- `factoryFresh`, 60 seconds: whether that value is young enough to skip
+  the refetch (`:325`).
 
-## The extracted primitive
+A painted-but-stale tree revalidates in the background and swaps in as one
+commit (`:339-350`). A failed revalidation keeps the cached rows on screen;
+only a cold load with nothing to show reports an empty tree (`:351-355`).
+That is the technique's "the warm paint is a stale paint", with a stale
+ceiling (the 30-minute paint window) that the single-window primitive
+cannot express on its own. A prefetch in flight is adopted instead of
+started twice (`factoryInflight`, `:304`; adoption at `:329-338`).
 
-`src/lib/async/createTtlValueCache.ts` (`src/lib/async/createTtlValueCache.ts`)
-is the pattern promoted to a shared primitive — module-scoped `{ value, at }`
-per key, freshness-gated `get`, per-key `delete` as the invalidation door,
-`clear()` as the reset hatch. Its doc comment names its own lineage (the
-inline `configCache` and `lastPipelineRun` precedents) and the division of
-labor: it exists precisely for `useState`-resident data that dies with the
-view, where a timestamp-only gate would skip the refetch *and* have no data
-to show — the exact failure the technique's "ageless latch" warning
-describes.
+## `useProjectPulse.ts` — a keyed map, one entry per project
+
+`src/features/plugins/dev-tools/sub_projects/useProjectPulse.ts` keys one
+cache by project id (`pulseCache`, `:53`, TTL two minutes at `:36`). Only
+ids that are missing and not in flight are fetched (`:106`), the write
+happens only on success (`:117`), and a failure leaves no entry, so the
+next mount retries. `__resetProjectPulse` (`:128-131`) is the test hatch.
+This is the technique's map form: the working set holds several scopes at
+once, so a single slot would not do.
+
+## `useDataPortability.ts` — a single slot with an invalidation door
+
+`src/features/settings/sub_portability/libs/useDataPortability.ts` caches
+export stats under one constant key for 60 seconds (`:26`). A remount
+inside the window seeds from the cache and skips the IPC (`:92-96`). After
+an import changes the counts, `refreshStats` refetches and re-`set`s the
+cache (`:128-133`), so a later remount does not seed the pre-import value.
 
 ## Deviations observed (standard kept; not fixed here)
 
-- The hand-rolled slots (both files above) revalidate on every mount —
-  good — but expose **no invalidation door and no test-reset hatch**: a
-  deletion event elsewhere cannot drop the cached list, and module state
-  leaks between test cases. The extracted primitive has both doors; the
-  precedents predate it.
-- `useCertificationData.ts` (the idle-defer precedent for
-  [prefetch-and-defer](../techniques/prefetch-and-defer.md)) guards its
-  deferred first load with an **ageless latch**
-  (`certLastRefreshedAt || certStatus.length > 0` — truthiness, not age):
-  within a session the tab never refetches on remount unless something
-  else invalidates the slice. The technique requires the guard to be a
-  freshness check, not "has this ever loaded."
-- `reviewParseCache.ts` (the derive-cache precedent) memoizes
-  `verification` and `readinessScore` against ambient inputs (installed
-  connectors, credential sets) that are **not part of the key** — a
-  hidden-axis case per
-  [parse-and-derive-caches](../techniques/parse-and-derive-caches.md);
-  the scores go stale if those sets change while the review object lives.
-  Its `WeakMap` keying, on the other hand, is the technique's
-  GC-as-reaper form working as designed.
+- **One cache cannot be both the warm paint and the fresh window.** `get`
+  returns `undefined` once the TTL passes (`createTtlValueCache.ts:39`), so
+  a single-cache caller paints warm only inside its freshness window and
+  goes cold after it. `useDataPortability` shows the result: a return after
+  60 seconds starts at `setStatsStatus('loading')` (`:98`) although the last
+  value is still in memory. `factoryData` gets both behaviours only by
+  composing two caches by hand. The technique wants warm paint plus
+  revalidation, with freshness deciding only whether to refetch.
+- **The primitive has no size cap.** The `Map` (`:35`) grows by one entry per
+  distinct key and expired entries are never removed, only overwritten or
+  deleted. Keyed callers such as `pulseCache` are bounded in practice by the
+  number of projects, but nothing in the primitive names a cap or an
+  eviction order. The technique requires both at the declaration site.
+- `reviewParseCache.ts` (the derive-cache precedent,
+  `src/features/templates/sub_generated/gallery/cards/reviewParseCache.ts`)
+  keys by review object in a `WeakMap` (`:18`). That is the technique's
+  GC-as-reaper form working as designed. But `getCachedReadinessScore`
+  memoizes the score computed from `installedConnectorNames` and
+  `credentialServiceTypes`, which are **not part of the key** (`:64-79`).
+  That is a hidden-axis case per
+  [parse-and-derive-caches](../techniques/parse-and-derive-caches.md): the
+  score goes stale if those sets change while the review object lives.
 
-Re-checked 2026-10-31 at personas@`22260d77`: **both precedents are gone.**
-`competitions/CompetitionList.tsx` no longer exists, and nothing in `src/`
-holds `cachedProjectId` or `cachedCompetitions`. `LifecyclePage.tsx` was
-rewritten as a 52-line shell over the Lifecycle Lens, with no
-`cachedDevClone` or `cachedTriggers`. `useCertificationData.ts` and its
-`certLastRefreshedAt` latch are gone too. So the ageless-latch deviation has no
-site left to cite. `docs/design/overview-loading.md` no longer carries the rule
-as law 4: its six laws now cover chrome, placeholders, cascade and per-region
-retirement, and law 4 is the item-level cascade. The warm-remount rule survives
-in `docs/concepts/golden-paths/page-loading.md` (`:25`, and step 10 at `:52`).
-What remains is the extracted primitive. `createTtlValueCache.ts` holds as
-described, with both doors and the same lineage comment, and eight production
-modules now import it, among them `sub_projects/useProjectPulse.ts` and
-`teams/sub_factory/factoryData.tsx`. The "precedents with no invalidation door"
-deviation therefore names files that no longer exist. `reviewParseCache.ts`
-holds as described: a `WeakMap` keyed by review, and `readinessScore` memoized
-without its connector and credential sets in the key (`:64-79`).
+## History
+
+- **Forged** (date not recorded): the document was titled "the loading-v2
+  law 4 precedents" and cited the rule as law 4 of
+  `docs/design/overview-loading.md`. It described two hand-rolled
+  precedents. `CompetitionList.tsx` held a keyed single slot
+  (`cachedProjectId` / `cachedCompetitions`). `LifecyclePage.tsx` held an
+  unkeyed slot (`cachedDevClone` / `cachedTriggers`), which was correct
+  there because the dev-clone persona was found by an app-global search.
+  `createTtlValueCache` appeared as the pattern promoted later. Three
+  deviations were listed: the hand-rolled slots had no invalidation door or
+  test hatch; `useCertificationData.ts` guarded its deferred load with an
+  ageless latch (`certLastRefreshedAt || certStatus.length > 0`); and
+  `reviewParseCache.ts` left ambient inputs out of its key.
+- **Re-checked 2026-10-31 at personas@`22260d77`.** Both precedents are
+  gone. `CompetitionList.tsx` no longer exists. `LifecyclePage.tsx` is now a
+  52-line shell over the Lifecycle Lens, with no cached slots.
+  `useCertificationData.ts` and its latch are gone too. The rule moved out
+  of `overview-loading.md`, whose law 4 is now the item-level cascade, into
+  `page-loading.md`. So the **no-invalidation-door** and **ageless-latch**
+  deviations are resolved by removal: no site is left to cite.
+  The **hidden-axis** deviation in `reviewParseCache.ts` still holds. The
+  "paint versus fresh window" and "no size cap" deviations were first
+  recorded in this rewrite.

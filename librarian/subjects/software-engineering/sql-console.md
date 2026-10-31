@@ -349,3 +349,87 @@ This record follows the re-verification of applications at personas@22260d77; th
   }
 }
 ```
+
+## Architecture review - 2026-10-31 (after application rewrite)
+
+This record follows the rewrite of rust--safe-mode-guarding against personas@`22260d77`: the classifier bullet is re-anchored to body_has_mutation and the gap section restated around the agent_sql_guard authorizer, with the forged account under a dated History heading. It moves from `clarify` to `keep`; three applications keep `reverify`, so the subject becomes `reverify`.
+
+<!-- architecture-review:v1 -->
+```json
+{
+  "subject": "software-engineering/sql-console",
+  "date": "2026-10-31",
+  "baseline": "a374d84e3",
+  "digest": "sha256-b2:4b62b73cc6db540b",
+  "disposition": "reverify",
+  "coverage": "All documents decided. The rewritten application was read in full and every anchor printed at personas@22260d77 (engine db_query.rs, commands/credentials/db_schema.rs, companion/jobs/connector_use.rs, db/agent_sql_guard.rs, the frontend callers of execute_db_query). The other documents are byte-identical to the previous record (git diff against a1e825611 shows only the rewrite) and carry its dispositions.",
+  "trigger": "The previous record marked rust--safe-mode-guarding clarify; its body was rewritten, staling that record.",
+  "counterexamples": [
+    "A console whose only guard is a BEGIN READ ONLY envelope is escaped by a payload-internal COMMIT when the driver accepts stacked statements (the 2025 reference Postgres MCP server).",
+    "A SELECT-led statement can still write: nextval() and setval() on a non-temporary sequence are refused in a PostgreSQL read-only transaction, so a first-keyword read list admits a write.",
+    "An integer id above 2^53 - 1 crosses a JSON boundary without any interoperability guarantee; a console that parses it as a binary64 number shows and copies a neighbouring id.",
+    "A modal overlay can keep a consent's destination frozen without capturing it, until a non-modal path (a refresh, a keyboard route) re-points it.",
+    "A model-authored mutation lane can gain a single-statement check and a SQLite authorizer and still never meet the executor's classifier, so the type-system gap survives a hardened door (connector_use.rs at personas@22260d77)."
+  ],
+  "sources": [
+    {
+      "source": "personas at 22260d77 (read, not executed)",
+      "result": "src-tauri/engine/src/db_query.rs: READ_SHAPED_WRITES :307, strip_sql_literals :404, has_multiple_statements :496, body_has_mutation :510 (no cte_body_has_mutation remains), is_mutation :561, introspect_tables_paged :914, introspect_columns :1015. connector_use.rs:1525-1549 checks starts_with, then is_single_statement, then calls agent_sql_guard::run_agent_mutation (src-tauri/db/src/agent_sql_guard.rs:179). getSelectAllQuery's only non-test caller is TablesTab.tsx:104 via copyText."
+    },
+    {
+      "source": "personas at 22260d77 (read, not executed)",
+      "result": "engine db_query.rs:510 body_has_mutation, :561-588 is_mutation scanning SELECT/VALUES/EXPLAIN bodies, :686 execute_query_cancellable with ddl_only at :698; db_schema.rs:223-224 privileged command, :243-244 both flags default false; connector_use.rs:1467 select lane prefix check, :1530-1546 mutation lane through agent_sql_guard.rs:179 run_agent_mutation (a SQLite authorizer over companion tables). Supports the rewrite."
+    }
+  ],
+  "documents": {
+    "sql-console.md": {
+      "disposition": "keep",
+      "reason": "The containment framing, the boundaries against data-access, credential-vault, table and structured-output, the two-sided guard, one classified-statement executor and the NL lane as second author are coherent and consistent with every technique."
+    },
+    "techniques/safe-mode-guarding.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: rule 4's 'cursor and prepared-statement executions of a refused command' now reads '`EXPLAIN ANALYZE` and prepared-statement `EXECUTE` of a refused command', matching the PostgreSQL read-only list; sequence advancement and the envelope paragraph unchanged."
+    },
+    "techniques/result-fidelity.md": {
+      "disposition": "keep",
+      "reason": "The RFC 8259 section 6 range and quote match the source. The stale-success/error pair, n+1 truncation detection and secret scrubbing are internally consistent with the golden path."
+    },
+    "techniques/introspection-architecture.md": {
+      "disposition": "keep",
+      "reason": "Names as bound values in catalog lookups, the executed-versus-emitted line, progressive disclosure and labelled row counts are sound; no unstable external claim."
+    },
+    "techniques/dialect-capability-declaration.md": {
+      "disposition": "keep",
+      "reason": "One declaration per family next to the execute dispatch, declare over probe, and minimal profile for unknown engines are coherent; no unstable external claim."
+    },
+    "techniques/editor-ergonomics.md": {
+      "disposition": "keep",
+      "reason": "The editor floor, identity-keyed bounded history, promotion to saved queries and every convenience terminating at the guard are sound and match the golden path."
+    },
+    "techniques/nl-assist-gating.md": {
+      "disposition": "keep",
+      "reason": "Second author not second path; the no-human-behind-it rule matches the Datadog mitigations (least-privilege role, statements that cannot stack) re-read this run."
+    },
+    "applications/next--result-fidelity.md": {
+      "disposition": "reverify",
+      "reason": "Cites the ascent tree at a57f272c, which is not reachable from this checkout; no evidence of drift and none of currency. Needs a re-read of the cited hooks and MemoryRecallPanel at a current HEAD before verified_on moves."
+    },
+    "applications/next--safe-mode-guarding.md": {
+      "disposition": "reverify",
+      "reason": "Same ascent tree at a57f272c, not reachable here. Needs a re-read of ConfirmAction, usePlaybookCard and DataErasurePreview at a current HEAD, in particular whether the destination is now captured."
+    },
+    "applications/react--safe-mode-guarding.md": {
+      "disposition": "reverify",
+      "reason": "Drifted in the personas tree at a7b34f56: the banner deviation (slice at 200 characters) is fixed, the client regex for read-shaped writes moved to :54, and the Rust citation src-tauri/src/engine/db_query.rs no longer exists (now the engine crate). The classifyDbQuery zero-caller finding still holds. Needs a full line re-check and a rewrite of the deviation paragraph."
+    },
+    "applications/rust--introspection-architecture.md": {
+      "disposition": "keep",
+      "reason": "re-verified 2026-10-31 against personas@22260d77: anchors re-pointed to src-tauri/engine/src/db_query.rs and spot-checked; the dated paragraph adds paged table introspection and says the verdict and both deviations stand. The question the previous record left open is settled: getSelectAllQuery's only non-test caller copies it to the clipboard (TablesTab.tsx:104), so 'the second door was deleted' holds."
+    },
+    "applications/rust--safe-mode-guarding.md": {
+      "disposition": "keep",
+      "reason": "rewritten 2026-10-31 against personas@22260d77: body now cites the engine-crate executor (db_query.rs:686, gate at :698-726 including the ddl_only/validate_ddl_only lane), body_has_mutation (:510) over SELECT/VALUES/EXPLAIN/WITH with READ_SHAPED_WRITES (:307-316) and fail-closed unterminated input; the gap section names both companion lanes (starts_with select at connector_use.rs:1467; mutation lane through agent_sql_guard::run_agent_mutation at :1546) and keeps the verdict that the executor takes a raw &str and neither lane meets is_mutation; cte_body_has_mutation and the direct-driver account moved under History."
+    }
+  }
+}
+```

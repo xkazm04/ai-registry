@@ -400,3 +400,90 @@ This record follows the re-verification of applications at gravitone-gcloud@fd09
   }
 }
 ```
+
+## Architecture review - 2026-10-31 (after application rewrite)
+
+This record follows the rewrite of react--draft-proofing-locked-ratchet against gravitone-gcloud@`fd09c06`: the body now describes the current ratchet, and the v1 account and the re-check findings sit under a dated History heading. It moves from `clarify` to `keep`; the two motion applications keep `reverify`, so the subject becomes `reverify`.
+
+<!-- architecture-review:v1 -->
+```json
+{
+  "subject": "media-generation/visual-style-locking",
+  "date": "2026-10-31",
+  "baseline": "a374d84e3",
+  "digest": "sha256-b2:198ecdedcef5f0ae",
+  "disposition": "reverify",
+  "coverage": "All 12 documents decided. The rewritten application was read in full and every anchor printed at gravitone-gcloud@fd09c06 (style.ratchet.ts, style.machine.ts, kernel styles/core.ts:115-125, frames/look.ts, catalog presets.ts, the atelier). The other 11 documents are byte-identical to the previous record (git diff against a1e825611 shows only the rewrite) and carry its dispositions; the two motion applications keep reverify.",
+  "trigger": "The previous record marked react--draft-proofing-locked-ratchet clarify; its body was rewritten, staling that record.",
+  "intended_benefit": "A batch of generated frames reads as one publication because the style is a ratified two-channel artifact restated on every call and measured against a control.",
+  "failure_if_ignored": "Per-shot look drift, reference images read as content, silent stand-in styles, and consistency claims ratified by flattering samples.",
+  "boundary": "Generation calls that mint new frames of a styled set. Not one-off images, not minimal edits of an existing render, not codegen from another product's shipped surface.",
+  "counterexamples": [
+    "A general text-aligned embedding (CLIP) outscored a self-supervised one (DINO) on style retrieval in a published benchmark, so 'self-supervised separates style better' does not hold as a default; a style-trained descriptor beat both.",
+    "A 9-of-10 pick has gaps of 1 and 2 while a 4-of-10 pick has a uniform stride of 3: a larger sample is the less regular instrument.",
+    "An agent that decodes the file measures cut timing and palette over every frame, so the frame budget binds only the naming, not the values.",
+    "A one-video plate cut has no scene that earns its own register, so a tree with no style override is correct for its shape rather than missing a feature.",
+    "A one-way ratchet can hold and tighten while the project-creation gate it served disappears: a project binding an unlocked style still draws it and only the receipt says 'not locked' (gravitone-gcloud@fd09c06)."
+  ],
+  "sources": [
+    {
+      "source": "gravitone-gcloud at fd09c06 (read, not executed)",
+      "result": "packages/domain/src/style.ratchet.ts:52-59 PROOF_CAP = 14, SEND_REFS = 4, PINNED_REFS = 2; :127-131 statusOf derived from evidence and lock; :185 lockBlocker; packages/producers/src/frames/look.ts:32-34 'A style with a block that is not locked yet is still drawn in (the project chose it), and the receipt says \"not locked\"'; lib/stylePrompt.ts:61-63 compilePrompt unchanged. Supports both re-check sections."
+    },
+    {
+      "source": "gravitone-gcloud at fd09c06 (read, not executed)",
+      "result": "style.ratchet.ts:127-131 statusOf from evidence and lock only, :142-164 sheetCoverage with stale approvals under an earlier block, :185-202 lockBlocker, :211-223 ratchetBlocker; style.machine.ts:22-26 locked has no outgoing edge; kernel styles/core.ts:115-120 lock refused at the write; look.ts:32-34 unlocked style still drawn, :70-81 lookOf draws DEFAULT_LOOK_PRESET on a miss; Atelier.tsx:4-5 proofs launched through the shared receipt flow. Supports the rewrite."
+    }
+  ],
+  "documents": {
+    "visual-style-locking.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: added the motion-sampled-under-a-frame-budget bullet to the techniques list; the embedding clause now says general-purpose embeddings, text-aligned or self-supervised, are trained toward content and a descriptor trained for style is the better instrument."
+    },
+    "techniques/style-block-restated-every-call.md": {
+      "disposition": "keep",
+      "reason": "Procedure, override scoping and the dated boundary (references plus a restated core; text as the portable floor) are internally consistent and correctly scoped."
+    },
+    "techniques/approved-reference-sheet.md": {
+      "disposition": "keep",
+      "reason": "Window versus send count, approved-only references and the identity-sheet inversion are coherent; no unstable vendor figure is asserted."
+    },
+    "techniques/style-onboarding-from-sample.md": {
+      "disposition": "keep",
+      "reason": "Capture, coherence gate, house-style decomposition, the structure boundary and the pointer to the sampling middle case agree with each other and with the motion technique."
+    },
+    "techniques/draft-proofing-locked-ratchet.md": {
+      "disposition": "keep",
+      "reason": "Derived status, the lock gate, the one-way ratchet and named misses form a consistent state machine."
+    },
+    "techniques/rejections-as-negative-evidence.md": {
+      "disposition": "keep",
+      "reason": "Rejection never a reference, never counted against the window; consistent with the sheet technique."
+    },
+    "techniques/consistency-control-arm.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: replaced 'self-supervised embeddings separate style better than text-aligned ones' with the benchmark's finding (text-aligned outscored self-supervised on style retrieval, a style-trained descriptor beat both; prefer a style descriptor)."
+    },
+    "techniques/motion-sampled-under-a-frame-budget.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: 'low hundreds on a programmatic one' now reads 'one hundred to six hundred on a programmatic one, depending on the model's context window', per the vendor page."
+    },
+    "applications/next--motion-sampled-under-a-frame-budget.md": {
+      "disposition": "reverify",
+      "reason": "Internally consistent (10-of-14 indices and gaps check out); the private tree and its probe were not reopened."
+    },
+    "applications/python--motion-sampled-under-a-frame-budget.md": {
+      "disposition": "reverify",
+      "reason": "Tables are internally consistent and limits are stated; the private pipeline and its selftest were not re-run."
+    },
+    "applications/react--draft-proofing-locked-ratchet.md": {
+      "disposition": "keep",
+      "reason": "rewritten 2026-10-31 against gravitone-gcloud@fd09c06: body now describes style.ratchet.ts (derived candidate/proven/locked status, lockBlocker with three-problem coverage under the current block digest, refusal at the kernel write, ratchetBlocker, styleRefs), lookOf with its named default and printed miss, and the atelier over the fixed trial set through the shared receipt flow; the absent project-creation gate and the resolver's named stand-in are stated as current departures rather than as the realization; the v1 lib/themes.ts account moved under History."
+    },
+    "applications/react--style-block-restated-every-call.md": {
+      "disposition": "keep",
+      "reason": "re-verified 2026-10-31 against gravitone-gcloud@fd09c06: adapter anchors re-numbered; the dated section says the knowledge-base anchors, labelling clause, exclusion translation and docs/imaging.md measurement hold, names Playground.tsx and MAX_REFS as removed, and points to the successor window constants (spot-checked at style.ratchet.ts:52-59) and the compiler (stylePrompt.ts:61-63). Its finding is confirmed, not reversed."
+    }
+  }
+}
+```
