@@ -72,7 +72,8 @@ neighbour of it.
 ## What the platform adds, and what it does not
 
 The platform's own documentation states two backstops: a conversion uploaded more
-than sixty-three days after the click is not imported, and a duplicate on the
+than ninety days after the click is not imported (sixty-three days for one keyed on
+hashed customer data instead of a click identifier), and a duplicate on the
 platform's key - identifier, action name, date and time - is counted once and answered
 with an error. Neither replaces the guards. A resent row with a different timestamp
 is a different conversion to the platform, and the window is why a pipeline that
@@ -101,7 +102,7 @@ outcome, and only the stage the business actually optimises toward marked primar
 ## What is convention here
 
 The half coverage nudge, the one-day dry-run age, the batch size and the attempt
-ceiling are practitioner conventions. The identifier-only match, the sixty-three-day
+ceiling are practitioner conventions. The identifier-only match, the ninety-day
 window and the platform-side duplicate key are documented platform behaviour, and
 dated: they are the platform's current rules and are re-checked, not assumed.
 

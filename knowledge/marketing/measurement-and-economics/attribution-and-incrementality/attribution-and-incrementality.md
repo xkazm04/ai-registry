@@ -132,8 +132,9 @@ is to test the biggest channel first, because that is where the money is and whe
 finding of "half of this was not incremental" changes the most spend. The second rule
 is that the instrument scales down honestly where a user-level holdout does not: a
 platform's own conversion-lift study needs a conversion volume most small accounts
-never reach, whereas a directional geo test with a synthetic control - the held-out
-region's counterfactual modelled from the other regions' pre-period relationship -
+never reach, whereas a directional geo test with a synthetic control - the treated
+regions' counterfactual modelled as a weighted blend of the held-out regions fitted on
+the pre-period -
 gives a usable planning signal on a small budget; the dominant search-ad platform's
 open-source measurement stack added a geo-experiment tool in 2026 for exactly this.
 The reading borrows the statistics of any experiment - a sample before a winner, an
@@ -178,7 +179,8 @@ than mint a second, and a claim over the day so two overlapping runs cannot both
 the same unmarked rows. Nothing sends without a dry run the operator saw recently, and
 a rejection is a different fact from an acceptance and is never confused with one. The
 platform's own documentation adds two more: an offline conversion uploaded more than
-sixty-three days after the click is not imported, and a duplicate on the platform's key
+ninety days after the click is not imported (sixty-three for one keyed on hashed
+customer data rather than a click identifier), and a duplicate on the platform's key
 - identifier, action name, date and time - is counted once and answered with an error.
 That platform-side deduplication is a backstop, not the guard; a second row with a
 different timestamp is a second conversion to the platform.

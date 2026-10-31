@@ -93,7 +93,7 @@ count as normal traffic and do not fail the step (`:278-281`).
 The tree uploads by click identifier only; the platform's documented alternative
 identifiers for consent-limited browsers and the user-provided-data path are absent,
 which is the scout's organic F-item ("no enhanced conversions"). The
-sixty-three-day click window is not checked before send - a stale row is discovered
+ninety-day click window is not checked before send - a stale row is discovered
 by rejection and burns one of its three attempts. And the primary/secondary action
 design that prevents the operator-designed double count is outside the tree, which
 maps one action per stage and leaves the platform-side primary flag to the operator.

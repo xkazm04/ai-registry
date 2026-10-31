@@ -49,9 +49,10 @@ they are the channels whose attributed read is most likely to be flattered.
 3. Read the outcome from the business's own bookings, leads or orders by region. The
    platform's conversion column is not the outcome; it is one of the things under test.
 4. Compute lift as treated outcome minus the held-out counterfactual, over the
-   counterfactual. The counterfactual is the held-out regions' actual outcome in the
-   simplest design and a synthetic control - the held-out series predicted from the
-   treated regions' pre-period relationship - where regions are few or uneven.
+   counterfactual. The counterfactual is the held-out regions' actual outcome, scaled
+   to the treated regions, in the simplest design and a synthetic control - a weighted
+   combination of the held-out regions fitted to track the treated regions in the
+   pre-period - where regions are few or uneven.
 5. Report an interval, not a point. The statistics of the read - a sample before a
    winner, no peeking, a correction when several arms exist - are the on-site
    experiment subject's and are borrowed unchanged; what changes is the unit (a
