@@ -4,8 +4,8 @@ type: application
 subject: motion
 technique: continuity-across-change
 stack: react
-verified_on: 2026-09-20
-verified_against: react@19.2.8
+verified_on: 2026-10-31
+verified_against: react@19
 ---
 
 # React application — shared layout identity, and the delta behind it
@@ -14,6 +14,9 @@ How the technique's three shapes — do not unmount, share one identity, animate
 only the delta — look in a tree that implements all three, and the two places
 the same tree does the opposite. Evidence is from `kp` (Next.js 16.3.3, React
 19.2.8, framer-motion 13.1.1) at `0203b5d20`, resolved on 2026-09-20.
+Re-checked 2026-10-31 at kp@6edf5d7 (React ^19.3.1, framer-motion ^14.0.0):
+every cited construct is still in place, two line ranges moved, and both
+deviations below are still present.
 
 ## The pending marker that becomes the answer
 
@@ -22,7 +25,7 @@ indicator replaced by the reply it was waiting for. The two are different
 components in different branches — the turn list, and an `AnimatePresence` block
 that renders only while a request is in flight — so the swap is structural and
 cannot be avoided by keeping one element mounted. They are given one identity
-instead (lines 142 and 193), and the component's own comment (lines 24–28) states
+instead (lines 142 and 193), and the component's own comment (lines 25–29) states
 both halves of the rule:
 
 > The waiting mark and the turn that replaces it share a `layoutId` —
@@ -86,7 +89,7 @@ stated strictly (lines 9–24): arrival moves the **row**, the separate reveal
 writes the **text** inside it, and neither duplicates the other. Three details
 match the technique:
 
-- **Only the delta moves.** `ArrivalList` (lines 108–165) gives a new row an
+- **Only the delta moves.** `ArrivalList` (lines 108–162) gives a new row an
   entrance with a staggered delay and everything else `initial={false}` — an
   untouched row does not re-enter because a neighbour changed.
 - **The stagger is a cue, not a loading bar.** `STAGGER_MS = 40`,

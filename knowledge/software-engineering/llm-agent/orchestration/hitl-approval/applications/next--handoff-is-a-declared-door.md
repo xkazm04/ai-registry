@@ -5,8 +5,8 @@ subject: hitl-approval
 technique: handoff-is-a-declared-door
 stack: next
 status: forged
-verified_on: 2026-09-29
-verified_against: next@16.3.5
+verified_on: 2026-10-31
+verified_against: next@16
 applied: experiment
 ab_verdict: unmeasurable
 proof: structural-only
@@ -15,7 +15,8 @@ proof: structural-only
 # A decision that arrives over a machine door, with no decider in the payload
 
 The version witness is the exact dependency pin `"next": "16.3.5"` in the
-repository's own `package.json`. The tree is a self-hosted hiring workspace whose
+repository's own `package.json` (re-checked 2026-10-31 at `6edf5d7`, where the pin
+is `16.4.2` and the lifecycle payload still carries no decider field). The tree is a self-hosted hiring workspace whose
 scope is screening behind human approval gates; it can also hire an AI agent for a
 job, dispatching a specification to a sibling application and receiving reports back.
 This application checks the technique's last decision rule, the one about machine
@@ -32,7 +33,7 @@ kinds of report: execution events, period rollups, and lifecycle transitions
 including a probation review whose payload is its own decision
 (`activated`, `extended`, `retired`).
 
-- `docs/features/agents/README.md:438 "only gate on the public report route"`
+- `docs/features/agents/README.md:441 "only gate on the public report route"`
 - `app/_lib/db/agents.ts:374 "dispatched: ["`
 - `app/_lib/agent-hire/report-payload.ts:374 "note: str(p.note, MAX_REASON)"`
 - `app/_lib/agent-hire/lifecycle.ts:67 "auto:agent-bridge"`
@@ -63,7 +64,7 @@ was deleted afterwards.
 
 The tree's own documentation of the token notes the exposure from the other side, that
 a client holding it could post lifecycle and execution reports for that agent with no
-session (`docs/features/agents/README.md:441 "a client holding it could post lifecycle"`),
+session (`docs/features/agents/README.md:444 "a client holding it could post lifecycle"`),
 and keeps the token server-side for that reason.
 
 ## Arm B, not built

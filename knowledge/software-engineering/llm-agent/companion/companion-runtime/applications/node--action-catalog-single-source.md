@@ -5,7 +5,8 @@ subject: companion-runtime
 technique: action-catalog-single-source
 stack: node
 status: forged
-verified_on: 2026-08-24
+verified_on: 2026-10-31
+verified_against: node@24
 ---
 
 # One array, across a process and a language (kp / Candi)
@@ -24,31 +25,35 @@ arrangement in the technique's own terms
 > addendum and the fence validator are both built from what was shipped across
 > the boundary that turn.
 
+Re-checked 2026-10-31 at kp@6edf5d7: every construct and quote above holds,
+including the absence of any action name in the two Python files and the
+"not verified in a running app" gap. Only line numbers moved.
+
 ## Confirmed: the catalog crosses as data, and the far side names nothing
 
-`COMPANION_ACTIONS` (`companion-actions.ts:138`) carries four specs, each with an
+`COMPANION_ACTIONS` (`companion-actions.ts:141`) carries four specs, each with an
 id, a one-line `doc` shipped verbatim to the model, a declared `params` array
 whose `doc` fields are written as instructions rather than types, a pure
-`summary`, and an `execute`. `companionActionWire()` (`:262`) projects the
+`summary`, and an `execute`. `companionActionWire()` (`:270`) projects the
 teachable subset — id, description, params — and the turn writer serializes it
 into the file the CLI reads: `JSON.stringify({ ...turn, actions:
-companionActionWire() })` (`app/_lib/companion-run.ts:256`).
+companionActionWire() })` (`app/_lib/companion-run.ts:280`).
 
 On the far side, neither Python file contains an action name.
-`_action_contract()` (`pipeline/jobfit/companion_cli.py:192-236`) renders the
+`_action_contract()` (`pipeline/jobfit/companion_cli.py:246-290`) renders the
 teaching block by iterating the shipped list, and its docstring says why: "No
 action name is written in this file … so the prompt cannot teach an action the
 parser rejects, or miss one it would accept." The fence validator does the same
 from the other direction — `_catalog_by_id()`
-(`pipeline/jobfit/companion_blocks.py:258-268`) keys the shipped array, and
-`_action()` (`:223-254`) resolves the emitted id against it and checks each
+(`pipeline/jobfit/companion_blocks.py:282-292`) keys the shipped array, and
+`_action()` (`:247-281`) resolves the emitted id against it and checks each
 declared parameter's presence, refusing an id the shipped catalog does not carry.
 
 Both halves fail closed on an absent catalog, and both say so where the default
 is chosen. `_catalog_by_id` returns an empty map, "which makes every action fence
-invalid — the right default for a caller that did not ask for an actor" (`:261`);
+invalid — the right default for a caller that did not ask for an actor" (`:284`);
 `_action_contract` returns an empty string, so "a caller that ships no catalog
-gets NO addendum, and the model is never taught to propose" (`companion_cli.py:198`).
+gets NO addendum, and the model is never taught to propose" (`companion_cli.py:253`).
 A turn that ships nothing therefore teaches nothing and accepts nothing, without
 a flag.
 
@@ -60,7 +65,7 @@ membership, and its header states the distinction the technique asks for
 catalog contain run_analysis' test. Pinning the members would pass while a fourth
 action was added to the executor and never taught."
 
-Four assertions close the loop: the wire ids equal the catalog ids (`:33`), each
+Four assertions close the loop: the wire ids equal the catalog ids (`:34`), each
 wire spec's params equal the declared params by name and requiredness (`:44`),
 `companionAction()` — the same lookup the resolve route uses — resolves every
 catalog id to a spec with a real `execute` and resolves nothing else (`:60-72`),
@@ -79,7 +84,7 @@ where the language boundary still costs something.
 
 `POST /api/companion/proposals/[id]/resolve` re-derives everything from the
 catalog at click time rather than trusting the row
-(`app/api/companion/proposals/[id]/resolve/route.ts:16-25`):
+(`app/api/companion/proposals/[id]/resolve/route.ts:33-40`):
 
 > THIS IS THE ONE DOOR … this handler re-validates from scratch: the proposal is
 > still open, its stored payload still parses, its action still exists in the
@@ -95,20 +100,20 @@ build no longer carries is declined on the operator's behalf and stamped
 payload that no longer satisfies its declared shape takes the same path.
 
 Parameter resolution against the store also happens at execution, not at
-proposal: `resolveEntryByLabel` (`companion-actions.ts:113-130`) looks the
+proposal: `resolveEntryByLabel` (`companion-actions.ts:106-133`) looks the
 model-supplied label up in this tenant's own board and refuses on zero matches
 and on two, "rather than guessing which human the operator meant".
 
 ## Confirmed, and belonging to the neighbour: claim, run, stamp
 
 Acceptance is three steps, and the reasoning is recorded at the repo function
-(`app/_lib/db/companion.ts:464-473`): "doing the write first and the work second
+(`app/_lib/db/companion.ts:503-511`): "doing the write first and the work second
 means a failed accept leaves a proposal marked accepted that nothing ever did;
 doing the work first and the write second means a double-click runs it twice."
-So `claimProposal` (`:476`) is a conditional `UPDATE … WHERE status = 'open'`
-only one caller can win, `stampProposalOutcome` (`:489`) merges the outcome and
+So `claimProposal` (`:515`) is a conditional `UPDATE … WHERE status = 'open'`
+only one caller can win, `stampProposalOutcome` (`:528`) merges the outcome and
 sets `resolved_at` guarded on `resolved_at IS NULL`, and `releaseProposal`
-(`:516`) can only undo a claim that never completed. A losing double-click reads
+(`:555`) can only undo a claim that never completed. A losing double-click reads
 the same 409 a second tab does.
 
 This is a clean realization of `hitl-approval`'s
@@ -124,7 +129,7 @@ consuming the one traversal the claim authorizes.
 
 `companionAction()` returns `null` for an unknown id and the test asserts every
 catalog id resolves — which is the property, checked at the right place. But the
-binding is a `Map` built at module load (`companion-actions.ts:240`) rather than
+binding is a `Map` built at module load (`companion-actions.ts:248`) rather than
 an exhaustive match, so a kind added to the array without an `execute` is a
 compile error only because `execute` is required by `CompanionActionSpec`. The
 arrangement holds here because catalog and executors live in the same literal;
@@ -133,7 +138,7 @@ test is what would still catch it.
 
 ## Deviation: nothing has run in a browser
 
-The product's own doc records it (`docs/features/companion/README.md:698-701`): the dock,
+The product's own doc records it (`docs/features/companion/README.md:1287-1289`): the dock,
 the proposal card and the resolve route "have been type-checked, linted and
 unit-tested, but no browser has painted a proposal card and no accept has
 dispatched a real task". The single-source property is asserted mechanically and

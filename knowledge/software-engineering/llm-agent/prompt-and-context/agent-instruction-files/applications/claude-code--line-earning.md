@@ -4,7 +4,7 @@ type: application
 subject: agent-instruction-files
 technique: line-earning
 stack: claude-code
-verified_on: 2026-09-05
+verified_on: 2026-10-31
 verified_against: claude-code@2.1
 applied: experiment
 ab_verdict: not-better
@@ -106,6 +106,17 @@ doc-sync and then adopted a fan-out topology that moved the edits out of the
 gate's sight — a `Stop` hook watching the one session that does not edit
 feature code. The commit-range job is the demotion that survived the
 topology change, because it observes the artifact rather than a transcript.
+
+Re-checked 2026-10-31 at kp@6edf5d7, against the tree only (the transcript
+counts above are history and were not re-run). `.claude/CLAUDE.md` is now 357
+lines. Both prose rules are still prose. `evaluate()` and `isTurnBoundary()`
+are still exported from `scripts/docs/check-doc-sync.mjs` (`:119`, `:88`), and
+the commit-range doc-sync job with its `Doc-sync:` waiver is still in
+`.github/workflows/ci.yml` (`:297-306`). `.claude/settings.json` now registers a
+`PostToolUse` hook beside `Stop`, but that hook is the style linter
+(`scripts/style/lint-edited.mjs`), not doc-sync. The doc-sync gate is still
+`Stop` only, there is still no `SubagentStop` hook, and the return condition is
+unmet. The verdict stands.
 
 ## Return condition
 

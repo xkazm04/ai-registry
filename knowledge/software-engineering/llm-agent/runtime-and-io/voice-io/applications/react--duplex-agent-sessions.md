@@ -4,7 +4,8 @@ type: application
 subject: voice-io
 technique: duplex-agent-sessions
 stack: react
-verified_on: 2026-08-20
+verified_on: 2026-10-31
+verified_against: react@19
 ---
 
 # A hosted voice-agent session in a Next.js recruiting app — and the seam that kept it swappable
@@ -135,3 +136,25 @@ The candidate interview still runs the brain shape. The gap between the two
 surfaces is the honest cost accounting for the technique: the brain shape shipped
 speech in days and now owns a remote configuration object, a drift-check script,
 a sanitized-brief path, and a documented migration it has not made.
+
+## Re-checked 2026-10-31 at kp@6edf5d7
+
+Every named module and symbol above still resolves, under the same names. The
+pure diff is `app/_lib/voice/eleven-agent-diff.mjs`. `--check` still exits
+`0`/`1`/`2` (`scripts/setup-eleven-agent.mjs:270-323`). The connect route still
+caps mints per token at 6 per 10 minutes, and at 120 when the provider is
+self-hosted (`app/api/interview/connect/route.ts:209-210`). Three things moved:
+
+- `VoiceAdapter.connect` now also takes `sessionToken` and `tools`
+  (`app/_lib/voice/types.ts:122-129`). The seam is the same and wider.
+- **The per-job keyword list is no longer only buildable, it is built.**
+  `app/_lib/voice/asr-keywords.mjs` holds the account-wide floor and a
+  per-conversation builder capped at 50. The transport sends it as
+  `overrides.asr` (`app/_components/voice/transport/elevenlabs.ts:174-182`),
+  gated by an `asrKeywords` flag. The static-list quote now lives in
+  `docs/concepts/elevenlabs-agents-upgrade.md:78`. That closes the "roughly a
+  month late" gap.
+- The transport imports `useConversation` from `@elevenlabs/react`.
+
+The candidate interview still runs the brain shape. The closing cost
+accounting stands, less the keyword item.

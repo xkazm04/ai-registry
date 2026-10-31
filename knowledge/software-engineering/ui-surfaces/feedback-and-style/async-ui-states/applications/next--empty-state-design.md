@@ -5,8 +5,8 @@ subject: async-ui-states
 technique: empty-state-design
 stack: next
 status: forged
-verified_on: 2026-09-20
-verified_against: next@16.3.3
+verified_on: 2026-10-31
+verified_against: next@16
 applied: code
 proof: structural-with-partial-pin
 ---
@@ -137,3 +137,30 @@ the branch structure above, not on a defect that was observed and then
 removed. The honest summary is that the tree makes the failed/empty confusion
 *unreachable* rather than *fixed* — which is the stronger property and the
 weaker evidence.
+
+## Re-checked 2026-10-31 at kp@6edf5d7
+
+The surface this application describes is gone, and with it the property the
+verdict rests on. `/me/jobs` is now a redirect to the flow
+(`app/me/jobs/page.tsx:6-8`, `redirect("/me#s-evening")`). `JobsFeed.tsx` and
+`FeedEmptyState.tsx` no longer exist. `feedModel.ts` keeps only salary,
+EURES-country and scan-interval helpers: the chain resolver, the six-state
+vocabulary and `shouldFetchRows` are absent, and so are the
+`feedModel.test.ts` cases cited above. The feed now renders as the flow's
+"Worth your evening" step (`app/features/jobseeker/sieve/StepEvening.tsx`).
+Its rows come from `useSieveData.ts:115-117`, which calls `reloadRows()`
+unconditionally on mount, so **the row request is made even when the chain is
+broken**. The structural skip this application credits ("the request that is
+not made") **no longer holds in this tree**, and the claim that the
+failed/empty confusion is *unreachable* is reversed to "handled at render".
+`StepEvening.tsx:154-163` shows the failure notice (`loadError ?? …`) ahead of
+the "not reached" gap box, so a failed read is still not painted as an empty
+feed, but that now depends on branch order, not on a missing request. The
+cause hook survives in a narrower form: `data-empty-state` on the gap boxes
+(`StepSieve.tsx:268`, `no_sources` / `nothing_found` / `no_scan`;
+`StepEvening.tsx:172`, `nothing_scored`). The keyless spec
+(`e2e/jobseeker-keyless.spec.ts:22-29`) now asserts `#s-sieve` "not reached"
+and an absent scan button instead of `data-empty-state="no_profile"`. It is
+still "DECLARED, NOT YET ENROLLED" (`:3`). `FailureNotice.tsx` holds as
+described (`:18`, `:44`, `:55-58`). Read the sections above as the record of
+the tree as it was at 2026-09-20.

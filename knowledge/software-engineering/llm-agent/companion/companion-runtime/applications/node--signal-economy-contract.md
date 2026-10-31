@@ -5,7 +5,8 @@ subject: companion-runtime
 technique: signal-economy-contract
 stack: node
 status: forged
-verified_on: 2026-08-24
+verified_on: 2026-10-31
+verified_against: node@24
 ---
 
 # Two counts declined, and one placed where it clears (kp / Candi)
@@ -19,7 +20,7 @@ the affordance a signal leads to resolve the thing the signal counts.
 `attentionCounts()` returns six keys, one per navigation badge in the recruiter
 shell. The sixth is the companion's open proposals, and it is the only key no tab
 declares. The reasoning sits on the type
-(`app/_lib/attention.ts:43-52`):
+(`app/_lib/attention.ts:43-51`):
 
 > The ONLY key here with no `badgeKey` on any tab, deliberately: Candi lives in a
 > dock, not a tab, so there is no nav item that could carry it. It is read by the
@@ -54,7 +55,7 @@ mark a pipeline entry as waiting on a human; `needsHumanDecision()` (`:27`) is
 what the `decisions` count and the Decisions tab read. Registering a seventh,
 `companion_proposal`, is the obvious way to make companion proposals visible in
 machinery that already exists. It was declined, and the reason is recorded
-(`docs/features/companion/README.md:683-689`):
+(`docs/features/companion/README.md:1269-1275`):
 
 > A companion proposal lives in its own table with its own status lifecycle and
 > its own resolution route, so adding the kind would have created a gate with no
@@ -73,10 +74,17 @@ every number clearable.
 
 This is the placement half of the technique confirmed, not the whole technique.
 The companion's one autonomous cycle at this point is the daily digest
-(`app/_lib/companion-actions.ts:162-180`, the `generate_digest` spec), which is
+(`app/_lib/companion-actions.ts:165-183`, the `generate_digest` spec), which is
 operator-triggered by accepting a proposal — the case the technique's own closing
 section exempts, since the person is already waiting for the answer. No cycle here
 yet produces an outcome that has to choose between reporting and absorbing, so the
 typed verdict on the outcome, and the reported-share ratio that instruments it,
 have nothing to measure. The count placement was decided correctly in advance of
 the gate that will need it.
+
+Re-checked 2026-10-31 at kp@6edf5d7: both refusals, the tenancy test and the
+approval-kind registry hold as quoted. The count's surface widened inside the
+dock: the collapsed dock pill now also shows the open-proposal count
+(`docs/features/companion/README.md:1276-1281`). That is still the dock, so the
+count stays where its own affordance clears it. `companion_digest` is still
+enqueued only by accepting the `generate_digest` proposal. The deviation stands.
