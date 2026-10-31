@@ -58,9 +58,10 @@ delivery degrades for *every* future message including the ones that would have
 converted. The dominant mailbox provider publishes the shape of this plainly - it
 asks bulk senders to keep reported spam rates under 0.30% and recommends under
 0.10%, states that frequent spam reports make future messages more likely to be
-marked as spam, and defines a bulk sender as one exceeding five thousand messages a
-day to its users. *Footing: vendor-documented thresholds from the provider's own
-sender requirements, read 2026-09-16; the numbers are one provider's policy and move,
+marked as spam, and defines a bulk sender as one sending close to five thousand
+messages or more to its personal accounts within twenty-four hours - a status that,
+once reached, is permanent. *Footing: vendor-documented thresholds from the
+provider's own sender requirements, read 2026-09-16 and re-read 2026-10-31; the numbers are one provider's policy and move,
 the mechanism - recipient reaction feeding back into future placement - is the part
 that is stable.*
 

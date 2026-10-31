@@ -91,8 +91,8 @@ disagree about whether a channel is measured; they do not enter the ordering.
 
 ## Decision rules
 
-- When a channel's kind is listing or outreach, deal it no query, because the
-  channel cannot carry a page.
+- When a channel's kind is listing, outreach or push, deal it no query, because no
+  stranger can arrive on it from a results page.
 - When content exists for a query, match by the brief's declared primary keyword
   and never by similarity, because the declared keyword is a fact the owner made.
 - When a query has no measured metric, carry zero and label the leg's provenance,

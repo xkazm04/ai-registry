@@ -58,8 +58,8 @@ The dominant search engine's published spam policy defines link spam as creating
 links to or from a site primarily to manipulate rankings, and names as examples
 excessive link exchanges, using automated programs or services to create links to
 a site, and requiring a link as part of a terms of service, contract or similar
-arrangement **without allowing the content owner the choice of qualifying the
-outbound link**. The stated consequence is that a site may rank lower or not
+arrangement **without allowing a third-party content owner the choice of
+qualifying the outbound link**. The stated consequence is that a site may rank lower or not
 appear at all. The same policy accepts bought and sold links outright when they
 carry a qualifying attribute - which is the proof that the qualification, not the
 commerce and not the reciprocity, is what the policy is actually about.
