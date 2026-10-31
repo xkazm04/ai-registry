@@ -5,7 +5,7 @@ subject: automated-screening-fairness-gates
 technique: never-auto-reject-a-protected-cohort
 stack: process
 status: forged
-verified_on: 2026-09-26
+verified_on: 2026-10-31
 applied: simulation
 ab_verdict: better
 ---
@@ -17,12 +17,12 @@ spawned by a TypeScript app. The deterministic policy pass and the model-backed 
 live in `pipeline/jobfit/automation.py`, and the cohort shield is implemented there four
 times over — as policy data, as a pre-model gate, as a post-model override, and as a
 stage rule — with the protected set itself living outside the module. It is not the only
-automated path: the TypeScript screening wave (`app/_lib/screen-wave.ts:233`) has its own
+automated path: the TypeScript screening wave (`app/_lib/screen-wave.ts:234`) has its own
 auto-reject eligibility and reads the shield through the live registry reader.
 
 ## The whole policy is a handful of numbers
 
-`automation.py:136-166` holds `POLICY`, described in its own comment (`:135`) as "the
+`automation.py:136-172` holds `POLICY`, described in its own comment (`:135`) as "the
 only place rules live". The original nine keys are unchanged:
 
 ```python
@@ -33,8 +33,14 @@ only place rules live". The original nine keys are unchanged:
 
 and two volume keys joined them on 2026-09-16 (`"screen_volume_sparse_max": 5`,
 `"screen_volume_moderate_max": 30`), "Hand-mirrored into
-app/_lib/automation-cache-key.ts" (`:161-163`). The aging tier is resolved in
-TypeScript (`:168-175`), so "the only place" is now qualified in the file itself.
+app/_lib/automation-cache-key.ts" (`:167-169`). The aging tier is resolved in
+TypeScript (`:174-181`), so "the only place" is now qualified in the file itself.
+
+Re-checked 2026-10-31 at kp@6edf5d7e6: `rematch_floor` is no longer a literal. Since
+`53678ce01` (2026-10-21) it reads `FIT_PROMISING_THRESHOLD` from the matcher's fit band
+(still 55), so the rematch admission is held to the same floor as the rediscovery gate
+by `test_fit_threshold_sync.py`. The other eight keys are as quoted. The shield is
+not affected.
 
 The band between 40 and 70 is the undecided region, and it is 30 points wide — the
 majority of the realistic score mass routes to a human. `screen_advance_conf: 80` is the
@@ -48,13 +54,13 @@ auto-reject anybody.
 
 ## The protected set has one source, enforced by a source-scanning test
 
-`automation.py:350` reads the set from the shared registry rather than declaring it:
+`automation.py:356` reads the set from the shared registry rather than declaring it:
 
 ```python
 _EARLY_CAREER = registry.early_career_archetypes()
 ```
 
-with the comment (`:348-349`) "single-sourced from the shared registry (`archetypes.json`)
+with the comment (`:354-355`) "single-sourced from the shared registry (`archetypes.json`)
 so the in-code fairness levers ... can't drift from the scorer's set." On the TypeScript
 side, `app/_lib/archetypes.ts:21` holds a build-time bundled copy of the same file, and
 `app/_lib/archetype-live.ts` re-reads the file at runtime for every server decision,
@@ -74,25 +80,25 @@ prevent."
 
 ## Three placements around the model call
 
-`screen_candidate` (`automation.py:1057`) applies the shield before, during and after the
+`screen_candidate` (`automation.py:1074`) applies the shield before, during and after the
 model call:
 
-- **Before** — `:1077-1078`: `forced_hold = early and (candidate.potential_score or 0) >
+- **Before** — `:1094-1095`: `forced_hold = early and (candidate.potential_score or 0) >
   0.5 and m.total < 55`, commented "PRE-LLM FAIRNESS GATE: a learnable-gap early-career
   candidate is never auto-rejected."
-- **During** — the prompt carries the instruction when `early` is true (`:1100-1101`):
+- **During** — the prompt carries the instruction when `early` is true (`:1117-1118`):
   "This is an EARLY-CAREER candidate — judge on potential, frame gaps as learnable, and
   never recommend a hard reject; prefer 'hold' for a human."
-- **After** — `:1184-1188`, under the comment "Apply the fairness gate + routing AFTER
+- **After** — `:1208-1212`, under the comment "Apply the fairness gate + routing AFTER
   the model/fallback (model cannot override it)": a `reject` is rewritten to `hold` for a
   forced-hold candidate *and* for any early-career candidate. A volume gate follows
-  (`:1189-1194`), and the route at `:1195-1196` carries `and not early`, so the route of
+  (`:1213-1218`), and the route at `:1219-1220` carries `and not early`, so the route of
   an early-career candidate is never advance either.
 
 ## The stage machine says it in one line
 
-`evaluate_entry` (`automation.py:952`) is the deterministic policy pass. Under `if role
-== "screening":` (`:1005`) the order of its guards is the doctrine (`:1013-1020`):
+`evaluate_entry` (`automation.py:969`) is the deterministic policy pass. Under `if role
+== "screening":` (`:1022`) the order of its guards is the doctrine (`:1030-1037`):
 
 ```python
 if early:
@@ -103,10 +109,10 @@ if score < POLICY["bau_reject_score"]:
     return out("reject", None, f"BAU score {score} < {POLICY['bau_reject_score']}")
 ```
 
-Two earlier guards, a recent human screening decision (`:991`) and a pending approval
-(`:1011`), come first. The shield is checked before the score is compared to anything,
+Two earlier guards, a recent human screening decision (`:1008`) and a pending approval
+(`:1028`), come first. The shield is checked before the score is compared to anything,
 and the unscored branch sits between them — the docstring records the incident behind
-it (`:963-964`): without that branch "an unscored entry would collapse to `int(None or 0)
+it (`:980-981`): without that branch "an unscored entry would collapse to `int(None or 0)
 == 0` and be rejected for `0 < bau_reject_score`, silently turning a data gap into a
 rejection."
 
@@ -127,7 +133,7 @@ id) that auto-ratified before the change and park after it.
 - **Two readings of "protected".** A per-archetype `fairnessProtected` flag exists in
   `archetypes.json` and is settable on custom archetypes in the archetype manager. The
   TypeScript gate shields on `def.fairnessProtected === true || def.scoringModel ===
-  "early_career"` (`archetypes.ts:65-66`); Python's automation gate keys only on the
+  "early_career"` (`archetypes.ts:72-73`); Python's automation gate keys only on the
   scoring model (`registry.py:109-110`), and `fairness_protected_archetypes()`
   (`:113-114`) is never read by `automation.py`. A custom archetype marked protected but
   scored as experienced is shielded in TypeScript only: `evaluate_entry` proposes the

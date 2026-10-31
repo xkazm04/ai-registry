@@ -5,7 +5,7 @@ subject: presenting-a-score-to-a-recruiter
 technique: one-canonical-score-with-provenance
 stack: node
 status: forged
-verified_on: 2026-09-29
+verified_on: 2026-10-31
 verified_against: node@24
 ---
 
@@ -44,14 +44,14 @@ with its own read path; see [the transfer-score application](node--one-canonical
 
 ## Precedence, and what stays out
 
-`getCanonicalMatchScore` (`match-score.ts:118`) implements the precedence in
+`getCanonicalMatchScore` (`match-score.ts:126`) implements the precedence in
 one place — freshest job-matched analysis (provenance `{ source: "analysis",
 at, slug }`) → the entry's own snapshot (`{ source: "snapshot" }`) → `null`,
 "never a fabricated 0". `canonicalScoreOf` and `provenanceOf`
-(`match-score.ts:146` and `:152`) are the client-side accessors; the comment
+(`match-score.ts:158` and `:164`) are the client-side accessors; the comment
 on the latter pair is blunt — *never fabricates*.
 
-The more interesting half is the exclusion rule at `match-score.ts:84`:
+The more interesting half is the exclusion rule at `match-score.ts:89`:
 
 > Numbers that are genuinely a DIFFERENT concept — the draft-time pricing basis
 > (C) on the offer card, the group-eval ranking total — are not folded into the
@@ -62,11 +62,21 @@ The more interesting half is the exclusion rule at `match-score.ts:84`:
 That is *reconcile rival answers, label different questions*, decided
 explicitly rather than by whichever field a component reached for.
 
+Re-checked 2026-10-31 at kp@6edf5d7e6: the precedence has the same three rungs, but
+rung 2 now carries two provenances, not one. Since `06d0d01d9` (2026-10-22) an entry
+whose `match_score` was filled *after* the add by the arrival scorer or the automation
+sweep resolves to `{ source: "scored", at }`, with `at` taken from the `scored` pipeline
+event the fill-only writer logs beside every winning write; only a figure stamped at add
+time still reads `{ source: "snapshot" }`. The client-side `provenanceOf` still answers
+`snapshot` when the payload carries no canonical fields. This sharpens the verdict
+rather than reversing it: the provenance now says which producer of (B) wrote the
+number and when.
+
 ## The join is the provenance
 
 Precedence rule 1 is only sound if "the freshest analysis **for this job**" is
 actually job-matched, and the server module makes that strictness the point.
-`app/_lib/match-score-resolve.ts:12` states the join contract: the job axis
+`app/_lib/match-score-resolve.ts:13` states the join contract: the job axis
 requires the entry's job to be a JD-backed job whose slug equals the
 analysis's `jd_slug`, because "a label-only join would fold a DIFFERENT role's
 fit into 'the match score', re-creating the exact conflation this path ends";
@@ -74,8 +84,8 @@ the candidate axis is an exact, case-insensitive label match, because "a fuzzy
 join would invent history for same-named strangers." A corpus job with no
 job-matched analyses resolves to its snapshot rather than borrowing one.
 
-`buildFreshestFits` and `withCanonicalScores` (`match-score-resolve.ts:40`
-and `:57`) stamp `canonicalScore` + `scoreProvenance` onto the `/api/pipeline`
+`buildFreshestFits` and `withCanonicalScores` (`match-score-resolve.ts:41`
+and `:58`) stamp `canonicalScore` + `scoreProvenance` onto the `/api/pipeline`
 payload, so the board card, the drawer header and the offer approval card all
 read one number and can say where it came from. The pure module stays
 dependency-free so both server modules and client components import the same

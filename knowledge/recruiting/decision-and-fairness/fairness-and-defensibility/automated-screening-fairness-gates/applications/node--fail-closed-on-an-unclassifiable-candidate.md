@@ -5,7 +5,7 @@ subject: automated-screening-fairness-gates
 technique: fail-closed-on-an-unclassifiable-candidate
 stack: node
 status: forged
-verified_on: 2026-09-26
+verified_on: 2026-10-31
 verified_against: node@24
 ---
 
@@ -18,7 +18,7 @@ they deliberately default in opposite directions.
 
 ## The pair, with the asymmetry written next to it
 
-`archetypes.ts:113-115`, the safety predicate:
+`archetypes.ts:120-122`, the safety predicate:
 
 ```ts
 export function isFairnessProtected(archetype: string | null | undefined): boolean {
@@ -29,7 +29,7 @@ export function isFairnessProtected(archetype: string | null | undefined): boole
 Its doc comment calls it "The fairness gate": shielded when the archetype is early-career
 "OR an unknown one (fail closed — we never auto-reject a class we cannot classify)".
 
-`archetypes.ts:117-123`, the copy predicate:
+`archetypes.ts:124-130`, the copy predicate:
 
 ```ts
 export function isEarlyCareer(archetype: string | null | undefined): boolean {
@@ -45,7 +45,7 @@ pass will make the two predicates consistent.
 
 ## The hole a membership check had
 
-`isKnownArchetype` (`archetypes.ts:84-95`) is `Object.hasOwn(ARCHETYPE_LABEL,
+`isKnownArchetype` (`archetypes.ts:91-102`) is `Object.hasOwn(ARCHETYPE_LABEL,
 normalizeArchetype(archetype))`. Its comment records the incident: the label map is
 built with `Object.fromEntries` and inherits `Object.prototype`, so `"constructor" in
 ARCHETYPE_LABEL` was true for an id the registry had never heard of, which "inverted the
@@ -60,13 +60,13 @@ membership test, and a prototype chain is a membership the author did not write.
   intake fails or yields no archetype. The comment above it (`:60-72`) explains why the
   earlier fallback was wrong: "bau" "is a CONCRETE class ... so persisting it on a record
   that asserts nothing was read strips the early-career fairness shield".
-- `app/_lib/archetype-registry.ts:48` — `const RESERVED_IDS = new Set(["unknown",
+- `app/_lib/archetype-registry.ts:50` — `const RESERVED_IDS = new Set(["unknown",
   "unrouted"]);` — the manager refuses to register either id, because registering one
   would flip every unrouted candidate "from shielded to auto-rejectable, and relabels
   them as a concrete class".
-- `archetypeDisplayKey` (`archetypes.ts:105-107`) renders anything unrecognized as
+- `archetypeDisplayKey` (`archetypes.ts:112-114`) renders anything unrecognized as
   `"unrouted"`, "NEVER collapsed to a concrete class like "bau"".
-- The live reader (`app/_lib/archetype-live.ts:77-85`) is the union the server decides
+- The live reader (`app/_lib/archetype-live.ts:75-82`) is the union the server decides
   with: shielded when the bundled registry shields the id, when the runtime registry
   file shields it, or when neither knows it (`return true;`). An unreadable or invalid
   file answers with the bundled gate, so a broken registry can only add protection.
@@ -81,11 +81,11 @@ false while `isFairnessProtected` is true — the asymmetry pinned as one assert
 
 ## Deviations
 
-- **The Python policy pass relabels.** `pipeline/jobfit/automation.py:968` —
-  `archetype = entry.get("archetype") or "bau"` — and `:976` decides the shield by
+- **The Python policy pass relabels.** `pipeline/jobfit/automation.py:985` —
+  `archetype = entry.get("archetype") or "bau"` — and `:993` decides the shield by
   membership (`early = archetype in _EARLY_CAREER`), so a null or unregistered archetype
   is rejectable on that path. The docstring pins it as a known caveat (`:32-34`: "The
-  fail-closed reading exists only in TS"), and `pipeline/jobfit/tests/test_automation.py:1064-1067`
+  fail-closed reading exists only in TS"), and `pipeline/jobfit/tests/test_automation.py:1156-1159`
   includes an `"unknown-archetype"` fixture that expects the BAU behaviour. The TS
   backstop downgrades what Python proposes, so no candidate is rejected unattended, but
   every such proposal lands as a fairness refusal, and the refusal count stops meaning

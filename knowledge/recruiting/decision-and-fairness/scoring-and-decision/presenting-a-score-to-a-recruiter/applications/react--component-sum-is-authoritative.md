@@ -5,7 +5,7 @@ subject: presenting-a-score-to-a-recruiter
 technique: component-sum-is-authoritative
 stack: react
 status: forged
-verified_on: 2026-09-29
+verified_on: 2026-10-31
 verified_against: react@19
 ---
 
@@ -56,14 +56,14 @@ someone expanding the breakdown.
 
 The comment at `format.ts:483` says the pipeline "mints `total` from the
 model's own number … NOT recomputed from the parts". That was true; it no
-longer is. `_score_from_payload` in `pipeline/jobfit/pipeline.py:870` now
+longer is. `_score_from_payload` in `pipeline/jobfit/pipeline.py:941` now
 computes `total = min(experience + skills + role_seniority + education +
 traits, 100)` and documents the maxima as capping it at exactly 100, with the
 `min()` called out as defensive belt-and-suspenders.
 
 The generator's own claimed total was not deleted — it was demoted.
-`_reported_score_total` (`pipeline.py:912`) extracts it purely as a signal,
-and `_score_sanity_checks` (`pipeline.py:1524`) compares it against the
+`_reported_score_total` (`pipeline.py:983`) extracts it purely as a signal,
+and `_score_sanity_checks` (`pipeline.py:1614`) compares it against the
 authoritative sum past `SCORE_TOTAL_TOLERANCE`, flagging a divergence "for
 observability … turning a quiet generation defect into a visible, reviewable
 one even though the bad number is no longer trusted." Both halves of the
@@ -75,15 +75,15 @@ the only loose end.
 ## The wire contract on the other scoring path
 
 The live-match path carries the same discipline in its type rather than in a
-reconciler: `ScoreDimension` in `app/features/shared/matchTypes.ts:30` puts
+reconciler: `ScoreDimension` in `app/features/shared/matchTypes.ts:31` puts
 `percent`, `weight` and `contribution` "all on a single 0-100 scale so the
 bars render with zero client-side math", with weights summing to 100 and
 contributions summing to the total. `build_score_breakdown`
-(`pipeline/jobfit/matching.py:931`) computes contribution and total from the
+(`pipeline/jobfit/matching.py:1126`) computes contribution and total from the
 same un-rounded inputs so the rows sum to the total modulo per-row rounding.
 
 The residual gap is precisely the one the technique's rounding rule addresses:
-each `contribution` is rounded independently (`matching.py:952`,
+each `contribution` is rounded independently (`matching.py:1147`,
 `round(100 * w[key] * scores[key], 1)`), with no largest-remainder assignment,
 so the displayed rows can miss the displayed total by a tenth. On this
 breakdown the drift is sub-percent and invisible; the rule still stands, and a

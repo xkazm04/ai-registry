@@ -5,7 +5,7 @@ subject: presenting-a-score-to-a-recruiter
 technique: score-bands-locked-across-surfaces
 stack: react
 status: forged
-verified_on: 2026-09-29
+verified_on: 2026-10-31
 verified_against: react@19
 ---
 

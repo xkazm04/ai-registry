@@ -5,7 +5,7 @@ subject: automated-screening-fairness-gates
 technique: route-vocabulary-narrower-than-verdict-vocabulary
 stack: process
 status: forged
-verified_on: 2026-09-26
+verified_on: 2026-10-31
 applied: code
 ab_verdict: better
 ---
@@ -18,7 +18,7 @@ other, thirteen lines apart, with the asymmetry spelled out.
 
 ## The declarations
 
-`automation.py:358-371`:
+`automation.py:364-377`:
 
 ```python
 RECOMMENDATIONS: tuple[str, ...] = ("advance", "hold", "reject")
@@ -33,22 +33,22 @@ SCREEN_ROUTES: tuple[str, ...] = ("advance", "hold")
   in `app/_lib/interview-recommendation.ts`." The bench contract still declares its own
   copy (`pipeline/jobfit/llm/bench/contracts.py:11`), so "once" is true of the
   production path only.
-- `RECOMMENDATION_FALLBACK = "hold"` carries the reason inline (`:360-362`): "Never
+- `RECOMMENDATION_FALLBACK = "hold"` carries the reason inline (`:366-368`): "Never
   silently `advance` (could auto-progress a candidate) or `reject` (the fairness gate
   forbids a silent auto-reject) — `hold` routes to the human Decisions gate."
-- `SCREEN_ROUTES` is documented (`:367-369`) as "a strict SUBSET of the verdicts.
+- `SCREEN_ROUTES` is documented (`:373-375`) as "a strict SUBSET of the verdicts.
   `screen_candidate()` collapses (recommendation, confidence, fairness gate) into
   `result["route"]` ∈ this set, which the TS layer reads to auto-advance vs. queue for
   review."
 
 `RECOMMENDATION_CHOICES` is rendered into the prompt text rather than typed by hand
-(`:364-366`, used at `:1105`), "derived so the legal set is stated in exactly one place
+(`:370-372`, used at `:1122`), "derived so the legal set is stated in exactly one place
 and the prompt can never list a stale vocabulary."
 
 ## The collapse
 
-`automation.py:1195-1196` computes the route after the model has spoken, after the
-fairness gate has overridden it (`:1184-1188`) and after the volume gate (`:1189-1194`):
+`automation.py:1219-1220` computes the route after the model has spoken, after the
+fairness gate has overridden it (`:1208-1212`) and after the volume gate (`:1213-1218`):
 
 ```python
 advance = result["recommendation"] == "advance" and result["confidence"] >= POLICY["screen_advance_conf"] and not early
@@ -67,12 +67,12 @@ missing and gated on a person.
 
 ## The coercion default is context-aware
 
-`coerce_recommendation` (`automation.py:387-395`) validates a raw verdict against the
+`coerce_recommendation` (`automation.py:393-401`) validates a raw verdict against the
 canonical set and returns the fallback otherwise. The screening task passes a better
-default than a blind hold (`:1149-1151`): the deterministic builder's own
+default than a blind hold (`:1166-1174`): the deterministic builder's own
 recommendation, "rather than a blind 'hold'". That is safe here only because the
 deterministic builder is itself under the shield. Its bottom branch is now three-way
-(`:1130-1135`):
+(`:1147-1152`):
 
 ```python
 if early:
@@ -86,6 +86,15 @@ else:
 and the post-model override rewrites any `reject` for a shielded candidate anyway. The
 API is looser than its one caller: `default` is an unchecked string, so a future caller
 could pass a value outside the set.
+
+Re-checked 2026-10-31 at kp@6edf5d7e6: the screening default is narrower than described
+above. Since `7354b2786` (2026-10-14) `coerce` calls `coerce_recommendation(..., "")` and,
+when the verdict is unreadable, takes the builder's recommendation *except* `advance`,
+which becomes `hold`. The comment gives the reason: the template's `advance` is a fixed 82
+for any total of 70 or more, and inherited it would have reached the unattended
+`screeningGate="auto"` ratify as the model's own advance. So an unreadable verdict can
+now hold, or reject and then meet the gate, but it cannot advance. This supports the
+verdict. The fallback is now asymmetric in the same direction as the route vocabulary.
 
 ## The contract enforces the narrowing, in the bench
 
@@ -107,7 +116,7 @@ candidate is screened.
 (`app/_lib/interview-recommendation.ts:71-81`), which checks it against `ROUTE_SET =
 new Set(SCREEN_ROUTES)` and returns the closed type `ScreenRoute`, defaulting to
 `"hold"`. It then hands it to `screenStageOutcome(stage, route)`
-(`app/_lib/pipeline-stages.ts:249`), which never rejects: `const cleared = route ===
+(`app/_lib/pipeline-stages.ts:254`), which never rejects: `const cleared = route ===
 "advance"`, and every other case returns `held_for_review`. Its docstring states the rule
 for the funnel entry stage: screening a fresh applicant "ALWAYS moves them into
 Screened — the same fair, archetype-neutral, never-reject Accepted→Screened move the
@@ -138,6 +147,11 @@ hold reason would let the branch say so directly.
   Nothing records the reviewer's own reading before the reveal. The self-reported
   confidence is kept off that badge, and a test holds it off
   (`app/features/shared/confidence-vocabulary.test.ts:118`).
+  Re-checked 2026-10-31 at kp@6edf5d7e6: `LedgerCells.tsx` was deleted in `fd59b3b35`
+  (2026-10-01), when the Decisions tab became the Docket. The finding still holds there.
+  Each row of `app/features/hiring/decisions/docket/DocketBoard.tsx` shows what the AI
+  proposes, as a mark and a label (`:59-71`), right beside the quick accept and reject
+  buttons (`:77`, `:79`). The decision bar's `RecBadge` is unchanged.
 - **Python's side is not closed.** `SCREEN_ROUTES` is read in Python only by
   `pipeline/jobfit/eval/automation_eval.py:128` and by tests; the Python production path writes the route
   from the two-line collapse above, not through a type.

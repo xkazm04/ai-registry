@@ -5,7 +5,7 @@ subject: presenting-a-score-to-a-recruiter
 technique: surface-the-assumptions-behind-the-number
 stack: process
 status: forged
-verified_on: 2026-09-29
+verified_on: 2026-10-31
 ---
 
 # The matching engine's assumption and knockout channels
@@ -16,8 +16,8 @@ imputations that produced it, and the hard gates that fired.
 
 ## `candidate_assumptions` — what the recruiter must see
 
-`pipeline/jobfit/matching.py:1279` builds the list, and the docstring of
-`candidate_assumptions` (`:1310`) states the purpose exactly as the technique does: "Imputations /
+`pipeline/jobfit/matching.py:1508` builds the list, and the docstring of
+`candidate_assumptions` (`:1539`) states the purpose exactly as the technique does: "Imputations /
 uncertainties the recruiter should see to judge a score fairly."
 
 The entries are produced by `_candidate_assumption_pairs` at the moment the
@@ -28,12 +28,12 @@ condition is detected, not reconstructed later. Their wording is the craft:
   render of a gate that was skipped rather than passed.
 - `"No languages listed — language KO skipped rather than failed."` — the
   skipped gate is disclosed instead of silently benefiting the candidate.
-- `"Some skills are self-declared — discounted; validate them in interview."` — an imputation with its probe attached (rule 7). It is emitted only inside the early-career branch of `_candidate_assumption_pairs` (`matching.py:1301-1302`), while the provenance discount itself applies to every archetype; for others the same fact reaches the recruiter per skill, through the claimed-but-unproven bucket and its reason (`unprovenSkillReason`), not as an assumption line.
-- `"Degree not stated — the CV names a school but no degree title; a degree floor is treated as unverified, not failed."` (`eduDegreeUnstated`, `:1291-1296`) — added 2026-09-23 with the gate change above, so the skipped gate is disclosed the same way the unknown-language one is.
+- `"Some skills are self-declared — discounted; validate them in interview."` — an imputation with its probe attached (rule 7). It is emitted only inside the early-career branch of `_candidate_assumption_pairs` (`matching.py:1530-1531`), while the provenance discount itself applies to every archetype; for others the same fact reaches the recruiter per skill, through the claimed-but-unproven bucket and its reason (`unprovenSkillReason`), not as an assumption line.
+- `"Degree not stated — the CV names a school but no degree title; a degree floor is treated as unverified, not failed."` (`eduDegreeUnstated`, `:1520-1525`) — added 2026-09-23 with the gate change above, so the skipped gate is disclosed the same way the unknown-language one is.
 - `"Thin skill profile — scores carry a wide confidence band."` — an
   assumption whose effect is on the *width* of the reading, not its level; it
   pairs with the `Confidence { low, high, level, drivers }` type in
-  `app/features/shared/matchTypes.ts:44`, which carries the interval and "the
+  `app/features/shared/matchTypes.ts:45`, which carries the interval and "the
   human reasons behind its width".
 - `"Some skills were directly observed (live case / interview) —
   high-confidence, not self-reported."` — an assumption that cuts *upward*.
@@ -41,7 +41,7 @@ condition is detected, not reconstructed later. Their wording is the craft:
 
 Each entry is emitted twice by construction. `_candidate_assumption_pairs`
 returns `(english_string, LabelCode)` tuples; `candidate_assumptions`
-(`:1310`) yields the strings and `candidate_assumption_codes` (`:1315`) the
+(`:1539`) yields the strings and `candidate_assumption_codes` (`:1544`) the
 locale-independent `match.assumptions.*` codes, "same order, so the UI can zip
 them and fall back string→code cleanly." `MatchResponse.candidate.assumptions`
 / `assumptionCodes` (`matchTypes.ts:161`) is the wire shape. That is the
@@ -56,42 +56,42 @@ missing, what was assumed, direction) is only two-thirds realized here.
 
 ## `ko_filter` — categorised at birth
 
-`pipeline/jobfit/matching.py:408` is the sibling channel and the cleanest
-instance of the neighbouring technique. `KoReason` (`matching.py:364`) is
+`pipeline/jobfit/matching.py:416` is the sibling channel and the cleanest
+instance of the neighbouring technique. `KoReason` (`matching.py:372`) is
 documented as "One hard-gate failure, categorized AT BIRTH by `ko_filter`",
 with `key` drawn from a closed `KoReasonKey` literal — `language`,
 `seniority`, `early_career`, `education`, `work_mode` — and `detail` as the
 candidate-facing clause. The line that matters: "the two never need to agree
 on wording because the key alone is authoritative."
 
-`_KO_REASON_CLAUSES` (`matching.py:1325`) is therefore "purely presentation",
-and `aggregate_ko_reasons` (`matching.py:1336`) ranks by
+`_KO_REASON_CLAUSES` (`matching.py:1554`) is therefore "purely presentation",
+and `aggregate_ko_reasons` (`matching.py:1565`) ranks by
 `(-counts[k], _KO_KEY_ORDER[k])` — count first, declaration order as the
 deterministic tie-break, so the same data never renders in two orders.
 
 Three fairness stances inside `ko_filter` match the technique's gate rules:
 
 - **Unknown skips the gate.** The education minimum knocks out only on a
-  *measured* shortfall (`matching.py:441`); an unknown level, and since
+  *measured* shortfall (`matching.py:449`); an unknown level, and since
   2026-09-23 a school named with no degree title, are `uncertain`, widen the
   confidence band and are named in the assumption list. A candidate listing no
-  languages is not failed on a language requirement (`:445`).
+  languages is not failed on a language requirement (`:453`).
 - **Unclassifiable fails closed.** An unknown archetype is not hard-gated on a
   seniority floor at all — "never auto-KO on seniority a candidate we cannot
-  classify" (`matching.py:426`) — while scoring continues on neutral baseline
+  classify" (`matching.py:434`) — while scoring continues on neutral baseline
   weights.
 - **A defaulted field is a phantom.** The work-mode gate fires only when the
   candidate expressed a preference *and* the advertisement actually stated a
   mode; a `work_mode` stamped from `DEFAULT_POLICY` and recorded in
   `job.defaulted_fields` "is a PHANTOM the ad never asserted … and must NEVER
-  act as a hard gate" (`matching.py:452`).
+  act as a hard gate" (`matching.py:460`).
 
 ## The re-weighting control
 
 The recruiter-facing challenge surface is bounded on both ends. Engine-side,
 dynamic weights may move each slot at most `_WEIGHT_MAX_DELTA = 0.15` from the
 archetype baseline and never past `_WEIGHT_FLOOR = 0.10` / `_WEIGHT_CEIL =
-0.60` (`matching.py:974-982`), "so one strong signal can neither erase a dimension
+0.60` (`matching.py:1169-1177`), "so one strong signal can neither erase a dimension
 nor let it" dominate; `weightBounds` rides the payload so the interface seeds
 bounded sliders.
 

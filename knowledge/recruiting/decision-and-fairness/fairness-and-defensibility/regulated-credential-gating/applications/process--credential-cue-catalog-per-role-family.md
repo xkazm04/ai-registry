@@ -4,12 +4,12 @@ type: application
 subject: regulated-credential-gating
 technique: credential-cue-catalog-per-role-family
 stack: process
-verified_on: 2026-08-20
+verified_on: 2026-10-31
 ---
 
 # The regulated-licence spec table
 
-`_LICENCE_SPECS` (`pipeline/jobfit/credentials.py:34-49`) is the catalog. Nine entries,
+`_LICENCE_SPECS` (`pipeline/jobfit/credentials.py:44-57`) is the catalog. Nine entries,
 each a triple of *(requisition cue, human label, candidate-name cues)*, spanning several
 professions: clinical registration, two securities-registration series, a site-safety
 card, professional engineering, accountancy, bar admission, commercial driving, and
@@ -33,8 +33,18 @@ matched as a substring would fire the securities gate on any string containing "
 
 The dual-cue design has a consequence the code handles explicitly — one licence can
 match a candidate credential under two of its own name cues, so `credential_checks`
-de-duplicates findings while preserving order (`credentials.py:132-139`) rather than
+de-duplicates findings while preserving order (`credentials.py:187-193`) rather than
 showing a recruiter the same gap twice.
+
+Re-checked 2026-10-31 at kp@6edf5d7e6: the candidate-side cues now have a second job.
+Since `54288e151` (2026-10-13) `credential_checks` takes the CV's own text, and a
+required licence counts as held only if that text matches one of the licence's name
+cues, or contains a held entry's identifier of four or more characters verbatim
+(`_stated_in`, `credentials.py:115-122`). Otherwise the finding is
+`credential_unstated`. The cause was a live probe in which the model listed an RN licence
+for a CV that said only "ICU nurse". The generous candidate side is now checked against
+the document as well as the model's list. The catalog itself is unchanged: nine entries,
+no jurisdiction, no issuer, no renewal cycle.
 
 ## The regulated flag is membership, not a field
 
@@ -68,7 +78,7 @@ engineering role produces no finding at all, with the test comment stating the r
   handles Czech and English CVs (`gemini.py`) — short Latin-letter tokens collide
   readily, and a false positive here fabricates a credential the candidate never claimed.
 - **The catalog is code, not reviewed configuration.** Comparable taxonomies in the same
-  pipeline live in data (`matching.py:284-286` points language aliases at
+  pipeline live in data (`matching.py:398-400` points language aliases at
   `data/taxonomy.json` — "config, not code") specifically so they can be extended without
   a code change. The regulated set — the one list in the system that decides who gets
   blocked — is the one that did not get that treatment, and it carries no ownership or
