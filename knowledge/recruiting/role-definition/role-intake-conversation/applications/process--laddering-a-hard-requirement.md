@@ -5,7 +5,7 @@ subject: role-intake-conversation
 technique: laddering-a-hard-requirement
 stack: process
 status: forged
-verified_on: 2026-09-26
+verified_on: 2026-10-31
 ---
 
 # Laddering in a persona prompt, and the incident that added "record first"
@@ -16,7 +16,9 @@ block whose source of truth is the graded literature review at
 `docs/development/role-intake-research.md:83`. The module docstring states the
 precedence (`:7-8`): change the rules in the research doc first, then the
 code. Re-read on 2026-09-26 at one pinned commit of the consumer; the last
-behavioural change to the engine was 2026-09-08.
+behavioural change to the engine was 2026-09-08. Re-checked 2026-10-31 at
+kp@6edf5d7e6: `intake.py` is unchanged since 2026-09-15 and every engine
+citation holds; only the harness table in the testing doc moved.
 
 ## The rule as written
 
@@ -74,7 +76,7 @@ model had been emitting correctly graded rows keyed `label` or `name`, and
 criteria sent as objects. The project's 50-role live harness found it —
 requirement rows on no live brief before the fix, a median of eight per
 brief after it, and the per-dealbreaker capture check passing on 19 of the
-34 roles it could measure (`docs/development/testing-and-evaluation.md:662-665`). Record-first is a property of
+34 roles it could measure (`docs/development/testing-and-evaluation.md:675-678`). Record-first is a property of
 the whole path from the model to the stored brief, not of the prompt: a rule
 the model obeys and a coercer then drops is indistinguishable, in the brief,
 from a rule nobody wrote.

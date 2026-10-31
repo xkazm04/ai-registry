@@ -5,7 +5,7 @@ subject: public-work-evidence-bounding
 technique: absent-signal-versus-unavailable-source
 stack: node
 status: forged
-verified_on: 2026-09-29
+verified_on: 2026-10-31
 verified_against: node@24
 ---
 
@@ -124,12 +124,12 @@ human presses retry — is closed on the cache side. `isTransientlyDegraded`
 (`analysis.ts:36-42`) is true for an incomplete run, a `partial` review, or a
 review that errored for a reason a retry can clear (`throttled`, `fetchFailed`,
 `requestFailed`, `malformed`; `:27`). The route writes the cache only when it is
-false (`app/api/github-analysis/route.ts:91-97`), with the reason in the comment:
+false (`app/api/github-analysis/route.ts:92-98`), with the reason in the comment:
 a cached copy "made that retry a silent no-op for the whole TTL — serving the same
 knowingly-incomplete read of a candidate's work, with its original analyzedAt, as
 though it were final." Deterministic degradations (no key, no repos, no signals)
 stay cacheable, because a retry cannot change them. GitHub's own
-`retryAfterSec` rides on the error answer (`route.ts:117-134`) and the panel
+`retryAfterSec` rides on the error answer (`route.ts:118-135`) and the panel
 turns it into "try again in N minutes" (`GithubAnalysisPanel.tsx:95-104`).
 
 ## The scoped negative

@@ -5,7 +5,7 @@ subject: public-work-evidence-bounding
 technique: corroborate-a-claim-never-replace-it
 stack: process
 status: forged
-verified_on: 2026-09-29
+verified_on: 2026-10-31
 ---
 
 # The three-bucket evidence block, from prompt to downstream task (prompt pipeline)
@@ -17,7 +17,7 @@ they are the same three.
 
 ## The output contract forces the split
 
-`app/_lib/github/code-review.ts:237-242` fixes the shape before the model
+`app/_lib/github/code-review.ts:246-251` fixes the shape before the model
 writes anything:
 
 ```
@@ -51,7 +51,7 @@ claim, because that is the sentence that would undo the split.
 
 ## The block keeps its labels all the way downstream
 
-`pipeline/jobfit/automation.py:913-945` (`github_evidence_block`) renders that structure as the "Public
+`pipeline/jobfit/automation.py:928-960` (`github_evidence_block`) renders that structure as the "Public
 repo evidence" block prepended to the screen, prep and scorecard prompts. The
 bucket labels are re-stated in full at every use:
 
@@ -78,7 +78,7 @@ Three properties of this rendering match the technique:
   and `analyzedAt`, so a later reader knows which profile, read when.
 
 The surrounding grounding rule for candidate-facing letters
-(`automation.py:904`) is the same discipline in the other direction:
+(`automation.py:921`) is the same discipline in the other direction:
 "Ground every claim in the supplied facts: never assert meetings, team
 reactions, benefits, interest, or abilities that are not in them."
 
@@ -113,7 +113,7 @@ contradiction bucket recorded here before, on the panel only.
   the review's three lists and drops `codeReview.partial`, the limitations and the
   ledger's verdicts. `github_evidence_block` then prints the review's
   `unverifiedClaims` under "CV claims NOT verified by public repos"
-  (`automation.py:940`). On a complete read that label is accurate; on a partial
+  (`automation.py:957`). On a complete read that label is accurate; on a partial
   one the panel calls the same skill *could not determine* and the screening,
   prep and scorecard prompts call it not verified. A degraded run can still be
   added to the pipeline, because only its cache write is refused. The fix is one

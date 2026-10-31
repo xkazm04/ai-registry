@@ -5,7 +5,7 @@ subject: cv-authenticity-screening
 technique: a-screen-is-not-a-verdict
 stack: react
 status: forged
-verified_on: 2026-09-26
+verified_on: 2026-10-31
 verified_against: react@19
 ---
 
@@ -16,6 +16,8 @@ none of them) is recorded in the process application beside this one. This file
 is the other half: the React client and its API route, where a recruiter reads
 the flags and decides. Read against a TypeScript applicant-tracking app on
 React 19 (`react` `^19.3.0`, Next 16), pinned to one commit on 2026-09-26.
+Re-checked 2026-10-31 at kp@6edf5d7e6 (`react` `^19.3.1`): every construct
+below holds; the anchors in the route, the event writer and the catalog moved.
 
 The technique's rule is that a machine may annotate and a person decides. This
 surface realizes the second half more strictly than the standard asks. It also
@@ -75,10 +77,10 @@ advance on a clean run."
   ticked (`DispositionEditor.tsx:114-121`, `:212-227`).
 - The API route re-derives the brief from the **stored** payload and refuses an
   unacknowledged advance with `409 DISPOSITION_ACK_REQUIRED`
-  (`app/api/analyses/[slug]/route.ts:125-129`). A client cannot acknowledge a
+  (`app/api/analyses/[slug]/route.ts:124-127`). A client cannot acknowledge a
   warning the engine never raised (`decisionBasis`, `decisionBrief.ts:88-99`).
 - The acknowledgement becomes part of the record: the disposition event carries
-  "N flags acknowledged" (`app/_lib/db/pipeline.ts:1805-1808`), "so a flagged
+  "N flags acknowledged" (`app/_lib/db/pipeline.ts:1885-1887`), "so a flagged
   advance reads differently from a clean one".
 
 This is the technique's "do not run screens whose output nobody reads", made
@@ -92,7 +94,7 @@ advances the candidate.
   passed on any read below the strong line (75) with no acknowledgement and no
   reason, while advancing them needs every flag ticked. Where the read is
   strong, the pass reason is checked only in the client. The route enforces the
-  acknowledgement (`route.ts:127`) and not the reason. So the flags the
+  acknowledgement (`route.ts:126`) and not the reason. So the flags the
   technique forbids from routing a rejection make rejection the cheaper click
   for a recruiter under load. That is not an automated adverse outcome, but it
   is a nudge toward one, and it lands hardest on exactly the candidates the
@@ -100,12 +102,12 @@ advances the candidate.
   against as well, and enforces it at the same boundary.
 - **The band speaks in measurement grammar.** The chip reads "Authenticity:
   high / medium / low" in green, amber or coral with a shield icon
-  (`QualityStrip.tsx:80-89`; `messages/en.json:7355-7357`). The count of notes
+  (`QualityStrip.tsx:80-89`; `messages/en.json:7540-7542`). The count of notes
   is shown as a rating of the document's authenticity. "Authenticity: low" is
   the phrase this technique exists to keep off a candidate's record.
 - **Authorship is named at the point of use.** The chip's tooltip reads "CV
   authenticity screen: a deterministic check for AI-generated / embellished
-  résumés" (`en.json:7354`, the same in cs, de, fr). The screen's measurements
+  résumés" (`en.json:7539`, the same in cs, de, fr). The screen's measurements
   say nothing about authorship. The recruiter-facing description says they do,
   and machine drafting is not a finding.
 - **Injection flags look like every other warning.** They are listed with the

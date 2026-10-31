@@ -5,7 +5,7 @@ subject: role-intake-conversation
 technique: session-shape-triage-and-turn-budget
 stack: process
 status: forged
-verified_on: 2026-09-26
+verified_on: 2026-10-31
 applied: simulation
 ab_verdict: better
 ---
@@ -19,7 +19,9 @@ delivery shapes the standard names, plus a third added on 2026-08-23 for a
 different kind of session — defining the owner of an application whose
 codebase has already been scanned. Re-read on 2026-09-26 at one pinned commit
 of the consumer; the engine has doubled in size since the first reading, and
-the triage heuristic itself has not changed.
+the triage heuristic itself has not changed. Re-checked 2026-10-31 at
+kp@6edf5d7e6: `intake.py` is unchanged since 2026-09-15 and every citation
+below holds.
 
 ## The heuristic is the floor, not the model's opinion
 

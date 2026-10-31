@@ -5,7 +5,7 @@ subject: public-work-evidence-bounding
 technique: verify-identity-before-crediting-work
 stack: node
 status: forged
-verified_on: 2026-09-29
+verified_on: 2026-10-31
 verified_against: node@24
 ---
 
@@ -71,7 +71,7 @@ prevent:
 `parseGithubUsername` now accepts a bare handle, a leading `@`, and a profile
 URL with optional protocol, optional `www.` and ignored trailing path or query,
 returning the normalised bare username — and both callers go through it:
-`app/api/github-analysis/route.ts:43` at screening, and `coerceGithubHandle`
+`app/api/github-analysis/route.ts:44` at screening, and `coerceGithubHandle`
 (`app/_lib/apply-intake.ts:250-253`) at application intake, whose own doc
 comment states the invariant as *"a handle that passes here is one the
 deep-dive can run"*.
@@ -98,7 +98,7 @@ trust before a repository name is written into a CV. The recruiter-side list has
 the fork filter (`analysis.ts:72`) but no owner re-check.
 
 Erasure is a live path too: clearing a candidate now nulls `github_handle` and
-`github_json` together (`app/_lib/db/pipeline.ts:2589`), so an erased applicant's
+`github_json` together (`app/_lib/db/pipeline.ts:2815`), so an erased applicant's
 public-work read does not outlive the record it was attached to.
 
 ## Where the repo stops short of the standard
@@ -106,12 +106,12 @@ public-work read does not outlive the record it was attached to.
 - **Kind is verified; ownership is not.** Nothing corroborates that the person
   behind a verified *personal* account is this applicant. In practice the
   candidate supplies the handle themselves in the apply flow
-  (`app/api/apply/[id]/route.ts:283`), which the standard treats as the
+  (`app/api/apply/[id]/route.ts:308`), which the standard treats as the
   strongest ordinary ownership signal — but a recruiter can also type a handle
   into the deep-dive panel by hand, and that path has no ownership signal at
   all and no marker distinguishing the two provenances on the stored artifact.
 - **The normalised form replaces the raw input.** Only the coerced handle is
-  persisted (`app/_lib/db/pipeline.ts:1674`, and fill-only on a repeat at `:1572`), so a later widening of the
+  persisted (`app/_lib/db/pipeline.ts:1753`, and fill-only on a repeat at `:1651`), so a later widening of the
   grammar cannot be re-applied to what the candidate originally typed. The
   standard asks for both.
 - **No collision check.** Two entries resolving to the same handle are not

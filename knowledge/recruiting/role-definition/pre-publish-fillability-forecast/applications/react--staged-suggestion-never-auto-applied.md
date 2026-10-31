@@ -5,7 +5,7 @@ subject: pre-publish-fillability-forecast
 technique: staged-suggestion-never-auto-applied
 stack: react
 status: forged
-verified_on: 2026-09-29
+verified_on: 2026-10-31
 verified_against: react@19
 ---
 
@@ -122,12 +122,17 @@ requirement.
 
 ## The reduced-denominator disclosure
 
-`winnabilityTypes.ts` (formerly `jobsCoachPanelTypes.ts`) types a `skipped` list on the coach payload with
+`coach/winnabilityTypes.ts` (formerly `jobsCoachPanelTypes.ts`) types a `skipped` list on the coach payload with
 the reason recorded in the comment:
 
 > "candidates the CLI couldn't score (a malformed/partially-extracted profile).
 > Surfaced so the recruiter sees the counts were computed over a reduced
 > denominator."
+
+Re-checked 2026-10-31 at kp@6edf5d7e6: the comment is now one line, "Candidates
+the CLI couldn't score, so every count is over a reduced denominator." The
+field, its `{id, label, reason}` shape and the count-only rendering are
+unchanged.
 
 `winnability_cli.py` populates it with `{id, label, reason}` per skipped
 entry — recorded, not silently dropped — and `JobsCoachPanel.tsx` renders

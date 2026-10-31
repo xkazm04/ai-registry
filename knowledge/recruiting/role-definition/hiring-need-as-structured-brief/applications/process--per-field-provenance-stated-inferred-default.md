@@ -5,7 +5,7 @@ subject: hiring-need-as-structured-brief
 technique: per-field-provenance-stated-inferred-default
 stack: process
 status: forged
-verified_on: 2026-09-29
+verified_on: 2026-10-31
 ---
 
 # Provenance in the intake extraction contract (Python prompt pipeline)
@@ -13,7 +13,8 @@ verified_on: 2026-09-29
 The brief schema is Pydantic-authoritative in `pipeline/jobfit/rolebrief.py`;
 the trust model is enforced in two different places with two different
 instruments — a prompt for the model path, straight-line code for the scripted
-path. Re-read on 2026-09-29 against kp `8a44493f7`.
+path. Re-read on 2026-09-29 against kp `8a44493f7`; re-checked 2026-10-31 at
+kp@6edf5d7e6, where every citation below still holds.
 
 ## The three-valued vocabulary, defined at the schema
 

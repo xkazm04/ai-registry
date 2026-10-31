@@ -5,7 +5,7 @@ subject: hiring-need-as-structured-brief
 technique: merge-that-never-regresses-a-stated-value
 stack: process
 status: forged
-verified_on: 2026-09-29
+verified_on: 2026-10-31
 ---
 
 # `merge_brief` and the edit path (Python pipeline + TypeScript review surface)
@@ -14,7 +14,9 @@ The brief accumulates across three writers: the per-turn extraction that
 re-emits the whole brief as JSON, the deterministic slot script, and a human
 editing the panel. Two pieces of code hold the merge contract. Re-read on
 2026-09-29 against kp `8a44493f7`. About fifty commits touched these files
-after the 2026-08-20 reading, and every line citation moved.
+after the 2026-08-20 reading, and every line citation moved. Re-checked
+2026-10-31 at kp@6edf5d7e6: the Python and TS merge code is unchanged since
+`8a44493f7`; only the feature-doc and route anchors moved.
 
 ## Union, because the model forgets
 
@@ -88,7 +90,7 @@ edit path still force-maps an off-vocabulary seniority on a PATCH.
 `withEditProvenance` (`app/_lib/brief-edit.ts:180`) implements the rule: *"only
 CHANGED or NEW entries flip ... an edit pass can't launder inferred values
 into 'stated'"* (`:171`; the feature doc restates it at
-`docs/features/intake/README.md:780-788`). Since `34d5659d9` (2026-09-01) the
+`docs/features/intake/README.md:784-792`). Since `34d5659d9` (2026-09-01) the
 server owns provenance: a client claim is honoured *"EXCEPT that it can never
 regress a stored `stated`"* (`:89`).
 
@@ -121,10 +123,10 @@ facets, so one save silently dropped the mandate, budget and owner slots.
 ## The freeze
 
 The freeze holds on the server, not only in the interface. A PATCH to a
-promoted session gets `INTAKE_FROZEN` (409) (`app/api/intake/[id]/brief/route.ts:36`),
+promoted session gets `INTAKE_FROZEN` (409) (`app/api/intake/[id]/brief/route.ts:35`),
 and so do the attachment, dossier, compose, voice-complete and reopen routes.
 The store also guards on `status != 'promoted'`. The premise is the
-standard's own (`docs/features/intake/README.md:797-800`): *"an edited brief
+standard's own (`docs/features/intake/README.md:801-804`): *"an edited brief
 silently diverging from a published JD would be the dishonest middle
 ground"*. Candidates on the role slate are stamped with the rubric version
 they were judged against. That is the version binding the technique's
