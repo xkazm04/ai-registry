@@ -5,7 +5,7 @@ subject: settings
 technique: applied-defaults-ledger
 stack: cpp
 status: forged
-verified_on: 2026-09-03
+verified_on: 2026-10-31
 verified_against: cpp@23
 ---
 
@@ -38,7 +38,7 @@ from the technique almost line for line:
 
 - `:241-248` reads the ledger into a set and records its size ("defaults
   added in settings").
-- `:251` calls `addDefaults(set)` (`:333-589`), which invokes
+- `:251` calls `addDefaults(set)` (`:333-556`), which invokes
   `tryAddDefault` once per shipped binding. `tryAddDefault` (`:591-606`) is
   the whole idempotency rule: if the name is in the set, return; otherwise
   append the binding to the in-memory list *and* insert the name into the
@@ -60,9 +60,9 @@ wipe deleted it), then writes one section per binding. Ledger and rows land in
 one save, so the file never carries a ledger entry without the boot that
 produced it also having written the corresponding row.
 
-`resetToDefaults` (`:558-589`) is the technique's inverse read: it clears the
-ledger (`:562`), clears the in-memory list, and calls `addDefaults` again, so
-every shipped binding returns.
+`resetToDefaults` (`:558-573`) is the technique's inverse read: it clears the
+ledger (`:562`), clears the in-memory list, then saves and reloads. The reload's
+`addDefaults` finds an empty ledger, so every shipped binding returns.
 
 ## The cost, stated in the tree
 
@@ -75,10 +75,17 @@ to a shipped default's name is none. The name is also the row's key in the
 settings file, so the same string carries both identities the technique says
 must survive.
 
-What the tree has instead of tombstones is `warnForRemovedHotkeyActions`
-(`:582-589`, `:621`): when an *action* is retired, bindings that still name it
-are collected as removed-or-deprecated and surfaced to the user rather than
-deleted, which matches the technique's "the ledger is not a licence to delete".
+What the tree has instead of tombstones is `clearRemovedDefaults`
+(`:575-589`), which the constructor runs right after loading (`:83`). It goes
+further than the technique's "the ledger is not a licence to delete". A retired
+default is removed automatically by `tryRemoveDefault` (`:608-619`), but only
+while the binding still matches the shipped one in every field: category, key
+sequence, action, arguments and name. An edited copy is left alone. Separately,
+`warnForRemovedHotkeyActions` (`:621-633`) collects every binding that names a
+retired *action* as removed-or-deprecated and surfaces it to the user instead
+of deleting it. Exact-match removal destroys no user edit. It is still a
+removal the user did not perform, which the technique's boundary does not
+cover.
 
 ## Where the realization falls short
 

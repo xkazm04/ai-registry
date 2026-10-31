@@ -42,7 +42,12 @@ so does each half:
 - **The write is atomic.** Truncate-then-write, interrupted, leaves an empty
   file, and an empty file is the single most common corruption a settings
   store ever sees. Temporary file plus rename means the primary is always
-  either the old complete content or the new complete content.
+  either the old complete content or the new complete content - against a
+  crashed process. Against a power loss it holds only if the temporary file
+  is flushed to disk before the rename, and the directory after it where the
+  rename itself must survive. Without the flush, a delayed-allocation
+  filesystem can commit the rename before the data and leave a zero-length
+  primary, which is the exact failure the rename was meant to remove.
 - **The rotation is bounded at creation**
   ([creation-names-reaper](../../../../_laws.md#creation-names-reaper)):
   the slot count is the reaper, and the oldest backup is deleted by the same
@@ -136,7 +141,9 @@ Fault injection against a real profile directory, each case a boot:
 - **Delete every backup and corrupt the primary.** The boot stops with the
   classified error and no restore offer - and does not proceed on defaults.
 - **Kill the process during a save**, repeatedly. The primary is never empty
-  and never half-written; the rotation never exceeds its cap.
+  and never half-written; the rotation never exceeds its cap. A kill exercises
+  process death only. It cannot detect a missing flush before the rename, so
+  check that in the save path itself.
 - **Save an unchanged state ten times.** The rotation is unchanged.
 
 A product that passes the first case and fails the fourth has a restore

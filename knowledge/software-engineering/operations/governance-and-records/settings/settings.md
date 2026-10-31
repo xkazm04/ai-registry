@@ -202,6 +202,18 @@ old one" hands the deprecated name a win over the operator who explicitly set
 the current one. The presence read, the notice attached to the key rather than
 to its victory, and the release-named reaper are
 [presence-decides-precedence](./techniques/presence-decides-precedence.md).
+
+A configuration file that may name the files it inherits from is a third
+shape, and the chain's assumptions do not survive it. The sources are now
+authored inside the artifact: the resolver cannot enumerate them before the
+walk, the graph can cycle, and a shared fragment's relative paths need a root
+that only the fragment knows. Each link therefore declares its root from a
+closed, named set, and an unrecognized name is refused rather than defaulted.
+Each entry's origin travels in a channel the author cannot write. The two
+mechanisms compose in one direction only: the platform's chain selects the
+entry document and the author's graph expands from it. That is
+[author-declared-include-graph](./techniques/author-declared-include-graph.md).
+
 ## And sometimes the store is one document, not many rows
 
 Everything above assumes the store's granularity is the key: a write touches
@@ -312,6 +324,11 @@ surface that has outgrown scrolling. These are
   attached to the key so the operator who already migrated is the one who hears
   about their stale line, and a grace period retired by a named release because
   nothing in the process can watch the frontier move.
+- [author-declared-include-graph](./techniques/author-declared-include-graph.md)
+  — a configuration file that names its own parents: a declared root per link
+  from a closed set, unknown root names refused, origin carried out of band,
+  cycles reported by their path, absent optional includes skipped and broken
+  ones stopped.
 - [applied-defaults-ledger](./techniques/applied-defaults-ledger.md) — shipped
   defaults that are rows in a user-editable collection: a ledger of applied
   default names instead of a version chain, deletions durable, renames

@@ -5,7 +5,7 @@ subject: settings
 technique: cross-source-precedence-chain
 stack: rust
 status: forged
-verified_on: 2026-09-03
+verified_on: 2026-10-31
 verified_against: rust@1.89
 ---
 
@@ -80,12 +80,17 @@ The technique's central rule is carried structurally rather than by discipline.
 `Option` is *absence* (no variable, or a variable holding only empty paths) and
 the `Err` is *malformation*. `read()` consumes them differently — `None` falls
 through to the default path, `Err` propagates and ends the file rung. And
-`KubeconfigError` (`mod.rs:33-111`) has fourteen variants, one per
+`KubeconfigError` (`mod.rs:33-95`) has fifteen variants, one per
 distinguishable cause: `CurrentContextNotSet`, `LoadContext`,
 `LoadClusterOfContext`, `FindPath`, `KindMismatch`, `ApiVersionMismatch`,
 `ParseCertificates`, `ParseProxyUrl` and the rest. A chain cannot report which
 source broke and how unless the source's failures are enumerated; this is what
 that enumeration is for.
+
+The rule stops at the rung boundary, though. `infer()` matches on any `Err`
+from the file rung, so a malformed kubeconfig falls through to the in-cluster
+identity exactly as an absent one does. Inside a pod, it falls through every
+time. The section below records that.
 
 ## Both failures kept, and the headline chosen by likely blame
 
@@ -119,16 +124,25 @@ configuration source anyone is meant to depend on.
 
 Two adjacent facts, dated at this commit: the credential material is re-read
 under the running process rather than snapshotted — `token_file` is reloaded,
-and `root_cert_file` is re-read on roughly a sixty-second cycle to pick up CA
-rotation (`mod.rs:130-143`) — so the chain resolves once at boot while the
+and, with the `rustls-tls` feature, `root_cert_file` is re-read on roughly a
+sixty-second cycle to pick up CA rotation (`mod.rs:130-143`) — so the chain resolves once at boot while the
 *material* it selected keeps moving. And `incluster_dns()` (`mod.rs:259`) exists
 as a deliberately non-default second in-cluster constructor, with its doc
 comment stating that it does *not* match the reference clients' behaviour; the
 env-var form is the default because the ecosystem's other clients require both
-variables set (`incluster_config.rs:49`).
+variables set (`incluster_config.rs:50`).
 
 ## Where the tree falls short
 
+- **Malformed falls through across rungs.** The `Err` arm of `infer()`
+  (`mod.rs:214-224`) does not tell a missing kubeconfig from a broken one.
+  Both go to `Self::incluster()` under the same trace line, "no local config
+  found". On a laptop the in-cluster rung also fails, so both errors come back
+  and the effect is a stop. In a pod that has a mistyped `KUBECONFIG` mounted,
+  the process runs against the service-account identity and no line above
+  trace level mentions the broken file. That is the technique's signature
+  failure. Telling `KubeconfigError::Parse` and its siblings apart from
+  `FindPath` and an unset variable at that arm would close it.
 - **No provenance survives the call.** The chain's winning source is announced
   only as a `tracing::trace!` line at the moment of fallback (`mod.rs:215-218`),
   and the returned `Config` carries no field naming which rung produced it.

@@ -36,7 +36,7 @@ choosing its kind once, and choosing it is the design review.
 
 ## Per-kind contracts
 
-The kinds diverge on five axes; the table is the contract:
+The kinds diverge on five axes, and these five are the contract:
 
 - **Default fail direction.** Preferences: any reasonable value. Operational
   config: the conservative value. Ceilings: **closed, always** — the full
