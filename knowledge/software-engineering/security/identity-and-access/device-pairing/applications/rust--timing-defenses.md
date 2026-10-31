@@ -4,7 +4,8 @@ type: application
 subject: device-pairing
 technique: timing-defenses
 stack: rust
-verified_on: 2026-08-18
+verified_on: 2026-10-31
+verified_against: rust@1.80.0
 ---
 
 # Constant time + fixed delay on the companion auth path
@@ -24,12 +25,12 @@ public and the length-mismatch early return at `:109-111` leaks nothing.
 `verify_token` also iterates **every** stored device rather than
 returning on first match (`:126-133`, with the comment weighing exactly
 this trade), removing registry position from the signal. Unit tests pin
-both the equality behavior (`:358-364`) and the
-revoked-token-never-authenticates rule (`:387-394`).
+both the equality behavior (`:361-367`) and the
+revoked-token-never-authenticates rule (`:389-397`).
 
 ## The fixed-delay 401
 
-`authorize` (`companion_api.rs:223-248`) orders the gates cheap-to-
+`authorize` (`companion_api.rs:227-254`) orders the gates cheap-to-
 expensive: LAN peer class (free refusal) → missing token (401, no
 delay needed — nothing was guessed) → fingerprint match. Only the
 **failed-guess** path sleeps: `AUTH_FAIL_DELAY_MS = 350` (`:56-58`),
@@ -40,16 +41,16 @@ natural speed; the legitimate phone never pays.
 
 ## Refusal vocabulary, and where the distinctions live
 
-The API error shape is uniform (`{ok: false, code}`, `:215-219`), with
+The API error shape is uniform (`{ok: false, code}`, `:218-223`), with
 coarse codes (`lan_only`, `missing_token`, `bad_token`) — enough for the
 PWA's self-heal (drop the stored token on 401) without describing the
 registry. The true causes land server-side: every act writes a
 `fleet_decisions` ledger row, success or failure, with the device id
-(`:480-502`).
+(`:486-515`).
 
 ## The gap, stated
 
-The cloud-claim surface (`engine/src/pairing.rs:308-330`) does **not**
+The cloud-claim surface (`src-tauri/engine/src/pairing.rs:501-525`) does **not**
 apply a fixed delay, and its refusal vocabulary is deliberately richer
 (404 unknown/expired vs 403 rejected vs 403 origin-mismatch vs 410
 claimed). The claim's protection is the nonce's 16-char entropy floor and

@@ -4,7 +4,8 @@ type: application
 subject: device-pairing
 technique: token-binding-and-transport
 stack: rust
-verified_on: 2026-08-18
+verified_on: 2026-10-31
+verified_against: rust@1.80.0
 ---
 
 # Two token lifecycles, both born bound
@@ -19,24 +20,24 @@ delivered by fragment QR (`src-tauri/src/commands/fleet/pairing.rs`).
 The module docstring states the doctrine outright: the cloud app polls
 `GET /pair/claim?nonce=…` to retrieve the token exactly once — "never via
 the deep-link query string (deep links leak to OS logs)"
-(`engine/src/pairing.rs:13-15`). The deep link carries nonce and request
+(`src-tauri/engine/src/pairing.rs:13-15`). The deep link carries nonce and request
 metadata only; the credential travels nowhere until claimed.
 
-`claim` (`:198-223`) enforces the full ranking:
+`claim` (`:359-384`) enforces the full ranking:
 
 - **origin-checked delivery**: the claimant's `Origin` header must equal
   the approved origin, else `OriginMismatch` → 403 with no token leaked
-  (`:216-218`, pinned by the test at `:373-377`) — "defense in depth —
-  the token is origin-bound anyway" (`:214-215`);
+  (`:377-379`, pinned by the test at `:576-580`) — "defense in depth —
+  the token is origin-bound anyway" (`:375-376`);
 - **single-use**: the `claimed` flag flips on delivery; a second claim is
-  `Gone` → HTTP 410 (`:210-212`, `:326`) — a *distinguishable* answer, the
+  `Gone` → HTTP 410 (`:372-374`, `:520`) — a *distinguishable* answer, the
   legitimate holder's theft alarm;
 - **coarse requester vocabulary**: pending → 202, rejected → 403,
-  expired/unknown → 404 (`:320-328`) — exactly the states the requester's
+  expired/unknown → 404 (`:513-522`) — exactly the states the requester's
   poll loop needs, no more.
 
 The binding itself persists as `external_api_keys.bound_origin`
-(`external_api_keys.rs:167-174` passes `Some(origin)` at mint), which the
+(`external_api_keys.rs:188-195` passes `Some(origin)` at mint), which the
 management API checks per request and the CORS allowlist re-derives from
 on revoke.
 
@@ -46,20 +47,20 @@ on revoke.
 randomness (`:264-270`) and builds
 `http://<lan-ip>:<port>/m/#t=<token>` (`:292`) — the token rides the URL
 **fragment**, which "never appears in HTTP request lines or server logs"
-(`FleetPairResult` docs, `:215-217`; same rule restated at
+(`FleetPairResult` docs, `:212-213`; same rule restated at
 `companion_api.rs:31-33`). The QR is rendered backend-side as SVG path
 modules (`qr_svg`, `:158-181`), and the test asserts the plaintext does
-not appear as text inside the markup (`:409-416`).
+not appear as text inside the markup (`:411-419`).
 
 **Fingerprint-only storage**: `PairedDevice` persists `token_sha256` and
-metadata, "never a secret" (`:48-61`); `token_fingerprint` (`:97-104`) is
+metadata, "never a secret" (`:46-61`; the phrase itself is the module doc, `:22`); `token_fingerprint` (`:97-104`) is
 the one-way step; and the round-trip test asserts the serialized store
-contains the fingerprint but not the token (`:397-406`) — the exact
+contains the fingerprint but not the token (`:399-409`) — the exact
 "serialize the registry and grep for the plaintext" invariant the
 technique prescribes. The plaintext is returned exactly once in the
 pairing result ("the only copy that will ever exist on this desktop",
 `:249-251`) and the settings listing DTO carries neither token nor
-fingerprint (`FleetCompanionDevice`, `:221-231`; "Never returns
+fingerprint (`FleetCompanionDevice`, `:220-231`; "Never returns
 fingerprints", `:306`).
 
 ## Where the sibling ceremony breaks the substance rule

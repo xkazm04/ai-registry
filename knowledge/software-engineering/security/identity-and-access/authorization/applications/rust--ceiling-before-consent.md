@@ -4,7 +4,7 @@ type: application
 subject: authorization
 technique: ceiling-before-consent
 stack: rust
-verified_on: 2026-09-17
+verified_on: 2026-10-31
 verified_against: rust@1.80.0
 applied: code
 ab_verdict: better
@@ -35,12 +35,12 @@ was the only thing between it and a grant.
 
 ## What the enforcement table says the request could ask for
 
-The route gate (`src-tauri/src/engine/management_api.rs:456-548`, `authorize`)
+The route gate (`src-tauri/src/engine/management_api.rs:566-684`, `authorize`)
 reads three scope families that a paired browser origin must never hold:
 `proxy`, which `authorize_credential_use`
-(`src-tauri/src/engine/credential_broker.rs:93-116`) answers *every stored
+(`src-tauri/engine/src/credential_broker.rs:93-116`) answers *every stored
 credential* for; `proxy:credential:<id>` and `cred:<connector>:use`, which reach
-one; and `personas:test`, which `management_api.rs:498-510` gates a
+one; and `personas:test`, which `management_api.rs:634-646` gates a
 money-spending endpoint on with the comment that "the only keys that carry
 `personas:test` are the ones the headless bridge minted itself". The
 architecture document asserts the same invariant twice —
@@ -85,3 +85,13 @@ is about provenance: the same tree's derived-handle mint
 composes the handle's scopes itself, which is a caller-supplied request that
 widens nothing — because the minter's own broad grant is the ceiling. Provenance
 was never the defect; the missing ceiling was.
+
+Re-checked 2026-10-31 at personas@22260d77c9: the as-is anchors above
+(`pairing.rs:90-137`, `:231-250`, `external_api_keys.rs:149-169`) describe the
+tree before the fix and resolve at its parent, `6c92f10f78^`. At HEAD arm B is
+in place: the ceiling is `src-tauri/engine/src/pairing.rs:47-102`, `register`
+applies it at `:161-174`, the unattended mint at `:317`, and the mint-time
+refusal now lives in `approve_pairing_core`
+(`external_api_keys.rs:173-184`), which the operator API reaches too. The
+derived-handle mint moved with its module to
+`src-tauri/engine/src/credential_broker.rs:125-165`. The verdict stands.

@@ -5,7 +5,7 @@ subject: translation-pipeline-topology
 technique: prompt-context-contract
 stack: process
 status: forged
-verified_on: 2026-09-14
+verified_on: 2026-10-31
 ---
 
 # A guide translation prompt carrying two of ten contract fields, and the facts that went stale inside it (personas-web)
@@ -40,7 +40,7 @@ The template is prose with five substitution slots: `<LOCALE_NAME>`,
 That is **2 present, 3 partial, 5 absent**, plus the whole-glossary failure mode.
 There are no examples, as prior turns or otherwise. The per-language instructions
 are one paragraph covering two script groups: right-to-left (`:172`) and CJK spacing
-(`:173-174`). The other nine locales, Czech and Russian with their four plural
+(`:174-175`). The other nine locales, Czech and Russian with their four plural
 categories among them, get nothing. There is no resolution order because there is no
 map to resolve.
 
@@ -109,3 +109,24 @@ The residue against the technique:
 - **The key is unchanged**, so the amendment moved zero pins (above).
 - **No per-locale map was added.** Czech still reaches the engine with only its plural
   category names.
+
+Re-checked 2026-10-31 at personas-web@da43ead. Every anchor above still resolves
+at `35d557b` and `b3fe23f`, the commits this reading names. Three things have
+moved at HEAD since then:
+- **The drift key is still unchanged.** `topicHashInput` remains
+  `JSON.stringify({ title, description, body })`, now at
+  `scripts/i18n/guide-source.mjs:172-174`. "The context is outside the key"
+  still holds. A history-anchored classifier (`scripts/i18n/guide-drift.mjs`,
+  `a0c162d`) now separates instrument churn from real English edits, but it
+  does not put the template or glossary into the pin.
+- **The action field now has a refresh mode.** It is driven by the detector's
+  `--work-order` output (template `:14-16`, `:35-37`, `:235-264`). This
+  partially closes the "action: partial" row.
+- **The tier-name sets are resolved.** By owner decision on 2026-09-14
+  (`073e38f`), `docs/i18n/glossary.md` section 5 now records no tiers at all,
+  and set C (Starter, Team, Builder) has been removed from the guide bodies in
+  every locale. The template still calls them UNRESOLVED (`:178-181`).
+
+The occurring-terms residue is still present: "apply the entries that occur in
+that unit" is at `:173`. The 2/3/5 tally is a measurement of `35d557b` and is
+left as written.

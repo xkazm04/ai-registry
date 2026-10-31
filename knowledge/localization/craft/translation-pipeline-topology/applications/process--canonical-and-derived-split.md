@@ -4,7 +4,7 @@ type: application
 subject: translation-pipeline-topology
 technique: canonical-and-derived-split
 stack: process
-verified_on: 2026-08-26
+verified_on: 2026-10-31
 ---
 
 # A reviewed-and-committed catalog, read against the split (desktop app, 14 locales)
@@ -88,3 +88,21 @@ consumer has yet needed to distinguish them at runtime. The return
 condition is concrete: the next review wave writes its coverage into the
 tree as state rather than as run notes, or a defect is traced to an
 unreviewed key that a reader assumed reviewed — whichever comes first.
+
+Re-checked 2026-10-31 at personas@22260d77c9: **the floor claim described in
+"The commit's floor claim" is no longer enforced.** Both pre-commit gates
+(`check-coverage.mjs --strict` and `check-untranslated.mjs --strict`) and the
+pre-push coverage job were switched off on 2026-10-25, when the app went
+English-only (`SHIPPED_UI_LOCALES = ['en']`, `src/i18n/locales.manifest.ts:70`;
+`lefthook.yml:65-69`, "Reviving a locale means restoring both gates in the same
+change"). New `en.json` keys are no longer translated. The scripts, the
+allowlist, the English deep-merge (`src/i18n/useTranslation.ts:346-360`, `:434`)
+and the committed per-section derived files (`src/i18n/section-locales/`, with
+the bold no-op rule at `docs/i18n/contract.md:13-15`) all remain, and the 13
+non-English catalogs remain committed, but they are no longer shipped and no
+longer held to the floor. A leaf walk of `en.json` now counts 27,648 keys (the
+non-English catalogs 27,582); `docs/i18n/contract.md:9-10` still says ~16.2k.
+The structural gap (no in-tree marker of which values were reviewed) still
+holds. What no longer holds is the tree as a live instance of the
+reviewed-and-committed topology with an enforced floor: until a locale is
+revived, it is a committed but unshipped and unenforced catalog.
