@@ -18,8 +18,9 @@ clone. The package version is derived from git tags and the clone carries
 none, so the commit is the only witness; nothing on this page was executed,
 so no `verified_against` is stated. The design comes from the library
 authors' 2023 paper on evaluating retrieval-augmented generation
-(arXiv:2309.15217), which generates questions "based only on the answer"
-and scores their mean cosine similarity to the real question; it reports
+(arXiv:2309.15217), which prompts a model "to generate n potential
+questions" from the answer alone ("Generate a question for the given
+answer.") and scores their mean cosine similarity to the real question; it reports
 78% pairwise agreement with human preference on the 50-page WikiEval set,
 against 52% for a model asked to score directly.
 
