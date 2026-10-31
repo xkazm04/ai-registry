@@ -83,7 +83,7 @@ option list derives from the same single definition the rest of the system
 uses, not from a hand-maintained copy in the filter panel. The hand copy
 fails in the characteristic way: someone extends the vocabulary, the new
 value ships everywhere except the filter, and records wearing it become
-unfilterable-to precisely because they are new. Facets over open vocabularies
+unfilterable precisely because they are new. Facets over open vocabularies
 (tags, owners) derive their options from the data — which means the option
 list is itself a query with a staleness story.
 

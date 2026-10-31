@@ -77,9 +77,9 @@ right, QMetaType::Int)` at `:66-70`); equality falls back to
 `looselyCompareVariants`, a reimplementation of the older framework's
 permissive variant comparison (`:11-40`). The type check makes those
 fallbacks unreachable for a rule that passed it, which is the technique's
-buy, but the evaluator carries them anyway and would default silently
-rather than assert if a checker hole let a bad tree through. The technique's
-"evaluator asserts on a type it was not promised" test would fail here.
+buy, and the evaluator carries them anyway - which the technique's "may keep
+defensive branches" boundary permits. The cost is that a checker hole would
+let a bad tree default silently rather than assert.
 
 **The catalog is two tables.** The tokenizer decides whether a word is an
 identifier from `VALID_IDENTIFIERS_MAP` at `lang/Tokenizer.cpp:23-62` (name
@@ -102,8 +102,8 @@ fixes them serially.
 `flags.hype_chat` remain in both tables as typed constants returning
 `false`, commented "Feature deprecated ... in 2023"
 (`IdentifierExpression.cpp:269-292`, `Tokenizer.cpp:43,46`), so a saved rule
-naming them still loads and still types - the technique's retire-as-constant
-rule, met.
+naming them still loads and still types, and a retirement never trips the
+broken-rule path.
 
 **No preview.** The settings page validates and prints the parsed form but
 does not run a new rule over recent messages; an author learns whether a

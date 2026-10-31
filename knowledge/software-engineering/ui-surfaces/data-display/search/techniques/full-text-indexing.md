@@ -68,7 +68,8 @@ shapes make that set far larger than what the user sees:
   matches cost scoring and ordering a hundred thousand, unless the index can
   bound scores and stop early — a property of the index structure, not of
   having one. Over 200,000 documents on one embedded engine, ranking roughly
-  halved the index's advantage over a scan at every match fraction: 21× when
+  halved the index's advantage over a scan once matches numbered in the
+  thousands: 21× when
   counting a query that matched 2% of the corpus, 9× when ranking it.
 - **A phrase visits its words' conjunction.** Positions are checked after the
   postings narrow to documents holding every word, so a phrase of two common

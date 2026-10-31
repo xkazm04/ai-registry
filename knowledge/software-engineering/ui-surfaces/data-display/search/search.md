@@ -88,7 +88,7 @@ ranking was right.
 ## The latency budget
 
 Search feels instant below roughly 100 milliseconds keystroke-to-paint and
-feels broken above roughly a second. The budget is spent in four places —
+interrupts the user's flow of thought above roughly a second. The budget is spent in four places —
 debounce, query execution, ranking, render — and the first is the one teams
 forget is spending it: a 300ms debounce has consumed three times the "instant"
 budget before the engine even starts. Spend deliberately:
@@ -168,3 +168,6 @@ A query worth typing is often worth keeping. Two graduated forms:
 - [command-surface](./techniques/command-surface.md) — the navigate intent:
   keyboard-first palettes, weighted fuzzy scoring, recency blending, one
   command registry.
+- [typed-filter-language](./techniques/typed-filter-language.md) — the rule
+  box: a user-authored predicate typed when it is saved and refused if it
+  does not type, because it runs on every item that flows past.
