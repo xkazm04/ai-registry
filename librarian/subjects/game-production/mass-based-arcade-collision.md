@@ -146,3 +146,206 @@ Last-pass yield:
 Dry streak 0. Clocks: the applications derive their window from the stack, with no
 override. The engine-default census in min-restitution-pairing is the first claim to
 re-check, by 2027-04, since engines change defaults across major versions.
+
+## Architecture review - 2026-10-31
+
+First review, against `2a7424170`. Every document was read, and the arithmetic in each
+technique and application was recomputed from its cited values; all of it holds. The
+perception figures, the Box2D v3 restitution default and the vehicle-restitution paper were
+re-read at source. The golden path credits the per-pair maximum alone with stopping repeat
+charges, which its own ram technique corrects (the closing test does that for an isolated
+pair), and it states the wall asymmetry without the restitution bound its wall technique
+carries. The private tree behind the applications was not re-opened, so no verification
+date moved.
+
+<!-- architecture-review:v1 -->
+```json
+{
+  "subject": "game-production/mass-based-arcade-collision",
+  "date": "2026-10-31",
+  "baseline": "2a7424170",
+  "digest": "sha256-b2:288cadaa1b332819",
+  "disposition": "clarify",
+  "trigger": "pending: no architecture-review record existed after the 2026-10-09 deepen pass.",
+  "intended_benefit": "A designer can point at the term responsible when a car contact feels wrong: exact mass split, authored and bounded spin, restitution and wall loss, and one damage figure per meeting.",
+  "failure_if_ignored": "Weight classes vanish in contact, damage depends on solver pass count, long cars accept opponents into their flanks, and a raised restitution silently breaks the wall ordering.",
+  "boundary": "Contact resolution only; handling owns post-contact yaw and velocity, archetype balance owns the numbers, combat hit dedup owns weapon volumes, partitioning owns broadphase thresholds.",
+  "coverage": "All 13 documents read in full; arithmetic in every technique and application recomputed from cited values; primary sources opened for the perception figures, the Box2D v3 default and the vehicle-restitution paper. Private tree anchors and the other seven engine defaults were not re-opened.",
+  "counterexamples": [
+    "With a closing test on every pass, an isolated pair gives the same ram figure under a sum or a maximum; only a chain separates them.",
+    "At e = 0.24 a 60-degree glance keeps only 2.2 times the head-on speed, and above about e = 0.27 it drops under two, so 'a glance keeps its speed' is angle- and restitution-dependent.",
+    "When every class shares one restitution, minimum, mean and maximum pairing are indistinguishable; only the product differs.",
+    "A handling model that already damps yaw can take a full rotational contact; the bounded kick is a choice, not a necessity."
+  ],
+  "sources": [
+    {
+      "url": "https://europepmc.org/article/PMC/PMC12875344",
+      "result": "Todd and Norman 2026, J Vis, full-text XML: 'When the objects approached each other with the same speed (left), the observers were 95% accurate. However, when a moving object collided with a stationary one (right), the observers were only 23% accurate.' Caption: 'the blue object is 50% heavier than the red object and e = 0.5.' Mitko and Fischer PSE 'spanned a range of mass ratios from 0.4 to 1.5'. Supports the golden path; adds the e = 0.5 condition."
+    },
+    {
+      "url": "https://github.com/erincatto/box2d/blob/main/src/contact.c",
+      "result": "Box2D v3 main: 'static inline float b2MixRestitution(...) { return b2MaxFloat( restitutionA, restitutionB ); }' used when no restitution callback is set. Supports the census entry for v3."
+    },
+    {
+      "url": "https://arxiv.org/abs/physics/0601168",
+      "result": "Batista, 'On the Mutual Coefficient of Restitution in Two Car Collinear Collisions': 'Two ways of calculating the mutual restitution coefficient are given: one based on car masses and one based on car stiffness.' Supports 'design choice, not physics'."
+    },
+    {
+      "source": "Existing kotlin applications",
+      "result": "Dated 2026-10-09 reports against a private tree; anchors not re-opened, verified_on unchanged. Arithmetic recomputed and holds."
+    }
+  ],
+  "documents": {
+    "mass-based-arcade-collision.md": {
+      "disposition": "clarify",
+      "reason": "Three edits owed. (1) 'One meeting, one number' and the 'damage summed' failure mode credit the per-pair maximum alone with stopping repeat charges, while the owned ram technique (and its simulation) says the closing test stops the isolated double count and the maximum matters in a chain; state both guards. (2) 'Walls are not cars' states the glance-versus-head-on asymmetry unconditionally; the wall technique bounds it to low restitution. (3) The Todd and Warren stimulus figures (95% / 23% at a 1.5 ratio) were for e = 0.5 (Todd and Norman 2026 figure caption, opened this run); name it. Boundary and dependency rule otherwise sound."
+    },
+    "techniques/bounded-collision-spin.md": {
+      "disposition": "keep",
+      "reason": "Inertia-versus-damping framing, clamp-after-add and divide-by-handling-inertia rule are consistent with the application's recomputed roster table (arm/m and arm/I ratios reproduce to two places with I = m(L^2+W^2)/12)."
+    },
+    "techniques/inverse-mass-impulse-split.md": {
+      "disposition": "keep",
+      "reason": "Impulse arithmetic and 3:1 acceptance test are exact; the slop condition is scoped to persistence-dependent event models and warm starts, matching the 1D simulation recorded in the application."
+    },
+    "techniques/min-restitution-pairing.md": {
+      "disposition": "keep",
+      "reason": "Labelled a design choice. Box2D v3 default re-read at source this run (b2MixRestitution returns b2MaxFloat); arXiv physics/0601168 abstract confirms a mutual coefficient computed from masses or stiffness. Remaining engine defaults not re-opened; census re-check stays due by 2027-04."
+    },
+    "techniques/multi-circle-capsule-contact.md": {
+      "disposition": "keep",
+      "reason": "Waist-depth formula re-derived (penetration past flank = R - sqrt(R^2-(s/2)^2)); the 2.8:1 car's 60% / 11% figures and the gap-narrower-than-opponent claim reproduce from the cited shapes."
+    },
+    "techniques/ram-energy-accumulate-once-per-step.md": {
+      "disposition": "keep",
+      "reason": "Two-guard split (closing test for an isolated pair, maximum for chains) is internally consistent; the 16% chain figure matches 23.2 / 20.0."
+    },
+    "techniques/wall-tangent-retention-versus-head-on-loss.md": {
+      "disposition": "keep",
+      "reason": "Ratio table recomputed with a 0.04 tangent loss: 3.9 / 2.2 at e = 0.24, 2.3 / 1.5 at 0.4, failure at 0.5 all reproduce; step 7's shallow-angle contract breaks near e = 0.47, consistent with 'toward one half'."
+    },
+    "applications/kotlin--bounded-collision-spin.md": {
+      "disposition": "keep",
+      "reason": "Roster table and the 6,240 N s / 6.1 rad/s / ~5 m/s ceiling arithmetic recomputed from the cited masses, shapes and table values. Tree anchors not re-opened (private checkout); verified_on unchanged."
+    },
+    "applications/kotlin--inverse-mass-impulse-split.md": {
+      "disposition": "keep",
+      "reason": "640-2,350 kg span (450 + 190 x stat) and the ~3.7 ratio recomputed; simulation table is a dated report. Tree anchors not re-opened; verified_on unchanged."
+    },
+    "applications/kotlin--min-restitution-pairing.md": {
+      "disposition": "keep",
+      "reason": "Inert-rule finding and product figure (0.24^2 = 0.058) check; no verdict is correct. Tree anchors not re-opened; verified_on unchanged."
+    },
+    "applications/kotlin--multi-circle-capsule-contact.md": {
+      "disposition": "keep",
+      "reason": "All eight depth figures (Kestrel, Comet, Bastion, Flint at two and three circles) and the 2.55 m gap reproduce from car-shapes values. Tree anchors not re-opened; verified_on unchanged."
+    },
+    "applications/kotlin--ram-energy-accumulate-once-per-step.md": {
+      "disposition": "keep",
+      "reason": "Gain table (slot/12 with a 0.25 floor), the 60% car-versus-wall figure and the 10 m/s cue cut reproduce. Tree anchors not re-opened; verified_on unchanged."
+    },
+    "applications/kotlin--wall-tangent-retention-versus-head-on-loss.md": {
+      "disposition": "clarify",
+      "reason": "Table and 0.96^60 = 8.6% reproduce. Internal inconsistency: the body says the 15-degree contract fails at about 0.47 (recomputed: 0.468), the verdict says 'below about 0.45'; align the verdict with the body's own figure."
+    }
+  }
+}
+```
+
+Applied the same day: the golden path now names the closing test beside the maximum, bounds
+the wall asymmetry to low restitution and states the e = 0.5 stimulus condition; the wall
+application's verdict now uses its own 0.47 figure. Second record, against the new digest:
+
+<!-- architecture-review:v1 -->
+```json
+{
+  "subject": "game-production/mass-based-arcade-collision",
+  "date": "2026-10-31",
+  "baseline": "2a7424170",
+  "digest": "sha256-b2:07ef81f3414b201e",
+  "disposition": "keep",
+  "trigger": "pending: no architecture-review record existed after the 2026-10-09 deepen pass.",
+  "intended_benefit": "A designer can point at the term responsible when a car contact feels wrong: exact mass split, authored and bounded spin, restitution and wall loss, and one damage figure per meeting.",
+  "failure_if_ignored": "Weight classes vanish in contact, damage depends on solver pass count, long cars accept opponents into their flanks, and a raised restitution silently breaks the wall ordering.",
+  "boundary": "Contact resolution only; handling owns post-contact yaw and velocity, archetype balance owns the numbers, combat hit dedup owns weapon volumes, partitioning owns broadphase thresholds.",
+  "coverage": "All 13 documents read in full; arithmetic in every technique and application recomputed from cited values; primary sources opened for the perception figures, the Box2D v3 default and the vehicle-restitution paper. Private tree anchors and the other seven engine defaults were not re-opened.",
+  "counterexamples": [
+    "With a closing test on every pass, an isolated pair gives the same ram figure under a sum or a maximum; only a chain separates them.",
+    "At e = 0.24 a 60-degree glance keeps only 2.2 times the head-on speed, and above about e = 0.27 it drops under two, so 'a glance keeps its speed' is angle- and restitution-dependent.",
+    "When every class shares one restitution, minimum, mean and maximum pairing are indistinguishable; only the product differs.",
+    "A handling model that already damps yaw can take a full rotational contact; the bounded kick is a choice, not a necessity."
+  ],
+  "sources": [
+    {
+      "url": "https://europepmc.org/article/PMC/PMC12875344",
+      "result": "Todd and Norman 2026, J Vis, full-text XML: 'When the objects approached each other with the same speed (left), the observers were 95% accurate. However, when a moving object collided with a stationary one (right), the observers were only 23% accurate.' Caption: 'the blue object is 50% heavier than the red object and e = 0.5.' Mitko and Fischer PSE 'spanned a range of mass ratios from 0.4 to 1.5'. Supports the golden path; adds the e = 0.5 condition."
+    },
+    {
+      "url": "https://github.com/erincatto/box2d/blob/main/src/contact.c",
+      "result": "Box2D v3 main: 'static inline float b2MixRestitution(...) { return b2MaxFloat( restitutionA, restitutionB ); }' used when no restitution callback is set. Supports the census entry for v3."
+    },
+    {
+      "url": "https://arxiv.org/abs/physics/0601168",
+      "result": "Batista, 'On the Mutual Coefficient of Restitution in Two Car Collinear Collisions': 'Two ways of calculating the mutual restitution coefficient are given: one based on car masses and one based on car stiffness.' Supports 'design choice, not physics'."
+    },
+    {
+      "source": "Existing kotlin applications",
+      "result": "Dated 2026-10-09 reports against a private tree; anchors not re-opened, verified_on unchanged. Arithmetic recomputed and holds."
+    }
+  ],
+  "documents": {
+    "mass-based-arcade-collision.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: named the closing test beside the maximum in 'One meeting, one number' and the summed-damage failure mode; bounded the wall asymmetry to low restitution; named the e = 0.5 stimulus condition."
+    },
+    "techniques/bounded-collision-spin.md": {
+      "disposition": "keep",
+      "reason": "Inertia-versus-damping framing, clamp-after-add and divide-by-handling-inertia rule are consistent with the application's recomputed roster table (arm/m and arm/I ratios reproduce to two places with I = m(L^2+W^2)/12)."
+    },
+    "techniques/inverse-mass-impulse-split.md": {
+      "disposition": "keep",
+      "reason": "Impulse arithmetic and 3:1 acceptance test are exact; the slop condition is scoped to persistence-dependent event models and warm starts, matching the 1D simulation recorded in the application."
+    },
+    "techniques/min-restitution-pairing.md": {
+      "disposition": "keep",
+      "reason": "Labelled a design choice. Box2D v3 default re-read at source this run (b2MixRestitution returns b2MaxFloat); arXiv physics/0601168 abstract confirms a mutual coefficient computed from masses or stiffness. Remaining engine defaults not re-opened; census re-check stays due by 2027-04."
+    },
+    "techniques/multi-circle-capsule-contact.md": {
+      "disposition": "keep",
+      "reason": "Waist-depth formula re-derived (penetration past flank = R - sqrt(R^2-(s/2)^2)); the 2.8:1 car's 60% / 11% figures and the gap-narrower-than-opponent claim reproduce from the cited shapes."
+    },
+    "techniques/ram-energy-accumulate-once-per-step.md": {
+      "disposition": "keep",
+      "reason": "Two-guard split (closing test for an isolated pair, maximum for chains) is internally consistent; the 16% chain figure matches 23.2 / 20.0."
+    },
+    "techniques/wall-tangent-retention-versus-head-on-loss.md": {
+      "disposition": "keep",
+      "reason": "Ratio table recomputed with a 0.04 tangent loss: 3.9 / 2.2 at e = 0.24, 2.3 / 1.5 at 0.4, failure at 0.5 all reproduce; step 7's shallow-angle contract breaks near e = 0.47, consistent with 'toward one half'."
+    },
+    "applications/kotlin--bounded-collision-spin.md": {
+      "disposition": "keep",
+      "reason": "Roster table and the 6,240 N s / 6.1 rad/s / ~5 m/s ceiling arithmetic recomputed from the cited masses, shapes and table values. Tree anchors not re-opened (private checkout); verified_on unchanged."
+    },
+    "applications/kotlin--inverse-mass-impulse-split.md": {
+      "disposition": "keep",
+      "reason": "640-2,350 kg span (450 + 190 x stat) and the ~3.7 ratio recomputed; simulation table is a dated report. Tree anchors not re-opened; verified_on unchanged."
+    },
+    "applications/kotlin--min-restitution-pairing.md": {
+      "disposition": "keep",
+      "reason": "Inert-rule finding and product figure (0.24^2 = 0.058) check; no verdict is correct. Tree anchors not re-opened; verified_on unchanged."
+    },
+    "applications/kotlin--multi-circle-capsule-contact.md": {
+      "disposition": "keep",
+      "reason": "All eight depth figures (Kestrel, Comet, Bastion, Flint at two and three circles) and the 2.55 m gap reproduce from car-shapes values. Tree anchors not re-opened; verified_on unchanged."
+    },
+    "applications/kotlin--ram-energy-accumulate-once-per-step.md": {
+      "disposition": "keep",
+      "reason": "Gain table (slot/12 with a 0.25 floor), the 60% car-versus-wall figure and the 10 m/s cue cut reproduce. Tree anchors not re-opened; verified_on unchanged."
+    },
+    "applications/kotlin--wall-tangent-retention-versus-head-on-loss.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: verdict's restitution bound aligned to the body's 0.47 at a 15-degree glance."
+    }
+  }
+}
+```

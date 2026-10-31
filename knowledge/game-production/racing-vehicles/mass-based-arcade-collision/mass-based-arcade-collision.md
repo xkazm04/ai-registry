@@ -48,8 +48,9 @@ measurement.
 
 The masses themselves have to be spread widely enough to be felt, and how wide depends on
 how the cars meet. In the perception literature, observers watching two bodies of a 1.5
-mass ratio approach each other at equal speed picked the heavier one 95% of the time. When
-a moving body struck a stationary one, at the same ratio, they were right 23% of the time,
+mass ratio and a restitution of one half approach each other at equal speed picked the
+heavier one 95% of the time. When a moving body struck a stationary one, at the same ratio,
+they were right 23% of the time,
 which is worse than chance (Todd and Warren 1982, as reanalysed by Todd and Norman, Journal of
 Vision 2026, doi:10.1167/jov.26.2.1). Individual bias is large too. In one dataset that paper
 reanalysed (Mitko and Fischer 2023), the mass ratio that looked equal to a given person
@@ -100,16 +101,19 @@ the car's normal velocity is reversed and scaled by restitution, and the car is 
 inside the boundary. What makes it feel like a wall instead of a mirror is the tangential
 component. A glancing touch keeps almost all of its along-wall speed and loses only a small
 fixed fraction, while a head-on hit has nearly all of its speed in the normal direction and
-loses it at once. The asymmetry is the whole feel: scraping a barrier is a cost, hitting it
+loses it at once. That holds only while restitution is low: once a car rebounds at about
+half its approach speed, a glance no longer keeps twice the speed of a head-on hit. The asymmetry is the whole feel: scraping a barrier is a cost, hitting it
 square is a penalty, and the player learns the difference without being told.
 
 ## One meeting, one number
 
 A contact solver that runs several passes, over several circle pairs, can see the same
 meeting of two cars many times in one step. Whatever is derived from the contact for use
-elsewhere, above all collision damage, must therefore be recorded as a per-pair maximum
-over the step and consumed once after the solver finishes, never added up as the solver
-goes. A threshold on closing speed keeps ordinary bumping free, and the damage that results
+elsewhere, above all collision damage, must therefore be recorded only while the pair is
+still closing, kept as a per-pair maximum over the step and consumed once after the solver
+finishes, never added up as the solver goes. The closing test stops an isolated meeting
+being charged twice; the maximum matters where a pair closes again inside the step, as in a
+chain. A threshold on closing speed keeps ordinary bumping free, and the damage that results
 is divided between the cars by mass so the heavy car pays less. The identity of the thing
 being counted is the pair of cars and the step, which is the same idea that gives a sweeping
 weapon one hit per swing, applied to a body instead of a blade.
@@ -140,8 +144,9 @@ consumer who needs it felt must schedule that test; nothing here substitutes for
   Inertia is not the fault in either case. A handling model that already damps yaw can
   take a full rotational contact; the bounded kick is for when the designer wants to set
   the ceiling directly.
-- **Damage summed over solver passes.** The same meeting is paid for two, three or nine
-  times, and the figure depends on the iteration count and on which circles touched.
+- **Damage recorded before the closing test, or summed across a chain.** The same meeting
+  is paid for two, three or nine times, and the figure depends on the iteration count and on
+  which circles touched.
 - **Wall friction as a flat speed multiplier.** Glancing and head-on hits cost the same, and
   racing along a barrier becomes as expensive as hitting it.
 - **A hole in a long car.** Two circles at the ends leave a waist that an opponent's nose

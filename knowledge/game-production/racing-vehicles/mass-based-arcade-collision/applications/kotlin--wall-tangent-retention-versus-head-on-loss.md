@@ -61,6 +61,6 @@ figure beside the per-step one, and a scrape-duration trace would supply it.
 ## Verdict
 
 Simulation with the tree's formula at three restitution values. The new condition (the
-ordering holds only while restitution stays below about 0.45) and the old unconditional
+ordering holds only while restitution stays below about 0.47 at a 15-degree glance) and the old unconditional
 statement agree on this tree's 0.24, so the condition changes nothing here: **unmeasurable**
 as a difference. Return condition: a class or surface that raises restitution above 0.4.
