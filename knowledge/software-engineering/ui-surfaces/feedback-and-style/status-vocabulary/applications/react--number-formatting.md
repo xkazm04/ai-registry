@@ -4,7 +4,8 @@ type: application
 subject: status-vocabulary
 technique: number-formatting
 stack: react
-verified_on: 2026-08-18
+verified_on: 2026-10-31
+verified_against: react@19
 ---
 
 # React application — number formatting
@@ -19,7 +20,7 @@ recurrence 176); the fix landed the same day.
 
 `src/features/shared/components/display/Numeric.tsx` is the one renderer:
 `value` + `unit` (`ms|s|usd|percent|ratio|count|compact|plain`) delegated
-to `formatNumeric` (`src/lib/utils/formatters.ts:389`), tabular lining
+to `formatNumeric` (`src/lib/utils/formatters.ts:622`), tabular lining
 figures inline so digits never jitter, compact values auto-titled with
 the full-precision figure. Its `language` prop doc (`Numeric.tsx:35-49`)
 carries the measurement: it used to default to `'en'`, callers were
@@ -31,7 +32,7 @@ cannot verify you CONFIGURED it — a gate pointing at a broken
 destination."* The fix binds `useTranslation().language` inside the
 component (`:77-78`) and, for non-component callers, an
 `activeLanguage()` reader off the i18n store replaced the four `?? 'en'`
-defaults in `formatters.ts` (`:21`). The prop survives as a genuine
+defaults in `formatters.ts` (`:22`). The prop survives as a genuine
 override (fixed-locale export previews). The convergent confirmation:
 `politicas` binds the locale inside its `useFormat()` hook — no argument
 to forget — and its off-token rate is 1 in 827.
@@ -61,9 +62,20 @@ consume.
   → `<$0.01` (the guard fires on `usd < 0.01`). `<Numeric unit="usd">`
   uses `'auto'`, so ~29 exposed sites render a failed-before-first-call
   execution's $0 as "less than a tenth of a cent"; two sites guard with
-  `> 0` (`LlmCallsTable.tsx:263`, `GlobalExecutionList.tsx:466`).
+  `> 0` (`LlmCallsTable.tsx:300`, `ExecutionCells.tsx:77` — the activity
+  list's cost cell, reached through `useGlobalExecutionColumns.tsx:95`).
   `formatNumeric` also silently drops `precision` for `usd`/`ms`/`s` —
   nine sites pass a precision that never arrives.
+
+  Re-checked 2026-10-31 at personas@22260d77: the asymmetry is fixed in the
+  formatter. `formatCost` now returns `—` for null/NaN/Infinity at every
+  precision (`formatters.ts:303`), hoists the zero guard above all three
+  branches so an exact 0 is `$0.00`/`$0.0000`, never `<$0.001` (`:307`), and
+  compares thresholds on magnitude so a negative renders as itself or
+  `>-$0.01` (`:308-326`). The `<Numeric unit="usd">` zero-as-sub-cent bullet
+  no longer reproduces. `formatNumeric` still drops `precision` for
+  `usd`/`ms`/`s` (`:634-638`). `FactoryOverviewTab.tsx` is now 120 lines and
+  the cited whole-dollar site at `:284` is no longer in it.
 
 ## The gate blindness, as source code
 
@@ -80,9 +92,9 @@ scanner gates on `hasLetters`, so a bare `%`/`$` can never be reported).
 ## What to copy
 
 `src/features/overview/sub_activity/components/LlmCallsTable.tsx`: takes
-`language` because it renders numbers (`:62`), `unit="compact"` for token
-counts (`:235,:249`), zero-guarded `unit="usd"` (`:263`), and `t` +
-`language` in the column `useMemo` deps (`:269`) so a language switch
+`language` because it renders numbers (`:82`), `unit="compact"` for token
+counts (`:271,:285`), zero-guarded `unit="usd"` (`:300-301`), and `t` +
+`language` in the column `useMemo` deps (`:307`) so a language switch
 rebuilds the columns. The remaining structural gap is `NumericUnit`'s
 missing `bytes` member — ten independent KB/MB ladders exist because
 there is nowhere to send them; add the unit before gating them.

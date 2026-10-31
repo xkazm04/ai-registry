@@ -4,7 +4,8 @@ type: application
 subject: async-ui-states
 technique: state-model
 stack: react
-verified_on: 2026-08-18
+verified_on: 2026-10-31
+verified_against: react@19
 ---
 
 # React application — the state model
@@ -35,7 +36,7 @@ ghost branch. Reference implementation:
 
 `src/features/shared/components/display/UnifiedTable.tsx` bakes the model
 into the shared table primitive so a page gets it from `isLoading` + `data`
-(header doc, `UnifiedTable.tsx:10-26`):
+(header doc, `UnifiedTable.tsx:10-27`):
 
 1. `isLoading && data.length === 0` → delayed, geometry-matched
    `TableGhostRows` under the permanent column header;
@@ -44,12 +45,12 @@ into the shared table primitive so a page gets it from `isLoading` + `data`
    realized as a branch ordering;
 3. `data.length > 0` → rows, with the one-shot id-guarded entrance cascade
    **coupled to the load cycle** by `resolveRowReveal`
-   (`UnifiedTable.tsx:253-263`): passing `isLoading` at all turns the ripple
+   (`UnifiedTable.tsx:307-324`): passing `isLoading` at all turns the ripple
    on, `rowReveal={false}` opts out, and `DataGrid` shares the exact same
    resolution.
 
 The seen-set behind the cascade is `useRevealTracker`
-(`src/hooks/utility/interaction/useProgressiveReveal.ts:184`) — a ref-backed
+(`src/hooks/utility/interaction/useProgressiveReveal.ts:210`) — a ref-backed
 per-id set that survives virtualized unmount and clears only on `resetKey`,
 the technique's "seen-set outlives the items" clause.
 
@@ -71,3 +72,12 @@ paints `settled-data`/`refreshing` rather than re-entering `loading`.
   hand-roll their own (e.g. `EventLogList.tsx:453-478`), citing a doctrine
   section that was corrected in 2026-08-13 — stale-license drift, documented
   inside `overview-loading.md` itself.
+
+Re-checked 2026-10-31 at personas@22260d77: both deviations are resolved in
+the code. `UnifiedTable` now takes `error` and `onRetry`
+(`UnifiedTable.tsx:123-134`); failed-and-empty renders a panel `ErrorBanner`
+under the permanent header instead of the empty state (`:705-708`), and a
+failed refresh with rows keeps the rows. `EventLogList.tsx` no longer passes
+`isLoading={false}`: it hands `isFetching` straight to `UnifiedTable`
+(`:109-116`, `:214`), and no production call site passes `isLoading={false}`
+(only tests do).

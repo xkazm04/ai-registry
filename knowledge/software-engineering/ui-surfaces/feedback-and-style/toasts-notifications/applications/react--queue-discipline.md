@@ -4,7 +4,8 @@ type: application
 subject: toasts-notifications
 technique: queue-discipline
 stack: react
-verified_on: 2026-08-18
+verified_on: 2026-10-31
+verified_against: react@19
 ---
 
 # Queue discipline — React toast stack (Personas)
@@ -21,7 +22,7 @@ standard.
 | Eviction by importance, not recency | `capToasts()` (`toastStore.ts:89-95`): sorts by `priority` desc then timestamp, slices to 10, restores timestamp order. Its docstring names the failure it prevents — a burst of successes must not push out an unseen critical |
 | Priority ladder | `STANDARD_PRIORITY` / `HEALING_PRIORITY` (`toastStore.ts:54-65`): healing critical 40 > high 30 > medium 25 > error 20 > warning 18 > healing low 15 > success 10 |
 | Dwell per severity | `DEFAULT_DURATION` (`toastStore.ts:71-75`): success 3000ms, warning 4000ms, error 5000ms; healing 8000ms. A measured 93.3% of call sites pass no duration — the policy genuinely holds |
-| Overflow made visible | `ToastContainer.tsx:288-299` — sorted list sliced to `MAX_VISIBLE_TOASTS`; the remainder renders a counted chip (`toast_overflow` with `{ count }`), never a silent drop |
+| Overflow made visible | `ToastContainer.tsx:278-306` — sorted list sliced to `MAX_VISIBLE_TOASTS`; the remainder renders a counted chip (`toast_overflow` with `{ count }`), never a silent drop |
 | Attention pauses the clock | `useToastTimer.ts` — one RAF loop; `isPaused = paused || !isDocumentVisible` (hover pause + hidden-window pause), and `lastTickRef.current = Date.now()` on mouse-leave is the drift correction that stops the hovered interval from counting as elapsed |
 | Identity, not position | every toast gets `id` at creation (`toast-${++nextId}`); rendering, `AnimatePresence` exit, and dismissal all key on it. Healing toasts mint identity from the domain (`healing-${issueId}`) |
 | Dedup | healing toasts dedup by `issueId` — a repeat replaces the live toast for the same issue (`addHealingToast`, `toastStore.ts:160-164`) instead of stacking a sibling |

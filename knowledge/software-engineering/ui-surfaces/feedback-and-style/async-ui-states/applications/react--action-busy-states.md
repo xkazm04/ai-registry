@@ -4,7 +4,8 @@ type: application
 subject: async-ui-states
 technique: action-busy-states
 stack: react
-verified_on: 2026-08-18
+verified_on: 2026-10-31
+verified_against: react@19
 ---
 
 # React application — action busy states
@@ -33,14 +34,14 @@ the button owns the rest:
   swap (`AsyncButton.tsx:94-107`).
 
 `Button` is the externally-owned-flag variant: `loading` renders the spinner
-(`Button.tsx:230,237`), sets `aria-busy` (`Button.tsx:226`), carries the same
-thenable double-submit guard (`Button.tsx:159-182`), and — the "geometry
+(`Button.tsx:251,258`), sets `aria-busy` (`Button.tsx:248`), carries the same
+thenable double-submit guard (`Button.tsx:180-202`), and — the "geometry
 holds" clause — **locks the resting width in a `useLayoutEffect`**
-(`Button.tsx:139`) so the label→spinner swap cannot collapse the button.
+(`Button.tsx:161`) so the label→spinner swap cannot collapse the button.
 
 ## Per-entity and long-running scope
 
-- `src/stores/slices/vault/credentialSlice.ts:215-246` is the canonical
+- `src/stores/slices/vault/credentialSlice.ts:333-364` is the canonical
   keyed in-flight set: the id is added to `pendingDeleteCredentialIds`
   *before* the await and deleted in both the success and the catch branch;
   each row reads `set.has(id)`. No scalar ever fans out across a collection.

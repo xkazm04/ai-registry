@@ -4,7 +4,8 @@ type: application
 subject: guided-tours
 technique: anchor-contracts
 stack: react
-verified_on: 2026-08-18
+verified_on: 2026-10-31
+verified_against: react@19
 ---
 
 # Anchor contracts — React/Tauri implementation (Personas guided tours)
@@ -19,7 +20,7 @@ Tour anchors are `data-testid` attributes — the same identifiers the test
 suite keeps honest, exactly the "reuse the vocabulary a machine already
 maintains" move the technique prescribes. A step declares
 `highlightTestId: "settings-appearance-panel"` in its `TourStepDef`
-(`src/stores/slices/system/tourSlice.ts:203-233`), and `TourSpotlight`
+(`src/stores/slices/system/tourSlice.ts:203-234`), and `TourSpotlight`
 resolves `[data-testid="${id}"]` at runtime.
 
 The syntax door sits at the slice, not at call sites:
@@ -50,13 +51,13 @@ like `` `agent-${id}` ``) and the navigation vocabulary the tour driver
 understands, then emits two artifacts in one run:
 
 1. `src/features/onboarding/anchors/tourAnchorManifest.json` — imported by
-   `dynamicTours.ts`, whose `isKnownAnchor()` (`dynamicTours.ts:43-48`)
+   `dynamicTours.ts`, whose `isKnownAnchor()` (`dynamicTours.ts:44-48`)
    rejects any Athena-composed step naming an unknown anchor *before it is
    persisted*; an unknown route rejects the whole tour.
 2. `src-tauri/src/companion/generated_tour_anchors.rs` — the backend
    allow-list `compose_tour` output is validated against, so a tampered
    payload or stale row never drives the spotlight. The sibling
-   `generated_anchors.rs` (12 guidance anchors for `point_at`) is the same
+   `generated_anchors.rs` (13 guidance anchors for `point_at`) is the same
    pattern for the lighter walkthrough surface, mirrored from
    `anchorCatalog.ts` with a "DO NOT EDIT / re-run" header.
 

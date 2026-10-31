@@ -5,7 +5,7 @@ subject: session-resume
 technique: first-run-and-quiet-silence
 stack: react
 status: forged
-verified_on: 2026-08-29
+verified_on: 2026-10-31
 verified_against: react@19
 applied: code
 ab_verdict: better
@@ -86,6 +86,14 @@ shape of a list-returning function actively discourages.
   obligation and the one that would actually surface a broken briefing. The
   instrument that would close this is a counter on the accidental-silence
   outcome, reported somewhere other than this surface.
+
+  Re-checked 2026-10-31 at personas@22260d77: the drop is closed on the
+  surface. `useSinceLeftBriefing` now also returns `outcome`, `unavailable`
+  and `retry` (`sinceLeftBriefing.ts:165-181`), `visible` is true for a
+  `not-derived` outcome (`:220-221`), and `SinceYouLeftBriefing.tsx:72-82`
+  renders that state with a retry button instead of rendering nothing. A
+  hook-level test pins it (`sinceLeftBriefing.test.ts:200`). The second half
+  still holds: no counter reports `not-derived` anywhere off this surface.
 - **There is still no last-ran mark.** A session that showed nothing and a
   session where the hook never mounted remain the same observation. The
   latch that exists (`briefingRan` in the cockpit's morning briefing) is

@@ -4,7 +4,8 @@ type: application
 subject: session-resume
 technique: last-seen-anchors
 stack: react
-verified_on: 2026-08-18
+verified_on: 2026-10-31
+verified_against: react@19
 ---
 
 # Last-seen anchors in this repo — one global presence anchor, one per-team consumption watermark, and the engine that has neither
@@ -18,24 +19,25 @@ sit on top.
 ## The global presence anchor — `sinceLeftBriefing.ts`
 
 `src/features/home/sub_welcome/lib/sinceLeftBriefing.ts` (`src/features/home/sub_welcome/lib/sinceLeftBriefing.ts`)
-holds the anchor at `localStorage["personas:home-last-seen"]` (`:21`) and
+holds the anchor at `localStorage["personas:home-last-seen"]` (`:22`) and
 implements the technique's write and read protocol almost verbatim:
 
 - **Heartbeat + departure + acknowledgment.** `HEARTBEAT_MS = 60_000`
-  (`:22`); the effect at `:132-144` beats on mount, on the interval, on
+  (`:23`); the effect (now the exported `useLastSeenHeartbeat`, `:143-163`)
+  beats on mount, on the interval, on
   `beforeunload`, and on `visibilitychange` when `document.hidden`. `dismiss`
-  (`:151-154`) writes `Date.now()` — the acknowledgment write.
+  (`:212-215`) writes `Date.now()` — the acknowledgment write.
 - **Read-then-advance, structurally.** `useState<number | null>(() =>
-  readLastSeen())` (`:115`) snapshots the anchor in a lazy initializer that
+  readLastSeen())` (`:186`) snapshots the anchor in a lazy initializer that
   runs during the first *render*, before any *effect* can beat. The comment
   above it says exactly why: "Freeze the previous-session anchor at first
   render, before the heartbeat below advances the stored value." The legacy
   composition (`session-delta-digest.md` §12.6) flagged this initializer as
   "load-bearing and looks like a stylistic choice"; the technique now says so
   generically.
-- **Absent means first run.** `readLastSeen()` (`:87-96`) returns `null` on
+- **Absent means first run.** `readLastSeen()` (`:110-119`) returns `null` on
   no key, non-finite, or non-positive — never epoch, never now — and
-  `computeSinceLeftBriefing` (`:54`) maps `null` to `{ lines: [], firstRun:
+  `computeSinceLeftBriefing` (`:69`) maps `null` to `{ lines: [], firstRun:
   true }`.
 
 **The anchor has one writer and two readers.**
@@ -52,12 +54,23 @@ through code order. Not a defect; a fragility worth a shared
 `snapshotLastSeenOnce()` at module scope so both readers see one value
 regardless of who renders first.
 
+Re-checked 2026-10-31 at personas@22260d77: the writer moved. The heartbeat
+is now `useLastSeenHeartbeat()` (`sinceLeftBriefing.ts:143-163`), mounted by
+`HomePage.tsx:59` for every Home tab because the Welcome briefing is a
+DEV-only surface (the header at `:132-137` says a production session never
+stamped an anchor while the beat lived there). `useMorningBriefing.ts:52-54`
+now reads "the heartbeat's effect (`useLastSeenHeartbeat` in `HomePage`)
+advances the stored value before any effect of ours gets to run". The
+coupling is the same kind — readers must snapshot during a render that
+precedes `HomePage`'s first effect — but it is now to `HomePage`'s mount, not
+to the Welcome subtree's position.
+
 ## The per-team consumption watermark — `channelSlice.ts`
 
 `src/stores/slices/pipeline/channelSlice.ts` (`src/stores/slices/pipeline/channelSlice.ts`)
 is the technique's *other species* and its *per-surface scope* in one:
-`readLastSeen(teamId)` / `writeLastSeen(teamId, at)` (`:71-87`) keep one
-anchor per team channel under a key prefix, and `markChannelSeen` (`:314-325`)
+`readLastSeen(teamId)` / `writeLastSeen(teamId, at)` (`:118-134`) keep one
+anchor per team channel under a key prefix, and `markChannelSeen` (`:418-429`)
 advances it to `state.items[0].at` — **the newest observed item's timestamp,
 not the clock** — on explicit acknowledgment. This is the "advance from
 observed data" form the legacy sync path called the strong one. Its
@@ -77,8 +90,8 @@ is the app's *other* away-digest, and the legacy composition measured it at
 findings from it are folded into the techniques:
 
 - **The watermark is a clock read** — `let consumed_through =
-  chrono::Utc::now();` (`:315`), stamped *before* the await (the weaker
-  correct form) with a fourteen-line comment (`:301-314`) that names the
+  chrono::Utc::now();` (`:327`), stamped *before* the await (the weaker
+  correct form) with a fourteen-line comment (`:313-326`) that names the
   stronger form (max timestamp of consumed events) and why it is blocked
   (`TickSnapshot` carries no event timestamps). The technique's "two
   species" section is this comment, generalized.
@@ -94,18 +107,24 @@ findings from it are folded into the techniques:
 
 ## The briefing — derived, capped by its sample, quiet by construction
 
-`computeSinceLeftBriefing` (`sinceLeftBriefing.ts:50-85`) is a pure function
+`computeSinceLeftBriefing` (`sinceLeftBriefing.ts:65-108`) is a pure function
 over `homeRunsSample`, `alertHistory` and `pendingReviewCount` from the
 overview store — the file header says it "issues NO new IPC of its own — it
 only triggers the shared store fetches when cold" (`:5-7`), and the effect at
-`:123-128` does exactly that (`primeHomeSpine`, `fetchPendingReviewCount`,
+`:194-200` does exactly that (`primeHomeSpine`, `fetchPendingReviewCount`,
 `fetchAlertHistory`, all TTL-guarded and deduped). Three lines, each with a
 predicate: runs since anchor (with a failed sub-count), alerts since anchor,
 approvals waiting **now** (the current-state exception the technique names —
-the code comment at `:47-48` calls it out).
+the doc comment at `:62-63` calls it out).
 
 **Silence:** `visible = !dismissed && !firstRun && lines.length > 0` (`:156`).
 First run renders nothing; no news renders nothing.
+
+Re-checked 2026-10-31 at personas@22260d77: `visible` (`:220-221`) is now
+`!dismissed && !firstRun && (lines.length > 0 || outcome === 'not-derived')`
+— a derivation whose input never loaded renders a visible not-derived state
+with a retry (`SinceYouLeftBriefing.tsx:72-82`); a genuinely quiet result
+still renders nothing.
 `SinceYouLeftBriefing.tsx` (`src/features/home/sub_welcome/SinceYouLeftBriefing.tsx`)
 consumes it. `useMorningBriefing.ts` layers an LLM-composed briefing on top
 with `deltaIsTrivial` / `composeQuietBriefing` and a once-per-app-session
@@ -114,7 +133,7 @@ latch (`briefingRan`, `:43`) with a test reset hatch (`:46-48`).
 **The sample cap (legacy D4, still true).** The runs line filters
 `homeRunsSample`, which is `listAllExecutions(RUNS_SAMPLE_LIMIT)` with
 `RUNS_SAMPLE_LIMIT = 500`
-(`homeSpineSlice.ts` (`src/stores/slices/overview/homeSpineSlice.ts`)`:47,:109`).
+(`homeSpineSlice.ts` (`src/stores/slices/overview/homeSpineSlice.ts`)`:46,:90`).
 The legacy composition replayed this against 2,188 real execution timestamps:
 the shortest interval containing 501 runs was 53.4 hours, and the worst
 seven-day window held 1,158 — the briefing would render "500" where the truth
@@ -125,17 +144,27 @@ sample-bounded count as a total."
 ## The offer — `useResumeContext.ts`
 
 `src/features/home/sub_welcome/useResumeContext.ts` (`src/features/home/sub_welcome/useResumeContext.ts`)
-is the ranked single signal: `failure` (24 h, `FAILURE_MAX_AGE_MS`, `:45`) >
+is the ranked single signal: `failure` (24 h, `FAILURE_MAX_AGE_MS`, `:57`) >
 `tour` (paused, unfinished, not dismissed — and *only when the tour panel is
-not already showing*, `:156-157`) > `edit` (7 days, `LAST_EDITED_MAX_AGE_MS`,
-`:44`); `null` renders nothing. It reads store state only ("no IPC calls are
-issued", `:19-20`), validates at render (`personas.find(...)` before offering
-the edit, `:180-181`), clamps negative age from clock skew (`:132-133,:140`),
+not already showing*, `:283-286`) > `edit` (7 days, `LAST_EDITED_MAX_AGE_MS`,
+`:56`); `null` renders nothing. It reads store state only ("no IPC calls are
+issued", `:23-24`), validates at render (`personas.find(...)` before offering
+the edit, `:306-308`), clamps negative age from clock skew (`:196-198`),
 and — the detail the technique now carries — keeps an in-process subscriber
-list (`:52-73`) because a same-window `localStorage` write fires no `storage`
+list (`:76-98`) because a same-window `localStorage` write fires no `storage`
 event, so a second edit of the same persona would otherwise go unnoticed.
 `ResumeBanner.tsx` (`src/features/home/sub_welcome/ResumeBanner.tsx`)
 renders it inline above the hero, not as a modal.
+
+Re-checked 2026-10-31 at personas@22260d77: two changes. The hook now warms
+the cross-persona run sample itself (`useResumeContext.ts:252-256`,
+`primeHomeSpine()`, TTL-guarded and shared with the briefing), so "reads store
+state only" no longer strictly holds even though the header at `:23-24` still
+says no IPC is issued; failures are drawn from that sample as well as the
+agent store's executions and can be acknowledged away. A failure whose
+persona was deleted is now offered with a generic name rather than dropped
+(`:270-277`); render-time validation still guards the `edit` kind. The banner
+is mounted inline at the top of the cockpit body (`CockpitPanel.tsx:56-58`).
 
 ## Freshness — `useLiveRoadmap.ts`
 
@@ -146,23 +175,30 @@ and its header (`:5-15`) is the technique's cause-not-age split verbatim:
 Healthy path"; `stale` = "disk cache as a *rescue* because the network attempt
 failed. Degraded path"; `unavailable` = "no cache AND network failed. Caller
 falls back to the bundled roadmap content." The transition guard is real:
-`setStatus((prev) => (prev === 'loading' ? 'unavailable' : prev))` (`:61`) —
-unavailable is reachable only from never-had-content. Polling: `ROADMAP_POLL_MS`
+`setStatus((prev) => prev === 'loading' ? 'unavailable' : prev === 'unavailable' ? prev : 'stale')`
+(`:77-79`) — unavailable is reachable only from never-had-content, and a
+later failure over loaded content now degrades to `stale`. Polling: `ROADMAP_POLL_MS`
 = 1 h via `usePausableInterval(..., active)` where `active` is
-`sidebarSection === 'home' && homeTab === 'roadmap'` (`:81-82`), with the
+`sidebarSection === 'home' && homeTab === 'roadmap'` (`:99-100`), with the
 comment naming the keep-alive-host trap ("this hook's HomeReleases host stays
 mounted when the user switches away, so an unguarded interval would keep
 polling off-screen"). The status pill (`src/features/home/sub_releases/LiveRoadmapStatusPill.tsx`)
 renders cached amber and stale red (`:75-76`), and hides the refresh control
-under `unavailable` (`:88`) — the bundled snapshot has nothing to refresh
+under `unavailable` (`:112`) — the bundled snapshot has nothing to refresh
 against.
+
+Re-checked 2026-10-31 at personas@22260d77: the pill no longer hand-picks
+colours. `SOURCE_STATE` (`LiveRoadmapStatusPill.tsx:50-53`) maps `cached` to
+the shared `StatusDot` connection state `paused` and `stale` to `offline`,
+each with its own label (`:86-101`); the cached/stale distinction holds, the
+amber/red line numbers do not.
 
 ## Place — the layers, declared and undeclared
 
 - **Route** — the shell restores last section (owned by app-shell's
   navigation model; see its application).
 - **Scroll, per-section in the shell** —
-  `Sidebar.tsx` (`src/features/shared/chrome/sidebar/Sidebar.tsx`)`:87-101`
+  `Sidebar.tsx` (`src/features/shared/chrome/sidebar/Sidebar.tsx`)`:88-106`
   keeps a `Map<section, scrollTop>` for the level-2 nav and re-applies on
   section change (process lifetime, ref-scoped).
 - **Scroll, per-context in lists** —
@@ -174,7 +210,8 @@ against.
   and a `clearScrollRestoration` test hatch (`:176-179`). Adopted by the four
   shared list primitives (`UnifiedTable`, `GroupedVirtualList`,
   `TemplateVirtualList`, and one more) rather than per surface — the right
-  seam. Its `globalThis` comment cites "the executionBuffers / eventBus
+  seam. (Re-checked 2026-10-31 at personas@22260d77: three consumers remain —
+  `UnifiedTable`, `GroupedVirtualList`, `TemplateVirtualList`.) Its `globalThis` comment cites "the executionBuffers / eventBus
   singletons" (`:37`), neither of which exists under that name (documented in
   the repo's HMR-singleton path); harmless, but the precedent named is a
   fiction.
@@ -199,6 +236,10 @@ against.
   overnight minimized window advances the anchor all night, and the morning
   "since you left" derives from a minute ago. The technique's presence-honesty
   rule; the fix is a `document.hidden` (or focus) check inside `beat`.
+  **Resolved** — re-checked 2026-10-31 at personas@22260d77: `beat` returns
+  early when `document.hidden` (`sinceLeftBriefing.ts:145-148`), and only the
+  departure stamps (`beforeunload`, hide transition) bypass the gate
+  (`:151-156`). Exactly the fix named here.
 - **One anchor, two readers, coupled by tree order** — see above; a shared
   module-scoped snapshot removes the coupling.
 - **Sample-bounded count rendered as a total** — legacy D4; `RUNS_SAMPLE_LIMIT
@@ -207,5 +248,5 @@ against.
   showed nothing and a session where the hook never mounted are the same
   observation. `useMorningBriefing`'s `briefingRan` is per process, not
   persisted.
-- **The engine digest** — legacy D1/D2/D6, all still true at `push.rs:315`,
+- **The engine digest** — legacy D1/D2/D6, all still true at `push.rs:327`,
   `mod.rs:63`; recorded here as counter-evidence, not re-derived.
