@@ -59,6 +59,13 @@ process that claimed it.
 - When the process holds an in-memory set of ids running now, keep it in addition to
   the durable claim: it refuses a double click before any read or plan, and the
   durable claim covers a second process and a restart. Neither alone is enough.
+- When a row is `cut` or `failed`, it is claimable although `cut` recalls as
+  unknown, because the claim comes after the second plan: a confirm reaches it only
+  when the fresh reads still digest to the same id. Blocking it would also block the
+  recovery above, since a fresh preview of a world the lost write did not change
+  produces the same id. What this leaves open is a lost write whose landing changes
+  nothing the plan reads (an append with no token and no name to check); that one
+  can run twice, and only the person reading the remote prevents it.
 - When a `running` row names a process that no longer exists, it is unknown, not
   running. Treating it as running blocks the id forever; treating it as never
   claimed reopens a write that may have half-landed.

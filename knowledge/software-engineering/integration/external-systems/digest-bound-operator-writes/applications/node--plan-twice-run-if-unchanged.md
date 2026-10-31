@@ -5,7 +5,7 @@ subject: digest-bound-operator-writes
 technique: plan-twice-run-if-unchanged
 stack: node
 status: forged
-verified_on: 2026-10-27
+verified_on: 2026-10-31
 verified_against: node@22
 ---
 
@@ -53,5 +53,8 @@ in about a hundred and fifty lines.
   gap is skipping the look, not running something different. The setup door
   (`setup/run.ts`) closes it; the two doors disagree.
 - A `cut` row is claimable again (`journal.ts:36` "where action_runs.state in ('failed', 'cut')").
-  The client avoids a blind resend by re-previewing on `unknown`, and the precondition
-  token refuses a stacked write, but a direct second confirm of a cut id would run.
+  That matches the technique: `confirm` re-plans and compares at `run.ts:182` before
+  `once` claims, so a second confirm of a cut id runs only when the fresh reads still
+  give the same digest, the same path the client's re-preview on `unknown` takes. The
+  residual is a lost write whose landing changes nothing the plan reads; the
+  precondition token covers file updates, so it is narrow here.

@@ -5,7 +5,7 @@ subject: digest-bound-operator-writes
 technique: precondition-token-on-every-write
 stack: node
 status: forged
-verified_on: 2026-10-27
+verified_on: 2026-10-31
 verified_against: node@22
 ---
 
