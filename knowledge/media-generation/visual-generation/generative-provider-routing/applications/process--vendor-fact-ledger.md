@@ -27,7 +27,7 @@ facts, cost class, and craft quirks, each attributable to a source.
 | Qwen-Image 2.0 (Alibaba, open) | LLM-class | prose | open-weights leader for CJK/Arabic typography; 7B arena-competitive, cheap |
 | SDXL + derivatives | dual CLIP | tags, ~77-token window | weighting syntax works; negatives load-bearing |
 | Illustrious-XL / NoobAI-XL | SDXL-class | Danbooru tags | anime production standard; exact booru vocabulary; heavy anatomy negatives; v-pred variants need matching sampler |
-| Midjourney V8.x | proprietary | prose + parameters | `--sref`/`--oref` reference system (V8.1 default since 2026-06); `::` weights, `--no` negatives |
+| Midjourney V8.x | proprietary | prose + parameters | `--sref` and moodboards carry over to V8; `--oref` stayed a V7 feature when V8.1 became default (2026-06-11), and the V8.2 edit model (testing from 2026-08-27) replaces it with up to 4 image references; `::` weights, `--no` negatives |
 | Recraft V3 | proprietary | prose | only model emitting true SVG; brand-style lock from uploads |
 | Ideogram 4 | proprietary | prose | long-form typography/logo specialist |
 | Seedream 5 Pro (ByteDance) | LLM-class | prose | top-tier multi-region text rendering |
@@ -48,7 +48,8 @@ facts, cost class, and craft quirks, each attributable to a source.
   emitter; everything else rasterizes "vector style".
 - **Anime/manga**: Illustrious-XL / NoobAI-XL with booru tags — the one
   niche where tag dialect and negative prompts remain essential.
-- **Batch style consistency**: explicit conditioning (Midjourney sref+oref,
+- **Batch style consistency**: explicit conditioning (Midjourney sref plus
+  V7 oref or V8.2 edit-model references,
   Recraft brand lock, Nano Banana multi-reference) layered over a restated
   style core — see visual-style-locking's boundary note.
 
@@ -66,10 +67,39 @@ cost-tier hop inside a family.
 
 ## Deprecations
 
-- Imagen 4: shutdown announced for 2026-08 — do not adopt.
-- Midjourney `--cref`: superseded by `--oref` in V7+.
+- Imagen 4: shut down on the Gemini API on 2026-08-17 (generate, ultra and
+  fast); the deprecations table names a Nano Banana model as the replacement.
+  Re-checked 2026-10-31.
+- Midjourney `--cref`: superseded by `--oref` in V7; `--oref` itself is
+  superseded on V8 by the V8.2 edit model's image references. Re-checked
+  2026-10-31.
 
-## Sources (accessed 2026-08-20)
+## Rate-card shapes and stop vocabularies (re-checked 2026-10-31)
+
+Two facts the routing techniques lean on, read from the vendors' own pages:
+
+- **Size steps are not doublings.** Gemini 3.1 Flash Image: $0.045 (0.5K),
+  $0.067 (1K), $0.101 (2K), $0.151 (4K) — about 1.5x per step, 3.4x end to
+  end. Nano Banana 2.1: $0.0336 / $0.0504 / $0.113 for 1K / 2K / 4K. Gemini 3
+  Pro Image: $0.134 for 1K *and* 2K, $0.24 for 4K — two adjacent rungs at one
+  price, the resolution-as-stage-property merge case. Batch halves each
+  figure. OpenAI prices GPT Image models by token ($30 per 1M image-output
+  tokens for gpt-image-2, $15 batch) and its guide says to use
+  `quality: "low"` for quick drafts — the tier, not only the size, is the
+  vendor's own draft lever.
+- **Refusals arrive labelled, and the labels split.** OpenAI returns
+  `error.type: "image_generation_user_error"`, `error.code:
+  "moderation_blocked"`, optional `moderation_details.moderation_stage`
+  (`input` / `output` / `unknown`), and says not to auto-retry without
+  modifying the prompt or input images; a `moderation: "low"` request
+  parameter loosens filtering. Gemini's `finishReason` distinguishes
+  `IMAGE_SAFETY`, `IMAGE_PROHIBITED_CONTENT`, `IMAGE_RECITATION`,
+  `IMAGE_OTHER`, `NO_IMAGE` and `PUP_LIMITED_DISABLED` (account limited for
+  policy violations), and `promptFeedback.blockReason` blocks the prompt
+  with no candidates at all. The empty-result-is-refusal rule is the
+  fallback for a response that names none of these.
+
+## Sources (accessed 2026-08-20 unless dated)
 
 - https://www.buildmvpfast.com/articles/best-llms-2026-guide/image-generation-ai
 - https://wiki.shakker.ai/en/flux-image-generation
@@ -89,3 +119,18 @@ cost-tier hop inside a family.
   FLUX.2 [klein] 4B models under an Apache 2.0 license and ... the 9B models under a
   non-commercial license"; only this entry was re-checked, so `verified_on` stays at the
   date the rest of the ledger was resolved
+- https://ai.google.dev/gemini-api/docs/deprecations (accessed 2026-10-31) - Imagen 4
+  shutdown 2026-08-17; Veo and Gemini image model rows
+- https://ai.google.dev/gemini-api/docs/pricing (accessed 2026-10-31) - per-size image prices
+- https://ai.google.dev/api/generate-content (accessed 2026-10-31) - `FinishReason` and
+  `BlockReason` enums
+- https://developers.openai.com/api/docs/guides/image-generation (accessed 2026-10-31) -
+  `moderation` parameter, `moderation_blocked` error shape, the draft-quality advice
+- https://developers.openai.com/api/docs/pricing (accessed 2026-10-31) - GPT Image token rates
+- https://updates.midjourney.com/v8-1-is-now-the-default-model/ (2026-06-11, accessed
+  2026-10-31) - "V7 omni-reference is available to use while we finish training the improved
+  version for V8"
+- https://updates.midjourney.com/edit-model-for-v8/ (2026-08-27, accessed 2026-10-31) - the
+  V8.2 edit model, "replacing omni-reference", up to 4 image references
+- Only the entries marked re-checked were re-sourced on 2026-10-31; the dialect table and
+  capability rankings were not, so `verified_on` stays at the date the ledger was resolved

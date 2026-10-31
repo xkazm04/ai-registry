@@ -56,6 +56,23 @@ direction is expensive:
   unnecessary hop to a vendor that also serves the request; read as a
   success, the caller receives nothing, with green status attached, and the
   failure is invisible. Choose the direction whose failure is cheap.
+- **A named reason outranks the empty-result default.** Vendors increasingly
+  return a structured stop reason, and the vocabulary is wider than
+  "refused": a policy block on the prompt, a policy block on the generated
+  image, a block for reproducing protected material, "no image produced"
+  with no policy reason, and a stop because the account itself is
+  restricted. Map them separately. A policy block is "refused" and hops. A
+  protected-material block is the same verdict at every vendor — routing it
+  onward is the laundering this technique must never do — so it throws. A
+  no-image stop with no policy reason is "failed". An account-level stop
+  throws and alerts, because refusals accrue against the account that sent
+  them. Where the vendor says which stage blocked, keep it on the trail: an
+  input-stage block is a property of the request and re-refuses
+  deterministically, while an output-stage block was one sample's verdict.
+  That is still not a licence to retry the same vendor. Vendors ask callers
+  not to auto-retry a moderation block without changing the request, and a
+  retry loop is exactly how the account-level stop is earned. So the hop
+  stays the move either way.
 - **Sniffing is legitimate when shapes are undocumented.** Matching error
   text against a policy-vocabulary pattern is fragile and still better than
   defaulting to "failed" — because "failed" and "refused" route differently,
@@ -71,7 +88,8 @@ layer:
   different allowance, so a limit on one says nothing about the next);
   missing credential (skip, record, continue); vendor-side failure and
   timeout, where trying elsewhere is exactly the point of having a chain.
-- **Throws immediately:** malformed requests and local validation errors —
+- **Throws immediately:** protected-material blocks and account-level stops
+  (above); malformed requests and local validation errors —
   the next vendor will reject them identically, so walking the chain just
   fails N times and muddies the trail; spend-ceiling refusals — the budget
   gate is a decision about *this request*, not about a vendor, and
