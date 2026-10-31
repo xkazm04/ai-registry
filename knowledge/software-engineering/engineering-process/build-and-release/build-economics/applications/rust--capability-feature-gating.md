@@ -5,7 +5,7 @@ subject: build-economics
 technique: capability-feature-gating
 stack: rust
 status: forged
-verified_on: 2026-09-06
+verified_on: 2026-10-31
 verified_against: rust@1.96
 applied: experiment
 ab_verdict: better
@@ -14,7 +14,9 @@ proof: ab-paired
 
 # The `p2p` gate, and the screen the lite build renders instead
 
-*Verified against the project tree at `c2a3c5fa1`.*
+*Verified against the project tree at `c2a3c5fa1`; anchors re-checked 2026-10-31 at personas@22260d77.*
+
+**Re-checked 2026-10-31 at personas@22260d77: the cut moved, and the opening claim no longer holds for the lite build.** `p2p` joined the `desktop` tier on 2026-10-13 (`src-tauri/Cargo.toml:250-254`, "the mesh must exist in the daily lite build, not only in desktop-full"), so the default *desktop* build — `tauri:dev`, `tauri:build:lite` — now compiles the transport, and the designed panel described below is no longer what a lite-build user sees. It renders only in a build without `desktop` (the no-features mobile shape). `ed25519-dalek` also left the optional set on 2026-10-06 (`:466-470`: the paired-phone command plane verifies envelopes with it in every build), so `p2p` now removes six `dep:` crates, not seven. The probe, the flag and the two panels still exist and still behave as cited; what changed is which shipped variant reaches them. The paired measurement in the last section is history and is not touched by this.
 
 A peer-to-peer transport — LAN discovery, a QUIC stack, signing keys,
 certificate generation — sits behind a Cargo feature, and the default build
@@ -26,23 +28,23 @@ accidental" is usually a developer courtesy. Here it is a product surface.
 
 ## The gate, and where the cut falls
 
-`src-tauri/Cargo.toml:132-160` is the whole tier vocabulary in one block:
-`default = []` (`:133`), a `desktop` tier listing the everyday plugins
-(`:137-154`), and
+`src-tauri/Cargo.toml:244-281` is the whole tier vocabulary in one block:
+`default = []` (`:245`), a `desktop` tier listing the everyday plugins
+(`:253-272`), and
 
 ```
 # Full desktop = core + ML + P2P. Used by CI and production builds.
 desktop-full = ["desktop", "ml", "p2p"]
 ```
 
-at `:155-156`. `p2p` (`:160`) is the technique's dependency-edge cut, not a
+at `:273-274`. `p2p` (`:278`) is the technique's dependency-edge cut, not a
 consumption-site cut: alongside the three workspace forwards it names seven
 `dep:` optional crates — `ed25519-dalek`, `bs58`, `mdns-sd`, `quinn`, `rcgen`,
-`rmp-serde`, `socket2` (declared optional at `:337-338` and `:341-350`) — so in the default
+`rmp-serde`, `socket2` (declared optional at `:471-483`; `ed25519-dalek` is no longer among them, see the re-check above) — so in the default
 tier the cryptography and transport libraries are **absent from the build
 graph**, not merely unreferenced. The manifest also states the switch cost the
 technique demands be advertised, at the tier itself: "Use this for fast local
-builds (~5 min faster than desktop-full)" (`:135`).
+builds (~5 min faster than desktop-full)" (`:247`).
 
 The cut is mirrored down the workspace, and both mirrors carry a comment
 explaining why the mirror exists at all — the failure mode where a
@@ -60,11 +62,16 @@ the reason for it the hard way and wrote it next to the declaration.
 
 The gates themselves are ordinary. `src-tauri/src/commands/network/mod.rs`
 is sixteen lines and eight `#[cfg(feature = "p2p")] pub mod …` pairs — the
-file has no other content. The state field is gated with it
-(`src-tauri/src/state.rs:76-78`, `pub network: Option<Arc<engine::p2p::NetworkService>>`),
+file has no other content. (Re-checked 2026-10-31: it now also carries two
+ungated modules, `remote_sessions` and `mesh`, "registered in every build
+(bodies gate on `p2p`), so a lite build answers 'not in this build' instead of
+'command not found'" — the designed-gap discipline moved into the command
+bodies.) The state field is gated with it
+(`src-tauri/src/state.rs:77-78`, `pub network: Option<Arc<engine::p2p::NetworkService>>`),
 and the command registrations are gated inside the handler macro
-(`src-tauri/src/lib.rs:1069-1086` for signing, and the network block from
-`:1907`).
+(re-checked 2026-10-31: the handler list moved out of `lib.rs` into
+`src-tauri/src/ipc_shards/`; signing is `shard_3.rs:178-196` and the network
+block starts at `shard_7.rs:97`).
 
 ## Two tiers are declared in one place and built by routine
 
@@ -72,20 +79,23 @@ The tier vocabulary reaches the build entry points through configuration
 overlays rather than through hand-copied flag lists:
 `src-tauri/tauri.lite.conf.json:3-7` overrides `build.features` to
 `["desktop"]`, `tauri.stable.conf.json:3-7` to `["desktop-full"]`, and
-`package.json:93,96` binds them to `tauri:build:lite` / `tauri:dev:lite`.
+`package.json:115,119-120` binds them to `tauri:build:lite` / `tauri:dev`
+(`tauri:dev:lite` is now an alias; plain `tauri:dev` is the lite build).
 `scripts/check-tauri-configs.mjs` is the drift guard the "one place" rule
-needs: `OVERLAYS` at `:18`, and `checkFeatures` (`:91-99`) fails the run when
+needs: `OVERLAYS` at `:18`, and `checkFeatures` (`:110-119`) fails the run when
 an overlay names a feature that is not declared in the manifest's `[features]`
 block — the overlay cannot invent a tier.
 
 The rot-watch is real and it is deliberately *shaped* as a feature matrix
-rather than as an extreme-ends pair. `.github/workflows/ci.yml:400-416`
+rather than as an extreme-ends pair. `.github/workflows/ci.yml:1226-1246`
 declares a `rust-features` job whose matrix builds `desktop-full`,
 `desktop,scraper` and `desktop,test-automation`, each with the reason in a
 comment ("What ships. ml + p2p on top of desktop"); everyday clippy and test
-runs are pinned to `--features desktop` (`:338`, `:346`, `:574`), so the lite
+runs are pinned to `--features desktop` (`:1039`, `:1047`, `:1094`), so the lite
 side is the one exercised per commit and the gated side is exercised per
-matrix run. A fourth job, `rust-no-features` (`:461`), compiles the three
+matrix run (since `p2p` joined `desktop`, the per-commit side includes
+`p2p` too; the matrix's extra coverage is now `ml`). A fourth job,
+`rust-no-features` (`:1347`), compiles the three
 library crates with no features at all — the shape a mobile target sees — and
 its preamble explains why the desktop crate cannot join it (an updater
 capability reference aborts the build script before compilation).
@@ -111,30 +121,30 @@ three read paths consulted the old heuristic, so writes surfaced raw error
 toasts in a lite build.
 
 One verdict, one signal, every consumer derives.
-`src/stores/slices/network/networkSlice.ts:111` holds `p2pUnavailable`, whose
-doc (`:101-110`) states the authority rule outright — "Set ONLY by
+`src/stores/slices/network/networkSlice.ts:120` holds `p2pUnavailable`, whose
+doc (`:110-119`) states the authority rule outright — "Set ONLY by
 `ensureP2pSupport` … never inferred from an arbitrary error message, and never
-latched by a runtime failure". `ensureP2pSupport` (`:192-196`) mirrors the
+latched by a runtime failure". `ensureP2pSupport` (`:201-204`) mirrors the
 once-per-session probe into the flag, and every network action awaits it
-first: reads return quietly (`:201`), writes throw a typed
-`P2pUnavailableError` (`:211`), across roughly twenty call sites in that slice
+first: reads return quietly (`:210`), writes throw a typed
+`P2pUnavailableError` (`:220`), across roughly twenty call sites in that slice
 and `devicesSlice.ts`.
 
 The rendered state is a first-class early return, ahead of any of the
 surface's normal UI. `ExposureManager.tsx` — the settings network page, lazily
-routed at `SettingsPage.tsx:16` — reads the flag at `:223` and returns at
-`:237-260` a full framed panel whose copy resolves to *"P2P networking
+routed at `SettingsPage.tsx:17` — reads the flag at `:250` and returns at
+`:264-287` a full framed panel whose copy resolves to *"P2P networking
 unavailable. This build was compiled without the `p2p` feature. Identity, peer
 discovery, and resource exposure are inactive. Run `npm run tauri:dev` (full
 build) to enable them."* The sibling device-linking page does the same
 (`DeviceLinkPage.tsx:63-79`), carries a test hook
 (`data-testid="devices-p2p-unavailable"`, `:69`), and its strings are in the
-translation catalog (`src/i18n/locales/en.json:6425-6426`) alongside thirteen
+translation catalog (`src/i18n/locales/en.json:9116-9117`) alongside thirteen
 other locales. A build-time flag has been carried all the way into the
 localization pipeline.
 
 The backend half of the same discipline is the more surprising one.
-`src-tauri/src/commands/companion/approvals/approval_exec_devices.rs:259-281`
+`src-tauri/src/commands/companion/approvals/approval_exec_devices.rs:641-678`
 keeps the remote-instruction operation **registered and dispatched in the lite
 build**, with a `#[cfg(not(feature = "p2p"))]` transport stub returning a
 sentence a user can act on ("This build has no device link, so I can't reach
@@ -143,7 +153,7 @@ keeping the action list, the lifecycle match and the agent's instructions
 identical across feature sets means the dispatcher's parity test asserts the
 *same* surface in both builds "instead of a shape that only holds in one". The
 adjacent prompt-side stub goes the other way and returns an empty roster
-(`src-tauri/src/companion/prompt/devices.rs:70-77`) — "a roster of machines
+(`src-tauri/src/companion/prompt/devices.rs:171-178`) — "a roster of machines
 nothing can reach would be worse than silence". Two `cfg(not)` arms, two
 different right answers, each with its reasoning written where the arm is.
 
@@ -196,7 +206,8 @@ it asks.
 
 **One of the four is live, and the swallow is why it survived.**
 `companion_list_pending_approvals` is registered only under
-`#[cfg(feature = "test-automation")]` (`src-tauri/src/lib.rs`), and
+`#[cfg(feature = "test-automation")]` (`src-tauri/src/lib.rs`; re-checked
+2026-10-31, still test-automation-only, now at `src-tauri/src/ipc_shards/shard_4.rs:119-120`), and
 `desktop-full = ["desktop", "ml", "p2p"]` does not include it. Three shipped chat
 modules call it — `athenaChatEvents.ts:116`, `athenaChatHydration.ts:56`,
 `athenaChatShell.ts:44` — and every one of the three wraps the call in
@@ -233,7 +244,7 @@ is one.
 ## What this realization cannot do or prove
 
 - **No build-cost measurement backs the headline number.** "~5 min faster than
-  desktop-full" (`Cargo.toml:135`) is a manifest comment with no sampler, no
+  desktop-full" (`Cargo.toml:247`) is a manifest comment with no sampler, no
   dated before/after, and no attribution to the gated units. The switch-cost
   inequality is asserted, not computed; nothing here would notice if the gate
   stopped paying for itself.
@@ -243,7 +254,11 @@ is one.
   (`p2pCapability.ts:59-60`). The panel would then tell a user their build
   lacks a feature it actually has.
 - **Only one `cfg(not(feature = "p2p"))` arm exists per gated entry point that
-  bothered.** There are two in the tree. The eight gated command modules have
+  bothered.** There are two in the tree. (Re-checked 2026-10-31: there are
+  now 34 `not(feature = "p2p")` sites under `src-tauri/src`, five of them
+  in `approval_exec_devices.rs` alone, and the network commands
+  `remote_sessions` and `mesh` are registered in every build with gated
+  bodies — the honest-gap pattern spread well beyond the two cited arms.) The eight gated command modules have
   no stubs at all — they simply do not exist in the lite build — so the honest
   message only appears where a surface remembered to probe. The technique's
   rule 4 is satisfied at the surfaces cited here and unenforced everywhere

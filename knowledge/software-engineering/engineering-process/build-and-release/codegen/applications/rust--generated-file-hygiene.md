@@ -4,7 +4,8 @@ type: application
 subject: codegen
 technique: generated-file-hygiene
 stack: rust
-verified_on: 2026-08-22
+verified_on: 2026-10-31
+verified_against: rust@1.96
 ---
 
 # Three generators against a formatter that arrived after them
@@ -48,7 +49,7 @@ Rather than exempting the generated roots, each generator now calls the
 formatter over its own output as its last step
 (`rustfmtInPlace(<output>)` — the identical helper in all three:
 `generate-connector-events.mjs:65-75` invoked at `:368`,
-`generate-connector-seed.mjs:41` at `:132`,
+`generate-connector-seed.mjs:41` at `:157`,
 `generate-template-checksums.mjs:46` at `:326`). The header states the trade:
 
 > Formatting here rather than exempting generated files from the gate: the

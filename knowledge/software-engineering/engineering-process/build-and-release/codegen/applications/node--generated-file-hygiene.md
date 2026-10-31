@@ -4,7 +4,7 @@ type: application
 subject: codegen
 technique: generated-file-hygiene
 stack: node
-verified_on: 2026-09-07
+verified_on: 2026-10-31
 verified_against: node@22
 applied: simulation
 ab_verdict: not-better
@@ -32,6 +32,15 @@ correspondence in both directions, and two files hold its exceptions:
 |---|---|---|
 | `scripts/binding-orphan-allowlist.txt` | committed binding files with no live Rust type behind them | 67 lines |
 | `scripts/binding-missing-allowlist.txt` | Rust types carrying the export derive that never had a file written | 20 lines |
+
+Re-checked 2026-10-31 at personas@22260d77: the checker, both lists and the
+two-sided convention quoted in case 3 (`binding-orphan-allowlist.txt:6-8`)
+all stand. The lists have shrunk — 63 and 17 lines — and the missing list now
+holds one name, `KbIngestRequest`, where it held four; the shrinkage is the
+two-sided convention working (each cleared entry cost a deleted line), and
+case 2 still has a live instance. The "68 files with generated markers" count
+was not re-derived: the marker set it counted is not recorded, and no single
+marker pattern in today's tree reproduces it. The verdict stands.
 
 ## A and B
 

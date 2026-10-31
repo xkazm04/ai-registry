@@ -4,7 +4,7 @@ type: application
 subject: concurrent-vcs
 technique: intent-ledgers
 stack: process
-verified_on: 2026-08-18
+verified_on: 2026-10-31
 ---
 
 # Intent ledger — `.claude/active-runs.md`, its design, and its measured decay
@@ -26,6 +26,14 @@ rebase-on-merge) and five explicit reconsideration triggers — is
 - **Phase 11/13 (end):** move the entry to the top of `## Recently completed`
   with the landed SHA, or `aborted (<reason>)` / `handoff: <path>`.
 
+Re-checked 2026-10-31 at personas@22260d77: the ritual is no longer
+hand-performed. `scripts/active-runs.mjs` now does `check`, `register` and
+`complete` (exit 2 on a live conflict), keeps the same 2-hour staleness rule
+(`STALE_HOURS = 2`, `:34`), and `.claude/CLAUDE.md` forbids hand-editing the
+ledger for those three operations. A `doctor` verb reports the damage and
+does not rewrite it. This is the mechanization the decay below argued for. It
+has not repaired the file itself (next section).
+
 Adoption, measured 2026-08-17 (`parallel-session-coordination.md` §12.2):
 **16 of 35 skills carry both rituals**; 3 more make it correctly conditional
 for foreign repos; the 13 silent ones are the *newer autonomous* skills
@@ -44,7 +52,11 @@ tales with numbers attached:
   themselves complete and were never moved.
 - **Structural anchor ambiguity (D4):** the file contains **two**
   `## Active` headings (`:3`, `:1167`) and two `## Recently completed`
-  headings, so an Edit anchored on the documented append point fails the
+  headings (re-checked 2026-10-31: still two `## Active`, now `:3` and
+  `:2888`, and three `## Recently completed` at `:1470`, `:3678`, `:4762`, in
+  a 5,109-line file; the script reads the entries, so the Edit-anchor failure
+  no longer blocks the documented path, but the ambiguity is still in the
+  file), so an Edit anchored on the documented append point fails the
   unique-old-string rule *permanently* — and the file's own Conventions
   prescribe "retry", which cannot succeed.
 - **Advisory means skippable (D10):** the golden-path campaign itself ran

@@ -4,7 +4,8 @@ type: application
 subject: build-economics
 technique: compilation-unit-splitting
 stack: rust
-verified_on: 2026-08-18
+verified_on: 2026-10-31
+verified_against: rust@1.96
 ---
 
 # The 2026-07-26 crate split: 8.9 GB → 6.2 GB, measured
@@ -55,8 +56,8 @@ never as proof. `cargo check --all-targets` is the actual gate" (`:33-35`).
 ## The migration shim, with its documented cost
 
 The split was executed through a compatibility shim:
-`src-tauri/src/engine/mod.rs:26` is `pub use personas_engine::*;` (plus
-targeted `personas_core` re-exports at `:20,:34,:60`), so `crate::engine::X`
+`src-tauri/src/engine/mod.rs:28` is `pub use personas_engine::*;` (plus
+targeted `personas_core` re-exports at `:22,:36,:62`), so `crate::engine::X`
 kept resolving across four crates and the extraction touched a handful of
 files instead of ~849. The standing cost the technique predicts is measurable
 here: `personas_engine::` appears **once** in all of `app_lib`'s sources —
@@ -65,6 +66,15 @@ placing code on, and the two `engine` trees (115 files in-crate, 129 files
 extracted) are indistinguishable at every call site. The split bought build
 economics; the architectural forcing function is still parked behind the
 shim.
+
+Re-checked 2026-10-31 at personas@22260d77: the shim still stands at
+`engine/mod.rs:28`, but the "appears once" count no longer holds.
+`personas_engine::` now appears 441 times across 86 files of `app_lib`'s
+sources, so authors are increasingly naming the boundary directly rather than
+only through the shim; the trees are 175 files in-crate and 238 extracted. The
+observation that the shim hides the boundary at every call site is weakened
+accordingly: it still hides it at the call sites that go through
+`crate::engine::`, not at all of them.
 
 ## What remains open
 

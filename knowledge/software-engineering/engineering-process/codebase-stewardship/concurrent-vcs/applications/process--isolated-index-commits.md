@@ -33,7 +33,7 @@ git show --name-status --format= HEAD                   # file list AND status l
    one checkout: `git commit -- <paths>` swept three pre-staged sibling files;
    later the same day `git commit --only` printed "no changes added to commit",
    silently no-oped, and all 12 staged files went into a sibling's commit.
-   Recorded in `.claude/CLAUDE.md` primitive #5 and `.claude/active-runs.md:7`.
+   Recorded in `.claude/CLAUDE.md` primitive #5 and `.claude/active-runs.md:1176`.
 2. **2026-08-17 — the mechanism was isolated by experiment.**
    `docs/concepts/golden-paths/parallel-session-coordination.md` §0 drove six
    questions through a throwaway `git init` repo with no hooks and no
@@ -50,6 +50,20 @@ git show --name-status --format= HEAD                   # file list AND status l
    the defeated pathspec forms. Census rule `defeated-pathspec-commit`
    (baseline 6 files / 11 matches over `.claude/skills`) ratchets the defeated
    form; its positive control counts `GIT_INDEX_FILE`.
+
+   Re-checked 2026-10-31 at personas@22260d77: the ratchet is gone and so
+   is most of what it counted. `scripts/census/rules.json` (214 rules) no
+   longer contains `defeated-pathspec-commit` or its positive control; the
+   rule text survives only in
+   `docs/concepts/golden-paths/parallel-session-coordination.md:614-631`.
+   The checkout's own `.claude/skills` now has no `git commit --only` /
+   `git commit -- <paths>` prescription, and four skill specs mention
+   `GIT_INDEX_FILE`, so the defeated form was cleared at the source. The
+   ratchet that held the line is no longer there to stop it coming back.
+   The `calibration.md:54` / `:84` anchors could not be re-read: `mvp` is a
+   registry-linked skill (`.ai/manifest.yaml` `skills:`), the link is absent
+   from this checkout, and the state file was not found in the registry
+   either.
 4. **2026-08-18 — the seeding rule.** The original recipe seeded by
    `cp .git/index`. Measured the same day the corpus session used it twice:
    after the ritual's own first commit, the shared index is stale relative to
@@ -65,7 +79,18 @@ git show --name-status --format= HEAD                   # file list AND status l
 
 - `GIT_INDEX_FILE` + lefthook untested *together* here
   (`parallel-session-coordination.md` §8 G3) — the throwaway-repo experiment
-  ran hook-free.
+  ran hook-free. **Re-checked 2026-10-31 at personas@22260d77: this limit
+  is closed, and the result is against the ritual under hooks.**
+  `.claude/CLAUDE.md` primitive #5 records the pair "EXERCISED 2026-10-03,
+  DESTRUCTIVELY". The pre-commit `{staged_files}` jobs make lefthook stash
+  unstaged changes for the whole hook, even when they skip. On a shared
+  checkout, the restore can conflict with a sibling's writes. When it does,
+  tracked edits revert to HEAD, deleted files come back, and the commit does
+  not happen. The doctrine treats it as a race widened by hook duration, not
+  a determinism, and it adds a recovery procedure from the dangling stash
+  commit. The isolated index still scopes the file set as described above.
+  Under lefthook it is not safe by itself, and the full derivation is in
+  `parallel-session-coordination.md`.
 - The readback (`git log --oneline -1`) remains mandatory: the private index
   protects content, not attribution or head placement. Push-side analogue:
   after a rejected push, `git fetch` +

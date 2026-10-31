@@ -4,7 +4,7 @@ type: application
 subject: concurrent-vcs
 technique: commit-verification
 stack: process
-verified_on: 2026-08-22
+verified_on: 2026-10-31
 ---
 
 # Three verification checks that reported the wrong thing

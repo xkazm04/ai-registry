@@ -4,7 +4,8 @@ type: application
 subject: codegen
 technique: drift-gating
 stack: node
-verified_on: 2026-08-18
+verified_on: 2026-10-31
+verified_against: node@22
 ---
 
 # Node: mixed-tier drift gates over one codegen population
@@ -14,27 +15,44 @@ its artifact classes at deliberately different grades — a live worked
 example of per-class gating, gate hosting, and the advisory-confession
 rule.
 
+Re-checked 2026-10-31 at personas@22260d77: the pipeline now registers 17
+tasks, not 15 (`scripts/run-codegen.mjs:34-98`), and three findings below
+moved — the command contract reads `src-tauri/src/ipc_shards/` instead of
+`lib.rs`, the binding-drift job no longer compiles, and the orphan blind spot
+is now gated. Each is annotated where it is cited; none reverses the
+per-class gating verdict.
+
 ## Gate of record, hosted where it runs
 
 `scripts/check-command-contract.mjs` is the repo's one drift check that
 runs locally on every `npm run check` (first entry in the chain, via
 `check:contracts`). It never regenerates: it extracts the command union
 from `src/lib/commandNames.generated.ts` and the handler list from
-`src-tauri/src/lib.rs` and diffs the *names* — sub-250ms, no compiler, no
+`src-tauri/src/lib.rs` (re-checked 2026-10-31: the list moved to
+`src-tauri/src/ipc_shards/`, and the check now shares the generator's
+directory scan, `check-command-contract.mjs:55-58`, after the single-file
+regex silently stopped finding anything) and diffs the *names* — sub-250ms, no compiler, no
 build. Contrast the binding-drift CI job (`.github/workflows/ci.yml`,
-~l.385-431), which needs a 45-minute full cargo build and was documented in
+~l.385-431 when read; now `binding-drift` at `:1446`), which needs a 45-minute full cargo build and was documented in
 its own file as "5/20 green" — the technique's field case for "a gate
 hosted on habitually-red infrastructure is advisory in fact." The same job
 is also where the untracked-file blind spot was closed after being proven
-blind: `ci.yml:426` adds `git ls-files --others --exclude-standard
+blind: `ci.yml:1484` adds `git ls-files --others --exclude-standard
 src/lib/bindings/`, because `git diff --quiet` exits 0 for a brand-new
-binding. The orphan blind spot remains structurally open — 29 committed
+binding. (Re-checked 2026-10-31: since 2026-09-18 the job compiles nothing;
+the `rust-tests` Linux leg produces the bindings and hands them over as an
+artifact, and the job keeps only the diff, so the "habitually red
+infrastructure" case describes the job as it was, not as it is,
+`ci.yml:1411-1445`.) The orphan blind spot remains structurally open — 29 committed
 bindings whose Rust source no longer exists, invisible to any diff (deep
 treatment in the boundary-contract
 [drift-gates](../../../../client-architecture/ipc-contract/techniques/drift-gates.md); inventory
 findings in
 codegen-task-registration (`docs/concepts/golden-paths/codegen-task-registration.md`)
-§7 B).
+§7 B). Re-checked 2026-10-31: no longer open — `npm run check:bindings`
+(`scripts/check-binding-orphans.mjs`, in the `npm run check` chain) is an
+inventory-shaped gate with a two-sided allowlist
+(`scripts/binding-orphan-allowlist.txt`), so a new orphan now fails.
 
 ## Check mode sharing the write's code path
 
@@ -51,7 +69,10 @@ meaningful" — determinism in service of gate signal.
 The catalog was originally gated: `check:catalog` existed as a build-check.
 It was then deliberately **de-gated** — `.claude/CLAUDE.md` records "a
 stale catalog no longer fails `npm run check`; regeneration is a
-convenience, not a gate" — while the `catalog` task stayed in both
+convenience, not a gate" (re-checked 2026-10-31: that sentence has left
+`.claude/CLAUDE.md`; the same record now lives at
+`.claude/conventions.json:101`, "Convenience, not a gate — a stale catalog
+no longer fails npm run check.") — while the `catalog` task stayed in both
 `run-codegen.mjs` presets, so ambient refresh on every `npm run dev`
 carries the freshness instead. This is the commit-vs-derive policy's
 demotion done mostly right: the invariant was consciously weakened, the
