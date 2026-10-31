@@ -4,7 +4,7 @@ type: application
 subject: ai-interviewer-brief-authoring
 technique: one-question-per-turn-and-wait
 stack: node
-verified_on: 2026-09-26
+verified_on: 2026-10-31
 verified_against: node@24
 ---
 
@@ -35,7 +35,7 @@ time, which is the technique's answer to its own second quiet failure.
 
 Three checks read the rule off transcripts, and all three count question marks:
 
-- `_is_double_barreled` in `pipeline/jobfit/eval/interview_eval.py:516-520` — two
+- `_is_double_barreled` in `pipeline/jobfit/eval/interview_eval.py:541-545` — two
   or more "?" — documented as "a lower bound, not an exhaustive count", with the
   one-"?" compound named as a known miss;
 - `oneQuestion` in `app/_lib/interview-sim/detectors.ts:934-942`, a rule verdict

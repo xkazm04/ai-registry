@@ -5,7 +5,7 @@ subject: interview-run-of-show
 technique: question-kit-grounded-in-named-evidence-gaps
 stack: process
 status: forged
-verified_on: 2026-09-29
+verified_on: 2026-10-31
 ---
 
 # A gap-anchored kit generator, its taxonomy, and its catch-all
@@ -29,14 +29,14 @@ construction, and the values are named gaps rather than topics:
 - `"Self-assessed gap (no recruiter flag detected)"` — `:332`
 
 The gap is derived from a specific upstream signal (`job_fit.missing_skills[:3]` at `:211-214`,
-`real_risk_flags(job_fit)` at `:299`, which reads `recruiter_risk_flags`), so a question exists because *this*
+`real_risk_flags(job_fit)` at `:298`, which reads `recruiter_risk_flags`), so a question exists because *this*
 record left *that* thing open.
 
 ## The scaffold is four named parts, filled from the record
 
 `StarScaffold` gives every question a `situation` / `task` / `action` / `result`, and
 each is written against the candidate's own material rather than as a heading. From the
-AI-delivery question at `:255-262`:
+AI-delivery question at `:254-268`:
 
 > situation: "Pick the highest-impact AI delivery in your timeline — something using
 > {matching_label}."

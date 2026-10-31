@@ -5,7 +5,7 @@ subject: ai-assistance-detection-and-fairness
 technique: never-penalise-tool-use-invariant
 stack: react
 status: forged
-verified_on: 2026-09-26
+verified_on: 2026-10-31
 verified_against: react@19
 ---
 
@@ -56,7 +56,7 @@ model."
 the interview prompt, and it matches the engine's own threshold rather than
 introducing a second one — the standard's rule that a similarity number may aim
 a conversation but never resolve into a verdict. The match is by value: the
-engine's side is a literal (`artifact_checks.py:285`, `sim >= 0.85`), not a
+engine's side is a literal (`artifact_checks.py:558`, `sim >= 0.85`), not a
 shared constant, so the two can drift apart without a test noticing.
 
 ## Rule 3 — model use is context, never a penalty
@@ -65,7 +65,7 @@ shared constant, so the two can drift apart without a test noticing.
 `briefPasteRatio` is the one negative-leaning signal and it is labelled as an
 interview aim, in blue, never in coral" (`:24-26`), with
 `BRIEF_PASTE_AIM_INTERVIEW = 0.6` (`:57`) matching the engine's literal
-(`prompt_signals.py:138`).
+(`prompt_signals.py:146`).
 
 Upstream, `prompt_signals.py:9-13` states the contract the panel renders:
 "using the assistant is never a penalty — zero prompts is simply 'no signal',
@@ -95,8 +95,8 @@ because that is the technique they test.
 - **"Did not use" and "not captured" render as one sentence.**
   `derive_prompt_signals` promises that consumers "can tell 'didn't use the
   channel' from 'channel not captured'" (`prompt_signals.py:90-92`), but it
-  computes `observed = bool(msgs)` (`:114`), and the pipeline passes no signals
-  at all when no transcript exists (`evaluation_pipeline.py:85`). The panel's
+  computes `"observed": bool(msgs)` (`:119`), and the pipeline passes no signals
+  at all when no transcript exists (`evaluation_pipeline.py:86`). The panel's
   single `!promptObserved` branch (`DevEvalPanelChecks.tsx:154-155`) then tells
   the reviewer "The assistant and stakeholder channels went unused" for a repo
   submission whose channels were never captured. The caption's "No signal either

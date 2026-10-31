@@ -4,13 +4,13 @@ type: application
 subject: structured-interview-scorecards
 technique: role-family-axis-extension
 stack: node
-verified_on: 2026-09-29
+verified_on: 2026-10-31
 verified_against: node@24
 ---
 
 # Industry axes and the three-case coverage enum
 
-`pipeline/jobfit/interview-rubrics.json:86` defines `industryAxes` — extra scored
+`pipeline/jobfit/interview-rubrics.json:101` defines `industryAxes` — extra scored
 competencies keyed by role family, appended to whichever base rubric applies:
 
 | Family | Extra axis |
@@ -24,7 +24,7 @@ competencies keyed by role family, appended to whichever base rubric applies:
 
 One axis per family — the standard's "keep the tail short", taken to its
 minimum. Extension, not fork: `rubricForArchetype`
-(`app/_lib/interview-rubric.ts:148`) is a concatenation,
+(`app/_lib/interview-rubric.ts:157`) is a concatenation,
 
 ```ts
 const base = isEarlyCareer(archetype) ? INTERVIEW_RUBRICS.early_career : INTERVIEW_RUBRICS.experienced;
@@ -40,11 +40,21 @@ backward-compatible." The Python scorer resolves the same tail from the same JSO
 (`automation.rubric_for_candidate`), so what the prompt scores and what the UI
 renders cannot diverge.
 
+Re-checked 2026-10-31 at kp@6edf5d7: the concatenation has grown a third,
+conditional term. `rubricForArchetype` now takes a `devCase` flag and returns
+`[...base, ...industryAxesFor(roleFamily), ...(devCase ? (OPTIONAL_AXES.dev_case ?? []) : [])]`,
+with the optional axes read from `optionalAxes` (`interview-rubrics.json:86`) and
+mirrored by `automation.rubric_for_candidate(archetype, role_family, dev_case)`. It is
+still extension rather than fork — an unrated optional axis is "simply absent from the
+scorecard", and omitting the flag reproduces the pre-change rubric "version hash
+included" — so the reading above stands; the code block shows the two-term form as it
+was first read.
+
 ## The gap enum is three cases because only two are problems
 
-`industryAxesFor` (`interview-rubric.ts:44`) returns `[]` for an absent family, a recognised family with no
+`industryAxesFor` (`interview-rubric.ts:51`) returns `[]` for an absent family, a recognised family with no
 axes, and an unrecognised string alike; the empty list then concatenates "leaving
-no trace." `RUBRIC_COVERAGE_GAPS` (`interview-rubric.ts:79`) is the distinction
+no trace." `RUBRIC_COVERAGE_GAPS` (`interview-rubric.ts:86`) is the distinction
 that empty array erased:
 
 - `no_family` — no role family at all, so which axes apply is **unknowable**. A
@@ -63,8 +73,8 @@ genuinely matters."
 
 Crucially, "the stamp still records the case (the data stays complete); only the
 human-facing noise goes away." Render is a separate list —
-`RUBRIC_COVERAGE_DISCLOSED_GAPS = ["no_family", "family_unrecognized"]` (`:87`) — and
-`isDisclosedGap` (`:92`) gates the component on it. The message catalog is pinned to
+`RUBRIC_COVERAGE_DISCLOSED_GAPS = ["no_family", "family_unrecognized"]` (`:94`) — and
+`isDisclosedGap` (`:99`) gates the component on it. The message catalog is pinned to
 exactly that tuple by set equality (`rubric-coverage-catalog.test.ts`), so "a gap
 that must stay silent structurally cannot acquire a string to render."
 
@@ -74,14 +84,14 @@ make a disclosure go away; refusing to invent is the point."
 
 ## The vocabulary is not derived from who has axes
 
-`CANONICAL_FAMILIES` (`interview-rubric.ts:114`) comes from `ROLE_FAMILY_SLUGS` (`app/_lib/role-families.ts`),
+`CANONICAL_FAMILIES` (`interview-rubric.ts:121`) comes from `ROLE_FAMILY_SLUGS` (`app/_lib/role-families.ts`),
 pinned by set equality to `data/taxonomy.json::role_families` — the same file the
 Python taxonomy reads — and "deliberately NOT derived from
 `Object.keys(INDUSTRY_AXES)`: that is the very conflation this split exists to fix
 (having axes ≠ being a real family)." Without that, every family without a tail
 would be indistinguishable from a typo.
 
-`rubricCoverage` (`:120`) also reports what was actually applied rather than asking the
+`rubricCoverage` (`:127`) also reports what was actually applied rather than asking the
 reader to trust it: it returns `axisKeys` — "the industry axes that were genuinely
 appended, so a reader can see the coverage rather than trust it" — with
 `roleFamily` "the entry's own value, trimmed — never substituted." It is kept
@@ -90,7 +100,7 @@ byte-identical to what it has always been."
 
 The resolved coverage is now stamped on the record, on both paths. The human
 scorecard route writes `scorecard.rubricCoverage = coverage`
-(`app/api/interview-prep/scorecard/route.ts:158`) with the reasoning that a later reader
+(`app/api/interview-prep/scorecard/route.ts:222`) with the reasoning that a later reader
 "re-opening this scorecard sees five generic axes with nothing marking the industry axes
 as never-applied" unless the record says so; the machine-drafted scorecard carries the
 same stamp (commit `b52429e79`, 2026-09-17). The coverage state travels with the
@@ -100,7 +110,7 @@ rating it qualifies, which is what the standard asks of it.
 
 The industry axes are **description-only**: unlike the early-career competencies
 (`interview-rubrics.json:17` onward, each with a five-level `anchors` block), none
-carries a per-level behavioural ladder, so `_rubric_line` (`automation.py:2438`)
+carries a per-level behavioural ladder, so `_rubric_line` (`automation.py:2465`)
 falls back to the generic `1=Well below bar … 5=Exceptional` scale for them. That is
 weakest exactly where the standard says anchors matter most — the low levels of a
 safety axis, which exist to detect the disqualifying behaviour. Clinical judgment and
@@ -113,7 +123,7 @@ disposition of exactly the kind the anchor technique says either resolves to act
 or does not belong on an interview scorecard. Only the early-career model is anchored.
 So the population with the most candidates is scored, on every axis, on a generic
 degree scale, and the code comment that says so ("Experienced competencies carry none
-and fall back to the generic scale", `automation.py:2438-2447`) reads as a design
+and fall back to the generic scale", `automation.py:2465-2475`) reads as a design
 note when it is the largest open deviation in this application. The scale does name
 its bar (`ratingAnchors`, `:2-8`: 3 is "Meets the bar"), which is the one part of the
 level-writing rule already met.

@@ -4,7 +4,7 @@ type: application
 subject: ai-interviewer-brief-authoring
 technique: mandatory-coachability-hint
 stack: node
-verified_on: 2026-09-26
+verified_on: 2026-10-31
 verified_against: node@24
 applied: simulation
 ab_verdict: unmeasurable
@@ -75,10 +75,10 @@ by `candidate-brief.test.ts`, which tries to smuggle known-private strings throu
 
 ## Whether the hint happened: observed, not used
 
-`extractTelemetry` (`app/_lib/interview-telemetry.ts:119-150`, types at `:29-40`)
+`extractTelemetry` (`app/_lib/interview-telemetry.ts:94-168`, types at `:29-40`)
 has, since 2026-06-07, found the hint turn by vocabulary overlap with the scripted
 hint line and classified the candidate's response as `integrated`, `acknowledged`,
-`missed` or `not_offered`. It runs after the scorecard (`app/_lib/interview-run.ts:790`
+`missed` or `not_offered`. It runs after the scorecard (`app/_lib/interview-run.ts:792`
 onward) and its own comment calls it "best-effort, never a gate"; its consumers
 are display strips. The 2026-08-20 version of this application said skipping the
 hint was not detected; it was, and the defect is narrower — the detection does not
@@ -88,7 +88,7 @@ reach the rating.
 
 - **A missing hint scores as average.** The scorecard prompt tells the scorer that
   an uncovered competency gets empty evidence and "rate it 3 (not assessed)"
-  (`pipeline/jobfit/automation.py:2477-2478`). On a 1-5 scale, 3 is the midpoint,
+  (`pipeline/jobfit/automation.py:2515-2516`). On a 1-5 scale, 3 is the midpoint,
   and a Coachability axis whose hint never happened is averaged downstream as a
   middling result. The telemetry that knows the hint was `not_offered` is computed
   after the rating and never consulted by it.
@@ -99,6 +99,11 @@ reach the rating.
   a hint. When a job kit is present, `app/_lib/interview-agenda.ts:452-454` keeps
   only the first and last script phases around the kit's own blocks, so the
   coachability phase is dropped while `NON_NEGOTIABLES` still refers to it.
+  Re-checked 2026-10-31 at kp@6edf5d7: both still read as written, and the agenda
+  builder now also keeps each script topic's private interviewer `note`, commented as
+  "including the coachability stage direction the candidate brief never sees"
+  (`interview-agenda.ts:447-449`). Whether that note reaches the interviewer on the
+  browser-sent path was not traced, so the deviation is left standing.
 - **One event, five points.** Where the hint does happen, one observation with four
   possible outcomes feeds a 1-5 Coachability rating. The standard now says that
   is a recorded observation, not a scale rating, unless several hint events feed

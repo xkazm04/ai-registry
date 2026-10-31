@@ -4,7 +4,7 @@ type: application
 subject: structured-interview-scorecards
 technique: unassessed-competency-handling
 stack: node
-verified_on: 2026-09-29
+verified_on: 2026-10-31
 verified_against: node@24
 ---
 
@@ -24,7 +24,7 @@ the rating equals 3 *and* the evidence is placeholder. Requiring both halves is 
 the comment explains it: a human's blank-note 3 is "a deliberate, observed rating".
 
 The human path never stores the placeholder. A rating that is not a finite number is dropped
-(`app/api/interview-prep/scorecard/route.ts:127`, "an unrated competency is simply omitted"),
+(`app/api/interview-prep/scorecard/route.ts:191`, "an unrated competency is simply omitted"),
 which is the technique's preferred arrangement: nothing is stored that could take part in
 arithmetic. The two paths sit in one codebase and one of them needs a guard the other does not.
 

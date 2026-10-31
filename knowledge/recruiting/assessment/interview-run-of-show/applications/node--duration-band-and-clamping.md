@@ -5,7 +5,7 @@ subject: interview-run-of-show
 technique: duration-band-and-clamping
 stack: node
 status: forged
-verified_on: 2026-09-29
+verified_on: 2026-10-31
 ---
 
 # The timing contract as a pure, CI-enforced module
@@ -31,7 +31,7 @@ Q_MINUTES_TIGHT = 3          // :47
 ```
 
 Every one of them carries a doc comment saying *why*, and the tightening flip at `:43`
-carries the arithmetic that forces it, written out in the module header at line 8:
+carries the arithmetic that forces it, written out in the module header at line 9:
 `6 × 4 + 7 = 31 > 30`. Six questions at the relaxed rate plus the seven fixed minutes
 would breach the ceiling, so past five questions the per-question value drops to three.
 
@@ -99,7 +99,7 @@ with no ceiling; the scheduling estimate ignored the kit; and the saved fallback
 "under 5 minutes". `kitBookedMin` (`app/_lib/interview-kit-booking.ts:316`) is now the one
 rule - warm-up, the kit's competency budgets, the capped CV probes, role questions and
 closing - and the mint, connect, the rehearsal door and `plannedInterviewMinutes` all read
-it (`interview-planned-minutes.ts:71`). It is clamped to the same 15-30 band the CV plan
+it (`interview-planned-minutes.ts:72`). It is clamped to the same 15-30 band the CV plan
 uses (`:329`), and a kit authored past 30 is fitted into 30 proportionally, as an
 over-long plan is.
 
@@ -115,7 +115,7 @@ guidance that a human panel round can run to an hour is unchanged.
 
 ## The same craft, hand-written: the scripted round
 
-`pipeline/jobfit/interview-script.json:1` declares `"durationMin": 22` over six phases,
+`pipeline/jobfit/interview-script.json:2` declares `"durationMin": 22` over six phases,
 each with a minute range, a goal, a written-out probe, a listen-for and the competencies
 it feeds — the phase-level version of the same budget. Its ranges are `3–4, 4–5, 4–5,
 3–4, 3–4, 3–4`, which sum to 20 at the lower bounds and 26 at the upper against a stated

@@ -5,7 +5,7 @@ subject: interview-run-of-show
 technique: regenerate-without-destroying-human-notes
 stack: node
 status: forged
-verified_on: 2026-09-29
+verified_on: 2026-10-31
 ---
 
 # The inverted merge, and the allowlist bug it replaced
@@ -34,6 +34,14 @@ human-authored payload key not on the list — a future recruiter-notes field, a
 re-scoring annotation, anything new. Now the default is preservation and the generator's
 ownership is the explicit exception, so an unknown human key survives a Regenerate
 **structurally**."
+
+Re-checked 2026-10-31 at kp@6edf5d7: the paragraph quoted above is no longer in the
+source. The doc comment at `interview-prep.ts:184-187` now reads, in full, "The INVERTED
+regeneration merge: keep every previous key, overwrite only the generator's (the old
+3-key allowlist silently destroyed any other human key)", plus a line on why
+`pendingPlan` is the one key not carried; the longer reasoning survives in shortened form
+only in the header of `interview-prep-run.test.ts:1-6`. The merge itself is unchanged, so
+the finding stands; only the quotation is historical.
 
 This is the upward lesson the technique took from the repo. The intuitive fix — enumerate
 the human keys and protect them — is the bug, because the enumeration goes stale the day

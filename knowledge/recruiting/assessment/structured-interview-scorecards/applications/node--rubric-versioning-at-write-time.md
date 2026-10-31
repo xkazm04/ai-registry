@@ -4,7 +4,7 @@ type: application
 subject: structured-interview-scorecards
 technique: rubric-versioning-at-write-time
 stack: node
-verified_on: 2026-09-29
+verified_on: 2026-10-31
 verified_against: node@24
 ---
 
@@ -20,7 +20,7 @@ scorer to the same file — so TS == JSON == Python fails CI on drift."
 
 ## The version identity
 
-`rubricVersionHash` (`interview-rubric.ts:211`) hashes a **resolved** rubric slice
+`rubricVersionHash` (`interview-rubric.ts:221`) hashes a **resolved** rubric slice
 — the output of `rubricForArchetype`, base competencies plus any appended
 industry axes — so the stamp describes the exact scale that candidate was scored
 on, not the whole catalogue.
@@ -34,13 +34,13 @@ delimiter-joined canonical string using `␟` between fields and `␞` between
 competencies, hashed with 64-bit FNV-1a, "chosen so the TS and Python stamps are
 byte-identical WITHOUT depending on cross-language JSON canonicalization or a
 crypto lib" (this module is client-bundled through `HumanScorecardPanel`, so it
-must stay free of `node:crypto`). `automation.rubric_version_hash` (`automation.py:2225`) mirrors it, and
+must stay free of `node:crypto`). `automation.rubric_version_hash` (`automation.py:2248`) mirrors it, and
 both are pinned to the same literal in their own language's tests.
 
 ## The two-part stamp
 
 The hash is the compact identity; the competency **key list** stored beside it is
-the re-evaluation shape. `flagOffRubricRatingsWithKeys` (`interview-rubric.ts:186`) uses the second:
+the re-evaluation shape. `flagOffRubricRatingsWithKeys` (`interview-rubric.ts:196`) uses the second:
 
 ```ts
 const known = storedKeys && storedKeys.length
@@ -57,7 +57,7 @@ not silently changed either.
 
 ## Off-rubric is stated, never blanked
 
-`flagOffRubricRatings` (`:171`) keeps unknown competencies and marks them: "Unknown
+`flagOffRubricRatings` (`:181`) keeps unknown competencies and marks them: "Unknown
 competencies are KEPT, never rejected: a scorecard outlives rubric revisions by
 design." The recruiter grid does the same at the row level —
 `mergeRubricRows` (`app/features/library/jobs/jobsCompareCohorts.ts:64`) renders the
