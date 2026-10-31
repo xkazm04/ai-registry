@@ -30,7 +30,7 @@ const cli = (db, ...args) => JSON.parse(execFileSync(process.execPath, [SCRIPT, 
 test('round trip: init, run, measure, propose, update, latest - and no nulls in any output', () => {
   const path = tmpDb();
   const db = openStore(path);
-  assert.equal(db.prepare('PRAGMA user_version').get().user_version, 4);
+  assert.equal(db.prepare('PRAGMA user_version').get().user_version, 5);
   const { id: run } = runStart(db, { phase: 'measure', lenses: 'development,security', scope: '{"feature":["a"]}' });
   assert.match(run, /^r-\d{14}-[0-9a-f]{4}$/);
 
@@ -101,7 +101,7 @@ test('refusals: no placeholder values, no writes into an ended run, no self-appr
 
 test('cli: JSON on stdout, bulk --json, exit 2 on bad input', () => {
   const db = tmpDb();
-  assert.equal(cli(db, 'init').user_version, 4);
+  assert.equal(cli(db, 'init').user_version, 5);
   const { id: run } = cli(db, 'run-start', '--phase', 'measure', '--lenses', 'development');
   const bulk = join(mkdtempTracked(join(tmpdir(), 'lens-scan-bulk-')), 'm.json');
   writeFileSync(bulk, JSON.stringify([{ feature: 'a', lens: 'development', metric: 'files', value: 3 }, { feature: 'a', lens: 'development', metric: 'loc', value: -0 }]));
@@ -371,7 +371,7 @@ test('migration: a v2 file becomes current in place (the v3 column, then the v4 
   v2.close();
 
   const ro = openStore(path, { readOnly: true });
-  assert.equal(ro.prepare('PRAGMA user_version').get().user_version, 4, 'a reader never meets v2');
+  assert.equal(ro.prepare('PRAGMA user_version').get().user_version, 5, 'a reader never meets v2');
   ro.close();
   const db = openStore(path);
   assert.deepEqual(proposals(db).map((p) => [p.id, p.status, p.commit_sha, p.triaged_from]), [['p-aaaaaa', 'accepted', 'c1', undefined], ['p-bbbbbb', 'done', 'c2', undefined]]);
@@ -382,7 +382,7 @@ test('migration: a v2 file becomes current in place (the v3 column, then the v4 
   fresh.close();
   db.close();
   const again = openStore(path);
-  assert.equal(again.prepare('PRAGMA user_version').get().user_version, 4, 'a second open is a no-op');
+  assert.equal(again.prepare('PRAGMA user_version').get().user_version, 5, 'a second open is a no-op');
   again.close();
 
   // the pre-v3 call has no prior status; a v3 call reopens through the cli

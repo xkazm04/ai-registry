@@ -5,8 +5,9 @@ import { fileURLToPath } from 'node:url';
 import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
+import http from 'node:http';
 import { refresh, plan, apply, thresholdFor, stats, readLedger } from './lib/personas-door/contexts.mjs';
-import { toFiling, parseCards } from './lib/personas-door/ideas.mjs';
+import { toFiling, filingFor, parseCards } from './lib/personas-door/ideas.mjs';
 import { assertSelect } from './lib/personas-door/door.mjs';
 
 const CLI = fileURLToPath(new URL('./personas-door.mjs', import.meta.url));
@@ -44,6 +45,21 @@ test('refresh drops gone files, follows renames, attaches new files by directory
   assert.equal(rep.flagged[0].context, 'alpha');
   assert.equal(map.provenance.git_commit, git(r, 'rev-parse', 'HEAD').trim());
   assert.ok(plan(r).packets.some((p) => p.context === 'alpha'));
+});
+
+test('--help on any verb prints usage, exits 0 and writes nothing (contexts refresh --help used to rewrite the map)', () => {
+  // personas cycle 2 (2026-10-30): `contexts refresh --help` ignored the flag and rewrote context-map.json.
+  const r = fixture(); put(r, 'src/a/n.ts'); git(r, 'add', '-A'); git(r, 'commit', '-qm', 'n');
+  const spool = tmp(); const env = { ...process.env, PERSONAS_HANDSHAKE: path.join(spool, 'none.json'), PERSONAS_SPOOL: spool, PERSONAS_DB: path.join(spool, 'none.db') };
+  const before = fs.readFileSync(path.join(r, 'context-map.json'), 'utf8');
+  for (const args of [['contexts', 'refresh', '--help'], ['contexts', 'apply', '--help'], ['ideas', 'file', '--help'], ['--help']]) {
+    const p = spawnSync(process.execPath, [CLI, ...args, '--repo', r], { encoding: 'utf8', env });
+    assert.equal(p.status, 0, `${args.join(' ')}: ${p.stderr}`);
+    assert.match(p.stdout, /usage: personas-door/);
+  }
+  assert.equal(fs.readFileSync(path.join(r, 'context-map.json'), 'utf8'), before, 'the map is untouched');
+  assert.equal(readLedger(r).length, 0, 'no refresh ledger row');
+  assert.ok(!fs.existsSync(path.join(spool, 'ideas.jsonl')), 'nothing spooled');
 });
 
 test('dry-run writes nothing', () => {
@@ -93,6 +109,62 @@ test('card -> filing converts the 1-10 scales and defaults what is missing', () 
   assert.equal(f.effort, 5); assert.equal(f.impact, 1); assert.equal(f.risk, 3); assert.match(f.reasoning, /scales defaulted: risk/);
   assert.match(f.description, /Lane B/); assert.equal(toFiling({ title: 'x', context: 'CTX' }, 'p', new Map([['ctx', 'cid']])).context_id, 'cid');
   assert.equal(parseCards('{"title":"a"}\n{}\n').unreadable.length, 1);
+});
+
+test('spool replay files a scan_sweep card on its native 1-10 scale through the skill mapping; other origins stay 1-5', () => {
+  const card = { title: 'T', lens: 'error-handler', effort: 4, impact: 8, risk: 3, confidence: 'medium' };
+  const sweep = filingFor(card, 'p1', new Map(), 'scan_sweep');
+  assert.equal(sweep.body.impact, 8, 'never halved: the door normalizes a scan_sweep row once');
+  assert.equal(sweep.body.score, 40.5, 'scan-score/1 computed by the skill mapping');
+  assert.match(filingFor({ title: 'C', disposition: 'carry' }, 'p1', new Map(), 'scan_sweep').error, /carry/);
+  assert.equal(filingFor(card, 'p1', new Map(), 'lens_scan').body.impact, 4, 'other origins file 1-5');
+});
+
+test('spooled outcomes (scan-sweep door.mjs outcome, app down) replay through POST /ideas/{id}/outcome and are marked done', async () => {
+  // personas c2r2 (2026-10-31): the drain posted 58 outcomes through a one-off helper; the skill's verb spools when
+  // the app is down, and this replay is what makes the spool worth anything.
+  const spool = tmp();
+  const saved = { h: process.env.PERSONAS_HANDSHAKE, s: process.env.PERSONAS_SPOOL };
+  const outcomes = await import('./lib/personas-door/outcomes.mjs').catch(() => ({}));
+  const posts = [];
+  const server = http.createServer(async (req, res) => {
+    let raw = ''; for await (const c of req) raw += c;
+    if (req.headers['x-personas-local-token'] !== 't') { res.statusCode = 401; return res.end('{}'); }
+    if (req.url === '/dev-tools/projects') return res.end('[]');
+    const m = /^\/dev-tools\/ideas\/([^/]+)\/outcome$/.exec(req.url);
+    if (m && req.method === 'POST') {
+      posts.push({ id: m[1], body: JSON.parse(raw) });
+      if (m[1] === 'gone') { res.statusCode = 404; return res.end('no such idea'); }
+      return res.end(JSON.stringify({ ideaId: m[1], ideaStatus: 'implemented' }));
+    }
+    res.statusCode = 404; res.end('{}');
+  });
+  await new Promise((r) => server.listen(0, '127.0.0.1', r));
+  try {
+    process.env.PERSONAS_SPOOL = spool;
+    process.env.PERSONAS_HANDSHAKE = path.join(spool, 'hs.json');
+    // Written by the skill's own writer, so the two sides cannot drift on the record shape.
+    const { spoolOutcome } = await import('../skills/scan-sweep/scripts/door.mjs');
+    const rows = [
+      { ideaId: 'i1', body: { outcome: 'delivered', commit: 'm1', note: 'n; choice: picked A over B - w' } },
+      { ideaId: 'gone', body: { outcome: 'declined' } },
+    ];
+    for (const r of rows) spoolOutcome(r.ideaId, r.body);
+    const st = JSON.parse(spawnSync(process.execPath, [CLI, 'status', '--repo', spool], { encoding: 'utf8', env: { ...process.env, PERSONAS_DB: path.join(spool, 'none.db') } }).stdout);
+    assert.equal(st.spool.outcomes, 2, 'status counts queued outcomes');
+    fs.writeFileSync(process.env.PERSONAS_HANDSHAKE, JSON.stringify({ port: server.address().port, token: 't' }));
+    assert.equal(typeof outcomes.sync, 'function', 'lib/personas-door/outcomes.mjs exports sync');
+    const r = await outcomes.sync();
+    assert.deepEqual([r.drained, r.left], [1, 1]);
+    assert.deepEqual(posts.map((p) => p.id), ['i1', 'gone']);
+    assert.deepEqual(posts[0].body, rows[0].body, 'the spooled body is posted verbatim');
+    const again = await outcomes.sync();
+    assert.deepEqual(posts.slice(2).map((p) => p.id), ['gone'], 'a done row is not re-posted; a refused one stays queued with its error');
+    assert.equal(again.left, 1);
+  } finally {
+    server.close();
+    for (const [k, v] of [['PERSONAS_HANDSHAKE', saved.h], ['PERSONAS_SPOOL', saved.s]]) { if (v === undefined) delete process.env[k]; else process.env[k] = v; }
+  }
 });
 
 test('sql guard admits one SELECT and nothing else', () => {

@@ -2,6 +2,7 @@
 // The door keeps dedup / rating / near-duplicate logic, so nothing here ever writes the app DB.
 import path from 'node:path';
 import { call, appUp, findProject, query, norm, appendSpool, readSpool, pending, mintId } from './door.mjs';
+import { toFiling as sweepFiling } from '../../../skills/scan-sweep/scripts/filing.mjs';
 
 const SIZE_EFFORT = { XS: 1, S: 1, M: 2, L: 3, XL: 4 };
 const to5 = (v) => (Number.isFinite(v) && v > 0 ? Math.min(5, Math.max(1, Math.ceil(v / 2))) : null);
@@ -18,7 +19,17 @@ export function parseCards(text) {
   return { cards, unreadable };
 }
 
-/** Card (skill finding shape, scales 1-10) -> the door's filing body (scales 1-5). */
+/**
+ * The body for one card, or `{ error }` when the card cannot be filed (it stays owed). A scan-sweep card goes through
+ * the skill's own scan-finding/1 mapping (native 1-10 scales, every contract field top-level, score computed): the
+ * door normalizes a scan_sweep row once, so the halving below would land it at half scale. Other origins file 1-5.
+ */
+export function filingFor(c, projectId, contexts, origin = 'scan_sweep') {
+  if (origin !== 'scan_sweep') return { body: toFiling(c, projectId, contexts, origin) };
+  return sweepFiling(c, { projectId, contexts });
+}
+
+/** Card (skill finding shape, scales 1-10) -> the door's filing body (scales 1-5), for origins other than scan_sweep. */
 export function toFiling(c, projectId, contexts, origin = 'scan_sweep') {
   const defaulted = [];
   let effort = to5(c.effort); if (effort == null) { effort = SIZE_EFFORT[String(c.size || '').toUpperCase()] || 2; defaulted.push('effort'); }
@@ -54,7 +65,9 @@ export async function deliver(cards, repo, { register = false, dryRun = false, o
   const ctx = project ? await contextIds(project.id) : new Map();
   const results = [];
   for (const c of cards) {
-    const body = toFiling(c, project ? project.id : '<unregistered>', ctx, origin);
+    const f = filingFor(c, project ? project.id : '<unregistered>', ctx, origin);
+    if (f.error) { results.push({ title: c.title, outcome: 'invalid', error: f.error }); continue; }
+    const body = f.body;
     if (dryRun) { results.push({ title: body.title, outcome: 'dry-run', filing: body }); continue; }
     try {
       const r = await call('POST', '/ideas', body);
@@ -74,7 +87,7 @@ export async function file(cards, repo, opts = {}) {
   const { spool = true } = opts;
   if (opts.dryRun) {
     const project = await findProject(repo);
-    const results = cards.map((c) => ({ title: c.title, outcome: 'dry-run', filing: toFiling(c, project?.id ?? '<unregistered>', new Map(), opts.origin) }));
+    const results = cards.map((c) => { const f = filingFor(c, project?.id ?? '<unregistered>', new Map(), opts.origin); return f.error ? { title: c.title, outcome: 'invalid', error: f.error } : { title: c.title, outcome: 'dry-run', filing: f.body }; });
     return { mode: 'dry-run', project, results, tally: { 'dry-run': cards.length } };
   }
   if (await appUp()) {
@@ -83,7 +96,11 @@ export async function file(cards, repo, opts = {}) {
     if (!spool) return { mode: 'door', ...r, tally: tally(r.results) };
   }
   if (!spool) return { mode: 'none', results: cards.map((c) => ({ title: c.title, outcome: 'app-down' })), tally: { 'app-down': cards.length } };
+  // Validate BEFORE spooling, through the same mapping delivery uses: a card the door would refuse must not
+  // become "durable" (exit 0, source file deleted) and then fail silently at replay. Found 2026-10-30.
   const results = cards.map((c) => {
+    const f = filingFor(c, '<unregistered>', new Map(), opts.origin);
+    if (f.error) return { title: c.title, outcome: 'invalid', error: f.error };
     const id = mintId();
     appendSpool('ideas', { id, state: 'queued', repo: path.resolve(repo), register: !!opts.register, origin: opts.origin || 'scan_sweep', queuedAt: new Date().toISOString(), card: c });
     return { title: c.title, outcome: 'queued', id };

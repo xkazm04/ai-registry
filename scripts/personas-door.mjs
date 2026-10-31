@@ -10,7 +10,8 @@
 //            apply   --file patch.json [--tokens-est n] [--note s]
 //            stats   [--repo R]              rescan yield + the thresholds it implies
 //            sync    [--repo R]              give the app the map (declare door), spooled when it is down
-//   sync                                     drain every spool (ideas, contexts) through the app's doors
+//   sync                                     drain every spool (ideas, contexts, outcomes) through the app's doors
+//                                            (outcomes are spooled by scan-sweep's `door.mjs outcome` when the app is down)
 //
 // Writes never touch the app database: they go through the app's HTTP door, or wait in ~/.personas/spool.
 // Every invocation opportunistically drains the spool when the app is up (skip with --no-drain).
@@ -21,6 +22,7 @@ import path from 'node:path';
 import * as door from './lib/personas-door/door.mjs';
 import * as ideas from './lib/personas-door/ideas.mjs';
 import * as ctx from './lib/personas-door/contexts.mjs';
+import * as outcomes from './lib/personas-door/outcomes.mjs';
 
 const argv = process.argv.slice(2);
 const has = (f) => argv.includes(f);
@@ -31,19 +33,29 @@ const bad = (m) => { console.error(m); process.exitCode = 2; };
 
 const [cmd, sub] = argv;
 
+// --help anywhere: usage and exit 0 BEFORE any verb runs or the spool drains. personas cycle 2 (2026-10-30):
+// `contexts refresh --help` ignored the flag and rewrote context-map.json - a help flag must never be a write.
+if (has('--help') || has('-h')) {
+  const src = fs.readFileSync(new URL(import.meta.url), 'utf8').split('\n');
+  const start = src.findIndex((l) => l.startsWith('//   status'));
+  const end = src.findIndex((l, i) => i > start && !l.startsWith('//   '));
+  console.log(['usage: personas-door <verb> [...]', ...src.slice(start, end).map((l) => l.slice(3))].join('\n'));
+  process.exit(0);
+}
+
 async function drain() {
   if (has('--no-drain') || cmd === 'sync') return null;
-  if (!door.pending('ideas').length && !door.pending('contexts').length) return null;
+  if (!door.pending('ideas').length && !door.pending('contexts').length && !door.pending('outcomes').length) return null;
   if (!(await door.appUp())) return null;
-  const i = await ideas.sync(); const c = await ctx.syncPending();
-  return { ideas: i.drained, ideasLeft: i.left, contexts: c.length };
+  const i = await ideas.sync(); const c = await ctx.syncPending(); const o = await outcomes.sync();
+  return { ideas: i.drained, ideasLeft: i.left, contexts: c.length, outcomes: o.drained, outcomesLeft: o.left };
 }
 
 try {
   if (cmd === 'status') {
     const up = await door.appUp(); const p = await door.findProject(repo);
     out({ db: door.dbPath(), dbReadable: !!(await door.openRO()), appUp: up, repo, project: p ? { id: p.id, name: p.name } : null,
-      spool: { ideas: door.pending('ideas').length, contexts: door.pending('contexts').length }, map: fs.existsSync(ctx.mapPath(repo)) });
+      spool: { ideas: door.pending('ideas').length, contexts: door.pending('contexts').length, outcomes: door.pending('outcomes').length }, map: fs.existsSync(ctx.mapPath(repo)) });
   } else if (cmd === 'sql') {
     out(await door.query(argv[1] ?? ''));
   } else if (cmd === 'ideas' && sub === 'file') {
@@ -75,7 +87,7 @@ try {
     else if (sub === 'sync') out(await ctx.sync(repo));
     else bad('contexts: refresh | plan | apply | stats | sync');
   } else if (cmd === 'sync') {
-    out({ ideas: await ideas.sync(), contexts: await ctx.syncPending() });
+    out({ ideas: await ideas.sync(), contexts: await ctx.syncPending(), outcomes: await outcomes.sync() });
   } else {
     bad('usage: personas-door <status|sql|ideas file|ideas list|contexts refresh|plan|apply|stats|sync|sync> (see header)');
   }
