@@ -4,7 +4,7 @@ type: application
 subject: work-sample-timeboxing-and-cost
 technique: state-what-is-and-is-not-observed
 stack: react
-verified_on: 2026-09-29
+verified_on: 2026-10-31
 verified_against: react@19
 ---
 
@@ -17,7 +17,7 @@ kinds laid beside the disclosure.
 
 ## What the candidate is told
 
-`app/devcase/apply/[token]/LiveWorkSurface.tsx:317` renders `devApply.workSurface.intro`
+`app/devcase/apply/[token]/LiveWorkSurface.tsx:320` renders `devApply.workSurface.intro`
 on the same screen as the editor and the submit button:
 
 > "Edit the starter files below. We record your process: what you open, what you edit,
@@ -30,13 +30,20 @@ neighbours complete it: the chat panel says "These conversations are part of you
 submission, so good questions and good prompts count in your favor"
 (`devApply.workSurface.chatIntro`), the clock line says elapsed time is recorded once the
 candidate is past the box (`clockOver`), and the page carries the AI-use and retention
-disclosure (`app/devcase/apply/[token]/page.tsx:118-126`, "for up to N months").
+disclosure (`app/devcase/apply/[token]/page.tsx:116-127`, "for up to N months").
+
+Re-checked 2026-10-31 at kp `6edf5d7`: the line now renders `t(workIntroKey(register))`
+(`app/_lib/devcase-apply-subtitle.ts:37`), which picks `intro` for a software role and
+`introGeneral` for every other role family. The quoted `intro` is unchanged. `introGeneral`
+says the same in plainer words ("which files you open, what you change, and the short
+decisions note you keep in DECISIONS.md ... We never record keystrokes or your screen.")
+and, like `intro`, does not mention paste. The table below holds for both.
 
 ## The "we never" half holds
 
 The surface source has no key, focus, visibility, camera or screen capture. The one
-`onKeyDown` handler (`:456`) sends the chat on Enter and records nothing. Edits become
-process events only after a 600 ms debounce (`EDIT_DEBOUNCE_MS`, `:29`; `:222-226`), and
+`onKeyDown` handler (`:463`) sends the chat on Enter and records nothing. Edits become
+process events only after a 600 ms debounce (`EDIT_DEBOUNCE_MS`, `:30`; `:226-233`), and
 the event carries a kind and a path, not text. "Never keystrokes or your screen" is true
 of the implementation, which is what the technique requires of the negative half.
 
@@ -59,8 +66,8 @@ The paste line is the one that matters, because it is used.
 
 ## The recorded value is scored, and the sentence says the opposite
 
-`LiveWorkSurface.tsx:399-404` records the character count of every paste into the editor
-(not the content). `app/_lib/devcase-run.ts:741` turns it into `observedBulkPaste`: true
+`LiveWorkSurface.tsx:406-411` records the character count of every paste into the editor
+(not the content). `app/_lib/devcase-run.ts:749` turns it into `observedBulkPaste`: true
 when any paste event has `size >= PASTE_BULK_CHARS` (600,
 `app/_lib/devcase-authenticity.ts:100`). `scoreAuthenticity` then subtracts 65
 (`:129-131`), and a score under 40 (`SUSPECT_THRESHOLD`, `:92`) is "suspect", which
@@ -72,7 +79,7 @@ Executed against the committed modules (product code unchanged):
 | --- | --- | --- |
 | an observed session, decisions log present, no paste event | 100 | authentic |
 | the same session with one paste event of 640 characters | 35 | suspect |
-| the predicate at `devcase-run.ts:741` over 400 edit events with one 640-character paste in the middle | true | |
+| the predicate at `devcase-run.ts:749` over 400 edit events with one 640-character paste in the middle | true | |
 
 Three things follow.
 
@@ -89,10 +96,10 @@ Three things follow.
   conversation and not a rejection, which is what the neighbouring rule asks (a person
   decides), and the sentence that would let the candidate weigh it is not on the screen.
 - **The negative half and the fairness contract are stated in code and not to the
-  candidate.** `process_events.py:14-18` states the fairness contract in its docstring
+  candidate.** `process_events.py:14-17` states the fairness contract in its docstring
   ("over-reliance is NEVER inferred from tool use; we observe process artifacts ... never
   keystrokes or screens") and the chat evidence line says "observed; never a penalty"
-  (`:147`). The paste rule is not in that list, and it is the one signal the module
+  (`:155`). The paste rule is not in that list, and it is the one signal the module
   penalises.
 
 ## Absence is handled the way the technique asks

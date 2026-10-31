@@ -4,7 +4,7 @@ type: application
 subject: work-sample-timeboxing-and-cost
 technique: draft-durability-and-no-silent-loss
 stack: react
-verified_on: 2026-09-29
+verified_on: 2026-10-31
 verified_against: react@19
 ---
 
@@ -12,7 +12,8 @@ verified_against: react@19
 
 Written from the tree at kp `60aab8088` (2026-09-29). Every line reference from the
 2026-08-20 version had moved: the sync logic was lifted out of the surface into a tested
-client, `app/devcase/apply/[token]/liveWorkSync.ts`, and the draft grew fields.
+client, `app/devcase/apply/[token]/liveWorkSync.ts`, and the draft grew fields. Line anchors
+re-checked 2026-10-31 at kp `6edf5d7`.
 
 `app/devcase/apply/[token]/LiveWorkSurface.tsx` is the in-product editor a candidate works
 in during a timed case; `liveWorkDraft.ts` is its durable local copy and `liveWorkSync.ts`
@@ -26,34 +27,41 @@ sleeps through a flaky-wifi gap loses everything back to the frozen seed, even t
 of the work was never actually gone". The server flush is the system of record; local
 storage is what survives the failure that actually happens.
 
+Re-checked 2026-10-31 at kp `6edf5d7`: the quoted sentence is no longer in
+`liveWorkDraft.ts`. Its header (`:7-13`) now gives the reason as memory-only state in
+general: the buffer, the files, the captured chat and the identity fields "used to live
+ONLY in memory. A reload lost the dialogue the engine grades and forced the candidate to
+retype name/contact", and the module is the copy "written on every meaningful change, read
+once on mount to resume." The rationale for the local copy is unchanged.
+
 ## The properties the technique asks for
 
 - **Persist continuously, not on an interval tuned to write cost.** `persistDraft()`
-  (`LiveWorkSurface.tsx:143-149`) is bound as the sync engine's persist hook
-  (`:150`) and runs after every recorded event, every edit (`liveWorkSync.ts:220-228`),
+  (`LiveWorkSurface.tsx:150-156`) is bound as the sync engine's persist hook
+  (`:157`) and runs after every recorded event, every edit (`liveWorkSync.ts:220-228`),
   every flush outcome, and on any change to the chat, name or contact fields
-  (`:185-190`). The eight-second server flush is a separate, slower path (`FLUSH_MS`,
-  `:28`); edits are debounced 600 ms into process events (`EDIT_DEBOUNCE_MS`, `:29`),
+  (`:187-197`). The eight-second server flush is a separate, slower path (`FLUSH_MS`,
+  `:29`); edits are debounced 600 ms into process events (`EDIT_DEBOUNCE_MS`, `:30`),
   while the draft itself is written on each change.
-- **Restore visibly.** The resume effect (`:156-181`) hydrates the sync engine, the chat
+- **Restore visibly.** The resume effect (`:162-185`) hydrates the sync engine, the chat
   and the identity fields from storage and sets `restored`, which renders "We restored
-  your unsaved work from this device. Nothing was lost." (`:326-329`, `messages/en.json`
+  your unsaved work from this device. Nothing was lost." (`:333-337`, `messages/en.json`
   `devApply.workSurface.restored`). The comment accepts a brief seed-then-restored flash
   on purpose: "silent, permanent loss is the worse failure mode."
 - **A save failure never blocks typing.** The draft write is best-effort and the editor
   keeps working when storage is unavailable; the flush re-buffers on any network failure
-  and retries on the next tick (`liveWorkSync.ts:310-313`).
+  and retries on the next tick (`liveWorkSync.ts:311-313`).
 - **A refusal is stated, not retried forever.** A 403 with a key sets `syncBlocked`
   (`liveWorkSync.ts:274-285`) and renders "We couldn't sync this session to the server.
   Your work is saved on this device. Reload the page from your original link to
-  reconnect." (`:331-334`): a failure, a reassurance and a route out in three sentences.
+  reconnect." (`:338-342`): a failure, a reassurance and a route out in three sentences.
 - **A submission is sealed only after the last flush lands, and the draft is cleared only
-  then** (`liveWorkSync.ts:319-346`, `LiveWorkSurface.tsx:115-118`). An unlanded final
+  then** (`liveWorkSync.ts:318-347`, `LiveWorkSurface.tsx:122-127`). An unlanded final
   flush is a retryable error that leaves the session active and the draft on disk.
 
 ## The dead-session rule, and the new key
 
-`liveWorkSync.ts:287-296`: a 404 or 409 means the session row is gone or already sealed
+`liveWorkSync.ts:287-293`: a 404 or 409 means the session row is gone or already sealed
 (another tab or device won a race). Retrying the same identifier "would spin without
 landing", so the id and its key are dropped, the buffered batch is re-buffered, and the
 next flush mints a fresh session. The container died; the work did not.
@@ -72,7 +80,7 @@ lived in the session.
   `kp:devcase:livework:<token>`) and a successful submission removes it
   (`liveWorkSync.ts:346`). That keeps one posting's draft out of another posting's page,
   which is the sentence the code comment claims ("so a shared device never bleeds one
-  candidate's draft into another's", `LiveWorkSurface.tsx:45`), and it is narrower than
+  candidate's draft into another's", `LiveWorkSurface.tsx:46`), and it is narrower than
   the technique's rule. See the first deviation below.
 - Local storage is candidate-writable, so `decodeDraft` parses defensively against the
   server's own bounds: 50 files, 256 KiB each, 2000 pending events, 2000 chat messages,
@@ -97,8 +105,8 @@ are safe" (`devApply.workSurface.chatRateLimited`), so a limit never reads as lo
 
 - The phone advisory is advisory: "This assignment is easiest to work on a computer, and
   the same link opens it there. You can still continue on your phone."
-  (`LiveWorkSurface.tsx:321`), information plus a route, no gate.
-- The closure card gives a definite next step and a durable handle (`:308-309`,
+  (`LiveWorkSurface.tsx:328`, `devApply.workSurface.phoneAdvisory`), information plus a route, no gate.
+- The closure card gives a definite next step and a durable handle (`:315-316`,
   `submittedNext`, `submittedRef`), and a non-adverse feedback brief is assembled for
   candidates who are not promoted (`app/_lib/devcase-feedback.ts:1-9`, which names the
   failure it fixes: "classic take-home ghosting").
@@ -113,7 +121,7 @@ are safe" (`devApply.workSurface.chatRateLimited`), so a limit never reads as lo
   key is the same for everyone who opens the link on one browser profile. The draft holds
   the name and contact fields, the chat, the files, the session id and its key
   (`liveWorkDraft.ts:36-47`), and the resume effect reads it by that key alone
-  (`LiveWorkSurface.tsx:157`). Executed: the module's own `encodeDraft` and `decodeDraft`
+  (`LiveWorkSurface.tsx:164`). Executed: the module's own `encodeDraft` and `decodeDraft`
   with a candidate A's draft stored under a posting token, then read with the same token
   as candidate B, hand B `Candidate A`, A's contact, A's session id and key, and A's file
   contents. The condition is an abandoned, unsubmitted draft on a shared machine (a

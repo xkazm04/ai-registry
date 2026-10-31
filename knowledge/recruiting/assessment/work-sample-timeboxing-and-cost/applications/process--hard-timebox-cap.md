@@ -4,28 +4,29 @@ type: application
 subject: work-sample-timeboxing-and-cost
 technique: hard-timebox-cap
 stack: process
-verified_on: 2026-09-29
+verified_on: 2026-10-31
 ---
 
 # The two-hour cap in the case-design pipeline, and the clock added beside it
 
 Written from the tree at kp `60aab8088` (2026-09-29). The cap's mechanics were re-read;
 the deviations recorded on 2026-08-20 were mostly closed, one of them by a feature that
-brings its own question against the technique.
+brings its own question against the technique. Line anchors re-checked 2026-10-31 at kp
+`6edf5d7`.
 
 ## The cap, and the reasoning's provenance
 
 The case designer is a prompt pipeline (`pipeline/jobfit/devcase/design.py`). The cap is
-`MAX_TIMEBOX_HOURS = 2.0`, now on the model (`pipeline/jobfit/devcase/models.py:257`) so
+`MAX_TIMEBOX_HOURS = 2.0`, now on the model (`pipeline/jobfit/devcase/models.py:264`) so
 every writer meets it, with the reasoning kept where the pressure is
-(`design.py:31-40`):
+(`design.py:33-39`):
 
 > "The case's instrument is AMBIGUITY + a visible decision log, NOT volume ... so a
 > focused 'real work, <=2h' exercise is the goal at every level. A half-day take-home
 > drives a 40-60% drop-off among strong seniors, the exact pool this case is for."
 
 The previous version of this page called that figure "measured, not assumed". It is not
-verified: the figure appears in two code comments (`design.py:39`, `models.py:248`), each
+verified: the figure appears in two code comments (`design.py:39`, `models.py:255`), each
 citing a UAT item ("UAT M8"), and no measurement, dataset or source sits behind either in
 the tree. No public measurement of take-home non-completion against length was found
 either (see the golden path). The cap does not need it. The two-hour number is defensible
@@ -42,28 +43,37 @@ or below the ceiling and lead not above senior. `_timebox()` (`:46-47`) resolves
 unrecognised seniority to the **default (1.5)**, not the maximum, so an unknown level
 costs the candidate less.
 
-The prompt states the cap as a scoping constraint (`design.py:304-311`): "The ~{timebox}h
+The prompt states the cap as a scoping constraint (`design.py:312-316`): "The ~{timebox}h
 is a HARD cap: scope the tasks so a real candidate can genuinely finish in that budget
 (prefer 3-4 focused tasks; depth over coverage), and never pad a senior case with extra
 sub-deliverables to make it 'harder'." The generator is handed the already-decided
 number and the task list is the dependent variable. The mid-flight change fires at
 about a third of the timebox and lands at least fifteen minutes before the end
-(`design.py:457`, `:518`).
+(`design.py:484`, `:548`).
+
+Re-checked 2026-10-31 at kp `6edf5d7`: the per-level table is gone. `design.py:42-48` now
+reads "One flat box for every level: seniority scales depth and ambiguity through the
+prompt, never hours, so a senior never gets a longer unpaid case than a junior":
+`CASE_TIMEBOX_HOURS = 1.0`, and `_timebox()` returns it for every seniority, recognised or
+not. The model's own estimate is clamped to `min(clamp_timebox_hours(tb), timebox)`
+(`:538`), so it may come in under the hour and never over. The two-hour cap still bounds
+every writer; a designed case now sits at half of it. That is inside the technique, not a
+reversal: the bound held by construction before and is tighter now.
 
 ## Closed since 2026-08-20
 
 - **The cap is enforced at every writer.** The approve route and the model default both
   meet the shared bound (see the clamp application). The Python designer's cap and the
   reviewer's edit form no longer disagree by a factor of forty.
-- **The model default sits inside the band.** `models.py:307` is `DEFAULT_TIMEBOX_HOURS`,
+- **The model default sits inside the band.** `models.py:314` is `DEFAULT_TIMEBOX_HOURS`,
   1.5.
 
 ## New since 2026-08-20: the measured overrun
 
-`app/api/devcase/session/[id]/submit/route.ts:98-111` computes, at seal time and on the
+`app/api/devcase/session/[id]/submit/route.ts:94-111` computes, at seal time and on the
 server, minutes elapsed since the session's `created_at` minus the timebox, and
 `submitDevSession` writes it to `dev_submissions.over_timebox_minutes`
-(`app/_lib/db/devcase.ts:481-508`). It is three-state on purpose: `null` for a submission
+(`app/_lib/db/devcase.ts:1396-1432`). It is three-state on purpose: `null` for a submission
 with no observed session (a repo link or webhook), `0` for measured and inside the box,
 `n` for `n` minutes over. A repeat seal does not re-measure (pinned by
 `app/_lib/db/devcase-over-timebox.test.ts`). It is recorded, never a reason to refuse: a
@@ -102,7 +112,7 @@ technique asks for first (is the exercise mis-scoped) is not produced.
   generator's self-estimate, and now on nothing that reads the measured overrun back.
 - **No payment or intellectual-property statement in the candidate-facing copy.** The
   work page now carries an AI-use and data disclosure with the retention window and an
-  erasure route (`app/devcase/apply/[token]/page.tsx:118-126`,
+  erasure route (`app/devcase/apply/[token]/page.tsx:116-127`,
   `messages/en.json` `aiDisclosure.dataConsent`: "for up to N months"). That closes the
   retention half of the technique's terms. Whether the exercise is paid, and who owns the
   submission, appear in no string under `devApply`. The exercise is built on a synthetic

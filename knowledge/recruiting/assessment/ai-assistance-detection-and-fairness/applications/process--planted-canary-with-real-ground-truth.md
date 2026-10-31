@@ -18,7 +18,7 @@ them, and a red-team simulation round tells you what the verdicts are worth.
 
 `pipeline/jobfit/devcase/seed_materializer.py` turns a case's prose starting
 materials into a concrete file tree the candidate receives. The LLM path's
-prompt (`:154-158`) specifies canaries as the standard requires:
+prompt (`:237-241`) specifies canaries as the standard requires:
 
 > CANARIES: plant 2-{MAX_CANARIES} SUBTLE flaws with a single checkable ground
 > truth — a wrong constant/value, a doc line that contradicts the data, a
@@ -46,18 +46,29 @@ canaries**, and the empty list is defined to mean *not run* rather than *clean*.
 deterministic fallback that fabricates a solution: a template baseline would
 poison every downstream comparison. Degraded mode = `{"solutions": []}`."
 
-The resolve guard runs at planting time (`:193-204`): a canary whose path did not
+Re-checked 2026-10-31 at kp `6edf5d7`: the block above is gone, and a degraded seed is no
+longer canary-free. `deterministic_seed` (`seed_materializer.py:145-204`) now ships one
+supplied, labelled AI draft per role family (ADR 0027 S2, `ai_drafts.py`) and, for a
+keyless family case, that case's own starting files; both carry curated canaries with a
+single checkable ground truth, and the return is `"canaries": [*family_canaries,
+*draft["canaries"]]` (`:203`). The refusal survives as its comment (`:199-201`): "No
+TEMPLATE canaries — a template flaw with no real ground truth would grade candidates
+against noise." So the empty list no longer marks the degraded path; what is refused is a
+canary without ground truth, not a canary on the keyless path. The LLM path keeps the
+draft's canaries beside its own (`:311-314`).
+
+The resolve guard runs at planting time (`:284-310`): a canary whose path did not
 survive the per-file clamps "is unverifiable, so it is dropped rather than kept
 as a phantom the evaluator would grade against."
 
 ## Grading: four verdicts and two guards
 
-`artifact_checks.canary_outcomes` (`:75-139`) emits the four-way taxonomy —
+`artifact_checks.canary_outcomes` (`:282-381`) emits the four-way taxonomy —
 `addressed`, `flagged`, `propagated`, `unverifiable` — and the module docstring
 binds the last one to the refusal: "the fragment could not be located in the
-seed — no grading against noise" (`:6-10`).
+seed — no grading against noise" (`:6-11`).
 
-The `flagged` surface is declared rather than assumed (`:83-88`): the decision
+The `flagged` surface is declared rather than assumed (`:290-295`): the decision
 log plus every user-authored message in the captured assistant/stakeholder
 transcript. A flaw called out but left in place is credited, which is the
 verdict the standard argues is often the strongest signal in the set.
@@ -65,12 +76,12 @@ verdict the standard argues is often the strongest signal in the set.
 Two guards came out of the case-simulation rounds and both were upward lessons
 for the standard:
 
-1. **Absent file ⇒ `propagated`** (`:99-105`). A changed-files-only submission
+1. **Absent file ⇒ `propagated`** (`:339-345`). A changed-files-only submission
    that never touched the canary's file used to read as "fragment gone" and
    score a free `addressed` — "the delegator got both canaries free"
    (`casesim/round-2026-07-17-promote-gate/report.md:52-55`). The comment is
    exact: "The flaw was NOT addressed — it simply survived unexamined."
-2. **Descent from the seed** (`:51-55`, `:106-114`). A submitted file must share
+2. **Descent from the seed** (`:53-58`, `:346-354`). A submitted file must share
    at least `_DESCENT_MIN_SEED_LINE_SURVIVAL = 0.3` of the seed file's non-blank
    lines before any verdict is minted: "Deliberately low: honest heavy edits
    keep imports/structure lines; full rewrites don't." Without it, round 3 found
@@ -108,17 +119,31 @@ report the number (`:57-60`) — the standard's broken-ruler rule, learned here.
 
 - **Canary rotation and leakage monitoring are absent.** There is one canary
   list per frozen seed, and no alert on a catch rate trending toward 100%. The
-  per-session watermark's foreign marker (`app/_lib/db/devcase.ts:1144-1148`)
+  per-session watermark's foreign marker (`app/_lib/db/devcase.ts:1201-1205`)
   detects a relayed solution, not a leaked canary set. The standard's rule
   stands.
 - **The dropped count stops at the panel.** `unverifiable` still covers three
   causes (no quoted fragment, fragment not in the seed, file not descended), and
   the per-canary `note` separates them; the reviewer panel renders the note and
   a "not gradable" count. The engine's own summary line does not: `check_evidence`
-  reports "caught X/Y" over the graded canaries only (`:279-282`), and canaries
+  reports "caught X/Y" over the graded canaries only (`:549-555`), and canaries
   the seed step drops (above) are counted nowhere.
 - **The broken-ruler decision is a note, not code.** The baseline comparison
-  returns a number whenever a baseline exists (`artifact_checks.py:154-195`); no
+  returns a number whenever a baseline exists (`artifact_checks.py:407-466`); no
   check detects a compared region larger than the 6KB generation budget, so a
   repo-sized submission still gets the collapsed figure. The result also does not
   record which baseline version it was measured against.
+
+Re-checked 2026-10-31 at kp `6edf5d7`. The third deviation is now code for its main
+case: `baseline_similarity` drops every path where the baseline's copy sits at the
+generation budget (`_MAX_FILE_CHARS`, where `baseline.coerce` clips) and the submitted copy
+is longer, names them in `budgetExceededPaths`, and returns `available: False` when nothing
+comparable is left, "never a number from a broken ruler" (`artifact_checks.py:417-422`,
+`:438-466`). The result still carries no baseline version. In grading, a canary may now
+carry `catchEvidence` and be graded in any file the candidate wrote (`:303-336`), which adds
+a fourth `unverifiable` cause (nothing the candidate wrote states the ground truth or
+carries the flaw), and the module docstring's binding now reads "the fragment could not be
+located in the seed, or nothing the candidate wrote either confirms or refutes the catch —
+no grading against noise, and never scored as a miss" (`:9-11`). The citations to
+`casesim/round-2026-07-17-promote-gate/report.md` were not re-checked: `casesim/` is
+gitignored in kp and the report is not in this checkout.

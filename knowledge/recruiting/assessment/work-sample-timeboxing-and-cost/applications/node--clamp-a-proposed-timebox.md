@@ -4,7 +4,7 @@ type: application
 subject: work-sample-timeboxing-and-cost
 technique: clamp-a-proposed-timebox
 stack: node
-verified_on: 2026-09-29
+verified_on: 2026-10-31
 verified_against: node@24
 ---
 
@@ -14,24 +14,32 @@ Written from the tree at kp `60aab8088` (2026-09-29). The 2026-08-20 version of 
 page recorded two deviations, the approve route accepting 80 hours and the model
 defaulting to 4.0. Both are closed, in one shared module, and the clamp is now the
 technique's own example of doing it at every writer. What is left are two smaller
-seams, one executed.
+seams, one executed. Line anchors re-checked 2026-10-31 at kp `6edf5d7`.
 
 ## The rule moved onto the model
 
-`pipeline/jobfit/devcase/models.py:257-262` holds the policy numbers: `MAX_TIMEBOX_HOURS
+`pipeline/jobfit/devcase/models.py:264-269` holds the policy numbers: `MAX_TIMEBOX_HOURS
 = 2.0`, `MIN_TIMEBOX_HOURS = 0.5`, `DEFAULT_TIMEBOX_HOURS = 1.5`. `clamp_timebox_hours`
-(`:265-274`) is the one rule: bound to `[0.5, 2.0]`, and anything that does not parse or
+(`:272-281`) is the one rule: bound to `[0.5, 2.0]`, and anything that does not parse or
 is not finite falls to the **default**, not to a bound. A `field_validator` on the case
-(`:313-320`) applies it to every Python construction path, so a designer, a stored-case
+(`:324-331`) applies it to every Python construction path, so a designer, a stored-case
 rehydration or a fixture cannot hold an over-policy number. The old `= 4.0` default at
-`:213` is now `DEFAULT_TIMEBOX_HOURS` (`:307`).
+`:213` is now `DEFAULT_TIMEBOX_HOURS` (`:314`).
 
 The Python designer calls the same function on the model's own estimate
-(`pipeline/jobfit/devcase/design.py:499-508`). The `NaN` guard is still there and the
+(`pipeline/jobfit/devcase/design.py:527-538`). The `NaN` guard is still there and the
 comment now says why the bound is elsewhere ("one rule, shared with the CaseScenario
 validator and (via codegen) with the TS approve route"). The dependent scoping still
 derives from the clamped value: the mid-flight update's fire time is clamped into
-`[5, tb*60 - 15]` (`:518`), so it can land inside the exercise.
+`[5, tb*60 - 15]` (`:548`), so it can land inside the exercise.
+
+Re-checked 2026-10-31 at kp `6edf5d7`: the designer no longer hands out a per-level
+number. Every case now gets one flat `CASE_TIMEBOX_HOURS = 1.0` (`design.py:44-48`), and
+the model's estimate is taken as `min(clamp_timebox_hours(tb), timebox)` (`:538`), so the
+model may propose less than the hour and never more. The shared `[0.5, 2.0]` rule is
+unchanged and still the one every writer meets; it is now headroom for a reviewer's edit
+rather than the number a designed case carries. One consequence for the mismatch below:
+the display fallback of 2 is now twice what the designer hands out.
 
 The TypeScript side imports the bound instead of retyping it. Codegen writes
 `DEVCASE_MAX_TIMEBOX_HOURS = 2.0` into `app/_lib/taxonomy.generated.ts:48`;
@@ -49,7 +57,7 @@ states the decision the technique makes: **clamp rather than reject**, because a
 "give them longer" and dropping the edit "is the very failure the 409 branch was written
 to fix". The clamp is described, not just performed: `timeboxClamp` returns
 `{ code: "timebox_clamped", from, to }`; the route writes it to the audit trail as a
-parseable line (`timebox_clamped from=8 to=2`, `:132`) and returns it in the response
+parseable line (`timebox_clamped from=8 to=2`, `:126`) and returns it in the response
 (`:136`), and the review panel renders the same object inline as the reviewer types. The
 number the reviewer typed, the number the candidate gets, and the record of the
 difference all come from one producer.
@@ -74,7 +82,7 @@ Two things in it are worth reading against the technique.
   purpose (`devcase-timebox.ts:47-53`, "the largest thing any candidate can actually be
   handed", pinned by a test). It is the worst case shown to a reviewer, a defensible
   reading, and it is the two-numbers-from-one-source defect the technique's step 8
-  names: the candidate page (`app/devcase/apply/[token]/page.tsx:69`, `:149`) and the
+  names: the candidate page (`app/devcase/apply/[token]/page.tsx:70`, `:150`) and the
   overrun measure (`app/api/devcase/session/[id]/submit/route.ts:104`) both use it. How
   a case reaches a candidate with no timebox at all was not traced here, so the reach is
   unmeasured.
@@ -88,12 +96,12 @@ Two things in it are worth reading against the technique.
 
 ## The seams the rule still leaves
 
-- **Only the approve route records the clamp.** The designer's clamp (`design.py:508`)
-  and the model validator (`models.py:320`) return the bounded number and say nothing,
+- **Only the approve route records the clamp.** The designer's clamp (`design.py:538`)
+  and the model validator (`models.py:331`) return the bounded number and say nothing,
   so the pattern the technique names as most worth counting, the generator echoing a
   longer take-home than the prompt allowed, is exactly the one that leaves no trace.
 - **The invited number is not kept with the invitation.** The candidate page reads the
-  case's current `timeboxHours` at every render (`page.tsx:149`) and the validator
+  case's current `timeboxHours` at every render (`page.tsx:150`) and the validator
   re-clamps on every rehydration. No per-invitation snapshot was found in the paths
   read. Cases approved before the shared bound existed keep whatever number they were
   stored with, and the display clamp is what stands between them and a candidate. That
@@ -104,7 +112,7 @@ Two things in it are worth reading against the technique.
 
 The clamped number is still the only one that travels. Every candidate-facing reader
 resolves the timebox through one module, and the brief's "~2h" and the work surface's
-clock (`LiveWorkSurface.tsx:362-363`) are the same value by construction. The elapsed
+clock (`LiveWorkSurface.tsx:368-370`) are the same value by construction. The elapsed
 minutes are measured in the same route from the same function
 (`submit/route.ts:104-107`), which is why the mismatch above matters: a case with no
 timebox reads as two hours to the candidate and is measured against two hours, while the

@@ -4,12 +4,12 @@ type: application
 subject: llm-era-work-sample-design
 technique: authorship-verifying-debrief-questions
 stack: process
-verified_on: 2026-08-20
+verified_on: 2026-10-31
 ---
 
 # Minting follow-ups from an evaluated submission
 
-`mint_followups` (`pipeline/jobfit/devcase/evaluate.py:350-398`) turns an
+`mint_followups` (`pipeline/jobfit/devcase/evaluate.py:821-958`) turns an
 evaluated submission into a handful of live interview questions. Its docstring
 is the standard's reframing stated as the purpose of the whole step:
 
@@ -19,14 +19,14 @@ is the standard's reframing stated as the purpose of the whole step:
 > encodes is the candidate's PATH through the case's deliberate ambiguities
 > (which defensible option they shipped at each probe)."
 
-The same posture appears on the model (`models.py:373-385`): "The submission is
+The same posture appears on the model (`models.py:503-513`): "The submission is
 treated as a RECORD OF DECISIONS, not proof of authorship — an LLM can write the
 code, the commit narrative and the decision log on the candidate's behalf, so no
 technical evaluation of the artifact verifies anything by itself."
 
 ## The three forms, and what they refuse
 
-The prompt (`evaluate.py:381-394`) asks for "the WHY, the REJECTED alternative,
+The prompt (`evaluate.py:863-891`) asks for "the WHY, the REJECTED alternative,
 or the COUNTERFACTUAL ('what would have to change for you to choose
 differently')" and then states the exclusion that makes the technique work:
 "never anything answerable by generic preparation or by re-reading the
@@ -35,15 +35,15 @@ submission aloud."
 Anchoring is mandatory and specific — "Anchor each question to ONE concrete
 observed decision: which defensible option they shipped at a probe's
 decisionSpace, an assumption they made silently, a dead end they abandoned, or a
-concern the evaluation raised." The context assembled at `:365-372` carries
+concern the evaluation raised." The context assembled at `:845-853` carries
 exactly that: each probe's `id/kind/where/reveals/decisionSpace`, the observed
 `probeOutcomes`, and the reflection's `deadEnds` and `verificationHabits`.
 
 ## Internal notes, and the shape of a delegated answer
 
-`FollowupQuestion` (`models.py:386-391`) carries `listen_for` and `red_flag`,
+`FollowupQuestion` (`models.py:503-520`) carries `listen_for` and `red_flag`,
 both documented as internal and "never disclosed to the candidate". The prompt
-defines them concretely (`evaluate.py:388-392`): `listenFor` = "what a genuine
+defines them concretely (`evaluate.py:871-873`): `listenFor` = "what a genuine
 author of that decision sounds like (specifics, trade-offs they actually hit)";
 `redFlag` = "the answer pattern of delegated work (restates WHAT was done but
 not why, **defends every option equally**, cannot name what they rejected)".
@@ -54,11 +54,11 @@ something specific. A reconstructed account defends everything equally well.
 
 ## Bounds and the deterministic path
 
-`MAX_FOLLOWUPS = 6` with the reason stated at `evaluate.py:337-338`: "enough to
+`MAX_FOLLOWUPS = 6` with the reason stated at `evaluate.py:770-771`: "enough to
 triangulate authorship across the probes without turning the debrief into an
 interrogation." The prompt asks for 4-6.
 
-The deterministic fallback (`:401-425`) is not a placeholder — it branches on the
+The deterministic fallback (`:894-935`) is not a placeholder — it branches on the
 recorded probe outcome. A probe the candidate **handled well** yields the
 counterfactual ("what would have to change about the situation for you to choose
 differently?"); a probe they missed yields the why-plus-rejected-alternative
@@ -66,9 +66,16 @@ differently?"); a probe they missed yields the why-plus-rejected-alternative
 why"). The degraded path keeps the instrument, with provenance downgraded rather
 than the question quality faked.
 
+Re-checked 2026-10-31 at kp `6edf5d7`: the step now also takes the candidate's own parsed
+`DECISIONS.md` (`decision_log`, docstring at `:833-838`). The prompt quotes a logged
+rejected alternative, reason or counterfactual back to them, and the deterministic
+fallback opens with those follow-ups (`_logged_followups`, `:895`) before the probe
+branches. The log is debrief evidence only and is never scored. The three forms and the
+exclusion quoted above are unchanged.
+
 ## The stakeholder channel that never resolves
 
-`pipeline/jobfit/devcase/chat.py:44-52` defines the in-exercise stakeholder
+`pipeline/jobfit/devcase/chat.py:45-51` defines the in-exercise stakeholder
 persona, and it is the standard's rule with the escape hatches closed: "The
 brief contains DELIBERATE ambiguities; the internal notes list the defensible
 options each one admits. NEVER resolve an ambiguity outright, never say any part
@@ -78,7 +85,7 @@ both; it depends on X — your call')." Out-of-brief questions get "a plausible,
 consistent detail" improvised rather than a refusal.
 
 The second persona is the upward lesson. The in-product **work assistant**
-(`chat.py:37-42`) is held to a stronger rule than the stakeholder: "Never
+(`chat.py:36-41`) is held to a stronger rule than the stakeholder: "Never
 mention that the exercise contains probes, traps, or evaluation mechanics — you
 don't know about any." The stakeholder knows the design and must not reveal it;
 the assistant is not given the design at all. Two channels, two trust levels,
@@ -96,3 +103,16 @@ and the side door is closed by construction rather than by instruction.
   ever occurs. The standard's position — the debrief is where the work sample is
   scored, and without one the artifact is a screening signal at best — has no
   mechanical backing in this repo.
+
+Re-checked 2026-10-31 at kp `6edf5d7`: the second deviation is narrowed, not closed. A
+suspect authenticity band or an unwitnessed trace now holds promotion, and the only exit
+is the debrief: the interviewer records one finding per minted follow-up (`supported`,
+`revised`, `not_evidenced`, `not_asked`; an adverse finding must carry the words heard),
+and a human may clear only when at least 80% read `supported`
+(`app/_lib/devcase-debrief-findings.ts:9-30`, `:83`, `:123-127`). The clearance is sealed
+against a digest of the submission and lifts the two holds and nothing else
+(`app/_lib/devcase-promote-verdict.ts:69-72`, `:84-91`). For those submissions the debrief
+now has mechanical backing. A submission with a clean band and a witnessed trace still
+reaches "advance" on its score with no recorded debrief (`:112`). The first deviation
+holds: findings are recorded per follow-up, after the interviewer has seen the questions
+and their `listen_for` notes.

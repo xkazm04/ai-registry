@@ -5,7 +5,7 @@ subject: ai-assistance-detection-and-fairness
 technique: observed-process-is-supporting-not-load-bearing
 stack: node
 status: forged
-verified_on: 2026-09-26
+verified_on: 2026-10-31
 verified_against: node@24
 applied: code
 ab_verdict: better
@@ -39,8 +39,8 @@ paste of at least `PASTE_BULK_CHARS = 600` (`:100`). That is the technique's
 ## The waiver has to follow the derivation (fixed 2026-09-26)
 
 The iteration pattern and the read-before-write ratio reach the scorer from the
-reflection (`devcase-run.ts:756-757`), and the reflection is inferred from the
-commit history alone (`pipeline/jobfit/devcase/evaluation_pipeline.py:113`). A
+reflection (`devcase-run.ts:771-772`), and the reflection is inferred from the
+commit history alone (`pipeline/jobfit/devcase/evaluation_pipeline.py:114`). A
 watched session has no commits. The deterministic reflection reads an empty
 history as a big dump (`n <= 2`, `reflect.py:163`) and returns `big-bang`, so
 until kp `ac43761d4` every watched session on the no-API-key path lost 15
@@ -63,7 +63,7 @@ test the watched path with what the inference really returns.
 
 `integrityCompromised` (a hash chain that fails to recompute, a client timestamp
 outside its server receive window, or a foreign session's watermark in the
-submitted tree, `devcase-run.ts:748-750`) costs −70 (`:138-140`), and the comment
+submitted tree, `devcase-run.ts:756-758`) costs −70 (`:138-140`), and the comment
 states the technique's premise: "every process signal above it is
 untrustworthy". A null chain (legacy) is deliberately not tampering.
 
@@ -77,14 +77,14 @@ untrustworthy". A null chain (legacy) is deliberately not tampering.
 - **The bulk-paste tell tests size, not review, and is decisive alone.** The
   comments describe "a single large bulk paste … with no incremental build-up"
   (`:34-36`, `:95-99`). The capture records paste magnitude only
-  (`app/devcase/apply/[token]/LiveWorkSurface.tsx:400-404`), and the predicate is
-  any paste of 600 characters or more (`devcase-run.ts:741`). Nothing checks
+  (`app/devcase/apply/[token]/LiveWorkSurface.tsx:406-411`), and the predicate is
+  any paste of 600 characters or more (`devcase-run.ts:749`). Nothing checks
   whether the pasted block was edited afterwards, which the technique names as
   the part that carries the information, and −65 crosses the suspect boundary
   on its own. That is the assistive-technology and drafted-elsewhere hazard the
   bulk-paste technique warns about. The mitigation is real: suspect holds
   auto-promotion for a live interview and never rejects.
 - **Capture states are a boolean.** `observed = events !== null`
-  (`devcase-run.ts:724`); the technique's *observed / not observed / capture
+  (`devcase-run.ts:732`); the technique's *observed / not observed / capture
   unavailable / declined / waived* collapse into two, and the waived commit lines
   leave no `waived` reason for the reviewer to read.
