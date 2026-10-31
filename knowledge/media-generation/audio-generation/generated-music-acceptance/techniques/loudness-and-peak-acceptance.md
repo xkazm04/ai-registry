@@ -34,7 +34,8 @@ unmeasured file did not pass.
   digital full scale distort on decoding and transcoding; keep true peak
   at or under −1 dBTP, and allow more headroom (−2 dBTP) when the
   destination will transcode to lossy formats, which reconstruct peaks
-  hotter than the source stored them.
+  hotter than the source stored them, or when the master runs louder than
+  the platform's normalization target.
 - **Loudness range (LRA)** — how much the level moves over the piece. Not
   a compliance number, but the diagnostic for two generated-music habits:
   a crushed take with almost no range that fatigues at any level, and a

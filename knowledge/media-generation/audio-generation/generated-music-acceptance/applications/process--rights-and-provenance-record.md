@@ -22,7 +22,7 @@ carries the date it was resolved and expects to go stale.
 - **Suno** — as of June 2026: Free plan includes **no commercial use**;
   Pro and Premier include commercial rights **for songs made under those
   plans**, and subscribing later does **not** retroactively license
-  free-plan songs. This is the cleanest public example of the
+  free-plan songs by default (Suno may grant it for specific songs). This is the cleanest public example of the
   non-retroactivity trap the technique warns about, and the reason "plan
   tier at generation time" is the record's first field.
 - **Udio** — paid plans grant commercial use, no attribution required;
@@ -41,11 +41,13 @@ carries the date it was resolved and expects to go stale.
 
 Standing U.S. Copyright Office guidance (2025–2026): works generated
 entirely by AI without meaningful human creative input are generally not
-registrable. The registrable claim, where one exists, rides on the human
-contribution — the authored plan, lyrics, selection and arrangement, the
-edit history. The record's brief-and-edits field is that evidence; a
-production that discards its plans after delivery has discarded its own
-authorship claim.
+registrable, and its January 2025 report holds that prompts alone do not
+make the user an author. The registrable claim, where one exists, rides on
+the human contribution — the authored lyrics, selection and arrangement,
+the edit history — with the authored plan as evidence of intent rather
+than a claim on its own. The record's brief-and-edits field is that
+evidence; a production that discards its plans and edits after delivery
+has discarded its own authorship claim.
 
 ## A worked record
 

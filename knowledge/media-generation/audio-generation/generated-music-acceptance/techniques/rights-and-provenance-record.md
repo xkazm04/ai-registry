@@ -35,8 +35,10 @@ still cheap.
 - **The brief** — plan and prompt, or a hash of them — both as the
   reproducibility anchor and as the evidence of human creative input:
   under current registration doctrine, output with no meaningful human
-  contribution may be unregistrable, and the authored plan, lyric, and
-  edit history *are* the human contribution, provable only if kept.
+  contribution may be unregistrable, and prompts alone — a plan included —
+  do not make the user its author. The human contribution is the authored
+  lyric, the selection and arrangement, and the edit history, with the
+  plan as evidence of intent, provable only if kept.
 - **Reference material used, and its status.** A reference track's rights
   exposure propagates into the output (the anchoring craft owns the
   brief-side rule; the record keeps the fact). "None" is a value worth
