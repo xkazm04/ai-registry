@@ -1195,3 +1195,213 @@ selection-over-noise stay unverified (the source shows them only in a figure).
   }
 }
 ```
+
+## Architecture review - 2026-10-31 (after re-verification)
+
+This record follows the re-verification of applications at kp@6edf5d7; only python--eval-economics changed since the previous record's bytes were committed.
+
+<!-- architecture-review:v1 -->
+```json
+{
+  "subject": "software-engineering/eval-harness",
+  "date": "2026-10-31",
+  "baseline": "a1e825611",
+  "digest": "sha256-b2:ad274992b951417a",
+  "disposition": "reverify",
+  "coverage": "All documents decided. Since the previous record, one application changed (python--eval-economics: line anchors re-numbered, verified_on 2026-10-31, a note that it was re-checked at kp@6edf5d7); its anchors were spot-checked there. The other edits since that record's baseline are the clarify items it describes as applied. Every other document carries its prior disposition; the remaining applications keep reverify, which stays the overall disposition.",
+  "counterexamples": [
+    "A pre-registered best-of-150 is honest and still not comparable with a single draw (selection-over-noise).",
+    "A failure-owner funnel extended to seven rows still prescribes a model change for a run that never started, unless a pre-run owner exists (failure-attribution).",
+    "A selection-search weighting applied to a release gate de-weights exactly the always-passed scenarios whose failure is the regression (discriminating-task-selection).",
+    "A narrow random-effects interval over disjoint case sets reports agreement, not comparability (rust--pairing-schedule)."
+  ],
+  "sources": [
+    {
+      "source": "kp at 6edf5d7 (read, not executed)",
+      "result": "pipeline/jobfit/eval/intake_eval.py:335 _load_previous, :384 _write_run_json, :401 os.replace, :703 --resume, :714 --workers; pipeline/jobfit/tests/test_intake_eval.py:601 test_run_json_is_written_after_each_role_not_at_the_end; .github/workflows/ci.yml:45 python-version \"3.12\". Supports the re-anchored citations of python--eval-economics."
+    }
+  ],
+  "documents": {
+    "applications/node--candidate-write-access.md": {
+      "disposition": "reverify",
+      "reason": "Arithmetic checks (110/2,414 bytes = 95.4% smaller). The six transcribed assertions and the private tree were not reopened."
+    },
+    "applications/node--failure-signatures-beside-the-pass-rate.md": {
+      "disposition": "reverify",
+      "reason": "Before-after on a private bench (1,026 runs); not re-run."
+    },
+    "applications/node--judge-stability.md": {
+      "disposition": "reverify",
+      "reason": "Cites private scripts and an in-house guide (rho = 0.50, own-family first); consistent with the operator's documented benchmark but not reopened. No verified_against stamp."
+    },
+    "applications/node--outcome-conditioned-cost.md": {
+      "disposition": "reverify",
+      "reason": "Arithmetic checks (0.40 vs 0.30 = 25% cheaper; 0.29 vs 0.20 = 45% dearer; 294 of 300). Neither the public report at 7d73ca1 nor the private lab tree was reopened."
+    },
+    "applications/node--reliability-aggregation.md": {
+      "disposition": "reverify",
+      "reason": "Arithmetic recomputed and consistent: p = 0.9306 from all-of-3 80.6%, expected all-fail groups 342 x 0.000334 = 0.11, observed 14 (x123), observed any-of-3 328/342 = 95.9%, all-of-3 305/342 = 89.2%, 684 = 342 x 2; earlier corpus ratio 9.1x reproduces. Trial corpus not reopened."
+    },
+    "applications/node--resolution-precondition.md": {
+      "disposition": "reverify",
+      "reason": "r = -0.378 gives r^2 = 0.143, consistent with 'roughly a seventh'. The conform-detail corpus was not reopened."
+    },
+    "applications/node--treatment-election-rate.md": {
+      "disposition": "reverify",
+      "reason": "300/300 and 989 calls (3.3 per trial) are internally consistent; the code-search report at 7d73ca1 and the lab's scoring.rs were not reopened."
+    },
+    "applications/process--scenario-design.md": {
+      "disposition": "reverify",
+      "reason": "Structural-only prior-conformance reading of a private eval manifest; not reopened."
+    },
+    "applications/process--selection-over-noise.md": {
+      "disposition": "reverify",
+      "reason": "Arithmetic recomputed: mean per-cycle agreement (2/3+3/6+2/3+2/3)/4 = 0.625 gives p = 0.75 exactly; 9 agreements and 6 disagreements of 15. The 200,000-trial simulation was not re-run."
+    },
+    "applications/python--eval-economics--ultraeval-audio.md": {
+      "disposition": "reverify",
+      "reason": "Executed-on-stubs witness at a pinned public commit; file:line anchors and the paired counts were not re-run this pass. Internally consistent (floor held, unsampled control 0 of 8)."
+    },
+    "applications/python--eval-economics.md": {
+      "disposition": "keep",
+      "reason": "re-verified 2026-10-31 against kp@6edf5d7: every construct holds and only line numbers moved; spot-checked _load_previous :335, _write_run_json :384, os.replace :401, --resume :703, --workers :714 and the seam test at test_intake_eval.py:601. The name-only resume-key departure is unchanged."
+    },
+    "applications/python--monitor-inside-the-loop.md": {
+      "disposition": "reverify",
+      "reason": "15 planted cases, 4 false positives; the shipped calibration check was not re-run."
+    },
+    "applications/python--outcome-conditioned-cost.md": {
+      "disposition": "reverify",
+      "reason": "2,158 judgments, 0 changes, 0 degraded on a private harness; not re-run."
+    },
+    "applications/python--probe-the-decision-not-the-artifact.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: title and intro now say two of the three failure modes, matching the section that says the third is met. verified_on unchanged; tree not re-checked."
+    },
+    "applications/python--rebase-the-varied-input.md": {
+      "disposition": "reverify",
+      "reason": "46/46 arms on a private harness; the four model-bound backends remain unverified, as the document states. Not re-run."
+    },
+    "applications/python--scenario-design.md": {
+      "disposition": "reverify",
+      "reason": "Structural-only reading of the memory harness; nothing run then or now."
+    },
+    "applications/react--reliability-aggregation.md": {
+      "disposition": "reverify",
+      "reason": "Arithmetic checks (spiky mean 73, any-of-3 0.67, all-of-3 0.33 at bar 60). Probe was deleted after reading; tree not reopened."
+    },
+    "applications/rust--failure-attribution.md": {
+      "disposition": "reverify",
+      "reason": "Shipped floor_hits change in a private tree; the paired test was not re-run."
+    },
+    "applications/rust--pairing-schedule.md": {
+      "disposition": "reverify",
+      "reason": "Structural reading of a private observability product's collective modules; not reopened."
+    },
+    "applications/rust--scenario-design.md": {
+      "disposition": "reverify",
+      "reason": "Cache-key scope and the +54.7-point exam-drift incident cite private line anchors from 2026-08-18; not reopened. No verified_against stamp."
+    },
+    "eval-harness.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: 'Two of the six' and 'all six owners' now say seven; the technique list gains measurement-revision and reliability-aggregation, and the prose mention of reliability-aggregation is linked."
+    },
+    "techniques/assertion-vs-judgment.md": {
+      "disposition": "keep",
+      "reason": "Deterministic band, layering, error as third verdict and the free-text format-assumption section are coherent."
+    },
+    "techniques/candidate-write-access.md": {
+      "disposition": "keep",
+      "reason": "Primary source re-read: Dan Luu's benchpocalypse post reports '1.4x faster on rebar', '10x slower' on the holdout, that the agent 'changed the interface to allow FRE to make some optimizations', and that corrected 'it was 1.5x slower'; and that telling it 'there's a holdout set worked better'. The visible-score-worse detail and the shared-directory story were not located in that post (may be in another 2026 post) and were not re-verified."
+    },
+    "techniques/certification-levels.md": {
+      "disposition": "keep",
+      "reason": "Theoretical gating empirical, labelled levels and expiry with the subject are coherent."
+    },
+    "techniques/comparison-modes.md": {
+      "disposition": "keep",
+      "reason": "Three modes, mirrored pairwise with ties, declared aggregation and the self-referential opponent hold. The 'thousand rating points' figure is illustrative and unsourced; acceptable as stated."
+    },
+    "techniques/discriminating-task-selection.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: the slight out-performance of exhaustive search is now attributed to the study's text-classification setting rather than the command-line benchmark."
+    },
+    "techniques/eval-economics.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: the live-certification row is back inside the cadence table, with the matrix-row paragraph after the table."
+    },
+    "techniques/failure-attribution.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: Model's tell reads 'the other six are exhausted'; 'Four of the six owners' became 'Five of the seven owners'."
+    },
+    "techniques/failure-signatures-beside-the-pass-rate.md": {
+      "disposition": "keep",
+      "reason": "Case counts per family with denominators, detector-that-cannot-fire and the separate/agree pair are coherent."
+    },
+    "techniques/judge-stability.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: the split sentence is rejoined with its count-carries-predicate citation, and the inserted pin paragraph ends on its own sentence."
+    },
+    "techniques/measurement-revision.md": {
+      "disposition": "keep",
+      "reason": "Re-run at same n is a second sample, distribution over mean, direction of revision and no silent re-baseline are coherent."
+    },
+    "techniques/metric-role-contract.md": {
+      "disposition": "keep",
+      "reason": "One optimized metric plus declared thresholds, irreversibility as discriminator, and the composite ban are internally coherent and correctly defer composite arithmetic to scoring-rubrics."
+    },
+    "techniques/monitor-inside-the-loop.md": {
+      "disposition": "keep",
+      "reason": "Primary source re-read: the Anthropic AAR post describes a monitor that 'reads the actual code' and 'Another monitor reads the mini-paper against the same code', and lists monitorability as future work (Sec. 8.2). 26%/21% shares match."
+    },
+    "techniques/outcome-conditioned-cost.md": {
+      "disposition": "keep",
+      "reason": "Conditioned and unconditioned views, incomplete-by-ownership and asymmetric-exclusion tell are coherent; 294/300 consistent with the application."
+    },
+    "techniques/overshoot-and-restore.md": {
+      "disposition": "keep",
+      "reason": "Asymmetric incentive, required failure, partial restore and the phantom-bound ordering are coherent; shadow-copy caveat for side-effecting reductions present."
+    },
+    "techniques/pairing-schedule.md": {
+      "disposition": "keep",
+      "reason": "Exposure, connectivity and the random-effects widened interval (undefined at one source, lower bound at two) are coherent and corroborated by the rust application."
+    },
+    "techniques/probe-the-decision-not-the-artifact.md": {
+      "disposition": "keep",
+      "reason": "Small answer space, observable record, named occurrence and prefix-only execution are coherent."
+    },
+    "techniques/rebase-the-varied-input.md": {
+      "disposition": "keep",
+      "reason": "Rebase versus erase, the 2x2 and the contaminated arm as negative control are sound and match the python application's numbers (46/46)."
+    },
+    "techniques/reliability-aggregation.md": {
+      "disposition": "keep",
+      "reason": "Recomputed: at p = 2/3, any-of-3 = 26/27 = 96.3%, all-of-3 = 8/27 = 29.6%. Measured-versus-modelled and independence caveat are correct."
+    },
+    "techniques/resolution-precondition.md": {
+      "disposition": "keep",
+      "reason": "Primary source re-read: danluu.com/ai-coding gives 'one standard deviation between runs is 0.075' and best-to-worst 1.055 vs 0.986 (= 0.069); effort 'monotonically worse' on Optimization 1 and 'monotonically improves' on Game AI. Matches the text."
+    },
+    "techniques/scenario-design.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: the closing paragraph has its own heading, 'Expected properties, not expected outputs'."
+    },
+    "techniques/selection-over-noise.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: the boundary now says five questions and lists the confinement answer. Still unverified: the 82-85% vs 20% figures, which the source shows only in a figure."
+    },
+    "techniques/treatment-election-rate.md": {
+      "disposition": "keep",
+      "reason": "applied 2026-10-31: 'three per trial' became 'about 3.3 per trial'."
+    },
+    "techniques/unaided-baseline-screening.md": {
+      "disposition": "keep",
+      "reason": "Deprivation-as-claim, the instruction-is-not-a-control point and the screen expiring with the candidate are sound; boundary with negative controls is stated."
+    },
+    "techniques/uncontrolled-games-beside-the-win-rate.md": {
+      "disposition": "keep",
+      "reason": "Arithmetic of the worked case recomputed: 3 candidates x 4 cases = 12 games, 8 per candidate; failing on 3 cases excludes 6 of its games and 3 of each rival's; 2-0 over 2 of 8 matches."
+    }
+  }
+}
+```
