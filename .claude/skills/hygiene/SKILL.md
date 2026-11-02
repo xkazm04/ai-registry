@@ -3,7 +3,7 @@ name: hygiene
 description: "Start-of-day fleet sweep before any development: scan every project registered on this machine for open pull requests, merged or abandoned branches and worktrees, a red default branch, and open GitHub security alerts (code scanning, secret scanning, Dependabot), plus invalid Claude Code project settings via `claude doctor`, and the disk debris agent runs leave on the machine (landed scratch clones, build output, stale compiler caches, session and test-fixture temp). Cleans up what is mechanical itself, then dispatches one Sonnet worker per project to ship, repair, merge, delete or fix the rest onto main/master, and hands back only what needs a human. Use at the start of a day, when branches, PRs and alerts have piled up across the fleet, or when the disk is filling."
 category: ai-native
 memory: project
-version: 1.4.0
+version: 1.5.0
 tags: fleet, hygiene, pull-requests, branches, worktrees, security-alerts, ship, dispatch, sonnet-workers, start-of-day
 ---
 
@@ -218,8 +218,14 @@ was written since the last good sweep (cleaner rules miss most of it), then the 
 output, package-manager caches, WSL and Docker disks. The director then reclaims what
 regenerates, each pool behind its own liveness gate and through `safe-remove` or the
 tool's own prune command. Never run MangoDisk's own `--apply`: its project rules delete a
-whole `target/` or `node_modules` with no liveness check. A whole `target/` in a fleet
-checkout, Personas-app worktrees and WSL/Docker compaction stay operator rows.
+whole `target/` or `node_modules` with no liveness check. Personas-app worktrees
+(`AppData/Roaming/com.personas.desktop/worktrees/`) and WSL/Docker compaction stay operator
+rows. A whole `target/` is no longer an operator row: since 2026-11-02 the disk lane's own
+`worktrees` rule removes an idle one (8 h in a secondary worktree, 1 h under 100 GB free, 3
+days in a primary), and headless-run orphans with no `.git`; repos outside the fleet are
+covered through `buildRoots` in `.machine.local.json`. `hygiene-disk.mjs --auto` (scan, then
+apply) runs every 2 hours as the scheduled task `ai-registry-disk-janitor`, because sessions
+that die never clean up after themselves.
 2026-10-22: 54 GB free -> 546 GB (the growth walk found 465 GB of it). 2026-11-02 (Lynx): 180 GB
 -> 300 GB, of which the deep pass freed 131 GB in four families (see the reference).
 

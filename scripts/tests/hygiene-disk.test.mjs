@@ -7,7 +7,7 @@ import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
 import { execFileSync, spawnSync } from 'node:child_process';
-import { classifyCheckout, classifyPlain, classifyTemp, leakFamilies, checkoutFacts, scratchRootOf, BUILD_OUTPUT, scan, reclassify, renderMarkdown, modelWaste } from '../hygiene-disk.mjs';
+import { classifyCheckout, classifyPlain, classifyTemp, leakFamilies, checkoutFacts, scratchRootOf, BUILD_OUTPUT, scan, reclassify, renderMarkdown, modelWaste, buildRepos } from '../hygiene-disk.mjs';
 
 // Fixture git never sees a hook's GIT_DIR (2026-09-19: fixtures wrote into real repositories).
 const ENV = { ...Object.fromEntries(Object.entries(process.env).filter(([k]) => !k.startsWith('GIT_'))), GIT_AUTHOR_NAME: 't', GIT_AUTHOR_EMAIL: 't@t.invalid', GIT_COMMITTER_NAME: 't', GIT_COMMITTER_EMAIL: 't@t.invalid' };
@@ -437,4 +437,71 @@ test('modelWaste: stale partials and unreferenced Ollama blobs, never a referenc
     fs.writeFileSync(path.join(oll, 'manifests', 'r', 'lib', 'm', 'tag2'), JSON.stringify({ layers: [{ digest: 'sha256:' + 'b'.repeat(64) }] }));
     assert.deepEqual(modelWaste(oll, now), [], 'every blob referenced: no row');
   } finally { fs.rmSync(base, { recursive: true, force: true }); }
+});
+
+test('scan: an idle worktree target, an idle primary target and a headless orphan are mechanical; live or registered ones are not', () => {
+  // 2026-11-01/02: every worktree built its own 36-137 GB cargo target, and headless runs left
+  // directories with no .git behind. Only build output and orphans go, never a registered worktree's source.
+  const r = repos();
+  try {
+    const userHome = path.join(r.base, 'userhome');
+    const headless = path.join(userHome, '.personas', 'headless-masters', 'worktrees', 'proj');
+    fs.mkdirSync(headless, { recursive: true });
+    const wt = path.join(r.base, 'wt-feature');
+    g(r.home, 'worktree', 'add', '-q', '-b', 'feat', wt);
+    const registered = path.join(headless, 'reg0001');
+    g(r.home, 'worktree', 'add', '-q', '-b', 'feat2', registered);
+    const orphan = path.join(headless, 'orph001');
+    fs.mkdirSync(path.join(orphan, 'target'), { recursive: true });
+    fs.writeFileSync(path.join(orphan, 'target', 'x.pdb'), 'x');
+    for (const d of [r.home, wt]) { fs.mkdirSync(path.join(d, 'target', 'debug'), { recursive: true }); fs.writeFileSync(path.join(d, 'target', 'debug', 'a.pdb'), 'x'); }
+    const fleet = { projects: { home: { path: r.home } } };
+    fs.mkdirSync(path.join(r.base, 'tmp-none'));
+    const run = (extra) => Object.fromEntries(scan({ fleet, idleH: 24, tempDays: 7, scratch: path.join(r.base, 'none'), tmp: path.join(r.base, 'tmp-none'), home: userHome, ...extra }).map((x) => [x.path, x]));
+    const kind = (rows, p) => rows[p]?.kind;
+
+    const old = run({ now: Date.now() + 10 * 86400e3 });
+    assert.equal(kind(old, path.join(wt, 'target')), 'prune-worktree-target');
+    assert.equal(kind(old, path.join(r.home, 'target')), 'prune-primary-target');
+    assert.equal(kind(old, orphan), 'remove-orphan-worktree');
+    assert.equal(old[registered], undefined, 'a registered worktree (it has a .git) is never an orphan');
+
+    const young = run({ now: Date.now() + 2 * 3600e3 });
+    assert.equal(young[path.join(wt, 'target')], undefined, '2 h idle is inside the 8 h floor');
+    assert.equal(young[path.join(r.home, 'target')], undefined, 'a primary target needs days');
+    assert.equal(young[orphan], undefined, 'an orphan inside the idle floor is left');
+
+    const lowDisk = run({ now: Date.now() + 2 * 3600e3, targetIdleH: 1 });
+    assert.equal(kind(lowDisk, path.join(wt, 'target')), 'prune-worktree-target', 'the low-disk floor is 1 h');
+    assert.equal(lowDisk[path.join(r.home, 'target')], undefined, 'low disk does not touch a primary');
+
+    // apply re-checks: touched again since the scan -> no longer mechanical
+    const row = old[path.join(wt, 'target')];
+    assert.ok(reclassify(row, { fleet, idleH: 24, tempDays: 7, targetIdleH: 8 }).skip, 'fresh target: SKIP');
+    assert.ok(reclassify(row, { fleet, idleH: 24, tempDays: 7, targetIdleH: 8, now: Date.now() + 10 * 86400e3 }).ok);
+    assert.ok(reclassify(old[orphan], { fleet, idleH: 24, tempDays: 7, now: Date.now() + 10 * 86400e3 }).ok);
+  } finally { r.cleanup(); }
+});
+
+test('buildRepos: buildRoots children that are git checkouts get the build-output rules, fleet or not', () => {
+  const r = repos();
+  try {
+    const root = path.join(r.base, 'outside');
+    fs.mkdirSync(path.join(root, 'plain'), { recursive: true });
+    fs.mkdirSync(path.join(root, 'notes'), { recursive: true });
+    const proj = path.join(root, 'proj');
+    execFileSync('git', ['clone', '-q', r.home, proj], { env: ENV, stdio: 'ignore' });
+    const wt = path.join(r.base, 'proj-wt');
+    g(proj, 'worktree', 'add', '-q', '-b', 'feat', wt);
+    fs.mkdirSync(path.join(wt, 'target'), { recursive: true });
+    fs.writeFileSync(path.join(wt, 'target', 'a.pdb'), 'x');
+    const mf = path.join(r.base, 'machine.json');
+    fs.writeFileSync(mf, JSON.stringify({ root: r.base, buildRoots: ['outside', 'missing'] }));
+    const found = buildRepos({}, mf);
+    assert.deepEqual(found.map((x) => path.basename(x)), ['proj'], 'only git checkouts, and a missing root is skipped');
+    assert.deepEqual(buildRepos({}, path.join(r.base, 'no-such.json')), []);
+    const tmp = path.join(r.base, 'tmpd'); fs.mkdirSync(tmp);
+    const rows = scan({ fleet: { projects: {} }, idleH: 24, tempDays: 7, scratch: path.join(r.base, 'none'), tmp, home: path.join(r.base, 'h'), now: Date.now() + 2 * 86400e3, extraRepos: found });
+    assert.equal(rows.find((x) => x.path === path.join(wt, 'target'))?.kind, 'prune-worktree-target');
+  } finally { r.cleanup(); }
 });

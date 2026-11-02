@@ -44,6 +44,12 @@
  *                removes its mkdtemp dirs, to be fixed where it is written. A top-level temp
  *                dir still in use whose child dirs idle 48 h+ total 1 GB is one `operator` row
  *                (temp-container): per-run leftovers its tool never prunes.
+ *   worktrees    cargo `target/` (and `src-tauri/target`) in every registered worktree of a fleet repo:
+ *                mechanical (prune-worktree-target) once untouched --target-idle-hours (8; 1 when the
+ *                drive has under 100 GB free); a primary checkout's own `target/` after
+ *                --primary-target-days (3) (prune-primary-target). A directory under
+ *                ~/.personas/headless-masters/worktrees/<project>/ with no `.git` that no repo lists is
+ *                an orphan (remove-orphan-worktree), mechanical past --idle-hours. Source is never touched.
  *   models       local model stores (Ollama, Hugging Face, LM Studio, torch, whisper caches)
  *                over 1 GB: `operator`, report-only (operator 2026-10-15: no local models on
  *                this machine, so a store growing back is news), unless .machine.local.json says
@@ -61,6 +67,7 @@
  *
  *   node scripts/hygiene-disk.mjs [--idle-hours 24] [--temp-days 7] [--scratch <dir>] [--out <dir>] [--json]
  *   node scripts/hygiene-disk.mjs --apply [--out <dir>]
+ *   node scripts/hygiene-disk.mjs --auto [--target-idle-hours 8] [--primary-target-days 3]   # scan + apply, for a scheduler
  *   node scripts/hygiene-disk.mjs --reap <dir>... [--idle-hours 0]   # a run's own end-of-task cleanup
  *
  * `--reap` is for the run that made a scratch entry: it judges the named top-level entries of
@@ -78,7 +85,7 @@ import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
 import crypto from 'node:crypto';
-import { execFileSync } from 'node:child_process';
+import { execFileSync, spawnSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 import { loadFleet } from './lib/projects.mjs';
 import { measureTree, removeTree } from './lib/safe-remove.mjs';
@@ -278,10 +285,91 @@ export function scratchRootOf(fleetOrRoot) {
 }
 
 /** The whole plan. `tmp` and `home` default to this machine's; tests pass fixtures. Never writes. */
-export function scan({ fleet, idleH, tempDays, scratch, now = Date.now(), tmp = os.tmpdir(), home = os.homedir(), models = {} }) {
+/** Cargo build output inside a checkout. 2026-11-01/02: one worktree's `target/` was 36-137 GB, 75% of it PDB + incremental. */
+export const TARGET_DIRS = ['target', path.join('src-tauri', 'target')];
+export const TARGET_IDLE_H = 8;          // a secondary worktree's target untouched this long is rebuilt on demand
+export const TARGET_IDLE_LOW_DISK_H = 1; // the same floor once the drive is short of space
+export const PRIMARY_TARGET_DAYS = 3;    // a primary checkout's target: slower to rebuild, so a longer floor
+export const LOW_DISK_BYTES = 100e9;
+
+/**
+ * Repos outside the fleet that still build here (2026-11-02: CastleControl, in no projects.json, held
+ * 450 GB of worktree targets the lane never saw). `.machine.local.json` `buildRoots` lists directories
+ * (relative to its `root`, or absolute) whose immediate children that are git checkouts get the same
+ * build-output rules. Absolute roots stay in that gitignored file, never in a published one.
+ */
+export function buildRepos(fleet, machineFile = path.join(ROOT, '.machine.local.json')) {
+  let cfg; try { cfg = JSON.parse(fs.readFileSync(machineFile, 'utf8')); } catch { return []; }
+  const base = cfg.root ? path.resolve(cfg.root) : os.homedir();
+  const out = [];
+  for (const r of Array.isArray(cfg.buildRoots) ? cfg.buildRoots : []) {
+    const dir = path.resolve(base, String(r));
+    let ents; try { ents = fs.readdirSync(dir, { withFileTypes: true }); } catch { continue; }
+    for (const e of ents) { const abs = path.join(dir, e.name); if (e.isDirectory() && !e.isSymbolicLink() && fs.existsSync(path.join(abs, '.git'))) out.push(abs); }
+  }
+  return out;
+}
+
+/** Registered worktrees of a repo, primary first. [] when git cannot say. */
+function worktreesOf(repo) {
+  const out = git(repo, ['worktree', 'list', '--porcelain']);
+  if (!out) return [];
+  return out.split(/\r?\n/).filter((l) => l.startsWith('worktree ')).map((l) => path.resolve(l.slice(9).trim()));
+}
+
+/**
+ * Build output that regenerates. A secondary worktree's `target/` is the dominant disk cost (every
+ * worktree builds its own), a primary's is kept longer, and a headless-run directory that holds no
+ * `.git` is an orphan: the app that made it dropped the worktree registration and kept the files.
+ * Nothing here touches source: only `target/` (or the whole orphan) goes, once it is idle.
+ */
+export function scanBuildOutput({ fleet, add, now, targetIdleH, primaryTargetDays, idleH, home, extraRepos = [] }) {
+  const known = new Set();
+  const seenTargets = new Set();
+  const repoPaths = [...Object.values(fleet.projects ?? {}).map((p) => p.path), ...extraRepos];
+  for (const repo of repoPaths) {
+    if (!repo || !fs.existsSync(repo)) continue;
+    const wts = worktreesOf(repo);
+    const primary = path.resolve(repo).toLowerCase();
+    for (const wt of wts.length ? wts : [path.resolve(repo)]) {
+      known.add(wt.toLowerCase());
+      const isPrimary = wt.toLowerCase() === primary;
+      for (const rel of TARGET_DIRS) {
+        const t = path.join(wt, rel);
+        if (seenTargets.has(t.toLowerCase()) || !fs.existsSync(t)) continue;
+        seenTargets.add(t.toLowerCase());
+        const m = measure(t);
+        if (m.rootIsLink) continue;
+        const ageH = ageOf(m, now);
+        if (!Number.isFinite(ageH)) continue;
+        if (isPrimary) {
+          if (ageH >= primaryTargetDays * 24) add('build', t, m, { class: 'mechanical', kind: 'prune-primary-target', reason: `primary checkout's build output untouched ${Math.round(ageH / 24)} days` });
+        } else if (ageH >= targetIdleH) {
+          add('build', t, m, { class: 'mechanical', kind: 'prune-worktree-target', reason: `worktree build output untouched ${ageH.toFixed(1)} h` });
+        }
+      }
+    }
+  }
+  const headless = path.join(home, '.personas', 'headless-masters', 'worktrees');
+  if (fs.existsSync(headless)) {
+    for (const proj of fs.readdirSync(headless, { withFileTypes: true })) {
+      if (!proj.isDirectory() || proj.isSymbolicLink()) continue;
+      for (const h of fs.readdirSync(path.join(headless, proj.name), { withFileTypes: true })) {
+        const abs = path.join(headless, proj.name, h.name);
+        if (!h.isDirectory() || h.isSymbolicLink() || fs.existsSync(path.join(abs, '.git')) || known.has(abs.toLowerCase())) continue;
+        const m = measure(abs);
+        const ageH = ageOf(m, now);
+        if (ageH >= idleH) add('build', abs, m, { class: 'mechanical', kind: 'remove-orphan-worktree', reason: `headless-run directory with no .git, in no repository's worktree list, untouched ${Math.round(ageH)} h` });
+      }
+    }
+  }
+}
+
+export function scan({ fleet, idleH, tempDays, scratch, now = Date.now(), tmp = os.tmpdir(), home = os.homedir(), targetIdleH = TARGET_IDLE_H, primaryTargetDays = PRIMARY_TARGET_DAYS, extraRepos = [], models = {} }) {
   const rows = [];
   const homes = fleetHomes(fleet);
   const add = (area, abs, m, c, extra = {}) => rows.push({ area, path: abs, bytes: m.bytes, ageH: Number.isFinite(ageOf(m, now)) ? +ageOf(m, now).toFixed(1) : null, ...c, ...extra });
+  scanBuildOutput({ fleet, add, now, targetIdleH, primaryTargetDays, idleH, home, extraRepos });
 
   // scratch root
   if (fs.existsSync(scratch)) {
@@ -446,7 +534,7 @@ export function modelWaste(root, now = Date.now()) {
 
 // ---------------------------------------------------------------------------- apply
 
-export function reclassify(row, { fleet, idleH, tempDays, now = Date.now() }) {
+export function reclassify(row, { fleet, idleH, tempDays, now = Date.now(), targetIdleH = TARGET_IDLE_H, primaryTargetDays = PRIMARY_TARGET_DAYS }) {
   if (!fs.existsSync(row.path)) return { skip: 'gone' };
   const m = row.isFile ? entryMeasure(row.path, true) : measure(row.path);
   if (m.rootIsLink) return { skip: 'became a link' };
@@ -463,6 +551,9 @@ export function reclassify(row, { fleet, idleH, tempDays, now = Date.now() }) {
   } else if (row.kind === 'remove-build-output' && row.area === 'scratch') c = classifyPlain({ name: path.basename(row.path), ageH }, { idleH, tempDays });
   else if (row.kind === 'remove-build-output') c = ageH >= tempDays * 24 ? { kind: 'remove-build-output' } : null;
   else if (row.kind === 'prune-incremental') c = ageH >= idleH ? { kind: 'prune-incremental' } : null;
+  else if (row.kind === 'prune-worktree-target') c = ageH >= targetIdleH ? { kind: row.kind } : null;
+  else if (row.kind === 'prune-primary-target') c = ageH >= primaryTargetDays * 24 ? { kind: row.kind } : null;
+  else if (row.kind === 'remove-orphan-worktree') c = ageH >= idleH ? { kind: row.kind } : null;
   else if (row.kind === 'remove-temp' || row.kind === 'remove-session-temp') c = classifyTemp({ ageH, bytes: m.bytes }, { tempDays, idleH }) ? { kind: row.kind } : null;
   if (!c || (c.kind !== row.kind)) return { skip: `no longer ${row.kind}${c ? ` (now ${c.kind})` : ''}` };
   return { ok: true, bytes: m.bytes };
@@ -486,7 +577,7 @@ export function renderMarkdown(plan) {
 
 // ---------------------------------------------------------------------------- main
 
-const OPTIONS = { 'idle-hours': 'number', 'temp-days': 'number', scratch: 'value', out: 'value', json: 'flag', apply: 'flag', reap: 'list' };
+const OPTIONS = { 'idle-hours': 'number', 'temp-days': 'number', 'target-idle-hours': 'number', 'primary-target-days': 'number', scratch: 'value', out: 'value', json: 'flag', apply: 'flag', auto: 'flag', reap: 'list' };
 
 /**
  * Strict argv. This tool deletes, so an option it does not know is refused rather than
@@ -527,6 +618,7 @@ function main() {
   if (!fleet.machine && !args.reap) { console.error(`FATAL: ${fleet.problems.join('; ')}`); process.exit(EXIT.FATAL); }
   const idleH = opt('idle-hours', 24);
   const tempDays = opt('temp-days', 7);
+  const primaryTargetDays = opt('primary-target-days', PRIMARY_TARGET_DAYS);
   const common = git(ROOT, ['rev-parse', '--path-format=absolute', '--git-common-dir']) ?? path.join(ROOT, '.git');
   const outDir = path.resolve(opt('out', path.join(common, 'hygiene', new Date().toISOString().slice(0, 10))));
   fs.mkdirSync(outDir, { recursive: true });
@@ -573,7 +665,7 @@ function main() {
     const tally = { done: 0, skipped: 0, freed: 0 };
     const prune = new Set();
     for (const row of plan.rows.filter((r) => r.class === 'mechanical')) {
-      const v = reclassify(row, { fleet, idleH: plan.idleHours, tempDays: plan.tempDays });
+      const v = reclassify(row, { fleet, idleH: plan.idleHours, tempDays: plan.tempDays, targetIdleH: plan.targetIdleHours, primaryTargetDays: plan.primaryTargetDays });
       let res;
       if (!v.ok) res = { done: false, skipped: v.skip };
       else if (row.isFile) { try { fs.unlinkSync(row.path); res = { done: true, freed: v.bytes }; } catch (e) { res = { done: false, skipped: e.code }; } }
@@ -594,14 +686,22 @@ function main() {
   const scratch = path.resolve(opt('scratch', scratchRootOf(fleet)));
   let machineCfg = {}; try { machineCfg = JSON.parse(fs.readFileSync(path.join(ROOT, '.machine.local.json'), 'utf8')); } catch { /* none: defaults */ }
   const models = { wanted: machineCfg.localModels === 'wanted', roots: (machineCfg.modelRoots ?? []).map((r) => path.resolve(r)) };
-  const rows = scan({ fleet, idleH, tempDays, scratch, models });
   let freeBytes = null;
   try { const s = fs.statfsSync(scratch && fs.existsSync(scratch) ? scratch : os.homedir()); freeBytes = s.bavail * s.bsize; } catch { /* unknown */ }
-  const plan = { generatedAt: new Date().toISOString(), idleHours: idleH, tempDays, scratch, freeBytes, rows };
+  // a drive short of space shortens the floor for build output: it is what refills the drive
+  const lowDisk = freeBytes != null && freeBytes < LOW_DISK_BYTES;
+  const targetIdleH = opt('target-idle-hours', lowDisk ? TARGET_IDLE_LOW_DISK_H : TARGET_IDLE_H);
+  const rows = scan({ fleet, idleH, tempDays, scratch, targetIdleH, primaryTargetDays, extraRepos: buildRepos(fleet), models });
+  const plan = { generatedAt: new Date().toISOString(), idleHours: idleH, tempDays, targetIdleHours: targetIdleH, primaryTargetDays, lowDisk, scratch, freeBytes, rows };
   fs.writeFileSync(planPath, JSON.stringify(plan, null, 2));
   const md = renderMarkdown(plan);
   fs.writeFileSync(path.join(outDir, 'disk.md'), md);
   process.stdout.write(args.json ? JSON.stringify(plan, null, 2) : md + `\nplan: ${planPath}\n`);
+  if (args.auto) {
+    // the unattended janitor: scan, then apply what that scan judged mechanical
+    const r = spawnSync(process.execPath, [fileURLToPath(import.meta.url), '--apply', '--out', outDir], { stdio: 'inherit' });
+    if (r.status !== 0) process.exit(EXIT.FATAL);
+  }
 }
 
 if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
