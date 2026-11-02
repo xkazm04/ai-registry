@@ -1,4 +1,4 @@
-import { test } from 'node:test';
+import { test, after } from 'node:test';
 import assert from 'node:assert/strict';
 import { spawnSync, execFileSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
@@ -11,7 +11,11 @@ import { toFiling, filingFor, parseCards } from './lib/personas-door/ideas.mjs';
 import { assertSelect } from './lib/personas-door/door.mjs';
 
 const CLI = fileURLToPath(new URL('./personas-door.mjs', import.meta.url));
-const tmp = () => fs.mkdtempSync(path.join(os.tmpdir(), 'pdoor-'));
+// Every fixture dir is removed after the file's tests: the suite used to leave one pdoor-*
+// per run in temp (218 found by /hygiene disk on 2026-11-02).
+const made = [];
+const tmp = () => { const d = fs.mkdtempSync(path.join(os.tmpdir(), 'pdoor-')); made.push(d); return d; };
+after(() => { for (const d of made) fs.rmSync(d, { recursive: true, force: true, maxRetries: 3 }); });
 const git = (cwd, ...a) => execFileSync('git', a, { cwd, encoding: 'utf8' });
 const put = (root, f, body = 'x' + Math.random()) => { fs.mkdirSync(path.dirname(path.join(root, f)), { recursive: true }); fs.writeFileSync(path.join(root, f), body); };
 
