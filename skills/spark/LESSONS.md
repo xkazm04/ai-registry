@@ -234,3 +234,10 @@ Phase 4's `### Work packages` schema should carry a doc-ownership field alongsid
 - A builder traded the operator's verbatim doctrine ("technical items default to automation") for a plausible reading of the brief ("trust is earned" -> start every slice at L0). Briefs for packages that encode policy should quote the operator's doctrine lines verbatim.
 - Landing order is a design output across repos: a producer that changes a wire scale must not land before its consumer door ships, or the live consumer mis-scales every item. Compute it at the go-gate beside the landing overlap.
 - An overlay ritual can outlive the repo rule it served (a 14-locale translation ritual in a repo that went English-only); the builder correctly followed the repo's current rules file. Phase 0 should check overlay rituals against the repo's rules directory.
+
+## 1.7.2 - 2026-10-29 - ai-registry (api-credit-fleet-directions: fleet-wide directions, three lanes, one PR)
+
+- **When the target is a fleet, a mechanical per-repo grep survey before the scouts sets their agenda.** Counting provider markers, key-strip code and API surfaces in 15 repos (one git grep pass each) found zero Batches or Managed Agents use and the deliberate key-strip posture before any scout launched; the four scouts then confirmed and anchored instead of discovering.
+- **A weighting question asked before the options exist is provisional.** Wave 1 asked for a "balanced mix" across three axes; once ten concrete directions were on the table the operator skipped the product axis entirely. Ask the weighting together with the options, or treat the early answer as a default the concrete pick may overturn.
+- **An empty multi-select is not an answer.** The operator submitted one question with no selection; one explicit confirm question ("skip it, or add X?") settled it without guessing either way.
+- **A time-based rule the Director adds at review must take the injected clock.** A 6-hour lost-worker cutoff read Date.now() and broke two builder fixtures dated three weeks earlier; threading the existing deps.now through fixed it.

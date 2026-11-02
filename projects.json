@@ -134,6 +134,11 @@
       "checkouts": {
         "Lynx": "kiro/dowser"
       }
+    },
+    "athena-meta": {
+      "checkouts": {
+        "Wolf": "kiro/athena-meta"
+      }
     }
   }
 }
