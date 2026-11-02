@@ -115,6 +115,11 @@
         "Wolf": "kiro/paypal"
       }
     },
+    "athena-muse": {
+      "checkouts": {
+        "Lynx": "kiro/athena-muse"
+      }
+    },
     "overlord": {
       "checkouts": {
         "Wolf": "kiro/overlord"
