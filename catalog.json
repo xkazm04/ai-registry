@@ -14,16 +14,16 @@
   "skills": [
     {
       "name": "adopt-bp",
-      "version": "1.5.0",
+      "version": "1.6.0",
       "category": "workflow",
       "path": "skills/adopt-bp/SKILL.md",
-      "contentHash": "sha256-n1:beba20b155f099ce",
+      "contentHash": "sha256-n1:66930d4a99c1dc4b",
       "adopters": [],
       "invokes30d": 0,
       "reportedInvokes": 0,
-      "lessons": 7,
+      "lessons": 8,
       "lessonsPath": "skills/adopt-bp/LESSONS.md",
-      "lessonsHash": "sha256-n1:a1b371711e912c9d",
+      "lessonsHash": "sha256-n1:dc376cd4eda8a130",
       "usageContributors": [],
       "runs30d": 0,
       "outcomes30d": {},
@@ -1140,7 +1140,7 @@
     "skills": 44,
     "practices": 8,
     "memory": 10,
-    "lessons": 381
+    "lessons": 382
   },
   "bundles": [
     {
