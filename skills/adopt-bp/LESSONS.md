@@ -31,6 +31,9 @@ Append-only reflection lane. `## <version used> - <YYYY-MM-DD> - <project>` then
 - judge had no path for the design manifest's status/a11y/specDrift or for proposal tier/risk_class: the agent wrote a post-judge script (facets into the map, store.mjs rank per proposal). judge now takes every non-derived enum/boolean manifest field and passes triage to propose.
 - register appended .ai/lens-scan/ to a clean .gitignore although .git/info/exclude already ignored it; the agent reverted it by hand. register now asks git check-ignore first.
 
+## 1.4.0 - 2026-11-02 - bp (onboarding in the app, the build-up screen)
+- A run is silent for minutes between seed and the merged product tree, and a watcher (bp's build-up) has nothing to draw. Three paid runs on dowser (bp docs/concepts/onboarding/feasibility.md) asked Phase A for one file per decided domain in `work/product-tree.d/` and got them 40 to 110 s before `product-tree.json` every time. 1.5.0 makes it part of Phase A; `tree` still reads only the merged file.
+
 ## 1.3.0 - 2026-10-25 - afterlife (operator asked for every BP lens)
 - check passed a context map that listed 1,266 of 1,939 tracked source files: context-map-fresh counts dead paths only, and the map predated seven whole screens and the runner. The run hand-built a 35-context supplement by nearest-owner assignment. 1.4.0 adds context-map-coverage to check and a supplement command that drafts it (UNNAMED contexts stay a model job).
 - judge took only development, security and design, while bp ships seven lenses and business, operations and quality carry judgement scan blocks. The run wrote those through store.mjs with a side script before judge so refreshFacets merged them. 1.4.0 judges every lens lensMethod() calls judgement, and batches carry each one's instructions; performance stays probe-only and is reported unmeasured.
