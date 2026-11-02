@@ -69,3 +69,26 @@ neither, and the symptom reads as under-direction, inviting more prose and makin
 worse. The craft the prose carried does not evaporate; it moves upstream, to whoever
 authors the typed input. The discriminating question is always the same: does anything
 other than the prose set this channel?
+
+## <a id="acknowledgement-is-not-observation"></a>An acknowledgement is not an observation
+
+A system that drives another system learns what it asked for from the reply and what
+happened only by looking. A success code, a dispatched command, a recorded intent or a
+ledger entry says the request was accepted; it does not say the source is gone, the
+setting is applied, the action landed on the right account or the frame reads on air.
+Every claim about the far side's state is made from a read-back of that state - the
+peer's inventory, the platform's echo of the account, the rendered program picture - and
+until that read exists the state is unknown, not the requested value. The naive reading
+treats the absence of an error as the presence of the effect, and the symptom is a tool
+whose records and whose audience disagree.
+
+## <a id="absence-resolves-to-caution"></a>Absence resolves to caution
+
+A timeout, a gap in an event stream, an unread metadata field, a lost connection or an
+unanswered review window carries no information about what would have happened, so it is
+never read as consent, as a pass, as the last known value or as a privilege. It resolves
+to the cautious state the domain names in advance: held, not acted; unknown, not off;
+blank, not frozen; excluded from the gated pool, not admitted; the limit still binding.
+The gap itself is recorded as a gap and carried to every consumer, never bridged by an
+inference, because a show that guesses across its own blind spots acts on viewers on
+the strength of nothing.

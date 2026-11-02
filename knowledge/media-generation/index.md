@@ -12,8 +12,9 @@ stacks: [next, python, go, rust, typescript]
 The craft of producing factual audiovisual content with generative models: narrative
 construction, research grounding, image generation and prompting, frame direction,
 audio generation — music, effects, and their acceptance — the production pipeline
-that sequences them, and the live show a generated host performs in front of a chat
-audience (the `streaming` category). One bundle on purpose — image, video and audio generation share
+that sequences them, the live show a generated host performs in front of a chat
+audience, and the tools a human streamer runs around a broadcast - the broadcasting software, overlays,
+the platform, moderation, giveaways and rehearsal (the `streaming` category). One bundle on purpose — image, video and audio generation share
 their narrative spine, their evidence discipline, and most of their prompting craft;
 the split boundary (see `knowledge/README.md`) has not been earned yet. Categories
 keep it visible.

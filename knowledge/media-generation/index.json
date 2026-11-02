@@ -3,9 +3,9 @@
   "generated_by": "scripts/build-index.mjs",
   "bundle": "media-generation",
   "source": "knowledge/media-generation/ (frontmatter only)",
-  "subjects": 38,
-  "techniques": 266,
-  "applications": 166,
+  "subjects": 53,
+  "techniques": 351,
+  "applications": 195,
   "laws": 9,
   "categories": [
    "narrative-craft",
@@ -16,7 +16,7 @@
    "streaming"
   ],
   "layout": "nested",
-  "use_when_coverage": "266/266",
+  "use_when_coverage": "351/351",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -441,6 +441,203 @@
     }
    ]
   },
+  "broadcast-chain-showcase-capture": {
+   "category": "production-ops",
+   "subcategory": null,
+   "status": "forged",
+   "file": "knowledge/media-generation/production-ops/broadcast-chain-showcase-capture/broadcast-chain-showcase-capture.md",
+   "digest": "sha256-b2:ec789c3b80d214e8",
+   "revision": 1,
+   "changedAt": "2026-11-02",
+   "techniques": [
+    {
+     "slug": "one-overlay-per-shot",
+     "status": "forged",
+     "laws": [
+      "output-never-outruns-evidence",
+      "causality-over-sequence"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a stream tool with several overlays is filmed beat by beat",
+      "overlays pile up in a showcase recording",
+      "deciding what the stream picture shows in each shot",
+      "the film's stream picture differs from what the product composes"
+     ]
+    },
+    {
+     "slug": "platform-latency-measured",
+     "status": "forged",
+     "laws": [
+      "output-never-outruns-evidence",
+      "unmeasured-is-not-pass"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a film shows a result arriving on the streaming platform",
+      "deciding whether to show or hide the platform's delay",
+      "a narration or caption states how fast the stream reacts",
+      "sizing how long a take waits for its end marker"
+     ]
+    },
+    {
+     "slug": "player-page-and-window-ownership",
+     "status": "forged",
+     "laws": [
+      "unmeasured-is-not-pass"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "recording the streaming platform's player in a film",
+      "a dialog or another application's window appears in a capture",
+      "choosing which page of the platform to record",
+      "the broadcasting software opens a window when the stream starts"
+     ]
+    },
+    {
+     "slug": "probe-before-take",
+     "status": "forged",
+     "laws": [
+      "unmeasured-is-not-pass",
+      "cost-per-usable-output"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "before a take that goes through a live broadcast",
+      "a take was spent and the stream picture was unusable",
+      "writing the checklist a showcase capture runs before recording",
+      "deciding whether a take may be published"
+     ]
+    },
+    {
+     "slug": "shared-marker-per-recording",
+     "status": "forged",
+     "laws": [
+      "unmeasured-is-not-pass",
+      "causality-over-sequence"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "one film cuts between several recordings of the same take",
+      "aligning a tool window",
+      "a broadcast output and a platform player recording",
+      "a cut between recordings looks out of sync"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "node",
+     "technique": "shared-marker-per-recording",
+     "file": "knowledge/media-generation/production-ops/broadcast-chain-showcase-capture/applications/node--shared-marker-per-recording.md",
+     "verified_on": "2026-11-02",
+     "verified_against": "node@24"
+    },
+    {
+     "stack": "process",
+     "technique": "probe-before-take",
+     "file": "knowledge/media-generation/production-ops/broadcast-chain-showcase-capture/applications/process--probe-before-take.md",
+     "verified_on": "2026-11-02"
+    }
+   ]
+  },
+  "broadcast-software-control": {
+   "category": "streaming",
+   "subcategory": "broadcast-integration",
+   "status": "forged",
+   "file": "knowledge/media-generation/streaming/broadcast-integration/broadcast-software-control/broadcast-software-control.md",
+   "digest": "sha256-b2:9336dd87a9473204",
+   "revision": 1,
+   "changedAt": "2026-11-02",
+   "techniques": [
+    {
+     "slug": "claim-only-what-you-created",
+     "status": "forged",
+     "laws": [
+      "refusal-is-a-state"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a tool finds an object with its default name already in the broadcasting software",
+      "writing a cleanup or reset routine",
+      "deciding whether a tool may take over a pre-existing source or scene"
+     ]
+    },
+    {
+     "slug": "credential-custody-for-the-control-socket",
+     "status": "forged",
+     "laws": [],
+     "shared_with": [],
+     "use_when": [
+      "storing the password for the broadcasting software's remote-control interface",
+      "choosing which addresses a tool may connect its control client to",
+      "deciding whether a tool may set a browser source's address"
+     ]
+    },
+    {
+     "slug": "no-mutation-replay-on-reconnect",
+     "status": "forged",
+     "laws": [],
+     "shared_with": [],
+     "use_when": [
+      "designing what a tool does when the control connection to the broadcasting software drops and returns",
+      "a request timed out and its outcome is unknown",
+      "several parts of a tool send requests to the broadcasting software concurrently"
+     ]
+    },
+    {
+     "slug": "owned-source-ledger-by-identity",
+     "status": "forged",
+     "laws": [],
+     "shared_with": [],
+     "use_when": [
+      "recording which sources and scenes a tool created in the broadcasting software",
+      "deciding what key a tool's cleanup is addressed by",
+      "a source was renamed or duplicated by the streamer"
+     ]
+    },
+    {
+     "slug": "read-the-peer-not-the-ledger",
+     "status": "forged",
+     "laws": [],
+     "shared_with": [],
+     "use_when": [
+      "deciding whether a scene or source exists before acting on it",
+      "showing the streamer whether a tool's overlay is set up",
+      "a tool's view of the broadcasting software disagrees with what the streamer sees"
+     ]
+    },
+    {
+     "slug": "verify-absence-not-acknowledgement",
+     "status": "forged",
+     "laws": [
+      "unmeasured-is-not-pass"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "reporting that a tool's overlays or sources were removed",
+      "writing the end-of-stream or abort cleanup",
+      "a removal request answered success but the source is still on air"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "rust",
+     "technique": "owned-source-ledger-by-identity",
+     "file": "knowledge/media-generation/streaming/broadcast-integration/broadcast-software-control/applications/rust--owned-source-ledger-by-identity.md",
+     "verified_on": "2026-11-02",
+     "verified_against": "rust@1.97"
+    },
+    {
+     "stack": "rust",
+     "technique": "verify-absence-not-acknowledgement",
+     "file": "knowledge/media-generation/streaming/broadcast-integration/broadcast-software-control/applications/rust--verify-absence-not-acknowledgement.md",
+     "verified_on": "2026-11-02",
+     "verified_against": "rust@1.97"
+    }
+   ]
+  },
   "character-identity-continuity": {
    "category": "visual-generation",
    "subcategory": null,
@@ -639,6 +836,85 @@
      "technique": "casting-slate-spread",
      "file": "knowledge/media-generation/audio-generation/character-voice-design/applications/process--casting-slate-spread.md",
      "verified_on": "2026-10-28"
+    }
+   ]
+  },
+  "chat-vote-duels": {
+   "category": "streaming",
+   "subcategory": "streamer-tools",
+   "status": "forged",
+   "file": "knowledge/media-generation/streaming/streamer-tools/chat-vote-duels/chat-vote-duels.md",
+   "digest": "sha256-b2:16b6cfa88c1fd40b",
+   "revision": 1,
+   "changedAt": "2026-11-02",
+   "techniques": [
+    {
+     "slug": "ballot-grammar-one-per-viewer",
+     "status": "forged",
+     "laws": [],
+     "shared_with": [],
+     "use_when": [
+      "deciding which chat lines count as votes in a timed duel",
+      "collapsing repeated or changed votes from one viewer",
+      "fixing when a vote window opens and closes"
+     ]
+    },
+    {
+     "slug": "ballot-status-taxonomy",
+     "status": "forged",
+     "laws": [
+      "refusal-is-a-state",
+      "unmeasured-is-not-pass"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "explaining to a viewer why a vote did not count",
+      "reconciling a duel's total against the chat it read",
+      "testing a chat vote counter"
+     ]
+    },
+    {
+     "slug": "core-owns-the-count",
+     "status": "forged",
+     "laws": [
+      "output-never-outruns-evidence",
+      "unmeasured-is-not-pass"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a duel is shown in both a control panel and an on-stream overlay",
+      "deciding which process counts chat votes",
+      "building test chat or a demo mode for a vote tool"
+     ]
+    },
+    {
+     "slug": "deterministic-tie-break-said-aloud",
+     "status": "forged",
+     "laws": [
+      "output-never-outruns-evidence"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "choosing what decides a level head-to-head vote",
+      "a bracket needs a winner from every pairing",
+      "a tie was resolved and the room wants to know why"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "rust",
+     "technique": "ballot-grammar-one-per-viewer",
+     "file": "knowledge/media-generation/streaming/streamer-tools/chat-vote-duels/applications/rust--ballot-grammar-one-per-viewer.md",
+     "verified_on": "2026-11-02",
+     "verified_against": "rust@1.97.1"
+    },
+    {
+     "stack": "typescript",
+     "technique": "core-owns-the-count",
+     "file": "knowledge/media-generation/streaming/streamer-tools/chat-vote-duels/applications/typescript--core-owns-the-count.md",
+     "verified_on": "2026-11-02",
+     "verified_against": "typescript@6.0.3"
     }
    ]
   },
@@ -944,6 +1220,114 @@
      "technique": "unknowns-as-constraints",
      "file": "knowledge/media-generation/research-grounding/content-research-grounding/applications/react--unknowns-as-constraints.md",
      "verified_on": "2026-08-19"
+    }
+   ]
+  },
+  "contribution-reactive-visuals": {
+   "category": "streaming",
+   "subcategory": "streamer-tools",
+   "status": "forged",
+   "file": "knowledge/media-generation/streaming/streamer-tools/contribution-reactive-visuals/contribution-reactive-visuals.md",
+   "digest": "sha256-b2:74d90e509f2bc092",
+   "revision": 1,
+   "changedAt": "2026-11-02",
+   "techniques": [
+    {
+     "slug": "decay-before-interpolation",
+     "status": "forged",
+     "laws": [
+      "output-never-outruns-evidence"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "making a reactive visual cool back to rest between contributions",
+      "a visual that flares on stale peaks",
+      "fades on the wrong shape or disagrees with the tool after a reload",
+      "deciding who owns the visual's clock"
+     ]
+    },
+    {
+     "slug": "money-changes-looks-never-outcomes",
+     "status": "forged",
+     "laws": [
+      "unmeasured-is-not-pass"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a feature that wants to read the contribution or hype state",
+      "deciding what a paid contribution may change in a streamer tool",
+      "enforcing that money cannot reach votes",
+      "draws or moderation"
+     ]
+    },
+    {
+     "slug": "one-unit-per-source-with-dedupe",
+     "status": "forged",
+     "laws": [
+      "output-never-outruns-evidence"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "deciding which contributions feed a reactive visual and how they combine",
+      "a visual that flares twice for one gift or after a reconnect",
+      "two subscription topics that report the same contribution"
+     ]
+    },
+    {
+     "slug": "piecewise-intensity-curve",
+     "status": "forged",
+     "laws": [
+      "unmeasured-is-not-pass"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "deciding how much giving lights a reactive visual and when it reaches full blaze",
+      "a reactive visual that pins on one big gift or never lights",
+      "separating the curve from the visual's look"
+     ]
+    },
+    {
+     "slug": "presets-with-consequence-lines",
+     "status": "forged",
+     "laws": [
+      "output-never-outruns-evidence",
+      "unmeasured-is-not-pass"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "designing the settings a streamer uses to tune a reactive visual",
+      "a streamer who cannot tell what a setting will do on stream",
+      "writing the copy beside a tuning control"
+     ]
+    },
+    {
+     "slug": "self-ending-test-fire",
+     "status": "forged",
+     "laws": [
+      "unmeasured-is-not-pass"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "adding a test button for a reactive visual or alert",
+      "a test that passed while the on-stream overlay was not wired",
+      "a test effect that stayed lit or overwrote the live state"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "rust",
+     "technique": "decay-before-interpolation",
+     "file": "knowledge/media-generation/streaming/streamer-tools/contribution-reactive-visuals/applications/rust--decay-before-interpolation.md",
+     "verified_on": "2026-11-02",
+     "verified_against": "rust@1.97"
+    },
+    {
+     "stack": "typescript",
+     "technique": "presets-with-consequence-lines",
+     "file": "knowledge/media-generation/streaming/streamer-tools/contribution-reactive-visuals/applications/typescript--presets-with-consequence-lines.md",
+     "verified_on": "2026-11-02",
+     "verified_against": "typescript@6.0.3"
     }
    ]
   },
@@ -2466,6 +2850,192 @@
     }
    ]
   },
+  "giveaway-eligibility-and-weighting": {
+   "category": "streaming",
+   "subcategory": "streamer-tools",
+   "status": "forged",
+   "file": "knowledge/media-generation/streaming/streamer-tools/giveaway-eligibility-and-weighting/giveaway-eligibility-and-weighting.md",
+   "digest": "sha256-b2:ead8b6aa5728e43b",
+   "revision": 1,
+   "changedAt": "2026-11-02",
+   "techniques": [
+    {
+     "slug": "clock-proof-cooldowns",
+     "status": "forged",
+     "laws": [],
+     "shared_with": [],
+     "use_when": [
+      "keeping recent winners out of the next giveaways",
+      "choosing whether a cooldown counts time or draws",
+      "a machine clock may be wrong",
+      "moved or reset"
+     ]
+    },
+    {
+     "slug": "cohort-caps-checked-after-derivation",
+     "status": "forged",
+     "laws": [
+      "unmeasured-is-not-pass"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "limiting how many winners may come from one group",
+      "such as moderators",
+      "a loyalty tier or linked accounts",
+      "a multi-winner draw has fairness rules about the result",
+      "deciding where a winners' cap is enforced"
+     ]
+    },
+    {
+     "slug": "concave-activity-weights",
+     "status": "forged",
+     "laws": [
+      "unmeasured-is-not-pass"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "rewarding regular viewers with extra weight in a giveaway",
+      "choosing a weight curve and its cap",
+      "explaining to the room how much a regular's entry outweighs a newcomer's"
+     ]
+    },
+    {
+     "slug": "free-path-forces-equal-odds",
+     "status": "forged",
+     "laws": [],
+     "shared_with": [],
+     "use_when": [
+      "a giveaway is gated to subscribers",
+      "paid tiers or a purchasable currency",
+      "a sponsor or viewer asks for bonus entries tied to spending",
+      "adding a free alternative way to enter a draw"
+     ]
+    },
+    {
+     "slug": "post-moderation-only-entry",
+     "status": "forged",
+     "laws": [
+      "typed-input-owns-its-channel"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "deciding which chat messages may create a giveaway entry",
+      "adding a manual",
+      "imported or re-opened entry path",
+      "a viewer under moderation restriction tries to enter"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "rust",
+     "technique": "post-moderation-only-entry",
+     "file": "knowledge/media-generation/streaming/streamer-tools/giveaway-eligibility-and-weighting/applications/rust--post-moderation-only-entry.md",
+     "verified_on": "2026-11-02",
+     "verified_against": "rust@1.97"
+    },
+    {
+     "stack": "typescript",
+     "technique": "concave-activity-weights",
+     "file": "knowledge/media-generation/streaming/streamer-tools/giveaway-eligibility-and-weighting/applications/typescript--concave-activity-weights.md",
+     "verified_on": "2026-11-02",
+     "verified_against": "typescript@6.0"
+    }
+   ]
+  },
+  "giveaway-legal-guardrails": {
+   "category": "streaming",
+   "subcategory": "streamer-tools",
+   "status": "forged",
+   "file": "knowledge/media-generation/streaming/streamer-tools/giveaway-legal-guardrails/giveaway-legal-guardrails.md",
+   "digest": "sha256-b2:48434a6048584b80",
+   "revision": 1,
+   "changedAt": "2026-11-02",
+   "techniques": [
+    {
+     "slug": "acknowledgement-before-unlock",
+     "status": "forged",
+     "laws": [
+      "refusal-is-a-state"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a giveaway warning needs the streamer's confirmation before the draw can be sealed",
+      "designing what an acknowledgement records and when it expires",
+      "auditing who accepted which giveaway risk"
+     ]
+    },
+    {
+     "slug": "no-prize-chance-and-consideration",
+     "status": "forged",
+     "laws": [
+      "refusal-is-a-state"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "deciding whether a giveaway configuration may run",
+      "adding a paid or gated entry route to a draw",
+      "classifying a draw before it is sealed"
+     ]
+    },
+    {
+     "slug": "platform-non-sponsorship-disclaimer",
+     "status": "forged",
+     "laws": [
+      "output-never-outruns-evidence"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "rendering a giveaway on a stream overlay or in chat",
+      "writing the rules text a giveaway publishes",
+      "deciding where and how long a disclaimer must be visible"
+     ]
+    },
+    {
+     "slug": "registration-value-threshold",
+     "status": "forged",
+     "laws": [
+      "unmeasured-is-not-pass"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a giveaway prize may be large enough to need a registration or bond",
+      "choosing a default prize-value threshold for a streamer tool",
+      "deciding what the streamer must confirm before a high-value draw runs"
+     ]
+    },
+    {
+     "slug": "warn-versus-block-tiers",
+     "status": "forged",
+     "laws": [
+      "refusal-is-a-state",
+      "unmeasured-is-not-pass"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "deciding whether a giveaway risk should refuse the draw or only warn",
+      "designing the risk screen a streamer sees before sealing a draw",
+      "reviewing why streamers bypass a tool's giveaway checks"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "rust",
+     "technique": "warn-versus-block-tiers",
+     "file": "knowledge/media-generation/streaming/streamer-tools/giveaway-legal-guardrails/applications/rust--warn-versus-block-tiers.md",
+     "verified_on": "2026-11-02",
+     "verified_against": "rust@1.97"
+    },
+    {
+     "stack": "typescript",
+     "technique": "platform-non-sponsorship-disclaimer",
+     "file": "knowledge/media-generation/streaming/streamer-tools/giveaway-legal-guardrails/applications/typescript--platform-non-sponsorship-disclaimer.md",
+     "verified_on": "2026-11-02",
+     "verified_against": "typescript@6.0.3"
+    }
+   ]
+  },
   "image-prompt-composition": {
    "category": "visual-generation",
    "subcategory": null,
@@ -2673,6 +3243,103 @@
      "technique": "two-block-style-and-action",
      "file": "knowledge/media-generation/visual-generation/image-prompt-composition/applications/react--two-block-style-and-action.md",
      "verified_on": "2026-08-19"
+    }
+   ]
+  },
+  "isolated-broadcast-software-test-lane": {
+   "category": "streaming",
+   "subcategory": "broadcast-integration",
+   "status": "forged",
+   "file": "knowledge/media-generation/streaming/broadcast-integration/isolated-broadcast-software-test-lane/isolated-broadcast-software-test-lane.md",
+   "digest": "sha256-b2:e83367104e6267ee",
+   "revision": 1,
+   "changedAt": "2026-11-02",
+   "techniques": [
+    {
+     "slug": "byte-exact-config-restore",
+     "status": "forged",
+     "laws": [],
+     "shared_with": [],
+     "use_when": [
+      "a test run must write a configuration file the broadcasting software shares with the owner's setup",
+      "restoring configuration after a test instance exits",
+      "checking that a restore actually happened"
+     ]
+    },
+    {
+     "slug": "crash-recovery-manifest",
+     "status": "forged",
+     "laws": [],
+     "shared_with": [],
+     "use_when": [
+      "a test run modifies shared configuration and may be killed before it cleans up",
+      "running an unattended or scheduled lane",
+      "starting a lane on a machine where a previous run may not have finished"
+     ]
+    },
+    {
+     "slug": "metadata-only-inventory",
+     "status": "forged",
+     "laws": [
+      "unmeasured-is-not-pass"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "proving a test run left the owner's broadcasting-software setup unchanged",
+      "deciding what a test report may record about the owner's configuration"
+     ]
+    },
+    {
+     "slug": "never-touch-the-owner-instance",
+     "status": "forged",
+     "laws": [
+      "unmeasured-is-not-pass"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a test needs the real broadcasting software on a machine where the streamer also runs it",
+      "deciding what a harness does when the owner's instance is already running",
+      "tearing down the instance a test run launched"
+     ]
+    },
+    {
+     "slug": "own-profile-port-and-password",
+     "status": "forged",
+     "laws": [],
+     "shared_with": [],
+     "use_when": [
+      "configuring the broadcasting-software instance a test run launches",
+      "choosing the control port and password for a test instance",
+      "deciding between a separate configuration root and a named profile"
+     ]
+    },
+    {
+     "slug": "secret-leak-scan-of-outputs",
+     "status": "forged",
+     "laws": [],
+     "shared_with": [],
+     "use_when": [
+      "publishing logs",
+      "reports",
+      "captures or screenshots from a run that drove the broadcasting software",
+      "a test harness handled a control password or read settings that may hold a stream key"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "node",
+     "technique": "byte-exact-config-restore",
+     "file": "knowledge/media-generation/streaming/broadcast-integration/isolated-broadcast-software-test-lane/applications/node--byte-exact-config-restore.md",
+     "verified_on": "2026-11-02",
+     "verified_against": "node@24"
+    },
+    {
+     "stack": "node",
+     "technique": "never-touch-the-owner-instance",
+     "file": "knowledge/media-generation/streaming/broadcast-integration/isolated-broadcast-software-test-lane/applications/node--never-touch-the-owner-instance.md",
+     "verified_on": "2026-11-02",
+     "verified_against": "node@24"
     }
    ]
   },
@@ -3213,6 +3880,115 @@
     }
    ]
   },
+  "live-test-consent-and-evidence": {
+   "category": "streaming",
+   "subcategory": "trust-and-evaluation",
+   "status": "forged",
+   "file": "knowledge/media-generation/streaming/trust-and-evaluation/live-test-consent-and-evidence/live-test-consent-and-evidence.md",
+   "digest": "sha256-b2:e1845248677cbb6c",
+   "revision": 1,
+   "changedAt": "2026-11-02",
+   "techniques": [
+    {
+     "slug": "evidence-pending-by-default",
+     "status": "forged",
+     "laws": [
+      "unmeasured-is-not-pass",
+      "output-never-outruns-evidence"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "writing a status page",
+      "checklist or submission about what a stream tool does against the platform",
+      "deciding whether a feature may be described as working live",
+      "reviewing claims before a release or a demo"
+     ]
+    },
+    {
+     "slug": "live-tests-behind-an-exact-flag",
+     "status": "forged",
+     "laws": [
+      "unmeasured-is-not-pass"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "adding a test that calls the real streaming platform",
+      "keeping continuous integration hermetic while live tests exist",
+      "reporting test results where some live tests did not run"
+     ]
+    },
+    {
+     "slug": "no-fixture-for-live-footage",
+     "status": "forged",
+     "laws": [
+      "output-never-outruns-evidence"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "filming or screenshotting a stream tool for a demo",
+      "submission or launch",
+      "deciding whether rehearsal or recorded material may appear in a film about live behaviour",
+      "labelling footage that was not captured live"
+     ]
+    },
+    {
+     "slug": "owned-test-accounts-only",
+     "status": "forged",
+     "laws": [],
+     "shared_with": [],
+     "use_when": [
+      "choosing the channel and accounts a live platform test may act on",
+      "writing a live test that times out",
+      "bans or messages an account",
+      "reviewing a live test suite before its first run"
+     ]
+    },
+    {
+     "slug": "provenance-labels-derived-from-state",
+     "status": "forged",
+     "laws": [
+      "output-never-outruns-evidence",
+      "checkability-routes-the-pixel"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "designing the words a stream tool uses to say how real a result is",
+      "choosing what decides whether a surface shows live",
+      "simulated",
+      "recorded or unverified",
+      "reviewing a label that a caller or a page sets by hand"
+     ]
+    },
+    {
+     "slug": "undo-even-on-uncertain-response",
+     "status": "forged",
+     "laws": [
+      "unmeasured-is-not-pass"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "writing a live test that changes state on the platform",
+      "handling a timeout or unparseable response from a moderation call in a test",
+      "cleaning up after a live test run"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "process",
+     "technique": "evidence-pending-by-default",
+     "file": "knowledge/media-generation/streaming/trust-and-evaluation/live-test-consent-and-evidence/applications/process--evidence-pending-by-default.md",
+     "verified_on": "2026-11-02"
+    },
+    {
+     "stack": "rust",
+     "technique": "owned-test-accounts-only",
+     "file": "knowledge/media-generation/streaming/trust-and-evaluation/live-test-consent-and-evidence/applications/rust--owned-test-accounts-only.md",
+     "verified_on": "2026-11-02",
+     "verified_against": "rust@1.97.1"
+    }
+   ]
+  },
   "multi-speaker-speech-production": {
    "category": "audio-generation",
    "subcategory": null,
@@ -3624,6 +4400,111 @@
     }
    ]
   },
+  "on-stream-overlay-delivery": {
+   "category": "streaming",
+   "subcategory": "broadcast-integration",
+   "status": "forged",
+   "file": "knowledge/media-generation/streaming/broadcast-integration/on-stream-overlay-delivery/on-stream-overlay-delivery.md",
+   "digest": "sha256-b2:cd4ff9a1bd6f4d44",
+   "revision": 1,
+   "changedAt": "2026-11-02",
+   "techniques": [
+    {
+     "slug": "aggregate-only-payloads",
+     "status": "forged",
+     "laws": [
+      "output-never-outruns-evidence"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "designing the message an overlay page receives",
+      "an overlay that shows a vote or a count",
+      "reviewing a payload for fields the page never draws"
+     ]
+    },
+    {
+     "slug": "clear-on-disconnect",
+     "status": "forged",
+     "laws": [
+      "output-never-outruns-evidence",
+      "unmeasured-is-not-pass"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "writing the reconnect logic of an overlay page",
+      "an overlay that froze on stream",
+      "deciding what an overlay shows while its tool is restarting"
+     ]
+    },
+    {
+     "slug": "consented-data-only-packages",
+     "status": "forged",
+     "laws": [
+      "edit-do-not-regenerate"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "importing a design package an overlay will render",
+      "a package that wants to run its own script on stream",
+      "updating a package that is already live"
+     ]
+    },
+    {
+     "slug": "full-replacement-snapshots",
+     "status": "forged",
+     "laws": [
+      "checkability-routes-the-pixel"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "choosing between deltas and snapshots for an overlay feed",
+      "an overlay that drifted from the tool's state",
+      "an overlay that is wrong after a reload or reconnect"
+     ]
+    },
+    {
+     "slug": "no-source-url-without-a-valid-read",
+     "status": "forged",
+     "laws": [
+      "refusal-is-a-state",
+      "unmeasured-is-not-pass"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "showing the streamer an address to paste into the broadcasting software",
+      "provisioning a browser source automatically",
+      "an overlay that loaded blank on stream"
+     ]
+    },
+    {
+     "slug": "read-only-overlay-origin",
+     "status": "forged",
+     "laws": [],
+     "shared_with": [],
+     "use_when": [
+      "standing up the server that serves browser-source pages",
+      "adding a route next to an overlay page",
+      "reviewing the headers an overlay page ships with"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "rust",
+     "technique": "read-only-overlay-origin",
+     "file": "knowledge/media-generation/streaming/broadcast-integration/on-stream-overlay-delivery/applications/rust--read-only-overlay-origin.md",
+     "verified_on": "2026-11-02",
+     "verified_against": "rust@1.97"
+    },
+    {
+     "stack": "typescript",
+     "technique": "clear-on-disconnect",
+     "file": "knowledge/media-generation/streaming/broadcast-integration/on-stream-overlay-delivery/applications/typescript--clear-on-disconnect.md",
+     "verified_on": "2026-11-02",
+     "verified_against": "typescript@6.0.3"
+    }
+   ]
+  },
   "on-stream-persona-continuity": {
    "category": "streaming",
    "subcategory": "live-show",
@@ -3741,6 +4622,206 @@
      "file": "knowledge/media-generation/streaming/live-show/on-stream-persona-continuity/applications/rust--per-turn-persona-anchor.md",
      "verified_on": "2026-10-21",
      "verified_against": "rust@1.97.1"
+    }
+   ]
+  },
+  "overlay-composition-and-safe-area": {
+   "category": "streaming",
+   "subcategory": "broadcast-integration",
+   "status": "forged",
+   "file": "knowledge/media-generation/streaming/broadcast-integration/overlay-composition-and-safe-area/overlay-composition-and-safe-area.md",
+   "digest": "sha256-b2:5ac1ea8a6b5013d6",
+   "revision": 1,
+   "changedAt": "2026-11-02",
+   "techniques": [
+    {
+     "slug": "designed-for-the-stream-background",
+     "status": "forged",
+     "laws": [
+      "unmeasured-is-not-pass"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "styling an overlay page",
+      "reviewing whether an overlay reads on a real stream",
+      "an overlay looked fine in the browser and broken on stream"
+     ]
+    },
+    {
+     "slug": "envelope-fit-scale-cap",
+     "status": "forged",
+     "laws": [],
+     "shared_with": [],
+     "use_when": [
+      "writing the layout root of an overlay page",
+      "exposing a size or scale setting to the streamer",
+      "supporting more than one canvas size or orientation"
+     ]
+    },
+    {
+     "slug": "placement-declared-at-provisioning",
+     "status": "forged",
+     "laws": [
+      "typed-input-owns-its-channel"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "writing the code that adds an overlay to the streamer's scene",
+      "choosing default positions for a set of overlay kinds",
+      "diagnosing overlays that pile up in one spot"
+     ]
+    },
+    {
+     "slug": "provenance-badge-opposite-corner",
+     "status": "forged",
+     "laws": [
+      "output-never-outruns-evidence"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "an overlay can show rehearsal",
+      "simulated or test data",
+      "deciding where a status or provenance label sits on an overlay",
+      "recording or clipping a stream that mixes real and simulated content"
+     ]
+    },
+    {
+     "slug": "provisioning-follows-domain-lifecycle",
+     "status": "forged",
+     "laws": [
+      "causality-over-sequence"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "deciding when an overlay source is created and removed",
+      "designing a stream set-up step for a tool with several overlays",
+      "an overlay never appeared on stream or lingered after its moment"
+     ]
+    },
+    {
+     "slug": "verify-the-rendered-scene",
+     "status": "forged",
+     "laws": [
+      "unmeasured-is-not-pass"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "after a tool provisions or changes overlays in a scene",
+      "before a stream",
+      "recording or demo goes out",
+      "writing an automated check for overlay layout"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "typescript",
+     "technique": "envelope-fit-scale-cap",
+     "file": "knowledge/media-generation/streaming/broadcast-integration/overlay-composition-and-safe-area/applications/typescript--envelope-fit-scale-cap.md",
+     "verified_on": "2026-11-02",
+     "verified_against": "typescript@6.0.3"
+    },
+    {
+     "stack": "typescript",
+     "technique": "placement-declared-at-provisioning",
+     "file": "knowledge/media-generation/streaming/broadcast-integration/overlay-composition-and-safe-area/applications/typescript--placement-declared-at-provisioning.md",
+     "verified_on": "2026-11-02",
+     "verified_against": "typescript@6.0.3"
+    }
+   ]
+  },
+  "platform-extension-release-ladder": {
+   "category": "streaming",
+   "subcategory": "broadcast-integration",
+   "status": "forged",
+   "file": "knowledge/media-generation/streaming/broadcast-integration/platform-extension-release-ladder/platform-extension-release-ladder.md",
+   "digest": "sha256-b2:2da21d34ba51587a",
+   "revision": 1,
+   "changedAt": "2026-11-02",
+   "techniques": [
+    {
+     "slug": "allowlisted-test-stages-before-review",
+     "status": "forged",
+     "laws": [
+      "unmeasured-is-not-pass"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "deciding when an extension version is ready to submit for platform review",
+      "setting up the test-account allowlist",
+      "choosing a release date after approval"
+     ]
+    },
+    {
+     "slug": "bundled-static-code-only",
+     "status": "forged",
+     "laws": [],
+     "shared_with": [],
+     "use_when": [
+      "building the front-end bundle for a platform extension",
+      "choosing libraries and a build pipeline for code that a platform reviewer will read",
+      "a dependency that loads script or evaluates strings at runtime"
+     ]
+    },
+    {
+     "slug": "coalesced-broadcast-with-load-test",
+     "status": "forged",
+     "laws": [
+      "unmeasured-is-not-pass"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "sending live state such as vote shares from a backend to every viewer's extension",
+      "sizing a backend for a channel's audience before review",
+      "a broadcast budget exhausted at a busy moment"
+     ],
+     "stage": "team"
+    },
+    {
+     "slug": "data-driven-shell",
+     "status": "forged",
+     "laws": [
+      "edit-do-not-regenerate",
+      "typed-input-owns-its-channel"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "deciding what an extension's design may change without a new platform review",
+      "designing the configuration document an extension shell renders",
+      "a requested change that would otherwise wait a review cycle"
+     ]
+    },
+    {
+     "slug": "per-version-host-allowlist",
+     "status": "forged",
+     "laws": [],
+     "shared_with": [],
+     "use_when": [
+      "choosing the backend address a platform extension will call",
+      "adding an outside service to an extension front end",
+      "preparing the address list for a version submission"
+     ]
+    },
+    {
+     "slug": "viewer-content-needs-identity-and-approval",
+     "status": "forged",
+     "laws": [
+      "refusal-is-a-state"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "an extension that lets viewers submit text or images",
+      "deciding what viewer submissions may appear in a streamer's panel",
+      "designing what a viewer's paid currency may buy inside an extension"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "process",
+     "technique": "allowlisted-test-stages-before-review",
+     "file": "knowledge/media-generation/streaming/broadcast-integration/platform-extension-release-ladder/applications/process--allowlisted-test-stages-before-review.md",
+     "verified_on": "2026-11-02"
     }
    ]
   },
@@ -4737,6 +5818,318 @@
     }
    ]
   },
+  "streamer-dress-rehearsal": {
+   "category": "streaming",
+   "subcategory": "trust-and-evaluation",
+   "status": "forged",
+   "file": "knowledge/media-generation/streaming/trust-and-evaluation/streamer-dress-rehearsal/streamer-dress-rehearsal.md",
+   "digest": "sha256-b2:0f409f895262ed95",
+   "revision": 1,
+   "changedAt": "2026-11-02",
+   "techniques": [
+    {
+     "slug": "inert-platform-bridge-or-refuse",
+     "status": "forged",
+     "laws": [
+      "refusal-is-a-state"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "deciding what a rehearsal mode replaces and what it keeps real",
+      "wiring a streamer tool's platform connection for a rehearsal",
+      "reviewing whether a rehearsal can reach real viewers"
+     ]
+    },
+    {
+     "slug": "labelled-crowd-with-rule-breakers",
+     "status": "forged",
+     "laws": [],
+     "shared_with": [],
+     "use_when": [
+      "writing the generated chat a streamer tool rehearses against",
+      "making every rehearsed feature have something to act on",
+      "keeping generated chat from being mistaken for real viewers"
+     ]
+    },
+    {
+     "slug": "provenance-survives-every-consumer",
+     "status": "forged",
+     "laws": [
+      "output-never-outruns-evidence",
+      "checkability-routes-the-pixel"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "carrying a simulated label from generated chat to overlays",
+      "proofs and exports",
+      "deciding when an aggregate counts as simulated",
+      "designing the provenance badge on a rehearsed overlay"
+     ]
+    },
+    {
+     "slug": "retake-reset-discipline",
+     "status": "forged",
+     "laws": [],
+     "shared_with": [],
+     "use_when": [
+      "running a rehearsal more than once",
+      "designing a rehearsal's stop and reset controls",
+      "preparing repeatable takes of a stream tool for recording or review"
+     ]
+    },
+    {
+     "slug": "separate-store-by-relaunch",
+     "status": "forged",
+     "laws": [],
+     "shared_with": [],
+     "use_when": [
+      "choosing between a rehearsal toggle and a rehearsal process",
+      "isolating rehearsal history from a streamer's real rules and records",
+      "designing how a tool enters and leaves rehearsal"
+     ]
+    },
+    {
+     "slug": "through-the-broadcast-path",
+     "status": "forged",
+     "laws": [
+      "unmeasured-is-not-pass"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "deciding where a rehearsal's evidence is read",
+      "building a test-fire or preview control in a streamer tool",
+      "checking that an overlay change reached the stream"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "rust",
+     "technique": "inert-platform-bridge-or-refuse",
+     "file": "knowledge/media-generation/streaming/trust-and-evaluation/streamer-dress-rehearsal/applications/rust--inert-platform-bridge-or-refuse.md",
+     "verified_on": "2026-11-02",
+     "verified_against": "rust@1.97.1"
+    },
+    {
+     "stack": "rust",
+     "technique": "provenance-survives-every-consumer",
+     "file": "knowledge/media-generation/streaming/trust-and-evaluation/streamer-dress-rehearsal/applications/rust--provenance-survives-every-consumer.md",
+     "verified_on": "2026-11-02",
+     "verified_against": "rust@1.97.1"
+    }
+   ]
+  },
+  "streamer-in-charge-moderation": {
+   "category": "streaming",
+   "subcategory": "streamer-tools",
+   "status": "forged",
+   "file": "knowledge/media-generation/streaming/streamer-tools/streamer-in-charge-moderation/streamer-in-charge-moderation.md",
+   "digest": "sha256-b2:64ad387d6a814f4e",
+   "revision": 1,
+   "changedAt": "2026-11-02",
+   "techniques": [
+    {
+     "slug": "arming-as-a-logged-grant",
+     "status": "forged",
+     "laws": [
+      "edit-do-not-regenerate"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "moving an automated moderation rule from shadow to enforcing",
+      "designing what happens to an enforcing rule when it is edited",
+      "answering afterwards who allowed a rule to act"
+     ]
+    },
+    {
+     "slug": "ban-review-window-with-invalidation",
+     "status": "forged",
+     "laws": [
+      "refusal-is-a-state"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "automation wants to remove or time out a viewer",
+      "designing the confirm step for a proposed ban",
+      "deciding what an unanswered moderation proposal resolves to"
+     ]
+    },
+    {
+     "slug": "decide-on-the-stored-original",
+     "status": "forged",
+     "laws": [
+      "output-never-outruns-evidence"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "showing a streamer the evidence behind a proposed moderation action",
+      "binding a moderation decision to what was actually said",
+      "answering a viewer's appeal after the stream"
+     ]
+    },
+    {
+     "slug": "room-intents-cannot-name-a-person",
+     "status": "forged",
+     "laws": [
+      "typed-input-owns-its-channel"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "designing the set of actions automation may emit",
+      "separating chat-mode changes from actions on accounts",
+      "letting a model or rule engine suggest moderation steps"
+     ]
+    },
+    {
+     "slug": "scoped-expiring-auto-action-grant",
+     "status": "forged",
+     "laws": [
+      "typed-input-owns-its-channel",
+      "unmeasured-is-not-pass"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a hostile raid or spam wave outpaces the streamer's review",
+      "letting automation act on viewers or chat settings for a limited time",
+      "deciding what happens to automation when a human moderator acts"
+     ],
+     "stage": "team"
+    },
+    {
+     "slug": "shadow-by-default-rules",
+     "status": "forged",
+     "laws": [
+      "unmeasured-is-not-pass"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a streamer writes or imports a new automated chat rule",
+      "deciding what a rule does before anyone has seen it fire",
+      "showing a streamer whether a rule is ready to enforce"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "rust",
+     "technique": "ban-review-window-with-invalidation",
+     "file": "knowledge/media-generation/streaming/streamer-tools/streamer-in-charge-moderation/applications/rust--ban-review-window-with-invalidation.md",
+     "verified_on": "2026-11-02",
+     "verified_against": "rust@1.97.1"
+    },
+    {
+     "stack": "rust",
+     "technique": "room-intents-cannot-name-a-person",
+     "file": "knowledge/media-generation/streaming/streamer-tools/streamer-in-charge-moderation/applications/rust--room-intents-cannot-name-a-person.md",
+     "verified_on": "2026-11-02",
+     "verified_against": "rust@1.97.1"
+    }
+   ]
+  },
+  "streaming-platform-api-custody": {
+   "category": "streaming",
+   "subcategory": "broadcast-integration",
+   "status": "forged",
+   "file": "knowledge/media-generation/streaming/broadcast-integration/streaming-platform-api-custody/streaming-platform-api-custody.md",
+   "digest": "sha256-b2:b53b56b1eb00592b",
+   "revision": 1,
+   "changedAt": "2026-11-02",
+   "techniques": [
+    {
+     "slug": "brokered-calls-token-never-exposed",
+     "status": "forged",
+     "laws": [
+      "typed-input-owns-its-channel"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "deciding which modules of a streamer tool may call the streaming platform",
+      "designing the interface between features and the platform client",
+      "reviewing whether a token can leak through errors or logs"
+     ]
+    },
+    {
+     "slug": "event-stream-gaps-not-guesses",
+     "status": "forged",
+     "laws": [
+      "unmeasured-is-not-pass",
+      "output-never-outruns-evidence"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "handling a dropped or migrated connection to the platform's event subscription",
+      "deciding what a tally or moderation queue reports for a period the tool did not observe",
+      "sizing internal event queues"
+     ]
+    },
+    {
+     "slug": "fail-fast-rate-limit-buckets",
+     "status": "forged",
+     "laws": [
+      "refusal-is-a-state"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "handling a rate-limited response from the streaming platform",
+      "deciding whether to queue or retry a platform call",
+      "keeping cosmetic traffic from starving moderation actions"
+     ]
+    },
+    {
+     "slug": "revoke-then-purge-then-stop",
+     "status": "forged",
+     "laws": [
+      "refusal-is-a-state"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "implementing \"disconnect account\" in a streamer tool",
+      "reacting to the platform revoking the tool's authorisation",
+      "deciding what platform-derived data a tool deletes when a grant ends"
+     ]
+    },
+    {
+     "slug": "single-flight-jittered-refresh",
+     "status": "forged",
+     "laws": [],
+     "shared_with": [],
+     "use_when": [
+      "scheduling access-token refresh for a streaming platform grant",
+      "handling an unauthorised response mid-stream",
+      "obtaining a grant through the device-code flow on a desktop tool"
+     ]
+    },
+    {
+     "slug": "strict-event-versions",
+     "status": "forged",
+     "laws": [
+      "output-never-outruns-evidence"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "subscribing to the streaming platform's event types",
+      "parsing platform event payloads into the tool's types",
+      "checking a grant's scopes against enabled features"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "rust",
+     "technique": "event-stream-gaps-not-guesses",
+     "file": "knowledge/media-generation/streaming/broadcast-integration/streaming-platform-api-custody/applications/rust--event-stream-gaps-not-guesses.md",
+     "verified_on": "2026-11-02",
+     "verified_against": "rust@1.97"
+    },
+    {
+     "stack": "rust",
+     "technique": "single-flight-jittered-refresh",
+     "file": "knowledge/media-generation/streaming/broadcast-integration/streaming-platform-api-custody/applications/rust--single-flight-jittered-refresh.md",
+     "verified_on": "2026-11-02",
+     "verified_against": "rust@1.97"
+    }
+   ]
+  },
   "trailer-structure": {
    "category": "narrative-craft",
    "subcategory": null,
@@ -4837,6 +6230,109 @@
      "file": "knowledge/media-generation/narrative-craft/trailer-structure/applications/node--cue-first-assembly.md",
      "verified_on": "2026-09-01",
      "verified_against": "node@24"
+    }
+   ]
+  },
+  "verifiable-giveaway-draws": {
+   "category": "streaming",
+   "subcategory": "streamer-tools",
+   "status": "forged",
+   "file": "knowledge/media-generation/streaming/streamer-tools/verifiable-giveaway-draws/verifiable-giveaway-draws.md",
+   "digest": "sha256-b2:edca6ad83fb151ae",
+   "revision": 1,
+   "changedAt": "2026-11-02",
+   "techniques": [
+    {
+     "slug": "freeze-and-announce-before-randomness",
+     "status": "forged",
+     "laws": [
+      "output-never-outruns-evidence"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "designing the steps of an on-air draw",
+      "deciding when the entry list closes",
+      "deciding what to say on stream before the result"
+     ]
+    },
+    {
+     "slug": "independent-verifier-parity",
+     "status": "forged",
+     "laws": [
+      "unmeasured-is-not-pass"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "building the verifier viewers run",
+      "keeping a verifier in step with the drawing code",
+      "choosing the test vectors for a draw algorithm"
+     ]
+    },
+    {
+     "slug": "public-beacon-round-after-margin",
+     "status": "forged",
+     "laws": [],
+     "shared_with": [],
+     "use_when": [
+      "choosing a source of randomness for a public draw",
+      "choosing which future beacon round a draw will use",
+      "deciding how long the room waits between announcement and result"
+     ]
+    },
+    {
+     "slug": "single-attempt-no-reroll",
+     "status": "forged",
+     "laws": [
+      "refusal-is-a-state"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "handling a beacon outage or a crash mid-draw",
+      "deciding what happens when a winner is ineligible or absent",
+      "designing the draw's state machine and its buttons"
+     ]
+    },
+    {
+     "slug": "trust-anchor-outside-the-proof",
+     "status": "forged",
+     "laws": [
+      "unmeasured-is-not-pass"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "writing the signature check in a draw verifier",
+      "deciding where the beacon's public key comes from",
+      "choosing what a verifier reports when it cannot authenticate the randomness"
+     ]
+    },
+    {
+     "slug": "unbiased-weighted-sampling",
+     "status": "forged",
+     "laws": [
+      "checkability-routes-the-pixel"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "turning a random value into one or more winners",
+      "writing the byte-level specification of a draw",
+      "reviewing a draw for modulo bias or ordering ambiguity"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "rust",
+     "technique": "single-attempt-no-reroll",
+     "file": "knowledge/media-generation/streaming/streamer-tools/verifiable-giveaway-draws/applications/rust--single-attempt-no-reroll.md",
+     "verified_on": "2026-11-02",
+     "verified_against": "rust@1.97"
+    },
+    {
+     "stack": "typescript",
+     "technique": "independent-verifier-parity",
+     "file": "knowledge/media-generation/streaming/streamer-tools/verifiable-giveaway-draws/applications/typescript--independent-verifier-parity.md",
+     "verified_on": "2026-11-02",
+     "verified_against": "typescript@6.0.3"
     }
    ]
   },
@@ -5333,6 +6829,11 @@
     "audience-absorption-at-scale/size-tiered-picking-mode",
     "audience-steering-economies/binding-votes",
     "audience-steering-economies/sublinear-vote-weight",
+    "broadcast-chain-showcase-capture/platform-latency-measured",
+    "broadcast-chain-showcase-capture/player-page-and-window-ownership",
+    "broadcast-chain-showcase-capture/probe-before-take",
+    "broadcast-chain-showcase-capture/shared-marker-per-recording",
+    "broadcast-software-control/verify-absence-not-acknowledgement",
     "character-identity-continuity/camera-position-not-focal-length",
     "character-identity-continuity/identity-ruler-calibration",
     "character-identity-continuity/reference-admitted-late",
@@ -5340,12 +6841,18 @@
     "character-voice-design/audition-line-set",
     "character-voice-design/design-to-read-parameter-lock",
     "character-voice-design/finishing-effect-layer",
+    "chat-vote-duels/ballot-status-taxonomy",
+    "chat-vote-duels/core-owns-the-count",
     "cinematic-language/lens-effect-language",
     "cinematic-language/performance-direction",
     "content-research-grounding/evidence-grading-ladder",
     "content-research-grounding/prior-declaration-and-steel-man",
     "content-research-grounding/provenance-signal-asymmetry",
     "content-research-grounding/unknowns-as-constraints",
+    "contribution-reactive-visuals/money-changes-looks-never-outcomes",
+    "contribution-reactive-visuals/piecewise-intensity-curve",
+    "contribution-reactive-visuals/presets-with-consequence-lines",
+    "contribution-reactive-visuals/self-ending-test-fire",
     "creator-voice-and-tone/dial-vs-subject-property",
     "creator-voice-and-tone/spoken-delivery-direction",
     "creator-voice-and-tone/voice-profile-from-accepted-work",
@@ -5380,10 +6887,16 @@
     "generative-provider-routing/non-silent-elimination",
     "generative-provider-routing/unspent-budget-is-a-defect",
     "generative-provider-routing/vendor-fact-ledger",
+    "giveaway-eligibility-and-weighting/cohort-caps-checked-after-derivation",
+    "giveaway-eligibility-and-weighting/concave-activity-weights",
+    "giveaway-legal-guardrails/registration-value-threshold",
+    "giveaway-legal-guardrails/warn-versus-block-tiers",
     "image-prompt-composition/default-look-attractor",
     "image-prompt-composition/medium-vocabulary-locking",
     "image-prompt-composition/prompt-budget-limits",
     "image-prompt-composition/verbatim-text-locking",
+    "isolated-broadcast-software-test-lane/metadata-only-inventory",
+    "isolated-broadcast-software-test-lane/never-touch-the-owner-instance",
     "live-chat-moderation-and-anti-bait/path-independent-output-gate",
     "live-response-latency-budgeting/first-word-budget-decomposition",
     "live-response-latency-budgeting/fleet-loss-grace-signoff",
@@ -5396,6 +6909,9 @@
     "live-system-demo-film/native-window-grab-with-measured-clock",
     "live-system-demo-film/recording-that-asserts-its-claims",
     "live-system-demo-film/script-as-single-source",
+    "live-test-consent-and-evidence/evidence-pending-by-default",
+    "live-test-consent-and-evidence/live-tests-behind-an-exact-flag",
+    "live-test-consent-and-evidence/undo-even-on-uncertain-response",
     "multi-speaker-speech-production/chunk-boundary-continuity",
     "multi-speaker-speech-production/inline-direction-dialect",
     "multi-speaker-speech-production/line-addressed-re-render",
@@ -5406,7 +6922,13 @@
     "music-video-production/track-map-before-treatment",
     "narrative-engine-selection/adjudication-honesty-tells",
     "narrative-engine-selection/no-engine-means-no-video",
+    "on-stream-overlay-delivery/clear-on-disconnect",
+    "on-stream-overlay-delivery/no-source-url-without-a-valid-read",
     "on-stream-persona-continuity/tone-as-falsifiable-bet",
+    "overlay-composition-and-safe-area/designed-for-the-stream-background",
+    "overlay-composition-and-safe-area/verify-the-rendered-scene",
+    "platform-extension-release-ladder/allowlisted-test-stages-before-review",
+    "platform-extension-release-ladder/coalesced-broadcast-with-load-test",
     "platform-format-adaptation/format-as-measured-template",
     "platform-format-adaptation/image-led-vs-narration-led",
     "platform-format-adaptation/sound-off-first-design",
@@ -5431,6 +6953,12 @@
     "sound-effect-generation/loop-seam-acceptance",
     "stream-moment-capture/evidence-gated-clip-publish",
     "stream-moment-capture/multi-signal-moment-scoring",
+    "streamer-dress-rehearsal/through-the-broadcast-path",
+    "streamer-in-charge-moderation/scoped-expiring-auto-action-grant",
+    "streamer-in-charge-moderation/shadow-by-default-rules",
+    "streaming-platform-api-custody/event-stream-gaps-not-guesses",
+    "verifiable-giveaway-draws/independent-verifier-parity",
+    "verifiable-giveaway-draws/trust-anchor-outside-the-proof",
     "video-assembly/alignment-names-its-text",
     "video-assembly/cut-compiled-from-source",
     "video-assembly/derived-turn-markers",
@@ -5449,6 +6977,7 @@
    "techniques": [
     "ad-concept-development/llm-seat-assignment",
     "animatable-character-design/default-attractor-rejection",
+    "broadcast-chain-showcase-capture/probe-before-take",
     "character-voice-design/casting-slate-spread",
     "data-video-virality/series-repeatability",
     "generated-music-acceptance/brief-conformance-listen",
@@ -5495,18 +7024,25 @@
    "techniques": [
     "animatable-character-design/animatability-trial",
     "audience-steering-economies/rank-gated-proposals-with-climb-path",
+    "broadcast-software-control/claim-only-what-you-created",
     "character-identity-continuity/identity-ruler-calibration",
     "character-voice-design/voice-description-composition",
+    "chat-vote-duels/ballot-status-taxonomy",
     "frame-direction/per-beat-rejection",
     "generated-speech-acceptance/published-number-comparability",
     "generative-provider-routing/capability-to-vendor-plan",
     "generative-provider-routing/non-silent-elimination",
     "generative-provider-routing/refusal-reroute-hop",
+    "giveaway-legal-guardrails/acknowledgement-before-unlock",
+    "giveaway-legal-guardrails/no-prize-chance-and-consideration",
+    "giveaway-legal-guardrails/warn-versus-block-tiers",
     "image-prompt-composition/reference-role-map",
     "live-chat-moderation-and-anti-bait/in-character-refusal-substitution",
     "live-chat-moderation-and-anti-bait/injection-as-tag-not-payload",
     "live-response-latency-budgeting/fleet-loss-grace-signoff",
     "live-safety-rails/crisis-handoff-one-kind-line",
+    "on-stream-overlay-delivery/no-source-url-without-a-valid-read",
+    "platform-extension-release-ladder/viewer-content-needs-identity-and-approval",
     "production-pipeline-phasing/long-run-as-background-job",
     "production-pipeline-phasing/shared-clock-across-phases",
     "production-pipeline-phasing/worst-news-first-progress",
@@ -5516,6 +7052,11 @@
     "review-iteration-loops/scope-vs-preference-signals",
     "simulated-audience-testing/verdict-states-beyond-pass-fail",
     "sound-effect-generation/loop-seam-acceptance",
+    "streamer-dress-rehearsal/inert-platform-bridge-or-refuse",
+    "streamer-in-charge-moderation/ban-review-window-with-invalidation",
+    "streaming-platform-api-custody/fail-fast-rate-limit-buckets",
+    "streaming-platform-api-custody/revoke-then-purge-then-stop",
+    "verifiable-giveaway-draws/single-attempt-no-reroll",
     "video-assembly/gap-and-refusal-honesty",
     "video-assembly/generated-shot-sourcing"
    ]
@@ -5535,12 +7076,15 @@
     "multi-speaker-speech-production/line-addressed-re-render",
     "multi-speaker-speech-production/world-lexicon-as-pronunciation-dictionary",
     "music-prompt-composition/section-plan-as-the-brief",
+    "on-stream-overlay-delivery/consented-data-only-packages",
+    "platform-extension-release-ladder/data-driven-shell",
     "production-pipeline-phasing/approval-reads-forward",
     "production-pipeline-phasing/asset-vs-disposable-render",
     "review-iteration-loops/anchored-variation-slate",
     "review-iteration-loops/edit-plan-over-regeneration",
     "review-iteration-loops/partial-regeneration-seams",
     "sound-effect-generation/layered-element-assembly",
+    "streamer-in-charge-moderation/arming-as-a-logged-grant",
     "video-assembly/cut-compiled-from-source",
     "video-assembly/drift-correction",
     "video-assembly/motion-plate-library",
@@ -5555,11 +7099,18 @@
    "techniques": [
     "audience-absorption-at-scale/wave-collapse-to-crowd-voice",
     "audience-steering-economies/visible-consequence-of-steering",
+    "broadcast-chain-showcase-capture/one-overlay-per-shot",
+    "broadcast-chain-showcase-capture/platform-latency-measured",
+    "chat-vote-duels/core-owns-the-count",
+    "chat-vote-duels/deterministic-tie-break-said-aloud",
     "content-research-grounding/evidence-grading-ladder",
     "content-research-grounding/pre-linked-causal-mechanisms",
     "content-research-grounding/provenance-signal-asymmetry",
     "content-research-grounding/scale-conversion-of-numbers",
     "content-research-grounding/unknowns-as-constraints",
+    "contribution-reactive-visuals/decay-before-interpolation",
+    "contribution-reactive-visuals/one-unit-per-source-with-dedupe",
+    "contribution-reactive-visuals/presets-with-consequence-lines",
     "creator-voice-and-tone/delivery-rate-budgeting",
     "creator-voice-and-tone/dial-vs-subject-property",
     "data-video-art-direction/case-native-chart-form",
@@ -5599,6 +7150,7 @@
     "generated-speech-acceptance/published-number-comparability",
     "generated-speech-acceptance/three-axes-beside-intelligibility",
     "generative-provider-routing/extraction-model-bake-off",
+    "giveaway-legal-guardrails/platform-non-sponsorship-disclaimer",
     "live-safety-rails/real-people-boundary",
     "live-system-demo-film/figures-lifted-with-declared-fallback",
     "live-system-demo-film/music-bed-sized-to-the-finished-cut",
@@ -5610,12 +7162,18 @@
     "live-system-demo-film/script-as-single-source",
     "live-system-demo-film/seeded-stage-with-a-declared-boundary",
     "live-system-demo-film/summary-rendered-from-the-run",
+    "live-test-consent-and-evidence/evidence-pending-by-default",
+    "live-test-consent-and-evidence/no-fixture-for-live-footage",
+    "live-test-consent-and-evidence/provenance-labels-derived-from-state",
     "multi-speaker-speech-production/chunk-boundary-continuity",
     "music-prompt-composition/reference-track-anchoring",
     "narrative-engine-selection/adjudication-honesty-tells",
     "narrative-engine-selection/engine-arbitration-order",
     "narrative-engine-selection/fit-vs-hazard-axes",
+    "on-stream-overlay-delivery/aggregate-only-payloads",
+    "on-stream-overlay-delivery/clear-on-disconnect",
     "on-stream-persona-continuity/cited-memory-with-tombstones",
+    "overlay-composition-and-safe-area/provenance-badge-opposite-corner",
     "review-iteration-loops/attribution-share-accounting",
     "review-iteration-loops/critique-carries-its-fix",
     "review-iteration-loops/follow-up-that-can-kill-a-fact",
@@ -5623,8 +7181,13 @@
     "show-segment-format-design/quiet-room-premise-deck",
     "simulated-audience-testing/instrument-hash-never-merge",
     "stream-moment-capture/evidence-gated-clip-publish",
+    "streamer-dress-rehearsal/provenance-survives-every-consumer",
+    "streamer-in-charge-moderation/decide-on-the-stored-original",
+    "streaming-platform-api-custody/event-stream-gaps-not-guesses",
+    "streaming-platform-api-custody/strict-event-versions",
     "trailer-structure/concealment-and-its-tells",
     "trailer-structure/promise-ledger",
+    "verifiable-giveaway-draws/freeze-and-announce-before-randomness",
     "video-assembly/gap-and-refusal-honesty",
     "video-assembly/multitrack-timeline-discipline",
     "visual-style-locking/motion-sampled-under-a-frame-budget"
@@ -5634,6 +7197,8 @@
    "statement": "Between any two adjacent beats of a factual narrative you must be able to say \"but\" or \"therefore\". If the only honest connector is \"and then\", the beats have no causal relationship and what you have is a list, not a story. The same facts arranged causally give the viewer a reason to stay; arranged sequentially they give a reason to leave. Every structural choice — engine, act architecture, frame order — inherits this test.",
    "techniques": [
     "audience-steering-economies/visible-consequence-of-steering",
+    "broadcast-chain-showcase-capture/one-overlay-per-shot",
+    "broadcast-chain-showcase-capture/shared-marker-per-recording",
     "cinematic-language/movement-motivation",
     "cinematic-language/performance-direction",
     "cinematic-language/scene-grammar-progression",
@@ -5654,6 +7219,7 @@
     "music-prompt-composition/lyrics-for-singability",
     "narrative-engine-selection/engine-catalogue-by-viewer-pleasure",
     "narrative-engine-selection/no-engine-means-no-video",
+    "overlay-composition-and-safe-area/provisioning-follows-domain-lifecycle",
     "platform-format-adaptation/derived-short-contract",
     "platform-format-adaptation/one-anchor-per-clip",
     "review-iteration-loops/note-taxonomy-focus-scope-order",
@@ -5714,12 +7280,18 @@
     "cinematic-language/movement-motivation",
     "cinematic-language/performance-direction",
     "generated-output-grading/input-channel-parity",
+    "giveaway-eligibility-and-weighting/post-moderation-only-entry",
     "image-prompt-composition/reference-role-map",
     "live-chat-moderation-and-anti-bait/authority-from-metadata-only",
     "live-system-demo-film/audio-first-beat-pacing",
     "music-video-production/track-map-before-treatment",
+    "overlay-composition-and-safe-area/placement-declared-at-provisioning",
+    "platform-extension-release-ladder/data-driven-shell",
     "show-segment-format-design/segment-as-state-table",
     "sound-effect-generation/picture-as-timing-brief",
+    "streamer-in-charge-moderation/room-intents-cannot-name-a-person",
+    "streamer-in-charge-moderation/scoped-expiring-auto-action-grant",
+    "streaming-platform-api-custody/brokered-calls-token-never-exposed",
     "video-assembly/alignment-names-its-text",
     "video-assembly/unreferenced-channels-resample"
    ]
@@ -5744,7 +7316,11 @@
     "image-prompt-composition/verbatim-text-locking",
     "live-system-demo-film/recording-that-asserts-its-claims",
     "live-system-demo-film/summary-rendered-from-the-run",
+    "live-test-consent-and-evidence/provenance-labels-derived-from-state",
+    "on-stream-overlay-delivery/full-replacement-snapshots",
     "platform-format-adaptation/sound-off-first-design",
+    "streamer-dress-rehearsal/provenance-survives-every-consumer",
+    "verifiable-giveaway-draws/unbiased-weighted-sampling",
     "video-assembly/cut-compiled-from-source",
     "video-assembly/pinned-frame-notes",
     "video-assembly/seek-stable-composition-authoring",

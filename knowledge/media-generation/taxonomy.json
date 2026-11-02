@@ -65,7 +65,8 @@
         "production-pipeline-phasing",
         "review-iteration-loops",
         "video-assembly",
-        "music-video-production"
+        "music-video-production",
+        "broadcast-chain-showcase-capture"
       ]
     },
     {
@@ -91,7 +92,33 @@
           "subjects": [
             "live-chat-moderation-and-anti-bait",
             "live-safety-rails",
-            "simulated-audience-testing"
+            "simulated-audience-testing",
+            "streamer-dress-rehearsal",
+            "live-test-consent-and-evidence"
+          ]
+        },
+        {
+          "id": "broadcast-integration",
+          "title": "Broadcast integration",
+          "subjects": [
+            "broadcast-software-control",
+            "on-stream-overlay-delivery",
+            "overlay-composition-and-safe-area",
+            "streaming-platform-api-custody",
+            "platform-extension-release-ladder",
+            "isolated-broadcast-software-test-lane"
+          ]
+        },
+        {
+          "id": "streamer-tools",
+          "title": "Streamer tools",
+          "subjects": [
+            "streamer-in-charge-moderation",
+            "verifiable-giveaway-draws",
+            "giveaway-eligibility-and-weighting",
+            "giveaway-legal-guardrails",
+            "contribution-reactive-visuals",
+            "chat-vote-duels"
           ]
         }
       ]
