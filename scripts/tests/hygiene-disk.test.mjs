@@ -7,7 +7,7 @@ import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
 import { execFileSync, spawnSync } from 'node:child_process';
-import { classifyCheckout, classifyPlain, classifyTemp, leakFamilies, checkoutFacts, scratchRootOf, BUILD_OUTPUT, scan, reclassify, renderMarkdown } from '../hygiene-disk.mjs';
+import { classifyCheckout, classifyPlain, classifyTemp, leakFamilies, checkoutFacts, scratchRootOf, BUILD_OUTPUT, scan, reclassify, renderMarkdown, modelWaste } from '../hygiene-disk.mjs';
 
 // Fixture git never sees a hook's GIT_DIR (2026-09-19: fixtures wrote into real repositories).
 const ENV = { ...Object.fromEntries(Object.entries(process.env).filter(([k]) => !k.startsWith('GIT_'))), GIT_AUTHOR_NAME: 't', GIT_AUTHOR_EMAIL: 't@t.invalid', GIT_COMMITTER_NAME: 't', GIT_COMMITTER_EMAIL: 't@t.invalid' };
@@ -388,4 +388,53 @@ test('the default scratch root is on the fleet\'s drive, not the home drive', { 
   // The call site read fleet.root, which loadFleet never returns, so the home drive always won.
   assert.equal(scratchRootOf({ projects: { kp: { slug: 'kp', path: 'D:/dev/kp' } } }), path.join('D:/', 't'));
   assert.equal(scratchRootOf({ projects: {} }), path.join(path.parse(os.homedir()).root, 't'), 'no checkouts: the home drive');
+});
+
+test('scan: a temp dir in use reports its stale per-run children; fresh children do not count', () => {
+  // 2026-11-02: <tmp>/bp-lens was touched by every run while 30 orphan mirrors (15.8 GB) aged inside it.
+  // Birthtimes cannot be backdated, so the scan clock moves forward 72 h and the live parts are
+  // stamped at that future time instead.
+  const base = fs.mkdtempSync(path.join(os.tmpdir(), 'hdisk-'));
+  try {
+    const tmp = path.join(base, 'tmp'), home = path.join(base, 'home'), scratch = path.join(base, 'scratch');
+    for (const d of [tmp, home, scratch]) fs.mkdirSync(d, { recursive: true });
+    const later = Date.now() + 72 * 3600e3, live = later / 1000;
+    const box = path.join(tmp, 'tool-mirrors');
+    const child = (k, bytes, t) => { fs.mkdirSync(path.join(box, k), { recursive: true }); const p = path.join(box, k, 'blob'); fs.writeFileSync(p, ''); fs.truncateSync(p, bytes); if (t) fs.utimesSync(p, t, t); };
+    child('old-a', 10, null); child('old-b', 10, null); child('fresh', 10, live);
+    fs.utimesSync(box, live, live);
+    const at = () => scan({ fleet: { projects: {} }, idleH: 24, tempDays: 7, scratch, tmp, home, now: later });
+    const small = at();
+    assert.deepEqual(small.map((r) => r.kind), [], 'container in use: no remove-temp; stale children under 1 GB: no row');
+    child('old-a', 600e6, null); child('old-b', 600e6, null); child('fresh', 600e6, live);
+    fs.utimesSync(box, live, live);
+    const c = at();
+    assert.deepEqual(c.map((r) => r.kind), ['temp-container']);
+    assert.equal(c[0].count, 2, 'the fresh child is not counted');
+    assert.equal(c[0].class, 'operator');
+    assert.ok(c[0].bytes >= 1.2e9 && c[0].bytes < 1.3e9, String(c[0].bytes));
+  } finally { fs.rmSync(base, { recursive: true, force: true }); }
+});
+
+test('modelWaste: stale partials and unreferenced Ollama blobs, never a referenced blob or a live download', () => {
+  const base = fs.mkdtempSync(path.join(os.tmpdir(), 'hdisk-'));
+  try {
+    const now = Date.now(), old = (now - 100 * 3600e3) / 1000;
+    const hf = path.join(base, 'hf', 'hub', 'models--x', 'blobs');
+    fs.mkdirSync(hf, { recursive: true });
+    for (const [n, t] of [['a.incomplete', old], ['b.incomplete', now / 1000], ['c', old]]) { const f = path.join(hf, n); fs.writeFileSync(f, 'xx'); fs.utimesSync(f, t, t); }
+    const part = modelWaste(path.join(base, 'hf'), now);
+    assert.deepEqual(part.map((w) => [w.kind, w.count]), [['model-partial', 1]], 'only the stale partial, found inside an HF blobs/');
+
+    const oll = path.join(base, 'ollama');
+    fs.mkdirSync(path.join(oll, 'blobs'), { recursive: true });
+    fs.mkdirSync(path.join(oll, 'manifests', 'r', 'lib', 'm'), { recursive: true });
+    const keep = 'sha256-' + 'a'.repeat(64), orphan = 'sha256-' + 'b'.repeat(64);
+    for (const b of [keep, orphan]) { const f = path.join(oll, 'blobs', b); fs.writeFileSync(f, ''); fs.truncateSync(f, 1.1e9); }
+    fs.writeFileSync(path.join(oll, 'manifests', 'r', 'lib', 'm', 'tag'), JSON.stringify({ layers: [{ digest: 'sha256:' + 'a'.repeat(64) }] }));
+    const w = modelWaste(oll, now);
+    assert.deepEqual(w.map((x) => [x.kind, x.count]), [['model-orphan-blobs', 1]]);
+    fs.writeFileSync(path.join(oll, 'manifests', 'r', 'lib', 'm', 'tag2'), JSON.stringify({ layers: [{ digest: 'sha256:' + 'b'.repeat(64) }] }));
+    assert.deepEqual(modelWaste(oll, now), [], 'every blob referenced: no row');
+  } finally { fs.rmSync(base, { recursive: true, force: true }); }
 });

@@ -41,10 +41,15 @@
  *                --temp-days, or 48 h and at least 100 MB; past that age a checkout there (`.git`
  *                at its top) is judged by the scratch checkout rules. Name families with hundreds of
  *                members become one `operator` row (temp-leak): a test suite that never
- *                removes its mkdtemp dirs, to be fixed where it is written.
+ *                removes its mkdtemp dirs, to be fixed where it is written. A top-level temp
+ *                dir still in use whose child dirs idle 48 h+ total 1 GB is one `operator` row
+ *                (temp-container): per-run leftovers its tool never prunes.
  *   models       local model stores (Ollama, Hugging Face, LM Studio, torch, whisper caches)
  *                over 1 GB: `operator`, report-only (operator 2026-10-15: no local models on
- *                this machine, so a store growing back is news).
+ *                this machine, so a store growing back is news), unless .machine.local.json says
+ *                `"localModels": "wanted"`. Waste inside those stores and any `modelRoots` listed
+ *                there is `operator` either way: `*.incomplete` partials (model-partial) and
+ *                Ollama blobs no manifest references (model-orphan-blobs).
  *
  * `hands-off`: anything with a write or creation inside --idle-hours (`.git/index` excluded:
  * any scanner's `git status` refreshes it). Deletion goes through scripts/lib/safe-remove.mjs:
@@ -273,7 +278,7 @@ export function scratchRootOf(fleetOrRoot) {
 }
 
 /** The whole plan. `tmp` and `home` default to this machine's; tests pass fixtures. Never writes. */
-export function scan({ fleet, idleH, tempDays, scratch, now = Date.now(), tmp = os.tmpdir(), home = os.homedir() }) {
+export function scan({ fleet, idleH, tempDays, scratch, now = Date.now(), tmp = os.tmpdir(), home = os.homedir(), models = {} }) {
   const rows = [];
   const homes = fleetHomes(fleet);
   const add = (area, abs, m, c, extra = {}) => rows.push({ area, path: abs, bytes: m.bytes, ageH: Number.isFinite(ageOf(m, now)) ? +ageOf(m, now).toFixed(1) : null, ...c, ...extra });
@@ -334,11 +339,27 @@ export function scan({ fleet, idleH, tempDays, scratch, now = Date.now(), tmp = 
   const addTemp = (abs, isDir, name, kind) => {
     let m; try { m = entryMeasure(abs, !isDir); } catch { return; }
     const c = classifyTemp({ ageH: ageOf(m, now), bytes: m.bytes }, { tempDays, idleH });
-    if (!c) return;
+    if (!c) { if (isDir && kind === 'remove-temp') staleContainer(abs); return; }
     if (isDir && fs.existsSync(path.join(abs, '.git'))) {
       const f = checkoutFacts(abs, homes);
       add('temp', abs, m, classifyCheckout({ name, ageH: ageOf(m, now), ...f }, { idleH }), { head: f.head, mainRepo: f.mainRepo });
     } else add('temp', abs, m, { ...c, kind }, { isFile: !isDir });
+  };
+  // A temp dir one tool reuses per run (bp's lens-serve keeps one mirror per worktree under
+  // <tmp>/bp-lens) is touched by every run, so its own age never passes the floor while the
+  // children of gone worktrees pile up: 15.8 GB of 30 orphan mirrors on 2026-11-02. Its stale
+  // children are reported, never deleted: only the owning tool knows which child is still wanted.
+  const staleContainer = (abs) => {
+    let kids; try { kids = fs.readdirSync(abs, { withFileTypes: true }); } catch { return; }
+    let bytes = 0, count = 0, newest = 0;
+    for (const k of kids) {
+      if (!k.isDirectory() || k.isSymbolicLink()) continue;
+      const km = measure(path.join(abs, k.name));
+      const kAge = ageOf(km, now);
+      if (kAge < Math.max(48, idleH)) continue;
+      bytes += km.bytes; count++; newest = Math.max(newest, km.newestMs || 0);
+    }
+    if (bytes >= 1e9) rows.push({ area: 'temp', path: abs, bytes, ageH: newest ? +((now - newest) / H).toFixed(1) : null, count, class: 'operator', kind: 'temp-container', reason: `${count} child dirs untouched 48 h+ inside a dir still in use: per-run leftovers its tool never prunes; fix the tool, or delete the stale children` });
   };
   const claudeTmp = path.join(tmp, 'claude');
   const names = [];
@@ -360,13 +381,67 @@ export function scan({ fleet, idleH, tempDays, scratch, now = Date.now(), tmp = 
   }
   for (const [family, n] of leakFamilies(names)) rows.push({ area: 'temp', path: path.join(tmp, family), class: 'operator', kind: 'temp-leak', reason: `${n} entries named like this: a process (usually a test suite) never removes its temp dirs`, bytes: null, ageH: null, count: n });
 
-  // model stores
-  for (const d of [path.join(home, '.ollama', 'models'), path.join(home, '.cache', 'huggingface'), path.join(home, '.cache', 'lm-studio'), path.join(home, '.lmstudio', 'models'), path.join(home, '.cache', 'torch'), path.join(home, '.cache', 'whisper')]) {
-    if (!fs.existsSync(d)) continue;
+  // model stores. The size row is news only where the operator wants no local models (the
+  // 2026-10-15 ruling); a machine that hosts them on purpose says `"localModels": "wanted"` in
+  // .machine.local.json. Waste inside any store is reported either way: an abandoned partial
+  // download, or Ollama blobs no manifest references (2026-11-02, Lynx: 47 GB of `.incomplete`
+  // and a 40 GB blob store whose manifests had been deleted).
+  const stores = [path.join(home, '.ollama', 'models'), path.join(home, '.cache', 'huggingface'), path.join(home, '.cache', 'lm-studio'), path.join(home, '.lmstudio', 'models'), path.join(home, '.cache', 'torch'), path.join(home, '.cache', 'whisper')];
+  for (const d of stores) {
+    if (!fs.existsSync(d) || models.wanted) continue;
     const m = measure(d);
     if (m.bytes >= 1e9) add('models', d, m, { class: 'operator', kind: 'model-store', reason: 'local model store (operator 2026-10-15: none wanted on this machine)' });
   }
+  for (const root of [...stores, ...(models.roots ?? [])]) for (const w of modelWaste(root, now)) rows.push({ area: 'models', class: 'operator', ...w });
   return rows;
+}
+
+/**
+ * Regenerable-or-dead bytes inside a model store: `*.incomplete` partial downloads (Hugging Face)
+ * untouched 72 h, and an Ollama store (a `blobs/` beside a `manifests` dir) whose manifests name none
+ * of its blobs. Both are operator rows: a model is the operator's call even when it is waste.
+ */
+export function modelWaste(root, now = Date.now()) {
+  const out = [];
+  if (!fs.existsSync(root)) return out;
+  let partial = 0, partialN = 0;
+  const ollama = [];
+  const stack = [root];
+  while (stack.length) {
+    const d = stack.pop();
+    let es; try { es = fs.readdirSync(d, { withFileTypes: true }); } catch { continue; }
+    const isOllama = es.some((e) => e.isDirectory() && e.name === 'blobs') && es.some((e) => e.isDirectory() && /^manifests/.test(e.name));
+    if (isOllama) ollama.push(d);
+    for (const e of es) {
+      const p = path.join(d, e.name);
+      if (e.isSymbolicLink()) continue;
+      // an Ollama blobs/ holds only sha256-* layers; a Hugging Face hub blobs/ holds its partials
+      if (e.isDirectory()) { if (!(isOllama && e.name === 'blobs')) stack.push(p); continue; }
+      if (!e.name.endsWith('.incomplete')) continue;
+      try { const s = fs.lstatSync(p); if ((now - s.mtimeMs) / H >= 72) { partial += s.size; partialN++; } } catch { /* gone */ }
+    }
+  }
+  if (partialN) out.push({ path: root, bytes: partial, ageH: null, count: partialN, kind: 'model-partial', reason: `${partialN} partial download(s) (*.incomplete) untouched 72 h+: an interrupted pull; delete them` });
+  for (const store of ollama) {
+    const refs = new Set();
+    const ms = [];
+    for (const e of fs.readdirSync(store, { withFileTypes: true })) if (e.isDirectory() && /^manifests/.test(e.name)) ms.push(path.join(store, e.name));
+    while (ms.length) {
+      const d = ms.pop();
+      for (const e of fs.readdirSync(d, { withFileTypes: true })) {
+        const p = path.join(d, e.name);
+        if (e.isDirectory()) { ms.push(p); continue; }
+        try { for (const x of fs.readFileSync(p, 'utf8').match(/sha256[:-][0-9a-f]{64}/g) ?? []) refs.add(x.replace(':', '-')); } catch { /* unreadable manifest: counts as none */ }
+      }
+    }
+    let bytes = 0, n = 0;
+    for (const b of fs.readdirSync(path.join(store, 'blobs'), { withFileTypes: true })) {
+      if (!b.isFile() || refs.has(b.name)) continue;
+      try { bytes += fs.lstatSync(path.join(store, 'blobs', b.name)).size; n++; } catch { /* gone */ }
+    }
+    if (bytes >= 1e9) out.push({ path: path.join(store, 'blobs'), bytes, ageH: null, count: n, kind: 'model-orphan-blobs', reason: `${n} Ollama blob(s) no manifest references: a removed model's layers; delete them (\`ollama rm\` normally does)` });
+  }
+  return out;
 }
 
 // ---------------------------------------------------------------------------- apply
@@ -517,7 +592,9 @@ function main() {
   }
 
   const scratch = path.resolve(opt('scratch', scratchRootOf(fleet)));
-  const rows = scan({ fleet, idleH, tempDays, scratch });
+  let machineCfg = {}; try { machineCfg = JSON.parse(fs.readFileSync(path.join(ROOT, '.machine.local.json'), 'utf8')); } catch { /* none: defaults */ }
+  const models = { wanted: machineCfg.localModels === 'wanted', roots: (machineCfg.modelRoots ?? []).map((r) => path.resolve(r)) };
+  const rows = scan({ fleet, idleH, tempDays, scratch, models });
   let freeBytes = null;
   try { const s = fs.statfsSync(scratch && fs.existsSync(scratch) ? scratch : os.homedir()); freeBytes = s.bavail * s.bsize; } catch { /* unknown */ }
   const plan = { generatedAt: new Date().toISOString(), idleHours: idleH, tempDays, scratch, freeBytes, rows };

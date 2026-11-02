@@ -3,7 +3,7 @@ name: hygiene
 description: "Start-of-day fleet sweep before any development: scan every project registered on this machine for open pull requests, merged or abandoned branches and worktrees, a red default branch, and open GitHub security alerts (code scanning, secret scanning, Dependabot), plus invalid Claude Code project settings via `claude doctor`, and the disk debris agent runs leave on the machine (landed scratch clones, build output, stale compiler caches, session and test-fixture temp). Cleans up what is mechanical itself, then dispatches one Sonnet worker per project to ship, repair, merge, delete or fix the rest onto main/master, and hands back only what needs a human. Use at the start of a day, when branches, PRs and alerts have piled up across the fleet, or when the disk is filling."
 category: ai-native
 memory: project
-version: 1.3.0
+version: 1.4.0
 tags: fleet, hygiene, pull-requests, branches, worktrees, security-alerts, ship, dispatch, sonnet-workers, start-of-day
 ---
 
@@ -156,6 +156,15 @@ temp in full, because a liveness gate on a deletion has to see every file). Spot
 `remove-scratch-checkout` row from git (`git -C <dir> rev-list --all --not origin/HEAD`, `git -C <dir>
 status --porcelain`; empty output means every ref is on the default branch) before trusting the class.
 
+**Escalate to the deep pass by free space, not by request.** Compare `disk.md`'s free space
+with the last run's `disk.json` (`freeBytes`) and the last deep pass's result in LESSONS. If it fell
+100 GB or more, or the drive is under 25% free, run the deep pass's growth walk in this run, in the
+background from Phase 1 (5 min for 2.3 M files on Lynx), from the date of the last good sweep. The
+morning lane only sees the scratch root, temp and fleet `incremental/`. On 2026-11-02 it found
+10 GB while the drive had lost 366 GB in 11 days, and the walk then found 131 GB more to reclaim.
+Put the families it finds to the operator in **one** multi-select question, each with GB, age
+and gate, while the workers run. Don't wait for the workers to finish before asking.
+
 `/hygiene scan` ends here: print the table and the operator list.
 
 ## Debris - what counts and what never does
@@ -188,8 +197,8 @@ is the instrument for that surface; it writes `disk.json`/`disk.md` beside `plan
 |---|---|---|
 | scratch root (`<drive>/t`) | a checkout idle past `--idle-hours` whose HEAD is landed (worktree: on another ref of its repo; clone: every commit on its remote's default branch, or each commit not there has its patch-id in its fleet home) and whose dirty paths are noise only (`next-env.d.ts`, `*.generated.ts`, untracked husky shims, a whitespace or line-ending diff); a build-output folder (`*target*`, `tgt*`, `cargo-target-*`) once idle | a checkout with WIP or unlanded commits; a clone whose work sits only on a non-default remote-tracking ref (`landed only on remote-tracking refs (unverified without network)`: the lane never fetches, so `origin/<branch>` may name a branch the server deleted when its PR closed unmerged, and the clone holds the only copy); any `hyg-*` entry (the dead-worker rule); an unknown folder after `--temp-days` |
 | build caches | cargo `incremental/` crate dirs in fleet checkouts untouched past `--idle-hours`; an out-of-tree build-output sibling of a checkout after `--temp-days` | the same sibling before `--temp-days` |
-| temp | a user-temp entry or a Claude session dir untouched `--temp-days` (7), or 48 h and 100 MB, and never inside the `--idle-hours` floor; a checkout there (a `.git` at its top) gets the scratch checkout rules above instead of the age rule | `temp-leak`: a name family with hundreds of members - a suite that never removes its `mkdtemp` dirs; fix it in that repo |
-| models | - | a local model store over 1 GB (operator 2026-10-15: none wanted on this machine) |
+| temp | a user-temp entry or a Claude session dir untouched `--temp-days` (7), or 48 h and 100 MB, and never inside the `--idle-hours` floor; a checkout there (a `.git` at its top) gets the scratch checkout rules above instead of the age rule | `temp-leak`: a name family with hundreds of members - a suite that never removes its `mkdtemp` dirs; fix it in that repo. `temp-container`: a temp dir still in use whose child dirs idle 48 h+ add up to 1 GB (a tool that keeps one dir per run and never prunes it, e.g. bp's `bp-lens` mirrors) |
+| models | - | a local model store over 1 GB (operator 2026-10-15: none wanted), unless `.machine.local.json` says `"localModels": "wanted"` (Lynx). On every machine: `model-partial` (`*.incomplete` downloads untouched 72 h) and `model-orphan-blobs` (Ollama blobs no manifest references), in the standard stores and the machine's `modelRoots` |
 
 Everything inside `--idle-hours` is `hands-off` (`.git/index` is not activity: scanners refresh
 it). Deletion goes through `scripts/lib/safe-remove.mjs`, which removes a symlink or junction as
@@ -205,13 +214,14 @@ floor 0, kept entries printed with the reason. curator's night does this per cla
 `/hygiene disk deep` adds the **deep pass** for a nearly full drive, following
 `references/disk-deep-pass.md`. It starts with `tools/growth-walk.mjs`, which totals what
 was written since the last good sweep (cleaner rules miss most of it), then the MangoDisk CLI
-(`<tools>/mangodisk-cli`) measures every development pool read-only: whole cargo `target/`s, node and Unreal build
+(`<tools>/mangodisk-cli`, where installed; not on Lynx) measures every development pool read-only: whole cargo `target/`s, node and Unreal build
 output, package-manager caches, WSL and Docker disks. The director then reclaims what
 regenerates, each pool behind its own liveness gate and through `safe-remove` or the
 tool's own prune command. Never run MangoDisk's own `--apply`: its project rules delete a
 whole `target/` or `node_modules` with no liveness check. A whole `target/` in a fleet
 checkout, Personas-app worktrees and WSL/Docker compaction stay operator rows.
-2026-10-22: 54 GB free -> 546 GB (the growth walk found 465 GB of it).
+2026-10-22: 54 GB free -> 546 GB (the growth walk found 465 GB of it). 2026-11-02 (Lynx): 180 GB
+-> 300 GB, of which the deep pass freed 131 GB in four families (see the reference).
 
 ## Phase 2 - Mechanical
 

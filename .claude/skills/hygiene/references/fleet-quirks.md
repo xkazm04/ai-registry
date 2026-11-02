@@ -32,10 +32,18 @@ when a run proves it stale. Slugs match `projects.json`.
   "fails under the hook, passes by hand" is the same bug until proven otherwise.
 - Every SHA in the report is copied from git output, never typed: kp 2026-09-19 reported a
   PR head whose second half was invented.
-- Majors that are not bumps, fleet-wide as of 2026-09-26: **ESLint 10** breaks
-  `eslint-plugin-react` (bundled by `eslint-config-next`, no release supports it -
-  `contextOrFilename.getFilename is not a function`); **TypeScript 7** is the native-port line
-  without the classic compiler API and outside `@typescript-eslint`'s peer range; **sqlx 0.9**
+- Majors that are not plain bumps (2026-11-02 status). Re-check upstream before leaving one open:
+  the operator wants them landed once that is possible.
+  - **ESLint 10:** lands with `eslint-config-next` and `next` 16.4.4. Those bump
+    `eslint-plugin-react-hooks` to 7.1, whose compiler rules add about 50 errors, so pin it with
+    an `overrides` entry at 7.0.1 (pof #24). With config 16.3.3 it still fails with
+    `contextOrFilename.getFilename is not a function`.
+  - **TypeScript 7** at the root is still blocked: `typescript-eslint` 8.72 (canary too) peers
+    `<6.1.0`. npm resolves that peer from the root `typescript`, so an `npm:typescript@6` alias
+    fails with ERESOLVE. A package without typescript-eslint, such as pof `tools/pof-mcp`, takes
+    TS 7 and its `tsc` bin. The only fix needed there was `"types": ["node"]`, because TS 7 no
+    longer auto-includes `@types/*` (pof #33).
+  - **sqlx 0.9**
   rejects every non-`'static` query string (`SqlSafeStr`), turning the bump into a per-site
   injection audit (tracklight 90 sites, pumper 31). Comment the located cause, leave open.
 - A dependabot PR's recorded CI failure can be weeks stale (tracklight #22 was 52 commits

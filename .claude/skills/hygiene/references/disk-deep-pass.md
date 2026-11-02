@@ -36,6 +36,18 @@ Recurring growth families found 2026-10-22 (all were deleted on operator approva
 | cargo builds inside Claude session scratchpads (`Temp/claude/<proj>/<session>/scratchpad/target`, `cpa/target`, `target-mut`) | 28 GB | `target*` folders under a scratchpad |
 | per-wave git-archive exports in a scratchpad (`w<N>-export`, `w<N>-tsc`, `final-*`, `merged-*`) | 15 GB | 0.6 GB copies of the repo, one per wave |
 
+Families found 2026-11-02 on Lynx (180 GB free; all four deleted on operator approval, 131 GB):
+
+| family | size | how to recognise it |
+|---|---|---|
+| abandoned Hugging Face partial downloads in ComfyUI's cache (`models/.cache/huggingface/download/**/*.incomplete`) | 47 GB in 35 files | `*.incomplete`, mtime days old; `hygiene-disk` now reports them (`model-partial`) |
+| Ollama blobs whose manifests were deleted (`ai/ollama/models/blobs`, residue of `ollama rm` run against another store) | 40 GB | a `blobs/` whose `manifests*` reference none of it; `model-orphan-blobs`. Find the live store first: the running server's `OLLAMA_MODELS`, else `~/.ollama/models` |
+| cargo `incremental/` of a checkout that is not in this machine's fleet (personas on Lynx) | 31.5 GB | the morning lane prunes `incremental/` only in `projects.json` checkouts; same gate (no cargo/rustc, idle) |
+| bp `lens-serve` build mirrors of removed worktrees (`<tmp>/bp-lens/<worktree>-<sha1(path)[0:8]>`) | 12.7 GB of 15.8 | a mirror whose name matches no `git worktree list` path hashed the way lens-serve does; `temp-container` now reports the parent |
+
+On a machine that hosts models on purpose, a model is not waste. List the biggest files
+(`find <root> -size +1G`) and ask only about partials and orphans, never the installed set.
+
 Check registration in node, comparing against the `--porcelain` paths. `grep -i` against a
 variable aborted with exit 134 here, which silently skipped the check.
 
@@ -43,6 +55,9 @@ Run it under the same claim as `/hygiene disk` (`/hygiene disk deep`). It is a d
 task. No workers.
 
 ## 1. Analyzer: MangoDisk CLI (read-only)
+
+Optional. It is not installed on every machine (absent on Lynx 2026-11-02). Without it, the
+growth walk plus subtree walks (`walk <subdir>` as its own root, in parallel) found every pool.
 
 Installed 2026-10-22 from release v1.2.0 (GPL-3.0, github.com/harry0703/MangoDisk). The
 binaries are signed by Apowersoft Ltd and the CLI crate has no network code.
