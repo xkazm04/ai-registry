@@ -5,7 +5,7 @@ memory: project
 tags: onboarding, blueprint, app-structure, lens-scan, product-tree, benchmark, providers
 description: "Onboard any codebase into the bp product blueprint. Checks which artifacts the repo already has (context map, app-structure v3 map, events, lens-scan store, registration) and produces only what is missing: a v3 map with domains, capabilities, features and evidence-based stages; an events log from git history; static metrics in the lens-scan store; LLM judgement facets for every lens a judge can measure (development, security, design and the manifest-judged business, operations, quality), proposals and coverage; then validates with bp's own validator and registers the repo so bp's project switcher shows it. Deterministic work runs in scripts/adopt.mjs; the model only names the product tree and judges code, in batches that can fan out or be benchmarked across providers with scripts/bench.mjs. Invoke with /adopt-bp [<repo path>] [--check] [--slug s --name n]."
 argument-hint: "[<repo path>] [--check] [--slug <slug>] [--name <name>] [--bp <bp checkout>]"
-version: 1.5.0
+version: 1.6.0
 ---
 
 # adopt-bp - a repo in, a blueprint out
@@ -34,6 +34,7 @@ changed; run `/lens-scan` to re-measure, propose against standards and execute w
 | events (feature-added, stage) from git history | `<repo>/.ai/lens-scan/events.jsonl` (append-only) | events |
 | lens-scan store: runs, measurements, proposals, coverage, activity | `<repo>/.ai/lens-scan/scan.db` (lens-scan's DDL, identical to `<bp>/docs/standard/lens-scan-store.sql`) | measure + judge, through lens-scan `store.mjs` |
 | working files (inventory, tree and its per-domain files, batches, judgement, report) | `<repo>/.ai/lens-scan/work/` | all |
+| the run's narration, one JSON line per decision or step (append-only) | `<repo>/.ai/lens-scan/work/progress.jsonl` | you, as you go |
 | `.ai/lens-scan/` in `.gitignore` (left alone when git already ignores it, e.g. via `.git/info/exclude`; the exclude file instead when `.gitignore` has uncommitted edits); the product in `<bp>/bp.products.local.json`; a lens-scan overlay `.claude/lens-scan/config.md` when absent | repo, bp | register |
 | `ADOPT.md` summary | `<repo>/.ai/lens-scan/` | report |
 
@@ -41,6 +42,21 @@ Nothing else in the repo changes. Never commit in the target repo unless the ope
 tree may carry another session's work.
 
 ## The run
+
+**Narrate as you go.** A watcher (bp's onboarding screen) draws the run from `work/progress.jsonl` while it
+happens, so say what you decide the moment you decide it. Append one JSON object per line with the shell
+(`echo '<json>' >> .ai/lens-scan/work/progress.jsonl`; no single quotes inside), never a whole-file write,
+never emptied, never saved up for later:
+
+| When | Line |
+|---|---|
+| a domain is decided, before you start on the next one | `{"kind":"domain","slug":"billing","name":"Billing","summary":"One sentence.","capabilities":[{"slug":"invoices","name":"Invoices"}]}` |
+| you start a step of phase A or B, and at least every 2 minutes while you work | `{"kind":"step","phase":"product-tree","text":"Reading the billing code to name it","next":"Decide the Billing domain"}` |
+| you dispatch a judgement batch, before its subagent runs | `{"kind":"batch","n":2,"of":5,"features":["invoice-list","dunning-mail"]}` |
+
+`phase` is `product-tree` or `judge`; `text` (what you do now) and `next` (what comes after, or `null`) are one plain
+sentence each, for a person watching. Steps worth a line: reading a code area to name it, settling stages, writing
+the tree, starting a batch, merging.
 
 0. **Check.** `adopt.mjs check`. It lists each artifact as ok / missing / stale and what is needed.
    `--check` on the invocation stops here and reports. On a rescan (a map exists), every later step
@@ -65,12 +81,12 @@ tree may carry another session's work.
 1. **Seed.** `adopt.mjs seed [--slug s --name n]`: skeleton v3 map (code tree from the context map,
    the six built-in lenses copied from bp) and `work/inventory.json` (per context: files, lines,
    tests, entry points, first/last commit).
-2. **Phase A - product tree (you).** Follow `references/product-tree.md`: as soon as you have decided a
-   domain, write it with its capabilities to `work/product-tree.d/<NN>-<domain-slug>.json` (one file per
-   domain, in the tree's shape); then write `work/product-tree.json`, then `adopt.mjs tree`. It refuses a
-   broken tree by name; fix and rerun. The domain files are a progress signal for a watcher (bp's build-up
-   draws each domain the moment its file lands, minutes before the merged tree); `tree` reads only
-   `product-tree.json`.
+2. **Phase A - product tree (you).** Follow `references/product-tree.md`. Decide the domains one at a
+   time: the moment one is decided, append its `domain` line to `work/progress.jsonl` and write it with its
+   capabilities to `work/product-tree.d/<NN>-<domain-slug>.json`, THEN start on the next domain. Never batch
+   them and never wait for the whole tree: a domain written with the tree tells the watcher nothing early.
+   Then write `work/product-tree.json`, then `adopt.mjs tree`. It refuses a broken tree by name; fix and
+   rerun. `tree` reads only `product-tree.json`; the line and the file are the watcher's signal.
 3. **Events.** `adopt.mjs events`: feature-added at the first commit of a feature's files, a stage
    event at `stage_since` (or the last commit). Append-only.
 4. **Measure.** `adopt.mjs measure`: lens-scan's `footprint.mjs --lens all` per feature
@@ -82,7 +98,8 @@ tree may carry another session's work.
    `lenses[]`, the instructions and metric fields of every lens its manifest measures by judgement -
    business, operations, quality and any project lens), then follow
    `references/judgement.md` for every `work/batches/NN.json`, writing `work/judgement/NN.json`.
-   Fan out to subagents when your harness has them. Then `adopt.mjs judge --model <your model id>`:
+   Fan out to subagents when your harness has them. Append a `batch` line as you dispatch each batch (or
+   start it yourself), and `step` lines while the batches run. Then `adopt.mjs judge --model <your model id>`:
    one lens-scan measure run per lens (the judgement lenses included), `standardsPct` derived from that run's coverage rows
    (lens-scan's rule; no standard, no number), one propose run that never re-proposes an open or
    declined item. A judgement also sets each lens's choice fields that the manifest declares (design

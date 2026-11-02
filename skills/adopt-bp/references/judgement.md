@@ -97,3 +97,12 @@ the map keeps the latest values).
 **Fan out when you can.** Batches are independent: if your harness has subagents, judge batches in
 parallel (one subagent per 1-3 batches) and give each this file plus its batch files. If it has none,
 judge them in order, biggest first (batch 01 holds the largest features).
+
+**Say each batch as it starts** (SKILL.md "Narrate as you go"). When you dispatch a batch - before its
+subagent runs, or as you start it yourself - append its line, `n` of `of` and the slugs it judges, then a
+`step` line; while batches run, a `step` line at least every 2 minutes (a merge, a batch landing):
+
+```sh
+echo '{"kind":"batch","n":1,"of":3,"features":["ability-blueprint-editor","ability-runtime"]}' >> .ai/lens-scan/work/progress.jsonl
+echo '{"kind":"step","phase":"judge","text":"Judging batch 1 of 3: the editor and the runtime","next":"Dispatch batch 2"}' >> .ai/lens-scan/work/progress.jsonl
+```

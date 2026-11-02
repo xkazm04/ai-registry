@@ -1,8 +1,8 @@
 # Phase A - the product tree
 
 You read `work/inventory.json` (one row per context: what it is, its files, lines, tests, entry points,
-first/last commit), write each domain to `work/product-tree.d/` as you decide it, and then write
-`work/product-tree.json`. You are naming the product as its users and
+first/last commit), announce and write each domain as you decide it (`work/progress.jsonl`,
+`work/product-tree.d/`), and then write `work/product-tree.json`. You are naming the product as its users and
 its team would talk about it, not restating the folder layout.
 
 ## Output (exact shape)
@@ -34,11 +34,19 @@ its team would talk about it, not restating the folder layout.
 }
 ```
 
-## One file per domain, as you decide it
+## One line and one file per domain, as you decide it
 
-The moment a domain is decided (its slug, name, summary and capabilities), write it to
-`work/product-tree.d/<NN>-<domain-slug>.json`, `NN` its order from `01`, before you move on to the next
-domain and before `work/product-tree.json`:
+Work domain by domain. The moment a domain is decided (its slug, name, summary and capabilities), and
+before you open any code for the next one:
+
+1. append its line to `work/progress.jsonl` (SKILL.md "Narrate as you go"):
+
+```sh
+echo '{"kind":"domain","slug":"design-studio","name":"Design Studio","summary":"One sentence: what a user does here.","capabilities":[{"slug":"ability-design","name":"Ability design"}]}' >> .ai/lens-scan/work/progress.jsonl
+echo '{"kind":"step","phase":"product-tree","text":"Decided Design Studio","next":"Read the runtime code to name the next domain"}' >> .ai/lens-scan/work/progress.jsonl
+```
+
+2. write it to `work/product-tree.d/<NN>-<domain-slug>.json`, `NN` its order from `01`:
 
 ```jsonc
 {
@@ -50,10 +58,12 @@ domain and before `work/product-tree.json`:
 ```
 
 The same objects as in the tree (features are not needed here). Empty `work/product-tree.d/` first when
-you write a new tree, so a rescan never mixes an old domain in. These files are a progress signal: bp
-watches the directory and draws each domain as it lands (a real run decides its domains 40 to 110 s
-before the merged tree). `adopt.mjs tree` never reads them; `product-tree.json` stays the one input, and
-it must hold every domain the files named.
+you write a new tree, so a rescan never mixes an old domain in (`progress.jsonl` is never emptied: it is
+append-only). The line and the file are a progress signal: bp draws each domain as it lands, minutes
+before the merged tree - but only if each is written when that domain is decided. Writing them all at the
+end, just before the tree, is the failure this section exists to prevent. `adopt.mjs tree` never reads
+them; `product-tree.json` stays the one input, and it must hold every domain they named. Between domains,
+a `step` line every couple of minutes says what you are reading.
 
 ## Rules
 
