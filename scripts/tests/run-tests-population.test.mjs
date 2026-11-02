@@ -89,6 +89,18 @@ test('every declared optional-dependency file exists and is in the population', 
   for (const c of listed.couldNotRun) assert.ok(listed.declared[c.file], `${c.file} skipped without a declaration`);
 });
 
+test('every test file that statically imports node:sqlite declares it, so Node 20 CI skips it instead of failing', () => {
+  // store-v5.test.mjs (lens-scan 1.14.0) imported node:sqlite undeclared: green on every Node 24
+  // machine, red on CI's Node 20 for four pushes (2026-10-31..11-02). This catches it locally.
+  const listed = JSON.parse(runTests(['--list']).stdout);
+  const all = [...listed.run, ...listed.couldNotRun.map((c) => c.file)];
+  const STATIC = /^\s*import\s+(?:[^'";]*?\sfrom\s+)?['"]node:sqlite['"]/m;
+  const users = all.filter((f) => STATIC.test(fs.readFileSync(path.join(ROOT, f), 'utf8')));
+  assert.ok(users.length > 0, 'the probe found no node:sqlite importer at all: the pattern is broken');
+  const undeclared = users.filter((f) => !(listed.declared[f] ?? []).some((d) => d.dep === 'node:sqlite'));
+  assert.deepEqual(undeclared, [], 'declare these in scripts/run-tests.mjs NEEDS');
+});
+
 test('a failing skill test turns the gate red; the clean control is green', () => {
   const red = seed({
     'scripts/tests/ok.test.mjs': PASS,

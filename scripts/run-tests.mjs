@@ -80,7 +80,7 @@ const DEPS = {
 const DEMO_FILM = ['zod', 'node type stripping'];
 const LENS_STORE = ['node:sqlite'];
 // Measured 2026-10-25: Node 24 without zod fails exactly the demo-film five; Node 20
-// fails those five (.ts) and these seven lens-scan files (node:sqlite).
+// fails those five (.ts) and these eight lens-scan files (node:sqlite; store-v5 added 2026-11-02).
 const NEEDS = {
   'skills/demo-film/tests/test_collisions.mjs': DEMO_FILM,
   'skills/demo-film/tests/test_contract.mjs': DEMO_FILM,
@@ -92,6 +92,7 @@ const NEEDS = {
   'skills/lens-scan/tests/steps.test.mjs': LENS_STORE,
   'skills/lens-scan/tests/store-v2.test.mjs': LENS_STORE,
   'skills/lens-scan/tests/store-v4.test.mjs': LENS_STORE,
+  'skills/lens-scan/tests/store-v5.test.mjs': LENS_STORE,
   'skills/lens-scan/tests/store.test.mjs': LENS_STORE,
   'skills/lens-scan/tests/structure.test.mjs': LENS_STORE,
 };
