@@ -1,0 +1,77 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "pcaa-deepen-1103",
+  "skill": "deepen",
+  "skill_version": "1.5.0",
+  "mode": "interactive",
+  "domain": "software-engineering",
+  "started_at": "2026-11-03T19:00:00Z",
+  "ended_at": "2026-11-03T20:30:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 1,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "software-engineering/proof-carrying-agent-actions",
+      "at": "2026-11-03",
+      "engine": "deepen",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "software-engineering/proof-carrying-agent-actions",
+      "technique": "proof-class-bound-to-action-class",
+      "verdict": "better",
+      "mode": "simulation"
+    }
+  ],
+  "files": [
+    "knowledge/software-engineering/llm-agent/evaluation-and-cost/proof-carrying-agent-actions/proof-carrying-agent-actions.md",
+    "knowledge/software-engineering/llm-agent/evaluation-and-cost/proof-carrying-agent-actions/techniques/proof-class-bound-to-action-class.md",
+    "knowledge/software-engineering/llm-agent/evaluation-and-cost/proof-carrying-agent-actions/techniques/evidence-binds-to-the-measured-change.md",
+    "knowledge/software-engineering/llm-agent/evaluation-and-cost/proof-carrying-agent-actions/applications/rust--proof-class-bound-to-action-class.md",
+    "knowledge/software-engineering/llm-agent/evaluation-and-cost/proof-carrying-agent-actions/applications/rust--inconclusive-routes-to-wait.md",
+    "librarian/applied.md",
+    "librarian/subjects/software-engineering/proof-carrying-agent-actions.md",
+    "librarian/domains/software-engineering.md"
+  ],
+  "commits": [
+    {
+      "sha": "38932ee55",
+      "branch": "main",
+      "pathspec": [
+        "knowledge/software-engineering/llm-agent/evaluation-and-cost/proof-carrying-agent-actions",
+        "knowledge/software-engineering/index.json",
+        "rules/ai-registry-software-engineering.md"
+      ]
+    },
+    {
+      "sha": "c55343d3b",
+      "branch": "main",
+      "pathspec": [
+        "librarian/applied.md",
+        "librarian/subjects/software-engineering/proof-carrying-agent-actions.md",
+        "librarian/domains/software-engineering.md"
+      ]
+    },
+    {
+      "sha": "124968a56",
+      "branch": "main",
+      "pathspec": [
+        "catalog.json"
+      ]
+    }
+  ],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "paypal table-verify rust apps at a52d8f6d. Condition: a versioned proof format is a claimant-declared class; the project's own test shows a re-signed v1 downgrade verifies. Simulation better 1/3. Two counter-evidence corrections. 12 maps local, unpushed."
+}
