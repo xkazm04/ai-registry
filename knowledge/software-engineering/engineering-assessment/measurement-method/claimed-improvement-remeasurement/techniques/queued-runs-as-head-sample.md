@@ -27,7 +27,11 @@ once every one of them has finished.
    descendant), not on a branch name. A run triggered "on the branch" builds whatever the
    branch points at when a runner picks it up, which may be a commit two changes later; when
    the platform can only queue by branch, record the commit each run actually built and check
-   it against the change by ancestry before counting it.
+   it against the change by ancestry before counting it. The step that consumed the input
+   writes that record: the build step that checked out the commit, or the generator that loaded
+   the version. A field copied through from the queue request only shows what was asked for.
+   A run can carry the requested identity faithfully while building or loading something else,
+   and its green result then certifies content it never touched.
 3. **Record the batch before the runs exist.** Write the batch — the claim it serves, the run
    identifiers the platform returned, the time — to its own record beside the claim, as each
    run is queued. The batch record *is* the mark that separates triggered runs from organic

@@ -58,9 +58,16 @@ per reason.
 3. **Centre and spread.** Take the median of each side. Read spread from the same samples,
    relative to the median. At three to five samples the range over the median is all the
    sample can support; from roughly eight upward, prefer the interquartile range or the median
-   absolute deviation, which one cold-cache run cannot inflate. Means are the wrong centre: a CI
-   timing series has a heavy right tail of cold caches, contended runners and retries, and one
-   such run moves a mean more than most real changes do.
+   absolute deviation, which one cold-cache run cannot inflate. Means are the wrong centre for
+   a claim about the typical run: a CI timing series has a heavy right tail of cold caches,
+   contended runners and retries, and one such run moves a mean more than most real changes do.
+   The centre is chosen by the quantity the claim class names, in policy and before the claim.
+   A claim about **total spend** (runner-minutes, billed cost) is about a sum, and the tail is
+   part of the bill. A change that removes retries can leave the median where it was and still
+   cut the cost. For that class compare the per-run mean, or the total over equal run counts,
+   and read its uncertainty with a resampling interval rather than a normal approximation. For
+   a claim about the tail itself ("fewer slow runs"), compare an upper quantile, which needs
+   more samples than a median.
 4. **Unmeasurable base.** If the base median is zero or the base samples are all absent, return
    *inconclusive: base unmeasurable*. A zero-duration stage is one the instrument did not see,
    and a relative gain over zero has no denominator — never a perfect base, never an infinite
@@ -78,7 +85,10 @@ per reason.
 6. **Noise exit.** If either side's spread exceeds a fixed multiple of the tolerance — twice is
    a defensible default — return *inconclusive: noisy*, with both spreads. A difference smaller
    than the series' own scatter is not evidence either way, and calling it *not earned* would
-   convict the claimant for the runner fleet.
+   convict the claimant for the runner fleet. This is the plain form of a detectability check:
+   *not earned* is honest only when a gain as large as the tolerance would have shown in these
+   samples. The multiple of two is a house default, not a published constant; a team that
+   measures its series' false-positive rate by comparing base against base sets its own.
 7. **Compare.** Relative change = (head median − base median) / base median, signed by the
    metric's direction so that improvement is positive. Beyond the tolerance: credited.
    Otherwise: not earned, with the reason saying *within tolerance* or *worse*.
@@ -89,10 +99,29 @@ precede both, because a spread over two samples is not a measurement of noise.
 ## Why not a significance test
 
 A rank test over the two samples is a defensible upgrade, and published regression detectors
-use one. It does not replace the steps above: it still needs floors (an exact rank test over
-three samples a side cannot reach conventional significance at all), it still needs the
-zero-base exit, and a significant difference smaller than the tolerance is real and worthless.
+use one. It does not replace the steps above. It still needs floors. An exact rank-sum test
+over three samples a side has twenty equally likely arrangements, so its smallest two-sided p
+is 0.10 and a two-sided test at 0.05 can never pass. One-sided, it reaches exactly 0.05 only at
+perfect separation, and only under a p ≤ α rule. Four a side is the first size that can pass
+two-sided (smallest p about 0.029). It still needs the zero-base exit. And a significant
+difference smaller than the tolerance is real and worthless. A rank-sum test asks whether one
+side tends to be larger. That reads as a shift of the median only when both sides have the same
+shape, and runner fleets change spread as readily as centre, so keep the spread check beside it.
 When one is added, add it as a further gate inside step 7, never as a replacement for the clamp.
+
+## When base and head can be paired
+
+The procedure above compares two independent sets, which is what organic CI traffic gives. When
+the judge controls the measurement it can do better. Run base and head interleaved, in random
+order, on the same machine, as the queued batch's base-batch option does. Or, when both states
+measured the same items (the same jobs, tests or benchmark cases), take the per-item
+differences. Pairing removes the between-machine or between-item variance from the comparison,
+and same-instance interleaving measurably cuts the repetitions a cloud benchmark needs to detect
+a change. The test over per-item differences, and the identity check that has to come before
+it, are
+[paired-per-case-testing](../../../../../llm-observability/quality-scoring/quality-regression-gating/techniques/paired-per-case-testing.md).
+Pair by item identity, never by position. The floors, the zero-base exit and the clamped
+tolerance apply unchanged to the paired differences.
 
 ## The output record
 

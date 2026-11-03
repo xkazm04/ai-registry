@@ -64,6 +64,13 @@ somebody filled in from the only number in sight:
 - **The base figure.** A claim that states its own *before* number offers the judge a
   ready-made base. The base is re-measured from runs the system collected; the claimed
   before is displayed only.
+- **The override.** A judge that ships a force flag has handed one parameter to whoever sends
+  the request, and that is usually the claimant. An override may waive an *evidence* refusal
+  (no run yet, a run too small) on the record, with the flag stored beside the verdict. It
+  never clears a *policy* refusal set by someone else, such as an instrument that has not
+  been calibrated or a ceiling, or the policy only applies to people who do not ask for an
+  exception. Check policy refusals before reading the flag, so the order of checks enforces
+  this, and pin that order with a test.
 
 ## What the figure is good for
 

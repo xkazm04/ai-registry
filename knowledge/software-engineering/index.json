@@ -5,7 +5,7 @@
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 245,
   "techniques": 1970,
-  "applications": 1469,
+  "applications": 1471,
   "laws": 16,
   "categories": [
    "ui-surfaces",
@@ -6104,9 +6104,9 @@
    "subcategory": "measurement-method",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-assessment/measurement-method/claimed-improvement-remeasurement/claimed-improvement-remeasurement.md",
-   "digest": "sha256-b2:7564db62e641d359",
-   "revision": 1,
-   "changedAt": "2026-10-27",
+   "digest": "sha256-b2:8ac049505ef77bbd",
+   "revision": 2,
+   "changedAt": "2026-11-03",
    "techniques": [
     {
      "slug": "change-point-by-ancestry",
@@ -6190,6 +6190,20 @@
      "technique": "three-way-verdict-over-raw-samples",
      "file": "knowledge/software-engineering/engineering-assessment/measurement-method/claimed-improvement-remeasurement/applications/node--three-way-verdict-over-raw-samples.md",
      "verified_on": "2026-10-27"
+    },
+    {
+     "stack": "rust",
+     "technique": "claimant-figure-never-decides",
+     "file": "knowledge/software-engineering/engineering-assessment/measurement-method/claimed-improvement-remeasurement/applications/rust--claimant-figure-never-decides.md",
+     "verified_on": "2026-11-03",
+     "verified_against": "rust@1.96"
+    },
+    {
+     "stack": "rust",
+     "technique": "queued-runs-as-head-sample",
+     "file": "knowledge/software-engineering/engineering-assessment/measurement-method/claimed-improvement-remeasurement/applications/rust--queued-runs-as-head-sample.md",
+     "verified_on": "2026-11-03",
+     "verified_against": "rust@1.96"
     }
    ]
   },

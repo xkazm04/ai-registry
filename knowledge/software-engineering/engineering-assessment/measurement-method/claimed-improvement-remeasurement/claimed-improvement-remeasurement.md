@@ -58,7 +58,14 @@ sequence and neither substitutes for the other.
 compares a head measurement against a recorded baseline in order to *refuse a merge*. This
 subject usually runs after the merge, over organic runs, and its output is *credit*, not a
 block; where a team wants a claimed gain to gate, the gate's mechanics are the neighbour's and
-the verdict it reads is this subject's.
+the verdict it reads is this subject's. Two domain gates already apply the same statistics to
+other quantities:
+[quality-regression-gating](../../../../llm-observability/quality-scoring/quality-regression-gating/quality-regression-gating.md)
+for evaluation scores and
+[perf-regression-gating](../../../../game-production/engine-integration/perf-regression-gating/perf-regression-gating.md)
+for frame cost. A gate puts the burden on the refusal: what it cannot decide, it lets through.
+A credit judge puts the burden on the claim: what it cannot decide, it does not pay. The same
+samples can therefore pass a gate and still be inconclusive here.
 
 ## The judge's inputs are fixed before the claim is read
 
@@ -83,9 +90,12 @@ floor, when the base is zero or unmeasurable so a relative gain has no denominat
 the spread of the samples is wide enough to swallow the claimed effect; it carries the reason
 so the claimant knows whether to wait for more runs or to fix the instrument.
 
-The arithmetic is deliberately plain. Medians, not means, because a CI timing distribution
-has a long right tail — a cold cache, a contended runner, a retried download — and one such
-run drags a mean further than any honest change moves it. Spread read from the same samples,
+The arithmetic is deliberately plain. For a claim about the typical run, medians, not means,
+because a CI timing distribution has a long right tail — a cold cache, a contended runner, a
+retried download — and one such run drags a mean further than any honest change moves it. A
+claim about total spend is the exception the policy names in advance. Runner-minutes and billed
+cost are sums, the tail is part of the bill, and a change that removes retries can cut the cost
+without moving the median. Spread read from the same samples,
 so the noise is this series' own rather than assumed from a global constant, and a series
 whose spread exceeds a multiple of the tolerance is too noisy to decide. A tolerance held in
 reviewed policy and **clamped** to a ceiling there, because anything that proposes a wider one
@@ -143,7 +153,12 @@ advances only to the last run before the first unfinished one:
   repository's traffic, and teaches agents to claim only on busy pipelines. Recording it as
   credited is the opposite fraud. It is a third state with a reason and a path out.
 - **"Compare the means."** One retried network fetch moves a mean by more than most real
-  improvements. Medians and robust spread, or say nothing.
+  improvements. For a duration claim, medians and robust spread, or say nothing. The opposite
+  slip is **"the median settles every claim"**. A cost claim is about a sum, and the median
+  cannot see the retries the change removed.
+- **"Two independent sets are the only design."** When the judge queues the runs itself, base
+  and head interleaved on one machine, or paired over the same items, decide with fewer runs
+  than two unpaired sets.
 - **"A base of zero is a perfect base."** A zero-second base is an instrument that did not
   see the stage, and a relative gain over zero is undefined, not infinite. It is the
   unmeasurable state, and the verdict is inconclusive.
@@ -161,8 +176,10 @@ advances only to the last run before the first unfinished one:
 - The judge reads raw per-run samples it collected itself, for both base and head.
 - Three verdicts, with inconclusive carrying its reason: below floor, base unmeasurable,
   noise wider than the effect.
-- Medians compared, spread read from the same samples, the tolerance from reviewed policy and
+- Medians compared for duration claims and means or totals for spend claims, chosen per claim
+  class in policy; spread read from the same samples; the tolerance from reviewed policy and
   clamped to its ceiling; floors and bands are the measurement-honesty subject's.
+- Paired or interleaved measurement where the judge controls the runs.
 - Base and head are sets defined by commit ancestry; a change point is located the same way,
   by binary search where the runs follow one line of history.
 - Head samples are requested in a recorded batch, judged only once the whole batch finished.
