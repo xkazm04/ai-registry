@@ -80,7 +80,12 @@ Promotion and demotion are different operations with different authorities, and 
 as one adjustable number is the mistake that ruins the mechanism. Promotion is consequential —
 it removes a human from a path — so it is a reviewed change to versioned policy, proposed with
 the record attached, approved by a person who is not the agent, one rung at a time. The machine
-may compute that the bar is cleared and draft the change; it never applies it.
+may compute that the bar is cleared and draft the change; it never applies it. There is one
+bounded exception. A bar a person wrote into reviewed policy may be applied by the store itself,
+but only for a declared, low-criticality class whose actions are reversible and whose record is
+made of people's verdicts, with the tripwire armed first. Even then, the rung it reaches must still show
+each action to a person, and nothing at that rung may leave the system. Promotion to the rung
+that lands a change unread stays a person's act.
 
 Demotion is protective, so it is automatic. A **tripwire** is a model-free rule over observable
 events — the change was reverted, the finding it closed reopened, a guardrail blocked it — that
@@ -134,6 +139,8 @@ demote is read from the gate's own record of what it decided, keyed by an identi
 gate. The link a revert draws to the change it undoes is itself text its author wrote, so a
 revert one agent carries against another agent's work demotes nobody automatically — a person's
 revert counts, and so does an agent's revert of its own work, but a rival's word is not evidence.
+A class computed from the action's own attributes is a claim of the same kind. A later re-file
+can rewrite those attributes, so the gate fixes the class when the verdict is recorded.
 An event that cannot be tied to a gate record demotes nobody and is surfaced as unattributed, and
 a sweep that could not see every event fails rather than reporting none. The attribution rules are
 [demotion-attribution-integrity](./techniques/demotion-attribution-integrity.md).

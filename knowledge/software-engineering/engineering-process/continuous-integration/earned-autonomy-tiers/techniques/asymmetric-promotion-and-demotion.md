@@ -47,6 +47,30 @@ bar is met". The bar being cleared is a reason for a person to look. When the cl
 is ignored the cost is review effort; when it is acted on automatically the cost is that nobody
 decided to remove themselves from the path.
 
+**A rule a person reviewed once is the one bounded exception.** Some designs write the promotion
+bar into reviewed policy and let the store apply it every time a class clears it. That is the
+pattern progressive-delivery controllers use when an analysis run decides whether a canary moves
+to its next step. A person did decide, in advance and once for many promotions, and the design
+can be defended, but only under narrower conditions than the rule above:
+
+- the class is low-criticality and its actions are reversible;
+- the record is verdicts made by people, never figures the agent reports;
+- the demotion tripwire is armed before the step it guards;
+- the class is declared in policy, not minted by whoever files the action;
+- the rung it reaches still shows every action to a person, with a veto window. The rung that
+  lets a change land unread is always promoted by a person;
+- the rung it reaches cannot send anything out of the system, such as a message, a publication or
+  a payment;
+- the bar is a bound, not a raw rate, per
+  [recomputable-promotion-trial](./recomputable-promotion-trial.md).
+
+Tomašev, Franklin and Osindero ([2026](https://arxiv.org/abs/2602.11865)) draw the same line for
+delegated agents. They allow default standing permissions from "a reputation score exceeding a
+trusted threshold" for "routine low-stakes tasks, characterized by low criticality and high
+reversibility", and require "mandatory human-in-the-loop approval" where criticality is high.
+When any one of these conditions fails, the general rule applies: a cleared bar is a reason to
+look.
+
 ## Demotion: a tripwire, immediately, by a fixed amount
 
 A tripwire is a rule over an observable event that lowers standing the moment the event is seen.

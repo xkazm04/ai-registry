@@ -60,8 +60,12 @@ place an unstated assumption turns a figure into a claim, per
    and the threshold work together instead of being tuned against each other. A bar written as
    plain counts — "fifteen accepted, zero reverts" — is a bound too, and its implication should
    be written beside it: zero failures in N bounds the failure rate at roughly three in N at
-   ninety-five percent confidence, so fifteen clean actions say the true rate is below one in
-   five, which may be far looser than the policy author believed.
+   one-sided ninety-five percent confidence (the exact bound, 1 − 0.05^(1/N), is slightly
+   tighter at small N), so fifteen clean actions say the true rate is below one in five, which
+   may be far looser than the policy author believed. A rate bar on a small window hides the
+   same gap. Eighteen of twenty clears a 0.9 raw-rate bar, but its two-sided 95% Wilson lower
+   bound is about 0.70. State which side and which interval the bar uses, or two reviewers
+   recomputing the same record will disagree about whether it cleared.
 5. **The disqualifiers.** Events that block promotion inside the window regardless of the rate —
    any breach-class tripwire, any fabricated proof.
 

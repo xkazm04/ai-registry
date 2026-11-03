@@ -5,7 +5,7 @@
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 245,
   "techniques": 1970,
-  "applications": 1473,
+  "applications": 1475,
   "laws": 16,
   "categories": [
    "ui-surfaces",
@@ -13951,9 +13951,9 @@
    "subcategory": "continuous-integration",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-process/continuous-integration/earned-autonomy-tiers/earned-autonomy-tiers.md",
-   "digest": "sha256-b2:aebaaeb92019b866",
-   "revision": 1,
-   "changedAt": "2026-10-27",
+   "digest": "sha256-b2:099fcd1b5be5fcbf",
+   "revision": 2,
+   "changedAt": "2026-11-03",
    "techniques": [
     {
      "slug": "asymmetric-promotion-and-demotion",
@@ -14045,6 +14045,20 @@
      "technique": "effective-tier-is-the-lowest-bound",
      "file": "knowledge/software-engineering/engineering-process/continuous-integration/earned-autonomy-tiers/applications/node--effective-tier-is-the-lowest-bound.md",
      "verified_on": "2026-10-27"
+    },
+    {
+     "stack": "rust",
+     "technique": "demotion-attribution-integrity",
+     "file": "knowledge/software-engineering/engineering-process/continuous-integration/earned-autonomy-tiers/applications/rust--demotion-attribution-integrity.md",
+     "verified_on": "2026-11-03",
+     "verified_against": "rust@1"
+    },
+    {
+     "stack": "rust",
+     "technique": "effective-tier-is-the-lowest-bound",
+     "file": "knowledge/software-engineering/engineering-process/continuous-integration/earned-autonomy-tiers/applications/rust--effective-tier-is-the-lowest-bound.md",
+     "verified_on": "2026-11-03",
+     "verified_against": "rust@1"
     }
    ]
   },

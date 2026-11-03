@@ -37,7 +37,7 @@ survive a squash and a title does not survive an edit; mint an action identity a
 carry it into the change through a channel the gate checks on arrival, and keep the gate's own
 mapping from that identity to the commits it covers.
 
-## Three attribution traps
+## Four attribution traps
 
 **The carrier's link is itself a claim.** A revert names the change it undoes in text its
 author wrote. When the revert arrives through a second agent's change, that link was written by
@@ -58,6 +58,21 @@ and it must not fall through to a default class.
 lines of three earlier changes, has no single cause. Attribute only where the gate record makes
 the link exact — the reverted change is one gated action — and report the rest for a person to
 attribute. An automatic demotion that guesses has the same cost as one that reads a trailer.
+
+**A class computed from the action is a claim too.** Some gates never store the class. They
+derive it from the action's own attributes, for example a key built from the item's category,
+the scanner that found it and its size, and recompute it whenever a demotion or an agreement
+window needs it. Those attributes can be rewritten. The agent that produced the item re-files it
+on its next pass with a re-scored size, and the record now files a decision under a class that
+never made it. A reversal then demotes whatever class the attributes name today. The class that
+actually decided keeps its standing, and its record never sees the disagreement it earned. Choose
+one of two fixes:
+
+- freeze the attributes that make up the class key when a verdict is recorded, the same rule that
+  already stops a prediction written after the decision from counting;
+- or store the computed key in the gate's decision record and read only that.
+
+Either way, the gate fixes the class at decision time, and the most recent writer cannot move it.
 
 ## The event scan is complete or it fails
 
@@ -82,8 +97,9 @@ attribute it, and a rising unattributed count is itself a defect in the identity
 Attribution is easy to get right on the happy path and easy to break in a refactor. Keep fixtures
 for each trap — a revert of one agent's change carried by another (expected: nobody), a person's
 revert of an agent's change (expected: that agent), a person's change reverted (expected: nobody),
-a trailer that names a class different from the gate's (expected: the gate's), a squashed change
-— and assert the demotion each one should produce. A rule that has only ever been tested on events it should
+a trailer that names a class different from the gate's (expected: the gate's), a squashed change,
+a decided item re-filed with re-scored attributes and then reversed (expected: the class it was
+decided under) — and assert the demotion each one should produce. A rule that has only ever been tested on events it should
 attribute has never been shown to decline.
 
 ## When not to use it
