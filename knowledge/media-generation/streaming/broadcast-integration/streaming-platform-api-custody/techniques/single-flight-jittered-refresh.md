@@ -66,9 +66,18 @@ flow. The poll is part of the same discipline:
 - on "authorisation pending", keep polling - it is the expected answer, not an error;
 - on "slow down", increase the interval (the standard adds five seconds) and keep the larger
   interval for the rest of the flow;
-- on expiry of the device code, stop and offer a new code; never poll an expired code;
+- on expiry of the device code, stop and offer a new code; never poll an expired code. The
+  code's own deadline is the authority: a platform may report a used or expired code in its
+  own words rather than the standard's expiry code, so the clock, not the answer, ends the
+  flow;
 - a rate-limit refusal or a gateway error is not an answer: wait as long as the response's
   retry hint says (bounded), and keep polling to the code's deadline;
+- a poll that times out or fails to connect is not an answer either, and it is not a reason
+  to try again at the same pace: the standard requires the client to reduce its polling
+  frequency before retrying, and recommends doubling the interval on each such failure.
+  Lengthen the wait, bounded, and keep polling to the deadline. Retrying a struggling server
+  at the interval it gave when it was healthy is the one way the poll adds to the outage it
+  is waiting out;
 - check the verification address against the platform's own host before showing it, since it
   is where the streamer will type their password;
 - a device code is single-use; once exchanged, discard it, and keep it out of logs while it

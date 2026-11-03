@@ -5,7 +5,7 @@
   "source": "knowledge/media-generation/ (frontmatter only)",
   "subjects": 53,
   "techniques": 351,
-  "applications": 202,
+  "applications": 204,
   "laws": 9,
   "categories": [
    "narrative-craft",
@@ -6081,8 +6081,8 @@
    "subcategory": "broadcast-integration",
    "status": "forged",
    "file": "knowledge/media-generation/streaming/broadcast-integration/streaming-platform-api-custody/streaming-platform-api-custody.md",
-   "digest": "sha256-b2:3fe2b865214a0708",
-   "revision": 2,
+   "digest": "sha256-b2:8150cc8638d8623e",
+   "revision": 3,
    "changedAt": "2026-11-03",
    "techniques": [
     {
@@ -6174,9 +6174,23 @@
     {
      "stack": "rust",
      "technique": "single-flight-jittered-refresh",
+     "file": "knowledge/media-generation/streaming/broadcast-integration/streaming-platform-api-custody/applications/rust--single-flight-jittered-refresh--overlord.md",
+     "verified_on": "2026-11-03",
+     "verified_against": "rust@1.97"
+    },
+    {
+     "stack": "rust",
+     "technique": "single-flight-jittered-refresh",
      "file": "knowledge/media-generation/streaming/broadcast-integration/streaming-platform-api-custody/applications/rust--single-flight-jittered-refresh.md",
      "verified_on": "2026-11-02",
      "verified_against": "rust@1.97"
+    },
+    {
+     "stack": "typescript",
+     "technique": "brokered-calls-token-never-exposed",
+     "file": "knowledge/media-generation/streaming/broadcast-integration/streaming-platform-api-custody/applications/typescript--brokered-calls-token-never-exposed.md",
+     "verified_on": "2026-11-03",
+     "verified_against": "typescript@7"
     }
    ]
   },

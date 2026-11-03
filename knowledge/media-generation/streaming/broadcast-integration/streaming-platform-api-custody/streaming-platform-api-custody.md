@@ -107,7 +107,9 @@ their browser, and the tool polls. The poll obeys the interval the server gave, 
 when the server says to slow down, stops when the code expires, and treats "pending" as the
 expected answer rather than an error. A rate-limit refusal or a gateway error during the
 poll is not an answer at all - it neither approves nor denies - so the tool waits as long as
-it was told and keeps polling until the code's own deadline. And the verification address
+it was told and keeps polling until the code's own deadline. A poll that times out is not an
+answer either, and the standard is explicit that it slows the poll down rather than repeating
+it at the healthy pace. And the verification address
 the tool shows the streamer is checked against the platform's own host before it is shown:
 it is the one link in the flow the streamer will type their password behind. A tool that
 polls faster than asked is rate limited on the one screen where the streamer is watching it
