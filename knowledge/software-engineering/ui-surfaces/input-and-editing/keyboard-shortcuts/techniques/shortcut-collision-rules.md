@@ -99,7 +99,11 @@ Decision rules:
   registration is the collision check.** The owners then include every other
   application, and nobody can list their chords. Register when the user turns
   the accelerator on, and show a refusal as "off", never as a switch that reads
-  "on" while nothing is bound.
+  "on" while nothing is bound. The check is one-sided. A refusal is
+  conclusive. A success proves only that no other *registration* holds the
+  chord: an application that reads the keyboard some other way, or a default
+  the system lets a registration override, can still take it. Say "bound", not
+  "free".
 - **When two actions want one chord in one scope, the declaration rejects
   it.** The same chord in two different scopes is fine — the dispatch order
   decides — but only if the inner scope's meaning is the one a user expects

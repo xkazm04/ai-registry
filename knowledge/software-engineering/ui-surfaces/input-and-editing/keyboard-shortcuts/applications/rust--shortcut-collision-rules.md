@@ -51,6 +51,13 @@ left: it asks the operating system, at the moment the user turns the feature on.
   `src-tauri/src/commands/companion/voice_hotkey.rs:18 "Registration is last-write-wins"`.
   The feature is off by default, so nothing is taken from another application
   until the user asks for it.
+- **A success is weaker than a refusal.** Microsoft scopes the refusal to
+  other registrations, and notes that "some pre-existing, default hotkeys
+  registered by the OS (such as PrintScreen, which launches the Snipping tool)
+  may be overridden by another hot key registration when one of the app's
+  windows is in the foreground" (same page). The card's "active" state
+  therefore means "registered", which is what the tree claims. It does not
+  mean that no other program reacts to the chord.
 
 ## Deviations
 

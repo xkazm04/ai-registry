@@ -19979,8 +19979,8 @@
    "subcategory": "input-and-editing",
    "status": "forged",
    "file": "knowledge/software-engineering/ui-surfaces/input-and-editing/keyboard-shortcuts/keyboard-shortcuts.md",
-   "digest": "sha256-b2:bb89a111e7011976",
-   "revision": 2,
+   "digest": "sha256-b2:0b8a02a351fac8a0",
+   "revision": 3,
    "changedAt": "2026-11-03",
    "techniques": [
     {
