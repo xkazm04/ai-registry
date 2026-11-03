@@ -102,7 +102,11 @@ security fix does not get to substitute a green suite for one. The mapping is
 owned by the gate's policy, not by the agent, and the class itself is
 determined from the change — the paths touched, the finding referenced — and
 checked against what the agent declared, because a class the agent chooses is
-an envelope the agent chooses. An action that fits no class owes nothing the
+an envelope the agent chooses. A proof format's version is the same kind of
+declaration: a verifier that still reads an older version under its lighter
+rules lets a producer that holds the signing key strip the newer fields, relabel
+and sign again, so the floor comes from evidence the producer cannot re-sign,
+never from the file's own label. An action that fits no class owes nothing the
 checker knows how to check, and gets no verdict but "a person decides". See
 [proof-class-bound-to-action-class](./techniques/proof-class-bound-to-action-class.md).
 
@@ -125,7 +129,9 @@ The pair has a twin that guards the rest of the suite: everything that passed
 at base must still pass at head, and nothing the suite asserted at base may
 have been loosened. Benchmarks for patch evaluation call these fail-to-pass and
 pass-to-pass sets; the agent practice has learned the hard way that both are
-needed and that neither is enough when the patch can touch the tests. Even with
+needed, that neither is enough when the patch can touch the tests, and that a
+curated pass-to-pass list is not the suite — patches validated on the listed
+tests alone have been shown to fail tests the list left out. Even with
 both, a passing pair is evidence that the named test now holds — not that the
 fix is correct in every way a reviewer would care about. A proof proves what
 its class states and nothing else, and saying so in the verdict is what keeps
@@ -170,9 +176,12 @@ pin, because a pin that silently skips a file vouches for code it never covered.
 The gate refuses a proof made by a different checker build than the one it
 expects. And the checker must have read the change it judges, not
 the agent's description of it ([_laws: gate-sees-target_](../../../_laws.md#gate-sees-target)).
-Attestation formats for build artifacts carry the same three things — a subject
-digest, the verifier's identity, the policy checked against — and a proof
-verdict is that shape applied to an agent's diff. See
+A verification summary attestation for a build artifact carries the same three
+things — a subject digest, the verifier's identity, the policy checked against —
+and a proof verdict is that shape applied to an agent's diff. A bare attestation
+statement carries only the subject and a typed claim, and even the summary's
+verifier field is a claim: a consumer accepts only the signer and verifier pairs
+it already trusts. See
 [evidence-binds-to-the-measured-change](./techniques/evidence-binds-to-the-measured-change.md).
 
 ## Inconclusive is a third verdict, and it waits

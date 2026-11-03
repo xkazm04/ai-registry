@@ -6,7 +6,7 @@ technique: proof-class-bound-to-action-class
 status: forged
 laws: [one-authority-per-vocabulary, claimant-does-not-adjudicate, absent-guard-is-loud]
 shared_with: []
-use_when: [designing the schema of a proof block, adding a new kind of agent action to a gate, an agent's change could be read as more than one kind of action]
+use_when: [designing the schema of a proof block, adding a new kind of agent action to a gate, an agent's change could be read as more than one kind of action, a proof format has more than one version]
 ---
 
 # Proof class bound to action class
@@ -80,6 +80,37 @@ have no automatic proof. The verdict says "human only" in so many words, rather
 than falling back to the most permissive class whose envelope happened to
 contain the paths.
 
+## A format version is a class the file declares
+
+A proof format with more than one version carries a second class declaration.
+It is easy to miss because it looks like plumbing. A verifier that still reads
+the older version reads it under the older rules, and those demand fewer
+observations. So a file that names its own version chooses how much evidence
+it owes. Relabelling a newer proof as an older one is a downgrade, the same
+attack token and transport standards spent years closing. The settled answer
+puts the choice with the verifier: libraries "MUST enable the caller to specify
+a supported set of algorithms and MUST NOT use any other" (RFC 8725 §3.1).
+
+Refusing the obvious relabel is not enough. An older-version file that carries
+a newer field is easy to refuse, and a signature whose domain includes the
+version string refuses a relabel the signer did not re-sign. Neither stops the
+producer itself. The producer holds the signing key, so it can strip the newer
+fields, set the older version and sign again. Every check the newer version
+added then reads "not applicable", and a fold that strikes not-applicable
+checks passes the file. The floor has to come from evidence the producer cannot
+re-sign, such as the principal's signed grant, the counterparty's signed
+messages or the gate's own record of when the newer version shipped. Better
+still, have the newer version state its own minimum inside a signature the
+producer does not own. A transport handshake guards the same fall-back with a
+sentinel the newer peer must write into the older reply (RFC 8446 §4.1.3).
+That guard works only because the signal is one the producer may not omit.
+
+So the version is derived and compared like any other class. A file whose
+version sits below the floor its unforgeable evidence implies is not a genuine
+older proof. It is refused, or it goes to a person with the mismatch named, and it is
+never read under the weaker rules. Retiring an old version entirely is the
+cheapest floor of all, once no honest file of that version remains to verify.
+
 ## Unknown classes fail closed
 
 The mapping is a closed vocabulary. A class name in a block that the policy does
@@ -107,6 +138,9 @@ negative-fixtures-prove-the-verifier).
   envelope of the nearest class.
 - When a class name is unknown to the checker, fail closed and report the
   configuration defect.
+- When a proof format has versions, take the minimum version from evidence the
+  producer cannot re-sign, never from the file's own label; a downgraded file
+  is refused or goes to a person, and is never read under the older rules.
 
 ## When not to use this
 

@@ -5,7 +5,7 @@
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 245,
   "techniques": 1970,
-  "applications": 1478,
+  "applications": 1480,
   "laws": 16,
   "categories": [
    "ui-surfaces",
@@ -29083,9 +29083,9 @@
    "subcategory": "evaluation-and-cost",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/evaluation-and-cost/proof-carrying-agent-actions/proof-carrying-agent-actions.md",
-   "digest": "sha256-b2:23bc66291b15d414",
-   "revision": 1,
-   "changedAt": "2026-10-27",
+   "digest": "sha256-b2:472e39b0fe4e3a6b",
+   "revision": 2,
+   "changedAt": "2026-11-03",
    "techniques": [
     {
      "slug": "claims-never-decide",
@@ -29159,7 +29159,8 @@
      "use_when": [
       "designing the schema of a proof block",
       "adding a new kind of agent action to a gate",
-      "an agent's change could be read as more than one kind of action"
+      "an agent's change could be read as more than one kind of action",
+      "a proof format has more than one version"
      ]
     },
     {
@@ -29192,6 +29193,20 @@
      "file": "knowledge/software-engineering/llm-agent/evaluation-and-cost/proof-carrying-agent-actions/applications/node--negative-fixtures-prove-the-verifier.md",
      "verified_on": "2026-10-27",
      "verified_against": "node@24"
+    },
+    {
+     "stack": "rust",
+     "technique": "inconclusive-routes-to-wait",
+     "file": "knowledge/software-engineering/llm-agent/evaluation-and-cost/proof-carrying-agent-actions/applications/rust--inconclusive-routes-to-wait.md",
+     "verified_on": "2026-11-03",
+     "verified_against": "rust@1"
+    },
+    {
+     "stack": "rust",
+     "technique": "proof-class-bound-to-action-class",
+     "file": "knowledge/software-engineering/llm-agent/evaluation-and-cost/proof-carrying-agent-actions/applications/rust--proof-class-bound-to-action-class.md",
+     "verified_on": "2026-11-03",
+     "verified_against": "rust@1"
     }
    ]
   },

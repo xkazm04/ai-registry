@@ -44,10 +44,15 @@ the verdict.
   refuses a pair whose sides were taken at commits other than the ones it
   names.
 
-The shape is the one software supply-chain attestations already use for build
-outputs: a subject identified by digest, a verifier identity, the policy it was
-checked against, and a result. A proof verdict is a verification summary whose
-subject is a diff.
+The shape is the one a supply-chain verification summary already uses for
+build outputs: a subject identified by digest, a verifier identity, the policy
+it was checked against, and a result. A proof verdict is a verification summary
+whose subject is a diff. Two limits come with the borrowing. A plain attestation
+statement names only the subject and a typed claim, so the verifier and policy
+fields are the summary's, not every attestation's. And the summary does not
+protect against a compromised verifier: its verifier field is a claim, which is
+why a consumer accepts only the signer and verifier pairs it trusts, the same
+way the gate here refuses a proof from a checker build it does not expect.
 
 ## Same scanner, same version
 
