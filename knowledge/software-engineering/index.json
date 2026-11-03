@@ -3,9 +3,9 @@
   "generated_by": "scripts/build-index.mjs",
   "bundle": "software-engineering",
   "source": "knowledge/software-engineering/ (frontmatter only)",
-  "subjects": 243,
-  "techniques": 1957,
-  "applications": 1463,
+  "subjects": 245,
+  "techniques": 1970,
+  "applications": 1467,
   "laws": 16,
   "categories": [
    "ui-surfaces",
@@ -20,7 +20,7 @@
    "secret-custody-and-issuance"
   ],
   "layout": "nested",
-  "use_when_coverage": "1957/1957",
+  "use_when_coverage": "1970/1970",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -1553,6 +1553,115 @@
      "file": "knowledge/software-engineering/llm-agent/runtime-and-io/agent-cli-transport/applications/python--subscription-auth-selection.md",
      "verified_on": "2026-09-15",
      "verified_against": "python@3.11"
+    }
+   ]
+  },
+  "agent-host-experience": {
+   "category": "llm-agent",
+   "subcategory": "experience",
+   "status": "forged",
+   "file": "knowledge/software-engineering/llm-agent/experience/agent-host-experience/agent-host-experience.md",
+   "digest": "sha256-b2:d3d4dcae948f5585",
+   "revision": 1,
+   "changedAt": "2026-11-03",
+   "techniques": [
+    {
+     "slug": "agent-ui-event-stream",
+     "status": "forged",
+     "laws": [
+      "verdict-survives-boundary",
+      "unknown-is-not-a-value"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "the product hosts its own agent front end across several windows or devices",
+      "designing the event contract between an agent backend and its interface",
+      "a second window or a phone shows a different story of the same run"
+     ]
+    },
+    {
+     "slug": "depth-handoff",
+     "status": "forged",
+     "laws": [
+      "claimant-does-not-adjudicate",
+      "creation-names-reaper"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a task that starts in a general assistant and must finish in the product",
+      "an irreversible or money-bearing act requested through an agent host",
+      "a link back into the product that must land on the exact state"
+     ]
+    },
+    {
+     "slug": "in-host-views",
+     "status": "forged",
+     "laws": [
+      "absent-guard-is-loud",
+      "failure-not-empty-success"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "adding a rendered view to a tool an agent host calls",
+      "a view that works in one host and breaks in the next",
+      "deciding what an inline card may contain"
+     ]
+    },
+    {
+     "slug": "journey-shaped-tool-surface",
+     "status": "forged",
+     "laws": [
+      "one-authority-per-vocabulary",
+      "unknown-is-not-a-value"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "deciding which operations an outside agent gets",
+      "a tool catalog that mirrors the product API",
+      "an agent chains four calls to finish one user task"
+     ]
+    },
+    {
+     "slug": "peer-agent-delegation",
+     "status": "forged",
+     "laws": [
+      "claimant-does-not-adjudicate"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "deciding whether a product should be a peer agent or a tool capability",
+      "another organization's agent wants to delegate long-running work to the product",
+      "a proposal to ship an agent endpoint so general assistants can reach the product"
+     ]
+    },
+    {
+     "slug": "portable-view-spec",
+     "status": "forged",
+     "laws": [
+      "one-authority-per-vocabulary"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "choosing between a declarative view spec and an embedded app view for another host",
+      "a request to support an interop UI format",
+      "the in-app component vocabulary and an outside spec drifting apart"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "python",
+     "technique": "agent-ui-event-stream",
+     "file": "knowledge/software-engineering/llm-agent/experience/agent-host-experience/applications/python--agent-ui-event-stream.md",
+     "verified_on": "2026-11-03",
+     "verified_against": "python@3.12"
+    },
+    {
+     "stack": "rust",
+     "technique": "journey-shaped-tool-surface",
+     "file": "knowledge/software-engineering/llm-agent/experience/agent-host-experience/applications/rust--journey-shaped-tool-surface.md",
+     "verified_on": "2026-11-03",
+     "verified_against": "rust@1.97"
     }
    ]
   },
@@ -23242,6 +23351,133 @@
     }
    ]
   },
+  "model-composed-workspace": {
+   "category": "llm-agent",
+   "subcategory": "experience",
+   "status": "forged",
+   "file": "knowledge/software-engineering/llm-agent/experience/model-composed-workspace/model-composed-workspace.md",
+   "digest": "sha256-b2:f8131ce16afa689c",
+   "revision": 1,
+   "changedAt": "2026-11-03",
+   "techniques": [
+    {
+     "slug": "answer-form-routing",
+     "status": "forged",
+     "laws": [
+      "failure-not-empty-success"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "deciding whether an answer is prose",
+      "a card",
+      "a pane",
+      "a composed workspace or navigation",
+      "a model that draws a widget around a one-line answer",
+      "a card that keeps growing actions and tabs"
+     ]
+    },
+    {
+     "slug": "arrangement-memory",
+     "status": "forged",
+     "laws": [
+      "silent-state-is-ungoverned",
+      "creation-names-reaper"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "the model recomposes and throws away what the user pinned or sorted",
+      "approval of model-arranged screens falls over a long session",
+      "stale layout preferences leak into an unrelated task"
+     ]
+    },
+    {
+     "slug": "composition-motion",
+     "status": "forged",
+     "laws": [
+      "unknown-is-not-a-value"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "streamed text and model-placed views make the screen jump and flicker",
+      "a model-made rearrangement reads as everything disappearing and reappearing",
+      "people cannot tell which content the model produced"
+     ]
+    },
+    {
+     "slug": "composition-region",
+     "status": "forged",
+     "laws": [
+      "one-authority-per-vocabulary",
+      "unknown-is-not-a-value"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a model opens or arranges views across a product's modules",
+      "users lose their place after the assistant rearranges the screen",
+      "a model-composed panel shows a number the module would not"
+     ]
+    },
+    {
+     "slug": "conductor-turn-flow",
+     "status": "forged",
+     "laws": [
+      "failure-not-empty-success",
+      "silent-state-is-ungoverned"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a model-driven screen sits behind a wordless spinner until the whole reply is ready",
+      "answers bury the point under preamble and caveats",
+      "the conversation disappears once the workspace opens",
+      "a refusal leaves the user with nowhere to go"
+     ]
+    },
+    {
+     "slug": "reversible-screen-ops",
+     "status": "forged",
+     "laws": [
+      "one-validation-door",
+      "record-precedes-effect"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a model changes the screen and the user cannot tell what moved or undo it",
+      "the user presses stop and the screen stays half-changed",
+      "a model's screen change lands on top of the user's own click"
+     ]
+    },
+    {
+     "slug": "view-choice-evaluation",
+     "status": "forged",
+     "laws": [
+      "count-carries-predicate",
+      "claimant-does-not-adjudicate"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "shipping a model that chooses which view to compose",
+      "a prompt change to the composer with no way to tell if view choices got worse",
+      "a model-arranged screen that looks fine in demos and loses users over a session"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "python",
+     "technique": "arrangement-memory",
+     "file": "knowledge/software-engineering/llm-agent/experience/model-composed-workspace/applications/python--arrangement-memory.md",
+     "verified_on": "2026-11-03",
+     "verified_against": "python@3.12"
+    },
+    {
+     "stack": "react",
+     "technique": "reversible-screen-ops",
+     "file": "knowledge/software-engineering/llm-agent/experience/model-composed-workspace/applications/react--reversible-screen-ops.md",
+     "verified_on": "2026-11-03",
+     "verified_against": "react@19.3"
+    }
+   ]
+  },
   "model-routing": {
    "category": "llm-agent",
    "subcategory": "orchestration",
@@ -42864,6 +43100,7 @@
     "agent-cli-transport/fallback-ladder",
     "agent-cli-transport/output-normalization",
     "agent-cli-transport/thread-custody-across-resume",
+    "agent-host-experience/in-host-views",
     "agent-instruction-files/capability-before-steering",
     "agent-memory/coverage-instrumentation",
     "agent-memory/durable-store-failure-posture",
@@ -43184,6 +43421,8 @@
     "migrations/transactional-ddl",
     "model-call-outcome-integrity/spend-precedes-the-error",
     "model-call-outcome-integrity/unattempted-is-not-failed",
+    "model-composed-workspace/answer-form-routing",
+    "model-composed-workspace/conductor-turn-flow",
     "model-routing/admission-is-not-a-tier",
     "model-routing/capability-floors",
     "model-routing/failover-horizon",
@@ -43894,6 +44133,7 @@
     "migrations/schema-drift-detection",
     "modal-stack/destructive-confirmation",
     "model-call-outcome-integrity/the-measurement-runs-the-served-configuration",
+    "model-composed-workspace/view-choice-evaluation",
     "model-routing/cache-continuity",
     "model-routing/candidate-ranking",
     "model-routing/effort-calibration",
@@ -44131,6 +44371,8 @@
     "agent-cli-transport/dated-capability-matrix",
     "agent-cli-transport/host-routed-approval-round-trip",
     "agent-cli-transport/thread-custody-across-resume",
+    "agent-host-experience/agent-ui-event-stream",
+    "agent-host-experience/journey-shaped-tool-surface",
     "agent-instruction-files/context-reset-redelivery",
     "agent-instruction-files/instruction-freshness",
     "agent-instruction-files/principal-tier-gating",
@@ -44290,6 +44532,8 @@
     "model-call-outcome-integrity/declared-call-site-identity",
     "model-call-outcome-integrity/enforcement-demotion-on-translation-loss",
     "model-call-outcome-integrity/unattempted-is-not-failed",
+    "model-composed-workspace/composition-motion",
+    "model-composed-workspace/composition-region",
     "model-routing/quality-axis-separation",
     "modelled-performance-estimates/refuse-rather-than-emit-a-sentinel",
     "multi-provider-gateway-plane/caller-scoped-normalization-strictness",
@@ -44564,6 +44808,7 @@
     "metric-forecasting/projection-presentability-gates",
     "modal-stack/stack-ownership",
     "model-call-outcome-integrity/enforcement-demotion-on-translation-loss",
+    "model-composed-workspace/reversible-screen-ops",
     "model-routing/routing-policy",
     "module-design/borrowed-surface",
     "module-design/concurrency-at-the-edge",
@@ -44999,6 +45244,7 @@
     "agent-addressable-ui/uninstrumented-degradation",
     "agent-browser-control/persistent-browser-daemon",
     "agent-chaining/graph-to-wiring-translation",
+    "agent-host-experience/depth-handoff",
     "agent-instruction-files/sibling-floor-ownership",
     "agent-memory/decay-and-forgetting",
     "agent-memory/durable-store-failure-posture",
@@ -45153,6 +45399,7 @@
     "migrations/pre-migration-snapshots",
     "modal-stack/focus-and-scroll-containment",
     "modal-stack/stack-ownership",
+    "model-composed-workspace/arrangement-memory",
     "model-routing/consumer-overrides",
     "module-design/structural-improvement-loop",
     "motion/loop-pause-governance",
@@ -45314,6 +45561,8 @@
     "agent-chaining/stop-reason-ledgers",
     "agent-cli-transport/derived-bash-allowlist",
     "agent-cli-transport/fallback-ladder",
+    "agent-host-experience/journey-shaped-tool-surface",
+    "agent-host-experience/portable-view-spec",
     "agent-instruction-files/host-contract-compilation",
     "agent-instruction-files/single-source-topology",
     "agent-memory/memory-value-model",
@@ -45550,6 +45799,7 @@
     "modal-stack/layering-and-precedence",
     "model-call-outcome-integrity/credential-posture-at-the-call-door",
     "model-call-outcome-integrity/elimination-reasons-are-a-closed-vocabulary",
+    "model-composed-workspace/composition-region",
     "model-routing/failover-horizon",
     "model-routing/model-identity",
     "model-routing/turn-classification",
@@ -46121,6 +46371,7 @@
     "agent-browser-control/agent-actionable-errors",
     "agent-browser-control/socket-scoped-surface",
     "agent-cli-transport/output-normalization",
+    "agent-host-experience/agent-ui-event-stream",
     "agent-runtime-assembly/indeterminate-closure-on-interruption",
     "agent-runtime-assembly/observer-and-mutator-surfaces",
     "agent-runtime-assembly/operator-tier-code-loading",
@@ -46242,6 +46493,7 @@
     "agent-cli-transport/fallback-ladder",
     "agent-cli-transport/permission-stance-enforcement",
     "agent-cli-transport/subscription-auth-selection",
+    "agent-host-experience/in-host-views",
     "agent-instruction-files/capability-coverage-contract",
     "agent-instruction-files/enforcement-demotion",
     "agent-instruction-files/inherited-default-ownership",
@@ -46448,6 +46700,31 @@
     "windowed-inference-over-oversized-inputs/strictly-positive-blend-weights"
    ]
   },
+  "claimant-does-not-adjudicate": {
+   "statement": "A party's statement about its own work never decides the verdict on that work, and the party being judged supplies no input the verdict reads. The figure an agent claims for its speed-up is displayed and never reaches the judge, which re-derives the result from raw samples; a merge request that edits its own pipeline configuration chose the jobs that made its evidence and so earns no proof; pipeline variables are refused because they outrank the evidence job's own; the action class to demote is read from the gate's own record, not from a trailer the agent can edit; a verdict is read from trusted accounts' notes, never from a description any contributor can rewrite; a probe result handed back by a client counts only when the server sealed it. The naive reading — \"the claim is just metadata, the check is what matters\" — fails where the claim leaks into the check's inputs: a tolerance, a scope, a job list, a class name. Sibling of verdict-survives-boundary: that law keeps a verdict intact as it crosses a boundary; this one keeps the judged party from shaping it before it is made.",
+   "techniques": [
+    "agent-host-experience/depth-handoff",
+    "agent-host-experience/peer-agent-delegation",
+    "browser-credential-boundary/server-sealed-client-roundtrip",
+    "ci-execution-trust/evidence-pipeline-provenance",
+    "ci-execution-trust/self-edited-ci-forfeits-evidence",
+    "claimed-improvement-remeasurement/claimant-figure-never-decides",
+    "earned-autonomy-tiers/asymmetric-promotion-and-demotion",
+    "earned-autonomy-tiers/demotion-attribution-integrity",
+    "earned-autonomy-tiers/recomputable-promotion-trial",
+    "model-composed-workspace/view-choice-evaluation",
+    "probe-confirmed-model-proposals/cross-engine-agreement",
+    "probe-confirmed-model-proposals/found-not-hinted",
+    "probe-confirmed-model-proposals/probe-per-proposed-line",
+    "prompt-safety/trusted-author-verdict-channel",
+    "proof-carrying-agent-actions/claims-never-decide",
+    "proof-carrying-agent-actions/proof-class-bound-to-action-class",
+    "readiness-passports/audit-the-live-system-not-the-plan",
+    "remote-capability-probing/verified-behaviour-ledger",
+    "status-vocabulary/claim-rests-on-its-source",
+    "subprocess-lifecycle/agent-editable-children-get-no-secrets"
+   ]
+  },
   "silent-state-is-ungoverned": {
    "statement": "An agent's internal state — its assumptions, its uncertainty, its belief that it has finished — shapes the outcome whether or not anyone can see it, and it can be governed only once it is converted into an artifact something else can read: an assumption stated before it is built on, alternatives presented instead of one silently chosen, a completion claim checked against what actually landed. The failure signature is uniform across every corpus that has measured it: the agent is wrong at the same confidence as when it is right, the decisive error precedes its first observable signal by most of the trajectory, and unverified completion claims concentrate exactly where recovery is no longer possible. Rules, gates and reviews bind only surfaced state; whatever remains internal is outside their reach by construction. Sibling of unknown-is-not-a-value, one level up: that law forbids rendering unknown as definite in *data*; this one demands the conversion of private epistemic state into inspectable output before anything downstream relies on it.",
    "techniques": [
@@ -46485,6 +46762,8 @@
     "llm-extracted-entity-graph/recall-passes-with-a-declared-cap",
     "machine-authored-documentation/preregistered-kill-criterion",
     "model-call-outcome-integrity/elimination-reasons-are-a-closed-vocabulary",
+    "model-composed-workspace/arrangement-memory",
+    "model-composed-workspace/conductor-turn-flow",
     "module-design/state-carrier-decides-the-lane",
     "persistent-batch-mutation/declared-skippability-at-batch-granularity",
     "plan-review/decision-sized-slicing",
@@ -46538,6 +46817,7 @@
     "mcp-tools/sealed-continuation-state",
     "model-call-outcome-integrity/one-deadline-across-attempts",
     "model-call-outcome-integrity/spend-precedes-the-error",
+    "model-composed-workspace/reversible-screen-ops",
     "prompt-assembly/fold-only-acknowledged-evidence",
     "prompt-assembly/speculative-compaction-splice",
     "self-healing/consume-once-mode-handoff",
@@ -46550,28 +46830,6 @@
     "usage-aggregation-semantics/high-water-mark-advance-billing",
     "usage-event-ingestion/thin-ingest-deferred-validation",
     "voice-io/unattended-caller-attribution"
-   ]
-  },
-  "claimant-does-not-adjudicate": {
-   "statement": "A party's statement about its own work never decides the verdict on that work, and the party being judged supplies no input the verdict reads. The figure an agent claims for its speed-up is displayed and never reaches the judge, which re-derives the result from raw samples; a merge request that edits its own pipeline configuration chose the jobs that made its evidence and so earns no proof; pipeline variables are refused because they outrank the evidence job's own; the action class to demote is read from the gate's own record, not from a trailer the agent can edit; a verdict is read from trusted accounts' notes, never from a description any contributor can rewrite; a probe result handed back by a client counts only when the server sealed it. The naive reading — \"the claim is just metadata, the check is what matters\" — fails where the claim leaks into the check's inputs: a tolerance, a scope, a job list, a class name. Sibling of verdict-survives-boundary: that law keeps a verdict intact as it crosses a boundary; this one keeps the judged party from shaping it before it is made.",
-   "techniques": [
-    "browser-credential-boundary/server-sealed-client-roundtrip",
-    "ci-execution-trust/evidence-pipeline-provenance",
-    "ci-execution-trust/self-edited-ci-forfeits-evidence",
-    "claimed-improvement-remeasurement/claimant-figure-never-decides",
-    "earned-autonomy-tiers/asymmetric-promotion-and-demotion",
-    "earned-autonomy-tiers/demotion-attribution-integrity",
-    "earned-autonomy-tiers/recomputable-promotion-trial",
-    "probe-confirmed-model-proposals/cross-engine-agreement",
-    "probe-confirmed-model-proposals/found-not-hinted",
-    "probe-confirmed-model-proposals/probe-per-proposed-line",
-    "prompt-safety/trusted-author-verdict-channel",
-    "proof-carrying-agent-actions/claims-never-decide",
-    "proof-carrying-agent-actions/proof-class-bound-to-action-class",
-    "readiness-passports/audit-the-live-system-not-the-plan",
-    "remote-capability-probing/verified-behaviour-ledger",
-    "status-vocabulary/claim-rests-on-its-source",
-    "subprocess-lifecycle/agent-editable-children-get-no-secrets"
    ]
   }
  }

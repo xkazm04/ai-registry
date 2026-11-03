@@ -1,6 +1,6 @@
 # Software engineering - the subjects this registry carries
 
-`software-engineering` - 243 subjects, 1957 techniques, 1463 applications.
+`software-engineering` - 245 subjects, 1970 techniques, 1467 applications.
 Slugs only; open one with `registry_subject` (or `node <registry>/scripts/registry-query.mjs --subject <slug>`), never by reading `index.json` - the access rule beside this file describes the loop.
 
 ### ui-surfaces
@@ -16,6 +16,7 @@ Slugs only; open one with `registry_subject` (or `node <registry>/scripts/regist
 ### llm-agent
 - **companion** - companion-identity, companion-runtime, conversation-orchestration, talking-avatar
 - **evaluation-and-cost** - cost-metering, eval-harness, judgment-guardbands, model-call-outcome-integrity, probe-confirmed-model-proposals, proof-carrying-agent-actions, time-travel-replay, tracing
+- **experience** - agent-host-experience, model-composed-workspace
 - **orchestration** - agent-chaining, durable-agent-operations, fleet-orchestration, hitl-approval, model-routing, plan-review, proactive-nudges, remediation-handoff, session-continuation, tenant-scoped-agent-runtime
 - **prompt-and-context** - agent-instruction-files, agent-memory, context-hierarchy, llm-extracted-entity-graph, prompt-assembly, prompt-safety, retrieval, structured-output, tool-result-economy
 - **runtime-and-io** - agent-addressable-ui, agent-browser-control, agent-cli-transport, agent-runtime-assembly, mcp-tools, sidecar-provisioning, streaming-output, subprocess-lifecycle, terminal-multiplexing, voice-io
