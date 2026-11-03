@@ -23,7 +23,7 @@ have only the node tree behind them.
 
 ## 2026-11-03 - deepen (pcmp-deepen-1103)
 
-Landed in db9948536, with the catalog in 9c81454c8. Lanes:
+Landed in f3f3463c8, with the catalog in cc58c95c5. Lanes:
 - **`check-currency --volatile --subject`.** 1 dated fact in 8 documents: the node
   application's 25 KB pack cap, a project constant, not a vendor figure. Not re-sourced.
 - **Field.** A per-repo git grep for propose and probe across non-node sources in 15

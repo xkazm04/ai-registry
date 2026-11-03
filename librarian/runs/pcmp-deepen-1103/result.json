@@ -43,7 +43,7 @@
   ],
   "commits": [
     {
-      "sha": "db9948536",
+      "sha": "f3f3463c8",
       "branch": "main",
       "pathspec": [
         "knowledge/software-engineering/llm-agent/evaluation-and-cost/probe-confirmed-model-proposals",
@@ -52,7 +52,7 @@
       ]
     },
     {
-      "sha": "9c81454c8",
+      "sha": "cc58c95c5",
       "branch": "main",
       "pathspec": [
         "catalog.json"
