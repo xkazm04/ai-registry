@@ -11,7 +11,7 @@ verified_against: node@24
 
 # Byte-exact restore in a night lane that runs OBS beside the owner's (Node)
 
-Castle Control (a desktop tool for Twitch streamers, `C:\Users\kazda\Spooky\CastleControl`,
+Castle Control (a desktop tool for Twitch streamers, `Spooky/CastleControl`,
 main checkout, read 2026-11-02; Node `>=24.14.0` per `package.json:8`) has an unattended
 "OBS lane": a Node script that launches a second OBS Studio on the owner's machine, runs a
 Playwright spec against it, and must leave the owner's OBS configuration as it found it. It

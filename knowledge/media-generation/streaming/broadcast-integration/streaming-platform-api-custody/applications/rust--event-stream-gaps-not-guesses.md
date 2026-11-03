@@ -11,7 +11,7 @@ verified_against: rust@1.97
 
 # Rust: EventSub WebSocket gaps with edges, and a bounded chat ring that reports overflow
 
-Castle Control (local checkout `C:\Users\kazda\Spooky\CastleControl`, main @ 8ef2d8e) is a
+Castle Control (local checkout `Spooky/CastleControl`, main @ 8ef2d8e) is a
 desktop tool for human Twitch streamers. `cc-twitch` owns the EventSub WebSocket workers;
 `cc-core`'s live pipeline consumes chat from them. The workspace pins
 `rust-version = "1.97"` (`Cargo.toml:8 "rust-version = "`). Every anchor below was re-opened

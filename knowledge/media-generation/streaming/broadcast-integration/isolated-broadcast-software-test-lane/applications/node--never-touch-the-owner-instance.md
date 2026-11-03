@@ -11,7 +11,7 @@ verified_against: node@24
 
 # Keeping a night lane off the owner's OBS (Node)
 
-Castle Control (`C:\Users\kazda\Spooky\CastleControl`, main checkout, read 2026-11-02; Node
+Castle Control (`Spooky/CastleControl`, main checkout, read 2026-11-02; Node
 `>=24.14.0` per `package.json:8`) tests its OBS integration against a real OBS Studio in an
 unattended lane, `scripts/night/obs.mjs`, on the same Windows machine the owner streams
 from. The script's header states the contract:

@@ -11,7 +11,7 @@ verified_against: typescript@6.0.3
 
 # TypeScript: an OBS overlay renderer that clears instead of freezing
 
-Castle Control (local checkout `C:\Users\kazda\Spooky\CastleControl`, main @ 8ef2d8e) ships a
+Castle Control (local checkout `Spooky/CastleControl`, main @ 8ef2d8e) ships a
 small static renderer that OBS loads as a browser source. It is written in
 `packages/renderer/src/` and built into `apps/overlay/`; each page subscribes to one
 server-sent event stream on the isolated overlay origin and receives full-replacement

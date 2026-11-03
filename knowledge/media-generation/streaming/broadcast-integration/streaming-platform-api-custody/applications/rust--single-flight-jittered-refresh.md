@@ -11,7 +11,7 @@ verified_against: rust@1.97
 
 # Rust: a Twitch credential vault with generation-tagged single-flight refresh
 
-Castle Control (local checkout `C:\Users\kazda\Spooky\CastleControl`, main @ 8ef2d8e) is a
+Castle Control (local checkout `Spooky/CastleControl`, main @ 8ef2d8e) is a
 desktop tool for human Twitch streamers. Its `cc-twitch` crate is the broker: one `Vault`
 holds the user token, refreshes it, meters Helix calls and retires the grant, and the
 workspace pins `rust-version = "1.97"` (`Cargo.toml:8 "rust-version = "`). Every anchor below

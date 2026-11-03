@@ -11,7 +11,7 @@ verified_against: rust@1.97
 
 # Rust: an endpoint-scoped OBS ownership ledger behind one mutex
 
-Castle Control (local checkout `C:\Users\kazda\Spooky\CastleControl`, main @ 8ef2d8e) keeps
+Castle Control (local checkout `Spooky/CastleControl`, main @ 8ef2d8e) keeps
 a private record of every OBS input and scene it created on a streamer's machine, and the
 desktop core routes every OBS call through it. This application covers the ledger and the
 three techniques that lean on it most: claiming only what was created, reading the peer for

@@ -11,7 +11,7 @@ verified_against: typescript@6.0.3
 
 # The desktop never counts: one core, two renderers, and the producer that drifted
 
-*Read against Castle Control, the main checkout at C:\Users\kazda\Spooky\CastleControl on
+*Read against Castle Control, the main checkout at Spooky/CastleControl on
 2026-11-02 (commit not recorded; the read was made without version control). The root
 `package.json` pins TypeScript 6.0.3. Nothing was executed for this document. The
 project's own record says the corrected night run and its Rust regression were still

@@ -11,7 +11,7 @@ verified_against: rust@1.97
 
 # Rust: a separate loopback listener for OBS browser sources
 
-Castle Control (local checkout `C:\Users\kazda\Spooky\CastleControl`, main @ 8ef2d8e) is a
+Castle Control (local checkout `Spooky/CastleControl`, main @ 8ef2d8e) is a
 desktop tool for a human Twitch streamer. A Rust core serves the pages OBS loads as browser
 sources — a Beacons visual, a Gatehouse vote bar, a Tiltyard duel card, a giveaway plate —
 from an axum listener that is deliberately not the core's control service. The type says so

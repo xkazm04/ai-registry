@@ -11,7 +11,7 @@ verified_against: rust@1.97
 
 # Rust: an OBS cleanup that detaches by UUID and counts only what it saw vanish
 
-Castle Control (local checkout `C:\Users\kazda\Spooky\CastleControl`, main @ 8ef2d8e) is a
+Castle Control (local checkout `Spooky/CastleControl`, main @ 8ef2d8e) is a
 desktop tool for human Twitch streamers. Its `cc-obs` crate drives the streamer's own OBS
 Studio over obs-websocket v5, and its rehearsal flow creates a browser source and sometimes a
 scene that it must later remove. The workspace pins `rust-version = "1.97"` (`Cargo.toml:8 "rust-version = "`).

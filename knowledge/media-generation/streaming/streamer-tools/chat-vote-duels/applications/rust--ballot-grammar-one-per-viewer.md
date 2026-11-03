@@ -11,7 +11,7 @@ verified_against: rust@1.97.1
 
 # A first-word grammar, first ballot stands, counted over open spans
 
-*Read against Castle Control, the main checkout at C:\Users\kazda\Spooky\CastleControl on
+*Read against Castle Control, the main checkout at Spooky/CastleControl on
 2026-11-02 (commit not recorded; the read was made without version control). The
 workspace pins its toolchain in `rust-toolchain.toml` (channel 1.97.1). Nothing here was
 executed; every claim is a reading of source, and the night-lane regression it cites is
