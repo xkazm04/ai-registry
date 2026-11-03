@@ -5,7 +5,7 @@
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 245,
   "techniques": 1970,
-  "applications": 1467,
+  "applications": 1468,
   "laws": 16,
   "categories": [
    "ui-surfaces",
@@ -23356,8 +23356,8 @@
    "subcategory": "experience",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/experience/model-composed-workspace/model-composed-workspace.md",
-   "digest": "sha256-b2:f8131ce16afa689c",
-   "revision": 1,
+   "digest": "sha256-b2:b9abefd5d50dd819",
+   "revision": 2,
    "changedAt": "2026-11-03",
    "techniques": [
     {
@@ -23473,6 +23473,13 @@
      "stack": "react",
      "technique": "reversible-screen-ops",
      "file": "knowledge/software-engineering/llm-agent/experience/model-composed-workspace/applications/react--reversible-screen-ops.md",
+     "verified_on": "2026-11-03",
+     "verified_against": "react@19.3"
+    },
+    {
+     "stack": "react",
+     "technique": "view-choice-evaluation",
+     "file": "knowledge/software-engineering/llm-agent/experience/model-composed-workspace/applications/react--view-choice-evaluation.md",
      "verified_on": "2026-11-03",
      "verified_against": "react@19.3"
     }
