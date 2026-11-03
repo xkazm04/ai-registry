@@ -5,7 +5,7 @@ subject: seated-in-world-reading
 technique: panel-placement-in-the-view-band
 stack: cpp
 status: draft
-verified_on: 2026-10-26
+verified_on: 2026-11-03
 applied: code
 ab_verdict: not-better
 proof: before-after
@@ -62,3 +62,27 @@ apps/vr/Source/bp/BpPawn.h:76 "static constexpr float WristCaptureOffsetXCm = -3
 The comment carries part of the trail of placements. A blind panel of three judges (2026-10-25)
 still scored the wrist 2 of 3 on both products: "small, dim and steeply tilted". This is the case
 where moving content off the panel outranks moving the panel again.
+
+## The re-placement, committed (re-read 2026-11-03)
+
+The round that was uncommitted above landed in `f2c5170`, "the deck straight ahead". It is
+read here at `master` `202883f`, which is on `origin/master`. The citations above were
+re-checked against `6bc4f02` on the same date, and they still hold there.
+
+apps/vr/Source/bp/BpTable.h:333 "straight ahead and centred, 75 cm out"
+apps/vr/Source/bp/BpTable.h:341 "static constexpr float DeckDistanceCm = 75.f;"
+apps/vr/Source/bp/BpTable.h:342 "static constexpr float DeckYawDeg = 0.f;"
+apps/vr/Source/bp/BpTable.h:343 "static constexpr float DeckDropDeg = 11.2f;"
+apps/vr/Source/bp/BpTable.h:345 "static constexpr float DeckSpineWidthCm = 5.f;"
+
+The deck now stands straight ahead, 11.2 degrees below the horizon. That is inside the
+10-to-20-degree resting gaze band the technique now names. It is scaled to keep its text's
+angle, and the queue fans to the right as spines. The code states the queue rule as "nothing
+of them stands over or above the front one". The view still never moves:
+
+apps/vr/Source/bp/BpDeck.cpp:5 "a tap on a feature's glyph on the map, and resolving a decision swap them with a short slide; the view never moves."
+
+Half of the return condition has fired: the commit exists. The other half, a blind read of
+the new placement, has not run. So the verdict above stays `not-better`, and it stays
+recorded against the nominal placement it judged. The deck's 75 cm is the open case in
+[one-reading-depth-in-the-comfort-zone](./cpp--one-reading-depth-in-the-comfort-zone.md).

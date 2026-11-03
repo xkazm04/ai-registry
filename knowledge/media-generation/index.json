@@ -448,7 +448,7 @@
    "file": "knowledge/media-generation/production-ops/broadcast-chain-showcase-capture/broadcast-chain-showcase-capture.md",
    "digest": "sha256-b2:ec789c3b80d214e8",
    "revision": 1,
-   "changedAt": "2026-11-02",
+   "changedAt": "2026-11-03",
    "techniques": [
     {
      "slug": "one-overlay-per-shot",
@@ -548,7 +548,7 @@
    "file": "knowledge/media-generation/streaming/broadcast-integration/broadcast-software-control/broadcast-software-control.md",
    "digest": "sha256-b2:9336dd87a9473204",
    "revision": 1,
-   "changedAt": "2026-11-02",
+   "changedAt": "2026-11-03",
    "techniques": [
     {
      "slug": "claim-only-what-you-created",
@@ -846,7 +846,7 @@
    "file": "knowledge/media-generation/streaming/streamer-tools/chat-vote-duels/chat-vote-duels.md",
    "digest": "sha256-b2:16b6cfa88c1fd40b",
    "revision": 1,
-   "changedAt": "2026-11-02",
+   "changedAt": "2026-11-03",
    "techniques": [
     {
      "slug": "ballot-grammar-one-per-viewer",
@@ -1230,7 +1230,7 @@
    "file": "knowledge/media-generation/streaming/streamer-tools/contribution-reactive-visuals/contribution-reactive-visuals.md",
    "digest": "sha256-b2:74d90e509f2bc092",
    "revision": 1,
-   "changedAt": "2026-11-02",
+   "changedAt": "2026-11-03",
    "techniques": [
     {
      "slug": "decay-before-interpolation",
@@ -2857,7 +2857,7 @@
    "file": "knowledge/media-generation/streaming/streamer-tools/giveaway-eligibility-and-weighting/giveaway-eligibility-and-weighting.md",
    "digest": "sha256-b2:ead8b6aa5728e43b",
    "revision": 1,
-   "changedAt": "2026-11-02",
+   "changedAt": "2026-11-03",
    "techniques": [
     {
      "slug": "clock-proof-cooldowns",
@@ -2950,7 +2950,7 @@
    "file": "knowledge/media-generation/streaming/streamer-tools/giveaway-legal-guardrails/giveaway-legal-guardrails.md",
    "digest": "sha256-b2:48434a6048584b80",
    "revision": 1,
-   "changedAt": "2026-11-02",
+   "changedAt": "2026-11-03",
    "techniques": [
     {
      "slug": "acknowledgement-before-unlock",
@@ -3253,7 +3253,7 @@
    "file": "knowledge/media-generation/streaming/broadcast-integration/isolated-broadcast-software-test-lane/isolated-broadcast-software-test-lane.md",
    "digest": "sha256-b2:e83367104e6267ee",
    "revision": 1,
-   "changedAt": "2026-11-02",
+   "changedAt": "2026-11-03",
    "techniques": [
     {
      "slug": "byte-exact-config-restore",
@@ -3887,7 +3887,7 @@
    "file": "knowledge/media-generation/streaming/trust-and-evaluation/live-test-consent-and-evidence/live-test-consent-and-evidence.md",
    "digest": "sha256-b2:e1845248677cbb6c",
    "revision": 1,
-   "changedAt": "2026-11-02",
+   "changedAt": "2026-11-03",
    "techniques": [
     {
      "slug": "evidence-pending-by-default",
@@ -4407,7 +4407,7 @@
    "file": "knowledge/media-generation/streaming/broadcast-integration/on-stream-overlay-delivery/on-stream-overlay-delivery.md",
    "digest": "sha256-b2:cd4ff9a1bd6f4d44",
    "revision": 1,
-   "changedAt": "2026-11-02",
+   "changedAt": "2026-11-03",
    "techniques": [
     {
      "slug": "aggregate-only-payloads",
@@ -4632,7 +4632,7 @@
    "file": "knowledge/media-generation/streaming/broadcast-integration/overlay-composition-and-safe-area/overlay-composition-and-safe-area.md",
    "digest": "sha256-b2:5ac1ea8a6b5013d6",
    "revision": 1,
-   "changedAt": "2026-11-02",
+   "changedAt": "2026-11-03",
    "techniques": [
     {
      "slug": "designed-for-the-stream-background",
@@ -4737,7 +4737,7 @@
    "file": "knowledge/media-generation/streaming/broadcast-integration/platform-extension-release-ladder/platform-extension-release-ladder.md",
    "digest": "sha256-b2:2da21d34ba51587a",
    "revision": 1,
-   "changedAt": "2026-11-02",
+   "changedAt": "2026-11-03",
    "techniques": [
     {
      "slug": "allowlisted-test-stages-before-review",
@@ -5825,7 +5825,7 @@
    "file": "knowledge/media-generation/streaming/trust-and-evaluation/streamer-dress-rehearsal/streamer-dress-rehearsal.md",
    "digest": "sha256-b2:0f409f895262ed95",
    "revision": 1,
-   "changedAt": "2026-11-02",
+   "changedAt": "2026-11-03",
    "techniques": [
     {
      "slug": "inert-platform-bridge-or-refuse",
@@ -5926,7 +5926,7 @@
    "file": "knowledge/media-generation/streaming/streamer-tools/streamer-in-charge-moderation/streamer-in-charge-moderation.md",
    "digest": "sha256-b2:64ad387d6a814f4e",
    "revision": 1,
-   "changedAt": "2026-11-02",
+   "changedAt": "2026-11-03",
    "techniques": [
     {
      "slug": "arming-as-a-logged-grant",
@@ -6033,7 +6033,7 @@
    "file": "knowledge/media-generation/streaming/broadcast-integration/streaming-platform-api-custody/streaming-platform-api-custody.md",
    "digest": "sha256-b2:b53b56b1eb00592b",
    "revision": 1,
-   "changedAt": "2026-11-02",
+   "changedAt": "2026-11-03",
    "techniques": [
     {
      "slug": "brokered-calls-token-never-exposed",
@@ -6240,7 +6240,7 @@
    "file": "knowledge/media-generation/streaming/streamer-tools/verifiable-giveaway-draws/verifiable-giveaway-draws.md",
    "digest": "sha256-b2:edca6ad83fb151ae",
    "revision": 1,
-   "changedAt": "2026-11-02",
+   "changedAt": "2026-11-03",
    "techniques": [
     {
      "slug": "freeze-and-announce-before-randomness",

@@ -8,6 +8,7 @@ techniques:
   - angular-legibility-floor
   - panel-placement-in-the-view-band
   - fade-the-content-not-the-view
+  - one-reading-depth-in-the-comfort-zone
 ---
 
 # Seated in-world reading
@@ -96,6 +97,20 @@ A panel anchored to the body is a special case, because anatomy sets its size an
 wrist panel is small and oblique at every placement a real forearm allows. It carries a few
 rows in large type and hands longer reading to a panel in front.
 
+## The depth of a panel decides how long it can be read
+
+The angle of the text says whether it can be read. The depth of the panel says for how long.
+A headset shows every image at one fixed focal distance, and the eyes still turn inward to
+wherever the panel stands. The gap between the two, counted in diopters, is what tires the
+eyes, and it grows fastest close in. Platform comfort guidance puts sustained fixation at
+0.5 m or more, and comfortable reading at about a metre or more. Immersive displays' focal
+distances sit between 1.25 and 2.5 m. A seated work surface pulls the other way, because a
+table is near-field by anatomy and the gaze moves between it and the panel all session.
+Changes in depth cost more than a steady near depth, so a reading panel holds one depth and
+its swaps never move it toward or away from the eye. Whether the panel stands over the
+surface or beyond its far edge is a trade, computed in diopters and decided in a headset
+session. See [one-reading-depth-in-the-comfort-zone](./techniques/one-reading-depth-in-the-comfort-zone.md).
+
 ## The seated person never moves, and neither does the world
 
 Comfort for a seated user is decided by one rule: **the view moves only when the head moves
@@ -134,5 +149,7 @@ shows, which is the parity subject's device-only rule, reached here from the rea
   front one.
 - **A document on the wrist.** The anatomy makes it small and oblique, and no placement fixes
   that.
+- **A reading panel closer than half a metre, or one that moves in depth.** The text clears the
+  floor and the eyes still tire within minutes.
 - **A blink to change context.** It borrows a locomotion device for an experience with no
   locomotion and removes the rest frame.

@@ -55,6 +55,17 @@ scales with the distance so its text keeps the same angle: moving from 60 to 75 
 means scaling by 1.25. Re-measure the smallest text after every move, at the panel's farthest
 corner, against the floor.
 
+Distance has a floor of its own. A panel read for minutes stands 0.5 m or more from the eye,
+and about a metre or more where the furniture allows it, because the eyes tire faster the
+closer a panel stands. Between those two distances, a seated table forces a trade, counted in
+diopters. See [one-reading-depth-in-the-comfort-zone](./one-reading-depth-in-the-comfort-zone.md).
+
+The panel's centre belongs in the resting gaze band. One mixed-reality platform's comfort
+guidance puts the resting gaze at 10 to 20 degrees below the horizon. It says to avoid gaze
+more than 10 degrees above the horizon, gaze more than 60 below it, and neck turns more than
+45 degrees off centre (opened 2026-11-03). A panel straight ahead and dropped into that band
+reads without a raised chin. A panel above the horizon is "up there", however large its text.
+
 ## A queue fans out; it does not stack
 
 When several panels form a queue, the current one stands in front, and the next ones appear
@@ -83,7 +94,7 @@ Anything to read line by line goes to the panel in front.
 3. Place the reading panel straight ahead, upright and facing the eye, inside the band and clear
    of every frame edge.
 4. Size it so its smallest text clears the floor at its farthest corner, and log that number at
-   build time.
+   build time. Log its distance too, and keep it at 0.5 m or more.
 5. Fan any queue to the side as spines. Put the position on a counter.
 6. Capture from the judged pose and confirm that nothing is cropped or covered.
 

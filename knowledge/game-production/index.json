@@ -4,8 +4,8 @@
   "bundle": "game-production",
   "source": "knowledge/game-production/ (frontmatter only)",
   "subjects": 89,
-  "techniques": 589,
-  "applications": 352,
+  "techniques": 590,
+  "applications": 353,
   "laws": 16,
   "categories": [
    "systems-canon",
@@ -20,7 +20,7 @@
    "narrative-and-dialogue"
   ],
   "layout": "nested",
-  "use_when_coverage": "589/589",
+  "use_when_coverage": "590/590",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -9486,9 +9486,9 @@
    "subcategory": "immersive-interaction",
    "status": "draft",
    "file": "knowledge/game-production/couch-and-tv-play/immersive-interaction/seated-in-world-reading/seated-in-world-reading.md",
-   "digest": "sha256-b2:c7f18a3222f4f56c",
-   "revision": 1,
-   "changedAt": "2026-10-26",
+   "digest": "sha256-b2:d682144e96d737d9",
+   "revision": 2,
+   "changedAt": "2026-11-03",
    "techniques": [
     {
      "slug": "angular-legibility-floor",
@@ -9522,6 +9522,21 @@
      ]
     },
     {
+     "slug": "one-reading-depth-in-the-comfort-zone",
+     "status": "draft",
+     "laws": [
+      "a-number-carries-its-unit-and-basis",
+      "unmeasured-is-not-a-pass"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "choosing how far from the eye a panel a person reads for minutes should stand",
+      "a reading panel sits closer than a metre over a work surface",
+      "a panel swap or a queue moves text toward or away from the eye",
+      "deciding whether a body-anchored panel may carry text to read"
+     ]
+    },
+    {
      "slug": "panel-placement-in-the-view-band",
      "status": "draft",
      "laws": [
@@ -9552,9 +9567,15 @@
     },
     {
      "stack": "cpp",
+     "technique": "one-reading-depth-in-the-comfort-zone",
+     "file": "knowledge/game-production/couch-and-tv-play/immersive-interaction/seated-in-world-reading/applications/cpp--one-reading-depth-in-the-comfort-zone.md",
+     "verified_on": "2026-11-03"
+    },
+    {
+     "stack": "cpp",
      "technique": "panel-placement-in-the-view-band",
      "file": "knowledge/game-production/couch-and-tv-play/immersive-interaction/seated-in-world-reading/applications/cpp--panel-placement-in-the-view-band.md",
-     "verified_on": "2026-10-26"
+     "verified_on": "2026-11-03"
     }
    ]
   },
@@ -12208,6 +12229,7 @@
     "runtime-observation-evidence/tiers-of-truth",
     "runtime-observation-evidence/unverifiable-is-not-fail",
     "seated-in-world-reading/angular-legibility-floor",
+    "seated-in-world-reading/one-reading-depth-in-the-comfort-zone",
     "seated-in-world-reading/panel-placement-in-the-view-band",
     "shader-budget-authoring/forbidden-feature-combinations",
     "shader-budget-authoring/sampler-hard-and-soft-caps",
@@ -12638,6 +12660,7 @@
     "runtime-observation-evidence/bounded-evidence-with-provenance",
     "runtime-observation-evidence/deterministic-headless-timestep",
     "seated-in-world-reading/angular-legibility-floor",
+    "seated-in-world-reading/one-reading-depth-in-the-comfort-zone",
     "seated-in-world-reading/panel-placement-in-the-view-band",
     "shader-budget-authoring/channel-packing",
     "shader-budget-authoring/feature-cost-with-a-cheaper-swap",

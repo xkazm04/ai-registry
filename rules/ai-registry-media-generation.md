@@ -1,6 +1,6 @@
 # Media generation - the subjects this registry carries
 
-`media-generation` - 38 subjects, 266 techniques, 166 applications.
+`media-generation` - 53 subjects, 351 techniques, 195 applications.
 Slugs only; open one with `registry_subject` (or `node <registry>/scripts/registry-query.mjs --subject <slug>`), never by reading `index.json` - the access rule beside this file describes the loop.
 
 ### narrative-craft
@@ -16,8 +16,10 @@ Slugs only; open one with `registry_subject` (or `node <registry>/scripts/regist
 - character-voice-design, generated-music-acceptance, generated-speech-acceptance, multi-speaker-speech-production, music-prompt-composition, sound-effect-generation
 
 ### production-ops
-- live-system-demo-film, music-video-production, platform-format-adaptation, production-pipeline-phasing, review-iteration-loops, video-assembly
+- broadcast-chain-showcase-capture, live-system-demo-film, music-video-production, platform-format-adaptation, production-pipeline-phasing, review-iteration-loops, video-assembly
 
 ### streaming
+- **broadcast-integration** - broadcast-software-control, isolated-broadcast-software-test-lane, on-stream-overlay-delivery, overlay-composition-and-safe-area, platform-extension-release-ladder, streaming-platform-api-custody
 - **live-show** - audience-absorption-at-scale, audience-steering-economies, live-response-latency-budgeting, on-stream-persona-continuity, show-segment-format-design, stream-moment-capture
-- **trust-and-evaluation** - live-chat-moderation-and-anti-bait, live-safety-rails, simulated-audience-testing
+- **streamer-tools** - chat-vote-duels, contribution-reactive-visuals, giveaway-eligibility-and-weighting, giveaway-legal-guardrails, streamer-in-charge-moderation, verifiable-giveaway-draws
+- **trust-and-evaluation** - live-chat-moderation-and-anti-bait, live-safety-rails, live-test-consent-and-evidence, simulated-audience-testing, streamer-dress-rehearsal
