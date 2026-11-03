@@ -30,8 +30,11 @@ lowest layer that can see the transport:
 - **Unknown.** The request was, or may have been, sent, and no answer arrived: a
   read timeout, a reset after send, a process killed mid-call, an answer the client
   could not parse after a success status, or the tool's own record failing to
-  finish after the send. Status: `unknown`, a distinct value, with the instruction
-  to read the remote before sending again.
+  finish after the send. A server error (a 5xx) on a write belongs here too, unless
+  the remote documents that such an answer means nothing was applied: the request
+  arrived, and the error can come from after the commit or from a proxy in front of
+  it. Status: `unknown`, a distinct value, with the instruction to read the remote
+  before sending again.
 
 ## Procedure
 
@@ -43,18 +46,33 @@ lowest layer that can see the transport:
    message that says "outcome unknown" inside a response whose status is `failed`
    is still a `failed` to every caller that reads the status, including the
    journal that decides whether the plan may run again.
-3. **Do not retry writes.** Reads may back off and retry; writes are sent once. A
-   retry of a non-idempotent write after an unknown outcome is a duplicate with
-   probability equal to the chance the first one landed, which on a slow remote is
-   most of the time.
+3. **Do not retry writes.** Reads may back off and retry; writes are sent once,
+   unless the remote deduplicates them under a key, within the bounds under "When
+   not to use it". A retry of a non-idempotent write after an unknown outcome is a
+   duplicate with probability equal to the chance the first one landed, which on a
+   slow remote is most of the time.
 4. **Keep the button closed and point at the remote.** The person's next action is
    to look (the branch, the request, the file) or to ask the tool to recall and
    re-plan, never to resend the same preview blind.
+5. **Read the remote by what the write carried, after it could have committed.** The
+   look that settles an unknown asks for the identifier the write itself sent: a
+   client reference, a name the plan chose, or the key. It does not match on content
+   (the same amount, the same title). It waits until the write could have committed,
+   because a read that races the commit sees the old state. A "not found" from a list
+   or search that lags is not "absent".
 
 ## Decision rules
 
 - When the remote supports a precondition token or an idempotency key, a retry can
   be made safe, and the tool may offer it, as a new confirm, not an automatic loop.
+- When the confirm's caller handles any error by reopening the action (the card goes
+  back to waiting, the journal row becomes `failed`, the button is enabled again),
+  that handler is where `unknown` is laundered, whatever the message says. The
+  pattern recurs because the reopen path is written for refusals, and the unknown
+  case goes through it unexamined. A message reading "it may have gone, check before
+  you sign again" above a card that can be signed again is a resend door with a
+  warning on it. Unknown keeps the action closed: the card is settled with the
+  unknown outcome, and a new send goes through a new preview.
 - When a later step of the plan is skipped because an earlier one is unknown, the
   later steps are `not run`, not failed; the rows show exactly where the sequence
   stopped.
@@ -78,7 +96,37 @@ two-valued status field, and that field is where the third value must be added.
 
 ## When not to use it
 
-A write the remote guarantees is idempotent under a key the client sent may be
-retried by the client, and its unknown collapses back to known once the retry
-answers. A write to the tool's own transactional store has no unknown: the
-transaction committed or it did not.
+A write the remote deduplicates under a key the client sent may be retried by the
+client. Every one of the following bounds is the remote's to document, per
+endpoint:
+
+- **One key per operation, minted once.** The key is derived from the operation, or
+  recorded with it, before the first send, and reused on every attempt. A key minted
+  per attempt is no key. If a retry arrives while the first request is still being
+  processed, the published conventions answer with a conflict. Wait, and retry under
+  the same key, never a new one.
+- **Inside that endpoint's retention window.** Windows differ between endpoints of
+  one vendor, from hours to a month. A key reused after it has expired can execute a
+  new request. Past the window with the outcome still unknown, send neither the old
+  key nor a new one: reconcile, or park the write for the person. An endpoint whose
+  key store is not documented is not keyed, however its sibling endpoints behave.
+  An endpoint that documents the key but not how long it is kept is keyed only for
+  retries a few seconds apart, inside one bounded call. It is not keyed for a re-send
+  hours later.
+- **The same payload.** A rebuilt request under the old key (a fresh timestamp, a
+  reordered field) is refused as a mismatch.
+- **The retry's answer settles the outcome only when it names what the write made.**
+  Some remotes store the first answer and replay it, a server error included, so
+  the retry hands back the same unknown. Others report the resource's current state
+  rather than the first request's result. Read the replayed answer for the
+  resource's id, and treat a replayed 5xx as still unknown.
+
+Where no store is documented, a second send can still be bounded by the remote's
+own state. A capture marked final, or a void of a hold that is already void, is
+refused because of what the first send did. That is a guard the remote enforces,
+not deduplication. It holds a second send to one effect, but a refusal answering
+that second send means "look", because the first send may be the one that landed.
+It never means "failed".
+
+A write to the tool's own transactional store has no unknown: the transaction
+committed or it did not.

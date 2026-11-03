@@ -97,12 +97,19 @@ That is [preview-id-claim-and-recall](./techniques/preview-id-claim-and-recall.m
 A write that was refused by the remote system (a permission error, a validation
 error, a precondition mismatch) failed, and the tool knows it did not land. A write
 whose request was sent and whose answer never arrived, whether a timeout, a reset,
-or a kill after send, has an **unknown outcome**. Calling it "failed" is the most
+a kill after send or a server error the remote does not document as "nothing
+applied", has an **unknown outcome**. Calling it "failed" is the most
 expensive lie available to this kind of tool, because "failed" reads as "safe to
 send again", and the second send is exactly the duplicate or the stale overwrite
 the rest of the subject exists to prevent. The tool does not retry such a write on
-its own: the person is the only party who can decide to send it again, after
-reading the remote state. The classification of errors into refused, unknown and
+its own, with one exception: the remote deduplicates the write under a key the tool
+minted once for the operation, and the retry falls inside the window that remote
+documents for that endpoint. Even then, the remote may replay the first answer,
+server error included, and the outcome stays unknown until an answer names what the
+write made. Outside that exception, the person is the only party who can decide to
+send it again, after reading the remote state. Whatever path handles a failed
+confirm must not reopen the action for an unknown. A card returned to "waiting" with
+a warning beside it is still a resend door. The classification of errors into refused, unknown and
 transient, and the wording that goes with each, is
 [unretried-write-unknown-outcome](./techniques/unretried-write-unknown-outcome.md),
 resting on [unknown-is-not-a-value](../../../_laws.md#unknown-is-not-a-value).

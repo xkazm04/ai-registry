@@ -44,7 +44,12 @@ party that can see it.
 5. **Map the refusal.** The remote's precondition failure (a conflict, a "precondition
    failed", or whatever status the remote documents for a stale token) is a refused
    write, reported as `failed` with the reason "the file moved since it was read".
-   It is not unknown: the remote said no.
+   It is not unknown: the remote said no. Some remotes document no distinct status
+   for a stale token, and answer any failed commit with the same non-specific client
+   error. There the reason says the write was refused and the file *may* have moved.
+   The next step is a fresh preview, which shows whether it did. The HTTP standard
+   also lets a server answer a conditional write that looks already applied with a
+   success. A precondition refusal is a guard, not a dedupe receipt.
 6. **Share one read between a decision and its edit.** When the plan decides from the
    content (is this class above the requested tier?) and then edits it, the decision
    and the edit use the same read and the same token, so the remote refuses the write
