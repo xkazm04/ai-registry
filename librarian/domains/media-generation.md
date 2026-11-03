@@ -652,3 +652,36 @@ Source-class tally (post-hoc):
 - A consumer's agent-facing package (the MCP tool list and its partition test) was the
   best source on who may arm. No design doc in either tree states the rule. The code
   and its test do.
+
+## 2026-11-03 - deepen, streaming-platform-api-custody (spac-deepen-1103)
+
+Dispatched on "single stack (rust)". This time the second stack came from a second tree,
+overlord. It is the tree the fleet map joins to the subject. Its daemon is the Rust broker
+and its console is a TypeScript client with no platform credential in its type system.
+Landed in 090bb84d7 (catalog 43e940d09). The device-code polling rules gained RFC 8628
+3.5's connection-timeout MUST (lengthen the wait, bounded, keep polling to the
+deadline), and the code's own deadline now ends the flow. The web lane read the RFC
+verbatim, and the blind training-data lane converged with it. Every other qualitative
+claim held against the platform's own pages. Two applications landed: a TypeScript one
+(console) and a Rust one (daemon). Applied: `code` / `better`, shipped to overlord as
+5b36dd3 and pushed. The A/B also fixed the existing rules overlord broke: a 429 or a
+gateway page during the poll ended the login, and the verification address went
+unchecked. Detail in [[streaming-platform-api-custody]].
+
+| subject | rung | last-pass yield | demand after | dry |
+| --- | --- | --- | --- | --- |
+| streaming-platform-api-custody | L2 | 1 condition (technique + golden-path sentence), 2 applications (typescript, rust), 1 code A/B shipped | 4 unjudged pairs (overlord 1, systedo-case 3, noise); overlord's Twitch adapter has no context in its map | 0 |
+
+Source-class tally (post-hoc):
+- The standard's own text (RFC 8628) was the source that earned the landing. The
+  platform's docs state the platform's deviation from it: "invalid device code" rather
+  than `expired_token`. Neither source alone gives both halves.
+- The platform's developer docs fetch cleanly and quote verbatim on re-fetch. That makes
+  them a better source than its help centre, which did not render for sicm-deepen-1103.
+  This run did not need the help centre.
+- A blind lane agreed with every platform fact the web lane confirmed. That is
+  convergence, not confirmation. Its one unsure answer (revocation scope) is banked, not
+  landed.
+- The consumer's own mock test suite was the A/B instrument. A seeded control was
+  needed to show the timing assertion was not vacuous: the first control run silently
+  ran arm B, because a sed pattern missed a line rustfmt had split.

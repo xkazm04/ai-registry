@@ -1,0 +1,67 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "spac-deepen-1103",
+  "skill": "deepen",
+  "skill_version": "1.5.0",
+  "mode": "interactive",
+  "domain": "media-generation",
+  "started_at": "2026-11-03T14:10:00Z",
+  "ended_at": "2026-11-03T15:45:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 1,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "media-generation/streaming-platform-api-custody",
+      "at": "2026-11-03",
+      "engine": "deepen",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "streaming-platform-api-custody",
+      "technique": "single-flight-jittered-refresh",
+      "verdict": "better",
+      "mode": "code"
+    }
+  ],
+  "files": [
+    "knowledge/media-generation/streaming/broadcast-integration/streaming-platform-api-custody/streaming-platform-api-custody.md",
+    "knowledge/media-generation/streaming/broadcast-integration/streaming-platform-api-custody/techniques/single-flight-jittered-refresh.md",
+    "knowledge/media-generation/streaming/broadcast-integration/streaming-platform-api-custody/applications/typescript--brokered-calls-token-never-exposed.md",
+    "knowledge/media-generation/streaming/broadcast-integration/streaming-platform-api-custody/applications/rust--single-flight-jittered-refresh--overlord.md",
+    "librarian/applied.md",
+    "librarian/subjects/media-generation/streaming-platform-api-custody.md",
+    "librarian/domains/media-generation.md"
+  ],
+  "commits": [
+    {
+      "sha": "090bb84d7",
+      "branch": "main",
+      "pathspec": [
+        "knowledge/media-generation/streaming/broadcast-integration/streaming-platform-api-custody",
+        "knowledge/media-generation/index.json",
+        "rules/ai-registry-media-generation.md"
+      ]
+    },
+    {
+      "sha": "43e940d09",
+      "branch": "main",
+      "pathspec": [
+        "catalog.json"
+      ]
+    }
+  ],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "Second tree answers the stack: overlord console (typescript) and daemon (rust). Device-poll timeout rule from RFC 8628 3.5, web and blind lanes converged. Code A/B better, shipped to overlord 5b36dd3 (pushed). 0 stale verdicts; 12 maps committed locally."
+}
