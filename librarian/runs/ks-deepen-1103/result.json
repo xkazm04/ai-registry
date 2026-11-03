@@ -1,0 +1,91 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "ks-deepen-1103",
+  "skill": "deepen",
+  "skill_version": "1.5.0",
+  "mode": "interactive",
+  "domain": "software-engineering",
+  "started_at": "2026-11-03T18:00:00Z",
+  "ended_at": "2026-11-03T20:40:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 1,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "software-engineering/keyboard-shortcuts",
+      "at": "2026-11-03",
+      "engine": "deepen",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "software-engineering/keyboard-shortcuts",
+      "technique": "layered-key-dispatch",
+      "verdict": "better",
+      "mode": "experiment"
+    },
+    {
+      "subject": "software-engineering/keyboard-shortcuts",
+      "technique": "shortcut-collision-rules",
+      "verdict": "better",
+      "mode": "experiment"
+    }
+  ],
+  "files": [
+    "knowledge/software-engineering/ui-surfaces/input-and-editing/keyboard-shortcuts/keyboard-shortcuts.md",
+    "knowledge/software-engineering/ui-surfaces/input-and-editing/keyboard-shortcuts/techniques/layered-key-dispatch.md",
+    "knowledge/software-engineering/ui-surfaces/input-and-editing/keyboard-shortcuts/techniques/shortcut-collision-rules.md",
+    "knowledge/software-engineering/ui-surfaces/input-and-editing/keyboard-shortcuts/applications/react--layered-key-dispatch.md",
+    "knowledge/software-engineering/ui-surfaces/input-and-editing/keyboard-shortcuts/applications/rust--shortcut-collision-rules.md",
+    "knowledge/software-engineering/ui-surfaces/input-and-editing/keyboard-shortcuts/applications/rust--repeat-composition-and-odd-events.md",
+    "librarian/applied.md",
+    "librarian/subjects/software-engineering/keyboard-shortcuts.md",
+    "librarian/domains/software-engineering.md"
+  ],
+  "commits": [
+    {
+      "sha": "1c57a4971",
+      "branch": "main",
+      "pathspec": [
+        "knowledge/software-engineering/ui-surfaces/input-and-editing/keyboard-shortcuts",
+        "knowledge/software-engineering/index.json",
+        "rules/ai-registry-software-engineering.md"
+      ]
+    },
+    {
+      "sha": "edb927fa5",
+      "branch": "main",
+      "pathspec": [
+        "catalog.json"
+      ]
+    },
+    {
+      "sha": "0211639fe",
+      "branch": "main",
+      "pathspec": [
+        "knowledge/software-engineering/ui-surfaces/input-and-editing/keyboard-shortcuts/techniques/shortcut-collision-rules.md",
+        "knowledge/software-engineering/ui-surfaces/input-and-editing/keyboard-shortcuts/applications/rust--shortcut-collision-rules.md",
+        "knowledge/software-engineering/index.json"
+      ]
+    },
+    {
+      "sha": "f03a7e59d",
+      "branch": "main",
+      "pathspec": [
+        "catalog.json"
+      ]
+    }
+  ],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "Rust applications from personas OS-level accelerator. Shift flip sourced verbatim from W3C 2.1.4; claim rule converged from two trees. Two gravitone applied rows (experiment, better, no code change; local e3999bc8). 12 maps committed locally, unpushed."
+}

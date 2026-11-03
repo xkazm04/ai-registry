@@ -1421,3 +1421,33 @@ Source-class tally (post-hoc, this run):
 - A fleet tree that implements a registry contract can surface a contradiction inside the
   registry. The field lane found it by reading the tree's header comment, which cites the
   contract by path.
+
+## Run ks-deepen-1103 - keyboard-shortcuts, Shift is a capital and a covering layer claims
+
+A Curator dispatch on "single stack (react)". The subject was a week old (harvested
+2026-10-27 from one tree). personas (Rust) answers the stack finding with an OS-level
+push-to-talk accelerator over a global-hotkey crate whose source was read at the pinned
+versions. The pass produced one flip, one added condition, two rust applications and no new
+technique.
+- **Shift is not a non-printing modifier.** The counter-evidence lane refuted the
+  technique's "Shift plus a letter is the lightest modifier that type-ahead ignores" from
+  the W3C 2.1.4 text, quoted verbatim, and from the cited tree's own type-ahead predicate.
+  The blind lane agreed with high confidence.
+- **Hearing first is not owning the keyboard.** Two independent trees, personas' "exclusive"
+  registrations and gravitone's per-kind claim, reached the same rule. The gravitone harness
+  measured it on real layers.
+- **An OS accelerator's collision check is its registration, and the check is one-sided.**
+  The bound came from the blind lane and was worded from Microsoft's text.
+
+| subject | rung | last-pass yield | demand after | dry |
+| --- | --- | --- | --- | --- |
+| keyboard-shortcuts | L2 | 1 flip, 1 condition, 2 applications (rust), 1 react deviation, 2 applied rows (experiment better, no code change) | 4 unjudged pairs (gravitone, kp lexical-only, paypal, overlord), 0 stale; personas carries two real seams but is not joined | 0 |
+
+Source-class tally (post-hoc, this run):
+- The W3C Understanding pages fetch as static HTML through curl and give quotable text. For an
+  accessibility claim, they outrank both the criterion's one-line summary and training memory.
+- Vendor crate source in the local cargo registry, at the lockfile's versions, is primary
+  evidence for platform behaviour. The crate's backend translation tables showed a
+  divergence between platforms that no project doc mentions.
+- Microsoft Learn API pages fetch statically and carry the bound itself ("Typically ...
+  fails if"). That made the blind lane's caution citable instead of anecdotal.
