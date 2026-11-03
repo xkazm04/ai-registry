@@ -726,3 +726,25 @@ Source-class tally (post-hoc, this run):
   literature.
 - The counter lane's forum and talk-notes sources arrived through search summaries. They
   corroborated claims and landed nothing on their own.
+
+## 2026-11-03 - deepen seated-in-world-reading (siwr-deepen-1103)
+
+A Curator dispatch on "3 techniques (design floor is 4)". There is now one new technique and
+the floor is met. `one-reading-depth-in-the-comfort-zone` holds that a panel read for minutes
+stands 0.5 m or more from the eye, and preferably about a metre. Its depth is counted in
+diopters against the focal band, and depth swings cost more than a steady near depth. A seated
+table forces a trade between those two, which only a headset session decides. Applied to bp
+as a simulation over three cases, verdict `unmeasurable`, with the instrument named. The
+placement technique gained the depth floor and the resting gaze band.
+
+| subject | rung | last-pass yield | demand after | dry |
+| --- | --- | --- | --- | --- |
+| seated-in-world-reading | L2 | 1 technique, 1 widening, 1 application (simulation), 1 application re-read | pof 4 pairs, 0 judged, 0 stale; bp has no map | 0 |
+
+Source-class tally (post-hoc, this run):
+- Platform vendors' own comfort pages were the decisive primaries. Two vendors agreed on the
+  shape (a floor near half a metre, about a metre or more for reading). Both pages carried a
+  date to re-open them against.
+- The blind lane converged on every distance bound. It also offered a vision-science comfort
+  figure and per-headset focal planes that no opened page stated, and both were declined as
+  unsourced volatile facts.

@@ -1,0 +1,72 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "siwr-deepen-1103",
+  "skill": "deepen",
+  "skill_version": "1.5.0",
+  "mode": "interactive",
+  "domain": "game-production",
+  "started_at": "2026-11-03T09:00:00Z",
+  "ended_at": "2026-11-03T10:45:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 1,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "game-production/seated-in-world-reading",
+      "at": "2026-11-03",
+      "engine": "deepen",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "seated-in-world-reading",
+      "technique": "one-reading-depth-in-the-comfort-zone",
+      "verdict": "unmeasurable",
+      "mode": "simulation"
+    }
+  ],
+  "files": [
+    "knowledge/game-production/couch-and-tv-play/immersive-interaction/seated-in-world-reading/seated-in-world-reading.md",
+    "knowledge/game-production/couch-and-tv-play/immersive-interaction/seated-in-world-reading/techniques/one-reading-depth-in-the-comfort-zone.md",
+    "knowledge/game-production/couch-and-tv-play/immersive-interaction/seated-in-world-reading/techniques/panel-placement-in-the-view-band.md",
+    "knowledge/game-production/couch-and-tv-play/immersive-interaction/seated-in-world-reading/applications/cpp--one-reading-depth-in-the-comfort-zone.md",
+    "knowledge/game-production/couch-and-tv-play/immersive-interaction/seated-in-world-reading/applications/cpp--panel-placement-in-the-view-band.md",
+    "librarian/applied.md",
+    "librarian/subjects/game-production/seated-in-world-reading.md",
+    "librarian/domains/game-production.md"
+  ],
+  "commits": [
+    {
+      "sha": "85f1ab79e",
+      "branch": "main",
+      "pathspec": [
+        "knowledge/game-production/couch-and-tv-play/immersive-interaction/seated-in-world-reading",
+        "knowledge/game-production/index.json",
+        "knowledge/media-generation/index.json",
+        "rules/ai-registry-game-production.md",
+        "rules/ai-registry-media-generation.md",
+        "librarian/applied.md",
+        "librarian/subjects/game-production/seated-in-world-reading.md"
+      ]
+    },
+    {
+      "sha": "5be830a16",
+      "branch": "main",
+      "pathspec": [
+        "catalog.json"
+      ]
+    }
+  ],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "4 techniques. Reading-depth technique from two vendor comfort pages + blind lane. bp simulation unmeasurable (deck 75 cm vs 1 m needs a session); bp ledger pushed 441e566; pof map local 5cfaf420, unpushed. public-paths red from a sibling commit."
+}
