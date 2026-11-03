@@ -169,6 +169,14 @@
             "conversation-orchestration",
             "talking-avatar"
           ]
+        },
+        {
+          "id": "experience",
+          "title": "Agent experience",
+          "subjects": [
+            "agent-host-experience",
+            "model-composed-workspace"
+          ]
         }
       ]
     },
