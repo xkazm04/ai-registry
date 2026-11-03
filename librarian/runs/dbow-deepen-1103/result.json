@@ -1,0 +1,74 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "dbow-deepen-1103",
+  "skill": "deepen",
+  "skill_version": "1.5.0",
+  "mode": "interactive",
+  "domain": "software-engineering",
+  "started_at": "2026-11-03T15:20:00Z",
+  "ended_at": "2026-11-03T16:45:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 1,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "software-engineering/digest-bound-operator-writes",
+      "at": "2026-11-03",
+      "engine": "deepen",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "software-engineering/digest-bound-operator-writes",
+      "technique": "unretried-write-unknown-outcome",
+      "verdict": "better",
+      "mode": "simulation"
+    },
+    {
+      "subject": "software-engineering/digest-bound-operator-writes",
+      "technique": "unretried-write-unknown-outcome",
+      "verdict": "better",
+      "mode": "experiment"
+    }
+  ],
+  "files": [
+    "knowledge/software-engineering/integration/external-systems/digest-bound-operator-writes/digest-bound-operator-writes.md",
+    "knowledge/software-engineering/integration/external-systems/digest-bound-operator-writes/techniques/unretried-write-unknown-outcome.md",
+    "knowledge/software-engineering/integration/external-systems/digest-bound-operator-writes/techniques/precondition-token-on-every-write.md",
+    "knowledge/software-engineering/integration/external-systems/digest-bound-operator-writes/applications/rust--unretried-write-unknown-outcome.md",
+    "knowledge/software-engineering/integration/external-systems/digest-bound-operator-writes/applications/python--unretried-write-unknown-outcome.md",
+    "librarian/applied.md",
+    "librarian/subjects/software-engineering/digest-bound-operator-writes.md",
+    "librarian/domains/software-engineering.md"
+  ],
+  "commits": [
+    {
+      "sha": "575652ac5",
+      "branch": "main",
+      "pathspec": [
+        "knowledge/software-engineering/integration/external-systems/digest-bound-operator-writes",
+        "knowledge/software-engineering/index.json",
+        "rules/ai-registry-software-engineering.md"
+      ]
+    },
+    {
+      "sha": "89e5c2d81",
+      "branch": "main",
+      "pathspec": [
+        "catalog.json"
+      ]
+    }
+  ],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "Rust (paypal) and python (athena-muse) applications. Flipped: keyed retry bounded per endpoint; 5xx on a write is unknown. New rule: reopen-on-error launders unknown. athena A/B 2 vs 1 sends, held for owner. 12 maps committed locally, unpushed."
+}

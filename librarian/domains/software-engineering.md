@@ -1364,3 +1364,30 @@ Source-class tally (post-hoc, this run):
   sets those, which is the class where training data holds up. Neither lane sourced the
   house heuristics (the noise multiple of 2, the ~8-sample IQR cutoff), and the text now
   calls them defaults.
+
+## Run dbow-deepen-1103 - digest-bound-operator-writes, a keyed retry is bounded
+
+A Curator dispatch on "single stack (node)". The subject was a week old (harvested
+2026-10-27 from one tree). paypal (Rust) and athena-muse (Python) answer the stack finding
+for unretried-write-unknown-outcome. Two rules flipped, one new decision rule, one new
+procedure step, one precision correction, no new technique.
+- **A keyed retry is bounded by the remote, per endpoint.** The web lane refuted "the
+  retry's answer settles it": Stripe v1 replays a stored 500. The blind lane and the paypal
+  tree converged on the bounds.
+- **A 5xx on a write is unknown.** athena-muse already does this, and the blind lane names
+  it.
+- **The reopen-on-error handler is where unknown leaks.** Two trees in two stacks show it,
+  one of them measured (2 sends against 1).
+
+| subject | rung | last-pass yield | demand after | dry |
+| --- | --- | --- | --- | --- |
+| digest-bound-operator-writes | L2 | 2 flips, 1 rule, 1 step, 1 precision, 2 applications (rust, python), 2 applied rows (simulation better; experiment better, held) | 5 word-only pairs, 0 stale; both real seams unjoined | 0 |
+
+Source-class tally (post-hoc, this run):
+- A vendor's published OpenAPI files beat its rendered docs pages. PayPal's developer
+  pages render client-side, and curl finds no figures in them. The raw spec carries the
+  retention text verbatim, per endpoint.
+- Vendor error-handling pages (Stripe's low-level errors) carry the counter-evidence that
+  API reference pages omit: a replayed 500 is not a resolution.
+- A fleet tree's own UNVERIFIED comment is a research lead. Half of paypal's was settled
+  by the spec in one fetch.
