@@ -1480,3 +1480,34 @@ Source-class tally (post-hoc, this run):
   beats the fetch summarizer, which the memory ledger already distrusts for quotes.
 - A scratch repo with marker-file hooks is a cheap, decisive instrument for "what does this
   runtime load". Two arms and one control settled a claim the docs only half state.
+
+## Run pcaa-deepen-1103 - proof-carrying-agent-actions, a format version is a class the file declares
+
+A Curator dispatch on "single stack (node)". The subject was a week old (forged 2026-10-27
+from one tree). paypal (Rust, public) answers the stack finding with its offline verifier for
+an AI agent's payment proof file. The action is a payment rather than a merge request, and the
+subject's rules carry over intact. The pass produced one added condition, two rust
+applications, one applied row (simulation), two counter-evidence corrections, and no new
+technique.
+- **A versioned proof format is a class declaration.** The verifier still reads the first
+  format under lighter rules. The project's own test asserts that a second-format deal,
+  stripped and re-signed by the deal's agent key, verifies with seven checks struck. The
+  fleet tree, the blind lane and the web lane (RFC 8725 §3.1, RFC 8446 §4.1.3) converged on
+  the same fix: the verifier takes the floor from evidence the producer cannot re-sign.
+- **The third verdict dies at the CLI exit.** The app sheet folds in the technique's order
+  (failed, then passed, then "not every check could be made"). The CLI maps not-made to exit
+  1, which is the process-boundary loss the technique predicts.
+- **Corrected:** verifier and policy fields belong to a verification summary attestation,
+  not to every attestation format. **Sharpened:** a curated pass-to-pass list is not the
+  suite. **Verified and left untouched:** test tampering (ImpossibleBench).
+
+| subject | rung | last-pass yield | demand after | dry |
+| --- | --- | --- | --- | --- |
+| proof-carrying-agent-actions | L2 | 1 condition, 2 applications (rust), 1 applied row (simulation better, paypal), 2 corrections | 6 pairs in 4 maps (tracklight, politicas, pof, paypal), 0 judged | 0 |
+
+Source-class tally (post-hoc, this run):
+- A fleet project's own tests can state a design choice as an assertion. "A re-signed
+  downgrade verifies" was a test, not a bug report, and that made the deviation citable
+  without running anything.
+- Spec source on GitHub and RFC .txt files gave verbatim field names and requirement text.
+  The fetch summarizer refused long quotes, so raw text was the only usable class.
