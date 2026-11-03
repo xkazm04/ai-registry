@@ -101,7 +101,12 @@ the target's own text tried to steer can be steered only through fenced data,
 never through an instruction file the runtime trusted. A proposer with tools
 is an agent, and an agent's evidence is whatever it happened to read; that
 loses reproducibility, and it gives the target's content a second, unfenced
-door. See [isolated-proposer-call](./techniques/isolated-proposer-call.md).
+door. When a proposal is a judgment that needs the tree read, the proposer gets read
+tools and the target as its working directory. A read-only permission mode does not
+then close the door the empty directory closed, because permissions govern tools, not what the runtime
+loads from where it starts. Measured on one runtime, a target-declared hook still
+executed under that mode. Turn off the runtime's project-level configuration source
+instead. See [isolated-proposer-call](./techniques/isolated-proposer-call.md).
 
 ## Every proposed line is a typed claim with its own probe
 

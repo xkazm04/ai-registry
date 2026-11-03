@@ -85,6 +85,9 @@ across runs is a prompt that has drifted from the schema.
   against the probes.
 - When a field may be unknown, the schema lets it be absent and the prompt says
   absent is correct.
+- When the proposer must run inside the target, turn off the runtime's
+  project-level configuration source and keep the read grant; never count a
+  read-only permission mode as that closure.
 
 ## When not to use this
 
@@ -93,3 +96,23 @@ understood by running it, and no prepared probe can supply the fact — a single
 sealed call cannot see enough. Use an agent with a sandbox and a recorded
 trajectory, and treat the trajectory as the evidence record, accepting that two
 runs will not be comparable line for line.
+
+Between the two sits a case that is easy to file under the first: the proposal
+needs the target **read**, not run. A reason why a file keeps changing, or where
+a module is fragile, is a judgment over code no capped pack carries. The proposer
+then gets read tools, and its working directory has to be the target, so the
+empty scratch directory is no longer available as the defence. The door it
+closed is still open. The runtime's permission stance (a read-only mode, a tool
+allowlist, a write denylist) governs which tools the agent may call. It does not
+govern what the runtime loads from its working directory at start and on its own
+events. Measured 2026-11-03 on one agent CLI, n=2 per arm: under a read-only mode
+with a read-only allowlist, a target-declared session-start hook and stop hook
+both executed as commands, and the target's instruction file steered the answer.
+Turning off the runtime's project-level configuration source while keeping the
+target as the working directory stopped both. Files stayed readable as data, and
+deny rules passed in from the caller still held
+([application](../applications/python--isolated-proposer-call--kp.md)). Close the
+door at the configuration source. The judgment lines such a proposer returns
+still need the rest of this subject: counted facts kept out of its reach,
+references intersected with values observed in advance, and provenance on
+whatever no probe can test.

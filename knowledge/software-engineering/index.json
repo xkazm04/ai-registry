@@ -5,7 +5,7 @@
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 245,
   "techniques": 1970,
-  "applications": 1477,
+  "applications": 1478,
   "laws": 16,
   "categories": [
    "ui-surfaces",
@@ -28015,9 +28015,9 @@
    "subcategory": "evaluation-and-cost",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/evaluation-and-cost/probe-confirmed-model-proposals/probe-confirmed-model-proposals.md",
-   "digest": "sha256-b2:5ac77076d62c75f1",
-   "revision": 1,
-   "changedAt": "2026-10-27",
+   "digest": "sha256-b2:e7d20c5fbd4d87e5",
+   "revision": 2,
+   "changedAt": "2026-11-03",
    "techniques": [
     {
      "slug": "cross-engine-agreement",
@@ -28106,6 +28106,13 @@
      "technique": "isolated-proposer-call",
      "file": "knowledge/software-engineering/llm-agent/evaluation-and-cost/probe-confirmed-model-proposals/applications/node--isolated-proposer-call.md",
      "verified_on": "2026-10-27"
+    },
+    {
+     "stack": "python",
+     "technique": "isolated-proposer-call",
+     "file": "knowledge/software-engineering/llm-agent/evaluation-and-cost/probe-confirmed-model-proposals/applications/python--isolated-proposer-call--kp.md",
+     "verified_on": "2026-11-03",
+     "verified_against": "python@3.12"
     }
    ]
   },
