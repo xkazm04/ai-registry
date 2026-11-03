@@ -174,6 +174,40 @@ test('ids on both sides skip the path heuristic: a vanished id is a deletion, ex
   assert.equal(prevWasNameKeyed.renames.length, 1, 'a document written before contextKey existed used <group>/<name>');
 });
 
+test('ids on both sides: a re-issued id (same group, name and paths) is a rename, not a deletion', () => {
+  // gravitone 2026-11-03: a context rescan re-issued every id; 304 verdicts were orphaned.
+  const old = paths('o', 4);
+  const prev = { contextKey: 'id', contexts: [{ ...prevRow('g/ctx', old), context: 'id-old' }] };
+  const same = [{ ...row('g/ctx', old), context: 'id-new' }];
+  const r = reconcileContexts(prev, same, true);
+  assert.deepEqual(r.renames, [{ from: 'id-old', to: 'id-new', by: 'reissued-id', overlap: 1 }]);
+  assert.deepEqual(r.orphans, []);
+  assert.equal(r.prevPairs.get('id-new|s1').renamedFrom, 'id-old');
+  // Same name, paths gone: still a deletion. Same paths, other group: still a deletion.
+  assert.equal(reconcileContexts(prev, [{ ...row('g/ctx', paths('n', 4)), context: 'id-new' }], true).renames.length, 0);
+  assert.equal(reconcileContexts(prev, [{ ...row('h/ctx', old), context: 'id-new' }], true).renames.length, 0);
+});
+
+test('a parked orphan is adopted by an EXISTING same-identity context, never overwriting its verdicts', () => {
+  // The gravitone repair: the regeneration that orphaned the verdicts already made id-new a
+  // known row, so it is not newborn; the identity rule must still let the orphan come home.
+  const old = paths('o', 4);
+  const prev = {
+    contextKey: 'id',
+    contexts: [{ ...prevRow('g/ctx', old, [judged('s2', { state: 'deviation' })]), context: 'id-new' }],
+    orphans: [{ ...prevRow('g/ctx', old, [judged('s1'), judged('s2')]), context: 'id-old' }],
+  };
+  const r = reconcileContexts(prev, [{ ...row('g/ctx', old), context: 'id-new' }], true);
+  assert.deepEqual(r.orphans, []);
+  assert.equal(r.prevPairs.get('id-new|s1').renamedFrom, 'id-old');
+  assert.equal(r.prevPairs.get('id-new|s2').state, 'deviation', 'the newer verdict on the adopter wins');
+  assert.deepEqual([...r.arrived], []);
+  // A non-orphan vanished row is never matched against an existing context.
+  const r2 = reconcileContexts({ contextKey: 'id', contexts: [prev.contexts[0], { ...prevRow('g/ctx', old), context: 'id-gone' }] },
+    [{ ...row('g/ctx', old), context: 'id-new' }], true);
+  assert.deepEqual(r2.renames, []);
+});
+
 test('arrived marks only a current key with no previous row and no rename', () => {
   const old = paths('o', 3);
   const prev = { contexts: [prevRow('g/kept', ['k1']), prevRow('g/old', old)] };

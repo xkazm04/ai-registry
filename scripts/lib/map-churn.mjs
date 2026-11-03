@@ -108,13 +108,26 @@ export function reconcileContexts(prev, mapped, currentHasIds) {
   const idsOnBothSides = currentHasIds && prev.contextKey === 'id';
   const adoptedNew = new Set();
   const adoptedOld = new Map(); // old key -> new key
-  if (!idsOnBothSides && vanished.length && candidates.length) {
+  // With ids on both sides only a RE-ISSUED id is a rename: the same group and name over the
+  // same paths. Measured 2026-11-03 in gravitone: a context rescan gave all 80 contexts new
+  // ids with their names and paths unchanged (58 at 100% overlap), and because this branch was
+  // skipped outright every verdict on them - 304 pairs - was parked under orphans[]. A vanished
+  // id with a different name is still a deletion, exactly.
+  // A PARKED orphan may also be adopted by a context that is no longer newborn, under the
+  // identity rule only: the gravitone regeneration that orphaned the 304 verdicts made all
+  // 108 new contexts existing rows, so a newborn-only pool could never heal it. Such an
+  // adoption never overwrites a pair the context already carries (see `carry` below).
+  const existing = [...current.keys()].filter((k) => prevRows.has(k) && !prevRows.get(k)._orphan);
+  const sameIdentity = (a, b) => (a.name ?? null) === (b.name ?? null) && (a.group ?? null) === (b.group ?? null);
+  if (vanished.length && current.size) {
     const scored = [];
     for (const { key, row } of vanished) {
       const oldPaths = row.paths ?? [];
-      for (const nk of candidates) {
+      const pool = row._orphan ? [...candidates, ...existing] : candidates;
+      for (const nk of pool) {
+        if ((idsOnBothSides || !candidates.includes(nk)) && !sameIdentity(row, current.get(nk))) continue;
         const overlap = overlapRatio(oldPaths, current.get(nk).paths ?? []);
-        if (overlap >= RENAME_OVERLAP) scored.push({ from: key, to: nk, overlap });
+        if (overlap >= RENAME_OVERLAP) scored.push({ from: key, to: nk, overlap, by: idsOnBothSides ? 'reissued-id' : 'paths' });
       }
     }
     // Highest ratio first; ties break lexically (old key, then new key) so the plan is
@@ -125,7 +138,7 @@ export function reconcileContexts(prev, mapped, currentHasIds) {
       if (adoptedOld.has(s.from) || adoptedNew.has(s.to)) continue;
       adoptedOld.set(s.from, s.to);
       adoptedNew.add(s.to);
-      renames.push({ from: s.from, to: s.to, by: 'paths', overlap: Math.round(s.overlap * 100) / 100 });
+      renames.push({ from: s.from, to: s.to, by: s.by, overlap: Math.round(s.overlap * 100) / 100 });
     }
   }
 
@@ -141,7 +154,11 @@ export function reconcileContexts(prev, mapped, currentHasIds) {
     }
     const to = adoptedOld.get(key);
     if (to) {
-      for (const s of kept) { const { arrived: _a, ...rest } = s; carry(to, { ...rest, source: 'renamed', renamedFrom: key }); }
+      // A pair the adopting context already carries (a verdict judged on it since) wins.
+      for (const s of kept) {
+        const { arrived: _a, ...rest } = s;
+        if (!prevPairs.has(`${to}|${s.subject}`)) carry(to, { ...rest, source: 'renamed', renamedFrom: key });
+      }
       continue;
     }
     if (!kept.length) continue;   // a vanished context with nothing paid for on it is just gone
