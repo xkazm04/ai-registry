@@ -1391,3 +1391,33 @@ Source-class tally (post-hoc, this run):
   API reference pages omit: a replayed 500 is not a resolution.
 - A fleet tree's own UNVERIFIED comment is a research lead. Half of paypal's was settled
   by the spec in one fetch.
+
+## Run eat-deepen-1103 - earned-autonomy-tiers, a computed class is a claim
+
+A Curator dispatch on "single stack (node)". The subject was a week old (harvested 2026-10-27
+from one tree). personas (Rust) answers the stack finding with a per-slice ladder in its
+storage crate. The pass produced one new trap, one bounded flip, one precision correction and
+no new technique.
+- **A class computed from the action's own attributes is a claim.** The field read found it
+  live. The blind lane named it unprompted ("key drift"), and the code A/B confirmed it with
+  a red control.
+- **A reviewed rule may promote mechanically, below the rung that lands work unread.** The web
+  lane bounded the absolute with a primary source (Tomašev et al. 2026). The blind lane drew
+  the line at the merge rung, and the technique took the stricter of the two.
+- **The registry's own scan-finding/1 contract disagrees with the subject** in four places.
+  Banked as a skills-run proposal, not edited here.
+
+| subject | rung | last-pass yield | demand after | dry |
+| --- | --- | --- | --- | --- |
+| earned-autonomy-tiers | L2 | 1 trap, 1 bounded flip, 1 precision, 2 applications (rust), 2 applied rows (code better, pushed; simulation better) | 1 word-only pair (personas), 0 stale; the real seam (scan trust) is not joined | 0 |
+
+Source-class tally (post-hoc, this run):
+- An arXiv paper's HTML rendering yields verbatim quotes through a plain fetch, and the arXiv
+  export API supplies authors and date. That made the one quote that landed cheap to
+  re-verify.
+- Progressive-delivery controller docs are good counter-evidence for "never automatic", but
+  they promote a release over minutes, not an actor's standing over weeks. They carry over
+  weakly, and the text says so without naming them.
+- A fleet tree that implements a registry contract can surface a contradiction inside the
+  registry. The field lane found it by reading the tree's header comment, which cites the
+  contract by path.

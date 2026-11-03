@@ -1,0 +1,75 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "eat-deepen-1103",
+  "skill": "deepen",
+  "skill_version": "1.5.0",
+  "mode": "interactive",
+  "domain": "software-engineering",
+  "started_at": "2026-11-03T15:30:00Z",
+  "ended_at": "2026-11-03T17:20:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 1,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "software-engineering/earned-autonomy-tiers",
+      "at": "2026-11-03",
+      "engine": "deepen",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "software-engineering/earned-autonomy-tiers",
+      "technique": "demotion-attribution-integrity",
+      "verdict": "better",
+      "mode": "code"
+    },
+    {
+      "subject": "software-engineering/earned-autonomy-tiers",
+      "technique": "asymmetric-promotion-and-demotion",
+      "verdict": "better",
+      "mode": "simulation"
+    }
+  ],
+  "files": [
+    "knowledge/software-engineering/engineering-process/continuous-integration/earned-autonomy-tiers/earned-autonomy-tiers.md",
+    "knowledge/software-engineering/engineering-process/continuous-integration/earned-autonomy-tiers/techniques/asymmetric-promotion-and-demotion.md",
+    "knowledge/software-engineering/engineering-process/continuous-integration/earned-autonomy-tiers/techniques/demotion-attribution-integrity.md",
+    "knowledge/software-engineering/engineering-process/continuous-integration/earned-autonomy-tiers/techniques/recomputable-promotion-trial.md",
+    "knowledge/software-engineering/engineering-process/continuous-integration/earned-autonomy-tiers/applications/rust--demotion-attribution-integrity.md",
+    "knowledge/software-engineering/engineering-process/continuous-integration/earned-autonomy-tiers/applications/rust--effective-tier-is-the-lowest-bound.md",
+    "librarian/applied.md",
+    "librarian/subjects/software-engineering/earned-autonomy-tiers.md",
+    "librarian/domains/software-engineering.md"
+  ],
+  "commits": [
+    {
+      "sha": "a0abbf3c3",
+      "branch": "main",
+      "pathspec": [
+        "knowledge/software-engineering/engineering-process/continuous-integration/earned-autonomy-tiers",
+        "knowledge/software-engineering/index.json",
+        "rules/ai-registry-software-engineering.md"
+      ]
+    },
+    {
+      "sha": "4f4ad0703",
+      "branch": "main",
+      "pathspec": [
+        "catalog.json"
+      ]
+    }
+  ],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "Rust applications from personas scan-trust. New trap applied in code, red control, pushed 3cb920506a. Promotion absolute bounded below the unread rung. Banked: scan-finding/1 contract proposal. 12 maps committed locally, unpushed. App-crate door tests could not run."
+}
