@@ -62,7 +62,12 @@ widget, the screen, the application shell. The order is a policy, not an
 accident of which component subscribed first. The standard order is
 innermost-wins: the topmost overlay first, then the focused region, then the
 screen, then the global layer — and a layer that handles a key **consumes**
-it, so nothing beneath acts on the same press. Mount order cannot express
+it, so nothing beneath acts on the same press. Hearing first does not mean
+owning the keyboard. A layer that covers a surface the user can no longer see
+(a sheet or a full-screen decision over a route that stays mounted) **claims**
+the keyboard. Keys it does not bind stop at it instead of falling through to
+the hidden route. A layer the user sees through, such as a tour or a zoom,
+passes those keys down. Mount order cannot express
 that, because the screen beneath an overlay usually mounted earlier and the
 overlay's listener would otherwise hear second. The mechanism that does
 express it in a browser is the event phase: an overlay listens in the capture
@@ -83,17 +88,24 @@ The key a shortcut uses is a negotiation with three prior owners. The user
 typing into a text field owns every printable key. A focused composite that
 honors type-ahead — a listbox, a tree, a table that jumps to the row whose
 first cell starts with the typed letter — owns every printable key with no
-modifier while it has focus. And the platform owns its reserved chords: the
+non-printing modifier while it has focus, and a capital letter is a typed
+letter too. And the platform owns its reserved chords: the
 browser's, the operating system's, and the screen reader's, whose own key map
 reaches users who have no other way in. A bare-letter shortcut is therefore
 the most fragile choice there is: it is suppressed in fields (it must be, or
 it fires mid-sentence), silently eaten by type-ahead, and a speech-input user
 dictating a word can trigger it letter by letter, which is why the
-character-key criterion of the accessibility guidelines requires single
-printable shortcuts to be switchable off, remappable to a modifier chord, or
-live only while their component has focus. The reliable default for an
-application-wide accelerator is a modified chord heard in capture phase;
-Space and Enter on a focused button belong to the button. The negotiation
+character-key criterion of the accessibility guidelines requires shortcuts
+made only of printable characters to be switchable off, remappable to a
+modifier chord, or live only while their component has focus. Shift does not
+change any of this. Shift+G is a capital G to a field, to type-ahead and to
+the criterion alike, and "?" is a printable character however many keys it
+takes. The reliable default for an application-wide accelerator is a chord
+with a non-printing modifier (the primary platform modifier, or Alt where the
+layout allows it), heard in capture phase. Space and Enter on a focused button
+belong to the button. An accelerator registered with the operating system
+answers to owners nobody can list, namely every other installed application,
+so for it the registration attempt is the collision check. The negotiation
 rules are [shortcut-collision-rules](./techniques/shortcut-collision-rules.md).
 
 ## The event stream is not one key, one press
@@ -137,8 +149,11 @@ accessibility; if it is "which overlay closes", it is the overlay stack.
   it with the handlers. Derive it.
 - **Mount order as precedence.** The overlay that mounted last hears last;
   the screen beneath acts on the press that was meant for the overlay.
+- **The opaque overlay that only consumes.** It hears first, declines a key
+  it does not bind, and the hidden route behind it acts on the press.
 - **The global bare letter.** Works on the empty screen, dies in a focused
-  table, fires in a field the day someone forgets the typing guard.
+  table, fires in a field the day someone forgets the typing guard. Adding
+  Shift to it does not fix any of the three.
 - **Escape everywhere.** Five components each close on Escape; one press
   closes three layers or the wrong one.
 - **The undebounced held key.** A repeat stream runs a non-idempotent action
@@ -152,11 +167,12 @@ accessibility; if it is "which overlay closes", it is the overlay stack.
   declaration per screen; handlers bind by id; the reference page, hints and
   announced shortcuts are renders of it; the inventory test.
 - [layered-key-dispatch](./techniques/layered-key-dispatch.md) — overlay,
-  region, screen, global; capture phase for overlays; consume on match;
-  Escape handed to the stack.
+  region, screen, global; capture phase for overlays; consume on match; a
+  covering layer claims the keyboard; Escape handed to the stack.
 - [shortcut-collision-rules](./techniques/shortcut-collision-rules.md) —
   typing targets, type-ahead, platform and assistive reservations, the
-  character-key criterion, the modifier-chord default.
+  character-key criterion (capitals included), the non-printing-modifier
+  default, registration as the check for an OS-level accelerator.
 - [repeat-composition-and-odd-events](./techniques/repeat-composition-and-odd-events.md)
   — auto-repeat, input-method composition, layouts and the right Alt, lost
   key-ups, synthetic and stale events.

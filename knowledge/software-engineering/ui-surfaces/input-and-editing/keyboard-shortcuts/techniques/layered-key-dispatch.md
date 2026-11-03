@@ -6,7 +6,7 @@ technique: layered-key-dispatch
 status: forged
 laws: [one-validation-door]
 shared_with: []
-use_when: [an overlay key also triggers the screen beneath, one key press handled by two listeners, deciding where a shortcut listener is attached]
+use_when: [an overlay key also triggers the screen beneath, one key press handled by two listeners, deciding where a shortcut listener is attached, a key acts on a screen hidden under a sheet]
 ---
 
 # Layered key dispatch
@@ -21,8 +21,9 @@ beneath an overlay almost always mounted first.
 
 Innermost wins:
 
-1. **The topmost overlay** — a dialog, a guided-tour layer, a palette. While
-   it is up, its keys are the only application keys that mean anything.
+1. **The topmost overlay** — a dialog, a guided-tour layer, a palette. It
+   hears first. Whether the keys it does not bind may pass beneath it is
+   decided by its **claim** (below), not by hearing first.
 2. **The focused region or widget** — a composite with its own keyboard model
    (owned by the accessibility subject), or a panel that declares keys live
    only while focus is inside it.
@@ -32,9 +33,52 @@ Innermost wins:
 
 A layer that handles a key **consumes** it: it prevents the default action
 and stops further propagation, so no layer beneath acts on the same press.
-A layer that does not match a key leaves it entirely alone — no default
+A layer that does not match a key leaves the event entirely alone — no default
 prevented, no propagation stopped — because the keys an overlay does not
-claim still belong to whatever has focus inside it.
+bind still belong to whatever has focus inside it. Whether the layers
+*beneath* may still act on that key is a separate question, answered by the
+claim.
+
+## Claiming the keyboard is not matching a key
+
+Consume-on-match decides what happens to the keys a layer recognised. It says
+nothing about the keys it did not recognise. For those keys, "pass it on" is
+right for a layer the user still sees through and wrong for a layer that
+covers a surface.
+
+- **A layer the user sees through.** A guided tour or a zoom over a live screen
+  leaves the screen meaningful. The keys the tour does not bind belong to the
+  screen and should reach it.
+- **A layer that covers a surface.** A sheet or a full-screen decision surface
+  can sit over a route that stays mounted. The route is out of sight, and an
+  unmatched key that falls through to it acts on something the user cannot see.
+  One press can then decide two things. The surface acts on its card through
+  a key it binds, and the hidden route acts on a row through a key only the
+  route binds, or through a modifier variant the surface's own matching lets
+  past. Hearing first cannot prevent this, because the surface did hear first
+  and declined.
+
+So each layer declares, beside its keys, whether it **claims** the keyboard.
+
+- **A claiming layer is the floor of the walk.** Keys it matches run. Keys it
+  does not match stop there, and no layer beneath it is consulted.
+- **A non-claiming layer** matches what it binds and passes the rest down.
+- **A claiming layer with no keys of its own**, such as a confirm dialog,
+  resolves nothing and lets nothing past.
+
+Claiming blocks the layers beneath. It does not block the focused element
+inside the layer. In dispatch terms it ends the walk down the layer list; it
+does not stop the event's propagation, so a field in the sheet still types and
+its button still presses. Layers above a claiming layer still hear first. That
+is what lets a confirm dialog raised from the sheet keep its Escape and its
+focus trap.
+
+The browser does not supply the claim. Neither does preventing the default. A
+key pressed inside a modal dialog is targeted at the focused element in the
+dialog, and it still bubbles to the document, where a screen's listener hears
+it. Preventing the default does not silence a second listener on the same
+node. The claim has to be a property of each layer that the single dispatch
+point reads.
 
 ## Hearing first: the capture phase
 

@@ -5,7 +5,7 @@ subject: keyboard-shortcuts
 technique: layered-key-dispatch
 stack: react
 status: forged
-verified_on: 2026-10-27
+verified_on: 2026-11-03
 verified_against: react@19
 ---
 
@@ -90,6 +90,18 @@ and the fix: one listener per root hands Escape to the layer opened last,
   `src/lib/keyboard/useHotkeys.ts:8` "chords with `mod` always fire", where the
   technique passes only chords declared field-live. No editing chord is
   declared today, so the gap is latent.
+- **Shift+G is a character-key shortcut with no off switch.** It opens the
+  guide from any screen,
+  `src/app/features/guide/model/keymap.ts:7 "does: 'Watch the guide (Shift+G, any screen)'"`,
+  and it is gated only by whether the demo estate can play,
+  `src/app/features/guide/hooks/useGuideKeys.ts:31 "Shift+G opens the guide from any screen while it can play"`,
+  not by a user setting. A capital G is a printable character, so the
+  character-key criterion applies exactly as it would to a bare G: turn it off,
+  remap it to a non-printing modifier, or scope it to focus. The Shift does not
+  get it past the table either. The table's predicate takes capitals, because
+  it excludes Control, Meta and Alt but not Shift,
+  `src/components/table/model/rowNavigation.ts:84 "!e.ctrlKey && !e.metaKey && !e.altKey"`.
+  Capture phase is what wins against the table, as the hook's own comment says.
 - **The slash carve-out is a literal inside the table's predicate**
   (`src/components/table/model/rowNavigation.ts:84` "e.key !== '/'"), not
   derived from the declaration that binds the slash.

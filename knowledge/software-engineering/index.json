@@ -5,7 +5,7 @@
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 245,
   "techniques": 1970,
-  "applications": 1475,
+  "applications": 1477,
   "laws": 16,
   "categories": [
    "ui-surfaces",
@@ -19979,9 +19979,9 @@
    "subcategory": "input-and-editing",
    "status": "forged",
    "file": "knowledge/software-engineering/ui-surfaces/input-and-editing/keyboard-shortcuts/keyboard-shortcuts.md",
-   "digest": "sha256-b2:4a9b32a38c928955",
-   "revision": 1,
-   "changedAt": "2026-10-27",
+   "digest": "sha256-b2:bb89a111e7011976",
+   "revision": 2,
+   "changedAt": "2026-11-03",
    "techniques": [
     {
      "slug": "declared-keymap-authority",
@@ -20008,7 +20008,8 @@
      "use_when": [
       "an overlay key also triggers the screen beneath",
       "one key press handled by two listeners",
-      "deciding where a shortcut listener is attached"
+      "deciding where a shortcut listener is attached",
+      "a key acts on a screen hidden under a sheet"
      ]
     },
     {
@@ -20048,8 +20049,22 @@
      "stack": "react",
      "technique": "layered-key-dispatch",
      "file": "knowledge/software-engineering/ui-surfaces/input-and-editing/keyboard-shortcuts/applications/react--layered-key-dispatch.md",
-     "verified_on": "2026-10-27",
+     "verified_on": "2026-11-03",
      "verified_against": "react@19"
+    },
+    {
+     "stack": "rust",
+     "technique": "repeat-composition-and-odd-events",
+     "file": "knowledge/software-engineering/ui-surfaces/input-and-editing/keyboard-shortcuts/applications/rust--repeat-composition-and-odd-events.md",
+     "verified_on": "2026-11-03",
+     "verified_against": "rust@1"
+    },
+    {
+     "stack": "rust",
+     "technique": "shortcut-collision-rules",
+     "file": "knowledge/software-engineering/ui-surfaces/input-and-editing/keyboard-shortcuts/applications/rust--shortcut-collision-rules.md",
+     "verified_on": "2026-11-03",
+     "verified_against": "rust@1"
     }
    ]
   },
