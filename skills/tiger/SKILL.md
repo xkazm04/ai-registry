@@ -1,9 +1,9 @@
 ---
 name: tiger
-description: "Hunt a codebase's most valuable feature area and evolve it with a cross-vendor council. Use when you want the product's strongest part made markedly more valuable - not swept for defects - and a person to choose what gets built. tiger ranks feature areas by value evidence (context-map groups and the use cases they serve, git heat, product docs, the bp product tree), writes a territory dossier for the chosen one, and convenes the strongest available CLI seats from different labs (Gemini via agy, GPT via codex, Grok, Claude Opus - any seat that fails its probe is skipped). Round 1 each seat proposes 3-6 anchored evolutionary moves (deepen, extend, connect, leap) blind to the others; round 2 each seat rates the anonymous pool and crossbreeds stronger fusions. The caller judges blind, verifies premises in the code, clusters cross-seat agreement, composes one coherent scope with a thesis, presents it as a multi-select approval, builds only what was chosen with a verify check per item, and keeps a per-seat ledger of what was kept, approved and landed. Invoke with /tiger [<area>] [--seats engine:model@effort,...] [--rounds 1|2], /tiger hunt, /tiger resume <run>, /tiger status."
+description: "Hunt a codebase's most valuable feature area and evolve it with a cross-vendor council. Use when you want the product's strongest part made markedly more valuable - not swept for defects - and a person to choose what gets built. tiger ranks feature areas by value evidence (context-map groups and the use cases they serve, git heat, product docs, the bp product tree), writes a territory dossier for the chosen one, and convenes the strongest available CLI seats from different labs (Gemini via agy, GPT via codex, Claude Opus - any seat that fails its probe is skipped). Round 1 each seat proposes 3-6 anchored evolutionary moves (deepen, extend, connect, leap) blind to the others; round 2 each seat rates the anonymous pool and crossbreeds stronger fusions. The caller judges blind, verifies premises in the code, clusters cross-seat agreement, composes one coherent scope with a thesis, presents it as a multi-select approval, builds only what was chosen with a verify check per item, and keeps a per-seat ledger of what was kept, approved and landed. Invoke with /tiger [<area>] [--seats engine:model@effort,...] [--rounds 1|2], /tiger hunt, /tiger resume <run>, /tiger status."
 category: workflow
 memory: vault
-version: 3.3.1
+version: 3.4.0
 tags: value, feature-area, multi-model, council, brainstorm, evolution, scope, approval
 argument-hint: "[<area> | hunt | resume <run-id> | status] [--seats engine:model@effort,...] [--rounds 1|2] [--ceiling-min 40]"
 ---
@@ -65,11 +65,13 @@ config excluded). The default roster is the strongest seat each vendor offered o
 |---|---|
 | `agy:gemini-4-argon@high` | Google (Antigravity CLI; effort rides in the model slug) |
 | `codex:gpt-6.1-sol@xhigh` | OpenAI (Codex CLI) |
-| `grok:grok-4.7@high` | xAI (Grok CLI) |
 | `claude:claude-opus-5-5@xhigh` | Anthropic (a separate headless process, never the judge's own context) |
 
-Newer models land often: `agy models`, `grok models` and the codex config name the current
-ones; override with `--seats` or `seats:` in the overlay. **Every seat is probed before every
+Grok (`grok:grok-4.7@high`) left the default roster on 2026-11-03 by the owner's choice; it
+is still a valid engine when named in `--seats` or the overlay. Newer models land often: `agy
+models` and the codex config name the current ones; override with `--seats` or `seats:` in
+the overlay. A seat's model is per machine: on 2026-11-03 one machine's `agy models` listed
+no Gemini 4 at all, so the Google seat probed out there. **Every seat is probed before every
 council** (`tiger.mjs probe`, about 10-15 s and a few cents per seat): a missing CLI, failed
 auth, a 402 / quota / seat limit or a wrong reply skips that seat for the run, and the
 report names it and why. One seat is enough to run; with zero seats the caller says so,

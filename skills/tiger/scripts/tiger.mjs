@@ -50,7 +50,8 @@ const saveRun = (dir, run) => { const { root, ...rest } = run; writeJson(path.jo
 
 // The strongest seat each vendor's CLI offers on this machine (2026-10). A seat that does not
 // answer the probe is skipped and the round runs with whoever is left.
-export const DEFAULT_SEATS = 'agy:gemini-4-argon@high,codex:gpt-6.1-sol@xhigh,grok:grok-4.7@high,claude:claude-opus-5-5@xhigh';
+// Grok left the default council on 2026-11-03 (owner's call); name it with --seats to bring it back.
+export const DEFAULT_SEATS = 'agy:gemini-4-argon@high,codex:gpt-6.1-sol@xhigh,claude:claude-opus-5-5@xhigh';
 
 // =================================================================================== probe
 async function probe() {
