@@ -6,6 +6,10 @@
 //
 //   node footprint.mjs --run <id> [--structure .ai/lens-scan/app-structure.json] [--map <context-map.json>]
 //                      [--root .] [--feature a,b] [--lens development|security|design|all] [--db .ai/lens-scan/scan.db] [--dry]
+//                      [--commit-sha s]
+//
+// Every row names the commit it counted (commit_sha): --commit-sha, else `git rev-parse HEAD` in --root (none
+// when --root is not a git checkout).
 //
 // Metrics (references/metrics.md is the catalog); --lens picks which (default development):
 //   development
@@ -176,8 +180,9 @@ const read = (root, p) => {
  * design. Returns one result per feature: its metrics by key, missing_files, and no_ui when the design
  * lens has no component file to read.
  */
-export function measureFeatures({ structure, map, root = '.', lenses = ['development'], only, store, db, run }) {
+export function measureFeatures({ structure, map, root = '.', lenses = ['development'], only, store, db, run, commitSha }) {
   const files = repoFiles(root);
+  const sha = db ? (commitSha ?? store.headSha?.(root)) : undefined;
   let feats = featureFiles(structure, map, root, files);
   if (only) feats = feats.filter((f) => only.has(f.slug));
   const repoTests = lenses.includes('development') ? files.filter((f) => isTest(f) && CODE_RE.test(f)) : [];
@@ -191,7 +196,7 @@ export function measureFeatures({ structure, map, root = '.', lenses = ['develop
     const { metrics: dev, missing } = lenses.includes('development') ? countFootprint(entries, { repoTests: testsFor(stems) }) : { metrics: {}, missing: entries.filter((e) => e.text === undefined).length };
     const pat = countPatterns(entries);
     const metrics = { ...dev, ...(lenses.includes('security') ? pat.security : {}), ...(lenses.includes('design') ? pat.design : {}) };
-    const rows = Object.entries(metrics).map(([metric, value]) => ({ feature: f.slug, lens: LENS_OF[metric], metric, value, unit: UNITS[metric], method: 'static', evidence: EVIDENCE[metric] }));
+    const rows = Object.entries(metrics).map(([metric, value]) => ({ feature: f.slug, lens: LENS_OF[metric], metric, value, unit: UNITS[metric], method: 'static', evidence: EVIDENCE[metric], ...(sha ? { commit_sha: sha } : {}) }));
     if (db && rows.length) {
       store.measure(db, run, rows);
       store.activity(db, { run, kind: 'measured', feature: f.slug, lens: lenses[0], text: rows.map((r) => `${r.metric} ${r.value}`).join(', ') });
@@ -235,7 +240,7 @@ export async function main(argv) {
   const db = a.dry ? null : store.openStore(typeof a.db === 'string' ? a.db : store.DEFAULT_DB);
   try {
     if (db && !a.run) throw new store.StoreError('--run is required (start one with store.mjs run-start --phase measure)', 2);
-    return { written: !!db, features: measureFeatures({ structure, map, root, lenses, only, store, db, run: a.run }) };
+    return { written: !!db, features: measureFeatures({ structure, map, root, lenses, only, store, db, run: a.run, commitSha: typeof a.commitSha === 'string' ? a.commitSha : undefined }) };
   } finally { db?.close(); }
 }
 

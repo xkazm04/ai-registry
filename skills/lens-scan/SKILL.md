@@ -225,6 +225,15 @@ measured by its manifest's scan block, on the manifest's own fields
 **Units** come from the manifest field (`structure.mjs lens` prints them), never free text
 ([where](references/lens-manifest-scan.md#units)).
 
+**Every reading names the commit it measured.** Pass `--commit-sha <sha>` on every `measure`
+(`commit_sha` on every row of `measure --json`), the sha being `git rev-parse HEAD` of the
+checkout actually read - the product root here, a pack or release worktree's own HEAD where
+Execute and Release measure. Read it once per run and again if the checkout moves. `footprint.mjs`
+and `steps.mjs` stamp their `--root`'s HEAD themselves (`footprint.mjs --commit-sha` overrides);
+`harness.py` prints `commit_sha` on each of its rows, so `measure --json` carries it as printed.
+A reading without its commit cannot be placed on a release's history (the blueprint dates its
+drawing by it); only a root that is not a git checkout has none.
+
 ### All lenses, one read (`--lens all`)
 
 Reading is the expensive part ([lenses-map.md](references/lenses-map.md#how-a-judgement-becomes-a-number)),
@@ -275,7 +284,7 @@ step's instructions. Per feature in scope:
 2. Judge the files against `scan.instructions`, and only that: the instructions are
    the whole lens. Each site you count has `file:line`.
 3. **Touched** (the feature has something the instructions look for): write one
-   measurement per listed field, `--method judgement --evidence "<file:line, ...>"`
+   measurement per listed field, `--method judgement --evidence "<file:line, ...>" --commit-sha <HEAD>`
    (`measure --json` for several), unit from the field. A field you cannot judge gets no
    row. If the map's facet for this lens says `applicable: false`, clear it first:
    `structure.mjs facet --feature <f> --lens <lens> --applicable true`.

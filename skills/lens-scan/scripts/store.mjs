@@ -23,6 +23,8 @@
 //           [--proposal p --phase before|after] [--commit-sha s]
 //   measure --run <id> --json <file>          (array of {feature, lens, metric, value, unit?, method?, evidence?,
 //                                              proposal?, phase?, commit_sha?})
+//             (1.15) every reading names the commit it measured: --commit-sha / commit_sha = `git rev-parse HEAD` of
+//             the checkout read (footprint.mjs and steps.mjs stamp their own root's; harness.py prints it per row)
 //             --proposal and --phase go together: the reading is that item's before/after evidence. An `after`
 //             reading is taken on the pack branch, so `latest` and `gaps` never count it as the feature's state.
 //   propose --run <id> --feature f --lens l --title t --kind fix|baseline-upgrade|propagation|work-item
@@ -60,7 +62,7 @@
 //   shot --run <id> --feature f --path <rel to store dir> [--size s] [--theme t] [--module m] [--report-file p]
 //        [--proposal p --phase before|after]
 //   coverage --run <id> --feature f --standard s --state conformant|deviation|not-applicable|unknown [--evidence e]
-//   latest [--feature f] [--lens l]           latest measurement per (feature, lens, metric)
+//   latest [--feature f] [--lens l]           latest measurement per (feature, lens, metric), with the commit_sha it measured
 //   gaps --lens l [--structure <app-structure.json>]
 //             what a caller still has to do for one lens: per feature, the lens's metrics with no reading
 //             (`unmeasured`: no done measure run of this lens covered the feature yet; `unmeasurable`: one
@@ -171,6 +173,7 @@ import { DatabaseSync } from 'node:sqlite';
 import { readFileSync, mkdirSync, existsSync, realpathSync } from 'node:fs';
 import { dirname, isAbsolute, join, normalize, resolve } from 'node:path';
 import { randomBytes } from 'node:crypto';
+import { execFileSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 // scan-score/1 lives with scan-sweep, the contract's first producer; imported, never copied (SKILL.md ## Finding contract)
 import { scanScore, sizeToEffort } from '../../scan-sweep/scripts/score.mjs';
@@ -573,6 +576,18 @@ export function lessons(db, { run } = {}) {
   return { lessons: rows.map((a) => clean({ run: a.run_id, at: a.at, feature: a.feature, lens: a.lens, text: a.text.replace(/^lesson:\s*/, '') })) };
 }
 
+/**
+ * (1.15) The commit a checkout is measured at: `git rev-parse HEAD` in `root`, or undefined when root is not a git
+ * checkout. Every measurement names the commit it measured (`commit_sha`); the scripts that write measurements stamp
+ * it from their own root, and the agent passes it with --commit-sha (SKILL.md, 2. Measure).
+ */
+export function headSha(root = '.') {
+  try {
+    const sha = execFileSync('git', ['rev-parse', 'HEAD'], { cwd: root, encoding: 'utf8', stdio: ['ignore', 'pipe', 'ignore'], windowsHide: true }).trim();
+    return /^[0-9a-f]{40,64}$/.test(sha) ? sha : undefined;
+  } catch { return undefined; }
+}
+
 /** Appends measurements (one object or an array) in one transaction. Returns the row ids. */
 export function measure(db, run, rows) {
   const id = liveRun(db, run);
@@ -956,7 +971,7 @@ export function latest(db, { feature, lens } = {}) {
   const where = ["(phase IS NULL OR phase = 'before')"], args = [];
   if (feature !== undefined) { where.push('feature = ?'); args.push(feature); }
   if (lens !== undefined) { where.push('lens = ?'); args.push(lens); }
-  const sql = `SELECT id, run_id, feature, lens, metric, value, unit, method, evidence, measured_at FROM (
+  const sql = `SELECT id, run_id, feature, lens, metric, value, unit, method, evidence, measured_at, commit_sha FROM (
       SELECT *, ROW_NUMBER() OVER (PARTITION BY feature, lens, metric ORDER BY measured_at DESC, id DESC) AS rn FROM measurements
       WHERE ${where.join(' AND ')}) WHERE rn = 1 ORDER BY feature, lens, metric`;
   return db.prepare(sql).all(...args).map(clean);

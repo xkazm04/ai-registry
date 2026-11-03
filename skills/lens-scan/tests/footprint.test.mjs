@@ -6,6 +6,7 @@ import assert from 'node:assert/strict';
 import { mkdtempSync, mkdirSync, writeFileSync, rmSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
+import { execFileSync } from 'node:child_process';
 import { packageOf, importsOf, isTest, countFootprint, countPatterns, expandPaths, featureFiles, stemOf, main, UNITS } from '../scripts/footprint.mjs';
 import { readFileSync } from 'node:fs';
 import { openStore, runStart, latest } from '../scripts/store.mjs';
@@ -150,4 +151,31 @@ test('UNITS: every metric of the performance lens carries the unit references/me
   const rows = [...section.matchAll(/^\| `([a-zA-Z0-9]+)` \| ([^|]+?) \|/gm)].map((m) => [m[1], m[2].trim()]);
   assert.ok(rows.length >= 5, 'the performance table lists its metrics');
   for (const [metric, unit] of rows) assert.equal(UNITS[metric], unit, metric);
+});
+
+test('(1.15) every row names the commit it counted: HEAD of --root, or --commit-sha', async () => {
+  const dir = mkdtempTracked(join(tmpdir(), 'lens-scan-footprint-sha-'));
+  const git = (...args) => execFileSync('git', ['-C', dir, '-c', 'user.email=t@example.test', '-c', 'user.name=t', ...args], { encoding: 'utf8' }).trim();
+  mkdirSync(join(dir, 'src'));
+  writeFileSync(join(dir, 'src', 'a.ts'), "export const a = 1;\n");
+  const structure = {
+    $schema: 'app-structure/3', version: 3, project: { slug: 'x', name: 'X' },
+    contexts: [{ name: 'ctx-a', file_paths: ['src/a.ts'] }], features: [{ slug: 'ctx-a', name: 'A', contexts: ['ctx-a'] }],
+  };
+  const sp = join(dir, 'app-structure.json');
+  writeFileSync(sp, JSON.stringify(structure));
+  git('init', '-q'); git('add', '-A'); git('commit', '-q', '-m', 'init');
+  const head = git('rev-parse', 'HEAD');
+  const dbPath = join(dir, 'scan.db');
+  const db = openStore(dbPath);
+  const { id } = runStart(db, { phase: 'measure', lenses: 'development' });
+  db.close();
+  await main(['--run', id, '--structure', sp, '--root', dir, '--db', dbPath]);
+  let back = openStore(dbPath);
+  assert.ok(latest(back).every((r) => r.commit_sha === head), "stamped with the root's HEAD");
+  back.close();
+  await main(['--run', id, '--structure', sp, '--root', dir, '--db', dbPath, '--commit-sha', 'f'.repeat(40)]);
+  back = openStore(dbPath);
+  assert.ok(latest(back).every((r) => r.commit_sha === 'f'.repeat(40)), '--commit-sha wins');
+  back.close();
 });
