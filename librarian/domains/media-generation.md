@@ -529,3 +529,33 @@ Source-class tally (post-hoc):
   software that runs on the owner's machine. It touches nothing of the owner's (the owner's
   root was listed before and after every run), and it measures what the build writes, not
   what anyone remembers it writing.
+
+## 2026-11-03 - deepen, overlay-composition-and-safe-area (ocsa-deepen-1103)
+
+Dispatched on "single stack (typescript)". The second stack came from overlord's stage, a
+React page that owns the whole 1920x1080 picture through a layout table and a region test.
+That is the opposite architecture to Castle Control's per-overlay sources. Landed in
+9899bafdd (catalog 010825de6). Counter-evidence refuted the golden path's safe-area figure.
+"Outer 5% as action-safe" is the SD practice; EBU R 95 and ITU-R BT.1848-1 set 3.5% action
+and 5% graphics for HD and UHD. Streaming has no overscan, so the player's bands set the
+floor, and on vertical players they dwarf the broadcast margin. "Origin or its centre" lost
+its centre: libobs places new items top-left at scale one. The envelope technique's
+"viewport resizes when the source is resized" was corrected: a scene scale resamples the
+texture, and only the source's own width and height move the viewport. Applied to overlord
+as `simulation` / `better` (3 cases, A canvas-edge vs B player band; the clip's AI
+disclosure sits under the bottom band). Committed locally in overlord deef332, not pushed.
+Detail in [[overlay-composition-and-safe-area]].
+
+| subject | rung | last-pass yield | demand after | dry |
+| --- | --- | --- | --- | --- |
+| overlay-composition-and-safe-area | L2 | 1 refutation, 2 corrections, 3 conditions (golden path + 4 techniques), 1 application (react) | overlord 2 pairs, gravitone 1 pair (keyword join, not an overlay), 0 judged, 0 stale | 0 |
+
+Source-class tally (post-hoc):
+- Standards bodies' own documents (EBU R 95 PDF, ITU-R BT.1848-1) settled the margin
+  figures. Trade commentary carried the legacy figures as if they were current.
+- Platform safe-zone figures exist only as ad-placement guidance, and two of the three
+  platforms state them only in template images. Treat them as dated application facts,
+  never as golden-path numbers.
+- The blind training-data lane matched the web lane on every standards figure and on
+  "no transform at create". It held vertical-player numbers only as ranges, and it flagged
+  them as volatile on its own.

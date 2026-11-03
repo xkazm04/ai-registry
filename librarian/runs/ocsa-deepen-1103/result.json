@@ -1,0 +1,69 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "ocsa-deepen-1103",
+  "skill": "deepen",
+  "skill_version": "1.5.0",
+  "mode": "interactive",
+  "domain": "media-generation",
+  "started_at": "2026-11-03T12:00:00Z",
+  "ended_at": "2026-11-03T13:30:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 1,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "media-generation/overlay-composition-and-safe-area",
+      "at": "2026-11-03",
+      "engine": "deepen",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "overlay-composition-and-safe-area",
+      "technique": "placement-declared-at-provisioning",
+      "verdict": "better",
+      "mode": "simulation"
+    }
+  ],
+  "files": [
+    "knowledge/media-generation/streaming/broadcast-integration/overlay-composition-and-safe-area/overlay-composition-and-safe-area.md",
+    "knowledge/media-generation/streaming/broadcast-integration/overlay-composition-and-safe-area/techniques/envelope-fit-scale-cap.md",
+    "knowledge/media-generation/streaming/broadcast-integration/overlay-composition-and-safe-area/techniques/placement-declared-at-provisioning.md",
+    "knowledge/media-generation/streaming/broadcast-integration/overlay-composition-and-safe-area/techniques/provenance-badge-opposite-corner.md",
+    "knowledge/media-generation/streaming/broadcast-integration/overlay-composition-and-safe-area/techniques/verify-the-rendered-scene.md",
+    "knowledge/media-generation/streaming/broadcast-integration/overlay-composition-and-safe-area/applications/react--placement-declared-at-provisioning--overlord.md",
+    "librarian/applied.md",
+    "librarian/subjects/media-generation/overlay-composition-and-safe-area.md",
+    "librarian/domains/media-generation.md"
+  ],
+  "commits": [
+    {
+      "sha": "9899bafdd",
+      "branch": "main",
+      "pathspec": [
+        "knowledge/media-generation/streaming/broadcast-integration/overlay-composition-and-safe-area",
+        "knowledge/media-generation/index.json",
+        "rules/ai-registry-media-generation.md"
+      ]
+    },
+    {
+      "sha": "010825de6",
+      "branch": "main",
+      "pathspec": [
+        "catalog.json"
+      ]
+    }
+  ],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "Stack answered: react app from overlord stage (layout table + region test). Refuted: SD 5% action-safe figure; HD is 3.5/5 (EBU R 95). Corrected default placement (top-left) and viewport vs scene scale. overlord simulation better 3/3 (deef332 local). No stale verdicts."
+}
