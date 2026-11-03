@@ -1,0 +1,63 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "ibstl-deepen-1103",
+  "skill": "deepen",
+  "skill_version": "1.5.0",
+  "mode": "interactive",
+  "domain": "media-generation",
+  "started_at": "2026-11-03T09:55:00Z",
+  "ended_at": "2026-11-03T11:20:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 1,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "media-generation/isolated-broadcast-software-test-lane",
+      "at": "2026-11-03",
+      "engine": "deepen",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "isolated-broadcast-software-test-lane",
+      "technique": "byte-exact-config-restore",
+      "verdict": "better",
+      "mode": "experiment"
+    }
+  ],
+  "files": [
+    "knowledge/media-generation/streaming/broadcast-integration/isolated-broadcast-software-test-lane/isolated-broadcast-software-test-lane.md",
+    "knowledge/media-generation/streaming/broadcast-integration/isolated-broadcast-software-test-lane/techniques/byte-exact-config-restore.md",
+    "knowledge/media-generation/streaming/broadcast-integration/isolated-broadcast-software-test-lane/techniques/own-profile-port-and-password.md",
+    "knowledge/media-generation/streaming/broadcast-integration/isolated-broadcast-software-test-lane/applications/node--byte-exact-config-restore.md",
+    "knowledge/media-generation/streaming/broadcast-integration/isolated-broadcast-software-test-lane/applications/node--never-touch-the-owner-instance.md",
+    "knowledge/media-generation/streaming/broadcast-integration/isolated-broadcast-software-test-lane/applications/rust--never-touch-the-owner-instance--castle-control.md",
+    "librarian/applied.md",
+    "librarian/subjects/media-generation/isolated-broadcast-software-test-lane.md",
+    "librarian/domains/media-generation.md"
+  ],
+  "commits": [
+    {
+      "sha": "aca2868dc",
+      "branch": "main",
+      "pathspec": [
+        "knowledge/media-generation/streaming/broadcast-integration/isolated-broadcast-software-test-lane",
+        "knowledge/media-generation/index.json",
+        "catalog.json",
+        "rules/ai-registry-media-generation.md"
+      ]
+    }
+  ],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "Stack answered: rust app on the night core. Refuted: launch-line websocket settings are never saved; plugin config rewritten each start. Loopback gained a condition. castle-control experiment better 1->0 (d15a474, 0b1c6b7 pushed). No fleet map pairs it."
+}

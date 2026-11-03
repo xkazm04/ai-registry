@@ -501,3 +501,31 @@ Source-class tally (post-hoc):
   golden-path quote.
 - A consumer's own config on disk (profile and collection names only, no secrets) was
   the evidence that the hazard was live rather than hypothetical.
+
+## 2026-11-03 - deepen, isolated-broadcast-software-test-lane (ibstl-deepen-1103)
+
+Dispatched on "single stack (node)". The answer came from the same tree: the Node lane
+launches OBS, and the program under test is a Rust build of the product core with its own
+guard against the owner's instance. That is now a `rust` application. Landed in aca2868dc.
+Counter-evidence refuted the subject's strongest software claim: OBS does not save
+launch-line websocket settings into global.ini. obs-websocket keeps overrides out of
+`Save()` and has since 2021. Since 5.5.0 it rewrites its own `config.json` on every start.
+The restore set is now observed per build in a scratch root. The loopback absolute gained
+its condition, because the plugin listened on every interface. Applied to castle-control as
+`experiment` / `better`: changed owner files 1 to 0 on a non-canonical owner config, n=2 per
+arm, on real OBS 33.0.1 in a portable root (d15a474, pushed). Detail in
+[[isolated-broadcast-software-test-lane]].
+
+| subject | rung | last-pass yield | demand after | dry |
+| --- | --- | --- | --- | --- |
+| isolated-broadcast-software-test-lane | L3 | 1 refutation, 2 conditions (golden path + 2 techniques), 1 application, 2 corrected | no fleet pair (scratch maps of the 3 media-generation projects); source tree outside the fleet | 0 |
+
+Source-class tally (post-hoc):
+- The software's own source, read at several release tags, settled persistence and
+  crash-marker behaviour, and bisecting by tag dated each change. A code comment in the
+  consumer tree was the origin of the refuted claim. Treat a consumer's comment about vendor
+  behaviour as a lead, not a source.
+- A portable copy of the installed build in a scratch root is an L3 instrument for
+  software that runs on the owner's machine. It touches nothing of the owner's (the owner's
+  root was listed before and after every run), and it measures what the build writes, not
+  what anyone remembers it writing.
