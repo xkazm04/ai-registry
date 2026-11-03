@@ -1,0 +1,67 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "bsc-deepen-1103",
+  "skill": "deepen",
+  "skill_version": "1.5.0",
+  "mode": "interactive",
+  "domain": "media-generation",
+  "started_at": "2026-11-03T10:50:00Z",
+  "ended_at": "2026-11-03T12:30:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 1,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "media-generation/broadcast-software-control",
+      "at": "2026-11-03",
+      "engine": "deepen",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "broadcast-software-control",
+      "technique": "claim-only-what-you-created",
+      "verdict": "better",
+      "mode": "code"
+    }
+  ],
+  "files": [
+    "knowledge/media-generation/streaming/broadcast-integration/broadcast-software-control/broadcast-software-control.md",
+    "knowledge/media-generation/streaming/broadcast-integration/broadcast-software-control/techniques/claim-only-what-you-created.md",
+    "knowledge/media-generation/streaming/broadcast-integration/broadcast-software-control/applications/rust--claim-only-what-you-created--overlord.md",
+    "librarian/applied.md",
+    "librarian/subjects/media-generation/broadcast-software-control.md",
+    "librarian/domains/media-generation.md"
+  ],
+  "commits": [
+    {
+      "sha": "987735108",
+      "branch": "main",
+      "pathspec": [
+        "knowledge/media-generation/streaming"
+      ]
+    },
+    {
+      "sha": "a1b45e6c0",
+      "branch": "main",
+      "pathspec": [
+        "knowledge/media-generation/streaming/broadcast-integration/broadcast-software-control",
+        "knowledge/media-generation/index.json",
+        "catalog.json",
+        "rules/ai-registry-media-generation.md"
+      ]
+    }
+  ],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "Single-stack finding stands (both fleet OBS clients are Rust). Landed: own the profile and collection on a provisioned install. overlord code A/B better, pushed 83a9156+4153693. Fixed harvest home paths (CI red). overlord map scratch-only: sibling WIP."
+}

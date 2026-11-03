@@ -477,3 +477,27 @@ Source-class tally (post-hoc):
   A public incident supports what happened, not why the audience left.
 - The consumer's own build record was the only before/after available, and it was
   confounded. Release notes that bundle five changes cannot grade one.
+
+## 2026-11-03 - deepen, broadcast-software-control (bsc-deepen-1103)
+
+Dispatched on "single stack (rust)". The stack finding stands. A seam search over every
+fleet tree and the Spooky build root found two OBS control clients, Castle Control and
+overlord's recorder, and both are Rust. Landed in a1b45e6c0. The pass found the boundary's
+third instance: a persistent install that a tool provisions and keeps. OBS saves the canvas
+and output settings in the current profile, and scenes, sources and global audio in the
+current scene collection, so a tool's whole-instance writes go into whatever was open last.
+The golden path and claim-only-what-you-created gained the condition: ownership is of the
+container. Applied to overlord as `code` / `better`, 6 foreign-container writes to 0 (83a9156,
+pushed). Repaired the harvest's ten absolute home paths, which had CI `registry` red
+(987735108). Detail in [[broadcast-software-control]].
+
+| subject | rung | last-pass yield | demand after | dry |
+| --- | --- | --- | --- | --- |
+| broadcast-software-control | L2 | 1 condition (golden path + technique), 1 application, protocol claims re-verified | overlord stage-kit-overlays 1 pair, 0 judged, 0 stale; recorder path in no context | 0 |
+
+Source-class tally (post-hoc):
+- The software's own source code settled where settings persist. The generated protocol
+  reference documents requests, not storage, and grepped verbatim it held every
+  golden-path quote.
+- A consumer's own config on disk (profile and collection names only, no secrets) was
+  the evidence that the hazard was live rather than hypothetical.
