@@ -1,10 +1,10 @@
 ---
 name: lens-scan
 description: "Measure a product feature by feature through one lens or all of them in one read - development, security, design, or any lens whose manifest declares a scan block (judgement, or composed script / conform / judgement steps) - and record hard numbers over time in a local store inside the repo, then propose backlog items scored by the shared scan-finding/1 contract that each name the metric they move and the expected delta against a registry or house standard, and execute only the items a person approved in the review UI (or the store's trust ladder lets the machine decide) - into a pack branch triaged item by item, never into main - then cut a release of the accepted items as one pull request a person ships. Use when a team needs the current state of a product measured with care (company setting, history, human approval) rather than a solo backlog mass-resolved: before a hardening milestone, to baseline a lens, to turn a better pattern into a house standard and propagate it to every similar site. Sibling of scan-sweep, which lands what it can prove on its own; lens-scan decides nothing the store's own decision history has not earned, measures, proposes and executes what was approved. Modes: measure, propose, execute, release, propagate, status, onboard (draft a new lens with a free icon and add it to the map)."
-argument-hint: "[measure|propose|execute|propagate|status|onboard] [--lens development|security|design|performance|<lens id with a scan block>|all] [--scope <group|context|feature[,feature...]>] [--proposals <id,id>] [--base <ref>] | release --id rel-<version> [--finish] | onboard \"<description>\" [--id com.x.y] [--temporary] [--draft-only] [--first-scan]"
+argument-hint: "[measure|propose|execute|propagate|status|onboard] [--lens development|security|design|performance|<lens id with a scan block>|all] [--scope <group|context|feature[,feature...]>] [--proposals <id,id>] [--base <ref>] | release --id rel-<version> [--finish | --landed] | onboard \"<description>\" [--id com.x.y] [--temporary] [--draft-only] [--first-scan]"
 category: workflow
 memory: project
-version: 1.14.0
+version: 1.15.0
 tags: measure, metrics, lens, backlog, approval, house-standards, propagation, sqlite
 ---
 # Lens scan
@@ -51,6 +51,7 @@ history has earned the machine a level ([the trust ladder](#autonomy-the-trust-l
 /lens-scan execute --proposals p-1a2b3c --base release/1.4.1   # cut the pack from a given release base
 /lens-scan release --id rel-1.4.1             # cherry-pick the accepted items onto release/1.4.1, gate, open the PR
 /lens-scan release --id rel-1.4.1 --finish    # after the PR merged: tag v1.4.1, GitHub release, close the packs
+/lens-scan release --id rel-1.4.1 --landed    # every item already landed on the base branch: gate and tag base HEAD, no PR
 /lens-scan propagate                         # child proposals for a landed baseline upgrade
 /lens-scan propagate --lens design --proposals p-1a2b3c   # the sites of this one landed upgrade
 /lens-scan status                            # what waits for a decision, what is running; changes nothing
@@ -721,6 +722,15 @@ after the PR is merged. The full procedure is [release.md](references/release.md
    `gh release create`; `release-update --status tagged --tag v<version>`, which moves the
    items to `released` and closes the packs. Remove the release and closed packs' worktrees
    and their local pack branches; never a remote branch this flow did not create.
+
+**`--landed`** - every accepted item already landed on the base branch (the item's commit, or one carrying its
+`Lens-Item: <id>` line, is on `origin/<default branch>` and was not reverted since): refuse as in step 0;
+`release-update --status building --from draft`; verify each item landed - one that did not fails the release
+naming it (a mixed release takes the cut above, unchanged); the overlay's gates on base HEAD in a detached
+worktree; notes naming each item's landing commit (`release-update --notes`); tag `v<version>` on that exact
+sha, push the tag, `gh release create`; then `release-update --status tagged --from building --landed`, which
+releases the items and closes the packs as `--finish` does. No release branch, no PR
+([release.md](references/release.md#landed-lens-scan-release---id-rel-x---landed)).
 
 Any failure: `release-update --status failed --error "<what>"` and stop; the person
 decides. **Never `git stash`, `git add -A`, a force push, or a checkout in the main working

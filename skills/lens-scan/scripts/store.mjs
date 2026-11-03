@@ -144,11 +144,16 @@
 //             `accepted` items with no release join it, while it is draft or building
 //             -> {release, added: [ids], skipped: [{id, status, reason?}]}
 //   release-update --release rel-x [--status s] [--from s] [--pr-url u] [--tag t] [--notes t] [--error t] [--base-sha s]
-//             compare-and-set: draft->building->pr-open->merged->tagged, any state but tagged ->failed. On
+//             [--landed]
+//             compare-and-set: draft->building->pr-open->merged->tagged, any state but tagged ->failed. --landed
+//             (only with --status tagged) is the one extra move, building -> tagged: a release of items that had
+//             already landed on the base branch, tagged on base HEAD with no release branch and no PR (release.md,
+//             "Landed"); without --landed building -> tagged is refused, and with it merged -> tagged is. On
 //             merged -> tagged (tag defaults to v<version>) the release's accepted items become `released` and
 //             every pack whose items are all settled is closed, in one transaction. Settled: released, descoped or
 //             declined, or a `rework` item whose rebuild (attempt_of = it) is itself settled - so the pack of a
 //             reworked item closes once its rebuild ships, from whichever pack the rebuild was built in.
+//             building -> tagged --landed ships the same way.
 //   releases [--status s]                      releases, newest first
 //   release --id rel-x | release-items --release rel-x
 //             one release with its items | the items alone
@@ -1634,11 +1639,16 @@ export function releaseAdd(db, { release, ids } = {}) {
 /**
  * A release's status and fields, compare-and-set on the status read (or --from). merged -> tagged ships it:
  * its accepted items become `released` and every pack left with only released, descoped or declined items closes.
+ * `landed` (only with status tagged) swaps that move for building -> tagged: the items had already landed on the
+ * base branch, so there was no release branch, PR or merge; it ships the same way.
  */
-export function releaseUpdate(db, { release, status, from, prUrl, tag, notes, error, baseSha } = {}) {
+export function releaseUpdate(db, { release, status, from, prUrl, tag, notes, error, baseSha, landed } = {}) {
   const rid = need('release', release);
   if (status !== undefined) oneOf('status', status, RELEASE_STATUS);
   if (from !== undefined) oneOf('from', from, RELEASE_STATUS);
+  if (landed !== undefined && landed !== false && landed !== true) bad('--landed is a switch (no value)');
+  if (landed && status !== 'tagged') bad('--landed goes with --status tagged: building -> tagged for items already on the base branch');
+  const moves = landed ? { ...RELEASE_MOVE, tagged: ['building'] } : RELEASE_MOVE;
   const fields = { pr_url: prUrl, tag, notes, error, base_sha: baseSha };
   for (const [k, v] of Object.entries(fields)) if (v !== undefined) need(k.replace('_', '-'), v);
   if (status === undefined && Object.values(fields).every((v) => v === undefined)) bad('nothing to update (--status, --pr-url, --tag, --notes, --error, --base-sha)');
@@ -1646,7 +1656,9 @@ export function releaseUpdate(db, { release, status, from, prUrl, tag, notes, er
     const cur = db.prepare('SELECT status, version FROM releases WHERE id = ?').get(rid);
     if (!cur) refuse(`release ${rid} does not exist`);
     const expect = from ?? cur.status;
-    if (status !== undefined && !RELEASE_MOVE[status]?.includes(expect)) refuse(`release ${rid}: ${expect} cannot move to ${status}`);
+    if (status !== undefined && !moves[status]?.includes(expect)) {
+      refuse(`release ${rid}: ${expect} cannot move to ${status}${status === 'tagged' && expect === 'building' ? ' (pass --landed when every item already landed on the base branch)' : ''}`);
+    }
     if (status === 'tagged' && fields.tag === undefined) fields.tag = `v${cur.version}`;
     const at = now();
     const r = db.prepare(`UPDATE releases SET status = COALESCE(?, status), pr_url = COALESCE(?, pr_url), tag = COALESCE(?, tag), notes = COALESCE(?, notes),
@@ -1820,7 +1832,7 @@ export const READS = ['proposals', 'latest', 'gaps', 'packs', 'releases', 'relea
 /** (v5) trust appends the transitions it finds, so it opens for writing - but, like a read, never creates a store. */
 const NEVER_CREATE = ['trust'];
 // the flags that are switches (a bare --x is true); every other flag needs a value
-const SWITCHES = ['untriaged', 'machine'];
+const SWITCHES = ['untriaged', 'machine', 'landed'];
 
 export function main(argv) {
   const a = parseArgs(argv);

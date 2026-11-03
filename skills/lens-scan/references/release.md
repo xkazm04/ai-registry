@@ -1,9 +1,12 @@
-# Release - shipping accepted items (lens-scan 1.5.0)
+# Release - shipping accepted items (lens-scan 1.5.0; `--landed` 1.15.0)
 
-`/lens-scan release --id rel-<version> [--finish]`. The step after Execute and a
+`/lens-scan release --id rel-<version> [--finish | --landed]`. The step after Execute and a
 person's triage: the items a person **accepted** are cherry-picked from their packs onto
 `release/<version>`, gated, re-measured and opened as one pull request into the default
 branch. `--finish`, run once that PR is merged, tags it and ships the GitHub release.
+`--landed` is for a team whose accepted items already land on the default branch one by one:
+nothing is left to cherry-pick, so it verifies they landed, gates base HEAD and tags it
+([Landed](#landed-lens-scan-release---id-rel-x---landed)).
 
 Every store command below is `node ${CLAUDE_SKILL_DIR}/scripts/store.mjs <command>`, exactly
 as `store.mjs --help` lists it. The agent never writes SQL and never moves an item a person
@@ -35,8 +38,8 @@ and they land through the registry's own flow.
 
 0. `gh auth status` must exit 0. Else: `release-update --release rel-x --status failed --error
    "gh not authenticated"` and end with `lens-scan refused: gh not authenticated`.
-   Then read the release: `release --id rel-x`. It must be `draft` or `failed` (no `--finish`),
-   `pr-open` or `merged` (`--finish`); its `items` are the ones a caller added with
+   Then read the release: `release --id rel-x`. It must be `draft` or `failed` (no `--finish`,
+   and `--landed`), `pr-open` or `merged` (`--finish`); its `items` are the ones a caller added with
    `release-add` (only `accepted` items with no release join, while it is draft or building).
    No items: refuse with `lens-scan refused: rel-x has no items`, leave the release as it is.
    Refuse, too, when the base checkout has **tracked uncommitted changes** in a file the
@@ -122,6 +125,61 @@ and they land through the registry's own flow.
      release branch and any remote branch stay: never delete a remote branch this flow
      did not create, and a merged `release/<version>` is the repo's to prune.
 
+## Landed (`/lens-scan release --id rel-x --landed`)
+
+For a draft whose **every** item has already landed on the default branch - the team commits
+accepted work straight to it (each commit carrying `Lens-Item: <p-id>`), so there are no
+unshipped pack commits to cherry-pick, no release branch and no PR to merge. A release that
+mixes landed and unlanded items takes the [cut](#cut-lens-scan-release---id-rel-x), unchanged;
+`--landed` never cherry-picks anything.
+
+L0. **The refusals**, exactly as [above](#before-anything-the-refusals) (gh auth; the release
+   `draft` or `failed`; items; tracked uncommitted changes in a file an item touches - for a
+   landed item, the files of its landing commits too).
+L1. **Building.** `release-update --release rel-x --status building --from draft` (`--from
+   failed` on a retry). `git fetch origin`. The default branch as in step 1; **base HEAD** is
+   `git rev-parse origin/<default branch>`, read once: every check below and the tag use that
+   sha, even if the branch moves meanwhile. A commit only on the local branch has not landed
+   (push it first). Record it: `release-update --release rel-x --base-sha <base HEAD>`.
+L2. **Verify each item landed** on base HEAD. Its landing commits are, in this order:
+   - every commit reachable from base HEAD whose message has the line `Lens-Item: <p-id>`
+     anywhere (`git log <base HEAD> --format=%H -E --grep "^Lens-Item: <p-id>[[:space:]]*$"`),
+     leaving out a commit that is itself a revert (its message says `This reverts commit`);
+   - else its `commit_sha`, when `git merge-base --is-ancestor <commit_sha> <base HEAD>`;
+   - else the base commit with the same patch: `git show <commit_sha> | git patch-id --stable`,
+     matched against `git log -p --format='commit %H' $(git merge-base <commit_sha> <base HEAD>)..<base HEAD> | git patch-id --stable`
+     (the pack commit was rebased or cherry-picked onto the branch).
+   **A later revert un-lands it**: a landing commit `L` with a commit in `L..<base HEAD>` whose
+   message says `This reverts commit <full sha of L>` (`git log L..<base HEAD> --format=%H
+   --grep "This reverts commit <L>"`) counts as reverted, unless that revert is itself
+   reverted the same way. An item with no landing commit, or with any landing commit reverted,
+   **has not landed**. When one or more have not: `release-update --release rel-x --status failed
+   --error "not landed on <default branch> at <short base HEAD>: <p-id> (<why: no Lens-Item commit
+   and commit_sha <short> not on the branch | <short L> reverted by <short R>>), ..."` and end
+   with `lens-scan release failed: not landed: <p-ids> - ship them with the cut (no --landed)`.
+   Nothing is tagged.
+L3. **Gates and numbers on base HEAD.** A detached worktree, never the main checkout: `git
+   worktree add --detach .ai/lens-scan/work/release/<version> <base HEAD>` (`node_modules` as
+   in step 1). Run the overlay's `## Gates` there, verbatim; a red gate fails the release as in
+   step 3. Then the release-head measurement of step 3 in that worktree, its note `release
+   rel-x at <base HEAD> (landed)`, every row `--commit-sha <base HEAD>`.
+L4. **Release notes** as in step 4, except each item's commit is its **landing commit(s)**
+   (`<short sha>` on the default branch, with its subject) in place of the cherry-pick and the
+   pack, plus one line `landed: tagged on <default branch> at <base HEAD>`. There is no rework
+   list (nothing was cherry-picked). `release-update --release rel-x --notes "<the markdown>"`.
+L5. **Tag and ship.** `git tag v<version> <base HEAD>` (annotated only if the repo's existing
+   `v*` tags are), `git push origin v<version>`, `gh release create v<version> --title
+   "<version>" --notes-file <notes file>`. On a retry: a `v<version>` tag already at base HEAD
+   is kept (and an existing GitHub release for it); one at any other sha fails the release
+   (`tag v<version> exists at <sha>`) - never move or delete a tag.
+L6. **Tagged.** `release-update --release rel-x --status tagged --from building --landed` (tag
+   defaults to `v<version>`). `--landed` is the store's one extra move, building -> tagged; it
+   is refused without the flag, and with it from any other status. As on merged -> tagged, the
+   release's `accepted` items become `released` and every settled pack closes, in one
+   transaction (`released`, `packs_closed`).
+L7. **Clean up** as in step 6: the detached worktree (unlink `node_modules` first), the closed
+   packs' worktrees and local `pack/<short>-<n>` branches. No branch was pushed, so none is left.
+
 ## Version suggestion (for callers such as bp)
 
 The caller creates the release (`release-create --version <v> --by <kind:name>`); this is
@@ -138,4 +196,5 @@ how it suggests `<v>`:
 
 End with: the release id and status, the branch, base and head sha, each shipped item
 (`p-id  commit  metric before -> after unit`), the rework list with files, the gates, the
-release-head measurement run id, and the PR URL (cut) or tag and release URL (finish).
+release-head measurement run id, and the PR URL (cut) or tag and release URL (finish, landed;
+landed names each item's landing commit and, on a failure, the items that had not landed).
