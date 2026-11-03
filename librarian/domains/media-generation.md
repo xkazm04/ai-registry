@@ -594,3 +594,31 @@ Source-class tally (post-hoc):
   rejection it said the client ID is not revoked. The life-cycle page says it is
   permanently revoked. Blind convergence confirmed none of the platform-set facts here; a
   page did.
+
+## 2026-11-03 - deepen, streamer-dress-rehearsal (sdr-deepen-1103)
+
+Dispatched on "single stack (rust)". The second stack came from the same tree, as it did
+for the isolated test lane: Castle Control's TypeScript night lane drives the rehearsal
+through an isolated OBS, and it is the through-the-broadcast-path procedure written as a
+test. No fleet tree has a human streamer's rehearsal mode. overlord's simulated chat
+tests a generated host. Landed in 1cdc569de (catalog d1497f9d9). The technique gained two
+conditions. First, a per-source capture renders the source outside the scene's placement
+and stacking, so placement needs a capture of the scene, taken while it shows. The lane
+captures four sources and never the composition the owner's filming called a pile.
+Second, "passes the core" became "passes the live intake and routing": the beacon test
+fire runs in the core and reaches the real overlay through a preview that ignores the
+visual's configured input. Vendor premises were read in obs-websocket 5.7.6 and
+obs-browser source. Preview counts as showing, so a rehearsal need not take Program.
+Applied to castle-control as `simulation` / `better` twice (scene capture: A 0/3, B 3/3;
+routing: A wrong 2/3, B 0/3). Tree not edited. Detail in [[streamer-dress-rehearsal]].
+
+| subject | rung | last-pass yield | demand after | dry |
+| --- | --- | --- | --- | --- |
+| streamer-dress-rehearsal | L2 | 2 conditions (golden path + technique), 1 application (typescript) | no fleet pair (0 joins in 12 maps); source tree outside the fleet | 0 |
+
+Source-class tally (post-hoc):
+- The vendor's own source settled the capture claim and refined it. The consumer's code
+  comment about the screenshot request was right, but it chose Program where Preview
+  suffices. A consumer's comment is a lead whose scope also needs checking.
+- The consumer's own test suite was the best field source for "where is the evidence
+  read". It shows which surface each assertion runs on, which no design doc states.
