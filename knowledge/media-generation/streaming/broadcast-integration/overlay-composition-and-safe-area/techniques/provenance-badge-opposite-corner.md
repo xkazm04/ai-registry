@@ -67,6 +67,12 @@ it goes top-centre; for a centred overlay pick a fixed corner and keep it.
   the corner; never move the badge outside the overlay.
 - **When content is live and real**, the badge is absent, and its absence is derived, not
   configured.
+- **When the picture is cut for a vertical player**, check the badge, and any disclosure
+  line, against that player's bands, not against the frame edge. Vertical players draw
+  their caption block and account line over the bottom of the frame and an action rail
+  down one side. A disclosure footer in the bottom strip of a vertical clip sits inside
+  the canvas and under the player. Put it in the upper part of the frame, clear of the top
+  band, or inside the content block it qualifies.
 
 ## When not to use it
 

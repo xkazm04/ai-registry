@@ -39,13 +39,29 @@ that looks at one overlay at a time.
    this by computing the boxes, not by eye.
 3. **Send the placement with the create.** The call that creates the source sets its
    transform in the same step — or in the immediately following step that the provisioning
-   routine owns and checks — so there is no instant in which the source exists unplaced.
+   routine owns and checks — so there is no instant in which the source exists unplaced. Control protocols
+   commonly cannot carry a transform on the create call. In that case create the source
+   disabled, set its transform, then enable it, so the first frame it paints is a placed
+   frame.
 4. **Record what was requested.** Keep the requested placement beside the ownership record
    so a later reconciliation can tell "the streamer moved it" from "the tool never placed
    it".
 5. **Respect a move.** Once the streamer has moved or resized an overlay, re-provisioning
    the same overlay keeps the streamer's placement. The declared home is a first frame,
    not a constraint the tool reasserts.
+
+### When the tool owns the whole picture
+
+A tool can draw its entire broadcast as one full-canvas page instead of adding several
+sources to the streamer's scene. The placement table then becomes the page's layout
+table: one rectangle per named region, per layout. The collision check becomes a unit
+test that enumerates every layout and flag combination. It asserts that no two visible
+regions intersect and that each sits inside the safe area. That is cheaper than a rendered
+capture and runs on every commit, so it guards changes before the picture exists. It
+still needs the rendered check for what a table cannot see: text overflowing its box,
+and a player covering a region. Bound the test by the target player's safe area, not by
+the canvas edge. A region test bounded by the canvas passes a lower-third line that the
+player covers.
 
 ## One owner of position
 

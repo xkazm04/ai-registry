@@ -5,7 +5,7 @@
   "source": "knowledge/media-generation/ (frontmatter only)",
   "subjects": 53,
   "techniques": 351,
-  "applications": 197,
+  "applications": 198,
   "laws": 9,
   "categories": [
    "narrative-craft",
@@ -4646,8 +4646,8 @@
    "subcategory": "broadcast-integration",
    "status": "forged",
    "file": "knowledge/media-generation/streaming/broadcast-integration/overlay-composition-and-safe-area/overlay-composition-and-safe-area.md",
-   "digest": "sha256-b2:5ac1ea8a6b5013d6",
-   "revision": 1,
+   "digest": "sha256-b2:25a04c6960ccf450",
+   "revision": 2,
    "changedAt": "2026-11-03",
    "techniques": [
     {
@@ -4730,6 +4730,13 @@
     }
    ],
    "applications": [
+    {
+     "stack": "react",
+     "technique": "placement-declared-at-provisioning",
+     "file": "knowledge/media-generation/streaming/broadcast-integration/overlay-composition-and-safe-area/applications/react--placement-declared-at-provisioning--overlord.md",
+     "verified_on": "2026-11-03",
+     "verified_against": "react@19"
+    },
     {
      "stack": "typescript",
      "technique": "envelope-fit-scale-cap",

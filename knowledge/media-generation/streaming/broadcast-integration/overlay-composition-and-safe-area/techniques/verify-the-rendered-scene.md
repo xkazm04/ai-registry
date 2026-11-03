@@ -42,7 +42,9 @@ contains every layer at once.
    stacked in one spot each have plenty of visible pixels.
 4. **Then check the composition rules mechanically:**
    - no two owned overlays' content boxes intersect;
-   - every content box lies inside the safe area of the target canvas;
+   - every content box lies inside the safe area of the target canvas and player. That
+     area is set by what the player paints over the frame, not by the canvas edge or a
+     broadcast overscan margin;
    - nothing the tool owns covers a region the streamer reserved (camera, game HUD) when
      the streamer has declared one.
 5. **Check legibility at viewer scale.** Downscale the captured frame to phone width and

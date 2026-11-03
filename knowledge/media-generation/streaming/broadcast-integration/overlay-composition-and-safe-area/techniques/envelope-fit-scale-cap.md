@@ -51,8 +51,12 @@ whatever it is given, and a full-canvas source turns a small badge into a wall.
    overlay visibly pumps as it animates.
 2. Read the requested scale and anchor from the overlay's typed parameters; clamp unknown
    values to the defaults rather than failing to render.
-3. Compute the effective scale on load and on every viewport resize. The embedded browser
-   in the broadcasting software resizes the viewport when the source is resized.
+3. Compute the effective scale on load and on every viewport resize. The page's viewport
+   is the width and height set in the source's own settings, and changing those resizes it.
+   Scaling the source in the scene does not: the scene transform resamples the texture the
+   page already rendered, so the page never learns about it. A scene scale above one
+   blurs the overlay and sidesteps the cap. Offer size to the streamer as the source's
+   width and height or the page's own scale parameter, never as a scene scale.
 4. Apply the scale as one transform on a single root element, with the transform origin at
    the anchor, so content grows away from the anchored edge.
 5. Keep a safe-area inset inside the viewport when the source is full-canvas, so anchored

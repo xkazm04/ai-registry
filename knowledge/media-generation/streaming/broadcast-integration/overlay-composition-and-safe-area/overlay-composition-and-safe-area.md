@@ -40,8 +40,8 @@ in aggregate, on the one surface no test looked at.**
 
 ## A place is declared, never defaulted
 
-Broadcasting software has a default for where a new source appears — usually the canvas
-origin or its centre, at the source's native size. That default is a placeholder for a
+Broadcasting software has a default for where a new source appears — commonly the canvas
+origin, the top-left corner, at the source's native size and with no bounds. That default is a placeholder for a
 human who will drag the source into position. A tool that provisions overlays is not a
 human with a mouse, so it must say where each overlay goes as part of creating it: an
 anchor (which corner or edge it hugs), an offset inside the safe area, and a scale. An
@@ -75,14 +75,22 @@ canvas. That is [envelope-fit-scale-cap](./techniques/envelope-fit-scale-cap.md)
 
 ## The safe area is the floor of every placement
 
-The edges of the canvas are not reliably visible. Platform players lay controls, captions,
-chat panes and gradients over the frame; vertical players on phones cover large bands at
-top and bottom; clips and thumbnails crop. Broadcast practice has long reserved a margin —
-roughly the outer five per cent on each side as action-safe, more for text — and streaming
-needs at least that, plus extra for whatever the player paints on top. Every anchored
-placement sits inside the safe area, and the safe area is a property of the target canvas
-and player, not a constant: a vertical canvas has very different bands from a landscape
-one. When one design serves both, it is placed twice, once per canvas.
+The edges of the canvas are not reliably visible, but not for the reason television gave.
+Broadcast standards reserve a margin for receivers that overscan. For HD and UHD the
+current figures are 3.5% of picture width and height at each edge for action and 5% for
+graphics (EBU R 95, ITU-R BT.1848-1). The familiar "5% action, 10% title" pair is the
+standard-definition practice those replaced. A web or phone player does not overscan, so
+on a landscape stream the 5% graphics margin is a sound convention and a floor. It is not
+what keeps text visible. What covers a streamed frame is the player itself. It draws
+controls and captions over the bottom band, plus chat panes and gradients. On a vertical
+player, a caption block, the account line and an action rail cover far more than any
+broadcast margin. The platforms' own creative guidance reserves roughly a third of the
+frame at the bottom and a strip down one side. Those figures move with every player
+redesign, so the dated numbers live in applications. Every anchored placement sits inside
+the safe area. The safe area is a property of the target canvas and player, not a
+constant: a vertical canvas has very different bands from a landscape one. When one design
+serves both, it is placed twice, once per canvas. A broadcast margin carried onto a
+vertical canvas passes every edge check and still puts the bottom lines under the player.
 
 ## Provenance is part of the picture, in the corner that is always free
 
@@ -156,6 +164,10 @@ over a real stream background.
 
 **One layout for every canvas.** A landscape placement on a vertical canvas puts content
 under the player's controls.
+
+**The canvas edge as the floor.** A layout check that asserts every region lies inside
+the canvas passes a provenance line that the player's caption block covers. The check's
+floor is the safe area of the target player, not the frame.
 
 ## Boundaries
 
