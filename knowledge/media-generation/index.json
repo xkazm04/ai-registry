@@ -5,7 +5,7 @@
   "source": "knowledge/media-generation/ (frontmatter only)",
   "subjects": 53,
   "techniques": 351,
-  "applications": 195,
+  "applications": 196,
   "laws": 9,
   "categories": [
    "narrative-craft",
@@ -546,8 +546,8 @@
    "subcategory": "broadcast-integration",
    "status": "forged",
    "file": "knowledge/media-generation/streaming/broadcast-integration/broadcast-software-control/broadcast-software-control.md",
-   "digest": "sha256-b2:9336dd87a9473204",
-   "revision": 1,
+   "digest": "sha256-b2:a1b7eb09c11f92e6",
+   "revision": 3,
    "changedAt": "2026-11-03",
    "techniques": [
     {
@@ -560,7 +560,9 @@
      "use_when": [
       "a tool finds an object with its default name already in the broadcasting software",
       "writing a cleanup or reset routine",
-      "deciding whether a tool may take over a pre-existing source or scene"
+      "deciding whether a tool may take over a pre-existing source or scene",
+      "a tool that provisioned its own persistent install wants to change the canvas",
+      "program scene or global audio"
      ]
     },
     {
@@ -622,6 +624,13 @@
     }
    ],
    "applications": [
+    {
+     "stack": "rust",
+     "technique": "claim-only-what-you-created",
+     "file": "knowledge/media-generation/streaming/broadcast-integration/broadcast-software-control/applications/rust--claim-only-what-you-created--overlord.md",
+     "verified_on": "2026-11-03",
+     "verified_against": "rust@1.97"
+    },
     {
      "stack": "rust",
      "technique": "owned-source-ledger-by-identity",
@@ -844,8 +853,8 @@
    "subcategory": "streamer-tools",
    "status": "forged",
    "file": "knowledge/media-generation/streaming/streamer-tools/chat-vote-duels/chat-vote-duels.md",
-   "digest": "sha256-b2:16b6cfa88c1fd40b",
-   "revision": 1,
+   "digest": "sha256-b2:f3de262a76e9fb14",
+   "revision": 2,
    "changedAt": "2026-11-03",
    "techniques": [
     {
@@ -3251,8 +3260,8 @@
    "subcategory": "broadcast-integration",
    "status": "forged",
    "file": "knowledge/media-generation/streaming/broadcast-integration/isolated-broadcast-software-test-lane/isolated-broadcast-software-test-lane.md",
-   "digest": "sha256-b2:e83367104e6267ee",
-   "revision": 1,
+   "digest": "sha256-b2:a3bf20648daaf896",
+   "revision": 2,
    "changedAt": "2026-11-03",
    "techniques": [
     {
@@ -4405,8 +4414,8 @@
    "subcategory": "broadcast-integration",
    "status": "forged",
    "file": "knowledge/media-generation/streaming/broadcast-integration/on-stream-overlay-delivery/on-stream-overlay-delivery.md",
-   "digest": "sha256-b2:cd4ff9a1bd6f4d44",
-   "revision": 1,
+   "digest": "sha256-b2:6650d0214c15ff60",
+   "revision": 2,
    "changedAt": "2026-11-03",
    "techniques": [
     {
@@ -6031,8 +6040,8 @@
    "subcategory": "broadcast-integration",
    "status": "forged",
    "file": "knowledge/media-generation/streaming/broadcast-integration/streaming-platform-api-custody/streaming-platform-api-custody.md",
-   "digest": "sha256-b2:b53b56b1eb00592b",
-   "revision": 1,
+   "digest": "sha256-b2:3fe2b865214a0708",
+   "revision": 2,
    "changedAt": "2026-11-03",
    "techniques": [
     {

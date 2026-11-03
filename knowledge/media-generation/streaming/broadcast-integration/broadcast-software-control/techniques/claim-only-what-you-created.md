@@ -6,7 +6,7 @@ technique: claim-only-what-you-created
 status: forged
 laws: [refusal-is-a-state]
 shared_with: []
-use_when: [a tool finds an object with its default name already in the broadcasting software, writing a cleanup or reset routine, deciding whether a tool may take over a pre-existing source or scene]
+use_when: [a tool finds an object with its default name already in the broadcasting software, writing a cleanup or reset routine, deciding whether a tool may take over a pre-existing source or scene, a tool that provisioned its own persistent install wants to change the canvas, program scene or global audio]
 ---
 
 # Claim only what you created
@@ -71,3 +71,12 @@ A tool that the streamer runs inside a broadcasting-software instance the tool i
 launched and will discard - a test harness, a throwaway rendering instance - owns the whole
 instance and may treat every object as its own. The rule binds wherever the instance is the
 streamer's.
+
+A persistent install the tool provisions and keeps - a recording rig, an unattended show - is
+not that exemption, even when the tool set it up. The software saves canvas and output
+settings in the current profile and scenes, sources and global audio state in the current
+scene collection, and reopens whichever was open last, so on a machine shared with a person
+or another tool the current containers may be theirs. The tool's whole-instance licence
+shrinks to the profile and scene collection it created: it reads the peer to see them current
+before an instance-wide write, switches to them only while no output is live, and inside them
+may adopt its own fixed-name objects; outside them this rule applies unchanged.

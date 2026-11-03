@@ -3,7 +3,7 @@ layer: golden-path
 type: golden-path
 subject: broadcast-software-control
 status: forged
-use_when: [building a tool that creates or removes sources and scenes in a streamer's own broadcasting software over its control socket, deciding what a tool may delete when it cleans up after itself, handling a dropped or re-established control connection mid-stream, storing and scoping the password for the broadcasting software's remote-control interface]
+use_when: [building a tool that creates or removes sources and scenes in a streamer's own broadcasting software over its control socket, deciding what a tool may delete when it cleans up after itself, handling a dropped or re-established control connection mid-stream, storing and scoping the password for the broadcasting software's remote-control interface, running a recording rig or unattended show on a persistent install a person or another tool may also use]
 techniques:
   - owned-source-ledger-by-identity
   - claim-only-what-you-created
@@ -177,6 +177,21 @@ streamer's real, live instance in production, where there is no sandbox and ever
 is the only thing between the tool and the streamer's configuration. When the instance is
 one the test harness launched and will throw away, the test lane's rules apply; when it is
 the one the streamer goes live from, these do.
+
+A third instance sits between the two, and it is the one that slips: a persistent install a
+tool provisions for its own work and keeps - a recording rig, an unattended show - on a
+machine where a person or another tool may run the same software. "The instance is mine" is
+false there in a way no single request reveals. The software saves canvas and output
+settings in the current *profile*, and scenes, sources and the global audio sources' state
+in the current *scene collection*, and it reopens whichever of each was open last. A tool
+that sets the canvas, switches the program scene or mutes the desktop audio "in its own
+instance" writes all of that into whatever the human, or the other tool, had open. So
+ownership rises from the object to the container, not to the instance: the tool creates its
+own profile and scene collection, reads the peer to see both current before any
+instance-wide write, switches to them only while no output is live - switching collections
+under a live stream changes what is on air - and leaves every other container untouched. A
+tool that cannot hold its own containers is a guest on the streamer's instance, and every
+rule above applies to it.
 
 Serving the pages that browser sources render - their origin, headers and payloads - belongs
 to on-stream overlay delivery; this subject only decides whether the tool may point a source
