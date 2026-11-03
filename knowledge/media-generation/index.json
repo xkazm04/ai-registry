@@ -5,7 +5,7 @@
   "source": "knowledge/media-generation/ (frontmatter only)",
   "subjects": 53,
   "techniques": 351,
-  "applications": 198,
+  "applications": 199,
   "laws": 9,
   "categories": [
    "narrative-craft",
@@ -4758,8 +4758,8 @@
    "subcategory": "broadcast-integration",
    "status": "forged",
    "file": "knowledge/media-generation/streaming/broadcast-integration/platform-extension-release-ladder/platform-extension-release-ladder.md",
-   "digest": "sha256-b2:2da21d34ba51587a",
-   "revision": 1,
+   "digest": "sha256-b2:3846f4921c299992",
+   "revision": 2,
    "changedAt": "2026-11-03",
    "techniques": [
     {
@@ -4844,7 +4844,13 @@
      "stack": "process",
      "technique": "allowlisted-test-stages-before-review",
      "file": "knowledge/media-generation/streaming/broadcast-integration/platform-extension-release-ladder/applications/process--allowlisted-test-stages-before-review.md",
-     "verified_on": "2026-11-02"
+     "verified_on": "2026-11-03"
+    },
+    {
+     "stack": "process",
+     "technique": "viewer-content-needs-identity-and-approval",
+     "file": "knowledge/media-generation/streaming/broadcast-integration/platform-extension-release-ladder/applications/process--viewer-content-needs-identity-and-approval.md",
+     "verified_on": "2026-11-03"
     }
    ]
   },

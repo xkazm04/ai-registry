@@ -40,12 +40,18 @@ the next one.
    inputs stay on the backend, for the same reasons an overlay payload stays aggregate.
 2. **Broadcast on a cadence below the budget.** Pick an interval with headroom under the
    platform's rate, and send the current snapshot when it changed. A burst of a thousand
-   votes in one interval is one message.
+   votes in one interval is one message. A cadence equal to the rate has no headroom.
+   Where the budget behaves as a bucket that refills at that rate, as developers have
+   measured it doing, a steady sender at the rate never refills, and one retry or one
+   second feature drains the burst allowance until messages are refused.
 3. **Check size before sending.** Serialise, measure against the message limit, and
    refuse on the backend if it is over. Bound every list and string so the snapshot
    cannot grow with the audience.
-4. **Read the budget the platform reports.** Honour the remaining-budget signal it
-   returns; when the budget is short, lengthen the interval instead of queuing.
+4. **Read the budget the platform reports, and count your own.** Where the response
+   carries a remaining-budget signal, honour it. Developers have read one from response
+   headers, but the platform's reference does not document it, so the broadcaster also
+   counts its own sends against the documented figure and treats a refusal as the
+   signal. When the budget is short, lengthen the interval instead of queuing.
 5. **Never let viewers make up the difference by polling.** A late-joining viewer may
    fetch the current snapshot once from the backend, with jitter, and then listen. A
    viewer that polls on a timer multiplies backend load by the audience.

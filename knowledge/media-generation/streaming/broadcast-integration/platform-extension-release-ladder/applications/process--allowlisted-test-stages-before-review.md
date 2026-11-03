@@ -5,7 +5,7 @@ subject: platform-extension-release-ladder
 technique: allowlisted-test-stages-before-review
 stack: process
 status: forged
-verified_on: 2026-11-02
+verified_on: 2026-11-03
 ---
 
 # Process: Castle Control's Twitch Extension ladder (a design record, not built code)
@@ -99,8 +99,20 @@ The automated operator is held to the same approval rule:
   Building to the test rungs without the answer is defensible, since nothing is submitted;
   submitting without either the answer or a minimal-shell first submission is what the
   technique forbids.
-- **The monetisation citation may be stale.** Line 214 cites "Extension policies 6.2.4 to
-  6.2.6". The guidelines as read on 2026-11-02 place the wager rule at 6.2.6 and add
-  6.2.8 (no items or experiences chosen in free-form text), which the plan does not
-  mention; re-read the numbering before review notes cite it.
+- **The monetisation citation is exact; the rule is short.** *Corrected 2026-11-03: this
+  line said the citation might be stale.* Line 214's "Extension policies 6.2.4 to 6.2.6"
+  matches the guidelines as re-read: 6.2.4 is chance items, 6.2.5 contest entry and 6.2.6
+  wagering. The rule leaves out 6.2.1 (access to a pay-to-play game) and 6.2.8 (items not
+  predefined by the extension). The three-template simulation that shows why the first
+  one matters is in
+  [the viewer-content application](./process--viewer-content-needs-identity-and-approval.md).
 - **No audience-scale load rung.** See the broadcast section.
+- **The cadence sits at the rate, not under it.** "At most once a second" (line 191, and
+  WP 4.2) equals the per-channel refill that developers measured (100 points, refilling 1
+  a second; twitchdev/issues 612, 2022). A steady sender at that cadence has no headroom,
+  and one retry or one second broadcaster drains the burst. The technique asks for an
+  interval under the rate. The offline coalescer test should assert the chosen interval,
+  not the platform's ceiling.
+- **The host rule is stricter than the policy, which is harmless.** Line 80's "generic
+  public hosts are banned" is broader than guideline 2.13, which accepts a public hosted
+  domain that carries a unique identifier. The plan's single own host meets both.

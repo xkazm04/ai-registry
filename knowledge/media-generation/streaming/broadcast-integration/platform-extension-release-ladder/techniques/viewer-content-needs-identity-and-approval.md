@@ -15,8 +15,8 @@ An extension that accepts anything a viewer authors — a caption, a drawing, a 
 uploaded image — publishes it only when four conditions hold: the viewer shared their
 platform identity before submitting, the streamer could review the item and approved it,
 the published item carries the author's name, and the streamer can remove it at any time
-afterwards. Viewer money inside the extension obeys a sibling rule: it buys looks,
-acknowledgement and participation, never outcomes.
+afterwards. Viewer money inside the extension obeys a sibling rule: it buys looks and
+acknowledgement, never the way in and never an outcome.
 
 ## Why each condition exists
 
@@ -60,15 +60,26 @@ They would be the right design without the requirement.
 6. **Bound what a submission can be.** Length, size, type and count per viewer per
    window. An unbounded queue is a denial of the streamer's attention.
 
-## Money buys looks, never outcomes
+## Money buys looks, never the way in
 
 When the extension accepts the platform's paid currency, define what each purchase does
 inside the extension's own catalogue: a visual effect, a highlighted acknowledgement, a
-cosmetic, a place in a participation queue. Do not sell a vote's outcome, extra weight
-in a decision, an advantage in anything a viewer wagers on, or an item or experience the
-streamer or viewer names in free text — the platform forbids each, and each would let
-money reach the room's decisions. The show's own menu of what the audience may change
-still applies on top; a purchase the platform allows can still be off the show's menu.
+cosmetic. Two lists keep everything else off it, and they are not the same list.
+
+**The platform forbids** money as the price of access to a game, of an entry into a draw
+or contest (directly or through a token the money buys), of an item chosen by chance, of
+a wager on an outcome the viewer does not control, of a chosen track, of voice features,
+and of an item or experience the streamer or viewer names in free text instead of picking
+from the extension's own predefined list. Most of that list is about the way in, not
+about winning. A participation queue is the trap: buying a place in the queue to play
+buys the way in for whoever it moves ahead. Keep it off the catalogue unless the platform
+confirms otherwise, because a reviewer who reads it as access to a paid game rejects the
+version.
+
+**The show forbids** a vote's outcome and extra weight in a decision. The platform's list
+does not name either one. The show's own rule forbids both, because each would let money
+reach the room's decisions. A purchase the platform allows can still be off the show's
+menu, and the catalogue holds only what both lists allow.
 
 ## Decision rules
 
@@ -78,6 +89,9 @@ still applies on top; a purchase the platform allows can still be off the show's
   not.
 - **When a purchase would change who wins, what is chosen or by how much**, it is off
   the catalogue.
+- **When a purchase would let a viewer in** (to play, to a draw, to a contest, even
+  through a token or a place in a queue), it is off the catalogue, however small the
+  price.
 - **When the streamer is offline**, submissions wait; they are not published to keep the
   panel lively.
 

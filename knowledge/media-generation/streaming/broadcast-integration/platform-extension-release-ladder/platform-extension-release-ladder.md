@@ -137,8 +137,9 @@ promote.
 
 **Approved** is not released. The platform permits release at any time after approval,
 and that freedom is the point: release is a deliberate act by the owner, on a date chosen
-for the streamer's schedule, with the previous version's behaviour known and the backend
-ready for the new one. A team that releases on approval because the button is there has
+for the streamer's schedule, with the backend ready to serve both versions. Release
+upgrades every install at once, but a viewer who already loaded the page keeps running
+the old version until they reload, so for a while the backend hears from both. A team that releases on approval because the button is there has
 let the review queue set its launch date.
 
 The per-rung acceptance lists and the allowlist discipline are
@@ -159,12 +160,20 @@ reject the version, and each is also the reason a streamer's panel ends up displ
 something the streamer never saw. That is
 [viewer-content-needs-identity-and-approval](./techniques/viewer-content-needs-identity-and-approval.md).
 
-Paid currency inside an extension may buy acknowledgement, looks and participation the
-extension itself defines. It may not buy the outcome of a vote, an advantage in anything
-resembling a wager, or an item the streamer or viewer types in freely. That rule is the
-same rule the steering economy already holds — money changes how the show looks and who
-is thanked, never what the room decides — and the extension is where the platform starts
-enforcing it with a reviewer.
+Paid currency inside an extension may buy acknowledgement and looks from a catalogue the
+extension itself defines. The platform's list of what it may not buy is longer than the
+gambling rules a team expects, and most of it is about the way in. Money may not buy
+access to a game, an entry into a draw or contest (directly or through a token it buys),
+an item chosen by chance, a wager on an outcome the viewer does not control, a chosen
+track, an item or experience the streamer or viewer names in free text rather than picks
+from the extension's own list, or a voice channel. Participation is therefore not on the
+catalogue. A paid priority place in a queue to play is the way in for whoever it moves
+ahead, so it stays off unless the platform confirms otherwise.
+
+The outcome of a vote and extra weight in a decision are missing from that list. The show
+forbids them: the steering economy's rule is that money changes how the show looks and
+who is thanked, never what the room decides. The extension is where the platform's
+reviewer starts enforcing its own list, and the show's rule still sits on top of it.
 
 ## Decision rules
 
@@ -179,7 +188,11 @@ enforcing it with a reviewer.
   behind the budget and never let viewers poll the backend to make up the difference.
 - **When a version is ready**, it has passed hosted test and the load rung on owned
   accounts; submit then, not to discover what the reviewer thinks.
-- **When a version is approved**, release on the owner's chosen date, not on approval.
+- **When a version is approved**, release on the owner's chosen date, not on approval,
+  with a backend that still answers the version it replaces.
+- **When viewers can pay**, the catalogue holds looks and thanks. Anything that lets a
+  viewer in, to play or to a draw, is off it, and so is anything chance or free text
+  decides.
 - **When viewers can submit anything**, identity first, streamer approval before
   publication, the author's name shown, removal always available.
 
