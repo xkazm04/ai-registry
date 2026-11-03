@@ -622,3 +622,33 @@ Source-class tally (post-hoc):
   suffices. A consumer's comment is a lead whose scope also needs checking.
 - The consumer's own test suite was the best field source for "where is the evidence
   read". It shows which surface each assertion runs on, which no design doc states.
+
+## 2026-11-03 - deepen, streamer-in-charge-moderation (sicm-deepen-1103)
+
+Dispatched on "single stack (rust)". The second stack came from the same tree again:
+Castle Control's TypeScript contract door, ban card and headless MCP package. The
+search for a fleet seam found one that the map does not join: overlord's chat moderator.
+It is the Rust ancestor of Castle Control's gatehouse, and it times out and bans
+through Helix when armed. Landed in 5ed3e12da (catalog fc9bad104). The arming technique
+gained an agent rule. An AI agent may draft and test in shadow, and arming, confirming,
+resolving and ending a grant stay off its tool surface. Castle Control realizes that
+with a tested denylist partition. overlord is the counter-instance: its setup guide
+enables MCP writes and offers "Arm the moderator." as a prompt. Shadow-by-default gained
+"an incident arm ends with the incident", from the platform's own emergency mode, whose
+auto-ban terms reset every session. The golden path records that shape of platform
+automatic removal. Two TypeScript applications landed. Applied: agent rule
+`simulation` / `better` (2 of 3, 1 tie). Incident rule `unapplied`. Detail in
+[[streamer-in-charge-moderation]].
+
+| subject | rung | last-pass yield | demand after | dry |
+| --- | --- | --- | --- | --- |
+| streamer-in-charge-moderation | L2 | 2 conditions (techniques + golden path), 1 golden-path refinement, 2 applications (typescript) | no fleet pair (0 joins in 12 maps), but overlord's moderator is an unjoined seam | 0 |
+
+Source-class tally (post-hoc):
+- The platform's help centre renders client-side and returned nothing to a fetch. The
+  launch posts are quoted verbatim by several outlets that agree word for word, which is
+  enough for a design precedent and not for a current setting. One outlet's claim of an
+  auto-ban option for suspected evaders was found once and is not carried.
+- A consumer's agent-facing package (the MCP tool list and its partition test) was the
+  best source on who may arm. No design doc in either tree states the rule. The code
+  and its test do.
