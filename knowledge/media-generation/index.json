@@ -5,7 +5,7 @@
   "source": "knowledge/media-generation/ (frontmatter only)",
   "subjects": 53,
   "techniques": 351,
-  "applications": 199,
+  "applications": 200,
   "laws": 9,
   "categories": [
    "narrative-craft",
@@ -5852,8 +5852,8 @@
    "subcategory": "trust-and-evaluation",
    "status": "forged",
    "file": "knowledge/media-generation/streaming/trust-and-evaluation/streamer-dress-rehearsal/streamer-dress-rehearsal.md",
-   "digest": "sha256-b2:0f409f895262ed95",
-   "revision": 1,
+   "digest": "sha256-b2:85bf323f71e81943",
+   "revision": 2,
    "changedAt": "2026-11-03",
    "techniques": [
     {
@@ -5945,6 +5945,13 @@
      "file": "knowledge/media-generation/streaming/trust-and-evaluation/streamer-dress-rehearsal/applications/rust--provenance-survives-every-consumer.md",
      "verified_on": "2026-11-02",
      "verified_against": "rust@1.97.1"
+    },
+    {
+     "stack": "typescript",
+     "technique": "through-the-broadcast-path",
+     "file": "knowledge/media-generation/streaming/trust-and-evaluation/streamer-dress-rehearsal/applications/typescript--through-the-broadcast-path.md",
+     "verified_on": "2026-11-03",
+     "verified_against": "typescript@6"
     }
    ]
   },

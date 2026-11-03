@@ -33,6 +33,15 @@ contributions — and never at a component in the middle, and the rehearsal's ev
 read at the **output** end. Local previews remain in the tool, labelled as previews, and
 are not offered as the rehearsal's way of firing a feature.
 
+The trap has a mirror image that a picture check alone does not catch. A test fire can
+run inside the core and reach the real overlay, and still enter **below the routing**
+that decides which features react to a live event. A visual preview that selects the
+burst's own kind of contribution, rather than the kind the streamer configured, lights
+the overlay for a visual that a live event of that kind would leave dark, or that no live
+event would light at all. The picture is right and the feature is not. "Inside the core"
+is therefore not the test. The test is whether the stimulus takes the same intake and
+the same routing a live event takes.
+
 ## Reading the output
 
 The scene the rehearsal uses is a scene in the streamer's own broadcasting software,
@@ -44,6 +53,20 @@ software's preview, or by a capture compared against what the core says should b
 and it covers placement and legibility as well as presence, because an overlay that
 renders in the centre under three others has not reached the viewer either.
 
+Two properties of a capture decide what it can prove. First, **what it renders.** A
+capture of one source renders that source alone, outside the scene's placement, scaling
+and stacking order. It proves the overlay painted. It cannot show that the overlay sits
+where it should or that another one covers it, and four overlays that each pass a source
+capture can still compose into an unreadable pile. Placement and occlusion are read from
+a capture of the **scene**, which renders the composition. Second, **when it renders.**
+A browser-rendered source that is not on a showing scene is not painting, and a one-shot
+capture can briefly mark it showing without giving the page time to paint. It then reads
+blank, or reads a frame from before the change. Make the rehearsal scene show and wait
+until the software reports its sources showing before you read it. A preview pane or a
+projector counts as showing, so the scene does not have to be put on the output. Switch
+the output scene only when nothing is being sent, because a rehearsal scene on the output
+of a live stream is on the air.
+
 ## Procedure
 
 1. Route every rehearsal stimulus through the tool's real intake and core, never into a
@@ -53,7 +76,8 @@ renders in the centre under three others has not reached the viewer either.
    it.
 3. For each feature, name the visible result on the scene that proves it fired — a vote
    bar filling, a plate appearing after a seal, a visual climbing with a burst.
-4. Run the scenario and check that result on the composed picture. Mark a feature whose
+4. Run the scenario and check that result on the composed picture: the scene shown, its
+   sources reported showing, and the capture taken of the scene, not of each source. Mark a feature whose
    result was not observed there as not observed, whatever the tool's own panel says
    ([law: unmeasured-is-not-pass](../../../../_laws.md#unmeasured-is-not-pass)).
 5. Note the features whose overlay only exists after a state change — a draw plate that
@@ -62,8 +86,12 @@ renders in the centre under three others has not reached the viewer either.
 
 ## Decision rules
 
-- **When a control fires a feature without passing the core, it is a preview, not a
-  rehearsal step.** Label it so and keep it off the rehearsal surface.
+- **When a control fires a feature without passing the intake and routing a live event
+  passes, it is a preview, not a rehearsal step.** Label it so and keep it off the
+  rehearsal surface. That holds even when the preview runs in the core and reaches the
+  real overlay.
+- **When every source capture passes, placement is still unmeasured.** Only a capture of
+  the scene can show it.
 - **When the tool's state and the scene disagree, the scene is right about what viewers
   saw.** Debug the path, not the panel.
 - **When an overlay is present but unreadable, the feature did not reach the viewer.**

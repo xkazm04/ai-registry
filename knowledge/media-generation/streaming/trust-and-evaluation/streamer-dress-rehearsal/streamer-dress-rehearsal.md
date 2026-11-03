@@ -134,8 +134,12 @@ pane — each proves that one component ran, and none proves that the overlay pa
 served, loaded by the broadcasting software, placed where it should be and updated when
 the core changed state. A test fire that never leaves the tool is the commonest false
 rehearsal in this craft: it lights up on the streamer's screen and nothing changes on the
-stream. The rehearsal drives events through the core and checks the composed picture, by
-eye or by capture.
+stream. Its mirror image is a test fire that reaches the real overlay through a preview
+path below the routing a live event takes. The picture lights for a feature the live
+show would leave dark, so the stimulus has to take the live intake and the live routing,
+not merely run inside the core. The rehearsal drives events that way and checks the
+composed picture, by eye or by capture. A capture proves placement only when it is taken
+of the scene rather than of each source, while the scene is showing.
 
 ## Retakes start from a known state
 
