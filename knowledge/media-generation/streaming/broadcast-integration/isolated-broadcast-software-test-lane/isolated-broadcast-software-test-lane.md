@@ -75,13 +75,21 @@ back when the user changes something and again when it exits. A lane that restor
 owner's files while its instance is still running restores them for a moment; the instance
 then exits and overwrites them with its own view (byte-exact-config-restore).
 
-The program also writes shared files the lane never asked it to. Control-socket settings
-handed to the instance at launch - its port, its password - are persisted into the shared
-global settings when it exits, so a lane that "wrote nothing" has still left its password in
-the owner's file. The program drops a marker in the shared configuration root while it runs
-and reads it at the next start to decide whether the last session crashed, so a lane
-instance killed hard leaves the owner's next launch offering safe mode. The restore set is
-therefore what the program is known to write, not what the test means to change.
+The program also writes shared files the lane never asked it to. Its control-socket plugin
+re-serialises its own settings file every time the program starts, before the lane has sent
+a single request. On exit the program writes its global settings, its user settings and the
+scene collection it loaded, rotating a backup of that collection. A lane that "wrote
+nothing" has still rewritten the owner's files. What it has not written, in the build read
+for this subject, is the control port and password it passed at launch. The plugin applies
+launch-line values to the session only and keeps them out of what it saves, and has done so
+since it first accepted them (source and a measured run, 2026-11-03). The cheap check is
+to search the configuration root for the generated password after a graceful exit; do not
+assume either answer. Crash markers vary by build. One build writes a per-session marker
+into the shared root and reads it at the next start to offer safe mode, so a hard-killed
+instance leaves the owner a prompt; the same build writes none for an instance launched as
+an additional copy. The restore set is therefore what the program is observed to write, in
+the build the lane runs - not what the test means to change, and not what an older build
+wrote.
 
 So the order is fixed: record the bytes of every shared file before the first write, run,
 stop the instance and **wait for the process to be gone**, then put the recorded bytes

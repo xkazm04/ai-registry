@@ -67,14 +67,23 @@ password somebody pasted into a ticket.
 Handing the port and password to the instance as launch options is the cleanest route,
 and it has two consequences to plan for. A launch line is readable by other processes of
 the same user for as long as the instance runs, which is acceptable for a password that dies
-with the run and is not for one that outlives it. And the program persists control-socket
-settings it was given at launch into its shared global settings when it exits, so the
-lane's password ends up in the owner's file unless that file is in the restore set - which
-is why the restore set is never empty when the configuration root is shared.
+with the run and is not for one that outlives it. And whether the program keeps a value it
+was given at launch is a fact about the build, not a given. The control plugin read for this
+subject treats launch-line port and password as a session override and saves neither, so
+the lane's password stays out of the owner's files (measured 2026-11-03). Another build may
+persist them. Search the configuration root for the generated password after a graceful
+exit: the password is the cheapest canary there is. The restore set is never empty when
+the configuration root is shared, because the program rewrites files in that root on start
+and on exit regardless.
 
-The control socket on the test instance is bound to loopback. A test instance reachable from
-the network is a remote-control door into a program that renders to the machine's screen and
-can capture its displays and devices.
+Bind the test instance's control socket to loopback where the software allows it. A test
+instance reachable from the network is a remote-control door into a program that renders to
+the machine's screen and can capture its displays and devices. Where the software cannot,
+the per-run password is the only lock on that door, which is one more reason it is long,
+generated and never reused. The control plugin read for this subject has no loopback-only
+setting and listened on every IPv4 and IPv6 interface when measured on 2026-11-03. A host
+firewall rule that admits only loopback to the lane's port is then the second lock. A
+report may say "loopback" only after reading the listener's bound address.
 
 ## Things the instance must not inherit
 

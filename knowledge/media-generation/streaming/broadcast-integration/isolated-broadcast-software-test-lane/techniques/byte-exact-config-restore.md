@@ -21,11 +21,17 @@ disk: the same bytes, or the same absence.
 1. **List the restore set before launching.** Every file the run may write that the owner's
    setup also reads: the global settings file at minimum, plus any profile or collection
    index the software updates when a new one appears. Build the list from what the software
-   is known to write, not from what the test intends to change, because the program writes
-   files the test never asked it to - control-socket settings given at launch are persisted
-   into the global settings on exit, and a per-session marker the program uses to detect a
-   crash appears in the shared root while it runs. Record the set of such markers too, so
-   the ones this run created can be told from the owner's.
+   is observed to write, not from what the test intends to change, because the program
+   writes files the test never asked it to. A plugin may re-serialise its own settings file
+   on every start, and the program writes its settings and the loaded collection on exit.
+   Observe it once per build: launch with the lane's flags into a scratch configuration root,
+   close gracefully, and list which files changed bytes or modification time. That list is
+   the restore set. The same run shows what did *not* happen. Launch-line control settings
+   are a session override in the build read for this subject and never reach a file, so
+   search the root for the generated password rather than assuming either way. Record
+   the set of crash markers before and after as well, so the ones this run created can be
+   told from the owner's. Whether a build writes one at all, and for which launch modes,
+   varies.
 2. **Snapshot raw bytes.** Copy each file's bytes, unparsed, to a backup location the
    harness owns, and record its hash; read the copy back and compare hashes before going on,
    because a backup that was never checked is a hope. Record "absent" for a file that does
