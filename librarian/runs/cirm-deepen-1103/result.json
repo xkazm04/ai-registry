@@ -1,0 +1,62 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "cirm-deepen-1103",
+  "skill": "deepen",
+  "skill_version": "1.5.0",
+  "mode": "interactive",
+  "domain": "software-engineering",
+  "started_at": "2026-11-03T15:05:00Z",
+  "ended_at": "2026-11-03T16:10:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 1,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "software-engineering/claimed-improvement-remeasurement",
+      "at": "2026-11-03",
+      "engine": "deepen",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [],
+  "files": [
+    "knowledge/software-engineering/engineering-assessment/measurement-method/claimed-improvement-remeasurement/claimed-improvement-remeasurement.md",
+    "knowledge/software-engineering/engineering-assessment/measurement-method/claimed-improvement-remeasurement/techniques/three-way-verdict-over-raw-samples.md",
+    "knowledge/software-engineering/engineering-assessment/measurement-method/claimed-improvement-remeasurement/techniques/queued-runs-as-head-sample.md",
+    "knowledge/software-engineering/engineering-assessment/measurement-method/claimed-improvement-remeasurement/techniques/claimant-figure-never-decides.md",
+    "knowledge/software-engineering/engineering-assessment/measurement-method/claimed-improvement-remeasurement/applications/rust--queued-runs-as-head-sample.md",
+    "knowledge/software-engineering/engineering-assessment/measurement-method/claimed-improvement-remeasurement/applications/rust--claimant-figure-never-decides.md",
+    "librarian/applied.md",
+    "librarian/subjects/software-engineering/claimed-improvement-remeasurement.md",
+    "librarian/domains/software-engineering.md"
+  ],
+  "commits": [
+    {
+      "sha": "42bf985a5",
+      "branch": "main",
+      "pathspec": [
+        "knowledge/software-engineering/engineering-assessment/measurement-method/claimed-improvement-remeasurement",
+        "knowledge/software-engineering/index.json",
+        "rules/ai-registry-software-engineering.md"
+      ]
+    },
+    {
+      "sha": "1bb95b472",
+      "branch": "main",
+      "pathspec": [
+        "catalog.json"
+      ]
+    }
+  ],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "Rust second stack from tracklight 5aa119f (2 apps). Flipped: a spend claim is a sum, not a median. Corrected rank-sum at 3v3. Pairing section. 1 applied row unapplied. 0 joined pairs; 12 maps committed locally, unpushed."
+}

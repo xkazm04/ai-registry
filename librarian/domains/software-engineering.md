@@ -1336,3 +1336,31 @@ Source-class tally (post-hoc, this run):
   "syllable rate" was folklore and the corpus figure corrected it.
 - The blind lane converged with the web lane on every figure here. These are physiological,
   not vendor-set, which is the class where training data holds up.
+
+## Run cirm-deepen-1103 - claimed-improvement-remeasurement, a spend claim is a sum
+
+A Curator dispatch on "single stack (node)". The subject was a week old (harvested
+2026-10-27 from one tree) and states no volatile facts. tracklight's prompt-promotion gate
+answers the stack finding in Rust. One golden-path rule flipped, one precision correction,
+one new section, two upward lessons from the field tree, no new technique.
+- **The centre follows the claim class** (three-way-verdict-over-raw-samples and the golden
+  path). "Medians, not means" holds for the typical run. A spend claim is a sum, and the tail
+  is part of the bill. Raised by the web lane against production detectors that use means.
+- **Exact rank-sum at 3 vs 3:** the smallest two-sided p is 0.10, and one-sided reaches 0.05
+  only under a p ≤ α rule. The old text said such a test "cannot reach conventional
+  significance at all". The blind and web lanes converged on the arithmetic.
+- **Pair when the judge controls the runs.** This is a new section that links
+  paired-per-case-testing, not a new technique. The fleet tree, the blind lane and Laaber et
+  al. (EMSE 2019) converged on it.
+
+| subject | rung | last-pass yield | demand after | dry |
+| --- | --- | --- | --- | --- |
+| claimed-improvement-remeasurement | L2 | 1 flip, 1 correction, 1 section, 2 upward lessons, 2 rust applications, 1 applied row (unapplied) | no joined context (0 pairs, 0 stale) | 0 |
+
+Source-class tally (post-hoc, this run):
+- Tool source code (Treeherder, Pinpoint's compare module) and the papers behind detectors
+  beat descriptions of them. A detector's own code says which centre it compares.
+- The blind lane converged with the web lane on exact arithmetic and design rules. Nobody
+  sets those, which is the class where training data holds up. Neither lane sourced the
+  house heuristics (the noise multiple of 2, the ~8-sample IQR cutoff), and the text now
+  calls them defaults.
