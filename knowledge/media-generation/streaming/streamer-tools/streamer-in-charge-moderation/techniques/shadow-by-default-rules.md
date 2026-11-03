@@ -65,6 +65,12 @@ somebody else's chat. They start in shadow too.
 - **When the streamer wants a rule armed immediately** during an incident, arm it through
   the logged grant with its empty record visible, and prefer a room intent (slow mode,
   followers-only) for the incident itself — it addresses nobody and is trivially undone.
+  That arm ends with the incident. Bind it to the grant or session that justified it,
+  and when that ends, return the rule to shadow with its incident record attached. Do not
+  let it join the standing armed set. A pattern written against a raid's phrasing was
+  tuned on hostile chat, and next week's chat will use those words innocently. One
+  platform's emergency mode clears its list of auto-ban terms at the end of every
+  session for the same stated reason.
 - **When shadow hits reveal a regular**, offer an exemption rather than a pattern edit
   where the rule is otherwise right; exemptions are narrower and easier to audit.
 - **When a rule's would-have action is only to hold a message for review**, the shadow

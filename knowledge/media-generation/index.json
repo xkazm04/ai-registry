@@ -5,7 +5,7 @@
   "source": "knowledge/media-generation/ (frontmatter only)",
   "subjects": 53,
   "techniques": 351,
-  "applications": 200,
+  "applications": 202,
   "laws": 9,
   "categories": [
    "narrative-craft",
@@ -5960,8 +5960,8 @@
    "subcategory": "streamer-tools",
    "status": "forged",
    "file": "knowledge/media-generation/streaming/streamer-tools/streamer-in-charge-moderation/streamer-in-charge-moderation.md",
-   "digest": "sha256-b2:64ad387d6a814f4e",
-   "revision": 1,
+   "digest": "sha256-b2:abaecc369c415b64",
+   "revision": 2,
    "changedAt": "2026-11-03",
    "techniques": [
     {
@@ -6059,6 +6059,20 @@
      "file": "knowledge/media-generation/streaming/streamer-tools/streamer-in-charge-moderation/applications/rust--room-intents-cannot-name-a-person.md",
      "verified_on": "2026-11-02",
      "verified_against": "rust@1.97.1"
+    },
+    {
+     "stack": "typescript",
+     "technique": "arming-as-a-logged-grant",
+     "file": "knowledge/media-generation/streaming/streamer-tools/streamer-in-charge-moderation/applications/typescript--arming-as-a-logged-grant.md",
+     "verified_on": "2026-11-03",
+     "verified_against": "typescript@6"
+    },
+    {
+     "stack": "typescript",
+     "technique": "decide-on-the-stored-original",
+     "file": "knowledge/media-generation/streaming/streamer-tools/streamer-in-charge-moderation/applications/typescript--decide-on-the-stored-original.md",
+     "verified_on": "2026-11-03",
+     "verified_against": "typescript@6"
     }
    ]
   },

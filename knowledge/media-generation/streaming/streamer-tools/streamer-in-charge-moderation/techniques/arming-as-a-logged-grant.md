@@ -58,6 +58,18 @@ extended the streamer's approval to text they never read.
 - **When a moderator, not the streamer, arms a rule**, the grant records the moderator,
   and the streamer's view shows who holds which grants. Whether moderators may arm at all
   is the streamer's setting, not the tool's assumption.
+- **When an AI agent drives the tool for the streamer** — a chat assistant with the tool's
+  operations as callable tools — it may draft, edit and test rules in shadow, and it may
+  never arm one. Arming, confirming a proposal, resolving a held message and ending a
+  grant are not on the agent's tool surface at all. A prompt that says "arm it" lets the
+  agent ask; the grant is made by the person, on the surface that shows the rule's
+  shadow record. Logging the agent's call under the streamer's name does not fix this.
+  An agent that can write a rule and arm it in one turn defeats the edit-disarms rule
+  above, and it grants itself power over text nobody else read. Pin the split with a
+  test that classifies every operation, so a new one cannot reach the agent unreviewed.
+  This is the moderation case of the
+  [depth handoff](../../../../../software-engineering/llm-agent/experience/agent-host-experience/techniques/depth-handoff.md)
+  rule that anything granting access comes home to the product.
 - **When a rule's action is changed** (hold to timeout, timeout to ban), treat it as a new
   rule, not an edit: the shadow record of the old action says nothing about the new one.
 - **When nobody can say who armed a rule**, it is disarmed. Unattributed power is not

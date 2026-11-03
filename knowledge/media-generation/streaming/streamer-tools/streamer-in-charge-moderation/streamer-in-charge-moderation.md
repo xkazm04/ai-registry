@@ -33,8 +33,12 @@ in a word filter costs one hidden message; a false positive in a ban costs a reg
 public accusation, and an appeal the streamer has to answer personally. The platforms'
 own tools reflect this: their automated screens hold messages for a human, flag accounts
 that look like ban evasion for a human, delay chat to give a human time, and say plainly
-that the classifier is not accurate enough to ban on its own. A third-party tool that is
-bolder than the platform's own screens has to earn that, and mostly it cannot.
+that the classifier is not accurate enough to ban on its own. Where a platform does remove
+people automatically, the shape matters. It bans on terms the streamer wrote, inside an
+emergency mode the streamer switched on, and it clears the term list when that session
+ends. That is a lease over deterministic patterns, not a classifier's verdict. A
+third-party tool that is bolder than the platform's own screens has to earn that, and
+mostly it cannot.
 
 ## What the machine is for
 
@@ -75,8 +79,13 @@ nothing. The rule is armed only while that log entry can be found and the rule i
 byte-for-byte the version it names. Editing an armed rule must not keep it armed: either
 the edit is refused until the rule is back in shadow, or the edit disarms it; both are
 honest, and silently carrying the consent over to new text is not. A rule that arms
-itself by default, or stays armed through an edit, has taken a decision nobody made. That
-is [arming-as-a-logged-grant](./techniques/arming-as-a-logged-grant.md).
+itself by default, or stays armed through an edit, has taken a decision nobody made. The
+same holds when an AI agent drives the tool for the streamer. The agent may draft and
+test rules in shadow. Arming, confirming and resolving are not on its tool surface,
+because an agent that can write a rule and arm it in one turn has granted itself the
+power. A rule armed in a hurry during an incident is armed for that incident. When the
+incident ends, it goes back to shadow instead of staying armed against next week's
+ordinary chat. That is [arming-as-a-logged-grant](./techniques/arming-as-a-logged-grant.md).
 
 ## A ban is a proposal with a clock
 
