@@ -28,6 +28,7 @@ none.
 
 ## Repo law
 
+- **Cross-repo sparks (the registry plus consumer repos): in Phase 1, read each target repo's deadline or freeze record (hackathon rules, docs/build/STATUS, AGENTS.md) and its landing path (local ff, branch held until a date, or PR), and name both in the wave-1 proof question.** Promoted 2026-11-03 after the third sighting (2026-10-06, 2026-10-30, 2026-11-03: a consumer's hackathon closed the next day and was found mid-build).
 - Read CONTRIBUTING.md and the lane doc under docs/ for the lane you touch. Scripts are builtins-only Node with a header comment that says WHY; exits go through scripts/lib/exit-codes.mjs.
 - Generated files (catalog.json, knowledge/*/index.json, rules/*, .claude-plugin/marketplace.json) are regenerated, never hand-edited; a stamped `<!-- clause: -->` block is edited in docs/skill-clauses/ and re-stamped.
 - The checkout hosts concurrent sessions: stage per file, never stash, never `git add -A`; builders never touch the index.
@@ -64,3 +65,6 @@ none.
 - 2026-10-25 registry-self-scan: overnight capacity is about one /scan-sweep wave: 4 round-agents averaged ~6 h wall each on 16-28-file contexts. Plan multi-skill overnight runs as spark plus architect plus ONE sweep wave, and register the rest.
 - 2026-10-30 backlog-scan-family: a consumer repo's local default branch was 165 commits behind its remote with a foreign-dirty tracked ledger; the build branched from origin/<base> and could not land locally. Cross-repo sparks: decide the landing path per repo at the go-gate (local ff / PR / operator pull first).
 - 2026-10-30 backlog-scan-family: the lens-scan drive.test "flake" under run-tests was unclosed SQLite stores (Windows EPERM on cleanup), fixed in lens-scan 1.11.0 - not a harness flake.
+- 2026-11-03 ai-driven-ux-golden-standard: third cross-repo landing lesson (see 2026-10-30): a consumer repo's hackathon deadline was found mid-build, not at targeting. PROMOTED to `## Repo law` (cross-repo sparks read each target repo's deadline and landing path in Phase 1).
+- 2026-11-03 ai-driven-ux-golden-standard: registry main moved twice during the run (sibling deepen + librarian commits); rebase the worktree branch onto main before each ff, re-gate, and verify the gate verdict by exit code, never through `| tail` (the first ff was chained after a pipe).
+- 2026-11-03 ai-driven-ux-golden-standard: a new subcategory was the right home when two sibling categories sat at the cap of ten; the forge brief's taxonomy rule held (Director writes taxonomy.json, forgers write only their folder) and two parallel forgers gated clean on first run.
