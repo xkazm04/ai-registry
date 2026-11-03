@@ -819,9 +819,9 @@
       ],
       "invokes30d": 6,
       "reportedInvokes": 6,
-      "lessons": 36,
+      "lessons": 37,
       "lessonsPath": "skills/spark/LESSONS.md",
-      "lessonsHash": "sha256-n1:c82709b3bb3546e2",
+      "lessonsHash": "sha256-n1:7a97a0c6f7a89ce5",
       "usageContributors": [
         "wolf"
       ],
@@ -1140,7 +1140,7 @@
     "skills": 44,
     "practices": 8,
     "memory": 10,
-    "lessons": 382
+    "lessons": 383
   },
   "bundles": [
     {
@@ -1241,11 +1241,11 @@
       "okfVersion": "0.1",
       "profile": "rkb/0.1",
       "purity": "media",
-      "subjects": 38,
-      "techniques": 266,
-      "applications": 166,
-      "files": 475,
-      "contentHash": "sha256-b2:732056991bef2ab9"
+      "subjects": 53,
+      "techniques": 351,
+      "applications": 195,
+      "files": 604,
+      "contentHash": "sha256-b2:6d430eb10bc14891"
     },
     {
       "name": "recruiting",
