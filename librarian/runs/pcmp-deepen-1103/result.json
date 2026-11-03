@@ -1,0 +1,66 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "pcmp-deepen-1103",
+  "skill": "deepen",
+  "skill_version": "1.5.0",
+  "mode": "interactive",
+  "domain": "software-engineering",
+  "started_at": "2026-11-03T17:20:00Z",
+  "ended_at": "2026-11-03T18:30:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 1,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "software-engineering/probe-confirmed-model-proposals",
+      "at": "2026-11-03",
+      "engine": "deepen",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "software-engineering/probe-confirmed-model-proposals",
+      "technique": "isolated-proposer-call",
+      "verdict": "better",
+      "mode": "code"
+    }
+  ],
+  "files": [
+    "knowledge/software-engineering/llm-agent/evaluation-and-cost/probe-confirmed-model-proposals/probe-confirmed-model-proposals.md",
+    "knowledge/software-engineering/llm-agent/evaluation-and-cost/probe-confirmed-model-proposals/techniques/isolated-proposer-call.md",
+    "knowledge/software-engineering/llm-agent/evaluation-and-cost/probe-confirmed-model-proposals/applications/python--isolated-proposer-call--kp.md",
+    "librarian/applied.md",
+    "librarian/subjects/software-engineering/probe-confirmed-model-proposals.md",
+    "librarian/domains/software-engineering.md"
+  ],
+  "commits": [
+    {
+      "sha": "db9948536",
+      "branch": "main",
+      "pathspec": [
+        "knowledge/software-engineering/llm-agent/evaluation-and-cost/probe-confirmed-model-proposals",
+        "knowledge/software-engineering/index.json",
+        "rules/ai-registry-software-engineering.md"
+      ]
+    },
+    {
+      "sha": "9c81454c8",
+      "branch": "main",
+      "pathspec": [
+        "catalog.json"
+      ]
+    }
+  ],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "kp repo_scan python app. CLI 2.1.317: plan mode left target hooks running and CLAUDE.md steering (2/2); --setting-sources user closed both (0/2). kp fix 1c3a999fa pushed via its gate. 11 maps local, unpushed. kp scratch worktree left (gate-regenerated files)."
+}

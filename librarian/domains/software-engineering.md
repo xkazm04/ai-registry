@@ -1451,3 +1451,32 @@ Source-class tally (post-hoc, this run):
   divergence between platforms that no project doc mentions.
 - Microsoft Learn API pages fetch statically and carry the bound itself ("Typically ...
   fails if"). That made the blind lane's caution citable instead of anecdotal.
+
+## Run pcmp-deepen-1103 - probe-confirmed-model-proposals, a read-only mode does not close the working-directory door
+
+A Curator dispatch on "single stack (node)". The subject was a week old (forged 2026-10-27
+from one tree). kp (Python, public) answers the stack finding with its repository dossier: a
+model refines a heuristic walk and the result is persisted. kp takes the isolated-proposer
+technique's fallback branch on purpose, because the proposer runs inside the target with read
+tools. The pass produced one added condition, one python application, one code change pushed
+to kp, and no new technique.
+- **A permission stance governs tools, not what the runtime loads from where it starts.**
+  Measured on CLI 2.1.317 with kp's exact argv: the target's hooks executed and its
+  instruction file steered the answer, 2/2 each under plan mode, and 0/2 with the project
+  source off. The vendor's headless and permissions pages corroborate the hook half and the
+  switch, and the quotes were re-fetched raw.
+- **Hot-spot refs intersected with the walker's churn list** realise found-not-hinted in a
+  second stack. Risk refs, numeric baselines and named KPIs are saved unprobed; they are
+  banked.
+- **Verified and left untouched:** cross-engine-agreement (correlated-errors paper, 60% agree
+  when both err) and the golden path's concession on exploring agents (EnvBench).
+
+| subject | rung | last-pass yield | demand after | dry |
+| --- | --- | --- | --- | --- |
+| probe-confirmed-model-proposals | L3 | 1 condition, 1 application (python), 1 applied row (code better, kp 1c3a999fa pushed) | 0 pairs in any fleet map; kp carries the seam but is not joined | 0 |
+
+Source-class tally (post-hoc, this run):
+- The vendor's CLI docs serve raw markdown at `<page>.md` through curl. A verbatim grep there
+  beats the fetch summarizer, which the memory ledger already distrusts for quotes.
+- A scratch repo with marker-file hooks is a cheap, decisive instrument for "what does this
+  runtime load". Two arms and one control settled a claim the docs only half state.
