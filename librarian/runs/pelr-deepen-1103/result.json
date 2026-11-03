@@ -1,0 +1,68 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "pelr-deepen-1103",
+  "skill": "deepen",
+  "skill_version": "1.5.0",
+  "mode": "interactive",
+  "domain": "media-generation",
+  "started_at": "2026-11-03T10:40:00Z",
+  "ended_at": "2026-11-03T11:40:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 1,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "media-generation/platform-extension-release-ladder",
+      "at": "2026-11-03",
+      "engine": "deepen",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "platform-extension-release-ladder",
+      "technique": "viewer-content-needs-identity-and-approval",
+      "verdict": "better",
+      "mode": "simulation"
+    }
+  ],
+  "files": [
+    "knowledge/media-generation/streaming/broadcast-integration/platform-extension-release-ladder/platform-extension-release-ladder.md",
+    "knowledge/media-generation/streaming/broadcast-integration/platform-extension-release-ladder/techniques/viewer-content-needs-identity-and-approval.md",
+    "knowledge/media-generation/streaming/broadcast-integration/platform-extension-release-ladder/techniques/coalesced-broadcast-with-load-test.md",
+    "knowledge/media-generation/streaming/broadcast-integration/platform-extension-release-ladder/applications/process--allowlisted-test-stages-before-review.md",
+    "knowledge/media-generation/streaming/broadcast-integration/platform-extension-release-ladder/applications/process--viewer-content-needs-identity-and-approval.md",
+    "librarian/applied.md",
+    "librarian/subjects/media-generation/platform-extension-release-ladder.md",
+    "librarian/domains/media-generation.md"
+  ],
+  "commits": [
+    {
+      "sha": "9dabb564c",
+      "branch": "main",
+      "pathspec": [
+        "knowledge/media-generation/streaming/broadcast-integration/platform-extension-release-ladder",
+        "knowledge/media-generation/index.json",
+        "rules/ai-registry-media-generation.md"
+      ]
+    },
+    {
+      "sha": "18038e58f",
+      "branch": "main",
+      "pathspec": [
+        "catalog.json"
+      ]
+    }
+  ],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "Stack finding unanswerable: no tree carries extension code. Money rule corrected (6.2: never the way in), backend serves both versions at release, cadence headroom, own phantom deviation fixed. castle-control simulation better. Maps local in 11 projects, 0 stale."
+}

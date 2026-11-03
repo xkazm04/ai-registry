@@ -559,3 +559,38 @@ Source-class tally (post-hoc):
 - The blind training-data lane matched the web lane on every standards figure and on
   "no transform at create". It held vertical-player numbers only as ranges, and it flagged
   them as volatile on its own.
+
+## 2026-11-03 - deepen, platform-extension-release-ladder (pelr-deepen-1103)
+
+Dispatched on "single stack (process)". The stack finding stands. No tree in the fleet, and
+none in any sibling checkout, carries extension code. The sweep's known positive was
+Castle Control's `cc-ebs`, which matched only in its plan docs, and Castle Control is
+unchanged at 8ef2d8e with the extension unbuilt. The map's only join is overlord, on the
+words "shell, build, bundle", and overlord has no extension. Landed in 9dabb564c (catalog
+18038e58f). Counter-evidence corrected the money rule. Paid currency was said to buy
+"participation" and "a place in a participation queue", but the platform's list (6.2.1 to
+6.2.8) is mostly about the way in: pay-to-play access, contest entry, chance items, wagers,
+chosen tracks, voice features, and items that are not predefined. The old text also said
+the platform forbids selling a vote's outcome; it does not, the show's steering rule does,
+and the two lists are now kept apart. Release now readies the backend for both versions.
+The broadcast cadence gained its headroom reason, and the budget signal its hedge. The
+application had a phantom deviation (it called the plan's exact 6.2.4-6.2.6 citation
+possibly stale), now corrected. Applied to castle-control (design record) as `simulation`
+/ `better`: the old rule was wrong on 2 of 3 extension templates, the new rule on 0 of 3,
+with case 2 resting on reading 6.2.1. Detail in [[platform-extension-release-ladder]].
+
+| subject | rung | last-pass yield | demand after | dry |
+| --- | --- | --- | --- | --- |
+| platform-extension-release-ladder | L2 | 2 corrections (money rule, both versions at release), 2 conditions (cadence headroom, budget signal), 1 own-deviation corrected, 1 application (process) | overlord 3 pairs (keyword join, not an extension), 0 judged, 0 stale; Castle Control outside the fleet | 0 |
+
+Source-class tally (post-hoc):
+- The platform's own policy and life-cycle pages settled every figure, re-read verbatim.
+  The full API reference needs paging (it is over 500k characters), and its limits sat in
+  the third 100k chunk.
+- Developer-run measurements on the platform's own issue tracker (a 2022 report) and its
+  forum (2020) were the only source for the bucket's refill and the budget headers. The
+  reference documents neither. Land them as hedged conditions, never as figures.
+- The blind training-data lane matched the PubSub and configuration figures, but on
+  rejection it said the client ID is not revoked. The life-cycle page says it is
+  permanently revoked. Blind convergence confirmed none of the platform-set facts here; a
+  page did.
