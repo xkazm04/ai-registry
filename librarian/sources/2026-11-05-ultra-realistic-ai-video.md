@@ -79,4 +79,6 @@ Blind sheet: 4 pairs (g1, g2 finishing; s1 imperfection words; l1 light wording)
 
 Decline (row 1, operator-verified): a skin-local warmth and shine pass on top of the global grade. Reason: blind tie on two plates, and the shine it fixes was absent once the light was described physically. Reconsider only with a face-matte qualifier on a plate that actually shows sheen.
 
-Cleanup: verdict.json exists; awaiting the operator's sign-off of the review page. Scratch `intake-RJKZCbeqIjc/` and ComfyUI `output/intake-RJKZCbeqIjc/` (6 PNGs) are to be deleted by run id after sign-off.
+Operator note after the reveal (2026-11-05): "physical light improved the realism on photos". It confirms the l1 pick beyond the one blind pair. It is still a catch: default-look-attractor step 2 already says this.
+
+Cleanup (2026-11-05, after operator sign-off): render-triage clean removed 17 paths (35.2 MB) incl. ComfyUI output/intake-RJKZCbeqIjc; the run scratch folder (~44.5 MB incl. review page) and the ingest temp files were deleted by run id. Scratch `intake-RJKZCbeqIjc/` and ComfyUI `output/intake-RJKZCbeqIjc/` (6 PNGs) are to be deleted by run id after sign-off.
