@@ -1,0 +1,82 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "intake-voicebox-1106",
+  "skill": "intake",
+  "skill_version": "2.18.0",
+  "mode": "source",
+  "domain": "software-engineering",
+  "started_at": "2026-11-06T17:00:00Z",
+  "ended_at": "2026-11-06T19:30:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 4,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "software-engineering/mcp-tools",
+      "at": "2026-11-06",
+      "engine": "intake",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    },
+    {
+      "id": "software-engineering/voice-io",
+      "at": "2026-11-06",
+      "engine": "intake",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    },
+    {
+      "id": "software-engineering/native-shell-integration",
+      "at": "2026-11-06",
+      "engine": "intake",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    },
+    {
+      "id": "software-engineering/packaging",
+      "at": "2026-11-06",
+      "engine": "intake",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "mcp-tools",
+      "technique": "name-grammar-of-the-narrowest-hop",
+      "verdict": "not-better",
+      "mode": "experiment"
+    }
+  ],
+  "files": [
+    "knowledge/software-engineering/llm-agent/runtime-and-io/mcp-tools/techniques/name-grammar-of-the-narrowest-hop.md",
+    "knowledge/software-engineering/llm-agent/runtime-and-io/mcp-tools/applications/python--name-grammar-of-the-narrowest-hop.md",
+    "knowledge/software-engineering/llm-agent/runtime-and-io/mcp-tools/applications/rust--name-grammar-of-the-narrowest-hop--personas.md",
+    "knowledge/software-engineering/llm-agent/runtime-and-io/mcp-tools/mcp-tools.md",
+    "knowledge/software-engineering/llm-agent/runtime-and-io/voice-io/techniques/render-acceptance.md",
+    "knowledge/software-engineering/llm-agent/runtime-and-io/voice-io/applications/python--render-acceptance.md",
+    "knowledge/software-engineering/llm-agent/runtime-and-io/voice-io/applications/python--caller-scoped-voice-binding.md",
+    "knowledge/software-engineering/llm-agent/runtime-and-io/voice-io/applications/rust--transcript-handoff-receipts.md",
+    "knowledge/software-engineering/client-architecture/native-shell-integration/applications/react--permission-gate-vector.md",
+    "knowledge/software-engineering/client-architecture/native-shell-integration/applications/rust--capability-presence-contract.md",
+    "knowledge/software-engineering/client-architecture/native-shell-integration/applications/rust--layout-resolved-input-synthesis.md",
+    "knowledge/software-engineering/client-architecture/native-shell-integration/applications/rust--native-owned-stream.md",
+    "knowledge/software-engineering/client-architecture/native-shell-integration/applications/rust--non-stealing-overlay.md",
+    "knowledge/software-engineering/engineering-process/build-and-release/packaging/applications/process--signing-and-trust.md",
+    "librarian/sources/2026-11-06-voicebox-v060.md"
+  ],
+  "commits": [],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "Delta 51f49de..8af7efe: 84/84 citations re-opened, 1 claim withdrawn. 1 technique (tool-name grammar), 1 amendment (render-acceptance, measured). Applied: 1 experiment not-better, 1 unapplied. 9 untriaged, 3 leads. 1 fleet ledger commit, not pushed."
+}

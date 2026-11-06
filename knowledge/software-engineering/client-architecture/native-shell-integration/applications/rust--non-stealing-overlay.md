@@ -5,14 +5,14 @@ subject: native-shell-integration
 technique: non-stealing-overlay
 stack: rust
 status: forged
-verified_on: 2026-09-03
+verified_on: 2026-11-06
 verified_against: rust@2021
 ---
 
 # The dictate pill in Voicebox
 
 Witness: the `voicebox` desktop shell, read at commit
-`51f49dea198384b4eb6087b72c17057c6eb1c1cd`. The shell is Tauri 2
+`8af7efe62fab8d33e2a5dfbedabaa45f68a5184f`. The shell is Tauri 2
 (`tauri/src-tauri/Cargo.toml:15`) with `macos-private-api` enabled; the crate
 pins no toolchain, so the version witness here is the Cargo edition declared at
 `Cargo.toml:8` (`edition = "2021"`). The overlay is a second webview window
@@ -56,7 +56,7 @@ technique warns the two halves have with each other.
 
 ## Teardown is three acts, in the order the technique states
 
-`main.rs:1417-1435`, the `dictate:hide` listener:
+`main.rs:1434-1452`, the `dictate:hide` listener:
 
 ```rust
 #[cfg(not(target_os = "linux"))]
@@ -65,7 +65,7 @@ let _ = window.set_position(PhysicalPosition::new(-10_000, -10_000));
 let _ = window.hide();
 ```
 
-The comment above it (`:1416-1424`) is the incident this technique was written
+The comment above it (`:1433-1441`) is the incident this technique was written
 from: "`hide()` alone has been unreliable for transparent always-on-top windows
 on macOS — the NSWindow lingers as an invisible click target that steals focus
 to the Voicebox app when the user clicks where it used to be. Park the window
@@ -83,7 +83,7 @@ The click-through call is excluded on the third platform rather than wrapped,
 and both sites carry the reason. `main.rs:113-115`: "Skip on Linux: tao's
 `CursorIgnoreEvents` handler unwraps the GdkWindow, which is None until the
 window is first shown, aborting the process. The click-through toggle is a
-macOS workaround and is never set on Linux." `main.rs:1428-1429` and
+macOS workaround and is never set on Linux." `main.rs:1446-1447` and
 `hotkey_monitor.rs:267-268` cross-reference it.
 
 This is the technique's compile-out-versus-guard rule met exactly: the failure
@@ -97,8 +97,8 @@ that never had the defect.
 `show_dictate_window` at `:83-97` builds on demand for the same reason — the
 comment at `:85-87` names the two entry points ("the hotkey path is the other
 place this window gets built, see `enable_hotkey`"). Startup calls
-`ensure_dictate_window` at `:1449` so the window exists before the first event,
-and the comment at `main.rs:1412-1415` records why it is safe to build up front:
+`ensure_dictate_window` at `:1466` so the window exists before the first event,
+and the comment at `main.rs:1429-1432` records why it is safe to build up front:
 the hidden pill "does not create the global keyboard tap or trigger the macOS
 Input Monitoring prompt" — construction is separated from the act that costs a
 permission dialog.
@@ -135,9 +135,27 @@ is the technique's cached-capability-probe rule.
 
 ## Where the tree falls short
 
-**The teardown is triggered from the frontend.** `main.rs:1425-1426` listens
+**The teardown is triggered from the frontend.** `main.rs:1443-1444` listens
 for a `dictate:hide` event the pill webview emits when its animation finishes.
 If that webview crashes, hangs, or is reloaded mid-cycle, no `dictate:hide`
 arrives and the pill stays shown, click-through-disabled, over the user's work.
 The construction site names its reaper only in the happy case; a native-side
 watchdog bounded by the longest legitimate pill cycle would close it.
+
+**A hidden overlay is still a window to the host's lifecycle** (found in the
+field, fixed after the first pin). Building the pill up front at startup is
+safe for the reason the comment gives — it costs no permission dialog — but it
+has a cost the comment does not name: the toolkit keeps a process alive while
+any window exists, and a hidden, parked, click-through window is a window. On
+Linux, closing the main window with "Keep server running" off therefore left
+the shell running with no visible UI after the backend had stopped, and its
+speak monitor retried the event stream every 30 seconds indefinitely (issue
+#1040). The fix is a platform split at the end of the close flow
+(`main.rs:1381-1397`, `finish_main_window_close`, called from all three close
+paths at `:1570`, `:1587` and `:1591`): on Linux the close exits the
+application; on the other two platforms the window only closes, so a
+deliberately backgrounded product keeps its global hotkey and its overlay.
+The general form: an overlay built ahead of need changes what "the last
+window closed" means, so the quit decision has to be taken explicitly by the
+main window's close path, per platform convention, rather than inherited from
+the toolkit's window count.

@@ -1,7 +1,7 @@
 ---
 domain: software-engineering
 subject: mcp-tools
-last_touched: 2026-10-15
+last_touched: 2026-11-06
 touched_by: intake
 dry_streak: 0
 ---
@@ -664,3 +664,7 @@ parameters no backend reads, kept and labelled "no effect yet".
 ### 2026-10-15 - intake coding_agent_session_search (run dle-004-1015, series DLE-004)
 
 Gained `budgeted-partial-response` (one wall-clock budget per agent-facing call: shed named sections before the deadline, report uninspected sections as unknown, name a recovery probe that differs from the failed call, never let a budget-emptied result exit as success). Promoted from partial after the director opened the source lines and read `output-budget-signal` and `bounded-projection-of-external-work`, neither of which models a tool response that sheds and names its recovery. Applications: the source (`rust--budgeted-partial-response--cass.md`, it fixed the empty-success exit for one mode only) and personas (experiment, unmeasurable: a 64 MiB fold cap returns partial rollups silently, 4 of 4 sessions above it undercount tokens 11-66%). Also `rust--fluent-syntax-bounded-grammar--cass.md`: a tree with about two dozen argv correction layers whose own incident record supports the technique against itself.
+
+### 2026-11-06 - intake jamiepine/voicebox delta 51f49de..8af7efe (run intake-voicebox-1106)
+
+Gained `name-grammar-of-the-narrowest-hop`: the protocol allows dots and 128 characters, the function-calling grammars between host and model allow neither, and a validating host refuses the whole listing on one bad name; validate once over the listed catalog and never list a relayed foreign name verbatim. Primary fetched: the protocol's 2025-11-25 "Tool Names" section. Applications: `python--name-grammar-of-the-narrowest-hop.md` (a dotted namespace refused whole, renamed in one breaking release, no alias, still no check) and `rust--name-grammar-of-the-narrowest-hop--personas.md` (experiment, not-better: a bridge that validates page names against the wide grammar and is immune only because it dispatches them by argument; its declared next change would list them). Fleet scan: 13 trees, no non-conforming static tool name.

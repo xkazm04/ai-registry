@@ -5,18 +5,18 @@ subject: packaging
 technique: signing-and-trust
 stack: process
 status: forged
-verified_on: 2026-09-03
+verified_on: 2026-11-06
 ---
 
 # Gatekeeper's Sequoia tightening, and the unnotarized DMG wrapper
 
-The tree is Voicebox at `51f49dea198384b4eb6087b72c17057c6eb1c1cd` — a
+The tree is Voicebox at `8af7efe62fab8d33e2a5dfbedabaa45f68a5184f` — a
 Tauri desktop shell around a PyInstaller-frozen Python backend, released as
 signed installers by a GitHub Actions workflow. The version witness is the
 tree's own declared release identity, `tauri/src-tauri/tauri.conf.json:4`
-(`"version": "0.5.0"`), cross-checked against the bundler pinned in
+(`"version": "0.6.0"`; it read `0.5.0` at the earlier pin `51f49de`), cross-checked against the bundler pinned in
 `tauri/src-tauri/Cargo.lock:4273-4274` (`tauri 2.9.5`); the Rust toolchain
-is not pinned (`.github/workflows/release.yml:135` uses
+is not pinned (`.github/workflows/release.yml:136` uses
 `dtolnay/rust-toolchain@stable`), so this document takes the application's
 own version as its witness and declares no runtime version.
 
@@ -54,7 +54,7 @@ to the signing key* rule, restated as an incident.
 
 ## The wrapper direction: signed and attested inside, unattested outside
 
-`.github/workflows/release.yml:232-237` states the defect in its own
+`.github/workflows/release.yml:236-241` states the defect in its own
 comment: Tauri's bundler signs and notarizes the `.app`, and ships the
 `.dmg` wrapper **unnotarized**. Gatekeeper rejects that on macOS 15 —
 caught by Homebrew Cask CI, not by this pipeline — and on older Intel Macs
@@ -63,24 +63,24 @@ servers are slow (issue #509). The payload is fully covered; the container
 the user actually downloads is not; `tauri-action` reports success and
 uploads it.
 
-The remediation is the post-bundle re-attestation step at `:238-270`, and
+The remediation is the post-bundle re-attestation step at `:242-274`, and
 it carries every property the technique demands:
 
-- **Enumerate every wrapper.** `:252-253` sets `shopt -s nullglob` and
+- **Enumerate every wrapper.** `:256-257` sets `shopt -s nullglob` and
   globs `"${DMG_DIR}"/*.dmg` into an array, then loops over all of them
-  (`:258`) — not just the first.
+  (`:262`) — not just the first.
 - **Submit, staple, then verify with the platform's own checker on the
-  bytes being published.** `:260-266`: `xcrun notarytool submit --wait
+  bytes being published.** `:264-270`: `xcrun notarytool submit --wait
   --timeout 20m`, `xcrun stapler staple`, then
   `spctl -a -t open --context context:primary-signature -vv` — the same
   assessment policy Homebrew's audit runs, executed before publication
   rather than after.
-- **Replace the asset the bundler already uploaded.** `:267-268`:
+- **Replace the asset the bundler already uploaded.** `:271-272`:
   `gh release upload "${RELEASE_TAG}" "$dmg" --clobber`. Without
   `--clobber` the notarized DMG would sit beside the un-notarized one that
   `tauri-action` published as a side effect of building, and the download
   link would still point at the bad file.
-- **Hard-fail on an empty glob.** `:254-257`: zero DMGs found emits
+- **Hard-fail on an empty glob.** `:258-261`: zero DMGs found emits
   `::error::No DMGs found in ${DMG_DIR} — tauri bundler output path may
   have changed` and `exit 1`. This is `failure-not-empty-success` written
   into a shell script: the bundler's output path is an internal detail of
@@ -89,7 +89,7 @@ it carries every property the technique demands:
 
 ## The release identity comes from the version source, not the ref
 
-`:249-251` is the trap, defused with a comment:
+`:253-255` is the trap, defused with a comment:
 
 ```bash
 # Match the release tag tauri-action resolved from tauri.conf.json's
@@ -98,7 +98,7 @@ RELEASE_TAG="v$(jq -r '.version' tauri/src-tauri/tauri.conf.json)"
 ```
 
 `tauri-action` names the draft release from `tauri.conf.json`'s `version`
-(`releaseName: "voicebox v__VERSION__"`, `:225`). The re-attestation step
+(`releaseName: "voicebox v__VERSION__"`, `:229`). The re-attestation step
 has to upload into that same release, and the obvious handle —
 `GITHUB_REF_NAME` — is a branch name whenever the workflow runs under
 `workflow_dispatch` rather than a tag push. Reading the declared version

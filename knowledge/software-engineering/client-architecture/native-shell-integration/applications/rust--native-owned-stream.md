@@ -5,14 +5,14 @@ subject: native-shell-integration
 technique: native-owned-stream
 stack: rust
 status: forged
-verified_on: 2026-09-03
+verified_on: 2026-11-06
 verified_against: rust@2021
 ---
 
 # Moving the speak stream out of the hidden webview in Voicebox
 
 Witness: the `voicebox` desktop shell at commit
-`51f49dea198384b4eb6087b72c17057c6eb1c1cd`; version witness
+`8af7efe62fab8d33e2a5dfbedabaa45f68a5184f`; version witness
 `tauri/src-tauri/Cargo.toml:8` (`edition = "2021"`), with `reqwest 0.12`
 (`stream` feature) and `tokio 1` at `:20-21`. The stream carries
 agent-initiated speech events from the local Python backend so the floating
@@ -99,8 +99,9 @@ though they escalate identically.
 ## The split is partial, and correctly so
 
 Only the speak stream moved. The frontend keeps its own polled readiness query
-(`app/src/lib/hooks/useDictationReadiness.ts:61-76`) and stops polling once
-both models are ready — a stream that only matters while its view is open,
+(`app/src/lib/hooks/useDictationReadiness.ts:66-81`) and stops polling once
+every required model is ready (since 0.6.0 the refinement model counts only
+while auto-refine is on) — a stream that only matters while its view is open,
 left in the view, with a stop condition as its backstop. That is the
 technique's partial-split rule holding in both directions.
 

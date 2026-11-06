@@ -5,7 +5,7 @@ subject: voice-io
 technique: transcript-handoff-receipts
 stack: rust
 status: forged
-verified_on: 2026-09-03
+verified_on: 2026-11-06
 verified_against: rust@1.78
 ---
 
@@ -20,7 +20,7 @@ depend on does not exist: there is no receipt. The restore is a fixed timer,
 which is the "race by construction" the technique names, and it is reachable in
 a shipped product at a line this document cites.
 
-Citations resolve against commit `51f49dea198384b4eb6087b72c17057c6eb1c1cd`.
+Citations resolve against commit `8af7efe62fab8d33e2a5dfbedabaa45f68a5184f`.
 The stack witness is `tauri/src-tauri/Cargo.toml` (`edition = "2021"`, tauri
 2.0) together with `Cargo.lock`'s `version = 4` lockfile format, which requires
 Cargo 1.78 or newer; no toolchain is pinned in the tree and CI resolves

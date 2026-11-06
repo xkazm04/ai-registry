@@ -4,8 +4,8 @@
   "bundle": "software-engineering",
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 245,
-  "techniques": 1970,
-  "applications": 1480,
+  "techniques": 1971,
+  "applications": 1482,
   "laws": 16,
   "categories": [
    "ui-surfaces",
@@ -20,7 +20,7 @@
    "secret-custody-and-issuance"
   ],
   "layout": "nested",
-  "use_when_coverage": "1970/1970",
+  "use_when_coverage": "1971/1971",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -21461,9 +21461,9 @@
    "subcategory": "runtime-and-io",
    "status": "reconciled",
    "file": "knowledge/software-engineering/llm-agent/runtime-and-io/mcp-tools/mcp-tools.md",
-   "digest": "sha256-b2:ed8e615f51454325",
-   "revision": 34,
-   "changedAt": "2026-10-15",
+   "digest": "sha256-b2:cb2b1c9f6fef5eb9",
+   "revision": 35,
+   "changedAt": "2026-11-06",
    "techniques": [
     {
      "slug": "ambient-selection-is-not-an-argument",
@@ -21648,6 +21648,24 @@
       "choosing between a structured schema and a familiar command string",
       "a passthrough surface must not inherit the wrapped thing's authority",
       "an argument string is about to be handed to a shell"
+     ]
+    },
+    {
+     "slug": "name-grammar-of-the-narrowest-hop",
+     "status": "forged",
+     "laws": [
+      "gate-sees-target",
+      "limits-are-derived",
+      "one-validation-door"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "choosing a separator or namespace scheme for tool names",
+      "a host shows none of a server's tools while other servers list fine",
+      "a server relays tool names it did not author from a page or an upstream server",
+      "an aggregator or proxy re-lists another server's tools",
+      "renaming tools to satisfy a client and deciding whether it is a breaking change",
+      "deciding what a tool-name check in the gate should test against"
      ]
     },
     {
@@ -21922,6 +21940,13 @@
     },
     {
      "stack": "python",
+     "technique": "name-grammar-of-the-narrowest-hop",
+     "file": "knowledge/software-engineering/llm-agent/runtime-and-io/mcp-tools/applications/python--name-grammar-of-the-narrowest-hop.md",
+     "verified_on": "2026-11-06",
+     "verified_against": "python@3.12"
+    },
+    {
+     "stack": "python",
      "technique": "write-freshness-gate",
      "file": "knowledge/software-engineering/llm-agent/runtime-and-io/mcp-tools/applications/python--write-freshness-gate.md",
      "verified_on": "2026-09-04",
@@ -21979,6 +22004,13 @@
      "file": "knowledge/software-engineering/llm-agent/runtime-and-io/mcp-tools/applications/rust--fluent-syntax-bounded-grammar--cass.md",
      "verified_on": "2026-10-15",
      "verified_against": "rust@2026.08.31"
+    },
+    {
+     "stack": "rust",
+     "technique": "name-grammar-of-the-narrowest-hop",
+     "file": "knowledge/software-engineering/llm-agent/runtime-and-io/mcp-tools/applications/rust--name-grammar-of-the-narrowest-hop--personas.md",
+     "verified_on": "2026-11-06",
+     "verified_against": "rust@1.80"
     },
     {
      "stack": "rust",
@@ -25208,9 +25240,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/software-engineering/client-architecture/native-shell-integration/native-shell-integration.md",
-   "digest": "sha256-b2:9034ad02704d9c88",
-   "revision": 5,
-   "changedAt": "2026-10-23",
+   "digest": "sha256-b2:838495bb60a986c6",
+   "revision": 6,
+   "changedAt": "2026-11-06",
    "techniques": [
     {
      "slug": "capability-presence-contract",
@@ -25378,28 +25410,28 @@
      "stack": "react",
      "technique": "permission-gate-vector",
      "file": "knowledge/software-engineering/client-architecture/native-shell-integration/applications/react--permission-gate-vector.md",
-     "verified_on": "2026-09-03",
+     "verified_on": "2026-11-06",
      "verified_against": "react@18"
     },
     {
      "stack": "rust",
      "technique": "capability-presence-contract",
      "file": "knowledge/software-engineering/client-architecture/native-shell-integration/applications/rust--capability-presence-contract.md",
-     "verified_on": "2026-09-03",
+     "verified_on": "2026-11-06",
      "verified_against": "rust@2021"
     },
     {
      "stack": "rust",
      "technique": "layout-resolved-input-synthesis",
      "file": "knowledge/software-engineering/client-architecture/native-shell-integration/applications/rust--layout-resolved-input-synthesis.md",
-     "verified_on": "2026-09-03",
+     "verified_on": "2026-11-06",
      "verified_against": "rust@2021"
     },
     {
      "stack": "rust",
      "technique": "native-owned-stream",
      "file": "knowledge/software-engineering/client-architecture/native-shell-integration/applications/rust--native-owned-stream.md",
-     "verified_on": "2026-09-03",
+     "verified_on": "2026-11-06",
      "verified_against": "rust@2021"
     },
     {
@@ -25413,7 +25445,7 @@
      "stack": "rust",
      "technique": "non-stealing-overlay",
      "file": "knowledge/software-engineering/client-architecture/native-shell-integration/applications/rust--non-stealing-overlay.md",
-     "verified_on": "2026-09-03",
+     "verified_on": "2026-11-06",
      "verified_against": "rust@2021"
     }
    ]
@@ -26280,9 +26312,9 @@
    "subcategory": "build-and-release",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-process/build-and-release/packaging/packaging.md",
-   "digest": "sha256-b2:e3584aae3c68e668",
-   "revision": 7,
-   "changedAt": "2026-09-03",
+   "digest": "sha256-b2:8e5c6d110dd04135",
+   "revision": 8,
+   "changedAt": "2026-11-06",
    "techniques": [
     {
      "slug": "adoption-time-packaging-audit",
@@ -26410,7 +26442,7 @@
      "stack": "process",
      "technique": "signing-and-trust",
      "file": "knowledge/software-engineering/engineering-process/build-and-release/packaging/applications/process--signing-and-trust.md",
-     "verified_on": "2026-09-03"
+     "verified_on": "2026-11-06"
     }
    ]
   },
@@ -41242,9 +41274,9 @@
    "subcategory": "runtime-and-io",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/runtime-and-io/voice-io/voice-io.md",
-   "digest": "sha256-b2:29f8b158c4d44054",
-   "revision": 23,
-   "changedAt": "2026-10-18",
+   "digest": "sha256-b2:ad2538ae80ec48fd",
+   "revision": 24,
+   "changedAt": "2026-11-06",
    "techniques": [
     {
      "slug": "authored-voice-identity",
@@ -41428,7 +41460,9 @@
       "a synthesis call returns successfully and the audio is garbage",
       "speech is followed by a long gap and then noise",
       "deciding whether to retry a bad render and with what seed",
-      "nobody is listening to catch a bad render before it ships"
+      "nobody is listening to catch a bad render before it ships",
+      "a retry ladder that runs out ships a trimmed or repaired render instead of failing",
+      "a trim step cuts audio at long internal silences"
      ]
     },
     {
@@ -41604,7 +41638,7 @@
      "stack": "python",
      "technique": "caller-scoped-voice-binding",
      "file": "knowledge/software-engineering/llm-agent/runtime-and-io/voice-io/applications/python--caller-scoped-voice-binding.md",
-     "verified_on": "2026-09-03",
+     "verified_on": "2026-11-06",
      "verified_against": "python@3.12"
     },
     {
@@ -41618,7 +41652,7 @@
      "stack": "python",
      "technique": "render-acceptance",
      "file": "knowledge/software-engineering/llm-agent/runtime-and-io/voice-io/applications/python--render-acceptance.md",
-     "verified_on": "2026-09-03",
+     "verified_on": "2026-11-06",
      "verified_against": "python@3.12"
     },
     {
@@ -41718,7 +41752,7 @@
      "stack": "rust",
      "technique": "transcript-handoff-receipts",
      "file": "knowledge/software-engineering/llm-agent/runtime-and-io/voice-io/applications/rust--transcript-handoff-receipts.md",
-     "verified_on": "2026-09-03",
+     "verified_on": "2026-11-06",
      "verified_against": "rust@1.78"
     },
     {
@@ -42866,6 +42900,7 @@
     "mcp-tools/egress-argument-gating",
     "mcp-tools/enumeration-without-a-scope",
     "mcp-tools/first-party-agent-is-a-principal",
+    "mcp-tools/name-grammar-of-the-narrowest-hop",
     "mcp-tools/one-server-many-registrations",
     "mcp-tools/orchestration-to-tool-migration",
     "mcp-tools/sanctioned-session-state",
@@ -44896,6 +44931,7 @@
     "mcp-tools/egress-argument-gating",
     "mcp-tools/first-party-agent-is-a-principal",
     "mcp-tools/fluent-syntax-bounded-grammar",
+    "mcp-tools/name-grammar-of-the-narrowest-hop",
     "mcp-tools/server-composition",
     "mcp-tools/write-freshness-gate",
     "metric-forecasting/projection-presentability-gates",
@@ -46407,6 +46443,7 @@
     "index-free-random-access/structure-derived-read-budget",
     "invariant-placement/build-time-evaluation-of-cross-value-invariants",
     "mcp-tools/catalog-projection-modes",
+    "mcp-tools/name-grammar-of-the-narrowest-hop",
     "media-playback/committed-buffer-steering",
     "media-playback/generated-supply-margin",
     "media-playback/self-conditioned-supply",

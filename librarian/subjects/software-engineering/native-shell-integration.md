@@ -1,7 +1,7 @@
 ---
 subject: native-shell-integration
 domain: software-engineering
-last_touched: 2026-09-04
+last_touched: 2026-11-06
 dry_streak: 0
 ---
 
@@ -72,3 +72,7 @@ applications' accessibility trees. Return condition in `applied.md`.
 Added technique native-side-owns-the-target-set (entitlement of a command to touch the filesystem or spawn, upstream of ipc-contract call shape) with one application against the source tree. Leads banked in the source note: exact exemptions from a protected root, mode-detection ladder that fails toward the cheaper wrong guess. Return condition for both: a second independent source.
 
 2026-10-23 (intake-firetv-inbox-1023, [[2026-10-23-firetv-inbox-harvest]]): new technique host-forwarded-key-contract (tested key table, consumption readback, back leaves only when the page did not take it). Unapplied: no managed project wraps a page for a remote-driven host. Boundary named in the technique: script-created key events carry no default action, which keyboard-navigation-models should say too (banked rows 5 and 26).
+
+### 2026-11-06 - intake jamiepine/voicebox delta 51f49de..8af7efe (run intake-voicebox-1106)
+
+All five source-tree applications re-pinned to `8af7efe` (every anchor re-opened through the diff hunks; two pre-existing off-by-one anchors corrected). Facts added to applications, techniques unchanged: `react--permission-gate-vector.md` - the vector's membership became a function of configuration in 0.6.0 (the refinement model was a killer even with refinement off); `rust--non-stealing-overlay.md` - a hidden overlay kept the process alive after the main window closed on one platform (#1040), fixed by an explicit per-platform quit decision. Both banked as untriaged boundary rows U8 and U9 in the source note (GAIN 1).

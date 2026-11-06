@@ -1,7 +1,7 @@
 ---
 subject: packaging
 domain: software-engineering
-last_touched: 2026-09-03
+last_touched: 2026-11-06
 touched_by: intake
 dry_streak: 0
 ---
@@ -35,3 +35,7 @@ products from one revision.
 One admissibility rule now covers both: *can this property differ between builder
 and target?* If yes, detect it where it is used; if no, build-time detection is
 fine and the variant belongs in the label.
+
+### 2026-11-06 - intake jamiepine/voicebox delta 51f49de..8af7efe (run intake-voicebox-1106)
+
+`process--signing-and-trust.md` re-pinned to `8af7efe` (release workflow anchors shifted by 1-4 lines, content unchanged; version witness 0.5.0 -> 0.6.0). The wrapper-attestation diagnosis the application cites still reads "fix pending" upstream.

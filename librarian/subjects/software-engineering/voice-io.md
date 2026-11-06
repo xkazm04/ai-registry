@@ -1,7 +1,7 @@
 ---
 subject: voice-io
 domain: software-engineering
-last_touched: 2026-10-07
+last_touched: 2026-11-06
 touched_by: deepen
 dry_streak: 0
 ---
@@ -300,3 +300,7 @@ Source-tree applications `rust--bounded-playback-wait` and `rust--real-time-synt
 figures with medians, first calls apart, and a "not measured" list). Untriaged: opening
 the output device while the model loads; energy detection scaled to the observed peak;
 clone reference length against synthesis time (lead).
+
+### 2026-11-06 - intake jamiepine/voicebox delta 51f49de..8af7efe (run intake-voicebox-1106)
+
+`render-acceptance` amended ("Exhaustion with a repair step"): the source reversed "ship nothing on exhaustion" in 0.6.0 by shipping the trimmed clip unexamined. Measured on its own detector and trim: the detector rejected the repaired clip 0 of 5 times while 3 of 5 had lost half the requested speech, and the trim's 1.0 s cut sits below the detector's 2.0 s, truncating a legitimate 1.3 s pause on the ordinary path. Three conditions for the inversion: a coverage check the repair cannot pass by construction, a distinguishable degraded outcome, and the repair tuned like a detector. Applications re-pinned to `8af7efe`: `python--render-acceptance.md` (claim withdrawn and rewritten), `python--caller-scoped-voice-binding.md` (defect unchanged; resolved-voice language fallback and a third door noted), `rust--transcript-handoff-receipts.md` (re-pin only). Unapplied: no fleet path repairs a rejected render. Untriaged U10: omitted per-call parameters resolve from the resolved voice before product defaults.

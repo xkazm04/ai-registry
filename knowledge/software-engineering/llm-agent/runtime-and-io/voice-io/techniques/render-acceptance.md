@@ -6,7 +6,7 @@ technique: render-acceptance
 status: forged
 laws: [failure-not-empty-success, derivation-names-recomputation, absent-guard-is-loud]
 shared_with: []
-use_when: [a synthesis call returns successfully and the audio is garbage, speech is followed by a long gap and then noise, deciding whether to retry a bad render and with what seed, nobody is listening to catch a bad render before it ships]
+use_when: [a synthesis call returns successfully and the audio is garbage, speech is followed by a long gap and then noise, deciding whether to retry a bad render and with what seed, nobody is listening to catch a bad render before it ships, a retry ladder that runs out ships a trimmed or repaired render instead of failing, a trim step cuts audio at long internal silences]
 ---
 
 # Render acceptance
@@ -139,6 +139,51 @@ whole sequence of attempts is a pure function of the original request. The
 same rule governs the per-piece seeds of an ordinary chunked render: vary them
 to avoid correlated artefacts, derive them so `(text, seed)` still means one
 thing.
+
+### Exhaustion with a repair step
+
+"Ship nothing on exhaustion" has one condition under which it inverts, and
+production finds it quickly: the pipeline already owns a **repair** that
+removes the detected shape — a trim that cuts the render at its first long
+internal silence. Failing a long render because one piece would not stabilise
+is a real cost, the repaired piece usually sounds clean, and so the ladder is
+changed to ship the repair when it runs out of retries. That can be right. It
+is only right behind a check the repair cannot pass by construction.
+
+The trap is the obvious check. A repair that cuts at the gap **cannot produce
+the shape the detector hunts**, so running the same detector on the repaired
+audio certifies nothing. Measured on one production pair of detector and
+trim: over five synthetic renders with known ground truth, the detector
+rejected the repaired audio in none, while three of the five repaired clips
+had lost half of the speech they were asked to render. The repair's own
+failure mode is the wrong-length render — the text that came after the gap is
+simply gone — and the stage above says plainly that this detector cannot see
+a render of the wrong length.
+
+So the inversion carries three conditions, and without all three the
+original rule stands:
+
+- **The shipped repair passes an acceptance test of a different kind** — one
+  that measures coverage of the requested text rather than the shape that was
+  removed: duration against the length the text implies at the engine's
+  speaking rate, or a transcription round-trip where the product already
+  carries a recogniser. A repair that drops the second half of the sentence
+  fails it; a repair that cut only trailing noise after the text was finished
+  passes it.
+- **The outcome is distinguishable.** A repaired render is a degraded
+  success, and the surface — and the caller, on an unattended path — is told
+  so, as it is told about any other degradation. A log line on the server is
+  not telling anyone.
+- **The repair is tuned like a detector, because it is one.** A cut is a
+  verdict ("this gap ends the speech") with a destructive action attached, and
+  its bound is subject to everything said above about tuning from the
+  legitimate side. A repair whose cut bound sits *below* the detector's will
+  cut pauses the detector was deliberately tuned to admit — and if the repair
+  also runs on every render rather than only on exhaustion, it truncates
+  legitimate speech on the ordinary path with no detection, no retry and no
+  record. In the same measured pair the trim cut at one second against the
+  detector's two, and a legitimate 1.3-second pause lost the half of the
+  render after it while the detector stayed silent.
 
 ## Where the stage sits
 

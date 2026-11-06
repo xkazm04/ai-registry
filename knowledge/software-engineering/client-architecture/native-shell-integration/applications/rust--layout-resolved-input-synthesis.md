@@ -5,14 +5,14 @@ subject: native-shell-integration
 technique: layout-resolved-input-synthesis
 stack: rust
 status: forged
-verified_on: 2026-09-03
+verified_on: 2026-11-06
 verified_against: rust@2021
 ---
 
 # Resolving the paste chord per layout in Voicebox
 
 Witness: the `voicebox` desktop shell at commit
-`51f49dea198384b4eb6087b72c17057c6eb1c1cd`. No toolchain file is pinned, so the
+`8af7efe62fab8d33e2a5dfbedabaa45f68a5184f`. No toolchain file is pinned, so the
 version witness is `tauri/src-tauri/Cargo.toml:8` (`edition = "2021"`); the
 platform crates it resolves against are declared at `Cargo.toml:29-42`
 (`core-foundation-sys 0.8`, `objc 0.2` on macOS; `windows 0.62` on Windows).
@@ -42,7 +42,7 @@ implementation — the divergence is deliberate rather than an unfinished port.
 
 ## Resolve on the main thread at startup, refresh on the host's notification
 
-`main.rs:1403-1409` calls `keyboard_layout::init()` from the Tauri setup hook
+`main.rs:1420-1426` calls `keyboard_layout::init()` from the Tauri setup hook
 with the constraint spelled out: "Resolve the active keyboard layout's V
 keycode now, on the main thread, and register an observer for layout changes.
 The synthetic-paste hot path then only reads an atomic."

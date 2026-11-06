@@ -1268,10 +1268,10 @@
       "profile": "rkb/0.1",
       "purity": "software",
       "subjects": 245,
-      "techniques": 1970,
-      "applications": 1480,
-      "files": 3700,
-      "contentHash": "sha256-b2:129e69de78d7be26"
+      "techniques": 1971,
+      "applications": 1482,
+      "files": 3703,
+      "contentHash": "sha256-b2:74f65c04f7853237"
     },
     {
       "name": "technical-writing",

@@ -5,7 +5,7 @@ subject: voice-io
 technique: render-acceptance
 stack: python
 status: forged
-verified_on: 2026-09-03
+verified_on: 2026-11-06
 verified_against: python@3.12
 ---
 
@@ -14,16 +14,18 @@ verified_against: python@3.12
 Voicebox is a local-first voice studio — a Tauri/Rust shell over a Python
 FastAPI backend that clones voices and drives several local TTS engines. The
 citations below are resolved against commit
-`51f49dea198384b4eb6087b72c17057c6eb1c1cd`. The stack witness is the
-`justfile`'s interpreter probe, which prefers `python3.12` and falls back to
-`python3.13` then `python3` (`justfile:21`); the container build pins
-`python:3.11-slim` (`Dockerfile:35`), so 3.12 is the version the working tree
-is developed and run against.
+`8af7efe62fab8d33e2a5dfbedabaa45f68a5184f`, re-pinned on 2026-11-06 from
+`51f49de`. The stack witness is the `justfile`'s interpreter pin,
+`python_version := "3.12"` (`justfile:23`), and the container build now agrees
+with it (`FROM python:3.12-slim`, `Dockerfile:35`; it read `3.11-slim` at the
+earlier pin).
 
-This is the tree that taught the technique. The verification stage exists here,
-in production, with all three of its parts — a shape detector, a bounded
+This is the tree that taught the technique. At the first pin the verification
+stage existed here with all three of its parts — a shape detector, a bounded
 seed-derived retry, and an honest failure on exhaustion — and reading it is
-what surfaced the hole in the pipeline's terminal state set.
+what surfaced the hole in the pipeline's terminal state set. **At the second
+pin the third part is gone for one engine class**, and the way it went is the
+more useful half of this document (see "Exhaustion now ships the repair").
 
 ## The detector
 
@@ -65,30 +67,21 @@ as physics.
 
 ## The retry ladder
 
-`backend/utils/chunked_tts.py:266-303`. The detector is injected as
+`backend/utils/chunked_tts.py:266-312`. The detector is injected as
 `runaway_detector` and called on every chunk the backend generates, immediately
 after `backend.generate(...)` returns and **before** `trim_fn` and before the
 chunk joins `audio_chunks` for concatenation — the technique's placement rule,
 satisfied.
 
-On detection:
-
-```python
-if retry_depth >= MAX_RUNAWAY_RETRIES or len(chunk_text) <= MIN_RUNAWAY_RETRY_CHARS:
-    raise RuntimeError(
-        "TTS output remained unstable after retrying smaller text chunks"
-    )
-```
-
 `MAX_RUNAWAY_RETRIES = 2` and `MIN_RUNAWAY_RETRY_CHARS = 100`
-(`chunked_tts.py:23-24`) are the depth bound and the text floor. Past either,
-the generation **raises rather than shipping noise** — the exhaustion rule, and
-the more valuable half of the ladder. Otherwise it halves
+(`chunked_tts.py:23-24`) are the depth bound and the text floor. What happens
+past either is the subject of the next section, because it changed between the
+two pins. Below them it halves
 (`retry_max_chars = max(MIN_RUNAWAY_RETRY_CHARS, len(chunk_text) // 2)`),
 re-splits, and recurses through the same `generate_one`, so a retried piece is
 verified again at depth+1.
 
-The seed is derived, at `:284-288`:
+The seed is derived, at `:293-297`:
 
 ```python
 retry_seed = (
@@ -101,11 +94,70 @@ retry_seed = (
 `(depth+1) * 1000 + i` spaces the retry seeds far enough apart that a
 depth-2 retry of piece 3 cannot collide with a depth-1 retry of piece 1003,
 and every attempt in the tree is a pure function of the original `seed`. The
-same discipline governs the ordinary per-chunk seed at `:335`
+same discipline governs the ordinary per-chunk seed at `:344`
 (`chunk_seed = (seed + i) if seed is not None else None`), with the comment
 stating the intent the technique generalises: *"Vary the seed per chunk to
 avoid correlated RNG artefacts, but keep it deterministic so the same (text,
 seed) pair always produces the same output."*
+
+## Exhaustion now ships the repair
+
+At the first pin, past either bound the generation raised —
+`"TTS output remained unstable after retrying smaller text chunks"` — and
+nothing shipped. At the second pin (`chunked_tts.py:267-279`, commit
+`a2b453a`, released in 0.6.0 as "when a retry cannot split the text further,
+the trimmed clip is kept rather than failing") the raise survives only for
+engines without a trim step:
+
+```python
+if retry_depth >= MAX_RUNAWAY_RETRIES or len(chunk_text) <= MIN_RUNAWAY_RETRY_CHARS:
+    if trim_fn is not None:
+        # Engines with a trim step (Chatterbox) already cut the
+        # silence-then-noise tail; prefer the trimmed clip over
+        # failing the whole generation when we cannot split further.
+        ...
+        return np.asarray(trim_fn(chunk_audio, chunk_sr), dtype=np.float32), chunk_sr
+    raise RuntimeError(
+```
+
+The branch is live: the multilingual engine carries both `needs_trim=True`
+and `retries_runaway=on_mlx` (`backend/backends/__init__.py:366,371`), so on
+Apple Silicon a runaway that survives two halvings now ships its trimmed clip.
+The production pressure behind it is real — one bad chunk used to fail a whole
+long render — and the reasoning in the comment is half right. The trim
+(`backend/utils/audio.py:150-237`, `trim_tts_output`) walks forward from the
+first speech frame and **cuts at the first internal silence of 1000 ms or
+more** (`max_internal_silence_ms=1000`), so it removes exactly the shape the
+detector hunts. That is the problem: the shipped clip is never examined again,
+and an examination by the same detector would certify nothing, because the
+repair cannot produce the shape it removed.
+
+Measured on the tree's own two functions (extracted from `audio.py` by syntax
+tree, not imported; synthetic 24 kHz buffers with known ground truth, speech
+as noise at about -20 dBFS, gaps as zeros):
+
+| case | detector on raw | detector on repaired | requested speech kept |
+| --- | --- | --- | --- |
+| text finished, 2.5 s gap, 3 s noise (the case the comment describes) | fires | passes | 100% |
+| 2.5 s gap mid-text, the rest of the text resumes | fires | passes | 50% |
+| a legitimate 2.2 s dramatic pause | fires | passes | 50% |
+| a legitimate 1.3 s pause, below the detector's bound | silent | passes | 50% |
+| control: clean render with 0.3 s pauses | silent | passes | 100% |
+
+Re-running the detector on the repaired clip caught **0 of 3** truncations.
+The repair's own failure mode is the wrong-length render the technique's last
+section says this detector cannot see; what would see it is a check the repair
+cannot pass by construction — duration against the text's expected length, or
+a transcription round-trip, and the product ships a local recogniser.
+
+The fourth row is the larger finding, and it predates the delta. The trim's
+cut bound (1000 ms) sits **below** the detector's (2000 ms), and the trim runs
+on every chunk of a trim-flagged engine, not only on exhaustion
+(`chunked_tts.py:314-315`). A pause the detector was deliberately tuned to
+admit is therefore cut, with everything after it, on the ordinary path, with
+no detection, no retry and no log line. The repair is a second detector whose
+verdict is destructive and whose bound was set from the failure side — the
+tuning the technique forbids for the detector itself.
 
 ## What the tree does not do
 
@@ -114,18 +166,20 @@ seed) pair always produces the same output."*
   (`:266`). The technique asks for verification on every render with any
   exemption made loudly; here a synthesis path that forgets to pass the
   detector is silently unverified, and nothing in the module notices. The
-  single-shot fast path for short text (`:309-312`, `len(chunks) <= 1`) does route
+  single-shot fast path for short text (`:318-321`, `len(chunks) <= 1`) does route
   through `generate_one` and so is covered when the detector is supplied — but
   that is a property of the caller, not of the module.
 - **No measurement backs the thresholds**, as above.
-- **The detection log line does not carry the measurement.** `:277-281` logs
+- **The detection log line does not carry the measurement.** `:286-290` logs
   the character count and the retry-chunk count; it does not log where the gap
   was or how long it ran, which is the field data the threshold would need to
   be tuned from. This is the cheapest available improvement in the file.
 - **The failure surfaces as a `RuntimeError` string**, not as a distinguishable
-  outcome the surface can branch on. It degrades correctly — nothing ships —
-  but "unstable output after retries" and "engine crashed" arrive at the UI
-  through the same channel.
+  outcome the surface can branch on. For engines without a trim step it
+  degrades correctly — nothing ships — but "unstable output after retries" and
+  "engine crashed" arrive at the UI through the same channel. For engines with
+  one, the repaired clip arrives as an ordinary success: the only record that
+  it was repaired is a server log line, and nothing reaches the surface.
 
 ## The upward lesson
 

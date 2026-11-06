@@ -5,14 +5,14 @@ subject: native-shell-integration
 technique: capability-presence-contract
 stack: rust
 status: forged
-verified_on: 2026-09-03
+verified_on: 2026-11-06
 verified_against: rust@2021
 ---
 
 # Three desktop platforms, one grant boolean, in Voicebox
 
 Witness: the `voicebox` desktop shell at commit
-`51f49dea198384b4eb6087b72c17057c6eb1c1cd`; version witness
+`8af7efe62fab8d33e2a5dfbedabaa45f68a5184f`; version witness
 `tauri/src-tauri/Cargo.toml:8` (`edition = "2021"`), with the per-target
 dependency blocks at `:28-42` showing macOS and Windows carve-outs and no third
 block. The application builds for macOS, Windows and Linux and its auto-paste

@@ -15,6 +15,7 @@ techniques:
   - write-freshness-gate
   - catalog-projection-modes
   - tool-identity-vs-tool-name
+  - name-grammar-of-the-narrowest-hop
   - one-server-many-registrations
   - sanctioned-session-state
   - caller-differentiated-capability
@@ -313,6 +314,11 @@ same obligations as the wire itself:
   the address a model calls is not the identity an operator correlates: a
   rename-stable identifier on the wire, what may change it, and why possession
   of one authorizes nothing.
+- [name-grammar-of-the-narrowest-hop](./techniques/name-grammar-of-the-narrowest-hop.md)
+  — the characters a name may be spelled with are set by the narrowest
+  function-calling grammar between server and model, not by the protocol; one
+  violation costs the whole listing, a relay is where violations enter, and
+  the check belongs on the listed catalog.
 - [one-server-many-registrations](./techniques/one-server-many-registrations.md)
   — one server reachable under two names at once because the host registered
   it twice: canonicalize from the registration record, write name-pattern

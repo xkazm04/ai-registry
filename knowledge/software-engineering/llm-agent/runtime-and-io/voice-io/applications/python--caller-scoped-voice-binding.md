@@ -5,7 +5,7 @@ subject: voice-io
 technique: caller-scoped-voice-binding
 stack: python
 status: forged
-verified_on: 2026-09-03
+verified_on: 2026-11-06
 verified_against: python@3.12
 ---
 
@@ -15,8 +15,11 @@ Voicebox is a local-first voice studio — a Tauri/Rust shell over a Python
 FastAPI backend — that exposes its synthesis surface to agents on the same
 machine through an MCP server mounted at `/mcp` and a `POST /speak` REST mirror
 for callers that are not MCP-native. Citations resolve against commit
-`51f49dea198384b4eb6087b72c17057c6eb1c1cd`; the stack witness is the
-`justfile`'s interpreter probe, which prefers `python3.12` (`justfile:21`).
+`8af7efe62fab8d33e2a5dfbedabaa45f68a5184f` (re-pinned 2026-11-06 from
+`51f49de`; every citation below was re-opened at the new commit). The stack
+witness is the `justfile`'s interpreter pin, `python_version := "3.12"`
+(`justfile:23`), which since 0.6.0 replaced the earlier probe-and-fall-back and
+agrees with the container build (`FROM python:3.12-slim`, `Dockerfile:35`).
 
 The technique is implemented here, in about sixty lines across three files,
 and it is correct in design and collapsed at its exit: the four-step precedence
@@ -39,7 +42,7 @@ Precedence:
 ```
 
 `resolve_profile(explicit, client_id, db)` is the single function every speech
-entry point calls — the MCP tool at `tools.py:77` and the REST mirror through
+entry point calls — the MCP tool at `tools.py:78` and the REST mirror through
 the same `_speak` path — so there is exactly one reader of stored voice
 configuration for unhosted callers. The design plan states the same chain twice
 more, at `docs/plans/MCP_SERVER.md:92` and in the user-facing documentation at
@@ -61,15 +64,15 @@ if explicit:
 
 That early `return None` is the terminal arm. An explicit argument that misses
 does not fall through to the binding or to the global default; the chain stops,
-and `tools.py:78-83` turns `None` into a raised `ValueError` rather than into
+and `tools.py:79-84` turns `None` into a raised `ValueError` rather than into
 audio. Arms 2 and 3 fall through legitimately — a binding whose `profile_id` no
-longer resolves drops to the global default (`:40-43`) — which is the
+longer resolves drops to the global default (`resolve.py:40-43`) — which is the
 asymmetry the technique asks for: the caller's statement is honoured or
 refused, the product's stored guesses degrade.
 
 ## One row per caller, minted on first sighting
 
-`backend/database/models.py:259-280`. `MCPClientBinding` has `client_id` as its
+`backend/database/models.py:267-288`. `MCPClientBinding` has `client_id` as its
 primary key — one row per caller, not a singleton — with `label`, `profile_id`,
 `default_engine`, `default_personality` and `last_seen_at`. The design plan
 states the reason at `docs/plans/MCP_SERVER.md:104-117`: *"one row per
@@ -108,7 +111,7 @@ unbound caller. That is the technique's two-copy rule, satisfied.
 `ContextVar`. Any caller can send any value. The tree does not pretend
 otherwise: `docs/plans/MCP_SERVER.md:330` records auth as deliberately deferred
 — *"none for now (127.0.0.1 only). If we bind outside, bearer token via
-`~/.voicebox/secret` + plumb through shim"* — and `tools.py:24` imports a
+`~/.voicebox/secret` + plumb through shim"* — and `tools.py:25` imports a
 `request_is_loopback` helper used to gate the local-file argument of the
 transcribe tool. The binding table is a disambiguator with a settings screen,
 and the trust question is openly a separate, unshipped concern.
@@ -121,7 +124,7 @@ was configured anywhere — binding absent, global default unset. Those are the
 two outcomes the precedence chain exists to keep apart, and they arrive at the
 call site as the same value.
 
-`tools.py:78-83` then raises one message for both:
+`tools.py:79-84` then raises one message for both:
 
 ```python
 if vp is None:
@@ -175,4 +178,26 @@ as the type it hands back.
 - **`default_personality` is a preference in a row minted automatically**, and
   it is on the boundary the technique draws: it changes whether the caller's
   text is rewritten by a model before it is spoken. Defaulting to `False`
-  (`models.py:277`) keeps it on the safe side of that line.
+  (`backend/database/models.py:285`) keeps it on the safe side of that line.
+
+## What moved between the two pins
+
+Re-read at `8af7efe` (0.6.0 plus a month of unreleased work). The defect above
+is unchanged: `resolve.py` is byte-identical and `tools.py:79-84` still raises
+one message for both `None`s. Two things around it moved.
+
+- **The resolved voice became the next arm for what the caller omitted.**
+  `tools.py:108` now passes `language=language or vp.language`; before, an
+  omitted language fell to the engine's English default, so a caller bound to
+  a non-English voice heard its text read as English (changelog, 0.6.0,
+  "speaks the profile's language instead of forcing English"). The same
+  release fixed the engine twin of it on the generation route: a request that
+  omitted `engine` silently defaulted to one hard-wired engine instead of the
+  profile's configured one. This is the converse of the
+  technique's explicit-parameter rule, and the technique does not yet state
+  it: once a voice is resolved, its own attributes outrank product defaults
+  for every parameter the caller did not supply.
+- **A third door reads the same chain.** The OpenAI-compatible speech endpoint
+  added after 0.6.0 resolves its `voice` field "falling back to the
+  per-client binding and default voice like `/speak`" (changelog,
+  Unreleased), so the single-reader property held while the door count grew.

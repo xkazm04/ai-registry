@@ -5,7 +5,7 @@ subject: native-shell-integration
 technique: permission-gate-vector
 stack: react
 status: forged
-verified_on: 2026-09-03
+verified_on: 2026-11-06
 verified_against: react@18
 ---
 
@@ -13,34 +13,54 @@ verified_against: react@18
 
 Witness: the `voicebox` desktop application (a Tauri 2 shell over a React 18
 frontend and a Python backend), read at commit
-`51f49dea198384b4eb6087b72c17057c6eb1c1cd`. The React version is the one
+`8af7efe62fab8d33e2a5dfbedabaa45f68a5184f`. The React version is the one
 `app/package.json:51` declares (`"react": "^18.3.0"`); the permission surfaces
 below are React hooks, and the native queries they call are Tauri commands.
 
 ## The vector is declared once and produces three answers
 
-`app/src/lib/hooks/useDictationReadiness.ts:10` declares the gate vocabulary as
+`app/src/lib/hooks/useDictationReadiness.ts:11` declares the gate vocabulary as
 a closed union — `type ReadinessGate = 'stt' | 'llm' | 'input_monitoring' |
-'accessibility'` — and lines 85-90 derive everything from it in one place:
+'accessibility'` — and lines 92-97 derive everything from it in one place:
 
 ```ts
 const missing: ReadinessGate[] = [];
 if (!sttReady) missing.push('stt');
-if (!llmReady) missing.push('llm');
+if (autoRefine && !llmReady) missing.push('llm');
 if (!inputMonitoring) missing.push('input_monitoring');
 if (!accessibility) missing.push('accessibility');
-const canRecord = sttReady && llmReady && inputMonitoring;
+const canRecord = sttReady && (!autoRefine || llmReady) && inputMonitoring;
 ```
 
 Three products, one declaration: `missing` is what the checklist renders,
-`canRecord` is what the record control binds to, and `allReady` (line 95) is
+`canRecord` is what the record control binds to, and `allReady` (line 102) is
 `missing.length === 0` for onboarding. The technique's rule that the three must
 not be three independent conjunctions is met.
+
+### The vector's membership is a function of configuration (since 0.6.0)
+
+At the first pin (`51f49de`) those two `llm` lines read `if (!llmReady)` and
+`sttReady && llmReady && inputMonitoring`: the refinement model was a
+**killer** for dictation whether or not refinement was switched on. A user who
+had turned auto-refine off — so the model would never be called — could not
+arm the hotkey until a multi-gigabyte model they had opted out of finished
+downloading. The 0.6.0 changelog records the fix: "the gate, the Captures
+checklist and the readiness polling now only consider the LLM when
+auto-refine is on, and toggling it updates the state immediately"
+(`autoRefine` read from capture settings at `:52-53`, threaded through all
+three products).
+
+It is the vector rule holding under a change nobody planned for. Because the
+three answers came from one derivation, the fix was three edits in one file
+and the checklist, the record control and the poll could not disagree about
+it. The classification itself, though, had been drawn per capability when it
+depends on the configuration: a capability the current settings never invoke
+is not a gate at all, and the tree had shipped it as a killer.
 
 ## The blast-radius split is explicit and correctly drawn
 
 `canRecord` omits `accessibility` on purpose, and the hook's doc comment
-(`:32-34`) states the reasoning in the technique's own terms: "``canRecord``
+(`:35-37`) states the reasoning in the technique's own terms: "``canRecord``
 covers the gates that must be green before the chord can start recording.
 ``allReady`` also includes Accessibility, which only gates synthetic paste —
 dictation still records and lands in Captures without it."
@@ -96,14 +116,15 @@ useEffect(() => {
 ```
 
 The model-readiness half of the same vector is polled instead, and the query at
-`useDictationReadiness.ts:68-75` stops polling once both models are ready,
+`useDictationReadiness.ts:74-81` stops polling once every *required* model is
+ready (the refinement model only while auto-refine is on, since 0.6.0),
 because "the endpoint's answer can't change until the user swaps models in
 settings, and that path invalidates the query explicitly". That is exactly the
 technique's split: poll what changes without the user leaving; refocus-check
 what the user changes by leaving.
 
 `AccessibilityGate.tsx` carries the same shape for the second capability, and
-`useDictationReadiness.ts:50-59` composes both hooks rather than duplicating
+`useDictationReadiness.ts:55-64` composes both hooks rather than duplicating
 either.
 
 ## Where the tree falls short
@@ -130,7 +151,7 @@ dismisses that dialog thereafter has only the inline notice's "open settings"
 link. The notice exists and is durable, so the surface rule is satisfied — but
 there is no second prompt attempt at a later, better-contextualised moment.
 
-**Web treats absent as granted.** `useDictationReadiness.ts:78-81` maps both
+**Web treats absent as granted.** `useDictationReadiness.ts:85-88` maps both
 capabilities to `true` on the non-desktop build ("there's no TCC layer — treat
 both as granted"). That is the right *behaviour* and the wrong *representation*
 — it stores presence in the grant boolean, which is the collapse
