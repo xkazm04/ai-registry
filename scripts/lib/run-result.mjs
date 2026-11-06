@@ -117,11 +117,17 @@ const VERDICTS = new Set(['better', 'not-better', 'unmeasurable', 'COVERED']);
  *
  * `OUTCOMES` mirrors `counts` exactly, so a subject row and the tally cannot describe
  * different things. `MODES` is the applied ledger's own ladder, highest reachable first.
+ *
+ * `held` is a subject whose candidate was banked for a later proof (a busy GPU under /shift):
+ * neither landed nor declined, because no verdict exists yet. Its tally is OPTIONAL in
+ * `counts`, unlike the other five, because every record written before it existed has no
+ * such key and an append-only ledger of runs must stay valid.
  */
-const OUTCOMES = new Set(['landed', 'declined', 'idled', 'contended', 'dispatched']);
+const OUTCOMES = new Set(['landed', 'declined', 'idled', 'contended', 'dispatched', 'held']);
 const MODES = new Set(['code', 'experiment', 'blind-ab', 'simulation', 'render']);
 
-const COUNT_KEYS = ['dispatched', 'landed', 'declined', 'idled', 'contended'];
+const REQUIRED_COUNT_KEYS = ['dispatched', 'landed', 'declined', 'idled', 'contended'];
+const COUNT_KEYS = [...REQUIRED_COUNT_KEYS, 'held'];
 
 const TOP_KEYS = [
   'schema', 'run_id', 'skill', 'skill_version', 'mode', 'domain',
@@ -237,9 +243,10 @@ export function validateRunResult(draft) {
   if (!isPlainObject(draft.counts)) problems.push('result.counts must be an object');
   else {
     unknownKeys(draft.counts, COUNT_KEYS, 'result.counts', problems);
-    for (const k of COUNT_KEYS) {
+    for (const k of REQUIRED_COUNT_KEYS) {
       if (!isCount(draft.counts[k])) problems.push(`result.counts.${k} must be a non-negative integer`);
     }
+    if ('held' in draft.counts && !isCount(draft.counts.held)) problems.push('result.counts.held must be a non-negative integer');
   }
 
   // subjects

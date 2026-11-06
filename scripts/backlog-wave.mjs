@@ -24,8 +24,13 @@
  *
  * CLOSED SETS
  *   status : queued measuring landed not-better unmeasurable covered held
- *   mode   : code experiment blind-ab simulation
+ *   mode   : code experiment blind-ab simulation render
  *   verdict: better not-better unmeasurable
+ *
+ * MARK IS ATOMIC AND SERIALIZED. A long-running /shift and a /harvest session can mark at
+ * once. The rewrite takes the run board's `ledger` lock (the one /intake appends under), so
+ * neither loses the other's row, and it publishes through temp + rename, so a kill mid-write
+ * leaves the old ledger whole instead of a truncated one.
  *
  * ASSERTS ITSELF FIRST: the wave builder is run against an in-memory fixture with a
  * known answer (a cluster merged, a tension kept whole, a home deduplicated) before it
@@ -33,18 +38,21 @@
  *
  * EXIT 0 ok · 2 could not run: usage or validation error, self-check failed, ledger unreadable
  * (scripts/lib/exit-codes.mjs: 1 is "ran and found something", which no path here does, and a
- * usage error that exited 1 read to a caller as a finding). 3 is not used.
+ * usage error that exited 1 read to a caller as a finding). 3 CONTENDED: mark could not get the
+ * `ledger` lock in time; nothing was written, and waiting is meaningful.
  */
 import fs from 'node:fs';
 import path from 'node:path';
+import { spawnSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 import { EXIT } from './lib/exit-codes.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const LEDGER = path.join(ROOT, 'librarian/harvest/backlog.jsonl');
+const RUN_BOARD = path.join(ROOT, 'scripts/run-board.mjs');
 
 export const STATUS = ['queued', 'measuring', 'landed', 'not-better', 'unmeasurable', 'covered', 'held'];
-export const MODE = ['code', 'experiment', 'blind-ab', 'simulation'];
+export const MODE = ['code', 'experiment', 'blind-ab', 'simulation', 'render'];
 export const VERDICT = ['better', 'not-better', 'unmeasurable'];
 
 export function parseLedger(text) {
@@ -152,6 +160,58 @@ export function pickWave(rows, { size = 8, homePrefix = '' } = {}) {
   return wave;
 }
 
+/** Publish the ledger whole or not at all. No cleanup on a failed rename: a temp beside an
+ *  intact ledger is the honest residue of a crash, and the next mark overwrites nothing of it. */
+export function writeLedgerAtomic(file, rows, { fsImpl = fs } = {}) {
+  const tmp = `${file}.${process.pid}.tmp`;
+  fsImpl.writeFileSync(tmp, rows.map((r) => JSON.stringify(r)).join('\n') + '\n');
+  for (let attempt = 0; ; attempt++) {
+    try { fsImpl.renameSync(tmp, file); return; } catch (e) {
+      // Windows refuses a rename while any reader holds the target open, for a moment.
+      if (attempt >= 5 || !['EPERM', 'EACCES', 'EBUSY'].includes(e.code)) throw e;
+      Atomics.wait(new Int32Array(new SharedArrayBuffer(4)), 0, 0, 50);
+    }
+  }
+}
+
+/** The board's named lock, through its CLI so the takeover rules stay in one place. */
+export function boardLock(name, runId, { waitS = 120, spawn = spawnSync } = {}) {
+  const board = (...args) => spawn(process.execPath, [RUN_BOARD, ...args], { encoding: 'utf8', windowsHide: true });
+  return {
+    acquire: () => board('lock', name, '--run', runId, '--wait', String(waitS)),
+    release: () => board('unlock', name, '--run', runId),
+  };
+}
+
+/** Read, apply and publish under the lock, so a mark always works from the latest ledger. */
+export function markLedger(file, ids, fields, { lock, today = new Date().toISOString().slice(0, 10), fsImpl = fs } = {}) {
+  const got = lock.acquire();
+  if (got.status !== 0) {
+    return got.status === EXIT.CONTENDED
+      ? { code: EXIT.CONTENDED, message: `ledger lock is held; nothing was marked. ${String(got.stderr ?? '').trim()}` }
+      : { code: EXIT.FATAL, message: `could not take the ledger lock: ${String(got.stderr ?? got.error ?? '').trim()}` };
+  }
+  try {
+    let rows;
+    try { rows = parseLedger(fsImpl.readFileSync(file, 'utf8')); }
+    catch (e) { return { code: EXIT.FATAL, message: `FATAL: ${e.message}` }; }
+    const byId = new Map(rows.map((r) => [r.id, r]));
+    const missing = ids.filter((id) => !byId.has(id));
+    if (missing.length) return { code: EXIT.FATAL, message: `unknown id(s): ${missing.join(', ')}` };
+    for (const id of ids) {
+      const r = byId.get(id);
+      Object.assign(r, { status: fields.status, updated: today });
+      if (fields.mode !== undefined) r.mode = fields.mode;
+      if (fields.verdict !== undefined) r.verdict = fields.verdict;
+      if (fields.commit !== undefined) r.commit = fields.commit;
+    }
+    writeLedgerAtomic(file, rows, { fsImpl });
+    return { code: EXIT.OK, message: `marked ${ids.length} -> ${fields.status}` };
+  } finally {
+    lock.release();
+  }
+}
+
 function selfCheck() {
   const fx = [
     { id: 'a', note: 'n1', score: 7, home: 'se/x', status: 'queued', convergence: ['c01'] },
@@ -211,21 +271,9 @@ function main(argv) {
     if (!ids.length || !STATUS.includes(status)) { console.error(`usage: mark <id,...> <${STATUS.join('|')}> ...`); return EXIT.FATAL; }
     if (mode && !MODE.includes(mode)) { console.error(`mode must be one of ${MODE.join('|')}`); return EXIT.FATAL; }
     if (verdict && !VERDICT.includes(verdict)) { console.error(`verdict must be one of ${VERDICT.join('|')}`); return EXIT.FATAL; }
-    const rows = load();
-    const byId = new Map(rows.map((r) => [r.id, r]));
-    const missing = ids.filter((id) => !byId.has(id));
-    if (missing.length) { console.error(`unknown id(s): ${missing.join(', ')}`); return EXIT.FATAL; }
-    const today = new Date().toISOString().slice(0, 10);
-    for (const id of ids) {
-      const r = byId.get(id);
-      Object.assign(r, { status, updated: today });
-      if (mode !== undefined) r.mode = mode;
-      if (verdict !== undefined) r.verdict = verdict;
-      if (commit !== undefined) r.commit = commit;
-    }
-    fs.writeFileSync(LEDGER, rows.map((r) => JSON.stringify(r)).join('\n') + '\n');
-    console.log(`marked ${ids.length} -> ${status}`);
-    return 0;
+    const r = markLedger(LEDGER, ids, { status, mode, verdict, commit }, { lock: boardLock('ledger', `backlog-wave-${process.pid}`) });
+    if (r.code === EXIT.OK) console.log(r.message); else console.error(r.message);
+    return r.code;
   }
   if (cmd === 'status') {
     const rows = load();

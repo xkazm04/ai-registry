@@ -1,9 +1,12 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { spawnSync } from 'node:child_process';
+import { spawn, spawnSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 import fs from 'node:fs';
-import { buildUnits, foldHome, parseLedger, pickWave } from './backlog-wave.mjs';
+import os from 'node:os';
+import path from 'node:path';
+import { boardLock, buildUnits, foldHome, markLedger, MODE, parseLedger, pickWave, writeLedgerAtomic } from './backlog-wave.mjs';
+import { EXIT } from './lib/exit-codes.mjs';
 
 const SCRIPT = fileURLToPath(new URL('./backlog-wave.mjs', import.meta.url));
 const cli = (...args) => spawnSync(process.execPath, [SCRIPT, ...args], { encoding: 'utf8' });
@@ -172,6 +175,91 @@ test('simulation: the tracked backlog ledger, drained read-only, yields no wave 
   const waves = drain(rows);
   assert.equal(waves.flat().length, buildUnits(rows).units.length, 'every queued unit is eventually picked');
   assert.deepEqual(waves.flatMap(touchingPairs), []);
+});
+
+/* ---- mark: atomic, under the lock. All on a temp ledger; the real one is not an instrument's fixture. */
+
+const tmpLedger = (rows) => {
+  const file = path.join(fs.mkdtempSync(path.join(os.tmpdir(), 'backlog-mark-')), 'backlog.jsonl');
+  fs.writeFileSync(file, rows.map((r) => JSON.stringify(r)).join('\n') + '\n');
+  return file;
+};
+const okLock = (events = []) => ({
+  acquire: () => { events.push('acquire'); return { status: 0 }; },
+  release: () => { events.push('release'); return { status: 0 }; },
+});
+
+test('render is a mode a held media row can be marked with', () => {
+  assert.ok(MODE.includes('render'));
+  const file = tmpLedger([row({ id: 'a', status: 'held' })]);
+  assert.equal(markLedger(file, ['a'], { status: 'landed', mode: 'render', verdict: 'better', commit: 'abc1234' }, { lock: okLock(), today: '2026-11-06' }).code, EXIT.OK);
+  const [r] = parseLedger(fs.readFileSync(file, 'utf8'));
+  assert.deepEqual([r.status, r.mode, r.verdict, r.commit, r.updated], ['landed', 'render', 'better', 'abc1234', '2026-11-06']);
+  const usage = cli('mark', 'x', 'landed', '--mode', 'teleport');
+  assert.equal(usage.status, 2);
+  assert.match(usage.stderr, /render/, 'the refusal names the set');
+});
+
+test('mark writes between acquire and release, and releases when the mark fails', () => {
+  const file = tmpLedger([row({ id: 'a' })]);
+  const events = [];
+  const fsImpl = { ...fs, renameSync: (...a) => { events.push('rename'); return fs.renameSync(...a); } };
+  assert.equal(markLedger(file, ['a'], { status: 'covered' }, { lock: okLock(events), fsImpl }).code, EXIT.OK);
+  assert.deepEqual(events, ['acquire', 'rename', 'release']);
+  const failed = [];
+  const r = markLedger(file, ['nope'], { status: 'covered' }, { lock: okLock(failed) });
+  assert.equal(r.code, EXIT.FATAL);
+  assert.match(r.message, /unknown id/);
+  assert.deepEqual(failed, ['acquire', 'release']);
+});
+
+test('a contended lock writes nothing and says so with the declared code', () => {
+  const file = tmpLedger([row({ id: 'a' })]);
+  const before = fs.readFileSync(file, 'utf8');
+  const lock = { acquire: () => ({ status: EXIT.CONTENDED, stderr: 'held by other' }), release: () => assert.fail('never held') };
+  const r = markLedger(file, ['a'], { status: 'covered' }, { lock });
+  assert.equal(r.code, EXIT.CONTENDED);
+  assert.equal(fs.readFileSync(file, 'utf8'), before);
+  assert.equal(markLedger(file, ['a'], { status: 'covered' }, { lock: { acquire: () => ({ status: 2, stderr: 'broken' }) } }).code, EXIT.FATAL);
+});
+
+test('REGRESSION: a crash mid-write leaves the old ledger whole', () => {
+  // Before: writeFileSync over the ledger itself, so a kill left a truncated file of 1,170 rows.
+  const file = tmpLedger([row({ id: 'a' }), row({ id: 'b' })]);
+  const before = fs.readFileSync(file, 'utf8');
+  const crashing = { ...fs, renameSync: () => { throw new Error('power cut'); } };
+  assert.throws(() => writeLedgerAtomic(file, [row({ id: 'a', status: 'landed' })], { fsImpl: crashing }), /power cut/);
+  assert.equal(fs.readFileSync(file, 'utf8'), before);
+  assert.ok(fs.readdirSync(path.dirname(file)).some((f) => f.endsWith('.tmp')), 'the temp is the crash residue');
+  const events = [];
+  assert.throws(() => markLedger(file, ['a'], { status: 'covered' }, { lock: okLock(events), fsImpl: crashing }), /power cut/);
+  assert.deepEqual(events, ['acquire', 'release'], 'the lock does not outlive the crash');
+});
+
+test('REGRESSION: concurrent marks through the real board lock lose nobody', async () => {
+  // Before: read, edit, write with no lock, so the slower writer's view erased the faster one's row.
+  const ids = ['a', 'b', 'c', 'd'];
+  const file = tmpLedger(ids.map((id) => row({ id })));
+  const moduleUrl = new URL('./backlog-wave.mjs', import.meta.url).href;
+  const lockName = `backlog-wave-test-${process.pid}`;
+  const one = (id) => new Promise((resolve) => {
+    const code = `import { boardLock, markLedger } from ${JSON.stringify(moduleUrl)};
+      const r = markLedger(${JSON.stringify(file)}, [${JSON.stringify(id)}], { status: 'covered' }, { lock: boardLock(${JSON.stringify(lockName)}, 'test-' + process.pid) });
+      process.exit(r.code);`;
+    const p = spawn(process.execPath, ['--input-type=module', '-e', code], { stdio: 'ignore' });
+    p.on('close', resolve);
+  });
+  assert.deepEqual(await Promise.all(ids.map(one)), [0, 0, 0, 0]);
+  assert.deepEqual(parseLedger(fs.readFileSync(file, 'utf8')).map((r) => r.status), ['covered', 'covered', 'covered', 'covered']);
+});
+
+test('boardLock speaks the board\'s own verbs', () => {
+  const calls = [];
+  const spawnFake = (_node, args) => { calls.push(args.slice(1)); return { status: 0 }; };
+  const l = boardLock('ledger', 'run-1', { waitS: 9, spawn: spawnFake });
+  l.acquire();
+  l.release();
+  assert.deepEqual(calls, [['lock', 'ledger', '--run', 'run-1', '--wait', '9'], ['unlock', 'ledger', '--run', 'run-1']]);
 });
 
 test('the ledger parser refuses a status outside the closed set and duplicate ids', () => {

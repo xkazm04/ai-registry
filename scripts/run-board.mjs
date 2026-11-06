@@ -240,7 +240,7 @@ function normAddress(s) {
  */
 const VIDEO_ID_PARAM = { 'youtube.com': 'v', 'm.youtube.com': 'v', 'music.youtube.com': 'v' };
 
-function normSource(s) {
+export function normSource(s) {
   const raw = String(s).trim().replace(/\\/g, '/');
   // Catch ONLY the parse: a source that is not a URL is a path or a dispatch
   // slug and folds with `norm`. Wrapping the whole body would turn any bug
