@@ -26,3 +26,9 @@ the reports say otherwise. One run does not change that.
 - The numbers from this run: H3-free GPU, CPU 6-17 %, 36-43 GB available through 12+ audio renders plus
   one research seat, no pressure fired, canary null. **That is one observation and does not validate the
   defaults.** The canary read null, so this run says nothing about the slowdown it measures.
+
+## 0.2.0, 2026-11-06
+
+- `--until opening` wakes on any width rise, so CPU swinging across the build ceiling wakes the session with nothing to start. Seen once, at 18:11.
+- A lander committed past a red gate because its command did not stop on failure, then fixed it in a follow-up. The supervisor reads each lander's report for this before pushing.
+- The operator's list took 18 GitHub repositories mid-shift. The instruments know only YouTube, so 0.3.0 adds a repository row and a RAM rule; `sync` still does not read those lines.

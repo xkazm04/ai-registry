@@ -601,3 +601,21 @@ test('list filters and seat appends', () => {
   assert.equal(main(['seat'], capture(root).ctx), EXIT.FATAL);
   assert.equal(main([], capture(root).ctx), EXIT.FATAL);
 });
+
+test('a repository row waits for RAM to spare, and every video goes first', () => {
+  const video = { id: 'vid', status: 'approved', planId: 'p', cluster: 'c-video', addedAt: FRESH };
+  const repo = { id: 'gh-a-b', kind: 'repo', status: 'approved', planId: 'q', cluster: 'c-repo', addedAt: FRESH };
+  const at = (availableMb, research = 2) => ({ ...sense({ research }), availableMb });
+  const mined = (p) => p.actions.filter((a) => a.action === 'mine').map((a) => a.video);
+
+  assert.deepEqual(mined(nextPlan(base({ sense: at(19999), rows: [repo, video] }))), ['vid']);
+  assert.deepEqual(mined(nextPlan(base({ sense: at(20000), rows: [repo, video] }))), ['vid', 'gh-a-b']);
+  assert.deepEqual(mined(nextPlan(base({ sense: at(20000, 1), rows: [repo, video] }))), ['vid']);
+  // A null reading is not spare.
+  assert.deepEqual(mined(nextPlan(base({ sense: at(null), rows: [repo] }))), []);
+  // A repository cluster already mining also waits, and its lander is not held back.
+  const started = { ...repo, status: 'mining' };
+  assert.deepEqual(mined(nextPlan(base({ sense: at(1000), rows: [started] }))), []);
+  const landing = nextPlan(base({ sense: at(1000), rows: [started], reports: new Set(['c-repo/gh-a-b']) }));
+  assert.equal(landing.actions.find((a) => a.action === 'land')?.key, 'land:q/c-repo');
+});

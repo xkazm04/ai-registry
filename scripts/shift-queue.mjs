@@ -60,6 +60,8 @@ export const UNPLANNED = ['new', 'meta', 'transcript', 'no-transcript'];
 const GPU_STATES = ['busy', 'settling', 'idle', 'absent', 'unknown'];
 
 const EVAL_DEBT_LIMIT = 3;
+/** Repositories supplement the plan: the operator's rule is "when enough RAM to spare". Unmeasured. */
+const REPO_SPARE_AVAILABLE_MB = 20000;
 const UNPLANNED_LIMIT = 5;
 const UNPLANNED_MAX_AGE_MS = 24 * 3600 * 1000;
 const LOCK_WAIT_MS = 10000;
@@ -322,12 +324,17 @@ export function nextPlan({
 
   /* ---- research, one slot per action */
   let slots = free.research;
+  // Repositories come after every video, and only with RAM to spare. A null reading is not spare.
+  const repoIds = new Set(rows.filter((r) => r.kind === 'repo').map((r) => r.id));
+  const repoRam = Number.isFinite(sense.availableMb) && sense.availableMb >= REPO_SPARE_AVAILABLE_MB;
+  const videosFirst = (list) => [...list.filter((c) => !repoIds.has(c.videos[0])), ...list.filter((c) => repoIds.has(c.videos[0]))];
   const take = (action) => { plan.actions.push(action); slots -= 1; };
   const fill = (cluster, extra) => {
     const reportOf = (v) => `${cluster.id ?? v}/${v}`;
     const unreported = cluster.videos.filter((v) => !reports.has(reportOf(v)));
     for (const video of unreported) {
       if (slots <= 0) return;
+      if (repoIds.has(video) && !repoRam) continue;
       if (!liveKeys.has(video)) take({ action: 'mine', kind: 'miner', key: video, cluster, video, ...extra });
     }
     // A live miner may still be writing, so a report's presence alone does not open the landing.
@@ -337,7 +344,7 @@ export function nextPlan({
     }
   };
 
-  for (const cluster of mining) fill(cluster, {});
+  for (const cluster of videosFirst(mining)) fill(cluster, {});
 
   const unplanned = rows.filter((r) => UNPLANNED.includes(r.status));
   const tooOld = unplanned.filter((r) => now - Date.parse(r.addedAt) > UNPLANNED_MAX_AGE_MS);
@@ -348,7 +355,10 @@ export function nextPlan({
 
   const startedKeys = new Set(miningRows.map(clusterKey));
   const notStarted = rows.filter((r) => r.status === 'approved' && !startedKeys.has(clusterKey(r)));
-  for (const cluster of uniqueClusters(notStarted, plans, rows)) fill(cluster, { startCluster: true });
+  for (const cluster of videosFirst(uniqueClusters(notStarted, plans, rows))) {
+    if (repoIds.has(cluster.videos[0]) && !repoRam) continue;
+    fill(cluster, { startCluster: true });
+  }
 
   if (slots > 0 && !liveKind('filler')) {
     const filler = (skill, extra = {}) => ({ action: 'filler', kind: 'filler', key: `filler:${skill}`, skill, width: slots, ...extra });
