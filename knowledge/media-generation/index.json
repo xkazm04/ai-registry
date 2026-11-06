@@ -4,8 +4,8 @@
   "bundle": "media-generation",
   "source": "knowledge/media-generation/ (frontmatter only)",
   "subjects": 53,
-  "techniques": 351,
-  "applications": 204,
+  "techniques": 352,
+  "applications": 205,
   "laws": 9,
   "categories": [
    "narrative-craft",
@@ -16,7 +16,7 @@
    "streaming"
   ],
   "layout": "nested",
-  "use_when_coverage": "351/351",
+  "use_when_coverage": "352/352",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -744,9 +744,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/media-generation/audio-generation/character-voice-design/character-voice-design.md",
-   "digest": "sha256-b2:2e68940ae64367b7",
-   "revision": 2,
-   "changedAt": "2026-10-28",
+   "digest": "sha256-b2:6ada57d2c38d03c7",
+   "revision": 3,
+   "changedAt": "2026-11-06",
    "techniques": [
     {
      "slug": "audition-line-set",
@@ -819,6 +819,24 @@
      ]
     },
     {
+     "slug": "freeze-the-design-into-a-reference",
+     "status": "forged",
+     "laws": [
+      "typed-input-owns-its-channel",
+      "edit-do-not-regenerate",
+      "unmeasured-is-not-pass"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a voice designer has no save step and re-reads the description on every render",
+      "casting with an open or local text-to-voice model instead of a hosted provider",
+      "a designed voice sounds like a slightly different person on every line",
+      "moving a cast from a hosted designer to a local engine",
+      "per-line direction on a designed voice changes who is speaking",
+      "choosing which clip a designed voice is cloned from"
+     ]
+    },
+    {
      "slug": "voice-description-composition",
      "status": "forged",
      "laws": [
@@ -845,6 +863,13 @@
      "technique": "casting-slate-spread",
      "file": "knowledge/media-generation/audio-generation/character-voice-design/applications/process--casting-slate-spread.md",
      "verified_on": "2026-10-28"
+    },
+    {
+     "stack": "python",
+     "technique": "freeze-the-design-into-a-reference",
+     "file": "knowledge/media-generation/audio-generation/character-voice-design/applications/python--freeze-the-design-into-a-reference.md",
+     "verified_on": "2026-11-06",
+     "verified_against": "python@3.12"
     }
    ]
   },
@@ -6905,6 +6930,7 @@
     "character-voice-design/audition-line-set",
     "character-voice-design/design-to-read-parameter-lock",
     "character-voice-design/finishing-effect-layer",
+    "character-voice-design/freeze-the-design-into-a-reference",
     "chat-vote-duels/ballot-status-taxonomy",
     "chat-vote-duels/core-owns-the-count",
     "cinematic-language/lens-effect-language",
@@ -7130,6 +7156,7 @@
    "techniques": [
     "animatable-character-design/functional-animation-slots",
     "character-voice-design/design-to-read-parameter-lock",
+    "character-voice-design/freeze-the-design-into-a-reference",
     "creator-voice-and-tone/spoken-delivery-direction",
     "frame-direction/boundary-transition-class",
     "frame-direction/motif-establish-vary-payoff",
@@ -7341,6 +7368,7 @@
     "character-identity-continuity/reference-shows-only-invariants",
     "character-voice-design/character-vocal-brief",
     "character-voice-design/finishing-effect-layer",
+    "character-voice-design/freeze-the-design-into-a-reference",
     "cinematic-language/movement-motivation",
     "cinematic-language/performance-direction",
     "generated-output-grading/input-channel-parity",

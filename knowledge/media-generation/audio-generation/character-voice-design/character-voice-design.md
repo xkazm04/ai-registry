@@ -10,6 +10,7 @@ techniques:
   - audition-line-set
   - casting-slate-spread
   - design-to-read-parameter-lock
+  - freeze-the-design-into-a-reference
   - finishing-effect-layer
 ---
 
@@ -121,6 +122,18 @@ makes by ear, not a quantity to maximize
 ([design-to-read-parameter-lock](./techniques/design-to-read-parameter-lock.md);
 [unmeasured is not pass](../../_laws.md#unmeasured-is-not-pass)).
 
+All of that assumes the designer can **save** a preview as a stored voice. Many
+open designers cannot: the description is re-read on every render, so every line
+is a new draw and per-line direction rewrites the identity it is layered onto.
+There the save is built from a second engine - one neutral reference clip
+rendered from the chosen design, kept as the asset, and every line read through
+a cloning engine conditioned on it - and casting is decided on those clone
+reads. The freeze also moves the direction channel to whatever the clone engine
+offers, which is often less, and it is the clean way to move a cast off a hosted
+designer: the descriptions port, the seeds do not, and a hosted preview cloned
+locally carries its provider's terms
+([freeze-the-design-into-a-reference](./techniques/freeze-the-design-into-a-reference.md)).
+
 ## The machine in the voice lives after generation
 
 When a character is an artificial intelligence, a hologram or a voice over a
@@ -155,6 +168,8 @@ imitation the method cannot and should not deliver.
 - It generates ten paraphrases and calls the result a slate.
 - It names a character or an actor, and treats the refusal as a glitch.
 - It picks from design previews and ships under different read settings.
+- It casts by description on a designer with no save step, and ships a
+  different person in every scene.
 - It loses the description and seed, so the voice cannot be rebuilt.
 - It tunes the effect chain on the board and ships a different one.
 
