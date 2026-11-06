@@ -1,8 +1,8 @@
 ---
 domain: game-production
 subject: engine-integration-safety
-last_touched: 2026-09-10
-touched_by: architecture-review
+last_touched: 2026-11-06
+touched_by: shift
 dry_streak: 0
 ---
 
@@ -98,3 +98,12 @@ labelled planned 4 -> 0, launches 3 -> 4, a clean batch still one launch. **No r
 the culprit-identification half is unmeasured. Step 7a (a resume assumes the interrupted launch's teardown never ran)
 is corroborated by the engine's own automation-framework guidance, read verbatim. This subject's existing review block
 above predates the landing and is not a verdict on it.
+
+### 2026-11-06 - `/shift`, cluster `agent-built-game-operating-model`
+
+- `single-instance-lease-and-drain`: new section, a build contends for the lease and a long-lived serving
+  instance is a holder with no end. One channel plus the fleet's own record. The review block above
+  predates it.
+- NEW application `process--single-instance-lease-and-drain`, mode `experiment`, verdict `better`.
+- Not landed: the seam's change. It waits for build width and the project's gate. See
+  [[2026-11-06-agent-built-game-operating-model]], which also holds the wall-per-channel proposal for `engine-pitfall-corpus`.

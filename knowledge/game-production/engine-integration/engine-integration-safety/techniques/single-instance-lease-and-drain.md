@@ -6,7 +6,7 @@ technique: single-instance-lease-and-drain
 status: forged
 laws: [refuse-rather-than-destroy, one-authority-per-quantity, unmeasured-is-not-a-pass]
 shared_with: []
-use_when: [two automated paths can drive the same application at once, designing a batch that needs exclusive access, a concurrent run produced garbage results]
+use_when: [two automated paths can drive the same application at once, designing a batch that needs exclusive access, a concurrent run produced garbage results, a build cannot run because a long-lived instance holds the checkout]
 ---
 
 # Single-instance lease and drain
@@ -59,6 +59,29 @@ items finish, and *count* what you drained: how many completed, how many were st
 how many were abandoned. A run that cancels its remainder and reports "complete" has
 recorded a number whose basis is silently different from the one before it. Under
 `unmeasured-is-not-a-pass`, abandoned items are unmeasured, not passed.
+
+## A build is a path, and a serving instance is a holder
+
+Step 1 lists paths that drive the application. Count one more that never drives it: the
+build. Rebuilding code a running instance has loaded needs that instance gone, so a compile
+contends for the same lease from the other side.
+
+- **An instance kept alive to save its start-up cost is a lease with no end.** A long-lived
+  headless instance serving tool calls removes the boot wait from each call, and it holds the
+  checkout for as long as it lives. One project ended a working session with code written and
+  never compiled, because such an instance, started two days earlier, still held the main
+  checkout. Its machine-wide turn lock read "free" while the instance ran, because it looked
+  for the interactive executable and not the headless one. So the registry has to recognise
+  every form of the application, the status read has to show how long the holder has been up,
+  and the build's refusal has to name it.
+- **A held instance can silently switch off verification.** One practitioner reports that an
+  agent finding his editor open stops launching its own and stops checking its work. Treat a
+  check skipped for that reason as unmeasured, and say so in the report.
+- **The in-process compile is a narrow exception, and it is engine-bound.** The same
+  practitioner uses the running instance's own compile only for a change that leaves headers
+  alone, and closes for almost everything else, "just in case". The engine's tooling also
+  exposes that compile as a tool call, so an agent can reach it without a person. Recheck the
+  boundary on an engine upgrade.
 
 ## Decision rules
 

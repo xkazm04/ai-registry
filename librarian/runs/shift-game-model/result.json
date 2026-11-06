@@ -1,0 +1,71 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "shift-game-model",
+  "skill": "shift",
+  "skill_version": "0.1.0",
+  "mode": "source",
+  "domain": "game-production",
+  "started_at": "2026-11-06T15:53:51Z",
+  "ended_at": "2026-11-06T16:39:07Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 1,
+    "declined": 0,
+    "idled": 3,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "game-production/engine-integration-safety",
+      "at": "2026-11-06",
+      "engine": "shift",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    },
+    {
+      "id": "game-production/engine-pitfall-corpus",
+      "at": "2026-11-06",
+      "engine": "shift",
+      "outcome": "idled",
+      "points_before": null,
+      "points_after": null
+    },
+    {
+      "id": "game-production/production-work-prioritization",
+      "at": "2026-11-06",
+      "engine": "shift",
+      "outcome": "idled",
+      "points_before": null,
+      "points_after": null
+    },
+    {
+      "id": "game-production/generated-video-motion-extraction",
+      "at": "2026-11-06",
+      "engine": "shift",
+      "outcome": "idled",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "engine-integration-safety",
+      "technique": "single-instance-lease-and-drain",
+      "verdict": "better",
+      "mode": "experiment"
+    }
+  ],
+  "files": [
+    "knowledge/game-production/engine-integration/engine-integration-safety/techniques/single-instance-lease-and-drain.md",
+    "knowledge/game-production/engine-integration/engine-integration-safety/applications/process--single-instance-lease-and-drain.md",
+    "librarian/sources/2026-11-06-agent-built-game-operating-model.md",
+    "librarian/harvest/backlog.jsonl"
+  ],
+  "commits": [],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "One amendment landed on a scratch-copy experiment. Three accepts fell: 1 rewrite, 1 tree contradiction, 1 render-bound lead, not banked. Held proof shift-rjf-1 banked. Idled subjects hold proposals or leads, untriaged and not declined."
+}
