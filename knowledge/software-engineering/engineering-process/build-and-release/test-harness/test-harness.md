@@ -29,6 +29,7 @@ techniques:
   - assert-through-the-reader
   - mutation-lane-with-a-triaged-baseline
   - assert-the-schedule-not-the-stopwatch
+  - proved-off-the-path
 ---
 
 # Test harness architecture
@@ -147,6 +148,11 @@ that each default toward green — the population it walks, the needle it looks
 for, and the haystack it looks in, which holds the program *and the prose about
 the program* and so fails in both directions
 ([pin-the-call-not-the-name](./techniques/pin-the-call-not-the-name.md)).
+
+Every rung assumes the suite runs what production runs. A suite can assemble its own path instead: an
+integration test that hands a guard's output to a worker production builds without it, or a program
+written beside a model-run procedure so that something could be tested
+([proved-off-the-path](./techniques/proved-off-the-path.md)).
 
 ## Reaching the code is not the same as watching it run
 
@@ -392,3 +398,6 @@ a soak run misunderstands both; the design of these lanes is
   checks it: survivors as a report, build cost fixed before frequency, a sampled
   baseline that says which sample, a repeated shard loss read as a defect in the
   work, and a four-bin triage kept in a document instead of line-keyed exclusions.
+- [proved-off-the-path](./techniques/proved-off-the-path.md) - a suite that composes
+  its own path proves that composition: the twin of a model-run procedure, the guard
+  only a test wires in, walking calls from the entry point, and the three repairs.

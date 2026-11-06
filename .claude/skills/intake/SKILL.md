@@ -3,7 +3,7 @@ name: intake
 description: "Mine an external source - a YouTube video, a news roundup, an article, pasted notes, a repository - for what it should change in THIS registry, and in the connected projects that consume it. Ingests the source, reads its design decisions as well as its claims, maps both against existing bundles for prior art, triages with the operator, and lands what survives corroboration - amendments for boundary cases, techniques and subjects for mechanisms, forge handoffs for systems whose architecture the corpus lacks. News sources mostly yield currency signals and leads; that is a successful run. Use when someone shares a link and asks what it means for us."
 category: ai-native
 memory: project
-version: 2.19.0
+version: 2.20.0
 tags: research, sources, memory-lane, admission-gate, render-proof, triage, currency, cross-repo, leads, apply, ab-test, parallel, reference-index, design-read, forge-handoff, directions, fleet-map, peer-study, opus-workers, decision-gate
 ---
 
@@ -237,6 +237,7 @@ index, not a substitute for it.
 | **paper aggregator** | a list of papers? | measurements in their protocol, not frameworks |
 | **reference index** | is its VALUE the outbound links rather than its own text? | nothing itself - it is a bibliography, and the references are the source |
 | **vendor repository** | a company's repo over a hosted engine? | its docs' rules page and its client's types |
+| **skill kit** | does it install instructions into an agent, with or without code? | what its instruments refuse and what its issues record, never its effect |
 | **research-model release** | open weights plus real inference code? | its prompt artifacts and its config |
 | **app/tutorial aggregator** | a monorepo of example apps? | the operational periphery, not the apps |
 | **operator dispatch** | no URL - a framing or a question? | whatever the sub-questions route to |
@@ -244,8 +245,8 @@ index, not a substitute for it.
 Four rules cut across every row:
 
 - **Any row that arrives as a repository is mined from a clone, never from the ingest.**
-  Five classes do - vendor repository, research-model release, app/tutorial aggregator,
-  paper aggregator, and the build-walkthrough in repo form - and each states in its own
+  Six classes do - vendor repository, skill kit, research-model release, app/tutorial
+  aggregator, paper aggregator, and the build-walkthrough in repo form - and each states in its own
   vocabulary that the README is its least reliable surface. `research-ingest` on a repo
   URL returns exactly that surface. Clone it and sweep the tree (Phase 2b), and sweep it
   a second time for engineering worth reusing, not only for claims worth quoting.

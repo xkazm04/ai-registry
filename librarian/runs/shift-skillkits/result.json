@@ -1,0 +1,84 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "shift-skillkits",
+  "skill": "shift",
+  "skill_version": "0.4.0",
+  "mode": "source",
+  "domain": "software-engineering",
+  "started_at": "2026-11-06T20:31:10Z",
+  "ended_at": "2026-11-06T21:45:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 2,
+    "declined": 0,
+    "idled": 3,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "software-engineering/test-harness",
+      "at": "2026-11-06",
+      "engine": "shift",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    },
+    {
+      "id": "software-engineering/agent-instruction-files",
+      "at": "2026-11-06",
+      "engine": "shift",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    },
+    {
+      "id": "software-engineering/eval-harness",
+      "at": "2026-11-06",
+      "engine": "shift",
+      "outcome": "idled",
+      "points_before": null,
+      "points_after": null
+    },
+    {
+      "id": "software-engineering/markdown-vault",
+      "at": "2026-11-06",
+      "engine": "shift",
+      "outcome": "idled",
+      "points_before": null,
+      "points_after": null
+    },
+    {
+      "id": "software-engineering/token-refresh-lifecycle",
+      "at": "2026-11-06",
+      "engine": "shift",
+      "outcome": "idled",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "test-harness",
+      "technique": "proved-off-the-path",
+      "verdict": "unmeasurable",
+      "mode": "experiment"
+    }
+  ],
+  "files": [
+    "knowledge/software-engineering/engineering-process/build-and-release/test-harness/techniques/proved-off-the-path.md",
+    "knowledge/software-engineering/engineering-process/build-and-release/test-harness/applications/process--proved-off-the-path.md",
+    "knowledge/software-engineering/engineering-process/build-and-release/test-harness/test-harness.md",
+    "knowledge/software-engineering/llm-agent/prompt-and-context/agent-instruction-files/techniques/enforcement-demotion.md",
+    ".claude/skills/intake/SKILL.md",
+    ".claude/skills/intake/references/source-classes.md",
+    "docs/skills-lane.md",
+    "librarian/sources/2026-11-06-agent-skill-kits.md",
+    "librarian/subjects/software-engineering/test-harness.md"
+  ],
+  "commits": [],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "Threshold +3. One technique at net +3, narrowed to the twin. Contrast amendment and per-derivation gate fell at net +2. Skill kit class, /intake 2.20.0, two skills-lane paragraphs under judgment. 0 held rows. Scripts and Personas seams proposed."
+}

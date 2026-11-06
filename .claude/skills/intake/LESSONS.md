@@ -12769,3 +12769,12 @@ applied here - one sighting, and the honest record is in the source note.
 - An append can carry a parked scope rewrite in its first sentence. "The renderer decides this, not the plan" restated a proposal the same report kept out. Grep the wording for the proposal's claim.
 - Read a span count before repeating it. Sixteen spans were five stretches, split where two curves cross. Dumping the state per frame costs seconds, and it tests whether what reads an edit predicts what changed.
 - A pair with a silent arm cannot be blind. Say so in the row, and put the blind pick on a pair where both arms make sound.
+
+## 2.19.0 - 2026-11-06 - agent-skill-kits
+
+- Bumped to 2.20.0 for one routing row, the skill kit class, and its section in `references/source-classes.md`. A mid-flight run finishes on the version it loaded.
+- Four reports in a row filed kits under the build-walkthrough or said no row fit. Count those misses at Phase 2 rather than leaving each in its own report.
+- A candidate about something with no caller has prior art in the deletion lane, not the test lane. Queries worded around tests missed "tests are not entries" in dead-code until one was worded around unused code. Word one query for the opposite remedy.
+- When nothing was run, grep the draft for words that say it passed. A read-only report called its test count green while saying no test ran.
+- A miner's zero is a scan with a predicate. "0 lines setting an environment variable" fell to one `export` in another skill's fenced block. Re-run a zero the wording depends on.
+- Before calling a tested tool an instance of "the suite does not run production", read how the test reaches it. One spawned the real command line.

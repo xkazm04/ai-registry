@@ -4,8 +4,8 @@
   "bundle": "software-engineering",
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 245,
-  "techniques": 1974,
-  "applications": 1485,
+  "techniques": 1975,
+  "applications": 1486,
   "laws": 16,
   "categories": [
    "ui-surfaces",
@@ -20,7 +20,7 @@
    "secret-custody-and-issuance"
   ],
   "layout": "nested",
-  "use_when_coverage": "1974/1974",
+  "use_when_coverage": "1975/1975",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -1677,9 +1677,9 @@
    "subcategory": "prompt-and-context",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/prompt-and-context/agent-instruction-files/agent-instruction-files.md",
-   "digest": "sha256-b2:25b61236a62604b0",
-   "revision": 31,
-   "changedAt": "2026-09-25",
+   "digest": "sha256-b2:9b02cf004a7ce444",
+   "revision": 32,
+   "changedAt": "2026-11-06",
    "techniques": [
     {
      "slug": "capability-before-steering",
@@ -38399,9 +38399,9 @@
    "subcategory": "build-and-release",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-process/build-and-release/test-harness/test-harness.md",
-   "digest": "sha256-b2:c96e1ee699a88119",
-   "revision": 27,
-   "changedAt": "2026-10-23",
+   "digest": "sha256-b2:5263e8a41ff4ad99",
+   "revision": 28,
+   "changedAt": "2026-11-06",
    "techniques": [
     {
      "slug": "approval-snapshots-with-guarded-update",
@@ -38742,6 +38742,22 @@
      ]
     },
     {
+     "slug": "proved-off-the-path",
+     "status": "forged",
+     "laws": [
+      "gate-sees-target",
+      "count-carries-predicate"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a program was written beside a model-run procedure so that it could be tested",
+      "a test file defines the rule it asserts",
+      "an integration test constructs the modules it claims to integrate",
+      "a guard has a thorough suite and nobody can name its production caller",
+      "deciding what a test count may claim about a skill or a safety promise"
+     ]
+    },
+    {
      "slug": "recorded-interaction-fixtures",
      "status": "forged",
      "laws": [
@@ -38877,6 +38893,12 @@
      "file": "knowledge/software-engineering/engineering-process/build-and-release/test-harness/applications/node--unreached-decisions-pin-nothing.md",
      "verified_on": "2026-09-17",
      "verified_against": "node@24"
+    },
+    {
+     "stack": "process",
+     "technique": "proved-off-the-path",
+     "file": "knowledge/software-engineering/engineering-process/build-and-release/test-harness/applications/process--proved-off-the-path.md",
+     "verified_on": "2026-11-06"
     },
     {
      "stack": "python",
@@ -43213,6 +43235,7 @@
     "test-harness/negative-control-tests",
     "test-harness/out-of-graph-artifacts",
     "test-harness/pin-the-call-not-the-name",
+    "test-harness/proved-off-the-path",
     "test-harness/recorded-interaction-fixtures",
     "test-harness/suite-partitioning",
     "test-harness/unreached-decisions-pin-nothing",
@@ -44512,6 +44535,7 @@
     "test-harness/mutation-lane-with-a-triaged-baseline",
     "test-harness/out-of-graph-artifacts",
     "test-harness/pin-the-call-not-the-name",
+    "test-harness/proved-off-the-path",
     "test-harness/recorded-interaction-fixtures",
     "test-harness/suite-partitioning",
     "test-harness/unreached-decisions-pin-nothing",

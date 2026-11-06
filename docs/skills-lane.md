@@ -54,9 +54,28 @@ earns its place):
   skills that predate it, and a gate that fails a skill for the absence of a
   section nobody has written yet is a gate somebody deletes.
 
-- **Behavioral evals** — not yet standing. The harness's plugin-eval schema is the
-  target for cases where a skill's behaviour, not its structure, regresses. Adopt
-  per skill when one earns it.
+- **Behavioral evals** — not yet standing: 0 of 44 lane skills had a suite on
+  2026-11-06. The tiers above show a skill is well formed and its instruments work.
+  None shows that a run goes differently because the skill loaded, and the run log
+  ([docs/runs-lane.md](runs-lane.md)) is self-rated with no control arm. The
+  harness's `claude plugin eval` is built for this question. A case under `evals/` is
+  a prompt plus graders, run three times by default with the plugin and three times
+  without it, and `Δ` is what the plugin contributed: a case that scores the same in
+  both arms did not pass because of the skill. Of its six grader types, `regex`,
+  `tool_used`, `tool_order` and `file_exists` are computed from the transcript and
+  files, while `llm` and `baseline` call a judge model and can differ between runs.
+  Every run is a model call on the operator's account, about cases x runs x 2 agent
+  runs, so the gate does not run it and a suite is a spend decision. Adopt per skill
+  when one earns it. Three things to settle on first use:
+
+  - A lane skill has no `plugin.json`, and `claude plugin validate skills/<name>`
+    refuses it for that. The vendor docs ask for a manifest or a skills-directory
+    plugin, so the installed `<skill>@ai-registry` is the documented target. Neither
+    route has been run on a lane skill.
+  - `evals/` is skill content, so it takes a version bump (below), and `results/`
+    belongs in `.gitignore`.
+  - A terminal run on a claude.ai subscription publishes its report as a private
+    artifact. Pass `--no-publish` to keep it local.
 
 ## The shape
 
@@ -124,6 +143,16 @@ Long reference material belongs in `references/` and is loaded only when the met
 reaches for it. Refer to bundled files as `${CLAUDE_SKILL_DIR}/references/<file>` (the
 harness substitutes the variable in the body and in `allowed-tools` rules, wherever the
 skill is installed) or with a relative markdown link.
+
+**A command runs in a fresh shell.** Between one shell call and the next the harness keeps
+neither an `export` nor an activated environment, and a session that starts days after
+setup has neither. So a method may not say "stay in the same shell", and no step may read a
+variable that an earlier step or a sibling skill set. Put dependent commands in one call,
+or have the step read the value where it lives: the per-repo overlay, the project's `.env`,
+or a generated wrapper that carries it. `CLAUDE_ENV_FILE` and a SessionStart hook do persist
+variables, but they belong to the operator's setup, so a method cannot assume them. A tool
+whose variable is missing fails loudly. Falling back to a default location is how two steps
+end up on different state with neither reporting it.
 
 **The body is generic.** It may not carry one project's name, paths, vault location,
 component names, gate commands or file lists — those are exactly the bytes that made the

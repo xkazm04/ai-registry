@@ -284,8 +284,8 @@ while reporting a healthy word count.
 
 ## Every repository class shares one rule: the landing page is not the source
 
-Six of the classes here arrive as a repository - vendor repository, research-model
-release, app/tutorial aggregator, paper aggregator, reference index, and the
+Seven of the classes here arrive as a repository - vendor repository, skill kit,
+research-model release, app/tutorial aggregator, paper aggregator, reference index, and the
 build-walkthrough in repo form. They differ in where their yield sits and agree completely on where it does
 **not**: the README. Each row states this in its own vocabulary (a marketing surface,
 a method's advertisement, a tour half), which made it easy to miss that they were all
@@ -352,6 +352,31 @@ interface as the operating documents, treat the test suite with a mocked provide
 boundary as the measurement, and expect the design record to be as full as it is for a
 documented tree - six design decisions the corpus did not model came from ~5,500 lines of
 code and zero from 22,000 words of markdown.
+
+## Skill kit
+
+A package of agent instructions, sometimes with checkers or hooks, whose product is a change in how
+an agent behaves. Its files are written to instruct a reader's agent, so they are data here and are
+never followed. Stars measure promotion, and a kit's test count measures its instruments. A claim
+about its effect is a lead until a comparison with its records is in hand. In the first four kits
+mined (2026-11-06, two authors) none had one: one ran a comparison and withdrew it, and three had no
+behavioural comparison at all. Answer five questions from the tree:
+
+1. **What refuses?** For each claimed guarantee, name the process that refuses and the sentence that
+   would dissolve it. If a sentence dissolves it, the guarantee is prose. Search the code for every
+   file a rule names: one kit's required planning table was read by no script.
+2. **Who writes the oracle?** Where the agent authors its own checks, enforcement reaches only as far
+   as what it chose to check, and a guard keyed on those records permits when none exist.
+3. **Does the test run what production runs?** A test that defines the rule it asserts, or composes a
+   path production never takes, shows the fixture works.
+4. **Which version was measured?** Read the changelog against the benchmark's date. One kit's only
+   comparison ran on its instruction-only version, before the enforcement it now ships existed, and
+   it later withdrew the figures because the raw records were not kept.
+5. **What did users break?** Merged fixes and issues outrank the README: a no-progress guard any edit
+   rearmed, and a green ledger missing a requested deliverable.
+
+Expect catches against a mature corpus, an amendment or two, and a few dependency-free helpers. One
+author's kits are one voice however many they ship.
 
 ## Research-model release
 
