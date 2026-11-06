@@ -39,7 +39,8 @@ whose route fails to render (navigation error, HTTP >= 400 other than its `expec
 Prints one JSON object; the skill records it, this script writes no store row:
     shots         [{feature, path (relative to the store dir), size, theme, module: "harness.py", report_file}]
                   -> store.mjs shot --run <run> --feature f --path p --size s --theme t --module harness.py --report-file r
-    measurements  [{feature, lens, metric: minTextPx|consoleErrors, value, unit?, method: "harness", evidence}]
+    measurements  [{feature, lens, metric: minTextPx|consoleErrors, value, unit?, method: "harness", evidence, commit_sha?}]
+                  (commit_sha = `git rev-parse HEAD` of --root, the checkout the shots were served from)
                   -> store.mjs measure --run <run> --json <file>   (unit = the lens manifest field's, read from the map)
     unscreenable  [{feature, why}]  -> store.mjs activity --kind note --text "unscreenable: <why>"
     served_by     "linked_command", present when that command served the shots instead of `command`: name it in the
@@ -380,6 +381,16 @@ def capture(browser, cfg, slug, spec, theme, size, out_png):
         ctx.close()
 
 
+def head_sha(root):
+    """The commit the served checkout is at (`git rev-parse HEAD`), or None outside a git checkout."""
+    try:
+        r = subprocess.run(['git', 'rev-parse', 'HEAD'], cwd=root, capture_output=True, text=True, timeout=30)
+    except (OSError, subprocess.SubprocessError):
+        return None
+    sha = r.stdout.strip()
+    return sha if r.returncode == 0 and re.fullmatch(r'[0-9a-f]{40,64}', sha) else None
+
+
 def run(args):
     root = os.path.abspath(args.root)
     overlay = os.path.join(root, args.overlay)
@@ -482,9 +493,12 @@ def run(args):
             finally:
                 browser.close()
         units = manifest_units(os.path.join(store_dir, 'app-structure.json'), args.lens)
+        sha = head_sha(root)
         for m in out['measurements']:
             if units.get(m['metric']):
                 m['unit'] = units[m['metric']]
+            if sha:
+                m['commit_sha'] = sha
         return out, 0
     finally:
         kill_tree(proc)

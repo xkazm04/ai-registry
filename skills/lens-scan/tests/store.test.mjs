@@ -12,7 +12,7 @@ import { fileURLToPath } from 'node:url';
 import { DatabaseSync } from 'node:sqlite';
 import {
   openStore, runStart, runEnd, activity, measure, propose, proposals, proposalUpdate, shot, coverage, latest, parseArgs,
-  decide, triage, packCreate, packs, releaseCreate, releaseAdd, releaseUpdate, reworkAttempt, SUBCOMMANDS, PROPOSAL_STATUS,
+  decide, triage, packCreate, packs, releaseCreate, releaseAdd, releaseUpdate, reworkAttempt, SUBCOMMANDS, PROPOSAL_STATUS, headSha,
 } from '../scripts/store.mjs';
 import { legacyDdl } from './legacy-ddl.mjs';
 
@@ -420,4 +420,38 @@ test('tagged: a pack with a rework item closes once the rebuild (built in a late
   assert.ok(packs(db).every((k) => k.status === 'closed'));
   assert.equal(row(db, b).status, 'rework', 'the reworked row itself stays rework');
   db.close();
+});
+
+test('(1.15) every reading names its commit: commit_sha round-trips through measure (API, --json, --commit-sha) and latest', () => {
+  const path = tmpDb();
+  const db = openStore(path);
+  const { id: run } = runStart(db, { phase: 'measure', lenses: 'development' });
+  const sha = 'a'.repeat(40);
+  measure(db, run, { feature: 'a', lens: 'development', metric: 'loc', value: 10, method: 'static', commitSha: sha });
+  measure(db, run, [{ feature: 'b', lens: 'development', metric: 'loc', value: 20, method: 'static', commit_sha: 'b'.repeat(40) }]);
+  measure(db, run, { feature: 'c', lens: 'development', metric: 'loc', value: 30 });
+  const rows = latest(db);
+  assert.deepEqual(rows.map((r) => [r.feature, r.commit_sha]), [['a', sha], ['b', 'b'.repeat(40)], ['c', undefined]]);
+  assert.ok(!('commit_sha' in rows[2]), 'a reading without a commit prints no key, never null');
+  // the column bp reads directly
+  assert.equal(db.prepare("SELECT commit_sha FROM measurements WHERE feature = 'a'").get().commit_sha, sha);
+  db.close();
+  const json = join(dirname(path), 'rows.json');
+  writeFileSync(json, JSON.stringify([{ feature: 'd', lens: 'development', metric: 'loc', value: 4, commit_sha: 'c'.repeat(40) }]));
+  cli(path, 'measure', '--run', run, '--json', json);
+  cli(path, 'measure', '--run', run, '--feature', 'e', '--lens', 'development', '--metric', 'loc', '--value', '5', '--commit-sha', 'd'.repeat(40));
+  const back = cli(path, 'latest', '--lens', 'development');
+  assert.deepEqual(back.filter((r) => 'de'.includes(r.feature)).map((r) => [r.feature, r.commit_sha]), [['d', 'c'.repeat(40)], ['e', 'd'.repeat(40)]]);
+});
+
+test('(1.15) headSha: git rev-parse HEAD of a checkout; undefined outside git', () => {
+  const dir = mkdtempTracked(join(tmpdir(), 'lens-scan-head-'));
+  const git = (...args) => execFileSync('git', ['-C', dir, '-c', 'user.email=t@example.test', '-c', 'user.name=t', ...args], { encoding: 'utf8' }).trim();
+  git('init', '-q');
+  writeFileSync(join(dir, 'f.txt'), 'x\n');
+  git('add', 'f.txt'); git('commit', '-q', '-m', 'init');
+  assert.equal(headSha(dir), git('rev-parse', 'HEAD'));
+  const plain = mkdtempTracked(join(tmpdir(), 'lens-scan-nogit-'));
+  // a temp dir under a git checkout would answer that checkout's HEAD; only assert when it is really outside git
+  if (spawnSync('git', ['-C', plain, 'rev-parse', '--git-dir'], { stdio: 'ignore' }).status !== 0) assert.equal(headSha(plain), undefined);
 });

@@ -8,6 +8,7 @@ import assert from 'node:assert/strict';
 import { mkdtempSync, mkdirSync, writeFileSync, readFileSync, readdirSync, existsSync, rmSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
+import { execFileSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 import { openStore, runStart, latest } from '../scripts/store.mjs';
 import { main as structureMain, checkManifest, glyphPathProblem, takenLooks, lensMethod } from '../scripts/structure.mjs';
@@ -198,4 +199,16 @@ test('onboarding: the contract file exists, SKILL.md references both new referen
   }
   const contract = readFileSync(join(SKILL_DIR, 'references', 'lens-onboarding.md'), 'utf8');
   for (const must of ['```lens-manifest', '--draft-only', 'lens-add', 'AT MOST 3', '16x16']) assert.ok(contract.includes(must), `the contract says ${must}`);
+});
+
+test("(1.15) steps: every row a script step writes names the product root's HEAD", () => {
+  const p = product({ rows: [{ feature: 'a', metric: 'hits', value: 2 }] });
+  const git = (...args) => execFileSync('git', ['-C', p.root, '-c', 'user.email=t@example.test', '-c', 'user.name=t', ...args], { encoding: 'utf8' }).trim();
+  git('init', '-q'); git('add', 'rows.mjs'); git('commit', '-q', '-m', 'init');
+  const { id: run } = runStart(p.db, { phase: 'measure', lenses: p.lens.id });
+  runScriptStep({ lens: p.lens.id, step: 0, runId: run, root: p.root });
+  const rows = latest(p.db, { lens: p.lens.id });
+  assert.ok(rows.length > 0);
+  assert.ok(rows.every((r) => r.commit_sha === git('rev-parse', 'HEAD')));
+  p.db.close();
 });

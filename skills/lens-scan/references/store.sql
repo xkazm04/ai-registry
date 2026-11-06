@@ -50,7 +50,7 @@
 --   accepted   (v2) triage: the person takes it into the next release
 --   rework     (v2) triage: the person wants it rebuilt; a new attempt row (attempt_of = this id) carries the rebuild
 --   descoped   (v2) triage: the person drops it; it never ships
---   released   (v2) shipped: its release was merged and tagged
+--   released   (v2) shipped: its release was merged and tagged (or, --landed, tagged on base HEAD)
 --   a reopen (v3) is no status of its own: the item goes back to its triaged_from
 PRAGMA journal_mode = WAL;
 PRAGMA user_version = 5;
@@ -109,6 +109,8 @@ CREATE TABLE IF NOT EXISTS packs (
 
 -- v2: a release cherry-picks accepted items onto release/<version>, opens a PR, and is tagged v<version>
 -- after the merge. draft -> building -> pr-open -> merged -> tagged; any state but tagged -> failed.
+-- (1.15) building -> tagged only through `release-update --landed`: every item had already landed on the base
+-- branch, so the tag goes on base HEAD with no release branch and no PR (references/release.md, "Landed").
 CREATE TABLE IF NOT EXISTS releases (
   id         TEXT PRIMARY KEY,                   -- 'rel-<version>'
   version    TEXT NOT NULL UNIQUE,               -- semver without the v

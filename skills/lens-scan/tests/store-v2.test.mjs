@@ -356,3 +356,60 @@ test('release run: a conflicted item leaves a building release (skill only); reg
   assert.deepEqual(releaseAdd(db2, { release: rel2.id, ids: c }).skipped, [{ id: c, status: 'accepted', reason: 'registry-target' }]);
   db.close(); db2.close(); // an open handle keeps Windows from removing the temp dir
 });
+
+test('release --landed: building -> tagged only with --landed; it ships items and closes packs like merged -> tagged', () => {
+  const { db, run, ids: [x, y] } = seed(2);
+  const k = build(db, run, [x, y]);
+  triage(db, { ids: [x, y], decision: 'accept', by: 'operator:jane' });
+  const rel = releaseCreate(db, { version: '0.2.0', by: 'operator:jane' }).id;
+  releaseAdd(db, { release: rel, ids: [x, y] });
+  releaseUpdate(db, { release: rel, status: 'building', from: 'draft' });
+
+  assert.throws(() => releaseUpdate(db, { release: rel, status: 'tagged', from: 'building' }), /building cannot move to tagged \(pass --landed/,
+    'without --landed building -> tagged still refuses');
+  assert.throws(() => releaseUpdate(db, { release: rel, landed: true }), /--landed goes with --status tagged/);
+  assert.throws(() => releaseUpdate(db, { release: rel, status: 'pr-open', landed: true }), /--landed goes with --status tagged/);
+  assert.equal(releaseGet(db, { id: rel }).status, 'building', 'a refused move changes nothing');
+
+  const r = releaseUpdate(db, { release: rel, status: 'tagged', from: 'building', landed: true, baseSha: 'h1' });
+  assert.equal(r.status, 'tagged');
+  assert.equal(r.tag, 'v0.2.0', 'the tag defaults to v<version>');
+  assert.equal(r.base_sha, 'h1');
+  assert.deepEqual(r.released, [x, y]);
+  assert.deepEqual(r.packs_closed, [k.id]);
+  assert.deepEqual([status(db, x), status(db, y)], ['released', 'released']);
+  assert.equal(packs(db)[0].status, 'closed');
+  db.close();
+
+  // --landed replaces merged -> tagged rather than adding to it: a merged release tags without it
+  const { db: db2, run: run2, ids: [z] } = seed(1);
+  build(db2, run2, [z]);
+  triage(db2, { ids: z, decision: 'accept', by: 'operator:jane' });
+  const r2 = releaseCreate(db2, { version: '0.3.0', by: 'operator:jane' }).id;
+  releaseAdd(db2, { release: r2, ids: z });
+  for (const s of ['building', 'pr-open', 'merged']) releaseUpdate(db2, { release: r2, status: s });
+  assert.throws(() => releaseUpdate(db2, { release: r2, status: 'tagged', landed: true }), /merged cannot move to tagged/);
+  assert.equal(releaseUpdate(db2, { release: r2, status: 'tagged' }).status, 'tagged');
+  db2.close();
+});
+
+test('cli: release-update --landed is a switch; without it building -> tagged exits 1', () => {
+  const path = tmpDb();
+  const { id: run } = cli(path, 'run-start', '--phase', 'execute', '--lenses', 'design');
+  const p = cli(path, 'propose', '--run', run, '--feature', 'a', '--lens', 'design', '--title', 'T', '--kind', 'fix', '--metric', 'rawLiterals', '--expected-delta', '-1').id;
+  cli(path, 'decide', '--ids', p, '--decision', 'approve', '--by', 'operator:jane');
+  const k = cli(path, 'pack-create', '--lens', 'design', '--short', 'DES', '--base-ref', 'main', '--base-sha', 'b0', '--run', run);
+  cli(path, 'proposal-update', '--id', p, '--status', 'executing', '--pack', k.id);
+  cli(path, 'proposal-update', '--id', p, '--status', 'done', '--commit-sha', 'c1');
+  cli(path, 'triage', '--ids', p, '--decision', 'accept', '--by', 'operator:jane');
+  cli(path, 'release-create', '--version', '1.0.0', '--by', 'operator:jane');
+  cli(path, 'release-add', '--release', 'rel-1.0.0', '--ids', p);
+  cli(path, 'release-update', '--release', 'rel-1.0.0', '--status', 'building', '--from', 'draft');
+  const no = spawnSync(process.execPath, [SCRIPT, '--db', path, 'release-update', '--release', 'rel-1.0.0', '--status', 'tagged', '--from', 'building'], { encoding: 'utf8' });
+  assert.equal(no.status, 1);
+  assert.match(no.stderr, /building cannot move to tagged/);
+  const valued = spawnSync(process.execPath, [SCRIPT, '--db', path, 'release-update', '--release', 'rel-1.0.0', '--status', 'tagged', '--from', 'building', '--landed', 'yes'], { encoding: 'utf8' });
+  assert.equal(valued.status, 2, '--landed takes no value');
+  const r = cli(path, 'release-update', '--release', 'rel-1.0.0', '--status', 'tagged', '--from', 'building', '--landed');
+  assert.deepEqual([r.status, r.tag, r.released, r.packs_closed], ['tagged', 'v1.0.0', [p], [k.id]]);
+});

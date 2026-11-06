@@ -48,8 +48,8 @@ no scan block; a steps list that is empty or longer than 8; a step of an unknown
 
 Per scoped feature: read its code footprint once, judge it against `instructions` and only
 those, write one measurement per metric field it can judge (`--method judgement`, evidence
-`file:line, ...`, unit from the field). A feature the instructions do not touch gets no
-reading and a facet `applicable: false` with a one-line reason (SKILL.md, steps 1-4).
+`file:line, ...`, unit from the field, `--commit-sha` the checkout's HEAD). A feature the
+instructions do not touch gets no reading and a facet `applicable: false` with a one-line reason (SKILL.md, steps 1-4).
 
 The facet command edits only that facet's `applicable` and `reason` (every other facet,
 value and lens entry is kept) and rewrites the file atomically. Re-running phase 1
@@ -92,7 +92,7 @@ Stdout is JSON rows - an array, or an object holding `rows`:
 | --- | --- |
 | feature outside the scope | ignored (counted in the summary, never written) |
 | `applicable: false` + `reason` | `facet --applicable false --reason` on the map; no reading |
-| metric in `yields`, a metric field, finite value | a measurement: method `static`, unit = the field's `unit`, evidence = the row's (else the step's `run`) |
+| metric in `yields`, a metric field, finite value | a measurement: method `static`, unit = the field's `unit`, evidence = the row's (else the step's `run`), `commit_sha` = the product root's HEAD |
 | metric not in `yields`, not a metric field, value not a number, `applicable:false` without a reason | **refused**: a `note` activity naming the row and why; never a row |
 
 A feature that gets a measurement while its facet says `applicable: false` is cleared back to

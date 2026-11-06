@@ -21,7 +21,7 @@
 //   - a metric the step does not list in `yields`, or that is not a numeric metric field of the lens, or a value
 //     that is not a finite number is REFUSED: a `note` activity, never a row;
 //   - every other row is a measurement: method `static`, unit = the manifest field's `unit`, evidence = the
-//     row's, else the step's command. A feature that gets a measurement and whose facet said not applicable is
+//     row's, else the step's command, commit_sha = `git rev-parse HEAD` of the product root (none outside git). A feature that gets a measurement and whose facet said not applicable is
 //     cleared back (the lens touches it after all).
 // A command that fails (exit code, timeout, stdout that is not rows) writes an `error` activity and exits 1
 // with nothing measured. Prints a JSON summary.
@@ -29,7 +29,7 @@ import { spawnSync } from 'node:child_process';
 import { existsSync, readFileSync, realpathSync, statSync } from 'node:fs';
 import { isAbsolute, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { openStore, measure, activity, getRun, parseArgs, StoreError, DEFAULT_DB } from './store.mjs';
+import { openStore, measure, activity, getRun, headSha, parseArgs, StoreError, DEFAULT_DB } from './store.mjs';
 import { lensMethod, setApplicable, writeAtomic, DEFAULT_OUT } from './structure.mjs';
 
 export const STEP_TIMEOUT_MS = 10 * 60 * 1000;
@@ -148,7 +148,8 @@ export function runScriptStep({ lens, step: i, runId, scope, root = process.cwd(
     for (const x of sorted.refused) note('note', `step ${idx} refused a row (${x.why}): ${JSON.stringify(x.row).slice(0, 200)}`);
 
     if (sorted.measurements.length) {
-      measure(db, runId, sorted.measurements);
+      const sha = headSha(root);
+      measure(db, runId, sha ? sorted.measurements.map((m) => ({ ...m, commit_sha: sha })) : sorted.measurements);
       const feats = new Set(sorted.measurements.map((m) => m.feature));
       activity(db, { run: runId, kind: 'measured', lens, text: `step ${idx}: ${sorted.measurements.length} measurements over ${feats.size} feature(s)` });
     }
