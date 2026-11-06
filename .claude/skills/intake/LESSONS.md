@@ -12753,3 +12753,11 @@ applied here - one sighting, and the honest record is in the source note.
 - Test a claim of exactness on every code path that claims it. A tree's "exactly invariant" held on one read path and failed on the two others, including the shared-prefix repair the same draft recommended. A stand-in scorer with no model found this in minutes.
 - Before a proof goes in the bank, count its fixture on disk and read what the seam's record already bounds. A held row named an 88-image arena with 60 images missing here, and predicted under 10% where the recorded rows permit up to 47%.
 - `/api/show` with `verbose` returns a local model's whole vocabulary without loading it, so a tokenizer question costs no GPU. Check it before banking a proof about token boundaries.
+
+## 2.19.0 - 2026-11-06 - self-evolving-harness
+
+- Put a code-fit check in a design probe's rubric and name it the floor before the arms run. Arms handed the technique took the governed checks 4 of 4 against 0 of 4 and both built on a call that does not do what they said, which both control draws read correctly. Without that check the row reads `better`. This run wrote the check and not its tolerance, so a one-check drop had to count in full.
+- Recount a miner's spread clause row by row. "Many gains inside spread" was 3 of 12, and "inside the 2.3 to 2.5 spread" was false for one of its two numbers. PDF table extraction scrambles rows, so check the assignment against figures the prose states.
+- A seam picked for its name can be the wrong stage. A report chose the A/B runner for a finding about how edits get made, and the improver that makes them sat in a neighbouring file. Grep the verb the technique governs.
+- Before changing a ledger's columns, grep what reads it. A reader that takes the column by the header's position miscounts every older row. A field at the head of the note cell costs nothing.
+- An arXiv HTML page can omit a figure's text entirely, and a local PDF path exits 2 at `research-ingest`, correctly. Use `pdftotext`. A claim that looks unsupported from the HTML may sit in a figure.

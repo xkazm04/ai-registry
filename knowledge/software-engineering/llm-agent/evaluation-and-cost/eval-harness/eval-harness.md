@@ -28,6 +28,7 @@ techniques:
   - pairing-schedule
   - uncontrolled-games-beside-the-win-rate
   - rebase-the-varied-input
+  - contrast-before-adoption
 ---
 
 # Evaluation & benchmarking
@@ -345,6 +346,12 @@ model × variant × scenario. Each answers a different question and each has
 a characteristic way of lying; [comparison-modes](./techniques/comparison-modes.md)
 carries the decision table.
 
+Both assume something can score the result. When a model edits a prompt or harness for a
+task nobody holds a key to, nothing can, and the only evidence is the same task run with
+and without the edit. That can decide adoption and cannot establish correctness, and the
+record has to say so
+([contrast-before-adoption](./techniques/contrast-before-adoption.md)).
+
 ## When the harness ranks a population, most of the suite is silent
 
 Everything above holds the instrument still so that one candidate can be
@@ -478,3 +485,6 @@ are a design input, not an afterthought: [eval-economics](./techniques/eval-econ
   small answer space and a gold label: what makes one probe-able, why the
   probe must name the occurrence it reads, and why it pays for a prefix and
   stays a threshold.
+- [contrast-before-adoption](./techniques/contrast-before-adoption.md) — an edit
+  on a task with no key: propose from named moments, run on the same task, decide
+  in another session, and call the result adopted rather than verified.

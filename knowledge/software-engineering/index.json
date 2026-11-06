@@ -4,8 +4,8 @@
   "bundle": "software-engineering",
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 245,
-  "techniques": 1970,
-  "applications": 1480,
+  "techniques": 1971,
+  "applications": 1481,
   "laws": 16,
   "categories": [
    "ui-surfaces",
@@ -20,7 +20,7 @@
    "secret-custody-and-issuance"
   ],
   "layout": "nested",
-  "use_when_coverage": "1970/1970",
+  "use_when_coverage": "1971/1971",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -2111,9 +2111,9 @@
    "subcategory": "prompt-and-context",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/prompt-and-context/agent-memory/agent-memory.md",
-   "digest": "sha256-b2:6c06fb6d8d6c900f",
-   "revision": 52,
-   "changedAt": "2026-10-25",
+   "digest": "sha256-b2:2b62b4004acc600d",
+   "revision": 53,
+   "changedAt": "2026-11-06",
    "techniques": [
     {
      "slug": "addresses-before-compression",
@@ -15430,9 +15430,9 @@
    "subcategory": "evaluation-and-cost",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/evaluation-and-cost/eval-harness/eval-harness.md",
-   "digest": "sha256-b2:7ccead00b7f92aba",
-   "revision": 37,
-   "changedAt": "2026-09-29",
+   "digest": "sha256-b2:111b3ad040676f35",
+   "revision": 38,
+   "changedAt": "2026-11-06",
    "techniques": [
     {
      "slug": "assertion-vs-judgment",
@@ -15491,6 +15491,22 @@
       "deciding what question an eval answers",
       "verdict flips when pair order mirrors",
       "headline winner hides losing cells"
+     ]
+    },
+    {
+     "slug": "contrast-before-adoption",
+     "status": "forged",
+     "laws": [
+      "claimant-does-not-adjudicate",
+      "count-carries-predicate",
+      "gate-sees-target"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a model edits a harness or prompt from a run and no labelled check exists",
+      "deciding whether to keep an edit on a task with no answer key",
+      "an improvement loop reports that an edit worked from one re-run",
+      "choosing what an adaptation loop may record as learned"
      ]
     },
     {
@@ -15932,6 +15948,13 @@
      "file": "knowledge/software-engineering/llm-agent/evaluation-and-cost/eval-harness/applications/react--reliability-aggregation.md",
      "verified_on": "2026-08-31",
      "verified_against": "react@19"
+    },
+    {
+     "stack": "rust",
+     "technique": "contrast-before-adoption",
+     "file": "knowledge/software-engineering/llm-agent/evaluation-and-cost/eval-harness/applications/rust--contrast-before-adoption.md",
+     "verified_on": "2026-11-06",
+     "verified_against": "rust@1.80"
     },
     {
      "stack": "rust",
@@ -42762,6 +42785,7 @@
     "eval-harness/assertion-vs-judgment",
     "eval-harness/candidate-write-access",
     "eval-harness/certification-levels",
+    "eval-harness/contrast-before-adoption",
     "eval-harness/discriminating-task-selection",
     "eval-harness/failure-attribution",
     "eval-harness/failure-signatures-beside-the-pass-rate",
@@ -44107,6 +44131,7 @@
     "eval-harness/candidate-write-access",
     "eval-harness/certification-levels",
     "eval-harness/comparison-modes",
+    "eval-harness/contrast-before-adoption",
     "eval-harness/discriminating-task-selection",
     "eval-harness/failure-attribution",
     "eval-harness/failure-signatures-beside-the-pass-rate",
@@ -46805,6 +46830,7 @@
     "earned-autonomy-tiers/asymmetric-promotion-and-demotion",
     "earned-autonomy-tiers/demotion-attribution-integrity",
     "earned-autonomy-tiers/recomputable-promotion-trial",
+    "eval-harness/contrast-before-adoption",
     "model-composed-workspace/view-choice-evaluation",
     "probe-confirmed-model-proposals/cross-engine-agreement",
     "probe-confirmed-model-proposals/found-not-hinted",

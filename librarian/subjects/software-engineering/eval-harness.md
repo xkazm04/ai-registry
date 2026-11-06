@@ -1,8 +1,8 @@
 ---
 domain: software-engineering
 subject: eval-harness
-last_touched: 2026-09-29
-touched_by: intake
+last_touched: 2026-11-06
+touched_by: intake, shift
 dry_streak: 0
 ---
 
@@ -734,3 +734,10 @@ application, `python--eval-economics--ultraeval-audio`, a second witness to the 
   1/0/1 (a boundary case, opened and executed), so it is banked untriaged until a third tree shows it.
 - The tree also shows the technique's good half built: a re-score door (`load_inf_file` keeps only
   prompt and inference) and a snapshot of the resume source before the recorder can truncate it.
+
+### 2026-11-06 - `/shift`, from a paper behind one video
+
+Source: [[2026-11-06-self-evolving-harness]]. New technique `contrast-before-adoption`, 2/0/2, one blind-ab at `not-better`: the governed checks moved and the code-fit floor fell, so it carries a read-the-seam section. One more `not-better` from another project demotes it to a lead.
+
+- **Not amended:** `failure-attribution`. A boundary for bundled per-task rounds failed the rewrite test on three standing sentences (2/2/1). Banked wording is proposal 1 in the note. The new technique states its own side and links across, so a later run should read the pair as a boundary, not a contradiction.
+- **Banked untriaged:** blinding removes provenance bias and not rubric bias (1/0/1); a check green at head can carry its author's premise (1/1/1).

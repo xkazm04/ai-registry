@@ -1,8 +1,8 @@
 ---
 domain: software-engineering
 subject: agent-memory
-last_touched: 2026-10-15
-touched_by: deepen, intake
+last_touched: 2026-11-06
+touched_by: deepen, intake, shift
 dry_streak: 0
 ---
 
@@ -945,3 +945,9 @@ One amendment, three source-tree applications, memory lane entered on judgement.
 - Catches: nine, including polarity-blind dedup (`consolidation` already orders contradiction
   before duplicate) and the always-include degeneration `recall-injection` names, which the
   personas brain still has.
+
+### 2026-11-06 - `/shift`, from a paper behind one video
+
+Source: [[2026-11-06-self-evolving-harness]]. `diagnosis-withheld-from-the-executor` gained a second study: a reviser's store costs 3.1 and 1.8 points to remove, far under the first study's +15.0, and a store is worth what its runs explored. Unapplied: no managed project's reviser reads a store.
+
+- **Banked untriaged:** verified facts in a per-task harness against `procedure-promotion`'s actions-not-facts (1/2/1). The discriminator looks like same-task against reusable, and it is prompt prose only.

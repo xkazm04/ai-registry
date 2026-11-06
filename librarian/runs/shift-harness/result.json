@@ -1,0 +1,58 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "shift-harness",
+  "skill": "shift",
+  "skill_version": "0.3.0",
+  "mode": "source",
+  "domain": "software-engineering",
+  "started_at": "2026-11-06T17:30:00Z",
+  "ended_at": "2026-11-06T18:30:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 2,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "software-engineering/eval-harness",
+      "at": "2026-11-06",
+      "engine": "shift",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    },
+    {
+      "id": "software-engineering/agent-memory",
+      "at": "2026-11-06",
+      "engine": "shift",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "eval-harness",
+      "technique": "contrast-before-adoption",
+      "verdict": "not-better",
+      "mode": "blind-ab"
+    }
+  ],
+  "files": [
+    "knowledge/software-engineering/llm-agent/evaluation-and-cost/eval-harness/techniques/contrast-before-adoption.md",
+    "knowledge/software-engineering/llm-agent/evaluation-and-cost/eval-harness/applications/rust--contrast-before-adoption.md",
+    "knowledge/software-engineering/llm-agent/evaluation-and-cost/eval-harness/eval-harness.md",
+    "knowledge/software-engineering/llm-agent/prompt-and-context/agent-memory/techniques/diagnosis-withheld-from-the-executor.md",
+    ".claude/skills/harvest/references/evaluation.md",
+    ".claude/skills/harvest/SKILL.md",
+    "librarian/sources/2026-11-06-self-evolving-harness.md"
+  ],
+  "commits": [],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "One technique at not-better on its floor, one amendment unapplied, one skill change in harvest 0.7.0. The failure-attribution boundary failed the rewrite test and stays a proposal. No project changed, no held row. Start time is approximate, from the re-claim."
+}
