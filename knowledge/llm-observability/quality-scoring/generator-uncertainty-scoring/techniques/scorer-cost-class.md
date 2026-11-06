@@ -6,7 +6,7 @@ technique: scorer-cost-class
 status: forged
 laws: [quality-apparatus-stays-unbudgeted, never-present-absence-as-an-answer, nullable-never-zero]
 shared_with: []
-use_when: [choosing a scorer for high-volume traffic, a serving API does not return token probabilities, deciding whether scoring may run inside the serving path, judge spend is growing faster than traffic]
+use_when: [choosing a scorer for high-volume traffic, a serving API does not return token probabilities, deciding whether scoring may run inside the serving path, judge spend is growing faster than traffic, reading a closed-set answer from token probabilities at one position, two labels share a first token and score nearly the same]
 stage: team
 ---
 
@@ -83,6 +83,26 @@ cannot execute, and its options at that point are all bad.
   operating point; in production the operating point is wherever the curve
   bends for your own traffic, and it must be measured on your own traffic
   before N is fixed.
+- **When tier 0 reads a closed set at one position, check the answers' first
+  tokens before trusting the read.** A read at the answer position compares
+  first tokens, so two answers that share one are the same row read twice: an
+  exact tie, and no error. A number wider than one token does the same thing
+  quietly: on a model whose vocabulary holds no multi-digit token, `10` reads
+  as `1`. That is a property of one tokenizer, so check it at configuration
+  time against the model's vocabulary, then refuse the set, rename the
+  answers, or score whole continuations at the price of another pass. Both
+  repairs carry a trap. Moving a shared prefix into the fixed text moves the
+  read position, so adding an option can change the prefix and every score
+  with it, and scores from the two sets are no longer comparable. And
+  whole-continuation scores do not combine neutrally: a sum penalizes length,
+  a mean rewards later tokens that were nearly forced, and the two can pick
+  different winners. The size of the trap, from a replay of recorded replies
+  and not a live read: on a vision grader's arena (88 hand-labelled images, 19
+  good and 69 bad, a 0-10 scale, a vocabulary with no multi-digit token), the
+  first digit in place of the whole integer, at the line fitted on the whole
+  integer, refuses 14 of the 19 good inputs and admits the same 7 bad ones. A
+  separate run saw the same read report an apparent eight-point correction
+  that was pure artifact.
 - **When a tier changes, treat it as an instrument change.** A trend that
   crosses a tier boundary is a method delta wearing a quality costume, and
   it is re-baselined, not compared through.
