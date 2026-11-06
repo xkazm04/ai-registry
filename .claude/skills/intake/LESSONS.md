@@ -12761,3 +12761,11 @@ applied here - one sighting, and the honest record is in the source note.
 - A seam picked for its name can be the wrong stage. A report chose the A/B runner for a finding about how edits get made, and the improver that makes them sat in a neighbouring file. Grep the verb the technique governs.
 - Before changing a ledger's columns, grep what reads it. A reader that takes the column by the header's position miscounts every older row. A field at the head of the note cell costs nothing.
 - An arXiv HTML page can omit a figure's text entirely, and a local PDF path exits 2 at `research-ingest`, correctly. Use `pdftotext`. A claim that looks unsupported from the HTML may sit in a figure.
+
+## 2.19.0 - 2026-11-06 - editable-source-over-rendered-file
+
+- Run the rewrite test on the sentence after the one the draft answers. A report passed "provably untouched, because it is the same data", and the next sentence said the contract "stops being a discipline to audit", which its own rule contradicts on frames.
+- A lead's sentence can sit inside an accept. One report filed a frame-order finding as a lead and also put it, with a cause, in its accept's wording. Compare a draft's wording against its own table.
+- An append can carry a parked scope rewrite in its first sentence. "The renderer decides this, not the plan" restated a proposal the same report kept out. Grep the wording for the proposal's claim.
+- Read a span count before repeating it. Sixteen spans were five stretches, split where two curves cross. Dumping the state per frame costs seconds, and it tests whether what reads an edit predicts what changed.
+- A pair with a silent arm cannot be blind. Say so in the row, and put the blind pick on a pair where both arms make sound.

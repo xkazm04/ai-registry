@@ -5143,8 +5143,8 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/media-generation/production-ops/review-iteration-loops/review-iteration-loops.md",
-   "digest": "sha256-b2:dddc0a7dae55d120",
-   "revision": 12,
+   "digest": "sha256-b2:72b196da130b7ff5",
+   "revision": 13,
    "changedAt": "2026-11-06",
    "techniques": [
     {
@@ -5266,7 +5266,8 @@
       "a regenerated region satisfies its brief but the result breaks at the joins",
       "deciding whether a section edit is local or secretly global",
       "a generated clip is wrong in one span or one corner and a re-roll is the only remedy anyone has proposed",
-      "one panel of a multi-panel reference or storyboard sheet is wrong"
+      "one panel of a multi-panel reference or storyboard sheet is wrong",
+      "deciding whether an edit to a code-rendered composition is local"
      ]
     },
     {
@@ -6436,8 +6437,8 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/media-generation/production-ops/video-assembly/video-assembly.md",
-   "digest": "sha256-b2:94594691b758ec58",
-   "revision": 22,
+   "digest": "sha256-b2:b47fafe05146f90b",
+   "revision": 23,
    "changedAt": "2026-11-06",
    "techniques": [
     {

@@ -119,3 +119,8 @@ alongside blocking findings would exercise the half nothing has tested.
 - NEW application `process--partial-regeneration-seams`, mode `experiment`, verdict `unmeasurable`.
 - Not landed: narrowing the "When not to use this" clause for an approved performance. That is a scope
   rewrite, so it waits as a proposal in [[2026-11-06-yue2-notation-editing]].
+
+## 2026-11-06 - /shift, cluster `editable-source-over-rendered-file`
+
+- `partial-regeneration-seams`: the anchor section gained the other arm, a renderer that samples nothing, where an edit reaches what reads it, at threshold 2/0/1. One decision rule and one `use_when`. The application carries the tables. Mode `experiment`, verdict `unmeasurable`.
+- Not landed: `edit-plan-over-regeneration` gained nothing (1/1/1). The "When not to use this" narrowing stays a proposal, now with a measured arm each side. See [[2026-11-06-editable-source-over-rendered-file]].

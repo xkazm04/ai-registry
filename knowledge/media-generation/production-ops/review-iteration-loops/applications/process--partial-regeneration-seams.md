@@ -63,3 +63,42 @@ The technique's "When not to use this" clause says to edit a symbolic source and
 the whole because the render is disposable. This run did not change that clause: whether
 it should exclude an approved performance is a scope decision, recorded as a proposal in
 the source note.
+
+## The other arm: an edit through a renderer that samples nothing
+
+A second local run on 2026-11-06 measured the same question on a hand-written HTML
+composition of 600 frames at 1280x720, 40 lines of code with no generated leaf and every
+frame a function of time. Edge headless with `--disable-gpu`, PNG capture over CDP, one
+browser process per arm, written to FFV1 and to libx264 crf 18 medium yuv420p, compared
+by `framemd5` against a base arm. No GPU work and no model.
+
+| Source change | Frames with changed state | Lossless frames changed | Where | Delivered frames changed |
+|---|---|---|---|---|
+| None, control | 0 | 0 of 600 | - | 0 |
+| One caption string | 120 | 119 | 241-359, inside a box of 1.1% of the picture | 264, frames 236-499 |
+| One number, title font size | 600 | 580 | 3-582, largest single-frame box 8% | 600 |
+| One line, the shared `ease` | 242 | 242 | Five stretches, largest single-frame box 58% | 600 |
+
+Two independent runs of this script agreed on every count. Its 16 spans for the curve are
+five stretches of the timeline, split 11 times by one frame where the old and new curves
+cross at their midpoint. A separate pass read each element's state per frame with no
+capture, chosen to falsify the claim: no frame changed in pixels without a change in
+state. So state predicted the frames, and over-predicted only where the element was
+invisible.
+
+On the caption edit, PSNR against the base encode was 63.5 dB or better at frames 236-240,
+29 dB or better inside the edit, 54.2 dB or better at frames 360-499, and identical from
+500. Keyframes in both files sit at 0, 250 and 500. That lookahead and references carry
+the spill is a reading from the encoder's design, and it was not isolated.
+
+Frame order, 11 sampled frames against a first ascending walk, in two runs of one script:
+a second ascending walk differed on 0 and 0. A descending walk on 6 and 6, a reload before
+each frame on 9 and 9, a 5-frame walk-in on 3 and 4, a double render on 1 and 1. The
+worst case was 9 pixels, and the largest difference 9 of 255. Nothing in the composition
+holds state between frames.
+
+The sampler arm above and this arm answer the same question on different media with
+different instruments, and they are not one experiment. These counts say identical or
+different. Nobody watched these files, and they cannot say which take is better. Whether a
+vendor editor's project file behaves this way was not tested: no such editor is on this
+machine, and expressions inside a project are code that may reach further.

@@ -1,0 +1,72 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "shift-editable",
+  "skill": "shift",
+  "skill_version": "0.3.1",
+  "mode": "source",
+  "domain": "media-generation",
+  "started_at": "2026-11-06T18:13:38.620Z",
+  "ended_at": "2026-11-06T18:46:11.571Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 2,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0,
+    "held": 1
+  },
+  "subjects": [
+    {
+      "id": "media-generation/review-iteration-loops",
+      "at": "2026-11-06",
+      "engine": "shift",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    },
+    {
+      "id": "media-generation/video-assembly",
+      "at": "2026-11-06",
+      "engine": "shift",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    },
+    {
+      "id": "media-generation/sound-effect-generation",
+      "at": "2026-11-06",
+      "engine": "shift",
+      "outcome": "held",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "review-iteration-loops",
+      "technique": "partial-regeneration-seams",
+      "verdict": "unmeasurable",
+      "mode": "experiment"
+    }
+  ],
+  "files": [
+    "knowledge/media-generation/production-ops/review-iteration-loops/techniques/partial-regeneration-seams.md",
+    "knowledge/media-generation/production-ops/review-iteration-loops/applications/process--partial-regeneration-seams.md",
+    "knowledge/media-generation/production-ops/video-assembly/applications/process--generated-shot-sourcing.md",
+    "librarian/sources/2026-11-06-editable-source-over-rendered-file.md",
+    "librarian/sources/index.md",
+    "librarian/applied.md",
+    "librarian/harvest/backlog.jsonl",
+    ".claude/skills/intake/SCORECARD.md",
+    ".claude/skills/intake/LESSONS.md",
+    "librarian/subjects/media-generation/review-iteration-loops.md",
+    "librarian/subjects/media-generation/video-assembly.md",
+    "librarian/subjects/media-generation/sound-effect-generation.md"
+  ],
+  "commits": [],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "One amendment at threshold, weak convergence stated; two dated bullets; three held rows; two miner accepts folded; no project changed."
+}

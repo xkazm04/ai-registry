@@ -119,6 +119,19 @@ carrying no revision note are as of the original sheet.
   practitioner's page for a 58.75 s scene, created 2026-09-20, shows 8 generations and
   915 credits, about 15.6 per finished second, with the same caveats as the two records
   above. He said "like 900" on camera. Whether a failed test is included is unknown.
+- **A hosted connector that drives a local motion editor (read 2026-11-06, vendor page,
+  skill files not read).** Nine of the 18 skills its page lists name After Effects, most
+  promising editable motion, and the page says to install the editor "on the same
+  computer". Its revision prompt tells the agent to "Inspect the relevant composition,
+  layers, and expressions, then update the animation". That is the vendor's wording, and
+  no run of it was seen. One practitioner reports the desktop agent surface was needed and
+  a chat surface would not run it.
+- **A spend record for an agent-written project (read 2026-11-06, one practitioner's
+  report, September 2026).** A 30-second UI animation written by an agent into a project
+  file took about 48 to 50 minutes unattended and "11% of the day" on a $100-a-month plan,
+  plus about 20 minutes of hand-placed sound. About 20 minutes of hand fixes are reported
+  separately, his screens were designed beforehand, and a second agent took 35 minutes on a
+  first attempt. No revision or re-render was timed, and nothing was measured here.
 
 ## Pipeline facts (retiring a forge-era claim)
 
@@ -157,6 +170,8 @@ explainers are production-viable unattended.
 - https://docs.byteplus.com/en/docs/ModelArk/2291680 (accessed 2026-11-06)
 - https://higgsfield.ai/genjutsu (accessed 2026-11-06)
 - https://higgsfield.ai/@joeysnoisygroup/projects/mira-and-the-dragon (accessed 2026-11-06)
+- https://higgsfield.ai/mcp (accessed 2026-11-06)
+- https://www.youtube.com/watch?v=r2UTG2ZyZTU (accessed 2026-11-06)
 
 **Tiering note on the 2026-09 revision.** Every source above is a relay; no
 vendor model card states 2.5's resolution, price or per-request limits, and the
