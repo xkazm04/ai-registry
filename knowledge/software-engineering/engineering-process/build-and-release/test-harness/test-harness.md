@@ -29,6 +29,7 @@ techniques:
   - assert-through-the-reader
   - mutation-lane-with-a-triaged-baseline
   - assert-the-schedule-not-the-stopwatch
+  - a-test-helper-is-a-fork-of-the-driver
   - proved-off-the-path
 ---
 
@@ -152,7 +153,9 @@ the program* and so fails in both directions
 Every rung assumes the suite runs what production runs. A suite can assemble its own path instead: an
 integration test that hands a guard's output to a worker production builds without it, or a program
 written beside a model-run procedure so that something could be tested
-([proved-off-the-path](./techniques/proved-off-the-path.md)).
+([proved-off-the-path](./techniques/proved-off-the-path.md)). It can also reach the shipped code and differ in everything around it: a
+helper with an empty prelude, a fake that defaults to a pass, a fixture on another journal mode
+([a-test-helper-is-a-fork-of-the-driver](./techniques/a-test-helper-is-a-fork-of-the-driver.md)).
 
 ## Reaching the code is not the same as watching it run
 

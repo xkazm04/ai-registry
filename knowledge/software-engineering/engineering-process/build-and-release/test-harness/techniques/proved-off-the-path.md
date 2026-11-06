@@ -79,6 +79,8 @@ calls from the entry point.
 - **A deterministic twin that runs in production** and is compared with the model's output. That is
   a check with a consumer, and the comparison is what stops the drift.
 - **Two production implementations of one rule.** Both run, so the question is parity.
+- **A helper that reaches the shipped code with different setup.** The walk finds the call, and the fork is in
+  what surrounds it: [a-test-helper-is-a-fork-of-the-driver](./a-test-helper-is-a-fork-of-the-driver.md).
 
 ## What was measured
 

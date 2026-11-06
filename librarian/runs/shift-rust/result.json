@@ -1,0 +1,165 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "shift-rust",
+  "skill": "shift",
+  "skill_version": "0.4.0",
+  "mode": "source",
+  "domain": "software-engineering",
+  "started_at": "2026-11-06T20:31:10Z",
+  "ended_at": "2026-11-06T20:54:17Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 8,
+    "declined": 0,
+    "idled": 1,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "software-engineering/test-harness",
+      "at": "2026-11-06",
+      "engine": "shift",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    },
+    {
+      "id": "software-engineering/invariant-placement",
+      "at": "2026-11-06",
+      "engine": "shift",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    },
+    {
+      "id": "software-engineering/concurrency-guards",
+      "at": "2026-11-06",
+      "engine": "shift",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    },
+    {
+      "id": "software-engineering/error-handling",
+      "at": "2026-11-06",
+      "engine": "shift",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    },
+    {
+      "id": "software-engineering/agent-runtime-assembly",
+      "at": "2026-11-06",
+      "engine": "shift",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    },
+    {
+      "id": "software-engineering/subprocess-lifecycle",
+      "at": "2026-11-06",
+      "engine": "shift",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    },
+    {
+      "id": "software-engineering/tool-result-economy",
+      "at": "2026-11-06",
+      "engine": "shift",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    },
+    {
+      "id": "software-engineering/measurement-honesty",
+      "at": "2026-11-06",
+      "engine": "shift",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    },
+    {
+      "id": "software-engineering/dead-code",
+      "at": "2026-11-06",
+      "engine": "shift",
+      "outcome": "idled",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "test-harness",
+      "technique": "a-test-helper-is-a-fork-of-the-driver",
+      "verdict": "unmeasurable",
+      "mode": "experiment"
+    },
+    {
+      "subject": "invariant-placement",
+      "technique": "a-new-field-must-choose",
+      "verdict": "unmeasurable",
+      "mode": "experiment"
+    },
+    {
+      "subject": "invariant-placement",
+      "technique": "string-keyed-context-is-an-unchecked-join",
+      "verdict": "unmeasurable",
+      "mode": "experiment"
+    },
+    {
+      "subject": "concurrency-guards",
+      "technique": "replace-is-visible-before-durable",
+      "verdict": "unmeasurable",
+      "mode": "experiment"
+    },
+    {
+      "subject": "error-handling",
+      "technique": "consumer-decides-error-shape",
+      "verdict": "better",
+      "mode": "experiment"
+    }
+  ],
+  "files": [
+    "knowledge/software-engineering/engineering-process/build-and-release/test-harness/techniques/a-test-helper-is-a-fork-of-the-driver.md",
+    "knowledge/software-engineering/engineering-process/build-and-release/test-harness/applications/process--a-test-helper-is-a-fork-of-the-driver.md",
+    "knowledge/software-engineering/engineering-process/build-and-release/test-harness/test-harness.md",
+    "knowledge/software-engineering/engineering-process/build-and-release/test-harness/techniques/proved-off-the-path.md",
+    "knowledge/software-engineering/engineering-process/standards-and-gates/invariant-placement/techniques/a-new-field-must-choose.md",
+    "knowledge/software-engineering/engineering-process/standards-and-gates/invariant-placement/applications/rust--a-new-field-must-choose.md",
+    "knowledge/software-engineering/engineering-process/standards-and-gates/invariant-placement/techniques/string-keyed-context-is-an-unchecked-join.md",
+    "knowledge/software-engineering/engineering-process/standards-and-gates/invariant-placement/applications/rust--string-keyed-context-is-an-unchecked-join.md",
+    "knowledge/software-engineering/engineering-process/standards-and-gates/invariant-placement/invariant-placement.md",
+    "knowledge/software-engineering/backend-platform/work-execution/concurrency-guards/techniques/replace-is-visible-before-durable.md",
+    "knowledge/software-engineering/backend-platform/work-execution/concurrency-guards/applications/rust--replace-is-visible-before-durable.md",
+    "knowledge/software-engineering/backend-platform/work-execution/concurrency-guards/concurrency-guards.md",
+    "knowledge/software-engineering/backend-platform/work-execution/concurrency-guards/techniques/atomic-file-publish.md",
+    "knowledge/software-engineering/engineering-process/codebase-stewardship/dead-code/techniques/instrument-per-orphan-class.md",
+    "knowledge/software-engineering/backend-platform/resilience/error-handling/techniques/consumer-decides-error-shape.md",
+    "knowledge/software-engineering/backend-platform/resilience/error-handling/techniques/structured-propagation.md",
+    "knowledge/software-engineering/backend-platform/resilience/error-handling/applications/rust--consumer-decides-error-shape.md",
+    "knowledge/software-engineering/llm-agent/runtime-and-io/agent-browser-control/techniques/agent-actionable-errors.md",
+    "knowledge/software-engineering/llm-agent/runtime-and-io/agent-runtime-assembly/techniques/rewriting-under-a-foreign-gate.md",
+    "knowledge/software-engineering/llm-agent/runtime-and-io/agent-runtime-assembly/applications/rust--rewriting-under-a-foreign-gate--rtk.md",
+    "knowledge/software-engineering/llm-agent/runtime-and-io/subprocess-lifecycle/applications/rust--decode-child-output-per-line--rtk.md",
+    "knowledge/software-engineering/llm-agent/prompt-and-context/tool-result-economy/applications/rust--untransformed-arm-is-the-floor--rtk.md",
+    "knowledge/software-engineering/engineering-assessment/measurement-method/measurement-honesty/applications/rust--the-baseline-is-the-untouched-path--rtk.md",
+    "librarian/sources/2026-11-06-rust-craft.md",
+    "librarian/sources/2026-10-14-rtk.md",
+    "librarian/subjects/software-engineering/test-harness.md",
+    "librarian/subjects/software-engineering/invariant-placement.md",
+    "librarian/subjects/software-engineering/concurrency-guards.md",
+    "librarian/subjects/software-engineering/error-handling.md",
+    "librarian/subjects/software-engineering/agent-runtime-assembly.md",
+    "librarian/subjects/software-engineering/subprocess-lifecycle.md",
+    "librarian/subjects/software-engineering/tool-result-economy.md",
+    "librarian/subjects/software-engineering/measurement-honesty.md",
+    "librarian/subjects/software-engineering/dead-code.md"
+  ],
+  "commits": [],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "6 rows landed at the +3 bar: 3 techniques at net 3, 1 at net 3 after overlap risk, 1 amendment on a refuting re-run, 1 currency repair. 14 miner accepts banked at net 2; 3 died on the read. No project changed, no held rows, E4 proposed."
+}

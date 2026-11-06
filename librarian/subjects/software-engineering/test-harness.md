@@ -64,6 +64,10 @@ means the suite is genuinely broad and the scoped report was *understating* the
 project. What the scope hid is a population — 490 files at 0%, none previously
 visible. Both shipped; neither gate weakened.
 
+## 2026-11-06 - shift-rust ([[2026-11-06-rust-craft]])
+
+`a-test-helper-is-a-fork-of-the-driver` is new, top of the attention list. A sibling landed `proved-off-the-path` minutes before this write, and the two were separated by a test: there the walk finds no call, here it finds one and the setup differs. Scored with +1 risk for the overlap. The fork was measured on own schema; the remedy is one tree's unlanded plan, unmeasured. Seam: a fixture on the shipped chain whose project comment already names the gap, read only.
+
 ## Open leads (banked, with return conditions)
 
 - **Fail closed on the adversarial race, absorb the platform's benign drift.**

@@ -42,7 +42,9 @@ reference-shaped check while being fully dead:
 - **Dead knobs** — configuration fields that parse, validate, persist, and are read
   by no behavior. The schema keeps them alive; the settings surface renders them;
   users set them; nothing branches. A dead knob is worse than dead code because it
-  is a *live lie to the user*.
+  is a *live lie to the user*. A settable action that writes a key into a per-request
+  bag with no reader is the same class
+  ([string-keyed-context-is-an-unchecked-join](../../../standards-and-gates/invariant-placement/techniques/string-keyed-context-is-an-unchecked-join.md)).
 - **Unexercised verifiers** — proof scripts, hand-run checks, verification
   lanes whose only trigger is a human habit that lapsed. The class inverts the
   usual carrying cost: other dead code merely rides along, but a dead check

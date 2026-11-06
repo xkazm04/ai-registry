@@ -20,6 +20,10 @@ form. The source's rule was too wide: a lock as its own statement with a later c
 `concurrent-admission-integrity` prescribes in llm-observability, so the two bundles agree, and the discriminator is
 whether the read sits in the statement that waited. No cross-bundle link. Other engines unread; no fleet seam.
 
+## 2026-11-06 - shift-rust ([[2026-11-06-rust-craft]])
+
+`replace-is-visible-before-durable` is new, spine item 10, linked from `atomic-file-publish`. Second voice has the opposite default, and the discriminator is what the caller can still do. Measured here: a plain open of a directory is refused on Windows, so the Windows half is a fact now. Power-cut half is the manual page only. A stronger ordering does not join two stores stays untriaged at 2/0/2.
+
 ## Open leads (banked, convergence rule applies)
 
 - Any manual/out-of-band release door makes identity-checked eviction

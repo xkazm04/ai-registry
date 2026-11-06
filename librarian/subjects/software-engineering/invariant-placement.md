@@ -2,7 +2,7 @@
 subject: invariant-placement
 domain: software-engineering
 touched_by: intake
-last_touched: 2026-09-16
+last_touched: 2026-11-06
 dry_streak: 0
 ---
 
@@ -227,3 +227,7 @@ one consumer at a time.
 ### 2026-09-17 - `/harvest backlog` wave 6, one technique + one application
 
 `paired-sites-localize-the-fault`, landed from a six-rule bundle whose headline rule was refused. The rule as usually stated - assert an invariant before the write and again after the read - is right about the shape and wrong about the payoff. **The pair buys localization, not detection.** A single external round-trip test caught the same defect; what it could not do was say which side produced it. So the reason to pay for two sites is attribution, and a landing that claimed a detection gain would have been claiming something the measurement did not show. The half that is genuinely load-bearing: **the two sites do not have the same standing.** The read-side assertion is derived from what the consumer actually does; the write-side one is usually copied from a sentence in a comment. Measured, the write-side assertion written from the prose refused a legal input, because the consumer splits at the first separator and only the leading component was ever constrained. Derive the precondition from the code that consumes it, or the pair refuses things the system accepts. And a rule the unit did not ask for, found by measurement: **'keep assertions on in production' is two questions.** Whether a check runs is a severity decision this corpus already settles by who supplies the value. Whether a check is PRESENT is not a decision - a stripped check still compiles its operands, so a pre-operation snapshot can make the shipping profile the only build that refuses the module, and a debug-only blocking lane is structurally unable to see it. Neither fleet Rust project compiles the shipping profile on a blocking rung. On the density floor this bundle proposed: refused, and the reasoning is worth more than the refusal. A difference-in-differences came back significant in the harmful direction and was **not reported as a refutation**, because its own positive control could not detect a halving. What settled it instead was countable: the reference campaign was repaired by two same-day fix commits, and it shipped a helper whose documented purpose was to keep an assertion a no-op so it would compile in every profile - `proxy-metric-counts-its-own-satisfiers`, realized in the code rather than predicted.
+
+## 2026-11-06 - shift-rust ([[2026-11-06-rust-craft]])
+
+`a-new-field-must-choose` and `string-keyed-context-is-an-unchecked-join` are new, both at exactly the +3 bar with a second author. Field half of the first has one voice and a compiler run; the enumeration half has two. The second carries the correction that written-never-read fails at a command boundary. No fleet seam big enough for either. A derived decoder as a second constructor stays untriaged at 2/0/2, one voice.

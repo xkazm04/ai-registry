@@ -1,7 +1,7 @@
 ---
 subject: subprocess-lifecycle
 domain: software-engineering
-last_touched: 2026-10-14
+last_touched: 2026-11-06
 touched_by: intake
 dry_streak: 0
 ---
@@ -21,6 +21,10 @@ round-trip at daemon load, not heartbeats - no periodic pulse exists.
 - The operative rule is ordering: **placement decides cancellability, so decide it in that order.** Running contributions in the host's own isolate and then discovering cancellation must be cooperative *because of that placement* is writing the consequence down as the requirement.
 - Also states the two counts (units signalled, units reaped) and the honesty obligation: publish what a cancel *reclaims* versus what it merely *stops watching*, the way `guest-execution-bounding` publishes counted and uncounted ceilings.
 - **Applied `experiment` to a fleet desktop agent host, verdict `better`, `structural-only` - and the tree holds BOTH SIDES of the discriminator, which is better evidence than a tree that simply got it wrong.** Its agent-execution canceller runs the full ladder: mark cancelled, kill the child OS process (the comment names the stake - stop API credit consumption), then await the held handle under a bounded 5s grace so metrics finish writing. Its background-job path has nothing to terminate and writes the same terminal status anyway - **29 guarded-spawn sites, 2 bind the handle and both are the same unit test**, so 27 production tasks are un-abortable and reaped is structurally zero, and the job entry type had no handle slot at all - a detail asserted here from a second-hand report and corrected by the worker that executed the fix. The two paths differ in exactly one property, and neither was designed against the other: placement decided cancellability, as an accident of which spawn helper a caller reached for. An earlier over-broad reading of this row (that the whole tree lacked reclamation) was corrected by a peer comparison study and re-verified at source. Order of work: stop asserting a reclaim on the path that cannot perform one, THEN close the gap.
+
+## 2026-11-06 - shift-rust ([[2026-11-06-rust-craft]])
+
+Currency only: rtk decode application re-pinned; an adoption count that could not be reproduced was replaced with a stated pattern. See [[2026-10-14-rtk]]. `running-session-plans-a-settings-change` stays untriaged at 2/0/2, one voice.
 
 ## Open leads (banked, convergence rule applies)
 

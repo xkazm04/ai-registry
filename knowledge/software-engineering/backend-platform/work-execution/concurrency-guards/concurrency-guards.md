@@ -20,6 +20,7 @@ techniques:
   - preparation-is-the-staleness-window
   - shared-claims-by-announce-and-verify
   - cap-predicate-on-the-locked-row
+  - replace-is-visible-before-durable
 ---
 
 # Idempotency & in-flight guards
@@ -151,6 +152,10 @@ From that stance, the spine of the subject:
    blocked still counts from the snapshot it started with. Compare on the locked
    row's own column, or take the lock as an earlier statement
    (see cap-predicate-on-the-locked-row).
+10. **A publish has a third outcome.** The replace can succeed and the flush of its
+   directory entry fail: readers see the successor, a crash may undo it, and the
+   writer holds an error that must not read as "not published"
+   (see replace-is-visible-before-durable).
 
 
 ## The cluster lock: where cross-process exclusion becomes high availability

@@ -1,7 +1,7 @@
 ---
 subject: agent-runtime-assembly
 domain: software-engineering
-last_touched: 2026-10-14
+last_touched: 2026-11-06
 dry_streak: 0
 touched_by: intake
 ---
@@ -513,3 +513,7 @@ Unapplied in the fleet: no project rewrites an agent's commands under a host's
 rules. Return: when one ships a rewriting pre-tool hook. Untriaged: argument
 fidelity in a transparent proxy (parse only your own flags, ask the tool,
 fuzz against it).
+
+## 2026-11-06 - shift-rust ([[2026-11-06-rust-craft]])
+
+Currency only: `rewriting-under-a-foreign-gate` sentence and its rtk application repaired after the source moved to the file's own fail-closed rule. Two amendments stay untriaged at 2/0/1 under the +3 bar. See [[2026-10-14-rtk]].
