@@ -1,0 +1,66 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "shift-currency",
+  "skill": "shift",
+  "skill_version": "0.3.0",
+  "mode": "source",
+  "domain": "media-generation",
+  "started_at": "2026-11-06T17:19:00Z",
+  "ended_at": "2026-11-06T17:39:46Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 2,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "llm-observability/llm-price-book-operations",
+      "at": "2026-11-06",
+      "engine": "shift",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    },
+    {
+      "id": "media-generation/generative-provider-routing",
+      "at": "2026-11-06",
+      "engine": "shift",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [],
+  "files": [
+    "knowledge/llm-observability/economics-and-governance/llm-price-book-operations/applications/process--no-retroactive-repricing.md",
+    "knowledge/media-generation/visual-generation/generative-provider-routing/applications/process--vendor-fact-ledger.md",
+    "librarian/sources/2026-10-25-kimi-k31-3d-tests.md",
+    "librarian/sources/2026-11-06-weekly-model-currency.md",
+    "librarian/sources/index.md",
+    "librarian/harvest/backlog.jsonl",
+    ".claude/skills/intake/SCORECARD.md",
+    "librarian/subjects/llm-observability/llm-price-book-operations.md",
+    "librarian/subjects/media-generation/generative-provider-routing.md"
+  ],
+  "commits": [
+    {
+      "sha": "e7f713676",
+      "branch": "main",
+      "pathspec": [
+        ".claude/skills/intake/SCORECARD.md",
+        "librarian/harvest/backlog.jsonl",
+        "librarian/sources/index.md",
+        "catalog.json",
+        "knowledge/llm-observability/index.json",
+        "knowledge/media-generation/index.json"
+      ]
+    }
+  ],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "Currency only: six dated facts in 2 applications and 1 note, no re-dating. Three held rows. One voice."
+}

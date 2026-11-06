@@ -82,7 +82,17 @@ length tier — the token-class map (re-verify by the frontmatter date):
   reports the write volume under TTL-specific usage keys; cache reads bill at
   ~0.1×.
 - **OpenAI** discounts cached input automatically (roughly 50–90% off
-  depending on model), with no write premium and no storage line.
+  depending on model), with no write premium and no storage line. *Re-checked
+  2026-11-06 at the vendor's caching guide (an undated page): this now holds
+  only for GPT-5.5 and earlier, listed as "No additional cache-write charge".
+  From GPT-5.6, a write bills 1.25× uncached input for the default 30-minute
+  lifetime and 2.5× for the 12-hour one (Responses API only), chosen by
+  `prompt_cache_options.ttl` and reported as `ttl_30m_tokens` and
+  `ttl_12h_tokens`. Those are "total write rates, not surcharges on top of
+  ordinary input", so a write token is priced at the write rate alone. Reads
+  bill 0.1×, or 0.05× on GPT-6.1 Sol and Terra. Only this entry was re-checked,
+  so `verified_on` stays at the date the rest of the section was resolved
+  (https://developers.openai.com/api/docs/guides/prompt-caching).*
 - **Google Gemini's** explicit context caching bills cached tokens at about a
   quarter of the input rate **plus a non-token line: storage per million
   token-hours held** — a charge no token multiplication can produce.

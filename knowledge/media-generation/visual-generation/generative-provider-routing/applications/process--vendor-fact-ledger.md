@@ -28,7 +28,7 @@ facts, cost class, and craft quirks, each attributable to a source.
 | SDXL + derivatives | dual CLIP | tags, ~77-token window | weighting syntax works; negatives load-bearing |
 | Illustrious-XL / NoobAI-XL | SDXL-class | Danbooru tags | anime production standard; exact booru vocabulary; heavy anatomy negatives; v-pred variants need matching sampler |
 | Midjourney V8.x | proprietary | prose + parameters | `--sref`/`--oref` reference system (V8.1 default since 2026-06); `::` weights, `--no` negatives |
-| Recraft V3 | proprietary | prose | only model emitting true SVG; brand-style lock from uploads |
+| Recraft V3 | proprietary | prose | only model emitting true SVG as of 2026-08 (no longer: see Later entries); brand-style lock from uploads |
 | Ideogram 4 | proprietary | prose | long-form typography/logo specialist |
 | Seedream 5 Pro (ByteDance) | LLM-class | prose | top-tier multi-region text rendering |
 
@@ -45,7 +45,8 @@ facts, cost class, and craft quirks, each attributable to a source.
 - **Painterly / concept art**: Midjourney V8.x remains the art-director
   default.
 - **Flat vector / brand illustration**: Recraft V3 — the only true-SVG
-  emitter; everything else rasterizes "vector style".
+  emitter in 2026-08; everything else rasterized "vector style". Ideogram
+  Vector now sells it too (see Later entries).
 - **Anime/manga**: Illustrious-XL / NoobAI-XL with booru tags — the one
   niche where tag dialect and negative prompts remain essential.
 - **Batch style consistency**: explicit conditioning (Midjourney sref+oref,
@@ -69,6 +70,18 @@ cost-tier hop inside a family.
 - Imagen 4: shutdown announced for 2026-08 — do not adopt.
 - Midjourney `--cref`: superseded by `--oref` in V7+.
 
+## Later entries (each with its own access date)
+
+The snapshot above stays an August snapshot. These four were read at the vendor
+on 2026-11-06, and nothing else was re-checked, so `verified_on` does not move.
+
+| Model | Route | Licence | Quirks that bear on routing |
+|---|---|---|---|
+| Ideogram Vector (`ideogram-vector-1`) | hosted API, text to SVG and image to SVG | page does not say; its open-source links point at Ideogram 4 | $0.13 / 0.16 / 0.20 per SVG, $0.32 at high with references; $0.10 per vectorized image; "editable" is the vendor's word; no release date on the page |
+| FLUX 3 Image Klein (5.5B) | open weights, sign-in to download (`gated: auto`), repo created 2026-10-13 | FLUX Kommunity License v1.0: non-commercial, plus commercial output for Qualifying Users under US$5M gross annualized revenue, affiliates included; "not blanket permission for commercial fine-tuning or distribution" | distilled 16 steps with no guidance, base 50 steps at CFG 3.5. The split is by the user's revenue, not by model size, so the FLUX.2 Klein sentence above does not carry over |
+| Qwen-Image 2.1 and 2.1 Turbo (7B) | open weights, repos created 2026-09-14 and 2026-10-09 | Qwen Research License on both: "research or evaluation purposes only", a separate licence for any commercial use | Turbo is 8 steps, CFG 1, schedule saved in the checkpoint, so `num_inference_steps` alone does not override it. "Open" in the 2.0 row above does not mean a commercial route here |
+| Krea 3 | hosted API, `POST /generate/image/krea/krea-3`; no weights mentioned at the vendor | not stated | base $0.03 at 1K, $0.06 at 2K, plus references and thinking mode. `regional_edit` is "a local edit that keeps the rest of the image exact", with bounding-box `regions`. "Reusing a seed does not guarantee identical results, because the prompt expansion step can vary between runs", so a fixed seed is no repeat control on this route |
+
 ## Sources (accessed 2026-08-20)
 
 - https://www.buildmvpfast.com/articles/best-llms-2026-guide/image-generation-ai
@@ -89,3 +102,8 @@ cost-tier hop inside a family.
   FLUX.2 [klein] 4B models under an Apache 2.0 license and ... the 9B models under a
   non-commercial license"; only this entry was re-checked, so `verified_on` stays at the
   date the rest of the ledger was resolved
+- Accessed 2026-11-06, for Later entries only:
+  https://ideogram.ai/models/vector;
+  https://huggingface.co/black-forest-labs/flux-3-image-klein-comfy;
+  https://huggingface.co/Qwen/Qwen-Image-2.1-Turbo and its LICENSE;
+  https://krea.ai/docs/developers/krea-3/overview
