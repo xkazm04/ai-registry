@@ -12,6 +12,7 @@ techniques:
   - alert-lifecycle
   - escalation-routing
   - periodic-digest
+  - count-spike-rule
 ---
 
 # Alerting & thresholds
@@ -58,7 +59,9 @@ inside the signal's own noise is a rule that alerts on the instrument
 breathing.** Thresholds are *derived* — placed a stated distance above the
 observed run-to-run spread of the measurement — not chosen for being round
 numbers, and the constant carries its derivation with it so the next person
-to tune it knows what it was clear of. Each of these authoring defects is
+to tune it knows what it was clear of. Where the signal is a daily count judged with no
+model, that derivation has named parts and a guard with a price
+([count-spike-rule](./techniques/count-spike-rule.md)). Each of these authoring defects is
 catastrophically expensive to discover in production instead, because the
 always-true rule burns the channel's credibility and the never-true rule
 provides fake coverage: the team believes a condition is watched when
@@ -229,3 +232,6 @@ kind of noise. That is [periodic-digest](./techniques/periodic-digest.md).
 - [periodic-digest](./techniques/periodic-digest.md) — the batched channel;
   the signal gate and adaptive cadence; which alert classes may wait for the
   batch; at-most-once-per-window claims taken before the send.
+- [count-spike-rule](./techniques/count-spike-rule.md) — seasonality, a past spike,
+  short baselines and growth as separate problems; the count-noise floor; pricing the
+  multiple-of-median guard; the series idle on many days that the rule misreads.

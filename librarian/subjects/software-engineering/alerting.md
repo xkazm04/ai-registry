@@ -1,7 +1,7 @@
 ---
 subject: alerting
 domain: software-engineering
-last_touched: 2026-09-29
+last_touched: 2026-11-06
 dry_streak: 0
 ---
 
@@ -39,6 +39,13 @@ ascent: needs real observation rows).
 None stale. All 15 `alerting` pairs in the fleet map are `unknown` (never judged): tracklight 3,
 pof 5, personas 3, pumper 1, kp 1, systedo-case 1, ascent 1. Nothing was judged against this
 subject, so nothing went stale; the 15 pairs are `/conform` work.
+
+## 2026-11-06 - shift-factories ([[2026-11-06-agent-factories]])
+
+`count-spike-rule` is new. The miner's simulation was re-run in fresh code. The source is a product and no factory
+evidence. Falsifying seam: a daily cost rule. Target moved, floor fell at 92 false alerts a year against 26 on a
+series idle half its days, so `not-better`, and the boundary is in the technique. The source's count rule has the
+same blind spot, at 36 %. All series synthetic. Open: real series; what an idle day means for spend.
 
 ## Open leads (banked, convergence rule applies)
 

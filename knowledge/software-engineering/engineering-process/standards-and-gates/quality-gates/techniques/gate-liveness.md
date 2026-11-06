@@ -6,7 +6,7 @@ technique: gate-liveness
 status: forged
 laws: [failure-not-empty-success, gate-sees-target]
 shared_with: []
-use_when: [deciding whether a clean exit means anything was checked, seeding a known violation to watch a new gate go red, a gate that has been green for a year, a checker whose population is computed from a date ref or ordering rather than the whole tree, retrofitting a rule onto an artifact that already violates it, a check reports a plausible non-zero count and the rule still drifts, a gate whose scope is empty unless a flag is passed, a probe scheduled beside the population it is supposed to certify, a permanently red check whose red nobody reads any more, deciding what a liveness probe's history should keep]
+use_when: [deciding whether a clean exit means anything was checked, seeding a known violation to watch a new gate go red, a gate that has been green for a year, a checker whose population is computed from a date ref or ordering rather than the whole tree, retrofitting a rule onto an artifact that already violates it, a check reports a plausible non-zero count and the rule still drifts, a gate whose scope is empty unless a flag is passed, a probe scheduled beside the population it is supposed to certify, a permanently red check whose red nobody reads any more, deciding what a liveness probe's history should keep, a gate piped to tail or head before a commit, a commit landed past a red gate, a false exit code 141 from a gate]
 ---
 
 # Gate liveness
@@ -286,7 +286,26 @@ that routinely eat the verdict:
 - **Pipes.** Feeding a checker's output through a pager or filter replaces
   the observed exit status with the last command's — a red run pushed
   through a pipe has been watched turning green this way, once is enough.
-  Run gates directly, or under strict pipe-failure semantics.
+  Run gates directly, or under strict pipe-failure semantics. Strict
+  semantics keep a failing producer's code only for a reader that consumes
+  to the end of its input. A reader that quits early can turn a healthy run
+  into a false red, the broken-pipe code 141, and whether it does depends on
+  the producer: a native tool returned it and a runtime that ignores the
+  broken pipe did not. So a pipe is not a way to read a verdict in either
+  mode. Send the output to a run-unique file, read the child's status, then
+  read the file. A filter adds its own hazard, because a filter written to
+  trim output can delete the could-not-run lines the three-outcome
+  vocabulary exists to print.
+- **Statement separators.** A pipe discards the status, and a plain
+  separator ignores it. The form that commits past a red gate has both: the
+  gate through a last-lines and a first-line reader, a separator, then the
+  commit. With the pipe fixed, the commit still runs. The status has to be
+  a condition on the next command, in the shell's own spelling, and a shell
+  without a conditional chain operator makes the separator the easy thing
+  to write. The shape comes from trimming long output, so it recurs with no
+  instruction behind it: in one repository's agent transcripts, 17 of 25
+  distinct full-gate command strings went through a reader, and one of those
+  read a pipeline status.
 - **Wrappers and task runners** that catch the child's failure, print it,
   and exit clean — turning refusal into narration.
 - **Announced skips.** A gate whose dependency is absent and says so

@@ -10,6 +10,7 @@ techniques:
   - blocking-by-input-determinism
   - gate-liveness
   - hook-hygiene
+  - gate-the-line-move
   - false-positive-economics
   - unmeasurable-criteria
   - policy-projection
@@ -485,7 +486,11 @@ hooks are non-interactive and time-bounded; hooks scope to what is being
 committed, not to whatever else is in the tree; and hook *installation* is
 itself a liveness problem, because a hook that was never installed reports
 nothing and looks identical to a hook that passed. The full protocol is
-[hook-hygiene](./techniques/hook-hygiene.md).
+[hook-hygiene](./techniques/hook-hygiene.md). A commit-stage hook also sees only
+commits, while a line moves by rebase, fast-forward and plumbing updates as well;
+a rule that must hold on every route belongs on the reference update, and only if
+it reads the move rather than the disk
+([gate-the-line-move](./techniques/gate-the-line-move.md)).
 
 ## Gating a convention: making "everything goes through the wrapper" checkable
 
@@ -616,6 +621,9 @@ is asked to refuse something.
 - [hook-hygiene](./techniques/hook-hygiene.md) — never mutate the worktree,
   staged-content scoping, non-interactive discipline, bypass policy, and
   installation as a liveness problem.
+- [gate-the-line-move](./techniques/gate-the-line-move.md) — the reference update
+  as the one event every route shares, what may run while it is locked, what a
+  refusal costs the mover, and why a whole-tree gate does not belong there.
 - [oracle-frozen-during-repair](./techniques/oracle-frozen-during-repair.md)
   — what counts as the oracle, red-first ordering as proof of defect, the
   mechanical freeze and its weaker fallbacks, verdict from the toolchain,

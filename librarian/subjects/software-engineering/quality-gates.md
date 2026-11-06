@@ -1,7 +1,7 @@
 ---
 subject: quality-gates
 domain: software-engineering
-last_touched: 2026-10-06
+last_touched: 2026-11-06
 touched_by: intake
 dry_streak: 0
 ---
@@ -91,6 +91,14 @@ the technique's opening:
   concurrent commit, and merging continued. Confirms the claim as written,
   which already carries a wild measurement (zero successes across hundreds of
   runs). No edit — and see the deviation below.
+
+## 2026-11-06 - shift-factories ([[2026-11-06-agent-factories]])
+
+Two rows landed, from two factory trees. `gate-the-line-move` is new: a commit-stage hook refused 1 of 12 routes
+and a prepared-state ref hook 11, on our own probe, with rebase and cost added to the miner's. `gate-liveness`
+gained the rest of the pipe sentence and a bullet for separators, after the transcript showed the commit past a red
+gate had both. Its standing sentence stays true. Whole-tree gates stay off the ref move while landers share one
+checkout. Open: a project's own filtered hook through its real mover; refusal classification in a mover.
 
 ## Open leads (banked, with return conditions)
 

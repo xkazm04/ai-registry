@@ -4,8 +4,8 @@
   "bundle": "software-engineering",
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 245,
-  "techniques": 1971,
-  "applications": 1481,
+  "techniques": 1974,
+  "applications": 1485,
   "laws": 16,
   "categories": [
    "ui-surfaces",
@@ -20,7 +20,7 @@
    "secret-custody-and-issuance"
   ],
   "layout": "nested",
-  "use_when_coverage": "1971/1971",
+  "use_when_coverage": "1974/1974",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -3363,9 +3363,9 @@
    "subcategory": "platform-observability",
    "status": "forged",
    "file": "knowledge/software-engineering/backend-platform/platform-observability/alerting/alerting.md",
-   "digest": "sha256-b2:90e16e9a2b80434b",
-   "revision": 4,
-   "changedAt": "2026-09-29",
+   "digest": "sha256-b2:58a3ee8f04496d42",
+   "revision": 5,
+   "changedAt": "2026-11-06",
    "techniques": [
     {
      "slug": "absence-as-a-condition",
@@ -3393,6 +3393,24 @@
       "deciding whether an ack is ownership or closure",
       "suppressed repeats showing up as separate alerts",
       "a rule whose resolutions are mostly noise dismissals"
+     ]
+    },
+    {
+     "slug": "count-spike-rule",
+     "status": "forged",
+     "laws": [
+      "count-carries-predicate",
+      "failure-not-empty-success"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "judging a daily count for a spike with no model fitting",
+      "a baseline of about eight same-weekday points",
+      "one earlier spike blinded the rule to the next",
+      "median and MAD fired more than the mean and standard deviation",
+      "a multiple-of-median guard misses a real surge",
+      "a series that is idle on many days",
+      "a daily cost anomaly rule"
      ]
     },
     {
@@ -3484,6 +3502,12 @@
      "file": "knowledge/software-engineering/backend-platform/platform-observability/alerting/applications/next--absence-as-a-condition.md",
      "verified_on": "2026-09-29",
      "verified_against": "next@16"
+    },
+    {
+     "stack": "process",
+     "technique": "count-spike-rule",
+     "file": "knowledge/software-engineering/backend-platform/platform-observability/alerting/applications/process--count-spike-rule.md",
+     "verified_on": "2026-11-06"
     },
     {
      "stack": "react",
@@ -7483,9 +7507,9 @@
    "subcategory": "work-execution",
    "status": "reconciled",
    "file": "knowledge/software-engineering/backend-platform/work-execution/concurrency-guards/concurrency-guards.md",
-   "digest": "sha256-b2:ccc991958e998a93",
-   "revision": 16,
-   "changedAt": "2026-10-15",
+   "digest": "sha256-b2:2b3578300ea85b81",
+   "revision": 17,
+   "changedAt": "2026-11-06",
    "techniques": [
     {
      "slug": "atomic-file-publish",
@@ -7532,6 +7556,21 @@
       "a legitimately empty result is refetched on every call",
       "invalidating a coalesced cache while a fetch is still running",
       "a shared mutex deadlocks a whole worker after a client disconnect"
+     ]
+    },
+    {
+     "slug": "cap-predicate-on-the-locked-row",
+     "status": "forged",
+     "laws": [
+      "gate-sees-target"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "one statement locks a parent row and counts child rows to enforce a cap",
+      "a cap held in tests and went over in production",
+      "a capped insert written as a common table expression",
+      "choosing between a counter column and a count over a child table",
+      "a blocked caller is assumed to see what the winner committed"
      ]
     },
     {
@@ -7771,6 +7810,12 @@
      "file": "knowledge/software-engineering/backend-platform/work-execution/concurrency-guards/applications/node--race-catalog-with-two-histories.md",
      "verified_on": "2026-09-04",
      "verified_against": "node@22.19.0"
+    },
+    {
+     "stack": "process",
+     "technique": "cap-predicate-on-the-locked-row",
+     "file": "knowledge/software-engineering/backend-platform/work-execution/concurrency-guards/applications/process--cap-predicate-on-the-locked-row.md",
+     "verified_on": "2026-11-06"
     },
     {
      "stack": "rust",
@@ -29489,9 +29534,9 @@
    "subcategory": "standards-and-gates",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-process/standards-and-gates/quality-gates/quality-gates.md",
-   "digest": "sha256-b2:0d8378dd13155e59",
-   "revision": 54,
-   "changedAt": "2026-10-14",
+   "digest": "sha256-b2:7c06b324af49ad1b",
+   "revision": 55,
+   "changedAt": "2026-11-06",
    "techniques": [
     {
      "slug": "advancement-evidence-fields",
@@ -29673,7 +29718,26 @@
       "a gate whose scope is empty unless a flag is passed",
       "a probe scheduled beside the population it is supposed to certify",
       "a permanently red check whose red nobody reads any more",
-      "deciding what a liveness probe's history should keep"
+      "deciding what a liveness probe's history should keep",
+      "a gate piped to tail or head before a commit",
+      "a commit landed past a red gate",
+      "a false exit code 141 from a gate"
+     ]
+    },
+    {
+     "slug": "gate-the-line-move",
+     "status": "forged",
+     "laws": [
+      "gate-sees-target",
+      "failure-not-empty-success"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a check must hold however the protected branch moves",
+      "a rebase or fast-forward or plumbing update lands without running commit hooks",
+      "an orchestrator moves the branch with a low-level reference update",
+      "deciding whether a commit hook or a reference-transaction hook owns a rule",
+      "considering a whole-tree gate at the point where a ref moves"
      ]
     },
     {
@@ -30081,8 +30145,20 @@
     {
      "stack": "process",
      "technique": "gate-liveness",
+     "file": "knowledge/software-engineering/engineering-process/standards-and-gates/quality-gates/applications/process--gate-liveness--pipes.md",
+     "verified_on": "2026-11-06"
+    },
+    {
+     "stack": "process",
+     "technique": "gate-liveness",
      "file": "knowledge/software-engineering/engineering-process/standards-and-gates/quality-gates/applications/process--gate-liveness.md",
      "verified_on": "2026-09-04"
+    },
+    {
+     "stack": "process",
+     "technique": "gate-the-line-move",
+     "file": "knowledge/software-engineering/engineering-process/standards-and-gates/quality-gates/applications/process--gate-the-line-move.md",
+     "verified_on": "2026-11-06"
     },
     {
      "stack": "process",
@@ -42678,6 +42754,7 @@
     "companion-runtime/action-catalog-single-source",
     "companion-runtime/host-seam-contracts",
     "companion-runtime/metered-llm-seam",
+    "concurrency-guards/cap-predicate-on-the-locked-row",
     "concurrency-guards/critical-section-across-a-suspension",
     "concurrency-guards/cross-process-exclusion",
     "concurrency-guards/fence-inside-write-transaction",
@@ -43003,6 +43080,7 @@
     "quality-gates/fabrication-economics",
     "quality-gates/gate-laddering",
     "quality-gates/gate-liveness",
+    "quality-gates/gate-the-line-move",
     "quality-gates/hook-hygiene",
     "quality-gates/instrument-answers-only-its-own-question",
     "quality-gates/match-the-resolved-artifact",
@@ -43234,6 +43312,7 @@
     "agent-runtime-assembly/operator-tier-code-loading",
     "agent-runtime-assembly/rewrite-before-the-gate",
     "alerting/absence-as-a-condition",
+    "alerting/count-spike-rule",
     "alerting/evaluation-loop",
     "alerting/periodic-digest",
     "app-shell/lazy-section-loading",
@@ -43633,6 +43712,7 @@
     "quality-gates/enforcement-binding",
     "quality-gates/excess-indicts-the-instrument",
     "quality-gates/gate-liveness",
+    "quality-gates/gate-the-line-move",
     "quality-gates/hook-hygiene",
     "quality-gates/match-the-resolved-artifact",
     "quality-gates/oracle-frozen-during-repair",
@@ -44008,6 +44088,7 @@
     "agent-memory/recall-injection",
     "agent-memory/rejected-revision-leaves-its-evidence",
     "agent-memory/stale-served-versus-stale-answered",
+    "alerting/count-spike-rule",
     "alerting/dedup-and-cooldown",
     "analytics-time-windows/baseline-as-window-start",
     "analytics-time-windows/cohort-matched-comparison",

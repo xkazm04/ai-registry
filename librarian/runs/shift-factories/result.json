@@ -1,0 +1,106 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "shift-factories",
+  "skill": "shift",
+  "skill_version": "0.3.1",
+  "mode": "source",
+  "domain": "software-engineering",
+  "started_at": "2026-11-06T18:34:29Z",
+  "ended_at": "2026-11-06T19:34:05Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 3,
+    "declined": 0,
+    "idled": 3,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "software-engineering/quality-gates",
+      "at": "2026-11-06",
+      "engine": "shift",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    },
+    {
+      "id": "software-engineering/concurrency-guards",
+      "at": "2026-11-06",
+      "engine": "shift",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    },
+    {
+      "id": "software-engineering/alerting",
+      "at": "2026-11-06",
+      "engine": "shift",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    },
+    {
+      "id": "software-engineering/concurrent-vcs",
+      "at": "2026-11-06",
+      "engine": "shift",
+      "outcome": "idled",
+      "points_before": null,
+      "points_after": null
+    },
+    {
+      "id": "software-engineering/judgment-guardbands",
+      "at": "2026-11-06",
+      "engine": "shift",
+      "outcome": "idled",
+      "points_before": null,
+      "points_after": null
+    },
+    {
+      "id": "software-engineering/admission-queue",
+      "at": "2026-11-06",
+      "engine": "shift",
+      "outcome": "idled",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "quality-gates",
+      "technique": "gate-the-line-move",
+      "verdict": "unmeasurable",
+      "mode": "experiment"
+    },
+    {
+      "subject": "quality-gates",
+      "technique": "gate-liveness",
+      "verdict": "better",
+      "mode": "experiment"
+    },
+    {
+      "subject": "concurrency-guards",
+      "technique": "cap-predicate-on-the-locked-row",
+      "verdict": "unmeasurable",
+      "mode": "experiment"
+    },
+    {
+      "subject": "alerting",
+      "technique": "count-spike-rule",
+      "verdict": "not-better",
+      "mode": "experiment"
+    }
+  ],
+  "files": [
+    "knowledge/software-engineering/engineering-process/standards-and-gates/quality-gates/techniques/gate-the-line-move.md",
+    "knowledge/software-engineering/engineering-process/standards-and-gates/quality-gates/techniques/gate-liveness.md",
+    "knowledge/software-engineering/backend-platform/work-execution/concurrency-guards/techniques/cap-predicate-on-the-locked-row.md",
+    "knowledge/software-engineering/backend-platform/platform-observability/alerting/techniques/count-spike-rule.md",
+    "librarian/sources/2026-11-06-agent-factories.md"
+  ],
+  "commits": [],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "4 of 8 accepts landed, each re-measured by the lander: 2 techniques unmeasurable, pipes better, spike rule not-better on its floor with the boundary written in. 4 fell: struck convergence, contested home, a missed catch. No project changed, no held rows, E4 proposed."
+}
