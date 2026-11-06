@@ -93,9 +93,10 @@ The comparison has to be like with like. An inter-frame encoder carries a
 change past the edit's edges: at one common setting the 119-frame edit moved
 264 frames of the delivered file, up to the next keyframe, and the curve edit
 moved all 600, so a byte comparison on delivered files fails a correct edit.
-Frame order counts too: the same source entered in another order differed by
-at most nine pixels and nine levels of 255, in up to 9 of 11 sampled frames,
-with the cause not isolated. These are identity measurements, and nobody
+Frame order counts too: walked in descending order, the same source differed in 519
+of 600 frames, by up to 124 pixels and 29 levels of 255, and a section rendered from
+its own entry frame differed on every second frame, by up to 4 pixels, with no edit
+at all. The cause is not isolated, and one prediction of it, the title's scale, failed. These are identity measurements, and nobody
 watched the frames.
 
 ## The edit pass is itself lossy
@@ -199,7 +200,7 @@ to an honest empty state carrying what was asked and what came back.
   control before calling it local, because the bars ahead of the edit are
   resampled as well (one model, two songs, objective distance only).
 - When an edit goes through a renderer that samples nothing, name what reads
-  the thing it changed, then render twice in the same frame order and compare
+  the thing it changed, then render twice from the same entry frame in the same order and compare
   lossless frames before the delivery encoder, because a frame that does not
   read the change should come back byte-identical and a delivered file cannot
   show it (one composition, all 600 frames, one browser, identity only).

@@ -260,3 +260,7 @@ ships a placeholder for the install command, warns against the npm package this 
 - The J film transcripts are off disk, so anchors into them rest on the landed notes.
 - Miner conduct, self-reported and already in the shift log: J's miner sent one `HEAD` to ComfyUI's `/queue`, which changed nothing.
 - `ad-concept-development` and `generated-output-grading` were not opened: no accept touches them. The six plan homes were read whole.
+
+## Benchmark result, shift-editable-b17-revision-bench
+
+Run 2026-11-06, CPU only, one walk per arm, one composition, one browser, no replicate. It corrected the landed text: the samples' "nine pixels, 9 of 11" understated the order effect. Descending order: 519 of 600 frames differ, up to 124 px, delta 29; without the title's scale, 503 of 600 at the same maxima, so that predicted cause is false and the cause stays open. A section from its own entry frame: 60 of 120 differ, every even frame, up to 4 px, no edit. A retime through 21 literals: 11 of 240 before 8 s and 357 of 360 after 9 s; through one map: 0 of 240 and 4 of 360, the four predicted by float rounding of `t-1`. Reflow: 598 of 600 frames hold a visible element outside the canvas. Results: `.ai/shift/review/items/shift-editable-b17-revision-bench/results`, local.
