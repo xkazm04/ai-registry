@@ -54,5 +54,5 @@
   "pr": null,
   "declined": [],
   "failure_signature": null,
-  "notes": "Note, leads and three held rows; nothing landed in the corpus. The foot contact measure went to a lead on the render clause; the pin dropped to untriaged. rig_check refuted B13 and cleared skeleton B at declared walk poses. No proof ran. The three held rows are in the working tree of librarian/harvest/backlog.jsonl and not in this commit, because that file holds another writer's uncommitted row."
+  "notes": "Note, leads and 3 held rows; no corpus landing and no proof run. Measure went to a lead on the render clause; pin to untriaged. rig_check refuted B13, cleared skeleton B. Held rows stay uncommitted in the backlog file, which holds another writer's row."
 }
