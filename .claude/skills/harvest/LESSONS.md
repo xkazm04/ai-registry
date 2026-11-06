@@ -158,3 +158,11 @@ report now has a lane to land in.
 - 0.7.0 adds judge family and draws per arm to each row's note cell. Rests on `repeat`: of 18 settled rows, 1 records a judge's family and 1 mentions any repetition, against a law and a golden path that require both. Mid-flight runs finish on the version they loaded.
 - Not columns, because `evaluationDebt` reads `verdict` by the header's position.
 - Not yet a minimum number of draws, and not a required cross-family judge. Two draws per arm in this lander's probe saw a floor drop and could not size it. A minimum is an operator trade, proposed in the source note.
+
+## 0.7.0 - 2026-11-06 - pof (`/harvest evaluate` as a /shift filler, 2 rows, 2 draws per arm, GPT judge)
+
+- **Give both arms the same query tool.** Both trees were archived with HEAD's `scripts/registry-query.mjs` over their own `knowledge/`, and the old index still answered. That leaves the knowledge as the only registry difference. Archives under neutral folder names also keep an arm from reading its state from a path or from `git log`.
+- **`.ai/` is not always ignored in a project.** The method puts artifacts in the routed project's gitignored `.ai/` scratch, but in pof only named paths under it are ignored, so a new folder would have dirtied the checkout. They went to this repo's ignored `.ai/shift/runs/_evaluate/artifacts/` instead. Check with `git check-ignore` first.
+- **Name the checks the old corpus cannot already pass.** Two of five governed checks in one rubric and one of six in the other took full marks in all four draws. Those checks only spent judge time. The whole margin came from the rest.
+- **A site can pre-empt its probe.** The second site already computes drought flags, so its ordering check could not separate the arms. Read the site's history for the landing's vocabulary before choosing it.
+- **The verdict words differ by file.** `evaluation.md` says `impact-*`, and `run-result.mjs` accepts only `better`, `not-better`, `unmeasurable` and `COVERED`. No text maps one to the other. This pass read `impact-positive` as `better`.
