@@ -531,7 +531,7 @@ test('status counts every status in the closed set, zeros included', () => {
   assert.equal(main(['status'], h.ctx), EXIT.OK);
   const s = JSON.parse(h.out[0]);
   assert.equal(s.total, 3);
-  assert.deepEqual(s.status, { new: 2, meta: 0, transcript: 0, 'no-transcript': 0, planned: 0, approved: 0, mining: 0, landed: 0, parked: 1 });
+  assert.deepEqual(s.status, { new: 2, meta: 0, transcript: 0, 'no-transcript': 0, planned: 0, approved: 0, mining: 0, waiting: 0, landed: 0, parked: 1 });
 });
 
 test('usage errors are could-not-run', () => {

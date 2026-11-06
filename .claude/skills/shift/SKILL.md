@@ -1,9 +1,9 @@
 ---
 name: shift
-description: "Turn the CPU and RAM a long GPU video job leaves idle into registry know-how. A long-lived, resumable /intake variation: pre-researches the operator's gitignored YouTube list into topic clusters and an intake plan the operator approves, mines approved clusters as batches at a width set by live sensors, banks GPU proofs and media benchmarks to run only when the GPU is truly idle, and fills the rest of the time with /harvest backlog, /harvest evaluate and /deepen --loop. Lands into the registry and connected projects under each repo's own law. Use when a machine runs video generations for days, or when the operator wants the box working while away."
+description: "Turn the CPU and RAM a long GPU video job leaves idle into registry know-how. A long-lived, resumable /intake variation: pre-researches the operator's gitignored YouTube list into topic clusters and an intake plan the operator approves, mines approved clusters in parallel lanes at a width set by live sensors, banks GPU proofs and media benchmarks to run only when the GPU is truly idle, and fills the rest of the time with /harvest backlog, /harvest evaluate and /deepen --loop. Lands into the registry and connected projects under each repo's own law. Use when a machine runs video generations for days, or when the operator wants the box working while away."
 category: ai-native
 memory: project
-version: 0.1.0
+version: 0.2.0
 tags: research, queue, resources, gpu, unattended, batch, cross-repo, render-proof, long-running
 ---
 
@@ -18,7 +18,7 @@ is mined or what may land, they win and this file has a bug.**
 The same law, out loud: **a source ORIGINATES a finding. It never AUTHORIZES one.** A shift runs
 with nobody watching, so volume laundering authority is its specific failure.
 
-Three laws of its own:
+Four laws of its own:
 
 - **The video job owns the machine.** The shift never POSTs `/free` or `/interrupt`, never
   recycles ComfyUI, never kills a process, never submits outside ComfyUI's queue, never runs a
@@ -28,6 +28,11 @@ Three laws of its own:
 - **No duration proves the GPU idle.** Real gaps between video jobs run from 1 s to 4 h. Idle
   means every condition below holds at once, and even then a proof goes through the queue, so
   a wrong guess costs a wait and not a collision.
+- **Nothing the operator owes stops the machine.** Verdicts and plan approvals are recorded and
+  notified, never waited on. No `AskUserQuestion` inside the loop, because it blocks the
+  supervisor's turn while seats finish unattended. The questions come together, at the operator's
+  request, through `/shift decisions`. A plan still needs approval before its own videos are mined
+  (the operator's standing choice), but a waiting plan blocks nothing else.
 
 ## Invocation
 
@@ -38,6 +43,7 @@ Three laws of its own:
 /shift approve <planId> [--strike <clusterId>]...
 /shift review                  # rebuild and show the rolling review page
 /shift verdict <runId> <pairId>=<label|tie|neither> ...
+/shift decisions               # ask the operator everything they owe, together
 /shift pause                   # finish in-flight seats, dispatch nothing new
 /shift reflect                 # update LESSONS.md from the reports
 ```
@@ -51,43 +57,97 @@ is left to run. **A closed lid still sleeps.**
 ## Instruments
 
 ```sh
-node scripts/shift-sense.mjs --json --seats-mb <n>
-node scripts/shift-sense.mjs --until <gpu-idle|pressure|operator-idle> --timeout <s> --seats-mb <n>
+node scripts/shift-sense.mjs --json
+node scripts/shift-sense.mjs --until opening --timeout 1200    # or gpu-idle|pressure|operator-idle
 node scripts/shift-plan.mjs sync|meta|transcripts|brief|validate|render|approve|status
 node scripts/shift-queue.mjs next --sense <file|->
-node scripts/shift-queue.mjs mark|list|seat
+node scripts/shift-queue.mjs seat <kind> --key <k> [--cluster <c>]
+node scripts/shift-queue.mjs done <key>
+node scripts/shift-queue.mjs list-running [--json]
+node scripts/shift-queue.mjs mark <id> <status> [--reason r]
+node scripts/shift-queue.mjs list
 node scripts/shift-review.mjs build|size|verdict|clean
 ```
 
-**Always pass `--seats-mb`** (about 1000 per research seat, 3400 per build seat). The slowdown
-canary only fires with seats active, so a sensor without it cannot see the harm it measures.
+`--seats-mb` is optional: by default the sensor reads the seats' RAM from the running ledger, so
+the slowdown canary works without care. That only holds if every seat is recorded.
+
+| Kind | Lane | Key |
+| --- | --- | --- |
+| `miner` | research | the video id |
+| `lander` | research | `land:<planId>/<clusterId>` |
+| `planner` | research | `plan:<planId or new>` |
+| `filler` | research | `filler:<skill>` |
+| `builder` | build | `build:<repo>` |
+| `cpu-proof` | build | `proof:<runId or row id>` |
+| `proof` | gpu | `proof:<runId or row id>` |
+
+Each action `next` returns already carries its `kind` and `key`. `proof` and `cpu-proof` are not
+agent seats, so they do not count against `maxSeatsPerDay`. A record older than 6 h reads as dead,
+holds no lane, and can be taken over by a new seat with the same key.
 
 ## The loop
 
 The whole session is this. **Hold nothing in context that a file can hold**: compaction and a
-dead terminal must lose nothing, so every decision re-reads.
+dead terminal must lose nothing, so every decision re-reads. Each completion notification is a
+tick, and so is each sensor exit and each wakeup. **Never poll.**
 
-1. **Sense.** `shift-sense --json --seats-mb <n>` to `.ai/shift/last-sense.json`.
-2. **Ask.** `shift-queue next --sense .ai/shift/last-sense.json`, which returns ONE action.
-3. **Act** on it, at no more than its `width`. Record each dispatched seat with
-   `shift-queue seat <kind>`. A running seat is never cancelled for a lower width; width
-   governs top-ups.
-4. **Wait.** Start `shift-sense --until <event> --timeout 1200` as a background command, whose
-   exit wakes the session. Beside it, `ScheduleWakeup` at 1800 s as the fallback. Never poll.
-5. **Report** once a day to `.ai/shift/reports/<date>.md`, plus when a plan or a proof awaits
-   the operator (`PushNotification` if available).
+1. **Close.** For each seat that just finished, `shift-queue done <key>`, whether it succeeded or not.
+2. **Sense.** `shift-sense --json` to `.ai/shift/last-sense.json`.
+3. **Ask.** `shift-queue next --sense .ai/shift/last-sense.json`. It returns everything to start
+   now, per lane: `{width, free, running, actions, waitingOnOperator}`.
+4. **Start EVERY action returned**, all in this tick. Record first, then dispatch:
+   `shift-queue seat <kind> --key <key> [--cluster <id>]`. **Exit 2 means a double dispatch**: do not
+   dispatch that one. Dispatch seats in the background so the turn stays free. A running seat is
+   never cancelled for a lower width; width governs what starts next.
+5. **Beat** every live cluster's board claim, on every tick. A claim dies at 45 minutes, and a long
+   seat lost its claim that way.
+6. **Tell.** For each item of `waitingOnOperator` not yet in `.ai/shift/notified.txt`, one
+   `PushNotification` if available, then append its id there. Once per item, never as a question.
+7. **Arm** before ending the turn: one background `shift-sense --until opening --timeout 1200`, plus
+   `ScheduleWakeup` at 1800 s as the fallback. **The turn may never end with nothing armed.** If one
+   from an earlier tick is still running, leave it rather than stack a second.
+8. **Report** once a day to `.ai/shift/reports/<date>.md`, noting `reason`, `proofsPaused` or
+   `evaluateHeld` if the plan carried them.
 
 | Action | Do |
 | --- | --- |
-| `wait` | Nothing new. Note `resumePending` or `proofsPaused` in the report if present. |
-| `resume` | Re-read the cluster's state and the repo. Continue the same agents after a limit; never send a fresh worker onto a half-done repo. |
 | `gpu-proof` | One proof, § GPU bank. |
+| `cpu-proof` | One proof on the CPU, § GPU bank. |
+| `mine` | One miner for its `video`, § Mining a cluster. With `startCluster`, first `mark <planId>/<clusterId> mining` and claim the board. |
+| `land` | One lander for the cluster, § Mining a cluster. Re-read its state and the repo first. |
 | `pre-research` | § Pre-research. |
-| `mine` | § Mining a cluster. |
 | `filler` | § Filler. |
 
-**Yielding to the operator.** `operatorIdleS` under 30 minutes gives width research 1, build 0,
-already in the sensor. A null reading counts as active.
+`actions` empty means nothing to start, and `reason` says why. Arm and end the turn.
+
+**`/shift decisions`.** The one place the shift asks. Read `waitingOnOperator` from `next`, then put
+each pending decision to the operator with `AskUserQuestion`, single-select, one question per
+verdict pair or plan; take several calls if the tool caps its questions. Run it only on the
+operator's request, never as a step of a tick, and start the next tick as soon as it ends.
+
+- **A verdict pair.** Read the question, pair ids and labels from the rolling review page, and link
+  it, because the outputs are there. Options are the labels, `tie` and `neither`. Never read
+  `triage/key.json` to phrase a question: it holds the arms. `reveal` refuses a partial answer, so
+  collect every pair of a run before `/shift verdict`.
+- **A plan.** Link `plans/<planId>/index.html`. Options: approve, approve with strikes, not yet.
+- **A `waiting` cluster.** Its `reason` is the question. When the answer arrives,
+  `mark <planId>/<clusterId> mining`, and `next` picks it up.
+
+**How width is set.** Width only lowers; `attentionCap` (5) stays the ceiling, because it is what a
+director can review. Pressure or the seat cap close every lane. Otherwise:
+
+- **Research** is the lowest of `attentionCap`, the co-load budget, and RAM headroom (one seat per
+  1000 MB above `availableFloorMb`). A failed RAM reader gives at most 1, CPU at 80 % or more at most 1.
+- **Operator presence** (active within `operatorIdleMin`, or a null reading) caps research at
+  `operatorActiveResearch` (3). That is all it does: it no longer zeroes build and has no effect on
+  `gpuProof`.
+- **Build** needs a known CPU under 40 % and 17 GB above the floor. Then an idle GPU and an idle
+  operator give up to 4, anything else gives 1. Otherwise 0.
+- **`gpuProof`** is 1 only on a proven idle GPU with no pressure.
+
+Every number here is an unmeasured starting value, including `operatorActiveResearch`. `free` in the
+plan is width minus live seats in that lane.
 
 **Plan limits.** No instrument reads remaining quota. `maxSeatsPerDay` (30) bounds spend, and it
 is a starting value, not a measured one. A seat limit blocks every session on the seat including
@@ -95,17 +155,19 @@ the operator's, so on a limit error: stop dispatching, write the reset time to t
 at the reset, resume the same agents. How a limit surfaces to a seat here is unverified, so log
 the first one exactly as it appears.
 
-**Board.** The supervisor holds no claim: claims only grow, and one held for days blocks every
-sibling. Each cluster run claims and releases its own, per `/intake` § "Running beside a dozen
-siblings". Beat it when dispatching seats. Locks are for seconds, never across a seat or a proof.
+**Board.** The supervisor holds no claim of its own: claims only grow, and one held for days blocks
+every sibling. Each cluster run claims and releases its own, per `/intake` § "Running beside a dozen
+siblings", and the supervisor beats each one every tick. Locks are for seconds, never across a seat
+or a proof.
 
 ## Pre-research
 
 Read [`references/preresearch.md`](references/preresearch.md). In short: `sync`, `meta`,
 `transcripts` (all paced and serial, because YouTube's 429s are the limit and not CPU), `brief`,
 then **one planner seat** reads `input.json`, maps themes with `research-map --prose`, and writes
-`plan.json`. `validate`, `render`, tell the operator. **Nothing mines until the operator approves
-the plan, every plan.** Filler keeps running meanwhile, so a waiting plan never means an empty box.
+`plan.json`. `validate`, `render`, notify the operator. **No video of that plan mines until the
+operator approves it, every plan.** Everything else keeps running meanwhile, so a waiting plan never
+means an empty box.
 
 ## Mining a cluster
 
@@ -114,17 +176,28 @@ A cluster is one run of `/intake`'s batch lane
 phase of `/intake` applies, with these differences:
 
 - Claim `--source "shift:<planId>/<clusterId>"`; `beat` each home subject as the map names it.
-- One miner per video, up to `width.research`. Topped up one per completion, and each sense can
-  only lower that. Miners return proposals and write nothing: the `/harvest` Phase 3 brief.
+- One miner per video, as `next` hands them out. A cluster is never held back to finish another.
+- **A miner writes only its report**, to `.ai/shift/runs/<clusterId>/<videoId>.md`, whole: the
+  `/harvest` Phase 3 brief, with proposals in the file instead of the reply. `.ai/shift/` is
+  gitignored, so the single-writer rule for the tree holds. **That file's presence drives `next`:**
+  a video with no report and no live seat is mined; once all are reported and nothing is live, the
+  cluster is `land`. A row with no cluster files under its own id.
 - **Convergence counts voices, never videos.** A single-channel cluster has no convergence.
-- One lander seat at a time per cluster holds every write, serially, under the `/intake` locks.
+- One lander seat at a time per cluster holds every write, serially, under the `/intake` locks. It
+  reads the reports and re-reads the repo. **A lander commits and never pushes.** Several may run at once on one checkout, under the
+  locks, and a rebase needs a clean tree, so the supervisor reads each diff and pushes on a tick when no
+  lander is live. **Before its `done`, every video of the cluster must leave
+  `mining`**, or `next` offers `land` again. That is also how a dead lander's work is picked up.
 - **Phase 5 is scored, not asked** (it already is). E1-E4 escalations never block a shift: they
   become proposals in the report. No directions, no XL forge dispatch, no new laws unattended.
 - **Phase 7.7 is skipped and says so** (`gate=skipped`).
 - A row that needs a GPU becomes a held row, § GPU bank. Never a `simulation` substitute.
 - Phase 8 lands per [`references/authority.md`](references/authority.md). Build-class gates run at
   `width.build`: **a project's test suite is the heaviest thing a shift does** (one vitest suite,
-  78 % CPU and 17 GB). If `build` is 0 the change waits; do not run it anyway.
+  78 % CPU and 17 GB). Record one as `seat builder --key build:<repo>`. If `free.build` is 0 the change
+  waits; do not run it anyway.
+- **When a cluster's only outstanding item is a verdict, mark it `waiting --reason`**: mining is
+  finished as far as a machine can take it. `next` never resumes it and lists it for the operator.
 - Mark each video `landed` or `parked`, write `run-result.mjs` per cluster with `held` subjects
   counted. **Superseded and parked are never declined.**
 
@@ -132,30 +205,42 @@ phase of `/intake` applies, with these differences:
 
 Read [`references/gpu-bank.md`](references/gpu-bank.md). Proofs and benchmarks are held rows in
 `librarian/harvest/backlog.jsonl` (`"status":"held"`, `"queue":"media"`). **This skill is the
-media host that `/intake` Phase 6b names.** One proof at a time, one idle window at a time; it
-holds the gravitone lease with `pipeline/gpu/hold.py` and submits through the queue. Results go
-on one rolling page. **The operator's blind pick is the verdict, and nothing render-bound lands
-before it.**
+media host that `/intake` Phase 6b names.** One proof runs at a time, one idle window at a time; it
+holds the gravitone lease with `pipeline/gpu/hold.py` and submits through the queue. `render.device`
+`"cpu"` moves a row out of the GPU lane into `cpu-proof`, from the build lane. **A proof awaiting a
+verdict holds nothing back:** several may await verdicts up to `reviewCapGb`, and `next` skips a run
+already sealed or judged and goes on to the next row. Results go on one rolling page. **The
+operator's blind pick is the verdict, and nothing render-bound lands before it.**
 
 ## Filler
 
-When `next` says `filler`, run the named skill's own method, at the action's width, one pass:
+When `next` says `filler`, run the named skill's own method, at the action's `width`, one pass:
 
-1. `/harvest evaluate` when evaluation debt is 3 or more. Project gates make it build-class.
+1. `/harvest evaluate` when evaluation debt is 3 or more and the build lane has a free seat. Project
+   gates make it build-class, so at no build width `next` passes over it and says
+   `evaluateHeld: "no build width"`.
 2. `/harvest backlog --size <width>`. It lands only on `better`, with its mode recorded.
 3. `/deepen --loop <n>` on the subjects `node scripts/librarian-scan.mjs --top 15` ranks worst.
    Most tokens per finding, so it comes last.
 
+The action's `width` is every research slot left. A filler that dispatches more than one agent
+records each extra as `seat filler --key "filler:<skill>#<n>"`, and closes each with `done`, so the
+lane's count and the canary stay true. Only one filler pass runs at a time.
+
 Each stops on its own saturation rule. **A filler is not a reason to spend the cap**: if all three
-saturate, wait with long wakeups and say so. An idle box beats a padded corpus.
+saturate, say so in the day's report and do not start the filler `next` keeps offering that day. This
+is the one exception to starting every action. An idle box beats a padded corpus.
 
 ## Failure modes
 
 | Happens | Do |
 | --- | --- |
-| Terminal dies or session compacts | `/shift` resumes from `.ai/shift/` and `git log`; re-read before acting. |
-| Reboot | Board claims reap at 45 min. Re-claim per cluster on resume. |
-| Pressure fires | Width 0, no new seats, next wake re-senses. Log which string fired. |
+| Terminal dies or session compacts | `/shift` resumes from `.ai/shift/` and `git log`; re-read before acting. Check `list-running` against the seats you can still see, and `done` any that are gone. |
+| Reboot | Board claims reap at 45 min. Re-claim per cluster on resume. Seats nobody closed read as dead after 6 h; `done` them sooner if you know they are gone. |
+| Seat ends with no report | `done` it anyway; `next` offers the video again. On a second failure, `mark <video> parked --reason`. |
+| `seat` exits 2 | A double dispatch. Do not dispatch; re-read `list-running`. |
+| Verdict, plan or waiting cluster outstanding | Nothing stops. Listed in `waitingOnOperator`, notified once, asked at `/shift decisions`. |
+| Pressure fires | Width 0, no new seats, running seats continue. `--until opening` wakes on `pressure-cleared`. Log which string fired. |
 | Canary over 1.3x | Note the seat count and the ratio. It is the only measurement of this mixed load, so never smooth it. |
 | YouTube 429 | `shift-plan` backs off and records `throttled`; filler continues. |
 | Video has no captions | `no-transcript`, keeps its place in the plan by metadata. No local transcription in v1. |
@@ -169,7 +254,9 @@ saturate, wait with long wakeups and say so. An idle box beats a padded corpus.
 - Never treat a null sensor reading as a low one.
 - Never write banked material to temp or the scratch root: the janitor reaps them.
 - Never rewrite `.ai/.youtube-intake.local.md`. It is the operator's file.
-- Never mine a plan the operator has not approved.
+- Never mine a plan the operator has not approved. Never wait on one either.
+- Never call `AskUserQuestion` inside the loop; only `/shift decisions` asks.
+- Never end a turn with nothing armed.
 - Never decline on the operator's behalf.
 - Never count a video as a voice.
 - Never force-push, `--no-verify`, or `git add -A`.

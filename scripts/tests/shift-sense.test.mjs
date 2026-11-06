@@ -11,8 +11,8 @@ import { fileURLToPath } from 'node:url';
 
 import { DEFAULTS, loadPolicy } from '../lib/shift-policy.mjs';
 import {
-  NVIDIA_ARGS, appendSense, countSeatsToday, eventFired, parseHistory, parseLease, parseNvidia, parseQueue,
-  parseTypeperf, readSample, readTail, resolveGravitone, runUntil,
+  NVIDIA_ARGS, appendSense, countSeatsToday, eventFired, openingEvent, parseHistory, parseLease, parseNvidia, parseQueue,
+  parseTypeperf, readSample, readTail, resolveGravitone, runUntil, seatContext,
 } from '../shift-sense.mjs';
 
 const SCRIPT = fileURLToPath(new URL('../shift-sense.mjs', import.meta.url));
@@ -319,6 +319,93 @@ test('runUntil: a log that cannot be written is reported and the wait still ends
   });
   assert.equal(out.event, 'pressure');
   assert.equal(warned.length, 1);
+});
+
+const roomy = { ...quietRaw, cpuPct: 10, availableMb: 40000 };
+const script = (samples) => {
+  let i = 0;
+  return async () => samples[Math.min(i++, samples.length - 1)];
+};
+const untilOpening = (stateDir, samples, timeoutS = 60) => runUntil({
+  event: 'opening', timeoutS, stateDir, policy: DEFAULTS, ...fakeTime(), sample: script(samples),
+});
+
+test('opening: nothing changing against the first sample is a timeout, even with the card already idle', async (t) => {
+  assert.equal((await untilOpening(tempDir(t), [{ ...roomy, comfyRunning: 1 }])).event, 'timeout');
+  const dir = tempDir(t);
+  const stamp = new Date(Date.parse('2026-11-06T12:00:00Z') - 15000).toISOString();
+  fs.writeFileSync(path.join(dir, 'sense.jsonl'), `${JSON.stringify({ ts: stamp, gpu: { state: 'idle', dwellS: 400 } })}\n`);
+  const out = await untilOpening(dir, [roomy]);
+  assert.equal(out.gpu.state, 'idle');
+  assert.equal(out.event, 'timeout');
+});
+
+test('opening: a lane rising is width-up', async (t) => {
+  const out = await untilOpening(tempDir(t), [{ ...roomy, comfyRunning: 1, operatorIdleS: 60 }, { ...roomy, comfyRunning: 1, operatorIdleS: 1800 }]);
+  assert.equal(out.event, 'width-up');
+  assert.equal(out.width.research, 5);
+});
+
+test('opening: a lane falling is no event', async (t) => {
+  const out = await untilOpening(tempDir(t), [{ ...roomy, comfyRunning: 1 }, { ...roomy, comfyRunning: 1, operatorIdleS: 60 }], 30);
+  assert.equal(out.event, 'timeout');
+  assert.equal(out.width.research, 3);
+});
+
+test('opening: the GPU reaching idle is gpu-idle', async (t) => {
+  const out = await runUntil({ event: 'opening', timeoutS: 3600, stateDir: tempDir(t), policy: DEFAULTS, ...fakeTime(), sample: async () => roomy });
+  assert.equal(out.event, 'gpu-idle');
+  assert.equal(out.gpu.state, 'idle');
+});
+
+test('opening: pressure appearing is pressure, and pressure clearing is pressure-cleared', async (t) => {
+  const appeared = await untilOpening(tempDir(t), [roomy, { ...roomy, diskFreeGb: 1 }]);
+  assert.equal(appeared.event, 'pressure');
+  const cleared = await untilOpening(tempDir(t), [{ ...roomy, diskFreeGb: 1 }, roomy]);
+  assert.equal(cleared.event, 'pressure-cleared', 'named over the width rise it causes');
+});
+
+test('openingEvent compares against the first sample only', () => {
+  const s = (over = {}) => ({ pressure: [], gpu: { state: 'busy' }, width: { research: 3, build: 0, gpuProof: 0 }, ...over });
+  assert.equal(openingEvent(s(), s()), null);
+  assert.equal(openingEvent(s({ pressure: ['disk'] }), s({ pressure: ['canary'] })), null, 'still under pressure');
+  assert.equal(openingEvent(s(), s({ width: { research: 3, build: 1, gpuProof: 0 } })), 'width-up');
+  assert.equal(openingEvent(s({ gpu: { state: 'idle' } }), s({ gpu: { state: 'idle' } })), null);
+});
+
+const led = (kind, key, startedAt) => `${JSON.stringify({ key, kind, cluster: null, startedAt })}\n`;
+
+test('seats default to the running ledger: research 1000, build 3400, proof 0, stale none', (t) => {
+  const dir = tempDir(t);
+  const now = Date.parse('2026-11-06T12:00:00Z');
+  const fresh = new Date(now - 60000).toISOString();
+  const old = new Date(now - 7 * 3600 * 1000).toISOString();
+  assert.deepEqual(seatContext(dir, now), { shiftSeatsMb: 0 }, 'no ledger is no seats');
+  fs.writeFileSync(path.join(dir, 'running.jsonl'), led('miner', 'v1', fresh) + led('builder', 'b', fresh) + led('proof', 'proof:r', fresh) + led('miner', 'v2', old));
+  assert.deepEqual(seatContext(dir, now), { shiftSeatsMb: 4400 });
+  assert.deepEqual(seatContext(dir, now, 0), { shiftSeatsMb: 0 }, 'an explicit value wins, zero included');
+  assert.deepEqual(seatContext(dir, now, 9000), { shiftSeatsMb: 9000 });
+});
+
+test('an unreadable ledger arms the canary: failure is not low', (t) => {
+  const dir = tempDir(t);
+  fs.writeFileSync(path.join(dir, 'running.jsonl'), '{"torn');
+  const warned = [];
+  assert.deepEqual(seatContext(dir, Date.now(), null, (m) => warned.push(m)), { shiftSeatsMb: 0, seatsActive: true });
+  assert.equal(warned.length, 1);
+});
+
+test('runUntil: the canary fires from ledger seats, with no --seats-mb, and re-reads the ledger each sample', async (t) => {
+  const dir = tempDir(t);
+  const { clock, sleep } = fakeTime();
+  const T0 = clock();
+  const slow = { ...roomy, comfyRunning: 1, runningPrefix: 'mc-h3', clips: [400, 400, 400, 400, 400, 524].map((clipS, i) => ({ prefix: 'mc-h3', clipS, endMs: T0 - (6 - i) * 500000 })) };
+  const quietOut = await runUntil({ event: 'pressure', timeoutS: 1, stateDir: dir, policy: DEFAULTS, clock, sleep, sample: async () => slow });
+  assert.equal(quietOut.event, 'timeout', 'no seat of ours: not our pressure');
+  fs.writeFileSync(path.join(dir, 'running.jsonl'), led('miner', 'v1', new Date(clock()).toISOString()));
+  const out = await runUntil({ event: 'pressure', timeoutS: 1, stateDir: dir, policy: DEFAULTS, clock, sleep, sample: async () => slow });
+  assert.equal(out.event, 'pressure');
+  assert.ok(out.pressure.includes('canary'));
 });
 
 const cli = (...args) => spawnSync(process.execPath, [SCRIPT, ...args], { encoding: 'utf8', timeout: 10000 });

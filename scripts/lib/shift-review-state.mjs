@@ -58,6 +58,13 @@ export function pendingRuns(root) {
     && !fs.existsSync(path.join(dir, run, 'verdict.json')));
 }
 
+/** Runs with a recorded verdict. `clean` removes media and keeps verdict.json, so this outlives it. */
+export function verdictRuns(root) {
+  const dir = itemsDir(root);
+  if (!fs.existsSync(dir)) return [];
+  return fs.readdirSync(dir).sort().filter((run) => fs.existsSync(path.join(dir, run, 'verdict.json')));
+}
+
 export function reviewSize(root) {
   const bytes = treeBytes(reviewDir(root));
   const capGb = readPolicy(root).reviewCapGb;

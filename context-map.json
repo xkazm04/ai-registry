@@ -303,6 +303,7 @@
         "scripts/lib/safe-remove.mjs",
         "scripts/lib/shift-policy.mjs",
         "scripts/lib/shift-review-state.mjs",
+        "scripts/lib/shift-running.mjs",
         "scripts/lib/shift-source-ledger.mjs",
         "scripts/merge-generated.mjs",
         "scripts/regen-generated.mjs",

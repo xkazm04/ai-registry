@@ -19,8 +19,8 @@ flooding the queue.
 
 ## When
 
-`shift-queue next` returns `pre-research` when more than 5 videos are unplanned or the oldest is
-over 24 h, with no draft plan waiting. `/shift plan` forces it.
+`shift-queue next` includes a `pre-research` action when more than 5 videos are unplanned or the
+oldest is over 24 h, with no draft plan waiting and no live planner. `/shift plan` forces it.
 
 ## The steps
 
@@ -37,7 +37,8 @@ alone misses ids.
 
 ## The planner seat
 
-One seat, one `input.json`, writing `plans/<planId>/plan.json`. Its brief:
+One seat, recorded as `seat planner --key plan:new`, one `input.json`, writing
+`plans/<planId>/plan.json`. Its brief:
 
 1. **Group by decision, not by subject words.** A cluster is the set of videos a single batch run
    would read together: they could converge on or contradict one rule. Aim for 2-8 videos. A lone
@@ -68,8 +69,9 @@ node scripts/shift-plan.mjs validate .ai/shift/plans/<planId>/plan.json
 node scripts/shift-plan.mjs render <planId>
 ```
 
-Show the operator `plans/<planId>/index.html`. **Every plan waits for approval**; there is no timeout
-that proceeds. New videos arriving meanwhile wait for the next plan: an approved plan never changes
+Notify the operator of `plans/<planId>/index.html`; `/shift decisions` asks. **Every plan waits for
+approval**; there is no timeout that proceeds. Only that plan's videos wait: **a waiting plan blocks
+nothing else**, not mining of approved clusters, proofs or filler. New videos arriving meanwhile wait for the next plan: an approved plan never changes
 under the operator.
 
 `approve` marks videos `approved`, parks a struck cluster as `operator-struck-cluster`, and parks a

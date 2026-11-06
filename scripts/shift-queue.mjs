@@ -1,47 +1,60 @@
 #!/usr/bin/env node
 /**
- * shift-queue - the /shift supervisor's memory and its one question: what do I do next?
+ * shift-queue - the /shift supervisor's memory and its one question: what do I start now?
  *
  * WHY
  * /shift is a long-lived session that must survive context compaction and a dead terminal, so
- * every fact it acts on lives in files, and the choice of next action is a pure function a test
+ * every fact it acts on lives in files, and the choice of what to start is a pure function a test
  * can pin rather than a judgement a tired session re-derives. This instrument does not judge
- * content and does not sample the machine: WP1's sensor hands it a sense JSON, and it answers
- * with ONE action. Width comes from that sensor, so resources can only lower the attention cap.
+ * content and does not sample the machine: the sensor hands it a sense JSON, and it answers with
+ * everything to start at once. Width comes from that sensor, so resources can only lower the
+ * attention cap.
+ *
+ * WHY LANES, NOT A LADDER
+ * The first real run answered with one action at a time and resumed any mining cluster first, so a
+ * cluster waiting on the operator's ear held the whole box idle at 7 % CPU. Each lane now fills
+ * independently, and nothing the operator owes blocks anything: it is listed, never waited on.
  *
  * COMMANDS
- *   next --sense <file|->                     print ONE action JSON {action, width, ...}
+ *   next --sense <file|->      print one JSON plan {width, free, running, actions, waitingOnOperator}
  *   mark <videoId|clusterId|planId/clusterId> <status> [--reason r]
  *   list [--status s] [--json]
- *   seat <kind>                               append one seat to .ai/shift/seats.jsonl
+ *   seat <kind> [--key k] [--cluster c]   count a seat in seats.jsonl; --key also records it running
+ *   done <key>                 a running seat finished
+ *   list-running [--json]      live and stale records of the running ledger
  *
- * THE LADDER (next)
- *   every width zero  wait, naming any mining cluster so nothing reads as forgotten
- *   mining item       resume: a restart never leaves half-mined work behind
- *   gpu idle + width  gpu-proof, from a held queue:media row for this machine with estGpuMin;
- *                     over reviewCapGb it falls through, and the action says proofsPaused
- *   no research seat  wait
- *   unplanned > 5 or older than 24 h, no draft waiting   pre-research
- *   approved cluster  mine
- *   filler            harvest evaluate (debt >= 3) > harvest backlog > deepen --loop
+ * THE PLAN (next)
+ *   every width zero   no actions, a reason naming any mining cluster; running seats are never cancelled
+ *   gpu lane           gpu-proof: a held media row for this machine with estGpuMin, not device cpu,
+ *                      not already sealed or judged; over reviewCapGb it says proofsPaused instead
+ *   build lane         cpu-proof: a held media row with device cpu, one at a time
+ *   research lane, one slot per action:
+ *     1 mining clusters   mine each video with no report and no live seat; land when all reported
+ *     2 pre-research      unplanned > 5 or older than 24 h, no draft waiting, no live planner
+ *     3 approved clusters mine with startCluster, in queue order
+ *     4 filler            harvest evaluate (debt >= 3, build free) > harvest backlog > deepen --loop
  *
- * STATE  .ai/shift/queue.jsonl, one row per video, published by temp + rename under a short
- * file lock, because a background `shift-plan meta` and a foreground `mark` run at once and a
- * bare rewrite would lose one of them.
+ * STATE  .ai/shift/queue.jsonl (one row per video) and running.jsonl (one row per live seat), each
+ * published by temp + rename under one short file lock, because a background `shift-plan meta` and
+ * a foreground `mark` run at once and a bare rewrite would lose one of them. A miner's report at
+ * .ai/shift/runs/<clusterId>/<videoId>.md is what says that video is mined.
  *
- * EXIT 0 ok · 2 could not run (usage, malformed sense, unreadable ledger or queue)
+ * EXIT 0 ok · 2 could not run (usage, a double dispatch, malformed sense, unreadable ledger or queue)
  */
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { EXIT, installCrashDoor } from './lib/exit-codes.mjs';
 import { loadFleet } from './lib/projects.mjs';
-import { reviewSize } from './lib/shift-review-state.mjs';
+import { NOT_AGENT_SEATS, RUNNING_STALE_MS, SEAT_LANES, laneCounts, readRunning, runningFile, seatsMb, serializeRunning, splitRunning } from './lib/shift-running.mjs';
+import { pendingRuns, reviewSize, verdictRuns } from './lib/shift-review-state.mjs';
 import { parseLedger } from './backlog-wave.mjs';
+
+export { RUNNING_STALE_MS, SEAT_LANES, laneCounts, seatsMb, splitRunning };
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 
-export const STATUSES = ['new', 'meta', 'transcript', 'no-transcript', 'planned', 'approved', 'mining', 'landed', 'parked'];
+export const STATUSES = ['new', 'meta', 'transcript', 'no-transcript', 'planned', 'approved', 'mining', 'waiting', 'landed', 'parked'];
 /** Awaiting a plan. `planned` and later have already been through one. */
 export const UNPLANNED = ['new', 'meta', 'transcript', 'no-transcript'];
 const GPU_STATES = ['busy', 'settling', 'idle', 'absent', 'unknown'];
@@ -141,6 +154,18 @@ export function withQueue(root, fn, { fsImpl = fs } = {}) {
   });
 }
 
+/** The running ledger's read-modify-write, under the queue's lock. `fn` edits the records in place. */
+export function withRunning(root, fn, { fsImpl = fs } = {}) {
+  return withFileLock(`${queuePath(root)}.lock`, () => {
+    const records = readRunning(stateDir(root));
+    const before = serializeRunning(records);
+    const result = fn(records);
+    const after = serializeRunning(records);
+    if (after !== before) atomicWrite(runningFile(stateDir(root)), after, { fsImpl });
+    return result;
+  });
+}
+
 /* ---------------------------------------------------------------- plans on disk */
 
 /** Every plan directory that holds a plan.json. A plan with no approved.json is a draft. */
@@ -163,7 +188,27 @@ export function readPlans(root) {
   return plans;
 }
 
-/* ---------------------------------------------------------------- the ladder */
+/**
+ * Every report a miner has finished, as `<clusterId>/<videoId>`. A row with no cluster files under
+ * its own id. Presence is the signal: a miner writes this one file and nothing else.
+ */
+export function readReports(root) {
+  const dir = path.join(stateDir(root), 'runs');
+  const reports = new Set();
+  let clusters;
+  try { clusters = fs.readdirSync(dir); } catch (e) {
+    if (e.code === 'ENOENT') return reports;
+    throw e;
+  }
+  for (const c of clusters) {
+    let files;
+    try { files = fs.readdirSync(path.join(dir, c)); } catch { continue; /* a stray file, not a cluster */ }
+    for (const f of files) if (f.endsWith('.md')) reports.add(`${c}/${f.slice(0, -3)}`);
+  }
+  return reports;
+}
+
+/* ---------------------------------------------------------------- the plan */
 
 /** How /harvest status reads debt: rows of the evaluations table whose verdict is `pending`. */
 export function evaluationDebt(text) {
@@ -204,43 +249,120 @@ function uniqueClusters(selected, plans, rows) {
   return out;
 }
 
-/** Pure. Everything it reads arrives as an argument, so the ordering is pinned by fixtures. */
-export function nextAction({ sense, rows, plans, backlog, evalDebt, machine, now, reviewOverCap = false }) {
+const clusterKey = (r) => (r.cluster ? `${r.planId}/${r.cluster}` : r.id);
+
+/** Pure. width minus live seats per lane, never below zero. A plan's own actions do not change it. */
+export function freeSlots(width, running) {
+  const live = laneCounts(running);
+  return {
+    research: Math.max(0, width.research - live.research),
+    build: Math.max(0, width.build - live.build),
+    gpuProof: Math.max(0, width.gpuProof - live.gpu),
+  };
+}
+
+/** Pure. What the operator owes. Information only: nothing here holds any lane back. */
+export function operatorOwes({ plans, rows, pendingVerdicts }) {
+  const out = plans.filter((p) => !p.approved).map((p) => ({ kind: 'plan', id: p.planId, reason: 'draft plan awaiting approval' }));
+  for (const run of pendingVerdicts) out.push({ kind: 'verdict', id: run, reason: 'sealed, awaiting the blind pick' });
+  const seen = new Set();
+  for (const r of rows.filter((x) => x.status === 'waiting')) {
+    const id = clusterKey(r);
+    if (seen.has(`${id}\n${r.reason}`)) continue;
+    seen.add(`${id}\n${r.reason}`);
+    out.push({ kind: 'cluster', id, reason: r.reason ?? 'no reason recorded' });
+  }
+  return out;
+}
+
+/**
+ * Pure. Everything it reads arrives as an argument, so the plan is pinned by fixtures.
+ * `running` is the live seats. `reports` comes from readReports. `pendingVerdicts` and `verdicts`
+ * are run ids: a sealed proof never re-runs, and never holds another row back.
+ */
+export function nextPlan({
+  sense, rows, plans, backlog, evalDebt, machine, now, reviewOverCap = false,
+  running = [], reports = new Set(), pendingVerdicts = [], verdicts = [],
+}) {
   const { width, gpu } = sense;
-  const mining = uniqueClusters(rows.filter((r) => r.status === 'mining'), plans, rows);
+  const free = freeSlots(width, running);
+  const plan = { width, free, running, actions: [], waitingOnOperator: operatorOwes({ plans, rows, pendingVerdicts }) };
+  const miningRows = rows.filter((r) => r.status === 'mining');
+  const mining = uniqueClusters(miningRows, plans, rows);
 
   if (width.research <= 0 && width.build <= 0 && width.gpuProof <= 0) {
     const why = sense.pressure?.length ? `pressure: ${sense.pressure.join(', ')}` : 'all width is zero';
-    return { action: 'wait', width, reason: why, ...(mining.length ? { resumePending: mining } : {}) };
-  }
-  if (mining.length) return { action: 'resume', width, cluster: mining[0] };
-
-  // Set only when a proof would have run: the flag means "the cap stopped this", not "over cap".
-  let paused = {};
-  if (gpu?.state === 'idle' && width.gpuProof >= 1) {
-    const row = backlog.find((r) => r.status === 'held' && r.queue === 'media'
-      && Number.isFinite(r.render?.estGpuMin)
-      && machine && String(r.render?.machine ?? '').toLowerCase() === String(machine).toLowerCase());
-    if (row && !reviewOverCap) return { action: 'gpu-proof', width, row };
-    if (row) paused = { proofsPaused: 'review-over-cap' };
+    const named = mining.map((c) => (c.id ? `${c.planId}/${c.id}` : c.videos[0]));
+    plan.reason = named.length ? `${why}; mining clusters left as they are: ${named.join(', ')}` : why;
+    return plan;
   }
 
-  // Everything below spends a research seat, and a width of {build:1} does not grant one.
-  if (width.research < 1) return { action: 'wait', width, reason: 'no research seat at this width', ...paused };
+  const liveKeys = new Set(running.map((r) => r.key));
+  const liveKind = (kind) => running.some((r) => r.kind === kind);
+
+  /* ---- proofs. The review cap pauses both kinds: unreviewed renders are disk nobody reclaims. */
+  const judged = new Set([...pendingVerdicts, ...verdicts]);
+  const proofRow = (r) => r.status === 'held' && r.queue === 'media' && !judged.has(r.render?.runId)
+    && machine && String(r.render?.machine ?? '').toLowerCase() === String(machine).toLowerCase();
+  const proofKey = (r) => `proof:${r.render?.runId ?? r.id}`;
+  let paused = false;
+
+  if (free.gpuProof >= 1 && gpu?.state === 'idle' && !liveKind('proof')) {
+    const row = backlog.find((r) => proofRow(r) && r.render?.device !== 'cpu' && Number.isFinite(r.render?.estGpuMin));
+    if (row && reviewOverCap) paused = true;
+    else if (row) plan.actions.push({ action: 'gpu-proof', kind: 'proof', key: proofKey(row), row });
+  }
+
+  let buildLeft = free.build;
+  if (buildLeft >= 1 && !liveKind('cpu-proof')) {
+    const row = backlog.find((r) => proofRow(r) && r.render?.device === 'cpu');
+    if (row && reviewOverCap) paused = true;
+    else if (row) { plan.actions.push({ action: 'cpu-proof', kind: 'cpu-proof', key: proofKey(row), row }); buildLeft -= 1; }
+  }
+
+  /* ---- research, one slot per action */
+  let slots = free.research;
+  const take = (action) => { plan.actions.push(action); slots -= 1; };
+  const fill = (cluster, extra) => {
+    const reportOf = (v) => `${cluster.id ?? v}/${v}`;
+    const unreported = cluster.videos.filter((v) => !reports.has(reportOf(v)));
+    for (const video of unreported) {
+      if (slots <= 0) return;
+      if (!liveKeys.has(video)) take({ action: 'mine', kind: 'miner', key: video, cluster, video, ...extra });
+    }
+    // A live miner may still be writing, so a report's presence alone does not open the landing.
+    const landKey = `land:${cluster.planId ?? 'none'}/${cluster.id ?? cluster.videos[0]}`;
+    if (slots > 0 && !unreported.length && !liveKeys.has(landKey) && !cluster.videos.some((v) => liveKeys.has(v))) {
+      take({ action: 'land', kind: 'lander', key: landKey, cluster, ...extra });
+    }
+  };
+
+  for (const cluster of mining) fill(cluster, {});
 
   const unplanned = rows.filter((r) => UNPLANNED.includes(r.status));
   const tooOld = unplanned.filter((r) => now - Date.parse(r.addedAt) > UNPLANNED_MAX_AGE_MS);
   const draftWaiting = plans.some((p) => !p.approved);
-  if ((unplanned.length > UNPLANNED_LIMIT || tooOld.length) && !draftWaiting) {
-    return { action: 'pre-research', width, unplanned: unplanned.length, olderThan24h: tooOld.length, ...paused };
+  if (slots > 0 && (unplanned.length > UNPLANNED_LIMIT || tooOld.length) && !draftWaiting && !liveKind('planner')) {
+    take({ action: 'pre-research', kind: 'planner', key: 'plan:new', unplanned: unplanned.length, olderThan24h: tooOld.length });
   }
 
-  const approved = uniqueClusters(rows.filter((r) => r.status === 'approved'), plans, rows);
-  if (approved.length) return { action: 'mine', width, cluster: approved[0], ...paused };
+  const startedKeys = new Set(miningRows.map(clusterKey));
+  const notStarted = rows.filter((r) => r.status === 'approved' && !startedKeys.has(clusterKey(r)));
+  for (const cluster of uniqueClusters(notStarted, plans, rows)) fill(cluster, { startCluster: true });
 
-  if (evalDebt >= EVAL_DEBT_LIMIT) return { action: 'filler', width, skill: 'harvest evaluate', debt: evalDebt, ...paused };
-  if (backlog.some((r) => r.status === 'queued')) return { action: 'filler', width, skill: 'harvest backlog', ...paused };
-  return { action: 'filler', width, skill: 'deepen --loop', ...paused };
+  if (slots > 0 && !liveKind('filler')) {
+    const filler = (skill, extra = {}) => ({ action: 'filler', kind: 'filler', key: `filler:${skill}`, skill, width: slots, ...extra });
+    const evaluateDue = evalDebt >= EVAL_DEBT_LIMIT;
+    if (evaluateDue && buildLeft >= 1) plan.actions.push(filler('harvest evaluate', { debt: evalDebt }));
+    else {
+      const skill = backlog.some((r) => r.status === 'queued') ? 'harvest backlog' : 'deepen --loop';
+      plan.actions.push(filler(skill, evaluateDue ? { evaluateHeld: 'no build width' } : {}));
+    }
+  }
+
+  if (!plan.actions.length) plan.reason = width.research <= 0 ? 'no research seat at this width' : 'every lane is full or has nothing to start';
+  if (paused) plan.proofsPaused = 'review-over-cap';
+  return plan;
 }
 
 /** Every reason this sense cannot be acted on. Absent numbers are never read as zero. */
@@ -290,7 +412,7 @@ export function parseArgs(argv, { valued = [], bool = [] } = {}) {
 
 export class UsageError extends Error {}
 
-const USAGE = 'usage: shift-queue.mjs next --sense <file|-> | mark <videoId|clusterId|planId/clusterId> <status> [--reason r] | list [--status s] [--json] | seat <kind>';
+const USAGE = 'usage: shift-queue.mjs next --sense <file|-> | mark <videoId|clusterId|planId/clusterId> <status> [--reason r] | list [--status s] [--json] | seat <kind> [--key k] [--cluster c] | done <key> | list-running [--json]';
 
 function cmdNext(argv, ctx) {
   const { opts } = parseArgs(argv, { valued: ['sense'] });
@@ -300,17 +422,22 @@ function cmdNext(argv, ctx) {
   try { sense = JSON.parse(raw); } catch { throw new UsageError('--sense is not JSON'); }
   const problems = senseProblems(sense);
   if (problems.length) throw new UsageError(`sense refused: ${problems.join('; ')}`);
-  const action = nextAction({
+  const now = ctx.now();
+  const plan = nextPlan({
     sense,
     rows: readQueue(ctx.root),
     plans: readPlans(ctx.root),
     backlog: parseLedger(fs.readFileSync(path.join(ctx.root, 'librarian', 'harvest', 'backlog.jsonl'), 'utf8')),
     evalDebt: evaluationDebt(fs.readFileSync(path.join(ctx.root, 'librarian', 'harvest', 'evaluations.md'), 'utf8')),
     machine: ctx.machine !== undefined ? ctx.machine : loadFleet(ctx.root).machine,
-    now: ctx.now(),
+    now,
     reviewOverCap: reviewSize(ctx.root).overCap,
+    running: splitRunning(readRunning(stateDir(ctx.root)), now).live,
+    reports: readReports(ctx.root),
+    pendingVerdicts: pendingRuns(ctx.root),
+    verdicts: verdictRuns(ctx.root),
   });
-  ctx.log(JSON.stringify(action));
+  ctx.log(JSON.stringify(plan));
   return EXIT.OK;
 }
 
@@ -319,6 +446,7 @@ function cmdMark(argv, ctx) {
   if (!token || !STATUSES.includes(status)) throw new UsageError(`usage: mark <videoId|clusterId> <${STATUSES.join('|')}> [--reason r]`);
   const reason = opts.reason?.[0];
   if (status === 'parked' && !reason?.trim()) throw new UsageError('a parked item needs --reason: parked with no reason is re-proposed forever');
+  if (status === 'waiting' && !reason?.trim()) throw new UsageError('a waiting item needs --reason: the operator is shown it as what they owe');
   const iso = new Date(ctx.now()).toISOString();
   const marked = withQueue(ctx.root, (rows) => {
     const t = resolveTargets(rows, token);
@@ -349,12 +477,59 @@ function cmdList(argv, ctx) {
   return EXIT.OK;
 }
 
-function cmdSeat(argv, ctx) {
-  const { positional: [kind] } = parseArgs(argv);
-  if (!kind?.trim()) throw new UsageError('seat needs a kind');
+const appendSeat = (ctx, kind, iso) => {
   fs.mkdirSync(stateDir(ctx.root), { recursive: true });
-  fs.appendFileSync(path.join(stateDir(ctx.root), 'seats.jsonl'), `${JSON.stringify({ ts: new Date(ctx.now()).toISOString(), kind })}\n`);
-  ctx.log(`seat ${kind}`);
+  fs.appendFileSync(path.join(stateDir(ctx.root), 'seats.jsonl'), `${JSON.stringify({ ts: iso, kind })}\n`);
+};
+
+function cmdSeat(argv, ctx) {
+  const { positional: [kind], opts } = parseArgs(argv, { valued: ['key', 'cluster'] });
+  if (!kind?.trim()) throw new UsageError('seat needs a kind');
+  const key = opts.key?.[0];
+  const cluster = opts.cluster?.[0];
+  const iso = new Date(ctx.now()).toISOString();
+  const agentSeat = !NOT_AGENT_SEATS.includes(kind);
+  if (key === undefined) {
+    if (cluster !== undefined) throw new UsageError('--cluster describes a running seat, so it needs --key');
+    if (!agentSeat) throw new UsageError(`a ${kind} seat is not counted, so without --key it would record nothing`);
+    appendSeat(ctx, kind, iso);
+    ctx.log(`seat ${kind}`);
+    return EXIT.OK;
+  }
+  if (!key.trim()) throw new UsageError('--key is empty');
+  if (!Object.hasOwn(SEAT_LANES, kind)) throw new UsageError(`a running seat's kind must be one of ${Object.keys(SEAT_LANES).join('|')}`);
+  withRunning(ctx.root, (records) => {
+    const at = records.findIndex((r) => r.key === key);
+    if (at >= 0) {
+      if (splitRunning([records[at]], ctx.now()).live.length) throw new UsageError(`double dispatch: ${key} has been running since ${records[at].startedAt}`);
+      records.splice(at, 1); // a dead record must not stop the work being picked up again
+    }
+    records.push({ key, kind, cluster: cluster ?? null, startedAt: iso });
+    if (agentSeat) appendSeat(ctx, kind, iso);
+  });
+  ctx.log(`seat ${kind} ${key}`);
+  return EXIT.OK;
+}
+
+function cmdDone(argv, ctx) {
+  const { positional: [key] } = parseArgs(argv);
+  if (!key?.trim()) throw new UsageError('done needs a key');
+  withRunning(ctx.root, (records) => {
+    const at = records.findIndex((r) => r.key === key);
+    if (at < 0) throw new UsageError(`done: no running seat has the key ${key} (see list-running)`);
+    records.splice(at, 1);
+  });
+  ctx.log(`done ${key}`);
+  return EXIT.OK;
+}
+
+function cmdListRunning(argv, ctx) {
+  const { opts } = parseArgs(argv, { bool: ['json'] });
+  const { live, stale } = splitRunning(readRunning(stateDir(ctx.root)), ctx.now());
+  if (opts.json) { ctx.log(JSON.stringify({ live, stale })); return EXIT.OK; }
+  const line = (r, state) => [r.key, r.kind, r.cluster ?? '-', r.startedAt, state].join('\t');
+  for (const r of live) ctx.log(line(r, 'live'));
+  for (const r of stale) ctx.log(line(r, 'stale'));
   return EXIT.OK;
 }
 
@@ -367,7 +542,7 @@ export function main(argv, over = {}) {
     err: (s) => console.error(s),
     ...over,
   };
-  const table = { next: cmdNext, mark: cmdMark, list: cmdList, seat: cmdSeat };
+  const table = { next: cmdNext, mark: cmdMark, list: cmdList, seat: cmdSeat, done: cmdDone, 'list-running': cmdListRunning };
   const cmd = table[argv[0]];
   if (!cmd) { ctx.err(USAGE); return EXIT.FATAL; }
   try { return cmd(argv.slice(1), ctx); } catch (e) {

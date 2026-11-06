@@ -22,12 +22,16 @@
  *   work can be reviewed, and must never be derived from free RAM (docs of /harvest,
  *   backlog.md). All numbers are starting values, unmeasured for this mix; the canary is
  *   what makes them falsifiable.
+ * - Operator presence is a bound, not a stop. The first real run sat at research 1 and
+ *   build 0 at 7 % CPU and 41 GB free because someone had touched the keyboard; the shift
+ *   exists for long-running autonomous work, so presence now only caps research.
  */
 
 export const DEFAULTS = Object.freeze({
   maxSeatsPerDay: 30,
   attentionCap: 5,
   operatorIdleMin: 30,
+  operatorActiveResearch: 3,
   gpuIdleDwellS: 300,
   reviewCapGb: 5,
   minFreeDiskGb: 100,
@@ -47,6 +51,9 @@ export const CANARY_WINDOW = 5;
 export const CANARY_MIN_PRIOR = 3;
 export const BUILD_WIDTH_IDLE = 4;
 export const BUILD_CPU_CEILING_PCT = 40;
+/** Measured: one vitest suite took 17 GB. Build needs this much above the available floor. */
+export const BUILD_RAM_MB = 17000;
+export const RESEARCH_CPU_CEILING_PCT = 80;
 
 const num = (v) => (typeof v === 'number' && Number.isFinite(v) ? v : null);
 
@@ -200,27 +207,45 @@ export function pressure(sample, policy, history = []) {
 }
 
 /**
- * The design's width rule; every branch only lowers. Pressure or the seat cap close
- * everything. An unknown operator counts as active and an unknown CPU as high, the lower
- * reading each time. `settling`, `unknown` and `absent` take the busy row: only a proven
- * idle card widens build.
+ * The width rule; every branch only lowers. Pressure or the seat cap close everything.
+ *
+ * research: attentionCap, the co-load budget and RAM headroom, each a ceiling. A failed RAM
+ * reader gives at most 1: the lower reading, without stalling autonomous work on a dead
+ * counter. CPU at the ceiling gives at most 1, and an active or unknown operator at most
+ * operatorActiveResearch. An unknown CPU does not lower research further.
+ *
+ * Headroom reads RAM the live seats already occupy, and the queue subtracts those seats
+ * again for `free`. That double count is accepted: it can only under-fill a lane.
+ *
+ * build: needs a known CPU under its ceiling and BUILD_RAM_MB above the floor. Only a proven
+ * idle card with an idle operator widens it: `settling`, `unknown` and `absent` take the
+ * busy row. An unknown CPU or RAM reading gives 0, the lower reading.
  */
 export function width(sense, policy, seatsToday = 0, shiftSeatsMb = 0) {
   const closed = { research: 0, build: 0, gpuProof: 0 };
   if (seatsToday >= policy.maxSeatsPerDay || sense.pressure.length > 0) return closed;
-  const budget = Math.floor((policy.coLoadBudgetMb - (num(shiftSeatsMb) ?? 0)) / 1000);
-  const research = Math.max(0, Math.min(policy.attentionCap, budget));
-  const gpuProof = sense.gpu.state === 'idle' ? 1 : 0;
-  const operatorIdleS = num(sense.operatorIdleS);
-  if (operatorIdleS === null || operatorIdleS < policy.operatorIdleMin * 60) {
-    return { research: Math.min(1, research), build: 0, gpuProof };
-  }
-  if (sense.gpu.state === 'idle') {
-    return { research, build: Math.min(BUILD_WIDTH_IDLE, policy.attentionCap), gpuProof };
-  }
+
   const cpuPct = num(sense.cpuPct);
-  const build = cpuPct !== null && cpuPct < BUILD_CPU_CEILING_PCT ? Math.min(1, policy.attentionCap) : 0;
-  return { research, build, gpuProof };
+  const availableMb = num(sense.availableMb);
+  const spareMb = availableMb === null ? null : availableMb - policy.availableFloorMb;
+  const operatorIdleS = num(sense.operatorIdleS);
+  const operatorIdle = operatorIdleS !== null && operatorIdleS >= policy.operatorIdleMin * 60;
+  const gpuIdle = sense.gpu.state === 'idle';
+
+  const ceilings = [
+    policy.attentionCap,
+    Math.floor((policy.coLoadBudgetMb - (num(shiftSeatsMb) ?? 0)) / 1000),
+    spareMb === null ? 1 : Math.floor(spareMb / 1000),
+  ];
+  if (cpuPct !== null && cpuPct >= RESEARCH_CPU_CEILING_PCT) ceilings.push(1);
+  if (!operatorIdle) ceilings.push(policy.operatorActiveResearch);
+  const research = Math.max(0, Math.min(...ceilings));
+
+  let build = 0;
+  if (cpuPct !== null && cpuPct < BUILD_CPU_CEILING_PCT && spareMb !== null && spareMb >= BUILD_RAM_MB) {
+    build = Math.min(gpuIdle && operatorIdle ? BUILD_WIDTH_IDLE : 1, policy.attentionCap);
+  }
+  return { research, build, gpuProof: gpuIdle ? 1 : 0 };
 }
 
 /**

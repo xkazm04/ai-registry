@@ -3,7 +3,7 @@
  * shift-sense - what is this machine doing right now, in the terms /shift decides on.
  *
  *   node scripts/shift-sense.mjs --json [--seats-mb <n>]
- *   node scripts/shift-sense.mjs --until <gpu-idle|pressure|operator-idle> --timeout <s> [--seats-mb <n>]
+ *   node scripts/shift-sense.mjs --until <opening|gpu-idle|pressure|operator-idle> --timeout <s> [--seats-mb <n>]
  *
  * ## Why it exists
  *
@@ -13,6 +13,14 @@
  * only reads, and every reader is isolated, because a dead tool must read as null or
  * `unknown` and never as a low number. A failed sensor that reads 0 % is a benchmark
  * submitted on top of somebody's render.
+ *
+ * `--until opening` is the one the loop arms: it fires when something changes against its first
+ * sample, naming `width-up`, `gpu-idle`, `pressure` or `pressure-cleared`. A seat finishing
+ * needs no event, because its own completion notification wakes the session.
+ *
+ * Without `--seats-mb` the seats' RAM comes from the running ledger, because the manual flag was
+ * easy to forget and forgetting it silenced the canary. An explicit value wins. A ledger that cannot
+ * be read arms the canary rather than disarming it: failure is not low.
  *
  * ## Read-only, on purpose
  *
@@ -45,6 +53,7 @@ import { fileURLToPath, pathToFileURL } from 'node:url';
 import { EXIT, installCrashDoor } from './lib/exit-codes.mjs';
 import { loadFleet } from './lib/projects.mjs';
 import { clipPrefix, decide, loadPolicy } from './lib/shift-policy.mjs';
+import { readRunning, seatsMb as seatsMbOf, splitRunning } from './lib/shift-running.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const COMFY = 'http://127.0.0.1:8188';
@@ -54,7 +63,7 @@ const INTERVAL_MS = 15000;
 const ROTATE_BYTES = 20 * 1024 * 1024;
 const TAIL_BYTES = 64 * 1024;
 const HISTORY_KEEP = 40;
-export const EVENTS = Object.freeze(['gpu-idle', 'pressure', 'operator-idle']);
+export const EVENTS = Object.freeze(['opening', 'gpu-idle', 'pressure', 'operator-idle']);
 
 /** Utilisation and power only. `-i 0` because the NPU is row 2. */
 export const NVIDIA_ARGS = Object.freeze(['-i', '0', '--query-gpu=utilization.gpu,power.draw', '--format=csv,noheader,nounits']);
@@ -344,6 +353,29 @@ export function eventFired(name, sense, policy) {
   throw new TypeError(`unknown event ${name}`);
 }
 
+/**
+ * What changed against the first sample of a wait, or null. Pressure outranks the rest because
+ * it stops dispatch; clearing is named over the width rise it causes.
+ */
+export function openingEvent(first, sense) {
+  if (!first.pressure.length && sense.pressure.length) return 'pressure';
+  if (first.pressure.length && !sense.pressure.length) return 'pressure-cleared';
+  if (first.gpu.state !== 'idle' && sense.gpu.state === 'idle') return 'gpu-idle';
+  if (['research', 'build', 'gpuProof'].some((lane) => sense.width[lane] > first.width[lane])) return 'width-up';
+  return null;
+}
+
+/** decide()'s seat context. An explicit figure wins; otherwise the running ledger answers. */
+export function seatContext(stateDir, now, explicitMb = null, warn = () => {}) {
+  if (explicitMb !== null) return { shiftSeatsMb: explicitMb };
+  try {
+    return { shiftSeatsMb: seatsMbOf(splitRunning(readRunning(stateDir), now).live) };
+  } catch (e) {
+    warn(`shift-sense: running ledger unreadable, canary armed: ${e.message}`);
+    return { shiftSeatsMb: 0, seatsActive: true };
+  }
+}
+
 const readSeats = (stateDir, now) => {
   try { return countSeatsToday(fs.readFileSync(path.join(stateDir, 'seats.jsonl'), 'utf8'), now); } catch { return 0; }
 };
@@ -352,18 +384,23 @@ const readSeats = (stateDir, now) => {
  * The wait loop, with its clock and readers injected. A record that cannot be written is
  * reported and the wait goes on: losing the log must not lose the wake-up.
  */
-export async function runUntil({ event, timeoutS, stateDir, policy, seatsMb = 0, sample, clock = Date.now, sleep = delay, intervalMs = INTERVAL_MS, warn = () => {} }) {
+export async function runUntil({ event, timeoutS, stateDir, policy, seatsMb = null, sample, clock = Date.now, sleep = delay, intervalMs = INTERVAL_MS, warn = () => {} }) {
   const file = path.join(stateDir, 'sense.jsonl');
   const history = readTail(file);
   const deadline = clock() + timeoutS * 1000;
+  let first = null;
   for (;;) {
     const raw = await sample();
     const now = clock();
-    const sense = decide(raw, history, policy, { now, seatsToday: readSeats(stateDir, now), shiftSeatsMb: seatsMb });
+    const sense = decide(raw, history, policy, { now, seatsToday: readSeats(stateDir, now), ...seatContext(stateDir, now, seatsMb, warn) });
     try { appendSense(file, sense); } catch (e) { warn(`shift-sense: could not write ${file}: ${e.message}`); }
     history.push(sense);
     if (history.length > HISTORY_KEEP) history.shift();
-    if (eventFired(event, sense, policy)) return { ...sense, event };
+    if (event === 'opening') {
+      first ??= sense;
+      const opened = openingEvent(first, sense);
+      if (opened) return { ...sense, event: opened };
+    } else if (eventFired(event, sense, policy)) return { ...sense, event };
     const left = deadline - clock();
     if (left <= 0) return { ...sense, event: 'timeout' };
     await sleep(Math.min(intervalMs, left));
@@ -373,7 +410,7 @@ export async function runUntil({ event, timeoutS, stateDir, policy, seatsMb = 0,
 const delay = (ms) => new Promise((r) => { setTimeout(r, ms); });
 
 function parseArgs(argv) {
-  const opts = { json: false, until: null, timeoutS: null, seatsMb: 0 };
+  const opts = { json: false, until: null, timeoutS: null, seatsMb: null };
   for (let i = 0; i < argv.length; i += 1) {
     const a = argv[i];
     if (a === '--json') opts.json = true;
@@ -386,7 +423,7 @@ function parseArgs(argv) {
     if (!EVENTS.includes(opts.until)) return { error: `--until takes one of ${EVENTS.join(', ')}` };
     if (!Number.isFinite(opts.timeoutS) || opts.timeoutS <= 0) return { error: '--until needs --timeout <seconds>' };
   } else if (!opts.json) return { error: 'expected --json or --until' };
-  if (!Number.isFinite(opts.seatsMb) || opts.seatsMb < 0) return { error: '--seats-mb takes a number of MB' };
+  if (opts.seatsMb !== null && (!Number.isFinite(opts.seatsMb) || opts.seatsMb < 0)) return { error: '--seats-mb takes a number of MB' };
   return opts;
 }
 
@@ -395,7 +432,7 @@ async function main() {
   const opts = parseArgs(process.argv.slice(2));
   if (opts.error) {
     console.error(`shift-sense: ${opts.error}`);
-    console.error('usage: shift-sense.mjs --json | --until <gpu-idle|pressure|operator-idle> --timeout <s> [--seats-mb <n>]');
+    console.error('usage: shift-sense.mjs --json | --until <opening|gpu-idle|pressure|operator-idle> --timeout <s> [--seats-mb <n>]');
     process.exitCode = EXIT.FATAL;
     return;
   }
@@ -420,7 +457,8 @@ async function main() {
   } else {
     const raw = await sample();
     const now = Date.now();
-    out = decide(raw, readTail(path.join(stateDir, 'sense.jsonl')), policy, { now, seatsToday: readSeats(stateDir, now), shiftSeatsMb: opts.seatsMb });
+    const seats = seatContext(stateDir, now, opts.seatsMb, (m) => console.error(m));
+    out = decide(raw, readTail(path.join(stateDir, 'sense.jsonl')), policy, { now, seatsToday: readSeats(stateDir, now), ...seats });
   }
   console.log(JSON.stringify(out));
   process.exitCode = EXIT.OK;

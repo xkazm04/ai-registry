@@ -8,13 +8,25 @@ comparison. On this box the GPU is usually busy, so those wait in a bank and run
 There is no second list. A banked item is a row in `librarian/harvest/backlog.jsonl`:
 
 ```json
-{"id":"...","status":"held","queue":"media","render":{"kind":"proof","runId":"...","brief":"...","arms":{"a":"...","b":"..."},"instrument":"...","estGpuMin":30,"machine":"Lynx","display":null}}
+{"id":"...","status":"held","queue":"media","render":{"kind":"proof","runId":"...","brief":"...","arms":{"a":"...","b":"..."},"instrument":"...","estGpuMin":30,"machine":"Lynx","device":"gpu","display":null}}
 ```
 
 `kind` is `proof` (needs the operator's blind pick) or `benchmark` (timing or resource figures; no
 pick). `machine` matters: Fox and Wolf see the row and do not claim it. A row without `estGpuMin`
 is not picked, so estimate it from the table below. Write through the `ledger` lock, like every
 appender; `backlog-wave mark` is atomic under it.
+
+`device` says where the work runs. `"cpu"` takes the row out of the GPU lane: it comes back as a
+`cpu-proof`, from the build lane, one at a time, on any GPU state, and needs no `estGpuMin` and no
+lease. Anything else, or no `device`, is a GPU row.
+
+## The bank runs while verdicts wait
+
+A proof sealed and awaiting the operator's ear **never re-runs and never holds another row back**.
+`next` skips a run with a sealed triage or a verdict and takes the next eligible row, so several
+proofs may await verdicts at once, up to `reviewCapGb`, while one runs. A verdict asked is a verdict
+listed: `waitingOnOperator` names the run, and `/shift decisions` asks. The review cap is the only
+thing the operator's backlog can stop, and it stops only new proofs.
 
 ## What "idle" means
 
@@ -39,7 +51,9 @@ submitters do not take it, so sensors and the queue remain the guard for them: a
 
 ## Running one
 
-1. Re-sense. Confirm `gpu.state:"idle"` and `width.gpuProof >= 1`. If not, return it to the bank.
+1. Re-sense. Confirm `gpu.state:"idle"` and `free.gpuProof >= 1`. If not, return it to the bank.
+   Record it: `shift-queue seat proof --key proof:<runId>`, and `done` that key when the proof ends,
+   however it ends. A proof is not an agent seat and does not count against `maxSeatsPerDay`.
 2. Take the lease for the proof's life, from the gravitone checkout:
    `python pipeline/gpu/hold.py --tenant shift-proof/<runId> --engine comfy --while-pid <pid> --stop-file <path>`.
    A refusal means someone owns the GPU: back to the bank, no retry loop.
@@ -57,7 +71,12 @@ submitters do not take it, so sensors and the queue remain the guard for them: a
 One item per idle window, then re-sense: a window that held for one proof may not hold for the next.
 Prefer items that fit: do not start a 22-minute x2 upscale right after a batch that left a short gap.
 **Never download a model to pass a proof.** A missing model is a lead naming it. Multi-GB downloads
-wait for night and the operator.
+wait for night and the operator. On 2026-11-06 the operator also authorized the shift to name models
+for download; "never download" stays the default unless the operator says so for that model.
+
+A `cpu-proof` follows the same steps without the GPU ones: no idle check and no lease.
+Record it as `seat cpu-proof --key proof:<runId>`, and seal it the same way, because the operator's
+pick is owed the same.
 
 | Proof | Typical cost on Lynx | Memory |
 | --- | --- | --- |
@@ -86,6 +105,6 @@ That reveals the arms. **Then land or reject per `/intake` Phase 6b/7**, record 
 row, and `shift-review clean <runId>`, which refuses without a verdict.
 
 **The Director's reading of the frames is opinion and never the verdict.** Past the size cap
-(`reviewCapGb`), `next` pauses new proofs and says `proofsPaused`, because unreviewed renders are
-disk nobody reclaims. Benchmarks land their figures in the bench report without a pick, in the
+(`reviewCapGb`), `next` pauses new proofs of both devices and says `proofsPaused`, because unreviewed
+renders are disk nobody reclaims. Research goes on. Benchmarks land their figures in the bench report without a pick, in the
 lower section of the page.

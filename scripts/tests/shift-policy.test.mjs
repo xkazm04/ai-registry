@@ -17,11 +17,11 @@ const quiet = (over = {}) => ({
   ...over,
 });
 const prevAt = (dwellS, state = 'settling', agoS = 15) => ({ ts: iso(T - agoS * 1000), gpu: { state, dwellS } });
-const sense = (over = {}) => ({ cpuPct: 10, operatorIdleS: 7200, pressure: [], gpu: { state: 'busy' }, ...over });
+const sense = (over = {}) => ({ cpuPct: 10, availableMb: 40000, operatorIdleS: 7200, pressure: [], gpu: { state: 'busy' }, ...over });
 
 test('DEFAULTS holds exactly the design keys and values', () => {
   assert.deepEqual({ ...DEFAULTS }, {
-    maxSeatsPerDay: 30, attentionCap: 5, operatorIdleMin: 30, gpuIdleDwellS: 300, reviewCapGb: 5,
+    maxSeatsPerDay: 30, attentionCap: 5, operatorIdleMin: 30, operatorActiveResearch: 3, gpuIdleDwellS: 300, reviewCapGb: 5,
     minFreeDiskGb: 100, pageReadsPressure: 500, availableFloorMb: 12000, coLoadBudgetMb: 18000,
   });
 });
@@ -267,11 +267,60 @@ test('width: pressure closes everything', () => {
   assert.deepEqual(width(sense({ gpu: { state: 'idle' }, pressure: ['disk'] }), DEFAULTS, 0, 0), { research: 0, build: 0, gpuProof: 0 });
 });
 
-test('width: an active or unknown operator gives research 1, build 0', () => {
-  assert.deepEqual(width(sense({ operatorIdleS: 60 }), DEFAULTS, 0, 0), { research: 1, build: 0, gpuProof: 0 });
-  assert.deepEqual(width(sense({ operatorIdleS: null }), DEFAULTS, 0, 0), { research: 1, build: 0, gpuProof: 0 });
-  assert.equal(width(sense({ operatorIdleS: 1799 }), DEFAULTS, 0, 0).build, 0);
-  assert.equal(width(sense({ operatorIdleS: 1800 }), DEFAULTS, 0, 0).build, 1);
+test('width: an active or unknown operator caps research at operatorActiveResearch and leaves build alone', () => {
+  assert.deepEqual(width(sense({ operatorIdleS: 60 }), DEFAULTS, 0, 0), { research: 3, build: 1, gpuProof: 0 });
+  assert.deepEqual(width(sense({ operatorIdleS: null }), DEFAULTS, 0, 0), { research: 3, build: 1, gpuProof: 0 });
+  assert.equal(width(sense({ operatorIdleS: 1799 }), DEFAULTS, 0, 0).research, 3);
+  assert.equal(width(sense({ operatorIdleS: 1800 }), DEFAULTS, 0, 0).research, 5);
+  assert.equal(width(sense({ operatorIdleS: 60 }), loadPolicy({ operatorActiveResearch: 2 }), 0, 0).research, 2);
+  assert.equal(width(sense({ operatorIdleS: 60 }), loadPolicy({ attentionCap: 2 }), 0, 0).research, 2, 'it never raises');
+});
+
+test('width: the first real run\'s reading, 7 % CPU and 41 GB free with the operator active, is no longer research 1', () => {
+  const w = width(sense({ cpuPct: 7, availableMb: 41000, operatorIdleS: 60 }), DEFAULTS, 0, 1000);
+  assert.deepEqual(w, { research: 3, build: 1, gpuProof: 0 });
+});
+
+test('width: an active operator on an idle GPU keeps build at 1 and the proof lane open', () => {
+  assert.deepEqual(width(sense({ operatorIdleS: 60, gpu: { state: 'idle' } }), DEFAULTS, 0, 0), { research: 3, build: 1, gpuProof: 1 });
+  assert.equal(width(sense({ operatorIdleS: null, gpu: { state: 'idle' } }), DEFAULTS, 0, 0).gpuProof, 1);
+});
+
+test('width: research is bounded by RAM headroom above the floor', () => {
+  assert.equal(width(sense({ availableMb: 17000 }), DEFAULTS, 0, 0).research, 5);
+  assert.equal(width(sense({ availableMb: 14999 }), DEFAULTS, 0, 0).research, 2);
+  assert.equal(width(sense({ availableMb: 12999 }), DEFAULTS, 0, 0).research, 0);
+  assert.equal(width(sense({ availableMb: 12000 }), DEFAULTS, 0, 0).research, 0);
+  assert.equal(width(sense({ availableMb: 11000 }), DEFAULTS, 0, 0).research, 0, 'floored at 0');
+});
+
+test('width: a failed RAM reader gives research at most 1 and build 0: lower, but not stalled', () => {
+  assert.deepEqual(width(sense({ availableMb: null }), DEFAULTS, 0, 0), { research: 1, build: 0, gpuProof: 0 });
+  assert.equal(width(sense({ availableMb: null }), DEFAULTS, 0, 18000).research, 0, 'the budget still bounds it');
+});
+
+test('width: CPU at 80 or more gives research at most 1; an unknown CPU does not lower research', () => {
+  assert.equal(width(sense({ cpuPct: 79.9 }), DEFAULTS, 0, 0).research, 5);
+  assert.equal(width(sense({ cpuPct: 80 }), DEFAULTS, 0, 0).research, 1);
+  assert.equal(width(sense({ cpuPct: null }), DEFAULTS, 0, 0).research, 5);
+  assert.equal(width(sense({ cpuPct: null, operatorIdleS: 60 }), DEFAULTS, 0, 0).research, 3);
+});
+
+test('width: build needs 17 GB above the floor, whatever the GPU and the operator', () => {
+  for (const over of [{}, { gpu: { state: 'idle' } }, { operatorIdleS: 60 }]) {
+    assert.equal(width(sense({ availableMb: 28999, ...over }), DEFAULTS, 0, 0).build, 0, JSON.stringify(over));
+  }
+  assert.equal(width(sense({ availableMb: 29000 }), DEFAULTS, 0, 0).build, 1);
+  assert.equal(width(sense({ availableMb: 29000, gpu: { state: 'idle' } }), DEFAULTS, 0, 0).build, 4);
+});
+
+test('width: build at CPU 40 or unknown is 0 on an idle GPU too', () => {
+  assert.equal(width(sense({ cpuPct: 40, gpu: { state: 'idle' } }), DEFAULTS, 0, 0).build, 0);
+  assert.equal(width(sense({ cpuPct: null, gpu: { state: 'idle' } }), DEFAULTS, 0, 0).build, 0);
+});
+
+test('width: operatorActiveResearch must be a number, like every key', () => {
+  assert.throws(() => loadPolicy({ operatorActiveResearch: 'many' }), /must be a number/);
 });
 
 test('width: GPU busy: research from the co-load budget, capped by attentionCap, floored at 0', () => {
