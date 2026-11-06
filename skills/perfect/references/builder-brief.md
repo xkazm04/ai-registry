@@ -54,6 +54,22 @@ SHARED-RESOURCE PROTOCOL (non-negotiable):
   repo root, and never under the test directory where the integration gate
   will execute them as part of the suite. Builders share one harness
   scratchpad; a generically named temp file gets overwritten mid-wave.
+- DELETION: never `rm -rf`, and never a recursive delete on a path computed
+  from arguments, config or a join. Code you write may delete only explicit
+  FILES under the build-output dir or os.tmpdir(), or a directory it created
+  itself AND stamped with a marker file, after resolving realpaths and
+  refusing the repo root, anything inside it, the source tree, home and drive
+  roots. A scratch copy or worktree is removed by its own guarded helper (or
+  `git worktree remove <exact path>`), never by a shell rm. Prove each refusal
+  in a test with fixture paths before the tool deletes anything real.
+- SHARED ENGINE CACHE: if the repo's engine or toolchain mutates an in-tree
+  cache on every run (a game engine's import dir, a shared user-data dir),
+  every such run goes through the wave's gate lock (the brief names it). A concurrent
+  import is a sibling's half-written state you caused.
+- WHOLE-TREE HOOK: if the pre-commit hook fails ONLY on files outside your
+  write set, wait a minute and retry once; if it still fails only on foreign
+  files, commit with --no-verify and name the foreign file in the body and
+  your report. If it fails on YOUR files, fix them.
 
 Implement these accepted directions, one atomic commit each, message
 `<overlay: commit_format, default feat(<context>): <title>>`:

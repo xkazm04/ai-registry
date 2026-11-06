@@ -47,6 +47,22 @@ SHARED-RESOURCE PROTOCOL (non-negotiable):
   repo root, and never under the test directory where the integration gate will
   execute them as part of the suite. Builders share one harness scratchpad, so
   a generically named temp file gets overwritten mid-wave.
+- DELETION: never `rm -rf`, and never a recursive delete on a path computed
+  from arguments, config or a join. Code you write may delete only explicit
+  FILES under the build-output dir or os.tmpdir(), or a directory it created
+  itself AND stamped with a marker file, after resolving realpaths and
+  refusing the repo root, anything inside it, the source tree, home and drive
+  roots. A scratch copy or worktree is removed by its own guarded helper (or
+  `git worktree remove <exact path>`), never by a shell rm. Prove each refusal
+  in a test with fixture paths before the tool deletes anything real.
+- SHARED ENGINE CACHE: if the repo's engine or toolchain mutates an in-tree
+  cache on every run (a game engine's import dir, a shared user-data dir),
+  every such run goes through the wave's gate lock (the brief names it). A concurrent
+  import is a sibling's half-written state you caused.
+- WHOLE-TREE HOOK: if the pre-commit hook fails ONLY on files outside your
+  write set, wait a minute and retry once; if it still fails only on foreign
+  files, commit with --no-verify and name the foreign file in the body and
+  your report. If it fails on YOUR files, fix them.
 ```
 
 ## Why each line is there (incident ledger)
@@ -77,3 +93,16 @@ SHARED-RESOURCE PROTOCOL (non-negotiable):
 - **Class C is per-repo.** A repo with no locale codegen and no bindings has a thin list (the git
   index, the context map, generated artifacts). Importing another project's locale-conflict machinery
   into such a brief is noise; derive the list from the overlay and say when it is thin.
+- **Deletion.** 2026-11-06 (gtai): a builder's new release-compile tool staged a copy with
+  `rmSync(dest, {recursive: true, force: true})` on a dest taken from `--dir`/`--src`, and also
+  `rm -rf`'d a scratch copy. The whole game `project/` directory (4,082 tracked files plus the
+  untracked engine cache and native DLLs) vanished mid-wave and took all three lots' uncommitted
+  work with it. Recovered from git and a sibling worktree; the guard (marker-only deletion, realpath
+  refusal, a test per refusal) shipped as the tool's first commit. "Name temp files carefully" never
+  covered tools that delete.
+- **Shared engine cache.** Same session: three builders running a Godot project in one tree race on
+  `.godot/` imports and a `user://` dir every worktree shares. A wave-local `mkdir` lock serialised
+  every engine run at no visible cost; without it, gate results were unreadable.
+- **Whole-tree hook.** Same session: the repo's pre-commit hook lints the whole tree, so a sibling's
+  mid-edit file failed other lots' commits about five times. The retry-once-then-`--no-verify`-with-a-name rule kept
+  work committed without hiding the skip.
