@@ -47,7 +47,7 @@ also proves the generation instruments before Phase 5 scores anything:
 | Output | Local route | Probe |
 | --- | --- | --- |
 | Still image, sprite, texture, keyframe | ComfyUI + Flux 2 dev (multi-reference via chained `ReferenceLatent`) | `models/diffusion_models`, `GET :8188/object_info/ReferenceLatent` |
-| Video, first frame or first+last frame | ComfyUI + MiniMax H3 FL2VA (turbo LoRA), Wan 2.2 TI2V 5B | `comfy_extras/nodes_minimax_h3.py` inputs, model files present |
+| Video, first frame or first+last frame | ComfyUI + MiniMax H3 FL2VA (turbo LoRA), Wan 2.2 TI2V 5B (not on Lynx; check the model files) | `comfy_extras/nodes_minimax_h3.py` inputs, model files present |
 | 3D mesh, rig, animation | Blender headless renders a **pose sheet** (`render-proof/pose_sheet.py`): key poses in columns, fixed orthographic cameras in rows, framing from the subject's rest bounds - one still per arm. Rigs first pass `render-proof/rig_check.py` | `blender --version`, then each instrument's `--selftest` |
 | Sheet discrimination | `render-proof/sheet_distance.py`: foreground-masked distance + silhouette distance, the numbers `render-triage.mjs sheet` gates on | its `--selftest` |
 | **A jointly generated channel** (a voice, room tone, a score the model emits with the picture) | `render-proof/voice-distance.mjs`: compares the SPEAKERS of two recordings, over the long-term average spectrum of the voiced frames plus the median fundamental, both averaged across the clip so two different lines do not read as two different speakers. Supplies `discrimination` for an audio pair exactly as `sheet_distance.py` does for an image one, and the within-arm cross-clip distance that is usually the target | its `--selftest`, plus `ffmpeg -version` (decode only) |
@@ -58,7 +58,7 @@ The resource discipline is not optional and is already written down in a connect
 the fleet project that runs this stack for its own consistency work carries a generation-ops
 guard - resolve the project through the fleet map, import the guard read-only, do not copy it. Batch by
 stage, never alternate engines per item; recycle ComfyUI before every clip; check commit
-charge and disk, not free RAM; **never recycle while a foreign job runs**. Launch the render
+charge and disk, not free RAM; **never recycle while a foreign job runs**, and on a shared box under `/shift` never recycle or `/free` at all: submit through the queue and cut the batch short ([`gpu-bank.md`](../../shift/references/gpu-bank.md)). Launch the render
 detached with its stdout/stderr in the run's scratch directory and a resumable checkpoint -
 every failure in this stack presents as silence.
 

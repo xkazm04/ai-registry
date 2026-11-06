@@ -18,7 +18,8 @@
  * THE LADDER (next)
  *   every width zero  wait, naming any mining cluster so nothing reads as forgotten
  *   mining item       resume: a restart never leaves half-mined work behind
- *   gpu idle + width  gpu-proof, from a held queue:media row for this machine with estGpuMin
+ *   gpu idle + width  gpu-proof, from a held queue:media row for this machine with estGpuMin;
+ *                     over reviewCapGb it falls through, and the action says proofsPaused
  *   no research seat  wait
  *   unplanned > 5 or older than 24 h, no draft waiting   pre-research
  *   approved cluster  mine
@@ -35,6 +36,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { EXIT, installCrashDoor } from './lib/exit-codes.mjs';
 import { loadFleet } from './lib/projects.mjs';
+import { reviewSize } from './lib/shift-review-state.mjs';
 import { parseLedger } from './backlog-wave.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
@@ -203,7 +205,7 @@ function uniqueClusters(selected, plans, rows) {
 }
 
 /** Pure. Everything it reads arrives as an argument, so the ordering is pinned by fixtures. */
-export function nextAction({ sense, rows, plans, backlog, evalDebt, machine, now }) {
+export function nextAction({ sense, rows, plans, backlog, evalDebt, machine, now, reviewOverCap = false }) {
   const { width, gpu } = sense;
   const mining = uniqueClusters(rows.filter((r) => r.status === 'mining'), plans, rows);
 
@@ -213,29 +215,32 @@ export function nextAction({ sense, rows, plans, backlog, evalDebt, machine, now
   }
   if (mining.length) return { action: 'resume', width, cluster: mining[0] };
 
+  // Set only when a proof would have run: the flag means "the cap stopped this", not "over cap".
+  let paused = {};
   if (gpu?.state === 'idle' && width.gpuProof >= 1) {
     const row = backlog.find((r) => r.status === 'held' && r.queue === 'media'
       && Number.isFinite(r.render?.estGpuMin)
       && machine && String(r.render?.machine ?? '').toLowerCase() === String(machine).toLowerCase());
-    if (row) return { action: 'gpu-proof', width, row };
+    if (row && !reviewOverCap) return { action: 'gpu-proof', width, row };
+    if (row) paused = { proofsPaused: 'review-over-cap' };
   }
 
   // Everything below spends a research seat, and a width of {build:1} does not grant one.
-  if (width.research < 1) return { action: 'wait', width, reason: 'no research seat at this width' };
+  if (width.research < 1) return { action: 'wait', width, reason: 'no research seat at this width', ...paused };
 
   const unplanned = rows.filter((r) => UNPLANNED.includes(r.status));
   const tooOld = unplanned.filter((r) => now - Date.parse(r.addedAt) > UNPLANNED_MAX_AGE_MS);
   const draftWaiting = plans.some((p) => !p.approved);
   if ((unplanned.length > UNPLANNED_LIMIT || tooOld.length) && !draftWaiting) {
-    return { action: 'pre-research', width, unplanned: unplanned.length, olderThan24h: tooOld.length };
+    return { action: 'pre-research', width, unplanned: unplanned.length, olderThan24h: tooOld.length, ...paused };
   }
 
   const approved = uniqueClusters(rows.filter((r) => r.status === 'approved'), plans, rows);
-  if (approved.length) return { action: 'mine', width, cluster: approved[0] };
+  if (approved.length) return { action: 'mine', width, cluster: approved[0], ...paused };
 
-  if (evalDebt >= EVAL_DEBT_LIMIT) return { action: 'filler', width, skill: 'harvest evaluate', debt: evalDebt };
-  if (backlog.some((r) => r.status === 'queued')) return { action: 'filler', width, skill: 'harvest backlog' };
-  return { action: 'filler', width, skill: 'deepen --loop' };
+  if (evalDebt >= EVAL_DEBT_LIMIT) return { action: 'filler', width, skill: 'harvest evaluate', debt: evalDebt, ...paused };
+  if (backlog.some((r) => r.status === 'queued')) return { action: 'filler', width, skill: 'harvest backlog', ...paused };
+  return { action: 'filler', width, skill: 'deepen --loop', ...paused };
 }
 
 /** Every reason this sense cannot be acted on. Absent numbers are never read as zero. */
@@ -303,6 +308,7 @@ function cmdNext(argv, ctx) {
     evalDebt: evaluationDebt(fs.readFileSync(path.join(ctx.root, 'librarian', 'harvest', 'evaluations.md'), 'utf8')),
     machine: ctx.machine !== undefined ? ctx.machine : loadFleet(ctx.root).machine,
     now: ctx.now(),
+    reviewOverCap: reviewSize(ctx.root).overCap,
   });
   ctx.log(JSON.stringify(action));
   return EXIT.OK;

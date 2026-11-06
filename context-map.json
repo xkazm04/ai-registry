@@ -302,6 +302,7 @@
         "scripts/install-merge-driver.mjs",
         "scripts/lib/safe-remove.mjs",
         "scripts/lib/shift-policy.mjs",
+        "scripts/lib/shift-review-state.mjs",
         "scripts/lib/shift-source-ledger.mjs",
         "scripts/merge-generated.mjs",
         "scripts/regen-generated.mjs",
@@ -310,6 +311,7 @@
         "scripts/run-board.test.mjs",
         "scripts/shift-plan.mjs",
         "scripts/shift-queue.mjs",
+        "scripts/shift-review.mjs",
         "scripts/shift-sense.mjs",
         "scripts/tests/backlog-phantom-screen.test.mjs",
         "scripts/tests/commit-inventory-replay.test.mjs",
@@ -319,6 +321,7 @@
         "scripts/tests/shift-plan.test.mjs",
         "scripts/tests/shift-policy.test.mjs",
         "scripts/tests/shift-queue.test.mjs",
+        "scripts/tests/shift-review.test.mjs",
         "scripts/tests/shift-sense.test.mjs",
         "scripts/tests/shift-source-ledger.test.mjs"
       ],

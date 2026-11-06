@@ -73,6 +73,55 @@ test('a proof needs a held media row for this machine carrying estGpuMin', () =>
   assert.equal(nextAction(base({ sense: idle, backlog: [heldRow({ render: { machine: 'lynx', estGpuMin: 5 } })] })).action, 'gpu-proof', 'case of the machine name folds');
 });
 
+test('over the review cap the proof rung falls through to research and says why', () => {
+  const idle = sense({ gpuProof: 1 }, 'idle');
+  const over = (extra) => nextAction(base({ sense: idle, backlog: [heldRow()], reviewOverCap: true, ...extra }));
+  assert.deepEqual([over({ rows: unplannedSix }).action, over({ rows: unplannedSix }).proofsPaused], ['pre-research', 'review-over-cap']);
+  assert.deepEqual([over({ rows: approved }).action, over({ rows: approved }).proofsPaused], ['mine', 'review-over-cap']);
+  assert.deepEqual([over({ evalDebt: 3 }).skill, over({ evalDebt: 3 }).proofsPaused], ['harvest evaluate', 'review-over-cap']);
+  assert.deepEqual([over({}).skill, over({}).proofsPaused], ['deepen --loop', 'review-over-cap']);
+  const noSeat = over({ sense: sense({ research: 0, gpuProof: 1 }, 'idle') });
+  assert.deepEqual([noSeat.action, noSeat.proofsPaused], ['wait', 'review-over-cap']);
+});
+
+test('the pause flag means the cap stopped a proof, not merely that the folder is over', () => {
+  for (const extra of [{ sense: sense({ gpuProof: 1 }, 'busy'), backlog: [heldRow()] }, { sense: sense({ gpuProof: 1 }, 'idle'), backlog: [] }, { sense: sense({ gpuProof: 0 }, 'idle'), backlog: [heldRow()] }]) {
+    assert.equal(nextAction(base({ ...extra, reviewOverCap: true })).proofsPaused, undefined);
+  }
+  assert.equal(nextAction(base({ sense: sense({ gpuProof: 1 }, 'idle'), backlog: [heldRow()], reviewOverCap: false })).action, 'gpu-proof');
+  assert.equal(nextAction(base({ rows: mining, sense: sense({ gpuProof: 1 }, 'idle'), backlog: [heldRow()], reviewOverCap: true })).action, 'resume', 'resume still comes first');
+});
+
+test('next measures the real review folder against the configured cap', () => {
+  const root = tmpRoot();
+  fs.writeFileSync(path.join(root, 'librarian', 'harvest', 'backlog.jsonl'), `${JSON.stringify(heldRow())}\n`);
+  const review = path.join(root, '.ai', 'shift', 'review');
+  fs.mkdirSync(review, { recursive: true });
+  fs.writeFileSync(path.join(review, 'big.bin'), Buffer.alloc(4096));
+  const run = () => {
+    const c = capture(root, { stdin: () => JSON.stringify(sense({ gpuProof: 1 }, 'idle')) });
+    assert.equal(main(['next', '--sense', '-'], c.ctx), EXIT.OK, c.err.join(''));
+    return JSON.parse(c.out[0]);
+  };
+  assert.equal(run().action, 'gpu-proof', 'default cap is 5 GB');
+  fs.writeFileSync(path.join(root, '.ai', 'shift', 'config.json'), JSON.stringify({ reviewCapGb: 0.000001 }));
+  const a = run();
+  assert.deepEqual([a.action, a.proofsPaused], ['filler', 'review-over-cap']);
+  fs.writeFileSync(path.join(root, '.ai', 'shift', 'config.json'), JSON.stringify({ reviewCapGB: 1 }));
+  const bad = capture(root, { stdin: () => JSON.stringify(sense()) });
+  assert.equal(main(['next', '--sense', '-'], bad.ctx), EXIT.FATAL, 'a typo in the cap is could-not-run, never a default');
+});
+
+test('held rows are read by their documented keys: the legacy shape is not eligible', () => {
+  const idle = sense({ gpuProof: 1 }, 'idle');
+  const legacy = { id: 'x', status: 'held', queue: 'media', render: { run_id: 'r', arm_a: 'a', arm_b: 'b', instrument: 'i' } };
+  const migrated = { id: 'x', status: 'held', queue: 'media', render: { kind: 'proof', runId: 'r', brief: 'b', arms: { a: 'a', b: 'b' }, instrument: 'i', estGpuMin: 30, machine: 'Lynx', display: null } };
+  assert.notEqual(nextAction(base({ sense: idle, backlog: [legacy] })).action, 'gpu-proof');
+  const a = nextAction(base({ sense: idle, backlog: [migrated] }));
+  assert.equal(a.action, 'gpu-proof');
+  assert.equal(a.row.render.runId, 'r');
+});
+
 test('rung 3: pre-research when unplanned passes 5, or one is older than 24 h', () => {
   assert.equal(nextAction(base({ rows: [...unplannedSix, ...approved] })).action, 'pre-research');
   assert.notEqual(nextAction(base({ rows: unplannedSix.slice(0, 5) })).action, 'pre-research', 'five is not beyond five');

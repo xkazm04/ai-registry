@@ -3,7 +3,7 @@ name: harvest
 description: "Drain the graded source queue in librarian/harvest/ through the /intake method, in parallel and in bulk - or, in backlog mode, drain the untriaged tail of past intake runs by measuring each candidate and landing only what comes back better: admit only sources that map to a measured live gap, mine a batch with scoped subagent miners, land what survives the intake discipline, then prove or refute the landing's impact with an A/B evaluation on a connected project. The loop that turns 100+ queued URLs into corpus mastery without turning the corpus into a feed. Use when the queue has rows and nobody is hand-feeding /intake links."
 category: ai-native
 memory: project
-version: 0.5.2
+version: 0.6.0
 tags: research, queue, batch, orchestration, evaluation, ab-test, cross-repo
 ---
 
@@ -266,6 +266,14 @@ elite bar from `librarian/harvest/index.md`, and the standing dedupe set (ledger
 queue + watchlist). Agents return candidate rows; the orchestrator grades, dedupes
 and appends. A refill that returns "no elite source exists yet" updates the gap
 line's `nearest stand-in` instead - that is a finding, not a failure.
+
+## Run by /shift
+
+[`/shift`](../shift/SKILL.md) is a long-lived supervisor that calls `/harvest backlog` and
+`/harvest evaluate` as filler, at a width from its sensors, and claims the `queue: media` rows this
+skill never picks up. The method here does not change: a backlog wave lands only on `better`, and
+evaluation debt still stops volume. `backlog-wave mark` now takes the board's `ledger` lock, so the
+two can run at once; exit 3 means contended and nothing was written.
 
 ## Never
 

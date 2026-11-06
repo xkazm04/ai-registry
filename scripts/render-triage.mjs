@@ -56,7 +56,7 @@ import { fileURLToPath } from 'node:url';
 import { EXIT } from './lib/exit-codes.mjs';
 
 const LABELS = ['X', 'Y', 'Z', 'W'];
-const MEDIA = new Set(['.png', '.jpg', '.jpeg', '.webp', '.gif', '.mp4', '.webm', '.mov', '.mkv',
+export const MEDIA = new Set(['.png', '.jpg', '.jpeg', '.webp', '.gif', '.mp4', '.webm', '.mov', '.mkv',
   '.wav', '.mp3', '.flac', '.ogg', '.glb', '.gltf', '.obj', '.fbx', '.blend', '.exr', '.hdr', '.latent']);
 const VIDEO = new Set(['.mp4', '.webm', '.mov', '.mkv']);
 const AUDIO = new Set(['.wav', '.mp3', '.flac', '.ogg']);
@@ -71,7 +71,7 @@ function readJson(file, what) {
   try { return JSON.parse(fs.readFileSync(file, 'utf8')); } catch (e) { fail(`${what} is not JSON: ${e.message}`); }
 }
 
-const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+export const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 
 /**
  * Tokens that would tell the operator which arm is which, found in a page.
@@ -96,7 +96,7 @@ export function leaks(html, manifest) {
   return found;
 }
 
-function mediaTag(src) {
+export function mediaTag(src) {
   const ext = path.extname(src).toLowerCase();
   // NOT muted. Models now generate sound with the picture, so a pair's variable can BE the
   // sound - a voice reference attached or not - and a muted player hides the one thing the

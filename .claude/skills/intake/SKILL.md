@@ -3,7 +3,7 @@ name: intake
 description: "Mine an external source - a YouTube video, a news roundup, an article, pasted notes, a repository - for what it should change in THIS registry, and in the connected projects that consume it. Ingests the source, reads its design decisions as well as its claims, maps both against existing bundles for prior art, triages with the operator, and lands what survives corroboration - amendments for boundary cases, techniques and subjects for mechanisms, forge handoffs for systems whose architecture the corpus lacks. News sources mostly yield currency signals and leads; that is a successful run. Use when someone shares a link and asks what it means for us."
 category: ai-native
 memory: project
-version: 2.18.0
+version: 2.19.0
 tags: research, sources, memory-lane, admission-gate, render-proof, triage, currency, cross-repo, leads, apply, ab-test, parallel, reference-index, design-read, forge-handoff, directions, fleet-map, peer-study, opus-workers, decision-gate
 ---
 
@@ -1145,8 +1145,12 @@ Six rules hold without exception:
   shape with `"status": "held"`, `"queue": "media"` and a `"render"` object naming the run id,
   the brief, where arm A's and arm B's instructions are (the corpus-before and corpus-after
   text, or the source-note section holding them), and the instrument it needs (model, node,
-  the envelope if one is known). `held` rows never enter a `/harvest backlog` wave; the media
-  host claims `queue: media` rows and the operator's blind verdict lands or rejects them. A
+  the envelope if one is known). The `render` keys are `kind` (`proof` or `benchmark`), `runId`,
+  `brief`, `arms`, `instrument`, `estGpuMin`, `machine`, `display`. `held` rows never enter a
+  `/harvest backlog` wave; the media host, **`/shift`**, claims `queue: media` rows and the
+  operator's blind verdict lands or rejects them. **On a machine that has the models, a GPU busy
+  with someone else's job is a legal reason to hold, under `/shift` only (v2.19):** the row waits
+  for an idle window instead of landing or dying this sitting. A
   render-bound candidate never becomes a technique carried by a `simulation` row either way.
   **Scope widened (v2.18; operator rule, 2026-10-24):** the local example is owed by every
   media-generation or game-development technique the run touches, not only the one that
