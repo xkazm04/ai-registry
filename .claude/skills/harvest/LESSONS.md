@@ -152,3 +152,9 @@ report now has a lane to land in.
   and one had to delete a stackdump it left in a knowledge folder. The brief line "do not
   combine `-i` with several `-e`; delete any stackdump you create" worked in the lane that
   carried it. Put it in every miner brief.
+
+## 0.6.0 - 2026-11-06 - self-evolving-harness (a /shift lander, no harvest pass ran)
+
+- 0.7.0 adds judge family and draws per arm to each row's note cell. Rests on `repeat`: of 18 settled rows, 1 records a judge's family and 1 mentions any repetition, against a law and a golden path that require both. Mid-flight runs finish on the version they loaded.
+- Not columns, because `evaluationDebt` reads `verdict` by the header's position.
+- Not yet a minimum number of draws, and not a required cross-family judge. Two draws per arm in this lander's probe saw a floor drop and could not size it. A minimum is an operator trade, proposed in the source note.

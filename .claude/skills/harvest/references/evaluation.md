@@ -60,6 +60,12 @@ technique's claim about when it matters, so they are the fairest possible ground
   (correctness of the call, the failure mode addressed or missed, evidence cited,
   scope discipline). Never a single holistic number - a rubric the judge fills is
   auditable; vibes are not.
+- **The judge's family goes on the row.** A judge from the arms' own vendor family gives a
+  verdict labelled `single-family, provisional`: a filter, never confirmation, so not yet the
+  landing's receipt. Use another family where one is reachable. A second judge from the same
+  family is not a panel.
+- **So does the number of draws per arm.** One draw per arm cannot separate a landing's
+  effect from run variance, so a one-draw verdict says it is one draw.
 - The orchestrator then unblinds and writes the verdict:
 
 | verdict | meaning | consequence |
@@ -76,6 +82,11 @@ technique's claim about when it matters, so they are the fairest possible ground
 ```
 | date | landing (subject/technique) | source (ledger link) | project (slug only) | probe (one clause) | verdict | note |
 ```
+
+The `note` cell opens with `judge=<family>; draws=<n per arm>`. Older rows carry neither, and
+a reader treats that as unknown. They are not new columns: `evaluationDebt` in
+`scripts/shift-queue.mjs` finds `verdict` by the header's position, so a column added before
+it miscounts debt over every older row.
 
 Slugs only for projects - the same privacy rule as `usage/` and `signals/`: this
 lane is public, a consumer's paths and internals are not. The probe artifacts (arm
