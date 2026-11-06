@@ -1206,7 +1206,7 @@
       "techniques": 134,
       "applications": 100,
       "files": 258,
-      "contentHash": "sha256-b2:3183efe979cb727c"
+      "contentHash": "sha256-b2:c58d268db71aaa1f"
     },
     {
       "name": "localization",
@@ -1243,9 +1243,9 @@
       "purity": "media",
       "subjects": 53,
       "techniques": 351,
-      "applications": 207,
-      "files": 616,
-      "contentHash": "sha256-b2:d70383d45fd5e6a1"
+      "applications": 208,
+      "files": 617,
+      "contentHash": "sha256-b2:9cbd206f1fb14409"
     },
     {
       "name": "recruiting",

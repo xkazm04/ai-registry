@@ -6,7 +6,7 @@ technique: approval-reads-forward
 status: forged
 laws: [cost-per-usable-output, edit-do-not-regenerate]
 shared_with: []
-use_when: [approving a location plate, character sheet, style contract or any other asset that later requests will be conditioned on, a later beat depends on where a light source or a landmark sits, deciding whether a shared asset is ready to graduate, a payoff shot cannot be made from an upstream artifact every reviewer already approved]
+use_when: [approving a location plate, character sheet, style contract or any other asset that later requests will be conditioned on, a later beat depends on where a light source or a landmark sits, deciding whether a shared asset is ready to graduate, a payoff shot cannot be made from an upstream artifact every reviewer already approved, deciding which assets to make before the first paid generation]
 ---
 
 # Approval reads forward
@@ -76,6 +76,24 @@ Anything the asset *fixes* that a later request can only inherit. Four recur:
    When the script changes, the list answers whether the plate still covers the
    new beat, instead of the question being silently re-opened with no record
    that it was ever closed.
+
+## The roster comes from the same walk
+
+A forward list starts from an asset, so it can only read assets somebody has
+already decided to make. An asset nobody listed has no list, and the first
+anyone hears of it is the beat that needs it. So walk the settled beats once
+before the first paid asset and tag every location, figure, prop and persisting
+state a beat requires, including each version of a subject the story changes.
+A model can draft the tags; a person reads them, because this list decides what
+gets paid for.
+
+A standing cast or an existing bible comes in from earlier work and is not
+re-derived: the walk finds what the beats add to it. Whether a piece may mint
+before it has beats turns on one question: **does any shared asset carry a state
+the story changes?** Stylised plates and cut-outs that hold still through a short
+piece can come from the topic alone, and the last section's exception covers them
+until a beat changes one. A figure the story hurts or re-dresses cannot be listed
+until the beats exist.
 
 ## Decision rules
 

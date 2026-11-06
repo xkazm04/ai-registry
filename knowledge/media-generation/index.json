@@ -5,7 +5,7 @@
   "source": "knowledge/media-generation/ (frontmatter only)",
   "subjects": 53,
   "techniques": 351,
-  "applications": 207,
+  "applications": 208,
   "laws": 9,
   "categories": [
    "narrative-craft",
@@ -2682,9 +2682,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/media-generation/visual-generation/generative-provider-routing/generative-provider-routing.md",
-   "digest": "sha256-b2:5f893ef4493c954f",
-   "revision": 11,
-   "changedAt": "2026-09-17",
+   "digest": "sha256-b2:9ca2c31dc87ce079",
+   "revision": 12,
+   "changedAt": "2026-11-06",
    "techniques": [
     {
      "slug": "capability-to-vendor-plan",
@@ -4993,9 +4993,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/media-generation/production-ops/production-pipeline-phasing/production-pipeline-phasing.md",
-   "digest": "sha256-b2:f1762f69eb77b8d3",
-   "revision": 5,
-   "changedAt": "2026-10-21",
+   "digest": "sha256-b2:dec058ddd3d55a4c",
+   "revision": 6,
+   "changedAt": "2026-11-06",
    "techniques": [
     {
      "slug": "approval-reads-forward",
@@ -5011,7 +5011,8 @@
       "style contract or any other asset that later requests will be conditioned on",
       "a later beat depends on where a light source or a landmark sits",
       "deciding whether a shared asset is ready to graduate",
-      "a payoff shot cannot be made from an upstream artifact every reviewer already approved"
+      "a payoff shot cannot be made from an upstream artifact every reviewer already approved",
+      "deciding which assets to make before the first paid generation"
      ]
     },
     {
@@ -5116,6 +5117,12 @@
      "file": "knowledge/media-generation/production-ops/production-pipeline-phasing/applications/node--long-run-as-background-job.md",
      "verified_on": "2026-09-01",
      "verified_against": "node@24"
+    },
+    {
+     "stack": "process",
+     "technique": "approval-reads-forward",
+     "file": "knowledge/media-generation/production-ops/production-pipeline-phasing/applications/process--approval-reads-forward.md",
+     "verified_on": "2026-11-06"
     },
     {
      "stack": "react",
@@ -6429,9 +6436,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/media-generation/production-ops/video-assembly/video-assembly.md",
-   "digest": "sha256-b2:5f548f222df2e692",
-   "revision": 20,
-   "changedAt": "2026-10-21",
+   "digest": "sha256-b2:ddb944335d94790a",
+   "revision": 21,
+   "changedAt": "2026-11-06",
    "techniques": [
     {
      "slug": "alignment-names-its-text",

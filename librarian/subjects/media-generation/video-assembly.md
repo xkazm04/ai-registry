@@ -1,7 +1,8 @@
 ---
 subject: video-assembly
 domain: media-generation
-last_touched: 2026-10-21
+last_touched: 2026-11-06
+touched_by: shift
 dry_streak: 0
 ---
 
@@ -357,3 +358,9 @@ property.
 - The operator's own observation that one untreated take had the clearest sound of the
   four is recorded as a trade in the technique. It is unmeasured: the instrument reads
   register and spectrum, not intelligibility.
+
+## 2026-11-06 - `/shift`, cluster `film-preproduction-chain`
+
+- `process--generated-shot-sourcing`: two dated bullets, published spend records and a hosted connector that is no spend control. `verified_on` not moved, because the sheet's older citations were not re-resolved.
+- A tail screenshot goes to the text model and the video is the generator's input, as "An extension is briefed from the output" already says. Recorded as a catch. See [[2026-11-06-film-preproduction-chain]].
+- Corpus split left open: "the mix cannot be fixed downstream" against separation used on mixes. Needs a separator on disk and a listening pair.

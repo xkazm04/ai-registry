@@ -69,6 +69,21 @@ carrying no revision note are as of the original sheet.
 - **Cost classes:** the market runs ~$0.03–$0.75 per rendered second.
   Multiply by observed takes-to-accept before comparing — a $0.05/s model
   at five takes is a $0.25/s model (law: cost-per-usable-output).
+- **Two published spend records (read 2026-11-06, third-party class).** One
+  practitioner's public project pages on one host show a 263 s music video at
+  4,849 credits, about 18.4 per finished second, and a 477 s short film at
+  11,520 credits, about 24.2 per finished second. The creator states just under
+  $450 for the second, "wins and failed gens"; at the roughly $0.04 a credit his
+  other figure implies (about 750 credits, about $30), that is the page's total,
+  so its credit field looks failure-inclusive there. That reading is an
+  inference, and the pages do not define their fields. The generation counts do
+  not cover the whole film: the short film reads 34, all one motion model, though
+  its stills were generated too. Neither page gives an acceptance rate.
+- **A hosted connector is not a spend control (read 2026-11-06, vendor page
+  modified 2026-10-24).** One host's agent connector always deducts credits at
+  standard rates, including on a plan with unlimited web access, and that page
+  names no spending limit or cost preview. A budget stated to the agent is then
+  prose, so the gate has to sit outside the prompt.
 
 ## Pipeline facts (retiring a forge-era claim)
 
@@ -101,6 +116,9 @@ explainers are production-viable unattended.
 - https://www.mindstudio.ai/blog/seedance-2-5-features-30-second-video-4k
 - https://morphic.com/resources/models/seedance-2-5
 - https://wavespeed.ai/blog/ai-api-pricing/seedance-2-5-api-watch/
+- https://higgsfield.ai/@joeysnoisygroup/projects/ctrl-hold-mv (accessed 2026-11-06)
+- https://higgsfield.ai/@joeysnoisygroup/projects/swing-and-a-miss (accessed 2026-11-06)
+- https://higgsfield.ai/creator-hub/help-center/mcp-cli/what-is-higgsfield-mcp (accessed 2026-11-06)
 
 **Tiering note on the 2026-09 revision.** Every source above is a relay; no
 vendor model card states 2.5's resolution, price or per-request limits, and the

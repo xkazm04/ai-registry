@@ -1783,9 +1783,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/llm-observability/economics-and-governance/llm-price-book-operations/llm-price-book-operations.md",
-   "digest": "sha256-b2:1f43aefeff056ea5",
-   "revision": 2,
-   "changedAt": "2026-10-02",
+   "digest": "sha256-b2:f86953545c06782d",
+   "revision": 3,
+   "changedAt": "2026-11-06",
    "techniques": [
     {
      "slug": "embedded-seed-fallback",
