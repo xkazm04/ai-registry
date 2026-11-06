@@ -51,12 +51,14 @@ rights record application under the acceptance subject.
 | Google Lyria 3 | prompt-level | fast instrumental beds | roughly 2–4× faster generation than Suno-class; API via cloud platform |
 | Udio | prompt-level, no public API | vocal songs | commercial rights on paid plans |
 | Stable Audio / MiniMax | prompt + duration | SFX-adjacent, short-form, open-weight options | proper APIs; quality trails the leaders on vocals |
+| YuE2 3B (row added 2026-11-06, other rows not re-checked) | editable notation plan, then whole-song regeneration; no section address | local vocal songs and covers, no API spend | open weights, 3B parameters; card and paper read 2026-11-06. Weights labelled CC BY-NC 4.0, so not for commercial use; the int8 repack's licence was not checked. Card asks for a 24 GB GPU and claims 3.6 minutes of song in 71 s on an RTX 4090 (vendor figure, not reproduced). Measured on a 64 GB unified-memory box: about 120 s of audio in 47.9 s of engine time, n=1, memory not read |
 
 Sourcing consequence for a cue pipeline: as of 2026-08 only the
 plan-native vendor offers section-addressable *revision* over an API — the
 capability the edit-over-regeneration discipline needs. Vocal-led hero
 pieces may still justify the aggregator route to the quality leader;
-underscore and picture-locked cues do not.
+underscore and picture-locked cues do not. The row added on 2026-11-06 leaves
+this standing: that model revises by regenerating the whole song.
 
 ## Worked example — a 38-second trailer cue as a plan
 

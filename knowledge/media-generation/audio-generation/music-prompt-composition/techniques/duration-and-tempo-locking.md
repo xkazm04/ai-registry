@@ -6,7 +6,7 @@ technique: duration-and-tempo-locking
 status: forged
 laws: [causality-over-sequence, unmeasured-is-not-pass]
 shared_with: []
-use_when: [briefing a cue that must hit picture events, translating a cue list row into a generator brief, a delivered cue is the right music at the wrong length, choosing a tempo so musical accents land on cuts]
+use_when: [briefing a cue that must hit picture events, translating a cue list row into a generator brief, a delivered cue is the right music at the wrong length, choosing a tempo so musical accents land on cuts, a generator's duration setting is a maximum rather than a target, a song stops abruptly at its duration limit]
 ---
 
 # Duration and tempo locking
@@ -51,6 +51,24 @@ was briefed against cannot stretch. The measurement is seconds against the
 cue list row; unmeasured is not pass, and "sounds about right" is
 unmeasured.
 
+## When the duration control is a ceiling
+
+Some generators treat requested duration as a generation budget. Sampling
+ends when the model writes its own end, so length is a sampled outcome, and
+that control cannot lock a cue to picture. Set it well above what the lyrics
+need and measure what comes back. A run that exhausts the budget stops
+abruptly: a broken ending caused by the ceiling and not by the brief, so
+raise the ceiling instead of re-briefing. The exception is a prompt that has
+already drawn the budget down, because the brief's own text can claim the
+same room. There, shorten the brief.
+
+The ceiling is not neutral either. On the one model measured, at the same
+seed and plan, moving a generous ceiling changed the audio on two of two
+songs while length held within about two seconds; identical settings
+reproduced exactly. Those are objective distances with no listening verdict,
+so they say the takes differ and not which is better. A reproducible take
+records its ceiling with its seed and plan.
+
 ## Ducking is a mix rule, not a brief line
 
 A cue that will sit under narration is briefed *thinner* (sparser
@@ -72,6 +90,12 @@ narrator, and the request spends style budget on a mix problem.
 - When no picture event depends on the cue's interior, lock duration only
   and leave tempo to the style, because an unnecessary lock narrows the
   model for no one.
+- When a run on a ceiling-style control ends abruptly, raise the ceiling and
+  keep the brief, unless the brief already shrank the budget, because the
+  fault is the budget's (one model, one forced cut).
+- When a take must be reproducible, record the duration ceiling with the seed
+  and plan, because a different ceiling can be a different take (one model,
+  two songs, objective distance only).
 - When the delivered cue misses its length, treat it as a failed take, not
   material to time-stretch — stretching audio to fit is a repair with an
   audible cost, and the brief had the number all along.

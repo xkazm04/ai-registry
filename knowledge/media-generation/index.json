@@ -5,7 +5,7 @@
   "source": "knowledge/media-generation/ (frontmatter only)",
   "subjects": 53,
   "techniques": 351,
-  "applications": 204,
+  "applications": 207,
   "laws": 9,
   "categories": [
    "narrative-craft",
@@ -4126,9 +4126,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/media-generation/audio-generation/music-prompt-composition/music-prompt-composition.md",
-   "digest": "sha256-b2:2d8975c2a51e5157",
-   "revision": 1,
-   "changedAt": "2026-08-26",
+   "digest": "sha256-b2:b7764e7001478e12",
+   "revision": 2,
+   "changedAt": "2026-11-06",
    "techniques": [
     {
      "slug": "duration-and-tempo-locking",
@@ -4142,7 +4142,9 @@
       "briefing a cue that must hit picture events",
       "translating a cue list row into a generator brief",
       "a delivered cue is the right music at the wrong length",
-      "choosing a tempo so musical accents land on cuts"
+      "choosing a tempo so musical accents land on cuts",
+      "a generator's duration setting is a maximum rather than a target",
+      "a song stops abruptly at its duration limit"
      ]
     },
     {
@@ -4171,7 +4173,8 @@
       "starting a music brief from an existing track",
       "cues across one production drift apart in identity",
       "a temp track has colonized everyone's expectations",
-      "deciding whether a reference is safe to hand a generator"
+      "deciding whether a reference is safe to hand a generator",
+      "a route transcribes a reference into notation and regenerates from it"
      ]
     },
     {
@@ -4211,6 +4214,20 @@
      "file": "knowledge/media-generation/audio-generation/music-prompt-composition/applications/node--duration-and-tempo-locking.md",
      "verified_on": "2026-08-26",
      "verified_against": "node@24"
+    },
+    {
+     "stack": "process",
+     "technique": "duration-and-tempo-locking",
+     "file": "knowledge/media-generation/audio-generation/music-prompt-composition/applications/process--duration-and-tempo-locking.md",
+     "verified_on": "2026-11-06",
+     "refresh_by": "2027-02-06"
+    },
+    {
+     "stack": "process",
+     "technique": "reference-track-anchoring",
+     "file": "knowledge/media-generation/audio-generation/music-prompt-composition/applications/process--reference-track-anchoring.md",
+     "verified_on": "2026-11-06",
+     "refresh_by": "2027-02-06"
     },
     {
      "stack": "process",
@@ -5119,9 +5136,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/media-generation/production-ops/review-iteration-loops/review-iteration-loops.md",
-   "digest": "sha256-b2:a3bbc2c5b531b8d5",
-   "revision": 11,
-   "changedAt": "2026-10-15",
+   "digest": "sha256-b2:dddc0a7dae55d120",
+   "revision": 12,
+   "changedAt": "2026-11-06",
    "techniques": [
     {
      "slug": "anchored-variation-slate",
@@ -5300,6 +5317,13 @@
      "technique": "edit-plan-over-regeneration",
      "file": "knowledge/media-generation/production-ops/review-iteration-loops/applications/process--edit-plan-over-regeneration.md",
      "verified_on": "2026-08-19"
+    },
+    {
+     "stack": "process",
+     "technique": "partial-regeneration-seams",
+     "file": "knowledge/media-generation/production-ops/review-iteration-loops/applications/process--partial-regeneration-seams.md",
+     "verified_on": "2026-11-06",
+     "refresh_by": "2027-02-06"
     },
     {
      "stack": "react",

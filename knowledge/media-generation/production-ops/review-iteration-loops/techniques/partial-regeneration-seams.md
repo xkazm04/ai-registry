@@ -64,6 +64,17 @@ review it, and restart the capital accounting as the global change it is.
 The honest plan for "make the intro orchestral" on a synth track is a fresh
 draft with a restarted review clock, not thirty edits.
 
+A symbolic plan can make every position behave like the anchor. Where a plan
+is the fixed prefix a generative renderer samples from, an edit anywhere in
+the plan resamples everything after the prefix, and that is all of the audio:
+the bars ahead of the edit move too. On the one such model measured, on two
+songs at the same seed and settings, one changed chord moved the bars before
+the edit as far as the bars after it, and moved the whole piece about as far
+as a new seed with no edit at all. Those are objective per-bar distances with
+no listening verdict; they say the takes differ and cannot say which is
+better. The edit is local in the plan and not in the audio, so price it as a
+new take.
+
 ## The edit pass is itself lossy
 
 In generative pixel media the edit operation has a cost the edit-plan
@@ -160,6 +171,10 @@ to an honest empty state carrying what was asked and what came back.
 - When the edit targets the anchor region, declare the change global and
   restart the review clock, because "unchanged" sections against a moved
   frame are unreviewed work presented as approved.
+- When an edit goes through a plan a sampler is conditioned on, treat the
+  result as a new take and compare the unedited bars against a same-settings
+  control before calling it local, because the bars ahead of the edit are
+  resampled as well (one model, two songs, objective distance only).
 - When a clip's defect is bounded in time or in frame, price the editorial
   remedy before the re-roll, because a re-roll re-samples the whole shot to
   address a fault that occupies a fraction of it.

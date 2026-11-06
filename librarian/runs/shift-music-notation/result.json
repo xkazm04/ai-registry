@@ -1,0 +1,71 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "shift-music-notation",
+  "skill": "shift",
+  "skill_version": "0.1.0",
+  "mode": "source",
+  "domain": "media-generation",
+  "started_at": "2026-11-06T15:22:56Z",
+  "ended_at": "2026-11-06T16:27:21Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 2,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "media-generation/review-iteration-loops",
+      "at": "2026-11-06",
+      "engine": "shift",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    },
+    {
+      "id": "media-generation/music-prompt-composition",
+      "at": "2026-11-06",
+      "engine": "shift",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "review-iteration-loops",
+      "technique": "partial-regeneration-seams",
+      "verdict": "unmeasurable",
+      "mode": "experiment"
+    },
+    {
+      "subject": "music-prompt-composition",
+      "technique": "duration-and-tempo-locking",
+      "verdict": "unmeasurable",
+      "mode": "experiment"
+    },
+    {
+      "subject": "music-prompt-composition",
+      "technique": "reference-track-anchoring",
+      "verdict": "unmeasurable",
+      "mode": "experiment"
+    }
+  ],
+  "files": [
+    "knowledge/media-generation/production-ops/review-iteration-loops/techniques/partial-regeneration-seams.md",
+    "knowledge/media-generation/production-ops/review-iteration-loops/applications/process--partial-regeneration-seams.md",
+    "knowledge/media-generation/audio-generation/music-prompt-composition/techniques/duration-and-tempo-locking.md",
+    "knowledge/media-generation/audio-generation/music-prompt-composition/techniques/reference-track-anchoring.md",
+    "knowledge/media-generation/audio-generation/music-prompt-composition/applications/process--duration-and-tempo-locking.md",
+    "knowledge/media-generation/audio-generation/music-prompt-composition/applications/process--reference-track-anchoring.md",
+    "knowledge/media-generation/audio-generation/music-prompt-composition/applications/process--section-plan-as-the-brief.md",
+    "librarian/sources/2026-11-06-yue2-notation-editing.md"
+  ],
+  "commits": [],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "Experiment mode, objective distances only. Steps stay a lead: blind pick below the discrimination floor. One scope rewrite proposed, not landed."
+}

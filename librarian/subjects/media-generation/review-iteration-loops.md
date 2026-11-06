@@ -1,8 +1,8 @@
 ---
 domain: media-generation
 subject: review-iteration-loops
-last_touched: 2026-10-15
-touched_by: intake
+last_touched: 2026-11-06
+touched_by: shift
 dry_streak: 0
 ---
 
@@ -111,3 +111,11 @@ alongside blocking findings would exercise the half nothing has tested.
 ## Impact
 
 - gravitone: 2 judged deviations stale; personas: 1 not-applicable stale. Maps regenerated and committed (dbad5b0, c5e4bf0890).
+
+## 2026-11-06 - /shift, cluster `local-editable-music-notation`
+
+- `partial-regeneration-seams`: the anchor section gained the plan-conditioned case, an edit local in
+  the plan and not in the audio (one model, two songs, objective distance only).
+- NEW application `process--partial-regeneration-seams`, mode `experiment`, verdict `unmeasurable`.
+- Not landed: narrowing the "When not to use this" clause for an approved performance. That is a scope
+  rewrite, so it waits as a proposal in [[2026-11-06-yue2-notation-editing]].
