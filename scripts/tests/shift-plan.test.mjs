@@ -4,8 +4,8 @@ import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
 import { EXIT } from '../lib/exit-codes.mjs';
-import { applySync, classifyUrl, LIST_FILE, main, PACE_MS, parseList, renderPlanHtml, transcriptOutcome, validatePlan } from '../shift-plan.mjs';
-import { queuePath, readQueue } from '../shift-queue.mjs';
+import { applySync, classifyUrl, isThrottled, LIST_FILE, main, PACE_MS, parseList, renderPlanHtml, transcriptOutcome, validatePlan } from '../shift-plan.mjs';
+import { planDigest, queuePath, readPlans, readQueue } from '../shift-queue.mjs';
 
 const NOW = Date.parse('2026-11-06T12:00:00Z');
 const ISO = new Date(NOW).toISOString();
@@ -224,7 +224,7 @@ test('a throttle that will not lift stops the run: no calls wasted, progress kep
     ytdlp: (args) => {
       if (args[0] === '--version') return { status: 0 };
       n++;
-      return n === 1 ? { status: 0, stdout: metaJson(V1) } : { status: 1, stderr: 'HTTP Error 429' };
+      return n === 1 ? { status: 0, stdout: metaJson(V1) } : { status: 1, stderr: 'ERROR: [youtube] x: HTTP Error 429: Too Many Requests' };
     },
   });
   assert.equal(main(['meta'], h.ctx), EXIT.FATAL);
@@ -276,8 +276,8 @@ test('ingest exits map to queue statuses, with the reason', () => {
   const ok = transcriptOutcome({ status: 0, stdout: JSON.stringify({ path: path.join('.ai', 'shift', 'transcripts', V1, `${V1}.clean.txt`), words: 900 }) }, root);
   assert.deepEqual(ok, { status: 'transcript', transcriptPath: `.ai/shift/transcripts/${V1}/${V1}.clean.txt`, words: 900 });
   assert.deepEqual(transcriptOutcome({ status: 3, stdout: '{}' }, root), { status: 'no-transcript', reason: 'thin' });
-  assert.match(transcriptOutcome({ status: 2, stderr: 'research-ingest FATAL: yt-dlp wrote no captions for x\n  hint' }, root).reason, /^yt-dlp wrote no captions/);
-  assert.match(transcriptOutcome({ status: 2, stderr: 'research-ingest FATAL: no captions\n Last error: HTTP Error 429' }, root).reason, /^throttled: /);
+  assert.equal(transcriptOutcome({ status: 2, stderr: 'research-ingest FATAL: yt-dlp wrote no captions for x\n  hint' }, root).reason, 'no captions');
+  assert.match(transcriptOutcome({ status: 2, stderr: "research-ingest FATAL: yt-dlp wrote no captions for x\n  Last error: ERROR: unable to download video subtitles for 'en': HTTP Error 429: Too Many Requests" }, root).reason, /^throttled: /);
   assert.equal(transcriptOutcome({ status: null, error: new Error('ETIMEDOUT') }, root).reason, 'ETIMEDOUT');
 });
 
@@ -307,6 +307,50 @@ test('a throttled video gets another turn; a video with no captions has had its 
   const r = readQueue(root)[0];
   assert.equal(r.status, 'transcript');
   assert.equal(r.reason, undefined);
+});
+
+// The two shapes research-ingest really prints: its FATAL line, a hint, then yt-dlp's last two stderr lines.
+const INGEST_FATAL = (last) => `research-ingest FATAL: yt-dlp wrote no captions for abc\n  Captions may be disabled, or extraction is throttled. Last error: ${last}\n`;
+
+test('a real throttle is throttled, from yt-dlp ERROR lines only', () => {
+  const root = tmpRoot();
+  for (const stderr of [
+    INGEST_FATAL("WARNING: [youtube] abc: some client failed ERROR: unable to download video subtitles for 'en': HTTP Error 429: Too Many Requests"),
+    INGEST_FATAL('ERROR: [youtube] abc: Too Many Requests'),
+    INGEST_FATAL("ERROR: [youtube] abc: Sign in to confirm you're not a bot. Use --cookies-from-browser"),
+  ]) {
+    assert.match(transcriptOutcome({ status: 2, stderr }, root).reason, /^throttled: /, stderr);
+  }
+});
+
+test('a video with no captions is no-transcript, not throttled, even with the words in a warning or its metadata', () => {
+  const root = tmpRoot();
+  for (const stderr of [
+    INGEST_FATAL('(none)'),
+    INGEST_FATAL('WARNING: [youtube] abc: nsig extraction failed, HTTP Error 429 from a client that was then skipped'),
+    INGEST_FATAL('[info] abc: title "Sign in to confirm your 429 Too Many Requests strategy" has no subtitles'),
+    // The warning shares a line with an ERROR that is about something else.
+    INGEST_FATAL('ERROR: unable to write subtitles WARNING: earlier a client saw HTTP Error 429'),
+  ]) {
+    assert.deepEqual(transcriptOutcome({ status: 2, stderr }, root), { status: 'no-transcript', reason: 'no captions' }, stderr);
+    assert.equal(isThrottled(stderr), false, stderr);
+  }
+});
+
+test('a captionless video is not retried on the next run and does not double the pace', () => {
+  const root = tmpRoot();
+  seedRows(root, [row(V1, 'meta'), row(V2, 'meta'), row(V3, 'meta')]);
+  const h = harness(root);
+  h.ctx.ingest = (u) => {
+    h.ingests.push(u);
+    return { status: 2, stderr: INGEST_FATAL('WARNING: a word about HTTP Error 429 in a warning') };
+  };
+  assert.equal(main(['transcripts'], h.ctx), EXIT.OK);
+  assert.deepEqual(h.sleeps, [PACE_MS, PACE_MS], 'the pace stays');
+  assert.deepEqual(readQueue(root).map((r) => r.reason), ['no captions', 'no captions', 'no captions']);
+  const again = harness(root);
+  again.ctx.ingest = () => { throw new Error('a no-captions video must not be fetched again'); };
+  assert.equal(main(['transcripts'], again.ctx), EXIT.OK);
 });
 
 /* ------------------------------------------------------------- brief */
@@ -501,6 +545,56 @@ test('approve: kept approved, struck cluster parked, superseded parked with who 
   assert.deepEqual([byId[V2].status, byId[V2].reason], ['parked', 'operator-struck-cluster']);
   assert.deepEqual([byId[V3].status, byId[V3].reason], ['parked', `superseded by ${V1}: same talk, newer`]);
   assert.doesNotMatch(fs.readFileSync(queuePath(root), 'utf8'), /declined/);
+});
+
+test('plan digest: render shows it, approve stores it, and readPlans reads match', () => {
+  const { root, planId } = plannedRoot(withV3());
+  const planFile = path.join(root, '.ai', 'shift', 'plans', planId, 'plan.json');
+  const digest = planDigest(fs.readFileSync(planFile));
+  const h = harness(root);
+  assert.equal(main(['render', planId], h.ctx), EXIT.OK);
+  assert.ok(h.out.join('\n').includes(`plan digest: ${digest}`));
+  assert.ok(fs.readFileSync(path.join(path.dirname(planFile), 'index.html'), 'utf8').includes(digest));
+  assert.equal(readPlans(root).find((p) => p.planId === planId).digest, null, 'a draft has no digest state');
+
+  assert.equal(main(['approve', planId], harness(root).ctx), EXIT.OK);
+  const approved = JSON.parse(fs.readFileSync(path.join(path.dirname(planFile), 'approved.json'), 'utf8'));
+  assert.equal(approved.planDigest, digest);
+  assert.equal(readPlans(root).find((p) => p.planId === planId).digest, 'match');
+});
+
+test('plan digest: an edit after approval reads mismatch, down to one byte, until it is approved again', () => {
+  const { root, planId } = plannedRoot(withV3());
+  const planFile = path.join(root, '.ai', 'shift', 'plans', planId, 'plan.json');
+  assert.equal(main(['approve', planId, '--strike', 'c2'], harness(root).ctx), EXIT.OK);
+  fs.appendFileSync(planFile, ' ');
+  assert.equal(readPlans(root).find((p) => p.planId === planId).digest, 'mismatch');
+
+  const before = readQueue(root).map((r) => r.status);
+  assert.equal(main(['approve', planId], harness(root).ctx), EXIT.OK);
+  assert.equal(readPlans(root).find((p) => p.planId === planId).digest, 'match');
+  const again = JSON.parse(fs.readFileSync(path.join(path.dirname(planFile), 'approved.json'), 'utf8'));
+  assert.deepEqual(again.struck, ['c2'], 'the earlier strike stands');
+  assert.deepEqual(readQueue(root).map((r) => r.status), before, 'rows already decided stand');
+});
+
+test('plan digest: an approval with no digest reads legacy and stays approved', () => {
+  const { root, planId } = plannedRoot(withV3());
+  const marker = path.join(root, '.ai', 'shift', 'plans', planId, 'approved.json');
+  fs.writeFileSync(marker, JSON.stringify({ approvedAt: ISO, struck: [] }));
+  const plan = readPlans(root).find((p) => p.planId === planId);
+  assert.equal(plan.digest, 'legacy');
+  assert.equal(plan.approved, true);
+  const h = harness(root);
+  assert.equal(main(['approve', planId], h.ctx), EXIT.OK);
+  assert.match(h.out.join('\n'), /already approved/);
+  assert.equal(JSON.parse(fs.readFileSync(marker, 'utf8')).planDigest, undefined, 'approve does not launder a legacy approval');
+});
+
+test('plan digest: an unreadable approval holds the plan rather than vouching for it', () => {
+  const { root, planId } = plannedRoot(withV3());
+  fs.writeFileSync(path.join(root, '.ai', 'shift', 'plans', planId, 'approved.json'), '{oops');
+  assert.equal(readPlans(root).find((p) => p.planId === planId).digest, 'mismatch');
 });
 
 test('approve twice changes nothing; an unknown strike changes nothing', () => {

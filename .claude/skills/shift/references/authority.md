@@ -24,7 +24,7 @@ A change lands unattended only when all of these hold:
 
 | Repo | Landing | Push |
 | --- | --- | --- |
-| ai-registry | direct to `main`, pathspec commit under the `commit` lock | `git pull --rebase`, `gate.mjs --all`, push `origin/main`. Rebuild indexes after any merge. |
+| ai-registry | direct to `main`, only through `scripts/shift-land.mjs commit`: pinned tree, fragments, `gate.mjs --all` inside the `commit` lock | only through `scripts/shift-land.mjs push --remote origin --branch main`: no live lander, clean tree, rebase, regeneration, gate, one exact refspec |
 | bp | `npm run check` + secret scan, rebase first | push `origin/master`, **through the 2026-11-18 12:00 PT deadline: the operator chose no freeze** |
 | mage-arena-vr | manifest gates + secret scan, enforced subject format | push; no paid service but ElevenLabs. Decommissioned 2026-10-29, so expect little |
 | pof | current branch; `master` was 11 behind | **never** |
@@ -38,10 +38,11 @@ A change lands unattended only when all of these hold:
 - Foreign WIP in a file you need: **branch, no push**, and name it in the report. Never commit around
   someone's uncommitted work in the same file.
 - Stage by name, commit with a pathspec, verify `HEAD`. Never `git add -A`, stash, or switch the
-  branch of a checkout others use.
+  branch of a checkout others use. In this registry the door does all of it, and a lander stages nothing.
 - Never `--force`, never `--no-verify`. Push one exact refspec; re-fetch first. A rejected push is
   reported, not retried by force.
 - Red gate on arrival: compare to the base, say which is inherited, hold. Do not fix unrelated red.
+  With the door a sibling's unfinished file can no longer cause it, so in this registry red is HEAD's or yours.
 - bp's UE app builds only in the main checkout, one UBT at a time. A shift never runs them.
 - A checkout whose default branch is far behind its remote: do not design against it; hold and report.
 - `gh` polling at most every 90-120 s, as a 30 s poll emptied the hourly quota.

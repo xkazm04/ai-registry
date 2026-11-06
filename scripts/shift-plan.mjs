@@ -19,8 +19,9 @@
  *   transcripts [--limit n]     research-ingest per video, serial      meta -> transcript | no-transcript
  *   brief                       write plans/<planId>/input.json for the planner seat
  *   validate <plan.json>        mechanical schema check; exit 1 lists violations
- *   render <planId>             write plans/<planId>/index.html      plan's videos -> planned
- *   approve <planId> [--strike <clusterId>]...     approved, or parked with the reason
+ *   render <planId>             write plans/<planId>/index.html and print the plan's digest      plan's videos -> planned
+ *   approve <planId> [--strike <clusterId>]...     approved, or parked with the reason; stores the
+ *                               sha256 of plan.json's bytes, and re-approves a plan changed since
  *   status                      counts per status
  *
  * Nothing here ever records a video as declined: a superseded or struck video was not judged.
@@ -34,7 +35,7 @@ import { spawnSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 import { EXIT, installCrashDoor } from './lib/exit-codes.mjs';
 import { minedVideoIds, VIDEO_ID_RE } from './lib/shift-source-ledger.mjs';
-import { STATUSES, UNPLANNED, UsageError, atomicWrite, parseArgs, readQueue, sleepSync, stateDir, withQueue } from './shift-queue.mjs';
+import { STATUSES, UNPLANNED, UsageError, atomicWrite, parseArgs, planDigest, readQueue, sleepSync, stateDir, withQueue } from './shift-queue.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 
@@ -47,7 +48,7 @@ const INGEST_TIMEOUT_MS = 15 * 60 * 1000; // three caption rungs at 180 s each, 
 const DESCRIPTION_STORE_CAP = 4000;
 const DESCRIPTION_BRIEF_CAP = 800;
 const OPENING_WORDS = 1500;
-const THROTTLED = /\b429\b|too many requests|sign in/i;
+const THROTTLE_MARK = /HTTP Error 429|Too Many Requests|Sign in to confirm/i;
 const GONE = /video unavailable|private video|has been removed|members-only|no longer available/i;
 const PLAN_ID_RE = /^[A-Za-z0-9._-]+$/;
 const CLUSTER_KEYS = ['id', 'theme', 'videos', 'voices', 'homes', 'yield', 'superseded', 'gpuProofs', 'estSeats'];
@@ -58,6 +59,17 @@ const plansDir = (root) => path.join(stateDir(root), 'plans');
 const firstLine = (s) => String(s ?? '').split(/\r?\n/).map((l) => l.trim()).filter(Boolean)[0] ?? '';
 const lastLine = (s) => String(s ?? '').split(/\r?\n/).map((l) => l.trim()).filter(Boolean).pop() ?? '';
 const watchUrl = (id) => `https://www.youtube.com/watch?v=${id}`;
+
+/**
+ * Pure. A throttle is what yt-dlp itself reports as an error. Matching all stderr once labelled a
+ * captionless video throttled: a word in its metadata or a warning read as a 429, so it was retried
+ * every run and doubled the pace. research-ingest relays the same line inside "Last error: ", joined
+ * with the line before it, so a warning can share the line and is cut off here.
+ */
+export function isThrottled(stderr) {
+  const errors = String(stderr ?? '').match(/\bERROR:[^\n]*/g) ?? [];
+  return errors.some((e) => THROTTLE_MARK.test(e.split(/\bWARNING:/)[0]));
+}
 
 /* ---------------------------------------------------------------- the list */
 
@@ -250,7 +262,7 @@ function cmdMeta(argv, ctx) {
     if (i > 0) ctx.sleep(PACE_MS);
     let backoff = PACE_MS * 2;
     let r = ctx.ytdlp(META_ARGS(v.url));
-    for (let retry = 0; r.status !== 0 && THROTTLED.test(String(r.stderr)) && retry < MAX_RETRIES; retry++) {
+    for (let retry = 0; r.status !== 0 && isThrottled(r.stderr) && retry < MAX_RETRIES; retry++) {
       ctx.sleep(backoff);
       backoff *= 2;
       r = ctx.ytdlp(META_ARGS(v.url));
@@ -260,7 +272,7 @@ function cmdMeta(argv, ctx) {
       const fields = metaFields(r.stdout, v.id);
       if (fields) { patch(v.id, { ...fields, status: 'meta' }); done++; ctx.log(`meta ${v.id} ${fields.channel ?? '?'}: ${fields.title ?? '?'}`); }
       else { patch(v.id, { metaError: 'unreadable yt-dlp output' }); ctx.err(`meta ${v.id}: unreadable yt-dlp output`); }
-    } else if (THROTTLED.test(stderr)) {
+    } else if (isThrottled(stderr)) {
       // More calls only deepen a throttle. Progress is on disk; the filler ladder carries on.
       throw new Error(`YouTube still throttling after ${MAX_RETRIES} retries at ${v.id}; ${done} done this run, re-run later`);
     } else if (GONE.test(stderr)) {
@@ -288,7 +300,10 @@ export function transcriptOutcome(r, root) {
     return { status: 'transcript', transcriptPath: path.relative(root, path.resolve(root, j.path)).split(path.sep).join('/'), words: j.words ?? null };
   }
   const why = (r.status === null ? (r.error?.message ?? 'timed out') : firstLine(stderr.replace(/^research-ingest FATAL:\s*/, ''))).slice(0, 200) || `exit ${r.status}`;
-  return { status: 'no-transcript', reason: THROTTLED.test(stderr) ? `throttled: ${why}` : why };
+  if (isThrottled(stderr)) return { status: 'no-transcript', reason: `throttled: ${why}` };
+  // Its answer, not a failure: it is not retried and it does not move the pace.
+  if (/wrote no captions/.test(why)) return { status: 'no-transcript', reason: 'no captions' };
+  return { status: 'no-transcript', reason: why };
 }
 
 function cmdTranscripts(argv, ctx) {
@@ -504,11 +519,13 @@ function loadPlan(planId, ctx) {
   if (!planId || !PLAN_ID_RE.test(planId)) throw new UsageError('a plain <planId> is required');
   const file = path.join(plansDir(ctx.root), planId, 'plan.json');
   if (!fs.existsSync(file)) throw new UsageError(`no plan at .ai/shift/plans/${planId}/plan.json`);
+  // One read, so the digest is of the bytes that were validated.
+  const bytes = fs.readFileSync(file);
   let plan;
-  try { plan = JSON.parse(fs.readFileSync(file, 'utf8')); } catch (e) { return { violations: [`not JSON: ${e.message}`] }; }
+  try { plan = JSON.parse(bytes.toString('utf8')); } catch (e) { return { violations: [`not JSON: ${e.message}`] }; }
   const violations = violationsOf(plan, ctx);
   if (plan?.planId !== planId) violations.push(`plan.planId is ${JSON.stringify(plan?.planId)} but it sits in ${planId}`);
-  return { plan, violations };
+  return { plan, digest: planDigest(bytes), violations };
 }
 
 /* ---------------------------------------------------------------- render */
@@ -517,7 +534,7 @@ const esc = (s) => String(s ?? '').replace(/&/g, '&amp;').replace(/</g, '&lt;').
 const list = (items) => (items.length ? `<ul>${items.map((x) => `<li>${x}</li>`).join('')}</ul>` : '-');
 const proofText = (p) => esc(typeof p === 'string' ? p : JSON.stringify(p));
 
-export function renderPlanHtml(plan, rows) {
+export function renderPlanHtml(plan, rows, digest = null) {
   const byId = new Map(rows.map((r) => [r.id, r]));
   const video = (id) => {
     const r = byId.get(id);
@@ -555,7 +572,7 @@ code,pre{font:13px ui-monospace,monospace;background:#f6f6f6}pre{padding:.75rem;
 ${body}
 </tbody></table>
 <h2>Approve</h2>
-<pre>node scripts/shift-plan.mjs approve ${esc(plan.planId)}</pre>
+${digest ? `<p>Plan digest (sha256 of plan.json): <code>${esc(digest)}</code>. Approval stores it, and a later edit to the plan stops its new work until it is approved again.</p>\n` : ''}<pre>node scripts/shift-plan.mjs approve ${esc(plan.planId)}</pre>
 <p>To leave a cluster out, add a strike. Its videos are parked, not declined.</p>
 <pre>node scripts/shift-plan.mjs approve ${esc(plan.planId)} --strike ${esc(firstId)}</pre>
 <h2>Stats</h2>
@@ -566,7 +583,7 @@ ${body}
 
 function cmdRender(argv, ctx) {
   const { positional: [planId] } = parseArgs(argv);
-  const { plan, violations } = loadPlan(planId, ctx);
+  const { plan, digest, violations } = loadPlan(planId, ctx);
   if (violations.length) return report(violations, ctx);
   const iso = new Date(ctx.now()).toISOString();
   const rows = withQueue(ctx.root, (all) => {
@@ -579,8 +596,9 @@ function cmdRender(argv, ctx) {
     return all.map((r) => ({ ...r }));
   });
   const file = path.join(plansDir(ctx.root), planId, 'index.html');
-  atomicWrite(file, renderPlanHtml(plan, rows));
+  atomicWrite(file, renderPlanHtml(plan, rows, digest));
   ctx.log(path.relative(ctx.root, file).split(path.sep).join('/'));
+  ctx.log(`plan digest: ${digest}`);
   ctx.log(`approve with: node scripts/shift-plan.mjs approve ${planId} [--strike <clusterId>]...`);
   return EXIT.OK;
 }
@@ -591,11 +609,16 @@ const APPROVABLE = [...UNPLANNED, 'planned'];
 
 function cmdApprove(argv, ctx) {
   const { positional: [planId], opts } = parseArgs(argv, { valued: ['strike'] });
-  const { plan, violations } = loadPlan(planId, ctx);
+  const { plan, digest, violations } = loadPlan(planId, ctx);
   if (violations.length) return report(violations, ctx);
   const marker = path.join(plansDir(ctx.root), planId, 'approved.json');
-  if (fs.existsSync(marker)) { ctx.log(`plan ${planId} is already approved`); return EXIT.OK; }
-  const strikes = new Set(opts.strike ?? []);
+  let earlier = null;
+  if (fs.existsSync(marker)) {
+    try { earlier = JSON.parse(fs.readFileSync(marker, 'utf8')); } catch { earlier = {}; }
+    // Only a changed plan can be approved again; without this, a mismatch could never be cleared.
+    if (!earlier?.planDigest || earlier.planDigest === digest) { ctx.log(`plan ${planId} is already approved`); return EXIT.OK; }
+  }
+  const strikes = new Set([...(earlier?.struck ?? []), ...(opts.strike ?? [])]);
   const unknown = [...strikes].filter((s) => !plan.clusters.some((c) => c.id === s));
   if (unknown.length) throw new UsageError(`--strike names no cluster of this plan: ${unknown.join(', ')}`);
 
@@ -617,8 +640,8 @@ function cmdApprove(argv, ctx) {
     return n;
   });
   // After the queue: a kill between the two only means a re-run, which changes nothing twice.
-  atomicWrite(marker, `${JSON.stringify({ approvedAt: iso, struck: [...strikes] })}\n`);
-  ctx.log(JSON.stringify({ planId, ...counts, struck: [...strikes] }));
+  atomicWrite(marker, `${JSON.stringify({ approvedAt: iso, struck: [...strikes], planDigest: digest })}\n`);
+  ctx.log(JSON.stringify({ planId, ...counts, struck: [...strikes], planDigest: digest }));
   return EXIT.OK;
 }
 

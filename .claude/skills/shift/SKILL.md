@@ -3,7 +3,7 @@ name: shift
 description: "Turn the CPU and RAM a long GPU video job leaves idle into registry know-how. A long-lived, resumable /intake variation: pre-researches the operator's gitignored YouTube list into topic clusters and an intake plan the operator approves, mines approved clusters in parallel lanes at a width set by live sensors, banks GPU proofs and media benchmarks to run only when the GPU is truly idle, and fills the rest of the time with /harvest backlog, /harvest evaluate and /deepen --loop. Lands into the registry and connected projects under each repo's own law. Use when a machine runs video generations for days, or when the operator wants the box working while away."
 category: ai-native
 memory: project
-version: 0.3.1
+version: 0.4.0
 tags: research, queue, resources, gpu, unattended, batch, cross-repo, render-proof, long-running
 ---
 
@@ -67,6 +67,8 @@ node scripts/shift-queue.mjs list-running [--json]
 node scripts/shift-queue.mjs mark <id> <status> [--reason r]
 node scripts/shift-queue.mjs list
 node scripts/shift-review.mjs build|size|verdict|clean
+node scripts/shift-land.mjs commit --run <id> --message-file <f> [--ledger-dir <d>] -- <paths...>
+node scripts/shift-land.mjs push --remote origin --branch main
 ```
 
 `--seats-mb` is optional: by default the sensor reads the seats' RAM from the running ledger, so
@@ -107,7 +109,7 @@ tick, and so is each sensor exit and each wakeup. **Never poll.**
 7. **Arm** before ending the turn: one background `shift-sense --until opening --timeout 1200`, plus
    `ScheduleWakeup` at 1800 s as the fallback. **The turn may never end with nothing armed.** If one
    from an earlier tick is still running, leave it rather than stack a second.
-8. **Report** once a day to `.ai/shift/reports/<date>.md`, noting `reason`, `proofsPaused` or
+8. **Report** once a day to `.ai/shift/reports/<date>.md`, noting `reason`, `proofsPaused`, `note` or
    `evaluateHeld` if the plan carried them.
 
 | Action | Do |
@@ -160,7 +162,7 @@ the first one exactly as it appears.
 **Board.** The supervisor holds no claim of its own: claims only grow, and one held for days blocks
 every sibling. Each cluster run claims and releases its own, per `/intake` § "Running beside a dozen
 siblings", and the supervisor beats each one every tick. Locks are for seconds, never across a seat
-or a proof.
+or a proof. The one exception is `commit` inside `shift-land`, held for the gate; only landers contend there.
 
 ## Pre-research
 
@@ -194,10 +196,10 @@ phase of `/intake` applies, with these differences:
   a video with no report and no live seat is mined; once all are reported and nothing is live, the
   cluster is `land`. A row with no cluster files under its own id.
 - **Convergence counts voices, never videos.** A single-channel cluster has no convergence.
-- One lander seat at a time per cluster holds every write, serially, under the `/intake` locks. It
-  reads the reports and re-reads the repo. **A lander commits and never pushes.** Several may run at once on one checkout, under the
-  locks, and a rebase needs a clean tree, so the supervisor reads each diff and pushes on a tick when no
-  lander is live. **Before its `done`, every video of the cluster must leave
+- One lander seat at a time per cluster holds every write. It reads the reports and re-reads the repo.
+  **A lander stages nothing and commits only through the door, and it never pushes.** § The door.
+  Several may run at once on one checkout. The supervisor reads each diff and pushes only through
+  `shift-land push`, on a tick when no lander is live. **Before its `done`, every video of the cluster must leave
   `mining`**, or `next` offers `land` again. That is also how a dead lander's work is picked up.
 - **Phase 5 is scored, not asked** (it already is). E1-E4 escalations never block a shift: they
   become proposals in the report. No directions, no XL forge dispatch, no new laws unattended.
@@ -211,6 +213,32 @@ phase of `/intake` applies, with these differences:
   finished as far as a machine can take it. `next` never resumes it and lists it for the operator.
 - Mark each video `landed` or `parked`, write `run-result.mjs` per cluster with `held` subjects
   counted. **Superseded and parked are never declined.**
+
+## The door
+
+`scripts/shift-land.mjs` is how a shift lands in this registry. Its header holds the mechanism. What a lander does:
+
+- **Name your own files.** Edit in the checkout, stage nothing, regenerate nothing, and name each file
+  after `--`. A directory, a generated file, or a path a live sibling claims is refused.
+- **Write ledger lines as fragments**, one file per ledger under `.ai/shift/runs/<clusterId>/ledger/`,
+  mirroring the repository (`ledger/librarian/applied.md`). Never edit a shared ledger in the checkout:
+  naming one is refused, and a dirty one makes the next landing report `landed-dirty-checkout`. The door applies each
+  fragment to HEAD's copy inside the lock. The door's header states the insertion rule per ledger. A sources row must
+  link a note in the same landing, and a backlog line replaces the row with its id.
+- **Run it in the background**: the gate takes minutes, and it waits for the `commit` lock behind other landers.
+- **Read the JSON line.** On `refused`, HEAD did not move and the work is still in the checkout. On a
+  red gate read the saved log at `gateLog`: **there is no automatic retry and no flag past it**, since
+  `run-tests` has failed then passed under load and only the log can say why. On `landed-dirty-checkout`, HEAD moved, and
+  a named file on disk differs from HEAD: stop and report it, do not commit it.
+
+The door changes how a landing happens, never what may land: **`/intake` wins on what lands**, and the bar in
+`authority.md` applies first. A run of `/intake` outside a shift still uses `/intake`'s own lock
+procedure. If one is live beside a shift and holds a dirty ledger line, the door names that file rather
+than overwrite it. Other repositories stay under `authority.md`, and this door does not touch them.
+
+`push` refuses a live lander, tracked changes, or a HEAD not ahead. It then rebases, runs any regeneration the merge
+driver left pending, gates the rebased HEAD, re-fetches, and pushes one exact refspec, under the same lock. A
+rejected push is reported.
 
 ## GPU bank
 
@@ -253,8 +281,10 @@ is the one exception to starting every action. An idle box beats a padded corpus
 | Verdict, plan or waiting cluster outstanding | Nothing stops. Listed in `waitingOnOperator`, notified once, asked at `/shift decisions`. |
 | Pressure fires | Width 0, no new seats, running seats continue. `--until opening` wakes on `pressure-cleared`. Log which string fired. |
 | Canary over 1.3x | Note the seat count and the ratio. It is the only measurement of this mixed load, so never smooth it. |
-| YouTube 429 | `shift-plan` backs off and records `throttled`; filler continues. |
-| Video has no captions | `no-transcript`, keeps its place in the plan by metadata. No local transcription in v1. |
+| YouTube 429 | `shift-plan` backs off and records `throttled` only on yt-dlp's own ERROR line; filler continues. |
+| Video has no captions | `no-transcript`, reason `no captions`, keeps its place in the plan by metadata. Not retried, and the pace stays. No local transcription in v1. |
+| A plan changes after approval | `next` starts no new cluster of it and lists it as owed; a mining cluster goes on. `render` it, and the operator re-approves. An approval with no digest is legacy, kept working and named in `next`'s `note`. |
+| Door refuses a lander | HEAD did not move. Read the JSON line and the gate log. A `head-moved` means someone landed outside the door: name it in the report. |
 | Disk under 100 GB | `disk` pressure stops dispatch. The janitor shortens worktree life at that point, so finish or park worktrees. |
 | Red gate in a project | Hold there, no push. Inherited red is reported against the base, not fixed in passing. |
 
@@ -270,7 +300,7 @@ is the one exception to starting every action. An idle box beats a padded corpus
 - Never end a turn with nothing armed.
 - Never decline on the operator's behalf.
 - Never count a video as a voice.
-- Never force-push, `--no-verify`, or `git add -A`.
+- Never force-push, `--no-verify`, or `git add -A`. In this registry, never `git commit` or `git push` around the door.
 
 ## Reflection
 

@@ -24,6 +24,8 @@
  *   list-running [--json]      live and stale records of the running ledger
  *
  * THE PLAN (next)
+ *   a plan changed after approval starts no new cluster and is owed to the operator; approvals older
+ *   than the digest read as legacy and are named in one note. Clusters already mining are unaffected.
  *   every width zero   no actions, a reason naming any mining cluster; running seats are never cancelled
  *   gpu lane           gpu-proof: a held media row for this machine with estGpuMin, not device cpu,
  *                      not already sealed or judged; over reviewCapGb it says proofsPaused instead
@@ -41,6 +43,7 @@
  *
  * EXIT 0 ok · 2 could not run (usage, a double dispatch, malformed sense, unreadable ledger or queue)
  */
+import { createHash } from 'node:crypto';
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -170,6 +173,19 @@ export function withRunning(root, fn, { fsImpl = fs } = {}) {
 
 /* ---------------------------------------------------------------- plans on disk */
 
+/** What an approval binds to: the exact bytes of plan.json, so a re-indented edit also reads as changed. */
+export const planDigest = (bytes) => createHash('sha256').update(bytes).digest('hex');
+
+/** 'match' | 'mismatch' | 'legacy' (approved before digests existed) | null (not approved). */
+function digestState(marker, bytes) {
+  if (!fs.existsSync(marker)) return null;
+  let approved;
+  // An approval nobody can read vouches for nothing, so it fails toward holding the plan's new work.
+  try { approved = JSON.parse(fs.readFileSync(marker, 'utf8')); } catch { return 'mismatch'; }
+  if (!approved?.planDigest) return 'legacy';
+  return approved.planDigest === planDigest(bytes) ? 'match' : 'mismatch';
+}
+
 /** Every plan directory that holds a plan.json. A plan with no approved.json is a draft. */
 export function readPlans(root) {
   const dir = path.join(stateDir(root), 'plans');
@@ -182,10 +198,12 @@ export function readPlans(root) {
   for (const planId of names.sort()) {
     const file = path.join(dir, planId, 'plan.json');
     if (!fs.existsSync(file)) continue;
+    const bytes = fs.readFileSync(file);
     let plan = null;
     // An unreadable draft is still a draft waiting on someone; shift-plan validate says why.
-    try { plan = JSON.parse(fs.readFileSync(file, 'utf8')); } catch { /* plan stays null */ }
-    plans.push({ planId, plan, approved: fs.existsSync(path.join(dir, planId, 'approved.json')) });
+    try { plan = JSON.parse(bytes.toString('utf8')); } catch { /* plan stays null */ }
+    const marker = path.join(dir, planId, 'approved.json');
+    plans.push({ planId, plan, approved: fs.existsSync(marker), digest: digestState(marker, bytes) });
   }
   return plans;
 }
@@ -266,6 +284,7 @@ export function freeSlots(width, running) {
 /** Pure. What the operator owes. Information only: nothing here holds any lane back. */
 export function operatorOwes({ plans, rows, pendingVerdicts }) {
   const out = plans.filter((p) => !p.approved).map((p) => ({ kind: 'plan', id: p.planId, reason: 'draft plan awaiting approval' }));
+  for (const p of plans.filter((x) => x.approved && x.digest === 'mismatch')) out.push({ kind: 'plan', id: p.planId, reason: 'plan changed after approval' });
   for (const run of pendingVerdicts) out.push({ kind: 'verdict', id: run, reason: 'sealed, awaiting the blind pick' });
   const seen = new Set();
   for (const r of rows.filter((x) => x.status === 'waiting')) {
@@ -289,6 +308,8 @@ export function nextPlan({
   const { width, gpu } = sense;
   const free = freeSlots(width, running);
   const plan = { width, free, running, actions: [], waitingOnOperator: operatorOwes({ plans, rows, pendingVerdicts }) };
+  const legacy = plans.filter((p) => p.digest === 'legacy').map((p) => p.planId);
+  if (legacy.length) plan.note = `approved with no digest (legacy), so not checked: ${legacy.join(', ')}`;
   const miningRows = rows.filter((r) => r.status === 'mining');
   const mining = uniqueClusters(miningRows, plans, rows);
 
@@ -354,7 +375,9 @@ export function nextPlan({
   }
 
   const startedKeys = new Set(miningRows.map(clusterKey));
-  const notStarted = rows.filter((r) => r.status === 'approved' && !startedKeys.has(clusterKey(r)));
+  // A plan edited after approval is not the plan the operator read: nothing new starts from it.
+  const changedPlans = new Set(plans.filter((p) => p.digest === 'mismatch').map((p) => p.planId));
+  const notStarted = rows.filter((r) => r.status === 'approved' && !startedKeys.has(clusterKey(r)) && !changedPlans.has(r.planId));
   for (const cluster of videosFirst(uniqueClusters(notStarted, plans, rows))) {
     if (repoIds.has(cluster.videos[0]) && !repoRam) continue;
     fill(cluster, { startCluster: true });

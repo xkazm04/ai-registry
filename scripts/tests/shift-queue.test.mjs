@@ -619,3 +619,53 @@ test('a repository row waits for RAM to spare, and every video goes first', () =
   const landing = nextPlan(base({ sense: at(1000), rows: [started], reports: new Set(['c-repo/gh-a-b']) }));
   assert.equal(landing.actions.find((a) => a.action === 'land')?.key, 'land:q/c-repo');
 });
+
+/* ---------------------------------------------------------------- plan digest */
+
+const digestRows = () => [
+  row('m1', 'mining', { planId: 'p1', cluster: 'live' }),
+  row('m2', 'approved', { planId: 'p1', cluster: 'live' }),
+  row('n1', 'approved', { planId: 'p1', cluster: 'fresh' }),
+  row('o1', 'approved', { planId: 'p2', cluster: 'other' }),
+];
+const digestPlans = (digest) => [{ planId: 'p1', plan: null, approved: true, digest }, { planId: 'p2', plan: null, approved: true, digest: 'match' }];
+const wide = sense({ research: 5 });
+
+test('plan digest match: next starts its videos and owes nothing', () => {
+  const p = nextPlan(base({ sense: wide, rows: digestRows(), plans: digestPlans('match') }));
+  assert.deepEqual(did(p, 'mine').map((a) => a.video).sort(), ['m1', 'm2', 'n1', 'o1']);
+  assert.deepEqual(p.waitingOnOperator, []);
+  assert.equal(p.note, undefined);
+});
+
+test('plan digest mismatch: no new video from that plan, owed once, and a mining cluster goes on', () => {
+  const p = nextPlan(base({ sense: wide, rows: digestRows(), plans: digestPlans('mismatch') }));
+  const videos = did(p, 'mine').map((a) => a.video).sort();
+  assert.ok(!videos.includes('n1'), 'a cluster not yet started does not start');
+  assert.ok(videos.includes('m1') && videos.includes('m2'), 'a mining cluster is unaffected');
+  assert.ok(videos.includes('o1'), 'another plan is unaffected');
+  assert.deepEqual(p.waitingOnOperator, [{ kind: 'plan', id: 'p1', reason: 'plan changed after approval' }]);
+});
+
+test('plan digest mismatch: a live seat and a landing of a mining cluster are unaffected', () => {
+  const rows = [row('m1', 'mining', { planId: 'p1', cluster: 'live' })];
+  const reported = nextPlan(base({ sense: wide, rows, plans: digestPlans('mismatch'), reports: new Set(['live/m1']) }));
+  assert.equal(did(reported, 'land').length, 1);
+  const seated = nextPlan(base({ sense: wide, rows, plans: digestPlans('mismatch'), running: [{ key: 'm1', kind: 'miner', startedAt: FRESH }] }));
+  assert.equal(did(seated, 'mine').length, 0);
+  assert.deepEqual(seated.running.map((r) => r.key), ['m1']);
+});
+
+test('plan digest legacy: keeps working, and the two plans share one note', () => {
+  const plans = [{ planId: 'p1', plan: null, approved: true, digest: 'legacy' }, { planId: 'p2', plan: null, approved: true, digest: 'legacy' }];
+  const p = nextPlan(base({ sense: wide, rows: digestRows(), plans }));
+  assert.deepEqual(did(p, 'mine').map((a) => a.video).sort(), ['m1', 'm2', 'n1', 'o1']);
+  assert.deepEqual(p.waitingOnOperator, []);
+  assert.match(p.note, /legacy.*p1, p2/);
+});
+
+test('plan digest mismatch is still owed when every width is zero', () => {
+  const p = nextPlan(base({ sense: sense({ research: 0 }), rows: digestRows(), plans: digestPlans('mismatch') }));
+  assert.deepEqual(p.actions, []);
+  assert.deepEqual(p.waitingOnOperator, [{ kind: 'plan', id: 'p1', reason: 'plan changed after approval' }]);
+});
