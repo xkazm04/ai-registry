@@ -93,9 +93,12 @@ the spill is a reading from the encoder's design, and it was not isolated.
 
 Frame order, 11 sampled frames against a first ascending walk, in two runs of one script:
 a second ascending walk differed on 0 and 0. A descending walk on 6 and 6, a reload before
-each frame on 9 and 9, a 5-frame walk-in on 3 and 4, a double render on 1 and 1. The
-worst case was 9 pixels, and the largest difference 9 of 255. Nothing in the composition
-holds state between frames.
+each frame on 9 and 9, a 5-frame walk-in on 3 and 4, a double render on 1 and 1. In that
+sample the worst case was 9 pixels, and the largest difference 9 of 255. **A full walk
+later corrected the sample's size:** descending order differed on 519 of 600 frames, by up
+to 124 pixels and 29 of 255, and without the title's scale on 503 of 600 at the same maxima,
+so that predicted cause is false and the cause stays open. Nothing in the composition's
+source holds state between frames.
 
 The sampler arm above and this arm answer the same question on different media with
 different instruments, and they are not one experiment. These counts say identical or

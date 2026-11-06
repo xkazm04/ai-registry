@@ -138,6 +138,10 @@ browser, and three runs of one instrument are not three voices. Neither video st
 is cheap to change, not what an edit reaches. **If the supervisor does not count this as convergence, the row is 1/0/1
 and should be reverted.** It is a two-paragraph append and one decision rule.
 
+**Answered at `/intake reflect`, 2026-11-06.** It is not counted as convergence, and at +3 this row banks. It is
+kept anyway, narrowed to a fixed walk: reverting needs a defect, and the figures re-ran exactly and the full bench
+corrected only the frame-order sample. That correction had not reached the application, and now has.
+
 **Render proof.** The home's `use_when` names clips, so the clause was checked. The question is identical or divergent,
 which is what [[2026-09-16-hyperframes]] ruled an automated instrument settles and an eye cannot. No operator
 verdict is owed, because the row makes no claim about which take is better.

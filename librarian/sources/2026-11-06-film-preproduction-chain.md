@@ -167,7 +167,9 @@ render-bound:** it changes no generator call and no acceptance of an output. Its
 render pair could not tell the arms apart. **Weakness, stated:** neither voice measures a saving, and M's half
 is a role brief rather than a tagging pass. J's limit is carried in the wording: his film's main cast already
 existed [G 00:07:02], so only locations, props and variants followed the beats. If a reader counts M's half
-as not convergence, this is 1/0/1 and should not have landed.
+as not convergence, this is 1/0/1 and should not have landed. **Read at `/intake reflect`, 2026-11-06:** M's half is
+soft and at +3 this row banks. It is kept, because no sentence is false, its limits are carried in the wording, and
+script breakdown is standing film practice, so the rule does not rest on M's half.
 
 **C2, stills before the script: not accepted, 1/0/1, down from the miner's 2/1/1.** See the promotion read.
 What remains is real and is one voice, so it is proposal 2.

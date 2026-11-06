@@ -139,6 +139,11 @@ design probe for U2 has no landing to protect. Each lacks what the brief require
    sibling skill's method both counted. `skills/leonardo` then names `qwen-image` or the owner removes it.
 2. `check-vault-links.mjs <root>`, report only, baseline 14 per the miner.
 3. Personas `oauth.rs:70` and `kb_ingest.rs:339`: code unchanged, each needs its own read first (the real
-   dead-token response; any other re-embed path).
+   dead-token response; any other re-embed path). **Verified 2026-11-06, in Personas, on master and not
+   pushed.** `oauth.rs` was half right: a named error that is not `invalid_grant` no longer quarantines a
+   login (294eba535e), but the broad clause was also load-bearing, because this endpoint can send `error`
+   as an object. So an object-shaped `invalid_grant` must stay quarantined, and a 400 or 401 naming nothing
+   stays dead. The fix reads both shapes. `kb_ingest.rs:339` is not a defect here, and nothing changed.
+   Not run: the `app_lib` test binary, desktop-full, the cold gate.
 4. `skills/motionize`: each step reads its key from `.env` itself, with a patch bump.
 5. Personas `auto_rollback.rs:449` is two production implementations, so it is not this technique's seam.

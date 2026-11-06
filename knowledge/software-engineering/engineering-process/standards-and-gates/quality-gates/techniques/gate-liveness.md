@@ -287,8 +287,8 @@ that routinely eat the verdict:
   the observed exit status with the last command's — a red run pushed
   through a pipe has been watched turning green this way, once is enough.
   Run gates directly, or under strict pipe-failure semantics. Strict
-  semantics keep a failing producer's code only for a reader that consumes
-  to the end of its input. A reader that quits early can turn a healthy run
+  semantics carry a failing producer's code, and a reader that consumes to
+  the end of its input reads true in both directions. A reader that quits early can turn a healthy run
   into a false red, the broken-pipe code 141, and whether it does depends on
   the producer: a native tool returned it and a runtime that ignores the
   broken pipe did not. So a pipe is not a way to read a verdict in either

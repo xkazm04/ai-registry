@@ -79,3 +79,10 @@ of the real spikes on an idle series, where the current rule catches nearly all 
 
 Return when the product decides what an idle day means for spend. That choice decides the arm: judge
 active days only, or report no verdict. Then replay real daily series, with their owner's permission.
+
+## After this run
+
+The formula above is as read at that commit. Later on 2026-11-06 the product fixed the flat-series half
+alone and kept the mean, because arm B had failed this floor. A flat baseline now reads half its mean as
+one sigma, so the rule fires above double, and a baseline that cost nothing gives no reading. Column A's
+earlier-spike row still describes it, since the mean is what an earlier spike moves.

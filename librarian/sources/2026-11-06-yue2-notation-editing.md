@@ -135,6 +135,13 @@ the floor, or a second independent listener, before any step-count rule lands.
    notation plan handed to a generative renderer fixes pitch, harmony and bar structure and
    leaves performance, timbre and production to sampling. When the approved thing is a
    performance, hold it by reference." Needs a person because it narrows a standing exclusion.
+
+   **Re-read at `/intake reflect`, 2026-11-06, both arms measured: it stays a proposal.** The
+   sampler arm (1.07 against 1.02, 0.68 against 0.65) and the function-of-source arm (119 of 600,
+   control 0, in [[2026-11-06-editable-source-over-rendered-file]]) hold, and they are different media
+   and instruments. It does not clear +3: an amendment that rewrites tops out at 4 - 2, and the second arm
+   was built by miners who had read this row, so its convergence is soft and 3 - 2 is the honest read. The
+   wording also owes the frame-order result: "a function of it" holds only for a render walked the same way.
 2. **A subject for notation-source workflows.** Already an open lead in the
    `music-prompt-composition` note (generate to symbolic, render whole, unowned). One source
    and one model do not earn it. XL if it comes back.

@@ -167,7 +167,12 @@ All in `librarian/harvest/backlog.jsonl`. None ran.
   mechanism and its cost, not the source's claim:** the drift is authored by the same hand as the
   repair. The real-solve stage stays a lead, since solver, body model and detector are not on disk, and
   it needs the operator's registration, a night download of 5 GB or more, and a macOS-tested tool on
-  Windows on ARM64.
+  Windows on ARM64. **Outcome, 2026-11-06: refused as a blind pair, status `unmeasurable`, no pick.** Sheets
+  read 0.91x against the 1.5x floor, but the measurement separated the arms: ball path 14.4 cm raw against
+  1.0 cm pinned (floor 0.58), heel 14.1 against 1.8, depth drift 7.9 against 0.5, lowest vertex -3.2 against
+  +0.6. Cost: knee jump 8.2 against 17.8 degrees, and some contacts float up to 4.6 cm. One rig, one clip, one
+  authored drift. **A pose sheet is a still and cannot show a slide,** so the proof's instrument was wrong for
+  the claim: re-test on a read of the curves or a moving view. The rows stay a lead and untriaged.
 - **`shift-rig-view-1`:** front panel against side panel of one turnaround. Same concept, so identity
   is held. Seeds 7 and 42, because the record already shows one of two side runs failing.
 - **`shift-rig-light-1`:** one sword prompt, with a dramatic lighting clause or as it stands. Weapons

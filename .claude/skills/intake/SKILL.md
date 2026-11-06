@@ -3,7 +3,7 @@ name: intake
 description: "Mine an external source - a YouTube video, a news roundup, an article, pasted notes, a repository - for what it should change in THIS registry, and in the connected projects that consume it. Ingests the source, reads its design decisions as well as its claims, maps both against existing bundles for prior art, triages with the operator, and lands what survives corroboration - amendments for boundary cases, techniques and subjects for mechanisms, forge handoffs for systems whose architecture the corpus lacks. News sources mostly yield currency signals and leads; that is a successful run. Use when someone shares a link and asks what it means for us."
 category: ai-native
 memory: project
-version: 2.20.0
+version: 2.21.0
 tags: research, sources, memory-lane, admission-gate, render-proof, triage, currency, cross-repo, leads, apply, ab-test, parallel, reference-index, design-read, forge-handoff, directions, fleet-map, peer-study, opus-workers, decision-gate
 ---
 
@@ -856,7 +856,7 @@ correction, an amendment, a subject. **A currency row and a lead are governed by
 corroboration table instead**, which says a source may authorize both alone, because
 "a vendor shipped X" is a statement about the world rather than about the standard.
 Run through Phase 5 they are rejected by construction: a clock reset caps at GAIN 1
-and can never clear a +2 threshold, however well corroborated. So route by shape
+and can never clear a +3 threshold, however well corroborated. So route by shape
 first - score the upper-layer rows, admit currency and leads under the table - and say
 in the source note which rule each admitted row ran under.
 
@@ -908,16 +908,26 @@ Four things still stop and ask, because none of them is a judgment the run owns:
 
 **COST** - `S`=1, `M`=2, `L`=3.
 
-> **Auto-accept when `GAIN - RISK >= 2` and `GAIN >= COST`. Otherwise the row is
+> **Auto-accept when `GAIN - RISK >= 3` and `GAIN >= COST`. Otherwise the row is
 > recorded untriaged with its anchors.**
 
-**The threshold sits at +2 rather than 0 because the two errors are not
+**The threshold sits well above 0 because the two errors are not
 symmetric.** A false reject costs almost nothing - the row is banked with its
 anchors, carries no judgment, and a later run picks it up for the price of a
 re-read; the method already guarantees this by never filing an unpicked row as
 declined. A false accept puts an unearned claim in the upper layers, which is the
 one failure that damages the corpus rather than wasting a run. Bias the gate
 toward the recoverable error.
+
+**Why +3 and not +2 (v2.21, operator decision, 2026-11-06).** Step 4's rule fired on
+one day: 12 false positives across 7 of the first batch runs at +2 (2, 1, 1, 1, 1, 2
+and 4), mostly struck convergence, a catch the map missed, or a rewrite test not run.
+None of the 12 reached the corpus. Each was a miner's accept that died at the lander's
+read, so they measure what a first reader over-scores, and that second read stays the
+defence. What +3 costs: a boundary amendment with convergence (2/0) and a technique
+outside `librarian-scan`'s top 15 without convergence (2/0) now bank with their anchors.
+An amendment clears only if it also refutes something. An amendment that rewrites tops
+out at 4 - 2, so a scope rewrite can never auto-accept and stays the operator's.
 
 **The promotion read.** When a row's *only* blocker is the `+1` for resting on an
 unre-checked worker report, do not reject it - **spend one file read and re-score**.
@@ -933,9 +943,13 @@ call is diagnosable six weeks later instead of mysterious. The scorecard row
 carries `auto=<accepted>/<rejected>/<escalated>` and `fp=<n>`.
 
 **`fp` is the mechanism's own error rate: an auto-accepted row that dies at Phase
-6 is a false positive.** Three of those across runs and the accept threshold rises
-to `+3`. Three consecutive runs at `fp=0` whose rejected rows a later run had to
-re-derive, and it falls to `+1`. The gate is measured by the same discipline this
+6 is a false positive,** and where miners and a lander are separate seats, a miner's
+accept that dies at the lander's read counts. Three of those across runs raise the
+accept threshold one step, which took it from `+2` to `+3`, where it now stands. Three
+consecutive runs at `fp=0` whose rejected rows a later run had to re-derive take it
+one step down, to `+2`. Re-derive means reaching the row without reading the bank:
+picking up a banked row is the bank working, and counts for nothing. A step is a
+method edit with its evidence, never a lander's local setting. The gate is measured by the same discipline this
 skill applies to its lessons - confirmed three runs running, or it is not a rule.
 
 **The ship authorization is standing and does not need to be asked for

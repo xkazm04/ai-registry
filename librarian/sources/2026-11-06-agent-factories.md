@@ -236,6 +236,9 @@ that could run unattended.
 2. **personas seam, daily cost anomaly.** Not as written: its arm failed its floor. The product first decides
    what an idle day means. Separately, a flat series that jumps never reports today, and the zero-deviation
    skip is a small fix on its own. Also read whether dropped change events are reconciled (A3).
+   **Landed 2026-11-06: the small fix alone, be783097fa, on master and not pushed.** It keeps the mean because
+   this note's median arm failed its idle-series floor, and a flat baseline reads half its mean as one sigma.
+   The earlier-spike blindness and the idle-day decision stay open.
 3. **/shift, read by the supervisor, whose rework this run did not touch.** `scripts/shift-land.mjs` landed while
    this run was open and covers P1, P7's intent and P8: a pinned tree, a child's status, fragments. This run
    landed through it. It does not cover the transcript habit outside a landing, and its header says it fires no

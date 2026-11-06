@@ -76,8 +76,8 @@ better. The edit is local in the plan and not in the audio, so price it as a
 new take.
 
 A renderer that samples nothing prices the same kind of edit differently.
-Where every frame is computed from the source, an edit stays inside the frames
-that read what it changed, so its reach is read off its dependents and not off
+Where every frame is computed from the source and walked the same way, an edit
+stays inside the frames that read what it changed, so its reach is read off its dependents and not off
 the size of the edit. On one code-rendered composition of 600 frames, on
 lossless output in separate browser processes, a same-source control changed
 no frame. One changed caption string altered 119 frames, all inside its window

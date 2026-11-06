@@ -3363,8 +3363,8 @@
    "subcategory": "platform-observability",
    "status": "forged",
    "file": "knowledge/software-engineering/backend-platform/platform-observability/alerting/alerting.md",
-   "digest": "sha256-b2:58a3ee8f04496d42",
-   "revision": 5,
+   "digest": "sha256-b2:00b609b6176537e2",
+   "revision": 6,
    "changedAt": "2026-11-06",
    "techniques": [
     {
@@ -29617,8 +29617,8 @@
    "subcategory": "standards-and-gates",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-process/standards-and-gates/quality-gates/quality-gates.md",
-   "digest": "sha256-b2:7c06b324af49ad1b",
-   "revision": 55,
+   "digest": "sha256-b2:a5b34d39a4b8edd3",
+   "revision": 56,
    "changedAt": "2026-11-06",
    "techniques": [
     {

@@ -5143,8 +5143,8 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/media-generation/production-ops/review-iteration-loops/review-iteration-loops.md",
-   "digest": "sha256-b2:cec25f567c859146",
-   "revision": 14,
+   "digest": "sha256-b2:d68050ef6c5ded29",
+   "revision": 15,
    "changedAt": "2026-11-06",
    "techniques": [
     {

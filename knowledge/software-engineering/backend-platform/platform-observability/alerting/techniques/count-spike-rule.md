@@ -23,7 +23,9 @@ counts the weekly shape as noise, which widens the band and hides real events.
 **A past spike in the baseline.** A mean and standard deviation over a short baseline are moved
 by the event they should have cleared. With one earlier 5x spike in the baseline, a true 2x event
 fired 0 % of the time under them, and over 98 % under the median at rate 50 and up. Use the median,
-and a scale built on the median absolute deviation.
+and a scale built on the median absolute deviation, once the series is known not to idle on many
+days (below): on a money series of that shape the swap failed its false-alert floor, and the
+project kept its mean.
 
 **Short baselines.** Robust is not a free upgrade. Over eight points the sampled deviation is often
 small by chance, and a rule using it alone fired falsely 5 to 15 % of slice-days on pure count
