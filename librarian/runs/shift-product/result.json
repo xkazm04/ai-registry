@@ -1,0 +1,139 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "shift-product",
+  "skill": "shift",
+  "skill_version": "0.4.0",
+  "mode": "source",
+  "domain": "software-engineering",
+  "started_at": "2026-11-06T21:01:08Z",
+  "ended_at": "2026-11-06T21:15:05Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 3,
+    "declined": 1,
+    "idled": 7,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "software-engineering/undo-history",
+      "at": "2026-11-06",
+      "engine": "shift",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    },
+    {
+      "id": "software-engineering/sync-replication",
+      "at": "2026-11-06",
+      "engine": "shift",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    },
+    {
+      "id": "software-engineering/hitl-approval",
+      "at": "2026-11-06",
+      "engine": "shift",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    },
+    {
+      "id": "software-engineering/canvas-graph",
+      "at": "2026-11-06",
+      "engine": "shift",
+      "outcome": "idled",
+      "points_before": null,
+      "points_after": null
+    },
+    {
+      "id": "software-engineering/digest-bound-operator-writes",
+      "at": "2026-11-06",
+      "engine": "shift",
+      "outcome": "idled",
+      "points_before": null,
+      "points_after": null
+    },
+    {
+      "id": "software-engineering/prompt-safety",
+      "at": "2026-11-06",
+      "engine": "shift",
+      "outcome": "idled",
+      "points_before": null,
+      "points_after": null
+    },
+    {
+      "id": "software-engineering/structured-output",
+      "at": "2026-11-06",
+      "engine": "shift",
+      "outcome": "idled",
+      "points_before": null,
+      "points_after": null
+    },
+    {
+      "id": "software-engineering/proof-carrying-agent-actions",
+      "at": "2026-11-06",
+      "engine": "shift",
+      "outcome": "idled",
+      "points_before": null,
+      "points_after": null
+    },
+    {
+      "id": "software-engineering/authorization",
+      "at": "2026-11-06",
+      "engine": "shift",
+      "outcome": "idled",
+      "points_before": null,
+      "points_after": null
+    },
+    {
+      "id": "software-engineering/eval-harness",
+      "at": "2026-11-06",
+      "engine": "shift",
+      "outcome": "idled",
+      "points_before": null,
+      "points_after": null
+    },
+    {
+      "id": "software-engineering/agent-browser-control",
+      "at": "2026-11-06",
+      "engine": "shift",
+      "outcome": "declined",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "undo-history",
+      "technique": "undo-under-concurrent-peers",
+      "verdict": "unmeasurable",
+      "mode": "experiment"
+    }
+  ],
+  "files": [
+    "knowledge/software-engineering/ui-surfaces/input-and-editing/undo-history/undo-history.md",
+    "knowledge/software-engineering/ui-surfaces/input-and-editing/undo-history/techniques/undo-model-selection.md",
+    "knowledge/software-engineering/ui-surfaces/input-and-editing/undo-history/techniques/undo-under-concurrent-peers.md",
+    "knowledge/software-engineering/ui-surfaces/input-and-editing/undo-history/applications/react--undo-under-concurrent-peers.md",
+    "knowledge/software-engineering/backend-platform/data-layer/sync-replication/applications/react--conflict-detection-and-policy--excalidraw.md",
+    "knowledge/software-engineering/llm-agent/orchestration/hitl-approval/applications/python--consent-gates--x-use.md",
+    "librarian/sources/2026-11-06-product-codebase-craft.md",
+    "librarian/subjects/software-engineering/undo-history.md",
+    "librarian/subjects/software-engineering/sync-replication.md",
+    "librarian/subjects/software-engineering/hitl-approval.md",
+    "librarian/runs/shift-product/result.json"
+  ],
+  "commits": [],
+  "pr": null,
+  "declined": [
+    {
+      "subject": "software-engineering/agent-browser-control",
+      "reason": "Session-credential import wording from x-use, refused under the operator rule for this landing: nothing that helps automate a site against its terms."
+    }
+  ],
+  "failure_signature": null,
+  "notes": "1 technique at the +3 bar and 2 applications landed from 14 miner accepts, plus 1 application on the own-tree rule; 10 miner accepts banked at net 2; 1 row declined by the operator rule; 2 XL subjects proposed; 1 held row. No project changed. Gate=skipped."
+}

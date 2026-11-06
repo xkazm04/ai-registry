@@ -1,7 +1,7 @@
 ---
 subject: undo-history
 domain: software-engineering
-last_touched: 2026-09-04
+last_touched: 2026-11-06
 dry_streak: 0
 ---
 
@@ -50,3 +50,7 @@ technique's thesis, and the paired measurement moved restored state fields from
 `undo-model-selection`'s decision procedure has no measurement behind it in any
 application here, and the new technique inherits that. A tree with undo-memory
 instrumentation would be the thing to look for next.
+
+## 2026-11-06 - shift-product ([[2026-11-06-product-codebase-craft]])
+
+New technique `undo-under-concurrent-peers`, 3/0/2, exactly at the +3 bar. The golden path said a peer invalidates command-inverse and stopped there. The miner scored convergence over a tree and a design tool's account; the tree's own test links that account, so they are one lineage. A 2015 positional editor's account supplied the independent voice and the section on rewriting on running against mapping on arrival. Own model: 3 arms, 3 cases, floor held, `unmeasurable` as a project verdict. Wording keeps `redo-semantics` true: an undo is a new write to the merge and not a truncating edit. Not landed: the selection-in-undo default (1/0/1), which the tree gives no reason for. A personas seam on a restore that blocks older entries is a proposal.

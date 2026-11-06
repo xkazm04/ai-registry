@@ -1,7 +1,7 @@
 ---
 domain: software-engineering
 subject: hitl-approval
-last_touched: 2026-09-29
+last_touched: 2026-11-06
 touched_by: intake
 dry_streak: 0
 ---
@@ -267,3 +267,7 @@ Open: the machine-channel rule (a token that authorises telemetry does not autho
 ## 2026-10-14 - intake docker-agent ([[2026-10-14-docker-docker-agent]], run `intake-dockeragent-1014`)
 
 Landed `fail-closed-profile-for-headless` (the closed default when nobody can be asked: a never-prompting profile over a three-valued classifier; the open grant in `unattended-mode` is its opposite door) and `author-advisories-yield-to-the-users-mode` (rules carry their writer's tier; an author's ask is advisory under the user's chosen mode). Two Go applications. **The source tree leaves a hole the second technique records:** allow rules are not tiered, so an author file can approve what a user's fail-closed run would refuse. Fleet: personas builds every headless invocation with the open permission flag and restricts only through a persona-declared roster; left unchanged as a posture decision (simulation, unmeasurable).
+
+## 2026-11-06 - shift-product ([[2026-11-06-product-codebase-craft]])
+
+Application `python--consent-gates--x-use`: an approve tool over stdio held by the model it gates, and a census by who can open each guard. Recorded for the gate shape only; its author says the tree can violate a platform's terms, and nothing else from it lands, under the operator's rule for that landing. Open: three authors now show approval shapes weaker than they read.

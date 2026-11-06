@@ -50,6 +50,8 @@ that scales to large documents, long sessions, and high-frequency edits.
   system — a collaborative peer, a background process, a migration — silently
   invalidates the stack. Command-inverse demands that *every* write goes
   through the command door; one bypass writer poisons the whole history.
+  Where that writer is a live peer, the way through is
+  [undo-under-concurrent-peers](./undo-under-concurrent-peers.md).
 
 ## Snapshot: pay per document, owe nothing
 
