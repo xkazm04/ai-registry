@@ -32,3 +32,7 @@ the reports say otherwise. One run does not change that.
 - `--until opening` wakes on any width rise, so CPU swinging across the build ceiling wakes the session with nothing to start. Seen once, at 18:11.
 - A lander committed past a red gate because its command did not stop on failure, then fixed it in a follow-up. The supervisor reads each lander's report for this before pushing.
 - The operator's list took 18 GitHub repositories mid-shift. The instruments know only YouTube, so 0.3.0 adds a repository row and a RAM rule; `sync` still does not read those lines.
+
+## 0.3.0 - 2026-11-06 - the verdict page
+
+- 2026-11-06, operator: a verdict needs the tracks and the choice in one place, and the reason for the comparison.

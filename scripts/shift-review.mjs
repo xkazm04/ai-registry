@@ -17,6 +17,16 @@
  * never the arm a label maps to, and an item whose section would still reveal an arm (its brief
  * quoting an arm's prompt, say) is withheld whole rather than shown.
  *
+ * WHY THE ANSWERS ARE ON THE PAGE
+ * A verdict needs the outputs, the choice and the reason for the comparison in one place, or it
+ * does not get made quickly. So each pair states what it decides and carries one radio group, and
+ * each run has a bar whose Copy button builds the command only once every pair is answered,
+ * because `reveal` refuses a partial answer. The manifest may set `decides` per pair; it is prose
+ * written by a seat that knows the arms, so it is checked harder than the rest of the page: a line
+ * would almost never quote a whole prompt, so a fragment or a capitalised arm name withholds too.
+ * Answers live in localStorage under the sheet id, so answers to a replaced sheet, which reshuffled
+ * the labels, are never restored into it. The one script reads the page and talks to nothing else.
+ *
  * COMMANDS
  *   build                                      write .ai/shift/review/index.html
  *   size [--json]                              {"reviewGb":n,"capGb":n,"overCap":bool,"pending":n}
@@ -39,23 +49,60 @@ import { UsageError, atomicWrite, parseArgs } from './shift-queue.mjs';
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const RENDER_TRIAGE = path.join(ROOT, 'scripts', 'render-triage.mjs');
 const RUN_ID_RE = /^[A-Za-z0-9][A-Za-z0-9._-]*$/;
+const PAIR_ID_RE = /^[^\s=]+$/;
 const NO_CANDIDATE_TEXT = 'the candidate this run tested';
+const DEFAULT_DECIDES = `Whether ${NO_CANDIDATE_TEXT} lands. What each answer does is under the pairs.`;
+const PROMPT_FRAGMENT_WORDS = 5;
 
 const relUrl = (...parts) => parts.map(encodeURIComponent).join('/');
 
 /* ---------------------------------------------------------------- blind sections */
 
 /** An arm's own name on the page decodes it. One-letter names are too short to search for. */
-function armNameLeaks(html, manifest) {
+function armNameLeaks(html, manifest, flags = '') {
   const found = [];
   for (const pair of manifest.pairs) {
     for (const arm of Object.keys(pair.arms)) {
       if (arm.length < 3) continue;
       const name = arm.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-      if (new RegExp(`(?:^|[^A-Za-z0-9])${name}(?:$|[^A-Za-z0-9])`).test(html)) found.push(`${pair.id}: name of arm ${arm}`);
+      if (new RegExp(`(?:^|[^A-Za-z0-9])${name}(?:$|[^A-Za-z0-9])`, flags).test(html)) found.push(`${pair.id}: name of arm ${arm}`);
     }
   }
   return found;
+}
+
+/** A run of words from one arm's prompt that its rival's prompt does not share, found in a line. */
+function promptFragments(text, manifest) {
+  const norm = (s) => ` ${String(s ?? '').toLowerCase().split(/\s+/).filter(Boolean).join(' ')} `;
+  const said = norm(text);
+  const found = [];
+  for (const pair of manifest.pairs) {
+    const entries = Object.entries(pair.arms);
+    for (const [arm, spec] of entries) {
+      const words = norm(spec.prompt).trim().split(' ');
+      for (let i = 0; i + PROMPT_FRAGMENT_WORDS <= words.length; i++) {
+        const piece = ` ${words.slice(i, i + PROMPT_FRAGMENT_WORDS).join(' ')} `;
+        if (said.includes(piece) && entries.some(([other, o]) => other !== arm && !norm(o.prompt).includes(piece))) {
+          found.push(`${pair.id}: fragment of the prompt of arm ${arm}`);
+          break;
+        }
+      }
+    }
+  }
+  return found;
+}
+
+/**
+ * The exact command, or null while any pair lacks a valid answer. The page runs this very source,
+ * so the tested function is the one behind the button: it may use nothing outside itself.
+ */
+export function verdictLine(run, pairs, answers) {
+  const picks = [];
+  for (const { id, choices } of pairs) {
+    if (!choices.includes(answers[id])) return null;
+    picks.push(`${id}=${answers[id]}`);
+  }
+  return picks.length ? `/shift verdict ${run} ${picks.join(' ')}` : null;
 }
 
 function pickRules(landing) {
@@ -66,6 +113,21 @@ function pickRules(landing) {
 <b>neither</b><span>Nothing lands. The brief or its anchors failed, and the proof is owed again.</span>
 </div>
 <p class="meta">Which letter is which stays sealed until you answer. That is what keeps this blind.</p>`;
+}
+
+/** mediaTag's output with an accessible name. The name holds a label, never an arm. */
+function namedMedia(src, name) {
+  return mediaTag(src)
+    .replace(/^<(audio|video) /, (_, tag) => `<${tag} aria-label="${esc(name)}" `)
+    .replace(' alt=""', () => ` alt="${esc(name)}"`);
+}
+
+/** One radio per answer `reveal` accepts. Nothing is preselected: a default would be a vote. */
+function choiceGroup(runId, pairId, labels) {
+  const radios = [...labels, 'tie', 'neither'].map((c) => `<label><input type="radio" name="${esc(`${runId}/${pairId}`)}" value="${esc(c)}"> ${esc(c)}</label>`);
+  return `<fieldset data-pair="${esc(pairId)}"><legend>Your answer for ${esc(pairId)}</legend>
+${radios.join('\n')}
+</fieldset>`;
 }
 
 /** One unjudged run as blind HTML, or the reason it may not be shown. */
@@ -79,37 +141,50 @@ export function blindSection(root, runId) {
   } catch (e) { return { why: `manifest or key unreadable: ${e.message}` }; }
   if (manifest.run !== runId) return { why: `manifest names run ${JSON.stringify(manifest.run)} but it sits in ${runId}` };
   if (!Array.isArray(manifest.pairs) || !manifest.pairs.length) return { why: 'manifest has no pairs' };
+  // The answer is one whitespace-separated command: an id that cannot sit in it cannot be answered.
+  if (!RUN_ID_RE.test(runId)) return { why: 'the run id cannot be written in a verdict command' };
 
   const triage = fs.readdirSync(path.join(dir, 'triage'));
   const pairs = [];
   const picks = [];
   for (const pair of manifest.pairs) {
+    if (!PAIR_ID_RE.test(pair.id)) return { why: `pair id ${JSON.stringify(pair.id)} cannot be written in a verdict command` };
+    if (pair.decides != null && typeof pair.decides !== 'string') return { why: `pair ${pair.id}: decides must be a string` };
     const labels = Object.keys(key.pairs?.[pair.id] ?? {});
     if (!labels.length) return { why: `pair ${pair.id} is not on the sealed sheet` };
     const cells = [];
     for (const label of labels) {
       const file = triage.find((f) => f.startsWith(`${pair.id}-${label}.`));
       if (!file) return { why: `pair ${pair.id} output ${label} is missing from triage/` };
-      cells.push(`<figure>${mediaTag(relUrl('items', runId, 'triage', file))}<figcaption><strong>${esc(label)}</strong></figcaption></figure>`);
+      cells.push(`<figure>${namedMedia(relUrl('items', runId, 'triage', file), `Output ${label} of ${pair.id}`)}<figcaption><strong>${esc(label)}</strong></figcaption></figure>`);
     }
     const low = indistinct(pair);
     pairs.push(`<h3>${esc(pair.id)}</h3>
 ${pair.brief ? `<p>${esc(pair.brief)}</p>` : ''}
+<p class="decides"><b>What this decides:</b> ${esc(pair.decides?.trim() || DEFAULT_DECIDES)}</p>
 ${low ? '<p><span class="verdict warn">below the floor</span> This pair may not author a landing. It is shown so you can disagree with the measurement.</p>' : ''}
 <div class="grid wide">${cells.join('')}</div>
-<p class="meta">Answers: ${labels.map(esc).join(', ')}, tie, neither</p>`);
+${choiceGroup(runId, pair.id, labels)}`);
     picks.push(`${pair.id}=<label>`);
   }
-  const html = `<section>
+  const html = `<section data-run="${esc(runId)}" data-sheet="${esc(key.sheet ?? '?')}">
 <h2>${esc(runId)}</h2>
 <p><strong>${esc(manifest.question || 'Which output is better?')}</strong></p>
 ${pairs.join('\n')}
 ${pickRules(manifest.landing)}
-<h3>Answer with</h3>
-<pre>${esc(`/shift verdict ${runId} ${picks.join(' ')}`)}</pre>
 <p class="meta">Every pair is answered at once. Sheet ${esc(key.sheet ?? '?')}.</p>
+<div class="bar">
+<strong role="status">0 of ${manifest.pairs.length} answered</strong>
+<button type="button" disabled>Copy verdict for ${esc(runId)}</button>
+<label class="line">Command <textarea readonly rows="2">${esc(`/shift verdict ${runId} ${picks.join(' ')}`)}</textarea></label>
+</div>
 </section>`;
-  const leaked = [...leaks(html, manifest), ...armNameLeaks(html, manifest)];
+  const written = [manifest.landing, ...manifest.pairs.map((p) => p.decides)].filter(Boolean);
+  const leaked = [
+    ...leaks(html, manifest),
+    ...armNameLeaks(html, manifest),
+    ...written.flatMap((line) => [...armNameLeaks(line, manifest, 'i'), ...promptFragments(line, manifest)]),
+  ];
   if (leaked.length) return { why: `would reveal the arms: ${leaked.join('; ')}` };
   return { html, manifest };
 }
@@ -174,8 +249,8 @@ ${rows}</table></div>` : ''}`;
 
 /* ---------------------------------------------------------------- build */
 
-const STYLE = `:root { --bg:#f6f5f2; --card:#fff; --ink:#1d1d1b; --mute:#6b6a66; --line:#e2e0da; --warn:#9a6700; }
-@media (prefers-color-scheme: dark) { :root { --bg:#161615; --card:#21211f; --ink:#ecebe7; --mute:#a3a29d; --line:#363532; --warn:#e0b450; } a { color:#8ab4f8; } }
+const STYLE = `:root { color-scheme:light dark; --bg:#f6f5f2; --card:#fff; --ink:#1d1d1b; --mute:#6b6a66; --line:#e2e0da; --warn:#9a6700; --accent:#8a4b20; --on-accent:#fff; }
+@media (prefers-color-scheme: dark) { :root { --bg:#161615; --card:#21211f; --ink:#ecebe7; --mute:#a3a29d; --line:#363532; --warn:#e0b450; --accent:#e0a070; --on-accent:#161615; } a { color:#8ab4f8; } }
 * { box-sizing:border-box; }
 body { margin:0; background:var(--bg); color:var(--ink); font:15px/1.55 system-ui, -apple-system, "Segoe UI", sans-serif; }
 main { max-width:1100px; margin:0 auto; padding:24px 16px 64px; }
@@ -199,7 +274,55 @@ th, td { text-align:left; padding:6px 8px; border-bottom:1px solid var(--line); 
 th { color:var(--mute); font-weight:600; }
 .scroll { overflow-x:auto; }
 code, pre { font:13px ui-monospace, Consolas, monospace; }
-pre { background:var(--card); border:1px solid var(--line); border-radius:8px; padding:10px 12px; overflow-x:auto; }`;
+pre { background:var(--card); border:1px solid var(--line); border-radius:8px; padding:10px 12px; overflow-x:auto; }
+:focus-visible { outline:2px solid var(--accent); outline-offset:2px; }
+.decides { margin:6px 0 10px; }
+fieldset { border:0; padding:0; margin:10px 0 18px; display:flex; flex-wrap:wrap; gap:6px; }
+legend { font-weight:600; padding:0; margin-bottom:6px; }
+fieldset label { display:inline-flex; align-items:center; gap:6px; padding:5px 12px; border:1px solid var(--line); border-radius:6px; background:var(--card); cursor:pointer; }
+fieldset label:has(input:checked) { border-color:var(--accent); font-weight:600; }
+input[type=radio] { accent-color:var(--accent); margin:0; }
+.bar { position:sticky; bottom:0; z-index:1; display:flex; flex-wrap:wrap; align-items:center; gap:8px 12px; margin:16px 0 0; padding:10px 14px; background:var(--card); border:1px solid var(--line); border-radius:10px; }
+button { font:inherit; font-weight:600; padding:5px 12px; border:1px solid var(--accent); border-radius:6px; background:var(--accent); color:var(--on-accent); cursor:pointer; }
+button:disabled { background:transparent; border-color:var(--line); color:var(--mute); cursor:not-allowed; }
+.line { flex:1 1 320px; display:flex; align-items:center; gap:8px; font-size:13px; color:var(--mute); }
+textarea { flex:1; min-width:0; resize:none; font:13px ui-monospace, Consolas, monospace; color:var(--ink); background:var(--bg); border:1px solid var(--line); border-radius:6px; padding:6px 8px; }`;
+
+// Inline and self-contained: it reads the page, keeps answers in localStorage, and reaches nothing
+// else. Until a radio or the button is touched it only restores what this sheet already holds.
+const PAGE_SCRIPT = `${verdictLine}
+for (const box of document.querySelectorAll('[data-run]')) {
+  const run = box.dataset.run;
+  const store = 'shift-review:' + run + ':' + box.dataset.sheet;
+  const groups = [...box.querySelectorAll('fieldset')];
+  const pairs = groups.map((g) => ({ id: g.dataset.pair, choices: [...g.querySelectorAll('input')].map((r) => r.value) }));
+  const status = box.querySelector('[role=status]');
+  const copy = box.querySelector('button');
+  const out = box.querySelector('textarea');
+  const blank = out.value;
+  let answers = {};
+  try { answers = JSON.parse(localStorage.getItem(store)) || {}; } catch {}
+  const render = () => {
+    const done = pairs.filter((p) => p.choices.includes(answers[p.id])).length;
+    const line = verdictLine(run, pairs, answers);
+    status.textContent = done + ' of ' + pairs.length + ' answered';
+    copy.disabled = !line;
+    out.value = line || blank;
+  };
+  for (const g of groups) for (const r of g.querySelectorAll('input')) r.checked = answers[g.dataset.pair] === r.value;
+  box.addEventListener('change', (e) => {
+    const g = e.target.closest('fieldset');
+    if (!g) return;
+    answers[g.dataset.pair] = e.target.value;
+    try { localStorage.setItem(store, JSON.stringify(answers)); } catch {}
+    render();
+  });
+  copy.addEventListener('click', async () => {
+    try { await navigator.clipboard.writeText(out.value); status.textContent = 'Copied. Paste it into the terminal.'; }
+    catch { out.select(); status.textContent = 'Press Ctrl+C to copy.'; }
+  });
+  render();
+}`;
 
 export function buildPage(root) {
   const backlog = parseLedger(fs.readFileSync(path.join(root, 'librarian', 'harvest', 'backlog.jsonl'), 'utf8'));
@@ -247,6 +370,7 @@ ${benchmarkSection(root, benchmarks)}
 ${judgedSection(root)}
 ${numbersSection(blind, size, unsealed)}
 </main>
+${blind.length ? `<script>\n${PAGE_SCRIPT}\n</script>` : ''}
 </body>
 </html>
 `;

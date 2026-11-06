@@ -7,9 +7,10 @@ import os from 'node:os';
 import path from 'node:path';
 import { spawnSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
+import vm from 'node:vm';
 import { EXIT } from '../lib/exit-codes.mjs';
 import { pendingRuns, reviewDir, reviewSize, treeBytes } from '../lib/shift-review-state.mjs';
-import { blindSection, buildPage, main } from '../shift-review.mjs';
+import { blindSection, buildPage, main, verdictLine } from '../shift-review.mjs';
 
 const TRIAGE = fileURLToPath(new URL('../render-triage.mjs', import.meta.url));
 const SECRET_A = 'the candidate prompt nobody may read before a verdict';
@@ -65,7 +66,6 @@ test('build: question, side-by-side blind outputs, relative paths and the exact 
   assert.ok(html.includes('src="items/run-1/triage/shot1-X.png"'));
   assert.ok(html.includes('src="items/run-1/triage/shot1-Y.png"'));
   assert.ok(html.includes('/shift verdict run-1 shot1=&lt;label&gt;'));
-  assert.match(html, /X, Y, tie, neither/);
 });
 
 test('the page never exposes the key, the arm names, their files or their prompts', () => {
@@ -139,6 +139,127 @@ test('a manifest naming another run, or a missing output, is withheld', () => {
   assert.match(blindSection(root, 'run-1').why, /output X is missing/);
 });
 
+const radiosOf = (html, pairId) => {
+  const group = new RegExp(`<fieldset data-pair="${pairId}">[\\s\\S]*?</fieldset>`).exec(html)?.[0] ?? '';
+  return [...group.matchAll(/<label><input type="radio" name="([^"]+)" value="([^"]+)"[^>]*> ([^<]+)<\/label>/g)].map((m) => ({ name: m[1], value: m[2], text: m[3], tag: m[0] }));
+};
+
+test('the radios carry exactly the labels plus tie and neither, each labelled, none preselected', () => {
+  const root = tmpRoot();
+  item(root, 'run-1', { pairs: [pairOf('shot1'), pairOf('shot2')] });
+  run(root, 'build');
+  const html = page(root);
+  for (const id of ['shot1', 'shot2']) {
+    const radios = radiosOf(html, id);
+    assert.deepEqual(radios.map((r) => r.value), ['X', 'Y', 'tie', 'neither']);
+    assert.deepEqual(radios.map((r) => r.text), ['X', 'Y', 'tie', 'neither']);
+    assert.deepEqual([...new Set(radios.map((r) => r.name))], [`run-1/${id}`], 'one group per pair');
+    assert.ok(radios.every((r) => !/\bchecked\b/.test(r.tag)));
+  }
+  assert.equal([...html.matchAll(/type="radio"/g)].length, 8);
+  assert.match(html, /<legend>Your answer for shot1<\/legend>/);
+});
+
+test('the command is built only when every pair has a valid answer', () => {
+  const pairs = [{ id: 'shot1', choices: ['X', 'Y', 'tie', 'neither'] }, { id: 'shot2', choices: ['X', 'Y', 'tie', 'neither'] }];
+  assert.equal(verdictLine('run-1', pairs, { shot1: 'X', shot2: 'neither' }), '/shift verdict run-1 shot1=X shot2=neither');
+  assert.equal(verdictLine('run-1', pairs, { shot2: 'tie', shot1: 'Y' }), '/shift verdict run-1 shot1=Y shot2=tie', 'manifest order');
+  assert.equal(verdictLine('run-1', pairs, {}), null);
+  assert.equal(verdictLine('run-1', pairs, { shot1: 'X' }), null, 'partial is refused, as reveal refuses it');
+  assert.equal(verdictLine('run-1', pairs, { shot1: 'X', shot2: 'Q' }), null, 'a stale label is not an answer');
+  assert.equal(verdictLine('run-1', [], {}), null);
+});
+
+test('the line the page builds is one reveal accepts', () => {
+  const root = tmpRoot();
+  const dir = item(root, 'run-1', { pairs: [pairOf('shot1'), pairOf('shot2')] });
+  const pairs = ['shot1', 'shot2'].map((id) => ({ id, choices: ['X', 'Y', 'tie', 'neither'] }));
+  const line = verdictLine('run-1', pairs, { shot1: 'X', shot2: 'tie' });
+  const [, , ...args] = line.split(' ');
+  assert.equal(run(root, 'verdict', ...args).code, EXIT.OK);
+  assert.equal(JSON.parse(fs.readFileSync(path.join(dir, 'verdict.json'), 'utf8')).pairs.shot2.operator, 'tie');
+});
+
+test('each pair says what it decides: its own line, or the default that does not repeat the landing', () => {
+  const root = tmpRoot();
+  item(root, 'run-1', { landing: 'LANDING-TEXT', pairs: [pairOf('shot1', { decides: 'Whether a sheet <beats> a line' }), pairOf('shot2')] });
+  assert.equal(run(root, 'build').code, EXIT.OK);
+  const html = page(root);
+  assert.ok(html.includes('<b>What this decides:</b> Whether a sheet &lt;beats&gt; a line'), 'escaped');
+  assert.match(html, /<b>What this decides:<\/b> Whether the candidate this run tested lands/);
+  assert.equal(html.split('LANDING-TEXT').length, 2);
+  assert.ok(html.indexOf('What this decides') < html.indexOf('src="items/run-1/triage/shot1-X.png"'), 'the reason comes before the outputs');
+});
+
+test('a leaking decides withholds the item: an arm name in any case, a whole prompt or a fragment of one', () => {
+  const root = tmpRoot();
+  const cases = {
+    named: 'Whether corpusAfter wins',
+    capitalised: 'CorpusAfter or nothing',
+    quoted: `Whether "${SECRET_A}" helps`,
+    fragment: 'Whether THE CANDIDATE PROMPT nobody may carries it',
+    filename: 'Compare shot1-armAfter.png',
+  };
+  for (const [id, decides] of Object.entries(cases)) item(root, id, { pairs: [pairOf('shot1', { decides })] });
+  item(root, 'fine', { pairs: [pairOf('shot1', { decides: 'Whether the table reads as solid wood' })] });
+  const r = run(root, 'build');
+  assert.equal(r.code, EXIT.VIOLATIONS);
+  const html = page(root);
+  for (const id of Object.keys(cases)) {
+    assert.match(r.err, new RegExp(`withheld ${id}: would reveal the arms`));
+    assert.ok(!html.includes(`items/${id}/`));
+  }
+  assert.ok(html.includes('items/fine/'));
+  assert.ok(!html.includes(SECRET_A));
+});
+
+test('a decides that shares words with both arms is not a leak', () => {
+  const shared = 'a wooden table on a plain grey ground';
+  const root = tmpRoot();
+  const pair = pairOf('shot1', { decides: `Whether ${shared} reads as solid` });
+  pair.arms.corpusBefore.prompt = `${shared}, soft light`;
+  pair.arms.corpusAfter.prompt = `${shared}, hard light`;
+  item(root, 'run-1', { pairs: [pair] });
+  assert.equal(blindSection(root, 'run-1').why, undefined);
+});
+
+test('a decides that is not a string, or an id the command cannot carry, is withheld', () => {
+  const root = tmpRoot();
+  item(root, 'odd', { pairs: [pairOf('shot1', { decides: { text: 'x' } })] });
+  item(root, 'spaced', { pairs: [pairOf('shot 1')] });
+  assert.match(blindSection(root, 'odd').why, /decides must be a string/);
+  assert.match(blindSection(root, 'spaced').why, /cannot be written in a verdict command/);
+});
+
+test('the page script is single, inline, parseable, runs the tested function, and reaches nothing', () => {
+  const root = tmpRoot();
+  const dir = item(root, 'run-1');
+  run(root, 'build');
+  const html = page(root);
+  const scripts = [...html.matchAll(/<script>([\s\S]*?)<\/script>/g)];
+  assert.equal(scripts.length, 1);
+  assert.equal([...html.matchAll(/<script\b/g)].length, 1);
+  const body = scripts[0][1];
+  assert.doesNotThrow(() => new vm.Script(body));
+  assert.ok(body.includes(verdictLine.toString()), 'the button runs the function the tests run');
+  assert.doesNotMatch(body, /\bfetch\b|XMLHttpRequest|WebSocket|sendBeacon|\bimport\b|\beval\b|innerHTML|\.play\(/);
+  // Answers are stored per sheet: a reseal reshuffles the labels, so old answers must not return.
+  assert.match(body, /box\.dataset\.sheet/);
+  const sheetId = JSON.parse(fs.readFileSync(path.join(dir, 'triage', 'key.json'), 'utf8')).sheet;
+  assert.ok(html.includes(`data-sheet="${sheetId}"`));
+  assert.match(html, /<button type="button" disabled>Copy verdict for run-1<\/button>/);
+  assert.match(html, /<strong role="status">0 of 1 answered<\/strong>/);
+  assert.match(html, /<label class="line">Command <textarea readonly/);
+  assert.match(html, /:focus-visible/);
+  assert.match(html, /alt="Output X of shot1"/);
+});
+
+test('with nothing to judge the page carries no script', () => {
+  const root = tmpRoot();
+  run(root, 'build');
+  assert.doesNotMatch(page(root), /<script\b/);
+});
+
 test('an unsealed item is not shown and is not pending', () => {
   const root = tmpRoot();
   item(root, 'in-progress', { seal: false });
@@ -174,7 +295,8 @@ test('order: decisions, then benchmarks, then numbers; no network reference anyw
   assert.ok(!html.includes('an old benchmark'));
   assert.match(html, /0 still being prepared/, 'a benchmark folder is not a proof in preparation');
   assert.doesNotMatch(html, /https?:\/\//);
-  assert.doesNotMatch(html, /<(?:script|link)\b/);
+  assert.doesNotMatch(html, /<link\b/);
+  assert.doesNotMatch(html, /<script\b[^>]*\bsrc=/);
 });
 
 test('verdict reveals through render-triage, prints the result, cleans nothing, moves the item down', () => {

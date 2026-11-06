@@ -3,7 +3,7 @@ name: shift
 description: "Turn the CPU and RAM a long GPU video job leaves idle into registry know-how. A long-lived, resumable /intake variation: pre-researches the operator's gitignored YouTube list into topic clusters and an intake plan the operator approves, mines approved clusters in parallel lanes at a width set by live sensors, banks GPU proofs and media benchmarks to run only when the GPU is truly idle, and fills the rest of the time with /harvest backlog, /harvest evaluate and /deepen --loop. Lands into the registry and connected projects under each repo's own law. Use when a machine runs video generations for days, or when the operator wants the box working while away."
 category: ai-native
 memory: project
-version: 0.3.0
+version: 0.3.1
 tags: research, queue, resources, gpu, unattended, batch, cross-repo, render-proof, long-running
 ---
 
@@ -122,14 +122,16 @@ tick, and so is each sensor exit and each wakeup. **Never poll.**
 `actions` empty means nothing to start, and `reason` says why. Arm and end the turn.
 
 **`/shift decisions`.** The one place the shift asks. Read `waitingOnOperator` from `next`, then put
-each pending decision to the operator with `AskUserQuestion`, single-select, one question per
-verdict pair or plan; take several calls if the tool caps its questions. Run it only on the
+each pending decision to the operator with `AskUserQuestion`, single-select: one question per plan,
+one per waiting cluster, and one per run with verdicts owed; take several calls if the tool caps its
+questions. Run it only on the
 operator's request, never as a step of a tick, and start the next tick as soon as it ends.
 
-- **A verdict pair.** Read the question, pair ids and labels from the rolling review page, and link
-  it, because the outputs are there. Options are the labels, `tie` and `neither`. Never read
-  `triage/key.json` to phrase a question: it holds the arms. `reveal` refuses a partial answer, so
-  collect every pair of a run before `/shift verdict`.
+- **A verdict pair.** It goes on the rolling review page with its choices: the outputs, the radios,
+  what it decides, and the Copy button that builds `/shift verdict` once every pair of the run is
+  answered. `AskUserQuestion` links the page and names the runs owed; it never asks for audio or
+  images in the terminal, and its options never stand in for the radios. The operator pastes the
+  copied line. Never read `triage/key.json` to phrase a question: it holds the arms.
 - **A plan.** Link `plans/<planId>/index.html`. Options: approve, approve with strikes, not yet.
 - **A `waiting` cluster.** Its `reason` is the question. When the answer arrives,
   `mark <planId>/<clusterId> mining`, and `next` picks it up.

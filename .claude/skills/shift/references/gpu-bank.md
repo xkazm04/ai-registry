@@ -93,13 +93,22 @@ A number with `display: off` is not comparable with `display: on`, whichever way
 ## The rolling review page
 
 `.ai/shift/review/index.html`, built by `shift-review build`. Decision first: the question in plain
-words, blind outputs side by side, what follows from each kind of pick. Numbers last. The operator
-answers whenever they look, every pair of a run at once, because `reveal` refuses a partial answer
-(the page prints the exact command):
+words, and per pair what it decides, the blind outputs side by side, and one radio group holding the
+pair's labels plus `tie` and `neither`. Then what follows from each kind of pick. Numbers last.
+
+The operator answers whenever they look. Answers stay in the browser's localStorage, per sealed sheet.
+Each run has a sticky bar with a count and one Copy button, which stays disabled until every pair of
+the run is answered, because `reveal` refuses a partial answer. It copies the exact command:
 
 ```
 /shift verdict <runId> <pairId>=<label|tie|neither> [<pairId>=<label|tie|neither> ...]
 ```
+
+A proof seat may add `decides` (string, per pair) and `landing` (the run's) to the manifest. Absent
+`decides` falls back to a line pointing at the pick rules. **Write `decides` without naming an arm or
+quoting its prompt.** It says what the comparison settles, never what differs between the arms: a
+`decides` or `landing` holding an arm's name in any case, a file name, a whole prompt, or five words
+in a row from a prompt the rival arm does not share withholds the whole item, and `build` exits 1.
 
 That reveals the arms. **Then land or reject per `/intake` Phase 6b/7**, record the verdict on the
 row, and `shift-review clean <runId>`, which refuses without a verdict.
