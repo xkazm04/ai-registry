@@ -6436,8 +6436,8 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/media-generation/production-ops/video-assembly/video-assembly.md",
-   "digest": "sha256-b2:ddb944335d94790a",
-   "revision": 21,
+   "digest": "sha256-b2:94594691b758ec58",
+   "revision": 22,
    "changedAt": "2026-11-06",
    "techniques": [
     {

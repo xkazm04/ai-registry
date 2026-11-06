@@ -84,6 +84,41 @@ carrying no revision note are as of the original sheet.
   standard rates, including on a plan with unlimited web access, and that page
   names no spending limit or cost preview. A budget stated to the agent is then
   prose, so the gate has to sit outside the prompt.
+- **A moving reference on one local node, read from its code (2026-11-06).**
+  ComfyUI `MiniMaxH3ReferenceToVideo` takes up to 9 images, 3 videos, 3 video
+  soundtracks and 3 audio files, and its description says to name them in the
+  prompt as `<Picture i>`, `<Video k>` and `<Audio j>`, numbered per type. Its
+  "2-15 s" is a tooltip: the code requires 5 frames, cuts a clip from its head to
+  the generated length, then down to 17k+5 frames. So a 10 s orbit on a 5 s shot
+  keeps half a turn, and a 120-frame orbit on a 124-frame shot keeps 107 frames.
+  The text encoder sees the clip at 2 fps. The diffusion model receives every frame
+  as latent tokens that are re-injected on each step: at 864x480 and 124 frames, a
+  same-size clip adds as many video tokens as the shot itself (14,985), where one
+  image at `ref_image_size` `match` adds about 405. `match` scales an image to the
+  generation's pixel area, so a four-panel sheet gets about 0.1 MP per view and a
+  single-view image about 0.41 MP. The local control patch gives reference rows a
+  zero control row, so a reference and a depth pass can share a call in the code.
+  The token counts are arithmetic. No timing was measured, and this machine has run
+  neither the video input nor that pairing. The 2.0 series of a hosted model
+  documents the same counts (0-9 images, 0-3 videos, 0-3 audio files); the 2.5 caps
+  stay contested above.
+- **Real faces in reference clips (read 2026-11-06, vendor doc, 2.0 series).** The
+  2.0 series does "not support direct uploads of reference images or videos
+  containing real human faces", and it routes portrait work through its own
+  solutions, including a pre-built digital character library. One host's
+  motion-transfer tool, which does not name its model, sells the opposite route:
+  "Shoot on your phone". So the vendor's rule does not settle what a filmed clip
+  may do on a host, and neither page says how the two relate. Check on the route
+  you use.
+- **A hosted motion-transfer tool (read 2026-11-06, vendor page).** It takes reference
+  videos of 4-30 s and up to 30 reference images, in two modes. "Motion Transfer keeps
+  the motion, camera and timing while rebuilding the scene"; "Object Swap" changes a
+  selected element and preserves the rest. Its page offers no mode that keeps
+  the camera without the motion, or the reverse. Its output length and price were not read.
+- **A third published spend record (read 2026-11-06, third-party class).** The same
+  practitioner's page for a 58.75 s scene, created 2026-09-20, shows 8 generations and
+  915 credits, about 15.6 per finished second, with the same caveats as the two records
+  above. He said "like 900" on camera. Whether a failed test is included is unknown.
 
 ## Pipeline facts (retiring a forge-era claim)
 
@@ -119,6 +154,9 @@ explainers are production-viable unattended.
 - https://higgsfield.ai/@joeysnoisygroup/projects/ctrl-hold-mv (accessed 2026-11-06)
 - https://higgsfield.ai/@joeysnoisygroup/projects/swing-and-a-miss (accessed 2026-11-06)
 - https://higgsfield.ai/creator-hub/help-center/mcp-cli/what-is-higgsfield-mcp (accessed 2026-11-06)
+- https://docs.byteplus.com/en/docs/ModelArk/2291680 (accessed 2026-11-06)
+- https://higgsfield.ai/genjutsu (accessed 2026-11-06)
+- https://higgsfield.ai/@joeysnoisygroup/projects/mira-and-the-dragon (accessed 2026-11-06)
 
 **Tiering note on the 2026-09 revision.** Every source above is a relay; no
 vendor model card states 2.5's resolution, price or per-request limits, and the

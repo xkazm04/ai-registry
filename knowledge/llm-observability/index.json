@@ -1052,9 +1052,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/llm-observability/quality-scoring/generator-uncertainty-scoring/generator-uncertainty-scoring.md",
-   "digest": "sha256-b2:a449ca2b8da79c6e",
-   "revision": 3,
-   "changedAt": "2026-10-05",
+   "digest": "sha256-b2:f43a7075158d8e0c",
+   "revision": 4,
+   "changedAt": "2026-11-06",
    "techniques": [
     {
      "slug": "compare-gates-at-matched-coverage",
@@ -1148,7 +1148,9 @@
       "choosing a scorer for high-volume traffic",
       "a serving API does not return token probabilities",
       "deciding whether scoring may run inside the serving path",
-      "judge spend is growing faster than traffic"
+      "judge spend is growing faster than traffic",
+      "reading a closed-set answer from token probabilities at one position",
+      "two labels share a first token and score nearly the same"
      ],
      "stage": "team"
     },
