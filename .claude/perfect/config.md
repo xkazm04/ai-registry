@@ -10,7 +10,7 @@ pool_target: 10
 round_shape: round             # single-owner registry: propose 1-3 contexts, gate, build the same session
 cooldown_rounds: 2
 commit_format: "<lane>(<context>): <title>"   # matches the repo's history: skill(name): ..., knowledge(subject): ..., scripts: ...
-context_map: .perfect/context-map.json        # PROVISIONAL - one context per top-level directory, written by /perfect init 2026-09-04
+context_map: context-map.json            # tracked, hand-derived code map (13 contexts); the provisional .perfect/context-map.json was retired 2026-11-07
 active_runs_ledger: ""
 locale_count: 1
 ---
@@ -83,3 +83,4 @@ imported from another project's overlay.
 
 - 2026-09-04: overlay scaffolded by init; defaults in force except `round_shape: round`, `commit_format`, `context_map`.
 - 2026-09-04 (round 1, init): scripts + skills-lane, 10/10 accepted, 9 shipped in one wave of 3 lots on main with `--only` (no wave branch: two live sibling sessions). What dragged: a whole-lane re-stamp had to be pulled out of its lot and run by the Director at quiescence; a sibling shipped one direction between gate and dispatch. Next round: cursor registry-skills, then knowledge-lane; consider `frontmatter-lib` (deferred, sibling sweep) once scripts/ is quiet.
+- 2026-11-07 (round 2, perfect 2.10.0): queue re-based from the retired provisional map to the tracked `context-map.json`; query-front-door + runs-telemetry, 6/6 accepted, 6 shipped in one wave of 3 disjoint lots on main with `--only`. What helped: one Director equivalence check (slim vs full transcript parse on 12 real sessions) closed the premise the builder's tests could not. What dragged: `gate.mjs --all` in the main checkout fails on gitignored local leftovers (`skills/demo-film/node_modules/`), so the integration gate must run in a clean detached worktree of HEAD (cut under C:/t, removed with `scripts/remove-worktree.mjs`). Next round: fleet-linking; owed operator call on a real `converge --only runs` drain.
