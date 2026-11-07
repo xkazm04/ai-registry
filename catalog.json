@@ -2,7 +2,7 @@
   "schema": "ascent-registry-catalog",
   "schemaVersion": "1.0.0",
   "_note": "GENERATED FILE — scripts/build-catalog.mjs reads every lane (skills, practices, memory, knowledge, usage) and rewrites this file; --check fails CI when it is stale. Per skill, `adopters` is carried forward untouched (the registry cannot see installations; an operator's scripts/fleet-audit.mjs --write-adopters maintains it) and `invokes30d` + `usageContributors` are DERIVED from the usage/ lane; `runs30d`, `outcomes30d`, `difficulty30d`, `tokensMedian30d` and `tokensBasis30d` are DERIVED from the usage/runs/ run log (30 days ending at the newest logged run; tokens are the measured median when at least half the runs are measured, else the agents' estimate, and tokensBasis30d says which). `generatedAt` is the newest instant in the committed data this catalog reads (a subject changedAt, a usage report generatedAt, a run row ts, a LESSONS heading date), ISO 8601 UTC: the date of the newest evidence in the registry, not the wall-clock time of the build, so --check stays a pure function of the tree. Hand-edits to anything else are overwritten on the next build. A second producer (e.g. Ascent's indexer) may rewrite the envelope from the same files; two producers computing one truth from one source is not a conflict.",
-  "generatedAt": "2026-11-06T00:00:00Z",
+  "generatedAt": "2026-11-07T21:12:21Z",
   "generatedBy": "scripts/build-catalog.mjs",
   "registry": {
     "fullName": "xkazm04/ai-registry",
@@ -25,9 +25,12 @@
       "lessonsPath": "skills/adopt-bp/LESSONS.md",
       "lessonsHash": "sha256-n1:dc376cd4eda8a130",
       "usageContributors": [],
-      "runs30d": 0,
-      "outcomes30d": {},
-      "difficulty30d": null,
+      "runs30d": 3,
+      "outcomes30d": {
+        "shipped": 1,
+        "partial": 2
+      },
+      "difficulty30d": 3,
       "tokensMedian30d": null,
       "tokensBasis30d": null
     },
@@ -77,9 +80,11 @@
       "usageContributors": [
         "wolf"
       ],
-      "runs30d": 0,
-      "outcomes30d": {},
-      "difficulty30d": null,
+      "runs30d": 1,
+      "outcomes30d": {
+        "parked": 1
+      },
+      "difficulty30d": 3,
       "tokensMedian30d": null,
       "tokensBasis30d": null
     },
@@ -178,9 +183,13 @@
       "lessonsPath": "skills/conform/LESSONS.md",
       "lessonsHash": "sha256-n1:82c6215f1132d182",
       "usageContributors": [],
-      "runs30d": 0,
-      "outcomes30d": {},
-      "difficulty30d": null,
+      "runs30d": 226,
+      "outcomes30d": {
+        "shipped": 165,
+        "partial": 2,
+        "no-op": 59
+      },
+      "difficulty30d": 2,
       "tokensMedian30d": null,
       "tokensBasis30d": null
     },
@@ -204,11 +213,13 @@
       "lessonsPath": "skills/consult/LESSONS.md",
       "lessonsHash": "sha256-n1:d38828777c64d209",
       "usageContributors": [],
-      "runs30d": 0,
-      "outcomes30d": {},
-      "difficulty30d": null,
-      "tokensMedian30d": null,
-      "tokensBasis30d": null
+      "runs30d": 1,
+      "outcomes30d": {
+        "shipped": 1
+      },
+      "difficulty30d": 3,
+      "tokensMedian30d": 54897,
+      "tokensBasis30d": "exact"
     },
     {
       "name": "contest",
@@ -223,9 +234,13 @@
       "lessonsPath": "skills/contest/LESSONS.md",
       "lessonsHash": "sha256-n1:77ea47e035a36a0e",
       "usageContributors": [],
-      "runs30d": 0,
-      "outcomes30d": {},
-      "difficulty30d": null,
+      "runs30d": 17,
+      "outcomes30d": {
+        "shipped": 3,
+        "partial": 8,
+        "parked": 6
+      },
+      "difficulty30d": 2.9,
       "tokensMedian30d": null,
       "tokensBasis30d": null
     },
@@ -242,9 +257,11 @@
       "lessonsPath": "skills/council/LESSONS.md",
       "lessonsHash": "sha256-n1:02cc8f1ded3d7ea5",
       "usageContributors": [],
-      "runs30d": 0,
-      "outcomes30d": {},
-      "difficulty30d": null,
+      "runs30d": 1,
+      "outcomes30d": {
+        "shipped": 1
+      },
+      "difficulty30d": 3,
       "tokensMedian30d": null,
       "tokensBasis30d": null
     },
@@ -261,11 +278,13 @@
       "lessonsPath": "skills/cx/LESSONS.md",
       "lessonsHash": "sha256-n1:364687ee5cf63a39",
       "usageContributors": [],
-      "runs30d": 0,
-      "outcomes30d": {},
-      "difficulty30d": null,
-      "tokensMedian30d": null,
-      "tokensBasis30d": null
+      "runs30d": 1,
+      "outcomes30d": {
+        "shipped": 1
+      },
+      "difficulty30d": 4,
+      "tokensMedian30d": 3172223,
+      "tokensBasis30d": "exact"
     },
     {
       "name": "demo-film",
@@ -323,9 +342,11 @@
       "usageContributors": [
         "wolf"
       ],
-      "runs30d": 0,
-      "outcomes30d": {},
-      "difficulty30d": null,
+      "runs30d": 1,
+      "outcomes30d": {
+        "shipped": 1
+      },
+      "difficulty30d": 3,
       "tokensMedian30d": null,
       "tokensBasis30d": null
     },
@@ -366,9 +387,11 @@
       "usageContributors": [
         "wolf"
       ],
-      "runs30d": 0,
-      "outcomes30d": {},
-      "difficulty30d": null,
+      "runs30d": 1,
+      "outcomes30d": {
+        "shipped": 1
+      },
+      "difficulty30d": 3,
       "tokensMedian30d": null,
       "tokensBasis30d": null
     },
@@ -385,9 +408,11 @@
       "lessonsPath": "skills/hackathon/LESSONS.md",
       "lessonsHash": "sha256-n1:df895531967afa14",
       "usageContributors": [],
-      "runs30d": 0,
-      "outcomes30d": {},
-      "difficulty30d": null,
+      "runs30d": 1,
+      "outcomes30d": {
+        "shipped": 1
+      },
+      "difficulty30d": 4,
       "tokensMedian30d": null,
       "tokensBasis30d": null
     },
@@ -448,9 +473,11 @@
       "lessonsPath": "skills/kit/LESSONS.md",
       "lessonsHash": "sha256-n1:e45d765926aeda67",
       "usageContributors": [],
-      "runs30d": 0,
-      "outcomes30d": {},
-      "difficulty30d": null,
+      "runs30d": 1,
+      "outcomes30d": {
+        "partial": 1
+      },
+      "difficulty30d": 3,
       "tokensMedian30d": null,
       "tokensBasis30d": null
     },
@@ -488,11 +515,14 @@
       "lessonsPath": "skills/lens-scan/LESSONS.md",
       "lessonsHash": "sha256-n1:86c6cb50f380a999",
       "usageContributors": [],
-      "runs30d": 0,
-      "outcomes30d": {},
-      "difficulty30d": null,
-      "tokensMedian30d": null,
-      "tokensBasis30d": null
+      "runs30d": 21,
+      "outcomes30d": {
+        "shipped": 17,
+        "partial": 4
+      },
+      "difficulty30d": 2.7,
+      "tokensMedian30d": 385775,
+      "tokensBasis30d": "exact"
     },
     {
       "name": "leonardo",
@@ -681,11 +711,15 @@
       "usageContributors": [
         "wolf"
       ],
-      "runs30d": 0,
-      "outcomes30d": {},
-      "difficulty30d": null,
-      "tokensMedian30d": null,
-      "tokensBasis30d": null
+      "runs30d": 6,
+      "outcomes30d": {
+        "shipped": 4,
+        "partial": 1,
+        "aborted": 1
+      },
+      "difficulty30d": 2.7,
+      "tokensMedian30d": 1522326,
+      "tokensBasis30d": "exact"
     },
     {
       "name": "project-populate",
@@ -707,9 +741,11 @@
       "usageContributors": [
         "wolf"
       ],
-      "runs30d": 0,
-      "outcomes30d": {},
-      "difficulty30d": null,
+      "runs30d": 1,
+      "outcomes30d": {
+        "shipped": 1
+      },
+      "difficulty30d": 2,
       "tokensMedian30d": null,
       "tokensBasis30d": null
     },
@@ -778,11 +814,14 @@
       "usageContributors": [
         "wolf"
       ],
-      "runs30d": 0,
-      "outcomes30d": {},
-      "difficulty30d": null,
-      "tokensMedian30d": null,
-      "tokensBasis30d": null
+      "runs30d": 12,
+      "outcomes30d": {
+        "shipped": 9,
+        "partial": 3
+      },
+      "difficulty30d": 3.4,
+      "tokensMedian30d": 12668284,
+      "tokensBasis30d": "exact"
     },
     {
       "name": "ship-loop",
@@ -825,13 +864,16 @@
       "usageContributors": [
         "wolf"
       ],
-      "runs30d": 1,
+      "runs30d": 68,
       "outcomes30d": {
-        "partial": 1
+        "shipped": 44,
+        "partial": 20,
+        "parked": 3,
+        "failed": 1
       },
-      "difficulty30d": 3,
-      "tokensMedian30d": 125000,
-      "tokensBasis30d": "estimate"
+      "difficulty30d": 3.5,
+      "tokensMedian30d": 2340135,
+      "tokensBasis30d": "exact"
     },
     {
       "name": "straighten",
@@ -846,9 +888,11 @@
       "lessonsPath": "skills/straighten/LESSONS.md",
       "lessonsHash": "sha256-n1:d51348635fe6b5eb",
       "usageContributors": [],
-      "runs30d": 0,
-      "outcomes30d": {},
-      "difficulty30d": null,
+      "runs30d": 1,
+      "outcomes30d": {
+        "shipped": 1
+      },
+      "difficulty30d": 3,
       "tokensMedian30d": null,
       "tokensBasis30d": null
     },
@@ -914,9 +958,13 @@
       "lessonsPath": "skills/tiger/LESSONS.md",
       "lessonsHash": "sha256-n1:22daa0d721cf5de5",
       "usageContributors": [],
-      "runs30d": 0,
-      "outcomes30d": {},
-      "difficulty30d": null,
+      "runs30d": 4,
+      "outcomes30d": {
+        "shipped": 1,
+        "partial": 1,
+        "parked": 2
+      },
+      "difficulty30d": 3.5,
       "tokensMedian30d": null,
       "tokensBasis30d": null
     },
