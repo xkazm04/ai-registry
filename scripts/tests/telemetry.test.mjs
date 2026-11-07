@@ -35,3 +35,41 @@ test('telemetry-report refuses an unknown flag and a valueless --as-of instead o
  assert.equal(ok.status,0,ok.stderr);
  assert.equal(JSON.parse(ok.stdout).asOf,'2026-10-01');
 });
+
+test('runLaneStatus: committed rows per device with newest-row age, pending rows across checkouts, null without a fleet',async()=>{
+ const fs=await import('node:fs'),os=await import('node:os'),path=await import('node:path');
+ const {runLaneStatus}=await import('../lib/runs-aggregate.mjs');
+ const base=fs.mkdtempSync(path.join(os.tmpdir(),'telemetry-runs-'));
+ try{
+  const reg=path.join(base,'reg'),a=path.join(base,'a'),b=path.join(base,'b');
+  fs.mkdirSync(path.join(reg,'usage','runs'),{recursive:true});
+  fs.writeFileSync(path.join(reg,'usage','runs','Box.jsonl'),'{"ts":"2026-09-01T00:00:00Z"}\n{"ts":"2026-10-30T00:00:00Z"}\n');
+  fs.writeFileSync(path.join(reg,'usage','runs','Box.exact.jsonl'),'{"id":"x"}\n');
+  fs.writeFileSync(path.join(reg,'usage','runs','Old.jsonl'),'{"ts":"2026-01-01T00:00:00Z"}\n');
+  for(const d of [a,b])fs.mkdirSync(path.join(d,'.ai'),{recursive:true});
+  fs.writeFileSync(path.join(a,'.ai','skill-runs.local.jsonl'),'{"ts":"2026-10-01T00:00:00Z"}\n{"ts":"2026-10-05T00:00:00Z"}\nnot json\n');
+  const sources=[{slug:'a',path:a},{slug:'b',path:b},{slug:'gone',path:path.join(base,'gone')}];
+  const r=runLaneStatus(reg,'2026-11-07',sources);
+  assert.deepEqual(r.committed.map(c=>[c.device,c.rows,c.newest,c.status]),[['Box',2,'2026-10-30T00:00:00Z','within-window'],['Old',1,'2026-01-01T00:00:00Z','stale']]);
+  assert.equal(r.pending.rows,2);
+  assert.equal(r.pending.unparseable,1);
+  assert.equal(r.pending.files,1);
+  assert.equal(r.pending.oldest,'2026-10-01T00:00:00Z');
+  assert.equal(r.pending.status,'stale');
+  assert.equal(runLaneStatus(reg,'2026-10-20',sources).pending.status,'within-window');
+  assert.deepEqual(r.pending.byProject,[{project:'a',rows:2}]);
+  assert.equal(runLaneStatus(reg,'2026-11-07',null).pending,null,'no fleet is unknown, not zero');
+  assert.deepEqual(runLaneStatus(path.join(base,'empty'),'2026-11-07',[]).committed,[]);
+ }finally{fs.rmSync(base,{recursive:true,force:true});}
+});
+
+test('telemetry-report prints a runLane block with counts only',async()=>{
+ const {spawnSync}=await import('node:child_process'),{fileURLToPath}=await import('node:url');
+ const script=fileURLToPath(new URL('../telemetry-report.mjs',import.meta.url));
+ const r=spawnSync(process.execPath,[script,'--as-of','2026-11-07'],{encoding:'utf8'});
+ assert.equal(r.status,0,r.stderr);
+ const lane=JSON.parse(r.stdout).runLane;
+ assert.ok(Array.isArray(lane.committed));
+ assert.ok(lane.pending===null||Number.isInteger(lane.pending.rows));
+ assert.doesNotMatch(JSON.stringify(lane),/[A-Za-z]:[\/]/,'no checkout path in the report');
+});

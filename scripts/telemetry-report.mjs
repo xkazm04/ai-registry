@@ -8,7 +8,13 @@
  * from view. So this prints, as one JSON document: every report's freshness against an
  * explicit `--as-of` (unknown / future / stale / within-window, never a rewritten date),
  * the unresolved usage and signal identities with their counts, and the possible
- * duplicate bundle blocks. It decides nothing; it is the evidence an identity migration in
+ * duplicate bundle blocks. It also reports the RUN lane (usage/runs/) the same way: per device
+ * the committed row count and the newest row's age (unknown / future / stale / within-window,
+ * the usage/signals window), and the rows still waiting in this machine's fleet checkouts
+ * (`.ai/skill-runs.local.jsonl`, not yet drained by runs-backfill) with the oldest waiting
+ * row's age. Counts and dates only. `runLane.pending` is null on a machine with no fleet
+ * identity: "not measurable here", never zero.
+ * It decides nothing; it is the evidence an identity migration in
  * identity-aliases.json is argued from (docs/telemetry-identity.md).
  *
  * Usage:  node scripts/telemetry-report.mjs [--as-of <ISO date>]   (default: now)
@@ -22,6 +28,9 @@ import path from 'node:path';
 import {fileURLToPath} from 'node:url';
 import {loadIdentities,resolveIdentity,aggregateDemand,reportAge} from './lib/telemetry.mjs';
 import {EXIT} from './lib/exit-codes.mjs';
+import {loadFleet} from './lib/projects.mjs';
+import {runLaneStatus} from './lib/runs-aggregate.mjs';
+import {localSources} from './runs-backfill.mjs';
 try {
  const args=process.argv.slice(2),hint='Usage: telemetry-report.mjs [--as-of <ISO date>]';
  let given;
@@ -39,5 +48,6 @@ try {
  for(const doc of usage)for(const [name,entry] of Object.entries(doc.skills))if(!resolveIdentity(ids,'skills',name))unresolvedUsage.push({contributor:doc.contributor,identity:name,...entry});
  const demand=aggregateDemand(signals,(lane,id)=>resolveIdentity(ids,lane,id));
  const freshness=[...usage.map(doc=>({lane:'usage',doc})),...signals.map(doc=>({lane:'signals',doc}))].map(({lane,doc})=>({lane,contributor:doc.contributor,generatedAt:doc.generatedAt,windowDays:doc.windowDays,...reportAge(doc.generatedAt,asOf)}));
- console.log(JSON.stringify({asOf,freshness,unresolvedUsage,unresolvedSignals:demand.unresolved,possibleDuplicateBlocks:demand.duplicateBlocks,interpretation:'Unresolved counts are retained here, excluded from named-artifact scores. State priority uses maxima, never sums. Report freshness does not establish content correctness.'},null,2));
+ const fleet=loadFleet(root),runLane=runLaneStatus(root,asOf,fleet.machine?localSources(fleet,root):null);
+ console.log(JSON.stringify({asOf,freshness,unresolvedUsage,unresolvedSignals:demand.unresolved,runLane,possibleDuplicateBlocks:demand.duplicateBlocks,interpretation:'Unresolved counts are retained here, excluded from named-artifact scores. State priority uses maxima, never sums. Report freshness does not establish content correctness.'},null,2));
 }catch(error){console.error(`FATAL: ${error.message}`);process.exitCode=EXIT.FATAL;}

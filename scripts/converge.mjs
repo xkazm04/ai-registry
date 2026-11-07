@@ -5,6 +5,7 @@
  * Everything this script runs already existed. `build-registry-map.mjs` rebuilds the join,
  * `leads-collect.mjs` folds project-originated findings into the librarian's inbox,
  * `signals-collect.mjs` folds consult counts into the public signals lane,
+ * `runs-backfill.mjs` drains each checkout's local run rows into usage/runs/ and measures them,
  * `build-fleet-map.mjs` inverts coverage. Each is correct. Each is operator-triggered.
  * And NONE of them can run in CI, because they all need `.machine.local.json`, which is
  * gitignored on purpose — the fleet's absolute roots are not publishable.
@@ -27,10 +28,16 @@
  * Usage:
  *   node converge.mjs --check            # read-only; exit 1 if anything is stale
  *   node converge.mjs                    # run every phase, write the report
- *   node converge.mjs --only report      # maps|leads|signals|fleet-map|discover|report
+ *   node converge.mjs --only report      # maps|leads|signals|runs|fleet-map|discover|report
  *   node converge.mjs --dry-run          # say what would run, run nothing
  *   node converge.mjs --pending          # compute each project's pending queue
  *   node converge.mjs --pending --write  # ...and write .ai/registry-pending.md into it
+ *
+ * The `runs` phase spawns `runs-backfill.mjs` WITHOUT its own --dry-run: it appends to the
+ * tracked usage/runs/ log and rewrites consumer checkouts' local run files, so it is a writing
+ * phase like the others. It runs only in converge's writing mode - `--check` skips it (read-only)
+ * and `--dry-run` prints `would run:` and spawns nothing - and `--only runs` selects it alone.
+ * A backfill that fails is a note, so the failure reaches the report and `--check`.
  *
  * Exits 0 when nothing is stale, 1 under --check when something is, 2 if it could not run.
  */
@@ -51,7 +58,7 @@ const valueOf = (n, d = null) => { const i = argv.indexOf(n); return i >= 0 && a
 
 if (has('--help') || has('-h')) {
   console.log('usage: node converge.mjs [--check] [--dry-run] [--pending [--write]]');
-  console.log('       node converge.mjs --only maps|leads|signals|fleet-map|discover|report|pending');
+  console.log('       node converge.mjs --only maps|leads|signals|runs|fleet-map|discover|report|pending');
   process.exit(EXIT.OK);
 }
 
@@ -59,7 +66,7 @@ if (has('--help') || has('-h')) {
 // script does not understand stops it. Until 2026-10-25 `--chek` ran every phase, and
 // `--only map` (for maps) ran none and exited 0 - a no-op that read as a clean run.
 {
-  const PHASES = ['maps', 'leads', 'signals', 'fleet-map', 'discover', 'report', 'pending'];
+  const PHASES = ['maps', 'leads', 'signals', 'runs', 'fleet-map', 'discover', 'report', 'pending'];
   const FLAGS = new Set(['--check', '--dry-run', '--pending', '--write']);
   for (let i = 0; i < argv.length; i += 1) {
     if (FLAGS.has(argv[i])) continue;
@@ -276,6 +283,17 @@ if (!checkOnly && wants('signals')) {
   } else {
     console.log('signals: folding consult counts into the signals lane');
     recordFailure('signals-collect.mjs', run('signals-collect.mjs'));
+  }
+}
+
+if (!checkOnly && wants('runs')) {
+  console.log('runs: draining project run rows into usage/runs/ and measuring them');
+  const r = run('runs-backfill.mjs');
+  recordFailure('runs-backfill.mjs', r);
+  if (!r.dry && r.stdout) {
+    const m = /exact: (\d+) written/.exec(r.stdout);
+    const d = /local: (\d+) drained/.exec(r.stdout);
+    if (m && d) console.log(`  ${d[1]} row(s) drained, ${m[1]} measured`);
   }
 }
 

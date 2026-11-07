@@ -140,3 +140,25 @@ test('an unknown argument or --only phase is refused before any phase runs (the 
  }
  assert.deepEqual(ran(),[],'no phase ran');
 });
+
+test('runs phase: --only runs spawns the backfill, --dry-run and --check spawn nothing, a failing backfill is a note',t=>{
+ const run=convergeFixture(t,{'runs-backfill.mjs':0});
+ const dry=run('--dry-run','--only','runs');
+ assert.equal(dry.status,0,dry.stderr);
+ assert.match(dry.stdout,/would run: runs-backfill\.mjs/);
+ assert.deepEqual(ran(),[],'a dry run spawns no backfill');
+ run('--check','--only','runs');
+ assert.deepEqual(ran(),[],'--check is read-only and never drains');
+ const real=run('--only','runs');
+ assert.equal(real.status,0,real.stderr);
+ assert.deepEqual(ran(),['ran-runs-backfill.mjs.txt']);
+ assert.doesNotMatch(real.stdout,/exited/);
+ const bad=convergeFixture(t,{'runs-backfill.mjs':2})('--only','runs');
+ assert.match(bad.stdout,/! runs-backfill\.mjs exited 2/);
+});
+
+test('runs phase is selectable only by name and skipped by other --only phases',t=>{
+ const run=convergeFixture(t,{'runs-backfill.mjs':0,'leads-collect.mjs':0});
+ run('--only','leads');
+ assert.deepEqual(ran(),['ran-leads-collect.mjs.txt'],'--only leads must not drain runs');
+});

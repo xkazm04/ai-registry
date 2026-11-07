@@ -154,6 +154,25 @@ input/cacheWrite/cacheRead/output are `input_tokens` / `cache_creation_input_tok
 `cache_read_input_tokens` / `output_tokens`. Fresh tokens = input + cacheWrite + output;
 cacheRead is reported apart.
 
+### Keeping the lane drained: `converge` and `telemetry-report`
+
+Nothing drains the lane by itself, so two instruments close the loop.
+
+- `node scripts/converge.mjs` has a `runs` phase (between `signals` and `fleet-map`) that
+  spawns `runs-backfill.mjs` for real: it appends to the tracked `usage/runs/` log and
+  rewrites consumer checkouts' local run files, so it is a writing phase like `leads` and
+  `signals`. It follows converge's own modes exactly: `--check` skips it (read-only),
+  `--dry-run` prints `would run: runs-backfill.mjs` and spawns nothing, `--only runs`
+  selects it alone, and a backfill that exits non-zero becomes a note that reaches the
+  report and `--check`. To preview the backfill itself, run it with its own `--dry-run`.
+- `node scripts/telemetry-report.mjs` prints a `runLane` block: `committed` (per device in
+  `usage/runs/`: row count, newest row's ts, and its age status - `unknown` / `future` /
+  `stale` / `within-window` on the usage/signals 30-day window) and `pending` (rows still
+  waiting in this machine's fleet checkouts' `.ai/skill-runs.local.jsonl`, i.e. not yet
+  drained: total, unparseable lines, files, per-project counts, and the oldest waiting
+  row's age status). `pending` is `null` on a machine with no fleet identity - not
+  measurable there, which is not the same as nothing waiting. Counts and dates only.
+
 ### `scripts/runs-report.mjs` - the librarian's view
 
 `node scripts/runs-report.mjs [--since 30d] [--skill <n>] [--device <d>] [--json]` reads

@@ -22,8 +22,8 @@
  */
 import fs from 'node:fs';
 import path from 'node:path';
-import { OUTCOMES, freshTokens, readJsonl, runsDir } from './runs.mjs';
-import { loadIdentities, resolveIdentity as resolveAlias } from './telemetry.mjs';
+import { OUTCOMES, freshTokens, readJsonl, runsDir, LOCAL_REL } from './runs.mjs';
+import { loadIdentities, resolveIdentity as resolveAlias, reportAge } from './telemetry.mjs';
 
 const sameName = (name) => name;
 
@@ -149,3 +149,50 @@ export function catalogFields(stats) {
     tokensBasis30d: stats ? stats.tokensBasis : null,
   };
 }
+
+/**
+ * Run-lane freshness for telemetry-report: what is committed, per device, and how much
+ * is still waiting in consumer checkouts. Counts and dates only - no run text, no paths.
+ *
+ *   committed: one entry per `usage/runs/<device>.jsonl` (sidecars excluded) with its row
+ *     count, its newest row's ts and `reportAge` of that ts against `asOf` (same 30-day
+ *     window and status words as the usage/signals reports).
+ *   pending: rows still in `sources` local run files (`.ai/skill-runs.local.jsonl`), i.e. not
+ *     yet drained by runs-backfill - a drain removes the rows it takes, so whatever parses is
+ *     waiting (a row the drain would reject as invalid or duplicate counts too: it is waiting
+ *     for a person, which is what the backlog number is for). Unparseable lines are counted
+ *     apart. `oldest` is the oldest waiting row's ts with the same age/status. `sources` is
+ *     [{slug, path}] from the caller (backfill's localSources); null means "no fleet on this
+ *     machine" and yields `pending: null`, never a zero.
+ */
+export function runLaneStatus(registryRoot, asOf, sources = null) {
+  const dir = runsDir(registryRoot);
+  const committed = [];
+  let names = [];
+  try { names = fs.readdirSync(dir).filter((f) => f.endsWith('.jsonl') && !f.endsWith('.exact.jsonl')).sort(); } catch { /* no lane yet */ }
+  for (const f of names) {
+    const { rows } = readJsonl(path.join(dir, f));
+    const newest = maxTs(rows);
+    committed.push({ device: f.replace(/\.jsonl$/, ''), rows: rows.length, newest, ...reportAge(newest, asOf) });
+  }
+  let pending = null;
+  if (sources) {
+    const bySource = [];
+    let total = 0; let unparseable = 0; const stamps = [];
+    for (const s of sources) {
+      const { rows, bad } = readJsonl(path.join(s.path, LOCAL_REL));
+      unparseable += bad;
+      if (!rows.length) continue;
+      total += rows.length;
+      for (const r of rows) stamps.push(r?.ts);
+      bySource.push({ project: s.slug, rows: rows.length });
+    }
+    const oldest = minTs(stamps);
+    pending = { rows: total, unparseable, files: bySource.length, oldest, ...reportAge(oldest, asOf), byProject: bySource };
+  }
+  return { committed, pending };
+}
+
+const validTs = (v) => (typeof v === 'string' && Number.isFinite(Date.parse(v)) ? v : null);
+const maxTs = (rows) => rows.map((r) => validTs(r?.ts)).filter(Boolean).sort((a, b) => Date.parse(a) - Date.parse(b)).at(-1) ?? null;
+const minTs = (stamps) => stamps.map(validTs).filter(Boolean).sort((a, b) => Date.parse(a) - Date.parse(b))[0] ?? null;
