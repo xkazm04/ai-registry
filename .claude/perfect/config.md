@@ -54,7 +54,7 @@ imported from another project's overlay.
 
 ## Context sources
 
-- The queue source is the provisional map at `.perfect/context-map.json` (one context per top-level directory). No external scan has produced a `context-map.json` for this repo; `.personas/registry.yaml` declares Personas management but the app's context name set for this repo is unknown - outbox nodes use the provisional names and may count toward nothing until the app maps them.
+- The queue source is the tracked `context-map.json` (13 code contexts, hand-derived; content lanes are owned by /librarian, /deepen and review-coverage). The provisional `.perfect/context-map.json` was retired 2026-11-07; `.personas/registry.yaml` declares Personas management but the app's context name set for this repo is unknown - outbox nodes use the provisional names and may count toward nothing until the app maps them.
 
 ## Smoke
 
