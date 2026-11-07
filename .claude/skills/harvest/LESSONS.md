@@ -166,3 +166,11 @@ report now has a lane to land in.
 - **Name the checks the old corpus cannot already pass.** Two of five governed checks in one rubric and one of six in the other took full marks in all four draws. Those checks only spent judge time. The whole margin came from the rest.
 - **A site can pre-empt its probe.** The second site already computes drought flags, so its ordering check could not separate the arms. Read the site's history for the landing's vocabulary before choosing it.
 - **The verdict words differ by file.** `evaluation.md` says `impact-*`, and `run-result.mjs` accepts only `better`, `not-better`, `unmeasurable` and `COVERED`. No text maps one to the other. This pass read `impact-positive` as `better`.
+
+## 0.7.0 - 2026-11-07 - pof (`/harvest evaluate` as a /shift filler, 2 rows, GPT judge, 2 draws per arm on one row and 1 on the other)
+
+- **A seat cap buys judges too.** Two rows at 2 draws per arm cost 10 dispatches, not 8. A cap of 8 left the second row one draw per arm, so size the cap before the rubric.
+- **Word a rubric's tripwire from the technique.** One check said "price or small number change" where the technique says "cost change", and the judge flagged all four draws for misapplication on that wording, including two that never saw the technique. The judge cannot see the landing, so its flag says little about the landing unless it separates the arms.
+- **A pre-registered misapplication clause still needs a reader.** One flag was specific to a HEAD draw, and reading it decided the verdict after unblinding. The row says who read it and what the strict reading gives.
+- **An opponent that does not choose leaves the solve untested.** All four draws said enemies do not adapt, so the matrix and dominance steps ran and the equilibrium step and its counter lever did not.
+- **A row spanning several techniques can miss them.** The HEAD draw opened one of the three amended techniques, so the probe could not test the other two.

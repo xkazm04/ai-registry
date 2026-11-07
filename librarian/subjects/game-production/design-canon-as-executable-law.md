@@ -80,3 +80,5 @@ they are not new runtime witnesses.
   }
 }
 ```
+
+- **Impact evaluation, 2026-11-07.** shape-check-vs-content-invariant (check population clause): impact-null, 1 of 2, in pof, blind 7 vs 6 of 8, judge from another family, 1 draw per arm. The HEAD draw never opened this technique, so this is a weak test of it. Ledger: `librarian/harvest/evaluations.md`.

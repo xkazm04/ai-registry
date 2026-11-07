@@ -216,3 +216,5 @@ technique says so itself, which is why I keep it rather than marking it unresolv
   }
 }
 ```
+
+- **Impact evaluation, 2026-11-07.** seed-determinism-contract (restart clauses): impact-null, 1 of 2, in pof, blind 7 vs 6 of 8, judge from another family, 1 draw per arm. Ledger: `librarian/harvest/evaluations.md`.

@@ -150,3 +150,5 @@ application against bp: a paired trial of a commercial image-to-3D service (18 c
 - Declaration written: generate small props read close up; script frame, rooms and paper.
 
 Open: the generated-furniture-at-scripted-heights arm is untested.
+
+- **Impact evaluation, 2026-11-07.** placeholder-is-not-an-asset (success flag clause): impact-null, 1 of 2, in pof, blind 7 vs 6 of 8, judge from another family, 1 draw per arm. The HEAD draw never opened this technique, so this is a weak test of it. Ledger: `librarian/harvest/evaluations.md`.
