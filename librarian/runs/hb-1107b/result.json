@@ -1,0 +1,29 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "hb-1107b",
+  "skill": "harvest",
+  "skill_version": "0.7.0",
+  "mode": "backlog",
+  "domain": "software-engineering",
+  "started_at": "2026-11-07T02:14:34Z",
+  "ended_at": "2026-11-07T02:23:13Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 5,
+    "landed": 0,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [],
+  "verdicts": [],
+  "files": [
+    "librarian/harvest/backlog.jsonl",
+    ".claude/skills/harvest/LESSONS.md"
+  ],
+  "commits": [],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "Backlog wave, /shift filler, 5 seats closed. 7-004b not-better (blind-ab, GPT judge, 2 draws): draft 7, 8; base 11, 10. w5-personas-red-suite unmeasurable, tests not run. 1-037 covered, no arms. Nothing landed in the corpus. No GPU, no fleet change."
+}

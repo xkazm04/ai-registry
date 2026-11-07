@@ -179,3 +179,8 @@ report now has a lane to land in.
 
 - **A baseline that passes voids the run, and it can be the finding.** The unguarded arm of the orphan-guard experiment passed in 0 to 1 ms, so every arm looked good. Written down before running, "baseline must fail" voided it. Spawning detached made the baseline fail, and that difference went into the landing.
 - **Read the source's ending before designing the arm.** The row for review as a commit of comments listed the limits and left out that its author shelved the tool. Fetching the post moved the falsifying seam to the stated limit, which came back 0 of 81 at the hunk boundary.
+
+## 0.7.0 - 2026-11-07 - ai-registry (`/harvest backlog --size 3` as a /shift filler, 3 rows, 5 seats, GPT judge, 2 draws per arm)
+
+- **Put a permissive rule's own source case in its probe.** The draft existed to allow a gate to proceed past unknown, and both draft draws used its irreversibility condition to refuse that very case, while both base draws reached warn-and-continue from the current text. The other three sites scored close to level, 7 and 8 against 8 and 8 on the four checks away from that case.
+- **A fix-shaped row can reach a seat that cannot make the fix.** One such row came up here, with connected projects read-only and the row itself asking for an owner decision. The rule half was stated, so it closed unmeasurable with its instrument named. 22 rows carry that shape, all queued.
