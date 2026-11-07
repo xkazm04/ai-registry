@@ -1,0 +1,66 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "previs-camera-lock-1108",
+  "skill": "shift",
+  "skill_version": "0.6.0",
+  "mode": "source",
+  "domain": "media-generation",
+  "started_at": "2026-11-08T01:20:00Z",
+  "ended_at": "2026-11-08T02:30:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 0,
+    "declined": 0,
+    "idled": 3,
+    "contended": 0,
+    "held": 1
+  },
+  "subjects": [
+    {
+      "id": "media-generation/video-assembly",
+      "at": "2026-11-08",
+      "engine": "shift",
+      "outcome": "held",
+      "points_before": null,
+      "points_after": null
+    },
+    {
+      "id": "media-generation/image-prompt-composition",
+      "at": "2026-11-08",
+      "engine": "shift",
+      "outcome": "idled",
+      "points_before": null,
+      "points_after": null
+    },
+    {
+      "id": "media-generation/visual-style-locking",
+      "at": "2026-11-08",
+      "engine": "shift",
+      "outcome": "idled",
+      "points_before": null,
+      "points_after": null
+    },
+    {
+      "id": "media-generation/cinematic-language",
+      "at": "2026-11-08",
+      "engine": "shift",
+      "outcome": "idled",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [],
+  "files": [
+    "librarian/sources/2026-11-08-previs-camera-lock.md",
+    "librarian/sources/index.md",
+    ".claude/skills/intake/SCORECARD.md",
+    "librarian/harvest/backlog.jsonl",
+    "librarian/runs/previs-camera-lock-1108/result.json"
+  ],
+  "commits": [],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "Leads only: 5 leads, 2 currency, 13 catches, 11 untriaged, 0 accepts under the +3 bar. Two held GPU replicas, shift-replica-r12-canyon-crossing and shift-replica-r13-agent-blocked-previs. Plan corrected on four points; row L6 narrowed at the promotion read."
+}
