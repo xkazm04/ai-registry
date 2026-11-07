@@ -27,8 +27,9 @@
  *      One project carries 160 contexts that arrived after its map was last built, and
  *      the knowledge-sync clause that 18 skills carry routes ONLY through the map — so
  *      for all of them the obligation resolves to nothing and reports success. Here an
- *      unmapped path falls back to the corpus router (`research-map.mjs`) over the path's
- *      own tokens, which is how a brand-new `components/DataTable.tsx` still reaches the
+ *      unmapped path falls back to the registry's query core (scripts/lib/registry-query.mjs,
+ *      called in-process; its fingerprinted projection cache lives under .cache/registry-route/)
+ *      over the path's own tokens, which is how a brand-new `components/DataTable.tsx` still reaches the
  *      `table` subject on the day it is written.
  *
  * NEVER BLOCKS. It exits 0 on a miss unless `--exit-code` is passed. This is deliberate
@@ -41,7 +42,11 @@
  * the one moment it is deciding.
  *
  * Reads the project's map (100–220 KB), never the bundle index (1.39 MB for
- * software-engineering alone). Budget: under 300ms including the router fallback.
+ * software-engineering alone). Budget: under 300ms including the router fallback
+ * (warm projection cache; the first run after a corpus change rebuilds the cache once).
+ *
+ * Reads are recorded by the query front door itself (scripts/lib/consult-log.mjs), not
+ * only by skills: a registry_read / --read of a subject's document counts as coverage here.
  *
  * Usage:
  *   node consult-check.mjs                      # staged paths in the cwd's project
@@ -321,40 +326,44 @@ if (unmapped.length > 0) {
       // this corpus: `AuditDataTable.tsx` as the single term "audit data table" ranks
       // audit-logging 17 / data-access 15 and does not return `table` at all, because a
       // joined term scores on aggregate overlap and the majority tokens bury the one
-      // that names the surface. As separate terms, "table" alone scores 24 against the
-      // table subject and wins its own row. The distinction decides whether a new table
-      // component ever reaches the table standard.
-      const args = [
-        path.join(registryRoot, 'scripts', 'research-map.mjs'),
-        ...terms.slice(0, 12),
-        '--top', String(TOP), '--json',
-      ];
+      // that names the surface. Queried as separate terms, "table" alone wins its own row.
+      // The distinction decides whether a new table component ever reaches the table
+      // standard. The core scores a terms ARRAY in aggregate, so this asks it once per
+      // token and merges below.
+      //
       // Scope to what the project declared. An unscoped router would answer a Next.js
       // table question out of the recruiting bundle, which is noise wearing a score. Scope
-      // EVERY declared bundle, not only a single one: unscoped, research-map keeps its top N
-      // per term across all bundles and the filter below then drops them all.
-      if (domains.length) args.push('--domain', domains.join(','));
-      const r = spawnSync(process.execPath, args, { encoding: 'utf8', timeout: 10_000 });
-      if (r.status !== 0 || !r.stdout) {
-        routerNote = 'router did not run';
-      } else {
-        try {
-          const j = JSON.parse(r.stdout);
-          // Merge across terms, keeping each subject's BEST score. A subject that wins
-          // one specific token outranks one that places mid-table on several vague ones.
-          const best = new Map();
-          for (const res of j.results ?? []) {
-            for (const h of res.hits ?? []) {
-              if (domains.length && !domains.includes(h.domain)) continue;
-              const prev = best.get(h.subject);
-              if (!prev || (h.score ?? 0) > prev.score) {
-                best.set(h.subject, { subject: h.subject, bundle: h.domain, score: h.score ?? 0, file: h.file, term: res.term, via: 'router' });
-              }
-            }
+      // EVERY declared bundle, not only a single one: unscoped, the top N per term is kept
+      // across all bundles and the filter below then drops them all.
+      try {
+        const core = await import('./lib/registry-query.mjs');
+        const projection = core.loadProjection(registryRoot, { domains: domains.length ? domains.join(',') : null });
+        // Merge across terms by ROUND, not by raw score. The core's scores are BM25 over
+        // bodies, so a rare token ("invoice") scores 7.5 where the token that names the
+        // surface ("table") scores 2.7: a global best-score merge fills the top N with the
+        // rare token's neighbours and the surface never reaches the table standard. Each
+        // term's own best subject comes first (ordered by score), then every term's second,
+        // and so on, until TOP are chosen. A subject is kept once, at its earliest round.
+        const lanes = [];
+        for (const term of terms.slice(0, 12)) {
+          const res = core.query(projection, [term], { domains: domains.length ? domains : null, top: TOP * 4, budgetTokens: 1_000_000 });
+          const seenHere = new Set();
+          const lane = [];
+          for (const h of res.hits ?? []) {
+            if (!h.subject || seenHere.has(h.subject)) continue; // a bundle law names no subject to read
+            if (domains.length && !domains.includes(h.domain)) continue;
+            seenHere.add(h.subject);
+            lane.push({ subject: h.subject, bundle: h.domain, score: h.score ?? 0, file: h.path, term, via: 'router' });
           }
-          routed = [...best.values()].sort((a, b) => b.score - a.score).slice(0, TOP);
-        } catch { routerNote = 'router output was not readable'; }
-      }
+          lanes.push(lane);
+        }
+        const chosen = new Map();
+        for (let round = 0; chosen.size < TOP && lanes.some((l) => l.length > round); round++) {
+          const wave = lanes.map((l) => l[round]).filter((h) => h && !chosen.has(h.subject)).sort((x, y) => y.score - x.score);
+          for (const h of wave) if (chosen.size < TOP && !chosen.has(h.subject)) chosen.set(h.subject, h);
+        }
+        routed = [...chosen.values()];
+      } catch { routerNote = 'router did not run'; }
     }
   }
 }
@@ -471,7 +480,10 @@ if (asJson) {
     // The front door (docs/query-lane.md): a subject's card names every technique with its
     // path and gist, so the session opens one document. Never the bundle index.
     console.log('    read them (each card lists the techniques; then --read the one that fits):');
-    for (const s of missed) console.log(`      node <registry>/scripts/registry-query.mjs --subject ${s.subject}${s.bundle ? ` --domain ${s.bundle}` : ''}`);
+    // The registry root is known whenever the router could run; otherwise the placeholder stays.
+    const queryScript = registryRoot ? path.join(registryRoot, 'scripts', 'registry-query.mjs').replace(/\\/g, '/') : '<registry>/scripts/registry-query.mjs';
+    const shown = /\s/.test(queryScript) ? `"${queryScript}"` : queryScript;
+    for (const s of missed) console.log(`      node ${shown} --subject ${s.subject}${s.bundle ? ` --domain ${s.bundle}` : ''}`);
     console.log('    recorded as a miss. This never blocks a commit.');
     console.log('');
   }

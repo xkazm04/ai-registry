@@ -12,7 +12,7 @@
  * under a token cap, and `--subject` prints a subject's whole card. Every answer states
  * its size; an empty answer says why it is empty.
  *
- * research-map.mjs stays: /research and /intake call it for placement (HOME IF NEW),
+ * research-map.mjs stays: /intake and /harvest call it for placement (HOME IF NEW),
  * which this does not answer. This answers "where is the material on X, and what does
  * each candidate say", at a fraction of the reading.
  *

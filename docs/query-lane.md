@@ -197,7 +197,9 @@ printf '%s\n' \
 
 ## What stays where it was
 
-`research-map.mjs` remains the routing half of `/research` (prior art and taxonomy HOME
-for a new subject), and other skills still call it. `index.json` remains the generated
+`research-map.mjs` stays for placement (the HOME of a new subject), which `/intake` and
+`/harvest` still call it for; `/research` does not. `consult-check`'s fallback for paths
+in no mapped context no longer spawns it: it calls the query core in-process (scoped to
+the project's declared bundles, one query per path token, each token's best subject first). `index.json` remains the generated
 address book that scripts, `/conform` and the generators read. What changed is the agent's
 first move: a query, not a read.

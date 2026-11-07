@@ -139,6 +139,32 @@ test('the printed remedy is a front-door read per subject, never the bundle inde
  assert.doesNotMatch(r.stdout,/research-map\.mjs "[^"]*,/,'no comma-joined single term');
 });
 
+test('the printed remedy names the real registry-query path, not a <registry> placeholder',t=>{
+ const root=project(t,{contexts:[ctx('tables',['app/table'],['table'])],ledger:''});
+ const r=spawnSync(process.execPath,[SCRIPT,'--project',root,'--paths','app/table/Grid.tsx','--no-record'],{encoding:'utf8'});
+ assert.doesNotMatch(r.stdout,/<registry>/);
+ const expected=fileURLToPath(new URL('../registry-query.mjs',import.meta.url)).replace(/\\/g,'/');
+ assert.ok(r.stdout.includes(expected),`hint should name ${expected}: ${r.stdout}`);
+});
+
+test('the unmapped fallback routes in-process: a registry checkout without research-map.mjs still routes',t=>{
+ // The fallback used to spawn scripts/research-map.mjs (~870 ms bench mean, r@5 58% against the
+ // query core's 82%). It now calls the core directly, so the router script is not needed.
+ // AI_REGISTRY_DIR points at a registry copy that carries only knowledge/ and the core.
+ const reg=fs.mkdtempSync(path.join(fs.realpathSync(os.tmpdir()),'consult-check-test-'));
+ t.after(()=>fs.rmSync(reg,{recursive:true,force:true}));
+ const here=path.resolve(fileURLToPath(new URL('..',import.meta.url)),'..');
+ fs.mkdirSync(path.join(reg,'knowledge'));
+ fs.cpSync(path.join(here,'knowledge','software-engineering'),path.join(reg,'knowledge','software-engineering'),{recursive:true});
+ fs.mkdirSync(path.join(reg,'scripts'));
+ assert.ok(!fs.existsSync(path.join(reg,'scripts','research-map.mjs')));
+ const root=project(t,{contexts:[],ledger:''});
+ const r=spawnSync(process.execPath,[SCRIPT,'--project',root,'--paths','src/ui/InvoiceTable.tsx','--no-record','--json'],{encoding:'utf8',env:{...process.env,AI_REGISTRY_DIR:reg}});
+ const out=JSON.parse(r.stdout);
+ assert.equal(out.routerNote,null);
+ assert.ok(out.missed.some(m=>m.subject==='table'&&m.via==='router'),JSON.stringify(out.missed));
+});
+
 test('a git that cannot answer is a stated reason, never "nothing staged"',t=>{
  // "Every input degrades to a stated reason, never to a silent pass." A non-repo, or a bad
  // --since ref, used to read as an empty diff: "nothing staged", skipped:"no-paths", exit 0.
