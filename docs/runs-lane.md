@@ -134,6 +134,13 @@ Device = `loadFleet(root).machine`; no identity is FATAL (exit 2). Two passes:
    estimated**. Several qualifying sessions: the one that ran `log-run` near `ts` wins;
    otherwise the row is reported ambiguous.
 
+**Memory.** The transcript store is tens of GB, so measuring never holds it. Session
+discovery reads only the head and tail of each file for its first/last timestamp and
+caches the span by size+mtime in `.cache/runs-spans.json` (gitignored derived state,
+written even on `--dry-run`; a damaged file is rebuilt). A session's lines are parsed only
+when its span can hold a row, kept in a 2-session LRU, and released. A dry run over the
+real store completes on the default Node heap.
+
 Usage is summed over assistant lines in the window **once per `message.id`** (one API
 message spans several lines carrying the same usage) across the session file and
 `<session>/subagents/*.jsonl`. `model` = most frequent `message.model` in the main session

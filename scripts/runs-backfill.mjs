@@ -32,6 +32,12 @@
  *      A row that cannot be tied to a span is REPORTED as unmatched, never estimated -
  *      the sidecar's whole value is that every number in it was measured.
  *
+ * Memory: measuring never holds the transcript store. Session discovery reads only each
+ * file's head and tail for its time span (cached by size+mtime in `<registry>/.cache/
+ * runs-spans.json`, gitignored derived state); a session's lines are parsed only when its span
+ * can hold a row, kept in a 2-session LRU, and released. The span index is written even on
+ * --dry-run - it is a cache, not a run row.
+ *
  * Pure transcript logic lives in lib/runs-transcript.mjs (tests import it without side
  * effects); this file is the I/O around it, and exports `backfill()` for the same reason.
  *
@@ -50,7 +56,7 @@ import {
   validateRun, validateLocal, validateExact, stampRow, runsDir, runsFile, exactFile, LOCAL_REL, readJsonl,
   receiptVersion, laneVersion,
 } from './lib/runs.mjs';
-import { transcriptDirs, listSessions, matchRun } from './lib/runs-transcript.mjs';
+import { transcriptDirs, listSessions, matchRun, openSpanCache, makeLineLoader } from './lib/runs-transcript.mjs';
 
 const HERE_ROOT = path.resolve(fileURLToPath(new URL('.', import.meta.url)), '..');
 
@@ -171,7 +177,11 @@ export function backfill({ registryRoot = HERE_ROOT, claudeProjects = path.join(
     const p = fleet.projects[project];
     return p?.exists ? p.path : null;
   };
-  const cache = new Map();
+  // Discovery holds spans only (a session's lines are parsed inside matchRun and dropped), so
+  // the store's size does not bound memory. The span index is derived state under .cache/.
+  const memo = new Map();
+  const spanCache = openSpanCache(path.join(registryRoot, '.cache', 'runs-spans.json'));
+  const loadLines = makeLineLoader();
   const newExact = [];
   for (const row of [...logRows, ...drainedRows]) {
     if (!row || typeof row !== 'object' || typeof row.id !== 'string' || typeof row.ts !== 'string' || typeof row.skill !== 'string') { summary.invalidLogRows += 1; continue; }
@@ -179,8 +189,8 @@ export function backfill({ registryRoot = HERE_ROOT, claudeProjects = path.join(
     if (exactIds.has(row.id)) { summary.alreadyExact += 1; continue; }
     const checkout = checkoutOf(row.project);
     if (!checkout) { summary.unmatched.push({ id: row.id, reason: `project "${row.project}" has no checkout on ${device}` }); continue; }
-    const sessions = listSessions(transcriptDirs(claudeProjects, checkout), cache);
-    const res = matchRun(row, sessions, { schema: EXACT_SCHEMA });
+    const sessions = listSessions(transcriptDirs(claudeProjects, checkout), memo, { spanCache });
+    const res = matchRun(row, sessions, { schema: EXACT_SCHEMA, loadLines });
     if (res.unmatched) { summary.unmatched.push({ id: row.id, reason: res.unmatched }); continue; }
     const exact = ordered(res.exact, EXACT_KEYS);
     const problems = validateExact(exact);
@@ -194,18 +204,21 @@ export function backfill({ registryRoot = HERE_ROOT, claudeProjects = path.join(
     fs.mkdirSync(runsDir(registryRoot), { recursive: true });
     fs.appendFileSync(sideFile, newExact.map(jsonLine).join(''));
   }
+  spanCache.save();
+  summary.spanCache = { ...spanCache.stats };
   summary.written = newExact.length;
   return summary;
 }
 
 function printSummary(s, log = console.log) {
   const m = Object.entries(s.matched).map(([k, n]) => `${k} ${n}`).join(', ');
-  log(`\nruns-backfill on ${s.device}${s.dryRun ? ' (DRY RUN - nothing written)' : ''}`);
+  log(`\nruns-backfill on ${s.device}${s.dryRun ? ' (DRY RUN - no rows written)' : ''}`);
   log(`  local: ${s.drained} ${s.dryRun ? 'would be ' : ''}drained from ${s.localFiles} file(s), ${s.drainDuplicates} already in the log, ${s.drainInvalid.length} invalid and ${s.drainForeign.length} foreign-device left in place`);
   for (const d of s.drainInvalid) log(`    - ${d.project} ${d.skill ?? '?'} ${d.ts ?? '?'}: ${d.problems.join('; ')}`);
   for (const d of s.drainForeign) log(`    x ${d.project} ${d.skill ?? '?'} ${d.ts ?? '?'}: ${d.problems.join('; ')}`);
   for (const d of s.drainProjectMismatch) log(`    ! ${d.id}: logged as project "${d.project}" but found in ${d.foundIn}'s local file - kept as logged`);
   log(`  exact: ${s.written} ${s.dryRun ? 'would be ' : ''}written (${m}); ${s.alreadyExact} already measured; ${s.skippedNonClaude} non-claude skipped${s.invalidLogRows ? `; ${s.invalidLogRows} log row(s) without id/ts/skill ignored` : ''}`);
+  if (s.spanCache) log(`  transcripts: ${s.spanCache.hits} span(s) from cache, ${s.spanCache.misses} indexed`);
   log(`  unmatched: ${s.unmatched.length}`);
   for (const u of s.unmatched) log(`    - ${u.id}: ${u.reason}`);
 }

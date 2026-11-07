@@ -470,3 +470,95 @@ test('runs-report refuses an unknown flag and a valueless value-flag instead of 
   assert.equal(ok.status, 0, ok.stderr);
   assert.equal(JSON.parse(ok.stdout).schema, 'rkb-runs-report/1');
 });
+
+// ---------------------------------------------------------------- span index (memory-bounded discovery)
+import { ranLogRun, openSpanCache, spanFromFile, makeLineLoader } from '../lib/runs-transcript.mjs';
+
+test('listSessions yields spans without lines; the span equals the parsed span', () => {
+  const { claude, proj } = fixtureRegistry();
+  const dir = sessionDir(claude, proj, 'sess-s', [
+    { type: 'summary', summary: 'no timestamp on this line' },
+    skillCall('2026-09-10T10:00:00Z', 'k', 'spark'),
+    asst('2026-09-10T10:20:00Z', 'w', [1, 2, 3, 4]),
+  ]);
+  const [s] = listSessions([dir]);
+  assert.equal(s.lines, undefined);
+  assert.deepEqual(s.span, { first: ms('2026-09-10T10:00:00Z'), last: ms('2026-09-10T10:20:00Z') });
+  assert.deepEqual(s.span, spanFromFile(s.file, fs.statSync(s.file).size));
+});
+
+test('span cache: hit on unchanged size+mtime, invalidated by a size or mtime change, persisted whole', () => {
+  const { claude, proj, reg } = fixtureRegistry();
+  const dir = sessionDir(claude, proj, 'sess-c', [skillCall('2026-09-10T10:00:00Z', 'k', 'spark'), asst('2026-09-10T10:20:00Z', 'w', [1, 0, 0, 1])]);
+  const cacheFile = path.join(reg, '.cache', 'runs-spans.json');
+  const c1 = openSpanCache(cacheFile);
+  listSessions([dir], new Map(), { spanCache: c1 });
+  assert.deepEqual(c1.stats, { hits: 0, misses: 1 });
+  c1.save();
+  const c2 = openSpanCache(cacheFile);
+  const [again] = listSessions([dir], new Map(), { spanCache: c2 });
+  assert.deepEqual(c2.stats, { hits: 1, misses: 0 });
+  assert.equal(again.span.last, ms('2026-09-10T10:20:00Z'));
+  // Grow the file: size changes, the span is re-read and now reaches the new last line.
+  const file = path.join(dir, 'sess-c.jsonl');
+  fs.appendFileSync(file, `${JSON.stringify(asst('2026-09-10T11:00:00Z', 'late', [1, 0, 0, 1]))}\n`);
+  const c3 = openSpanCache(cacheFile);
+  const [grown] = listSessions([dir], new Map(), { spanCache: c3 });
+  assert.deepEqual(c3.stats, { hits: 0, misses: 1 });
+  assert.equal(grown.span.last, ms('2026-09-10T11:00:00Z'));
+  // Same size, new mtime: still a miss.
+  c3.save();
+  const t = new Date(Date.now() + 60_000);
+  fs.utimesSync(file, t, t);
+  const c4 = openSpanCache(cacheFile);
+  listSessions([dir], new Map(), { spanCache: c4 });
+  assert.deepEqual(c4.stats, { hits: 0, misses: 1 });
+  // A damaged cache file is rebuilt, not fatal.
+  fs.writeFileSync(cacheFile, '{not json');
+  const c5 = openSpanCache(cacheFile);
+  assert.equal(listSessions([dir], new Map(), { spanCache: c5 })[0].span.last, ms('2026-09-10T11:00:00Z'));
+});
+
+test('matchRun parses only the sessions whose span can hold the row', () => {
+  const { claude, proj } = fixtureRegistry();
+  const early = sessionDir(claude, proj, 'sess-early', [skillCall('2026-09-01T10:00:00Z', 'e', 'spark'), asst('2026-09-01T10:30:00Z', 'e2', [1, 0, 0, 1])]);
+  sessionDir(claude, proj, 'sess-hit', [skillCall('2026-09-10T10:00:00Z', 'k', 'spark', [10, 20, 30, 40]), asst('2026-09-10T10:29:00Z', 'w', [1, 2, 3, 4])]);
+  const sessions = listSessions([early]);
+  assert.equal(sessions.length, 2);
+  const parsed = [];
+  const inner = makeLineLoader();
+  const res = matchRun(runRow(), sessions, { schema: EXACT_SCHEMA, loadLines: (s) => { parsed.push(s.id); return inner(s); } });
+  assert.equal(res.exact.session, 'sess-hit');
+  assert.ok(parsed.length > 0 && parsed.every((id) => id === 'sess-hit'), `parsed ${parsed.join(',')}`);
+});
+
+test('makeLineLoader keeps at most max sessions in memory', () => {
+  const { claude, proj } = fixtureRegistry();
+  const dir = sessionDir(claude, proj, 'a', [asst('2026-09-10T10:00:00Z', 'a1', [1, 0, 0, 1])]);
+  sessionDir(claude, proj, 'b', [asst('2026-09-10T10:00:00Z', 'b1', [1, 0, 0, 1])]);
+  sessionDir(claude, proj, 'c', [asst('2026-09-10T10:00:00Z', 'c1', [1, 0, 0, 1])]);
+  const load = makeLineLoader(2);
+  const [a, b, c] = listSessions([dir]);
+  const first = load(a);
+  assert.equal(load(a), first); // held
+  load(b); load(c); // a evicted
+  assert.notEqual(load(a), first);
+});
+
+test('readTranscriptSlim keeps measurement fields, drops prompt/tool text, survives a line longer than its read chunk', async () => {
+  const { readTranscriptSlim } = await import('../lib/runs-transcript.mjs');
+  const { claude, proj } = fixtureRegistry();
+  const big = 'x'.repeat(1_500_000);
+  const dir = sessionDir(claude, proj, 'sess-big', [
+    userLine('2026-09-10T10:00:00Z', [{ type: 'tool_result', content: big }]),
+    userLine('2026-09-10T10:00:01Z', '<command-name>/spark</command-name> do it'),
+    asst('2026-09-10T10:00:02Z', 'm1', [1, 2, 3, 4], { content: [{ type: 'text', text: big }, { type: 'tool_use', id: 't', name: 'Bash', input: { command: 'node scripts/log-run.mjs' } }] }),
+    { type: 'summary', summary: big },
+  ]);
+  const slim = readTranscriptSlim(path.join(dir, 'sess-big.jsonl'));
+  assert.equal(slim.length, 2);
+  assert.ok(JSON.stringify(slim).length < 2000);
+  assert.equal(findAnchor(slim, 'spark', ms('2026-09-10T11:00:00Z')).kind, 'command-tag');
+  assert.equal(sumUsage([slim], 0, Date.now()).output, 4);
+  assert.equal(ranLogRun(slim, ms('2026-09-10T10:00:02Z')), true);
+});
