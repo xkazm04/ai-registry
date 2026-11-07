@@ -14,7 +14,8 @@ There is no second list. A banked item is a row in `librarian/harvest/backlog.js
 `kind` is `replica` (a source's work remade on our stack, [`replication.md`](replication.md), first in
 line), `proof` (needs the operator's blind pick) or `benchmark` (timing or resource figures; no
 pick). **`use` is required:** the project or decision the result changes, or `next` will not start the
-row. `machine` matters: Fox and Wolf see the row and do not claim it. A row without `estGpuMin`
+row. `notBefore` (ISO time, optional) holds a row until then, for work the operator set for the night.
+`machine` matters: Fox and Wolf see the row and do not claim it. A row without `estGpuMin`
 is not picked, so estimate it from the table below. Write through the `ledger` lock, like every
 appender; `backlog-wave mark` is atomic under it.
 

@@ -16,7 +16,7 @@ const sense = (width = {}, state = 'busy') => ({
 });
 const row = (id, status, extra = {}) => ({ id, status, addedAt: FRESH, ...extra });
 const heldRow = (extra = {}) => ({ id: 'h1', status: 'held', queue: 'media', render: { kind: 'proof', machine: 'Lynx', use: 'x', estGpuMin: 12 }, ...extra });
-const base = (over = {}) => ({ sense: sense(), rows: [], plans: [], backlog: [], evalDebt: 0, machine: 'Lynx', use: 'x', now: NOW, ...over });
+const base = (over = {}) => ({ sense: sense(), rows: [], plans: [], backlog: [], evalDebt: 0, machine: 'Lynx', now: NOW, ...over });
 const unplannedSix = Array.from({ length: 6 }, (_, i) => row(`v${i}`, 'new'));
 const approved = [row('a1', 'approved', { planId: 'p1', cluster: 'c1' }), row('a2', 'approved', { planId: 'p1', cluster: 'c1' })];
 const mining = [row('m1', 'mining', { planId: 'p0', cluster: 'c9' })];
@@ -33,7 +33,7 @@ function tmpRoot() {
 const capture = (root, over = {}) => {
   const out = [];
   const err = [];
-  return { out, err, ctx: { root, now: () => NOW, machine: 'Lynx', use: 'x', log: (s) => out.push(s), err: (s) => err.push(s), ...over } };
+  return { out, err, ctx: { root, now: () => NOW, machine: 'Lynx', log: (s) => out.push(s), err: (s) => err.push(s), ...over } };
 };
 const seed = (root, rows) => {
   fs.mkdirSync(path.dirname(queuePath(root)), { recursive: true });
@@ -682,4 +682,12 @@ test('a held row with no named use takes no GPU and is named; a replica goes fir
   const proof = heldRow({ id: 'proof', render: { kind: 'proof', runId: 'proof', machine: 'Lynx', use: 'trailer', estGpuMin: 5 } });
   const replica = heldRow({ id: 'replica', render: { kind: 'replica', runId: 'replica', machine: 'Lynx', use: 'trailer', estGpuMin: 9 } });
   assert.equal(did(nextPlan(base({ sense: idle, backlog: [proof, replica] })), 'gpu-proof')[0].row.id, 'replica');
+});
+
+test('a row with notBefore waits for that time', () => {
+  const idle = sense({ gpuProof: 1, build: 1 }, 'idle');
+  const row = heldRow({ id: 'night', render: { kind: 'replica', runId: 'night', machine: 'Lynx', use: 'x', estGpuMin: 5, notBefore: '2026-11-07T21:00:00Z' } });
+  const at = (iso) => did(nextPlan(base({ sense: idle, backlog: [row], now: Date.parse(iso) })), 'gpu-proof').length;
+  assert.equal(at('2026-11-07T20:59:00Z'), 0);
+  assert.equal(at('2026-11-07T21:00:00Z'), 1);
 });

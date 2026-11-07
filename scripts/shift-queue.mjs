@@ -329,7 +329,9 @@ export function nextPlan({
     && machine && String(r.render?.machine ?? '').toLowerCase() === String(machine).toLowerCase();
   // A row names the real work its result changes, or it does not take the GPU. Replicas go first.
   const hasUse = (r) => typeof r.render?.use === 'string' && r.render.use.trim() !== '';
-  const proofRow = (r) => bankRow(r) && hasUse(r);
+  // `render.notBefore` holds a row for a time the operator chose, such as a night download.
+  const due = (r) => !r.render?.notBefore || Date.parse(r.render.notBefore) <= now;
+  const proofRow = (r) => bankRow(r) && hasUse(r) && due(r);
   const bank = [...backlog].sort((a, b) => Number(b.render?.kind === 'replica') - Number(a.render?.kind === 'replica'));
   const noUse = backlog.filter((r) => bankRow(r) && !hasUse(r) && (r.render?.device === 'cpu' || Number.isFinite(r.render?.estGpuMin))).map((r) => r.id);
   if (noUse.length) plan.note = [plan.note, `held, no render.use named: ${noUse.join(', ')}`].filter(Boolean).join('; ');

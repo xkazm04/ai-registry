@@ -41,6 +41,8 @@ each came from, at real length.
   input.
 - **Method:** the new one, what this source taught plus what the corpus holds. There is no second arm
   with the old method unless the row asks a question that needs it.
+- **Stills:** Codex CLI with its GPT Image 2.6, the operator's route since 2026-11-07. Not Flux 2, which
+  they retired as outdated.
 - GPU rules as in [`gpu-bank.md`](gpu-bank.md): queue, lease, yield to a video job. A row that fails at
   setup is a lead naming why.
 
