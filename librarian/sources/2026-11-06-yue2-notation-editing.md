@@ -92,8 +92,8 @@ YuE2 3B int8 in ComfyUI 0.42.1, KSampler dpm_2, sgm_uniform, cfg 1, 32 steps unl
 Objective distances over three original songs, of which one served as the reference for the
 single cover test. Sound is mean absolute log-mel difference per bar, notes is 1 minus chroma
 cosine per bar, at the same clock time. **The metric says two files differ and cannot say
-which is better.** A time shift inflates both distances. No human listening verdict exists
-for rows 1, 2 or 5.
+which is better.** A time shift inflates both distances. The operator's listening answers
+for rows 1, 2 and 5 arrived on 2026-11-07, § Listening answers.
 
 | Question | Result |
 |---|---|
@@ -127,6 +127,32 @@ Nothing here shows 6 steps is as good as 32 in general: the synth pick is one li
 song, in a pair the instrument could not discriminate. It does not contradict the source's "I
 cannot hear a difference" either. Return condition: more seeds and songs in a pair that clears
 the floor, or a second independent listener, before any step-count rule lands.
+
+## Listening answers, 2026-11-07
+
+The operator answered the `listen.html` questions of run `yue2-notation-1`. One listener, labelled
+questions rather than blind pairs, so these corroborate the distances and cannot author a landing.
+
+| Question | Distance said | The ear said |
+|---|---|---|
+| One-chord edit, folk and synth | Edit moved the whole song, as much as a new seed | Same song, but a different take (both) |
+| Whole new seed, the yardstick | 1.02 and 0.65, as far as the edit | Same song, but a different take |
+| Acoustic seed only | Sound 0.26-0.30, notes 0.006-0.007 | Unsure |
+| Ceiling | Not neutral, 0.53-1.26 | Same performance, with one small difference |
+| Low ceiling | Ends at -10 dB | Clearly cut off, unusable as an ending |
+| Transcribed reference as a cover | Notes 0.107 against 0.407 | Clearly the same tune |
+| Use under a clip | n/a | Folk usable as it is; indie usable with some fixing; synth not usable |
+
+The ear agrees with every distance except the ceiling, where it hears one small difference against
+a large distance, which fits a time shift inflating the metric. The edit answer is a person hearing
+row 1b's mechanism: the notation held the song, and sampling made a new take, as a new seed does.
+By the rule the question set beforehand, the cover answer means the transcribed-reference route is treated
+as a cover: feed it only material we own or have cleared, whatever the source says about "not a copy".
+
+**Operator, same day:** YuE2 stays in use for covers, beside Suno, in another project, because that
+route works now. From-scratch generation was stopped after a 30-genre survey with a forced
+four-chord third take: the chords held, and the melodies stayed generic. There's still no recipe
+for hits.
 
 ## Proposals, not landed
 
