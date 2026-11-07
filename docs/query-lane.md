@@ -108,6 +108,39 @@ Tool names and params are wire contract. `SERVER_VERSION` in the server (reporte
 `serverInfo.version`) is semver: a renamed tool or param, or a changed result shape, is a
 major bump.
 
+## Consult log
+
+Opening a document is the act the access rule asks for, so the front door records it.
+A successful `registry_read` of a knowledge document, a `registry_subject` card, and the
+CLI's `--read` / `--subject` each append one line to `.ai/consults.jsonl` in the project
+being worked on, which is what [`consult-check`](../scripts/consult-check.mjs) counts as
+coverage. Without it a session that queried and read correctly was still recorded
+`outcome:"missed"`. A search (`registry_query`, a plain CLI query) is not a consult and
+never logs; neither is a failed read, an unknown subject, or a read of something that is
+not a subject's document (`_laws.md`, a recipe, a doc).
+
+```json
+{"ts":"2026-11-07T10:00:00Z","bundle":"software-engineering","subjects":["table"],"techniques":["client-server-split"],"deviations":null,"from":"registry-query"}
+```
+
+Bare slugs only, never a path. There is no `outcome` field (consult-check skips only
+`"missed"`). `deviations` is `null`, not the hand-written `0`: signals-collect reads a
+one-subject row's count as that subject's current state, so a `0` from a read would erase
+a real shortfall a skill recorded earlier.
+
+- **Which project.** The process's working directory, not `--root` (that is the registry
+  being served). The MCP server inherits the cwd of the client that launched it, so a
+  server started from a project's `.mcp.json` logs to that project. The row goes to the
+  main checkout (`git rev-parse --git-common-dir` minus `/.git`), so a linked worktree
+  logs where the project's own ledger lives.
+- **When it stays silent.** Not inside a git checkout; the checkout has no
+  `.ai/manifest.yaml` (a repo that never subscribed gets no stray `.ai/`); or the opt-out
+  `REGISTRY_CONSULT_LOG=0` (`false` and `off` also work) is set in the environment.
+- **Safety.** Append-only, one line, never a rewrite. A failed write is swallowed and the
+  read still answers.
+
+Implementation: [`scripts/lib/consult-log.mjs`](../scripts/lib/consult-log.mjs).
+
 ## Install
 
 The server's root is the checkout it lives in; `--root <dir>` or `AI_REGISTRY_DIR`

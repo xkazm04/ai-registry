@@ -18,7 +18,7 @@ const init = (id, protocolVersion) => rpc(id, 'initialize', { protocolVersion, c
 /** Spawn a server, feed it lines, close stdin; return parsed stdout lines (asserting every one is JSON-RPC). */
 function session(argv, messages, { env = {}, timeout = 120_000 } = {}) {
   const input = messages.map((m) => (typeof m === 'string' ? m : JSON.stringify(m))).join('\n') + '\n';
-  const r = spawnSync(process.execPath, argv, { input, encoding: 'utf8', timeout, env: { ...process.env, ...env } });
+  const r = spawnSync(process.execPath, argv, { input, encoding: 'utf8', timeout, env: { ...process.env, REGISTRY_CONSULT_LOG: '0', ...env } });
   assert.equal(r.error, undefined, `spawn failed: ${r.error}`);
   const lines = r.stdout.split('\n').filter((l) => l.length);
   const out = lines.map((l) => {
@@ -266,4 +266,34 @@ test('the periodic recheck reloads the projection only when a bundle fingerprint
   clock += RECHECK_MS;
   await h.registry_query({ terms: 'anything' });
   assert.equal(loads(), 2, 'a moved fingerprint reloads');
+});
+
+test('registry_read and registry_subject log a consult in the caller project; a search and a failed read do not', async (t) => {
+  // The project is the process cwd's main checkout, not the served registry root.
+  const proj = tempDir(t, 'registry-mcp-consult-');
+  assert.equal(spawnSync('git', ['-C', proj, 'init', '-q'], { encoding: 'utf8' }).status, 0);
+  fs.mkdirSync(path.join(proj, '.ai'));
+  fs.writeFileSync(path.join(proj, '.ai', 'manifest.yaml'), 'knowledge:\n  domains: [software-engineering]\n');
+  const ledger = path.join(proj, '.ai', 'consults.jsonl');
+  const rows = () => (fs.existsSync(ledger) ? fs.readFileSync(ledger, 'utf8').split('\n').filter(Boolean).map((l) => JSON.parse(l)) : []);
+  const h = realHandlers(ROOT, { cwd: () => proj, env: {}, log: () => {} });
+  const tech = 'knowledge/software-engineering/ui-surfaces/data-display/table/techniques/client-server-split.md';
+
+  await h.registry_query({ terms: 'table' });
+  assert.equal(rows().length, 0, 'a search is not a consult');
+  await assert.rejects(h.registry_read({ path: 'knowledge/software-engineering/nope/missing.md' }));
+  assert.equal(rows().length, 0, 'a failed read is not a consult');
+
+  const r = await h.registry_read({ path: tech });
+  assert.notEqual(r.isError, true);
+  assert.equal(rows().length, 1);
+  assert.deepEqual({ ...rows()[0], ts: 'x' }, { ts: 'x', bundle: 'software-engineering', subjects: ['table'], techniques: ['client-server-split'], deviations: null, from: 'registry-query' });
+
+  await h.registry_subject({ subject: 'table' });
+  assert.equal(rows().length, 2);
+  assert.deepEqual(rows()[1].subjects, ['table']);
+
+  const off = realHandlers(ROOT, { cwd: () => proj, env: { REGISTRY_CONSULT_LOG: '0' }, log: () => {} });
+  await off.registry_read({ path: tech });
+  assert.equal(rows().length, 2, 'REGISTRY_CONSULT_LOG=0 writes nothing');
 });

@@ -34,6 +34,14 @@
  *
  * Root: the checkout this file lives in, overridden by `--root <dir>` or AI_REGISTRY_DIR.
  *
+ * Consult log: a successful registry_read of a knowledge document and every registry_subject
+ * card append one row to `.ai/consults.jsonl` in the main checkout of the git repository at
+ * the server's cwd (the project the client launched it from; NOT --root, which is the
+ * registry being served), so scripts/consult-check.mjs counts the read as coverage. A
+ * search (registry_query) never logs. No-op outside a git checkout, without
+ * `.ai/manifest.yaml`, or when REGISTRY_CONSULT_LOG=0; a write failure never fails the
+ * read. See scripts/lib/consult-log.mjs and docs/query-lane.md.
+ *
  *   node scripts/registry-mcp.mjs [--root <registry checkout>]
  *   claude mcp add --scope user ai-registry -- node <registry>/scripts/registry-mcp.mjs
  *
@@ -45,6 +53,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { spawnSync } from 'node:child_process';
 import { EXIT } from './lib/exit-codes.mjs';
+import { logConsult, logDocConsult } from './lib/consult-log.mjs';
 
 /** Bumped on any change to tool names, params or result shapes (semver). */
 export const SERVER_VERSION = '1.0.0';
@@ -434,7 +443,7 @@ export function ledgerArgv(a, file) {
 }
 
 /** The production handlers, over the real core. Imports lazily so a stub core cannot stop the server starting. */
-export function realHandlers(root, { log = (m) => process.stderr.write(`${m}\n`), now = () => Date.now() } = {}) {
+export function realHandlers(root, { log = (m) => process.stderr.write(`${m}\n`), now = () => Date.now(), cwd = () => process.cwd(), env = process.env } = {}) {
   let core = null;
   let ledger = null;
   let projection = null;
@@ -474,12 +483,17 @@ export function realHandlers(root, { log = (m) => process.stderr.write(`${m}\n`)
       const opts = {};
       if (a.section !== undefined) opts.section = a.section;
       if (a.max_tokens !== undefined) opts.maxTokens = a.max_tokens;
-      return text(renderDoc(readDoc(root, a.path, opts)));
+      const doc = readDoc(root, a.path, opts);
+      // A successful read of a knowledge document is a consult (never a search). Failures
+      // above threw before this line; a failed log write is swallowed inside logDocConsult.
+      logDocConsult(doc.path, { cwd: cwd(), env });
+      return text(renderDoc(doc));
     },
     async registry_subject(a) {
       const { subjectCard } = await lib();
       const card = subjectCard(await getProjection(), a.subject, { domain: a.domain ?? null });
       if (!card.subject) return failure(`no subject "${a.subject}"${a.domain ? ` in ${a.domain}` : ''}; find the slug with registry_query`);
+      logConsult({ cwd: cwd(), env, bundle: card.subject.domain, subject: card.subject.subject });
       return text(renderCard(card, a.subject));
     },
     async registry_ledger(a) {

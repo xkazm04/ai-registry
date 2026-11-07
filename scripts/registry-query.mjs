@@ -23,6 +23,13 @@
  *   node scripts/registry-query.mjs --read <path> [--section "<heading>"] [--max-tokens n] [--json]
  *   node scripts/registry-query.mjs --subject <slug> [--domain d] [--json]
  *
+ * Consult log: a successful `--read` of a knowledge document and `--subject` of a known
+ * subject append one row to `.ai/consults.jsonl` in the main checkout of the git repository
+ * at the CALLER'S cwd (not --root), so scripts/consult-check.mjs counts the read as
+ * coverage. A search never logs. No-op outside a git checkout, without `.ai/manifest.yaml`,
+ * or when REGISTRY_CONSULT_LOG=0; a write failure never fails the read.
+ * See scripts/lib/consult-log.mjs and docs/query-lane.md.
+ *
  * The projection is cached in .cache/registry-route/ (gitignored) and rebuilt per bundle
  * whenever a file's size or mtime moves; `--rebuild` forces it.
  *
@@ -33,6 +40,7 @@
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { EXIT } from './lib/exit-codes.mjs';
+import { logConsult, logDocConsult } from './lib/consult-log.mjs';
 import {
   DEFAULT_TOP, DEFAULT_BUDGET_TOKENS, DEFAULT_READ_TOKENS,
   loadProjection, query, readDoc, subjectCard, formatHit, formatCard,
@@ -90,6 +98,7 @@ if (opt['--read'] != null) {
     console.error(e.message);
     process.exit(EXIT.FATAL);
   }
+  logDocConsult(doc.path); // a successful read is a consult; see scripts/lib/consult-log.mjs
   if (asJson) console.log(JSON.stringify(doc, null, 1));
   else {
     console.log(doc.text);
@@ -104,6 +113,7 @@ if (opt['--subject'] != null) {
   if (positional.length) usage('--subject takes a slug, not terms');
   const projection = loadProjection(root, { domains: domain, rebuild: Boolean(opt['--rebuild']) });
   const card = subjectCard(projection, opt['--subject'], { domain });
+  if (card.subject) logConsult({ bundle: card.subject.domain, subject: card.subject.subject });
   if (asJson) console.log(JSON.stringify(card, null, 1));
   else if (!card.subject) console.log(`no match: no subject "${opt['--subject']}"${domain ? ` in ${domain}` : ''}`);
   else {
