@@ -126,6 +126,15 @@ test('device cpu leaves the GPU lane: a cpu-proof comes from free.build, one at 
   assert.deepEqual([did(idle, 'gpu-proof').length, did(idle, 'cpu-proof').length], [0, 1], 'device cpu never takes the GPU lane');
 });
 
+test('a row that already ran (render.blockedOn) is never offered again, in either lane', () => {
+  const ranCpu = heldRow({ id: 'c', render: { kind: 'replica', runId: 'rc', machine: 'Lynx', use: 'x', device: 'cpu', blockedOn: 'Rendered, kept for the verdict' } });
+  const ranGpu = heldRow({ id: 'g', render: { kind: 'replica', runId: 'rg', machine: 'Lynx', use: 'x', estGpuMin: 10, blockedOn: 'Rendered' } });
+  const fresh = heldRow({ id: 'f', render: { kind: 'proof', runId: 'rf', machine: 'Lynx', use: 'x', device: 'cpu' } });
+  const p = nextPlan(base({ sense: sense({ gpuProof: 1, build: 1 }, 'idle'), backlog: [ranCpu, ranGpu, fresh] }));
+  assert.deepEqual(did(p, 'cpu-proof').map((x) => x.row.id), ['f']);
+  assert.deepEqual(did(p, 'gpu-proof'), []);
+});
+
 test('a cpu-proof spends the build slot, so harvest evaluate does not also take it', () => {
   const cpu = heldRow({ id: 'c', render: { runId: 'r', machine: 'Lynx', use: 'x', device: 'cpu' } });
   const p = nextPlan(base({ sense: sense({ build: 1 }), backlog: [cpu], evalDebt: 3 }));
