@@ -5,7 +5,7 @@
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 245,
   "techniques": 1980,
-  "applications": 1494,
+  "applications": 1495,
   "laws": 16,
   "categories": [
    "ui-surfaces",
@@ -36503,9 +36503,9 @@
    "subcategory": "runtime-and-io",
    "status": "reconciled",
    "file": "knowledge/software-engineering/llm-agent/runtime-and-io/subprocess-lifecycle/subprocess-lifecycle.md",
-   "digest": "sha256-b2:b5a1f902eefee9cb",
-   "revision": 17,
-   "changedAt": "2026-11-06",
+   "digest": "sha256-b2:73d266b807387855",
+   "revision": 18,
+   "changedAt": "2026-11-07",
    "techniques": [
     {
      "slug": "agent-editable-children-get-no-secrets",
@@ -36645,7 +36645,8 @@
      "use_when": [
       "choosing when a polite stop becomes a kill",
       "the parent died but its helpers did not",
-      "an exit code of zero from a crashed wrapper"
+      "an exit code of zero from a crashed wrapper",
+      "a child kept running after its host was force-killed and no restart is coming"
      ]
     }
    ],
@@ -36674,6 +36675,13 @@
      "file": "knowledge/software-engineering/llm-agent/runtime-and-io/subprocess-lifecycle/applications/node--liveness-and-heartbeats.md",
      "verified_on": "2026-09-02",
      "verified_against": "node@24.14.0"
+    },
+    {
+     "stack": "node",
+     "technique": "termination-and-reaping",
+     "file": "knowledge/software-engineering/llm-agent/runtime-and-io/subprocess-lifecycle/applications/node--termination-and-reaping.md",
+     "verified_on": "2026-11-07",
+     "verified_against": "node@24.22.1"
     },
     {
      "stack": "react",

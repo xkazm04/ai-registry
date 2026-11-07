@@ -174,3 +174,8 @@ report now has a lane to land in.
 - **A pre-registered misapplication clause still needs a reader.** One flag was specific to a HEAD draw, and reading it decided the verdict after unblinding. The row says who read it and what the strict reading gives.
 - **An opponent that does not choose leaves the solve untested.** All four draws said enemies do not adapt, so the matrix and dominance steps ran and the equilibrium step and its counter lever did not.
 - **A row spanning several techniques can miss them.** The HEAD draw opened one of the three amended techniques, so the probe could not test the other two.
+
+## 0.7.0 - 2026-11-07 - ai-registry (`/harvest backlog --size 3` as a /shift filler, 3 rows, no extra seats)
+
+- **A baseline that passes voids the run, and it can be the finding.** The unguarded arm of the orphan-guard experiment passed in 0 to 1 ms, so every arm looked good. Written down before running, "baseline must fail" voided it. Spawning detached made the baseline fail, and that difference went into the landing.
+- **Read the source's ending before designing the arm.** The row for review as a commit of comments listed the limits and left out that its author shelved the tool. Fetching the post moved the falsifying seam to the stated limit, which came back 0 of 81 at the hunk boundary.

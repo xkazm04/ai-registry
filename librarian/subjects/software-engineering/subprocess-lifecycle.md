@@ -157,3 +157,5 @@ personas 5ab86317e9, not pushed). Untriaged: a buffering proxy relays the
 signal, flushes, re-raises (`termination-and-reaping`).
 
 2026-10-23 (intake-firetv-inbox-1023, [[2026-10-23-firetv-inbox-harvest]]): spawn-contract gained a stream-wiring paragraph: a strict-failure script host turns a merged child stderr line into a terminating error, losing output and exit status; scope the strict mode to the one call. Applied on gravitone (code, better, 6c19345a, not pushed); two other managed trees already conform. firetv row 14 (absolute path through the command interpreter) was a catch against the same technique.
+
+2026-11-07 (hb-1107, [[2026-09-02-dora]], backlog 9-058): termination-and-reaping amended: a child can be bound to its host's life, correcting "the children cannot be asked". Experiment, better, Windows only: guard on a thread cleared target and floor, kernel job cleared every cell, main-loop guards failed wedged 5 of 5. Application `node--termination-and-reaping`. First run void: an undetached baseline passed. POSIX and a real pid recycle not measured; no fleet seam changed.

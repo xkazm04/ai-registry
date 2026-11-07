@@ -112,7 +112,12 @@ it is unusually literal. At the moment of spawn, the design must answer:
   survive to see. The answer is a **startup orphan sweep**: children are
   spawned with a durable identity marker, and every host start scans for
   marked survivors from previous incarnations and retires them — verifying
-  identity before killing, because process ids are recycled.
+  identity before killing, because process ids are recycled. The sweep only runs
+  if a next host starts, so a child that must not outlive its host is also bound
+  to the host's life: by a kernel job where one exists, else by a guard on the
+  child's own thread, armed before anything can block. A detached spawn can give
+  up a binding the default spawn held
+  ([termination-and-reaping](./techniques/termination-and-reaping.md)).
 
 Termination itself is a designed path, not an afterthought: a polite stop
 request first, a deadline second, a forcible kill third, and an honest record
@@ -224,7 +229,7 @@ owned by named code:
 | **stalled** | alive, silent past threshold | claim degraded; escalation clock running |
 | **terminating** | stop requested, ladder in progress | polite → deadline → kill; descendants included |
 | **reaped** | exit collected, outcome recorded | slot released, scratch space scheduled for cleanup, outcome from the closed vocabulary |
-| **orphaned** | host died first | found and retired by the next incarnation's sweep, by identity marker |
+| **orphaned** | host died first | ended by its binding to the host's life where it has one; found, retired if still alive, and its record settled by the next incarnation's sweep, by identity marker |
 
 Two rules fall out of the table:
 
