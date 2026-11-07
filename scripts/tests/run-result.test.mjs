@@ -185,8 +185,25 @@ test('exit mirrors the declared vocabulary and nothing else', () => {
   }
 });
 
+test('held is a subject outcome with an optional tally: records written before it stay valid', () => {
+  const heldRow = { ...valid().subjects[0], outcome: 'held' };
+  assert.deepEqual(validateRunResult(valid({ subjects: [heldRow], counts: { ...valid().counts, held: 1 } })), []);
+  assert.deepEqual(validateRunResult(valid({ subjects: [heldRow] })), [], 'counts without the key, as every older record has');
+  for (const bad of [-1, 1.5, '1', null]) {
+    assert.ok(validateRunResult(valid({ counts: { ...valid().counts, held: bad } })).some((p) => /counts\.held must be/.test(p)), String(bad));
+  }
+  const { landed, ...noLanded } = valid().counts;
+  assert.ok(validateRunResult(valid({ counts: noLanded })).some((p) => /counts\.landed must be/.test(p)), 'the other five stay required');
+});
+
+test('a held subject is not a pass: it does not move a dry streak', () => {
+  const row = (outcome, at) => ({ id: 'a/b', at, engine: 'deepen', outcome, points_before: null, points_after: null });
+  const streak = (subjects) => dryStreaks([{ subjects, ended_at: '2026-11-06T00:00:00Z' }])['a/b'];
+  assert.equal(streak([row('idled', '2026-11-01'), row('held', '2026-11-02')]), streak([row('idled', '2026-11-01')]));
+});
+
 test('a subject outcome is the counts vocabulary, so a row and the tally cannot disagree', () => {
-  for (const o of ['landed', 'declined', 'idled', 'contended', 'dispatched']) {
+  for (const o of ['landed', 'declined', 'idled', 'contended', 'dispatched', 'held']) {
     assert.deepEqual(validateRunResult(valid({ subjects: [{ ...valid().subjects[0], outcome: o }] })), []);
   }
   for (const bad of ['mined', 'parked', 'ok', '', null, 'Landed']) {

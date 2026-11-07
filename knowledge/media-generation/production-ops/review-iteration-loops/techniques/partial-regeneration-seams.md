@@ -6,7 +6,7 @@ technique: partial-regeneration-seams
 status: forged
 laws: [edit-do-not-regenerate, style-is-restated-not-remembered, unmeasured-is-not-pass, cost-per-usable-output, refusal-is-a-state]
 shared_with: []
-use_when: [applying an edit plan to audio or video rather than text, one section of a generated piece must change while the rest is kept, a regenerated region satisfies its brief but the result breaks at the joins, deciding whether a section edit is local or secretly global, a generated clip is wrong in one span or one corner and a re-roll is the only remedy anyone has proposed, one panel of a multi-panel reference or storyboard sheet is wrong]
+use_when: [applying an edit plan to audio or video rather than text, one section of a generated piece must change while the rest is kept, a regenerated region satisfies its brief but the result breaks at the joins, deciding whether a section edit is local or secretly global, a generated clip is wrong in one span or one corner and a re-roll is the only remedy anyone has proposed, one panel of a multi-panel reference or storyboard sheet is wrong, deciding whether an edit to a code-rendered composition is local]
 ---
 
 # Partial-regeneration seams
@@ -63,6 +63,41 @@ restyle wearing a local edit's clothes, because every kept section's
 review it, and restart the capital accounting as the global change it is.
 The honest plan for "make the intro orchestral" on a synth track is a fresh
 draft with a restarted review clock, not thirty edits.
+
+A symbolic plan can make every position behave like the anchor. Where a plan
+is the fixed prefix a generative renderer samples from, an edit anywhere in
+the plan resamples everything after the prefix, and that is all of the audio:
+the bars ahead of the edit move too. On the one such model measured, on two
+songs at the same seed and settings, one changed chord moved the bars before
+the edit as far as the bars after it, and moved the whole piece about as far
+as a new seed with no edit at all. Those are objective per-bar distances with
+no listening verdict; they say the takes differ and cannot say which is
+better. The edit is local in the plan and not in the audio, so price it as a
+new take.
+
+A renderer that samples nothing prices the same kind of edit differently.
+Where every frame is computed from the source and walked the same way, an edit
+stays inside the frames that read what it changed, so its reach is read off its dependents and not off
+the size of the edit. On one code-rendered composition of 600 frames, on
+lossless output in separate browser processes, a same-source control changed
+no frame. One changed caption string altered 119 frames, all inside its window
+and within about 1% of the picture. One changed number on a title that holds
+on screen altered 580. A one-line change to a curve every element shares
+altered 242, wherever anything was easing. So in a computed render a shared
+curve or style is the anchor. A seed hashed from the whole source reads
+everything, so any edit to it is a new field (read in code, not measured). One
+deliverable can hold both kinds of layer, so price each by its own renderer:
+computed layers by what reads the edit, sampled clips and music beds per take.
+
+The comparison has to be like with like. An inter-frame encoder carries a
+change past the edit's edges: at one common setting the 119-frame edit moved
+264 frames of the delivered file, up to the next keyframe, and the curve edit
+moved all 600, so a byte comparison on delivered files fails a correct edit.
+Frame order counts too: walked in descending order, the same source differed in 519
+of 600 frames, by up to 124 pixels and 29 levels of 255, and a section rendered from
+its own entry frame differed on every second frame, by up to 4 pixels, with no edit
+at all. The cause is not isolated, and one prediction of it, the title's scale, failed. These are identity measurements, and nobody
+watched the frames.
 
 ## The edit pass is itself lossy
 
@@ -160,6 +195,15 @@ to an honest empty state carrying what was asked and what came back.
 - When the edit targets the anchor region, declare the change global and
   restart the review clock, because "unchanged" sections against a moved
   frame are unreviewed work presented as approved.
+- When an edit goes through a plan a sampler is conditioned on, treat the
+  result as a new take and compare the unedited bars against a same-settings
+  control before calling it local, because the bars ahead of the edit are
+  resampled as well (one model, two songs, objective distance only).
+- When an edit goes through a renderer that samples nothing, name what reads
+  the thing it changed, then render twice from the same entry frame in the same order and compare
+  lossless frames before the delivery encoder, because a frame that does not
+  read the change should come back byte-identical and a delivered file cannot
+  show it (one composition, all 600 frames, one browser, identity only).
 - When a clip's defect is bounded in time or in frame, price the editorial
   remedy before the re-roll, because a re-roll re-samples the whole shot to
   address a fault that occupies a fraction of it.

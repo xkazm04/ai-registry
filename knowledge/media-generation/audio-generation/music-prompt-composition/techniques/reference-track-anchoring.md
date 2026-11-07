@@ -6,7 +6,7 @@ technique: reference-track-anchoring
 status: forged
 laws: [style-is-restated-not-remembered, output-never-outruns-evidence]
 shared_with: []
-use_when: [starting a music brief from an existing track, cues across one production drift apart in identity, a temp track has colonized everyone's expectations, deciding whether a reference is safe to hand a generator]
+use_when: [starting a music brief from an existing track, cues across one production drift apart in identity, a temp track has colonized everyone's expectations, deciding whether a reference is safe to hand a generator, a route transcribes a reference into notation and regenerates from it]
 ---
 
 # Reference track anchoring
@@ -35,6 +35,18 @@ identity, and its rights.
   rights consequence is recorded by the acceptance craft; the brief-side
   rule is simpler — do not anchor on material the production could not
   afford to have audibly influenced the output.
+
+A route that transcribes the reference into notation and regenerates from
+that score hands the generator no audio, changes the style and the lyrics, and
+still carries the melody, because the melody is what the notation holds. It
+is the plainest case of a pipeline that does not launder a tune. On the one
+model measured, with one of our own songs as the reference and objective note
+distance only, the result sat at least as near the reference's notes as a
+re-render of its own score at a new seed. The model's authors report the same
+direction over 948 works: retrieval found the source work about seven times in
+ten with the score and almost never without it. Neither figure says how it
+sounds or what it is in law. Using this route on someone else's work is the
+licensing decision below, not a style brief.
 
 ## The temp-track trap, in its generated form
 
@@ -67,6 +79,10 @@ without a reference describes it; together they hold it.
 - When the only available reference is commercial, spend one pass
   translating it to vocabulary and retire it, because every additional
   exposure to the anchor tightens the imitation.
+- When a route transcribes a reference into notation, treat the output as a
+  cover of that work whatever its new style and lyrics, because the melody is
+  the part the route keeps (one song measured locally, plus the authors' own
+  948-work benchmark).
 - When a delivered cue audibly resembles a specific existing work, treat it
   as a defect regardless of how it happened, because resemblance is judged
   on the output, not on the intent.

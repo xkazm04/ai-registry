@@ -152,3 +152,40 @@ report now has a lane to land in.
   and one had to delete a stackdump it left in a knowledge folder. The brief line "do not
   combine `-i` with several `-e`; delete any stackdump you create" worked in the lane that
   carried it. Put it in every miner brief.
+
+## 0.6.0 - 2026-11-06 - self-evolving-harness (a /shift lander, no harvest pass ran)
+
+- 0.7.0 adds judge family and draws per arm to each row's note cell. Rests on `repeat`: of 18 settled rows, 1 records a judge's family and 1 mentions any repetition, against a law and a golden path that require both. Mid-flight runs finish on the version they loaded.
+- Not columns, because `evaluationDebt` reads `verdict` by the header's position.
+- Not yet a minimum number of draws, and not a required cross-family judge. Two draws per arm in this lander's probe saw a floor drop and could not size it. A minimum is an operator trade, proposed in the source note.
+
+## 0.7.0 - 2026-11-06 - pof (`/harvest evaluate` as a /shift filler, 2 rows, 2 draws per arm, GPT judge)
+
+- **Give both arms the same query tool.** Both trees were archived with HEAD's `scripts/registry-query.mjs` over their own `knowledge/`, and the old index still answered. That leaves the knowledge as the only registry difference. Archives under neutral folder names also keep an arm from reading its state from a path or from `git log`.
+- **`.ai/` is not always ignored in a project.** The method puts artifacts in the routed project's gitignored `.ai/` scratch, but in pof only named paths under it are ignored, so a new folder would have dirtied the checkout. They went to this repo's ignored `.ai/shift/runs/_evaluate/artifacts/` instead. Check with `git check-ignore` first.
+- **Name the checks the old corpus cannot already pass.** Two of five governed checks in one rubric and one of six in the other took full marks in all four draws. Those checks only spent judge time. The whole margin came from the rest.
+- **A site can pre-empt its probe.** The second site already computes drought flags, so its ordering check could not separate the arms. Read the site's history for the landing's vocabulary before choosing it.
+- **The verdict words differ by file.** `evaluation.md` says `impact-*`, and `run-result.mjs` accepts only `better`, `not-better`, `unmeasurable` and `COVERED`. No text maps one to the other. This pass read `impact-positive` as `better`.
+
+## 0.7.0 - 2026-11-07 - pof (`/harvest evaluate` as a /shift filler, 2 rows, GPT judge, 2 draws per arm on one row and 1 on the other)
+
+- **A seat cap buys judges too.** Two rows at 2 draws per arm cost 10 dispatches, not 8. A cap of 8 left the second row one draw per arm, so size the cap before the rubric.
+- **Word a rubric's tripwire from the technique.** One check said "price or small number change" where the technique says "cost change", and the judge flagged all four draws for misapplication on that wording, including two that never saw the technique. The judge cannot see the landing, so its flag says little about the landing unless it separates the arms.
+- **A pre-registered misapplication clause still needs a reader.** One flag was specific to a HEAD draw, and reading it decided the verdict after unblinding. The row says who read it and what the strict reading gives.
+- **An opponent that does not choose leaves the solve untested.** All four draws said enemies do not adapt, so the matrix and dominance steps ran and the equilibrium step and its counter lever did not.
+- **A row spanning several techniques can miss them.** The HEAD draw opened one of the three amended techniques, so the probe could not test the other two.
+
+## 0.7.0 - 2026-11-07 - ai-registry (`/harvest backlog --size 3` as a /shift filler, 3 rows, no extra seats)
+
+- **A baseline that passes voids the run, and it can be the finding.** The unguarded arm of the orphan-guard experiment passed in 0 to 1 ms, so every arm looked good. Written down before running, "baseline must fail" voided it. Spawning detached made the baseline fail, and that difference went into the landing.
+- **Read the source's ending before designing the arm.** The row for review as a commit of comments listed the limits and left out that its author shelved the tool. Fetching the post moved the falsifying seam to the stated limit, which came back 0 of 81 at the hunk boundary.
+
+## 0.7.0 - 2026-11-07 - ai-registry (`/harvest backlog --size 3` as a /shift filler, 3 rows, 5 seats, GPT judge, 2 draws per arm)
+
+- **Put a permissive rule's own source case in its probe.** The draft existed to allow a gate to proceed past unknown, and both draft draws used its irreversibility condition to refuse that very case, while both base draws reached warn-and-continue from the current text. The other three sites scored close to level, 7 and 8 against 8 and 8 on the four checks away from that case.
+- **A fix-shaped row can reach a seat that cannot make the fix.** One such row came up here, with connected projects read-only and the row itself asking for an owner decision. The rule half was stated, so it closed unmeasurable with its instrument named. 22 rows carry that shape, all queued.
+
+## 0.7.0 - 2026-11-07 - ai-registry (`/harvest backlog --size 3` as a /shift filler, 3 rows, 5 seats, GPT judge, 2 draws per arm)
+
+- **Check the harness against the pre-registration before scoring.** The first replay excluded transitions whose SQL changed with no cold-only change, where the text excluded only an unchanged file. Those were the transitions where the arms differ: 4 and 4 of 9 became 10 and 8 of 15. The verdict stayed not-better, and the row says so.
+- **A project with no checkout here can still be read on its remote.** A row saying a project's gates were dead was 7 weeks old. The remote showed the config replaced and 5 green runs on main, so it closed covered and not unmeasurable.

@@ -93,3 +93,5 @@ they are not new runtime witnesses.
   }
 }
 ```
+
+- **Impact evaluation, 2026-11-06.** typed-operator-inheritance: impact-positive in pof, blind 8 and 7 vs 5 and 6 of 10, judge from another family, 2 draws per arm. Ledger: `librarian/harvest/evaluations.md`.

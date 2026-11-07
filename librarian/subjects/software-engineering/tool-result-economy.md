@@ -1,7 +1,7 @@
 ---
 subject: tool-result-economy
 domain: software-engineering
-last_touched: 2026-10-14
+last_touched: 2026-11-06
 dry_streak: 0
 ---
 
@@ -93,3 +93,7 @@ nearly rule for rule, and breaks its conditional denominator (summaries with no
 pointer are outside it). Untriaged with anchors in the source note: store the
 hidden tail and route recovery around the compressor; line selection in a
 declarative filter uncounted as loss.
+
+## 2026-11-06 - shift-rust ([[2026-11-06-rust-craft]])
+
+Currency only: rtk floor application re-pinned; "applies it once" corrected, with a bare listing now on the user's arm for its guard. See [[2026-10-14-rtk]].

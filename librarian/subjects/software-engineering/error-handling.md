@@ -1,7 +1,7 @@
 ---
 subject: error-handling
 domain: software-engineering
-last_touched: 2026-09-04
+last_touched: 2026-11-06
 dry_streak: 0
 ---
 
@@ -87,6 +87,10 @@ bundle-wide, which found the one thing that mattered:
   cancellation sentinel rather than a name to match, the sentinel is still the
   wrong instrument, because it is structured about the wrong fact. Folded into
   the new technique rather than amended into the golden path.
+
+## 2026-11-06 - shift-rust ([[2026-11-06-rust-craft]])
+
+`consumer-decides-error-shape` amended with a reader who reads prose, and a who-reads, whose-text table. Scored 3/0/1: boundary, four authors, and a re-run that refutes specific-before-general ordering as sufficient. Links one line from `structured-propagation` and from `agent-actionable-errors`, which held the opposite word on prose with no discriminator. A closed public-record error as its own technique stays untriaged at 3/1/2; its tree records no diagnosis cost.
 
 ## Open leads (banked, with return conditions)
 

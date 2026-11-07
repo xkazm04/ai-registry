@@ -16,7 +16,8 @@
     "gravitone": {
       "checkouts": {
         "Fox": "dolla/gravitone-gcloud",
-        "Wolf": "kiro/gravitone-gcloud"
+        "Wolf": "kiro/gravitone-gcloud",
+        "Lynx": "kiro/gravitone-gcloud"
       }
     },
     "goat": {
@@ -51,7 +52,8 @@
     "personas": {
       "checkouts": {
         "Fox": "dolla/personas",
-        "Wolf": "kiro/personas"
+        "Wolf": "kiro/personas",
+        "Lynx": "kiro/personas"
       }
     },
     "kp": {

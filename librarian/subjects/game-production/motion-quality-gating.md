@@ -158,3 +158,7 @@ mean - still holds. `node--asset-reality-ledger`'s stated deviation, `DEFAULT_GE
   }
 }
 ```
+
+## Lead - 2026-11-06 (run shift-rig)
+
+The rubric says foot contact has structural tests and no document gives one. A measure is banked in `librarian/sources/2026-11-06-generated-asset-to-rig-route.md`, scoring 2/0/2, held by render proof `shift-rig-contact-1`. Nothing changed in the subject.

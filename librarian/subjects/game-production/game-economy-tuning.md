@@ -288,3 +288,5 @@ still correct, which is the argument for citing symbols rather than lines.
   }
 }
 ```
+
+- **Impact evaluation, 2026-11-07.** cost-curve-object-audit + intransitive-equilibrium-solving: impact-positive with caveats in pof, blind 7 and 7 vs 5 and 6 of 10, judge from another family, 2 draws per arm. The equilibrium solve went untested, and one HEAD draw's share gate is left to the operator. Ledger: `librarian/harvest/evaluations.md`.

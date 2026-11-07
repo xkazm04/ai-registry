@@ -1,7 +1,7 @@
 ---
 subject: concurrency-guards
 domain: software-engineering
-last_touched: 2026-10-15
+last_touched: 2026-11-06
 touched_by: intake
 dry_streak: 0
 ---
@@ -12,6 +12,17 @@ First touch: [[2026-08-22-7]], external reconcile against `golang/sync`
 @ `3ffd83c` (v0.22.0 era). Gained `go--release-guarantees` (uncovered) -
 second stack; single-stack debt cleared. Hint confirmed; the worker's re-check
 caught itself inverting a test's meaning and fixed it against the assertion.
+
+## 2026-11-06 - shift-factories ([[2026-11-06-agent-factories]])
+
+`cap-predicate-on-the-locked-row` is new, spine item 9. Re-measured on our own schema, real server, 25 forced runs a
+form. The source's rule was too wide: a lock as its own statement with a later count also held. That form is what
+`concurrent-admission-integrity` prescribes in llm-observability, so the two bundles agree, and the discriminator is
+whether the read sits in the statement that waited. No cross-bundle link. Other engines unread; no fleet seam.
+
+## 2026-11-06 - shift-rust ([[2026-11-06-rust-craft]])
+
+`replace-is-visible-before-durable` is new, spine item 10, linked from `atomic-file-publish`. Second voice has the opposite default, and the discriminator is what the caller can still do. Measured here: a plain open of a directory is refused on Windows, so the Windows half is a fact now. Power-cut half is the manual page only. A stronger ordering does not join two stores stays untriaged at 2/0/2.
 
 ## Open leads (banked, convergence rule applies)
 

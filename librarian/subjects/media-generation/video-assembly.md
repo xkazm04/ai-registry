@@ -1,7 +1,8 @@
 ---
 subject: video-assembly
 domain: media-generation
-last_touched: 2026-10-21
+last_touched: 2026-11-06
+touched_by: shift
 dry_streak: 0
 ---
 
@@ -357,3 +358,20 @@ property.
 - The operator's own observation that one untreated take had the clearest sound of the
   four is recorded as a trade in the technique. It is unmeasured: the instrument reads
   register and spectrum, not intelligibility.
+
+## 2026-11-06 - `/shift`, cluster `film-preproduction-chain`
+
+- `process--generated-shot-sourcing`: two dated bullets, published spend records and a hosted connector that is no spend control. `verified_on` not moved, because the sheet's older citations were not re-resolved.
+- A tail screenshot goes to the text model and the video is the generator's input, as "An extension is briefed from the output" already says. Recorded as a catch. See [[2026-11-06-film-preproduction-chain]].
+- Corpus split left open: "the mix cannot be fixed downstream" against separation used on mixes. Needs a separator on disk and a listening pair.
+
+## 2026-11-06 - `/shift`, cluster `reference-artifact-for-identity-and-motion`
+
+- `process--generated-shot-sourcing`: four dated bullets: one local node's moving-reference mechanics read from code, a vendor's real-face rule against a host selling filmed input, a hosted motion tool's page, and a third spend record. `verified_on` not moved.
+- Nothing landed in `generated-shot-sourcing` or `motion-plate-library`. Separating body from camera dropped to 1/0/1: its convergence was struck, because the host runs the vendor's model, and it is render-bound. Rows `shift-ref-camera-1`, `shift-ref-swap-1`. See [[2026-11-06-reference-artifact-for-identity-and-motion]].
+- `motion-plate-library`'s "need not match the silhouette" is now on trial for changes of class. A verdict decides whether it needs a limit.
+
+## 2026-11-06 - `/shift`, cluster `editable-source-over-rendered-file`
+
+- `process--generated-shot-sourcing`: two dated bullets, a hosted connector driving a local motion editor (vendor page, skill files not read) and a self-reported spend record. `verified_on` not moved.
+- `cut-compiled-from-source` not changed: its "stops being a discipline to audit" is true of the document and not of the frames, which is a rewrite and a proposal in [[2026-11-06-editable-source-over-rendered-file]]. Frame-order differences wait on `shift-editable-b17-revision-bench` for `seek-stable-composition-authoring`.

@@ -17,6 +17,8 @@ techniques:
   - indistinguishable-members-do-not-rise
   - occurrence-is-not-a-type
   - paired-sites-localize-the-fault
+  - a-new-field-must-choose
+  - string-keyed-context-is-an-unchecked-join
 ---
 
 # Invariant placement
@@ -292,3 +294,10 @@ whether an encoding survives its second year and its third maintainer.
   those terms and refuses the ones a checker already holds, why it is a filter
   and not a label, and the measured reason such a rule's first delivery is the
   compliance rate rather than the enforcement.
+- [a-new-field-must-choose](./techniques/a-new-field-must-choose.md) - an operation that must
+  decide about every field or variant, written so an addition stops the build, the classes the
+  bindings group into, and what an open-type attribute costs inside one repository.
+- [string-keyed-context-is-an-unchecked-join](./techniques/string-keyed-context-is-an-unchecked-join.md)
+  - writer and reader agreeing only by spelling, a mismatch taking the pass path, typed keys, and
+  the key diff, whose written-never-read direction turns from a report into a failure at a command
+  boundary.

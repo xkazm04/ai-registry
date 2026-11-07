@@ -1,7 +1,7 @@
 ---
 subject: sync-replication
 domain: software-engineering
-last_touched: 2026-09-02
+last_touched: 2026-11-06
 dry_streak: 0
 ---
 
@@ -64,3 +64,7 @@ Home was contested: the corpus reads sync as client data sync, and a hot
 standby is infrastructure. It landed here because the one-way mirror's
 definition ("same data in more than one place, on purpose") already covers
 it and the failure is a topology fact, not a cache fact.
+
+## 2026-11-06 - shift-product ([[2026-11-06-product-codebase-craft]])
+
+Application `react--conflict-detection-and-policy--excalidraw`: a live room choosing the across-users rule the technique forbids, and three departures read against this subject. **The "silent destruction" sentences are unchanged.** Narrowing them scored 4/2/2 and is a rewrite, so it is a proposal, with a co-editing subject (zero corpus hits for CRDTs or OT) as its home. Do not land the register technique alone: it would make that sentence false. `merge-function-proof` is banked at net 2, narrowed: an id-only compare misses a wrong winner where keys match and catches it where they differ.

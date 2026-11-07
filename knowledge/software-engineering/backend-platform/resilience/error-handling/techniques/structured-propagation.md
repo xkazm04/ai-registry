@@ -26,7 +26,9 @@ What travels between layers is a **structured value**, not a string:
   [taxonomy-design](./taxonomy-design.md)) — the field every consumer
   branches on;
 - the **cause** — the original failure, preserved intact, recursively (a
-  cause chain, not a flattened summary);
+  cause chain, not a flattened summary). An error bound for a record others
+  read may hold no runtime text at all, and
+  [consumer-decides-error-shape](./consumer-decides-error-shape.md) says when;
 - **context** — the accumulated trail of what each layer was doing;
 - optional **category-specific data** — the stated retry interval, the
   field that failed validation, the entity that was not found.

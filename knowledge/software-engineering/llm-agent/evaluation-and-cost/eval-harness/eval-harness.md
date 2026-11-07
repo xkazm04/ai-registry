@@ -28,6 +28,8 @@ techniques:
   - pairing-schedule
   - uncontrolled-games-beside-the-win-rate
   - rebase-the-varied-input
+  - contrast-before-adoption
+  - green-through-the-model
 ---
 
 # Evaluation & benchmarking
@@ -251,6 +253,15 @@ instead: rebase each date onto its arm's base, and the same backend fails 46 of
 docstring and never been seen red
 ([rebase-the-varied-input](./techniques/rebase-the-varied-input.md)).
 
+A failure can also be unreachable because something stands in front of it. An
+end-to-end pass through an agent includes the model's ability to work around what
+is beneath it, so a broken tool can stay green. Collect the case through the agent
+and the tool called directly on the same raw text, as one unit, and treat a
+disagreement as the defect standing. On one local model and an invented catalogue,
+21 of 30 runs got a product through a rewritten query while the raw text sent
+directly returned nothing. The pair does not replace the end-to-end run
+([green-through-the-model](./techniques/green-through-the-model.md)).
+
 ## The candidate can write to the instrument
 
 Everything above holds the instrument still. That presumes the candidate
@@ -344,6 +355,12 @@ rubric, pairwise arenas producing win-rates, or full matrix runs across
 model × variant × scenario. Each answers a different question and each has
 a characteristic way of lying; [comparison-modes](./techniques/comparison-modes.md)
 carries the decision table.
+
+Both assume something can score the result. When a model edits a prompt or harness for a
+task nobody holds a key to, nothing can, and the only evidence is the same task run with
+and without the edit. That can decide adoption and cannot establish correctness, and the
+record has to say so
+([contrast-before-adoption](./techniques/contrast-before-adoption.md)).
 
 ## When the harness ranks a population, most of the suite is silent
 
@@ -478,3 +495,9 @@ are a design input, not an afterthought: [eval-economics](./techniques/eval-econ
   small answer space and a gold label: what makes one probe-able, why the
   probe must name the occurrence it reads, and why it pays for a prefix and
   stays a threshold.
+- [contrast-before-adoption](./techniques/contrast-before-adoption.md) — an edit
+  on a task with no key: propose from named moments, run on the same task, decide
+  in another session, and call the result adopted rather than verified.
+- [green-through-the-model](./techniques/green-through-the-model.md) — a case
+  through an agent and the tool called directly on the same raw text, collected as
+  one unit: compare results rather than arguments, and read every call in the run.

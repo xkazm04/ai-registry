@@ -221,7 +221,9 @@ The same question applies, and it has the same answer: *could a program do
 this?* If yes, the procedure demotes into a **script with a named-argument
 interface**, and the skill keeps only what the sort leaves prose — the
 trigger (when this applies, and when it must not) and the one line that
-calls the script. Three things follow that a prose procedure cannot offer:
+calls the script. A script the skill does not call demotes nothing, however well
+it is tested ([proved-off-the-path](../../../../engineering-process/build-and-release/test-harness/techniques/proved-off-the-path.md)).
+Three things follow that a prose procedure cannot offer:
 
 - **The procedure is testable without the model.** A script has fixtures; a
   hook that sorts tool calls has a decision table of inputs and expected

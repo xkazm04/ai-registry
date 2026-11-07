@@ -1,7 +1,7 @@
 ---
 subject: test-harness
 domain: software-engineering
-last_touched: 2026-10-07
+last_touched: 2026-11-06
 dry_streak: 0
 ---
 
@@ -63,6 +63,10 @@ The second is the instructive arm and it cuts against the obvious reading: 68.98
 means the suite is genuinely broad and the scoped report was *understating* the
 project. What the scope hid is a population — 490 files at 0%, none previously
 visible. Both shipped; neither gate weakened.
+
+## 2026-11-06 - shift-rust ([[2026-11-06-rust-craft]])
+
+`a-test-helper-is-a-fork-of-the-driver` is new, top of the attention list. A sibling landed `proved-off-the-path` minutes before this write, and the two were separated by a test: there the walk finds no call, here it finds one and the setup differs. Scored with +1 risk for the overlap. The fork was measured on own schema; the remedy is one tree's unlanded plan, unmeasured. Seam: a fixture on the shipped chain whose project comment already names the gap, read only.
 
 ## Open leads (banked, with return conditions)
 
@@ -296,3 +300,5 @@ client's timeout out of reach) is banked untriaged at GAIN 1 in the source note.
   no-op-repair case. The lead is the incident that bullet was written from. No edit.
 
 2026-10-23 (intake-firetv-inbox-1023, [[2026-10-23-firetv-inbox-harvest]]): new technique assert-the-schedule-not-the-stopwatch (in-flight counts, start barriers, per-fixture clocks). Unapplied, no seam in 10 node trees. Banked: unreached-decisions-pin-nothing gains the overlay-key-that-names-nothing case (row 22). Catches: row 4 (capability-detection), row 18 (secret-scanning-architecture). Row 60 re-homed as a lead under live-system-demo-film.
+
+2026-11-06 (shift-skillkits, [[2026-11-06-agent-skill-kits]]): new technique proved-off-the-path, net +3 at the shift's raised threshold, on a home contested with dead-code (which owns 'tests are not entries') and agent-instruction-files. The twin of a model-run procedure carries it, from two authors; the guard half links out. Census of skills/: no instance, unmeasurable. If a later reader finds the unreached-decisions sentence sufficient, fold this back into it.

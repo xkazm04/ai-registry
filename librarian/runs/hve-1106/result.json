@@ -1,0 +1,43 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "hve-1106",
+  "skill": "harvest",
+  "skill_version": "0.7.0",
+  "mode": "evaluate",
+  "domain": "game-production",
+  "started_at": "2026-11-06T21:46:15Z",
+  "ended_at": "2026-11-06T22:10:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 0,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [],
+  "verdicts": [
+    {
+      "subject": "game-production/content-drift-and-revision",
+      "technique": "typed-operator-inheritance",
+      "verdict": "better",
+      "mode": "blind-ab"
+    },
+    {
+      "subject": "game-production/difficulty-design-and-adaptation",
+      "technique": "reward-cadence-first-diagnosis",
+      "verdict": "better",
+      "mode": "blind-ab"
+    }
+  ],
+  "files": [
+    "librarian/harvest/evaluations.md",
+    "librarian/subjects/game-production/content-drift-and-revision.md",
+    "librarian/subjects/game-production/difficulty-design-and-adaptation.md"
+  ],
+  "commits": [],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "Evaluate pass, no content landed. Ledger verdicts are impact-positive, recorded here as better. Judge gpt-6.1-sol, 2 draws per arm. 4 evaluations still pending."
+}

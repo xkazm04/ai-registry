@@ -1,0 +1,46 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "shift-compositor",
+  "skill": "shift",
+  "skill_version": "0.4.0",
+  "mode": "source",
+  "domain": "media-generation",
+  "started_at": "2026-11-06T21:12:21Z",
+  "ended_at": "2026-11-06T21:25:32Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 0,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0,
+    "held": 2
+  },
+  "subjects": [
+    {
+      "id": "media-generation/review-iteration-loops",
+      "at": "2026-11-06",
+      "engine": "shift",
+      "outcome": "held",
+      "points_before": null,
+      "points_after": null
+    },
+    {
+      "id": "media-generation/video-assembly",
+      "at": "2026-11-06",
+      "engine": "shift",
+      "outcome": "held",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [],
+  "files": [
+    "librarian/sources/2026-11-06-compositor-headless-keyframes.md"
+  ],
+  "commits": [],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "Threshold +3. No Phase 5 row reached it. Note, 5 leads, 2 currency rows in the note, 2 held render proofs. Four directions proposed, Composa a lead. Photoshop-measured tables excluded."
+}

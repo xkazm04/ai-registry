@@ -1,8 +1,8 @@
 ---
 domain: media-generation
 subject: generative-provider-routing
-last_touched: 2026-09-16
-touched_by: intake
+last_touched: 2026-11-06
+touched_by: shift
 dry_streak: 0
 ---
 
@@ -225,3 +225,11 @@ or golden path moved.
 authority, not merely distinct roles. `reference-role-map` declares roles; nothing found
 states the weighting. Banked untriaged with its anchor rather than landed, because the
 source's own evidence for it comes from the route it calls the less reliable of the two.
+
+## Currency - 2026-11-06 (run shift-currency)
+
+`process--vendor-fact-ledger` gained Later entries for Ideogram Vector, FLUX 3 Image Klein, Qwen-Image 2.1 and Krea 3, each read at the vendor, and "only true SVG" is scoped to 2026-08 at lines 31 and 47. `verified_on` not moved. Qwen-Image 2.1 is research-only. See `librarian/sources/2026-11-06-weekly-model-currency.md`.
+
+## 2026-11-06 - `/shift`, cluster `film-preproduction-chain`
+
+- Nothing landed in `resolution-as-stage-property`. Held: a motion draft approves the request and not the take, one voice, row `shift-film-draft-1`, with a noise control. Its "varies size, never shape" caught the plan's proof, which mixed aspects. See [[2026-11-06-film-preproduction-chain]].

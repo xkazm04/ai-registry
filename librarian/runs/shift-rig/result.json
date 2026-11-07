@@ -1,0 +1,58 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "shift-rig",
+  "skill": "shift",
+  "skill_version": "0.2.0",
+  "mode": "source",
+  "domain": "game-production",
+  "started_at": "2026-11-06T16:43:59Z",
+  "ended_at": "2026-11-06T17:10:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 0,
+    "declined": 0,
+    "idled": 3,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "game-production/motion-quality-gating",
+      "at": "2026-11-06",
+      "engine": "shift",
+      "outcome": "idled",
+      "points_before": null,
+      "points_after": null
+    },
+    {
+      "id": "game-production/generated-video-motion-extraction",
+      "at": "2026-11-06",
+      "engine": "shift",
+      "outcome": "idled",
+      "points_before": null,
+      "points_after": null
+    },
+    {
+      "id": "game-production/image-to-3d-input-gating",
+      "at": "2026-11-06",
+      "engine": "shift",
+      "outcome": "idled",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [],
+  "files": [
+    "librarian/sources/2026-11-06-generated-asset-to-rig-route.md",
+    "librarian/sources/index.md",
+    ".claude/skills/intake/SCORECARD.md",
+    "librarian/subjects/game-production/motion-quality-gating.md",
+    "librarian/subjects/game-production/generated-video-motion-extraction.md",
+    "librarian/subjects/game-production/image-to-3d-input-gating.md"
+  ],
+  "commits": [],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "Note, leads and 3 held rows; no corpus landing and no proof run. Measure went to a lead on the render clause; pin to untriaged. rig_check refuted B13, cleared skeleton B. Held rows stay uncommitted in the backlog file, which holds another writer's row."
+}

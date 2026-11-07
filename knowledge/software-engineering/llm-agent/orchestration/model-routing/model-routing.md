@@ -17,6 +17,7 @@ techniques:
   - candidate-ranking
   - quality-axis-separation
   - cache-continuity
+  - mode-saving-has-a-domain
 ---
 
 # Model routing & provider policy
@@ -130,6 +131,11 @@ The consequences of that stance form the spine of this subject:
     tenth of base price while any other model writes it at 1.25×. Route by
     class where the class has its own prompt family; never swap the model
     under a shared context (see cache-continuity).
+12. **A cheaper mode's saving is a function of input size.** A mode that plans
+    or loops before answering pays fixed overhead, so on small inputs total
+    tokens can rise as well as first-token time. Read the saving on the axis
+    this class budgets, and state the mode's domain as a number on a property
+    known before the call (see mode-saving-has-a-domain).
 
 ## The classes and their contracts
 

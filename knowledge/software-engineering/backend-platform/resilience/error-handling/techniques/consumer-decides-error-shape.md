@@ -48,6 +48,36 @@ enumerations, the outermost assembly aggregates. That is not a compromise, it
 is the correct answer applied twice, and the boundary between the two regions
 is exactly where the conversion belongs.
 
+## A consumer that reads prose
+
+A model calling a tool is a consumer neither shape was written for. It ships independently and cannot read
+your source, which argues for an enumeration. But it reads text, and text is how it learns what to do next,
+so for this reader the message is the interface: what failed, why, and the literal next command
+([agent-actionable-errors](../../../../llm-agent/runtime-and-io/agent-browser-control/techniques/agent-actionable-errors.md)
+owns how to write it).
+
+That does not make prose a contract for anyone else, and one string usually has three readers. The model reads
+the sentence. A script wrapping the tool needs a stable name beside it, in a field. And the tool's own code,
+deciding whether to retry or recover, should read neither: decide from a typed value at the place the failure
+was born. A tool that returns plain strings internally ends up parsing its own messages, and the code it
+publishes is then derived from the text it was meant to free readers from.
+
+Ask a second question: **whose text does this message quote?** Quoting the caller's own input is what makes a
+message useful. Quoting what the tool fetched, such as a page, a document or a subprocess, carries two risks. The
+quote may instruct the reader, so it needs the same fence as any other fetched content. And any substring test
+over the whole message now reads the quote too, so an unrelated word in it selects the wrong guidance. Ordering
+patterns from specific to general does not cure that. Test only an anchored prefix the tool wrote, or classify
+before the quote is added.
+
+The same question sorts the neighbouring cases:
+
+| Who reads it | Whose text it quotes | What it holds |
+|---|---|---|
+| An archive others read, with nobody there to act | possibly hostile | a closed code and fixed text, with no runtime text representable, and a named place diagnosis goes instead |
+| A live caller fixing its own request | mostly its own | runtime text and a code, policing each message for what it may leak |
+| An author reading a diagnostic | their own source | their source quoted back, with a typed code for tests to assert on |
+| A model, a wrapper and the tool itself | its input, and fetched text | a sentence with the next command, a code in a field, a typed value inside |
+
 ## The rule the corpus already implies and never states
 
 The subject's own governing rule is *classify on structure, never on prose* —

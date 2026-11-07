@@ -1,0 +1,53 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "shift-ref",
+  "skill": "shift",
+  "skill_version": "0.3.0",
+  "mode": "source",
+  "domain": "media-generation",
+  "started_at": "2026-11-06T17:20:50.214Z",
+  "ended_at": "2026-11-06T17:56:30Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 1,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0,
+    "held": 1
+  },
+  "subjects": [
+    {
+      "id": "media-generation/video-assembly",
+      "at": "2026-11-06",
+      "engine": "shift",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    },
+    {
+      "id": "media-generation/visual-style-locking",
+      "at": "2026-11-06",
+      "engine": "shift",
+      "outcome": "held",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [],
+  "files": [
+    "knowledge/media-generation/production-ops/video-assembly/applications/process--generated-shot-sourcing.md",
+    "librarian/sources/2026-11-06-reference-artifact-for-identity-and-motion.md",
+    "librarian/sources/index.md",
+    "librarian/harvest/backlog.jsonl",
+    ".claude/skills/intake/SCORECARD.md",
+    ".claude/skills/intake/LESSONS.md",
+    "librarian/subjects/media-generation/video-assembly.md",
+    "librarian/subjects/media-generation/visual-style-locking.md"
+  ],
+  "commits": [],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "Dated facts only: local node mechanics from code, face rule, motion tool, spend record; one lesson. The one upper-layer accept struck on convergence and render-bound. Three held proofs; no proof ran; no project changed."
+}

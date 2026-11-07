@@ -1,7 +1,7 @@
 ---
 subject: measurement-honesty
 domain: software-engineering
-last_touched: 2026-10-14
+last_touched: 2026-11-06
 ---
 # measurement-honesty
 
@@ -49,3 +49,7 @@ aggregate-grade, not per-item-grade. Application `rust--...--rtk` (experiment,
 not-better for the source's booking). Fleet unapplied; return condition: the
 memory-year ladder's per-arm context-token column, estimated by length over
 arms of different content shape, before arms are ranked by context size.
+
+## 2026-11-06 - shift-rust ([[2026-11-06-rust-craft]])
+
+Currency only: rtk baseline application re-pinned; the headline cap also covers the time tables, which was wrong at the old commit too. See [[2026-10-14-rtk]].

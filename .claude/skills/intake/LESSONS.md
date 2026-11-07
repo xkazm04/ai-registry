@@ -12734,6 +12734,66 @@ applied here - one sighting, and the honest record is in the source note.
 - A kp push from a worktree of origin runs a build in the pre-push gate that leaves generated files (CRLF churn, next-env.d.ts) modified, so `remove-worktree.mjs` refuses and the no-discard rule keeps the worktree alive. Budget for it: report the worktree path for the operator, or cut the worktree where those files are already ignored.
 - `run-result.mjs` caps `notes` at 280 characters and refuses the write; draft the note to the cap before chaining the commit behind it.
 
+## 2.19.0 - 2026-11-06 - film-preproduction-chain
+
+- A summarizing fetch of a client-rendered page is not evidence that the page holds nothing. On two project pages it returned a title and a short description, and on one it reported no listing and suggested a login. A raw fetch of each held generations, credits, model stack and runtime in server-rendered state, and one page's credit total then matched the creator's own dollar figure, which the summary could never have shown. Before recording a page as empty, read its raw HTML once, search it for the field you wanted, and count the read against the budget. It finds some data and not all: prompts stayed out of both raw pages. Same family as the reconcile and harvest lessons on summarizers and shells.
+- Before a draft-against-final proof is banked, read the workflow's resize and reference settings as well as its model names. A plan's two sizes differed in aspect, against the corpus's own rule that a ladder varies size and never shape; a workflow named an encoder not on disk; and its reference setting scaled inputs to the output's area, so a smaller draft would have changed its conditioning as well. None of it shows in a list of models on disk.
+- A miner's "converges" in a table is a claim like any other. One read two voices as sharing an order because both pay before a later free artifact, and the transcript put one of them after an approved script and the other before any script. Read the order at both anchors before counting a voice.
+
+## 2.19.0 - 2026-11-06 - reference-artifact-for-identity-and-motion
+
+- Second sighting of the summarizing-reader failure, on two more pages and a different shape. A vendor doc read through a summarizer as "navigation only" held 57,884 characters of document in its raw HTML, including the caps and the rule this run landed. A creator's notes page returned title metadata, and its raw HTML held no body either, only a content URL in its server-rendered state; that URL held the notes. So the film-preproduction-chain rule grows one step: when the raw page holds no text, search its state for a pointer and follow it once. The summarizer readings are the miners'; the lander re-read both raw pages. Two runs now, so a third would earn a line in the method's fetch rules.
+- A soft convergence can often be settled from the batch itself. A miner could not establish whether a host ran the vendor whose formula it counted as an independent reader, and the sibling video in the same cluster says on camera that it does, as does the host's own navigation. Before leaving a +1 "unknown", grep the batch and fetch the host's page: if independence cannot be shown, the +1 is gone, whichever model that one tool runs.
+- "No claim about obedience" does not make wording exempt from a render. A miner accepted an amendment on the ground that it only tells a writer what to ask for. A row that changes what a generator is told, in a render-bound home, is render-bound whatever its sentence promises.
+- Open a control clip and trace its origin before designing an arm on it, because a list of files on disk shows neither. A banked design put a character reference on a depth pass that is an axe, which would have added a class swap to a camera test, and called that axe the operator's own when the bench records only that its image was already in the input folder. Under a no-third-party rule, an unrecorded origin fails: build the input from primitives or plain text instead.
+
+## 2.19.0 - 2026-11-06 - prefill-decision-model-mechanics
+
+- Score a fold per rule before scoring it whole. Six rows folded into one technique at 3/0/2 carried one rule's convergence across seven others; scored apart, one rule cleared and the head fell to 2/4/2. A fold is the right shape for a spec and the wrong one for an admission score.
+- Test a claim of exactness on every code path that claims it. A tree's "exactly invariant" held on one read path and failed on the two others, including the shared-prefix repair the same draft recommended. A stand-in scorer with no model found this in minutes.
+- Before a proof goes in the bank, count its fixture on disk and read what the seam's record already bounds. A held row named an 88-image arena with 60 images missing here, and predicted under 10% where the recorded rows permit up to 47%.
+- `/api/show` with `verbose` returns a local model's whole vocabulary without loading it, so a tokenizer question costs no GPU. Check it before banking a proof about token boundaries.
+
+## 2.19.0 - 2026-11-06 - self-evolving-harness
+
+- Put a code-fit check in a design probe's rubric and name it the floor before the arms run. Arms handed the technique took the governed checks 4 of 4 against 0 of 4 and both built on a call that does not do what they said, which both control draws read correctly. Without that check the row reads `better`. This run wrote the check and not its tolerance, so a one-check drop had to count in full.
+- Recount a miner's spread clause row by row. "Many gains inside spread" was 3 of 12, and "inside the 2.3 to 2.5 spread" was false for one of its two numbers. PDF table extraction scrambles rows, so check the assignment against figures the prose states.
+- A seam picked for its name can be the wrong stage. A report chose the A/B runner for a finding about how edits get made, and the improver that makes them sat in a neighbouring file. Grep the verb the technique governs.
+- Before changing a ledger's columns, grep what reads it. A reader that takes the column by the header's position miscounts every older row. A field at the head of the note cell costs nothing.
+- An arXiv HTML page can omit a figure's text entirely, and a local PDF path exits 2 at `research-ingest`, correctly. Use `pdftotext`. A claim that looks unsupported from the HTML may sit in a figure.
+
+## 2.19.0 - 2026-11-06 - editable-source-over-rendered-file
+
+- Run the rewrite test on the sentence after the one the draft answers. A report passed "provably untouched, because it is the same data", and the next sentence said the contract "stops being a discipline to audit", which its own rule contradicts on frames.
+- A lead's sentence can sit inside an accept. One report filed a frame-order finding as a lead and also put it, with a cause, in its accept's wording. Compare a draft's wording against its own table.
+- An append can carry a parked scope rewrite in its first sentence. "The renderer decides this, not the plan" restated a proposal the same report kept out. Grep the wording for the proposal's claim.
+- Read a span count before repeating it. Sixteen spans were five stretches, split where two curves cross. Dumping the state per frame costs seconds, and it tests whether what reads an edit predicts what changed.
+- A pair with a silent arm cannot be blind. Say so in the row, and put the blind pick on a pair where both arms make sound.
+
+## 2.19.0 - 2026-11-06 - agent-skill-kits
+
+- Bumped to 2.20.0 for one routing row, the skill kit class, and its section in `references/source-classes.md`. A mid-flight run finishes on the version it loaded.
+- Four reports in a row filed kits under the build-walkthrough or said no row fit. Count those misses at Phase 2 rather than leaving each in its own report.
+- A candidate about something with no caller has prior art in the deletion lane, not the test lane. Queries worded around tests missed "tests are not entries" in dead-code until one was worded around unused code. Word one query for the opposite remedy.
+- When nothing was run, grep the draft for words that say it passed. A read-only report called its test count green while saying no test ran.
+- A miner's zero is a scan with a predicate. "0 lines setting an environment variable" fell to one `export` in another skill's fenced block. Re-run a zero the wording depends on.
+- Before calling a tested tool an instance of "the suite does not run production", read how the test reaches it. One spawned the real command line.
+
+## 2.20.0 - 2026-11-06 - reflect (shift-reflect; bumped to 2.21.0 in the same change)
+
+- Accept threshold is +3, permanent, by the operator's decision. Step 4's rule fired on 12 false positives across 7 runs at +2. A mid-flight run finishes on the version it loaded; every /shift lander since the rule fired already ran at +3.
+- What fp measured: all 12 were miner accepts that died at the lander's read, and none reached the corpus. Across about 250 earlier scorecard rows with an fp field, one was above 0. That fits the count moving when a lander began re-reading miners' accepts rather than scoring getting worse, though nothing here separates the two. The factories lander's objection stands as a reading: better prior-art reads may answer it as well as a higher bar. So watch both.
+- Counterpart checked, not fired. It now moves one step, to +2. The last three rows read fp=3, 0, 0, and no rejected row has been re-derived without reading the bank. Rust-craft's note says most of its 14 fallen accepts are re-derivable for free, so those are the rows to watch.
+- Re-read of every row that landed at net +2, on its own text. 13 rows, 0 reverted, 3 narrowed, 10 kept. A row at threshold was not thereby wrong. Yue2 1a, 2, 5: kept, measured and scoped to one model, no listening claim. Game U2: kept, confirmed incident, and bp shipped the seam. Film G5: kept, soft convergence, standing practice, limits in the wording. Prefill 2: kept, arithmetic and an earlier independent measurement. Harness 1: kept, its not-better is carried as the method requires, and one more from another project demotes it. Harness 3: kept, per-study spread stated. Factories D1, U1: kept, re-measured, boundaries stated.
+- The three narrows. Factories D2+U3 held a false "only": the lander's own matrix has exit 64 surviving a first-line reader. Factories A1 said "Use the median" over a proof where the median failed its floor and the project then kept its mean. Editable M1 said frames are computed from the source, when its own bench shows the walk also matters.
+- A correction landed on the technique and not on its application. The frame-order fix changed the technique's text, and the application went on stating "The worst case was 9 pixels". When a measurement is corrected, grep the figure across the bundle, since the application is where the numbers live.
+- A lander's "supervisor to read" was not read for hours. Film and editable each wrote that their row should be reverted if its convergence failed, and both landed and were pushed first, under load. Stating a weakness honestly is not the same as someone reading it. That read came only because the operator asked for it. One sighting.
+- A pose sheet cannot prove a claim about motion: `shift-rig-contact-1` read 0.91x on sheets while its curves separated 14.4 cm against 1.0 cm. Choose the instrument by what the claim moves through, before the floor is drawn. One sighting.
+
+## 2.21.0 - 2026-11-07 - operator: a green result pushes and merges
+
+- The never-push rule made results wait on a reading that didn't happen: three Personas fixes, one PoF text and four gravitone commits sat unpushed. Replaced by `## Pushing a result`: green only, the run's own commits only, from the remote tip when the branch holds others' work.
+
 ## 2.18.0 - 2026-11-06 - voicebox-v060 (delta re-scan)
 
 - **A delta's mandatory first step (re-open every pinned citation) has no instrument for the applications this lane writes.** `check-anchors.mjs` returned held=0 on all 9 applications (84 anchors: 52 bare-filename `missing-file`, 34 `unquoted`), so the run wrote a hunk-remap: map each cited range through `git diff -U0 <old> <new> -- <file>`, assert it on a hand-computed shift first, flag anything inside a changed hunk for a hand read. It tracked bare `:NNN` refs to the last-named file and was wrong 3 times (a ref to a sibling file inside the same paragraph), so every proposed rewrite still has to be read before it is written. Return condition for porting it into `scripts/`: a second delta run needing the same remap.

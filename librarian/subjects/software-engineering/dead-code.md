@@ -1,7 +1,7 @@
 ---
 domain: software-engineering
 subject: dead-code
-last_touched: 2026-09-06
+last_touched: 2026-11-06
 touched_by: intake
 dry_streak: 0
 ---
@@ -154,3 +154,7 @@ two-channel model for **flags**; neither subject owned an entry's firing volume.
   instrument there is wired nowhere since 2026-08-30 and red at HEAD (317 files).
 - Lesson carried out of the seam: a by-name grep across a wire boundary returns
   coincidences; join the dispatcher's method table, not the string.
+
+## 2026-11-06 - shift-rust ([[2026-11-06-rust-craft]])
+
+Nothing landed. Undeclared source files stays untriaged at 2/0/1 with three authors, because a new class in the taxonomy is an amendment. The excluded-package half is a catch: `out-of-graph-artifacts`. Wording in the source note. The fleet instance is closed: deleted in the project on 2026-10-14. Dead-knob bullet gained one link.

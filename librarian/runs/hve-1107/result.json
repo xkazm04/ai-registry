@@ -1,0 +1,63 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "hve-1107",
+  "skill": "harvest",
+  "skill_version": "0.7.0",
+  "mode": "evaluate",
+  "domain": "game-production",
+  "started_at": "2026-11-07T01:06:25Z",
+  "ended_at": "2026-11-07T01:45:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 0,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [],
+  "verdicts": [
+    {
+      "subject": "game-production/game-economy-tuning",
+      "technique": "cost-curve-object-audit",
+      "verdict": "better",
+      "mode": "blind-ab"
+    },
+    {
+      "subject": "game-production/game-economy-tuning",
+      "technique": "intransitive-equilibrium-solving",
+      "verdict": "unmeasurable",
+      "mode": "blind-ab"
+    },
+    {
+      "subject": "game-production/procedural-level-planning",
+      "technique": "seed-determinism-contract",
+      "verdict": "not-better",
+      "mode": "blind-ab"
+    },
+    {
+      "subject": "game-production/generative-artifact-gating",
+      "technique": "placeholder-is-not-an-asset",
+      "verdict": "unmeasurable",
+      "mode": "blind-ab"
+    },
+    {
+      "subject": "game-production/design-canon-as-executable-law",
+      "technique": "shape-check-vs-content-invariant",
+      "verdict": "unmeasurable",
+      "mode": "blind-ab"
+    }
+  ],
+  "files": [
+    "librarian/harvest/evaluations.md",
+    "librarian/subjects/game-production/game-economy-tuning.md",
+    "librarian/subjects/game-production/procedural-level-planning.md",
+    "librarian/subjects/game-production/generative-artifact-gating.md",
+    "librarian/subjects/game-production/design-canon-as-executable-law.md"
+  ],
+  "commits": [],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "Evaluate pass, nothing landed. impact-positive with caveats recorded as better, impact-null as not-better; a strict reading makes the first row impact-negative, operator rules. Three techniques unmeasurable: never reached or opened. Judge gpt-6.1-sol. 2 still pending."
+}

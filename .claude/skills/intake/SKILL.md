@@ -3,7 +3,7 @@ name: intake
 description: "Mine an external source - a YouTube video, a news roundup, an article, pasted notes, a repository - for what it should change in THIS registry, and in the connected projects that consume it. Ingests the source, reads its design decisions as well as its claims, maps both against existing bundles for prior art, triages with the operator, and lands what survives corroboration - amendments for boundary cases, techniques and subjects for mechanisms, forge handoffs for systems whose architecture the corpus lacks. News sources mostly yield currency signals and leads; that is a successful run. Use when someone shares a link and asks what it means for us."
 category: ai-native
 memory: project
-version: 2.18.0
+version: 2.22.0
 tags: research, sources, memory-lane, admission-gate, render-proof, triage, currency, cross-repo, leads, apply, ab-test, parallel, reference-index, design-read, forge-handoff, directions, fleet-map, peer-study, opus-workers, decision-gate
 ---
 
@@ -237,6 +237,7 @@ index, not a substitute for it.
 | **paper aggregator** | a list of papers? | measurements in their protocol, not frameworks |
 | **reference index** | is its VALUE the outbound links rather than its own text? | nothing itself - it is a bibliography, and the references are the source |
 | **vendor repository** | a company's repo over a hosted engine? | its docs' rules page and its client's types |
+| **skill kit** | does it install instructions into an agent, with or without code? | what its instruments refuse and what its issues record, never its effect |
 | **research-model release** | open weights plus real inference code? | its prompt artifacts and its config |
 | **app/tutorial aggregator** | a monorepo of example apps? | the operational periphery, not the apps |
 | **operator dispatch** | no URL - a framing or a question? | whatever the sub-questions route to |
@@ -244,8 +245,8 @@ index, not a substitute for it.
 Four rules cut across every row:
 
 - **Any row that arrives as a repository is mined from a clone, never from the ingest.**
-  Five classes do - vendor repository, research-model release, app/tutorial aggregator,
-  paper aggregator, and the build-walkthrough in repo form - and each states in its own
+  Six classes do - vendor repository, skill kit, research-model release, app/tutorial
+  aggregator, paper aggregator, and the build-walkthrough in repo form - and each states in its own
   vocabulary that the README is its least reliable surface. `research-ingest` on a repo
   URL returns exactly that surface. Clone it and sweep the tree (Phase 2b), and sweep it
   a second time for engineering worth reusing, not only for claims worth quoting.
@@ -855,7 +856,7 @@ correction, an amendment, a subject. **A currency row and a lead are governed by
 corroboration table instead**, which says a source may authorize both alone, because
 "a vendor shipped X" is a statement about the world rather than about the standard.
 Run through Phase 5 they are rejected by construction: a clock reset caps at GAIN 1
-and can never clear a +2 threshold, however well corroborated. So route by shape
+and can never clear a +3 threshold, however well corroborated. So route by shape
 first - score the upper-layer rows, admit currency and leads under the table - and say
 in the source note which rule each admitted row ran under.
 
@@ -907,16 +908,26 @@ Four things still stop and ask, because none of them is a judgment the run owns:
 
 **COST** - `S`=1, `M`=2, `L`=3.
 
-> **Auto-accept when `GAIN - RISK >= 2` and `GAIN >= COST`. Otherwise the row is
+> **Auto-accept when `GAIN - RISK >= 3` and `GAIN >= COST`. Otherwise the row is
 > recorded untriaged with its anchors.**
 
-**The threshold sits at +2 rather than 0 because the two errors are not
+**The threshold sits well above 0 because the two errors are not
 symmetric.** A false reject costs almost nothing - the row is banked with its
 anchors, carries no judgment, and a later run picks it up for the price of a
 re-read; the method already guarantees this by never filing an unpicked row as
 declined. A false accept puts an unearned claim in the upper layers, which is the
 one failure that damages the corpus rather than wasting a run. Bias the gate
 toward the recoverable error.
+
+**Why +3 and not +2 (v2.21, operator decision, 2026-11-06).** Step 4's rule fired on
+one day: 12 false positives across 7 of the first batch runs at +2 (2, 1, 1, 1, 1, 2
+and 4), mostly struck convergence, a catch the map missed, or a rewrite test not run.
+None of the 12 reached the corpus. Each was a miner's accept that died at the lander's
+read, so they measure what a first reader over-scores, and that second read stays the
+defence. What +3 costs: a boundary amendment with convergence (2/0) and a technique
+outside `librarian-scan`'s top 15 without convergence (2/0) now bank with their anchors.
+An amendment clears only if it also refutes something. An amendment that rewrites tops
+out at 4 - 2, so a scope rewrite can never auto-accept and stays the operator's.
 
 **The promotion read.** When a row's *only* blocker is the `+1` for resting on an
 unre-checked worker report, do not reject it - **spend one file read and re-score**.
@@ -932,15 +943,19 @@ call is diagnosable six weeks later instead of mysterious. The scorecard row
 carries `auto=<accepted>/<rejected>/<escalated>` and `fp=<n>`.
 
 **`fp` is the mechanism's own error rate: an auto-accepted row that dies at Phase
-6 is a false positive.** Three of those across runs and the accept threshold rises
-to `+3`. Three consecutive runs at `fp=0` whose rejected rows a later run had to
-re-derive, and it falls to `+1`. The gate is measured by the same discipline this
+6 is a false positive,** and where miners and a lander are separate seats, a miner's
+accept that dies at the lander's read counts. Three of those across runs raise the
+accept threshold one step, which took it from `+2` to `+3`, where it now stands. Three
+consecutive runs at `fp=0` whose rejected rows a later run had to re-derive take it
+one step down, to `+2`. Re-derive means reaching the row without reading the bank:
+picking up a banked row is the bank working, and counts for nothing. A step is a
+method edit with its evidence, never a lander's local setting. The gate is measured by the same discipline this
 skill applies to its lessons - confirmed three runs running, or it is not a rule.
 
 **The ship authorization is standing and does not need to be asked for
 (operator rule, 2026-09-04).** Where a run identifies a real seam in a managed
 project, it may change that project's tree under the Phase 8 rules — the paired
-proof, the pathspec commit on the active branch, and never a push. Do not ask
+proof, the pathspec commit on the active branch, then merge and push (operator, 2026-11-07). Do not ask
 which trees may be touched; identify the impact and act on it. The operator's
 reasoning is that the identification *is* the judgment worth having, and a
 session that has the seam, the measurable and both arms loaded is the only cheap
@@ -1145,8 +1160,12 @@ Six rules hold without exception:
   shape with `"status": "held"`, `"queue": "media"` and a `"render"` object naming the run id,
   the brief, where arm A's and arm B's instructions are (the corpus-before and corpus-after
   text, or the source-note section holding them), and the instrument it needs (model, node,
-  the envelope if one is known). `held` rows never enter a `/harvest backlog` wave; the media
-  host claims `queue: media` rows and the operator's blind verdict lands or rejects them. A
+  the envelope if one is known). The `render` keys are `kind` (`proof` or `benchmark`), `runId`,
+  `brief`, `arms`, `instrument`, `estGpuMin`, `machine`, `display`. `held` rows never enter a
+  `/harvest backlog` wave; the media host, **`/shift`**, claims `queue: media` rows and the
+  operator's blind verdict lands or rejects them. **On a machine that has the models, a GPU busy
+  with someone else's job is a legal reason to hold, under `/shift` only (v2.19):** the row waits
+  for an idle window instead of landing or dying this sitting. A
   render-bound candidate never becomes a technique carried by a `simulation` row either way.
   **Scope widened (v2.18; operator rule, 2026-10-24):** the local example is owed by every
   media-generation or game-development technique the run touches, not only the one that
@@ -1597,8 +1616,8 @@ for, and the branches it produced sat unmerged until the operator said so. The r
   resolved by **union** (ours, then every line of theirs not already present), never by
   choosing a side; a concurrent session's uncommitted rows in the main checkout are
   committed first as their own change, never stashed or overwritten;
-- **never push.** The operator pushes after reading the log, as for every other commit
-  this method makes.
+- **a green result is pushed.** The operator's rule of 2026-11-07: the result of `/intake` can always push
+  and merge. See `## Pushing a result`.
 
 Workers are the default model for this phase, as for every phase but the director's
 review.
@@ -1672,8 +1691,8 @@ assumed. Phase 7.5 decides *whether* a project change is warranted; this phase g
    always takes the second exception (v2):** its first step lands on a branch named
    for the run, the plan is committed beside it in the project's `.ai/`, and the row
    in `librarian/applied.md` names the branch so the next run - or `/intake apply` -
-   can continue it. **Never push** from a run; the operator pushes when they have read
-   the diff.
+   can continue it. A green result is merged and pushed, `## Pushing a result`; a `task`
+   row's unfinished branch stays a branch until its gate is green.
 5. The registry-side artifact of a project change is an **application document**: you
    opened a real tree, so you are one of the few things allowed to write `verified_on`
    and `verified_against` truthfully. Write them, and write the `proof:` status from
@@ -1998,3 +2017,20 @@ corroboration behind it.
   them, and run waves.
 - **Letting a wave worker write.** Workers return proposals. The director writes, holds
   the locks, and owns the diff.
+
+## Pushing a result
+
+The operator, 2026-11-07: "Result of intake skill can always push and merge." This replaces every earlier
+never-push rule for a run's own results, including a project's commit-only note, in every connected repo.
+
+What it does not change:
+
+- **The gate stays.** Only a green result goes. Red, or a gate that could not run, stays a branch with the
+  reason in its row and the report.
+- **Only the run's own commits.** Other sessions commit on these branches. If the local branch holds commits
+  that are not this run's, don't push the branch: make a temporary worktree from the remote tip, cherry-pick
+  the run's commits, run the gate there, push that exact refspec to the default branch, and remove the
+  worktree by name. A checkout behind its remote is not a reason to hold. Leave the shared checkout alone.
+- **A repo's own door.** dowser lands through `temper.mjs land`, and this registry through its own path.
+- **Never `--force` or `--no-verify`.** A rejected push is re-fetched and retried once from the new tip, then
+  reported. A wrong push is reverted by a new commit, with the operator told.

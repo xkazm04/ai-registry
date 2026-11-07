@@ -66,7 +66,11 @@ when nothing more specific matched — and **maps the driver's failure class to
 the tool's own**, by matching on the error's type and on stable markers in its
 text. The second half of that is a maintained liability, as it is anywhere
 prose is matched: each pattern is a bet that upstream wording holds, so the
-patterns live only in the door and are ordered specific-before-general.
+patterns live only in the door and are ordered specific-before-general. Order does
+not protect a pattern from what the message quotes: a script error mentioning an
+interceptor told the agent to close an overlay. Who reads the string and whose text
+it quotes are in
+[consumer-decides-error-shape](../../../../backend-platform/resilience/error-handling/techniques/consumer-decides-error-shape.md).
 
 Key each pattern on the failure's **class marker**, never on the name of the
 driver call that raised it. A table that lists the actions it was written for

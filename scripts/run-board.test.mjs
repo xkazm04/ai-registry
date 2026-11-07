@@ -5,7 +5,13 @@ import os from 'node:os';
 import path from 'node:path';
 import { spawn, execFileSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
-import { lockBreakable, runLiveness, breakIfUnchanged, lockFingerprint, createLock, withClaimGate, releaseIfOwned } from './run-board.mjs';
+import { lockBreakable, runLiveness, breakIfUnchanged, lockFingerprint, createLock, withClaimGate, releaseIfOwned, normSource } from './run-board.mjs';
+
+test('normSource is importable, and its fold still tells videos apart and joins spellings', () => {
+  assert.equal(normSource('https://www.youtube.com/watch?v=AbC_1'), normSource('https://youtu.be/AbC_1'));
+  assert.notEqual(normSource('https://www.youtube.com/watch?v=one'), normSource('https://www.youtube.com/watch?v=two'));
+  assert.equal(normSource('https://www.github.com/acme/repo.git?x=1'), 'github.com/acme/repo');
+});
 
 // The board's staleness window is 45 minutes and its default lock ttl is 900s.
 const STALE_S = 45 * 60;

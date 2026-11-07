@@ -11,6 +11,7 @@ techniques:
   - undo-scope
   - checkpoint-restore
   - execution-emitted-inverse
+  - undo-under-concurrent-peers
 ---
 
 # Undo & history
@@ -134,6 +135,14 @@ not looking at), and each surface owes an explicit answer rather than
 whatever its reducer happened to capture (the
 [undo-scope](./techniques/undo-scope.md) technique).
 
+## Another writer in the document
+
+Everything above assumes one writer. Under a live peer, an inverse is computed against a state
+that has moved, and a snapshot restores over work that is not yours. The answer is an entry
+that holds only what I changed, is re-read against the document when it runs, and reaches the
+merge as a new write
+([undo-under-concurrent-peers](./techniques/undo-under-concurrent-peers.md)).
+
 ## The contract with the user
 
 Mechanics aside, undo carries interaction obligations that hold across every
@@ -185,3 +194,6 @@ architecture:
 - [checkpoint-restore](./techniques/checkpoint-restore.md) — coarse restore
   points as fine-grained undo's complement, and restores that are themselves
   reversible.
+- [undo-under-concurrent-peers](./techniques/undo-under-concurrent-peers.md) — a live
+  peer in the document: entries diffed from a baseline, rewritten as they run or mapped
+  on arrival, undo as a new write, and what this still cannot promise.

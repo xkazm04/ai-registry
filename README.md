@@ -190,7 +190,7 @@ skill and its supporting methods. The generated [catalog](catalog.json) carries 
 current names, versions, hashes, and resources; versions are not duplicated here.
 
 Registry maintenance methods live in [.claude/skills/](.claude/skills/): forge, deepen,
-librarian, intake, reconcile, harvest, and assay. They maintain the library rather than
+librarian, intake, reconcile, harvest, shift, and assay. They maintain the library rather than
 belonging to its portable skills lane. The [skills specification](docs/skills-lane.md)
 defines layout, versioning, overlays, and distribution.
 

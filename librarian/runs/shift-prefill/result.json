@@ -1,0 +1,51 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "shift-prefill",
+  "skill": "shift",
+  "skill_version": "0.3.0",
+  "mode": "source",
+  "domain": "llm-observability",
+  "started_at": "2026-11-06T17:37:26Z",
+  "ended_at": "2026-11-06T17:58:38Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 1,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "llm-observability/generator-uncertainty-scoring",
+      "at": "2026-11-06",
+      "engine": "shift",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "generator-uncertainty-scoring",
+      "technique": "scorer-cost-class",
+      "verdict": "unmeasurable",
+      "mode": "experiment"
+    }
+  ],
+  "files": [
+    "knowledge/llm-observability/quality-scoring/generator-uncertainty-scoring/techniques/scorer-cost-class.md",
+    "librarian/sources/2026-11-06-prefill-decision-model-mechanics.md",
+    "librarian/sources/index.md",
+    "librarian/applied.md",
+    "librarian/harvest/backlog.jsonl",
+    ".claude/skills/intake/SCORECARD.md",
+    ".claude/skills/intake/LESSONS.md",
+    "librarian/subjects/llm-observability/generator-uncertainty-scoring.md"
+  ],
+  "commits": [],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "One amendment at threshold; the proposed technique fell from 3/0/2 to 2/4/2 when scored per rule. 3 held rows. No proof ran; no project changed."
+}

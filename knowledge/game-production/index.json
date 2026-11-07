@@ -5,7 +5,7 @@
   "source": "knowledge/game-production/ (frontmatter only)",
   "subjects": 89,
   "techniques": 590,
-  "applications": 353,
+  "applications": 354,
   "laws": 16,
   "categories": [
    "systems-canon",
@@ -3644,9 +3644,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/game-production/engine-integration/engine-integration-safety/engine-integration-safety.md",
-   "digest": "sha256-b2:84df39fc68d416ee",
-   "revision": 6,
-   "changedAt": "2026-10-01",
+   "digest": "sha256-b2:c36ca7c0fa2517bb",
+   "revision": 7,
+   "changedAt": "2026-11-06",
    "techniques": [
     {
      "slug": "crash-truncated-batch-resume",
@@ -3734,7 +3734,8 @@
      "use_when": [
       "two automated paths can drive the same application at once",
       "designing a batch that needs exclusive access",
-      "a concurrent run produced garbage results"
+      "a concurrent run produced garbage results",
+      "a build cannot run because a long-lived instance holds the checkout"
      ]
     },
     {
@@ -3779,6 +3780,13 @@
      "technique": "refuse-dont-kill-a-live-editor",
      "file": "knowledge/game-production/engine-integration/engine-integration-safety/applications/process--refuse-dont-kill-a-live-editor.md",
      "verified_on": "2026-08-20"
+    },
+    {
+     "stack": "process",
+     "technique": "single-instance-lease-and-drain",
+     "file": "knowledge/game-production/engine-integration/engine-integration-safety/applications/process--single-instance-lease-and-drain.md",
+     "verified_on": "2026-11-06",
+     "refresh_by": "2027-02-06"
     }
    ]
   },

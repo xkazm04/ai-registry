@@ -360,3 +360,5 @@ which is the technique's "defaulting expensive converts every future omission in
 inside one release with no call site changed. Paired six-run scout experiment (floor held 6/6): verdict `better`
 for an enumerate-the-sites brief, `unmeasurable` for a tracing brief. No technique changed; the rule was already
 written and two workflow skills were on the wrong side of it, so the correction went into those skills.
+
+2026-11-07 (hb-1107c, [[2026-09-04-agentic-video-understanding]], backlog 1-041): mode-saving-has-a-domain added. Blind-ab, better, GPT judge, 2 draws per arm: draft 11 and 12 of 12, base 8 and 8, target base + 2. The gap is in the short input and the split by size; the request ceiling scored level, so that bullet earned nothing here. The rubric was written with the draft. No mode was called. The provider's docs print under 5 minutes for short clips and say total tokens rise there too, read 2026-11-07, which corrects the row's latency-only reading.

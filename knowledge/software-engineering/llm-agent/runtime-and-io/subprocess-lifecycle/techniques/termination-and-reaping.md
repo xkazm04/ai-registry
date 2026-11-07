@@ -6,7 +6,7 @@ technique: termination-and-reaping
 status: forged
 laws: [creation-names-reaper, failure-not-empty-success, identity-survives-reuse]
 shared_with: [agent-cli-transport]
-use_when: [choosing when a polite stop becomes a kill, the parent died but its helpers did not, an exit code of zero from a crashed wrapper]
+use_when: [choosing when a polite stop becomes a kill, the parent died but its helpers did not, an exit code of zero from a crashed wrapper, a child kept running after its host was force-killed and no restart is coming]
 ---
 
 # Termination and reaping
@@ -165,8 +165,9 @@ so it must have worked".
 
 ## Orphans: when the host dies first
 
-A host crash orphans every live child. The children cannot be asked to
-handle this; the *next* host incarnation must. The mechanism is the
+A host crash orphans every live child. Ending those processes can be bound to
+the host's life ([below](#binding-a-child-to-the-hosts-life)), but settling their
+records cannot: only the *next* host incarnation can do that. Its mechanism is the
 **startup orphan sweep**:
 
 - **Mark at spawn.** The door stamps every child with a durable identity
@@ -192,3 +193,51 @@ Where the host already has a supervised recurring-loop runtime, the sweep
 runs as one of its loops
 ([background-jobs](../../../../backend-platform/work-execution/background-jobs/background-jobs.md) owns that
 machinery).
+
+## Binding a child to the host's life
+
+A sweep runs only if a next host starts. Until then, nothing retires the survivors:
+in the measured baseline, a force-killed host left its child and the child's helper
+alive in every run for as long as they were watched, five seconds. So a child that
+must not outlive its host names a second reaper, and the choice between the two
+below was measured, not assumed.
+
+**Prefer a kernel binding.** The host holds the only handle to a job whose members
+die when it closes. It needs no cooperation, so it also covers what no child-side
+code can: a child wedged from its first instruction, and a wrapper that never runs
+the guard. It cleared every measured case, gone by the time the kill returned, with
+a helper spawned detached still inside it.
+
+**Check what the default spawn already gave you.** A runtime can put every ordinary
+child in such a job for you, and a detached spawn gives that up with no signal. Same
+host, same kill: the ordinary child and helper were gone within a millisecond, the
+detached pair were alive five seconds later. A design that detaches its children to
+give them their own group has moved them out of a protection nobody wrote down.
+
+**Where no kernel binding is available, a guard in the child**, with four rules that
+each failed when broken:
+
+- **On its own thread.** A guard on the child's main loop cleared the idle case and
+  failed all five wedged runs, whether it polled or waited for end-of-file. The child
+  that most needs reaping is the one not running its loop.
+- **Handed the identity at spawn, armed before anything that can block.** A host that
+  died before the guard armed was caught the moment it armed, because the handed
+  identity was already dead. A child that blocked first was never caught, in five of
+  five. That gap has no child-side fix: a child killed before init, or one that never
+  runs the guard, needs the kernel binding.
+- **Prefer a closed pipe to a process id.** A pid guard handed an id now held by a
+  live stranger never fired, in five of five. The pipe fired in all five, and sooner
+  than the poll, because it waits rather than samples. That run used a live stand-in
+  and not a forced recycle, and it is [identity survives
+  reuse](../../../../_laws.md#identity-survives-reuse) again. A second holder of the
+  pipe's write end would keep it open; that case was not measured.
+- **Test existence, never silence.** A host blocked for six seconds is alive. A
+  missed-heartbeat guard killed healthy children in all five runs and an existence
+  guard in none, so a stall stays
+  [liveness-and-heartbeats](./liveness-and-heartbeats.md)'s question. The guard ends
+  the whole tree: a helper spawned detached went with it, five of five.
+
+Binding is per spawn class, and a child meant to outlive its host (a development
+server, a node that must survive a daemon restart) does not get one. Whatever does the
+killing, the run record stays open until a sweep settles it, so the binding replaces
+neither the marker nor the sweep.

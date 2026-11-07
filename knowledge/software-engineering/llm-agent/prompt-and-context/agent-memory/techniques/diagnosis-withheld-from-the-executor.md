@@ -92,6 +92,21 @@ for informativeness. What survives without the numbers is the structural
 argument — a trace produced with a side channel open observes the side
 channel — and the discriminator below stands on that alone.
 
+A second 2026 study, one pass over a task stream with no labels, gives the
+reviser's access a much smaller number and a condition. Executors there run with
+no memory of other tasks, so a store reaches them only through what a reviser
+edits in. Removing the store while keeping per-task probing cost 3.1 and 1.8
+points on two benchmarks, reported without spread, against 2.5 and 2.3 of
+run-to-run spread in the full arm, so only the first clears it. With probing
+removed too, the amount of exploration behind the store decided the result. A
+reviser with no evidence and no store lost 10.2 and 4.9 points on two domains. A
+store built from one candidate per scope returned to about baseline. A store built
+from five per scope gained 0.9, 4.4 and 5.1 points over the base on three, again
+without spread. So a store is worth what its runs explored. The study does not say
+whether each task's own entry was excluded in that comparison. A separate
+leave-one-out re-run gained 1.9 and 1.7 points, but it could also read entries from
+later tasks, and the authors say repeated execution may explain part of it.
+
 ## The failure signature is a plateau, not an error
 
 Nothing breaks. Every gate stays green, every benchmark still reports, and the

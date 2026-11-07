@@ -5,7 +5,7 @@ subject: subprocess-lifecycle
 technique: decode-child-output-per-line
 stack: rust
 status: forged
-verified_on: 2026-10-14
+verified_on: 2026-11-06
 verified_against: rust@1.91
 applied: experiment
 ab_verdict: not-better
@@ -15,7 +15,7 @@ proof: ab-paired
 # The right walk under the wrong page
 
 The tree is rtk, an open-source command proxy that compresses the output of
-the commands a coding agent runs, read at commit `f53e6033` on its default
+the commands a coding agent runs, first read at commit `f53e6033` and re-pinned at `1cf7bc70` on its default
 branch. The version is the one the tree witnesses: every manifest declares
 `rust-version = "1.91"`; the experiment below was built with rustc 1.97.1.
 
@@ -80,10 +80,10 @@ the chosen page.
 
 ## Adoption inside the tree
 
-The decoder is called at 15 sites; `String::from_utf8_lossy` over a child's
-captured output is still used at 15 others, including the task runner,
-`src/core/task_cmd.rs:158 "content.push_str(&String::from_utf8_lossy(&output.stdout));"`.
-One decision point that half the capture sites do not call is the shape the
+At `1cf7bc70`, outside the utilities file, 12 lines call the decoder and 27 lines pass a field named `stdout` or
+`stderr` to `String::from_utf8_lossy`, both by text search, including the task runner,
+`src/core/task_cmd.rs:161 "content.push_str(&String::from_utf8_lossy(&output.stdout));"`. An earlier 15 and 15 could not
+be reproduced with a stated pattern, so it is withdrawn. One decision point that most capture sites do not call is the shape the
 technique's first rule exists to prevent.
 
 ## What this realization cannot do

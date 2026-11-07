@@ -89,7 +89,9 @@ under the load that finds it.
   across storage volumes usually degrades into copy-then-delete, which is the
   in-place write again with extra steps. Flush the content to durable storage
   before replacing; a replace that publishes a name pointing at unflushed bytes
-  is atomic against readers and not against a power cut.
+  is atomic against readers and not against a power cut. The name itself needs a
+  further flush, and that step can fail after readers already see the successor
+  (see replace-is-visible-before-durable).
 - **Treat the sharing violation as transient.** The writer classifies the
   replace call's errors into two sets: the permission/sharing family, which
   means *someone has it open right now*, and everything else, which means the

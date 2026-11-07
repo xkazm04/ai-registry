@@ -1,8 +1,8 @@
 ---
 domain: media-generation
 subject: sound-effect-generation
-last_touched: 2026-10-22
-touched_by: intake
+last_touched: 2026-11-06
+touched_by: shift
 dry_streak: 0
 ---
 
@@ -95,3 +95,7 @@ in its self-test only, `cues.json` has no layers, no spend was approved.
 - **Return:** when the consumer wires its first SFX cue into a
   composition, check its frame is read from the plan's event frame and its
   anchor (onset vs settle, 14 frames apart for a card) is declared.
+
+## 2026-11-06 - /shift, cluster `editable-source-over-rendered-file`
+
+- Nothing landed. Effects built from code stay a lead, one voice with no listening verdict, and the bundle still owns generators only. Row `shift-editable-code-sfx-proof`. See [[2026-11-06-editable-source-over-rendered-file]].

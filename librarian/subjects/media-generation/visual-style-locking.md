@@ -1,7 +1,7 @@
 ---
 subject: visual-style-locking
 domain: media-generation
-last_touched: 2026-08-28
+last_touched: 2026-11-06
 dry_streak: 0
 ---
 
@@ -114,3 +114,7 @@ detached worktree of `HEAD`.
 - Amended `motion-sampled-under-a-frame-budget` with "When the extractor can run instruments, the budget binds only the naming": route timing and palette to instruments, measurement settles values not categories, declare which values were measured. Evidence: planted-truth clip, tool-using extractors across three engines 5/5 cuts in 4 of 5 runs and 11/11 colours in all 5; vision-only arms 1/5 cuts and 0/2 holds.
 - New application `python--motion-sampled-under-a-frame-budget` (code, better, ab-paired): two style readers disagreed on the palette category for 6/6 sources; a measurement over the same frames settled 4. Bundle `stacks:` gained `python`.
 - Owed: a render pair of a recipe written from the measured palette against the readback (lead in the source note).
+
+## 2026-11-06 - `/shift`, cluster `reference-artifact-for-identity-and-motion`
+
+- No landing. `approved-reference-sheet` gets two leads with one held row, `shift-ref-identity-1`: pixels per view against separate images, and gating a generated rotation as a view set. Four views of one character have never been judged on this stack. See [[2026-11-06-reference-artifact-for-identity-and-motion]].

@@ -1,7 +1,7 @@
 ---
 domain: llm-observability
 subject: llm-price-book-operations
-last_touched: 2026-10-02
+last_touched: 2026-11-06
 touched_by: architecture-review, intake
 dry_streak: 0
 ---
@@ -225,3 +225,7 @@ Currency only: "a tenth is typical" for cache reads now carries a per-model cave
 read its newest models at a twentieth and a fortieth in October 2026, verified on its caching
 page). The sentence stays true, and a price book that keys the read rate per provider rather
 than per model now under-reads the discount on exactly the newest models.
+
+## Currency - 2026-11-06 (run shift-currency)
+
+`process--no-retroactive-repricing` line 85 scoped at the vendor's caching guide: no write charge holds only to GPT-5.5; from GPT-5.6 writes bill 1.25x and 2.5x as total rates. `verified_on` not moved, the entry carries its own date. `refresh_by: 2026-11-20` is still owed, and the Anthropic and Google lines were not re-checked. See `librarian/sources/2026-11-06-weekly-model-currency.md`.

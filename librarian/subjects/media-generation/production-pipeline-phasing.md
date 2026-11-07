@@ -1,7 +1,8 @@
 ---
 subject: production-pipeline-phasing
 domain: media-generation
-last_touched: 2026-10-21
+last_touched: 2026-11-06
+touched_by: shift
 dry_streak: 0
 ---
 
@@ -106,3 +107,9 @@ A simulation cannot price what the catch saved - no render was spent against the
 sheet, so the counterfactual cost is argued, not measured. Return when that pipeline
 grows an asset table and the forward list can be a validator row with a catch count per
 sequence.
+
+## 2026-11-06 - `/shift`, cluster `film-preproduction-chain`
+
+- `approval-reads-forward`: new section, the roster comes from the same walk, and whether a piece may mint before beats turns on whether a shared asset carries a state the story changes. Two channels against one, at threshold, 2/0/1. No saving measured.
+- NEW application `process--approval-reads-forward`, mode `experiment`, verdict `better`, n=1.
+- Not landed: a still gates only where it is the literal input, for `asset-vs-disposable-render`. Render-bound, rows `shift-film-draft-1` and `-2`. Also not landed: the batch boundary on this technique's exception, one voice. See [[2026-11-06-film-preproduction-chain]].

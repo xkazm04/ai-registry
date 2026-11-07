@@ -19,6 +19,8 @@ techniques:
   - race-catalog-with-two-histories
   - preparation-is-the-staleness-window
   - shared-claims-by-announce-and-verify
+  - cap-predicate-on-the-locked-row
+  - replace-is-visible-before-durable
 ---
 
 # Idempotency & in-flight guards
@@ -145,6 +147,15 @@ From that stance, the spine of the subject:
    it leaves the system, snapshot before and after where a cheap write licenses
    future skipping. The same discipline settles the case where what the stale
    read derived is the *lock set* (see preparation-is-the-staleness-window).
+9. **One statement is not one moment.** A statement that locks a row and counts
+   another table in order to enforce a cap reads as atomic, and the caller it
+   blocked still counts from the snapshot it started with. Compare on the locked
+   row's own column, or take the lock as an earlier statement
+   (see cap-predicate-on-the-locked-row).
+10. **A publish has a third outcome.** The replace can succeed and the flush of its
+   directory entry fail: readers see the successor, a crash may undo it, and the
+   writer holds an error that must not read as "not published"
+   (see replace-is-visible-before-durable).
 
 
 ## The cluster lock: where cross-process exclusion becomes high availability

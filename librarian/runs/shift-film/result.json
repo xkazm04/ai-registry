@@ -1,0 +1,71 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "shift-film",
+  "skill": "shift",
+  "skill_version": "0.3.0",
+  "mode": "source",
+  "domain": "media-generation",
+  "started_at": "2026-11-06T16:43:00Z",
+  "ended_at": "2026-11-06T17:36:52Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 2,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0,
+    "held": 1
+  },
+  "subjects": [
+    {
+      "id": "media-generation/production-pipeline-phasing",
+      "at": "2026-11-06",
+      "engine": "shift",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    },
+    {
+      "id": "media-generation/video-assembly",
+      "at": "2026-11-06",
+      "engine": "shift",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    },
+    {
+      "id": "media-generation/generative-provider-routing",
+      "at": "2026-11-06",
+      "engine": "shift",
+      "outcome": "held",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "production-pipeline-phasing",
+      "technique": "approval-reads-forward",
+      "verdict": "better",
+      "mode": "experiment"
+    }
+  ],
+  "files": [
+    "knowledge/media-generation/production-ops/production-pipeline-phasing/techniques/approval-reads-forward.md",
+    "knowledge/media-generation/production-ops/production-pipeline-phasing/applications/process--approval-reads-forward.md",
+    "knowledge/media-generation/production-ops/video-assembly/applications/process--generated-shot-sourcing.md",
+    "librarian/sources/2026-11-06-film-preproduction-chain.md",
+    "librarian/sources/index.md",
+    "librarian/applied.md",
+    "librarian/harvest/backlog.jsonl",
+    ".claude/skills/intake/SCORECARD.md",
+    ".claude/skills/intake/LESSONS.md",
+    "librarian/subjects/media-generation/production-pipeline-phasing.md",
+    "librarian/subjects/media-generation/video-assembly.md"
+  ],
+  "commits": [],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "One amendment at threshold (roster from the beats), 2 currency bullets, 3 lessons, 2 held rows. Still-as-input and draft-approves-request stayed leads, render-bound. A miner's convergence was struck. No proof ran; no project changed."
+}

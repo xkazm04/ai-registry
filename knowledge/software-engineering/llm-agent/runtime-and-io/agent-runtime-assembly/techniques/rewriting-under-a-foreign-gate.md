@@ -71,9 +71,11 @@ the feature that benefits from being lenient.
 ## A copy of a policy is only as strict as what it read
 
 The rewriter's verdict is computed over the rule sources it managed to read.
-The same tree reads four settings files and **skips missing and malformed ones
-silently**, does not read the managed tier at all, and reads nothing for hosts
-whose rule format it does not know. Each skipped source is a deny that, after
+The same tree once read four settings files and **skipped missing and malformed
+ones silently**. It has since moved to the rule below: a file that exists and cannot
+be read or parsed now forces a prompt and a warning, and the other files' denies still
+apply. It still does not read the managed tier, and it says so, and it reads nothing
+for hosts whose rule format it does not know. Each source it cannot see is a deny that, after
 the rewrite re-keys the command, becomes a prompt or less - the optional guard
 that protects the design and not the deployment
 ([absent-guard-is-loud](../../../../_laws.md#absent-guard-is-loud)).

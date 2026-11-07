@@ -1,0 +1,40 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "hb-1107c",
+  "skill": "harvest",
+  "skill_version": "0.7.0",
+  "mode": "backlog",
+  "domain": "software-engineering",
+  "started_at": "2026-11-07T02:48:29Z",
+  "ended_at": "2026-11-07T02:58:01Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 5,
+    "landed": 1,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [],
+  "verdicts": [
+    {
+      "subject": "software-engineering/model-routing",
+      "technique": "mode-saving-has-a-domain",
+      "verdict": "better",
+      "mode": "blind-ab"
+    }
+  ],
+  "files": [
+    "knowledge/software-engineering/llm-agent/orchestration/model-routing/techniques/mode-saving-has-a-domain.md",
+    "knowledge/software-engineering/llm-agent/orchestration/model-routing/model-routing.md",
+    "librarian/subjects/software-engineering/model-routing.md",
+    "librarian/applied.md",
+    "librarian/harvest/backlog.jsonl",
+    ".claude/skills/harvest/LESSONS.md"
+  ],
+  "commits": [],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "Backlog wave, /shift filler, 5 seats closed. 1-041 better (blind-ab, GPT judge, 2 draws): draft 11, 12; base 8, 8. 1-044 not-better (experiment over recorded snapshots). w7-goat covered; its gates not run here. No mode called, no GPU, no fleet change."
+}

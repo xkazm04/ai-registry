@@ -340,3 +340,7 @@ pinned commit and re-running the paired collector arm.
   }
 }
 ```
+
+## Lead - 2026-11-06 (run shift-rig)
+
+The canonical view for a quadruped may be the side, which rewrites the pose rule's scope. Banked in `librarian/sources/2026-11-06-generated-asset-to-rig-route.md` at 2/2/1, held by `shift-rig-view-1`. Nothing changed in the subject.

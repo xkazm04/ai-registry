@@ -122,3 +122,5 @@ they are not new runtime witnesses.
   }
 }
 ```
+
+- **Impact evaluation, 2026-11-06.** reward-cadence-first-diagnosis and curve corollaries: impact-positive with partial transfer in pof, blind 5 and 7 vs 4 and 4 of 12, judge from another family, 2 draws per arm. The fixed-against-variable schedule step reached no draw. Ledger: `librarian/harvest/evaluations.md`.
