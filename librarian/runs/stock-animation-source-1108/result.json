@@ -1,0 +1,50 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "stock-animation-source-1108",
+  "skill": "shift",
+  "skill_version": "0.6.0",
+  "mode": "source",
+  "domain": "game-production",
+  "started_at": "2026-11-08T00:20:00Z",
+  "ended_at": "2026-11-08T01:10:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 0,
+    "declined": 0,
+    "idled": 5,
+    "contended": 0,
+    "held": 1
+  },
+  "subjects": [
+    {
+      "id": "game-production/generated-video-motion-extraction",
+      "at": "2026-11-08",
+      "engine": "shift",
+      "outcome": "held",
+      "points_before": null,
+      "points_after": null
+    },
+    {
+      "id": "game-production/mesh-finishing-for-engine-readiness",
+      "at": "2026-11-08",
+      "engine": "shift",
+      "outcome": "idled",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [],
+  "files": [
+    "librarian/sources/2026-11-08-stock-animation-source.md",
+    "librarian/sources/index.md",
+    ".claude/skills/intake/SCORECARD.md",
+    "librarian/harvest/backlog.jsonl",
+    "librarian/runs/stock-animation-source-1108/result.json"
+  ],
+  "commits": [],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "Leads only: 1 lead, 1 currency row with no repo file, 2 catches, 5 untriaged, 0 accepts under the +3 bar. One held CPU replica, shift-replica-r9-warden-stock-motion, gated on a no-account download and the free tier's clips. Plan corrected on three points."
+}
