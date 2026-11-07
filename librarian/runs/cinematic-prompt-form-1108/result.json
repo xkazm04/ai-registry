@@ -1,0 +1,31 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "cinematic-prompt-form-1108",
+  "skill": "shift",
+  "skill_version": "0.6.0",
+  "mode": "source",
+  "domain": "media-generation",
+  "started_at": "2026-11-07T22:55:00Z",
+  "ended_at": "2026-11-07T23:55:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 0,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [],
+  "verdicts": [],
+  "files": [
+    "librarian/sources/2026-11-08-cinematic-prompt-form.md",
+    "librarian/sources/index.md",
+    ".claude/skills/intake/SCORECARD.md",
+    "librarian/harvest/backlog.jsonl"
+  ],
+  "commits": [],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "Note, leads and 2 held replicas (shift-replica-r10-robot-form, shift-replica-r11-alibi; 45 GPU min each). Bar +3: 4 scored rows, none cleared. Found-footage proof dropped. Two gravitone seams proposed, no project change. gate=skipped."
+}
