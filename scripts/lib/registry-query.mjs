@@ -64,6 +64,26 @@
  * deterministic. At most MAX_PER_SUBJECT rows per subject survive, so one large
  * subject cannot fill the page.
  *
+ * COMBINATION RULE (the whole ordering in one place; read this before adding a signal).
+ *   1. TIER. A query term that, normalised, equals a row's subject slug, technique slug,
+ *      `subject/technique` address, `domain/subject[/technique]` address or document path
+ *      puts that row in the EXACT tier, which sorts above every other row. Normalising is
+ *      lowercase, backslash to slash, and any run of `-`, `_` or whitespace as one space,
+ *      per path segment, so `MCP-Tools`, `mcp tools` and `mcp_tools` are one key. Law rows
+ *      carry no address and never enter the tier. A tier is a precedence, not a weight: no
+ *      sum of the signals below can lift a non-exact row over an exact one, and a slug a
+ *      document merely MENTIONS is not an address. Only rows with a lexical match are
+ *      ranked at all, so the tier reorders; it never invents a hit.
+ *   2. SIGNALS, within a tier. BM25F over the five fields (FIELD_WEIGHTS), plus
+ *      PHRASE_BONUS for a multi-token term contiguous in title/use_when/gist,
+ *      BODY_PHRASE_BONUS for the same phrase in the body, PAIR_BONUS for adjacent query
+ *      pairs the body sketch may hold. These are additive and were each measured against
+ *      the held-out benchmark; do not add a further additive bonus to patch one query.
+ *   3. TIEBREAK. Equal scores break technique > subject > law, then path, then slug, so
+ *      the final key always ends in a stable identity.
+ * A multi-word natural-language query equals no address, so it never enters tier 1 and
+ * ranks exactly as it did before the tier existed.
+ *
  * TUNING. Weights were held at the Director's starting point (title 3, use_when 3,
  * gist 2, headings 1.5, body 1; k1 1.2, b 0.75) and moved only where a leave-one-out
  * dev set (a use_when line as the query, removed from the projection; see
@@ -612,6 +632,19 @@ function countPhrase(text, re, toks) {
   return n;
 }
 
+/** Address key: case, slash style and `-`/`_`/space runs folded, per path segment. */
+export const normAddress = (s) => String(s ?? '').toLowerCase().replace(/\\/g, '/').replace(/^\.\//, '').trim()
+  .split('/').map((seg) => seg.trim().replace(/[-_\s]+/g, ' ')).join('/');
+
+/** Every key under which a row is addressable (empty for law rows). */
+const addressKeys = (e) => {
+  if (e.kind === 'law') return [];
+  const keys = [normAddress(e.path)];
+  if (e.kind === 'subject') keys.push(normAddress(e.subject), normAddress(`${e.domain}/${e.subject}`));
+  else keys.push(normAddress(e.technique), normAddress(`${e.subject}/${e.technique}`), normAddress(`${e.domain}/${e.subject}/${e.technique}`));
+  return keys;
+};
+
 const phraseCache = new WeakMap(); // entry -> ' tok tok ... ' per phrase field
 
 const phraseFields = (e) => {
@@ -796,13 +829,16 @@ export function query(projection, terms, { domains = null, top = DEFAULT_TOP, bu
     }
   }
 
+  // Tier 1 (see COMBINATION RULE): rows whose address a query term spells exactly.
+  const wanted = new Map(termList.map((t) => [normAddress(t), t.trim()]));
   const ranked = [];
   for (const [gi, acc] of scores) {
     const e = projection.entries[gi];
     if (kindSet && !kindSet.has(e.kind)) continue;
-    ranked.push({ e, acc });
+    const key = addressKeys(e).find((k) => wanted.has(k));
+    ranked.push({ e, acc, exact: key !== undefined, label: key === undefined ? null : wanted.get(key) });
   }
-  ranked.sort((a, b) => b.acc.score - a.acc.score
+  ranked.sort((a, b) => Number(b.exact) - Number(a.exact) || b.acc.score - a.acc.score
     || KIND_PRIORITY[a.e.kind] - KIND_PRIORITY[b.e.kind]
     || (a.e.path < b.e.path ? -1 : a.e.path > b.e.path ? 1 : 0)
     || String(a.e.technique ?? a.e.title).localeCompare(String(b.e.technique ?? b.e.title)));
@@ -816,7 +852,7 @@ export function query(projection, terms, { domains = null, top = DEFAULT_TOP, bu
   const hits = [];
   let text = '';
   let truncated = false;
-  for (const { e, acc } of ranked) {
+  for (const { e, acc, exact, label } of ranked) {
     if (e.subject) {
       const key = `${e.domain}/${e.subject}`;
       const n = perSubject.get(key) ?? 0;
@@ -825,10 +861,11 @@ export function query(projection, terms, { domains = null, top = DEFAULT_TOP, bu
     }
     if (hits.length >= top) { truncated = true; break; }
     const why = [
+      ...(exact ? [`exact address:${label}`] : []),
       ...acc.phrases.sort((a, b) => b.bonus - a.bonus).map((p) => `phrase in ${p.label}:"${p.term}"${p.n > 1 ? ` x${p.n}` : ''}`),
       ...[...acc.fields.entries()].sort((a, b) => b[1].score - a[1].score)
         .map(([f, fe]) => `${f}:"${fe.toks.map((t) => surface.get(t) ?? t).join(' ')}"`),
-    ].slice(0, 3);
+    ].slice(0, exact ? 4 : 3);
     const hit = {
       rank: hits.length + 1, score: Math.round(acc.score * 1000) / 1000, kind: e.kind, domain: e.domain,
       subject: e.subject, technique: e.technique, path: e.path, gist: e.gist, use_when: e.use_when, why,

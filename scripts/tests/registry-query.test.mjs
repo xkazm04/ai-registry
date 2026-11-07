@@ -8,7 +8,7 @@ import { fileURLToPath } from 'node:url';
 import {
   RESULT_SCHEMA, PROJECTION_SCHEMA, GIST_MAX_CHARS, estimateTokens,
   tokenize, stem, extractGist, firstSentence, checkReadPath,
-  buildProjection, loadProjection, query, readDoc, subjectCard, formatHit, withoutUseWhen,
+  buildProjection, loadProjection, query, normAddress, readDoc, subjectCard, formatHit, withoutUseWhen,
 } from '../lib/registry-query.mjs';
 
 const HERE = path.dirname(fileURLToPath(import.meta.url));
@@ -153,6 +153,54 @@ test('query ranks by body as well as frontmatter, and says why', () => {
     for (const k of ['rank', 'score', 'kind', 'domain', 'subject', 'technique', 'path', 'gist', 'use_when', 'why']) assert.ok(k in h);
     assert.equal(r.empty_reason, null);
     assert.equal(r.tokens, estimateTokens(r.hits.map(formatHit).join('\n')));
+  } finally { rmrf(root); }
+});
+
+test('exact subject slug, technique slug and address rank their owner first, over documents that merely mention it', () => {
+  const root = fixture();
+  try {
+    // A rival that mentions the slug many times in its body: before the tier it could outrank the owner.
+    const rival = path.join(root, 'knowledge', 'demo', 'cat', 'alpha', 'techniques', 'two-file.md');
+    fs.appendFileSync(rival, `\n${'b3 beta b3 beta '.repeat(20)}\nwidget routing b3\n`);
+    const p = buildProjection(root);
+    const first = (q) => query(p, [q]).hits[0];
+    assert.deepEqual([first('beta').kind, first('beta').subject], ['subject', 'beta']);
+    assert.equal(first('b3').technique, 'b3');
+    assert.equal(first('beta/b3').technique, 'b3');
+    assert.equal(first('demo/beta/b3').technique, 'b3');
+    assert.equal(first('knowledge/demo/cat/beta/techniques/b3.md').technique, 'b3');
+    assert.equal(first('  B3 ').technique, 'b3', 'case and whitespace fold');
+    assert.deepEqual([first('alpha').kind, first('alpha').subject], ['subject', 'alpha']);
+    assert.equal(first('two').technique, 'two', 'a technique found by frontmatter is addressable too');
+    assert.ok(first('b3').why[0].startsWith('exact address:'), first('b3').why.join(' | '));
+    // The rival is still returned, just below the owner.
+    const all = query(p, ['b3']).hits;
+    assert.ok(all.findIndex((h) => h.technique === 'two') > 0);
+    // kind filter: the tier never resurrects a row the filter removed.
+    assert.ok(query(p, ['beta'], { kinds: 'technique' }).hits.every((h) => h.kind === 'technique'));
+  } finally { rmrf(root); }
+});
+
+test('exact-address folding treats hyphen, underscore and space alike; laws are never exact', () => {
+  const root = fixture();
+  try {
+    const p = buildProjection(root);
+    assert.equal(normAddress('Demo\\Beta/B-3_x'), 'demo/beta/b 3 x');
+    assert.equal(query(p, ['law-x']).hits.some((h) => h.why[0]?.startsWith('exact address:')), false);
+  } finally { rmrf(root); }
+});
+
+test('a multi-word query that equals no address ranks exactly as before the tier', () => {
+  const root = fixture();
+  try {
+    const p = buildProjection(root);
+    for (const q of ['zebra quokka', 'widget routing variant', 'cache invalidation stale rows', 'shared custody']) {
+      const r = query(p, [q]);
+      assert.ok(r.hits.length > 0, q);
+      assert.ok(r.hits.every((h) => !h.why.some((w) => w.startsWith('exact address:'))), `${q}: ${r.hits.map((h) => h.why[0]).join(' | ')}`);
+      const sorted = [...r.hits].sort((a, b) => b.score - a.score);
+      assert.deepEqual(r.hits.map((h) => h.path), sorted.map((h) => h.path), `${q}: pure score order`);
+    }
   } finally { rmrf(root); }
 });
 

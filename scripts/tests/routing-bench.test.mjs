@@ -6,7 +6,7 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { DEFAULT_FIXTURE, validateFixture, parseResearchMapText, scoreAnswer } from '../routing-bench.mjs';
+import { DEFAULT_FIXTURE, validateFixture, parseResearchMapText, scoreAnswer, runArm } from '../routing-bench.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', '..');
 const fx = JSON.parse(fs.readFileSync(DEFAULT_FIXTURE, 'utf8'));
@@ -151,4 +151,20 @@ test('technique@5 reads the EXPECTED subject in the top 5, even when an alt subj
   assert.equal(shadowed.technique_at5, true);
   const deep = [1, 2, 3, 4, 5].map((i) => ({ subject: `x${i}`, techniques: new Set() }));
   assert.equal(scoreAnswer(q, [{ subject: 'b', techniques: new Set() }, ...deep, { subject: 'a', techniques: new Set(['t']) }]).technique_at5, false, 'rank 7 is outside the top 5');
+});
+
+// Held-out regression floor for the registry-query arm. Measured 2026-11-07 after the
+// exact-address tier: r@1 25/38, r@5 31/38 (before the tier: 22/38 and 31/38). Floors sit one
+// query below, so a single relabel or corpus edit does not trip them but a real ranking
+// regression does. Offline and fast (about 1.5 s); needs the real knowledge tree, so it
+// skips where knowledge/ is absent, as the real-corpus test in registry-query.test.mjs does.
+const HAS_CORPUS = fs.existsSync(path.join(ROOT, 'knowledge', 'software-engineering', 'index.json'));
+test('registry-query arm holds its recall floor on the held-out bench', { skip: !HAS_CORPUS && 'knowledge/ absent' }, async (t) => {
+  const res = await runArm('registry-query', fx);
+  const n = res.n;
+  const r1 = res.rows.filter((r) => r.at1).length;
+  const r5 = res.rows.filter((r) => r.at5).length;
+  t.diagnostic(`held-out bench: r@1 ${r1}/${n}, r@5 ${r5}/${n}`);
+  assert.ok(r1 >= 24, `recall@1 ${r1}/${n} fell below the floor of 24`);
+  assert.ok(r5 >= 30, `recall@5 ${r5}/${n} fell below the floor of 30`);
 });

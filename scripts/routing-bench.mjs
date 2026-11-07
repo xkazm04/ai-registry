@@ -320,7 +320,7 @@ export function decisionDocs(q, ranked, scored) {
   return { opened: files, tokens: files.reduce((n, f) => n + fileTokens(f), 0) };
 }
 
-async function runArm(arm, fx) {
+export async function runArm(arm, fx) {
   const rows = [];
   for (const q of fx.queries) {
     const ans = await ARM_IMPL[arm](q.terms);
