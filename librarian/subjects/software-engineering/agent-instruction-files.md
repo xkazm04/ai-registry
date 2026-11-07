@@ -663,3 +663,20 @@ read natively since 2.1.277, but only when no CLAUDE.md is on the path. One
 fleet fork (two populated files, no import) measured 0/4 -> 4/4 after the
 fold. Owed: eight always-loaded files over the 200-line target, which need a
 line-earning pass with behavior pins, never a bulk rewrite.
+
+## 2026-11-08 - intake under /shift, agent friction ([[2026-11-08-agent-friction-to-fix-loop]])
+
+New technique `friction-on-a-passing-run`: the collector `write-back-sink-class` says
+it cannot judge. Ask at the end of every job what in the environment cost time or
+forced a workaround; admit only what the next agent would hit; keep it out of the
+next session's instructions; drain by cause into a few fix proposals, fenced by what
+the fix changes. Two independent practitioner channels (one public repository's
+policy, one friction log with a weekly by-cause pass), plus a retrospective skill the
+second cites. Scored 3/0/2 at the +3 bar.
+
+Applied at the registry's own `perfect` 2.11.0 (builder FRICTION block, wrap step 4),
+consumed by bp. `experiment`, `unmeasurable`: the count over three or more unattended
+nights is owed, not taken. The counter-specimen is a dormant harness whose learnings
+file mixes workarounds into every prompt (45 of 523 lines by keyword).
+
+Banked: the Director's landing costs in the same grouping (2/0/1), wording in the note.

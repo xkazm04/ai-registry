@@ -132,4 +132,13 @@ If a product decision is ambiguous, STOP that direction and return `DECISION NEE
 with your recommendation - never guess. Final report format:
 per direction -> status (done|blocked|decision-needed), commits, files, verification evidence,
 open risks - and for every error outside your write set, the FILE it named.
+Then ONE block for the whole lot -> FRICTION: at most three lines, or `FRICTION: none`,
+which is a valid answer and not a skipped step. A line names something in this repo's
+setup - a gate, a script, a missing check or command, a path, a doc that disagreed with
+the code, a brief or overlay instruction - that cost you time, forced a guess or made you
+work around it, AND that the next builder in this repo would hit too. Each line: what
+happened, how to reproduce it, the minutes it cost, the workaround you used. Do not guess
+a root cause. Not friction: a defect in your own direction's code, a sibling's
+half-written file (report that FILE above), a product bug you noticed (open risks).
+Friction you fixed inside your write set is listed as `fixed`, not left open.
 ```

@@ -1,0 +1,106 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "agent-friction-1108",
+  "skill": "shift",
+  "skill_version": "0.1.0",
+  "mode": "source",
+  "domain": "software-engineering",
+  "started_at": "2026-11-07T22:35:00Z",
+  "ended_at": "2026-11-07T23:25:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 1,
+    "declined": 0,
+    "idled": 7,
+    "contended": 0,
+    "held": 0
+  },
+  "subjects": [
+    {
+      "id": "software-engineering/agent-instruction-files",
+      "at": "2026-11-08",
+      "engine": "shift",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    },
+    {
+      "id": "software-engineering/agent-memory",
+      "at": "2026-11-08",
+      "engine": "shift",
+      "outcome": "idled",
+      "points_before": null,
+      "points_after": null
+    },
+    {
+      "id": "software-engineering/fleet-orchestration",
+      "at": "2026-11-08",
+      "engine": "shift",
+      "outcome": "idled",
+      "points_before": null,
+      "points_after": null
+    },
+    {
+      "id": "software-engineering/eval-harness",
+      "at": "2026-11-08",
+      "engine": "shift",
+      "outcome": "idled",
+      "points_before": null,
+      "points_after": null
+    },
+    {
+      "id": "software-engineering/proof-carrying-agent-actions",
+      "at": "2026-11-08",
+      "engine": "shift",
+      "outcome": "idled",
+      "points_before": null,
+      "points_after": null
+    },
+    {
+      "id": "software-engineering/quality-gates",
+      "at": "2026-11-08",
+      "engine": "shift",
+      "outcome": "idled",
+      "points_before": null,
+      "points_after": null
+    },
+    {
+      "id": "software-engineering/concurrent-vcs",
+      "at": "2026-11-08",
+      "engine": "shift",
+      "outcome": "idled",
+      "points_before": null,
+      "points_after": null
+    },
+    {
+      "id": "game-production/unattended-build-loop",
+      "at": "2026-11-08",
+      "engine": "shift",
+      "outcome": "idled",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "agent-instruction-files",
+      "technique": "friction-on-a-passing-run",
+      "verdict": "unmeasurable",
+      "mode": "experiment"
+    }
+  ],
+  "files": [
+    "knowledge/software-engineering/llm-agent/prompt-and-context/agent-instruction-files/techniques/friction-on-a-passing-run.md",
+    "knowledge/software-engineering/llm-agent/prompt-and-context/agent-instruction-files/agent-instruction-files.md",
+    "skills/perfect/SKILL.md",
+    "skills/perfect/references/builder-brief.md",
+    "librarian/sources/2026-11-08-agent-friction-to-fix-loop.md",
+    "librarian/subjects/software-engineering/agent-instruction-files.md"
+  ],
+  "commits": [],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "One technique and perfect 2.11.0 landed at the +3 bar. The count over three or more bp unattended nights is owed against 2.11.0, not taken. Two miner accepts fell. No held row. Idled subjects hold catches, leads or banked rows."
+}

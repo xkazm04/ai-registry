@@ -20,6 +20,7 @@ techniques:
   - rewrite-behavior-pinning
   - inherited-default-ownership
   - write-back-sink-class
+  - friction-on-a-passing-run
   - listing-tier-by-initiator
   - principal-tier-gating
 ---
@@ -268,6 +269,14 @@ split on both halves of one contract line, each project having written down
 a reason that was correct about exactly one of the two files.
 [write-back-sink-class](./techniques/write-back-sink-class.md) owns the
 three states, the collector question that sets the class, and the audit.
+What it cannot judge is whether the rows are any good, and for the lane
+an agent's own working conditions feed, that is a question of when it is
+asked and what it admits. A job that passed around a workaround reports
+nothing to a loop that learns only from failures, and a workaround written
+into the next session's instructions steers around a gap instead of
+closing it. [friction-on-a-passing-run](./techniques/friction-on-a-passing-run.md)
+owns the end-of-job question, the recurrence bar, the separate channel and
+the by-cause drain.
 
 ## Failure modes this standard exists to prevent
 
@@ -362,3 +371,8 @@ three states, the collector question that sets the class, and the audit.
   conditions the acting account cannot author, fail-closed to the
   restricted tier, the way up a change to that state; non-waivability
   comes from the gate, not from an anti-forgery sentence.
+- [friction-on-a-passing-run](./techniques/friction-on-a-passing-run.md) —
+  the outbound lane's collector: ask at the end of every job what in the
+  environment cost time or forced a workaround, admit only what the next
+  agent would hit, keep it out of the instructions, and drain it by cause
+  into a few fix proposals fenced by what the fix changes.
