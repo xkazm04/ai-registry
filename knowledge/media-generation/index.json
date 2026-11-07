@@ -5,7 +5,7 @@
   "source": "knowledge/media-generation/ (frontmatter only)",
   "subjects": 53,
   "techniques": 352,
-  "applications": 205,
+  "applications": 209,
   "laws": 9,
   "categories": [
    "narrative-craft",
@@ -2707,9 +2707,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/media-generation/visual-generation/generative-provider-routing/generative-provider-routing.md",
-   "digest": "sha256-b2:5f893ef4493c954f",
-   "revision": 11,
-   "changedAt": "2026-09-17",
+   "digest": "sha256-b2:9ca2c31dc87ce079",
+   "revision": 12,
+   "changedAt": "2026-11-06",
    "techniques": [
     {
      "slug": "capability-to-vendor-plan",
@@ -4151,9 +4151,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/media-generation/audio-generation/music-prompt-composition/music-prompt-composition.md",
-   "digest": "sha256-b2:2d8975c2a51e5157",
-   "revision": 1,
-   "changedAt": "2026-08-26",
+   "digest": "sha256-b2:b7764e7001478e12",
+   "revision": 2,
+   "changedAt": "2026-11-06",
    "techniques": [
     {
      "slug": "duration-and-tempo-locking",
@@ -4167,7 +4167,9 @@
       "briefing a cue that must hit picture events",
       "translating a cue list row into a generator brief",
       "a delivered cue is the right music at the wrong length",
-      "choosing a tempo so musical accents land on cuts"
+      "choosing a tempo so musical accents land on cuts",
+      "a generator's duration setting is a maximum rather than a target",
+      "a song stops abruptly at its duration limit"
      ]
     },
     {
@@ -4196,7 +4198,8 @@
       "starting a music brief from an existing track",
       "cues across one production drift apart in identity",
       "a temp track has colonized everyone's expectations",
-      "deciding whether a reference is safe to hand a generator"
+      "deciding whether a reference is safe to hand a generator",
+      "a route transcribes a reference into notation and regenerates from it"
      ]
     },
     {
@@ -4236,6 +4239,20 @@
      "file": "knowledge/media-generation/audio-generation/music-prompt-composition/applications/node--duration-and-tempo-locking.md",
      "verified_on": "2026-08-26",
      "verified_against": "node@24"
+    },
+    {
+     "stack": "process",
+     "technique": "duration-and-tempo-locking",
+     "file": "knowledge/media-generation/audio-generation/music-prompt-composition/applications/process--duration-and-tempo-locking.md",
+     "verified_on": "2026-11-06",
+     "refresh_by": "2027-02-06"
+    },
+    {
+     "stack": "process",
+     "technique": "reference-track-anchoring",
+     "file": "knowledge/media-generation/audio-generation/music-prompt-composition/applications/process--reference-track-anchoring.md",
+     "verified_on": "2026-11-06",
+     "refresh_by": "2027-02-06"
     },
     {
      "stack": "process",
@@ -5001,9 +5018,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/media-generation/production-ops/production-pipeline-phasing/production-pipeline-phasing.md",
-   "digest": "sha256-b2:f1762f69eb77b8d3",
-   "revision": 5,
-   "changedAt": "2026-10-21",
+   "digest": "sha256-b2:dec058ddd3d55a4c",
+   "revision": 6,
+   "changedAt": "2026-11-06",
    "techniques": [
     {
      "slug": "approval-reads-forward",
@@ -5019,7 +5036,8 @@
       "style contract or any other asset that later requests will be conditioned on",
       "a later beat depends on where a light source or a landmark sits",
       "deciding whether a shared asset is ready to graduate",
-      "a payoff shot cannot be made from an upstream artifact every reviewer already approved"
+      "a payoff shot cannot be made from an upstream artifact every reviewer already approved",
+      "deciding which assets to make before the first paid generation"
      ]
     },
     {
@@ -5126,6 +5144,12 @@
      "verified_against": "node@24"
     },
     {
+     "stack": "process",
+     "technique": "approval-reads-forward",
+     "file": "knowledge/media-generation/production-ops/production-pipeline-phasing/applications/process--approval-reads-forward.md",
+     "verified_on": "2026-11-06"
+    },
+    {
      "stack": "react",
      "technique": "long-run-as-background-job",
      "file": "knowledge/media-generation/production-ops/production-pipeline-phasing/applications/react--long-run-as-background-job.md",
@@ -5144,9 +5168,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/media-generation/production-ops/review-iteration-loops/review-iteration-loops.md",
-   "digest": "sha256-b2:a3bbc2c5b531b8d5",
-   "revision": 11,
-   "changedAt": "2026-10-15",
+   "digest": "sha256-b2:d68050ef6c5ded29",
+   "revision": 15,
+   "changedAt": "2026-11-06",
    "techniques": [
     {
      "slug": "anchored-variation-slate",
@@ -5267,7 +5291,8 @@
       "a regenerated region satisfies its brief but the result breaks at the joins",
       "deciding whether a section edit is local or secretly global",
       "a generated clip is wrong in one span or one corner and a re-roll is the only remedy anyone has proposed",
-      "one panel of a multi-panel reference or storyboard sheet is wrong"
+      "one panel of a multi-panel reference or storyboard sheet is wrong",
+      "deciding whether an edit to a code-rendered composition is local"
      ]
     },
     {
@@ -5325,6 +5350,13 @@
      "technique": "edit-plan-over-regeneration",
      "file": "knowledge/media-generation/production-ops/review-iteration-loops/applications/process--edit-plan-over-regeneration.md",
      "verified_on": "2026-08-19"
+    },
+    {
+     "stack": "process",
+     "technique": "partial-regeneration-seams",
+     "file": "knowledge/media-generation/production-ops/review-iteration-loops/applications/process--partial-regeneration-seams.md",
+     "verified_on": "2026-11-06",
+     "refresh_by": "2027-02-06"
     },
     {
      "stack": "react",
@@ -6430,9 +6462,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/media-generation/production-ops/video-assembly/video-assembly.md",
-   "digest": "sha256-b2:5f548f222df2e692",
-   "revision": 20,
-   "changedAt": "2026-10-21",
+   "digest": "sha256-b2:b47fafe05146f90b",
+   "revision": 23,
+   "changedAt": "2026-11-06",
    "techniques": [
     {
      "slug": "alignment-names-its-text",

@@ -4,8 +4,8 @@
   "bundle": "software-engineering",
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 245,
-  "techniques": 1971,
-  "applications": 1482,
+  "techniques": 1983,
+  "applications": 1497,
   "laws": 16,
   "categories": [
    "ui-surfaces",
@@ -20,7 +20,7 @@
    "secret-custody-and-issuance"
   ],
   "layout": "nested",
-  "use_when_coverage": "1971/1971",
+  "use_when_coverage": "1983/1983",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -1025,9 +1025,9 @@
    "subcategory": "runtime-and-io",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/runtime-and-io/agent-browser-control/agent-browser-control.md",
-   "digest": "sha256-b2:a5e059a866a49108",
-   "revision": 5,
-   "changedAt": "2026-10-22",
+   "digest": "sha256-b2:13f62133e12a86a7",
+   "revision": 6,
+   "changedAt": "2026-11-06",
    "techniques": [
     {
      "slug": "agent-actionable-errors",
@@ -1677,9 +1677,9 @@
    "subcategory": "prompt-and-context",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/prompt-and-context/agent-instruction-files/agent-instruction-files.md",
-   "digest": "sha256-b2:25b61236a62604b0",
-   "revision": 31,
-   "changedAt": "2026-09-25",
+   "digest": "sha256-b2:9b02cf004a7ce444",
+   "revision": 32,
+   "changedAt": "2026-11-06",
    "techniques": [
     {
      "slug": "capability-before-steering",
@@ -2111,9 +2111,9 @@
    "subcategory": "prompt-and-context",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/prompt-and-context/agent-memory/agent-memory.md",
-   "digest": "sha256-b2:6c06fb6d8d6c900f",
-   "revision": 52,
-   "changedAt": "2026-10-25",
+   "digest": "sha256-b2:2b62b4004acc600d",
+   "revision": 53,
+   "changedAt": "2026-11-06",
    "techniques": [
     {
      "slug": "addresses-before-compression",
@@ -2937,9 +2937,9 @@
    "subcategory": "runtime-and-io",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/runtime-and-io/agent-runtime-assembly/agent-runtime-assembly.md",
-   "digest": "sha256-b2:45b3f952560a4cbc",
-   "revision": 28,
-   "changedAt": "2026-10-14",
+   "digest": "sha256-b2:c29c78bbbf9eb4fe",
+   "revision": 29,
+   "changedAt": "2026-11-06",
    "techniques": [
     {
      "slug": "activation-is-a-separate-mutation",
@@ -3346,7 +3346,7 @@
      "stack": "rust",
      "technique": "rewriting-under-a-foreign-gate",
      "file": "knowledge/software-engineering/llm-agent/runtime-and-io/agent-runtime-assembly/applications/rust--rewriting-under-a-foreign-gate--rtk.md",
-     "verified_on": "2026-10-14",
+     "verified_on": "2026-11-06",
      "verified_against": "rust@1.91"
     },
     {
@@ -3363,9 +3363,9 @@
    "subcategory": "platform-observability",
    "status": "forged",
    "file": "knowledge/software-engineering/backend-platform/platform-observability/alerting/alerting.md",
-   "digest": "sha256-b2:90e16e9a2b80434b",
-   "revision": 4,
-   "changedAt": "2026-09-29",
+   "digest": "sha256-b2:00b609b6176537e2",
+   "revision": 6,
+   "changedAt": "2026-11-06",
    "techniques": [
     {
      "slug": "absence-as-a-condition",
@@ -3393,6 +3393,24 @@
       "deciding whether an ack is ownership or closure",
       "suppressed repeats showing up as separate alerts",
       "a rule whose resolutions are mostly noise dismissals"
+     ]
+    },
+    {
+     "slug": "count-spike-rule",
+     "status": "forged",
+     "laws": [
+      "count-carries-predicate",
+      "failure-not-empty-success"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "judging a daily count for a spike with no model fitting",
+      "a baseline of about eight same-weekday points",
+      "one earlier spike blinded the rule to the next",
+      "median and MAD fired more than the mean and standard deviation",
+      "a multiple-of-median guard misses a real surge",
+      "a series that is idle on many days",
+      "a daily cost anomaly rule"
      ]
     },
     {
@@ -3484,6 +3502,12 @@
      "file": "knowledge/software-engineering/backend-platform/platform-observability/alerting/applications/next--absence-as-a-condition.md",
      "verified_on": "2026-09-29",
      "verified_against": "next@16"
+    },
+    {
+     "stack": "process",
+     "technique": "count-spike-rule",
+     "file": "knowledge/software-engineering/backend-platform/platform-observability/alerting/applications/process--count-spike-rule.md",
+     "verified_on": "2026-11-06"
     },
     {
      "stack": "react",
@@ -7483,9 +7507,9 @@
    "subcategory": "work-execution",
    "status": "reconciled",
    "file": "knowledge/software-engineering/backend-platform/work-execution/concurrency-guards/concurrency-guards.md",
-   "digest": "sha256-b2:ccc991958e998a93",
-   "revision": 16,
-   "changedAt": "2026-10-15",
+   "digest": "sha256-b2:27a9237dc933e4e4",
+   "revision": 18,
+   "changedAt": "2026-11-06",
    "techniques": [
     {
      "slug": "atomic-file-publish",
@@ -7532,6 +7556,21 @@
       "a legitimately empty result is refetched on every call",
       "invalidating a coalesced cache while a fetch is still running",
       "a shared mutex deadlocks a whole worker after a client disconnect"
+     ]
+    },
+    {
+     "slug": "cap-predicate-on-the-locked-row",
+     "status": "forged",
+     "laws": [
+      "gate-sees-target"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "one statement locks a parent row and counts child rows to enforce a cap",
+      "a cap held in tests and went over in production",
+      "a capped insert written as a common table expression",
+      "choosing between a counter column and a count over a child table",
+      "a blocked caller is assumed to see what the winner committed"
      ]
     },
     {
@@ -7689,6 +7728,22 @@
      "stage": "multi-service"
     },
     {
+     "slug": "replace-is-visible-before-durable",
+     "status": "forged",
+     "laws": [
+      "failure-not-empty-success",
+      "count-carries-predicate"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "deciding what a publish reports when the step after the rename fails",
+      "a guarded retry conflicts with the writer's own success",
+      "testing failure points of a write-then-replace",
+      "a file publish claims to survive a power cut",
+      "porting a directory flush to a platform that has none"
+     ]
+    },
+    {
      "slug": "shared-claims-by-announce-and-verify",
      "status": "forged",
      "laws": [
@@ -7773,6 +7828,12 @@
      "verified_against": "node@22.19.0"
     },
     {
+     "stack": "process",
+     "technique": "cap-predicate-on-the-locked-row",
+     "file": "knowledge/software-engineering/backend-platform/work-execution/concurrency-guards/applications/process--cap-predicate-on-the-locked-row.md",
+     "verified_on": "2026-11-06"
+    },
+    {
      "stack": "rust",
      "technique": "atomic-file-publish",
      "file": "knowledge/software-engineering/backend-platform/work-execution/concurrency-guards/applications/rust--atomic-file-publish.md",
@@ -7798,6 +7859,13 @@
      "file": "knowledge/software-engineering/backend-platform/work-execution/concurrency-guards/applications/rust--cross-process-exclusion.md",
      "verified_on": "2026-09-01",
      "verified_against": "rust@1.97"
+    },
+    {
+     "stack": "rust",
+     "technique": "replace-is-visible-before-durable",
+     "file": "knowledge/software-engineering/backend-platform/work-execution/concurrency-guards/applications/rust--replace-is-visible-before-durable.md",
+     "verified_on": "2026-11-06",
+     "verified_against": "rust@1.99"
     },
     {
      "stack": "rust",
@@ -10455,9 +10523,9 @@
    "subcategory": "codebase-stewardship",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-process/codebase-stewardship/dead-code/dead-code.md",
-   "digest": "sha256-b2:400586c502acd4a1",
-   "revision": 11,
-   "changedAt": "2026-09-17",
+   "digest": "sha256-b2:ea5fe49a83c214c6",
+   "revision": 12,
+   "changedAt": "2026-11-06",
    "techniques": [
     {
      "slug": "carrying-cost-economics",
@@ -15170,9 +15238,9 @@
    "subcategory": "resilience",
    "status": "forged",
    "file": "knowledge/software-engineering/backend-platform/resilience/error-handling/error-handling.md",
-   "digest": "sha256-b2:d811928687fd4faf",
-   "revision": 17,
-   "changedAt": "2026-10-14",
+   "digest": "sha256-b2:ae75ce6faf93e512",
+   "revision": 18,
+   "changedAt": "2026-11-06",
    "techniques": [
     {
      "slug": "cancellation-attribution",
@@ -15370,6 +15438,13 @@
     },
     {
      "stack": "rust",
+     "technique": "consumer-decides-error-shape",
+     "file": "knowledge/software-engineering/backend-platform/resilience/error-handling/applications/rust--consumer-decides-error-shape.md",
+     "verified_on": "2026-11-06",
+     "verified_against": "rust@1.99"
+    },
+    {
+     "stack": "rust",
      "technique": "containment-boundary-restores-state",
      "file": "knowledge/software-engineering/backend-platform/resilience/error-handling/applications/rust--containment-boundary-restores-state--vox.md",
      "verified_on": "2026-10-14",
@@ -15430,9 +15505,9 @@
    "subcategory": "evaluation-and-cost",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/evaluation-and-cost/eval-harness/eval-harness.md",
-   "digest": "sha256-b2:7ccead00b7f92aba",
-   "revision": 37,
-   "changedAt": "2026-09-29",
+   "digest": "sha256-b2:85554b740461b19e",
+   "revision": 39,
+   "changedAt": "2026-11-07",
    "techniques": [
     {
      "slug": "assertion-vs-judgment",
@@ -15491,6 +15566,22 @@
       "deciding what question an eval answers",
       "verdict flips when pair order mirrors",
       "headline winner hides losing cells"
+     ]
+    },
+    {
+     "slug": "contrast-before-adoption",
+     "status": "forged",
+     "laws": [
+      "claimant-does-not-adjudicate",
+      "count-carries-predicate",
+      "gate-sees-target"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a model edits a harness or prompt from a run and no labelled check exists",
+      "deciding whether to keep an edit on a task with no answer key",
+      "an improvement loop reports that an edit worked from one re-run",
+      "choosing what an adaptation loop may record as learned"
      ]
     },
     {
@@ -15564,6 +15655,21 @@
       "adding cheap automatic failure counters to a harness",
       "a failure counter reads zero on a suite that mixes languages runners or output formats",
       "deciding which failing cases to sample for manual attribution"
+     ]
+    },
+    {
+     "slug": "green-through-the-model",
+     "status": "forged",
+     "laws": [
+      "gate-sees-target",
+      "count-carries-predicate"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "an acceptance case runs through an agent that calls a tool",
+      "deciding what an end-to-end pass through a model proves about the tool beneath it",
+      "a tool description tells the model to pass the text unchanged",
+      "a tool parses what a person wrote and an agent sits in front of it"
      ]
     },
     {
@@ -15932,6 +16038,13 @@
      "file": "knowledge/software-engineering/llm-agent/evaluation-and-cost/eval-harness/applications/react--reliability-aggregation.md",
      "verified_on": "2026-08-31",
      "verified_against": "react@19"
+    },
+    {
+     "stack": "rust",
+     "technique": "contrast-before-adoption",
+     "file": "knowledge/software-engineering/llm-agent/evaluation-and-cost/eval-harness/applications/rust--contrast-before-adoption.md",
+     "verified_on": "2026-11-06",
+     "verified_against": "rust@1.80"
     },
     {
      "stack": "rust",
@@ -18163,9 +18276,9 @@
    "subcategory": "orchestration",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/orchestration/hitl-approval/hitl-approval.md",
-   "digest": "sha256-b2:52d7f3cfb87a79d9",
-   "revision": 22,
-   "changedAt": "2026-10-14",
+   "digest": "sha256-b2:9adc955a19c6822e",
+   "revision": 23,
+   "changedAt": "2026-11-06",
    "techniques": [
     {
      "slug": "author-advisories-yield-to-the-users-mode",
@@ -18461,6 +18574,12 @@
      "file": "knowledge/software-engineering/llm-agent/orchestration/hitl-approval/applications/node--oracle-before-gate.md",
      "verified_on": "2026-08-31",
      "verified_against": "node@24"
+    },
+    {
+     "stack": "python",
+     "technique": "consent-gates",
+     "file": "knowledge/software-engineering/llm-agent/orchestration/hitl-approval/applications/python--consent-gates--x-use.md",
+     "verified_on": "2026-11-06"
     },
     {
      "stack": "python",
@@ -18980,10 +19099,26 @@
    "subcategory": "standards-and-gates",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-process/standards-and-gates/invariant-placement/invariant-placement.md",
-   "digest": "sha256-b2:c6563834f502429c",
-   "revision": 9,
-   "changedAt": "2026-09-21",
+   "digest": "sha256-b2:89cd666907c6c9d6",
+   "revision": 10,
+   "changedAt": "2026-11-06",
    "techniques": [
+    {
+     "slug": "a-new-field-must-choose",
+     "status": "forged",
+     "laws": [
+      "absent-guard-is-loud",
+      "failure-not-empty-success"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "an operation must decide about every field of a type such as a reset or a snapshot",
+      "a reset between runs missed a field added later",
+      "a match has a default arm over a type the same repository owns",
+      "deciding whether a closed type should be marked open for future variants",
+      "a state struct has fields that must survive a sweep and fields that must clear"
+     ]
+    },
     {
      "slug": "build-time-evaluation-of-cross-value-invariants",
      "status": "forged",
@@ -19179,6 +19314,23 @@
       "deciding between an absence member and an optional wrapper",
       "auditing what the compiler actually proves about a value drawn from a named set"
      ]
+    },
+    {
+     "slug": "string-keyed-context-is-an-unchecked-join",
+     "status": "forged",
+     "laws": [
+      "absent-guard-is-loud",
+      "failure-not-empty-success",
+      "gate-sees-target"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "steps pass data through a per-request map from a string to an untyped value",
+      "a guard reports success and its timing looks healthy but it has stopped checking",
+      "commands cross a boundary as untyped documents",
+      "a configurable action reports success and nothing reads what it wrote",
+      "a test seeds a context with the key it expects"
+     ]
     }
    ],
    "applications": [
@@ -19205,6 +19357,13 @@
     },
     {
      "stack": "rust",
+     "technique": "a-new-field-must-choose",
+     "file": "knowledge/software-engineering/engineering-process/standards-and-gates/invariant-placement/applications/rust--a-new-field-must-choose.md",
+     "verified_on": "2026-11-06",
+     "verified_against": "rust@1.99"
+    },
+    {
+     "stack": "rust",
      "technique": "paired-sites-localize-the-fault",
      "file": "knowledge/software-engineering/engineering-process/standards-and-gates/invariant-placement/applications/rust--paired-sites-localize-the-fault.md",
      "verified_on": "2026-09-17",
@@ -19223,6 +19382,13 @@
      "file": "knowledge/software-engineering/engineering-process/standards-and-gates/invariant-placement/applications/rust--shape-with-a-not-applicable-member.md",
      "verified_on": "2026-09-04",
      "verified_against": "rust@2021"
+    },
+    {
+     "stack": "rust",
+     "technique": "string-keyed-context-is-an-unchecked-join",
+     "file": "knowledge/software-engineering/engineering-process/standards-and-gates/invariant-placement/applications/rust--string-keyed-context-is-an-unchecked-join.md",
+     "verified_on": "2026-11-06",
+     "verified_against": "rust@1.99"
     }
    ]
   },
@@ -22044,9 +22210,9 @@
    "subcategory": "measurement-method",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-assessment/measurement-method/measurement-honesty/measurement-honesty.md",
-   "digest": "sha256-b2:b702c58e785c6c51",
-   "revision": 11,
-   "changedAt": "2026-10-14",
+   "digest": "sha256-b2:2bbddc303856550d",
+   "revision": 12,
+   "changedAt": "2026-11-06",
    "techniques": [
     {
      "slug": "co-published-numbers-must-reconcile",
@@ -22292,7 +22458,7 @@
      "stack": "rust",
      "technique": "the-baseline-is-the-untouched-path",
      "file": "knowledge/software-engineering/engineering-assessment/measurement-method/measurement-honesty/applications/rust--the-baseline-is-the-untouched-path--rtk.md",
-     "verified_on": "2026-10-14",
+     "verified_on": "2026-11-06",
      "verified_against": "rust@1.91"
     }
    ]
@@ -23586,9 +23752,9 @@
    "subcategory": "orchestration",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/orchestration/model-routing/model-routing.md",
-   "digest": "sha256-b2:5484901d8df95b15",
-   "revision": 21,
-   "changedAt": "2026-09-29",
+   "digest": "sha256-b2:8fe2a6e953da885e",
+   "revision": 22,
+   "changedAt": "2026-11-07",
    "techniques": [
     {
      "slug": "admission-is-not-a-tier",
@@ -23705,6 +23871,20 @@
       "proving a fallback route works before the incident that needs it",
       "a degraded path that only executes when the primary is down",
       "deciding whether an unused fallback is healthy or broken"
+     ]
+    },
+    {
+     "slug": "mode-saving-has-a-domain",
+     "status": "forged",
+     "laws": [
+      "count-carries-predicate"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a provider offers a cheaper processing mode for the same call",
+      "a headline saving is the reason to switch a call site",
+      "an efficiency mode that loops or plans before it answers",
+      "deciding whether to route short and long inputs through one mode"
      ]
     },
     {
@@ -29498,9 +29678,9 @@
    "subcategory": "standards-and-gates",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-process/standards-and-gates/quality-gates/quality-gates.md",
-   "digest": "sha256-b2:0d8378dd13155e59",
-   "revision": 54,
-   "changedAt": "2026-10-14",
+   "digest": "sha256-b2:a5b34d39a4b8edd3",
+   "revision": 56,
+   "changedAt": "2026-11-06",
    "techniques": [
     {
      "slug": "advancement-evidence-fields",
@@ -29682,7 +29862,26 @@
       "a gate whose scope is empty unless a flag is passed",
       "a probe scheduled beside the population it is supposed to certify",
       "a permanently red check whose red nobody reads any more",
-      "deciding what a liveness probe's history should keep"
+      "deciding what a liveness probe's history should keep",
+      "a gate piped to tail or head before a commit",
+      "a commit landed past a red gate",
+      "a false exit code 141 from a gate"
+     ]
+    },
+    {
+     "slug": "gate-the-line-move",
+     "status": "forged",
+     "laws": [
+      "gate-sees-target",
+      "failure-not-empty-success"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a check must hold however the protected branch moves",
+      "a rebase or fast-forward or plumbing update lands without running commit hooks",
+      "an orchestrator moves the branch with a low-level reference update",
+      "deciding whether a commit hook or a reference-transaction hook owns a rule",
+      "considering a whole-tree gate at the point where a ref moves"
      ]
     },
     {
@@ -30090,8 +30289,20 @@
     {
      "stack": "process",
      "technique": "gate-liveness",
+     "file": "knowledge/software-engineering/engineering-process/standards-and-gates/quality-gates/applications/process--gate-liveness--pipes.md",
+     "verified_on": "2026-11-06"
+    },
+    {
+     "stack": "process",
+     "technique": "gate-liveness",
      "file": "knowledge/software-engineering/engineering-process/standards-and-gates/quality-gates/applications/process--gate-liveness.md",
      "verified_on": "2026-09-04"
+    },
+    {
+     "stack": "process",
+     "technique": "gate-the-line-move",
+     "file": "knowledge/software-engineering/engineering-process/standards-and-gates/quality-gates/applications/process--gate-the-line-move.md",
+     "verified_on": "2026-11-06"
     },
     {
      "stack": "process",
@@ -36353,9 +36564,9 @@
    "subcategory": "runtime-and-io",
    "status": "reconciled",
    "file": "knowledge/software-engineering/llm-agent/runtime-and-io/subprocess-lifecycle/subprocess-lifecycle.md",
-   "digest": "sha256-b2:204503a49b5c115b",
-   "revision": 16,
-   "changedAt": "2026-10-27",
+   "digest": "sha256-b2:73d266b807387855",
+   "revision": 18,
+   "changedAt": "2026-11-07",
    "techniques": [
     {
      "slug": "agent-editable-children-get-no-secrets",
@@ -36495,7 +36706,8 @@
      "use_when": [
       "choosing when a polite stop becomes a kill",
       "the parent died but its helpers did not",
-      "an exit code of zero from a crashed wrapper"
+      "an exit code of zero from a crashed wrapper",
+      "a child kept running after its host was force-killed and no restart is coming"
      ]
     }
    ],
@@ -36524,6 +36736,13 @@
      "file": "knowledge/software-engineering/llm-agent/runtime-and-io/subprocess-lifecycle/applications/node--liveness-and-heartbeats.md",
      "verified_on": "2026-09-02",
      "verified_against": "node@24.14.0"
+    },
+    {
+     "stack": "node",
+     "technique": "termination-and-reaping",
+     "file": "knowledge/software-engineering/llm-agent/runtime-and-io/subprocess-lifecycle/applications/node--termination-and-reaping.md",
+     "verified_on": "2026-11-07",
+     "verified_against": "node@24.22.1"
     },
     {
      "stack": "react",
@@ -36556,7 +36775,7 @@
      "stack": "rust",
      "technique": "decode-child-output-per-line",
      "file": "knowledge/software-engineering/llm-agent/runtime-and-io/subprocess-lifecycle/applications/rust--decode-child-output-per-line--rtk.md",
-     "verified_on": "2026-10-14",
+     "verified_on": "2026-11-06",
      "verified_against": "rust@1.91"
     },
     {
@@ -37117,9 +37336,9 @@
    "subcategory": "data-layer",
    "status": "reconciled",
    "file": "knowledge/software-engineering/backend-platform/data-layer/sync-replication/sync-replication.md",
-   "digest": "sha256-b2:2d5b609198b79d34",
-   "revision": 10,
-   "changedAt": "2026-10-08",
+   "digest": "sha256-b2:5b4c8b047dc770be",
+   "revision": 11,
+   "changedAt": "2026-11-06",
    "techniques": [
     {
      "slug": "change-tracking-and-cursors",
@@ -37230,6 +37449,12 @@
      "technique": "sync-observability",
      "file": "knowledge/software-engineering/backend-platform/data-layer/sync-replication/applications/go--sync-observability.md",
      "verified_on": "2026-08-22"
+    },
+    {
+     "stack": "react",
+     "technique": "conflict-detection-and-policy",
+     "file": "knowledge/software-engineering/backend-platform/data-layer/sync-replication/applications/react--conflict-detection-and-policy--excalidraw.md",
+     "verified_on": "2026-11-06"
     },
     {
      "stack": "rust",
@@ -38332,10 +38557,28 @@
    "subcategory": "build-and-release",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-process/build-and-release/test-harness/test-harness.md",
-   "digest": "sha256-b2:c96e1ee699a88119",
-   "revision": 27,
-   "changedAt": "2026-10-23",
+   "digest": "sha256-b2:a3c517733d58374b",
+   "revision": 29,
+   "changedAt": "2026-11-06",
    "techniques": [
+    {
+     "slug": "a-test-helper-is-a-fork-of-the-driver",
+     "status": "forged",
+     "laws": [
+      "gate-sees-target",
+      "count-carries-predicate",
+      "unknown-is-not-a-value"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a helper compiles or runs a snippet for tests and the shipped command does more",
+      "a test fixture builds the store by a different route than the boot path",
+      "a fake answers with a passing default",
+      "a guarantee is gated on a host type the product does not run",
+      "deciding what a green suite may claim when every test goes through one convenience",
+      "a bug reproduces only through the real binary"
+     ]
+    },
     {
      "slug": "approval-snapshots-with-guarded-update",
      "status": "forged",
@@ -38675,6 +38918,22 @@
      ]
     },
     {
+     "slug": "proved-off-the-path",
+     "status": "forged",
+     "laws": [
+      "gate-sees-target",
+      "count-carries-predicate"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a program was written beside a model-run procedure so that it could be tested",
+      "a test file defines the rule it asserts",
+      "an integration test constructs the modules it claims to integrate",
+      "a guard has a thorough suite and nobody can name its production caller",
+      "deciding what a test count may claim about a skill or a safety promise"
+     ]
+    },
+    {
      "slug": "recorded-interaction-fixtures",
      "status": "forged",
      "laws": [
@@ -38810,6 +39069,18 @@
      "file": "knowledge/software-engineering/engineering-process/build-and-release/test-harness/applications/node--unreached-decisions-pin-nothing.md",
      "verified_on": "2026-09-17",
      "verified_against": "node@24"
+    },
+    {
+     "stack": "process",
+     "technique": "a-test-helper-is-a-fork-of-the-driver",
+     "file": "knowledge/software-engineering/engineering-process/build-and-release/test-harness/applications/process--a-test-helper-is-a-fork-of-the-driver.md",
+     "verified_on": "2026-11-06"
+    },
+    {
+     "stack": "process",
+     "technique": "proved-off-the-path",
+     "file": "knowledge/software-engineering/engineering-process/build-and-release/test-harness/applications/process--proved-off-the-path.md",
+     "verified_on": "2026-11-06"
     },
     {
      "stack": "python",
@@ -39362,9 +39633,9 @@
    "subcategory": "prompt-and-context",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/prompt-and-context/tool-result-economy/tool-result-economy.md",
-   "digest": "sha256-b2:89b6a4c78a49c5f0",
-   "revision": 4,
-   "changedAt": "2026-10-22",
+   "digest": "sha256-b2:d496a67802bc6503",
+   "revision": 5,
+   "changedAt": "2026-11-06",
    "techniques": [
     {
      "slug": "compressibility-follows-the-producer",
@@ -39470,7 +39741,7 @@
      "stack": "rust",
      "technique": "untransformed-arm-is-the-floor",
      "file": "knowledge/software-engineering/llm-agent/prompt-and-context/tool-result-economy/applications/rust--untransformed-arm-is-the-floor--rtk.md",
-     "verified_on": "2026-10-14",
+     "verified_on": "2026-11-06",
      "verified_against": "rust@1.91"
     }
    ]
@@ -40226,9 +40497,9 @@
    "subcategory": "input-and-editing",
    "status": "forged",
    "file": "knowledge/software-engineering/ui-surfaces/input-and-editing/undo-history/undo-history.md",
-   "digest": "sha256-b2:6b331b14c940f6a7",
-   "revision": 3,
-   "changedAt": "2026-09-04",
+   "digest": "sha256-b2:603f6b60c26e287d",
+   "revision": 4,
+   "changedAt": "2026-11-06",
    "techniques": [
     {
      "slug": "checkpoint-restore",
@@ -40321,6 +40592,21 @@
       "undo moves the camera instead of fixing the document",
       "restore reverts the data but the screen stays stale"
      ]
+    },
+    {
+     "slug": "undo-under-concurrent-peers",
+     "status": "forged",
+     "laws": [
+      "derivation-names-recomputation"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "another writer changes the document while a local undo stack is live",
+      "an undo reverts a collaborator's edit",
+      "an undone change loses at merge to the older state",
+      "redo puts back my old value over a value someone wrote since",
+      "undo walks through entries that change nothing"
+     ]
     }
    ],
    "applications": [
@@ -40336,6 +40622,12 @@
      "technique": "gesture-coalescing",
      "file": "knowledge/software-engineering/ui-surfaces/input-and-editing/undo-history/applications/react--gesture-coalescing.md",
      "verified_on": "2026-08-18"
+    },
+    {
+     "stack": "react",
+     "technique": "undo-under-concurrent-peers",
+     "file": "knowledge/software-engineering/ui-surfaces/input-and-editing/undo-history/applications/react--undo-under-concurrent-peers.md",
+     "verified_on": "2026-11-06"
     },
     {
      "stack": "rust",
@@ -42689,6 +42981,7 @@
     "companion-runtime/action-catalog-single-source",
     "companion-runtime/host-seam-contracts",
     "companion-runtime/metered-llm-seam",
+    "concurrency-guards/cap-predicate-on-the-locked-row",
     "concurrency-guards/critical-section-across-a-suspension",
     "concurrency-guards/cross-process-exclusion",
     "concurrency-guards/fence-inside-write-transaction",
@@ -42796,9 +43089,11 @@
     "eval-harness/assertion-vs-judgment",
     "eval-harness/candidate-write-access",
     "eval-harness/certification-levels",
+    "eval-harness/contrast-before-adoption",
     "eval-harness/discriminating-task-selection",
     "eval-harness/failure-attribution",
     "eval-harness/failure-signatures-beside-the-pass-rate",
+    "eval-harness/green-through-the-model",
     "eval-harness/judge-stability",
     "eval-harness/metric-role-contract",
     "eval-harness/monitor-inside-the-loop",
@@ -42854,6 +43149,7 @@
     "invariant-placement/constraint-deletion-is-silent",
     "invariant-placement/indistinguishable-members-do-not-rise",
     "invariant-placement/paired-sites-localize-the-fault",
+    "invariant-placement/string-keyed-context-is-an-unchecked-join",
     "ipc-contract/casing-and-naming",
     "ipc-contract/command-registration",
     "ipc-contract/drift-gates",
@@ -43014,6 +43310,7 @@
     "quality-gates/fabrication-economics",
     "quality-gates/gate-laddering",
     "quality-gates/gate-liveness",
+    "quality-gates/gate-the-line-move",
     "quality-gates/hook-hygiene",
     "quality-gates/instrument-answers-only-its-own-question",
     "quality-gates/match-the-resolved-artifact",
@@ -43131,6 +43428,7 @@
     "terminal-multiplexing/capability-revalidation",
     "terminal-multiplexing/occupant-state-detection",
     "terminal-multiplexing/readiness-edge-detection",
+    "test-harness/a-test-helper-is-a-fork-of-the-driver",
     "test-harness/approval-snapshots-with-guarded-update",
     "test-harness/assert-the-schedule-not-the-stopwatch",
     "test-harness/assert-through-the-reader",
@@ -43146,6 +43444,7 @@
     "test-harness/negative-control-tests",
     "test-harness/out-of-graph-artifacts",
     "test-harness/pin-the-call-not-the-name",
+    "test-harness/proved-off-the-path",
     "test-harness/recorded-interaction-fixtures",
     "test-harness/suite-partitioning",
     "test-harness/unreached-decisions-pin-nothing",
@@ -43245,6 +43544,7 @@
     "agent-runtime-assembly/operator-tier-code-loading",
     "agent-runtime-assembly/rewrite-before-the-gate",
     "alerting/absence-as-a-condition",
+    "alerting/count-spike-rule",
     "alerting/evaluation-loop",
     "alerting/periodic-digest",
     "app-shell/lazy-section-loading",
@@ -43310,6 +43610,7 @@
     "concurrency-guards/cross-process-exclusion",
     "concurrency-guards/release-guarantees",
     "concurrency-guards/renewal-deadline-two-thirds-ttl",
+    "concurrency-guards/replace-is-visible-before-durable",
     "concurrency-guards/shared-claims-by-announce-and-verify",
     "concurrency-guards/single-flight-primitives",
     "concurrent-vcs/commit-time-claim-guard",
@@ -43477,12 +43778,14 @@
     "import-normalization/import-validation",
     "import-normalization/lossy-conversion-disclosure",
     "index-free-random-access/framing-recovery-by-hypothesis-rejection",
+    "invariant-placement/a-new-field-must-choose",
     "invariant-placement/constraint-deletion-is-silent",
     "invariant-placement/indistinguishable-members-do-not-rise",
     "invariant-placement/occurrence-is-not-a-type",
     "invariant-placement/paired-sites-localize-the-fault",
     "invariant-placement/repairing-check-erases-its-evidence",
     "invariant-placement/shape-with-a-not-applicable-member",
+    "invariant-placement/string-keyed-context-is-an-unchecked-join",
     "ipc-contract/call-wrapping",
     "ipc-contract/command-registration",
     "ipc-contract/drift-gates",
@@ -43644,6 +43947,7 @@
     "quality-gates/enforcement-binding",
     "quality-gates/excess-indicts-the-instrument",
     "quality-gates/gate-liveness",
+    "quality-gates/gate-the-line-move",
     "quality-gates/hook-hygiene",
     "quality-gates/match-the-resolved-artifact",
     "quality-gates/oracle-frozen-during-repair",
@@ -44019,6 +44323,7 @@
     "agent-memory/recall-injection",
     "agent-memory/rejected-revision-leaves-its-evidence",
     "agent-memory/stale-served-versus-stale-answered",
+    "alerting/count-spike-rule",
     "alerting/dedup-and-cooldown",
     "analytics-time-windows/baseline-as-window-start",
     "analytics-time-windows/cohort-matched-comparison",
@@ -44063,6 +44368,7 @@
     "companion-runtime/signal-economy-contract",
     "concurrency-guards/attempt-attribution",
     "concurrency-guards/race-catalog-with-two-histories",
+    "concurrency-guards/replace-is-visible-before-durable",
     "concurrent-vcs/commit-verification",
     "conformance-checking/declared-deviation-register",
     "conformance-checking/derived-expectation-needs-an-evidence-floor",
@@ -44142,9 +44448,11 @@
     "eval-harness/candidate-write-access",
     "eval-harness/certification-levels",
     "eval-harness/comparison-modes",
+    "eval-harness/contrast-before-adoption",
     "eval-harness/discriminating-task-selection",
     "eval-harness/failure-attribution",
     "eval-harness/failure-signatures-beside-the-pass-rate",
+    "eval-harness/green-through-the-model",
     "eval-harness/judge-stability",
     "eval-harness/measurement-revision",
     "eval-harness/metric-role-contract",
@@ -44265,6 +44573,7 @@
     "model-routing/cache-continuity",
     "model-routing/candidate-ranking",
     "model-routing/effort-calibration",
+    "model-routing/mode-saving-has-a-domain",
     "model-routing/policy-governance",
     "model-routing/quality-axis-separation",
     "modelled-performance-estimates/provenance-travels-with-the-value",
@@ -44429,6 +44738,7 @@
     "templates-scaffolding/catalog-curation",
     "templates-scaffolding/integrity-and-provenance",
     "terminal-multiplexing/bounded-replay-buffers",
+    "test-harness/a-test-helper-is-a-fork-of-the-driver",
     "test-harness/assert-the-schedule-not-the-stopwatch",
     "test-harness/configuration-axes-cross-the-ladder",
     "test-harness/constraint-injection-for-unreachable-tiers",
@@ -44441,6 +44751,7 @@
     "test-harness/mutation-lane-with-a-triaged-baseline",
     "test-harness/out-of-graph-artifacts",
     "test-harness/pin-the-call-not-the-name",
+    "test-harness/proved-off-the-path",
     "test-harness/recorded-interaction-fixtures",
     "test-harness/suite-partitioning",
     "test-harness/unreached-decisions-pin-nothing",
@@ -44767,6 +45078,7 @@
     "terminal-multiplexing/capability-revalidation",
     "terminal-multiplexing/completion-authority-arbitration",
     "terminal-multiplexing/occupant-state-detection",
+    "test-harness/a-test-helper-is-a-fork-of-the-driver",
     "test-harness/configuration-axes-cross-the-ladder",
     "test-input-generation/proof-cost-follows-the-circuit",
     "tool-result-economy/untransformed-arm-is-the-floor",
@@ -46388,6 +46700,7 @@
     "ui-controls/control-inventory-and-discovery",
     "undo-history/execution-emitted-inverse",
     "undo-history/undo-model-selection",
+    "undo-history/undo-under-concurrent-peers",
     "untrusted-extension-host/canonicalizable-privilege-declaration",
     "usage-aggregation-semantics/high-water-mark-advance-billing",
     "usage-aggregation-semantics/level-valued-time-integral",
@@ -46710,6 +47023,7 @@
     "hitl-approval/truncated-verdict-space",
     "import-normalization/durable-intermediate-representation",
     "index-free-random-access/conservation-sweep-over-a-partition-parameter",
+    "invariant-placement/a-new-field-must-choose",
     "invariant-placement/consumption-bounds-at-most-once",
     "invariant-placement/derived-properties-cannot-be-forged",
     "invariant-placement/indistinguishable-members-do-not-rise",
@@ -46718,6 +47032,7 @@
     "invariant-placement/paired-sites-localize-the-fault",
     "invariant-placement/placement-precedes-gate",
     "invariant-placement/repairing-check-erases-its-evidence",
+    "invariant-placement/string-keyed-context-is-an-unchecked-join",
     "issuance-policy-ladder/require-one-constraint",
     "issuance-policy-ladder/verbatim-is-a-separate-privilege",
     "keyed-sample-transforms/missing-key-policy",
@@ -46842,6 +47157,7 @@
     "earned-autonomy-tiers/asymmetric-promotion-and-demotion",
     "earned-autonomy-tiers/demotion-attribution-integrity",
     "earned-autonomy-tiers/recomputable-promotion-trial",
+    "eval-harness/contrast-before-adoption",
     "model-composed-workspace/view-choice-evaluation",
     "probe-confirmed-model-proposals/cross-engine-agreement",
     "probe-confirmed-model-proposals/found-not-hinted",

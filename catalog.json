@@ -1226,9 +1226,9 @@
       "purity": "game",
       "subjects": 89,
       "techniques": 590,
-      "applications": 353,
-      "files": 1036,
-      "contentHash": "sha256-b2:7a2c277f139ffebe"
+      "applications": 354,
+      "files": 1037,
+      "contentHash": "sha256-b2:248605cbd012ebbc"
     },
     {
       "name": "grant-funding",
@@ -1254,7 +1254,7 @@
       "techniques": 134,
       "applications": 100,
       "files": 258,
-      "contentHash": "sha256-b2:3183efe979cb727c"
+      "contentHash": "sha256-b2:84b3be37cf9fe8e1"
     },
     {
       "name": "localization",
@@ -1291,9 +1291,9 @@
       "purity": "media",
       "subjects": 53,
       "techniques": 352,
-      "applications": 205,
-      "files": 615,
-      "contentHash": "sha256-b2:38dc6dd30ce72351"
+      "applications": 209,
+      "files": 619,
+      "contentHash": "sha256-b2:03922dfd0a87106c"
     },
     {
       "name": "recruiting",
@@ -1316,10 +1316,10 @@
       "profile": "rkb/0.1",
       "purity": "software",
       "subjects": 245,
-      "techniques": 1971,
-      "applications": 1482,
-      "files": 3703,
-      "contentHash": "sha256-b2:74f65c04f7853237"
+      "techniques": 1983,
+      "applications": 1497,
+      "files": 3730,
+      "contentHash": "sha256-b2:3ba7d7af63d781bb"
     },
     {
       "name": "technical-writing",
