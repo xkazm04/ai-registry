@@ -3,7 +3,7 @@ name: shift
 description: "Turn the CPU and RAM a long GPU video job leaves idle into registry know-how. A long-lived, resumable /intake variation: pre-researches the operator's gitignored YouTube list into topic clusters and an intake plan the operator approves, mines approved clusters in parallel lanes at a width set by live sensors, banks GPU proofs and media benchmarks to run only when the GPU is truly idle, and fills the rest of the time with /harvest backlog, /harvest evaluate and /deepen --loop. Lands into the registry and connected projects under each repo's own law. Use when a machine runs video generations for days, or when the operator wants the box working while away."
 category: ai-native
 memory: project
-version: 0.5.0
+version: 0.6.0
 tags: research, queue, resources, gpu, unattended, batch, cross-repo, render-proof, long-running
 ---
 
@@ -59,7 +59,7 @@ is left to run. **A closed lid still sleeps.**
 ```sh
 node scripts/shift-sense.mjs --json
 node scripts/shift-sense.mjs --until opening --timeout 1200    # or gpu-idle|pressure|operator-idle
-node scripts/shift-plan.mjs sync|meta|transcripts|brief|validate|render|approve|status
+node scripts/shift-plan.mjs prune|sync|meta|transcripts|brief|validate|render|approve|status
 node scripts/shift-queue.mjs next --sense <file|->
 node scripts/shift-queue.mjs seat <kind> --key <k> [--cluster <c>]
 node scripts/shift-queue.mjs done <key>
@@ -94,7 +94,8 @@ The whole session is this. **Hold nothing in context that a file can hold**: com
 dead terminal must lose nothing, so every decision re-reads. Each completion notification is a
 tick, and so is each sensor exit and each wakeup. **Never poll.**
 
-1. **Close.** For each seat that just finished, `shift-queue done <key>`, whether it succeeded or not.
+1. **Close.** For each seat that just finished, `shift-queue done <key>`, whether it succeeded or not. Then
+   `shift-plan prune`, which takes landed rows off the operator's list.
 2. **Sense.** `shift-sense --json` to `.ai/shift/last-sense.json`.
 3. **Ask.** `shift-queue next --sense .ai/shift/last-sense.json`. It returns everything to start
    now, per lane: `{width, free, running, actions, waitingOnOperator}`.
@@ -189,6 +190,11 @@ proof, get its material, translate it to our stack, render it at real length wit
 and what the corpus holds, and keep it for the operator's verdict at the end of the batch. Read
 [`references/replication.md`](references/replication.md). A blanket falling in a studio answers
 nothing the operator is making.
+
+**A landed technique gets applied too.** Find its real seam in a wired repo by reading the code, make the
+smallest change with a before and after measure, and merge and push it under `references/authority.md`. A
+measure on scratch or fixtures supports a technique, but it doesn't count as applying it. No seam anywhere
+is a result worth saying.
 
 **Every banked row names `render.use`:** the project or decision its result changes. `next` does not
 start a row without one and lists it in `note`. If nothing would change, drop the row.
@@ -305,7 +311,7 @@ is the one exception to starting every action. An idle box beats a padded corpus
 - Never read `memory.used` or `vram_free` as idle or headroom. They read 51 GB on an idle card.
 - Never treat a null sensor reading as a low one.
 - Never write banked material to temp or the scratch root: the janitor reaps them.
-- Never rewrite `.ai/.youtube-intake.local.md`. It is the operator's file.
+- Never edit `.ai/.youtube-intake.local.md` except through `shift-plan prune`. It is the operator's file.
 - Never mine a plan the operator has not approved. Never wait on one either.
 - Never call `AskUserQuestion` inside the loop; only `/shift decisions` asks.
 - Never end a turn with nothing armed.

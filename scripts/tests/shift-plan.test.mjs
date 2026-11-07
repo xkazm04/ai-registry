@@ -4,7 +4,7 @@ import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
 import { EXIT } from '../lib/exit-codes.mjs';
-import { applySync, classifyUrl, isThrottled, LIST_FILE, main, PACE_MS, parseList, renderPlanHtml, transcriptOutcome, validatePlan } from '../shift-plan.mjs';
+import { pruneList, applySync, classifyUrl, isThrottled, LIST_FILE, main, PACE_MS, parseList, renderPlanHtml, transcriptOutcome, validatePlan } from '../shift-plan.mjs';
 import { planDigest, queuePath, readPlans, readQueue } from '../shift-queue.mjs';
 
 const NOW = Date.parse('2026-11-06T12:00:00Z');
@@ -633,4 +633,21 @@ test('usage errors are could-not-run', () => {
   for (const args of [[], ['bogus'], ['sync', '--nope'], ['validate'], ['render'], ['approve'], ['approve', 'no-such-plan']]) {
     assert.equal(main(args, harness(root).ctx), EXIT.FATAL, JSON.stringify(args));
   }
+});
+
+test('prune drops landed list lines, keeps the rest and any note with a URL below it', () => {
+  const rows = [
+    { id: 'aaaaaaaaaaa', status: 'landed' }, { id: 'bbbbbbbbbbb', status: 'parked' },
+    { id: 'gh-Own-Repo', status: 'landed', note: 'Also listed: its fork other/repo' },
+  ];
+  const list = [
+    'https://www.youtube.com/watch?v=aaaaaaaaaaa', 'https://www.youtube.com/watch?v=bbbbbbbbbbb',
+    'https://www.youtube.com/watch?v=ccccccccccc   # new', '', '-- old batch',
+    'https://github.com/own/repo', 'https://github.com/other/repo ', '',
+  ].join('\n');
+  const { text, removed } = pruneList(list, rows);
+  assert.equal(removed.length, 3);
+  assert.equal(text, 'https://www.youtube.com/watch?v=bbbbbbbbbbb\nhttps://www.youtube.com/watch?v=ccccccccccc   # new\n');
+  assert.deepEqual(pruneList('# keep me\nhttps://github.com/new/one\n', rows).removed, []);
+  assert.equal(pruneList('https://www.youtube.com/watch?v=aaaaaaaaaaa\r\n', rows).text, '');
 });

@@ -92,6 +92,61 @@ export function classifyUrl(raw) {
   return { kind: 'video', id, url: watchUrl(id) };
 }
 
+/**
+ * Pure. Drops the list lines whose row has landed, so the operator's file holds only what is still to
+ * do. A repository line matches `gh-<owner>-<name>`, or a landed row whose note names it, as a fork
+ * folded into its parent does. A note line stays only while a URL is left below it.
+ */
+export function pruneList(text, rows) {
+  const eol = String(text).includes('\r\n') ? '\r\n' : '\n';
+  const landed = rows.filter((r) => r.status === 'landed');
+  const ids = new Set(landed.map((r) => String(r.id).toLowerCase()));
+  const notes = landed.map((r) => String(r.note ?? '').toLowerCase());
+  const urlOf = (line) => /(https?:\/\/\S+)/.exec(line)?.[1] ?? null;
+  const isLanded = (url) => {
+    const gh = /github\.com\/([^/\s#?]+)\/([^/\s#?]+)/i.exec(url);
+    if (gh) {
+      const name = gh[2].replace(/\.git$/i, '');
+      return ids.has(`gh-${gh[1]}-${name}`.toLowerCase()) || notes.some((n) => n.includes(`${gh[1]}/${name}`.toLowerCase()));
+    }
+    const c = classifyUrl(url);
+    return c.kind === 'video' && ids.has(c.id.toLowerCase());
+  };
+  const removed = [];
+  const kept = [];
+  for (const line of String(text).split(/\r?\n/)) {
+    const url = urlOf(line);
+    if (url && isLanded(url)) removed.push(url);
+    else kept.push(line);
+  }
+  let urlBelow = false;
+  const out = [];
+  for (const line of kept.reverse()) {
+    if (urlOf(line)) urlBelow = true;
+    else if (line.trim() && !urlBelow) continue;
+    out.unshift(line);
+  }
+  const body = out.join(eol).replace(/(\r?\n){3,}/g, `${eol}${eol}`).trim();
+  return { text: body ? `${body}${eol}` : '', removed };
+}
+
+function cmdPrune(argv, ctx) {
+  parseArgs(argv);
+  const file = path.join(ctx.root, LIST_FILE);
+  if (!fs.existsSync(file)) { ctx.log(JSON.stringify({ removed: 0 })); return EXIT.OK; }
+  const before = fs.readFileSync(file, 'utf8');
+  const { text, removed } = pruneList(before, readQueue(ctx.root));
+  if (removed.length) {
+    const tmp = `${file}.${process.pid}.tmp`;
+    fs.writeFileSync(tmp, text);
+    // The operator edits this file by hand. If it moved while we read, leave it for the next tick.
+    if (fs.readFileSync(file, 'utf8') !== before) { fs.rmSync(tmp, { force: true }); ctx.err('list changed while pruning; left as it was'); return EXIT.OK; }
+    fs.renameSync(tmp, file);
+  }
+  ctx.log(JSON.stringify({ removed: removed.length, left: text.split(/\r?\n/).filter((l) => /https?:\/\//.test(l)).length }));
+  return EXIT.OK;
+}
+
 /** One URL or playlist per line; trailing `# note`; leading `-` strikes; blank and `#` lines skip. */
 export function parseList(text) {
   const entries = [];
@@ -655,7 +710,7 @@ function cmdStatus(argv, ctx) {
   return EXIT.OK;
 }
 
-const USAGE = 'usage: shift-plan.mjs sync | meta [--limit n] | transcripts [--limit n] | brief | validate <plan.json> | render <planId> | approve <planId> [--strike <clusterId>]... | status';
+const USAGE = 'usage: shift-plan.mjs prune | sync | meta [--limit n] | transcripts [--limit n] | brief | validate <plan.json> | render <planId> | approve <planId> [--strike <clusterId>]... | status';
 
 const realYtdlp = (args) => spawnSync('yt-dlp', args, { encoding: 'utf8', timeout: YT_TIMEOUT_MS, windowsHide: true, shell: false, stdio: ['ignore', 'pipe', 'pipe'], maxBuffer: 16 * 1024 * 1024 });
 
@@ -672,7 +727,7 @@ export function main(argv, over = {}) {
   ctx.ingest ??= (url, outDir) => spawnSync(process.execPath, [path.join(ctx.root, 'scripts', 'research-ingest.mjs'), url, '--json', '--out', outDir], {
     cwd: ctx.root, encoding: 'utf8', timeout: INGEST_TIMEOUT_MS, windowsHide: true, shell: false, stdio: ['ignore', 'pipe', 'pipe'], maxBuffer: 16 * 1024 * 1024,
   });
-  const table = { sync: cmdSync, meta: cmdMeta, transcripts: cmdTranscripts, brief: cmdBrief, validate: cmdValidate, render: cmdRender, approve: cmdApprove, status: cmdStatus };
+  const table = { prune: cmdPrune, sync: cmdSync, meta: cmdMeta, transcripts: cmdTranscripts, brief: cmdBrief, validate: cmdValidate, render: cmdRender, approve: cmdApprove, status: cmdStatus };
   const cmd = table[argv[0]];
   if (!cmd) { ctx.err(USAGE); return EXIT.FATAL; }
   try { return cmd(argv.slice(1), ctx); } catch (e) {

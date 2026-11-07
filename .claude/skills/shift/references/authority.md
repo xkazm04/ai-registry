@@ -1,12 +1,13 @@
 # Authority: what a shift may land, and where
 
 Granted by the operator on 2026-11-06 for /shift: commit in the registry and every connected
-codebase with impact, and push wherever that repo's own law pushes. The grant covers **measured**
-changes. It extends no further than the table and the bar below.
+codebase with impact. Widened on 2026-11-07: "Result of intake skill can always push and merge." The
+grant covers **measured** changes, and the method is `/intake` `## Pushing a result`.
 
 **Re-read each repo's law at the start of the run that touches it** (`CLAUDE.md`, `AGENTS.md`,
 `.claude/spark/config.md`, any deadline or freeze record). The table is a snapshot from 2026-11-06.
-When a repo's own file disagrees with this table, the file wins and this table has a bug.
+When a repo's own file disagrees with this table, the file wins and this table has a bug, with one
+exception: a file saying not to push does not stop a green intake result, by the operator's 2026-11-07 rule.
 
 ## The bar
 
@@ -27,15 +28,15 @@ A change lands unattended only when all of these hold:
 | ai-registry | direct to `main`, only through `scripts/shift-land.mjs commit`: pinned tree, fragments, `gate.mjs --all` inside the `commit` lock | only through `scripts/shift-land.mjs push --remote origin --branch main`: no live lander, clean tree, rebase, regeneration, gate, one exact refspec |
 | bp | `npm run check` + secret scan, rebase first | push `origin/master`, **through the 2026-11-18 12:00 PT deadline: the operator chose no freeze** |
 | mage-arena-vr | manifest gates + secret scan, enforced subject format | push; no paid service but ElevenLabs. Decommissioned 2026-10-29, so expect little |
-| pof | current branch; `master` was 11 behind | **never** |
-| gravitone | current branch | **never** ("the owner pushes after reading the log") |
-| personas | current branch | **never** (commit-only per the temper charter) |
-| athena-muse | one commit per feature, one ADR per decision | **never** (no push rule found, so none assumed) |
-| dowser | **no direct landing**: `temper.mjs land` only, enforced by a guard | **never**: file a lead or a proposal |
+| pof | from the remote tip, `/intake` `## Pushing a result`; the local `master` sits far behind | push |
+| gravitone | current branch, or from the remote tip when it holds others' commits | push the run's own commits |
+| personas | current branch, or from the remote tip when it holds others' commits | push the run's own commits |
+| athena-muse | one commit per feature, one ADR per decision | push the run's own commits |
+| dowser | **no direct landing**: `temper.mjs land` only, enforced by a guard | through `temper.mjs land` |
 
 ## In every repo
 
-- Foreign WIP in a file you need: **branch, no push**, and name it in the report. Never commit around
+- Foreign WIP in a file you need: work from a worktree at the remote tip, and name it in the report. Never commit around
   someone's uncommitted work in the same file.
 - Stage by name, commit with a pathspec, verify `HEAD`. Never `git add -A`, stash, or switch the
   branch of a checkout others use. In this registry the door does all of it, and a lander stages nothing.

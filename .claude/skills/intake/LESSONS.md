@@ -12789,3 +12789,7 @@ applied here - one sighting, and the honest record is in the source note.
 - A correction landed on the technique and not on its application. The frame-order fix changed the technique's text, and the application went on stating "The worst case was 9 pixels". When a measurement is corrected, grep the figure across the bundle, since the application is where the numbers live.
 - A lander's "supervisor to read" was not read for hours. Film and editable each wrote that their row should be reverted if its convergence failed, and both landed and were pushed first, under load. Stating a weakness honestly is not the same as someone reading it. That read came only because the operator asked for it. One sighting.
 - A pose sheet cannot prove a claim about motion: `shift-rig-contact-1` read 0.91x on sheets while its curves separated 14.4 cm against 1.0 cm. Choose the instrument by what the claim moves through, before the floor is drawn. One sighting.
+
+## 2.21.0 - 2026-11-07 - operator: a green result pushes and merges
+
+- The never-push rule made results wait on a reading that didn't happen: three Personas fixes, one PoF text and four gravitone commits sat unpushed. Replaced by `## Pushing a result`: green only, the run's own commits only, from the remote tip when the branch holds others' work.

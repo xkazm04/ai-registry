@@ -3,7 +3,7 @@ name: intake
 description: "Mine an external source - a YouTube video, a news roundup, an article, pasted notes, a repository - for what it should change in THIS registry, and in the connected projects that consume it. Ingests the source, reads its design decisions as well as its claims, maps both against existing bundles for prior art, triages with the operator, and lands what survives corroboration - amendments for boundary cases, techniques and subjects for mechanisms, forge handoffs for systems whose architecture the corpus lacks. News sources mostly yield currency signals and leads; that is a successful run. Use when someone shares a link and asks what it means for us."
 category: ai-native
 memory: project
-version: 2.21.0
+version: 2.22.0
 tags: research, sources, memory-lane, admission-gate, render-proof, triage, currency, cross-repo, leads, apply, ab-test, parallel, reference-index, design-read, forge-handoff, directions, fleet-map, peer-study, opus-workers, decision-gate
 ---
 
@@ -955,7 +955,7 @@ skill applies to its lessons - confirmed three runs running, or it is not a rule
 **The ship authorization is standing and does not need to be asked for
 (operator rule, 2026-09-04).** Where a run identifies a real seam in a managed
 project, it may change that project's tree under the Phase 8 rules — the paired
-proof, the pathspec commit on the active branch, and never a push. Do not ask
+proof, the pathspec commit on the active branch, then merge and push (operator, 2026-11-07). Do not ask
 which trees may be touched; identify the impact and act on it. The operator's
 reasoning is that the identification *is* the judgment worth having, and a
 session that has the seam, the measurable and both arms loaded is the only cheap
@@ -1616,8 +1616,8 @@ for, and the branches it produced sat unmerged until the operator said so. The r
   resolved by **union** (ours, then every line of theirs not already present), never by
   choosing a side; a concurrent session's uncommitted rows in the main checkout are
   committed first as their own change, never stashed or overwritten;
-- **never push.** The operator pushes after reading the log, as for every other commit
-  this method makes.
+- **a green result is pushed.** The operator's rule of 2026-11-07: the result of `/intake` can always push
+  and merge. See `## Pushing a result`.
 
 Workers are the default model for this phase, as for every phase but the director's
 review.
@@ -1691,8 +1691,8 @@ assumed. Phase 7.5 decides *whether* a project change is warranted; this phase g
    always takes the second exception (v2):** its first step lands on a branch named
    for the run, the plan is committed beside it in the project's `.ai/`, and the row
    in `librarian/applied.md` names the branch so the next run - or `/intake apply` -
-   can continue it. **Never push** from a run; the operator pushes when they have read
-   the diff.
+   can continue it. A green result is merged and pushed, `## Pushing a result`; a `task`
+   row's unfinished branch stays a branch until its gate is green.
 5. The registry-side artifact of a project change is an **application document**: you
    opened a real tree, so you are one of the few things allowed to write `verified_on`
    and `verified_against` truthfully. Write them, and write the `proof:` status from
@@ -2017,3 +2017,20 @@ corroboration behind it.
   them, and run waves.
 - **Letting a wave worker write.** Workers return proposals. The director writes, holds
   the locks, and owns the diff.
+
+## Pushing a result
+
+The operator, 2026-11-07: "Result of intake skill can always push and merge." This replaces every earlier
+never-push rule for a run's own results, including a project's commit-only note, in every connected repo.
+
+What it does not change:
+
+- **The gate stays.** Only a green result goes. Red, or a gate that could not run, stays a branch with the
+  reason in its row and the report.
+- **Only the run's own commits.** Other sessions commit on these branches. If the local branch holds commits
+  that are not this run's, don't push the branch: make a temporary worktree from the remote tip, cherry-pick
+  the run's commits, run the gate there, push that exact refspec to the default branch, and remove the
+  worktree by name. A checkout behind its remote is not a reason to hold. Leave the shared checkout alone.
+- **A repo's own door.** dowser lands through `temper.mjs land`, and this registry through its own path.
+- **Never `--force` or `--no-verify`.** A rejected push is re-fetched and retried once from the new tip, then
+  reported. A wrong push is reverted by a new commit, with the operator told.

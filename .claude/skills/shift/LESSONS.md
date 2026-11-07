@@ -75,3 +75,9 @@ The operator: "it seems like we did not extract from the video topics, either we
 | `pageReadsPressure` | 500 | one sensor read 512 with no pressure raised; sustain held | a real sustained reading |
 | `availableFloorMb` | 12000 | available RAM stayed at 32-41 GB | never near it |
 | `coLoadBudgetMb` | 18000 | not read in this reflection | the canary was not read either |
+
+## 0.5.0 - 2026-11-07 - operator: landed is not applied, and results go out
+
+- Twelve techniques from GitHub rows were measured on scratch and fixtures, and none was applied at a seam, with "Return:" scans nobody ran. The operator: "if wired repo available, we should implement and where possible trying to measure". Fixed in the skill: a landed technique gets applied.
+- The operator: "Result of intake skill can always push and merge". Five repos' never-push rows change. Only the run's own commits go: gravitone was 26 ahead of origin with others' work among them, and pof 242 behind. A temporary worktree from the remote tip is how.
+- The list file was hand-pruned once and could not be kept clean by rule. `shift-plan prune` runs at every Close.
