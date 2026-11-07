@@ -44,6 +44,21 @@ first paragraph), its `use_when` triggers and its laws. Alongside it sits a BM25
 over the fields and the document **bodies**, which is what closes the prose blind spot.
 Field weights and the tokenizer are documented in the core's header.
 
+**Combination rule.** Ranking is tiers, then signals, then a tiebreak, in that order:
+
+1. **Exact tier.** A query term that, case- and separator-folded (`-`, `_` and whitespace are
+   one), equals a row's subject slug, technique slug, `subject/technique` address,
+   `domain/subject[/technique]` address or document path puts that row in the exact tier,
+   which sorts above every other row; such hits carry `exact address:<term>` in `why`. Law
+   rows never enter it. The tier is a precedence, not a weight: a document that merely
+   mentions a slug never outranks the row that owns it.
+2. **Signals, within a tier.** BM25F over title, `use_when`, gist, headings and body, plus the
+   phrase, body-phrase and adjacent-pair bonuses.
+3. **Tiebreak.** Technique, then subject, then law, then path, then slug, so the order is total.
+
+A natural-language query equals no address and ranks by signals alone. Do not patch one query
+with a further additive bonus: a fix that cannot be stated as a change to this rule is a fit.
+
 - **Generated and local.** Markdown and frontmatter stay the source of truth. The cache is
   `.cache/registry-route/<domain>.json`, gitignored: a committed projection would add the
   per-commit churn the generated indexes already carry.
@@ -184,7 +199,8 @@ and reports recall@1/@5 on the owning subject, technique@5, tokens returned, and
 decision-cost model (tokens returned plus the documents an agent must open to reach the
 right technique). **A change to ranking, fields or budgets lands only if it beats the
 current arm on that fixture.** Never tune against the fixture itself; that turns the
-measurement into a fit.
+measurement into a fit. `scripts/tests/routing-bench.test.mjs` holds a held-out floor on the
+registry-query arm (r@1 and r@5, one query below the 2026-11-07 measurement: 25/38 and 31/38).
 
 A one-shot smoke without a client:
 
