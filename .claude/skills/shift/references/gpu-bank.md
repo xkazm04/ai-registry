@@ -11,14 +11,30 @@ There is no second list. A banked item is a row in `librarian/harvest/backlog.js
 {"id":"...","status":"held","queue":"media","render":{"kind":"proof","runId":"...","brief":"...","arms":{"a":"...","b":"..."},"instrument":"...","estGpuMin":30,"machine":"Lynx","device":"gpu","display":null}}
 ```
 
-`kind` is `proof` (needs the operator's blind pick) or `benchmark` (timing or resource figures; no
-pick). `machine` matters: Fox and Wolf see the row and do not claim it. A row without `estGpuMin`
+`kind` is `replica` (a source's work remade on our stack, [`replication.md`](replication.md), first in
+line), `proof` (needs the operator's blind pick) or `benchmark` (timing or resource figures; no
+pick). **`use` is required:** the project or decision the result changes, or `next` will not start the
+row. `machine` matters: Fox and Wolf see the row and do not claim it. A row without `estGpuMin`
 is not picked, so estimate it from the table below. Write through the `ledger` lock, like every
 appender; `backlog-wave mark` is atomic under it.
 
 `device` says where the work runs. `"cpu"` takes the row out of the GPU lane: it comes back as a
 `cpu-proof`, from the build lane, one at a time, on any GPU state, and needs no `estGpuMin` and no
 lease. Anything else, or no `device`, is a GPU row.
+
+## Screen a proof before it takes the GPU
+
+On 2026-11-07 most image and video proofs stopped because the difference between seeds matched the
+difference between arms. Before writing a `proof`, answer:
+
+- **Who uses the answer?** No `use`, no row.
+- **Can the floor clear?** A second seed redraws a whole scene, so a whole-frame distance between arms
+  rarely beats it. Pin the scene and read a measure confined to what differs, or don't file a blind
+  pair. Work the operator judges by watching can be a `replica`, which has no floor.
+- **Can the instrument show the claim?** A still cannot show a slide or a turn.
+
+A short pilot is a cheap reason to stop and never a reason to trust the run: five frames stopped one
+row on a clip that never held its pin, and passed another at 1.52x that came in at 1.15x.
 
 ## The bank runs while verdicts wait
 

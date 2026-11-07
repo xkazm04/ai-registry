@@ -53,7 +53,10 @@ One seat, recorded as `seat planner --key plan:new`, one `input.json`, writing
    Uncertain stays in the cluster.
 4. **Read the class** per [`source-classes.md`](../../intake/references/source-classes.md) and say
    the expected yield honestly in `yield`. A cluster of second-hand surveys yields leads.
-5. **Name `gpuProofs[]`**: which media or game findings would owe a local example. Each will need
+5. **Name what can be remade first.** A video showing a scene, a clip, an asset or a level, or promising
+   prompts in its description, is a replica candidate per [`replication.md`](replication.md): say so in
+   `yield`, and list it in `gpuProofs[]` ahead of any abstract question.
+   **Name `gpuProofs[]`**: which media or game findings would owe a local example. Each will need
    a held row. Check models on disk first, because the shift never downloads a model.
 6. `voices` is the distinct channel count of the non-superseded videos. `validate` refuses a
    mismatch, because three videos from one creator are one voice.

@@ -361,7 +361,7 @@ test('brief caps description and transcript, carries the note, skips the rest', 
   fs.mkdirSync(path.dirname(path.join(root, tp)), { recursive: true });
   fs.writeFileSync(path.join(root, tp), Array.from({ length: 2000 }, (_, i) => `w${i}`).join(' '));
   seedRows(root, [
-    row(V1, 'transcript', { transcriptPath: tp, description: 'd'.repeat(2000), note: 'my note', date: '2026-11-01', duration: 60 }),
+    row(V1, 'transcript', { transcriptPath: tp, description: 'd'.repeat(5000), note: 'my note', date: '2026-11-01', duration: 60 }),
     row(V2, 'no-transcript', { reason: 'thin' }),
     row(V3, 'meta'),
     row('NewNoMeta01', 'new'),
@@ -373,7 +373,7 @@ test('brief caps description and transcript, carries the note, skips the rest', 
   const input = JSON.parse(fs.readFileSync(path.join(root, h.out[0]), 'utf8'));
   assert.deepEqual(input.videos.map((v) => v.id), [V1, V2, V3]);
   const v = input.videos[0];
-  assert.equal(v.description.length, 800);
+  assert.equal(v.description.length, 4000);
   assert.equal(v.transcriptOpening.split(' ').length, 1500);
   assert.equal(v.note, 'my note');
   assert.deepEqual(Object.keys(v).filter((k) => ['id', 'title', 'channel', 'date', 'duration'].includes(k)).length, 5);

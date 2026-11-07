@@ -325,20 +325,26 @@ export function nextPlan({
 
   /* ---- proofs. The review cap pauses both kinds: unreviewed renders are disk nobody reclaims. */
   const judged = new Set([...pendingVerdicts, ...verdicts]);
-  const proofRow = (r) => r.status === 'held' && r.queue === 'media' && !judged.has(r.render?.runId)
+  const bankRow = (r) => r.status === 'held' && r.queue === 'media' && !judged.has(r.render?.runId)
     && machine && String(r.render?.machine ?? '').toLowerCase() === String(machine).toLowerCase();
+  // A row names the real work its result changes, or it does not take the GPU. Replicas go first.
+  const hasUse = (r) => typeof r.render?.use === 'string' && r.render.use.trim() !== '';
+  const proofRow = (r) => bankRow(r) && hasUse(r);
+  const bank = [...backlog].sort((a, b) => Number(b.render?.kind === 'replica') - Number(a.render?.kind === 'replica'));
+  const noUse = backlog.filter((r) => bankRow(r) && !hasUse(r) && (r.render?.device === 'cpu' || Number.isFinite(r.render?.estGpuMin))).map((r) => r.id);
+  if (noUse.length) plan.note = [plan.note, `held, no render.use named: ${noUse.join(', ')}`].filter(Boolean).join('; ');
   const proofKey = (r) => `proof:${r.render?.runId ?? r.id}`;
   let paused = false;
 
   if (free.gpuProof >= 1 && gpu?.state === 'idle' && !liveKind('proof')) {
-    const row = backlog.find((r) => proofRow(r) && r.render?.device !== 'cpu' && Number.isFinite(r.render?.estGpuMin));
+    const row = bank.find((r) => proofRow(r) && r.render?.device !== 'cpu' && Number.isFinite(r.render?.estGpuMin));
     if (row && reviewOverCap) paused = true;
     else if (row) plan.actions.push({ action: 'gpu-proof', kind: 'proof', key: proofKey(row), row });
   }
 
   let buildLeft = free.build;
   if (buildLeft >= 1 && !liveKind('cpu-proof')) {
-    const row = backlog.find((r) => proofRow(r) && r.render?.device === 'cpu');
+    const row = bank.find((r) => proofRow(r) && r.render?.device === 'cpu');
     if (row && reviewOverCap) paused = true;
     else if (row) { plan.actions.push({ action: 'cpu-proof', kind: 'cpu-proof', key: proofKey(row), row }); buildLeft -= 1; }
   }

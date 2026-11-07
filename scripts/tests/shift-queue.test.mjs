@@ -15,8 +15,8 @@ const sense = (width = {}, state = 'busy') => ({
   width: { research: 3, build: 0, gpuProof: 0, ...width }, gpu: { state }, pressure: [],
 });
 const row = (id, status, extra = {}) => ({ id, status, addedAt: FRESH, ...extra });
-const heldRow = (extra = {}) => ({ id: 'h1', status: 'held', queue: 'media', render: { kind: 'proof', machine: 'Lynx', estGpuMin: 12 }, ...extra });
-const base = (over = {}) => ({ sense: sense(), rows: [], plans: [], backlog: [], evalDebt: 0, machine: 'Lynx', now: NOW, ...over });
+const heldRow = (extra = {}) => ({ id: 'h1', status: 'held', queue: 'media', render: { kind: 'proof', machine: 'Lynx', use: 'x', estGpuMin: 12 }, ...extra });
+const base = (over = {}) => ({ sense: sense(), rows: [], plans: [], backlog: [], evalDebt: 0, machine: 'Lynx', use: 'x', now: NOW, ...over });
 const unplannedSix = Array.from({ length: 6 }, (_, i) => row(`v${i}`, 'new'));
 const approved = [row('a1', 'approved', { planId: 'p1', cluster: 'c1' }), row('a2', 'approved', { planId: 'p1', cluster: 'c1' })];
 const mining = [row('m1', 'mining', { planId: 'p0', cluster: 'c9' })];
@@ -33,7 +33,7 @@ function tmpRoot() {
 const capture = (root, over = {}) => {
   const out = [];
   const err = [];
-  return { out, err, ctx: { root, now: () => NOW, machine: 'Lynx', log: (s) => out.push(s), err: (s) => err.push(s), ...over } };
+  return { out, err, ctx: { root, now: () => NOW, machine: 'Lynx', use: 'x', log: (s) => out.push(s), err: (s) => err.push(s), ...over } };
 };
 const seed = (root, rows) => {
   fs.mkdirSync(path.dirname(queuePath(root)), { recursive: true });
@@ -44,8 +44,8 @@ const seats = (root) => fs.readFileSync(path.join(root, '.ai', 'shift', 'seats.j
 /* ------------------------------------------------------------- the plan */
 
 test('a verdict pending on an audio run, a held graphical row, an approved cluster and an idle GPU gives gpu-proof AND mine in one plan', () => {
-  const audio = heldRow({ id: 'audio', render: { kind: 'proof', runId: 'audio-run', machine: 'Lynx', estGpuMin: 5 } });
-  const graphical = heldRow({ id: 'graphical', render: { kind: 'proof', runId: 'gfx-run', machine: 'Lynx', estGpuMin: 12 } });
+  const audio = heldRow({ id: 'audio', render: { kind: 'proof', runId: 'audio-run', machine: 'Lynx', use: 'x', estGpuMin: 5 } });
+  const graphical = heldRow({ id: 'graphical', render: { kind: 'proof', runId: 'gfx-run', machine: 'Lynx', use: 'x', estGpuMin: 12 } });
   const p = nextPlan(base({ sense: sense({ gpuProof: 1 }, 'idle'), rows: approved, backlog: [audio, graphical], pendingVerdicts: ['audio-run'] }));
   assert.deepEqual(p.actions.map((a) => a.action), ['gpu-proof', 'mine', 'mine', 'filler']);
   assert.equal(did(p, 'gpu-proof')[0].row.id, 'graphical', 'the proof awaiting an ear neither re-runs nor holds the next one back');
@@ -66,7 +66,7 @@ test('the plan has the wire shape, and free is width minus live seats per lane',
 });
 
 test('every action names the seat to record', () => {
-  const p = nextPlan(base({ sense: sense({ gpuProof: 1, build: 1 }, 'idle'), rows: [...unplannedSix, ...approved], backlog: [heldRow({ render: { kind: 'proof', runId: 'r', machine: 'Lynx', estGpuMin: 1 } }), heldRow({ id: 'c', render: { machine: 'Lynx', device: 'cpu' } })] }));
+  const p = nextPlan(base({ sense: sense({ gpuProof: 1, build: 1 }, 'idle'), rows: [...unplannedSix, ...approved], backlog: [heldRow({ render: { kind: 'proof', runId: 'r', machine: 'Lynx', use: 'x', estGpuMin: 1 } }), heldRow({ id: 'c', render: { machine: 'Lynx', use: 'x', device: 'cpu' } })] }));
   assert.deepEqual(p.actions.map((a) => [a.action, a.kind, a.key]), [
     ['gpu-proof', 'proof', 'proof:r'], ['cpu-proof', 'cpu-proof', 'proof:c'], ['pre-research', 'planner', 'plan:new'], ['mine', 'miner', 'a1'], ['mine', 'miner', 'a2'],
   ]);
@@ -96,26 +96,26 @@ test('a live proof holds the GPU lane', () => {
 test('a proof needs a held media row for this machine carrying estGpuMin', () => {
   const idle = sense({ gpuProof: 1 }, 'idle');
   const notThis = heldRow({ render: { machine: 'Fox', estGpuMin: 5 } });
-  const noEstimate = heldRow({ render: { machine: 'Lynx' } });
+  const noEstimate = heldRow({ render: { machine: 'Lynx', use: 'x' } });
   const notMedia = heldRow({ queue: 'code' });
   const notHeld = heldRow({ status: 'queued' });
   for (const r of [notThis, noEstimate, notMedia, notHeld]) {
     assert.deepEqual(did(nextPlan(base({ sense: idle, backlog: [r] })), 'gpu-proof'), [], JSON.stringify(r));
   }
   assert.deepEqual(did(nextPlan(base({ sense: idle, backlog: [heldRow()], machine: null })), 'gpu-proof'), [], 'no machine identity, no proof');
-  assert.equal(did(nextPlan(base({ sense: idle, backlog: [heldRow({ render: { machine: 'lynx', estGpuMin: 5 } })] })), 'gpu-proof').length, 1, 'case of the machine name folds');
+  assert.equal(did(nextPlan(base({ sense: idle, backlog: [heldRow({ render: { machine: 'lynx', use: 'x', estGpuMin: 5 } })] })), 'gpu-proof').length, 1, 'case of the machine name folds');
 });
 
 test('a sealed or judged run never re-runs; the next eligible row goes instead', () => {
   const idle = sense({ gpuProof: 1 }, 'idle');
-  const a = heldRow({ id: 'a', render: { runId: 'run-a', machine: 'Lynx', estGpuMin: 5 } });
-  const b = heldRow({ id: 'b', render: { runId: 'run-b', machine: 'Lynx', estGpuMin: 5 } });
+  const a = heldRow({ id: 'a', render: { runId: 'run-a', machine: 'Lynx', use: 'x', estGpuMin: 5 } });
+  const b = heldRow({ id: 'b', render: { runId: 'run-b', machine: 'Lynx', use: 'x', estGpuMin: 5 } });
   assert.equal(did(nextPlan(base({ sense: idle, backlog: [a, b], verdicts: ['run-a'] })), 'gpu-proof')[0].row.id, 'b');
   assert.deepEqual(did(nextPlan(base({ sense: idle, backlog: [a, b], pendingVerdicts: ['run-a'], verdicts: ['run-b'] })), 'gpu-proof'), []);
 });
 
 test('device cpu leaves the GPU lane: a cpu-proof comes from free.build, one at a time, and needs no idle card', () => {
-  const cpu = (id, runId) => heldRow({ id, render: { kind: 'proof', runId, machine: 'Lynx', device: 'cpu' } });
+  const cpu = (id, runId) => heldRow({ id, render: { kind: 'proof', runId, machine: 'Lynx', use: 'x', device: 'cpu' } });
   const busy = sense({ build: 1 }, 'busy');
   assert.deepEqual(did(nextPlan(base({ sense: busy, backlog: [cpu('a', 'ra'), cpu('b', 'rb')] })), 'cpu-proof').map((x) => x.row.id), ['a']);
   assert.deepEqual(did(nextPlan(base({ sense: sense({ build: 0 }, 'busy'), backlog: [cpu('a', 'ra')] })), 'cpu-proof'), [], 'no build width');
@@ -127,7 +127,7 @@ test('device cpu leaves the GPU lane: a cpu-proof comes from free.build, one at 
 });
 
 test('a cpu-proof spends the build slot, so harvest evaluate does not also take it', () => {
-  const cpu = heldRow({ id: 'c', render: { runId: 'r', machine: 'Lynx', device: 'cpu' } });
+  const cpu = heldRow({ id: 'c', render: { runId: 'r', machine: 'Lynx', use: 'x', device: 'cpu' } });
   const p = nextPlan(base({ sense: sense({ build: 1 }), backlog: [cpu], evalDebt: 3 }));
   assert.deepEqual(p.free.build, 1, 'free is what the lane had before this plan');
   const filler = did(p, 'filler')[0];
@@ -141,7 +141,7 @@ test('over the review cap proofs pause and research carries on', () => {
   assert.deepEqual(did(over({}), 'gpu-proof'), []);
   const noSeat = over({ sense: sense({ research: 0, gpuProof: 1 }, 'idle') });
   assert.deepEqual([noSeat.actions, noSeat.proofsPaused], [[], 'review-over-cap']);
-  const cpu = nextPlan(base({ sense: sense({ build: 1 }), backlog: [heldRow({ render: { machine: 'Lynx', device: 'cpu' } })], reviewOverCap: true }));
+  const cpu = nextPlan(base({ sense: sense({ build: 1 }), backlog: [heldRow({ render: { machine: 'Lynx', use: 'x', device: 'cpu' } })], reviewOverCap: true }));
   assert.deepEqual([did(cpu, 'cpu-proof'), cpu.proofsPaused], [[], 'review-over-cap'], 'a cpu proof makes renders nobody reviewed too');
 });
 
@@ -174,7 +174,7 @@ test('next measures the real review folder against the configured cap', () => {
 test('held rows are read by their documented keys: the legacy shape is not eligible', () => {
   const idle = sense({ gpuProof: 1 }, 'idle');
   const legacy = { id: 'x', status: 'held', queue: 'media', render: { run_id: 'r', arm_a: 'a', arm_b: 'b', instrument: 'i' } };
-  const migrated = { id: 'x', status: 'held', queue: 'media', render: { kind: 'proof', runId: 'r', brief: 'b', arms: { a: 'a', b: 'b' }, instrument: 'i', estGpuMin: 30, machine: 'Lynx', display: null } };
+  const migrated = { id: 'x', status: 'held', queue: 'media', render: { kind: 'proof', runId: 'r', brief: 'b', arms: { a: 'a', b: 'b' }, instrument: 'i', estGpuMin: 30, machine: 'Lynx', use: 'x', display: null } };
   assert.deepEqual(did(nextPlan(base({ sense: idle, backlog: [legacy] })), 'gpu-proof'), []);
   const [a] = did(nextPlan(base({ sense: idle, backlog: [migrated] })), 'gpu-proof');
   assert.equal(a.row.render.runId, 'r');
@@ -460,7 +460,7 @@ test('mining survives a restart: state, reports, live seats and sealed runs are 
 
 test('next treats a run with a verdict as done, sealed or not, after clean removed its media', () => {
   const root = tmpRoot();
-  fs.writeFileSync(path.join(root, 'librarian', 'harvest', 'backlog.jsonl'), `${JSON.stringify(heldRow({ render: { runId: 'run-a', machine: 'Lynx', estGpuMin: 1 } }))}\n`);
+  fs.writeFileSync(path.join(root, 'librarian', 'harvest', 'backlog.jsonl'), `${JSON.stringify(heldRow({ render: { runId: 'run-a', machine: 'Lynx', use: 'x', estGpuMin: 1 } }))}\n`);
   const item = path.join(root, '.ai', 'shift', 'review', 'items', 'run-a');
   fs.mkdirSync(item, { recursive: true });
   fs.writeFileSync(path.join(item, 'verdict.json'), '{}');
@@ -668,4 +668,18 @@ test('plan digest mismatch is still owed when every width is zero', () => {
   const p = nextPlan(base({ sense: sense({ research: 0 }), rows: digestRows(), plans: digestPlans('mismatch') }));
   assert.deepEqual(p.actions, []);
   assert.deepEqual(p.waitingOnOperator, [{ kind: 'plan', id: 'p1', reason: 'plan changed after approval' }]);
+});
+
+test('a held row with no named use takes no GPU and is named; a replica goes first', () => {
+  const idle = sense({ gpuProof: 1, build: 1 }, 'idle');
+  const unused = heldRow({ id: 'nouse', render: { kind: 'proof', runId: 'nouse', machine: 'Fox', estGpuMin: 5 } });
+  unused.render.machine = 'Lynx';
+  const blank = heldRow({ id: 'blank', render: { kind: 'proof', runId: 'blank', machine: 'Fox', estGpuMin: 5, use: ' ' } });
+  blank.render.machine = 'Lynx';
+  const p = nextPlan(base({ sense: idle, backlog: [unused, blank] }));
+  assert.equal(did(p, 'gpu-proof').length, 0);
+  assert.match(p.note, /nouse, blank/);
+  const proof = heldRow({ id: 'proof', render: { kind: 'proof', runId: 'proof', machine: 'Lynx', use: 'trailer', estGpuMin: 5 } });
+  const replica = heldRow({ id: 'replica', render: { kind: 'replica', runId: 'replica', machine: 'Lynx', use: 'trailer', estGpuMin: 9 } });
+  assert.equal(did(nextPlan(base({ sense: idle, backlog: [proof, replica] })), 'gpu-proof')[0].row.id, 'replica');
 });
