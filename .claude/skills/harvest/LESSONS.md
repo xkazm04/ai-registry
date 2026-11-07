@@ -184,3 +184,8 @@ report now has a lane to land in.
 
 - **Put a permissive rule's own source case in its probe.** The draft existed to allow a gate to proceed past unknown, and both draft draws used its irreversibility condition to refuse that very case, while both base draws reached warn-and-continue from the current text. The other three sites scored close to level, 7 and 8 against 8 and 8 on the four checks away from that case.
 - **A fix-shaped row can reach a seat that cannot make the fix.** One such row came up here, with connected projects read-only and the row itself asking for an owner decision. The rule half was stated, so it closed unmeasurable with its instrument named. 22 rows carry that shape, all queued.
+
+## 0.7.0 - 2026-11-07 - ai-registry (`/harvest backlog --size 3` as a /shift filler, 3 rows, 5 seats, GPT judge, 2 draws per arm)
+
+- **Check the harness against the pre-registration before scoring.** The first replay excluded transitions whose SQL changed with no cold-only change, where the text excluded only an unchanged file. Those were the transitions where the arms differ: 4 and 4 of 9 became 10 and 8 of 15. The verdict stayed not-better, and the row says so.
+- **A project with no checkout here can still be read on its remote.** A row saying a project's gates were dead was 7 weeks old. The remote showed the config replaced and 5 green runs on main, so it closed covered and not unmeasurable.

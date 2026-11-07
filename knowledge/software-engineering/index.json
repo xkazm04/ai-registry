@@ -4,7 +4,7 @@
   "bundle": "software-engineering",
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 245,
-  "techniques": 1980,
+  "techniques": 1981,
   "applications": 1495,
   "laws": 16,
   "categories": [
@@ -20,7 +20,7 @@
    "secret-custody-and-issuance"
   ],
   "layout": "nested",
-  "use_when_coverage": "1980/1980",
+  "use_when_coverage": "1981/1981",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -23705,9 +23705,9 @@
    "subcategory": "orchestration",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/orchestration/model-routing/model-routing.md",
-   "digest": "sha256-b2:5484901d8df95b15",
-   "revision": 21,
-   "changedAt": "2026-09-29",
+   "digest": "sha256-b2:8fe2a6e953da885e",
+   "revision": 22,
+   "changedAt": "2026-11-07",
    "techniques": [
     {
      "slug": "admission-is-not-a-tier",
@@ -23824,6 +23824,20 @@
       "proving a fallback route works before the incident that needs it",
       "a degraded path that only executes when the primary is down",
       "deciding whether an unused fallback is healthy or broken"
+     ]
+    },
+    {
+     "slug": "mode-saving-has-a-domain",
+     "status": "forged",
+     "laws": [
+      "count-carries-predicate"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a provider offers a cheaper processing mode for the same call",
+      "a headline saving is the reason to switch a call site",
+      "an efficiency mode that loops or plans before it answers",
+      "deciding whether to route short and long inputs through one mode"
      ]
     },
     {
@@ -44507,6 +44521,7 @@
     "model-routing/cache-continuity",
     "model-routing/candidate-ranking",
     "model-routing/effort-calibration",
+    "model-routing/mode-saving-has-a-domain",
     "model-routing/policy-governance",
     "model-routing/quality-axis-separation",
     "modelled-performance-estimates/provenance-travels-with-the-value",
