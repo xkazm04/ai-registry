@@ -233,3 +233,7 @@ source's own evidence for it comes from the route it calls the less reliable of 
 ## 2026-11-06 - `/shift`, cluster `film-preproduction-chain`
 
 - Nothing landed in `resolution-as-stage-property`. Held: a motion draft approves the request and not the take, one voice, row `shift-film-draft-1`, with a noise control. Its "varies size, never shape" caught the plan's proof, which mixed aspects. See [[2026-11-06-film-preproduction-chain]].
+
+## Currency - 2026-11-08 (run weekly-news-currency-1108)
+
+`process--vendor-fact-ledger` gained a Later entry for GPT Image 2.6 Sunburst and Flare, read at the vendor from raw text. The 2.6 model pages document the Image API only and, unlike 2.5, do not name the Responses image tool. Token prices match 2.5. `verified_on` not moved. See [[2026-11-07-weekly-news-currency]].

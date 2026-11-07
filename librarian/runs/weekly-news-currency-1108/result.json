@@ -1,0 +1,41 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "weekly-news-currency-1108",
+  "skill": "shift",
+  "skill_version": "0.6.0",
+  "mode": "source",
+  "domain": "media-generation",
+  "started_at": "2026-11-07T22:40:00Z",
+  "ended_at": "2026-11-07T23:15:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 1,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "media-generation/generative-provider-routing",
+      "at": "2026-11-08",
+      "engine": "shift",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [],
+  "files": [
+    "knowledge/media-generation/visual-generation/generative-provider-routing/applications/process--vendor-fact-ledger.md",
+    "librarian/sources/2026-11-07-weekly-news-currency.md",
+    "librarian/sources/index.md",
+    ".claude/skills/intake/SCORECARD.md",
+    "librarian/subjects/media-generation/generative-provider-routing.md"
+  ],
+  "commits": [],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "Currency only: one dated entry (GPT Image 2.6) in 1 application, no re-dating. Four leads, no held rows. One voice."
+}

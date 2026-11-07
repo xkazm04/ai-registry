@@ -72,8 +72,9 @@ cost-tier hop inside a family.
 
 ## Later entries (each with its own access date)
 
-The snapshot above stays an August snapshot. These four were read at the vendor
-on 2026-11-06, and nothing else was re-checked, so `verified_on` does not move.
+The snapshot above stays an August snapshot. The first four were read at the vendor
+on 2026-11-06 and GPT Image 2.6 on 2026-11-08. Nothing else was re-checked, so
+`verified_on` does not move.
 
 | Model | Route | Licence | Quirks that bear on routing |
 |---|---|---|---|
@@ -81,6 +82,7 @@ on 2026-11-06, and nothing else was re-checked, so `verified_on` does not move.
 | FLUX 3 Image Klein (5.5B) | open weights, sign-in to download (`gated: auto`), repo created 2026-10-13 | FLUX Kommunity License v1.0: non-commercial, plus commercial output for Qualifying Users under US$5M gross annualized revenue, affiliates included; "not blanket permission for commercial fine-tuning or distribution" | distilled 16 steps with no guidance, base 50 steps at CFG 3.5. The split is by the user's revenue, not by model size, so the FLUX.2 Klein sentence above does not carry over |
 | Qwen-Image 2.1 and 2.1 Turbo (7B) | open weights, repos created 2026-09-14 and 2026-10-09 | Qwen Research License on both: "research or evaluation purposes only", a separate licence for any commercial use | Turbo is 8 steps, CFG 1, schedule saved in the checkpoint, so `num_inference_steps` alone does not override it. "Open" in the 2.0 row above does not mean a commercial route here |
 | Krea 3 | hosted API, `POST /generate/image/krea/krea-3`; no weights mentioned at the vendor | not stated | base $0.03 at 1K, $0.06 at 2K, plus references and thinking mode. `regional_edit` is "a local edit that keeps the rest of the image exact", with bounding-box `regions`. "Reusing a seed does not guarantee identical results, because the prompt expansion step can vary between runs", so a fixed seed is no repeat control on this route |
+| GPT Image 2.6 (`gpt-image-2.6-sunburst`, `gpt-image-2.6-flare`) | hosted Image API, `v1/images/generations` and `v1/images/edits`. Unlike the 2.5 pages, the 2.6 model pages do not say the model can be chosen in the Responses image generation tool | vendor terms | Sunburst "for detailed visual work", Flare "for fast iteration". Both support "complexity control, markup-guided edits, SVG output, and animated GIF output through the Image API". `complexity` is `low`/`medium`/`high`, default `high`, and "has no separate fee". Token prices match 2.5: $5 text input, $8 image input, $30 image output per 1M. The guide's overview and examples still use 2.5. No GIF frame or duration parameters are documented |
 
 ## Sources (accessed 2026-08-20)
 
@@ -107,3 +109,8 @@ on 2026-11-06, and nothing else was re-checked, so `verified_on` does not move.
   https://huggingface.co/black-forest-labs/flux-3-image-klein-comfy;
   https://huggingface.co/Qwen/Qwen-Image-2.1-Turbo and its LICENSE;
   https://krea.ai/docs/developers/krea-3/overview
+- Accessed 2026-11-08, for the GPT Image 2.6 entry only:
+  https://developers.openai.com/api/docs/guides/image-generation (section "GPT Image 2.6");
+  https://developers.openai.com/api/docs/models/gpt-image-2.6-sunburst;
+  https://developers.openai.com/api/docs/models/gpt-image-2.6-flare;
+  https://developers.openai.com/api/docs/models/gpt-image-2.5-sunburst (for comparison)
