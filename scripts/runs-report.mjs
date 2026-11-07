@@ -11,6 +11,13 @@
  * says why): `medianExact` from the backfilled sidecar, `medianEst` from the agent's own
  * estimate, and a headline `tokens` that names its `tokensBasis`.
  *
+ * With `--skill X` the report adds a version-over-version section (`versionDelta` in --json):
+ * for each adjacent version pair in semver order the outcome mix, shipped share, median
+ * difficulty and tokens - measured and estimated medians kept apart, never blended - with
+ * deltas. A version with fewer than MIN_RUNS_FOR_VERSION_DELTA runs (default 3, lib/
+ * runs-aggregate.mjs) is marked insufficient and gets no delta claim. The window still
+ * applies, so use e.g. `--since 365d` to see more than the last 30 days of versions.
+ *
  * Reads all devices' files - the report is a fleet view, unlike the backfill.
  *
  * Usage:  node scripts/runs-report.mjs [--since <N>d] [--skill <name>] [--device <d>] [--json] [--root <registry>]
@@ -25,7 +32,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { EXIT } from './lib/exit-codes.mjs';
 import { OUTCOMES } from './lib/runs.mjs';
-import { loadLane, aggregateRuns } from './lib/runs-aggregate.mjs';
+import { loadLane, aggregateRuns, versionDeltas } from './lib/runs-aggregate.mjs';
 
 const HERE_ROOT = path.resolve(fileURLToPath(new URL('.', import.meta.url)), '..');
 export const REPORT_SCHEMA = 'rkb-runs-report/1';
@@ -35,13 +42,16 @@ export function buildReport({ registryRoot = HERE_ROOT, sinceDays = 30, skill = 
   const lane = loadLane(registryRoot);
   const sinceMs = now - sinceDays * 86400000;
   const skills = aggregateRuns(lane.rows, lane.exact, { by: 'skill@version', sinceMs, skill, device, resolveSkill: lane.resolveSkill });
-  return {
+  const rep = {
     schema: REPORT_SCHEMA,
     since: new Date(sinceMs).toISOString(),
     generatedAt: new Date(now).toISOString(),
     lane: { files: lane.files.length, rows: lane.rows.length, sidecarRows: lane.exact.size, unparseableLines: lane.bad },
     skills,
   };
+  // One skill named: also say how its versions compare (lib/runs-aggregate.mjs versionDeltas).
+  if (skill) rep.versionDelta = versionDeltas(skills);
+  return rep;
 }
 
 const pad = (s, n) => String(s ?? '-').padEnd(n);
@@ -67,6 +77,24 @@ function printText(rep, log = console.log) {
       log(`   - ${e.ts} ${e.project} ${e.outcome} d${e.difficulty}: ${e.result}`);
       log(`       ${String(e.comment ?? '').replace(/\s*\n\s*/g, ' / ')}`);
     }
+  }
+  if (rep.versionDelta) printVersionDelta(rep.versionDelta, log);
+}
+
+/** The version-over-version section: one row per version, then one delta line per adjacent pair. */
+function printVersionDelta(vd, log) {
+  const sgn = (n, unit = '') => (n === null ? '-' : `${n > 0 ? '+' : ''}${n}${unit}`);
+  const tok = (t) => (t.median === null ? '-' : `${t.median} (n=${t.n})`);
+  log(`\n# versions, oldest to newest (a version with fewer than ${vd.minRuns} runs is insufficient: shown, never compared)`);
+  log(`${pad('version', 14)}${pad('runs', 6)}${pad('shipped', 10)}${pad('diff~', 7)}${pad('tokens measured', 19)}${pad('tokens estimated', 19)}outcomes`);
+  const oc = (o) => OUTCOMES.map((k) => `${k}:${o[k]}`).join(' ');
+  for (const v of vd.versions) {
+    const share = v.shippedShare === null ? '-' : `${Math.round(v.shippedShare * 100)}%`;
+    log(`${pad(v.version, 14)}${pad(v.runs, 6)}${pad(share, 10)}${pad(v.difficultyMedian, 7)}${pad(tok(v.tokensExact), 19)}${pad(tok(v.tokensEstimate), 19)}${oc(v.outcomes)}${v.insufficient ? '  [insufficient]' : ''}`);
+  }
+  for (const d of vd.deltas) {
+    if (d.insufficient) { log(`  ${d.from} -> ${d.to}: insufficient (${d.reason})`); continue; }
+    log(`  ${d.from} -> ${d.to}: shipped share ${sgn(d.shippedShare === null ? null : Math.round(d.shippedShare * 100), ' pts')}, median difficulty ${sgn(d.difficultyMedian)}, measured tokens ${sgn(d.tokensExact)}, estimated tokens ${sgn(d.tokensEstimate)}`);
   }
 }
 

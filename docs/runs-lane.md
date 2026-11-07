@@ -186,6 +186,21 @@ empty lane prints that it is empty and exits 0.
 Skill names fold through `identity-aliases.json` (`skills`) in the report and the catalog,
 so a renamed skill keeps its history; an unknown name keeps its logged name.
 
+**Version over version.** `runs-report --skill X` (add `--since 365d`; the window still
+applies) ends with a `# versions` section, and `--json` carries the same data as
+`versionDelta: {minRuns, versions, deltas}`. Versions are in semver order (1.9.0 before
+1.10.0). Per version: runs, the count for every outcome (shipped, partial, no-op, parked,
+failed, aborted), the shipped share, the median difficulty, and tokens as two separate
+figures - the measured median (sidecar) and the estimated median (self-reported), each with
+its own n; they are never mixed, and a delta is taken only exact-to-exact and
+estimate-to-estimate (null when either side has none). For each ADJACENT pair a delta is
+given as later minus earlier (shipped share in share points, difficulty, tokens). A version
+with fewer than `MIN_RUNS_FOR_VERSION_DELTA` runs (3, in `lib/runs-aggregate.mjs`) is marked
+`insufficient`: its numbers are shown, but every pair it belongs to reports
+`insufficient: true` and no delta. The comparison is evidence, not a verdict: runs differ in
+task and difficulty, which is why difficulty is shown beside the mix. Catalog fields are
+unchanged.
+
 ### Token basis rules
 
 Estimate and measurement are never blended into one number. `tokens` is the exact median

@@ -196,3 +196,81 @@ export function runLaneStatus(registryRoot, asOf, sources = null) {
 const validTs = (v) => (typeof v === 'string' && Number.isFinite(Date.parse(v)) ? v : null);
 const maxTs = (rows) => rows.map((r) => validTs(r?.ts)).filter(Boolean).sort((a, b) => Date.parse(a) - Date.parse(b)).at(-1) ?? null;
 const minTs = (stamps) => stamps.map(validTs).filter(Boolean).sort((a, b) => Date.parse(a) - Date.parse(b))[0] ?? null;
+
+/**
+ * The fewest runs a version needs before a comparison may be claimed from it. Below this a
+ * version is `insufficient`: its numbers are shown (they are real counts) but no delta that
+ * involves it is computed - one failed run on a version with two runs is an anecdote, not a
+ * regression. Tune here; runs-report and the lane doc name this constant.
+ */
+export const MIN_RUNS_FOR_VERSION_DELTA = 3;
+
+/** Compare semver strings: numeric core first, then a release outranks its prerelease. */
+export function compareSemver(a, b) {
+  const parse = (v) => {
+    const [core, pre = null] = String(v).replace(/\+.*$/, '').split(/-(.*)/s);
+    return { nums: core.split('.').map((n) => Number.parseInt(n, 10) || 0), pre };
+  };
+  const x = parse(a); const y = parse(b);
+  for (let i = 0; i < Math.max(x.nums.length, y.nums.length); i++) {
+    const d = (x.nums[i] ?? 0) - (y.nums[i] ?? 0);
+    if (d) return d;
+  }
+  if (x.pre === y.pre) return 0;
+  if (x.pre === null) return 1;
+  if (y.pre === null) return -1;
+  return x.pre < y.pre ? -1 : 1;
+}
+
+const median1 = (xs) => {
+  if (!xs.length) return null;
+  const s = [...xs].sort((a, b) => a - b);
+  const mid = s.length >> 1;
+  return round1(s.length % 2 ? s[mid] : (s[mid - 1] + s[mid]) / 2);
+};
+const diff = (a, b) => (a === null || b === null ? null : round1(b - a));
+
+/**
+ * Version-over-version view of ONE skill, from an `aggregateRuns(..., {by:'skill@version'})`
+ * result already filtered to that skill. Answers "is this skill getting better across
+ * versions": per version (semver order) the outcome mix over every OUTCOMES value, the
+ * shipped share, the median difficulty, and tokens as TWO separate figures - the measured
+ * median (sidecar) and the self-reported estimate median - each with its own n and each
+ * delta taken only between like and like (exact vs exact, estimate vs estimate); the two
+ * are never blended, the rule this module opens with. For each ADJACENT pair a delta block
+ * (later minus earlier) is given, unless either side has fewer than `minRuns` runs, in which
+ * case the pair carries `insufficient: true` and no numbers.
+ * Deltas: shippedShare in share points (0..1), difficulty in difficulty points, tokens in tokens.
+ */
+export function versionDeltas(stats, { minRuns = MIN_RUNS_FOR_VERSION_DELTA } = {}) {
+  const versions = Object.values(stats)
+    .map((s) => ({ version: s.versions[0], s }))
+    .sort((a, b) => compareSemver(a.version, b.version))
+    .map(({ version, s }) => {
+      const outcomes = Object.fromEntries(OUTCOMES.map((o) => [o, s.outcomes[o] ?? 0]));
+      const diffs = s.entries.map((e) => e.difficulty).filter((d) => Number.isInteger(d));
+      return {
+        version, runs: s.runs, insufficient: s.runs < minRuns, outcomes,
+        shippedShare: s.runs ? Math.round((outcomes.shipped / s.runs) * 1000) / 1000 : null,
+        difficultyMedian: median1(diffs),
+        tokensExact: { median: s.medianExact, n: s.exactCount },
+        tokensEstimate: { median: s.medianEst, n: s.estCount },
+      };
+    });
+  const deltas = [];
+  for (let i = 1; i < versions.length; i++) {
+    const a = versions[i - 1]; const b = versions[i];
+    if (a.insufficient || b.insufficient) {
+      deltas.push({ from: a.version, to: b.version, insufficient: true, reason: `needs at least ${minRuns} runs on both versions` });
+      continue;
+    }
+    deltas.push({
+      from: a.version, to: b.version, insufficient: false,
+      shippedShare: a.shippedShare === null || b.shippedShare === null ? null : Math.round((b.shippedShare - a.shippedShare) * 1000) / 1000,
+      difficultyMedian: diff(a.difficultyMedian, b.difficultyMedian),
+      tokensExact: diff(a.tokensExact.median, b.tokensExact.median),
+      tokensEstimate: diff(a.tokensEstimate.median, b.tokensEstimate.median),
+    });
+  }
+  return { minRuns, versions, deltas };
+}
