@@ -4,7 +4,7 @@
   "bundle": "software-engineering",
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 245,
-  "techniques": 1981,
+  "techniques": 1982,
   "applications": 1495,
   "laws": 16,
   "categories": [
@@ -20,7 +20,7 @@
    "secret-custody-and-issuance"
   ],
   "layout": "nested",
-  "use_when_coverage": "1981/1981",
+  "use_when_coverage": "1982/1982",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -15505,9 +15505,9 @@
    "subcategory": "evaluation-and-cost",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/evaluation-and-cost/eval-harness/eval-harness.md",
-   "digest": "sha256-b2:111b3ad040676f35",
-   "revision": 38,
-   "changedAt": "2026-11-06",
+   "digest": "sha256-b2:85554b740461b19e",
+   "revision": 39,
+   "changedAt": "2026-11-07",
    "techniques": [
     {
      "slug": "assertion-vs-judgment",
@@ -15655,6 +15655,21 @@
       "adding cheap automatic failure counters to a harness",
       "a failure counter reads zero on a suite that mixes languages runners or output formats",
       "deciding which failing cases to sample for manual attribution"
+     ]
+    },
+    {
+     "slug": "green-through-the-model",
+     "status": "forged",
+     "laws": [
+      "gate-sees-target",
+      "count-carries-predicate"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "an acceptance case runs through an agent that calls a tool",
+      "deciding what an end-to-end pass through a model proves about the tool beneath it",
+      "a tool description tells the model to pass the text unchanged",
+      "a tool parses what a person wrote and an agent sits in front of it"
      ]
     },
     {
@@ -43044,6 +43059,7 @@
     "eval-harness/discriminating-task-selection",
     "eval-harness/failure-attribution",
     "eval-harness/failure-signatures-beside-the-pass-rate",
+    "eval-harness/green-through-the-model",
     "eval-harness/judge-stability",
     "eval-harness/metric-role-contract",
     "eval-harness/monitor-inside-the-loop",
@@ -44401,6 +44417,7 @@
     "eval-harness/discriminating-task-selection",
     "eval-harness/failure-attribution",
     "eval-harness/failure-signatures-beside-the-pass-rate",
+    "eval-harness/green-through-the-model",
     "eval-harness/judge-stability",
     "eval-harness/measurement-revision",
     "eval-harness/metric-role-contract",

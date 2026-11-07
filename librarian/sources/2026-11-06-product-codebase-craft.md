@@ -6,11 +6,11 @@ title: "Product codebase craft, /shift batch of 3 repositories from 3 authors"
 author: "3 authors: melgarafael; excalidraw; ihuzaifashoukat"
 words: 1917053
 extracted: 57
-accepted: 3
+accepted: 4
 declined: 1
 leads: 10
 already_covered: 17
-untriaged: 23
+untriaged: 22
 dispatched: 0
 applied: 1
 shipped: 0
@@ -45,7 +45,7 @@ Every miner anchor was re-run against sparse clones at the pinned commits: E 91 
 - **E2's convergence was not independent as the miner scored it.** The test that pins the rewrite links the design tool's account it follows: `packages/excalidraw/tests/history.test.tsx:2204 "how-figmas-multiplayer-technology-works/#implementing-undo"`. That pair is one lineage. The row kept its +1 only because a 2015 account from a positional text editor reaches the same rule by another mechanism, with no sign of either (<https://marijnhaverbeke.nl/blog/collaborative-editing.html>). That account also gave the technique a section the miner did not have: rewrite on running, or map on arrival.
 - **E4's defect is narrower than "asserts nothing about the winner".** Our transliteration of the guard, with no clone code run: id-only comparison stays green under always-keep-local, inverted compare and dropped tie-break only where the two copies share a fractional key. It goes red where keys differ (version flip 1 of 4 cases, always-local 2 of 4, tie-break 1 of 4). A winner comparison goes red on 2, 4 and 2 of 4. The miner's reading held on the same-key case and its headline did not.
 - **E3 stays out.** See below. Its rewrite is real: the sentence is general and true of everyone not in the room.
-- **D5's RISK rose.** The tool defect, the raw-text instruction and the fix are in code. The model's rewrite on that night is doctrine prose, with no transcript in the tree that I found, and the tree's other pair uses a controlled provider and says it "does not prove real model choice": `docs/evidence/agendas-servicos/prova-em-par.json`. Its home is in the attention top 15, so GAIN is 3, and RISK 1 leaves net 2. A held row can settle it.
+- **D5's RISK rose.** The tool defect, the raw-text instruction and the fix are in code. The model's rewrite on that night is doctrine prose, with no transcript in the tree that I found, and the tree's other pair uses a controlled provider and says it "does not prove real model choice": `docs/evidence/agendas-servicos/prova-em-par.json`. Its home is in the attention top 15, so GAIN is 3, and RISK 1 leaves net 2. A held row can settle it. **It did, 2026-11-07:** on `qwen3.8:27b` through Ollama 0.40.6, `think:false`, default temperature, 21 of 30 runs were compensated greens (19 on the first call), 3 passed raw text on all calls, and the tool was called in 6 of 6 control runs. 2 of the 21 rest on a plural normalisation fixed before measuring (19 without it), and the row's own example sentence scored 0 of 3. One model, invented catalogue, so RISK falls for this model only and the doctrine's own night stays prose.
 - **D2's number is what the miner said, and no more.** `evidence/ia-360-w4/medicao-vazamento/RELATORIO.md` gives 3 of 10 and 0 of 8 on one model, the author's run, with raw turns beside it. Default off at `supabase/baseline.sql:11279 "add column if not exists operator_enabled boolean not null default false"`, so a default install is still one context with both jobs.
 - **Query silence.** `registry-query` found no home for X1 on one phrasing and found nothing relevant for D5. `librarian/sources/` was grepped for second voices on X1, D2, D3 and D5, and none turned up.
 
@@ -70,7 +70,7 @@ Every miner anchor was re-run against sparse clones at the pinned commits: E 91 
 | D2 | One context with two addressees | D `lib/agent-engine/agent/operator-turn.ts:6 "A separação é por AUSÊNCIA"` | D | technique | real gap, one author's measure | 2/0/2 | untriaged at net 2, in F |
 | D3 | A spoken claim needs this turn's receipt | D `lib/ai/runtime/efeito-das-escritas.ts:2 "O PREDICADO ÚNICO DO EFEITO"` | D; X's outcome is a different stage | technique | real gap | 2/0/2 | untriaged at net 2, in F |
 | D4 | The bypassing client needs its own tenancy scan | D `tests/unit/admin-client-exige-filtro-de-tenant.test.ts:16 "A OUTRA METADE DA RLS"` | D | technique | real gap; home contested with a top-15 subject | 2/0/2 | untriaged at net 2 |
-| D5 | A green through the model says nothing about the tool | D `docs/doctrine/prova-em-par.md:38 "VERDE  (e o verde era real)"` | D | technique, top-15 home | real gap, the event is prose | 3/1/2, was 2/0/2 | untriaged at net 2, **held row `shift-product-green-pair`** |
+| D5 | A green through the model says nothing about the tool | D `docs/doctrine/prova-em-par.md:38 "VERDE  (e o verde era real)"` | D | technique, top-15 home | real gap, the event is prose | 3/0/2 on 2026-11-07, was 3/1/2, was 2/0/2 | **accepted on row `shift-product-green-pair`, technique `green-through-the-model`** |
 | D6, D7, D8 | Read-only takes two keys; sentinel identifiers; predicted reds | D `lib/mcp/tools/externo.ts:26`, `lib/ai/runtime/tools.ts:267 "owner_user_id"`, `evidence/1274-sabotagem.md:6 "uma previsão escrita"` | 1 each | amendment | partial | 1/0/1 | untriaged |
 | D9 | Agent-written memory instructs every customer | D `lib/mcp/tools/evolucao.ts:226 "status: "`, `lib/agent-engine/agent/org-memory.ts:102 "valem para TODO atendimento"` | D, plus X13 on the broad half | catch with a counterexample | catch | n/a | covered: `memory-governance`. "A store can be refused as evidence and still instruct" waits on a second tree |
 | D10, D15, D19, D20, D22 | A scope open until an admin sets it; an unpinned remote catalogue; measured false state claims; a local model in shadow; evidence images | D `lib/mcp/tools/dados-externos.ts:404 "configurada, a consulta segue como antes"` and the miner's rows | 1 each | lead, table | thin | n/a | lead. Return: a second tree. **Images were not opened** |
@@ -87,7 +87,7 @@ Every miner anchor was re-run against sparse clones at the pinned commits: E 91 
 | X15-X18 | Secret by variable name; one owner of a data home; reads report coverage; evidence per tool | X `src/xuse/mcp/browser_tools.py:291 "XUSE_[A-Z0-9_]*PIN"`, `src/xuse/mcp/ownership.py:13 "SQLite budgets alone cannot protect a rejection/cancellation held in a"` | 1 each | catch | catch | n/a | covered: `secret-surfaces-never-exposed-to-agents`, `cross-process-exclusion`, law `unknown-is-not-a-value`, law `count-carries-predicate` |
 | X19 | A shipping server pins an SDK v2 line | X `pyproject.toml:39 "mcp>=2.3.0,<3"` | 1 | currency as a lead | thin | n/a | lead. Return: `mcp-tools` currency check |
 
-Counts: accept 3, folded 2 (E6, D18), proposal F 1, untriaged 23, lead 10, catch 17, declined 1, total 57.
+Counts: accept 4, folded 2 (E6, D18), proposal F 1, untriaged 22, lead 10, catch 17, declined 1, total 57. D5 moved from untriaged to accept on 2026-11-07.
 
 ## Opposite defaults, and what decides
 

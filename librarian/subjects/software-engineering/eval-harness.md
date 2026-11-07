@@ -1,7 +1,7 @@
 ---
 domain: software-engineering
 subject: eval-harness
-last_touched: 2026-11-06
+last_touched: 2026-11-07
 touched_by: intake, shift
 dry_streak: 0
 ---
@@ -741,3 +741,7 @@ Source: [[2026-11-06-self-evolving-harness]]. New technique `contrast-before-ado
 
 - **Not amended:** `failure-attribution`. A boundary for bundled per-task rounds failed the rewrite test on three standing sentences (2/2/1). Banked wording is proposal 1 in the note. The new technique states its own side and links across, so a later run should read the pair as a boundary, not a contradiction.
 - **Banked untriaged:** blinding removes provenance bias and not rubric bias (1/0/1); a check green at head can carry its author's premise (1/1/1).
+
+### 2026-11-07 - `/shift`, a held row settled
+
+Source: [[2026-11-06-product-codebase-craft]], row D5, backlog `shift-product-green-pair`. New technique `green-through-the-model`, 3/0/2, experiment, attributed to `qwen3.8:27b` only: 21 of 30 compensated greens, 19 on the first call, 3 passed raw text on all calls, 6 of 6 control runs called the tool. 2 of the 21 rest on a plural normalisation fixed before measuring (19 without it), and the row's own example sentence scored 0 of 3. Invented catalogue. No project has run the pair yet. `failure-attribution` was read and not amended: its compensation is a harness repairing a model, this one is a model hiding a tool.

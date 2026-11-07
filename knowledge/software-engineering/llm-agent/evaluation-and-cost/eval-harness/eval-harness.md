@@ -29,6 +29,7 @@ techniques:
   - uncontrolled-games-beside-the-win-rate
   - rebase-the-varied-input
   - contrast-before-adoption
+  - green-through-the-model
 ---
 
 # Evaluation & benchmarking
@@ -251,6 +252,15 @@ instead: rebase each date onto its arm's base, and the same backend fails 46 of
 46 while the clean one stays green. The check had named that defect in its own
 docstring and never been seen red
 ([rebase-the-varied-input](./techniques/rebase-the-varied-input.md)).
+
+A failure can also be unreachable because something stands in front of it. An
+end-to-end pass through an agent includes the model's ability to work around what
+is beneath it, so a broken tool can stay green. Collect the case through the agent
+and the tool called directly on the same raw text, as one unit, and treat a
+disagreement as the defect standing. On one local model and an invented catalogue,
+21 of 30 runs got a product through a rewritten query while the raw text sent
+directly returned nothing. The pair does not replace the end-to-end run
+([green-through-the-model](./techniques/green-through-the-model.md)).
 
 ## The candidate can write to the instrument
 
@@ -488,3 +498,6 @@ are a design input, not an afterthought: [eval-economics](./techniques/eval-econ
 - [contrast-before-adoption](./techniques/contrast-before-adoption.md) — an edit
   on a task with no key: propose from named moments, run on the same task, decide
   in another session, and call the result adopted rather than verified.
+- [green-through-the-model](./techniques/green-through-the-model.md) — a case
+  through an agent and the tool called directly on the same raw text, collected as
+  one unit: compare results rather than arguments, and read every call in the run.
