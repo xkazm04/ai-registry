@@ -142,3 +142,20 @@ saving assumes the baseline used the same tokens.
 ## 2026-10-14 - intake docker-agent ([[2026-10-14-docker-docker-agent]], run `intake-dockeragent-1014`)
 
 Landed three techniques the golden path did not have, all at stages the enumeration of spend paths skipped: `one-pot-across-delegation` (a per-run ceiling belongs to the run; delegated and nested runs charge the parent's tracker, named ceilings are shared pots), `time-ceilings-count-working-time` (a duration ceiling sums work, not attendance; boundary-checked, with a stated overshoot), `housekeeping-calls-obey-the-ceiling` (the summarizer is a spend path; refusal is a skip). Three Go applications against the source tree. **Boundary to review:** `time-ceilings-count-working-time` narrows the interactive "proceed anyway" in `budget-enforcement` for a ceiling the operator declared in their own configuration; the older sentence was bounded, not reversed. Catch: unpriced spend flagged rather than zero is already `price-tables`. Fleet: personas shares one pot by run id for cycles and replays, but its breeding measurement phase has its own ceiling and the generation phase none (simulation, unmeasurable).
+
+## 2026-11-08 - /harvest backlog 2-015 ([[2026-09-15-ai-engineering-coach]], /shift filler)
+
+Amendment to `spend-attribution`: "When the link is joined after the fact". The unit's home guess
+was adoption-measurement; the owner is this subject, because the claim is spend credit per work
+item, and `spend-attribution` stated "parts sum to the ledger total" with no exception for a
+many-to-many join. Re-verified against the source at its pinned commit: precedence is a context
+created from the item, then pasted links (several allowed, each linked), then exactly one
+referenced item, else nothing. The row's `checked: refuted` was half right: "a session naming two
+items gets neither" holds for inferred mentions only. Per-item rows count a shared session fully;
+the total is over distinct sessions; linked and priced counts stay separate. Blind-ab, better:
+one probe at the registry's run log joined to session transcripts (nested supervisor runs,
+parallel sessions on a window-only link). Both arms had spend-attribution, attribution-channels
+and attribution-provenance-tiers. The draft arm scored 8 of 8, the baseline 6. The baseline
+partitioned shared spend into a separate bucket, so a nested skill's own row lost its cost, and
+it forced rows to sum. Controls scored 8 and 0. Weakest point: one draw per arm and a judge from
+the arms' own family, so the verdict is provisional.

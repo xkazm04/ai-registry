@@ -167,7 +167,7 @@ corroboration table.
 | 2 | K | amendment | S | A producer-reported line count measures its edit grammar | delivery-analytics/batch-size-thresholds | corrects-claim | partial | 1/0/1 | score | untriaged (below +2) |
 | 3 | K | technique | M | Trust workspace-supplied executable rules by content hash | sidecar-provisioning (contested) | new-technique | partial | 2/1/2 | score | untriaged (below +2) |
 | 4 | K | design | M | Rules as data with inline fixtures | conformance-checking | none | likely catch | - | - | untriaged (neighbour not opened) |
-| 5 | K | design | S | Evidence precedence, attribute nothing on ambiguity | attribution-provenance-tiers | none | likely catch | - | - | untriaged (read partially) |
+| 5 | K | design | S | Evidence precedence, attribute nothing on ambiguity | attribution-provenance-tiers | none | likely catch | - | - | **Landed 2026-11-08** as an amendment to cost-metering/spend-attribution (backlog 2-015, blind-ab, better, single-family provisional). Ambiguity refusal holds for inferred mentions only; explicit links to several items each count fully |
 | 6 | K | design | S | Coverage denominator by end state | measurement-honesty | none | catch | - | - | already covered |
 | 7 | K | design | S | Hour and weekend penalties in a private score | people-analytics-ethics | none | catch | - | - | already covered |
 | 8 | K | design | S | Behaviour in session over presence in repo | maturity-ladders/present-vs-enforced | none | catch | - | - | already covered |

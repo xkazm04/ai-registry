@@ -6,7 +6,7 @@ technique: spend-attribution
 status: forged
 laws: [count-carries-predicate, identity-survives-reuse]
 shared_with: []
-use_when: [deciding which axes every call must carry, unattributed spend keeps growing, rollup slices that never sum to the total]
+use_when: [deciding which axes every call must carry, unattributed spend keeps growing, rollup slices that never sum to the total, joining spend to work items after the fact from evidence around a session]
 ---
 
 # Spend attribution
@@ -83,6 +83,45 @@ percentage the way it watches error rate — rising unattributed spend means
 a new call path bypassed the chokepoint, which is also
 [budget-enforcement](./budget-enforcement.md)'s enumeration alarm ringing
 through a different instrument.
+
+## When the link is joined after the fact
+
+Write-time capture is the rule, and some axes cannot meet it: the work item a
+session served is often decided by evidence that appears around the session
+(a workspace opened from the item, a link pasted into it, an item named in
+its text), not by a parameter the call carried. Joining that axis afterwards
+is legitimate only under three rules, and each one is the opposite of the
+move that feels responsible.
+
+- **Link by declared evidence precedence, and let an inferred link stand
+  only when it is unique.** Order the evidence kinds by how deliberate they
+  are: a context created from the item, then an explicit link to it, then a
+  bare mention. Use the strongest kind present and stop. Explicit kinds may
+  name several items, and each is linked. The weakest, inferred kind links
+  only when exactly one item is named; a session that mentions two items
+  through mentions alone is linked to **neither**, and lands in the
+  unattributed bucket. Splitting it between the two is allocation, and an
+  allocated share never supports a per-item claim. Picking one by order, by
+  recency or by a score is a guess the rollup will repeat with confidence.
+  Record which evidence kind linked every row.
+- **A many-to-many view counts a shared session fully in every row it is
+  linked to, and its total is the union.** When two items each hold explicit
+  evidence for one session, both rows carry the whole session, because each
+  row answers "what did work on this item cost", and a halved row answers a
+  question nobody asked. The view's total is computed over distinct
+  sessions, never by summing the rows. This view is the stated exception to
+  "parts sum to the ledger total": label it as overlapping, show the total
+  beside the rows, and keep the exclusive one-axis rollups for any breakdown
+  that has to add up.
+- **Linked and priced are separate counts.** A linked session with no usage
+  record is not a zero-cost session. Each row and the total report how many
+  sessions were linked and how many of those could be priced, so a cheap row
+  and a half-measured row stop looking alike.
+
+The ambiguity refusal is narrow on purpose. It applies to the inferred kind
+only. Applying it to explicit links as well (any session with two links
+counts for nothing) discards the strongest evidence the join has, and moves
+the cost of a shared session into the unattributed bucket, where nobody owns it.
 
 ## Rollup honesty
 

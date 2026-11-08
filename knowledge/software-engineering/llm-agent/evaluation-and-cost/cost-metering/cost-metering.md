@@ -303,7 +303,9 @@ surfaces show and which anomalies they must make visible is the
   idempotency key that must not free-pass a retry after it was refunded.
 - [spend-attribution](./techniques/spend-attribution.md) — multi-axis tagging
   at write time; the unattributed bucket as a counted first-class citizen;
-  rollup honesty.
+  rollup honesty. An axis joined after the fact links by evidence precedence,
+  an inferred link only when unique; a many-to-many view counts a shared
+  session fully per row and totals the union.
 - [spend-observability](./techniques/spend-observability.md) — per-class and
   per-axis surfaces; anomaly visibility; estimate-drift and
   table-staleness as monitored numbers.
