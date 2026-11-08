@@ -4,7 +4,7 @@
   "bundle": "software-engineering",
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 245,
-  "techniques": 1983,
+  "techniques": 1986,
   "applications": 1497,
   "laws": 16,
   "categories": [
@@ -20,7 +20,7 @@
    "secret-custody-and-issuance"
   ],
   "layout": "nested",
-  "use_when_coverage": "1983/1983",
+  "use_when_coverage": "1986/1986",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -1677,9 +1677,9 @@
    "subcategory": "prompt-and-context",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/prompt-and-context/agent-instruction-files/agent-instruction-files.md",
-   "digest": "sha256-b2:9b02cf004a7ce444",
-   "revision": 32,
-   "changedAt": "2026-11-06",
+   "digest": "sha256-b2:b8c8de663e610a6c",
+   "revision": 33,
+   "changedAt": "2026-11-08",
    "techniques": [
     {
      "slug": "capability-before-steering",
@@ -1744,6 +1744,23 @@
       "the file claims a rule is enforced and the claim has not been verified",
       "a hook reaches its verdict by asking a model",
       "choosing between prose and a verifier hook for a rule that needs judgment"
+     ]
+    },
+    {
+     "slug": "friction-on-a-passing-run",
+     "status": "forged",
+     "laws": [
+      "failure-not-empty-success",
+      "count-carries-predicate"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "deciding what an agent must report at the end of a job",
+      "an unattended agent finishes and its report says only what it did",
+      "a loop improves its environment only from failed runs",
+      "the same workaround keeps reappearing across agent sessions",
+      "a learnings file keeps growing with notes on how to get around the tooling",
+      "choosing what a fixer agent may change without a person"
      ]
     },
     {
@@ -16870,9 +16887,9 @@
    "subcategory": "orchestration",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/orchestration/fleet-orchestration/fleet-orchestration.md",
-   "digest": "sha256-b2:93bd71853ab468b1",
-   "revision": 28,
-   "changedAt": "2026-10-15",
+   "digest": "sha256-b2:571162970ab74420",
+   "revision": 29,
+   "changedAt": "2026-11-08",
    "techniques": [
     {
      "slug": "absent-status-passthrough",
@@ -16937,6 +16954,20 @@
       "budgeting design effort between specification",
       "coordination and verification",
       "a proposed fix adds more agents or more rounds"
+     ]
+    },
+    {
+     "slug": "delegate-by-net-benefit",
+     "status": "forged",
+     "laws": [],
+     "shared_with": [],
+     "use_when": [
+      "deciding whether to hand a step to a worker or do it in the current session",
+      "a plan splits work into one worker per item by habit",
+      "workers fanned out on a contract or schema that turned out incomplete",
+      "two delegates were given the same tree or the same file",
+      "writing a supervisor's policy for when it may spawn",
+      "a long-running director is filling its own context with work a worker could carry"
      ]
     },
     {
@@ -31293,9 +31324,9 @@
    "subcategory": "build-and-release",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-process/build-and-release/release-pipeline/release-pipeline.md",
-   "digest": "sha256-b2:faf052699c35ced4",
-   "revision": 11,
-   "changedAt": "2026-09-20",
+   "digest": "sha256-b2:b12e4d6cc5ca7bcc",
+   "revision": 12,
+   "changedAt": "2026-11-08",
    "techniques": [
     {
      "slug": "announcing-versus-silent-breakage",
@@ -31408,6 +31439,23 @@
       "a one-line change quietly adds megabytes",
       "deciding whether a size win should stick",
       "raising a budget after a failed gate"
+     ]
+    },
+    {
+     "slug": "skippable-release",
+     "status": "forged",
+     "laws": [
+      "identity-survives-reuse"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a change feels like it must make this release",
+      "release day arriving with work still landing",
+      "deciding whether to cut a release this week at all",
+      "a burst of merges on the day of a version bump",
+      "a release candidate abandoned after its number was stamped",
+      "choosing what to give up when the date and the change collide",
+      "an unreleased section that has grown for months"
      ]
     },
     {
@@ -43529,6 +43577,7 @@
     "agent-cli-transport/thread-custody-across-resume",
     "agent-host-experience/in-host-views",
     "agent-instruction-files/capability-before-steering",
+    "agent-instruction-files/friction-on-a-passing-run",
     "agent-memory/coverage-instrumentation",
     "agent-memory/durable-store-failure-posture",
     "agent-memory/filter-at-the-id-door",
@@ -44306,6 +44355,7 @@
     "agent-chaining/handoff-figures-carry-their-population",
     "agent-chaining/handoff-payload-contracts",
     "agent-chaining/stop-reason-ledgers",
+    "agent-instruction-files/friction-on-a-passing-run",
     "agent-instruction-files/instruction-freshness",
     "agent-instruction-files/line-earning",
     "agent-instruction-files/listing-tier-by-initiator",
@@ -45583,6 +45633,7 @@
     "realtime-events/subscription-lifecycle",
     "register-bytecode-execution/resume-by-frame-repush",
     "release-pipeline/pipeline-staging",
+    "release-pipeline/skippable-release",
     "remediation-handoff/claim-carry-forward-rules",
     "remediation-handoff/handoff-tenancy-and-idempotence",
     "remediation-handoff/resolution-trailers",
