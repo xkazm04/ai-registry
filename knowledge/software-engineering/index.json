@@ -4,7 +4,7 @@
   "bundle": "software-engineering",
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 245,
-  "techniques": 1986,
+  "techniques": 1987,
   "applications": 1497,
   "laws": 16,
   "categories": [
@@ -20,7 +20,7 @@
    "secret-custody-and-issuance"
   ],
   "layout": "nested",
-  "use_when_coverage": "1986/1986",
+  "use_when_coverage": "1987/1987",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -6759,9 +6759,9 @@
    "subcategory": "codebase-stewardship",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-process/codebase-stewardship/codebase-scanning/codebase-scanning.md",
-   "digest": "sha256-b2:06416fce13bc2342",
-   "revision": 12,
-   "changedAt": "2026-09-23",
+   "digest": "sha256-b2:ea212b14a90f0c14",
+   "revision": 13,
+   "changedAt": "2026-11-08",
    "techniques": [
     {
      "slug": "causes-beside-the-finding-count",
@@ -6885,6 +6885,22 @@
       "stating what a reported speedup cost",
       "a scanner's recall has never been measured",
       "deciding which precision loss to announce and where"
+     ]
+    },
+    {
+     "slug": "reconcile-before-the-cut",
+     "status": "forged",
+     "laws": [
+      "failure-not-empty-success",
+      "identity-survives-reuse"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a periodic sweep hands its top few findings to fix workers or a human",
+      "a worker fixed something a branch or open PR already fixed",
+      "errors keep arriving after the fix merged",
+      "a sweep's top three came back with nothing left to do",
+      "designing the triage step of an unattended start-of-day sweep"
      ]
     },
     {
@@ -43643,6 +43659,7 @@
     "codebase-scanning/ingestion-budget",
     "codebase-scanning/llm-assisted-scanning",
     "codebase-scanning/precision-trades-have-a-direction",
+    "codebase-scanning/reconcile-before-the-cut",
     "codebase-scanning/rule-precision-discipline",
     "codebase-scanning/sensor-pipeline",
     "codebase-scanning/the-broad-root-is-the-unaudited-one",
@@ -45466,6 +45483,7 @@
     "client-state/singleton-lifecycle",
     "client-state/status-fsms",
     "codebase-scanning/finding-lifecycle",
+    "codebase-scanning/reconcile-before-the-cut",
     "companion-identity/anchored-identity-diffs",
     "companion-identity/disk-truth-db-index",
     "companion-identity/one-mind-many-mouths",

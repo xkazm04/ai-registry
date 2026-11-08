@@ -150,3 +150,21 @@ immediately.
 Lead drain (run lib-0923), L147 AMEND + APPLICATION. **Correction** to `sensor-pipeline`: the skip lived only in the report, so rules still scored the degraded empty value as a missing control; the failure now travels in the snapshot and absence rules it could have refuted return unknown. The acceptance test gains its other direction: never a louder report either.
 
 **Impact** (stale verdicts before this landing, from the map rebuilt at the run start): personas 2, ascent 3.
+
+## 2026-11-08 - /harvest backlog 1-107 ([[2026-08-27-managing-15-agents-solo-founder]], /shift filler)
+
+New technique `reconcile-before-the-cut`. The unit's home guess was fleet-orchestration; the
+owner is this subject, because `finding-lifecycle` verifies a candidate against the current tree
+only, and the tree on the default branch does not show work already moving. Before a sweep hands
+its top few to workers, each candidate is checked against open change requests, unmerged
+branches, unpushed work on live checkouts and session claims, and fixes merged but not yet in
+effect. The check runs before truncation, so the slots go to unhandled work. A reconciled item
+stays in the report attached to its claimant, with a reopen condition. A failed listing is not
+an empty one. Residual beyond the source: the source ranks the top three and then checks, which
+can leave fewer than three. Blind-ab, better: one probe at a real start-of-day fleet sweep's
+triage step (live primaries holding unpushed commits, dependency-bot PRs, desktop apps that ship
+only on release). Both arms had `finding-lifecycle`. The draft arm scored 10 of 10 against 7. It
+won on in-flight reconciliation, ordering, and attach-not-drop with absence versus failure. It
+tied on merged-but-not-in-effect, which the baseline already derived from finding-lifecycle's
+"no verdict until shipped". Weakest point: one draw per arm and a judge from the arms' own family,
+so the verdict is provisional.

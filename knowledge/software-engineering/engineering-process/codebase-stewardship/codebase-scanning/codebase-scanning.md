@@ -18,6 +18,7 @@ techniques:
   - causes-beside-the-finding-count
   - the-narrowest-view-owns-the-number
   - the-broad-root-is-the-unaudited-one
+  - reconcile-before-the-cut
 ---
 
 # Codebase scanning & triage
@@ -346,6 +347,11 @@ nowhere ([causes-beside-the-finding-count](./techniques/causes-beside-the-findin
 - [finding-lifecycle](./techniques/finding-lifecycle.md) — stable finding
   identity and dedup keys, impact-per-effort ordering, verify-then-file,
   post-fix cleared/regressed/persisted verdicts, recorded suppression.
+- [reconcile-before-the-cut](./techniques/reconcile-before-the-cut.md) — before a
+  sweep hands its top few to workers, check each candidate against work in flight
+  (open change requests, unmerged branches, unpushed work on live checkouts, merged
+  but not yet in effect); reconcile before truncation, attach rather than drop, and
+  never read a failed listing as an empty one.
 - [llm-assisted-scanning](./techniques/llm-assisted-scanning.md) — the model
   as unreliable sensor: adapted rulesets, protocol-line streaming, candidates
   never verdicts, evidence quoted against the actual target.
