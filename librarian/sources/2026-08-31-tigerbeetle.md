@@ -126,7 +126,9 @@ Process half (from the first triage table, which the operator set aside):
    — at most 32 commits, 4 seeds per (commit, fuzzer); prefer failing, prefer faster
    failures as coarse minimisation, prefer older for stability; **when dropping a passing
    record, add its count to a survivor** so the aggregate work total is preserved. Read:
-   real gap.
+   real gap. **Covered 2026-11-08** (backlog 1-077): quality-gates/gate-liveness "What the
+   history keeps" already states the member ordering and the count fold (wave 3, with item
+   1); feed-retention "Derived summaries survive" and creation-names-reaper own the rest.
 4. **Assertion discipline as a subject.** Density ≥2/function, pair assertions on two
    different code paths (before write and after read), assert positive *and* negative
    space, split compound assertions, assertions on in production because "far better to
