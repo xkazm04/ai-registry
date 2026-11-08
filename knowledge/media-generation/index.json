@@ -5,7 +5,7 @@
   "source": "knowledge/media-generation/ (frontmatter only)",
   "subjects": 53,
   "techniques": 352,
-  "applications": 209,
+  "applications": 210,
   "laws": 9,
   "categories": [
    "narrative-craft",
@@ -6462,9 +6462,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/media-generation/production-ops/video-assembly/video-assembly.md",
-   "digest": "sha256-b2:b47fafe05146f90b",
-   "revision": 23,
-   "changedAt": "2026-11-06",
+   "digest": "sha256-b2:931da19546c07109",
+   "revision": 24,
+   "changedAt": "2026-11-08",
    "techniques": [
     {
      "slug": "alignment-names-its-text",
@@ -6749,6 +6749,12 @@
      "technique": "generated-shot-sourcing",
      "file": "knowledge/media-generation/production-ops/video-assembly/applications/process--generated-shot-sourcing.md",
      "verified_on": "2026-09-08"
+    },
+    {
+     "stack": "process",
+     "technique": "motion-plate-library",
+     "file": "knowledge/media-generation/production-ops/video-assembly/applications/process--motion-plate-library.md",
+     "verified_on": "2026-11-08"
     },
     {
      "stack": "python",
