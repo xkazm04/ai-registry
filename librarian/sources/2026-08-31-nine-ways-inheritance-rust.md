@@ -180,6 +180,12 @@ observation about conditional API surfaces (the compiler says "no such method",
 not "this exists but your bound failed"), and the reason it was not picked is
 that no subject in the corpus owns build-time diagnostics.
 
+Backlog 1-091 measured row 8 on 2026-11-08 and it came back `not-better`
+(experiment): the current compiler leads a failed bound with "the method exists,
+but its trait bounds were not satisfied" and points at the bound, and a
+one-state impl notes where the method was found. The observation is stale, so
+there is nothing to land and no reason to re-run it.
+
 ## Notes on the class
 
 Two things this run adds to the first-party-account entry.
