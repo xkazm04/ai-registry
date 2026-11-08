@@ -65,6 +65,27 @@ configured. Measured on git 2.52 (and asserted by `scripts/tests/merge-generated
 the same merge conflicts exactly as it did before the attribute existed. Nothing breaks,
 and nothing is gained.
 
+## Shared ledgers
+
+A second driver, `registry-ledger` (`scripts/merge-ledger.mjs`), covers the append-only
+ledgers the shift door writes: `librarian/sources/index.md`, `librarian/applied.md`,
+`librarian/harvest/backlog.jsonl`, and every `SCORECARD.md` and `LESSONS.md` under
+`.claude/skills/` or `skills/`. Two machines appending rows at the same place is not a
+conflict, but a line merge stops on it. On 2026-11-08 a door push of nine commits stopped on
+three of these ledgers at once, against seventeen commits from another session.
+
+The driver reads what the incoming side did to the base as a fragment, and applies that
+fragment to the current side with the door's own `applyFragment`. So each ledger keeps its
+insertion rule: the sources index under the `## Mined` delimiter, newest first; table and
+SCORECARD rows at the end; a LESSONS `## ` block at the end; backlog rows by id. It exits 1,
+and git conflicts as before, when both sides changed one backlog id differently, when a
+LESSONS edit is not an append, or when the door's rule refuses the fragment.
+
+Measured on that push: a trial rebase in a throwaway worktree applied all nine commits with
+no conflict. Backlog 1206 rows, with no duplicate id. Sources index 597 lines and SCORECARD
++8 rows, each equal to upstream plus local minus base. The diff against upstream was
+additions only. The same installer sets both drivers.
+
 ## Not covered
 
 `librarian/standard.md` is stamped by `librarian-scan.mjs --stamp-weights`, but it is

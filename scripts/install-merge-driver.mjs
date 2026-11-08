@@ -43,9 +43,13 @@ import { EXIT } from './lib/exit-codes.mjs';
 const ROOT = path.resolve(fileURLToPath(new URL('.', import.meta.url)), '..');
 
 export const DRIVER = 'registry-generated';
+export const LEDGER_DRIVER = 'registry-ledger';
 export const CONFIG = Object.freeze({
   [`merge.${DRIVER}.name`]: 'ai-registry generated view: keep ours, regenerate after the merge',
   [`merge.${DRIVER}.driver`]: 'node scripts/merge-generated.mjs %O %A %B %P',
+  // The shared ledgers merge the way the shift door lands them: see scripts/merge-ledger.mjs.
+  [`merge.${LEDGER_DRIVER}.name`]: 'ai-registry shared ledger: apply the incoming rows by the door rule',
+  [`merge.${LEDGER_DRIVER}.driver`]: 'node scripts/merge-ledger.mjs %O %A %B %P',
 });
 export const HOOKS = Object.freeze(['post-merge', 'post-rewrite', 'post-commit']);
 
@@ -145,8 +149,10 @@ function main(argv) {
   }
   if (uninstall) {
     // Leave no empty [merge "registry-generated"] section behind; harmless if absent.
-    const left = git(repo, ['config', '--local', '--get-regexp', `^merge\\.${DRIVER}\\.`]);
-    if (!left.ok) git(repo, ['config', '--local', '--remove-section', `merge.${DRIVER}`]);
+    for (const d of [DRIVER, LEDGER_DRIVER]) {
+      const left = git(repo, ['config', '--local', '--get-regexp', `^merge\\.${d}\\.`]);
+      if (!left.ok) git(repo, ['config', '--local', '--remove-section', `merge.${d}`]);
+    }
   }
 
   for (const hook of HOOKS) {

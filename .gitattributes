@@ -79,3 +79,14 @@ recipes/index.json                merge=registry-generated
 publications/index.json           merge=registry-generated
 catalog.json                      merge=registry-generated
 .claude-plugin/marketplace.json   merge=registry-generated
+
+# SHARED LEDGERS. Append-only tables that two machines both append to. A line merge
+# conflicts on every pair of independent appends (2026-11-08: a door push stopped on
+# three of these at once). scripts/merge-ledger.mjs applies the incoming side's rows by
+# the shift door's own rule and exits 1 on a real conflict. Same opt-in install as above.
+librarian/sources/index.md        merge=registry-ledger
+librarian/applied.md              merge=registry-ledger
+librarian/harvest/backlog.jsonl   merge=registry-ledger
+.claude/skills/*/SCORECARD.md     merge=registry-ledger
+.claude/skills/*/LESSONS.md       merge=registry-ledger
+skills/*/LESSONS.md               merge=registry-ledger
