@@ -215,6 +215,53 @@ test('run-start: BP_JOB_ID becomes the run note, a passed note is kept after it'
   back.close();
 });
 
+// bp's focusOfRunNote (packages/core/src/scan/focus.ts), name for name: the store's answer has to read back through it.
+const focusOfRunNote = (note) => {
+  const m = note && /(?:^|·\s*)focus:([a-z][A-Za-z0-9]*)\s+([\s\S]+)$/.exec(note);
+  return m ? { metric: m[1], note: m[2].trim() } : null;
+};
+
+test('run-end: a closing note keeps a directed run\'s focus segment, last, so it still reads back', () => {
+  const db = openStore(tmpDb());
+  const end = (startNote, closing, env = {}) => runEnd(db, { run: runStart(db, { phase: 'propose', lenses: 'design', note: startNote, env }).id, status: 'done', note: closing }).note;
+  const focus = 'focus:focusMotionCoverage Coverage of framer motion · pages and\nlarge sections';
+  const closed = end(focus, 'read 4 of 4 features', { BP_JOB_ID: 'j-9' });
+  assert.equal(closed, `bp-job:j-9 · read 4 of 4 features · ${focus}`);
+  assert.deepEqual(focusOfRunNote(closed), { metric: 'focusMotionCoverage', note: 'Coverage of framer motion · pages and\nlarge sections' });
+  assert.equal(end(focus, 'read 2 features'), `read 2 features · ${focus}`, 'without a job there is no prefix, and the focus still stays');
+  assert.equal(end(focus, undefined, { BP_JOB_ID: 'j-10' }), `bp-job:j-10 · ${focus}`, 'no closing note leaves the note as it was');
+  assert.equal(end(focus, `done · ${focus}`), `done · ${focus}`, 'a closing note already carrying the segment does not double it');
+  assert.equal(end('rescan', 'closed', { BP_JOB_ID: 'j-11' }), 'bp-job:j-11 · closed', 'a run that was not directed replaces its note as before');
+  db.close();
+});
+
+test('directed: one run measures the focus metric and files a fix on it, through the CLI the skill drives', () => {
+  const path = tmpDb();
+  const note = join(dirname(dirname(path)), 'note.txt');
+  writeFileSync(note, 'focus:focusAuthGaps Best practice penetration test');
+  const focusNote = readFileSync(note, 'utf8');
+  const { id: run } = JSON.parse(execFileSync(process.execPath, [SCRIPT, '--db', path, 'run-start', '--phase', 'propose', '--lenses', 'security', '--model', 'test-model', '--note', focusNote], { encoding: 'utf8', env: { ...process.env, BP_JOB_ID: 'j-d' } }));
+  cli(path, 'activity', '--run', run, '--kind', 'reading', '--feature', 'a', '--lens', 'security', '--text', 'reading a');
+  cli(path, 'measure', '--run', run, '--feature', 'a', '--lens', 'security', '--metric', 'focusAuthGaps', '--value', '2', '--unit', 'routes', '--method', 'judgement', '--evidence', 'src/a.ts:12', '--commit-sha', 'abc123');
+  cli(path, 'activity', '--run', run, '--kind', 'note', '--feature', 'b', '--lens', 'security', '--text', 'no impact: no route here');
+  cli(path, 'activity', '--run', run, '--kind', 'measured', '--feature', 'b', '--lens', 'security', '--text', 'no impact');
+  const { id: item } = cli(path, 'propose', '--run', run, '--feature', 'a', '--lens', 'security', '--kind', 'fix', '--metric', 'focusAuthGaps', '--expected-delta', '-2', '--title', 'Guard the two routes', '--size', 'S', '--risk', '3', '--impact', '7', '--impact-why', 'an unauthenticated write', '--confidence', 'medium', '--category', 'technical', '--predicted-verdict', 'accept', '--predicted-why', 'no precedent yet');
+  cli(path, 'allocate', '--run', run);
+  const closed = cli(path, 'run-end', '--run', run, '--status', 'done', '--note', 'read 2 of 2 features: 1 touched, 1 no impact');
+  assert.equal(closed.note, 'bp-job:j-d · read 2 of 2 features: 1 touched, 1 no impact · focus:focusAuthGaps Best practice penetration test');
+  assert.deepEqual(focusOfRunNote(closed.note), { metric: 'focusAuthGaps', note: 'Best practice penetration test' });
+  const db = openStore(path);
+  const [p] = proposals(db, { run });
+  assert.equal(p.id, item);
+  assert.equal(p.metric, 'focusAuthGaps');
+  assert.equal(p.expected_delta, -2);
+  assert.equal(p.band, 'ranked');
+  // what bp's jobProgress counts: the `measure` row logs its own, and a no-impact feature writes one, both naming the lens
+  const counted = db.prepare("SELECT feature FROM activity WHERE run_id = ? AND kind = 'measured' AND lens = 'security' ORDER BY id").all(run).map((r) => r.feature);
+  assert.deepEqual(counted, ['a', 'b']);
+  db.close();
+});
+
 test('run-start: a feature-list scope is recorded as {features} and checked against the structure first', () => {
   const db = openStore(tmpDb());
   const known = new Set(['a', 'b', 'c']);

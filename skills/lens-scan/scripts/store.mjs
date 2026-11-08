@@ -17,7 +17,7 @@
 //             against the structure (default: app-structure.json beside the db) and an unknown slug is
 //             refused before any run row exists. BP_JOB_ID in the environment makes the note
 //             `bp-job:<id>` (`bp-job:<id> · <note>` with --note): how the blueprint finds its job's run.
-//   run-end --run <id> --status done|failed|aborted [--note t]   (--note replaces the note, keeping a bp-job: prefix)
+//   run-end --run <id> --status done|failed|aborted [--note t]   (--note replaces the note, keeping a bp-job: prefix and a focus: segment)
 //   activity --run <id> --kind <k> --text <t> [--feature f] [--lens l]
 //   measure --run <id> --feature f --lens l --metric m --value <num> [--unit u] [--method m] [--evidence e]
 //           [--proposal p --phase before|after] [--commit-sha s]
@@ -461,6 +461,8 @@ const touchRun = (db, id, at) => db.prepare('UPDATE runs SET updated_at = ? WHER
 // ------------------------------------------------------------------------------------- writes
 /** The blueprint correlates a job with its run by this note prefix (bp src/lib/scan/jobs.ts RUN_NOTE_PREFIX). */
 export const BP_JOB_PREFIX = 'bp-job:';
+/** A directed run's `focus:<metric> <text>` note segment: the same reading as bp's focusOfRunNote (scan/focus.ts). */
+const FOCUS_SEGMENT_RE = /(?:^|·\s*)(focus:[a-z][A-Za-z0-9]*\s+[\s\S]+)$/;
 const listOf = (v) => (Array.isArray(v) ? v : String(v).split(',')).map((s) => String(s).trim()).filter(Boolean);
 
 /** The feature slugs of an app-structure file; null when there is none to read. */
@@ -541,9 +543,15 @@ export function runEnd(db, { run, status, note } = {}) {
   oneOf('status', status, RUN_END);
   const id = liveRun(db, run);
   const at = now();
-  // a closing note replaces the run's note, but never the job prefix the blueprint matches the run by
-  const job = (db.prepare('SELECT note FROM runs WHERE id = ?').get(id).note ?? '').match(/^bp-job:\S+/)?.[0];
-  const text = note !== undefined && job && !String(note).startsWith(job) ? `${job} · ${note}` : note;
+  // a closing note replaces the run's note, but never the job prefix the blueprint matches the run by, nor a directed
+  // run's focus segment: the note is the focus's durable home, read back after the job has left the registry. The focus
+  // goes last because its reader (bp's focusOfRunNote) takes everything after `focus:<metric> ` as the operator's text.
+  const prior = db.prepare('SELECT note FROM runs WHERE id = ?').get(id).note ?? '';
+  const job = prior.match(/^bp-job:\S+/)?.[0];
+  const focus = prior.match(FOCUS_SEGMENT_RE)?.[1];
+  let text = note;
+  if (note !== undefined && focus && !String(note).includes(focus)) text = `${note} · ${focus}`;
+  if (note !== undefined && job && !String(note).startsWith(job)) text = `${job} · ${text}`;
   db.prepare('UPDATE runs SET status = ?, ended_at = ?, updated_at = ?, note = COALESCE(?, note) WHERE id = ?').run(status, at, at, text ?? null, id);
   return getRun(db, id);
 }
