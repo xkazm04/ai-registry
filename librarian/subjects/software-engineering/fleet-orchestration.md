@@ -805,3 +805,14 @@ rather than the session; departures: a probe that cannot resolve its workspace f
 "stale" (unknown read as dead), and expiry outranks evidence without fenced writes. Design
 entry D6 (an automated coordinator on an autonomy ladder, shadow by default, policies
 replayed on history before live) has no home: banked as lead L1; this category is full.
+
+## 2026-11-08 - /harvest backlog 1-057 ([[2026-09-02-deer-flow]], /shift filler)
+
+New technique `delegate-by-net-benefit`: whether to dispatch at all. Doing the step in the
+current session is the default; a worker is bought only for a named benefit, and an output
+dependency or shared mutable state vetoes the parallel fan-out. Simulation, better: three
+recorded delegation decisions from one managed project's agent loop, walked against
+parallel-dispatch alone. Rule 3 of 3, baseline 1 of 3, no mispredictions. The falsifying case
+(a long-horizon director that delegates everything) added the parent's-context benefit term
+the source row did not state. Weakest point: that director's doctrine is a design, not a
+measured outcome.

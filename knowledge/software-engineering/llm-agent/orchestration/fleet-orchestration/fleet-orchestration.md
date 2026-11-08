@@ -23,6 +23,7 @@ techniques:
   - soft-budget-under-the-hard-cap
   - evidence-outranks-a-liveness-claim
   - verifier-seat-capacity
+  - delegate-by-net-benefit
 ---
 
 # Agent fleet orchestration
@@ -378,3 +379,7 @@ into a sweep. The bound itself is a dispatch-door concern and lives with
   its oldest age, a cap paired with an occupancy check that escalates instead of
   stalling, a second reader for the verifier's own work, and self-grading read from a
   verdict distribution that almost never says no.
+- [delegate-by-net-benefit](./techniques/delegate-by-net-benefit.md) - whether to
+  dispatch at all: doing the step in the current session is the default, a worker
+  is bought only for a named benefit (wall-clock, the parent's context, a missing
+  capability), and an output dependency or shared mutable state vetoes the fan-out.
