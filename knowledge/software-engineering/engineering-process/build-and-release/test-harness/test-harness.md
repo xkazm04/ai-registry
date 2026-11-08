@@ -31,6 +31,7 @@ techniques:
   - assert-the-schedule-not-the-stopwatch
   - a-test-helper-is-a-fork-of-the-driver
   - proved-off-the-path
+  - viable-rate-belongs-to-the-target
 ---
 
 # Test harness architecture
@@ -382,6 +383,11 @@ a soak run misunderstands both; the design of these lanes is
   input) asserts whatever else answered: the reach probe that mutates the decision
   the file *claims* rather than the code it touches, lifting the decision into a
   reachable unit, and making the answer name its producer.
+- [viable-rate-belongs-to-the-target](./techniques/viable-rate-belongs-to-the-target.md)
+  — a test generator's viable-output rate describes the generator and target
+  together: define viable (including can-fail) before any run, measure each
+  target lane separately, decide against a locally derived threshold set first,
+  and import neither the pilot's figure nor its explanation.
 - [assert-through-the-reader](./techniques/assert-through-the-reader.md) — an
   artifact emitted for a foreign interpreter is asserted by running that
   interpreter: asking the tool where it will read, executing the emitted block

@@ -4,7 +4,7 @@
   "bundle": "software-engineering",
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 245,
-  "techniques": 1987,
+  "techniques": 1988,
   "applications": 1497,
   "laws": 16,
   "categories": [
@@ -20,7 +20,7 @@
    "secret-custody-and-issuance"
   ],
   "layout": "nested",
-  "use_when_coverage": "1987/1987",
+  "use_when_coverage": "1988/1988",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -38622,9 +38622,9 @@
    "subcategory": "build-and-release",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-process/build-and-release/test-harness/test-harness.md",
-   "digest": "sha256-b2:a3c517733d58374b",
-   "revision": 29,
-   "changedAt": "2026-11-06",
+   "digest": "sha256-b2:9d7453513e23efad",
+   "revision": 30,
+   "changedAt": "2026-11-08",
    "techniques": [
     {
      "slug": "a-test-helper-is-a-fork-of-the-driver",
@@ -39062,6 +39062,22 @@
       "a verifier reports clean and the team concludes the code is sound",
       "deciding what a green dynamic-analysis run is allowed to claim",
       "pairing a coverage number with a verification result"
+     ]
+    },
+    {
+     "slug": "viable-rate-belongs-to-the-target",
+     "status": "forged",
+     "laws": [
+      "count-carries-predicate",
+      "gate-sees-target"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "deciding whether to adopt a test generator from a pilot's numbers",
+      "a generator's success rate was measured on a different language or repository",
+      "budgeting reviewer time for generated tests",
+      "a vendor or sibling team quotes a viable-test percentage",
+      "extending a generator that worked on one part of a repository to another"
      ]
     }
    ],
@@ -43514,6 +43530,7 @@
     "test-harness/suite-partitioning",
     "test-harness/unreached-decisions-pin-nothing",
     "test-harness/verification-inherits-driver-reach",
+    "test-harness/viable-rate-belongs-to-the-target",
     "test-input-generation/field-captured-operation-traces",
     "test-input-generation/generator-bounds-the-space",
     "test-input-generation/inside-out-invariants",
@@ -44824,6 +44841,7 @@
     "test-harness/suite-partitioning",
     "test-harness/unreached-decisions-pin-nothing",
     "test-harness/verification-inherits-driver-reach",
+    "test-harness/viable-rate-belongs-to-the-target",
     "test-input-generation/exhaustive-when-bounded",
     "test-input-generation/negative-space-generation",
     "test-input-generation/proof-cost-follows-the-circuit",

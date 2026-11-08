@@ -184,7 +184,9 @@ nothing and why that zero is a result rather than a gap.
   newsletter's. **Return condition:** a readable text layer for the industry-scale
   generation paper, or any second independent measurement of a per-language
   generator spread. Home would be `test-harness`; the promoting question already
-  confirmed no prior art.
+  confirmed no prior art. **Landed 2026-11-08** as
+  test-harness/viable-rate-belongs-to-the-target (backlog 2-022, blind-ab, better,
+  single-family provisional), on the numbers alone; the causal gloss stays out.
 - **Row 11 — the repair ladder's long tail.** Anchor: "Most files land inside ten
   attempts. The long tail took between fifty and a hundred, with prompts growing
   to 100,000 tokens and up to fifty related files pulled in as context."

@@ -302,3 +302,21 @@ client's timeout out of reach) is banked untriaged at GAIN 1 in the source note.
 2026-10-23 (intake-firetv-inbox-1023, [[2026-10-23-firetv-inbox-harvest]]): new technique assert-the-schedule-not-the-stopwatch (in-flight counts, start barriers, per-fixture clocks). Unapplied, no seam in 10 node trees. Banked: unreached-decisions-pin-nothing gains the overlay-key-that-names-nothing case (row 22). Catches: row 4 (capability-detection), row 18 (secret-scanning-architecture). Row 60 re-homed as a lead under live-system-demo-film.
 
 2026-11-06 (shift-skillkits, [[2026-11-06-agent-skill-kits]]): new technique proved-off-the-path, net +3 at the shift's raised threshold, on a home contested with dead-code (which owns 'tests are not entries') and agent-instruction-files. The twin of a model-run procedure carries it, from two authors; the guard half links out. Census of skills/: no instance, unmeasurable. If a later reader finds the unreached-decisions sentence sufficient, fold this back into it.
+
+## 2026-11-08 - /harvest backlog 2-022 ([[2026-09-04-agentic-testing]], /shift filler)
+
+New technique `viable-rate-belongs-to-the-target`. One generation pipeline spanned roughly one
+viable test in five to four in five across three language ecosystems, so a generator's
+viable-output rate describes the generator and the target together and a pilot's figure does
+not forecast another lane. The step: define viable before any run (including a negative control,
+so a test that cannot fail does not count), measure each target lane separately, decide against
+a threshold derived from local review cost and set before the trial, and treat any explanation
+for a low lane as a hypothesis checked on the local rejects. The source's causal gloss (setup
+cost) stays out: it was the relay's, not the measurement's. Blind-ab, better: two probes at real
+mixed-language trees (a desktop app with a frontend, a wrapper-launched native backend and
+scripted tooling; a game repository with engine C++ and script tools). Neither arm had the golden
+path, which says nothing on generators. Draft arm 10 and 10 against baseline 7 and 6 on a rubric
+written before the arms; a planted plan-around-the-pilot control scored 0. The baseline already
+refused to transfer the rate (C1 2 and 1); the lift was the pre-set local threshold, the can-fail
+predicate and not importing the cause. Weakest point: one draw per arm and a same-family judge,
+and the rubric's criteria track the draft's steps, so the verdict is provisional.
