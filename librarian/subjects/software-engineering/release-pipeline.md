@@ -194,3 +194,18 @@ publisher writes and the consumer runs over their own call sites, keyed on the
 consumption pattern rather than any symbol. The same audit found 41 unordered
 aggregations in that tree of which 13 reach a sequence; 12 were never examined,
 and a keyed-lookup suite is equally blind at any of them.
+
+## 2026-11-08 - /harvest backlog 1-076 ([[2026-08-31-tigerbeetle]], /shift filler)
+
+New technique `skippable-release`: the decision to release at all, which no stage owned. When a
+change and a date collide, the change lands at its own pace and the release is skipped, never the
+review or the verification. Merging never implies releasing, the unreleased ledger carries the
+notes, and versions stay monotonic with gaps (a stamped-then-abandoned number is burned). The
+residual beyond the source: skipping has a ceiling, a merged fix users are exposed to or an
+unreleased ledger past its age bound forces the next release. Blind-ab, better: one probe at a
+managed desktop project's real release history (five tags with no release behind them, a bump-day
+merge burst and a next-day fix wave, a months-old unreleased section). Both arms had this golden
+path; the draft arm scored 10 of 10 against 8. It won on the two checks the technique governs:
+a standing collision rule that makes "no release this week" normal, and gaps allowed where the
+baseline wrote "no number is ever skipped". Weakest point: one draw per arm and a judge from the
+arms' own family, so the verdict is provisional.

@@ -13,6 +13,7 @@ techniques:
   - deprecation-by-version-arithmetic
   - release-level-by-reader-reach
   - announcing-versus-silent-breakage
+  - skippable-release
 ---
 
 # Release pipeline
@@ -208,3 +209,7 @@ The checklist and its ordering are
   — the two classes a breaking release splits into, why the migration aids all
   get built for the class that would have been found anyway, and what an aid
   for the other class looks like on each side of the contract.
+- [skippable-release](./techniques/skippable-release.md) — the decision to
+  release at all: when a change and a date collide the release is skipped, not
+  the review or the check; versions stay monotonic with gaps, and two written
+  conditions end a skip.

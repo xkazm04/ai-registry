@@ -121,7 +121,7 @@ Process half (from the first triage table, which the operator set aside):
    an explicit design purpose; when a PR feels like it must land, land it at its natural
    pace and skip the release instead; the changelog still merges under an `(unreleased)`
    header; version numbers are monotonic *with gaps*. `release-pipeline` has no stage for
-   the decision to release at all. Read: real gap.
+   the decision to release at all. Read: real gap. **Landed 2026-11-08** as release-pipeline/skippable-release (backlog 1-076, blind-ab, better, single-family provisional).
 3. **Bounded ledger that keeps failures and carries dropped work forward.** `cfo.zig:35-46`
    — at most 32 commits, 4 seeds per (commit, fuzzer); prefer failing, prefer faster
    failures as coarse minimisation, prefer older for stability; **when dropping a passing
