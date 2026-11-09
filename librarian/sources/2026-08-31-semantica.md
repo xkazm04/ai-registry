@@ -11,7 +11,7 @@ accepted: 6
 declined: 0
 leads: 5
 already_covered: 3
-untriaged: 9
+untriaged: 8
 dispatched: 0
 applied: 6
 shipped: 0
@@ -144,14 +144,13 @@ exact diagnostic the source recorded.
   package-splitting to multiply installs) rather than only stating the north star.
   Return: a measurement subject that owns Goodharting.
 
-## Untriaged — extracted, reached the table, nobody verified (9)
+## Untriaged — extracted, reached the table, nobody verified (8)
 
 Recorded with anchors so a later run does not re-derive them. **Nobody looked at
 these; they are not declines.**
 
 | # | Claim | Anchor |
 |---|---|---|
-| 1 | A mismatch must veto, not merely fail to boost — a scorer that only adds evidence for agreement merges on absence of evidence | `#1137` |
 | 2 | Widening what a call forwards widens what its cache must key on | `#1213`/`#925` |
 | 3 | A metric with two possible outputs across all inputs is a placeholder — assert variance | `#1142` |
 | 4 | A `**kwargs` catch-all silently downgraded a persistent store to in-memory | `#970` |
@@ -160,6 +159,11 @@ these; they are not declines.**
 | 7 | A rename leaves debris — denylist the retired org slugs | `docs_check.py` §4 |
 | 8 | Docs code blocks validated against the support floor, not the dev runtime | `docs_check.py` §7 |
 | 9 | A platform exemption narrowed by a positive failure marker (skip the noise, not a real failure) | `docs_check.py` §10 |
+
+Row 1 left this list on 2026-11-09 and landed as
+codebase-scanning/mismatch-vetoes-the-merge (backlog 3-020, experiment, better, split).
+The anchor reproduces the claim: two records sharing no identifier, type or name merged
+by default. The half about opposed actions was measured and did not land.
 
 ## Run conditions
 

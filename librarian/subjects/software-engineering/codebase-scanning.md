@@ -1,7 +1,7 @@
 ---
 subject: codebase-scanning
 domain: software-engineering
-last_touched: 2026-09-23
+last_touched: 2026-11-09
 touched_by: intake
 dry_streak: 0
 ---
@@ -168,3 +168,17 @@ won on in-flight reconciliation, ordering, and attach-not-drop with absence vers
 tied on merged-but-not-in-effect, which the baseline already derived from finding-lifecycle's
 "no verdict until shipped". Weakest point: one draw per arm and a judge from the arms' own family,
 so the verdict is provisional.
+
+## 2026-11-09 - /harvest backlog 3-020 ([[2026-08-31-semantica]], /shift filler)
+
+New technique `mismatch-vetoes-the-merge`, split verdict, experiment. The unit's home guess was
+generator-uncertainty-scoring; the owner is this subject, whose dedup is where a filing is folded
+into an old row. Replay of a real agreement-only near-duplicate rule over real commit subjects,
+target written first. Opposed action words, the first reading, separated 1 of 972 merges and missed
+the target, so that half did not land. The merges were differing on a number on each side about
+75% of the time; that reading came from looking, so it was re-measured on a held-out set of five
+repositories: 607 of 977 merges, 30 of 30 read as different work, and a raised threshold separated
+318 of those while losing 218 merges with no mismatch. Weakest points: commit subjects stand in for
+filings, one reader, and a labelled duplicate set the scorer never merged, so recall is bounded by
+the read alone. Not applied at a seam: the project holding the rule is read-only in this pass.
+Return: the near-duplicate door in that project, on its own filings.

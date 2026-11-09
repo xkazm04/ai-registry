@@ -202,3 +202,7 @@ report now has a lane to land in.
 ## 2026-11-09 - harvest 0.7.0 - a floor states what the text under test asks
 
 Backlog 3-014, a model reading a real instruction. The target was met 0 of 8 to 8 of 8, and the row did not land, because the floor was written from what I expected a reader to do, and the instruction under test said otherwise. A second control written after the miss had no sentence in it, so it measured the answer menu's lean toward verifying instead. Before any model arm: read the floor against the literal text, and ask whether the answer menu can itself produce the result. A missed floor is reported as missed, and the row stays queued.
+
+## 2026-11-09 - harvest 0.7.0 - a reading off the sample owes a held-out set
+
+Backlog 3-020. The declared veto missed its target, 1 of 972, and the sample of merges then showed a different shape, a number differing on each side in about 75% of them. That reading was made by looking, so re-scoring it on the same data would have been a win against an answer key I had just read. It went on the record as a second hypothesis, then ran on repositories not yet opened. Backlog 3-022 was a separate catch: the claim sat in one sentence near the end of a section about a different problem, and the file's own slug did not name it. Read the section before drafting a landing.

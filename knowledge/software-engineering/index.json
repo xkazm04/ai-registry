@@ -4,7 +4,7 @@
   "bundle": "software-engineering",
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 245,
-  "techniques": 1990,
+  "techniques": 1991,
   "applications": 1499,
   "laws": 16,
   "categories": [
@@ -20,7 +20,7 @@
    "secret-custody-and-issuance"
   ],
   "layout": "nested",
-  "use_when_coverage": "1990/1990",
+  "use_when_coverage": "1991/1991",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -6766,9 +6766,9 @@
    "subcategory": "codebase-stewardship",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-process/codebase-stewardship/codebase-scanning/codebase-scanning.md",
-   "digest": "sha256-b2:ea212b14a90f0c14",
-   "revision": 13,
-   "changedAt": "2026-11-08",
+   "digest": "sha256-b2:fb5a4cc4a9f7a056",
+   "revision": 14,
+   "changedAt": "2026-11-09",
    "techniques": [
     {
      "slug": "causes-beside-the-finding-count",
@@ -6876,6 +6876,23 @@
       "verifying quoted evidence behind a model finding",
       "a model scan came back suspiciously clean",
       "splitting checks between model and pattern tiers"
+     ]
+    },
+    {
+     "slug": "mismatch-vetoes-the-merge",
+     "status": "forged",
+     "laws": [
+      "unknown-is-not-a-value",
+      "identity-survives-reuse",
+      "count-carries-predicate"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a similarity score decides that a new item is the same as an existing one",
+      "a dedup pass only counts what two items share",
+      "a near-duplicate check folds a new filing into an old row",
+      "raising a similarity threshold is proposed to stop wrong merges",
+      "deciding what a field present on both sides and different must do to a match"
      ]
     },
     {
@@ -44486,6 +44503,7 @@
     "codebase-scanning/dead-code-detection",
     "codebase-scanning/evidence-scoping",
     "codebase-scanning/ingestion-budget",
+    "codebase-scanning/mismatch-vetoes-the-merge",
     "codebase-scanning/precision-trades-have-a-direction",
     "codebase-scanning/rule-precision-discipline",
     "codebase-scanning/sensor-pipeline",
@@ -44980,6 +44998,7 @@
     "client-fetch-cache/sibling-entry-warmth",
     "client-state/observed-read-subscription",
     "client-state/store-dependency-topology",
+    "codebase-scanning/mismatch-vetoes-the-merge",
     "companion-identity/brain-adoption-consent",
     "companion-identity/operator-profile-synthesis",
     "companion-runtime/metered-llm-seam",
@@ -45546,6 +45565,7 @@
     "client-state/singleton-lifecycle",
     "client-state/status-fsms",
     "codebase-scanning/finding-lifecycle",
+    "codebase-scanning/mismatch-vetoes-the-merge",
     "codebase-scanning/reconcile-before-the-cut",
     "companion-identity/anchored-identity-diffs",
     "companion-identity/disk-truth-db-index",

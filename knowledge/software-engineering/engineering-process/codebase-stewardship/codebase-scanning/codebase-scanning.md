@@ -19,6 +19,7 @@ techniques:
   - the-narrowest-view-owns-the-number
   - the-broad-root-is-the-unaudited-one
   - reconcile-before-the-cut
+  - mismatch-vetoes-the-merge
 ---
 
 # Codebase scanning & triage
@@ -347,6 +348,10 @@ nowhere ([causes-beside-the-finding-count](./techniques/causes-beside-the-findin
 - [finding-lifecycle](./techniques/finding-lifecycle.md) — stable finding
   identity and dedup keys, impact-per-effort ordering, verify-then-file,
   post-fix cleared/regressed/persisted verdicts, recorded suppression.
+- [mismatch-vetoes-the-merge](./techniques/mismatch-vetoes-the-merge.md) — a
+  scorer that only counts agreement merges on the absence of a reason not to; a
+  field present on both sides and different vetoes before the score is read, one
+  side's silence does not, and a raised threshold is not the same repair.
 - [reconcile-before-the-cut](./techniques/reconcile-before-the-cut.md) — before a
   sweep hands its top few to workers, check each candidate against work in flight
   (open change requests, unmerged branches, unpushed work on live checkouts, merged

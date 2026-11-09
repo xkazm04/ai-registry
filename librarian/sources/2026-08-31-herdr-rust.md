@@ -190,7 +190,11 @@ from the 2026-08-27 run's table and remain unpicked.
 | 6 | An unversioned install command makes the default branch a file's release channel | "tracks the latest stable release because the unversioned command installs it from `master`" | agent-instruction-files |
 | 8 | An isolation boundary must publish what it does not isolate | **second sighting**; a third makes it a law candidate | `_laws.md` |
 | 13 | Adversarial-identity fixtures plus a test-only invariant assertion, mandated for identity/state refactors | `test_with_adversarial_identity_state()` + `assert_invariants_for_test()` | test-harness |
-| 14 | Frame caps are per payload class, not one global (2 MB default / 32 MB graphics / 16 MB clipboard) | `MAX_FRAME_SIZE`, `MAX_GRAPHICS_FRAME_SIZE` | rate-limiting |
+
+Row 14 left this list on 2026-11-09 as covered (backlog 3-022): the caps are stated by
+admission-queue/resource-denominated-bounds ("a few declared tiers"). The pinned
+`src/protocol/wire.rs` confirms the 2 MB and 32 MB caps; the 16 MB clipboard one was
+not located in that file.
 
 ## The one the operator declined
 
