@@ -187,13 +187,14 @@
       "name": "daybreak",
       "source": "./skills/daybreak",
       "description": "Spend a ChatGPT/Codex plan on daily fleet hardening under Claude review. Use for a recurring stabilize or optimize pass across the connected projects, when Codex tokens are plentiful and Codex builders alone are not trusted. After one handshake with the operator (projects, strategy, hours, RAM, push consent, focus), Codex gpt-6.1-sol at medium effort surveys each context read-only; the Director…",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "category": "workflow",
       "tags": [
         "codex",
         "fleet",
         "stabilize",
         "optimize",
+        "census",
         "orchestration",
         "daily"
       ]

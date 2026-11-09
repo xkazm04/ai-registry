@@ -394,6 +394,8 @@
         "skills/cloud-dispatch/scripts/overflow.mjs",
         "skills/cloud-dispatch/scripts/queue.mjs",
         "skills/cloud-dispatch/tests/test_cloud_dispatch.mjs",
+        "skills/daybreak/scripts/census.mjs",
+        "skills/daybreak/tests/census.test.mjs",
         "skills/daybreak/scripts/codex-run.mjs",
         "skills/daybreak/scripts/pick-projects.mjs",
         "skills/daybreak/scripts/ram-governor.mjs",

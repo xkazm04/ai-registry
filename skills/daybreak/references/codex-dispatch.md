@@ -7,7 +7,7 @@ facts are in `codex-probe.md`; this file is the operating procedure on top of th
 
 ```sh
 node <skill>/scripts/codex-run.mjs --cwd <worktree> --brief <plan.md> \
-  --run-dir <scratch>/daybreak/<date>/<slug>/<item> \
+  --run-dir <runs>/<date>/<slug>/<item> \
   --sandbox write --timeout-min 45
 ```
 

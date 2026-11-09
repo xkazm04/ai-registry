@@ -1,10 +1,10 @@
 ---
 name: daybreak
-description: "Spend a ChatGPT/Codex plan on daily fleet hardening under Claude review. Use for a recurring stabilize or optimize pass across the connected projects, when Codex tokens are plentiful and Codex builders alone are not trusted. After one handshake with the operator (projects, strategy, hours, RAM, push consent, focus), Codex gpt-6.1-sol at medium effort surveys each context read-only; the Director triages the findings and rewrites every accepted item into a tight plan; RAM-governed Codex builders implement them in short-path worktrees; the Director reviews every diff and runs the project's gates; one pull request per consenting project comes out. Projects not yet synced with the registry get their map built first. Run records live in the Obsidian vault so each run starts from what the last one learned, and repeated failures are promoted into the Codex brief templates with a version bump. Invoke with /daybreak, /daybreak status, or /daybreak resume."
+description: "Spend a ChatGPT/Codex plan on daily fleet hardening under Claude review. Use for a recurring stabilize or optimize pass across the connected projects, when Codex tokens are plentiful and Codex builders alone are not trusted. After one handshake with the operator (projects, strategy, hours, RAM, push consent, focus), Codex gpt-6.1-sol at medium effort surveys each context read-only; the Director triages the findings and rewrites every accepted item into a tight plan; RAM-governed Codex builders implement them in short-path worktrees; the Director reviews every diff and runs the project's gates; one pull request per consenting project comes out. A read-only census strategy measures the two-way gap with the registry: parts rebuilt against an existing standard, and parts the registry lacks. Run records live in the Obsidian vault so each run starts from what the last one learned, and repeated failures are promoted into the Codex brief templates with a version bump. Invoke with /daybreak, /daybreak status, or /daybreak resume."
 category: workflow
 memory: vault
-version: 1.0.0
-tags: codex, fleet, stabilize, optimize, orchestration, daily
+version: 1.1.0
+tags: codex, fleet, stabilize, optimize, census, orchestration, daily
 argument-hint: "[status | resume]"
 ---
 
@@ -16,7 +16,9 @@ argument-hint: "[status | resume]"
 > reaches a pull request unread.
 
 `<registry>` is the ai-registry checkout this skill lives in. `<skill>` is
-`<registry>/skills/daybreak`. Scripts are builtins-only Node:
+`<registry>/skills/daybreak`. `<runs>` is `$DAYBREAK_RUNS`, else `~/.daybreak/runs`: it holds
+every brief and result, and it is outside any session or worktree because a run outlives
+both. Scripts are builtins-only Node:
 `node --test skills/daybreak/tests/*.test.mjs` pins them.
 
 ## Roles
@@ -32,7 +34,7 @@ This skill has no overlay file. Each swept project's conventions come from its o
 ## Invocation
 
 - `/daybreak` - a new run, starting at Phase 0.
-- `/daybreak resume` - read the newest run directory under `<scratch>/daybreak/` and continue at the first project without a landing line; relaunch an interrupted builder with `--resume <sessionId>` from its `result.json`.
+- `/daybreak resume` - read the newest run directory under `<runs>` and continue at the first project without a landing line (a census: at the first context without a `result.json`); relaunch an interrupted builder with `--resume <sessionId>` from its `result.json`.
 - `/daybreak status` - print the last five `Daybreak/ledger.jsonl` lines per project, then stop.
 
 For a recurring run, the operator starts `/loop /daybreak`. Every firing that finds no active run begins at the handshake; **a firing never skips the handshake.**
@@ -45,20 +47,20 @@ For a recurring run, the operator starts `/loop /daybreak`. Every firing that fi
 
 ## Phase 1 - Pick and read the ground
 
-1. `node <skill>/scripts/pick-projects.mjs --registry-root <registry>`: unsynced first, then oldest sweep. A frozen project (`.ai/freeze.json`, `.ai/FREEZE`, or the vault's `Daybreak/freeze.json`) is dropped.
+1. `node <skill>/scripts/pick-projects.mjs --registry-root <registry>`: never-censused first, then the most unjudged pairs, then the oldest sweep. No project counts as synced; the output gives each one's measured coverage. A frozen project (`.ai/freeze.json`, `.ai/FREEZE`, or the vault's `Daybreak/freeze.json`) is dropped.
 2. For each candidate, `git fetch`, then record: base branch, ahead/behind against the remote, dirty paths, the project's deadline or freeze record (hackathon rules, `docs/build/STATUS`, `AGENTS.md`), whether it has a remote, and whether it is private. **Work always starts from the remote's base**, whatever the local branch holds; many fleet mains are diverged.
 3. Slots: `node <skill>/scripts/ram-governor.mjs --json`. One slot is one Codex process plus its project's gate tooling.
 
 ## Phase 2 - Handshake
 
-One AskUserQuestion wave, no more. Show the ranked projects with synced state, proposed strategy, and an estimate that says how it was derived. Collect:
+One AskUserQuestion wave, no more. Show the ranked projects with their coverage, proposed strategy, and an estimate that says how it was derived. Propose `census` until a project has one on record. Collect:
 
-- **Projects** (multiSelect) and **strategy** per project: `stabilize`, `optimize`, or both.
+- **Projects** (multiSelect) and **strategy** per project: `census`, `stabilize`, `optimize`, or both of the last two. A `census` skips Phases 3 to 6 and follows Census mode.
 - **Budget:** hours available and a RAM ceiling.
 - **Push consent per project.** Only a consenting project gets a pushed branch and a PR. It is never carried over from a previous run. No consent, no remote, or a failing push hook means the work stays on the local `daybreak/<date>` branch and the report says so.
 - **Focus nudge:** one optional line that steers the lens package.
 
-Write the answers into `<scratch>/daybreak/<date>/handshake.json`. Nothing outside this list is asked until the report.
+Write the answers into `<runs>/<date>/handshake.json`. Nothing outside this list is asked until the report.
 
 ## Phase 3 - Sync, then survey
 
@@ -116,6 +118,22 @@ For a consenting project with commits: push `daybreak/<date>` and open one PR wi
 3. Report per project: found, rejected by reason, built, landed, PR or branch, Codex tokens, failure classes, and what awaits the operator.
 4. **Learn.** A lesson is a measured change in what to look for or how to direct Codex. Record it in `LESSONS.md` against the version used. **A failure class or a rejection reason seen in two runs is promoted**: a new clause in the brief template that would have prevented it, or a lens dropped or sharpened in `survey-brief.md`, plus a row in the failure table, plus a version bump in the same commit. A lesson that lives only in `LESSONS.md` never reaches the next builder. The bump lands through the registry's own gates; it is never made in an installed copy.
 5. Release the run-board claim.
+
+## Census mode - measure the two-way gap
+
+No project fully follows the registry, and nobody knows by how much. Parts get rebuilt where a golden path exists (inbound), and parts forged in projects never reach the registry (outbound). A census measures both. **It is read-only: no build, branch, PR, or registry-map write.** A census spans days, so it must be resumable.
+
+**Pilot before the fleet.** The first census of a brief version runs steps 1 to 4 on one project, and the fleet waits for its audit to pass. Audit misses as well as false claims: for each sampled context, also open its largest part and ask whether a `consumes` verdict hides a missed rule. On the first real context the relation flipped between two runs (`LESSONS.md`).
+
+1. **Tree.** A detached worktree per project, at the local base tip when that is ahead of the remote (unpushed work is real code), otherwise at `origin/<base>`. Never read a working tree: sibling WIP is not the project. No dependency install is needed. Record slug-to-tree in `<runs>/<date>/roots.json`.
+2. **Read.** One `--sandbox read` Codex per context, briefed from `references/census-brief.md` with that context's subjects from `.ai/registry-map.json`, with run directories at `<runs>/<date>/census/<slug>/<context>`. Skip a context that already has a `result.json` of class `done`. No map: pass "none known" and expect a higher `no-standard` share, which is itself a finding. No context map: top-level source directories.
+3. **Collect.** `node <skill>/scripts/census.mjs collect --runs <runs>/<date>/census --roots <runs>/<date>/roots.json --out <runs>/<date>/census.json`. A part whose quote is not in the cited file is dropped and counted.
+4. **Audit.** `census.mjs sample --census <file> --per-project 5 --out <sample>`. The Director opens each sampled part in the code, judges whether its `relation` is right, and writes `{"<id>":"agree"|"disagree"}`. The error rate is reported beside every count. Above 30%, treat the census as failed for that project: sharpen the brief and do not file leads from it.
+5. **Report.** `census.mjs report --census <file> --audit <audit>` writes `Daybreak/census/<date>.md`: per-project inbound and outbound, plus shared-part candidates (the same kind and stack in 3 or more projects, with their capabilities).
+6. **Leads.** The Director verifies the strongest outbound parts against the code, at most 5 per project, and appends them to that project's `.ai/registry-leads.jsonl` with `"from":"daybreak@<version> census"` and `"because"` saying the code was read and not changed. This is a labeled exception to `## Knowledge sync`, which admits only lessons from landed fixes; `/intake` still decides what survives.
+7. **Record.** One ledger line per project with `"strategy":"census"`. Remove the worktrees.
+
+**Verdicts stay out of the maps.** Census judgments are not written to `.ai/registry-map.json`; those belong to `/conform`. Promoting them is a later decision, made with the audited error rate in hand.
 
 ## Invariants
 
