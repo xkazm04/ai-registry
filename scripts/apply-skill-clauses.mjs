@@ -83,7 +83,7 @@ const CLAUSES = [
   {
     id: 'knowledge-sync', version: 2,
     skills: ['architect', 'council', 'explorer', 'friend', 'perfect', 'ship-loop', 'spark', 'tiger', 'uat', 'mvp',
-      'research', 'project-populate', 'i18n-translate', 'kpi-sim', 'ci-triage', 'promote', 'straighten', 'maintain', 'kit', 'illustrate', 'lens-scan'],
+      'research', 'project-populate', 'i18n-translate', 'kpi-sim', 'ci-triage', 'promote', 'straighten', 'maintain', 'kit', 'illustrate', 'lens-scan', 'daybreak'],
   },
   // The backlog scanners share one finding contract (scores, MVP per lens, reserve band, autonomy
   // ladder). Dowser carries a byte copy outside the lane; inside it, the stamp is the only copy.
