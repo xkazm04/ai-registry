@@ -318,7 +318,11 @@ test('runUntil: a log that cannot be written is reported and the wait still ends
     sample: async () => ({ ...quietRaw, diskFreeGb: 1 }), warn: (m) => warned.push(m),
   });
   assert.equal(out.event, 'pressure');
-  assert.equal(warned.length, 1);
+  // Count the WRITE warning, not every warning. With the state dir replaced by a file, a read
+  // under it fails ENOENT on Windows (no ledger: silent) and ENOTDIR on Linux (ledger
+  // unreadable: the canary arms and says so). Both are right; `warned.length === 1` was true
+  // on the machine that wrote this test and red on CI.
+  assert.equal(warned.filter((m) => /could not write/.test(m)).length, 1, warned.join(' | '));
 });
 
 const roomy = { ...quietRaw, cpuPct: 10, availableMb: 40000 };
