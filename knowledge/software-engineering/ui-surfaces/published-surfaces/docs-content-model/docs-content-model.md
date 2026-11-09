@@ -10,6 +10,7 @@ techniques:
   - per-topic-freshness-metadata
   - draft-visibility-gating
   - product-location-mapping
+  - reference-integrity-is-per-edition
 ---
 
 # Documentation content model
@@ -248,3 +249,7 @@ pretends otherwise adopts this model and then resents it:
 - [product-location-mapping](./techniques/product-location-mapping.md) — the
   described feature's location as typed data; coarse handles typed, fine
   handles prose; the other side's authority named where the type cannot reach.
+- [reference-integrity-is-per-edition](./techniques/reference-integrity-is-per-edition.md) —
+  a source cut into audience editions needs its references resolved per edition;
+  the substitute definition as a tested dependency; an edition is in the gate or
+  it is not shipped.

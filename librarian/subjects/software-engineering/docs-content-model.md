@@ -1,7 +1,7 @@
 ---
 subject: docs-content-model
 domain: software-engineering
-last_touched: 2026-08-22
+last_touched: 2026-11-09
 dry_streak: 0
 ---
 
@@ -16,6 +16,10 @@ First touch: [[2026-08-22-4]] — the 2026-08-22 harvest wave. Class: NEW.
 ## Open leads (banked, with return conditions)
 
 - **absence-carries-meaning** (proposed law, not added). An optional field's emptiness needs a declared meaning or every consumer resolves it toward no-work. Three sightings, two of them in EXISTING techniques (`doc-rot-detection`'s unverifiable verdict, `source-doc-mapping`'s not-coupled). Strongest of the wave's proposals on evidence outside itself. Return next sweep.
+
+## 2026-11-09 - backlog 3-017
+
+`reference-integrity-is-per-edition` landed (experiment, better). Replay of one specification's source: 2,827 references resolve in the source and dangle in its developer edition; 1,460 more hold only through substitute definitions; 39 of 40 sampled live mentions render unlinked. The parser is approximate and three pages is a sample. The half about an edition that stopped building was not measured. Not applied at a seam: no fleet project ships audience editions.
 
 ## Declines
 

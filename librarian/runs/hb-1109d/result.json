@@ -1,0 +1,65 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "hb-1109d",
+  "skill": "harvest",
+  "skill_version": "0.7.0",
+  "mode": "backlog",
+  "domain": "software-engineering",
+  "started_at": "2026-11-09T09:00:10Z",
+  "ended_at": "2026-11-09T09:40:10Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 1,
+    "landed": 2,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "software-engineering/docs-content-model",
+      "at": "2026-11-09",
+      "engine": "shift",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    },
+    {
+      "id": "software-engineering/docs-sync",
+      "at": "2026-11-09",
+      "engine": "shift",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "software-engineering/docs-content-model",
+      "technique": "reference-integrity-is-per-edition",
+      "verdict": "better",
+      "mode": "experiment"
+    },
+    {
+      "subject": "software-engineering/docs-sync",
+      "technique": "prose-as-an-execution-surface",
+      "verdict": "better",
+      "mode": "experiment"
+    }
+  ],
+  "files": [
+    "knowledge/software-engineering/ui-surfaces/published-surfaces/docs-content-model/docs-content-model.md",
+    "knowledge/software-engineering/engineering-process/codebase-stewardship/docs-sync/techniques/prose-as-an-execution-surface.md",
+    "knowledge/software-engineering/ui-surfaces/published-surfaces/docs-content-model/techniques/reference-integrity-is-per-edition.md",
+    "librarian/sources/2026-08-31-whatwg-html.md",
+    "librarian/subjects/software-engineering/docs-content-model.md",
+    "librarian/subjects/software-engineering/docs-sync.md",
+    "librarian/applied.md",
+    "librarian/harvest/backlog.jsonl"
+  ],
+  "commits": [],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "Backlog wave, /shift filler, one seat. 3-017 better (experiment, replay). 3-018 split (experiment): unscoped half landed, used-once half did not. 3-014 inconclusive: target met, both floors missed, stays queued. No GPU, no build-class gate."
+}

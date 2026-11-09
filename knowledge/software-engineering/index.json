@@ -4,7 +4,7 @@
   "bundle": "software-engineering",
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 245,
-  "techniques": 1989,
+  "techniques": 1990,
   "applications": 1499,
   "laws": 16,
   "categories": [
@@ -20,7 +20,7 @@
    "secret-custody-and-issuance"
   ],
   "layout": "nested",
-  "use_when_coverage": "1989/1989",
+  "use_when_coverage": "1990/1990",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -12962,9 +12962,9 @@
    "subcategory": "published-surfaces",
    "status": "forged",
    "file": "knowledge/software-engineering/ui-surfaces/published-surfaces/docs-content-model/docs-content-model.md",
-   "digest": "sha256-b2:74839e7c9eeb3728",
-   "revision": 4,
-   "changedAt": "2026-10-22",
+   "digest": "sha256-b2:71cfd0ca7d489484",
+   "revision": 5,
+   "changedAt": "2026-11-09",
    "techniques": [
     {
      "slug": "catalog-referential-invariants",
@@ -13037,6 +13037,21 @@
       "prose navigation instructions going stale after a rename",
       "linking a product surface to the topic that explains it"
      ]
+    },
+    {
+     "slug": "reference-integrity-is-per-edition",
+     "status": "forged",
+     "laws": [
+      "gate-sees-target",
+      "failure-not-empty-success"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "one source document is cut into several audience editions",
+      "a link check runs over the source and every edition ships unchecked",
+      "an edition drops the section that defines a term the kept text uses",
+      "deciding what a per-span inclusion marker owes the references around it"
+     ]
     }
    ],
    "applications": [
@@ -13082,9 +13097,9 @@
    "subcategory": "codebase-stewardship",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-process/codebase-stewardship/docs-sync/docs-sync.md",
-   "digest": "sha256-b2:fd96220db75846a1",
-   "revision": 14,
-   "changedAt": "2026-09-25",
+   "digest": "sha256-b2:efeeafbec8ac057d",
+   "revision": 15,
+   "changedAt": "2026-11-09",
    "techniques": [
     {
      "slug": "catch-up-markers",
@@ -13232,6 +13247,7 @@
      "shared_with": [],
      "use_when": [
       "a document contains a command a reader will paste",
+      "a fenced command uses a variable the document never sets",
       "deciding whether a prose gate is a style check or a safety check",
       "an install line names a package the project does not own",
       "the program prints setup instructions of its own",
@@ -43159,6 +43175,7 @@
     "digest-bound-operator-writes/plan-twice-run-if-unchanged",
     "digest-bound-operator-writes/precondition-token-on-every-write",
     "docs-content-model/catalog-referential-invariants",
+    "docs-content-model/reference-integrity-is-per-edition",
     "docs-sync/coupled-surface-inventory",
     "docs-sync/cross-repo-drift-detection",
     "docs-sync/named-duplication-points",
@@ -43798,6 +43815,7 @@
     "digest-bound-operator-writes/unretried-write-unknown-outcome",
     "docs-content-model/catalog-referential-invariants",
     "docs-content-model/per-topic-freshness-metadata",
+    "docs-content-model/reference-integrity-is-per-edition",
     "docs-sync/catch-up-markers",
     "docs-sync/checked-vs-skipped-denominators",
     "docs-sync/doc-rot-detection",

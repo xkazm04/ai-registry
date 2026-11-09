@@ -6,7 +6,7 @@ technique: prose-as-an-execution-surface
 status: forged
 laws: [gate-sees-target, absent-guard-is-loud]
 shared_with: []
-use_when: [a document contains a command a reader will paste, deciding whether a prose gate is a style check or a safety check, an install line names a package the project does not own, the program prints setup instructions of its own, guidance shows a credential as a positional argument]
+use_when: [a document contains a command a reader will paste, a fenced command uses a variable the document never sets, deciding whether a prose gate is a style check or a safety check, an install line names a package the project does not own, the program prints setup instructions of its own, guidance shows a credential as a positional argument]
 ---
 
 # Prose is an execution surface
@@ -73,6 +73,29 @@ hands to a machine that will run it without reading the paragraph around it.
 The last one deserves its own beat — an instruction file consumed by an
 automated reader has no recovering human in the loop at all, so every
 mitigation that depends on the reader noticing is gone.
+
+## A third population: the variable nobody set
+
+A fenced command that reads a variable the document never assigns also runs as
+written. The shell expands it to nothing and carries on, so a clone lands at the
+root of the disk and a loop over an unset list silently does zero passes. An
+agent following the procedure has no paragraph to recover from.
+
+The check is declared scope, and the scope is the document: every variable a
+fenced block reads is assigned in a fenced block of that document, or named as
+coming from the runtime. Run over one repository's own procedures (79 documents
+with shell blocks), it raised 11 unscoped reads. By hand, one reviewer: 6 were
+real, 4 distinct defects (one snippet was copied into three documents), for 55%
+precision against a target of 50% written first; a planted typo was caught and a
+clean block raised nothing. The 5 false ones were runtime-provided variables and
+one bound by the sentence above it, so **the allowlist of what the runtime sets
+is part of the check**, and it needs a named escape with a reason, per
+[waiver-names-its-finding](../../../standards-and-gates/quality-gates/techniques/waiver-names-its-finding.md).
+
+Do not port the companion rule. In a specification's algorithms a variable used
+exactly once is suspicious, because each one is declared and then consumed. In
+shell procedures the same rule raised 12 warnings and none was a defect: flags,
+environment prefixes and arguments look like single-use variables by construction.
 
 ## What this gate is not
 

@@ -198,3 +198,7 @@ report now has a lane to land in.
 ## 0.7.0 - 2026-11-09 - ai-registry (`/harvest backlog --size 3` as a /shift filler, 3 rows, 1 seat, blind-ab arms by CLI)
 
 - **A rubric that names the form of the answer can pay for the form.** 3-013 met its target at exactly +2, and all of the gain was one baseline answer that reached the same outcome by declaring removed names instead of omitting them. Read the baseline's losing answer before crediting the gain; the row records both the score and the audit.
+
+## 2026-11-09 - harvest 0.7.0 - a floor states what the text under test asks
+
+Backlog 3-014, a model reading a real instruction. The target was met 0 of 8 to 8 of 8, and the row did not land, because the floor was written from what I expected a reader to do, and the instruction under test said otherwise. A second control written after the miss had no sentence in it, so it measured the answer menu's lean toward verifying instead. Before any model arm: read the floor against the literal text, and ask whether the answer menu can itself produce the result. A missed floor is reported as missed, and the row stays queued.

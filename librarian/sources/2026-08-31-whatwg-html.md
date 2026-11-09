@@ -12,7 +12,7 @@ accepted: 2
 declined: 0
 leads: 2
 already_covered: 3
-untriaged: 6
+untriaged: 4
 dispatched: 0
 applied: 2
 shipped: 0
@@ -253,7 +253,7 @@ code, and the attribute work needs the token separated before any rule is added
   and `dated-corrections` hold this ground; the source adds a good sentence and
   no new rule.
 
-## Untriaged — 6, with anchors, unverified
+## Untriaged — 4, with anchors, unverified
 
 Nobody judged these. Recorded so a later run does not re-derive them.
 
@@ -276,23 +276,20 @@ Nobody judged these. Recorded so a later run does not re-derive them.
    conflicting with already-deployed (and valid!) content." The gap between what
    you refuse to emit and what you must accept *is* the extension budget. Pairs
    with 2 and is probably one finding with it.
-4. **Audience-scoped projection from one source** (`.github/CONTRIBUTING.md`):
-   per-span inclusion attributes cut four different audience editions from one
-   document, plus a `subdfn` mechanism that designates a substitute definition
-   anchor when the real one lives in an excluded span. Carries a paid-for
-   failure recorded in the operating doc: *"for a long period the developer's
-   edition was not working and so we made a lot of changes without properly
-   considering their impact on it"* — a derived view that stopped building was
-   neither removed nor fixed, and the debt is now undiscoverable.
-5. **A linter over prose** (`.github/CONTRIBUTING.md`): variables in
-   specification algorithms are scope-checked by the build — an unscoped
-   variable is an error, a variable appearing exactly once inside an algorithm
-   is a warning, and there is an explicit `ignore` suppression. A document
-   treated as code, with a declared-scope construct and a named escape hatch.
 6. **The feature cost ledger** (`FAQ.md:351-365`): eleven enumerated costs of
    adding one platform feature — implementation, tests, QA, refactoring,
    tutorials, cognitive load, reduced exploration, page maintenance, spec
    writing, bug fixing, binary size. Almost none paid by the proposer.
+
+Rows 4 and 5 left this list on 2026-11-09. Row 4 landed as
+docs-content-model/reference-integrity-is-per-edition (backlog 3-017, experiment,
+better): replaying the source with the developer edition's drops gave 2,827
+references to dropped definitions over 710 terms, and removing the substitute
+definitions raised that to 4,887. Its second half, the edition that stopped
+building, is reported from the operating doc and was not measured. Row 5 landed in
+part as an amendment to docs-sync/prose-as-an-execution-surface (backlog 3-018,
+experiment): the unscoped-read half met its target on shell procedures, 6 of 11
+real, and the used-once half did not, 0 of 12.
 
 ## Leads — 2, with return conditions
 

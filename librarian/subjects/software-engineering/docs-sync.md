@@ -1,7 +1,7 @@
 ---
 subject: docs-sync
 domain: software-engineering
-last_touched: 2026-09-23
+last_touched: 2026-11-09
 dry_streak: 0
 ---
 
@@ -307,3 +307,7 @@ corpus is ahead of the fleet on that third one and the return condition says so.
 Lead drain (run lib-0923), L350 AMEND to `same-change-enforcement`: the counter-evidence joined the landing - a predicate imported into CI carries its flaw (any doc under the prefix passes) into a binding gate.
 
 **Impact** (stale verdicts before this landing, from the map rebuilt at the run start): personas 1.
+
+## 2026-11-09 - backlog 3-018
+
+Amendment to `prose-as-an-execution-surface` (experiment, better for the unscoped-read half). Scope check over this repository's own fenced shell blocks: 11 findings, 6 real, 4 distinct defects, one reviewer. The used-once half did not port: 0 of 12. Not applied: the defects it found sit in four skills and were left for their own versioned change.
