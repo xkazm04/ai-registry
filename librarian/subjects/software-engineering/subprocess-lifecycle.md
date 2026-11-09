@@ -1,7 +1,7 @@
 ---
 subject: subprocess-lifecycle
 domain: software-engineering
-last_touched: 2026-11-06
+last_touched: 2026-11-09
 touched_by: intake
 dry_streak: 0
 ---
@@ -25,6 +25,19 @@ round-trip at daemon load, not heartbeats - no periodic pulse exists.
 ## 2026-11-06 - shift-rust ([[2026-11-06-rust-craft]])
 
 Currency only: rtk decode application re-pinned; an adoption count that could not be reproduced was replaced with a stated pattern. See [[2026-10-14-rtk]]. `running-session-plans-a-settings-change` stays untriaged at 2/0/2, one voice.
+
+## 2026-11-09 - /harvest backlog 3-024 ([[2026-08-27-whip-coding-agent-harness]], /shift filler)
+
+New technique `enrichment-wait-excludes-cold-start`, better, experiment. A language server over
+about 2,700 files of real code replicated to stand in for a large project, target and floors
+written first. Load on first touch with a 5 s wait: 4.6 to 4.9 s on the first edit. Capped at
+1.5 s: first edit delivered 0 of 3 runs, and each returned empty while a planted error existed.
+Load started at the read 40 s earlier: 0.14 s, 2 of 2. At 3.8 s earlier: 1 of 3, so the early
+start needs the read to lead the edit by more than the load. Warm edits were delivered 11 of 11 under
+both caps. The first attempt at scale was void: the server's size limit had disabled it, caught
+by a project-info control. Weakest points: replicated code, one server, a load near 4.7 s and
+not tens of seconds, and no measurement of whether an agent edits better. Not applied at a seam:
+no fleet edit tool was changed in this pass. Return: an agent host that waits on diagnostics.
 
 ## Open leads (banked, convergence rule applies)
 

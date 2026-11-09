@@ -1,0 +1,61 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "hb-1109f",
+  "skill": "harvest",
+  "skill_version": "0.7.0",
+  "mode": "backlog",
+  "domain": "software-engineering",
+  "started_at": "2026-11-09T10:08:06Z",
+  "ended_at": "2026-11-09T10:36:01Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 1,
+    "landed": 1,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "software-engineering/subprocess-lifecycle",
+      "at": "2026-11-09",
+      "engine": "shift",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "software-engineering/subprocess-lifecycle",
+      "technique": "enrichment-wait-excludes-cold-start",
+      "verdict": "better",
+      "mode": "experiment"
+    },
+    {
+      "subject": "software-engineering/docs-content-model",
+      "technique": null,
+      "verdict": "not-better",
+      "mode": "experiment"
+    },
+    {
+      "subject": "software-engineering/retrieval",
+      "technique": null,
+      "verdict": "not-better",
+      "mode": "experiment"
+    }
+  ],
+  "files": [
+    "knowledge/software-engineering/llm-agent/runtime-and-io/subprocess-lifecycle/subprocess-lifecycle.md",
+    "knowledge/software-engineering/llm-agent/runtime-and-io/subprocess-lifecycle/techniques/enrichment-wait-excludes-cold-start.md",
+    "librarian/sources/2026-08-27-whip-coding-agent-harness.md",
+    "librarian/subjects/software-engineering/subprocess-lifecycle.md",
+    "librarian/applied.md",
+    "librarian/harvest/backlog.jsonl"
+  ],
+  "commits": [],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "Backlog wave, /shift filler, one seat. 3-024 better (experiment), landed, no seam changed. 3-023 and 4-005 not-better (experiment). 3-014 skipped, already measured. No GPU, no build-class gate."
+}

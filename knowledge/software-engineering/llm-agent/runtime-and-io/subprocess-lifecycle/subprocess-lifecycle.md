@@ -13,6 +13,7 @@ techniques:
   - host-resource-protection
   - decode-child-output-per-line
   - agent-editable-children-get-no-secrets
+  - enrichment-wait-excludes-cold-start
 ---
 
 # Subprocess & CLI session lifecycle
@@ -269,3 +270,7 @@ Two rules fall out of the table:
   — two environment tiers: the agent holds only its own credentials, every
   child that runs code the agent can edit holds none, and a named pass-through
   reaches those children and never the agent.
+- [enrichment-wait-excludes-cold-start](./techniques/enrichment-wait-excludes-cold-start.md)
+  — a tool waiting on a helper for optional detail caps the wait at the warm
+  answer, starts the helper's load at the read, and reports an expired wait as
+  unfinished rather than clean.

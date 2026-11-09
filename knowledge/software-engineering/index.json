@@ -4,7 +4,7 @@
   "bundle": "software-engineering",
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 245,
-  "techniques": 1991,
+  "techniques": 1992,
   "applications": 1499,
   "laws": 16,
   "categories": [
@@ -20,7 +20,7 @@
    "secret-custody-and-issuance"
   ],
   "layout": "nested",
-  "use_when_coverage": "1991/1991",
+  "use_when_coverage": "1992/1992",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -36688,9 +36688,9 @@
    "subcategory": "runtime-and-io",
    "status": "reconciled",
    "file": "knowledge/software-engineering/llm-agent/runtime-and-io/subprocess-lifecycle/subprocess-lifecycle.md",
-   "digest": "sha256-b2:73d266b807387855",
-   "revision": 18,
-   "changedAt": "2026-11-07",
+   "digest": "sha256-b2:1220b3efdfac5988",
+   "revision": 19,
+   "changedAt": "2026-11-09",
    "techniques": [
     {
      "slug": "agent-editable-children-get-no-secrets",
@@ -36753,6 +36753,23 @@
       "child output shows replacement characters or box-drawing garbage where letters belong",
       "one captured stream mixes tools that write different encodings",
       "a parser or a model reads text decoded from a console program"
+     ]
+    },
+    {
+     "slug": "enrichment-wait-excludes-cold-start",
+     "status": "forged",
+     "laws": [
+      "failure-not-empty-success",
+      "unknown-is-not-a-value"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a tool result waits on a helper process for extra information",
+      "an edit tool blocks for diagnostics from a language server",
+      "the first call in a session is much slower than later ones",
+      "choosing a timeout for optional enrichment on a tool result",
+      "deciding when to start a helper that takes seconds to load",
+      "a capped wait returned nothing and the result read as clean"
      ]
     },
     {
@@ -44202,6 +44219,7 @@
     "structured-output/schema-validation-and-repair",
     "subprocess-lifecycle/cancellation-needs-a-terminable-unit",
     "subprocess-lifecycle/decode-child-output-per-line",
+    "subprocess-lifecycle/enrichment-wait-excludes-cold-start",
     "subprocess-lifecycle/liveness-and-heartbeats",
     "subprocess-lifecycle/session-reuse",
     "subprocess-lifecycle/termination-and-reaping",
@@ -45211,6 +45229,7 @@
     "structured-output/enumerable-domain-decoding",
     "structured-output/graded-span-grounding",
     "structured-output/schema-validation-and-repair",
+    "subprocess-lifecycle/enrichment-wait-excludes-cold-start",
     "subscription-billing-periods/boundary-stitch-on-timezone-change",
     "subscription-billing-periods/timezone-anchored-period-dates",
     "supply-chain/license-reach-follows-integration-form",

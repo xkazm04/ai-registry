@@ -10,7 +10,7 @@ accepted: 7
 declined: 0
 leads: 0
 already_covered: 0
-untriaged: 9
+untriaged: 8
 dispatched: 0
 fetches_spent: 0
 ---
@@ -213,7 +213,6 @@ them; **nobody verified any of these** and they carry no judgment.
 | # | Title | Anchor / substance | Prior art |
 | --- | --- | --- | --- |
 | 7 | Grandchildren hang you on the pipe, not the pid | non-interactive path closes output pipes on process exit so a detached grandchild (`sleep 30 &`, nohup) cannot hang the agent waiting on pipe EOF; process-group SIGKILL on exit | `subprocess-lifecycle/termination-and-reaping` |
-| 8 | Bound the enrichment wait; cold start is not in it | rival blocks the edit tool up to 5s for diagnostics and can additionally pay a 45s initialize on first touch, with a "LATENCY-CRITICAL" comment on its own early-resolve path; this source caps at 1.5s and warms reads in the background | `subprocess-lifecycle`, `mcp-tools` |
 | 9 | Explicit mention reads; ambient context points | a discriminator already drawn: explicit `@file` rewritten into a synthetic read tool-call/result pair (so the model will not re-read it and compaction treats it as a tool result, not a giant user message) vs ambient IDE state injected as a mention-only reminder. This source chose the pointer shape with a stated revisit condition | `prompt-assembly/context-reachability` |
 | 10 | No attributable entity -> the guard goes global | `guard-key-design` enumerates identity axes and says entity is "almost always included"; a shell command's side effects are attributable to no path, so it takes a single global guard while per-path writes run parallel | `concurrency-guards/guard-key-design` |
 | 11 | Every degradation names itself and its remedy | a rival surfaces `[Skill conflicts] description exceeds 1024 characters (1089)` at first paint; this source silently truncates at 300 and "the user never learns their skill is broken" | `agent-instruction-files` |
@@ -221,6 +220,11 @@ them; **nobody verified any of these** and they carry no judgment.
 | 13 | The tool schema is a scheduling contract | the shell tool's JSON schema documents the per-path locking behaviour so the model batches independent calls in one turn and serializes same-file ones | `mcp-tools/tool-schema-design` |
 | 14 | The tool set changes turn to turn | tools re-registered every model round so installs take effect mid-turn; the operating rule given to the model is "never assume a tool exists because it did earlier" | `mcp-tools` |
 | 15 | Rewind the world, fork the history, delete neither | rewind restores the filesystem and **appends** an event saying so; fork deep-copies history with provenance recorded inside the new log; the anti-loop argument is that an agent which rewinds can see what it already tried. Mapped to **nothing** - `time-travel-replay` is about watching a finished run, an unrelated concern. Marked XL at triage | none (real gap) |
+
+Row 8 left this list on 2026-11-09 and landed as
+subprocess-lifecycle/enrichment-wait-excludes-cold-start (backlog 3-024, experiment, better).
+The rival's 5 s and 45 s and this source's 1.5 s were not re-read at the source and are not
+quoted in the technique; the mechanism was measured on a language server instead.
 
 Row 15 is the one worth returning to: it is the only candidate in the run with no home
 anywhere in the corpus.
