@@ -3,7 +3,9 @@
  * census - fold Codex's read-only part census into one fleet-wide, checkable gap table.
  *
  *   node census.mjs collect --runs <dir> --roots <json-file> --out <census.json>
- *   node census.mjs sample  --census <census.json> --per-project 5 --out <sample.json>
+ *   node census.mjs apply-adjudication --census <census.json> --runs <adjudicate-dir> --out <census.json>
+ *   node census.mjs apply-rejudge --census <census.json> --runs <rejudge-dir> --out <census.json>
+ *   node census.mjs sample  --census <census.json> --per-project 5 --out <sample.json> [--salt <s>]
  *   node census.mjs report  --census <census.json> [--audit <audit.json>] [--no-vault]
  *
  * WHY: nobody knows how large the two-way gap is between the fleet and the registry: parts
@@ -57,32 +59,138 @@ export function anchor(root, file, line, quote) {
   return lines.some((l) => l.includes(q)) ? 'moved' : 'missing';
 }
 
+/**
+ * Pure: was this file's content returned? True when at least half its substantial lines appear
+ * in the output, null for a file too small to tell. ASCII lines only, and a share rather than
+ * one probe line: Codex's PowerShell mangles characters like an em dash, and a single longest
+ * line (often the one holding such a character) reported 20% of fully read files as unread.
+ */
+export function wasReturned(text, outputs) {
+  const lines = String(text).split(/\r?\n/).map((l) => l.trim()).filter((l) => l.length >= 12 && /^[\x20-\x7e]+$/.test(l));
+  if (!lines.length) return null;
+  return lines.filter((l) => outputs.includes(l)).length * 2 >= lines.length;
+}
+
+/** Pure: everything the shell commands of a Codex run returned. */
+export function commandOutputs(eventsText) {
+  const out = [];
+  for (const line of String(eventsText).split('\n')) {
+    if (!line.trim()) continue;
+    try {
+      const ev = JSON.parse(line);
+      if (ev.type === 'item.completed' && ev.item?.type === 'command_execution') out.push(String(ev.item.aggregated_output ?? ''));
+    } catch { /* a non-JSON line */ }
+  }
+  return out.join('\n');
+}
+
+/**
+ * Files actually returned to Codex, judged from its chunk's command output. A file named
+ * in a brief and never opened does not count: a run that finishes
+ * clean over part of the code is the failure this exists to catch.
+ */
+export function coverageOf(root, manifest, slugDir) {
+  let read = 0, missed = 0, trivial = 0;
+  for (const chunk of manifest.chunks) {
+    let outputs = '';
+    try { outputs = commandOutputs(fs.readFileSync(path.join(slugDir, chunk.id, 'events.jsonl'), 'utf8')); } catch { /* never ran */ }
+    for (const f of chunk.files) {
+      let seen = null;
+      try { seen = wasReturned(fs.readFileSync(path.join(root, f), 'utf8'), outputs); } catch { /* vanished */ }
+      if (seen === null) trivial += 1;
+      else if (seen) read += 1;
+      else missed += 1;
+    }
+  }
+  return { tracked: manifest.tracked, scoped: manifest.scoped, read, missed, trivial };
+}
+
 /** Read every run under <runs>. Pure over the filesystem it is given. */
 export function collect(runs, roots) {
-  const parts = [], unusable = [];
+  const parts = [], unusable = [], coverage = {};
   let dropped = 0, invalid = 0;
   for (const slug of fs.readdirSync(runs).sort()) {
     const dir = path.join(runs, slug);
     if (!fs.statSync(dir).isDirectory() || !roots[slug]) continue;
+    try { coverage[slug] = coverageOf(roots[slug], JSON.parse(fs.readFileSync(path.join(dir, 'manifest.json'), 'utf8')), dir); } catch { /* no manifest */ }
     for (const context of fs.readdirSync(dir).sort()) {
+      if (!fs.statSync(path.join(dir, context)).isDirectory()) continue;
       const lastFile = path.join(dir, context, 'last.md');
       let body = null;
       try { body = lastJsonBlock(fs.readFileSync(lastFile, 'utf8')); } catch { /* no result yet */ }
       if (!body || !Array.isArray(body.parts)) { unusable.push(`${slug}/${context}`); continue; }
       body.parts.forEach((p, i) => {
         if (!p || !KINDS.includes(p.kind) || !RELATIONS.includes(p.relation)) { invalid += 1; return; }
+        // "Follows a standard" with no standard and no shared part behind it was a third of the first audit's errors.
+        if (p.relation === 'consumes' && !p.subject && !p.builtOn) { invalid += 1; return; }
         const a = anchor(roots[slug], p.file, p.line, p.quote);
         if (a === 'missing') { dropped += 1; return; }
         parts.push({
           id: `${slug}:${context}:${i}`, project: slug, context, kind: String(p.kind), name: String(p.name ?? ''),
           file: p.file, line: p.line, quote: p.quote, stack: String(p.stack ?? 'unknown'), relation: p.relation,
-          subject: p.subject ?? null, capabilities: Array.isArray(p.capabilities) ? p.capabilities.map(String) : [],
+          subject: p.subject ?? null, builtOn: p.builtOn ? String(p.builtOn) : null, capabilities: Array.isArray(p.capabilities) ? p.capabilities.map(String) : [],
           missed: Array.isArray(p.missed) ? p.missed.map(String) : [], anchor: a,
         });
       });
     }
   }
-  return { parts, unusable, dropped, invalid };
+  return { parts, unusable, dropped, invalid, coverage };
+}
+
+/** Pure: fold the second pass's verdicts into a census. A part with no verdict stays as it was and is counted. */
+export function applyAdjudication(census, verdicts) {
+  const byId = new Map(verdicts.filter((v) => v && ['reinvents', 'consumes', 'no-standard'].includes(v.verdict)).map((v) => [v.id, v]));
+  const stats = { checked: 0, reinvents: 0, consumes: 0, kept: 0, unchecked: 0 };
+  const parts = census.parts.map((p) => {
+    if (p.relation !== 'no-standard') return p;
+    const v = byId.get(p.id);
+    if (!v) { stats.unchecked += 1; return p; }
+    stats.checked += 1;
+    if (v.verdict === 'no-standard') { stats.kept += 1; return { ...p, adjudicated: true }; }
+    stats[v.verdict] += 1;
+    return { ...p, relation: v.verdict, subject: v.standard ?? p.subject, missed: Array.isArray(v.missed) ? v.missed.map(String) : [], adjudicated: true };
+  });
+  return { ...census, parts, adjudication: stats };
+}
+
+/** Pure: text compared with markup and line wrapping removed, so a quoted rule survives reflow. */
+export const normalizeRule = (s) => String(s ?? '').replace(/[*`_]/g, '').replace(/\s+/g, ' ').trim().toLowerCase();
+
+/**
+ * Pure: apply rejudge verdicts to `reinvents` parts. An upheld accusation must carry a rule
+ * that `ruleFound(part, rule)` confirms is in the cited standard; one that cannot is not
+ * believed. A part no verdict reached stays as it was and is counted, never silently cleared.
+ */
+export function applyRejudge(census, verdicts, ruleFound) {
+  const byId = new Map(verdicts.filter((v) => v && ['reinvents', 'follows', 'not-governed'].includes(v.verdict)).map((v) => [v.id, v]));
+  const stats = { checked: 0, upheld: 0, follows: 0, notGoverned: 0, unbacked: 0, unchecked: 0 };
+  const parts = census.parts.map((p) => {
+    if (p.relation !== 'reinvents') return p;
+    const v = byId.get(p.id);
+    if (!v) { stats.unchecked += 1; return p; }
+    stats.checked += 1;
+    if (v.verdict === 'reinvents' && ruleFound(p, v.rule)) {
+      stats.upheld += 1;
+      return { ...p, missed: [String(v.rule)], rejudged: 'upheld' };
+    }
+    if (v.verdict === 'follows') { stats.follows += 1; return { ...p, relation: 'consumes', missed: [], rejudged: 'follows' }; }
+    const verdict = v.verdict === 'reinvents' ? 'unbacked' : 'not-governed';
+    stats[verdict === 'unbacked' ? 'unbacked' : 'notGoverned'] += 1;
+    return { ...p, relation: 'no-standard', subject: null, missed: [], rejudged: verdict, rejudgeWhy: v.why ? String(v.why) : null, accusedOf: p.subject };
+  });
+  return { ...census, parts, rejudge: stats };
+}
+
+/** Pure: how each kind of part is put together. */
+export function builtOnSummary(parts) {
+  const out = {};
+  for (const p of parts) {
+    const r = (out[p.kind] ??= { kind: p.kind, parts: 0, scratch: 0, on: {} });
+    r.parts += 1;
+    if (p.builtOn) r.on[p.builtOn] = (r.on[p.builtOn] ?? 0) + 1;
+    else r.scratch += 1;
+  }
+  return Object.values(out).sort((a, b) => b.parts - a.parts || a.kind.localeCompare(b.kind));
 }
 
 /** Pure: per-project direction counts. */
@@ -118,12 +226,19 @@ export function clusters(parts, threshold = REPEAT_THRESHOLD) {
     .sort((a, b) => b.projects.length - a.projects.length || b.count - a.count || `${a.kind}${a.stack}`.localeCompare(`${b.kind}${b.stack}`));
 }
 
-/** Pure: a stable per-project sample, the same for the same census. */
-export function sample(parts, perProject) {
-  const h = (s) => crypto.createHash('sha1').update(s).digest('hex');
+/** Pure: a stable per-project sample, taken in turn from each relation so a rare one is still audited. */
+export function sample(parts, perProject, salt = '') {
+  const h = (s) => crypto.createHash('sha1').update(salt + s).digest('hex');
   const by = {};
-  for (const p of [...parts].sort((a, b) => h(a.id).localeCompare(h(b.id)))) (by[p.project] ??= []).push(p);
-  return Object.values(by).flatMap((list) => list.slice(0, perProject));
+  for (const p of [...parts].sort((a, b) => h(a.id).localeCompare(h(b.id)))) ((by[p.project] ??= {})[p.relation] ??= []).push(p);
+  return Object.values(by).flatMap((relations) => {
+    const piles = Object.keys(relations).sort().map((r) => relations[r]);
+    const out = [];
+    for (let i = 0; out.length < perProject && piles.some((p) => i < p.length); i++) {
+      for (const pile of piles) if (i < pile.length && out.length < perProject) out.push(pile[i]);
+    }
+    return out;
+  });
 }
 
 /** Pure: {audited, disagree, rate}; rate is omitted when nothing was audited. */
@@ -142,6 +257,16 @@ export function renderReport(census, audit) {
     : '**Not audited: every count below is an unverified Codex judgment.**';
   const projects = Object.entries(g).sort(([x], [y]) => x.localeCompare(y))
     .map(([slug, r]) => `| ${slug} | ${r.parts} | ${r.consumes} | ${r.inbound} | ${r.outbound} |`).join('\n');
+  const coverageLines = Object.entries(census.coverage ?? {}).sort(([x], [y]) => x.localeCompare(y))
+    .map(([slug, c]) => `| ${slug} | ${c.tracked} | ${c.scoped} | ${c.read} | ${c.missed} | ${c.scoped ? ((c.read + c.trivial) / c.scoped * 100).toFixed(1) : '0.0'}% |`).join('\n');
+  const built = builtOnSummary(census.parts)
+    .map((r) => `| ${r.kind} | ${r.parts} | ${r.scratch} | ${Object.entries(r.on).sort((x, y) => y[1] - x[1]).slice(0, 4).map(([k, n]) => `${k} (${n})`).join(', ')} |`).join('\n');
+  const adj = census.adjudication
+    ? `No-standard claims checked against the whole registry: ${census.adjudication.checked}. Moved to reinvents: ${census.adjudication.reinvents}. Moved to consumes: ${census.adjudication.consumes}. Kept: ${census.adjudication.kept}. Not checked: ${census.adjudication.unchecked}.`
+    : '**No-standard claims were not checked against the whole registry.**';
+  const rej = census.rejudge
+    ? `Reinvents accusations rejudged for applicability: ${census.rejudge.checked}. Upheld with a quoted rule: ${census.rejudge.upheld}. Actually follow the standard: ${census.rejudge.follows}. Standard does not govern: ${census.rejudge.notGoverned}. Upheld without a verifiable rule, so not believed: ${census.rejudge.unbacked}. Not checked: ${census.rejudge.unchecked}.`
+    : '**Reinvents accusations were not rejudged for applicability.**';
   const list = clusters(census.parts);
   const repeat = list.filter((c) => c.sharedCandidate)
     .map((c) => `| ${c.kind} | ${c.stack} | ${c.projects.length} | ${c.count} | ${Object.entries(c.capabilities).sort((x, y) => y[1] - x[1]).slice(0, 6).map(([k, n]) => `${k} (${n})`).join(', ')} |`)
@@ -151,7 +276,23 @@ export function renderReport(census, audit) {
     '',
     `Parts kept: ${census.parts.length}. Dropped, quote not found in the cited file: ${census.dropped}. Invalid rows: ${census.invalid}. Contexts with no usable result: ${census.unusable.length}.`,
     '',
+    adj,
+    '',
+    rej,
+    '',
     'Counts are what the census saw, not the size of the true gap.',
+    '',
+    '## Coverage: files whose content was returned to Codex',
+    '',
+    '| project | tracked | in scope | read | not read | coverage |',
+    '| --- | ---: | ---: | ---: | ---: | ---: |',
+    coverageLines,
+    '',
+    '## How each kind of part is built',
+    '',
+    '| kind | parts | from scratch | built on |',
+    '| --- | ---: | ---: | --- |',
+    built,
     '',
     '## Two-way gap per project',
     '',
@@ -185,9 +326,39 @@ function main() {
     const census = collect(arg('--runs'), readJson(arg('--roots')));
     fs.writeFileSync(arg('--out'), JSON.stringify(census, null, 1) + '\n');
     console.log(JSON.stringify({ parts: census.parts.length, dropped: census.dropped, invalid: census.invalid, unusable: census.unusable.length }));
+  } else if (cmd === 'apply-adjudication') {
+    if (!arg('--census') || !arg('--runs') || !arg('--out')) fail('usage: apply-adjudication --census <file> --runs <adjudicate-dir> --out <file>');
+    const verdicts = [];
+    for (const slug of fs.readdirSync(arg('--runs'))) {
+      for (const batch of fs.readdirSync(path.join(arg('--runs'), slug))) {
+        try { verdicts.push(...(lastJsonBlock(fs.readFileSync(path.join(arg('--runs'), slug, batch, 'last.md'), 'utf8'))?.verdicts ?? [])); } catch { /* a batch with no result */ }
+      }
+    }
+    const applied = applyAdjudication(readJson(arg('--census')), verdicts);
+    fs.writeFileSync(arg('--out'), JSON.stringify(applied, null, 1) + '\n');
+    console.log(JSON.stringify(applied.adjudication));
+  } else if (cmd === 'apply-rejudge') {
+    if (!arg('--census') || !arg('--runs') || !arg('--out')) fail('usage: apply-rejudge --census <file> --runs <rejudge-dir> --out <file>');
+    const verdicts = [], targets = {};
+    for (const slug of fs.readdirSync(arg('--runs'))) {
+      const root = path.join(arg('--runs'), slug);
+      Object.assign(targets, readJson(path.join(root, 'targets.json')));
+      for (const batch of fs.readdirSync(root)) {
+        try { verdicts.push(...(lastJsonBlock(fs.readFileSync(path.join(root, batch, 'last.md'), 'utf8'))?.verdicts ?? [])); } catch { /* targets.json, or a batch with no result */ }
+      }
+    }
+    const texts = new Map();
+    const textOf = (dir) => {
+      if (!texts.has(dir)) texts.set(dir, fs.readdirSync(dir, { recursive: true }).filter((f) => String(f).endsWith('.md')).map((f) => normalizeRule(fs.readFileSync(path.join(dir, String(f)), 'utf8'))).join('\n'));
+      return texts.get(dir);
+    };
+    const ruleFound = (p, rule) => { const r = normalizeRule(rule); return r.length >= 20 && !!targets[p.id] && textOf(targets[p.id]).includes(r); };
+    const applied = applyRejudge(readJson(arg('--census')), verdicts, ruleFound);
+    fs.writeFileSync(arg('--out'), JSON.stringify(applied, null, 1) + '\n');
+    console.log(JSON.stringify(applied.rejudge));
   } else if (cmd === 'sample') {
     if (!arg('--census') || !arg('--out')) fail('usage: sample --census <file> --per-project <n> --out <file>');
-    const picked = sample(readJson(arg('--census')).parts, Number(arg('--per-project') ?? 5));
+    const picked = sample(readJson(arg('--census')).parts, Number(arg('--per-project') ?? 5), arg('--salt') ?? '');
     fs.writeFileSync(arg('--out'), JSON.stringify(picked, null, 1) + '\n');
     console.log(`${picked.length} parts to audit`);
   } else if (cmd === 'report') {
@@ -197,7 +368,7 @@ function main() {
     const vault = vaultRoot();
     if (!vault) fail('FATAL: no vault (set DAYBREAK_VAULT)');
     console.log(writeNewNote({ vault, dir: 'census', title: 'Daybreak census', body }));
-  } else fail('usage: census.mjs collect|sample|report');
+  } else fail('usage: census.mjs collect|apply-adjudication|sample|report');
   process.exit(EXIT.OK);
 }
 
