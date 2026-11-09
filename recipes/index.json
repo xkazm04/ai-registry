@@ -5,7 +5,8 @@
   "source": "recipes/<domain>/<topic>/<slug>/recipe.json",
   "recipes": 144,
   "by_status": {
-   "seed": 144
+   "seed": 143,
+   "maturing": 1
   },
   "by_domain": {
    "legal_compliance": 9,
@@ -1700,8 +1701,8 @@
   },
   "technical-blog-post-authoring": {
    "path": "recipes/creative_design/articles/technical-blog-post-authoring",
-   "version": "0.2.0",
-   "status": "seed",
+   "version": "0.2.1",
+   "status": "maturing",
    "domain": "creative_design",
    "topic": "articles",
    "title": "Technical blog post authoring and publication",

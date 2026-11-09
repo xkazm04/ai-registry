@@ -287,6 +287,77 @@ this recipe against a different connector, be better off knowing it. If yes it i
 registry lesson. If it names a credential, an account, a file path or a person, it is
 charter memory.
 
+## Status: the maturity ladder
+
+`status` is a claim, and the claim is backed by evidence committed in the recipe's own
+directory, so anyone holding the directory can re-derive it. One function,
+`scripts/lib/recipe-maturity.mjs`, reads that evidence and names the highest rung it
+supports; the gate and the report both call it, so they cannot disagree. It reads no
+clock and no git history.
+
+### What the lane actually holds (census, 2026-11-09)
+
+Measured over all 144 recipes before any threshold was fixed (the full census is in the
+package report; `node scripts/recipe-maturity.mjs --json` re-derives the evidence half):
+
+| evidence field | recipes | what it turned out to be |
+| --- | --- | --- |
+| non-empty `lessons` array in `recipe.json` | 0 | never used; lessons live in `LESSONS.md` |
+| `LESSONS.md` with at least one dated entry | 141 | 136 of them carry only the same `ai-registry` format-migration entry dated 2026-09-09, which says of itself that it is "not evidence of field effectiveness" |
+| `LESSONS.md` entries from an adopting project | 5 | `gigs` (4 recipes, 5 entries) and `gravitone-gcloud` (1 recipe, 2 entries) |
+| two or more entries from an adopting project | 2 | one of them a single project on one date |
+| entries from two or more distinct projects | 0 | a parenthetical run label in the project slot is not a second project |
+| files under `examples/` | 94 (144 files; 44 with two or more) | connector-mapping notes carried with the migrated corpus, not records of use |
+| version above the one it landed with | 137 | every recipe landed at `0.1.0`; the bumps are bulk corpus edits (2026-09-07, 2026-09-09), not use |
+| version at or above `1.0.0` | 0 | |
+| `provenance` names a source | 140 | where the recipe came from, not whether it was used |
+
+Two starting points did not survive the count. "A version past the one it landed with"
+holds for 137 of 144 recipes for reasons that have nothing to do with use, so the rule
+compares the version against the lowest version a **use** lesson was recorded against
+instead. "At least one worked example" does not mark use either: the example files arrived
+with the migrated corpus, and the one recipe with recorded runs and a craft change since
+has none. Examples stay a `proven` condition and are not a `maturing` one.
+
+### The rule
+
+A **use lesson** is a `LESSONS.md` entry in the lane format, outside a fenced block, whose
+project slot does not name this registry. The project is the slot's text before any
+parenthetical run label.
+
+- **`seed`**: the default. Nothing is required.
+- **`maturing`** (used, and changed by use): all of
+  - at least **2** use lessons (*convention*);
+  - the recipe's `MAJOR.MINOR` is above that of the lowest version a use lesson was
+    recorded against (*convention*: a patch bump is "the craft did not change" under
+    Versioning above, so it cannot count as changed by use).
+- **`proven`** (used in more than one place, and stable): everything `maturing` requires,
+  plus
+  - version at or above **`1.0.0`** (*convention*);
+  - use lessons from at least **2** distinct projects (*convention*);
+  - at least **2** files under `examples/` (*convention*), waived for a recipe that declares
+    no `connector_types`, because an example is knowledge about one concrete connector and
+    such a recipe has nothing to map.
+
+Lessons recorded under the registry's own name (`ai-registry`, *convention*) are
+maintenance of the lane, not use: lessons reach a recipe from adoptions, by proposal (see
+Dual improvement), and this repository hosts recipes and adopts none. The rule cannot tell
+a bulk import under another project's name from independent runs; that is review's job.
+
+### Who changes `status`
+
+- The gate fails a status declared **above** what the evidence supports and names the
+  missing evidence. A status below it is fine: promotion is a human adoption decision and
+  the gate does not nag.
+- `node scripts/recipe-maturity.mjs` reports every recipe whose evidence supports a
+  different rung than it declares, with what the next rung lacks; `--json` gives every row,
+  `--slug <slug>` one recipe. Exit 0 when it ran, 2 when the lane cannot be read.
+- `node scripts/recipe-maturity.mjs --apply <slug> [<slug> ...]` promotes the named recipes
+  to their supported rung: it sets `status`, bumps the patch version, and then runs
+  `render-recipes.mjs` and `build-recipes-index.mjs` itself so the views and the index
+  agree before it exits. It is all or nothing: an unknown slug (exit 2) or a slug whose
+  evidence supports no higher rung (exit 1) writes nothing. It never demotes.
+
 ## The gate
 
 `node scripts/check-recipes.mjs`. Structural, zero dependencies, and it asserts its own
@@ -295,6 +366,8 @@ measurement functions against a hand-counted fixture before it reports anything.
 What it checks:
 
 - every `recipe.json` parses, and carries the required fields;
+- a `status` no higher than the evidence in the recipe's directory supports (the
+  maturity ladder above);
 - the closed vocabularies: `status` (`seed`, `maturing`, `proven`), `activities[].kind`
   (`observe`, `decide`, `act`, `deliver`), `recommended_trigger.kind` (`event`, `time`,
   `self_paced`);

@@ -1,7 +1,7 @@
 ---
 name: technical-blog-post-authoring
-version: 0.2.0
-status: seed
+version: 0.2.1
+status: maturing
 domain: creative_design
 path: creative_design/articles
 ---
