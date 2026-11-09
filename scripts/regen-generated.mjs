@@ -85,6 +85,10 @@ export const EXCLUDED = Object.freeze({
   'librarian-scan.mjs':
     '--stamp-weights rewrites one block inside librarian/standard.md, a hand-written document; ' +
     'keeping one side of it would discard the other side\'s prose, so it merges as text.',
+  'build-readme.mjs':
+    'rewrites two marked blocks and one layout line inside README.md, a hand-written document; ' +
+    'keeping one side of it would discard the other side\'s prose, so it merges as text and ' +
+    'build-readme.mjs --check says when the blocks need regenerating.',
 });
 
 /** Every gitattributes pattern the driver owns. .gitattributes must list exactly these. */

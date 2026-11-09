@@ -58,8 +58,10 @@ const CATALOG_LANES = ['knowledge', 'skills', 'practices', 'memory', 'usage'];
 // recipes/publications carry no public-paths step: registry.yml runs --all on every PR.
 const PUBLIC_LANES = ['knowledge', 'skills', 'practices', 'memory', 'librarian'];
 
-// Every lane a generated JSON view is built from, plus scripts/ (the contract file lives there).
-const CONTRACT_LANES = ['knowledge', 'skills', 'recipes', 'publications', 'usage', 'practices', 'memory', 'scripts'];
+// The catalog's lanes plus scripts/ (the contract file lives there). recipes/ and
+// publications/ keep their short rows, as they do for public paths: registry.yml runs --all
+// on every PR, and that is where their indexes meet the contract.
+const CONTRACT_LANES = [...CATALOG_LANES, 'scripts'];
 
 // The lane names, in the order `--list` prints them.
 const LANE_NAMES = ['knowledge', 'skills', 'recipes', 'publications', 'usage', 'signals', 'practices', 'memory', 'scripts', 'librarian'];
