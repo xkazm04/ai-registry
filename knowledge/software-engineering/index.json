@@ -5,7 +5,7 @@
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 245,
   "techniques": 1988,
-  "applications": 1497,
+  "applications": 1498,
   "laws": 16,
   "categories": [
    "ui-surfaces",
@@ -24539,9 +24539,9 @@
    "subcategory": "feedback-and-style",
    "status": "forged",
    "file": "knowledge/software-engineering/ui-surfaces/feedback-and-style/motion/motion.md",
-   "digest": "sha256-b2:8d9b3eabe2f3b534",
-   "revision": 10,
-   "changedAt": "2026-09-24",
+   "digest": "sha256-b2:18edff597b90a87b",
+   "revision": 11,
+   "changedAt": "2026-11-09",
    "techniques": [
     {
      "slug": "content-bearing-degradation",
@@ -24707,6 +24707,13 @@
      "file": "knowledge/software-engineering/ui-surfaces/feedback-and-style/motion/applications/react--continuity-across-change.md",
      "verified_on": "2026-09-20",
      "verified_against": "react@19.2.8"
+    },
+    {
+     "stack": "react",
+     "technique": "engine-selection",
+     "file": "knowledge/software-engineering/ui-surfaces/feedback-and-style/motion/applications/react--engine-selection.md",
+     "verified_on": "2026-11-09",
+     "verified_against": "react@19.3.1"
     },
     {
      "stack": "react",

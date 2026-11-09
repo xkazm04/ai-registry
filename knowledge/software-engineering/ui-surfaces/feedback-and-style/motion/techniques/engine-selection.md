@@ -87,6 +87,21 @@ Interruption is the sharpest *behavioral* difference and worth choosing on:
 - A value being animated changes again mid-animation. Declarative
   transitions handle simple retargets acceptably; anything choreographed
   needs script.
+- A value changes again while a **framework-scheduled document snapshot
+  transition** is running. There is no snap and no retarget: the running
+  transition plays to its end, updates arriving meanwhile are batched, and
+  the next transition runs from where the first ended to the latest value.
+  States in between are never committed, so they never animate. Scheduling the
+  same sequence by calling the platform directly per update commits every
+  state and cuts each running transition off at the next call.
+
+**Queue and collapse is a third answer beside snap and retarget**, and it is
+the only one that costs input latency: the screen trails the input by whatever
+is left of the running transition, which measured at about 530 ms where the
+direct call took about 20 ms (the stack application has the numbers). Take it
+for discrete state changes where only the destination matters. Do not put a
+value a person is steering on it. A synchronous flush leaves the scheduler's
+reach altogether: no transition runs, and nothing warns.
 
 The honest rule: **interruption-heavy, user-steered motion earns a scripted
 engine; fire-and-forget gestures do not.** An entrance, a success settle, a

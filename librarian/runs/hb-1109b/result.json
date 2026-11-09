@@ -1,0 +1,55 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "hb-1109b",
+  "skill": "harvest",
+  "skill_version": "0.7.0",
+  "mode": "backlog",
+  "domain": "software-engineering",
+  "started_at": "2026-11-09T08:44:28Z",
+  "ended_at": "2026-11-09T08:56:46Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 1,
+    "landed": 1,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "software-engineering/motion",
+      "at": "2026-11-09",
+      "engine": "shift",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "software-engineering/motion",
+      "technique": "engine-selection",
+      "verdict": "better",
+      "mode": "experiment"
+    },
+    {
+      "subject": "software-engineering/agent-runtime-assembly",
+      "technique": null,
+      "verdict": "not-better",
+      "mode": "blind-ab"
+    }
+  ],
+  "files": [
+    "knowledge/software-engineering/ui-surfaces/feedback-and-style/motion/techniques/engine-selection.md",
+    "knowledge/software-engineering/ui-surfaces/feedback-and-style/motion/applications/react--engine-selection.md",
+    "librarian/sources/2026-09-15-react-19-3.md",
+    "librarian/subjects/software-engineering/motion.md",
+    "librarian/applied.md",
+    "librarian/harvest/backlog.jsonl"
+  ],
+  "commits": [],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "Backlog wave, /shift filler, one seat. 3-010 better (experiment, real browser, no seam changed). 3-009 not-better (blind-ab, one draw, same-family judge). 2-026 covered, not measured. Other projects read-only, no GPU, no build-class gate."
+}
