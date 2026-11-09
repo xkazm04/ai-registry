@@ -25,9 +25,9 @@
       "lessonsPath": "skills/adopt-bp/LESSONS.md",
       "lessonsHash": "sha256-n1:dc376cd4eda8a130",
       "usageContributors": [],
-      "runs30d": 3,
+      "runs30d": 8,
       "outcomes30d": {
-        "shipped": 1,
+        "shipped": 6,
         "partial": 2
       },
       "difficulty30d": 3,
@@ -408,11 +408,11 @@
       "lessonsPath": "skills/hackathon/LESSONS.md",
       "lessonsHash": "sha256-n1:df895531967afa14",
       "usageContributors": [],
-      "runs30d": 1,
+      "runs30d": 2,
       "outcomes30d": {
-        "shipped": 1
+        "shipped": 2
       },
-      "difficulty30d": 4,
+      "difficulty30d": 3.5,
       "tokensMedian30d": null,
       "tokensBasis30d": null
     },
@@ -515,13 +515,14 @@
       "lessonsPath": "skills/lens-scan/LESSONS.md",
       "lessonsHash": "sha256-n1:d4bab9dc4590d905",
       "usageContributors": [],
-      "runs30d": 21,
+      "runs30d": 42,
       "outcomes30d": {
-        "shipped": 17,
-        "partial": 4
+        "shipped": 34,
+        "partial": 7,
+        "no-op": 1
       },
       "difficulty30d": 2.7,
-      "tokensMedian30d": 385775,
+      "tokensMedian30d": 306145,
       "tokensBasis30d": "exact"
     },
     {
@@ -711,14 +712,14 @@
       "usageContributors": [
         "wolf"
       ],
-      "runs30d": 6,
+      "runs30d": 8,
       "outcomes30d": {
-        "shipped": 4,
+        "shipped": 6,
         "partial": 1,
         "aborted": 1
       },
-      "difficulty30d": 2.7,
-      "tokensMedian30d": 1522326,
+      "difficulty30d": 2.9,
+      "tokensMedian30d": 1864205,
       "tokensBasis30d": "exact"
     },
     {
@@ -814,13 +815,14 @@
       "usageContributors": [
         "wolf"
       ],
-      "runs30d": 12,
+      "runs30d": 22,
       "outcomes30d": {
-        "shipped": 9,
-        "partial": 3
+        "shipped": 16,
+        "partial": 5,
+        "parked": 1
       },
       "difficulty30d": 3.4,
-      "tokensMedian30d": 12668284,
+      "tokensMedian30d": 2720324,
       "tokensBasis30d": "exact"
     },
     {
@@ -864,15 +866,15 @@
       "usageContributors": [
         "wolf"
       ],
-      "runs30d": 68,
+      "runs30d": 103,
       "outcomes30d": {
-        "shipped": 44,
-        "partial": 20,
-        "parked": 3,
+        "shipped": 67,
+        "partial": 29,
+        "parked": 6,
         "failed": 1
       },
       "difficulty30d": 3.5,
-      "tokensMedian30d": 2340135,
+      "tokensMedian30d": 2148626,
       "tokensBasis30d": "exact"
     },
     {
@@ -958,15 +960,15 @@
       "lessonsPath": "skills/tiger/LESSONS.md",
       "lessonsHash": "sha256-n1:22daa0d721cf5de5",
       "usageContributors": [],
-      "runs30d": 4,
+      "runs30d": 6,
       "outcomes30d": {
-        "shipped": 1,
+        "shipped": 3,
         "partial": 1,
         "parked": 2
       },
-      "difficulty30d": 3.5,
-      "tokensMedian30d": null,
-      "tokensBasis30d": null
+      "difficulty30d": 3.7,
+      "tokensMedian30d": 2588987,
+      "tokensBasis30d": "exact"
     },
     {
       "name": "uat",
