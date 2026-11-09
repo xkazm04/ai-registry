@@ -10,25 +10,28 @@ Start with the [workflow selection guide](docs/skill-selection.md) to use the li
 against. [AGENTS.md](AGENTS.md) gives agents a concise entry point. Use the [installation guide](docs/installations.md)
 to select a harness and a live development or pinned release installation.
 
-The repository carries eight lanes, declared in [`registry.yaml`](registry.yaml):
+<!-- generated: lanes - by scripts/build-readme.mjs from registry.yaml; edit the source, then re-run -->
+The repository carries nine lanes, declared in [`registry.yaml`](registry.yaml):
 
 | Lane | Holds | Status |
 | --- | --- | --- |
-| [`knowledge/`](knowledge/README.md) | **Reference Knowledge Bundles** - four-layer domain knowledge (Golden Path → Technique → Application → Evidence), one bundle per domain. | Real content. Gated by CI. |
-| [`skills/`](docs/skills-lane.md) | The fleet's shared skill library, one directory per skill, published as a **plugin marketplace** for the reference harness. | Real content; current inventory in catalog.json. Gated by CI. |
-| [`recipes/`](recipes/README.md) | **Craftsman knowledge** - one kind of work done well, connector- and trigger-agnostic, versioned like a skill. Everything that binds a recipe to one installation lives on the adopted charter, never here. | Real content, all ten domains. Gated by CI. Declared 2026-09-06 with one worked example; the corpus migrated after operator approval and grows by assay. |
-| `practices/` | Repo-level habits plus the starter artifacts they drop. | Templates and reusable practices; inspect each adoption contract. |
-| `memory/` | Organizational memory notes, one fact per file. | Examples and dated observations; inspect scope and confidence. |
-| [`usage/`](docs/usage-lane.md) | Which skills actually get used - counts contributed by the installations that run them, one file per contributor. | Real, gated. First contributor reporting. |
-| [`signals/`](docs/signals-lane.md) | Whether the knowledge is still TRUE where it is used - stack versions, citation-resolution verdicts, deviations and consults, one file per contributor. | Real, gated. First contributor reporting (stack only, so far). |
-| [`librarian/`](librarian/index.md) | Coverage memory for the maintenance loop - what was swept when, what was dispatched, what external sources were mined, and what was declined and why. | Real. Seeded by the founding sweep. |
+| [`knowledge/`](knowledge/README.md) | Reference Knowledge Bundles — four-layer domain knowledge (Golden Path → Technique → Application → Evidence), one bundle per domain. | Real content. Gated by CI. |
+| [`skills/`](docs/skills-lane.md) | Agent skills — one directory per skill, SKILL.md plus an append-only LESSONS.md. | Real content; current inventory in catalog.json. Gated by CI. |
+| [`recipes/`](recipes/README.md) | Craftsman knowledge - one kind of work done well, connector- and trigger-agnostic, versioned like a skill. | Real content, all ten domains. Gated by CI. Declared 2026-09-06 with one worked example; the corpus migrated after operator approval and grows by assay. |
+| [`publications/`](docs/publications-lane.md) | Approved technical posts written for readers outside the registry - one directory per post, with its sources, figures and a paste-ready Medium package. | Real content; current inventory in publications/index.json. Gated by CI. Declared 2026-10-05 with its spec, gate, index builder, a test fixture and one imported publication. |
+| [`practices/`](docs/simple-lanes.md) | Practices — the shape of a repo-level habit plus the starter artifacts it drops. | Templates and reusable practices; inspect each adoption contract. |
+| [`memory/`](docs/simple-lanes.md) | Organizational memory notes, one fact per file, kind-partitioned. | Examples and dated observations; inspect scope and confidence. |
+| [`usage/`](docs/usage-lane.md) | Which skills actually get used — counts contributed by the installations that run them. One file per contributing installation, aggregated into catalog.json. | Real, gated. First contributor reporting. |
+| [`signals/`](docs/signals-lane.md) | Whether what this registry claims is still true where it is used — stack versions, citation-resolution verdicts, deviations and consults, contributed by the installations that consume the knowledge lane. One file per installation. | Real, gated. First contributor reporting (stack only, so far). |
+| [`librarian/`](librarian/index.md) | Coverage memory for the maintenance loop — what the registry looked like when it was last swept, what was done about it, and what was deliberately not done. An Obsidian-navigable vault of markdown notes. | Real. Seeded by the founding sweep. |
+<!-- /generated: lanes -->
 
 The practices and memory lanes include worked examples and subsequently added material.
 Read each artifact's scope and provenance before treating it as an adopted policy.
 
 Lane depth is declared, not incidental. `knowledge/` and `recipes/` are `depth: nested` and cap
 every level at ten folders, because their consumers read a GENERATED index rather than walking
-the tree; `skills/`, `practices/`, `memory/`, `usage/` and `signals/` are `depth: fixed`
+the tree; `skills/`, `publications/`, `practices/`, `memory/`, `usage/` and `signals/` are `depth: fixed`
 because a consumer's indexer selects their artifacts by exact path length - a category folder
 there would not error, it would make every artifact silently vanish from the index.
 
@@ -51,7 +54,7 @@ README.md
 registry.yaml             # what this repository IS: its lanes, their specs and guarantees
 .ascent/registry.yaml     # Ascent's overlay: how ONE consumer indexes it (mode, telemetry, policies)
 .claude-plugin/marketplace.json  # GENERATED: the skills lane as a plugin marketplace, one plugin per skill
-.claude/skills/           # the skills that maintain THIS registry: /forge /deepen /librarian /intake
+.claude/skills/           # the skills that maintain THIS registry: /assay /deepen /forge /harvest /hygiene /intake /librarian /reconcile /shift
 CODEOWNERS                # who merges = who adopts
 catalog.json              # GENERATED index: skills, practices, memory, bundles, hashes, adopters, counts
 docs/rkb-profile.md       # the knowledge lane's format spec (an OKF profile)
@@ -189,8 +192,10 @@ Use the [workflow selection guide](docs/skill-selection.md) to choose a coordina
 skill and its supporting methods. The generated [catalog](catalog.json) carries the
 current names, versions, hashes, and resources; versions are not duplicated here.
 
-Registry maintenance methods live in [.claude/skills/](.claude/skills/): forge, deepen,
-librarian, intake, reconcile, harvest, shift, and assay. They maintain the library rather than
+<!-- generated: maintenance-skills - by scripts/build-readme.mjs from .claude/skills/; edit the source, then re-run -->
+Registry maintenance methods live in [.claude/skills/](.claude/skills/): assay, deepen, forge, harvest, hygiene, intake, librarian, reconcile, and shift.
+<!-- /generated: maintenance-skills -->
+They maintain the library rather than
 belonging to its portable skills lane. The [skills specification](docs/skills-lane.md)
 defines layout, versioning, overlays, and distribution.
 
