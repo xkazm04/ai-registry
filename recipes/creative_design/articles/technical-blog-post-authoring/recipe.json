@@ -2,8 +2,8 @@
   "id": "033071f5-0b59-41ca-a84a-aee89f8c4e09",
   "slug": "technical-blog-post-authoring",
   "title": "Technical blog post authoring and publication",
-  "version": "0.2.0",
-  "status": "seed",
+  "version": "0.2.1",
+  "status": "maturing",
   "path": "creative_design/articles",
   "domain": "creative_design",
   "description": {
