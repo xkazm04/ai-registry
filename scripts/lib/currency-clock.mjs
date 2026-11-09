@@ -13,7 +13,14 @@
  *
  * Both now import `clockOf`, so the policy cannot drift between them again. Tune the windows
  * here; a document that knows better carries its own `refresh_by`.
+ *
+ * It also holds the one rule for a CONTRIBUTOR REPORT's age (`reportState`, `partitionReports`):
+ * a `usage/` or `signals/` file describes the `windowDays` that ended at its `generatedAt`,
+ * and once that window no longer reaches the date a reader measures against, its counts are
+ * history, not current. build-catalog measures against the catalog's evidence date;
+ * check-currency and librarian-scan against their (injectable) clock. Same rule, three readers.
  */
+import { reportAge } from './telemetry.mjs';
 
 /**
  * How long a citation against each stack stays plausible without a re-check.
@@ -98,3 +105,47 @@ export function clockOf(fm, today) {
     daysLeft: expiresOn ? daysBetween(today, expiresOn) : null,
   };
 }
+
+/**
+ * Is one contributor report (`usage/<c>.json`, `signals/<c>.json`) still current at `asOf`?
+ *
+ * `ageDays` is WHOLE days elapsed, floored (lib/telemetry.mjs reportAge, the same reading
+ * telemetry-report prints), and the report is `current` while `ageDays <= windowDays`. So the
+ * boundary is inclusive: a 30-day report exactly 30 days old is current, one 31 whole days old
+ * is stale. A report dated after `asOf` (`ageDays < 0`, clock skew) is not older than its
+ * window, so it is current; it is never silently re-dated.
+ *
+ * A report that cannot be dated (no parseable `generatedAt`), has no positive integer
+ * `windowDays`, or is measured against no parseable `asOf`, is `stale` with whatever age is
+ * known: an unwitnessed number reads as unknown, never as current.
+ *
+ * Returns `{ state: 'current'|'stale', ageDays: number|null }`.
+ */
+export function reportState(generatedAt, windowDays, asOf) {
+  if (typeof asOf !== 'string' || !Number.isFinite(Date.parse(asOf))) return { state: 'stale', ageDays: null };
+  const window = Number.isInteger(windowDays) && windowDays > 0 ? windowDays : null;
+  const { status, ageDays } = reportAge(generatedAt, asOf, window ?? 0);
+  const current = window !== null && (status === 'within-window' || status === 'future');
+  return { state: current ? 'current' : 'stale', ageDays };
+}
+
+/**
+ * Split parsed contributor documents by `reportState` at `asOf`. Order is preserved.
+ * Returns `{ current, stale, ages }`, where `ages` is one row per document:
+ * `{ contributor, generatedAt, windowDays, state, ageDays }`.
+ */
+export function partitionReports(docs, asOf) {
+  const current = [];
+  const stale = [];
+  const ages = [];
+  for (const doc of docs) {
+    const { state, ageDays } = reportState(doc?.generatedAt, doc?.windowDays, asOf);
+    (state === 'current' ? current : stale).push(doc);
+    ages.push({ contributor: doc?.contributor ?? null, generatedAt: doc?.generatedAt ?? null, windowDays: doc?.windowDays ?? null, state, ageDays });
+  }
+  return { current, stale, ages };
+}
+
+/** One line per contributor for a human report: `wolf 26d current (window 30d)`. */
+export const describeAge = (a) =>
+  `${a.contributor ?? '(unnamed)'} ${a.ageDays === null ? 'age unknown' : `${a.ageDays}d`} ${a.state} (window ${a.windowDays ?? '?'}d${a.generatedAt ? `, generatedAt ${a.generatedAt}` : ''})`;

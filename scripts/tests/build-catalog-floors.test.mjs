@@ -51,7 +51,7 @@ test('a usage file that parses to a non-object is skipped and named, not a crash
   fs.mkdirSync(path.join(dir, 'usage'));
   fs.writeFileSync(path.join(dir, 'usage', 'a-null.json'), 'null\n');
   fs.writeFileSync(path.join(dir, 'usage', 'b-number.json'), '7\n');
-  fs.writeFileSync(path.join(dir, 'usage', 'c-good.json'), JSON.stringify({ contributor: 'box', windowDays: 30, skills: { demo: { invokes: 4 } } }));
+  fs.writeFileSync(path.join(dir, 'usage', 'c-good.json'), JSON.stringify({ contributor: 'box', windowDays: 30, generatedAt: '2026-09-10T08:00:00Z', skills: { demo: { invokes: 4 } } }));
   const w = run(dir);
   assert.equal(w.status, 0, w.stdout + w.stderr);
   assert.match(w.stdout + w.stderr, /usage\/a-null\.json[^\n]*skipped/);

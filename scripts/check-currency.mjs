@@ -57,7 +57,7 @@ import { execFileSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 import { walkSubjects } from './lib/taxonomy.mjs';
 import { scanVolatile, volatileScore } from './lib/volatile-facts.mjs';
-import { WINDOW_DAYS, DEFAULT_WINDOW_DAYS, clockOf } from './lib/currency-clock.mjs';
+import { WINDOW_DAYS, DEFAULT_WINDOW_DAYS, clockOf, partitionReports, describeAge } from './lib/currency-clock.mjs';
 
 const ROOT = path.resolve(fileURLToPath(new URL('.', import.meta.url)), '..');
 const KNOWLEDGE = path.join(ROOT, 'knowledge');
@@ -70,11 +70,11 @@ const SIGNALS = path.join(ROOT, 'signals');
 const argv = process.argv.slice(2);
 const usage = (msg) => {
   console.error(`check-currency FATAL: ${msg}.`);
-  console.error('Usage: check-currency.mjs [--json] [--horizon <days>] [--fail-on-expired] [--volatile [--subject <slug>] [--top <n>]]');
+  console.error('Usage: check-currency.mjs [--json] [--horizon <days>] [--fail-on-expired] [--as-of <ISO date>] [--volatile [--subject <slug>] [--top <n>]]');
   process.exit(2);
 };
 const SWITCHES = new Set(['--json', '--fail-on-expired', '--volatile']);
-const VALUED = new Set(['--horizon', '--subject', '--top']);
+const VALUED = new Set(['--horizon', '--subject', '--top', '--as-of']);
 const given = {};
 for (let i = 0; i < argv.length; i++) {
   const a = argv[i];
@@ -120,7 +120,14 @@ const horizonDays = (() => {
 // a "today" that depends on who is looking. `verified_on` values backfilled from git carry
 // local dates, so the two can differ by a day at the boundary - which is exactly what the
 // bundle gate's one-day slack on `verified_on` absorbs.
-const today = new Date().toISOString().slice(0, 10);
+//
+// The clock is injectable: `--as-of` pins "now" for every age this report reads (application
+// clocks, signals contributor ages), so a test never compares a fixture with the wall clock.
+// It does not reach the --volatile scoring, which ages documents against git and now.
+const asOfArg = argAfter('--as-of');
+if (asOfArg !== null && !/^\d{4}-\d{2}-\d{2}(T[\d:.]+(Z|[+-]\d{2}:\d{2}))?$/.test(asOfArg)) usage(`--as-of needs an ISO date or instant, got ${JSON.stringify(asOfArg)}`);
+const asOf = asOfArg ?? new Date().toISOString();
+const today = asOf.slice(0, 10);
 
 // ---------------------------------------------------------------- inputs
 if (!fs.existsSync(KNOWLEDGE)) {
@@ -199,20 +206,31 @@ if (apps.length === 0) {
 // Validation lives in scripts/check-signals.mjs. This reads what that gate accepts and is
 // deliberately tolerant: one malformed contributor file must not erase every other
 // installation's report.
-const contributors = [];
+const signalDocs = [];
 if (fs.existsSync(SIGNALS)) {
   for (const f of fs.readdirSync(SIGNALS).filter((x) => x.endsWith('.json')).sort()) {
     try {
-      contributors.push(JSON.parse(fs.readFileSync(path.join(SIGNALS, f), 'utf8')));
+      signalDocs.push(JSON.parse(fs.readFileSync(path.join(SIGNALS, f), 'utf8')));
     } catch {
       console.warn(`  note: signals/${f} is not valid JSON — skipped (run check-signals.mjs)`);
     }
   }
 }
+// A signals report EXPIRES: once its whole-day age against `asOf` exceeds its `windowDays`
+// (lib/currency-clock.mjs reportState, the rule build-catalog and librarian-scan share), it is
+// not a reporting installation. The bundles only it reported on read `unknown`, and the report
+// says how many contributors were set aside and how old each one is. It never fails the run.
+const { current: contributors, stale: staleContributors, ages: contributorAges } = partitionReports(signalDocs, asOf);
 
-/** Highest major any installation reports for a stack. */
+/**
+ * Highest major any installation reports for a stack. Read from EVERY report, stale ones
+ * included, on purpose: a version is monotone evidence - an installation seen on react 19 in
+ * August has not gone back to 18 - so an old report still proves the fleet reached that major,
+ * and dropping it could only hide drift. Witness (below) is a claim about NOW and takes current
+ * reports only.
+ */
 const fleetMajor = {};
-for (const c of contributors) {
+for (const c of signalDocs) {
   for (const [stack, version] of Object.entries(c.stack ?? {})) {
     const major = Number(String(version).split('.')[0]);
     if (!Number.isFinite(major)) continue;
@@ -376,6 +394,7 @@ if (asJson) {
     JSON.stringify(
       {
         generatedAt: new Date().toISOString(),
+        asOf,
         today,
         horizonDays,
         windowDays: WINDOW_DAYS,
@@ -390,7 +409,9 @@ if (asJson) {
           driftUnknown: driftUnknown.length,
           externalCounterparts,
           contributors: contributors.length,
+          contributorsStale: staleContributors.length,
         },
+        contributorAges,
         domains: perDomain,
         expired: expired.map((a) => ({ id: a.id, expiresOn: a.expiresOn, daysLeft: a.daysLeft, clockSource: a.clockSource })),
         atRisk: atRisk.map((a) => ({ id: a.id, expiresOn: a.expiresOn, daysLeft: a.daysLeft, clockSource: a.clockSource })),
@@ -417,8 +438,10 @@ if (asJson) {
 
   console.log(
     `\n  ${apps.length} applications · ${expired.length} expired · ${atRisk.length} at risk · ` +
-      `${noClock.length} with no clock · ${contributors.length} reporting installation(s)`,
+      `${noClock.length} with no clock · ${contributors.length} reporting installation(s)` +
+      (staleContributors.length ? ` (${staleContributors.length} set aside as stale)` : ''),
   );
+  for (const a of contributorAges) console.log(`    signals: ${describeAge(a)}`);
 
   if (expired.length) {
     console.log('\nEXPIRED');
@@ -449,7 +472,7 @@ if (asJson) {
 
   const unwitnessed = perDomain.filter((d) => d.witness === 'unknown');
   if (unwitnessed.length) {
-    console.log('\nUNWITNESSED — no installation reports on these bundles.');
+    console.log(`\nUNWITNESSED — no installation reports on these bundles${staleContributors.length ? ' in a current window (stale reports are set aside)' : ''}.`);
     console.log('  Their currency is UNKNOWN, not current. See docs/signals-lane.md.');
     for (const d of unwitnessed) console.log(`  ${d.domain}`);
   }

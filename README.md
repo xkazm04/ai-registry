@@ -300,11 +300,13 @@ version. Full rule in [`docs/skills-lane.md`](docs/skills-lane.md).
 `invokes30d` in `catalog.json` is **derived** from the [`usage/`](docs/usage-lane.md) lane -
 the first contributor is a Personas installation reporting its own 30-day counts. A zero with
 an empty `usageContributors` means nobody is reporting on that skill, not that nobody runs it.
-`adopters` is written by the operator-side `fleet-audit` from the installations it can see
+A report counts as current only while its window still reaches the catalog's evidence date
+(`generatedAt`); an older one is named in `usageStaleContributors` and kept only in
+`reportedInvokes`. `adopters` is written by the operator-side `fleet-audit` from the installations it can see
 (`<project>@<version>` for copies, `<project>@plugin:<version>` for enabled plugins); the
 registry carries it forward and never invents it. Bundle currency reads from
 [`signals/`](docs/signals-lane.md): a bundle with no reporting installation is **unknown**,
-never current.
+never current, and a signals report older than its window does not count as one.
 
 ## Conventions
 

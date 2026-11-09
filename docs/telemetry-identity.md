@@ -11,7 +11,9 @@ redirected, and chains are rejected. An empty map means no migration is establis
 
 The catalog retains unresolved usage counts in `usageEvidence.unresolved` and records
 each source report's window and date. `reportedInvokes` covers reported windows;
-`invokes30d` includes only reports whose `windowDays` is 30. Neither means a live rolling
+`invokes30d` includes only reports whose `windowDays` is 30 and whose window still reaches
+the catalog's evidence date (a stale report's contributor moves to
+`usageStaleContributors`; see [usage-lane.md](usage-lane.md)). Neither means a live rolling
 30-day count: reports can end on different dates. Existing fields remain available to
 consumers; the evidence envelope supplies their missing interpretation.
 

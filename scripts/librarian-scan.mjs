@@ -44,7 +44,7 @@ import { loadTaxonomy, walkSubjects, MAX_CHILD_DIRS } from './lib/taxonomy.mjs';
 import { EXIT, installCrashDoor } from './lib/exit-codes.mjs';
 import {loadIdentities,resolveIdentity,aggregateDemand} from './lib/telemetry.mjs';
 import { dryStreaks } from './lib/run-result.mjs';
-import { clockOf } from './lib/currency-clock.mjs';
+import { clockOf, partitionReports, describeAge } from './lib/currency-clock.mjs';
 
 installCrashDoor();
 
@@ -66,8 +66,8 @@ const pick = (flag, dflt) => {
 // empty worklist; `--domain` with no value scanned every bundle.
 {
   const BOOLEAN = new Set(['--json', '--weights', '--stamp-weights', '--check-weights']);
-  const VALUED = new Set(['--top', '--domain']);
-  const usage = 'usage: librarian-scan.mjs [--json] [--top <n>] [--domain <bundle>] | --weights | --stamp-weights | --check-weights';
+  const VALUED = new Set(['--top', '--domain', '--as-of']);
+  const usage = 'usage: librarian-scan.mjs [--json] [--top <n>] [--domain <bundle>] [--as-of <ISO date>] | --weights | --stamp-weights | --check-weights';
   const refuse = (why) => { console.error(`librarian-scan: ${why}\n  ${usage}`); process.exit(EXIT.FATAL); };
   for (let i = 0; i < argv.length; i++) {
     if (BOOLEAN.has(argv[i])) continue;
@@ -75,6 +75,7 @@ const pick = (flag, dflt) => {
     const v = argv[i + 1];
     if (v === undefined || v.startsWith('--')) refuse(`${argv[i]} needs a value`);
     if (argv[i] === '--top' && !(Number.isInteger(Number(v)) && Number(v) > 0)) refuse(`--top needs a whole number > 0, got ${JSON.stringify(v)}`);
+    if (argv[i] === '--as-of' && !/^\d{4}-\d{2}-\d{2}(T[\d:.]+(Z|[+-]\d{2}:\d{2}))?$/.test(v)) refuse(`--as-of needs an ISO date or instant, got ${JSON.stringify(v)}`);
     i++;
   }
 }
@@ -86,7 +87,11 @@ if (!fs.existsSync(KNOWLEDGE)) {
   process.exit(2);
 }
 
-const today = new Date().toISOString().slice(0, 10);
+// The clock, injectable: `--as-of` pins "now" for every age this scan reads (application
+// clocks, signals contributor ages), so a test never compares a fixture against the wall
+// clock. Default: now, UTC.
+const asOf = pick('--as-of', null) ?? new Date().toISOString();
+const today = asOf.slice(0, 10);
 const DAY = 86400000;
 const daysSince = (iso) => Math.round((Date.parse(`${today}T00:00:00Z`) - Date.parse(`${iso}T00:00:00Z`)) / DAY);
 
@@ -125,12 +130,21 @@ const mdFiles = (dir) =>
   fs.existsSync(dir) ? fs.readdirSync(dir).filter((f) => f.endsWith('.md') && !f.startsWith('.')).sort() : [];
 
 // ---------------------------------------------------------------- signals (demand)
-const contributors = [];
+const signalDocs = [];
 if (fs.existsSync(SIGNALS)) {
   for (const f of fs.readdirSync(SIGNALS).filter((x) => x.endsWith('.json')).sort()) {
-    try { contributors.push(JSON.parse(fs.readFileSync(path.join(SIGNALS, f), 'utf8'))); } catch { /* the gate owns this */ }
+    try { signalDocs.push(JSON.parse(fs.readFileSync(path.join(SIGNALS, f), 'utf8'))); } catch { /* the gate owns this */ }
   }
 }
+/*
+ * A signals report EXPIRES. It describes the `windowDays` ending at its `generatedAt`; once
+ * that window no longer reaches `asOf` (whole-day age > windowDays, lib/currency-clock.mjs
+ * reportState), it is not a reporting installation: its demand is not scored and the bundles
+ * only it reported on read `unknown`. It is set aside, not hidden - the report prints every
+ * contributor's age and how many were set aside. No gate goes red over it: a stale report is a
+ * truth to state, not a build to break.
+ */
+const { current: contributors, stale: staleContributors, ages: contributorAges } = partitionReports(signalDocs, asOf);
 /*
  * Aggregating across contributors: events sum, states do not.
  *
@@ -532,8 +546,12 @@ if (asJson) {
     generatedAt: new Date().toISOString(),
     today,
     weights: W,
+    asOf,
     demandKnownForAnyBundle: witnessed.size > 0,
+    // reporting installations: CURRENT signals contributors only
     contributors: contributors.length,
+    contributorsStale: staleContributors.length,
+    contributorAges,
     // the denominator for every `dryStreak`: 0 means the brake has nothing to compute from
     runResultsRead,
     demandAggregation: {
@@ -566,10 +584,11 @@ if (asJson) {
 
   const totalTech = domainRows.reduce((n, d) => n + d.useWhenTotal, 0);
   const totalUw = domainRows.reduce((n, d) => n + d.useWhenWritten, 0);
-  console.log(`\n  ${subjects.length} subjects · use_when ${totalUw}/${totalTech} · ${contributors.length} reporting installation(s)`);
+  console.log(`\n  ${subjects.length} subjects · use_when ${totalUw}/${totalTech} · ${contributors.length} reporting installation(s)${staleContributors.length ? ` (${staleContributors.length} set aside as stale)` : ''}`);
+  for (const a of contributorAges) console.log(`    signals: ${describeAge(a)}`);
 
   if (witnessed.size === 0) {
-    console.log('\n  DEMAND IS UNKNOWN for every bundle — no installation reports (docs/signals-lane.md).');
+    console.log(`\n  DEMAND IS UNKNOWN for every bundle — no installation reports${staleContributors.length ? ' a current window' : ''} (docs/signals-lane.md).`);
     console.log('  The ranking below is structure and decay only. It cannot tell a subject nobody');
     console.log('  needs from one nobody has mentioned, and it does not pretend to.');
   }
