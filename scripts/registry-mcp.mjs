@@ -42,6 +42,14 @@
  * `.ai/manifest.yaml`, or when REGISTRY_CONSULT_LOG=0; a write failure never fails the
  * read. See scripts/lib/consult-log.mjs and docs/query-lane.md.
  *
+ * Query log: every registry_query appends one row (terms, domain, top, the first five hit
+ * addresses, empty) to `.ai/queries.local.jsonl` in the same project, so
+ * scripts/query-misses.mjs can tell an answered query from an abandoned or re-asked one.
+ * Silent where the consult log is silent, and also when REGISTRY_QUERY_LOG=0 or when that
+ * path is not git-ignored in the project; a write failure never fails the search. The
+ * target is resolved once per RECHECK_MS, not per call (two git spawns). See
+ * scripts/lib/query-log.mjs.
+ *
  *   node scripts/registry-mcp.mjs [--root <registry checkout>]
  *   claude mcp add --scope user ai-registry -- node <registry>/scripts/registry-mcp.mjs
  *
@@ -54,6 +62,7 @@ import { fileURLToPath } from 'node:url';
 import { spawnSync } from 'node:child_process';
 import { EXIT } from './lib/exit-codes.mjs';
 import { logConsult, logDocConsult } from './lib/consult-log.mjs';
+import { logQuery, queryLogTarget } from './lib/query-log.mjs';
 
 /** Bumped on any change to tool names, params or result shapes (semver). */
 export const SERVER_VERSION = '1.0.0';
@@ -467,15 +476,27 @@ export function realHandlers(root, { log = (m) => process.stderr.write(`${m}\n`)
     return projection;
   };
   const domainsOf = (d) => (d ? d.split(',').map((x) => x.trim()).filter(Boolean) : null);
+  // Where a search is logged: resolved at most once per RECHECK_MS for the same cwd, so a
+  // session's searches do not each pay two git spawns. null = do not log.
+  let logTarget = { at: -Infinity, cwd: null, file: null };
+  const queryLogFile = () => {
+    const c = cwd();
+    if (logTarget.cwd !== c || now() - logTarget.at >= RECHECK_MS) logTarget = { at: now(), cwd: c, file: queryLogTarget({ cwd: c, env }) };
+    return logTarget.file;
+  };
 
   return {
     async registry_query(a) {
-      const { query, formatHit } = await lib();
+      const { query, formatHit, DEFAULT_TOP } = await lib();
       const terms = Array.isArray(a.terms) ? a.terms : [a.terms];
       const opts = { domains: domainsOf(a.domain) };
       if (a.top !== undefined) opts.top = a.top;
       if (a.budget_tokens !== undefined) opts.budgetTokens = a.budget_tokens;
       const r = query(await getProjection(), terms, opts);
+      // A search is not a consult; it goes to the query log only. A failed write is swallowed.
+      try {
+        logQuery({ env, target: queryLogFile(), terms, domain: a.domain ?? null, top: a.top ?? DEFAULT_TOP, result: r, from: 'registry-mcp' });
+      } catch { /* the search answers regardless */ }
       return { content: [{ type: 'text', text: renderResult(r, formatHit) }], structuredContent: r };
     },
     async registry_read(a) {

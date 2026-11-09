@@ -299,6 +299,9 @@ const writeGitignoreBlock = (repo, skillNames, ruleNames = []) => {
        // Every linked skill appends its run log here (skill-reflection clause, "Run log");
        // /librarian skills drains it into the registry. Local run output, never committed.
        ...(skillNames.length ? ['/.ai/skill-runs.local.jsonl'] : []),
+       // The front door's query log (scripts/lib/query-log.mjs): query text can carry
+       // project-private words, and the logger writes only where this line ignores it.
+       '/.ai/queries.local.jsonl',
        GITIGNORE_END].join('\n')
     : '';
   let cur = fs.existsSync(gi) ? fs.readFileSync(gi, 'utf8') : '';

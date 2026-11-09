@@ -6,7 +6,7 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { DEFAULT_FIXTURE, validateFixture, parseResearchMapText, scoreAnswer, runArm } from '../routing-bench.mjs';
+import { DEFAULT_FIXTURE, validateFixture, parseResearchMapText, scoreAnswer, runArm, splitFor, selectSplit, cohortOf } from '../routing-bench.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', '..');
 const fx = JSON.parse(fs.readFileSync(DEFAULT_FIXTURE, 'utf8'));
@@ -30,9 +30,46 @@ function isSlugLiteral(q) {
   return slugs.some((s) => joined === s || joined === spaced(s));
 }
 
+// The 2026-10-25 held-out set, by id. These rows carry no `split`, stay byte-for-byte, and the
+// recall floor below is measured on exactly them, whatever the fixture grows into.
+const ORIGINAL_IDS = Array.from({ length: 38 }, (_, i) => `q${String(i + 1).padStart(2, '0')}`);
+const original = { ...fx, queries: fx.queries.filter((q) => ORIGINAL_IDS.includes(q.id)) };
+const grown = fx.queries.filter((q) => !ORIGINAL_IDS.includes(q.id));
+
 test('fixture parses against the routing-bench/1 schema', () => {
   assert.deepEqual(validateFixture(fx), []);
-  assert.ok(fx.queries.length >= 30 && fx.queries.length <= 40, `30-40 queries, got ${fx.queries.length}`);
+  assert.equal(original.queries.length, 38, 'the 38 original rows are all present');
+});
+
+test('split protocol: original rows carry no split; every grown row carries splitFor(id)', () => {
+  for (const q of original.queries) {
+    assert.equal(q.split, undefined, `${q.id} is an original row`);
+    assert.equal(cohortOf(q), 'original');
+  }
+  for (const q of grown) {
+    assert.ok(q.split === 'dev' || q.split === 'heldout', `${q.id}: split missing`);
+    assert.equal(q.split, splitFor(q.id), `${q.id}: split must be the stable hash of its id, never hand-picked`);
+    assert.equal(cohortOf(q), 'grown');
+  }
+  assert.equal(selectSplit(fx, 'heldout').queries.length + selectSplit(fx, 'dev').queries.length, fx.queries.length);
+  assert.ok(selectSplit(fx, 'heldout').queries.length >= 38, 'original rows count as heldout');
+  assert.equal(selectSplit(fx, 'all'), fx);
+  assert.throws(() => selectSplit(fx, 'test'), /unknown split/);
+  assert.ok(validateFixture({ ...fx, queries: [{ ...fx.queries[0], split: 'train' }] }).some((e) => e.includes('split')));
+});
+
+test('grown rows: transcript-labelled, at most three rows per owning subject across the fixture, no exact duplicates', () => {
+  for (const q of grown) {
+    assert.equal(q.source, 'transcript', `${q.id}: a grown row is labelled by behaviour, so it comes from a transcript`);
+    assert.match(q.note, /opened/, `${q.id}: the note names what the session opened`);
+  }
+  const per = new Map();
+  for (const q of fx.queries) per.set(q.expect.subject, [...(per.get(q.expect.subject) ?? []), q.id]);
+  for (const [s, ids] of per) {
+    if (ids.some((id) => !ORIGINAL_IDS.includes(id))) assert.ok(ids.length <= 3, `${s} owns ${ids.length} rows (${ids.join(', ')}); the cap is 3`);
+  }
+  const keys = fx.queries.map((q) => q.terms.join(' | ').toLowerCase());
+  assert.equal(new Set(keys).size, keys.length, 'no two rows ask the same terms');
 });
 
 test('validator rejects a broken fixture rather than passing it', () => {
@@ -156,15 +193,29 @@ test('technique@5 reads the EXPECTED subject in the top 5, even when an alt subj
 // Held-out regression floor for the registry-query arm. Measured 2026-11-07 after the
 // exact-address tier: r@1 25/38, r@5 31/38 (before the tier: 22/38 and 31/38). Floors sit one
 // query below, so a single relabel or corpus edit does not trip them but a real ranking
-// regression does. Offline and fast (about 1.5 s); needs the real knowledge tree, so it
+// regression does. Pinned to the ORIGINAL 38 rows by id, so growing the fixture never moves
+// the denominator. Offline and fast (about 1.5 s); needs the real knowledge tree, so it
 // skips where knowledge/ is absent, as the real-corpus test in registry-query.test.mjs does.
 const HAS_CORPUS = fs.existsSync(path.join(ROOT, 'knowledge', 'software-engineering', 'index.json'));
 test('registry-query arm holds its recall floor on the held-out bench', { skip: !HAS_CORPUS && 'knowledge/ absent' }, async (t) => {
-  const res = await runArm('registry-query', fx);
+  const res = await runArm('registry-query', original);
   const n = res.n;
+  assert.equal(n, 38);
   const r1 = res.rows.filter((r) => r.at1).length;
   const r5 = res.rows.filter((r) => r.at5).length;
   t.diagnostic(`held-out bench: r@1 ${r1}/${n}, r@5 ${r5}/${n}`);
   assert.ok(r1 >= 24, `recall@1 ${r1}/${n} fell below the floor of 24`);
   assert.ok(r5 >= 30, `recall@5 ${r5}/${n} fell below the floor of 30`);
+});
+
+// The grown rows, reported and not floored: a floor would be set from one measurement of a
+// set nobody has tuned against yet. The line is for the record.
+test('registry-query arm on the grown rows (reported, no floor)', { skip: !HAS_CORPUS && 'knowledge/ absent' }, async (t) => {
+  for (const split of ['dev', 'heldout']) {
+    const rows = grown.filter((q) => q.split === split);
+    if (!rows.length) continue;
+    const res = await runArm('registry-query', { ...fx, queries: rows });
+    t.diagnostic(`grown ${split}: r@1 ${res.rows.filter((r) => r.at1).length}/${res.n}, r@5 ${res.rows.filter((r) => r.at5).length}/${res.n}`);
+    assert.equal(res.n, rows.length);
+  }
 });

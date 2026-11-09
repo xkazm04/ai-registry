@@ -48,10 +48,18 @@
  * scripts/tests/mine-routing-queries.test.mjs can pin them against a synthetic transcript.
  * Importing this module scans nothing; running it is still the CLI below.
  *
+ * SCREEN (`--screen <fixture>`). The bench-growth protocol (docs/query-lane.md, "Query log
+ * and miss mining") as code: screenCandidates applies SCREEN_RULES in order and reports how
+ * many candidates survive each, so the counts behind a fixture growth are reproducible.
+ * A label still comes only from what the session opened; the screen never runs a router.
+ * What it cannot do - privacy scrubbing and a last read for label quality - stays manual,
+ * and a row the screener drops by hand is named in the growth's report.
+ *
  * Usage:
- *   node scripts/experiments/mine-routing-queries.mjs [--root <dir>] [--window 15] [--out <file>]
+ *   node scripts/experiments/mine-routing-queries.mjs [--root <dir>] [--window 15] [--out <file>] [--screen <fixture>]
  *     --root    transcript root (default: <home>/.claude/projects)
  *     --out     write candidates JSON there (default: stdout)
+ *     --screen  keep only candidates that survive the protocol against that fixture
  *
  * Exit codes (scripts/lib/exit-codes.mjs): 0 mined (zero candidates is an answer);
  * 2 could not run (root missing, bad usage).
@@ -59,7 +67,7 @@
 import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
-import { pathToFileURL } from 'node:url';
+import { fileURLToPath, pathToFileURL } from 'node:url';
 import { EXIT } from '../lib/exit-codes.mjs';
 
 // ---------------------------------------------------------------- walk
@@ -373,6 +381,86 @@ export function mineTranscript(text, { session = '', window = 15 } = {}) {
   return candidates;
 }
 
+// ---------------------------------------------------------------- screen
+const words = (s) => new Set(String(s).toLowerCase().split(/[^a-z0-9]+/).filter((w) => w.length > 2));
+/** Token Jaccard of two texts: the near-duplicate measure of the screen. */
+export function jaccard(a, b) {
+  const A = words(a);
+  const B = words(b);
+  if (!A.size || !B.size) return 0;
+  let i = 0;
+  for (const x of A) if (B.has(x)) i += 1;
+  return i / (A.size + B.size - i);
+}
+
+/** Rules of the bench-growth protocol, in the order applied. Each drops what fails it. */
+export const SCREEN_RULES = [
+  ['labelled', 'the session opened a knowledge document within the window'],
+  ['unambiguous', 'it opened exactly one subject in the window'],
+  ['not_index_slice', 'not an index.json slice (its "terms" are code literals, not a question)'],
+  ['label_in_index', 'the label subject (and technique) exists in the current index'],
+  ['not_slug_literal', 'the query is not the label slug itself'],
+  ['distinct_terms', 'first occurrence of the exact terms'],
+  ['not_near_dup_existing', 'token Jaccard < 0.5 against every fixture row'],
+  ['not_near_dup_each_other', 'token Jaccard < 0.5 against every candidate kept before it'],
+  ['attributable', 'a research-map call with several terms opened one document for the call; only single-term calls carry a per-query label'],
+  ['well_formed', 'no unexpanded shell variable, no phrase under 3 characters'],
+  ['not_echo', 'the query does not already name the label subject or technique (multi-word slug, kebab or spaced)'],
+  ['not_address_list', 'not a list of kebab slugs (the exact-address tier answers those, not ranking)'],
+  ['subject_cap_3', 'at most three rows per owning subject across the fixture, existing rows included'],
+];
+
+/**
+ * Apply SCREEN_RULES to mined candidates. Labels come only from what the session opened
+ * (the miner's `label`); nothing here runs a router. `fixtureRows` are the bench rows
+ * already committed; `labelExists(domain, subject, technique)` checks the index. Returns
+ * { kept, counts } with the survivors of each rule. Privacy scrubbing and a final read for
+ * label quality stay manual.
+ */
+export function screenCandidates(candidates, { fixtureRows = [], labelExists = () => true } = {}) {
+  const counts = { total: candidates.length };
+  let c = candidates;
+  const step = (name, fn) => { c = c.filter(fn); counts[name] = c.length; };
+  step('labelled', (x) => x.label);
+  step('unambiguous', (x) => !x.ambiguous);
+  step('not_index_slice', (x) => x.kind !== 'index-slice');
+  step('label_in_index', (x) => labelExists(x.label.domain, x.label.subject, x.label.technique));
+  const joined = (x) => x.terms.join(' ').trim().toLowerCase();
+  step('not_slug_literal', (x) => ![x.label.subject, x.label.technique].filter(Boolean).some((s) => joined(x) === s || joined(x) === s.replace(/-/g, ' ')));
+  const seen = new Set();
+  step('distinct_terms', (x) => { const k = x.terms.join(' | ').toLowerCase().trim(); if (seen.has(k)) return false; seen.add(k); return true; });
+  const existing = fixtureRows.map((q) => q.terms.join(' '));
+  step('not_near_dup_existing', (x) => existing.every((e) => jaccard(e, x.terms.join(' ')) < 0.5));
+  const kept = [];
+  step('not_near_dup_each_other', (x) => { if (kept.some((k) => jaccard(k.terms.join(' '), x.terms.join(' ')) >= 0.5)) return false; kept.push(x); return true; });
+  step('attributable', (x) => x.kind !== 'research-map' || (x.all_terms ?? x.terms).length === 1);
+  step('well_formed', (x) => x.terms.every((t) => !/\$\w|\$\{/.test(t) && t.trim().length >= 3));
+  step('not_echo', (x) => ![x.label.subject, x.label.technique].filter((s) => s && s.includes('-')).some((s) => joined(x).includes(s) || joined(x).includes(s.replace(/-/g, ' '))));
+  step('not_address_list', (x) => {
+    const text = x.terms.join(' ');
+    const short = text.split(/\s+/).length <= 3;
+    return (text.match(/\b[a-z0-9]+(?:-[a-z0-9]+)+\b/g) ?? []).filter((w) => w.split('-').length >= 3 || (short && /^[a-z]+-[a-z]+$/.test(w))).length < 2;
+  });
+  const per = new Map();
+  for (const q of fixtureRows) per.set(q.expect.subject, (per.get(q.expect.subject) ?? 0) + 1);
+  step('subject_cap_3', (x) => { const n = per.get(x.label.subject) ?? 0; if (n >= 3) return false; per.set(x.label.subject, n + 1); return true; });
+  return { kept: c, counts };
+}
+
+/** labelExists over the knowledge indexes of a registry checkout. */
+function indexLabelCheck(registryRoot) {
+  const idx = new Map();
+  const k = path.join(registryRoot, 'knowledge');
+  for (const d of fs.existsSync(k) ? fs.readdirSync(k, { withFileTypes: true }) : []) {
+    const p = path.join(k, d.name, 'index.json');
+    if (d.isDirectory() && fs.existsSync(p)) idx.set(d.name, JSON.parse(fs.readFileSync(p, 'utf8')));
+  }
+  return (domain, subject, technique) => {
+    const s = idx.get(domain)?.subjects?.[subject];
+    return Boolean(s && (!technique || (s.techniques ?? []).some((t) => t.slug === technique)));
+  };
+}
+
 function main() {
   const argv = process.argv.slice(2);
   const pick = (n, d) => {
@@ -382,6 +470,7 @@ function main() {
   const ROOT = path.resolve(pick('--root', path.join(os.homedir(), '.claude', 'projects')));
   const WINDOW = Number(pick('--window', 15));
   const OUT = pick('--out', null);
+  const SCREEN = pick('--screen', null);
 
   if (!fs.existsSync(ROOT)) {
     console.error(`mine-routing-queries FATAL: transcript root ${ROOT} does not exist.`);
@@ -412,7 +501,18 @@ function main() {
     labelled: candidates.filter((c) => c.label).length,
     unambiguous: candidates.filter((c) => c.label && !c.ambiguous).length,
   };
-  const payload = JSON.stringify({ schema: 'routing-candidates/1', summary, candidates }, null, 1);
+  let screen;
+  if (SCREEN) {
+    let fx;
+    try { fx = JSON.parse(fs.readFileSync(SCREEN, 'utf8')); } catch (e) {
+      console.error(`mine-routing-queries FATAL: --screen fixture ${SCREEN} does not read (${e.message}).`);
+      process.exit(EXIT.FATAL);
+    }
+    const registryRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', '..');
+    screen = screenCandidates(candidates, { fixtureRows: fx.queries ?? [], labelExists: indexLabelCheck(registryRoot) });
+    summary.screen = screen.counts;
+  }
+  const payload = JSON.stringify(screen ? { schema: 'routing-candidates/1', summary, rules: Object.fromEntries(SCREEN_RULES), candidates: screen.kept } : { schema: 'routing-candidates/1', summary, candidates }, null, 1);
   if (OUT) {
     fs.writeFileSync(OUT, payload);
     console.error(`mine-routing-queries: ${JSON.stringify(summary)} -> ${OUT}`);
