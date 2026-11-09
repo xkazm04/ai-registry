@@ -15,6 +15,11 @@ title: AI development registry
 
 # Every lane is a top-level directory with its own item shape and its own governing doc.
 # A consumer indexes the lanes it understands and ignores the rest.
+# `status` on a lane is the one-line state README.md's lane table shows. That table, its
+# lane count and README's list of maintenance skills are GENERATED from this file and from
+# .claude/skills/ by scripts/build-readme.mjs (--check in CI); edit here, then re-run it.
+# This file is read by scripts/lib/registry-yaml.mjs, which accepts only the YAML subset
+# used below and refuses anything else (anchors, block scalars, flow maps) by line.
 # `depth` on a lane says whether this repository is free to reorganize its folders.
 #
 #   nested  — the registry owns both ends of the contract, because consumers read a
@@ -37,20 +42,27 @@ lanes:
     path: knowledge/
     holds: Reference Knowledge Bundles — four-layer domain knowledge (Golden Path →
       Technique → Application → Evidence), one bundle per domain.
+    status: Real content. Gated by CI.
     spec: docs/rkb-profile.md
     format: OKF v0.1 profile (concept documents with YAML frontmatter; `type` required)
     gate: scripts/check-bundles.mjs
     depth: nested
     # GENERATED, and the reason the corpus reaches a session at all. `rules/ai-registry-*.md`
-    # are built from the bundle indexes by scripts/build-knowledge-rules.mjs and LINKED into
-    # each project's .claude/rules/ by the linker, driven by that project's
-    # `knowledge.domains`. A rule with no `paths:` frontmatter loads in EVERY session at
-    # .claude/CLAUDE.md priority — so the standard is PRESENT without a skill being invoked.
-    # A consult-only design fails on recall: a standard nobody remembers to look up is a
-    # standard that is not there at the moment a decision is made.
+    # are built from the bundle indexes by scripts/build-knowledge-rules.mjs and INSTALLED as
+    # COPIES into each project's .claude/rules/ by the linker, driven by that project's
+    # `knowledge.domains`. Copies, not links: on 2026-09-14 a load-telemetry probe showed the
+    # harness never loads a rule symlinked from outside the project. A rule with no `paths:`
+    # frontmatter loads in EVERY session at .claude/CLAUDE.md priority — so the standard is
+    # PRESENT without a skill being invoked. A consult-only design fails on recall: a
+    # standard nobody remembers to look up is a standard that is not there at the moment a
+    # decision is made.
     rules:
       path: rules/
       generator: scripts/build-knowledge-rules.mjs
+      # The accurate name. `linked_into` below carries the same value and is KEPT for
+      # readers that know only the old key (none in this repository as of 2026-11-09;
+      # readers outside it are unknown). The rules are copies, not links.
+      installed_into: <project>/.claude/rules/
       linked_into: <project>/.claude/rules/
     # No directory under knowledge/ holds more than this many child directories. Files
     # are not counted. Enforced by scripts/lib/taxonomy.mjs via the bundle gate.
@@ -58,6 +70,7 @@ lanes:
   skills:
     path: skills/
     holds: Agent skills — one directory per skill, SKILL.md plus an append-only LESSONS.md.
+    status: Real content; current inventory in catalog.json. Gated by CI.
     spec: docs/skills-lane.md
     format: SKILL.md frontmatter (name, description, category, memory, version, tags)
     gate: scripts/check-skills.mjs
@@ -119,8 +132,8 @@ lanes:
     # (default `.claude/<skill>/config.md`), and the skill runs without it.
     overlay: .claude/<skill>/config.md
     scope: Skills that transplant to any repository - the fleet's shared library. Skills
-      that maintain THIS registry (`/forge`, `/deepen`, `/librarian`, `/intake`) live in
-      `.claude/skills/` and are not part of this lane.
+      that maintain THIS registry live in `.claude/skills/` (README.md lists them, generated
+      from that directory) and are not part of this lane.
     note: The shared library migrated into this lane on 2026-08-22 (22 skills from the
       Personas workspace library and the connected projects, canonical bodies chosen on
       evidence, project specifics moved to overlays). Six of the original worked-example
@@ -129,6 +142,8 @@ lanes:
     path: recipes/
     holds: Craftsman knowledge - one kind of work done well, connector- and
       trigger-agnostic, versioned like a skill.
+    status: Real content, all ten domains. Gated by CI. Declared 2026-09-06 with one worked
+      example; the corpus migrated after operator approval and grows by assay.
     spec: docs/recipes-lane.md
     format: recipe.json (the Recipe v3 object) + RECIPE.md (rendered) + LESSONS.md + examples/
     gate: scripts/check-recipes.mjs
@@ -173,6 +188,9 @@ lanes:
     path: publications/
     holds: Approved technical posts written for readers outside the registry - one
       directory per post, with its sources, figures and a paste-ready Medium package.
+    status: Real content; current inventory in publications/index.json. Gated by CI.
+      Declared 2026-10-05 with its spec, gate, index builder, a test fixture and one
+      imported publication.
     spec: docs/publications-lane.md
     format: publication.json (schema `publication/1`) + post.html + post.md + SOURCES.md
       + figures/NN-<name>.svg + medium/{story.html,tags.txt,README.md}. Text-only: the
@@ -213,18 +231,21 @@ lanes:
     spec: docs/simple-lanes.md
     gate: scripts/check-simple-lanes.mjs
     holds: Practices — the shape of a repo-level habit plus the starter artifacts it drops.
+    status: Templates and reusable practices; inspect each adoption contract.
     depth: fixed   # practices/<slug>/PRACTICE.md — 3 segments, matched exactly
   memory:
     path: memory/
     spec: docs/simple-lanes.md
     gate: scripts/check-simple-lanes.mjs
     holds: Organizational memory notes, one fact per file, kind-partitioned.
+    status: Examples and dated observations; inspect scope and confidence.
     depth: fixed   # memory/<kind>/<slug>.md — 3 segments, matched exactly
   usage:
     path: usage/
     depth: fixed   # usage/<contributor>.json — 2 segments, matched exactly
     holds: Which skills actually get used — counts contributed by the installations that
       run them. One file per contributing installation, aggregated into catalog.json.
+    status: Real, gated. First contributor reporting.
     spec: docs/usage-lane.md
     gate: scripts/check-usage.mjs
     note: Counts and nothing else. No paths, project names, URLs or addresses — the gate
@@ -235,6 +256,7 @@ lanes:
     holds: Whether what this registry claims is still true where it is used — stack
       versions, citation-resolution verdicts, deviations and consults, contributed by the
       installations that consume the knowledge lane. One file per installation.
+    status: Real, gated. First contributor reporting (stack only, so far).
     spec: docs/signals-lane.md
     gate: scripts/check-signals.mjs
     depth: fixed   # signals/<contributor>.json — one file per installation, never nested
@@ -250,6 +272,7 @@ lanes:
     holds: Coverage memory for the maintenance loop — what the registry looked like when
       it was last swept, what was done about it, and what was deliberately not done.
       An Obsidian-navigable vault of markdown notes.
+    status: Real. Seeded by the founding sweep.
     spec: .claude/skills/librarian/SKILL.md
     depth: nested
     # Deliberately holds no counts a script can recompute. `librarian-scan.mjs` produces
