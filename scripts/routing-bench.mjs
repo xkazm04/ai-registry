@@ -50,8 +50,16 @@
  * Multi-term rows: research-map scores each term separately; the bench merges by keeping
  * each subject's best score across terms. registry-query receives the terms as given.
  *
+ * Splits. A row may carry `"split": "dev"` or `"split": "heldout"`; a row without one is
+ * heldout (the original 38 rows, 2026-10-25, carry none and stay byte-for-byte). Rows added
+ * since carry a split assigned by splitFor(id), a stable hash, about half each. `--split`
+ * picks the rows scored (default heldout, so a bare run keeps measuring the held-out set;
+ * tune against dev, report heldout). When the selection mixes the original rows with grown
+ * ones, the report adds one line per arm and cohort (`original`, `grown`), so the original
+ * 38's numbers stay readable on their own.
+ *
  * Usage:
- *   node scripts/routing-bench.mjs [--arms a,b] [--json] [--fixture <path>]
+ *   node scripts/routing-bench.mjs [--arms a,b] [--split dev|heldout|all] [--json] [--fixture <path>]
  *
  * Exit codes (scripts/lib/exit-codes.mjs): 0 the bench ran (low recall is a result, not a
  * failure); 2 the fixture is invalid, an arm name is unknown, or an arm failed to run.
@@ -59,6 +67,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { spawnSync } from 'node:child_process';
+import { createHash } from 'node:crypto';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import { EXIT } from './lib/exit-codes.mjs';
 import { estimateTokens } from './ledger-read.mjs';
@@ -68,6 +77,23 @@ export const DEFAULT_FIXTURE = path.join(ROOT, 'scripts', 'fixtures', 'routing-b
 export const FIXTURE_SCHEMA = 'routing-bench/1';
 export const ARMS = ['research-map', 'research-map-deep', 'research-map-prose', 'registry-query', 'registry-query-top3'];
 const AT = 5;
+export const SPLITS = ['dev', 'heldout'];
+
+/** The split a new row gets: the parity of the first byte of sha256(id). Stable, about half each. */
+export function splitFor(id) {
+  return createHash('sha256').update(String(id)).digest()[0] % 2 === 0 ? 'dev' : 'heldout';
+}
+/** A row's split; a row without one (the original set) is heldout. */
+export const splitOf = (q) => q.split ?? 'heldout';
+/** `original` for the rows that predate splits, `grown` for rows that carry one. */
+export const cohortOf = (q) => (q.split === undefined ? 'original' : 'grown');
+
+/** The fixture restricted to one split (`all` keeps every row). */
+export function selectSplit(fx, split = 'heldout') {
+  if (split === 'all') return fx;
+  if (!SPLITS.includes(split)) throw new Fatal(`unknown split "${split}"; splits: ${SPLITS.join(', ')}, all`);
+  return { ...fx, queries: fx.queries.filter((q) => splitOf(q) === split) };
+}
 
 class Fatal extends Error {}
 class Unavailable extends Error {}
@@ -97,6 +123,7 @@ export function validateFixture(fx) {
     if (q.source !== 'transcript' && q.source !== 'synthetic') errs.push(`${at}: source must be transcript|synthetic`);
     if (typeof q.rewritten !== 'boolean') errs.push(`${at}: rewritten must be boolean`);
     if (typeof q.note !== 'string' || !q.note.trim()) errs.push(`${at}: note missing`);
+    if (q.split !== undefined && !SPLITS.includes(q.split)) errs.push(`${at}: split must be ${SPLITS.join('|')} when present`);
   });
   return errs;
 }
@@ -282,6 +309,19 @@ const quantile = (xs, q) => {
 };
 const mean = (xs) => (xs.length ? xs.reduce((a, b) => a + b, 0) / xs.length : null);
 
+/** recall@1, recall@5 and technique@5 over scored rows. */
+export function recallOf(rows) {
+  const n = rows.length;
+  const tRows = rows.filter((r) => r.technique_at5 !== null);
+  return {
+    n,
+    recall_at1: n ? rows.filter((r) => r.at1).length / n : null,
+    recall_at5: n ? rows.filter((r) => r.at5).length / n : null,
+    technique_at5: tRows.length ? tRows.filter((r) => r.technique_at5).length / tRows.length : null,
+    technique_n: tRows.length,
+  };
+}
+
 /** Score one arm's answer against one fixture row. */
 export function scoreAnswer(q, ranked) {
   const accept = new Set([q.expect.subject, ...q.expect.alt_subjects]);
@@ -342,18 +382,19 @@ export async function runArm(arm, fx) {
       ms: Math.round(ans.ms),
     });
   }
-  const n = rows.length;
-  const tRows = rows.filter((r) => r.technique_at5 !== null);
   const out = rows.map((r) => r.output_tokens);
   const dec = rows.map((r) => r.decision_tokens);
+  const cohort = new Map(fx.queries.map((q) => [q.id, cohortOf(q)]));
+  const cohorts = {};
+  for (const c of ['original', 'grown']) {
+    const sub = rows.filter((r) => cohort.get(r.id) === c);
+    if (sub.length) cohorts[c] = recallOf(sub);
+  }
   return {
     arm,
     status: 'ok',
-    n,
-    recall_at1: rows.filter((r) => r.at1).length / n,
-    recall_at5: rows.filter((r) => r.at5).length / n,
-    technique_at5: tRows.length ? tRows.filter((r) => r.technique_at5).length / tRows.length : null,
-    technique_n: tRows.length,
+    ...recallOf(rows),
+    cohorts,
     tokens_median: quantile(out, 0.5),
     tokens_p90: quantile(out, 0.9),
     decision_median: quantile(dec, 0.5),
@@ -368,10 +409,10 @@ export async function runArm(arm, fx) {
 const pct = (x) => (x === null ? '   -' : `${(x * 100).toFixed(0).padStart(3)}%`);
 const num = (x, w = 6) => (x === null || x === undefined ? '-'.padStart(w) : String(x).padStart(w));
 
-export function renderTable(fx, results) {
+export function renderTable(fx, results, split = null) {
   const lines = [];
   const synth = fx.queries.filter((q) => q.source === 'synthetic').length;
-  lines.push(`routing-bench: ${fx.queries.length} queries (${fx.queries.length - synth} transcript, ${synth} synthetic), fixture ${fx.generated}`);
+  lines.push(`routing-bench: ${fx.queries.length} queries (${fx.queries.length - synth} transcript, ${synth} synthetic)${split ? `, split ${split}` : ''}, fixture ${fx.generated}`);
   lines.push('');
   lines.push(`${'arm'.padEnd(21)}  r@1   r@5   t@5   tok-med tok-p90  dec-med dec-p90  ms-mean`);
   for (const r of results) {
@@ -385,6 +426,17 @@ export function renderTable(fx, results) {
     );
   }
   const ok = results.filter((r) => r.status === 'ok');
+  // The original rows and the grown rows, side by side, whenever the selection mixes them.
+  const mixed = ok.filter((r) => Object.keys(r.cohorts ?? {}).length > 1);
+  if (mixed.length) {
+    lines.push('');
+    lines.push(`by cohort (original = the ${mixed[0].cohorts.original.n} rows of 2026-10-25 without a split; grown = rows mined since):`);
+    for (const r of mixed) {
+      for (const [c, m] of Object.entries(r.cohorts)) {
+        lines.push(`${`${r.arm} ${c}`.padEnd(30)} n=${String(m.n).padStart(3)}  r@1 ${pct(m.recall_at1)}  r@5 ${pct(m.recall_at5)}  t@5 ${pct(m.technique_at5)} (of ${m.technique_n})`);
+      }
+    }
+  }
   const rmArms = ok.filter((r) => r.arm.startsWith('research-map'));
   if (rmArms.length) {
     const missedAll = fx.queries.filter((q) => rmArms.every((r) => !r.rows.find((x) => x.id === q.id).at5));
@@ -406,7 +458,9 @@ async function main(argv) {
   const arms = String(pick('--arms', ARMS.join(','))).split(',').map((s) => s.trim()).filter(Boolean);
   const unknown = arms.filter((a) => !ARMS.includes(a));
   if (unknown.length) throw new Fatal(`unknown arm(s): ${unknown.join(', ')}. Known: ${ARMS.join(', ')}`);
-  const fx = loadFixture(fixturePath);
+  const split = String(pick('--split', 'heldout'));
+  const fx = selectSplit(loadFixture(fixturePath), split);
+  if (!fx.queries.length) throw new Fatal(`split "${split}" selects no rows in ${fixturePath}`);
 
   const results = [];
   for (const arm of arms) {
@@ -417,8 +471,8 @@ async function main(argv) {
       else throw e;
     }
   }
-  if (asJson) process.stdout.write(`${JSON.stringify({ schema: 'routing-bench-result/1', fixture: path.relative(ROOT, fixturePath).replace(/\\/g, '/'), generated: fx.generated, results }, null, 1)}\n`);
-  else process.stdout.write(`${renderTable(fx, results)}\n`);
+  if (asJson) process.stdout.write(`${JSON.stringify({ schema: 'routing-bench-result/1', fixture: path.relative(ROOT, fixturePath).replace(/\\/g, '/'), generated: fx.generated, split, results }, null, 1)}\n`);
+  else process.stdout.write(`${renderTable(fx, results, split)}\n`);
   return EXIT.OK;
 }
 

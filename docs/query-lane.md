@@ -156,6 +156,62 @@ a real shortfall a skill recorded earlier.
 
 Implementation: [`scripts/lib/consult-log.mjs`](../scripts/lib/consult-log.mjs).
 
+## Query log and miss mining
+
+A search is not a consult, so the consult log cannot say whether a search was answered.
+The query log can. Every `registry_query` over MCP and every plain CLI query (not
+`--read`, not `--subject`) appends one line to `.ai/queries.local.jsonl` in the project
+being worked on:
+
+```json
+{"ts":"2026-11-09T10:00:00Z","terms":["paged list cursor offset versus keyset"],"domain":null,"top":8,"hits":["software-engineering/table/pagination","software-engineering/table"],"empty":false,"from":"registry-mcp"}
+```
+
+`hits` holds at most the first five hit addresses in rank order, as
+`<domain>/<subject>[/<technique>]` slugs; a law hit names no subject and is left out. No
+paths. `from` is `registry-mcp` or `registry-query` (the CLI).
+
+- **Which project, and when it stays silent.** The same rules as the consult log: the
+  caller's working directory, resolved to the main checkout; nothing outside a git
+  checkout, nothing without `.ai/manifest.yaml`. One more: the file is written only when
+  `git check-ignore` says the checkout ignores `.ai/queries.local.jsonl`, because query
+  text carries the project's own words. The managed `.gitignore` block that
+  `link-registry.mjs` writes lists that path; a checkout that does not ignore it gets no
+  log and no stray untracked file.
+- **Opt-out.** `REGISTRY_QUERY_LOG=0` (`false`, `off` and `no` also work) silences the query
+  log; `REGISTRY_CONSULT_LOG=0` silences both logs.
+- **Safety.** Append-only, one line; a failed write is swallowed and the search still
+  answers. The MCP server resolves the target at most once a minute, not per call.
+- **It never leaves the machine.** No script collects it into the registry, and it is
+  ignored in the project. It is read only by the operator-side report below.
+
+[`scripts/query-misses.mjs`](../scripts/query-misses.mjs) joins a project's query log with
+its `.ai/consults.jsonl` by time and classifies each search by what came next within the
+window: `hit@k` (the next read was a subject in its hits, at rank k), `miss` (the next read
+was a subject it did not return; that read is the label), `requery` (another search came
+first), `abandoned` (nothing). It prints the counts and each labelled miss as a
+routing-bench candidate row. It writes nothing and exits 2 when either log is absent.
+
+```sh
+node scripts/query-misses.mjs --project-root <project checkout> [--window-min 10] [--json]
+```
+
+**Growing the bench.** A labelled miss, or a candidate from
+[`scripts/experiments/mine-routing-queries.mjs`](../scripts/experiments/mine-routing-queries.mjs)
+over local transcripts (`--screen <fixture>` applies the protocol and prints how many
+candidates survive each rule), becomes a fixture row only under this protocol:
+
+- The label is the document the session went on to read, never a router's pick.
+- Query text is scrubbed of project names, paths and private details; a query that cannot
+  be made public-safe without changing its meaning is dropped.
+- No near-duplicate of an existing row; at most three rows per owning subject.
+- Every new row carries `"split": "dev"` or `"split": "heldout"` from `splitFor(id)` in
+  `routing-bench.mjs` (a stable hash). The original 38 rows carry none and count as heldout.
+
+`routing-bench.mjs --split dev|heldout|all` picks the rows scored (default `heldout`); when
+a selection mixes the original rows with grown ones the report adds a per-cohort line, and
+the floor test stays pinned to the original 38 by id. Tune against `dev`; report `heldout`.
+
 ## Install
 
 The server's root is the checkout it lives in; `--root <dir>` or `AI_REGISTRY_DIR`
@@ -200,7 +256,9 @@ decision-cost model (tokens returned plus the documents an agent must open to re
 right technique). **A change to ranking, fields or budgets lands only if it beats the
 current arm on that fixture.** Never tune against the fixture itself; that turns the
 measurement into a fit. `scripts/tests/routing-bench.test.mjs` holds a held-out floor on the
-registry-query arm (r@1 and r@5, one query below the 2026-11-07 measurement: 25/38 and 31/38).
+registry-query arm (r@1 and r@5, one query below the 2026-11-07 measurement: 25/38 and 31/38),
+measured on the original 38 rows by id; the rows grown since are reported beside it (see
+"Query log and miss mining").
 
 A one-shot smoke without a client:
 

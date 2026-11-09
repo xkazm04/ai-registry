@@ -30,6 +30,12 @@
  * or when REGISTRY_CONSULT_LOG=0; a write failure never fails the read.
  * See scripts/lib/consult-log.mjs and docs/query-lane.md.
  *
+ * Query log: a plain query (not `--read` / `--subject`) appends one row to
+ * `.ai/queries.local.jsonl` in the same project - terms, domain, top, the first five hit
+ * addresses, empty - so scripts/query-misses.mjs can find the misses. Silent where the
+ * consult log is silent, and also when REGISTRY_QUERY_LOG=0 or when that path is not
+ * git-ignored in the project. See scripts/lib/query-log.mjs.
+ *
  * The projection is cached in .cache/registry-route/ (gitignored) and rebuilt per bundle
  * whenever a file's size or mtime moves; `--rebuild` forces it.
  *
@@ -41,6 +47,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { EXIT } from './lib/exit-codes.mjs';
 import { logConsult, logDocConsult } from './lib/consult-log.mjs';
+import { logQuery } from './lib/query-log.mjs';
 import {
   DEFAULT_TOP, DEFAULT_BUDGET_TOKENS, DEFAULT_READ_TOKENS,
   loadProjection, query, readDoc, subjectCard, formatHit, formatCard,
@@ -136,12 +143,15 @@ if (kinds) {
 }
 
 const projection = loadProjection(root, { domains: domain, rebuild: Boolean(opt['--rebuild']) });
+const top = int('--top', DEFAULT_TOP);
 const result = query(projection, terms, {
   domains: domain,
-  top: int('--top', DEFAULT_TOP),
+  top,
   budgetTokens: int('--budget', DEFAULT_BUDGET_TOKENS),
   kinds,
 });
+// A search is not a consult; it goes to the query log (scripts/lib/query-log.mjs), never failing the answer.
+logQuery({ terms, domain, top, result, from: 'registry-query' });
 
 if (asJson) {
   console.log(JSON.stringify(result, null, 1));

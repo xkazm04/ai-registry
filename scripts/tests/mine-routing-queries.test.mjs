@@ -20,7 +20,39 @@ import { spawnSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 import {
   mineTranscript, researchMapTerms, registryQueryCalls, mcpQueryTerms, consultMissRows, docsInCall, worthMining,
+  screenCandidates, SCREEN_RULES, jaccard,
 } from '../experiments/mine-routing-queries.mjs';
+
+// ---------------------------------------------------------------- the growth screen
+test('screenCandidates applies every protocol rule, in order, and never labels by anything but the read', () => {
+  const lab = (subject, technique = null) => ({ domain: 'd', subject, technique });
+  const cand = (terms, label, extra = {}) => ({ kind: 'registry-query', terms, label, ambiguous: false, ...extra });
+  const candidates = [
+    cand(['how to cap retries across a fleet'], lab('rate-limiting', 'retry-budget')),          // kept
+    cand(['no read followed'], null),                                                            // labelled
+    cand(['two subjects read'], lab('rate-limiting'), { ambiguous: true }),                      // unambiguous
+    cand(['dedupe'], lab('idempotency'), { kind: 'index-slice' }),                               // not_index_slice
+    cand(['renamed away'], lab('gone')),                                                         // label_in_index
+    cand(['retry-budget'], lab('rate-limiting', 'retry-budget')),                                // not_slug_literal
+    cand(['how to cap retries across a fleet'], lab('rate-limiting')),                           // distinct_terms
+    cand(['an existing bench question about pagination'], lab('table')),                         // not_near_dup_existing
+    cand(['how to cap the retries across one fleet'], lab('rate-limiting')),                     // not_near_dup_each_other
+    cand(['term one'], lab('table'), { kind: 'research-map', all_terms: ['term one', 'other'] }), // attributable
+    cand(['$q'], lab('table')),                                                                  // well_formed
+    cand(['picking a retry budget per caller'], lab('rate-limiting', 'retry-budget')),           // not_echo
+    cand(['rate-limiting retry-budget-split idem-key-scope'], lab('table')),                     // not_address_list
+    cand(['a paging question about cursors'], lab('table')),                                     // kept (table: 2nd)
+    cand(['a sort order question for grids'], lab('table')),                                     // kept (table: 3rd)
+    cand(['a column width choice in lists'], lab('table')),                                      // subject_cap_3
+  ];
+  const fixtureRows = [{ terms: ['an existing bench question about pagination'], expect: { subject: 'table' } }];
+  const labelExists = (d, s) => s !== 'gone';
+  const { kept, counts } = screenCandidates(candidates, { fixtureRows, labelExists });
+  assert.deepEqual(Object.keys(counts), ['total', ...SCREEN_RULES.map(([r]) => r)]);
+  assert.deepEqual(Object.values(counts), [16, 15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3]);
+  assert.deepEqual(kept.map((k) => k.terms[0]), ['how to cap retries across a fleet', 'a paging question about cursors', 'a sort order question for grids']);
+  assert.ok(jaccard('a b c', 'x y z') === 0 && jaccard('alpha beta', 'alpha beta') === 1);
+});
 
 const MINER = fileURLToPath(new URL('../experiments/mine-routing-queries.mjs', import.meta.url));
 
