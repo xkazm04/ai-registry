@@ -58,6 +58,9 @@ const CATALOG_LANES = ['knowledge', 'skills', 'practices', 'memory', 'usage'];
 // recipes/publications carry no public-paths step: registry.yml runs --all on every PR.
 const PUBLIC_LANES = ['knowledge', 'skills', 'practices', 'memory', 'librarian'];
 
+// Every lane a generated JSON view is built from, plus scripts/ (the contract file lives there).
+const CONTRACT_LANES = ['knowledge', 'skills', 'recipes', 'publications', 'usage', 'practices', 'memory', 'scripts'];
+
 // The lane names, in the order `--list` prints them.
 const LANE_NAMES = ['knowledge', 'skills', 'recipes', 'publications', 'usage', 'signals', 'practices', 'memory', 'scripts', 'librarian'];
 
@@ -68,6 +71,10 @@ const PLAN = [
   step('check-skills.mjs', { lanes: ['skills'] }),
   // Stamper, not a generator: --check here even under --write. See the header.
   step('apply-skill-clauses.mjs', { check: ['--check'], lanes: ['skills'] }),
+  // What became of each lesson (librarian/skills/lessons-ledger.json): the ledger is
+  // well-formed, and every promoted lesson's anchor phrase still occurs in its skill. A
+  // red here means a skill edit dropped a rule a lesson paid for. Check-only.
+  step('lessons-ledger.mjs', { check: ['--check'], lanes: ['skills', 'librarian'] }),
   step('build-marketplace.mjs', { check: ['--check'], write: [], lanes: ['skills'] }),
   // knowledge.yml: bundles -> index (+ the generated rules view) -> catalog.
   step('check-bundles.mjs', { lanes: ['knowledge'] }),
@@ -102,6 +109,11 @@ const PLAN = [
   // one of build-catalog's hashed lanes, so its row stops before the catalog tail.
   step('check-publications.mjs', { lanes: ['publications'] }),
   step('build-publications-index.mjs', { check: ['--check'], write: [], lanes: ['publications'] }),
+  // README's lane table and maintenance-skills list are generated from registry.yaml and
+  // .claude/skills/; --check also fails on a path the layout names that does not exist.
+  // Its inputs belong to no lane directory, so it rides the scripts row (a README or
+  // registry.yaml change maps to no lane and selects the whole chain under --changed).
+  step('build-readme.mjs', { check: ['--check'], write: [], lanes: ['scripts'] }),
   step('check-simple-lanes.mjs', { lanes: ['practices', 'memory'] }),
   step('check-usage.mjs', { lanes: ['usage'] }),
   // The skill run log under usage/runs/ (contract: scripts/lib/runs.mjs). Same job as
@@ -128,6 +140,12 @@ const PLAN = [
   // real staleness.
   step('check-hash-stability.mjs', { lanes: CATALOG_LANES }),
   step('build-catalog.mjs', { check: ['--check'], write: [], lanes: CATALOG_LANES }),
+  // The fields other repositories parse out of the generated JSON views are a contract
+  // (scripts/contracts/generated-fields.json, docs/generated-contract.md). Last, because it
+  // reads what every generator above just vouched for. Self-test first, as with public
+  // paths. Check-only: adding a path to the contract (--write) is a reviewed operator act.
+  step('check-generated-contract.mjs', { check: ['--self-test'], lanes: CONTRACT_LANES }),
+  step('check-generated-contract.mjs', { lanes: CONTRACT_LANES }),
 ];
 
 const LANES = deriveLanes(PLAN, LANE_NAMES);
