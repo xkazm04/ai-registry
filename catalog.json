@@ -232,10 +232,10 @@
     },
     {
       "name": "contest",
-      "version": "1.14.0",
+      "version": "1.14.1",
       "category": "workflow",
       "path": "skills/contest/SKILL.md",
-      "contentHash": "sha256-n1:167abaadf2bbe616",
+      "contentHash": "sha256-n1:6252aa54f1ac66dc",
       "adopters": [],
       "invokes30d": 0,
       "reportedInvokes": 0,
