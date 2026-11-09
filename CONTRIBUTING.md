@@ -62,6 +62,11 @@ The table below is the same thing spelled out - it is the explanation, and
 `build-index.mjs` runs **before** `build-catalog.mjs` - the catalog's hash covers the
 index. Each build script takes `--check` (the CI form) to verify without rewriting.
 
+Other repositories parse the generated JSON views, so a field in them is a contract.
+`node scripts/check-generated-contract.mjs` fails when a declared field is dropped, renamed
+or retyped, and names the consumers that read it. To add, remove or re-attribute a field,
+see [`docs/generated-contract.md`](docs/generated-contract.md).
+
 `check-hash-stability.mjs` runs immediately before the catalog check in CI, and asks a
 prior question: that "current" means the same thing here as on the machine that wrote
 the catalog. The digest used to hash raw bytes, which made it a property of the
