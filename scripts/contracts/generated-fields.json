@@ -1,0 +1,952 @@
+{
+  "schema": "generated-contract/1",
+  "files": {
+    "catalog.json": {
+      "fields": {
+        "schema": {
+          "type": "string",
+          "consumers": []
+        },
+        "schemaVersion": {
+          "type": "string",
+          "consumers": []
+        },
+        "_note": {
+          "type": "string",
+          "consumers": []
+        },
+        "generatedAt": {
+          "type": "string",
+          "consumers": []
+        },
+        "generatedBy": {
+          "type": "string",
+          "consumers": []
+        },
+        "registry": {
+          "type": "object",
+          "consumers": [
+            "personas"
+          ]
+        },
+        "registry.fullName": {
+          "type": "string",
+          "consumers": [
+            "personas"
+          ]
+        },
+        "registry.defaultBranch": {
+          "type": "string",
+          "consumers": []
+        },
+        "registry.canonical": {
+          "type": "boolean",
+          "consumers": []
+        },
+        "registry.mode": {
+          "type": "string",
+          "consumers": []
+        },
+        "registry.telemetry": {
+          "type": "string",
+          "consumers": []
+        },
+        "skills": {
+          "type": "array",
+          "consumers": []
+        },
+        "skills[]": {
+          "type": "object",
+          "consumers": []
+        },
+        "skills[].name": {
+          "type": "string",
+          "consumers": []
+        },
+        "skills[].version": {
+          "type": "string",
+          "consumers": []
+        },
+        "skills[].category": {
+          "type": "string",
+          "consumers": []
+        },
+        "skills[].path": {
+          "type": "string",
+          "consumers": []
+        },
+        "skills[].contentHash": {
+          "type": "string",
+          "consumers": []
+        },
+        "skills[].adopters": {
+          "type": "array",
+          "consumers": []
+        },
+        "skills[].invokes30d": {
+          "type": "number",
+          "consumers": []
+        },
+        "skills[].reportedInvokes": {
+          "type": "number",
+          "consumers": []
+        },
+        "skills[].lessons": {
+          "type": "number",
+          "consumers": []
+        },
+        "skills[].lessonsPath": {
+          "type": "string",
+          "optional": true,
+          "consumers": []
+        },
+        "skills[].lessonsHash": {
+          "type": "string",
+          "optional": true,
+          "consumers": []
+        },
+        "skills[].usageContributors": {
+          "type": "array",
+          "consumers": []
+        },
+        "skills[].usageStaleContributors": {
+          "type": "array",
+          "consumers": []
+        },
+        "skills[].runs30d": {
+          "type": "number",
+          "consumers": []
+        },
+        "skills[].outcomes30d": {
+          "type": "object",
+          "consumers": []
+        },
+        "skills[].outcomes30d{}": {
+          "type": "number",
+          "consumers": []
+        },
+        "skills[].difficulty30d": {
+          "type": "number|null",
+          "consumers": []
+        },
+        "skills[].tokensMedian30d": {
+          "type": "number|null",
+          "consumers": []
+        },
+        "skills[].tokensBasis30d": {
+          "type": "string|null",
+          "consumers": []
+        },
+        "skills[].applicability": {
+          "type": "object",
+          "optional": true,
+          "consumers": []
+        },
+        "skills[].applicability.dimensions": {
+          "type": "array",
+          "consumers": []
+        },
+        "skills[].applicability.dimensions[]": {
+          "type": "string",
+          "consumers": []
+        },
+        "skills[].applicability.appliesWhenBelow": {
+          "type": "number",
+          "consumers": []
+        },
+        "skills[]._drift": {
+          "type": "string",
+          "optional": true,
+          "consumers": []
+        },
+        "skills[].adopters[]": {
+          "type": "string",
+          "consumers": []
+        },
+        "skills[].usageStaleContributors[]": {
+          "type": "string",
+          "consumers": []
+        },
+        "practices": {
+          "type": "array",
+          "consumers": []
+        },
+        "practices[]": {
+          "type": "object",
+          "consumers": []
+        },
+        "practices[].id": {
+          "type": "string",
+          "consumers": []
+        },
+        "practices[].dimension": {
+          "type": "string",
+          "consumers": []
+        },
+        "practices[].path": {
+          "type": "string",
+          "consumers": []
+        },
+        "practices[].contentHash": {
+          "type": "string",
+          "consumers": []
+        },
+        "practices[].starter": {
+          "type": "array",
+          "consumers": []
+        },
+        "practices[].starter[]": {
+          "type": "string",
+          "consumers": []
+        },
+        "memory": {
+          "type": "array",
+          "consumers": []
+        },
+        "memory[]": {
+          "type": "object",
+          "consumers": []
+        },
+        "memory[].kind": {
+          "type": "string",
+          "consumers": []
+        },
+        "memory[].slug": {
+          "type": "string",
+          "consumers": []
+        },
+        "memory[].path": {
+          "type": "string",
+          "consumers": []
+        },
+        "memory[].contentHash": {
+          "type": "string",
+          "consumers": []
+        },
+        "memory[].confidence": {
+          "type": "number",
+          "consumers": []
+        },
+        "memory[].namespace": {
+          "type": "string",
+          "consumers": []
+        },
+        "memory[].source": {
+          "type": "string",
+          "consumers": []
+        },
+        "counts": {
+          "type": "object",
+          "consumers": []
+        },
+        "counts.skills": {
+          "type": "number",
+          "consumers": []
+        },
+        "counts.practices": {
+          "type": "number",
+          "consumers": []
+        },
+        "counts.memory": {
+          "type": "number",
+          "consumers": []
+        },
+        "counts.lessons": {
+          "type": "number",
+          "consumers": []
+        },
+        "bundles": {
+          "type": "array",
+          "consumers": [
+            "personas"
+          ]
+        },
+        "bundles[]": {
+          "type": "object",
+          "consumers": [
+            "personas"
+          ]
+        },
+        "bundles[].name": {
+          "type": "string",
+          "consumers": [
+            "personas"
+          ]
+        },
+        "bundles[].title": {
+          "type": "string",
+          "consumers": []
+        },
+        "bundles[].path": {
+          "type": "string",
+          "consumers": []
+        },
+        "bundles[].okfVersion": {
+          "type": "string",
+          "consumers": []
+        },
+        "bundles[].profile": {
+          "type": "string",
+          "consumers": []
+        },
+        "bundles[].purity": {
+          "type": "string",
+          "consumers": []
+        },
+        "bundles[].subjects": {
+          "type": "number",
+          "consumers": []
+        },
+        "bundles[].techniques": {
+          "type": "number",
+          "consumers": []
+        },
+        "bundles[].applications": {
+          "type": "number",
+          "consumers": []
+        },
+        "bundles[].files": {
+          "type": "number",
+          "consumers": []
+        },
+        "bundles[].contentHash": {
+          "type": "string",
+          "consumers": [
+            "personas"
+          ]
+        },
+        "usageEvidence": {
+          "type": "object",
+          "consumers": []
+        },
+        "usageEvidence.reports": {
+          "type": "array",
+          "consumers": []
+        },
+        "usageEvidence.reports[]": {
+          "type": "object",
+          "consumers": []
+        },
+        "usageEvidence.reports[].contributor": {
+          "type": "string",
+          "consumers": []
+        },
+        "usageEvidence.reports[].generatedAt": {
+          "type": "string",
+          "consumers": []
+        },
+        "usageEvidence.reports[].windowDays": {
+          "type": "number",
+          "consumers": []
+        },
+        "usageEvidence.reports[].state": {
+          "type": "string",
+          "consumers": []
+        },
+        "usageEvidence.reports[].ageDays": {
+          "type": "number",
+          "consumers": []
+        },
+        "usageEvidence.unresolved": {
+          "type": "array",
+          "consumers": []
+        },
+        "usageEvidence.unresolved[]": {
+          "type": "object",
+          "consumers": []
+        },
+        "usageEvidence.unresolved[].contributor": {
+          "type": "string",
+          "consumers": []
+        },
+        "usageEvidence.unresolved[].name": {
+          "type": "string",
+          "consumers": []
+        },
+        "usageEvidence.unresolved[].invokes": {
+          "type": "number",
+          "consumers": []
+        },
+        "usageEvidence.unresolved[].lastUsed": {
+          "type": "string",
+          "consumers": []
+        },
+        "usageEvidence.interpretation": {
+          "type": "string",
+          "consumers": []
+        }
+      }
+    },
+    "knowledge/*/index.json": {
+      "fields": {
+        "meta": {
+          "type": "object",
+          "consumers": [
+            "personas"
+          ]
+        },
+        "meta.generated_by": {
+          "type": "string",
+          "consumers": []
+        },
+        "meta.bundle": {
+          "type": "string",
+          "consumers": [
+            "personas"
+          ]
+        },
+        "meta.source": {
+          "type": "string",
+          "consumers": []
+        },
+        "meta.subjects": {
+          "type": "number",
+          "consumers": []
+        },
+        "meta.techniques": {
+          "type": "number",
+          "consumers": []
+        },
+        "meta.applications": {
+          "type": "number",
+          "consumers": []
+        },
+        "meta.laws": {
+          "type": "number",
+          "consumers": []
+        },
+        "meta.categories": {
+          "type": "array",
+          "consumers": []
+        },
+        "meta.categories[]": {
+          "type": "string",
+          "consumers": []
+        },
+        "meta.layout": {
+          "type": "string",
+          "consumers": []
+        },
+        "meta.use_when_coverage": {
+          "type": "string",
+          "consumers": []
+        },
+        "meta.excludes": {
+          "type": "string",
+          "consumers": []
+        },
+        "subjects": {
+          "type": "object",
+          "consumers": [
+            "gravitone-gcloud",
+            "personas"
+          ]
+        },
+        "subjects{}": {
+          "type": "object",
+          "consumers": [
+            "gravitone-gcloud",
+            "personas"
+          ]
+        },
+        "subjects{}.category": {
+          "type": "string",
+          "consumers": [
+            "gravitone-gcloud",
+            "personas"
+          ]
+        },
+        "subjects{}.subcategory": {
+          "type": "string|null",
+          "consumers": [
+            "personas"
+          ]
+        },
+        "subjects{}.status": {
+          "type": "string",
+          "consumers": [
+            "gravitone-gcloud",
+            "personas"
+          ]
+        },
+        "subjects{}.file": {
+          "type": "string",
+          "consumers": [
+            "gravitone-gcloud",
+            "personas"
+          ]
+        },
+        "subjects{}.digest": {
+          "type": "string",
+          "consumers": [
+            "personas"
+          ]
+        },
+        "subjects{}.revision": {
+          "type": "number",
+          "consumers": [
+            "gravitone-gcloud",
+            "personas"
+          ]
+        },
+        "subjects{}.changedAt": {
+          "type": "string",
+          "consumers": [
+            "gravitone-gcloud",
+            "personas"
+          ]
+        },
+        "subjects{}.techniques": {
+          "type": "array",
+          "consumers": [
+            "gravitone-gcloud",
+            "personas"
+          ]
+        },
+        "subjects{}.techniques[]": {
+          "type": "object",
+          "consumers": [
+            "gravitone-gcloud",
+            "personas"
+          ]
+        },
+        "subjects{}.techniques[].slug": {
+          "type": "string",
+          "consumers": [
+            "gravitone-gcloud",
+            "personas"
+          ]
+        },
+        "subjects{}.techniques[].status": {
+          "type": "string",
+          "consumers": [
+            "personas"
+          ]
+        },
+        "subjects{}.techniques[].laws": {
+          "type": "array",
+          "consumers": [
+            "personas"
+          ]
+        },
+        "subjects{}.techniques[].laws[]": {
+          "type": "string",
+          "consumers": [
+            "personas"
+          ]
+        },
+        "subjects{}.techniques[].shared_with": {
+          "type": "array",
+          "consumers": []
+        },
+        "subjects{}.techniques[].use_when": {
+          "type": "array",
+          "consumers": [
+            "gravitone-gcloud",
+            "personas"
+          ]
+        },
+        "subjects{}.techniques[].use_when[]": {
+          "type": "string",
+          "consumers": [
+            "gravitone-gcloud",
+            "personas"
+          ]
+        },
+        "subjects{}.applications": {
+          "type": "array",
+          "consumers": [
+            "gravitone-gcloud",
+            "personas"
+          ]
+        },
+        "subjects{}.applications[]": {
+          "type": "object",
+          "consumers": [
+            "gravitone-gcloud",
+            "personas"
+          ]
+        },
+        "subjects{}.applications[].stack": {
+          "type": "string",
+          "consumers": [
+            "personas"
+          ]
+        },
+        "subjects{}.applications[].technique": {
+          "type": "string",
+          "consumers": [
+            "gravitone-gcloud",
+            "personas"
+          ]
+        },
+        "subjects{}.applications[].file": {
+          "type": "string",
+          "consumers": [
+            "personas"
+          ]
+        },
+        "subjects{}.applications[].verified_on": {
+          "type": "string",
+          "consumers": []
+        },
+        "subjects{}.applications[].verified_against": {
+          "type": "string",
+          "optional": true,
+          "consumers": []
+        },
+        "subjects{}.applications[].refresh_by": {
+          "type": "string",
+          "optional": true,
+          "consumers": []
+        },
+        "laws": {
+          "type": "object",
+          "consumers": [
+            "gravitone-gcloud",
+            "personas"
+          ]
+        },
+        "laws{}": {
+          "type": "object",
+          "consumers": [
+            "gravitone-gcloud",
+            "personas"
+          ]
+        },
+        "laws{}.statement": {
+          "type": "string",
+          "consumers": [
+            "gravitone-gcloud",
+            "personas"
+          ]
+        },
+        "laws{}.techniques": {
+          "type": "array",
+          "consumers": [
+            "personas"
+          ]
+        },
+        "laws{}.techniques[]": {
+          "type": "string",
+          "consumers": [
+            "personas"
+          ]
+        },
+        "subjects{}.techniques[].stage": {
+          "type": "string",
+          "optional": true,
+          "consumers": []
+        },
+        "subjects{}.techniques[].shared_with[]": {
+          "type": "string",
+          "consumers": []
+        }
+      }
+    },
+    "recipes/index.json": {
+      "fields": {
+        "meta.by_status{}": {
+          "type": "number",
+          "consumers": []
+        },
+        "meta.by_domain{}": {
+          "type": "number",
+          "consumers": []
+        },
+        "meta": {
+          "type": "object",
+          "consumers": []
+        },
+        "meta.generated_by": {
+          "type": "string",
+          "consumers": []
+        },
+        "meta.lane": {
+          "type": "string",
+          "consumers": []
+        },
+        "meta.source": {
+          "type": "string",
+          "consumers": []
+        },
+        "meta.recipes": {
+          "type": "number",
+          "consumers": []
+        },
+        "meta.by_status": {
+          "type": "object",
+          "consumers": []
+        },
+        "meta.by_domain": {
+          "type": "object",
+          "consumers": []
+        },
+        "meta.excludes": {
+          "type": "string",
+          "consumers": []
+        },
+        "recipes": {
+          "type": "object",
+          "consumers": [
+            "gravitone-gcloud"
+          ]
+        },
+        "recipes{}": {
+          "type": "object",
+          "consumers": [
+            "gravitone-gcloud"
+          ]
+        },
+        "recipes{}.path": {
+          "type": "string",
+          "consumers": [
+            "gravitone-gcloud"
+          ]
+        },
+        "recipes{}.version": {
+          "type": "string",
+          "consumers": [
+            "gravitone-gcloud"
+          ]
+        },
+        "recipes{}.status": {
+          "type": "string",
+          "consumers": []
+        },
+        "recipes{}.domain": {
+          "type": "string",
+          "consumers": []
+        },
+        "recipes{}.topic": {
+          "type": "string",
+          "consumers": []
+        },
+        "recipes{}.title": {
+          "type": "string",
+          "consumers": []
+        },
+        "recipes{}.connector_types": {
+          "type": "array",
+          "consumers": []
+        },
+        "recipes{}.connector_types[]": {
+          "type": "string",
+          "consumers": []
+        },
+        "recipes{}.recommended_trigger_kind": {
+          "type": "string",
+          "consumers": []
+        }
+      }
+    },
+    "publications/index.json": {
+      "fields": {
+        "meta.by_status{}": {
+          "type": "number",
+          "consumers": []
+        },
+        "meta": {
+          "type": "object",
+          "consumers": []
+        },
+        "meta.generated_by": {
+          "type": "string",
+          "consumers": []
+        },
+        "meta.lane": {
+          "type": "string",
+          "consumers": []
+        },
+        "meta.source": {
+          "type": "string",
+          "consumers": []
+        },
+        "meta.publications": {
+          "type": "number",
+          "consumers": []
+        },
+        "meta.by_status": {
+          "type": "object",
+          "consumers": []
+        },
+        "meta.excludes": {
+          "type": "string",
+          "consumers": []
+        },
+        "publications": {
+          "type": "object",
+          "consumers": []
+        },
+        "publications{}": {
+          "type": "object",
+          "consumers": []
+        },
+        "publications{}.path": {
+          "type": "string",
+          "consumers": []
+        },
+        "publications{}.title": {
+          "type": "string",
+          "consumers": []
+        },
+        "publications{}.subtitle": {
+          "type": "string",
+          "consumers": []
+        },
+        "publications{}.date": {
+          "type": "string",
+          "consumers": []
+        },
+        "publications{}.readMinutes": {
+          "type": "number",
+          "consumers": []
+        },
+        "publications{}.status": {
+          "type": "string",
+          "consumers": []
+        },
+        "publications{}.topic": {
+          "type": "object",
+          "consumers": []
+        },
+        "publications{}.topic.kind": {
+          "type": "string",
+          "consumers": []
+        },
+        "publications{}.topic.bundle": {
+          "type": "string",
+          "optional": true,
+          "consumers": []
+        },
+        "publications{}.topic.subject": {
+          "type": "string",
+          "optional": true,
+          "consumers": []
+        },
+        "publications{}.standard": {
+          "type": "object",
+          "consumers": []
+        },
+        "publications{}.standard.recipe": {
+          "type": "string",
+          "consumers": []
+        },
+        "publications{}.standard.bundle": {
+          "type": "string",
+          "consumers": []
+        },
+        "publications{}.standard.version": {
+          "type": "string",
+          "consumers": []
+        },
+        "publications{}.sources": {
+          "type": "number",
+          "consumers": []
+        },
+        "publications{}.primary": {
+          "type": "number",
+          "consumers": []
+        },
+        "publications{}.counter": {
+          "type": "number",
+          "consumers": []
+        },
+        "publications{}.figures": {
+          "type": "number",
+          "consumers": []
+        },
+        "publications{}.critique": {
+          "type": "object",
+          "optional": true,
+          "consumers": []
+        },
+        "publications{}.critique.reviewers": {
+          "type": "number",
+          "consumers": []
+        },
+        "publications{}.critique.rounds": {
+          "type": "number",
+          "consumers": []
+        },
+        "publications{}.critique.decision": {
+          "type": "string",
+          "consumers": []
+        }
+      }
+    },
+    ".claude-plugin/marketplace.json": {
+      "fields": {
+        "$schema": {
+          "type": "string",
+          "consumers": []
+        },
+        "name": {
+          "type": "string",
+          "consumers": []
+        },
+        "owner": {
+          "type": "object",
+          "consumers": []
+        },
+        "owner.name": {
+          "type": "string",
+          "consumers": []
+        },
+        "owner.url": {
+          "type": "string",
+          "consumers": []
+        },
+        "metadata": {
+          "type": "object",
+          "consumers": []
+        },
+        "metadata.description": {
+          "type": "string",
+          "consumers": []
+        },
+        "metadata.version": {
+          "type": "string",
+          "consumers": []
+        },
+        "plugins": {
+          "type": "array",
+          "consumers": []
+        },
+        "plugins[]": {
+          "type": "object",
+          "consumers": []
+        },
+        "plugins[].name": {
+          "type": "string",
+          "consumers": []
+        },
+        "plugins[].source": {
+          "type": "string",
+          "consumers": []
+        },
+        "plugins[].description": {
+          "type": "string",
+          "consumers": []
+        },
+        "plugins[].version": {
+          "type": "string",
+          "consumers": []
+        },
+        "plugins[].category": {
+          "type": "string",
+          "consumers": []
+        },
+        "plugins[].tags": {
+          "type": "array",
+          "optional": true,
+          "consumers": []
+        },
+        "plugins[].tags[]": {
+          "type": "string",
+          "consumers": []
+        }
+      }
+    }
+  }
+}
