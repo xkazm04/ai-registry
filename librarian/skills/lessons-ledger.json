@@ -1,0 +1,154 @@
+{
+  "schema": "lessons-ledger/1",
+  "about": "What became of each lesson in skills/*/LESSONS.md. A lesson absent from this file is open. Keys are the exact `## ` heading text (with ` [n]` for the n-th repeat of a heading) and `<id>#<### sub-heading>` for a sub-block. promoted = {version, anchor (string or list; each must still occur in the skill's SKILL.md or references/)}, declined = {reason, date}, superseded = {by: a later lesson id or a version}; every state may carry a note. Checked by `node scripts/lessons-ledger.mjs --check`; see docs/skills-lane.md, 'The lessons ledger'.",
+  "skills": {
+    "architect": {
+      "1.2.0 - 2026-08-28 - kp#Redesign proposal (NOT applied — no version bump)": {
+        "state": "promoted",
+        "version": "1.10.0",
+        "anchor": [
+          "the same pattern implemented TWICE at different levels of rigour",
+          "Test the worktree before committing to it.",
+          "was rewritten whole by an editor's line-ending conversion"
+        ],
+        "note": "All three bullets are in the method: internal precedent as a Phase 3c synthesis pattern (1.4.0; the proposal itself allowed a form other than a sixth angle), the worktree feasibility test (1.3.0, now references/execute.md 7a), the line-ending check on the staged diff (first present in 1.10.0, references/execute.md 7d). Version is the one by which all three were in."
+      }
+    },
+    "cx": {
+      "1.0.0 - 2026-09-08 - firetv (third run)#Redesign proposal": {
+        "state": "promoted",
+        "version": "1.6.0",
+        "anchor": [
+          "Challenge the path before reading the screen",
+          "what makes that arrival real: the upstream step that wrote this state"
+        ],
+        "note": "The overview's Path line and the challenge-the-path rule in every mode, with a fixture-only path as the read's first H finding, first present in 1.6.0."
+      }
+    },
+    "explorer": {
+      "1.2.0 - 2026-08-29 - kp (run 2)#Redesign proposal (not applied)": {
+        "state": "promoted",
+        "version": "2.6.0",
+        "anchor": "An insertion count far above your edit means rewritten line endings",
+        "note": "The proposed sentence landed in Phase 7's stage-verify-commit step, first present in 2.6.0."
+      },
+      "2.1.0 - 2026-09-04 - ai-registry#Redesign proposal (not applied)": {
+        "state": "promoted",
+        "version": "2.6.0",
+        "anchor": [
+          "the repo's checkers that nothing runs",
+          "diff against what CI and the hooks invoke"
+        ],
+        "note": "Catalogued as the own-gates-vs-ci probe in references/probes.md, which itself says one sighting only and asks the run to record the yield."
+      }
+    },
+    "spark": {
+      "1.0.0 - 2026-08-23 - ai-registry": {
+        "state": "promoted",
+        "version": "1.1.0",
+        "anchor": [
+          "The loop runs with no overlay at all",
+          "is the portability seam"
+        ],
+        "note": "The block records the 1.1.0 change itself: repo specifics behind a Project overlay, host rituals as overlay-declared ## Rituals."
+      },
+      "1.2.0 - 2026-09-01 - ascent (model bake-off)": {
+        "state": "promoted",
+        "version": "1.3.0",
+        "anchor": [
+          "Read the governing registry subject BEFORE the waves, not after.",
+          "on a snapshot-rewritten table answers",
+          "the DOC SURFACE it owns",
+          "If scouts cannot be launched"
+        ],
+        "note": "The four method edits the block names (registry subject first, snapshot-rewritten timestamp, doc ownership, scout fallback) all landed in 1.3.0. The model the run used is a record, not a rule."
+      },
+      "1.1.0 - 2026-08-25 - ascent#Redesign proposal": {
+        "state": "promoted",
+        "version": "1.3.0",
+        "anchor": [
+          "the DOC SURFACE it owns",
+          "exactly one owns the file and the others emit sections to scratch for the Director to merge"
+        ],
+        "note": "Doc ownership on work packages; the block 1.2.0 - 2026-09-01 - ascent (Fable vs Opus bake-off, weekly-digest) records it landing in 1.3.0. The parent block's other bullets stay open."
+      },
+      "1.3.2 - 2026-09-06 - ascent": {
+        "state": "promoted",
+        "version": "1.5.0",
+        "anchor": [
+          "names its producer AND its first consumer",
+          "The absent-value convention is stated once",
+          "Do not assume the main checkout is on `base_branch` or clean"
+        ],
+        "note": "All three bullets; 1.4.1 - 2026-09-18 - kp lists them among what 1.5.0 applied."
+      },
+      "1.3.2 - 2026-09-08 - firetv (Study Desk maths module)": {
+        "state": "promoted",
+        "version": "1.5.0",
+        "anchor": [
+          "A mid-wave stop means the options were too narrow, not that the question was wrong.",
+          "Two answers that contradict each other get a synthesis, not a re-ask.",
+          "A MODULE only exists for a surface if that surface's RUNTIME can import it.",
+          "a builder that writes app data uses a throwaway store or a scratch identity"
+        ],
+        "note": "All four bullets, applied in 1.5.0."
+      },
+      "1.3.2 - 2026-09-09 - ai-registry": {
+        "state": "promoted",
+        "version": "1.4.0",
+        "anchor": [
+          "Identify the installation before editing anything.",
+          "Verify any link's actual target"
+        ],
+        "note": "An instruction audit of the shared skill-reflection clause; the installation-aware wording first appears in spark 1.4.0 (stamped clause)."
+      },
+      "1.3.2 - 2026-09-21 - ai-registry": {
+        "state": "promoted",
+        "version": "1.7.0",
+        "anchor": [
+          "Compute the landing overlap before the gate, not at merge.",
+          "Fetch before you look at anything.",
+          "Scout the remote's version of the target paths, not just the checkout's."
+        ],
+        "note": "Bullets 1 and 3 applied in 1.7.0 as the block says; bullet 2 (self-reported version) the block records as applied in tooling (log-run.mjs), not in the method."
+      },
+      "1.4.0 - 2026-09-09 - clon-fable (build phase of the founding extraction spark)": {
+        "state": "promoted",
+        "version": "1.5.0",
+        "anchor": [
+          "Order the wave before the work it determines.",
+          "A POLICY only exists if something COMPUTES it.",
+          "An integration seam is smoke-tested on the built artifact before ship",
+          "it has turned sequential packages into parallel ones in three projects"
+        ],
+        "note": "Every rule-shaped bullet is in 1.5.0; the remaining bullets confirm rules already present (registry subject first, rate-limit resume, cross-checking gates) and propose nothing new."
+      },
+      "1.4.1 - 2026-09-18 - kp (four AI-interview sparks in one session)": {
+        "state": "promoted",
+        "version": "1.5.0",
+        "anchor": [
+          "Promote recurring lessons before anything else.",
+          "A fix the Director orders from its own diagnosis carries its own falsification.",
+          "Write each brief to a scratch file and hand the builder its path."
+        ],
+        "note": "The block records each bullet as applied in 1.5.0."
+      },
+      "1.7.0 - 2026-09-29 - ai-registry (scout model pin, from an intake run)": {
+        "state": "promoted",
+        "version": "1.7.1",
+        "anchor": [
+          "Not cheap by default",
+          "Set `model` per scout"
+        ],
+        "note": "The per-scout model pin with the measured 0.4x and the untested tracing brief, first present in 1.7.1."
+      }
+    },
+    "tiger": {
+      "2.2.1 - 2026-09-05 - kp (KandiDate) - `run --use-case automation`#Redesign proposal (NOT applied here - needs a version bump and a registry commit)": {
+        "state": "superseded",
+        "by": "3.0.0",
+        "note": "The proposal moves a refuter inside the 2.x `run` mode's Phase L1/L2; 3.0.0 replaced that method (2.5.0 - 2026-10-14 - ai-registry (redesign -> 3.0.0)), and references/llm-lens.md says the 2.x call-site certification was retired in 3.0.0."
+      }
+    }
+  }
+}

@@ -251,6 +251,54 @@ The separator may be `-` or an em dash — lessons arrive from installations tha
 either. The gate checks the heading shape; append-only is a property of history, not of
 a file, so it is enforced by review.
 
+### The lessons ledger
+
+A lesson has no state in `LESSONS.md`, and it must not get one there: the file stays
+append-only. What became of a lesson lives in **one file outside every skill directory**,
+`librarian/skills/lessons-ledger.json` (inside a skill it would enter the content hash and
+the version rule). A lesson's id is the exact text of its `## ` heading, with ` [n]`
+appended to the n-th repeat of a heading in one file, and `<id>#<sub-heading>` for a
+`### ` sub-block such as a `### Redesign proposal`. Appending never changes an existing id.
+
+| state | fields | meaning |
+| --- | --- | --- |
+| *(absent)* | - | **open**. The ledger never lists open lessons, so appending one needs no edit here. |
+| `promoted` | `version`, `anchor` | The method absorbed it in `version`. `anchor` is a phrase (or a list of them, 16+ characters each) that occurs in the skill's current `SKILL.md` or `references/` and carries the lesson's rule. |
+| `declined` | `reason`, `date` | Someone decided not to apply it. Only where that decision is recorded; never on the operator's behalf. |
+| `superseded` | `by` | A later lesson id in the same skill, or the version that made it moot. |
+
+Every state may carry a `note`. Mark a lesson only after reading both the lesson and the
+skill's current text; when in doubt it stays open. A block holds several bullets, so a
+block is `promoted` only when every rule it proposes is in the method or recorded as
+handled elsewhere; partial absorption stays open.
+
+```sh
+node scripts/lessons-ledger.mjs                  # per skill: open/promoted/declined/superseded, oldest open, open proposals
+node scripts/lessons-ledger.mjs --skill <name>   # one skill's blocks with their state
+node scripts/lessons-ledger.mjs --check          # the gate
+node scripts/lessons-ledger.mjs --repeats        # "seen twice" leads
+```
+
+**`--check` turns absorbed lessons into regression guards.** It fails on a key that
+resolves to no block, a malformed state or field, a promoted version below the version
+the lesson was recorded against (the lowest version its heading slot names) or above the
+skill's current one, and **a promoted anchor that no longer occurs in the skill text**:
+the method dropped a rule a lesson paid for. Anchors are compared case-sensitively with
+whitespace runs collapsed, so re-wrapping a paragraph does not break one. If the rule was
+deliberately removed, change the entry (superseded, or a new anchor) in the same change.
+
+**`--repeats` ranks leads; it decides nothing.** Each bullet or prose paragraph becomes
+the set of its content words (lowercased, three letters or more, stop words and any word
+containing a digit dropped). Two items from different blocks of one skill link when the
+Jaccard overlap of those sets is at least 0.25, and links cluster transitively; clusters
+touching an open block sort first, then by projects spanned. Items under six content
+words are skipped, and so are measurement lines (a table row, or more than a fifth of the
+tokens carrying a digit): on the real lane the run-record templates ("Cost and wall: ...",
+"Run shape: ...") otherwise fill the top of the list. Word 3-shingles were tried first and
+found one cluster in the whole lane, because a repeated lesson is reworded, not copied.
+What still gets through is template prose ("Run shape:", "Yield:" lines) that shares a
+format rather than a lesson, so read each cluster before acting on it.
+
 ## Distribution, part 1: explicit development and release installations
 
 Use the [installation contract](installations.md) to choose a project, harness and

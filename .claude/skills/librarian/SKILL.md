@@ -3,7 +3,7 @@ name: librarian
 description: "Maintain the registry as a whole: sweep every bundle for structural and quality decay, rank what needs work by measured attention points, and dispatch scoped /deepen or /forge workers at it. Also evaluates the lane skills from their per-run log (`/librarian skills`). Keeps coverage memory in an Obsidian vault under librarian/ so each run knows what the last one touched, what is saturated, and what is owed. Run manually; a scheduler is a later wrapper. Use when nobody has looked at the registry in a while."
 category: ai-native
 memory: project
-version: 1.6.3
+version: 1.7.0
 tags: registry, maintenance, coverage, dispatch, quality, upstream
 ---
 
@@ -226,16 +226,25 @@ the measured sidecar `<device>.exact.jsonl` from transcripts. The contract is
    riding in someone else's commit. Nothing else goes in that commit.
 3. **Aggregate with the instrument, never by hand.** `node scripts/runs-report.mjs --since 30d --json`
    (or `--skill <name>`). Numbers come from the report; you read the comments.
-4. **Judge each skill that ran**, per version: outcome mix (failed + aborted share),
+4. **Read what became of its lessons before judging a skill:**
+   `node scripts/lessons-ledger.mjs --skill <name>` (states from
+   `librarian/skills/lessons-ledger.json`; absent = open), and `--repeats --skill <name>`
+   for bullets seen in more than one run. A flaw already recorded as an open proposal is a
+   second sighting, not a new finding. When an operator applies a proposal (a version ships
+   with it) or declines one, record the state in the ledger in the same change: `promoted`
+   with the version and an anchor phrase you found in the skill's current text, `declined`
+   with the reason and date as recorded. Never decide a state on the operator's behalf, and
+   run `node scripts/lessons-ledger.mjs --check` before committing the ledger.
+5. **Judge each skill that ran**, per version: outcome mix (failed + aborted share),
    difficulty trend, token trend - always naming the basis (`exact` or `estimate`, never
    blended) - and the recurring themes in `comment`. Self-rated fields are weak evidence:
    a skill that rates itself 2 and fails is a finding; a smooth self-report beside a rising
    failure share is not reassurance. Verdict per skill: `healthy` / `watch` / `needs redesign`,
    each with the rows that justify it (run ids). Too few runs to judge is `unknown`, not healthy.
-5. **Write** `librarian/skills/<YYYY-MM-DD>[-n].md`: window, devices covered (and which had no
+6. **Write** `librarian/skills/<YYYY-MM-DD>[-n].md`: window, devices covered (and which had no
    backfill), a table skill - version - runs - outcomes - difficulty - tokens (basis) - verdict,
    then per-skill findings. Skill slugs, project slugs and run ids only - no paths.
-6. **Redesign proposals go to the skill's LESSONS.md**, never into its SKILL.md: when two or
+7. **Redesign proposals go to the skill's LESSONS.md**, never into its SKILL.md: when two or
    more runs' comments (distinct runs, ideally distinct projects) point at the same flaw,
    append `## <version-judged> - <YYYY-MM-DD> - librarian` with a `### Redesign proposal`
    sub-block citing the run ids. One comment is an anecdote - it goes in the note, not in
@@ -263,6 +272,7 @@ librarian/sources/index.md                the ledger of external sources /resear
 librarian/sources/<YYYY-MM-DD>-<slug>.md  what one source yielded, and what it did not
 librarian/upstream.md                     every mined repository: when we last looked, what moved
 librarian/skills/<YYYY-MM-DD>[-n].md      one skills pass: per-skill verdicts from the run log
+librarian/skills/lessons-ledger.json      what became of each lane lesson (scripts/lessons-ledger.mjs)
 ```
 
 Obsidian-navigable: wikilinks between notes, one fact per note. It lives in the
