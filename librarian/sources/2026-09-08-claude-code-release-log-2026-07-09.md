@@ -10,7 +10,7 @@ accepted: 3
 declined: 0
 leads: 2
 already_covered: 7
-untriaged: 4
+untriaged: 3
 dispatched: 0
 applied: 3
 shipped: 1
@@ -80,7 +80,7 @@ every accepted row's strip column carried a rule. V5: no siblings live.
 | 2 | K | amendment | S | When the author is an agent, the gate bypass is denied at the harness (2.1.229) | `quality-gates/hook-hygiene` "Bypass is a feature" | corrects-claim (inverts *who* may bypass) | real gap | 2/0/1 | **accept** |
 | 3 | K | application | M | Repository-linked skill catalog is still the floor: 193 loaded / 28 invoked (replay) | `agent-instruction-files/sibling-floor-ownership` | fills-stack-gap | catch + measurement | 1/0/2 | **accept** (dated-fact layer; the replay is the declared focus executed) |
 | 4 | K | currency | S | Reset-event enumeration moved four times (fork source, /cd rescoping, DirectoryAdded, resume staleness payload) | `context-reset-redelivery` claude-code application | resets-clock | catch | 1/0/1 | landed as currency (clock moved 2.1.252 -> 2.1.263) |
-| 5 | K | technique | M | Path-bound deny rules protect one tool's door; the shell reaches the same bytes (2.1.257/259/260 extend-then-revert) | `agent-cli-transport/permission-stance-enforcement` | fills-stack-gap | partial | 1/0/2 | untriaged — promoting question below |
+| 5 | K | technique | M | Path-bound deny rules protect one tool's door; the shell reaches the same bytes (2.1.257/259/260 extend-then-revert) | `agent-cli-transport/permission-stance-enforcement` | fills-stack-gap | partial | 1/0/2 | **Landed 2026-11-09** as agent-cli-transport/applications/claude-code--permission-stance-enforcement (backlog 3-012, experiment, better). At 2.1.319 recognised file commands are covered; `grep -r` and a script that opens the file are not. |
 | 6 | K | amendment | S | A guard's infrastructure failure must not be encoded as a decider's verdict (timeout misreported as user rejection, 2.1.210) | `session-continuation/advisory-guard-fail-mode` | none | catch | 1/0/1 | catch — the file already routes a timeout to pass-with-diagnostic; attribution is `unattended-mode`'s "different deciders" |
 | 7 | K | amendment | S | Unattended: ask resolves to deny (`--permission-prompts none`, 2.1.259); questions no longer auto-continue (2.1.200) | `hitl-approval/unattended-mode` | none | catch | — | catch ("through the gate, not around it") |
 | 8 | K | practice | S | Permission floor must live in a scope the repository cannot edit (2.1.257 bypass ignored in project settings; 2.1.248 `--restricted` ignores settings files) | `agent-runtime-assembly/operator-tier-code-loading` | none | likely catch | — | catch |

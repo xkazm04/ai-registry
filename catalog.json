@@ -1316,10 +1316,10 @@
       "profile": "rkb/0.1",
       "purity": "software",
       "subjects": 245,
-      "techniques": 1988,
-      "applications": 1498,
-      "files": 3736,
-      "contentHash": "sha256-b2:916b50c341f1059e"
+      "techniques": 1989,
+      "applications": 1499,
+      "files": 3738,
+      "contentHash": "sha256-b2:5a2abf5a2c696c99"
     },
     {
       "name": "technical-writing",

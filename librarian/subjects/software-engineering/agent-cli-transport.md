@@ -177,3 +177,7 @@ Source [[../../sources/2026-09-15-qwenpaw]]: a runtime that wraps coding agents 
 Lead drain (run lib-0923). L286 + L364 consolidated into one landing in `dated-capability-matrix` ("Clocks and costs are rows") plus the golden path's timeout clause - **both leads over-claimed and the landing says less**: the client silence budget is the first check for a self-hosted model, not the whole diagnosis (the source's own follow-up disproved that), and time to first visible text under the real prompt decides the route, caching being the explanation. No application dated (not every cited path opened). **L123 DECLINE** - a homonym join; proposed to `authorization` / `rate-limiting` for a worker scoped there.
 
 **Impact** (stale verdicts before this landing, from the map rebuilt at the run start): systedo-case 2.
+
+## 2026-11-09 - /harvest backlog 3-012 (/shift filler)
+
+New application `claude-code--permission-stance-enforcement`, experiment, better, verified on 2.1.319. A path deny covers the file tools and the shell commands the harness recognises. `grep -r` over the folder and a script that opens the file both returned the canary, and `grep` still did with no grant and no deny, so a narrowed allow list does not close that route. Denying the search and the interpreter held all four routes and left another file readable. Not applied at a seam: this pass was read-only on other projects, and the OS sandbox was not exercised.

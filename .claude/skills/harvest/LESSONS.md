@@ -194,3 +194,7 @@ report now has a lane to land in.
 
 - **Recorded shell tool calls are a liveness truth that no static arm reads.** They showed 20 of 28 launched scripts named by no workflow, so a roster built from shell and CI called them dead.
 - **Audit an arm's misses before scoring it.** The audit split 20 misses into 3 launched through a step table and 17 on a surface the arm does not read. The verdict stayed not-better at 17 against a bound of 14, and the row records both.
+
+## 0.7.0 - 2026-11-09 - ai-registry (`/harvest backlog --size 3` as a /shift filler, 3 rows, 1 seat, blind-ab arms by CLI)
+
+- **A rubric that names the form of the answer can pay for the form.** 3-013 met its target at exactly +2, and all of the gain was one baseline answer that reached the same outcome by declaring removed names instead of omitting them. Read the baseline's losing answer before crediting the gain; the row records both the score and the audit.

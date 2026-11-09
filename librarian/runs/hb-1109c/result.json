@@ -1,0 +1,72 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "hb-1109c",
+  "skill": "harvest",
+  "skill_version": "0.7.0",
+  "mode": "backlog",
+  "domain": "software-engineering",
+  "started_at": "2026-11-09T09:09:33Z",
+  "ended_at": "2026-11-09T09:19:03Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 1,
+    "landed": 2,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "software-engineering/motion",
+      "at": "2026-11-09",
+      "engine": "shift",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    },
+    {
+      "id": "software-engineering/agent-cli-transport",
+      "at": "2026-11-09",
+      "engine": "shift",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "software-engineering/motion",
+      "technique": "direction-from-the-cause",
+      "verdict": "better",
+      "mode": "experiment"
+    },
+    {
+      "subject": "software-engineering/agent-cli-transport",
+      "technique": "permission-stance-enforcement",
+      "verdict": "better",
+      "mode": "experiment"
+    },
+    {
+      "subject": "software-engineering/untrusted-extension-host",
+      "technique": null,
+      "verdict": "not-better",
+      "mode": "blind-ab"
+    }
+  ],
+  "files": [
+    "knowledge/software-engineering/ui-surfaces/feedback-and-style/motion/techniques/direction-from-the-cause.md",
+    "knowledge/software-engineering/ui-surfaces/feedback-and-style/motion/motion.md",
+    "knowledge/software-engineering/llm-agent/runtime-and-io/agent-cli-transport/applications/claude-code--permission-stance-enforcement.md",
+    "librarian/sources/2026-09-15-react-19-3.md",
+    "librarian/sources/2026-09-08-claude-code-release-log-2026-07-09.md",
+    "librarian/subjects/software-engineering/motion.md",
+    "librarian/subjects/software-engineering/agent-cli-transport.md",
+    "librarian/applied.md",
+    "librarian/harvest/backlog.jsonl"
+  ],
+  "commits": [],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "Backlog wave, /shift filler, one seat. 3-011 better (experiment, replay). 3-012 better (experiment, real harness 2.1.319). 3-013 not-better (blind-ab, one draw; audit of the baseline overturned a +2 that met the target). Other projects read-only, no GPU, no build-class gate."
+}

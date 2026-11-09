@@ -4,8 +4,8 @@
   "bundle": "software-engineering",
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 245,
-  "techniques": 1988,
-  "applications": 1498,
+  "techniques": 1989,
+  "applications": 1499,
   "laws": 16,
   "categories": [
    "ui-surfaces",
@@ -20,7 +20,7 @@
    "secret-custody-and-issuance"
   ],
   "layout": "nested",
-  "use_when_coverage": "1988/1988",
+  "use_when_coverage": "1989/1989",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -1308,9 +1308,9 @@
    "subcategory": "runtime-and-io",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/runtime-and-io/agent-cli-transport/agent-cli-transport.md",
-   "digest": "sha256-b2:75415727a875a42a",
-   "revision": 10,
-   "changedAt": "2026-10-27",
+   "digest": "sha256-b2:2dc1f00a0ea7562b",
+   "revision": 11,
+   "changedAt": "2026-11-09",
    "techniques": [
     {
      "slug": "availability-probe",
@@ -1512,6 +1512,13 @@
      "file": "knowledge/software-engineering/llm-agent/runtime-and-io/agent-cli-transport/applications/claude-code--output-normalization.md",
      "verified_on": "2026-08-30",
      "verified_against": "claude-code@2.1.245"
+    },
+    {
+     "stack": "claude-code",
+     "technique": "permission-stance-enforcement",
+     "file": "knowledge/software-engineering/llm-agent/runtime-and-io/agent-cli-transport/applications/claude-code--permission-stance-enforcement.md",
+     "verified_on": "2026-11-09",
+     "verified_against": "claude-code@2.1.319"
     },
     {
      "stack": "claude-code",
@@ -24539,8 +24546,8 @@
    "subcategory": "feedback-and-style",
    "status": "forged",
    "file": "knowledge/software-engineering/ui-surfaces/feedback-and-style/motion/motion.md",
-   "digest": "sha256-b2:18edff597b90a87b",
-   "revision": 11,
+   "digest": "sha256-b2:d647323edc9a2cb4",
+   "revision": 12,
    "changedAt": "2026-11-09",
    "techniques": [
     {
@@ -24569,6 +24576,18 @@
       "a pending marker and the result it becomes are separate components",
       "deciding whether an update animates the whole surface or only what changed",
       "an update flickers at the moment the reader engages"
+     ]
+    },
+    {
+     "slug": "direction-from-the-cause",
+     "status": "forged",
+     "laws": [],
+     "shared_with": [],
+     "use_when": [
+      "a carousel pager or stepper slides content left or right",
+      "the direction of a transition is computed from the previous and next index",
+      "a list that wraps around animates the wrong way at its ends",
+      "deciding where a slide transition learns which way to travel"
      ]
     },
     {

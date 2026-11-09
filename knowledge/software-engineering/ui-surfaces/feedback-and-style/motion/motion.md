@@ -15,6 +15,7 @@ techniques:
   - content-bearing-degradation
   - unprompted-motion-lifecycle
   - loop-pause-governance
+  - direction-from-the-cause
 ---
 
 # Motion system
@@ -390,3 +391,7 @@ for a component mounted outside the coordinator, and the recovery rules are
 - [loop-pause-governance](./techniques/loop-pause-governance.md) — the
   merged pause signal over a closed decider set, the timed pause that keeps
   touch from wedging a loop, and recovery from a frozen clock.
+- [direction-from-the-cause](./techniques/direction-from-the-cause.md) — a
+  slide's direction is written where the gesture happens, why a before/after
+  comparison fails at a wrap and shortest-path arithmetic fails at a jump, and
+  the linear rail where the comparison stays right.

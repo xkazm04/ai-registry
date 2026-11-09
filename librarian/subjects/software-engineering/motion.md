@@ -1,7 +1,7 @@
 ---
 subject: motion
 domain: software-engineering
-last_touched: 2026-09-24
+last_touched: 2026-11-09
 dry_streak: 0
 ---
 
@@ -47,7 +47,7 @@ The preset contract was forged for **one curve, started by something, running to
 - **Displayed value chases true value** (2026-08-27, untriaged). Exponential approach applied to a jittery real signal so a stuttering data source renders as smooth progress. Home genuinely contested between this subject and `async-ui-states`, and it carries an honesty tension adjacent to `content-bearing-degradation` — the reader is shown a number that is not the current one. Return condition: a run that opens `async-ui-states` and can settle the boundary from both sides.
 
 - **Queue-and-collapse interruption** (2026-09-15, landed 2026-11-09 as an amendment to `engine-selection`, backlog 3-010, experiment, better). A framework-scheduled snapshot transition finishes, batches what arrives meanwhile, and animates to the latest value; intermediates never commit. The price is measured input lag, about 530 ms against about 20 ms. Not applied at a seam: no fleet tree uses the framework form, and this pass was read-only on other projects.
-- **Direction comes from the cause, not a state diff** (2026-09-15, untriaged). The same resulting state reached forward and backward needs opposite travel, and a wrap-around defeats any direction inferred from before/after values. Tag the update with its cause where it is scheduled. Return condition: a fleet carousel, pager or stepper that infers direction from an index diff.
+- **Direction comes from the cause, not a state diff** (2026-09-15, landed 2026-11-09 as `direction-from-the-cause`, backlog 3-011, experiment, better). Replay over lists of 2-6 items: the index comparison was wrong on all 10 wrap steps, shortest-path arithmetic scored 86 of 110 by trading the wrap error for a jump error, and on a clamped rail the comparison scored 100 of 100. Not applied at a seam: this pass was read-only on other projects. Fleet sites read: two linear rails that compare indexes and do not wrap, one deck that already carries the cause.
 
 ## Declines
 
