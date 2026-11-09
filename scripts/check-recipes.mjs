@@ -16,8 +16,11 @@
  *    folder / `slug` / `RECIPE.md` frontmatter, the rendered view's five
  *    frontmatter keys equalling their `recipe.json` twins, LESSONS.md in the
  *    lane format, the `desktop`-is-not-a-connector rule, the no-em-dash house
- *    rule over every string in the object, and the nested-depth contract
- *    (`recipes/<domain>/<topic>/<slug>/`, at most ten child dirs per level).
+ *    rule over every string in the object, the nested-depth contract
+ *    (`recipes/<domain>/<topic>/<slug>/`, at most ten child dirs per level), and the
+ *    maturity ladder: a `status` declared above what the evidence committed in the
+ *    recipe's directory supports fails, with the missing evidence named
+ *    (lib/recipe-maturity.mjs, shared with scripts/recipe-maturity.mjs).
  *
  * 2. **Version discipline** (`--since <ref>`): a recipe whose content changed
  *    since <ref> must carry a different version, and that version may never go
@@ -56,6 +59,7 @@ import { EXIT, installCrashDoor } from './lib/exit-codes.mjs';
 import { classifyCheckResult } from './lib/check-result.mjs';
 import { renderRecipe } from './lib/recipe-render.mjs';
 import { sameIgnoringNewlines } from './lib/bundle-hash.mjs';
+import { assess, assessRecipe } from './lib/recipe-maturity.mjs';
 
 installCrashDoor();
 
@@ -294,6 +298,20 @@ function assertInstrument() {
   ].join('\n');
   check('fenced template is not an entry', lessonHeadingsOutsideFences(lessonsFixture), ['## 0.1.0 - 2026-09-06 - personas']);
 
+  // The maturity ladder (lib/recipe-maturity.mjs), pinned on hand-counted evidence: a
+  // registry maintenance entry is not use, two use runs plus a minor bump past the first
+  // is maturing, and a patch bump alone is not a craft change.
+  const L = (...h) => h.map((x) => `## ${x}\n- a lesson`).join('\n');
+  const used = L('0.1.0 - 2026-09-09 - ai-registry', '0.1.0 - 2026-10-01 - acme (first run)', '0.1.0 - 2026-10-02 - acme');
+  check('maintenance entries are not use', assess({ version: '0.2.0', status: 'seed', connector_types: [] }, used, []).evidence.useLessons, 2);
+  check('two runs + minor bump supports maturing', assess({ version: '0.2.0', status: 'seed', connector_types: [] }, used, []).supported, 'maturing');
+  check('a patch bump is not a craft change', assess({ version: '0.1.1', status: 'seed', connector_types: [] }, used, []).supported, 'seed');
+  check('proven declared on maturing evidence is above it', assess({ version: '0.2.0', status: 'proven', connector_types: [] }, used, []).declaredAboveEvidence, true);
+  check('parenthetical run label is not a second project', assess({ version: '0.2.0', status: 'seed', connector_types: [] }, used, []).evidence.projects, ['acme']);
+  const twoProjects = L('0.9.0 - 2026-10-01 - acme', '0.9.0 - 2026-10-02 - globex');
+  check('proven needs the example files when connectors are declared', assess({ version: '1.0.0', status: 'seed', connector_types: ['email'] }, twoProjects, ['a.md']).supported, 'maturing');
+  check('proven with two projects, 1.0.0 and two examples', assess({ version: '1.0.0', status: 'proven', connector_types: ['email'] }, twoProjects, ['a.md', 'b.md']).supported, 'proven');
+
   if (problems.length) {
     console.error('check-recipes: THE INSTRUMENT IS BROKEN - refusing to report.\n');
     for (const p of problems) console.error(`  - ${p}`);
@@ -375,6 +393,15 @@ for (const r of walked.recipes) {
   if (str('version') && !parseSemver(obj.version)) at(`version ${JSON.stringify(obj.version)} is not semver (MAJOR.MINOR.PATCH)`);
   if (str('status') && !STATUSES.has(obj.status)) {
     at(`status ${JSON.stringify(obj.status)} is outside the closed set [${[...STATUSES].join(', ')}]`);
+  }
+  // --- status is a claim backed by evidence in this directory (lib/recipe-maturity.mjs,
+  // the same function recipe-maturity.mjs reports with). Declared ABOVE the evidence fails;
+  // declared below it is fine, because promotion is a human decision and the gate does not nag.
+  if (str('status') && STATUSES.has(obj.status)) {
+    const m = assessRecipe(r.dir, obj);
+    if (m.declaredAboveEvidence) {
+      at(`status "${obj.status}" is above what the evidence in this directory supports ("${m.supported}") - missing for ${obj.status}: ${m.missingForDeclared.join('; ')}. See node scripts/recipe-maturity.mjs --slug ${obj.slug ?? r.slug}`);
+    }
   }
   if (str('slug')) {
     if (seen.has(obj.slug)) at(`duplicate slug ${JSON.stringify(obj.slug)} - also declared by ${seen.get(obj.slug).rel}`);
