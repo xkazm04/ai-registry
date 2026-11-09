@@ -1,7 +1,7 @@
 ---
 subject: cross-provider-benchmark-operations
 domain: llm-observability
-last_touched: 2026-09-10
+last_touched: 2026-11-09
 touched_by: external-reconcile
 dry_streak: 0
 ---
@@ -118,6 +118,22 @@ tests the winner paired on the cases both completed. The coverage half of the te
 structurally: eleven typed error variants upstream - one of them the exact discriminator,
 with a doc comment insisting it be kept distinct - collapsed to a boolean one line before
 the breaker and the report. Ship 0: another session held uncommitted work in that file.
+
+## 2026-11-09 - /harvest backlog 4-006 ([[2026-09-15-ragas]], /shift filler)
+
+Amendment to `determinism-stamping`, better, experiment: `exact` is a claim about the request, and
+replay evidence is a separate field naming the server state. This settles the contradiction the
+2026-09-10 re-review below recorded and could not run. One local server, CPU only, one small
+quantized model, eight judge prompts from real passages, temperature 0, fixed seed, five identical
+requests each, target and floors written first. Sequential on a loaded process 5 of 8 split, 1 first
+request against 4 repeats; another request in flight 6 of 8; reloaded before every request 0 of 8; a
+second sequential pass 0 of 8 but its repeated output differed from the first pass's on 5 of 8.
+Unpinned control 8 of 8. Comparator negative control held. A later reading: the parsed score was
+present cold and absent warm on 2 of 8. Weakest points: one small model, one server, no GPU path and no
+hosted provider, cause of the split not isolated. The application `rust--determinism-stamping` still
+states the old rung and was not touched: nothing in this pass re-read its tree. Return: that
+runner's own replay field.
+
 ## Architecture review - 2026-09-10
 
 Review completed for every owned document. Reverify identifies remaining work, not a

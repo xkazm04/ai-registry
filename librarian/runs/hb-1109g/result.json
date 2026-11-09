@@ -1,0 +1,48 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "hb-1109g",
+  "skill": "harvest",
+  "skill_version": "0.7.0",
+  "mode": "backlog",
+  "domain": "llm-observability",
+  "started_at": "2026-11-09T10:42:34Z",
+  "ended_at": "2026-11-09T10:54:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 1,
+    "landed": 1,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "llm-observability/cross-provider-benchmark-operations",
+      "at": "2026-11-09",
+      "engine": "shift",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "llm-observability/cross-provider-benchmark-operations",
+      "technique": "determinism-stamping",
+      "verdict": "better",
+      "mode": "experiment"
+    }
+  ],
+  "files": [
+    "knowledge/llm-observability/quality-scoring/cross-provider-benchmark-operations/techniques/determinism-stamping.md",
+    "librarian/sources/2026-09-15-ragas.md",
+    "librarian/subjects/llm-observability/cross-provider-benchmark-operations.md",
+    "librarian/applied.md",
+    "librarian/harvest/backlog.jsonl"
+  ],
+  "commits": [],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "Backlog wave, /shift filler, one seat. 4-006 better (experiment), landed, no seam changed. 4-035 covered. 4-070 unmeasurable, instrument named. 4-028 and 4-030 left queued unmeasured: cluster banked by a handoff. No GPU, no build-class gate."
+}

@@ -6,7 +6,9 @@ technique: determinism-stamping
 status: forged
 laws: [estimation-announces-itself, never-present-absence-as-an-answer]
 shared_with: []
-use_when: [a benchmark verdict must be reproducible, comparing runs across providers with different sampling controls, deciding how much run-to-run delta is dice]
+use_when: [a benchmark verdict must be reproducible, comparing runs across providers with different sampling controls, deciding how much run-to-run delta is dice, a pinned and seeded request came back different on a replay]
+applied: experiment
+ab_verdict: better
 ---
 
 # Determinism stamping
@@ -24,7 +26,9 @@ closed vocabulary, ordered weakest first:
   draw onto one output and silently delete the feature; so sample, and say so.
 - **best-effort** — every control the provider exposes was pinned, but the
   provider exposes no seed (or no controls), so replays can differ.
-- **exact** — temperature pinned *and* a seed accepted; a replay reproduces.
+- **exact** — temperature pinned *and* a seed accepted. This is a claim about
+  the request. It does not promise that a replay reproduces (see "Exact is
+  claimed from the request").
 
 ## Procedure
 
@@ -62,16 +66,55 @@ The stamp changes how downstream numbers are read, and that is its value:
   is sampling noise rather than genuine ambiguity — read judge-agreement
   figures accordingly, and expect run-to-run deltas to carry a dice
   component that no amount of statistical correction removes.
-- An exact-stamped run whose replay differs is a *bug report* — on the
-  stamping, the provider, or an unpinned input (an unfrozen dataset defeats
-  an exact stamp; the two disciplines only work together).
+- An exact-stamped run whose replay differs is first a question about **what
+  the replay was compared to**. A replay made in a different server state
+  can differ with nothing wrong in the stamp, and a provider that documents
+  its seed as best effort has promised nothing a replay could break. Only when
+  the state matches and the provider does promise it is the difference a *bug
+  report* — on the stamping, the provider, or an unpinned input (an unfrozen
+  dataset defeats an exact stamp; the two disciplines only work together).
 - When runs are compared or merged across instances, the stamp is part of
   what makes them commensurable: a pinned run against a frozen set is not
   the same evidence as a sampled run against a mutable one, and any merge
   that treats them as equals is lying by omission.
 
+## Exact is claimed from the request
+
+The stamp is written from what was sent. Whether the output repeats depends also
+on what the serving process held when the request arrived, and the request does
+not carry that. So keep the two facts apart:
+
+- **The stamp stays as it is**, three levels, written from the request.
+- **Replay evidence is a separate field beside it**: `k of n identical`, and the
+  server state the n requests ran in (each reloaded, sequential on a loaded
+  process, or with other requests in flight). A replay field with no state
+  named reads as not recorded.
+- **Compare like with like.** A warm pass that agrees with itself says nothing
+  about the cold pass, and a number read across runs is only as stable as the
+  state those runs shared.
+
+Measured on one local server, CPU only, one small quantized model, eight judge
+prompts built from real passages, temperature 0 and a fixed seed, five identical
+requests per prompt, target and floors written first. Sequential on a loaded
+process, 5 of 8 prompts split, each time the first request against the four after
+it. With another request in flight, 6 of 8. With the model reloaded before every
+request, 0 of 8. A second sequential pass gave 0 of 8, yet its repeated answer
+differed from the first pass's repeated answer on 5 of 8, so a replay can agree
+with itself and still not reproduce the run it is meant to check. Across all four
+pinned conditions, 6 of 8 prompts produced more than one output. Unpinned, 8 of 8
+split with five different outputs each, so the pin still narrowed things a great
+deal. In a separate reading, reloading against repeating moved the parsed score on
+2 of 8: the leading digit was there cold and gone warm. The pattern fits state the request
+does not carry, such as a reused prompt prefix and the other work in the batch;
+that cause was not isolated. One server, one small model, no GPU path and no
+hosted provider were measured.
+
 ## Decision rules
 
+- **When a number stamped exact will be compared across runs, replay each case
+  at least twice in the state the comparison will be read in**, and put the
+  replay field in the artifact. An exact stamp without one claims the request
+  only, and is read that way.
 - **When a pinned API path and an unpinned CLI path both reach the same
   model, prefer the API path for benchmarks** — it typically pins
   temperature, avoids ambient context injection, and upgrades the stamp.

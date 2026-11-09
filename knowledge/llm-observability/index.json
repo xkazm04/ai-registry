@@ -607,9 +607,9 @@
    "subcategory": null,
    "status": "reconciled",
    "file": "knowledge/llm-observability/quality-scoring/cross-provider-benchmark-operations/cross-provider-benchmark-operations.md",
-   "digest": "sha256-b2:a6d9e74af45916cc",
-   "revision": 13,
-   "changedAt": "2026-10-25",
+   "digest": "sha256-b2:848eceabe026bc77",
+   "revision": 14,
+   "changedAt": "2026-11-09",
    "techniques": [
     {
      "slug": "async-run-queue-with-cancel",
@@ -697,7 +697,8 @@
      "use_when": [
       "a benchmark verdict must be reproducible",
       "comparing runs across providers with different sampling controls",
-      "deciding how much run-to-run delta is dice"
+      "deciding how much run-to-run delta is dice",
+      "a pinned and seeded request came back different on a replay"
      ]
     },
     {
