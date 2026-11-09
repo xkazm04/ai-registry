@@ -1,0 +1,36 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "hb-1109a",
+  "skill": "harvest",
+  "skill_version": "0.7.0",
+  "mode": "backlog",
+  "domain": "software-engineering",
+  "started_at": "2026-11-09T08:14:28Z",
+  "ended_at": "2026-11-09T08:24:36Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 1,
+    "landed": 0,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [],
+  "verdicts": [
+    {
+      "subject": "software-engineering/codebase-scanning",
+      "technique": null,
+      "verdict": "not-better",
+      "mode": "experiment"
+    }
+  ],
+  "files": [
+    "librarian/harvest/backlog.jsonl",
+    ".claude/skills/harvest/LESSONS.md"
+  ],
+  "commits": [],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "Backlog wave, /shift filler, one seat, no arms spawned. 2-023 not-better (experiment, read-only replay on three checkouts). 2-024 and 2-025 covered, not measured. No GPU, no fleet change, no build-class gate."
+}

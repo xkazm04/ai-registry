@@ -189,3 +189,8 @@ report now has a lane to land in.
 
 - **Check the harness against the pre-registration before scoring.** The first replay excluded transitions whose SQL changed with no cold-only change, where the text excluded only an unchanged file. Those were the transitions where the arms differ: 4 and 4 of 9 became 10 and 8 of 15. The verdict stayed not-better, and the row says so.
 - **A project with no checkout here can still be read on its remote.** A row saying a project's gates were dead was 7 weeks old. The remote showed the config replaced and 5 green runs on main, so it closed covered and not unmeasurable.
+
+## 0.7.0 - 2026-11-09 - ai-registry (`/harvest backlog --size 3` as a /shift filler, 3 rows, 1 seat, no arms spawned)
+
+- **Recorded shell tool calls are a liveness truth that no static arm reads.** They showed 20 of 28 launched scripts named by no workflow, so a roster built from shell and CI called them dead.
+- **Audit an arm's misses before scoring it.** The audit split 20 misses into 3 launched through a step table and 17 on a surface the arm does not read. The verdict stayed not-better at 17 against a bound of 14, and the row records both.
