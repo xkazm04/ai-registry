@@ -38,6 +38,7 @@ fleet-*.proposals.json
 # scripts/link-registry.mjs applies to every consumer: one home per name, the link is
 # machine state, the target is the lane file. Committing the link would be a dangling
 # path on a checkout whose git does not materialise symlinks (core.symlinks=false here).
+# The linker reads these lines as the declaration (see the /spark block below).
 .claude/skills/explorer
 .claude/skills/perfect
 
@@ -50,9 +51,12 @@ fleet-*.proposals.json
 .perfect/
 
 # Lane skills the registry itself runs, LINKED into .claude/skills (never copied - see
-# docs/skills-lane.md "Distribution, part 1"). The link is machine state; recreate with
-# a symlink/junction from .claude/skills/<name> to skills/<name>.
+# docs/skills-lane.md "Distribution, part 1"). The link is machine state. These lines ARE
+# the declaration: scripts/link-registry.mjs (run without --project) links every
+# `/.claude/skills/<name>` line here that names a lane skill, and --check reports a missing
+# one. To make the registry run another lane skill on itself, add its line here.
 /.claude/skills/spark
+/.claude/skills/daybreak
 
 # Personas handoff state. `.personas/registry.yaml` is the committed declaration; the outbox
 # is a queue the app DELETES on ingest, so a committed copy is a replay of work already taken.
