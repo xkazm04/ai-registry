@@ -230,6 +230,7 @@
         "scripts/tests/fleet-map-copy.test.mjs",
         "scripts/tests/fleet-use-when.test.mjs",
         "scripts/tests/installation.test.mjs",
+        "scripts/tests/link-registry-heal.test.mjs",
         "scripts/tests/link-registry.test.mjs",
         "scripts/tests/map-churn.test.mjs",
         "scripts/tests/merge-conform-runs.test.mjs",

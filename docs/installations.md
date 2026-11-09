@@ -56,3 +56,54 @@ version. See the [shared reflection clause](skill-clauses/skill-reflection.md).
 The older `scripts/link-registry.mjs` remains an operator tool for existing Claude
 development fleets. It is not a release installer. Machine roots belong exclusively in
 `.machine.local.json`; `projects.json` holds portable relative checkout declarations.
+
+## Self-healing linked projects (`link-registry.mjs --heal`)
+
+Skill links cannot drift, but the `.claude/rules/ai-registry-*.md` rule copies can, and
+before this mode only a hand-run of the linker refreshed them. The default run of
+`link-registry.mjs` now also writes one SessionStart hook into each project's
+machine-local `.claude/settings.local.json`:
+
+```sh
+node "<registry>/scripts/link-registry.mjs" --heal --project <slug>
+```
+
+`--heal` repairs only the classes below marked SAFE, for that one project. Each SAFE
+repair also requires `git check-ignore` to report the path as ignored in the project.
+Git does not report tracked files as ignored, so a tracked copy is never touched. Heal
+prints nothing on stdout, because a SessionStart hook's stdout becomes session context.
+It is silent when there is nothing to do and writes one stderr line naming what it
+repaired. That change takes effect from the next session at the latest. If the
+instrument cannot run, heal writes one stderr line and exits 0, so a broken instrument
+cannot fail a session start. `--heal` without `--project`, or combined with another
+flag, is a usage error (exit 2).
+
+| Class | Detected by (in `link-registry.mjs`) | `--heal` |
+| --- | --- | --- |
+| Rule copy drifted from the generated rule | `ruleState()` returns `stale` | SAFE if ignored |
+| Rule copy absent | `ruleState()` returns `absent` | SAFE if ignored |
+| Rule installed as a symlink (the harness never loads it) | `ruleState()` returns `symlink` | SAFE if ignored |
+| Declared skill whose link is absent | `inspect()` returns `absent` | SAFE if ignored |
+| Declared skill whose link dangles | `inspect()` returns `broken-link` | SAFE if ignored |
+| Declared skill linked to another lane skill's directory | `inspect()` returns `link-lane` with a different target | SAFE if ignored |
+| Any of the above at a path git does not ignore (tracked, or not yet in the managed block) | `ignoredPaths()` | UNSAFE |
+| Declared skill linked outside this lane (a fork, another checkout) | `inspect()` returns `link-elsewhere` | UNSAFE |
+| Real directory or file at a lane name | `inspect()` returns `dir` or `file` | UNSAFE |
+| Rule path holding a directory | `ruleState()` returns `other` | UNSAFE |
+| Lane link or `ai-registry-*` rule no longer declared (a delete) | the stale `readdir` passes | UNSAFE |
+| `.gitignore` managed block mismatch (tracked file) | `writeGitignoreBlock()` | UNSAFE |
+| `skillOverrides` or the hook in `.claude/settings.local.json` | `writeListing()`, `writeHook()` | UNSAFE (default run) |
+| Declared skill the lane lacks, or a domain with no generated rule | `laneSkills`, `RULES` lookups | Not repairable (content) |
+
+UNSAFE findings are neither repaired nor printed by `--heal`. They belong to `--check`.
+The default run repairs what it always did and maintains the hook. It never writes a
+tracked or unparseable settings file; it names that file instead. `--check` reports a
+missing or outdated hook. The hook uses matcher `startup|resume` and a 30-second timeout.
+The script header cites the
+[Claude Code hooks documentation](https://code.claude.com/docs/en/hooks) for the hook
+shape and its stdout and stderr handling.
+
+The registry links lane skills that it runs on itself, such as `/spark`, into its own
+`.claude/skills/`. Its `.gitignore` declares them: each `/.claude/skills/<name>` line that
+names a lane skill. The default run without `--project` makes those links, and `--check`
+reports any that are missing.
