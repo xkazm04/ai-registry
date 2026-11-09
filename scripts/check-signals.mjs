@@ -38,8 +38,17 @@ import { leaksIn, assertScanner, PRESETS } from './lib/leaks.mjs';
 installCrashDoor();
 
 const argv = process.argv.slice(2);
+// A closed flag set. Anything else used to be ignored, so `--chekc` ran the plain check and
+// exited 0: a mistyped flag passing as a clean gate. Refused before the lane is read.
+const USAGE_LINE = 'usage: node scripts/check-signals.mjs [--root <registry root>]';
+if (argv.includes('--help') || argv.includes('-h')) { console.log(USAGE_LINE); process.exit(EXIT.OK); }
+for (let i = 0; i < argv.length; i++) {
+  if (argv[i] === '--root') { i += 1; continue; }
+  console.error(`check-signals: unknown argument ${JSON.stringify(argv[i])} - nothing checked\n${USAGE_LINE}`);
+  process.exit(EXIT.FATAL);
+}
 const rootAt = argv.indexOf('--root');
-if (rootAt !== -1 && !argv[rootAt + 1]) {
+if (rootAt !== -1 && (!argv[rootAt + 1] || argv[rootAt + 1].startsWith('--'))) {
   console.error('check-signals FATAL: --root needs a directory.');
   process.exit(EXIT.FATAL);
 }

@@ -80,8 +80,13 @@ and writes this file only when it is already committing something else — a ski
 version bump, a sync. A commit whose only content is a count is noise in a repo people
 read, and it turns every skill run into a git write.
 
-Stale is fine: `generatedAt` says how stale, and the aggregate is a signal, not an
-accounting ledger.
+Committing a stale file is fine, and the registry reads its age: a report is **current**
+while its whole-day age against the catalog's evidence date (`catalog.json` `generatedAt`)
+is at most its `windowDays`, otherwise **stale**, and only current 30-day reports reach
+`invokes30d` and `usageContributors` - a stale contributor is named in
+`usageStaleContributors` and its counts stay in `reportedInvokes`.
+`usageEvidence.reports[]` carries each report's `state` and `ageDays`. The aggregate is a
+signal, not an accounting ledger.
 
 The [identity and freshness contract](telemetry-identity.md) defines explicit aliases,
 retained unresolved counts, source-window metadata and the distinction between

@@ -136,7 +136,12 @@ Identical to the usage lane, and for the same reason. Counts accumulate **locall
 the file is written when the installation is already committing something else. A commit
 whose only content is a freshness report is noise in a repository people read.
 
-Stale is fine — `generatedAt` says how stale. This is a signal, not an accounting ledger.
+Committing a stale file is fine, and the readers state its age: a contributor whose
+`generatedAt` is more whole days old than its `windowDays` (against the instrument's clock,
+`--as-of` to pin it) is set aside by `check-currency.mjs` and `librarian-scan.mjs` - not
+counted as a reporting installation, its bundles read **unknown** - and both print every
+contributor's age and how many were set aside; no gate fails over it. This is a signal,
+not an accounting ledger.
 
 ## What this lane cannot do
 

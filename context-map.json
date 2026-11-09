@@ -273,6 +273,7 @@
         "scripts/telemetry-report.mjs",
         "scripts/tests/agent-cost-band.test.mjs",
         "scripts/tests/check-run-results.test.mjs",
+        "scripts/tests/counts-expire.test.mjs",
         "scripts/tests/leads-collect.test.mjs",
         "scripts/tests/measure-large-reads.test.mjs",
         "scripts/tests/process-sessions.test.mjs",

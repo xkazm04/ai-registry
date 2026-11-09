@@ -1,7 +1,7 @@
 {
   "schema": "ascent-registry-catalog",
   "schemaVersion": "1.0.0",
-  "_note": "GENERATED FILE — scripts/build-catalog.mjs reads every lane (skills, practices, memory, knowledge, usage) and rewrites this file; --check fails CI when it is stale. Per skill, `adopters` is carried forward untouched (the registry cannot see installations; an operator's scripts/fleet-audit.mjs --write-adopters maintains it) and `invokes30d` + `usageContributors` are DERIVED from the usage/ lane; `runs30d`, `outcomes30d`, `difficulty30d`, `tokensMedian30d` and `tokensBasis30d` are DERIVED from the usage/runs/ run log (30 days ending at the newest logged run; tokens are the measured median when at least half the runs are measured, else the agents' estimate, and tokensBasis30d says which). `generatedAt` is the newest instant in the committed data this catalog reads (a subject changedAt, a usage report generatedAt, a run row ts, a LESSONS heading date), ISO 8601 UTC: the date of the newest evidence in the registry, not the wall-clock time of the build, so --check stays a pure function of the tree. Hand-edits to anything else are overwritten on the next build. A second producer (e.g. Ascent's indexer) may rewrite the envelope from the same files; two producers computing one truth from one source is not a conflict.",
+  "_note": "GENERATED FILE — scripts/build-catalog.mjs reads every lane (skills, practices, memory, knowledge, usage) and rewrites this file; --check fails CI when it is stale. Per skill, `adopters` is carried forward untouched (the registry cannot see installations; an operator's scripts/fleet-audit.mjs --write-adopters maintains it) and `invokes30d` + `usageContributors` + `usageStaleContributors` + `reportedInvokes` are DERIVED from the usage/ lane (a report is current while its whole-day age against `generatedAt` is at most its windowDays; only current reports reach `invokes30d` and `usageContributors`, stale ones are named in `usageStaleContributors`, every report reaches `reportedInvokes`); `runs30d`, `outcomes30d`, `difficulty30d`, `tokensMedian30d` and `tokensBasis30d` are DERIVED from the usage/runs/ run log (30 days ending at the newest logged run; tokens are the measured median when at least half the runs are measured, else the agents' estimate, and tokensBasis30d says which). `generatedAt` is the newest instant in the committed data this catalog reads (a subject changedAt, a usage report generatedAt, a run row ts, a LESSONS heading date), ISO 8601 UTC: the date of the newest evidence in the registry, not the wall-clock time of the build, so --check stays a pure function of the tree. Hand-edits to anything else are overwritten on the next build. A second producer (e.g. Ascent's indexer) may rewrite the envelope from the same files; two producers computing one truth from one source is not a conflict.",
   "generatedAt": "2026-11-09T00:00:00Z",
   "generatedBy": "scripts/build-catalog.mjs",
   "registry": {
@@ -25,6 +25,7 @@
       "lessonsPath": "skills/adopt-bp/LESSONS.md",
       "lessonsHash": "sha256-n1:dc376cd4eda8a130",
       "usageContributors": [],
+      "usageStaleContributors": [],
       "runs30d": 8,
       "outcomes30d": {
         "shipped": 6,
@@ -56,6 +57,7 @@
       "lessonsPath": "skills/agent-guidance-bootstrap/LESSONS.md",
       "lessonsHash": "sha256-n1:b44daa5b70043dc4",
       "usageContributors": [],
+      "usageStaleContributors": [],
       "runs30d": 0,
       "outcomes30d": {},
       "difficulty30d": null,
@@ -72,12 +74,13 @@
         "personas-web@plugin:1.0.0",
         "personas@plugin:1.0.0"
       ],
-      "invokes30d": 2,
+      "invokes30d": 0,
       "reportedInvokes": 2,
       "lessons": 17,
       "lessonsPath": "skills/architect/LESSONS.md",
       "lessonsHash": "sha256-n1:780e3e6ff510aab7",
-      "usageContributors": [
+      "usageContributors": [],
+      "usageStaleContributors": [
         "wolf"
       ],
       "runs30d": 1,
@@ -101,6 +104,7 @@
       "lessonsPath": "skills/ci-bootstrap/LESSONS.md",
       "lessonsHash": "sha256-n1:872a975d22a1be94",
       "usageContributors": [],
+      "usageStaleContributors": [],
       "runs30d": 0,
       "outcomes30d": {},
       "difficulty30d": null,
@@ -126,6 +130,7 @@
       "lessonsPath": "skills/ci-gate-check/LESSONS.md",
       "lessonsHash": "sha256-n1:8b6b7e8163fe00a6",
       "usageContributors": [],
+      "usageStaleContributors": [],
       "runs30d": 0,
       "outcomes30d": {},
       "difficulty30d": null,
@@ -145,6 +150,7 @@
       "lessonsPath": "skills/ci-triage/LESSONS.md",
       "lessonsHash": "sha256-n1:30f2131a9244734d",
       "usageContributors": [],
+      "usageStaleContributors": [],
       "runs30d": 0,
       "outcomes30d": {},
       "difficulty30d": null,
@@ -164,6 +170,7 @@
       "lessonsPath": "skills/cloud-dispatch/LESSONS.md",
       "lessonsHash": "sha256-n1:7e3954999f2686a9",
       "usageContributors": [],
+      "usageStaleContributors": [],
       "runs30d": 0,
       "outcomes30d": {},
       "difficulty30d": null,
@@ -183,6 +190,7 @@
       "lessonsPath": "skills/conform/LESSONS.md",
       "lessonsHash": "sha256-n1:82c6215f1132d182",
       "usageContributors": [],
+      "usageStaleContributors": [],
       "runs30d": 226,
       "outcomes30d": {
         "shipped": 165,
@@ -213,6 +221,7 @@
       "lessonsPath": "skills/consult/LESSONS.md",
       "lessonsHash": "sha256-n1:d38828777c64d209",
       "usageContributors": [],
+      "usageStaleContributors": [],
       "runs30d": 1,
       "outcomes30d": {
         "shipped": 1
@@ -234,6 +243,7 @@
       "lessonsPath": "skills/contest/LESSONS.md",
       "lessonsHash": "sha256-n1:77ea47e035a36a0e",
       "usageContributors": [],
+      "usageStaleContributors": [],
       "runs30d": 17,
       "outcomes30d": {
         "shipped": 3,
@@ -257,6 +267,7 @@
       "lessonsPath": "skills/council/LESSONS.md",
       "lessonsHash": "sha256-n1:02cc8f1ded3d7ea5",
       "usageContributors": [],
+      "usageStaleContributors": [],
       "runs30d": 1,
       "outcomes30d": {
         "shipped": 1
@@ -278,6 +289,7 @@
       "lessonsPath": "skills/cx/LESSONS.md",
       "lessonsHash": "sha256-n1:364687ee5cf63a39",
       "usageContributors": [],
+      "usageStaleContributors": [],
       "runs30d": 1,
       "outcomes30d": {
         "shipped": 1
@@ -299,6 +311,7 @@
       "lessonsPath": "skills/daybreak/LESSONS.md",
       "lessonsHash": "sha256-n1:df754f29e1b94f7e",
       "usageContributors": [],
+      "usageStaleContributors": [],
       "runs30d": 0,
       "outcomes30d": {},
       "difficulty30d": null,
@@ -318,6 +331,7 @@
       "lessonsPath": "skills/demo-film/LESSONS.md",
       "lessonsHash": "sha256-n1:aaa5416430590c0a",
       "usageContributors": [],
+      "usageStaleContributors": [],
       "runs30d": 0,
       "outcomes30d": {},
       "difficulty30d": null,
@@ -337,6 +351,7 @@
       "lessonsPath": "skills/dojo/LESSONS.md",
       "lessonsHash": "sha256-n1:b51d4c77bd00160b",
       "usageContributors": [],
+      "usageStaleContributors": [],
       "runs30d": 0,
       "outcomes30d": {},
       "difficulty30d": null,
@@ -353,12 +368,13 @@
         "personas-web@plugin:1.0.0",
         "personas@plugin:1.0.0"
       ],
-      "invokes30d": 2,
+      "invokes30d": 0,
       "reportedInvokes": 2,
       "lessons": 22,
       "lessonsPath": "skills/explorer/LESSONS.md",
       "lessonsHash": "sha256-n1:fdb867b75f816ad4",
-      "usageContributors": [
+      "usageContributors": [],
+      "usageStaleContributors": [
         "wolf"
       ],
       "runs30d": 1,
@@ -382,6 +398,7 @@
       "lessonsPath": "skills/flake-register/LESSONS.md",
       "lessonsHash": "sha256-n1:2a336a1a26a1b4cd",
       "usageContributors": [],
+      "usageStaleContributors": [],
       "runs30d": 0,
       "outcomes30d": {},
       "difficulty30d": null,
@@ -398,12 +415,13 @@
         "personas-web@plugin:1.0.0",
         "personas@plugin:1.0.0"
       ],
-      "invokes30d": 2,
+      "invokes30d": 0,
       "reportedInvokes": 2,
       "lessons": 8,
       "lessonsPath": "skills/friend/LESSONS.md",
       "lessonsHash": "sha256-n1:8d895fce5912982d",
-      "usageContributors": [
+      "usageContributors": [],
+      "usageStaleContributors": [
         "wolf"
       ],
       "runs30d": 1,
@@ -427,6 +445,7 @@
       "lessonsPath": "skills/hackathon/LESSONS.md",
       "lessonsHash": "sha256-n1:df895531967afa14",
       "usageContributors": [],
+      "usageStaleContributors": [],
       "runs30d": 2,
       "outcomes30d": {
         "shipped": 2
@@ -446,12 +465,13 @@
         "personas@plugin:1.1.0",
         "systedo-case@plugin:1.1.0"
       ],
-      "invokes30d": 2,
+      "invokes30d": 0,
       "reportedInvokes": 2,
       "lessons": 5,
       "lessonsPath": "skills/i18n-translate/LESSONS.md",
       "lessonsHash": "sha256-n1:e149e415195c07d9",
-      "usageContributors": [
+      "usageContributors": [],
+      "usageStaleContributors": [
         "wolf"
       ],
       "runs30d": 0,
@@ -473,6 +493,7 @@
       "lessonsPath": "skills/illustrate/LESSONS.md",
       "lessonsHash": "sha256-n1:eaf181c8146f2367",
       "usageContributors": [],
+      "usageStaleContributors": [],
       "runs30d": 0,
       "outcomes30d": {},
       "difficulty30d": null,
@@ -492,6 +513,7 @@
       "lessonsPath": "skills/kit/LESSONS.md",
       "lessonsHash": "sha256-n1:e45d765926aeda67",
       "usageContributors": [],
+      "usageStaleContributors": [],
       "runs30d": 1,
       "outcomes30d": {
         "partial": 1
@@ -515,6 +537,7 @@
       "lessonsPath": "skills/kpi-sim/LESSONS.md",
       "lessonsHash": "sha256-n1:020535bead762f72",
       "usageContributors": [],
+      "usageStaleContributors": [],
       "runs30d": 0,
       "outcomes30d": {},
       "difficulty30d": null,
@@ -534,6 +557,7 @@
       "lessonsPath": "skills/lens-scan/LESSONS.md",
       "lessonsHash": "sha256-n1:d4bab9dc4590d905",
       "usageContributors": [],
+      "usageStaleContributors": [],
       "runs30d": 42,
       "outcomes30d": {
         "shipped": 34,
@@ -560,6 +584,7 @@
       "lessonsPath": "skills/leonardo/LESSONS.md",
       "lessonsHash": "sha256-n1:ef77c0d3bdd70ba8",
       "usageContributors": [],
+      "usageStaleContributors": [],
       "runs30d": 0,
       "outcomes30d": {},
       "difficulty30d": null,
@@ -577,6 +602,7 @@
       "reportedInvokes": 0,
       "lessons": 0,
       "usageContributors": [],
+      "usageStaleContributors": [],
       "runs30d": 0,
       "outcomes30d": {},
       "difficulty30d": null,
@@ -596,6 +622,7 @@
       "lessonsPath": "skills/maintain/LESSONS.md",
       "lessonsHash": "sha256-n1:95f58bd4deec8862",
       "usageContributors": [],
+      "usageStaleContributors": [],
       "runs30d": 0,
       "outcomes30d": {},
       "difficulty30d": null,
@@ -612,12 +639,13 @@
         "kp@1.0",
         "personas@plugin:1.0.0"
       ],
-      "invokes30d": 2,
+      "invokes30d": 0,
       "reportedInvokes": 2,
       "lessons": 3,
       "lessonsPath": "skills/motionize/LESSONS.md",
       "lessonsHash": "sha256-n1:6a06fa50ac55cc6a",
-      "usageContributors": [
+      "usageContributors": [],
+      "usageStaleContributors": [
         "wolf"
       ],
       "runs30d": 0,
@@ -641,6 +669,7 @@
       "lessonsPath": "skills/mvp/LESSONS.md",
       "lessonsHash": "sha256-n1:578e84995ac9b915",
       "usageContributors": [],
+      "usageStaleContributors": [],
       "runs30d": 0,
       "outcomes30d": {},
       "difficulty30d": null,
@@ -660,6 +689,7 @@
       "lessonsPath": "skills/native-copy/LESSONS.md",
       "lessonsHash": "sha256-n1:b31c7179b6de6e4a",
       "usageContributors": [],
+      "usageStaleContributors": [],
       "runs30d": 0,
       "outcomes30d": {},
       "difficulty30d": null,
@@ -676,12 +706,13 @@
         "personas-web@plugin:1.0.0",
         "pof@plugin:1.0.0"
       ],
-      "invokes30d": 1,
+      "invokes30d": 0,
       "reportedInvokes": 1,
       "lessons": 1,
       "lessonsPath": "skills/npm-updates/LESSONS.md",
       "lessonsHash": "sha256-n1:e459c2ad1e0bd9be",
-      "usageContributors": [
+      "usageContributors": [],
+      "usageStaleContributors": [
         "wolf"
       ],
       "runs30d": 0,
@@ -703,6 +734,7 @@
       "lessonsPath": "skills/onboarding/LESSONS.md",
       "lessonsHash": "sha256-n1:7ba45372672d3d5c",
       "usageContributors": [],
+      "usageStaleContributors": [],
       "runs30d": 0,
       "outcomes30d": {},
       "difficulty30d": null,
@@ -723,12 +755,13 @@
         "pof@plugin:2.3.0",
         "systedo-case@plugin:2.3.0"
       ],
-      "invokes30d": 46,
+      "invokes30d": 0,
       "reportedInvokes": 46,
       "lessons": 29,
       "lessonsPath": "skills/perfect/LESSONS.md",
       "lessonsHash": "sha256-n1:5ed601e0b90ff8ca",
-      "usageContributors": [
+      "usageContributors": [],
+      "usageStaleContributors": [
         "wolf"
       ],
       "runs30d": 8,
@@ -753,12 +786,13 @@
         "personas@plugin:1.0.0",
         "systedo-case@plugin:1.0.0"
       ],
-      "invokes30d": 5,
+      "invokes30d": 0,
       "reportedInvokes": 5,
       "lessons": 2,
       "lessonsPath": "skills/project-populate/LESSONS.md",
       "lessonsHash": "sha256-n1:163ba9ce0d337cdb",
-      "usageContributors": [
+      "usageContributors": [],
+      "usageStaleContributors": [
         "wolf"
       ],
       "runs30d": 1,
@@ -784,6 +818,7 @@
       "lessonsPath": "skills/promote/LESSONS.md",
       "lessonsHash": "sha256-n1:665376a2c45ad625",
       "usageContributors": [],
+      "usageStaleContributors": [],
       "runs30d": 0,
       "outcomes30d": {},
       "difficulty30d": null,
@@ -800,12 +835,13 @@
         "personas@plugin:1.5.0",
         "pof@1.7"
       ],
-      "invokes30d": 20,
+      "invokes30d": 0,
       "reportedInvokes": 20,
       "lessons": 15,
       "lessonsPath": "skills/research/LESSONS.md",
       "lessonsHash": "sha256-n1:1cb9d762bd230ee0",
-      "usageContributors": [
+      "usageContributors": [],
+      "usageStaleContributors": [
         "wolf"
       ],
       "runs30d": 0,
@@ -826,12 +862,13 @@
         "personas@plugin:1.0.0",
         "systedo-case@plugin:1.0.0"
       ],
-      "invokes30d": 15,
+      "invokes30d": 0,
       "reportedInvokes": 15,
       "lessons": 70,
       "lessonsPath": "skills/scan-sweep/LESSONS.md",
       "lessonsHash": "sha256-n1:16961571b5e49ebc",
-      "usageContributors": [
+      "usageContributors": [],
+      "usageStaleContributors": [
         "wolf"
       ],
       "runs30d": 22,
@@ -862,6 +899,7 @@
       "lessonsPath": "skills/ship-loop/LESSONS.md",
       "lessonsHash": "sha256-n1:f6bb23103330320c",
       "usageContributors": [],
+      "usageStaleContributors": [],
       "runs30d": 0,
       "outcomes30d": {},
       "difficulty30d": null,
@@ -877,12 +915,13 @@
       "adopters": [
         "personas@plugin:1.0.0"
       ],
-      "invokes30d": 6,
+      "invokes30d": 0,
       "reportedInvokes": 6,
       "lessons": 38,
       "lessonsPath": "skills/spark/LESSONS.md",
       "lessonsHash": "sha256-n1:39b310a8c9c6fc0e",
-      "usageContributors": [
+      "usageContributors": [],
+      "usageStaleContributors": [
         "wolf"
       ],
       "runs30d": 103,
@@ -909,6 +948,7 @@
       "lessonsPath": "skills/straighten/LESSONS.md",
       "lessonsHash": "sha256-n1:d51348635fe6b5eb",
       "usageContributors": [],
+      "usageStaleContributors": [],
       "runs30d": 1,
       "outcomes30d": {
         "shipped": 1
@@ -930,6 +970,7 @@
       "lessonsPath": "skills/takeover-app/LESSONS.md",
       "lessonsHash": "sha256-n1:54a2780a62f477e0",
       "usageContributors": [],
+      "usageStaleContributors": [],
       "runs30d": 0,
       "outcomes30d": {},
       "difficulty30d": null,
@@ -955,6 +996,7 @@
       "lessonsPath": "skills/test-before-commit/LESSONS.md",
       "lessonsHash": "sha256-n1:73db2a47c3ee6b25",
       "usageContributors": [],
+      "usageStaleContributors": [],
       "runs30d": 0,
       "outcomes30d": {},
       "difficulty30d": null,
@@ -979,6 +1021,7 @@
       "lessonsPath": "skills/tiger/LESSONS.md",
       "lessonsHash": "sha256-n1:22daa0d721cf5de5",
       "usageContributors": [],
+      "usageStaleContributors": [],
       "runs30d": 6,
       "outcomes30d": {
         "shipped": 3,
@@ -1001,12 +1044,13 @@
         "personas@plugin:1.7.0",
         "systedo-case@plugin:1.7.0"
       ],
-      "invokes30d": 2,
+      "invokes30d": 0,
       "reportedInvokes": 2,
       "lessons": 16,
       "lessonsPath": "skills/uat/LESSONS.md",
       "lessonsHash": "sha256-n1:d8a10db02cfb595d",
-      "usageContributors": [
+      "usageContributors": [],
+      "usageStaleContributors": [
         "wolf"
       ],
       "runs30d": 0,
@@ -1028,6 +1072,7 @@
       "lessonsPath": "skills/value-ledger/LESSONS.md",
       "lessonsHash": "sha256-n1:ef153cce1b287a9b",
       "usageContributors": [],
+      "usageStaleContributors": [],
       "runs30d": 0,
       "outcomes30d": {},
       "difficulty30d": null,
@@ -1361,7 +1406,9 @@
       {
         "contributor": "wolf",
         "generatedAt": "2026-08-22T17:24:57Z",
-        "windowDays": 30
+        "windowDays": 30,
+        "state": "stale",
+        "ageDays": 78
       }
     ],
     "unresolved": [
@@ -1408,6 +1455,6 @@
         "lastUsed": "2026-08-06T07:08:55Z"
       }
     ],
-    "interpretation": "invokes30d includes only reported 30-day windows ending at each report date; reportedInvokes includes all reported windows. Neither is a live rolling count. Unresolved names retain counts here."
+    "interpretation": "invokes30d includes only CURRENT reported 30-day windows ending at each report date; reportedInvokes includes all reported windows, any age. Each report carries state (current when its whole-day ageDays against the catalog generatedAt, the evidence date, is at most its windowDays, else stale) and ageDays. Neither count is a live rolling count. Unresolved names retain counts here."
   }
 }

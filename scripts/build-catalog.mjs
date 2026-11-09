@@ -19,6 +19,15 @@
 // catalog.json is overwritten on the next build. That is the point — many writers into one
 // shared field is the failure the per-contributor files exist to prevent.
 //
+// A usage count EXPIRES. A report covers the `windowDays` ending at its own `generatedAt`;
+// it is `current` while its whole-day age against the catalog's evidence date (`generatedAt`
+// below: the newest instant in the committed data, usage reports included) is at most its
+// `windowDays`, and `stale` after. Only current 30-day reports reach `invokes30d` and
+// `usageContributors`; stale contributors are named in `usageStaleContributors`; everything
+// still reaches `reportedInvokes`. The evidence date is fixed from all inputs BEFORE any
+// state is read against it and no state feeds back into it, so the verdict is deterministic
+// and the clock never enters it: a committed catalog does not go stale because a day passed.
+//
 // And each skill's run-log fields (`runs30d`, `outcomes30d`, `difficulty30d`,
 // `tokensMedian30d`, `tokensBasis30d`) from `usage/runs/`, folded by the same function
 // scripts/runs-report.mjs uses (lib/runs-aggregate.mjs) - one fold, two readers.
@@ -39,6 +48,7 @@ import {loadIdentities,resolveIdentity} from './lib/telemetry.mjs';
 import { loadLane as loadRunsLane, aggregateRuns, catalogFields } from './lib/runs-aggregate.mjs';
 import { EXIT, installCrashDoor } from './lib/exit-codes.mjs';
 import { requirePopulation } from './lib/check-result.mjs';
+import { partitionReports } from './lib/currency-clock.mjs';
 
 installCrashDoor();
 
@@ -201,7 +211,8 @@ if (mismatches.length) {
 const identities=loadIdentities(ROOT);
 const unresolvedUsage=[];
 const usageReports=[];
-const usage = new Map(); // skill -> { invokes, contributors:Set }
+const usage = new Map(); // skill -> { invokes, invokes30d, contributors:Set, staleContributors:Set }
+const usageDocs = []; // every parsed report, folded after the evidence date is known
 let usageFiles = 0;
 // Skipping an unparseable contributor is correct here — this builder's green authorizes
 // no claim of correctness, and one bad file must not erase every other installation's
@@ -227,19 +238,11 @@ if (fs.existsSync(USAGE)) {
       continue;
     }
     usageFiles += 1;
-    usageReports.push({contributor:doc.contributor,generatedAt:doc.generatedAt,windowDays:doc.windowDays});
-    for (const [reportedName, entry] of Object.entries(doc?.skills ?? {})) {
-      const name=resolveIdentity(identities,'skills',reportedName);
-      if(!name){unresolvedUsage.push({contributor:doc.contributor,name:reportedName,...entry});continue;}
-      const n = Number.isInteger(entry?.invokes) && entry.invokes >= 0 ? entry.invokes : 0;
-      const row = usage.get(name) ?? { invokes: 0, invokes30d: 0, contributors: new Set() };
-      row.invokes += n;
-      if(doc.windowDays===30)row.invokes30d+=n;
-      if (doc?.contributor) row.contributors.add(doc.contributor);
-      usage.set(name, row);
-    }
+    usageDocs.push(doc);
   }
 }
+// The fold itself runs below, once the catalog's evidence date is known (see "the usage
+// fold"): whether a report's counts are current depends on that date.
 
 // -- run-log aggregation (usage/runs/, docs/runs-lane.md) ---------------------
 // Folded by the SAME function runs-report.mjs uses, so the catalog and the librarian's
@@ -256,6 +259,64 @@ const runsNewest = runsLane.rows.reduce((m, r) => { const t = Date.parse(r?.ts);
 const runStats = runsNewest === -Infinity
   ? {}
   : aggregateRuns(runsLane.rows, runsLane.exact, { by: 'skill', resolveSkill: runsLane.resolveSkill, sinceMs: runsNewest - 30 * 86400000, untilMs: runsNewest });
+
+// -- generatedAt: derived from committed data, never from the clock or live git ---------
+// This used to be `catalog.generatedAt`, carried forward untouched, so it sat at
+// 2026-08-18T00:00:00Z while the catalog was rebuilt dozens of times, and the readers that
+// take it as "when was this built" (Ascent's indexer, personas) were told August. The clock
+// is not an option: `--check` must be a pure function of the tree, and a catalog stamped
+// with "now" is stale the instant it is written. Live `git log` is not either: CI clones
+// may be shallow and a depth-1 clone has one commit to date everything by. So the date is
+// the NEWEST instant found in data the catalog already reads and the tree already commits:
+// a subject's `changedAt` (knowledge/*/index.json), a usage report's `generatedAt`, a run
+// row's `ts`, a LESSONS.md heading's date. It moves exactly when a lane gains newer
+// evidence, and an unchanged tree rebuilds to the same value. If none parses, the committed
+// value is kept rather than invented.
+//
+// It is computed HERE, before any usage count is folded, because it is also the date a usage
+// report's age is measured against (below). Every report's `generatedAt` is an input to it,
+// and that is not circular: the evidence date is fixed first from ALL dated inputs, every
+// report's state is then read against that one fixed value, and a state never feeds back into
+// the date. So the outcome is a pure function of the tree, and the newest report is always
+// current at age 0 (it IS the evidence date, or older than it).
+const lessonDates = laneSkills.flatMap((s) => (s.lessonsRaw ? lessonHeadings(s.lessonsRaw) : [])
+  .map((h) => /[-–—] (\d{4}-\d{2}-\d{2}) [-–—]/.exec(h)?.[1]).filter(Boolean));
+const stampMs = (v) => (typeof v === 'string' && /^\d{4}-\d{2}-\d{2}([T ]|$)/.test(v) ? Date.parse(/^\d{4}-\d{2}-\d{2}$/.test(v) ? `${v}T00:00:00Z` : v) : NaN);
+const newestMs = Math.max(-Infinity, ...[
+  ...indexChangedAt, ...lessonDates, ...usageDocs.map((u) => u.generatedAt),
+  ...runsLane.rows.map((r) => r?.ts),
+].map(stampMs).filter(Number.isFinite));
+const generatedAt = newestMs === -Infinity ? catalog.generatedAt : new Date(newestMs).toISOString().replace(/\.\d{3}Z$/, 'Z');
+
+// -- the usage fold: only a CURRENT report is a 30-day count -------------------------------
+// A usage report describes the `windowDays` that ended at its own `generatedAt`. Summed with
+// no look at its age, a report from August was published in November as `invokes30d: 6`
+// beside a run log counting 103 runs in the last 30 days - a reader takes "6 in the last 30
+// days" from a window that ended 79 days before the catalog's own evidence date. So a report
+// is `current` when its whole-day age against the evidence date is at most its `windowDays`
+// (inclusive; lib/currency-clock.mjs reportState), otherwise `stale`:
+//   - `invokes30d` sums current 30-day reports only;
+//   - `usageContributors` lists current contributors only, so a zero beside an empty list
+//     reads as it should: nobody is reporting;
+//   - `usageStaleContributors` names the contributors whose reports have aged out;
+//   - `reportedInvokes` keeps everything ever reported, any age, so no history is lost.
+// An undatable report is stale (unwitnessed reads as unknown, never as current).
+const { ages: usageAges } = partitionReports(usageDocs, generatedAt);
+usageDocs.forEach((doc, i) => {
+  const { state, ageDays } = usageAges[i];
+  usageReports.push({ contributor: doc.contributor, generatedAt: doc.generatedAt, windowDays: doc.windowDays, state, ageDays });
+  for (const [reportedName, entry] of Object.entries(doc?.skills ?? {})) {
+    const name = resolveIdentity(identities, 'skills', reportedName);
+    if (!name) { unresolvedUsage.push({ contributor: doc.contributor, name: reportedName, ...entry }); continue; }
+    const n = Number.isInteger(entry?.invokes) && entry.invokes >= 0 ? entry.invokes : 0;
+    const row = usage.get(name) ?? { invokes: 0, invokes30d: 0, contributors: new Set(), staleContributors: new Set() };
+    row.invokes += n;
+    if (state === 'current' && doc.windowDays === 30) row.invokes30d += n;
+    if (doc?.contributor) (state === 'current' ? row.contributors : row.staleContributors).add(doc.contributor);
+    usage.set(name, row);
+  }
+});
+const usageStale = usageAges.filter((a) => a.state === 'stale').length;
 
 
 // -- the skills lane --------------------------------------------------------
@@ -291,6 +352,9 @@ const skills = laneSkills.map((s) => {
   // a zero with no contributors means the lane has no witness, not that the skill
   // is dead.
   entry.usageContributors = row ? [...row.contributors].sort() : [];
+  // And who DID report, in a window that has since closed: their counts live on in
+  // `reportedInvokes` only. Always present, empty when none.
+  entry.usageStaleContributors = row ? [...row.staleContributors].sort() : [];
   // From the run log, not the usage lane: invokes30d counts invocations a contributor
   // reported; these describe how the runs that logged themselves went. Always present -
   // zero/null on a skill with no logged runs, so a reader never has to tell "absent" from
@@ -338,34 +402,15 @@ if (fs.existsSync(MEMORY)) {
 }
 const counts = { skills: skills.length, practices: practices.length, memory: memory.length, lessons: skills.reduce((n, s) => n + (s.lessons ?? 0), 0) };
 
-// -- generatedAt: derived from committed data, never from the clock or live git ---------
-// This used to be `catalog.generatedAt`, carried forward untouched, so it sat at
-// 2026-08-18T00:00:00Z while the catalog was rebuilt dozens of times, and the readers that
-// take it as "when was this built" (Ascent's indexer, personas) were told August. The clock
-// is not an option: `--check` must be a pure function of the tree, and a catalog stamped
-// with "now" is stale the instant it is written. Live `git log` is not either: CI clones
-// may be shallow and a depth-1 clone has one commit to date everything by. So the date is
-// the NEWEST instant found in data the catalog already reads and the tree already commits:
-// a subject's `changedAt` (knowledge/*/index.json), a usage report's `generatedAt`, a run
-// row's `ts`, a LESSONS.md heading's date. It moves exactly when a lane gains newer
-// evidence, and an unchanged tree rebuilds to the same value. If none parses, the committed
-// value is kept rather than invented.
-const lessonDates = laneSkills.flatMap((s) => (s.lessonsRaw ? lessonHeadings(s.lessonsRaw) : [])
-  .map((h) => /[-–—] (\d{4}-\d{2}-\d{2}) [-–—]/.exec(h)?.[1]).filter(Boolean));
-const stampMs = (v) => (typeof v === 'string' && /^\d{4}-\d{2}-\d{2}([T ]|$)/.test(v) ? Date.parse(/^\d{4}-\d{2}-\d{2}$/.test(v) ? `${v}T00:00:00Z` : v) : NaN);
-const newestMs = Math.max(-Infinity, ...[
-  ...indexChangedAt, ...lessonDates, ...usageReports.map((u) => u.generatedAt),
-  ...runsLane.rows.map((r) => r?.ts),
-].map(stampMs).filter(Number.isFinite));
-const generatedAt = newestMs === -Infinity ? catalog.generatedAt : new Date(newestMs).toISOString().replace(/\.\d{3}Z$/, 'Z');
+// generatedAt (the evidence date) is computed above the usage fold, which measures against it.
 
 const next = {
   ...catalog,
-  _note: 'GENERATED FILE — scripts/build-catalog.mjs reads every lane (skills, practices, memory, knowledge, usage) and rewrites this file; --check fails CI when it is stale. Per skill, `adopters` is carried forward untouched (the registry cannot see installations; an operator\'s scripts/fleet-audit.mjs --write-adopters maintains it) and `invokes30d` + `usageContributors` are DERIVED from the usage/ lane; `runs30d`, `outcomes30d`, `difficulty30d`, `tokensMedian30d` and `tokensBasis30d` are DERIVED from the usage/runs/ run log (30 days ending at the newest logged run; tokens are the measured median when at least half the runs are measured, else the agents\' estimate, and tokensBasis30d says which). `generatedAt` is the newest instant in the committed data this catalog reads (a subject changedAt, a usage report generatedAt, a run row ts, a LESSONS heading date), ISO 8601 UTC: the date of the newest evidence in the registry, not the wall-clock time of the build, so --check stays a pure function of the tree. Hand-edits to anything else are overwritten on the next build. A second producer (e.g. Ascent\'s indexer) may rewrite the envelope from the same files; two producers computing one truth from one source is not a conflict.',
+  _note: 'GENERATED FILE — scripts/build-catalog.mjs reads every lane (skills, practices, memory, knowledge, usage) and rewrites this file; --check fails CI when it is stale. Per skill, `adopters` is carried forward untouched (the registry cannot see installations; an operator\'s scripts/fleet-audit.mjs --write-adopters maintains it) and `invokes30d` + `usageContributors` + `usageStaleContributors` + `reportedInvokes` are DERIVED from the usage/ lane (a report is current while its whole-day age against `generatedAt` is at most its windowDays; only current reports reach `invokes30d` and `usageContributors`, stale ones are named in `usageStaleContributors`, every report reaches `reportedInvokes`); `runs30d`, `outcomes30d`, `difficulty30d`, `tokensMedian30d` and `tokensBasis30d` are DERIVED from the usage/runs/ run log (30 days ending at the newest logged run; tokens are the measured median when at least half the runs are measured, else the agents\' estimate, and tokensBasis30d says which). `generatedAt` is the newest instant in the committed data this catalog reads (a subject changedAt, a usage report generatedAt, a run row ts, a LESSONS heading date), ISO 8601 UTC: the date of the newest evidence in the registry, not the wall-clock time of the build, so --check stays a pure function of the tree. Hand-edits to anything else are overwritten on the next build. A second producer (e.g. Ascent\'s indexer) may rewrite the envelope from the same files; two producers computing one truth from one source is not a conflict.',
   generatedAt,
   generatedBy: 'scripts/build-catalog.mjs',
   skills, practices, memory, counts, bundles,
-  usageEvidence: {reports:usageReports,unresolved:unresolvedUsage,interpretation: 'invokes30d includes only reported 30-day windows ending at each report date; reportedInvokes includes all reported windows. Neither is a live rolling count. Unresolved names retain counts here.'},
+  usageEvidence: {reports:usageReports,unresolved:unresolvedUsage,interpretation: 'invokes30d includes only CURRENT reported 30-day windows ending at each report date; reportedInvokes includes all reported windows, any age. Each report carries state (current when its whole-day ageDays against the catalog generatedAt, the evidence date, is at most its windowDays, else stale) and ageDays. Neither count is a live rolling count. Unresolved names retain counts here.'},
 };
 const serialized = `${JSON.stringify(next, null, 2)}\n`;
 
@@ -399,10 +444,10 @@ if (checkOnly) {
     }
     process.exit(EXIT.VIOLATIONS);
   }
-  console.log(`catalog.json is fresh — ${bundles.length} bundle(s) indexed, usage from ${usageFiles} of ${usageFiles + usageSkipped} contributor file(s)${usageSkipped ? ` — ${usageSkipped} skipped as unparseable` : ''}`);
+  console.log(`catalog.json is fresh — ${bundles.length} bundle(s) indexed, usage from ${usageFiles} of ${usageFiles + usageSkipped} contributor file(s)${usageSkipped ? ` — ${usageSkipped} skipped as unparseable` : ''}${usageStale ? `, ${usageStale} stale against ${generatedAt}` : ''}`);
 } else {
   fs.writeFileSync(CATALOG, serialized);
-  console.log(`catalog.json updated — ${bundles.length} bundle(s), usage from ${usageFiles} of ${usageFiles + usageSkipped} contributor file(s)${usageSkipped ? ` — ${usageSkipped} skipped as unparseable; invokes30d is derived from the ${usageFiles} that parsed` : ''}:`);
+  console.log(`catalog.json updated — ${bundles.length} bundle(s), usage from ${usageFiles} of ${usageFiles + usageSkipped} contributor file(s)${usageSkipped ? ` — ${usageSkipped} skipped as unparseable; invokes30d is derived from the ${usageFiles} that parsed` : ''}${usageStale ? ` (${usageStale} stale against ${generatedAt}: kept in reportedInvokes, out of invokes30d)` : ''}:`);
   for (const b of bundles) {
     console.log(`  ${b.name}: ${b.subjects} subjects / ${b.techniques} techniques / ${b.applications} applications (${b.contentHash})`);
   }
