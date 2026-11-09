@@ -66,8 +66,28 @@ export function appendRun({ vault, record, note = '', now = () => new Date() }) 
   return file;
 }
 
-/** Latest ts per project from ledger.jsonl. Returns {slug: isoDate}. */
-export function lastSweeps(vault) {
+/** Write a new note in Daybreak/<dir>/ named <date>[-n].md, never overwriting. */
+export function writeNewNote({ vault, dir, title, body, now = () => new Date() }) {
+  const date = ymd(now());
+  fs.mkdirSync(safeJoin(vault, dir), { recursive: true });
+  for (let n = 1; n < 1000; n++) {
+    const p = safeJoin(vault, dir, n === 1 ? `${date}.md` : `${date}-${n}.md`);
+    try {
+      fs.writeFileSync(p, `# ${title} ${date}\n\n${body}\n`, { flag: 'wx' });
+      return p;
+    } catch (e) {
+      if (e.code !== 'EEXIST') throw e;
+    }
+  }
+  throw new Error(`no free note name today in ${dir}`);
+}
+
+/** A census reads and fixes nothing, so it must not reset a project's sweep age. */
+export const lastSweeps = (vault) => latestBy(vault, (r) => r.strategy !== 'census');
+export const lastCensuses = (vault) => latestBy(vault, (r) => r.strategy === 'census');
+
+/** Latest ts per project from ledger.jsonl among matching records. Returns {slug: isoDate}. */
+function latestBy(vault, keep) {
   const out = {};
   if (!vault) return out;
   let text = '';
@@ -76,7 +96,7 @@ export function lastSweeps(vault) {
     if (!l.trim()) continue;
     let r;
     try { r = JSON.parse(l); } catch { continue; }
-    if (!r.project || !r.ts) continue;
+    if (!r.project || !r.ts || !keep(r)) continue;
     if (!out[r.project] || r.ts > out[r.project]) out[r.project] = r.ts;
   }
   return out;
