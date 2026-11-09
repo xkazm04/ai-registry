@@ -1,7 +1,8 @@
 // A hung gate step used to hold the CI job until GitHub's 360-minute default: gate.mjs
 // spawned each step with no ceiling, and a deadlocked child prints nothing and never
 // fails. These tests run the real gate.mjs against a temp tree whose first step hangs
-// and prove the step is stopped, named "timed out", and exits FATAL before the next step.
+// and prove the step is stopped, named "timed out", and exits FATAL. Check mode keeps
+// going past it (the later steps still report); --fail-fast stops before the next step.
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import fs from 'node:fs';
@@ -20,6 +21,7 @@ function tree(sources) {
   fs.mkdirSync(path.join(scripts, 'lib'), { recursive: true });
   fs.copyFileSync(new URL('../gate.mjs', import.meta.url), path.join(scripts, 'gate.mjs'));
   fs.copyFileSync(new URL('../lib/exit-codes.mjs', import.meta.url), path.join(scripts, 'lib/exit-codes.mjs'));
+  fs.copyFileSync(new URL('../lib/gate-plan.mjs', import.meta.url), path.join(scripts, 'lib/gate-plan.mjs'));
   for (const [name, src] of Object.entries(sources)) fs.writeFileSync(path.join(scripts, name), src);
   return { root, gate: path.join(scripts, 'gate.mjs') };
 }
@@ -30,7 +32,7 @@ function cleanup(root) {
   fs.rmSync(root, { recursive: true, force: true });
 }
 
-const run = (gate, root, env) => spawnSync(process.execPath, [gate, '--lane', 'recipes'], {
+const run = (gate, root, env, extra = []) => spawnSync(process.execPath, [gate, '--lane', 'recipes', ...extra], {
   cwd: root, encoding: 'utf8', timeout: 20_000, env: { ...process.env, ...env },
 });
 
@@ -39,18 +41,39 @@ const run = (gate, root, env) => spawnSync(process.execPath, [gate, '--lane', 'r
 const HANG = "setInterval(() => {}, 1e9); setTimeout(() => process.exit(0), 25_000);\n";
 const LATER = "import fs from 'node:fs'; fs.writeFileSync('unexpected-later-step', 'ran');\n";
 
-test('a hung step is stopped at the ceiling, named "timed out", and the chain stops', () => {
+test('a hung step is stopped at the ceiling, named "timed out", and the run keeps going', () => {
   const { root, gate } = tree({
     'check-recipes.mjs': HANG,
     'render-recipes.mjs': LATER,
     'build-recipes-index.mjs': LATER,
   });
   try {
-    const r = run(gate, root, { [ENV]: '500' });
+    // 4s, not 500 ms: the later steps run beside the hung one and must finish inside the
+    // same ceiling even when the machine is saturated (a full gate run starts node slowly).
+    const r = run(gate, root, { [ENV]: '4000' });
+    assert.ifError(r.error);
+    assert.equal(r.status, EXIT.FATAL);
+    assert.match(r.stderr, /check-recipes\.mjs timed out after 4000 ms/);
+    assert.doesNotMatch(r.stderr, /killed by/);
+    assert.match(r.stdout, /timed-out\s+-\s+\d+\s+check-recipes\.mjs --shape-only/);
+    assert.match(r.stdout, /0 violations, 1 incomplete/);
+    assert.equal(fs.existsSync(path.join(root, 'unexpected-later-step')), true, 'keep-going did not run the later steps');
+  } finally {
+    cleanup(root);
+  }
+});
+
+test('under --fail-fast a hung step stops the chain before the next step', () => {
+  const { root, gate } = tree({
+    'check-recipes.mjs': HANG,
+    'render-recipes.mjs': LATER,
+    'build-recipes-index.mjs': LATER,
+  });
+  try {
+    const r = run(gate, root, { [ENV]: '500' }, ['--fail-fast']);
     assert.ifError(r.error);
     assert.equal(r.status, EXIT.FATAL);
     assert.match(r.stderr, /check-recipes\.mjs timed out after 500 ms/);
-    assert.doesNotMatch(r.stderr, /killed by/);
     assert.equal(fs.existsSync(path.join(root, 'unexpected-later-step')), false);
   } finally {
     cleanup(root);

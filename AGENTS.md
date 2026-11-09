@@ -46,8 +46,10 @@ node scripts/gate.mjs --lane recipes --write
 node scripts/review-inventory.mjs
 ```
 
-Use the lane-specific gate during development and the full chain before handing off
-cross-lane changes. PR version checks additionally compare skills and recipes against
+Use the lane-specific gate (or `--changed`) during development and the full chain before
+handing off cross-lane changes. Check mode runs every step and ends with a verdict table;
+exit 1 = violations, 2 = a step could not run or timed out (`--fail-fast` restores
+stop-at-first-red; `--json` gives a machine-readable result). PR version checks additionally compare skills and recipes against
 the PR base. A blocked subprocess or missing evidence is an incomplete check, not a
 content verdict. Report what ran, what failed, and what was not evaluated.
 

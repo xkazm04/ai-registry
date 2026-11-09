@@ -25,7 +25,11 @@ jobs:
           fetch-depth: 0
       - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
         with:
-          node-version: '20'
+          # Node 24: every reporting installation runs it, and run-tests.mjs probes
+          # node:sqlite and type stripping, which Node 20 lacks (13 test files skipped).
+          node-version: '24'
+      # Keeps going past a red step and ends with one verdict row per step, so one red
+      # never hides the rest; exit 1 = violations, 2 = a step could not run or timed out.
       - run: node scripts/gate.mjs --all
       # Version discipline runs on EVERY event. It used to sit under
       # `if: pull_request`, and work lands on main by push: a skipped step reads as
