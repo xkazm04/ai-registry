@@ -93,8 +93,16 @@ export function runSeat({ argv, stdin, env }, { cwd, timeoutMs, logDir, label, p
     p.on('error', (e) => { err.write(`spawn error: ${e.message}\n`); });
     p.on('close', (code) => {
       clearTimeout(timer);
-      out.end(); err.end();
-      resolve({ exit: code, timedOut, stdout: Buffer.concat(chunks).toString('utf8'), wall_s: Math.round((Date.now() - t0) / 10) / 100, label });
+      const result = { exit: code, timedOut, stdout: Buffer.concat(chunks).toString('utf8'), wall_s: Math.round((Date.now() - t0) / 10) / 100, label };
+      // Resolve only once both logs are on disk and their handles are released. Resolving
+      // right after end() let a caller read stdout.log before the stream had opened it
+      // (ENOENT under load: the gate's test step failed on this twice on 2026-11-09), and on
+      // Windows let it try to remove the worktree while a handle was still open. 'close'
+      // fires after a flush and after an error alike, so a log that cannot be written never
+      // hangs the seat.
+      let open = 2;
+      const done = () => { if (--open === 0) resolve(result); };
+      for (const s of [out, err]) { s.on('error', () => {}); s.once('close', done); s.end(); }
     });
     p.stdin.on('error', () => {});
     p.stdin.end(stdin ?? '');
