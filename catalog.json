@@ -287,6 +287,25 @@
       "tokensBasis30d": "exact"
     },
     {
+      "name": "daybreak",
+      "version": "1.0.0",
+      "category": "workflow",
+      "path": "skills/daybreak/SKILL.md",
+      "contentHash": "sha256-n1:1a2bedfc21e1a410",
+      "adopters": [],
+      "invokes30d": 0,
+      "reportedInvokes": 0,
+      "lessons": 1,
+      "lessonsPath": "skills/daybreak/LESSONS.md",
+      "lessonsHash": "sha256-n1:f246ac6197df822e",
+      "usageContributors": [],
+      "runs30d": 0,
+      "outcomes30d": {},
+      "difficulty30d": null,
+      "tokensMedian30d": null,
+      "tokensBasis30d": null
+    },
+    {
       "name": "demo-film",
       "version": "0.1.6",
       "category": "workflow",
@@ -1187,10 +1206,10 @@
     }
   ],
   "counts": {
-    "skills": 44,
+    "skills": 45,
     "practices": 8,
     "memory": 10,
-    "lessons": 388
+    "lessons": 389
   },
   "bundles": [
     {
