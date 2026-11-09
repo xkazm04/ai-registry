@@ -36,13 +36,24 @@ and provider-backed tools may require their own dependencies and credentials.
 
 ## Lane gates (run locally before pushing)
 
-One command runs the whole chain in the order CI runs it:
+One command runs the whole chain CI runs:
 
 ```sh
-node scripts/gate.mjs --all             # every gate CI enforces, first red wins
+node scripts/gate.mjs --all             # every gate CI enforces; runs every step, then a verdict table
 node scripts/gate.mjs --lane skills     # just the row for the lane you touched
+node scripts/gate.mjs --changed         # only the rows your change touches (vs upstream/origin/main)
 node scripts/gate.mjs --lane knowledge --write   # regenerate instead of --check
 ```
+
+Check mode keeps going: every step runs (concurrently, `--jobs <n>`), and the run ends
+with one row per step - `ok`, `violations`, `could-not-run` or `timed-out` - so one red
+never hides the rest. Exit 1 means some step found violations (the closing line still
+counts any step that did not finish); 2 means none found violations but some step could
+not run or timed out. `--fail-fast` stops at the first red, one step at a time; `--write`
+always does. `--json` prints one machine-readable result on stdout. `--changed` falls
+back to the whole chain when a changed path belongs to no lane, and says which path.
+The row tagged `[calendar]` (`check-coverage-age.mjs`) can go red with no change: it
+means the fleet is unobserved, not that your change broke something.
 
 The table below is the same thing spelled out - it is the explanation, and
 `.github/workflows/` is the enforcement. When they disagree, the workflows win.

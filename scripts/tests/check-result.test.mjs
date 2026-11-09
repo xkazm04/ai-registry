@@ -31,18 +31,21 @@ test('a completed checker distinguishes valid content from violations', () => {
   assert.equal(classifyCheckResult({ status: 1 }).code, EXIT.VIOLATIONS);
 });
 
-test('the real gate reports undeclared child exits as incomplete and stops the chain', () => {
+// Under --fail-fast (the gate's historical stop-at-first-red); the keep-going default is
+// covered by scripts/tests/gate-cli.test.mjs and gate-runner.test.mjs.
+test('the real gate reports undeclared child exits as incomplete and, under --fail-fast, stops the chain', () => {
   const root = fs.mkdtempSync(path.join(os.tmpdir(), 'registry-gate-exit-'));
   try {
     const scripts = path.join(root, 'scripts');
     fs.mkdirSync(path.join(scripts, 'lib'), { recursive: true });
     fs.copyFileSync(new URL('../gate.mjs', import.meta.url), path.join(scripts, 'gate.mjs'));
     fs.copyFileSync(new URL('../lib/exit-codes.mjs', import.meta.url), path.join(scripts, 'lib/exit-codes.mjs'));
+    fs.copyFileSync(new URL('../lib/gate-plan.mjs', import.meta.url), path.join(scripts, 'lib/gate-plan.mjs'));
     fs.writeFileSync(path.join(scripts, 'check-recipes.mjs'), 'process.exit(97);\n');
     const later = "import fs from 'node:fs'; fs.writeFileSync('unexpected-later-step', 'ran');\n";
     fs.writeFileSync(path.join(scripts, 'render-recipes.mjs'), later);
     fs.writeFileSync(path.join(scripts, 'build-recipes-index.mjs'), later);
-    const result = spawnSync(process.execPath, [path.join(scripts, 'gate.mjs'), '--lane', 'recipes'], {
+    const result = spawnSync(process.execPath, [path.join(scripts, 'gate.mjs'), '--lane', 'recipes', '--fail-fast'], {
       cwd: root, encoding: 'utf8', timeout: 10_000,
     });
     assert.ifError(result.error);

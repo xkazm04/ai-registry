@@ -461,10 +461,12 @@ test('CLI: the index carries the critique selector - completed reviewers, rounds
 });
 
 test('gate.mjs declares a publications lane, and --all runs both steps', () => {
-  const src = fs.readFileSync(path.join(root, 'scripts/gate.mjs'), 'utf8');
-  assert.match(src, /publications: \[CHECK_PUBLICATIONS, PUBLICATIONS_INDEX\]/);
-  const all = /const ALL = \[([\s\S]*?)\];/.exec(src)[1];
-  assert.match(all, /CHECK_PUBLICATIONS, PUBLICATIONS_INDEX/);
+  // The plan as data (gate.mjs derives --all and every row from one table).
+  const plan = JSON.parse(node(['scripts/gate.mjs', '--list']).stdout);
+  const pair = ['check-publications.mjs', 'build-publications-index.mjs --check'];
+  assert.deepEqual(plan.lanes.publications, pair);
+  const at = plan.all.indexOf(pair[0]);
+  assert.ok(at !== -1 && plan.all[at + 1] === pair[1], 'the gate runs before the index it presupposes, adjacent');
   const help = node(['scripts/gate.mjs', '--help']);
   assert.match(help.stderr, /publications/);
 });

@@ -107,11 +107,11 @@ test('an unknown flag exits 2', (t) => {
 });
 
 test('gate.mjs runs it in the librarian row and in --all', () => {
-  const src = fs.readFileSync(new URL('../gate.mjs', import.meta.url), 'utf8');
-  assert.match(src, /const RUN_RESULTS = step\('check-run-results\.mjs'\)/);
-  assert.match(src, /librarian: \[[^\]]*\bRUN_RESULTS\b[^\]]*\]/);
-  const all = /const ALL = \[([\s\S]*?)\];/.exec(src)[1];
-  assert.match(all, /\bRUN_RESULTS\b/);
+  // The plan as data (gate.mjs derives --all and every row from one table).
+  const gate = fileURLToPath(new URL('../gate.mjs', import.meta.url));
+  const plan = JSON.parse(spawnSync(process.execPath, [gate, '--list'], { encoding: 'utf8' }).stdout);
+  assert.ok(plan.lanes.librarian.includes('check-run-results.mjs'));
+  assert.ok(plan.all.includes('check-run-results.mjs'));
 });
 
 test('the real tree exits 0', () => {

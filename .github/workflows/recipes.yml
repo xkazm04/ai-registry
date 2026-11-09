@@ -19,7 +19,7 @@ jobs:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
         with:
-          node-version: '20'
+          node-version: '24'
       - run: node scripts/gate.mjs --lane recipes
 
   version:
@@ -31,7 +31,7 @@ jobs:
           fetch-depth: 0
       - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
         with:
-          node-version: '20'
+          node-version: '24'
       # Runs on push AND pull_request: work lands on main by push, and a PR-only
       # job let 82 unbumped recipe landings through (31d7d204 alone holds 81).
       - name: Check every changed recipe carries a version bump
