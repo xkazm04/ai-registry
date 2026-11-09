@@ -52,7 +52,7 @@
  *   node consult-check.mjs                      # staged paths in the cwd's project
  *   node consult-check.mjs --project <path>     # somewhere else
  *   node consult-check.mjs --paths a.ts,b.ts    # explicit, for tests and skills
- *   node consult-check.mjs --since HEAD~3       # a range rather than the index
+ *   node consult-check.mjs --since HEAD~3       # what HEAD changed since it left <ref>, not the index
  *   node consult-check.mjs --window 240         # minutes a consult stays fresh
  *   node consult-check.mjs --exit-code          # exit 1 on a miss (CI, never a hook)
  *   node consult-check.mjs --json               # machine-readable, for a skill
@@ -190,7 +190,9 @@ function changedPaths() {
 
   const since = valueOf('--since');
   const args = since
-    ? ['diff', '--name-only', '--diff-filter=ACMR', `${since}..HEAD`]
+    // Three dots: what this branch changed since it left <ref>. Two dots charge a stale branch
+    // with everything <ref> gained after the fork, a miss for a file the branch never touched.
+    ? ['diff', '--name-only', '--diff-filter=ACMR', `${since}...HEAD`]
     : ['diff', '--cached', '--name-only', '--diff-filter=ACMR'];
   const r = spawnSync('git', args, { cwd: projectRoot, encoding: 'utf8' });
   if (r.status !== 0) {

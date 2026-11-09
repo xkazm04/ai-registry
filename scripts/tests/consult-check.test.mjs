@@ -185,6 +185,54 @@ test('a git that cannot answer is a stated reason, never "nothing staged"',t=>{
  assert.equal(JSON.parse(call(['--json']).stdout).skipped,'no-paths','a real repo with nothing staged is still "no-paths"');
 });
 
+/** A real repository for the --since cases: `.ai` stays untracked, so only `app/` is in history. */
+function repoFixture(t){
+ const root=project(t,{contexts:[ctx('tables',['app/table'],['table']),ctx('other',['app/other'],['data-access'])],ledger:''});
+ const git=(...a)=>{
+  const r=spawnSync('git',['-c','user.name=x','-c','user.email=x@x','-c','commit.gpgsign=false',...a],{cwd:root,encoding:'utf8'});
+  assert.equal(r.status,0,`git ${a.join(' ')}: ${r.stderr}`);
+  return r.stdout.trim();
+ };
+ const put=(f,s)=>{fs.mkdirSync(path.dirname(path.join(root,f)),{recursive:true});fs.writeFileSync(path.join(root,f),s);};
+ const commit=(m,...f)=>{git('add','--',...f);git('commit','-qm',m);};
+ git('init','-q','-b','main');
+ put('app/other/Shared.ts','one\n');put('app/table/Grid.tsx','one\n');
+ commit('base','app');
+ const since=(ref)=>{
+  const r=spawnSync(process.execPath,[SCRIPT,'--project',root,'--since',ref,'--json','--no-record'],{encoding:'utf8'});
+  return JSON.parse(r.stdout);
+ };
+ return {git,put,commit,since};
+}
+
+test('--since a ref that moved on charges the branch only with its own files',t=>{
+ // main..HEAD on a stale branch names everything main gained since the fork as this branch's
+ // change, so a commit that never touched data-access reported a missed consult for it.
+ const {git,put,commit,since}=repoFixture(t);
+ git('checkout','-qb','feature');
+ put('app/table/Grid.tsx','two\n');commit('feature','app/table');
+ git('checkout','-q','main');
+ put('app/other/Shared.ts','landed on main after the fork\n');commit('in-between','app/other');
+ git('checkout','-q','feature');
+ assert.deepEqual(since('main').missed.map(m=>m.subject),['table']);
+});
+
+test('--since an ancestor and --since a rebased base still see the same change',t=>{
+ const {git,put,commit,since}=repoFixture(t);
+ git('checkout','-qb','feature');
+ put('app/table/Grid.tsx','two\n');commit('feature','app/table');
+ assert.deepEqual(since('HEAD~1').missed.map(m=>m.subject),['table'],'an ancestor ref is the case the flag was written for');
+ assert.deepEqual(since('main').missed.map(m=>m.subject),['table'],'a branch already on main has one answer under either range');
+});
+
+test('--since a ref with no common ancestor is a check that could not run, not an empty diff',t=>{
+ const {git,put,commit,since}=repoFixture(t);
+ git('checkout','-q','--orphan','island');
+ git('rm','-rfq','--cached','.');
+ put('app/table/Grid.tsx','island\n');commit('island','app/table');
+ assert.equal(since('main').skipped,'git-failed');
+});
+
 test('a conform-ledger path beside real code still checks the code',t=>{
  const root=project(t,{contexts:[ctx('tables',['app/table'],['table'])],ledger:''});
  const {out}=run(root,'.ai/registry-map.json,app/table/Grid.tsx',['--no-record']);

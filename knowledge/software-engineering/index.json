@@ -29785,9 +29785,9 @@
    "subcategory": "standards-and-gates",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-process/standards-and-gates/quality-gates/quality-gates.md",
-   "digest": "sha256-b2:a5b34d39a4b8edd3",
-   "revision": 56,
-   "changedAt": "2026-11-06",
+   "digest": "sha256-b2:8a91e64d2ae59483",
+   "revision": 57,
+   "changedAt": "2026-11-09",
    "techniques": [
     {
      "slug": "advancement-evidence-fields",
@@ -29835,7 +29835,9 @@
       "reviewers keep approving work that belongs to another proposal",
       "a contributor branches from their own previous branch by habit",
       "deciding what a push-stage gate can check that a content gate cannot",
-      "a merged proposal silently delivered a second unreviewed change"
+      "a merged proposal silently delivered a second unreviewed change",
+      "a review or gate lists what a branch changed while the integration branch has moved on",
+      "squashing a branch that was never rebased"
      ]
     },
     {

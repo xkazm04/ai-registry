@@ -1,0 +1,50 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "hb-1109h",
+  "skill": "harvest",
+  "skill_version": "0.7.0",
+  "mode": "backlog",
+  "domain": "software-engineering",
+  "started_at": "2026-11-09T10:58:28Z",
+  "ended_at": "2026-11-09T11:08:21Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 1,
+    "landed": 1,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "software-engineering/quality-gates",
+      "at": "2026-11-09",
+      "engine": "shift",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "software-engineering/quality-gates",
+      "technique": "branch-provenance-gate",
+      "verdict": "better",
+      "mode": "code"
+    }
+  ],
+  "files": [
+    "knowledge/software-engineering/engineering-process/standards-and-gates/quality-gates/techniques/branch-provenance-gate.md",
+    "librarian/sources/2026-09-03-voicebox.md",
+    "librarian/subjects/software-engineering/quality-gates.md",
+    "scripts/consult-check.mjs",
+    "scripts/tests/consult-check.test.mjs",
+    "librarian/applied.md",
+    "librarian/harvest/backlog.jsonl"
+  ],
+  "commits": [],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "Backlog wave, /shift filler, one seat. 4-075 better (code), landed. 4-056 covered. 4-073 unmeasurable, instrument named. 4-031 passed over with 4-028 and 4-030: cluster banked by a handoff. No GPU, no build-class gate, no other project written."
+}

@@ -1,8 +1,8 @@
 ---
 subject: quality-gates
 domain: software-engineering
-last_touched: 2026-11-06
-touched_by: intake
+last_touched: 2026-11-09
+touched_by: harvest
 dry_streak: 0
 ---
 
@@ -1118,3 +1118,12 @@ Second application of `prose-rule-drift` (`rust--prose-rule-drift--panic-lint`):
 of 19 roots with the one unguarded root and a prose-only indexing rule; the layering checker already
 visits every crate and does not assert the attribute. Fleet census 0 of 17 / 44 / 6 roots; personas holds the
 rule as a measured ratchet. Verdict unmeasurable.
+
+## 2026-11-09 - /harvest backlog 4-075 ([[2026-09-03-voicebox]], /shift filler)
+
+Amendment to `branch-provenance-gate`, better, code: a branch's change set is measured from the
+fork. The seam is this registry's `scripts/consult-check.mjs --since`, red on a stale branch before
+the change and green after, 18 of 18 in its test file. The row's stated mechanism did not survive:
+a three-way squash kept every in-between change, and only a soft reset onto the target tip reverted
+them. A two-dot log range is correct, so the rule is about diffs. Weakest points: a latent seam, since
+no caller passes a diverged ref today, and no hosting provider's merge was run.

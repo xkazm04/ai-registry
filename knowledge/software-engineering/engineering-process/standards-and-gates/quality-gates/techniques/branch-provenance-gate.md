@@ -6,7 +6,9 @@ technique: branch-provenance-gate
 status: forged
 laws: [gate-sees-target, absent-guard-is-loud, count-carries-predicate]
 shared_with: []
-use_when: [a proposal's diff contains commits its author did not write, reviewers keep approving work that belongs to another proposal, a contributor branches from their own previous branch by habit, deciding what a push-stage gate can check that a content gate cannot, a merged proposal silently delivered a second unreviewed change]
+use_when: [a proposal's diff contains commits its author did not write, reviewers keep approving work that belongs to another proposal, a contributor branches from their own previous branch by habit, deciding what a push-stage gate can check that a content gate cannot, a merged proposal silently delivered a second unreviewed change, a review or gate lists what a branch changed while the integration branch has moved on, squashing a branch that was never rebased]
+applied: code
+ab_verdict: better
 ---
 
 # The branch-provenance gate
@@ -56,6 +58,40 @@ fact, and reading it off the graph is exact — which is why this gate has no
 false-positive taxonomy to tune. It answers one question, about ancestry, and
 nothing else
 ([gate-sees-target](../../../../_laws.md#gate-sees-target)).
+
+## A branch's change set is measured from where it left
+
+The same relationship breaks a quieter way, in the range expression a review or a
+gate uses to ask what this branch changed. **A diff between the two tips answers a
+different question from a diff against the fork point**, and they agree only while the
+integration branch stands still.
+
+- `diff base..head` compares the two tips. On a branch that has fallen behind, every
+  path the integration branch gained since the fork appears as this branch undoing it.
+- `diff base...head` compares the merge base to the head: this branch's own change,
+  however far the integration branch has moved.
+- `log base..head` is correct as written, because a log range is about reachable
+  commits. The defect belongs to the diff, so a rule that bans the two-dot spelling
+  outright also bans the log range that gets the commit list right.
+
+Measured on a real history, with a branch cut 30 commits behind its integration tip
+and one file of its own: the two-tip diff named 60 paths, the fork-point diff named
+1. In a fixture repository, a change-selecting gate reading the two-tip diff charged a
+stale branch a missed-consult finding for a subject whose files only the integration
+branch had touched, and the fork-point range cleared it. An ancestor ref and a branch already on
+the integration tip give the same answer under either range, so the correction moves
+nothing that was right. Refs with no common ancestor have no fork point, so the range
+fails: report a check that could not run, never read that as an empty change set
+([gate-sees-target](../../../../_laws.md#gate-sees-target)).
+
+**A squash does not inherit this defect from the diff.** A three-way squash takes the
+merge base into account: on that same stale branch it changed only the branch's own
+path against the integration tip, and every in-between change stayed. The revert
+belongs to a *tree-copy* squash, a soft reset onto the integration tip and a commit,
+which records the branch's old tree as the new tip: 60 paths changed against the
+integration tip in that measurement, 59 of them the in-between work. Rebase first, or squash against the merge base; never soft-reset to the
+target tip of a branch that is behind it. This was measured with local three-way
+squash and merge-tree, not on any hosting provider's merge button.
 
 ## The rules that keep it honest
 
