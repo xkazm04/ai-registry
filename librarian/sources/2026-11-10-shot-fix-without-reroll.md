@@ -136,6 +136,13 @@ web fetch.
   against a new take. **It would decide** whether gravitone's `rough` stage gets a fix step before a
   re-roll is priced. **The test must measure what the source skipped:** diff what the edit was not asked
   to change (identity, timing per beat, framing) against the kept clip.
+  **Later voice, 2026-11-11:** a vendor post claims hosted "reference-guided editing" that replaces an
+  outfit, a prop or the world while keeping the performance and timing. It shows nothing and names no
+  open edit mode. It suggests a third arm that needs no download: the kept rough clip as a video reference
+  on the stock Ref2VA node, with new image references for the changed look. That node has a group named
+  `ref_video_audios`, but that is only a name read from `/object_info`. Whether a video reference carries
+  timing or only appearance is what the arm must find out. The return condition is unchanged. See
+  [2026-11-11-video-and-voice-for-productions](2026-11-11-video-and-voice-for-productions.md), row P8.
 - **B2** and **B3** as in the table, each with its return condition.
 - **2026-11-06 tiled-sampler row 2** (not a new lead): now two voices, neither measured. Return when the
   H3 3D latent upscaler is on disk; ComfyUI 0.44 is no longer the blocker. The proof's shape, if banked

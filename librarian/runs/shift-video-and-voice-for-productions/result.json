@@ -1,0 +1,78 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "shift-video-and-voice-for-productions",
+  "skill": "shift",
+  "skill_version": "0.6.0",
+  "mode": "source",
+  "domain": "media-generation",
+  "started_at": "2026-11-11T00:00:00Z",
+  "ended_at": "2026-11-11T12:00:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 1,
+    "declined": 0,
+    "idled": 2,
+    "contended": 0,
+    "held": 2
+  },
+  "subjects": [
+    {
+      "id": "media-generation/creator-voice-and-tone",
+      "at": "2026-11-11",
+      "engine": "shift",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    },
+    {
+      "id": "media-generation/video-assembly",
+      "at": "2026-11-11",
+      "engine": "shift",
+      "outcome": "held",
+      "points_before": null,
+      "points_after": null
+    },
+    {
+      "id": "media-generation/video-generation",
+      "at": "2026-11-11",
+      "engine": "shift",
+      "outcome": "held",
+      "points_before": null,
+      "points_after": null
+    },
+    {
+      "id": "software-engineering/speech-timing-timeline",
+      "at": "2026-11-11",
+      "engine": "shift",
+      "outcome": "idled",
+      "points_before": null,
+      "points_after": null
+    },
+    {
+      "id": "media-generation/multi-speaker-speech-production",
+      "at": "2026-11-11",
+      "engine": "shift",
+      "outcome": "idled",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [],
+  "files": [
+    "librarian/sources/2026-11-11-video-and-voice-for-productions.md",
+    "librarian/sources/2026-11-06-minimax-h3-tiled-sampler.md",
+    "librarian/sources/2026-11-10-shot-fix-without-reroll.md",
+    "librarian/sources/2026-09-02-sherpa-onnx.md",
+    "knowledge/media-generation/narrative-craft/creator-voice-and-tone/applications/process--spoken-delivery-direction.md",
+    "librarian/sources/index.md",
+    ".claude/skills/intake/SCORECARD.md",
+    "librarian/harvest/backlog.jsonl",
+    "librarian/runs/shift-video-and-voice-for-productions/result.json"
+  ],
+  "commits": [],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "0 accepts at +3; 4 leads, 12 catches, 8 untriaged, 4 currency. Currency line on the casting ledger. Held: CPU arm shift-replica-voice-refaudios-d1, GPU proof shift-proof-h3-flex-fl2va-6step (download gate). Second voice engine: E1 proposal, Fish terms unread."
+}

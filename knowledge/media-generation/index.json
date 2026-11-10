@@ -1370,9 +1370,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/media-generation/narrative-craft/creator-voice-and-tone/creator-voice-and-tone.md",
-   "digest": "sha256-b2:750a2ae7e033a1e6",
-   "revision": 5,
-   "changedAt": "2026-10-14",
+   "digest": "sha256-b2:fcebacfd9c016c12",
+   "revision": 6,
+   "changedAt": "2026-11-11",
    "techniques": [
     {
      "slug": "delivery-rate-budgeting",
