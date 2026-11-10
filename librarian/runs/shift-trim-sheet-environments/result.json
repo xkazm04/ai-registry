@@ -1,0 +1,66 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "shift-trim-sheet-environments",
+  "skill": "shift",
+  "skill_version": "0.6.0",
+  "mode": "source",
+  "domain": "game-production",
+  "started_at": "2026-11-10T00:00:00Z",
+  "ended_at": "2026-11-10T22:38:32Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 0,
+    "declined": 0,
+    "idled": 3,
+    "contended": 0,
+    "held": 0
+  },
+  "subjects": [
+    {
+      "id": "game-production/tiling-texture-acceptance",
+      "at": "2026-11-10",
+      "engine": "shift",
+      "outcome": "idled",
+      "points_before": null,
+      "points_after": null
+    },
+    {
+      "id": "game-production/sprite-and-atlas-production",
+      "at": "2026-11-10",
+      "engine": "shift",
+      "outcome": "idled",
+      "points_before": null,
+      "points_after": null
+    },
+    {
+      "id": "game-production/mesh-finishing-for-engine-readiness",
+      "at": "2026-11-10",
+      "engine": "shift",
+      "outcome": "idled",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "game-production/tiling-texture-acceptance",
+      "technique": "texel-density-and-uv-tiling",
+      "verdict": "better",
+      "mode": "code"
+    }
+  ],
+  "files": [
+    "librarian/sources/2026-11-10-trim-sheet-environments.md",
+    "librarian/sources/2026-11-10-agent-built-3d-loop.md",
+    "librarian/sources/index.md",
+    "librarian/applied.md",
+    ".claude/skills/intake/SCORECARD.md",
+    "librarian/runs/shift-trim-sheet-environments/result.json"
+  ],
+  "commits": [],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "No subject owns the trim sheet; T1+T2 2/0/2 untriaged, one voice. S4 lead (11-10 3d-loop note) refined. texel-density-and-uv-tiling applied in pof on unmerged branch backlog/trim-arc-length-u: 10 m rope 410 -> 1024 px/m, control held."
+}

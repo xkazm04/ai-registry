@@ -187,6 +187,13 @@ at which point `agent-run-budgeting` can take one order-of-magnitude line on dur
   separate layouts that the stretch grade calls clean?). **Also owed regardless:** an application or
   amendment recording PoF's stretch grade and its blind A/B in `mesh-finishing-for-engine-readiness`.
   That is a `/deepen` or `/librarian` job against the tree, not this cluster's.
+  **Boundary (2026-11-10, trim-sheet-environments):** a trim or tiling layout fails two of the three
+  measures by design. Its U runs outside the 0-1 square, and many faces share one strip, so their
+  islands overlap. So the layout check branches on the recorded unwrap intent (unique, trim or
+  tiling), and coverage and overlap run on unique layouts only. The stretch grade is a per-triangle
+  ratio of UV area to world area, position-free, so it stays valid for all three. That source shows a
+  messy layout that is correct, not an unwrap failing on layout, so it does not fire this return
+  condition.
 - **F12. Does a self-review kit ever refuse?** The kit drives two desktop tools, installs plugins into
   one of them without asking, and loops on its own screenshots. Across a complete transcript the
   captions show no check that the agent did not choose: no size target, no reference crop, no budget.
