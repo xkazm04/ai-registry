@@ -36,6 +36,7 @@ techniques:
   - compaction-target-is-an-aim
   - compaction-is-a-fixed-point
   - cache-affinity-key-from-the-unrewritable-layer
+  - model-curated-context
 ---
 
 # Prompt assembly & context budgeting
@@ -552,3 +553,9 @@ disappearing.
   derived from the first message breaks under compaction, deriving it from the
   standing layer, the shared-key concentration and its override, and the test that
   must rewrite the head to reach the defect.
+- [model-curated-context](./techniques/model-curated-context.md) — the model
+  under work as the editor of record of a client-held list: when it beats a
+  summary (a tight budget, a capable model) and when it ties, the one overflow
+  guard the client keeps and why its firing rate is the evidence the policy ran,
+  the cache slope when the model chooses edit position and cadence, and every
+  self-edit through the summary's validation door.

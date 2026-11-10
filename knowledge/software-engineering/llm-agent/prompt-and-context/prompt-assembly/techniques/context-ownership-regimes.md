@@ -102,6 +102,16 @@ Three consequences:
   capability lookup: a protocol that holds the conversation on its side is
   never in the client-held column, whatever its model advertises.
 
+## Inside the client-held regime, a second editor
+
+Holding the list and editing it can come apart. When the model under work is
+given its context as a document it may rewrite, the client still holds and
+sends the list, but the editor of record is the model.
+[model-curated-context](./model-curated-context.md) covers that case, and the
+exclusivity argument above carries over unchanged: client compaction and client
+editing are off, and the client keeps only a deterministic overflow guard whose
+firing it counts.
+
 ## Decision rules
 
 - Ask, per adapter and per request, who holds the transcript between turns;

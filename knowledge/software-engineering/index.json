@@ -4,7 +4,7 @@
   "bundle": "software-engineering",
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 245,
-  "techniques": 1995,
+  "techniques": 1996,
   "applications": 1501,
   "laws": 16,
   "categories": [
@@ -20,7 +20,7 @@
    "secret-custody-and-issuance"
   ],
   "layout": "nested",
-  "use_when_coverage": "1995/1995",
+  "use_when_coverage": "1996/1996",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -28492,8 +28492,8 @@
    "subcategory": "prompt-and-context",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/prompt-and-context/prompt-assembly/prompt-assembly.md",
-   "digest": "sha256-b2:b5ed2117eab82d89",
-   "revision": 46,
+   "digest": "sha256-b2:806973b2fe361d03",
+   "revision": 47,
    "changedAt": "2026-11-10",
    "techniques": [
     {
@@ -28877,6 +28877,25 @@
       "the model is handed a fresh copy and has to work out what moved",
       "an attachment is deleted or closed mid-conversation",
       "a cached prefix is invalidated by material that did not change"
+     ]
+    },
+    {
+     "slug": "model-curated-context",
+     "status": "forged",
+     "laws": [
+      "one-validation-door",
+      "count-carries-predicate",
+      "gate-sees-target"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "deciding whether the model should edit its own context instead of the client compacting it",
+      "a harness exposes the context as a file or document the model can rewrite with its ordinary tools",
+      "a self-editing run shows the overflow fallback doing the work",
+      "the model is asked to manage its context and rarely does",
+      "a self-editing agent's cache bill rises although its context stays small",
+      "choosing between a summary and self-editing at a given context budget",
+      "text from a tool result reappears in the agent's own notes on later turns"
      ]
     },
     {
@@ -43519,6 +43538,7 @@
     "prompt-assembly/consumer-coupled-decoration",
     "prompt-assembly/contributed-document-admission",
     "prompt-assembly/fingerprinting-and-cache-keys",
+    "prompt-assembly/model-curated-context",
     "prompt-assembly/recovery-path-as-loss-signal",
     "prompt-assembly/task-envelope",
     "prompt-safety/canary-tripwires",
@@ -44871,6 +44891,7 @@
     "prompt-assembly/context-budgeting",
     "prompt-assembly/context-reachability",
     "prompt-assembly/history-compaction",
+    "prompt-assembly/model-curated-context",
     "prompt-assembly/pinned-prompt-clock",
     "prompt-assembly/recovery-path-as-loss-signal",
     "prompt-assembly/response-reservation-sizing",
@@ -45526,6 +45547,7 @@
     "priced-authority/approver-not-requester",
     "probe-confirmed-model-proposals/probe-per-proposed-line",
     "prompt-assembly/layered-composition",
+    "prompt-assembly/model-curated-context",
     "prompt-assembly/summary-evidence-gate",
     "prompt-safety/input-caps-and-clamps",
     "prompt-safety/model-output-as-untrusted",

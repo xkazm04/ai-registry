@@ -2,8 +2,8 @@
 domain: software-engineering
 subject: prompt-assembly
 last_touched: 2026-11-10
-touched_by: deepen, intake
-dry_streak: 1
+touched_by: deepen, intake, shift
+dry_streak: 0
 ---
 
 # prompt-assembly
@@ -613,3 +613,24 @@ Training-data-first probes over nine claims round 1 did not touch. **Not dry.** 
 ### Round 3 (final probe round, same run)
 
 **Dry.** Nine probes over claims rounds 1-2 did not touch: three confirmed on vendor pages (a dangling tool call fails the next request; overflow routing and its automatic default per the caching guide), three design rules confirmed by probe, one (system-role refusal) not checked online and not counted. Two proposed edits were below the bar and banked rather than landed: a dated pricing sentence (one new small model charges more above a context threshold, which the technique's per-model rule already covers) and "opaque" to "sealed" for a provider compaction summary that is readable text plus a signature (return: a fleet tree post-processes a provider summary, or a second provider's compaction reference is read). dry_streak 1. Loop ended at its cap of 3; saturation needs one more dry pass.
+
+## 2026-11-10 - /shift intake, cluster `context-self-editing` ([[2026-11-10-context-self-editing]], run `shift-context-self-editing`)
+
+Gained `model-curated-context` (32 -> 33 techniques): the model under work as the editor of record of
+a client-held list. One voice (a practitioner video relaying a research release); the lander read the
+paper's full text, which confirmed the budget boundary (a tie at a generous window), the model
+capability boundary (a small model edits rarely until trained) and the cache slope (an edit at the
+start costs 7.7x an append-only turn), so the row cleared at 3/0/2. `context-ownership-regimes` gained
+an appended pointer section; its three regimes are about who holds the list, and the new case is who
+edits it inside one of them. Neighbour to the 11-10 /deepen bank's "local-runtime overflow as a fourth
+owner of the window": that row is about the runtime truncating, this one about the model editing; not
+the same claim.
+
+- **Untriaged:** a boundary sentence naming a self-edit among the writers `summary-evidence-gate`
+  validates (1/0/1).
+- **Leads:** post-edit KV reuse at the server; the guard's firing rate beside edits (no published
+  result reports both).
+- **Applied:** unapplied. Seam named (a fleet analysis run on a local harness); blocked on a missing
+  local model and a fetched-code install, both operator calls. No-GPU instrument named, not run:
+  re-reads after compaction boundaries in recorded harness transcripts.
+- **Saturation:** not dry (one technique). dry_streak 0.

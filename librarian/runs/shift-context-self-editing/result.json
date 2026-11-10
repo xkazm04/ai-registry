@@ -1,0 +1,70 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "shift-context-self-editing",
+  "skill": "shift",
+  "skill_version": "0.6.0",
+  "mode": "source",
+  "domain": "software-engineering",
+  "started_at": "2026-11-10T00:00:00Z",
+  "ended_at": "2026-11-10T20:35:55Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 1,
+    "declined": 0,
+    "idled": 3,
+    "contended": 0,
+    "held": 0
+  },
+  "subjects": [
+    {
+      "id": "software-engineering/prompt-assembly",
+      "at": "2026-11-10",
+      "engine": "shift",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    },
+    {
+      "id": "software-engineering/agent-memory",
+      "at": "2026-11-10",
+      "engine": "shift",
+      "outcome": "idled",
+      "points_before": null,
+      "points_after": null
+    },
+    {
+      "id": "software-engineering/tool-result-economy",
+      "at": "2026-11-10",
+      "engine": "shift",
+      "outcome": "idled",
+      "points_before": null,
+      "points_after": null
+    },
+    {
+      "id": "software-engineering/session-continuation",
+      "at": "2026-11-10",
+      "engine": "shift",
+      "outcome": "idled",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [],
+  "files": [
+    "knowledge/software-engineering/llm-agent/prompt-and-context/prompt-assembly/techniques/model-curated-context.md",
+    "knowledge/software-engineering/llm-agent/prompt-and-context/prompt-assembly/techniques/context-ownership-regimes.md",
+    "knowledge/software-engineering/llm-agent/prompt-and-context/prompt-assembly/prompt-assembly.md",
+    "librarian/sources/2026-11-10-context-self-editing.md",
+    "librarian/subjects/software-engineering/prompt-assembly.md",
+    "librarian/sources/index.md",
+    "librarian/applied.md",
+    ".claude/skills/intake/SCORECARD.md",
+    "librarian/runs/shift-context-self-editing/result.json"
+  ],
+  "commits": [],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "Landed model-curated-context (prompt-assembly) at 3/0/2 after reading the paper full text. 4 catches, 1 untriaged, 3 leads. Unapplied: bp /perfect on Pi blocked on a missing local model and a fetched-code install (operator calls)."
+}
