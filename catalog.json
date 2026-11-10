@@ -232,16 +232,16 @@
     },
     {
       "name": "contest",
-      "version": "1.14.1",
+      "version": "1.15.0",
       "category": "workflow",
       "path": "skills/contest/SKILL.md",
-      "contentHash": "sha256-n1:6252aa54f1ac66dc",
+      "contentHash": "sha256-n1:13dfa881a99c249f",
       "adopters": [],
       "invokes30d": 0,
       "reportedInvokes": 0,
-      "lessons": 21,
+      "lessons": 22,
       "lessonsPath": "skills/contest/LESSONS.md",
-      "lessonsHash": "sha256-n1:77ea47e035a36a0e",
+      "lessonsHash": "sha256-n1:7dfd64c80a343dff",
       "usageContributors": [],
       "usageStaleContributors": [],
       "runs30d": 17,
@@ -1254,7 +1254,7 @@
     "skills": 45,
     "practices": 8,
     "memory": 10,
-    "lessons": 394
+    "lessons": 395
   },
   "bundles": [
     {
@@ -1382,10 +1382,10 @@
       "profile": "rkb/0.1",
       "purity": "software",
       "subjects": 245,
-      "techniques": 1992,
-      "applications": 1499,
-      "files": 3741,
-      "contentHash": "sha256-b2:f769139e964911a7"
+      "techniques": 1995,
+      "applications": 1501,
+      "files": 3746,
+      "contentHash": "sha256-b2:dfc00025cff98866"
     },
     {
       "name": "technical-writing",
