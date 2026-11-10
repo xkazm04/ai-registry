@@ -66,6 +66,15 @@ The MiniMax H3 Community License defines its territory as worldwide excluding "t
 Republic of Korea and the United States of America". Read at the source on Hugging Face on this date. Raised to the operator
 as a question for them; this note gives no legal reading of it.
 
+## Later voices
+
+- **Row 2, 2026-11-10: a second voice.** The AI Brief (`youtube:HJteqahyEKM`) ships its own local two-pass H3
+  graph: a first pass at about 0.5 scale, a latent upscale, a second pass to "recover additional detail". A different
+  channel with no sign of relaying this one, and neither measured anything. ComfyUI 0.44 no longer blocks it: a
+  side-by-side 0.44.2 install carries `MiniMaxH3LatentUpscaleWithModel` (backlog `shift-ph3-keyframes-1`). The return
+  condition is now the H3 3D latent upscaler on disk. See
+  [2026-11-10-shot-fix-without-reroll](2026-11-10-shot-fix-without-reroll.md), row B1.
+
 ## Not landed
 
 No bundle changed. The source originates; one trial on one seam does not authorize a technique. Items 2 and 3 return when a

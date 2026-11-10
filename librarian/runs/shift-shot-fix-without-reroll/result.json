@@ -1,0 +1,74 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "shift-shot-fix-without-reroll",
+  "skill": "shift",
+  "skill_version": "0.6.0",
+  "mode": "source",
+  "domain": "media-generation",
+  "started_at": "2026-11-10T00:00:00Z",
+  "ended_at": "2026-11-10T20:11:42Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 0,
+    "declined": 0,
+    "idled": 5,
+    "contended": 0,
+    "held": 0
+  },
+  "subjects": [
+    {
+      "id": "media-generation/video-assembly",
+      "at": "2026-11-10",
+      "engine": "shift",
+      "outcome": "idled",
+      "points_before": null,
+      "points_after": null
+    },
+    {
+      "id": "media-generation/review-iteration-loops",
+      "at": "2026-11-10",
+      "engine": "shift",
+      "outcome": "idled",
+      "points_before": null,
+      "points_after": null
+    },
+    {
+      "id": "media-generation/generative-provider-routing",
+      "at": "2026-11-10",
+      "engine": "shift",
+      "outcome": "idled",
+      "points_before": null,
+      "points_after": null
+    },
+    {
+      "id": "media-generation/character-identity-continuity",
+      "at": "2026-11-10",
+      "engine": "shift",
+      "outcome": "idled",
+      "points_before": null,
+      "points_after": null
+    },
+    {
+      "id": "media-generation/generated-output-grading",
+      "at": "2026-11-10",
+      "engine": "shift",
+      "outcome": "idled",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [],
+  "files": [
+    "librarian/sources/2026-11-10-shot-fix-without-reroll.md",
+    "librarian/sources/2026-11-06-minimax-h3-tiled-sampler.md",
+    "librarian/sources/index.md",
+    ".claude/skills/intake/SCORECARD.md",
+    "librarian/runs/shift-shot-fix-without-reroll/result.json"
+  ],
+  "commits": [],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "Leads only: 3 leads, 1 currency, 11 catches, 3 untriaged, 0 accepts at +3, 0 held. Two-pass refine is a second voice on the 11-06 tiled-sampler lead (blocker now the H3 3D upscaler). New lead: a local clip-edit step at gravitone rough stage."
+}
