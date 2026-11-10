@@ -14,6 +14,7 @@ techniques:
   - limit-observability
   - limit-derivation
   - metered-step-selection
+  - unpublished-behaviour-limit
 ---
 
 # Rate limiting
@@ -177,6 +178,14 @@ Every limiter faces one of two directions, and the direction changes what
 
 Both postures use the same algorithms and the same hygiene; they differ in who
 owns the number and what a refusal teaches.
+
+An egress limiter models the published number, but a hosted service also runs
+abuse detection: a second, unpublished layer that judges bursts, account-wide
+concurrency and how much visible content an identity creates, and that reports
+headroom while it refuses.
+[unpublished-behaviour-limit](./techniques/unpublished-behaviour-limit.md) covers
+budgets per class of call, merging before pacing, never retrying a behaviour
+refusal, and failing closed for visible creation.
 
 ## Which step carries the counter
 

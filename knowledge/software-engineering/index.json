@@ -4,7 +4,7 @@
   "bundle": "software-engineering",
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 245,
-  "techniques": 1992,
+  "techniques": 1993,
   "applications": 1499,
   "laws": 16,
   "categories": [
@@ -20,7 +20,7 @@
    "secret-custody-and-issuance"
   ],
   "layout": "nested",
-  "use_when_coverage": "1992/1992",
+  "use_when_coverage": "1993/1993",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -30626,9 +30626,9 @@
    "subcategory": "resilience",
    "status": "forged",
    "file": "knowledge/software-engineering/backend-platform/resilience/rate-limiting/rate-limiting.md",
-   "digest": "sha256-b2:c1ab95c98c885951",
-   "revision": 8,
-   "changedAt": "2026-09-03",
+   "digest": "sha256-b2:d2f83dae652aaccc",
+   "revision": 9,
+   "changedAt": "2026-11-10",
    "techniques": [
     {
      "slug": "algorithm-selection",
@@ -30750,6 +30750,24 @@
       "no trusted identity source for a request",
       "a shared unknown bucket locking out ordinary traffic",
       "deciding whether a client fingerprint may be reused elsewhere"
+     ]
+    },
+    {
+     "slug": "unpublished-behaviour-limit",
+     "status": "forged",
+     "laws": [
+      "gate-sees-target",
+      "limits-are-derived",
+      "failure-not-empty-success"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "an agent or batch job writes to a hosted service it does not own",
+      "several workers share one account on a third-party platform",
+      "a run creates issues comments messages or other objects other people will see",
+      "a refusal arrives while the published quota still shows headroom",
+      "deciding what an egress limiter does when it cannot count",
+      "choosing between pacing a batch of creates and merging them"
      ]
     },
     {
@@ -43489,6 +43507,7 @@
     "quorum-and-recovery-procedures/pick-highest-applied-index",
     "rate-limiting/limiter-topology",
     "rate-limiting/metered-step-selection",
+    "rate-limiting/unpublished-behaviour-limit",
     "rate-limiting/untrusted-key-derivation",
     "read-serving-replicas/client-carried-index",
     "read-serving-replicas/evict-not-update-on-commit",
@@ -44120,6 +44139,7 @@
     "quality-gates/unparseable-form-is-a-finding",
     "quality-gates/vacuous-by-evaluation",
     "rate-limiting/refusal-contract",
+    "rate-limiting/unpublished-behaviour-limit",
     "read-serving-replicas/fairshare-invalidation-queues",
     "readiness-passports/blocker-rollups",
     "readiness-passports/declined-by-choice",
@@ -46951,6 +46971,7 @@
     "prompt-assembly/context-ownership-regimes",
     "prompt-assembly/elision-to-a-refetch-pointer",
     "prompt-assembly/response-reservation-sizing",
+    "rate-limiting/unpublished-behaviour-limit",
     "register-bytecode-execution/instruction-format-follows-program-lifetime",
     "remote-capability-probing/buffer-by-access-latency-class",
     "remote-capability-probing/degraded-rung-refusal-ceiling",
