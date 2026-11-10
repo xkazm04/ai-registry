@@ -1,0 +1,73 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "shift-agent-built-3d-loop",
+  "skill": "shift",
+  "skill_version": "0.6.0",
+  "mode": "source",
+  "domain": "game-production",
+  "started_at": "2026-11-10T00:00:00Z",
+  "ended_at": "2026-11-10T20:32:06Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 0,
+    "declined": 0,
+    "idled": 5,
+    "contended": 0,
+    "held": 0
+  },
+  "subjects": [
+    {
+      "id": "game-production/concept-scene-parity",
+      "at": "2026-11-10",
+      "engine": "shift",
+      "outcome": "idled",
+      "points_before": null,
+      "points_after": null
+    },
+    {
+      "id": "game-production/reference-parity-gating",
+      "at": "2026-11-10",
+      "engine": "shift",
+      "outcome": "idled",
+      "points_before": null,
+      "points_after": null
+    },
+    {
+      "id": "game-production/mesh-finishing-for-engine-readiness",
+      "at": "2026-11-10",
+      "engine": "shift",
+      "outcome": "idled",
+      "points_before": null,
+      "points_after": null
+    },
+    {
+      "id": "game-production/unattended-build-loop",
+      "at": "2026-11-10",
+      "engine": "shift",
+      "outcome": "idled",
+      "points_before": null,
+      "points_after": null
+    },
+    {
+      "id": "game-production/terrain-synthesis-acceptance",
+      "at": "2026-11-10",
+      "engine": "shift",
+      "outcome": "idled",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [],
+  "files": [
+    "librarian/sources/2026-11-10-agent-built-3d-loop.md",
+    "librarian/sources/index.md",
+    ".claude/skills/intake/SCORECARD.md",
+    "librarian/runs/shift-agent-built-3d-loop/result.json"
+  ],
+  "commits": [],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "Leads only: 3 leads, 1 currency, 23 covered, 8 untriaged, 0 accepts at +3, 0 held. H is the 11-06 C channel again. Leads: UV layout acceptance at PoF mesh-finish, a self-review kit with no refusing check, vista distance tiers with no home."
+}
