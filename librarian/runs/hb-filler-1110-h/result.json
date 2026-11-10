@@ -1,0 +1,62 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "hb-filler-1110-h",
+  "skill": "harvest",
+  "skill_version": "0.7.0",
+  "mode": "backlog",
+  "domain": "software-engineering",
+  "started_at": "2026-11-10T17:45:00Z",
+  "ended_at": "2026-11-10T18:30:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 3,
+    "landed": 0,
+    "declined": 0,
+    "idled": 3,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "software-engineering/device-pairing",
+      "at": "2026-11-10",
+      "engine": "shift",
+      "outcome": "idled",
+      "points_before": null,
+      "points_after": null
+    },
+    {
+      "id": "software-engineering/vendored-patch-stack",
+      "at": "2026-11-10",
+      "engine": "shift",
+      "outcome": "idled",
+      "points_before": null,
+      "points_after": null
+    },
+    {
+      "id": "software-engineering/measurement-honesty",
+      "at": "2026-11-10",
+      "engine": "shift",
+      "outcome": "idled",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "software-engineering/measurement-honesty",
+      "technique": "the-measured-build-is-named",
+      "verdict": "not-better",
+      "mode": "blind-ab"
+    }
+  ],
+  "files": [
+    "librarian/harvest/backlog.jsonl",
+    ".claude/skills/harvest/LESSONS.md",
+    "librarian/runs/hb-filler-1110-h/result.json"
+  ],
+  "commits": [],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "Backlog filler, size 3. 7-009 covered (empty allowlist on load failure, logged loudly, already prescribed). 7-010 covered by vendored-patch-stack. 7-011 not-better (blind-ab), A 12/12 vs B 12/12, controls and floor held. Passed over 3-014, 4-028, 4-030, 4-031."
+}
