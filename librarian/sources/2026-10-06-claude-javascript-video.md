@@ -106,6 +106,17 @@ blind read. **Return condition:** a paired effort-tier arm on a fixed
 code-render brief, read blind - the gravitone plan carries an optional
 three-approach side arm that answers it.
 
+**Later voices.** 2026-11-10, a second voice: Devarf (`youtube:3S4vuHxGh7c`) ran one open brief for a
+79 s code-rendered music video at five effort levels, low to max: about 42 min to almost 3 h and about
+78k to 625k tokens. He ran a sixth time in the harness's multi-agent mode at max, which took at least
+2.5M tokens and never finished. He would not rank the six. This is a different channel and a different
+film with the same shape: cost climbs steeply, and the maker's eye cannot separate the outputs. The two
+converge on the missing instrument, not on "effort does not matter". **Design note for the return
+arm:** his brief left the form open, and effort chose it (2D at low, 3D above), so his sweep compared
+different deliverables. Keep the form fixed per arm, as the gravitone approach cards already do. Return
+condition unchanged. See
+[2026-11-10-code-rendered-watchable](2026-11-10-code-rendered-watchable.md), rows D1-D3.
+
 ## Untriaged (nobody verified these)
 
 | # | Title | Anchor |
