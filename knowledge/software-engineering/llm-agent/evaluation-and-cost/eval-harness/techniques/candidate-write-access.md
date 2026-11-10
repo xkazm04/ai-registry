@@ -97,7 +97,7 @@ else.
 
 This failure is invisible to per-case attribution, which is what makes it
 worth its own name. The case looks like an ordinary failure of the condition
-it is charged to; the seven owners of a red case all have a plausible story
+it is charged to; every owner of a red case has a plausible story
 for it; and the wrong one gets picked because the real owner is not in the
 list — it is the condition that ran three cells earlier
 ([failure-attribution](./failure-attribution.md) is where the misattribution

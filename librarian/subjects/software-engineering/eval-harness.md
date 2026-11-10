@@ -1,8 +1,8 @@
 ---
 domain: software-engineering
 subject: eval-harness
-last_touched: 2026-11-07
-touched_by: intake, shift
+last_touched: 2026-11-10
+touched_by: intake, shift, deepen
 dry_streak: 0
 ---
 
@@ -745,3 +745,23 @@ Source: [[2026-11-06-self-evolving-harness]]. New technique `contrast-before-ado
 ### 2026-11-07 - `/shift`, a held row settled
 
 Source: [[2026-11-06-product-codebase-craft]], row D5, backlog `shift-product-green-pair`. New technique `green-through-the-model`, 3/0/2, experiment, attributed to `qwen3.8:27b` only: 21 of 30 compensated greens, 19 on the first call, 3 passed raw text on all calls, 6 of 6 control runs called the tool. 2 of the 21 rest on a plural normalisation fixed before measuring (19 without it), and the row's own example sentence scored 0 of 3. Invented catalogue. No project has run the pair yet. `failure-attribution` was read and not amended: its compensation is a harness repairing a model, this one is a model hiding a tool.
+
+### 2026-11-10 - `/deepen` loop (run `filler-deepen-20261110b`, /shift filler)
+
+Dispatched by the librarian scan (32 points, 8 consumer deviations from a 26-day-old installation report; the 2026-11-09 fleet map holds eval-harness deviations in personas 12, gravitone 6, pof 3 - conform work, listed and not chased).
+
+#### Round 1 (survey round)
+
+**Not dry; no new technique.** Blind lane first, 7 of 10 predictions reached by the web or read lanes.
+
+- `resolution-precondition` **flipped (condition added)**: the gate compared the spread of means with the per-run SD whatever was ranked. The source states a per-run SD and a spread of means with no per-cell trial count. Now: per-run SD for an order over single runs, the standard error of the difference for an order over means, n counted in independent scenarios (clustered), paired differences via `llm-observability/.../paired-per-case-testing`. "Unusually generous trial counts" removed (the source states none for the grid). Golden path aligned.
+- `reliability-aggregation` refined: estimate any-of-k and all-of-k per scenario with the unbiased combinatorial estimators (the field's pass@k / pass^k), then average; never compound a pooled rate. Within-scenario dependence (warm cache) stated as what it does not fix.
+- `selection-over-noise` figure provenance: the 20% human average came from a six-person panel, not the 28-practitioner comparison, which was scored best-against-best; 82% one run, 85% averaged. Re-read today against the announcement and the companion write-up.
+- `pairing-schedule`: a game-by-game rating update is itself order-dependent; static candidates are fitted jointly with resampled intervals (an arena's own write-up on moving off online updates).
+- Internal contradictions from one-at-a-time landings, fixed: stale owner counts ("six", "all six", "exactly one") across `failure-attribution`, the golden path and `candidate-write-access`; "four questions" against five in `selection-over-noise`; the `treatment-election-rate` correction to `unaided-baseline-screening` now written on both sides.
+
+Confirmed and left untouched: `candidate-write-access` figures (two archive posts re-read), the rest of `selection-over-noise` (39 of about 1,600, 67/26/21, only re-runs succeeded, holdout by placement), the effort non-monotonicity corollary, judge-stability's coverage of self-preference and verbosity. The qualifier-edge grep across all 26 files was **not** run; only absolutes met while reading were tested.
+
+Applied: `reliability-aggregation` better (simulation over the 2026-08-31 recorded arms); `resolution-precondition` **not-better** on personas' model bench (the old rule already reaches "unresolvable" there; the amendment changes the reason and the n, not the verdict - binomial arithmetic, no recorded results file on this machine); `pairing-schedule` unapplied.
+
+Declined: log-N growth of best-of-N bias (the text never claims linear growth; padding); a clustered-SE technique (a correction plus cross-link instead). Banked: "grade the outcome, not the path" against `probe-the-decision-not-the-artifact` (likely a scope boundary; return: a run reading both against a connected agent harness); an explicit "unknown" verdict for model judges (return: a second source or an `assertion-vs-judgment` pass). Law candidate untouched (no sighting outside the bundle).

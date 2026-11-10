@@ -52,6 +52,19 @@ one carries the independence assumption with it. That is
 [count-carries-predicate](../../../../_laws.md#count-carries-predicate) read
 strictly: the predicate of a modelled number includes the model.
 
+**Estimate per scenario, then average — never compound a pooled rate.** The
+field's published forms of the pair (pass@k for any-of-k, pass^k for all-of-k)
+are defined per task and averaged across tasks: run n ≥ k trials of a scenario,
+count c successes, and estimate any-of-k as 1 − C(n−c, k)/C(n, k) and all-of-k
+as C(c, k)/C(n, k), which are unbiased for that scenario without raising a rate
+to a power. Doing it per scenario removes most of the independence failure
+above, because the dependence that wrecks a pooled model is mostly
+*between* scenarios — a hard case missed every time, an easy one never missed —
+and one rate stretched across both compounds into a number neither has. What
+it does not remove is dependence *within* a scenario's repeats: trials that
+share a warm cache or a leftover environment are not separate draws, and the
+estimator assumes they are.
+
 ## Why declaring the rule is not enough
 
 [count-carries-predicate](../../../../_laws.md#count-carries-predicate)
