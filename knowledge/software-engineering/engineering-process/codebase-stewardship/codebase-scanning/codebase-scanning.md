@@ -337,7 +337,8 @@ nowhere ([causes-beside-the-finding-count](./techniques/causes-beside-the-findin
 
 - [sensor-pipeline](./techniques/sensor-pipeline.md) — tolerant gather, pure
   emission, per-sensor isolation and skip reporting, dedup, disclosed caps,
-  persistence.
+  persistence. Isolation sits on the task: a settle-all over pool workers
+  strands the queue and turns an outage into an empty success.
 - [rule-precision-discipline](./techniques/rule-precision-discipline.md) —
   population-first rule writing, hand-verified precision samples, positive
   controls, zero-match refusal, independent cross-checks for counts.

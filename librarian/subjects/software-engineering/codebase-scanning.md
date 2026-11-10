@@ -1,8 +1,8 @@
 ---
 subject: codebase-scanning
 domain: software-engineering
-last_touched: 2026-11-09
-touched_by: intake
+last_touched: 2026-11-10
+touched_by: harvest
 dry_streak: 0
 ---
 
@@ -182,3 +182,21 @@ repositories: 607 of 977 merges, 30 of 30 read as different work, and a raised t
 filings, one reader, and a labelled duplicate set the scorer never merged, so recall is bounded by
 the read alone. Not applied at a seam: the project holding the rule is read-only in this pass.
 Return: the near-duplicate door in that project, on its own filings.
+
+## 2026-11-10 - /harvest backlog 6-021a ([[2026-09-01-openwiki-v050]], /shift filler)
+
+Amended `sensor-pipeline` and added application `node--sensor-pipeline--per-task-fanout`, better, code:
+isolation sits on the task, not on the fan-out. A settle-all over a bounded pool settles the
+workers, so the queue behind a failed job is never read and an all-failed batch reads as an empty
+success; catch per job, record the failure beside the readings, fail only when nothing was read,
+and rethrow a required branch. Measured on a clone of a fleet project's public origin: 59 fan-outs,
+0 settle-all, 57 correctly all-or-nothing (required render inputs, loaders already isolated inside
+the branch, same-store reads composing one view, required script pairs, per-item skip pools,
+deliberate concurrent tests). Two real seams, a town-year harvest pool and a catalog context read.
+The seam was picked to falsify the row's literal repair, and it did: settle-all at the combinator
+27 of 31 against as-is 28 of 31, the per-task boundary 31 of 31; floor 26 of 26 on every arm and
+red in both floor suites under a deliberate break. The row's note was wrong (the claim descends from
+the openwiki run via cluster c05, not from the aider note) and its 16/0 count was stale. Not
+shipped: the project has no checkout on this machine. Lint and the full typecheck were not run.
+Return: ship the per-task change on a machine holding the project, after its typecheck, lint and
+the two module suites.

@@ -5,7 +5,7 @@
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 245,
   "techniques": 1994,
-  "applications": 1499,
+  "applications": 1500,
   "laws": 16,
   "categories": [
    "ui-surfaces",
@@ -6766,9 +6766,9 @@
    "subcategory": "codebase-stewardship",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-process/codebase-stewardship/codebase-scanning/codebase-scanning.md",
-   "digest": "sha256-b2:fb5a4cc4a9f7a056",
-   "revision": 14,
-   "changedAt": "2026-11-09",
+   "digest": "sha256-b2:2f98cb83a2394552",
+   "revision": 15,
+   "changedAt": "2026-11-10",
    "techniques": [
     {
      "slug": "causes-beside-the-finding-count",
@@ -6954,7 +6954,8 @@
       "one broken sensor is crashing the whole sweep",
       "deciding whether a rule may read during emission",
       "cap survivors change from run to run",
-      "a failed read is scored as a missing control"
+      "a failed read is scored as a missing control",
+      "replacing an all-or-nothing combinator with a settle-all one"
      ]
     },
     {
@@ -7045,6 +7046,13 @@
      "technique": "rule-precision-discipline",
      "file": "knowledge/software-engineering/engineering-process/codebase-stewardship/codebase-scanning/applications/node--rule-precision-discipline.md",
      "verified_on": "2026-08-18"
+    },
+    {
+     "stack": "node",
+     "technique": "sensor-pipeline",
+     "file": "knowledge/software-engineering/engineering-process/codebase-stewardship/codebase-scanning/applications/node--sensor-pipeline--per-task-fanout.md",
+     "verified_on": "2026-11-10",
+     "verified_against": "node@24"
     },
     {
      "stack": "node",
@@ -21715,9 +21723,9 @@
    "subcategory": "runtime-and-io",
    "status": "reconciled",
    "file": "knowledge/software-engineering/llm-agent/runtime-and-io/mcp-tools/mcp-tools.md",
-   "digest": "sha256-b2:cb2b1c9f6fef5eb9",
-   "revision": 35,
-   "changedAt": "2026-11-06",
+   "digest": "sha256-b2:142248a0a41f2e44",
+   "revision": 36,
+   "changedAt": "2026-11-10",
    "techniques": [
     {
      "slug": "ambient-selection-is-not-an-argument",
@@ -21804,7 +21812,10 @@
       "a model knows a compressed operation name but not its arguments",
       "deciding whether a description-only catalog may be selected per request",
       "a per-request selector is proposed to reclaim standing prompt tokens",
-      "an operator switch withholds whole tool groups from an unattended caller"
+      "an operator switch withholds whole tool groups from an unattended caller",
+      "an agent chains dozens of calls whose count depends on the data it reads",
+      "a program-execution tool is proposed beside or instead of schema tools",
+      "a shorter roster is proposed to make generation faster"
      ]
     },
     {

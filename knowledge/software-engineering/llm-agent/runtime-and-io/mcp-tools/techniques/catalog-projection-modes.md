@@ -6,7 +6,9 @@ technique: catalog-projection-modes
 status: forged
 laws: [limits-are-derived, gate-sees-target, one-authority-per-vocabulary]
 shared_with: []
-use_when: [a host refuses the request because too many tools are listed, one server's catalog crowds out every other installed server, deciding whether to fold operations behind a routing tool, a model knows a compressed operation name but not its arguments, deciding whether a description-only catalog may be selected per request, a per-request selector is proposed to reclaim standing prompt tokens, an operator switch withholds whole tool groups from an unattended caller]
+applied: blind-ab
+ab_verdict: better
+use_when: [a host refuses the request because too many tools are listed, one server's catalog crowds out every other installed server, deciding whether to fold operations behind a routing tool, a model knows a compressed operation name but not its arguments, deciding whether a description-only catalog may be selected per request, a per-request selector is proposed to reclaim standing prompt tokens, an operator switch withholds whole tool groups from an unattended caller, an agent chains dozens of calls whose count depends on the data it reads, a program-execution tool is proposed beside or instead of schema tools, a shorter roster is proposed to make generation faster]
 ---
 
 # Catalog projection modes
@@ -262,6 +264,75 @@ with activation is fine and cheaper. If any caller runs unattended, or
 behind a host whose re-listing you have not verified, default to everything
 and let the operator trim per client.
 
+## A code surface answers a different question
+
+Every projection above, withholding included, is **schema-shaped**: whatever
+the altitude, the model reaches an operation by filling in one call's
+arguments, reads the result, and chooses the next call. That shape is right
+for a **bounded** operation set — the calls a task needs can be named before
+it starts, each result is something the model must read, and the chain is a
+handful of steps. It is wrong for work that is **open-ended in composition**:
+"for every item matching this, fetch that, and act on the ones where the
+other holds". The number of calls depends on data the model has not seen yet,
+and the intermediate results are inputs to the next call, not reading. Done
+through schema tools, that work costs one model turn per call and pours every
+intermediate result through the context, where it is spend, noise, and
+injection surface.
+
+The answer there is a **code surface**: the same registry rendered as typed
+bindings inside a sandboxed program, published as one tool that takes a short
+program, runs it, and returns only what the program returns. The discriminator
+is the shape of the work, not the size of the catalog:
+
+| The task's calls | Surface |
+| --- | --- |
+| bounded: nameable in advance, each result read by the model | schema tools, at whatever altitude the budget allows |
+| open-ended: count or order depends on intermediate data, intermediate results feed the next call | a code surface **beside** the schema tools |
+| a fixed chain that recurs, with nothing for the model to read between its calls | neither: fold it into one operation |
+| a fixed sequence the model reads and decides between | neither: leave the schema tools as they are |
+
+The third row is the one most often confused with the second. A chain that is
+always the same four calls, each feeding the next untouched, is a missing
+operation, and a program is a costly way to spell it. The fourth is the one
+most often confused with the third: a protocol whose steps are fixed but whose
+results the model reads, judges and acts on between calls is not a chain at
+all. Folding it moves the model's judgment out of the loop, and merging its
+steps usually merges unequal annotations too.
+
+The rules that keep a code surface honest are the ones above, carried across:
+
+- **Additive, never a replacement.** The bounded operations keep their schema
+  tools. A caller that needs one call should not have to write a program for
+  it.
+- **One authority.** The bindings are generated from the registry the listing
+  projects, so an operation added to the registry appears in both or neither.
+  A hand-written client beside the registry is the parallel list this
+  technique already prices.
+- **The language's authority is not granted with its syntax.** The model
+  writes a language it is fluent in, and that language normally reaches a file
+  system, a network and other processes. The sandbox grants the bindings and
+  nothing else, with a call-count and wall-clock budget, and a program that
+  fails partway returns what it did and where it stopped — never an empty
+  success.
+- **Policy is still checked at the resolved operation.** Each binding call
+  passes the same dispatch door as a schema call, with the same policy and the
+  same consent tier. A program is many calls under one tool name, which is
+  compression's problem in a sharper form, so the annotation rule applies
+  without exception: one program tool per annotation class. A read-only
+  program tool exposes only read-only bindings, and write or destructive
+  operations stay schema tools behind consent unless a separate program tool
+  publishes honest annotations for them.
+
+**What a code surface is not.** It is not a remedy for a long listing. The
+tempting argument is that every listed tool slows generation, so a shorter
+roster — or one program tool — buys wall clock even where no ceiling exists.
+Measured on a host that defers tool schemas, that did not hold: removing tens
+of tools left the generation rate within noise. A host that loads every schema
+eagerly may differ, so price the latency on the deployment's own host — the
+same prompt, fresh sessions, interleaved arms — before you quote it. Without
+that measurement, catalog size remains a reason to have fewer capabilities,
+and the surface's shape is decided by how its operations compose.
+
 ## The second budget: a catalog in a cached prefix
 
 Everything above prices a catalog against a ceiling somebody else imposes — a
@@ -339,3 +410,8 @@ question: **is the ceiling imposed by someone you do not control?** If yes,
 project. If no, the sprawl argument in the golden path is the only argument
 you need, and it is satisfied by having fewer capabilities rather than by
 hiding them.
+
+The code surface is outside that question. It answers a different one — **is
+the work open-ended in composition?** — and that answer does not depend on
+whether a ceiling exists. A bounded operation set with no ceiling gets neither
+a projection nor a program surface.
