@@ -4,7 +4,7 @@
   "bundle": "llm-observability",
   "source": "knowledge/llm-observability/ (frontmatter only)",
   "subjects": 19,
-  "techniques": 134,
+  "techniques": 135,
   "applications": 100,
   "laws": 9,
   "categories": [
@@ -14,7 +14,7 @@
    "federation-and-surfaces"
   ],
   "layout": "nested",
-  "use_when_coverage": "134/134",
+  "use_when_coverage": "135/135",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -607,9 +607,9 @@
    "subcategory": null,
    "status": "reconciled",
    "file": "knowledge/llm-observability/quality-scoring/cross-provider-benchmark-operations/cross-provider-benchmark-operations.md",
-   "digest": "sha256-b2:848eceabe026bc77",
-   "revision": 14,
-   "changedAt": "2026-11-09",
+   "digest": "sha256-b2:484041d6a5c0fce4",
+   "revision": 15,
+   "changedAt": "2026-11-11",
    "techniques": [
     {
      "slug": "async-run-queue-with-cancel",
@@ -759,6 +759,21 @@
       "a competitor or model could not run the benchmark's workload unmodified",
       "publishing a comparison your own system wins",
       "deciding whether a weakened case still belongs in the scorecard"
+     ]
+    },
+    {
+     "slug": "reconstructed-method-before-a-published-comparison",
+     "status": "forged",
+     "laws": [
+      "estimation-announces-itself",
+      "never-present-absence-as-an-answer"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "placing a number you measured beside a number someone else published",
+      "a competitor's or vendor's benchmark harness is not public",
+      "deciding whether a published figure may sit in your scorecard as a column",
+      "a published leaderboard or results page may change after you read it"
      ]
     },
     {
@@ -2806,6 +2821,7 @@
     "cross-provider-benchmark-operations/failure-clustering-recommendations",
     "cross-provider-benchmark-operations/graded-case-difficulty",
     "cross-provider-benchmark-operations/handicap-disclosure-in-the-result-row",
+    "cross-provider-benchmark-operations/reconstructed-method-before-a-published-comparison",
     "cross-provider-benchmark-operations/sampling-knobs-are-axes-not-strings",
     "federated-benchmark-sharing/aggregate-only-digests",
     "federated-benchmark-sharing/capture-locally-publish-separately",
@@ -2859,6 +2875,7 @@
     "cross-provider-benchmark-operations/entitlement-exhaustion-is-not-ill-health",
     "cross-provider-benchmark-operations/failure-clustering-recommendations",
     "cross-provider-benchmark-operations/handicap-disclosure-in-the-result-row",
+    "cross-provider-benchmark-operations/reconstructed-method-before-a-published-comparison",
     "cross-provider-benchmark-operations/sampling-knobs-are-axes-not-strings",
     "cross-provider-benchmark-operations/self-hosted-residency-is-part-of-the-target",
     "federated-benchmark-sharing/bounded-contributor-influence",

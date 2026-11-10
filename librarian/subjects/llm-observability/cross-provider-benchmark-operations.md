@@ -1,8 +1,8 @@
 ---
 subject: cross-provider-benchmark-operations
 domain: llm-observability
-last_touched: 2026-11-09
-touched_by: external-reconcile
+last_touched: 2026-11-11
+touched_by: harvest
 dry_streak: 0
 ---
 
@@ -133,6 +133,29 @@ present cold and absent warm on 2 of 8. Weakest points: one small model, one ser
 hosted provider, cause of the split not isolated. The application `rust--determinism-stamping` still
 states the old rung and was not touched: nothing in this pass re-read its tree. Return: that
 runner's own replay field.
+
+## 2026-11-11 - /harvest backlog 7-012 ([[2026-08-31-pgrust]], /shift filler)
+
+New technique `reconstructed-method-before-a-published-comparison`, better, blind-ab, plus one
+sentence on the golden path's method-drift bullet: a published number was made by a method you
+cannot re-run, so its method is written down as stated, inferred or unknown with the date it was
+read, and an unknown metric or case set means no adjacent number. Partial prior art, not a catch:
+the golden path says never compare across a method change without re-baselining, which assumes both
+methods are yours; `handicap-disclosure-in-the-result-row` carries your own concessions, not the
+other side's; `judge-replacement-bridge` covers one element (a retired grader) of one case.
+
+Four probes, three from real sites (a memory eval's peer cohort whose one advertised figure has no
+benchmark scripts behind it, a vendor's aligner timing figures against a local aligner on our own
+lines, a relayed selector result against our own catalog) and one control where the harness, data
+and raw results are all public. Arm A had the golden path and the draft, arm B the golden path
+only; 2 runs per arm per probe, rubric, target and floor written first, one blind judge per pair.
+A 6.00 of 6 against B 4.38, A ahead on 7 of 8 pairs and level on the eighth; the control probe's
+decision score was 2.00 for both arms, so the draft did not teach refusing a reproducible comparison.
+Judge positive control: a hand-written ideal answer 6, a bad one 1. Weakest points: the arms
+answered in prose, not at a seam; the rubric's per-element status criterion mirrors the draft's
+vocabulary, and arm B already refused the side-by-side row on the memory probe without it, so most
+of the margin is the pinned, dated, per-element record rather than the decision itself. Return:
+the first fleet document that sets one of its own numbers beside a published one.
 
 ## Architecture review - 2026-09-10
 

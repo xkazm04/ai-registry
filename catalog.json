@@ -1317,10 +1317,10 @@
       "profile": "rkb/0.1",
       "purity": "software",
       "subjects": 19,
-      "techniques": 134,
+      "techniques": 135,
       "applications": 100,
-      "files": 258,
-      "contentHash": "sha256-b2:6a6050078dafd2d0"
+      "files": 259,
+      "contentHash": "sha256-b2:32fddfa31f6d1246"
     },
     {
       "name": "localization",

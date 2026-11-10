@@ -1,6 +1,6 @@
 # LLM observability - the subjects this registry carries
 
-`llm-observability` - 19 subjects, 134 techniques, 100 applications.
+`llm-observability` - 19 subjects, 135 techniques, 100 applications.
 Slugs only; open one with `registry_subject` (or `node <registry>/scripts/registry-query.mjs --subject <slug>`), never by reading `index.json` - the access rule beside this file describes the loop.
 
 ### telemetry-and-data

@@ -1,0 +1,49 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "hb-filler-1111-a",
+  "skill": "harvest",
+  "skill_version": "0.7.0",
+  "mode": "backlog",
+  "domain": "llm-observability",
+  "started_at": "2026-11-11T09:00:00Z",
+  "ended_at": "2026-11-11T10:00:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 1,
+    "landed": 1,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "llm-observability/cross-provider-benchmark-operations",
+      "at": "2026-11-11",
+      "engine": "shift",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "llm-observability/cross-provider-benchmark-operations",
+      "technique": "reconstructed-method-before-a-published-comparison",
+      "verdict": "better",
+      "mode": "blind-ab"
+    }
+  ],
+  "files": [
+    "knowledge/llm-observability/quality-scoring/cross-provider-benchmark-operations/cross-provider-benchmark-operations.md",
+    "knowledge/llm-observability/quality-scoring/cross-provider-benchmark-operations/techniques/reconstructed-method-before-a-published-comparison.md",
+    "librarian/sources/2026-08-31-pgrust.md",
+    "librarian/subjects/llm-observability/cross-provider-benchmark-operations.md",
+    "librarian/applied.md",
+    "librarian/harvest/backlog.jsonl"
+  ],
+  "commits": [],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "Backlog wave, /shift filler, one seat, size 1. 7-012 better (blind-ab), landed, no seam changed. 3-014 and 4-028/030/031 passed over as already decided or held. No GPU, no build-class gate, no other project written."
+}
