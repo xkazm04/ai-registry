@@ -5,8 +5,8 @@ subject: agent-memory
 technique: memory-governance
 stack: claude-code
 status: forged
-verified_on: 2026-09-04
-verified_against: claude-code@2.1.261
+verified_on: 2026-11-11
+verified_against: claude-code@2.1.322
 ---
 
 # The harness's own auto-memory, read as a governed store (Claude Code)
@@ -23,11 +23,16 @@ gate, and it was read here as it stands for this registry's checkout.
 
 `~/.claude/projects/<repo>/memory/` holds a `MEMORY.md` index plus topic
 files. For this registry on 2026-09-04: 34 files, one of them the index at 35
-lines. The harness loads the first 200 lines (or 25 KB) of the index into
-every session and reads topic files on demand — which makes the index the
-**always-include tier** of recall-injection and the topic files the
-relevance tier, with the cap on the index being the one budget in the system
-that is enforced rather than argued.
+lines. The harness loads the first 200 lines or the first 25 KB of the index,
+whichever comes first, into every session, and the model reads topic files on
+demand with its ordinary file tools. That makes the index the
+**always-include tier** of recall-injection and the topic files a relevance
+tier the consumer has to choose to open, with the cap on the index being the
+one budget in the system that is enforced rather than argued. The cap and the
+on-demand read were re-resolved on 2026-11-11 against the harness's memory
+documentation and the installed 2.1.322 build, whose shipped strings carry
+the over-limit error quoted below. The store counts in this section are as
+read on 2026-09-04.
 
 Each topic file opens with frontmatter the harness writes:
 
@@ -79,9 +84,15 @@ metadata:
   read time from one that has one.
 - **The always-include tier has a size cap and no admission argument.** The
   200-line cut on the index is a ceiling; nothing asks whether an entry earned
-  its place there over the relevance tier, so the index is grown by whatever
-  was written last and trimmed by whatever falls past line 200 — a truncation
-  from the bottom, which is oldest-out only if entries are appended in order.
+  its place there over the relevance tier. Since the 2026-09-04 read the cap
+  has gained a write-time door: after a write to the index the harness
+  measures it, reminds the model near a limit to keep one line per entry and
+  merge or drop stale entries, and over a limit lets the write succeed but
+  returns an error that everything past the limit "is silently dropped each
+  time the index is loaded" and asks for a rewrite. The door judges size, not
+  standing. It prompts a rewrite and argues no entry's place, and an index
+  left over the limit is still truncated from the bottom on load, which is
+  oldest-out only if entries are appended in order.
 
 ## What this realization cannot do
 

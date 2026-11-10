@@ -2135,9 +2135,9 @@
    "subcategory": "prompt-and-context",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/prompt-and-context/agent-memory/agent-memory.md",
-   "digest": "sha256-b2:2b62b4004acc600d",
-   "revision": 53,
-   "changedAt": "2026-11-06",
+   "digest": "sha256-b2:59fe7694e2a4517a",
+   "revision": 54,
+   "changedAt": "2026-11-11",
    "techniques": [
     {
      "slug": "addresses-before-compression",
@@ -2680,8 +2680,8 @@
      "stack": "claude-code",
      "technique": "memory-governance",
      "file": "knowledge/software-engineering/llm-agent/prompt-and-context/agent-memory/applications/claude-code--memory-governance.md",
-     "verified_on": "2026-09-04",
-     "verified_against": "claude-code@2.1.261"
+     "verified_on": "2026-11-11",
+     "verified_against": "claude-code@2.1.322"
     },
     {
      "stack": "claude-code",
