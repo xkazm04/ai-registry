@@ -116,5 +116,5 @@ from live, and next to a hard ceiling the difference is an overdraft.
 - A dashboard total that disagrees with the enforcement path's total
   (independent period math or a stale derived copy, unnamed).
 - Failed-call spend folded invisibly into totals.
-- The pipeline's own health — default-priced share, unattributed share,
+- The pipeline's own health — unpriced share, unattributed share,
   estimator drift — reported nowhere the spend reader will see it.

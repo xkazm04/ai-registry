@@ -110,11 +110,13 @@ non-negotiable, and all three are violated constantly in the wild:
   what it was costed *with* — or the stored cost
   [names no recomputation](../../../_laws.md#derivation-names-recomputation) and
   becomes an orphan number the next repricing strands.
-- **An unknown model costs something declared, never zero.** New models
+- **An unknown model costs a stated bound, never zero.** New models
   appear faster than tables update. A lookup miss that prices at zero makes
   the newest — typically the most expensive — model invisible to budgets and
-  dashboards alike. The default is documented, deliberately conservative,
-  and its use is *counted*, so table staleness is a visible metric rather
+  dashboards alike. The row keeps its units and a null cost, every total
+  over it reads as a floor, and only a gate that must decide before the call
+  prices the unknown at a documented, deliberately conservative default.
+  Every miss is *counted*, so table staleness is a visible metric rather
   than silent undercounting.
 
 One authority question sits above the table itself: **when the provider's
@@ -132,8 +134,8 @@ Rates, versioning, unit classes, and the default discipline are the
 
 That last paragraph names a danger the table cannot fix and then leaves it
 there, so it is worth finishing. Two axes of a row are defended by a lookup
-that can miss loudly: an unrecognized *model* prices at a declared default and
-counts the miss, and a call fitting no *spend class* lands in a counted
+that can miss loudly: an unrecognized *model* is recorded unpriced, as a floor,
+and counts the miss, and a call fitting no *spend class* lands in a counted
 bucket. The **unit** axis has neither, and it cannot be given a lookup miss,
 because nothing looks a unit class up. An extractor reads the keys it knows,
 a permissive decoder defaults the rest away, and the row is accepted, costed
@@ -263,8 +265,9 @@ surfaces show and which anomalies they must make visible is the
 
 - **Success-only metering.** A ledger without failed-call rows undercounts
   reality precisely when reality is most expensive.
-- **A zero-cost default for unknown models.** Lookup misses price at the
-  declared conservative default and increment a staleness counter — never at
+- **A zero-cost default for unknown models.** Lookup misses record a null
+  cost that makes every total over them a floor (a gate's estimate uses the
+  declared conservative default) and increment a staleness counter — never
   zero, never by dropping the row.
 - **Retroactive attribution.** If the axis was not on the row at write time,
   the honest answer is "unattributed", not a heuristic join that manufactures
@@ -282,7 +285,8 @@ surfaces show and which anomalies they must make visible is the
 ## The techniques
 
 - [price-tables](./techniques/price-tables.md) — per-model, per-direction
-  rates as versioned data; the loud conservative default for unknowns;
+  rates as versioned data; unknowns recorded as a counted floor, with a
+  conservative default only for a gate's estimate;
   repricing without stranding history.
 - [preflight-estimation](./techniques/preflight-estimation.md) — estimating
   consumption before the call, gating on the estimate, and monitoring

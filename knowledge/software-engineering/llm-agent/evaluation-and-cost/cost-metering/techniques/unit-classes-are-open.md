@@ -26,8 +26,9 @@ an axis that is assumed. Two axes of a spend row are already defended by this
 subject, both by the same pattern — a lookup that can miss, and a loud
 declared behaviour when it does:
 
-- the **model** axis, where an unrecognized model prices at a conservative
-  declared default and increments a staleness counter, never at zero
+- the **model** axis, where an unrecognized model is recorded unpriced as a
+  floor (a gate's estimate alone uses a conservative declared default) and
+  increments a staleness counter, never at zero
   ([price-tables](./price-tables.md));
 - the **spend-class** axis, where a call fitting no class lands in a counted
   bucket rather than being dropped ([usage-ledgers](./usage-ledgers.md)).
@@ -66,10 +67,12 @@ because it is indistinguishable from correctness on inspection.
 
 ## An unpriced row reports a floor, not a default
 
-The subject's existing instinct on the model axis is a conservative declared
+The subject's first instinct on the model axis was a conservative declared
 default: price the unknown at something deliberately high so it cannot hide.
 On the unit axis, prefer the stronger discipline: **store no cost at all, and
-propagate the floor.** A row with unmodeled units gets a null cost rather than
+propagate the floor** — the discipline [price-tables](./price-tables.md) has
+since adopted for the model axis's rows too, keeping the default only for a
+gate's estimate. A row with unmodeled units gets a null cost rather than
 a partial one, and every derived number computed over a window containing such
 rows — totals, margins, per-feature breakdowns, and the remaining-budget
 figure a gate reads — is labelled a floor until the class is priced.

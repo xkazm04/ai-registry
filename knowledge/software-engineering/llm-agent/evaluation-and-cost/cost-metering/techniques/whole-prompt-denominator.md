@@ -104,5 +104,9 @@ invisible.
   decisions; they inherit a correct fraction from here.
 - A provider that reports no cache fields at all has an unknown cached count, not
   a zero one; keep it null ([unknown-is-not-a-value](../../../../_laws.md#unknown-is-not-a-value)).
-- Reasoning tokens are a different subset problem: providers count them inside
-  output, where they are billed, so they are reported and never added.
+- Reasoning tokens are the same convention problem on the output side. Some
+  providers count them inside output, where they are billed, so there they are
+  reported and never added; at least one reports them beside output and bills
+  the sum. Normalise at the same door: name in the schema whether `output`
+  includes reasoning, convert each extractor to it, and add a fixture for the
+  provider whose count sits beside.

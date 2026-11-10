@@ -32,7 +32,7 @@ the fallback authority — and the row says which of the two priced it.
 A usable rate entry is more granular than "this model costs X":
 
 - **Direction split.** Input units and output units are priced separately,
-  routinely differing by 3–5×. A single blended rate is wrong on every call
+  routinely differing by 4–8×. A single blended rate is wrong on every call
   and wrong differently per workload: a summarization call (huge input, tiny
   output) and a generation call (tiny input, huge output) at the same
   blended rate mis-cost in opposite directions, so the errors do not even
@@ -53,14 +53,22 @@ A usable rate entry is more granular than "this model costs X":
 - **Threshold schedules, where the rate depends on the call itself.**
   Several providers price the *same* unit class differently by the call's
   own context length — one rate up to a published token threshold, a
-  higher rate (input commonly doubling) beyond it — while others sell the
-  full window at a flat rate. A single per-class number is therefore not
-  always a rate; sometimes it is a schedule, and flattening it misprices
-  exactly the calls that dominate spend — the longest ones — and in the
-  dangerous direction, underestimation. The entry carries the schedule,
-  the estimator prices against the call's *projected* size, and the
-  sanity bound evaluates actuals against the tier the call actually
-  landed in, not the headline rate.
+  higher rate (input commonly doubling) beyond it, or on some models every
+  class of the call stepping several-fold, cache reads included — while
+  others sell the full window at a flat rate. A single per-class number is
+  therefore not always a rate; sometimes it is a schedule, and flattening
+  it misprices exactly the calls that dominate spend — the longest ones —
+  and in the dangerous direction, underestimation. The entry carries the
+  schedule, the estimator prices against the call's *projected* size, and
+  the sanity bound evaluates actuals against the tier the call actually
+  landed in, not the headline rate. Measure the call's size the way the
+  vendor does: at least one counts cached reads and writes toward the
+  threshold, so a mostly-cached prompt can still cross it
+  ([whole-prompt-denominator](./whole-prompt-denominator.md)). Request-level
+  lanes — batch, flex, a premium fast lane, a regional-endpoint uplift —
+  multiply every class of one call the same way, and stack with the cache
+  rates; encoding them as rows rather than columns is
+  [price-row-variant-encoding](../../../../../llm-observability/economics-and-governance/llm-price-book-operations/techniques/price-row-variant-encoding.md).
 - **All the unit classes the provider meters, not just two.** Providers
   invent unit classes faster than "input/output" admits: cached-context
   reads and writes at their own rates, batch-discounted units, reasoning
@@ -87,11 +95,12 @@ recorded actual diverge *systematically for one model*, which looks exactly
 like estimator drift and burns a debugging day before anyone thinks to diff
 the tables. One table, one loader, every consumer imports it.
 
-## The default for unknowns: loud, conservative, counted
+## The default for unknowns: loud, bounded, counted
 
 A lookup miss is not an edge case; it is the *guaranteed* state for every
-model newer than the table. What the miss returns is a policy decision with
-exactly one defensible answer:
+model newer than the table. What the miss returns is a policy decision, and
+it has two consumers with different needs — the ledger row, which records
+what happened, and a gate, which must decide before anything has:
 
 - **Never zero.** Zero-cost misses make the newest models — typically the
   most expensive per unit — invisible to budgets, free under every ceiling,
@@ -100,13 +109,29 @@ exactly one defensible answer:
 - **Never dropped.** Refusing to write a ledger row for an unpriceable call
   trades a wrong cost for a missing call, which is strictly worse — the
   units consumed are gone from the record entirely.
-- **A documented, deliberately high default.** Priced at or above the most
-  expensive known family, so the error runs in the safe direction: budgets
-  over-enforce slightly rather than under-enforce silently, and the
-  overcharge is visible on the dashboard as an anomaly someone investigates.
-- **Counted.** Every default hit increments a staleness metric and marks the
-  row as default-priced. "The table missed 400 times this week" is an
-  actionable maintenance signal; 400 silently mispriced rows are not.
+- **On the row, no cost and a floor.** The completed call's cost is stored
+  as null with the units intact, and every total, margin and
+  remaining-budget figure over a window containing it is labelled a floor
+  until the model is priced — the same discipline the unit axis uses
+  ([unit-classes-are-open](./unit-classes-are-open.md),
+  [unpriced-span-accounting](../../../../../llm-observability/telemetry-and-data/trace-rollup-and-attribution/techniques/unpriced-span-accounting.md)).
+  A default written onto the row invents a number that later reads as
+  measured, and on a routing or bake-off comparison it ranks the newest
+  model by a price nobody published. Because the units were kept, the row
+  can be costed once the table catches up, and the late costing is a
+  recorded restatement, not a silent edit.
+- **A documented, deliberately high default only where a decision needs a
+  number.** A preflight gate cannot admit or refuse against a null, so the
+  *estimate* for an unknown model prices at or above the most expensive
+  known family and says so: the gate over-enforces slightly rather than
+  under-enforcing silently. A period ceiling summing the ledger does the
+  same over the unpriced rows' units at read time, so a floor never reads
+  as headroom. The default lives in the gate's arithmetic and is never
+  written as the row's cost.
+- **Counted.** Every miss increments a staleness metric and marks the row
+  as unpriced, and the unpriced models are listed ranked by the traffic
+  behind them. "The table missed 400 times this week" is an actionable
+  maintenance signal; 400 silently mispriced rows are not.
 
 ## Repricing without stranding history
 
@@ -134,11 +159,13 @@ already written. The clean contract:
 
 The dated bullet above answers "has this rate gone stale". It does not answer the
 case where **the vendor has already told you the rate changes, and when** — an
-introductory or promotional rate with a published expiry, commonly a step of 2x on
-a named date. That is not staleness. Staleness is a rate that may have moved
-without anyone noticing; this is a rate that is *certain* to move, on a date you
+introductory or promotional rate with a published expiry, a step such as 1.5x or
+2x on a named date. That is not staleness. Staleness is a rate that may have moved
+without anyone noticing; this is a rate that is *scheduled* to move, on a date you
 already have, and the two need opposite handling: staleness wants a re-check
-cadence, a scheduled change wants an alarm.
+cadence, a scheduled change wants an alarm. Scheduled is not certain: a vendor can
+withdraw the step and make the introductory rate the standard one, so the alarm
+asks for a re-read on the day rather than applying the step blind.
 
 The first question is not how to store it but **what the number is for**, because
 that decides which rate is correct, and two defensible answers exist:
@@ -169,7 +196,10 @@ failure somebody must act on instead of a line nobody re-reads. It costs one tes
 and it converts a known future defect into a scheduled interrupt.
 
 Two details decide whether it works. The failure message carries **the replacement
-rate**, so acting on it is an edit rather than an investigation. And when a later
+rate and where it was published**, so acting on it is a re-read and an edit rather
+than an investigation — a re-read, because the announced rate is the one the
+vendor can still cancel, and booking it unchecked overstates every cost from that
+day on. And when a later
 model ships onto the *same* promotion, it usually inherits the original expiry
 rather than opening a fresh window — so the guard covers the set of rows on that
 schedule, and adding a row to the table means adding it to the guard.
@@ -196,7 +226,7 @@ in the assertion and diverge the moment the constant moves.
 
 The cheap corrective is to make the join literal where it is checkable — key rows
 by the identifier, so a renamed model produces a *missing* row, which the unknown
-model policy above already handles loudly and conservatively. A missing rate is a
+model policy above already handles loudly, as a counted floor. A missing rate is a
 defect the system is built to survive; a wrong rate wearing the right key is not.
 Where a computed key is kept for other reasons, the rate change becomes a second,
 explicit edit that no test will ask for, and the file says so at the key.
@@ -206,6 +236,8 @@ explicit edit that no test will ask for, and the file says so at the key.
 - A currency constant in more than one source file.
 - A rate map with no unit denomination in the entry or its type.
 - `unknown → 0` (or `unknown → skip`) in the lookup, with no counter.
+- A conservative default written onto completed rows as their cost, so a
+  guess reads as measured and history cannot tell which rows were priced.
 - Ledger rows that store cost but not units — history that cannot survive a
   repricing audit.
 - Estimate-vs-actual drift confined to a single model family (two tables, one

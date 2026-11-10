@@ -9324,9 +9324,9 @@
    "subcategory": "evaluation-and-cost",
    "status": "reconciled",
    "file": "knowledge/software-engineering/llm-agent/evaluation-and-cost/cost-metering/cost-metering.md",
-   "digest": "sha256-b2:9b391e13aa64914d",
-   "revision": 16,
-   "changedAt": "2026-11-08",
+   "digest": "sha256-b2:ee8a30d6b58094c0",
+   "revision": 17,
+   "changedAt": "2026-11-10",
    "techniques": [
     {
      "slug": "budget-enforcement",

@@ -1,8 +1,8 @@
 ---
 subject: cost-metering
 domain: software-engineering
-last_touched: 2026-09-29
-touched_by: intake
+last_touched: 2026-11-10
+touched_by: intake, deepen
 dry_streak: 0
 ---
 
@@ -159,3 +159,23 @@ and attribution-provenance-tiers. The draft arm scored 8 of 8, the baseline 6. T
 partitioned shared spend into a separate bucket, so a nested skill's own row lost its cost, and
 it forced rows to sum. Controls scored 8 and 0. Weakest point: one draw per arm and a judge from
 the arms' own family, so the verdict is provisional.
+
+## 2026-11-10 - /deepen loop (run `filler-deepen-20261110b`, /shift filler)
+
+Dispatched by the librarian scan (44 points, 11 consumer deviations from a 26-day-old installation report; the 2026-11-09 fleet map holds cost-metering deviations in personas 17, gravitone 7, pof 2 - conform work, listed and not chased).
+
+### Round 1 (survey round)
+
+**Not dry.** Volatile facts read against three vendor pricing pages opened today:
+
+- `price-tables` direction split "3-5x" refuted; current pages put output at 4-8x input. Corrected.
+- `price-tables` promotional step: "commonly 2x" rests on one live case, and "certain to move" is refuted - one vendor withdrew an announced step and made the introductory rate standard. Now "scheduled", and the alarm asks for a re-read on the day and carries where the replacement rate was published.
+- `price-tables` threshold schedules widened: on some models every class steps several-fold past the threshold, cache reads included, and at least one vendor sizes the call with cached tokens counted; request-level lanes (batch, flex, fast, regional uplift) multiply every class and are cross-linked to `llm-observability/.../price-row-variant-encoding`, which owns them (no technique minted).
+- `whole-prompt-denominator`: "reasoning tokens are counted inside output" was an absolute; one vendor reports them beside output and bills the sum. Now a named schema convention converted at the door.
+- **Rule flip, the 2026-09-04 banked question answered.** An unknown model's ledger row stores a null cost and reads as a counted floor ranked by traffic; the conservative high default survives only in a gate's arithmetic (preflight estimate, and a period ceiling over unpriced units at read time). Converged across the blind lane, an open-source observability tool's documented behaviour (no cost plus a warning, never a default), the sibling `unpriced-span-accounting`, and a second fleet tree that already does it. Golden path, `unit-classes-are-open` and `spend-observability` aligned. Landed as a correction with cross-links, not a technique (the sibling owns the nullable-cost discipline).
+
+Confirmed and left untouched: batch discount, flat-window vendors, cache-write premium, provider-reported cost as the bill, historical rows keep their price. No application `verified_on` moved (no tree citations re-opened); the 90-day figure is a project retention constant, not vendor-set.
+
+Applied: price-tables floor flip `better` (simulation, gravitone and personas: the split is load-bearing because a preflight preview needs a number); whole-prompt-denominator `better` (simulation, gravitone's decoder for the beside-reporting vendor); promo re-read `unapplied`.
+
+Banked: cache-read multiplier is now per model (any later constant "~0.1x" is stale); failed-call billing per failure class (return: a vendor page that states it); prior-turn reasoning billed as input on newer models (return: a fleet ledger reading multi-turn reasoning usage); a dated row that degrades to unpriced past its expiry as the alternative to the test clock (one tree; return: a second). Project-side (conform, not chased): one project stamps unpriced models as zero on the completed row.
