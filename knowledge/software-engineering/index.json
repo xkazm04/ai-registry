@@ -15613,8 +15613,8 @@
    "subcategory": "evaluation-and-cost",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/evaluation-and-cost/eval-harness/eval-harness.md",
-   "digest": "sha256-b2:56831bff33ac6683",
-   "revision": 41,
+   "digest": "sha256-b2:fde9b0a89e3b5c4c",
+   "revision": 42,
    "changedAt": "2026-11-10",
    "techniques": [
     {

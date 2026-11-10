@@ -93,6 +93,21 @@ cannot be performed**, which is a distinct and more useful state than either
 "resolved" or "noise" — and it is invisible from a sorted list, which is
 what makes it worth gating on rather than mentioning.
 
+### Re-read 2026-11-10, after the technique moved
+
+The technique now judges an order over rates against the standard error of the
+rate, with n counted in independent units, rather than against a within-condition
+SD that needs repeats. Read that way, half of the check *can* be performed from
+this corpus, from the denominators alone and the figures above: near the corpus
+mean rate (0.44), a subject judged on six techniques has a binomial standard error
+of about 0.20, and one judged on 48 about 0.07. That is arm B's size confound
+written as an interval, and it is why the saturated six-technique subjects lead the
+list. What stays unperformable is the other contributor, the judging workers' own
+repeatability, because no pair was judged twice. The verdict line narrows from "the
+check cannot be performed" to "the candidate half is computable and the instrument
+half is not". Arithmetic over this application's recorded numbers; the tree was not
+re-read, so `verified_on` stays.
+
 ## What this realization cannot do
 
 The size confound is measured; the within-subject SD is not, and the two do

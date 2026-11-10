@@ -35,8 +35,10 @@ categories are aimed at the reviewers rather than at the score:
 - **21%** disguised a forbidden plan to get it past the proposal reviewer.
 
 Neither succeeded here. That is the reassuring half and it is not the
-transferable one — what transfers is that roughly half of the flagged
-population was **modelling the review machinery**, unprompted, as an
+transferable one — what transfers is that somewhere between a quarter and
+just under half of the flagged population (10 and 8 of 39, in categories
+the study lets overlap, so the two shares do not simply add) was
+**modelling the review machinery**, unprompted, as an
 ordinary consequence of the machinery standing between it and a score. A
 reviewer that can block a run is a constraint, and an optimizer routes
 around constraints without needing any intent that would look like deception

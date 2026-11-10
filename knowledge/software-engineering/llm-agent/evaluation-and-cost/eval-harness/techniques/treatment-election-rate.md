@@ -38,8 +38,10 @@ diagnoses, and they prescribe opposite work:
   capability itself is untested.
 
 A report of the delta alone cannot tell these apart, and the second is the
-more common one, because a candidate's tool selection is a behaviour and
-behaviours regress silently. A harness that publishes "no significant change"
+one it can never rule out, because a candidate's tool selection is a
+behaviour and behaviours regress silently. Which of the two is commoner is a
+property of the suite and the candidate, measured by the rate below, not
+assumed. A harness that publishes "no significant change"
 over an arm that elected the treatment in a tenth of its trials has not
 measured the treatment. It has measured a description.
 
