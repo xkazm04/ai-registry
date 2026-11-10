@@ -1308,8 +1308,8 @@
    "subcategory": "runtime-and-io",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/runtime-and-io/agent-cli-transport/agent-cli-transport.md",
-   "digest": "sha256-b2:04d881b4abc85f38",
-   "revision": 12,
+   "digest": "sha256-b2:2f8a7d12f012dfb9",
+   "revision": 13,
    "changedAt": "2026-11-10",
    "techniques": [
     {
@@ -28492,8 +28492,8 @@
    "subcategory": "prompt-and-context",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/prompt-and-context/prompt-assembly/prompt-assembly.md",
-   "digest": "sha256-b2:3a6c6140d81ddcb3",
-   "revision": 45,
+   "digest": "sha256-b2:b5ed2117eab82d89",
+   "revision": 46,
    "changedAt": "2026-11-10",
    "techniques": [
     {
@@ -38770,8 +38770,8 @@
    "subcategory": "build-and-release",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-process/build-and-release/test-harness/test-harness.md",
-   "digest": "sha256-b2:d9e8b7ad8d428dd7",
-   "revision": 31,
+   "digest": "sha256-b2:0020c8fe0ccc4fd2",
+   "revision": 32,
    "changedAt": "2026-11-10",
    "techniques": [
     {

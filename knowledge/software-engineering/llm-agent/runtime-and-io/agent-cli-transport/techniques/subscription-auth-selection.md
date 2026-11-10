@@ -20,6 +20,19 @@ a real invoice on metered billing. Which path the child takes is therefore a
 *decision the adapter makes*, never an accident of what happens to be in the
 environment.
 
+Free at the margin is not unlimited. Seat plans in this class meter in
+rolling windows, typically a short session window plus a weekly cap, and the
+window is shared with the operator's own interactive use of the same
+account. A batch on the seat spends the operator's working day, and unless
+it is budgeted against the window it ends mid-queue on a limit message
+([allowance-budgeting-across-workloads](../../../../../agent-operations/configuration-choice/agent-run-budgeting/techniques/allowance-budgeting-across-workloads.md)).
+Past the window, plans in this class let the account continue on purchased
+credits. That is metered spend arriving through the seat path, switched on
+the account, where no environment strip reaches it. Whether overflow is
+enabled is part of "whose bill", and it is recorded beside the strip list as
+the operator's decision. A batch that must not spend treats the limit
+message as a stop, never as a cue to retry.
+
 ## The precedence trap
 
 The trap is that it *is* an accident by default. Most tools in this class
@@ -127,7 +140,16 @@ the billing keys, so the child always starts as a fresh top-level session.
 
 Seat auth is interactive by nature — someone logged in once, in a browser.
 For CI and unattended servers, prefer the tool's own mechanism for minting a
-long-lived seat-scoped token over smuggling a browser session's artifacts
-across machines: the minted token is designed to be portable and revocable;
-the copied session file is neither, and it turns the availability probe's
-"credential file exists" fallacy into an operational habit.
+long-lived seat-scoped token, or its device-code login, over smuggling a
+browser session's artifacts across machines: the minted token is designed to
+be portable and revocable. Where a vendor does document copying the cached
+login file as a fallback, the file carries a refresh grant that rotates on
+use, so every copy is a **fork of one grant**. Two machines or two concurrent
+jobs on one copy race on refresh, and the loser is logged out. An ephemeral
+runner must write the refreshed file back rather than restore the original
+seed. So it is one copy per runner or per serialized job stream, under the
+refresh discipline of
+[token-refresh-lifecycle](../../../../security/identity-and-access/credential-vault/techniques/token-refresh-lifecycle.md).
+Either way, the copy turns the availability probe's "credential file exists"
+fallacy into an operational habit. On such a runner the authorization check
+is the probe, never the file.

@@ -336,3 +336,7 @@ Dispatched by the librarian scan (80 points, 20 consumer deviations from a 26-da
 - **Banked:** change-derived test selection with a full-run safety net (return: a fleet commit lane over budget and a proposal to run only affected tests).
 - **Saturation:** not dry (one absolute refuted, one rule conditioned, two scoped). dry_streak 0.
 - **Impact:** map regeneration and project map commits not run from this filler seat; owed to the supervisor.
+
+### Round 2 (probe round, same run)
+
+Training-data-first probes over ten claims round 1 did not touch; web only where the probe doubted. **Not dry.** `dynamic-verifier-classes` (and its golden-path echo) said the machine-code verifier family "crosses every boundary": true of a simulator, not of compiler-inserted checks, which see only what was rebuilt under them, and whose initialisation and race checkers report falsely on uninstrumented objects (checker docs opened). Now "crosses every boundary it is shown", and the cheap variant on the routine lane certifies the foreign side only where the lane rebuilt it, naming what it did not. Applied: `unapplied` (no fleet lane runs either verifier family; a bounded search found none). Confirmed by probe: seven claims, two via sibling techniques. Banked: the interpreting verifier's slowdown figure (the paper's PDF refused; return when readable or measured on a fleet suite). dry_streak stays 0.

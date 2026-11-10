@@ -217,8 +217,10 @@ composition time rather than at authoring time.
 The first is that part of the history belongs to **where it happened**.
 Providers attach opaque continuation metadata to reasoning turns — signatures,
 encrypted payloads, per-part tokens — and it is sealed to the endpoint that
-minted it, so a prefix replayed to a different model is rejected rather than
-degraded. The unit that carries the property is the segment, not the
+minted it. A prefix replayed to a different model fails in one of two ways,
+depending on the provider: the call is rejected, or the parts the target
+cannot read are dropped without an error, so the call succeeds and the
+continuing model has silently lost the reasoning. The unit that carries the property is the segment, not the
 transcript, and the walk that decides per segment whether to replay verbatim
 or strip is
 [endpoint-sealed-continuation-metadata](./techniques/endpoint-sealed-continuation-metadata.md).

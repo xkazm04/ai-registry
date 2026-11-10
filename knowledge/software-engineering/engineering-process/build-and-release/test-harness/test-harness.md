@@ -179,7 +179,8 @@ got wrong. First, **verifiers partition by how they observe, not by what they
 find** — one family re-executes the program's own semantic representation and
 knows every rule the source language declares but stops dead where the program
 leaves that representation; the other observes emitted machine code, crosses
-every boundary, and knows none of those rules. The seam that halts the first is
+every boundary it is shown (the compiler-inserted kind is shown only what was
+rebuilt under it), and knows none of those rules. The seam that halts the first is
 where the second's findings concentrate, so a project with foreign code and one
 verifier is unverified exactly where its risk is
 ([dynamic-verifier-classes](./techniques/dynamic-verifier-classes.md)). Second,
