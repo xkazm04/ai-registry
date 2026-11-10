@@ -1,8 +1,8 @@
 ---
 domain: software-engineering
 subject: agent-cli-transport
-last_touched: 2026-09-23
-touched_by: intake
+last_touched: 2026-11-10
+touched_by: intake, deepen
 dry_streak: 0
 ---
 
@@ -181,3 +181,18 @@ Lead drain (run lib-0923). L286 + L364 consolidated into one landing in `dated-c
 ## 2026-11-09 - /harvest backlog 3-012 (/shift filler)
 
 New application `claude-code--permission-stance-enforcement`, experiment, better, verified on 2.1.319. A path deny covers the file tools and the shell commands the harness recognises. `grep -r` over the folder and a script that opens the file both returned the canary, and `grep` still did with no grant and no deny, so a narrowed allow list does not close that route. Denying the search and the interpreter held all four routes and left another file readable. Not applied at a seam: this pass was read-only on other projects, and the OS sandbox was not exercised.
+
+## 2026-11-10 - /deepen --loop 3, round 1 (run `filler-deepen-20261110`, deepen 1.5.0, /shift filler)
+
+Dispatched by the librarian scan (44 points, 11 consumer deviations). Local maps read first: 23 deviation verdicts, 2 fresh. Lanes: blind training-data first, counter-evidence over vendor docs, local `--help`/`--version` only, fleet trees read in place.
+
+- **Golden path, absolute refuted:** "all of them report errors inside the envelope". One tool's documented failure is a non-zero exit plus stderr with no JSON object at all. Now "most", with the failure branch as a per-dialect matrix row.
+- **Golden path, rule conditioned:** `generate` is no tools at all; the neutral directory removes context, not capability. Three lanes converged (blind, vendor docs saying unlisted no-approval tools still run, deviation group of three generate seams run with tools or full bypass). No technique earned: prior art is `isolated-proposer-call` (probe-confirmed-model-proposals); landed as a section in `permission-stance-enforcement` with a cross-link, plus a paragraph that the workspace's own agent configuration (hooks, env block, credential helper, tool servers) sits outside the three read-only layers, routed to `hermetic-inherited-configuration`.
+- **`availability-probe`:** the version string also names which product answered; a generic binary name resolved to another vendor's CLI on the verifying machine.
+- **Applications:** `cursor-cli--permission-stance-enforcement` re-verified (failure shape documented, sandbox mechanism named for the agent but not the CLI, `--workspace`/`--worktree`), `verified_on` moved. Dated vendor-doc sections appended to `claude-code--output-normalization` and `claude-code--subscription-auth-selection`; their `verified_on` stays because their repo citations were not re-opened.
+- **Confirmed untouched:** no wall-clock flag on any of five CLIs; key-over-seat precedence (stricter under print mode); read-only session modes exist on four of four; exit status and envelope can disagree.
+- **Deviation groups:** 10 of 11 are project defects against owned rules (stance, containment, env allowlist, one spawn door, envelope errors, three-valued probe, probe resolution, fallback reason, thread custody, host-routed approval).
+- **Applied:** simulation over three fleet generate seams, better (row in `applied.md`).
+- **Banked:** `--bare` becoming the `-p` default (return: the release that flips it, re-smoke auth through the door); session-persistence hygiene for one-shot calls (return: a deviation or operator report); `--permission-prompts none` as the CLI form of unanswered-resolves-to-decline (return: next touch of host-routed-approval); Cursor CLI sandbox class (return: a local install). Cross-subject proposal for subprocess-lifecycle: on one CLI SIGTERM discards the turn and SIGINT ends it with a result, so an interrupt-first rung matters when a partial answer is worth keeping.
+- **Saturation:** not dry (one absolute refuted, one rule conditioned). dry_streak 0. Next clock: the `--bare` default flip.
+- **Impact:** map regeneration and project map commits not run from this filler seat (no project-tree writes); owed to the supervisor.

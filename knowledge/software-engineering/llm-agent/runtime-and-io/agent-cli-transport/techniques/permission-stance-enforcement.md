@@ -20,6 +20,26 @@ mechanism. The moment a scanning feature is pointed at a repository the
 operator owns, a scan that *could* write is an editing tool wearing a
 scanner's label.
 
+## Generate: no tools, not a quiet directory
+
+`generate` touches nothing because the child **has no tools**, not because
+it was started somewhere uninteresting. A neutral working directory keeps
+ambient project instructions out of the context; it removes no capability.
+The child can still read absolute paths, run its own read-only shell set and
+fetch the web, and a generate turn over untrusted input is then an injected
+agent with a tool loop. Two traps make the gap common. A mode that switches
+customizations off for troubleshooting typically drops instructions and hooks
+while built-in tools and permissions keep working. And **an approval list is
+not a tool set**: emptying the list of tools that run without prompting grants
+nothing extra and removes nothing, because tools that need no approval still
+run. The stance is the tool set itself emptied, with every tool denied where
+the tool supports it, and never the full-bypass flag on a call that should
+touch nothing. It is read back from the child's own initialization report,
+where the tool list must be empty
+([child-observed-posture](./child-observed-posture.md)). The single-call form
+of this rule (no tools, an empty scratch directory, one shot) is
+[isolated-proposer-call](../../../evaluation-and-cost/probe-confirmed-model-proposals/techniques/isolated-proposer-call.md).
+
 ## Read-only is three layers, worn together
 
 For `readonly-scan`, the standard posture is **belt, braces, and a refusal
@@ -41,6 +61,17 @@ alone:
    against this denylist and **raises on conflict** rather than quietly
    granting — asking for a write tool on a scan is a caller bug, not a
    preference.
+
+**The workspace's own agent configuration is outside all three layers.** A
+scan runs *in* the workspace, so the workspace's settings load: hooks, an
+environment block, a credential helper, tool-server definitions. At least one
+tool's print mode shows no trust prompt and runs or connects these in a folder
+nobody ever trusted. That is code executing before the read-only mode is
+consulted and regardless of it, and a credential helper there can also move
+the bill. Against a repository the operator did not write, the scan excludes
+the project's setting sources explicitly; the cut is
+[hermetic-inherited-configuration](../../../../../agent-operations/run-safety/unattended-run-isolation/techniques/hermetic-inherited-configuration.md)'s,
+and no session mode makes it.
 
 The composed stance lives behind one constructor
 ([one-validation-door](../../../../_laws.md#one-validation-door)): a caller

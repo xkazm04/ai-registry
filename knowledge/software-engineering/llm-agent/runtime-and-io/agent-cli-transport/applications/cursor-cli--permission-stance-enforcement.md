@@ -4,7 +4,7 @@ type: application
 subject: agent-cli-transport
 technique: permission-stance-enforcement
 stack: cursor-cli
-verified_on: 2026-08-30
+verified_on: 2026-11-10
 ---
 
 # Read-only stances on the Cursor CLI
@@ -30,11 +30,14 @@ modes. Currently documented
   `--mode=plan`; the default mode is `agent`. **Ask mode is explicitly
   read-only** — "explore code without making changes… provides answers
   without editing files".
-- **`--sandbox <enabled|disabled>`** — a first-class sandbox switch. What
-  it enforces technically is **UNVERIFIED**: no vendor page describing the
-  mechanism was reachable, so this cannot be recorded as OS-enforced. Per
-  the technique's conditional-enforcement rule, an unnamed mechanism is an
-  unverified class, not a kernel guarantee.
+- **`--sandbox <enabled|disabled>`** — a first-class sandbox switch. The
+  vendor's agent-sandboxing post (cursor.com/blog/agent-sandboxing,
+  2026-02-18, read 2026-11-10) names the mechanism for the agent: Seatbelt
+  via `sandbox-exec` on macOS, Landlock plus seccomp on Linux, and the Linux
+  sandbox inside WSL2 on Windows. The post does not mention the CLI, so for
+  the CLI the class stays **application-level policy** until a live run
+  observes it. On Windows the condition is a WSL2 install, which is the
+  conditional-enforcement case the technique names.
 - **`--trust`** — trust the workspace without prompting, **headless only**.
   This is now load-bearing rather than optional: non-interactive runs in an
   untrusted workspace **fail** with guidance unless it is passed. A
@@ -82,15 +85,24 @@ actually passed; the mode flags alone are policy.
   verifies with `agent --version`, and every official page since the
   2025-08-07 launch uses that name. The claim that `cursor-agent` survives
   as a legacy alias to the same binary is **third-party only**, not
-  vendor-documented; probe both names, prefer `agent`.
+  vendor-documented; probe both names, prefer `agent`, and **match the
+  product in the version output**. On a verifying machine on 2026-11-10,
+  `agent` on PATH resolved to another vendor's agent CLI, which answered
+  `--version` cleanly with its own name and version, so a probe that accepts
+  any clean version string reports this tool as installed where it is not.
 - **Envelope** (docs/cli/reference/output-format). `--output-format json`
   returns a single object: `type` (always `"result"`), `subtype` (always
   `"success"`), `is_error`, `duration_ms`, `duration_api_ms`, `result`
   (concatenated assistant text), `session_id`, `request_id` (optional).
   Close enough to the Claude Code dialect that a `.result` normalizer
-  largely transfers. Note the sharp edge: **no `is_error: true` variant is
-  documented**, so the failure shape is UNVERIFIED — do not assume the
-  error branch of the envelope exists in the form the sibling tool uses.
+  largely transfers. The failure shape is now documented, and it is **not**
+  the sibling tool's: `is_error` is "Always false for successful responses",
+  and on failure the process "exits with a non-zero code and writes an error
+  message to stderr"; "No well-formed JSON object is emitted in failure
+  cases", and a stream may end early without a terminal event. The
+  classifier therefore reads the exit status plus a bounded stderr slice. It
+  never waits for an error envelope, and a missing envelope on a non-zero
+  exit is the normal failure, not a parse error (re-fetched 2026-11-10).
   `--output-format stream-json` emits NDJSON `system` (`subtype:"init"`,
   carrying `apiKeySource`, `cwd`, `model`, `permissionMode`), `user`,
   `assistant`, `tool_call` (started/completed, with
@@ -103,7 +115,9 @@ actually passed; the mode flags alone are policy.
   (forum.cursor.com/t/…/152876, 2026-02-25) has no staff reply. This is a
   real capability gap versus the two tools in the fleet that do offer it,
   and a feature declaring a schema requirement must degrade or hide here.
-  No documented cwd flag (spawn with the working directory set); stdin
+  `--workspace <path>` now sets the workspace directory, and `-w/--worktree`
+  runs in a new git worktree, which is the edit seam's containment as a flag
+  (parameters page, 2026-11-10); still no run timeout flag; stdin
   prompts remain undocumented — third-party cheatsheets show piping
   working, so treat it as *works but unsupported* and prefer the argument
   form until a live run says otherwise.

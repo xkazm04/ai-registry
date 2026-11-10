@@ -1308,9 +1308,9 @@
    "subcategory": "runtime-and-io",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/runtime-and-io/agent-cli-transport/agent-cli-transport.md",
-   "digest": "sha256-b2:2dc1f00a0ea7562b",
-   "revision": 11,
-   "changedAt": "2026-11-09",
+   "digest": "sha256-b2:04d881b4abc85f38",
+   "revision": 12,
+   "changedAt": "2026-11-10",
    "techniques": [
     {
      "slug": "availability-probe",
@@ -1538,7 +1538,7 @@
      "stack": "cursor-cli",
      "technique": "permission-stance-enforcement",
      "file": "knowledge/software-engineering/llm-agent/runtime-and-io/agent-cli-transport/applications/cursor-cli--permission-stance-enforcement.md",
-     "verified_on": "2026-08-30"
+     "verified_on": "2026-11-10"
     },
     {
      "stack": "gemini-cli",
