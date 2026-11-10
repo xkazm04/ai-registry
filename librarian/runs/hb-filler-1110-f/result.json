@@ -1,0 +1,72 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "hb-filler-1110-f",
+  "skill": "harvest",
+  "skill_version": "0.7.0",
+  "mode": "backlog",
+  "domain": "software-engineering",
+  "started_at": "2026-11-10T15:45:00Z",
+  "ended_at": "2026-11-10T16:40:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 3,
+    "landed": 1,
+    "declined": 0,
+    "idled": 2,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "software-engineering/client-state",
+      "at": "2026-11-10",
+      "engine": "shift",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    },
+    {
+      "id": "software-engineering/eval-harness",
+      "at": "2026-11-10",
+      "engine": "shift",
+      "outcome": "idled",
+      "points_before": null,
+      "points_after": null
+    },
+    {
+      "id": "software-engineering/agent-instruction-files",
+      "at": "2026-11-10",
+      "engine": "shift",
+      "outcome": "idled",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "software-engineering/client-state",
+      "technique": "persistence-and-migration",
+      "verdict": "better",
+      "mode": "experiment"
+    },
+    {
+      "subject": "software-engineering/agent-instruction-files",
+      "technique": "enforcement-demotion",
+      "verdict": "not-better",
+      "mode": "simulation"
+    }
+  ],
+  "files": [
+    "knowledge/software-engineering/client-architecture/client-state/client-state.md",
+    "knowledge/software-engineering/client-architecture/client-state/techniques/persistence-and-migration.md",
+    "librarian/subjects/software-engineering/client-state.md",
+    "librarian/sources/2026-08-31-tkdodo-rq-beyond-basics.md",
+    "librarian/applied.md",
+    "librarian/harvest/backlog.jsonl",
+    ".claude/skills/harvest/LESSONS.md"
+  ],
+  "commits": [],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "Backlog filler, size 3. 6-023 better (experiment): an amendment to persistence-and-migration. 6-024 unmeasurable: no sanitizer runtime, instrument named. 6-025 not-better (simulation). Passed over 3-014 and the held 4-028, 4-030, 4-031."
+}

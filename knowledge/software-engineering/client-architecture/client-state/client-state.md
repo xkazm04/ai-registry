@@ -233,7 +233,9 @@ and failing toward defaults rather than toward a crash. The full contract —
 selection, versioning, migration chains, rehydration validation, and
 write-path hygiene — is the
 [persistence-and-migration](./techniques/persistence-and-migration.md)
-technique.
+technique. When a fetch cache is persisted, its persist filter is composed
+with the library's own success-only filter, never substituted for it.
+Nothing that reads the cache mounts until the restore has settled.
 
 An untrusted read also has a **direction**. A rehydrated value may narrow
 what the user sees; it must never silently widen it. The widening arrives
@@ -339,7 +341,8 @@ its responses may write, and neither substitutes for the other.
   the authority's response.
 - [persistence-and-migration](./techniques/persistence-and-migration.md) —
   what earns persistence, versioned shapes, migration chains, rehydration
-  validation.
+  validation, and a persisted fetch cache: opt-in on the datum, a composed
+  filter, a gate on the restore.
 - [rehydration-narrowing](./techniques/rehydration-narrowing.md) — narrow
   never widen, partially persisted modes, per-field guards against the
   owning vocabulary.

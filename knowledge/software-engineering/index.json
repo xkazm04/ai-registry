@@ -6507,9 +6507,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/software-engineering/client-architecture/client-state/client-state.md",
-   "digest": "sha256-b2:b667f5c1f4abdd9d",
-   "revision": 15,
-   "changedAt": "2026-09-05",
+   "digest": "sha256-b2:5331b14c6002da44",
+   "revision": 16,
+   "changedAt": "2026-11-10",
    "techniques": [
     {
      "slug": "async-race-guards",
@@ -6613,7 +6613,10 @@
      "use_when": [
       "deciding whether a value earns persistence",
       "appending a step to a shipped migration chain",
-      "corrupt payload keeps the app from launching"
+      "corrupt payload keeps the app from launching",
+      "persisting a fetch cache across reloads",
+      "writing a custom persist filter for a cache library",
+      "a persisted cache restores from asynchronous storage"
      ]
     },
     {
