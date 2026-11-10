@@ -13470,9 +13470,9 @@
    "subcategory": "acquisition-and-ingest",
    "status": "forged",
    "file": "knowledge/software-engineering/integration/acquisition-and-ingest/document-text-extraction/document-text-extraction.md",
-   "digest": "sha256-b2:ee97c74f3f5e0c28",
-   "revision": 2,
-   "changedAt": "2026-09-25",
+   "digest": "sha256-b2:5089be20d4d757b0",
+   "revision": 3,
+   "changedAt": "2026-11-11",
    "techniques": [
     {
      "slug": "band-calibration-by-construction",
