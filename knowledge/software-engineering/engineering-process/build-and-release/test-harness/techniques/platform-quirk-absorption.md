@@ -122,8 +122,17 @@ pays them. A tolerance loosened in one test to pass on one machine is the
 per-test special case this section forbids, wearing a number.
 
 And the condition under which the probe is worthless: a substrate with no
-such mode. Pure double-precision arithmetic on a general-purpose processor,
-with no contraction flags and no accelerator, gives the same digits on every
-machine, and there the probe measures nothing and a constant tolerance is
-correct. The probe earns its place the day a lane runs on a substrate that
+such mode. Double-precision arithmetic on a general-purpose processor, with no
+contraction flags and no accelerator, gives the same digits on every machine
+only while it stays inside the operations the floating-point standard rounds
+exactly — add, subtract, multiply, divide, square root — in an order the code
+fixes. Two ordinary dependencies leave that set with no flag in the project to
+show it: the platform math library's transcendental functions are not correctly
+rounded and differ between implementations, and an optimized linear-algebra
+library picks its kernel per processor at run time and its summation order by
+thread count, so the same matrix product moves between two machines and two
+thread settings. Inside the exact set the probe measures nothing and a constant
+tolerance is correct; a lane that calls either dependency is already on a
+substrate that can change its arithmetic without changing the code, and the
+probe (or a pinned kernel path and thread count) belongs there. The probe earns its place the day a lane runs on a substrate that
 can change its arithmetic without changing the code.

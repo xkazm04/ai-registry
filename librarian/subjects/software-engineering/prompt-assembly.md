@@ -3,7 +3,7 @@ domain: software-engineering
 subject: prompt-assembly
 last_touched: 2026-11-10
 touched_by: deepen, intake
-dry_streak: 0
+dry_streak: 1
 ---
 
 # prompt-assembly
@@ -609,3 +609,7 @@ Dispatched by the librarian scan (53 points: one expired application, 12 consume
 ### Round 2 (probe round, same run)
 
 Training-data-first probes over nine claims round 1 did not touch. **Not dry.** "A prefix replayed to a different model is rejected rather than degraded" is refuted as worded: one vendor drops the blocks the target cannot read "without an error and without billing it", and only a tampered or undecryptable payload is a 400; a second validates only the current turn. Golden path and `endpoint-sealed-continuation-metadata` now name both failure modes, the quiet one as worse; the route clause notes providers that bind the seal to the account instead, keeping the strict comparison as the rule a multi-provider composer can carry. `response-reservation-sizing` gains the case of hosted models that accept input plus ceiling over the window and stop at it with their own stop reason (vendor page opened): the reservation then exists only in the client's budget. Banked, not landed: "style instructions underperform" (one study shows a brevity instruction halves length cheaply except on math; single source, return when a second lands); a hosted opt-in that drops the oldest turns (vendor reference refused the fetch; return when it is readable, then widen round 1's "on some local servers"). No rule flipped; no applied row. dry_streak stays 0.
+
+### Round 3 (final probe round, same run)
+
+**Dry.** Nine probes over claims rounds 1-2 did not touch: three confirmed on vendor pages (a dangling tool call fails the next request; overflow routing and its automatic default per the caching guide), three design rules confirmed by probe, one (system-role refusal) not checked online and not counted. Two proposed edits were below the bar and banked rather than landed: a dated pricing sentence (one new small model charges more above a context threshold, which the technique's per-model rule already covers) and "opaque" to "sealed" for a provider compaction summary that is readable text plus a signature (return: a fleet tree post-processes a provider summary, or a second provider's compaction reference is read). dry_streak 1. Loop ended at its cap of 3; saturation needs one more dry pass.

@@ -93,7 +93,13 @@ small module can yield a total statement about that module's behaviour under
 every ordering, which is a far stronger result than "one execution of one
 module was clean." Report it as what it is — exhaustive within the declared
 scenario bound — and state the bound instead of the reach, because the bound is
-now the predicate that limits the claim.
+now the predicate that limits the claim. The bound has two halves and both
+belong in it: the scenario the driver supplied, and the checker's own. A cap on
+preemptions prunes the space, so the verdict is exhaustive up to that cap and no
+further; and the checker generates only the orderings its model contains, which
+for the weakest atomic orderings is documented as less than the language
+permits. "Clean under at most two preemptions, weakest orderings modelled
+partially" is a strong result; "clean under every ordering" is not what ran.
 
 The two failure modes to avoid, one on each side: reading a trace-driven clean
 result as exhaustive (the common error), and reading an exhaustive result as

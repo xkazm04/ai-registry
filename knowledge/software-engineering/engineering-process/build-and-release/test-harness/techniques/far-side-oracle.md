@@ -56,7 +56,13 @@ Three properties earn their keep:
   of the environment, not of the change under test. The lane declares its
   requirement (a host address, a credential) and skips loudly when it is unset,
   so the same suite runs on a developer's laptop and on the one machine that has
-  the hardware. A hard failure here trains people to ignore the lane.
+  the hardware. A hard failure here trains people to ignore the lane. The skip is
+  right everywhere except that one machine: there a dropped address or an expired
+  credential turns every far-side case into a skip, and a lane that ran nothing
+  reports green. The lane scheduled on the hardware declares the requirement
+  mandatory and a floor on far-side cases run, so the same absence that skips on
+  a laptop is red where the lane exists to run
+  ([derived-selection-must-be-measured](./derived-selection-must-be-measured.md)).
 
 ## What the far side makes measurable that nothing else does
 

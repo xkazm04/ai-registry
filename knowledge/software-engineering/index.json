@@ -1308,8 +1308,8 @@
    "subcategory": "runtime-and-io",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/runtime-and-io/agent-cli-transport/agent-cli-transport.md",
-   "digest": "sha256-b2:2f8a7d12f012dfb9",
-   "revision": 13,
+   "digest": "sha256-b2:1b1b52b557d2a624",
+   "revision": 14,
    "changedAt": "2026-11-10",
    "techniques": [
     {
@@ -38770,8 +38770,8 @@
    "subcategory": "build-and-release",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-process/build-and-release/test-harness/test-harness.md",
-   "digest": "sha256-b2:0020c8fe0ccc4fd2",
-   "revision": 32,
+   "digest": "sha256-b2:e34b91ee6db4c475",
+   "revision": 33,
    "changedAt": "2026-11-10",
    "techniques": [
     {

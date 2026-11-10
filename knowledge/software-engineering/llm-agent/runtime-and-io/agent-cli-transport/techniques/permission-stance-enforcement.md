@@ -88,8 +88,15 @@ backs its stance:
 
 - **Operating-system enforcement**: the tool runs its work under a real
   sandbox — kernel-level filesystem and process restriction. The promise
-  holds even against the tool's own bugs. Still the minority stance, but no
-  longer a single vendor's differentiator. Record *which* mechanism backs
+  holds even against the tool's own bugs. Most major tools now ship one,
+  but it is usually off until the caller turns it on, it can be missing on
+  one of the platforms the tool runs on, and it can wrap only part of the
+  tool: a sandbox around the shell tool and the processes it starts leaves
+  the built-in file tools under application policy. So the class is recorded
+  **per tool surface**, not per session, and a scan whose file reads and
+  shell reads sit under different classes is held to the weaker one
+  ([os-enforced-run-boundary](../../../../../agent-operations/run-safety/unattended-run-isolation/techniques/os-enforced-run-boundary.md)
+  owns checking which boundary covers which tool). Record *which* mechanism backs
   it, because they are not interchangeable: a kernel facility the platform
   either has or does not, versus an isolation runtime that must be
   **installed and running**, versus a helper the tool **compiles on
