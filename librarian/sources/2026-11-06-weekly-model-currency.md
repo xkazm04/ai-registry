@@ -153,7 +153,7 @@ Three, all models on disk and checked by filename, none needing the operator mid
 
 | Row | Question | GPU |
 |---|---|---|
-| `shift-currency-edit-1` | Does a masked Flux2 edit leave the rest of the image alone? | 30 min |
+| `shift-currency-edit-1` | Does a masked Flux2 edit leave the rest of the image alone? Refused 11-07 on its floor; Flux 2 removed 11-08. Rewritten 2026-11-11 as a Codex image_gen reference edit, no GPU (`2026-11-11-image-model-releases`) | 30 min |
 | `shift-currency-world-1` | Does a generated scene bring its objects back after a full turn? | 45 min |
 | `shift-currency-reftag-1` | Does H3 ref2va ignore a reference the prompt does not tag? | 42 min |
 
