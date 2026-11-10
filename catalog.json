@@ -2,7 +2,7 @@
   "schema": "ascent-registry-catalog",
   "schemaVersion": "1.0.0",
   "_note": "GENERATED FILE — scripts/build-catalog.mjs reads every lane (skills, practices, memory, knowledge, usage) and rewrites this file; --check fails CI when it is stale. Per skill, `adopters` is carried forward untouched (the registry cannot see installations; an operator's scripts/fleet-audit.mjs --write-adopters maintains it) and `invokes30d` + `usageContributors` + `usageStaleContributors` + `reportedInvokes` are DERIVED from the usage/ lane (a report is current while its whole-day age against `generatedAt` is at most its windowDays; only current reports reach `invokes30d` and `usageContributors`, stale ones are named in `usageStaleContributors`, every report reaches `reportedInvokes`); `runs30d`, `outcomes30d`, `difficulty30d`, `tokensMedian30d` and `tokensBasis30d` are DERIVED from the usage/runs/ run log (30 days ending at the newest logged run; tokens are the measured median when at least half the runs are measured, else the agents' estimate, and tokensBasis30d says which). `generatedAt` is the newest instant in the committed data this catalog reads (a subject changedAt, a usage report generatedAt, a run row ts, a LESSONS heading date), ISO 8601 UTC: the date of the newest evidence in the registry, not the wall-clock time of the build, so --check stays a pure function of the tree. Hand-edits to anything else are overwritten on the next build. A second producer (e.g. Ascent's indexer) may rewrite the envelope from the same files; two producers computing one truth from one source is not a conflict.",
-  "generatedAt": "2026-11-09T00:00:00Z",
+  "generatedAt": "2026-11-10T00:00:00Z",
   "generatedBy": "scripts/build-catalog.mjs",
   "registry": {
     "fullName": "xkazm04/ai-registry",
@@ -300,16 +300,16 @@
     },
     {
       "name": "daybreak",
-      "version": "1.2.0",
+      "version": "1.4.1",
       "category": "workflow",
       "path": "skills/daybreak/SKILL.md",
-      "contentHash": "sha256-n1:f0e1f12209dc0d6b",
+      "contentHash": "sha256-n1:028a74fb37980849",
       "adopters": [],
       "invokes30d": 0,
       "reportedInvokes": 0,
-      "lessons": 3,
+      "lessons": 6,
       "lessonsPath": "skills/daybreak/LESSONS.md",
-      "lessonsHash": "sha256-n1:df754f29e1b94f7e",
+      "lessonsHash": "sha256-n1:68e95c0a0cd2a924",
       "usageContributors": [],
       "usageStaleContributors": [],
       "runs30d": 0,
@@ -1254,7 +1254,7 @@
     "skills": 45,
     "practices": 8,
     "memory": 10,
-    "lessons": 391
+    "lessons": 394
   },
   "bundles": [
     {
@@ -1408,7 +1408,7 @@
         "generatedAt": "2026-08-22T17:24:57Z",
         "windowDays": 30,
         "state": "stale",
-        "ageDays": 78
+        "ageDays": 79
       }
     ],
     "unresolved": [
