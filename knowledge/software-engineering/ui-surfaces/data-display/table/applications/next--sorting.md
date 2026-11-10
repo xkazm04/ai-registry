@@ -114,9 +114,16 @@ composition, with no file asserting it.
 Three independent changes break it silently and none of them looks like a sort
 change: dropping the `fullName` ordering from the query because a later sort
 "makes it redundant", introducing a non-stable sort anywhere in the chain, or
-adding a second source of rows with its own order. The standard's one-line fix
-— append the row identity as the final comparison term — costs nothing and
-makes the property local to the comparator that needs it.
+adding a second source of rows with its own order. The standard's fix costs
+one comparison term more than it first appears to. Appending the row identity
+straight after the activity value would make the order total, but it would also
+silently replace the key the stable sort was carrying through activity ties,
+overall score descending, with name order. So the comparator names that key
+first and appends identity after it: activity, then overall score descending,
+then `fullName`. That makes the property local to the comparator that needs it
+without changing the order a reader sees today. (This paragraph was revised
+on 2026-11-10 when the sorting technique gained its implicit-key rule; the
+tree was not reopened, so the citations above are as of 2026-09-20.)
 
 **Sort state is neither navigational nor persisted, on a table whose filters
 are both.** The sort lives in component state (`useRepoLeaderboard.ts:40`) and

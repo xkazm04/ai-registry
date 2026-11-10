@@ -37709,8 +37709,8 @@
    "subcategory": "data-display",
    "status": "forged",
    "file": "knowledge/software-engineering/ui-surfaces/data-display/table/table.md",
-   "digest": "sha256-b2:68aaa34d5cc85787",
-   "revision": 15,
+   "digest": "sha256-b2:3571c4c1ca5ef902",
+   "revision": 16,
    "changedAt": "2026-11-10",
    "techniques": [
     {
