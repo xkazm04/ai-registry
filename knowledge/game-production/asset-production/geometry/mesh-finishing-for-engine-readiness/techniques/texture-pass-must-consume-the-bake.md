@@ -104,17 +104,22 @@ generation**, so an externally finished mesh — one your bench reduced, unwrapp
 it is unrunnable, and a pipeline built on the expectation of a round trip has no path.
 
 This is the strongest form of the constraint rather than an exception to it, and it moves
-the decision upstream. Where the texturer only textures its own output, generator-textured
-and bench-baked are **disjoint product lines**: an asset either comes back coloured from
-the generator and never receives a bake, or it is baked by the bench and must be coloured
-by something else entirely. Nothing crosses. So the routing key is still normal salience,
-but it is applied at *generation* time to choose which line the asset enters, not after
-finishing to choose a texturer — and choosing wrong is not a quality defect that a later
-pass repairs, it is a commitment that costs the whole asset to undo.
+the decision upstream. Where the texturer only textures its own output, **nothing the
+bench has finished can go back to it**. Colour still reaches the bench's mesh by one road:
+the generator colours the dense source, and the bench's high-to-low bake transfers colour
+and surface direction together from that one source onto its reduced mesh. Both maps then
+describe one surface, which is the colour-before-bake case above. Bake albedo only, with
+lighting excluded, or the asset is shaded twice. What that road cannot do is change the
+colour after the bake: a colour fix is a re-generation of the source and a re-bake, or a
+paint pass by something else entirely. So the routing key is still normal salience, but it
+is applied at *generation* time to decide whether a part is coloured at the source before
+finishing, not after finishing to choose a texturer — and choosing wrong is not a quality
+defect that a later pass repairs, it is a commitment that costs the whole asset to undo.
 
 Establish which shape your provider has before designing the stage, because the two
 demand different pipelines: one needs a probe and a per-part route, the other needs a
-decision at commissioning and a second texturing engine budgeted from the start.
+decision at commissioning and, for any part whose colour must change after finishing, a
+second texturing engine budgeted from the start.
 
 ## When not to use this
 

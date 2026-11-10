@@ -6194,9 +6194,9 @@
    "subcategory": "geometry",
    "status": "forged",
    "file": "knowledge/game-production/asset-production/geometry/mesh-finishing-for-engine-readiness/mesh-finishing-for-engine-readiness.md",
-   "digest": "sha256-b2:17c31fab45fb59f0",
-   "revision": 4,
-   "changedAt": "2026-10-05",
+   "digest": "sha256-b2:bd6e6c12a4bcea7a",
+   "revision": 5,
+   "changedAt": "2026-11-10",
    "techniques": [
     {
      "slug": "conform-target-is-not-a-remap-row",
@@ -6360,8 +6360,8 @@
      "stack": "node",
      "technique": "texture-pass-must-consume-the-bake",
      "file": "knowledge/game-production/asset-production/geometry/mesh-finishing-for-engine-readiness/applications/node--texture-pass-must-consume-the-bake.md",
-     "verified_on": "2026-09-07",
-     "verified_against": "node@24"
+     "verified_on": "2026-11-10",
+     "verified_against": "node@26"
     },
     {
      "stack": "node",
