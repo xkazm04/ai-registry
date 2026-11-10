@@ -1,8 +1,8 @@
 ---
 domain: software-engineering
 subject: rate-limiting
-last_touched: 2026-11-10
-touched_by: harvest
+last_touched: 2026-11-11
+touched_by: shift
 dry_streak: 0
 ---
 
@@ -99,3 +99,17 @@ source's "ban" is unverified, and local history shows only temporary blocks. Not
 seam: the hygiene worker brief's per-family filing step lacks a count cap and an account-wide
 budget, and that is the return. The subject is now at eleven techniques; the ceiling lead
 above still stands undecided.
+
+## 2026-11-11 - /shift `shift-backend-platform` ([[2026-11-11-backend-platform]])
+
+New technique `failure-reserved-counting` (11 -> 12 techniques), from a backend platform's abuse-limit
+design (first-party code comments, re-read at the mined commit) with an independent web-security
+vendor reaching the two load-bearing rules: a counter reset by a successful login is a known bypass,
+and an anti-brute-force limit is the textbook limit-overrun race. On a door that bounds guessing the
+counter's subject is the wrong answer; reserve on arrival, give back one hit on success, never reset;
+any limit's refusal releases the others' reservations (the atomic form of `limiter-topology`'s
+evaluate-all-then-commit-all); secret-guarding limits count trusted callers too; caller-chosen key parts
+are tenant-qualified. Applied read-only at a fleet pairing-code confirm chosen to falsify: it compares
+and counts under one lock and needs no reservation, which became the technique's stated boundary
+(reservation is the price of deciding the outcome after admission). COVERED there. The `key-design`
+amendment (tenant meaning of a key part) banked untriaged. The ceiling lead above is now at twelve.

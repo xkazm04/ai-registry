@@ -15,6 +15,7 @@ techniques:
   - limit-derivation
   - metered-step-selection
   - unpublished-behaviour-limit
+  - failure-reserved-counting
 ---
 
 # Rate limiting
@@ -212,6 +213,13 @@ several steps; what it may not carry is two limits on one step in different
 units decided in different places.
 [metered-step-selection](./techniques/metered-step-selection.md) owns the
 choice, its divergence check, and the tells that it was made wrongly.
+
+On a door that bounds guessing, the counter's subject is an outcome rather
+than a step: the wrong answer. The outcome is known only after the handler,
+so the hit is reserved atomically on arrival and handed back on success,
+never reset, and a refusal by any limit releases what the others reserved.
+[failure-reserved-counting](./techniques/failure-reserved-counting.md) also
+keeps trusted callers inside a limit that is the only fence around a secret.
 
 ## What "done" looks like for this subject
 

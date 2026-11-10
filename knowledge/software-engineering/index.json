@@ -4,7 +4,7 @@
   "bundle": "software-engineering",
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 245,
-  "techniques": 1996,
+  "techniques": 1997,
   "applications": 1501,
   "laws": 16,
   "categories": [
@@ -20,7 +20,7 @@
    "secret-custody-and-issuance"
   ],
   "layout": "nested",
-  "use_when_coverage": "1996/1996",
+  "use_when_coverage": "1997/1997",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -30697,9 +30697,9 @@
    "subcategory": "resilience",
    "status": "forged",
    "file": "knowledge/software-engineering/backend-platform/resilience/rate-limiting/rate-limiting.md",
-   "digest": "sha256-b2:d2f83dae652aaccc",
-   "revision": 9,
-   "changedAt": "2026-11-10",
+   "digest": "sha256-b2:a96e34cd5524fc02",
+   "revision": 10,
+   "changedAt": "2026-11-11",
    "techniques": [
     {
      "slug": "algorithm-selection",
@@ -30710,6 +30710,25 @@
       "naming the burst semantic before picking a family",
       "a one-second spike becomes a self-renewing lockout",
       "clock sync steps backward and tokens get minted"
+     ]
+    },
+    {
+     "slug": "failure-reserved-counting",
+     "status": "forged",
+     "laws": [
+      "gate-sees-target",
+      "count-carries-predicate",
+      "one-validation-door"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "limiting guesses at a password or verification code or recovery token",
+      "a login limit punishes a busy shared address for its successful requests",
+      "a burst of concurrent wrong guesses gets past a failed-attempt limit",
+      "a successful login resets the failed-attempt counter",
+      "an address over its own cap keeps locking other people's accounts",
+      "deciding whether trusted callers skip a limit that guards a secret",
+      "one limiter store serves several tenants and keys on an email or account id"
      ]
     },
     {
@@ -43578,6 +43597,7 @@
     "quorum-and-recovery-procedures/migration-lock-in-source",
     "quorum-and-recovery-procedures/nonce-progress-verify",
     "quorum-and-recovery-procedures/pick-highest-applied-index",
+    "rate-limiting/failure-reserved-counting",
     "rate-limiting/limiter-topology",
     "rate-limiting/metered-step-selection",
     "rate-limiting/unpublished-behaviour-limit",
@@ -44917,6 +44937,7 @@
     "quality-gates/vacuous-by-evaluation",
     "quality-gates/waiver-names-its-finding",
     "quorum-and-recovery-procedures/pick-highest-applied-index",
+    "rate-limiting/failure-reserved-counting",
     "rate-limiting/limit-derivation",
     "rate-limiting/limit-observability",
     "rate-limiting/metered-step-selection",
@@ -45556,6 +45577,7 @@
     "public-verdict-badge/customization-scope-guard",
     "public-verdict-badge/embed-reach-attribution",
     "quorum-and-recovery-procedures/unauthenticated-ritual-is-a-vulnerability",
+    "rate-limiting/failure-reserved-counting",
     "rate-limiting/limiter-topology",
     "readiness-passports/declined-by-choice",
     "realtime-events/change-data-capture",
