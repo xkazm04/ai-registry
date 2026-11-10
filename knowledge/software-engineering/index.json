@@ -37709,9 +37709,9 @@
    "subcategory": "data-display",
    "status": "forged",
    "file": "knowledge/software-engineering/ui-surfaces/data-display/table/table.md",
-   "digest": "sha256-b2:c587a204413d5373",
-   "revision": 14,
-   "changedAt": "2026-10-14",
+   "digest": "sha256-b2:68aaa34d5cc85787",
+   "revision": 15,
+   "changedAt": "2026-11-10",
    "techniques": [
     {
      "slug": "client-server-split",

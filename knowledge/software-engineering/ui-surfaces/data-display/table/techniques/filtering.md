@@ -109,6 +109,14 @@ The tell that this has already happened: the on-screen count and the exported
 row count disagree for some scope nobody tests, and each is independently
 defensible.
 
+Where the whole set lives on the client there is a stronger form: the export
+takes the derived rows, not a predicate. Those rows are the filtered and sorted
+array the count is read from, taken *before* any client windowing — client
+pipelines filter, then sort, then paginate as the last step, so the array the
+body maps is the right input only when nothing windows it; under client
+pagination it is one page. An export that enumerates no axes cannot forget one,
+and its row count and the on-screen count are one array's length.
+
 ## Changing the applied predicate invalidates the window and the rows
 
 A committed filter change is not a refresh. It is a different question, so:
