@@ -1,0 +1,124 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "filler-deepen-20261110",
+  "skill": "deepen",
+  "skill_version": "1.5.0",
+  "mode": "loop",
+  "domain": "software-engineering",
+  "started_at": "2026-11-10T14:30:00Z",
+  "ended_at": "2026-11-10T15:45:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 3,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "software-engineering/test-harness",
+      "at": "2026-11-10",
+      "engine": "deepen",
+      "outcome": "landed",
+      "points_before": 80,
+      "points_after": null
+    },
+    {
+      "id": "software-engineering/prompt-assembly",
+      "at": "2026-11-10",
+      "engine": "deepen",
+      "outcome": "landed",
+      "points_before": 53,
+      "points_after": null
+    },
+    {
+      "id": "software-engineering/agent-cli-transport",
+      "at": "2026-11-10",
+      "engine": "deepen",
+      "outcome": "landed",
+      "points_before": 44,
+      "points_after": null
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "agent-cli-transport",
+      "technique": "permission-stance-enforcement",
+      "verdict": "better",
+      "mode": "simulation"
+    },
+    {
+      "subject": "prompt-assembly",
+      "technique": "fingerprinting-and-cache-keys",
+      "verdict": "better",
+      "mode": "simulation"
+    },
+    {
+      "subject": "test-harness",
+      "technique": "gate-scope-is-not-report-scope",
+      "verdict": "better",
+      "mode": "simulation"
+    }
+  ],
+  "files": [
+    "knowledge/software-engineering/engineering-process/build-and-release/test-harness",
+    "knowledge/software-engineering/llm-agent/prompt-and-context/prompt-assembly",
+    "knowledge/software-engineering/llm-agent/runtime-and-io/agent-cli-transport",
+    "librarian/applied.md",
+    "librarian/subjects/software-engineering/test-harness.md",
+    "librarian/subjects/software-engineering/prompt-assembly.md",
+    "librarian/subjects/software-engineering/agent-cli-transport.md"
+  ],
+  "commits": [
+    {
+      "sha": "db9998cf6",
+      "branch": "main",
+      "pathspec": [
+        "knowledge/software-engineering/llm-agent/runtime-and-io/agent-cli-transport",
+        "librarian/subjects/software-engineering/agent-cli-transport.md",
+        "librarian/applied.md"
+      ]
+    },
+    {
+      "sha": "1ae2a1961",
+      "branch": "main",
+      "pathspec": [
+        "knowledge/software-engineering/llm-agent/prompt-and-context/prompt-assembly",
+        "librarian/subjects/software-engineering/prompt-assembly.md",
+        "librarian/applied.md"
+      ]
+    },
+    {
+      "sha": "94eecf30c",
+      "branch": "main",
+      "pathspec": [
+        "knowledge/software-engineering/engineering-process/build-and-release/test-harness",
+        "librarian/subjects/software-engineering/test-harness.md",
+        "librarian/applied.md"
+      ]
+    },
+    {
+      "sha": "d0a76e1dc",
+      "branch": "main",
+      "pathspec": [
+        "knowledge/software-engineering",
+        "librarian/subjects/software-engineering",
+        "librarian/applied.md"
+      ]
+    },
+    {
+      "sha": "6f96dd067",
+      "branch": "main",
+      "pathspec": [
+        "knowledge/software-engineering",
+        "librarian/subjects/software-engineering",
+        "librarian/applied.md"
+      ]
+    }
+  ],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "Loop of 3, ended at cap, not saturated: test-harness and agent-cli-transport dry_streak 0, prompt-assembly 1. Deviations were mostly owned rules (conform work). Map regeneration and project map commits not run from this seat. Five unapplied rows banked."
+}
