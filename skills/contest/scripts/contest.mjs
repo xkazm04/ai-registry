@@ -166,7 +166,7 @@ function init() {
   const patternsSection = top.length
     ? ['## What has won before', '', 'These ideas already won earlier contests. They are solved: do not resubmit them as a variant\'s idea. Use one only as a given beneath an idea of your own; a variant whose central bet is one of these is scored as no new idea.', '', ...top.map((p) => `- **${p.slug}** (won ${p.wins}, seen ${p.seen}): ${p.statement}`)].join('\n')
     : '';
-  const template = read(path.join(REFERENCES, 'participant-brief.md'));
+  const template = read(path.join(REFERENCES, shape.template ?? 'participant-brief.md'));
   const lines = reviewLines(shape.review);
   let deliver;
   try { deliver = deliverableLines(opts.deliverable ? read(path.resolve(cwd, opts.deliverable)) : null, { variants, hasData }); } catch (e) { die(e.message); }
@@ -174,6 +174,11 @@ function init() {
     const ws = path.join(dir, 'entries', p.id);
     fs.mkdirSync(ws, { recursive: true });
     if (hasData) copyDir(path.join(dir, 'data'), path.join(ws, 'data'));
+    // A preset's tools (the ideas preset's Codex drawer) land in every seat's data/.
+    for (const t of shape.tools) {
+      fs.mkdirSync(path.join(ws, 'data'), { recursive: true });
+      fs.copyFileSync(path.join(HERE, t), path.join(ws, 'data', t));
+    }
     const text = template
       .replaceAll('{{title}}', title).replaceAll('{{brief}}', brief).replaceAll('{{variants}}', String(variants))
       .replaceAll('{{layout}}', deliver.layout).replaceAll('{{entry_line}}', deliver.entry_line)

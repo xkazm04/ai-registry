@@ -436,6 +436,7 @@
         "skills/daybreak/tests/pick-projects.test.mjs",
         "skills/daybreak/tests/ram-governor.test.mjs",
         "skills/daybreak/tests/vault-ledger.test.mjs",
+        "skills/contest/scripts/codex-draw.mjs",
         "skills/contest/scripts/contest.mjs",
         "skills/contest/scripts/lib/judging.mjs",
         "skills/contest/scripts/lib/participants.mjs",

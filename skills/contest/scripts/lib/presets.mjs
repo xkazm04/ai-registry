@@ -11,6 +11,10 @@ export const UI_DEFAULT_PARTICIPANTS = 'claude:claude-sonnet-5-5@max,claude:clau
 export const PRESETS = {
   // A representative / landing page judged first on visual quality, motion and creativity.
   landing: { participants: UI_DEFAULT_PARTICIPANTS, variants: 3, timeout_min: 90, review: 'owner', bar: 'landing-bar.md' },
+  // A field of ideas, each drawn: one board page per seat, a row per idea with its own generated
+  // images. The seat researches first, draws through the staged Codex drawer, and the owner judges
+  // alone - a code-reading panel cannot judge a joke or a picture.
+  ideas: { variants: 1, timeout_min: 150, review: 'owner', template: 'ideas-brief.md', tools: ['codex-draw.mjs'] },
 };
 
 /**
@@ -45,7 +49,7 @@ function countOpt(opts, key, fallback) {
  * Returns the resolved init shape plus where each value came from, so init can say so.
  */
 export function resolveInit(opts) {
-  const name = opts.landing ? 'landing' : (opts.preset && opts.preset !== true ? String(opts.preset) : null);
+  const name = opts.landing ? 'landing' : opts.ideas ? 'ideas' : (opts.preset && opts.preset !== true ? String(opts.preset) : null);
   if (name && !PRESETS[name]) throw new Error(`unknown preset "${name}" (${Object.keys(PRESETS).join(', ')})`);
   const preset = name ? PRESETS[name] : {};
   const given = (k) => opts[k] !== undefined && opts[k] !== true;
@@ -59,6 +63,8 @@ export function resolveInit(opts) {
     timeout_min: minutesOpt(opts, 'timeout-min', preset.timeout_min ?? 60),
     review,
     bar: preset.bar ?? null,
+    template: preset.template ?? null,
+    tools: preset.tools ?? [],
   };
 }
 
