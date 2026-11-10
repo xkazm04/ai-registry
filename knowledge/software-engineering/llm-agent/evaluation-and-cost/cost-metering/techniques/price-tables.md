@@ -130,7 +130,12 @@ what happened, and a gate, which must decide before anything has:
   under-enforcing silently. A period ceiling summing the ledger does the
   same over the unpriced rows' units at read time, so a floor never reads
   as headroom. The default lives in the gate's arithmetic and is never
-  written as the row's cost.
+  written as the row's cost. Where the table holds no priced row to bound
+  by, there is no conservative figure to use: the gate cannot bind on cost
+  before the call. Say so at the gate, refuse or cap by a non-cost unit if
+  the path is unattended, and book the call's reported or later-priced
+  cost so the *next* check sees it. That is one-call-late accounting,
+  declared rather than a bound pretended.
 - **Counted.** Every miss increments a staleness metric and marks the row
   as unpriced, and the unpriced models are listed ranked by the traffic
   behind them. "The table missed 400 times this week" is an actionable

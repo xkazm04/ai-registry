@@ -59,8 +59,27 @@ rate. Two properties are load-bearing:
 
 The wake-rate at the cap is the honest cost figure to state, per
 [count-carries-predicate](../../../../_laws.md#count-carries-predicate):
-"wakes per idle hour" is model-independent and converts to money through the
-price table, where "it backs off" converts to nothing.
+"wakes per idle hour" converts to money through the price table, where "it
+backs off" converts to nothing. It converts only together with the cost of
+one wake, though, and that cost is not fixed.
+
+**Slower is not always cheaper: set the rest against the cache lifetime.**
+Each spontaneous wake re-sends the loop's standing context, and where the
+provider caches prompts, a wake inside the cache lifetime reads that context
+at a small fraction of the input rate (and refreshes it), while a wake after
+it expires writes the whole context again at or above the input rate. The
+cost of a wake is a step function of the rest before it, so a level whose
+rest sits just past the lifetime can cost more per idle hour than a faster
+level that keeps the cache warm: with a read at a tenth of input and a write
+at a quarter above it, four-minute wakes under a five-minute lifetime cost
+about an eighth of six-minute ones per hour. Place the levels deliberately:
+rests well inside the lifetime, or long enough past it that the rarer wakes
+pay for their writes. Never let the step fall just past it. State the cap's
+cost as wakes per hour *times the warm-or-cold cost of each*, and re-derive
+it when the provider's cache lifetime or the context size changes. The
+lifetime as a routing horizon is
+[cache-continuity](../../../orchestration/model-routing/techniques/cache-continuity.md)'s;
+this is the same horizon met by a schedule.
 
 ## Classify the wake by what it produced
 
@@ -134,5 +153,7 @@ unconditionally; the response to a human is not where the discount applies.
   by a runtime-ownership token; an in-step sleep pins the cap low.
 - Record a crashed wake as an error, never as rest; let it advance the
   descent anyway.
-- State the idle cost as wakes per hour at the cap, and price it through the
-  price table like any other spend class.
+- State the idle cost as wakes per hour at the cap times the warm-or-cold
+  cost of each wake, and price it through the price table like any other
+  spend class. Keep each level's rest clear of the prompt cache's lifetime,
+  not just past it.

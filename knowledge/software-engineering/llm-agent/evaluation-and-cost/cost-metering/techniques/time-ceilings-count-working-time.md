@@ -43,10 +43,13 @@ agents spend running.
 
 Check at **turn boundaries**, before starting the next unit of work, never in
 the streaming path. The consequence is a bound a team can state and accept:
-the run overshoots by at most the one unit already in flight. A time ceiling
+the run overshoots by at most the one unit already in flight on each
+concurrent lane (one unit for a single loop; one per child for a run that
+has fanned out under
+[one-pot-across-delegation](./one-pot-across-delegation.md)). A time ceiling
 does not cancel a call that has started, and saying so is more honest than
 implying a hard wall. Operators should set limits with headroom for one more
-turn rather than at the number they cannot exceed. If a hard wall is truly
+turn per lane rather than at the number they cannot exceed. If a hard wall is truly
 required, that is a request deadline on the call, owned by
 [one-deadline-across-attempts](../../model-call-outcome-integrity/techniques/one-deadline-across-attempts.md),
 and it is a different mechanism with a different failure message.
