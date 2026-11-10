@@ -4,7 +4,7 @@
   "bundle": "software-engineering",
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 245,
-  "techniques": 1993,
+  "techniques": 1994,
   "applications": 1499,
   "laws": 16,
   "categories": [
@@ -20,7 +20,7 @@
    "secret-custody-and-issuance"
   ],
   "layout": "nested",
-  "use_when_coverage": "1993/1993",
+  "use_when_coverage": "1994/1994",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -24239,9 +24239,9 @@
    "subcategory": "codebase-stewardship",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-process/codebase-stewardship/module-design/module-design.md",
-   "digest": "sha256-b2:7c8008f2207b1946",
-   "revision": 18,
-   "changedAt": "2026-10-14",
+   "digest": "sha256-b2:94aa8f425b49ea54",
+   "revision": 19,
+   "changedAt": "2026-11-10",
    "techniques": [
     {
      "slug": "borrowed-surface",
@@ -24480,6 +24480,21 @@
       "deciding how much of a structural pass an agent may run",
       "granting standing approval over an automated flow",
       "arguing about which decisions should move onto the agent as capability rises"
+     ]
+    },
+    {
+     "slug": "value-before-the-sink",
+     "status": "forged",
+     "laws": [
+      "gate-sees-target"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "fixing a defect in a line that is built inside a print or log or write call",
+      "a formatted row or message has branches and no test",
+      "deciding whether to capture output or spy on the console to test a report",
+      "a report script prints a table from a loop and the columns misalign for some rows",
+      "adding a regression test for a printed value"
      ]
     }
    ],
@@ -43417,6 +43432,7 @@
     "module-design/scoreable-designs-are-built-not-argued",
     "module-design/seams-and-adapters",
     "module-design/structural-improvement-loop",
+    "module-design/value-before-the-sink",
     "multi-project/project-identity-and-joins",
     "multi-provider-gateway-plane/exclusive-authorship-of-a-measured-decision",
     "multi-provider-gateway-plane/upstream-identity-before-inventory",

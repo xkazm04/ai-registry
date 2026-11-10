@@ -21,6 +21,7 @@ techniques:
   - state-carrier-decides-the-lane
   - emitted-code-names-from-a-root
   - host-primitive-facade
+  - value-before-the-sink
 ---
 
 # Module design
@@ -452,3 +453,7 @@ manners.
   spawn, sleep, timeout, time and the thread-safety bounds, a reasoned lint denylist
   loaded only in the portable job, and the real-host test run with a job timeout
   because a lint cannot see a hang.
+- [value-before-the-sink](./techniques/value-before-the-sink.md) — io-free-core at the
+  scale of one line: a value built inside a print, log or write call has no seam, so its
+  branches have no test; return it from a function, keep the sink in the caller, assert
+  every branch with literal strings, and leave fixed literals alone.

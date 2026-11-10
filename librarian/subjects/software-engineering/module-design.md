@@ -1,8 +1,8 @@
 ---
 domain: software-engineering
 subject: module-design
-last_touched: 2026-10-14
-touched_by: intake
+last_touched: 2026-11-10
+touched_by: harvest
 dry_streak: 0
 ---
 
@@ -317,3 +317,21 @@ consumer (defect asserted, fragile and note not, an unobserved defect is documen
 deleted or inverted when the consumer is fixed). Subject at 16 techniques; section, not file. No
 application: the evidence generator is outside the pinned clone. Unverified: that the two "backends" share
 one parser.
+
+## 2026-11-10 - /harvest backlog 6-013 ([[2026-09-09-llmfit-v2]], /shift filler)
+
+New technique `value-before-the-sink`, better, blind-ab: a value built inside a print, log or
+write call has no seam, so its branches have no test; return it, keep the sink in the caller,
+assert every branch with literal strings, and leave fixed literals alone. The home was empty on
+the row; it resolved here, beside io-free-core, rather than to a test-harness subject. Four
+probes from real report sites (a seat stats table in this registry's own skill tooling, a
+rules-report row and a gate summary row in a fleet project, plus a fixed closing message as the
+over-correction counter-check), 2 runs per arm per probe, rubric, target and floor written
+first, one blind judge per probe with labels shuffled; judge and arms single-family, so
+provisional. Extract-and-test on the three branching sites: draft in context 6 of 6, without 1
+of 6 (target was a gap of 3). Fix correctness and scope tied at 6 of 6; the counter-check held
+on every run in both arms (no extraction, no test for a literal). Controls: the judge failed a
+hand-made inline fix and a console-spy test and passed a good one; an arm's test went red when
+its fix was reverted. Partial phantom: the instance had already landed on 2026-09-09 as a
+number-formatting enforcement note; the general rule had not. Not applied at a seam: the arms
+ran on copies, and no project file changed. Return: the next report-row fix in a wired repo.

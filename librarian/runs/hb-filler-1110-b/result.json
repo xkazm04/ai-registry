@@ -1,0 +1,50 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "hb-filler-1110-b",
+  "skill": "harvest",
+  "skill_version": "0.7.0",
+  "mode": "backlog",
+  "domain": "software-engineering",
+  "started_at": "2026-11-10T10:40:00Z",
+  "ended_at": "2026-11-10T13:10:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 3,
+    "landed": 1,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "software-engineering/module-design",
+      "at": "2026-11-10",
+      "engine": "shift",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "software-engineering/module-design",
+      "technique": "value-before-the-sink",
+      "verdict": "better",
+      "mode": "blind-ab"
+    }
+  ],
+  "files": [
+    "knowledge/software-engineering/engineering-process/codebase-stewardship/module-design/module-design.md",
+    "knowledge/software-engineering/engineering-process/codebase-stewardship/module-design/techniques/value-before-the-sink.md",
+    "librarian/sources/2026-09-09-llmfit-v2.md",
+    "librarian/subjects/software-engineering/module-design.md",
+    "librarian/applied.md",
+    "librarian/harvest/backlog.jsonl",
+    ".claude/skills/harvest/LESSONS.md"
+  ],
+  "commits": [],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "Backlog wave, /shift filler, one seat. 6-013 better (blind-ab), landed, no seam changed. 6-014 not-better (blind-ab, over-correction floor breached). 6-016 not-better (blind-ab, both arms at ceiling). 3-014 and the banked 4-028/030/031 passed over."
+}
