@@ -9324,8 +9324,8 @@
    "subcategory": "evaluation-and-cost",
    "status": "reconciled",
    "file": "knowledge/software-engineering/llm-agent/evaluation-and-cost/cost-metering/cost-metering.md",
-   "digest": "sha256-b2:ee8a30d6b58094c0",
-   "revision": 17,
+   "digest": "sha256-b2:c76a3f4c830dc5fe",
+   "revision": 18,
    "changedAt": "2026-11-10",
    "techniques": [
     {

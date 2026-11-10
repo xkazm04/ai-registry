@@ -15,8 +15,8 @@ The ledger records; observability makes the record *legible while it can
 still change behavior*. The bar is concrete: an operator glancing at the
 spend surface should notice, within a day, the anomaly that would otherwise
 surface as a line item thirty days later — the retry loop that started
-burning money on Tuesday, the new model that priced at the conservative
-default all week, the one conversation turn that cost seven times the
+burning money on Tuesday, the new model that ran unpriced all week, the
+one conversation turn that cost seven times the
 entire nightly maintenance sweep. Spend anomalies are almost always visible
 in the ledger the day they begin; observability's job is making sure
 someone was looking.
@@ -79,10 +79,12 @@ The metering pipeline has failure modes of its own, and its instruments
 belong on the same surface as the spend they qualify — a reader deciding
 whether to trust the numbers needs the caveats adjacent, not in a runbook:
 
-- **Default-priced share** — what fraction of the period's cost came from
-  the price table's unknown-model default ([price-tables](./price-tables.md)).
-  High share means the total is an upper bound wearing a number's
-  confidence.
+- **Unpriced share** — what fraction of the period's calls or units the
+  price table could not price, with the unpriced models ranked by traffic
+  ([price-tables](./price-tables.md),
+  [unit-classes-are-open](./unit-classes-are-open.md)). A nonzero share
+  means the total is a floor, and the surface prints it as one; a high
+  share means the floor is far from the bill.
 - **Estimate-vs-actual drift** — the calibration gap from
   [preflight-estimation](./preflight-estimation.md), because gates run on
   estimates and a drifting estimator degrades every gate silently.

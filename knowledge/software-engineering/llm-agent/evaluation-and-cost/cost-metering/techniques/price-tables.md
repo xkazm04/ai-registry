@@ -38,12 +38,15 @@ A usable rate entry is more granular than "this model costs X":
   blended rate mis-cost in opposite directions, so the errors do not even
   cancel in aggregate — they redistribute cost between features.
 - **Family resolution.** Providers version models faster than tables update,
-  but variants within a family usually share pricing. Resolving a concrete
-  model identifier to a priced *family* (by declared prefix rules, not
-  substring luck) keeps the table small and makes it robust to point
-  releases — while still recording the *concrete* identifier on the ledger
-  row, because the family is a pricing convenience and the identifier is the
-  attribution fact.
+  and dated snapshots or aliases of *one version* usually share its pricing.
+  Successive versions under one family name do not: a family's next version
+  routinely reprices, in either direction, and by up to an order of
+  magnitude. Resolve a concrete identifier to a priced row by declared
+  prefix rules, not substring luck, and let a prefix span snapshots of one
+  version, never the family name alone — a family-name rule prices next
+  year's model at last year's rate with no miss to count. Still record the
+  *concrete* identifier on the ledger row, because the resolved row is a
+  pricing convenience and the identifier is the attribution fact.
 - **Unit denomination stated.** Rates quoted per unit, per thousand, per
   million — off-by-a-thousand is the classic price-table bug, and it is
   unfindable by inspection unless the denomination is part of the entry, not
@@ -251,6 +254,9 @@ explicit edit that no test will ask for, and the file says so at the key.
   when compared.
 - A rate row keyed by the constant that names the current model, so a version
   bump carries the key across and leaves the number behind.
+- A lookup matching on a family name (`contains("small-tier")`), so every
+  future version of that family is priced at whichever version the row was
+  written for.
 - A headline per-token rate applied to a workload that routinely crosses
   the provider's long-context threshold.
 - A units-times-rate "audit" of meter-reported spend treated as the truth

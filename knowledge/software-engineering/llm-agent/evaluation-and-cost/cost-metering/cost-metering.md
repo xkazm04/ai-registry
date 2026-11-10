@@ -182,9 +182,15 @@ row is written or never.** A ledger row that recorded only "a call happened,
 it cost this much" cannot be joined to the run that made it after the fact —
 the context existed only in the call stack, and the call stack is gone. So
 the row carries every axis anyone will ever group by, written from live
-context at call time. What the axes are, how unattributable spend is handled
-(a counted bucket, never a dropped row), and what rollup honesty requires
-are the [spend-attribution](./techniques/spend-attribution.md) technique.
+context at call time. One axis legitimately misses that moment: the work
+item a session served, which is often settled by evidence that appears
+around the session rather than by anything the call carried. Joining it
+afterwards is allowed only by declared evidence precedence, with an inferred
+link standing only when it is unique and every row saying which evidence
+linked it — anything weaker is the heuristic join this subject refuses. What
+the axes are, how unattributable spend is handled (a counted bucket, never a
+dropped row), the after-the-fact join, and what rollup honesty requires are
+the [spend-attribution](./techniques/spend-attribution.md) technique.
 
 ## A ceiling nothing checks is a wish
 
@@ -271,7 +277,8 @@ surfaces show and which anomalies they must make visible is the
   zero, never by dropping the row.
 - **Retroactive attribution.** If the axis was not on the row at write time,
   the honest answer is "unattributed", not a heuristic join that manufactures
-  confidence.
+  confidence. The one exception is an evidence-precedence join that records
+  its evidence and refuses an ambiguous inferred link.
 - **Advisory ceilings.** A budget whose enforcement points cannot be
   enumerated is a report, and gets labeled as one.
 - **An upfront debit whose reversal has no identity.** Money taken before

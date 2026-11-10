@@ -78,11 +78,14 @@ smell, not a safeguard** — it is the place a wrong denominator is hidden.
    a value to be saturated.
 4. **Write is its own unit class.** The whole-prompt count puts written tokens in
    the input, so a price book with no write rate bills them at the input rate.
-   Providers price a write above a plain input token; the residual is an
-   under-bill, small and one-directional, and it belongs in the price book as a
-   rate ([unit-classes-are-open](./unit-classes-are-open.md),
+   Where a provider prices a write above a plain input token, the residual is
+   an under-bill, small and one-directional, and it belongs in the price book
+   as a rate ([unit-classes-are-open](./unit-classes-are-open.md),
    [price-tables](./price-tables.md)) and in the doc as a stated limitation until
-   then.
+   then. Whether a write carries a premium is per provider and per model, and it
+   changes between versions; a provider that bills held cache by storage time
+   instead has a unit no per-token rate can price, and that class goes to the
+   residual rather than into the input rate.
 5. **Two meters, one convention.** When a product keeps its own meter and mirrors
    events to a service, compute both from the same normalised block. A product
    meter that is correct and a mirror that is not disagree by exactly the cache
