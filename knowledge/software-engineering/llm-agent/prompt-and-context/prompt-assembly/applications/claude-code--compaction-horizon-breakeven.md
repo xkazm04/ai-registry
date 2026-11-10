@@ -5,7 +5,7 @@ subject: prompt-assembly
 technique: compaction-horizon-breakeven
 stack: claude-code
 status: forged
-verified_on: 2026-10-02
+verified_on: 2026-11-10
 verified_against: claude-code@2.1.287
 applied: experiment
 ab_verdict: unmeasurable
@@ -25,7 +25,9 @@ the case where that premise fails: a person steps away, the prompt cache
 expires, and the next request rewrites the whole transcript. A practitioner
 video occasioned it. Its creator had built a status-line-adjacent "cache clock"
 with a compaction button, and claimed a 95% discount on cached reads. That is
-right for one current model and wrong for most others, which is why the
+right for two current models, short of the deeper discount four others get,
+and more than the 90% every remaining model gets (vendor pricing page,
+2026-11-10), which is why the
 technique now reads both prices per model.
 
 ## Arm A and arm B, on the same gaps

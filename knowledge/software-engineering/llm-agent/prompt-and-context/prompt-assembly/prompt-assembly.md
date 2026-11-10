@@ -142,8 +142,9 @@ appended to.
 
 The context window is finite and shared by everything the model must see —
 plus the room its answer needs. A system that does not allocate this budget
-still has an allocation: whatever survives the provider's silent tail
-truncation, which is the worst possible policy chosen by nobody.
+still has an allocation: whatever the runtime does on overflow, which is either
+a refusal of the whole request or, on some local servers, a silent drop of the
+oldest turns. That is the worst possible policy, and nobody chose it.
 
 Deliberate budgeting means, per layer: a floor for the layers that must
 never degrade (identity, policy, the task itself), an elastic allowance for
@@ -371,8 +372,9 @@ disappearing.
 
 - **Sprawl** — prompt text born at call sites; no single point of assembly,
   budget, review, or test.
-- **Budget by accident** — no allocation, so the provider's tail truncation
-  becomes the de facto (and worst) degradation policy.
+- **Budget by accident** — no allocation, so the runtime's overflow behaviour
+  (a refused request, or the oldest turns dropped without a word) becomes the
+  de facto (and worst) degradation policy.
 - **Capability drift** — hand-written ability descriptions diverging from
   the real registry, until the model fluently invokes operations that do
   not exist.
@@ -388,8 +390,10 @@ disappearing.
 - **The unrecorded send** — the largest, most behavior-determining
   artifact the system produces is the only one it does not persist; every
   "did it see the new instruction?" question becomes unanswerable the
-  moment the call returns. Record at minimum the digest and size of every
-  prompt sent, at the send site.
+  moment the call returns. Record at minimum the standing-layer fingerprint
+  and the size of every prompt sent, at the send site; neither carries
+  content, so neither waits on the rule that keeps the prompt itself out of
+  logs.
 - **The unmeasured shrink** — a compression or elision step scored on the
   bytes it removed, shipped without counting how often the model went back
   for what it took; the saving is real at the transform and unknown at the

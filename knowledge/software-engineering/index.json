@@ -28492,9 +28492,9 @@
    "subcategory": "prompt-and-context",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/prompt-and-context/prompt-assembly/prompt-assembly.md",
-   "digest": "sha256-b2:ad13b2ee69c25e8d",
-   "revision": 44,
-   "changedAt": "2026-10-14",
+   "digest": "sha256-b2:3a6c6140d81ddcb3",
+   "revision": 45,
+   "changedAt": "2026-11-10",
    "techniques": [
     {
      "slug": "amortized-compaction-cadence",
@@ -29012,7 +29012,7 @@
      "stack": "claude-code",
      "technique": "compaction-horizon-breakeven",
      "file": "knowledge/software-engineering/llm-agent/prompt-and-context/prompt-assembly/applications/claude-code--compaction-horizon-breakeven.md",
-     "verified_on": "2026-10-02",
+     "verified_on": "2026-11-10",
      "verified_against": "claude-code@2.1.287"
     },
     {
@@ -29124,9 +29124,9 @@
      "stack": "python",
      "technique": "amortized-compaction-cadence",
      "file": "knowledge/software-engineering/llm-agent/prompt-and-context/prompt-assembly/applications/python--amortized-compaction-cadence.md",
-     "verified_on": "2026-09-23",
+     "verified_on": "2026-11-10",
      "verified_against": "python@3.12",
-     "refresh_by": "2026-11-05"
+     "refresh_by": "2026-12-22"
     },
     {
      "stack": "python",
