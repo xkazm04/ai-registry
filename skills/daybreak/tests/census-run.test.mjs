@@ -1,11 +1,34 @@
 // The first pilot finished clean over 18% of the source, so scope is what these pin.
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { inScope, partition, subjectsFor, standardFiles } from '../scripts/census-run.mjs';
+import { inScope, partition, subjectsFor, standardFiles, candidatesFor, accusationTargets, effortOf } from '../scripts/census-run.mjs';
+
+test('effort defaults to medium, high gets a longer timeout, and a typo is refused', () => {
+  assert.deepEqual(effortOf(null), { level: 'medium', timeoutMin: 30 });
+  assert.deepEqual(effortOf('high'), { level: 'high', timeoutMin: 60 });
+  assert.throws(() => effortOf('hihg'), /unknown effort/);
+});
+
+test('a claim naming a technique is accused only from that technique', () => {
+  const cited = { dir: 'k/table', files: ['k/table/table.md', 'k/table/techniques/pagination.md'], technique: 'k/table/techniques/pagination.md' };
+  assert.deepEqual(accusationTargets(cited, null), { follow: ['k/table'], accuse: ['k/table/techniques/pagination.md'], files: cited.files });
+  const bare = { dir: 'k/modal', files: ['k/modal/modal.md'], technique: null };
+  assert.deepEqual(accusationTargets(bare, { dir: 'k/viz', files: ['k/viz/viz.md'] }).accuse, ['k/modal', 'k/viz']);
+  assert.equal(accusationTargets(null, null), null);
+});
+
+test('candidates come from the kind and the capabilities, without repeats', () => {
+  const asked = [];
+  const search = (q, n) => { asked.push(q); return [{ path: 'same' }, { path: q }].slice(0, n); };
+  const got = candidatesFor({ kind: 'api-client-wrapper', name: 'x', capabilities: ['retry'] }, search);
+  assert.equal(asked.length, 3);
+  assert.ok(asked[0].includes('retry backoff'));
+  assert.equal(got.filter((h) => h.path === 'same').length, 1);
+});
 
 test('standardFiles finds the golden path and the cited technique, or nothing', () => {
   const search = () => [{ subject: 'table', technique: 'pagination', path: 'knowledge/x/table/techniques/pagination.md' }];
-  assert.deepEqual(standardFiles('table/pagination', search, () => true), { dir: 'knowledge/x/table', files: ['knowledge/x/table/table.md', 'knowledge/x/table/techniques/pagination.md'] });
+  assert.deepEqual(standardFiles('table/pagination', search, () => true), { dir: 'knowledge/x/table', files: ['knowledge/x/table/table.md', 'knowledge/x/table/techniques/pagination.md'], technique: 'knowledge/x/table/techniques/pagination.md' });
   assert.deepEqual(standardFiles('table', search, (f) => f.endsWith('table.md')).files, ['knowledge/x/table/table.md']);
   assert.equal(standardFiles('nothing-here', search, () => true), null);
   assert.equal(standardFiles(null, search, () => true), null);
