@@ -133,6 +133,7 @@ their trigger:
 | golden set — small, frozen, high-signal scenarios over the pieces that shape model behavior | cents | every change to those pieces, blocking |
 | full absolute suite | real money | scheduled, and on demand before releases |
 | matrix / arena surveys | most expensive | when a selection decision is actually pending |
+| live certification | expensive + serial | promotion events (see [certification-levels](./certification-levels.md)) |
 
 The matrix row is the one slice where the golden set's virtue — small, frozen,
 saturated with scenarios the system always passes — becomes a cost. A
@@ -143,7 +144,6 @@ under a moving, candidate-blind selection, and reports weighted estimates
 rather than raw counts. That is a different instrument from the gate, not a
 cheaper copy of it, and it is
 [discriminating-task-selection](./discriminating-task-selection.md).
-| live certification | expensive + serial | promotion events (see [certification-levels](./certification-levels.md)) |
 
 The golden-set tier deserves emphasis because it is the cheapest insurance
 in the whole scheme: the components that assemble instructions, sanitize

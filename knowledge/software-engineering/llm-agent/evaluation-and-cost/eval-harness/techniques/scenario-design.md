@@ -175,8 +175,14 @@ they are enumerable as a checklist because they recur across every domain:
   than one plausible target, only one of which the system was asked about.
   Distinct from adversarial: nothing here is planted, nothing instructs, and
   a careless reader would call the case clean.
+- **Should-not-act cases** — inputs where the correct behaviour is to do
+  nothing the suite is watching for: not call the tool, not delegate, not
+  edit. A suite built only from cases where the behaviour should occur
+  rewards a candidate that always performs it, and the over-action never
+  shows up red. Distinct from ambiguity (where the right move is to ask):
+  here the request is clear and the answer is restraint.
 
-The last region is the one that goes missing, and the mechanism is worth
+The distractor region is the one that goes missing, and the mechanism is worth
 stating because it operates while everyone is being careful. **Curating a
 scenario set removes distractors as a side effect of tidying it.** A case
 gets trimmed to the part that matters, the surrounding material is dropped

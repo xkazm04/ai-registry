@@ -17,7 +17,9 @@ assertion (code checks a property, same verdict every time) and a judgment
 stability, and expressiveness, and the technique is knowing the boundary:
 **assert everything that can be asserted; judge only the remainder.** Every
 property moved from the judgment side to the assertion side gets cheaper,
-faster, drift-proof, and self-explanatory on failure — permanently.
+faster, immune to judge drift, and self-explanatory on failure. Not immune to
+every drift: an assertion over free text drifts with the answer's format, which
+is the section below on format assumptions.
 
 ## The deterministic band is wider than it looks
 
@@ -36,7 +38,11 @@ long before assertions are actually exhausted. Between "exact match" and
   numeric answers within tolerance, references resolve against the source.
 - **Behavioral traces** — the tools invoked, the order of operations, the
   absence of a disallowed action. The transcript of *what the system did* is
-  often assertable even when the prose it produced is not.
+  often assertable even when the prose it produced is not. Assert the trace
+  properties that are requirements (a forbidden call, a step that must
+  precede another for safety), not the path a reference solution happened
+  to take: an agent that reaches the right outcome by a different valid route
+  fails a path assertion while being correct.
 - **Property relations** — the answer is consistent with itself; a summary
   contains no entity absent from its source.
 

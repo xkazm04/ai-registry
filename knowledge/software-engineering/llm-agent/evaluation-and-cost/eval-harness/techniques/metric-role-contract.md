@@ -131,6 +131,13 @@ means has done half the work: the roles decide *what would count*, the
 statistics decide *whether it happened*. Both are required, and neither
 substitutes for the other.
 
+The contract binds the run that decides, not every run. A matrix survey that
+maps cost against quality before anyone has chosen
+([comparison-modes](./comparison-modes.md)) is legitimately two-axis: its
+output is the frontier, and the contract is what turns a point on it into a
+verdict once a decision is pending. A survey reported as though it had
+already decided is the violation, not the survey.
+
 ## Where it fails
 
 - **Two optimized metrics.** The commonest violation and the hardest to see,
