@@ -1,0 +1,50 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "hb-filler-1110-e",
+  "skill": "harvest",
+  "skill_version": "0.7.0",
+  "mode": "backlog",
+  "domain": "software-engineering",
+  "started_at": "2026-11-10T14:45:00Z",
+  "ended_at": "2026-11-10T15:40:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 1,
+    "landed": 1,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "software-engineering/client-fetch-cache",
+      "at": "2026-11-10",
+      "engine": "shift",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "software-engineering/client-fetch-cache",
+      "technique": "one-owner-per-datum",
+      "verdict": "better",
+      "mode": "code"
+    }
+  ],
+  "files": [
+    "knowledge/software-engineering/client-architecture/client-fetch-cache/client-fetch-cache.md",
+    "knowledge/software-engineering/client-architecture/client-fetch-cache/techniques/one-owner-per-datum.md",
+    "knowledge/software-engineering/client-architecture/client-fetch-cache/applications/react--one-owner-per-datum--context-copy.md",
+    "librarian/subjects/software-engineering/client-fetch-cache.md",
+    "librarian/applied.md",
+    "librarian/harvest/backlog.jsonl",
+    ".claude/skills/harvest/LESSONS.md"
+  ],
+  "commits": [],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "Backlog wave, /shift filler, size 1. 6-022 better (code, split: removal half measured, two-live-lifetimes half unmeasured). Fleet change on branch backlog/6-022 in a managed checkout, not shipped. 3-014 and held 4-028/030/031 passed over."
+}

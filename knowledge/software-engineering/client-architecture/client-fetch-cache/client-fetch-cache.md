@@ -15,6 +15,7 @@ techniques:
   - plural-policy-claims
   - portable-read-definitions
   - sibling-entry-warmth
+  - one-owner-per-datum
 ---
 
 # Client data fetching & caching
@@ -152,6 +153,15 @@ its **seam** (transport-level burst collapse, fetch-level keyed sharing,
 value-holding module cache) and how it composes with the others; two
 primitives at one seam is one too many.
 
+The same holds one level down, for the data. When two caches hold one datum,
+such as a router's loader store and the fetch cache, or a store field kept
+beside the fetch cache's list, do not tune the two lifetimes to agree. Pick
+the layer that owns the key and the invalidation surface, and set the other
+to zero. Where the second copy is your own code, delete its field: a copy
+that is kept but never filled reads as a real empty list, and the next
+consumer ships that as a defect. That is
+[one-owner-per-datum](./techniques/one-owner-per-datum.md).
+
 ## Duplicate in-flight requests join, not race
 
 When two callers ask the same question while one flight is already in the
@@ -273,3 +283,6 @@ The shape is [parse-and-derive-caches](./techniques/parse-and-derive-caches.md).
   borrowed from a list entry already in the cache: summary typed as a
   summary, found by id across the key family, seeding dependent keys,
   never a substitute for the detail read; the deep-link cold twin.
+- [one-owner-per-datum](./techniques/one-owner-per-datum.md) — two caches
+  over one datum: one owns the four policies, the other goes to zero, and a
+  copy that is your own code is removed rather than left empty.
