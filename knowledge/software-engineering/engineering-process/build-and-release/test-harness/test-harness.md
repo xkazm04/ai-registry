@@ -71,7 +71,8 @@ Where membership is *derived* rather than written — a plugin tagging files by
 scanning their text, tags implying other tags, filter expressions excluding the
 implied ones — the partition can compose into a lane that selects nothing while
 every rule in it stays defensible. Two disciplines answer it: a lane declares a
-floor on what it must select, because zero selected exits green everywhere; and a
+floor on what it must select, because a lane at zero inside a larger run exits green
+on every runner, even those that refuse an invocation that selected nothing; and a
 filter clause is not the cause of an exclusion until removing it moves the count
 ([derived-selection-must-be-measured](./techniques/derived-selection-must-be-measured.md)).
 
@@ -339,7 +340,8 @@ a soak run misunderstands both; the design of these lanes is
   for fire-and-forget operations, the test-identifier contract.
 - [gate-scope-is-not-report-scope](./techniques/gate-scope-is-not-report-scope.md)
   — the gate's scoped include set versus the report's whole-tree denominator,
-  the ratchet's blind spot, and the obligation an exclusion carries.
+  the ratchet's blind spot, the obligation an exclusion carries, and the same
+  defect inside one test: a claim over a closed set walking a hand-written list.
 - [isolation-lanes](./techniques/isolation-lanes.md) — clean-environment
   launchers, fresh profiles, the singleton catalog, parallelism as per-suite
   policy.

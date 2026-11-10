@@ -38770,9 +38770,9 @@
    "subcategory": "build-and-release",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-process/build-and-release/test-harness/test-harness.md",
-   "digest": "sha256-b2:9d7453513e23efad",
-   "revision": 30,
-   "changedAt": "2026-11-08",
+   "digest": "sha256-b2:d9e8b7ad8d428dd7",
+   "revision": 31,
+   "changedAt": "2026-11-10",
    "techniques": [
     {
      "slug": "a-test-helper-is-a-fork-of-the-driver",

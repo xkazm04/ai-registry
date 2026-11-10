@@ -1,7 +1,7 @@
 ---
 subject: test-harness
 domain: software-engineering
-last_touched: 2026-11-06
+last_touched: 2026-11-10
 dry_streak: 0
 ---
 
@@ -320,3 +320,19 @@ written before the arms; a planted plan-around-the-pilot control scored 0. The b
 refused to transfer the rate (C1 2 and 1); the lift was the pre-set local threshold, the can-fail
 predicate and not importing the cause. Weakest point: one draw per arm and a same-family judge,
 and the rubric's criteria track the draft's steps, so the verdict is provisional.
+
+## 2026-11-10 - /deepen --loop 3, round 1 (run `filler-deepen-20261110`, deepen 1.5.0, /shift filler)
+
+Dispatched by the librarian scan (80 points, 20 consumer deviations from a 26-day-old installation signal). Local maps read first: 76 deviation verdicts, all stale against this subject's later moves, so each group was re-read against today's text and three were re-checked in the trees. Lanes: blind training-data first, counter-evidence over runner and framework docs, a published mutation-at-scale study, scheduling theory. No vendor-set fact is stated in the subject, so the volatile lane had nothing to re-source.
+
+- **Absolute refuted (technique + golden path):** "every runner in common use exits successfully when a filter matches nothing". Several mainstream runners refuse a whole invocation that selected nothing (a dedicated exit status, a fail-when-none-found default). The rule (declare a floor) stands and is better motivated: the refusal is whole-invocation only, so a lane at zero inside a larger run, or a pipeline that whitelists the no-tests status, still goes green.
+- **Rule conditioned (`gate-scope-is-not-report-scope`):** "enumerate it from that source and assert the count" admitted a literal length pin on the hand list as compliant; a fleet guard does exactly that under a comment claiming it catches additions elsewhere. Now: compare the derived set with the list; a literal count is not that comparison. Blind and deviation lanes converged.
+- **Needs-scope amendments:** `mutation-lane-with-a-triaged-baseline` gains the per-change advisory half (diff-scoped mutation surfaced in review, never a block; it does not replace the scheduled baseline). `history-driven-partitioning`'s "within a few percent of optimal" holds with many tests per worker, loosening toward a third over optimal with a handful.
+- **Cross-link:** `fixture-economics` now says rollback-per-test is a build-once option of its own, priced by `data-access/repo-testing`, not the shared-fixture disease. Golden path's technique list names the in-test population defect so a reader routed by the golden path finds it (13 of 76 deviations).
+- **Confirmed untouched:** retry-records-first-failure as flake measurement; never split by count (already predicated); build once and copy. Declined: the "thousand times the price" figure (rhetoric under a rule that holds without it); a randomized-order technique (owned remedy is per-test isolation).
+- **Deviation groups (11):** all owned; population-over-hand-list 13, unreached decisions 22, two hand-written copies across a wire 14, structural pins 7, fixture order and data 6, rebuild per test 5, always-healthy fakes 5, stopwatch 3, zero-selected green 3, unowned skip 1, lease scope 1. One live project defect noted for the map: an "every machine" test in one tree walks 7 of 8 machine definitions today.
+- **Applied:** simulation for the conditioned rule over three fleet sites, better (2 distinguished, 1 neutral). The diff-scoped mutation half is `unapplied`; return: a fleet project schedules the mutation lane and opens changes against mutated modules.
+- **Cross-subject proposal (data-access/repo-testing):** "deferred constraints never fire" under rollback-per-test needs a scope; a mature framework binding checks deferrable constraints at the end of each test. Not edited here (not this run's subject).
+- **Banked:** change-derived test selection with a full-run safety net (return: a fleet commit lane over budget and a proposal to run only affected tests).
+- **Saturation:** not dry (one absolute refuted, one rule conditioned, two scoped). dry_streak 0.
+- **Impact:** map regeneration and project map commits not run from this filler seat; owed to the supervisor.

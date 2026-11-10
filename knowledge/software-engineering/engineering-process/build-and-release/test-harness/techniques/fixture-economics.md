@@ -63,7 +63,10 @@ all tests. It is even cheaper — and it couples every test to every other
 test's writes, converts test order into a hidden input, and forbids
 parallelism. The cheap copy exists precisely so that isolation costs almost
 nothing; sharing to save the almost-nothing buys the whole coupled-suite
-disease back.
+disease back. One shared instance with a rollback around every test is not that
+disease: it is a build-once option of its own whose price is that nothing under
+test ever commits, and [repo-testing](../../../../backend-platform/data-layer/data-access/techniques/repo-testing.md)
+prices it against the copy.
 
 ## Freshness: the template names its rebuild
 

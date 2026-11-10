@@ -38,8 +38,10 @@ of the capacity is idle, and the fix is the split, not more workers.
 1. **Record per-test duration on every run**, keyed by stable test identity.
 2. **Partition to equalize predicted total duration**, not count. Longest-first greedy
    assignment — sort tests by duration descending, assign each to the currently-least-loaded
-   worker — is within a few percent of optimal and takes ten lines. Nothing more sophisticated
-   is needed.
+   worker — is within a few percent of optimal when each worker receives many tests, and takes
+   ten lines. With only a handful per worker its guarantee loosens toward a third over optimal,
+   which is the regime of the one-long-test exception below; nothing more sophisticated is
+   needed short of that.
 3. **Rebalance continuously.** The distribution is recomputed from recent history, not frozen
    at the moment somebody tuned it. A hand-tuned split is correct on the day it is written and
    decays from then on.

@@ -78,7 +78,10 @@ derivation available is a table keyed by that type — one the type checker refu
 to accept until every member has an entry — so adding a member to the set fails
 the build rather than silently shrinking the claim. Where the set is a directory,
 a registry or a database of kinds, enumerate it from that source at run time and
-assert the count.
+compare it with the list the test walks. A count written as a literal is not that
+comparison: pinning the list's own length moves only when somebody edits the list,
+which is the one edit the rule exists to stop depending on. A test that guards a
+list "so an addition elsewhere fails" must read the elsewhere.
 
 A hand-written list remains correct for a **sub-population with its own
 predicate** — "these six, which take a command, also refuse when the command is
