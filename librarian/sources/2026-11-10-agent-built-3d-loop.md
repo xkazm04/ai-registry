@@ -211,6 +211,13 @@ at which point `agent-run-budgeting` can take one order-of-magnitude line on dur
   primaries such as engine documentation, not from this video. Its 60 m and 64-angle figures are one
   build's. H9's haze caution goes with it. **Return when** a wired project opens an open-terrain or
   long-sightline scene, **or** `/librarian` places the home.
+  **Home placed 2026-11-11 (`/librarian` run `librarian-1111`), as a proposal for a new subject, not
+  a forge:** `game-production` / `asset-production` / `geometry` (four subjects, room for six), working
+  slug `distance-tiered-stand-ins`. Not `engine-integration`: it holds exactly ten, the cap
+  subdivides a category only when it goes over, and subdividing ten subject folders for a subject that
+  does not exist yet is churn ahead of need. Not a new category: the bundle already holds ten. Full
+  reasoning and the boundaries are in the `game-production` domain note. The second return clause has
+  fired for placement only. Writing the subject still waits on primaries and is the operator's call.
 
 ## For the cluster question
 

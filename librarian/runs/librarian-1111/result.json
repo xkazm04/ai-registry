@@ -1,0 +1,51 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "librarian-1111",
+  "skill": "librarian",
+  "skill_version": "1.7.0",
+  "mode": "run",
+  "domain": null,
+  "started_at": "2026-11-11T08:30:00Z",
+  "ended_at": "2026-11-11T09:30:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 0,
+    "declined": 2,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "software-engineering/rate-limiting",
+      "at": "2026-11-11",
+      "engine": "librarian",
+      "outcome": "declined",
+      "points_before": 4,
+      "points_after": 4
+    }
+  ],
+  "verdicts": [],
+  "files": [
+    "librarian/subjects/software-engineering/rate-limiting.md",
+    "librarian/subjects/game-production/tiling-texture-acceptance.md",
+    "librarian/domains/game-production.md",
+    "librarian/sources/2026-11-10-agent-built-3d-loop.md",
+    "librarian/sources/2026-11-10-trim-sheet-environments.md",
+    "librarian/runs/2026-11-11-1.md"
+  ],
+  "commits": [],
+  "pr": null,
+  "declined": [
+    {
+      "subject": "software-engineering/rate-limiting",
+      "reason": "split declined: no technique ceiling exists, 86 consults, one decision chain; revisit on the ingress/egress trigger"
+    },
+    {
+      "subject": "game-production/engine-integration",
+      "reason": "subdivision declined: category at ten, not over; owed only when an eleventh subject is forged there"
+    }
+  ],
+  "failure_signature": null,
+  "notes": "Placement pass. Trim sheets placed in tiling-texture-acceptance; distance tiers proposed as new subject distance-tiered-stand-ins in asset-production/geometry. 8-009/8-011 left for the operator."
+}

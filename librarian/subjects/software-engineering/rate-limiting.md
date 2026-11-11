@@ -49,10 +49,11 @@ motivated to make it diverge.
 
 ## Open leads
 
-- **This subject is now at ten techniques, and nothing enforces a ceiling.** Two
+- ~~**This subject is now at ten techniques, and nothing enforces a ceiling.**~~ **Decided
+  2026-11-11 (librarian-1111): nine was an observation and has been overtaken; no split.**
+  See the dated section at the end. Two
   concurrent waves each respected the observed house maximum of nine in isolation; the
-  union is ten. The next structure pass should decide whether nine is a real bar or an
-  observation that has been overtaken. Note the ordering that emerged by accident and is
+  union is ten. Note the ordering that emerged by accident and is
   worth keeping: `metered-step-selection` (which step) -> `untrusted-key-derivation`
   (what identifies the caller) -> `unattributable-client-bucketing` (when nothing does)
   -> `key-design` (what the key composes) -> `limit-derivation` (the number).
@@ -113,3 +114,46 @@ are tenant-qualified. Applied read-only at a fleet pairing-code confirm chosen t
 and counts under one lock and needs no reservation, which became the technique's stated boundary
 (reservation is the price of deciding the outcome after admission). COVERED there. The `key-design`
 amendment (tenant meaning of a key part) banked untriaged. The ceiling lead above is now at twelve.
+
+## 2026-11-11 - /librarian run `librarian-1111` (operator-approved placement pass)
+
+**Decision: no split. Nine techniques is not a bar in this registry and never was one; twelve is
+recorded as a fact, not a debt.** The ceiling lead above is closed.
+
+Why, by the librarian's own rules rather than by taste:
+
+- **No rule sets a technique ceiling.** The only cap the structure gate enforces is ten child
+  directories per folder (`scripts/lib/taxonomy.mjs`), and that module says in terms that files are
+  not counted and that a subject needs splitting for reasons "that have nothing to do with
+  browsing". The standard's floor clause runs the other way (fewer than four). "The house ceiling of
+  nine" exists only as a sentence in the forge skill's harvest guidance, and that is advice to a
+  wave about one subject absorbing three new techniques at once.
+- **The corpus overtook nine long ago.** Scan of 2026-11-11 (567 subjects): 70 hold more than nine
+  techniques, 38 hold twelve or more, the largest holds 33. Spot-checked: the scan's 12 here matches
+  the 12 files in `techniques/`. Rate-limiting is one of ten subjects tied at twelve, ranked 29th to 38th by size.
+- **The consult still costs one subject.** The golden path is about 14 KB, under half of `prompt-assembly`'s
+  (34 KB) in the same bundle. Routing holds at twelve: a `use_when`-phrased query for each of the two
+  newest techniques (`failure-reserved-counting`, `unpublished-behaviour-limit`) ranks that technique
+  first on the default path.
+- **Demand says do not move it.** 86 consults and 1 deviation in the current reading (one current
+  contributor, 2026-10-14). A split mints a new slug, and every consumer verdict against a technique
+  that moved would point at the wrong identity. Churn on the third most-consulted subject of ten in its
+  subcategory, for a cap that does not exist, is cost with no buyer.
+- **The techniques are one decision chain**, which is what a subject is. Every one answers some step
+  of "bound how much work an outside actor can cause at a door": which step is metered, who the
+  caller is, what the key composes, the number, the algorithm, where limiters sit, what a refusal
+  says, the refusal branch's cost, its evidence, and the two special doors (guess-bounding, and our own
+  writes into someone else's service).
+
+**When to revisit (the split trigger, stated so the next run does not re-derive it).** Not a count.
+Split when a technique can no longer be written against this golden path's actor model. The seam
+already visible is direction: ingress (we bound callers at our door) against egress (we bound
+ourselves at someone else's: `unpublished-behaviour-limit`, the provider-quota half of
+`limit-derivation`, the egress paragraph of `limiter-topology`). A split there would cut
+`limiter-topology` in half, so today it would cost more than it buys. Return when a third egress-only
+technique is proposed, or when an egress technique needs a section of the golden path the ingress
+reader would have to skip.
+
+Proposal for the operator (not acted on): the forge skill's "house ceiling of nine techniques" line
+reads as a cap that the corpus does not hold. Rewording it to the split trigger above is a skill
+content change and needs a version bump, so it is left as a proposal in the run note.

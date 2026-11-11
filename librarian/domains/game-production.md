@@ -748,3 +748,50 @@ Source-class tally (post-hoc, this run):
 - The blind lane converged on every distance bound. It also offered a vision-science comfort
   figure and per-headset focal planes that no opened page stated, and both were declined as
   unsourced volatile facts.
+
+## 2026-11-11 - librarian placement pass (librarian-1111)
+
+Operator-approved structure pass on two homeless leads from the 11-10 shift. No move, no forge, no
+knowledge file changed. Structure read: the bundle holds **10 categories** (at the cap, so no new
+category without subdividing the bundle's top level), and `engine-integration` holds **10 subjects**,
+flat (at the cap, not over it).
+
+**Trim sheets -> `tiling-texture-acceptance`.** One-axis tiling is tiling: its acceptance and its UV
+derivation are that subject's two techniques applied to one axis. The hybrid-page margin (T3) appends
+to `sprite-and-atlas-production`'s packing technique. Reasoning in the subject's vault note; the
+landing still waits on the lead's second voice.
+
+**Distance tiers and impostors (H7) -> proposed new subject in `asset-production/geometry`.** Working
+slug `distance-tiered-stand-ins`. It would own: the class budget as a chain of tiers by distance rather
+than one number; the stand-in that replaces a repeated object past a declared distance (a reduced
+mesh, then a card captured from several angles); ground detail falling off with distance; and the
+haze caution. The visible instance count is the budget when nothing occludes.
+
+Why there and not elsewhere:
+
+- **`engine-integration` is at ten, not over.** The cap subdivides a category when it goes OVER
+  (`scripts/lib/taxonomy.mjs`), and every subdivision rewrites the links of every subject inside it.
+  Subdividing ten folders now, for a subject that has no source good enough to forge from, spends
+  that churn ahead of need.
+- **`render-submission-economy`** is framed on small tile-based devices; widening it to open vistas
+  is a rewrite (the lead's own read). Its `cull-before-submission` stays the boundary for what the
+  render thread is handed; the new subject owns what stands in for the object, not the submission.
+- **`terrain-synthesis-acceptance`** disowns density and streaming.
+- **`asset-production/geometry`** already owns per-class geometry budgets (`asset-class-poly-budgeting`)
+  and mesh finishing; a tier chain is the class budget extended across distance, and a captured card
+  is an asset the pipeline produces and accepts. Room: four subjects of ten.
+- **Boundary to `concept-scene-parity`:** `frame-the-judged-shot-from-a-play-trace` already names
+  impostors judged at play distance. That judgement stays there.
+
+**Fallback, recorded so the forge does not re-derive it:** if the forge finds the subject is
+runtime-dominant (distance thresholds and streaming rather than the stand-in assets), its home is
+`engine-integration`, and as the eleventh subject it subdivides that category at forge time through
+`taxonomy.json` and `apply-taxonomy.mjs`. A grouping that keeps each subcategory coherent: runtime and
+render (`gameplay-runtime-patterns`, `render-submission-economy`, `rigid-body-simulation-stability`,
+the new subject); failure and evidence (`crash-forensics-attribution`, `engine-integration-safety`,
+`engine-pitfall-corpus`, `runtime-observation-evidence`); gates and pipelines (`perf-regression-gating`,
+`ship-pipeline-gating`, `visual-script-to-code-transpilation`).
+
+**Owed to the operator:** whether to forge `distance-tiered-stand-ins`, from primaries (engine
+documentation), not from the one video. The lead's own return clause (a wired project opens an
+open-terrain or long-sightline scene) is the natural trigger.

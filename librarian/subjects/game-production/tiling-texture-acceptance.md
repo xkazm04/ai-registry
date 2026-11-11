@@ -182,3 +182,31 @@ and that no corpus stands behind it, not that it is wrong.
   }
 }
 ```
+
+## 2026-11-11 - /librarian run `librarian-1111`: trim sheets placed here
+
+**Decision: this subject owns the trim sheet. No new subject.** Lead: [[2026-11-10-trim-sheet-environments]]
+(T1, T2, T6; T3 is a boundary append elsewhere, below).
+
+A trim strip is a texture that tiles on one axis and is packed on the other. Three subjects border it,
+and the deciding property is the one this subject was founded on, continuity with a translated copy
+of itself:
+
+- **Here, because the U axis is a tiling axis.** Its acceptance is `wrap-around-edge-diff` judged on
+  one axis (step 6 already judges per axis), and its UVs are `texel-density-and-uv-tiling` step 2 on
+  one axis (repeat = length x target density / strip pixel width). Both rules transplant unchanged; the
+  trim adds the routing rule (both axes, a tiling material; one axis with structured detail, a trim
+  strip; a unique element shared across pieces, an atlas region; a hero piece seen close, its own map)
+  and the intent recorded at authoring time.
+- **Not `sprite-and-atlas-production`.** Its packing serves regions that never wrap. The trim page's V
+  packing is a boundary case for `atlas-packing-and-bleed-margins` § When NOT (T3), whose "tiling
+  textures get their own page, unpadded, never packed with sprites" stays true for two-axis tiles. T3
+  appends there, not here.
+- **Not `mesh-finishing-for-engine-readiness`.** It owns the unique unwrap and its packing; a trim
+  layout fails coverage and overlap by design, which is the S4 intent branch already filed in
+  [[2026-11-10-agent-built-3d-loop]].
+
+Room: six techniques, so a seventh (`trim-sheet-one-axis-tiling`, the lead's working slug) needs no
+structure change. **Placement only; nothing lands.** The lead's return condition is unchanged and
+unmet (a second voice, or a first-hand primary, stating the one-axis rule); the landing is the lead's,
+under its own triage, not this run's.

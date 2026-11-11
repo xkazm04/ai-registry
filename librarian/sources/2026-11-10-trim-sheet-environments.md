@@ -140,7 +140,9 @@ margins and are never U-tiled.
 
 1. **T1+T2, the trim-sheet technique and its routing rule.** Return when a second voice (another
    channel, or a primary such as engine documentation or a production breakdown read first-hand)
-   states the one-axis rule.
+   states the one-axis rule. **Home placed 2026-11-11 (`/librarian` run `librarian-1111`):**
+   `tiling-texture-acceptance` owns the trim sheet, as a seventh technique; no new subject. The
+   return condition is unchanged. See that subject's vault note for the boundary reasoning.
 2. **T3, the margin boundary on hybrid pages.** Return with T1; they share a reader.
 3. **X2, the trim route in pof's density-grade ceiling remedy.** One string. Return when T1 lands, so
    the wording cites a corpus rule.
