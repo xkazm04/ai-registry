@@ -2,7 +2,7 @@
   "schema": "ascent-registry-catalog",
   "schemaVersion": "1.0.0",
   "_note": "GENERATED FILE — scripts/build-catalog.mjs reads every lane (skills, practices, memory, knowledge, usage) and rewrites this file; --check fails CI when it is stale. Per skill, `adopters` is carried forward untouched (the registry cannot see installations; an operator's scripts/fleet-audit.mjs --write-adopters maintains it) and `invokes30d` + `usageContributors` + `usageStaleContributors` + `reportedInvokes` are DERIVED from the usage/ lane (a report is current while its whole-day age against `generatedAt` is at most its windowDays; only current reports reach `invokes30d` and `usageContributors`, stale ones are named in `usageStaleContributors`, every report reaches `reportedInvokes`); `runs30d`, `outcomes30d`, `difficulty30d`, `tokensMedian30d` and `tokensBasis30d` are DERIVED from the usage/runs/ run log (30 days ending at the newest logged run; tokens are the measured median when at least half the runs are measured, else the agents' estimate, and tokensBasis30d says which). `generatedAt` is the newest instant in the committed data this catalog reads (a subject changedAt, a usage report generatedAt, a run row ts, a LESSONS heading date), ISO 8601 UTC: the date of the newest evidence in the registry, not the wall-clock time of the build, so --check stays a pure function of the tree. Hand-edits to anything else are overwritten on the next build. A second producer (e.g. Ascent's indexer) may rewrite the envelope from the same files; two producers computing one truth from one source is not a conflict.",
-  "generatedAt": "2026-11-10T00:00:00Z",
+  "generatedAt": "2026-11-11T00:00:00Z",
   "generatedBy": "scripts/build-catalog.mjs",
   "registry": {
     "fullName": "xkazm04/ai-registry",
@@ -232,16 +232,16 @@
     },
     {
       "name": "contest",
-      "version": "1.14.1",
+      "version": "1.15.0",
       "category": "workflow",
       "path": "skills/contest/SKILL.md",
-      "contentHash": "sha256-n1:6252aa54f1ac66dc",
+      "contentHash": "sha256-n1:13dfa881a99c249f",
       "adopters": [],
       "invokes30d": 0,
       "reportedInvokes": 0,
-      "lessons": 21,
+      "lessons": 22,
       "lessonsPath": "skills/contest/LESSONS.md",
-      "lessonsHash": "sha256-n1:77ea47e035a36a0e",
+      "lessonsHash": "sha256-n1:7dfd64c80a343dff",
       "usageContributors": [],
       "usageStaleContributors": [],
       "runs30d": 17,
@@ -309,7 +309,7 @@
       "reportedInvokes": 0,
       "lessons": 7,
       "lessonsPath": "skills/daybreak/LESSONS.md",
-      "lessonsHash": "sha256-n1:ca25caf4eeabb371",
+      "lessonsHash": "sha256-n1:bc2559c98b0e56d5",
       "usageContributors": [],
       "usageStaleContributors": [],
       "runs30d": 0,
@@ -1254,7 +1254,7 @@
     "skills": 45,
     "practices": 8,
     "memory": 10,
-    "lessons": 395
+    "lessons": 396
   },
   "bundles": [
     {
@@ -1291,10 +1291,10 @@
       "profile": "rkb/0.1",
       "purity": "game",
       "subjects": 89,
-      "techniques": 590,
+      "techniques": 591,
       "applications": 354,
-      "files": 1037,
-      "contentHash": "sha256-b2:248605cbd012ebbc"
+      "files": 1038,
+      "contentHash": "sha256-b2:e28a4797cf6df834"
     },
     {
       "name": "grant-funding",
@@ -1317,10 +1317,10 @@
       "profile": "rkb/0.1",
       "purity": "software",
       "subjects": 19,
-      "techniques": 134,
+      "techniques": 135,
       "applications": 100,
-      "files": 258,
-      "contentHash": "sha256-b2:6a6050078dafd2d0"
+      "files": 259,
+      "contentHash": "sha256-b2:32fddfa31f6d1246"
     },
     {
       "name": "localization",
@@ -1356,10 +1356,10 @@
       "profile": "rkb/0.1",
       "purity": "media",
       "subjects": 53,
-      "techniques": 352,
+      "techniques": 354,
       "applications": 210,
-      "files": 620,
-      "contentHash": "sha256-b2:6351fc45d2727716"
+      "files": 622,
+      "contentHash": "sha256-b2:641948fd4b769031"
     },
     {
       "name": "recruiting",
@@ -1382,10 +1382,10 @@
       "profile": "rkb/0.1",
       "purity": "software",
       "subjects": 245,
-      "techniques": 1992,
-      "applications": 1499,
-      "files": 3741,
-      "contentHash": "sha256-b2:f769139e964911a7"
+      "techniques": 2003,
+      "applications": 1501,
+      "files": 3754,
+      "contentHash": "sha256-b2:3b2060f0e2a353db"
     },
     {
       "name": "technical-writing",
@@ -1408,7 +1408,7 @@
         "generatedAt": "2026-08-22T17:24:57Z",
         "windowDays": 30,
         "state": "stale",
-        "ageDays": 79
+        "ageDays": 80
       }
     ],
     "unresolved": [
