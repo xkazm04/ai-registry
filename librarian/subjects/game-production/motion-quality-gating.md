@@ -1,8 +1,8 @@
 ---
 domain: game-production
 subject: motion-quality-gating
-last_touched: 2026-09-10
-touched_by: architecture-review
+last_touched: 2026-11-11
+touched_by: shift
 dry_streak: 0
 ---
 
@@ -162,3 +162,7 @@ mean - still holds. `node--asset-reality-ledger`'s stated deviation, `DEFAULT_GE
 ## Lead - 2026-11-06 (run shift-rig)
 
 The rubric says foot contact has structural tests and no document gives one. A measure is banked in `librarian/sources/2026-11-06-generated-asset-to-rig-route.md`, scoring 2/0/2, held by render proof `shift-rig-contact-1`. Nothing changed in the subject.
+
+## 2026-11-11 - /harvest backlog 8-031 ([[../../sources/2026-09-14-agent-creature-animation-render-proof]], /shift filler)
+
+`exaggerate-at-the-contact-frames` landed (blind-ab, better), the contact-frame clause only: when a small unit's hit does not read, push the part that carries the read past plausibility on the one to three frames around contact, and keep the strike's length and contact frame; lengthening the strike or scaling the whole clip's amplitude spreads the change over the wrong frames. One probe, a small creature unit with an unreadable tail strike and a proposal to lengthen it and keep the reference amplitude; both arms held this golden path and `six-dimension-motion-rubric`. Contact-frame placement A 6, B 3 of 6 (arm-B runs pushed amplitude across the strike or added a hold). Judging the critic's frames at gameplay size tied at 6 and 6 and did not land. Floor (keep the critic, reject the doubled strike) A 6, B 6; controls held.

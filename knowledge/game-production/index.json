@@ -4,7 +4,7 @@
   "bundle": "game-production",
   "source": "knowledge/game-production/ (frontmatter only)",
   "subjects": 89,
-  "techniques": 590,
+  "techniques": 591,
   "applications": 354,
   "laws": 16,
   "categories": [
@@ -20,7 +20,7 @@
    "narrative-and-dialogue"
   ],
   "layout": "nested",
-  "use_when_coverage": "590/590",
+  "use_when_coverage": "591/591",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -6385,9 +6385,9 @@
    "subcategory": "motion-and-audio",
    "status": "forged",
    "file": "knowledge/game-production/asset-production/motion-and-audio/motion-quality-gating/motion-quality-gating.md",
-   "digest": "sha256-b2:3c222a31fd795fc1",
-   "revision": 1,
-   "changedAt": "2026-09-02",
+   "digest": "sha256-b2:4a2ac517b2d278c8",
+   "revision": 2,
+   "changedAt": "2026-11-11",
    "techniques": [
     {
      "slug": "absolute-not-curved-judgment",
@@ -6416,6 +6416,20 @@
       "reconciling what a project references against what is on disk",
       "an asset exists and the character does nothing",
       "auditing a generated content set before a build"
+     ]
+    },
+    {
+     "slug": "exaggerate-at-the-contact-frames",
+     "status": "forged",
+     "laws": [
+      "grade-against-what-ships-not-on-a-curve"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "an attack or impact reads in a close-up and not at gameplay size",
+      "a unit is small on screen and players cannot tell when its hit lands",
+      "a fix for an unreadable strike proposes slowing or lengthening it",
+      "animation keyframed from a reference video or capture at true proportion"
      ]
     },
     {
@@ -12014,6 +12028,7 @@
     "llm-dialogue-quality-control/candidates-under-rotating-constraints",
     "llm-dialogue-quality-control/critique-and-revise-with-human-checkpoints",
     "motion-quality-gating/absolute-not-curved-judgment",
+    "motion-quality-gating/exaggerate-at-the-contact-frames",
     "motion-quality-gating/six-dimension-motion-rubric",
     "playtest-signal-to-defect/frequency-and-severity-as-separate-axes",
     "production-coverage-measurement/craft-ladder-and-medium-ceilings",
