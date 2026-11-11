@@ -1,0 +1,74 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "hb-filler-1111-o",
+  "skill": "harvest",
+  "skill_version": "0.7.0",
+  "mode": "backlog",
+  "domain": "software-engineering",
+  "started_at": "2026-11-11T06:20:00Z",
+  "ended_at": "2026-11-11T07:30:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 3,
+    "landed": 0,
+    "declined": 0,
+    "idled": 3,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "software-engineering/bounded-enumeration",
+      "at": "2026-11-11",
+      "engine": "shift",
+      "outcome": "idled",
+      "points_before": null,
+      "points_after": null
+    },
+    {
+      "id": "software-engineering/sync-replication",
+      "at": "2026-11-11",
+      "engine": "shift",
+      "outcome": "idled",
+      "points_before": null,
+      "points_after": null
+    },
+    {
+      "id": "software-engineering/import-normalization",
+      "at": "2026-11-11",
+      "engine": "shift",
+      "outcome": "idled",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "software-engineering/sync-replication",
+      "technique": "tombstone-outside-the-value-space",
+      "verdict": "not-better",
+      "mode": "blind-ab"
+    },
+    {
+      "subject": "software-engineering/import-normalization",
+      "technique": "format-detection",
+      "verdict": "not-better",
+      "mode": "blind-ab"
+    }
+  ],
+  "files": [
+    "librarian/harvest/backlog.jsonl"
+  ],
+  "commits": [
+    {
+      "sha": "f9300a450",
+      "branch": "main",
+      "pathspec": [
+        "librarian/harvest/backlog.jsonl"
+      ]
+    }
+  ],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "Filler, size 3, prior art in both arms. 6-032 covered. 7-015 not-better (r1 gap one sentence; r2 decision probe tied 12/12). 8-036 not-better (union key dominated by a tied type-setting key). Nothing landed. 8-045 commit filled."
+}
