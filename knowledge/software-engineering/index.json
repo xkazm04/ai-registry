@@ -26790,9 +26790,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/software-engineering/client-architecture/page-load-pipeline/page-load-pipeline.md",
-   "digest": "sha256-b2:6eb078a45499ad8a",
-   "revision": 5,
-   "changedAt": "2026-10-31",
+   "digest": "sha256-b2:e9b9567f650fb477",
+   "revision": 6,
+   "changedAt": "2026-11-11",
    "techniques": [
     {
      "slug": "discoverable-critical-resources",
@@ -26828,7 +26828,9 @@
      "use_when": [
       "adding a web font family or weight",
       "text flashes invisible or reflows when a font arrives",
-      "loading fonts for several writing systems or locales"
+      "loading fonts for several writing systems or locales",
+      "showing Chinese",
+      "Japanese or Korean text the page did not author"
      ]
     },
     {

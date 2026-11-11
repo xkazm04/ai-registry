@@ -1,0 +1,71 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "hb-filler-1111-d",
+  "skill": "harvest",
+  "skill_version": "0.7.0",
+  "mode": "backlog",
+  "domain": "software-engineering",
+  "started_at": "2026-11-11T02:40:00Z",
+  "ended_at": "2026-11-11T03:40:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 3,
+    "landed": 1,
+    "declined": 0,
+    "idled": 2,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "software-engineering/page-load-pipeline",
+      "at": "2026-11-11",
+      "engine": "shift",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    },
+    {
+      "id": "software-engineering/scheduling",
+      "at": "2026-11-11",
+      "engine": "shift",
+      "outcome": "idled",
+      "points_before": null,
+      "points_after": null
+    },
+    {
+      "id": "llm-observability/federated-benchmark-sharing",
+      "at": "2026-11-11",
+      "engine": "shift",
+      "outcome": "idled",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "software-engineering/page-load-pipeline",
+      "technique": "font-loading-discipline",
+      "verdict": "better",
+      "mode": "blind-ab"
+    },
+    {
+      "subject": "software-engineering/scheduling",
+      "technique": "cooldown-and-debounce",
+      "verdict": "not-better",
+      "mode": "blind-ab"
+    }
+  ],
+  "files": [
+    "knowledge/software-engineering/client-architecture/page-load-pipeline/page-load-pipeline.md",
+    "knowledge/software-engineering/client-architecture/page-load-pipeline/techniques/font-loading-discipline.md",
+    "librarian/sources/2026-09-04-fluxer.md",
+    "librarian/subjects/software-engineering/page-load-pipeline.md",
+    "librarian/applied.md",
+    "librarian/harvest/backlog.jsonl"
+  ],
+  "commits": [],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "Backlog wave, /shift filler, size 3. 8-017 better (blind-ab), Han half landed. 8-019 covered. 8-023 not-better (blind-ab). Held rows passed over by hand. Arms: no tools, no permission bypass, fresh temp dirs. No GPU, no fleet project written."
+}

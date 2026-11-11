@@ -127,8 +127,10 @@ A web font cannot be both instant and final. Until it arrives, text is either
 invisible, drawn in a fallback that will be replaced, or drawn in a fallback
 that stays — and each replacement is a potential layout shift. The page picks
 the failure it prefers, then shrinks the window in which it can happen: fewer
-families and weights, subsets that match the content, the font's declarations
-served from the document's own origin or with the connection warmed, and a
+families and weights, subsets that match the content (Han, whose regional
+faces no range can tell apart, picked by the text's own language), the font's
+declarations served from the document's own origin or with the connection
+warmed, and a
 fallback whose metrics are adjusted to match. See
 [font-loading-discipline](./techniques/font-loading-discipline.md).
 
@@ -222,7 +224,7 @@ launch is not one.
   only connections the page will use.
 - [font-loading-discipline](./techniques/font-loading-discipline.md) — the
   display strategy as a chosen failure, family and weight as a budget, subsets,
-  origin, and metric-matched fallbacks.
+  the Han face by the text's language, origin, and metric-matched fallbacks.
 - [script-cost-is-main-thread-time](./techniques/script-cost-is-main-thread-time.md)
   — cost measured as main-thread time on a weak device; splitting by route and
   by interaction; server-rendered parts that ship no script; yielding.

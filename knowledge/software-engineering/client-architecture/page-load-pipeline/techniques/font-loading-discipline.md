@@ -6,7 +6,9 @@ technique: font-loading-discipline
 status: forged
 laws: []
 shared_with: []
-use_when: [adding a web font family or weight, text flashes invisible or reflows when a font arrives, loading fonts for several writing systems or locales]
+applied: blind-ab
+ab_verdict: better
+use_when: [adding a web font family or weight, text flashes invisible or reflows when a font arrives, loading fonts for several writing systems or locales, showing Chinese, Japanese or Korean text the page did not author]
 ---
 
 # Font loading discipline
@@ -58,6 +60,15 @@ headline and a body face in paragraphs have different answers.
   range, so the browser downloads a subset only when the page contains a
   character in it. A face that covers several writing systems should never
   arrive whole to a reader using one of them.
+- **Han is settled by the text's language, not by a range.** Chinese, Japanese
+  and Korean share the unified ideographs, so a character range sees one script
+  where a reader sees regional glyph conventions, and subsetting cannot choose
+  between the regional faces. Tag text with its own language where it is known -
+  a message, a document, a generated reply - falling back to the document's, and
+  let that tag pick the face. Never pick it by the interface locale, which says
+  nothing about text the page did not author, and never by a fixed stack that
+  puts one region's face first for everyone: both draw the other regions' text
+  in the wrong forms.
 - **Use the most compressed web font format** and drop older formats that no
   supported browser needs.
 - **Serve declarations from the document's origin.** Inline the face
@@ -101,6 +112,8 @@ request against the set of faces declared.
   page may pay for it everywhere.
 - Split any multi-script face by character range; never load a writing system's
   glyphs for a page that does not contain them.
+- Pick the Han face by the text's own language tag, falling back to the
+  document's; never by the interface locale or a one-region-first stack.
 - Keep font declarations off foreign origins on the critical path; when they
   cannot move, warm both connections.
 - Preload at most the one font file the first screen certainly draws.
@@ -120,5 +133,7 @@ request against the set of faces declared.
   when they arrive: with matched fallbacks it stays near zero.
 - Count font requests on a page in one writing system and assert none are for
   another system's subsets.
+- Render one shared ideograph tagged with each Han language the product shows
+  and assert each resolves to its own regional face.
 - Assert no font stylesheet from a foreign origin blocks the first render
   without warmed connections to both origins.
