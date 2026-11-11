@@ -41,9 +41,11 @@ label on the scenario that contained it.
 Families are few and chosen for the lever each points at, not for taxonomy:
 malformed or rejected output (the format contract, or the parser), an expected
 action absent (instruction or model), an action taken that should not have been
-(instruction), the run held open past its budget (the harness's own control
-flow — the owner [failure-attribution](./failure-attribution.md) says the funnel
-cannot see), and whatever the suite adds for its own surfaces. They map onto
+(instruction), the run held open past its budget (the model not finishing, or the
+harness's own stop policy — the owner [failure-attribution](./failure-attribution.md)
+says the funnel cannot see, which that technique describes ending runs early rather
+than late; the family points at both and decides neither), and whatever the suite
+adds for its own surfaces. They map onto
 attribution's owners; they do not replace them. A family names where to *look*,
 and it makes the attribution sample choosable: sample inside the family whose
 count moved.

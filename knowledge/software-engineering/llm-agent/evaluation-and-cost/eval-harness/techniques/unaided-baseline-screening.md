@@ -24,6 +24,12 @@ The screen is one comparison, run once per scenario before it is admitted:
 > harness, with the thing under test removed. Every scenario the deprived run
 > satisfies is discarded. The residue is the suite.
 
+Where the thing under test is a capability the candidate chooses whether to
+use, a scenario showing no difference between arms is not yet a discard: if
+the aided arm never invoked the capability, the scenario may be a good
+question the candidate routed around, and it goes in a separate bucket
+([treatment-election-rate](./treatment-election-rate.md)).
+
 Nothing else in this subject catches this.
 [assertion-vs-judgment](./assertion-vs-judgment.md) polices *how* a property
 is scored; [scenario-design](./scenario-design.md) polices what a scenario

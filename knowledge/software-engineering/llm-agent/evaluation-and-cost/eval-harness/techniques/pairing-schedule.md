@@ -138,6 +138,11 @@ The schedule is part of the instrument, so it is versioned with the rest of it
 The run artifact carries the draw rule and its parameters, each candidate's
 comparison count and entry round, the graph's component structure, and the rule
 by which pairwise outcomes were collapsed into an order — declared before the
-data, like every other aggregation. Change the draw rule and the ratings before
+data, like every other aggregation. That rule can carry its own order
+dependence: a rating updated game by game weights recent games more, so the
+same outcomes replayed in a different sequence give different ratings. For
+candidates that do not change during the arena, fit all outcomes jointly (a
+maximum-likelihood paired-comparison model) and take intervals by resampling
+the games; keep the sequential update only where recency is the point. Change the draw rule and the ratings before
 and after are different series that must not be spliced, for exactly the reason a
 changed judge packet produces a different series: the instrument moved.

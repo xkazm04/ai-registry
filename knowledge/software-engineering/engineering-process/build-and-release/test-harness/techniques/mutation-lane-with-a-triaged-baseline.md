@@ -54,6 +54,12 @@ makes it unfit for the per-change gate and right for a weekly lane with three ru
   deliberately, after re-running the baseline locally, so that an unexplained jump
   in the missed count means the tests changed, not the tool.
 
+The per-change half is a different lane, not a cheaper copy of this one: mutate only
+the regions a change touched and surface the survivors as review comments, never as
+a block. The largest published deployment runs that way, mutating only changed code
+during review rather than the whole codebase. It does not replace the scheduled
+baseline, because a survivor in code nobody touched is never in any diff.
+
 ## Make it affordable before making it frequent
 
 The cost is the build, not the tests. In one measured lane each mutant cost about

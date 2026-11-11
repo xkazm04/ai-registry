@@ -12,6 +12,7 @@ techniques:
   - shape-change-detection
   - negotiated-representation-probe
   - soak-mode-and-verdict-replay
+  - status-is-part-of-the-change
 ---
 
 # Web scraping & extraction rules
@@ -196,6 +197,14 @@ reconciling a suspect harvest live in
 [dedup-and-datasets](./techniques/dedup-and-datasets.md); the general shape of
 records-with-lifecycles is [entity-lifecycle](../../../operations/governance-and-records/entity-lifecycle/entity-lifecycle.md).
 
+A watcher that fires on "the URL changed" has the same identity question one
+level down: what is the observation it compares? If it is the body hash alone,
+a resource that goes from 200 to 404 with the same or an empty body has not
+changed, and skipping non-success responses (the obvious fix for error pages
+hashed as content) makes that disappearance permanently silent. The status
+class belongs in the observation:
+[status-is-part-of-the-change](./techniques/status-is-part-of-the-change.md).
+
 ## Repetition without recklessness
 
 Scrapes repeat on a schedule, and the schedule is where politeness and
@@ -268,3 +277,6 @@ Stated once, as obligations rather than tips:
   — the detector's rollout: judging always on with consequences behind a flag,
   a rollout gate that replays stored verdicts, an earned-recovery ladder, and
   honest unmonitored states.
+- [status-is-part-of-the-change](./techniques/status-is-part-of-the-change.md)
+  — a watcher compares (status class, body hash): a 200 that becomes a 404 at
+  an equal body is a change, and skipping non-success responses hides it.

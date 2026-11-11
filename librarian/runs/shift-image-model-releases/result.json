@@ -1,0 +1,60 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "shift-image-model-releases",
+  "skill": "shift",
+  "skill_version": "0.6.0",
+  "mode": "source",
+  "domain": "media-generation",
+  "started_at": "2026-11-10T00:00:00Z",
+  "ended_at": "2026-11-11T00:15:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 1,
+    "declined": 0,
+    "idled": 2,
+    "contended": 0,
+    "held": 1
+  },
+  "subjects": [
+    {
+      "id": "media-generation/generative-provider-routing",
+      "at": "2026-11-11",
+      "engine": "shift",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    },
+    {
+      "id": "media-generation/review-iteration-loops",
+      "at": "2026-11-11",
+      "engine": "shift",
+      "outcome": "idled",
+      "points_before": null,
+      "points_after": null
+    },
+    {
+      "id": "media-generation/content-research-grounding",
+      "at": "2026-11-11",
+      "engine": "shift",
+      "outcome": "idled",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [],
+  "files": [
+    "knowledge/media-generation/visual-generation/generative-provider-routing/applications/process--vendor-fact-ledger.md",
+    "librarian/sources/2026-11-11-image-model-releases.md",
+    "librarian/sources/2026-11-06-weekly-model-currency.md",
+    "librarian/sources/index.md",
+    "librarian/harvest/backlog.jsonl",
+    ".claude/skills/intake/SCORECARD.md",
+    "librarian/runs/shift-image-model-releases/result.json"
+  ],
+  "commits": [],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "Currency only: Klein and GPT Image 2.6 ledger rows extended after raw re-read. Codex image_gen exposes none of 2.6 Image-API features. Pangram is a detector. Held row shift-currency-edit-1 rewritten from Flux 2 onto a Codex reference edit (device cpu)."
+}

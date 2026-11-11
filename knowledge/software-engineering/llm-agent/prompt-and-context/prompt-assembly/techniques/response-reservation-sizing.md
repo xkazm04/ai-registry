@@ -18,7 +18,7 @@ other end of the same subtraction, which that arithmetic treats as a constant
 handed down from somewhere.
 
 It is not a constant. It is a number somebody chose, it is **charged on every
-call whether or not it is used**, and on most platforms it is left at a default
+call whether or not it is used**, and in most systems it is left at a default
 that was sized for the longest answer the model could plausibly give rather
 than for the answers this system actually gets.
 
@@ -143,6 +143,14 @@ number is a true guard rail and belongs to
 [output-budget-signal](../../structured-output/techniques/output-budget-signal.md),
 which measures approach to the ceiling for a different purpose — deciding
 whether the *call* is too big, rather than whether the *reservation* is.
+
+Some current hosted models sit between the two cases. They accept a request
+whose input plus output ceiling exceeds the window, and if generation reaches
+the window they stop with a stop reason of their own. There the ceiling sent
+with the request is a guard rail and costs nothing, and the reservation exists
+only in the client's own budget arithmetic. Decouple the two: send a generous
+ceiling, subtract the derived percentile in the budget, and read a stop at the
+window as a truncation the budget caused, which raising the ceiling cannot fix.
 
 The two techniques read the same measurement and ask opposite questions. That
 one records it and this one sizes from it is the reason a system can hold the

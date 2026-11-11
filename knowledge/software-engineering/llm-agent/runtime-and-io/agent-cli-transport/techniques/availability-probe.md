@@ -27,7 +27,12 @@ Two disciplines:
   extracts the semantic version and keeps the raw string. The extracted
   version is not trivia — it is the key into the
   [dated-capability-matrix](./dated-capability-matrix.md), and a version the
-  matrix has never seen is a signal to re-verify, not to assume.
+  matrix has never seen is a signal to re-verify, not to assume. The raw
+  string also says **which product answered**. A short generic binary name
+  belongs to no single vendor, and on a machine with two tools installed the
+  expected name can resolve to the other one, which answers the version flag
+  cleanly with a version the matrix will read as merely unseen. The probe
+  matches the product name in the raw string before it extracts a version.
 - **Resolve like the spawn will.** The probe must execute the same binary
   the real run will execute — through the same resolution the spawn door
   uses — or it validates a different program than the one that will serve

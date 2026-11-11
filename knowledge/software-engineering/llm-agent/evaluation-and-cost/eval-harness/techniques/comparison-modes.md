@@ -22,8 +22,11 @@ worse, because they get reused as if they answered yours.
 ## Absolute scoring: the threshold question
 
 One candidate, scored per scenario against a rubric, aggregated to a
-number or a pass-rate. This is the only mode that supports a *gate* ("ship
-if above X") and the only mode that produces longitudinal series ("track
+number or a pass-rate. This is the only mode that supports an *absolute*
+gate ("ship if above X") — a pairwise run against a frozen incumbent can
+gate too, but only relatively ("loses to what shipped no more than X"),
+which says not-worse and never good-enough — and the only mode that
+produces longitudinal series ("track
 this score across versions") — provided the instrument holds still, which
 is the whole burden of [scenario-design](./scenario-design.md) and
 [judge-stability](./judge-stability.md): fixed scenarios, pinned judge, or

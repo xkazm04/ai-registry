@@ -1,8 +1,8 @@
 ---
 subject: cost-metering
 domain: software-engineering
-last_touched: 2026-09-29
-touched_by: intake
+last_touched: 2026-11-10
+touched_by: intake, deepen
 dry_streak: 0
 ---
 
@@ -159,3 +159,31 @@ and attribution-provenance-tiers. The draft arm scored 8 of 8, the baseline 6. T
 partitioned shared spend into a separate bucket, so a nested skill's own row lost its cost, and
 it forced rows to sum. Controls scored 8 and 0. Weakest point: one draw per arm and a judge from
 the arms' own family, so the verdict is provisional.
+
+## 2026-11-10 - /deepen loop (run `filler-deepen-20261110b`, /shift filler)
+
+Dispatched by the librarian scan (44 points, 11 consumer deviations from a 26-day-old installation report; the 2026-11-09 fleet map holds cost-metering deviations in personas 17, gravitone 7, pof 2 - conform work, listed and not chased).
+
+### Round 1 (survey round)
+
+**Not dry.** Volatile facts read against three vendor pricing pages opened today:
+
+- `price-tables` direction split "3-5x" refuted; current pages put output at 4-8x input. Corrected.
+- `price-tables` promotional step: "commonly 2x" rests on one live case, and "certain to move" is refuted - one vendor withdrew an announced step and made the introductory rate standard. Now "scheduled", and the alarm asks for a re-read on the day and carries where the replacement rate was published.
+- `price-tables` threshold schedules widened: on some models every class steps several-fold past the threshold, cache reads included, and at least one vendor sizes the call with cached tokens counted; request-level lanes (batch, flex, fast, regional uplift) multiply every class and are cross-linked to `llm-observability/.../price-row-variant-encoding`, which owns them (no technique minted).
+- `whole-prompt-denominator`: "reasoning tokens are counted inside output" was an absolute; one vendor reports them beside output and bills the sum. Now a named schema convention converted at the door.
+- **Rule flip, the 2026-09-04 banked question answered.** An unknown model's ledger row stores a null cost and reads as a counted floor ranked by traffic; the conservative high default survives only in a gate's arithmetic (preflight estimate, and a period ceiling over unpriced units at read time). Converged across the blind lane, an open-source observability tool's documented behaviour (no cost plus a warning, never a default), the sibling `unpriced-span-accounting`, and a second fleet tree that already does it. Golden path, `unit-classes-are-open` and `spend-observability` aligned. Landed as a correction with cross-links, not a technique (the sibling owns the nullable-cost discipline).
+
+Confirmed and left untouched: batch discount, flat-window vendors, cache-write premium, provider-reported cost as the bill, historical rows keep their price. No application `verified_on` moved (no tree citations re-opened); the 90-day figure is a project retention constant, not vendor-set.
+
+Applied: price-tables floor flip `better` (simulation, gravitone and personas: the split is load-bearing because a preflight preview needs a number); whole-prompt-denominator `better` (simulation, gravitone's decoder for the beside-reporting vendor); promo re-read `unapplied`.
+
+Banked: cache-read multiplier is now per model (any later constant "~0.1x" is stale); failed-call billing per failure class (return: a vendor page that states it); prior-turn reasoning billed as input on newer models (return: a fleet ledger reading multi-turn reasoning usage); a dated row that degrades to unpriced past its expiry as the alternative to the test clock (one tree; return: a second). Project-side (conform, not chased): one project stamps unpriced models as zero on the completed row.
+
+### Round 2 (probe round, same run)
+
+**Not dry.** Training-data-first probes over claims round 1 did not touch, web only where a probe doubted. `price-tables` family resolution: "variants within a family usually share pricing" refuted against today's vendor pages - only dated snapshots of one version share a price, successive versions under one family name reprice in either direction; a prefix now spans one version, never a family name, and a family-substring lookup is a named smell. `whole-prompt-denominator` rule 4: the write premium is per provider and per model (one vendor charges none on earlier models), and a cache billed by storage time is a residual class. Two internal contradictions fixed: `spend-observability` still called the unknown-model total an upper bound after round 1's flip (now an unpriced share that prints the total as a floor), and the golden path refused every after-the-fact attribution join that `spend-attribution`'s 2026-11-08 amendment allows (now the one declared exception). Applied: family resolution `better` (simulation, personas: a family-substring resolver books one model 4x under and another 3x over on the ledger, both silent under the old wording, counted misses under the new); write premium `unmeasurable` (no fleet extractor for a no-premium or storage-billed provider). dry_streak stays 0.
+
+### Round 3 (final probe round, same run)
+
+**Not dry.** `engagement-paced-cadence`: "wakes per idle hour converts to money" holds only with the cost of one wake, which steps with the rest against the prompt-cache lifetime - a rest just past the lifetime can cost more per hour than a faster warm cadence (worked at a tenth-of-input read and a quarter-above write); levels are placed clear of the lifetime, cross-linked to `cache-continuity`. `time-ceilings-count-working-time`: the overshoot is one unit in flight per concurrent lane, matching `one-pot-across-delegation`. `price-tables`: where no priced row exists to bound an estimate, the gate cannot bind on cost and declares one-call-late accounting (refusing or capping by a non-cost unit when unattended). `rust--unit-classes-are-open` now describes the old price-tables rule in the past tense (`verified_on` unmoved). Applied: one-call-late `better` (simulation, gravitone's imaging budget, which round 1's wording would have misread as non-compliant); cadence `unmeasurable` (the deciding instrument is a private turn ledger, not read); per-lane overshoot `unapplied`. Currency: none expired, none within 30 days (nearest 2026-12-22); two node applications lag the fleet's runtime major (stack drift, not expiry). dry_streak 0 after three non-dry rounds. **Not saturated**; the loop ended at its cap.

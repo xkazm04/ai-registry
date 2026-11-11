@@ -1,0 +1,62 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "hb-filler-1110-g",
+  "skill": "harvest",
+  "skill_version": "0.7.0",
+  "mode": "backlog",
+  "domain": "software-engineering",
+  "started_at": "2026-11-10T16:45:00Z",
+  "ended_at": "2026-11-10T17:40:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 3,
+    "landed": 0,
+    "declined": 0,
+    "idled": 3,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "software-engineering/eval-harness",
+      "at": "2026-11-10",
+      "engine": "shift",
+      "outcome": "idled",
+      "points_before": null,
+      "points_after": null
+    },
+    {
+      "id": "software-engineering/structured-output",
+      "at": "2026-11-10",
+      "engine": "shift",
+      "outcome": "idled",
+      "points_before": null,
+      "points_after": null
+    },
+    {
+      "id": "software-engineering/retrieval",
+      "at": "2026-11-10",
+      "engine": "shift",
+      "outcome": "idled",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "software-engineering/structured-output",
+      "technique": "locator-leniency-follows-anchor-kind",
+      "verdict": "not-better",
+      "mode": "simulation"
+    }
+  ],
+  "files": [
+    "librarian/harvest/backlog.jsonl",
+    ".claude/skills/harvest/LESSONS.md",
+    "librarian/runs/hb-filler-1110-g/result.json"
+  ],
+  "commits": [],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "Backlog filler, size 3. 6-026 covered. 6-027 not-better (simulation): content half covered, position half refuted by a fleet repair. 7-008 unmeasurable, instrument named. Commit field filled on the six rows landed today. Passed over 3-014, 4-028, 4-030, 4-031."
+}

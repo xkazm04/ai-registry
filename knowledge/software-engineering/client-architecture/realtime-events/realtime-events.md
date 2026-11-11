@@ -11,6 +11,7 @@ techniques:
   - change-data-capture
   - outbound-fan-out
   - capacity-packed-subscription-pool
+  - encode-once-fan-out
 ---
 
 # Event bus & realtime subscriptions
@@ -222,6 +223,13 @@ batching by hopping through timers and microtasks mid-cascade. The
 [coalescing-and-batching](./techniques/coalescing-and-batching.md) technique
 owns the collapse rules and the flush guarantees.
 
+The producer's own cost has a cadence trap too. One event pushed to many
+connections, whose frames differ only in a per-recipient envelope field, is
+encoded once per recipient by the obvious loop. Encode the shared body once
+and splice the envelope per recipient, joined by the socket as pieces rather
+than copied into one buffer, and gate the splice byte-for-byte against the full
+encoding ([encode-once-fan-out](./techniques/encode-once-fan-out.md)).
+
 ## Matching is exact by default
 
 Subscription matching — which subscribers see which event — is part of the
@@ -273,3 +281,7 @@ A bus is infrastructure; its health claims are observability claims:
   — when the push provider caps subscriptions per connection: pack topics
   into the first connection with room, queue while one is opening, give each
   topic its own state machine so a reconnect and a release cannot race.
+- [encode-once-fan-out](./techniques/encode-once-fan-out.md) — one event to
+  many connections: encode the shared body once, splice the per-recipient
+  envelope field, join by gather rather than copy, and gate the splice against
+  the full encoding.

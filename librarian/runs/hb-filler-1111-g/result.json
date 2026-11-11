@@ -1,0 +1,71 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "hb-filler-1111-g",
+  "skill": "harvest",
+  "skill_version": "0.7.0",
+  "mode": "backlog",
+  "domain": "software-engineering",
+  "started_at": "2026-11-11T06:20:00Z",
+  "ended_at": "2026-11-11T07:40:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 3,
+    "landed": 1,
+    "declined": 0,
+    "idled": 2,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "software-engineering/web-scraping",
+      "at": "2026-11-11",
+      "engine": "shift",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    },
+    {
+      "id": "software-engineering/entity-lifecycle",
+      "at": "2026-11-11",
+      "engine": "shift",
+      "outcome": "idled",
+      "points_before": null,
+      "points_after": null
+    },
+    {
+      "id": "software-engineering/adaptive-fidelity-tiers",
+      "at": "2026-11-11",
+      "engine": "shift",
+      "outcome": "idled",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "software-engineering/web-scraping",
+      "technique": "status-is-part-of-the-change",
+      "verdict": "better",
+      "mode": "blind-ab"
+    },
+    {
+      "subject": "software-engineering/entity-lifecycle",
+      "technique": "disconnect-keeps-the-fact",
+      "verdict": "not-better",
+      "mode": "blind-ab"
+    }
+  ],
+  "files": [
+    "knowledge/software-engineering/integration/acquisition-and-ingest/web-scraping/techniques/status-is-part-of-the-change.md",
+    "knowledge/software-engineering/integration/acquisition-and-ingest/web-scraping/web-scraping.md",
+    "librarian/sources/2026-09-04-wigolo.md",
+    "librarian/subjects/software-engineering/web-scraping.md",
+    "librarian/applied.md",
+    "librarian/harvest/backlog.jsonl"
+  ],
+  "commits": [],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "Backlog filler, size 3. 1-020 better (blind-ab, A 12 v B 6, two rounds) landed status-is-part-of-the-change. 9-004 not-better (round 2 with the golden path in context tied 12 v 12). 3-044 covered. Arms isolated, no bypass."
+}

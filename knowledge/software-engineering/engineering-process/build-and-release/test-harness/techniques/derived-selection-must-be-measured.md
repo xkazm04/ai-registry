@@ -79,9 +79,13 @@ at all**, because the cause was in the derivation.
 
 ## Zero selected is a failure, not a pass
 
-Every runner in common use exits successfully when a filter matches nothing, and
-that is the single property that lets this class survive for months. A suite that
-selected nothing and a suite whose tests all passed produce the same green badge
+Some runners exit successfully when a filter matches nothing; the ones that refuse
+— a dedicated no-tests exit status, a fail-when-none-found default — refuse only
+for the whole invocation. A file or a lane that drops to zero inside a run that
+selected anything else still exits green, and a pipeline that whitelists the
+no-tests status so an empty shard stays quiet has switched the refusal off. That
+is the property that lets this class survive for months: a suite that selected
+nothing and a suite whose tests all passed produce the same green badge
 ([failure-not-empty-success](../../../../_laws.md#failure-not-empty-success)).
 
 So each configured lane declares a **floor on what it must select**, and the run

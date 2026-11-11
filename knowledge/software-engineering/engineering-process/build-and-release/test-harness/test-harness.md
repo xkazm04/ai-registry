@@ -32,6 +32,7 @@ techniques:
   - a-test-helper-is-a-fork-of-the-driver
   - proved-off-the-path
   - viable-rate-belongs-to-the-target
+  - capture-contract
 ---
 
 # Test harness architecture
@@ -71,7 +72,8 @@ Where membership is *derived* rather than written — a plugin tagging files by
 scanning their text, tags implying other tags, filter expressions excluding the
 implied ones — the partition can compose into a lane that selects nothing while
 every rule in it stays defensible. Two disciplines answer it: a lane declares a
-floor on what it must select, because zero selected exits green everywhere; and a
+floor on what it must select, because a lane at zero inside a larger run exits green
+on every runner, even those that refuse an invocation that selected nothing; and a
 filter clause is not the cause of an exclusion until removing it moves the count
 ([derived-selection-must-be-measured](./techniques/derived-selection-must-be-measured.md)).
 
@@ -132,6 +134,15 @@ substrate facts rather than the product's own vocabulary; that is a rung above
 live-app rather than a variant of it, and
 [far-side-oracle](./techniques/far-side-oracle.md) owns it.
 
+The live-app lane has a narrower variant where the product is seen only as
+pictures: a pixel diff, a gallery, a vision-model critic scoring captured frames.
+There the capture is the product as far as the verdict knows, so the product owes
+the capture a declared contract - a readiness signal it sets per view, a declared
+list of views that must all be captured, no wall clock, randomness, input or live
+data in capture mode, and zero console errors - and a breach fails the build
+instead of being recorded beside a passing run
+([capture-contract](./techniques/capture-contract.md)).
+
 That law — put the oracle where the effect lands — has a cheap half the ladder
 hides. When what the product emits is **input for another program** rather than
 an effect on another machine — a setup block pasted into a shell, a rule appended
@@ -178,7 +189,8 @@ got wrong. First, **verifiers partition by how they observe, not by what they
 find** — one family re-executes the program's own semantic representation and
 knows every rule the source language declares but stops dead where the program
 leaves that representation; the other observes emitted machine code, crosses
-every boundary, and knows none of those rules. The seam that halts the first is
+every boundary it is shown (the compiler-inserted kind is shown only what was
+rebuilt under it), and knows none of those rules. The seam that halts the first is
 where the second's findings concentrate, so a project with foreign code and one
 verifier is unverified exactly where its risk is
 ([dynamic-verifier-classes](./techniques/dynamic-verifier-classes.md)). Second,
@@ -339,7 +351,8 @@ a soak run misunderstands both; the design of these lanes is
   for fire-and-forget operations, the test-identifier contract.
 - [gate-scope-is-not-report-scope](./techniques/gate-scope-is-not-report-scope.md)
   — the gate's scoped include set versus the report's whole-tree denominator,
-  the ratchet's blind spot, and the obligation an exclusion carries.
+  the ratchet's blind spot, the obligation an exclusion carries, and the same
+  defect inside one test: a claim over a closed set walking a hand-written list.
 - [isolation-lanes](./techniques/isolation-lanes.md) — clean-environment
   launchers, fresh profiles, the singleton catalog, parallelism as per-suite
   policy.
@@ -388,6 +401,10 @@ a soak run misunderstands both; the design of these lanes is
   together: define viable (including can-fail) before any run, measure each
   target lane separately, decide against a locally derived threshold set first,
   and import neither the pilot's figure nor its explanation.
+- [capture-contract](./techniques/capture-contract.md) — when a gate or critic
+  sees the product only through captures: a readiness signal the product sets,
+  declared views all captured, no clock, randomness or live data in capture mode,
+  zero console errors, and a breach fails the build.
 - [assert-through-the-reader](./techniques/assert-through-the-reader.md) — an
   artifact emitted for a foreign interpreter is asserted by running that
   interpreter: asking the tool where it will read, executing the emitted block

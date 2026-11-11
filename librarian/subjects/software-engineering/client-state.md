@@ -1,8 +1,8 @@
 ---
 subject: client-state
 domain: software-engineering
-last_touched: 2026-09-05
-touched_by: deepen
+last_touched: 2026-11-10
+touched_by: harvest
 dry_streak: 0
 ---
 
@@ -174,3 +174,17 @@ goat 3, grant 1, politicas 1, kp 1, ascent 1) carries only `unknown` pairs - nev
 judged, so nothing to re-judge. Added after the checkout was declared (same day):
 personas-web 3 stale verdicts, including its one `deviation` and one `conformant`.
 `/conform --stale` queue: personas, personas-web.
+
+Touched by `/harvest backlog` (row 6-023, from [[2026-08-31-tkdodo-rq-beyond-basics]]'s
+untriaged table): amendment to `persistence-and-migration`, a section on persisting a
+fetch cache. The opt-in sits on the datum. The persist filter is composed with the
+library's success-only filter, never substituted for it. Nothing that reads the cache
+mounts until the restore settles. Measured as an **experiment**: a harness over a managed
+frontend's own cache defaults and query keys, with no product code changed. The
+substituted filter persisted 2 non-success entries, restored a cached error and threw on
+the in-flight entry. The composed filter persisted 0 non-success entries and restored
+cleanly, with the opt-in floor equal (1 and 1). Ungated, a fresh persisted entry cost 1
+fetch and a loading first frame. Gated, it cost 0 fetches and showed data on the first
+frame. A rejecting storage still mounted and fetched once. Not code: no fleet project
+persists its fetch cache. Where the opt-in mark lives was not compared against a
+central list.

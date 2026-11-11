@@ -14,6 +14,8 @@ techniques:
   - limit-observability
   - limit-derivation
   - metered-step-selection
+  - unpublished-behaviour-limit
+  - failure-reserved-counting
 ---
 
 # Rate limiting
@@ -178,6 +180,14 @@ Every limiter faces one of two directions, and the direction changes what
 Both postures use the same algorithms and the same hygiene; they differ in who
 owns the number and what a refusal teaches.
 
+An egress limiter models the published number, but a hosted service also runs
+abuse detection: a second, unpublished layer that judges bursts, account-wide
+concurrency and how much visible content an identity creates, and that reports
+headroom while it refuses.
+[unpublished-behaviour-limit](./techniques/unpublished-behaviour-limit.md) covers
+budgets per class of call, merging before pacing, never retrying a behaviour
+refusal, and failing closed for visible creation.
+
 ## Which step carries the counter
 
 Before a limit has a number it has a subject: the step the counter increments
@@ -203,6 +213,13 @@ several steps; what it may not carry is two limits on one step in different
 units decided in different places.
 [metered-step-selection](./techniques/metered-step-selection.md) owns the
 choice, its divergence check, and the tells that it was made wrongly.
+
+On a door that bounds guessing, the counter's subject is an outcome rather
+than a step: the wrong answer. The outcome is known only after the handler,
+so the hit is reserved atomically on arrival and handed back on success,
+never reset, and a refusal by any limit releases what the others reserved.
+[failure-reserved-counting](./techniques/failure-reserved-counting.md) also
+keeps trusted callers inside a limit that is the only fence around a secret.
 
 ## What "done" looks like for this subject
 

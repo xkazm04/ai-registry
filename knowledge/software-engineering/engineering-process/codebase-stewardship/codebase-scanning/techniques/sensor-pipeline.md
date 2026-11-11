@@ -8,7 +8,7 @@ laws:
   - failure-not-empty-success
   - count-carries-predicate
 shared_with: []
-use_when: [one broken sensor is crashing the whole sweep, deciding whether a rule may read during emission, cap survivors change from run to run, a failed read is scored as a missing control]
+use_when: [one broken sensor is crashing the whole sweep, deciding whether a rule may read during emission, cap survivors change from run to run, a failed read is scored as a missing control, replacing an all-or-nothing combinator with a settle-all one]
 ---
 
 # Sensor pipeline
@@ -32,6 +32,18 @@ configuration, the system's own stored records. Its contract is tolerance.
   sensors share a fate delivers all-or-nothing coverage, and "nothing"
   arrives precisely on the messiest codebases, which are the ones that need
   scanning most.
+- **The boundary sits on the task, not on the fan-out.** Swapping an
+  all-or-nothing combinator for a settle-all one isolates whatever the
+  combinator holds, and in a bounded pool that is the *workers*. A worker
+  whose job throws simply ends: the jobs queued behind it are never read, the
+  sweep reports nothing missing, and when every worker dies on its first job
+  the result is an empty sweep that reports success. Catch on each job, record
+  the failure beside the readings that succeeded, and fail the sweep only when
+  nothing was read. Where a fan-out mixes one required read with optional
+  ones, settle it and rethrow the required branch: an unreachable source is
+  not "nothing here", and turning its failure into the empty value is the
+  [failure-not-empty-success](../../../../_laws.md#failure-not-empty-success)
+  defect moved one level up.
 - **Skipped is a first-class result.** A sensor that did not run produces a
   skip record — which sensor, why, what coverage is therefore missing — and
   the final report prints it. A sensor that fails and contributes nothing is

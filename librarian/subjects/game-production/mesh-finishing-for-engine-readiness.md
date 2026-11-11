@@ -356,3 +356,25 @@ pof `65974e1e`, not pushed.
 
 **Boundary stated, not linked:** import-side acceptance (`generated-asset-world-scale`,
 `generated-mesh-acceptance`) checks what arrived. This technique proves what was sent.
+
+## Shift 2026-11-10 - colour does cross, before the bench
+
+Source: [2026-11-10-generated-mesh-to-moving-asset](../../sources/2026-11-10-generated-mesh-to-moving-asset.md),
+run `shift-generated-mesh-to-moving-asset`. A video that colours the dense source at the
+generator and then bakes colour and normal onto the reduced mesh was the occasion. The
+evidence is pof's own tree.
+
+**Corrected:** `texture-pass-must-consume-the-bake` § When the round trip does not exist at
+all said generator-textured and bench-baked are disjoint lines and "Nothing crosses". The pof
+bench bakes albedo (lighting excluded) and normal from the generator-coloured high-poly onto its
+own low-poly, and it has done so since the bench was built. Only the bench's output cannot go
+back to the texturer. The paragraph now says that, and the application carries the anchors
+(6 of 6 held against pof at `8f69f22c0`). Both changes narrow a sentence that was already false
+in the tree it was written from, and no true sentence changed. The source note records the score
+and why this was not counted as a rewrite.
+
+**Not landed:** the bake-or-derive boundary by closest screen size (a real rewrite of
+`luminance-heightfield-normal-derivation`'s "the provenance, not the fidelity, is what
+decides", the operator's), and deriving maps from an unwrapped atlas rather than a tile
+(island borders are edges, so wrap-around sampling is wrong there). Both are untriaged in the
+source note.

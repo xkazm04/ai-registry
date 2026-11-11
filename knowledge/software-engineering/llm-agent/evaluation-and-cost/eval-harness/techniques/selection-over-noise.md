@@ -77,11 +77,15 @@ the first one is what pre-declaration buys.
 ## Two arms with different N are not a comparison
 
 The clean form of the error: one arm took the maximum over ~150 scored
-attempts and reached 82–85% of the available gap; the other arm — 28
-experienced practitioners, up to eight hours each, **unable to iterate on a
-submission** — averaged 20%. The gap is large, the instrument was the same,
-and the number still does not say what it appears to say, because the arms
-differed in the one variable this technique is about.
+attempts and reached 82% of the available gap in the reported run (85% averaged
+across runs); a separate panel of six experienced practitioners averaged 20%.
+The study's wider human comparison — 28 practitioners, up to eight hours per
+idea, **unable to iterate on a submission** — was scored best method against
+best idea per failure, so it is the same error at a different N, not the
+source of the 20%; the two human cohorts are easy to fuse when the figures
+travel without their populations. The gaps are large, the instrument was the
+same, and the numbers still do not say what they appear to say, because the
+arms differed in the one variable this technique is about.
 
 The reporting team drew the correction itself, and it is the model to copy:
 the result was reframed from *better than* to **supplies candidate methods
@@ -134,9 +138,10 @@ and it fires when there is only one condition and no ranking at all.
 
 [candidate-write-access](./candidate-write-access.md) owns the write
 surfaces and the holdout's provenance. This technique is what remains when
-every one of its four questions answers clean: the candidate read nothing it
+every one of its five questions answers clean: the candidate read nothing it
 should not, wrote nothing it should not, built no holdout, got a fresh
-environment per condition — and still returned a maximum over 150 attempts.
+environment per condition, could not reach its own confinement — and still
+returned a maximum over 150 attempts.
 
 [comparison-modes](./comparison-modes.md) owns which question a run answers
 and requires the aggregation rule to precede the data. It names worst-of-N

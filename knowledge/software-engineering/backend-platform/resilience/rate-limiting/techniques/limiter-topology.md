@@ -137,7 +137,10 @@ The two directions also fail differently: an unavailable ingress limiter
 fails open or closed by how recoverable each mistake is (a policy chosen in
 advance — see "When the shared state is unreachable" below), while an unavailable egress limiter fails *open with
 the provider as backstop* — the remote authority still enforces its real
-limit; you have only lost politeness.
+limit; you have only lost politeness. That holds only while the remote's answer
+is a refusal. Where it answers with a sanction on the identity, visible
+creation fails closed instead (see
+[unpublished-behaviour-limit](./unpublished-behaviour-limit.md)).
 
 ## One process, or several
 

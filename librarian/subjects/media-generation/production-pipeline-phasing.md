@@ -1,7 +1,7 @@
 ---
 subject: production-pipeline-phasing
 domain: media-generation
-last_touched: 2026-11-06
+last_touched: 2026-11-11
 touched_by: shift
 dry_streak: 0
 ---
@@ -113,3 +113,7 @@ sequence.
 - `approval-reads-forward`: new section, the roster comes from the same walk, and whether a piece may mint before beats turns on whether a shared asset carries a state the story changes. Two channels against one, at threshold, 2/0/1. No saving measured.
 - NEW application `process--approval-reads-forward`, mode `experiment`, verdict `better`, n=1.
 - Not landed: a still gates only where it is the literal input, for `asset-vs-disposable-render`. Render-bound, rows `shift-film-draft-1` and `-2`. Also not landed: the batch boundary on this technique's exception, one voice. See [[2026-11-06-film-preproduction-chain]].
+
+## 2026-11-11 - /harvest backlog 8-045 ([[../../sources/2026-08-31-openmontage]], /shift filler)
+
+`plan-checks-predict-the-expensive-failure` landed (blind-ab, better), the dimension-choice clause only: the gate at the expensive boundary measures what makes the expensive output fail, read back to the plan, each dimension from a class of discarded render, and the gate is back-tested on past plans before it is trusted. One probe, an explainer pipeline whose plan gate summed five judge dimensions on which discarded and kept plans scored alike, and a change raising the threshold and adding two judge dimensions; both arms held this golden path and `phase-order-and-graduation`. Failure-derived dimensions with a back-test A 6, B 3 of 6 (arm B derived the checks and never validated them against history). Per-dimension verdict bands composed by the worst A 6, B 5: did not land, the per-promise pass, fail and unmeasured rule already carries it. Floor (keep a pre-render gate, refuse the threshold raise) A 6, B 6; controls held.

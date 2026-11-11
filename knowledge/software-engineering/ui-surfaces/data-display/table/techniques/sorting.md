@@ -40,6 +40,27 @@ The tiebreaker must be the *identity*, not a timestamp (collides) and not the
 display label (mutable, collides). Identity survives reordering and reuse;
 that is what it is for.
 
+A tiebreaker decides *position*, never *rank*. It makes tied rows
+reproducible; it does not make one of them better than the other. A rank shown
+to readers is computed on the sort key alone, so rows the key cannot tell apart
+— peers — share it (the SQL `RANK`/`DENSE_RANK` shape, where every row of a
+peer group gets the same answer). A number minted from the full order,
+tiebreaker included, is a row number, and it claims an ordering the data does
+not hold. Two things follow: a rank badge cannot disagree with on-screen
+position inside a tie, whatever column the view is sorted by; and the shared
+number is itself the disclosure. Where readers will read order as merit (a
+public leaderboard), say once what order tied rows are listed in and that the
+order carries no meaning.
+
+Before appending the identity, find what the old order was carrying. Many built-in
+sorts are stable — tied rows keep their input order; the browser scripting
+language's array sort has been required to be since its 2019 edition — so a
+caller that fed pre-sorted input got an undeclared second key for free.
+Appending the identity straight after the primary key silently replaces that
+key with identity order. Name the implicit key as an explicit term first, then
+append the identity, and test with the input reversed so the test fails if the
+named term is ever dropped.
+
 The third property has a precondition the tiebreaker cannot supply. It decides
 only the rows the comparator calls equal; which rows are equal, and in what
 order the rest fall, is the comparator's own business — and two tiers routinely

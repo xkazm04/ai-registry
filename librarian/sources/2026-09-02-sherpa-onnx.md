@@ -120,6 +120,17 @@ last. Files that produced candidates: `endpoint.h/.cc`,
   karaoke-highlight timing. *Return when a managed project renders word-level
   timing (captions, click-to-seek, read-along highlighting) or when a second
   source reports the same protocol.*
+  **Sightings: 3.** Second: 2026-09-08 (a transcription release, as a shipped
+  feature). Third: 2026-11-11, a forced-alignment model post that reports mean
+  word timing error and the share of words within 0.3 s. That is the same
+  protocol shape, but it is a vendor measuring itself, so the protocol clause
+  is met in form only. Its numbers (57-179 ms mean) are as large as a lip-sync
+  tolerance (about 45 ms early, 125 ms late), so the next run should state the
+  rule per consumer. That rule is row C5 of
+  [2026-11-11-video-and-voice-for-productions](2026-11-11-video-and-voice-for-productions.md),
+  2/2/1, under the bar. The lead promotes when a managed project measures
+  word-level residuals; held CPU row `shift-replica-voice-refaudios-d1` measures
+  only onsets.
 - **Diarization as a pipeline** (segmentation model -> speaker embedding ->
   clustering, with the segmentation window shift as the tunable that trades
   boundary precision for cost, and an off-by-one at the window edge as the

@@ -1,0 +1,57 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "shift-sdlc-artifact-chain",
+  "skill": "shift",
+  "skill_version": "0.6.0",
+  "mode": "source",
+  "domain": "software-engineering",
+  "started_at": "2026-11-10T00:00:00Z",
+  "ended_at": "2026-11-10T22:21:28Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 0,
+    "declined": 0,
+    "idled": 3,
+    "contended": 0,
+    "held": 0
+  },
+  "subjects": [
+    {
+      "id": "software-engineering/plan-review",
+      "at": "2026-11-10",
+      "engine": "shift",
+      "outcome": "idled",
+      "points_before": null,
+      "points_after": null
+    },
+    {
+      "id": "software-engineering/quality-gates",
+      "at": "2026-11-10",
+      "engine": "shift",
+      "outcome": "idled",
+      "points_before": null,
+      "points_after": null
+    },
+    {
+      "id": "software-engineering/agent-instruction-files",
+      "at": "2026-11-10",
+      "engine": "shift",
+      "outcome": "idled",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [],
+  "files": [
+    "librarian/sources/2026-11-10-sdlc-artifact-chain.md",
+    "librarian/sources/index.md",
+    ".claude/skills/intake/SCORECARD.md",
+    "librarian/runs/shift-sdlc-artifact-chain/result.json"
+  ],
+  "commits": [],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "Note and ledger lines only: 0 accepts at +3, 7 catches, 1 lead, 4 untriaged, 0 held. Row 1 (check at each artifact hop) 2/2/2 untriaged, one observation with 08-29 row 8. Named seam: spark Phase 4 brief open-questions disposition, not edited."
+}

@@ -13,6 +13,7 @@ techniques:
   - suspension-is-not-failure
   - jittered-revocation-with-irrevocable-terminal
   - client-retry-and-redirect-conventions
+  - wrapper-option-names-its-half
 ---
 
 # Retry, backoff & circuit breaking
@@ -166,6 +167,14 @@ failures belongs to scheduling's
 suppression of repeated *attempts against* a failing dependency belongs here, to
 the breaker. The shapes look similar — both are windows that quiet repetition —
 but one governs what humans hear and the other governs what dependencies endure.
+
+The wrappers both paths hand to callers - a retryer, a breaker, a poller, a
+limiter - share one interface trap: each is a wrapped call plus a wrapping
+behaviour, and an `enabled` or `throwOnError` option does not say which of the two it
+switches off. A caller who turns off the retrying, the polling or the limiting and
+silently loses the call itself has met it. Name the half in the option, and report
+"off" as its own state rather than as healthy
+([wrapper-option-names-its-half](./techniques/wrapper-option-names-its-half.md)).
 
 ## What "done" looks like for this subject
 

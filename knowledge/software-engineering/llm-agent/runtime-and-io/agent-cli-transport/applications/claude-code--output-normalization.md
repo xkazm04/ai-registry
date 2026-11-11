@@ -126,3 +126,35 @@ What a re-smoke should take account of:
 - Also new around the envelope: `--input-format stream-json`,
   `--replay-user-messages`, `--forward-subagent-text`,
   `--include-partial-messages`, and `--fallback-model` (print mode only).
+
+## Re-checked against vendor docs and help, 2026-11-10 (2.1.322, envelope not smoked)
+
+Read from the vendor's headless and CLI-reference pages and from `--help`
+on 2.1.322. Nothing here was run with a prompt, so `verified_on` above
+stays with the repo citations it dates.
+
+- **Schema output does not live in `.result`.** With `--json-schema`, the
+  structured answer is in `structured_output`, and "if a run ends without
+  valid structured output … the response has no `structured_output`
+  field". A normalizer that reads `.result` on a schema run reads prose; one
+  that treats an absent `structured_output` as empty data reports a refusal
+  as success.
+- **Failure placement is documented.** An invalid flag is reported on
+  stderr before the run. An in-run failure "such as missing authentication"
+  prints as the result on stdout, with a non-zero exit.
+- **The input stream has a cap.** Piped stdin is capped at 10 MB, with a
+  non-zero exit past it. Large fact packs go in a file the prompt names.
+- **A clock inside the child.** After the turn, the run waits for
+  background work but by default stops after 10 minutes of idle waiting and
+  "drops its partial result" (`CLAUDE_CODE_PRINT_BG_WAIT_CEILING_MS`, `0` =
+  no cap). A matrix row, not a run ceiling.
+- **SIGTERM records no result** (exit 143); SIGINT ends the turn first. The
+  borrowed termination ladder's first rung is the interrupt when the caller
+  wants the partial turn.
+- **Announced default flip:** `--bare` "will become the default for `-p` in
+  a future release". Bare mode reads no OAuth login; see this subject's
+  `claude-code--subscription-auth-selection` application.
+- **`-p` runs start in Manual mode** when nothing sets a permission mode
+  (2.1.302 and later), and `--permission-prompts none` (2.1.259 and later)
+  denies whatever would prompt and removes ask-the-person tools.
+- Still no wall-clock flag in `--help` on 2.1.322.

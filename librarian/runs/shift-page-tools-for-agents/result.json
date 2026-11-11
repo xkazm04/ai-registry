@@ -1,0 +1,41 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "shift-page-tools-for-agents",
+  "skill": "shift",
+  "skill_version": "0.6.0",
+  "mode": "source",
+  "domain": "software-engineering",
+  "started_at": "2026-11-10T00:00:00Z",
+  "ended_at": "2026-11-10T22:22:53Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 0,
+    "declined": 0,
+    "idled": 1,
+    "contended": 0,
+    "held": 0
+  },
+  "subjects": [
+    {
+      "id": "software-engineering/agent-host-experience",
+      "at": "2026-11-10",
+      "engine": "shift",
+      "outcome": "idled",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [],
+  "files": [
+    "librarian/sources/2026-11-10-page-tools-for-agents.md",
+    "librarian/sources/index.md",
+    ".claude/skills/intake/SCORECARD.md",
+    "librarian/runs/shift-page-tools-for-agents/result.json"
+  ],
+  "commits": [],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "Leads only: 3 leads, 1 currency, 4 covered, 1 untriaged (row 1, page tool has no principal, 2/0/2 for agent-host-experience), 0 held. No inverted corpus sentence; root owned by delegated-authority. gravitone already holds the split."
+}

@@ -5,8 +5,8 @@ subject: mesh-finishing-for-engine-readiness
 technique: texture-pass-must-consume-the-bake
 stack: node
 status: forged
-verified_on: 2026-09-07
-verified_against: node@24
+verified_on: 2026-11-10
+verified_against: node@26
 applied: simulation
 ab_verdict: not-better
 proof: structural-only
@@ -61,6 +61,25 @@ rule. What it does *not* contain is any statement of the consequence — that ch
 line is a commitment made at commissioning time, and that the bench-baked line has no
 budgeted colour engine downstream of it.
 
+**Correction, 2026-11-10, read at the remote tip (`8f69f22c0`).** "Disjoint" holds for the
+texturer and not for the bench. A generator-coloured dense mesh does reach the bench, and the
+bench carries its colour across. The runner's `main()` imports the input as the high-poly and
+makes the low-poly as a copy of it,
+`scripts/visual-gen/pof_mesh_finish.py:618 "The low-poly is a copy so the high-poly survives as the bake source."`
+Each requested map is then baked from that high-poly,
+`scripts/visual-gen/pof_mesh_finish.py:691 "bake_high_to_low(high, low, kind"`.
+That function is a selected-to-active Cycles bake,
+`scripts/visual-gen/pof_mesh_finish.py:570 "use_selected_to_active = True"`, and for `diffuse`
+it turns direct and indirect light off and keeps colour only,
+`scripts/visual-gen/pof_mesh_finish.py:574-577 "Albedo only"`. The TypeScript side lists the
+map as bakeable and writes it to the albedo role,
+`src/lib/visual-gen/mesh-finish.ts:38-42 "BAKEABLE_MAPS = ['normal', 'ao', 'diffuse', 'roughness']"`,
+and records a blind render A/B over a diffuse bake of a provider character,
+`src/lib/visual-gen/mesh-finish.ts:144 "1024 diffuse bake"`. So this tree does produce colour and relief from
+one asset: both are baked from the generator's textured dense surface. What crosses nowhere
+is the bench's *output*. The technique's "Nothing crosses" sentence was written from the
+first reading of this tree, and it is narrowed in the same change as this correction.
+
 ## The verdict, and what it changed
 
 `not-better`: the technique as written did not improve this seam, because its central
@@ -72,8 +91,10 @@ the two lines' disjointness the design constraint rather than a discovered surpr
 
 ## What this realisation cannot do
 
-It cannot report an agreement number between albedo and baked relief, because it never
-produces both from one asset. The absence of a contradiction here is a consequence of the
+It cannot re-colour after the bake. The bench does produce albedo and relief from one asset
+when the generator coloured the dense source, and then the two agree because they come from
+one surface. But no stage measures that agreement, and no texturer can take the bench's
+output. The absence of a contradiction here is a consequence of the
 provider's input restriction, not evidence that the contradiction is rare elsewhere — a
 pipeline whose texturer *does* accept user meshes would need the probe this one cannot
 run.

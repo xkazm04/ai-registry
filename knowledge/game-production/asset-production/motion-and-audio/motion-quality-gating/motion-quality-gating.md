@@ -11,6 +11,7 @@ techniques:
   - genre-response-latency-norms
   - montage-budget-and-root-motion-lint
   - asset-reality-ledger
+  - exaggerate-at-the-contact-frames
 ---
 
 # Motion quality gating
@@ -92,6 +93,11 @@ The published animation principles are the right source for the dimensions — t
 audience is unconsciously calibrated to them — but they are principles for *authoring*,
 and converting each into a checkable observation is work the rubric author does once and
 everyone else inherits.
+
+When a small unit's hit does not read, the fix is a pose, not a duration: push the part
+that carries the read past plausibility on the contact frames only, and keep the strike's
+length and its contact frame where the responsiveness budget put them
+([exaggerate-at-the-contact-frames](./techniques/exaggerate-at-the-contact-frames.md)).
 
 ## The sampling is part of the instrument
 

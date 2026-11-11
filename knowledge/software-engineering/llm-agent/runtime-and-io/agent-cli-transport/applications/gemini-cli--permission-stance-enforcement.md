@@ -238,7 +238,14 @@ the technique's three-layer read-only posture:
 - **Workspace trust exists** [HELP]: `--skip-trust` ("Trust the current
   workspace for this session"). Per the technique's pre-empt rule, pass it
   deliberately rather than discovering the trust gate per machine — and note
-  that doing so is itself a stance decision, not hygiene.
+  that doing so is itself a stance decision, not hygiene. [DOCS, trusted-folders
+  page, read 2026-11-10, no version pinned]: in an untrusted folder,
+  auto-acceptance is off "even if you have auto-acceptance enabled globally",
+  and a headless run there "will throw a `FatalUntrustedWorkspaceError` and
+  exit". `GEMINI_CLI_TRUST_WORKSPACE=true` is the environment form of
+  `--skip-trust`. The hard failure the technique asks the adapter to raise is
+  now the tool's own in headless mode; the quiet downgrade remains in
+  interactive sessions.
 - **Containment is built in** [HELP]: `-w, --worktree [name]` starts the
   session in a fresh git worktree, so the `edit` seam's blast-radius bound
   can be the tool's own rather than the host's.

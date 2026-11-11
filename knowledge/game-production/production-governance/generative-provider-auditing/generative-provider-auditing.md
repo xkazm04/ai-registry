@@ -156,7 +156,10 @@ and the controls are specific (`arena-benchmark-protocol`):
 - **Results per class, never pooled.** An arm that wins on organic shapes and loses on
   hard-surface props has produced two findings; pooling destroys both.
 - **Systems constraints measured alongside quality.** This is the lesson practitioners
-  learn last and should learn first.
+  learn last and should learn first. One of them is not a resource: where a delivery must
+  meet something that exists - a part seated in an assembly, a mesh handed back rigged -
+  whether it returns in the input's frame decides a realignment per piece, which scales
+  with the part count and can invert a quality lead.
 
 That last point deserves its own statement, because it inverts the naive expectation.
 **The winning criterion is frequently a systems constraint, not a quality score.** When a

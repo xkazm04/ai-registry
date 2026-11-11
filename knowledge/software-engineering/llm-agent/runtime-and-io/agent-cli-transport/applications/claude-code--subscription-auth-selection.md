@@ -125,3 +125,31 @@ transport in this subject should know about:
   user` workaround the output-normalization page records, and unlike
   `--bare` it does not change the auth direction. Flag surface verified in
   help 2026-08-30; behavior not smoked (UNVERIFIED).
+
+## Precedence and a pending default, from vendor docs (read 2026-11-10)
+
+From the vendor's authentication, headless and permissions pages, read
+2026-11-10; nothing re-measured, so `verified_on` above stays.
+
+- **In print mode the key always wins.** "In non-interactive mode (`-p`),
+  the key is always used when present." "Can use it in preference", above,
+  understates it.
+- **The strip list is short by two sources.** The documented precedence
+  places profile and federation credentials above the subscription login:
+  `ANTHROPIC_PROFILE`, the pair `ANTHROPIC_FEDERATION_RULE_ID` +
+  `ANTHROPIC_ORGANIZATION_ID`, and an active profile whose auth mode is
+  `oidc_federation` in the vendor's configuration directory. The last one is
+  a file on disk, which no environment strip removes; the whole-record probe
+  through the spawn door is what catches it.
+- **The workspace can move the bill.** Under `-p`, without `--bare`, a
+  project's settings hooks run and its tool servers connect "even in a folder
+  you've never trusted", and the permissions page lists the settings `env`
+  block and `apiKeyHelper` among what runs before trust. A scan run inside a
+  repository the operator did not write excludes project setting sources, or
+  it bills where the repository says.
+- **`--bare` is announced to become the default for `-p`.** Bare mode never
+  reads OAuth credentials, the keychain or `CLAUDE_CODE_OAUTH_TOKEN`. On the
+  release that flips it, an adapter that pins nothing turns into "Not logged
+  in" if it strips the key, and bills the key if it does not. The probe
+  through the same door catches both; the matrix row is the version on which
+  the default changes.

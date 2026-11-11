@@ -36,6 +36,7 @@ techniques:
   - compaction-target-is-an-aim
   - compaction-is-a-fixed-point
   - cache-affinity-key-from-the-unrewritable-layer
+  - model-curated-context
 ---
 
 # Prompt assembly & context budgeting
@@ -142,8 +143,9 @@ appended to.
 
 The context window is finite and shared by everything the model must see —
 plus the room its answer needs. A system that does not allocate this budget
-still has an allocation: whatever survives the provider's silent tail
-truncation, which is the worst possible policy chosen by nobody.
+still has an allocation: whatever the runtime does on overflow, which is either
+a refusal of the whole request or, on some local servers, a silent drop of the
+oldest turns. That is the worst possible policy, and nobody chose it.
 
 Deliberate budgeting means, per layer: a floor for the layers that must
 never degrade (identity, policy, the task itself), an elastic allowance for
@@ -216,8 +218,10 @@ composition time rather than at authoring time.
 The first is that part of the history belongs to **where it happened**.
 Providers attach opaque continuation metadata to reasoning turns — signatures,
 encrypted payloads, per-part tokens — and it is sealed to the endpoint that
-minted it, so a prefix replayed to a different model is rejected rather than
-degraded. The unit that carries the property is the segment, not the
+minted it. A prefix replayed to a different model fails in one of two ways,
+depending on the provider: the call is rejected, or the parts the target
+cannot read are dropped without an error, so the call succeeds and the
+continuing model has silently lost the reasoning. The unit that carries the property is the segment, not the
 transcript, and the walk that decides per segment whether to replay verbatim
 or strip is
 [endpoint-sealed-continuation-metadata](./techniques/endpoint-sealed-continuation-metadata.md).
@@ -371,8 +375,9 @@ disappearing.
 
 - **Sprawl** — prompt text born at call sites; no single point of assembly,
   budget, review, or test.
-- **Budget by accident** — no allocation, so the provider's tail truncation
-  becomes the de facto (and worst) degradation policy.
+- **Budget by accident** — no allocation, so the runtime's overflow behaviour
+  (a refused request, or the oldest turns dropped without a word) becomes the
+  de facto (and worst) degradation policy.
 - **Capability drift** — hand-written ability descriptions diverging from
   the real registry, until the model fluently invokes operations that do
   not exist.
@@ -388,8 +393,10 @@ disappearing.
 - **The unrecorded send** — the largest, most behavior-determining
   artifact the system produces is the only one it does not persist; every
   "did it see the new instruction?" question becomes unanswerable the
-  moment the call returns. Record at minimum the digest and size of every
-  prompt sent, at the send site.
+  moment the call returns. Record at minimum the standing-layer fingerprint
+  and the size of every prompt sent, at the send site; neither carries
+  content, so neither waits on the rule that keeps the prompt itself out of
+  logs.
 - **The unmeasured shrink** — a compression or elision step scored on the
   bytes it removed, shipped without counting how often the model went back
   for what it took; the saving is real at the transform and unknown at the
@@ -546,3 +553,9 @@ disappearing.
   derived from the first message breaks under compaction, deriving it from the
   standing layer, the shared-key concentration and its override, and the test that
   must rewrite the head to reach the defect.
+- [model-curated-context](./techniques/model-curated-context.md) — the model
+  under work as the editor of record of a client-held list: when it beats a
+  summary (a tight budget, a capable model) and when it ties, the one overflow
+  guard the client keeps and why its firing rate is the evidence the policy ran,
+  the cache slope when the model chooses edit position and cadence, and every
+  self-edit through the summary's validation door.

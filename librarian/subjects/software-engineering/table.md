@@ -1,7 +1,7 @@
 ---
 subject: table
 domain: software-engineering
-last_touched: 2026-10-07
+last_touched: 2026-11-10
 dry_streak: 0
 ---
 
@@ -111,3 +111,29 @@ not authorize a technique on its own.
 `/intake` over a data-grid library, focus on table quality. Four techniques added, all in the half a grid has and a list-style table does not: `compressed-scroll-space` (the browser's scroll ceiling; the thumb reaches every row only up to about the ceiling's pixel count in rows, a derivation), `one-door-for-range-writes` (paste, fill, cut and clear are writers; the source tree has two events for one store), `clipboard-range-round-trip` (copy then paste of the same block changed 4 rows and 8 cells into 5 and 10 in the source's own functions), `export-escapes-for-its-consumer` (formula layer under the CSV layer; exemption by shape, measured on 800 contacts).
 
 Open for a later sweep: pinned partitions (a lead), column auto-size by character count (amendment to the column-width line), grouping x sort x filter. `performance` rung 4 now points at `compressed-scroll-space`.
+
+## 2026-11-10 - /deepen loop (run `filler-deepen-20261110b`, /shift filler)
+
+Dispatched by the librarian scan (32 points, 8 consumer deviations from a 26-day-old installation report; the 2026-11-09 fleet map holds table deviations in personas 19, pof 5, gravitone 1 - conform work against rules the corpus already has, listed and not chased).
+
+### Round 1 (survey round)
+
+**Not dry.** The four leads the 2026-10-07 run left open only because its egress was denied now have their primaries, fetched today, and landed as corrections:
+
+- `sorting` (L330 + L334): a tiebreaker decides *position*, never *rank*; peers share a displayed rank, a number minted from the full order is a row number, and the shared number is the tie's disclosure (PostgreSQL window-functions page: every ranking function gives the same answer for all rows of a peer group).
+- `sorting` (L353): before appending identity, name the implicit second key a stable sort carried from pre-sorted input, and test with reversed input (MDN: the array sort is required to be stable since the 2019 edition). The cited project commits stay unverified; the rule rests on the spec and the 10-07 local reproduction.
+- `filtering` (L336): in the all-client regime the export takes the filtered and sorted rows before client windowing (a grid vendor's CSV export default and a headless table library's row-model order, both opened today).
+
+Confirmed and left untouched: `compressed-scroll-space`'s "tens of millions of pixels, differs by engine" and its 46-px-row arithmetic (a 2025 measurement article and an open browser bug); `performance`'s content-visibility support claim (MDN, Baseline since 2024); the golden path's "1.2 GB" is a units example, not a measurement. Blind lane 4 of 5 tested predictions reached by the web lane; the miss was the "1.2 GB" figure.
+
+Applied: three `unapplied` rows (personas and gravitone read in place; no merit rank over ties, no sort leaning on carried order, no client-side export). Leads **L330, L334, L336, L353 closed**; the project files each cited remain unverified (those checkouts are not on this machine).
+
+Banked: one engine's line-height test laid out near half its declared ceiling; if a scroll container does the same the row bound for that engine roughly halves. Return: a scroll-container probe in a current build of that engine, or the engine's bug tracker confirming it. Still open from 2026-10-14: pinned partitions, column auto-size, grouping x sort x filter.
+
+### Round 2 (probe round, same run)
+
+**Dry.** Ten training-data-first probes, the qualifier-edge grep included (round 1 had not run it): `grid-keyboard-model`'s edges, grid-end keys, paging, every-cell focus and its header exception, the edit/escape pair and application-mode reading all match the W3C grid pattern opened today; pagination's tuple and absent-value claims, the placeholder delay band and the golden path's "300 milliseconds" held. Declined: "a numbered pager requires a total" is over-absolute in the letter (only a last-page or of-N control needs it) and a qualifier would change no decision. **Closed:** the 2026-08-31 question whether `pagination`'s "changing sort or filter invalidates the cursor" contradicts the windowing/identifying split - it does not; cursor validity and what happens to rows on screen are separate questions. dry_streak 1.
+
+### Round 3 (final probe round, same run)
+
+**Not dry.** `applications/next--sorting.md` prescribed appending identity straight after the activity value, which round 1's implicit-key rule makes wrong: its own evidence shows ties were carried by overall score descending through a stable sort. The fix now names that key before the final term; `verified_on` unmoved (the tree is not on this machine, and the paragraph says so). Confirmed: the export technique's formula-trigger set matches the current injection guidance page (the blind lane was the stale one), content-visibility having no effect on a native table row matches the containment spec. Currency: no table application expired, at risk or drifted. Applied: `unmeasurable` (one recorded case, tree not reachable). dry_streak back to 0. **Not saturated**: the loop ended at its cap of 3 with rounds 1 and 3 non-dry.

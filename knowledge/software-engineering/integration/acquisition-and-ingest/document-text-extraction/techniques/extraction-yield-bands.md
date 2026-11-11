@@ -78,6 +78,37 @@ value. The classification existed exactly where it was computed and died exactly
 where it mattered
 ([verdict-survives-boundary](../../../../_laws.md#verdict-survives-boundary)).
 
+That paragraph assumes the reader *detects* the broken mapping, and often it
+cannot from the mapping alone. A font with no translation table falls back to
+some default code page, and a table that is present but wrong maps every code
+successfully. In both cases the count of glyphs the reader could not map is
+zero, and the output is printable letters in the wrong places, so a check for
+non-text characters passes it too. **Detect the band from the decoded text, by
+letters, per font.** What a substitution cannot fake is the statistics of a
+language. Running Latin-script text keeps a vowel share somewhere between a
+third and a half, and a permutation of the alphabet drives it far below any
+natural floor. Control characters and tokens with no plausible shape are the
+same signal for codes that land outside printable range. Three rules make the
+signal usable:
+
+- **Judge per font as well as per page.** Corruption travels with one font's
+  table. A page that mixes a healthy body face with one broken display face
+  averages to a natural-looking share, and the broken face is usually the one
+  carrying headings, figures and the numbers a reader came for. A page-wide
+  check runs first, for pages whose fonts are each too small to judge.
+- **Give each font a floor**: a minimum count of letters and a minimum share of
+  the page's letters before its own statistic may condemn anything. Without it
+  a stray caption or an acronym run in an odd face flags a clean page, and a
+  detector that fires on clean pages is soon ignored.
+- **Measure before cleanup.** Run the check on the text as decoded, before any
+  normalization that strips control characters. Otherwise the cleanup deletes
+  the evidence, and a corrupt region reads as a sparse one or as nothing.
+
+The statistic is part of the measurement that rides with the band (below), and
+the font it condemned is part of the region's identity. Script coverage bounds
+it: a vowel share says nothing about non-alphabetic scripts, so text without
+enough letters to judge is *unknown* for this test, never clean.
+
 So a detected encoding problem is a **band on the record**, not a warning in a
 stream. What the caller then does with it is a real decision with legitimate
 answers on both sides: a full-text search index may reasonably take corrupt text

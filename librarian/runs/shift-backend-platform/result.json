@@ -1,0 +1,45 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "shift-backend-platform",
+  "skill": "shift",
+  "skill_version": "0.6.0",
+  "mode": "source",
+  "domain": "software-engineering",
+  "started_at": "2026-11-10T22:50:00Z",
+  "ended_at": "2026-11-10T23:50:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 1,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0,
+    "held": 0
+  },
+  "subjects": [
+    {
+      "id": "software-engineering/rate-limiting",
+      "at": "2026-11-11",
+      "engine": "shift",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [],
+  "files": [
+    "knowledge/software-engineering/backend-platform/resilience/rate-limiting/techniques/failure-reserved-counting.md",
+    "knowledge/software-engineering/backend-platform/resilience/rate-limiting/rate-limiting.md",
+    "librarian/subjects/software-engineering/rate-limiting.md",
+    "librarian/sources/2026-11-11-backend-platform.md",
+    "librarian/sources/index.md",
+    "librarian/applied.md",
+    ".claude/skills/intake/SCORECARD.md",
+    "librarian/runs/shift-backend-platform/result.json"
+  ],
+  "commits": [],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "1 technique (rate-limiting/failure-reserved-counting, 3/0/2, independent vendor convergence); applied read-only at a personas pairing confirm, COVERED; 3 untriaged amendments; 3 leads incl. realtime authorization of open connections; no project change."
+}

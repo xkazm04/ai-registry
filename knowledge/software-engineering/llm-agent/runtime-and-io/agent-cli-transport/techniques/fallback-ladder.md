@@ -12,9 +12,13 @@ use_when: [the agent binary is missing on a deployment, designing keyless or off
 # The fallback ladder
 
 An agent-CLI transport is an **optional dependency by nature**: it exists
-only where an operator installed a binary and logged in, it cannot exist at
-all on managed serverless platforms, and a policy flag can forbid it on
-machines where it works. A product that treats the transport as assumed
+only where an operator installed a binary and logged in, it is absent from
+managed function platforms that ship no binary, and a policy flag can forbid
+it on machines where it works. A container can carry the binary to a hosted
+deployment, but not the operator's seat: the hosted child runs on a metered
+key, and at least one vendor does not allow its seat login to be offered
+inside a product. That deployment has the top rung's mechanics with the
+second rung's economics, and the rung label it records says metered. A product that treats the transport as assumed
 infrastructure crashes on exactly the deployments that most need a good
 first impression — fresh installs, keyless trials, offline evaluations.
 The technique: **degradation is a product property**, designed as a ladder

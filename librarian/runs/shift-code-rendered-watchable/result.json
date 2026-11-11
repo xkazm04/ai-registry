@@ -1,0 +1,99 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "shift-code-rendered-watchable",
+  "skill": "shift",
+  "skill_version": "0.6.0",
+  "mode": "source",
+  "domain": "media-generation",
+  "started_at": "2026-11-10T00:00:00Z",
+  "ended_at": "2026-11-10T20:28:26Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 0,
+    "declined": 0,
+    "idled": 6,
+    "contended": 0,
+    "held": 2
+  },
+  "subjects": [
+    {
+      "id": "media-generation/ad-concept-development",
+      "at": "2026-11-10",
+      "engine": "shift",
+      "outcome": "held",
+      "points_before": null,
+      "points_after": null
+    },
+    {
+      "id": "media-generation/music-video-production",
+      "at": "2026-11-10",
+      "engine": "shift",
+      "outcome": "held",
+      "points_before": null,
+      "points_after": null
+    },
+    {
+      "id": "media-generation/live-system-demo-film",
+      "at": "2026-11-10",
+      "engine": "shift",
+      "outcome": "idled",
+      "points_before": null,
+      "points_after": null
+    },
+    {
+      "id": "media-generation/data-video-art-direction",
+      "at": "2026-11-10",
+      "engine": "shift",
+      "outcome": "idled",
+      "points_before": null,
+      "points_after": null
+    },
+    {
+      "id": "media-generation/character-voice-design",
+      "at": "2026-11-10",
+      "engine": "shift",
+      "outcome": "idled",
+      "points_before": null,
+      "points_after": null
+    },
+    {
+      "id": "software-engineering/motion",
+      "at": "2026-11-10",
+      "engine": "shift",
+      "outcome": "idled",
+      "points_before": null,
+      "points_after": null
+    },
+    {
+      "id": "marketing/money-page-conversion-craft",
+      "at": "2026-11-10",
+      "engine": "shift",
+      "outcome": "idled",
+      "points_before": null,
+      "points_after": null
+    },
+    {
+      "id": "agent-operations/model-and-effort-selection",
+      "at": "2026-11-10",
+      "engine": "shift",
+      "outcome": "idled",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [],
+  "files": [
+    "librarian/sources/2026-11-10-code-rendered-watchable.md",
+    "librarian/sources/2026-10-06-claude-javascript-video.md",
+    "librarian/sources/index.md",
+    ".claude/skills/intake/SCORECARD.md",
+    "librarian/harvest/backlog.jsonl",
+    "librarian/runs/shift-code-rendered-watchable/result.json"
+  ],
+  "commits": [],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "0 accepts at +3; 7 leads (one a second voice on the 10-06 effort lead), 24 catches, 10 untriaged. Held CPU replica shift-replica-r17-ui-ad-three: storyboard vs open brief, mirror-test end card, loop-seam readout, 25 CPU min."
+}

@@ -1,0 +1,67 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "hb-filler-1110-c",
+  "skill": "harvest",
+  "skill_version": "0.7.0",
+  "mode": "backlog",
+  "domain": "software-engineering",
+  "started_at": "2026-11-10T13:00:00Z",
+  "ended_at": "2026-11-10T13:45:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 3,
+    "landed": 2,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "software-engineering/codebase-scanning",
+      "at": "2026-11-10",
+      "engine": "shift",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    },
+    {
+      "id": "software-engineering/mcp-tools",
+      "at": "2026-11-10",
+      "engine": "shift",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "software-engineering/codebase-scanning",
+      "technique": "sensor-pipeline",
+      "verdict": "better",
+      "mode": "code"
+    },
+    {
+      "subject": "software-engineering/mcp-tools",
+      "technique": "catalog-projection-modes",
+      "verdict": "better",
+      "mode": "blind-ab"
+    }
+  ],
+  "files": [
+    "knowledge/software-engineering/engineering-process/codebase-stewardship/codebase-scanning/codebase-scanning.md",
+    "knowledge/software-engineering/engineering-process/codebase-stewardship/codebase-scanning/techniques/sensor-pipeline.md",
+    "knowledge/software-engineering/engineering-process/codebase-stewardship/codebase-scanning/applications/node--sensor-pipeline--per-task-fanout.md",
+    "knowledge/software-engineering/llm-agent/runtime-and-io/mcp-tools/mcp-tools.md",
+    "knowledge/software-engineering/llm-agent/runtime-and-io/mcp-tools/techniques/catalog-projection-modes.md",
+    "librarian/subjects/software-engineering/codebase-scanning.md",
+    "librarian/subjects/software-engineering/mcp-tools.md",
+    "librarian/applied.md",
+    "librarian/harvest/backlog.jsonl",
+    ".claude/skills/harvest/LESSONS.md"
+  ],
+  "commits": [],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "Backlog wave, /shift filler. 6-021a better (code, on a clone; not shipped, no checkout here). 6-018 better (blind-ab; latency half not-better per c35). 6-017 not-better (blind-ab + replay). 3-014 and held 4-028/030/031 passed over."
+}

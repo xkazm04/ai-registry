@@ -11,7 +11,7 @@ accepted: 1
 declined: 0
 leads: 0
 already_covered: 8
-untriaged: 2
+untriaged: 1
 applied: 1
 shipped: 0
 dispatched: 0
@@ -124,14 +124,11 @@ they are not declines.**
    two-way boundary between shaping a flow over time and arbitrating occupancy, and
    this is a five-way client-side cut across a line the corpus owns from the server
    side. Anchor: `docs/guides/which-pacer-utility-should-i-choose.md`.
-2. **A wrapper's boolean never says which half it governs.** Two instances in one
-   repo: disabling the rate limiter blocks the wrapped function entirely rather than
-   disabling the limiting (the guide says so in a callout, because users get it
-   wrong), and setting the retryer to throw on every error silently disables retrying.
-   Same root - an option on a wrapper is ambiguous between the wrapper and the
-   wrapped, and the name resolves it in neither case. `research-map` found no coherent
-   home across four framings; impact `none`, which is the value that should prompt
-   asking whether it belongs in `practices/` instead.
+The wrapper-boolean row (a wrapper's option is ambiguous between the wrapper and the
+wrapped; disabling the rate limiter blocks the call, a throw-on-every-error retryer stops
+retrying) left this list on 2026-11-11 (backlog 8-024, blind-ab, better) and landed as
+retry-backoff/wrapper-option-names-its-half, measured on a fleet polling hook rather than
+on this source's two instances. The anchors were not re-read.
 
 ## Notes on the source itself
 

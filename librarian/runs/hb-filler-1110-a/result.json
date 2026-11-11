@@ -1,0 +1,52 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "hb-filler-1110-a",
+  "skill": "harvest",
+  "skill_version": "0.7.0",
+  "mode": "backlog",
+  "domain": "software-engineering",
+  "started_at": "2026-11-10T10:10:00Z",
+  "ended_at": "2026-11-10T10:27:56Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 3,
+    "landed": 1,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "software-engineering/rate-limiting",
+      "at": "2026-11-10",
+      "engine": "shift",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "software-engineering/rate-limiting",
+      "technique": "unpublished-behaviour-limit",
+      "verdict": "better",
+      "mode": "blind-ab"
+    }
+  ],
+  "files": [
+    "knowledge/software-engineering/backend-platform/resilience/rate-limiting/rate-limiting.md",
+    "knowledge/software-engineering/backend-platform/resilience/rate-limiting/techniques/unpublished-behaviour-limit.md",
+    "knowledge/software-engineering/backend-platform/resilience/rate-limiting/techniques/limiter-topology.md",
+    "librarian/sources/2026-08-26-dhh-lex-fridman.md",
+    "librarian/sources/2026-08-28-media-generation-batch-4.md",
+    "librarian/subjects/software-engineering/rate-limiting.md",
+    "librarian/applied.md",
+    "librarian/harvest/backlog.jsonl",
+    ".claude/skills/harvest/LESSONS.md"
+  ],
+  "commits": [],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "Backlog wave, /shift filler, one seat. 5-016 better (blind-ab), landed, no seam changed. 5-015 covered (phantom of a deepen landing). 6-012 unmeasurable, instrument named. 3-014 and the banked 4-028/030/031 passed over. No GPU, no build-class gate, no other project written."
+}

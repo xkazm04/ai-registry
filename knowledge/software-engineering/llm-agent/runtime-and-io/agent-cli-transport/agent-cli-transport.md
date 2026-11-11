@@ -77,8 +77,9 @@ Three clauses of the contract are load-bearing enough to state here rather
 than in a technique:
 
 **The mode is the caller's typed choice, and it never folds.** `mode` is a
-closed vocabulary — `generate` (no workspace access; neutral working
-directory so the tool loads no ambient project instructions),
+closed vocabulary — `generate` (no tools at all, plus a neutral working
+directory so the tool loads no ambient project instructions; the directory
+alone removes no capability),
 `readonly-scan` (the tool may read the workspace and provably cannot write
 it), `edit` (the tool works inside a workspace and is expected to change it).
 These are **separate seams, not one parameterized function**. A field
@@ -180,8 +181,10 @@ One tool returns a single result object with the answer in one field;
 another emits an event stream where the answer is the text of the last
 completed-message event; a third writes the final message to a file the
 caller names. All of them decorate the data channel with noise — user hooks,
-startup warnings, progress notices — and all of them report errors *inside*
-the envelope, not only via exit code.
+startup warnings, progress notices. Most of them report errors *inside* the
+envelope, not only via exit code, but at least one emits no envelope at all on
+failure and leaves only the exit status and the error stream, so each
+dialect's failure branch is its own matrix row.
 [output-normalization](./techniques/output-normalization.md) owns the
 mapping from every dialect to the contract's one result type, and the
 hygiene that keeps log channels out of the parse.

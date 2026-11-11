@@ -12,7 +12,7 @@ accepted: 3
 declined: 0
 leads: 0
 already_covered: 0
-untriaged: 10
+untriaged: 9
 dispatched: 0
 ```
 
@@ -94,8 +94,12 @@ a later run does not re-derive them.
 | 8 | Parallel agents suss out race conditions in your own infra that humans never triggered | [02:26:17] | Real, small; concurrency-fuzzing-for-free amendment shape |
 | 9 | OS crash watcher offers agent diagnosis with full source access | [02:24:57] | Likely catch: `game-production/crash-forensics-attribution` holds root-cause-to-fix-prompt; cross-bundle inversion unexamined |
 | 11 | Brains-and-hands: model runs on the coordinator, manipulates a safe VM so untrusted PR content cannot contaminate it | [02:58:49] | Partial; `ci-execution-trust` neighbourhood |
-| 12 | Agent filed 28 GitHub issues in 12s; platform banned the bot as spam | [02:26:42] | Agent bulk actions trip third-party abuse detection; pacing rule shape |
 | 13 | Vendor cut third-party harnesses off subscription auth (OpenCode); multi-sub stacking emerging | [03:24:48] | Currency for `agent-cli-transport/subscription-auth-selection` + dated-capability-matrix; clock reset not applied this run |
+
+Row 12 left this list on 2026-11-10 and landed as
+rate-limiting/unpublished-behaviour-limit (backlog 5-016, blind-ab, better). The ban was not
+re-read at the source; the fleet's own history shows temporary blocks while the published quota
+read full, and the technique quotes neither.
 
 Also seen, not tabled: the Shopify PR-review traceback study ([02:28:26],
 return: the study is published anywhere citable); "agents love the Unix

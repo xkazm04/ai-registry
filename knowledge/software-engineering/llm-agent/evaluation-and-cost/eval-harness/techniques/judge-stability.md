@@ -25,7 +25,11 @@ noise to be hoped away.
 determines a verdict:
 
 - the model, at a specific version — never an alias that silently upgrades;
-- generation parameters (temperature at or near zero, bounded output);
+- generation parameters, as sent and as the platform honoured them (bounded
+  output; temperature at or near zero only where the model accepts one — some
+  current reasoning models reject any sampling setting, so their pin is the
+  reasoning or effort setting plus the fact that sampling was left at default,
+  and a low temperature is never by itself a promise of identical verdicts);
 - the rubric, at a specific version;
 - the exemplars and instructions surrounding the rubric;
 - the packing of the evidence the judge sees.

@@ -7,11 +7,11 @@ title: "A curated catalogue of awesome agentic AI patterns"
 author: Nikola Balic (@nibzard) + contributors
 words: 1748 landing page / ~996000 in-tree (patterns 135495 · research 843699 · operating docs ~16800)
 extracted: 11
-accepted: 2
+accepted: 3
 declined: 0
 leads: 1
 already_covered: 1
-untriaged: 7
+untriaged: 6
 dispatched: 0
 applied: 1
 shipped: 0
@@ -146,7 +146,7 @@ Nobody verified these. They carry no judgment and must not be read as declines.
 | 8 | The enumeration committed as a value | `Evidence Grade: high \| medium \| low \| mixed \| unknown`; `status: proposed # One of: ...` | `status-vocabulary`, law `one-authority-per-vocabulary` |
 | 9 | Dual-granularity machine-readable export | `llms.txt` (index) + `llms-full.txt` (full content), both generated | `docs-content-model` |
 | 10 | Research loop with crash recovery and a state tracker | `recover_running_states`, `recover_inconsistent_done_reports`, `pattern-research-tracker.json` | `job-coordination/terminal-state-recovery` |
-| 11 | Provenance recorded, relationships not | `based_on` 190/193 vs `related` 15/193 | — |
+| 11 | Provenance recorded, relationships not | `based_on` 190/193 vs `related` 15/193 | **landed 2026-11-11** (backlog 3-042, blind-ab, better): docs-content-model `relationship-fields-stay-empty`, the writing-time predictor only; the derive-the-edges remedy tied and did not land |
 
 ## What the sweep cost, and what it would cost again
 

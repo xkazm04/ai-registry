@@ -1,0 +1,181 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "filler-deepen-20261110b",
+  "skill": "deepen",
+  "skill_version": "1.5.0",
+  "mode": "loop",
+  "domain": "software-engineering",
+  "started_at": "2026-11-10T15:20:00Z",
+  "ended_at": "2026-11-10T16:40:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 3,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "software-engineering/cost-metering",
+      "at": "2026-11-10",
+      "engine": "deepen",
+      "outcome": "landed",
+      "points_before": 44,
+      "points_after": null
+    },
+    {
+      "id": "software-engineering/eval-harness",
+      "at": "2026-11-10",
+      "engine": "deepen",
+      "outcome": "landed",
+      "points_before": 32,
+      "points_after": null
+    },
+    {
+      "id": "software-engineering/table",
+      "at": "2026-11-10",
+      "engine": "deepen",
+      "outcome": "landed",
+      "points_before": 32,
+      "points_after": null
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "cost-metering",
+      "technique": "price-tables",
+      "verdict": "better",
+      "mode": "simulation"
+    },
+    {
+      "subject": "cost-metering",
+      "technique": "whole-prompt-denominator",
+      "verdict": "better",
+      "mode": "simulation"
+    },
+    {
+      "subject": "cost-metering",
+      "technique": "engagement-paced-cadence",
+      "verdict": "unmeasurable",
+      "mode": "simulation"
+    },
+    {
+      "subject": "eval-harness",
+      "technique": "reliability-aggregation",
+      "verdict": "better",
+      "mode": "simulation"
+    },
+    {
+      "subject": "eval-harness",
+      "technique": "resolution-precondition",
+      "verdict": "not-better",
+      "mode": "simulation"
+    },
+    {
+      "subject": "eval-harness",
+      "technique": "scenario-design",
+      "verdict": "not-better",
+      "mode": "simulation"
+    },
+    {
+      "subject": "eval-harness",
+      "technique": "failure-signatures-beside-the-pass-rate",
+      "verdict": "not-better",
+      "mode": "simulation"
+    },
+    {
+      "subject": "table",
+      "technique": "sorting",
+      "verdict": "unmeasurable",
+      "mode": "simulation"
+    }
+  ],
+  "files": [
+    "knowledge/software-engineering/ui-surfaces/data-display/table",
+    "knowledge/software-engineering/llm-agent/evaluation-and-cost/cost-metering",
+    "knowledge/software-engineering/llm-agent/evaluation-and-cost/eval-harness",
+    "librarian/applied.md",
+    "librarian/subjects/software-engineering/table.md",
+    "librarian/subjects/software-engineering/cost-metering.md",
+    "librarian/subjects/software-engineering/eval-harness.md"
+  ],
+  "commits": [
+    {
+      "sha": "19bafd5cf",
+      "branch": "main",
+      "pathspec": [
+        "knowledge/software-engineering/ui-surfaces/data-display/table",
+        "librarian/subjects/software-engineering/table.md",
+        "librarian/applied.md"
+      ]
+    },
+    {
+      "sha": "cec585702",
+      "branch": "main",
+      "pathspec": [
+        "knowledge/software-engineering/llm-agent/evaluation-and-cost/cost-metering",
+        "librarian/subjects/software-engineering/cost-metering.md",
+        "librarian/applied.md"
+      ]
+    },
+    {
+      "sha": "66d34cb84",
+      "branch": "main",
+      "pathspec": [
+        "knowledge/software-engineering/llm-agent/evaluation-and-cost/eval-harness",
+        "librarian/subjects/software-engineering/eval-harness.md",
+        "librarian/applied.md"
+      ]
+    },
+    {
+      "sha": "30bf7db17",
+      "branch": "main",
+      "pathspec": [
+        "knowledge/software-engineering/llm-agent/evaluation-and-cost/cost-metering",
+        "librarian/subjects/software-engineering/cost-metering.md",
+        "librarian/applied.md"
+      ]
+    },
+    {
+      "sha": "093c1339c",
+      "branch": "main",
+      "pathspec": [
+        "knowledge/software-engineering/ui-surfaces/data-display/table",
+        "librarian/subjects/software-engineering/table.md",
+        "librarian/applied.md"
+      ]
+    },
+    {
+      "sha": "438ed30b4",
+      "branch": "main",
+      "pathspec": [
+        "knowledge/software-engineering/llm-agent/evaluation-and-cost/eval-harness",
+        "librarian/subjects/software-engineering/eval-harness.md",
+        "librarian/applied.md"
+      ]
+    },
+    {
+      "sha": "16bed7797",
+      "branch": "main",
+      "pathspec": [
+        "knowledge/software-engineering/llm-agent/evaluation-and-cost/cost-metering",
+        "librarian/subjects/software-engineering/cost-metering.md",
+        "librarian/applied.md"
+      ]
+    },
+    {
+      "sha": "1e6eb0866",
+      "branch": "main",
+      "pathspec": [
+        "knowledge/software-engineering/llm-agent/evaluation-and-cost/eval-harness",
+        "librarian/subjects/software-engineering/eval-harness.md",
+        "librarian/applied.md"
+      ]
+    }
+  ],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "Loop of 3 ended at cap, not saturated: all dry_streak 0. Corrections only; convergent candidates landed as corrections with sibling cross-links. Deviations (26-day-old report) listed, not chased. Map regeneration not run from this seat."
+}

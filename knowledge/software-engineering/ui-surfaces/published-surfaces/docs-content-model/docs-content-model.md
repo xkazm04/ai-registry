@@ -11,6 +11,7 @@ techniques:
   - draft-visibility-gating
   - product-location-mapping
   - reference-integrity-is-per-edition
+  - relationship-fields-stay-empty
 ---
 
 # Documentation content model
@@ -253,3 +254,7 @@ pretends otherwise adopts this model and then resents it:
   a source cut into audience editions needs its references resolved per edition;
   the substitute definition as a tested dependency; an edition is in the gate or
   it is not shipped.
+- [relationship-fields-stay-empty](./techniques/relationship-fields-stay-empty.md) —
+  authors fill what they hold while writing (provenance, 190 of 193) and not what
+  needs a view of the corpus (related, 15 of 193); predict a field's fill rate
+  before a panel or graph is built on it.

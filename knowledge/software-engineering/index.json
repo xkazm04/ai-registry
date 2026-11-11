@@ -4,8 +4,8 @@
   "bundle": "software-engineering",
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 245,
-  "techniques": 1992,
-  "applications": 1499,
+  "techniques": 2003,
+  "applications": 1501,
   "laws": 16,
   "categories": [
    "ui-surfaces",
@@ -20,7 +20,7 @@
    "secret-custody-and-issuance"
   ],
   "layout": "nested",
-  "use_when_coverage": "1992/1992",
+  "use_when_coverage": "2003/2003",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -1308,9 +1308,9 @@
    "subcategory": "runtime-and-io",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/runtime-and-io/agent-cli-transport/agent-cli-transport.md",
-   "digest": "sha256-b2:2dc1f00a0ea7562b",
-   "revision": 11,
-   "changedAt": "2026-11-09",
+   "digest": "sha256-b2:1b1b52b557d2a624",
+   "revision": 14,
+   "changedAt": "2026-11-10",
    "techniques": [
     {
      "slug": "availability-probe",
@@ -1538,7 +1538,7 @@
      "stack": "cursor-cli",
      "technique": "permission-stance-enforcement",
      "file": "knowledge/software-engineering/llm-agent/runtime-and-io/agent-cli-transport/applications/cursor-cli--permission-stance-enforcement.md",
-     "verified_on": "2026-08-30"
+     "verified_on": "2026-11-10"
     },
     {
      "stack": "gemini-cli",
@@ -2135,9 +2135,9 @@
    "subcategory": "prompt-and-context",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/prompt-and-context/agent-memory/agent-memory.md",
-   "digest": "sha256-b2:2b62b4004acc600d",
-   "revision": 53,
-   "changedAt": "2026-11-06",
+   "digest": "sha256-b2:59fe7694e2a4517a",
+   "revision": 54,
+   "changedAt": "2026-11-11",
    "techniques": [
     {
      "slug": "addresses-before-compression",
@@ -2680,8 +2680,8 @@
      "stack": "claude-code",
      "technique": "memory-governance",
      "file": "knowledge/software-engineering/llm-agent/prompt-and-context/agent-memory/applications/claude-code--memory-governance.md",
-     "verified_on": "2026-09-04",
-     "verified_against": "claude-code@2.1.261"
+     "verified_on": "2026-11-11",
+     "verified_against": "claude-code@2.1.322"
     },
     {
      "stack": "claude-code",
@@ -6260,9 +6260,9 @@
    "subcategory": null,
    "status": "reconciled",
    "file": "knowledge/software-engineering/client-architecture/client-fetch-cache/client-fetch-cache.md",
-   "digest": "sha256-b2:20824426732ffb6a",
-   "revision": 15,
-   "changedAt": "2026-09-25",
+   "digest": "sha256-b2:5c0abb651aaa7098",
+   "revision": 16,
+   "changedAt": "2026-11-10",
    "techniques": [
     {
      "slug": "admission-hypothesis",
@@ -6304,6 +6304,22 @@
       "two identical requests firing at once",
       "a settled failure still answers new callers",
       "choosing between dedup and latest-wins"
+     ]
+    },
+    {
+     "slug": "one-owner-per-datum",
+     "status": "forged",
+     "laws": [
+      "unknown-is-not-a-value"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a router preload store and the fetch cache both hold the same response",
+      "a store or context keeps a copy of a list the fetch layer already caches",
+      "two lifetimes are being tuned to agree for one datum",
+      "a refresh control clears one cache while the screen reads another",
+      "a field documented as cached is never written",
+      "deciding which of two client caches owns a datum"
      ]
     },
     {
@@ -6467,6 +6483,13 @@
     },
     {
      "stack": "react",
+     "technique": "one-owner-per-datum",
+     "file": "knowledge/software-engineering/client-architecture/client-fetch-cache/applications/react--one-owner-per-datum--context-copy.md",
+     "verified_on": "2026-11-10",
+     "verified_against": "react@19"
+    },
+    {
+     "stack": "react",
      "technique": "swr-design",
      "file": "knowledge/software-engineering/client-architecture/client-fetch-cache/applications/react--swr-design.md",
      "verified_on": "2026-08-18"
@@ -6484,9 +6507,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/software-engineering/client-architecture/client-state/client-state.md",
-   "digest": "sha256-b2:b667f5c1f4abdd9d",
-   "revision": 15,
-   "changedAt": "2026-09-05",
+   "digest": "sha256-b2:5331b14c6002da44",
+   "revision": 16,
+   "changedAt": "2026-11-10",
    "techniques": [
     {
      "slug": "async-race-guards",
@@ -6590,7 +6613,10 @@
      "use_when": [
       "deciding whether a value earns persistence",
       "appending a step to a shipped migration chain",
-      "corrupt payload keeps the app from launching"
+      "corrupt payload keeps the app from launching",
+      "persisting a fetch cache across reloads",
+      "writing a custom persist filter for a cache library",
+      "a persisted cache restores from asynchronous storage"
      ]
     },
     {
@@ -6766,9 +6792,9 @@
    "subcategory": "codebase-stewardship",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-process/codebase-stewardship/codebase-scanning/codebase-scanning.md",
-   "digest": "sha256-b2:fb5a4cc4a9f7a056",
-   "revision": 14,
-   "changedAt": "2026-11-09",
+   "digest": "sha256-b2:2f98cb83a2394552",
+   "revision": 15,
+   "changedAt": "2026-11-10",
    "techniques": [
     {
      "slug": "causes-beside-the-finding-count",
@@ -6954,7 +6980,8 @@
       "one broken sensor is crashing the whole sweep",
       "deciding whether a rule may read during emission",
       "cap survivors change from run to run",
-      "a failed read is scored as a missing control"
+      "a failed read is scored as a missing control",
+      "replacing an all-or-nothing combinator with a settle-all one"
      ]
     },
     {
@@ -7045,6 +7072,13 @@
      "technique": "rule-precision-discipline",
      "file": "knowledge/software-engineering/engineering-process/codebase-stewardship/codebase-scanning/applications/node--rule-precision-discipline.md",
      "verified_on": "2026-08-18"
+    },
+    {
+     "stack": "node",
+     "technique": "sensor-pipeline",
+     "file": "knowledge/software-engineering/engineering-process/codebase-stewardship/codebase-scanning/applications/node--sensor-pipeline--per-task-fanout.md",
+     "verified_on": "2026-11-10",
+     "verified_against": "node@24"
     },
     {
      "stack": "node",
@@ -9290,9 +9324,9 @@
    "subcategory": "evaluation-and-cost",
    "status": "reconciled",
    "file": "knowledge/software-engineering/llm-agent/evaluation-and-cost/cost-metering/cost-metering.md",
-   "digest": "sha256-b2:9b391e13aa64914d",
-   "revision": 16,
-   "changedAt": "2026-11-08",
+   "digest": "sha256-b2:be9fa9fe82d34120",
+   "revision": 19,
+   "changedAt": "2026-11-10",
    "techniques": [
     {
      "slug": "budget-enforcement",
@@ -12979,9 +13013,9 @@
    "subcategory": "published-surfaces",
    "status": "forged",
    "file": "knowledge/software-engineering/ui-surfaces/published-surfaces/docs-content-model/docs-content-model.md",
-   "digest": "sha256-b2:71cfd0ca7d489484",
-   "revision": 5,
-   "changedAt": "2026-11-09",
+   "digest": "sha256-b2:2a90f386b9d98604",
+   "revision": 6,
+   "changedAt": "2026-11-11",
    "techniques": [
     {
      "slug": "catalog-referential-invariants",
@@ -13068,6 +13102,19 @@
       "a link check runs over the source and every edition ships unchecked",
       "an edition drops the section that defines a term the kept text uses",
       "deciding what a per-span inclusion marker owes the references around it"
+     ]
+    },
+    {
+     "slug": "relationship-fields-stay-empty",
+     "status": "forged",
+     "laws": [
+      "failure-not-empty-success"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "adding a related or see-also field to a record schema",
+      "a read-next panel or graph view built on author-filled metadata",
+      "predicting which optional fields of a record will be filled"
      ]
     }
    ],
@@ -13436,9 +13483,9 @@
    "subcategory": "acquisition-and-ingest",
    "status": "forged",
    "file": "knowledge/software-engineering/integration/acquisition-and-ingest/document-text-extraction/document-text-extraction.md",
-   "digest": "sha256-b2:ee97c74f3f5e0c28",
-   "revision": 2,
-   "changedAt": "2026-09-25",
+   "digest": "sha256-b2:5089be20d4d757b0",
+   "revision": 3,
+   "changedAt": "2026-11-11",
    "techniques": [
     {
      "slug": "band-calibration-by-construction",
@@ -15579,9 +15626,9 @@
    "subcategory": "evaluation-and-cost",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/evaluation-and-cost/eval-harness/eval-harness.md",
-   "digest": "sha256-b2:85554b740461b19e",
-   "revision": 39,
-   "changedAt": "2026-11-07",
+   "digest": "sha256-b2:fde9b0a89e3b5c4c",
+   "revision": 42,
+   "changedAt": "2026-11-10",
    "techniques": [
     {
      "slug": "assertion-vs-judgment",
@@ -21715,9 +21762,9 @@
    "subcategory": "runtime-and-io",
    "status": "reconciled",
    "file": "knowledge/software-engineering/llm-agent/runtime-and-io/mcp-tools/mcp-tools.md",
-   "digest": "sha256-b2:cb2b1c9f6fef5eb9",
-   "revision": 35,
-   "changedAt": "2026-11-06",
+   "digest": "sha256-b2:142248a0a41f2e44",
+   "revision": 36,
+   "changedAt": "2026-11-10",
    "techniques": [
     {
      "slug": "ambient-selection-is-not-an-argument",
@@ -21804,7 +21851,10 @@
       "a model knows a compressed operation name but not its arguments",
       "deciding whether a description-only catalog may be selected per request",
       "a per-request selector is proposed to reclaim standing prompt tokens",
-      "an operator switch withholds whole tool groups from an unattended caller"
+      "an operator switch withholds whole tool groups from an unattended caller",
+      "an agent chains dozens of calls whose count depends on the data it reads",
+      "a program-execution tool is proposed beside or instead of schema tools",
+      "a shorter roster is proposed to make generation faster"
      ]
     },
     {
@@ -24239,9 +24289,9 @@
    "subcategory": "codebase-stewardship",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-process/codebase-stewardship/module-design/module-design.md",
-   "digest": "sha256-b2:7c8008f2207b1946",
-   "revision": 18,
-   "changedAt": "2026-10-14",
+   "digest": "sha256-b2:94aa8f425b49ea54",
+   "revision": 19,
+   "changedAt": "2026-11-10",
    "techniques": [
     {
      "slug": "borrowed-surface",
@@ -24480,6 +24530,21 @@
       "deciding how much of a structural pass an agent may run",
       "granting standing approval over an automated flow",
       "arguing about which decisions should move onto the agent as capability rises"
+     ]
+    },
+    {
+     "slug": "value-before-the-sink",
+     "status": "forged",
+     "laws": [
+      "gate-sees-target"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "fixing a defect in a line that is built inside a print or log or write call",
+      "a formatted row or message has branches and no test",
+      "deciding whether to capture output or spy on the console to test a report",
+      "a report script prints a table from a loop and the columns misalign for some rows",
+      "adding a regression test for a printed value"
      ]
     }
    ],
@@ -26738,9 +26803,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/software-engineering/client-architecture/page-load-pipeline/page-load-pipeline.md",
-   "digest": "sha256-b2:6eb078a45499ad8a",
-   "revision": 5,
-   "changedAt": "2026-10-31",
+   "digest": "sha256-b2:e9b9567f650fb477",
+   "revision": 6,
+   "changedAt": "2026-11-11",
    "techniques": [
     {
      "slug": "discoverable-critical-resources",
@@ -26776,7 +26841,9 @@
      "use_when": [
       "adding a web font family or weight",
       "text flashes invisible or reflows when a font arrives",
-      "loading fonts for several writing systems or locales"
+      "loading fonts for several writing systems or locales",
+      "showing Chinese",
+      "Japanese or Korean text the page did not author"
      ]
     },
     {
@@ -28440,9 +28507,9 @@
    "subcategory": "prompt-and-context",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/prompt-and-context/prompt-assembly/prompt-assembly.md",
-   "digest": "sha256-b2:ad13b2ee69c25e8d",
-   "revision": 44,
-   "changedAt": "2026-10-14",
+   "digest": "sha256-b2:806973b2fe361d03",
+   "revision": 47,
+   "changedAt": "2026-11-10",
    "techniques": [
     {
      "slug": "amortized-compaction-cadence",
@@ -28828,6 +28895,25 @@
      ]
     },
     {
+     "slug": "model-curated-context",
+     "status": "forged",
+     "laws": [
+      "one-validation-door",
+      "count-carries-predicate",
+      "gate-sees-target"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "deciding whether the model should edit its own context instead of the client compacting it",
+      "a harness exposes the context as a file or document the model can rewrite with its ordinary tools",
+      "a self-editing run shows the overflow fallback doing the work",
+      "the model is asked to manage its context and rarely does",
+      "a self-editing agent's cache bill rises although its context stays small",
+      "choosing between a summary and self-editing at a given context budget",
+      "text from a tool result reappears in the agent's own notes on later turns"
+     ]
+    },
+    {
      "slug": "pinned-prompt-clock",
      "status": "forged",
      "laws": [
@@ -28960,7 +29046,7 @@
      "stack": "claude-code",
      "technique": "compaction-horizon-breakeven",
      "file": "knowledge/software-engineering/llm-agent/prompt-and-context/prompt-assembly/applications/claude-code--compaction-horizon-breakeven.md",
-     "verified_on": "2026-10-02",
+     "verified_on": "2026-11-10",
      "verified_against": "claude-code@2.1.287"
     },
     {
@@ -29072,9 +29158,9 @@
      "stack": "python",
      "technique": "amortized-compaction-cadence",
      "file": "knowledge/software-engineering/llm-agent/prompt-and-context/prompt-assembly/applications/python--amortized-compaction-cadence.md",
-     "verified_on": "2026-09-23",
+     "verified_on": "2026-11-10",
      "verified_against": "python@3.12",
-     "refresh_by": "2026-11-05"
+     "refresh_by": "2026-12-22"
     },
     {
      "stack": "python",
@@ -30626,9 +30712,9 @@
    "subcategory": "resilience",
    "status": "forged",
    "file": "knowledge/software-engineering/backend-platform/resilience/rate-limiting/rate-limiting.md",
-   "digest": "sha256-b2:c1ab95c98c885951",
-   "revision": 8,
-   "changedAt": "2026-09-03",
+   "digest": "sha256-b2:a96e34cd5524fc02",
+   "revision": 10,
+   "changedAt": "2026-11-11",
    "techniques": [
     {
      "slug": "algorithm-selection",
@@ -30639,6 +30725,25 @@
       "naming the burst semantic before picking a family",
       "a one-second spike becomes a self-renewing lockout",
       "clock sync steps backward and tokens get minted"
+     ]
+    },
+    {
+     "slug": "failure-reserved-counting",
+     "status": "forged",
+     "laws": [
+      "gate-sees-target",
+      "count-carries-predicate",
+      "one-validation-door"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "limiting guesses at a password or verification code or recovery token",
+      "a login limit punishes a busy shared address for its successful requests",
+      "a burst of concurrent wrong guesses gets past a failed-attempt limit",
+      "a successful login resets the failed-attempt counter",
+      "an address over its own cap keeps locking other people's accounts",
+      "deciding whether trusted callers skip a limit that guards a secret",
+      "one limiter store serves several tenants and keys on an email or account id"
      ]
     },
     {
@@ -30750,6 +30855,24 @@
       "no trusted identity source for a request",
       "a shared unknown bucket locking out ordinary traffic",
       "deciding whether a client fingerprint may be reused elsewhere"
+     ]
+    },
+    {
+     "slug": "unpublished-behaviour-limit",
+     "status": "forged",
+     "laws": [
+      "gate-sees-target",
+      "limits-are-derived",
+      "failure-not-empty-success"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "an agent or batch job writes to a hosted service it does not own",
+      "several workers share one account on a third-party platform",
+      "a run creates issues comments messages or other objects other people will see",
+      "a refusal arrives while the published quota still shows headroom",
+      "deciding what an egress limiter does when it cannot count",
+      "choosing between pacing a batch of creates and merging them"
      ]
     },
     {
@@ -31094,9 +31217,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/software-engineering/client-architecture/realtime-events/realtime-events.md",
-   "digest": "sha256-b2:a0685592373df03f",
-   "revision": 6,
-   "changedAt": "2026-09-03",
+   "digest": "sha256-b2:5210b89cea2917f5",
+   "revision": 7,
+   "changedAt": "2026-11-11",
    "techniques": [
     {
      "slug": "capacity-packed-subscription-pool",
@@ -31139,6 +31262,20 @@
       "deciding whether an event can be superseded",
       "a counter fires twice but applies once",
       "one burst causing three separate renders"
+     ]
+    },
+    {
+     "slug": "encode-once-fan-out",
+     "status": "forged",
+     "laws": [
+      "gate-sees-target"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "one event is pushed to many open connections",
+      "every recipient's frame differs only in a sequence number or another envelope field",
+      "serialization dominates the cost of a broadcast",
+      "deciding whether a broadcast path should cache the encoded body"
      ]
     },
     {
@@ -32866,9 +33003,9 @@
    "subcategory": "resilience",
    "status": "reconciled",
    "file": "knowledge/software-engineering/backend-platform/resilience/retry-backoff/retry-backoff.md",
-   "digest": "sha256-b2:0ff53fb3a87ad13c",
-   "revision": 14,
-   "changedAt": "2026-10-27",
+   "digest": "sha256-b2:acfc1b912ac6bb2b",
+   "revision": 15,
+   "changedAt": "2026-11-11",
    "techniques": [
     {
      "slug": "backoff-design",
@@ -33003,6 +33140,21 @@
       "deciding whether a blocked attempt counts against the budget",
       "work resumes in a backgrounded tab and nobody wanted it to",
       "distinguishing \"the dependency failed\" from \"we could not reach it to ask\""
+     ]
+    },
+    {
+     "slug": "wrapper-option-names-its-half",
+     "status": "forged",
+     "laws": [
+      "one-authority-per-vocabulary",
+      "silent-state-is-ungoverned"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "designing the options of a poller retryer rate limiter debouncer or breaker that wraps a function",
+      "a wrapper has an enabled disabled or skip flag",
+      "a caller turned a wrapper off and the wrapped call stopped too",
+      "a status field reads the same for off and healthy"
      ]
     }
    ],
@@ -37639,9 +37791,9 @@
    "subcategory": "data-display",
    "status": "forged",
    "file": "knowledge/software-engineering/ui-surfaces/data-display/table/table.md",
-   "digest": "sha256-b2:c587a204413d5373",
-   "revision": 14,
-   "changedAt": "2026-10-14",
+   "digest": "sha256-b2:3571c4c1ca5ef902",
+   "revision": 16,
+   "changedAt": "2026-11-10",
    "techniques": [
     {
      "slug": "client-server-split",
@@ -38700,9 +38852,9 @@
    "subcategory": "build-and-release",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-process/build-and-release/test-harness/test-harness.md",
-   "digest": "sha256-b2:9d7453513e23efad",
-   "revision": 30,
-   "changedAt": "2026-11-08",
+   "digest": "sha256-b2:eed5647affa1a8bd",
+   "revision": 34,
+   "changedAt": "2026-11-11",
    "techniques": [
     {
      "slug": "a-test-helper-is-a-fork-of-the-driver",
@@ -38768,6 +38920,23 @@
       "a write succeeded and the effect never appeared",
       "deciding whether a rendering or clipboard assertion covers a generated command",
       "a product reconstructs a tool's file layout instead of asking it"
+     ]
+    },
+    {
+     "slug": "capture-contract",
+     "status": "forged",
+     "laws": [
+      "gate-sees-target",
+      "failure-not-empty-success",
+      "absent-guard-is-loud"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a screenshot or capture tool is the only way a gate or critic sees the product",
+      "a visual gate or vision-model critic judges captured frames",
+      "a capture step waits a fixed delay before the shot",
+      "pixel baselines flake on an unchanged build",
+      "console errors are recorded but do not fail the capture run"
      ]
     },
     {
@@ -42379,9 +42548,9 @@
    "subcategory": "acquisition-and-ingest",
    "status": "forged",
    "file": "knowledge/software-engineering/integration/acquisition-and-ingest/web-scraping/web-scraping.md",
-   "digest": "sha256-b2:19cc38b48911ea64",
-   "revision": 1,
-   "changedAt": "2026-09-05",
+   "digest": "sha256-b2:ec95d5fb60d31515",
+   "revision": 2,
+   "changedAt": "2026-11-11",
    "techniques": [
     {
      "slug": "dedup-and-datasets",
@@ -42501,6 +42670,20 @@
       "deciding whether enforcement is safe to turn on",
       "a source has too little history to be judged"
      ]
+    },
+    {
+     "slug": "status-is-part-of-the-change",
+     "status": "forged",
+     "laws": [
+      "failure-not-empty-success",
+      "unknown-is-not-a-value"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a poller or watcher decides \"changed\" by hashing the response body",
+      "a watched URL went away and nothing fired",
+      "a non-success response is being skipped or hashed as content"
+     ]
     }
    ],
    "applications": [
@@ -42536,9 +42719,9 @@
    "subcategory": "resilience",
    "status": "reconciled",
    "file": "knowledge/software-engineering/backend-platform/resilience/webhook-ingestion/webhook-ingestion.md",
-   "digest": "sha256-b2:42ae9b9486b8352d",
-   "revision": 11,
-   "changedAt": "2026-09-03",
+   "digest": "sha256-b2:b54f3db9c0aff661",
+   "revision": 12,
+   "changedAt": "2026-11-11",
    "techniques": [
     {
      "slug": "delivery-logging-and-replay",
@@ -42626,6 +42809,20 @@
       "verifying a digest over raw request bytes",
       "a captured delivery replays with valid signature",
       "rotating a shared secret without an outage"
+     ]
+    },
+    {
+     "slug": "signature-names-the-relay",
+     "status": "forged",
+     "laws": [
+      "gate-sees-target"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a signed webhook wakes an agent or starts a run",
+      "an inbox or comment or form service relays events written by other people",
+      "deciding who may cause a run",
+      "a per-endpoint rate limit sits after the signature check"
      ]
     }
    ],
@@ -43399,6 +43596,7 @@
     "module-design/scoreable-designs-are-built-not-argued",
     "module-design/seams-and-adapters",
     "module-design/structural-improvement-loop",
+    "module-design/value-before-the-sink",
     "multi-project/project-identity-and-joins",
     "multi-provider-gateway-plane/exclusive-authorship-of-a-measured-decision",
     "multi-provider-gateway-plane/upstream-identity-before-inventory",
@@ -43448,6 +43646,7 @@
     "prompt-assembly/consumer-coupled-decoration",
     "prompt-assembly/contributed-document-admission",
     "prompt-assembly/fingerprinting-and-cache-keys",
+    "prompt-assembly/model-curated-context",
     "prompt-assembly/recovery-path-as-loss-signal",
     "prompt-assembly/task-envelope",
     "prompt-safety/canary-tripwires",
@@ -43487,14 +43686,17 @@
     "quorum-and-recovery-procedures/migration-lock-in-source",
     "quorum-and-recovery-procedures/nonce-progress-verify",
     "quorum-and-recovery-procedures/pick-highest-applied-index",
+    "rate-limiting/failure-reserved-counting",
     "rate-limiting/limiter-topology",
     "rate-limiting/metered-step-selection",
+    "rate-limiting/unpublished-behaviour-limit",
     "rate-limiting/untrusted-key-derivation",
     "read-serving-replicas/client-carried-index",
     "read-serving-replicas/evict-not-update-on-commit",
     "read-serving-replicas/forward-on-storage-error",
     "read-serving-replicas/preemptive-forward-for-known-writes",
     "readiness-passports/audit-the-live-system-not-the-plan",
+    "realtime-events/encode-once-fan-out",
     "realtime-events/event-registry",
     "register-bytecode-execution/dce-refuses-hoisted-declarations",
     "release-pipeline/deprecation-by-version-arithmetic",
@@ -43592,6 +43794,7 @@
     "test-harness/approval-snapshots-with-guarded-update",
     "test-harness/assert-the-schedule-not-the-stopwatch",
     "test-harness/assert-through-the-reader",
+    "test-harness/capture-contract",
     "test-harness/configuration-axes-cross-the-ladder",
     "test-harness/constraint-injection-for-unreachable-tiers",
     "test-harness/context-starved-executor",
@@ -43652,6 +43855,7 @@
     "webhook-ingestion/ingress-topology",
     "webhook-ingestion/payload-bounds",
     "webhook-ingestion/sender-authentication",
+    "webhook-ingestion/signature-names-the-relay",
     "windowed-inference-over-oversized-inputs/resolution-decoupled-window-mapping",
     "wizard-flows/ai-driven-elicitation",
     "wizard-flows/commit-boundary",
@@ -43852,6 +44056,7 @@
     "docs-content-model/catalog-referential-invariants",
     "docs-content-model/per-topic-freshness-metadata",
     "docs-content-model/reference-integrity-is-per-edition",
+    "docs-content-model/relationship-fields-stay-empty",
     "docs-sync/catch-up-markers",
     "docs-sync/checked-vs-skipped-denominators",
     "docs-sync/doc-rot-detection",
@@ -44120,6 +44325,7 @@
     "quality-gates/unparseable-form-is-a-finding",
     "quality-gates/vacuous-by-evaluation",
     "rate-limiting/refusal-contract",
+    "rate-limiting/unpublished-behaviour-limit",
     "read-serving-replicas/fairshare-invalidation-queues",
     "readiness-passports/blocker-rollups",
     "readiness-passports/declined-by-choice",
@@ -44251,6 +44457,7 @@
     "terminal-multiplexing/pty-management",
     "test-harness/approval-snapshots-with-guarded-update",
     "test-harness/assert-through-the-reader",
+    "test-harness/capture-contract",
     "test-harness/constraint-injection-for-unreachable-tiers",
     "test-harness/context-starved-executor",
     "test-harness/derived-selection-must-be-measured",
@@ -44324,6 +44531,7 @@
     "web-scraping/negotiated-representation-probe",
     "web-scraping/scrape-scheduling",
     "web-scraping/shape-change-detection",
+    "web-scraping/status-is-part-of-the-change",
     "webhook-ingestion/delivery-logging-and-replay",
     "webhook-ingestion/ingress-topology",
     "webhook-ingestion/listener-lifecycle",
@@ -44798,6 +45006,7 @@
     "prompt-assembly/context-budgeting",
     "prompt-assembly/context-reachability",
     "prompt-assembly/history-compaction",
+    "prompt-assembly/model-curated-context",
     "prompt-assembly/pinned-prompt-clock",
     "prompt-assembly/recovery-path-as-loss-signal",
     "prompt-assembly/response-reservation-sizing",
@@ -44823,6 +45032,7 @@
     "quality-gates/vacuous-by-evaluation",
     "quality-gates/waiver-names-its-finding",
     "quorum-and-recovery-procedures/pick-highest-applied-index",
+    "rate-limiting/failure-reserved-counting",
     "rate-limiting/limit-derivation",
     "rate-limiting/limit-observability",
     "rate-limiting/metered-step-selection",
@@ -45015,6 +45225,7 @@
     "ci-execution-trust/self-edited-ci-forfeits-evidence",
     "claimed-improvement-remeasurement/three-way-verdict-over-raw-samples",
     "claimed-improvement-remeasurement/watermark-halts-at-unfinished",
+    "client-fetch-cache/one-owner-per-datum",
     "client-fetch-cache/sibling-entry-warmth",
     "client-state/observed-read-subscription",
     "client-state/store-dependency-topology",
@@ -45271,6 +45482,7 @@
     "watch-cache-and-resync/read-phase-before-write-transaction",
     "web-scraping/negotiated-representation-probe",
     "web-scraping/soak-mode-and-verdict-replay",
+    "web-scraping/status-is-part-of-the-change",
     "windowed-inference-over-oversized-inputs/axis-buffered-writeback",
     "workflow-property-contracts/wiring-location-checks"
    ]
@@ -45452,6 +45664,7 @@
     "priced-authority/approver-not-requester",
     "probe-confirmed-model-proposals/probe-per-proposed-line",
     "prompt-assembly/layered-composition",
+    "prompt-assembly/model-curated-context",
     "prompt-assembly/summary-evidence-gate",
     "prompt-safety/input-caps-and-clamps",
     "prompt-safety/model-output-as-untrusted",
@@ -45460,6 +45673,7 @@
     "public-verdict-badge/customization-scope-guard",
     "public-verdict-badge/embed-reach-attribution",
     "quorum-and-recovery-procedures/unauthenticated-ritual-is-a-vulnerability",
+    "rate-limiting/failure-reserved-counting",
     "rate-limiting/limiter-topology",
     "readiness-passports/declined-by-choice",
     "realtime-events/change-data-capture",
@@ -46500,6 +46714,7 @@
     "retrieval/query-decomposition-before-the-lanes",
     "retrieval/retrieval-triggering",
     "retry-backoff/error-classification-for-retry",
+    "retry-backoff/wrapper-option-names-its-half",
     "reversible-transform-pipelines/journal-entry-shape-invariance",
     "runner-fleet/capability-typed-queues",
     "scheduling/trigger-matching",
@@ -46951,6 +47166,7 @@
     "prompt-assembly/context-ownership-regimes",
     "prompt-assembly/elision-to-a-refetch-pointer",
     "prompt-assembly/response-reservation-sizing",
+    "rate-limiting/unpublished-behaviour-limit",
     "register-bytecode-execution/instruction-format-follows-program-lifetime",
     "remote-capability-probing/buffer-by-access-latency-class",
     "remote-capability-probing/degraded-rung-refusal-ceiling",
@@ -47296,6 +47512,7 @@
     "tenant-scoped-agent-runtime/written-inventory-of-what-stays-global",
     "terminal-multiplexing/injected-hook-reconvergence",
     "test-harness/approval-snapshots-with-guarded-update",
+    "test-harness/capture-contract",
     "test-harness/recorded-interaction-fixtures",
     "tool-result-economy/escape-hatch-usage-as-the-safety-metric",
     "tracing/cross-boundary-propagation",
@@ -47397,6 +47614,7 @@
     "quality-gates/prose-rule-drift",
     "quorum-and-recovery-procedures/single-node-recovery-resize",
     "retrieval/query-decomposition-before-the-lanes",
+    "retry-backoff/wrapper-option-names-its-half",
     "session-continuation/compaction-checkpoint",
     "subscription-proration/upgrade-immediate-downgrade-deferred",
     "tenant-scoped-agent-runtime/written-inventory-of-what-stays-global",

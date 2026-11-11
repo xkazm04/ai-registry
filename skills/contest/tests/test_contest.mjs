@@ -31,7 +31,7 @@ test('engine commands: grok takes the prompt as an argument, the others on stdin
   assert.ok(!claude.argv.includes('READ ME') && claude.stdin === 'READ ME');
   assert.ok(claude.argv.includes('--no-session-persistence'));
   const codex = engineCommand(parseParticipant('codex:gpt-5.6-sol@high'), ['node', 'codex.js'], 'READ ME');
-  assert.deepEqual(codex.argv.slice(0, 3), ['node', 'codex.js', 'exec']);
+  assert.deepEqual(codex.argv.slice(0, 4), ['node', 'codex.js', '--search', 'exec']);
   assert.ok(codex.argv.includes('model_reasoning_effort="high"'));
 });
 

@@ -1,8 +1,8 @@
 ---
 domain: software-engineering
 subject: rate-limiting
-last_touched: 2026-09-03
-touched_by: harvest
+last_touched: 2026-11-11
+touched_by: shift
 dry_streak: 0
 ---
 
@@ -81,3 +81,35 @@ Negative finding: the bucket can never say no - the queue is unbounded and the p
 sends no refusal for the operation, so conservative provisioning is the whole defence.
 The tree calls it a leaky bucket; by this subject's vocabulary it is a token bucket with
 a queue.
+
+## 2026-11-10 - /harvest backlog 5-016 ([[2026-08-26-dhh-lex-fridman]], /shift filler)
+
+New technique `unpublished-behaviour-limit`, better, blind-ab, plus a one-sentence
+correction to `limiter-topology`: an egress limiter that cannot count fails open only while
+the remote answers with a refusal, and visible creation fails closed where it answers with a
+sanction on the identity. Probes from three real sites in this registry's own fleet history
+(a worker brief that files one issue per branch family, a thirteen-worker sweep refused while
+the published quota read full, a review agent asked to file its findings publicly); 2 runs per
+arm per probe, rubric, target and floor written first, one blind judge per pair, labels
+randomized. Draft in context 6.00 of 6 against 2.17 without; 6 of 6 pairs won; the
+over-correction criterion held (1.00 against 0.83). Positive controls: a reference answer 6 of
+6, a backoff-only answer 1 of 6, an over-corrected answer scored 0 on the counter-check.
+Weakest points: rubric wording grew from the draft, so part of the lift may be vocabulary; the
+source's "ban" is unverified, and local history shows only temporary blocks. Not applied at a
+seam: the hygiene worker brief's per-family filing step lacks a count cap and an account-wide
+budget, and that is the return. The subject is now at eleven techniques; the ceiling lead
+above still stands undecided.
+
+## 2026-11-11 - /shift `shift-backend-platform` ([[2026-11-11-backend-platform]])
+
+New technique `failure-reserved-counting` (11 -> 12 techniques), from a backend platform's abuse-limit
+design (first-party code comments, re-read at the mined commit) with an independent web-security
+vendor reaching the two load-bearing rules: a counter reset by a successful login is a known bypass,
+and an anti-brute-force limit is the textbook limit-overrun race. On a door that bounds guessing the
+counter's subject is the wrong answer; reserve on arrival, give back one hit on success, never reset;
+any limit's refusal releases the others' reservations (the atomic form of `limiter-topology`'s
+evaluate-all-then-commit-all); secret-guarding limits count trusted callers too; caller-chosen key parts
+are tenant-qualified. Applied read-only at a fleet pairing-code confirm chosen to falsify: it compares
+and counts under one lock and needs no reservation, which became the technique's stated boundary
+(reservation is the price of deciding the outcome after admission). COVERED there. The `key-design`
+amendment (tenant meaning of a key part) banked untriaged. The ceiling lead above is now at twelve.

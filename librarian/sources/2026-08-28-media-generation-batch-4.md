@@ -10,10 +10,10 @@ skill_version: 0.17.0
 extracted: 24
 picked: 7
 accepted: 7
-already_covered: 12
+already_covered: 13
 declined: 0
 leads: 1
-untriaged: 4
+untriaged: 3
 dispatched: 0
 ---
 
@@ -168,7 +168,7 @@ looks like a boundary it is not. Recorded in LESSONS.
   usually not been spotted at all, and that alternating scored and unscored
   passages is how dynamics are held. The source's rule would wallpaper the cut.
 
-## Untriaged (4) — reached the table, nobody picked them
+## Untriaged (3, one more found covered) — reached the table, nobody picked them
 
 Recorded with anchors so a later run does not re-derive them. No judgment
 attached: these were never verified.
@@ -189,6 +189,9 @@ attached: these were never verified.
   **Two voices contradicting each other on timestamps** — one uses them to get
   four controlled cuts, the other calls them a cage that costs top-tier results
   — so the discriminator is already drawn. Would land in `image-prompt-composition`.
+  *Covered, found on re-verification 2026-11-10 (backlog 5-015): a 2026-10-15 deepen run
+  landed it in the golden path's "Locking is a cost, and the open slot is not empty"
+  without updating this note. It stays listed here only as the record.*
 - **Angular field of view is a described effect wearing a number's clothes**
   [B0kVZvhkaq4 05:41]. `lens-effect-language` bans the numeric token outright and
   is measured-right about focal length; degrees of FOV are sensor-independent

@@ -1,8 +1,8 @@
 ---
 domain: software-engineering
 subject: prompt-assembly
-last_touched: 2026-10-02
-touched_by: deepen, intake
+last_touched: 2026-11-10
+touched_by: deepen, intake, shift
 dry_streak: 0
 ---
 
@@ -590,3 +590,47 @@ Source: [[2026-10-02-yoagent]]. Gained `compaction-target-is-an-aim`, `compactio
   removed per-turn recall as cache-breaking; a proxy that delivers context by answering a turn
   with a synthesized tool call (attribution mirror of `substituted-result-attribution`, in
   agent-runtime-assembly).
+
+## 2026-11-10 - /deepen --loop 3, round 1 (run `filler-deepen-20261110`, deepen 1.5.0, /shift filler)
+
+Dispatched by the librarian scan (53 points: one expired application, 12 consumer deviations). Local maps read first: 31 deviation verdicts, 30 fresh. Lanes: blind training-data first, counter-evidence over vendor docs, a standards body spec and a regulator note, upstream source read from a fresh shallow clone, fleet trees read in place.
+
+- **Clock event:** `python--amortized-compaction-cadence` (refresh_by 2026-11-05) re-resolved against upstream `cd187a03`. Every anchor moved and was re-pinned. Two claims changed: deviation 2 is narrower (a commit that loses a race now discards the pass and reports `stale_generation`; only an unexpected store failure still reports `absorbed`), and the reasoning-prune docstring quoted on 2026-09-23 is gone with its boundary unchanged. `verified_on` 2026-11-10, `refresh_by` 2026-12-22 (the same six-week override).
+- **Golden path + `context-budgeting`, refuted as worded:** "the provider's silent tail truncation". A hosted endpoint refuses an over-long request outright; the silent case is a local server, and it drops the oldest turns, not the last. Now "the runtime's overflow behaviour".
+- **`fingerprinting-and-cache-keys` + golden path, condition added:** the floor was "a content digest of every prompt sent", which two fleet trees' own privacy rules forbid, so they dropped the whole floor. The floor is now the standing-layer fingerprint and the size (no content); a whole-send digest is a different object, invertible by guessing over a guessable payload, kept only as a keyed hash in the content's tier, with the construction owned by `class-before-inspection` (cross-link, no new technique). Three lanes converged: blind, web (a regulator note on hashing, the GenAI semantic conventions' sensitive-content stance), deviation evidence.
+- **`claude-code--compaction-horizon-breakeven`:** every vendor figure confirmed on the vendor's pricing and caching pages; one phrase stale (the 0.05x read price now applies to two models, four others are deeper); `verified_on` moved.
+- **Confirmed untouched:** stable layers first and task last; byte-identical prefixes for cache hits (non-text parameters owned by `cache-continuity`); role priming already scoped to factual accuracy.
+- **Deviation groups:** 8 of 9 are project defects against owned techniques (truncation without notice 8, call-site sprawl 6, raw untrusted interpolation 6, task envelope 5, capability drift 4, volatile-before-standing 3, whole-material ceiling 2, render-time clock 2): `/conform` work, not corpus findings.
+- **Applied:** simulation over three fleet seams (two trees), better (row in `applied.md`).
+- **Banked:** pass counters split by outcome (now seven outcomes in one counter upstream; return unchanged); local-runtime overflow as a fourth owner of the window (return: a fleet project that targets a local server and owns its compaction); prompt-text reference on the call record (return: a fleet tree that persists full prompt text outside its trace store).
+- **Saturation:** not dry (two rules corrected, one clock refreshed). dry_streak 0. Next clock: 2026-12-22.
+- **Impact:** map regeneration and project map commits not run from this filler seat; owed to the supervisor.
+
+### Round 2 (probe round, same run)
+
+Training-data-first probes over nine claims round 1 did not touch. **Not dry.** "A prefix replayed to a different model is rejected rather than degraded" is refuted as worded: one vendor drops the blocks the target cannot read "without an error and without billing it", and only a tampered or undecryptable payload is a 400; a second validates only the current turn. Golden path and `endpoint-sealed-continuation-metadata` now name both failure modes, the quiet one as worse; the route clause notes providers that bind the seal to the account instead, keeping the strict comparison as the rule a multi-provider composer can carry. `response-reservation-sizing` gains the case of hosted models that accept input plus ceiling over the window and stop at it with their own stop reason (vendor page opened): the reservation then exists only in the client's budget. Banked, not landed: "style instructions underperform" (one study shows a brevity instruction halves length cheaply except on math; single source, return when a second lands); a hosted opt-in that drops the oldest turns (vendor reference refused the fetch; return when it is readable, then widen round 1's "on some local servers"). No rule flipped; no applied row. dry_streak stays 0.
+
+### Round 3 (final probe round, same run)
+
+**Dry.** Nine probes over claims rounds 1-2 did not touch: three confirmed on vendor pages (a dangling tool call fails the next request; overflow routing and its automatic default per the caching guide), three design rules confirmed by probe, one (system-role refusal) not checked online and not counted. Two proposed edits were below the bar and banked rather than landed: a dated pricing sentence (one new small model charges more above a context threshold, which the technique's per-model rule already covers) and "opaque" to "sealed" for a provider compaction summary that is readable text plus a signature (return: a fleet tree post-processes a provider summary, or a second provider's compaction reference is read). dry_streak 1. Loop ended at its cap of 3; saturation needs one more dry pass.
+
+## 2026-11-10 - /shift intake, cluster `context-self-editing` ([[2026-11-10-context-self-editing]], run `shift-context-self-editing`)
+
+Gained `model-curated-context` (32 -> 33 techniques): the model under work as the editor of record of
+a client-held list. One voice (a practitioner video relaying a research release); the lander read the
+paper's full text, which confirmed the budget boundary (a tie at a generous window), the model
+capability boundary (a small model edits rarely until trained) and the cache slope (an edit at the
+start costs 7.7x an append-only turn), so the row cleared at 3/0/2. `context-ownership-regimes` gained
+an appended pointer section; its three regimes are about who holds the list, and the new case is who
+edits it inside one of them. Neighbour to the 11-10 /deepen bank's "local-runtime overflow as a fourth
+owner of the window": that row is about the runtime truncating, this one about the model editing; not
+the same claim.
+
+- **Untriaged:** a boundary sentence naming a self-edit among the writers `summary-evidence-gate`
+  validates (1/0/1).
+- **Leads:** post-edit KV reuse at the server; the guard's firing rate beside edits (no published
+  result reports both).
+- **Applied:** unapplied. Seam named (a fleet analysis run on a local harness); blocked on a missing
+  local model and a fetched-code install, both operator calls. No-GPU instrument named, not run:
+  re-reads after compaction boundaries in recorded harness transcripts.
+- **Saturation:** not dry (one technique). dry_streak 0.

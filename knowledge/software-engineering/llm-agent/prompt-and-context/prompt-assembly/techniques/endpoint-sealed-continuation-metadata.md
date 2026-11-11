@@ -18,9 +18,14 @@ wrong for the part of the history that matters most to a reasoning model.
 Providers attach **opaque continuation metadata** to assistant turns —
 signatures over a thinking block, an encrypted reasoning payload, a
 per-part token that proves the segment was produced by that endpoint — and
-that metadata is sealed to the exact endpoint that minted it. Replayed
-anywhere else it is not ignored; it is *rejected*, and the call fails with
-an error about the payload rather than about the conversation.
+that metadata is sealed to the endpoint that minted it. Replayed anywhere
+else it is not honoured, and providers differ in how they say so. Some
+reject the call with an error about the payload rather than about the
+conversation. Others drop the parts the target cannot read, without an
+error: the call succeeds, the reasoning is gone, and the drop is reported,
+if at all, in a response field nobody reads. A tampered or undecryptable
+payload is rejected everywhere. The quiet case is the worse one, because
+nothing fails.
 
 So a transcript has two kinds of content, and only one of them is portable.
 The text is a fact about the conversation. The metadata is a fact about
@@ -43,7 +48,10 @@ model the assembled prompt is about to be sent to:
 - **Was this segment produced by that same endpoint?** Equality here is
   strict and has two terms, not one: the provider instance *and* the model
   identifier. A same-named model reached through a different route is a
-  different endpoint, and the seal is on the route.
+  different endpoint. Some providers make the seal portable across routes
+  and bind it to the account instead; compare on the strict pair anyway,
+  because the rule that holds on the strictest provider is the only one a
+  composer serving several can carry.
 - **Did the unit of work that produced it close cleanly?** A failed or
   cancelled unit's metadata describes a chain that was never finished. It
   is not evidence of anything the next call can continue from.
@@ -128,4 +136,5 @@ A single-model deployment that has never fallen back pays only the cost of
 the walk, and can carry the rule as an assertion instead of a transform.
 Say so explicitly rather than omitting the rule — the assertion is what
 fails loudly on the day a fallback is added, and the alternative is a
-silent provider error in the one path nobody exercised.
+provider error, or a silently dropped chain, in the one path nobody
+exercised.

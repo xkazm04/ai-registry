@@ -220,6 +220,18 @@ changed, because no paired proof was runnable, and an unproven code change does 
   import and retargeting are deferred ("potentially using skin-tokens.cpp"). *Return when* the port
   lands either one. pof's reconsider trigger is the same event.
 
+## Rescan clauses decided (2026-11-10)
+
+Read in [2026-11-10-generated-mesh-to-moving-asset](2026-11-10-generated-mesh-to-moving-asset.md)
+from a different channel's integration demo plus the project page and the upstream README.
+**Fired:** the full release is public, with a human-skeleton checkpoint beside the robot one,
+and its smart primitives (proxy keyframes) ship. The date fallback is reached as well. **Not
+read:** the port's two clauses (GLB-to-style import, a non-robot skeleton), because the port
+was not re-cloned. Lead 1 above (interaction primitives) has fired. The test it names, whether
+keyframe-anchored interaction belongs to row 4's motion gate or to `media-playback`, was not
+run and is still owed. pof's own impact-map reconsider trigger (a human checkpoint) fired on
+the same event. That re-adjudication is pof's write, not this registry's.
+
 ## Directions
 
 **Not run** (`directions=skipped`). The three entries home in `media-playback`, and the seam hunt had

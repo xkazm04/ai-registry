@@ -36,6 +36,17 @@ directed with v3-dialect bracket tags renders the tags *as spoken words* on an S
 engine and vice versa — **re-casting the narrator re-opens every delivery
 decision**, so direction is authored per cast engine, never copied across.
 
+**Currency, 2026-11-11 (Fish Audio row only; the rest of the table was not re-checked).**
+Fish's `drama-3` model uses a different dialect from the one above. A bracketed
+plain-language direction goes before the words it covers. Seven paired tags change
+only the words they wrap: `<whisper>`, `<emphasis>`, `<soft>`, `<fast>`, `<slow>`,
+`<stress>`, `<forceful>`. The model is chosen by a request header, and a missing or
+misspelled header "falls back to `s2.1-pro`" without failing. Billing is per million
+UTF-8 bytes of input text, not per character, so a non-Latin script costs more per
+character. "S1 is deprecated and will be retired on December 31, 2026." The pages read
+state no licence or commercial-use terms. Source: docs.fish.audio Drama 3 page and its
+Pricing & Rate Limits page, both read 2026-11-11.
+
 ## Casting notes for long-form factual narration (2026-08)
 
 - **Consistency is the binding constraint, and it is now the differentiator.**

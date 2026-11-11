@@ -12,6 +12,7 @@ techniques:
   - shared-clock-across-phases
   - delivery-promise-lock
   - approval-reads-forward
+  - plan-checks-predict-the-expensive-failure
 ---
 
 # Production pipeline phasing
@@ -63,6 +64,13 @@ usable output. Fidelity is not the only axis available: a probe may drop a
 whole dimension — motion, duration, sound — rehearsing an expensive medium in
 a cheaper one, and when it does, the dimensions it dropped are left unsettled,
 never approved.
+
+The gate at the expensive boundary measures what makes the expensive output
+fail, read back to the plan, not how good a plan it is: each dimension comes
+from a class of discarded render, and the gate is back-tested on past plans
+before it is trusted. A gate on which discarded and kept plans score alike
+predicts nothing, and raising its threshold refuses plans at random
+([plan-checks-predict-the-expensive-failure](./techniques/plan-checks-predict-the-expensive-failure.md)).
 
 The order answers what a phase settles *for* its successor. It does not answer
 the mirror question, and one class of artifact needs it asked: the **shared

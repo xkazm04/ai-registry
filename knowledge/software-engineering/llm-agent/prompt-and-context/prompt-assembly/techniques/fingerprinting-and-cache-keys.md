@@ -112,11 +112,26 @@ The prompt is typically the largest and most behavior-determining
 artifact the system produces, and often the only one it never persists —
 after which every question about past behavior ("did that run see the new
 instruction?") is unanswerable in principle. The floor is cheap: persist
-the fingerprint, the size, and a content digest of every prompt sent,
-keyed to the call record; persist the full text where volume and
-sensitivity allow. A schema column reserved for this and never written is
+the fingerprint and the size of every prompt sent, keyed to the call
+record; persist the full text where volume and sensitivity allow. A
+schema column reserved for this and never written is
 the failure in its most common costume — the ledger that exists and
 records nothing.
+
+The floor does not wait on a privacy review, because neither field carries
+content: the fingerprint digests the standing layers the team authored, not
+the material a caller supplied. A rule that keeps the prompt out of logs is
+right wherever the prompt carries a user's documents, and it still does not
+forbid the floor. A system that records nothing about its prompts "for
+sensitivity" has usually merged two objects. The other one, a digest of the
+whole send, is a different thing: over a payload drawn from a guessable space
+it can be inverted by guess and check, and it is identical in every store
+that computes it. Where one is kept at all it is a keyed hash under a
+per-store secret, held in whatever tier the content's class allows;
+[class-before-inspection](../../../evaluation-and-cost/tracing/techniques/class-before-inspection.md)
+owns that tier split and the keyed construction. Full text, where it is
+kept, sits behind its own access boundary, and the call record carries a
+reference to it rather than the text.
 
 One caution the digest inherits from every identity scheme: digest
 *identities*, not summaries that collide. A component count, a length, or

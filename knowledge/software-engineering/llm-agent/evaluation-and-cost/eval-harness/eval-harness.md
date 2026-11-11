@@ -129,8 +129,11 @@ a table sorted best-to-worst is read as a ranking no matter what the caption
 says, and the caption is where the variance went.
 
 So an order carries a precondition, checked before it is published: the
-**between-condition spread of the whole compared set must exceed the
-within-condition standard deviation**. Where it does not, the harness has
+**between-condition spread of the whole compared set must exceed the noise
+of what is being ranked** — the within-condition standard deviation for an
+order over single runs, the standard error of the difference for an order
+over means, with n counted in independent scenarios rather than in repeated
+trials. Where it does not, the harness has
 not produced a ranking; it has produced a draw with a sort applied, and the
 honest output is the tie. That is not a weaker result — a measured tie
 closes a question permanently, which no sorted list ever does. The same
@@ -319,9 +322,12 @@ shipped. The tool surface is the row that only agentic systems have, and
 the one the other six quietly route to the model: a call made wrongly
 because a schema was ambiguous fails the prompt's tell and the pipeline's
 tell alike, so a strictly followed funnel lands it in the residual bucket
-and prescribes a model change for a description problem.
+and prescribes a model change for a description problem. The seven are
+written from inside a run that started and finished, so the harness's own
+stop rule, and anything that kept the run from starting, own failures too
+and reach the model by the same route.
 
-Two of the six are not the system at all. A case whose expected property is
+Two of the seven are not the system at all. A case whose expected property is
 wrong, and a case that is unrepresentative of anything a user will do, both
 go red without a defect existing; the "fix" for either, applied to the
 system, improves the score while moving the system away from correct. That is
@@ -332,7 +338,7 @@ is not a low score — pushed one level down to the case
 Attribution is manual, is done on a sample from both tails, and produces
 *classes* rather than cases: five failures owned by the same missing field is
 a change you can design and measure, while one attributed case is an
-anecdote. And the class that resists all six owners is the most valuable
+anecdote. And the class that resists every owner is the most valuable
 thing the review produces — it means competent reviewers disagree about the
 right answer, which is a product policy nobody has written, not a model
 weakness. The discipline is
@@ -464,8 +470,9 @@ are a design input, not an afterthought: [eval-economics](./techniques/eval-econ
   ranking a population on the scenarios it is split on: frozen pool, moving
   selection, weighted estimates, and why regression gates want the opposite.
 - [resolution-precondition](./techniques/resolution-precondition.md) — the
-  check before a ranking is published: within-condition SD against
-  between-condition spread, reporting the tie as the finding, and the
+  check before a ranking is published: between-condition spread against
+  the noise of what is ranked, n counted in scenarios, reporting the tie as
+  the finding, and the
   monotone axis nobody measured.
 - [candidate-write-access](./techniques/candidate-write-access.md) — what
   the candidate may read and write, declaring a holdout instead of

@@ -86,7 +86,8 @@ export function engineCommand(p, bin, prompt, { workspace = '.', timeoutMin = nu
   }
   if (p.engine === 'codex') {
     return {
-      argv: [...head, 'exec', '--json', '--skip-git-repo-check', '--ephemeral', '--ignore-user-config',
+      // --search: a seat researches before it builds; without it Codex has no web at all.
+      argv: [...head, '--search', 'exec', '--json', '--skip-git-repo-check', '--ephemeral', '--ignore-user-config',
         '--ignore-rules', '-C', workspace, '--dangerously-bypass-approvals-and-sandbox', '-m', p.model,
         '-c', `model_reasoning_effort="${p.effort}"`, '-'],
       stdin: prompt,

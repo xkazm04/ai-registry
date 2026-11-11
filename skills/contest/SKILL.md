@@ -1,9 +1,9 @@
 ---
 name: contest
-description: "Blind design contest between CLI agent seats (Claude Code, Codex CLI, Grok CLI, Antigravity agy, Muse). Each participant you name - engine:model@effort - builds three genuinely different prototype variants of one idea in its own workspace; a cross-family panel scores every variant blind on seven dimensions (wow, clarity at scale, wayfinding, interaction, craft, concept, utility); the host adds a visual pass in a browser; an optional reveal round lets every seat see the whole field, keep one of its own variants and master it with a comparison matrix; a router page links every blinded variant across the vault's contests; the owner declares the winner or sends a shortlist into a refinement round with their review; the winner and the design philosophies behind it land in an Obsidian vault, a promotion is held to a fidelity contract and a code-quality-and-performance contract (port-quality.md), whose pattern ledger becomes the bar in the next brief; a wrap step then keeps every variant as notes and screenshots and the winner's source. Built for UI prototypes with a wow factor, usable for any solution design. Invoke with /contest \"<idea>\" [--participants <specs>] for a full round (the UI roster sonnet-5.5@max + opus-5.5@xhigh when none are named), /contest --landing \"<idea>\" for a graphically dominant landing or representative page decided by the owner without a panel, or /contest init|run|collect|judge|reveal|router|verdict|refine|wrap|status <id> to drive one step."
+description: "Blind design contest between CLI agent seats (Claude Code, Codex CLI, Grok CLI, Antigravity agy, Muse). Each participant you name - engine:model@effort - builds three genuinely different prototype variants of one idea in its own workspace; a cross-family panel scores every variant blind on seven dimensions (wow, clarity at scale, wayfinding, interaction, craft, concept, utility); the host adds a visual pass in a browser; an optional reveal round lets every seat see the whole field, keep one of its own variants and master it with a comparison matrix; a router page links every blinded variant across the vault's contests; the owner declares the winner or sends a shortlist into a refinement round with their review; the winner and the design philosophies behind it land in an Obsidian vault, a promotion is held to fidelity and code-quality contracts (port-quality.md); a wrap step keeps every variant as notes and screenshots and the winner's source. Built for UI prototypes with a wow factor, usable for any solution design. Invoke with /contest \"<idea>\" [--participants <specs>] for a full round (the UI roster sonnet-5.5@max + opus-5.5@xhigh when none are named), /contest --landing \"<idea>\" for a graphically dominant landing or representative page decided by the owner without a panel, /contest --ideas \"<idea>\" for a researched board of ideas per seat, each row drawn through Codex image_gen, or /contest init|run|collect|judge|reveal|router|verdict|refine|wrap|status <id> to drive one step."
 category: workflow
 memory: vault
-version: 1.14.1
+version: 1.15.0
 tags: contest, prototyping, ui, landing, multi-model, blind-judging, vault
 argument-hint: "\"<idea>\" [--landing] [--participants engine:model@effort,...] | init|run|collect|judge|reveal|router|verdict|refine|wrap|status <id>"
 ---
@@ -61,6 +61,7 @@ chosen:
 /contest "<idea>" --participants claude:opus@xhigh,grok:grok-4.6@high,codex:gpt-5.6-sol@high
 /contest "<idea>"                      # UI roster: claude:claude-sonnet-5-5@max,claude:claude-opus-5-5@xhigh
 /contest --landing "<idea>"            # landing / representative page preset (see Landing contests)
+/contest --ideas "<idea>"              # a board of drawn ideas per seat, owner-judged (see Ideas contests)
 /contest init|run|collect|judge|aggregate|reveal|router|verdict|refine|wrap|status <id>
 ```
 
@@ -114,6 +115,29 @@ Host work that made the first landing contest land:
   (`get_by_role('button', name=...)`), because a text click lands on captions and external links.
   Screenshot the intro at about 0.7, 1.8 and 3.2 s, then the overview, then an opened live item
   and an opened in-progress item, at 1920x1080, 1280x800 and 390x844.
+
+## Ideas contests - `--ideas`
+
+For a field of creative ideas that a person judges by reading and looking (sketches, episodes,
+ad concepts), not a page that works. `--ideas` sets, under any option the call names:
+
+- **one board per seat** (`--variants 1`): `variant-1/index.html`, one row per idea, the idea in
+  words beside its own generated images, plus `boards.json` (the drawing queue), `NOTES.md` and
+  `SOURCES.md` (the seat's research log). The seat brief is `references/ideas-brief.md`, not the UI
+  template: no divergence-of-layout contract, no seven-dimension rubric;
+- **own research first**: every seat searches the web before it writes (Codex seats run with
+  `--search`); the brief asks for dated, linked sources on anything topical;
+- **one drawer for every seat**: `scripts/codex-draw.mjs` is copied into each seat's `data/` and
+  draws through `codex exec` image_gen on the operator's ChatGPT seat, 16:9, resumable, at most
+  8 minutes a call (under an agent shell's ceiling), a machine-wide slot cap (`CODEX_DRAW_SLOTS`,
+  default 6) so three seats drawing at once do not stampede the plan, and a refused prompt logged to
+  `failed.jsonl` and never resent unchanged;
+- **no judge panel** (`--review owner`) and a **150 min** ceiling: the owner reads every row.
+
+Host work: stage the owner's verdicts on the last round verbatim in `data/TASTE.md`, with the
+rejected premises listed so no seat resubmits them; put the content's hard limits (the channel's
+rules, what the image tool refuses) in the brief; draw one smoke image through the drawer before
+`run`. After collect, the router links each seat's blinded board.
 
 ## 0. Overlay and vault
 

@@ -66,6 +66,23 @@ The MiniMax H3 Community License defines its territory as worldwide excluding "t
 Republic of Korea and the United States of America". Read at the source on Hugging Face on this date. Raised to the operator
 as a question for them; this note gives no legal reading of it.
 
+## Later voices
+
+- **Row 2, 2026-11-10: a second voice.** The AI Brief (`youtube:HJteqahyEKM`) ships its own local two-pass H3
+  graph: a first pass at about 0.5 scale, a latent upscale, a second pass to "recover additional detail". A different
+  channel with no sign of relaying this one, and neither measured anything. ComfyUI 0.44 no longer blocks it: a
+  side-by-side 0.44.2 install carries `MiniMaxH3LatentUpscaleWithModel` (backlog `shift-ph3-keyframes-1`). The return
+  condition is now the H3 3D latent upscaler on disk. See
+  [2026-11-10-shot-fix-without-reroll](2026-11-10-shot-fix-without-reroll.md), row B1.
+- **Row 4, 2026-11-11: re-framed, with one fact changed.** The vendor's post and card were read again. The six-step
+  adapter exists for FL2VA as well as Ref2VA. gravitone's hero and rough route is FL2VA with the 8-step turbo, so
+  "if four-step quality falls short" never covered the route that costs the most. The card no longer says that an
+  end-to-end ComfyUI render "has not been verified". Read verbatim, it points to FL2VA, R2V and T2V workflows, says
+  Comfy-format BF16 LoRA weights are in `comfy/loras/`, and says only that "Exact reproduction with the released
+  package is not guaranteed". The licence is unchanged. The return condition is now the operator's approval of a
+  night download of that LoRA alone, banked as held row `shift-proof-h3-flex-fl2va-6step`. See
+  [2026-11-11-video-and-voice-for-productions](2026-11-11-video-and-voice-for-productions.md), row P3.
+
 ## Not landed
 
 No bundle changed. The source originates; one trial on one seam does not authorize a technique. Items 2 and 3 return when a

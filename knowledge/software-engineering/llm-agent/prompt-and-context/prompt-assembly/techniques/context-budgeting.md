@@ -15,8 +15,10 @@ The window is the scarcest resource the system spends, and it is spent on
 every call. This technique makes the spend deliberate: a global budget
 derived from real limits, allocated per layer, defended by degradation
 ladders, and honest about what pressure removed. The alternative is not
-"no policy" — it is the provider's tail truncation, a policy that discards
-whatever happens to be last, chosen by nobody, announced to no one.
+"no policy" — it is the runtime's overflow behaviour: a hosted endpoint that
+refuses the whole request, or a local server that drops the oldest turns to
+fit and logs it, if at all, below the default level. Either way it is a policy
+chosen by nobody and announced to no one.
 
 ## Derive the budget, then allocate it
 

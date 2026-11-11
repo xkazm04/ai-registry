@@ -1,8 +1,8 @@
 ---
 subject: document-text-extraction
 domain: software-engineering
-last_touched: 2026-09-04
-touched_by: intake
+last_touched: 2026-11-11
+touched_by: shift
 dry_streak: 0
 ---
 
@@ -78,3 +78,27 @@ thing the technique correctly refuses.
 Worth noting for a later pass: the technique's `When not to use this` section
 enumerated one exception, and the finding came from asking whether it enumerated
 too few. That hunt is cheap and it worked here.
+
+## 2026-11-11 — the corrupt band gained its detector
+
+Touched by `/shift` from [[../../sources/2026-11-11-document-understanding]]: one
+amendment to `extraction-yield-bands`, no new technique, no application.
+
+The corrupt section opened with "when a reader detects that a character mapping
+is broken" and never said how. A parser repository answered it: a font with no
+table, or a wrong one, maps every code, so the unmapped-glyph count reads zero
+and a non-text check passes. Detection has to come from the decoded text, by
+letter statistics, judged per font with a floor, and before any cleanup that
+drops control characters. The per-font half converged with this registry's own
+PDF reader lesson (the display face fails while the body decodes).
+
+The seam hunt found the defect at home: this registry's reader deletes control
+characters before its ingest counts suspect characters, and that count admits
+all printable ASCII. A scratch experiment showed both bad cases passing at 0 %,
+and a cipher heading diluting the page's vowel share to a natural 0.36 while its
+own font read 0.16. The fix is a lead, not made.
+
+Open: the page-level half at a fleet KB chunker (build lane), and a review
+canary whose third arm feeds a damaged extraction to the reviewer. A long-
+document reviewer's preprint named PDF parsing as one of its top three pilot
+failures, which is the golden path's opening in another voice.

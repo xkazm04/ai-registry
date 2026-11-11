@@ -6,11 +6,11 @@ title: "New Insane AI Animation Workflow with GPT-6 Astra"
 author: Stefan 3D AI
 words: 2886
 extracted: 14
-accepted: 0
+accepted: 1
 declined: 0
 leads: 3
 already_covered: 5
-untriaged: 6
+untriaged: 5
 applied: 1
 shipped: 1
 dispatched: 0
@@ -66,7 +66,7 @@ corroboration table.
 | 3 | **Generated video as the reference an agent keyframes from**, 00:06:17 | technique | `motion-quality-gating` gates footage for EXTRACTION, not as a keyframing reference; pof: text-to-motion + vision critic, no reference stage | real gap | **Phase 6b row 2: gate refused -> lead** |
 | 4 | **Generate the reference at half speed and retime**, 00:07:07 | technique | `motion-sampled-under-a-frame-budget` holds the span arithmetic; nothing commissions a slower reference | real gap | **Phase 6b row 1: measured negative -> lead** |
 | 5 | Iterate each animation twice with screenshot feedback, 00:09:38 | technique | `bounded-refine-iteration`; `review-iteration-loops` | likely catch | Already covered |
-| 6 | Exaggerate a part at contact frames for screen-size readability, 00:10:03 | technique | `six-dimension-motion-rubric` (silhouette) | partial | Untriaged |
+| 6 | Exaggerate a part at contact frames for screen-size readability, 00:10:03 | technique | `six-dimension-motion-rubric` (silhouette) | partial | **Landed 2026-11-11** (backlog 8-031, blind-ab, better): `motion-quality-gating/exaggerate-at-the-contact-frames`, the contact-frame clause only; judging at gameplay size tied and did not land |
 | 7 | Team colour as a separate object and material slot, 00:05:27 | technique | `imported-material-conformance` | thin | Untriaged |
 | 8 | One packed texture for a small on-screen unit, 00:04:37 | technique | `shader-budget-authoring` | thin | Untriaged |
 | 9 | The agent runs its own tests on the animation, 00:09:13 | technique | `unattended-build-loop/no-gate-self-certifies` | likely catch | Already covered - **and this run measured it** (below) |

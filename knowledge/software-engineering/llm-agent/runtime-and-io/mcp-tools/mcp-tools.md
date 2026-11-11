@@ -308,8 +308,9 @@ same obligations as the wire itself:
 - [catalog-projection-modes](./techniques/catalog-projection-modes.md) — one
   capability set published at several altitudes when the host's tool budget is
   hard, external and shared: the projections, the annotation-equality rule that
-  keeps compression honest, re-checking policy at the resolved operation, and
-  the price of a hand-maintained second authority.
+  keeps compression honest, re-checking policy at the resolved operation, the
+  price of a hand-maintained second authority, and the code surface that work
+  open-ended in composition gets beside its schema tools, ceiling or not.
 - [tool-identity-vs-tool-name](./techniques/tool-identity-vs-tool-name.md) —
   the address a model calls is not the identity an operator correlates: a
   rename-stable identifier on the wire, what may change it, and why possession

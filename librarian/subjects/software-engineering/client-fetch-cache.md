@@ -1,8 +1,8 @@
 ---
 subject: client-fetch-cache
 domain: software-engineering
-last_touched: 2026-09-08
-touched_by: intake
+last_touched: 2026-11-10
+touched_by: harvest
 dry_streak: 0
 ---
 
@@ -108,3 +108,15 @@ run in the source's own harness. **Applied in code and shipped**: tracklight's s
 recovery returned an empty list for an unlistable directory, indistinguishable from a clean
 start; the seam was chosen because it documented that choice as deliberate, and the boundary
 that survived is ENOENT, which stays a genuine empty.
+
+Touched by `/harvest backlog` (row 6-022, from [[2026-08-31-tkdodo-rq-beyond-basics]]'s
+untriaged table): new technique `one-owner-per-datum`. When two caches hold one datum, one
+owns the four policies and the other goes to zero. A second copy written in your own code
+is deleted, not left empty, because a field that is kept but never filled reads as a real
+empty list. Measured in **code** on a managed frontend. Two module contexts kept a never-filled
+state copy of the company and scenario lists beside the query client, and the project's
+history holds the defect it caused. Removing the copy turned a re-introduction of that
+defect from silent into 2 compile errors, with the consumer probe, the provider tests and
+the lint and type floors unchanged. Application `react--one-owner-per-datum--context-copy`.
+The two-live-lifetimes half (a router preload window beside the fetch cache) has no fleet
+seam and is unmeasured. The fleet change is banked on a branch and not shipped.

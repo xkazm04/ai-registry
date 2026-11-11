@@ -20,6 +20,7 @@ techniques:
   - silent-defects-get-a-code-or-an-error
   - pinned-frame-notes
   - unreferenced-channels-resample
+  - window-plan-validation-is-asymmetric
 ---
 
 # Video assembly
@@ -153,6 +154,11 @@ the cut a nicer picture and a worse document. The standard is the opposite:
 - **Coverage is computed.** "24 s scored, 13 s refused, 4 s unspotted" is a
   reduction over the actual cues, never a sentence somebody typed to match
   the fixture of the day.
+- **A plan never fits by dropping a shot.** A generation plan longer than its
+  target is reported with its predicted total and runs; a plan in which a
+  window would receive zero frames is refused. Trimming to fit turns the
+  first into the second
+  ([window-plan-validation-is-asymmetric](./techniques/window-plan-validation-is-asymmetric.md)).
 - **No dead controls, no phantom capability.** A retry button with no
   engine behind it, a "preview plays the cut" sentence with no player in
   the build — these are claims the assembly cannot back, and they go. What

@@ -56,9 +56,16 @@ The second family runs the real binary and watches it — either by simulating
 the machine that executes it, or by having the compiler insert checks into the
 emitted code. Its position gives it the mirror-image properties:
 
-- **It crosses every boundary.** Foreign code, linked libraries, and the
-  allocator are all just more machine code; the verifier does not care which
-  language produced them. Whole-program leak accounting only exists here.
+- **It crosses every boundary it is shown.** Foreign code, linked libraries, and
+  the allocator are all just more machine code; the verifier does not care which
+  language produced them. Whole-program leak accounting only exists here. The two
+  mechanisms are shown different things: a simulator sees every instruction the
+  process executes, while compiler-inserted checks see only the objects that were
+  compiled with them. A prebuilt library linked as shipped is outside the cheap
+  variant's reach — its own accesses go unchecked — and for the checkers that
+  track initialisation or synchronisation an uninstrumented object also produces
+  false reports, so those need every linked object, the standard library
+  included, rebuilt under the instrument.
 - **It knows none of the source language's rules.** An aliasing violation that
   the compiler exploited but that produced no invalid access is invisible: the
   emitted instructions are perfectly legal machine code. The verifier can only
@@ -99,7 +106,10 @@ union is the program.
   one to two orders of magnitude, the interpreting family runs over a chosen
   subset (the paths carrying manual memory management) on a scheduled or
   merge-gated lane, never on every save. The cheap compiler-inserted variant of
-  the second family can sit on a routine lane.
+  the second family can sit on a routine lane; it certifies the foreign side only
+  where the lane rebuilt that side under the same instrument, and the lane
+  configuration names the linked objects it did not rebuild, because those are
+  the region neither family reached.
 - **Which population.** Both families verify whatever the driving suite
   executed, and nothing else — see
   [verification-inherits-driver-reach](./verification-inherits-driver-reach.md),

@@ -20,25 +20,41 @@ says, and the caption is where the variance went.
 So the discipline needs a step earlier than reporting: a precondition on
 whether an order may be published at all.
 
-> Before emitting a ranking, compare the **within-condition** standard
-> deviation against the **between-condition** spread of the full compared
-> set. If the entire best-to-worst spread sits inside one within-condition
-> SD, the harness has not produced an order. It has produced a draw with a
-> sort applied to it.
+> Before emitting a ranking, compare the **between-condition** spread of the
+> full compared set against the noise of the thing being ranked. If the
+> entire best-to-worst spread sits inside that noise, the harness has not
+> produced an order. It has produced a draw with a sort applied to it.
+
+Which noise depends on what is ranked, and confusing the two is the common
+error in both directions. An order over **single runs** — what a reader who
+tries each condition once will see — is judged against the within-condition
+SD itself. An order over **cell means** is judged against the standard error
+of the difference between them, which shrinks with the square root of the
+number of independent observations behind each mean: at n = 50 a per-run SD
+of 0.075 gives a standard error of the difference near 0.015 (unpaired), and
+a 0.069 spread is then far outside it. So the precondition carries its n, and the n that counts is the
+number of independent units — scenarios, not trials. Repeats of one scenario
+share its difficulty, so trials clustered inside scenarios make the naive
+standard error too narrow (clustering on a public eval has been measured to
+widen it by more than three times), and two candidates scored on the same
+scenarios are compared on per-scenario differences, which removes the shared
+difficulty for free. The paired arithmetic is
+[paired-per-case-testing](../../../../../llm-observability/quality-scoring/quality-regression-gating/techniques/paired-per-case-testing.md);
+this technique owns only that the order waits for it.
 
 ## The number that makes this concrete
 
-On one optimization task run at unusually generous trial counts, the
-run-to-run standard deviation *within* a single model-and-effort condition
+On one optimization task, the run-to-run standard deviation *within* a single model-and-effort condition
 was 0.075 on the score scale. The spread from the best-tested condition to
 the worst — across model families, across vendors, across every effort level
 — was 0.069.
 
-Every ranking that matrix could produce sat inside the noise of one of its
-own cells. Not the close pairs: all of them. And this was with more trials
-per cell than a reader forming an opinion will ever run, which means the
-published orderings were the *best-resolved* version of the comparison
-anyone had.
+Every single-run ranking that matrix could produce sat inside the noise of
+one of its own cells. Not the close pairs: all of them. Whether the ranking of
+its *means* did is a separate question the source does not settle — it
+reports the per-run SD and the spread of means, and no per-cell trial count
+for the grid — which is the precondition's point: the comparison cannot be
+made until the n is on the page.
 
 The consequence for a single run follows directly and is worth stating in
 the form practitioners meet it: for every task, whatever the best condition
@@ -64,9 +80,10 @@ survive into the next conversation
 A number carries its trial count, its aggregation *and* the spread it had to
 clear.
 
-The correct escalation, where the order genuinely matters, is not more
-trials at the same suite — it is a suite that discriminates on the axis in
-question. A tie is evidence of the suite's indifference, never of the
+The correct escalation, where the order genuinely matters, is rarely more
+trials of the same scenarios — repeats share each scenario's difficulty, so
+once the clustering is counted they buy less than they appear to — and
+usually more scenarios, built to discriminate on the axis in question. A tie is evidence of the suite's indifference, never of the
 candidates' equivalence: the same pair can sit inside the noise on one
 scenario set and separate cleanly on one built to stress what actually
 differs between them. Selecting scenarios the population is split on is
@@ -119,7 +136,7 @@ both numbers:
 They are separate quantities with separate causes, they are measured by
 separate procedures, and the binding constraint is whichever is larger. A
 margin that clears the judge's self-agreement but not the candidate's
-run-to-run SD is as unpublished as one that fails the other way. Report both
+noise at the declared n is as unpublished as one that fails the other way. Report both
 beside the margin; a harness that reports one has demonstrated only that it
 knows about one.
 

@@ -1,8 +1,8 @@
 ---
 domain: software-engineering
 subject: mcp-tools
-last_touched: 2026-11-06
-touched_by: intake
+last_touched: 2026-11-10
+touched_by: harvest
 dry_streak: 0
 ---
 
@@ -668,3 +668,25 @@ Gained `budgeted-partial-response` (one wall-clock budget per agent-facing call:
 ### 2026-11-06 - intake jamiepine/voicebox delta 51f49de..8af7efe (run intake-voicebox-1106)
 
 Gained `name-grammar-of-the-narrowest-hop`: the protocol allows dots and 128 characters, the function-calling grammars between host and model allow neither, and a validating host refuses the whole listing on one bad name; validate once over the listed catalog and never list a relayed foreign name verbatim. Primary fetched: the protocol's 2025-11-25 "Tool Names" section. Applications: `python--name-grammar-of-the-narrowest-hop.md` (a dotted namespace refused whole, renamed in one breaking release, no alias, still no check) and `rust--name-grammar-of-the-narrowest-hop--personas.md` (experiment, not-better: a bridge that validates page names against the wide grammar and is immune only because it dispatches them by argument; its declared next change would list them). Fleet scan: 13 trees, no non-conforming static tool name.
+
+## 2026-11-10 - /harvest backlog 6-018 ([[2026-09-04-stencil-harness-playbook]], /shift filler)
+
+Amended `catalog-projection-modes`, split verdict, blind-ab. Half 1 better: every projection,
+withholding included, is schema-shaped, and the discriminator the technique lacked is the shape of
+the work, not the size of the catalog. Work open-ended in composition (call count set by data not
+yet read, intermediate results feeding the next call) gets a code surface beside the schema tools,
+generated from the one registry, sandboxed to the bindings with a call and wall-clock budget,
+policy checked at each resolved operation, one program tool per annotation class. A fixed chain
+with nothing to read between calls is a missing operation; a fixed sequence the model reads and
+decides between keeps its schema tools. Three probes from real tool servers in the fleet (an
+open-ended composition on a 36-tool server; a bounded 13-tool protocol as the over-correction
+floor; an unmeasured latency claim), 2 draws per arm, rubric and floor written first, blind judge
+with planted controls; arms and judge single-family, so provisional. P1 +3.0 (10, 10 against 8, 6);
+the first draft broke the P2 floor in one draw by folding a protocol the model reads between calls,
+and the repaired draft (the fourth table row) held it in both draws and still scored 10 on P1 in its
+one draw. Caveat: P1's first criterion rewards a program surface by construction; the unamended arm
+built a closed query tool instead, which the corpus already endorses, so part of the gap is the
+draft changing the call. Half 2 not-better: the latency claim was already measured and lost (backlog
+c35, a schema-deferring host, generation rate within noise); the draft carries that result and
+asks for an on-host measurement before anyone quotes the cost. The claim sits in the note's
+Deferred section, not Untriaged. Return: the first fleet tool server that grows a program tool.

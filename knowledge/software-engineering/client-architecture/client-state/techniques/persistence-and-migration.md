@@ -6,7 +6,9 @@ technique: persistence-and-migration
 status: forged
 laws: [derivation-names-recomputation, failure-not-empty-success, one-validation-door]
 shared_with: []
-use_when: [deciding whether a value earns persistence, appending a step to a shipped migration chain, corrupt payload keeps the app from launching]
+use_when: [deciding whether a value earns persistence, appending a step to a shipped migration chain, corrupt payload keeps the app from launching, persisting a fetch cache across reloads, writing a custom persist filter for a cache library, a persisted cache restores from asynchronous storage]
+applied: experiment
+ab_verdict: better
 ---
 
 # Persistence and migration
@@ -91,6 +93,41 @@ breaks if this is gone at next launch, and what breaks if it is stale?*
 Whole-store persistence fails this audit by construction. Persist an
 explicit **allowlist** of fields — a denylist rots as fields are added,
 and each addition silently joins the contract.
+
+## When the fetch cache itself is persisted
+
+Where restart-warmth is earned for server state and the cache library has
+its own persister, three rules decide whether the restore helps or hurts.
+
+- **The opt-in sits on the datum.** The allowlist is a mark on the query
+  definition, typed metadata the persister reads. It is not a list of keys
+  kept beside the definitions. The definition is already the key registry,
+  and a datum added without the mark stays out by default.
+- **The narrowing predicate is composed with the library's filter, never
+  substituted for it.** A cache library's default persist filter is not a
+  default policy. It is a correctness filter, typically "settled successes
+  only". A custom predicate that replaces it with the opt-in check alone
+  persists failures and requests still in flight. On a real client's cache
+  defaults, the substituted predicate wrote one failed and one in-flight
+  entry beside the successful one. The restore re-created the failure as a
+  cached error that no server had sent in that session, then threw on the
+  in-flight entry, so the restore stopped there. The composed predicate,
+  `libraryDefault(entry) && optedIn(entry)`, wrote the one success and
+  restored it cleanly. "Transient status never persists" (above) is the
+  general rule. This is how a persister breaks it without anyone writing
+  "persist loading".
+- **Nothing that reads the cache mounts before the restore settles.** A
+  restore from asynchronous storage takes time. A consumer mounted first
+  sees an empty entry, renders loading, and fires the fetch the persisted
+  copy existed to save. Gate the tree on the restore having *settled*,
+  success or failure, so a failed read still mounts and fetches normally.
+  Measured: without the gate, a persisted fresh entry still cost one network
+  fetch and a loading first frame. With it, there were zero fetches and the
+  restored data showed on the first frame. With storage that rejects, the
+  gated tree still mounted and fetched once. Synchronous storage hydrates
+  before the first render and makes the gate a no-op. So a faked gate, a
+  snapshot hard-coded to "restored", passes every test until the storage
+  turns asynchronous.
 
 ## The versioned shape
 

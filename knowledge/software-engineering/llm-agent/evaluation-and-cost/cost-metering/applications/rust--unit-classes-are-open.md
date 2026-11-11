@@ -37,8 +37,10 @@ window is a **floor** until these are priced, closable with a rate write that
 optionally back-fills the historical rows.
 
 That is a stronger discipline than [price-tables](../techniques/price-tables.md)
-recommends. The technique there says to price an unknown model at a
-conservative *declared default* and count the miss. This tree declines to
+recommended when this was written. The technique then said to price an unknown
+model at a conservative *declared default* and count the miss; it has since
+adopted this tree's floor for the row and kept the default only for a gate's
+estimate. This tree declines to
 invent a number at all and propagates a bound instead — and the bound is what
 reaches the operator surfaces. The corpus rule was written for a product that
 must still show a total; this tree shows the total *and* what it is a floor

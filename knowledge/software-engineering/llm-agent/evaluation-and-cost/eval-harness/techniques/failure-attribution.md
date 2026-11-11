@@ -40,8 +40,11 @@ dataset error.
 
 ## The seven owners
 
-Every failing case is owned by exactly one of these. Assign the *most
-upstream* one that explains it — a bad label produces a wrong-looking output
+Inside a run that started and finished, a failing case is owned by one of
+these — the exceptions are the subject of the last sections: a class
+competent reviewers cannot settle, the harness's own stop rule, and owners
+that keep the run from starting. Assign the *most upstream* one that
+explains it — a bad label produces a wrong-looking output
 downstream, and attributing that to the model is how the wrong fix gets
 shipped.
 
@@ -77,7 +80,7 @@ shipped.
   instruction, a framing that makes the wrong thing salient. *Tell:* a person
   reading only the prompt would make the same mistake.
 - **Model.** Everything above is clean and the output is still wrong. *Tell:*
-  the residual after the other five are exhausted. *Response:* a different
+  the residual after the other six are exhausted. *Response:* a different
   model, or an accepted limit written down as one.
 
 The ordering is the technique. It is a strict funnel, and the last two are
@@ -211,7 +214,7 @@ narrator.
 
 ## A fix at the pipeline or prompt layer names the model it was built for
 
-Four of the six owners resolve to a change in the system, and three of those
+Five of the seven owners resolve to a change in the system, and three of those
 changes — a stricter reminder, a retry that re-issues a malformed tool call, a
 parser that repairs the model's near-miss output — are not corrections of a
 defect in the harness. They are **compensations for a defect in the model**:
