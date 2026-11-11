@@ -4,7 +4,7 @@
   "bundle": "media-generation",
   "source": "knowledge/media-generation/ (frontmatter only)",
   "subjects": 53,
-  "techniques": 352,
+  "techniques": 353,
   "applications": 210,
   "laws": 9,
   "categories": [
@@ -16,7 +16,7 @@
    "streaming"
   ],
   "layout": "nested",
-  "use_when_coverage": "352/352",
+  "use_when_coverage": "353/353",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -6462,9 +6462,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/media-generation/production-ops/video-assembly/video-assembly.md",
-   "digest": "sha256-b2:931da19546c07109",
-   "revision": 24,
-   "changedAt": "2026-11-08",
+   "digest": "sha256-b2:37d0757c1916d48c",
+   "revision": 25,
+   "changedAt": "2026-11-11",
    "techniques": [
     {
      "slug": "alignment-names-its-text",
@@ -6699,6 +6699,19 @@
       "an assistant is about to render a finished video to find out whether a composition is right",
       "a person is in the loop and will judge the result by watching it",
       "a composition renders without error and the output is blank, black or wrong"
+     ]
+    },
+    {
+     "slug": "window-plan-validation-is-asymmetric",
+     "status": "forged",
+     "laws": [
+      "refusal-is-a-state"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "validating a plan of generation windows or segments against a target length",
+      "a planner trims or drops trailing windows to make a plan fit",
+      "deciding whether a too-long or too-short generation plan should fail"
      ]
     }
    ],
@@ -7186,7 +7199,8 @@
     "streaming-platform-api-custody/revoke-then-purge-then-stop",
     "verifiable-giveaway-draws/single-attempt-no-reroll",
     "video-assembly/gap-and-refusal-honesty",
-    "video-assembly/generated-shot-sourcing"
+    "video-assembly/generated-shot-sourcing",
+    "video-assembly/window-plan-validation-is-asymmetric"
    ]
   },
   "edit-do-not-regenerate": {

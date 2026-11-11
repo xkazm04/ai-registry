@@ -1,0 +1,83 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "hb-filler-1111-l",
+  "skill": "harvest",
+  "skill_version": "0.7.0",
+  "mode": "backlog",
+  "domain": "media-generation",
+  "started_at": "2026-11-11T14:40:00Z",
+  "ended_at": "2026-11-11T16:10:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 3,
+    "landed": 1,
+    "declined": 0,
+    "idled": 2,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "media-generation/video-assembly",
+      "at": "2026-11-11",
+      "engine": "shift",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    },
+    {
+      "id": "game-production/image-to-3d-input-gating",
+      "at": "2026-11-11",
+      "engine": "shift",
+      "outcome": "idled",
+      "points_before": null,
+      "points_after": null
+    },
+    {
+      "id": "game-production/generated-asset-world-scale",
+      "at": "2026-11-11",
+      "engine": "shift",
+      "outcome": "idled",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "media-generation/video-assembly",
+      "technique": "window-plan-validation-is-asymmetric",
+      "verdict": "better",
+      "mode": "blind-ab"
+    },
+    {
+      "subject": "media-generation/video-assembly",
+      "technique": "overlap-is-conditioning-not-output",
+      "verdict": "not-better",
+      "mode": "blind-ab"
+    },
+    {
+      "subject": "game-production/image-to-3d-input-gating",
+      "technique": "route-per-part",
+      "verdict": "not-better",
+      "mode": "blind-ab"
+    },
+    {
+      "subject": "game-production/generated-asset-world-scale",
+      "technique": "scale-from-the-externally-fixed-element",
+      "verdict": "not-better",
+      "mode": "blind-ab"
+    }
+  ],
+  "files": [
+    "knowledge/media-generation/production-ops/video-assembly/techniques/window-plan-validation-is-asymmetric.md",
+    "knowledge/media-generation/production-ops/video-assembly/video-assembly.md",
+    "librarian/applied.md",
+    "librarian/subjects/media-generation/video-assembly.md",
+    "librarian/sources/2026-09-04-wan2gp.md",
+    "librarian/harvest/backlog.jsonl"
+  ],
+  "commits": [],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "Backlog filler, 3 units (4 rows), prior art in both arms. 3-061 better (key b A 6, B 3) landed window-plan-validation-is-asymmetric; 3-060 not-better (6-5); 8-058 not-better (12-10); 4-098 not-better (12-11). Floors, controls held. 5-032 left for the render lane."
+}

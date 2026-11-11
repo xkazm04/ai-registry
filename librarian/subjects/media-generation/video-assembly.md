@@ -1,7 +1,7 @@
 ---
 subject: video-assembly
 domain: media-generation
-last_touched: 2026-11-06
+last_touched: 2026-11-11
 touched_by: shift
 dry_streak: 0
 ---
@@ -375,3 +375,7 @@ property.
 
 - `process--generated-shot-sourcing`: two dated bullets, a hosted connector driving a local motion editor (vendor page, skill files not read) and a self-reported spend record. `verified_on` not moved.
 - `cut-compiled-from-source` not changed: its "stops being a discipline to audit" is true of the document and not of the frames, which is a rewrite and a proposal in [[2026-11-06-editable-source-over-rendered-file]]. Frame-order differences wait on `shift-editable-b17-revision-bench` for `seek-stable-composition-authoring`.
+
+## 2026-11-11 - /harvest backlog 3-060 + 3-061 ([[../../sources/2026-09-04-wan2gp]], /shift filler)
+
+`window-plan-validation-is-asymmetric` landed (blind-ab, better), the 3-061 clause only: a generation-window plan longer than its target is reported with its predicted total and runs; a plan in which a window would receive zero frames is refused; nothing trims trailing windows to fit. One probe, a sliding-window music-clip planner with a trim-from-the-end loop; both arms held segment-on-the-master-clock and drift-correction. Asymmetric validation A 6, B 3 of 6 (every arm-B run said raise in both directions). The overlap-is-conditioning accounting (3-060: a window's stated duration is its contribution, overlap generated in addition) tied at the ceiling, A 6, B 5, and did not land. Floor (keep overlap conditioning and track-map durations) A 6, B 4; controls held.
