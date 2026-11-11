@@ -4,7 +4,7 @@
   "bundle": "software-engineering",
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 245,
-  "techniques": 1997,
+  "techniques": 1998,
   "applications": 1501,
   "laws": 16,
   "categories": [
@@ -20,7 +20,7 @@
    "secret-custody-and-issuance"
   ],
   "layout": "nested",
-  "use_when_coverage": "1997/1997",
+  "use_when_coverage": "1998/1998",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -31202,9 +31202,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/software-engineering/client-architecture/realtime-events/realtime-events.md",
-   "digest": "sha256-b2:a0685592373df03f",
-   "revision": 6,
-   "changedAt": "2026-09-03",
+   "digest": "sha256-b2:5210b89cea2917f5",
+   "revision": 7,
+   "changedAt": "2026-11-11",
    "techniques": [
     {
      "slug": "capacity-packed-subscription-pool",
@@ -31247,6 +31247,20 @@
       "deciding whether an event can be superseded",
       "a counter fires twice but applies once",
       "one burst causing three separate renders"
+     ]
+    },
+    {
+     "slug": "encode-once-fan-out",
+     "status": "forged",
+     "laws": [
+      "gate-sees-target"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "one event is pushed to many open connections",
+      "every recipient's frame differs only in a sequence number or another envelope field",
+      "serialization dominates the cost of a broadcast",
+      "deciding whether a broadcast path should cache the encoded body"
      ]
     },
     {
@@ -43607,6 +43621,7 @@
     "read-serving-replicas/forward-on-storage-error",
     "read-serving-replicas/preemptive-forward-for-known-writes",
     "readiness-passports/audit-the-live-system-not-the-plan",
+    "realtime-events/encode-once-fan-out",
     "realtime-events/event-registry",
     "register-bytecode-execution/dce-refuses-hoisted-declarations",
     "release-pipeline/deprecation-by-version-arithmetic",

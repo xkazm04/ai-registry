@@ -1,8 +1,8 @@
 ---
 domain: software-engineering
 subject: realtime-events
-last_touched: 2026-09-03
-touched_by: intake
+last_touched: 2026-11-11
+touched_by: harvest
 dry_streak: 0
 ---
 
@@ -81,3 +81,26 @@ literal TODO where the capacity check should be. Amendment in `subscription-life
 deliberately synchronous dispatch where a subscriber transforms the item before render and
 may itself publish - the rule becomes a re-entry budget. Unapplied in the fleet (no project
 multiplexes capped push connections); return condition recorded.
+
+## 2026-11-11 - /harvest backlog 8-014 ([[2026-09-04-fluxer]], /shift filler)
+
+New technique `encode-once-fan-out`, better, experiment, plus a paragraph in the golden
+path's cadence section: one event pushed to many connections whose frames differ only in a
+per-recipient envelope field encodes the shared body once and splices the field, joined by
+the socket as pieces rather than copied, and a test holds the splice byte-identical to the
+full encoding. Not covered: `outbound-fan-out`, `multi-client-fan-out` and
+`one-stream-fanned-out` own delivery, backpressure and subscription; none prices the
+encoding per recipient.
+
+Seeded harness that changes no product code, target and floor written first. One 1.9 KB
+event, five rounds, median CPU. Serialization at 1000 recipients: gather 0.05x of
+per-recipient encoding (target 0.25x, met), copy 0.67x (target 0.5x, missed). Through 50
+loopback sockets to a separate receiving process: gather 0.45x, copy 0.75x; at 2 sockets
+(floor 1.10x) gather 0.60x, copy 0.90x, every arm delivering the same byte count. Byte
+identity 0 mismatches in every cell; negative control (a display name spliced raw) made 2 of
+3 frames differ and both unparseable. The copy miss is why the technique makes gather the
+rule and reports copy as the weaker form. Weakest point: the experiment measures the
+mechanism, not whether a designer would have reached it without the technique. Not applied:
+the fleet's fan-outs are one operator's few tabs receiving identical frames. Return: the
+first fleet push path with more than a few dozen connections and a per-connection envelope
+field.
