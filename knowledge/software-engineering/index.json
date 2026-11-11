@@ -6792,9 +6792,9 @@
    "subcategory": "codebase-stewardship",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-process/codebase-stewardship/codebase-scanning/codebase-scanning.md",
-   "digest": "sha256-b2:2f98cb83a2394552",
-   "revision": 15,
-   "changedAt": "2026-11-10",
+   "digest": "sha256-b2:0858a7691384180c",
+   "revision": 16,
+   "changedAt": "2026-11-11",
    "techniques": [
     {
      "slug": "causes-beside-the-finding-count",

@@ -98,8 +98,9 @@ spent verifying the findings only a model could raise.
 
 ## The failure worth naming: eloquent agreement
 
-The most dangerous model output in a scanning context is not the false
-positive — verification catches those. It is the confident **clean bill of
+The most dangerous model output in a scanning context is not the finding
+about code that does not exist — verification catches those, and only
+those. It is the confident **clean bill of
 health**: the model that reviews a target and produces articulate praise,
 scoring it highly while the target is visibly broken to any human who
 opens it. Measured instances of this exact failure — evaluator models
@@ -109,3 +110,11 @@ as this subject treats every other silence: as an *absence of evidence of
 inspection*, not as evidence of health. If a model pass is load-bearing for
 a health claim, pair it with a positive control — a planted defect the pass
 must find — before believing its silences.
+
+The quote check bounds fabrication, not judgment. A finding whose quoted
+evidence exists has proved the reviewer read the target, not that it read it
+correctly. A false positive that is a judgment about real content (an
+argument is invalid, a condition is unreachable) survives the comparison
+intact. So a model pass is measured by two controls before it is relied on:
+planted defects it must find, and known-correct material of the same kind,
+where every flag is a false positive until a person adjudicates it.

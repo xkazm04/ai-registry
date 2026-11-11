@@ -10,11 +10,11 @@ title: "Document understanding, /shift batch of 1 web article (with its preprint
 author: "2 vendors: Google Research; LlamaIndex (run-llama)"
 words: 9616
 extracted: 23
-accepted: 1
+accepted: 2
 declined: 1
 leads: 7
 already_covered: 7
-untriaged: 4
+untriaged: 3
 currency: 3
 dispatched: 0
 applied: 2
@@ -66,6 +66,10 @@ holds the rule. No other point converges.
   check first, named tests for a mixed-font page flagging only the bad font and a stray unmapped glyph
   not flagging the page); append, as the section's existing sentences stay true. L's thresholds are not
   cited as a standard.
+- **Amendment (rewrite), `codebase-scanning/techniques/llm-assisted-scanning` § "The failure worth
+  naming: eloquent agreement", landed 2026-11-11 on the operator's acceptance** (R1, below). The quote
+  check bounds fabrication, not judgment: a pass is measured against planted defects and against
+  known-correct material of the same kind before it is relied on.
 
 ## Applied (Phase 7.5)
 
@@ -127,7 +131,7 @@ a real broken-map PDF, none on the box.
 
 | # | src | Row | Outcome | Rule | G/R/C |
 | --- | --- | --- | --- | --- | --- |
-| R1 | R | Quote checks miss a wrong judgment about real evidence | **untriaged** (banked with draft) | score | 3/2/2 |
+| R1 | R | Quote checks miss a wrong judgment about real evidence | **accepted, landed** by the operator 2026-11-11 (banked with draft; rewrite) | score | 3/2/2 |
 | R2 | R | Recall on planted errors certifies nothing about precision | already covered (`recall-passes-with-a-declared-cap`, positive control in `llm-assisted-scanning`) | - | - |
 | R3 | R | Each section owner sees the whole document | lead | lead | - |
 | R4 | R | Spend review compute by section density | already covered (`recall-passes-with-a-declared-cap`) | - | - |
@@ -183,6 +187,15 @@ to replace the section's first sentence clause and add one paragraph:
 
 Return: the operator accepts the rewrite, or a second source measures false flags of a quote-verified
 reviewer.
+
+**Accepted by the operator, 2026-11-11** (milestone verdict `deepreview: accept`), and landed in
+`codebase-scanning/techniques/llm-assisted-scanning` § "The failure worth naming: eloquent agreement".
+The section's first sentence now reads "not the finding about code that does not exist - verification
+catches those, and only those"; the draft paragraph follows the positive-control sentence, with two
+words the draft left implicit restored from the score above: the two controls are run "before it is
+relied on", and the known-correct material is "of the same kind" and its flags stand "until a person
+adjudicates" them. No other sentence of the technique changed; "Candidates, never verdicts" still says
+the quote check eliminates findings about hallucinated code, which stays true.
 
 ### L4, declined: no parser in any wired ingest
 
