@@ -66,7 +66,7 @@ delivered the event, not the author of the message inside it.
 | 3 | K | catch | S | An inbox-reading, tool-holding agent that replies | prompt-safety `session-capability-conjunction` | none | likely catch | - | already covered; applied as a personas task |
 | 4 | K | catch | S | Put the webhook secret in a header, keep URL and key private | webhook-ingestion `sender-authentication` (HMAC over raw body is stronger) | none | likely catch | - | already covered |
 | 5 | K | catch | S | Fence the inbound message in a reply-drafting prompt | prompt-safety `untrusted-span-fencing` | none | likely catch | - | already covered; personas task step 2 |
-| 6 | K | amendment | S | Signed delivery authenticates the relay, not the author | webhook-ingestion `sender-authentication`; prompt-safety inventory lists "an email body" under tool results | fills-stack-gap | partial | 1/2/1 | untriaged |
+| 6 | K | amendment | S | Signed delivery authenticates the relay, not the author | webhook-ingestion `sender-authentication`; prompt-safety inventory lists "an email body" under tool results | fills-stack-gap | partial | 1/2/1 | **landed 2026-11-11** (backlog 2-027, blind-ab, better): webhook-ingestion `signature-names-the-relay` |
 | 7 | P | practice | S | Label bot-authored notifications with the bot's name | platform-observability `outbound-notifications` | none | thin | 1/2/1 | untriaged |
 | 8 | K | technique | M | Waterfall enrichment across providers, value-level provenance (sponsor segment) | marketing lead-capture neighbours, not opened | none | thin | 1/2/2 | untriaged |
 | 9 | X | lead | - | Scheduled label-only inbox triage with a digest | capability-before-steering | - | - | - | lead |
@@ -141,10 +141,14 @@ return condition is a replay of one channel's real traffic.
 
 ## Untriaged (nobody verified these)
 
-- Row 6: anchors [00:10:08] and [00:09:18]; nearest homes are webhook-ingestion
-  `sender-authentication` and the prompt-safety inventory. Scored 1/2/1.
 - Row 7: anchor [00:02:58] "sent by Nat". Scored 1/2/1.
 - Row 8: anchors [00:03:23-00:04:14], a sponsor segment and relay-grade. Scored 1/2/2.
+
+Row 6 (signed delivery authenticates the relay, not the author; anchors [00:10:08] and
+[00:09:18]) left this list on 2026-11-11 and landed as webhook-ingestion
+`signature-names-the-relay` (backlog 2-027, blind-ab, better). The win rests on the wake
+half - an author gate before the run and a per-author bucket; the content-taint half was
+already prompt-safety's and is only cited. The anchors were not re-watched.
 
 ## Directions not proposed
 

@@ -1,0 +1,77 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "hb-filler-1111-h",
+  "skill": "harvest",
+  "skill_version": "0.7.0",
+  "mode": "backlog",
+  "domain": "software-engineering",
+  "started_at": "2026-11-11T07:45:00Z",
+  "ended_at": "2026-11-11T09:30:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 3,
+    "landed": 1,
+    "declined": 0,
+    "idled": 2,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "software-engineering/webhook-ingestion",
+      "at": "2026-11-11",
+      "engine": "shift",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    },
+    {
+      "id": "software-engineering/proactive-nudges",
+      "at": "2026-11-11",
+      "engine": "shift",
+      "outcome": "idled",
+      "points_before": null,
+      "points_after": null
+    },
+    {
+      "id": "software-engineering/release-pipeline",
+      "at": "2026-11-11",
+      "engine": "shift",
+      "outcome": "idled",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "software-engineering/webhook-ingestion",
+      "technique": "signature-names-the-relay",
+      "verdict": "better",
+      "mode": "blind-ab"
+    },
+    {
+      "subject": "software-engineering/proactive-nudges",
+      "technique": "precedence-by-re-emittability",
+      "verdict": "not-better",
+      "mode": "blind-ab"
+    },
+    {
+      "subject": "software-engineering/release-pipeline",
+      "technique": "bump-per-publication-boundary",
+      "verdict": "not-better",
+      "mode": "blind-ab"
+    }
+  ],
+  "files": [
+    "knowledge/software-engineering/backend-platform/resilience/webhook-ingestion/techniques/signature-names-the-relay.md",
+    "knowledge/software-engineering/backend-platform/resilience/webhook-ingestion/webhook-ingestion.md",
+    "librarian/sources/2026-09-16-agent-own-inbox.md",
+    "librarian/subjects/software-engineering/webhook-ingestion.md",
+    "librarian/applied.md",
+    "librarian/harvest/backlog.jsonl"
+  ],
+  "commits": [],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "Backlog filler, size 3, strongest prior art in both arms. 2-027 better (blind-ab, A 12 v B 7, then 12 v 6) landed signature-names-the-relay, wake clause only. 2-038 not-better (12 v 10). 3-046 not-better (12 v 12). Commit filled for 7 landed rows."
+}

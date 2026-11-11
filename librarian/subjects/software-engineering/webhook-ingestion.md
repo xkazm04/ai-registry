@@ -1,7 +1,7 @@
 ---
 subject: webhook-ingestion
 domain: software-engineering
-last_touched: 2026-09-02
+last_touched: 2026-11-11
 dry_streak: 0
 ---
 
@@ -51,3 +51,27 @@ single-stack debt cleared. Hint held.
 ## 2026-09-02 - `/intake` hermes-agent (run `intake-hermes-0902`, intake 2.1.1, Opus workers)
 
 Boundary correction on the relay clause of the topology menu: "verification at the final hop, never delegated to the middle" assumes the final hop can hold its own copy of the secret. Where the relay is the SOLE holder of a shared multi-tenant signing secret and each final hop is a customer-managed, internet-exposed process, obeying the clause means distributing the secret to every tenant - the cross-tenant compromise verification exists to prevent - and where a bearer credential lives inside the signed body, preserving the bytes and stripping the credential are the same operation. Discriminator written beside the rule: who can hold the secret, and what distributing it would cost. The default stands. Enforced in the source by a test asserting the relay package imports no platform crypto.
+
+## 2026-11-11 - /harvest backlog 2-027 ([[../../sources/2026-09-16-agent-own-inbox]], /shift filler)
+
+New technique `signature-names-the-relay`, better, blind-ab, plus a paragraph in the golden
+path's authentication section and an index bullet: when the signer is a relay (inbox, code
+host, form service), the signature proves who delivered the event, not who caused it, so a
+receiver that starts a run gates the wake on the relay-asserted author (as far as the relay
+authenticates it) and keys the run-budget bucket on that author; an endpoint bucket after
+the signature check is spent by strangers' signed events. Not covered: `sender-authentication`
+owns the digest, `session-capability-conjunction` gates the outbound step, prompt-safety fences
+the content; none decides who may cause a run.
+
+Blind A/B, claude-opus-5, no tools, no MCP, fresh temp folder per run, no permission bypass,
+3 runs per arm, rubric, target and floor written first, one blind judge per probe with a planted
+reference and bad answer. Probe: a fleet desktop app's real webhook receiver (HMAC mandatory,
+per-trigger rate limit after HMAC, payload published as the woken agent's input). Round 1 (both
+arms hold sender-authentication, session-capability-conjunction and the prompt-safety inventory):
+A 12 against B 7, target 3. Round 2, declared after it, adds rate-limiting key-design and
+trusted-author-verdict-channel to both arms: A 12 against B 6. Every arm-B run named the
+relay-versus-author gap unaided and fenced the payload or gated the outbound step; one round-1
+run added a sender allowlist, none keyed the bucket on the author, no round-2 run gated the
+wake, and one endorsed the after-signature endpoint bucket as correct. Floor (drop the
+signature because it does not name the author) 6 of 6 both arms; controls held. Only the wake
+clause landed; the content-taint half is cited, not restated. Fleet defect reported, not fixed.

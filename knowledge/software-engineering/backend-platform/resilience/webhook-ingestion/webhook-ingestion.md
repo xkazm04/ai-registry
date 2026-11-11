@@ -10,6 +10,7 @@ techniques:
   - delivery-logging-and-replay
   - duplicate-and-replay-dedup
   - listener-lifecycle
+  - signature-names-the-relay
 ---
 
 # Webhook ingestion
@@ -81,6 +82,15 @@ Two consequences are non-negotiable:
 The [sender-authentication](./techniques/sender-authentication.md) technique
 owns the digest discipline, constant-time comparison, timestamp windows, and
 secret rotation.
+
+**A verified sender is not a verified author.** When the sender is a relay - an
+inbox provider, a code host, a form service - the event was caused by whoever
+can make it emit, and if a delivery starts a run, that stranger starts it. A
+receiver that wakes something decides who may cause a run on the author the
+relay asserts, after the signature and before the wake, and keys the run-budget
+limit on that author: an endpoint bucket after the signature check is spent by
+strangers' signed events. See
+[signature-names-the-relay](./techniques/signature-names-the-relay.md).
 
 ## Bounds before parsing — the endpoint is a standing invitation
 
@@ -251,3 +261,6 @@ alongside the standing liveness doctrine in
   bounded dedup memory.
 - [listener-lifecycle](./techniques/listener-lifecycle.md) — binding, loud
   startup failure, graceful drain, health of the ingress itself.
+- [signature-names-the-relay](./techniques/signature-names-the-relay.md) —
+  a relay's signature proves who delivered, not who caused the event; an author
+  gate before the wake and a per-author run-budget bucket.
