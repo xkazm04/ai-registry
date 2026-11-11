@@ -4,7 +4,7 @@
   "bundle": "media-generation",
   "source": "knowledge/media-generation/ (frontmatter only)",
   "subjects": 53,
-  "techniques": 353,
+  "techniques": 354,
   "applications": 210,
   "laws": 9,
   "categories": [
@@ -16,7 +16,7 @@
    "streaming"
   ],
   "layout": "nested",
-  "use_when_coverage": "353/353",
+  "use_when_coverage": "354/354",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -5018,9 +5018,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/media-generation/production-ops/production-pipeline-phasing/production-pipeline-phasing.md",
-   "digest": "sha256-b2:dec058ddd3d55a4c",
-   "revision": 6,
-   "changedAt": "2026-11-06",
+   "digest": "sha256-b2:995f86f45457f789",
+   "revision": 7,
+   "changedAt": "2026-11-11",
    "techniques": [
     {
      "slug": "approval-reads-forward",
@@ -5097,6 +5097,21 @@
       "sequencing the phases of a production pipeline",
       "deciding when work may graduate to the next phase",
       "merging or retiring a phase without corrupting existing projects"
+     ]
+    },
+    {
+     "slug": "plan-checks-predict-the-expensive-failure",
+     "status": "forged",
+     "laws": [
+      "cost-per-usable-output",
+      "unmeasured-is-not-pass"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "designing the gate between a cheap plan and an expensive render",
+      "a plan gate passes plans whose renders get thrown away",
+      "choosing what a plan-stage score measures",
+      "a proposal to fix a plan gate by raising its threshold or adding judge dimensions"
      ]
     },
     {
@@ -7076,6 +7091,7 @@
     "production-pipeline-phasing/delivery-promise-lock",
     "production-pipeline-phasing/long-run-as-background-job",
     "production-pipeline-phasing/phase-order-and-graduation",
+    "production-pipeline-phasing/plan-checks-predict-the-expensive-failure",
     "production-pipeline-phasing/shared-clock-across-phases",
     "production-pipeline-phasing/worst-news-first-progress",
     "review-iteration-loops/anchored-variation-slate",
@@ -7149,6 +7165,7 @@
     "production-pipeline-phasing/asset-vs-disposable-render",
     "production-pipeline-phasing/delivery-promise-lock",
     "production-pipeline-phasing/phase-order-and-graduation",
+    "production-pipeline-phasing/plan-checks-predict-the-expensive-failure",
     "review-iteration-loops/partial-regeneration-seams",
     "simulated-audience-testing/cheapest-passing-tier-selection",
     "sound-effect-generation/layered-element-assembly",

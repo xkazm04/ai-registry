@@ -1,0 +1,65 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "hb-filler-1111-n",
+  "skill": "harvest",
+  "skill_version": "0.7.0",
+  "mode": "backlog",
+  "domain": "media-generation",
+  "started_at": "2026-11-11T05:55:00Z",
+  "ended_at": "2026-11-11T06:40:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 3,
+    "landed": 1,
+    "declined": 0,
+    "idled": 2,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "media-generation/production-pipeline-phasing",
+      "at": "2026-11-11",
+      "engine": "shift",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    },
+    {
+      "id": "game-production/image-to-3d-input-gating",
+      "at": "2026-11-11",
+      "engine": "shift",
+      "outcome": "idled",
+      "points_before": null,
+      "points_after": null
+    },
+    {
+      "id": "media-generation/video-assembly",
+      "at": "2026-11-11",
+      "engine": "shift",
+      "outcome": "idled",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "media-generation/production-pipeline-phasing",
+      "technique": "plan-checks-predict-the-expensive-failure",
+      "verdict": "better",
+      "mode": "blind-ab"
+    }
+  ],
+  "files": [
+    "knowledge/media-generation/production-ops/production-pipeline-phasing/techniques/plan-checks-predict-the-expensive-failure.md",
+    "knowledge/media-generation/production-ops/production-pipeline-phasing/production-pipeline-phasing.md",
+    "librarian/applied.md",
+    "librarian/subjects/media-generation/production-pipeline-phasing.md",
+    "librarian/sources/2026-08-31-openmontage.md",
+    "librarian/harvest/backlog.jsonl"
+  ],
+  "commits": [],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "Filler, 3 units. 8-045 better (A 12, B 8; back-tested failure-derived dimensions landed alone, bands tied). 9-022 covered (scene partition backdrop). 5-028 covered (typed-input law, unreferenced-channels-resample). 6-060 queued: home retired. 8-031 commit filled."
+}

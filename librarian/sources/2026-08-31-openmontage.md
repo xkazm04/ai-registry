@@ -8,11 +8,11 @@ commit: cd9f3c1f03368be87b140af494914b8ee4e3c7a4
 words: 943274
 landing_page_words: 5357
 extracted: 12
-accepted: 3
+accepted: 4
 declined: 0
 leads: 3
 already_covered: 0
-untriaged: 9
+untriaged: 8
 applied: 3
 shipped: 1
 dispatched: 0
@@ -144,7 +144,7 @@ Recorded with anchors so a later run does not re-derive them. **Unverified; not 
 
 | # | Candidate | Anchor | Nearest prior art |
 |---|---|---|---|
-| 2 | Plan-stage risk scored on dimensions that predict the *expensive* output's failure; verdict bands `strong/acceptable/revise/fail`, `fail` blocks compose | `lib/slideshow_risk.py`, 6 dimensions | `phase-order-and-graduation` (cheap-probe rule) |
+| 2 | Plan-stage risk scored on dimensions that predict the *expensive* output's failure; verdict bands `strong/acceptable/revise/fail`, `fail` blocks compose | `lib/slideshow_risk.py`, 6 dimensions | **Landed 2026-11-11** (backlog 8-045, blind-ab, better): `production-pipeline-phasing/plan-checks-predict-the-expensive-failure`, the dimension-choice clause only (from failure classes, back-tested on history); the verdict bands tied and did not land |
 | 3 | Repetition check counts the longest *run* of identical shot sizes, not equal adjacent pairs - the code carries the corrected comment | `lib/variation_checker.py` | `cinematic-language/scene-grammar-progression` |
 | 5 | Taste profile as numeric dials (`visual_variance`, `motion_intensity`, `information_density`) plus `anti_patterns`, carried proposal to review in the artifact schema | `skills/meta/taste-direction.md`, `tests/contracts/test_taste_governance_contracts.py` | `creator-voice-and-tone` |
 | 6 | Verify time alignment against a *model* of the renderer's frame math rather than by rendering; assert narration cues within tolerance | `lib/verify_scene_pacing.py` | `video-assembly/drift-correction` |
