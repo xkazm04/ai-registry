@@ -4,7 +4,7 @@
   "bundle": "software-engineering",
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 245,
-  "techniques": 2002,
+  "techniques": 2003,
   "applications": 1501,
   "laws": 16,
   "categories": [
@@ -20,7 +20,7 @@
    "secret-custody-and-issuance"
   ],
   "layout": "nested",
-  "use_when_coverage": "2002/2002",
+  "use_when_coverage": "2003/2003",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -13013,9 +13013,9 @@
    "subcategory": "published-surfaces",
    "status": "forged",
    "file": "knowledge/software-engineering/ui-surfaces/published-surfaces/docs-content-model/docs-content-model.md",
-   "digest": "sha256-b2:71cfd0ca7d489484",
-   "revision": 5,
-   "changedAt": "2026-11-09",
+   "digest": "sha256-b2:2a90f386b9d98604",
+   "revision": 6,
+   "changedAt": "2026-11-11",
    "techniques": [
     {
      "slug": "catalog-referential-invariants",
@@ -13102,6 +13102,19 @@
       "a link check runs over the source and every edition ships unchecked",
       "an edition drops the section that defines a term the kept text uses",
       "deciding what a per-span inclusion marker owes the references around it"
+     ]
+    },
+    {
+     "slug": "relationship-fields-stay-empty",
+     "status": "forged",
+     "laws": [
+      "failure-not-empty-success"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "adding a related or see-also field to a record schema",
+      "a read-next panel or graph view built on author-filled metadata",
+      "predicting which optional fields of a record will be filled"
      ]
     }
    ],
@@ -44043,6 +44056,7 @@
     "docs-content-model/catalog-referential-invariants",
     "docs-content-model/per-topic-freshness-metadata",
     "docs-content-model/reference-integrity-is-per-edition",
+    "docs-content-model/relationship-fields-stay-empty",
     "docs-sync/catch-up-markers",
     "docs-sync/checked-vs-skipped-denominators",
     "docs-sync/doc-rot-detection",
