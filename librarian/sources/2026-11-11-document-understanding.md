@@ -111,6 +111,18 @@ layer this reader can open, so they are `unknown`; no real text-bearing PDF was 
 measure false positives). Limit stated in the reader: a substitution that keeps both shares natural
 still reads clean, more likely in short runs and in languages near the floors.
 
+**False-positive pass, same day, after that landing.** 18 distinct text-bearing PDFs were then found on
+the box (about 1,500 pages: a 1,306-page user guide, tax forms, papers and fetched reports). Cleaned
+text byte-identical on all 18; 17 read `clean`. One, a Czech bank's SEPA XML format guide, read
+`corrupt` at 15.8 % of glyphs: a false positive from two causes, a `cs-CZ` marked-content language tag
+before every line (the cleanup strips only `en-US`) and pages of vowel-dropped ISO 20022 element names
+(`<Ccy>`, `CdtTrfTxInf`, `SvcLvl`). Fixed in the statistics only, text untouched: a run that is wholly a
+language tag is not a glyph run, and markup element names, camelCase identifiers and all-caps tokens of
+five letters or fewer are left out of the letter shares (still counted as glyphs). Each font's segment
+now keeps the whitespace between its runs, so a kerned word stays one token. After: 18 of 18 `clean`,
+the guide included, and every fixture unchanged; a seventh test holds that page's shape. Not measured:
+a real broken-map PDF, none on the box.
+
 ## Triage
 
 | # | src | Row | Outcome | Rule | G/R/C |

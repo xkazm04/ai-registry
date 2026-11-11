@@ -177,6 +177,15 @@ test('a substitution that keeps a natural vowel share is named by its letter pro
   assert.equal(r.corruption.share, 1, 'the whole document is condemned, which research-ingest treats as fatal');
 });
 
+test('control: a page of XML element names and /Lang tags is not condemned for its missing vowels', () => {
+  // Shape of a real bank's SEPA format guide (2026-11-11): vowel-dropped ISO 20022 tags, each
+  // line preceded by a marked-content `cs-CZ` run, read 0.02-0.19 vowel share before the filter.
+  const tags = ['DbtrAgt', 'ChrgsAcct', 'Ccy', 'CdtTrfTxInf', 'PmtId', 'SvcLvl', 'CtgyPurp', 'Othr', 'Cd', 'Nm', 'Ustrd', 'Ctry'];
+  const lines = tags.flatMap((tag) => ['(cs-CZ) Tj 0 -14 Td', `(<${tag}>) Tj 0 -14 Td`, `(</${tag}>) Tj 0 -14 Td`]);
+  const r = pdfToText(onePage(`BT /F1 12 Tf 72 700 Td (The payment order carries these elements.) Tj 0 -14 Td ${lines.join(' ')} ET`));
+  assert.notEqual(r.corruption.verdict, 'corrupt', JSON.stringify(r.corruption));
+});
+
 test('text with no letters to judge is unknown, never clean', () => {
   const r = pdfToText(onePage('BT /F1 12 Tf 72 700 Td (2024 2025 2026 1.5 3.25 4,700 16,000 89.7 55.2 21.1) Tj ET'));
   assert.equal(r.corruption.verdict, 'unknown');

@@ -55,17 +55,27 @@ const COMMON = /^[eaionrstEAIONRST]/;
 const COMMON_FLOOR = 0.35;
 // Not glyphs: UTF-16 BOMs inside hex strings and marked-content language tags (same as the cleanup).
 const NOISE = /þÿ|ÿþ|﻿|￾|en-US|敘ⵕ/g;
+const MARKUP = /<\s*\/?\s*[A-Za-z][\w:.-]*\s*\/?\s*>/g;
+const IDENT = /\p{Ll}\p{Lu}/u;
+const ACRONYM = /^\p{Lu}{1,5}$/u;
+const LANG_TAG = /^\s*[a-z]{2,3}(?:-[A-Za-z0-9]{2,8})+\s*$/;
 const BAD = /[\x00-\x08\x0b\x0c\x0e-\x1f\x7f�-]/u;
 const LATIN = /\p{Script=Latin}/u;
 const VOWEL = /^[aeiouAEIOU]/;
 
 /** Letter statistics of one decoded segment, measured before any cleanup. */
 export function judgeSegment(raw) {
-  const glyphs = [...raw.replace(NOISE, '')].filter((c) => !/\s/.test(c));
+  const clean = raw.replace(NOISE, '');
+  const glyphs = [...clean].filter((c) => !/\s/.test(c));
+  // Letter statistics read prose, not identifiers: a markup element name, a camelCase name or a
+  // short all-caps acronym drops its vowels on purpose (`<Ccy>`, `CdtTrfTxInf`, `IBAN`), and a
+  // page of them is not a broken map. They still count as glyphs, and control glyphs as bad.
+  const prose = clean.replace(MARKUP, ' ').split(/\s+/)
+    .filter((w) => !IDENT.test(w) && !ACRONYM.test(w.replace(/[^\p{L}]/gu, ''))).join(' ');
   let bad = 0, latin = 0, vowels = 0, common = 0;
-  for (const c of glyphs) {
-    if (BAD.test(c)) bad++;
-    else if (LATIN.test(c)) {
+  for (const c of glyphs) if (BAD.test(c)) bad++;
+  for (const c of prose) {
+    if (LATIN.test(c)) {
       latin++;
       const base = c.normalize('NFD');
       if (VOWEL.test(base)) vowels++;
@@ -290,6 +300,8 @@ export function pdfToText(raw) {
     let tok;
     let lastNum = null;
     let lineY = null;
+    let lastEnd = 0;
+    let runNo = 0;
     const breakLine = () => { if (text && !/\n$/.test(text)) text += '\n'; };
     TOK.lastIndex = 0;
     while ((tok = TOK.exec(content))) {
@@ -304,10 +316,20 @@ export function pdfToText(raw) {
         if (tok[2] !== undefined || tok[3] !== undefined) breakLine();
         const body = t.slice(1, t.lastIndexOf(t[0] === '(' ? ')' : '>'));
         const run = mapCodes(t[0] === '(' ? litCodes(body, info) : hexCodes(body, info), info);
+        // The segment keeps the whitespace the operators put between this font's runs, so a
+        // kerned word stays one token; a run after another font's run starts a new token.
+        const gap = text.slice(lastEnd);
         text += run;
-        const seg = byFont.get(fontKey) ?? { label: fontLabel, raw: '' };
-        seg.raw += run;
-        byFont.set(fontKey, seg);
+        lastEnd = text.length;
+        runNo++;
+        // A whole run that is a language tag is a marked-content /Lang operand, not a glyph run
+        // (`cs-CZ` repeated on every line drags a Czech page's vowel share under the floor).
+        if (!LANG_TAG.test(run)) {
+          const seg = byFont.get(fontKey) ?? { label: fontLabel, raw: '', lastRun: -1 };
+          seg.raw += (seg.lastRun === runNo - 1 ? gap : ` ${gap}`) + run;
+          seg.lastRun = runNo;
+          byFont.set(fontKey, seg);
+        }
       }
       // a large negative kern is an inter-word gap the operator does not spell
       else if (/^-?[\d.]+$/.test(t)) { lastNum = parseFloat(t); if (lastNum < -120 && !/\s$/.test(text)) text += ' '; }
