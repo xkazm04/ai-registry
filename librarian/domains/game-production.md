@@ -792,6 +792,7 @@ the new subject); failure and evidence (`crash-forensics-attribution`, `engine-i
 `engine-pitfall-corpus`, `runtime-observation-evidence`); gates and pipelines (`perf-regression-gating`,
 `ship-pipeline-gating`, `visual-script-to-code-transpilation`).
 
-**Owed to the operator:** whether to forge `distance-tiered-stand-ins`, from primaries (engine
-documentation), not from the one video. The lead's own return clause (a wired project opens an
-open-terrain or long-sightline scene) is the natural trigger.
+**Operator decision, 2026-11-11: forge `distance-tiered-stand-ins`**, from primaries (engine
+documentation), not from the one video. Placement stays as above. The lead's return clause (a wired
+project opens an open-terrain or long-sightline scene) no longer gates the forge; it remains the
+first place to apply the subject.

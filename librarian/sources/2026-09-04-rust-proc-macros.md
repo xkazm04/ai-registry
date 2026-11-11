@@ -188,6 +188,12 @@ guidance, or a repository whose tree carries an expansion engine — at which
 point the three mechanisms above are its proposed techniques and the spec is
 cheap because the anchors are already here.
 
+**Operator decision, 2026-11-11: yes, compile-time code emission becomes a subject.**
+The E4 escalation is answered, so backlog rows 8-009 and 8-011 are no longer held by it.
+The return condition still governs the evidence: the subject is specified from primaries
+(a macro-system design document, a compiler-plugin API's own guidance, or a repository
+carrying an expansion engine), not from this tutorial alone.
+
 ## Directions
 
 `directions=n/a` — no design record (not a repository class), so Phase 7.6 did

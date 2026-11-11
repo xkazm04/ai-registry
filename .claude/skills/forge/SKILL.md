@@ -3,7 +3,7 @@ name: forge
 description: "Extract a repository's domain knowledge into a four-layer RKB bundle in this registry: scout every context, design subjects with the operator's split doctrine, then forge each subject two-phase (expert draft + web hardening before repo reconciliation) with a bounded agent pool. Use when a new domain repo should populate the knowledge lane."
 category: ai-native
 memory: project
-version: 1.4.0
+version: 1.4.1
 tags: knowledge, rkb, extraction, orchestration, bundles
 ---
 
@@ -153,8 +153,12 @@ registry owner - merging is adopting, and that click is theirs.
     worker per folder, and the merge is director work because only the director reads
     every scout report.
   - **Read the target's technique count and stack list from the SCAN, not the domain
-    note.** A subject already at the house ceiling of nine techniques cannot take three
-    more, and a note one day old can already be wrong about which debts it carries.
+    note.** The count is not a cap: no rule limits techniques per subject, and the
+    corpus holds subjects of twelve and more. Before one subject absorbs several new
+    techniques at once, check the split trigger instead: can each still be written
+    against that subject's golden path and actor model, or would the reader of one
+    half have to skip a section? A note one day old can already be wrong about which
+    debts it carries.
   - **A harvest grows single-stack debt.** Every new subject is born with one stack.
     Report the increase rather than netting it against the one or two the wave retires;
     the pass that pays it down is a transplant pass, not another harvest.
