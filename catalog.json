@@ -300,16 +300,16 @@
     },
     {
       "name": "daybreak",
-      "version": "1.4.1",
+      "version": "1.5.2",
       "category": "workflow",
       "path": "skills/daybreak/SKILL.md",
-      "contentHash": "sha256-n1:028a74fb37980849",
+      "contentHash": "sha256-n1:10af160be847a5dd",
       "adopters": [],
       "invokes30d": 0,
       "reportedInvokes": 0,
-      "lessons": 6,
+      "lessons": 7,
       "lessonsPath": "skills/daybreak/LESSONS.md",
-      "lessonsHash": "sha256-n1:68e95c0a0cd2a924",
+      "lessonsHash": "sha256-n1:ca25caf4eeabb371",
       "usageContributors": [],
       "usageStaleContributors": [],
       "runs30d": 0,
@@ -1254,7 +1254,7 @@
     "skills": 45,
     "practices": 8,
     "memory": 10,
-    "lessons": 394
+    "lessons": 395
   },
   "bundles": [
     {

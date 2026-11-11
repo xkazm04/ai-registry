@@ -10,7 +10,7 @@
  *   node census.mjs gate    --census <census.json> --audit <audit.json> --golden <score.json>
  *   node census.mjs golden-add --golden <file> --sample <sample.json> --audit <audit.json> [--truth <json>]
  *   node census.mjs golden-census --golden <file[,file]> --out <census.json>
- *   node census.mjs golden-score --golden <file[,file]> --census <census.json> --out <score.json>
+ *   node census.mjs golden-score --golden <file[,file]> --census <census.json[,census.json...]> --out <score.json>
  *
  * WHY: nobody knows how large the two-way gap is between the fleet and the registry: parts
  * rebuilt in every project against an existing standard, and parts the registry never heard
@@ -36,7 +36,8 @@ export const RELATIONS = Object.freeze(['consumes', 'reinvents', 'no-standard', 
 // apply, so this is local code. unverified: the judges could not back the claim, so it is neither a gap nor clear.
 export const DERIVED = Object.freeze(['not-governed', 'unverified']);
 // Fixed before the 1.3.0 results were seen. Tighter than the 30% that 1.2.0 passed by one row.
-export const BAR = Object.freeze({ minAudited: 30, overall: 0.2, reinvents: 0.15, consumes: 0.25, minPerRelation: 8, golden: 0.85, goldenInbound: 0.9 });
+// unverified added in 1.5.0, before any 1.5.0 result: 4 of 10 audited in 1.4.1 were clear calls nobody made.
+export const BAR = Object.freeze({ minAudited: 30, overall: 0.2, reinvents: 0.15, consumes: 0.25, unverified: 0.3, minPerRelation: 8, golden: 0.85, goldenInbound: 0.9, goldenRuns: 3 });
 export const REPEAT_THRESHOLD = 3;
 // Closed on purpose. An `other` kind let a helper function and a game screen count as parts
 // the registry lacks: 3 of 7 parts on the first real context (2026-11-09).
@@ -301,6 +302,38 @@ export function applyRepeat(census, verdicts, ruleFound, codeFound) {
   return { ...census, parts, repeat: stats };
 }
 
+/**
+ * Pure: a third judge on each `unverified` part, shown both earlier arguments. Its verdict counts only
+ * when backed like any other, and it never makes an accusation: a compliment with a
+ * rule and a code line, or a clearing that names the failed test. `unsure` and anything unbacked stay put.
+ */
+export function applySettle(census, verdicts, ruleFound, codeFound) {
+  const byId = new Map(verdicts.filter((v) => v && v.id).map((v) => [v.id, v]));
+  const stats = { checked: 0, wouldAccuse: 0, follows: 0, notGoverned: 0, unsure: 0, unbacked: 0, unchecked: 0 };
+  const parts = census.parts.map((p) => {
+    if (p.relation !== 'unverified') return p;
+    const v = byId.get(p.id);
+    if (!v) { stats.unchecked += 1; return p; }
+    stats.checked += 1;
+    const subject = p.subject ?? p.accusedOf ?? null;
+    const why = typeof v.why === 'string' ? v.why.trim() : '';
+    // Never an accusation: on 1.5.0's golden run a third judge siding with the accuser was right 3 of 5.
+    if (v.verdict === 'reinvents') { stats.wouldAccuse += 1; return { ...p, settled: 'would-accuse', settleWhy: why || null }; }
+    if (v.verdict === 'follows' && ruleFound(p, v.rule, 'follow') && codeFound(p, v.evidence)) {
+      stats.follows += 1;
+      return { ...p, relation: 'consumes', subject, missed: [], settled: 'follows', rule: String(v.rule), evidence: String(v.evidence) };
+    }
+    if (v.verdict === 'not-governed' && /^(scope|responsibility|consequence)\s*:/i.test(why) && why.length >= 20) {
+      stats.notGoverned += 1;
+      return { ...p, relation: 'not-governed', subject: null, missed: [], settled: 'not-governed', settleWhy: why };
+    }
+    if (v.verdict === 'unsure') { stats.unsure += 1; return { ...p, settled: 'unsure', settleWhy: why || null }; }
+    stats.unbacked += 1;
+    return { ...p, settled: 'unbacked' };
+  });
+  return { ...census, parts, settle: stats };
+}
+
 /** Reads the batches of one pass. A pass that never ran returns nothing. */
 export function loadVerdicts(dir) {
   const verdicts = [], targets = {};
@@ -376,6 +409,16 @@ export function goldenScore(census, rows) {
   return out;
 }
 
+/** Pure: pool several fresh runs' golden scores row by row, so the bar reads a mean rather than one run's luck. */
+export function poolScores(scores) {
+  const sum = (k) => scores.reduce((n, s) => n + s[k], 0);
+  const out = { runs: scores.length, rows: sum('rows'), correct: sum('correct'), abstained: sum('abstained'), inbound: sum('inbound'), inboundCorrect: sum('inboundCorrect') };
+  out.accuracy = out.rows ? out.correct / out.rows : 0;
+  out.inboundPrecision = out.inbound ? out.inboundCorrect / out.inbound : null;
+  out.perRun = scores.map((s) => ({ accuracy: s.accuracy, inbound: s.inbound, inboundCorrect: s.inboundCorrect }));
+  return out;
+}
+
 /** Pure: does this census clear the bar? Every failure is named. */
 export function evaluateGate(census, audit, golden, bar = BAR) {
   const rel = new Map(census.parts.map((p) => [p.id, p.relation]));
@@ -397,8 +440,11 @@ export function evaluateGate(census, audit, golden, bar = BAR) {
     if (row.audited < bar.minPerRelation) failures.push(`${r} audited ${row.audited}, need ${bar.minPerRelation}`);
     if (rate(row) > bar[r]) failures.push(`${r} ${row.wrong}/${row.audited} wrong, limit ${bar[r] * 100}%`);
   }
+  // A census may have few unsettled parts, so this limit applies to whatever was audited.
+  if (bar.unverified != null && by.unverified && rate(by.unverified) > bar.unverified) failures.push(`unverified ${by.unverified.wrong}/${by.unverified.audited} wrong, limit ${bar.unverified * 100}%`);
   if (!golden) failures.push('no golden score');
   else {
+    if (bar.goldenRuns && (golden.runs ?? 1) < bar.goldenRuns) failures.push(`golden from ${golden.runs ?? 1} run(s), need ${bar.goldenRuns} fresh runs pooled`);
     if (golden.accuracy < bar.golden) failures.push(`golden accuracy ${(golden.accuracy * 100).toFixed(1)}%, need ${bar.golden * 100}%`);
     if (golden.inboundPrecision === null) failures.push('golden produced no inbound verdict');
     else if (golden.inboundPrecision < bar.goldenInbound) failures.push(`golden inbound precision ${(golden.inboundPrecision * 100).toFixed(1)}%, need ${bar.goldenInbound * 100}%`);
@@ -507,6 +553,9 @@ export function renderReport(census, audit) {
   const rep = census.repeat
     ? `Upheld accusations judged a second time: ${census.repeat.checked}. Agreed: ${census.repeat.agreed}. Contested, moved to unverified: ${census.repeat.contested}. Not checked: ${census.repeat.unchecked}.`
     : '**Upheld accusations were not judged a second time.**';
+  const set = census.settle
+    ? `Unsettled parts given to a third judge: ${census.settle.checked}. Third judge would accuse, left unverified: ${census.settle.wouldAccuse}. As following the standard: ${census.settle.follows}. As not governed: ${census.settle.notGoverned}. Judge unsure: ${census.settle.unsure}. Verdict could not be backed: ${census.settle.unbacked}. Not checked: ${census.settle.unchecked}.`
+    : '**Unverified parts were not given a third judge.**';
   const list = clusters(census.parts);
   const repeat = list.filter((c) => c.sharedCandidate)
     .map((c) => `| ${c.kind} | ${c.stack} | ${c.projects.length} | ${c.count} | ${Object.entries(c.capabilities).sort((x, y) => y[1] - x[1]).slice(0, 6).map(([k, n]) => `${k} (${n})`).join(', ')} |`)
@@ -523,6 +572,8 @@ export function renderReport(census, audit) {
     conf,
     '',
     rep,
+    '',
+    set,
     '',
     'Counts are what the census saw, not the size of the true gap.',
     '',
@@ -619,8 +670,10 @@ function main() {
     if (!arg('--golden') || !arg('--out')) fail('usage: golden-census --golden <file[,file]> --out <file>');
     fs.writeFileSync(arg('--out'), JSON.stringify(goldenCensus(arg('--golden').split(',').flatMap(readJson)), null, 1) + '\n');
   } else if (cmd === 'golden-score') {
-    if (!arg('--golden') || !arg('--census') || !arg('--out')) fail('usage: golden-score --golden <file[,file]> --census <file> --out <file>');
-    const score = goldenScore(readJson(arg('--census')), arg('--golden').split(',').flatMap(readJson));
+    if (!arg('--golden') || !arg('--census') || !arg('--out')) fail('usage: golden-score --golden <file[,file]> --census <file[,file]> --out <file>');
+    const rows = arg('--golden').split(',').flatMap(readJson);
+    const runs = arg('--census').split(',').map((f) => ({ ...goldenScore(readJson(f), rows), runs: 1 }));
+    const score = runs.length === 1 ? runs[0] : poolScores(runs);
     fs.writeFileSync(arg('--out'), JSON.stringify(score, null, 1) + '\n');
     console.log(JSON.stringify(score, null, 1));
   } else fail('usage: census.mjs collect|apply-adjudication|apply-rejudge|sample|report|gate|golden-add|golden-census|golden-score');

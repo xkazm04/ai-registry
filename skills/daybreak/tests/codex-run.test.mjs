@@ -1,4 +1,4 @@
-import test from 'node:test';
+import test, { after } from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import os from 'node:os';
@@ -9,7 +9,11 @@ import { fileURLToPath } from 'node:url';
 const here = path.dirname(fileURLToPath(import.meta.url));
 const script = path.join(here, '..', 'scripts', 'codex-run.mjs');
 
-const tmp = (p) => fs.mkdtempSync(path.join(os.tmpdir(), `dbk-${p}-`));
+
+// Every temp dir a test makes is removed when the file's tests end.
+const made = [];
+after(() => { for (const d of made) fs.rmSync(d, { recursive: true, force: true }); });
+const tmp = (p) => { const d = fs.mkdtempSync(path.join(os.tmpdir(), `dbk-${p}-`)); made.push(d); return d; };
 
 // A stub codex: behaviour chosen by STUB_MODE. Records its argv for the argument test.
 function makeStub(dir) {
