@@ -1,4 +1,4 @@
-import test from 'node:test';
+import test, { after } from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import os from 'node:os';
@@ -34,6 +34,7 @@ test('frozen projects are skipped', () => {
 
 test('inspect measures coverage and never reports a project as synced', () => {
   const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'dbk-pick-'));
+  after(() => fs.rmSync(dir, { recursive: true, force: true }));
   const proj = { slug: 'x', relPath: 'x', exists: true, path: dir };
   const now = Date.now();
   const bare = inspect(proj, { now });

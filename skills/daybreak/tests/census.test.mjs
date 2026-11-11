@@ -1,13 +1,17 @@
 // The census is an unproven judge's output, so these pin what it refuses to believe:
 // a quote that is not in the cited file, a path out of its root, and an unaudited count.
-import test from 'node:test';
+import test, { after } from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
-import { makeRuleFound, quotedInFile, lastJsonBlock, anchor, collect, gaps, clusters, sample, auditRate, renderReport, wasReturned, commandOutputs, coverageOf, applyAdjudication, applyRejudge, applyConfirm, applyRepeat, dedupe, isSharedPart, sampleByRelation, goldenRow, goldenCensus, goldenScore, evaluateGate, BAR, normalizeRule, builtOnSummary } from '../scripts/census.mjs';
+import { makeRuleFound, quotedInFile, lastJsonBlock, anchor, collect, gaps, clusters, sample, auditRate, renderReport, wasReturned, commandOutputs, coverageOf, applyAdjudication, applyRejudge, applyConfirm, applyRepeat, applySettle, dedupe, isSharedPart, sampleByRelation, goldenRow, goldenCensus, goldenScore, poolScores, evaluateGate, BAR, normalizeRule, builtOnSummary } from '../scripts/census.mjs';
 
-const tmp = () => fs.mkdtempSync(path.join(os.tmpdir(), 'dbk-census-'));
+
+// Every temp dir a test makes is removed when the file's tests end.
+const made = [];
+after(() => { for (const d of made) fs.rmSync(d, { recursive: true, force: true }); });
+const tmp = () => { const d = fs.mkdtempSync(path.join(os.tmpdir(), 'dbk-census-')); made.push(d); return d; };
 const part = (project, relation, o = {}) => ({ id: `${project}:c:${relation}`, project, relation, kind: 'table', stack: 'react', capabilities: [], ...o });
 
 test('lastJsonBlock takes the final block and survives bad JSON', () => {
@@ -17,7 +21,8 @@ test('lastJsonBlock takes the final block and survives bad JSON', () => {
 });
 
 test('anchor: exact, moved, missing, and a path escaping its root', () => {
-  const root = tmp();
+  const root = path.join(tmp(), 'root'); // nested, so the escaping file below stays inside the temp dir
+  fs.mkdirSync(root);
   fs.writeFileSync(path.join(root, 'a.tsx'), 'one\ntwo\nthree\nfour\nfive\nsix\nseven\neight\nexport function Table\n');
   assert.equal(anchor(root, 'a.tsx', 9, 'export function Table'), 'exact');
   assert.equal(anchor(root, 'a.tsx', 1, 'export function Table'), 'moved');
@@ -258,6 +263,35 @@ test('a borderline golden row needs its acceptable answers, and one without them
   assert.deepEqual([s.rows, s.borderline, s.correct, s.accuracy], [1, 1, 1, 1]);
 });
 
+test('a settling judge counts only when backed, never accuses, and unsure stays unsettled', () => {
+  const ids = ['acc', 'accNoTrace', 'fol', 'folNoLine', 'ng', 'ngVague', 'unsure', 'none'];
+  const parts = ids.map((id) => part('p', 'unverified', { id, subject: null, accusedOf: 'retry-backoff' }));
+  const out = applySettle({ parts }, [
+    { id: 'acc', verdict: 'reinvents', rule: 'R', trigger: 'T', harm: 'a caller gets a silent zero', guards: 'a failure read as zero' },
+    { id: 'accNoTrace', verdict: 'reinvents', rule: 'R' },
+    { id: 'fol', verdict: 'follows', rule: 'R', evidence: 'E' },
+    { id: 'folNoLine', verdict: 'follows', rule: 'R', evidence: 'nope' },
+    { id: 'ng', verdict: 'not-governed', why: 'scope: a CLI that prints and exits' },
+    { id: 'ngVague', verdict: 'not-governed', why: 'does not apply' },
+    { id: 'unsure', verdict: 'unsure', why: 'depends on how many repos an org has' },
+  ], (p, r) => r === 'R', (p, q) => q === 'T' || q === 'E');
+  assert.deepEqual(out.settle, { checked: 7, wouldAccuse: 2, follows: 1, notGoverned: 1, unsure: 1, unbacked: 2, unchecked: 1 });
+  const by = Object.fromEntries(out.parts.map((p) => [p.id, p]));
+  assert.equal(by.acc.relation, 'unverified', 'a third judge never makes an accusation');
+  assert.equal(by.acc.settled, 'would-accuse');
+  assert.equal(by.fol.relation, 'consumes');
+  assert.equal(by.ng.relation, 'not-governed');
+  for (const id of ['accNoTrace', 'folNoLine', 'ngVague', 'unsure', 'none']) assert.equal(by[id].relation, 'unverified', id);
+});
+
+test('the gate holds the unverified pile to its own limit', () => {
+  const audit = {};
+  const parts = [];
+  for (const r of ['reinvents', 'consumes', 'unverified']) for (let i = 0; i < 10; i++) { audit[`${r}${i}`] = r === 'unverified' && i < 4 ? 'disagree' : 'agree'; parts.push(part('p', r, { id: `${r}${i}` })); }
+  const g = evaluateGate({ parts }, audit, { runs: 3, accuracy: 0.9, inboundPrecision: 1 });
+  assert.deepEqual(g.failures, ['unverified 4/10 wrong, limit 30%']);
+});
+
 test('golden score: an abstention is not correct, and no-standard equals not-governed', () => {
   const rows = [{ id: 'a', accept: ['reinvents'] }, { id: 'b', accept: ['no-standard'] }, { id: 'c', accept: ['reinvents'] }, { id: 'd', accept: ['consumes'] }];
   const census = { parts: [part('p', 'reinvents', { id: 'a' }), part('p', 'not-governed', { id: 'b' }), part('p', 'unverified', { id: 'c' }), part('p', 'reinvents', { id: 'd' })] };
@@ -269,7 +303,7 @@ test('golden score: an abstention is not correct, and no-standard equals not-gov
 test('the gate names each failure and passes only a full, accurate audit', () => {
   const mk = (rel, n, bad) => Object.fromEntries([...Array(n).keys()].map((i) => [`${rel}${i}`, i < bad ? 'disagree' : 'agree']));
   const census = (a) => ({ parts: Object.keys(a).map((id) => part('p', id.replace(/\d+$/, ''), { id })) });
-  const golden = { accuracy: 0.9, inboundPrecision: 1 };
+  const golden = { runs: 3, accuracy: 0.9, inboundPrecision: 1 };
   const good = { ...mk('reinvents', 10, 1), ...mk('consumes', 10, 2), ...mk('no-standard', 10, 2) };
   assert.equal(evaluateGate(census(good), good, golden).pass, true);
   const small = { ...mk('reinvents', 8, 0), ...mk('consumes', 8, 0) };
@@ -277,7 +311,7 @@ test('the gate names each failure and passes only a full, accurate audit', () =>
   const bad = { ...good, ...mk('reinvents', 10, 2) };
   assert.match(evaluateGate(census(bad), bad, golden).failures.join(), /reinvents 2\/10/);
   assert.match(evaluateGate(census(good), good, null).failures.join(), /no golden/);
-  assert.match(evaluateGate(census(good), good, { accuracy: 0.5, inboundPrecision: 1 }).failures.join(), /golden accuracy/);
+  assert.match(evaluateGate(census(good), good, { runs: 3, accuracy: 0.5, inboundPrecision: 1 }).failures.join(), /golden accuracy/);
   assert.equal(BAR.minAudited, 30);
 });
 
@@ -329,4 +363,17 @@ test('audit rate, and a report that says when it is unaudited', () => {
   assert.match(audited, /2 parts, 1 wrong \(50\.0%\)/);
   assert.doesNotMatch(audited, /Not audited/);
   assert.match(audited, /a\/x/);
+});
+
+test('poolScores reads three runs row by row, and the gate wants three', () => {
+  const s = (correct, inbound, inboundCorrect) => ({ rows: 100, correct, abstained: 0, inbound, inboundCorrect, accuracy: correct / 100 });
+  const p = poolScores([s(83, 24, 20), s(86, 25, 23), s(83, 25, 22)]);
+  assert.equal(p.runs, 3);
+  assert.equal(p.correct, 252);
+  assert.equal(p.accuracy, 252 / 300);
+  assert.equal(p.inboundPrecision, 65 / 74);
+  const one = { ...s(90, 10, 10), inboundPrecision: 1 };
+  const parts = [];
+  assert.match(evaluateGate({ parts }, {}, one).failures.join(), /from 1 run.s., need 3/);
+  assert.doesNotMatch(evaluateGate({ parts }, {}, { ...one, runs: 3 }).failures.join(), /fresh runs/);
 });

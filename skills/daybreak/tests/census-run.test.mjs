@@ -1,7 +1,19 @@
 // The first pilot finished clean over 18% of the source, so scope is what these pin.
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { inScope, partition, subjectsFor, standardFiles, candidatesFor, accusationTargets, effortOf } from '../scripts/census-run.mjs';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
+const here = path.dirname(fileURLToPath(import.meta.url));
+import { inScope, partition, subjectsFor, standardFiles, candidatesFor, accusationTargets, effortOf, earlierArguments, missingRoots } from '../scripts/census-run.mjs';
+
+test('a settling judge reads both earlier arguments', () => {
+  const t = earlierArguments({ repeated: 'contested', contestedBy: 'not-governed', rejudgeWhy: 'scope: a CLI', missed: ['Classify once.'], guards: 'a 503 is terminal', harm: 'a developer loses a sync' });
+  assert.match(t, /contested by a second judge/);
+  assert.match(t, /Rule first alleged: Classify once\./);
+  assert.match(t, /First judge, accusing: a 503 is terminal Harm: a developer loses a sync/);
+  assert.match(t, /Second judge \(not-governed\): scope: a CLI/);
+  assert.match(earlierArguments({ confirmed: 'unbacked', surveyMissed: [] }), /could not be found/);
+});
 
 test('effort defaults to medium, high gets a longer timeout, and a typo is refused', () => {
   assert.deepEqual(effortOf(null), { level: 'medium', timeoutMin: 30 });
@@ -64,4 +76,10 @@ test('subjectsFor matches by file or directory, keeps the best score, and caps',
   assert.equal(got[0].score, 9);
   assert.equal(subjectsFor({ files: ['src/a/x.ts'] }, contexts, 1).length, 1);
   assert.deepEqual(subjectsFor({ files: ['q/z.ts'] }, contexts), []);
+});
+
+test('missingRoots names a project whose code root vanished', () => {
+  const parts = [{ project: 'a', file: path.basename(here) + '/census-run.test.mjs' }, { project: 'b', file: 'nowhere/x.ts' }, { project: 'c' }];
+  const roots = { a: path.dirname(here), b: path.join(here, 'gone'), c: here };
+  assert.deepEqual(missingRoots(roots, parts), ['b']);
 });

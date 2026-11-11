@@ -1,11 +1,15 @@
-import test from 'node:test';
+import test, { after } from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
 import { appendRun, safeJoin, lastSweeps } from '../scripts/vault-ledger.mjs';
 
-const vault = () => fs.mkdtempSync(path.join(os.tmpdir(), 'dbk-vault-'));
+
+// Every temp dir a test makes is removed when the file's tests end.
+const made = [];
+after(() => { for (const d of made) fs.rmSync(d, { recursive: true, force: true }); });
+const vault = () => { const d = fs.mkdtempSync(path.join(os.tmpdir(), 'dbk-vault-')); made.push(d); return d; };
 const clock = (iso) => () => new Date(iso);
 
 test('same-day second append gets suffix -2 and never overwrites', () => {
