@@ -3,7 +3,7 @@ name: tiger
 description: "Hunt a codebase's most valuable feature area and evolve it with a cross-vendor council. Use when you want the product's strongest part made markedly more valuable - not swept for defects - and a person to choose what gets built. tiger ranks feature areas by value evidence (context-map groups and the use cases they serve, git heat, product docs, the bp product tree), writes a territory dossier for the chosen one, and convenes the strongest available CLI seats from different labs (Gemini via agy, GPT via codex, Claude Opus - any seat that fails its probe is skipped). Round 1 each seat proposes 3-6 anchored evolutionary moves (deepen, extend, connect, leap) blind to the others; round 2 each seat rates the anonymous pool and crossbreeds stronger fusions. The caller judges blind, verifies premises in the code, clusters cross-seat agreement, composes one coherent scope with a thesis, presents it as a multi-select approval, builds only what was chosen with a verify check per item, and keeps a per-seat ledger of what was kept, approved and landed. Invoke with /tiger [<area>] [--seats engine:model@effort,...] [--rounds 1|2], /tiger hunt, /tiger resume <run>, /tiger status."
 category: workflow
 memory: vault
-version: 3.4.0
+version: 3.5.0
 tags: value, feature-area, multi-model, council, brainstorm, evolution, scope, approval
 argument-hint: "[<area> | hunt | resume <run-id> | status] [--seats engine:model@effort,...] [--rounds 1|2] [--ceiling-min 40]"
 ---
@@ -229,6 +229,11 @@ not make.
     baseline gate.
   - **Never** create anything inside a dependency directory that is itself a link into the
     main checkout.
+  - **Never run the package manager's install through those links.** It writes through them
+    and changes the main checkout. Measured on overlord: a builder's `pnpm install` re-pointed
+    15 of main's top-level links into its own worktree, so main's code resolved packages from a
+    directory about to be deleted, with every gate still green. A builder that is missing a
+    dependency stops and tells the caller.
 - **Gate the branch after every merge, even a clean one.** Git merges text, not meaning.
   Two clean merges on mage-arena-tv broke the build:
   - two parallel items each added an `ArenaGame.practice` field with a different shape;
@@ -254,6 +259,11 @@ not make.
   processes whose command line or working directory is inside it. A background census a
   builder had started outlived it and held its worktree directory open (`Device or resource
   busy`).
+- **Remove dependency links without following them, before removing the worktree.** On Windows
+  delete each reparse point non-recursively (PowerShell `[IO.Directory]::Delete(path, $false)`).
+  A recursive delete must never get the chance to follow one into main, and Git Bash
+  `cmd //c rmdir` failed silently on them. After cleanup, check that main's
+  links still resolve inside main with `realpathSync`.
 
 ## Phase 8 - record
 

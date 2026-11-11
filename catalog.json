@@ -1005,10 +1005,10 @@
     },
     {
       "name": "tiger",
-      "version": "3.4.0",
+      "version": "3.5.0",
       "category": "workflow",
       "path": "skills/tiger/SKILL.md",
-      "contentHash": "sha256-n1:9d89aedaa31a6282",
+      "contentHash": "sha256-n1:bc68dcc95e92f011",
       "adopters": [
         "ascent@plugin:2.1.0",
         "kp@plugin:2.1.0",
@@ -1017,9 +1017,9 @@
       ],
       "invokes30d": 0,
       "reportedInvokes": 0,
-      "lessons": 13,
+      "lessons": 14,
       "lessonsPath": "skills/tiger/LESSONS.md",
-      "lessonsHash": "sha256-n1:22daa0d721cf5de5",
+      "lessonsHash": "sha256-n1:eff6a68dd1f15720",
       "usageContributors": [],
       "usageStaleContributors": [],
       "runs30d": 6,
@@ -1254,7 +1254,7 @@
     "skills": 45,
     "practices": 8,
     "memory": 10,
-    "lessons": 396
+    "lessons": 397
   },
   "bundles": [
     {
