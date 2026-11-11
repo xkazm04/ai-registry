@@ -651,3 +651,20 @@ test('prune drops landed list lines, keeps the rest and any note with a URL belo
   assert.deepEqual(pruneList('# keep me\nhttps://github.com/new/one\n', rows).removed, []);
   assert.equal(pruneList('https://www.youtube.com/watch?v=aaaaaaaaaaa\r\n', rows).text, '');
 });
+
+test('prune also drops landed article lines by URL and parked lines the operator decided, never other parked lines', () => {
+  const rows = [
+    { id: 'web-x', kind: 'article', url: 'https://example.com/post/', status: 'landed' },
+    { id: 'web-y', kind: 'article', url: 'https://example.com/other', status: 'approved' },
+    { id: 'ddddddddddd', url: 'https://www.youtube.com/watch?v=ddddddddddd', status: 'parked', reason: 'operator-struck-cluster' },
+    { id: 'eeeeeeeeeee', status: 'parked', reason: 'already-mined' },
+    { id: 'fffffffffff', status: 'parked', reason: 'no captions' },
+  ];
+  const list = [
+    'https://example.com/post', 'https://example.com/other',
+    'https://www.youtube.com/watch?v=ddddddddddd', 'https://youtu.be/eeeeeeeeeee', 'https://www.youtube.com/watch?v=fffffffffff', '',
+  ].join('\n');
+  const { text, removed } = pruneList(list, rows);
+  assert.equal(removed.length, 3);
+  assert.equal(text, 'https://example.com/other\nhttps://www.youtube.com/watch?v=fffffffffff\n');
+});

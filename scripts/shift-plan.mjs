@@ -99,11 +99,17 @@ export function classifyUrl(raw) {
  */
 export function pruneList(text, rows) {
   const eol = String(text).includes('\r\n') ? '\r\n' : '\n';
-  const landed = rows.filter((r) => r.status === 'landed');
-  const ids = new Set(landed.map((r) => String(r.id).toLowerCase()));
-  const notes = landed.map((r) => String(r.note ?? '').toLowerCase());
+  // Done means landed, or parked on a decision that will not be revisited: the operator struck its
+  // cluster, or the source was already mined. Any other parked row stays on the list.
+  const decided = new Set(['operator-struck-cluster', 'already-mined']);
+  const done = rows.filter((r) => r.status === 'landed' || (r.status === 'parked' && decided.has(r.reason)));
+  const ids = new Set(done.map((r) => String(r.id).toLowerCase()));
+  const notes = done.filter((r) => r.status === 'landed').map((r) => String(r.note ?? '').toLowerCase());
+  const urlKey = (u) => String(u ?? '').trim().replace(/[).,;]+$/, '').replace(/\/+$/, '').toLowerCase();
+  const urls = new Set(done.map((r) => urlKey(r.url)).filter(Boolean));
   const urlOf = (line) => /(https?:\/\/\S+)/.exec(line)?.[1] ?? null;
   const isLanded = (url) => {
+    if (urls.has(urlKey(url))) return true;
     const gh = /github\.com\/([^/\s#?]+)\/([^/\s#?]+)/i.exec(url);
     if (gh) {
       const name = gh[2].replace(/\.git$/i, '');
