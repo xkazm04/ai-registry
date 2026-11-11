@@ -32,6 +32,7 @@ techniques:
   - a-test-helper-is-a-fork-of-the-driver
   - proved-off-the-path
   - viable-rate-belongs-to-the-target
+  - capture-contract
 ---
 
 # Test harness architecture
@@ -132,6 +133,15 @@ planted on the far side of the boundary, deployed by the lane itself, reporting
 substrate facts rather than the product's own vocabulary; that is a rung above
 live-app rather than a variant of it, and
 [far-side-oracle](./techniques/far-side-oracle.md) owns it.
+
+The live-app lane has a narrower variant where the product is seen only as
+pictures: a pixel diff, a gallery, a vision-model critic scoring captured frames.
+There the capture is the product as far as the verdict knows, so the product owes
+the capture a declared contract - a readiness signal it sets per view, a declared
+list of views that must all be captured, no wall clock, randomness, input or live
+data in capture mode, and zero console errors - and a breach fails the build
+instead of being recorded beside a passing run
+([capture-contract](./techniques/capture-contract.md)).
 
 That law — put the oracle where the effect lands — has a cheap half the ladder
 hides. When what the product emits is **input for another program** rather than
@@ -391,6 +401,10 @@ a soak run misunderstands both; the design of these lanes is
   together: define viable (including can-fail) before any run, measure each
   target lane separately, decide against a locally derived threshold set first,
   and import neither the pilot's figure nor its explanation.
+- [capture-contract](./techniques/capture-contract.md) — when a gate or critic
+  sees the product only through captures: a readiness signal the product sets,
+  declared views all captured, no clock, randomness or live data in capture mode,
+  zero console errors, and a breach fails the build.
 - [assert-through-the-reader](./techniques/assert-through-the-reader.md) — an
   artifact emitted for a foreign interpreter is asserted by running that
   interpreter: asking the tool where it will read, executing the emitted block

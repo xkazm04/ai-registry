@@ -1,8 +1,8 @@
 ---
 subject: retry-backoff
 domain: software-engineering
-last_touched: 2026-09-03
-touched_by: intake
+last_touched: 2026-11-11
+touched_by: harvest
 dry_streak: 0
 ---
 
@@ -98,3 +98,25 @@ Four amendments from a multi-provider gateway (a vendor repository with no rules
 ## 2026-09-03 - `/intake` kube-rs (run `intake-kube-0903`, intake 2.3.1, Opus workers)
 
 `backoff-design` gains "Sizing the window: it is a period, not a constant" and one `use_when` entry. The reset-after-sustained-health rule already existed (line 82), so the source was a catch there; the landed half is the un-stated one: the stability window is sized against the failure's period, armed by health not by elapsed time, un-jittered, and a ladder wrapped around a stream ends the stream on exhaustion.
+
+## 2026-11-11 - /harvest backlog 8-024 ([[2026-08-31-tkdodo-pacer]], /shift filler)
+
+New technique `wrapper-option-names-its-half`, better, blind-ab, plus a paragraph in the
+golden path's scheduling section: a retryer, breaker, poller or limiter is a wrapped call
+plus a wrapping behaviour, and an `enabled` or `throwOnError` option must name which half
+it switches off; "off" is reported as its own state, not as healthy. Home hint was empty;
+`scheduling` was the nearest owner by reading, but it was retired for three waves by the
+previous wave's all-not-better result there, so the technique lives here, where the
+wrappers are.
+
+Probe from a fleet desktop app's real shared polling hook (`enabled: false` registers
+nothing, so the wrapped fetch never runs, while the option's doc says "whether polling is
+active") and a dashboard caller passing its auto-refresh toggle as `enabled`. Arm A nearest
+technique plus draft, arm B nearest technique alone, 3 runs each, no tools, target and
+floor written first, one blind judge per probe with a planted reference and bad answer.
+Target (A minus B on "off stops the wrapped call, not only the repetition" plus "options
+that name their half", of 12) >= 3: A 12, B 6, met by 6. Floor (a dialog focus-trap hook's
+`enabled`, which has no separate wrapped call, must be left alone): A 5 of 6, B 0 of 6
+(arm B argued for a rename in every run). Controls held. Not applied: the fleet hook is the
+probe's seam and was not changed (build width 0). Return: the first fleet wrapper whose
+`enabled` is split, or a caller found depending on the fetch-when-off reading.

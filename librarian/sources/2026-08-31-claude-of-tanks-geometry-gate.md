@@ -10,7 +10,7 @@ accepted: 5
 declined: 0
 leads: 5
 already_covered: 1
-untriaged: 3
+untriaged: 2
 dispatched: 0
 applied: 1
 shipped: 0
@@ -176,16 +176,17 @@ Recorded so a later run does not re-derive them. No judgment attached.
   findings by *where the code runs* — a minor inefficiency inside a 60 Hz frame callback
   outranks a major one in a settings panel — and keeps a hand-checked list of what the
   scanner structurally cannot see. Anchor: `.agents/skills/improve-threejs/SKILL.md`.
-- **A screenshot contract as a runtime obligation.** The critic pipeline sees the product
-  only through one capture tool, so the product must uphold a declared contract — a
-  readiness global, a deterministic view enumeration, no dependence on wall-clock or input,
-  zero console errors — or the build is defined as broken. Anchor:
-  `docs/SCREENSHOT_CONTRACT.md`.
 - **Claims about a measurable class must cite numbers with the instrument's noise band, and
   a delta below the printed band is NO-FINDING.** Angle σ ≈ 24/len_px°, sub-0.25 m segments
   carry a ±4° corner-bias floor, radii honest to ~3%, facet count ±1; eyeball reads of these
   classes stopped counting as evidence. Neighbours `measurement-honesty/noise-band-and-hysteresis`
   and `motion-quality-gating` may already own part of this. Anchor: `docs/BUILD-STANDARD.md` §D.
+
+The screenshot-contract row (a readiness global, a deterministic view enumeration, no
+wall-clock or input dependence, zero console errors, or the build is broken; anchor
+`docs/SCREENSHOT_CONTRACT.md`) left this list on 2026-11-11 (backlog 8-025, blind-ab,
+better) and landed as test-harness/capture-contract. The margin was the console-error
+clause alone; the other clauses tied. The anchor was not re-read.
 
 ## Notes on the class
 

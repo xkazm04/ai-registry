@@ -1,7 +1,7 @@
 ---
 subject: test-harness
 domain: software-engineering
-last_touched: 2026-11-10
+last_touched: 2026-11-11
 dry_streak: 0
 ---
 
@@ -344,3 +344,24 @@ Training-data-first probes over ten claims round 1 did not touch; web only where
 ### Round 3 (final probe round, same run)
 
 **Not dry.** `platform-quirk-absorption`: "pure double-precision arithmetic gives the same digits on every machine" holds only inside the exactly rounded operations in a fixed order; a platform math library's transcendentals are not correctly rounded and an optimized linear-algebra library picks kernel per processor and summation order per thread count (library manuals opened). `verification-inherits-driver-reach`: an exhaustive checker's bound includes its own preemption cap and the orderings its model covers (checker docs). `far-side-oracle`: the skip-on-absence is right everywhere except the lane scheduled on the hardware, which declares the requirement mandatory with a floor (corpus-internal contradiction with `failure-not-empty-success`). Applied: two `unapplied` rows (no fleet lane on either seam; the rust platform-quirk application's `not-better` premise should be re-read for math-library and linear-algebra calls when its tree is reachable). Declined: "an accelerator driver" enabling reduced precision is a framework setting, rule unchanged. dry_streak stays 0 (three non-dry rounds). Loop ended at its cap of 3, not at saturation.
+
+## 2026-11-11 - /harvest backlog 8-025 ([[2026-08-31-claude-of-tanks-geometry-gate]], /shift filler)
+
+New technique `capture-contract`, better, blind-ab, plus a paragraph after the live-app
+rung and an index bullet: when a gate or critic sees the product only through captures,
+the product owes the capture a declared contract (a readiness signal it sets per view,
+declared views all captured, no clock, randomness, input or live data in capture mode,
+zero console errors), and a breach fails the build.
+
+Probe from a fleet game-tooling app's real generated visual gate (click a module, wait
+800 ms, screenshot, pixel diff against a baseline, console errors recorded but only error
+boundaries, blank screens and page errors fail). Arm A nearest technique plus draft, arm B
+nearest technique alone, 3 runs each, no tools, target and floor written first, one blind
+judge per probe with a planted reference and bad answer. Target (A minus B over readiness,
+determinism, console errors and full view coverage, of 18) >= 3: A 18, B 15, met exactly,
+and the whole margin is the console-error clause (A 3, B 0): both arms already replace the
+fixed wait with a product-set signal, demand a deterministic capture mode and fail the
+unreachable view. Floor (an alert snapshot of a live status page must not be frozen):
+6 of 6 in both arms. Controls held. Weakest point: the margin sits on one clause and equals
+the target. Not applied: the fleet gate was not changed (build width 0). Return: that gate
+making console errors fatal, or a second visual gate in the fleet.

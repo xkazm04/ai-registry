@@ -1,0 +1,81 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "hb-filler-1111-e",
+  "skill": "harvest",
+  "skill_version": "0.7.0",
+  "mode": "backlog",
+  "domain": "software-engineering",
+  "started_at": "2026-11-11T03:50:00Z",
+  "ended_at": "2026-11-11T05:00:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 3,
+    "landed": 2,
+    "declined": 0,
+    "idled": 1,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "software-engineering/quality-gates",
+      "at": "2026-11-11",
+      "engine": "shift",
+      "outcome": "idled",
+      "points_before": null,
+      "points_after": null
+    },
+    {
+      "id": "software-engineering/retry-backoff",
+      "at": "2026-11-11",
+      "engine": "shift",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    },
+    {
+      "id": "software-engineering/test-harness",
+      "at": "2026-11-11",
+      "engine": "shift",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "software-engineering/quality-gates",
+      "technique": "prefilter-is-a-one-sided-superset",
+      "verdict": "not-better",
+      "mode": "blind-ab"
+    },
+    {
+      "subject": "software-engineering/retry-backoff",
+      "technique": "wrapper-option-names-its-half",
+      "verdict": "better",
+      "mode": "blind-ab"
+    },
+    {
+      "subject": "software-engineering/test-harness",
+      "technique": "capture-contract",
+      "verdict": "better",
+      "mode": "blind-ab"
+    }
+  ],
+  "files": [
+    "knowledge/software-engineering/backend-platform/resilience/retry-backoff/retry-backoff.md",
+    "knowledge/software-engineering/backend-platform/resilience/retry-backoff/techniques/wrapper-option-names-its-half.md",
+    "knowledge/software-engineering/engineering-process/build-and-release/test-harness/test-harness.md",
+    "knowledge/software-engineering/engineering-process/build-and-release/test-harness/techniques/capture-contract.md",
+    "librarian/sources/2026-08-31-tkdodo-pacer.md",
+    "librarian/sources/2026-08-31-claude-of-tanks-geometry-gate.md",
+    "librarian/subjects/software-engineering/retry-backoff.md",
+    "librarian/subjects/software-engineering/test-harness.md",
+    "librarian/applied.md",
+    "librarian/harvest/backlog.jsonl"
+  ],
+  "commits": [],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "Backlog wave, /shift filler, size 3. 8-022 not-better, 8-024 and 8-025 better, all blind-ab. 8-024 homed in retry-backoff (scheduling retired). Held rows skipped by hand. Arms isolated: no tools, no MCP, no bypass."
+}

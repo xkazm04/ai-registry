@@ -4,7 +4,7 @@
   "bundle": "software-engineering",
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 245,
-  "techniques": 1998,
+  "techniques": 2000,
   "applications": 1501,
   "laws": 16,
   "categories": [
@@ -20,7 +20,7 @@
    "secret-custody-and-issuance"
   ],
   "layout": "nested",
-  "use_when_coverage": "1998/1998",
+  "use_when_coverage": "2000/2000",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -32990,9 +32990,9 @@
    "subcategory": "resilience",
    "status": "reconciled",
    "file": "knowledge/software-engineering/backend-platform/resilience/retry-backoff/retry-backoff.md",
-   "digest": "sha256-b2:0ff53fb3a87ad13c",
-   "revision": 14,
-   "changedAt": "2026-10-27",
+   "digest": "sha256-b2:acfc1b912ac6bb2b",
+   "revision": 15,
+   "changedAt": "2026-11-11",
    "techniques": [
     {
      "slug": "backoff-design",
@@ -33127,6 +33127,21 @@
       "deciding whether a blocked attempt counts against the budget",
       "work resumes in a backgrounded tab and nobody wanted it to",
       "distinguishing \"the dependency failed\" from \"we could not reach it to ask\""
+     ]
+    },
+    {
+     "slug": "wrapper-option-names-its-half",
+     "status": "forged",
+     "laws": [
+      "one-authority-per-vocabulary",
+      "silent-state-is-ungoverned"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "designing the options of a poller retryer rate limiter debouncer or breaker that wraps a function",
+      "a wrapper has an enabled disabled or skip flag",
+      "a caller turned a wrapper off and the wrapped call stopped too",
+      "a status field reads the same for off and healthy"
      ]
     }
    ],
@@ -38824,9 +38839,9 @@
    "subcategory": "build-and-release",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-process/build-and-release/test-harness/test-harness.md",
-   "digest": "sha256-b2:e34b91ee6db4c475",
-   "revision": 33,
-   "changedAt": "2026-11-10",
+   "digest": "sha256-b2:eed5647affa1a8bd",
+   "revision": 34,
+   "changedAt": "2026-11-11",
    "techniques": [
     {
      "slug": "a-test-helper-is-a-fork-of-the-driver",
@@ -38892,6 +38907,23 @@
       "a write succeeded and the effect never appeared",
       "deciding whether a rendering or clipboard assertion covers a generated command",
       "a product reconstructs a tool's file layout instead of asking it"
+     ]
+    },
+    {
+     "slug": "capture-contract",
+     "status": "forged",
+     "laws": [
+      "gate-sees-target",
+      "failure-not-empty-success",
+      "absent-guard-is-loud"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a screenshot or capture tool is the only way a gate or critic sees the product",
+      "a visual gate or vision-model critic judges captured frames",
+      "a capture step waits a fixed delay before the shot",
+      "pixel baselines flake on an unchanged build",
+      "console errors are recorded but do not fail the capture run"
      ]
     },
     {
@@ -43721,6 +43753,7 @@
     "test-harness/approval-snapshots-with-guarded-update",
     "test-harness/assert-the-schedule-not-the-stopwatch",
     "test-harness/assert-through-the-reader",
+    "test-harness/capture-contract",
     "test-harness/configuration-axes-cross-the-ladder",
     "test-harness/constraint-injection-for-unreachable-tiers",
     "test-harness/context-starved-executor",
@@ -44381,6 +44414,7 @@
     "terminal-multiplexing/pty-management",
     "test-harness/approval-snapshots-with-guarded-update",
     "test-harness/assert-through-the-reader",
+    "test-harness/capture-contract",
     "test-harness/constraint-injection-for-unreachable-tiers",
     "test-harness/context-starved-executor",
     "test-harness/derived-selection-must-be-measured",
@@ -46635,6 +46669,7 @@
     "retrieval/query-decomposition-before-the-lanes",
     "retrieval/retrieval-triggering",
     "retry-backoff/error-classification-for-retry",
+    "retry-backoff/wrapper-option-names-its-half",
     "reversible-transform-pipelines/journal-entry-shape-invariance",
     "runner-fleet/capability-typed-queues",
     "scheduling/trigger-matching",
@@ -47432,6 +47467,7 @@
     "tenant-scoped-agent-runtime/written-inventory-of-what-stays-global",
     "terminal-multiplexing/injected-hook-reconvergence",
     "test-harness/approval-snapshots-with-guarded-update",
+    "test-harness/capture-contract",
     "test-harness/recorded-interaction-fixtures",
     "tool-result-economy/escape-hatch-usage-as-the-safety-metric",
     "tracing/cross-boundary-propagation",
@@ -47533,6 +47569,7 @@
     "quality-gates/prose-rule-drift",
     "quorum-and-recovery-procedures/single-node-recovery-resize",
     "retrieval/query-decomposition-before-the-lanes",
+    "retry-backoff/wrapper-option-names-its-half",
     "session-continuation/compaction-checkpoint",
     "subscription-proration/upgrade-immediate-downgrade-deferred",
     "tenant-scoped-agent-runtime/written-inventory-of-what-stays-global",
