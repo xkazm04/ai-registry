@@ -796,3 +796,18 @@ the new subject); failure and evidence (`crash-forensics-attribution`, `engine-i
 documentation), not from the one video. Placement stays as above. The lead's return clause (a wired
 project opens an open-terrain or long-sightline scene) no longer gates the forge; it remains the
 first place to apply the subject.
+
+**Spec EXECUTED 2026-11-11 (shift run `forge-stand-ins-1111`):**
+`librarian/specs/2026-11-11-distance-tiered-stand-ins.md`. The subject was forged at
+`asset-production/geometry/distance-tiered-stand-ins`, the fifth subject in `geometry`. It holds 6
+techniques: tier chain, visible count per band, multi-angle card, merged cluster proxy, ground detail
+falloff, and haze before the tiers. It has 2 cpp applications against mage-arena `579737e`. The upper
+layers rest on three engines' own LOD, culling, foliage, card-baking and fog documentation, and carry
+none of the video's figures.
+
+Overrides, recorded in the spec:
+- the spec lives in `librarian/specs/`, because the run folder is gitignored;
+- URLs sit in the spec and the subject note, not in the upper layers;
+- the runtime fallback did not fire.
+
+Note: [[distance-tiered-stand-ins]].

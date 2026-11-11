@@ -218,6 +218,13 @@ at which point `agent-run-budgeting` can take one order-of-magnitude line on dur
   does not exist yet is churn ahead of need. Not a new category: the bundle already holds ten. Full
   reasoning and the boundaries are in the `game-production` domain note. The second return clause has
   fired for placement only. Writing the subject still waits on primaries and is the operator's call.
+  **Forged 2026-11-11 (shift run `forge-stand-ins-1111`), on the operator's decision, from
+  primaries:** `distance-tiered-stand-ins` in `asset-production/geometry`, with 6 techniques and H9's
+  haze caution as `haze-set-before-the-tiers`. The spec is
+  `librarian/specs/2026-11-11-distance-tiered-stand-ins.md`. The source's 60 m and 64-angle figures were
+  declined; the engines' own documentation carries the subject. The lead is closed as a placement
+  question. Its first return clause (a wired project opens an open-terrain or long-sightline scene) stays
+  as the first place to apply the vista techniques.
 
 ## For the cluster question
 

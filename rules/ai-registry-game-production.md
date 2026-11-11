@@ -1,6 +1,6 @@
 # Game production - the subjects this registry carries
 
-`game-production` - 89 subjects, 591 techniques, 354 applications.
+`game-production` - 90 subjects, 597 techniques, 356 applications.
 Slugs only; open one with `registry_subject` (or `node <registry>/scripts/registry-query.mjs --subject <slug>`), never by reading `index.json` - the access rule beside this file describes the loop.
 
 ### systems-canon
@@ -13,7 +13,7 @@ Slugs only; open one with `registry_subject` (or `node <registry>/scripts/regist
 - acceptance-verdict-spine, branching-narrative-graph-validation, catalog-pipeline-authoring, concept-scene-parity, content-acceptance-tiering, content-drift-and-revision, generative-artifact-gating, judgeable-spec-authoring, reference-parity-gating, wiring-contract-doctrine
 
 ### asset-production
-- **geometry** - asset-class-poly-budgeting, generated-asset-world-scale, generated-mesh-acceptance, mesh-finishing-for-engine-readiness
+- **geometry** - asset-class-poly-budgeting, distance-tiered-stand-ins, generated-asset-world-scale, generated-mesh-acceptance, mesh-finishing-for-engine-readiness
 - **motion-and-audio** - adaptive-music-authoring, game-dialogue-voice-pipeline, generated-video-motion-extraction, motion-quality-gating, spatial-audio-scene-authoring
 - **sourcing-economics** - image-to-3d-input-gating, regeneration-vs-repair-economics
 - **surface-and-imagery** - depth-ordered-layered-art, imported-material-conformance, shader-budget-authoring, sprite-and-atlas-production, tiling-texture-acceptance

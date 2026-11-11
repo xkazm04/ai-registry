@@ -3,9 +3,9 @@
   "generated_by": "scripts/build-index.mjs",
   "bundle": "game-production",
   "source": "knowledge/game-production/ (frontmatter only)",
-  "subjects": 89,
-  "techniques": 591,
-  "applications": 354,
+  "subjects": 90,
+  "techniques": 597,
+  "applications": 356,
   "laws": 16,
   "categories": [
    "systems-canon",
@@ -20,7 +20,7 @@
    "narrative-and-dialogue"
   ],
   "layout": "nested",
-  "use_when_coverage": "591/591",
+  "use_when_coverage": "597/597",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -3228,6 +3228,114 @@
      "technique": "tier-changes-decisions-not-specs-test",
      "file": "knowledge/game-production/balance-validation/difficulty-design-and-adaptation/applications/process--tier-changes-decisions-not-specs-test.md",
      "verified_on": "2026-10-01"
+    }
+   ]
+  },
+  "distance-tiered-stand-ins": {
+   "category": "asset-production",
+   "subcategory": "geometry",
+   "status": "forged",
+   "file": "knowledge/game-production/asset-production/geometry/distance-tiered-stand-ins/distance-tiered-stand-ins.md",
+   "digest": "sha256-b2:659b9b25cbf9be3c",
+   "revision": 1,
+   "changedAt": "2026-11-11",
+   "techniques": [
+    {
+     "slug": "ground-detail-falloff",
+     "status": "forged",
+     "laws": [
+      "a-number-carries-its-unit-and-basis"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "grass or pebbles end in a visible ring around the player",
+      "ground detail pops in groups as the camera moves",
+      "setting quality tiers for scattered ground detail",
+      "a scatter density overruns the frame on a wide view"
+     ]
+    },
+    {
+     "slug": "haze-set-before-the-tiers",
+     "status": "forged",
+     "laws": [
+      "a-verdict-is-bound-to-its-content"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "fog or haze is proposed to hide pop-in or lower draw distance",
+      "tier distances were tuned and then the atmosphere changed",
+      "two look rounds differ in haze and are being compared"
+     ]
+    },
+    {
+     "slug": "merged-cluster-proxy",
+     "status": "forged",
+     "laws": [
+      "unmeasured-is-not-a-pass"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a distant village or ruin of many distinct objects costs one draw per object however far each is reduced",
+      "a far area is unloaded and must still be visible",
+      "choosing between a card per object and one proxy per group"
+     ]
+    },
+    {
+     "slug": "multi-angle-card-stand-in",
+     "status": "forged",
+     "laws": [
+      "unmeasured-is-not-a-pass",
+      "grade-against-what-ships-not-on-a-curve"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a repeated object such as a tree or rock needs a stand-in beyond its last reduced mesh",
+      "choosing how many angles to capture for a card",
+      "a far card reads flat or swims as the camera moves"
+     ]
+    },
+    {
+     "slug": "tier-chain-from-play-distances",
+     "status": "forged",
+     "laws": [
+      "a-number-carries-its-unit-and-basis",
+      "one-authority-per-quantity",
+      "a-budget-shapes-the-output"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "setting where each level of detail of an asset class takes over",
+      "an asset class has generated reductions with default switch points",
+      "the same scene switches detail at different distances on two targets"
+     ]
+    },
+    {
+     "slug": "visible-count-per-distance-band",
+     "status": "forged",
+     "laws": [
+      "an-instrument-proves-it-had-input",
+      "unmeasured-is-not-a-pass"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "an open scene overruns its geometry budget although every asset passes its class ceiling",
+      "building a gate or capture that sums visible triangles",
+      "deciding how many instances of a class may draw at full detail"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "cpp",
+     "technique": "tier-chain-from-play-distances",
+     "file": "knowledge/game-production/asset-production/geometry/distance-tiered-stand-ins/applications/cpp--tier-chain-from-play-distances.md",
+     "verified_on": "2026-11-11"
+    },
+    {
+     "stack": "cpp",
+     "technique": "visible-count-per-distance-band",
+     "file": "knowledge/game-production/asset-production/geometry/distance-tiered-stand-ins/applications/cpp--visible-count-per-distance-band.md",
+     "verified_on": "2026-11-11"
     }
    ]
   },
@@ -12018,6 +12126,7 @@
     "concept-scene-parity/toolkit-fit-slice-before-the-look-is-chosen",
     "design-canon-as-executable-law/archetype-aware-envelopes",
     "design-doc-compliance-scoring/severity-weighted-scale-free-damping",
+    "distance-tiered-stand-ins/multi-angle-card-stand-in",
     "game-dialogue-voice-pipeline/localized-voice-timing-budget",
     "generated-mesh-acceptance/stage-declared-grading",
     "generative-artifact-gating/declare-the-producer-per-asset-class",
@@ -12112,6 +12221,9 @@
     "difficulty-design-and-adaptation/player-chosen-challenge-and-adjustment-hazards",
     "difficulty-design-and-adaptation/reward-cadence-first-diagnosis",
     "difficulty-design-and-adaptation/setting-bounded-overlapping-bands",
+    "distance-tiered-stand-ins/merged-cluster-proxy",
+    "distance-tiered-stand-ins/multi-angle-card-stand-in",
+    "distance-tiered-stand-ins/visible-count-per-distance-band",
     "drawn-gesture-command-recognition/held-out-cross-user-acceptance",
     "drawn-gesture-command-recognition/reject-class-recognition",
     "drawn-gesture-command-recognition/vocabulary-distinctiveness-audit",
@@ -12362,6 +12474,7 @@
     "design-canon-as-executable-law/self-declared-budget-enforcement",
     "design-doc-compliance-scoring/declared-mapping-is-terminal",
     "difficulty-design-and-adaptation/setting-bounded-overlapping-bands",
+    "distance-tiered-stand-ins/tier-chain-from-play-distances",
     "drawn-gesture-command-recognition/stroke-plane-projection",
     "encounter-balance-simulation/monte-carlo-scenario-presets",
     "encounter-balance-simulation/rotation-confound-cross-check",
@@ -12558,6 +12671,8 @@
     "difficulty-design-and-adaptation/setting-bounded-overlapping-bands",
     "difficulty-design-and-adaptation/skill-scaling-versus-power-scaling",
     "difficulty-design-and-adaptation/skill-swap-cross-tier-test",
+    "distance-tiered-stand-ins/ground-detail-falloff",
+    "distance-tiered-stand-ins/tier-chain-from-play-distances",
     "drawn-gesture-command-recognition/held-out-cross-user-acceptance",
     "drawn-gesture-command-recognition/reject-class-recognition",
     "encounter-balance-simulation/entry-vs-winner-share-threshold-check",
@@ -13017,6 +13132,7 @@
     "depth-ordered-layered-art/order-across-every-reachable-pose",
     "depth-ordered-layered-art/the-record-must-cover-the-drawing",
     "difficulty-design-and-adaptation/skill-swap-cross-tier-test",
+    "distance-tiered-stand-ins/visible-count-per-distance-band",
     "drawn-gesture-command-recognition/pen-down-stroke-segmentation",
     "encounter-balance-simulation/distinct-hash-seed-diversity-alarm",
     "encounter-balance-simulation/entry-vs-winner-share-threshold-check",
@@ -13075,6 +13191,7 @@
     "crash-forensics-attribution/crash-signature-over-id-equality",
     "cross-runtime-rules-conformance/pinned-rules-data-across-runtimes",
     "design-doc-compliance-scoring/evidence-age-envelope",
+    "distance-tiered-stand-ins/haze-set-before-the-tiers",
     "encounter-balance-simulation/per-cell-seed-derivation-for-order-independence",
     "engine-integration-safety/transport-failure-taxonomy",
     "engine-pitfall-corpus/provenance-on-every-entry",
@@ -13254,6 +13371,7 @@
     "condition-tagged-line-tables/repeat-avoidance-by-recency-and-cooldown",
     "content-drift-and-revision/batch-lease-on-a-non-reentrant-resource",
     "design-canon-as-executable-law/self-declared-budget-enforcement",
+    "distance-tiered-stand-ins/tier-chain-from-play-distances",
     "ending-first-narrative-structure/one-major-reveal-per-unit",
     "engine-integration-safety/editor-thread-timeout-budgeting",
     "game-dialogue-voice-pipeline/bake-versus-runtime-speech",
