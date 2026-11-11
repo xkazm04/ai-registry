@@ -3,7 +3,7 @@
 The third census pass. A survey and an adjudication both look for a standard to attach, so
 a `reinvents` often cites a real rule that does not govern the code. The 1.2.0 ascent audit
 found 4 of 5 wrong this way. This pass asks only whether the cited standard applies.
-`census-run.mjs rejudge` fills `{{parts}}`. 1.4.1: an accusation names the failure its rule guards against and the line where the input that reaches it originates; code checks the line exists. 1.4.0 also listed input types that clear a part, and the judges cleared six true accusations by quoting that list.
+`census-run.mjs rejudge` fills `{{parts}}`. 1.4.1: an accusation names the failure its rule guards against and the line where the input that reaches it originates; code checks the line exists. 1.4.0 also listed input types that clear a part, and the judges cleared six true accusations by quoting that list. 1.5.2: a hand-run script owns a rule only when it already attempts it; the seed script was accused in three of three runs for not retrying.
 
 ---
 
@@ -14,7 +14,7 @@ For each part, open its code and open the standard files listed for it. These st
 Uphold the accusation only if all three tests pass:
 
 1. **Scope.** The standard's own text describes this kind of thing. A standard about interactive data tables does not govern terminal output, a PDF, or a list the standard itself says is not a table. Sharing a word is not scope.
-2. **Responsibility.** This part is where the rule would be implemented. A layout primitive that renders the children it is given does not own the size of its caller's data.
+2. **Responsibility.** This part is where the rule would be implemented. A layout primitive that renders the children it is given does not own the size of its caller's data. A script a developer runs by hand, such as a seed, a benchmark or a one-off tool, is responsible for a rule only when it already does what the rule governs: one that retries owns the retry rule, one that never retries does not, because the person running it sees the failure and runs it again.
 3. **Consequence.** The harm the rule prevents can happen here, from an input this code really receives. A rule about unbounded rows needs a source that can really grow large; a rule about data in flight needs a request that is really in flight while the user looks. See the trigger rule below.
 
 Give each part one verdict:

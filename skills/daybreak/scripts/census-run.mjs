@@ -35,7 +35,7 @@ import { spawn, execFileSync } from 'node:child_process';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import { EXIT, installCrashDoor } from '../../../scripts/lib/exit-codes.mjs';
 import { slots } from './ram-governor.mjs';
-import { KINDS, quotedInFile, applyAdjudication, applyConfirm, applyRejudge, applyRepeat, dedupe, loadVerdicts, makeRuleFound } from './census.mjs';
+import { KINDS, quotedInFile, applyAdjudication, applyConfirm, applyRejudge, applyRepeat, applySettle, dedupe, loadVerdicts, makeRuleFound } from './census.mjs';
 
 const HERE = path.dirname(fileURLToPath(import.meta.url));
 const CODE = /\.(ts|tsx|js|jsx|mjs|cjs|vue|svelte|py|rs|go|kt|java|cs|rb|php|swift)$/i;
@@ -248,12 +248,39 @@ export function accusationTargets(cited, other) {
   return { follow, accuse, files: [...(cited?.files ?? []), ...(other?.files ?? [])] };
 }
 
+/** Pure: the earlier arguments a settling judge reads beside the code. */
+/** Projects whose root is gone or no longer holds any of its parts' files. A part with no root is not counted. */
+export function missingRoots(roots, parts) {
+  const gone = [];
+  for (const [project, root] of Object.entries(roots)) {
+    const files = [...new Set(parts.filter((p) => p.project === project && p.file).map((p) => p.file))].slice(0, 5);
+    if (!files.length) continue;
+    if (!files.some((f) => fs.existsSync(path.join(root, f)))) gone.push(project);
+  }
+  return gone;
+}
+
+export function earlierArguments(p) {
+  const how = p.repeated === 'contested' ? 'contested by a second judge'
+    : p.rejudged === 'no-harm' || p.confirmed === 'no-harm' ? 'accused, but the harm trace could not be checked'
+      : 'claimed, but the quoted rule or code line could not be found';
+  const lines = [`Unsettled because: ${how}.`];
+  const claim = (p.missed?.length ? p.missed : p.surveyMissed ?? []).join(' ');
+  if (claim) lines.push(`Rule first alleged: ${claim}`);
+  if (p.guards || p.harm) lines.push(`First judge, accusing: ${p.guards ?? ''} Harm: ${p.harm ?? '(none given)'}`);
+  if (p.contestedBy) lines.push(`Second judge (${p.contestedBy}): ${p.rejudgeWhy ?? '(no reason given)'}`);
+  else if (p.rejudgeWhy) lines.push(`Earlier judge: ${p.rejudgeWhy}`);
+  return lines.join('\n');
+}
+
 const PASSES = {
   rejudge: { name: 'rejudge', brief: 'rejudge-brief.md', include: (p) => p.relation === 'reinvents' },
   // The cited standard may be the wrong one, so the standard for this kind of part is offered beside it.
   confirm: { name: 'confirm', brief: 'confirm-brief.md', include: (p) => p.relation === 'consumes' && !!p.subject, alternate: true },
   // A different mix per batch, so the second reading is not the first one's context again.
   repeat: { name: 'repeat', brief: 'rejudge-brief.md', include: (p) => p.relation === 'reinvents' && p.rejudged === 'upheld', shuffle: true },
+  // An unsettled part has lost its subject; the one it was judged against is in accusedOf.
+  settle: { name: 'settle', brief: 'settle-brief.md', include: (p) => p.relation === 'unverified', subjectOf: (p) => p.subject ?? p.accusedOf ?? null, alternate: true, describe: earlierArguments },
 };
 
 const shuffled = (id) => crypto.createHash('sha1').update('repeat' + id).digest('hex');
@@ -270,12 +297,13 @@ async function accusationPass(arg, pass) {
   for (const p of censusFile.parts) if (pass.include(p)) (byProject[p.project] ??= []).push(p);
   const jobs = [];
   for (const [slug, unsorted] of Object.entries(byProject)) {
-    const parts = [...unsorted].sort((a, b) => (pass.shuffle ? shuffled(a.id).localeCompare(shuffled(b.id)) : String(a.subject).localeCompare(String(b.subject)) || a.id.localeCompare(b.id)));
+    const subjectOf = pass.subjectOf ?? ((p) => p.subject);
+    const parts = [...unsorted].sort((a, b) => (pass.shuffle ? shuffled(a.id).localeCompare(shuffled(b.id)) : String(subjectOf(a)).localeCompare(String(subjectOf(b))) || a.id.localeCompare(b.id)));
     const root = path.join(runs, pass.name, slug);
     fs.mkdirSync(root, { recursive: true });
     const exists = (f) => fs.existsSync(path.join(registry, f));
     const found = new Map(parts.map((p) => {
-      const cited = standardFiles(p.subject, search, exists);
+      const cited = standardFiles(subjectOf(p), search, exists);
       const other = pass.alternate && KIND_SUBJECT[p.kind] ? standardFiles(KIND_SUBJECT[p.kind], search, exists) : null;
       const usable = other && other.dir !== cited?.dir ? other : null;
       return [p.id, accusationTargets(cited, usable)];
@@ -288,7 +316,9 @@ async function accusationPass(arg, pass) {
       const list = parts.slice(i, i + 15).map((p) => {
         const t = found.get(p.id);
         const files = t ? `${t.files.map((f) => `  - ${reg}/${f}`).join('\n')}\nAccuse from: ${t.accuse.map((x) => `${reg}/${x}`).join(', ')}` : '  (the cited standard could not be found)';
-        return `### ${p.id}\nKind: ${p.kind}. Name: ${p.name}. Code: ${p.file}:${p.line}.\nCited standard: ${p.subject}.\nClaim: ${(p.missed ?? []).join(' ') || '(none given)'}\nStandard files:\n${files}`;
+        const head = `### ${p.id}\nKind: ${p.kind}. Name: ${p.name}. Code: ${p.file}:${p.line}.\nCited standard: ${subjectOf(p)}.`;
+        if (pass.describe) return `${head}\n${pass.describe(p)}\nStandard files:\n${files}`;
+        return `${head}\nClaim: ${(p.missed ?? []).join(' ') || '(none given)'}\nStandard files:\n${files}`;
       }).join('\n\n');
       fs.mkdirSync(dir, { recursive: true });
       fs.writeFileSync(path.join(dir, 'brief.md'), fill(template, { parts: list }));
@@ -313,28 +343,39 @@ async function judge(arg) {
   const save = () => fs.writeFileSync(out, JSON.stringify(cur, null, 1) + '\n');
   const a = (n) => (n === '--census' ? out : arg(n));
   const passDir = (name) => path.join(runs, name);
+  // A root that vanishes mid-run (a pruned worktree) makes every judge answer "no code": stop instead of scoring that.
+  const guard = (stage) => {
+    const gone = missingRoots(roots, cur.parts ?? []);
+    if (gone.length) throw new Error(`${stage}: code root missing for ${gone.join(', ')}; this stage's verdicts are void, delete ${passDir(stage)} and re-run`);
+  };
+  guard('start');
   if (!cur.deduped) { cur = dedupe(cur); }
   save();
   if (!cur.adjudication) {
-    await adjudicate(a);
+    await adjudicate(a); guard('adjudicate');
     cur = applyAdjudication(cur, loadVerdicts(passDir('adjudicate')).verdicts); save();
   }
   if (!cur.rejudge) {
-    await accusationPass(a, PASSES.rejudge);
+    await accusationPass(a, PASSES.rejudge); guard('rejudge');
     const v = loadVerdicts(passDir('rejudge'));
     cur = applyRejudge(cur, v.verdicts, makeRuleFound(v.targets), codeFound); save();
   }
   if (!cur.confirm) {
-    await accusationPass(a, PASSES.confirm);
+    await accusationPass(a, PASSES.confirm); guard('confirm');
     const v = loadVerdicts(passDir('confirm'));
     cur = applyConfirm(cur, v.verdicts, makeRuleFound(v.targets), codeFound); save();
   }
   if (!cur.repeat) {
-    await accusationPass(a, PASSES.repeat);
+    await accusationPass(a, PASSES.repeat); guard('repeat');
     const v = loadVerdicts(passDir('repeat'));
     cur = applyRepeat(cur, v.verdicts, makeRuleFound(v.targets), codeFound); save();
   }
-  console.log(JSON.stringify({ deduped: cur.deduped, adjudication: cur.adjudication, rejudge: cur.rejudge, confirm: cur.confirm, repeat: cur.repeat }));
+  if (!cur.settle) {
+    await accusationPass(a, PASSES.settle); guard('settle');
+    const v = loadVerdicts(passDir('settle'));
+    cur = applySettle(cur, v.verdicts, makeRuleFound(v.targets), codeFound); save();
+  }
+  console.log(JSON.stringify({ deduped: cur.deduped, adjudication: cur.adjudication, rejudge: cur.rejudge, confirm: cur.confirm, repeat: cur.repeat, settle: cur.settle }));
 }
 
 async function main() {
