@@ -6,7 +6,9 @@ technique: arena-benchmark-protocol
 status: forged
 laws: [grade-against-what-ships-not-on-a-curve, a-budget-shapes-the-output, no-gate-self-certifies]
 shared_with: []
-use_when: [comparing generative model variants, selecting a critic or grader model, a provider released a new version worth evaluating]
+applied: blind-ab
+ab_verdict: better
+use_when: [comparing generative model variants, selecting a critic or grader model, a provider released a new version worth evaluating, choosing a service that takes a mesh or part and returns it, generated parts must be assembled or bound where the input sat]
 ---
 
 # Arena benchmark protocol
@@ -49,6 +51,16 @@ be re-run against a new provider version and compared to the last run.
 5. **Systems constraints measured alongside quality.** Peak memory, latency per item,
    whether the arm can coexist in memory with the other models the pipeline runs,
    concurrency ceiling, cold-start cost, cost per item with its basis stated.
+   **Correspondence with the input is measured too, wherever the delivery must meet
+   something that already exists.** Every constraint above is a resource. A service that
+   takes a mesh, a part or a rig target and returns it moved, re-centred, re-oriented or
+   rescaled has a cost no quality score and no resource figure sees: a realignment of every
+   returned piece before it can be assembled, bound or swapped. Measure it per piece - a
+   scripted transform that restores the input frame and the share of pieces it fails on,
+   or minutes of hand alignment per piece - and multiply by the cut plan's part count. It
+   scales with the plan, not with the asset, so a quality lead won on one-piece assets can
+   invert on a many-part subject. Where there is no input frame to keep (a one-piece asset
+   generated from an image, sized at import), the column is not applicable, not zero.
 6. **Both verdicts recorded.** The winner becomes a pin; the losers become in-place
    rejections with their numbers.
 
@@ -67,6 +79,9 @@ be re-run against a new provider version and compared to the last run.
   usually the decision-relevant figure and usually differs from the headline by more than
   people expect. Detailed spend accounting is a neighbouring discipline; the arena needs
   only a comparable figure with its basis stated.
+- **When an arm returns work out of the input's frame, cost per accepted item includes
+  the realignment, at the subject's part count.** Record the correspondence column per
+  class, because a provider can keep the frame on one operation and drop it on another.
 - **When an arm's own output includes a self-assessment**, record it as self-reported and
   do not let it stand as the verdict. The grader is the external acceptance step.
 - **When results are close enough that the choice feels arbitrary, prefer the arm with

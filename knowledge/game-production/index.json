@@ -5073,9 +5073,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/game-production/production-governance/generative-provider-auditing/generative-provider-auditing.md",
-   "digest": "sha256-b2:0f247756551c6777",
-   "revision": 3,
-   "changedAt": "2026-09-01",
+   "digest": "sha256-b2:a82c6d393c3e7c03",
+   "revision": 4,
+   "changedAt": "2026-11-11",
    "techniques": [
     {
      "slug": "arena-benchmark-protocol",
@@ -5089,7 +5089,9 @@
      "use_when": [
       "comparing generative model variants",
       "selecting a critic or grader model",
-      "a provider released a new version worth evaluating"
+      "a provider released a new version worth evaluating",
+      "choosing a service that takes a mesh or part and returns it",
+      "generated parts must be assembled or bound where the input sat"
      ]
     },
     {
