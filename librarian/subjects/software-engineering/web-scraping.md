@@ -1,8 +1,8 @@
 ---
 domain: software-engineering
 subject: web-scraping
-last_touched: 2026-09-04
-touched_by: intake
+last_touched: 2026-11-11
+touched_by: harvest
 dry_streak: 0
 ---
 
@@ -97,3 +97,29 @@ retrieval of one document a caller is waiting for.
 outcome — pause, page a human, never retry — is right for what this subject
 governs, and the new section says so explicitly. The other side is
 [[contested-acquisition]], forged the same day from the same source.
+
+## 2026-11-11 - /harvest backlog 1-020 ([[../../sources/2026-09-04-wigolo]], /shift filler)
+
+New technique `status-is-part-of-the-change`, better, blind-ab, plus a paragraph in the
+golden path's datasets section and an index bullet: a watcher that decides "changed" from
+a body hash must compare (status class, body hash), because a 200 that becomes a 404 at an
+equal or empty body is a change, and the obvious repair for error pages hashed as content
+(skip non-success responses) makes that disappearance permanently silent. Not covered:
+`dedup-and-datasets` owns reconciliation outcomes and "a suspect harvest never
+reconciles", `shape-change-detection` owns extraction collapse, and the game bundle's
+`content-hash-vs-status-drift` reports verdict drift beside content drift; none puts the
+response status into a watcher's change identity.
+
+Blind A/B, claude-opus-5, no tools, no MCP, fresh temp folder per run, no permission bypass,
+3 runs per arm, target and floor written first, one blind judge per probe with a planted
+reference and a planted bad answer. Probe: a fleet desktop app's real URL-polling trigger
+(hashes the body, copies the status into the payload only). Round 1 (arm B holds
+`dedup-and-datasets`): A 12, B 6 of 12 on the target keys, target 3. Round 2, declared
+after round 1 (arm B holds `shape-change-detection` plus `content-hash-vs-status-drift`):
+A 12, B 6. Every arm-B run proposed skipping non-success responses and leaving the hash
+untouched; no arm-B run named the equal-body transition. Floor (a gateway flapping between
+5xx codes must not fire per code): 6 of 6 both arms, held. Controls held. Weakest point:
+the rubric's vocabulary mirrors the draft. Not applied: the fleet seam is read-only for
+this seat; the defect (a watched URL that goes 404 at an equal body never fires) is
+reported to the supervisor. Return: the first fleet watcher that changes its change
+identity.

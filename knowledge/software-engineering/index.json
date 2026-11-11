@@ -4,7 +4,7 @@
   "bundle": "software-engineering",
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 245,
-  "techniques": 2000,
+  "techniques": 2001,
   "applications": 1501,
   "laws": 16,
   "categories": [
@@ -20,7 +20,7 @@
    "secret-custody-and-issuance"
   ],
   "layout": "nested",
-  "use_when_coverage": "2000/2000",
+  "use_when_coverage": "2001/2001",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -42535,9 +42535,9 @@
    "subcategory": "acquisition-and-ingest",
    "status": "forged",
    "file": "knowledge/software-engineering/integration/acquisition-and-ingest/web-scraping/web-scraping.md",
-   "digest": "sha256-b2:19cc38b48911ea64",
-   "revision": 1,
-   "changedAt": "2026-09-05",
+   "digest": "sha256-b2:ec95d5fb60d31515",
+   "revision": 2,
+   "changedAt": "2026-11-11",
    "techniques": [
     {
      "slug": "dedup-and-datasets",
@@ -42656,6 +42656,20 @@
       "a detector is built but nobody trusts it enough to let it act",
       "deciding whether enforcement is safe to turn on",
       "a source has too little history to be judged"
+     ]
+    },
+    {
+     "slug": "status-is-part-of-the-change",
+     "status": "forged",
+     "laws": [
+      "failure-not-empty-success",
+      "unknown-is-not-a-value"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a poller or watcher decides \"changed\" by hashing the response body",
+      "a watched URL went away and nothing fired",
+      "a non-success response is being skipped or hashed as content"
      ]
     }
    ],
@@ -44488,6 +44502,7 @@
     "web-scraping/negotiated-representation-probe",
     "web-scraping/scrape-scheduling",
     "web-scraping/shape-change-detection",
+    "web-scraping/status-is-part-of-the-change",
     "webhook-ingestion/delivery-logging-and-replay",
     "webhook-ingestion/ingress-topology",
     "webhook-ingestion/listener-lifecycle",
@@ -45438,6 +45453,7 @@
     "watch-cache-and-resync/read-phase-before-write-transaction",
     "web-scraping/negotiated-representation-probe",
     "web-scraping/soak-mode-and-verdict-replay",
+    "web-scraping/status-is-part-of-the-change",
     "windowed-inference-over-oversized-inputs/axis-buffered-writeback",
     "workflow-property-contracts/wiring-location-checks"
    ]
