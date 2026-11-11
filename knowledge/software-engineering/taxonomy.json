@@ -451,7 +451,8 @@
             "codegen",
             "test-harness",
             "test-input-generation",
-            "vendored-patch-stack"
+            "vendored-patch-stack",
+            "compile-time-code-emission"
           ]
         },
         {

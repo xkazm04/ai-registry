@@ -194,6 +194,19 @@ The return condition still governs the evidence: the subject is specified from p
 (a macro-system design document, a compiler-plugin API's own guidance, or a repository
 carrying an expansion engine), not from this tutorial alone.
 
+Spec: [`compile-time-code-emission`](../../knowledge/software-engineering/engineering-process/build-and-release/compile-time-code-emission/compile-time-code-emission.md)
+(EXECUTED 2026-11-11, shift run `forge-codegen-1111`, overrides recorded in
+[the spec](../specs/2026-11-11-compile-time-code-emission.md)). Placed in
+`engineering-process/build-and-release` beside `codegen`. Seven techniques: row 5 as
+`target-syntax-templates` (8-009), row 4 as `representation-strength-from-input-contract`
+(8-010, folded in although the dispatch named only 8-009 and 8-011, because the intake
+method folds every fragment of a subject-sized gap), and from the primaries
+`call-site-diagnostics`, `pure-expansion`, `additive-expansion-with-declared-names`,
+`expansion-tests`, `lossless-tree-codemods` (the codemod hole the research map found).
+Row 1 was not re-forged: it had already landed as `module-design/emitted-code-names-from-a-root`
+(8-002) and is linked from the golden path, not moved. Built from thirteen vendor and
+design primaries, listed in the subject note; two read-only applications on one tree.
+
 ## Directions
 
 `directions=n/a` — no design record (not a repository class), so Phase 7.6 did

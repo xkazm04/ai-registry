@@ -3,9 +3,9 @@
   "generated_by": "scripts/build-index.mjs",
   "bundle": "software-engineering",
   "source": "knowledge/software-engineering/ (frontmatter only)",
-  "subjects": 245,
-  "techniques": 2003,
-  "applications": 1501,
+  "subjects": 246,
+  "techniques": 2010,
+  "applications": 1503,
   "laws": 16,
   "categories": [
    "ui-surfaces",
@@ -20,7 +20,7 @@
    "secret-custody-and-issuance"
   ],
   "layout": "nested",
-  "use_when_coverage": "2003/2003",
+  "use_when_coverage": "2010/2010",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -7590,6 +7590,124 @@
      "technique": "metered-llm-seam",
      "file": "knowledge/software-engineering/llm-agent/companion/companion-runtime/applications/rust--metered-llm-seam.md",
      "verified_on": "2026-08-23"
+    }
+   ]
+  },
+  "compile-time-code-emission": {
+   "category": "engineering-process",
+   "subcategory": "build-and-release",
+   "status": "forged",
+   "file": "knowledge/software-engineering/engineering-process/build-and-release/compile-time-code-emission/compile-time-code-emission.md",
+   "digest": "sha256-b2:024cd779c233b87c",
+   "revision": 1,
+   "changedAt": "2026-11-11",
+   "techniques": [
+    {
+     "slug": "additive-expansion-with-declared-names",
+     "status": "forged",
+     "laws": [],
+     "shared_with": [],
+     "use_when": [
+      "an emitter replaces or rewrites the declaration it is attached to",
+      "a reader cannot tell what names a declaration has without expanding it",
+      "a module or item emitted by a macro is skipped by the formatter or the navigator",
+      "deciding what a generator should emit and what the author should keep in source"
+     ]
+    },
+    {
+     "slug": "call-site-diagnostics",
+     "status": "forged",
+     "laws": [
+      "failure-not-empty-success",
+      "verdict-survives-boundary"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "an emitter rejects input by panicking or throwing",
+      "a macro error points at the invocation as a whole or into generated code",
+      "a user fixes one macro error per build because only the first is reported",
+      "an expansion depends on a caller-side name and fails with the compiler's generic message"
+     ]
+    },
+    {
+     "slug": "expansion-tests",
+     "status": "forged",
+     "laws": [
+      "gate-sees-target"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "an emitter is tested only by the code that uses it",
+      "a refactor moved a macro diagnostic to the wrong token without failing a test",
+      "an exported generator compiles at every call site in its own package",
+      "setting up tests for a new macro or source generator"
+     ]
+    },
+    {
+     "slug": "lossless-tree-codemods",
+     "status": "forged",
+     "laws": [],
+     "shared_with": [],
+     "use_when": [
+      "planning an automated rewrite across many authored files",
+      "a codemod diff reformats lines it never meant to change",
+      "deciding between text replacement and a tree-based rewrite",
+      "a migration must match calls by what they refer to rather than by their spelling"
+     ]
+    },
+    {
+     "slug": "pure-expansion",
+     "status": "forged",
+     "laws": [
+      "derivation-names-recomputation"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "an emitter reads a file",
+      "an environment variable or the clock",
+      "generated output differs between machines or between two clean builds",
+      "an editor re-runs a source generator on every keystroke",
+      "adding an emitter that pulls a large dependency into the build"
+     ]
+    },
+    {
+     "slug": "representation-strength-from-input-contract",
+     "status": "forged",
+     "laws": [],
+     "shared_with": [],
+     "use_when": [
+      "deciding whether an emitter parses its input as raw tokens or as a full syntax tree",
+      "an embedded little language is rejected with a host-syntax error",
+      "a generator re-implements the host grammar with hand-written token matching",
+      "choosing a tree for a tool that writes back into authored files"
+     ]
+    },
+    {
+     "slug": "target-syntax-templates",
+     "status": "forged",
+     "laws": [],
+     "shared_with": [],
+     "use_when": [
+      "an emitter builds its output by concatenating or formatting strings",
+      "a generated identifier is assembled by pasting text fragments together",
+      "choosing between a template system and a text writer for a generator"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "rust",
+     "technique": "call-site-diagnostics",
+     "file": "knowledge/software-engineering/engineering-process/build-and-release/compile-time-code-emission/applications/rust--call-site-diagnostics.md",
+     "verified_on": "2026-11-11",
+     "verified_against": "rust@1.96.1"
+    },
+    {
+     "stack": "rust",
+     "technique": "representation-strength-from-input-contract",
+     "file": "knowledge/software-engineering/engineering-process/build-and-release/compile-time-code-emission/applications/rust--representation-strength-from-input-contract.md",
+     "verified_on": "2026-11-11",
+     "verified_against": "rust@1.96.1"
     }
    ]
   },
@@ -43337,6 +43455,7 @@
     "companion-runtime/action-catalog-single-source",
     "companion-runtime/host-seam-contracts",
     "companion-runtime/metered-llm-seam",
+    "compile-time-code-emission/expansion-tests",
     "concurrency-guards/cap-predicate-on-the-locked-row",
     "concurrency-guards/critical-section-across-a-suspension",
     "concurrency-guards/cross-process-exclusion",
@@ -43973,6 +44092,7 @@
     "companion-identity/capability-exercise-ledger",
     "companion-runtime/autonomous-cycle-hosting",
     "companion-runtime/signal-economy-contract",
+    "compile-time-code-emission/call-site-diagnostics",
     "concurrency-guards/atomic-file-publish",
     "concurrency-guards/cross-process-exclusion",
     "concurrency-guards/release-guarantees",
@@ -46878,6 +46998,7 @@
     "companion-identity/capability-exercise-ledger",
     "companion-identity/disk-truth-db-index",
     "companion-runtime/action-catalog-single-source",
+    "compile-time-code-emission/pure-expansion",
     "conditional-service-composition/specificity-ordered-layering",
     "conformance-checking/claim-write-back",
     "conformance-checking/edition-stratified-conformance",
@@ -47213,6 +47334,7 @@
     "claimed-improvement-remeasurement/claimant-figure-never-decides",
     "companion-runtime/headless-turn-stream",
     "companion-runtime/signal-economy-contract",
+    "compile-time-code-emission/call-site-diagnostics",
     "contested-acquisition/classify-before-you-respond",
     "contested-acquisition/rung-trust-does-not-promote",
     "convergence-loop-and-requeue/error-policy-as-a-separate-function",

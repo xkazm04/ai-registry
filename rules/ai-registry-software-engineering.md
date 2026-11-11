@@ -1,6 +1,6 @@
 # Software engineering - the subjects this registry carries
 
-`software-engineering` - 245 subjects, 2003 techniques, 1501 applications.
+`software-engineering` - 246 subjects, 2010 techniques, 1503 applications.
 Slugs only; open one with `registry_subject` (or `node <registry>/scripts/registry-query.mjs --subject <slug>`), never by reading `index.json` - the access rule beside this file describes the loop.
 
 ### ui-surfaces
@@ -50,7 +50,7 @@ Slugs only; open one with `registry_subject` (or `node <registry>/scripts/regist
 - **external-systems** - cicd-monitoring, connector-catalog, digest-bound-operator-writes, templates-scaffolding
 
 ### engineering-process
-- **build-and-release** - build-economics, codegen, packaging, release-pipeline, test-harness, test-input-generation, vendored-patch-stack
+- **build-and-release** - build-economics, codegen, compile-time-code-emission, packaging, release-pipeline, test-harness, test-input-generation, vendored-patch-stack
 - **codebase-stewardship** - codebase-scanning, concurrent-vcs, dead-code, dependency-declaration, docs-sync, live-defect-debugging, machine-authored-documentation, module-design, repository-landing-document
 - **continuous-integration** - ci-execution-trust, deployment-contract, earned-autonomy-tiers, machine-paced-delivery, pipeline-authoring, runner-fleet
 - **standards-and-gates** - invariant-placement, knowledge-registry, metric-gates, multi-project, quality-gates, repo-manifest-standard, trust-base
