@@ -17,8 +17,8 @@ already_covered: 7
 untriaged: 4
 currency: 3
 dispatched: 0
-applied: 1
-shipped: 0
+applied: 2
+shipped: 1
 run_id: shift-document-understanding
 siblings: 1
 fetches: 5
@@ -89,6 +89,28 @@ named; floor: the clean control not flagged. Unmeasurable because arm B is not i
 when the reader lead below is built: the same four fixtures in `scripts/tests/pdf-text.test.mjs` measure
 it.
 
+**Second row, `code`, verdict `better` (2026-11-11, operator milestone verdict `pdftext: fix`).** Lead 2
+built in this registry. `scripts/lib/pdf-text.mjs` now keeps each page's decoded runs per font before
+the cleanup and returns `corruption` (`clean` / `corrupt` / `unknown`, the condemned fonts or pages
+with their statistics, and the condemned glyph share). A segment is judged page-wide first, then per
+font on its page, then per font across the document, with floors of 20 glyphs, 20 Latin letters and 5 %
+of the page; it is condemned by control/replacement/private-use glyphs above 30 %, a vowel share below
+0.2, or a share of the letters e a i o n r s t below 0.35. Too few letters is `unknown`. The second floor
+was added during the build: a shift by one sends t, h, n, d onto vowels, and the fixture body so shifted
+keeps a vowel share of 0.245 (above the floor) while its common-letter share falls to 0.313; the
+common-letter share of natural prose measured 0.50 to 0.70 on one paragraph each of English, German,
+French, Czech, Polish and Finnish, a line of code and two URLs. `scripts/research-ingest.mjs` records
+the band as `meta.pdf_corruption`, names condemned regions on stderr, and exits 2 when half or more of
+the glyphs are condemned. Same fixtures, after: (a) control-code heading named (`control-glyphs`), its
+text still deleted by the cleanup as before; (b) shifted heading named (`vowel-share`, 0.09) while the
+page-wide share stays natural; the clean mixed-font control is `clean`; a 10-letter acronym run in an
+odd face is below the floor and not flagged. Two more: a whole page under a vowel-preserving shift is
+named by `letter-profile` and fails ingest; a page of only numbers is `unknown`. Cleaned text is
+byte-identical to the previous reader on all fixtures and on 23 local invoice PDFs (which carry no text
+layer this reader can open, so they are `unknown`; no real text-bearing PDF was on the box to
+measure false positives). Limit stated in the reader: a substitution that keeps both shares natural
+still reads clean, more likely in short runs and in languages near the floors.
+
 ## Triage
 
 | # | src | Row | Outcome | Rule | G/R/C |
@@ -104,7 +126,7 @@ it.
 | R9 | R | Repeated sampling trades precision for recall | already covered (`recall-passes-with-a-declared-cap`) | - | - |
 | R10 | R | Four-role AI-in-review taxonomy | untriaged (framework, no consumer) | - | - |
 | L1 | L | Corrupt text detected per font, by letter statistics | **accepted, landed** | score | 3/0/1 |
-| L2 | L | This registry's PDF reader cannot raise its own corrupt verdict | lead (defect, confirmed by read and by the experiment above) | lead | - |
+| L2 | L | This registry's PDF reader cannot raise its own corrupt verdict | lead, **built** 2026-11-11 (operator verdict `pdftext: fix`; second Applied row) | lead | - |
 | L3 | L | A fleet KB chunker banks corrupt pages at full confidence | lead (build-lane apply of L1) | lead | - |
 | L4 | L | Adopt this parser in a wired ingest | **declined** | decision | - |
 | L5 | L | Layout risk is a separate verdict from readability | lead | lead | - |
@@ -173,7 +195,9 @@ discipline, which landed as L1.
    fixture), recording whether the reviewer flags the damage or reviews cipher as content. Report recall
    and false-flag rate with the run count. Judgment lane, no GPU. Return: when a filler or build-lane
    seat picks it up.
-2. **This registry's PDF reader (L2), a code fix proposed, not made.** `scripts/lib/pdf-text.mjs` strips
+2. **This registry's PDF reader (L2). Built 2026-11-11 on the operator's verdict; see the second
+   Applied row for what differs from the proposal below (a second letter statistic; fatal at half the
+   glyphs).** As proposed: `scripts/lib/pdf-text.mjs` strips
    control characters in its final cleanup, before `scripts/research-ingest.mjs` counts suspect
    characters, and that count admits all printable ASCII, so letter substitution passes; the check is a
    whole-document 5 % share with no per-font split, though the reader knows the font at every `Tf`.

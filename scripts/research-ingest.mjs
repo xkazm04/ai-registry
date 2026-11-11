@@ -26,7 +26,8 @@
  *
  *   0  a usable transcript was written
  *   2  FATAL — the instrument failed (no yt-dlp, no captions, fetch error, zero words,
- *      a client-rendered script-shell page, --meta-only on a YouTube URL with no title)
+ *      a client-rendered script-shell page, --meta-only on a YouTube URL with no title,
+ *      a PDF whose text is corrupt document-wide by letter statistics)
  *   3  the instrument worked and the SOURCE is too thin to mine (< --min-words)
  *
  * Output goes to a scratch directory outside the repository by default: transcripts
@@ -492,6 +493,7 @@ if (src.kind === 'youtube') {
     const r = pdfToText(bytes);
     meta.pdf_pages = r.pages;
     meta.pdf_fonts = r.fonts;
+    meta.pdf_corruption = r.corruption;
     text = r.text;
     meta.title = null;
     const base = new URL(src.url).pathname.split('/').filter(Boolean).pop() ?? '';
@@ -513,6 +515,7 @@ if (src.kind === 'youtube') {
     const r = pdfToText(bytes);
     meta.pdf_pages = r.pages;
     meta.pdf_fonts = r.fonts;
+    meta.pdf_corruption = r.corruption;
     text = r.text;
   } else {
     const raw = bytes.toString('utf8');
@@ -568,6 +571,22 @@ if (meta.container === 'pdf') {
       `PDF text is ${((suspect / text.length) * 100).toFixed(1)}% non-text characters - the fonts did not decode`,
       'Subset fonts without a usable /ToUnicode CMap. The word count is real but the words are not; do not mine this output.',
     );
+  }
+  // The check above reads the CLEANED text and admits all printable ASCII, so a font whose
+  // codes were control bytes (deleted by the cleanup) or a letter-for-letter substitution
+  // (printable) passes it. The reader judged the raw text per font by letter statistics
+  // (`pdf_corruption` in meta, the band on the record): fatal when the condemned share is
+  // document-wide, otherwise recorded and named on stderr so a miner skips those regions.
+  const band = meta.pdf_corruption;
+  if (band?.verdict === 'corrupt') {
+    const named = band.corrupt.map((c) => `${c.scope}${c.page ? ` p${c.page}` : ''}${c.font ? ` ${c.font}` : ''} (${c.reason})`).join('; ');
+    if (band.share >= 0.5) {
+      fatal(
+        `PDF text is ${(band.share * 100).toFixed(0)}% corrupt by letter statistics - ${named}`,
+        'A font maps its codes to the wrong letters (or to control bytes). The words are not the document; do not mine this output.',
+      );
+    }
+    console.error(`research-ingest WARNING: corrupt PDF text in ${(band.share * 100).toFixed(1)}% of glyphs - ${named}. Do not quote those regions; meta.pdf_corruption names them.`);
   }
 }
 

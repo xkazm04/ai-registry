@@ -97,3 +97,88 @@ test('Tm on a new baseline breaks the line; Tm on the same baseline separates th
   const words = pdfToText(onePage('BT /F1 12 Tf 1 0 0 1 72 700 Tm (Hello) Tj 1 0 0 1 120 700 Tm (World) Tj ET'));
   assert.equal(words.text, 'Hello World');
 });
+
+// ---- the corrupt band (extraction-yield-bands, "Corrupt is the band teams do not build") ----
+// A body face holding about 90 % of the page's letters (/F1, Helvetica) and a 38-character
+// heading in a second face with NO /ToUnicode table (/F2). Before the letter statistics, cases
+// (a) and (b) passed research-ingest's non-text check at 0 %: (a) because the cleanup deleted
+// the heading first, (b) because a shifted alphabet is printable ASCII.
+const BODY = [
+  'The committee reviewed the annual report and agreed that the outlook for the coming year',
+  'remains positive overall. Revenue rose in every quarter, operating costs were held close to',
+  'the plan, and the board approved a modest increase in the research budget for the new',
+  'product line. Several open questions about the supply chain were deferred to the next',
+  'meeting, where the finance team will present a revised forecast to the members.',
+];
+const HEADING = 'Quarterly revenue grew across regions';
+const DISPLAY = '<< /Type /Font /Subtype /Type1 /BaseFont /ABCDEF+Display >>';
+const hex = (codes) => `<${codes.map((c) => c.toString(16).padStart(2, '0')).join('')}>`;
+const ascii = (str) => [...str].map((c) => c.charCodeAt(0));
+/** One page: the heading run (codes, shown in /F2) above the body (shown in /F1). */
+const twoFaces = (headingCodes) => pdf([CATALOG, PAGES,
+  '<< /Type /Page /Parent 2 0 R /Resources << /Font << /F1 5 0 R /F2 6 0 R >> >> /Contents 4 0 R >>',
+  stream(`BT /F2 18 Tf 72 740 Td ${hex(headingCodes)} Tj /F1 11 Tf 0 -24 Td ${BODY.map((l) => `(${l}) Tj 0 -14 Td`).join(' ')} ET`),
+  HELVETICA, DISPLAY]);
+const caesar = (str, k) => str.replace(/[a-z]/gi, (c) => {
+  const b = c < 'a' ? 65 : 97;
+  return String.fromCharCode(((c.charCodeAt(0) - b + k) % 26) + b);
+});
+const namesF2 = (r) => r.corruption.corrupt.some((c) => c.scope === 'font' && /\/F2/.test(c.font));
+const namesF1 = (r) => r.corruption.corrupt.some((c) => /\/F1/.test(c.font ?? ''));
+
+test('control: a clean mixed-font page is clean, and its text is unchanged', () => {
+  const r = pdfToText(twoFaces(ascii(HEADING)));
+  assert.equal(r.text, `${HEADING}\n${BODY.join('\n')}`);
+  assert.equal(r.corruption.verdict, 'clean');
+  assert.deepEqual(r.corruption.corrupt, []);
+  assert.equal(r.corruption.share, 0);
+});
+
+test('(a) a font with no table whose codes are 0x01-0x1f is named corrupt, though the cleanup deletes it', () => {
+  // 0x09/0x0a/0x0d are whitespace to every reader; a glyph-index face uses the rest of the range.
+  const CTRL = Array.from({ length: 31 }, (_, i) => i + 1).filter((c) => ![0x09, 0x0a, 0x0d].includes(c));
+  const codes = Array.from({ length: HEADING.length }, (_, i) => CTRL[i % CTRL.length]);
+  const r = pdfToText(twoFaces(codes));
+  assert.equal(r.text, BODY.join('\n'), 'the cleaned text is what it was: the heading vanishes');
+  assert.equal(r.corruption.verdict, 'corrupt');
+  assert.ok(namesF2(r), JSON.stringify(r.corruption));
+  assert.ok(!namesF1(r), 'the healthy body face is not condemned');
+  assert.equal(r.corruption.corrupt.find((c) => c.scope === 'font').reason, 'control-glyphs');
+  assert.ok(r.corruption.share > 0 && r.corruption.share < 0.5, 'a heading is not document-wide');
+});
+
+test('(b) a letter-for-letter substitution in printable ASCII is named by its own vowel share', () => {
+  const cipher = caesar(HEADING, 1); // 'Rvbsufsmz sfwfovf ...': vowel share 0.09, all printable
+  const r = pdfToText(twoFaces(ascii(cipher)));
+  assert.equal(r.text, `${cipher}\n${BODY.join('\n')}`, 'text is unchanged; the band rides beside it');
+  assert.equal(r.corruption.verdict, 'corrupt');
+  assert.ok(namesF2(r), JSON.stringify(r.corruption));
+  assert.ok(!namesF1(r));
+  const f2 = r.corruption.corrupt.find((c) => c.scope === 'font');
+  assert.equal(f2.reason, 'vowel-share');
+  assert.ok(f2.vowelShare < 0.2);
+  assert.ok(!r.corruption.corrupt.some((c) => c.scope === 'page'), 'the page-wide share stays natural - only the per-font check sees it');
+});
+
+test('control: a stray 10-letter acronym run in an odd face is below the floor and does not flag the page', () => {
+  const r = pdfToText(twoFaces(ascii('XKCDBRTMNP')));
+  assert.equal(r.corruption.verdict, 'clean');
+  assert.deepEqual(r.corruption.corrupt, []);
+});
+
+test('a substitution that keeps a natural vowel share is named by its letter profile, document-wide', () => {
+  // Shift 1 sends t,h,n,d onto u,i,o,e: 'Uif dpnnjuuff sfwjfxfe' has vowels to spare.
+  const cipher = caesar(BODY.join(' '), 1);
+  const r = pdfToText(onePage(`BT /F1 12 Tf 72 700 Td (${cipher}) Tj ET`));
+  assert.equal(r.text, cipher);
+  assert.equal(r.corruption.verdict, 'corrupt');
+  assert.ok(r.corruption.corrupt.every((c) => c.reason === 'letter-profile'), JSON.stringify(r.corruption));
+  assert.ok(r.corruption.corrupt[0].vowelShare >= 0.2, 'the vowel share alone would have passed it');
+  assert.equal(r.corruption.share, 1, 'the whole document is condemned, which research-ingest treats as fatal');
+});
+
+test('text with no letters to judge is unknown, never clean', () => {
+  const r = pdfToText(onePage('BT /F1 12 Tf 72 700 Td (2024 2025 2026 1.5 3.25 4,700 16,000 89.7 55.2 21.1) Tj ET'));
+  assert.equal(r.corruption.verdict, 'unknown');
+  assert.deepEqual(r.corruption.corrupt, []);
+});
