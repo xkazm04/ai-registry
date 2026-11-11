@@ -1,0 +1,66 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "hb-filler-1111-f",
+  "skill": "harvest",
+  "skill_version": "0.7.0",
+  "mode": "backlog",
+  "domain": "software-engineering",
+  "started_at": "2026-11-11T05:05:00Z",
+  "ended_at": "2026-11-11T06:10:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 3,
+    "landed": 0,
+    "declined": 0,
+    "idled": 3,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "software-engineering/agent-memory",
+      "at": "2026-11-11",
+      "engine": "shift",
+      "outcome": "idled",
+      "points_before": null,
+      "points_after": null
+    },
+    {
+      "id": "software-engineering/authorization",
+      "at": "2026-11-11",
+      "engine": "shift",
+      "outcome": "idled",
+      "points_before": null,
+      "points_after": null
+    },
+    {
+      "id": "software-engineering/test-harness",
+      "at": "2026-11-11",
+      "engine": "shift",
+      "outcome": "idled",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "software-engineering/authorization",
+      "technique": "widening-cannot-reach-a-write",
+      "verdict": "not-better",
+      "mode": "blind-ab"
+    },
+    {
+      "subject": "software-engineering/test-harness",
+      "technique": "skip-is-decided-before-the-body",
+      "verdict": "not-better",
+      "mode": "blind-ab"
+    }
+  ],
+  "files": [
+    "librarian/harvest/backlog.jsonl"
+  ],
+  "commits": [],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "Backlog wave, /shift filler, size 3. 8-026 covered (eval-harness/failure-attribution plus oracle-frozen-during-repair), 9-001 and 9-003r not-better (blind-ab, both arms at ceiling 12 of 12). Nothing landed. Held rows skipped by hand. Arms isolated, no permission bypass."
+}
