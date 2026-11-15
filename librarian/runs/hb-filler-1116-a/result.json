@@ -1,0 +1,73 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "hb-filler-1116-a",
+  "skill": "harvest",
+  "skill_version": "0.7.0",
+  "mode": "backlog",
+  "domain": "software-engineering",
+  "started_at": "2026-11-15T23:22:22Z",
+  "ended_at": "2026-11-15T23:44:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 3,
+    "landed": 0,
+    "declined": 0,
+    "idled": 3,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "software-engineering/versioning-snapshots",
+      "at": "2026-11-16",
+      "engine": "shift",
+      "outcome": "idled",
+      "points_before": null,
+      "points_after": null
+    },
+    {
+      "id": "software-engineering/cost-metering",
+      "at": "2026-11-16",
+      "engine": "shift",
+      "outcome": "idled",
+      "points_before": null,
+      "points_after": null
+    },
+    {
+      "id": "software-engineering/structured-output",
+      "at": "2026-11-16",
+      "engine": "shift",
+      "outcome": "idled",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "software-engineering/versioning-snapshots",
+      "technique": "restore-semantics",
+      "verdict": "not-better",
+      "mode": "blind-ab"
+    },
+    {
+      "subject": "software-engineering/cost-metering",
+      "technique": "budget-enforcement",
+      "verdict": "not-better",
+      "mode": "blind-ab"
+    },
+    {
+      "subject": "software-engineering/structured-output",
+      "technique": "unicode-well-formedness-at-the-request-encoder",
+      "verdict": "not-better",
+      "mode": "blind-ab"
+    }
+  ],
+  "files": [
+    "librarian/harvest/backlog.jsonl",
+    "librarian/runs/hb-filler-1116-a/result.json"
+  ],
+  "commits": [],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "Filler, size 3, fresh rows past the 11-11 saturation list, prior art in both arms. 5-037 A12 B12, 8-073 A12 B11, 7-040 A12 B12: all ceiling, nothing landed. The tail below the 11-11 list holds rows Opus already answers at the ceiling from neighbouring prior art."
+}
