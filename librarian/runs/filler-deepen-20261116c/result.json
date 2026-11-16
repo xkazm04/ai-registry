@@ -1,0 +1,136 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "filler-deepen-20261116c",
+  "skill": "deepen",
+  "skill_version": "1.5.0",
+  "mode": "loop",
+  "domain": "software-engineering",
+  "started_at": "2026-11-16T01:58:22Z",
+  "ended_at": "2026-11-16T02:21:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 3,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "software-engineering/schema-driven-ui",
+      "at": "2026-11-16",
+      "engine": "deepen",
+      "outcome": "landed",
+      "points_before": 5,
+      "points_after": null
+    },
+    {
+      "id": "software-engineering/triage-queues",
+      "at": "2026-11-16",
+      "engine": "deepen",
+      "outcome": "landed",
+      "points_before": 5,
+      "points_after": null
+    },
+    {
+      "id": "software-engineering/client-fetch-cache",
+      "at": "2026-11-16",
+      "engine": "deepen",
+      "outcome": "landed",
+      "points_before": 4,
+      "points_after": null
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "schema-driven-ui",
+      "technique": "registry-mapping",
+      "verdict": "better",
+      "mode": "simulation"
+    },
+    {
+      "subject": "schema-driven-ui",
+      "technique": "node-vocabulary-design",
+      "verdict": "better",
+      "mode": "simulation"
+    },
+    {
+      "subject": "triage-queues",
+      "technique": "queue-ordering-and-identity",
+      "verdict": "unmeasurable",
+      "mode": "simulation"
+    },
+    {
+      "subject": "triage-queues",
+      "technique": "queue-lifecycle",
+      "verdict": "not-better",
+      "mode": "simulation"
+    },
+    {
+      "subject": "triage-queues",
+      "technique": "verdict-writeback",
+      "verdict": "better",
+      "mode": "simulation"
+    },
+    {
+      "subject": "triage-queues",
+      "technique": "focus-mode",
+      "verdict": "better",
+      "mode": "simulation"
+    },
+    {
+      "subject": "client-fetch-cache",
+      "technique": "in-flight-dedup",
+      "verdict": "better",
+      "mode": "simulation"
+    },
+    {
+      "subject": "client-fetch-cache",
+      "technique": "admission-hypothesis",
+      "verdict": "better",
+      "mode": "simulation"
+    }
+  ],
+  "files": [
+    "knowledge/software-engineering/ui-surfaces/input-and-editing/schema-driven-ui",
+    "knowledge/software-engineering/operations/service-operations/triage-queues",
+    "knowledge/software-engineering/client-architecture/client-fetch-cache",
+    "librarian/applied.md",
+    "librarian/subjects/software-engineering/schema-driven-ui.md",
+    "librarian/subjects/software-engineering/triage-queues.md",
+    "librarian/subjects/software-engineering/client-fetch-cache.md"
+  ],
+  "commits": [
+    {
+      "sha": "eeb786b33",
+      "branch": "main",
+      "pathspec": [
+        "knowledge/software-engineering/ui-surfaces/input-and-editing/schema-driven-ui",
+        "librarian/subjects/software-engineering/schema-driven-ui.md",
+        "librarian/applied.md"
+      ]
+    },
+    {
+      "sha": "1c1da7102",
+      "branch": "main",
+      "pathspec": [
+        "knowledge/software-engineering/operations/service-operations/triage-queues",
+        "librarian/subjects/software-engineering/triage-queues.md",
+        "librarian/applied.md"
+      ]
+    },
+    {
+      "sha": "b68a44fd7",
+      "branch": "main",
+      "pathspec": [
+        "knowledge/software-engineering/client-architecture/client-fetch-cache",
+        "librarian/subjects/software-engineering/client-fetch-cache.md",
+        "librarian/applied.md"
+      ]
+    }
+  ],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "Loop of 3. All three saturated (dry 2). No new technique; eight rules gained a condition; schema-driven-ui and triage-queues gained a python stack; goat's client-fetch-cache seam was deleted upstream (1a4d7c5), recorded as history. Registry map not regenerated (owed)."
+}
