@@ -1571,9 +1571,9 @@
    "subcategory": "experience",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/experience/agent-host-experience/agent-host-experience.md",
-   "digest": "sha256-b2:1ba6c714c7d9ee8c",
-   "revision": 2,
-   "changedAt": "2026-11-03",
+   "digest": "sha256-b2:8e5002ae7c0b93d6",
+   "revision": 3,
+   "changedAt": "2026-11-16",
    "techniques": [
     {
      "slug": "agent-ui-event-stream",
@@ -1677,7 +1677,7 @@
      "stack": "rust",
      "technique": "journey-shaped-tool-surface",
      "file": "knowledge/software-engineering/llm-agent/experience/agent-host-experience/applications/rust--journey-shaped-tool-surface.md",
-     "verified_on": "2026-11-03",
+     "verified_on": "2026-11-16",
      "verified_against": "rust@1.97"
     }
    ]

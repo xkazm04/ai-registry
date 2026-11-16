@@ -67,10 +67,10 @@ earns its place only where **seeing or manipulating beats reading**: picking one
 several, comparing side by side, confirming a precise thing, visualizing a shape. A
 view added because the operation's text result was confusing has hidden a defect in
 the operation and left every non-rendering host with the defect. Inline views are
-glimpses, under limits at least one host family publishes (at most two actions, about
-four or five data points, no nested scrolling, no menus, never a second composer that
-competes with the host's own) and that another family's guidance is reported to share;
-depth goes to a larger display mode or home to the product. Language understanding
+glimpses, under limits three host families publish and largely share (at most two
+actions, a carousel of three to eight, no nested scrolling, no menus, never a second
+composer that competes with the host's own; one family adds about four or five data
+points, the others a few attributes per item; re-read 2026-11-16). Depth goes to a larger display mode or home to the product. Language understanding
 goes through the host's chat; direct manipulation of things the product already
 controls stays in the view. The view runs inside someone else's application, so it
 speaks only the standard bridge, declares every network origin it contacts, and treats
@@ -96,9 +96,10 @@ by the product. The split between what may finish in-host and what must come hom
 
 There is no conformance suite for agent hosts. They differ in which protocol revision
 they speak, whether they render views at all, which display modes they offer, which
-behavior hints they honor (at least one major host honors only the read-only hint and
-ignores the destructive and idempotent ones), whether they enforce a view's declared
-origins, and how they read an authentication failure. The product therefore **detects
+behavior hints they honor (a March 2026 survey of named hosts found each acting only on
+the read-only hint, and none documented acting on the destructive or idempotent ones),
+whether they enforce a view's declared origins and how strictly, and how they read an
+authentication failure. The product therefore **detects
 rather than assumes**: it reads the capabilities a host declares, degrades to text when
 a feature is absent, and never lets a safety property rest on a host feature it has not
 observed. A product tested in one host has a measurement of that host, not of agent
@@ -129,8 +130,10 @@ boundary, never a second vocabulary authored beside it: the in-app registry stay
 single authority, and the projection is a function that can lose fidelity and says so.
 The choice between a declarative spec (consistent with the host, safe, bounded by the
 host's catalog) and an embedded view (full fidelity in a sandbox, visually disjoint and
-slower) is a trade of trust against expressiveness, and an interop format that has not
-reached a stable release is projected to, never designed around. That is
+slower) is a trade of trust against expressiveness. An interop format is projected to,
+never designed around, and that holds after it reaches a stable release. Stability
+lowers the churn the projection absorbs. It does not move authority over the vocabulary.
+That is
 [portable-view-spec](./techniques/portable-view-spec.md), resting on
 [emitter-registry-sync](../../../ui-surfaces/input-and-editing/schema-driven-ui/techniques/emitter-registry-sync.md).
 
@@ -139,7 +142,11 @@ reached a stable release is projected to, never designed around. That is
 There is a second way to be reachable by outside agents: as a peer agent that another
 agent delegates a whole task to, with a lifecycle (working, input required, auth
 required, done) and an opaque interior. It is right for long-running work that needs the
-product's own reasoning and policy, delegated across organizations. It is wrong as a way
+product's own reasoning and policy, delegated across organizations, where the caller
+hands over the steps and not only the work. Long-running work and a
+pause for the caller no longer argue for it on their own: since the tool protocol's
+2026-07-28 revision, a tool carries both through a task handle and an input-required
+answer. It is wrong as a way
 to reach general assistants, which call tools; a peer endpoint shipped instead of tools
 reaches almost nobody, and at least one practitioner retrospective concluded that its
 implementation burden outweighed its benefit. When it is right, it carries a signed description, human
@@ -155,7 +162,7 @@ injection channel. That is [peer-agent-delegation](./techniques/peer-agent-deleg
 | let the user edit at length or commit something irreversible | a handoff into the product | the product owns depth and consent |
 | drive its own windows from its own agent | a typed event stream behind a trusted server | there is no outside host to render |
 | show its composed views in a host that renders declaratively | a projection of the in-app vocabulary | one authority, many renderers |
-| take a long task delegated by another organization's agent | a peer-agent endpoint, beside the tools | delegation with an opaque interior |
+| take a whole task, steps included, that another organization's agent hands over under policy it must not see | a peer-agent endpoint, beside the tools | delegation with an opaque interior; a long job alone is a tool with a task handle |
 
 The rows compose; they do not compete. A mature product often ships the first three
 together, the fourth for itself, and the last two only when a named consumer asks.

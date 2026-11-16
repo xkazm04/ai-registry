@@ -74,16 +74,29 @@ the sandbox and the declared origins. Neither family lets the product skip its o
 consent wiring: an action in either is a proposal, armed only through the product's
 consent gate.
 
-## Never design around a pre-stable format
+## Never design around an outside format, stable or not
 
-Interop view formats are young. Several are in public preview, below their first stable
-release, with action round-trips still being added; and a 2026 survey for this subject
-found no evidence that a mainstream third-party chat host renders declarative specs from
-arbitrary servers — an absence, not a confirmed negative. That is a reason to
-**project to** such a format, never to **design around** it: the in-app vocabulary is
-shaped by the product's own surfaces, and the projection absorbs the outside format's
-changes. A product whose internal vocabulary was bent to match a preview format inherits
-every breaking change of that format and none of its future.
+Interop view formats are young, and this section first rested on that: they were in
+public preview, below their first stable release, with action round-trips still being
+added. **Corrected 2026-11-16:** the declarative format this subject was surveyed
+against declared its first stable release on 2026-11-11, adding calls that run in both
+directions between the view and the agent. One mainstream assistant renders specs from
+agents an organization registers with it, one release behind the newest. The format's
+renderers also run inside the embedded-view extension, so the "combine" case above now
+ships. The 2026-11-03 absence still holds for its exact claim: no evidence that a
+mainstream chat host renders declarative specs from *arbitrary* servers. Registration
+is a gate, and a gate is not the open web.
+
+Stability changes how much churn the projection absorbs. It does not change who owns
+the vocabulary. **Project to** an outside format; never **design around** it, whether it
+is a preview or a 1.0. The in-app vocabulary is shaped by the product's own surfaces,
+the outside format by a committee serving every host, and the two will diverge even
+when neither breaks: the stable release in this survey arrived with additions, and
+every later addition is a kind the in-app registry did not ask for. A product whose
+internal vocabulary was bent to match an outside format inherits its breaking changes
+and its additions, and loses the one place where adding a kind is decided. Pre-stable
+status is still a reason to keep the projection thin. It was never the reason for
+having one.
 
 ## Counter-cases
 

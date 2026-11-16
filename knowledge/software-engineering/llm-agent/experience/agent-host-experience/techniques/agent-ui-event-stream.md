@@ -51,6 +51,16 @@ authority with both sides of any language boundary pinned to it by a test. Parsi
 framing and the treatment of unknown event types are
 [stream-parsing](../../../runtime-and-io/streaming-output/techniques/stream-parsing.md).
 
+Two things to know before mapping onto the cross-vendor format, from reading its
+event reference on 2026-11-16. First, it has no event ordinal and no resume-from-offset;
+a reader that reconnects resynchronises by asking for a fresh snapshot. The per-run
+count below is therefore the product's own addition at its boundary, and the format
+does not supply it. Second, it carries a pause for a person as an outcome on the
+run-finished event, and the client resumes by starting a new run with the answers. That
+is the shape this technique already requires ("a run that asks a person ends"). A
+product's own consent-request event projects onto that outcome; it is not a second
+mechanism.
+
 ## Every surface reads the same story
 
 Each surface attaches to a run by its identity and receives the same events. A second

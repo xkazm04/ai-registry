@@ -36,6 +36,36 @@ All of these, not one of them:
   sign-in on the caller's side — and the lifecycle's input-required and auth-required
   states carry that pause honestly.
 
+### Long-running and paused no longer point to the peer form
+
+Amended 2026-11-16. The first and last conditions above were written when the tool
+protocol had no durable task of its own. Both now have a tool-side carrier, so on their
+own they no longer argue for the peer form.
+
+- **Long-running work.** The tool protocol's 2026-07-28 revision moved tasks into an
+  official extension. A task is polled for its state and can be sent input while it
+  runs. A tool call that answers with a task handle carries hours of work.
+- **A pause for the caller.** The same revision lets an interim result say that input
+  is required and name what it needs, and the caller answers and retries. That carries
+  the "needs more input" pause. A sign-in on the caller's side was already the
+  protocol's authorization flow.
+
+What the tool surface does not replace is the other pair: **the caller hands over the
+whole task and does not drive its steps**, and the reasoning that runs it sits under
+policy the caller must not see, across an organization boundary. A multi-turn exchange
+is not the line on its own. A negotiation under a counterparty's hidden rules runs fine
+over tools when the caller's agent wants to place each offer itself: it reads the
+table, sends, and reads again, and the counterparty's policy stays on the server. The
+peer form is earned when the caller wants to say "get this done within these limits"
+and come back for the result. A delegated job that runs long, pauses once and returns a
+result is a tool with a task handle, even across organizations. So the test is now two
+conditions, not four: does the caller want to delegate the steps and not only the
+work, and does the delegation cross a trust boundary that rules out exposing the
+operations?
+The tool protocol becoming stateless in the same revision sharpens the session-smuggling
+point below: a tool call no longer has a protocol session to smuggle through, and a peer
+session still does.
+
 When the caller's agent can finish the journey with a handful of operations, it should:
 it keeps control, sees every step, and the user's own assistant stays accountable for
 the outcome. That is [journey-shaped-tool-surface](./journey-shaped-tool-surface.md).
@@ -54,7 +84,14 @@ The honest counter-evidence is that it often is not worth it. At least one pract
 retrospective concluded that the implementation burden — agent descriptions, task state
 machines, streaming and push notification, artifact handling, cross-organization
 authentication — outweighed the benefit, and that the tool protocol already covered most
-of what was needed; adoption outside enterprise runtimes is thin. Treat that as the
+of what was needed; adoption outside enterprise runtimes is thin. Re-read 2026-11-16:
+the retrospective is dated March 2026 and also argues that a tool server holding
+context behind a task identifier already gives statefulness. A July 2026 comparison
+that built the same multi-agent task both ways found the tool protocol the lighter
+implementation and the peer lifecycle the more complex one. The other side of the
+ledger: the peer protocol reached its first stable release in March 2026, under a
+neutral foundation, and had a patch release two months later. It is real and
+maintained. What remains thin is adoption by consumer assistants. Treat that as the
 prior to beat, not as a verdict. Before building, name the consumer, the task,
 and the reason the tool surface cannot carry it. If any of the three is missing, build
 tools.

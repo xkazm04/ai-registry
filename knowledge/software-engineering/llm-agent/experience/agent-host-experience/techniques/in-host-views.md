@@ -45,8 +45,13 @@ outcome, and a host's absence of a view is an empty rendering, not an empty resu
 
 ## Inline is a glimpse
 
-At least one host family publishes inline limits, and another family's guidance is
-reported to match them closely; treat them as a ceiling, not a target:
+Three host families publish inline limits. Re-read 2026-11-16 against each family's own
+page: all three cap an inline card at two actions, one primary, and a carousel at three
+to eight items, and all three forbid nested scrolling. They differ on density: one caps
+an inline card at four or five data points, and the others cap each carousel item at
+two or three attributes or three lines of metadata. They also differ on larger modes,
+offering one or two larger modes beside inline. Treat the shared numbers as a ceiling,
+not a target, and the strictest density as the portable one:
 
 - **At most two actions** on an inline view. A third action is a menu, and a menu is
   a sign the view wants to be a larger display mode or the product itself.
@@ -58,7 +63,9 @@ reported to match them closely; treat them as a ceiling, not a target:
 - **Never a second composer.** A text box in the view that asks the user what they
   want competes with the host's own input and splits the conversation in two.
 
-Escalate to a larger display mode (full screen, picture-in-picture where offered) for
+Escalate to a larger display mode (full screen, picture-in-picture or a side panel
+where offered; a host that has a side panel may open it in answer to a full-screen
+request, so lay out by the container's size rather than by the mode's name) for
 depth the user chose, and hand off to the product for anything longer
 ([depth-handoff](./depth-handoff.md)).
 
@@ -77,9 +84,9 @@ context channel — a statement of state, not an instruction.
 
 Hosts diverge feature by feature: which display modes they offer, which bridge messages
 they implement, whether they honor the view's border and domain preferences, which
-behavior hints they read (at least one major host honors only the read-only hint),
-whether they support teardown and cancellation notices, whether their mobile runtime
-exposes device features. So:
+behavior hints they read (a March 2026 survey found the named hosts acting only on
+the read-only hint), whether they support teardown and cancellation notices, whether
+their mobile runtime exposes device features. So:
 
 - **Use only the standard bridge** for everything the journey needs. A host-specific
   extra — a checkout surface, file transfer, state persisted by the host — is detected
@@ -100,6 +107,15 @@ host enforces. The usual production failure is a view built in a host or develop
 that did not enforce the policy, which then breaks or is rejected from a host's
 directory over an undeclared origin. Test in a host that enforces, and keep the
 declaration as narrow as the view's real needs.
+
+Enforcing hosts also differ in *how* they enforce, and the failure is quiet. Read
+2026-11-16 in one host family's guidance: an origin entry the host cannot parse is
+dropped and the rest applied, so the request to it fails only in the browser console. A
+declared field the standard defines may be ignored and replaced by the host's own
+value. So test every declared origin by exercising it in each enforcing host, not by
+reading the declaration back. A mobile client may run the view in a native web view
+rather than a sandboxed frame, with device features withheld. The standard's own rule is
+the floor everyone shares: with no declaration, the view gets no network at all.
 
 ## The view's channels to the model are untrusted input
 
