@@ -46,7 +46,12 @@ connection state on the streamer's own surface, not on the broadcast.
 3. **Back off with a cap.** Retry after a short delay that doubles to a ceiling of tens of
    seconds, and stays at the ceiling. A streamer's tool can be down for a whole stream; the
    page must keep trying without hammering, and must come back on its own when the tool
-   returns, because no one will reload the source mid-broadcast.
+   returns, because no one will reload the source mid-broadcast. That promise holds only
+   for a page whose document loaded. A page refused at load, or never served because
+   the tool was down, has no code running to retry. The first case is the page route's
+   job (a refusal that carries its own retry, per
+   [no-source-url-without-a-valid-read](./no-source-url-without-a-valid-read.md)). The
+   second is the tool's start-up job.
 4. **Reset the backoff on a real snapshot**, not on the socket opening. A connection that
    opens and fails before sending data is still a failure, and resetting on open lets a
    server that accepts and immediately drops connections pin the page at the shortest

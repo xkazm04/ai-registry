@@ -6,7 +6,7 @@ technique: read-only-overlay-origin
 status: forged
 laws: []
 shared_with: []
-use_when: [standing up the server that serves browser-source pages, adding a route next to an overlay page, reviewing the headers an overlay page ships with]
+use_when: [standing up the server that serves browser-source pages, adding a route next to an overlay page, reviewing the headers an overlay page ships with, an overlay that never connects once several are live]
 ---
 
 # Read-only overlay origin
@@ -40,6 +40,17 @@ so nothing a page on it does can write either.
    (server-sent events) rather than a bidirectional socket that would need its own
    inbound handling. Every other method answers with a refusal. No proxy, no redirect, no
    forwarding route. Do not "temporarily" add a POST for a test button.
+   **Budget the streams.** Over plain HTTP, which is what a loopback origin speaks, a
+   browser holds at most six connections per host. In the common host every browser
+   source shares one network context, and by default a source in an inactive scene stays
+   loaded and keeps its stream open. Each open one-way stream holds a connection for good,
+   so the seventh live overlay on one origin waits for a connection that never comes free.
+   Keep live streams per host under that ceiling with room left for page loads,
+   or carry one stream per page and spread pages over more than one exact host or port,
+   each with its own host check. Measured 2026-11-16 in a stock headless engine (not the
+   embedded one): 8 frames on one origin, 6 streams opened in 2 of 2 runs, while 8 of 8
+   opened when split four and four across two host names. Do not size a server-side
+   subscriber cap as if it were reachable from one broadcasting instance: it is not.
 3. **Check the exact host.** Accept a request only when its `Host` header is exactly the
    name and port the tool handed out. A host name the attacker controls can be made to
    resolve to the loopback address (DNS rebinding); a server that accepts any host serves
@@ -60,8 +71,11 @@ so nothing a page on it does can write either.
    embedded browser keeps a disk cache across restarts and a cached overlay repaints
    yesterday's state.
 7. **Run with the lowest page permission.** Where the embedded browser grants pages graded
-   access to the broadcasting software, the streamer's set-up instructions say to leave
-   overlay sources at the lowest level. The overlay needs none of it.
+   access to the broadcasting software, the streamer's set-up instructions say to *lower*
+   overlay sources to the lowest level. The default is not the lowest: in the common host
+   it is read access to the software's status, one step up, so "leave it" leaves a
+   status bridge open to any injected script. The overlay needs none of it. (Corrected
+   2026-11-16, read in the host's source.)
 
 ## Decision rules
 

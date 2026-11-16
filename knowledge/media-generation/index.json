@@ -4484,9 +4484,9 @@
    "subcategory": "broadcast-integration",
    "status": "forged",
    "file": "knowledge/media-generation/streaming/broadcast-integration/on-stream-overlay-delivery/on-stream-overlay-delivery.md",
-   "digest": "sha256-b2:6650d0214c15ff60",
-   "revision": 2,
-   "changedAt": "2026-11-03",
+   "digest": "sha256-b2:a5df6c07bef0ee15",
+   "revision": 3,
+   "changedAt": "2026-11-16",
    "techniques": [
     {
      "slug": "aggregate-only-payloads",
@@ -4552,7 +4552,8 @@
      "use_when": [
       "showing the streamer an address to paste into the broadcasting software",
       "provisioning a browser source automatically",
-      "an overlay that loaded blank on stream"
+      "an overlay that loaded blank on stream",
+      "what the page route answers when its state cannot be read"
      ]
     },
     {
@@ -4563,7 +4564,8 @@
      "use_when": [
       "standing up the server that serves browser-source pages",
       "adding a route next to an overlay page",
-      "reviewing the headers an overlay page ships with"
+      "reviewing the headers an overlay page ships with",
+      "an overlay that never connects once several are live"
      ]
     }
    ],
@@ -4572,14 +4574,14 @@
      "stack": "rust",
      "technique": "read-only-overlay-origin",
      "file": "knowledge/media-generation/streaming/broadcast-integration/on-stream-overlay-delivery/applications/rust--read-only-overlay-origin.md",
-     "verified_on": "2026-11-02",
+     "verified_on": "2026-11-16",
      "verified_against": "rust@1.97"
     },
     {
      "stack": "typescript",
      "technique": "clear-on-disconnect",
      "file": "knowledge/media-generation/streaming/broadcast-integration/on-stream-overlay-delivery/applications/typescript--clear-on-disconnect.md",
-     "verified_on": "2026-11-02",
+     "verified_on": "2026-11-16",
      "verified_against": "typescript@6.0.3"
     }
    ]

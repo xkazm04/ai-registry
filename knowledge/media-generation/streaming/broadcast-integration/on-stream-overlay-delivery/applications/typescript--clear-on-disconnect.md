@@ -5,7 +5,7 @@ subject: on-stream-overlay-delivery
 technique: clear-on-disconnect
 stack: typescript
 status: forged
-verified_on: 2026-11-02
+verified_on: 2026-11-16
 verified_against: typescript@6.0.3
 ---
 
@@ -73,3 +73,18 @@ No break-to-clear time is recorded anywhere. The only timing on file is delivery
 package and curve changes in a headless browser, and the live OBS figure for that is
 explicitly unclaimed (see the Rust application in this subject). Break-to-clear is
 therefore unmeasured, not passed.
+
+## 2026-11-16 re-read, at `0b1c6b7`, public clone, read-only
+
+Re-read through a public clone of `xkazm04/castle-control` at `0b1c6b7`. No file under
+`packages/renderer` or `apps/overlay` changed since `8ef2d8e`, and every anchor above
+still holds. All three deviations stand:
+- the backoff still resets on `open` (`packages/renderer/src/vote-bar.ts:41`);
+- no silence watchdog is armed against the keep-alive;
+- the two renderers still disagree on a rejected snapshot.
+
+A fourth gap follows from the 2026-11-16 condition on the technique's step 3. Both
+renderers' retry timers exist only in a document that loaded. When the page route
+refuses at load (a bare `SERVICE_UNAVAILABLE`, see the Rust application), the timer
+never runs, so "comes back on its own" holds only after a successful first load.
+Break-to-clear time is still unmeasured.

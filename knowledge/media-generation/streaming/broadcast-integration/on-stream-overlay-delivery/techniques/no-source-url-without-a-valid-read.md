@@ -6,7 +6,7 @@ technique: no-source-url-without-a-valid-read
 status: forged
 laws: [refusal-is-a-state, unmeasured-is-not-pass]
 shared_with: []
-use_when: [showing the streamer an address to paste into the broadcasting software, provisioning a browser source automatically, an overlay that loaded blank on stream]
+use_when: [showing the streamer an address to paste into the broadcasting software, provisioning a browser source automatically, an overlay that loaded blank on stream, what the page route answers when its state cannot be read]
 ---
 
 # No source URL without a valid read
@@ -48,10 +48,27 @@ succeeded, and the state it returned is one the page knows how to draw.
    source in the broadcasting software asks for the address through this path and does
    not create a source when refused.
 
-The same rule holds on the overlay origin itself. The page route performs the read when
-it is loaded and answers "unavailable" when the read fails, rather than serving an empty
-shell that waits forever for a stream; the browser source then shows nothing, and the
-page's retry brings it back when the state can be read.
+The same rule holds on the overlay origin itself, with a difference in what the refusal
+carries. The page route performs the read when it is loaded, and on a failed read it
+sends no data: no embedded snapshot, nothing for the page to draw. But it must not answer
+with a bare refusal. A refused document runs no code, so there is no page retry to bring
+it back. The embedded browser does not retry a page it was served, and nobody reloads a
+source mid-broadcast. The source stays dark after the state becomes readable, until a
+scene change, a settings edit or a restart happens to reload it. So the refusal carries
+its own way back: an "unavailable" answer whose body is a data-free page that draws
+nothing (transparent) and reloads itself on a capped backoff, or the overlay's own
+renderer with no first snapshot, whose stream refusal its timer already handles. This is
+not the empty shell the rule forbids. That shell waited forever for a stream. This page
+retries, shows nothing meanwhile, and on the streamer's surface the overlay is flagged as
+unreadable.
+
+> **Corrected 2026-11-16.** This paragraph said the page's retry brings a refused page
+> back. A refused page has no retry. In a headless engine (not the embedded one), a
+> served empty "unavailable" was requested once in 11.5 s and never recovered after the
+> state became readable at 3 s; the same answer with a self-reloading body recovered at
+> 5.0 s. A connection refused outright was re-requested by the stock browser's own
+> error-page reloader, so a bare refusal did worse than not answering at all.
+> Whether the embedded engine reloads its error pages was not measured.
 
 ## Decision rules
 
@@ -66,6 +83,12 @@ page's retry brings it back when the state can be read.
   disconnect rule, and the tool flags the overlay on the streamer's surface. It does not
   keep the stream open on the last good state, and it does not silently revoke the
   address; when the state is valid again, the same address works.
+- **When the tool itself is not running at the moment the broadcasting software loads
+  the page**, no answer from the origin can help, because nothing is listening to send
+  one. Recovery then belongs to the tool's start-up: where it already drives the
+  broadcasting software, it refreshes the sources it owns once its state is readable.
+  Otherwise the set-up instructions tell the streamer how a source is refreshed. Do not
+  claim the overlay "comes back on its own" from a cold start that nothing measured.
 - **When an auxiliary read fails after the main one succeeded** (a provenance lookup, a
   design lookup), decide in advance which way it fails. A failed provenance read must
   never let a rehearsal number go out unlabelled; a failed decoration read may fall back to

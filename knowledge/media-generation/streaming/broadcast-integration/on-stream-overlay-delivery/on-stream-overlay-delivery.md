@@ -43,10 +43,15 @@ Three properties of a browser source make the ordinary web-app defaults wrong.
 full browser engine, and a page loaded into it can usually reach the loopback interface —
 including the broadcasting software's own control socket, which sits on a well-known local
 port. Published security research has shown pages of arbitrary origin in a browser source
-opening a socket to that port; whether that socket then accepts commands depends only on
-whether the streamer set a password. The embedded browser also tends to lag the upstream
-engine by releases, and some versions expose a page-level bridge with graded permission
-levels. A script injected into an overlay page is therefore not a defaced banner. It is
+opening a socket to that port. Whether that socket then accepts commands depends on the
+streamer's settings, not on the page: in the common build the control server ships off,
+and once switched on it requires a generated password until someone turns that off. The
+embedded browser also tends to lag the upstream engine by releases, and the host may
+switch off a protection the upstream engine added: in November 2026 the most common
+host still granted every page loopback access and disabled the engine's local-network
+check for sockets, to keep old overlays working. So an upstream browser defence does not
+vouch for the embedded one. Some versions also expose a page-level bridge with graded
+permission levels, and its default is not the lowest. A script injected into an overlay page is therefore not a defaced banner. It is
 code running next to the controls of a live broadcast. The page's own policy is the cheap
 fence: it may talk only to its own origin, run only its own bundled script, and be
 framed by nothing.
@@ -118,7 +123,11 @@ streamer a browser-source address only after it has successfully read the state 
 address will show. If the read fails — the vote has no window, the draw has no record, the
 store is locked — the tool refuses the address and says why, rather than giving out a URL
 that will load into a blank page the streamer only discovers mid-stream. The page route
-applies the same rule when the broadcasting software loads it: no readable state, no page. That is
+applies the same rule when the broadcasting software loads it, with one difference: no
+readable state means no data, but the answer still carries its own way back. A refused
+document runs no code, the embedded browser does not retry a page it was served, and
+nobody reloads a source mid-broadcast, so a bare refusal stays dark after the state
+becomes readable. That is
 [no-source-url-without-a-valid-read](./techniques/no-source-url-without-a-valid-read.md).
 
 ## What the page may know
@@ -159,6 +168,9 @@ drawn winner of a giveaway that announces winners — and then only what that ac
   the package's exact bytes; a wider update waits for a new grant, and revocation reloads
   the page.
 - **When handing out an address**, read first; on a failed read, refuse with the reason.
+- **When the page route cannot read its state**, answer with a data-free page that draws
+  nothing and retries on a capped backoff, never a bare refusal that has no code to
+  retry with.
 
 ## The boundary of the subject
 

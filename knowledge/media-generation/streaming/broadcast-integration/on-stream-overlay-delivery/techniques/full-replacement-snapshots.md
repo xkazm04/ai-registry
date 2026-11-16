@@ -21,8 +21,9 @@ what the page shows.
 Deltas are the natural choice for a developer, because they are small and they map to
 events: "+1 for option A", "entrant joined", "alert queued". On an overlay they fail in
 three predictable ways. A page that reloads — and the broadcasting software reloads
-browser sources on scene activation, on settings changes and on its own restart — starts
-from nothing and draws the wrong state until enough deltas arrive. A page that misses one
+a browser source on any settings change and on its own restart, and on scene activation
+or re-show when the streamer has ticked the options for that (both are off by default) —
+starts from nothing and draws the wrong state until enough deltas arrive. A page that misses one
 message during a reconnect is wrong forever, because nothing in a delta stream ever
 re-asserts the total. And a page that applies deltas is a second state machine, so every
 rule the tool applies (deduplication, a late ballot refused, a tie-break) must be
