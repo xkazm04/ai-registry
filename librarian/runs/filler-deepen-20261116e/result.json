@@ -1,0 +1,105 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "filler-deepen-20261116e",
+  "skill": "deepen",
+  "skill_version": "1.5.0",
+  "mode": "loop",
+  "domain": "software-engineering",
+  "started_at": "2026-11-16T02:58:43Z",
+  "ended_at": "2026-11-16T03:21:57Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 3,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "software-engineering/admission-queue",
+      "at": "2026-11-16",
+      "engine": "deepen",
+      "outcome": "landed",
+      "points_before": 3,
+      "points_after": 0
+    },
+    {
+      "id": "software-engineering/conversation-orchestration",
+      "at": "2026-11-16",
+      "engine": "deepen",
+      "outcome": "landed",
+      "points_before": 3,
+      "points_after": 0
+    },
+    {
+      "id": "software-engineering/model-composed-workspace",
+      "at": "2026-11-16",
+      "engine": "deepen",
+      "outcome": "landed",
+      "points_before": 3,
+      "points_after": 0
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "admission-queue",
+      "technique": "depth-bounds-and-shed",
+      "verdict": "better",
+      "mode": "simulation"
+    },
+    {
+      "subject": "admission-queue",
+      "technique": "priority-and-fairness",
+      "verdict": "better",
+      "mode": "simulation"
+    },
+    {
+      "subject": "conversation-orchestration",
+      "technique": "conversation-orchestration",
+      "verdict": "better",
+      "mode": "simulation"
+    }
+  ],
+  "files": [
+    "knowledge/software-engineering/backend-platform/work-execution/admission-queue",
+    "knowledge/software-engineering/llm-agent/companion/conversation-orchestration",
+    "knowledge/software-engineering/llm-agent/experience/model-composed-workspace",
+    "librarian/applied.md",
+    "librarian/subjects/software-engineering/admission-queue.md",
+    "librarian/subjects/software-engineering/conversation-orchestration.md",
+    "librarian/subjects/software-engineering/model-composed-workspace.md"
+  ],
+  "commits": [
+    {
+      "sha": "bc48e1944",
+      "branch": "main",
+      "pathspec": [
+        "knowledge/software-engineering/backend-platform/work-execution/admission-queue",
+        "librarian/subjects/software-engineering/admission-queue.md",
+        "librarian/applied.md"
+      ]
+    },
+    {
+      "sha": "268ac1237",
+      "branch": "main",
+      "pathspec": [
+        "knowledge/software-engineering/llm-agent/experience/model-composed-workspace",
+        "librarian/subjects/software-engineering/model-composed-workspace.md"
+      ]
+    },
+    {
+      "sha": "568fef76b",
+      "branch": "main",
+      "pathspec": [
+        "knowledge/software-engineering/llm-agent/companion/conversation-orchestration",
+        "librarian/subjects/software-engineering/conversation-orchestration.md",
+        "librarian/applied.md"
+      ]
+    }
+  ],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "Loop of 3. conversation-orchestration and model-composed-workspace saturated (dry 2); admission-queue dry 1. No new technique; two golden-path rules flipped. One landing refused (empty --ledger-dir, own error), re-run without it. Registry map not regenerated (owed)."
+}
