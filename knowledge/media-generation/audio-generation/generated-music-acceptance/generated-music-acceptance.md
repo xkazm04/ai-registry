@@ -56,7 +56,9 @@ acceptance asked "is it what was briefed".
 Generated audio fails in characteristic ways — smeared transients, vocal
 garble, section bleed, tempo drift, broken endings, loop seams, spectral
 holes — and the defect's class decides its remedy: some are one-section
-re-renders, some are post repairs cheaper than any regeneration, some
+re-renders (where the generator can re-render a section without moving
+the bars around it — many cannot, and then the remedy is a splice from
+another take), some are post repairs cheaper than any regeneration, some
 condemn the take entirely
 ([generated-audio-defect-taxonomy](./techniques/generated-audio-defect-taxonomy.md)).
 An acceptance verdict that says "failed" without a class has done half its
@@ -73,9 +75,12 @@ facts are in the file. The
 [rights-and-provenance-record](./techniques/rights-and-provenance-record.md)
 captures them per asset, at acceptance, because reconstructing them at
 delivery — weeks later, terms changed, plan upgraded since — ranges from
-expensive to impossible, and a vendor's commercial grant is routinely
-non-retroactive across plan changes. An asset without a record is not
-cleared, however it sounds.
+expensive to impossible. Vendors do not even agree on *when* a grant
+attaches: one reads the plan at generation and never revisits it, another
+lifts existing output on an upgrade, a third anchors the right to a
+download counted against the tier's allowance. Which events happened, in
+which order, decides the answer, and only a record written as they happen
+can say. An asset without a record is not cleared, however it sounds.
 
 ## Where this subject ends
 

@@ -28,7 +28,7 @@ becomes visible.
 | **Vocal garble** | syllables melt, words invented mid-line | lyric density at tempo, rare words | cut syllables, re-render the section (the singability craft owns prevention) |
 | **Section bleed** | chorus elements leak into the verse before it | weak section separation in the plan | raise the sections' contrast in styles; re-render the boundary section |
 | **Tempo instability** | the grid drifts, a bar hiccups | long takes, rubato-adjacent styles | re-render; condemn if picture-locked accents depend on the grid |
-| **Broken ending** | abrupt stop that was not briefed, or a fade where a hard out was | ending shape left unstated | state the ending in the brief; re-render the final section only |
+| **Broken ending** | abrupt stop that was not briefed, or a fade where a hard out was; or a long silent tail | ending shape left unstated; a length ceiling set below the song's natural length | measure it: a cut-off stops at a level far above a natural fade's floor, a dead tail is seconds of silence. State the ending in the brief, raise the ceiling (never use it to fit picture), re-render or trim |
 | **Loop seam** | audible joint when material repeats | loop intent not declared | regenerate with loop intent declared; a post crossfade is the fallback repair |
 | **Spectral hole / imbalance** | no low end, harsh 3–5k, hollow mids | model tendency per style | post EQ is a legitimate repair; re-render if structural |
 | **Phase / width artifacts** | swimmy stereo, vanishes in mono | model tendency | check the mono fold-down; post repair rarely holds — re-render |
@@ -42,9 +42,19 @@ audio-specific form:
 - **Repair in post** (EQ, a crossfade, a trim) when the defect is
   spectral or at an edge — repairs are cheap, reviewable, and leave the
   reviewed material otherwise intact.
-- **Re-render the failing section** when the defect is localized and the
-  brief was plan-shaped — this is the smallest generation-side operation,
-  and it is only available because the plan made sections addressable.
+- **Re-render the failing section** when the defect is localized, the
+  brief was plan-shaped, **and the generator's edit operation holds the
+  unedited bars** — this is the smallest generation-side operation. A plan
+  makes sections addressable in the brief; it does not make them
+  addressable in the model. A generator that conditions the whole song on
+  the whole plan moves every bar when any part of the plan changes — bars
+  before the edit as much as after — so "re-render one section" there buys
+  a new take of the whole song. Test it once per generator (edit one
+  section, measure the distance of the untouched bars from the original);
+  where it fails, the localized remedy is a **splice**: keep the approved
+  audio file, render alternatives that share as much of the generation
+  state as the tool allows (same tokens, new sound seed), and cut the
+  replacement in at a section boundary.
 - **Condemn the take** when the defect is global (tempo instability,
   pervasive smear) — and record *what* condemned it, because a condemned
   take with a classified cause improves the next brief, and one without

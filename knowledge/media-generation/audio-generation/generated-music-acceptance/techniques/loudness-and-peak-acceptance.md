@@ -32,9 +32,16 @@ unmeasured file did not pass.
   question is "at the target for where this ships", never "loud enough".
 - **True peak (dBTP)** — the ceiling. Inter-sample peaks that clear
   digital full scale distort on decoding and transcoding; keep true peak
-  at or under −1 dBTP, and allow more headroom (−2 dBTP) when the
-  destination will transcode to lossy formats, which reconstruct peaks
-  hotter than the source stored them.
+  at or under −1 dBTP, and allow more headroom (−2 dBTP) when the master
+  is louder than the destination's normalization target, because lossy
+  encoding reconstructs peaks hotter than the source stored them and a
+  hotter master overshoots by more. The ceiling is a property of the
+  **delivered, encoded file**, not of the limiter's setting: a true-peak
+  limiter can land a fraction of a dB over its own line, and the encode
+  adds more after it. Set the limiter below the ceiling by the overshoot
+  you measured on your own chain, then measure the encoded file — a
+  limiter set exactly at the ceiling is how a "compliant" master ships
+  over it.
 - **Loudness range (LRA)** — how much the level moves over the piece. Not
   a compliance number, but the diagnostic for two generated-music habits:
   a crushed take with almost no range that fatigues at any level, and a
@@ -65,6 +72,12 @@ means, and none of them move a meter.
 - When a file passes the meter but distorts anywhere downstream, check
   true peak against the transcoded path, because lossy encoding is where
   compliant-looking peaks go to clip.
+- When a gate judges a delivered file, judge integrated loudness **and**
+  true peak together. A gate that checks only the loudness number passes
+  the over-ceiling file the limiter was supposed to prevent, and the
+  delivery path that skips measurement for one kind of output (music-only,
+  say, because only narrated output was wired) has made that kind
+  unmeasured, which is not pass.
 
 ## When not to use this
 

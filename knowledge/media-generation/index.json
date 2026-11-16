@@ -5,7 +5,7 @@
   "source": "knowledge/media-generation/ (frontmatter only)",
   "subjects": 53,
   "techniques": 354,
-  "applications": 211,
+  "applications": 213,
   "laws": 9,
   "categories": [
    "narrative-craft",
@@ -2295,9 +2295,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/media-generation/audio-generation/generated-music-acceptance/generated-music-acceptance.md",
-   "digest": "sha256-b2:3f9de82f80a6905a",
-   "revision": 2,
-   "changedAt": "2026-08-29",
+   "digest": "sha256-b2:762e676c68b2eba5",
+   "revision": 3,
+   "changedAt": "2026-11-16",
    "techniques": [
     {
      "slug": "brief-conformance-listen",
@@ -2375,11 +2375,25 @@
    ],
    "applications": [
     {
+     "stack": "node",
+     "technique": "loudness-and-peak-acceptance",
+     "file": "knowledge/media-generation/audio-generation/generated-music-acceptance/applications/node--loudness-and-peak-acceptance.md",
+     "verified_on": "2026-11-16",
+     "verified_against": "node@24"
+    },
+    {
+     "stack": "node",
+     "technique": "rights-and-provenance-record",
+     "file": "knowledge/media-generation/audio-generation/generated-music-acceptance/applications/node--rights-and-provenance-record.md",
+     "verified_on": "2026-11-16",
+     "verified_against": "node@24"
+    },
+    {
      "stack": "process",
      "technique": "rights-and-provenance-record",
      "file": "knowledge/media-generation/audio-generation/generated-music-acceptance/applications/process--rights-and-provenance-record.md",
-     "verified_on": "2026-08-26",
-     "refresh_by": "2026-11-26"
+     "verified_on": "2026-11-16",
+     "refresh_by": "2027-02-16"
     }
    ]
   },
