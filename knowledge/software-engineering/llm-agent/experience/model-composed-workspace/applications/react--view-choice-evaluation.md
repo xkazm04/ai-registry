@@ -5,7 +5,7 @@ subject: model-composed-workspace
 technique: view-choice-evaluation
 stack: react
 status: forged
-verified_on: 2026-11-03
+verified_on: 2026-11-16
 verified_against: react@19.3
 ---
 
@@ -19,6 +19,25 @@ and commit `2d8a554b42f361528c55957432bfb1bad17e9483` (main) lands it in
 `apps/desktop/client/src/lib/assistant/eval/`. Every anchor was read at that
 commit; paths are relative to the repository root, and the client pins
 `apps/desktop/client/package.json:21 "react"` at 19.3.
+
+**Dated note, 2026-11-16.** Re-read at `68075a961f4fefe1e8532dd6a4d2b8535bd7f7d2`
+(main, 2026-11-11) through a public clone of the repository, now named `signet`.
+No commit since `2d8a554b` touches the eval folder, the live-arm script, the
+prompt or the vocabulary. Every anchor below still holds; two only moved
+(`apps/desktop/client/package.json:18 "react"`, still 19.3, and the known-gaps
+line now at `docs/features/conversational-home.md:101 "relax them after 2026-11-12 and re-run"`).
+So both failure classes are still in the prompt at HEAD
+(`apps/desktop/client/src/lib/assistant/prompt.ts:17 "Start with a show op."`,
+`apps/desktop/client/src/lib/assistant/vocabulary.ts:86 "replaces the current one"`).
+The relaxation and the re-run promised for after 2026-11-12 had not landed by the
+HEAD read, and the figures below are still the only ones.
+
+The surface the set scores did change. On 2026-11-06 the board and its
+three-panel region were retired for a home where a reply's panels render inline
+in its turn (see `react--reversible-screen-ops.md`). The scorer did not need to
+change, because it scores the reply, not the layout. One label did quietly change
+meaning: "two panels" for a comparative question now means two inline panels in
+one turn, not two panels side by side in a region.
 
 ## The labelled set, with negatives - confirmed
 
@@ -139,7 +158,7 @@ tightening the router.
    (`apps/desktop/client/src/lib/assistant/eval/README.md:33 "field relevance judged by a model calibrated against people, drift over whole sessions, and whether"`).
 2. **No session drift measure.** Every case is one turn on a fresh board;
    acceptance early versus late, undone rearrangements and pin violations are
-   not measured, though the board now has undo and pins to log.
+   not measured. The home has a one-step undo to log; the pins went with the region.
 3. **No seeded-error reliance test**
    (`apps/desktop/client/src/lib/assistant/eval/README.md:34 "people catch seeded wrong answers"`).
 4. **The sentence is not scored**

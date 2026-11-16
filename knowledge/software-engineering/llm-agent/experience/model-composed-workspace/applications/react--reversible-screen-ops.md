@@ -5,29 +5,115 @@ subject: model-composed-workspace
 technique: reversible-screen-ops
 stack: react
 status: forged
-verified_on: 2026-11-03
+verified_on: 2026-11-16
 verified_against: react@19.3
 ---
 
-# The wallet's conversational board: closed ops, one door, a host-owned undo
+# The wallet's home: the region retired, the undo kept, three disclosures lost
 
-The money-safety wallet (repository `paypal`) has a second home view beside its
-console: a board of six modules by four money states, with a chat rail whose
-replies light up or dim parts of the board and add answer panels to a small
-region beside it. Every anchor below was read at commit
-`2d8a554b42f361528c55957432bfb1bad17e9483` (main, the proof build: `0bf5ea17`
-added the region, the what-changed line and the one-step undo; `2d8a554b` added
-the view-choice evaluation), and paths are relative to the repository root. The
-client pins `apps/desktop/client/package.json:21 "react"` at 19.3.
+The money-safety wallet (public repository `signet`, recorded earlier under its
+old name `paypal`) had a conversational board beside its console: six modules by
+four money states, a chat rail, and a region of up to three answer panels. That
+board is gone. The section directly below was read at commit
+`68075a961f4fefe1e8532dd6a4d2b8535bd7f7d2` (main, 2026-11-11) through a public
+clone, and paths are relative to the repository root. The client still pins
+`apps/desktop/client/package.json:18 "react"` at 19.3. The proof-build sections
+after it keep their anchors at `2d8a554b` and are history.
 
-**Dated note, 2026-11-03.** The earlier version of this application recorded the
-pre-proof state at `a52d8f6dfaab5dc6450b7c7c2d7743be2f7d8ada`: one panel that
-each show replaced, no undo for view operations, no what-changed line, a reply
-applied over whatever the owner did during the wait, and no view-choice
-evaluation. The proof build closed those five; the sections below say which
-claims moved from deviation to confirmed, and the deviations that remain.
+## Revised 2026-11-16: what the home kept and what it dropped
 
-## The closed verbs - confirmed, with a sharper reading of filter
+On 2026-11-03 `5f1984d` replaced the rail with a counts table. On 2026-11-06
+`d60e311` retired that too, for a home chosen over five prototype rounds by the
+owner. The commit deletes `Switchboard.tsx`, `region.ts` and the board-only parts
+with their tests. The design note records the owner's picks
+(`docs/design/abstract-first-home.md:12 "replies stay in the conversation"`), and
+the feature page states the new routing rule
+(`docs/features/conversational-home.md:34 "Replies stay in the conversation."`).
+The wire did not change: the same four verbs, the same validation door and the
+same eight-op cap.
+
+**Region to transcript.** Every show now renders inline in the reply's own turn
+(`apps/desktop/client/src/windows/main/home/nav.ts:83 "renders inline in that reply's turn"`).
+Filter and focus move only the side list
+(`apps/desktop/client/src/windows/main/home/nav.ts:86 "still scope the side list and ring a deal's row"`),
+and the main column moves only on her click
+(`apps/desktop/client/src/windows/main/home/Home.tsx:12 "Main moves only on her click."`).
+The composition region, its three-panel cap and its pins no longer exist. For
+this subject, a product that built the region chose an inline card plus
+navigation over it, which is the answer-form technique's navigation form. It is
+one owner's verdict across five rounds, not a measurement.
+
+**Confirmed at HEAD:**
+
+- **One step, one undo, one line, host-owned.** A reply's list move is one step:
+  the prior navigation is captured, the new one committed, and the undo kept only
+  when something changed
+  (`apps/desktop/client/src/windows/main/home/Home.tsx:208 "const before = navRef.current;"`,
+  `apps/desktop/client/src/windows/main/home/Home.tsx:211 "setUndoTo({ before, entry });"`).
+  The line comes from the before and after values in host words
+  (`apps/desktop/client/src/windows/main/home/Home.tsx:196 "const changeWords = useCallback((before: Nav, after: Nav): string | null => {"`).
+  Undo is the host's link under the reply
+  (`apps/desktop/client/src/windows/main/home/Home.tsx:218 "commit(undoTo.before);"`),
+  and it is tested at
+  `apps/desktop/client/src/windows/main/home/Home.test.tsx:98 "Undo puts the list back"`.
+- **The owner's hand wins.** The count of her moves is kept at ask
+  (`apps/desktop/client/src/windows/main/home/Home.tsx:331 "const movesAtAsk = ownerMoves.current;"`),
+  and a reply that lands after she moved changes nothing
+  (`apps/desktop/client/src/windows/main/home/Home.tsx:348 "const changed = moved ? null : moveFor(routed.nav, id);"`).
+  The turn says so
+  (`apps/desktop/client/src/lib/words/board.ts:185 "because you moved the board while it answered"`).
+- **Stop applies nothing.** A cancelled turn returns before any routing
+  (`apps/desktop/client/src/windows/main/home/Home.tsx:340 "if (out.kind === 'cancelled')"`)
+  and says `apps/desktop/client/src/windows/main/home/words.ts:47 "Stopped. Nothing changed on screen."`.
+- **Proposals re-resolve at the press**
+  (`apps/desktop/client/src/windows/main/home/Home.tsx:304 "now.consent.fingerprint !== shown.fingerprint"`),
+  and an act's undo still goes through the host's consent path
+  (`apps/desktop/client/src/windows/main/home/Home.tsx:320 "const out = await undoAct.run("`).
+
+**Downgraded or lost at HEAD (project defects, read not run):**
+
+1. **Hold and offer went back to drop and say.** The proof build kept a late
+   layout as a one-press offer. The home keeps a `held` flag and shows only the
+   line. That is still the technique's rule, but the upward lesson this
+   application gave the technique is not live here any more.
+2. **The dropped-parts count is no longer shown.** The words exist
+   (`apps/desktop/client/src/lib/words/board.ts:71 "could not be shown"`), but
+   nothing outside `lib/` reads `BOARD_DROPPED`. The feature page still promises
+   it (`docs/features/conversational-home.md:55 "n parts could not be shown"`).
+   "It did nothing" and "it tried and was refused" now look the same.
+3. **A fallback answer is not labelled.** The hook still falls back to the
+   scripted engine and reports it
+   (`apps/desktop/client/src/windows/main/switchboard/useBoardAssistant.ts:99 "fellBack = true;"`),
+   but the home reads only `ask`, `busy` and `cancel` from it. Neither
+   `BOARD_FALLBACK_NOTICE` nor the scripted-preview label is used in any
+   component, against
+   `docs/features/conversational-home.md:55 "falls back to the scripted one and says so"`.
+   The conductor technique calls this the turn lying about who answered.
+4. **The wait is "Thinking…" with an ambient animation.**
+   `apps/desktop/client/src/windows/main/home/words.ts:46 "thinking: 'Thinking…',"`
+   breathes without end
+   (`apps/desktop/client/src/windows/main/home/home.css:21 "animation: fs-breathe 1.4s var(--ease) infinite alternate;"`).
+   The honest wait words, which name the engine that is answering, are written
+   and unused (`apps/desktop/client/src/lib/words/board.ts:88 "Asking the live engine"`).
+5. **The filter now changes presence.** The wire still describes filter as dimming
+   (`apps/desktop/client/src/lib/assistant/contract.ts:60 "Dim everything that is not this module"`),
+   but the home applies it as a list scope that drops the excluded rows
+   (`apps/desktop/client/src/windows/main/home/nav.ts:52 "nav.fate === null || r.fate === nav.fate"`).
+   One Undo restores the list, so the user is not stranded. Still, the side list
+   is her map of the modules, and the excluded item is no longer one click away.
+6. **The stop race and owner-move tests went with the board.** Only the undo has
+   a home test. The two guarantees above are read from the code; nothing re-proves
+   them.
+
+The fix for 2 to 4 is small and local: render the reply's `dropped.count`,
+`fellBack` and the hook's `answering` engine in `Reply` and the wait line. The
+words are already written.
+
+## The proof build at `2d8a554b` (history)
+
+Everything from here down was read at `2d8a554b42f361528c55957432bfb1bad17e9483` on 2026-11-03 and is kept as the record of what the proof showed. The upward lessons it gave the techniques stand on that commit.
+
+### The closed verbs - confirmed, with a sharper reading of filter
 
 The op set is a closed union of four verbs,
 `apps/desktop/client/src/lib/assistant/contract.ts:50 "export type UiOp ="`:
@@ -50,7 +136,7 @@ filter dims (`apps/desktop/client/src/lib/assistant/contract.ts:60 "Dim everythi
 and the board keeps the dimmed keys live
 (`apps/desktop/client/src/windows/main/switchboard/Matrix.tsx:37 "a dimmed key is still drawn and still clickable"`).
 
-## One validation door - confirmed
+### One validation door - confirmed
 
 Every reply from every engine passes
 `apps/desktop/client/src/lib/assistant/validate.ts:172 "export function validateReply(raw: unknown, known: Known): ValidatedReply {"`,
@@ -64,7 +150,7 @@ and an act-class proposal with a stray key is dropped whole rather than repaired
 (`apps/desktop/client/src/lib/assistant/validate.ts:152 "An act changes the wallet: a stray key on it"`).
 Both were upward lessons and both are in the techniques.
 
-## A region of several panels - confirmed (was deviation 4)
+### A region of several panels - confirmed (was deviation 4)
 
 Shows now compose. The region is one pure value of at most three panels
 (`apps/desktop/client/src/lib/assistant/vocabulary.ts:22 "export const REGION_MAX = 3;"`):
@@ -81,7 +167,7 @@ same placement rule as the model's shows
 (`apps/desktop/client/src/windows/main/switchboard/region.ts:62 "Used by the assistant's"`).
 Proved at `apps/desktop/client/src/windows/main/switchboard/Switchboard.test.tsx:532 "three at most: the oldest unpinned panel leaves, a pinned one survives every reply"`.
 
-## One step, one undo, one line - confirmed (were deviations 1 and 2)
+### One step, one undo, one line - confirmed (were deviations 1 and 2)
 
 Everything a reply may change is one immutable value - region, focus, filter,
 light (`apps/desktop/client/src/windows/main/switchboard/region.ts:29 "export type Arrangement = {"`) -
@@ -112,7 +198,7 @@ panel already there
 and what stayed is named only beside what came or went
 (`apps/desktop/client/src/windows/main/switchboard/region.ts:174 "What stayed is said only beside what came or went"`).
 
-## The owner's hand wins - confirmed, with an upward lesson (was deviation 3)
+### The owner's hand wins - confirmed, with an upward lesson (was deviation 3)
 
 The board counts the owner's own moves; a turn remembers the count at ask
 (`apps/desktop/client/src/windows/main/switchboard/Switchboard.tsx:218 "const movesAtAsk = ownerMoves.current;"`)
@@ -134,7 +220,7 @@ neither lost nor applied, and one newer reply retires an older offer
 The rule is coarser than the technique's: any move holds the whole layout, not
 only ops on the target she touched - acceptable for a three-panel region.
 
-## Stop applies nothing - confirmed by construction and by test
+### Stop applies nothing - confirmed by construction and by test
 
 The board applies nothing until the whole reply has passed the door: one awaited
 call (`apps/desktop/client/src/windows/main/switchboard/useBoardAssistant.ts:89 "raw = await used.ask(question, input, ctl.signal);"`),
@@ -146,7 +232,7 @@ said as `apps/desktop/client/src/lib/words/board.ts:84 "Stopped. Nothing changed
 The test races an engine that answers the moment Stop is pressed
 (`apps/desktop/client/src/windows/main/switchboard/Switchboard.test.tsx:615 "Stop restores: a cancelled turn applies nothing, even when the engine answers after the stop"`).
 
-## Proposals arm through consent, and act undo is the host's - confirmed
+### Proposals arm through consent, and act undo is the host's - confirmed
 
 Proposals render as a consent box from the host's resolution
 (`apps/desktop/client/src/windows/main/switchboard/Switchboard.tsx:348 "aria-label={BOARD_ACT.boxLabel}"`),
@@ -155,7 +241,7 @@ host's button (`apps/desktop/client/src/windows/main/switchboard/Switchboard.tsx
 and the contract forbids proposing one
 (`apps/desktop/client/src/lib/assistant/contract.ts:41 "no undo is proposable"`).
 
-## Deviations that remain - the standard stays
+### Deviations that remain - the standard stays
 
 1. **The model is still taught that show replaces.** The model-facing words read
    `apps/desktop/client/src/lib/assistant/vocabulary.ts:86 "replaces the current one"`,
@@ -197,7 +283,7 @@ and the contract forbids proposing one
 8. **The board is opt-in.** The home view defaults to the console
    (`apps/desktop/client/src/windows/main/switchboard/view.ts:34 "return fromAddress() ?? fromStorage() ?? 'console';"`).
 
-## Confirmed elsewhere in the subject
+### Confirmed elsewhere in the subject
 
 - **View-choice evaluation (was deviation 8).** A labelled set with negatives and
   a live arm landed in `2d8a554b`; see `react--view-choice-evaluation.md`.

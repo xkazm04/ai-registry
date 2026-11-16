@@ -26,13 +26,11 @@ There are six forms, and the list is closed so that the model is choosing among
 them rather than inventing a seventh.
 
 - **Prose.** A fact, a definition, a how-to, a yes or no with a reason. Extra
-  structure around a short answer is extra load, and in comparisons of generated
-  interfaces against plain conversation, conversation wins the easy and basic
-  questions because the added interface imposes reading without adding anything
-  to read.
+  structure around a short answer is extra load and extra waiting: the added
+  interface imposes reading and generation time without adding anything to read.
 - **Inline card.** One decision, or a small structured set the user glances at -
-  a single transaction, a confirmation of what is about to happen, three or four
-  data points. It lives in the conversation at the turn that produced it.
+  a single transaction, a confirmation of what is about to happen, four or five
+  data points at most. It lives in the conversation at the turn that produced it.
 - **Persistent pane.** Anything the user is likely to edit, reuse, return to, or
   that stands on its own and runs longer than about a screen. It lives beside the
   conversation, survives the next turn, and is the place a draft or a long table
@@ -78,18 +76,29 @@ navigated view. The limit is not arbitrary taste: an embedded card competes with
 the conversation for the same column, and every action added to it is a decision
 surface the user must evaluate inside a message. Published guidance from an agent
 host that renders cards inside conversations sets the same ceiling for the same
-reason. Text after a card suggests what to do next; it never restates what the
-card already shows.
+reason: two agent hosts' published card guidance, read 2026-11-16, both cap an
+inline card at two actions and rule out drill-ins, multiple views and nested
+scrolling, and both send anything larger to a side panel or full screen. Text
+after a card suggests what to do next; it never restates what the card already
+shows.
 
 ## The counter-evidence, carried
 
-Preference for generated interfaces is real and narrow. In one preference study
-of generated interfaces against plain conversation, raters favoured the generated
-form most for data analysis and visualisation and for interactive tasks, and
-favoured conversation for simple how-to questions. Three caveats travel with that
-finding:
+Preference for generated interfaces is real and broader than this technique's
+default suggests, so the default has to stand on cost, not on preference. In one
+preference study of generated interfaces against plain conversation, raters
+favoured the generated form in most cases across every domain - most of all for
+data analysis and visualisation and for interactive tasks, and still in about
+seven in ten concise questions. Conversation won the easy, basic how-to cases and
+step-by-step mathematics, and on questions real users brought themselves the
+split narrowed to about five in ten for the generated form against four in ten
+for conversation. A second preference study ranked generated pages close behind
+expert-built ones and far ahead of plain text. Three caveats travel with those
+findings, and they are the case for the default:
 
-- The comparisons rarely priced **generation time**. A composed view that takes
+- The comparisons did not price **generation time**. One says outright that its
+  ratings left generation speed out, and both report generations that took a
+  minute or more. A composed view that takes
   many seconds against a sentence that takes one is a different trade from the
   one raters were shown.
 - Generated interfaces are **sometimes wrong** in ways prose is not - a chart with

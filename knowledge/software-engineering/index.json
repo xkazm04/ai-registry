@@ -23884,9 +23884,9 @@
    "subcategory": "experience",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/experience/model-composed-workspace/model-composed-workspace.md",
-   "digest": "sha256-b2:7c6aa8f4a4d53a56",
-   "revision": 3,
-   "changedAt": "2026-11-03",
+   "digest": "sha256-b2:d0cc9f6913679801",
+   "revision": 4,
+   "changedAt": "2026-11-16",
    "techniques": [
     {
      "slug": "answer-form-routing",
@@ -23994,21 +23994,21 @@
      "stack": "python",
      "technique": "arrangement-memory",
      "file": "knowledge/software-engineering/llm-agent/experience/model-composed-workspace/applications/python--arrangement-memory.md",
-     "verified_on": "2026-11-03",
+     "verified_on": "2026-11-16",
      "verified_against": "python@3.12"
     },
     {
      "stack": "react",
      "technique": "reversible-screen-ops",
      "file": "knowledge/software-engineering/llm-agent/experience/model-composed-workspace/applications/react--reversible-screen-ops.md",
-     "verified_on": "2026-11-03",
+     "verified_on": "2026-11-16",
      "verified_against": "react@19.3"
     },
     {
      "stack": "react",
      "technique": "view-choice-evaluation",
      "file": "knowledge/software-engineering/llm-agent/experience/model-composed-workspace/applications/react--view-choice-evaluation.md",
-     "verified_on": "2026-11-03",
+     "verified_on": "2026-11-16",
      "verified_against": "react@19.3"
     }
    ]

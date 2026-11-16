@@ -18,11 +18,12 @@ date. By the fourth turn the user has stopped arranging anything, and by the end
 of the session they have stopped reading the region.
 
 That is the failure this technique exists for, and it has been measured. In one
-session-long study of model-composed interfaces, approval of structure that the
-model re-decided every turn started at about seven in ten in the first half of
-the session and collapsed to one in three in the second; when the user's own
-structural choices were persisted, approval started near three in four and held
-near six in ten. A model that forgets the user's arrangement is not neutral; it
+session-long study of model-composed interfaces (twelve people, thirty-six
+sessions), approval of structure that the model re-decided every turn started at
+about seven in ten in the first half of the session and collapsed to one in three
+in the second; when the user's own structural choices were persisted, approval
+started near three in four and held near six in ten, a dip the study could not
+tell from noise. A model that forgets the user's arrangement is not neutral; it
 is teaching the user that arranging is pointless.
 
 ## Every arrangement act is an instruction
@@ -46,7 +47,12 @@ model now thinks it is.
 
 The same study found the limit, and skipping it reproduces the failure from the
 other side: persistence degraded alignment at sub-task transitions and when rules
-accumulated beyond their relevance. A pin from reconciling last month's spending
+accumulated beyond their relevance. Generations that drew on another topic's rules
+were rejected more often than on-topic ones; the active rule count climbed from
+about fifteen in a session's first quarter to about a hundred in its last; and
+the two people with the most rules approved the least. The authors' own
+conclusion is the one this technique takes: bound persistence, by expiry or by
+sub-task, rather than persist less. A pin from reconciling last month's spending
 is noise when the user moves on to planning a trip; a dismissed "upcoming bills"
 panel is a hazard a week later.
 

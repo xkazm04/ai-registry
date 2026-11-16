@@ -45,11 +45,17 @@ human a system seems independently of whether it is right, which raises trust an
 overtrust together; a list of steps taken raises the first without manufacturing
 the second.
 
-**Never add delay to seem thoughtful.** In one latency study, fast answers were
-rated less thoughtful and less useful than the same answers delivered slowly,
-while people's actual behaviour did not change - and the study's authors flagged
-deliberately slowing a system as a deception risk. A product that pads its
-latency is lying about its own state to buy a rating
+**Never add delay to seem thoughtful.** In one latency study (240 people, waits
+of two, nine and twenty seconds), fast answers were rated less thoughtful and
+less useful than the same answers delivered slowly, while people's actual
+behaviour did not change. The study's authors do not forbid the move: they treat
+pacing as a tunable variable, suggest pairing a moderate wait with a status cue,
+and place deliberate slowing between useful friction and deception, depending on
+whether the user is told. This standard takes the strict side for two reasons.
+The rating moved and the behaviour did not, so the wait bought an impression and
+nothing the user could use. And a status cue over a wait with no work behind it
+is narration of a step that is not happening. A product that pads its latency is
+lying about its own state to buy a rating
 ([silent-state-is-ungoverned](../../../../_laws.md#silent-state-is-ungoverned) is
 the law the honest version obeys: the user sees the state the system is really
 in).

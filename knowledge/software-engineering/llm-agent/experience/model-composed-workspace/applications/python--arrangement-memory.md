@@ -5,7 +5,7 @@ subject: model-composed-workspace
 technique: arrangement-memory
 stack: python
 status: forged
-verified_on: 2026-11-03
+verified_on: 2026-11-16
 verified_against: python@3.12
 ---
 
@@ -28,6 +28,36 @@ one rich-text door, and a settled turn keeps the parts it showed (decision recor
 0022). That narrows the earlier "the conversation does not conduct the report"
 deviation; the persistence gaps of the report itself are unchanged and were
 re-checked line by line.
+
+**Dated note, 2026-11-16.** Re-read at
+`13977cdbac87bf14afc65b44c298fca9dfb09221` (main, 2026-11-11) through a public
+clone of `athena-muse`, whose history carries the cited commit `93a3bea8`. There
+is no `athena-meta` checkout on this machine. The daemon still targets
+`pyproject.toml:5 "requires-python"` 3.12. Of the 59 anchors below, 50 hold on
+their line. Eight moved, and the claims they carry are unchanged:
+- the contracts constants and fields (`src/athena/contracts.py:47 "BLOCKS_MAX = 12"`,
+  `src/athena/contracts.py:48 "CHAT_BLOCKS_MAX = 3"`,
+  `src/athena/contracts.py:51 "RECOMPOSE_MIN_S = 3600"`,
+  `src/athena/contracts.py:1924 "minted once; a recompose keeps it"`,
+  `src/athena/contracts.py:1966 "pinned: list[str]"`);
+- the kept-figures rule, now at `src/athena/turn.py:435 "kept with the figures they showed then"`;
+- the compose route, now at `src/athena/report/routes.py:74 "space_report_compose"`.
+
+One anchor is gone, and that narrows deviation 8 again. `f671033` (2026-11-03,
+after the proof) deleted `apps/desktop/src/athena/Transcript.tsx` and its composer.
+In their place is a "book" whose page being written shows one receipt per real step
+(`apps/desktop/src/spread/model.ts:91 "One receipt per step she took, in the order she took it."`),
+a running clock (`apps/desktop/src/spread/pages.tsx:272 "<Clock started={live.started} />"`)
+and Stop. The wordless "Athena is replying" is retired, so the conductor
+technique's "narrate real work" is now met here. The report's persistence gaps
+(deviations 1 to 7 and 9) were re-checked and have not changed:
+- `set_pins` still replaces the set wholesale;
+- cap eviction is still silent at `compose.py:157`;
+- decision record 0018 still names the unstored drop reasons at line 45.
+
+The report as another assistant sees it now has its own route
+(`src/athena/report/routes.py:55 "answers another assistant"`). That is new since
+the proof but outside this technique.
 
 The report is the fleet's strongest realization of the persistence half of this
 technique - pins as constraints the composer is told about and the commit

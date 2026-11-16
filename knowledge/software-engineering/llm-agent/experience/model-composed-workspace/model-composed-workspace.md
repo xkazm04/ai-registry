@@ -56,11 +56,13 @@ of its view choices is a demo that degrades in production without anyone noticin
 
 The first decision of every turn is not which component to show. It is whether to
 show anything. A fact or a how-to is prose: extra structure around a one-line
-answer is extra reading, and the most consistent finding in the comparisons of
-generated interfaces against plain conversation is that conversation wins the
-simple questions. An inline card carries one decision or a small structured set.
-A persistent pane holds what will be edited, reused, referred back to, or what
-runs longer than a screen. A composed workspace is for work that is comparative,
+answer is extra reading and extra waiting. That default rests on cost, not on
+preference. The comparisons of generated interfaces against plain conversation
+favour the generated form broadly, short questions included; conversation wins
+the easy how-to cases and about two in five of the questions real users bring, and
+none of those comparisons priced generation time. An inline card carries one
+decision or a small structured set. A persistent pane holds what will be edited,
+reused, referred back to, or what runs longer than a screen. A composed workspace is for work that is comparative,
 quantitative or explorable across modules - the case where a generated interface
 earns its preference. And when the destination already exists as a module screen,
 the right answer is navigation to it, not a copy of it.
@@ -113,10 +115,11 @@ contract and the numbers rule are
 The moment the user pins a view, resizes it, sorts a column, groups by account or
 dismisses a panel, they have told the model something it must not forget on the
 next turn. A system that regenerates the region from scratch each turn discards
-that instruction - and in a session-long study, approval of model-chosen structure
-that was re-decided every turn fell from about seven in ten in the first half of
-the session to one in three in the second, while structure that persisted the
-user's choices started near three in four and held near six in ten.
+that instruction - and in a session-long study of twelve people, approval of
+model-chosen structure that was re-decided every turn fell from about seven in ten
+in the first half of the session to one in three in the second, while structure
+that persisted the user's choices started near three in four and held near six in
+ten.
 
 The same study found the limit, and it is the half that is easy to skip:
 persistence degraded at sub-task transitions and when rules piled up beyond their
@@ -158,8 +161,9 @@ While the model works, the surface narrates the steps it is really taking -
 "reading the ledger", "checking scheduled charges" - instead of a wordless
 spinner, and it never adds delay to seem more thoughtful: one latency study found
 fast answers were rated less thoughtful while people's behaviour did not change at
-all, and its authors flagged slowing a system down to look deliberate as a
-deception risk. The essential answer comes first, in short paragraphs; text and
+all. Its authors treat pacing as a tunable variable that sits between useful
+friction and deception depending on disclosure; this standard takes the strict
+side, because a rating bought with a wait changed nothing the user did. The essential answer comes first, in short paragraphs; text and
 components appear in the order the model emitted them; two or three specific
 follow-ups sit below the answer; a refusal diverts - what is out of scope, plus
 the nearest thing the product can do. And the composer stays present in the
