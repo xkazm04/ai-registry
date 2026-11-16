@@ -41,6 +41,22 @@ rules decide whether that holds up:
   never its empty state. "No projects yet" before the list has been read is
   the empty flash, and it is a false statement.
 
+## A dash is not a progress cue
+
+A dash says the value has not been read. It does not say a read is running.
+For the common case that is enough: the core slice lands within a second, and
+nothing more is owed. A read that outlasts about a second owes the person a
+sign that work is happening, and one that outlasts about ten owes an
+expectation and a way out (long-standing response-time guidance, not a
+standard). Banning the skeleton must not ban that sign. Give the screen one
+quiet, stated in-flight cue that is not a shape of the content: a "reading"
+word in the screen's as-of line, a busy state on the regions still waiting,
+and the cursor or a toolbar mark if the product has one. Show it only after
+the first second, so a fast read never flickers it. The not-served rule
+guarantees it ends. A field of dashes that sits unchanged through a long read
+is the frozen screen the skeleton was invented to hide, and this cue is the
+honest answer to it.
+
 ## The main regression: state seeded once from props
 
 A screen that used to receive its data before it rendered usually has hooks

@@ -50,8 +50,12 @@ address second, and only because a person moved. A redirect the server
 answered, a restore on load, or a programmatic correction replaces or leaves
 the history entry instead of pushing one. Whatever the framework keeps in
 history state is preserved and not overwritten, because the framework's own
-back and forward handling depends on it. See
-[host-click-delegation](./techniques/host-click-delegation.md).
+back and forward handling depends on it. Taking navigation from the router
+also takes the router's accessibility duties. The router's own route
+announcement and its focus and scroll handling are keyed to *its*
+navigations, so a host that switches screens without the router announces the
+new screen and places focus itself, and does not count on the router noticing.
+See [host-click-delegation](./techniques/host-click-delegation.md).
 
 ## Kept screens are hidden, not unmounted, and hidden means stopped
 
@@ -140,6 +144,19 @@ The client-fetch-cache subject's warm-remount-caches technique keeps *data*
 alive beyond the view that read it. This subject keeps *view instances* alive
 beyond the visit. A screen evicted from the kept set comes back through the
 data cache warm, not cold, so the two compose rather than compete.
+
+The framework itself may now keep pages alive. Some routers hide recently
+visited route pages instead of unmounting them, using the same boundary
+primitive under a small fixed bound (a handful of routes), with the same
+caveats about effects, media and leaked document state. That answers the
+second promise at route level and nothing more. A route the router has not
+kept or prefetched still waits on its server answer before anything moves, and
+the router's kept set says nothing about per-slice status, a terminator or not
+served. Use the framework's kept routes when returning warm is the whole need.
+Build the host when the click must paint before the server answers. Where both
+run, the host lives above the router's kept routes and the route pages under it
+draw nothing, so there is one kept set that holds real screens, bounded by its
+owner, and not two nested sets that each hold copies.
 
 ## What the naive reading gets wrong
 

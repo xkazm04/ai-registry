@@ -69,6 +69,21 @@ The dash means *not read yet*. Once the read is over and the slice never came,
 the honest state is a failure with a reason and not a dash
 ([law: failure is not empty success](../../../../_laws.md#failure-not-empty-success)).
 
+## Per-slice arrival is a property of the whole path
+
+A slow slice delays only its own cells only if every hop between the writer
+and the reader passes each line on when it is written. A reverse proxy that
+buffers responses, which is a common default, or a compressing layer that does
+not flush per write, holds the lines and releases them together. The screen
+then gets the all-or-nothing reveal the slices were meant to remove. Nothing
+fails, and the dashes still resolve, just all at once at the end, so nobody
+notices. Send the response as uncacheable, tell buffering proxies not to
+buffer it (the common reverse proxies honour a per-response header for this),
+and keep compression off the stream unless the layer is known to flush. Then
+measure the arrival order through the deployed path, not only on the
+development server, because the development server usually has neither the
+proxy nor the compressing layer in front of it.
+
 ## Plain JSON, and absence is an omitted key
 
 The payload is plain JSON and the stream enforces it. Before writing a line,

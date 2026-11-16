@@ -5,7 +5,7 @@ subject: kept-alive-screen-host
 technique: sliced-screen-stream
 stack: next
 status: forged
-verified_on: 2026-10-27
+verified_on: 2026-11-16
 verified_against: next@16
 ---
 
@@ -13,7 +13,7 @@ verified_against: next@16
 
 Citations are against the public tree
 [xkazm04/afterlife](https://github.com/xkazm04/afterlife) at `009c7893`
-(`main`), read on the `verified_on` date. The lockfile range is `next` ^16.4.3
+(`main`), first read on 2026-10-27 and re-read on the `verified_on` date. The lockfile range is `next` ^16.4.3
 with `react` 19.2.4. The product is an agentic DevSecOps console: a dozen dense
 screens (fleet, vitals, a review desk, a theater) under one client host
 mounted by the app layout. This application records the wire contract and the
@@ -103,3 +103,35 @@ omitted keys and statuses for exactly this. A slice that genuinely answers
 `{}` for the drawn scope would then render as a dash forever. The standard
 stays: a scope that is not drawn should be a status or an omitted slice, not a
 value.
+
+## 2026-11-16 re-read
+
+Re-read on 2026-11-16 through a public clone. `main` is still `009c7893`, and
+`next` is still `^16.4.3` (`package.json:39`). Every anchor above resolves to
+the quoted text: the wire doc (`:41`, `:52-53`, `:59-60`, `:86`), the writer
+(`stream.ts:4`, `:71`, `:85-88`), the fold (`entry.ts:60`, `:63`, `:69`,
+`:73`), the gate (`noSkeleton.test.ts:5-10`, `:50-54`), the hydrated flag
+(`useDemo.ts:14-15`), the measurement paragraph (`:202-205`) and the
+deviation (`:212-213`). Nothing was corrected. The deviation stands: the
+`{}`-as-unread sentinel is still in the doc, and no production-build
+measurement has been added.
+
+Round 2 of the same pass added a path rule to the technique: per-slice arrival
+holds only through hops that do not buffer. Measured against this tree, the
+screen route sends `no-store`, the NDJSON type and `nosniff`
+(`src/app/api/screen/[key]/route.ts:12,34`), and no proxy no-buffer header.
+The one arrival measurement is from the development server, and the doc says
+the production build was not measured (`:205`). The hosted replay
+(`infra/cloudrun/`) is therefore the path whose arrival order is unknown. This
+is not a defect until someone measures a collapse.
+
+Round 2 also added an in-flight-cue rule to frame-first: a dash is not a
+progress cue. In this tree a region waiting for its slice is drawn statically,
+because the `wait` phase has no style of its own (`reveal/reveal.module.css:4-13`)
+and `<Unread/>` is a quiet dash (`reveal/Reveal.tsx:11-17`). One screen states a
+re-read: needs-you shows the last read's as-of while a re-read runs
+(`src/app/features/needs-you/screen/host.tsx:38-41`). No screen says a first
+read is running. The only measured first read lands its core in 150 to 300 ms
+on a cold development compile (`docs/features/screen-host.md:203`), which is
+under the one-second line, so no cue is owed there yet. A slow loopback read
+was not timed.

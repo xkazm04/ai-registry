@@ -5,7 +5,7 @@ subject: kept-alive-screen-host
 technique: hidden-but-alive-screens
 stack: react
 status: forged
-verified_on: 2026-10-27
+verified_on: 2026-11-16
 verified_against: react@19
 ---
 
@@ -13,7 +13,7 @@ verified_against: react@19
 
 Citations are against the public tree
 [xkazm04/afterlife](https://github.com/xkazm04/afterlife) at `009c7893`
-(`main`), read on the `verified_on` date. `react` is pinned at 19.2.4 in
+(`main`), first read on 2026-10-27 and re-read on the `verified_on` date. `react` is pinned at 19.2.4 in
 `package.json`. One client host keeps every visited screen of a DevSecOps
 console mounted, hides all but one with `<Activity>`, and lets the hide's
 effect cleanup withdraw everything a screen registered.
@@ -71,3 +71,40 @@ run's result lands on an unmounted hook. Nothing in `useStack` aborts the
 in-flight request on unmount, so the run has no reaper on that path. The
 standard stays: either move the run into a shell-hosted service, or abort it
 on unmount and say in the screen that leaving it for long ends the run.
+
+## 2026-11-16 re-read
+
+Re-read on 2026-11-16 through a public clone. `main` is still `009c7893` (no
+commits since the first read), and every anchor above resolves to the quoted
+text, including the deviation: `useStack.ts` still has no unmount abort. Its
+only effect (`:77-81`) is the elapsed-seconds interval. Three findings from
+this round were not in the first read.
+
+- **The hide has no gap here, and that is by construction.** The host's
+  store is module state read through `useSyncExternalStore`, "so a click swaps
+  the screen in the same task" (`src/components/shell/host/hooks/store.ts:3-5`).
+  An urgent switch runs the hidden screen's passive cleanups right after the
+  commit. The hotkey hook is a passive effect on a document `keydown` listener
+  (`src/lib/keyboard/useHotkeys.ts:38-45`), and the tree does use React's
+  `<ViewTransition>` (`src/components/shell/frame/Motion.tsx:9-23`). The
+  window's right column is animated on a navigation, but `default="none"` and
+  urgent host switches do not start a transition. The amended technique's
+  layout-phase rule therefore changes nothing today. It would matter if host
+  switches were moved into a transition so that they animate.
+- **Two kept sets, one owner of screens.** `next.config.ts:9` sets
+  `cacheComponents: true`, so the framework also keeps recently visited route
+  pages under its own hidden boundary. The host sits in the layout above them,
+  and on a claimed route the page is a thin shell that draws nothing
+  (`ScreenHost.tsx:99-103`). Real screens are therefore held once, by the host,
+  under `VISITED_CAP`. Unclaimed routes (`pending.tsx:10-11`, `ready: false`)
+  are the router's to keep.
+- **The host owns the title, not the announcement or focus.** It sets the
+  document title from the active screen in an effect and as a React `<title>`
+  (`ScreenHost.tsx:69-72,95`). Nothing under `src/components/shell/host`
+  moves focus or writes a live region on a switch (`git grep` for `focus`,
+  `aria-live` and `announc` finds none). Its pushes copy the framework's
+  history state (`hooks/navigation.ts:3-5,48`), and the framework's route
+  announcer is keyed to its own router tree. Whether that announcer speaks on
+  a host switch was not run and is unknown. On a return to a kept screen, focus
+  is not put back where the person left it. This was read, not run, with no
+  screen-reader session.

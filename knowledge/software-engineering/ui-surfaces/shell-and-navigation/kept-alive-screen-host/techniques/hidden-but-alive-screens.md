@@ -53,6 +53,18 @@ screen's portal into shared chrome is hidden with the screen. A hotkey hook
 built on an effect stops with the screen. Code that registers imperatively
 and outside an effect is the code that leaks across a hide.
 
+"Stopped" has a moment, and the effect phase decides it. A passive effect's
+cleanup runs after the commit that hid the screen, and when the hide is part
+of a deferred update (an animated switch, or a boundary that suspends again)
+it can run later still. During that gap the hidden screen still holds its key
+bindings and its chrome slots, under the screen now showing. A cleanup that
+must happen at the moment the screen disappears (a key binding, a pause of
+media, a withdrawal from shared chrome) belongs in the layout-phase effect,
+which runs with the hide. A cleanup that can wait (a poll, a subscription
+whose late answer is ignored) can stay passive. A switch made as an urgent,
+same-task update has no gap, so this matters once screen switches animate or
+suspend.
+
 The boundary needs an element to hide. Where a hidden subtree renders no
 element of its own (a route page that draws nothing, a fragment), wrap it in a
 layout-neutral container. Otherwise the hide falls through to whatever element
@@ -97,7 +109,9 @@ unread state, or it marks everything as changed.
 Some side effects belong to the nodes and survive a hide: media playing, a
 document-level attribute or stylesheet the screen set, an element id that a
 document query finds twice. Audit these per screen. Hiding covers effects, not
-the document. Entrance motion is the reverse case: an entrance tied to mount
+the document. Tests meet the same fact: hidden screens are still in the
+document, so a query by text or role can find a kept copy as well as the
+showing one. Scope test queries to the visible screen. Entrance motion is the reverse case: an entrance tied to mount
 plays once, and a kept screen shown again must not replay it, because the
 person has already seen it arrive.
 

@@ -20320,9 +20320,9 @@
    "subcategory": "shell-and-navigation",
    "status": "forged",
    "file": "knowledge/software-engineering/ui-surfaces/shell-and-navigation/kept-alive-screen-host/kept-alive-screen-host.md",
-   "digest": "sha256-b2:bd3b786f76a63215",
-   "revision": 1,
-   "changedAt": "2026-10-27",
+   "digest": "sha256-b2:b8a47db4a92345eb",
+   "revision": 2,
+   "changedAt": "2026-11-16",
    "techniques": [
     {
      "slug": "frame-first-no-skeleton",
@@ -20360,7 +20360,8 @@
      "use_when": [
       "some links route through the host and others do not",
       "back stops going back after redirects or restores",
-      "a hard load wipes the query a bookmark carried"
+      "a hard load wipes the query a bookmark carried",
+      "a screen reader says nothing when the host switches screens"
      ]
     },
     {
@@ -20394,14 +20395,14 @@
      "stack": "next",
      "technique": "sliced-screen-stream",
      "file": "knowledge/software-engineering/ui-surfaces/shell-and-navigation/kept-alive-screen-host/applications/next--sliced-screen-stream.md",
-     "verified_on": "2026-10-27",
+     "verified_on": "2026-11-16",
      "verified_against": "next@16"
     },
     {
      "stack": "react",
      "technique": "hidden-but-alive-screens",
      "file": "knowledge/software-engineering/ui-surfaces/shell-and-navigation/kept-alive-screen-host/applications/react--hidden-but-alive-screens.md",
-     "verified_on": "2026-10-27",
+     "verified_on": "2026-11-16",
      "verified_against": "react@19"
     }
    ]
