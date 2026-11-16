@@ -33,9 +33,20 @@ proposed in every design review:
   smuggled in as a node. Composition is expressed through a small set of
   designed structural kinds (section, group, columns-of-N) with designed
   behavior at every width, not through free coordinates or spacing values.
+- **A text kind that carries a markup sub-language** — a rich-text kind is a
+  small markup language inside the closed set, and its links and images are
+  URLs the emitter chose. An image source is fetched the moment the node
+  renders: no click, no consent, and the request leaves even when nothing
+  visible is drawn, so a URL with data in its query string is an exfiltration
+  channel for whatever steered the emitter. The sub-language's features are a
+  declared allowlist like the kinds themselves: no remote images, or images
+  only from origins the host controls, enforced in the renderer and backed by
+  the host's content policy; links stay inert until the user activates them,
+  with the destination visible.
 
 The test for closure: an adversary who fully controls the spec document must be
-unable to render anything the design system could not have rendered on its own.
+unable to render anything the design system could not have rendered on its own,
+and unable to make the surface issue any request just by being rendered.
 
 ## Granularity: kinds are semantic, not typographic
 

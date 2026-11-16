@@ -59,6 +59,15 @@ repair pass's disclosure; the registry's job is only to make the miss
 detectable, never to shrug it into an empty render (a missing kind that renders
 as nothing is a failure spelled as empty success).
 
+Detectable means the lookup answers only for kinds someone registered. A table
+built on a structure that carries inherited default keys answers for names
+nobody registered: a kind spelled like one of those built-in members resolves
+to something that is not a component, the miss check passes it, and the node
+renders garbage or throws instead of taking the unknown-kind path. Key the
+registry on a structure with no inherited keys, or test own membership before
+trusting a hit. The same holds for every per-kind side table (defaults, spans,
+labels) and for any spec-supplied key used to index data the node renders.
+
 ## Isolation: one node's failure is one node's problem
 
 Each registered component renders inside a containment boundary. A kind whose

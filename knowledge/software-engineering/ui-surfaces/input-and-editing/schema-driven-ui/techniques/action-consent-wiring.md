@@ -67,7 +67,9 @@ labels a button "dismiss" over an action reference that deletes must be
 impossible by construction, which it is exactly when the consent surface is
 derived from the resolution, not the proposal's self-description. A gate shown
 a proxy of the action passes precisely when proxy and action diverge — the
-case it exists for.
+case it exists for. A display that truncates the payload, or leaves out which
+target will act on it, is such a proxy: show it whole (scrollable, editable)
+or refuse to arm.
 
 Proportionality belongs to the gate, not to this technique: reversible
 low-stakes actions may be configured to flow with lightweight confirmation,

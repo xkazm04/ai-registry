@@ -5,7 +5,7 @@
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 246,
   "techniques": 2010,
-  "applications": 1504,
+  "applications": 1506,
   "laws": 16,
   "categories": [
    "ui-surfaces",
@@ -33808,9 +33808,9 @@
    "subcategory": "input-and-editing",
    "status": "forged",
    "file": "knowledge/software-engineering/ui-surfaces/input-and-editing/schema-driven-ui/schema-driven-ui.md",
-   "digest": "sha256-b2:3a801e8a0fefc717",
-   "revision": 2,
-   "changedAt": "2026-08-21",
+   "digest": "sha256-b2:fc758da7342f63ea",
+   "revision": 3,
+   "changedAt": "2026-11-16",
    "techniques": [
     {
      "slug": "action-consent-wiring",
@@ -33901,16 +33901,32 @@
    ],
    "applications": [
     {
+     "stack": "python",
+     "technique": "spec-validation-and-repair",
+     "file": "knowledge/software-engineering/ui-surfaces/input-and-editing/schema-driven-ui/applications/python--spec-validation-and-repair--load-time-filter.md",
+     "verified_on": "2026-11-16",
+     "verified_against": "python@3"
+    },
+    {
+     "stack": "react",
+     "technique": "action-consent-wiring",
+     "file": "knowledge/software-engineering/ui-surfaces/input-and-editing/schema-driven-ui/applications/react--action-consent-wiring.md",
+     "verified_on": "2026-11-16",
+     "verified_against": "react@19"
+    },
+    {
      "stack": "react",
      "technique": "registry-mapping",
      "file": "knowledge/software-engineering/ui-surfaces/input-and-editing/schema-driven-ui/applications/react--registry-mapping.md",
-     "verified_on": "2026-08-18"
+     "verified_on": "2026-11-16",
+     "verified_against": "react@19"
     },
     {
      "stack": "react",
      "technique": "spec-validation-and-repair",
      "file": "knowledge/software-engineering/ui-surfaces/input-and-editing/schema-driven-ui/applications/react--spec-validation-and-repair.md",
-     "verified_on": "2026-08-18"
+     "verified_on": "2026-11-16",
+     "verified_against": "react@19"
     }
    ]
   },

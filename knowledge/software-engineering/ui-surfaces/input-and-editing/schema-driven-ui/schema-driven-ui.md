@@ -55,9 +55,13 @@ any parser at a trust boundary:
 
 1. **The node vocabulary is closed.** The spec chooses among a finite,
    versioned set of node kinds. There is no raw-markup kind, no style
-   pass-through, no "custom component" escape hatch. A kind the renderer does
-   not know is not rendered — and not silently skipped either (see repair,
-   below). The vocabulary and its discipline are
+   pass-through, no "custom component" escape hatch, and no rich-text kind
+   whose links and images can make the surface fetch an emitter-chosen URL on
+   render. A kind the renderer does not know is not rendered — and not
+   silently skipped either (see repair, below). Arbitrary markup is a
+   different pattern — an embedded app in an isolated frame, safe by
+   isolation and mediated messages rather than by closure, and paying for it
+   in design-system fidelity — not an escape hatch inside this one. The vocabulary and its discipline are
    [node-vocabulary-design](./techniques/node-vocabulary-design.md).
 2. **Rendering maps onto blessed primitives only.** Each kind resolves through
    a registry to a component the design system already reviewed — with its own
