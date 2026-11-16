@@ -1,0 +1,49 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "shift-blender-blockout-to-video",
+  "skill": "shift",
+  "skill_version": "0.6.0",
+  "mode": "source",
+  "domain": "media-generation",
+  "started_at": "2026-11-16T00:00:00Z",
+  "ended_at": "2026-11-16T13:22:15Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 0,
+    "declined": 0,
+    "idled": 2,
+    "contended": 0,
+    "held": 0
+  },
+  "subjects": [
+    {
+      "id": "media-generation/video-assembly",
+      "at": "2026-11-16",
+      "engine": "shift",
+      "outcome": "idled",
+      "points_before": null,
+      "points_after": null
+    },
+    {
+      "id": "media-generation/cinematic-language",
+      "at": "2026-11-16",
+      "engine": "shift",
+      "outcome": "idled",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [],
+  "files": [
+    "librarian/sources/2026-11-16-blender-blockout-to-video.md",
+    "librarian/sources/index.md",
+    ".claude/skills/intake/SCORECARD.md",
+    "librarian/runs/shift-blender-blockout-to-video/result.json"
+  ],
+  "commits": [],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "1 lead, 2 currency (note only), 9 covered, 1 untriaged (3b, 1/1/1), 0 held. Accept bar +3 from intake Phase 5 and the scorecard as they stand. Previs closed 11-08 holds. 3b: R13 README shows the plate held the camera in both takes, the cast in 1 of 2."
+}
