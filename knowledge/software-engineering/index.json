@@ -24990,9 +24990,9 @@
    "subcategory": "standards-and-gates",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-process/standards-and-gates/multi-project/multi-project.md",
-   "digest": "sha256-b2:07b32de44fd25fc6",
-   "revision": 3,
-   "changedAt": "2026-08-29",
+   "digest": "sha256-b2:ae616152ff04f5b0",
+   "revision": 4,
+   "changedAt": "2026-11-16",
    "techniques": [
     {
      "slug": "cross-project-comparison",
@@ -25022,7 +25022,8 @@
      "use_when": [
       "deciding where a project view's freshness comes from",
       "two surfaces disagree about what happened",
-      "a quiet project may just be unwatched"
+      "a quiet project may just be unwatched",
+      "choosing what an incremental watcher stores as its position"
      ]
     },
     {
@@ -25066,7 +25067,8 @@
      "use_when": [
       "choosing what identifies a project",
       "history vanishes after a rename",
-      "one real project admitted twice"
+      "one real project admitted twice",
+      "writing an identity marker into the working copy"
      ]
     },
     {
@@ -25091,19 +25093,21 @@
      "stack": "react",
      "technique": "portfolio-drill-hierarchy",
      "file": "knowledge/software-engineering/engineering-process/standards-and-gates/multi-project/applications/react--portfolio-drill-hierarchy.md",
-     "verified_on": "2026-08-18"
+     "verified_on": "2026-11-16",
+     "verified_against": "react@19"
     },
     {
      "stack": "rust",
      "technique": "passive-signal-ingestion",
      "file": "knowledge/software-engineering/engineering-process/standards-and-gates/multi-project/applications/rust--passive-signal-ingestion.md",
-     "verified_on": "2026-08-18"
+     "verified_on": "2026-11-16",
+     "verified_against": "rust@1.96"
     },
     {
      "stack": "rust",
      "technique": "project-identity-and-joins",
      "file": "knowledge/software-engineering/engineering-process/standards-and-gates/multi-project/applications/rust--project-identity-and-joins.md",
-     "verified_on": "2026-08-29",
+     "verified_on": "2026-11-16",
      "verified_against": "rust@1.96"
     }
    ]

@@ -4,7 +4,8 @@ type: application
 subject: multi-project
 technique: portfolio-drill-hierarchy
 stack: react
-verified_on: 2026-08-18
+verified_on: 2026-11-16
+verified_against: react@19
 ---
 
 # React — the passport wall and the Factory drill
@@ -93,3 +94,70 @@ shipped the name-join bug.
   `FactoryBreadcrumb` on the Factory tower only; the wall's L2 modals
   (`ImprovePlanPanel`, per-slug) close back to L1 instead of switching
   laterally.
+
+## Re-read 2026-11-16 at `8d076db46a` (local checkout, read-only)
+
+Every citation above was re-checked against the tree at `8d076db46a`
+(master, 2026-11-08). 104 commits touched `sub_factory/` since 08-18.
+Nothing was run.
+
+- **Correction: the wall no longer has two lenses.** The Overview grid of
+  covers was removed on 2026-08-27, nine days after the 08-18 read
+  (landed in `450cdc4014`). The comparison matrix is now the only view.
+  The header comment in `passport/ProjectsPassportWall.tsx:4-9` gives the
+  reason: "the grid showed nothing the matrix's own cover header does not,
+  and a switcher between 'the covers' and 'the covers plus every dimension
+  under them' is a toggle whose off position is a strict subset of its on
+  position." The `layoutId`s stay, but they now animate the reorder when
+  the sort changes, not a grid-to-column morph (`:153-156`).
+  - The "L1 with two lenses" section above therefore describes history.
+    `WallOverviewGrid` no longer exists.
+  - The technique was amended the same day: a second lens has to answer
+    something the first cannot.
+  - The trade is visible in the tree. The matrix scrolls sideways
+    (`:140-146`, "Scroll columns left/right"), so at larger N the wall no
+    longer shows every project at a glance. At today's fleet size that
+    costs little.
+- **Still true:**
+  - the level tower comment (`FactoryPage.tsx:6-7`);
+  - the three triage sorts, `automation`, `production` and `gap`
+    (`ProjectsPassportWall.tsx:93-101`);
+  - the summary maps keyed by `identity.slug` (`:43-67,112-116`);
+  - the honesty contract (`passportDerive.ts:9-10,170`).
+- **Moved:** `l2/ship/shipDerive.ts` is now `src/lib/milestone/shipDerive.ts`
+  (`ca17a73986`). The id-join doctrine and its comment survive there
+  (`:6`, `Map` by id at `:24`, `inContext` at `:42`).
+- **Both deviations stand.**
+  - The anchor policy is still not rendered: no cohort or anchor wording
+    anywhere in `passport/`.
+  - The wall's L2 plan panel still closes back to L1
+    (`ImprovePlanPanel` keyed on `planSlug`, `:170-171`). The sibling
+    switcher is still only on the Factory tower (`FactoryBreadcrumb.tsx:3,20`).
+
+### New since 08-18: the Passport Atlas, the default L1
+
+`ProjectsLayer.tsx:52-54,172-200` now opens on the **Passport Atlas**
+(`passport/atlas/`, `604fb757a3`, 2026-09-25). The legacy wall sits behind a
+`Segmented` switch. That switch is a migration switch between two
+implementations, held "until it has been perfected"
+(`PassportAtlas.tsx:1-6`). It is not two lenses on one level.
+
+Three of the Atlas's choices read directly on the technique:
+
+- **It keeps one figure.** "The matrix is the only figure", drawn with
+  favicon tiles as the column heads (`AtlasPortfolio.tsx:9-11`). Three other
+  concepts, a cohort banding among them, were built and deleted on
+  2026-10-06. This is a second instance of the one-lens outcome.
+- **It answers the wall's question in words.** The header carries the
+  portfolio's finding (`portfolioFinding`, `atlasModel.ts:78`). That serves
+  the wall's question, "which project needs me?", with a sentence, so it no
+  longer depends on fitting every column on screen.
+- **It keeps context across the drill.** A cell opens as a drawer over the
+  matrix (`AtlasCellDrawer`), and the project name is the door down to its
+  passport. The host "restores [the portfolio view state] on the way back"
+  (`PassportAtlas.tsx:8-9`). That is the technique's "drilling preserves
+  context", built in.
+
+Not re-checked: the Atlas's own sibling switch and anchor rendering. This
+application stays about the legacy wall it was written against. A separate
+application for the Atlas is owed once it replaces the wall.

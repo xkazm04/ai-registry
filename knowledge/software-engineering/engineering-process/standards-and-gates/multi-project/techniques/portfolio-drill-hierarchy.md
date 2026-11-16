@@ -53,6 +53,21 @@ data, same summary rows, switchable in place, ideally with each project's
 card visibly becoming its column so the operator never loses the mapping
 between the two.
 
+The second lens has to earn its switch, though. If the comparison view's
+column header *is* the cover, so that each project's synthesized card heads
+its own column, then the cover-only view shows nothing the matrix does not.
+A switch whose off position is a strict subset of its on position is not a
+second lens; it is a way to hide the dimensions. The test is whether each lens
+answers something the other cannot. The usual answer is population size. A
+column-per-project matrix holds only as many projects as fit across one
+screen, and past that it scrolls sideways and stops answering "which
+project needs me" at a glance, while a grid of covers wraps and still shows
+all N. So keep both lenses when N outgrows the matrix's width or the cover
+synthesizes something no cell shows. Otherwise, make the matrix's header the
+cover and drop the switch. This is craft, not a measured threshold: it comes
+from one portfolio that removed its cover grid, plus the general guidance
+that the information a user needs in order to choose decides between list and grid views.
+
 ## The density budget is a fetch budget
 
 The visible discipline — how much each level *shows* — is downstream of the

@@ -135,7 +135,11 @@ including the one that matters most at portfolio scale: **a watcher that
 cannot read its project reports "unwatched," never "quiet"**
 ([failure ≠ empty success](../../../_laws.md#failure-not-empty-success)). A
 portfolio wall that renders silence for both "nothing happened" and "we lost
-the ability to look" trains its operator to trust a blind instrument.
+the ability to look" trains its operator to trust a blind instrument. The
+same honesty governs where a watcher resumes. Its position records what it
+actually read: never the clock when the pass ended, never the top of a
+capped read, and for a history, the heads it saw rather than a date,
+because history arrives late and out of date order.
 
 The consumer side is equally constrained: portfolio surfaces read the digest.
 They do not reach past it to poll workers, re-walk history, or re-derive the
@@ -163,13 +167,14 @@ discipline applies unchanged).
 ## Lifecycle: admission equips, archival preserves
 
 Projects enter and leave management, and both edges are doors, not events.
-**Admission** mints identity, binds the current location and remotes as
-re-bindable fields, and then *equips*: a managed project carries a metadata
-contract — the map of its structure, its scored dimensions, its readiness
-record, its knowledge artifacts — and admission is not complete until the
-contract is populated or each gap is explicitly deferred. An "admitted" row
-with none of its metadata is a name on a list, not a managed project, and
-every portfolio surface downstream of it renders holes.
+**Admission** mints identity, binds the current locations (one or more
+working copies, per machine) and remotes as re-bindable fields, and then
+*equips*: a managed project carries a metadata contract — the map of its
+structure, its scored dimensions, its readiness record, its knowledge
+artifacts — and admission is not complete until the contract is populated
+or each gap is explicitly deferred. An "admitted" row with none of its
+metadata is a name on a list, not a managed project, and every portfolio
+surface downstream of it renders holes.
 
 Each artifact in the contract names its refresher — what re-derives it and on
 what trigger ([derivation names

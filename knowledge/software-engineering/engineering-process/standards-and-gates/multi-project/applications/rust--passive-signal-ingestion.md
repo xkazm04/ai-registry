@@ -4,7 +4,8 @@ type: application
 subject: multi-project
 technique: passive-signal-ingestion
 stack: rust
-verified_on: 2026-08-18
+verified_on: 2026-11-16
+verified_against: rust@1.96
 ---
 
 # Rust — the project-tracking pulse engine
@@ -91,3 +92,82 @@ never the raw exhaust.
 - **Cadence is baseline-only.** Acceleration exists only on the announced
   lane; there is no probe-based fast lane or decay — a busy project that
   never announces still waits for the hour.
+
+## Re-read 2026-11-16 at `8d076db46a` (local checkout, read-only)
+
+This section re-checks every citation above against the tree at
+`8d076db46a`, which is master on 2026-11-08, 6,483 commits after the 08-18
+read. Nothing was built or run.
+
+- **Paths moved.** The `watchers/`, `pulse.rs`, `subscription.rs` and
+  `events.rs` modules now live in the engine crate,
+  `src-tauri/engine/src/project_tracking/` (`9708af6d23`, a build-time
+  split). `consolidator.rs`, `push.rs`, `scheduler.rs` and `mod.rs` remain
+  under `src-tauri/src/engine/project_tracking/` and re-export the moved
+  modules (`mod.rs:29-35`). The ownership table is now `mod.rs:10-18`.
+- **Correction: the consolidator is no longer a small model.** It runs a
+  Sonnet-class one-shot through the Synthesis call class
+  (`consolidator.rs:1-8`). The carry/replace/retire rationale is now
+  `consolidator.rs:85-86`, and the 90 s timeout is unchanged (`:83`). On
+  timeout it kills the whole child tree (`c87efdb0c3`, `ca341d3931`).
+  `tokens_in`/`tokens_out` are still on the pulse row (`pulse.rs:25-26`).
+- **Correction: the push lane is no longer just loopback.** `local_http`
+  now authenticates its callers (`aac681a701`). The 300 s debounce stands
+  (`push.rs:44`). Since `f8ccdb0528` (2026-10-20) a push keeps its own
+  in-memory consumed-through mark and leaves `last_pulse_at` alone.
+  Before that, a push stamped the watchers' position although it never ran
+  them, so commits made since the last tick were skipped.
+- **Deviation 1 is half-paid.** Since `fc4f1d5291` (2026-09-17), a spawn
+  failure or a non-zero exit is an `Err` (`watchers/git.rs:56-82`). The
+  scheduler latches a blind tick and holds `last_pulse_at`
+  (`scheduler.rs:113-118,194-199`, `TickReadState`). That is the
+  technique's cursor's gate, shipped. Still missing is durable
+  could-not-observe state: the commit says so itself ("Not included: a
+  persisted kind=watcher_error event"). A blind project still renders as
+  quiet on every surface that reads the pulse.
+- **Deviations 2 and 3 stand.** Push still resolves the project by path
+  against the second registry (`push.rs:198-215`). Cadence is still the
+  hourly baseline plus the announced lane only (`scheduler.rs:36`).
+
+### New: the position comes from the clock, and the clock is wrong
+
+The cursor's gate decides whether the stamp moves. The value it moves to is
+`Utc::now()`, read at `scheduler.rs:194`. Three real defects follow, and
+each loses commits for good:
+
+1. **The stamp is taken after the consolidator.** The git read happens at
+   `scheduler.rs:121`. The stamp is written at `:194`, *after* the
+   consolidator call at `:184`, which can take up to 90 s. Any commit
+   created inside that window has a committer date before the stamp, and
+   the next tick reads `--since=<stamp>`. Those commits are never ingested.
+2. **The cap drops the oldest commits, and the stamp still advances.**
+   `git log` runs newest-first with `--max-count=500` (`watchers/git.rs:50-51`).
+   A capped read warns (`:107-111`) and returns `Ok`, so the tick stamps
+   now. The commits beyond the cap are the oldest ones in the window, and
+   the next window starts after them.
+3. **History arrives out of date order.** The cursor is a date. But a merge
+   or fast-forward brings in commits made elsewhere, dated before the
+   stamp, and the Personas repo is the default watched project
+   (`companion/projects.rs` `seed_default_project`). Measured on this
+   tree's own history, read-only:
+   - since 2026-08-18 there are 6,103 non-merge commits, and 2,278 of them
+     (37%) are off the first-parent line, so they arrived by merge;
+   - the single merge `292e242f02` ("sync with GitHub", 2026-10-09)
+     brought in 295 commits, and all 295 carry committer dates more than
+     an hour older than the merge.
+
+   An hourly date cursor that ticked in the hour before that merge offers
+   none of them. The git docs also say plain `--since` stops walking at the
+   first commit older than the bound, and only `--since-as-filter` visits
+   them all (git-log reference, read 2026-11-16). So date order alone can
+   hide newer commits.
+
+The technique was amended for this on 2026-11-16 ("The new position comes
+from the read, never from the clock"). Cheapest fixes, in order:
+
+1. take the stamp before the read;
+2. on a cap hit, hold the stamp, or page;
+3. store the seen head as the git position and read `<old-head>..HEAD`.
+
+Event-insert failures at `:167` also still stamp. This is lower risk: the
+raw log is a cache, not the record.

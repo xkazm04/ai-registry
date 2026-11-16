@@ -6,7 +6,7 @@ technique: project-identity-and-joins
 status: forged
 laws: [identity-survives-reuse, one-validation-door, gate-sees-target]
 shared_with: []
-use_when: [choosing what identifies a project, history vanishes after a rename, one real project admitted twice]
+use_when: [choosing what identifies a project, history vanishes after a rename, one real project admitted twice, writing an identity marker into the working copy]
 ---
 
 # Project identity and joins
@@ -107,6 +107,39 @@ new → mint) rather than deciding silently in either direction: auto-merging
 two distinct projects corrupts both records; auto-minting a duplicate splits
 one history in half. The fingerprints are evidence for a human-grade
 decision, not a join key — remotes are a field, per the list above.
+
+### A marker in the working copy is a link, not the identity
+
+The cheapest way to pass the re-path test is to have the registry leave a
+small marker inside the project: a file in the working copy that names the
+minted key, so a moved folder can say which entity it is. That works, and
+it has one trap. **The marker travels with every copy of the working copy,
+and some copies are not moves.** If the marker is committed, every clone, every
+worktree, every fork and every other machine's checkout carries it. A key minted in
+one registry's namespace then shows up as a claim in folders, and on machines,
+that registry has never seen. Three things go wrong. A concurrent second checkout of the same
+project (a worktree for a parallel session, a second clone) collides with
+the live first one. A second machine's registry finds a key it never minted, mints its
+own and overwrites the file, and the shared copy then lies to the first machine
+the next time a move needs healing. And a fork inherits its parent's claim.
+
+The rules that keep a marker honest:
+
+- **The marker is machine-local link state.** Keep it out of version control,
+  the way deploy tools keep their own project-link files out, or have it name
+  the namespace that minted it so that a reader in another namespace treats
+  it as foreign. A foreign key in a marker is quarantined like any other
+  foreign id (below). It is never adopted, and never silently overwritten.
+- **A binding is a set, not a slot.** One project can have several live
+  working copies at once. So when a folder claims an entity whose registered
+  folder still exists, the admission choice has three answers. *Moved*:
+  re-bind. *Another copy of the same project*: add a binding. *Genuinely
+  new*, a fork or a template copy: mint. Refusing until one folder is
+  deleted only invites the operator to delete or edit the marker, and an
+  edited marker is how the next twin gets minted.
+- **Bindings are per machine.** A path names a place on one machine. A
+  registry shared across machines holds one binding per machine under the
+  same key and never compares one machine's path with another's.
 
 ## Foreign identity is quarantined
 

@@ -6,7 +6,7 @@ technique: passive-signal-ingestion
 status: forged
 laws: [failure-not-empty-success, one-authority-per-vocabulary, creation-names-reaper, derivation-names-recomputation]
 shared_with: []
-use_when: [deciding where a project view's freshness comes from, two surfaces disagree about what happened, a quiet project may just be unwatched]
+use_when: [deciding where a project view's freshness comes from, two surfaces disagree about what happened, a quiet project may just be unwatched, choosing what an incremental watcher stores as its position]
 ---
 
 # Passive signal ingestion
@@ -141,3 +141,45 @@ without exception:
   watcher is a stateless poll, the position and the blind-since stamp live on
   the same durable subscription record and are written in one act — no path
   may update one without the other.
+
+### The new position comes from the read, never from the clock
+
+The cursor's gate decides *whether* a position may advance. It does not say
+*where to*, and the obvious answer, "now", is wrong in three routine ways.
+Each one loses work as permanently as advancing past a blind pass, and none
+of them shows up as an error.
+
+- **The stamp is taken from what the read covered.** That is the instant the
+  read began, or the newest item it actually returned. It is never the clock
+  after the pass, and certainly not after the digestion step the pass fed. A
+  position stamped when a slow summarizer returns skips everything the
+  project produced during that summary. The next read starts after it.
+- **A capped read covers only what it returned.** A per-read ceiling
+  protects the digestion budget, and that is right. But a ceiling that keeps
+  the newest items and drops the oldest leaves a gap at the *bottom* of the
+  window. Moving the position to the top hides that gap for good. A capped
+  read must either page oldest-first until it reaches the old position, or
+  leave the position where it was and report itself as partial. Truncating
+  silently and then advancing is the empty-success failure again, with a
+  log line on it.
+- **History is not ordered by its own timestamps.** Version-control history
+  arrives late and out of date order. A fetch or merge brings in work made
+  elsewhere, possibly days earlier. Rebases and cherry-picks re-stamp work.
+  Clocks on different machines disagree. A watcher that asks "everything
+  dated after my last stamp" never sees work that is dated before the stamp
+  but arrived after it. Some date-limited history walks are worse: they stop
+  at the first commit older than the bound, so one old-dated commit hides
+  newer ones behind it. For a history the sound position is
+  **reachability**: remember the heads you saw, and read what is reachable
+  now that was not reachable then. Dates order the narrative. They never
+  decide what was read. A remembered head can stop being reachable,
+  because history was rewritten or the object was pruned. Then the range
+  cannot be computed. That is could-not-observe for the range, and it ends
+  in an explicit re-baseline, not a silent jump to the current head. The
+  two errors are not symmetric: offering rewritten work a second time can be
+  undone, and skipping work cannot.
+
+These are one rule seen from three sides. The position records *what has
+been observed*. A wall-clock value only stands in for that when the source
+is append-only, gap-free and stamped by the same clock. Exhaust from a
+working project is none of those things.

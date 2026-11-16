@@ -5,7 +5,7 @@ subject: multi-project
 technique: project-identity-and-joins
 stack: rust
 status: forged
-verified_on: 2026-08-29
+verified_on: 2026-11-16
 verified_against: rust@1.96
 applied: simulation
 ab_verdict: better
@@ -126,3 +126,66 @@ side the user could see.
   exclusion is an author's judgment about what should travel, not a proof
   that the identity is unstable. It is strong because nobody wrote it for
   this argument — and weak for exactly the same reason.
+
+## Re-read 2026-11-16 at `8d076db46a` (local checkout, read-only)
+
+The citations were re-checked against `8d076db46a` (master, 2026-11-08). The
+verdict holds, and nothing was run.
+
+### Anchors re-pinned
+
+- the tracking seam is now `push.rs:208-209`;
+- the schema is now `db/src/lib.rs:1517-1613`;
+- the portability exclusion is now `limits.rs:106-108,122`;
+- `project_identity.rs:3-8` and `capabilities.rs:16-20` are unchanged.
+
+The three falsifiers still fail:
+- the only writes to `companion_known_project` are the insert-or-update on
+  path and the scan stamp (`companion/projects.rs:124-160`);
+- there is no de-duplication pass;
+- there is no id-to-id mapping table.
+
+### Corrections
+
+- **Textual twins are now folded at admission.** Registration canonicalizes
+  the path before the upsert (`companion/projects.rs:110-116`, `3e1bab5947`,
+  2026-07-17, which predates the 08-29 read and was missed then). Case,
+  trailing-slash and `\?\` duplicates therefore collapse into one row.
+  Worktree twins do not, because each worktree is a real, distinct
+  directory.
+- **The two-namespace bridge has spread to a third consumer.** The stand-up
+  report searches both registries because "the two registries mint
+  different ids; a plan item may name either" (`companion/standup/report.rs:320-327`).
+  That is a consumer adapting to the split instead of a mapping that ends it.
+
+### New: the cured registry's marker is committed, so it travels with copies
+
+The cure from case 1 is the `.personas/project.json` marker. Its resolver
+(`project_identity.rs:114-147`) re-binds when the claimed folder is gone. It
+**refuses** when that folder still exists ("Two folders cannot share one
+project"), and the refusal suggests deleting the marker. It **mints fresh
+and overwrites the marker** when the key is unknown to this database
+(`:122-126`).
+
+The marker is committed in three fleet repos:
+- this one (`.gitignore:21-22`: "the .personas/ dir IS committed"; the
+  marker landed in `6031d4080d`, a sweep of in-flight parallel-session work);
+- the registry (`39ffea94a`);
+- mage-arena (`b9f200c`).
+
+So every clone and worktree carries one database's key. The registry has a
+live worktree on this machine (`ai-registry-drain-wt`), which carries the
+same key as its main checkout. Registering that worktree is a refusal by
+construction, and the escape the refusal suggests edits a tracked file.
+
+gravitone took the other branch. It ignores only the marker, explicitly as
+"the machine marker" (`.gitignore:172-175`, `5b8c1aa1`, 2026-09-08).
+
+This is the trap the technique now names ("A marker in the working copy is a
+link, not the identity", 2026-11-16). Deploy tools ship the same rule: the
+Vercel CLI's own `.vercel` README says its project-link file should not be
+shared and is added to `.gitignore` when created (`now@21.0.1`,
+`VERCEL_DIR_README.txt`, read 2026-11-16).
+
+Not measured: whether any machine has already overwritten a committed marker.
+The one marker commit in this repo has a single id.
