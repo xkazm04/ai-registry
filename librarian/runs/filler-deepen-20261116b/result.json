@@ -1,0 +1,136 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "filler-deepen-20261116b",
+  "skill": "deepen",
+  "skill_version": "1.5.0",
+  "mode": "loop",
+  "domain": "software-engineering",
+  "started_at": "2026-11-16T01:23:05Z",
+  "ended_at": "2026-11-16T01:51:46Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 3,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "software-engineering/draft-editing",
+      "at": "2026-11-16",
+      "engine": "deepen",
+      "outcome": "landed",
+      "points_before": 5,
+      "points_after": null
+    },
+    {
+      "id": "software-engineering/embedded-db",
+      "at": "2026-11-16",
+      "engine": "deepen",
+      "outcome": "landed",
+      "points_before": 5,
+      "points_after": null
+    },
+    {
+      "id": "software-engineering/tenant-scoped-agent-runtime",
+      "at": "2026-11-16",
+      "engine": "deepen",
+      "outcome": "landed",
+      "points_before": 5,
+      "points_after": null
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "draft-editing",
+      "technique": "draft-model",
+      "verdict": "better",
+      "mode": "simulation"
+    },
+    {
+      "subject": "draft-editing",
+      "technique": "debounced-save-groups",
+      "verdict": "better",
+      "mode": "simulation"
+    },
+    {
+      "subject": "draft-editing",
+      "technique": "field-defaults-and-bounds",
+      "verdict": "better",
+      "mode": "simulation"
+    },
+    {
+      "subject": "embedded-db",
+      "technique": "corruption-class-response",
+      "verdict": "not-better",
+      "mode": "simulation"
+    },
+    {
+      "subject": "embedded-db",
+      "technique": "quiet-window-maintenance",
+      "verdict": "unmeasurable",
+      "mode": "simulation"
+    },
+    {
+      "subject": "tenant-scoped-agent-runtime",
+      "technique": "task-local-tenant-scope",
+      "verdict": "not-better",
+      "mode": "simulation"
+    },
+    {
+      "subject": "tenant-scoped-agent-runtime",
+      "technique": "tenant-keyed-cache-evicts-loaded-code",
+      "verdict": "better",
+      "mode": "simulation"
+    },
+    {
+      "subject": "tenant-scoped-agent-runtime",
+      "technique": "fail-direction-follows-deployment-mode",
+      "verdict": "not-better",
+      "mode": "simulation"
+    }
+  ],
+  "files": [
+    "knowledge/software-engineering/ui-surfaces/input-and-editing/draft-editing",
+    "knowledge/software-engineering/backend-platform/data-layer/embedded-db",
+    "knowledge/software-engineering/llm-agent/orchestration/tenant-scoped-agent-runtime",
+    "librarian/applied.md",
+    "librarian/subjects/software-engineering/draft-editing.md",
+    "librarian/subjects/software-engineering/embedded-db.md",
+    "librarian/subjects/software-engineering/tenant-scoped-agent-runtime.md"
+  ],
+  "commits": [
+    {
+      "sha": "2c4fdce16",
+      "branch": "main",
+      "pathspec": [
+        "knowledge/software-engineering/backend-platform/data-layer/embedded-db",
+        "librarian/subjects/software-engineering/embedded-db.md",
+        "librarian/applied.md"
+      ]
+    },
+    {
+      "sha": "4a207b154",
+      "branch": "main",
+      "pathspec": [
+        "knowledge/software-engineering/ui-surfaces/input-and-editing/draft-editing",
+        "librarian/subjects/software-engineering/draft-editing.md",
+        "librarian/applied.md"
+      ]
+    },
+    {
+      "sha": "31a885fda",
+      "branch": "main",
+      "pathspec": [
+        "knowledge/software-engineering/llm-agent/orchestration/tenant-scoped-agent-runtime",
+        "librarian/subjects/software-engineering/tenant-scoped-agent-runtime.md",
+        "librarian/applied.md"
+      ]
+    }
+  ],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "Loop of 3. All three saturated (dry 2). No new technique; ten rules gained a condition; draft-editing gained a python stack; tenant-scoped re-earned four 09-09 review clarifications lost in 7792d1b1a. Two unapplied rows. Registry map not regenerated (owed)."
+}
