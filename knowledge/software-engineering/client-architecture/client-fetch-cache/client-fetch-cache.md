@@ -107,10 +107,14 @@ policies, and a cache missing any one of them is either a leak or a lie:
   available: because it was read recently (recency of access), because it was
   created recently (recency of creation — often the stronger signal, since new
   rows churn and old rows go stable), because something near it was read
-  (proximity), or because it was written at the same time as something being
-  read now (co-writing). A cache that admits everything has bet on all four at
-  once, which is the same as having no reason to expect reuse from any of them.
-  The four bets, why eviction's axis must match admission's, and the check that
+  (proximity), because it was written at the same time as something being
+  read now (co-writing), or because it has been read often (frequency). The
+  last is the one judged against the entry it would displace rather than on its
+  own, so it decides only when the cache is full, and it is what turns "do not
+  admit a one-off" into a mechanism. A cache that admits everything has bet on
+  all five at once, which is the same as having no reason to expect reuse from
+  any of them. The five bets, why eviction's axis must match admission's, and
+  the check that
   a stated rule can still fire are
   [admission-hypothesis](./techniques/admission-hypothesis.md).
 

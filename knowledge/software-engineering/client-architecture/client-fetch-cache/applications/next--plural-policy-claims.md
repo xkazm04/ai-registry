@@ -9,7 +9,7 @@ applied: code
 ab_verdict: better
 proof: ab-paired
 shipped: d4995c3
-verified_on: 2026-08-31
+verified_on: 2026-11-16
 verified_against: next@16
 ---
 
@@ -56,6 +56,20 @@ the entry revalidates on *its* clock; the warmth the prefetcher declared —
 15 minutes in one case, 60 seconds in the other — is never reached. The
 prefetch still pays for the request and still writes the entry. Only its
 stated policy is discarded, and nothing reports that.
+
+**Correction, 2026-11-16.** "Inert" holds on the consumer's path and is wrong
+on the prefetch's own path. Read in the library's core at `TanStack/query`
+`main` `56d98b0d4` (2026-11-14): staleness is not resolved on the entry. Each
+observer tests it against its own `staleTime` when one of its triggers fires
+(`isStale` in `queryObserver.ts`). A focus or reconnect refetch goes to the
+first attached observer that wants one (`onFocus` / `onOnline` in `query.ts`).
+A prefetch checks the entry against *its own* `staleTime` before it fetches
+(`queryClient.ts`). So the prefetcher's longer claim decides whether a second
+hover warms again: inside its window the prefetch skips the request even when
+the consumer already counts the entry stale. "Revalidates on its clock" also
+overstates. A `staleTime` is a threshold that the consumer's mount, focus and
+reconnect triggers test, not a timer. Only a refetch interval is a clock. The
+census rows are unaffected, because they compare declared values.
 
 The largest shared key (7 sites) is **consistent**, which matters for the
 honesty of the result: divergence is not the default state of a shared key
@@ -128,3 +142,21 @@ matching their 2026-08-24 baseline.
 The dev-time warning is still owed and is the half that would stop this
 recurring — aligning two values fixes today's divergence and installs nothing
 that notices the next one.
+
+## Re-checked 2026-11-16: the seam no longer exists
+
+Re-resolved read-only against the public tree's HEAD `ae2c83ff7` (2026-10-25), through
+a shallow clone. Commit `1a4d7c5` (2026-10-12, "v2 becomes the app and v1 is
+deleted") removed the whole first-generation source tree, 1,079 files, and with it
+the query library and its devtools. Dependencies went from 62 declared to 22. At
+HEAD there is no query client, no prefetch layer, no route-preload table and no
+key factory. The only client cache is a two-slot browser-storage memo of a
+generated profile, keyed by a fingerprint of the user's taste with a 24-hour reuse
+window (`src/v2/dna/cache.ts`). The tree still pins `next` ^16.1.3.
+
+Everything above is therefore a measurement of the deleted tree, and it stays
+correct as history. Spot-checked at `d4995c3^`: the two private `SHORT` aliases are there (`src/hooks/use-top-lists.ts:33` bound to the 30-second constant, `src/hooks/use-item-groups.ts:14` bound to the 1-minute one), and they are gone at `d4995c3`, as the Shipped section says. It can no longer be re-checked at HEAD, and nothing here
+describes the current product. The cited commit `d4995c3` remains reachable in
+the public history (an ancestor of `main`, 374 commits behind it). Return: when
+the product grows a fetch cache again, write a new application against it rather
+than re-dating this one.

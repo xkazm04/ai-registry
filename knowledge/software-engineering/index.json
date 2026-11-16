@@ -6260,9 +6260,9 @@
    "subcategory": null,
    "status": "reconciled",
    "file": "knowledge/software-engineering/client-architecture/client-fetch-cache/client-fetch-cache.md",
-   "digest": "sha256-b2:5c0abb651aaa7098",
-   "revision": 16,
-   "changedAt": "2026-11-10",
+   "digest": "sha256-b2:ff9f0ac50886464e",
+   "revision": 17,
+   "changedAt": "2026-11-16",
    "techniques": [
     {
      "slug": "admission-hypothesis",
@@ -6445,28 +6445,28 @@
      "stack": "next",
      "technique": "admission-hypothesis",
      "file": "knowledge/software-engineering/client-architecture/client-fetch-cache/applications/next--admission-hypothesis.md",
-     "verified_on": "2026-08-31",
-     "verified_against": "next@15"
+     "verified_on": "2026-11-16",
+     "verified_against": "next@16"
     },
     {
      "stack": "next",
      "technique": "in-flight-dedup",
      "file": "knowledge/software-engineering/client-architecture/client-fetch-cache/applications/next--in-flight-dedup.md",
-     "verified_on": "2026-09-01",
+     "verified_on": "2026-11-16",
      "verified_against": "next@16"
     },
     {
      "stack": "next",
      "technique": "plural-policy-claims",
      "file": "knowledge/software-engineering/client-architecture/client-fetch-cache/applications/next--plural-policy-claims.md",
-     "verified_on": "2026-08-31",
+     "verified_on": "2026-11-16",
      "verified_against": "next@16"
     },
     {
      "stack": "next",
      "technique": "portable-read-definitions",
      "file": "knowledge/software-engineering/client-architecture/client-fetch-cache/applications/next--portable-read-definitions.md",
-     "verified_on": "2026-08-31",
+     "verified_on": "2026-11-16",
      "verified_against": "next@16"
     },
     {

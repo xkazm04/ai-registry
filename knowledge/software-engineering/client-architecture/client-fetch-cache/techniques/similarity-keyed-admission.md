@@ -12,12 +12,12 @@ use_when: [a cache is keyed on resemblance rather than on identity, deciding whe
 # Similarity-keyed admission
 
 Every bet in [admission-hypothesis](./admission-hypothesis.md) is a bet about
-*time or adjacency*: it was read recently, it was made recently, something near
-it was read, it was written alongside something being read now. All four
-presuppose that the entry, once found, is the right entry — because the key is an
+*time, adjacency or count*: it was read recently, it was made recently, something
+near it was read, it was written alongside something being read now, it has been
+read often. All five presuppose that the entry, once found, is the right entry — because the key is an
 identity and a hit is a proof.
 
-There is a fifth bet, and it breaks that presupposition. **Paraphrase
+There is a sixth bet, and it breaks that presupposition. **Paraphrase
 recurrence**: the entry will be read again by a *different utterance of the same
 request*. It is the bet behind every cache keyed on a resemblance — an embedding,
 a normalized shape, a fuzzy digest — and it is worth stating separately because
@@ -189,7 +189,7 @@ which is why the reduction has to be written down rather than tuned.
 
 ## Decision rules
 
-- Name the fifth bet explicitly when it is the one being made; it is not a
+- Name the resemblance bet explicitly when it is the one being made; it is not a
   variant of recency, and inheriting recency's defaults imports the wrong
   eviction.
 - State the metric and the cut-point together, and treat a metric change as a
@@ -304,9 +304,9 @@ trade applies unchanged and this section costs one question.
 
 ## What this technique does not own
 
-Whether an entry should be cached at all, and the four time-and-adjacency bets,
+Whether an entry should be cached at all, and the five identity-keyed bets,
 are [admission-hypothesis](./admission-hypothesis.md) — this technique owns only
-the fifth bet and what it changes. The identity of an entry and its collision
+the resemblance bet and what it changes. The identity of an entry and its collision
 audit remain [cache-key-discipline](./cache-key-discipline.md); the reduction
 that produces a resemblance key is a key concern and belongs there, and only the
 cut-point is owned here. How long an entry stays believable, and removal for

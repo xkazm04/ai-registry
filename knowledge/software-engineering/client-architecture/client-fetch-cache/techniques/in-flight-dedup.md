@@ -83,6 +83,26 @@ still want. The simple resolution is that dedup'd flights are
 uncancellable-by-joiners and abandonment is local — the joiner stops
 listening, the flight lands for whoever remains.
 
+That leaves the case where nobody remains. A flight whose work is
+expensive (minutes of upstream calls, a metered completion) may be
+cancelled when its **last** interested caller leaves, and that is the only
+abort a shared flight takes. The last-leaver test cannot be read at the
+instant the count reaches zero, though, because an interest that is
+*moving* passes through zero on its way: a page reload closes the old
+connection strictly before the new one opens, and a remount unsubscribes
+before it resubscribes. Cancel at that instant and the returning caller
+relaunches the work it was coming back to join. So the abort takes the
+shape eviction takes under plural claims
+([plural-policy-claims](./plural-policy-claims.md)): reference counting
+decides whether a clock runs, and a short grace window decides for how
+long. A caller arriving inside the window joins and stops the clock. A
+window that closes with the count still at zero aborts the flight **and**
+unregisters it in one act, so no later caller joins work that is already
+doomed. Price the window against the work it would waste: long enough to
+cover the reload, short enough that an abandoned flight's cost stays
+bounded. A common default pairs a graced eviction clock with an *instant*
+abort at zero. For expensive flights, that pairing is the one to refuse.
+
 ## Dedup is not idempotency
 
 The boundary that keeps this technique honest: dedup collapses *concurrent*
@@ -139,5 +159,8 @@ callers that should share.
 - Fan the rejection out to all joiners; design telemetry so N joiner
   failures count as one flight failure.
 - Joiners abandon locally; they never abort the shared flight.
+- An expensive flight may be aborted only once its last interested caller
+  has left, and only after a grace window a returning caller can land
+  inside; the abort unregisters the flight, so nothing joins it afterwards.
 - Dedup reads freely; dedup mutations only as a debounce atop server-side
   idempotency keys, never instead of them.

@@ -37,12 +37,28 @@ whole technique:
   The bet behind grouping by write cadence, and the one that holds trivially in
   append-ordered stores where natural order equals write order.
 
-A cache that admits everything has made all four bets at once, which is the
+- **Frequency of access** — it has been read many times, so it will be read
+  again. This is the bet the cache literature calls an admission policy by
+  name (Einziger, Friedman and Manes, 2015: given a newly accessed item and
+  an eviction candidate, decide from recent access frequency "whether it is
+  worth admitting the new item into the cache at the expense of the
+  eviction candidate"). It differs from the other four in kind. Recency,
+  creation, proximity and co-writing judge the candidate alone; frequency
+  judges it **against the entry it would displace**, so the decision exists
+  only when the cache is full and is made at the victim's cost. That is the
+  mechanical form of the rule below that a one-off should not be admitted:
+  a candidate seen once loses to any victim seen twice, without anyone
+  having to know in advance which entries are one-offs. A pure frequency
+  bet rejects a genuine burst of new entries, which is why the published
+  designs put a small recency window in front of it, and the counts must
+  describe *recent* history, or last month's favourites hold the cache.
+
+A cache that admits everything has made all five bets at once, which is the
 same as having no reason to expect reuse from any of them.
 
-All four are bets about *time or adjacency*, and all four assume the key is an
-identity — so a hit is a proof that the entry belongs to the request. Where the
-key is a **resemblance** rather than an identity, a fifth bet becomes available
+All five are bets about *time, adjacency or count*, and all five assume the key
+is an identity — so a hit is a proof that the entry belongs to the request. Where the
+key is a **resemblance** rather than an identity, a sixth bet becomes available
 and that assumption goes with it: the entry will be read again by a different
 utterance of the same request. It is the only bet under which a hit can be
 wrong rather than merely old, and it changes eviction, measurement and the
@@ -99,7 +115,7 @@ population.
 
 ## Decision rules
 
-- Name the admission bet at the cache's construction site, from the four above
+- Name the admission bet at the cache's construction site, from the five above
   or an explicit *none*.
 - `none` implies a zero eviction time. Do not let unreusable entries occupy a
   store that reuses.

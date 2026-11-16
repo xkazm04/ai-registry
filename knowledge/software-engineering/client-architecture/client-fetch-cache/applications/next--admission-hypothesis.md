@@ -4,8 +4,8 @@ type: application
 subject: client-fetch-cache
 technique: admission-hypothesis
 stack: next
-verified_on: 2026-08-31
-verified_against: next@15
+verified_on: 2026-11-16
+verified_against: next@16
 applied: experiment
 ab_verdict: better
 proof: ab-paired
@@ -99,3 +99,21 @@ The experiment measures whether an admission rule can fire, not whether firing
 helps. It shows eight of ten targets are unreachable and cannot show that the
 remaining two are worth warming, because nothing records whether a prefetched
 entry was read before it was evicted.
+
+## Re-checked 2026-11-16: the seam no longer exists
+
+Re-resolved read-only against the public tree's HEAD `ae2c83ff7` (2026-10-25), through
+a shallow clone. Commit `1a4d7c5` (2026-10-12, "v2 becomes the app and v1 is
+deleted") removed the whole first-generation source tree, 1,079 files, and with it
+the query library and its devtools. Dependencies went from 62 declared to 22. At
+HEAD there is no query client, no prefetch layer, no route-preload table and no
+key factory. The only client cache is a two-slot browser-storage memo of a
+generated profile, keyed by a fingerprint of the user's taste with a 24-hour reuse
+window (`src/v2/dna/cache.ts`). The tree still pins `next` ^16.1.3.
+
+Everything above is therefore a measurement of the deleted tree, and it stays
+correct as history. The `verified_against` pin was `next@15` until today. The manifest at `d4995c3` (2026-08-31, the same day as the experiment) already pins `next` ^16.1.3, so the old pin was wrong when it was written, not merely stale. It can no longer be re-checked at HEAD, and nothing here
+describes the current product. The cited commit `d4995c3` remains reachable in
+the public history (an ancestor of `main`, 374 commits behind it). Return: when
+the product grows a fetch cache again, write a new application against it rather
+than re-dating this one.

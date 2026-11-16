@@ -1,9 +1,9 @@
 ---
 subject: client-fetch-cache
 domain: software-engineering
-last_touched: 2026-11-10
-touched_by: harvest
-dry_streak: 0
+last_touched: 2026-11-16
+touched_by: deepen
+dry_streak: 2
 ---
 
 # client-fetch-cache
@@ -120,3 +120,68 @@ defect from silent into 2 compile errors, with the consumer probe, the provider 
 the lint and type floors unchanged. Application `react--one-owner-per-datum--context-copy`.
 The two-live-lifetimes half (a router preload window beside the fetch cache) has no fleet
 seam and is unmeasured. The fleet change is banked on a branch and not shipped.
+
+## 2026-11-16 - /deepen loop of 3 (run `filler-deepen-20261116c`, /shift filler)
+
+Landed in round 1, dry in rounds 2 and 3. No new technique. Two rules flipped.
+
+- **in-flight-dedup**: "joiners abandon locally; they never abort the shared
+  flight" was silent on the case where nobody remains. Amended: an expensive
+  flight may be aborted only once its last caller has left, after a grace
+  window a returning caller can land inside, and the abort unregisters it. The
+  convergence came from three places. Read lane: ascent added a 30 s linger
+  window on 2026-10-05 because a reload passes the waiter count through zero.
+  Corpus: `plural-policy-claims` already says the eviction clock starts on
+  last detach. Blind lane: it named last-leaver abort, though not the grace.
+  The counter-case is the query library core, which graces eviction but
+  cancels a consumed-signal fetch instantly at zero observers.
+- **admission-hypothesis** (and the golden path's list): "there are only a few
+  bets", listing four, omitted **frequency of access**, the bet the cache
+  literature names an admission policy (Einziger, Friedman and Manes, 2015,
+  arXiv 1512.00727). It is the only bet judged against the victim, so it
+  decides only at capacity, and it is the mechanism behind "do not admit a
+  one-off". Convergence: blind lane plus the primary abstract, plus a cache
+  library wiki on the recency window for bursts. This is the same
+  enumeration-denial shape this note recorded on 2026-09-03 for resemblance.
+  The resemblance bet is now the sixth, and `similarity-keyed-admission` was
+  renumbered to match.
+
+Applications:
+- `next--in-flight-dedup`: re-pinned at ascent `54a9800dd` (public remote; no
+  Lynx checkout) and re-dated. Two new sections: the linger window, and a live
+  defect. `cacheAndPersistScan` writes the memory tier before persisting, and
+  the persist's `cacheDelete` then removes the entry the run just wrote. The
+  cost is a wasted write and a durable-tier read; it never serves a wrong answer.
+- The three goat applications (admission-hypothesis, plural-policy-claims,
+  portable-read-definitions): **the seam is gone**. goat `1a4d7c5` (2026-10-12)
+  deleted the v1 tree and the query library. Each gained a dated retirement
+  section and was re-dated. The admission pin went next@15 -> next@16; it was
+  already wrong on 2026-08-31.
+- `next--plural-policy-claims`: "the prefetcher's claim is inert" corrected
+  from the query core's source. A prefetch checks its own staleTime before it
+  fetches, and staleness is a per-observer threshold that triggers test, not a
+  clock.
+
+Volatile facts: none are framework- or vendor-set. Every flagged number is a
+tree fact or an illustration. The plural census's 30 s/60 s alias collision
+was spot-checked at goat `d4995c3^`, and the aliases are gone at `d4995c3`.
+
+Rounds 2-3 (training-data-first) confirmed:
+- warm-remount is scoped to apps whose views unmount;
+- the sibling borrow is a placeholder;
+- failure keeps data and flags it invalidated without stamping freshness;
+- canonical key hashing sorts object keys. The undefined-equals-omitted
+  collapse is already documented.
+
+Banked:
+- Hidden-but-mounted views (a framework keep-alive primitive) as the
+  alternative to module-scope warmth, with its cost in memory and effects.
+  Return: a warm-remount pass that opens the framework's current docs.
+- The ascent self-delete defect is unreported to the project. Return: an apply
+  worker or a /conform pass on ascent.
+- goat joins for this subject in the registry map now point at a deleted tree.
+  Return: the Director's map regeneration.
+- No fleet tree runs a frequency-aware admission policy. Return: when a fleet
+  cache counts capacity evictions.
+
+Impact: not computed. The map regeneration is owed (Director's step 4).
