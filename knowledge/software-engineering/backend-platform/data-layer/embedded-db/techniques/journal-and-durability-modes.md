@@ -51,12 +51,15 @@ block writers.
 Orthogonal to journaling is how often the engine forces the OS to flush to
 stable storage. The full-paranoia setting survives power loss at a
 per-commit latency cost; the common middle setting, paired with write-ahead
-journaling, survives application and OS crashes but may lose the last few
-commits on power cut — while never corrupting the store; the fast setting
-trades corruption-on-power-cut for speed and has no place under user data.
-The middle setting is a defensible choice for a desktop application *if
-made on purpose*: "a power cut may cost the last moments of work" is a
-product decision someone should have consciously made, not an engine
+journaling, survives an application crash but may lose the last few commits
+on a power cut **or an operating-system crash** — while never corrupting the
+store; the fast setting survives an application crash too but trades
+corruption on a power cut or OS crash for speed, and has no place under user
+data. The line falls between "the process died" and "the machine died", not
+between crash and power cut: an OS crash is on the machine's side. The middle
+setting is a defensible choice for a desktop application *if made on
+purpose*: "a power cut or a system crash may cost the last moments of work"
+is a product decision someone should have consciously made, not an engine
 default nobody can defend in the postmortem.
 
 ## The file-set clause: every copy path knows the sidecars

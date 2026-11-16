@@ -95,6 +95,19 @@ actually running?" and "was that stall at 14:03 us?" — the second being the
 question that decides whether quiet-window gating is trusted or quietly
 disabled by the next engineer who suspects it.
 
+**A journal checkpoint that returned success has not necessarily completed.**
+The non-blocking checkpoint form folds as many frames as it can without
+waiting and reports success either way; the more aggressive forms, when a
+reader blocks them, typically report the shortfall as a value in the result
+rather than as an error. A pass that logs "completed" because the call did not
+throw has recorded the call, not the work, and a reader that is never
+released — the leak the journal technique warns about — then presents as
+months of successful maintenance over a sidecar that never stopped growing.
+So the record carries what the engine says it did (frames in the journal
+against frames folded, and whether the pass was blocked), the outcome is
+"partial" when those differ, and the escalation ladder's harm bound reads the
+sidecar's measured size rather than inferring it from a run of successes.
+
 ## What runs in the window
 
 The window is for work that competes with the user: checkpointing the

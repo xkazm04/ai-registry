@@ -40,6 +40,11 @@ Warm-median latency, in ms:
 | per-vote rate aggregate | 106.4 | 4.3 | 25× |
 | **analytical self-join** | **5,635.8** | **131.5** | **43×** |
 
+These are warm medians from one harness on one dataset at the 2026-08-27 pin;
+the number of runs behind each median is not carried in this document. Read
+the ratios as one dated measurement, not as constants of either engine. (A
+2026-11-16 currency pass did not re-open the tree, so `verified_on` stands.)
+
 This is the technique's first condition measured directly: **the gap is a
 function of query shape, and it widens with join complexity** — 14× on the
 simple group-by, 43× on the self-join. A team that had benchmarked only the

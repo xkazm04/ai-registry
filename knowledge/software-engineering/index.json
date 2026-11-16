@@ -14500,9 +14500,9 @@
    "subcategory": "data-layer",
    "status": "reconciled",
    "file": "knowledge/software-engineering/backend-platform/data-layer/embedded-db/embedded-db.md",
-   "digest": "sha256-b2:0722fec97cff5b66",
-   "revision": 15,
-   "changedAt": "2026-09-23",
+   "digest": "sha256-b2:0f07d2577043dabb",
+   "revision": 16,
+   "changedAt": "2026-11-16",
    "techniques": [
     {
      "slug": "analytical-reads-off-the-serving-store",
@@ -14683,9 +14683,9 @@
      "stack": "python",
      "technique": "corruption-class-response",
      "file": "knowledge/software-engineering/backend-platform/data-layer/embedded-db/applications/python--corruption-class-response.md",
-     "verified_on": "2026-09-23",
-     "verified_against": "python@3.12",
-     "refresh_by": "2026-11-05"
+     "verified_on": "2026-11-16",
+     "verified_against": "python@3.14",
+     "refresh_by": "2026-12-29"
     },
     {
      "stack": "rust",

@@ -105,7 +105,12 @@ instruction to run against a copy, because something else holds the store.
 That instruction is not a quirk of the script. It is the transactional
 quadrant's locking contract being paid by a workload that never needed it — a
 column-oriented reader over an exported file has no writer to exclude, no
-directory to hold, and nothing for a second process to contend with. For this
+directory to hold, and nothing for a second process to contend with. That
+holds while the copy is a plain export or is opened read-only. Columnar
+engines that keep their own database file usually admit one read-write
+process at a time and many processes only read-only, so a copy opened for
+writing in the analytical engine's own format has brought a single-writer
+lock back with it. For this
 read, the hazard the discipline exists to survive is an artifact of routing
 rather than a property of the problem.
 

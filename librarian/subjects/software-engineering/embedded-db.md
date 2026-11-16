@@ -1,8 +1,8 @@
 ---
 subject: embedded-db
 domain: software-engineering
-last_touched: 2026-09-23
-dry_streak: 0
+last_touched: 2026-11-16
+dry_streak: 2
 ---
 
 # embedded-db
@@ -98,3 +98,34 @@ New technique `corruption-class-response`: the corruption CLASS decides the resp
 `python--corruption-class-response` came up on its own `refresh_by` clock (2026-10-15). All ~30 anchors re-resolved against the upstream agent tree at HEAD (13,043 commits past the first read) and `verified_on` moved; the `refresh_by` override was kept (the tree moves far faster than the derived python window) at the same 43-day span. Upstream moves recorded in the application, none contradicting it: the FTS-scoped corruption check consolidated into one shared predicate, the deferred FTS retry now skips quarantined handles, and a keep-open-through-shutdown path that applies only when the WAL files were removed. Two of our own anchors were corrected (a method name and the write site of the stale marker). No technique edit. Proposal: none.
 
 Impact: no judged verdict moved.
+
+## 2026-11-16 - `/deepen` loop (run `filler-deepen-20261116b`, /shift filler)
+
+Dispatched for one expired clock: `python--corruption-class-response` (override 2026-11-05). Three rounds; round 1 landed, rounds 2-3 dry.
+
+#### Round 1 (survey round)
+
+**Not dry; no new technique.** Read lane over the upstream agent tree at `4162ecf1` (2026-11-15, shallow clone) and personas at `8d076db46a`; counter-evidence against the engine's own pages (sqlite.org pragma, wal, wal_checkpoint_v2, dbconfig, rescode, lang_vacuum; duckdb.org concurrency; the Python sqlite3 page), all opened 2026-11-16; a blind lane written before any search.
+
+- `corruption-class-response` **flipped (condition added)**: the canonical verdict belongs to the file, not to the handle that saw the error. The agent tree moved its quarantine to a path-keyed process latch that readers publish into and that "no marker is written to disk" for, because the file it would describe is the damaged one; the blind lane reached both halves on its own (key on the file; never store the verdict inside it). Where it must outlast a restart, the marker sits beside the store (personas does this to hold backup rotation).
+- `quiet-window-maintenance` **flipped (condition added)**: a checkpoint that returned success has not necessarily completed. Banked since 2026-08-22; now converged: the C application's own source read, the engine's pragma page (the result column is 0 for PASSIVE whatever it left, 1 only for a blocked FULL/RESTART/TRUNCATE) and the blind lane. The pass record carries frames logged against frames folded, "partial" when they differ, and the harm bound reads the sidecar's size.
+- `journal-and-durability-modes` corrected: the middle sync level under write-ahead journaling may lose the last commits on a power cut *or an OS crash* ("might roll back following a power loss or system crash", sqlite.org/pragma.html); the text had it surviving OS crashes. The blind lane had it right.
+- `analytical-reads-off-the-serving-store` scoped: the no-contention argument holds for a plain export or a read-only open; a columnar engine's own file opened read-write is one process at a time (duckdb.org concurrency page).
+- `python--corruption-class-response` re-resolved: every quotation found, every claim held; anchors re-pinned; python@3.14; `refresh_by` 2026-12-29 (same 43-day override). Upstream moves: the file-keyed latch, a reopen exception for a replaced file, the detach waiting out a busy lock on the write budget. Four of our own anchors corrected.
+- `node--analytical-reads-off-the-serving-store`: the ratios are now framed as one dated measurement with the per-median run count not carried (the source tree is out of scope on this machine, so not re-read; `verified_on` stands).
+
+Confirmed and left untouched: the 1000-page auto-checkpoint on the committing thread; WAL persistence in the header and the sync level per connection; the silent fallback when a mode cannot be set (the old mode is returned); WAL not working over a network filesystem; checkpoint-on-close enabled by default and the switch reaching Python only on 3.12; a virtual table "might" return the vtab corruption code (so absent provenance defaulting to canonical is right); the go application's multipliers (code constants pinned to a commit, not measurements); the node single-writer application's figures (dated single incidents).
+
+Applied: `corruption-class-response` **not-better** (personas already keys the quarantine on the canonicalised path and keeps its marker beside the store); `quiet-window-maintenance` **unmeasurable** (two personas checkpoint sites log "completed" on a call that cannot report a blocked TRUNCATE as an error; whether a reader is open during the idle pass was not measured); `analytical-reads` unapplied (no fleet tree opens an analytical copy).
+
+Banked: VACUUM under write-ahead journaling writes the overwrite through the journal, so the "up to double" disk figure may understate the transient peak until a checkpoint (one page, inference); readers in personas do not publish a structural error into the latch. The remote-scan case and "sidecars outlive connections" stay banked: no new evidence.
+
+#### Round 2
+
+Dry. Blind answers on pool sizing to one writer, reclamation not shrinking the file and needing up to twice the disk (sqlite.org/lang_vacuum.html), and recycled journal segments after a checkpoint all matched the text.
+
+#### Round 3
+
+Dry. Extension registration before the pool, single-digit-millisecond "slow" for a local store, the golden path's file-set clause and silent fallback: all confirmed, none earned. dry=2; the loop idles until 2026-12-29 (the agent-tree override) or an event.
+
+Impact: not computed. The map regeneration is the Director's step 4 and was not run here.

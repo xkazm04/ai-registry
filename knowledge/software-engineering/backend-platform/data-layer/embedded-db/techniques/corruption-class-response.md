@@ -107,9 +107,22 @@ file-set clause in
 [journal-and-durability-modes](./journal-and-durability-modes.md) — is copied
 *before* anything restarts.
 
-Quarantine is per process and poisons the shared handle for every holder
-inside it. The process restarts on a repaired or restored file; it does not
-recover in place.
+Quarantine is per process, and inside the process **the verdict belongs to
+the file, not to the handle that saw the error**. Where a process holds one
+shared handle the two are the same thing. Where it can hold more than one — a
+pool, a reader beside the writer, a second component that opens the same path
+— a flag on the reporting handle leaves every sibling free to keep writing to
+the file it condemns. So the latch is keyed on the file's identity, every
+handle checks it before it touches the engine, and a reader that meets
+structural damage publishes into it as readily as a writer, because a reader
+is often the only one looking. The latch also lives *outside* the file: in
+process memory for the life of the process, or in a marker beside the store
+where it must outlast a restart (to hold back backup rotation that runs before
+anything opens the file, say). The derived-damage stale marker may sit inside
+the store because the canonical structure holding it is sound; a canonical
+verdict written into the damaged file is unreadable exactly when it matters,
+and writing it is one more write to the file. The process restarts on a
+repaired or restored file; it does not recover in place.
 
 ## Quarantine protects the file, not the work
 
@@ -135,6 +148,8 @@ damaged file under write pressure while it does so.
   fault presenting as success.
 - On canonical damage: propagate typed, retry nothing, refuse every later
   write on the handle, never reopen, and skip the checkpoint on close.
+- Key the canonical verdict on the file, not the handle, wherever a process
+  can hold more than one handle on it; keep it outside the damaged file.
 - Name the alternative sink for pending work in the same act that declares the
   quarantine.
 - Never delete canonical rows to make a derived-structure error disappear.
