@@ -1,9 +1,9 @@
 ---
 subject: agent-runtime-assembly
 domain: software-engineering
-last_touched: 2026-11-06
-dry_streak: 0
-touched_by: intake
+last_touched: 2026-11-16
+dry_streak: 2
+touched_by: intake, deepen, shift
 ---
 
 # agent-runtime-assembly
@@ -517,3 +517,31 @@ fuzz against it).
 ## 2026-11-06 - shift-rust ([[2026-11-06-rust-craft]])
 
 Currency only: `rewriting-under-a-foreign-gate` sentence and its rtk application repaired after the source moved to the file's own fail-closed rule. Two amendments stay untriaged at 2/0/1 under the +3 bar. See [[2026-10-14-rtk]].
+
+### 2026-11-16 - `/deepen` loop (run `filler-deepen-20261116`, /shift filler)
+
+Dispatched by the librarian scan (7 points: `python--rewrite-before-the-gate` past its 2026-11-05 clock, two `next` applications on the 2026-12-03 derived window, two `node` applications drifting against fleet node 24).
+
+#### Round 1 (survey round)
+
+**Not dry; no new technique.** Read lane over four trees (hermes `4162ecf1`, pof `ccbe02aea`, gravitone `fc26e172`, exo `1eeab021`) plus this registry, a counter-evidence web lane, a blind lane, and the volatile pages re-opened.
+
+- `guard-input-custody` **flipped (condition added)**: a pin table covers the members it names. Our own gate takes any known profile from a bundle missing from the table, `generic` included, and asks for a pin it does not enforce. The blind lane reached the same rule. An unknown member is refused or checked under the strictest profile.
+- `additive-input-at-the-call-boundary` **flipped (condition added)**: the boundary is a moment, not a slot. One format requires text after the tool results; one provider's steering places the accepted steer ahead of the tool output. The loop owns the timing, the adapter the position.
+- `bounded-projection-of-external-work` corrected twice: the 2.3% is credited to delivering results directly, and one call needs grouping plus the payload (the payload alone gets to two). Task expiry is permitted, not required, and expired and unknown share an error code.
+- `python--rewrite-before-the-gate` re-resolved, 32,840 commits on, every quotation intact; anchors re-pinned; python@3.14. Fourth deviation: on the managed-execution path the relay's rewrite reaches the gate unnamed, and with no plugin middleware the original is lost too. `refresh_by` 2026-12-28 (six-week override kept).
+- `next--additive-input` corrected: the hand-edit steering channel needs a server restart; an in-process resume ignores the file. `next--bounded-projection`: the seam was retired on 2026-10-18; the measurement stands as dated. `node--guard-input-custody` now node@24 (CI moved). `node--indeterminate-closure`: pin unchanged; the Rust executor copied the same sentence, so one policy now lives as a literal in two languages.
+
+Confirmed and left untouched: the cancellation origin rule (already conditioned on timeouts-as-cancellations), the full-versus-delta checkpoint account, per-item keys under grouping, the provider rejection of a dangling tool call (one provider re-sourced).
+
+Applied: `guard-input-custody` **not-better** (simulation over the three bundles founded since the table, each pinned in its founding commit, so the gap was never crossed; the condition moved, not the verdict); `additive-input` unapplied (no fleet harness serializes mid-turn input itself).
+
+Declined: fail-closed safety rewriters (already owned by the required flag); a fencing lease for two writers (job-coordination). Banked: suppressed-repeat counts in the warn-once reporter; the relay's own telemetry; trio/anyio scope markers as a third scoped-cancellation shape; the framework's beta delta channel against deer-flow's mode gate.
+
+#### Round 2
+
+Dry. The blind lane's answers on frame states, unknown registrations, close-before-terminal, per-item keys and the origin rule all matched the text.
+
+#### Round 3
+
+Dry. `host-routes-win` first-match versus specificity, `checkpoint-mode-custody` fail-closed direction, and `assembly-identity` excluding the build: all confirmed. dry=2; the loop idles until 2026-12-28 (hermes override) or an event.

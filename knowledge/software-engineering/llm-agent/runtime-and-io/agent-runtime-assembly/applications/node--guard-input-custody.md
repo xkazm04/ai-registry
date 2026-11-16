@@ -5,8 +5,8 @@ subject: agent-runtime-assembly
 technique: guard-input-custody
 stack: node
 status: forged
-verified_on: 2026-09-04
-verified_against: node@20
+verified_on: 2026-11-16
+verified_against: node@24
 applied: code
 ab_verdict: better
 proof: ab-paired
@@ -14,14 +14,14 @@ proof: ab-paired
 
 # The purity gate read its own denylist selector out of the content it was guarding
 
-The witness for `node@20` is the CI pin: every job in this repository's
-knowledge workflow runs `node-version: '20'` (`.github/workflows/knowledge.yml`;
-seven jobs on 2026-09-04, up from four when this was first written). There is
-no `engines` field and no `.nvmrc`; the pin is the tree's own statement of
-what it runs on. The developer machine that reports this installation runs a
-newer major (24 on 2026-09-04), so the drift `check-currency` reports here is
-the fleet's local runtime moving ahead of the tree's own pin, not the
-document's; `REQUIRED_PURITY` still resolves in `scripts/check-bundles.mjs`.
+The witness for `node@24` is the CI pin: every job in this repository's
+knowledge workflow runs `node-version: '24'` (`.github/workflows/knowledge.yml`,
+eight jobs on 2026-11-16; it read `'20'` across seven jobs on 2026-09-04, and
+the recipes workflow's two jobs are on 24 as well). There is no `engines`
+field and no `.nvmrc`; the pin is the tree's own statement of what it runs
+on, and it now matches the major the reporting machine runs (24.22.1 on
+2026-11-16). `REQUIRED_PURITY` still resolves in `scripts/check-bundles.mjs`
+(`:304-316`), now pinning eleven bundles.
 
 This registry publishes knowledge documents whose top two layers must survive
 being transplanted into an unrelated codebase, and it enforces that with a
@@ -76,7 +76,16 @@ where the governed content cannot reach it. The bundle index's `purity:` key is
 still read and must **agree** with the table; a missing key fails, and a key
 that names a weaker profile than the bundle is pinned to fails with both values
 in the message. A bundle the table does not know is a new bundle, and it must
-declare a profile and be pinned — absence is never permissive.
+declare a profile — absence is never permissive. **It is not made to be
+pinned** (corrected 2026-11-16): for a bundle missing from the table the
+checker accepts whatever known profile the bundle declares, `generic`
+included (`scripts/check-bundles.mjs:352-354`), and fails only when nothing
+is declared, with a message that asks for the pin it does not enforce
+(`:355-356`). The selector is back in the governed party's hands for exactly the
+bundles nobody has reviewed. The gap has never been crossed: each of the
+three bundles founded since the table landed (marketing 2026-09-09,
+agent-operations 2026-09-17, technical-writing 2026-10-05) added its table
+entry in its founding commit. That is convention, not enforcement.
 
 All eight published bundles already declared the profile the table now pins
 them to, so the change is behaviour-preserving for every legal state of the

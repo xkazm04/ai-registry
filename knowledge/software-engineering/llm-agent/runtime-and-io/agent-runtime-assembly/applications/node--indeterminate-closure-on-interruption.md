@@ -5,7 +5,7 @@ subject: agent-runtime-assembly
 technique: indeterminate-closure-on-interruption
 stack: node
 status: forged
-verified_on: 2026-09-04
+verified_on: 2026-11-16
 verified_against: node@22.15
 proof: structural-only
 ---
@@ -18,7 +18,10 @@ The version witness is `mise.toml`, which pins `nodejs = "22.15.0"` alongside
 the pin is unchanged, and the materializer (`flushDanglingToolResults` in the
 harness's `index.ts`), the synthesized sentence, and the test that pins the
 flush-before-later-messages behaviour all resolve. The tree still runs the
-major recorded above; the drift reported against it is the fleet's.
+major recorded above; the drift reported against it is the fleet's. Re-read
+2026-11-16 at `1eeab021` (HEAD) through the forge's file API: the pin still
+reads `nodejs = "22.15.0"`, so the drift is still the fleet's; the named
+helper is gone but the behaviour is not — see *Currency* at the end.
 
 This is the negative case the technique names in advance, found in a system that
 is otherwise careful. The harness keeps an append-only conversation event log and
@@ -86,3 +89,22 @@ call as a known case, and it pinned the flush behaviour with a test asserting
 that results are synthesized before later message events. It arrived at both
 wrong answers *through* care, which is the strongest available argument that the
 technique's two rules are non-obvious and worth stating explicitly.
+
+## Currency - 2026-11-16
+
+Read at `1eeab021`. `flushDanglingToolResults` no longer exists; the same
+repair is a local `flush` inside `materializeEventsToMessages`
+(`exoharness/typescript/harness/index.ts`, around `:680-700`), still run at
+read time, still appending nothing to the log, still writing `ok: false`
+with "tool execution did not complete before the previous turn ended". The
+two-runtime prediction did not go the way this document guessed. The Rust
+executor gained its own history builder (`crates/executor/src/message_history.rs`,
+first committed 2026-09-30) with a `flush_dangling_tool_results` that writes
+the identical sentence, also lazily — so the two runtimes did not invent
+different gap policies; they copied one, and the distinguishing string now
+lives as a literal in two languages, pinned by a test on each side
+(`harness_helpers.rs` asserts it). Whether the Rust side had any policy at
+`7801005` was not re-checked. A forge-wide code search found the sentence
+in those four files only and no consumer that matches on it, so the
+classifier the technique predicts has still not been written; both halves
+of the inversion stand.

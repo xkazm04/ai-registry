@@ -143,8 +143,10 @@ So does the remote's own retention. A task-capable server keeps a finished
 result for a lifetime it chooses — the tool protocol's task extension lets
 the server override the requested lifetime and delete a task and its result
 once it elapses, whatever the task's status — and a poll that arrives after
-that answers *not found*, indistinguishable on the wire from a handle that
-never existed. That is a result which existed and was destroyed before it
+that may answer *not found*. Deletion is permitted, not required, so a poll
+past the lifetime may also still succeed; and when the task is gone, the
+error code is the one a handle that never existed gets, so only message text
+the server is not obliged to vary tells the two apart. That is a result which existed and was destroyed before it
 was read: not a failure of the work, not an empty result, and not a late
 write. The row records it as its own state — *expired unread* — and the
 lease the background runtime holds is sized from the remote's stated
@@ -214,18 +216,21 @@ ready" — so the reader continues without a retrieval turn.
 The second is new. **Eligible completions on the same thread, arriving
 close together, are delivered as one run.** Two tasks finishing near each
 other cost four model calls under per-task delivery — a wake and a retrieval
-each — and one under grouping. The larger term for a long session is not the
+each — and one when they are grouped and each carries its result; carrying
+the payload alone gets to two. The larger term for a long session is not the
 calls themselves but the session context carried through each of them; the
 calls that grouping removes were each paying to re-read the whole
 conversation. One first-party account of one agent harness (2026-09, n=1)
 measured exactly this: a long-running shell command alongside a sub-agent
 investigation, with the model not explicitly waiting on either, cost four
-model calls before work could continue, and grouping the two completions
-left one. The same change — delivering results whole, "without compressing,
-summarizing, or withholding anything" — moved that harness's average
-token-related usage by about 2.3%, measured in its operator's own billing
-unit over its own mixed workload. Take the mechanism as transferable and
-the magnitude as one datum.
+model calls before work could continue, and batching the two completions
+with their results supplied together left one. The account credits its
+reduction of about 2.3% in average token-related usage, measured in its
+operator's own billing unit over its own mixed workload, to delivering
+completed results directly, "without compressing, summarizing, or
+withholding anything"; it does not separate the grouping's share from the
+payload's (re-read 2026-11-16). Take the mechanism as transferable and the
+magnitude as one datum for the two together.
 
 **Grouping collides with the idempotency key, and this is the part that
 must not be skipped.** An amendment that adds batching to an idempotent

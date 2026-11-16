@@ -81,6 +81,17 @@ Three constraints hold the boundary in place:
   An input recorded and then orphaned by a crash is picked up by the
   re-issued request's references, because the references are derived from
   the record rather than from memory.
+- **The boundary is a moment, not a slot in the serialized request.**
+  Where the accepted message sits inside the next request is the provider's
+  format rule, and providers disagree. One message format requires every
+  tool result to come first in the user turn, with text after them, and
+  rejects the request otherwise; one provider's server-side steering holds
+  an accepted steer until the client's tool results arrive and then places
+  it ahead of those results in the next input. Both keep the invariant that
+  matters — the message enters only once the batch has settled and before
+  the next request is built — so the loop owns the timing and the provider
+  adapter owns the position. A loop that hard-codes "after the results" in
+  provider-neutral code has written one format's rule into the core.
 - **Injection is additive only.** It never cancels pending work and never
   interrupts a stream. This is the property that must be enforced, because
   every future feature that wants to "steer harder" will propose breaking

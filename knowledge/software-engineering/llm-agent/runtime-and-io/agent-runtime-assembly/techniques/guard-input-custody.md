@@ -81,6 +81,21 @@ Question 4 is the one that gets skipped, and it inverts the whole control:
 a system that fails an unparseable policy but *notes* a missing one has
 published the instruction for getting past it.
 
+**A pin table covers the members it names, and question 2 has to be asked
+again for the ones it does not.** The usual repair moves the selector out of
+the governed content into a table beside the enforcement, and keeps the
+governed party's own declaration only as something that must agree. For
+every member in the table that closes the hole. For a member the table has
+not met yet — a new bundle, a new tenant, a new plugin — the tempting
+fallback is to trust its declaration until someone pins it, and that hands
+the selector back to the governed party on exactly the members nobody has
+reviewed. An unknown member is refused until pinned, or checked under the
+strictest profile whatever it declares; "it declared something" is not a
+pin. Whether the gap is live depends on how members arrive: where every new
+member lands with its table entry in the same change, nothing ever passes
+through it, but the guard does not enforce that and the next unreviewed
+arrival will.
+
 ## The strongest form is a resource the governed party cannot mint
 
 Custody has a spectrum, and its top end is worth naming because it is cheap

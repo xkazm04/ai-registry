@@ -4,7 +4,7 @@ type: application
 subject: agent-runtime-assembly
 technique: bounded-projection-of-external-work
 stack: next
-verified_on: 2026-09-04
+verified_on: 2026-11-16
 verified_against: next@16.3.3
 applied: experiment
 ab_verdict: better
@@ -24,6 +24,12 @@ co-arriving completions, keyed per item; and carry the payload unless a mutable
 authority owns the truth — against that path. One clause was already obeyed
 without being written down. The other is violated in a way the tree's own
 serial-speech channel makes measurable, and silently drops completions.
+
+**The seam no longer exists** (re-read 2026-11-16 at `fc26e172`). The bell,
+the settled-job events and the read marks were retired with the old studio;
+see *Currency* at the end. Everything below describes the tree as measured on
+2026-09-04 and stands as a dated result, not as a description of the tree
+today.
 
 ## The seam
 
@@ -343,3 +349,23 @@ A rule that a tree already obeys is corroborated by that tree, not tested by it.
 The falsifying case — a completed, immutable result whose producer holds it and
 still sends a pointer — was searched for across twelve project trees and not
 found.
+
+## Currency - 2026-11-16
+
+Re-read at `fc26e172` (2026-11-16). The tree now pins `next` 16.4.5,
+`react` 19.3.1 and `typescript` 6.0.3; `verified_against` above stays at the
+version the experiment ran on. Of the cited files, `lib/announcer.tsx` and the
+probe `tests/golden-path/announcement.probe.spec.ts` remain, and
+`createAnnouncerQueue` still drains one message per `DRAIN_MS = 1400` and
+sheds beyond `MAX_QUEUE = 8` (`lib/announcer.tsx:53,63,127`). The seam itself
+is gone: `components/ui/NotificationBell.tsx` and the three payload call-site
+files were removed when the old studio was retired (`ed151a11`, 2026-10-18),
+and a later sweep took `lib/jobs.tsx` down to a 60-line type file; its own
+header lists what went — the provider, "the bell's settled-job news", "the
+read marks". The surviving bell (`app/(studio)/_shell/bell.ts`, 37 lines)
+reads server jobs and calls no announcer. No live per-item completion
+announcement remains in this tree to group, so the grouping diff has nowhere
+to go, and the payload rule's eight call sites are no longer here to
+corroborate it. The 2026-09-04 numbers stand as a measurement of the tree
+as it was then. Return: when this tree, or another one in the fleet, again
+announces completions per item through a serial channel.

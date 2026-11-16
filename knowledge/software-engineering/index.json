@@ -2961,9 +2961,9 @@
    "subcategory": "runtime-and-io",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/runtime-and-io/agent-runtime-assembly/agent-runtime-assembly.md",
-   "digest": "sha256-b2:c29c78bbbf9eb4fe",
-   "revision": 29,
-   "changedAt": "2026-11-06",
+   "digest": "sha256-b2:ee5623d77ea94212",
+   "revision": 30,
+   "changedAt": "2026-11-16",
    "techniques": [
     {
      "slug": "activation-is-a-separate-mutation",
@@ -3265,14 +3265,14 @@
      "stack": "next",
      "technique": "additive-input-at-the-call-boundary",
      "file": "knowledge/software-engineering/llm-agent/runtime-and-io/agent-runtime-assembly/applications/next--additive-input-at-the-call-boundary.md",
-     "verified_on": "2026-09-04",
+     "verified_on": "2026-11-16",
      "verified_against": "next@16"
     },
     {
      "stack": "next",
      "technique": "bounded-projection-of-external-work",
      "file": "knowledge/software-engineering/llm-agent/runtime-and-io/agent-runtime-assembly/applications/next--bounded-projection-of-external-work.md",
-     "verified_on": "2026-09-04",
+     "verified_on": "2026-11-16",
      "verified_against": "next@16.3.3"
     },
     {
@@ -3286,14 +3286,14 @@
      "stack": "node",
      "technique": "guard-input-custody",
      "file": "knowledge/software-engineering/llm-agent/runtime-and-io/agent-runtime-assembly/applications/node--guard-input-custody.md",
-     "verified_on": "2026-09-04",
-     "verified_against": "node@20"
+     "verified_on": "2026-11-16",
+     "verified_against": "node@24"
     },
     {
      "stack": "node",
      "technique": "indeterminate-closure-on-interruption",
      "file": "knowledge/software-engineering/llm-agent/runtime-and-io/agent-runtime-assembly/applications/node--indeterminate-closure-on-interruption.md",
-     "verified_on": "2026-09-04",
+     "verified_on": "2026-11-16",
      "verified_against": "node@22.15"
     },
     {
@@ -3327,9 +3327,9 @@
      "stack": "python",
      "technique": "rewrite-before-the-gate",
      "file": "knowledge/software-engineering/llm-agent/runtime-and-io/agent-runtime-assembly/applications/python--rewrite-before-the-gate.md",
-     "verified_on": "2026-09-23",
-     "verified_against": "python@3.12",
-     "refresh_by": "2026-11-05"
+     "verified_on": "2026-11-16",
+     "verified_against": "python@3.14",
+     "refresh_by": "2026-12-28"
     },
     {
      "stack": "python",
