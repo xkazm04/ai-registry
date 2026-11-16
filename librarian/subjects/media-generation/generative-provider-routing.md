@@ -1,9 +1,9 @@
 ---
 domain: media-generation
 subject: generative-provider-routing
-last_touched: 2026-11-06
-touched_by: shift
-dry_streak: 0
+last_touched: 2026-11-16
+touched_by: deepen
+dry_streak: 2
 ---
 
 # generative-provider-routing
@@ -237,3 +237,43 @@ source's own evidence for it comes from the route it calls the less reliable of 
 ## Currency - 2026-11-08 (run weekly-news-currency-1108)
 
 `process--vendor-fact-ledger` gained a Later entry for GPT Image 2.6 Sunburst and Flare, read at the vendor from raw text. The 2.6 model pages document the Image API only and, unlike 2.5, do not name the Responses image tool. Token prices match 2.5. `verified_on` not moved. See [[2026-11-07-weekly-news-currency]].
+
+## 2026-11-16 - `/deepen --loop 3` (run `filler-deepen-20261116d`, worker 3), first deepen
+
+Round 1 landed. Rounds 2 and 3 were dry, so `dry_streak: 2` and the subject is saturated.
+The wired tree was gravitone-gcloud at `fc26e172`, read-only during a scout night.
+
+- **refusal-reroute-hop amended, golden path follows.** Two changes:
+  - A short batch is a partial refusal. Keep what arrived, record the shortfall,
+    and never re-route the whole request. Sources: tree `35ed3fb7` and the Vertex
+    Imagen RAI page, which says filtered images are omitted and not charged.
+  - Timeout and vendor failure re-route only once the abandoned attempt is known
+    dead and its cost known. Sources: the tree's `reroutable` and `presumedBilled`,
+    and Replicate's lifecycle page (a cancelled started job is charged).
+
+  Refusal billing is now a ledger fact. The decision rules gain a
+  moderation-strictness clause from the OpenAI image guide.
+- **capability-to-vendor-plan amended, golden path follows.** A named-only list
+  beside the plan: a vendor billed in another currency is reachable only by name,
+  alone, with no fallback either way. Sources: the tree's `PREFER_ONLY` (three
+  providers) and OpenRouter's pinned order with fallbacks disabled.
+- **Applications.**
+  - New `node--capability-to-vendor-plan`. It records the docstring drift at
+    `types.ts:63-69` and the unreached-top interaction.
+  - `node--refusal-reroute-hop` and `node--non-silent-elimination` re-anchored and
+    re-dated. The latter records a stale offline probe that still expects qwen in
+    dev recognize.
+  - `node--unspent-budget-is-a-defect` re-stamped `node@24`, which clears the drift.
+  - `process--capability-to-vendor-plan`: H3 licence re-checked. "blocked" became
+    "excluded unless separately licensed". Its dates did not move.
+- The golden path's technique list gained the missing `extraction-model-bake-off`
+  entry. The omission predated this run.
+- No new technique. Two `applied.md` rows are in the run's ledger fragment, both
+  `simulation` / `better`.
+
+**Open here:**
+- `process--capability-to-vendor-plan` expires 2026-11-24 and
+  `process--extraction-model-bake-off` expires 2026-11-25. Only the H3 licence was
+  re-read.
+- The router's dev plan still reads `agy` first, while the operator's main image
+  engine is reached by name.

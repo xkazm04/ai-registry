@@ -56,6 +56,22 @@ direction is expensive:
   unnecessary hop to a vendor that also serves the request; read as a
   success, the caller receives nothing, with green status attached, and the
   failure is invisible. Choose the direction whose failure is cheap.
+- **The short batch** — a request for N outputs comes back with fewer, and
+  the missing ones were refused. At least one vendor documents this as the
+  normal shape: filtered images are simply left out of the result array
+  unless the caller asks for the reasons. The empty success is only the
+  limit case of this. Fewer-than-asked is a **partial refusal**: keep what
+  arrived, record asked / returned / refused / failed on the result's
+  provenance (present only when short, like the re-route record), and do
+  not re-route the whole request. Re-routing it discards outputs that were
+  delivered and possibly paid for, and pays a second vendor for all N. If
+  the caller needs the full count, the shortfall alone is a new request.
+  When every output is missing, it is the empty success above.
+- **Whether a refusal bills is a ledger fact, not a constant.** Some vendors
+  charge for a block, because the model read the prompt or drew the image
+  before declining. At least one documents that blocked images are not
+  charged. The spend meter books a refusal from the vendor's recorded
+  behaviour. It does not assume either way.
 - **Sniffing is legitimate when shapes are undocumented.** Matching error
   text against a policy-vocabulary pattern is fragile and still better than
   defaulting to "failed" — because "failed" and "refused" route differently,
@@ -69,8 +85,22 @@ layer:
 
 - **Re-routes:** refusal; rate-limiting (the next vendor bills against a
   different allowance, so a limit on one says nothing about the next);
-  missing credential (skip, record, continue); vendor-side failure and
-  timeout, where trying elsewhere is exactly the point of having a chain.
+  missing credential (skip, record, continue). None of these did paid work
+  on the attempt being abandoned, or else, for a refusal, the work was
+  declined by policy, and only another vendor's policy can clear that.
+- **Re-routes only once the attempt is known dead and its cost known:**
+  timeout and vendor-side failure. A timeout is *unknown*, not failed. On an
+  asynchronous job the work may still be running and will be billed: one
+  vendor documents that a cancelled job is charged for the time it ran.
+  Re-routing at that moment pays twice and can fork the asset when both
+  finish. Cancel the job or poll it to a terminal state first. A vendor-side
+  failure the vendor answered after doing work is presumed billed, so a
+  re-route doubles the bill for a request nobody declined. The chain exists
+  to cross a policy edge. An outage is a weaker reason to walk it, and a
+  weaker one still when the next entry cannot honour the request's
+  constraints, because then the outage becomes a silent near-miss. Where the
+  failed attempt is known to be unbilled (the vendor never ran it, or
+  documents failures as free), walking on is exactly what a chain is for.
 - **Throws immediately:** malformed requests and local validation errors —
   the next vendor will reject them identically, so walking the chain just
   fails N times and muddies the trail; spend-ceiling refusals — the budget
@@ -94,6 +124,14 @@ layer:
   feedback, not per-request noise: either the plan order changes for that
   work, or surfaces gain a standing steer — the per-request hop is a relief
   valve, not a permanent architecture.
+- When a vendor documents a moderation-strictness field, the router sends a
+  value for it on purpose. An omitted strictness field hands the setting to
+  the vendor's default, which is the outbound door in
+  [non-silent-elimination](./non-silent-elimination.md). Where the vendor also
+  says which stage blocked (the prompt on the way in, or the image on the way
+  out), keep that on the trail. A brief class whose prompts are blocked on the
+  way in is plan feedback. Output-stage blocks scattered across varied briefs
+  are classifier noise.
 
 ## When not to use this
 

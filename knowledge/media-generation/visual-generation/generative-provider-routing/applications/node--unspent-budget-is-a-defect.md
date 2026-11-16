@@ -5,8 +5,8 @@ subject: generative-provider-routing
 technique: unspent-budget-is-a-defect
 stack: node
 status: forged
-verified_on: 2026-09-07
-verified_against: node@22
+verified_on: 2026-11-16
+verified_against: node@24
 applied: code
 ab_verdict: better
 proof: ab-paired
@@ -16,7 +16,7 @@ proof: ab-paired
 
 `gravitone-gcloud` meters every image call in `lib/imaging/budget.ts` behind
 the router chokepoint. The version witnessed here is the CI pin in
-`.github/workflows/gates.yml:250` (`node-version: 22`), not the dev box's
+`.github/workflows/gates.yml:252` (`node-version: 24` at `fc26e172`; it read 22 at line 250 on 2026-09-07), not the dev box's
 runtime — the repository declares no `engines` field, so the pin is the only
 version the tree itself asserts.
 
@@ -113,3 +113,26 @@ That is the technique's second explanation (the work never reached the entry)
 rather than its first, and it is a $0-vs-billed difference rather than a
 quality one — which is exactly the shape a spend meter should have caught and
 could not.
+
+## Re-read 2026-11-16 at `fc26e172`
+
+The pieces this document names are all still there at `fc26e172` (2026-11-16):
+- `FLOOR_VAR` (`budget.ts:83`) and `budgetFloorUsd` (`budget.ts:105`);
+- `underFloor` on the stats (`budget.ts:293`);
+- `reachByCapability` (`budget.ts:354-363`);
+- `unreachedPlanTops` (`router.ts:181-194`);
+- the header's "Two things" paragraph (`budget.ts:47`).
+
+The probe file still holds 21 tests. The CI pin moved to Node 24, which is why the
+witness above moved.
+
+One change in the tree bears on how to read the report. Since 2026-10-12 the
+router has had named-only providers that no plan row holds (`router.ts:126-143`).
+Since 2026-11-08 one of them is the default engine for one surface's stills.
+`reachByCapability` counts their served rows like any other, so a window
+where only that surface generates will report the dev `generate` top as
+unreached and served by the named-only engine. That is a third explanation,
+beside the two this document and the technique give (a stale grid; work that
+never reached the entry), and the report cannot tell it apart. See
+`node--capability-to-vendor-plan`. Read, not run.
+

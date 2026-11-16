@@ -53,7 +53,11 @@ removal empties the chain the request fails with "no alternative" rather than
 quietly serving the avoided vendor — because the one caller who sends an
 avoid is a caller who was just refused, and a re-route that can land back on
 the refusing vendor is not a re-route. Asymmetric teeth are the design:
-preference is advisory, avoidance is binding.
+preference is advisory, avoidance is binding. The one vendor a request may
+name and get is a **named-only** entry: one kept out of every plan row
+because it bills in a different currency and must never be a fallback.
+Naming it replaces the chain with that vendor alone, and the list that
+allows this is part of the table, with its reason.
 
 ## Refusal is a state, not an error
 
@@ -66,7 +70,10 @@ vendor with the same request is a wall; retrying with a "softened" prompt is a
 slow wall that also degrades the brief. So refusal is a first-class outcome
 kind that the chain walks past — to the next *configured* vendor — while
 non-reroutable failures (a malformed request, a budget ceiling) throw
-immediately, because trying them elsewhere would just fail twice.
+immediately, because trying them elsewhere would just fail twice. A timeout
+or a vendor-side failure sits between the two. It walks on only once the
+abandoned attempt is known to be dead and unbilled. A timed-out asynchronous
+job may still finish and be charged, and re-routing it pays twice.
 
 The corollary that costs teams the most to learn: refusals do not always
 arrive labelled. Some vendors surface a safety block as an empty-but-
@@ -74,6 +81,10 @@ successful response. The safe reading of an empty generation result is
 *refused*, never *success with zero images* — misread it one way and the
 caller gets a re-route to a vendor that can serve them; misread it the other
 way and the caller gets nothing, silently, with a green status attached.
+Empty is the limit case of *short*. A request for several outputs can come
+back with fewer, the missing ones refused, and that is a partial refusal:
+keep what arrived, record the shortfall on the result, and do not re-route
+the whole request.
 
 ## No elimination is silent
 
@@ -140,6 +151,10 @@ step, not a re-roll that voids the grading already done.
   softened request instead of hopping vendors.
 - **The false empty success** — a safety block presenting as zero images and
   being passed to the caller as a completed call.
+- **The discarded short batch** — one refused output out of N throwing
+  away the others and paying a second vendor for all N.
+- **The double-billed timeout** — re-routing an attempt that is still
+  running, so both vendors finish and both bill.
 - **The silent near-miss** — a request field a vendor ignores, or one the
   router never sends because the caller set nothing, producing on-time,
   on-budget output that fails the brief with no error anywhere.
@@ -181,3 +196,7 @@ step, not a re-roll that voids the grading already done.
   the other direction of the spend control: a budget as a range with a
   reported floor, and the plan's top entry going uncalled as a run-level
   finding rather than an economy.
+- [extraction-model-bake-off](./techniques/extraction-model-bake-off.md) —
+  routing an extraction capability: score candidates against a truth set you
+  own, keep agreement with a reference model in its own column, and treat
+  run-to-run determinism as a first-class axis.

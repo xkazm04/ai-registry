@@ -5,7 +5,7 @@
   "source": "knowledge/media-generation/ (frontmatter only)",
   "subjects": 53,
   "techniques": 354,
-  "applications": 210,
+  "applications": 211,
   "laws": 9,
   "categories": [
    "narrative-craft",
@@ -2707,9 +2707,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/media-generation/visual-generation/generative-provider-routing/generative-provider-routing.md",
-   "digest": "sha256-b2:b269602855aa9aed",
-   "revision": 14,
-   "changedAt": "2026-11-11",
+   "digest": "sha256-b2:42c6611d20c497e1",
+   "revision": 15,
+   "changedAt": "2026-11-16",
    "techniques": [
     {
      "slug": "capability-to-vendor-plan",
@@ -2837,24 +2837,31 @@
     },
     {
      "stack": "node",
+     "technique": "capability-to-vendor-plan",
+     "file": "knowledge/media-generation/visual-generation/generative-provider-routing/applications/node--capability-to-vendor-plan.md",
+     "verified_on": "2026-11-16",
+     "verified_against": "node@24"
+    },
+    {
+     "stack": "node",
      "technique": "non-silent-elimination",
      "file": "knowledge/media-generation/visual-generation/generative-provider-routing/applications/node--non-silent-elimination.md",
-     "verified_on": "2026-08-27",
+     "verified_on": "2026-11-16",
      "verified_against": "node@24"
     },
     {
      "stack": "node",
      "technique": "refusal-reroute-hop",
      "file": "knowledge/media-generation/visual-generation/generative-provider-routing/applications/node--refusal-reroute-hop.md",
-     "verified_on": "2026-08-27",
+     "verified_on": "2026-11-16",
      "verified_against": "node@24"
     },
     {
      "stack": "node",
      "technique": "unspent-budget-is-a-defect",
      "file": "knowledge/media-generation/visual-generation/generative-provider-routing/applications/node--unspent-budget-is-a-defect.md",
-     "verified_on": "2026-09-07",
-     "verified_against": "node@22"
+     "verified_on": "2026-11-16",
+     "verified_against": "node@24"
     },
     {
      "stack": "process",

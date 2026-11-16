@@ -69,6 +69,21 @@ A steer never promotes a vendor that is not in the plan. If a surface needs a
 vendor the plan does not list for that capability, that is a plan edit with a
 reason attached, not a request parameter.
 
+**The one exception is a named-only entry, and it is still a table edit.**
+Some vendors must never be a fallback, because they bill in a different
+currency from the rest of the chain. Examples are an operator's seat quota,
+prepaid studio credits, or a deliberate per-project ruling. Such a vendor
+cannot sit in a plan row, since every row entry is reachable by re-route. So
+it goes on a named-only list beside the plan, with the reason on the list.
+A request that names it gets **that vendor alone**: the chain is replaced,
+not reordered, and nothing falls back to it or from it. If it is
+unconfigured, the request fails with that vendor's own no-key sentence. It
+does not drop the preference and bill the plan, because a caller who chose
+whose credits to spend has not agreed to be moved onto a vendor billed in
+dollars. Avoid still cancels it. Gateways that front many providers offer
+the same move as a pinned order with fallbacks disabled: try the named one,
+and fail if it fails.
+
 ## Decision rules
 
 - When a new vendor arrives, it enters the plan *behind* the incumbent until
@@ -76,6 +91,10 @@ reason attached, not a request parameter.
 - When a plan entry cannot serve its capability at all, treat it as a bug in
   the table, not a runtime condition: fail loudly on first use rather than
   quietly walking past it forever.
+- When a named-only list exists, the type documentation for steering must
+  say so. A steer field documented as "never escapes the plan" beside a
+  router that replaces the chain for a named-only vendor is two authorities
+  for one rule.
 - Expose the plan (and the steered order) read-only to diagnostics, so probes
   and status surfaces report the same truth the router acts on instead of
   restating the rules and drifting.

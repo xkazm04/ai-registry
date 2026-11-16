@@ -33,6 +33,22 @@ as a local vendor for a US/EU deployment has confused *downloadable* with
 *licensed*. The plan's local row therefore carries a license column, checked
 per deployment territory, before any capability fact is consulted.
 
+**Re-checked 2026-11-16, licence only.** The exclusion stands, and so does a
+route through it, which this row first recorded as a flat block. The licence
+dated 2026-08-02 defines the Excluded Territories as "the European Union, the
+United Kingdom, the Republic of Korea and the United States of America". Use
+outside the Applicable Territory "is not authorized by this Agreement". The
+same section says deployers in those regions may "contact us about obtaining
+a license", issued "based on robust controls and guardrails", and the model
+page now links an "Application form(only for USA/EU/UK/South Korea)". So the
+licence column for an excluded deployment reads *needs a separately issued
+licence*, not *blocked*. Whether a given deployment holds one is a deployment
+fact this ledger cannot see. The $20M written-authorization threshold, the UI
+attribution and the ban on using outputs to improve other models are
+unchanged. The open weights are still 768p, and H3-Regenerate-2K is "not yet
+open-sourced". Only this paragraph's facts were re-read, so `verified_on`
+and `refresh_by` do not move.
+
 Second trap, same headline: the arena score belongs to the hosted pipeline
 (2K via H3-Regenerate-2K). The open weights emit 768p base output; the stage
 that earned the ranking is not in the release. A plan that routes "quality"
@@ -46,7 +62,7 @@ wrong artifact.
 | Wan 2.2 / 2.5 (Alibaba) | Apache-2.0 | yes — TI2V-5B ~10 GB fp16; 14B via fp8/offload | T2V+I2V one checkpoint, 720p24; community-cited leader for photoreal humans; ~9 min per 5 s clip on RTX 4090 (14B class) |
 | LTX-2.x (Lightricks) | permissive (LTX license) | yes — fastest of the class, ~3× faster than H3 in community tests | speed/production leader; quality trails Wan on humans |
 | HunyuanVideo 1.5 (Tencent) | community license | yes, quantized | ~280 Elo behind H3 hosted; superseded feel by 2026-08 |
-| MiniMax H3 (open weights) | **blocked: US/EU/UK/KR excl.** | marginal — pruned INT8 19.5 GB + NVFP4 encoder 14.6 GB, needs ~62 GB host RAM, 21.9 GB peak VRAM, ~300 s per 5 s 768p clip on a 4090 | best raw open-weights quality where licensed; 768p local ceiling |
+| MiniMax H3 (open weights) | **US/EU/UK/KR excluded unless separately licensed** (re-checked 2026-11-16) | marginal — pruned INT8 19.5 GB + NVFP4 encoder 14.6 GB, needs ~62 GB host RAM, 21.9 GB peak VRAM, ~300 s per 5 s 768p clip on a 4090 | best raw open-weights quality where licensed; 768p local ceiling |
 
 Hosted APIs (Veo 3.x, Kling 3.0, Sora, H3's own API at ~$0.08–0.13/s) still
 hold the quality ceiling: 2K, stronger physics, no quantization loss. The
@@ -88,3 +104,6 @@ exhaust system RAM on the smaller host class.
 - https://www.virse.ai/blog/minimax-h3-reddit-review (2026-08-07) — community speed/quality consensus
 - https://www.aimagicx.com/blog/open-source-ai-video-models-comparison-2026 — Wan vs LTX vs Hunyuan
 - https://curiousrefuge.com/blog/minimaxh3-review — quality dissent vs Seedance
+- Accessed 2026-11-16, for the licence re-check only:
+  https://huggingface.co/MiniMaxAI/MiniMax-H3/blob/main/LICENSE (Definitions 3
+  and 5, Sections II, IV.1, IV.2, V.3, V.4) and https://huggingface.co/MiniMaxAI/MiniMax-H3
