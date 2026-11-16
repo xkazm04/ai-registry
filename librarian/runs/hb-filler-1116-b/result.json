@@ -1,0 +1,73 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "hb-filler-1116-b",
+  "skill": "harvest",
+  "skill_version": "0.7.0",
+  "mode": "backlog",
+  "domain": "software-engineering",
+  "started_at": "2026-11-15T23:53:51Z",
+  "ended_at": "2026-11-16T00:08:36Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 3,
+    "landed": 0,
+    "declined": 0,
+    "idled": 3,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "software-engineering/release-pipeline",
+      "at": "2026-11-16",
+      "engine": "shift",
+      "outcome": "idled",
+      "points_before": null,
+      "points_after": null
+    },
+    {
+      "id": "software-engineering/usage-event-ingestion",
+      "at": "2026-11-16",
+      "engine": "shift",
+      "outcome": "idled",
+      "points_before": null,
+      "points_after": null
+    },
+    {
+      "id": "software-engineering/optional-dependency-degradation",
+      "at": "2026-11-16",
+      "engine": "shift",
+      "outcome": "idled",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "software-engineering/release-pipeline",
+      "technique": "updater-chain",
+      "verdict": "not-better",
+      "mode": "blind-ab"
+    },
+    {
+      "subject": "software-engineering/usage-event-ingestion",
+      "technique": "running-total-or-increment",
+      "verdict": "not-better",
+      "mode": "blind-ab"
+    },
+    {
+      "subject": "software-engineering/optional-dependency-degradation",
+      "technique": "fallback-keeps-residency-and-identity",
+      "verdict": "not-better",
+      "mode": "blind-ab"
+    }
+  ],
+  "files": [
+    "librarian/harvest/backlog.jsonl",
+    "librarian/runs/hb-filler-1116-b/result.json"
+  ],
+  "commits": [],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "Filler, size 3, rows picked for a non-obvious claim, prior art in both arms. 4-047, 4-034, 9-055 each A12 B12: ceiling, nothing landed; three checked fields corrected to confirmed. Rows chosen against the floor still tie: text-only blind-ab is saturated here."
+}
