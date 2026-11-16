@@ -418,9 +418,9 @@
    "subcategory": "work-execution",
    "status": "reconciled",
    "file": "knowledge/software-engineering/backend-platform/work-execution/admission-queue/admission-queue.md",
-   "digest": "sha256-b2:56e509787bc708cd",
-   "revision": 15,
-   "changedAt": "2026-09-17",
+   "digest": "sha256-b2:f59388d962b9784f",
+   "revision": 16,
+   "changedAt": "2026-11-16",
    "techniques": [
     {
      "slug": "admission-vocabulary",
@@ -486,7 +486,8 @@
       "deriving how deep the queue may grow",
       "picking which arrivals to shed at the bound",
       "bound keeps getting raised under pressure",
-      "urgent work is refused while bulk work waits in the queue"
+      "urgent work is refused while bulk work waits in the queue",
+      "the line stays full under sustained overload and promoted work finishes after its caller left"
      ]
     },
     {
@@ -679,21 +680,21 @@
      "stack": "next",
      "technique": "admit-on-the-expanded-cost",
      "file": "knowledge/software-engineering/backend-platform/work-execution/admission-queue/applications/next--admit-on-the-expanded-cost.md",
-     "verified_on": "2026-09-17",
+     "verified_on": "2026-11-16",
      "verified_against": "next@16"
     },
     {
      "stack": "next",
      "technique": "priority-and-fairness",
      "file": "knowledge/software-engineering/backend-platform/work-execution/admission-queue/applications/next--priority-and-fairness.md",
-     "verified_on": "2026-08-31",
-     "verified_against": "next@15"
+     "verified_on": "2026-11-16",
+     "verified_against": "next@16"
     },
     {
      "stack": "next",
      "technique": "speculative-work-admission",
      "file": "knowledge/software-engineering/backend-platform/work-execution/admission-queue/applications/next--speculative-work-admission.md",
-     "verified_on": "2026-08-31"
+     "verified_on": "2026-11-16"
     },
     {
      "stack": "python",

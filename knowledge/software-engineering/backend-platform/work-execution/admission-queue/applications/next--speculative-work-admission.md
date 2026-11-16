@@ -4,7 +4,7 @@ type: application
 subject: admission-queue
 technique: speculative-work-admission
 stack: next
-verified_on: 2026-08-31
+verified_on: 2026-11-16
 applied: code
 ab_verdict: better
 proof: ab-paired
@@ -131,3 +131,20 @@ session under a throttled connection, which is an instrument the project has but
 run did not run a browser to collect. The dispatch and skip counts are exact — they come
 from the real queue's own admission decisions — but the useful/wasted split inherits the
 window assumption.
+
+## 2026-11-16 re-check: the shipped change was retired with the app it lived in
+
+Read at goat `ae2c83f` (2026-10-25), a public clone, read-only. `58453a3` (2026-08-31, "probe-and-skip
+speculative prefetches instead of queueing them") is still in history. `1a4d7c5` (2026-10-12) deleted
+the whole prefetch subsystem with v1: `src/lib/prefetch/BandwidthDetector.ts`,
+`HoverPrefetcher.ts`, `src/hooks/use-prefetch.ts`, `use-hover-prefetch.ts`, `use-scroll-prefetch.ts`
+and the analytics panel. Nothing under `src` mentions prefetch, `congestionSkips` or a priority
+queue now. The A/B and the verdict describe the seam as it was. No current fleet tree carries a
+speculative-work gate this realization could be re-read against. This application stays as the
+measured instance; it no longer witnesses a running tree.
+
+One observation the retirement does not erase, and it is now in
+[depth-bounds-and-shed](../techniques/depth-bounds-and-shed.md): the old queue already expired
+entries after 30 s, and at the 3g tier it still dispatched 34 of 52 fetches after their 2-6 s windows.
+A housekeeping age far longer than the callers' windows does not do the work of a time check at
+promotion.

@@ -189,10 +189,15 @@ through *after* the incident, serving no one, before it can serve anyone.
 Depth is bounded by design, and what happens at the bound is a **chosen shed
 policy**, not an accident: refuse the newest arrival, evict the oldest
 waiter, or reject by class — each is correct for a different workload, and
-the choice is stated where operators can read it. The
+the choice is stated where operators can read it. A bound is not the whole
+answer under overload that outlasts the burst: a line that stays full is a
+standing queue, every entry promoted from it has waited the full depth, and
+work starts that will finish after its caller has gone. So the deadline is
+checked twice — at the door, and again at promotion, where an entry with less
+time left than its service needs is refused instead of started. The
 [depth-bounds-and-shed](./techniques/depth-bounds-and-shed.md) technique owns
-the bound, the shed policies, and the backpressure signal that makes
-producers participate instead of retry-hammering.
+the bound, the shed policies, the promotion check, and the backpressure signal
+that makes producers participate instead of retry-hammering.
 
 ## A refusal decides something else: whether the caller is released
 
@@ -369,7 +374,7 @@ and each transition is owned by named code:
 | **shed** | was queued, then removed by policy | requester notified with reason; distinct from cancelled-by-requester |
 | **parked** | held durably across a shutdown | next incarnation re-admits or revokes, explicitly |
 
-Two rules fall out of the table:
+Three rules fall out of the table:
 
 1. **Every entry names its exit.** A queued entry leaves by promotion, by
    requester cancellation, by shed, by drain disposition — never by being
@@ -404,7 +409,8 @@ Two rules fall out of the table:
   three-way verdict, refusal reasons as data, the caller contract per
   outcome.
 - [depth-bounds-and-shed](./techniques/depth-bounds-and-shed.md) — bounded
-  depth, shed policy selection, backpressure to producers.
+  depth, shed policy selection, the time check at promotion, backpressure to
+  producers.
 - [refusal-without-release](./techniques/refusal-without-release.md) — refusals
   correlated by a server-side cause, terminal versus transient classification,
   the bounded hold, and the saturation signal that replaces a refusal rate.
@@ -430,3 +436,6 @@ Two rules fall out of the table:
   measurement, depth with predicates, oldest-wait, wait objectives.
 - [drain-and-shutdown](./techniques/drain-and-shutdown.md) — drain mode,
   finish/park/revoke dispositions, restart recovery of parked work.
+- [budget-includes-the-callers-own-cache](./techniques/budget-includes-the-callers-own-cache.md) —
+  which free-capacity figure a resource bound reads when a pooling allocator
+  holds reserved-but-unused capacity between the process and the resource.

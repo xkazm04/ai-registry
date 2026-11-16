@@ -148,6 +148,18 @@ identifier" but "what does it cost the caller to have a second one", and the
 answer must be checked against the *unauthenticated* path, since that is the
 one an attacker will use.
 
+**Issued by the system is not the same as attested.** A guest or anonymous
+session is minted server-side and carries the same role as a signed-in
+account, so a key derived from it passes every "is this an authenticated
+user" check — and a second one costs the caller one more sign-in request. Its
+real price is the issuer's mint rate, usually a per-address limit, and the
+per-origin bound is then the per-key allowance times the identities one
+address can mint inside the allowance's window, times the addresses the
+caller holds. Compute that product before calling the key attested; where it
+is larger than the global budget, the key is a scheduling key under this
+section's rule, whatever role it carries. The per-key allowance stays useful
+for honest callers; it is the missing global bound that the product exposes.
+
 A system that has already shipped per-key capacity on a mintable key cannot
 repair it by validating the key later in the pipeline. Admission runs before
 authentication in most designs — deliberately, because parsing and

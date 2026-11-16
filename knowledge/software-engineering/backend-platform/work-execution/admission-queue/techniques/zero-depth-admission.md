@@ -77,6 +77,15 @@ arrival with time as the denominating resource. Static zero depth is that
 policy's degenerate case, correct when the ratio is near one for *every*
 caller and therefore not worth computing per request.
 
+The crossover above is a property of a line that never compares time. A line
+that refuses, at the door, an arrival whose predicted wait plus service exceeds
+its deadline — this paragraph's per-request rule — loses nothing to zero depth
+at a ratio of one and keeps the line's gain above it. Where service time
+spreads, the prediction errs, and a second check at promotion catches what it
+admitted too optimistically. The measurement is in
+[depth-bounds-and-shed](./depth-bounds-and-shed.md). Static zero depth remains
+the right answer where the gate cannot learn the caller's deadline.
+
 Where the ratio genuinely is near one, the double-booking argument does bite,
 and the consequences are the reason it matters:
 

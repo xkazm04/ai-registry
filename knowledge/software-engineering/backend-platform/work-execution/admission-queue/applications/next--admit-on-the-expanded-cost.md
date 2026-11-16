@@ -4,7 +4,7 @@ type: application
 subject: admission-queue
 technique: admit-on-the-expanded-cost
 stack: next
-verified_on: 2026-09-17
+verified_on: 2026-11-16
 verified_against: next@16
 applied: code
 ab_verdict: better
@@ -53,7 +53,8 @@ unreadable container recorded as unmeasured rather than admitted as compliant.
 - **What the door cannot buy.** A container that declares 1,000 triangles beside a 4 MB
   payload is admitted, by design: the declaration is a claim and the door bounds the
   claim. The claim is therefore recorded on the outcome so the stage that measures the
-  real geometry can see the discrepancy.
+  real geometry can see the discrepancy. (2026-11-16: recorded, but not read. See the
+  re-check below.)
 
 ## What it refuted
 
@@ -64,3 +65,29 @@ would have killed the finding was available and did not fire: had the cost dimen
 been unreadable without paying the expansion, or had one legitimate delivery been
 refused, the corpus's existing exemption would have covered the case and no technique
 was owed.
+
+## 2026-11-16 re-check
+
+Read at pof `ccbe02aea` (2026-11-06, `next 16.3.3`), read-only.
+
+**The door stands as shipped.** `src/lib/visual-gen/mesh-fetch.ts`: byte cap :63, headroom 16 :74,
+triangle budget derived from the grader's warn line :88, the declared-geometry read :112-140 (running
+total compared against the budget at :140), the byte checks :248-256, the triangle refusal :263-269 and
+the success outcome :283. The grader's warn line moved: `a85aaeded` (2026-09-29) put the pure scorer in
+`src/lib/visual-gen/mesh-score.ts`, and `maxFacesWarn: 200_000` is now at :51. The budget is still
+3,200,000. The admission test file is still `src/__tests__/lib/visual-gen/mesh-geometry-admission.test.ts`.
+Three later commits touched the grader's files (`4f5a8f58e`, `660064fbc`, `a85aaeded`, all 2026-09-29),
+and none changed the door.
+
+**Defect: the declaration is carried and then dropped.** The outcome type documents
+`declaredTriangles` as the number a later measurement is compared against ("a delivery whose
+measurement exceeds this declaration lied at the door", `mesh-fetch.ts:169-174`). The only caller,
+`src/lib/blender-mcp/mcp-gate.ts:105-122`, reads `ok`, `reason`, `path` and `name`, and critiques
+the file. Nothing compares the claim with the measured faces. The cached branch (`mesh-fetch.ts:225`)
+also returns without the declaration, so a re-poll loses it even if a consumer is added. The door's half
+of the technique holds. The re-check half ("carried forward, and re-checked at every step that changes
+the cost") is written in a type comment and read by no code. That is the
+[gate-sees-target](../../../../_laws.md#gate-sees-target) shape on the success path. The fix is small:
+pass the declaration into the gate's summary and warn when the measured faces exceed it.
+
+Not run. These are findings from reading the tree.

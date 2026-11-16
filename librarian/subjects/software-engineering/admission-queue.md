@@ -1,8 +1,9 @@
 ---
 subject: admission-queue
 domain: software-engineering
-last_touched: 2026-09-06
-dry_streak: 0
+last_touched: 2026-11-16
+touched_by: deepen
+dry_streak: 1
 ---
 
 # admission-queue
@@ -270,3 +271,43 @@ wrote the same two regression tests.
 ### 2026-09-17 - `/harvest backlog` wave 4, one technique + one application
 
 `admit-on-the-expanded-cost`. The subject owned the unit choice and answered expansion with a multiplier folded into the budget. Two readings settle whether a multiplier can carry the bound, and both are cheap: **measure the ratio across the real corpus, then ask what its upper bound is rather than its observed range.** An observed distribution cannot bound an adversarial one. Where the sender supplies the dimension the expansion is driven by, the ratio has no upper bound at all. The measured half is worth keeping: bytes did not even ORDER sixty real deliveries by the cost they imposed - 34.5x spread, and one delivery five times smaller than another carrying six times more of the resource the consumer spends. A byte cap is not a coarse proxy there; it is uncorrelated. The residual the corpus had no room for is the **third state**: the cost is not measurable at the door but is *declared* there. Containers carry their own inventory, and reading a bounded prefix costs nothing like the expansion. Three disciplines make the reading safe - bound the prefix by what is already admitted rather than by what it claims, compare a running total and never complete one, and derive the budget from the number the consumer is actually judged by. And the arithmetic is part of the guard: a product of request-controlled factors wraps, and a wrapped product is small, so the check returns true and admits precisely what it exists to refuse. Division shrinks. This was unreachable in the seam's own language, which saturates - so it was run in fixed width, and three fleet projects already practise the discipline unwritten.
+
+## 2026-11-16 - /deepen loop 3 (run `filler-deepen-20261116e`, worker 1, /shift filler)
+
+This was the first deepen of the subject. Outcome: **landed** in round 1, round 2 corrected round 1's
+own landing before hand-off, and round 3 was dry. `dry_streak: 1`, so the subject is not saturated.
+
+- **Flip, from lane convergence (blind lane, three operator sources, and a simulation):**
+  - `depth-bounds-and-shed` gained "a full bound is a standing line". Time is checked at the door
+    against predicted wait plus service, and again at promotion against the remaining deadline. An
+    entry that cannot finish is refused, not started.
+  - Newest-first ordering is the repair for a server that cannot read the deadline.
+  - The golden path's "Bounded depth" paragraph and zero-depth's per-request paragraph were amended.
+  - The zero-depth crossover belongs to a line that never compares time. Simulated on the recorded
+    parameters, which the plain-line arm reproduces within one completion per row.
+  - Round 2 found that a door-side per-request check equals the promotion check when the service time
+    is known, which corrected round 1's "compares only at the door" wording. Under a spread, the two
+    checks together beat either one alone.
+- **Amendment:** `priority-and-fairness` now says that issued by the system is not the same as
+  attested. Guest sessions are minted on request.
+- **Applications re-checked:**
+  - `next--priority-and-fairness`: the v1 seam was deleted in goat `1a4d7c5`. v2 at `ae2c83f`
+    re-ships the case on anonymous-sign-in user ids, with no global ceiling and a check-then-record race.
+  - `next--speculative-work-admission`: the seam was deleted with v1. The application is now
+    historical.
+  - `next--admit-on-the-expanded-cost`: the door stands at pof `ccbe02aea`. A defect was found:
+    `declaredTriangles` is dropped by the only consumer, `mcp-gate.ts:105-122`.
+- **Golden-path hygiene:** "Two rules" became "Three rules", and the missing
+  `budget-includes-the-callers-own-cache` entry was added to the technique list.
+- **Ledger:** two `simulation` / `better` rows (gravitone recorded parameters; goat `ae2c83f`).
+
+### Open leads (banked, with return conditions)
+
+- **Adaptive concurrency limits against host-signal gates.** A latency-gradient limit measures the cost
+  directly, while `load-aware-admission` reads proxies. Only the blind lane reached it. Return: a web or
+  tree sighting of a latency-gradient limiter in a fleet project.
+- **The APF head-of-line skip lead** (banked 08-22) is still open. `go--priority-and-fairness` was not
+  re-read against kubernetes/apiserver this pass. Return: its clock, or a k8s minor release that touches
+  queueset dispatch.
+- **The synthesis service tree** behind `python--zero-depth-admission` was not found in gravitone at
+  `fc26e172`. Return: when it is located, run the promotion-check arm on its own rig.

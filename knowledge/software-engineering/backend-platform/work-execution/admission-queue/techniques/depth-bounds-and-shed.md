@@ -6,7 +6,7 @@ technique: depth-bounds-and-shed
 status: forged
 laws: [failure-not-empty-success, creation-names-reaper, count-carries-predicate, gate-sees-target]
 shared_with: []
-use_when: [deriving how deep the queue may grow, picking which arrivals to shed at the bound, bound keeps getting raised under pressure, urgent work is refused while bulk work waits in the queue]
+use_when: [deriving how deep the queue may grow, picking which arrivals to shed at the bound, bound keeps getting raised under pressure, urgent work is refused while bulk work waits in the queue, the line stays full under sustained overload and promoted work finishes after its caller left]
 ---
 
 # Depth bounds and shed
@@ -150,6 +150,71 @@ Two consequences worth stating:
   residents, asserting which of the two is present when it settles. An
   implementation that has never run that case has not chosen a shed policy; it
   has inherited one.
+
+## A full bound is a standing line: check time at the door and at promotion
+
+Everything above sheds by *position* — at the bound, which arrival or which
+resident loses its place. Under a burst that is the whole job. Under overload
+that outlasts the burst it is not, because a bounded line that stays full is a
+**standing queue**: it never empties, every entry promoted from it has waited
+the full depth, and the wait it adds buys no throughput at all. The depth
+bound sized by wait-time honesty is then exactly wrong at the margin — every
+promoted entry sits at the edge of its caller's patience, and a share of them
+finish after the caller has gone. That is the staleness clock this technique
+opened with, running inside a bounded queue rather than an unbounded one.
+
+The repair is to check time, the unit the caller holds, at both ends of the
+wait. **At the door**, compare the arrival's deadline with its predicted wait
+plus service and refuse the arrival that cannot make it — the per-request rule
+[zero-depth-admission](./zero-depth-admission.md) already states. **At
+promotion**, compare the entry's remaining deadline with its expected service
+and refuse it there, promptly and with a reason, instead of starting it. The
+door's check is a prediction; the promotion check reads the time that actually
+passed. Where service time is known exactly the two agree. Where it spreads,
+the prediction is wrong in both directions and the promotion check is what
+catches the entries it admitted too optimistically. A queue that asks only
+"is there room?" spends capacity on work it already knows cannot be delivered.
+A housekeeping expiry on entries does not substitute for the promotion check:
+a fixed age far longer than the callers' real windows removes entries nobody
+will collect and still promotes the ones that will arrive late.
+
+Measured in a simulation on the recorded parameters of a real deadline-bearing
+service (90 callers at three times capacity, two workers, a 100 ms service, a
+line of 32, callers abandoning at their deadline), averaged over 50 seeded
+schedules. The plain line reproduces the service's own recorded sweep within
+one completion per row. Completed calls, with calls started too late to finish
+in brackets:
+
+| deadline ÷ service | line of 32, no time check | no line | line, time checked (fixed service) | line, door check only (service 50-150 ms) | line, promotion check only (spread) | line, both checks (spread) |
+| --- | --- | --- | --- | --- | --- | --- |
+| 1 | 2.2 (29.6) | 25.7 | **25.7** (0) | 13.7 (12.4) | 13.7 (12.4) | 13.7 (12.4) |
+| 5 | 12.7 (27.1) | 25.7 | **37.8** (0) | 31.2 (7.0) | 30.5 (8.0) | **35.5** (2.1) |
+| 15 | 42.1 (17.7) | 25.7 | **57.8** (0) | 53.5 (4.5) | 55.3 (2.0) | **56.2** (0.8) |
+
+With a fixed service time, a line that checks time beats both the plain line
+and no line at every ratio, and at a ratio of one it reduces to zero depth by
+itself. So the crossover between a line and no line is a property of a line
+that never compares time. With a spread, the two checks together beat either
+one alone from three service times upward, and they tie below that.
+
+**Serving newest-first under overload is the other published repair, and it
+is the weaker one where the deadline is known.** Switching a full line to
+last-in-first-out serves the arrival most likely to still be wanted, and it is
+the right move when the server cannot tell a doomed entry from a live one. In
+the fixed-service runs, newest-first plus the promotion check was never better than
+oldest-first plus the check, and at fifteen service times it completed 39.3
+against 57.8, because it lets the oldest entries die in line — as caller
+timeouts, which are neither prompt nor attributable — instead of serving them
+while they still had time. Reach for the order change when there is no
+deadline to read; read the deadline when there is one.
+
+Three conditions bound the measurement. It is a simulation: the service's own
+harness is not on the machine that ran it, and the spread was uniform, while a
+heavy tail is the case where both checks err most. The callers
+were synchronous; where nobody is holding the phone and staleness is a
+property of the cause rather than the clock, none of this section applies. And
+the deadline has to reach the queue — a gate that never receives the caller's
+deadline can only guess it, which is the case newest-first exists for.
 
 ## Backpressure: making producers participate
 
