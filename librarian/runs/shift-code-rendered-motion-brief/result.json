@@ -1,0 +1,58 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "shift-code-rendered-motion-brief",
+  "skill": "shift",
+  "skill_version": "0.6.0",
+  "mode": "source",
+  "domain": "media-generation",
+  "started_at": "2026-11-16T00:00:00Z",
+  "ended_at": "2026-11-16T13:22:23Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 0,
+    "declined": 0,
+    "idled": 3,
+    "contended": 0,
+    "held": 2
+  },
+  "subjects": [
+    {
+      "id": "media-generation/video-assembly",
+      "at": "2026-11-16",
+      "engine": "shift",
+      "outcome": "idled",
+      "points_before": null,
+      "points_after": null
+    },
+    {
+      "id": "media-generation/data-video-art-direction",
+      "at": "2026-11-16",
+      "engine": "shift",
+      "outcome": "idled",
+      "points_before": null,
+      "points_after": null
+    },
+    {
+      "id": "media-generation/visual-style-locking",
+      "at": "2026-11-16",
+      "engine": "shift",
+      "outcome": "idled",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [],
+  "files": [
+    "librarian/sources/2026-11-16-code-rendered-motion-brief.md",
+    "librarian/sources/index.md",
+    ".claude/skills/intake/SCORECARD.md",
+    "librarian/harvest/backlog.jsonl",
+    "librarian/runs/shift-code-rendered-motion-brief/result.json"
+  ],
+  "commits": [],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "4 leads, 1 currency, 12 covered, 5 untriaged, 2 held CPU rows. Bar +3 per intake Phase 5. Shutter blur 3/0/2 after the promotion read found the project states the rule unbuilt; render-bound, so held, not landed."
+}
