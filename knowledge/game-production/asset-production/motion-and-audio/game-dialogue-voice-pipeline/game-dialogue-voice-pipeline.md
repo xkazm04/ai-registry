@@ -64,6 +64,10 @@ human acceptance, a pool of baked variants with selection rules, and a generatio
 under a latency budget with a fallback for when the budget is missed
 (bake-versus-runtime-speech).
 
+The class is also more than an engineering choice: generation during play is what
+performers' consent terms and storefront disclosure forms single out, so moving a line to
+the runtime class reopens both.
+
 The classification is a property recorded per line, not a property of the game. A game that
 "uses runtime speech" has a handful of runtime lines and thousands of baked ones, and
 treating the whole game as runtime buys a latency problem and an acceptance problem for
@@ -79,7 +83,7 @@ is not a fallback; it is the defect the fallback exists to prevent.
 
 ## Identity, or the catalog is fiction
 
-A voiced game holds tens of thousands of recorded units, and the questions asked of them
+A large voiced game holds tens of thousands of recorded units, and the questions asked of them
 are all questions about a subset: which lines changed since the last build, which lines
 belong to this speaker, which lines were rendered by an older model. None of them can be
 answered from filenames or from the text. Every line therefore has a stable identifier
@@ -110,6 +114,14 @@ satisfied by lines that overrun in translation. The measured duration of the ren
 is the quantity, and the budget applies per locale
 (localized-voice-timing-budget).
 
+Two refinements come from how localization actually runs. The strictness is a per-line
+class, from *none* for a bark through a tolerance band, an exact length, matched internal
+pauses, up to lip sync in close-up, and most lines in a game sit in the loose classes. And
+the reference is whatever the attachment was built to: where the animation was cut to the
+source-language take, that take is the ceiling every locale is measured against as a
+fraction, with a tolerance the project declares, and a re-recorded source line moves every
+locale's ceiling with it.
+
 When a locale render is outside its budget, the order of remedies matters. Re-word first,
 because a line that needs to be shorter in a language usually has a shorter true
 phrasing. Speeding up a synthesized voice is a legitimate small correction and a bad large
@@ -137,6 +149,14 @@ material and its terms, not only the person's agreement. Providers increasingly 
 part of this themselves (own-voice verification, restrictions on cloning another person),
 which narrows what a studio can do and does not remove the studio's duty to record what it
 did.
+
+A third axis arrives with performers' collective agreements. Where a performer's voice is
+replicated, consent is per project and states whether the voice will generate lines in
+real time during play, so the line's class (baked or runtime) and the voice's consent are
+joined: a runtime line in a voice consented only for pre-rendered lines does not render.
+Consent can be paused for new material without ending, which is a ledger state of its own,
+and the same agreements owe a per-character usage report after release that only a catalog
+recording which lines each voice produced can answer.
 
 ## A model upgrade is a re-cast event
 

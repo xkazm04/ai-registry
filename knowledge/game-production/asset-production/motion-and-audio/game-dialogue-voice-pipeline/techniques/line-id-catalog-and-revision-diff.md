@@ -57,7 +57,8 @@ Diff two catalog states by id, and classify each id by what changed.
 - **Words changed:** re-render and re-accept exactly those lines, and mark their
   translations stale. The line's earlier acceptance describes the old words
   ([a verdict is bound to the content it judged](../../../../_laws.md#a-verdict-is-bound-to-its-content)).
-- **Direction changed, words unchanged:** re-render only; translations stand.
+- **Direction changed, words unchanged:** re-render in every locale that voices the line;
+  translations stand.
 - **Recipe element changed for some lines** (a pronunciation dictionary edit, one voice's
   settings): re-render the lines that carry the element, found by querying `render_rev`,
   not by searching text. A dictionary edit touches only lines containing the affected
@@ -76,7 +77,12 @@ rather than as its old state or a blank; both of those read as a pass
 - **When a writer splits, merges or reorders nodes, ids follow the graph;** an id that
   disagrees with the graph is a defect the catalog check reports, not a second truth.
 - **When a line has no take yet, its row says so** instead of holding a placeholder path
-  that looks real. A missing take is a state, and the catalog exposes it as a count.
+  that looks real. A missing take is a state, and the catalog exposes it as a count,
+  **per locale**: audio middleware commonly builds one bank per locale from that locale's
+  folder, and a file absent from one folder is simply absent from that bank, so a line can
+  be complete in the source language and silent in a shipped one without any build error.
+- **When the middleware keys sounds by file name by default,** name the file from the id or
+  hand the middleware an explicit id-to-file map; never let a file name become the identity.
 - **When comparing states, exclude pipeline bookkeeping** (render timestamps, job ids) in
   exactly one place, or every touch of the catalog reads as a revision.
 - **When the recipe includes a pronunciation dictionary, record its version, not its

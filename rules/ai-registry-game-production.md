@@ -1,6 +1,6 @@
 # Game production - the subjects this registry carries
 
-`game-production` - 90 subjects, 597 techniques, 356 applications.
+`game-production` - 90 subjects, 597 techniques, 361 applications.
 Slugs only; open one with `registry_subject` (or `node <registry>/scripts/registry-query.mjs --subject <slug>`), never by reading `index.json` - the access rule beside this file describes the loop.
 
 ### systems-canon

@@ -65,8 +65,10 @@ baked line in the catalog like any other, with its own id and its own consent ro
 A budget of this kind shapes what is generated
 ([a budget shapes the output](../../../../_laws.md#a-budget-shapes-the-output)): short
 first sentences render sooner, so the text generator is told to lead with a short clause,
-and the renderer is fed sentence by sentence rather than after the whole reply. The
-perceived wait then approaches the longer of the two stages rather than their sum.
+and the renderer is fed sentence by sentence rather than after the whole reply. The wait to
+the first audible sample is then the time to the first short clause plus the renderer's
+first-chunk latency, not the whole reply plus the whole render; the two stages still add,
+they just add small numbers.
 
 ## Decision rules
 
@@ -81,6 +83,11 @@ perceived wait then approaches the longer of the two stages rather than their su
   tail. Unmeasured is not a pass
   ([unmeasured is not a pass](../../../../_laws.md#unmeasured-is-not-a-pass)): a runtime
   class with no measured tail carries *not measured* in the catalog.
+- **When a line moves into the runtime class, treat it as a consent and disclosure event,
+  not only an engineering one.** A replicated performer's voice needs consent that names
+  generation in play (see the cast ledger), and storefronts can ask content generated while
+  the game runs to be declared apart from content generated during development, with the
+  guardrails that constrain it. The class column is what that declaration is counted from.
 - **When a runtime line is spoken, log its text, voice, model and measured latency,** so
   the bake-worthy lines (the ones players actually trigger) can be promoted into the baked
   classes later.

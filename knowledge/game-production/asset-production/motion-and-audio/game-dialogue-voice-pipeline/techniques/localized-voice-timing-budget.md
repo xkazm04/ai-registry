@@ -6,7 +6,7 @@ technique: localized-voice-timing-budget
 status: forged
 laws: [a-number-carries-its-unit-and-basis, a-budget-shapes-the-output, grade-against-what-ships-not-on-a-curve]
 shared_with: []
-use_when: [a spoken line is tied to a fixed-length animation or cutscene beat, a translated line overruns its clip, choosing between re-wording and speeding up a render]
+use_when: [a spoken line is tied to a fixed-length animation or cutscene beat, a translated line overruns its clip, choosing between re-wording and speeding up a render, deciding how strictly a locale take must match the source take]
 ---
 
 # Localized voice timing budget
@@ -34,12 +34,36 @@ it include leading and trailing silence, is it the take as rendered or after tri
 it at the default pace or the adjusted one
 ([a number carries its unit and its basis](../../../../_laws.md#a-number-carries-its-unit-and-basis)).
 
+## The sync class and the reference
+
+Not every attached line is held to its length equally, and localization practice names
+the grades. Record one per line, because it decides what is measured and how hard:
+
+| Class | What binds | Measured as |
+| --- | --- | --- |
+| none | nothing visible depends on the length (a bark, an off-screen line) | an interruptibility ceiling at most |
+| time-constrained | the length, within a declared tolerance of the reference | total duration against reference plus or minus the tolerance |
+| strict | the length, equal to the reference | total duration, tolerance near zero |
+| sound sync | the length and its internal pauses | the pause structure as well as the total |
+| lip sync | visible mouth shapes in close-up | phoneme alignment, the closed-lip sounds first |
+
+The **reference** is whatever the attachment was built to. Where an animation, a facial
+clip or a cutscene was cut to the source-language take, that take is the reference and
+every locale is judged as a fraction of it; where the attachment was authored first, its
+length is. Do not assume one: localization kits commonly ship the source files and state
+the tolerance as a percentage of them, and translators often work without the scene and
+sometimes before the source take exists, so a ceiling nobody wrote into the brief is a
+ceiling nobody wrote to. The tolerance is a project's declared number, not a constant;
+accounts of practice give figures from about ten percent to thirty depending on how much of
+the face is visible.
+
 ## Procedure
 
-1. **Declare the budget where the attachment is declared.** The animation, the beat or the
-   subtitle window has a length; the line's catalog row carries that length as its ceiling,
-   and a floor where an early cut would look wrong (a mouth that closes half a second
-   before the voice ends).
+1. **Declare the class and the budget where the attachment is declared.** The animation,
+   the beat or the subtitle window has a length, or was cut to a source take; the line's
+   catalog row carries its sync class, its reference and the resulting ceiling, and a
+   floor where an early cut would look wrong (a mouth that closes half a second before the
+   voice ends).
 2. **State the budget in the authoring brief for each locale,** not only the source. A
    translator, or a translation model, told the ceiling produces different text than one
    told only to be faithful, in the same way any generator handed a budget writes to it.
@@ -78,8 +102,12 @@ is exactly the case the budget exists to catch.
   applies: judge the locale that ships, not the source that passed).
 - **When a locale differs from the source by a large factor on many lines,** suspect the
   translation brief, not the renderer, and fix it at the brief.
-- **When a line is unattached (no animation, no beat),** it has no timing budget and needs
-  none; do not invent one to make the catalog uniform.
+- **When a line is unattached (no animation, no beat),** its class is *none*: it has no
+  timing budget and needs none; do not invent one to make the catalog uniform.
+- **When the class is sound sync,** a take whose total fits but whose pause falls in the
+  wrong place fails; the total duration is necessary, not sufficient.
+- **When the reference is the source take,** a re-recorded or re-rendered source line moves
+  every locale's ceiling; re-derive them before re-measuring.
 - **When a budgeted line is edited,** re-measure every locale. A shortened source line can
   lengthen a translation.
 - **When lip-sync is generated from the audio,** the sync clip's length follows the take;

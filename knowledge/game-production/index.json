@@ -5,7 +5,7 @@
   "source": "knowledge/game-production/ (frontmatter only)",
   "subjects": 90,
   "techniques": 597,
-  "applications": 356,
+  "applications": 361,
   "laws": 16,
   "categories": [
    "systems-canon",
@@ -4215,9 +4215,9 @@
    "subcategory": "motion-and-audio",
    "status": "forged",
    "file": "knowledge/game-production/asset-production/motion-and-audio/game-dialogue-voice-pipeline/game-dialogue-voice-pipeline.md",
-   "digest": "sha256-b2:2b9fce8d0d8cbaed",
-   "revision": 1,
-   "changedAt": "2026-09-30",
+   "digest": "sha256-b2:afb55344082b4c1f",
+   "revision": 2,
+   "changedAt": "2026-11-16",
    "techniques": [
     {
      "slug": "bake-versus-runtime-speech",
@@ -4245,7 +4245,9 @@
      "use_when": [
       "creating or importing a synthesized or cloned voice for a game role",
       "a legal or platform review asks whose voice this is",
-      "a provider cannot serve the speech modality the pipeline declares"
+      "a provider cannot serve the speech modality the pipeline declares",
+      "a performer's replicated voice is about to speak lines generated in play",
+      "a usage report per performer is owed after release"
      ]
     },
     {
@@ -4275,7 +4277,8 @@
      "use_when": [
       "a spoken line is tied to a fixed-length animation or cutscene beat",
       "a translated line overruns its clip",
-      "choosing between re-wording and speeding up a render"
+      "choosing between re-wording and speeding up a render",
+      "deciding how strictly a locale take must match the source take"
      ]
     },
     {
@@ -4296,6 +4299,13 @@
    ],
    "applications": [
     {
+     "stack": "cpp",
+     "technique": "line-id-catalog-and-revision-diff",
+     "file": "knowledge/game-production/asset-production/motion-and-audio/game-dialogue-voice-pipeline/applications/cpp--line-id-catalog-and-revision-diff.md",
+     "verified_on": "2026-11-16",
+     "verified_against": "cpp@20"
+    },
+    {
      "stack": "node",
      "technique": "cast-ledger-with-consent",
      "file": "knowledge/game-production/asset-production/motion-and-audio/game-dialogue-voice-pipeline/applications/node--cast-ledger-with-consent.md",
@@ -4315,6 +4325,32 @@
      "file": "knowledge/game-production/asset-production/motion-and-audio/game-dialogue-voice-pipeline/applications/node--localized-voice-timing-budget.md",
      "verified_on": "2026-09-30",
      "verified_against": "node@24"
+    },
+    {
+     "stack": "process",
+     "technique": "bake-versus-runtime-speech",
+     "file": "knowledge/game-production/asset-production/motion-and-audio/game-dialogue-voice-pipeline/applications/process--bake-versus-runtime-speech.md",
+     "verified_on": "2026-11-16",
+     "refresh_by": "2027-05-16"
+    },
+    {
+     "stack": "process",
+     "technique": "cast-ledger-with-consent",
+     "file": "knowledge/game-production/asset-production/motion-and-audio/game-dialogue-voice-pipeline/applications/process--cast-ledger-with-consent.md",
+     "verified_on": "2026-11-16",
+     "refresh_by": "2027-05-16"
+    },
+    {
+     "stack": "process",
+     "technique": "line-id-catalog-and-revision-diff",
+     "file": "knowledge/game-production/asset-production/motion-and-audio/game-dialogue-voice-pipeline/applications/process--line-id-catalog-and-revision-diff.md",
+     "verified_on": "2026-11-16"
+    },
+    {
+     "stack": "process",
+     "technique": "localized-voice-timing-budget",
+     "file": "knowledge/game-production/asset-production/motion-and-audio/game-dialogue-voice-pipeline/applications/process--localized-voice-timing-budget.md",
+     "verified_on": "2026-11-16"
     }
    ]
   },

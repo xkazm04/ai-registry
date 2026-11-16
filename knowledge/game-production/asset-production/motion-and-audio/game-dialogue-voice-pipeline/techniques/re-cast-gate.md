@@ -35,8 +35,10 @@ comparison is a lead until your reference lines confirm it.
 
 ## Procedure
 
-1. **Freeze the audition set.** Twelve reference lines per voice is enough to be
-   informative and small enough to be listened to: chosen once, kept across upgrades, and
+1. **Freeze the audition set.** About a dozen reference lines per voice is a workable
+   starting size, small enough to be listened to (a convention, not a measured threshold;
+   grow it where the voice's range is wider than the list below): chosen once, kept across
+   upgrades, and
    spanning the voice's range in the game (a calm line, a shout, a whisper, a long
    sentence, a short bark, a line with proper nouns and pronunciation-dictionary terms, a
    line in each shipped language that the voice speaks). The set is the instrument; changing

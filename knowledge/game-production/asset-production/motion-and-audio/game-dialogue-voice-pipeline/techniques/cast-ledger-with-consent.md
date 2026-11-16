@@ -6,7 +6,7 @@ technique: cast-ledger-with-consent
 status: forged
 laws: [refuse-rather-than-destroy, unmeasured-is-not-a-pass, declaring-an-input-is-not-consuming-it]
 shared_with: []
-use_when: [creating or importing a synthesized or cloned voice for a game role, a legal or platform review asks whose voice this is, a provider cannot serve the speech modality the pipeline declares]
+use_when: [creating or importing a synthesized or cloned voice for a game role, a legal or platform review asks whose voice this is, a provider cannot serve the speech modality the pipeline declares, a performer's replicated voice is about to speak lines generated in play, a usage report per performer is owed after release]
 ---
 
 # Cast ledger with consent
@@ -24,11 +24,12 @@ speak. The ledger exists to answer, at any later date and without asking anyone'
 | `voice_asset` | the provider's voice identifier, and the clone type if cloned |
 | `model_generation` | the speech model generation it was created or trained under, and the date |
 | `origin` | designed from a description, licensed library voice, or cloned from a person |
-| `consent` | for a cloned voice: the person, the scope of use, the date, and where the signed agreement lives |
+| `consent` | for a cloned voice: the person, the project, the scope of use, the date, and where the signed agreement lives |
+| `runtime_scope` | for a cloned voice: whether the agreement covers lines generated during play, separately from pre-rendered lines |
 | `reference_material` | for a cloned voice: what the clone was conditioned on, and the terms attached to that material |
-| `status` | active, flagged for re-cast, retired |
+| `status` | active, suspended for new renders, flagged for re-cast, retired |
 
-Four properties of the row carry the value.
+Five properties of the row carry the value.
 
 **Consent is a precondition.** The gate is on the render path: a render request names a
 line, the line names a speaker role, the role resolves to a ledger row, and a row whose
@@ -38,6 +39,18 @@ anything is generated
 the refusal being early and visible, not to a quiet downgrade to another voice). It is not
 a feature that can be enabled later, and it is not a checkbox on a form the studio fills in
 after the voice is in the build.
+
+**Consent for a performer's voice is scoped, not granted.** Where a performer's voice is
+replicated, collective agreements for game performers now require the consent to be written
+and separately signed, to describe the intended use with reasonable specificity, and to say
+whether the voice will generate dialogue in real time during play; a consent taken at hire
+does not stretch to a later project, and new material can be paused during industrial
+action. Each of those is a field the render gate reads: the project, the runtime scope, and
+a *suspended for new renders* status under which accepted takes stand and new renders
+refuse. The same agreements pay by generated line and require a usage report per character
+after release, which is a query over the line catalog joined to this ledger, so the catalog
+has to know which lines a replicated voice produced. The exact terms are dated facts held
+in an application, not here.
 
 **A cloned voice carries two sets of terms.** The synthesis model has its own licence; the
 reference material has another. A clone conditioned on a clip that came from another
@@ -74,6 +87,12 @@ while the ledger is the studio's own evidence, portable if the provider changes.
 
 - **When a voice has no ledger row, no line renders against it.** There is no override
   flag; an emergency path is a row with a stated temporary scope.
+- **When a line in the runtime class would speak in a cloned voice whose `runtime_scope` is
+  empty or no,** the render refuses; a pre-rendered consent does not cover generation in
+  play.
+- **When consent is paused rather than ended,** set the row to suspended for new renders:
+  accepted takes keep playing, new renders and retrains refuse, and the row returns to
+  active only from a document.
 - **When a person withdraws consent or the agreed scope ends,** set the row to retired and
   list the lines that used it. Baked takes are the studio's custody and are a legal
   question, not a technical one; the ledger's job is to make the list instant.
@@ -85,7 +104,8 @@ while the ledger is the studio's own evidence, portable if the provider changes.
 - **When a designed (not cloned) voice is used,** the consent field reads *not applicable*
   with the reason, not blank. A blank is unmeasured.
 - **When a licensed library voice is used,** record the licence's scope for games and for
-  derived clones; many libraries permit playback and forbid training on the voice.
+  derived clones; a library licence can permit playback and forbid training on the voice,
+  so read which before cloning from it.
 
 ## When not to use this
 
