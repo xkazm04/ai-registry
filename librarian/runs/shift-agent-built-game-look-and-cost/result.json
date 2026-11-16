@@ -1,0 +1,57 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "shift-agent-built-game-look-and-cost",
+  "skill": "shift",
+  "skill_version": "0.6.0",
+  "mode": "source",
+  "domain": "game-production",
+  "started_at": "2026-11-16T00:00:00Z",
+  "ended_at": "2026-11-16T12:23:35Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 0,
+    "declined": 0,
+    "idled": 3,
+    "contended": 0,
+    "held": 0
+  },
+  "subjects": [
+    {
+      "id": "game-production/concept-scene-parity",
+      "at": "2026-11-16",
+      "engine": "shift",
+      "outcome": "idled",
+      "points_before": null,
+      "points_after": null
+    },
+    {
+      "id": "game-production/unattended-build-loop",
+      "at": "2026-11-16",
+      "engine": "shift",
+      "outcome": "idled",
+      "points_before": null,
+      "points_after": null
+    },
+    {
+      "id": "agent-operations/agent-run-budgeting",
+      "at": "2026-11-16",
+      "engine": "shift",
+      "outcome": "idled",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [],
+  "files": [
+    "librarian/sources/2026-11-16-agent-built-game-look-and-cost.md",
+    "librarian/sources/index.md",
+    ".claude/skills/intake/SCORECARD.md",
+    "librarian/runs/shift-agent-built-game-look-and-cost/result.json"
+  ],
+  "commits": [],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "3 leads, 1 currency (note only), 10 covered, 4 untriaged, 1 dropped, 0 held. Accept bar +3 from intake Phase 5 as it stands. B12 promotion read: the starting-state rule is already in agent-benchmark-design and cheapest-sufficient-tier; the miner called it uncovered."
+}
