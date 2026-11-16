@@ -1,8 +1,8 @@
 ---
 subject: tenant-scoped-agent-runtime
 domain: software-engineering
-last_touched: 2026-10-10
-dry_streak: 0
+last_touched: 2026-11-16
+dry_streak: 2
 ---
 
 # tenant-scoped-agent-runtime
@@ -146,3 +146,70 @@ provider's key to the other.
 - Open: the worker's isolation mode is undeclared (any bearer is admitted), so a keyless
   persona with no base address still spends the operator's key on the default host.
   Return: when the worker gains real caller auth or a second caller.
+
+## 2026-11-16 - `/deepen` loop (run `filler-deepen-20261116b`, /shift filler)
+
+Dispatched for one expired application (`python--task-local-tenant-scope`, override clock 2026-11-05) and one stack-drift flag (`node--fail-direction-follows-deployment-mode`, node@18 against fleet 24). The pass found something larger than the clock. **The 2026-09-09 architecture review's technique-level clarifications are not in the files.** The 2026-09-10 restore (`7792d1b1a`, "restore 34 documents the line-based revert filter missed") reset the seven upper-layer documents to `159b40b0` to undo a compression pass. Only the applications kept their edits. Since then the techniques have contradicted their own application on the pool claim. This pass re-earned the parts of that review that primary sources and the upstream tree support today. It did not restore the review's text.
+
+#### Round 1 (survey round)
+
+**Not dry; no new technique.** Lanes:
+- a read lane over hermes `4162ecf1` (shallow clone, 2026-11-15) and personas `8d076db46a` (HEAD, via git show);
+- a counter-evidence lane over the CPython 3.14 branch source (`Lib/concurrent/futures/thread.py` and `Lib/threading.py` at `5885d6d3`) and four docs.python.org 3.14 pages (threading, contextvars, asyncio-task, the import reference), plus a synthetic fixture on 3.12.15, 3.13.16 and 3.15.0;
+- a blind lane, written before any search;
+- the volatile figures, re-opened at the vendor's post.
+
+- `task-local-tenant-scope` **flipped (two conditions, one correction)**.
+  1. The claim that a standard pool propagates context "in a recent release" is false. In 3.14, `submit` queues a callable and workers are reused. A new thread copies the context of the code that started it only under `sys.flags.thread_inherit_context`, which "defaults true on free-threaded builds and false otherwise". Measured with a one-worker pool and two tenants: with the flag off, both saw no scope. **With the flag on, the second tenant saw the first tenant's.** A per-submission copy gave each its own under both settings, so the copy is never a no-op. A test asserting that a bare thread loses the scope passes on one build and fails on the other; upstream deleted theirs. The blind lane predicted the stale-inheritance leak, and upstream's own pool comment now says the same (#54937).
+  2. Home-then-credentials is the order of building, not of installing: install both as one immutable value. Upstream moved to a single `ScopeState` with replaying resets, which is the review's "a single validated scope object".
+  3. Copies share mutable values. The fixture showed a dict mutated inside a copy is visible to the parent; a rebinding is not.
+- `tenant-keyed-cache-evicts-loaded-code` **flipped (condition)**: when switching between tenants that run concurrently, give each tenant its own import name instead of evicting. Upstream's loader now gives the first scope the bare name and any other a `__home_<digest>` suffix. Three lanes converged: the review counterexample, the blind lane and upstream.
+- `stamp-ownership-before-the-router` **flipped (condition)**: the event's stamp outranks the surface owner only for where the turn runs, and only when a trusted party set it. Admission is read from the owner of the receiving surface. Resolve once and pin the result. Upstream `gateway/session_identity.py` now separates transport, authorization and runtime, and reads authorization from the transport owner's home. The review and the blind lane reached the same rule.
+- `fail-direction-follows-deployment-mode` **flipped (condition)**; **the 2026-09-23 banked lead was examined and closed**.
+  - Upstream's resolver now decides per scope. A scope stamped with a foreign home is authoritative even with multiplexing off. The launch profile gets its frozen launch environment copied into its scope instead of falling through at read time. The flag can also arm after boot.
+  - Upstream derives the mode from the served-profile count (a single profile stays standalone), so turning multiplexing on by default did not put single-tenant installs on the strict path.
+  - The lead's prediction did come true in one place: the multiplexed config reload falls back to the unscoped load on any exception and logs it at **debug** level, against its own docstring. The existing rule "a fallback that fires says so" already covers it, so it is an application deviation, not a flip.
+- `python--task-local-tenant-scope` was rewritten against `4162ecf1`: every anchor re-pinned, python@3.14, `refresh_by` 2026-12-28 (six-week override, reason restated).
+  - The 09-23 deviation (the daemon-pool comment claimed 3.14 propagation) is fixed upstream in the pool. The same claim survives in the pool test's docstring.
+  - New deviations: the debug-level config fallback; a design doc that carries both the two-scope diagram and the one-value section; an embedding host that mirrors the turn into `HERMES_HOME`, which upstream pays for with a pinned launch identity.
+  - Volatile figures: the post says "reduced non-test Python source by 34.4%" and "merged the PR on September 4th". The application said "refactored by 34.4%" and is corrected. "Two days" holds. The six-week window is our own override.
+- `node--fail-direction-follows-deployment-mode`: all 9 anchors byte-identical at personas HEAD, and no commit has touched `cloud-worker/` since the fix. `cloud-worker/package.json` still declares `>=18`, and it is the component's only pin (root `.nvmrc` 22, root engines `>=20`, no CI job runs the worker). `verified_against` stays node@18; the drift is on the fleet's side.
+
+Confirmed and left untouched:
+- `asyncio.to_thread` propagates context ("the current contextvars.Context is propagated"), and tasks copy the current context.
+- Process-level config reload under the default root's scope: upstream still does exactly this.
+- The import reference's account of two live module copies.
+- Token-based nested restore.
+- `resolve-handles-at-call-time` "ten minutes" (L33): a figure of speech for "later", not a measured interval.
+
+Applied (fragment rows):
+- `task-local-tenant-scope` **not-better** (simulation, athena-muse): the per-job ContextVar is always handed to threads as a value, so neither setting changes an outcome.
+- `tenant-keyed-cache` **better** (simulation, gravitone): the kernel's `gt_kernel_lease` namespace is the shape; the old rule would have evicted under a live broker. 3 of 3 cases agree with the amendment.
+- `fail-direction` **not-better** (simulation, personas): the issued-host binding already acts as the owner test there.
+- `stamp-ownership` unapplied: no multi-tenant ingress in the fleet.
+
+Declined: restoring the 2026-09-09 review text wholesale, because its other clarifications were not re-sourced on this pass.
+
+Banked:
+- `resolve-handles-at-call-time` says "Two tenants never share a handle". That holds only while the resolver gives distinct addresses: two tenants that resolve to one address share one handle under the technique's own keying (review counterexample, not re-sourced). Return: the next pass that opens that technique.
+- The remaining 09-09 counterexamples for `written-inventory` (a warning cannot legitimize an isolation-breaking fallback; separate processes still share infrastructure). Return: a pass that opens `written-inventory-of-what-stays-global`.
+
+#### Round 2
+
+Dry. Standing claims probed against the blind lane:
+- the written inventory's "updated in the same change": upstream's stale terminal row is the failure the rule predicts, so it is confirmed;
+- token restore to the previous value, not to absent: upstream's replaying reset is a stronger form of the same rule;
+- the default-tenant rule for process work: upstream unchanged.
+
+Nothing earned.
+
+#### Round 3
+
+Dry. Probed:
+- `stamp-ownership`: an absent stamp means the default tenant, and an unresolved event is never treated as default. Upstream keeps `None` for the primary on the wire and raises a distinct `IdentityUnresolved`.
+- The allowlist's exact-or-prefix membership: upstream unchanged; the deviation stands.
+- "One process per configuration is cheaper below two tenants": upstream now keeps single-profile installs standalone.
+
+All confirmed. dry=2; the loop idles until 2026-12-28 (hermes override) or an event.
+
+Impact: not computed. The map regeneration is owed to the Director's step 4 and was not run here.

@@ -73,7 +73,12 @@ wins:
 1. **The event's own stamp**, where routing has already run — some ingress
    paths, notably a relay or connector that routes upstream, deliver events
    that already carry the tenant. That stamp is the most specific fact
-   available and outranks everything.
+   available and outranks the rungs below it — **for where the turn runs,
+   and only when it came from a party the surface trusts.** Specificity
+   ranks facts of equal trust; it does not lift a claim carried in an event
+   above the surface that received the event. An upstream router's stamp is
+   honoured because the surface authenticated the router, not because the
+   stamp is specific.
 2. **The surface's configured owner** — this ingress's own tenant, the
    subject of this technique, and the answer for everything that runs before
    routing.
@@ -85,6 +90,17 @@ The order is specificity-descending, and each rung answers a case the rung
 below cannot. Collapsing it to the third rung alone is the defect this
 technique names; collapsing it to the first alone breaks every pre-routing
 path.
+
+The order answers one question, and an event raises three: **which surface
+received it, who may admit it, and where its turn runs.** Only the last
+follows the order. Who may admit the event is read from the receiving
+surface's configured owner — that owner's credential and allowlist — and
+never from the event's stamp, so a stamp that routes a turn to another
+tenant cannot also choose whose allowlist lets it in. Resolve the three
+answers once per event, at the first ingress step, and pin them on the event
+as one frozen record that later steps read. Three helpers that each walk the
+fallback chain agree only while the chain stays identical in all three, and
+the first edit to one of them makes them disagree silently.
 
 Two guards belong at every rung. **Every candidate is type-checked before
 it is interpolated into a key.** A duck-typed or test-double store that
@@ -131,8 +147,12 @@ it is found by searching for the key format outside its builder.
   block that installs its handlers, with the reason written beside it.
 - Make the stamp survive reconnects; represent the default tenant as an
   absent stamp rather than a named one.
-- Resolve in order: the event's stamp, the surface's owner, the store's
-  resolver. Never collapse the order.
+- Resolve where the turn runs in order: the event's stamp when it came from a
+  party the surface trusts, the surface's owner, the store's resolver. Never
+  collapse the order.
+- Read who may admit an event from the receiving surface's owner, never from
+  the event's stamp; resolve receiver, admission and runtime once per event
+  and pin them as one record.
 - Type-check every candidate before interpolating it into a key, and read
   every attribute defensively.
 - Drop an event whose tenant cannot be resolved, or whose target is not

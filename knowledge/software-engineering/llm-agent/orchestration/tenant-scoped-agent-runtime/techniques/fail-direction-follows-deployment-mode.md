@@ -111,6 +111,31 @@ address is derived inside the door from the credential's own record, as in
 [brokered egress](../../../../security/identity-and-access/credential-vault/techniques/brokered-egress.md)
 — has no such case to handle. This section is for the resolver that does.
 
+## The mode answers for the process; the scope's owner answers for the call
+
+The destination case is one instance of a wider fact: the process
+environment was issued to **one** owner, and the fall-through is safe only
+for that owner's calls. A process-level flag gets that right on average and
+wrong at both edges. A process with isolation off can still run a unit of
+work for a tenant other than its own — a status backend opening another
+configuration, a per-tenant scheduler tick — and that unit's scope must be
+authoritative for the same reason the multiplexer's is: the environment
+holds someone else's values. A process with isolation on still has one
+tenant whose credentials the environment legitimately carries, the one it
+was launched as, and the strict rule would strip that tenant of what a
+service manager injected.
+
+So the resolver asks whether the active scope belongs to the owner the
+process environment was issued to. A scope stamped with any other owner is
+authoritative whatever the flag says. The launch tenant keeps its injected
+values by having them **copied into its scope when the scope is built** —
+frozen at launch, then read from the scope — never by a fall-through at read
+time, which under isolation is the very consultation of the process this
+technique forbids. The flag still decides the unscoped case. And where the
+flag can arm after startup, work that began before it armed holds a scope of
+its own, so arming cannot turn that work's next read into a raise or a
+borrowed value.
+
 ## The allowlist is tight, and widening it is never the fix
 
 Not every name a process reads is a tenant credential. Some genuinely
@@ -168,8 +193,13 @@ report. Where a fallback is legitimate, it records that it fired and why.
 ## Decision rules
 
 - Derive the fail direction from the deployment mode, held as a
-  process-level flag set once at startup. It describes the deployment, not
-  the unit of work, so it is not itself a scoped value.
+  process-level flag. It describes the deployment, not the unit of work, so
+  it is not itself a scoped value — but it is the floor, not the whole rule:
+  a scope stamped with an owner other than the one the process environment
+  was issued to is authoritative in every mode, and the launch tenant's
+  injected values reach its scope by being frozen into it at build time,
+  never by a read-time fall-through. If the flag can arm after startup, give
+  work already running a scope before it arms.
 - Isolation off: the scope is an overlay; a miss falls through to the
   process — but only toward the destination the process credential was
   issued for. A scope that names its own destination and no credential gets

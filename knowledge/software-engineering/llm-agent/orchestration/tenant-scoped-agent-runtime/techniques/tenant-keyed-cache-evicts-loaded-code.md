@@ -80,12 +80,28 @@ through a stale reference — with independent module-level state.
 
 So the rule is: **evict the entry point and every name nested beneath it,
 before re-importing** — matching on the entry point's name and on that name
-followed by the nesting separator, so no descendant survives. Do it in both
-places that discard a load: the reload path within one tenant, and the
-switch path between tenants. And drop the reference to the discarded object
+followed by the nesting separator, so no descendant survives. Do it wherever
+a load is discarded: the reload path within one tenant, and the switch path
+between tenants when tenants never run at the same time (the next paragraph
+covers the case where they do). And drop the reference to the discarded object
 in the same operation, so no stale copy stays reachable
 ([creation-names-reaper](../../../../_laws.md#creation-names-reaper): the
 loader that put those names in the cache is what takes them out).
+
+**On the switch path, a namespace beats an eviction.** Evicting by name is
+safe only while nothing else can be importing or running under that name.
+That holds for one tenant reloading its own contribution under its own
+loader lock. It does not hold for a switch between tenants in a process that
+runs them concurrently: the module cache is one table for the whole process,
+so the eviction removes names another tenant's live turn is resolving at that
+moment, and that tenant's next import builds the second live copy described
+above, beside the one its objects still reference. Where tenants can run at
+the same time, give each tenant's contribution **its own import name** — the
+first tenant to claim a name keeps it, any other gets the name with a suffix
+derived from its resolved tenant key — so two tenants' same-named
+contributions never share a module-cache entry and a switch has nothing to
+evict. Eviction keeps the two places where it is safe: the reload of one
+tenant's own contribution, and the clean-slate reset between isolated runs.
 
 ## The whole cache is dropped between isolated runs
 
@@ -126,9 +142,11 @@ deliberately, rather than becoming the design.
   by one mechanism.
 - Never guard a cache by asking whether a process-level setting changed; a
   task-local switch does not move it.
-- On every load, reload and tenant switch, evict the contribution's entry
-  point **and every name nested beneath it** from the module cache before
-  re-importing.
+- On every reload, evict the contribution's entry point **and every name
+  nested beneath it** from the module cache before re-importing. On a tenant
+  switch in a process where tenants run concurrently, do not evict: load each
+  tenant's same-named contribution under its own import name, suffixed by the
+  resolved tenant key, so nothing is shared to evict.
 - Drop the reference to a discarded object in the same operation that
   evicts its names, so no second live copy remains reachable.
 - Between isolated runs, drop the whole keyed cache and purge every

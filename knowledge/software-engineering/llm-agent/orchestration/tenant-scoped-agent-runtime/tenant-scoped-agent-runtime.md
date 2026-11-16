@@ -133,11 +133,15 @@ copy at the moment it is created; and a change made inside a copy does not
 travel back to the parent. That last property is the one that makes
 unwinding reliable rather than disciplined, and it is also the one that
 surprises people, because it means a scope installed deep inside a worker
-is invisible to the code that spawned it. [task-local-tenant-scope](./techniques/task-local-tenant-scope.md)
-owns the installation, the seams that must be wrapped, the explicit hand-off
-into worker pools that do not propagate on their own, and the rule that
-process-level work runs under the default tenant's scope on purpose rather
-than under none.
+is invisible to the code that spawned it. It holds for rebinding the
+variable and not for mutating what the variable points to: a copy shares
+its parent's objects, so the values installed in a scope are immutable or
+they are not isolated. [task-local-tenant-scope](./techniques/task-local-tenant-scope.md)
+owns the installation, the seams that must be wrapped, the explicit
+per-submission hand-off into worker pools — which capture no caller context
+on their own, and whose reused workers can carry the first submitter's scope
+where threads inherit at start — and the rule that process-level work runs
+under the default tenant's scope on purpose rather than under none.
 
 ## A scope miss is a decision, and its direction depends on the deployment
 
@@ -163,7 +167,9 @@ succeeding. That signature — one lane of traffic failing authentication
 while another lane is fine — is the diagnostic fingerprint of a scope that
 became a blindfold. [fail-direction-follows-deployment-mode](./techniques/fail-direction-follows-deployment-mode.md)
 owns the two modes, the destination binding that keeps even the overlay
-from sending a process credential to a host the scope chose, the small
+from sending a process credential to a host the scope chose, the
+owner test that makes a scope belonging to anyone but the process's own
+tenant authoritative in either mode, the small
 allowlist of names that genuinely describe
 the process rather than a tenant, and the discipline that the fix for an
 unscoped read is to wrap the call path rather than widen the allowlist.
@@ -182,9 +188,12 @@ point it imports. A second tenant's same-named extension then re-executes
 its top level while its own nested imports resolve, from the module cache,
 to the *previous* tenant's already-loaded modules — and to whatever
 module-level state those captured. The rule is to evict the entry point
-**and every name nested beneath it**, on reload and on tenant switch alike,
-and to drop the whole keyed cache between isolated tests so a leak cannot
-hide behind ordering. [tenant-keyed-cache-evicts-loaded-code](./techniques/tenant-keyed-cache-evicts-loaded-code.md)
+**and every name nested beneath it** on reload, to drop the whole keyed
+cache between isolated tests so a leak cannot hide behind ordering, and —
+where tenants run concurrently — to give each tenant's same-named
+contribution its own import name instead of evicting on a switch, because
+the module cache is one table and an eviction pulls names out from under
+another tenant's live turn. [tenant-keyed-cache-evicts-loaded-code](./techniques/tenant-keyed-cache-evicts-loaded-code.md)
 owns both floors.
 
 ## Handles resolve at call time, and ownership is stamped before the router
@@ -207,8 +216,10 @@ anything the ingress does first — batching, lane tracking, a busy guard —
 has no tenant to read and defaults to the wrong one, which in practice
 means every tenant's traffic collides in the default tenant's lane. The
 fix is to stamp ownership on the ingress surface at **configuration time**,
-before any event can arrive, and to resolve in a fixed order: the event's
-own stamp, then the ingress owner, then the store resolver.
+before any event can arrive, and to resolve where the turn runs in a fixed
+order: the event's own stamp when a trusted party set it, then the ingress
+owner, then the store resolver. Who may admit the event is the ingress
+owner's answer, never the stamp's.
 [stamp-ownership-before-the-router](./techniques/stamp-ownership-before-the-router.md)
 owns the order and the per-tenant namespacing of every per-lane structure.
 
@@ -238,10 +249,11 @@ half-scoped, and the enumerated fail directions at the boundary.
 - **Propagation into a worker pool is explicit and tested**, not assumed
   from the runtime's documented semantics.
 - **The resolver's behaviour on a scope miss is derived from the
-  deployment mode**, and a read with no scope under isolation raises rather
-  than falling back.
+  deployment mode and from whose scope is active**, and a read with no
+  scope under isolation raises rather than falling back.
 - **A cache keyed on the tenant also evicts the loaded code its entry
-  captured**, including everything nested under the entry point.
+  captured** on reload, including everything nested under the entry point;
+  tenants that run concurrently load same-named code under their own names.
 - **No handle to tenant-owned storage is bound at construction time** in an
   object shared across tenants.
 - **Ownership is stamped before the first event can arrive**, and every

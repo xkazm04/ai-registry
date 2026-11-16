@@ -5,7 +5,7 @@ subject: tenant-scoped-agent-runtime
 technique: fail-direction-follows-deployment-mode
 stack: node
 status: forged
-verified_on: 2026-10-10
+verified_on: 2026-11-16
 refresh_by: 2027-01-10
 verified_against: node@18
 applied: code
@@ -112,3 +112,21 @@ technique asks, now with the destination half closed. And a keyless engine
 completes as a labelled stand-in rather than failing; that satisfies "a
 fallback that fires says so", but a caller reading only the status sees
 `completed`.
+
+## Currency - 2026-11-16
+
+Re-resolved at personas `8d076db46a` (HEAD, 2026-11-08), read with `git show`
+because the working tree carries other sessions' uncommitted edits. All nine
+quoted lines above are byte-identical at the cited line numbers
+(`cloud-worker/server.mjs:151,155,177,186,248,253,376,406`,
+`cloud-worker/headless.mjs:39`), and no commit has touched `cloud-worker/`
+since `8bfc211f64`. The stack-drift flag (node@18 against a fleet on node
+24) was checked against what the tree pins. `cloud-worker/package.json` still
+declares `"node": ">=18"` and is the only pin this component has: the
+repository root pins `.nvmrc` `22` and `"engines": { "node": ">=20.0.0" }`,
+CI jobs read `.nvmrc` (one conformance job pins `20`), and no workflow builds
+or runs `cloud-worker/`.
+`verified_against` therefore stays at node@18, the component's own declared
+floor. The drift is the fleet's, and the 2026-10-10 arms ran on 24.14. The
+open item is unchanged: the worker still admits any non-empty bearer
+(`:376`), so its isolation mode is still undeclared.
