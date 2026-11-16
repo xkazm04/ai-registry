@@ -1,0 +1,112 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "filler-deepen-20261116f",
+  "skill": "deepen",
+  "skill_version": "1.5.0",
+  "mode": "loop",
+  "domain": "software-engineering",
+  "started_at": "2026-11-16T03:28:46Z",
+  "ended_at": "2026-11-16T03:50:35Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 3,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "software-engineering/admission-queue",
+      "at": "2026-11-16",
+      "engine": "deepen",
+      "outcome": "landed",
+      "points_before": 0,
+      "points_after": 0
+    },
+    {
+      "id": "software-engineering/app-shell",
+      "at": "2026-11-16",
+      "engine": "deepen",
+      "outcome": "landed",
+      "points_before": 3,
+      "points_after": 0
+    },
+    {
+      "id": "software-engineering/agent-host-experience",
+      "at": "2026-11-16",
+      "engine": "deepen",
+      "outcome": "landed",
+      "points_before": 3,
+      "points_after": 0
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "admission-queue",
+      "technique": "priority-and-fairness",
+      "verdict": "better",
+      "mode": "simulation"
+    },
+    {
+      "subject": "app-shell",
+      "technique": "shell-hosted-services",
+      "verdict": "better",
+      "mode": "simulation"
+    },
+    {
+      "subject": "app-shell",
+      "technique": "badge-and-attention",
+      "verdict": "better",
+      "mode": "simulation"
+    },
+    {
+      "subject": "agent-host-experience",
+      "technique": "peer-agent-delegation",
+      "verdict": "not-better",
+      "mode": "simulation"
+    }
+  ],
+  "files": [
+    "knowledge/software-engineering/backend-platform/work-execution/admission-queue",
+    "knowledge/software-engineering/ui-surfaces/shell-and-navigation/app-shell",
+    "knowledge/software-engineering/llm-agent/experience/agent-host-experience",
+    "librarian/applied.md",
+    "librarian/subjects/software-engineering/admission-queue.md",
+    "librarian/subjects/software-engineering/app-shell.md",
+    "librarian/subjects/software-engineering/agent-host-experience.md"
+  ],
+  "commits": [
+    {
+      "sha": "1cb9ddfdb",
+      "branch": "main",
+      "pathspec": [
+        "knowledge/software-engineering/backend-platform/work-execution/admission-queue",
+        "librarian/subjects/software-engineering/admission-queue.md",
+        "librarian/applied.md"
+      ]
+    },
+    {
+      "sha": "5f4e34305",
+      "branch": "main",
+      "pathspec": [
+        "knowledge/software-engineering/ui-surfaces/shell-and-navigation/app-shell",
+        "librarian/subjects/software-engineering/app-shell.md",
+        "librarian/applied.md"
+      ]
+    },
+    {
+      "sha": "878ef6d62",
+      "branch": "main",
+      "pathspec": [
+        "knowledge/software-engineering/llm-agent/experience/agent-host-experience",
+        "librarian/subjects/software-engineering/agent-host-experience.md",
+        "librarian/applied.md"
+      ]
+    }
+  ],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "Loop of 3. All three dry 1, none saturated; no new technique. admission-queue refuted last pass landing. agent-host-experience: 2 rules flipped; its 2 python apps not re-checked (no checkout). Registry map not regenerated (owed)."
+}
