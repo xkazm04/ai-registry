@@ -34,10 +34,24 @@ tidier but *more actionable*: "this has fired 40 times since Tuesday" is
 judgment-relevant information that 40 separate rows actively conceal, while
 also burying the rest of the queue. Dedup requires a declared identity-of-
 condition (which fields make two raisings "the same item") — this is the
-adapter's knowledge, per source, applied at the one entrance. A deduped
-item that receives a new occurrence after being resolved is a *new* item:
-folding into a resolved item would hide a recurrence, and recurrence is
-signal.
+adapter's knowledge, per source, applied at the one entrance.
+
+A new occurrence of a resolved item must never fold into it silently.
+Folding would hide a recurrence, and a recurrence is signal. There are two
+honest shapes, and the choice between them is a stated policy:
+
+- **Open a new item.** It starts clean.
+- **Reopen the resolved item in a visible recurrence state** (regressed, not
+  merely open). It keeps its history, and its earlier verdict stays on
+  record next to the recurrence.
+
+The reopen needs two guards. First, it is a *conditional* transition that
+fires only while the item is still resolved. Two occurrences racing, or an
+operator deciding at the same moment, must not reopen it twice or overwrite
+a newer verdict. Second, the resolution states its scope ("fixed from
+version N on", "until this date"), and an occurrence inside that scope is
+not a recurrence. An occurrence from before the fix proves nothing about the
+fix.
 
 ## Residence: the badge must be recomputable
 
@@ -73,7 +87,11 @@ the item to a *distinct terminal state* (expired, not resolved), *visible*
 in the resolution records it leaves behind. Auto-expiry that masquerades as
 resolution poisons every metric downstream — the dismissal-rate instrument,
 the "was this handled" audit, the dedup memory — because it books the
-operator's judgment on items no one judged.
+operator's judgment on items no one judged. Do not expect the producer to
+supply the distinction. Common alerting tools report a condition that timed
+out with the same "resolved" status as one an operator cleared. The adapter
+or the queue has to record which exit an item took, at the moment it takes
+it.
 
 And expiry must never become the system's coping mechanism for
 over-production. A queue that stays navigable only because expiry deletes

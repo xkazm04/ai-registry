@@ -115,7 +115,10 @@ passes in principle.
 The queue's order encodes the operator's real priorities — severity first,
 then age, then impact, or whatever the domain demands — and the ordering
 must be deterministic and total, so the same items always present in the
-same sequence. Harder and more important: the ordering must **survive
+same sequence. If the queue promises every tier an answer, strict severity
+precedence breaks that promise: it starves the low tier while the high tier
+keeps arriving. Write the escalation clock that keeps the promise into the
+policy as a tier of its own. Harder and more important: the ordering must **survive
 concurrent mutation**. Items arrive while the operator works; verdicts
 remove items mid-pass; a refresh must neither shuffle what the operator is
 looking at nor resurrect what they just resolved. The only foundation that

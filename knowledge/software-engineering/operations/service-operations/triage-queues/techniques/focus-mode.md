@@ -65,7 +65,18 @@ mode that actually strands operators is the write that neither confirms
 nor errors: a hung request, a lost response, a backend that went away
 mid-call. Every lock therefore carries a **watchdog**: a bounded timer that
 force-releases the deck, surfaces "verdict unconfirmed" for the affected
-item, and returns the item to the remaining set. A wedged deck is the
+item, and returns the item to the remaining set *marked unconfirmed*. It
+must not come back as undecided. A watchdog that fires has stopped waiting,
+but the write may still be running and may still land, and the deck must
+not invite a second verdict that bypasses the owner's idempotent or
+conditional write (the timeout clause in
+[verdict-writeback](./verdict-writeback.md)). A deck that removes the item
+optimistically and frees the input at once needs no flight lock. The
+watchdog's job does not go away, though. It moves to the removal: an item
+hidden by a write that never settles is invisible with nothing to bring it
+back, unless the transport's own deadline rejects the write and the restore
+path runs. Check that such a deadline exists and how long it is, rather
+than assuming one. A wedged deck is the
 worst outcome available to this technique — it converts the operator's
 highest-throughput mode into a frozen screen — and silence about *why* it
 unfroze would compound it

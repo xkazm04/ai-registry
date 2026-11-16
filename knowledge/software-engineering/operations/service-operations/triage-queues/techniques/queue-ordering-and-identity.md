@@ -27,17 +27,35 @@ The queue's order is an assertion about what the operator should handle
 first. Encode it as an explicit comparator built from named tiers —
 severity first, then age, then a domain-specific impact signal, with a
 final tiebreak on identity so the ordering is *total*. Totality is not
-pedantry: two items that compare equal are ordered by whatever the sort
-implementation happened to do, which differs across runs and platforms, and
-"the queue shuffles a little every refresh" is exactly the haunting the
-technique exists to prevent. Every item must have a defined position, the
-same one every time, on every machine.
+pedantry, though the danger is usually not the sort itself. A stable sort
+keeps tied items in their input order. The input order is whatever the
+producer handed over, and a store returns rows that tie on every sort key in
+no specified order. So two tied items can trade places on any refresh that
+replaces the collection. Where the sort is not stable, or the comparator is
+inconsistent, the output differs from one implementation to the next as
+well. "The queue shuffles a little every refresh" is exactly the haunting
+the technique exists to prevent. Every item must have a defined position,
+the same one every time, on every machine. Totality is a property of the
+comparator and nothing else: test it on a tied pair, asserting a non-zero
+answer that does not change when the pair arrives the other way round. A
+walk over adjacent pairs that checks they are in order passes a comparator
+that calls every tie equal.
 
 Three policy rules that recur across domains:
 
-- **Severity dominates age** — an old low item never outranks a fresh
-  critical one; but **within a severity tier, oldest first**, or the queue
-  becomes a stack and old items starve forever behind the arrival stream.
+- **Severity dominates age, unless a stated clock says otherwise.** By
+  default an old low item does not outrank a fresh critical one, and
+  **within a severity tier the oldest comes first**. Otherwise the queue
+  becomes a stack, and old items starve forever behind the arrivals. The
+  same starvation happens *between* tiers: strict precedence leaves the low
+  tier waiting forever while the high tier keeps arriving. A queue that
+  promises every tier an answer needs an escalation clock, such as an aging
+  rule or a response deadline. When the clock runs out it promotes the item
+  into a higher tier, or sorts it by time remaining. Write the clock into
+  the comparator as a named tier, so the promotion is part of the policy
+  rather than an exception to it. A queue with no clock is choosing to let
+  the low tier starve, so state that choice, and let expiry
+  ([queue-lifecycle](./queue-lifecycle.md)) record what it costs.
 - **Deferral sorts last, never hides.** If the operator can skip or snooze
   an item (see [focus-mode](./focus-mode.md)), the item moves to the end of
   the ordering — it does not leave the collection. Hidden items are the

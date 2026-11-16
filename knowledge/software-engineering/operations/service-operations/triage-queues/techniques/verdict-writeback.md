@@ -71,6 +71,16 @@ is optimistic removal with a confirmation obligation:
   refresh that arrives while a verdict is in flight must not resurrect the
   item it is about to remove — reconcile the incoming snapshot against the
   in-flight set.
+- **A timeout is not a failure.** Rejected and timed out are different
+  outcomes. A write the owner refused failed, and restoring the item is the
+  truth. A write that timed out has an *unknown* outcome. Most transports
+  cannot cancel a call that is already running, so the owner may still
+  commit the verdict after the surface has given up. Restore a timed-out
+  item marked as unconfirmed, never as plainly pending. Re-read the owner
+  before offering it again. Accept a second verdict on it only through a
+  write the owner makes idempotent or conditional (see the double verdict
+  below). Otherwise the operator's retry is a second write of a decision
+  that may already have landed.
 - The restore returns the *operator*, not just the item. The working
   position advanced optimistically with the removal; a restored item that
   re-enters at its sorted place — behind a read head that already walked
@@ -88,10 +98,16 @@ govern — an optimistic approval is a contradiction in terms.
 
 ## Partial failure is per-item truth
 
-Any batched verdict — bulk dismiss, resolve-all-in-group — will eventually
-half-succeed: three sources acknowledge, the fourth times out. The batch
+A batch committed as one atomic write has no partial state to report:
+either all of it landed or none of it did. Where one owner offers that, it
+is the simpler contract. Note that it can only exist within one owner,
+since no transaction spans the owners of a fused queue. Every other batch
+will eventually half-succeed. Any batched verdict (bulk dismiss,
+resolve-all-in-group) across sources or across separate writes will hit
+this: three sources acknowledge, and the fourth times out. The batch
 result must be reported per item, and the queue's state must converge to
-the truth: succeeded items stay gone, failed items return with their error.
+the truth: succeeded items stay gone, failed items return with their error,
+and timed-out items return as unconfirmed.
 The two dishonest simplifications are both common and both fatal — "the
 batch failed" (re-showing items that were in fact resolved, teaching the
 operator that resolved items resurrect) and "the batch succeeded" (hiding

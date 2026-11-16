@@ -4,81 +4,105 @@ type: application
 subject: triage-queues
 technique: focus-mode
 stack: react
-verified_on: 2026-08-18
+verified_on: 2026-11-16
+verified_against: react@19
 ---
 
-# Focus mode — the triage deck in this repo
+# Focus mode: the decision deck in this repo, and the deck it replaced
 
-The Quick Answer triage deck
-(`src/features/agents/quick-answer/triage/`) is a full implementation of
-the technique: a one-at-a-time card deck over the unified queue, with
-keyboard and drag-gesture verdicts. The logic is split exactly along the
-technique's seams — `triageQueue.ts` (pure projection: what is dealt, in
-what order), `useUnifiedTriage.ts` (sources and writes),
-`deck/useDeckControls.tsx` (between "the reviewer expressed an intent" and
-"the queue recorded a verdict").
+*Re-read 2026-11-16 at project HEAD `8d076db46a` (`react ^19.2.6`). Read only,
+through `git show` and `git grep`.*
 
-## Cursor by identity, order never mutated
+**Correction (2026-11-16).** The 2026-08-18 version of this file described
+the Quick Answer triage deck (`src/features/agents/quick-answer/triage/deck/`,
+including `useDeckControls.tsx`). That surface no longer exists. Commit
+`f5a1c27d2b` (2026-10-06, "retire what the Decision Center replaced")
+deleted the deck UI, together with its in-flight lock, its
+`FLIGHT_TIMEOUT_MS` watchdog, its reason-capture split, its persisted
+drafts and its keyboard priority constant. The triage *model* stayed and
+now feeds the Decision Center roster. `quick-answer/DESIGN.md` is headed
+"Retired as a surface 2026-10-06". The live deck is
+`src/features/decision-center/deck/`. Sections 1-3 below describe it.
+Section 4 records what survives of the old deck's model code.
 
-`triageQueue.ts` `projectQueue` resolves the read head with
-`items.findIndex((i) => i.id === cursorId)` — an id, never a stored index,
-because *"reviews poll every 30s and cloud reviews every 15s, both
-replacing the queue wholesale, so a remembered NUMBER would quietly come to
-mean a different card."* A missing id falls back to the front, one rule
-covering "decided", "filtered away", and "walked off the end". The
-`cursorId` doc comment records the earlier defect the design replaced:
-jumping to an item used to hoist it to the front, so *"the queue the
-reviewer was reading silently renumbered itself around their click."*
-Order and position are separate concerns in code, not just in prose.
+## 1. Cursor by identity, verdict bound to the card shown
 
-## In-flight lock with a watchdog
+`deck/useDeck.ts:57` resolves the card in hand from an id:
+`Math.max(0, queue.findIndex((x) => x.id === currentId))`. A missing id
+falls back to the front. The queue is the roster's, ordered by
+`compareDecision` (see the ordering application). `decide`
+(`useDeck.ts:106-112`) captures `item` from the render that showed it, and
+commits that captured identity after the stamp beat. So a poll that
+reorders the queue during the beat cannot redirect the verdict to another
+card. That is the technique's "the verdict targets what the operator saw"
+rule.
 
-`useDeckControls.tsx` uses `pendingRef` as both the decision queue and the
-in-flight lock (rule 2 of its header): a decision is queued before the card
-is thrown and lands only when the card reports its flight over, so *"a
-keystroke arriving during those 200ms can't decide the outgoing card twice
-or the incoming one early."* Rule 4 names the exact failure the technique's
-watchdog clause exists for: *"if a card is thrown and never reports back,
-the lock never opens and the WHOLE surface goes dead — keyboard, flanks and
-action bar. So every throw also arms a watchdog"* (`FLIGHT_TIMEOUT_MS =
-1200` — deliberately a stuck-detector, not a second animation clock).
+## 2. No flight lock: optimistic removal instead, and where the watchdog went
 
-## Bounded skip that stands down but stays counted
+The old deck locked input while a card was in flight and armed a 1200 ms
+watchdog. The new deck has no lock on the write. The only guard is
+`if (!item || stamp) return` (`useDeck.ts:107`). It covers the
+`STAMP_BEAT = 150` ms (`:38`) between the stamp and the commit, and a
+`setTimeout` always releases it. After the commit:
 
-`triageQueue.ts` `MAX_SKIP_PASSES = 2`: skipped items sort behind
-everything undecided (`rows.sort` keys on skip count first), and an item
-skipped twice stands down for the session — *"skip the last card and it is
-instantly the last card again, forever"* is the termination argument in the
-file header. Exhausted skips leave the deck but stay in the denominator
-(`sessionTotal = resolved.size + pending.length`, `deferredCount`) — the
-header's honesty property 2 is the technique's rule that progress can never
-exceed its total.
+- The roster removes the item at once, through an identity set
+  (`useDecisionRoster.ts:351`, `setRemoved(... .add(id))`). The deck moves
+  to a neighbour by id (`useDeck.ts:93`). Input is free immediately, and a
+  second keystroke cannot reach the departed card, because it is no longer
+  in the queue.
+- A rejected write restores the item (`useDecisionRoster.ts:357-369`), and
+  the deck walks back to it (`useDeck.ts:102`). The restore returns the
+  operator, as verdict-writeback requires.
+- The last card closes the deck only after its write lands (`:100`).
 
-## Verdict rhythm details
+What bounds a write that never settles is not the deck. It is the IPC
+wrapper's default 90 s deadline (`src/lib/tauriInvoke.ts:39`), because the
+row writes go through `invokeWithTimeout`. While a write is pending, the
+item stays hidden: `removed` keeps every id its source still returns
+(`useDecisionRoster.ts:260-270`). Only the deadline's rejection brings it
+back.
 
-- **Reason capture follows the input channel** (`useDeckControls.tsx`
-  `ReasonCapture.thrown`): keyboard/button rejections ask *before* the card
-  flies; a drag rejection has already happened, so the prompt appears after
-  the throw and resolving it must not re-throw a card that has already
-  gone.
-- **Single bounded undo** (`useUnifiedTriage.ts` `UNDO_WINDOW_MS = 30_000`):
-  exactly one act is takeable-back, because *"a deck that lets you walk
-  backwards through a session is a deck you can spend a session walking
-  backwards through"*; a lost undo swap is reported with the same conflict
-  copy as any lost verdict swap.
-- **Draft answers are keyed by source id, not card id, and persisted**
-  (`useDeckControls.tsx` `drafts`): polls replace card identities, and the
-  session store is what keeps a half-typed answer alive across the deck
-  unmounting.
-- **Keyboard priority is placed on the app's ladder**
-  (`DECK_KEYBOARD_PRIORITY = 70`): above route-level surfaces so nothing
-  moves the app out from under a decision in flight, deliberately below the
-  modal layer and command palette.
+**Gap against the amended watchdog clause.** The timeout rejects with
+`InvokeTimeoutError`. The wrapper documents that this rejection "does NOT
+cancel the backend", and the error carries `backendMayStillBeRunning`
+(`tauriInvoke.ts:45-56`, `:134-147`, `:571-581`). The tree already treats
+this error as "indeterminate" elsewhere (`src/lib/network/p2pCapability.ts:56`).
+The roster's `decide` does not. It handles a timeout like a refusal:
+the item is restored as plainly pending, and the deck walks back to offer
+it for a fresh verdict. The second verdict is safe only where the row
+write is a compare-and-swap, because a lost swap is handled as "decided
+elsewhere" (`:358-361`). Commit `4223926cf7` (2026-10-31) describes the
+deck writes as compare-and-swap. That was not re-verified write by write
+for this file.
 
-## Completion honesty
+## 3. Skip is a walk, not a deferral
 
-The deck's endings distinguish cleared / filtered / failed: the failed
-ending lists the sources that did not answer (`failures`), the filtered
-ending carries `showAllKinds` (it used to render a dead end describing a
-queue the reviewer could not get back to), and the cleared ending consults
-`backlog.more` before claiming nothing is waiting.
+`useDeck.ts:86-91`: a skip moves to the next card, wrapping round
+(`q[(i + 1) % q.length]`). With one card left, it does nothing. The roster
+writes nothing for a skip (`roster/decisionDispatch.ts:89-93`,
+`isRosterDeferral`). So skipping neither hides a card nor reorders the
+queue. Skipped cards stay in the tray's count, and the deck never reaches
+its empty state while any of them remain. The operator leaves with close.
+The technique's bound on skips exists so that a *sorts-last* deferral can
+terminate. A walk does not need one, because it never claims the queue is
+clear. A reject is two-step (`:115-121`): the first `R` arms it, the
+second confirms, and if the item has a reject prompt, the prompt opens
+before the write.
+
+## 4. What survives of the retired deck
+
+`triage/triageQueue.ts` is byte-for-byte the projection the old deck dealt
+from:
+
+- `MAX_SKIP_PASSES = 2` (`:42`).
+- The id cursor at `:171`.
+- Skips sort before the ordering law (`:151-162`).
+- `sessionTotal = resolved.size + pending.length` (`:177`).
+
+`useUnifiedTriage.ts:876` still computes this projection, and
+`UNDO_WINDOW_MS = 30_000` (`:125`) still exists. But the roster, which is
+the only caller of `useUnifiedTriage` (`useDecisionRoster.ts:167`), reads
+`triage.sources` (`:224`), which is the data *before* the session filters.
+No live surface deals from the skip ledger or offers the 30-second undo.
+That is model code with no surface left to use it. It is correct, and it
+is unused.

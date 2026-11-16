@@ -1,6 +1,6 @@
 # Software engineering - the subjects this registry carries
 
-`software-engineering` - 246 subjects, 2010 techniques, 1506 applications.
+`software-engineering` - 246 subjects, 2010 techniques, 1507 applications.
 Slugs only; open one with `registry_subject` (or `node <registry>/scripts/registry-query.mjs --subject <slug>`), never by reading `index.json` - the access rule beside this file describes the loop.
 
 ### ui-surfaces

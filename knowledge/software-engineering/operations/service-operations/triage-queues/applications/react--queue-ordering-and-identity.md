@@ -5,7 +5,7 @@ subject: triage-queues
 technique: queue-ordering-and-identity
 stack: react
 status: forged
-verified_on: 2026-08-29
+verified_on: 2026-11-16
 verified_against: react@19
 applied: code
 ab_verdict: better
@@ -13,7 +13,8 @@ ab_verdict: better
 
 # Queue ordering and identity — the tiebreak, and the test that could not see it
 
-*Verified against the project tree at `bf2a1e249`.*
+*Measured against the project tree at `bf2a1e249` (2026-08-29). Re-read at HEAD
+`8d076db46a` on 2026-11-16 (read only); see "Re-checked 2026-11-16" at the end.*
 
 This is a fused triage deck: four producers (persona reviews, backlog ideas,
 workspace practices, build questions) normalized into one `TriageItem` and
@@ -27,7 +28,7 @@ the 30-second poll as the reason.
 ## The seam
 
 `src/features/agents/quick-answer/triage/triageTypes.ts:363-373`. The ordering
-law is one comparator, hoisted to primitives so the queue can sort 40 rows
+law is one comparator, hoisted to primitives so the queue can sort its rows
 without dereferencing items inside `O(n log n)` comparisons:
 
 ```ts
@@ -118,3 +119,34 @@ explicitly looking for it.
   ledger — a content-derived identity, which is the mistake the technique's
   identity section names. A total order over unstable identities is still a
   haunted queue.
+
+## Re-checked 2026-11-16 (HEAD `8d076db46a`)
+
+- **B landed and still holds.** The tiebreak shipped in `c45d0a4a9b`
+  (2026-08-29). `compareOrder` is now at `triageTypes.ts:383-403`. The
+  identity clause is at `:394-401`, with a comment that names the 30 s poll.
+  The tie test is at `__tests__/triageRebuildCost.test.ts:202-205`. It
+  asserts a non-zero answer, antisymmetry, and the same order whichever way
+  the pair arrives. The queue's sort is at `triageQueue.ts:151-162` and the
+  id cursor at `:171`. The A-side code quoted above is history. The tests
+  were not re-run today.
+- **The poll figures still hold.** `POLLING_CONFIG`
+  (`src/hooks/utility/timing/usePolling.ts:6-19`) sets `dashboardRefresh`
+  to 30_000 ms and `cloudReviews` to 15_000 ms. `useMonitorData.ts:950-951`
+  reads both, and `useUnifiedTriage` inherits them.
+- **The sibling-surface caveat is resolved.** The decision center is no
+  longer three collections. `src/features/decision-center/model/decisionOrder.ts`
+  (added 2026-10-06) orders every decision item with `compareDecision`. It
+  sorts by a tier first, then hands over to this same `compareOrder`
+  (`:53-58`), which its header describes as "reused rather than restated".
+  `useDecisionRoster` sorts by it, and every reader takes that one roster.
+  So one total order now governs both surfaces. The tier is strict
+  precedence with no escalation clock. A tier-3 item (`message`, `report`)
+  ranks behind every tier-1 arrival, however old it is (`decisionTier`,
+  `:36-51`). See the 2026-11-16 condition on "severity dominates age".
+- **Identity minting is still the weak half.** A build question's id is
+  still derived from its content, `question:<sessionId>:<sorted unanswered
+  keys>` (`triageAdapters.ts:908`).
+- **"Four producers" above is out of date.** Workspace practices were
+  removed in `bec576bc8f` (2026-09-14). `TRIAGE_KINDS` now has six kinds
+  (`triageTypes.ts:337-344`).

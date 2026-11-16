@@ -5,7 +5,7 @@
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 246,
   "techniques": 2010,
-  "applications": 1506,
+  "applications": 1507,
   "laws": 16,
   "categories": [
    "ui-surfaces",
@@ -40522,9 +40522,9 @@
    "subcategory": "service-operations",
    "status": "forged",
    "file": "knowledge/software-engineering/operations/service-operations/triage-queues/triage-queues.md",
-   "digest": "sha256-b2:70c2c3ebc5f18a8f",
-   "revision": 3,
-   "changedAt": "2026-08-29",
+   "digest": "sha256-b2:bd537b8a197d0498",
+   "revision": 4,
+   "changedAt": "2026-11-16",
    "techniques": [
     {
      "slug": "bulk-triage",
@@ -40613,23 +40613,32 @@
    ],
    "applications": [
     {
+     "stack": "python",
+     "technique": "queue-lifecycle",
+     "file": "knowledge/software-engineering/operations/service-operations/triage-queues/applications/python--queue-lifecycle--regression-reopen.md",
+     "verified_on": "2026-11-16",
+     "verified_against": "python@3"
+    },
+    {
      "stack": "react",
      "technique": "focus-mode",
      "file": "knowledge/software-engineering/operations/service-operations/triage-queues/applications/react--focus-mode.md",
-     "verified_on": "2026-08-18"
+     "verified_on": "2026-11-16",
+     "verified_against": "react@19"
     },
     {
      "stack": "react",
      "technique": "queue-ordering-and-identity",
      "file": "knowledge/software-engineering/operations/service-operations/triage-queues/applications/react--queue-ordering-and-identity.md",
-     "verified_on": "2026-08-29",
+     "verified_on": "2026-11-16",
      "verified_against": "react@19"
     },
     {
      "stack": "react",
      "technique": "source-normalization",
      "file": "knowledge/software-engineering/operations/service-operations/triage-queues/applications/react--source-normalization.md",
-     "verified_on": "2026-08-18"
+     "verified_on": "2026-11-16",
+     "verified_against": "react@19"
     }
    ]
   },
