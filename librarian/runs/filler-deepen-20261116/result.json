@@ -1,0 +1,105 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "filler-deepen-20261116",
+  "skill": "deepen",
+  "skill_version": "1.5.0",
+  "mode": "loop",
+  "domain": "software-engineering",
+  "started_at": "2026-11-16T00:53:47Z",
+  "ended_at": "2026-11-16T01:16:25Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 3,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "software-engineering/agent-runtime-assembly",
+      "at": "2026-11-16",
+      "engine": "deepen",
+      "outcome": "landed",
+      "points_before": 7,
+      "points_after": null
+    },
+    {
+      "id": "game-production/game-dialogue-voice-pipeline",
+      "at": "2026-11-16",
+      "engine": "deepen",
+      "outcome": "landed",
+      "points_before": 5,
+      "points_after": null
+    },
+    {
+      "id": "media-generation/ad-concept-development",
+      "at": "2026-11-16",
+      "engine": "deepen",
+      "outcome": "landed",
+      "points_before": 5,
+      "points_after": null
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "agent-runtime-assembly",
+      "technique": "guard-input-custody",
+      "verdict": "not-better",
+      "mode": "simulation"
+    },
+    {
+      "subject": "game-dialogue-voice-pipeline",
+      "technique": "localized-voice-timing-budget",
+      "verdict": "not-better",
+      "mode": "simulation"
+    },
+    {
+      "subject": "game-dialogue-voice-pipeline",
+      "technique": "cast-ledger-with-consent",
+      "verdict": "not-better",
+      "mode": "simulation"
+    }
+  ],
+  "files": [
+    "knowledge/media-generation/narrative-craft/ad-concept-development",
+    "knowledge/game-production/asset-production/motion-and-audio/game-dialogue-voice-pipeline",
+    "knowledge/software-engineering/llm-agent/runtime-and-io/agent-runtime-assembly",
+    "librarian/applied.md",
+    "librarian/subjects/media-generation/ad-concept-development.md",
+    "librarian/subjects/game-production/game-dialogue-voice-pipeline.md",
+    "librarian/subjects/software-engineering/agent-runtime-assembly.md"
+  ],
+  "commits": [
+    {
+      "sha": "fd5c90bf4",
+      "branch": "main",
+      "pathspec": [
+        "knowledge/media-generation/narrative-craft/ad-concept-development",
+        "librarian/subjects/media-generation/ad-concept-development.md"
+      ]
+    },
+    {
+      "sha": "4a01ea9d8",
+      "branch": "main",
+      "pathspec": [
+        "knowledge/game-production/asset-production/motion-and-audio/game-dialogue-voice-pipeline",
+        "librarian/subjects/game-production/game-dialogue-voice-pipeline.md",
+        "librarian/applied.md"
+      ]
+    },
+    {
+      "sha": "b1286c618",
+      "branch": "main",
+      "pathspec": [
+        "knowledge/software-engineering/llm-agent/runtime-and-io/agent-runtime-assembly",
+        "librarian/subjects/software-engineering/agent-runtime-assembly.md",
+        "librarian/applied.md"
+      ]
+    }
+  ],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "Loop of 3, cross-domain. ad-concept-development and agent-runtime-assembly saturated (dry 2); game-dialogue-voice-pipeline ended at cap (dry 1). No new technique; four rules flipped by a condition. Registry map and knowledge rules not regenerated here (owed)."
+}
