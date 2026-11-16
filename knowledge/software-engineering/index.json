@@ -24017,9 +24017,9 @@
    "subcategory": "orchestration",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/orchestration/model-routing/model-routing.md",
-   "digest": "sha256-b2:8fe2a6e953da885e",
-   "revision": 22,
-   "changedAt": "2026-11-07",
+   "digest": "sha256-b2:815b015f0e7b6570",
+   "revision": 23,
+   "changedAt": "2026-11-16",
    "techniques": [
     {
      "slug": "admission-is-not-a-tier",
@@ -24245,14 +24245,15 @@
      "stack": "next",
      "technique": "quality-axis-separation",
      "file": "knowledge/software-engineering/llm-agent/orchestration/model-routing/applications/next--quality-axis-separation.md",
-     "verified_on": "2026-08-31"
+     "verified_on": "2026-11-16",
+     "verified_against": "next@16"
     },
     {
      "stack": "next",
      "technique": "turn-classification",
      "file": "knowledge/software-engineering/llm-agent/orchestration/model-routing/applications/next--turn-classification.md",
-     "verified_on": "2026-09-04",
-     "verified_against": "next@16.3"
+     "verified_on": "2026-11-16",
+     "verified_against": "next@16"
     },
     {
      "stack": "node",
@@ -24272,8 +24273,8 @@
      "stack": "process",
      "technique": "candidate-ranking",
      "file": "knowledge/software-engineering/llm-agent/orchestration/model-routing/applications/process--candidate-ranking.md",
-     "verified_on": "2026-08-20",
-     "refresh_by": "2026-11-20"
+     "verified_on": "2026-11-16",
+     "refresh_by": "2027-02-16"
     },
     {
      "stack": "process",
@@ -24299,7 +24300,7 @@
      "stack": "rust",
      "technique": "cache-continuity",
      "file": "knowledge/software-engineering/llm-agent/orchestration/model-routing/applications/rust--cache-continuity.md",
-     "verified_on": "2026-08-25",
+     "verified_on": "2026-11-16",
      "verified_against": "rust@1.96"
     },
     {

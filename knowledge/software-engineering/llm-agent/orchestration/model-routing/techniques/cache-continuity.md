@@ -19,53 +19,75 @@ bytes **and to the model that wrote them**. That cache is an asset with a
 price, and a routing decision that ignores it can make the cheaper tier the
 more expensive call.
 
-## The arithmetic, with a typical vendor's published ratios
+## The arithmetic, with the vendors' published ratios
 
 Providers price cached prefixes in three multiples of a model's base input
 rate: a cache **write** at roughly 1.25× (more for a long-lived entry), a
-cache **read** at roughly 0.1×, and uncached input at 1×. Two facts follow
-that intuition gets wrong:
+cache **read** at a small fraction, and uncached input at 1×. The read
+fraction is **a per-model fact, not a vendor constant**: two vendors' pages
+read 2026-11-16 print 0.1× for most models and 0.05× or 0.025× for their
+newest ones, and one of them charges no write premium at all on its earlier
+models. Two facts follow that intuition gets wrong:
 
-- **Staying costs 0.1× on the incumbent.** One more turn on the model that
-  holds the cache re-reads the whole prefix at a tenth of its base rate.
-- **Switching costs 1.25× on the newcomer — and 1.25× again on the way
-  back.** The new model has no entry for this prefix; the first call
-  writes it in full. If the conversation then returns to the original
-  tier, its entry may have expired, and the write is paid a second time.
+- **Staying costs the read fraction on the incumbent** — a tenth of its base
+  rate or less for the whole prefix.
+- **Switching costs a full write on the newcomer.** The new model has no
+  entry for this prefix; the first call writes it in full, at 1× or 1.25×.
+  The way back is charged again only if the incumbent's entry lapsed during
+  the detour. A switch is not an eviction: the incumbent's entry ages from
+  its last use, so a one-turn dip that returns inside the cache lifetime
+  finds it warm.
 
-So for a conversation carrying *C* cached tokens, staying on a tier priced
-*p₁* costs about 0.1·p₁·C, and dipping to a tier priced *p₂* for one turn
-costs about 1.25·p₂·C plus 1.25·p₁·C to come home. The cheaper tier wins
-that comparison only when **1.25·p₂ < 0.1·p₁ — its base price must be under
-an eighth of the incumbent's** — and that is before the return trip, which
-alone exceeds the cost of staying. With the price gaps actually on offer
-between frontier and mid tiers (three- to five-fold), a mid-conversation
-downgrade for an easy question is never the cheap option. It is the
-expensive one wearing a cheap label.
+So for a conversation carrying *C* cached tokens, the prefix term alone says
+switch only when **w·p₂ < r·p₁**, with *r* the incumbent's read fraction
+and *w* the newcomer's write multiple — the newcomer's base price must be under
+*r/w* of the incumbent's (an eighth at 0.1× and 1.25×, a twenty-fifth at
+0.05×, a fiftieth at 0.025×). That is the term that makes a mid-conversation
+downgrade usually the expensive option wearing a cheap label.
 
-The same multiplier applies to anything else in the cache key. A speed
+**It is not the whole turn.** The turn also sends new input and produces
+output and reasoning tokens, all priced at the serving model's own rates,
+and a switch saves on every one of them. The full comparison is
+
+    C·(w·p₂ − r·p₁)  <  N·(p₁ − p₂) + O·(o₁ − o₂)
+
+with *N* new input tokens and *O* output plus reasoning tokens at output
+prices *o₁*, *o₂*. Where output and reasoning dominate the turn — and in
+this subject they usually do (see effort-calibration) — or where the small
+tier on offer is priced below *r/w* of the incumbent, the switch can be the
+cheaper turn. Price ladders are wider than the three- to five-fold gap
+between neighbouring tiers: one vendor's sheet read 2026-11-16 puts its
+small tier at a twentieth of its mid tier for short prompts, which is
+already near that model's *r/w*. Compute the inequality per pair from the
+current sheet; do not carry a "never" from an older one.
+
+The same write applies to anything else in the cache key. A speed
 tier toggled mid-conversation, a tool roster that changed, an effort
 setting that alters the system layer — each invalidates the prefix from
-that level down, and the next call writes it at 1.25×. "Cheaper" or
-"faster" per token says nothing about the bill for the turn that flips it
+that level down, and the next call writes it. "Cheaper" or "faster" per
+token says nothing about the bill for the turn that flips it
 ([count-carries-predicate](../../../../_laws.md#count-carries-predicate):
 a price is not a price without the cache state it assumes).
 
 ## Decision rules
 
-- **Route by class where the class has its own prompt family; never swap
-  the model under a shared context.** A background aside or a headless
-  micro-call that runs with its *own* small prompt has nothing cached to
-  forfeit and should take the cheap tier freely. The same call issued
-  *inside* the main conversation's context is a different call, and the
-  incumbent model is the cheap answer.
-- **Stickiness is a cost rule, and it needs no quality argument.** Pinning
-  a conversation to one model is often defended with an unmeasured claim
-  about quality loss on switching. The defence that survives review is
-  the arithmetic above: within the cache lifetime, the incumbent is the
-  cheapest model available for the next turn, by an order of magnitude.
-  Record it as that; a cost rule can be re-measured when prices move, a
-  quality folklore cannot.
+- **Route by class where the class has its own prompt family; do not swap
+  the model under a shared context without pricing the swap.** A background
+  aside or a headless micro-call that runs with its *own* small prompt has
+  nothing cached to forfeit and should take the cheap tier freely. The same
+  call issued *inside* the main conversation's context is a different call,
+  and the incumbent is usually the cheap answer — unless the full inequality
+  above says otherwise for this pair and this turn's expected output.
+- **Stickiness is a cost rule where the arithmetic says so, and a quality
+  rule where it does not.** Pinning a conversation to one model is often
+  defended with an unmeasured claim about quality loss on switching. Where
+  the price gap is under *r/w* and turns are short, the defence that
+  survives review is the arithmetic above: within the cache lifetime the
+  incumbent is the cheapest model for the next turn. Record it as that; a
+  cost rule can be re-measured when prices move. Where the cheap tier sits
+  below *r/w*, or output dominates the turn, the arithmetic favours the
+  switch, and a pin then needs a measured quality reason — the cost
+  argument is no longer available to borrow.
 - **Continuity has a horizon: the cache lifetime.** Past it the prefix is
   cold on every model, the incumbent's advantage is gone, and the class
   table applies again without penalty. A conversation resumed after a
@@ -115,6 +137,11 @@ shape effort takes. A router that prices every flip as a full-prefix
 rewrite is right for the first shape and overcharges the third; one that
 treats effort as free because a vendor document said "preserves the cache"
 has imported the third shape's rule into a provider that runs the first.
+One vendor's page (read 2026-11-16) adds a further fact a router can use:
+setting the effort to the model's default is equivalent to omitting it
+and invalidates nothing, so spelling out the default where it was unset
+(or dropping it) is not a flip, and only a change of value is priced.
+
 Record the shape beside the price ratios, and re-measure it when the
 provider's API changes — for one provider it moved inside a single release.
 
@@ -173,6 +200,9 @@ toward staying. The fix is a convention, not a tuning knob:
 
 Nothing here argues against routing by class — that stance stands. It
 adds one term to the decision: the incumbent's cached prefix, which is
-worth 0.9× of its base price on every warm turn and is forfeited in full
-by any change to the key. Whether a switch also costs *quality* remains
-unmeasured in this corpus, and this technique does not need it to.
+worth 0.9× to 0.975× of its base price on every warm turn, depending
+on the model's read fraction, and is forfeited in full by any change to
+the key. It is one term, weighed against what the turn will send and
+produce. Whether a switch also costs *quality* remains unmeasured in this
+corpus; where the arithmetic favours the switch, that is the measurement
+a pin is waiting on.

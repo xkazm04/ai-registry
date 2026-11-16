@@ -4,7 +4,8 @@ type: application
 subject: model-routing
 technique: quality-axis-separation
 stack: next
-verified_on: 2026-08-31
+verified_on: 2026-11-16
+verified_against: next@16
 applied: simulation
 ab_verdict: better
 proof: structural-only
@@ -96,3 +97,40 @@ written field for whatever judges the output.
 The tree also cannot speak to the technique's evaluator-as-sink half. With a static
 ladder there is no feedback loop to keep asynchronous, so the rule that nothing judges on
 the request path is untested here — correct by vacancy rather than by design.
+
+## Re-read at `fc26e172`, 2026-11-16
+
+Re-checked read-only against the project's main checkout at `fc26e172`
+(2026-11-16), with `next` at 16.4.5 in `package.json`. **The structural
+claim holds.** Candidate order is still the static posture × turn-class
+table (`lib/text/router.ts:95`). Nothing scores an engine, so the failure
+stays unreachable. Three things moved, and each one corrects a sentence
+above.
+
+- **The drop-out vocabulary has grown past five.** The router's header
+  still says a candidate drops out "five ways" (`router.ts:4`). The typed
+  `RerouteStep.why` now has thirteen members (`lib/text/types.ts:322-346`):
+  `invalid-request`, `refused`, `rate-limited`, `timeout`,
+  `bad-response`, `cancelled` and others were added to the original five.
+  `bad-response` is the operational-axis unusable success from case 3,
+  named in the record's own vocabulary. That is the split this technique
+  asks for, made without a quality term.
+- **The chain is no longer two engines for every class.** A third engine,
+  a local daemon, now leads one class (`draft`, `router.ts:114`), and one
+  audio class is single-engine in both postures.
+- **The outcome stream now has its first consumer, and it took the
+  shortcut's shape without its use.** A bounded ring (`lib/text/stats.ts`,
+  added `3bb79bc7`, 2026-10-06) records each settled turn with
+  `ok: !l.kind` (:53). A transport-shaped success bit is exactly the field
+  a single-axis score would be built on. It feeds a latency and cost median
+  that excludes failures (:76), never an order. Its only route consumer
+  (`app/api/turns/preview`) went with the v1 tree in the 2026-10-18 cutover
+  (`ed151a11`). A test (`tests/golden-path/turn-preview.probe.spec.ts:129`)
+  now reads it and no route does. The prediction above ("a few lines that
+  would look like an obvious improvement") is one consumer closer. The
+  return condition is unchanged.
+- **Case 2's source moved.** The `/api/frames` header that recorded the
+  canned-composition defect was retired with the v1 tree in the same cutover.
+  The quotation survives in the router's own NO FLOOR comment
+  (`router.ts:44-50`), still as the reason the ladder has no
+  deterministic floor. The case stands on that comment now.

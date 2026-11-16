@@ -4,7 +4,7 @@ type: application
 subject: model-routing
 technique: cache-continuity
 stack: rust
-verified_on: 2026-08-25
+verified_on: 2026-11-16
 verified_against: rust@1.96
 ---
 
@@ -73,3 +73,54 @@ than either alone.
   exactly why the technique should be written down where the next
   refactor can read it before it "simplifies" the three families into
   one.
+
+## Re-read at `8d076db46a`, 2026-11-16
+
+Re-checked read-only against the project's checkout at `8d076db46a`
+(2026-11-08), toolchain pinned at 1.96.1. **The structural fact holds:**
+every cheap tier still serves its own prompt family. The table under it
+moved, and the arithmetic moved with it.
+
+- **The tiers.** `MAIN` moved from the frontier tier to the mid tier at
+  low effort on 2026-09-29, on the operator's decision. `MICRO` moved to
+  the small tier at low effort on 2026-10-08, after a one-shot bench put it
+  level with the mid tier on naming, extraction and JSON at about 95% lower
+  cost. A fourth tier, `TRIAGE` (mid tier, low effort), took the verdict
+  legs, because the small tier scored 92% against 100% on hard triage
+  (`companion/model_routing.rs:25-77`). The micro legs are now
+  `cli_text_with_usage` / `cli_text_tracked` /
+  `cli_text_tracked_on` (`athena_reaction.rs:336,414,431`). The aside legs
+  are at `night_shift/unattended.rs:298,324` and `brain/briefing.rs:174`.
+  The cited bench report is no longer at `docs/plans/`; its successors are
+  `docs/tests/model-bench/` and `scripts/test/*-model-bench.mjs`.
+- **The cost argument no longer carries the separation on its own.** At the
+  vendor sheet read 2026-11-16, the small tier costs a twentieth of the mid
+  tier for prompts under 100k. The mid tier's cache read is 0.05×, which
+  puts its *r/w* at 0.04. A mid-to-small swap under the main conversation is
+  now close to break-even on the prefix alone, and cheaper once the turn
+  produces any output. So the separation now rests on the tree's quality
+  reasons: 94 → 78% awareness under the big prompt at low effort, and
+  memory-write proposals at 0/3. These are the measured reasons
+  [cache-continuity](../techniques/cache-continuity.md) now asks a pin to
+  carry.
+- **Warmth is now tracked, and it outlives the cache.** One long-lived
+  process per conversation now serves MAIN turns (`session/warm.rs`, from
+  2026-09-24). Per-turn context moved into the user message so the prefix
+  stays byte-identical. The idle reaper kills a process after 20 minutes
+  (:87), four times the vendor's default 5-minute cache lifetime. A turn that
+  arrives after 5 to 20 idle minutes skips the process start but still
+  pays the prefix write.
+- **Defect, read and not run: a tier change does not reach a live
+  conversation, and the ledger says it did.** `acquire` reuses a warm
+  process when it is alive, has the same prefix hash and is on the same
+  session (`session/warm.rs:509-519`). It does not compare the model or
+  the effort the process was spawned with. Saving the tier table
+  (`commands/companion/engine.rs:25-31`) does not kill warm sessions. The
+  ledger row records "the model the spawn actually used — one source with
+  the `--model` flag" from the tier resolved for *this* turn
+  (`session/turn.rs:731-734`). After an operator changes the MAIN model or
+  effort, an active conversation keeps the old model until it idles 20
+  minutes or its prefix changes, and every row in the meantime names the
+  new one. This keeps the cache warm by accident and breaks the
+  served-versus-selected record the golden path requires. Fix: carry the
+  launch's model and effort on `WarmProcess` and respawn on a mismatch.

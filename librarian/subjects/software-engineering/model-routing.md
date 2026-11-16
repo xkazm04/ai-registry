@@ -1,9 +1,9 @@
 ---
 subject: model-routing
 domain: software-engineering
-last_touched: 2026-09-29
-touched_by: intake
-dry_streak: 0
+last_touched: 2026-11-16
+touched_by: deepen
+dry_streak: 2
 ---
 
 # model-routing
@@ -362,3 +362,52 @@ for an enumerate-the-sites brief, `unmeasurable` for a tracing brief. No techniq
 written and two workflow skills were on the wrong side of it, so the correction went into those skills.
 
 2026-11-07 (hb-1107c, [[2026-09-04-agentic-video-understanding]], backlog 1-041): mode-saving-has-a-domain added. Blind-ab, better, GPT judge, 2 draws per arm: draft 11 and 12 of 12, base 8 and 8, target base + 2. The gap is in the short input and the split by size; the request ceiling scored level, so that bullet earned nothing here. The rubric was written with the draft. No mode was called. The provider's docs print under 5 minutes for short clips and say total tokens rise there too, read 2026-11-07, which corrects the row's latency-only reading.
+
+## 2026-11-16 - /deepen loop (run `filler-deepen-20261116d`, /shift filler, first deepen of this subject)
+
+Round 1 landed, and rounds 2 and 3 were dry, so `dry_streak: 2` and the subject is saturated. It idles until the
+earliest clock: `process--capability-floors` on 2026-11-28, whose rig is not on this machine.
+
+**cache-continuity flipped, on the vendors' own pages.**
+- The read fraction is per model: 0.1x for most models, 0.05x and 0.025x for the newest, on two vendors' pages
+  read 2026-11-16. The second vendor added a 1.25x write premium on its newer models; its earlier models still
+  have none.
+- The prefix-only arithmetic ("never the cheap option", "stickiness needs no quality argument") omitted the
+  turn's new input and its output and reasoning tokens. A switch saves on all of them.
+- "1.25x again on the way back" assumed eviction. A switch is not an eviction.
+- Sources:
+  - an independent break-even write-up that counts output;
+  - a gateway vendor's doc reporting 97.4% of 4,684 switch-backs warm at a 5-minute TTL (vendor-published);
+  - the price sheet itself: the current small tier is a twentieth of the mid tier, which is near the mid
+    tier's r/w of 0.04.
+- The blind lane held the stale 1.25x/0.1x and the old "no write premium" and missed the output term. That is
+  the volatile-fact failure the skill predicts.
+- Golden-path consequence 11 was rewritten.
+
+**Applications re-dated against real trees:**
+- `process--candidate-ranking` at `bce469c`: holds; the purge defect has spread to two more streak resets.
+- `next--quality-axis-separation` at gravitone `fc26e172`: holds. A transport-shaped `ok` ring is now the outcome
+  stream's first consumer.
+- `next--turn-classification` at ascent `54a9800`: the caller-asserted class shipped with no default, and it
+  routes temperature, lane and meter but not the model or effort.
+- `rust--cache-continuity` at personas `8d076db46a`: the tier table moved, and a warm-process defect was found.
+
+Notes, not re-dated:
+- `claude-code--cache-continuity`: the wake door was fixed on 09-28.
+- `claude-code--turn-classification`: the small tier's price is now sourced, and arm B is 0.83 or 0.08
+  depending on which model the alias resolved to.
+
+**Confirmed untouched:**
+- a 5-minute default lifetime that refreshes on use, on one vendor (the other now defaults to 30 minutes);
+- effort keyed in the prefix on some models, from the vendor's "on some models tool and system caches too";
+- the in-band effort item, on the other vendor's page;
+- the route-by-class stance: a 2026 benchmark of 33 models found routers, a commercial one included, do not
+  reliably beat the best single model.
+
+**Impact:** not computed. The map regeneration belongs to the Director's step 4.
+
+**Banked:**
+- The reasoning-trace continuity cost: one gateway replays a trace only to the model that wrote it, because a
+  provider rejects the follow-up without it. This is a non-price cost of switching. Return: a second sighting.
+- personas warm-process tier-change defect. Return: an apply worker or `/conform` on personas.
+- `process--capability-floors` is due 2026-11-28 on a rig not on this machine. Return: a Wolf-seat run.

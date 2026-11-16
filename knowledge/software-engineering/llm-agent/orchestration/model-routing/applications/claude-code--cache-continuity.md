@@ -73,3 +73,13 @@ segment is fixed-size (the system layer), so on a long session the
 *proportional* penalty shrinks while the silent effort change does not.
 Nothing here measures whether the flipped effort changed output quality;
 the technique does not need it to.
+
+## Note, 2026-11-16: the wake door was fixed
+
+The project shipped the task above on 2026-09-28 (`cc97afa6e6`, "a woken
+session keeps the model and effort its plan chose"). `fleet_wake_session`
+now puts the sleeping row's `--model` / `--effort` ahead of `--resume`
+(`commands/fleet/commands.rs:351-361` at `8d076db46a`). The measurement
+above was not re-run, so `verified_on` stays the run date. The companion's
+warm-process path has a different version of the same unpinned-resume
+defect; see [rust--cache-continuity](rust--cache-continuity.md).

@@ -4,8 +4,8 @@ type: application
 subject: model-routing
 technique: turn-classification
 stack: next
-verified_on: 2026-09-04
-verified_against: next@16.3
+verified_on: 2026-11-16
+verified_against: next@16
 applied: simulation
 ab_verdict: better
 proof: structural-only
@@ -107,3 +107,46 @@ tier — that needs the blind preference instrument the corpus describes, and th
 tree has no such harness, so the class split would ship as structure with its
 routing table still populated by one model until somebody measures. Recorded as
 the return condition on this row.
+
+## Re-read at `54a9800`, 2026-11-16: the class arrived, and it routes everything but the model
+
+Re-checked against a shallow clone of the public repository at `54a9800`
+(master, 2026-11-11), with `next` at `^16.3.8`. **Section A no longer
+describes the tree.** The prediction of a small adoption came half true.
+The half that came true is the half this technique cares about first.
+
+- **The caller now asserts a class, and an untagged call cannot compile.**
+  `LlmLegKind` (`src/lib/llm/leg.ts:45`) is a closed vocabulary of six
+  classes: `scan`, `memory`, `athena_turn`, `athena_cycle`, `briefing`
+  and `lane_summary`. It is a required field on `TextRunnerOptions`
+  (:139) "deliberately WITHOUT a default", for the technique's own reason:
+  "the caller that forgets to tag itself is exactly the one you needed to
+  see". "Fails loudly" is enforced by the type checker. The file was present
+  at the shallow clone's earliest reachable commit, `e2d1291a`
+  (2026-09-17), so it landed within two weeks of this application.
+- **The falsifier resolved in favour of three classes, and more.** The
+  memory passes, the interactive turn and the unattended background pass
+  are separate call-site tags. The write gate and the reflection pass share
+  `memory`, and the tree says it has no signal to split them without a
+  restructure.
+- **The class selects the temperature, the meter tag and the lane, not the
+  tier or the effort.** `llmTemperature(legKind)` gives the chat legs their
+  own knob, while scan stays pinned for score reproducibility
+  (`config.ts:90-125`). A declared lane table (`lane-routes.ts:38`)
+  records, per class, whether an org's own provider answers it, with a
+  contract test driving each lane's real resolver. The model is still
+  resolved once per provider: `resolveLegRunner` (`text.ts:167`) never
+  reads `legKind`, and `resolveBedrockModel` (`bedrock.ts:51`) is still
+  override, then environment, then constant.
+- **The global reasoning budget no longer reaches the chat turn.**
+  `thinkingBudgetTokens()` (`config.ts:380`) is read only by the scan
+  path's `assess` (`bedrock.ts:124`). The text-seam transports send no
+  thinking configuration. Section B's "raising it to help the chat turn
+  currently pays for reasoning on every scan call" is now false in the
+  other direction: raising it cannot help the chat turn at all.
+
+The verdict stands as `better`. The tree adopted the vocabulary and the
+fail-loudly rule. The class-to-tier and class-to-effort columns, which are
+where this technique's cost lever lives, are still empty. The return
+condition is unchanged: a measured reason to put a different model behind
+`athena_turn` than behind `scan`.

@@ -128,9 +128,12 @@ The consequences of that stance form the spine of this subject:
 11. **A continuing conversation carries a cached prefix, and the prefix is
     keyed to the model that wrote it.** The class table prices a call as if
     it arrived alone; a warm turn on the incumbent re-reads its prefix at a
-    tenth of base price while any other model writes it at 1.25×. Route by
-    class where the class has its own prompt family; never swap the model
-    under a shared context (see cache-continuity).
+    tenth of base price or less, a per-model fraction, while any other model
+    writes it in full. Route by class where the class has its own prompt
+    family; swap the model under a shared context only when the swap is
+    priced — the forfeited prefix against what the turn will send and
+    produce — and a pin that the arithmetic does not carry needs a measured
+    quality reason (see cache-continuity).
 12. **A cheaper mode's saving is a function of input size.** A mode that plans
     or loops before answering pays fixed overhead, so on small inputs total
     tokens can rise as well as first-token time. Read the saving on the axis

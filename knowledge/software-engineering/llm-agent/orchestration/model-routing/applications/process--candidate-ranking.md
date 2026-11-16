@@ -5,8 +5,8 @@ subject: model-routing
 technique: candidate-ranking
 stack: process
 status: forged
-refresh_by: 2026-11-20
-verified_on: 2026-08-20
+refresh_by: 2027-02-16
+verified_on: 2026-11-16
 ---
 
 # Free-tier gateway routing, 2026 (field study)
@@ -157,10 +157,11 @@ killed mid-flight.
   technique in this bundle rests on it. A *sourced* reason for the pin does
   exist, and it is a cost claim rather than a quality one: within the cache
   lifetime the incumbent model re-reads the conversation's prefix at a tenth of
-  base price while any other model writes it at 1.25× —
-  [cache-continuity](../techniques/cache-continuity.md). The sticky window
-  should be justified by that arithmetic and sized to the cache horizon, not to
-  a hallucination folklore. Also observed: the two windows disagree
+  base price or less (a per-model fraction) while any other model writes it in
+  full — [cache-continuity](../techniques/cache-continuity.md). The sticky
+  window should be justified by that arithmetic, priced per pair because a
+  cheap enough candidate can win the turn anyway, and sized to the cache
+  horizon, not to a hallucination folklore. Also observed: the two windows disagree
   (sticky 30 min, handoff context 3 h), which produced spurious handoffs on
   session-id reuse.
 
@@ -192,3 +193,42 @@ not the articles.
 The transferable content is the routing craft, and it has been lifted into
 candidate-ranking, model-identity, and failover-horizon. Nothing here recommends
 adopting the gateway itself.
+
+## Re-read at `bce469c`, 2026-11-16
+
+Re-checked against a shallow clone of the public repository at `bce469c`
+(main, 2026-11-15). Every citation above still resolves. The project grew
+from about 19k to about 53k stars, from 588 commits to about 1,112, and from
+about 220 test files to 480. The sections above describe the 2026-08-20 tree,
+and the anchors below are at `bce469c`.
+
+- **Unchanged.** The scoring engine, its weight vectors and the `Beta(1,1)`
+  prior (`services/scoring.ts:4,11,51-58,262`). The quota pool keys
+  (`services/provider-quota.ts:114-157`, with more platforms added) and the
+  source confidences (:59-64). The degradation constants 0.5 / 3 / 60 s /
+  120 s (`services/degradation.ts:50-59`). The served-model capture
+  (`lib/served-model.ts:7`). The #337/#339, #592 and sibling-key branches in
+  `lib/error-classify.ts`. The 38.8 s worst case in `lib/fallback-loop.ts:163`.
+- **The purge defect stands and has spread.** `clearModelFailure` still
+  deletes the whole failure window on any served request
+  (`lib/fallback-loop.ts:123-125`, called at :732). The same success path
+  now also resets the empty-completion streak (#751) and the
+  truncated-stream streak (#1218) (:725-730). These are three resets on
+  one lucky call.
+- **The sticky window and its rationale are unchanged.** It is still 30
+  minutes, still "prevents model switching mid-conversation which causes
+  hallucination" (`routes/proxy.ts:172-176`). The handoff store still keeps
+  3 h (`services/context-handoff.ts:17`).
+- **New, and a second sourced reason to pin.** A per-session memory of the
+  last reasoning trace is replayed only to the platform and model that
+  produced it, because one provider rejects a follow-up turn without it
+  (`routes/proxy.ts:178-188`, #797). This is a continuity cost of switching
+  that is neither price nor quality: the newcomer cannot be handed the
+  incumbent's reasoning. It is banked as a lead for cache-continuity, not
+  landed there.
+- **The cost arithmetic moved under the pin.** The vendors' cache-read
+  fractions are now per model, down to 0.025×, and price ladders are wider.
+  A fixed 30-minute pin no longer follows from the arithmetic for every
+  pair. It also outlives one vendor's default 5-minute cache lifetime and
+  matches another vendor's new 30-minute default. Both pages were read
+  2026-11-16.

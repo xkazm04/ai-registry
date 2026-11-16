@@ -98,3 +98,16 @@ skills were on the wrong side of it. The landing is the smaller thing: the skill
 now say the scout's model is a decision made per brief class (small tier for
 enumeration, the inherited model when the brief asks for tracing), and the day
 the default moved is written down beside the rule that predicted it.
+
+## Note, 2026-11-16: the small tier's price, sourced
+
+The vendor's pricing page (read 2026-11-16) now sources the assumption
+above, and shows it cuts both ways. The previous small model is listed at
+exactly half the mid tier on input and output, so the assumption is exact
+if the harness's small-tier alias resolved to that model on 2026-09-29.
+The current small model is listed at a twentieth of the mid tier for
+prompts up to 100k tokens. If the alias resolved to it, arm B was about
+0.08 of arm A rather than 0.83, and about 0.04 of the top-tier arm. The
+run did not record which model the alias resolved to, so both readings
+stand. The verdict is `better` under either one. The scout was not
+re-run, so `verified_on` is unchanged.
