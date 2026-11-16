@@ -5,13 +5,13 @@ subject: conversation-orchestration
 technique: two-surface-doctrine
 stack: react
 status: forged
-verified_on: 2026-08-29
+verified_on: 2026-11-16
 verified_against: react@19
 ---
 
 # Two dimensions in the companion
 
-*Verified against the project tree at `2b5e24223`.*
+*First verified against the project tree at `2b5e24223`; line numbers in the sections below are locations at that sha. Re-read at Personas `8d076db46a` (2026-11-08) on 2026-11-16: the feature moved to `src/features/companions/athena/` (`bf4fe6c05`) and the README to `docs/features/companions/athena/README.md` ("Two dimensions" now at `:158`, "no third dimension" at `:188`, the thread-attention case at `:805`). What changed is in the last section.*
 
 This tree states the doctrine as product law and then enforces it in code. The
 feature README's "Two dimensions: chat and orb" section
@@ -194,3 +194,62 @@ rewritten.
   signal, so "the ambient channel is being ignored" — the one measurement the
   doctrine's dismissal-is-an-outcome clause exists to protect — cannot be
   taken. The surface is proven present; nothing proves it is answered.
+
+## Re-read at `8d076db46a` (2026-11-16): the leader cannot be reached
+
+Read, not run. Paths are under `src/features/companions/athena/` unless they say
+otherwise.
+
+**Still true.**
+- The complement holds. `OrbDecisionBubble.tsx:181` renders only while minimized
+  or while the Fleet grid is open. `ChatDecisionCard` returns null when
+  `bubbleShowing` (`ChatDecisionCard.tsx:33-37`), and `useDecisionCard.ts:75`
+  computes it.
+- `resolveDecision.ts:62` still keeps a failed decision pending, and `:69` still
+  records only `decision_resolved`.
+- The QA oracle is unchanged at `src/test/automation/bridge.ts:888-898`. It now
+  has a fourth copy of the predicate (`useDecisionCard.ts:75`) and still has no
+  in-tree consumer. The `decisionSurface` hits in `src/stores/systemStore.ts:44-47`
+  are a different, retired dev switch.
+- `RemoteJobNoticeChip.tsx:57` still yields to a pending decision.
+- `QuickReplies.tsx:36` still binds its digits with a raw `window` listener.
+
+**New: the `;` leader is shadowed and never arms (defect).**
+`src/lib/keyboard/KeyboardNavMode.tsx` registers on the same keyboard registry at
+priority 30 (`:72`). On every `;` outside a text field it toggles nav mode and
+returns `true` (`:44-48`). It is mounted unconditionally at the app root
+(`src/App.tsx:392`). The provider stops at the first handler that returns `true`
+(`src/lib/keyboard/AppKeyboardProvider.tsx` dispatch loop). The orb's leader is
+at `ROUTE_DECISION_PRIORITY` = 10 (`orb/AthenaOrbLayer.tsx:190`, the `;` branch
+at `:160-171`), so it never sees the key. The answer is: pointer and tab work,
+digits after `;` do not, and pressing `;` turns on the app's keyboard nav mode
+instead.
+- When it started: nav mode moved onto the registry at priority 30 by
+  `363ea0eaea` (2026-07-31), the same commit that put the orb on it. The
+  decision-layer plan
+  (`docs/features/companions/athena/athena-decision-layer-plan.md:71`) first put
+  the leader on a raw `window` listener, which would have fired both. The move to
+  the registry turned "both" into "only the other one". So the first pass of this
+  document (`2b5e24223`, 2026-08-29) already described a leader that could not
+  fire. It read the handler and not the ladder.
+- `src/lib/keyboard/shortcutRegistry.ts:65` lists `;` as nav mode only. The
+  leader is not in the registry the cheat sheet renders from, so the double claim
+  is invisible where keys are assigned.
+- No test arms the leader.
+- Fix: give the leader a key nobody else claims (a modifier chord also meets
+  WCAG 2.1.4), list it in `shortcutRegistry.ts`, and add one test that mounts
+  `KeyboardNavMode` beside the orb layer.
+
+**New: the provider gained `exclusive`.** The dispatch loop now breaks after an
+exclusive registration whether or not it handled the key. This addresses the
+priority-is-not-exclusivity point in the section above, and the triage deck
+(priority 70) uses it. The orb registers without it.
+
+**New: Skip and Later (`c268097bff`, 2026-09-18).** `decision/decisionDeferral.ts`
+holds a session-scoped, in-memory ledger. Its header comment says why a skip is
+not persisted: "Persisting a skip would turn 'not now' into 'never'". Later
+snoozes for `DECISION_SNOOZE_MS` = 10 min. Both are wired from the bubble
+(`OrbDecisionBubble.tsx:96`, `:101`) and the card (`useDecisionCard.ts:88`,
+`:93`). This is the deferred outcome the technique now names. Neither path emits a
+signal, so ignoring is still unobservable. The ledger is also not the signal the
+dismissal clause asks for, because it forgets on restart by design.

@@ -120,6 +120,18 @@ whose hands are on the keyboard and whose attention is on other work:
   like the remedy. Exclusivity is also what makes disarming meaningful: releasing
   a claim is one act with an observable effect, where unwinding a priority stack
   is bookkeeping, and bookkeeping drifts.
+
+  The same registry fails in the opposite direction before the surface is ever
+  armed. **The leader is itself a binding**, and if anything ranked above it
+  claims the same key and consumes it, the leader never fires and the ambient
+  answer has no keyboard path at all. Nothing reports this: the higher binding
+  works, the decision still renders, and pointer users never notice. Moving the
+  leader from a bare listener onto the registry turns "one press does two things"
+  into "one press does the other thing", which looks like the fix. So list the
+  leader in the product's one shortcut registry — the same table the cheat sheet
+  is rendered from — so a key claimed twice is visible where keys are assigned,
+  and test it end to end: arm, then answer, with every globally mounted binding
+  present.
 - **Digits answer.** One keystroke after arming, and the decision is made.
 - **A reserved option always means *explain this, and recommend one*.** Zero is
   the natural key for it. This is the load-bearing detail of the whole
@@ -145,6 +157,11 @@ whose hands are on the keyboard and whose attention is on other work:
   unanswered is recorded as expired. Rendering either as though it never
   happened loses the one signal that says the ambient channel is being ignored
   ([unknown-is-not-a-value](../../../../_laws.md#unknown-is-not-a-value)).
+  *Not now* is a third outcome, not a softer *no*. A skip or a snooze moves the
+  queue past a decision the user will not answer yet, and it should come back
+  later: the work behind it is still pending, and persisting a skip as a refusal
+  turns "not now" into "never". Record it as deferred, distinct from declined, so
+  a decision deferred five times reads differently from one answered.
 
 Whether the companion is *allowed* to raise an unprompted decision at all — the
 budget, the quiet hours, the deduplication, the learning from being ignored — is

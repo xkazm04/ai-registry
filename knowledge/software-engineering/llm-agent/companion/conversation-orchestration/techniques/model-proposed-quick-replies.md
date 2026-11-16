@@ -36,8 +36,10 @@ The bounds are part of the instruction, not the renderer's cleanup job:
   is a dead end dressed as a choice; a row the user reads instead of thinking
   costs more than typing would have (a design judgment, not a measured one — no
   click-through data for model-proposed next moves was found on the 2026-09-29
-  check, and the choice-overload literature concerns option counts far above
-  this range). The bound is for the app's own chat surface: mirrored onto a
+  check or again on 2026-11-16, when the only usability source found reported
+  qualitatively that users often ignore follow-up suggestions that are not useful
+  or not where they look; the choice-overload literature concerns option counts
+  far above this range). The bound is for the app's own chat surface: mirrored onto a
   third-party messaging channel it is that channel's cap, which can be as low as
   three buttons of about twenty characters, so a chip set that is meant to travel
   is written to the smallest cap it will meet. State the target in the instruction and

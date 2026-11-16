@@ -5,7 +5,7 @@ subject: conversation-orchestration
 technique: progress-beat-grammar
 stack: rust
 status: forged
-verified_on: 2026-09-29
+verified_on: 2026-11-16
 verified_against: rust@1.96
 ---
 
@@ -175,3 +175,44 @@ What that means for this seam:
 The correction the technique needed was to its *premise*, not its mechanism: the
 model is asked because the runtime cannot say, and for a tool-heavy turn on a
 runtime that delivers the native note the runtime can now say a little more.
+
+## Re-read at `8d076db46a` (2026-11-16)
+
+Read, not run. Since `fb317cfa9`, the cited Rust files changed only through lint
+and style passes (`7fd2ba3d5f`, `b3d4b8a405`, `f1ef12a289`, `750220bdf3`). Every
+claim above holds, though some line numbers moved a few lines:
+- `progress_addendum` is at `addenda.rs:231`.
+- The Full/Chat split is at `build.rs:191-196`, with the "chat core teaches
+  PROGRESS itself" comment at `:184-185`.
+- `CHAT_FAMILY_CERTIFIED` is at `chat_family.rs:45`, and the Main mapping is at
+  `:88`.
+- The chat core still has its compact passage (`chat-core.md:198-201`). That file
+  has not changed since `86d9f9a2a` (2026-09-23), so the composition-time sentence
+  is still missing.
+
+The marker literal now appears in 29 files under `src` and `src-tauri/src`,
+counting tests and two templates. The new sites include `narrationTimeline.ts`,
+`chat/AthenaChatStreamingTurn.tsx`, the fusion frame's `StreamingTurn.tsx` and
+`useCapsuleRead.ts`, `athenaChatAudio.ts` and `research-prompt.md`.
+`StreamingTurn.tsx:32` is a `DIRECTIVE_PREFIX` regex that lists every prefix of
+every marker (`P`, `PR` … `PROGRESS`). It holds back a partial line that might
+still turn out to be a directive. That is the technique's "partial line is held,
+never emitted" rule, written by hand a second time.
+
+Native channels: the provider page, read on 2026-11-16, still describes the
+following:
+- at most one progress update before each tool call, which the model can skip;
+- fewer updates at higher effort and in long tool chains;
+- `display` defaults to `"omitted"` on current models;
+- readable text needs the `"updates"` beta. One mid-tier model also returns the
+  text under its lowest thinking setting, `between_tools`;
+- a turn cut off just after a tool call ends with a fixed "This part of the
+  response was interrupted before it finished." update.
+
+There is still no consumer of `tool_progress`, `thinking_tokens` or a display
+flag under `src-tauri/src/companion` or `src/features/companions`.
+`athenaChatVoice.ts:39` has a client-side `HEARTBEAT_SILENCE_MS = 30_000`. It
+speaks a generic "working" line after 30 s of stream silence. That is liveness
+derived from the stream clock, not from the runtime's heartbeat, and it dates from
+`7829b3a297` (2026-08-07). The 30-second SDK cadence quoted above was not
+re-sourced on this pass.

@@ -5,7 +5,7 @@ subject: conversation-orchestration
 technique: structured-visual-replies
 stack: react
 status: forged
-verified_on: 2026-09-29
+verified_on: 2026-11-16
 verified_against: react@19
 ---
 
@@ -153,3 +153,14 @@ wide (`ChatMiniChart.tsx:11`, `:68`, `:95`), from before the full-bleed change
 raised the base to 420 — `:17` refers to the old thumbnail deliberately and is
 correct. The behaviour matches the new number; the stale ones in the reasoning
 are worth a sweep before they are read as current.
+
+## Re-read at `808eb83` (2026-11-16)
+
+Read from a public shallow clone, not run. Since `86eded59`, the only change to
+these files is `9d7e24d3` (2026-10-16, AA-safe coral tokens). It swaps
+`text-coral` and `bg-coral` for `coral-ink` and `coral-solid` in
+`CompanionDock.tsx` and `CompanionDockBody.tsx`. The width class
+(`CompanionDock.tsx:51`), the counted-drop read (`CompanionDockBody.tsx:355`) and
+the `app/_components/chat/` renderers did not change. React is still `^19.3.1`.
+The truncation label the technique now asks for ("first 8 of 10") is not
+rendered: `ChatTable` draws the truncated rows with no count.

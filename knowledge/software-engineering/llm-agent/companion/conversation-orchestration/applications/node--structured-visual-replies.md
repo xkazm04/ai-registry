@@ -5,7 +5,7 @@ subject: conversation-orchestration
 technique: structured-visual-replies
 stack: node
 status: forged
-verified_on: 2026-09-29
+verified_on: 2026-11-16
 verified_against: node@24
 ---
 
@@ -190,3 +190,12 @@ divergence. Python drops a whole chart series that contains a hole
 of the series (`companion-blocks.ts:71-73`), so the remaining values shift left
 against the wrong x labels. It is reachable only for a stored or stale block, and
 it is exactly the case a shared fixture between the two test suites would catch.
+
+## Re-read at `808eb83` (2026-11-16)
+
+Read from a public shallow clone, not run. `git diff 86eded59..808eb83` shows no
+changes to `pipeline/jobfit/companion_cli.py`, `companion_blocks.py`,
+`app/_lib/companion-blocks.ts` or `app/_components/chat/`. Every citation above
+still resolves at the same line. The engines field still pins `node >=24 <25`.
+Both deviations stand: the caps are still three copies with no cross-language
+test, and the two validators still disagree on holes.

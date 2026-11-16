@@ -9139,9 +9139,9 @@
    "subcategory": "companion",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/companion/conversation-orchestration/conversation-orchestration.md",
-   "digest": "sha256-b2:f3ecee1630629b34",
-   "revision": 6,
-   "changedAt": "2026-09-29",
+   "digest": "sha256-b2:6adeade41fe5a96c",
+   "revision": 7,
+   "changedAt": "2026-11-16",
    "techniques": [
     {
      "slug": "layered-avatar-state-machine",
@@ -9264,35 +9264,35 @@
      "stack": "node",
      "technique": "structured-visual-replies",
      "file": "knowledge/software-engineering/llm-agent/companion/conversation-orchestration/applications/node--structured-visual-replies.md",
-     "verified_on": "2026-09-29",
+     "verified_on": "2026-11-16",
      "verified_against": "node@24"
     },
     {
      "stack": "react",
      "technique": "narration-promote-on-finish",
      "file": "knowledge/software-engineering/llm-agent/companion/conversation-orchestration/applications/react--narration-promote-on-finish.md",
-     "verified_on": "2026-09-29",
+     "verified_on": "2026-11-16",
      "verified_against": "react@19"
     },
     {
      "stack": "react",
      "technique": "structured-visual-replies",
      "file": "knowledge/software-engineering/llm-agent/companion/conversation-orchestration/applications/react--structured-visual-replies.md",
-     "verified_on": "2026-09-29",
+     "verified_on": "2026-11-16",
      "verified_against": "react@19"
     },
     {
      "stack": "react",
      "technique": "two-surface-doctrine",
      "file": "knowledge/software-engineering/llm-agent/companion/conversation-orchestration/applications/react--two-surface-doctrine.md",
-     "verified_on": "2026-08-29",
+     "verified_on": "2026-11-16",
      "verified_against": "react@19"
     },
     {
      "stack": "rust",
      "technique": "progress-beat-grammar",
      "file": "knowledge/software-engineering/llm-agent/companion/conversation-orchestration/applications/rust--progress-beat-grammar.md",
-     "verified_on": "2026-09-29",
+     "verified_on": "2026-11-16",
      "verified_against": "rust@1.96"
     }
    ]

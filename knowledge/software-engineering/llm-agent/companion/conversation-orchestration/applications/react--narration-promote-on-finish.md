@@ -5,7 +5,7 @@ subject: conversation-orchestration
 technique: narration-promote-on-finish
 stack: react
 status: forged
-verified_on: 2026-09-29
+verified_on: 2026-11-16
 verified_against: react@19
 ---
 
@@ -167,3 +167,19 @@ sidecar, and the second is a decision, not an accident.
 The beats half is unaffected: beats persist as their own conversational aside
 messages (see the progress-beat application), so a user does read those, and that
 is why the trail filters to tool entries only.
+
+## Re-read at `8d076db46a` (2026-11-16)
+
+Read, not run. `git log fb317cfa9..8d076db46a` shows no commits to
+`athenaStore.ts`, `narrationTimeline.ts`, `turnSidecars.ts` or
+`chat/athenaChatStream.ts`. Everything above still holds:
+- the clear-first write is at `athenaStore.ts:1360-1384`, and the no-op second
+  call is at `:1368`;
+- the discarding reset is at `:1385`;
+- the error branch is at `athenaChatStream.ts:180`;
+- `MAX_PERSISTED_NARRATION_ENTRIES` = 100 is at `turnSidecars.ts:32`;
+- `NarrationTrail` and `NarrationLiveLog` are still referenced only from
+  `NarrationThread.tsx` and `turnSidecars.ts`.
+
+The hard-failure path still writes no trail, and the trail still has no outcome
+field and no pre-cap count.

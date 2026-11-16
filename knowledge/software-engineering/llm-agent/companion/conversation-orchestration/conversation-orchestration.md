@@ -255,11 +255,20 @@ UX-level contract for concurrency is small and unforgiving:
   conversation answers immediately while the first still runs; what is forbidden
   is two turns writing into one thread, whose order is then a lie.
 - **The composer is never disabled, and a mid-turn message is routed by what it
-  says.** One that redirects or says stop **interrupts**; one that adds to the
-  request **queues** and drains in order. Classifying beats one policy for both,
-  because the user expressed which. Never acceptable is the third outcome —
-  silently discarding it, the most common one, because the input cleared and the
-  user believes it was sent. Whichever happens, the surface shows it.
+  says.** One that redirects or says stop **interrupts**. One that adds to the
+  request is **delivered into the running turn** at its next boundary (after the
+  tool call or output item in progress) where the runtime can take input mid-turn,
+  because an addition the turn can still use is wasted on a turn queued behind an
+  answer that was drafted without it. It **queues** and drains in order only where
+  the runtime cannot, or when the turn ends first. Classifying beats one policy for
+  all of them, because the user expressed which. Two facts keep the rule honest.
+  Delivery is not action: an accepted addition is pending until the model has read
+  it, and it never rewrites output already shown or cancels a tool already
+  started. And an interrupt does not empty the queue: messages already waiting
+  still run after it unless they are cancelled, so a client that resends one has
+  delivered it twice. Never acceptable is the remaining outcome — silently
+  discarding it, the most common one, because the input cleared and the user
+  believes it was sent. Whichever happens, the surface shows it.
 - **Interrupt is always available and always honest.** Stopping keeps what
   arrived, marks the turn interrupted rather than failed or complete, and promotes
   the partial trail.
