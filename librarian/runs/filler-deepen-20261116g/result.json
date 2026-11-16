@@ -1,0 +1,130 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "filler-deepen-20261116g",
+  "skill": "deepen",
+  "skill_version": "1.5.0",
+  "mode": "loop",
+  "domain": "software-engineering",
+  "started_at": "2026-11-16T03:57:29Z",
+  "ended_at": "2026-11-16T04:19:52Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 3,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "software-engineering/kept-alive-screen-host",
+      "at": "2026-11-16",
+      "engine": "deepen",
+      "outcome": "landed",
+      "points_before": 3,
+      "points_after": 0
+    },
+    {
+      "id": "software-engineering/multi-project",
+      "at": "2026-11-16",
+      "engine": "deepen",
+      "outcome": "landed",
+      "points_before": 3,
+      "points_after": 0
+    },
+    {
+      "id": "media-generation/on-stream-overlay-delivery",
+      "at": "2026-11-16",
+      "engine": "deepen",
+      "outcome": "landed",
+      "points_before": 3,
+      "points_after": 0
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "kept-alive-screen-host",
+      "technique": "host-click-delegation",
+      "verdict": "better",
+      "mode": "simulation"
+    },
+    {
+      "subject": "kept-alive-screen-host",
+      "technique": "hidden-but-alive-screens",
+      "verdict": "not-better",
+      "mode": "simulation"
+    },
+    {
+      "subject": "multi-project",
+      "technique": "passive-signal-ingestion",
+      "verdict": "better",
+      "mode": "simulation"
+    },
+    {
+      "subject": "multi-project",
+      "technique": "project-identity-and-joins",
+      "verdict": "better",
+      "mode": "simulation"
+    },
+    {
+      "subject": "multi-project",
+      "technique": "portfolio-drill-hierarchy",
+      "verdict": "better",
+      "mode": "simulation"
+    },
+    {
+      "subject": "on-stream-overlay-delivery",
+      "technique": "no-source-url-without-a-valid-read",
+      "verdict": "better",
+      "mode": "simulation"
+    },
+    {
+      "subject": "on-stream-overlay-delivery",
+      "technique": "read-only-overlay-origin",
+      "verdict": "better",
+      "mode": "simulation"
+    }
+  ],
+  "files": [
+    "knowledge/software-engineering/ui-surfaces/shell-and-navigation/kept-alive-screen-host",
+    "knowledge/software-engineering/engineering-process/standards-and-gates/multi-project",
+    "knowledge/media-generation/streaming/broadcast-integration/on-stream-overlay-delivery",
+    "librarian/applied.md",
+    "librarian/subjects/software-engineering/kept-alive-screen-host.md",
+    "librarian/subjects/software-engineering/multi-project.md",
+    "librarian/subjects/media-generation/on-stream-overlay-delivery.md"
+  ],
+  "commits": [
+    {
+      "sha": "4b3255f98",
+      "branch": "main",
+      "pathspec": [
+        "knowledge/software-engineering/ui-surfaces/shell-and-navigation/kept-alive-screen-host",
+        "librarian/subjects/software-engineering/kept-alive-screen-host.md",
+        "librarian/applied.md"
+      ]
+    },
+    {
+      "sha": "7c53cc904",
+      "branch": "main",
+      "pathspec": [
+        "knowledge/software-engineering/engineering-process/standards-and-gates/multi-project",
+        "librarian/subjects/software-engineering/multi-project.md",
+        "librarian/applied.md"
+      ]
+    },
+    {
+      "sha": "1d60824a4",
+      "branch": "main",
+      "pathspec": [
+        "knowledge/media-generation/streaming/broadcast-integration/on-stream-overlay-delivery",
+        "librarian/subjects/media-generation/on-stream-overlay-delivery.md",
+        "librarian/applied.md"
+      ]
+    }
+  ],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "Loop of 3; one media-generation subject in a software-engineering run. kash dry 0, multi-project and overlay dry 1; none saturated; no new technique. 3 kash rows unmeasurable. One mp row has 2 cases, below floor. Registry map not regenerated (owed)."
+}
