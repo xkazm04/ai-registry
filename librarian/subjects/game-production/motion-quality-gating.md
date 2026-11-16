@@ -1,7 +1,7 @@
 ---
 domain: game-production
 subject: motion-quality-gating
-last_touched: 2026-11-11
+last_touched: 2026-11-16
 touched_by: shift
 dry_streak: 0
 ---
@@ -166,3 +166,7 @@ The rubric says foot contact has structural tests and no document gives one. A m
 ## 2026-11-11 - /harvest backlog 8-031 ([[../../sources/2026-09-14-agent-creature-animation-render-proof]], /shift filler)
 
 `exaggerate-at-the-contact-frames` landed (blind-ab, better), the contact-frame clause only: when a small unit's hit does not read, push the part that carries the read past plausibility on the one to three frames around contact, and keep the strike's length and contact frame; lengthening the strike or scaling the whole clip's amplitude spreads the change over the wrong frames. One probe, a small creature unit with an unreadable tail strike and a proposal to lengthen it and keep the reference amplitude; both arms held this golden path and `six-dimension-motion-rubric`. Contact-frame placement A 6, B 3 of 6 (arm-B runs pushed amplitude across the strike or added a hold). Judging the critic's frames at gameplay size tied at 6 and 6 and did not land. Floor (keep the critic, reject the doubled strike) A 6, B 6; controls held.
+
+## 2026-11-16 - /shift lander, operator verdict ([[../../sources/2026-11-16-velocity-join-sighted-verdict]], run shift-velocity-and-flex)
+
+`join-seam-continuity` landed (experiment, better, grader operator): a join between motions is accepted on pose distance and velocity jump at the seam, graded apart, worst wins; a pose pin leaves velocity free, so a regenerated join carries a velocity-matched frame or several context frames; routes run producer continuation, regenerated join, measured splice; the jump is reported with the clip's own frame-to-frame change as its basis. It rests on the operator's sighted grades of 8 real seams (5 pop, 2 fine, 1 can't tell). The operator's qualifier, grading the jump relative to in-clip motion, is untriaged at 3/3: it would make `montage-budget-and-root-motion-lint`'s "the one place in this subject where a relative comparison is correct" false, and the jog wrap the operator saw pop sits at 1.17x of its in-clip p95 while the fine walk wrap sits at 2.9x. The band is recorded as unsettled in the technique.

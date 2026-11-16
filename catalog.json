@@ -1291,10 +1291,10 @@
       "profile": "rkb/0.1",
       "purity": "game",
       "subjects": 90,
-      "techniques": 597,
+      "techniques": 598,
       "applications": 361,
-      "files": 1052,
-      "contentHash": "sha256-b2:c9502dd9d5b4b7c0"
+      "files": 1053,
+      "contentHash": "sha256-b2:7f3781cbca557614"
     },
     {
       "name": "grant-funding",

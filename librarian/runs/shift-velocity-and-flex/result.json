@@ -1,0 +1,53 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "shift-velocity-and-flex",
+  "skill": "shift",
+  "skill_version": "0.6.0",
+  "mode": "source",
+  "domain": "game-production",
+  "started_at": "2026-11-16T11:40:00Z",
+  "ended_at": "2026-11-16T12:24:12Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 1,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0,
+    "held": 1
+  },
+  "subjects": [
+    {
+      "id": "game-production/motion-quality-gating",
+      "at": "2026-11-16",
+      "engine": "shift",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "game-production/motion-quality-gating",
+      "technique": "join-seam-continuity",
+      "verdict": "better",
+      "mode": "experiment"
+    }
+  ],
+  "files": [
+    "knowledge/game-production/asset-production/motion-and-audio/motion-quality-gating/techniques/join-seam-continuity.md",
+    "knowledge/game-production/asset-production/motion-and-audio/motion-quality-gating/motion-quality-gating.md",
+    "librarian/subjects/game-production/motion-quality-gating.md",
+    "librarian/sources/2026-11-16-velocity-join-sighted-verdict.md",
+    "librarian/sources/index.md",
+    "librarian/applied.md",
+    ".claude/skills/intake/SCORECARD.md",
+    "librarian/harvest/backlog.jsonl",
+    "librarian/runs/shift-velocity-and-flex/result.json"
+  ],
+  "commits": [],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "join-seam-continuity landed 3/0/2 at +3 (pose and velocity at the seam, worst wins; band unsettled). Relative band untriaged 3/3 (rewrite; the operator jog pop is caught only by the fixed band). Flex proof row rewritten with a same-seed floor, 11-11 arms reused."
+}

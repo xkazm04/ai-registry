@@ -4,7 +4,7 @@
   "bundle": "game-production",
   "source": "knowledge/game-production/ (frontmatter only)",
   "subjects": 90,
-  "techniques": 597,
+  "techniques": 598,
   "applications": 361,
   "laws": 16,
   "categories": [
@@ -20,7 +20,7 @@
    "narrative-and-dialogue"
   ],
   "layout": "nested",
-  "use_when_coverage": "597/597",
+  "use_when_coverage": "598/598",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -6529,9 +6529,9 @@
    "subcategory": "motion-and-audio",
    "status": "forged",
    "file": "knowledge/game-production/asset-production/motion-and-audio/motion-quality-gating/motion-quality-gating.md",
-   "digest": "sha256-b2:4a2ac517b2d278c8",
-   "revision": 2,
-   "changedAt": "2026-11-11",
+   "digest": "sha256-b2:0ebafe81da11dcde",
+   "revision": 3,
+   "changedAt": "2026-11-16",
    "techniques": [
     {
      "slug": "absolute-not-curved-judgment",
@@ -6604,6 +6604,23 @@
       "setting responsiveness budgets per action class",
       "publishing a norm table next to project data",
       "a clip cannot be mapped to an action class"
+     ]
+    },
+    {
+     "slug": "join-seam-continuity",
+     "status": "forged",
+     "laws": [
+      "structural-proof-is-never-sufficient",
+      "a-number-carries-its-unit-and-basis",
+      "unmeasured-is-not-a-pass"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "accepting a looping clip whose first and last poses already match",
+      "concatenating clips into one motion or a sectioned montage",
+      "a generated in-between or regenerated join is offered as fixed",
+      "a loop or splice hitches although a pose check passes",
+      "choosing how to join motions that came from different producers"
      ]
     },
     {
@@ -12341,6 +12358,7 @@
     "mesh-finishing-for-engine-readiness/pack-existing-vs-smart-unwrap",
     "motion-quality-gating/asset-reality-ledger",
     "motion-quality-gating/genre-response-latency-norms",
+    "motion-quality-gating/join-seam-continuity",
     "motion-quality-gating/six-dimension-motion-rubric",
     "on-device-verification-harness/absolute-due-time-load-pump",
     "on-device-verification-harness/attribute-every-stall-before-judging-it",
@@ -12769,6 +12787,7 @@
     "motion-quality-gating/absolute-not-curved-judgment",
     "motion-quality-gating/filmstrip-sampling-discipline",
     "motion-quality-gating/genre-response-latency-norms",
+    "motion-quality-gating/join-seam-continuity",
     "motion-quality-gating/montage-budget-and-root-motion-lint",
     "motion-quality-gating/six-dimension-motion-rubric",
     "on-device-verification-harness/absolute-due-time-load-pump",
@@ -13035,6 +13054,7 @@
     "mesh-finishing-for-engine-readiness/rig-preset-and-bone-remap-binding",
     "motion-quality-gating/asset-reality-ledger",
     "motion-quality-gating/filmstrip-sampling-discipline",
+    "motion-quality-gating/join-seam-continuity",
     "motion-quality-gating/montage-budget-and-root-motion-lint",
     "on-device-verification-harness/emulated-touch-is-not-physical-touch",
     "on-device-verification-harness/fresh-state-per-check",

@@ -12,6 +12,7 @@ techniques:
   - montage-budget-and-root-motion-lint
   - asset-reality-ledger
   - exaggerate-at-the-contact-frames
+  - join-seam-continuity
 ---
 
 # Motion quality gating
@@ -48,7 +49,9 @@ slow one.
 
 **Integrity.** Is the clip structurally correct — does it carry root motion where its
 category requires it, does it sit inside its memory allowance, does the file it names
-actually exist and hold real data.
+actually exist and hold real data. Where a clip is made of joined motions, does each join hold
+on velocity as well as pose
+([join-seam-continuity](./techniques/join-seam-continuity.md)).
 
 These three fail independently and their fixes are performed by different people. A
 clip can score at the top of the craft ruler and be unusable because it has no root
