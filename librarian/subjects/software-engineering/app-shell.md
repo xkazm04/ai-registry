@@ -1,9 +1,9 @@
 ---
 domain: software-engineering
 subject: app-shell
-last_touched: 2026-09-23
+last_touched: 2026-11-16
 touched_by: deepen
-dry_streak: 0
+dry_streak: 1
 ---
 
 # app-shell
@@ -168,3 +168,56 @@ rewrite of a third pane is still a third level when the group header is also a
 destination); `entitlement-gating` should say a re-implemented predicate over the same data
 is a second policy authority. **Coverage:** `lazy-section-loading` has no home in the shell
 chrome context - it belongs with the section router's context.
+
+## 2026-11-16 - `/deepen --loop 3` (run `filler-deepen-20261116f`, worker 3, /shift filler)
+
+Dispatched on the clock: three kp applications were due 11-28. All three were re-read
+at kp `808eb83c` (next 16.4.5, a public clone, read-only) and re-dated 2026-11-16.
+That is 4,349 commits after `40363b7`.
+
+**No new technique. Three amendments and four application corrections.**
+- `shell-hosted-services`:
+  - **identity decides the ending class**, with authority counted as part of identity;
+  - **replacing the document reaps memory, not storage**;
+  - an in-place reset fences in-flight answers.
+  - Lanes: the kp tree, where both identity doors reload, the lapse flow classifies by
+    principal, and the recents leak survived a reload-switch until `55ef8c32`. Plus
+    Apollo Client #7589, open since 2021, where a reset leaves in-flight answers to land
+    after logout.
+- `badge-and-attention`:
+  - **the spoken channel has the visual channel's budget.** kp announces a full
+    roll-call on every load and on every count change. The blind lane and live-region
+    guidance agree that this is over-announcing.
+  - **A row gate that defaults open is not a second gate.** kp's row flag is passed by
+    0 of 2 hosts, at both commits. That corrects this note's own 08-30 claim that the
+    two gates compose.
+- Golden path: the frame-continuity branch is per-engine. Cross-document transitions
+  are still Limited availability, blocked by one engine since December 2024.
+- `next--nav-hierarchy`: the preview is now `role="tab"`/`aria-selected` (`bbb2f56c`),
+  with no arrow keys, no `aria-controls` and no tabpanel. It is still not
+  `aria-current`, so the two-values finding stands.
+
+Round 2 corrected round 1's identity rule to include narrowed authority. kp's resume
+path does not refresh the primed capabilities. Round 3 was dry:
+- WCAG 4.1.3 does not reach background counts, so the speech rule stays labelled craft;
+- disclosure fails closed while affordance fails open, which is consistent with kp's
+  capability locks;
+- bfcache plus speculation rules support the per-engine hedge.
+
+`dry_streak: 1`, so the subject is **not saturated**.
+
+Apply: two `simulation` / `better` rows against kp, and one `unapplied` row for the
+golden-path hedge, because there is no document-replacing shell in the fleet.
+
+### Leads
+
+- **`entitlement-gating` now has a seam in kp**:
+  - `navCapabilities.ts`, `lockedDoor.ts` and `LockedTabPanel.tsx`;
+  - locked rows kept as doors (`b3c6f729`);
+  - a deliberate fail-open on unknown capabilities.
+  - Return: the next touch. Write `next--entitlement-gating` from that tree. This run
+    held to its clock scope.
+- kp recents are keyed per team, not per person. Whether that leaks depends on
+  per-member entity visibility. Return: when kp grows per-member visibility rules.
+- The two polite live regions in one frame (tab switch and badge roll-call) can collide.
+  Return: a screen-reader run on kp.

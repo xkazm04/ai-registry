@@ -38,7 +38,11 @@ from them:
   unmount every time, and the continuity comes from the platform instead: a
   cache that restores a whole previous document, declarative warming of the
   likely next one, and a transition that carries the shared frame across the
-  document boundary. Almost everything in this standard still holds there — the
+  document boundary. Those are per-engine, not universal: the cross-document
+  transition in particular has been held out of the cross-browser baseline
+  since late 2024 by one engine that ships none of it, so a document-replacing
+  frame must read correctly as a plain swap and treat the carried frame as
+  enhancement. Almost everything in this standard still holds there — the
   nav is still one owned vocabulary, badges still need clearing rules, depth is
   still earned. What does not hold is the hosting privilege: with no surviving
   mount point, session-lifetime machinery has to live outside the frame
@@ -160,7 +164,9 @@ tour engine, connection managers, schedulers, telemetry flushers. Hosting them
 is not free composition; it is a discipline with rules — one instance per
 service, an explicit mount order when services depend on each other, an
 explicit teardown story for the few things that do end (sign-out, workspace
-switch), and a bright line between services the shell *hosts* and page
+switch, someone else signing in over a lapsed session — the principal changing,
+not the credential; replacing the document is a complete story for memory and
+none for what residents persisted), and a bright line between services the shell *hosts* and page
 concerns that merely wish they were global. The contract is
 [shell-hosted-services](./techniques/shell-hosted-services.md).
 

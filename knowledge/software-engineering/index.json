@@ -3689,9 +3689,9 @@
    "subcategory": "shell-and-navigation",
    "status": "forged",
    "file": "knowledge/software-engineering/ui-surfaces/shell-and-navigation/app-shell/app-shell.md",
-   "digest": "sha256-b2:b55c5172e3d9fac0",
-   "revision": 8,
-   "changedAt": "2026-10-27",
+   "digest": "sha256-b2:e3c9560f7464f60f",
+   "revision": 9,
+   "changedAt": "2026-11-16",
    "techniques": [
     {
      "slug": "badge-and-attention",
@@ -3785,7 +3785,8 @@
      "use_when": [
       "deciding whether a candidate earns shell residency",
       "everything works except the first second",
-      "a side effect stops when an unrelated page unmounts"
+      "a side effect stops when an unrelated page unmounts",
+      "a different user signs in over a lapsed session or switches team in the same tab"
      ]
     }
    ],
@@ -3794,7 +3795,7 @@
      "stack": "next",
      "technique": "badge-and-attention",
      "file": "knowledge/software-engineering/ui-surfaces/shell-and-navigation/app-shell/applications/next--badge-and-attention.md",
-     "verified_on": "2026-08-30",
+     "verified_on": "2026-11-16",
      "verified_against": "next@16"
     },
     {
@@ -3808,7 +3809,7 @@
      "stack": "next",
      "technique": "nav-hierarchy",
      "file": "knowledge/software-engineering/ui-surfaces/shell-and-navigation/app-shell/applications/next--nav-hierarchy.md",
-     "verified_on": "2026-08-30",
+     "verified_on": "2026-11-16",
      "verified_against": "next@16"
     },
     {
@@ -3822,7 +3823,7 @@
      "stack": "next",
      "technique": "shell-hosted-services",
      "file": "knowledge/software-engineering/ui-surfaces/shell-and-navigation/app-shell/applications/next--shell-hosted-services.md",
-     "verified_on": "2026-08-30",
+     "verified_on": "2026-11-16",
      "verified_against": "next@16"
     },
     {

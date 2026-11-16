@@ -5,7 +5,7 @@ subject: app-shell
 technique: badge-and-attention
 stack: next
 status: forged
-verified_on: 2026-08-30
+verified_on: 2026-11-16
 verified_against: next@16
 ---
 
@@ -113,3 +113,56 @@ neither of which depends on the other having landed.
   healthy day sees near-zero signals. Five of twenty-one entries can light up
   and nothing in the tree checks how often they all do at once; the budget rule
   is unenforced here.
+
+## 2026-11-16 re-read, at `808eb83c` (Next.js 16.4.5), public clone, read-only
+
+Re-checked against the same tree's main branch at `808eb83c` (2026-11-10), 4,349
+commits after `40363b7`. The citations above are the 08-30 anchors; the current
+ones are given here.
+
+**Still true.** `AttentionKey` (`tabs.ts:113`) now has six buckets, and the sixth,
+`companion`, is declared as a bucket that no tab may render (`tabs.ts:105-112`).
+Its count belongs to the dock's own status line. The payload stays one shape.
+Five entries declare a `badgeKey` (`tabs.ts:218-221,234`), and only Overview declares
+`badgeParams` (`tabs.ts:218`). The field's comment now states the admission rule:
+declare it only when the counted cohort is not what the bare tab already shows
+(`tabs.ts:137-142`). The slice href is composed at `NavSectionRail.tsx:111-112` and the
+pill is still a sibling of the row (`NavPanelItem.tsx:134-177`). The viewer gate in
+`WorkspaceNav.tsx:31-60` is unchanged in substance. Total suppression, including the
+gutter, is at `NavPanelItem.tsx:64-68`.
+
+**Changed: the poll now backs off.** `useAttention.ts` no longer re-arms at a flat 60 s.
+`attentionPoll.ts` (from `29e81de6` and `a004d488`) waits 60 s while healthy. After
+consecutive failures it waits 60 s, then 2, 4 and 8 minutes, then 10 minutes for ever.
+It reads immediately when the tab becomes visible again. A 401 goes to the
+session-lapse store (`useAttention.ts:47-53`). A hidden tab skips its read without
+counting a failure. Failures still keep the previous counts silently. That is the
+shortfall recorded under the shell-hosted-services application.
+
+**Correction: the row gate is dormant.** The section above says the viewer gate is
+"enforced again at the row" and that the two gates compose. The row parameter exists
+(`NavPanelItem.tsx:35-43`, `NavSectionRail.tsx:66-73`), but it defaults to `true`, and
+no caller passes it, at `40363b7` or at `808eb83c`. A `git grep showAttention` outside
+the two renderer files returns nothing. Both hosts (`WorkspaceNav.tsx:85-89` and
+`WorkspaceNavDrawer.tsx:130-133`) pass only `attention`. The leak is closed by one gate,
+the source: counts are computed only for an operator (`WorkspaceNav.tsx:53-60`).
+A future host that hands over a populated map is protected only if it also remembers
+the flag. That is the forgotten-flag failure the source gate's own comment names. The
+technique now says a row gate must default closed or resolve the viewer itself.
+
+**New: a spoken roll-call of every badge** (`dda8d8e3`, 2026-09-22). A polite
+`role="status"` region (`NavSectionRail.tsx:144-149,208`) speaks every non-zero badge
+as "<label>: N need attention", joined in one string.
+- When every badge is zero, it speaks "0 need attention".
+- In the interactive shell, the counts arrive after mount, so the full roll-call is
+  spoken on every load of the workspace.
+- Any single change re-speaks the whole list, because the region is atomic by role.
+- An unchanged poll is silent, because React leaves equal text alone.
+- On the server-rendered hosts, the text is present at load and is not announced.
+
+This is the source of the technique's spoken-channel rule. The badges' own accessible
+names already carried the counts (`NavPanelItem.tsx:80-87,156-175`).
+
+**Still short of the standard:** there is still one grade and no parent roll-up on
+the level-one rail (`NavSectionRail.tsx:175-204`). The deep-link hosts are still
+snapshots. Steady state is still unmeasured.

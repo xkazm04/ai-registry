@@ -5,7 +5,7 @@ subject: app-shell
 technique: shell-hosted-services
 stack: next
 status: forged
-verified_on: 2026-08-30
+verified_on: 2026-11-16
 verified_against: next@16
 ---
 
@@ -99,3 +99,73 @@ is not.
   that a candidate mounted above the swap point. The dock's placement is
   correct because a comment says why; a refactor that moves it one level in
   breaks it with no failing test and no visible symptom on the first read.
+
+## 2026-11-16 re-read, at `808eb83c` (Next.js 16.4.5), public clone, read-only
+
+Re-checked on main at `808eb83c` (2026-11-10). The anchors have drifted, as the
+09-23 lead said, so here are the current ones. `Workspace.tsx` is now 310 lines,
+and its host return is `:240-309`.
+
+**The host grew, and the order still tells the dependency story.** The nesting now
+reads as follows:
+- a shell-principal context (`:241`), seeded synchronously from a `useState`
+  initializer before any child renders (`:55`, `shellPrincipal.ts`, from `1821ecd8`);
+- tasks;
+- the document-title resident (`:243`);
+- simulation;
+- the companion dock (`:242-248`).
+
+The principal has to come first. The non-React stores (recents, the palette preview,
+board storage) read the tenant from it synchronously. The newest resident is
+`SessionLapseDialog` (`:303`, from `a004d488`).
+
+**The swap point is unchanged.** The panel is still re-keyed per destination, inside a
+boundary that resets on the same key (`WorkspaceTabChunks.tsx:128-129`). The dock is
+still a sibling outside it (comment `:245-247`). The skip link (`:250-255`) and the
+tab-switch live region (`:259-261`) are still shell property. The focus move is still
+gated on a real change (`:203-213`).
+
+**Correction: the session-end class now has a reaper, by design.** The section above
+records "no named reaper" and warns that a workspace-switch path would leak. That path
+now exists, and it routes through document replacement:
+- the team switch reloads the page (`app/features/settings/workspace/WorkspaceTab.tsx:94-107`);
+- the shell-principal header states the rule: "Team switching does a full reload ...
+  so neither fact can go stale inside a document" (`shellPrincipal.ts:30-31`).
+
+The in-place re-sign-in after a lapse classifies by identity (`sessionLapse.ts:83-95`):
+- the same person resumes and re-reads (`useSessionLapse.ts:163-191`);
+- the same person landing in another team is switched back through the
+  membership-checked door, or reloaded;
+- a different person, or no readable session, reloads to `/` (`useSessionLapse.ts:74-76`).
+  The header says it in one line: "A different person signing in never inherits the page:
+  reload."
+
+That is the technique's new "identity decides the class" rule, found here first.
+
+**The other half was learned by incident.** Document replacement did not reap
+persisted state. Before `55ef8c32` (2026-08-14), recents lived under one bare
+`localStorage` key for the whole browser. After a team switch, which reloads the page,
+the sidebar and palette still listed the previous team's candidate and job-description
+names, and "a recruiter had already read the name of someone they are no longer
+allowed to see". The fix is in `recents.ts:14-21,34-38`:
+- the key now carries the tenant;
+- nothing is read until the tenant is known;
+- the pre-tenancy key is dropped, not adopted.
+
+The rest of the persisted shell state is benign:
+- `kp.recent-tabs` and `kp.nav.section` in `sessionStorage` hold tab ids only;
+- companion preferences hold display settings.
+
+One open question remains. Recents are keyed per team, not per person, so a second
+member on a shared browser reads the first member's recent names. Whether that leaks
+depends on whether entity visibility differs between members of one team. This read
+did not settle it.
+
+**Still short of the standard:**
+- A dead attention worker is still indistinguishable from a quiet one. The poll now
+  backs off, and routes a 401 to the lapse store, but a 5xx loop still shows the last
+  counts with no stale mark (`useAttention.ts:36-53`).
+- Residency is still untested.
+- The frame now carries two polite live regions (`Workspace.tsx:259-261` and
+  `NavSectionRail.tsx:208`). They can speak over each other on a switch whose
+  mutation also moves a count.

@@ -122,6 +122,14 @@ When suppression applies it is total: no pill, no overflow marker, and no
 reserved gutter where one would have sat. A row that cannot show a count must
 not look like a row that lost one.
 
+A row gate is only a second gate if it closes without the caller's help. A
+"may this viewer see counts?" parameter that defaults to *yes* and waits for
+each host to pass *no* fails in exactly the case it was written for — the
+future host that hands over a populated count map and forgets the flag — which
+is the same forgotten-flag failure the source gate exists to prevent. The row
+defaults closed, or resolves the viewer itself from the same authority the
+source asks; anything else is one gate and a comment.
+
 ## Budget: the channel is shared
 
 Individual badges are designed one at a time; the nav is read as a whole.
@@ -137,6 +145,17 @@ Shell-level discipline:
   the user to ignore the channel.
 - Counts cap their display ("99+") — past a threshold the number stops
   informing and starts shaming.
+- **The spoken channel has the same budget, and it interrupts.** A badge
+  that is read as text on demand (its name carries the count) already
+  reaches assistive technology; announcing it as well is a separate decision.
+  If counts are announced, announce the *change that is the listener's
+  business* — an increase in a predicate they act on — politely, once, and
+  coalesced, never a roll-call of every badge whenever any one moves, and
+  never the first arrival of counts on load, which is not a change at all.
+  A recomputation that runs on a timer must not become a speaker on a timer:
+  an unchanged result says nothing, and a background poll is the least
+  justified source of speech in the frame. This is craft, not conformance;
+  the visual rule above ("steady state is quiet") applied to the ear.
 
 ## The prohibitions, collected
 

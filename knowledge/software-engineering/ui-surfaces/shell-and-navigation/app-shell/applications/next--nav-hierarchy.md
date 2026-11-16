@@ -5,7 +5,7 @@ subject: app-shell
 technique: nav-hierarchy
 stack: next
 status: forged
-verified_on: 2026-08-30
+verified_on: 2026-11-16
 verified_against: next@16
 ---
 
@@ -125,3 +125,53 @@ hears two current locations.
   ends at delivering the user to a sub-destination and is silent on what carries
   the rest — the standard is not, and here the palette is the second way rather
   than an extra.
+
+## 2026-11-16 re-read, at `808eb83c` (Next.js 16.4.5), public clone, read-only
+
+Re-checked on main at `808eb83c` (2026-11-10). The 08-30 anchors above are kept, and
+the current ones are given here.
+
+**Still true.**
+- Two levels, and the panel holds only the selected group (`NavSectionRail.tsx:206-276`).
+- The heading and the `<nav>` share one label (`:224-230`).
+- `aria-current="page"` is on the destination row only (`NavPanelItem.tsx:137,143`).
+- The 13px rail labels are still there, with their comment (`:197-201`).
+- There is no collapse posture.
+- The drawer floor below 768 px is now at `Workspace.tsx:85-101`.
+- The truth table in `navDrawerA11y.ts` is unchanged.
+- The drawer still closes on location change (`Workspace.tsx:221-234`, `navDrawerClose.ts:15,23`).
+- The footer reveal still uses the built-in hover text (`NavRailPreferences.tsx:97-98`,
+  file unchanged since `95ab738f`).
+- The palette is still the second way (`WorkspaceNavDrawer.tsx:95,155`).
+
+**Correction: preview is no longer `aria-pressed`.** In the baseline sweep `bbb2f56c`
+(2026-09-08), whose message gives no reason, the rail buttons became `role="tab"` with
+`aria-selected`. They now sit in a vertical `tablist` (`NavSectionRail.tsx:191-192,212`).
+- The finding above still holds in substance. The previewed section borrows selection,
+  never `aria-current`, so assistive technology still hears one current location.
+- The tab contract is only half paid, measured against the WAI-ARIA Authoring Practices
+  tabs pattern (https://www.w3.org/WAI/ARIA/apg/patterns/tabs/, read 2026-11-16):
+  - no tab carries `aria-controls`;
+  - the panel is a labelled `<nav>`, not a `tabpanel`;
+  - nothing handles arrow keys, and every tab is its own tab stop (there is no
+    `onKeyDown` in the file).
+- So a screen reader announces "tab, selected, 1 of 5" for a widget that behaves like
+  a row of toggle buttons.
+- Either the keyboard contract is owed, or the `aria-pressed` it replaced was the
+  more honest role.
+- The pattern page does not address tabs used for navigation, and nor does this note.
+  The rail previews; it does not navigate.
+
+**New: the preview now survives a reload** (`5652a028`, 2026-09-22). The visible
+section is written to `sessionStorage` (`kp.nav.section`, `:45,124-137,186`) and
+restored on mount. A real switch still resets it during render (`:138-141`), so it
+stays preview state. It is now preview state with a lifetime longer than the document,
+which the technique's two-values reading allows, because nothing current is borrowed.
+
+**New: locked rows** (`b3c6f729`, 2026-09-23). Rows the viewer lacks a capability for
+stay in place as lock doors, with the same order in every posture (`NavPanelItem.tsx:96-133`).
+The reason, "you need <capability>", appears only in `title`. That is the same
+built-in hover text this application already faults for the footer controls. The
+locked-door panel the row opens names the capability properly.
+This belongs to `entitlement-gating`, which still has no application. It is banked
+in the subject note.

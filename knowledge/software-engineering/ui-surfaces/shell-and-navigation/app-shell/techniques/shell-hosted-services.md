@@ -6,7 +6,7 @@ technique: shell-hosted-services
 status: forged
 laws: [creation-names-reaper, failure-not-empty-success]
 shared_with: []
-use_when: [deciding whether a candidate earns shell residency, everything works except the first second, a side effect stops when an unrelated page unmounts]
+use_when: [deciding whether a candidate earns shell residency, everything works except the first second, a side effect stops when an unrelated page unmounts, a different user signs in over a lapsed session or switches team in the same tab]
 ---
 
 # Shell-hosted services
@@ -110,6 +110,40 @@ Two ending classes, kept distinct:
   must survive uses write-ahead persistence during normal operation rather
   than a heroic exit handler.
 
+### Identity decides the class, and the reaper has two halves
+
+**A session ends when the principal changes, not when a credential does.** A
+token that lapses and is re-issued to the same person mid-work is not a
+session end: the residents' state is still theirs, and the honest move is to
+resume and re-read what the lapse left stale. The same in-place sign-in
+completed by a *different* person, or landing in a different workspace, is a
+session end, whatever the screen looked like. Classify on the identity the
+fresh credential carries, compared with the one the residents were built for,
+never on the event that prompted the sign-in. Identity here includes the
+authority it holds: the same person returning with *narrower* rights (a role
+lowered while the credential was lapsed) is a session end for whatever the
+residents cached under the wider ones, even if nothing else needs resetting.
+
+**Replacing the document is a legitimate reaper, and it reaps only memory.**
+Where every identity-changing door (switch, sign-out, a re-sign-in by someone
+else) ends in a full document replacement, the in-memory residents, their
+timers and their in-flight requests all die with it, and nothing has to be
+enumerated for them. That is a design, not an accident, once it is stated
+beside the doors and every door honours it. It does nothing for state the
+residents *persisted* to origin-scoped storage: that outlives the document,
+and the next principal in the same browser reads it on the first paint. So a
+persisted resident store carries the identity it belongs to in its key, or is
+cleared on the way out, and a pre-identity key found on load is dropped rather
+than adopted.
+
+**An in-place reset must also discard answers already in flight.** A shell
+that ends a session without replacing the document clears its stores, but a
+read issued under the previous identity can still land after the clear and
+write the previous principal's data back into the emptied state. Cancel or
+fence in-flight work (an identity epoch the late answer is checked against)
+before clearing, not after. This is why the replacement route is the simpler
+correct one where a reload is affordable.
+
 ## Failure containment
 
 A resident's crash is a degraded session, not a dead product:
@@ -131,6 +165,7 @@ A resident's crash is a degraded session, not a dead product:
 3. No implicit start order — dependencies are declared where residents are
    mounted.
 4. No consumer of a service fires before that service is ready, silently.
-5. No resident without a named reaper for every ending class.
+5. No resident without a named reaper for every ending class, and no
+   persisted resident store without the identity it belongs to in its key.
 6. No worker that dies silently; absence must be distinguishable from
    quiet health.
