@@ -7,8 +7,8 @@ status: forged
 stack: process
 applied: simulation
 ab_verdict: unmeasurable
-verified_on: 2026-10-15
-refresh_by: 2026-11-10
+verified_on: 2026-11-16
+refresh_by: 2026-12-16
 ---
 
 # The ElevenLabs "The Search" contest rubric, October 2026
@@ -16,14 +16,24 @@ refresh_by: 2026-11-10
 ElevenLabs runs "The Search: $100,000 for the World's Catchiest Ad" (2026). The task
 is a spec ad for a **fictional** brand, made with its ElevenCreative toolkit. It is
 the cleanest case of a published, weighted rubric this bundle has met, and the case
-that raised the technique. Both sources below were read on 2026-10-15. The clock is
-the contest's own: winners are announced 10 Nov 2026, after which this document
-describes a closed contest.
+that raised the technique. Both sources below were read on 2026-10-15 and re-read on
+2026-11-16, together with the contest page.
+
+**The contest is closed; its result is not yet readable.** Submissions closed 1 Nov
+2026. Winners were scheduled for 10 Nov 2026 on X. On 2026-11-16 none were named on
+the contest page (its winners section is empty), in the terms or in the launch post,
+and no search found coverage. The rubric below stands as a transcription. The
+winning entries are the instrument the technique still lacks: whether the top
+placements carry a sung hook with the brand name in it tests "catchiness times
+cohesion is the spine". `refresh_by` is set one month out for that read. If no
+winners are published by then, this document stays a rubric case and loses
+nothing.
 
 Sources:
 - Terms: https://elevenlabs.io/creative/thesearch/terms (official rules, 2026)
 - Launch post: https://elevenlabs.io/blog/the-search-100000-for-the-worlds-catchiest-ad
-  (October 2026)
+  (published 1 Oct 2026, last updated 28 Oct 2026)
+- Contest page: https://elevenlabs.io/creative/thesearch (read 2026-11-16)
 
 ## The scoring function, transcribed
 
@@ -40,24 +50,34 @@ The launch post states the intent the terms only imply: "The jingle has to be
 central to the idea, not tacked on at the end."
 
 **The spine is catchiness × cohesion: half the score sits on one element, the
-jingle, and on whether it *is* the ad.** Craft is a production constraint (use the
-toolkit's image, video, music, effects and studio tools), not a premise. Concept is
+jingle, and on whether it *is* the ad.** Craft is a production constraint (the terms name voice,
+music and sound design, and the contest page adds video), not a premise. The launch
+post states no weights at all; they are in the terms only. Concept is
 the second-heaviest single criterion, and the technique's divergence procedure
 serves it.
 
 ## Mandatories (screening round checks compliance and a "baseline level of quality")
 
 - Original jingle created in ElevenCreative, submitted as a **public share link**.
-- Fictional brand only. No real brands, no deepfakes, no child voices.
+- A fictional brand of the entrant's own invention. Third-party brands, logos and
+  characters are prohibited, with one exception the 2026-10-15 transcription did not record: an agency may
+  advertise a client's brand with the client's written authorization. No deepfakes
+  or unpermitted likenesses, and no children's voices, real or generated (grounds for
+  disqualification).
 - Product name, an image of the product, and the logo shown.
-- ElevenCreative watermark.
-- 15-45 seconds, 16:9.
+- ElevenCreative watermark, bottom-right on the video and on every social post
+  (contest page).
+- 15-45 seconds. Aspect ratio moved: the 10-15 read recorded 16:9, the launch post
+  as updated 28 Oct allows 16:9 or 9:16, and the terms set none.
 - "Ads with neither dialogue nor subtitles are also accepted": a wordless spot is
   legal.
-- Submissions close 1 Nov 2026, and posting on social platforms with the contest
-  hashtags is required. The rule versions read on 2026-10-15 disagree on the start
-  date and the minimum platform count, so re-read the terms before submitting.
-- No public vote. A panel scores, and ElevenLabs leadership picks the finalists.
+- Submissions closed 1 Nov 2026. Posting publicly on at least two platforms with
+  both contest hashtags is required, and the contest page adds that posting on all
+  four earns bonus points. The sources still disagree on details: the terms open
+  submissions on 5 Oct and the launch post on 1 Oct, and the terms call the platform
+  list "four" while naming five in one place and four in another.
+- No public vote. A panel scores, and ElevenLabs leadership and creative leads pick
+  the top 11.
 
 ## What the technique says about an entry
 
@@ -74,11 +94,16 @@ serves it.
   little.** The terms reward how much of the toolkit the ad "puts to work". Frames
   generated elsewhere and uploaded are not toolkit use, even when the prompts are
   identical. That is an inference from the wording; the terms do not say it, and the
-  operator's bible already reads the criterion the same way.
+  operator's bible already reads the criterion the same way. The contest page makes
+  provenance checkable rather than assumed: the jingle must be made in the toolkit
+  "no exceptions", and finalists may be asked for raw generation files or project
+  access.
 
 ## Evidence grade
 
-The rubric is primary and current as of the date above. The jingle-recall literature
+The rubric is primary, re-read on 2026-11-16 against the terms, the launch post and
+the contest page. Weights, scale, length window and the criterion wording quoted
+above were unchanged; brand eligibility and aspect ratio were corrected. The jingle-recall literature
 the technique cites is mixed: earworm melodic features are peer-reviewed, and the 2013
 slogan-recall analysis found no jingle effect. The rubric does not ask for recall,
 though. It asks a panel whether the jingle is stuck in *their* heads, which is the

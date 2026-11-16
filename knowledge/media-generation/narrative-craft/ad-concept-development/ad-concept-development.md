@@ -35,11 +35,15 @@ because by their measures nothing failed.
 the one most people reach for, and that is the convention a viewer has already
 learned to skip. Industry testing in 2026 found generated ads drifting toward category
 convention more than human-made ones: they chose storytelling less often and fell
-back on familiar demonstrations. The same work found convention-breaking ads more
-than a fifth likelier to earn brand attention. Recognisable premises fill the
-category: the product as magic, the stalled creator rescued, the inspiration montage
-across several cities. Each was fresh once. Each now reads as an ad before it reads
-as a story.
+back on the brands' familiar demonstrations. That test was small (ten generated ads
+matched to ten human-made ones by brand and brief, with no human creative
+intervention) and vendor-run, and its most effective generated ads were the direct
+ones that reused a format the brand had already run. The figure often quoted beside
+it, convention-breaking ads more than a fifth likelier to earn brand attention, comes
+from the same tester's general ad-testing data published in 2024, not from the
+generated-ad test. Recognisable premises fill the category: the product as magic, the
+stalled creator rescued, the inspiration montage across several cities. Each was
+fresh once. Each now reads as an ad before it reads as a story.
 
 **The ideation attractor.** A language model asked for ideas returns the centre of
 its distribution, and several lines of research agree on what that costs:

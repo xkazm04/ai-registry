@@ -1,8 +1,9 @@
 ---
 subject: ad-concept-development
 domain: media-generation
-last_touched: 2026-10-21
-dry_streak: 0
+last_touched: 2026-11-16
+touched_by: deepen, shift
+dry_streak: 2
 ---
 
 # ad-concept-development
@@ -41,3 +42,26 @@ Golden path + 5 techniques (agency-preserving-premise, creativity-template-mecha
 
 - **Phantom subjects.** Return: when a run can find where the 2026-10-06 forge went (a lost worktree or an unlanded branch), or decides to forge the four missing techniques from the project's own quoted doctrine plus primaries. Do not forge from the project's quotes alone, because they are relays of a document nobody can open.
 - **Self-graded gates.** In this pair the blind swap test passed 1 of 24 ideas the generator graded yes. A candidate boundary for `llm-seat-assignment` (a generator grading its own gate is still the generator's seat). Return: a second project or a second judge reproduces the gap.
+
+### 2026-11-16 - `/deepen` loop (run `filler-deepen-20261116`, /shift filler)
+
+Dispatched by the librarian scan (5 points): `process--rubric-as-spine` expired 2026-11-10 with 15 volatile facts; golden path 7.
+
+#### Round 1 (survey round)
+
+**Not dry; no new technique.** Blind lane first. 7 of 7 peer-reviewed claims were reached unprompted and none is volatile.
+
+- `process--rubric-as-spine` refreshed (`verified_on` 2026-11-16, `refresh_by` 2026-12-16), with the terms, the launch post (updated 28 Oct) and the contest page re-read. **Corrected:** agencies may advertise a client's brand with written authorization (it was "fictional only"); the aspect ratio moved from 16:9 to "16:9 or 9:16" in the launch post, and the terms set none; Craft is "voice, music, sound design" (+ video), not "image, effects, studio"; weights live only in the terms; the top 11 are picked by leadership and creative leads. Contest closed 1 Nov. On 11-16 no winners were published anywhere opened, so the application now says the result is not yet readable.
+- Golden path, idea attractor: **provenance corrected.** The 2026 generated-ad test is 10 matched pairs with no human creative intervention, vendor-run. The "more than a fifth likelier to earn brand attention" figure is the same tester's 2024 general testing data, not that test. Added the study's own nuance: its best generated ads reused a format the brand already ran.
+
+Confirmed and left untouched: weights 35/25/25/15, the 1-5 scale, 15-45 s, $100,000, the wordless clause, the Catchiness and Cohesion wording; the 1999 templates (89%, 50 vs 2.5%, recall among the training outcomes); event testing (AI-themed 2.1 vs field 2.7, functional storytelling, catalyst exception).
+
+#### Round 2
+
+**Dry.** Training-first probe of the sonic-hook, seat-assignment and withdrawn-spot claims. All agreed. The one quantity-shaped claim (sonic cues several times likelier in high performers, about 2,000 ads, under 10% of assets) matched and is already marked second-hand.
+
+#### Round 3
+
+**Dry; saturated (dry=2).** The divergence evidence agreed, and the cross-vendor convergence paper's abstract was re-read (26K queries, inter-model homogeneity, judges miscalibrated to individual taste).
+
+Applied: none owed (no new technique, no rule flipped). Declined: a "brand-owned container is not the median" condition (one n=10 vendor study, not convergence, no conflict with the category rule). Banked: **contest winners as the rubric's instrument** (return: winners published; read top placements for a sung brand-name hook; close at `refresh_by` 2026-12-16 if none); brand-owned container (return: a second source or a fleet brief with brand assets; gravitone's `AdBrief` has none). Phantom subjects and self-graded gates carried untouched. Idles until 2026-12-16 or the winners list.

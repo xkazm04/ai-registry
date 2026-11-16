@@ -25,9 +25,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/media-generation/narrative-craft/ad-concept-development/ad-concept-development.md",
-   "digest": "sha256-b2:58a150de2683c915",
-   "revision": 3,
-   "changedAt": "2026-10-21",
+   "digest": "sha256-b2:a53b0d596564f6fc",
+   "revision": 4,
+   "changedAt": "2026-11-16",
    "techniques": [
     {
      "slug": "agency-preserving-premise",
@@ -120,8 +120,8 @@
      "stack": "process",
      "technique": "rubric-as-spine",
      "file": "knowledge/media-generation/narrative-craft/ad-concept-development/applications/process--rubric-as-spine.md",
-     "verified_on": "2026-10-15",
-     "refresh_by": "2026-11-10"
+     "verified_on": "2026-11-16",
+     "refresh_by": "2026-12-16"
     }
    ]
   },
