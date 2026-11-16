@@ -6,7 +6,7 @@ technique: drain-and-shutdown
 status: forged
 laws: [creation-names-reaper, failure-not-empty-success, identity-survives-reuse]
 shared_with: []
-use_when: [deciding what happens to queued work at shutdown, shutdown blocks behind the backlog, distinguishing parked from abandoned entries]
+use_when: [deciding what happens to queued work at shutdown, shutdown blocks behind the backlog, distinguishing parked from abandoned entries, a draining instance refuses arrivals its router still sends]
 ---
 
 # Drain and shutdown
@@ -30,6 +30,24 @@ into a promise made in bad faith: the acceptor already knows it will not
 keep it. Closing the door first also gives drain a finite job — the
 backlog only shrinks from here — which is what makes a drain deadline
 meaningful at all.
+
+**Behind a router there are two doors, and the router's closes first.**
+Where traffic reaches the process through something that routes it, such as
+a load balancer, a service registry or a mesh, the process's own refusal is
+the inner door. The router decides where the next arrival goes. Common
+orchestrators send the termination signal and start removing the instance
+from routing *at the same time*, and the removal reaches every router only
+after a propagation delay. A process that refuses on the signal therefore
+answers *draining* to arrivals the router is still sending it, with nowhere
+in particular to resubmit, for as long as the propagation takes. The order
+is: leave routing first (fail readiness, deregister), keep admitting while
+the change propagates, then close the inner door. The usual mechanism is a
+short wait before shutdown begins, and orchestrators now ship one as a
+lifecycle hook. Admitting during that window is not a promise in bad faith,
+because the drain deadline is set after it. The drain budget is the grace
+period minus the propagation window, and the platform's kill timer has to
+cover both. Where the platform stops routing before it signals, there is one
+door and the rule above stands as written.
 
 The mode is **visible**: telemetry, status queries, and operators all see
 "draining since T, N entries remaining." A drain that looks like normal

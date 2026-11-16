@@ -311,3 +311,48 @@ own landing before hand-off, and round 3 was dry. `dry_streak: 1`, so the subjec
   queueset dispatch.
 - **The synthesis service tree** behind `python--zero-depth-admission` was not found in gravitone at
   `fc26e172`. Return: when it is located, run the promotion-check arm on its own rig.
+
+## 2026-11-16 (second pass) - /deepen loop 3 (run `filler-deepen-20261116f`, worker 1, /shift filler)
+
+This pass continued from the morning's pass, which ended at `dry_streak: 1`. Outcome: **landed** in round 1,
+round 2 corrected round 1's own wording, and round 3 was dry. `dry_streak: 1`, so the subject is not
+saturated. The streak did not reach 2, because round 1 refuted a landing from the morning pass.
+
+- **Correction to the morning's landing (`priority-and-fairness`):**
+  - The mintable-key product counts the identities a caller *holds*, not the ones it can mint inside one
+    allowance window. Guests persist, and a recurring allowance renews for every one held, so the take
+    grows with each day of minting.
+  - Round 2 added that expiring guests by age caps the take, and expiring them by idleness caps nothing.
+  - "Admission runs before authentication in most designs" became a condition, because a common
+    gateway's default order runs authentication first.
+  - Sources: the vendor's anonymous-auth page ("Automatic cleanup of anonymous users is currently not
+    available") and a re-read of goat at `ae2c83f` (no cleanup job, no `is_anonymous` test on the paid
+    path). The goat application gained a dated section: 43,200×D calls a day, not 43,200.
+- **Amendment to `speculative-work-admission`, which the morning pass did not probe:**
+  - Copies of one request may wait in separate lines when the first copy to start withdraws the others,
+    which is the published tied request.
+  - Three conditions apply: the gate honours a cancel-on-start, the lines are independent, and the copies
+    are interchangeable.
+  - A scratchpad simulation found that at load 0.85, tied copies cut p99 from 40 to 9 service times while
+    probe-and-skip reduced to a single copy. The golden path's speculative paragraph names the exception.
+- **Amendment to `drain-and-shutdown`, which the morning pass did not probe:**
+  - Behind a router there are two doors, and the router's closes first. Orchestrators signal termination
+    while routing removal is still propagating.
+  - Sources: the orchestrator's pod-termination page and its pre-stop sleep proposal. The golden path's
+    drain sentence was amended.
+- **Confirmed and left untouched:** the standing-line section and the zero-depth paragraph from the
+  morning (no counter-evidence beyond the conditions the section already carries); load-aware's "never
+  disturb running" (memory kills are handed to the process layer); resource-denominated-bounds (container
+  limits are already covered); refusal-without-release, queue-cardinality, remediation-derived-bounds,
+  self-paced-intake, admission-vocabulary and admit-on-the-expanded-cost, all probed from training data
+  with no contradiction found.
+- **Ledger:** three rows. `priority-and-fairness` is simulation / better on goat. `speculative-work-admission`
+  and `drain-and-shutdown` are unapplied, because no fleet seam exists.
+
+### Open leads (still banked)
+
+- **Adaptive concurrency limits:** still no sighting in a fleet tree (git grep over pof, personas and
+  gravitone found none).
+- **APF head-of-line skip:** `go--priority-and-fairness` was verified 2026-08-22, and its clock is not
+  near (check-currency lists nothing at risk for this subject).
+- **The synthesis-service tree:** still unlocated.

@@ -141,3 +141,22 @@ one guest all read the same count and all pass, which is the golden path's third
 so failures are free against the allowance.
 
 Not run. These are findings from reading the tree; the defect is the project's to fix.
+
+### 2026-11-16 (second pass) - the guests are a stock, not a daily flow
+
+The figure above counts one day of minting, and it is too low. Re-read at the same commit
+(`ae2c83f`, a public clone, read-only, `git grep` over `src` and `supabase`):
+- Nothing deletes or expires guests. There is no cleanup job or cron, and there is no
+  `is_anonymous` test anywhere on the paid path. The only `is_anonymous` read is the
+  guest/member label in `src/v2/auth/session.ts:22`.
+- `quota.ts:2-10` renews each allowance every rolling 24 h for every user id.
+- The vendor page (same URL, re-read 2026-11-16) says "Automatic cleanup of anonymous users is
+  currently not available". It offers a manual SQL delete of guests "created more than 30 days
+  ago", and the tree does not ship one.
+
+So a guest minted on day one still draws its 60 critic calls on day thirty. After D days of
+minting at the default rate, one address holds 720×D guests, and its critic take is 43,200×D
+calls a day: 1,296,000 a day after thirty days. That assumes the caller keeps each guest's
+refresh token. The tree carries no session time-box configuration (no `supabase/config.toml`),
+so how long a guest's session lasts is set in the dashboard and could not be read. The technique's product was corrected from
+"identities mintable inside the allowance's window" to "identities held".

@@ -308,9 +308,13 @@ taken from work someone is actually waiting for — during exactly the congestio
 the bound exists to relieve. Speculative work is therefore probed non-blocking
 and **skipped** when capacity is short, never queued; the skip resolves to
 whatever was going to serve instead, and it is counted separately because it
-appears in none of this subject's other measurements.
+appears in none of this subject's other measurements. One shape is exempt.
+Copies of one request may wait in separate lines when the first copy to start
+withdraws the others, because then the capacity is spent once and only a
+position is queued.
 [speculative-work-admission](./techniques/speculative-work-admission.md) owns
-the probe, the release-on-admit rule, and the knob that must not be added.
+the probe, the release-on-admit rule, the cancel-on-start exception, and the
+knob that must not be added.
 
 ## Admission watches the host
 
@@ -351,7 +355,8 @@ decided what happens to them decides by accident: entries vanish on restart
 (a silent broken promise), or shutdown blocks indefinitely behind a backlog
 (a hang wearing a queue's clothes). Drain is an explicit mode with an
 explicit disposition for every entry: stop admitting (new arrivals get
-*refused: draining*, not queued into a dying process), then for the waiting
+*refused: draining*, not queued into a dying process, and behind a router only
+after the router has stopped sending them), then for the waiting
 entries either **finish** them under a deadline, **park** them durably for
 the next incarnation, or **revoke** them with notice — per class, chosen in
 advance. The complementary startup question — what does the next incarnation
@@ -429,7 +434,7 @@ Three rules fall out of the table:
   rather than commented, and the inversion reachable from either knob.
 - [speculative-work-admission](./techniques/speculative-work-admission.md) —
   probe-and-skip for work nobody is waiting on, release-on-admit, the wait knob
-  that must not exist, and skip accounting.
+  that must not exist, the tied-copy exception, and skip accounting.
 - [load-aware-admission](./techniques/load-aware-admission.md) — host
   pressure gates, asymmetric thresholds, hysteresis, probe honesty.
 - [wait-telemetry](./techniques/wait-telemetry.md) — queue-time as its own

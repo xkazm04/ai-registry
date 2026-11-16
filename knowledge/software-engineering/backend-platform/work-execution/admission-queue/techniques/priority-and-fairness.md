@@ -154,18 +154,29 @@ account, so a key derived from it passes every "is this an authenticated
 user" check — and a second one costs the caller one more sign-in request. Its
 real price is the issuer's mint rate, usually a per-address limit, and the
 per-origin bound is then the per-key allowance times the identities one
-address can mint inside the allowance's window, times the addresses the
-caller holds. Compute that product before calling the key attested; where it
-is larger than the global budget, the key is a scheduling key under this
-section's rule, whatever role it carries. The per-key allowance stays useful
-for honest callers; it is the missing global bound that the product exposes.
+address can *hold*, times the addresses the caller holds. Holding is not
+minting inside one window. A minted guest usually persists until somebody
+deletes it, and a recurring allowance renews for every identity held, so the
+count is the mint rate times how long a minted identity stays usable. Where
+nothing expires guests, that count grows with every day the caller keeps
+minting, and so does the take. Compute that product before calling the key
+attested. Where it is larger than the global budget, the key is a scheduling
+key under this section's rule, whatever role it carries. The per-key
+allowance stays useful for honest callers; it is the missing global bound
+that the product exposes. Expiring guests by *age* caps the multiplier at
+the mint rate times that age. Expiring them by idleness caps nothing, because
+the caller's guests are the busy ones. Only a global bound removes the
+multiplier.
 
 A system that has already shipped per-key capacity on a mintable key cannot
-repair it by validating the key later in the pipeline. Admission runs before
-authentication in most designs — deliberately, because parsing and
-authenticating a request is itself work worth bounding — so the gate sees the
-claim, never the verdict. The bound has to be correct for an identity that was
-never checked.
+repair it by validating the key later in the pipeline. Where admission runs
+before authentication — deliberately, because parsing and authenticating a
+request is itself work worth bounding — the gate sees the claim, never the
+verdict, and the bound has to be correct for an identity that was never
+checked. Where authentication runs first, which is the default order in
+common gateways, the gate sees a verdict, and the verdict is worth only what
+a second identity costs, as above. Either way, moving validation does not
+supply the global bound.
 
 ## Starvation, and aging as the repair
 

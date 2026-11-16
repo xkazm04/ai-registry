@@ -6,7 +6,7 @@ technique: speculative-work-admission
 status: forged
 laws: [count-carries-predicate, creation-names-reaper]
 shared_with: []
-use_when: [admitting work whose result may never be needed, a redundant fan-out target finds the gate full, deciding whether a speculative request may wait in line]
+use_when: [admitting work whose result may never be needed, a redundant fan-out target finds the gate full, deciding whether a speculative request may wait in line, two copies of one request could wait on separate servers]
 ---
 
 # Admitting speculative work
@@ -76,6 +76,52 @@ reasoning attached, and name the observation that would reopen it — skipped
 speculation measurably degrading the caller's outcome, not merely a high skip
 count. A skip count is supposed to be high under load; that is the mechanism
 working.
+
+## The exception: a copy whose start cancels its siblings may queue
+
+The case against queueing rests on one premise: a queued speculative item
+spends capacity when it is promoted, whether or not anything still needs it.
+Redundant copies of one request can be built so that the premise is false.
+Place each copy in a different server's line and tell each copy where the
+others are. The first copy to *start* withdraws the rest from their lines.
+The published name for this is a tied request. A tied copy decays no faster
+than the original, because both are waiting for the same caller, and the
+capacity is spent once, by whichever line moved first. The queued copy costs
+a position and a cancellation message, not a second service. Under
+congestion, which is exactly when probe-and-skip refuses every copy, a tied
+copy turns two independent waits into the shorter of the two.
+
+Measured in a simulation: ten first-in-first-out servers, Poisson arrivals,
+a heavy-tailed service (log-normal, sigma 1), each copy sent to a different
+server, 40,000 requests, 5 seeds. Mean and 99th-percentile response are in
+service times, and work is service spent per request:
+
+| load | one copy | probe-and-skip second copy | tied copies, instant cancel | tied, cancel takes 0.2 service |
+| --- | --- | --- | --- | --- |
+| 0.5 | 2.35 / 15.0, work 1.00 | 1.51 / 11.2, work 1.12 | **1.19 / 6.6**, work 1.00 | 1.19 / 6.4, work 1.27 |
+| 0.85 | 8.34 / 41.0, work 1.00 | 7.93 / 40.1, work 1.07 | **2.17 / 8.9**, work 1.00 | 2.93 / 10.4, work 1.09 |
+
+At high load the probe almost never finds an idle server, so probe-and-skip
+reduces to one copy, while the tied copies cut the tail by a factor of four
+and duplicate under a tenth of the work. The duplicates come from copies
+that start before the cancellation arrives, which is worst on an idle
+system. The published repair is to delay the second copy by about twice the
+message delay.
+
+Three conditions bound the exception. If one of them fails, the rule above
+holds:
+
+- **The withdrawal must reach the other line before promotion.** It has to
+  be a cancel-on-start that the gate honours. A cancel-on-finish is a hedge,
+  and a queued hedge is the waste this technique refuses.
+- **The copies must sit in independent lines.** Two copies in one line only
+  double its depth.
+- **The copies must be interchangeable.** A panel member whose answer merely
+  improves the first one is not a copy of it. Starting one panel member
+  cannot withdraw the others, so panel members stay under probe-and-skip.
+
+This is a simulation, not a measured service. It has independent servers and
+identical copies, and a real line correlates its servers' load.
 
 ## Ordinary work still queues, and the parent still waits
 
