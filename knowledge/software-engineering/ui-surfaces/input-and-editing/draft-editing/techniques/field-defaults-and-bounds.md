@@ -28,6 +28,18 @@ draft's construction step reads defaults from the definition; the patch
 door reads clamps from the definition; the editor renders ranges from the
 definition. One place changes, everything follows.
 
+**Across a trust boundary there are two definitions, and only one is the
+authority.** Where a server validates the field, its hard bounds are the
+envelope, and the client's definition is a copy. A copy is honest only when
+it is *derived* — generated from the server's definition, or checked
+against it by something that fails when they part. A hand-copied bound
+with a comment saying "matches the server" is a second authority asserting
+agreement; the comment is the part that goes stale, and it reads as proof
+to the next reviewer. When the copy drifts wide, the editor offers values
+the server refuses on save; when it drifts tight, it silently promotes an
+advisory bound to a hard one. Client-only fields (presentation, local
+preferences) have one definition and need none of this.
+
 For enumerated fields, the option set is the same kind of authority: the
 definition owns the values, and the control renders what the definition
 declares — never a hand-copied list in the view.
@@ -103,3 +115,5 @@ default at read time, through the definition.
 4. No silent clamping of typed input.
 5. No unit that exists only in presentation.
 6. No persisting resolved defaults where absent-versus-chosen matters.
+7. No client copy of a server-enforced bound that is neither generated from
+   the server's definition nor checked against it.

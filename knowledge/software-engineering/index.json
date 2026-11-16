@@ -5,7 +5,7 @@
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 246,
   "techniques": 2010,
-  "applications": 1503,
+  "applications": 1504,
   "laws": 16,
   "categories": [
    "ui-surfaces",
@@ -13768,9 +13768,9 @@
    "subcategory": "input-and-editing",
    "status": "forged",
    "file": "knowledge/software-engineering/ui-surfaces/input-and-editing/draft-editing/draft-editing.md",
-   "digest": "sha256-b2:79771a6adb7936e5",
-   "revision": 3,
-   "changedAt": "2026-08-29",
+   "digest": "sha256-b2:ba00db841d27d558",
+   "revision": 4,
+   "changedAt": "2026-11-16",
    "techniques": [
     {
      "slug": "completeness-derivation",
@@ -13858,22 +13858,31 @@
    ],
    "applications": [
     {
+     "stack": "python",
+     "technique": "draft-model",
+     "file": "knowledge/software-engineering/ui-surfaces/input-and-editing/draft-editing/applications/python--draft-model--conditional-autosave.md",
+     "verified_on": "2026-11-16",
+     "verified_against": "python@3"
+    },
+    {
      "stack": "react",
      "technique": "debounced-save-groups",
      "file": "knowledge/software-engineering/ui-surfaces/input-and-editing/draft-editing/applications/react--debounced-save-groups.md",
-     "verified_on": "2026-08-18"
+     "verified_on": "2026-11-16",
+     "verified_against": "react@19"
     },
     {
      "stack": "react",
      "technique": "draft-model",
      "file": "knowledge/software-engineering/ui-surfaces/input-and-editing/draft-editing/applications/react--draft-model.md",
-     "verified_on": "2026-08-18"
+     "verified_on": "2026-11-16",
+     "verified_against": "react@19"
     },
     {
      "stack": "react",
      "technique": "field-defaults-and-bounds",
      "file": "knowledge/software-engineering/ui-surfaces/input-and-editing/draft-editing/applications/react--field-defaults-and-bounds.md",
-     "verified_on": "2026-08-29",
+     "verified_on": "2026-11-16",
      "verified_against": "react@19"
     }
    ]

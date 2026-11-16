@@ -78,6 +78,17 @@ inverse. Its contract:
   since. The strong form withholds payload authorship entirely — call
   sites express an intent (rename, retune, toggle) and one builder derives
   the field set, so an unchanged key structurally cannot be sent.
+  **The exception is a conditional write, and it has a price.** A whole
+  record (or a whole region group) is safe against the stale-read revert
+  when the write carries the version it was built from and the server
+  refuses it on mismatch — the standard precondition against lost updates.
+  That turns the revert into a conflict, but it turns *every* concurrent
+  write into one, including writes to fields this draft never touched,
+  where a diff would have let both land. And it cures only the stale half:
+  a client that never read a field can still only blank-fill it, version
+  or no version. Without a precondition the server enforces, the diff is
+  the rule; a client-side version check the server does not repeat is not
+  a precondition.
 - **"Never set" and "cleared" are spelled differently.** A diff must be
   able to say "clear this field" without that spelling colliding with
   "I am not mentioning this field". If the transport collapses the two,

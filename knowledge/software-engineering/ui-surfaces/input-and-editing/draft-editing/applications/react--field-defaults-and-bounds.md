@@ -5,7 +5,7 @@ subject: draft-editing
 technique: field-defaults-and-bounds
 stack: react
 status: forged
-verified_on: 2026-08-29
+verified_on: 2026-11-16
 verified_against: react@19
 applied: code
 ab_verdict: better
@@ -13,7 +13,10 @@ ab_verdict: better
 
 # React: the hint said 1--10, the control said 50, and neither had anything to be wrong about
 
-*Verified against the project tree at `bf2a1e249`.*
+*Verified against the project tree at `bf2a1e249`; anchors re-resolved at HEAD
+`8d076db46a` on 2026-11-16. The settings tab now renders the concurrency hint
+and stepper from the constants (`PersonaSettingsTab.tsx:186-199`), and the four
+bounds tests are in place (`libs/__tests__/personaDraftBounds.test.ts`).*
 
 The most useful thing about this seam is that it sits eight lines away from the
 same technique done exactly right, in the same JSX, by the same hand. The two
@@ -30,7 +33,7 @@ persona's two execution limits in one flex row.
 `FieldHint`'s range is a template literal over them, the `NumberStepper`'s
 `min`/`max` are the same values, and `DEFAULT_PERSONA_TIMEOUT_MS` carries the
 technique's documented-incident discipline verbatim
-(`PersonaDraft.ts:5-16`): "The previous default of 1_000_000 ms (~16.6 min) was
+(`PersonaDraft.ts:6-17` at HEAD; `:5-16` when written): "The previous default of 1_000_000 ms (~16.6 min) was
 effectively 'no timeout' and was a top source of unexpected cloud bills."
 
 **The maxConcurrent field, three lines up**, had:
@@ -43,7 +46,7 @@ effectively 'no timeout' and was a top source of unexpected cloud bills."
 Two authorities for one field's envelope, disagreeing by a factor of five, with
 no definition either could be checked against. And the sentence shown to the
 user was the wrong one: the engine validator
-(`src-tauri/core/src/validation/persona.rs:9-10`,
+(`src-tauri/core/src/validation/persona.rs:10-11` at HEAD,
 `MAX_CONCURRENT_MIN = 1`, `MAX_CONCURRENT_MAX = 50`) rejects anything outside
 1..50 on create and update, so the control was right by coincidence and the
 hint was a plain falsehood a user could act on.
@@ -74,7 +77,7 @@ definition rather than from a string.
 
 The timeout field is not better-engineered because someone was more careful with
 it. It is better-engineered because it *cost money once*, and the incident
-comment at `PersonaDraft.ts:5-16` is the artifact of that. `maxConcurrent` has
+comment at `PersonaDraft.ts:6-17` is the artifact of that. `maxConcurrent` has
 never produced an invoice, so it never earned a definition, and the drift
 appeared in the only field on the screen that had nowhere to record what it was
 for.
@@ -85,7 +88,34 @@ incident and its neighbour does not, the documented one has colocation,
 derivation and a shared clamp, and the undocumented one has three literals. The
 scar tissue did not just preserve the rationale — it created the structure that
 prevents the next drift. Nobody built that correlation deliberately; it is what
-the file looks like after two years.
+the file looks like after about six months (corrected 2026-11-16: the earlier
+text said "two years"; the tree's first commit is 2026-02-17, the file's own
+history starts 2026-02-20, and the incident comment landed 2026-04-20).
+
+**Correction (2026-11-16): the exemplary field drifted too, and its comment is
+the stale part.** Re-reading at HEAD `8d076db46a`, `MAX_PERSONA_TIMEOUT_MS =
+1_800_000` is documented as the "Upper UI bound matching the engine hard
+ceiling (30 min)" (`PersonaDraft.ts:16-17`). The engine ceiling is 20 minutes
+(`src-tauri/core/src/limits.rs:15,18`, `ENGINE_MAX_EXECUTION_SECS = 20 * 60`),
+and `validate_timeout_ms` (`core/src/validation/persona.rs:283-300`) rejects
+anything above it on create and update (`db/src/repos/core/personas.rs:1223-1225`,
+`src/commands/core/personas.rs:197-199`). Both values were already in place at
+`bf2a1e249`, the commit this note was verified against — the 2026-08-29 read
+missed it. So the stepper offers 21 to 30 minutes, the patch door clamps to
+30, and the engine refuses the save; and because the Settings group goes to
+the server whole (see `react--draft-model`), every other Settings edit fails
+with it while the timeout stays above 20. The lower bound disagrees in the
+safe direction (UI 10 s, engine `TIMEOUT_MS_MIN = 1000`): the client is
+tighter, which is an advisory bound promoted to hard — the case the technique
+warns forbids expert values, harmless here. Read, not run: no save was
+executed against the engine.
+
+What this does to the paragraph above: the incident earned the timeout a
+definition, a derivation and a clamp — and none of that kept the definition
+true, because the authority it names lives across the language boundary and
+nothing checks the mirror. A comment that says "matching the engine" is a
+second authority asserting agreement, not a derivation. The technique's
+cross-boundary condition (added 2026-11-16) comes from this case.
 
 ## What this realization cannot do or prove
 

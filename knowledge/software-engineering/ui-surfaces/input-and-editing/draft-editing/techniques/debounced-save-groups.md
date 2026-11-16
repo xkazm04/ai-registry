@@ -48,12 +48,20 @@ transport courtesy measured in a second or two, not a durability policy.
 - the exit guard engaging (the navigation-guards technique);
 - surface teardown, with the caveat that teardown-time saves are
   best-effort — which is why the guard flushes *before* teardown;
-- process or window death, which needs a **synchronous last-gasp drain**
-  registered with the platform's closing hook. This is the flush everyone
-  skips — measured across whole families of applications, the number of
-  pending debounced writes that survive a window close rounds to zero —
-  and a dialog that *warns* on close is not a drain: prompting the user is
-  not persisting the work.
+- process or window death, which needs a **last-gasp drain the platform
+  will let finish**. This is the flush everyone skips — measured across
+  whole families of applications, the number of pending debounced writes
+  that survive a window close rounds to zero — and a dialog that *warns* on
+  close is not a drain: prompting the user is not persisting the work.
+  Two conditions decide whether a drain is real. Its *shape*: a synchronous
+  local write (stash the pending state where the next open restores it),
+  or a send the platform keeps alive past the page; an ordinary
+  asynchronous save fired at dismissal is a hope, and a synchronous network
+  request at dismissal is refused outright by major browsers. Its *hook*:
+  the close events do not fire reliably — mobile platforms kill a
+  backgrounded page without one, and embedded webviews tear down on paths
+  that skip them — so register on the page-hidden signal as well, and treat
+  the close hook as one trigger among several, never the only one.
 
 The debounce is a convenience layered over the explicit door, never a
 replacement for it. An editor whose only save path is the timer strands the

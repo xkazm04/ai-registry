@@ -71,7 +71,9 @@ applied to mutation). And the buffer earns its keep a second time at the
 exit: **what goes on the wire is the diff against the baseline, never the
 whole record** — a client that never recorded what the user touched has
 only two ways to build a payload, filling blanks or echoing stale reads,
-and both lose data. The [draft-model](./techniques/draft-model.md) technique
+and both lose data. A whole record is safe only when the server refuses a
+write built from an older version — and then every concurrent edit, to any
+field, becomes a conflict the user must settle. The [draft-model](./techniques/draft-model.md) technique
 owns the construction, patch, apply, and discard semantics.
 
 ## Dirtiness is derived, and it has a resolution
