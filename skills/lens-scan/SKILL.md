@@ -349,10 +349,10 @@ Every item names:
 - `standard`: `<subject>/<technique>` for a registry technique,
   `house:<subject>/<line-id>` for a house rule, `none` when nothing governs it.
 - `size` (`XS..XL`) and `risk` (1-10) - the risk of making the change.
-- `tier` and `risk_class`, **when the product carries [triage.md](references/triage.md)
-  tiers (a takeover): every proposal passes `--tier` and `--risk-class`**, picked by that
-  rubric (a tier 0 names its `file:line` and the entry point that reaches it). Without
-  tiers, leave both unset.
+- `tier` and `risk_class` on **every** proposal (`--tier`, `--risk-class`), picked by the
+  [triage.md](references/triage.md) rubric (a tier 0 names its `file:line` and the entry point
+  that reaches it). This used to apply only to takeovers; since 1.17.0 every product is
+  tiered, because an untiered queue is ordered by a narrow score alone.
 - `body` in scan-sweep's five sections, in order: **Summary / Description / Flow /
   Expected impact / Evaluation**. The Evaluation's Before is the stored measurement;
   its After is the expected value and the rung that predicts it
