@@ -605,11 +605,13 @@ async function judge() {
     runs.push(run);
     if (metrics[lens].length) { LS.store.measure(db, run, metrics[lens]); written += metrics[lens].length; }
     for (const c of cov[lens]) LS.store.coverage(db, { run, feature: c.feature, standard: c.standard, state: c.state, evidence: c.evidence });
-    // standardsPct = conformant / (conformant + deviation) over this run's rows for the feature (lens-scan metrics.md)
+    // standardsPct = conformant / (conformant + deviation) over this run's rows for the feature (lens-scan metrics.md),
+    // derived only for a lens whose manifest declares the key (lenses are data): the rows are stored either way.
+    const derives = Boolean(RANGES[lens]) || Boolean(JL[lens] && 'standardsPct' in JL[lens]);
     const per = new Map();
     for (const c of cov[lens]) { const r = per.get(c.feature) ?? { ok: 0, dev: 0 }; if (c.state === 'conformant') r.ok += 1; if (c.state === 'deviation') r.dev += 1; per.set(c.feature, r); }
     const rows = [...per].filter(([, r]) => r.ok + r.dev > 0).map(([feature, r]) => ({ feature, lens, metric: 'standardsPct', value: Math.round((r.ok / (r.ok + r.dev)) * 1000) / 10, unit: '%', method: 'judgement', evidence: `coverage: ${r.ok} conformant / ${r.dev} deviation (run ${run})` }));
-    if (rows.length) { LS.store.measure(db, run, rows); derived += rows.length; }
+    if (derives && rows.length) { LS.store.measure(db, run, rows); derived += rows.length; }
     LS.store.runEnd(db, { run, status: 'done' });
   }
   let proposed = 0, skipped = 0;

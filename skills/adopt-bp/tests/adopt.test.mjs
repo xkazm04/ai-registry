@@ -91,7 +91,7 @@ test('adopts a tiny repo end to end', { skip: !BP && 'no bp checkout' }, () => {
   let m = JSON.parse(fs.readFileSync(path.join(root, '.ai/lens-scan/app-structure.json'), 'utf8'));
   assert.equal(m.facets.editor.development.values.standardsPct, 50, 'derived: 1 conformant / (1 + 1 deviation)');
   assert.equal(m.facets.editor.development.values.techDebt, 1, 'a non-metric field lands in the facet');
-  assert.equal(m.facets.editor.quality?.values?.standardsPct, 100, 'a manifest-judged lens takes coverage rows too (refused before 1.6.1)');
+  assert.equal('standardsPct' in (m.facets.editor.quality?.values ?? {}), false, 'a quality coverage row is accepted (refused before 1.6.1) but derives no key its manifest does not declare');
   assert.equal(m.facets.api.security.values.findingsHigh, 1);
   assert.equal('standardsPct' in m.facets.api.security.values, false, 'no coverage rows: unmeasured, never guessed');
   r = run(root, 'judge', '--model', 'test');
