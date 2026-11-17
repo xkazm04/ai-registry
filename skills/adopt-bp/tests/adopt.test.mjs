@@ -87,6 +87,7 @@ test('adopts a tiny repo end to end', { skip: !BP && 'no bp checkout' }, () => {
   r = run(root, 'judge', '--model', 'test');
   assert.equal(r.status, 0, r.stderr);
   assert.match(r.stderr, /standardsPct ignored - it is derived/);
+  assert.match(r.stdout, /1 proposals \(1 ranked, 0 reserve\)/, 'every filed proposal is banded by the store (1.7.0)');
   assert.match(r.stderr, /judgement gaps: design missing on 1/, 'the editor has a UI and no design judgement');
   let m = JSON.parse(fs.readFileSync(path.join(root, '.ai/lens-scan/app-structure.json'), 'utf8'));
   assert.equal(m.facets.editor.development.values.standardsPct, 50, 'derived: 1 conformant / (1 + 1 deviation)');

@@ -614,7 +614,7 @@ async function judge() {
     if (derives && rows.length) { LS.store.measure(db, run, rows); derived += rows.length; }
     LS.store.runEnd(db, { run, status: 'done' });
   }
-  let proposed = 0, skipped = 0;
+  let proposed = 0, skipped = 0, banded = null;
   if (props.length) {
     const open = LS.store.proposals(db).filter((x) => ['proposed', 'approved', 'executing', 'declined'].includes(x.status));
     const { id: run } = LS.store.runStart(db, { phase: 'propose', lenses: [...new Set(props.map((p) => p.lens))], scope: { tool: 'adopt-bp' }, model, note: `adopt-bp ${SKILL_VERSION} proposals` });
@@ -626,6 +626,9 @@ async function judge() {
       LS.store.activity(db, { run, kind: 'proposed', feature: p.feature, lens: p.lens, text: String(p.title).slice(0, 200) });
       proposed += 1;
     }
+    // every verified finding is filed; the store bands them (lens-scan's rule): each lens's top item and the next by
+    // score are `ranked`, the rest `reserve` - the review queue stays short and nothing verified is dropped
+    if (proposed) banded = LS.store.allocate(db, { run });
     LS.store.runEnd(db, { run, status: 'done' });
   }
   for (const [slug, lens, reason] of na) upsertFacet(map, slug, lens, {}, { applicable: false, ...(reason ? { reason } : {}) });
@@ -640,7 +643,7 @@ async function judge() {
   const gaps = all.map((l) => [l, lensCov(l)]).filter(([, n]) => n < active.length);
   console.log(`coverage: ${all.map((l) => `${l} ${lensCov(l)}/${active.length}`).join(', ')}`);
   if (gaps.length) warn(`judgement gaps: ${gaps.map(([l, n]) => `${l} missing on ${active.length - n}`).join('; ')} - judge them or mark the lens applicable:false (with a reason for a judgement lens)`);
-  console.log(`judgement through lens-scan store: ${written} metric rows, ${derived} standardsPct derived from ${Object.values(cov).flat().length} coverage rows, ${proposed} proposals${skipped ? ` (${skipped} already open or declined, not re-proposed)` : ''} -> runs ${runs.join(', ')}`);
+  console.log(`judgement through lens-scan store: ${written} metric rows, ${derived} standardsPct derived from ${Object.values(cov).flat().length} coverage rows, ${proposed} proposals${banded ? ` (${banded.ranked ?? '?'} ranked, ${banded.reserve ?? '?'} reserve)` : ''}${skipped ? ` (${skipped} already open or declined, not re-proposed)` : ''} -> runs ${runs.join(', ')}`);
 }
 
 // =================================================================================== validate

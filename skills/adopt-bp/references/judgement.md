@@ -85,10 +85,15 @@ features with their biggest files, entry points and static values. Write one res
   removal proposal, not a refactor.
 - **Line numbers are checked.** Cite the line you read, not one you remember; a wrong line costs the
   reviewer more than no line.
-- **Proposals are a review queue, not a census.** At most 2 per feature and about one per feature
-  across the batch; keep the ones a maintainer would act on this month. A proposal's body cites at
-  least one file by its full repo-relative path with a line (`src/app/api/x/route.ts:12`), never a
-  bare file name - bare names are ambiguous in a large repo.
+- **File every verified finding; the store decides the band, not you.** A real problem you can point
+  at with file:line is a proposal, however many a feature has: `judge` files them all and the store's
+  `allocate` ranks a short review queue (each lens's best item first, then by score) and keeps the rest
+  as `reserve`, stored and visible, never dropped. Dropping a verified finding because the batch
+  "already has one" is how an adoption of a whole codebase came back with 8 ideas (plumbline,
+  2026-11-17). What keeps the queue honest is calibration, not a count: tier, size and risk on every
+  item, no restatement of the same defect twice, nothing you could not ground in a file you read. A
+  proposal's body cites at least one file by its full repo-relative path with a line
+  (`src/app/api/x/route.ts:12`), never a bare file name - bare names are ambiguous in a large repo.
 
 When every batch has a result, run `node <skill>/scripts/adopt.mjs judge --root <repo> --model <your model id>`.
 It refuses out-of-range values and unknown slugs by name; fix and rerun (a rerun appends a new run;
