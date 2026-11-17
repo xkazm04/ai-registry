@@ -541,7 +541,8 @@ async function judge() {
   const JL = judgementLenses(LS, map);
   // 1. validate everything first: a refused file writes nothing
   const metrics = { development: [], security: [], design: [], ...Object.fromEntries(Object.keys(JL).map((l) => [l, []])) };
-  const cov = { development: [], security: [], design: [] }, props = [], fields = [], na = [];
+  // every lens a judgement measures can carry coverage rows (judgement.md: one row per technique touching a lens you judged)
+  const cov = Object.fromEntries(Object.keys(metrics).map((l) => [l, []])), props = [], fields = [], na = [];
   const evidenceOf = (v, k) => String((typeof v?.evidence === 'object' && v.evidence ? v.evidence[k] : v?.evidence) ?? '').slice(0, 2000) || undefined;
   for (const file of files) {
     let j;
@@ -579,7 +580,7 @@ async function judge() {
       }
     }
     for (const c of j.coverage ?? []) {
-      if (!slugs.has(c.feature) || !RANGES[c.lens] || !STANDARD_RE.test(c.standard ?? '') || !['conformant', 'deviation', 'not-applicable', 'unknown'].includes(c.state)) { err(`${file}: coverage row refused (feature, lens, standard '<subject>/<technique>' or 'house:...', state): ${JSON.stringify(c).slice(0, 140)}`); continue; }
+      if (!slugs.has(c.feature) || !(RANGES[c.lens] || JL[c.lens]) || !STANDARD_RE.test(c.standard ?? '') || !['conformant', 'deviation', 'not-applicable', 'unknown'].includes(c.state)) { err(`${file}: coverage row refused (feature, lens, standard '<subject>/<technique>' or 'house:...', state): ${JSON.stringify(c).slice(0, 140)}`); continue; }
       cov[c.lens].push(c);
     }
     for (const p of j.proposals ?? []) {

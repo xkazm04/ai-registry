@@ -81,6 +81,7 @@ test('adopts a tiny repo end to end', { skip: !BP && 'no bp checkout' }, () => {
       { feature: 'editor', lens: 'development', standard: 'react-patterns/typed-props', state: 'conformant', evidence: 'src/editor/Editor.tsx:2' },
       { feature: 'editor', lens: 'development', standard: 'react-patterns/no-inline-style', state: 'deviation', evidence: 'src/editor/Editor.tsx:2' },
       { feature: 'editor', lens: 'development', standard: 'house:ui/tokens', state: 'not-applicable' },
+      { feature: 'editor', lens: 'quality', standard: 'test-harness/assert-through-the-reader', state: 'conformant', evidence: 'src/editor/Editor.tsx:2' },
     ],
     proposals: [{ feature: 'api', lens: 'security', metric: 'unsafeSinks', title: 'Drop eval', body: 'src/api/route.ts:1', expected_delta: -1, size: 'XS', risk: 2 }] }));
   r = run(root, 'judge', '--model', 'test');
@@ -90,6 +91,7 @@ test('adopts a tiny repo end to end', { skip: !BP && 'no bp checkout' }, () => {
   let m = JSON.parse(fs.readFileSync(path.join(root, '.ai/lens-scan/app-structure.json'), 'utf8'));
   assert.equal(m.facets.editor.development.values.standardsPct, 50, 'derived: 1 conformant / (1 + 1 deviation)');
   assert.equal(m.facets.editor.development.values.techDebt, 1, 'a non-metric field lands in the facet');
+  assert.equal(m.facets.editor.quality?.values?.standardsPct, 100, 'a manifest-judged lens takes coverage rows too (refused before 1.6.1)');
   assert.equal(m.facets.api.security.values.findingsHigh, 1);
   assert.equal('standardsPct' in m.facets.api.security.values, false, 'no coverage rows: unmeasured, never guessed');
   r = run(root, 'judge', '--model', 'test');
