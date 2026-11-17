@@ -179,3 +179,13 @@ test('(1.15) every row names the commit it counted: HEAD of --root, or --commit-
   assert.ok(latest(back).every((r) => r.commit_sha === 'f'.repeat(40)), '--commit-sha wins');
   back.close();
 });
+
+test('isExcluded: vendored prefixes are left out of every count (folder or file, either slash), look-alikes are not', async () => {
+  const { isExcluded } = await import('../scripts/footprint.mjs');
+  const bs = String.fromCharCode(92);
+  assert.equal(isExcluded('site/runtime/engine.js', ['site/runtime']), true);
+  assert.equal(isExcluded(['site', 'runtime', 'x.js'].join(bs), ['./site/runtime/']), true);
+  assert.equal(isExcluded('site/runtimex/a.js', ['site/runtime']), false, 'a sibling whose name only starts the same is measured');
+  assert.equal(isExcluded('vendor.js', ['vendor.js']), true);
+  assert.equal(isExcluded('a.js', []), false);
+});

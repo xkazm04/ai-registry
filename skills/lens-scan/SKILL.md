@@ -4,7 +4,7 @@ description: "Measure a product feature by feature through one lens or all of th
 argument-hint: "[measure|propose|execute|propagate|status|onboard] [--lens development|security|design|performance|<lens id with a scan block>|all] [--scope <group|context|feature[,feature...]>] [--proposals <id,id>] [--base <ref>] | release --id rel-<version> [--finish | --landed] | onboard \"<description>\" [--id com.x.y] [--temporary] [--draft-only] [--first-scan] | directed --lens <id> [--scope <feature[,feature...]>] (a FOCUS-NOTE fence follows)"
 category: workflow
 memory: project
-version: 1.16.0
+version: 1.17.0
 tags: measure, metrics, lens, backlog, approval, house-standards, propagation, sqlite
 ---
 # Lens scan
@@ -198,6 +198,14 @@ node ${CLAUDE_SKILL_DIR}/scripts/store.mjs run-start --phase measure --lenses <l
 node ${CLAUDE_SKILL_DIR}/scripts/store.mjs run-start --phase measure --lenses <lens> --features a,b,c --model <id>
 ```
 
+**Read what the map does not list before you measure.** List the tracked source files no context claims (`git
+ls-files` minus every context's `file_paths`, after excluding the overlay's `vendored` paths). A stale map is still
+reported rather than regenerated, but its unmapped files are READ: each joins the feature whose contexts own most of
+its nearest folder for this run's judgement (say so in the finding's evidence), and the run report names the count and
+recommends `/adopt-bp` to refresh the map. Measured 2026-11-17 (plumbline): a map 19 commits old left ten shipping
+files (a revocation module, the page shell, the response headers, the workflows) unread, and findings visible in them
+went unfiled.
+
 Then, per feature in scope, the four methods in this order. The metric catalog, units,
 better-direction and the exact counting rule per metric are
 [metrics.md](references/metrics.md); measure only keys it lists. Any other lens is
@@ -205,7 +213,8 @@ measured by its manifest's scan block, on the manifest's own fields
 ([below](#lenses-with-a-scan-block-judgement-scans)). A [directed](#directed) run alone
 measures a key of its own.
 
-- **Static** - scripts that count. `footprint.mjs --run <id> --lens <lens|all>` writes
+- **Static** - scripts that count. `footprint.mjs --run <id> --lens <lens|all> [--exclude <the overlay's vendored
+  paths, comma-separated>]` writes
   `loc`, `files`, `depCount`, `testRatioPct` (development), `secretHits`, `unsafeSinks`
   (security) and `rawLiterals` (design), with the pattern sets in the script as evidence.
   Directory entries in `file_paths` expand to their tracked files. A feature with no UI
@@ -319,12 +328,17 @@ node ${CLAUDE_SKILL_DIR}/scripts/store.mjs propose --run <id> --feature <f> --le
   --metric <key> --expected-delta <signed number> --standard <tag> --size S --risk 3 \
   --impact 7 --impact-why "<one line>" --confidence medium --category technical \
   --predicted-verdict accept --predicted-why "<the closest precedent, by id, and why>" \
+  --tier <0-3> --risk-class <secret|authz|money|data|llm|perf|reliability|ux|debt> \
   --title "<imperative, one line>" --body-file <tmp.md>
 node ${CLAUDE_SKILL_DIR}/scripts/store.mjs allocate --run <id> --cap <overlay propose_cap>
 ```
 
 `--lens all` proposes for every lens the run lists, from the same read, and the cap is one
 cap for the run.
+
+**Every item is triaged at propose:** `--tier` (0 stop-ship .. 3 backlog) and `--risk-class`, by
+[triage.md](references/triage.md). An untiered item sorts last behind every tiered one, so a run that files none
+leaves the review queue ordered by a narrow score alone (plumbline 2026-11-17: 42 items, all untiered, scores 7 to 37).
 
 Every item names:
 
@@ -981,6 +995,7 @@ sections for the command maps.
 | `trust_start` | `technical=2,product=0` | The autonomy start levels; may only lower them (`--start` on `trust`, `decide --machine`, `triage --machine`, `drive.mjs execute --auto`). |
 | `auto_max_size` | `M` | The largest size the machine decides and builds on its own (`--max-size` on `decide --machine` and `drive.mjs execute --auto`); a bigger item, and every `band: reserve` one, waits for a person. |
 | `default_scope` | none (ask once; headless: every feature) | The judgement/harness scope when `--scope` is absent. |
+| `vendored` | none | Comma-separated path prefixes of code the product may not change (a vendored runtime, generated files): passed to `footprint.mjs --exclude`, left out of every judged count (`dupSites`, findings), and never proposed for edits; a finding there is an upstream report, not a fix. |
 | `bundle_stats` | none (`bundleKb` unmeasured) | A per-feature bundle stats file, when one exists. |
 | `## Gates` | `.ai/manifest.yaml` capabilities | The verification commands phase 5 runs, verbatim. |
 | `## Harness` | none (harness metrics unmeasured) | The generic form [below](#harness): how to start and reach the front end, and a route or click steps per feature. |

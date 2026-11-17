@@ -112,3 +112,9 @@ Append-only reflection lane. `## <version used> - <YYYY-MM-DD> - <project>` then
 - Change (not a field lesson; unproven in the field - no directed run has happened yet): `directed` mode, for bp's directed scans (one lens, one operator note in a FOCUS-NOTE fence). It measures and proposes in one run on one `focus<CamelCase>` metric, the one sanctioned exception to "a fix that moves no catalog metric is not a lens-scan item". Reads code only, on any lens.
 - `run-end --note` now keeps a `focus:` segment, last, because bp's reader takes everything after `focus:<metric> ` as the operator's text.
 - A directed run is `--phase propose`, not `measure`: `gaps` reads a done `measure` run as having tried every manifest metric of its features, so a focus-only run would have turned them all `unmeasurable`. And a no-impact feature writes no facet: one note not arising says nothing about the lens, and `applicable: false` would read `na` for every later scan.
+
+## 1.16.0 - 2026-11-17 - plumbline (full-scope scan after the owner asked why adoption found only 8 ideas)
+- Measure + propose --lens all filed 42 items (14 ranked, 28 reserve), all untiered, because the propose step never asked for --tier/--risk-class; 1.17.0 requires both at propose.
+- A context map 19 commits stale meant ten shipping files were never read and findings in them went unfiled; 1.17.0 reads unmapped tracked files before measuring and names the count.
+- The vendored runtime (copy-do-not-change) inflated dupSites, unsafeSinks and secretHits with items no allowed change can fix; 1.17.0 adds the overlay key `vendored` and footprint --exclude.
+- Still open (proposals, not built): a store command to strike a false positive the judgement pass rejected (metrics.md:53 allows it, nothing records it); `coverage` takes no lens, so per-lens standardsPct is hand-split; two run-log lines in one second collide on id.

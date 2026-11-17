@@ -6,7 +6,9 @@
 //
 //   node footprint.mjs --run <id> [--structure .ai/lens-scan/app-structure.json] [--map <context-map.json>]
 //                      [--root .] [--feature a,b] [--lens development|security|design|all] [--db .ai/lens-scan/scan.db] [--dry]
-//                      [--commit-sha s]
+//                      [--commit-sha s] [--exclude <path prefix,...>]
+// --exclude: vendored or generated code the product may not change (the overlay's `vendored:` list) is left out of
+// every count, so a copy-do-not-change folder does not inflate loc, unsafeSinks or secretHits of the feature that ships it.
 //
 // Every row names the commit it counted (commit_sha): --commit-sha, else `git rev-parse HEAD` in --root (none
 // when --root is not a git checkout).
@@ -180,10 +182,16 @@ const read = (root, p) => {
  * design. Returns one result per feature: its metrics by key, missing_files, and no_ui when the design
  * lens has no component file to read.
  */
-export function measureFeatures({ structure, map, root = '.', lenses = ['development'], only, store, db, run, commitSha }) {
-  const files = repoFiles(root);
+/** True when a repo-relative path sits under one of the excluded prefixes (a folder or an exact file). */
+export function isExcluded(path, exclude = []) {
+  const p = path.split('\\').join('/');
+  return exclude.some((x) => { const e = x.split('\\').join('/').replace(/^\.\//, '').replace(/\/+$/, ''); return !!e && (p === e || p.startsWith(e + '/')); });
+}
+
+export function measureFeatures({ structure, map, root = '.', lenses = ['development'], only, store, db, run, commitSha, exclude = [] }) {
+  const files = repoFiles(root).filter((f) => !isExcluded(f, exclude));
   const sha = db ? (commitSha ?? store.headSha?.(root)) : undefined;
-  let feats = featureFiles(structure, map, root, files);
+  let feats = featureFiles(structure, map, root, files).map((f) => ({ ...f, files: f.files.filter((x) => !isExcluded(x, exclude)) }));
   if (only) feats = feats.filter((f) => only.has(f.slug));
   const repoTests = lenses.includes('development') ? files.filter((f) => isTest(f) && CODE_RE.test(f)) : [];
   const testCache = new Map();
@@ -240,7 +248,8 @@ export async function main(argv) {
   const db = a.dry ? null : store.openStore(typeof a.db === 'string' ? a.db : store.DEFAULT_DB);
   try {
     if (db && !a.run) throw new store.StoreError('--run is required (start one with store.mjs run-start --phase measure)', 2);
-    return { written: !!db, features: measureFeatures({ structure, map, root, lenses, only, store, db, run: a.run, commitSha: typeof a.commitSha === 'string' ? a.commitSha : undefined }) };
+    const exclude = typeof a.exclude === 'string' ? a.exclude.split(',').map((s) => s.trim()).filter(Boolean) : [];
+    return { written: !!db, excluded: exclude.length ? exclude : undefined, features: measureFeatures({ structure, map, root, lenses, only, store, db, run: a.run, commitSha: typeof a.commitSha === 'string' ? a.commitSha : undefined, exclude }) };
   } finally { db?.close(); }
 }
 
