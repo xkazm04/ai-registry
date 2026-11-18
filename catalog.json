@@ -2,7 +2,7 @@
   "schema": "ascent-registry-catalog",
   "schemaVersion": "1.0.0",
   "_note": "GENERATED FILE — scripts/build-catalog.mjs reads every lane (skills, practices, memory, knowledge, usage) and rewrites this file; --check fails CI when it is stale. Per skill, `adopters` is carried forward untouched (the registry cannot see installations; an operator's scripts/fleet-audit.mjs --write-adopters maintains it) and `invokes30d` + `usageContributors` + `usageStaleContributors` + `reportedInvokes` are DERIVED from the usage/ lane (a report is current while its whole-day age against `generatedAt` is at most its windowDays; only current reports reach `invokes30d` and `usageContributors`, stale ones are named in `usageStaleContributors`, every report reaches `reportedInvokes`); `runs30d`, `outcomes30d`, `difficulty30d`, `tokensMedian30d` and `tokensBasis30d` are DERIVED from the usage/runs/ run log (30 days ending at the newest logged run; tokens are the measured median when at least half the runs are measured, else the agents' estimate, and tokensBasis30d says which). `generatedAt` is the newest instant in the committed data this catalog reads (a subject changedAt, a usage report generatedAt, a run row ts, a LESSONS heading date), ISO 8601 UTC: the date of the newest evidence in the registry, not the wall-clock time of the build, so --check stays a pure function of the tree. Hand-edits to anything else are overwritten on the next build. A second producer (e.g. Ascent's indexer) may rewrite the envelope from the same files; two producers computing one truth from one source is not a conflict.",
-  "generatedAt": "2026-11-16T00:00:00Z",
+  "generatedAt": "2026-11-17T00:00:00Z",
   "generatedBy": "scripts/build-catalog.mjs",
   "registry": {
     "fullName": "xkazm04/ai-registry",
@@ -14,16 +14,16 @@
   "skills": [
     {
       "name": "adopt-bp",
-      "version": "1.6.0",
+      "version": "1.7.0",
       "category": "workflow",
       "path": "skills/adopt-bp/SKILL.md",
-      "contentHash": "sha256-n1:66930d4a99c1dc4b",
+      "contentHash": "sha256-n1:c8aeb8ea3d50264a",
       "adopters": [],
       "invokes30d": 0,
       "reportedInvokes": 0,
-      "lessons": 8,
+      "lessons": 11,
       "lessonsPath": "skills/adopt-bp/LESSONS.md",
-      "lessonsHash": "sha256-n1:dc376cd4eda8a130",
+      "lessonsHash": "sha256-n1:394e5acdae8502a2",
       "usageContributors": [],
       "usageStaleContributors": [],
       "runs30d": 8,
@@ -239,9 +239,9 @@
       "adopters": [],
       "invokes30d": 0,
       "reportedInvokes": 0,
-      "lessons": 22,
+      "lessons": 23,
       "lessonsPath": "skills/contest/LESSONS.md",
-      "lessonsHash": "sha256-n1:7dfd64c80a343dff",
+      "lessonsHash": "sha256-n1:379d6ed6280d3542",
       "usageContributors": [],
       "usageStaleContributors": [],
       "runs30d": 17,
@@ -546,16 +546,16 @@
     },
     {
       "name": "lens-scan",
-      "version": "1.16.0",
+      "version": "1.17.0",
       "category": "workflow",
       "path": "skills/lens-scan/SKILL.md",
-      "contentHash": "sha256-n1:7bc3fe27e9ed03cf",
+      "contentHash": "sha256-n1:889e430d7616d2ea",
       "adopters": [],
       "invokes30d": 0,
       "reportedInvokes": 0,
-      "lessons": 24,
+      "lessons": 25,
       "lessonsPath": "skills/lens-scan/LESSONS.md",
-      "lessonsHash": "sha256-n1:d4bab9dc4590d905",
+      "lessonsHash": "sha256-n1:cf5ad34ae96d27c2",
       "usageContributors": [],
       "usageStaleContributors": [],
       "runs30d": 42,
@@ -917,9 +917,9 @@
       ],
       "invokes30d": 0,
       "reportedInvokes": 6,
-      "lessons": 38,
+      "lessons": 39,
       "lessonsPath": "skills/spark/LESSONS.md",
-      "lessonsHash": "sha256-n1:39b310a8c9c6fc0e",
+      "lessonsHash": "sha256-n1:e01d30fafa107038",
       "usageContributors": [],
       "usageStaleContributors": [
         "wolf"
@@ -1254,7 +1254,7 @@
     "skills": 45,
     "practices": 8,
     "memory": 10,
-    "lessons": 397
+    "lessons": 403
   },
   "bundles": [
     {
@@ -1408,7 +1408,7 @@
         "generatedAt": "2026-08-22T17:24:57Z",
         "windowDays": 30,
         "state": "stale",
-        "ageDays": 85
+        "ageDays": 86
       }
     ],
     "unresolved": [
