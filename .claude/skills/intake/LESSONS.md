@@ -12804,3 +12804,16 @@ applied here - one sighting, and the honest record is in the source note.
 
 - **Phase 6b does not say whether audio is render-bound.** Its scope names pictures (image, clip, sprite, texture, mesh, animation; homes in visual generation, video assembly, asset production), while the 2026-10-24 widening owes a local example for "every media-generation or game-development technique". An audio technique in `media-generation/audio-generation` sits in both readings. This run read 6b as picture-scoped, landed on a fetched primary plus the tree, and queued the audio proof as a held `queue: media` row whose verdict may amend the landing. One of the two sentences should name audio explicitly, either way.
 - **A fleet project's consult hook found a catch the director had missed.** pof's commit-time `consult-check` named `generative-provider-auditing` as governing the change; it already owned a recommendation the drafted application made. Running `registry-query.mjs --subject` on every subject the target project's registry map joins, before drafting, would have caught it at Phase 4.
+
+## 2.22.0 - 2026-11-18 - competition-lessons
+
+- **A banked lead's return condition is invisible to Phase 4.** `research-map` indexes the bundles, not the source notes, so
+  the 10-02 lead whose condition this source met ("two guards with the same false-positive class make it a technique") was
+  found only by a grep of `librarian/sources/` for a concept word. Grep the notes' return conditions for each candidate's
+  concepts at Phase 4; a fired condition is convergence the score should count.
+- **In a lessons file, split each lesson into what was measured and what was inferred.** Row 1 measured "the file is in the
+  staged list" and inferred "the secret shipped"; the engine's own staging code said the named key was probably stripped.
+  The measured half carried the rule, and reading the primary made the technique stronger, not weaker.
+- **Phase 6b's scope met a capture subject again.** A production-ops subject that films a real product with no generator, and
+  whose observables are numbers (sync per mark, frames identical across runs), was run as an experiment with a review page
+  rather than a render pair. Recorded as a reading, not a rule; it is the second scope question after 11-06's audio one.
