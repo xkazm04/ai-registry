@@ -27481,24 +27481,6 @@
     ]
    }
   },
-  "mage-arena-vr": {
-   "slug": "mage-arena-vr",
-   "purpose": "Seated, hands-first spell duel for Meta Quest, built in Unreal Engine 5.8 (desktop-first until 2026-10-31)",
-   "domains": [],
-   "scope": null,
-   "hasMap": false,
-   "mapGeneratedAt": null,
-   "stats": {
-    "contexts": 0,
-    "groups": 0,
-    "governingSubjects": 0,
-    "weaklyGoverned": 0,
-    "ledgerRows": 0,
-    "absolutePathsDropped": 0
-   },
-   "relPath": "kiro/mage-arena",
-   "groups": {}
-  },
   "athena-muse": {
    "slug": "athena-muse",
    "purpose": null,
@@ -30354,7 +30336,7 @@
    "bundle": "game-production",
    "category": "engine-integration",
    "subcategory": null,
-   "techniques": 7,
+   "techniques": 8,
    "present": [
     {
      "project": "pof",
@@ -33857,7 +33839,7 @@
    "bundle": "media-generation",
    "category": "production-ops",
    "subcategory": null,
-   "techniques": 12,
+   "techniques": 13,
    "present": [
     {
      "project": "gravitone",
@@ -36650,7 +36632,7 @@
    "bundle": "software-engineering",
    "category": "llm-agent",
    "subcategory": "runtime-and-io",
-   "techniques": 17,
+   "techniques": 18,
    "present": [
     {
      "project": "gravitone",
@@ -44456,17 +44438,6 @@
    "deferred": 0,
    "accepted": 0,
    "out-of-domain": 233
-  },
-  "mage-arena-vr": {
-   "contexts": 0,
-   "governingSubjects": 0,
-   "scope": "missing",
-   "candidate": 0,
-   "out-of-scope": 0,
-   "declined": 0,
-   "deferred": 0,
-   "accepted": 0,
-   "out-of-domain": 0
   },
   "athena-muse": {
    "contexts": 0,

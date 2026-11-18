@@ -101,12 +101,6 @@
         "Fox": "dolla/StatReel"
       }
     },
-    "mage-arena-vr": {
-      "checkouts": {
-        "Wolf": "kiro/mage-arena-vr",
-        "Lynx": "kiro/mage-arena"
-      }
-    },
     "garden-vr": {
       "checkouts": {
         "Wolf": "kiro/garden-vr"

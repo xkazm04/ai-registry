@@ -132,6 +132,9 @@ its tree was read only to verify the source's anchors.
 
 ## Cross-repo lane (Phase 8): recorded, not made (operator instruction for this run)
 
+Dropped 2026-11-18: mage-arena-vr left the fleet the same day (owner: if the game continues it is a PC game without VR),
+so the two mage-arena-vr items below will not be made. Its applications stay as dated evidence for their techniques.
+
 - mage-arena-vr, the worker guard: a quote-aware tokenizer in front of the three
   command rules; verb rules ending at a token boundary; the search row and the two
   read-only git query rows added to the allow cases first; the replay kept as a script.
