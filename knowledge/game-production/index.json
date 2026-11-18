@@ -4,8 +4,8 @@
   "bundle": "game-production",
   "source": "knowledge/game-production/ (frontmatter only)",
   "subjects": 90,
-  "techniques": 598,
-  "applications": 361,
+  "techniques": 599,
+  "applications": 362,
   "laws": 16,
   "categories": [
    "systems-canon",
@@ -20,7 +20,7 @@
    "narrative-and-dialogue"
   ],
   "layout": "nested",
-  "use_when_coverage": "598/598",
+  "use_when_coverage": "599/599",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -9886,10 +9886,26 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/game-production/engine-integration/ship-pipeline-gating/ship-pipeline-gating.md",
-   "digest": "sha256-b2:9441126e96ce0ac9",
-   "revision": 4,
-   "changedAt": "2026-10-09",
+   "digest": "sha256-b2:05583eabf0c7143f",
+   "revision": 5,
+   "changedAt": "2026-11-18",
    "techniques": [
+    {
+     "slug": "build-secrets-in-an-unstaged-layer",
+     "status": "forged",
+     "laws": [
+      "structural-proof-is-never-sufficient",
+      "unmeasured-is-not-a-pass"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a release build needs a signing password",
+      "a store credential or a server token",
+      "choosing which configuration file holds a build-only secret",
+      "the packager stages project configuration into the distributable",
+      "adding a secret check to a packaging pipeline"
+     ]
+    },
     {
      "slug": "editor-only-api-audit-for-shipping",
      "status": "forged",
@@ -10023,6 +10039,12 @@
      "file": "knowledge/game-production/engine-integration/ship-pipeline-gating/applications/node--preflight-before-an-expensive-cook.md",
      "verified_on": "2026-08-30",
      "verified_against": "node@24"
+    },
+    {
+     "stack": "process",
+     "technique": "build-secrets-in-an-unstaged-layer",
+     "file": "knowledge/game-production/engine-integration/ship-pipeline-gating/applications/process--build-secrets-in-an-unstaged-layer.md",
+     "verified_on": "2026-11-18"
     },
     {
      "stack": "process",
@@ -12424,6 +12446,7 @@
     "seated-in-world-reading/panel-placement-in-the-view-band",
     "shader-budget-authoring/forbidden-feature-combinations",
     "shader-budget-authoring/sampler-hard-and-soft-caps",
+    "ship-pipeline-gating/build-secrets-in-an-unstaged-layer",
     "ship-pipeline-gating/editor-only-api-audit-for-shipping",
     "ship-pipeline-gating/fail-closed-on-corrupt-gate-config",
     "ship-pipeline-gating/post-cook-process-liveness-smoke",
@@ -13086,6 +13109,7 @@
     "render-submission-economy/prepare-off-the-render-thread-commit-on-it",
     "render-submission-economy/retain-what-did-not-change",
     "runtime-observation-evidence/tiers-of-truth",
+    "ship-pipeline-gating/build-secrets-in-an-unstaged-layer",
     "ship-pipeline-gating/editor-only-api-audit-for-shipping",
     "ship-pipeline-gating/post-cook-process-liveness-smoke",
     "ship-pipeline-gating/preflight-before-an-expensive-cook",

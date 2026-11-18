@@ -4,8 +4,8 @@
   "bundle": "software-engineering",
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 246,
-  "techniques": 2010,
-  "applications": 1507,
+  "techniques": 2011,
+  "applications": 1508,
   "laws": 16,
   "categories": [
    "ui-surfaces",
@@ -20,7 +20,7 @@
    "secret-custody-and-issuance"
   ],
   "layout": "nested",
-  "use_when_coverage": "2010/2010",
+  "use_when_coverage": "2011/2011",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -2964,9 +2964,9 @@
    "subcategory": "runtime-and-io",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/runtime-and-io/agent-runtime-assembly/agent-runtime-assembly.md",
-   "digest": "sha256-b2:ee5623d77ea94212",
-   "revision": 30,
-   "changedAt": "2026-11-16",
+   "digest": "sha256-b2:69e6a577cd9d0447",
+   "revision": 31,
+   "changedAt": "2026-11-18",
    "techniques": [
     {
      "slug": "activation-is-a-separate-mutation",
@@ -3049,6 +3049,22 @@
       "a resumed conversation comes back empty or replays a superseded answer",
       "deciding whether a resume may fork the thread",
       "more than one process opens the same durable thread store"
+     ]
+    },
+    {
+     "slug": "command-guard-judges-command-positions",
+     "status": "forged",
+     "laws": [
+      "gate-sees-target",
+      "unknown-is-not-a-value"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "writing a pre-tool hook that refuses dangerous shell commands",
+      "a guard refuses a search",
+      "an echo or a commit message that only names a dangerous command",
+      "agents rephrase commands to get past a guard",
+      "enabling a new command rule on a machine several agent sessions share"
      ]
     },
     {
@@ -3284,6 +3300,12 @@
      "file": "knowledge/software-engineering/llm-agent/runtime-and-io/agent-runtime-assembly/applications/node--additive-input-at-the-call-boundary.md",
      "verified_on": "2026-09-03",
      "verified_against": "node@24.15.0"
+    },
+    {
+     "stack": "node",
+     "technique": "command-guard-judges-command-positions",
+     "file": "knowledge/software-engineering/llm-agent/runtime-and-io/agent-runtime-assembly/applications/node--command-guard-judges-command-positions.md",
+     "verified_on": "2026-11-18"
     },
     {
      "stack": "node",
@@ -43439,6 +43461,7 @@
     "agent-memory/probe-without-write-back",
     "agent-runtime-assembly/assembly-identity",
     "agent-runtime-assembly/checkpoint-mode-custody",
+    "agent-runtime-assembly/command-guard-judges-command-positions",
     "agent-runtime-assembly/guard-input-custody",
     "agent-runtime-assembly/host-routes-win",
     "agent-runtime-assembly/rewrite-before-the-gate",
@@ -45371,6 +45394,7 @@
     "agent-memory/self-trained-capture-filter",
     "agent-runtime-assembly/additive-input-at-the-call-boundary",
     "agent-runtime-assembly/checkpoint-mode-custody",
+    "agent-runtime-assembly/command-guard-judges-command-positions",
     "agent-runtime-assembly/host-routes-win",
     "agent-runtime-assembly/indeterminate-closure-on-interruption",
     "agent-runtime-assembly/nested-run-is-not-its-parent",

@@ -545,3 +545,13 @@ Dry. The blind lane's answers on frame states, unknown registrations, close-befo
 #### Round 3
 
 Dry. `host-routes-win` first-match versus specificity, `checkpoint-mode-custody` fail-closed direction, and `assembly-identity` excluding the build: all confirmed. dry=2; the loop idles until 2026-12-28 (hermes override) or an event.
+
+## 2026-11-18 - /intake competition lessons (run `intake-bp-lessons-1118`, [[2026-11-18-competition-lessons]])
+
+New technique `command-guard-judges-command-positions` (3/0/2): the 2026-10-02 claude-mods
+lead's return condition fired - a second, independently written guard with the same false-
+refusal class (data read as commands; a quoted `|` taken for a pipe). Replayed a worker guard
+from mage-arena-vr over 1,509 recorded commands: 189 refusals, one of this class, removed by
+position-aware judging with the guard's 25 deny and 12 allow cases held (better, small). The
+replay also found a verb rule matching a read-only sibling verb at a hyphen, which became the
+technique's token-boundary step.

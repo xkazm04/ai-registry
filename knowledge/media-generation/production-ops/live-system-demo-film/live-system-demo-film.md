@@ -17,6 +17,7 @@ techniques:
   - prototype-the-cut-from-stills-and-a-dry-walk
   - narrator-chosen-by-audition
   - music-bed-sized-to-the-finished-cut
+  - frame-stepped-page-capture
 ---
 
 # The live-system demo film

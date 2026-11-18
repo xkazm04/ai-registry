@@ -12,6 +12,7 @@ techniques:
   - size-budget-and-growth-baseline
   - fail-closed-on-corrupt-gate-config
   - ship-only-what-the-runtime-reads
+  - build-secrets-in-an-unstaged-layer
 ---
 
 # Ship pipeline gating

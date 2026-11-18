@@ -22,6 +22,7 @@ techniques:
   - nested-run-is-not-its-parent
   - activation-is-a-separate-mutation
   - rewriting-under-a-foreign-gate
+  - command-guard-judges-command-positions
 ---
 
 # Agent runtime assembly

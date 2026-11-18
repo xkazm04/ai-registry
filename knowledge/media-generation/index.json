@@ -4,8 +4,8 @@
   "bundle": "media-generation",
   "source": "knowledge/media-generation/ (frontmatter only)",
   "subjects": 53,
-  "techniques": 354,
-  "applications": 213,
+  "techniques": 355,
+  "applications": 214,
   "laws": 9,
   "categories": [
    "narrative-craft",
@@ -16,7 +16,7 @@
    "streaming"
   ],
   "layout": "nested",
-  "use_when_coverage": "354/354",
+  "use_when_coverage": "355/355",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -3736,9 +3736,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/media-generation/production-ops/live-system-demo-film/live-system-demo-film.md",
-   "digest": "sha256-b2:e3bb8c209c3765f1",
-   "revision": 3,
-   "changedAt": "2026-10-29",
+   "digest": "sha256-b2:62c6f36e20d2efbd",
+   "revision": 4,
+   "changedAt": "2026-11-18",
    "techniques": [
     {
      "slug": "audio-first-beat-pacing",
@@ -3770,6 +3770,22 @@
      ]
     },
     {
+     "slug": "frame-stepped-page-capture",
+     "status": "forged",
+     "laws": [
+      "unmeasured-is-not-pass",
+      "output-never-outruns-evidence"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "recording a browser page for a demo film",
+      "a page recording stutters or drops frames during a camera move or a transition",
+      "a cut needs the exact frame an on-screen action happened",
+      "the recorder's frame rate differs from the film's",
+      "a stepped capture is not identical between two runs"
+     ]
+    },
+    {
      "slug": "music-bed-sized-to-the-finished-cut",
      "status": "forged",
      "laws": [
@@ -3781,7 +3797,8 @@
       "adding a background music bed to a narrated demo film",
       "choosing between several generated music candidates",
       "deciding how loud a bed sits under a voice",
-      "a script change moved the length of the film"
+      "a script change moved the length of the film",
+      "a demo film is cut to a chosen featured track rather than a bed"
      ]
     },
     {
@@ -3939,6 +3956,12 @@
      "verified_on": "2026-09-27",
      "verified_against": "node@24",
      "refresh_by": "2026-12-28"
+    },
+    {
+     "stack": "python",
+     "technique": "frame-stepped-page-capture",
+     "file": "knowledge/media-generation/production-ops/live-system-demo-film/applications/python--frame-stepped-page-capture.md",
+     "verified_on": "2026-11-18"
     }
    ]
   },
@@ -7085,6 +7108,7 @@
     "live-safety-rails/no-crowd-action",
     "live-system-demo-film/audio-first-beat-pacing",
     "live-system-demo-film/figures-lifted-with-declared-fallback",
+    "live-system-demo-film/frame-stepped-page-capture",
     "live-system-demo-film/native-window-grab-with-measured-clock",
     "live-system-demo-film/recording-that-asserts-its-claims",
     "live-system-demo-film/script-as-single-source",
@@ -7336,6 +7360,7 @@
     "giveaway-legal-guardrails/platform-non-sponsorship-disclaimer",
     "live-safety-rails/real-people-boundary",
     "live-system-demo-film/figures-lifted-with-declared-fallback",
+    "live-system-demo-film/frame-stepped-page-capture",
     "live-system-demo-film/music-bed-sized-to-the-finished-cut",
     "live-system-demo-film/narrator-chosen-by-audition",
     "live-system-demo-film/native-window-grab-with-measured-clock",

@@ -1,0 +1,90 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "intake-bp-lessons-1118",
+  "skill": "intake",
+  "skill_version": "2.22.0",
+  "mode": "source",
+  "domain": null,
+  "started_at": "2026-11-18T09:00:00Z",
+  "ended_at": "2026-11-18T13:30:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 4,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "game-production/ship-pipeline-gating",
+      "at": "2026-11-18",
+      "engine": "intake",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    },
+    {
+      "id": "software-engineering/agent-runtime-assembly",
+      "at": "2026-11-18",
+      "engine": "intake",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    },
+    {
+      "id": "media-generation/live-system-demo-film",
+      "at": "2026-11-18",
+      "engine": "intake",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "agent-runtime-assembly",
+      "technique": "command-guard-judges-command-positions",
+      "verdict": "better",
+      "mode": "experiment"
+    },
+    {
+      "subject": "live-system-demo-film",
+      "technique": "frame-stepped-page-capture",
+      "verdict": "not-better",
+      "mode": "experiment"
+    },
+    {
+      "subject": "ship-pipeline-gating",
+      "technique": "build-secrets-in-an-unstaged-layer",
+      "verdict": "unmeasurable",
+      "mode": "experiment"
+    }
+  ],
+  "files": [
+    "knowledge/game-production/engine-integration/ship-pipeline-gating/techniques/build-secrets-in-an-unstaged-layer.md",
+    "knowledge/game-production/engine-integration/ship-pipeline-gating/applications/process--build-secrets-in-an-unstaged-layer.md",
+    "knowledge/game-production/engine-integration/ship-pipeline-gating/ship-pipeline-gating.md",
+    "knowledge/software-engineering/llm-agent/runtime-and-io/agent-runtime-assembly/techniques/command-guard-judges-command-positions.md",
+    "knowledge/software-engineering/llm-agent/runtime-and-io/agent-runtime-assembly/applications/node--command-guard-judges-command-positions.md",
+    "knowledge/software-engineering/llm-agent/runtime-and-io/agent-runtime-assembly/agent-runtime-assembly.md",
+    "knowledge/media-generation/production-ops/live-system-demo-film/techniques/frame-stepped-page-capture.md",
+    "knowledge/media-generation/production-ops/live-system-demo-film/techniques/music-bed-sized-to-the-finished-cut.md",
+    "knowledge/media-generation/production-ops/live-system-demo-film/applications/python--frame-stepped-page-capture.md",
+    "knowledge/media-generation/production-ops/live-system-demo-film/live-system-demo-film.md",
+    "librarian/sources/2026-11-18-competition-lessons.md",
+    "librarian/sources/2026-10-02-claude-mods.md",
+    "librarian/sources/index.md",
+    "librarian/applied.md",
+    "librarian/subjects/game-production/ship-pipeline-gating.md",
+    "librarian/subjects/software-engineering/agent-runtime-assembly.md",
+    "librarian/subjects/media-generation/live-system-demo-film.md",
+    ".claude/skills/intake/SCORECARD.md",
+    ".claude/skills/intake/LESSONS.md"
+  ],
+  "commits": [],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "Pasted first-hand notes, 20 lessons. Three techniques and one amendment in three bundles; 6 catches, 3 leads, 9 untriaged. Applied: better, not-better, unmeasurable (experiments), one unapplied. No project edits (operator)."
+}

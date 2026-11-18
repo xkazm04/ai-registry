@@ -239,3 +239,15 @@ declaration is "trivially readable at rest". F2 is counter-evidence: a declarati
 not stable at rest, and its check belongs on the artifact, with only the guard's presence left for preflight. Options:
 (a) a sentence on load-time rewriting under that rung; (b) a recurring inhabitant in `preflight-before-an-expensive-cook`
 ("a guard against a tool that rewrites the declaration"); (c) leave both as they are, carried by the application.
+
+## 2026-11-18 - /intake competition lessons (run `intake-bp-lessons-1118`, [[2026-11-18-competition-lessons]])
+
+New technique `build-secrets-in-an-unstaged-layer` (3/0/2): a build secret's safety comes from
+a layer the packager never stages, gated on the staged file list at file granularity; the
+packager's key and section deny lists are the second line because they match names, exactly,
+in one form. Written against the engine's own staging code, which corrected the source's
+premise (the file staged; the named password key was probably stripped). Application against
+mage-arena-vr: experiment, unmeasurable until a staged list from the engine host is read; its
+one secret-shaped staged value is safe by a section deny list. Untriaged: a preflight
+inhabitant for host commit headroom. Catch: a plugin that builds only for the shipping
+configuration is the existing configuration-conditional rung.

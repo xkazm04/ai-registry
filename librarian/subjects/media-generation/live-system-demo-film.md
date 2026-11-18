@@ -128,3 +128,15 @@ technique, and no golden-path rule flipped.
 - Dry streak: 0.
 
 Points 5 -> 3; "never swept by the librarian" remains.
+
+### 2026-11-18 - `/intake` competition lessons (run `intake-bp-lessons-1118`, [[2026-11-18-competition-lessons]])
+
+New technique `frame-stepped-page-capture` (3/0/2): step a frozen page clock per output
+frame instead of recording in real time; a page runs on three clocks (script, style
+animations, SVG timelines) and a two-run comparison is the gate. Applied to a personas design
+page: not-better as the source stated it (0 of 61 frames identical across runs, an SVG spinner
+on the real clock), 37 of 61 with SVG seeking. Amendment to `music-bed-sized-to-the-finished-cut`:
+a featured cue inverts the order and the driven take is scheduled from the cue's marks
+(convergence with trailer-structure's cue-first assembly); unapplied, no fleet recorder
+carries a featured cue. Catches: review stills, reset the stage per take. Untriaged: voice
+placed from the product's log. Lead: a two-surface demo needs both on screen.

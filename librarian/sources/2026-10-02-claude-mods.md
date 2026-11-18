@@ -102,6 +102,8 @@ derived from an incident record, compare its draft-to-replay correction against 
 runs showing the same false-positive classes (scoped pathspecs, heredoc bodies, usage-vs-help)
 make it a technique in agent-runtime-assembly.*
 
+**Return condition met 2026-11-18** ([[2026-11-18-competition-lessons]], run `intake-bp-lessons-1118`): a second, independently written guard showed the same class (data read as commands; a quoted `|` taken for a pipe). Landed as `agent-runtime-assembly/command-guard-judges-command-positions`, applied as an experiment (better).
+
 ### Row 8 - currency, banked as a lead
 
 2.1.287 added function-hook plugins (in-process hooks over tool calls, prompts, the system

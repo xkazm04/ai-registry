@@ -6,7 +6,7 @@ technique: music-bed-sized-to-the-finished-cut
 status: forged
 laws: [cost-per-usable-output, output-never-outruns-evidence]
 shared_with: []
-use_when: [adding a background music bed to a narrated demo film, choosing between several generated music candidates, deciding how loud a bed sits under a voice, a script change moved the length of the film]
+use_when: [adding a background music bed to a narrated demo film, choosing between several generated music candidates, deciding how loud a bed sits under a voice, a script change moved the length of the film, a demo film is cut to a chosen featured track rather than a bed]
 ---
 
 # A music bed, sized to the finished cut
@@ -59,6 +59,32 @@ make that safe and cheap.
   tolerance, and worth reading in the render's own report.
 - **Judge the final film, not the stems.** The only listening that counts is the
   rendered film with the voice on top.
+
+## When the music is a featured cue, the order inverts
+
+Everything above is for a bed: quiet, without structure, derived from a finished cut. A film
+can instead carry a **featured cue**, a chosen track with sections the audience is meant to
+hear (a drop, a breath, a final peak). A cue's structure cannot be re-generated to fit a
+picture without becoming a different cue, so the dependency runs the other way: the cue is
+picked first and the picture is fitted to it, which is the dependency order of promotional
+cutting generally. A driven take makes that cheap, because its timing is a parameter:
+
+- **Analyse the cue before the take.** Beats, bars and per-bar intensity give its marks:
+  where it drops, where it breathes, where it peaks.
+- **Schedule the on-camera actions from the marks.** The driver spaces its key actions by
+  the intervals between the cue's marks, from the first action on, so the whole take lands
+  on the music with one offset at normal speed and no re-timing in the edit. A driver whose
+  steps wait on product events gets a lower bound per step ("not before this mark"), never
+  a fixed sleep.
+- **Measure the sync, per mark.** Read each action's time from the product's own log and
+  report its distance from its mark. One project measured +0.00, +0.28 and +0.00 s on three
+  marks; a mark the take missed is re-taken, not nudged in the edit, because nudging breaks
+  the one-offset property for every later mark.
+
+The discriminator is which side is cheaper to move. A generated bed is cheap to re-make at a
+new length, so it follows the cut. A chosen cue is fixed and a driven take is cheap to
+re-time, so the take follows the cue. Narration complicates the second case: lines must then
+fit inside the cue's sections, and a line that will not fit is cut, not the cue stretched.
 
 ## Failure modes
 
