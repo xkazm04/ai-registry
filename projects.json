@@ -127,11 +127,6 @@
         "Wolf": "kiro/overlord"
       }
     },
-    "bp": {
-      "checkouts": {
-        "Lynx": "kiro/bp"
-      }
-    },
     "dowser": {
       "checkouts": {
         "Lynx": "kiro/dowser"
