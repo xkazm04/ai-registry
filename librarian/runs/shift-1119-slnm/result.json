@@ -1,0 +1,41 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "shift-1119-slnm",
+  "skill": "shift",
+  "skill_version": "0.6.0",
+  "mode": "source",
+  "domain": "game-production",
+  "started_at": "2026-11-19T00:00:00Z",
+  "ended_at": "2026-11-19T11:27:53Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 0,
+    "declined": 0,
+    "idled": 1,
+    "contended": 0,
+    "held": 0
+  },
+  "subjects": [
+    {
+      "id": "game-production/agent-behaviour-authoring",
+      "at": "2026-11-19",
+      "engine": "shift",
+      "outcome": "idled",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [],
+  "files": [
+    "librarian/sources/2026-11-19-small-local-npc-model.md",
+    "librarian/sources/index.md",
+    ".claude/skills/intake/SCORECARD.md",
+    "librarian/runs/shift-1119-slnm/result.json"
+  ],
+  "commits": [],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "1 video, 1 channel: 0 accepted, 1 lead (return: runtime here, NPC seam in fleet, ~2 GB download at night; four-arm design in note, not banked), 1 currency, 2 covered, 4 untriaged (best 2/1/2). Bar +3 per intake Phase 5 and the scorecard."
+}
