@@ -1,0 +1,49 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "shift-1119-ldp",
+  "skill": "shift",
+  "skill_version": "0.6.0",
+  "mode": "source",
+  "domain": "technical-writing",
+  "started_at": "2026-11-19T00:00:00Z",
+  "ended_at": "2026-11-19T11:27:41Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 0,
+    "declined": 0,
+    "idled": 2,
+    "contended": 0,
+    "held": 0
+  },
+  "subjects": [
+    {
+      "id": "technical-writing/figures-and-tables",
+      "at": "2026-11-19",
+      "engine": "shift",
+      "outcome": "idled",
+      "points_before": null,
+      "points_after": null
+    },
+    {
+      "id": "media-generation/data-video-art-direction",
+      "at": "2026-11-19",
+      "engine": "shift",
+      "outcome": "idled",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [],
+  "files": [
+    "librarian/sources/2026-11-19-layout-decision-placement.md",
+    "librarian/sources/index.md",
+    ".claude/skills/intake/SCORECARD.md",
+    "librarian/runs/shift-1119-ldp/result.json"
+  ],
+  "commits": [],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "1 video, 1 channel: 0 accepted, 3 leads (E4 procedures subject, E3 root law, review-page tooling proposal), 2 covered, 5 untriaged. fp=1: the miner's tooling accept falsifies gpu-bank.md's page order. 0 held. Bar +3 per intake Phase 5 and the scorecard."
+}
