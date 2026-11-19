@@ -1,0 +1,57 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "shift-1119-bmvr",
+  "skill": "shift",
+  "skill_version": "0.6.0",
+  "mode": "source",
+  "domain": "media-generation",
+  "started_at": "2026-11-19T00:00:00Z",
+  "ended_at": "2026-11-19T11:15:01Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 0,
+    "declined": 0,
+    "idled": 3,
+    "contended": 0,
+    "held": 0
+  },
+  "subjects": [
+    {
+      "id": "media-generation/video-assembly",
+      "at": "2026-11-19",
+      "engine": "shift",
+      "outcome": "idled",
+      "points_before": null,
+      "points_after": null
+    },
+    {
+      "id": "media-generation/cinematic-language",
+      "at": "2026-11-19",
+      "engine": "shift",
+      "outcome": "idled",
+      "points_before": null,
+      "points_after": null
+    },
+    {
+      "id": "media-generation/visual-style-locking",
+      "at": "2026-11-19",
+      "engine": "shift",
+      "outcome": "idled",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [],
+  "files": [
+    "librarian/sources/2026-11-19-built-motion-as-video-reference.md",
+    "librarian/sources/index.md",
+    ".claude/skills/intake/SCORECARD.md",
+    "librarian/runs/shift-1119-bmvr/result.json"
+  ],
+  "commits": [],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "3 videos, 3 channels: 0 accepted, 5 leads, 3 currency, 28 covered, 17 untriaged (15 scored under +3). 0 held: r13-finish is a lead lacking the previs signal; A1/A3 wait on r19. Bar +3 per intake Phase 5 and the scorecard."
+}
