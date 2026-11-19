@@ -58,7 +58,7 @@ techniques. No render, no GPU, no download, no web fetch by the lander. Phase 7.
 **Class and expected yield, stated first:** five practitioner walkthroughs, four sponsored, none
 measuring anything. The corpus already owns reference sheets, role maps, style blocks and the
 conditioning ladder in depth. Expected: catches on locks and sheets, a few boundary leads, dated node
-facts, and one remake. That held: 2 applications accepted (landing deferred, below), 15 leads, 30 covered, 10 untriaged, 6
+facts, and one remake. That held: 2 applications accepted (landed in a follow-up, below), 15 leads, 30 covered, 10 untriaged, 6
 currency, 1 dropped, 1 held replica.
 
 **Voices.** Five channels. Convergence counts channels, never videos. Two corrections to the plan's
@@ -82,16 +82,20 @@ both miner accepts survived the lander's read.
 
 ## What landed
 
-This note, its ledger lines and one held replica row, `shift-replica-mccc-dialogue-carry`. No corpus
-file changed, and no project was touched.
+This note, its ledger lines and one held replica row, `shift-replica-mccc-dialogue-carry`, in
+`946943e79`. No project was touched.
 
-**The two accepts are deferred, not landed (V5, defer).** They append two bullets to
+**The two accepts landed in a follow-up commit, after a deferral (V5, defer).** They append two
+bullets to
 `knowledge/media-generation/production-ops/video-assembly/applications/process--generated-shot-sourcing.md`,
 after the 2026-11-06 "A moving reference on one local node" bullet. The door refused that path on
 2026-11-19 (`path-refused`), because sibling `shift-1119-bmvr` held `video-assembly` on the board.
-That sibling landed `2bfdb2e48` and changed no corpus file, but only the supervisor releases its
-claim. The wording below is final: the next landing in that file applies it verbatim once the claim
-is released, and moves `accepted` here into a commit.
+That sibling landed `2bfdb2e48` and changed no corpus file. Once its claim was released, a second
+lander for this run re-read both bullets against ComfyUI `63be2f9` (`nodes_minimax_h3.py` AddGuide
+and ReferenceToVideo, `model_base.py` extra_conds, `ldm/minimax/model.py` PackedLayout,
+`text_encoders/minimax.py` per-type counters) and gravitone at `6b9802d4` (`comfyH3Ref.ts` lines 37
+and 58, still `<Audio 1>` and `match`), recomputed every token figure, found the target file
+unchanged since `2bfdb2e48`, and landed the wording below verbatim. `verified_on` not moved.
 
 ```markdown
 - **A start frame beside the references, and the order of the tags (read
@@ -167,8 +171,8 @@ Merged across the five reports (72 miner rows, 64 here). `Voices` names the chan
 
 | # | Candidate | Voices | Anchor | Outcome | Rule | Prior art and reason |
 | --- | --- | --- | --- | --- | --- | --- |
-| L1 | A start frame rides beside the references on the local node; a clip's soundtrack takes `<Audio 1>` and moves standalone voices up | J (F on the first half) | node code read at `63be2f9` | **Accept, deferred (V5)** | table (application, tree opened); raw 2/0/1 | 2026-11-06 bullet lists counts and tags, not composition with a keyframe or the soundtrack-first order. Seam: gravitone `speakingPrompt` |
-| L2 | `ref_image_size`: only `max` passes a large still's pixels, capped at a 2,048 px short edge, for a few percent of the clip's tokens | V (translation of his claim) | node code read; Codex 16:9 observed at 1672x941 | **Accept, deferred (V5)** | table (application, tree opened); raw 1/0/1 | 2026-11-06 bullet holds `match` only. Seam: gravitone `comfyH3Ref.ts:58` |
+| L1 | A start frame rides beside the references on the local node; a clip's soundtrack takes `<Audio 1>` and moves standalone voices up | J (F on the first half) | node code read at `63be2f9` | **Accept, landed (follow-up)** | table (application, tree opened); raw 2/0/1 | 2026-11-06 bullet lists counts and tags, not composition with a keyframe or the soundtrack-first order. Seam: gravitone `speakingPrompt` |
+| L2 | `ref_image_size`: only `max` passes a large still's pixels, capped at a 2,048 px short edge, for a few percent of the clip's tokens | V (translation of his claim) | node code read; Codex 16:9 observed at 1672x941 | **Accept, landed (follow-up)** | table (application, tree opened); raw 1/0/1 | 2026-11-06 bullet holds `match` only. Seam: gravitone `comfyH3Ref.ts:58` |
 | L3 | Carry a start frame with the identity references in one call | J, F, C | J [00:03:00]; F [00:02:59]-[00:04:15]; C [00:09:01]-[00:09:28] | Untriaged (boundary) | Phase 5, 2/0/1 | `generated-shot-sourcing` rungs 2 and 4 and "Pin the origin, roll the recent" already say it; the corpus is right, the rung list only reads as exclusive. Arm A1 exercises it |
 | L4 | A tail-frame seam is not exact; cover it in the edit and say which | C, J | C [00:13:23]; J PFO [00:09:02] | **Lead, held row** | Phase 5, 2/2/1 | Decision rule 1 and rung 3 present the tail anchor as the defence and name no residual. **Discriminator:** how the start frame enters (a reference among others on their host, a pinned keyframe here). The seam measure decides |
 | L5 | Persisting state written as a text line naming its location | J (wound across clips), D (placement inside one take) | J [00:03:27]-[00:03:52]; D page `[CONTINUITY]` | **Lead, held row** | Phase 5, 2/2/1 | `identity-split-from-state` § State that must persist: a reference variant, "not requested in text". J's half: the start frame carries the state in pixels and the text labels it. D's half: inside one take there is no sheet switch. B against A1 tests J's half only; neither arm renders the corpus's form, so the row can bound the rule, never invert it |
@@ -269,9 +273,8 @@ anchor, the multi-view sheet (L56), and the voice reference's content (held in
 
 ## Proposals (not landed)
 
-0. **Land the two deferred bullets** (§ What landed, verbatim) once `shift-1119-bmvr`'s claim on
-   `video-assembly` is released. No re-read is owed beyond checking the file has not moved since
-   `2bfdb2e48`.
+0. **Landed.** The two deferred bullets (§ What landed, verbatim) went in once `shift-1119-bmvr`'s
+   claim on `video-assembly` was released, after a re-read of the code they cite.
 1. **gravitone, after the replica's verdict** (`lib/imaging/video/comfyH3Ref.ts`, read at `6b9802d4`):
    `H3VoiceRequest` takes a cast (several stills and voices); an optional start still chained through
    `MiniMaxH3AddGuide` at `frame_idx 0`; an optional previous clip with its sound into

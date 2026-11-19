@@ -1,7 +1,7 @@
 ---
 subject: video-assembly
 domain: media-generation
-last_touched: 2026-11-11
+last_touched: 2026-11-19
 touched_by: shift
 dry_streak: 0
 ---
@@ -379,3 +379,8 @@ property.
 ## 2026-11-11 - /harvest backlog 3-060 + 3-061 ([[../../sources/2026-09-04-wan2gp]], /shift filler)
 
 `window-plan-validation-is-asymmetric` landed (blind-ab, better), the 3-061 clause only: a generation-window plan longer than its target is reported with its predicted total and runs; a plan in which a window would receive zero frames is refused; nothing trims trailing windows to fit. One probe, a sliding-window music-clip planner with a trim-from-the-end loop; both arms held segment-on-the-master-clock and drift-correction. Asymmetric validation A 6, B 3 of 6 (every arm-B run said raise in both directions). The overlap-is-conditioning accounting (3-060: a window's stated duration is its contribution, overlap generated in addition) tied at the ceiling, A 6, B 5, and did not land. Floor (keep overlap conditioning and track-map durations) A 6, B 4; controls held.
+
+## 2026-11-19 - `/shift`, cluster `multi-clip-continuity-carry`
+
+- `process--generated-shot-sourcing`: two dated bullets read from the local H3 node's code at one pinned commit: a start frame rides beside the references in one call, and a reference clip's soundtrack takes `<Audio 1>` and moves standalone voices up; `ref_image_size` `max` is the only route for a large still's pixels, capped at a 2,048 px short edge, with its token price. Landed in a follow-up after a sibling's claim deferred them. `verified_on` not moved.
+- Nothing landed in `generated-shot-sourcing`: the tail-frame seam residue, state written as text, and the moving reference against its tail frame wait on `shift-replica-mccc-dialogue-carry`. See [[2026-11-19-multi-clip-continuity-carry]].

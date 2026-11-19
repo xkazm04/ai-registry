@@ -102,6 +102,36 @@ carrying no revision note are as of the original sheet.
   neither the video input nor that pairing. The 2.0 series of a hosted model
   documents the same counts (0-9 images, 0-3 videos, 0-3 audio files); the 2.5 caps
   stay contested above.
+- **A start frame beside the references, and the order of the tags (read
+  2026-11-19, ComfyUI v0.42.1 `63be2f9`).** `MiniMaxH3AddGuide` anchors a still, a
+  17k+5-frame clip or audio at any `frame_idx` (a negative index counts from the
+  end). Its only check on the latent is that it is an H3 audio-video latent, which
+  is what `MiniMaxH3ReferenceToVideo` emits, so one reference call can take a start
+  frame and the references together. The packed sequence carries the reference
+  blocks and the keyframe rows side by side, with keyframes placed on the target
+  timeline after the references' span. Whether the reference checkpoint, a
+  separate weight from the first-and-last-frame one, follows a keyframe is
+  unmeasured, and the failure to expect is silent: a clip that ignores its start
+  frame and raises no error. The tags are numbered per type in a fixed order:
+  images, then each reference clip, with its soundtrack's `<Audio j>` placed just
+  before its `<Video k>`, then the standalone audio files. Adding a reference clip
+  with sound makes its soundtrack `<Audio 1>` and moves every standalone voice up by
+  one, so a prompt that names a voice by a fixed `<Audio 1>` points at the wrong
+  reference.
+- **What `ref_image_size` does with a large still (read 2026-11-19, same commit).**
+  Both settings only scale down, to multiples of 32 px. `match` scales a reference
+  image to the generation's pixel area, and `max` scales it to a 2,048 px short
+  edge. A reference costs one token per 32x32 px, and the tokens ride through every
+  step. So a still drawn larger than the clip reaches the model only under `max`,
+  and a 16:9 still stops there at 3648x2048 (about 7.5 MP, 7,296 tokens) whatever
+  it was drawn at. A 1672x941 still enters an 832x448, 124-frame clip at 800x448
+  (350 tokens) under `match` and at 1664x928 (1,508 tokens) under `max`, against
+  13,468 tokens for the clip itself: 4.3 times the pixels for about 9 % more tokens
+  per still. In a 1280x704 clip (32,560 tokens) the same still enters at 1280x704
+  under `match`, and `max` gives it 1.7 times the pixels for about 2 % more. The
+  node's tooltip warns that `max` "can be several times slower"; at this size the
+  added tokens are a small share of the clip's, but no time was measured, and
+  whether `max` holds a face better on this node is unmeasured.
 - **Real faces in reference clips (read 2026-11-06, vendor doc, 2.0 series).** The
   2.0 series does "not support direct uploads of reference images or videos
   containing real human faces", and it routes portrait work through its own

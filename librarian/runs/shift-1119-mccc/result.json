@@ -10,10 +10,10 @@
   "exit": 0,
   "counts": {
     "dispatched": 0,
-    "landed": 0,
+    "landed": 1,
     "declined": 0,
     "idled": 2,
-    "contended": 1,
+    "contended": 0,
     "held": 1
   },
   "subjects": [
@@ -21,7 +21,7 @@
       "id": "media-generation/video-assembly",
       "at": "2026-11-19",
       "engine": "shift",
-      "outcome": "contended",
+      "outcome": "landed",
       "points_before": null,
       "points_after": null
     },
@@ -56,11 +56,25 @@
     "librarian/sources/index.md",
     ".claude/skills/intake/SCORECARD.md",
     "librarian/harvest/backlog.jsonl",
-    "librarian/runs/shift-1119-mccc/result.json"
+    "librarian/runs/shift-1119-mccc/result.json",
+    "knowledge/media-generation/production-ops/video-assembly/applications/process--generated-shot-sourcing.md",
+    "librarian/subjects/media-generation/video-assembly.md"
   ],
-  "commits": [],
+  "commits": [
+    {
+      "sha": "946943e79",
+      "branch": "main",
+      "pathspec": [
+        "librarian/sources/2026-11-19-multi-clip-continuity-carry.md",
+        "librarian/sources/index.md",
+        ".claude/skills/intake/SCORECARD.md",
+        "librarian/harvest/backlog.jsonl",
+        "librarian/runs/shift-1119-mccc/result.json"
+      ]
+    }
+  ],
   "pr": null,
   "declined": [],
   "failure_signature": null,
-  "notes": "2 application bullets accepted, deferred: door refused the file while shift-1119-bmvr held video-assembly. 15 leads, 30 covered, 10 untriaged, 6 currency, 1 held replica (8 clips, 25 GPU min). Bar +3, 18 Phase 5 rows, none cleared."
+  "notes": "2 application bullets accepted, deferred behind shift-1119-bmvr, then landed verbatim in a follow-up after a re-read at ComfyUI 63be2f9. 15 leads, 30 covered, 10 untriaged, 6 currency, 1 held replica (8 clips, 25 GPU min). Bar +3, 18 Phase 5 rows, none cleared."
 }
