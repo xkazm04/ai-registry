@@ -1,0 +1,65 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "shift-1119-areg",
+  "skill": "shift",
+  "skill_version": "0.6.0",
+  "mode": "source",
+  "domain": "media-generation",
+  "started_at": "2026-11-19T00:00:00Z",
+  "ended_at": "2026-11-19T12:45:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 0,
+    "declined": 0,
+    "idled": 4,
+    "contended": 0,
+    "held": 0
+  },
+  "subjects": [
+    {
+      "id": "agent-operations/unattended-run-isolation",
+      "at": "2026-11-19",
+      "engine": "shift",
+      "outcome": "idled",
+      "points_before": null,
+      "points_after": null
+    },
+    {
+      "id": "media-generation/production-pipeline-phasing",
+      "at": "2026-11-19",
+      "engine": "shift",
+      "outcome": "idled",
+      "points_before": null,
+      "points_after": null
+    },
+    {
+      "id": "media-generation/image-prompt-composition",
+      "at": "2026-11-19",
+      "engine": "shift",
+      "outcome": "idled",
+      "points_before": null,
+      "points_after": null
+    },
+    {
+      "id": "media-generation/short-form-narrative-structure",
+      "at": "2026-11-19",
+      "engine": "shift",
+      "outcome": "idled",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [],
+  "files": [
+    "librarian/sources/2026-11-19-agent-run-episode-gates.md",
+    "librarian/sources/index.md",
+    ".claude/skills/intake/SCORECARD.md",
+    "librarian/runs/shift-1119-areg/result.json"
+  ],
+  "commits": [],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "2 videos, 2 channels: 0 accepted, 2 leads, 17 covered, 2 untriaged (A3 1/2/1, A21 2/1/2), 1 currency, 0 held. Bar +3 per intake Phase 5 and the scorecard. The miner's /shift disk accept is an operator proposal (shift-policy.mjs, gpu-bank, pressure table)."
+}
