@@ -1,0 +1,41 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "shift-1120-la3d",
+  "skill": "shift",
+  "skill_version": "0.6.0",
+  "mode": "source",
+  "domain": "game-production",
+  "started_at": "2026-11-20T00:00:00Z",
+  "ended_at": "2026-11-20T12:51:57Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 0,
+    "declined": 0,
+    "idled": 1,
+    "contended": 0,
+    "held": 0
+  },
+  "subjects": [
+    {
+      "id": "game-production/concept-scene-parity",
+      "at": "2026-11-20",
+      "engine": "shift",
+      "outcome": "idled",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [],
+  "files": [
+    "librarian/sources/2026-11-20-line-art-over-3d.md",
+    "librarian/sources/index.md",
+    ".claude/skills/intake/SCORECARD.md",
+    "librarian/runs/shift-1120-la3d/result.json"
+  ],
+  "commits": [],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "1 video, 1 channel: 0 accepted, 3 leads (generator needs its view; world-space width since 4.3; line pass over fixed geometry), 2 catches, 2 untriaged, 0 held: no seam, previs closed. Bar +3 per intake Phase 5 and the scorecard."
+}
