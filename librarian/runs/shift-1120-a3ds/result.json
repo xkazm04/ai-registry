@@ -1,0 +1,50 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "shift-1120-a3ds",
+  "skill": "shift",
+  "skill_version": "0.6.0",
+  "mode": "source",
+  "domain": "agent-operations",
+  "started_at": "2026-11-20T12:32:26Z",
+  "ended_at": "2026-11-20T13:15:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 0,
+    "declined": 0,
+    "idled": 1,
+    "contended": 0,
+    "held": 1
+  },
+  "subjects": [
+    {
+      "id": "agent-operations/agent-run-budgeting",
+      "at": "2026-11-20",
+      "engine": "shift",
+      "outcome": "idled",
+      "points_before": null,
+      "points_after": null
+    },
+    {
+      "id": "game-production/sprite-and-atlas-production",
+      "at": "2026-11-20",
+      "engine": "shift",
+      "outcome": "held",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [],
+  "files": [
+    "librarian/sources/2026-11-20-agent-authored-3d-scene.md",
+    "librarian/sources/index.md",
+    ".claude/skills/intake/SCORECARD.md",
+    "librarian/harvest/backlog.jsonl",
+    "librarian/runs/shift-1120-a3ds/result.json"
+  ],
+  "commits": [],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "2 videos, 2 channels: 0 accepted, 1 lead, 3 currency, 8 caught, 4 untriaged. 11-16 B11 fires on wall clock; its line scores 1/2/1, not written. Held shift-replica-svfx-fireball-texture-route gains arm S (Blender gas sim, Cycles CPU; GPU 15 unchanged). Bar +3; fp=0."
+}
