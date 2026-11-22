@@ -1,0 +1,47 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "intake-composing-1122",
+  "skill": "intake",
+  "skill_version": "2.22.0",
+  "mode": "source",
+  "domain": "media-generation",
+  "started_at": "2026-11-22T19:20:00Z",
+  "ended_at": "2026-11-22T23:40:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 0,
+    "declined": 0,
+    "idled": 1,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "media-generation/video-assembly",
+      "at": "2026-11-22",
+      "engine": "intake",
+      "outcome": "idled",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "video-assembly",
+      "technique": "generated-shot-sourcing",
+      "verdict": "unmeasurable",
+      "mode": "render"
+    }
+  ],
+  "files": [
+    "librarian/sources/2026-11-22-composing-continuity-batch.md",
+    "librarian/sources/index.md",
+    "librarian/applied.md",
+    ".claude/skills/intake/SCORECARD.md"
+  ],
+  "commits": [],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "Nothing landed in the corpus: nine catches, five leads, six untriaged. One render apply on the Glass take awaits the operator pick."
+}
