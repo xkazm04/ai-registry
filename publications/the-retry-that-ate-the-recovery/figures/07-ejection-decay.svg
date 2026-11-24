@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 360" width="760" height="360" role="img">
+<style>
+:root{--bg:#fbfaf7;--fg:#1a1a18;--mut:#55554f;--line:#3c3c3c;--rule:#8a8a80;--red:#a32b1c;--blue:#1d4e89;--green:#1f6f54;--panel:#eceae3}
+@media (prefers-color-scheme:dark){:root{--bg:#16161a;--fg:#eceae4;--mut:#aaa89f;--line:#b9b7ae;--rule:#6e6e66;--red:#f0a08f;--blue:#92b8ea;--green:#80d1b0;--panel:#242428}}
+text{font-family:Helvetica,Arial,sans-serif;fill:var(--fg)}
+.t{font-size:16px;font-weight:bold}
+.s{font-size:13px}
+.m{fill:var(--mut);font-size:13px}
+</style>
+<rect x="0" y="0" width="760" height="360" fill="var(--bg)"/>
+<text x="24" y="26" class="t">Envoy host ejection: 30 s per consecutive ejection, capped</text>
+<text x="736" y="26" text-anchor="end" class="m">[9], [10]</text>
+
+<rect x="100" y="40" width="600" height="22" fill="var(--panel)" stroke="var(--rule)" stroke-width="1"/>
+<text x="400" y="56" text-anchor="middle" class="s">never more than 10 percent of hosts ejected</text>
+
+<line x1="100" y1="300" x2="700" y2="300" stroke="var(--line)" stroke-width="1.6"/>
+<line x1="100" y1="70" x2="100" y2="300" stroke="var(--line)" stroke-width="1.6"/>
+
+<line x1="100" y1="70" x2="700" y2="70" stroke="var(--red)" stroke-width="1.4" stroke-dasharray="6 4"/>
+<text x="696" y="86" text-anchor="end" class="s" fill="var(--red)">max 300 s</text>
+
+<path d="M 100 277 H 160 V 254 H 220 V 231 H 280 V 208 H 340 V 185 H 400 V 162 H 460 V 139 H 520 V 116 H 580 V 93 H 640 V 70 H 700" fill="none" stroke="var(--blue)" stroke-width="2.6"/>
+<text x="130" y="270" text-anchor="middle" class="s" fill="var(--blue)">30</text>
+<text x="190" y="247" text-anchor="middle" class="s" fill="var(--blue)">60</text>
+<text x="250" y="224" text-anchor="middle" class="s" fill="var(--blue)">90</text>
+<text x="670" y="63" text-anchor="middle" class="s" fill="var(--blue)">300</text>
+
+<path d="M 690 86 C 560 120 320 200 134 272" fill="none" stroke="var(--green)" stroke-width="1.8" stroke-dasharray="3 5"/>
+<text x="356" y="176" class="s" fill="var(--green)">one step down per 10 s interval while healthy</text>
+
+<text x="400" y="330" text-anchor="middle" class="m">consecutive ejections of one host, 1 to 10</text>
+<text x="92" y="304" text-anchor="end" class="m">0 s</text>
+<text x="92" y="190" text-anchor="end" class="m">150 s</text>
+<text x="92" y="74" text-anchor="end" class="m">300 s</text>
+
+<rect x="420" y="238" width="280" height="28" rx="3" fill="var(--panel)" stroke="var(--rule)"/>
+<text x="560" y="257" text-anchor="middle" class="s">panic mode: ejected hosts still routed</text>
+</svg>

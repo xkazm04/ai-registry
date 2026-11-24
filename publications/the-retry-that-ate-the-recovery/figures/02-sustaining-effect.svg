@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 300" width="760" height="300" role="img">
+<style>
+:root{--bg:#fbfaf7;--fg:#1a1a18;--mut:#55554f;--line:#3c3c3c;--red:#a32b1c;--redf:#f2d9d3;--redt:#7a1f14;--panel:#eceae3}
+@media (prefers-color-scheme:dark){:root{--bg:#16161a;--fg:#eceae4;--mut:#aaa89f;--line:#b9b7ae;--red:#f0a08f;--redf:#3b2320;--redt:#f3b7a8;--panel:#242428}}
+text{font-family:Helvetica,Arial,sans-serif;fill:var(--fg)}
+.t{font-size:16px;font-weight:bold}
+.l{font-size:14px}
+.m{fill:var(--mut);font-size:13px}
+.box{fill:var(--panel);stroke:var(--line);stroke-width:1.2}
+.hot{fill:var(--redf);stroke:var(--red);stroke-width:1.4}
+.arr{stroke:var(--line);stroke-width:1.6;fill:none}
+.arrr{stroke:var(--red);stroke-width:2;fill:none}
+</style>
+<rect x="0" y="0" width="760" height="300" fill="var(--bg)"/>
+<defs>
+<marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="var(--line)"/></marker>
+<marker id="ahr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="var(--red)"/></marker>
+</defs>
+<text x="24" y="28" class="t">Metastable failure: the loop outlives the trigger</text>
+
+<rect x="30" y="70" width="140" height="52" rx="4" class="box"/>
+<text x="100" y="101" text-anchor="middle" class="l">vulnerable state</text>
+
+<rect x="212" y="70" width="110" height="52" rx="4" class="box"/>
+<text x="267" y="101" text-anchor="middle" class="l">trigger</text>
+
+<rect x="364" y="70" width="140" height="52" rx="4" class="hot"/>
+<text x="434" y="101" text-anchor="middle" class="l">overload</text>
+
+<rect x="364" y="212" width="140" height="52" rx="4" class="hot"/>
+<text x="434" y="243" text-anchor="middle" class="l">retries, requeues</text>
+
+<rect x="590" y="140" width="140" height="52" rx="4" class="box"/>
+<text x="660" y="171" text-anchor="middle" class="l">still degraded</text>
+
+<line x1="170" y1="96" x2="206" y2="96" class="arr" marker-end="url(#ah)"/>
+<line x1="322" y1="96" x2="358" y2="96" class="arr" marker-end="url(#ah)"/>
+
+<path d="M 470 122 C 500 150 500 184 470 212" class="arrr" marker-end="url(#ahr)"/>
+<path d="M 398 212 C 368 184 368 150 398 122" class="arrr" marker-end="url(#ahr)"/>
+<text x="434" y="172" text-anchor="middle" font-size="13" fill="var(--redt)">sustaining</text>
+<text x="434" y="190" text-anchor="middle" font-size="13" fill="var(--redt)">effect</text>
+
+<line x1="504" y1="166" x2="584" y2="166" class="arr" marker-end="url(#ah)"/>
+<path d="M 504 110 C 545 110 560 150 584 160" class="arr" marker-end="url(#ah)"/>
+
+<line x1="267" y1="70" x2="267" y2="46" stroke="var(--mut)" stroke-width="1.4" stroke-dasharray="5 4" marker-end="url(#ah)"/>
+<text x="267" y="40" text-anchor="middle" class="m">trigger gone</text>
+
+<text x="24" y="286" class="m">Illustration, not measured data</text>
+<text x="736" y="286" text-anchor="end" class="m">[34], [24]</text>
+</svg>

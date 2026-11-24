@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 330" width="760" height="330" role="img">
+<style>
+:root{--bg:#fbfaf7;--fg:#1a1a18;--mut:#55554f;--line:#3c3c3c;--red:#a32b1c;--redf:#f2d9d3;--blue:#1d4e89;--bluef:#e4ecf5;--green:#1f6f54;--greenf:#e6f0ea;--amber:#a9780f;--amberf:#fdf1d8;--panel:#eceae3}
+@media (prefers-color-scheme:dark){:root{--bg:#16161a;--fg:#eceae4;--mut:#aaa89f;--line:#b9b7ae;--red:#f0a08f;--redf:#3b2320;--blue:#92b8ea;--bluef:#1b2736;--green:#80d1b0;--greenf:#152a23;--amber:#e0b55f;--amberf:#2e2716;--panel:#242428}}
+text{font-family:Helvetica,Arial,sans-serif;fill:var(--fg)}
+.t{font-size:16px;font-weight:bold}
+.l{font-size:14px}
+.s{font-size:13px}
+.m{fill:var(--mut);font-size:13px}
+</style>
+<rect x="0" y="0" width="760" height="330" fill="var(--bg)"/>
+<defs>
+<marker id="a3" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="var(--line)"/></marker>
+</defs>
+<text x="24" y="28" class="t">Classification order: error code first, HTTP status second</text>
+
+<rect x="24" y="150" width="86" height="44" rx="4" fill="var(--panel)" stroke="var(--line)" stroke-width="1.2"/>
+<text x="67" y="177" text-anchor="middle" class="l">response</text>
+
+<polygon points="196,126 268,172 196,218 124,172" fill="var(--bluef)" stroke="var(--blue)" stroke-width="1.3"/>
+<text x="196" y="167" text-anchor="middle" class="s">error code</text>
+<text x="196" y="184" text-anchor="middle" class="s">known?</text>
+
+<polygon points="352,126 424,172 352,218 280,172" fill="var(--bluef)" stroke="var(--blue)" stroke-width="1.3"/>
+<text x="352" y="167" text-anchor="middle" class="s">HTTP</text>
+<text x="352" y="184" text-anchor="middle" class="s">status</text>
+
+<rect x="500" y="66" width="230" height="44" rx="4" fill="var(--greenf)" stroke="var(--green)" stroke-width="1.3"/>
+<text x="615" y="93" text-anchor="middle" class="l">transient, base 50 ms</text>
+
+<rect x="500" y="150" width="230" height="44" rx="4" fill="var(--amberf)" stroke="var(--amber)" stroke-width="1.3"/>
+<text x="615" y="177" text-anchor="middle" class="l">throttling, base 1,000 ms</text>
+
+<rect x="500" y="234" width="230" height="44" rx="4" fill="var(--redf)" stroke="var(--red)" stroke-width="1.3"/>
+<text x="615" y="261" text-anchor="middle" class="l">non-retryable, return at once</text>
+
+<line x1="110" y1="172" x2="120" y2="172" stroke="var(--line)" stroke-width="1.6" marker-end="url(#a3)"/>
+<line x1="268" y1="172" x2="276" y2="172" stroke="var(--line)" stroke-width="1.6" marker-end="url(#a3)"/>
+<text x="272" y="160" text-anchor="middle" class="m">no</text>
+
+<path d="M 196 126 C 196 88 320 88 494 88" fill="none" stroke="var(--green)" stroke-width="1.6" marker-end="url(#a3)"/>
+<path d="M 196 218 C 196 256 320 256 494 256" fill="none" stroke="var(--red)" stroke-width="1.6" marker-end="url(#a3)"/>
+<path d="M 240 148 C 300 118 400 138 494 164" fill="none" stroke="var(--amber)" stroke-width="1.6" marker-end="url(#a3)"/>
+<line x1="424" y1="172" x2="494" y2="172" stroke="var(--line)" stroke-width="1.6" marker-end="url(#a3)"/>
+
+<text x="238" y="80" class="s" fill="var(--green)">400 RequestTimeout</text>
+<text x="238" y="276" class="s" fill="var(--red)">400 ValidationException</text>
+<text x="330" y="126" class="s" fill="var(--amber)">5XX with throttling code</text>
+<text x="420" y="200" class="m">500, 502, 503, 504 with no known code</text>
+
+<text x="24" y="312" class="m">Illustration</text>
+<text x="736" y="312" text-anchor="end" class="m">[6]</text>
+</svg>
