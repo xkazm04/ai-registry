@@ -3,13 +3,40 @@
   "generated_by": "scripts/build-publications-index.mjs",
   "lane": "publications",
   "source": "publications/<slug>/publication.json",
-  "publications": 2,
+  "publications": 3,
   "by_status": {
-   "approved": 2
+   "approved": 3
   },
   "excludes": "topic text, sources, claims, figures, check, run, critique reviewers and findings, critique/ - open the publication"
  },
  "publications": {
+  "the-429-nobody-had-earned-what-a-rate-limit-actually-promise": {
+   "path": "publications/the-429-nobody-had-earned-what-a-rate-limit-actually-promise",
+   "title": "The 429 nobody had earned: what a rate limit actually promises",
+   "subtitle": "The one status code the web reserved for refusals is used in production to mean at least five different things, and only one of them is a rate limit.",
+   "date": "2026-10-16",
+   "readMinutes": 24,
+   "status": "approved",
+   "topic": {
+    "kind": "subject",
+    "bundle": "software-engineering",
+    "subject": "rate-limiting"
+   },
+   "standard": {
+    "recipe": "technical-blog-post-authoring",
+    "bundle": "technical-writing",
+    "version": "0.2.0"
+   },
+   "sources": 28,
+   "primary": 28,
+   "counter": 8,
+   "figures": 8,
+   "critique": {
+    "reviewers": 3,
+    "rounds": 2,
+    "decision": "rewrite"
+   }
+  },
   "the-answer-was-in-the-folder-what-plain-code-can-verify-abou": {
    "path": "publications/the-answer-was-in-the-folder-what-plain-code-can-verify-abou",
    "title": "The answer was in the folder: what plain code can verify about an agent run, and what it cannot",

@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The 429 nobody had earned: what a rate limit actually promises</title>
+<style>
+:root{color-scheme:light dark}
+body{margin:0;font:20px/1.65 Georgia,"Times New Roman",serif}
+main{max-width:680px;margin:0 auto;padding:0 16px}
+p,li{font-size:20px}
+.callout,.callout p,aside,aside p{font-size:18px}
+@media (max-width:480px){p,li{font-size:18px}}
+figcaption,table,td,th,pre,code,.byline,nav,footer,#sources,#sources li{font-size:14px}
+sup,.cite{font-size:max(13px,0.78em)}
+
+:root{
+  --bg:#ffffff;
+  --ink:#16160f;
+  --muted:#595349;
+  --rule:#ded9cf;
+  --accent:#1f4e79;
+  --warn:#a4262c;
+  --panel:#f6f4ef;
+  --codebg:#f4f2ec;
+  --tok-com:#6a675e;
+  --tok-key:#1f4e79;
+  --tok-str:#2d6a4f;
+  --tok-num:#8a4b1f;
+  --tok-kw:#7a2f6a;
+}
+@media (prefers-color-scheme:dark){
+  :root{
+    --bg:#121212;
+    --ink:#e9e6df;
+    --muted:#a9a397;
+    --rule:#36342e;
+    --accent:#8ec2e8;
+    --warn:#ef8e8e;
+    --panel:#1c1c1a;
+    --codebg:#1a1a18;
+    --tok-com:#9b968a;
+    --tok-key:#8ec2e8;
+    --tok-str:#8fcfa8;
+    --tok-num:#e0a471;
+    --tok-kw:#d7a2cd;
+  }
+}
+body{background:var(--bg);color:var(--ink)}
+main{padding-top:8px;padding-bottom:48px}
+h1{font-size:40px;line-height:1.15;margin:28px 0 10px;letter-spacing:-0.01em}
+h2{font-size:27px;line-height:1.25;margin:44px 0 14px}
+.sub{font-size:23px;line-height:1.35;color:var(--muted);margin:0 0 20px;font-style:italic}
+.byline{color:var(--muted);border-top:1px solid var(--rule);border-bottom:1px solid var(--rule);padding:10px 0;margin:0 0 26px;letter-spacing:.03em;text-transform:uppercase}
+p{margin:0 0 20px}
+a{color:var(--accent)}
+sup.cite a{text-decoration:none}
+figure{margin:28px 0}
+figure img{width:100%;height:auto;display:block;border:1px solid var(--rule);border-radius:3px}
+figcaption{color:var(--muted);line-height:1.5;margin-top:9px}
+[data-role="content-preview"]{background:var(--panel);border:1px solid var(--rule);border-left:4px solid var(--accent);padding:16px 20px 6px;margin:28px 0}
+[data-role="content-preview"] p{font-size:18px;margin:0 0 14px}
+[data-role="content-preview"] ol,[data-role="content-preview"] ul{margin:0 0 14px;padding-left:22px}
+[data-role="content-preview"] li{font-size:18px;line-height:1.5;margin-bottom:7px}
+aside.callout{background:var(--panel);border-left:4px solid var(--warn);padding:14px 18px;margin:26px 0}
+aside.callout p{margin:0 0 10px;line-height:1.55}
+aside.callout p:last-child{margin-bottom:0}
+aside.callout ol{margin:4px 0 0;padding-left:22px}
+aside.callout li{font-size:18px;line-height:1.5;margin-bottom:5px}
+aside.callout li:last-child{margin-bottom:0}
+aside.callout .tag{display:inline-block;font-family:-apple-system,"Segoe UI",Roboto,Arial,sans-serif;font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:var(--warn);font-weight:700;margin-right:6px}
+.tablewrap{overflow-x:auto;margin:26px 0;border:1px solid var(--rule)}
+table{border-collapse:collapse;width:100%;min-width:560px;font-family:-apple-system,"Segoe UI",Roboto,Arial,sans-serif}
+caption{caption-side:bottom;text-align:left;color:var(--muted);font-size:14px;line-height:1.5;padding:9px 10px 0;font-family:Georgia,"Times New Roman",serif}
+th,td{text-align:left;vertical-align:top;padding:9px 10px;border-bottom:1px solid var(--rule);line-height:1.45}
+thead th{background:var(--panel);border-bottom:2px solid var(--rule);letter-spacing:.02em}
+tbody tr:nth-child(even){background:var(--panel)}
+td.num{text-align:right;font-variant-numeric:tabular-nums}
+.codelabel{font-family:-apple-system,"Segoe UI",Roboto,Arial,sans-serif;font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin:26px 0 -14px}
+pre{background:var(--codebg);border:1px solid var(--rule);border-radius:3px;padding:14px 16px;overflow-x:auto;margin:26px 0;line-height:1.55}
+pre code{font-family:"SFMono-Regular",Consolas,"Liberation Mono",Menlo,monospace;font-size:14px;white-space:pre}
+code{font-family:"SFMono-Regular",Consolas,"Liberation Mono",Menlo,monospace}
+p code,li code,td code{font-size:max(14px,0.8em);background:var(--codebg);padding:1px 4px;border-radius:3px}
+.tok-com{color:var(--tok-com);font-style:italic}
+.tok-key{color:var(--tok-key)}
+.tok-str{color:var(--tok-str)}
+.tok-num{color:var(--tok-num)}
+.tok-kw{color:var(--tok-kw)}
+#sources{padding-left:24px}
+#sources li{line-height:1.5;margin-bottom:9px;color:var(--muted)}
+#sources li a{word-break:break-word}
+hr.end{border:0;border-top:1px solid var(--rule);margin:40px 0 24px}
+@media (max-width:480px){
+  h1{font-size:31px}
+  h2{font-size:23px}
+  .sub{font-size:20px}
+  [data-role="content-preview"] li{font-size:17px}
+  aside.callout li{font-size:17px}
+}
+</style>
+</head>
+<body>
+<main>
+
+<h1>The 429 nobody had earned: what a rate limit actually promises</h1>
+<p class="sub">The one status code the web reserved for refusals is used in production to mean at least five different things, and only one of them is a rate limit.</p>
+<p class="byline">14 October 2026</p>
+
+<p>Clerk's authentication API spent part of 2026-02-19 telling its callers they had sent too many requests. <strong>No limit had counted them.</strong> The postmortem records that reduced database performance "ultimately led to significant queueing, and shedding the majority of requests with status 429", with "over 95% of traffic returning 429 without being handled".<sup class="cite"><a href="#src-1">[1]</a></sup></p>
+
+<p class="codelabel">HTTP</p>
+<pre><code class="language-http"><span class="tok-com"># illustration: a shed refusal as a caller reads it; values invented</span>
+<span class="tok-kw">HTTP/1.1</span> <span class="tok-num">429</span> Too Many Requests
+<span class="tok-key">content-type</span>: application/json
+<span class="tok-com"># no quota field, so nothing names what the traffic spent</span></code></pre>
+
+<p>The cause was not a limit. A Postgres automatic ANALYZE misread a column as entirely NULL and flipped the planner onto a plan that consumed nearly all the database's resources; service was restored "approximately 90 minutes later" when the ANALYZE was re-run by hand.<sup class="cite"><a href="#src-1">[1]</a></sup> <strong>The status code was the only part a caller could act on</strong>, and on this post's reading of the timeline it is what aimed the first hypothesis at a customer's traffic spike, identified at 16:32.<sup class="cite"><a href="#src-1">[1]</a></sup></p>
+
+<figure>
+  <img src="figures/01-clerk-timeline.svg" alt="Timeline, 2026-02-19 UTC: onset 16:11, converted from 8:11 AM PST, reported 16:15, customer-spike hypothesis 16:32 to 16:50 with manual blocks 16:35 to 16:37, failover 17:10, root cause 17:25 an ANALYZE reading a column as 100 percent NULL against a true 99.9996 percent, re-run 17:27, stabilizing 17:43, stable confirmed 18:06.">
+  <figcaption>The hypothesis the refusals implied held eighteen minutes; the root cause was found at 17:25. The onset is converted from the postmortem's 8:11 AM PST, and every other time is quoted UTC. <a href="#src-1">[1]</a></figcaption>
+</figure>
+
+<div data-role="content-preview">
+  <p>This post sets out <strong>seven decisions a rate limiter publishes whether or not anyone wrote them down</strong>, and checks each against what shipping systems send on the wire in October 2026. Every number below is from third-party published work, read on the dates given; none of it was measured here, and the figures and ladders are this post's own constructs.</p>
+  <ol>
+    <li><a href="#s1">Five meanings for one status code</a>, and what RFC 6585 leaves open.</li>
+    <li><a href="#s2">The wait</a>: computable, optional, spelled differently by every provider.</li>
+    <li><a href="#s3">The key the caller writes</a>, and one scored CVE.</li>
+    <li><a href="#s4">The step that costs</a>, and six units shipping systems count.</li>
+    <li><a href="#s5">One number at the edge</a>, many counters at the resource.</li>
+    <li><a href="#s6">Usage visible before the first refusal</a>, at four providers.</li>
+    <li><a href="#s7">The storm the refusal makes</a>, in four dated incidents.</li>
+    <li>The close: <a href="#s8">what the Clerk 429 should have said</a>, field by field.</li>
+  </ol>
+  <p>Afterwards a reader can sort the refusals their own service sends, including the key-derivation bug that arrives looking like an ordinary quota refusal; audit the key the limiter derives on every ingress path; and set the metered step, the limiter count and the failure posture per resource.</p>
+</div>
+
+<h2 id="s1">The status code says "too many requests" and means at least five different things</h2>
+
+<p class="codelabel">HTTP</p>
+<pre><code class="language-http"><span class="tok-com"># illustration: field names as GitHub documents them [7]; values invented</span>
+<span class="tok-kw">HTTP/1.1</span> <span class="tok-num">429</span> Too Many Requests
+<span class="tok-key">x-ratelimit-limit</span>: <span class="tok-num">5000</span>
+<span class="tok-key">x-ratelimit-remaining</span>: <span class="tok-num">0</span>
+<span class="tok-key">x-ratelimit-reset</span>: <span class="tok-num">1760452800</span>
+<span class="tok-key">x-ratelimit-resource</span>: core
+<span class="tok-key">retry-after</span>: <span class="tok-num">38</span>
+<span class="tok-com"># which limit, how much is left, when it heals</span></code></pre>
+
+<p>RFC 6585, from April 2012, defines 429 as indicating that the user "has sent too many requests in a given amount of time (<q>rate limiting</q>)", and then declines to say what a user is: "this specification does not define how the origin server identifies the user, nor how it counts requests."<sup class="cite"><a href="#src-3">[3]</a></sup> <strong>Two of the three things a caller needs, the key and the counting rule, are left to the implementer</strong>; the third, the wait, is a MAY.<sup class="cite"><a href="#src-3">[3]</a></sup></p>
+
+<p><strong>Production filled the gap with meanings of its own.</strong> Stripe documents, for its own API, that a 429 without its rate-limit headers "wasn't the result of a rate limit", and may instead be a lock timeout, a 429 with code <code>lock_timeout</code> raised when another request already holds the object.<sup class="cite"><a href="#src-10">[10]</a></sup> That reading of an absent header is Stripe's rule, not a property of the status code, and the two conditions get opposite client behaviour: the SDKs retry lock timeouts and leave rate-limit 429s to the integration's backoff.<sup class="cite"><a href="#src-10">[10]</a></sup> The Claude API returns 429 at an organisation's monthly spend cap, with no retry-after header and with <code>error.details.error_code</code> set to <code>enforced_spend_limit_reached</code>, named in the docs as the way to tell it apart from a rate limit.<sup class="cite"><a href="#src-11">[11]</a></sup></p>
+
+<figure>
+  <img src="figures/02-one-code-five-refusals.svg" alt="HTTP 429 branches into five conditions, each distinguished by a field: a rate limit, identified by x-ratelimit or RateLimit fields; a capacity shed, where no limit was evaluated and, by Stripe's rule for its own API, no rate-limit headers appear; a held lock, with code lock_timeout, which the SDK retries; a spend cap, with error code enforced_spend_limit_reached and no retry-after; and a key-derivation bug, where one collapsed key refused every IPv4 client. A note records that four sort from the response while the fifth needs operator evidence. Labelled Inference, the post's own grouping.">
+  <figcaption>The status code is the least informative part of a refusal; the distinguishing field is the contract. Four conditions can be sorted from the response, the fifth only from what an operator can see about the keys. The grouping into five is this post's, labelled Inference in the figure. A self-set spend limit skips 429 altogether and returns HTTP 400 with <code>invalid_request_error</code>. <a href="#src-1">[1]</a><a href="#src-3">[3]</a><a href="#src-10">[10]</a><a href="#src-11">[11]</a><a href="#src-17">[17]</a></figcaption>
+</figure>
+
+<p>A field can name the policy a server declares, while a key the server derived wrongly declares nothing, so <strong>four of the five conditions sort from the response and the fifth does not</strong>. The Claude Code workspace is the documented exception in the other direction: limits there are checked separately, and requests over them "can instead receive a 429 that carries a retry-after header".<sup class="cite"><a href="#src-11">[11]</a></sup> The fifth condition is the one that arrives looking ordinary: a key-derivation bug in express-rate-limit returned 429 to every IPv4 client at once, with the fields of a normal quota refusal.<sup class="cite"><a href="#src-17">[17]</a></sup> The postmortem quotes Clerk's refusals by status alone and no response fields, which is why the hypothesis they implied stood from 16:32 to 16:50.<sup class="cite"><a href="#src-1">[1]</a></sup></p>
+
+<aside class="callout">
+<p><span class="tag">Inference</span> The postmortem records shedding with status 429 and quotes no response fields.<sup class="cite"><a href="#src-1">[1]</a></sup> That a shedding path evaluates no limit, and so states no quota, window or key, is reasoning from the mechanism rather than something that source reports.</p>
+</aside>
+
+<aside class="callout">
+<p><span class="tag">Caller procedure</span> GitHub documents the order a refused caller follows, and bounding the attempts is what its own follow-up to the 2026-08-17 incident asks for; the fourth line is this post's Inference, not any vendor's.<sup class="cite"><a href="#src-7">[7]</a><a href="#src-2">[2]</a></sup></p>
+<ol>
+<li><code>retry-after</code> present: wait that many seconds. <a href="#src-7">[7]</a></li>
+<li>Absent, <code>x-ratelimit-remaining</code> is 0: wait until <code>x-ratelimit-reset</code>. <a href="#src-7">[7]</a></li>
+<li>Absent, remaining above 0: wait at least a minute, back off exponentially, bound the attempts. <a href="#src-7">[7]</a><a href="#src-2">[2]</a></li>
+<li>No rate-limit field at all: read it as capacity, and expect no budget to heal. <a href="#src-1">[1]</a></li>
+</ol>
+</aside>
+
+<h2 id="s2">The wait is computable, optional, and no two providers spell it the same way</h2>
+
+<p><strong>The field that would end the guessing has existed since 2012, as a MAY.</strong><sup class="cite"><a href="#src-3">[3]</a></sup> RFC 9110 gives it two forms, an HTTP-date or delay-seconds as a non-negative decimal integer, with <code>Retry-After: 120</code> as its syntax example.<sup class="cite"><a href="#src-4">[4]</a></sup> Its own definition explains the field for a 503 and for any 3xx and never names 429, which lives in a different document, so the capacity refusal and the time-window refusal, the two conditions hardest to tell apart from outside, share one optional mechanism.<sup class="cite"><a href="#src-4">[4]</a></sup></p>
+
+<figure>
+  <img src="figures/03-refusal-anatomy.svg" alt="Three response fields. RateLimit-Policy carries q quota, qu unit, w window in seconds and pk partition key. RateLimit carries r, the quota available now, and t, the seconds it holds for. Retry-After carries delay-seconds or an HTTP-date and takes precedence, so the window may be ignored. Side notes read: not a guarantee, not an SLA. A footer reads: draft-11 of 2026-05-23, Standards Track in the draft, no RFC number assigned.">
+  <figcaption>Illustration, values invented: the fields that would make a refusal self-describing exist, parameterised, in a document that is not a standard yet. <a href="#src-4">[4]</a><a href="#src-5">[5]</a><a href="#src-6">[6]</a></figcaption>
+</figure>
+
+<p>The IETF HTTPAPI working group's draft carries the field list above, and its unit is the part that reaches past requests: <code>qu</code> defaults to requests, with content-bytes and concurrent-requests also registered, so <strong>a limit can be denominated in payload rather than calls</strong>.<sup class="cite"><a href="#src-5">[5]</a></sup> The time forms differ in kind too: the draft's <code>t</code> is a count of seconds, GitHub's reset an epoch timestamp, the Claude API's an RFC 3339 instant.<sup class="cite"><a href="#src-5">[5]</a><a href="#src-7">[7]</a><a href="#src-11">[11]</a></sup></p>
+
+<aside class="callout">
+<p><span class="tag">Inference</span> A relative delay survives a caller whose clock has drifted, because the client only has to count down; an absolute reset does not, because the client has to agree with the server about now. No source read here measures how often that matters.</p>
+</aside>
+
+<p>The draft's sharpest move is the one none of the systems in Table A ships: the values need not correlate with the status code, so the contract is not bound to 429 at all.<sup class="cite"><a href="#src-5">[5]</a></sup> Envoy already computes the number it would publish. In the released v1.40.0 global filter, Retry-After is the largest <code>duration_until_reset</code> among the over-limit descriptors with a one-second floor, and <code>enable_retry_after_header</code> is disabled by default.<sup class="cite"><a href="#src-26">[26]</a></sup> <strong>One reset instant names the same moment for every caller refused in that window, so callers that honour it exactly arrive together.</strong> Stripe puts the spreading on the integration, asking for "randomness to the backoff schedule to avoid a thundering herd effect", and the draft bounds the server's half of it: Retry-After "SHOULD NOT reference a point in time earlier than the end of the effective window", so a server spreads by adding time while a client's jitter may also pick a shorter wait.<sup class="cite"><a href="#src-10">[10]</a><a href="#src-5">[5]</a></sup></p>
+
+<div class="tablewrap">
+<table>
+<caption>Table A. Four shipping vocabularies and one draft, none of them the same fields. Partition key: the value the limiter counts against. Descriptor: Envoy's name for the keyed tuple. The Envoy row was read on the v1.40.0 release pages, that being the current release of 2026-10-13; the <code>/latest/</code> URLs render a 1.41.0-dev build. <a href="#src-5">[5]</a><a href="#src-7">[7]</a><a href="#src-10">[10]</a><a href="#src-11">[11]</a><a href="#src-19">[19]</a><a href="#src-20">[20]</a><a href="#src-26">[26]</a><a href="#src-28">[28]</a></caption>
+<thead><tr><th>System</th><th>Field vocabulary</th><th>Which limit refused</th><th>Wait field, by default</th><th>Source</th></tr></thead>
+<tbody>
+<tr><td>GitHub REST</td><td>x-ratelimit-limit, -remaining, -used, -reset, -resource</td><td>x-ratelimit-resource names the primary budget charged; secondary refusals stay unobservable</td><td>retry-after if present; else x-ratelimit-reset only when remaining is 0; else a minute or more, backing off</td><td><a href="#src-7">[7]</a></td></tr>
+<tr><td>Stripe</td><td>rate-limit headers; their absence means it was not a rate limit, on this API</td><td>Stripe-Rate-Limited-Reason, five documented values</td><td>none documented; the integration backs off with randomness</td><td><a href="#src-10">[10]</a></td></tr>
+<tr><td>Claude API</td><td>anthropic-ratelimit-{requests, tokens, input-tokens, output-tokens}-{limit, remaining, reset}</td><td>tokens-* report the most restrictive limit in effect</td><td>retry-after when present; never on the spend cap</td><td><a href="#src-11">[11]</a></td></tr>
+<tr><td>Envoy v1.40.0</td><td>x-envoy-ratelimited</td><td>the descriptor is exchanged with the limit service, not exposed in that header</td><td>off: enable_retry_after_header disabled by default</td><td><a href="#src-26">[26]</a></td></tr>
+<tr><td>IETF draft-11</td><td>RateLimit (r, t), RateLimit-Policy (q, qu, w, pk)</td><td>pk, the partition counted, not the policy violated</td><td>Retry-After takes precedence where it appears</td><td><a href="#src-5">[5]</a></td></tr>
+</tbody>
+</table>
+</div>
+
+<p><strong>Publishing the whole contract is not free</strong>, and the draft argues against itself in its own security section: clients "MUST NOT assume that a positive available quota is a guarantee that further requests will be served" and "MUST NOT consider the available quota parameter as a service level agreement", servers should not disclose operational capacity to untrusted parties, and where partition keys identify a user they should expect impersonation.<sup class="cite"><a href="#src-5">[5]</a></sup> The Claude API says the same: its limits "represent maximum allowed usage, not guaranteed minimums".<sup class="cite"><a href="#src-11">[11]</a></sup></p>
+
+<aside class="callout">
+<p><span class="tag">Where this stops</span> The standard is not a standard. The draft's own header gives its intended status as Standards Track and its expiry as 2026-11-24.<sup class="cite"><a href="#src-5">[5]</a></sup> On 2026-10-14 the datatracker showed revision 11 of 2026-05-23 with no RFC number, no shepherd and no responsible AD, and one review: an HTTPDIR early review of revision 10 rated "Not ready".<sup class="cite"><a href="#src-6">[6]</a></sup></p>
+</aside>
+
+<h2 id="s3">The key is written by the caller, and getting it wrong refuses everyone</h2>
+
+<p>The draft's advice on keys runs to two clauses and contains the whole problem: servers "SHOULD document how the partition key is generated" and "SHOULD only use information that is present in the request to generate the partition key".<sup class="cite"><a href="#src-5">[5]</a></sup> <strong>On an unauthenticated door, everything present in the request was written by the caller.</strong> The key is therefore derived down a ladder, each rung admitted by a checkable fact about the deployment rather than by the name of a header. Clerk's operators picked a key by hand at 16:35, blocking one customer's traffic, and by 16:37 the blocks had "failed to restore the system".<sup class="cite"><a href="#src-1">[1]</a></sup></p>
+
+<figure>
+  <img src="figures/04-key-ladder.svg" alt="Illustration labelled Inference. Five descending rungs pairing a key source with what admits it: authenticated credential, admitted by a verified signature; forwarded entry at hop N, a deployment-specific count, admitted by the derived key being verified on every ingress path; socket address, admitted by a direct listener with the port stripped; address prefix slash 32 to slash 64, admitted by a mask applied to real IPv6 only; and a coarse bucket under an aggregate ceiling, treated as entropy rather than identity. Three red arrows mark breaks: a client on a shorter path writes the header, a rotating source port, and IPv4-mapped addresses masked to colon colon slash 56.">
+  <figcaption>Illustration, labelled Inference: each rung is admitted by a fact about the deployment, not by the field's name. The rungs are reasoned from the library's documented failure modes, not measured. <a href="#src-5">[5]</a><a href="#src-15">[15]</a><a href="#src-16">[16]</a><a href="#src-17">[17]</a></figcaption>
+</figure>
+
+<p>express-rate-limit ships seventeen named validation codes beside three warnings, and they read as a field guide to that ladder.<sup class="cite"><a href="#src-15">[15]</a></sup> <code>ERR_ERL_PERMISSIVE_TRUST_PROXY</code> fires when Express's trust proxy is set to <code>true</code>, because <strong>Express then takes the leftmost X-Forwarded-For entry as the client IP, a value a proxy or a malicious client can set</strong>; <code>ERR_ERL_UNEXPECTED_X_FORWARDED_FOR</code> fires on the opposite mistake, which usually makes the limit global rather than per-user; and <code>ERR_ERL_FORWARDED_HEADER</code> fires on an RFC 7239 Forwarded header, which Express 5.1.0 and later do not support in trust proxy, so the library ignores it by default.<sup class="cite"><a href="#src-15">[15]</a></sup></p>
+
+<p>Lower rungs fail on arithmetic. A key that keeps the source port lets a user "close and re-open their browser to bypass the rate limit timer".<sup class="cite"><a href="#src-16">[16]</a></sup> A custom IPv6 key generator without subnet masking lets a client rotate inside its own prefix, which the library's <code>ipKeyGenerator</code> helper fixes, with <code>ipv6Subnet</code> validated to the range 32 to 64.<sup class="cite"><a href="#src-15">[15]</a></sup> The hop count is found empirically, by echoing the resolved IP and raising the number until it matches, so it belongs to one request path through one deployment.<sup class="cite"><a href="#src-16">[16]</a></sup> The durable requirement is not that number but a check: <strong>verify the derived key on every ingress path</strong>, because a caller who arrives by a shorter one writes the header the limiter trusts.<sup class="cite"><a href="#src-15">[15]</a><a href="#src-16">[16]</a></sup></p>
+
+<p class="codelabel">JavaScript</p>
+<pre><code class="language-javascript"><span class="tok-com">// needs express-rate-limit 8.0.2, 8.1.1 or 8.2.2 and later: the</span>
+<span class="tok-com">// releases patched for CVE-2026-30827 [17]</span>
+<span class="tok-kw">import</span> { rateLimit, ipKeyGenerator } <span class="tok-kw">from</span> <span class="tok-str">'express-rate-limit'</span>;
+
+<span class="tok-com">// trust proxy counts the proxies in front of this listener: a</span>
+<span class="tok-com">// deployment-specific number, checked on every ingress path [15][16]</span>
+app.<span class="tok-kw">set</span>(<span class="tok-str">'trust proxy'</span>, <span class="tok-num">2</span>);
+app.<span class="tok-kw">get</span>(<span class="tok-str">'/debug/ip'</span>, (req, res) <span class="tok-kw">=&gt;</span> res.send(req.ip));
+
+<span class="tok-kw">const</span> limiter = rateLimit({
+  windowMs: <span class="tok-num">60_000</span>,
+  limit: <span class="tok-num">100</span>,
+  <span class="tok-com">// on a patched release this masks IPv6 inside its subnet and leaves</span>
+  <span class="tok-com">// IPv4 whole: assert ::ffff:a.b.c.1 and ::ffff:a.b.c.2 give two keys [15][17]</span>
+  keyGenerator: (req) <span class="tok-kw">=&gt;</span> ipKeyGenerator(req.ip, <span class="tok-num">56</span>),
+});</code></pre>
+
+<p>That masking produced the subject's sharpest cautionary case. CVE-2026-30827, published 2026-03-05, is scored CVSS 7.5 of 10, high on the industry severity scale, and classed CWE-770, allocation of a resource without limits.<sup class="cite"><a href="#src-17">[17]</a></sup> The default key generator applied IPv6 /56 masking to every address <code>net.isIPv6()</code> accepted, including IPv4-mapped forms such as <code>::ffff:8.8.8.8</code> that Node returns as <code>request.ip</code> on a dual-stack server; their first 80 bits are zero, so <strong>every IPv4 client collapsed onto the single key <code>::/56</code></strong>.<sup class="cite"><a href="#src-17">[17]</a></sup></p>
+
+<figure>
+  <img src="figures/05-ipv4-collapse.svg" alt="Two panels. In the affected branches (8.0.0 to 8.0.1, 8.1.0, and 8.2.0 to 8.2.1) four IPv4 clients arriving as IPv4-mapped addresses are accepted as IPv6, masked to slash 56 and land in one bucket keyed colon colon slash 56, which returns 429 to all four. In the patched releases 8.0.2, 8.1.1 and 8.2.2 the four clients keep four buckets and only the one over its limit is refused. Scored CVSS 7.5 of 10, CWE-770, default key generator only.">
+  <figcaption>A key-derivation bug turns a limiter into the denial of service it was installed to stop. <a href="#src-17">[17]</a></figcaption>
+</figure>
+
+<p><strong>The impact was denial of service rather than evasion</strong>, in the default configuration, on the Linux default of listening on <code>::</code>; the affected ranges are 8.0.0 to 8.0.1, 8.1.0 and 8.2.0 to 8.2.1, the patched releases 8.0.2, 8.1.1 and 8.2.2, and a key generator was unaffected only where it did not route through the faulty masking.<sup class="cite"><a href="#src-17">[17]</a></sup> Above the bug sits a slower limit on keying by address at all: Wikimedia's tightening of datacenter and per-source limits pushed crawlers onto residential proxy networks that can span "hundreds of millions of IP addresses", with browser identities spoofed along the way.<sup class="cite"><a href="#src-23">[23]</a></sup> Cloudflare's answer is to sell better keys, IP only on Free and Pro, and under the column headed Enterprise with Advanced Rate Limiting also ASN, path, JA3/JA4 fingerprints of a client's TLS handshake, and JSON field values.<sup class="cite"><a href="#src-12">[12]</a></sup></p>
+
+<h2 id="s4">The counter belongs on the step that costs, which is rarely the request</h2>
+
+<p>Wikimedia reported on 2025-04-01 that <strong>bots made up about 35 percent of total pageviews and "at least 65%" of the resource-consuming traffic</strong> reaching its core datacenters.<sup class="cite"><a href="#src-22">[22]</a></sup> The populations differ, so these are not two readings of one quantity but what two meters say about the same traffic. At Clerk the step that cost sat deeper still, in a query the planner had turned into one that "returned over 17,000" rows.<sup class="cite"><a href="#src-1">[1]</a></sup></p>
+
+<figure>
+  <img src="figures/06-metered-step.svg" alt="Bar chart of share of the step in percent. Measured on total pageviews, bots are about 35 and everything else about 65. Measured on resource-consuming requests at the core datacenters, bots are at least 65 and everything else at most 35. The two groups have different populations. Reported 2025-04-01.">
+  <figcaption>The counter's step decides the answer before the number does: about 35 percent of total pageviews against at least 65 percent of resource-consuming requests at the core datacenters. <a href="#src-22">[22]</a></figcaption>
+</figure>
+
+<p><strong>GitHub's answer is to stop counting requests and start pricing them.</strong> Most REST GET, HEAD and OPTIONS requests cost 1 point and most POST, PATCH, PUT and DELETE cost 5; a GraphQL request costs 1 without mutations and 5 with them, against 900 points per minute per REST endpoint and 2,000 for the GraphQL endpoint.<sup class="cite"><a href="#src-7">[7]</a></sup> The price list is partial, since some endpoints' point costs are not shared publicly.<sup class="cite"><a href="#src-7">[7]</a></sup></p>
+
+<p>The Claude API meters three units per model class and draws the boundary inside the request. Start-tier Claude Opus 5.5 is held to 1,000 requests, 2,000,000 input tokens and 400,000 output tokens per minute, the same model on the Scale tier to 10,000, 10,000,000 and 2,000,000.<sup class="cite"><a href="#src-11">[11]</a></sup> Only uncached input counts, <code>cache_read_input_tokens</code> excluded, with Claude Haiku 3.5, retired except on Google Cloud, as the documented exception.<sup class="cite"><a href="#src-11">[11]</a></sup> <strong>Where the meter sits in time decides what it can defend.</strong> An estimate taken at admission and adjusted during the request, as the Claude API does with input tokens, refuses work before it starts; a concurrency bound such as GitHub's 100 in-flight requests across REST and GraphQL is the only one of the three that constrains work already running; and a score the origin returns in a response header, as in Cloudflare's complexity mode, can only inform the next admission decision.<sup class="cite"><a href="#src-11">[11]</a><a href="#src-7">[7]</a><a href="#src-13">[13]</a></sup></p>
+
+<div class="tablewrap">
+<table>
+<caption>Table B. Six steps a shipping limiter counts on, and the unit each is counted in. Metered step: the point in a flow where the counter increments. <a href="#src-7">[7]</a><a href="#src-10">[10]</a><a href="#src-11">[11]</a><a href="#src-13">[13]</a><a href="#src-21">[21]</a></caption>
+<thead><tr><th>Metered step</th><th>Unit</th><th>A documented number</th><th>What it protects</th><th>Source</th></tr></thead>
+<tbody>
+<tr><td>Arriving request</td><td>requests per hour, per key</td><td>5,000 per hour per user, shared across their tokens and apps</td><td>the published per-caller contract</td><td><a href="#src-7">[7]</a></td></tr>
+<tr><td>Write operation</td><td>points: a write costs 5, a read 1</td><td>900 points per minute per REST endpoint</td><td>the expensive half of one endpoint</td><td><a href="#src-7">[7]</a></td></tr>
+<tr><td>Token produced</td><td>output tokens per minute</td><td>400,000, Start-tier Claude Opus 5.5</td><td>inference spend as it is produced</td><td><a href="#src-11">[11]</a></td></tr>
+<tr><td>Object mutated</td><td>updates per object per hour</td><td>1,000 updates per PaymentIntent per hour</td><td>one hot record, not the account</td><td><a href="#src-10">[10]</a></td></tr>
+<tr><td>Response of a given status</td><td>matching responses per period</td><td>counting expression restricted to status 400</td><td>the failure path, not the success path</td><td><a href="#src-13">[13]</a></td></tr>
+<tr><td>CPU second</td><td>CPU seconds per unit of real time</td><td>90 per 60 seconds, at most 60 for GraphQL; as history, the 2017 SRE chapter's example allocation was 500 CPU seconds per second</td><td>the resource itself, not its proxy</td><td><a href="#src-7">[7]</a><a href="#src-21">[21]</a></td></tr>
+</tbody>
+</table>
+</div>
+
+<p>Cloudflare lets the counting expression choose the step outright, and in complexity mode the counter rises by a score of 1 to 1,000,000 that the origin returns in a configured response header; when that header is missing or out of range, the counter is not updated.<sup class="cite"><a href="#src-13">[13]</a></sup> That is the sharp edge of a well-chosen step: <strong>a meter that depends on an upstream's cooperation stops counting silently when the upstream stops cooperating</strong>. As history, the 2017 web copy of Google's overload chapter argued the same choice from the capacity side: modelling capacity as "queries per second ... often makes for a poor metric".<sup class="cite"><a href="#src-21">[21]</a></sup></p>
+
+<h2 id="s5">One number at the edge arrives at the resource as many</h2>
+
+<p>Envoy's local rate limit filter is a token bucket with three fields, <code>max_tokens</code>, <code>tokens_per_fill</code> and <code>fill_interval</code>, configured as 10000, 1000 and 1s in the released v1.40.0 page's own example.<sup class="cite"><a href="#src-27">[27]</a></sup> One sentence there decides whether the configured number means anything: <strong>"By default the rate limits are applied per Envoy process"</strong>, with the bucket moving to each connection when <code>local_rate_limit_per_downstream_connection</code> is set.<sup class="cite"><a href="#src-27">[27]</a></sup> Cloudflare partitions for other reasons and lands in the same place, keeping a counter per unique combination of a rule's characteristic values and per data center, because <code>cf.colo.id</code> is added to every rule, with co-located data centers sharing one.<sup class="cite"><a href="#src-13">[13]</a></sup> Clerk's postmortem names no proxy or gateway at all, pointing only at its own request handlers, so how many instances refused is not in the record.<sup class="cite"><a href="#src-1">[1]</a></sup></p>
+
+<figure>
+  <img src="figures/07-one-number-many-counters.svg" alt="One published limit of N per minute fans out into two groups of independent counters, one per Envoy process configured with max_tokens, tokens_per_fill and fill_interval in released version 1.40.0, and one per Cloudflare data center because cf.colo.id is added to every rule, with co-located data centers sharing one. Both groups converge on a single resource, which can admit up to the sum. A tag labels that sum Derived, holding for parallel independent counters, and a note records that counters lag.">
+  <figcaption>The limit a resource experiences is the sum of the instances enforcing it, not the number published; the sum is labelled Derived in the figure. <a href="#src-12">[12]</a><a href="#src-13">[13]</a><a href="#src-27">[27]</a></figcaption>
+</figure>
+
+<p>The vendor states the consequence without softening it: rate limiting rules "are not designed to allow a precise number of requests to reach your origin server", and counters can lag by a few seconds, so some excess gets through.<sup class="cite"><a href="#src-12">[12]</a></sup></p>
+
+<p class="codelabel">YAML</p>
+<pre><code class="language-yaml"><span class="tok-com"># local rate limit: a token bucket, applied per Envoy process by default [27]</span>
+<span class="tok-key">token_bucket</span>:
+  <span class="tok-key">max_tokens</span>: <span class="tok-num">10000</span>
+  <span class="tok-key">tokens_per_fill</span>: <span class="tok-num">1000</span>
+  <span class="tok-key">fill_interval</span>: <span class="tok-num">1s</span>
+
+<span class="tok-com"># global rate limit filter: the posture is a field, not an accident [26]</span>
+<span class="tok-key">failure_mode_deny</span>: <span class="tok-kw">true</span>            <span class="tok-com"># 500 when the limit service errors</span>
+<span class="tok-key">enable_retry_after_header</span>: <span class="tok-kw">true</span>    <span class="tok-com"># off by default; the wait already exists</span></code></pre>
+
+<aside class="callout">
+<p><span class="tag">Derived</span> With N parallel counters each admitting L per window, one resource can see up to N times L: eight Envoy processes at 100 per minute each put 800 per minute on the resource behind them.<sup class="cite"><a href="#src-27">[27]</a></sup> The arithmetic holds only while the counters are independent and in parallel; limiters in series behave the other way, the tightest governing, as the Claude API's organisation-wide limits do over workspace limits that "add up to more".<sup class="cite"><a href="#src-11">[11]</a></sup></p>
+</aside>
+
+<p>Sharing one counter is the usual answer to that sum, and a third posture sits between the two: key affinity, routing each partition key to one instance, which is close to what Cloudflare's co-located data centers and Envoy's external limit service already do per descriptor; its failure mode is a hot key landing on one instance, and that reading is inference rather than a documented result.<sup class="cite"><a href="#src-13">[13]</a><a href="#src-26">[26]</a></sup> <strong>The shared store is a dependency rather than a detail, with its own latency and its own failure mode</strong>, and express-rate-limit names two ways it miscounts, <code>ERR_ERL_STORE_REUSE</code> when several limiters share one store instance and <code>ERR_ERL_DOUBLE_COUNT</code> when one request increments a key twice.<sup class="cite"><a href="#src-15">[15]</a></sup> That is why the fail-closed decision sits on Envoy's global filter, the one that calls an external gRPC rate limit service and counts <code>error</code> and <code>failure_mode_allowed</code> responses per cluster.<sup class="cite"><a href="#src-26">[26]</a></sup></p>
+
+<p>The approximation error inside a window is the part somebody measured, as history: across 400 million requests from 270,000 distinct sources, Cloudflare's 2017 sliding-window counter wrongly allowed or limited 0.003 percent of them.<sup class="cite"><a href="#src-14">[14]</a></sup> The fan-out above it is unquantified in every source read here. Refill shape is the other edge: the Claude API warns that 60 requests per minute "might be enforced as 1 request per second", so <strong>a short burst fails below the published number</strong>, while API Gateway's burst bucket, 5,000 requests by default in most Regions and 1,250 in thirteen named ones, "is not a quota that a customer can control or request changes to".<sup class="cite"><a href="#src-11">[11]</a><a href="#src-24">[24]</a></sup></p>
+
+<aside class="callout">
+<p><span class="tag">Chosen in advance</span> A limiter that cannot run has refused nothing, so fail-open or fail-closed is a per-resource decision, and Envoy makes it a field: <code>failure_mode_deny</code> set to true returns 500 when the rate limit service errors.<sup class="cite"><a href="#src-26">[26]</a></sup> Refusal by capacity is a neighbouring discipline: Kubernetes API Priority and Fairness sorts requests into priority levels and measures capacity in seats, one unit of concurrency, stable since v1.29.<sup class="cite"><a href="#src-18">[18]</a></sup></p>
+</aside>
+
+<h2 id="s6">A limit is operable only when usage is visible before the first refusal</h2>
+
+<p>GitHub's <code>GET /rate_limit</code> returns limit, remaining, reset and used per resource category, and its own page states that "Accessing this endpoint does not count against your REST API rate limit".<sup class="cite"><a href="#src-8">[8]</a></sup> The scope of that sentence matters for a caller that polls: the rate-limit documentation adds that calling the endpoint "can count against your secondary rate limit", and that "There is not a way to check the status of your secondary rate limit".<sup class="cite"><a href="#src-7">[7]</a></sup> <strong>A polling caller spends a budget it cannot read.</strong> Clerk's callers had none of this surface: the postmortem's first timeline entry is an internal report at 16:15, after an onset it dates to 8:11 AM PST.<sup class="cite"><a href="#src-1">[1]</a></sup></p>
+
+<div class="tablewrap">
+<table>
+<caption>Table C. What four providers let an operator see before the first refusal, as documented on the dates read. <a href="#src-7">[7]</a><a href="#src-8">[8]</a><a href="#src-10">[10]</a><a href="#src-11">[11]</a><a href="#src-12">[12]</a><a href="#src-13">[13]</a></caption>
+<thead><tr><th>Provider</th><th>Reading your own limit</th><th>Does reading cost quota</th><th>Before the refusal</th><th>Raising it</th><th>Source</th></tr></thead>
+<tbody>
+<tr><td>GitHub</td><td>GET /rate_limit, twelve resources</td><td>not against the limit it reports; secondary limit status stays unobservable</td><td>x-ratelimit-remaining on responses; nothing for secondary limits</td><td>published tiers; installation formula</td><td><a href="#src-7">[7]</a><a href="#src-8">[8]</a></td></tr>
+<tr><td>Claude API</td><td>Rate Limits API, configured limits</td><td>not stated on the page read</td><td>Console chart: hourly peak against the current limit</td><td>tier change; ramp-up limits, which refuse a sharp increase even below the published number, still apply</td><td><a href="#src-11">[11]</a></td></tr>
+<tr><td>Cloudflare</td><td>operator-side rules, not a caller API</td><td>operator-side</td><td>counters lag a few seconds</td><td>plan: characteristics, periods, rule count</td><td><a href="#src-12">[12]</a><a href="#src-13">[13]</a></td></tr>
+<tr><td>Stripe</td><td>the refusal names it: Stripe-Rate-Limited-Reason</td><td>refusal time only</td><td>refusal time only</td><td>a request with at least six weeks' notice</td><td><a href="#src-10">[10]</a></td></tr>
+</tbody>
+</table>
+</div>
+
+<aside class="callout">
+<p><span class="tag">Derived</span> A GitHub App installation token that is not owned by a GitHub Enterprise Cloud organisation starts at 5,000 requests per hour and gains 50 per repository beyond 20 and 50 per user beyond 20, capped at 12,500, which is 150 increments of either kind combined.<sup class="cite"><a href="#src-7">[7]</a></sup> An installation on 200 repositories for 120 users computes 5,000 + (180 × 50) + (100 × 50) = 19,000, cut by the cap to 12,500: with 100 extra users already counted, the 51st extra repository buys nothing.</p>
+</aside>
+
+<p>Underneath the tokens and apps sits the one door with no identity at all: 60 requests per hour unauthenticated, tied to the originating IP.<sup class="cite"><a href="#src-7">[7]</a></sup> <strong>Raising any limit is an operational lead time rather than a configuration change</strong>: Stripe asks at least six weeks' notice for a large increase, and GitHub's 2025-05-08 changelog added limits to unauthenticated clones, REST calls and raw downloads, with no numbers published.<sup class="cite"><a href="#src-10">[10]</a><a href="#src-9">[9]</a></sup> Wikimedia inverted the trade: stronger identification of a bot or tool earns a higher API limit, rolled out from March 2026.<sup class="cite"><a href="#src-23">[23]</a></sup></p>
+
+<aside class="callout">
+<p><span class="tag">What this does not settle</span> GitHub names the response headers as the authoritative source for the current limit and warns on the same page that their values may vary between responses because of regional processing.<sup class="cite"><a href="#src-7">[7]</a></sup> It also provides no way to check secondary limit status.<sup class="cite"><a href="#src-7">[7]</a></sup> A caller can watch the budget it is unlikely to exhaust and cannot watch the one that will actually stop it.</p>
+</aside>
+
+<h2 id="s7">The limiter meets its heaviest traffic while it is refusing</h2>
+
+<p>At Clerk the refusals recruited their own callers. The customer-spike hypothesis stood from 16:32 to 16:50, with manual blocks on that customer's traffic between 16:35 and 16:37; at 16:50 the customer's retry mechanism was found to be overly aggressive, and the initial failures were placed inside Clerk's own infrastructure.<sup class="cite"><a href="#src-1">[1]</a></sup> <strong>Both halves were true at once: the retries were real, and they were an effect rather than the cause.</strong> The draft states the mechanism in one line, that throttling does not stop clients from sending requests, so separate resource-exhaustion defenses are still needed.<sup class="cite"><a href="#src-5">[5]</a></sup></p>
+
+<figure>
+  <img src="figures/08-storm-loop.svg" alt="A four-node cycle: a refusal is sent, the client retries, the arrival rate rises, the limiter and its log work harder, and another refusal is sent. Two red breaks cut the cycle: server signalling, a computed wait spread past the end of the window, and client scheduling, a client that throttles itself above twice its accepts. A third panel, marked not a break, shows bounded aggregation as the cost of refusing: one aggregated line per key per episode. A note reads: throttling does not stop clients sending. Labelled Inference, the post's own loop.">
+  <figcaption>Two places the amplification loop can be cut, one in what the server signals and one in how the client schedules its retries; bounded aggregation is not a third, because it lowers what refusing costs rather than what arrives. The loop is this post's own construct, labelled Inference in the figure. <a href="#src-1">[1]</a><a href="#src-2">[2]</a><a href="#src-5">[5]</a><a href="#src-10">[10]</a><a href="#src-21">[21]</a><a href="#src-25">[25]</a></figcaption>
+</figure>
+
+<p>GitHub's August 2026 availability report carries the same loop at a larger size, and separates the trigger from the amplification. On 2026-08-17 "a new peak in traffic pushed one datacenter's load balancers past their limits", a service-mesh sidecar "reached its concurrency limit and did not scale up", and load-balancer nodes exhausted their network flow limits; a latent client retry bug then "sharply amplified traffic to one internal authentication endpoint".<sup class="cite"><a href="#src-2">[2]</a></sup> <strong>Recovery ran through the limiter rather than around it</strong>: gateway retries were reduced, retry-triggering requests to the worst-affected endpoint were blocked, and traffic was ramped back gradually.<sup class="cite"><a href="#src-2">[2]</a></sup></p>
+
+<p><strong>Two further entries show the throttle as an instrument with a calibration problem.</strong> On 2026-08-26 a burst of incoming events "arrived on top of an already-high load and pushed the database past its tipping point"; inbound processing was throttled by hand, and "The throttles used to relieve inbound load were initially set slightly too high".<sup class="cite"><a href="#src-2">[2]</a></sup> On 2026-08-06 internal rate limits were raised during recovery and customers were warned of "unexpected rate limiting in your workflows".<sup class="cite"><a href="#src-2">[2]</a></sup></p>
+
+<div class="tablewrap">
+<table>
+<caption>Table D. Four dated incidents in which the limiter was part of the failure, the recovery, or both. The GitHub durations are the incident headings; the same reports' impact summaries give different figures, shorter for two of the three and longer for one. <a href="#src-1">[1]</a><a href="#src-2">[2]</a></caption>
+<thead><tr><th>Incident</th><th>What refused</th><th>Reported impact</th><th>Duration</th><th>The limiter's role</th><th>Source</th></tr></thead>
+<tbody>
+<tr><td>Clerk, 2026-02-19</td><td>shedding, dressed as 429</td><td>over 95 percent of traffic returned 429 unhandled</td><td>restored about 90 minutes after onset; stable confirmed 18:06 UTC</td><td>implied a rate-limit story; manual blocks did not help</td><td><a href="#src-1">[1]</a></td></tr>
+<tr><td>GitHub Actions, 2026-08-06</td><td>internal limits, raised in recovery</td><td>at least 74 organisations, incident-wide</td><td>10 hours 42 minutes</td><td>throttle as a recovery tool; runners retried revoked jobs</td><td><a href="#src-2">[2]</a></td></tr>
+<tr><td>GitHub front door, 2026-08-17</td><td>load balancers and a sidecar past their limits</td><td>56.07 percent of front-door requests to the affected services, at peak</td><td>7 hours 35 minutes</td><td>capacity failure, amplified by a client retry bug; blocking retries recovered it</td><td><a href="#src-2">[2]</a></td></tr>
+<tr><td>GitHub events, 2026-08-26</td><td>inbound processing, throttled by hand</td><td>more than 1 in 5 run starts per minute, at peak</td><td>2 hours 50 minutes</td><td>throttles "initially set slightly too high"</td><td><a href="#src-2">[2]</a></td></tr>
+</tbody>
+</table>
+</div>
+
+<p>The caller's half of the loop has a published method, in the 2017 web copy of Google's overload chapter: <strong>a client counts its requests and its accepts over the last two minutes and begins rejecting locally once requests exceed K times accepts</strong>, with the 2x multiplier the text prefers.<sup class="cite"><a href="#src-21">[21]</a></sup> A smaller K cuts in earlier and throws away requests the server would have accepted, which follows from the ratio rather than from any reported result, and bounding the attempts is the lever GitHub's own follow-up asks for, a review of retry and backoff limits across gateways and clients so that a partial degradation cannot be amplified into a broader overload.<sup class="cite"><a href="#src-2">[2]</a></sup></p>
+
+<aside class="callout">
+<p><span class="tag">Assumption</span> The budget this post bets on is bounded aggregation: one summarising line per key per refusal episode, the tracked keys capped, everything above the cap folded into one overflow line. It bounds what refusing costs, not what arrives. The bet fails under key churn, where the distinct-key rate approaches the request rate, which residential proxy ranges spanning hundreds of millions of addresses produce.<sup class="cite"><a href="#src-23">[23]</a><a href="#src-25">[25]</a></sup></p>
+</aside>
+
+<p><strong>What a logging storm costs is the one claim here with no dated industry number behind it.</strong> The single instance found is small and precise: on 2026-09-22 a single-maintainer Go project recorded 87,073 rate-limit 429 responses in one lab ramp-up test, each written at WARN, argued to drown genuine warnings and mass-trigger alerts, and fixed by moving 429s to INFO while other 4xx stayed at WARN.<sup class="cite"><a href="#src-25">[25]</a></sup> A search on 2026-10-14 for a vendor, standards or peer-reviewed figure on log-volume amplification found none, so this rung rests on the retry-amplification incidents above plus that one test.<sup class="cite"><a href="#src-25">[25]</a></sup></p>
+
+<h2 id="s8">What the Clerk 429 should have said</h2>
+
+<p>Over 95 percent of Clerk's traffic on 2026-02-19 received a refusal that no limit had produced, and the condition behind it already had a spelling: 503, with an optional Retry-After, in RFC 9110.<sup class="cite"><a href="#src-1">[1]</a><a href="#src-4">[4]</a></sup> The same specification declines to make that the rule, noting that the existence of 503 "does not imply that a server has to use it when becoming overloaded", so the swap pays only where the wait is actually sent and the shed response is cheap to answer.<sup class="cite"><a href="#src-4">[4]</a></sup> The postmortem names no load balancer, proxy or gateway as the thing that answered, pointing in that passage only at its own request handlers.<sup class="cite"><a href="#src-1">[1]</a></sup> That is the uncomfortable part of the case, because <strong>429 is what a capacity device sends when nobody chooses otherwise</strong>: Envoy's local rate limit filter returns 429 by default, the status is configurable, and setting a custom status stops the filter emitting Retry-After at all.<sup class="cite"><a href="#src-27">[27]</a></sup></p>
+
+<div class="tablewrap">
+<table>
+<caption>Table E. The seven decisions, the example or failure mode the body named for each, and what the dated evidence shows. Pin the state: count each key on one instance. Nothing here is new: every cell traces to a section above. <a href="#src-1">[1]</a><a href="#src-7">[7]</a><a href="#src-13">[13]</a><a href="#src-17">[17]</a><a href="#src-22">[22]</a><a href="#src-25">[25]</a><a href="#src-26">[26]</a><a href="#src-27">[27]</a></caption>
+<thead><tr><th>Decision</th><th>The example or failure mode named above</th><th>What the dated evidence shows</th><th>Change on Monday</th></tr></thead>
+<tbody>
+<tr><td>Which no it is</td><td>one status code for conditions needing different client behaviour</td><td>Clerk: over 95 percent of traffic got 429 for a database problem <a href="#src-1">[1]</a></td><td>find every default that emits a 429, then give each condition its own field</td></tr>
+<tr><td>The wait, meaning when a caller may return</td><td>Retry-After optional at every standard level</td><td>Envoy v1.40.0 computes it and ships the header off <a href="#src-26">[26]</a></td><td>send the computed value, spread past the end of the window</td></tr>
+<tr><td>The key, meaning what the counter counts against</td><td>a key derived from a header the caller writes</td><td>CVE-2026-30827: every IPv4 client on one key, scored 7.5 of 10 <a href="#src-17">[17]</a></td><td>print the derived key for a request on every ingress path</td></tr>
+<tr><td>The metered step</td><td>the arriving request, whatever it costs</td><td>bots: about 35 percent of pageviews, at least 65 percent of expensive requests <a href="#src-22">[22]</a></td><td>meter where the cost is, in its own unit</td></tr>
+<tr><td>Topology, and what runs when the limiter cannot</td><td>one counter per process or per data center; a library default when the store is unreachable</td><td>Envoy counts per process, Cloudflare per data center, and failure_mode_deny is an explicit field <a href="#src-27">[27]</a><a href="#src-13">[13]</a><a href="#src-26">[26]</a></td><td>count the instances, share or pin the state, then set the posture per resource</td></tr>
+<tr><td>Usage visible before the first refusal</td><td>a budget that is spent before it can be read</td><td>GitHub: no way to check secondary limit status <a href="#src-7">[7]</a></td><td>alert on 429s that arrive while remaining is above zero</td></tr>
+<tr><td>The refusal's own noise</td><td>one warning line per rejection</td><td>87,073 warning lines in one ramp-up test <a href="#src-25">[25]</a></td><td>aggregate to one line per key per episode, with a cap on keys</td></tr>
+</tbody>
+</table>
+</div>
+
+<p>Rewriting the opening response field by field is the shortest statement of the whole argument. <strong>The status changes, because the condition was capacity, not the caller's count in a window.</strong> The limit field disappears, because a shed request was counted against nothing, which is this post's Inference from a postmortem that quotes no fields. The key disappears, because nothing was attributed. What remains is a wait, and the honest value for it would be the service's own recovery estimate; the 120 below is RFC 9110's syntax example, not an estimate anyone made.<sup class="cite"><a href="#src-1">[1]</a><a href="#src-4">[4]</a></sup></p>
+
+<p class="codelabel">HTTP</p>
+<pre><code class="language-http"><span class="tok-com"># illustration: the condition Clerk had, spelled as RFC 9110 spells 503 [1][4]</span>
+<span class="tok-com"># 120 is the RFC's syntax example, not a recovery estimate</span>
+<span class="tok-kw">HTTP/1.1</span> <span class="tok-num">503</span> Service Unavailable
+<span class="tok-key">retry-after</span>: <span class="tok-num">120</span>
+<span class="tok-key">content-type</span>: application/json
+
+<span class="tok-com"># the detail line is this post's Inference, not the postmortem's wording [1]</span>
+{<span class="tok-str">"error"</span>: <span class="tok-str">"capacity"</span>, <span class="tok-str">"detail"</span>: <span class="tok-str">"no rate limit counted this request"</span>}</code></pre>
+
+<p>Two more things change in a codebase that takes this seriously, beyond the Monday column above, and neither needs a new limiter.</p>
+
+<ul>
+<li>On the calling side, follow the documented order: honour retry-after, fall back to x-ratelimit-reset only when remaining is 0, otherwise wait at least a minute with exponential backoff, bound the attempts, and reject locally once requests pass twice the accepts.<sup class="cite"><a href="#src-7">[7]</a><a href="#src-2">[2]</a><a href="#src-21">[21]</a></sup></li>
+<li>On the serving side, assert in a test that two distinct IPv4-mapped addresses produce two keys on a patched release, and that the key a short ingress path yields matches the address the listener saw.<sup class="cite"><a href="#src-17">[17]</a><a href="#src-15">[15]</a><a href="#src-16">[16]</a></sup></li>
+</ul>
+
+<hr class="end">
+<h2 id="sources-heading">Sources</h2>
+<ol id="sources">
+<li id="src-1">Clerk, "Postmortem: Clerk System Outage (February 19, 2026)", 2026-02-19, re-read 2026-10-14. <a href="https://clerk.com/blog/2026-02-19-system-outage-postmortem">https://clerk.com/blog/2026-02-19-system-outage-postmortem</a></li>
+<li id="src-2">GitHub, "GitHub Availability Report: August 2026", 2026-09-09, re-read 2026-10-14. <a href="https://github.blog/news-insights/company-news/github-availability-report-august-2026/">https://github.blog/news-insights/company-news/github-availability-report-august-2026/</a></li>
+<li id="src-3">IETF, "RFC 6585: Additional HTTP Status Codes", section 4 (429 Too Many Requests), April 2012. <a href="https://www.rfc-editor.org/rfc/rfc6585.html">https://www.rfc-editor.org/rfc/rfc6585.html</a></li>
+<li id="src-4">IETF, "RFC 9110: HTTP Semantics", section 10.2.3 (Retry-After) and section 15.6.4 (503), June 2022. <a href="https://www.rfc-editor.org/rfc/rfc9110.html">https://www.rfc-editor.org/rfc/rfc9110.html</a></li>
+<li id="src-5">IETF HTTPAPI Working Group, "RateLimit Header Fields for HTTP", draft-ietf-httpapi-ratelimit-headers-11, 2026-05-23, re-read 2026-10-14. <a href="https://www.ietf.org/archive/id/draft-ietf-httpapi-ratelimit-headers-11.html">https://www.ietf.org/archive/id/draft-ietf-httpapi-ratelimit-headers-11.html</a></li>
+<li id="src-6">IETF Datatracker, "draft-ietf-httpapi-ratelimit-headers" document status page, revision 11 dated 2026-05-23, re-read 2026-10-14. <a href="https://datatracker.ietf.org/doc/draft-ietf-httpapi-ratelimit-headers/">https://datatracker.ietf.org/doc/draft-ietf-httpapi-ratelimit-headers/</a></li>
+<li id="src-7">GitHub, "Rate limits for the REST API", re-read 2026-10-14. <a href="https://docs.github.com/en/rest/using-the-rest-api/rate-limits-for-the-rest-api">https://docs.github.com/en/rest/using-the-rest-api/rate-limits-for-the-rest-api</a></li>
+<li id="src-8">GitHub, "REST API endpoints for rate limits", re-read 2026-10-14. <a href="https://docs.github.com/en/rest/rate-limit/rate-limit">https://docs.github.com/en/rest/rate-limit/rate-limit</a></li>
+<li id="src-9">GitHub, "Updated rate limits for unauthenticated requests", changelog, 2025-05-08. <a href="https://github.blog/changelog/2025-05-08-updated-rate-limits-for-unauthenticated-requests/">https://github.blog/changelog/2025-05-08-updated-rate-limits-for-unauthenticated-requests/</a></li>
+<li id="src-10">Stripe, "Rate limits", re-read 2026-10-14. <a href="https://docs.stripe.com/rate-limits">https://docs.stripe.com/rate-limits</a></li>
+<li id="src-11">Anthropic, "Rate limits (Claude API)", re-read 2026-10-14. <a href="https://platform.claude.com/docs/en/api/rate-limits">https://platform.claude.com/docs/en/api/rate-limits</a></li>
+<li id="src-12">Cloudflare, "Rate limiting rules", last updated 2026-08-25, re-read 2026-10-14. <a href="https://developers.cloudflare.com/waf/rate-limiting-rules/">https://developers.cloudflare.com/waf/rate-limiting-rules/</a></li>
+<li id="src-13">Cloudflare, "How Cloudflare determines the request rate", last updated 2026-04-16, read 2026-10-14. <a href="https://developers.cloudflare.com/waf/rate-limiting-rules/request-rate/">https://developers.cloudflare.com/waf/rate-limiting-rules/request-rate/</a></li>
+<li id="src-14">Cloudflare, "How we built rate limiting capable of scaling to millions of domains", 2017-06-07 (quoted as history). <a href="https://blog.cloudflare.com/counting-things-a-lot-of-different-things/">https://blog.cloudflare.com/counting-things-a-lot-of-different-things/</a></li>
+<li id="src-15">express-rate-limit, "Error codes", re-read 2026-10-14. <a href="https://express-rate-limit.mintlify.app/reference/error-codes">https://express-rate-limit.mintlify.app/reference/error-codes</a></li>
+<li id="src-16">express-rate-limit, "Troubleshooting proxy issues", re-read 2026-10-14. <a href="https://express-rate-limit.mintlify.app/guides/troubleshooting-proxy-issues">https://express-rate-limit.mintlify.app/guides/troubleshooting-proxy-issues</a></li>
+<li id="src-17">GitHub Advisory Database, "GHSA-46wh-pxpv-q5gq / CVE-2026-30827: IPv4-mapped IPv6 addresses collapse per-client rate limiting", published 2026-03-05, updated 2026-03-09, re-read 2026-10-14. <a href="https://github.com/advisories/GHSA-46wh-pxpv-q5gq">https://github.com/advisories/GHSA-46wh-pxpv-q5gq</a></li>
+<li id="src-18">Kubernetes, "API Priority and Fairness", read 2026-10-14. <a href="https://kubernetes.io/docs/concepts/cluster-administration/flow-control/">https://kubernetes.io/docs/concepts/cluster-administration/flow-control/</a></li>
+<li id="src-19">Envoy Proxy, "Global rate limit filter", latest documentation build, read 2026-10-14 when it rendered "envoy 1.41.0-dev-5514ed documentation". <a href="https://www.envoyproxy.io/docs/envoy/latest/configuration/http/http_filters/rate_limit_filter">https://www.envoyproxy.io/docs/envoy/latest/configuration/http/http_filters/rate_limit_filter</a></li>
+<li id="src-20">Envoy Proxy, "Local rate limit filter", latest documentation build, read 2026-10-14 when it rendered the 1.41.0-dev documentation. <a href="https://www.envoyproxy.io/docs/envoy/latest/configuration/http/http_filters/local_rate_limit_filter">https://www.envoyproxy.io/docs/envoy/latest/configuration/http/http_filters/local_rate_limit_filter</a></li>
+<li id="src-21">Google / O'Reilly, "Site Reliability Engineering", chapter 21, "Handling Overload", 2017 web copy read 2026-10-14 (quoted as history). <a href="https://sre.google/sre-book/handling-overload/">https://sre.google/sre-book/handling-overload/</a></li>
+<li id="src-22">Wikimedia Foundation, "How crawlers impact the operations of the Wikimedia projects", 2025-04-01. <a href="https://diff.wikimedia.org/2025/04/01/how-crawlers-impact-the-operations-of-the-wikimedia-projects/">https://diff.wikimedia.org/2025/04/01/how-crawlers-impact-the-operations-of-the-wikimedia-projects/</a></li>
+<li id="src-23">Wikimedia Foundation, "Quo Vadis, Crawlers? Progress and what's next on safeguarding our infrastructure", 2026-03-26, updated 2026-04-15. <a href="https://diff.wikimedia.org/2026/03/26/quo-vadis-crawlers-progress-and-whats-next-on-safeguarding-our-infrastructure/">https://diff.wikimedia.org/2026/03/26/quo-vadis-crawlers-progress-and-whats-next-on-safeguarding-our-infrastructure/</a></li>
+<li id="src-24">Amazon Web Services, "Amazon API Gateway quotas", read 2026-10-14. <a href="https://docs.aws.amazon.com/apigateway/latest/developerguide/limits.html">https://docs.aws.amazon.com/apigateway/latest/developerguide/limits.html</a></li>
+<li id="src-25">task-api (JonasBorgesLM), single-maintainer open-source project, "Log amplification: rate-limited (429) requests are logged at WARN", issue #299, 2026-09-22. <a href="https://github.com/JonasBorgesLM/task-api/issues/299">https://github.com/JonasBorgesLM/task-api/issues/299</a></li>
+<li id="src-26">Envoy Proxy, "Global rate limit filter", v1.40.0 documentation (released version), read 2026-10-14. <a href="https://www.envoyproxy.io/docs/envoy/v1.40.0/configuration/http/http_filters/rate_limit_filter">https://www.envoyproxy.io/docs/envoy/v1.40.0/configuration/http/http_filters/rate_limit_filter</a></li>
+<li id="src-27">Envoy Proxy, "Local rate limit filter", v1.40.0 documentation (released version), read 2026-10-14. <a href="https://www.envoyproxy.io/docs/envoy/v1.40.0/configuration/http/http_filters/local_rate_limit_filter">https://www.envoyproxy.io/docs/envoy/v1.40.0/configuration/http/http_filters/local_rate_limit_filter</a></li>
+<li id="src-28">Envoy Proxy, "Envoy version history, v1.40", read 2026-10-14: 1.40.0 is the latest release, initial release 2026-10-13. <a href="https://www.envoyproxy.io/docs/envoy/v1.40.0/version_history/v1.40/v1.40">https://www.envoyproxy.io/docs/envoy/v1.40.0/version_history/v1.40/v1.40</a></li>
+</ol>
+
+</main>
+</body>
+</html>

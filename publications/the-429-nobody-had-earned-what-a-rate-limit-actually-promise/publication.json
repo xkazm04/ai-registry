@@ -1,0 +1,908 @@
+{
+  "schema": "publication/1",
+  "slug": "the-429-nobody-had-earned-what-a-rate-limit-actually-promise",
+  "title": "The 429 nobody had earned: what a rate limit actually promises",
+  "subtitle": "The one status code the web reserved for refusals is used in production to mean at least five different things, and only one of them is a rate limit.",
+  "topic": {
+    "kind": "subject",
+    "bundle": "software-engineering",
+    "subject": "rate-limiting",
+    "text": "Rate limiting"
+  },
+  "date": "2026-10-16",
+  "readMinutes": 24,
+  "status": "approved",
+  "standard": {
+    "recipe": "technical-blog-post-authoring",
+    "bundle": "technical-writing",
+    "version": "0.2.0"
+  },
+  "sources": [
+    {
+      "n": 1,
+      "url": "https://clerk.com/blog/2026-02-19-system-outage-postmortem",
+      "title": "Postmortem: Clerk System Outage (February 19, 2026)",
+      "publisher": "Clerk",
+      "date": "2026-02-19",
+      "primary": true,
+      "counter": false,
+      "took": "re-read 2026-10-14; the opening scene with the timeline transcribed entry by entry: start given as 8:11 AM PST, first timeline entry 16:15 UTC report and escalation, 16:32 suspected customer spike, 16:35 to 16:37 manual blocks that failed, 16:50 aggressive client retries found but failures internal, 16:55 automatic failover did not trigger, 17:08 new failover enabled, 17:10 failover succeeded, 17:25 root cause found, 17:27 manual ANALYZE, 17:43 systems stabilizing, 18:06 stable performance confirmed; 'shedding the majority of requests with status 429' and 'ultimately over 95% of traffic returning 429 without being handled', with no component named as the source of the 429s and no response fields quoted"
+    },
+    {
+      "n": 2,
+      "url": "https://github.blog/news-insights/company-news/github-availability-report-august-2026/",
+      "title": "GitHub Availability Report: August 2026",
+      "publisher": "GitHub",
+      "date": "2026-09-09",
+      "primary": true,
+      "counter": false,
+      "took": "re-read 2026-10-14; five dated incidents in which throttles, internal rate limits and client retry bugs were part of both the failure and the recovery, the 2026-08-17 trigger chain stated as load balancers past their limits plus a service-mesh sidecar that did not scale with a client retry bug as the amplifier, a primary admission that the inbound throttles were set slightly too high, and heading durations that differ from the impact-summary figures in both directions"
+    },
+    {
+      "n": 3,
+      "url": "https://www.rfc-editor.org/rfc/rfc6585.html",
+      "title": "RFC 6585: Additional HTTP Status Codes, Section 4 (429 Too Many Requests)",
+      "publisher": "IETF",
+      "date": "2012-04",
+      "primary": true,
+      "counter": false,
+      "took": "the wire-level definition of 429, that Retry-After is only a MAY, and that the spec deliberately defines neither how the user is identified nor how requests are counted"
+    },
+    {
+      "n": 4,
+      "url": "https://www.rfc-editor.org/rfc/rfc9110.html",
+      "title": "RFC 9110: HTTP Semantics, Section 10.2.3 (Retry-After) and Section 15.6.4 (503)",
+      "publisher": "IETF",
+      "date": "2022-06",
+      "primary": true,
+      "counter": false,
+      "took": "Retry-After's two permitted forms (HTTP-date or delay-seconds), the syntax example 'Retry-After: 120', and the fact that its own definition names 503 and 3xx, not 429"
+    },
+    {
+      "n": 5,
+      "url": "https://www.ietf.org/archive/id/draft-ietf-httpapi-ratelimit-headers-11.html",
+      "title": "RateLimit Header Fields for HTTP, draft-ietf-httpapi-ratelimit-headers-11",
+      "publisher": "IETF HTTPAPI Working Group",
+      "date": "2026-05-23",
+      "primary": true,
+      "counter": true,
+      "took": "re-read 2026-10-14; the standardised refusal contract (RateLimit and RateLimit-Policy with q, qu, w, pk, r, t), the document header's own fields (Workgroup HTTPAPI, published 23 May 2026, Intended Status Standards Track, Expires 24 November 2026), and the counter-evidence that a published quota is explicitly not a guarantee, not an SLA, and that disclosing operational capacity to untrusted parties is a stated security risk"
+    },
+    {
+      "n": 6,
+      "url": "https://datatracker.ietf.org/doc/draft-ietf-httpapi-ratelimit-headers/",
+      "title": "draft-ietf-httpapi-ratelimit-headers (document status page)",
+      "publisher": "IETF Datatracker",
+      "date": "2026-05-23",
+      "primary": true,
+      "counter": true,
+      "took": "re-read 2026-10-14; that the work is an Active Internet-Draft of the httpapi working group at revision 11 dated 2026-05-23 with no RFC number, 'Intended RFC status' shown as none, no document shepherd and no responsible AD, and one review listed, an HTTPDIR early review of revision 10 by Lucas Pardue with result 'Not ready'. The IESG state field carried no readable value in the page text on this reading, so the state is not quoted; the intended status Standards Track is taken from the draft's own header at [5]"
+    },
+    {
+      "n": 7,
+      "url": "https://docs.github.com/en/rest/using-the-rest-api/rate-limits-for-the-rest-api",
+      "title": "Rate limits for the REST API",
+      "publisher": "GitHub",
+      "date": "2026-10-14",
+      "primary": true,
+      "counter": true,
+      "took": "re-read 2026-10-14; a production limiter topology with many enumerated doors: primary per-key hourly limits, secondary limits counted in points, concurrency and CPU seconds, headers named as the authoritative source and warned to vary between responses, and the counter-evidence that some endpoints' point costs are not shared publicly, that there is no way to check secondary limit status, and that polling the rate_limit endpoint can count against the secondary limit"
+    },
+    {
+      "n": 8,
+      "url": "https://docs.github.com/en/rest/rate-limit/rate-limit",
+      "title": "REST API endpoints for rate limits",
+      "publisher": "GitHub",
+      "date": "2026-10-14",
+      "primary": true,
+      "counter": false,
+      "took": "re-read 2026-10-14; an observability surface whose own page says accessing it does not count against the REST API rate limit, with no mention of secondary limits on this page, and the twelve named limiter resources its schema enumerates with core and search required"
+    },
+    {
+      "n": 9,
+      "url": "https://github.blog/changelog/2025-05-08-updated-rate-limits-for-unauthenticated-requests/",
+      "title": "Updated rate limits for unauthenticated requests",
+      "publisher": "GitHub",
+      "date": "2025-05-08",
+      "primary": true,
+      "counter": false,
+      "took": "a dated change of limits on anonymous doors (HTTPS clone, REST, raw downloads) attributed to observed scraping"
+    },
+    {
+      "n": 10,
+      "url": "https://docs.stripe.com/rate-limits",
+      "title": "Rate limits",
+      "publisher": "Stripe",
+      "date": "2026-10-14",
+      "primary": true,
+      "counter": false,
+      "took": "re-read 2026-10-14; a refusal that names which limit it was (Stripe-Rate-Limited-Reason), the documented rule that a 429 without those headers is not a rate limit, a 429 lock_timeout that is an exclusivity refusal the SDKs retry differently, and the instruction that the integration add randomness to its backoff schedule to avoid a thundering herd"
+    },
+    {
+      "n": 11,
+      "url": "https://platform.claude.com/docs/en/api/rate-limits",
+      "title": "Rate limits (Claude API)",
+      "publisher": "Anthropic",
+      "date": "2026-10-14",
+      "primary": true,
+      "counter": true,
+      "took": "re-read 2026-10-14; a token bucket with continuous replenishment, three limiters in different units per model class, a metered step that excludes cache reads, a published per-minute number that may be enforced per second, a spend-cap 429 that deliberately carries no retry-after and its own error code, the Claude Code workspace checked separately with a 429 that can carry retry-after, and the counter-evidence that all limits on the page 'represent maximum allowed usage, not guaranteed minimums'"
+    },
+    {
+      "n": 12,
+      "url": "https://developers.cloudflare.com/waf/rate-limiting-rules/",
+      "title": "Rate limiting rules",
+      "publisher": "Cloudflare",
+      "date": "2026-08-25",
+      "primary": true,
+      "counter": true,
+      "took": "re-read 2026-10-14 (page last updated 2026-08-25); counting characteristics, periods and mitigation timeouts by plan, with the richer characteristics belonging to the column headed 'Enterprise with Advanced Rate Limiting' rather than to Enterprise generally, the mitigation timeout applying for its full duration by default with a throttling alternative for some Enterprise customers, and the vendor's own warning that the rules are not designed to let a precise number of requests through"
+    },
+    {
+      "n": 13,
+      "url": "https://developers.cloudflare.com/waf/rate-limiting-rules/request-rate/",
+      "title": "How Cloudflare determines the request rate",
+      "publisher": "Cloudflare",
+      "date": "2026-04-16",
+      "primary": true,
+      "counter": false,
+      "took": "that a counter exists per unique combination of characteristic values and per data center, and that the increment can be driven by response status or by an origin-supplied complexity score"
+    },
+    {
+      "n": 14,
+      "url": "https://blog.cloudflare.com/counting-things-a-lot-of-different-things/",
+      "title": "How we built rate limiting capable of scaling to millions of domains",
+      "publisher": "Cloudflare",
+      "date": "2017-06-07",
+      "primary": true,
+      "counter": false,
+      "took": "history: the sliding-window-counter approximation and its measured accuracy on 400 million requests from 270,000 sources"
+    },
+    {
+      "n": 15,
+      "url": "https://express-rate-limit.mintlify.app/reference/error-codes",
+      "title": "Error codes (express-rate-limit)",
+      "publisher": "express-rate-limit",
+      "date": "2026-10-14",
+      "primary": true,
+      "counter": false,
+      "took": "re-read 2026-10-14; seventeen named ERR_ERL_ error codes plus three WRN_ERL_ warnings, enumerating the real failure modes of key derivation, store sharing and double counting in a widely used limiter, and the note that as of express@5.1.0 the trust proxy setting does not support the Forwarded header, so the header is ignored in the default configuration"
+    },
+    {
+      "n": 16,
+      "url": "https://express-rate-limit.mintlify.app/guides/troubleshooting-proxy-issues",
+      "title": "Troubleshooting proxy issues (express-rate-limit)",
+      "publisher": "express-rate-limit",
+      "date": "2026-10-14",
+      "primary": true,
+      "counter": false,
+      "took": "re-read 2026-10-14; the trust proxy hop count found empirically by echoing the resolved client IP and increasing the number until it matches, and the source-port bypass a client triggers by reopening a browser. The guide carries no warning about setting the count too high and does not discuss a client reaching the application on a shorter path or multiple ingress paths, so that risk rests on [15]'s ERR_ERL_PERMISSIVE_TRUST_PROXY entry instead"
+    },
+    {
+      "n": 17,
+      "url": "https://github.com/advisories/GHSA-46wh-pxpv-q5gq",
+      "title": "GHSA-46wh-pxpv-q5gq / CVE-2026-30827: IPv4-mapped IPv6 addresses collapse per-client rate limiting",
+      "publisher": "GitHub Advisory Database",
+      "date": "2026-03-05",
+      "primary": true,
+      "counter": false,
+      "took": "re-read 2026-10-14 (published 2026-03-05, updated 2026-03-09); a dated, scored case of the shared-bucket denial of service, with the structured affected ranges given per branch (>= 8.2.0 and < 8.2.2; = 8.1.0; >= 8.0.0 and < 8.0.2) and patched versions 8.0.2, 8.1.1 and 8.2.2, which the advisory's own prose summarises less precisely as 'All versions of express-rate-limit between v8.0.0 and v8.2.1'"
+    },
+    {
+      "n": 18,
+      "url": "https://kubernetes.io/docs/concepts/cluster-administration/flow-control/",
+      "title": "API Priority and Fairness",
+      "publisher": "Kubernetes",
+      "date": "2026-10-14",
+      "primary": true,
+      "counter": true,
+      "took": "read 2026-10-14; the neighbouring discipline that refuses by capacity rather than by clock, with seats, FlowSchemas, priority levels and borrowing, stable since v1.29"
+    },
+    {
+      "n": 19,
+      "url": "https://www.envoyproxy.io/docs/envoy/latest/configuration/http/http_filters/rate_limit_filter",
+      "title": "Global rate limit filter (latest documentation build)",
+      "publisher": "Envoy Proxy",
+      "date": "2026-10-14",
+      "primary": true,
+      "counter": false,
+      "took": "re-read 2026-10-14, when this URL rendered 'envoy 1.41.0-dev-5514ed documentation', a development build rather than a release; the released-version citation for the same material is the pinned v1.40.0 page at [26]"
+    },
+    {
+      "n": 20,
+      "url": "https://www.envoyproxy.io/docs/envoy/latest/configuration/http/http_filters/local_rate_limit_filter",
+      "title": "Local rate limit filter (latest documentation build)",
+      "publisher": "Envoy Proxy",
+      "date": "2026-10-14",
+      "primary": true,
+      "counter": false,
+      "took": "re-read 2026-10-14, when this URL rendered the 1.41.0-dev documentation build rather than a release; the released-version citation for the token bucket fields and the per-process default is the pinned v1.40.0 page at [27]"
+    },
+    {
+      "n": 21,
+      "url": "https://sre.google/sre-book/handling-overload/",
+      "title": "Site Reliability Engineering, Chapter 21: Handling Overload",
+      "publisher": "Google / O'Reilly",
+      "date": "2017",
+      "primary": true,
+      "counter": true,
+      "took": "history: the argument that modelling capacity as queries per second makes a poor metric, the chapter's own example of a per-customer limit denominated in CPU seconds per second, and client-side adaptive throttling from a requests-to-accepts ratio"
+    },
+    {
+      "n": 22,
+      "url": "https://diff.wikimedia.org/2025/04/01/how-crawlers-impact-the-operations-of-the-wikimedia-projects/",
+      "title": "How crawlers impact the operations of the Wikimedia projects",
+      "publisher": "Wikimedia Foundation",
+      "date": "2025-04-01",
+      "primary": true,
+      "counter": false,
+      "took": "the metered-step argument in numbers: bots were about 35 percent of pageviews but at least 65 percent of the expensive traffic reaching the core datacenters, two different populations"
+    },
+    {
+      "n": 23,
+      "url": "https://diff.wikimedia.org/2026/03/26/quo-vadis-crawlers-progress-and-whats-next-on-safeguarding-our-infrastructure/",
+      "title": "Quo Vadis, Crawlers? Progress and what's next on safeguarding our infrastructure",
+      "publisher": "Wikimedia Foundation",
+      "date": "2026-03-26",
+      "primary": true,
+      "counter": true,
+      "took": "the counter-evidence that tightening per-source limits pushed crawlers onto residential proxy networks spanning hundreds of millions of addresses, making IP keys much less effective, and the inversion of offering a higher limit in exchange for identification"
+    },
+    {
+      "n": 24,
+      "url": "https://docs.aws.amazon.com/apigateway/latest/developerguide/limits.html",
+      "title": "Amazon API Gateway quotas",
+      "publisher": "Amazon Web Services",
+      "date": "2026-10-14",
+      "primary": true,
+      "counter": false,
+      "took": "read 2026-10-14; a published steady rate with a token bucket burst the customer cannot configure or request changes to, and regional variation in the default"
+    },
+    {
+      "n": 25,
+      "url": "https://github.com/JonasBorgesLM/task-api/issues/299",
+      "title": "Log amplification: rate-limited (429) requests are logged at WARN (issue #299)",
+      "publisher": "task-api (JonasBorgesLM), single-maintainer open-source project",
+      "date": "2026-09-22",
+      "primary": true,
+      "counter": false,
+      "took": "the one concrete, dated instance found of limiter log amplification: 87,073 rejections each written at WARN in one lab ramp-up test on one small project"
+    },
+    {
+      "n": 26,
+      "url": "https://www.envoyproxy.io/docs/envoy/v1.40.0/configuration/http/http_filters/rate_limit_filter",
+      "title": "Global rate limit filter, Envoy v1.40.0 documentation",
+      "publisher": "Envoy Proxy",
+      "date": "2026-10-14",
+      "primary": true,
+      "counter": false,
+      "took": "read 2026-10-14 on the page headed 'envoy tag-v1.40.0 documentation', the released version: enable_retry_after_header disabled by default and its value taken from the largest duration_until_reset with a one-second floor, failure_mode_deny returning 500 when the rate limit service errors, the 429 default configurable through rate_limited_status, and the external gRPC rate limit service with its own ok, error, over_limit and failure_mode_allowed statistics"
+    },
+    {
+      "n": 27,
+      "url": "https://www.envoyproxy.io/docs/envoy/v1.40.0/configuration/http/http_filters/local_rate_limit_filter",
+      "title": "Local rate limit filter, Envoy v1.40.0 documentation",
+      "publisher": "Envoy Proxy",
+      "date": "2026-10-14",
+      "primary": true,
+      "counter": false,
+      "took": "read 2026-10-14 on the released v1.40.0 documentation: the token bucket fields max_tokens, tokens_per_fill and fill_interval with the page's example values, 'By default the rate limits are applied per Envoy process', the token bucket shared across workers or held per connection depending on local_rate_limit_per_downstream_connection, a configurable 429, and the Retry-After header suppressed when a custom status other than 429 is configured"
+    },
+    {
+      "n": 28,
+      "url": "https://www.envoyproxy.io/docs/envoy/v1.40.0/version_history/v1.40/v1.40",
+      "title": "Envoy version history, v1.40",
+      "publisher": "Envoy Proxy",
+      "date": "2026-10-14",
+      "primary": true,
+      "counter": false,
+      "took": "read 2026-10-14; that 1.40.0 is the latest release with an initial release date of 2026-10-13, which is what makes [26] and [27] citations to a released version rather than to a development build"
+    }
+  ],
+  "claims": [
+    {
+      "text": "Clerk's postmortem gives the start of the 2026-02-19 incident as 8:11 AM PST, which is 16:11 UTC, and the first entry of its UTC timeline is 16:15, 'Incident reported and escalated internally.' No timeline entry precedes 16:15 and no entry marks the onset of elevated errors, so onset is the narrative's 8:11 AM PST and escalation is the timeline's 16:15 UTC.",
+      "source": 1
+    },
+    {
+      "text": "Clerk's postmortem states: 'Service was restored approximately 90 minutes later when the ANALYZE command was re-run manually.' The timeline puts the manual ANALYZE at 17:27 UTC and systems stabilizing at 17:43 UTC, which is 92 minutes after 16:11; stable performance across the entire system was confirmed at 18:06 UTC.",
+      "source": 1
+    },
+    {
+      "text": "The Clerk timeline's entries after escalation read: 16:32 UTC, a customer with an anomalous traffic spike coincident with the outage was identified; 16:35, manual blocks were added for that customer's traffic to relieve pressure on the database; 16:37, 'Manual blocks failed to restore the system and we continued investigation'; 16:50, the suspected customer was determined to have an overly aggressive retry mechanism, with the initial failures inside Clerk's own infrastructure.",
+      "source": 1
+    },
+    {
+      "text": "The Clerk timeline continues: 16:55 UTC, the automatic Session API failover did not trigger 'because the database was technically still online, just degraded'; 17:08, a new failover mechanism was enabled to generate session tokens outside the core Session API; 17:10, the failover succeeded and allowed many users to access customer applications again, while sign-in and account management APIs stayed unavailable; 17:25, the root cause was determined to be an automatic ANALYZE that resulted in an inefficient query plan flip; 17:27, ANALYZE was re-executed manually and the query returned to its prior plan; 17:43, systems were observed stabilizing with the database back to healthy levels.",
+      "source": 1
+    },
+    {
+      "text": "Clerk's postmortem states that the reduced database performance 'ultimately led to significant queueing, and shedding the majority of requests with status 429', with 'over 95% of traffic returning 429 without being handled'. The page gives no window for that 95 percent figure and no capture of the response fields those callers received; the population is Clerk's inbound traffic during the incident.",
+      "source": 1
+    },
+    {
+      "text": "Clerk's postmortem names no load balancer, proxy or gateway as the component that returned the 429 responses; in the queuing passage it refers only to 'our request handlers'.",
+      "source": 1
+    },
+    {
+      "text": "The cause of the Clerk 429s was not a rate limit: a Postgres automatic ANALYZE sampled a column and 'erroneously conclude[d] that 100% of the values were NULL' when 'the true answer was very high (99.9996%)', flipping the planner onto a plan for a query that in fact 'returned over 17,000' rows, which consumed nearly all the database's resources and caused queuing.",
+      "source": 1
+    },
+    {
+      "text": "RFC 6585, published April 2012, defines 429 as indicating 'that the user has sent too many requests in a given amount of time (\"rate limiting\")'.",
+      "source": 3
+    },
+    {
+      "text": "RFC 6585 section 4 states that a 429 response 'MAY include a Retry-After header indicating how long to wait before making a new request', making the computed wait optional at the standard level.",
+      "source": 3
+    },
+    {
+      "text": "RFC 6585 section 4 states: 'Note that this specification does not define how the origin server identifies the user, nor how it counts requests.' The key and the counting rule are left entirely to the implementer.",
+      "source": 3
+    },
+    {
+      "text": "RFC 6585 section 4 requires that responses with the 429 status code MUST NOT be stored by a cache.",
+      "source": 3
+    },
+    {
+      "text": "RFC 9110 (HTTP Semantics, June 2022) section 10.2.3 defines Retry-After = HTTP-date / delay-seconds, where delay-seconds is a non-negative decimal integer representing time in seconds; its examples are 'Retry-After: Fri, 31 Dec 1999 23:59:59 GMT' and 'Retry-After: 120'. The 120 is the specification's syntax example, not a recommended value.",
+      "source": 4
+    },
+    {
+      "text": "RFC 9110 section 10.2.3 describes Retry-After's meaning when sent with a 503 response and with any 3xx response; it does not name 429, which is defined in a separate document.",
+      "source": 4
+    },
+    {
+      "text": "RFC 9110 section 15.6.4 states that with a 503 Service Unavailable response 'The server MAY send a Retry-After header field' to suggest how long to wait, so the capacity refusal and the time-window refusal share the same optional mechanism.",
+      "source": 4
+    },
+    {
+      "text": "The IETF draft draft-ietf-httpapi-ratelimit-headers-11 carries the header fields Workgroup HTTPAPI, Published 23 May 2026, Intended Status Standards Track and Expires 24 November 2026, and defines two fields: RateLimit-Policy, 'a non-empty List' of quota policy items, and RateLimit, which communicates 'the current service limit for a quota policy for a particular partition key'.",
+      "source": 5
+    },
+    {
+      "text": "In draft-11 the RateLimit-Policy parameters are q (quota allocated, measured in quota units, REQUIRED), qu (quota unit, default 'requests', with 'content-bytes' and 'concurrent-requests' also registered), w (time window, a non-negative non-zero integer number of seconds) and pk (partition key, OPTIONAL); RateLimit carries r (available quota, REQUIRED) and t (the time within which the client can use no more than the available quota).",
+      "source": 5
+    },
+    {
+      "text": "Draft-11 section 4.1.1 states 'Clients MUST NOT assume that a positive available quota is a guarantee that further requests will be served', and section 8.3 adds that clients 'MUST NOT consider the available quota parameter as a service level agreement'.",
+      "source": 5
+    },
+    {
+      "text": "Draft-11 section 7 states that where both Retry-After and the RateLimit field appear, 'the Retry-After field MUST take precedence and the effective window MAY be ignored'; section 6 advises that Retry-After 'SHOULD NOT reference a point in time earlier than the end of the effective window'.",
+      "source": 5
+    },
+    {
+      "text": "Draft-11 section 6 states that the RateLimit values need not correlate with the returned status code, and its FAQ says 429 appears in the examples 'just as an example of a throttled request'; the refusal contract is therefore not bound to one status code.",
+      "source": 5
+    },
+    {
+      "text": "Draft-11 section 6.1 says servers 'SHOULD document how the partition key is generated' and 'SHOULD only use information that is present in the request to generate the partition key', and advises against keys containing sensitive information.",
+      "source": 5
+    },
+    {
+      "text": "Draft-11 section 8.2 advises that servers 'should not disclose to untrusted parties operational capacity information' that could be used to saturate resources, and notes that where partition keys identify a client or user, servers 'should be aware of the potential for impersonation'. This is counter-evidence to publishing the full contract on an unauthenticated door.",
+      "source": 5
+    },
+    {
+      "text": "Draft-11 section 8.1 notes that throttling does not stop clients from sending requests, so servers still need separate resource-exhaustion defenses: the limiter's refusal does not reduce the arriving packet rate.",
+      "source": 5
+    },
+    {
+      "text": "As of 2026-10-14 the IETF Datatracker shows the RateLimit header fields work as an Active Internet-Draft of the httpapi working group at revision 11 dated 2026-05-23, with 'Intended RFC status' shown as none, no RFC number assigned, no document shepherd and no responsible AD, and one review listed: an HTTPDIR early review of revision 10 by Lucas Pardue with result 'Not ready'. The IESG state field carried no readable value on that reading, so no IESG state is quoted.",
+      "source": 6
+    },
+    {
+      "text": "GitHub's primary REST API rate limits as documented on 2026-10-14: 60 requests per hour unauthenticated, tied to the originating IP; 15,000 for a GitHub App owned by a GitHub Enterprise Cloud organisation; 1,000 per repository for GITHUB_TOKEN in GitHub Actions.",
+      "source": 7
+    },
+    {
+      "text": "GitHub's documentation states 'All of these requests count towards your personal rate limit of 5,000 requests per hour': the hourly budget belongs to the user and is shared across their personal access token requests and the requests GitHub Apps and OAuth apps make on their behalf, not to any single token.",
+      "source": 7
+    },
+    {
+      "text": "A GitHub App installation token gets a floor of 5,000 requests per hour that rises by 50 per repository beyond 20 repositories and by 50 per user beyond 20 users in an organisation, capped at 12,500 per hour: the limit is computed from the installation's shape rather than set as a constant.",
+      "source": 7
+    },
+    {
+      "text": "Git LFS has its own bucket on GitHub: 300 requests per minute unauthenticated and 3,000 per minute authenticated, separate from the hourly REST limits.",
+      "source": 7
+    },
+    {
+      "text": "GitHub's secondary rate limits are counted in units other than requests: no more than 100 concurrent requests shared across REST and GraphQL, 900 points per minute per REST endpoint and 2,000 points per minute for the GraphQL endpoint, and 90 seconds of CPU time per 60 seconds of real time with no more than 60 of those seconds for GraphQL.",
+      "source": 7
+    },
+    {
+      "text": "GitHub prices requests in points rather than counting them equally: most REST GET, HEAD and OPTIONS requests cost 1 point and most POST, PATCH, PUT and DELETE requests cost 5; a GraphQL request without mutations costs 1 and with mutations 5. The page adds that 'Some REST API endpoints have a different point cost that is not shared publicly', so part of the pricing is undisclosed.",
+      "source": 7
+    },
+    {
+      "text": "GitHub applies a separate content-creation secondary limit of no more than 80 per minute and 500 per hour, and no more than 2,000 OAuth access token requests per hour for GitHub Apps and OAuth apps.",
+      "source": 7
+    },
+    {
+      "text": "Exceeding a GitHub primary or secondary rate limit returns 403 or 429, and the response carries x-ratelimit-limit, x-ratelimit-remaining, x-ratelimit-used, x-ratelimit-reset (UTC epoch seconds) and x-ratelimit-resource. The retry-after header is conditional: the docs say to wait that many seconds 'If the retry-after response header is present', and otherwise to use x-ratelimit-reset when x-ratelimit-remaining is 0, or wait at least one minute and back off exponentially.",
+      "source": 7
+    },
+    {
+      "text": "GitHub's docs name the headers as authoritative for the current limit: 'You can use the headers that are sent with each response to determine the current status of your primary rate limit', 'The x-ratelimit-* headers are the authoritative source for your current rate limit status' and 'If the two disagree, rely on the response headers'; values may vary between responses because of regional processing.",
+      "source": 7
+    },
+    {
+      "text": "Reading a GitHub limit is not free in every sense: the docs state that 'Calling this endpoint does not count against your primary rate limit, but it can count against your secondary rate limit', and that 'There is not a way to check the status of your secondary rate limit'. A polling caller spends the budget it cannot observe.",
+      "source": 7
+    },
+    {
+      "text": "GitHub's GET /rate_limit endpoint returns limit, remaining, reset and used per resource category, and its own page states: 'Accessing this endpoint does not count against your REST API rate limit.' That page does not mention secondary rate limits.",
+      "source": 8
+    },
+    {
+      "text": "GitHub's GET /rate_limit response schema enumerates twelve limiter resources: core, graphql, search, code_search, source_import, integration_manifest, actions_runner_registration, scim, dependency_snapshots, dependency_sbom, code_scanning_autofix and copilot_usage_records; resources, core and search are the required fields.",
+      "source": 8
+    },
+    {
+      "text": "On 2025-05-08 GitHub announced rate limits for unauthenticated requests covering cloning repositories over HTTPS, anonymously interacting with its REST APIs and downloading files from raw.githubusercontent.com, stating 'We've recently observed an increase in scraping activity targeting our API.' The changelog gives no numbers.",
+      "source": 9
+    },
+    {
+      "text": "GitHub's report on the 2026-08-17 incident names a capacity failure as the trigger, not a retry bug: 'A new peak in traffic pushed one datacenter's load balancers past their limits', 'A service-mesh sidecar reached its concurrency limit and did not scale up', and 'several of the datacenter's load-balancer nodes exhausted their network flow limits', which degraded the shared gateway authentication path.",
+      "source": 2
+    },
+    {
+      "text": "In the same 2026-08-17 incident the retry bug is the amplifier rather than the cause: 'A latent client retry bug sharply amplified traffic to one internal authentication endpoint', which slowed recovery for the Copilot Token Service. Mitigation shifted traffic to another datacenter, reduced 'gateway retries to relieve the pressure', stopped the overloaded load-balancer processes, blocked retry-triggering requests to the most affected endpoint and ramped traffic back up gradually.",
+      "source": 2
+    },
+    {
+      "text": "GitHub's follow-up items for 2026-08-17 include 'Review retry and backoff limits across gateways and clients' so that 'a partial degradation cannot be amplified into a broader overload', alongside correcting autoscaling to account for sidecar capacity, auditing service-mesh limits and fixing the client retry behaviour.",
+      "source": 2
+    },
+    {
+      "text": "The 2026-08-17 incident heading reads 'August 17 13:40 UTC (lasting 7 hours and 35 minutes)'; at peak 56.07 percent of front-door requests to the affected services failed or ran slow at the edge, about 29,000 organisations saw at least one failed or slow request, and roughly 4.8 million requests failed or were slow in total.",
+      "source": 2
+    },
+    {
+      "text": "The 2026-08-26 incident heading reads 'August 26 15:11 UTC (lasting 2 hours and 50 minutes)'. A burst of incoming events 'arrived on top of an already-high load and pushed the database past its tipping point'; inbound event processing was throttled manually and then raised gradually, and the report states 'The throttles used to relieve inbound load were initially set slightly too high to fully protect the database' and that 'There was no automatic circuit breaker to throttle inbound actions load'. At peak, 'more than one in five actions run starts in each minute were failing or badly delayed', with at least 24 organisations seeing runs fail or start much later and 386 seeing some run-start impact.",
+      "source": 2
+    },
+    {
+      "text": "The 2026-08-06 GitHub Actions incident heading reads 'August 06 15:22 UTC (lasting 10 hours and 42 minutes)'. It began with a routine deployment to an internal GitHub Actions service whose contents were not at fault: replacing pods reduced capacity in one site and the remaining sites exceeded their limits. At least 74 organisations saw workflows fail to start, fail partway through or sit queued; GitHub 'raised the internal rate limits that were slowing recovery', 'throttled incoming webhook-triggered work so the system could stabilize', warned of 'unexpected rate limiting in your workflows', and runners were assigned revoked jobs and got stuck retrying them.",
+      "source": 2
+    },
+    {
+      "text": "The durations in GitHub's August 2026 incident headings and in the same incidents' impact summaries disagree in both directions: 10 hours 42 minutes against approximately 9 hours for 2026-08-06, 7 hours 35 minutes against approximately 6 hours 44 minutes for 2026-08-17, and 2 hours 50 minutes against approximately 2 hours 53 minutes for 2026-08-26. The heading figure is the one comparable across rows.",
+      "source": 2
+    },
+    {
+      "text": "Stripe's documented global API rate limit is 100 requests per second per account in live mode and 25 per second in a sandbox, with individual API endpoints limited to 25 requests per second unless otherwise noted, and the page asks callers to 'treat limits as maximums and avoid unnecessary load'.",
+      "source": 10
+    },
+    {
+      "text": "Stripe treats concurrency as a separate limit from rate: the default global concurrency limit for standard live-mode API traffic is 50 in-progress requests, and Meter Events allow one concurrent call per customer per meter.",
+      "source": 10
+    },
+    {
+      "text": "Stripe's 429 responses carry a Stripe-Rate-Limited-Reason header whose documented values are global-rate, endpoint-rate, global-concurrency, endpoint-concurrency and resource-specific, so the refusal names which limit refused it.",
+      "source": 10
+    },
+    {
+      "text": "Stripe documents that 'If a request returns a 429 status code without these headers, it wasn't the result of a rate limit' and may instead be a lock timeout: a 429 with code lock_timeout raised when another API request or Stripe process is already accessing the object.",
+      "source": 10
+    },
+    {
+      "text": "Stripe's SDKs automatically retry 429s caused by lock timeouts, while rate-limit 429s are left to the integration's own exponential backoff: two conditions sharing one status code get opposite client behaviour.",
+      "source": 10
+    },
+    {
+      "text": "Stripe puts the spreading of retries on the integration: 'Follow an exponential backoff schedule to reduce request volume when necessary, and add randomness to the backoff schedule to avoid a thundering herd effect', with a client-side token bucket named as the more sophisticated approach, and concurrency refusals told to 'retry with exponential backoff and jitter'.",
+      "source": 10
+    },
+    {
+      "text": "Stripe carries per-object and per-resource limits in several units: 1,000 update requests per PaymentIntent object per hour; 10 new invoices per subscription per minute, 20 per day and 200 quantity updates per hour; 15 payout create requests per second and 30 concurrent requests per business.",
+      "source": 10
+    },
+    {
+      "text": "Stripe also publishes a budget-scale allocation rather than a rate: read (GET) requests must not exceed an average of 500 per transaction over a rolling 30-day period, with a floor of 10,000 read requests per month for every account, and write requests have no allocation limit.",
+      "source": 10
+    },
+    {
+      "text": "Stripe's documentation asks for at least six weeks' notice for a large rate limit increase, which makes raising a limit an operational lead time rather than a configuration change.",
+      "source": 10
+    },
+    {
+      "text": "The Claude API states that it 'uses the token bucket algorithm to do rate limiting. This means that your capacity is continuously replenished up to your maximum limit, rather than being reset at fixed intervals.'",
+      "source": 11
+    },
+    {
+      "text": "The Claude API documentation warns that a published per-minute number can be enforced on a shorter interval: 'You might hit rate limits over shorter time intervals. For instance, a rate of 60 requests per minute (RPM) might be enforced as 1 request per second. Short bursts of requests can exceed the limit and trigger rate limit errors.'",
+      "source": 11
+    },
+    {
+      "text": "The Claude API states that 'All limits described here represent maximum allowed usage, not guaranteed minimums', which is counter-evidence to reading a published limit as reserved capacity.",
+      "source": 11
+    },
+    {
+      "text": "Claude Messages API limits are measured in three units per model class: requests per minute, input tokens per minute and output tokens per minute. On the Start tier for Claude Opus 5.5 the limits are 1,000 RPM, 2,000,000 ITPM and 400,000 OTPM; on the Scale tier the same model's limits are 10,000 RPM, 10,000,000 ITPM and 2,000,000 OTPM.",
+      "source": 11
+    },
+    {
+      "text": "For most Claude models only uncached input tokens count toward the input-tokens-per-minute limit: input_tokens and cache_creation_input_tokens count, cache_read_input_tokens do not, with Claude Haiku 3.5 (retired except on Google Cloud) documented as an exception that does count cache reads.",
+      "source": 11
+    },
+    {
+      "text": "Input-token limits on the Claude API are estimated at the beginning of each request and adjusted during the request to reflect actual input tokens, while output-token limits are evaluated in real time from tokens actually produced, so the max_tokens parameter does not factor into the output limit.",
+      "source": 11
+    },
+    {
+      "text": "The Claude API separates a monthly spend cap from the rate limit: Start $500, Build $1,000 and Scale $200,000 per calendar month. Reaching the cap returns HTTP 429 with error type rate_limit_error but with no retry-after header, and with error.details.error_code set to enforced_spend_limit_reached, which the docs say to use to tell this response apart from a rate limit.",
+      "source": 11
+    },
+    {
+      "text": "A spend limit an organisation sets for itself on the Claude API returns HTTP 400 with error type invalid_request_error rather than 429, a different spelling for a different kind of no.",
+      "source": 11
+    },
+    {
+      "text": "The Claude Code workspace is the documented exception to that spelling: 'Limits on the Claude Code workspace are checked separately: Claude Code requests over that workspace's limit can instead receive a 429 that carries a retry-after header.'",
+      "source": 11
+    },
+    {
+      "text": "The retry-after header on the Claude API is conditional by design: its description reads 'Not every 429 carries it; the spend-cap 429 never does', and the rate-limit section says 'When the response has a retry-after header, wait that many seconds before retrying.'",
+      "source": 11
+    },
+    {
+      "text": "Claude API workspace limits are set per limiter type and nest under the organisation's: 'Organization-wide limits always apply, even if Workspace limits add up to more.' Exactly one rung governs.",
+      "source": 11
+    },
+    {
+      "text": "The Claude API returns anthropic-ratelimit-{requests,tokens,input-tokens,output-tokens}-{limit,remaining,reset} headers, with reset times in RFC 3339 format and remaining token counts rounded to the nearest thousand; the anthropic-ratelimit-tokens-* headers display the values for the most restrictive limit currently in effect.",
+      "source": 11
+    },
+    {
+      "text": "The Claude API exposes a Rate Limits API for reading an organisation's and workspace's configured limits programmatically, and Console charts showing hourly maximum uncached input tokens per minute against the current limit plus the cache rate: usage visible before the first refusal.",
+      "source": 11
+    },
+    {
+      "text": "The Claude API documents acceleration limits: a sharp increase in an organisation's usage can produce 429 errors even below the published per-minute numbers, with the advice to ramp traffic gradually and maintain consistent usage patterns.",
+      "source": 11
+    },
+    {
+      "text": "Cloudflare's rate limiting rules documentation (last updated 2026-08-25) states: 'Rate limiting rules are not designed to allow a precise number of requests to reach your origin server', and warns that counters can lag by a few seconds so excess requests may get through.",
+      "source": 12
+    },
+    {
+      "text": "The counting characteristics available in Cloudflare rate limiting rules rise with the plan, and the richest set belongs to a named product rather than to a tier: the table's columns give IP only on Free and Pro, IP and IP with NAT support on Business, and under the column headed 'Enterprise with Advanced Rate Limiting' also query, host, headers, cookie, ASN, country, path, JA3/JA4 fingerprint, JSON field value, body, form input value and custom values.",
+      "source": 12
+    },
+    {
+      "text": "Cloudflare counting periods are capped by plan: 10 seconds only on Free, up to 1 minute on Pro, up to 10 minutes on Business and up to 65,535 seconds on Enterprise, chosen from a fixed set of values (10, 15, 20, 30, 40, 45, 60, 90, 120, 180, 240, 300, 480, 600, 900, 1200, 1800, 2400, 3600, 65535, 86400 seconds).",
+      "source": 12
+    },
+    {
+      "text": "Cloudflare's mitigation timeout, the block interval applied after a rule fires, is 10 seconds on Free, up to 1 hour on Pro and up to 1 day on Business and Enterprise. 'By default, Cloudflare will apply the rule action for the configured duration (or mitigation timeout), regardless of the request rate during this period', and 'Some Enterprise customers can configure the rule to throttle requests over the maximum rate' instead.",
+      "source": 12
+    },
+    {
+      "text": "Cloudflare allows 1 rate limiting rule on Free, 2 on Pro, 5 on Business and up to 100 on Enterprise depending on contract: the number of distinct limits a deployment can express is itself a licensed quantity.",
+      "source": 12
+    },
+    {
+      "text": "Cloudflare keeps separate counters for each unique combination of a rule's characteristic values, and each data center keeps its own counters because cf.colo.id is added to every rule; data centers in the same geographic location share counters.",
+      "source": 13
+    },
+    {
+      "text": "A Cloudflare counting expression can restrict which requests increment the counter, for example counting only responses with status 400, so the metered step need not be the arriving request.",
+      "source": 13
+    },
+    {
+      "text": "In Cloudflare's complexity-based mode the counter increments by a score the origin returns in a configured response header, with a valid range of 1 to 1,000,000; if the header is missing or out of range the counter is not updated. Because the score arrives in a response, it can only inform later admission decisions, not the request it describes.",
+      "source": 13
+    },
+    {
+      "text": "History (2017): Cloudflare's sliding-window-counter approximation weights the previous window by the fraction still in view, for example 42 requests in the previous minute weighted 0.75 plus 18 in the current minute giving an approximate rate of 49.5.",
+      "source": 14
+    },
+    {
+      "text": "History (2017): measured against 400 million requests from 270,000 distinct sources, Cloudflare's approximation wrongly allowed or rate limited 0.003 percent of requests, with an average difference of 6 percent between the real rate and the approximate rate; 3 sources were falsely allowed, all with actual rates less than 15 percent above the threshold, and no source was mitigated while below the threshold.",
+      "source": 14
+    },
+    {
+      "text": "express-rate-limit's error-codes page lists twenty codes: seventeen named ERR_ERL_* validation errors and three WRN_ERL_* warnings (WRN_ERL_MAX_ZERO, WRN_ERL_DEPRECATED_ON_LIMIT_REACHED and WRN_ERL_DEPRECATED_DRAFT_POLLI_HEADERS). Each validation can be disabled individually through a validate option such as validate: {trustProxy: false}.",
+      "source": 15
+    },
+    {
+      "text": "ERR_ERL_PERMISSIVE_TRUST_PROXY fires when Express's trust proxy is set to true, because Express then takes the leftmost X-Forwarded-For entry as the client IP, a value the proxy or a malicious client can set, allowing rate-limit bypass.",
+      "source": 15
+    },
+    {
+      "text": "ERR_ERL_UNEXPECTED_X_FORWARDED_FOR fires when X-Forwarded-For is present but trust proxy is false, which usually makes the limit global rather than per-user; the docs add that if it happens rarely with no reverse proxy in front, it may be probing.",
+      "source": 15
+    },
+    {
+      "text": "ERR_ERL_FORWARDED_HEADER fires when the RFC 7239 Forwarded header is present and the default key generator is used: as of express@5.1.0 Express's trust proxy setting does not support the Forwarded header, so 'this header is ignored in the default configuration'.",
+      "source": 15
+    },
+    {
+      "text": "ERR_ERL_INVALID_IP_ADDRESS fires when the IP is not valid IPv4 or IPv6 or includes a port number, because ports change easily and a key containing one can be rotated to bypass the limit.",
+      "source": 15
+    },
+    {
+      "text": "ERR_ERL_KEY_GEN_IPV6 fires when a custom key generator would let IPv6 clients evade limits by rotating addresses within their own subnet; the documented fix is to wrap req.ip in the library's ipKeyGenerator helper, with ipv6Subnet validated to the range 32 to 64 unless the check is disabled.",
+      "source": 15
+    },
+    {
+      "text": "ERR_ERL_STORE_REUSE fires when one store instance is shared by multiple rate limiters, and ERR_ERL_DOUBLE_COUNT fires when the same key is incremented more than once for one request, from repeated limiter calls or multiple limiters sharing a store: two documented ways a shared counter miscounts.",
+      "source": 15
+    },
+    {
+      "text": "ERR_ERL_CREATED_IN_REQUEST_HANDLER fires when a rate limiter is constructed while handling a request instead of at application startup, which gives every request a fresh empty counter.",
+      "source": 15
+    },
+    {
+      "text": "ERR_ERL_HEADERS_UNSUPPORTED_DRAFT_VERSION names the three incompatible generations of the standard refusal headers that express-rate-limit can emit: draft-6, draft-7 and draft-8.",
+      "source": 15
+    },
+    {
+      "text": "ERR_ERL_WINDOW_MS fires when windowMs exceeds the maximum timer delay Node.js allows, about 28.4 days, for the default in-memory store; external stores can use longer windows.",
+      "source": 15
+    },
+    {
+      "text": "express-rate-limit's proxy guide finds the trust proxy value empirically: create a test endpoint that returns the client IP, request it, and 'If not, then keep increasing the number until it does' match. The number is therefore a property of one request path through one deployment, and the guide carries no warning about overshooting it and does not discuss a client that reaches the application on a shorter path.",
+      "source": 16
+    },
+    {
+      "text": "Where a proxy passes IP:PORT values, express-rate-limit's guide notes a user 'can simply close and re-open their browser to bypass the rate limit timer' because the source port changes; the workaround is a key generator that strips the port.",
+      "source": 16
+    },
+    {
+      "text": "CVE-2026-30827 (GHSA-46wh-pxpv-q5gq, published 2026-03-05, updated 2026-03-09, CVSS 7.5 High under CVSS v3.1 with vector AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H, CWE-770) lists its affected versions per branch: 8.2.0 up to but not including 8.2.2, exactly 8.1.0, and 8.0.0 up to but not including 8.0.2. Patched versions are 8.2.2, 8.1.1 and 8.0.2. The advisory's prose summarises this less precisely as 'All versions of express-rate-limit between v8.0.0 and v8.2.1'.",
+      "source": 17
+    },
+    {
+      "text": "In CVE-2026-30827 the default key generator applied IPv6 /56 subnet masking to any address net.isIPv6() accepted, including IPv4-mapped addresses such as ::ffff:8.8.8.8 that Node.js returns as request.ip on dual-stack servers; because the first 80 bits are zero, every IPv4 client mapped to the single key ::/56.",
+      "source": 17
+    },
+    {
+      "text": "The impact of CVE-2026-30827 was denial of service rather than evasion: one client exhausting the limit caused HTTP 429 responses for all other IPv4 clients, in the default configuration, on the Linux default of listening on ::; custom key generators were unaffected.",
+      "source": 17
+    },
+    {
+      "text": "Kubernetes documents that the kube-apiserver's --max-requests-inflight and --max-mutating-requests-inflight flags cap outstanding work but cannot ensure the most important requests get through under load, which is the gap API Priority and Fairness closes.",
+      "source": 18
+    },
+    {
+      "text": "Kubernetes API Priority and Fairness classifies requests by attribute through FlowSchemas, the rules that sort a request into a queue, into priority levels with their own concurrency limits, uses fair queuing between flows within a level, and measures capacity in 'seats', one unit of concurrency, with each request occupying one seat in the baseline model.",
+      "source": 18
+    },
+    {
+      "text": "Kubernetes APF concurrency limits are adjusted periodically, so an underused priority level can lend concurrency to a heavily used one within configured lending and borrowing bounds; the default configuration isolates leader election, built-in controllers and Pods so a flooding Pod cannot block leader election.",
+      "source": 18
+    },
+    {
+      "text": "API Priority and Fairness has been stable since Kubernetes v1.29, is enabled by default via --enable-priority-and-fairness, and its flowcontrol.apiserver.k8s.io/v1 API is stable and enabled by default.",
+      "source": 18
+    },
+    {
+      "text": "As of 2026-10-14 the Envoy documentation URLs under /docs/envoy/latest/ render a development build, headed 'envoy 1.41.0-dev-5514ed documentation', so a field documented there is not by itself documented in a release; the pinned v1.40.0 pages are the released-version citation.",
+      "source": 19
+    },
+    {
+      "text": "Envoy 1.40.0 is the latest release of Envoy, with an initial release date of 2026-10-13; the version history also lists 1.39.4, 1.38.7, 1.37.9 and 1.36.13, all dated 2026-10-12.",
+      "source": 28
+    },
+    {
+      "text": "In released Envoy v1.40.0 the global rate limit filter makes the fail-open or fail-closed decision an explicit field: if there is an error in calling the rate limit service or the service returns an error and failure_mode_deny is set to true, a 500 response is returned, and the failure_mode_allowed statistic counts 'Total requests that were error(s) but were allowed through because of failure_mode_deny set to false'.",
+      "source": 26
+    },
+    {
+      "text": "In released Envoy v1.40.0 the global rate limit filter calls an external gRPC rate limit service, configured through rate_limit_service with a grpc_service and a cluster name, and sends one descriptor per configuration; its per-cluster statistics are ok ('Total under limit responses from the rate limit service'), error ('Total errors contacting the rate limit service'), over_limit and failure_mode_allowed. The shared counter is a network dependency with its own error path.",
+      "source": 26
+    },
+    {
+      "text": "In released Envoy v1.40.0 the global rate limit filter returns 429 when a descriptor is over limit, 'the response is configurable via rate_limited_status', and enable_retry_after_header is disabled by default; when it is enabled the Retry-After value is the largest duration_until_reset among the over-limit descriptor statuses with a floor of one second, and a Retry-After returned by the rate limit service itself is left unchanged.",
+      "source": 26
+    },
+    {
+      "text": "In released Envoy v1.40.0 the local rate limit filter is a token bucket configured as max_tokens, tokens_per_fill and fill_interval, with page examples of 10000/1000/1s, 1000/1000/60s and 100/100/60s; it returns a 429 that is configurable, and 'By default the rate limits are applied per Envoy process', with the bucket 'either shared across all workers or on a per connection basis' depending on local_rate_limit_per_downstream_connection.",
+      "source": 27
+    },
+    {
+      "text": "In released Envoy v1.40.0 the local rate limit filter can also emit Retry-After, and does not emit it when a custom status other than 429 is configured: changing the refusal's status code silently drops the wait.",
+      "source": 27
+    },
+    {
+      "text": "History (Site Reliability Engineering, 2017): Google's chapter on handling overload warns that 'modeling capacity as \"queries per second\" ... often makes for a poor metric' and that 'A moving target makes a poor metric', recommending capacity be measured in available resources instead, with CPU consumption working well as the signal in most cases.",
+      "source": 21
+    },
+    {
+      "text": "History (Site Reliability Engineering, 2017): Google denominated per-customer quotas in CPU seconds per second, with the chapter's own illustrative allocation introduced by 'for example', 'Every other user is allowed to consume up to 500 CPU seconds per second', and allowed the sum of customer limits to exceed the service's allocated CPUs because not all customers hit their limits at once. The 500 is the chapter's example, not a reported deployment figure.",
+      "source": 21
+    },
+    {
+      "text": "History (Site Reliability Engineering, 2017): Google's client-side adaptive throttling tracks requests and accepts over the last two minutes and lets clients keep issuing requests until requests is K times as large as accepts, after which clients reject locally with a computed probability; the text says 'We generally prefer the 2x multiplier'.",
+      "source": 21
+    },
+    {
+      "text": "History (Site Reliability Engineering, 2017): Google assigned requests one of four criticality levels, CRITICAL_PLUS, CRITICAL, SHEDDABLE_PLUS and SHEDDABLE, with CRITICAL the default for production jobs and SHEDDABLE_PLUS the default for batch jobs.",
+      "source": 21
+    },
+    {
+      "text": "Wikimedia Foundation reported on 2025-04-01 that bandwidth for downloading multimedia content had grown 50 percent since January 2024, attributed largely to automated programs scraping Wikimedia Commons rather than to human readers.",
+      "source": 22
+    },
+    {
+      "text": "Wikimedia Foundation reported on 2025-04-01 that 'at least 65%' of the resource-consuming traffic reaching its core datacenters came from bots, while bots made up about 35 percent of total pageviews. The two percentages have different populations, total pageviews and resource-consuming requests at the core datacenters, and are not two measurements of one quantity.",
+      "source": 22
+    },
+    {
+      "text": "Wikimedia Foundation reported on 2026-03-26 (updated 2026-04-15) that about 30 percent of automated requests from crawlers that do not follow its policy are now blocked or throttled, raised from 25 percent when blocked media requests from the same period were added; the chart legend cites about 1.5 billion blocked or throttled requests per day.",
+      "source": 23
+    },
+    {
+      "text": "Wikimedia Foundation reported on 2026-03-26 that tightening limits on datacenter and individual-source traffic pushed crawlers onto residential proxy networks that can span 'hundreds of millions of IP addresses', which makes IP-based limits much less effective; modern bots also spoof browser identities and circumvent rate limits.",
+      "source": 23
+    },
+    {
+      "text": "Wikimedia Foundation began rolling out global API rate limits in March 2026 with a second phase planned for April 2026, and ties the limit to attribution: stronger identification of a bot or tool earns a higher API limit, with several identification options and a contact route for owners whose limits are too strict.",
+      "source": 23
+    },
+    {
+      "text": "Amazon API Gateway's default account-level throttle quota is 10,000 requests per second per account per Region across HTTP, REST, WebSocket and WebSocket callback APIs, with additional burst capacity from the token bucket algorithm using a maximum bucket capacity of 5,000 requests; the rate quota can be increased but the burst quota 'is not a quota that a customer can control or request changes to'.",
+      "source": 24
+    },
+    {
+      "text": "Amazon API Gateway's default throttle quota is not uniform across the world: in thirteen named Regions, including Africa (Cape Town), Europe (Milan) and Asia Pacific (Jakarta), the default is 2,500 requests per second with a burst quota of 1,250.",
+      "source": 24
+    },
+    {
+      "text": "One dated instance of limiter log amplification: on 2026-09-22 a single-maintainer open-source Go project recorded 87,073 rate-limit 429 responses in one lab ramp-up test, each written at WARN level, and the issue argues the flood 'drowns genuine warnings', pressures the log pipeline and mass-triggers alerts, 'eroding the protection the limiter provides'; the fix moved 429s to INFO and kept other 4xx at WARN. The population is one test on one small project, not a measured industry effect.",
+      "source": 25
+    },
+    {
+      "text": "A search on 2026-10-14 for a vendor postmortem or published guidance quantifying log-volume amplification caused by logging every rate-limit rejection returned only individual open-source project issue trackers; no vendor, standards or peer-reviewed source stating such a figure was found, so the storm-hygiene argument rests on the retry-amplification incidents plus this single project's test rather than on a measured industry number.",
+      "source": 25
+    },
+    {
+      "text": "GitHub's rate-limit documentation, read 2026-10-14, documents its own header vocabulary (x-ratelimit-limit, -remaining, -used, -reset, -resource) and not the IETF draft's RateLimit or RateLimit-Policy fields.",
+      "source": 7
+    },
+    {
+      "text": "Stripe's rate-limit documentation, read 2026-10-14, documents Stripe-Rate-Limited-Reason as the header that explains a 429 and does not document the IETF draft's RateLimit or RateLimit-Policy fields.",
+      "source": 10
+    },
+    {
+      "text": "The Claude API rate-limit documentation, read 2026-10-14, documents anthropic-ratelimit-* and anthropic-priority-* headers and not the IETF draft's RateLimit or RateLimit-Policy fields.",
+      "source": 11
+    },
+    {
+      "text": "Every number available to this post is third-party published work: the research phase had no execution environment, so no measurement of its own was run, and the storm-hygiene and log-amplification material in particular rests on published incidents and one small project's lab test rather than on a measurement made here. The post's figures and ladders are its own constructs built from those published numbers.",
+      "source": 25
+    }
+  ],
+  "figures": [
+    {
+      "file": "figures/01-clerk-timeline.svg",
+      "caption": "The hypothesis the refusals implied held eighteen minutes; the root cause was found at 17:25. The onset is converted from the postmortem's 8:11 AM PST, and every other time is quoted UTC. [1]",
+      "sources": [
+        1
+      ]
+    },
+    {
+      "file": "figures/02-one-code-five-refusals.svg",
+      "caption": "The status code is the least informative part of a refusal; the distinguishing field is the contract. Four conditions can be sorted from the response, the fifth only from what an operator can see about the keys. The grouping into five is this post's, labelled Inference in the figure. A self-set spend limit skips 429 altogether and returns HTTP 400 with . [1] [3] [10] [11] [17]",
+      "sources": [
+        1,
+        3,
+        10,
+        11,
+        17
+      ]
+    },
+    {
+      "file": "figures/03-refusal-anatomy.svg",
+      "caption": "Illustration, values invented: the fields that would make a refusal self-describing exist, parameterised, in a document that is not a standard yet. [4] [5] [6]",
+      "sources": [
+        4,
+        5,
+        6
+      ]
+    },
+    {
+      "file": "figures/04-key-ladder.svg",
+      "caption": "Illustration, labelled Inference: each rung is admitted by a fact about the deployment, not by the field's name. The rungs are reasoned from the library's documented failure modes, not measured. [5] [15] [16] [17]",
+      "sources": [
+        5,
+        15,
+        16,
+        17
+      ]
+    },
+    {
+      "file": "figures/05-ipv4-collapse.svg",
+      "caption": "A key-derivation bug turns a limiter into the denial of service it was installed to stop. [17]",
+      "sources": [
+        17
+      ]
+    },
+    {
+      "file": "figures/06-metered-step.svg",
+      "caption": "The counter's step decides the answer before the number does: about 35 percent of total pageviews against at least 65 percent of resource-consuming requests at the core datacenters. [22]",
+      "sources": [
+        22
+      ]
+    },
+    {
+      "file": "figures/07-one-number-many-counters.svg",
+      "caption": "The limit a resource experiences is the sum of the instances enforcing it, not the number published; the sum is labelled Derived in the figure. [12] [13] [27]",
+      "sources": [
+        12,
+        13,
+        27
+      ]
+    },
+    {
+      "file": "figures/08-storm-loop.svg",
+      "caption": "Two places the amplification loop can be cut, one in what the server signals and one in how the client schedules its retries; bounded aggregation is not a third, because it lowers what refusing costs rather than what arrives. The loop is this post's own construct, labelled Inference in the figure. [1] [2] [5] [10] [21] [25]",
+      "sources": [
+        1,
+        2,
+        5,
+        10,
+        21,
+        25
+      ]
+    }
+  ],
+  "check": {
+    "structure": "pass",
+    "figures": "pass",
+    "voice": "pass",
+    "medium-fidelity": "pass",
+    "truth": "pass"
+  },
+  "run": {
+    "id": "2026-10-14-rate-limiting",
+    "model": "claude-opus-5",
+    "effort": "high",
+    "costUsd": 55.1593
+  },
+  "critique": {
+    "rounds": 2,
+    "reviewers": [
+      {
+        "id": "fable",
+        "engine": "claude",
+        "model": "claude-fable-5-1",
+        "effort": "high",
+        "outcome": "completed",
+        "costUsd": 8.124985
+      },
+      {
+        "id": "gemini4",
+        "engine": "agy",
+        "model": "gemini-4-argon",
+        "effort": "high",
+        "outcome": "timed-out"
+      },
+      {
+        "id": "gemini",
+        "engine": "agy",
+        "model": "gemini-3.8-flash",
+        "effort": "high",
+        "outcome": "completed"
+      },
+      {
+        "id": "gpt",
+        "engine": "codex",
+        "model": "gpt-6-astra",
+        "effort": "high",
+        "outcome": "completed"
+      }
+    ],
+    "findings": {
+      "total": 94,
+      "accepted": 85,
+      "rejected": 8,
+      "deferred": 1
+    },
+    "decision": "rewrite"
+  }
+}

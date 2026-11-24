@@ -1,0 +1,71 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 340" width="680" height="340" role="img" aria-labelledby="f3t f3d">
+  <title id="f3t">Anatomy of a stated refusal in the IETF draft</title>
+  <desc id="f3d">Illustration with invented values. Three response header rows. RateLimit-Policy carries q quota, qu unit, w window seconds and pk partition key. RateLimit carries r, the quota available now, and t, the seconds it holds for. Retry-After carries delay-seconds or an HTTP-date and takes precedence over the window. Side notes read: not a guarantee, not an SLA. A footer records that the draft's own header gives Standards Track as its intended status while the datatracker shows revision 11 of 2026-05-23 with no RFC number.</desc>
+  <style>
+    .bg{fill:#f6f4ef}
+    .t{font-family:"Helvetica Neue",Arial,sans-serif;fill:#1b1b19}
+    .mono{font-family:"SFMono-Regular",Consolas,"Liberation Mono",monospace}
+    .n{font-size:15px}
+    .d{font-size:13px;fill:#3a3a36}
+    .h{font-size:13px;fill:#57534d;letter-spacing:.04em}
+    .sm{font-size:13px;fill:#57534d}
+    .box{fill:#ffffff;stroke:#8a8076;stroke-width:1.5}
+    .redbox{fill:#f4dcdc;stroke:#a4262c;stroke-width:1.5}
+    .redl{stroke:#a4262c;stroke-width:1.6;fill:none}
+    .redh{fill:#a4262c}
+    .redt{fill:#a4262c}
+    .notebox{fill:#eceae4;stroke:#8a8076;stroke-width:1}
+    .bluebox{fill:#e7eef4;stroke:#1f4e79;stroke-width:1.5}
+    .lead{stroke:#8a8076;stroke-width:1;stroke-dasharray:3 3}
+    @media (prefers-color-scheme:dark){
+      .bg{fill:#1c1c1a}
+      .t{fill:#e9e6df}
+      .d{fill:#cfcac0}
+      .h,.sm{fill:#a9a397}
+      .box{fill:#121212;stroke:#7d776c}
+      .redbox{fill:#3b2222;stroke:#ef8e8e}
+      .redl{stroke:#ef8e8e}
+      .redh{fill:#ef8e8e}
+      .redt{fill:#ef8e8e}
+      .notebox{fill:#26251f;stroke:#7d776c}
+      .bluebox{fill:#16303f;stroke:#8ec2e8}
+      .lead{stroke:#7d776c}
+    }
+  </style>
+  <rect class="bg" width="680" height="340"/>
+
+  <text class="t h" x="20" y="26">RESPONSE FIELDS</text>
+  <text class="t h" x="420" y="26">WHAT EACH ONE STATES</text>
+
+  <rect class="box" x="20" y="44" width="340" height="56"/>
+  <text class="t mono n" x="34" y="68">RateLimit-Policy</text>
+  <text class="t mono d" x="34" y="88">q=100; qu="requests"; w=60; pk=:key:</text>
+  <line class="lead" x1="360" y1="72" x2="416" y2="72"/>
+  <text class="t d" x="420" y="66">quota, unit, window seconds,</text>
+  <text class="t d" x="420" y="84">partition key</text>
+
+  <rect class="box" x="20" y="116" width="340" height="56"/>
+  <text class="t mono n" x="34" y="140">RateLimit</text>
+  <text class="t mono d" x="34" y="160">r=0; t=38</text>
+  <line class="lead" x1="360" y1="144" x2="416" y2="144"/>
+  <text class="t d" x="420" y="138">quota available now,</text>
+  <text class="t d" x="420" y="156">seconds it holds for</text>
+
+  <rect class="redbox" x="20" y="188" width="340" height="56"/>
+  <text class="t mono n" x="34" y="212">Retry-After</text>
+  <text class="t mono d" x="34" y="232">120  or  Fri, 31 Dec 1999 23:59:59 GMT</text>
+  <line class="lead" x1="360" y1="216" x2="416" y2="216"/>
+  <text class="t d" x="420" y="210">delay-seconds or HTTP-date,</text>
+  <text class="t d" x="420" y="228">optional at every standard level</text>
+
+  <path class="redl" d="M14 216 C 0 216, 0 144, 14 144"/>
+  <polygon class="redh" points="20,144 8,139 8,149"/>
+  <text class="t d redt" x="34" y="266">takes precedence, window may be ignored</text>
+
+  <rect class="notebox" x="420" y="250" width="240" height="30"/>
+  <text class="t d" x="432" y="270">not a guarantee, not an SLA</text>
+
+  <rect class="bluebox" x="20" y="294" width="640" height="30"/>
+  <text class="t d" x="34" y="314">draft-11, 2026-05-23: Standards Track in the draft, no RFC number assigned</text>
+  <text class="sm" x="648" y="314" text-anchor="end">[4][5][6]</text>
+</svg>

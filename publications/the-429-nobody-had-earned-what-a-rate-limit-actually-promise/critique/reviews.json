@@ -1,0 +1,1070 @@
+[
+  {
+    "reviewer": "fable",
+    "round": 1,
+    "model": "claude-fable-5-1",
+    "effort": "high",
+    "verdict": "revise",
+    "summary": "The post is unusually well sourced: 24 of the 25 cited pages were opened and the numbers for GitHub, Stripe, the Claude API, Cloudflare, the IETF draft, the CVE, Wikimedia, AWS and the task-api issue all match their pages; the structure has a real through-line, eight abstract figures, five tables and no cadence breaks. What stands between it and publication is the opening scene itself: the Clerk timeline arithmetic is wrong (16:15 to 18:06 is 111 minutes, not about 90, and 16:15 is when the incident was reported, not when refusals began), and the thesis statement that no rate limit was evaluated is the post's inference presented as something the postmortem says. The August 17 GitHub incident is overattributed to the retry bug, Table D mixes two duration sources and calls one stated duration unstated, and the title's count of five meanings does not survive Figure 2. On engagement the hook and close are strong but the headline count and the preview's promised 'bug' category are never delivered. On insight the post stops short in two places a practitioner would notice: the recommended computed Retry-After synchronises retries unless jittered, and 'share state' is advised without its cost, which is the dependency that the failure-mode decision exists for. Format is close to the standard; the markdown references .png files that do not exist, figures hard-code a light palette, and about 250 words of recap and number-dump can be cut to pay for the two insight additions. No em or en dashes and no first person were found.",
+    "findings": [
+      {
+        "id": "f1",
+        "kind": "factual",
+        "severity": "blocker",
+        "location": "Opening paragraph, Figure 1 caption and footer, Table D row 1",
+        "claim": "The opening says refusals began at 16:15 UTC and systems were confirmed stable at 18:06, 'about 90 minutes later'. 16:15 to 18:06 is 111 minutes. The postmortem's 16:15 entry is 'Incident reported and escalated internally', not the start of refusals; systems stabilised at 17:43 and were confirmed stable at 18:06. The Figure 1 caption 'Ninety minutes spent looking for a rate-limit cause' is wrong twice: the customer-spike hypothesis was dropped at 16:50 (35 minutes in) and the root cause was found at 17:25. The figure's 95 percent band is also drawn across the whole span, while the postmortem gives no window for that figure.",
+        "evidence": [
+          "https://clerk.com/blog/2026-02-19-system-outage-postmortem"
+        ],
+        "suggestion": "State the span as 16:15 (reported) to 18:06 (confirmed stable), 111 minutes, or 16:15 to 17:43 (stabilised), 88 minutes, and pick one for the prose, the figure footer and Table D. Rewrite the caption to what the timeline shows: the rate-limit hypothesis held from 16:32 to 16:50 and the cause was found at 17:25. Add the 16:55 failover and 17:25 root-cause markers to the figure so the 'looking for a cause' period is visible. Do not stretch the 95 percent band across the whole axis unless the postmortem supports it; label it as the peak."
+      },
+      {
+        "id": "f2",
+        "kind": "factual",
+        "severity": "major",
+        "location": "Opening paragraph ('no rate limit had been evaluated against any of it'), opening code block comment, Section 1 paragraph 4 ('Clerk's refusals carried no such field'), Figure 1 band, closing paragraph 1",
+        "claim": "The postmortem says the degraded database led to 'shedding the majority of requests with status 429' and 'over 95% of traffic returning 429 without being handled'. It does not say that no rate limit was evaluated, nor what headers the 429 responses carried. Both statements are the post's reading of 'shedding', and they are cited to [1] as if the page said them. The whole argument rests on this inference, so it needs the label the post gives its other constructs.",
+        "evidence": [
+          "https://clerk.com/blog/2026-02-19-system-outage-postmortem"
+        ],
+        "suggestion": "Quote the postmortem's own words ('shedding the majority of requests with status 429', 'without being handled') in the opening, then state in one clause marked Inference that a shed by definition evaluates no per-caller limit, and that the postmortem does not describe the response fields. Change the figure band to the quoted phrase. Keep the thesis; move its weight from the citation onto the labelled reasoning."
+      },
+      {
+        "id": "f3",
+        "kind": "factual",
+        "severity": "major",
+        "location": "Section 7 paragraph 3 ('a client retry bug amplified traffic ... until, at peak, 56.07 percent'), Table D row 3 ('a retry bug caused it'), closing paragraph 1 ('a client retry bug cost 56.07 percent')",
+        "claim": "The report says the August 17 incident started when 'A new peak in traffic pushed one datacenter's load balancers past their limits', a service-mesh sidecar 'reached its concurrency limit and did not scale up', and load-balancer nodes 'exhausted their network flow limits'. The retry bug 'sharply amplified traffic to one internal authentication endpoint'. The post makes the retry bug the cause of the 56.07 percent figure; the report makes it an amplifier of a capacity failure, which is in fact the post's own Clerk pattern.",
+        "evidence": [
+          "https://github.blog/news-insights/company-news/github-availability-report-august-2026/"
+        ],
+        "suggestion": "Say the incident began as a capacity failure at one datacenter's load balancers and that the retry bug amplified it; change Table D's role cell to 'a retry bug amplified a load-balancer overload; blocking the retry-triggering requests recovered it' and the closing sentence to match. This strengthens the section's claim, since it is the same loop as Clerk, not a different one."
+      },
+      {
+        "id": "f4",
+        "kind": "factual",
+        "severity": "major",
+        "location": "Table D durations and Section 7 paragraphs 3 and 4",
+        "claim": "The report gives two durations per incident, a header figure and an impact-summary figure, and the post mixes them. August 17 is given as 7 hours 35 minutes (header) while the summary says about 6 hours 44 minutes; August 6 is given as 'about 9 hours' (summary) while the header says 10 hours 42 minutes; August 26 is marked 'not stated in the report read' but the header states 2 hours 50 minutes and the summary about 2 hours 53 minutes.",
+        "evidence": [
+          "https://github.blog/news-insights/company-news/github-availability-report-august-2026/"
+        ],
+        "suggestion": "Pick the header duration for all three rows, fill in 2 hours 50 minutes for August 26, and add one clause to the table caption noting that the report's impact summaries give shorter figures. Remove 'not stated in the report read'."
+      },
+      {
+        "id": "f5",
+        "kind": "engagement",
+        "severity": "major",
+        "location": "Title subtitle, Section 1 heading, Figure 2, content preview outcomes ('shed, rate limit, lock, budget or bug')",
+        "claim": "The subtitle and the first heading promise that 429 means 'at least five different things', but Figure 2 shows four conditions under 429 (rate limit, shed, lock, spend cap) and puts the fifth under HTTP 400, which by the post's own words 'does not even share the code'. The preview then promises a fifth category, 'bug', which Section 1 never names; the CVE-2026-30827 collapse in Section 3 is exactly a 429 that is a bug, and it would make the count honest, but nothing connects it back.",
+        "evidence": [],
+        "suggestion": "Make the fifth 429 meaning the key-derivation bug: add a fifth row to Figure 2 ('wrong key: another client's limit', distinguished by a remaining of 0 the caller never spent) cited to [17], move the HTTP 400 case into a one-line note under the figure, and have Section 3 open by naming it as the fifth branch. Then the subtitle, the heading, the figure and the preview all count the same five."
+      },
+      {
+        "id": "f6",
+        "kind": "insight",
+        "severity": "major",
+        "location": "Section 2 paragraph 4 ('The wait sits in the limiter's state'), Figure 8 break 'computed wait in the refusal', Table E row 'The wait' ('send the computed value, not a constant')",
+        "claim": "The post's recommended fix for the storm is to send the computed Retry-After. A computed value derived from the window reset is the same for every caller refused in that window, so every caller returns at the same second; Stripe's page on the same subject tells integrations to 'add randomness to the backoff schedule to avoid a thundering herd effect'. The edge where the advice stops holding is never stated: a precise server-side wait moves the synchronisation problem to the caller, and the post's 'two cuts on the caller's side' depends on it.",
+        "evidence": [
+          "https://docs.stripe.com/rate-limits"
+        ],
+        "suggestion": "Add two sentences after the Envoy paragraph: a computed Retry-After synchronises the refused population on one instant unless the server spreads the value or the client adds jitter, and Stripe documents the jitter as the integration's job [10]. Change the Table E cell to 'send the computed value, spread or jittered'. Pay for it by cutting the closing paragraph's 120-word recap sentence (see f18)."
+      },
+      {
+        "id": "f7",
+        "kind": "insight",
+        "severity": "major",
+        "location": "Section 5 ('One number at the edge arrives at the resource as many'), Table E row 'Topology' ('count the instances, divide or share state'), 'Chosen in advance' callout",
+        "claim": "The section tells the reader to divide or share state but never states what sharing costs, which is the mechanism that joins its two halves: a shared counter is a network round trip on every request and a new dependency, and that dependency is precisely what failure_mode_deny exists to answer. The cited express-rate-limit page documents the two failure modes of shared stores by name, ERR_ERL_STORE_REUSE and ERR_ERL_DOUBLE_COUNT, and the sources list says the post took them, but they do not appear in the body. A practitioner who has shipped a Redis-backed limiter knows the fail-open decision is forced by the store, not chosen in the abstract.",
+        "evidence": [
+          "https://express-rate-limit.mintlify.app/reference/error-codes",
+          "https://www.envoyproxy.io/docs/envoy/latest/configuration/http/http_filters/rate_limit_filter"
+        ],
+        "suggestion": "Replace the API Gateway sentence in Section 5 paragraph 5 (a list of AWS numbers that no claim needs) with three sentences: sharing state turns the limiter into a dependency with its own latency and failure, express-rate-limit names two ways a shared store miscounts [15], and Envoy's global filter exists because the shared limit service can fail, which is why failure_mode_deny is a field on it and not on the local filter [19]. Then the callout follows from the paragraph instead of sitting beside it."
+      },
+      {
+        "id": "f8",
+        "kind": "insight",
+        "severity": "major",
+        "location": "Opening paragraph 2 ('The 429s were load shedding in a rate limiter's uniform') and Section 8 ('What the Clerk 429 should have said')",
+        "claim": "The post never says which kind of component produces a 429 on overload, so a reader cannot find the equivalent in their own stack. The postmortem does not name Clerk's component, and the post should say so; but the mechanism is documented elsewhere in the post's own sources: Envoy's local rate limit filter is a per-process token bucket, which is a capacity device, and it returns a configurable status whose default is a rate-limit code. The production consequence nobody states is that most 'load shedders' in proxies and middleware speak 429 by default, so the Clerk pattern is the default outcome of installing one, not a mistake someone made.",
+        "evidence": [
+          "https://www.envoyproxy.io/docs/envoy/latest/configuration/http/http_filters/local_rate_limit_filter"
+        ],
+        "suggestion": "In Section 8, before the rewritten response, add one sentence that the postmortem does not name the component, and one that names where the 429 default lives in a shipping proxy: check the local rate limit filter's documented response status field and its default on the page already cited as [20], and state it with the field name. Then the Monday action 'grep for every 429' becomes 'find every default that emits one'."
+      },
+      {
+        "id": "f9",
+        "kind": "factual",
+        "severity": "minor",
+        "location": "Section 1 paragraph 4 ('A spend limit an organisation sets for itself ... returns 400') and Figure 2 fifth row",
+        "claim": "The Claude API page adds an exception the post omits: limits on the Claude Code workspace 'are checked separately', and requests over that workspace's limit 'can instead receive a 429 that carries a retry-after header'. So the self-set limit is not always a 400, and this is a sixth spelling on the same API.",
+        "evidence": [
+          "https://platform.claude.com/docs/en/api/rate-limits"
+        ],
+        "suggestion": "Add a clause: except on the Claude Code workspace, where the same self-set limit can arrive as a 429 with retry-after [11]. It reinforces the section's claim that the code is not the contract."
+      },
+      {
+        "id": "f10",
+        "kind": "factual",
+        "severity": "minor",
+        "location": "Section 3 paragraph 2 ('express-rate-limit ships seventeen named validation codes')",
+        "claim": "The cited page lists 20 codes: 17 with the ERR_ERL_ prefix and 3 with the WRN_ERL_ prefix. 'Seventeen named validation codes' is right only if the three warnings are excluded, and the sentence does not say so.",
+        "evidence": [
+          "https://express-rate-limit.mintlify.app/reference/error-codes"
+        ],
+        "suggestion": "Write 'seventeen error codes and three warnings' or 'twenty validation codes'."
+      },
+      {
+        "id": "f11",
+        "kind": "factual",
+        "severity": "minor",
+        "location": "Section 3 paragraph 2 ('an RFC 7239 Forwarded header, which Express does not read at all')",
+        "claim": "The page says Express 5.1.0 and later ignore the Forwarded header; it does not say Express never read it, and the library follows Express unless a custom keyGenerator parses it.",
+        "evidence": [
+          "https://express-rate-limit.mintlify.app/reference/error-codes"
+        ],
+        "suggestion": "Write 'which Express 5.1 and later ignore, so the library ignores it too'."
+      },
+      {
+        "id": "f12",
+        "kind": "factual",
+        "severity": "minor",
+        "location": "'Where this stops' callout and Figure 3 footer ('IESG state I-D Exists, intended status Standards Track' cited to [6])",
+        "claim": "Could not verify the IESG state on the datatracker page: the fetched page shows the IESG state and WG state fields without a value, and its 'Intended RFC status' field reads '(None)'. 'Standards Track' comes from the draft's own header [5], not from [6]. The revision (11), date (2026-05-23), expiry (2026-11-24), absence of an RFC number and the HTTPDIR early review of revision 10 rated 'Not ready' (Lucas Pardue, 2026-01-16) were verified.",
+        "evidence": [
+          "https://datatracker.ietf.org/doc/draft-ietf-httpapi-ratelimit-headers/",
+          "https://www.ietf.org/archive/id/draft-ietf-httpapi-ratelimit-headers-11.html"
+        ],
+        "suggestion": "Re-open the datatracker page and quote the state exactly as shown; cite 'Standards Track' to [5]. If the datatracker shows no IESG state, say 'not yet submitted to the IESG' rather than naming a state."
+      },
+      {
+        "id": "f13",
+        "kind": "factual",
+        "severity": "minor",
+        "location": "Figure 8 caption ('Three places the amplification loop can be cut, two of them on the caller's side of the wire')",
+        "claim": "The three cuts drawn are a computed wait in the refusal (server), a client that throttles itself above twice its accepts (caller), and one log line per key per episode (server). Only one is on the caller's side.",
+        "evidence": [],
+        "suggestion": "Change the caption to 'one of them on the caller's side', or make the computed wait a caller-side cut by labelling it 'a wait the client honours', which also sets up the jitter point in f6."
+      },
+      {
+        "id": "f14",
+        "kind": "factual",
+        "severity": "minor",
+        "location": "Section 5 paragraph 4 ('Precision at the window boundary turns out to be cheaper than the partitioning error')",
+        "claim": "The sentence compares a measured number (0.003 percent of 400 million requests, 2017) with a partitioning error the post never quantifies; Cloudflare's current page says only that 'a precise number' is not guaranteed and counters may lag 'a few seconds'. The comparison is an inference with one side missing.",
+        "evidence": [
+          "https://blog.cloudflare.com/counting-things-a-lot-of-different-things/",
+          "https://developers.cloudflare.com/waf/rate-limiting-rules/"
+        ],
+        "suggestion": "Either drop 'cheaper than the partitioning error' and let the two facts sit side by side, or label the sentence Inference and state what it rests on: the approximation error is measured and small, the per-data-center fan-out is unmeasured and bounded only by the number of instances."
+      },
+      {
+        "id": "f15",
+        "kind": "format",
+        "severity": "minor",
+        "location": "All eight figure references in the Markdown (figures/01-clerk-timeline.png through figures/08-storm-loop.png)",
+        "claim": "The Markdown references .png files; the figures directory holds .svg files and the HTML package references .svg. Rendered from the Markdown, every figure is a broken image.",
+        "evidence": [],
+        "suggestion": "Point the Markdown at the .svg files, or export PNGs if the target platform cannot take SVG and reference those from both files."
+      },
+      {
+        "id": "f16",
+        "kind": "format",
+        "severity": "minor",
+        "location": "All figure SVGs (background #f6f4ef, ink #1b1b19, fixed stroke colours) and the figure img rule in the HTML",
+        "claim": "Every figure hard-codes a light palette and the page forces a light background behind the image, so on the dark scheme each figure is a bright panel on a dark page rather than a figure drawn for that scheme. The page text, tables and code define both schemes; the figures do not.",
+        "evidence": [],
+        "suggestion": "Either add a prefers-color-scheme block inside each SVG with the dark palette already defined in the HTML variables, or keep the light panel deliberately and check contrast of the red and blue strokes against #f6f4ef only; in that case say so in the package notes so the choice is recorded rather than accidental."
+      },
+      {
+        "id": "f17",
+        "kind": "format",
+        "severity": "minor",
+        "location": "Opening HTTP code block and closing HTTP code block ('retry-after: 120')",
+        "claim": "The opening block is labelled as 'what over 95 percent of callers received', but the postmortem gives no response headers; the content-type line is invented. The closing block's retry-after value 120 is RFC 9110's example, yet the prose beside it says the wait is 'derived from recovery rather than from a window'. The second block in Section 1 shows the right practice ('values invented').",
+        "evidence": [
+          "https://www.rfc-editor.org/rfc/rfc9110.html",
+          "https://clerk.com/blog/2026-02-19-system-outage-postmortem"
+        ],
+        "suggestion": "Label both blocks as illustrations with invented values, as the Section 1 block does, and in the closing say the value would be the service's own recovery estimate, with 120 shown as the RFC's example."
+      },
+      {
+        "id": "f18",
+        "kind": "format",
+        "severity": "major",
+        "location": "Closing paragraph 1 (the sentence beginning 'Below that, the evidence is consistent'); Section 6 paragraph 4 ('The numbers themselves are a contract of a different shape at every door'); Section 5 paragraph 5 (API Gateway sentence); 'History, 2017' callout",
+        "claim": "The post runs long for its thesis and repeats itself in four places. The closing's 120-word sentence lists six numbers that Table E, directly beneath it, lists again with citations. The Section 6 paragraph is a dump of seven GitHub limits already represented in Table B and Table C and tied to no claim. The API Gateway sentence carries five AWS numbers that the 'nesting' claim does not need beyond the burst the customer cannot change. The 2017 callout's CPU-seconds point is Table B's last row.",
+        "evidence": [],
+        "suggestion": "Cut the closing recap sentence entirely and let Table E carry it. Cut the Section 6 number paragraph to its one non-obvious fact (the 60-per-hour unauthenticated limit is keyed by originating IP, which is the Section 3 key problem at GitHub's own door). Reduce the API Gateway sentence to the uncontrollable burst. Fold the 2017 callout into a one-clause history note on Table B's CPU row. The roughly 250 words saved pay for f6 and f7."
+      },
+      {
+        "id": "f19",
+        "kind": "format",
+        "severity": "minor",
+        "location": "Content preview outline (items 1 to 8) and the opening as a whole",
+        "claim": "The outline items are short labels ('Five meanings for one status code') that differ from the section headings they link to, so the scanning reader meets two names for each section. The prose before the first heading, subtitle and preview included, runs to roughly 445 words, at the 450 cap with no margin once f1 is fixed.",
+        "evidence": [],
+        "suggestion": "Build the outline from the headings' own wording, shortened, and trim the second opening paragraph by moving the ANALYZE statistics (100 percent, 99.9996 percent, 17,000 rows) into the figure as a labelled marker at 17:25."
+      },
+      {
+        "id": "f20",
+        "kind": "voice",
+        "severity": "minor",
+        "location": "Content preview ('Every figure below is third-party published work'); closing paragraph 2 ('because the condition was capacity and not history')",
+        "claim": "'Figure' in the preview is read as the drawings, which are the post's own; the sentence means every number. 'Not history' in the close is unclear: the contrast the post has built is capacity against a time window or a caller's count.",
+        "evidence": [],
+        "suggestion": "Write 'Every number below is from third-party published work'. Write 'because the condition was capacity, not the caller's count in a window'."
+      },
+      {
+        "id": "f21",
+        "kind": "engagement",
+        "severity": "minor",
+        "location": "Sections 2 through 6 (headings 'The wait is computable' through 'A limit is operable')",
+        "claim": "The Clerk refusal is the through-line and the close returns to it well, but it disappears between the end of Section 1 and the start of Section 7. Five sections pass without the opening object, so the promise that the scene will matter again is paid only at the end.",
+        "evidence": [],
+        "suggestion": "One clause per section is enough: in Section 2, what Retry-After would have said at 16:50; in Section 3, that Clerk's manual blocks were a key chosen by hand; in Section 4, what step a database-bound auth API should meter; in Section 5, which instance Clerk's shedding ran on; in Section 6, what Clerk's callers could read before 16:15, which was nothing."
+      },
+      {
+        "id": "f22",
+        "kind": "insight",
+        "severity": "minor",
+        "location": "Section 4 paragraph 2 (GitHub point costs) and Section 2 paragraph 5 (the draft's 'not an SLA')",
+        "claim": "Two pieces of counter-evidence sit on cited pages and would sharpen the claim that the contract is partly unpublished: GitHub states 'Some REST API endpoints have a different point cost that is not shared publicly', so the caller cannot compute the budget the post describes; and the Claude API page states that all its limits 'represent maximum allowed usage, not guaranteed minimums', the vendor form of the draft's 'not a service level agreement'.",
+        "evidence": [
+          "https://docs.github.com/en/rest/using-the-rest-api/rate-limits-for-the-rest-api",
+          "https://platform.claude.com/docs/en/api/rate-limits"
+        ],
+        "suggestion": "Add one clause to each paragraph, cited to [7] and [11]. Both are a few words and both are the kind of specific detail an expert would not have derived."
+      },
+      {
+        "id": "f23",
+        "kind": "factual",
+        "severity": "minor",
+        "location": "Section 1 paragraph 4 ('the hypothesis they implied survived 35 minutes of blocking customers by hand')",
+        "claim": "The blocks were applied at 16:35 and found ineffective at 16:37; the customer hypothesis ran from 16:32 to 16:50. Thirty-five minutes is 16:15 to 16:50, which is not a period of blocking customers.",
+        "evidence": [
+          "https://clerk.com/blog/2026-02-19-system-outage-postmortem"
+        ],
+        "suggestion": "Write 'survived 18 minutes, two of them spent blocking a customer by hand' or restate with the postmortem's times."
+      }
+    ]
+  },
+  {
+    "reviewer": "gemini",
+    "round": 1,
+    "model": "gemini-3.8-flash",
+    "effort": "high",
+    "verdict": "revise",
+    "summary": "The post is an exceptionally well-researched, rigorous technical analysis anchored in concrete dated production data, but requires revision due to a blocker (all Markdown figure links reference nonexistent .png files instead of .svg), an opening word count that exceeds the 450-word budget, a factual inaccuracy regarding the documented duration of GitHub's August 26 incident in Table D, and missing dark-mode support in the SVG diagram assets. No voice findings were identified, as the draft maintains a consistent third-person register and strictly adheres to the ban on em and en dashes.",
+    "findings": [
+      {
+        "id": "f1",
+        "kind": "format",
+        "severity": "blocker",
+        "location": "Throughout the post: Figures 1 through 8 markdown image links",
+        "claim": "All eight figure embeds in the post's Markdown reference nonexistent '.png' files (e.g., 'figures/01-clerk-timeline.png'), whereas only '.svg' vector files exist on disk ('post/figures/01-clerk-timeline.svg', etc.), causing every figure to break on any standard Markdown renderer.",
+        "evidence": [],
+        "suggestion": "Update the image links in the Markdown from 'figures/*.png' to 'figures/*.svg' to match the actual vector assets on disk, exactly as rendered in the companion index.html."
+      },
+      {
+        "id": "f2",
+        "kind": "factual",
+        "severity": "major",
+        "location": "Section 7 ('The limiter meets its heaviest traffic while it is refusing'), Table D, fourth row",
+        "claim": "The duration for the GitHub events incident on 2026-08-26 is reported as 'not stated in the report read', but the cited GitHub Availability Report explicitly states the duration as 'lasting 2 hours and 50 minutes' in the section heading and 'Duration: approximately 2 hours 53 minutes' in the impact summary.",
+        "evidence": [
+          "https://github.blog/news-insights/company-news/github-availability-report-august-2026/"
+        ],
+        "suggestion": "Replace 'not stated in the report read' in Table D with 'about 2 hours 50 minutes' (or 'approx. 2h 53m') directly citing source [2]."
+      },
+      {
+        "id": "f3",
+        "kind": "format",
+        "severity": "major",
+        "location": "Opening section and content preview, prior to Section 1",
+        "claim": "The opening material preceding the first section heading contains 522 words, exceeding the mandatory 450-word ceiling for the opening plus preview.",
+        "evidence": [],
+        "suggestion": "Trim approximately 75 words from the opening scene and content preview. Specifically, compress the Postgres statistics error narrative in paragraph 3 and condense the preview bullet descriptions into concise single-clause phrases to bring the total count under 450 words."
+      },
+      {
+        "id": "f4",
+        "kind": "format",
+        "severity": "major",
+        "location": "Figures 1 through 8 (SVG asset styling)",
+        "claim": "The eight SVG diagram assets lack dark-mode adaptation; each hardcodes a light background fill (#f6f4ef) and dark strokes/text with no '@media (prefers-color-scheme: dark)' rules, rendering as stark, unadapted light boxes when viewed on dark-mode reading surfaces.",
+        "evidence": [],
+        "suggestion": "Add CSS '@media (prefers-color-scheme: dark)' style blocks or CSS custom properties to each SVG to adapt backgrounds, borders, and text fills to dark surfaces, matching the dark color palette already defined in the HTML stylesheet."
+      },
+      {
+        "id": "f5",
+        "kind": "engagement",
+        "severity": "minor",
+        "location": "Content preview outline list",
+        "claim": "The eight numbered items in the content preview outline use shortened topic labels (e.g., '1. Five meanings for one status code', '7. The storm the refusal makes') rather than mirroring the full claim-carrying headings of the sections (e.g., 'The status code says \"too many requests\" and means at least five different things', 'The limiter meets its heaviest traffic while it is refusing'), weakening the scanning layer-cake contract.",
+        "evidence": [],
+        "suggestion": "Align the preview outline titles directly with the claim-carrying section headings so scanning readers immediately connect the route promised in the preview to the headings encountered in the body."
+      },
+      {
+        "id": "f6",
+        "kind": "engagement",
+        "severity": "minor",
+        "location": "Section 8 ('What the Clerk 429 should have said'), closing checklist",
+        "claim": "The closing 'Change on Monday' checklist does not complete the through-line back to the opening incident's core trigger: a backend query planner failure causing severe queueing. While it addresses key derivation, metered steps, and logging, it omits the architectural action of decoupling internal database health/queueing signals from rate-limiting responses to prevent shedding from wearing a rate limiter's uniform.",
+        "evidence": [
+          "https://clerk.com/blog/2026-02-19-system-outage-postmortem"
+        ],
+        "suggestion": "Add a recommendation to decouple backend dependency health checks from edge rate-limiting middleware (e.g., emitting RFC 9110 503 load-shedding signals rather than 429 when origin queues fill). To maintain length, shorten the second bullet on proxy hop counts and echo debugging."
+      },
+      {
+        "id": "f7",
+        "kind": "insight",
+        "severity": "minor",
+        "location": "Section 2 ('The wait is computable, optional, and no two providers spell it the same way'), paragraph 68 and Table A",
+        "claim": "The post contrasts absolute epoch reset timestamps (GitHub, Anthropic) with relative delay seconds (Retry-After, RateLimit t), but omits the major operational mechanism that makes this distinction critical: client-side clock skew. In distributed architectures, NTP drift causes timestamp-based resets to trigger premature retry storms or excessive backoff delays, whereas relative delta seconds make backoff immune to clock divergence.",
+        "evidence": [
+          "https://www.rfc-editor.org/rfc/rfc9110.html",
+          "https://www.ietf.org/archive/id/draft-ietf-httpapi-ratelimit-headers-11.html"
+        ],
+        "suggestion": "Add a concise explanation that relative delay seconds insulate clients from NTP drift and clock desynchronization. Shorten the adjacent discussion in paragraph 70 of the draft's security considerations regarding unauthenticated endpoints to offset the addition."
+      },
+      {
+        "id": "f8",
+        "kind": "insight",
+        "severity": "minor",
+        "location": "Section 5 ('One number at the edge arrives at the resource as many'), paragraph 170",
+        "claim": "The discussion of token bucket mechanics covers partitioning and nesting, but misses the production vulnerability of sudden token bucket bursts hitting cold upstream dependencies. Allowing a full burst (e.g., AWS's 5,000 or Envoy's 10,000 tokens) at instant start can overwhelm un-warmed database pools, where smooth replenishment (leaky bucket) or concurrency-based fairness (APF) is necessary.",
+        "evidence": [
+          "https://docs.aws.amazon.com/apigateway/latest/developerguide/limits.html",
+          "https://www.envoyproxy.io/docs/envoy/latest/configuration/http/http_filters/local_rate_limit_filter"
+        ],
+        "suggestion": "Note the danger of full token bucket burst capacity exhausting cold backends and mention smooth-rate shaping as the countermeasure. Offset this by condensing the historical 2017 Cloudflare sliding-window calculation in paragraph 168."
+      }
+    ]
+  },
+  {
+    "reviewer": "gpt",
+    "round": 1,
+    "model": "gpt-6-astra",
+    "effort": "high",
+    "verdict": "revise",
+    "summary": "The post has a strong incident-led premise and substantial primary-source research; all 25 cited pages opened. Publication is blocked by eight missing referenced images, and the advice needs corrections around GitHub quota polling, incident attribution, proxy trust, and the invented recovery wait. The middle becomes a vendor catalogue, while the closing repeats its evidence instead of selecting the decisive results. More useful depth would come from explaining admission timing, retry synchronization, and logging cardinality while cutting those repetitions. No prohibited dash or first-person narration violations were found in the supplied prose. HTML rendering and syntax highlighting could not be checked because local shell reads were blocked.",
+    "findings": [
+      {
+        "id": "f1",
+        "kind": "format",
+        "severity": "blocker",
+        "location": "Figures 1 through 8",
+        "claim": "Every PNG referenced by the supplied Markdown is missing. Direct attempts to open all eight exact image targets returned file-not-found errors. The Markdown therefore cannot deliver the required figures or its intended visual cadence.",
+        "evidence": [],
+        "suggestion": "Point the references to existing supported assets or supply the missing exports, then verify all eight images in the publication preview at phone and desktop widths in both schemes."
+      },
+      {
+        "id": "f2",
+        "kind": "factual",
+        "severity": "blocker",
+        "location": "“A limit is operable…” opening paragraph and Table C, GitHub quota-cost cell",
+        "claim": "The unqualified claim that checking quota costs no quota is unsafe. Source [7] explicitly says GET /rate_limit can count against secondary limits, despite being exempt from primary limits. Polling it aggressively can trigger the very refusal the section promises to anticipate.",
+        "evidence": [
+          "https://docs.github.com/en/rest/using-the-rest-api/rate-limits-for-the-rest-api",
+          "https://docs.github.com/en/rest/rate-limit/rate-limit"
+        ],
+        "suggestion": "Qualify the exemption as primary-only, retain periodic polling, and prefer ordinary response headers for ongoing tracking."
+      },
+      {
+        "id": "f3",
+        "kind": "factual",
+        "severity": "major",
+        "location": "Opening paragraph, Figure 1 timeline and caption, and first section’s final paragraph",
+        "claim": "16:15 to 18:06 is 111 minutes, not about 90. Clerk identifies 16:15 as incident escalation, not onset; its introduction places onset at 16:11 UTC. The timeline also does not establish 95 percent rejection throughout that entire interval. Manual blocking began at 16:35, so the claim of 35 minutes spent blocking before the 16:50 realization is wrong.",
+        "evidence": [
+          "https://clerk.com/blog/2026-02-19-system-outage-postmortem"
+        ],
+        "suggestion": "Separate onset, escalation, approximate restoration, and final confirmation. Correct the timeline and remove unsupported duration-wide impact bands."
+      },
+      {
+        "id": "f4",
+        "kind": "factual",
+        "severity": "major",
+        "location": "Opening HTTP example and claims that no limit was evaluated and the 429 caused the mistaken diagnosis",
+        "claim": "Could not verify the exact response headers, absence of limiter evaluation, or assertion that the status code caused the investigative detour. Clerk reports shedding and a coincident customer spike, but supplies no response capture or that causal attribution. Traffic share also becomes caller share in the code comment.",
+        "evidence": [
+          "https://clerk.com/blog/2026-02-19-system-outage-postmortem"
+        ],
+        "suggestion": "Keep documented facts separate from explicitly labelled inference, mark the response as illustrative, and preserve requests as the measured population."
+      },
+      {
+        "id": "f5",
+        "kind": "factual",
+        "severity": "major",
+        "location": "Closing paragraph beginning “Rewriting the opening response…” and final HTTP example",
+        "claim": "Could not verify any basis for a 120-second recovery estimate. That number is an RFC syntax example, not evidence about Clerk. Presenting it as a wait derived from recovery contradicts the table’s instruction to avoid constants.",
+        "evidence": [
+          "https://www.rfc-editor.org/rfc/rfc9110.html"
+        ],
+        "suggestion": "Label the proposed response and any delay as hypothetical. Explain briefly that an unknown recovery time does not become computable merely by changing the status code, replacing the unsupported derivation claim."
+      },
+      {
+        "id": "f6",
+        "kind": "factual",
+        "severity": "major",
+        "location": "“The limiter meets its heaviest traffic…” GitHub paragraphs, Table D, and closing recap",
+        "claim": "The August 17 retry bug amplified an outage initiated by load-balancer saturation and failed sidecar scaling; it was not its sole cause. The 56.07 percent denominator is requests to affected services. The closing attaches August 26’s poorly calibrated throttles to August 17’s percentage. Table D also says August 26’s duration is unstated, although the report gives 2h50 in its heading and approximately 2h53 in its impact summary. Other durations likewise differ between headings and summaries.",
+        "evidence": [
+          "https://github.blog/news-insights/company-news/github-availability-report-august-2026/"
+        ],
+        "suggestion": "Keep the incidents and populations separate, distinguish trigger from amplification, and consistently identify incident duration versus customer-impact duration. Acknowledge conflicting source durations rather than silently choosing or omitting them."
+      },
+      {
+        "id": "f7",
+        "kind": "factual",
+        "severity": "major",
+        "location": "CVE-2026-30827 paragraph and Figure 5 affected-version labels",
+        "claim": "The continuous affected range 8.0.0 through 8.2.1 includes patched releases 8.0.2 and 8.1.1. The advisory’s structured affected-version metadata excludes those releases, even though its narrative contains the broader historical wording repeated here.",
+        "evidence": [
+          "https://github.com/advisories/GHSA-46wh-pxpv-q5gq"
+        ],
+        "suggestion": "Use the advisory’s explicit affected ranges in the prose and figure, retaining the corresponding patched releases. Avoid implying that every version numerically below 8.2.2 is vulnerable."
+      },
+      {
+        "id": "f8",
+        "kind": "factual",
+        "severity": "major",
+        "location": "“The counter belongs on the step that costs…” opening paragraph and closing reuse of 35/65",
+        "claim": "The conclusion that a limiter calibrated on pageviews would address roughly half the problem does not follow from these percentages. Wikimedia compares bot share of overall pageviews with bot share of traffic reaching core datacenters, a selected population associated with cache misses. It does not measure limiter effectiveness or provide a CPU-cost ratio.",
+        "evidence": [
+          "https://diff.wikimedia.org/2025/04/01/how-crawlers-impact-the-operations-of-the-wikimedia-projects/"
+        ],
+        "suggestion": "Remove the half-the-problem inference. Explain the cache-miss selection mechanism in its place and preserve the different denominators beside both percentages."
+      },
+      {
+        "id": "f9",
+        "kind": "factual",
+        "severity": "major",
+        "location": "“HISTORY, 2017” callout",
+        "claim": "The 500 CPU-seconds-per-second quota is presented as an observed Google configuration. The chapter introduces the numerical allocation as a hypothetical example of what customer limits might look like, not a reported deployment.",
+        "evidence": [
+          "https://sre.google/sre-book/handling-overload/"
+        ],
+        "suggestion": "Identify the allocation as the source’s illustrative example, or remove the number and retain the documented resource-based quota mechanism."
+      },
+      {
+        "id": "f10",
+        "kind": "factual",
+        "severity": "major",
+        "location": "Envoy Retry-After discussion, Table A, and closing recommendation to enable the header",
+        "claim": "Could not verify the assertion that this option describes a shipping Envoy release. Both cited latest-documentation pages identify themselves as 1.41.0-dev-b5cdf8. They support the documented development behavior, but do not establish availability in a released version.",
+        "evidence": [
+          "https://www.envoyproxy.io/docs/envoy/latest/configuration/http/http_filters/rate_limit_filter",
+          "https://www.envoyproxy.io/docs/envoy/latest/configuration/http/http_filters/local_rate_limit_filter"
+        ],
+        "suggestion": "Verify and name a released version supporting the option, or explicitly label this as development documentation and remove it from the unqualified shipping-system comparison."
+      },
+      {
+        "id": "f11",
+        "kind": "factual",
+        "severity": "major",
+        "location": "Table A, “Computed wait, by default” and “Names which limit refused” columns",
+        "claim": "The comparison mixes different properties. GitHub’s Retry-After is conditional, not assured on secondary refusals; its resource header identifies the primary resource bucket, not necessarily the secondary rule that refused. Claude’s documented Retry-After is omitted in favor of reset timestamps, making common behavior look more divergent.",
+        "evidence": [
+          "https://docs.github.com/en/rest/using-the-rest-api/rate-limits-for-the-rest-api",
+          "https://platform.claude.com/docs/en/api/rate-limits"
+        ],
+        "suggestion": "Compare refusal reason, wait field, presence conditions, and client retry behavior separately within the existing table. Remove claims of defaults that the cited pages do not establish."
+      },
+      {
+        "id": "f12",
+        "kind": "insight",
+        "severity": "major",
+        "location": "Five-meaning promise, Figure 2, and the preview’s promise to sort every 429",
+        "claim": "The taxonomy is not a reliable classifier. Missing rate-limit headers do not generally identify shedding; such headers are optional, and Stripe’s rule is provider-specific. Figure 2 contains four 429 conditions plus a 400, while the preview substitutes a bug as the fifth category. A faulty key can produce an otherwise normal quota response, so a bug is not distinguishable from the wire alone.",
+        "evidence": [
+          "https://www.rfc-editor.org/rfc/rfc6585.html",
+          "https://docs.stripe.com/rate-limits",
+          "https://www.ietf.org/archive/id/draft-ietf-httpapi-ratelimit-headers-11.html"
+        ],
+        "suggestion": "Replace the universal classification promise with a consistent distinction between documented response reasons and internal diagnostic causes. Revise Figure 2 to include unknown or ambiguous responses, using space currently spent on the mismatched fifth condition."
+      },
+      {
+        "id": "f13",
+        "kind": "insight",
+        "severity": "major",
+        "location": "Key ladder, trust-proxy code comments, and second closing action",
+        "claim": "Matching an echoed IP on one route verifies that route’s behavior, not the trust boundary. Express explicitly warns that numeric hop trust permits spoofing when clients can reach the application through shorter paths. The article turns a troubleshooting procedure into sufficient security evidence.",
+        "evidence": [
+          "https://express-rate-limit.mintlify.app/guides/troubleshooting-proxy-issues",
+          "https://expressjs.com/en/guide/behind-proxies/"
+        ],
+        "suggestion": "Replace the repeated instruction to increase the count with a concise requirement to verify every ingress path, prevent shorter-path bypass, and establish trusted proxy behavior. Mark the example hop count as deployment-specific."
+      },
+      {
+        "id": "f14",
+        "kind": "insight",
+        "severity": "major",
+        "location": "Figure 7 caption, precision paragraph, and Table E topology action",
+        "claim": "The sum-of-instances rule needs conditions. Independent parallel buckets can multiply allowance; serial enforcement and shared counters behave differently, and actual traffic need not reach the sum. The paragraph ranking window error below partitioning error supplies no comparable measurement. Dividing a quota by instance count also changes burst capacity and can strand allowance under uneven routing.",
+        "evidence": [
+          "https://www.envoyproxy.io/docs/envoy/latest/configuration/http/http_filters/local_rate_limit_filter",
+          "https://developers.cloudflare.com/waf/rate-limiting-rules/request-rate/",
+          "https://blog.cloudflare.com/counting-things-a-lot-of-different-things/"
+        ],
+        "suggestion": "Label the parallel-counter bound as Derived and state its assumptions. Replace the unsupported error ranking with a compact distinction between parallel, serial, and shared enforcement, covering both refill rate and burst capacity."
+      },
+      {
+        "id": "f15",
+        "kind": "insight",
+        "severity": "major",
+        "location": "Metered-step section, especially Cloudflare complexity scoring and Table B",
+        "claim": "The recommendation conflates measuring cost with preventing it. An origin response supplies Cloudflare’s complexity score only after the origin has performed work. Accurate retrospective accounting therefore cannot by itself protect the first expensive request or concurrent work already admitted.",
+        "evidence": [
+          "https://developers.cloudflare.com/waf/rate-limiting-rules/request-rate/"
+        ],
+        "suggestion": "Replace part of the vendor-number inventory with the distinction between admission checks, concurrency bounds, and post-response accounting. State which mechanism protects in-flight work and which updates future admission decisions."
+      },
+      {
+        "id": "f16",
+        "kind": "insight",
+        "severity": "major",
+        "location": "Figure 8’s computed-wait intervention and the retry-storm discussion",
+        "claim": "A computed wait can synchronize retries rather than end amplification. The cited draft explicitly warns of clients returning together, including when Retry-After is used. The section omits jitter, bounded retry budgets, and retry ownership across layers, despite the cited SRE chapter discussing those mechanisms. A status or header change alone does not establish recovery behavior.",
+        "evidence": [
+          "https://www.ietf.org/archive/id/draft-ietf-httpapi-ratelimit-headers-11.html",
+          "https://sre.google/sre-book/handling-overload/",
+          "https://docs.stripe.com/rate-limits"
+        ],
+        "suggestion": "Replace one repeated incident narration with the client policy needed to consume the signal safely. Update Figure 8 to distinguish server signaling from client scheduling and retry limits."
+      },
+      {
+        "id": "f17",
+        "kind": "insight",
+        "severity": "major",
+        "location": "Logging ASSUMPTION callout, Table E noise row, and final action",
+        "claim": "One log per key per episode does not bound logging under rotating keys, and episode boundaries are undefined. Distinct-key rate can approach request rate, while tracking those episodes creates another state-exhaustion risk. Moving WARN to INFO also changes severity without necessarily reducing log volume. The source demonstrates neither aggregation nor its effectiveness.",
+        "evidence": [
+          "https://github.com/JonasBorgesLM/task-api/issues/299"
+        ],
+        "suggestion": "Keep this explicitly hypothetical in the close. Replace the repeated test-number discussion with bounded aggregation or sampling, a defined time window and state limit, and a proposed comparison of emitted bytes, retained counts, and resource cost under key churn."
+      },
+      {
+        "id": "f18",
+        "kind": "format",
+        "severity": "major",
+        "location": "Preview evidence statement, Figures 2, 7 and 8, and Table E",
+        "claim": "The claim that every figure is third-party published work obscures the article’s own synthesis. The taxonomy, counter-composition diagram, intervention loop, and seven-decision framework are authored constructs. Table E further presents assumptions as universal defaults, including trusting arbitrary proxy headers and logging every rejection at warning level.",
+        "evidence": [],
+        "suggestion": "Distinguish sourced observations from original illustrations and inference at each relevant caption or table. Replace the universal-default column with a scoped description of the example or failure mode; retain the logging Assumption label when it reappears."
+      },
+      {
+        "id": "f19",
+        "kind": "engagement",
+        "severity": "major",
+        "location": "Middle sections from key derivation through usage observability",
+        "claim": "The opening object disappears for most of the middle. AWS control-plane intervals, the long GitHub quota inventory, the installation arithmetic, and plan-specific rule counts accumulate as a catalogue rather than advancing what a misleading refusal prevents an operator from knowing.",
+        "evidence": [],
+        "suggestion": "Cut the AWS control-plane examples and shorten the GitHub quota inventory and installation example. Use the recovered space for short transitions connecting each decision to diagnosis or client behavior, without inventing undocumented details of Clerk’s architecture."
+      },
+      {
+        "id": "f20",
+        "kind": "engagement",
+        "severity": "major",
+        "location": "Closing chapter, opening recap paragraph through final action list",
+        "claim": "The closing recaps nearly every statistic, repeats seven decisions in a table, explains the response transformation, shows it, and then repeats actions in five bullets. The long opening sentence becomes a number inventory, obscuring the strongest conclusion and making the ending disproportionately repetitive.",
+        "evidence": [],
+        "suggestion": "Let the closing table carry the selected numbers and actions. Cut the omnibus recap and duplicate action explanations, retaining the return to Clerk and the clearly labelled response illustration."
+      },
+      {
+        "id": "f21",
+        "kind": "format",
+        "severity": "major",
+        "location": "Content preview outline and numbered citations throughout",
+        "claim": "The supplied Markdown contains an unlinked outline and bare citation markers without reference-link definitions or source anchors. Readers cannot use the promised route or jump from a claim to its evidence in an ordinary Markdown rendering.",
+        "evidence": [],
+        "suggestion": "Link the outline to the actual section headings and citation markers to numbered source entries. Verify these links in the target publication preview rather than assuming a custom HTML renderer repairs them."
+      },
+      {
+        "id": "f22",
+        "kind": "factual",
+        "severity": "minor",
+        "location": "Table B, arriving-request row",
+        "claim": "The table assigns 5,000 requests per hour per personal access token, but GitHub shares that primary allowance across the user’s credentials and relevant app requests. The later prose correctly describes sharing, leaving the table contradictory.",
+        "evidence": [
+          "https://docs.github.com/en/rest/using-the-rest-api/rate-limits-for-the-rest-api"
+        ],
+        "suggestion": "Correct the table’s quota owner and keep the distinction consistent throughout."
+      },
+      {
+        "id": "f23",
+        "kind": "factual",
+        "severity": "minor",
+        "location": "Final sentence of the key section and Cloudflare mitigation-timeout paragraph",
+        "claim": "Cloudflare’s richer counting keys require Enterprise with Advanced Rate Limiting, with additional feature conditions, rather than Enterprise generally. The full-duration mitigation behavior is also a default with an Enterprise throttling alternative, not an unconditional rule.",
+        "evidence": [
+          "https://developers.cloudflare.com/waf/rate-limiting-rules/"
+        ],
+        "suggestion": "Restore the product qualification and the documented action-behavior exception within the existing sentences."
+      },
+      {
+        "id": "f24",
+        "kind": "format",
+        "severity": "minor",
+        "location": "Key section, Kubernetes callout, and closing Table E",
+        "claim": "The newcomer floor is inconsistent: CVSS, CWE-770, ASN, JA3/JA4, FlowSchemas, and seats appear without sufficient first-use explanation. Table E repeats CVSS 7.5 for ending-only readers without explaining the scale; its instruction to name the fact admitting each rung also depends on remembering an earlier metaphor.",
+        "evidence": [],
+        "suggestion": "Remove identifiers that do not change the argument and give the remaining terms short functional glosses. Replace the closing reference to rungs with a concrete audit action, shortening the surrounding detail to keep length flat."
+      }
+    ]
+  },
+  {
+    "reviewer": "fable",
+    "round": 2,
+    "model": "claude-fable-5-1",
+    "effort": "high",
+    "verdict": "revise",
+    "summary": "The post is in good shape: every load-bearing number checked against its cited page held (Clerk timeline and quotes, the GitHub August 2026 report figures, RFC 6585 and 9110 wording, draft-11 and its datatracker state, GitHub, Stripe, Claude, Cloudflare, express-rate-limit, the CVE, Envoy v1.40.0, Wikimedia, API Gateway, the task-api issue), the opening is one dated incident with a timeline figure, cadence holds, there are no dashes, and the close returns to the scene with a rewritten response. What stands between it and the target is mostly structure and depth rather than fact: the closing's central recommendation (send 503, not 429, for capacity) is stated without the counter-evidence in the very section it cites and without the production consequence that most SDKs auto-retry 503; the preview promises seven decisions, lists eight items, and the closing table settles a different seven, leaving the visibility section with no row and no Monday action; the post tells servers what to send but never gives callers a decision procedure for reading an ambiguous 429, although GitHub publishes one; and the client-side break in the storm loop lives only in a figure label. Length runs well past the default budget, with named passages that can pay for the additions. The remaining findings are small factual slips (one GitHub duration is longer, not shorter, than its heading; the installation-cap sentence is wrong for its own example; 19 not 20 checks are individually disableable) and polish.",
+    "findings": [
+      {
+        "id": "f1",
+        "kind": "insight",
+        "severity": "major",
+        "location": "Closing section, paragraph beginning 'Over 95 percent of Clerk's traffic' and the rewritten 503 code block",
+        "claim": "The post's central recommendation, that Clerk's condition 'already had a spelling: 503, with an optional Retry-After, in RFC 9110', is given without its counter-evidence or its production consequence. RFC 9110 section 15.6.4, which the post cites, adds a note the post omits: 'The existence of the 503 status code does not imply that a server has to use it when becoming overloaded.' More important for a reader who acts on it: most HTTP client SDKs and gateways retry 503 automatically by default (the post itself notes Stripe's SDKs retry some 429s), so switching a shed from 429 to 503 without a honoured Retry-After can enlarge the retry storm the next section warns about. The post never says where its own recommendation stops holding.",
+        "evidence": [
+          "https://www.rfc-editor.org/rfc/rfc9110.html"
+        ],
+        "suggestion": "Add two sentences beside the recommendation: quote the RFC's note, and state the limit that 503 changes default client retry behaviour, so the status swap is safe only when the Retry-After is sent and honoured and the shed is cheap to answer. Pay for it by cutting the API Gateway burst-bucket sentence in the topology section, which no claim in the thesis needs."
+      },
+      {
+        "id": "f2",
+        "kind": "engagement",
+        "severity": "major",
+        "location": "Content preview (paragraph 'Seven decisions a rate limiter publishes…' and the numbered list) against Table E and the closing bullet list",
+        "claim": "The preview announces seven decisions and then lists eight items. Table E settles seven decisions, but they are not the seven sections: the closing table has a 'Failure mode' row that no section heading promised (it is a callout inside the topology section), and the visibility section ('A limit is operable only when usage is visible before the first refusal'), with its sharpest finding that GitHub's secondary limit is unobservable, has no row in Table E and no item in the Monday list. A promise the close does not settle is the structural defect the standard names.",
+        "evidence": [],
+        "suggestion": "Either make the count honest (seven sections plus a closing, say so) and add a visibility row to Table E with a Monday action (for example, 'poll the limit endpoint, and alert on 429s that arrive with remaining above zero, because that is the limit you cannot read'), or fold the failure-mode row back into the topology row so the seven rows match the seven section claims. Keep Table E under seven rows if possible; do not add length."
+      },
+      {
+        "id": "f3",
+        "kind": "insight",
+        "severity": "major",
+        "location": "Section 'The status code says too many requests…' and Table E 'Change on Monday' column",
+        "claim": "Every action in the post is server-side. A practitioner who ships the calling side still does not know what to do on receipt of a 429 whose fields are missing or contradictory, which is exactly what Clerk's callers faced and what the 'overly aggressive retry mechanism' got wrong. GitHub's rate-limit page documents a concrete caller procedure (retry-after if present, else wait for x-ratelimit-reset when remaining is 0, else wait at least one minute, then exponential backoff and stop after a set number of attempts, with a ban for continuing), and the post cites that page but never uses this part of it.",
+        "evidence": [
+          "https://docs.github.com/en/rest/using-the-rest-api/rate-limits-for-the-rest-api"
+        ],
+        "suggestion": "Add a short callout or four-row table in the first section, labelled as GitHub's documented procedure plus the post's inference for the no-header case (treat as capacity: back off with jitter, open a circuit, do not hammer), and one caller-side Monday bullet. Pay for it by cutting the paragraph in the wait section that re-reads figure 3's field list in prose ('the figure above carries its field list: RateLimit-Policy is…'), since the figure already carries it."
+      },
+      {
+        "id": "f4",
+        "kind": "insight",
+        "severity": "major",
+        "location": "Section 'The limiter meets its heaviest traffic while it is refusing', figure 8 and the surrounding prose",
+        "claim": "The one client-side cut in the storm loop, 'a client that throttles itself above twice its accepts', appears only as a figure label and the figure's source list [21]. The prose never explains the mechanism: the SRE chapter's adaptive throttling tracks requests and accepts over two minutes and rejects locally with probability max(0, (requests − K·accepts)/(requests+1)) with K=2. Without that, the figure's label is a term of art left unexplained, and the section stays at describing incidents rather than giving the reader the one lever the incidents show callers had.",
+        "evidence": [
+          "https://sre.google/sre-book/handling-overload/"
+        ],
+        "suggestion": "Add one or two sentences in prose, or a three-line formula block, stating the ratio, the K=2 default and what a lower K does, cited to [21] and labelled as the 2017 chapter's method. Remove the Kubernetes API Priority and Fairness sentence from the 'CHOSEN IN ADVANCE' callout to pay for it; it is a neighbouring discipline that no later claim uses."
+      },
+      {
+        "id": "f5",
+        "kind": "format",
+        "severity": "major",
+        "location": "Whole post; specifically the 'CHOSEN IN ADVANCE' callout (Kubernetes sentence), the topology paragraph on Cloudflare's 2017 sliding window and API Gateway burst, the visibility paragraph on the 2025-05-08 GitHub changelog, and the wait-section paragraph that restates figure 3",
+        "claim": "The body runs to roughly 4,500 words of prose plus five tables and eight figures, well over the recipe's 14-minute default budget at the 238 words-per-minute rate the standard cites. Several passages carry material no claim in the thesis needs: the Kubernetes APF aside; the Cloudflare 2017 accuracy figure (0.003 percent), which the same paragraph admits does not quantify the fan-out the section is about; the API Gateway burst sentence; and the GitHub changelog sentence that ends 'with no numbers published'. The wait section also repeats figure 3's field list in prose.",
+        "evidence": [],
+        "suggestion": "Cut the four named passages and the restating paragraph. That buys the space for f1, f3 and f4 without lengthening the post, and holds the length as the depth rises, which is what the standard asks for."
+      },
+      {
+        "id": "f6",
+        "kind": "factual",
+        "severity": "minor",
+        "location": "Table D caption: 'The GitHub durations are the incident headings; the same reports' impact summaries give shorter figures.'",
+        "claim": "Not true for all three GitHub rows. The 2026-08-26 report's heading gives 2 hours 50 minutes and its impact summary approximately 2 hours 53 minutes, longer rather than shorter. The 08-06 (10h42 against about 9h) and 08-17 (7h35 against 6h44) summaries are shorter. The post's own sources entry for [2] says the figures differ 'in both directions'.",
+        "evidence": [
+          "https://github.blog/news-insights/company-news/github-availability-report-august-2026/"
+        ],
+        "suggestion": "Change 'shorter figures' to 'different figures, shorter for two incidents and longer for one', or drop the clause."
+      },
+      {
+        "id": "f7",
+        "kind": "factual",
+        "severity": "minor",
+        "location": "Visibility section, 'DERIVED' callout, last clause: 'past 150 extra repositories the shape of the installation stops buying anything'",
+        "claim": "The arithmetic before it is right (5,000 + 180×50 + 100×50 = 19,000, capped at 12,500), but the closing clause is wrong for the example it sits in. The cap leaves 7,500 above the base, which is 150 increments of 50 of either kind combined. With 100 extra users already contributing 5,000, the cap is reached at 50 extra repositories, not 150. The 150 figure holds only for an installation with no extra users.",
+        "evidence": [
+          "https://docs.github.com/en/rest/using-the-rest-api/rate-limits-for-the-rest-api"
+        ],
+        "suggestion": "Say 'the cap is reached after 150 increments of either kind combined; in this example, after the 100 extra users, the 51st extra repository buys nothing'."
+      },
+      {
+        "id": "f8",
+        "kind": "factual",
+        "severity": "minor",
+        "location": "Key section, paragraph beginning 'express-rate-limit ships seventeen named validation codes beside three warnings, each check individually disableable'",
+        "claim": "The error-codes page documents a disable key for 19 of the 20 codes; ERR_ERL_HEADERS_UNSUPPORTED_DRAFT_VERSION has none listed. 'Each check individually disableable' overstates by one.",
+        "evidence": [
+          "https://express-rate-limit.mintlify.app/reference/error-codes"
+        ],
+        "suggestion": "Write 'all but one individually disableable' or drop the clause."
+      },
+      {
+        "id": "f9",
+        "kind": "factual",
+        "severity": "minor",
+        "location": "Topology section, first paragraph: 'keeping a counter per unique combination of a rule's characteristic values and per data center, because cf.colo.id is added to every rule'; also figure 7",
+        "claim": "The cited page adds an exception the post omits: data centers in the same geographic location share counters. The fan-out is therefore per location, not strictly per data center.",
+        "evidence": [
+          "https://developers.cloudflare.com/waf/rate-limiting-rules/request-rate/"
+        ],
+        "suggestion": "Add 'with co-located data centers sharing one' to the sentence; the figure label can stay."
+      },
+      {
+        "id": "f10",
+        "kind": "factual",
+        "severity": "minor",
+        "location": "Wait section: 'The draft's sharpest move is also its least implemented'",
+        "claim": "'Least implemented' is a comparative claim about adoption that no source in the list measures. The sentence that follows (Envoy computes the value but ships the header off) supports 'unimplemented in the one proxy read here', not a ranking.",
+        "evidence": [
+          "https://www.ietf.org/archive/id/draft-ietf-httpapi-ratelimit-headers-11.html"
+        ],
+        "suggestion": "Replace with 'is the one none of the systems in Table A ships', which the table supports."
+      },
+      {
+        "id": "f11",
+        "kind": "factual",
+        "severity": "minor",
+        "location": "Metered-step section: 'with the retired Claude Haiku 3.5 as the documented exception'; sources entry [21] and both mentions of 'Google's 2017 overload chapter'",
+        "claim": "Two small currency points. The Claude page says Haiku 3.5 is 'retired, except on Google Cloud', so 'retired' alone is not what the page says. And the SRE book was published by O'Reilly in 2016; the sre.google page the post cites carries only a 2017 copyright line, which is what the post seems to have dated it from.",
+        "evidence": [
+          "https://platform.claude.com/docs/en/api/rate-limits",
+          "https://sre.google/sre-book/handling-overload/"
+        ],
+        "suggestion": "Write 'retired except on Google Cloud', and check the book's edition date against O'Reilly's listing, then date the chapter by the book edition and say the web copy was read."
+      },
+      {
+        "id": "f12",
+        "kind": "format",
+        "severity": "minor",
+        "location": "Table A caption's source list and sources 19 and 20",
+        "claim": "Sources 19 and 20 (the Envoy '/latest/' pages that rendered a 1.41.0-dev build) are cited nowhere except the Table A caption, and the caption text already explains that the table was read on the v1.40.0 pages. They contribute no value to any cell and pad the list toward a count.",
+        "evidence": [
+          "https://www.envoyproxy.io/docs/envoy/latest/configuration/http/http_filters/rate_limit_filter"
+        ],
+        "suggestion": "Drop [19][20] from the caption and from the sources list; keep the one-clause note that '/latest/' renders a dev build inside the [26] or [28] entry."
+      },
+      {
+        "id": "f13",
+        "kind": "format",
+        "severity": "minor",
+        "location": "Figure 3 and its caption",
+        "claim": "The figure's values (q=100, r=0, t=38, pk=:key:) are invented examples, but the caption does not say the figure is an illustration, unlike figures 2, 4 and 8, and figure 1's code-block equivalents, which are labelled. The standard asks that illustrations be labelled as illustrations in the caption.",
+        "evidence": [],
+        "suggestion": "Begin the caption 'Illustration, values invented:' and keep the rest."
+      },
+      {
+        "id": "f14",
+        "kind": "format",
+        "severity": "minor",
+        "location": "Content preview, numbered list",
+        "claim": "The recipe asks for a linked outline built from the section headings. The list items are bold phrases that paraphrase the headings and do not link to them, so a scanning reader cannot jump from the preview to the section.",
+        "evidence": [],
+        "suggestion": "Turn each item into an in-page link whose text is the heading's claim, or at least its first clause, and drop the paraphrase."
+      },
+      {
+        "id": "f15",
+        "kind": "voice",
+        "severity": "minor",
+        "location": "Content preview, first paragraph: 'Seven decisions a rate limiter publishes whether or not anyone wrote them down, checked against what shipping systems send on the wire in October 2026.'",
+        "claim": "The sentence has no main verb; it is a noun phrase with two participial tails, the kind of fragment the standard lists among generated-prose habits.",
+        "evidence": [],
+        "suggestion": "Give it a verb: 'This post sets out seven decisions a rate limiter publishes whether or not anyone wrote them down, and checks each against what shipping systems send on the wire in October 2026.'"
+      },
+      {
+        "id": "f16",
+        "kind": "format",
+        "severity": "minor",
+        "location": "Key section, JavaScript code block",
+        "claim": "The snippet calls rateLimit and ipKeyGenerator without importing them, so a reader who copies it gets a ReferenceError. The standard treats code as text the reader copies.",
+        "evidence": [
+          "https://express-rate-limit.mintlify.app/reference/error-codes"
+        ],
+        "suggestion": "Add the one import line for the two names from the express-rate-limit package at the top of the block."
+      },
+      {
+        "id": "f17",
+        "kind": "format",
+        "severity": "minor",
+        "location": "Figure 5, top-left panel label '8.0.x, 8.1.0, 8.2.x'",
+        "claim": "The label reads as if all of 8.0.x and 8.2.x are affected, while the desc and the prose correctly say 8.0.2 and 8.2.2 are the patched releases. The label is the most visible feature and it contradicts the caption.",
+        "evidence": [
+          "https://github.com/advisories/GHSA-46wh-pxpv-q5gq"
+        ],
+        "suggestion": "Change the label to '8.0.0 to 8.0.1, 8.1.0, 8.2.0 to 8.2.1'."
+      },
+      {
+        "id": "f18",
+        "kind": "factual",
+        "severity": "minor",
+        "location": "Figure 1 and its alt text, 'onset 16:11'",
+        "claim": "The postmortem dates the onset only as '8:11 AM PST' and gives no UTC equivalent; 16:11 UTC is the post's own conversion. It is correct for February, but it is a derived value presented beside quoted timeline entries without a marker.",
+        "evidence": [
+          "https://clerk.com/blog/2026-02-19-system-outage-postmortem"
+        ],
+        "suggestion": "Keep the figure's '16:11 (8:11 AM PST)' label and add 'converted' or 'Derived' to it, or say in the caption that the onset time is converted from the postmortem's PST figure."
+      },
+      {
+        "id": "f19",
+        "kind": "insight",
+        "severity": "minor",
+        "location": "Topology section, paragraph beginning 'Sharing one counter is the usual answer to that sum'",
+        "claim": "The section presents two options, N independent counters or one shared store, and skips the middle option practitioners actually run: routing each partition key to one limiter instance by consistent hashing, so each key has exactly one counter without a shared store on every request. Cloudflare's co-located data centers sharing counters and Envoy's external rate limit service are both instances of it. A reader deciding on Monday between 'bound' and 'share' is missing the third choice.",
+        "evidence": [],
+        "suggestion": "Add one sentence naming key-affinity sharding as the third posture, labelled Inference unless a source is found, and note its failure mode (a hot key lands on one instance). No length needed if f5's cuts are made."
+      }
+    ]
+  },
+  {
+    "reviewer": "gemini",
+    "round": 2,
+    "model": "gemini-3.8-flash",
+    "effort": "high",
+    "verdict": "revise",
+    "summary": "The revised post is exceptionally well grounded in primary October 2026 sources and maintains a sharp, rigorous through-line anchored to the 2026-02-19 Clerk incident; the main issues standing between this draft and publication are an unverified quotation from an SPA documentation page (AWS API Gateway [24]), a structural disconnect where the closing summary table and action list omit the sixth promised decision regarding pre-refusal usage visibility, and opportunities to deepen practitioner insight around server-side Retry-After jitter constraints and reverse-proxy circuit-breaker penalties that drive 429 abuse. No findings were identified in the voice lens, where third-person register and dash-free style rules were consistently maintained.",
+    "findings": [
+      {
+        "id": "f1",
+        "kind": "factual",
+        "severity": "major",
+        "location": "Section: \"One number at the edge arrives at the resource as many\", paragraph 5 and citation [24]",
+        "claim": "could not verify: API Gateway's 5,000-request burst bucket and the quotation \"is not a quota that a customer can control or request changes to\" at https://docs.aws.amazon.com/apigateway/latest/developerguide/limits.html. The page is an SPA that loads its payload via client-side JavaScript (awsdocs-doc-page.2.0.0.js), returning an empty shell under static retrieval so the numbers and quote cannot be verified from the cited URL.",
+        "evidence": [
+          "https://docs.aws.amazon.com/apigateway/latest/developerguide/limits.html"
+        ],
+        "suggestion": "Replace the citation with a static documentation reference or primary developer guide link whose content renders in standard HTTP retrieval, or ground the burst bucket example using documented, static sources already cited in the post (such as Envoy's or Anthropic's burst behavior)."
+      },
+      {
+        "id": "f2",
+        "kind": "format",
+        "severity": "major",
+        "location": "Section: \"What the Clerk 429 should have said\", Table E and concluding action list",
+        "claim": "Table E and the concluding action list omit the entire core thesis of Section 6 (\"A limit is operable only when usage is visible before the first refusal\"). Although the content preview promises eight parts including \"6. Usage visible before the first refusal, at four providers\", Table E substitutes \"Failure mode when the limiter cannot run\" (a subordinate callout from Section 5) as its sixth row, and the closing five-point action list provides no change item for pre-refusal usage visibility, leaving promises from the preview and Section 6 unsettled in the close.",
+        "evidence": [],
+        "suggestion": "Add a dedicated row in Table E for pre-refusal usage visibility (tracing to Section 6 and Table C with an actionable Monday task, such as exposing quota remaining headers or unmetered status endpoints), and ensure the closing action items include both pre-refusal visibility and Retry-After wait calculation."
+      },
+      {
+        "id": "f3",
+        "kind": "format",
+        "severity": "minor",
+        "location": "Section: \"A limit is operable only when usage is visible before the first refusal\", Table C",
+        "claim": "Table C introduces an unexplained vendor-specific term of art: \"sharp ramps still hit acceleration limits\" in the Claude API row. The term \"acceleration limits\" is not defined in the table caption or anywhere in the accompanying text, leaving scanning readers without a definition.",
+        "evidence": [
+          "https://platform.claude.com/docs/en/api/rate-limits"
+        ],
+        "suggestion": "Define \"acceleration limits\" in a brief explanatory clause in Table C's caption (clarifying that they constrain the rate of traffic ramp-up within an allocated quota tier) or replace the jargon with plain phrasing such as \"ramp-up limits\"."
+      },
+      {
+        "id": "f4",
+        "kind": "engagement",
+        "severity": "minor",
+        "location": "Section: \"A limit is operable only when usage is visible before the first refusal\", paragraph 3 and callout 1",
+        "claim": "The third paragraph and the DERIVED callout diverge into calculating GitHub App installation quota scaling formulas (5,000 + 180x50 + 100x50 = 19,000 capped at 12,500) and discussing increase notice windows (Stripe six weeks). This shifts the section away from its stated claim—usage visibility before refusal—into quota allocation math, dragging the narrative pace right before the incident analysis in Section 7.",
+        "evidence": [
+          "https://docs.github.com/en/rest/using-the-rest-api/rate-limits-for-the-rest-api"
+        ],
+        "suggestion": "Condense the quota ceiling calculation or move it to Section 4 where metered steps and allowances are analyzed, keeping Section 6 strictly focused on pre-refusal observability, header telemetry, and client polling hazards."
+      },
+      {
+        "id": "f5",
+        "kind": "insight",
+        "severity": "minor",
+        "location": "Section: \"The wait is computable, optional, and no two providers spell it the same way\", paragraph 3",
+        "claim": "The text recommends sending a spread or jittered wait in Retry-After to prevent synchronized client retry storms, but omits a critical operational rule: server-side Retry-After jitter must be strictly additive (wait = reset_delta + uniform(0, jitter_window)). Negative jitter causes clients to retry before the server window has replenished, triggering immediate repeated rejections.",
+        "evidence": [
+          "https://www.rfc-editor.org/rfc/rfc9110.html",
+          "https://docs.stripe.com/rate-limits"
+        ],
+        "suggestion": "Add a brief explanatory clause noting that server-side spreading must always add delay past the replenishment boundary, unlike client-side full jitter backoff which can pick values below the ceiling."
+      },
+      {
+        "id": "f6",
+        "kind": "insight",
+        "severity": "minor",
+        "location": "Section: \"What the Clerk 429 should have said\", paragraph 1 and code block",
+        "claim": "The post asserts that Clerk's capacity shedding should have used HTTP 503 rather than 429, but does not explain why modern infrastructure and edge proxies deliberately default to 429 for load shedding: upstream reverse proxies and API gateways frequently treat 503 as an origin crash or health check failure, tripping circuit breakers and ejecting healthy nodes from load balancing pools, whereas 429 throttles callers without triggering service discovery ejections.",
+        "evidence": [
+          "https://clerk.com/blog/2026-02-19-system-outage-postmortem",
+          "https://www.envoyproxy.io/docs/v1.40.0/configuration/http/http_filters/local_rate_limit_filter"
+        ],
+        "suggestion": "Include a brief observation explaining the operational dilemma that drives 429 misuse: reverse-proxy circuit-breaker sensitivity to 5xx errors often forces operators to abuse 429 to shed load safely without killing backend pools."
+      },
+      {
+        "id": "f7",
+        "kind": "factual",
+        "severity": "minor",
+        "location": "Section: \"The wait is computable, optional, and no two providers spell it the same way\", Table A caption and Sources [19], [20]",
+        "claim": "Sources [19] and [20] in sources.json and Table A's caption cite Envoy's unversioned /latest/ documentation build (which rendered development version 1.41.0-dev-5514ed) purely to warn that /latest/ renders a dev build, while the released facts are already cited to pinned v1.40.0 sources at [26] and [27]. Allocating two numbered bibliography entries to moving development docs adds unnecessary citation overhead.",
+        "evidence": [
+          "https://www.envoyproxy.io/docs/envoy/latest/configuration/http/http_filters/rate_limit_filter",
+          "https://www.envoyproxy.io/docs/envoy/v1.40.0/configuration/http/http_filters/rate_limit_filter"
+        ],
+        "suggestion": "Consolidate the Envoy citations onto the pinned v1.40.0 sources ([26], [27], [28]) and state the caveat regarding /latest/ in prose or caption without dedicating standalone entries [19] and [20] to unpinned development builds."
+      }
+    ]
+  },
+  {
+    "reviewer": "gpt",
+    "round": 2,
+    "model": "gpt-6-astra",
+    "effort": "high",
+    "verdict": "revise",
+    "summary": "The dated opening, practical examples and visual cadence give this post a strong foundation. Revision is needed because several categorical claims about Clerk exceed its postmortem, Table A confuses budget identity with refusal cause, and the draft explicitly discusses a retry hazard the article says it omits. The strongest improvements would distinguish diagnosis from response semantics, explain retry budgets, and cut repeated incident details and closing actions. All 28 cited URLs were attempted; three pinned Envoy pages could not be retrieved. Local reads were blocked, so rendered layout and SVG appearance remain unchecked. No first-person or prohibited-dash violations were found in the supplied text.",
+    "findings": [
+      {
+        "id": "f1",
+        "kind": "factual",
+        "severity": "major",
+        "location": "Opening; first section's final paragraph and INFERENCE callout; observability section's Clerk paragraph; closing response reconstruction",
+        "claim": "Could not verify that no caller exceeded a limit, that Clerk sent no distinguishing fields, that neither callers nor operators had usage visibility, or that no limit was evaluated. The opened postmortem establishes database degradation, queuing, shedding and a mistaken traffic hypothesis. It supplies neither response captures nor the admission-control implementation. It also does not attribute the mistaken hypothesis to the status code. The article acknowledges these evidentiary gaps, then repeatedly presents the missing details as facts. Shedding itself does not establish that no queue, concurrency or rate threshold was evaluated.",
+        "evidence": [
+          "https://clerk.com/blog/2026-02-19-system-outage-postmortem"
+        ],
+        "suggestion": "Limit the historical account to what the postmortem reports. Mark the proposed 503 response as a design recommendation, remove unsupported assertions about absent headers and observability, and make any causal interpretation of the 429 explicitly conditional. Carry that qualification into the opening and closing rather than confining it to one callout."
+      },
+      {
+        "id": "f2",
+        "kind": "factual",
+        "severity": "major",
+        "location": "Table A, GitHub, Envoy and IETF rows, especially 'Which limit refused' and 'Wait field, by default'",
+        "claim": "These cells mix three different concepts. GitHub's resource header identifies the primary budget charged, not the secondary constraint responsible for refusal. Its reset fallback applies when remaining quota is zero; otherwise a secondary refusal without Retry-After requires at least a one-minute wait. The draft's pk identifies a partition, while policy identifiers and violated-policies identify policies. Envoy's descriptor is exchanged with its rate-limit service; the documented x-envoy-ratelimited header does not itself expose that descriptor to callers.",
+        "evidence": [
+          "https://docs.github.com/en/rest/using-the-rest-api/rate-limits-for-the-rest-api",
+          "https://www.ietf.org/archive/id/draft-ietf-httpapi-ratelimit-headers-11.html",
+          "https://www.envoyproxy.io/docs/envoy/latest/configuration/http/http_filters/rate_limit_filter"
+        ],
+        "suggestion": "Correct the existing cells to distinguish budget metadata, refusal reasons and internal state. Include GitHub's conditional retry rule and mark refusal details unavailable where appropriate. Replace the current shorthand rather than adding another comparison table."
+      },
+      {
+        "id": "f3",
+        "kind": "factual",
+        "severity": "major",
+        "location": "'The wait is computable...' paragraph beginning 'The draft's sharpest move', sentence claiming an edge 'the draft does not state'",
+        "claim": "The claimed omission is directly contradicted by draft-11 section 8.5. It warns that throttled clients can return simultaneously, explicitly applies the warning to Retry-After, and recommends jitter. The article presents an already documented mechanism as an additional discovery. The adjacent characterization of status-independent fields as the draft's least implemented feature also has no adoption evidence.",
+        "evidence": [
+          "https://www.ietf.org/archive/id/draft-ietf-httpapi-ratelimit-headers-11.html"
+        ],
+        "suggestion": "Attribute the synchronization warning and jitter mitigation to section 8.5, and remove the unsupported implementation ranking. Keep the practical consequence while shortening the novelty framing."
+      },
+      {
+        "id": "f4",
+        "kind": "factual",
+        "severity": "major",
+        "location": "Sources [26], [27] and [28]; released-version assertions in Table A, topology section and closing",
+        "claim": "Could not verify the pinned v1.40.0 documentation or the assertion that it was the latest release on 2026-10-14. Repeated attempts returned internal errors for https://www.envoyproxy.io/docs/envoy/v1.40.0/configuration/http/http_filters/rate_limit_filter, https://www.envoyproxy.io/docs/envoy/v1.40.0/configuration/http/http_filters/local_rate_limit_filter and https://www.envoyproxy.io/docs/envoy/v1.40.0/version_history/v1.40/v1.40. The latest documentation opened and supports several described behaviors, but identifies itself as a development build and cannot establish released availability.",
+        "evidence": [
+          "https://www.envoyproxy.io/docs/envoy/latest/configuration/http/http_filters/rate_limit_filter",
+          "https://www.envoyproxy.io/docs/envoy/latest/configuration/http/http_filters/local_rate_limit_filter"
+        ],
+        "suggestion": "Supply accessible release documentation, a dated snapshot or tagged implementation evidence before retaining the released-version claims. If that cannot be obtained, explicitly bound these examples to the documentation build that can be verified."
+      },
+      {
+        "id": "f5",
+        "kind": "insight",
+        "severity": "major",
+        "location": "Subtitle; Figure 2 and its following paragraph; preview promise to sort refusals",
+        "claim": "The five-way grouping mixes response meanings with an implementation defect. The IPv4 collision still exhausts a rate-limit bucket; its defect is which clients share that bucket. Its ordinary quota fields cannot tell a caller that key derivation is wrong. Consequently, the statement that sorting works because somebody added a field fails for the article's fifth case. Header absence likewise cannot diagnose capacity shedding across providers.",
+        "evidence": [
+          "https://github.com/advisories/GHSA-46wh-pxpv-q5gq",
+          "https://www.rfc-editor.org/rfc/rfc6585.html",
+          "https://docs.stripe.com/rate-limits"
+        ],
+        "suggestion": "Keep the examples but distinguish declared refusal reason from underlying cause. Replace the universal sorting claim with the diagnostic boundary: metadata can identify a policy, while validating its key requires operator evidence. Adjust Figure 2 and the preview in place so they promise only what the response can reveal."
+      },
+      {
+        "id": "f6",
+        "kind": "insight",
+        "severity": "major",
+        "location": "'The limiter meets its heaviest traffic while it is refusing', Figure 8 and closing recommendations",
+        "claim": "The operational prescription emphasizes waits and jitter but leaves retry volume largely unbounded. Spreading attempts changes their timing; it does not stop persistent overload or multiplication when several layers retry. The cited Google chapter explicitly covers per-request and per-client retry budgets, which layer owns retries, and conditions under which retries should stop. Those mechanisms would make the incident discussion substantially more useful to an experienced practitioner.",
+        "evidence": [
+          "https://sre.google/sre-book/handling-overload/"
+        ],
+        "suggestion": "Replace some duplicated incident narration before Table D with a compact explanation of retry ownership, attempt or deadline bounds, and a shared retry budget. Distinguish broad saturation from an isolated overloaded backend, using the existing Google source and its stated limits."
+      },
+      {
+        "id": "f7",
+        "kind": "insight",
+        "severity": "major",
+        "location": "Figure 8 caption; bounded-aggregation ASSUMPTION callout; Table E's noise row and final logging bullet",
+        "claim": "A server log entry is not a signal to the client, so aggregation is incorrectly grouped with response signaling as a direct break in the retry loop. It reduces refusal-processing cost; it only affects retry amplification indirectly if that cost contributes to degradation. Moving WARN to INFO also leaves event volume unchanged when INFO is collected. The small project's issue supports a severity change, not a demonstrated performance benefit from the article's proposed aggregation policy.",
+        "evidence": [
+          "https://github.com/JonasBorgesLM/task-api/issues/299",
+          "https://sre.google/sre-book/handling-overload/"
+        ],
+        "suggestion": "Separate retry control from logging-cost control in the existing figure and caption. Preserve the Assumption label when aggregation reappears in the close. Replace the paragraph about the unsuccessful evidence search with a brief validation criterion comparing emitted event volume, logging cost and accepted throughput."
+      },
+      {
+        "id": "f8",
+        "kind": "insight",
+        "severity": "major",
+        "location": "Key-derivation JavaScript example and subsequent statement that custom key generators were unaffected",
+        "claim": "The custom generator shown delegates directly to ipKeyGenerator, the helper whose vulnerable implementation is reproduced in the advisory. Although the advisory broadly says custom generators are unaffected, that wording cannot exempt a custom wrapper around the same affected helper. The article misses this qualification and could encourage a reader to treat custom configuration as protection without upgrading.",
+        "evidence": [
+          "https://github.com/advisories/GHSA-46wh-pxpv-q5gq",
+          "https://express-rate-limit.mintlify.app/reference/error-codes"
+        ],
+        "suggestion": "Make a patched library version a prerequisite for the sample and narrow the custom-generator exemption to implementations that avoid the faulty masking path. Recommend checking that distinct IPv4-mapped inputs produce distinct keys. Pay for this clarification by shortening the discussion of the advisory's imprecise prose version range."
+      },
+      {
+        "id": "f9",
+        "kind": "engagement",
+        "severity": "major",
+        "location": "Two GitHub incident paragraphs immediately before Table D; closing paragraph 'Five things change...' and its five bullets",
+        "claim": "The post repeatedly delivers the same material in prose and tables. The incident paragraphs reproduce durations and impact figures that Table D immediately repeats. After Table E supplies concrete actions and the reconstructed response returns to the opening, the final five bullets repeat those actions again. This weakens the ending and spends space that could carry the missing retry mechanism.",
+        "evidence": [],
+        "suggestion": "Let Table D carry dates, durations and impact figures; retain prose only for causal relationships. Remove the final five-item checklist and its introductory paragraph, keeping the actionable closing table and response reconstruction as the settlement of the opening."
+      },
+      {
+        "id": "f10",
+        "kind": "factual",
+        "severity": "minor",
+        "location": "Table D, 'Peak impact' column and caption",
+        "claim": "The 74-organization figure is an incident-wide affected population, not a peak measurement. The caption also says the impact summaries give shorter durations, but August 26's summary gives approximately 2 hours 53 minutes against the heading's 2 hours 50 minutes.",
+        "evidence": [
+          "https://github.blog/news-insights/company-news/github-availability-report-august-2026/"
+        ],
+        "suggestion": "Rename or qualify the impact column so incident-wide counts are not presented as peaks. Describe the duration discrepancy without asserting that every summary is shorter."
+      },
+      {
+        "id": "f11",
+        "kind": "factual",
+        "severity": "minor",
+        "location": "Observability section's DERIVED GitHub App installation example",
+        "claim": "The scaling formula excludes Enterprise Cloud installations, which receive 15,000 requests per hour. That condition is missing. The concluding 150-extra-repository threshold also fails to describe the worked example: its 100 extra users already contribute 5,000 requests, so only 50 extra repositories are needed to reach the cap.",
+        "evidence": [
+          "https://docs.github.com/en/rest/using-the-rest-api/rate-limits-for-the-rest-api"
+        ],
+        "suggestion": "State the non-Enterprise scope and make the saturation threshold consistent with the example's user count, or explicitly identify 150 as the repository-only case."
+      },
+      {
+        "id": "f12",
+        "kind": "factual",
+        "severity": "minor",
+        "location": "Topology section's final prose paragraph, API Gateway burst-capacity example",
+        "claim": "The unqualified 5,000-request burst figure omits regional defaults. The opened AWS quota page lists several regions with a default burst capacity of 1,250. The inability to request a burst-quota change remains supported, but the number is not universal.",
+        "evidence": [
+          "https://docs.aws.amazon.com/apigateway/latest/developerguide/limits.html"
+        ],
+        "suggestion": "Qualify 5,000 as the default in most regions, or remove the number because the non-configurability point does not depend on it."
+      },
+      {
+        "id": "f13",
+        "kind": "format",
+        "severity": "minor",
+        "location": "Content preview's eight-item outline",
+        "claim": "The supplied preview contains plain-text outline items rather than the required linked outline built from the section headings. Readers receive a list of destinations without navigation to them.",
+        "evidence": [],
+        "suggestion": "Turn the existing items into links to their corresponding headings without adding prose, and check those anchors in the publication preview."
+      }
+    ]
+  }
+]
