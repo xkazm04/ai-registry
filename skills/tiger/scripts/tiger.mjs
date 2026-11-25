@@ -48,10 +48,11 @@ const rootOf = (dir) => path.resolve(dir, '..', '..', '..');
 const loadRun = (dir) => ({ ...readJson(path.join(dir, 'run.json')), root: posix(rootOf(dir)) });
 const saveRun = (dir, run) => { const { root, ...rest } = run; writeJson(path.join(dir, 'run.json'), rest); };
 
-// The strongest seat each vendor's CLI offers on this machine (2026-10). A seat that does not
-// answer the probe is skipped and the round runs with whoever is left.
-// Grok left the default council on 2026-11-03 (owner's call); name it with --seats to bring it back.
-export const DEFAULT_SEATS = 'agy:gemini-4-argon@high,codex:gpt-6.1-sol@xhigh,claude:claude-opus-5-5@xhigh';
+// The owner's chosen council (2026-11-25): GPT 6.2 Astra, Opus 5.5 and Fable 5.2. A seat that
+// does not answer the probe is skipped and the round runs with whoever is left.
+// Gemini (agy) left on 2026-11-25 and Grok on 2026-11-03 (owner's calls); name either with
+// --seats to bring it back.
+export const DEFAULT_SEATS = 'codex:gpt-6.2-astra@xhigh,claude:claude-opus-5-5@xhigh,claude:claude-fable-5-2@xhigh';
 
 // =================================================================================== probe
 async function probe() {
